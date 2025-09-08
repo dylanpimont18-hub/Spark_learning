@@ -1,0 +1,160 @@
+{
+  "brandIdentity": {
+    "brandName": "Spark Learning",
+    "logoConcept": {
+      "title": "L'Éveil de l'Apprentissage",
+      "description": "Le logo représente un cerveau stylisé, symbolisant la connaissance, divisé par un éclair qui évoque l'étincelle de la compréhension et la technologie (Code). Des flèches circulaires l'entourent, signifiant le processus d'apprentissage continu. Le dégradé de couleurs du bleu (logique, Sciences) à l'orange/jaune (créativité, Français) incarne la fluidité et l'interconnexion des savoirs.",
+      "keywords": [
+        "cerveau",
+        "éclair",
+        "étincelle",
+        "apprentissage continu",
+        "connexion",
+        "technologie",
+        "créativité",
+        "science",
+        "code",
+        "français"
+      ]
+    },
+    "colorSystem": {
+      "description": "La palette est directement inspirée du logo pour une cohérence maximale. Elle utilise un spectre allant du bleu (confiance, technologie) à l'orange/jaune (énergie, créativité) pour symboliser le parcours complet de l'apprentissage.",
+      "palettes": {
+        "primary": [
+          {
+            "role": "Dominante Froide (Logique & Science)",
+            "name": "Bleu Ciel Lumineux",
+            "hex": "#1A91F7",
+            "rgb": "26, 145, 247",
+            "cmyk": "89, 42, 0, 3",
+            "usage": "Utilisé pour les fondations, les textes principaux et les éléments d'interface statiques liés à la logique et à la science."
+          },
+          {
+            "role": "Dominante Chaude (Créativité & Interaction)",
+            "name": "Orange Énergique",
+            "hex": "#F7B31A",
+            "rgb": "247, 179, 26",
+            "cmyk": "0, 27, 89, 3",
+            "usage": "Utilisé pour les appels à l'action (CTA) principaux, les liens, les éléments interactifs et les mises en évidence."
+          }
+        ],
+        "secondary": [
+          {
+            "role": "Profondeur & Contraste",
+            "name": "Bleu Froid",
+            "hex": "#1E65FF",
+            "rgb": "30, 101, 255",
+            "cmyk": "88, 60, 0, 0",
+            "usage": "Utilisé pour les icônes secondaires, les tags de catégorie ou les illustrations pour ajouter de la profondeur visuelle."
+          },
+          {
+            "role": "Équilibre & Croissance",
+            "name": "Vert Aqua",
+            "hex": "#00BF8C",
+            "rgb": "0, 191, 140",
+            "cmyk": "100, 0, 27, 25",
+            "usage": "Utilisé comme couleur d'accent pour les notifications de succès, les barres de progression ou des éléments illustratifs."
+          }
+        ],
+        "neutral": [
+          {
+            "role": "Texte Principal",
+            "name": "Gris Foncé",
+            "hex": "#333333",
+            "rgb": "51, 51, 51",
+            "cmyk": "0, 0, 0, 80",
+            "usage": "Couleur par défaut pour le corps de texte afin d'assurer une lisibilité optimale."
+          },
+          {
+            "role": "Fond Secondaire & Bordures",
+            "name": "Gris Clair",
+            "hex": "#F0F0F0",
+            "rgb": "240, 240, 240",
+            "cmyk": "0, 0, 0, 6",
+            "usage": "Utilisé pour les arrière-plans de section, les séparateurs et les bordures pour structurer le contenu sans surcharger."
+          },
+          {
+            "role": "Fond Principal",
+            "name": "Blanc Pur",
+            "hex": "#FFFFFF",
+            "rgb": "255, 255, 255",
+            "cmyk": "0, 0, 0, 0",
+            "usage": "Arrière-plan principal du site pour maximiser la clarté, le contraste et le confort de lecture."
+          }
+        ]
+      }
+    },
+    "typographySystem": {
+      "description": "Un système à double police pour allier personnalité et lisibilité. Poppins pour les titres apporte une touche moderne et structurée, tandis que Lato pour le corps de texte garantit une lecture confortable et accessible.",
+      "fonts": {
+        "headings": {
+          "fontFamily": "Poppins",
+          "provider": "Google Fonts",
+          "justification": "Police sans-serif géométrique qui s'harmonise avec l'esthétique moderne et énergique du logo. Ses formes claires et structurées sont idéales pour des titres impactants."
+        },
+        "body": {
+          "fontFamily": "Lato",
+          "provider": "Google Fonts",
+          "justification": "Police sans-serif humaniste conçue pour une lisibilité exceptionnelle sur écran. Son caractère chaleureux et accessible la rend parfaite pour les longs textes éducatifs."
+        }
+      },
+      "pairingRationale": "L'association de Poppins et Lato crée un équilibre entre le dynamisme (titres) et la clarté (texte), reflétant la double mission de la marque : être à la fois engageante et rigoureuse.",
+      "scale": [
+        {
+          "element": "H1",
+          "description": "Titre de page principal",
+          "fontFamily": "Poppins",
+          "fontWeight": 700,
+          "fontSize": "3.0rem",
+          "lineHeight": "1.2em",
+          "usage": "Utilisé une seule fois par page pour le titre le plus important (ex: titre de la page d'accueil, nom du cours)."
+        },
+        {
+          "element": "H2",
+          "description": "Titre de section",
+          "fontFamily": "Poppins",
+          "fontWeight": 600,
+          "fontSize": "2.0rem",
+          "lineHeight": "1.3em",
+          "usage": "Utilisé pour les titres des sections principales d'une page (ex: 'Derniers cours', 'À propos de nous')."
+        },
+        {
+          "element": "H3",
+          "description": "Sous-titre",
+          "fontFamily": "Poppins",
+          "fontWeight": 500,
+          "fontSize": "1.5rem",
+          "lineHeight": "1.4em",
+          "usage": "Utilisé pour les sous-titres ou les titres d'éléments spécifiques comme les cartes de cours."
+        },
+        {
+          "element": "Body",
+          "description": "Corps de texte",
+          "fontFamily": "Lato",
+          "fontWeight": 400,
+          "fontSize": "1.0rem",
+          "lineHeight": "1.6em",
+          "usage": "Police par défaut pour tous les paragraphes, descriptions et contenus longs."
+        },
+        {
+          "element": "Caption",
+          "description": "Légende / Label",
+          "fontFamily": "Lato",
+          "fontWeight": 400,
+          "fontSize": "0.875rem",
+          "lineHeight": "1.5em",
+          "usage": "Utilisé pour les textes d'aide, les légendes d'images et les métadonnées (ex: date, auteur)."
+        },
+        {
+          "element": "Button",
+          "description": "Texte de bouton",
+          "fontFamily": "Poppins",
+          "fontWeight": 500,
+          "fontSize": "1.0rem",
+          "lineHeight": "1.0em",
+          "usage": "Texte à l'intérieur des boutons d'appel à l'action pour une lisibilité et un impact maximum."
+        }
+      ]
+    }
+  }
+}
