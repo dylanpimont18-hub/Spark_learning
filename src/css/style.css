@@ -1,0 +1,78 @@
+/* Importation des polices depuis Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Lato:wght@400&display=swap');
+
+/* Réinitialisation de base et variables CSS */
+:root {
+    --bleu-ciel-lumineux: #1A91F7;
+    --orange-energique: #F7B31A;
+    --bleu-froid: #1E65FF;
+    --vert-aqua: #00BF8C;
+    --gris-fonce: #333333;
+    --gris-clair: #F0F0F0;
+    --blanc-pur: #FFFFFF;
+    --font-headings: 'Poppins', sans-serif;
+    --font-body: 'Lato', sans-serif;
+}
+
+body {
+    font-family: var(--font-body);
+    font-size: 1.0rem;
+    line-height: 1.6em;
+    color: var(--gris-fonce);
+    background-color: var(--blanc-pur);
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-headings);
+    color: var(--bleu-ciel-lumineux);
+}
+
+h1 {
+    font-weight: 700;
+    font-size: 3.0rem;
+    line-height: 1.2em;
+}
+
+h2 {
+    font-weight: 600;
+    font-size: 2.0rem;
+    line-height: 1.3em;
+}
+
+h3 {
+    font-weight: 500;
+    font-size: 1.5rem;
+    line-height: 1.4em;
+}
+
+a {
+    color: var(--orange-energique);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.button {
+    font-family: var(--font-headings);
+    font-weight: 500;
+    font-size: 1.0rem;
+    line-height: 1.0em;
+    background-color: var(--orange-energique);
+    color: var(--blanc-pur);
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
