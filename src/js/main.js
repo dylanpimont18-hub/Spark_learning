@@ -1,26 +1,30 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Charger la navigation et le pied de page
-    fetch('/components/nav.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('header-placeholder').innerHTML = data;
-        });
+document.addEventListener('DOMContentLoaded', () => {
 
-    fetch('/components/footer.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('footer-placeholder').innerHTML = data;
-        });
-
-    // Animation pour les cartes de cours
-    const courseCards = document.querySelectorAll('.course-card');
-    courseCards.forEach(card => {
-        card.addEventListener('mouseover', () => {
-            card.style.transform = 'scale(1.05)';
-            card.style.transition = 'transform 0.3s ease-in-out';
-        });
-        card.addEventListener('mouseout', () => {
-            card.style.transform = 'scale(1)';
-        });
+  // Logic for sticky header on scroll
+  const header = document.querySelector('header');
+  if (header) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
     });
+  }
+
+  // Logic for on-scroll fade-in animations
+  const animatedElements = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  animatedElements.forEach(el => {
+    observer.observe(el);
+  });
+
 });
