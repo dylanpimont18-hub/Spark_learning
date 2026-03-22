@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spark Learning – Remédiation Mathématiques</title>
+  <meta name="description" content="Plateforme de remédiation mathématique pour les étudiants en physique-chimie, du Collège au BTS." />
+  <link rel="icon" type="image/jpeg" href="images/Logo_noir.jpeg" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- KaTeX CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+
+  <!-- App CSS -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- SKIP TO CONTENT -->
+  <a href="#app" class="skip-to-content">Aller au contenu principal</a>
+
+  <!-- HEADER -->
+  <header class="header" id="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="#" id="logo-link" aria-label="Spark Learning – Accueil">
+        <img src="images/Logo_noir.jpeg" alt="Spark Learning" class="logo-img logo-light" />
+        <img src="images/Logo_blanc.jpeg" alt="Spark Learning" class="logo-img logo-dark" />
+        <span class="logo-text"><span class="logo-spark">Spark</span><span class="logo-learning"> Learning</span></span>
+      </a>
+      <nav class="nav" aria-label="Navigation principale">
+        <button class="nav-link" id="nav-home" aria-label="Accueil">Accueil</button>
+        <button class="nav-link" id="nav-parcours" aria-label="Parcours">Parcours</button>
+      </nav>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Basculer le thème">🌙</button>
+    </div>
+  </header>
+
+  <!-- MAIN SPA CONTAINER -->
+  <main id="app" role="main" aria-live="polite"></main>
+
+  <!-- FOOTER -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <p>© 2025 <strong>Spark Learning</strong> — Remédiation mathématique pour la physique-chimie · Fait avec ❤️ pour les étudiants</p>
+    </div>
+  </footer>
+
+  <!-- SCROLL TO TOP -->
+  <button class="scroll-top-btn" id="scroll-top" aria-label="Retour en haut de page">↑</button>
+
+  <!-- CONTACT -->
+  <button class="contact-btn" id="contact-toggle" aria-label="Nous contacter" aria-expanded="false">?</button>
+  <div class="contact-panel" id="contact-panel" aria-hidden="true">
+    <div class="contact-panel-header">
+      <span class="contact-panel-title">Nous contacter</span>
+      <button class="contact-panel-close" id="contact-close" aria-label="Fermer">&times;</button>
+    </div>
+    <form class="contact-form" id="contact-form">
+      <fieldset class="contact-categories">
+        <legend class="sr-only">Type de message</legend>
+        <label class="contact-cat">
+          <input type="radio" name="contact-type" value="erreur" checked />
+          <span class="contact-cat-chip">&#x1F41B; Une erreur</span>
+        </label>
+        <label class="contact-cat">
+          <input type="radio" name="contact-type" value="remarque" />
+          <span class="contact-cat-chip">&#x1F4AC; Une remarque</span>
+        </label>
+        <label class="contact-cat">
+          <input type="radio" name="contact-type" value="question" />
+          <span class="contact-cat-chip">&#x2753; Une question</span>
+        </label>
+      </fieldset>
+      <textarea class="contact-message" id="contact-message" rows="4" placeholder="Ton message..." required></textarea>
+      <button type="submit" class="btn btn-primary contact-send">Envoyer</button>
+    </form>
+  </div>
+
+  <!-- KaTeX JS -->
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- Données : helpers + modules par classe (ordre de chargement important) -->
+  <script src="js/data/helpers.js"></script>
+  <script src="js/data/6e.js"></script>
+  <script src="js/data/5e.js"></script>
+  <script src="js/data/4e.js"></script>
+  <script src="js/data/3e.js"></script>
+  <script src="js/data/lycee-2nde.js"></script>
+  <script src="js/data/lycee-1re.js"></script>
+  <script src="js/data/lycee-tle.js"></script>
+  <script src="js/data/bts.js"></script>
+
+  <!-- App scripts (ordre de chargement important) -->
+  <script src="js/state.js"></script>
+  <script src="js/engines.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
