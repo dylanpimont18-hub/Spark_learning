@@ -185,7 +185,7 @@ function _checkModuleComplete(moduleId) {
     // Check if entire level is done
     const mod = getModule(moduleId);
     if (mod) {
-      const levelMods = window.MODULES.filter(m => m.level === mod.level);
+      const levelMods = window.MODULES.filter(m => m.level === mod.level && (m.subject || 'maths') === (mod.subject || 'maths'));
       const allDone = levelMods.every(m => {
         const mp = getModuleProgress(m.id);
         return mp.done === mp.total && mp.done > 0;

@@ -16,23 +16,23 @@ Pure vanilla JS SPA. Scripts must load in this order (set in `index.html`):
 - `js/data/6e.js`, `5e.js`, `4e.js`, `3e.js` — Collège modules (12 / 13 / 14 / 13). Each file calls `window.MODULES.push(...)`.
 - `js/data/lycee-2nde.js`, `lycee-1re.js`, `lycee-tle.js` — Lycée modules (13 / 12 / 11).
 - `js/data/bts.js` — BTS modules (14).
-- `js/state.js` — `state` object, `getModule()`, theme helpers (`applyTheme`, `toggleTheme`), progress helpers (`saveProgress`, `getModuleProgress`), recent modules tracking (`trackRecentModule`, `getRecentModules`).
+- `js/state.js` — `SUBJECT_DEFS[]` (subject config: id, label, icon, color, availableLevels, applicationLabel/Icon/Question, formulasLabel/Icon), `getSubjectDef()`, `state` object (includes `subject`), `getModule()`, theme helpers (`applyTheme`, `toggleTheme`), progress helpers (`saveProgress`, `getModuleProgress`), recent modules tracking (`trackRecentModule`, `getRecentModules`).
 - `js/engines.js` — Quiz engine (`submitQuizAnswer`, `nextQuizQuestion`, `resetQuiz`), exercice engine (`submitExerciceAnswer`, `showHint`, `showSolution`, `generateNewExercice`, `getErrorFeedback`), problème engine (`revealSolution`), évaluation engine (`submitEvaluationAnswer`, `submitEvaluationChoice`, `resetEvaluation`, `toggleEvaluationCorrection`).
-- `js/render.js` — All render functions: `renderHome`, `renderLevels`, `renderModulesList`, `renderModuleDetail`, `renderTabContent`, `renderCours`, `renderQuiz`, `renderExercice`, `renderProbleme`, `renderSolutionSteps`, `renderEvaluation`, `renderEvaluationQuestion`, `renderEvaluationResults`.
+- `js/render.js` — All render functions: `renderHome`, `renderSubjects`, `renderLevels`, `renderModulesList`, `renderModuleDetail`, `renderTabContent`, `renderCours`, `renderQuiz`, `renderExercice`, `renderProbleme`, `renderSolutionSteps`, `renderEvaluation`, `renderEvaluationQuestion`, `renderEvaluationResults`.
 - `js/app.js` — Router (`navigate`, `switchTab`, `render`), hash routing (`buildHash`, `parseHash`), search/filter/sort (`filterModules`, `sortModules`, `toggleKeyword`), utilities (`renderMath`, `createConfetti`, `showToast`), keyboard shortcuts, init (`DOMContentLoaded`).
 
 ## SPA routing
 
-State lives in a single `state` object in `state.js`. Navigation calls `navigate(view, data)` which mutates state and calls `render()`. Views: `home → levels → modules → module`.
+State lives in a single `state` object in `state.js`. Navigation calls `navigate(view, data)` which mutates state and calls `render()`. Views: `home → subjects → levels → modules → module`.
 
-URL hash routing is enabled: `#home`, `#levels`, `#modules/{level}`, `#module/{id}/{tab}`. The `hashchange` listener supports browser back/forward. `_suppressHashChange` prevents double renders when `navigate()` itself sets the hash.
+URL hash routing is enabled: `#home`, `#subjects`, `#levels/{subject}`, `#modules/{subject}/{level}`, `#module/{id}/{tab}`. The `hashchange` listener supports browser back/forward. `_suppressHashChange` prevents double renders when `navigate()` itself sets the hash. Old URLs like `#levels` or `#modules/1` default to `subject: 'maths'` for backward compatibility.
 
 ```
 navigate('module', { moduleId: 'calcul-algebrique' })
 switchTab('quiz')   // tab switch without full re-render
 ```
 
-Key `state` fields: `view`, `level`, `moduleId`, `tab` (`'cours'|'quiz'|'exercice'|'probleme'|'evaluation'`), `searchQuery`, `sortBy`, `activeKeywords[]`, `quizState`, `exerciceState` (holds `attempts` counter), `problemeState` (holds `revealed` index), `evaluationState` (holds `current`, `answers[]`, `score`, `complete`, `showCorrection`), `progress`.
+Key `state` fields: `view`, `subject` (`'maths'|'physique'|'si'`), `level`, `moduleId`, `tab` (`'cours'|'quiz'|'exercice'|'probleme'|'evaluation'`), `searchQuery`, `sortBy`, `activeKeywords[]`, `quizState`, `exerciceState` (holds `attempts` counter), `problemeState` (holds `revealed` index), `evaluationState` (holds `current`, `answers[]`, `score`, `complete`, `showCorrection`), `progress`.
 
 `getModuleProgress(moduleId)` → `{ done, total, pct }`. Progress is **binary per section** (quiz/exercice/probleme/evaluation): either fully completed or not — no partial credit stored. `total` is 4 if the module has an `evaluation` property, otherwise 3.
 
@@ -44,6 +44,7 @@ Each module in `window.MODULES` has:
 ```js
 {
   id, level,    // level: 1=Collège, 2=Lycée, 3=BTS
+  subject,      // 'maths' | 'physique' | 'si'
   icon, title, subtitle, keywords[], physics,
   cours: { intro, method: { title, steps[] }, formulas[], piege },
   quiz: [{ q, options[], answer (index), correction }],   // 3 questions
@@ -124,26 +125,52 @@ Fonts: headings use `Poppins`, body uses `Inter`. Logo images swap via `.logo-li
 
 All user-facing feedback text must be socratic and non-punitive. No "FAUX" or "ERREUR". Use constructions like *"Tu es sur la bonne voie ! Mais n'oublie pas de…"*. This is a core UX requirement from the cahier des charges.
 
-## Module coverage — programmes-maths.md
+## Multi-subject architecture
 
-`docs/programmes-maths.md` is the source of truth. It lists ALL math chapters from Collège (6e→3e), Lycée (2nde→Terminale) and BTS, with a status per chapter.
+The platform supports multiple subjects (matières). Configuration is in `SUBJECT_DEFS[]` in `state.js`.
+
+Current subjects: `maths`, `physique` (Physique-Chimie), `si` (Sciences de l'Ingénieur).
+
+Each module must have a `subject` field (`'maths'|'physique'|'si'`). Not all subjects are available at all levels (e.g., SI is Lycée + BTS only — see `availableLevels` in `SUBJECT_DEFS`).
+
+Section labels (formulas title, application title/question) are driven by `SUBJECT_DEFS`, not hardcoded. When rendering, always use `getSubjectDef(mod.subject || 'maths')` for labels.
+
+The `physics` field on each module holds the cross-disciplinary application text, regardless of subject. The display label comes from `subjectDef.applicationLabel`.
+
+### Adding a new subject
+
+1. Add an entry to `SUBJECT_DEFS[]` in `js/state.js` with all required fields
+2. Create curriculum file `docs/programmes-{subject}.md`
+3. Create data files `js/data/{subject}-{grade}.js` (e.g., `physique-2nde.js`)
+4. Add `<script>` tags in `index.html` (after existing data files, before `state.js`)
+5. The rendering pipeline will automatically pick up the new subject
+
+## Module coverage — curriculum files
+
+Curriculum source of truth per subject:
+- **Maths**: `docs/programmes-maths.md`
+- **Physique-Chimie**: `docs/programmes-physique.md`
+- **Sciences de l'Ingénieur**: `docs/programmes-si.md`
+
+Each file lists ALL chapters for that subject from Collège to BTS with a status per chapter.
 
 ### Absolute rules
 
-- **Before creating a module**: read `docs/programmes-maths.md` to verify the chapter and level.
-- **After creating a module**: update the status in `docs/programmes-maths.md` (🔴 → 🟢).
+- **Before creating a module**: read the appropriate `docs/programmes-{subject}.md` to verify the chapter and level.
+- **After creating a module**: update the status (🔴 → 🟢).
 - **No duplicates**: verify the module `id` doesn't already exist in any `js/data/*.js` file.
 - **Level mapping**: 6e/5e/4e/3e → `level: 1`, 2nde/1re/Tle → `level: 2`, BTS → `level: 3`.
-- **Priority**: complete one grade level entirely before moving to the next (6e → 5e → … → BTS).
+- **Subject field**: every module must include `subject: 'maths'|'physique'|'si'`.
+- **Priority**: complete one grade level entirely before moving to the next.
 
 ### Generation loop workflow
 
-When asked to "generate modules for [level]":
-1. Read `docs/programmes-maths.md`, filter 🔴 chapters for the requested level
+When asked to "generate modules for [subject] [level]":
+1. Read the appropriate `docs/programmes-{subject}.md`, filter 🔴 chapters for the requested level
 2. For each 🔴 chapter, in curriculum order:
-   a. Create the full module (cours + 3 quiz + generate() + problème)
-   b. Add it to `window.MODULES` in the appropriate grade-level file (`js/data/6e.js`, etc.)
-   c. Mark status 🟢 in `docs/programmes-maths.md`
+   a. Create the full module (cours + 3 quiz + generate() + problème + évaluation)
+   b. Add it to `window.MODULES` in the appropriate data file
+   c. Mark status 🟢 in the curriculum file
    d. Move to next chapter
 3. At the end, display a summary: chapters done / remaining
 

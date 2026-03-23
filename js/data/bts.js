@@ -7,7 +7,7 @@ window.MODULES.push(
 
   {
     id: 'complexes',
-    level: 3,
+    level: 3, subject: 'maths',
     icon: '🌀',
     title: 'Les Nombres Complexes',
     subtitle: 'Module, argument, impédance, régimes AC',
@@ -16,19 +16,43 @@ window.MODULES.push(
 
     cours: {
       intro: 'En régime sinusoïdal, chaque composant introduit un DÉPHASAGE entre courant et tension : la résistance ne déphasé pas ($\\phi=0$), la bobine avance le courant de $-90°$ ($\\underline{Z}_L = jL\\omega$), le condensateur le retarde de $+90°$ ($\\underline{Z}_C = -j/(C\\omega)$). Représenter ces effets comme des nombres complexes permet de les combiner algébriquement — le module de l\'impédance donne l\'amplitude, l\'argument donne le déphasage. La partie réelle de $\\underline{Z}$ est résistive (énergie dissipée en chaleur) ; la partie imaginaire est réactive (énergie stockée et restituée). En notation BTS, on écrit $j = \\sqrt{-1}$ (et non $i$) pour éviter la confusion avec l\'intensité $i(t)$. La résonance ($\\omega_0 = 1/\\sqrt{LC}$) annule la partie imaginaire : le circuit se comporte alors comme une résistance pure.',
+      definitions: [
+        { term: 'Module $|\\underline{Z}|$', def: 'Longueur du vecteur dans le plan complexe : $|\\underline{Z}| = \\sqrt{a^2 + b^2}$. En électricité, il représente l\'amplitude du rapport tension/courant (en Ω).' },
+        { term: 'Argument $\\arg(\\underline{Z})$', def: 'Angle du vecteur avec l\'axe réel : $\\phi = \\arctan(b/a)$. Il donne le déphasage entre tension et courant.' },
+        { term: 'Impédance complexe $\\underline{Z}$', def: 'Grandeur complexe qui généralise la résistance en régime sinusoïdal. Elle combine la partie résistive (réelle) et la partie réactive (imaginaire) : $\\underline{Z} = R + jX$.' },
+        { term: 'Résonance', def: 'Pulsation $\\omega_0 = 1/\\sqrt{LC}$ à laquelle la partie imaginaire de $\\underline{Z}$ s\'annule. Le circuit se comporte comme une résistance pure ($\\underline{Z} = R$), le courant est maximal.' }
+      ],
       method: {
         title: 'Opérations sur les complexes',
         steps: [
-          'Forme algébrique : $\\underline{Z} = a + jb$ (avec $j^2 = -1$). Module : $|\\underline{Z}| = \\sqrt{a^2 + b^2}$. Argument : $\\phi = \\arctan(b/a)$.',
-          'Forme exponentielle (polaire) : $\\underline{Z} = |\\underline{Z}| e^{j\\phi}$. Utile pour multiplier/diviser des impédances.',
-          'Impédances : résistance $\\underline{Z}_R = R$ ; bobine $\\underline{Z}_L = jL\\omega$ ; condensateur $\\underline{Z}_C = \\dfrac{1}{jC\\omega} = \\dfrac{-j}{C\\omega}$.'
+          'Forme algébrique : $\\underline{Z} = a + jb$ (avec $j^2 = -1$). Module : $|\\underline{Z}| = \\sqrt{a^2 + b^2}$. Argument : $\\phi = \\arctan(b/a)$. <strong>Exemple :</strong> $\\underline{Z} = 6 + 8j$ → $|\\underline{Z}| = \\sqrt{36 + 64} = \\sqrt{100} = 10$ Ω et $\\phi = \\arctan(8/6) \\approx 53{,}1°$.',
+          'Forme exponentielle (polaire) : $\\underline{Z} = |\\underline{Z}| e^{j\\phi}$. Utile pour multiplier/diviser des impédances. <strong>Exemple :</strong> $\\underline{Z}_1 = 5e^{j30°}$ et $\\underline{Z}_2 = 2e^{j15°}$ → $\\underline{Z}_1 \\cdot \\underline{Z}_2 = 10e^{j45°}$ (modules multipliés, arguments additionnés).',
+          'Impédances : résistance $\\underline{Z}_R = R$ ; bobine $\\underline{Z}_L = jL\\omega$ ; condensateur $\\underline{Z}_C = \\dfrac{1}{jC\\omega} = \\dfrac{-j}{C\\omega}$. <strong>Exemple :</strong> Bobine $L = 50$ mH à $\\omega = 1000$ rad/s → $\\underline{Z}_L = j \\times 0{,}05 \\times 1000 = 50j$ Ω (module $50$ Ω, déphasage $+90°$).'
         ]
+      },
+      example: {
+        statement: 'Un circuit RL série ($R = 30$ Ω, $L = 40$ mH) est alimenté en régime sinusoïdal à $\\omega = 1000$ rad/s avec $U = 10$ V. Calculer l\'impédance complexe, son module, le déphasage et l\'intensité efficace.',
+        steps: [
+          'Impédance de la bobine : $\\underline{Z}_L = jL\\omega = j \\times 0{,}04 \\times 1000 = 40j$ Ω.',
+          'Impédance totale : $\\underline{Z} = R + \\underline{Z}_L = 30 + 40j$ Ω.',
+          'Module : $|\\underline{Z}| = \\sqrt{30^2 + 40^2} = \\sqrt{900 + 1600} = \\sqrt{2500} = 50$ Ω.',
+          'Déphasage : $\\phi = \\arctan(40/30) = \\arctan(1{,}33) \\approx 53{,}1°$. Le courant est en retard sur la tension.',
+          'Intensité efficace : $I = U / |\\underline{Z}| = 10 / 50 = 0{,}2$ A.'
+        ],
+        answer: '$\\underline{Z} = 30 + 40j$ Ω, $|\\underline{Z}| = 50$ Ω, $\\phi \\approx 53{,}1°$, $I = 0{,}2$ A.'
       },
       formulas: [
         '$|a + jb| = \\sqrt{a^2 + b^2}$',
         '$\\arg(a + jb) = \\arctan\\left(\\dfrac{b}{a}\\right)$',
         '$j^2 = -1$, $j = \\sqrt{-1}$',
         '$\\underline{Z}_{RLC \\text{ série}} = R + j\\left(L\\omega - \\dfrac{1}{C\\omega}\\right)$'
+      ],
+      diagram: '<table style="width:100%;border-collapse:collapse;text-align:center;"><tr style="background:var(--bg-card);"><th style="border:1px solid var(--border);padding:8px;">Composant</th><th style="border:1px solid var(--border);padding:8px;">Impédance $\\underline{Z}$</th><th style="border:1px solid var(--border);padding:8px;">Module</th><th style="border:1px solid var(--border);padding:8px;">Déphasage $\\phi$</th></tr><tr><td style="border:1px solid var(--border);padding:8px;">Résistance $R$</td><td style="border:1px solid var(--border);padding:8px;">$R$</td><td style="border:1px solid var(--border);padding:8px;">$R$</td><td style="border:1px solid var(--border);padding:8px;">$0°$</td></tr><tr><td style="border:1px solid var(--border);padding:8px;">Bobine $L$</td><td style="border:1px solid var(--border);padding:8px;">$jL\\omega$</td><td style="border:1px solid var(--border);padding:8px;">$L\\omega$</td><td style="border:1px solid var(--border);padding:8px;">$+90°$</td></tr><tr><td style="border:1px solid var(--border);padding:8px;">Condensateur $C$</td><td style="border:1px solid var(--border);padding:8px;">$\\dfrac{-j}{C\\omega}$</td><td style="border:1px solid var(--border);padding:8px;">$\\dfrac{1}{C\\omega}$</td><td style="border:1px solid var(--border);padding:8px;">$-90°$</td></tr></table>',
+      recap: [
+        'Le module de $\\underline{Z}$ donne l\'amplitude (rapport $U/I$), l\'argument donne le déphasage tension-courant.',
+        'En forme exponentielle, les multiplications deviennent simples : modules multipliés, arguments additionnés.',
+        'À la résonance ($\\omega_0 = 1/\\sqrt{LC}$), l\'impédance est purement réelle ($\\underline{Z} = R$) et le courant est maximal.',
+        'Toujours utiliser $j$ (pas $i$) en électronique pour éviter la confusion avec l\'intensité $i(t)$.'
       ],
       piege: 'En électronique, on utilise $j$ (et non $i$) pour l\'unité imaginaire, pour éviter la confusion avec l\'intensité du courant $i(t)$. Les deux notations désignent la même chose mathématiquement.'
     },
@@ -154,7 +178,7 @@ window.MODULES.push(
 
     {
     id: 'eq-diff-2',
-    level: 3,
+    level: 3, subject: 'maths',
     icon: '🎚️',
     title: 'Équations Différentielles du 2nd Ordre',
     subtitle: 'Discriminant, 3 régimes d\'amortissement',
@@ -163,19 +187,42 @@ window.MODULES.push(
 
     cours: {
       intro: 'Tout oscillateur physique — circuit RLC, suspension de voiture, bâtiment face au vent — est décrit par la même équation du 2nd ordre. Le facteur de qualité $Q$ et le coefficient d\'amortissement $\\alpha$ définissent le comportement : sous-amorti ($Q > 0{,}5$, oscillations qui s\'éteignent progressivement), critique ($Q = 0{,}5$, retour le plus rapide à l\'équilibre sans oscillation), sur-amorti ($Q < 0{,}5$, retour lent). La suspension critique est le compromis recherché en automatique pour un temps de réponse optimal. En ingénierie, le régime pseudo-périodique est parfois souhaitable (résonance acoustique, filtres sélectifs) ou au contraire à éviter (amortissement des vibrations). La pseudo-pulsation $\\omega_p = \\sqrt{\\omega_0^2 - \\alpha^2}$ est TOUJOURS inférieure à $\\omega_0$ : l\'amortissement ralentit les oscillations.',
+      definitions: [
+        { term: 'Pulsation propre $\\omega_0$', def: 'Pulsation des oscillations libres du système non amorti ($R = 0$ pour un RLC). Pour un circuit RLC série : $\\omega_0 = 1/\\sqrt{LC}$.' },
+        { term: 'Coefficient d\'amortissement $\\alpha$', def: 'Paramètre qui traduit la dissipation d\'énergie. Pour un circuit RLC série : $\\alpha = R/(2L)$. Plus $\\alpha$ est grand, plus les oscillations s\'éteignent vite.' },
+        { term: 'Facteur de qualité $Q$', def: 'Rapport sans dimension $Q = \\omega_0/(2\\alpha)$. Il quantifie la sélectivité de la résonance : un $Q$ élevé donne des oscillations persistantes, un $Q$ faible donne un amortissement rapide.' },
+        { term: 'Pseudo-pulsation $\\omega_p$', def: 'Pulsation réelle des oscillations amorties : $\\omega_p = \\sqrt{\\omega_0^2 - \\alpha^2}$. Elle n\'existe que si $\\alpha < \\omega_0$ (régime pseudo-périodique).' }
+      ],
       method: {
         title: 'Les 3 régimes',
         steps: [
-          'Écrire l\'équation caractéristique (en remplaçant $\\frac{d^2y}{dt^2}$ par $r^2$ et $\\frac{dy}{dt}$ par $r$) : $r^2 + 2\\alpha r + \\omega_0^2 = 0$.',
-          'Calculer le discriminant $\\Delta = 4\\alpha^2 - 4\\omega_0^2 = 4(\\alpha^2 - \\omega_0^2)$. Si $\\Delta < 0$ → pseudo-périodique (oscillant amorti). Si $\\Delta = 0$ → critique (le plus rapide sans oscillation). Si $\\Delta > 0$ → apériodique (lent, pas d\'oscillation).',
-          'Facteur de qualité : $Q = \\omega_0 / (2\\alpha)$. Si $Q > 0{,}5$ : pseudo-périodique. $Q = 0{,}5$ : critique. $Q < 0{,}5$ : apériodique.'
+          'Écrire l\'équation caractéristique (en remplaçant $\\frac{d^2y}{dt^2}$ par $r^2$ et $\\frac{dy}{dt}$ par $r$) : $r^2 + 2\\alpha r + \\omega_0^2 = 0$. <strong>Exemple :</strong> Pour $\\alpha = 3$ et $\\omega_0 = 5$ : $r^2 + 6r + 25 = 0$.',
+          'Calculer le discriminant $\\Delta = 4\\alpha^2 - 4\\omega_0^2 = 4(\\alpha^2 - \\omega_0^2)$. Si $\\Delta < 0$ → pseudo-périodique (oscillant amorti). Si $\\Delta = 0$ → critique (le plus rapide sans oscillation). Si $\\Delta > 0$ → apériodique (lent, pas d\'oscillation). <strong>Exemple :</strong> $\\Delta = 4(9 - 25) = -64 < 0$ → régime pseudo-périodique.',
+          'Facteur de qualité : $Q = \\omega_0 / (2\\alpha)$. Si $Q > 0{,}5$ : pseudo-périodique. $Q = 0{,}5$ : critique. $Q < 0{,}5$ : apériodique. <strong>Exemple :</strong> $Q = 5/(2 \\times 3) = 0{,}83 > 0{,}5$ → confirme le régime pseudo-périodique.'
         ]
+      },
+      example: {
+        statement: 'Un circuit RLC série a $R = 40$ Ω, $L = 0{,}1$ H, $C = 100$ μF. Déterminer le régime transitoire (pseudo-périodique, critique ou apériodique) et calculer la pseudo-pulsation si elle existe.',
+        steps: [
+          'Pulsation propre : $\\omega_0 = 1/\\sqrt{LC} = 1/\\sqrt{0{,}1 \\times 10^{-4}} = 1/\\sqrt{10^{-5}} \\approx 316$ rad/s.',
+          'Coefficient d\'amortissement : $\\alpha = R/(2L) = 40/(2 \\times 0{,}1) = 200$ rad/s.',
+          'Discriminant : $\\Delta = 4(\\alpha^2 - \\omega_0^2) = 4(40000 - 99856) = 4 \\times (-59856) \\approx -2{,}39 \\times 10^5 < 0$ → régime pseudo-périodique.',
+          'Facteur de qualité : $Q = 316/(2 \\times 200) = 0{,}79 > 0{,}5$ → confirme.',
+          'Pseudo-pulsation : $\\omega_p = \\sqrt{\\omega_0^2 - \\alpha^2} = \\sqrt{99856 - 40000} = \\sqrt{59856} \\approx 245$ rad/s.'
+        ],
+        answer: 'Régime pseudo-périodique ($Q \\approx 0{,}79$), pseudo-pulsation $\\omega_p \\approx 245$ rad/s. Le condensateur oscillera à cette pulsation en s\'amortissant.'
       },
       formulas: [
         'Équation canonique : $\\dfrac{d^2y}{dt^2} + 2\\alpha\\dfrac{dy}{dt} + \\omega_0^2 y = \\omega_0^2 y_{\\infty}$',
         '$\\Delta = 4\\alpha^2 - 4\\omega_0^2$',
         '$Q = \\dfrac{\\omega_0}{2\\alpha}$ (facteur de qualité)',
         'Circuit RLC série : $\\omega_0 = \\dfrac{1}{\\sqrt{LC}}$, $\\alpha = \\dfrac{R}{2L}$'
+      ],
+      recap: [
+        'Le discriminant $\\Delta = 4(\\alpha^2 - \\omega_0^2)$ détermine le régime : $\\Delta < 0$ (pseudo-périodique), $\\Delta = 0$ (critique), $\\Delta > 0$ (apériodique).',
+        'Le facteur de qualité $Q = \\omega_0/(2\\alpha)$ résume le même critère : $Q > 0{,}5$, $Q = 0{,}5$, $Q < 0{,}5$.',
+        'En régime pseudo-périodique, la pseudo-pulsation $\\omega_p = \\sqrt{\\omega_0^2 - \\alpha^2}$ est toujours inférieure à $\\omega_0$.',
+        'Le régime critique ($Q = 0{,}5$) est le plus rapide sans oscillation — c\'est l\'objectif des systèmes asservis bien réglés.'
       ],
       piege: 'Ne pas confondre la pulsation propre $\\omega_0$ (caractéristique du système non amorti) et la pseudo-pulsation $\\omega_p = \\sqrt{\\omega_0^2 - \\alpha^2}$ (fréquence réelle des oscillations amorties, toujours plus faible que $\\omega_0$).'
     },
@@ -317,7 +364,7 @@ window.MODULES.push(
 
     {
     id: 'statistiques',
-    level: 3,
+    level: 3, subject: 'maths',
     icon: '📏',
     title: 'Statistiques et Calculs d\'Incertitudes',
     subtitle: 'Moyenne, écart-type, incertitude type A',
@@ -326,19 +373,43 @@ window.MODULES.push(
 
     cours: {
       intro: 'En métrologie industrielle, un résultat sans incertitude n\'a aucune valeur : $R = 100{,}0$ Ω seul est inutile, $R = 100{,}0 \\pm 1{,}1$ Ω à 95% est un résultat exploitable. Le GUM (Guide for the Expression of Uncertainty in Measurement) distingue deux types : type A (évaluation statistique sur répétitions) et type B (abaques, certificats d\'étalonnage, notices). L\'incertitude type A se réduit en $1/\\sqrt{n}$ : doubler le nombre de mesures divise l\'incertitude par $\\sqrt{2}$, pas par 2. L\'écart-type d\'un échantillon se calcule avec $(n-1)$ au dénominateur — et non $n$ — pour obtenir un estimateur non biaisé de la dispersion de la population. Cette correction de Bessel est cruciale pour les petits échantillons ($n < 10$). L\'incertitude élargie $U = k \\cdot u_A$ avec $k=2$ correspond à environ $95\\%$ des cas (loi normale).',
+      definitions: [
+        { term: 'Moyenne $\\bar{x}$', def: 'Valeur centrale d\'un ensemble de mesures : $\\bar{x} = \\frac{1}{n}\\sum x_i$. C\'est la meilleure estimation de la grandeur mesurée.' },
+        { term: 'Écart-type expérimental $s$', def: 'Mesure de la dispersion des mesures autour de la moyenne : $s = \\sqrt{\\frac{\\sum(x_i - \\bar{x})^2}{n-1}}$. Plus $s$ est grand, plus les mesures sont dispersées.' },
+        { term: 'Incertitude type A $u_A$', def: 'Incertitude sur la moyenne estimée par méthode statistique : $u_A = s/\\sqrt{n}$. Elle diminue quand le nombre de mesures $n$ augmente.' },
+        { term: 'Correction de Bessel', def: 'Division par $(n-1)$ au lieu de $n$ dans le calcul de la variance d\'un échantillon. Cela compense le fait que $\\bar{x}$ est elle-même estimée sur l\'échantillon, consommant un degré de liberté.' }
+      ],
       method: {
         title: 'Méthode d\'évaluation de type A',
         steps: [
-          'Réaliser $n$ mesures $x_1, x_2, \\ldots, x_n$. Calculer la moyenne : $\\bar{x} = \\dfrac{1}{n} \\sum_{i=1}^n x_i$.',
-          'Calculer l\'écart-type expérimental : $s = \\sqrt{\\dfrac{1}{n-1} \\sum_{i=1}^n (x_i - \\bar{x})^2}$.',
-          'L\'incertitude type A est : $u_A = \\dfrac{s}{\\sqrt{n}}$. Le résultat final s\'exprime : $\\bar{x} \\pm k \\cdot u_A$ où $k = 2$ (intervalle à 95%) ou $k = 3$ (99%).'
+          'Réaliser $n$ mesures $x_1, x_2, \\ldots, x_n$. Calculer la moyenne : $\\bar{x} = \\dfrac{1}{n} \\sum_{i=1}^n x_i$. <strong>Exemple :</strong> $n = 4$ mesures de tension : $5{,}1$ ; $4{,}9$ ; $5{,}0$ ; $5{,}2$ V → $\\bar{x} = (5{,}1+4{,}9+5{,}0+5{,}2)/4 = 20{,}2/4 = 5{,}05$ V.',
+          'Calculer l\'écart-type expérimental : $s = \\sqrt{\\dfrac{1}{n-1} \\sum_{i=1}^n (x_i - \\bar{x})^2}$. <strong>Exemple :</strong> Écarts : $(0{,}05)^2 + (-0{,}15)^2 + (-0{,}05)^2 + (0{,}15)^2 = 0{,}05$ → $s = \\sqrt{0{,}05/3} \\approx 0{,}129$ V.',
+          'L\'incertitude type A est : $u_A = \\dfrac{s}{\\sqrt{n}}$. Le résultat final s\'exprime : $\\bar{x} \\pm k \\cdot u_A$ où $k = 2$ (intervalle à 95%) ou $k = 3$ (99%). <strong>Exemple :</strong> $u_A = 0{,}129/\\sqrt{4} = 0{,}065$ V → résultat : $U = 5{,}05 \\pm 0{,}13$ V (à 95%, $k=2$).'
         ]
+      },
+      example: {
+        statement: 'Un technicien mesure 5 fois la longueur d\'une pièce usinée (en mm) : $50{,}12$ ; $49{,}95$ ; $50{,}08$ ; $50{,}01$ ; $49{,}94$. Exprimer le résultat avec son incertitude à 95%.',
+        steps: [
+          'Moyenne : $\\bar{x} = (50{,}12 + 49{,}95 + 50{,}08 + 50{,}01 + 49{,}94)/5 = 250{,}10/5 = 50{,}02$ mm.',
+          'Écarts à la moyenne : $0{,}10$ ; $-0{,}07$ ; $0{,}06$ ; $-0{,}01$ ; $-0{,}08$.',
+          'Somme des carrés des écarts : $0{,}01 + 0{,}0049 + 0{,}0036 + 0{,}0001 + 0{,}0064 = 0{,}025$.',
+          'Écart-type : $s = \\sqrt{0{,}025/4} = \\sqrt{0{,}00625} \\approx 0{,}079$ mm.',
+          'Incertitude type A : $u_A = 0{,}079/\\sqrt{5} \\approx 0{,}035$ mm.',
+          'Résultat à 95% ($k=2$) : $L = 50{,}02 \\pm 0{,}07$ mm.'
+        ],
+        answer: '$L = 50{,}02 \\pm 0{,}07$ mm (à 95% de confiance).'
       },
       formulas: [
         '$\\bar{x} = \\dfrac{1}{n} \\sum_{i=1}^n x_i$ (moyenne)',
         '$s = \\sqrt{\\dfrac{\\sum(x_i - \\bar{x})^2}{n-1}}$ (écart-type)',
         '$u_A = \\dfrac{s}{\\sqrt{n}}$ (incertitude type A)',
         'Résultat : $R = \\bar{x} \\pm k \\cdot u_A$'
+      ],
+      recap: [
+        'Toujours exprimer un résultat expérimental avec son incertitude : $\\bar{x} \\pm k \\cdot u_A$.',
+        'L\'écart-type $s$ (dispersion) se calcule avec $(n-1)$ au dénominateur (correction de Bessel), pas $n$.',
+        'L\'incertitude $u_A = s/\\sqrt{n}$ diminue en $1/\\sqrt{n}$ : pour diviser l\'incertitude par 2, il faut 4 fois plus de mesures.',
+        '$k = 2$ donne un intervalle de confiance à 95%, $k = 3$ à 99%.'
       ],
       piege: 'On divise par $(n-1)$ et non par $n$ pour l\'écart-type d\'un échantillon. Diviser par $n$ donnerait l\'écart-type de la population entière (si on la connaissait). Avec un échantillon fini, $(n-1)$ donne un estimateur non biaisé.'
     },
@@ -458,7 +529,7 @@ window.MODULES.push(
 
     {
     id: 'bts-loi-normale',
-    level: 3,
+    level: 3, subject: 'maths',
     icon: '🔔',
     title: 'Loi normale',
     subtitle: 'Distribution de Gauss, intervalles de confiance, z-score',
@@ -467,19 +538,41 @@ window.MODULES.push(
 
     cours: {
       intro: 'La loi normale est omniprésente car le théorème central limite garantit que la MOYENNE d\'un grand nombre de variables indépendantes converge vers une loi normale — quelle que soit la distribution d\'origine. En contrôle qualité, les cotes d\'usinage, les résistances de composants, les erreurs de pesée suivent toutes une loi normale. La règle des $68$-$95$-$99{,}7\\%$ (une, deux, trois fois $\\sigma$) est à connaître par cœur. La centration-réduction $Z = (X-\\mu)/\\sigma$ ramène toute loi $\\mathcal{N}(\\mu,\\sigma^2)$ à la loi standard $\\mathcal{N}(0,1)$, dont on lit les probabilités dans une table unique. Pour les petits échantillons ($n < 30$), la loi de Student remplace la loi normale : ses queues sont plus épaisses, ce qui élargit les intervalles de confiance.',
+      definitions: [
+        { term: 'Espérance $\\mu$', def: 'Centre de la distribution normale. C\'est la valeur la plus probable (mode = médiane = moyenne). La courbe de Gauss est symétrique autour de $\\mu$.' },
+        { term: 'Écart-type $\\sigma$', def: 'Largeur de la cloche de Gauss. $68\\%$ des valeurs tombent dans $[\\mu - \\sigma ; \\mu + \\sigma]$. Plus $\\sigma$ est petit, plus la distribution est concentrée.' },
+        { term: 'Centration-réduction (z-score)', def: 'Transformation $Z = (X - \\mu)/\\sigma$ qui ramène toute loi $\\mathcal{N}(\\mu, \\sigma^2)$ à la loi standard $\\mathcal{N}(0, 1)$, permettant d\'utiliser une table unique.' },
+        { term: 'Intervalle de confiance', def: 'Intervalle $[\\bar{x} - z_{\\alpha/2} \\cdot \\sigma/\\sqrt{n} ;\\ \\bar{x} + z_{\\alpha/2} \\cdot \\sigma/\\sqrt{n}]$ qui contient la vraie moyenne $\\mu$ avec une probabilité donnée (95% pour $z = 1{,}96$).' }
+      ],
       method: {
         title: 'Méthode',
         steps: [
-          'Centrer-réduire : $Z = \\dfrac{X - \\mu}{\\sigma}$ suit une loi normale centrée réduite $\\mathcal{N}(0, 1)$.',
-          'Lire la table de la loi normale : $P(Z \\leq z) = \\Phi(z)$. La table donne les probabilités pour des valeurs positives.',
-          'Intervalle de confiance à 95 % : $\\left[\\bar{x} - 1{,}96\\dfrac{\\sigma}{\\sqrt{n}}\\ ;\\ \\bar{x} + 1{,}96\\dfrac{\\sigma}{\\sqrt{n}}\\right]$ (ou $\\pm 2\\sigma$ en approximation).'
+          'Centrer-réduire : $Z = \\dfrac{X - \\mu}{\\sigma}$ suit une loi normale centrée réduite $\\mathcal{N}(0, 1)$. <strong>Exemple :</strong> Si $X \\sim \\mathcal{N}(80, 10^2)$ et $x = 95$ → $Z = (95 - 80)/10 = 1{,}5$.',
+          'Lire la table de la loi normale : $P(Z \\leq z) = \\Phi(z)$. La table donne les probabilités pour des valeurs positives. <strong>Exemple :</strong> $P(Z \\leq 1{,}5) = \\Phi(1{,}5) \\approx 0{,}9332$, donc $P(X \\leq 95) \\approx 93{,}3\\%$.',
+          'Intervalle de confiance à 95 % : $\\left[\\bar{x} - 1{,}96\\dfrac{\\sigma}{\\sqrt{n}}\\ ;\\ \\bar{x} + 1{,}96\\dfrac{\\sigma}{\\sqrt{n}}\\right]$ (ou $\\pm 2\\sigma$ en approximation). <strong>Exemple :</strong> $\\bar{x} = 80$, $\\sigma = 10$, $n = 25$ → IC = $[80 - 1{,}96 \\times 2 ;\\ 80 + 1{,}96 \\times 2] = [76{,}08 ;\\ 83{,}92]$.'
         ]
+      },
+      example: {
+        statement: 'Des résistances de $470$ Ω sont fabriquées avec une tolérance annoncée à $5\\%$. Un contrôle sur un échantillon de $n = 36$ pièces donne $\\bar{x} = 468$ Ω et $\\sigma = 12$ Ω. Calculer l\'intervalle de confiance à $95\\%$ pour la vraie moyenne $\\mu$. Les résistances sont-elles conformes ?',
+        steps: [
+          'La tolérance $5\\%$ de $470$ Ω donne l\'intervalle nominal $[446{,}5 ;\\ 493{,}5]$ Ω.',
+          'Demi-largeur de l\'IC : $1{,}96 \\times \\sigma/\\sqrt{n} = 1{,}96 \\times 12/\\sqrt{36} = 1{,}96 \\times 2 = 3{,}92$ Ω.',
+          'IC à $95\\%$ : $[468 - 3{,}92 ;\\ 468 + 3{,}92] = [464{,}08 ;\\ 471{,}92]$ Ω.',
+          'L\'IC est entièrement inclus dans l\'intervalle de tolérance $[446{,}5 ;\\ 493{,}5]$ : la production est conforme à $95\\%$.'
+        ],
+        answer: 'IC = $[464{,}08 ;\\ 471{,}92]$ Ω. La production est conforme car l\'IC est inclus dans la tolérance $\\pm 5\\%$.'
       },
       formulas: [
         '$Z = \\dfrac{X - \\mu}{\\sigma}$',
         '$P(\\mu - \\sigma \\leq X \\leq \\mu + \\sigma) \\approx 68{,}3\\%$',
         '$P(\\mu - 2\\sigma \\leq X \\leq \\mu + 2\\sigma) \\approx 95{,}4\\%$',
         '$\\text{IC}_{95\\%} = \\bar{x} \\pm 1{,}96 \\dfrac{\\sigma}{\\sqrt{n}}$'
+      ],
+      recap: [
+        'La règle $68$-$95$-$99{,}7$ : $\\pm 1\\sigma$ contient $68\\%$, $\\pm 2\\sigma$ contient $95\\%$, $\\pm 3\\sigma$ contient $99{,}7\\%$ des valeurs.',
+        'La centration-réduction $Z = (X-\\mu)/\\sigma$ ramène toute loi normale à $\\mathcal{N}(0,1)$ pour utiliser une table unique.',
+        'L\'intervalle de confiance se rétrécit quand $n$ augmente (en $1/\\sqrt{n}$) ou quand $\\sigma$ diminue.',
+        'Pour $n < 30$, utiliser la loi de Student (queues plus épaisses que la loi normale).'
       ],
       piege: 'La loi normale est définie par $\\mu$ (espérance = centre) et $\\sigma$ (écart-type = largeur). Ne pas confondre $\\sigma$ (paramètre de la population) et $s$ (écart-type de l\'échantillon, estimateur de $\\sigma$). Pour un petit échantillon ($n < 30$), on utilise la loi de Student au lieu de la loi normale.'
     },
@@ -599,7 +692,7 @@ window.MODULES.push(
 
     {
     id: 'bts-fonctions-reelles',
-    level: 3,
+    level: 3, subject: 'maths',
     icon: '📐',
     title: 'Fonctions d\'une variable réelle',
     subtitle: 'Révisions et compléments (limites, continuité, dérivée)',
@@ -607,19 +700,41 @@ window.MODULES.push(
     physics: true,
     cours: {
       intro: 'En BTS, l\'étude complète d\'une fonction est un outil de modélisation : une fonction de coût, une loi de transfert, une réponse impulsionnelle — chacune nécessite domaine, limites, variations et asymptotes. Le domaine de définition est contraint par les dénominateurs ($\\neq 0$), les racines carrées ($\\geq 0$) et les logarithmes ($> 0$). Les asymptotes décrivent le comportement aux extrêmes : asymptote verticale là où la fonction "explose", horizontale si elle se stabilise. Attention : un point exclu du domaine ne génère pas toujours une asymptote verticale — si le numérateur s\'annule aussi, on obtient un "trou" (discontinuité effaçable) et non une asymptote. La règle de L\'Hôpital lève les formes indéterminées $0/0$ ou $\\infty/\\infty$ en dérivant numérateur et dénominateur séparément — elle est correcte mais souvent inutile si on sait factoriser.',
+      definitions: [
+        { term: 'Domaine de définition $D_f$', def: 'Ensemble des valeurs de $x$ pour lesquelles $f(x)$ existe. Exclu : les valeurs qui annulent un dénominateur, qui rendent un radicande négatif, ou un argument de logarithme $\\leq 0$.' },
+        { term: 'Asymptote horizontale', def: 'Droite $y = L$ telle que $\\lim_{x \\to \\pm\\infty} f(x) = L$. La courbe s\'en rapproche indéfiniment sans la toucher (en général).' },
+        { term: 'Asymptote verticale', def: 'Droite $x = a$ telle que $\\lim_{x \\to a} f(x) = \\pm\\infty$. La courbe "explose" au voisinage de $a$.' },
+        { term: 'Discontinuité effaçable (trou)', def: 'Point $x = a$ exclu du domaine mais où la limite de $f$ est finie. En prolongeant $f$ par cette limite, on obtient une fonction continue. Ce n\'est PAS une asymptote verticale.' }
+      ],
       method: {
         title: 'Étude complète d\'une fonction',
         steps: [
-          'Domaine : annuler les dénominateurs, conditions de la racine ou du logarithme.',
-          'Limites aux bornes du domaine (et en $\\pm\\infty$).',
-          'Signe de la dérivée $f\'$ pour les variations ; tableau de variations.',
-          'Asymptotes : horizontale si $\\lim_{x\\to\\pm\\infty}f(x)=L$ ; verticale si $\\lim_{x\\to a}f(x)=\\pm\\infty$.'
+          'Domaine : annuler les dénominateurs, conditions de la racine ou du logarithme. <strong>Exemple :</strong> $f(x) = \\ln(3x - 6)$ → condition $3x - 6 > 0$, soit $x > 2$ → $D_f = ]2 ; +\\infty[$.',
+          'Limites aux bornes du domaine (et en $\\pm\\infty$). <strong>Exemple :</strong> $f(x) = \\frac{2x+1}{x-3}$ → $\\lim_{x \\to +\\infty} f(x) = 2$ (AH) et $\\lim_{x \\to 3} f(x) = \\pm\\infty$ (AV en $x=3$).',
+          'Signe de la dérivée $f\'$ pour les variations ; tableau de variations. <strong>Exemple :</strong> $f(x) = x^2 - 4x$ → $f\'(x) = 2x - 4 = 0$ en $x = 2$. $f\'(x) < 0$ pour $x < 2$ (décroissante), $f\'(x) > 0$ pour $x > 2$ (croissante). Minimum en $x = 2$ : $f(2) = -4$.',
+          'Asymptotes : horizontale si $\\lim_{x\\to\\pm\\infty}f(x)=L$ ; verticale si $\\lim_{x\\to a}f(x)=\\pm\\infty$. <strong>Exemple :</strong> $f(x) = \\frac{x^2+1}{x} = x + \\frac{1}{x}$ → pas d\'AH, mais asymptote oblique $y = x$ (car $f(x) - x = 1/x \\to 0$).'
         ]
+      },
+      example: {
+        statement: 'Un convertisseur électronique a un rendement modélisé par $\\eta(x) = \\dfrac{100x}{x + 5}$ (en %, $x > 0$ étant la charge en ampères). Étudier cette fonction : domaine, limite, asymptote et sens de variation.',
+        steps: [
+          'Domaine : $x + 5 \\neq 0$ et $x > 0$ (charge positive), donc $D_f = ]0 ; +\\infty[$.',
+          'Limite : $\\lim_{x \\to +\\infty} \\frac{100x}{x+5} = \\lim \\frac{100}{1+5/x} = 100$. Asymptote horizontale $y = 100$ : le rendement ne dépasse jamais $100\\%$.',
+          'Dérivée : $\\eta\'(x) = \\frac{100(x+5) - 100x}{(x+5)^2} = \\frac{500}{(x+5)^2} > 0$ pour tout $x > 0$.',
+          'La fonction est strictement croissante sur $]0;+\\infty[$ : le rendement augmente avec la charge mais sature vers $100\\%$.'
+        ],
+        answer: 'Le rendement $\\eta$ est croissant de $0$ vers $100\\%$ (asymptote horizontale). Il n\'atteint jamais $100\\%$ mais s\'en rapproche indéfiniment.'
       },
       formulas: [
         'Asymptote oblique $y=ax+b$ : $a=\\lim_{x\\to\\infty}\\frac{f(x)}{x}$, $b=\\lim_{x\\to\\infty}(f(x)-ax)$',
         '$(e^x)\' = e^x$, $(\\ln x)\'=\\frac{1}{x}$, $(x^n)\'=nx^{n-1}$',
         'Règle de L\'Hôpital : $\\lim\\frac{f}{g}\\xrightarrow[0/0 \\text{ ou } \\infty/\\infty]{}\\lim\\frac{f\'}{g\'}$'
+      ],
+      recap: [
+        'Le domaine est contraint par 3 interdits : dénominateur $= 0$, radicande $< 0$, argument du $\\ln \\leq 0$.',
+        'Bien distinguer asymptote verticale ($\\lim = \\pm\\infty$) et trou (discontinuité effaçable, $\\lim$ finie).',
+        'Le signe de $f\'$ donne directement les intervalles de croissance/décroissance.',
+        'En ingénierie, les asymptotes horizontales modélisent souvent une saturation (rendement, température d\'équilibre, vitesse limite).'
       ],
       piege: 'Une asymptote verticale en $x=a$ implique que $a$ est exclu du domaine, mais un point exclu du domaine ne donne pas forcément une asymptote verticale (peut être un trou).'
     },
@@ -710,7 +825,7 @@ window.MODULES.push(
 
     {
     id: 'bts-derivation-appliquee',
-    level: 3,
+    level: 3, subject: 'maths',
     icon: '💹',
     title: 'Dérivation appliquée',
     subtitle: 'Coûts marginaux, optimisation économique',
@@ -718,20 +833,43 @@ window.MODULES.push(
     physics: false,
     cours: {
       intro: 'En économie et gestion, chaque dérivée porte un nom métier : $C\'(x)$ est le coût marginal (coût supplémentaire de la $x$-ième unité), $R\'(x)$ est la recette marginale. Le profit $\\Pi = R - C$ est maximisé quand $R\'(x) = C\'(x)$ — c\'est-à-dire quand il n\'est plus rentable de produire une unité supplémentaire. ATTENTION : $R(x) = C(x)$ est le SEUIL DE RENTABILITÉ (profit nul), pas la condition de maximum — confondre les deux est une erreur classique en gestion. La dérivée seconde $\\Pi\'\'(x_0) < 0$ confirme que l\'extremum est bien un maximum (et non un minimum). En pratique, la quantité optimale doit toujours être entière et positive : si $x^* = 4{,}7$, on compare $\\Pi(4)$ et $\\Pi(5)$.',
+      definitions: [
+        { term: 'Coût marginal $C_m(x) = C\'(x)$', def: 'Coût supplémentaire engendré par la production d\'une unité de plus. C\'est la dérivée de la fonction de coût total.' },
+        { term: 'Recette marginale $R_m(x) = R\'(x)$', def: 'Recette supplémentaire apportée par la vente d\'une unité de plus. C\'est la dérivée de la fonction de recette totale.' },
+        { term: 'Seuil de rentabilité', def: 'Quantité $x$ telle que $R(x) = C(x)$, soit $\\Pi(x) = 0$. En dessous : perte ; au-dessus : bénéfice. Ne pas confondre avec le maximum de profit.' },
+        { term: 'Profit maximal', def: 'Atteint quand $\\Pi\'(x) = R\'(x) - C\'(x) = 0$, c\'est-à-dire quand la recette marginale égale le coût marginal. Vérifier $\\Pi\'\'(x) < 0$ pour confirmer le maximum.' }
+      ],
       method: {
         title: 'Optimiser une fonction économique',
         steps: [
-          'Définir la fonction à optimiser (profit, coût, recette) sur son domaine.',
-          'Calculer la dérivée et résoudre $f\'(x)=0$.',
-          'Vérifier que c\'est bien un maximum (ou minimum) par le signe de $f\'$ ou $f\'\'$.',
-          'Interpréter le résultat en unités économiques.'
+          'Définir la fonction à optimiser (profit, coût, recette) sur son domaine. <strong>Exemple :</strong> $R(x) = 20x$ (prix unitaire $20$ €), $C(x) = x^2 + 4x + 30$. Profit : $\\Pi(x) = -x^2 + 16x - 30$.',
+          'Calculer la dérivée et résoudre $f\'(x)=0$. <strong>Exemple :</strong> $\\Pi\'(x) = -2x + 16 = 0 \\Rightarrow x^* = 8$ unités.',
+          'Vérifier que c\'est bien un maximum (ou minimum) par le signe de $f\'$ ou $f\'\'$. <strong>Exemple :</strong> $\\Pi\'\'(x) = -2 < 0$ : c\'est bien un maximum.',
+          'Interpréter le résultat en unités économiques. <strong>Exemple :</strong> $\\Pi(8) = -64 + 128 - 30 = 34$ €. Produire $8$ unités maximise le profit à $34$ €.'
         ]
+      },
+      example: {
+        statement: 'Une PME fabrique des capteurs. Le coût total est $C(x) = 0{,}5x^2 + 3x + 100$ € et le prix de vente unitaire est $p = 25$ € ($x$ = nombre de capteurs). Déterminer la quantité optimale et le profit maximal.',
+        steps: [
+          'Recette : $R(x) = 25x$.',
+          'Profit : $\\Pi(x) = R(x) - C(x) = 25x - 0{,}5x^2 - 3x - 100 = -0{,}5x^2 + 22x - 100$.',
+          'Dérivée : $\\Pi\'(x) = -x + 22 = 0 \\Rightarrow x^* = 22$ capteurs.',
+          'Vérification : $\\Pi\'\'(x) = -1 < 0$ → maximum confirmé.',
+          'Profit maximal : $\\Pi(22) = -0{,}5 \\times 484 + 22 \\times 22 - 100 = -242 + 484 - 100 = 142$ €.'
+        ],
+        answer: 'Produire $22$ capteurs pour un profit maximal de $142$ €. Le coût marginal au point optimal vaut $C\'(22) = 22 + 3 = 25$ €/unité, qui est bien égal au prix de vente.'
       },
       formulas: [
         'Coût marginal : $C_m(x)=C\'(x)$',
         'Recette marginale : $R_m(x)=R\'(x)$',
         'Profit maximal : $R\'(x)=C\'(x)$',
         'Profit : $\\Pi(x)=R(x)-C(x)$'
+      ],
+      recap: [
+        'Le profit est maximal quand $R\'(x) = C\'(x)$ (recette marginale = coût marginal), pas quand $R(x) = C(x)$ (seuil de rentabilité).',
+        'Toujours vérifier la nature de l\'extremum : $\\Pi\'\'(x^*) < 0$ confirme un maximum, $> 0$ un minimum.',
+        'Au point optimal, le coût marginal est exactement égal au prix de vente (si prix constant).',
+        'La quantité optimale doit être un entier positif : si $x^* = 4{,}7$, comparer $\\Pi(4)$ et $\\Pi(5)$.'
       ],
       piege: 'Vérifier toujours le domaine de validité : une quantité ne peut pas être négative. Un extremum hors du domaine physique est sans intérêt économique.'
     },
@@ -822,7 +960,7 @@ window.MODULES.push(
 
     {
     id: 'bts-integrales-appliquees',
-    level: 3,
+    level: 3, subject: 'maths',
     icon: '∫',
     title: 'Primitives et calcul intégral appliqué',
     subtitle: 'Intégrales définies, aires, valeur moyenne',
@@ -830,20 +968,43 @@ window.MODULES.push(
     physics: true,
     cours: {
       intro: 'L\'intégrale définie est l\'outil de l\'accumulation : distance = $\\int v\\,dt$, charge électrique = $\\int i\\,dt$, énergie = $\\int p\\,dt$, revenu cumulé = $\\int r(t)\\,dt$. Elle calcule une AIRE ALGÉBRIQUE : négative si $f < 0$. Pour l\'aire géométrique réelle (toujours positive), il faut découper l\'intervalle là où $f$ change de signe et prendre la valeur absolue de chaque morceau. La valeur moyenne $\\bar{f} = \\frac{1}{b-a}\\int_a^b f(x)\\,dx$ est fondamentale en électronique AC : la valeur efficace (RMS) d\'un signal est $U_{eff} = \\sqrt{\\frac{1}{T}\\int_0^T u^2(t)\\,dt}$. L\'intégration par parties $\\int u\\,v\'\\,dx = [uv] - \\int u\'v\\,dx$ permet de traiter les produits $x e^x$, $x \\cos x$, etc.',
+      definitions: [
+        { term: 'Primitive $F$ de $f$', def: 'Fonction telle que $F\'(x) = f(x)$ sur un intervalle. Elle est unique à une constante près : si $F$ est une primitive, toute primitive s\'écrit $F + C$.' },
+        { term: 'Intégrale définie $\\int_a^b f(x)\\,dx$', def: 'Aire algébrique entre la courbe $y = f(x)$, l\'axe $x$ et les droites $x = a$, $x = b$. Positive si $f \\geq 0$, négative si $f \\leq 0$.' },
+        { term: 'Valeur moyenne $\\bar{f}$', def: 'Hauteur constante qui produirait la même aire : $\\bar{f} = \\frac{1}{b-a}\\int_a^b f(x)\\,dx$. En électronique, la valeur moyenne d\'un signal AC symétrique est nulle.' },
+        { term: 'Intégration par parties (IPP)', def: 'Technique pour intégrer un produit : $\\int u \\cdot v\'\\,dx = [u \\cdot v] - \\int u\' \\cdot v\\,dx$. On choisit $u$ et $v\'$ de sorte que $\\int u\'v$ soit plus simple que l\'intégrale de départ.' }
+      ],
       method: {
         title: 'Calculer une intégrale définie',
         steps: [
-          'Trouver une primitive $F$ de $f$ (antidérivée : $F\'=f$).',
-          'Appliquer la formule : $\\int_a^b f(x)\\,dx = [F(x)]_a^b = F(b)-F(a)$.',
-          'Valeur moyenne : $\\bar{f}=\\frac{1}{b-a}\\int_a^b f(x)\\,dx$.',
-          'Intégration par parties : $\\int u\\,v\'\\,dx = [uv]-\\int u\'\\,v\\,dx$.'
+          'Trouver une primitive $F$ de $f$ (antidérivée : $F\'=f$). <strong>Exemple :</strong> $f(x) = 3x^2$ → $F(x) = x^3$ (car $(x^3)\' = 3x^2$).',
+          'Appliquer la formule : $\\int_a^b f(x)\\,dx = [F(x)]_a^b = F(b)-F(a)$. <strong>Exemple :</strong> $\\int_1^3 3x^2\\,dx = [x^3]_1^3 = 27 - 1 = 26$.',
+          'Valeur moyenne : $\\bar{f}=\\frac{1}{b-a}\\int_a^b f(x)\\,dx$. <strong>Exemple :</strong> $\\bar{f} = \\frac{26}{3-1} = 13$.',
+          'Intégration par parties : $\\int u\\,v\'\\,dx = [uv]-\\int u\'\\,v\\,dx$. <strong>Exemple :</strong> $\\int_0^1 x e^x\\,dx$ : $u = x$, $v\' = e^x$ → $[xe^x]_0^1 - \\int_0^1 e^x\\,dx = e - (e - 1) = 1$.'
         ]
+      },
+      example: {
+        statement: 'Le courant dans un circuit varie selon $i(t) = 2\\sin(100\\pi t)$ A pendant une demi-période ($t \\in [0 ; 0{,}01]$ s, soit $T/2 = 0{,}01$ s pour $f = 50$ Hz). Calculer la charge électrique $Q = \\int_0^{0{,}01} i(t)\\,dt$ transférée pendant cette demi-période.',
+        steps: [
+          'Primitive de $2\\sin(100\\pi t)$ : $F(t) = -\\frac{2}{100\\pi}\\cos(100\\pi t) = -\\frac{1}{50\\pi}\\cos(100\\pi t)$.',
+          '$Q = \\left[-\\frac{1}{50\\pi}\\cos(100\\pi t)\\right]_0^{0{,}01}$.',
+          '$Q = -\\frac{1}{50\\pi}\\cos(\\pi) - \\left(-\\frac{1}{50\\pi}\\cos(0)\\right)$.',
+          '$Q = -\\frac{1}{50\\pi}(-1) + \\frac{1}{50\\pi}(1) = \\frac{1}{50\\pi} + \\frac{1}{50\\pi} = \\frac{2}{50\\pi} = \\frac{1}{25\\pi}$.',
+          '$Q \\approx 0{,}0127$ C soit $12{,}7$ mC.'
+        ],
+        answer: '$Q = \\frac{1}{25\\pi} \\approx 12{,}7$ mC transférés pendant une demi-période.'
       },
       formulas: [
         '$\\int x^n\\,dx = \\dfrac{x^{n+1}}{n+1}+C$ ($n\\ne-1$)',
         '$\\int e^x\\,dx = e^x+C$',
         '$\\int \\dfrac{1}{x}\\,dx = \\ln|x|+C$',
         '$\\bar{f}=\\dfrac{1}{b-a}\\displaystyle\\int_a^b f(x)\\,dx$'
+      ],
+      recap: [
+        'L\'intégrale définie calcule une aire ALGÉBRIQUE (peut être négative). Pour l\'aire géométrique, prendre $\\int |f(x)|\\,dx$.',
+        'La formule fondamentale $\\int_a^b f\\,dx = F(b) - F(a)$ nécessite de connaître une primitive $F$.',
+        'La valeur moyenne $\\bar{f} = \\frac{1}{b-a}\\int_a^b f\\,dx$ est la hauteur du rectangle de même aire sur le même intervalle.',
+        'En physique : $\\int v\\,dt$ = distance, $\\int i\\,dt$ = charge, $\\int p\\,dt$ = énergie. L\'intégrale traduit toujours une accumulation.'
       ],
       piege: '$\\int_a^b f(x)\\,dx$ peut être négative si $f<0$ sur $[a;b]$. Pour l\'aire géométrique (positive), prendre la valeur absolue ou découper l\'intervalle.'
     },
@@ -938,7 +1099,7 @@ window.MODULES.push(
 
     {
     id: 'bts-stats-deux-variables',
-    level: 3,
+    level: 3, subject: 'maths',
     icon: '📊',
     title: 'Statistiques à deux variables',
     subtitle: 'Nuage de points, corrélation, régression linéaire',
@@ -946,20 +1107,43 @@ window.MODULES.push(
     physics: false,
     cours: {
       intro: 'Les statistiques à deux variables permettent de modéliser et prévoir : ventes en fonction de la publicité, résistance d\'un matériau en fonction de la température, consommation en fonction de la vitesse. La droite de régression des moindres carrés minimise la somme des carrés des écarts verticaux entre les points et la droite — c\'est la droite qui "passe au mieux" à travers le nuage. Le coefficient de corrélation $r \\in [-1;1]$ mesure la force de la liaison LINÉAIRE uniquement : $r = 0$ ne signifie pas "pas de liaison" mais "pas de liaison linéaire" (il peut y avoir une relation parabolique). Piège majeur : $r \\approx \\pm 1$ prouve une forte liaison linéaire, mais JAMAIS une causalité. Deux variables peuvent être fortement corrélées via une troisième variable cachée.',
+      definitions: [
+        { term: 'Covariance $\\text{Cov}(x,y)$', def: 'Mesure la tendance de $x$ et $y$ à varier ensemble : $\\text{Cov}(x,y) = \\overline{xy} - \\bar{x}\\bar{y}$. Positive si les deux augmentent ensemble, négative si l\'une augmente quand l\'autre diminue.' },
+        { term: 'Coefficient de corrélation $r$', def: 'Covariance normalisée : $r = \\text{Cov}(x,y)/(\\sigma_x \\cdot \\sigma_y) \\in [-1;1]$. $|r| \\approx 1$ : forte liaison linéaire. $r \\approx 0$ : pas de liaison linéaire (mais une liaison non linéaire reste possible).' },
+        { term: 'Droite de régression (moindres carrés)', def: 'Droite $y = ax + b$ qui minimise la somme des carrés des écarts verticaux entre les points et la droite. Elle passe toujours par le point moyen $(\\bar{x}, \\bar{y})$.' },
+        { term: 'Corrélation fallacieuse (spurious correlation)', def: 'Forte corrélation entre deux variables sans lien causal direct, expliquée par une troisième variable cachée (ex. : ventes de glaces et noyades, toutes deux corrélées à la chaleur).' }
+      ],
       method: {
         title: 'Calculer la droite de régression',
         steps: [
-          'Calculer les moyennes $\\bar{x}$ et $\\bar{y}$, les variances $V_x$, $V_y$ et la covariance $\\text{Cov}(x,y)$.',
-          'Coefficient directeur : $a=\\dfrac{\\text{Cov}(x,y)}{V_x}$.',
-          'Ordonnée à l\'origine : $b=\\bar{y}-a\\bar{x}$.',
-          'Coefficient de corrélation : $r=\\dfrac{\\text{Cov}(x,y)}{\\sigma_x\\sigma_y}\\in[-1;1]$.'
+          'Calculer les moyennes $\\bar{x}$ et $\\bar{y}$, les variances $V_x$, $V_y$ et la covariance $\\text{Cov}(x,y)$. <strong>Exemple :</strong> Points $(1;3)$, $(2;5)$, $(3;7)$ → $\\bar{x} = 2$, $\\bar{y} = 5$, $\\overline{xy} = (3+10+21)/3 = 34/3 \\approx 11{,}33$, $\\text{Cov} = 11{,}33 - 10 = 1{,}33$.',
+          'Coefficient directeur : $a=\\dfrac{\\text{Cov}(x,y)}{V_x}$. <strong>Exemple :</strong> $V_x = \\overline{x^2} - \\bar{x}^2 = 14/3 - 4 = 2/3$. $a = 1{,}33/(2/3) = 2$.',
+          'Ordonnée à l\'origine : $b=\\bar{y}-a\\bar{x}$. <strong>Exemple :</strong> $b = 5 - 2 \\times 2 = 1$. Droite : $y = 2x + 1$.',
+          'Coefficient de corrélation : $r=\\dfrac{\\text{Cov}(x,y)}{\\sigma_x\\sigma_y}\\in[-1;1]$. <strong>Exemple :</strong> Ici $r = 1$ (alignement parfait sur la droite).'
         ]
+      },
+      example: {
+        statement: 'Un fabricant de panneaux solaires relève la puissance produite $y$ (en W) en fonction de l\'ensoleillement $x$ (en kWh/m²/jour) : $(2;80)$, $(3;115)$, $(4;140)$, $(5;170)$, $(6;200)$. Déterminer la droite de régression et estimer la puissance pour $x = 7$ kWh/m²/jour.',
+        steps: [
+          'Moyennes : $\\bar{x} = (2+3+4+5+6)/5 = 4$ ; $\\bar{y} = (80+115+140+170+200)/5 = 141$.',
+          'Calculs intermédiaires : $\\overline{x^2} = (4+9+16+25+36)/5 = 18$ ; $\\overline{xy} = (160+345+560+850+1200)/5 = 623$.',
+          '$V_x = 18 - 16 = 2$. $\\text{Cov}(x,y) = 623 - 4 \\times 141 = 623 - 564 = 59$.',
+          'Coefficient directeur : $a = 59/2 = 29{,}5$. Ordonnée : $b = 141 - 29{,}5 \\times 4 = 23$.',
+          'Droite : $y = 29{,}5x + 23$. Pour $x = 7$ : $y = 29{,}5 \\times 7 + 23 = 229{,}5$ W.'
+        ],
+        answer: 'Droite de régression : $y = 29{,}5x + 23$. Pour un ensoleillement de $7$ kWh/m²/jour, la puissance estimée est $229{,}5$ W.'
       },
       formulas: [
         '$\\text{Cov}(x,y)=\\overline{xy}-\\bar{x}\\cdot\\bar{y}$',
         '$V_x=\\overline{x^2}-\\bar{x}^2$',
         '$a=\\dfrac{\\text{Cov}(x,y)}{V_x}$, $b=\\bar{y}-a\\bar{x}$',
         '$r=\\dfrac{\\text{Cov}(x,y)}{\\sigma_x\\cdot\\sigma_y}$'
+      ],
+      recap: [
+        'La droite de régression $y = ax + b$ passe toujours par le point moyen $(\\bar{x}, \\bar{y})$.',
+        '$|r|$ proche de $1$ indique une forte liaison linéaire. $|r| < 0{,}5$ : liaison linéaire faible.',
+        'Corrélation $\\neq$ causalité : toujours chercher une explication logique avant de conclure.',
+        'Ne pas extrapoler loin des données observées : la relation linéaire peut ne plus être valable hors du domaine mesuré.'
       ],
       piege: '$|r|\\approx1$ indique une forte liaison linéaire, mais pas une causalité ! Deux variables peuvent être corrélées sans lien de cause à effet.'
     },
@@ -1051,7 +1235,7 @@ window.MODULES.push(
 
     {
     id: 'bts-probas-discretes',
-    level: 3,
+    level: 3, subject: 'maths',
     icon: '🎲',
     title: 'Lois de probabilité discrètes',
     subtitle: 'Loi binomiale et loi de Poisson',
@@ -1059,19 +1243,42 @@ window.MODULES.push(
     physics: true,
     cours: {
       intro: 'En BTS, les lois discrètes modélisent les défauts de production, les pannes, les demandes clients. La loi binomiale $\\mathcal{B}(n,p)$ compte les succès en $n$ essais indépendants avec probabilité $p$ constante — typiquement un contrôle qualité par échantillonnage. La loi de Poisson $\\mathcal{P}(\\lambda)$ modélise les événements rares dans un intervalle : pannes/heure, arrivées/minute dans un centre d\'appels, défauts/m² sur une tôle. Quand $n$ est grand et $p$ petit, la Poisson approche la binomiale avec $\\lambda = np$ : un contrôle sur $500$ pièces avec $2\\%$ de défauts ($\\lambda = 10$) se calcule bien plus simplement avec Poisson. Le critère pratique d\'approximation : $n \\geq 30$ et $p \\leq 0{,}1$. La propriété clé de Poisson : $E(X) = V(X) = \\lambda$ — variance égale à la moyenne, ce qui n\'est pas le cas en général.',
+      definitions: [
+        { term: 'Loi binomiale $\\mathcal{B}(n, p)$', def: 'Loi du nombre de succès en $n$ épreuves indépendantes, chacune avec probabilité de succès $p$. $E(X) = np$, $V(X) = np(1-p)$.' },
+        { term: 'Loi de Poisson $\\mathcal{P}(\\lambda)$', def: 'Loi du nombre d\'événements rares dans un intervalle donné (temps, surface, volume). Paramètre $\\lambda$ = nombre moyen d\'événements. Propriété clé : $E(X) = V(X) = \\lambda$.' },
+        { term: 'Coefficient binomial $\\binom{n}{k}$', def: 'Nombre de façons de choisir $k$ éléments parmi $n$ : $\\binom{n}{k} = \\frac{n!}{k!(n-k)!}$. Exemple : $\\binom{5}{2} = \\frac{5!}{2!3!} = 10$.' },
+        { term: 'Approximation de Poisson', def: 'Quand $n \\geq 30$ et $p \\leq 0{,}1$, on approche $\\mathcal{B}(n,p)$ par $\\mathcal{P}(\\lambda = np)$. Les calculs sont beaucoup plus simples et la précision est excellente.' }
+      ],
       method: {
         title: 'Choisir entre binomiale et Poisson',
         steps: [
-          'Loi binomiale : $n$ répétitions indépendantes, probabilité $p$ constante.',
-          'Loi de Poisson : événements rares ($\\lambda=np$ fixé, $n$ grand, $p$ petit).',
-          '$P_{\\mathcal{P}(\\lambda)}(X=k)=\\dfrac{\\lambda^k}{k!}e^{-\\lambda}$.',
-          'Espérance et variance de Poisson : $E(X)=V(X)=\\lambda$.'
+          'Loi binomiale : $n$ répétitions indépendantes, probabilité $p$ constante. <strong>Exemple :</strong> On tire $n = 10$ pièces d\'un lot à $5\\%$ de défauts. $X \\sim \\mathcal{B}(10 ; 0{,}05)$. $P(X = 0) = 0{,}95^{10} \\approx 0{,}599$.',
+          'Loi de Poisson : événements rares ($\\lambda=np$ fixé, $n$ grand, $p$ petit). <strong>Exemple :</strong> Une machine a $2$ pannes/jour en moyenne. $P(X = 0) = e^{-2} \\approx 0{,}135$ (probabilité d\'aucune panne).',
+          '$P_{\\mathcal{P}(\\lambda)}(X=k)=\\dfrac{\\lambda^k}{k!}e^{-\\lambda}$. <strong>Exemple :</strong> $\\lambda = 3$, $k = 2$ → $P(X=2) = \\frac{9}{2} \\times e^{-3} \\approx 4{,}5 \\times 0{,}0498 \\approx 0{,}224$.',
+          'Espérance et variance de Poisson : $E(X)=V(X)=\\lambda$. <strong>Exemple :</strong> Si $\\lambda = 5$ pannes/jour, l\'écart-type est $\\sigma = \\sqrt{5} \\approx 2{,}24$ pannes/jour.'
         ]
+      },
+      example: {
+        statement: 'Un fabricant de circuits imprimés sait que $1\\%$ des composants soudés sont défectueux. Une carte contient $200$ soudures. Quelle est la probabilité d\'avoir exactement $3$ soudures défectueuses sur une carte ?',
+        steps: [
+          'Modèle : $n = 200$ essais indépendants, $p = 0{,}01$. C\'est une loi $\\mathcal{B}(200 ; 0{,}01)$.',
+          'Comme $n \\geq 30$ et $p \\leq 0{,}1$, on approche par Poisson avec $\\lambda = np = 200 \\times 0{,}01 = 2$.',
+          '$P(X = 3) = \\frac{\\lambda^3}{3!}e^{-\\lambda} = \\frac{2^3}{6} \\times e^{-2} = \\frac{8}{6} \\times 0{,}1353$.',
+          '$P(X = 3) = 1{,}333 \\times 0{,}1353 \\approx 0{,}180$.',
+          'Il y a environ $18\\%$ de chances d\'avoir exactement $3$ soudures défectueuses.'
+        ],
+        answer: '$P(X = 3) \\approx 0{,}180$ soit $18\\%$. Avec Poisson ($\\lambda = 2$), le calcul est immédiat comparé à la formule binomiale avec $\\binom{200}{3}$.'
       },
       formulas: [
         '$P_{\\mathcal{B}(n,p)}(X=k)=\\binom{n}{k}p^k(1-p)^{n-k}$',
         '$P_{\\mathcal{P}(\\lambda)}(X=k)=\\dfrac{\\lambda^k}{k!}e^{-\\lambda}$',
         '$E_{\\mathcal{P}}(X)=V_{\\mathcal{P}}(X)=\\lambda$'
+      ],
+      recap: [
+        'Binomiale = $n$ essais indépendants avec $p$ constant. Poisson = événements rares dans un intervalle.',
+        'Si $n \\geq 30$ et $p \\leq 0{,}1$ : approcher $\\mathcal{B}(n,p)$ par $\\mathcal{P}(np)$ pour simplifier les calculs.',
+        'Propriété clé de Poisson : $E(X) = V(X) = \\lambda$ (moyenne = variance). Si ce n\'est pas vérifié sur les données, Poisson n\'est pas un bon modèle.',
+        '$P(X \\geq 1) = 1 - P(X = 0) = 1 - e^{-\\lambda}$ : très utilisé pour la probabilité d\'au moins un événement.'
       ],
       piege: 'La loi de Poisson suppose des événements rares et indépendants. Si les pannes se "groupent", la loi de Poisson n\'est plus adaptée.'
     },
@@ -1163,7 +1370,7 @@ window.MODULES.push(
 
     {
     id: 'bts-suites-appliquees',
-    level: 3,
+    level: 3, subject: 'maths',
     icon: '💰',
     title: 'Suites numériques appliquées',
     subtitle: 'Amortissements, intérêts composés, annuités',
@@ -1171,20 +1378,43 @@ window.MODULES.push(
     physics: false,
     cours: {
       intro: 'Les intérêts composés ($C_n = C_0(1+t)^n$) et les intérêts simples ($C_n = C_0(1+nt)$) semblent proches à court terme, mais divergent considérablement sur longue durée : à $5\\%$ sur $30$ ans, les intérêts composés multiplient le capital par $4{,}32$ contre $2{,}5$ pour les simples. La différence vient de la "capitalisation" : en composés, les intérêts de chaque période produisent eux-mêmes des intérêts. En finance d\'entreprise BTS, les annuités (remboursements constants d\'un emprunt) combinent les deux : chaque versement $a$ couvre d\'abord les intérêts du solde restant, puis rembourse du capital. En début d\'emprunt, la part d\'intérêts est élevée et décroît à chaque annuité — c\'est pourquoi les premières mensualités remboursent peu de capital. La durée de doublement s\'approche par la "règle des 72" : $n \\approx 72/t\\%$ années.',
+      definitions: [
+        { term: 'Intérêts simples', def: 'Les intérêts sont calculés uniquement sur le capital initial : $C_n = C_0(1 + nt)$. C\'est une suite arithmétique de raison $C_0 \\times t$. Utilisés pour les placements courts (< 1 an).' },
+        { term: 'Intérêts composés', def: 'Les intérêts sont capitalisés à chaque période : $C_n = C_0(1+t)^n$. C\'est une suite géométrique de raison $q = 1+t$. Standard pour les emprunts et placements longs.' },
+        { term: 'Annuité constante $a$', def: 'Versement périodique fixe pour rembourser un emprunt. Formule : $a = C_0 \\times \\frac{t}{1-(1+t)^{-n}}$. Chaque annuité contient une part d\'intérêts (décroissante) et une part de capital (croissante).' },
+        { term: 'Valeur acquise', def: 'Capital accumulé après $n$ versements réguliers de $a$ : $V_n = a \\times \\frac{(1+t)^n - 1}{t}$. C\'est la somme d\'une suite géométrique.' }
+      ],
       method: {
         title: 'Calculs financiers avec les suites',
         steps: [
-          'Intérêts composés : $C_n = C_0\\times(1+t)^n$ (suite géométrique de raison $q=1+t$).',
-          'Annuités constantes (emprunt) : somme des valeurs actualisées = capital emprunté.',
-          'Amortissement constant : remboursement $=$ capital $/$ durée, intérêts dégressifs.',
-          'Valeur acquise par $n$ versements $a$ : $V=a\\times\\dfrac{(1+t)^n-1}{t}$.'
+          'Intérêts composés : $C_n = C_0\\times(1+t)^n$ (suite géométrique de raison $q=1+t$). <strong>Exemple :</strong> $C_0 = 5000$ €, $t = 3\\%$, $n = 4$ ans → $C_4 = 5000 \\times 1{,}03^4 = 5000 \\times 1{,}1255 \\approx 5628$ €.',
+          'Annuités constantes (emprunt) : somme des valeurs actualisées = capital emprunté. <strong>Exemple :</strong> Emprunt $10000$ € à $5\\%$ sur $3$ ans → $a = 10000 \\times \\frac{0{,}05}{1-1{,}05^{-3}} = 10000 \\times \\frac{0{,}05}{0{,}1426} \\approx 3672$ €/an.',
+          'Amortissement constant : remboursement $=$ capital $/$ durée, intérêts dégressifs. <strong>Exemple :</strong> $10000$ € sur $4$ ans → amortissement $= 2500$ €/an. An 1 : intérêts $= 10000 \\times 0{,}05 = 500$ €, versement $= 3000$ €.',
+          'Valeur acquise par $n$ versements $a$ : $V=a\\times\\dfrac{(1+t)^n-1}{t}$. <strong>Exemple :</strong> $a = 100$ €/mois ($1200$ €/an), $t = 4\\%$, $n = 10$ ans → $V = 1200 \\times \\frac{1{,}04^{10}-1}{0{,}04} \\approx 14400$ €.'
         ]
+      },
+      example: {
+        statement: 'Un salarié épargne $200$ € par mois (soit $2400$ €/an) pendant $20$ ans sur un plan d\'épargne entreprise à $3{,}5\\%$ annuel. Quel capital aura-t-il accumulé ? Combien aura-t-il versé au total et combien les intérêts composés lui rapportent-ils ?',
+        steps: [
+          'Annuité : $a = 2400$ €/an, taux $t = 0{,}035$, durée $n = 20$ ans.',
+          'Valeur acquise : $V = a \\times \\frac{(1+t)^n - 1}{t} = 2400 \\times \\frac{1{,}035^{20} - 1}{0{,}035}$.',
+          '$1{,}035^{20} \\approx 1{,}9898$. Donc $V = 2400 \\times \\frac{0{,}9898}{0{,}035} = 2400 \\times 28{,}28 \\approx 67\\,872$ €.',
+          'Total versé : $2400 \\times 20 = 48\\,000$ €.',
+          'Gain dû aux intérêts composés : $67\\,872 - 48\\,000 = 19\\,872$ €, soit $41\\%$ de gain supplémentaire.'
+        ],
+        answer: 'Capital accumulé : $\\approx 67\\,872$ €. Versé : $48\\,000$ €. Les intérêts composés rapportent $\\approx 19\\,872$ € de plus, soit $+41\\%$ grâce à la capitalisation.'
       },
       formulas: [
         '$C_n = C_0(1+t)^n$',
         '$V_n = a\\cdot\\dfrac{(1+t)^n-1}{t}$ (valeur acquise d\'annuités)',
         '$C_0 = a\\cdot\\dfrac{1-(1+t)^{-n}}{t}$ (capital = valeur actuelle d\'annuités)',
         'Durée : $n = \\dfrac{\\ln(C_n/C_0)}{\\ln(1+t)}$'
+      ],
+      recap: [
+        'Intérêts simples = suite arithmétique ($C_0(1+nt)$). Intérêts composés = suite géométrique ($C_0(1+t)^n$).',
+        'La règle des 72 : le capital double en $\\approx 72/t\\%$ années (ex. : $72/6 = 12$ ans à $6\\%$).',
+        'Annuité constante : chaque versement contient une part d\'intérêts (décroissante) et une part de capital (croissante).',
+        'Sur longue durée, la capitalisation fait une énorme différence : à $5\\%$ sur $30$ ans, composés donnent $4{,}32 \\times C_0$ contre $2{,}5 \\times C_0$ en simples.'
       ],
       piege: 'Ne pas confondre intérêts simples ($C_0(1+nt)$) et intérêts composés ($C_0(1+t)^n$). Sur longue période, la différence est considérable.'
     },
@@ -1276,7 +1506,7 @@ window.MODULES.push(
 
     {
     id: 'bts-matrices',
-    level: 3,
+    level: 3, subject: 'maths',
     icon: '🔲',
     title: 'Calcul matriciel',
     subtitle: 'Opérations, inverse, systèmes matriciels',
@@ -1284,19 +1514,41 @@ window.MODULES.push(
     physics: true,
     cours: {
       intro: 'Les matrices sont le langage des systèmes linéaires : un réseau de distribution, un circuit électrique avec plusieurs mailles, un bilan d\'entrées-sorties industriel — tous se formulent comme $AX = B$ et se résolvent par $X = A^{-1}B$. La multiplication matricielle $AB$ n\'est pas commutative ($AB \\neq BA$ en général) — c\'est la principale différence avec la multiplication scalaire. Le déterminant $\\det(A)$ est le "critère d\'inversibilité" : si $\\det(A) = 0$, le système $AX = B$ soit n\'a pas de solution, soit en a une infinité. En BTS, les chaînes de Markov utilisent des matrices de transition dont les colonnes (ou lignes) somment à $1$ : elles modélisent l\'évolution probabiliste d\'un système (stocks, clients, pannes). L\'état stationnaire $\\pi$ vérifie $M\\pi = \\pi$ : c\'est un vecteur propre de valeur propre $1$.',
+      definitions: [
+        { term: 'Matrice $m \\times n$', def: 'Tableau rectangulaire de $m$ lignes et $n$ colonnes. Le terme $a_{ij}$ se trouve à la ligne $i$ et la colonne $j$. Deux matrices de mêmes dimensions s\'additionnent terme à terme.' },
+        { term: 'Déterminant $\\det(A)$', def: 'Nombre associé à une matrice carrée. Pour $2 \\times 2$ : $\\det \\begin{pmatrix}a&b\\\\c&d\\end{pmatrix} = ad - bc$. Si $\\det(A) = 0$ : matrice singulière (non inversible).' },
+        { term: 'Matrice inverse $A^{-1}$', def: 'Matrice telle que $A \\cdot A^{-1} = A^{-1} \\cdot A = I$ (matrice identité). Elle existe si et seulement si $\\det(A) \\neq 0$.' },
+        { term: 'Matrice de transition (Markov)', def: 'Matrice carrée dont les colonnes (ou lignes) somment à $1$. Modélise les transitions probabilistes entre états. L\'état stationnaire vérifie $M\\pi = \\pi$.' }
+      ],
       method: {
         title: 'Multiplier et inverser une matrice',
         steps: [
-          'Produit $AB$ : la ligne $i$ de $A$ et la colonne $j$ de $B$ donnent le terme $c_{ij}=\\sum_k a_{ik}b_{kj}$.',
-          '$AB$ n\'est défini que si le nombre de colonnes de $A$ = nombre de lignes de $B$.',
-          'Inverse de $A$ $2\\times2$ : $A^{-1}=\\frac{1}{\\det A}\\begin{pmatrix}d&-b\\\\-c&a\\end{pmatrix}$ avec $\\det A=ad-bc$.',
-          'Système $AX=B$ → $X=A^{-1}B$ si $A$ est inversible.'
+          'Produit $AB$ : la ligne $i$ de $A$ et la colonne $j$ de $B$ donnent le terme $c_{ij}=\\sum_k a_{ik}b_{kj}$. <strong>Exemple :</strong> $\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}\\begin{pmatrix}5\\\\6\\end{pmatrix} = \\begin{pmatrix}1 \\times 5 + 2 \\times 6\\\\3 \\times 5 + 4 \\times 6\\end{pmatrix} = \\begin{pmatrix}17\\\\39\\end{pmatrix}$.',
+          '$AB$ n\'est défini que si le nombre de colonnes de $A$ = nombre de lignes de $B$. <strong>Exemple :</strong> $A$ est $2 \\times 3$ et $B$ est $3 \\times 1$ → $AB$ est $2 \\times 1$ (OK). Mais $BA$ n\'est pas défini ($1 \\times 1$ fois $2 \\times 3$ : non compatible).',
+          'Inverse de $A$ $2\\times2$ : $A^{-1}=\\frac{1}{\\det A}\\begin{pmatrix}d&-b\\\\-c&a\\end{pmatrix}$ avec $\\det A=ad-bc$. <strong>Exemple :</strong> $A = \\begin{pmatrix}3&1\\\\2&4\\end{pmatrix}$, $\\det A = 10$. $A^{-1} = \\frac{1}{10}\\begin{pmatrix}4&-1\\\\-2&3\\end{pmatrix}$.',
+          'Système $AX=B$ → $X=A^{-1}B$ si $A$ est inversible. <strong>Exemple :</strong> $\\begin{pmatrix}3&1\\\\2&4\\end{pmatrix}\\begin{pmatrix}x\\\\y\\end{pmatrix} = \\begin{pmatrix}7\\\\14\\end{pmatrix}$ → $\\begin{pmatrix}x\\\\y\\end{pmatrix} = \\frac{1}{10}\\begin{pmatrix}4&-1\\\\-2&3\\end{pmatrix}\\begin{pmatrix}7\\\\14\\end{pmatrix} = \\begin{pmatrix}1{,}4\\\\2{,}8\\end{pmatrix}$.'
         ]
+      },
+      example: {
+        statement: 'Un circuit électrique à deux mailles obéit au système : $\\begin{cases}3I_1 + I_2 = 12\\\\I_1 + 2I_2 = 8\\end{cases}$. Résoudre par méthode matricielle pour trouver les courants $I_1$ et $I_2$ (en A).',
+        steps: [
+          'Mise en forme matricielle : $AX = B$ avec $A = \\begin{pmatrix}3&1\\\\1&2\\end{pmatrix}$, $X = \\begin{pmatrix}I_1\\\\I_2\\end{pmatrix}$, $B = \\begin{pmatrix}12\\\\8\\end{pmatrix}$.',
+          'Déterminant : $\\det(A) = 3 \\times 2 - 1 \\times 1 = 5 \\neq 0$ → $A$ est inversible.',
+          'Inverse : $A^{-1} = \\frac{1}{5}\\begin{pmatrix}2&-1\\\\-1&3\\end{pmatrix}$.',
+          '$X = A^{-1}B = \\frac{1}{5}\\begin{pmatrix}2 \\times 12 + (-1) \\times 8\\\\(-1) \\times 12 + 3 \\times 8\\end{pmatrix} = \\frac{1}{5}\\begin{pmatrix}16\\\\12\\end{pmatrix} = \\begin{pmatrix}3{,}2\\\\2{,}4\\end{pmatrix}$.'
+        ],
+        answer: '$I_1 = 3{,}2$ A et $I_2 = 2{,}4$ A. On vérifie : $3 \\times 3{,}2 + 2{,}4 = 12$ ✓ et $3{,}2 + 2 \\times 2{,}4 = 8$ ✓.'
       },
       formulas: [
         '$\\det\\begin{pmatrix}a&b\\\\c&d\\end{pmatrix}=ad-bc$',
         '$A^{-1}=\\dfrac{1}{ad-bc}\\begin{pmatrix}d&-b\\\\-c&a\\end{pmatrix}$',
         '$(AB)^{-1}=B^{-1}A^{-1}$'
+      ],
+      recap: [
+        'Le produit matriciel n\'est PAS commutatif ($AB \\neq BA$) : l\'ordre compte toujours.',
+        '$\\det(A) = 0$ ↔ matrice non inversible ↔ système sans solution unique.',
+        'Pour inverser $A$ $2 \\times 2$ : échanger les termes diagonaux, changer les signes des termes anti-diagonaux, diviser par $\\det(A)$.',
+        'Les systèmes linéaires ($AX = B$) se résolvent par $X = A^{-1}B$ : c\'est la méthode la plus systématique.'
       ],
       piege: 'Le produit matriciel n\'est pas commutatif : en général $AB\\ne BA$. Toujours vérifier l\'ordre des matrices dans un produit.'
     },
@@ -1388,7 +1640,7 @@ window.MODULES.push(
 
     {
     id: 'bts-fourier',
-    level: 3,
+    level: 3, subject: 'maths',
     icon: '〰️',
     title: 'Séries de Fourier',
     subtitle: 'Décomposition en harmoniques, spectre fréquentiel',
@@ -1396,20 +1648,44 @@ window.MODULES.push(
     physics: true,
     cours: {
       intro: 'Toute fonction périodique peut être décomposée en une somme infinie de sinusoïdes de fréquences multiples de la fréquence fondamentale : c\'est le théorème de Fourier. L\'intuition : n\'importe quelle forme d\'onde — créneau, dent de scie, impulsion — est une superposition de "sons purs" (harmoniques), ce que l\'oreille et les filtres électroniques perçoivent séparément. En BTS, cette décomposition est centrale en électronique de puissance (harmoniques de courant des variateurs de vitesse), en acoustique (timbre d\'un instrument) et en traitement numérique du signal. L\'amplitude de la $n$-ième harmonique est $c_n=\\sqrt{a_n^2+b_n^2}$ : le tracé de $c_n$ en fonction de $n$ s\'appelle le spectre du signal. Piège fréquent : en un point de discontinuité (signal carré, créneau), la série de Fourier ne converge pas vers la valeur du signal mais vers la moyenne des limites à gauche et à droite — phénomène de Gibbs.',
+      definitions: [
+        { term: 'Harmonique de rang $n$', def: 'Composante sinusoïdale de fréquence $nf_0$ ($n$ fois la fréquence fondamentale). Le fondamental ($n=1$) a la fréquence $f_0 = 1/T$. L\'harmonique 3 a la fréquence $3f_0$, etc.' },
+        { term: 'Spectre fréquentiel', def: 'Graphe de l\'amplitude $c_n = \\sqrt{a_n^2+b_n^2}$ en fonction du rang $n$ (ou de la fréquence $nf_0$). Il montre la "recette" du signal en termes de sinusoïdes.' },
+        { term: 'Valeur moyenne $a_0$', def: 'Composante continue du signal : $a_0 = \\frac{1}{T}\\int_0^T f(t)\\,dt$. Un signal alternatif symétrique a $a_0 = 0$.' },
+        { term: 'Phénomène de Gibbs', def: 'Au voisinage d\'une discontinuité, la série de Fourier tronquée présente un dépassement d\'environ $9\\%$ qui ne disparaît jamais, même en ajoutant des harmoniques.' }
+      ],
       method: {
         title: 'Calculer les coefficients de Fourier',
         steps: [
-          'Signal périodique de période $T$ (ou pulsation $\\omega_0=2\\pi/T$).',
-          '$a_0=\\frac{1}{T}\\int_0^T f(t)\\,dt$ (valeur moyenne).',
-          '$a_n=\\frac{2}{T}\\int_0^T f(t)\\cos(n\\omega_0 t)\\,dt$ et $b_n=\\frac{2}{T}\\int_0^T f(t)\\sin(n\\omega_0 t)\\,dt$.',
-          'Développement : $f(t)=a_0+\\sum_{n=1}^{\\infty}(a_n\\cos(n\\omega_0 t)+b_n\\sin(n\\omega_0 t))$.'
+          'Signal périodique de période $T$ (ou pulsation $\\omega_0=2\\pi/T$). <strong>Exemple :</strong> Signal de fréquence $f_0 = 50$ Hz → $T = 1/50 = 0{,}02$ s, $\\omega_0 = 2\\pi \\times 50 = 100\\pi$ rad/s.',
+          '$a_0=\\frac{1}{T}\\int_0^T f(t)\\,dt$ (valeur moyenne). <strong>Exemple :</strong> Signal créneau $\\pm A$ symétrique → $a_0 = 0$ (aires positives et négatives s\'annulent).',
+          '$a_n=\\frac{2}{T}\\int_0^T f(t)\\cos(n\\omega_0 t)\\,dt$ et $b_n=\\frac{2}{T}\\int_0^T f(t)\\sin(n\\omega_0 t)\\,dt$. <strong>Exemple :</strong> Signal créneau impair d\'amplitude $A$ → $a_n = 0$ (impair, pas de cosinus) et $b_n = 4A/(n\\pi)$ pour $n$ impair, $0$ pour $n$ pair.',
+          'Développement : $f(t)=a_0+\\sum_{n=1}^{\\infty}(a_n\\cos(n\\omega_0 t)+b_n\\sin(n\\omega_0 t))$. <strong>Exemple :</strong> Créneau $\\pm 5$ V → $f(t) \\approx \\frac{20}{\\pi}\\sin(\\omega_0 t) + \\frac{20}{3\\pi}\\sin(3\\omega_0 t) + \\frac{20}{5\\pi}\\sin(5\\omega_0 t) + \\ldots$'
         ]
+      },
+      example: {
+        statement: 'Un variateur de vitesse produit un signal de courant créneau de fréquence $f_0 = 50$ Hz et d\'amplitude $\\pm 10$ A (signal impair). Calculer l\'amplitude du fondamental, de la $3^e$ et de la $5^e$ harmonique. Quel pourcentage de la puissance totale est contenu dans le fondamental seul ?',
+        steps: [
+          'Signal créneau impair : $a_0 = 0$, $a_n = 0$ (pas de cosinus), $b_n = \\frac{4A}{n\\pi}$ pour $n$ impair.',
+          'Fondamental ($n=1$) : $b_1 = \\frac{4 \\times 10}{\\pi} = \\frac{40}{\\pi} \\approx 12{,}73$ A.',
+          '$3^e$ harmonique ($n=3$) : $b_3 = \\frac{40}{3\\pi} \\approx 4{,}24$ A (fréquence $150$ Hz).',
+          '$5^e$ harmonique ($n=5$) : $b_5 = \\frac{40}{5\\pi} \\approx 2{,}55$ A (fréquence $250$ Hz).',
+          'Puissance relative du fondamental (Parseval) : $b_1^2/(b_1^2+b_3^2+b_5^2+\\ldots) = (4/\\pi)^2 \\times \\frac{1}{\\sum 1/n^2} \\approx 81\\%$. Le fondamental porte $\\sim 81\\%$ de la puissance.'
+        ],
+        answer: 'Fondamental : $12{,}73$ A. Harmonique 3 : $4{,}24$ A. Harmonique 5 : $2{,}55$ A. Le fondamental porte environ $81\\%$ de la puissance totale.'
       },
       formulas: [
         '$a_0=\\dfrac{1}{T}\\int_0^T f(t)\\,dt$',
         '$a_n=\\dfrac{2}{T}\\int_0^T f(t)\\cos(n\\omega_0 t)\\,dt$',
         '$b_n=\\dfrac{2}{T}\\int_0^T f(t)\\sin(n\\omega_0 t)\\,dt$',
         'Théorème de Parseval : $\\frac{1}{T}\\int_0^T[f(t)]^2dt=a_0^2+\\frac{1}{2}\\sum(a_n^2+b_n^2)$'
+      ],
+      diagram: '<table style="width:100%;border-collapse:collapse;text-align:center;"><tr style="background:var(--bg-card);"><th style="border:1px solid var(--border);padding:8px;">Signal</th><th style="border:1px solid var(--border);padding:8px;">Parité</th><th style="border:1px solid var(--border);padding:8px;">Coefficients</th><th style="border:1px solid var(--border);padding:8px;">Harmoniques présentes</th></tr><tr><td style="border:1px solid var(--border);padding:8px;">Créneau symétrique</td><td style="border:1px solid var(--border);padding:8px;">Impair</td><td style="border:1px solid var(--border);padding:8px;">$a_n=0$, $b_n=\\frac{4A}{n\\pi}$</td><td style="border:1px solid var(--border);padding:8px;">Sinus impairs ($1, 3, 5, \\ldots$)</td></tr><tr><td style="border:1px solid var(--border);padding:8px;">Triangle symétrique</td><td style="border:1px solid var(--border);padding:8px;">Pair</td><td style="border:1px solid var(--border);padding:8px;">$b_n=0$, $a_n=\\frac{-8A}{n^2\\pi^2}$</td><td style="border:1px solid var(--border);padding:8px;">Cosinus impairs ($1, 3, 5, \\ldots$)</td></tr><tr><td style="border:1px solid var(--border);padding:8px;">Dent de scie</td><td style="border:1px solid var(--border);padding:8px;">Impair</td><td style="border:1px solid var(--border);padding:8px;">$a_n=0$, $b_n=\\frac{2A}{n\\pi}(-1)^{n+1}$</td><td style="border:1px solid var(--border);padding:8px;">Tous les sinus ($1, 2, 3, \\ldots$)</td></tr></table>',
+      recap: [
+        'Tout signal périodique = composante continue ($a_0$) + somme infinie d\'harmoniques ($a_n\\cos + b_n\\sin$).',
+        'Signal pair → seulement des cosinus ($b_n = 0$). Signal impair → seulement des sinus ($a_n = 0$).',
+        'Le spectre du créneau décroît en $1/n$ (harmoniques impaires seulement). Celui du triangle en $1/n^2$ (convergence plus rapide).',
+        'Aux points de discontinuité, la série converge vers la moyenne des limites à gauche et à droite.'
       ],
       piege: 'Si $f$ est paire ($f(-t)=f(t)$), tous les $b_n=0$ (sinus nuls). Si $f$ est impaire, tous les $a_n=0$. Exploiter la symétrie simplifie considérablement les calculs.'
     },
@@ -1503,7 +1779,7 @@ window.MODULES.push(
 
     {
     id: 'bts-laplace',
-    level: 3,
+    level: 3, subject: 'maths',
     icon: '⚡',
     title: 'Transformée de Laplace',
     subtitle: 'Définition, propriétés, résolution d\'équations différentielles',
@@ -1511,20 +1787,44 @@ window.MODULES.push(
     physics: true,
     cours: {
       intro: 'La transformée de Laplace convertit une équation différentielle (domaine temporel) en une équation algébrique (domaine de $p$), rendant la résolution beaucoup plus systématique. La clé est la propriété de dérivation : $\\mathcal{L}\\{f\'\\}=pF(p)-f(0)$ — la condition initiale $f(0)$ apparaît explicitement, ce qui "encode" l\'état de départ du système directement dans le calcul. En automatique BTS, la transformée de Laplace permet de définir la fonction de transfert $H(p)=S(p)/E(p)$ d\'un système (asservissement, régulateur PID, filtre actif) et d\'analyser sa stabilité via les pôles (valeurs de $p$ qui annulent le dénominateur). Le passage au domaine fréquentiel s\'obtient en posant $p=j\\omega$ : on retrouve alors la réponse en fréquence classique (diagramme de Bode). Piège majeur : oublier le terme $-f(0)$ dans $\\mathcal{L}\\{f\'\\}=pF(p)-f(0)$ donne une solution incorrecte dès que les conditions initiales ne sont pas nulles.',
+      definitions: [
+        { term: 'Transformée de Laplace $\\mathcal{L}\\{f\\}$', def: 'Opération qui convertit une fonction temporelle $f(t)$ en une fonction $F(p) = \\int_0^{+\\infty} f(t)e^{-pt}\\,dt$ dans le domaine de la variable complexe $p$. Les équations différentielles deviennent algébriques.' },
+        { term: 'Fonction de transfert $H(p)$', def: 'Rapport $H(p) = S(p)/E(p)$ entre la sortie et l\'entrée d\'un système linéaire dans le domaine de Laplace. Elle caractérise complètement le comportement du système.' },
+        { term: 'Pôles d\'un système', def: 'Valeurs de $p$ qui annulent le dénominateur de $H(p)$. Ils déterminent la stabilité : si tous les pôles ont une partie réelle négative, le système est stable.' },
+        { term: 'Éléments simples', def: 'Décomposition d\'une fraction rationnelle en somme de fractions plus simples, inversibles directement par le tableau des transformées. Ex. : $\\frac{1}{(p+1)(p+3)} = \\frac{A}{p+1} + \\frac{B}{p+3}$.' }
+      ],
       method: {
         title: 'Résoudre une ED par Laplace',
         steps: [
-          'Transformer l\'équation différentielle avec $\\mathcal{L}\\{f\'\\}=pF(p)-f(0)$.',
-          'Résoudre l\'équation algébrique en $F(p)$.',
-          'Décomposer $F(p)$ en éléments simples.',
-          'Inverser : utiliser le tableau des transformées pour trouver $f(t)$.'
+          'Transformer l\'équation différentielle avec $\\mathcal{L}\\{f\'\\}=pF(p)-f(0)$. <strong>Exemple :</strong> $y\' + 5y = 10$, $y(0) = 0$ → $pY(p) - 0 + 5Y(p) = 10/p$ → $(p+5)Y(p) = 10/p$.',
+          'Résoudre l\'équation algébrique en $F(p)$. <strong>Exemple :</strong> $Y(p) = \\frac{10}{p(p+5)}$.',
+          'Décomposer $F(p)$ en éléments simples. <strong>Exemple :</strong> $\\frac{10}{p(p+5)} = \\frac{A}{p} + \\frac{B}{p+5}$. En $p=0$ : $A = 2$. En $p=-5$ : $B = -2$. Donc $Y(p) = \\frac{2}{p} - \\frac{2}{p+5}$.',
+          'Inverser : utiliser le tableau des transformées pour trouver $f(t)$. <strong>Exemple :</strong> $y(t) = 2 - 2e^{-5t} = 2(1 - e^{-5t})$ pour $t \\geq 0$.'
         ]
+      },
+      example: {
+        statement: 'Un circuit RC ($R = 1$ kΩ, $C = 1$ mF) est soumis à un échelon de tension $E = 5$ V à $t = 0$ (condensateur initialement déchargé : $u_C(0) = 0$). L\'équation différentielle est $\\tau u_C\' + u_C = E$ avec $\\tau = RC = 1$ s. Résoudre par Laplace.',
+        steps: [
+          'Transformation : $\\tau[pU_C(p) - u_C(0)] + U_C(p) = E/p$. Avec $u_C(0) = 0$ : $(\\tau p + 1)U_C(p) = E/p$.',
+          '$U_C(p) = \\frac{E}{p(\\tau p + 1)} = \\frac{5}{p(p + 1)}$ (car $\\tau = 1$).',
+          'Éléments simples : $\\frac{5}{p(p+1)} = \\frac{5}{p} - \\frac{5}{p+1}$. (Vérification : $\\frac{5(p+1) - 5p}{p(p+1)} = \\frac{5}{p(p+1)}$ ✓)',
+          'Transformée inverse : $u_C(t) = 5 - 5e^{-t} = 5(1 - e^{-t/\\tau})$ V.',
+          'Vérification : $u_C(0) = 0$ ✓, $u_C(+\\infty) = 5$ V ✓, $u_C(\\tau) = 5(1-e^{-1}) \\approx 3{,}16$ V ($63\\%$ de la valeur finale).'
+        ],
+        answer: '$u_C(t) = 5(1 - e^{-t})$ V. Le condensateur se charge exponentiellement vers $5$ V avec une constante de temps $\\tau = 1$ s.'
       },
       formulas: [
         '$\\mathcal{L}\\{1\\}=\\dfrac{1}{p}$, $\\mathcal{L}\\{e^{at}\\}=\\dfrac{1}{p-a}$',
         '$\\mathcal{L}\\{t^n\\}=\\dfrac{n!}{p^{n+1}}$',
         '$\\mathcal{L}\\{f\'\\}=pF(p)-f(0)$',
         '$\\mathcal{L}\\{\\cos(\\omega t)\\}=\\dfrac{p}{p^2+\\omega^2}$, $\\mathcal{L}\\{\\sin(\\omega t)\\}=\\dfrac{\\omega}{p^2+\\omega^2}$'
+      ],
+      diagram: '<table style="width:100%;border-collapse:collapse;text-align:center;"><tr style="background:var(--bg-card);"><th style="border:1px solid var(--border);padding:8px;">$f(t)$ (domaine temporel)</th><th style="border:1px solid var(--border);padding:8px;">$F(p)$ (domaine de Laplace)</th></tr><tr><td style="border:1px solid var(--border);padding:8px;">$1$ (échelon)</td><td style="border:1px solid var(--border);padding:8px;">$\\dfrac{1}{p}$</td></tr><tr><td style="border:1px solid var(--border);padding:8px;">$t$</td><td style="border:1px solid var(--border);padding:8px;">$\\dfrac{1}{p^2}$</td></tr><tr><td style="border:1px solid var(--border);padding:8px;">$e^{at}$</td><td style="border:1px solid var(--border);padding:8px;">$\\dfrac{1}{p-a}$</td></tr><tr><td style="border:1px solid var(--border);padding:8px;">$\\sin(\\omega t)$</td><td style="border:1px solid var(--border);padding:8px;">$\\dfrac{\\omega}{p^2+\\omega^2}$</td></tr><tr><td style="border:1px solid var(--border);padding:8px;">$\\cos(\\omega t)$</td><td style="border:1px solid var(--border);padding:8px;">$\\dfrac{p}{p^2+\\omega^2}$</td></tr><tr><td style="border:1px solid var(--border);padding:8px;">$f\'(t)$</td><td style="border:1px solid var(--border);padding:8px;">$pF(p) - f(0)$</td></tr></table>',
+      recap: [
+        'La transformée de Laplace convertit une ED en équation algébrique : dériver ↔ multiplier par $p$.',
+        'Ne JAMAIS oublier le terme $-f(0)$ dans $\\mathcal{L}\\{f\'\\} = pF(p) - f(0)$ : il encode les conditions initiales.',
+        'La décomposition en éléments simples est la clé de l\'inversion : chaque fraction simple correspond à une fonction standard du tableau.',
+        'La fonction de transfert $H(p) = S(p)/E(p)$ caractérise un système ; ses pôles déterminent la stabilité (partie réelle < 0 = stable).'
       ],
       piege: 'La transformée de Laplace est définie pour $t\\ge0$ et suppose des conditions initiales à $t=0$. Elle ne s\'applique pas directement à des signaux définis sur $]-\\infty;+\\infty[$.'
     },

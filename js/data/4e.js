@@ -7,7 +7,7 @@ window.MODULES.push(
 
   {
     id: 'puissances',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '🔬',
     title: 'Puissances de 10 et Notation Scientifique',
     subtitle: 'Notation a×10ⁿ, préfixes SI, conversions',
@@ -16,19 +16,41 @@ window.MODULES.push(
 
     cours: {
       intro: 'En physique-chimie, on manipule des nombres qui vont de $10^{-15}$ m (taille d\'un proton) à $10^{26}$ m (taille de l\'univers observable) — un écart de $10^{41}$ ordres de grandeur ! La notation scientifique $a \\times 10^n$ (avec $1 \\leq a < 10$) est la seule façon de gérer ces échelles sans erreur. <strong>Pourquoi cette contrainte sur $a$ ?</strong> Pour avoir une représentation unique : $0{,}47 \\times 10^{-4}$ et $4{,}7 \\times 10^{-5}$ sont égaux, mais seule la seconde est en notation scientifique standard. Pour convertir, il suffit de compter combien de rangs on déplace la virgule vers la droite (exposant positif si le nombre est grand, négatif si petit). Les préfixes SI (nano, micro, milli, kilo…) sont des raccourcis pour des puissances de 10 fréquentes.',
+      definitions: [
+        { term: 'Notation scientifique', def: 'Écriture d\'un nombre sous la forme $a \\times 10^n$ avec $1 \\leq a < 10$ et $n$ entier relatif.' },
+        { term: 'Ordre de grandeur', def: 'Puissance de 10 la plus proche d\'un nombre. Ex : l\'ordre de grandeur de $350$ est $10^2$.' },
+        { term: 'Mantisse', def: 'Le nombre $a$ dans $a \\times 10^n$ (la partie « significative »).' },
+        { term: 'Préfixe SI', def: 'Raccourci pour une puissance de 10 dans le système international (ex : kilo = $10^3$).' }
+      ],
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Écrire le nombre sous la forme $a \\times 10^n$ où $1 \\leq a < 10$. Pour cela, déplacer la virgule jusqu\'à obtenir un seul chiffre avant la virgule, et compter le nombre de déplacements (= exposant $n$).',
-          'Pour multiplier deux puissances : $10^a \\times 10^b = 10^{a+b}$. Pour diviser : $\\frac{10^a}{10^b} = 10^{a-b}$.',
-          'Connaître les préfixes SI : nano ($10^{-9}$), micro ($10^{-6}$), milli ($10^{-3}$), kilo ($10^3$), méga ($10^6$), giga ($10^9$).'
+          'Écrire le nombre sous la forme $a \\times 10^n$ où $1 \\leq a < 10$. Pour cela, déplacer la virgule jusqu\'à obtenir un seul chiffre avant la virgule, et compter le nombre de déplacements (= exposant $n$). <strong>Exemple :</strong> $0{,}000\\ 47 \\rightarrow 4{,}7$ (virgule décalée de 5 rangs à droite) donc $4{,}7 \\times 10^{-5}$.',
+          'Pour multiplier deux puissances : $10^a \\times 10^b = 10^{a+b}$. Pour diviser : $\\frac{10^a}{10^b} = 10^{a-b}$. <strong>Exemple :</strong> $3 \\times 10^4 \\times 2 \\times 10^{-2} = 6 \\times 10^{4+(-2)} = 6 \\times 10^{2}$.',
+          'Connaître les préfixes SI : nano ($10^{-9}$), micro ($10^{-6}$), milli ($10^{-3}$), kilo ($10^3$), méga ($10^6$), giga ($10^9$). <strong>Exemple :</strong> $2{,}5\\,\\text{km} = 2{,}5 \\times 10^3\\,\\text{m} = 2500\\,\\text{m}$.'
         ]
+      },
+      example: {
+        statement: 'La longueur d\'onde de la lumière rouge vaut $0{,}000\\,000\\,65$ m. Écrire en notation scientifique puis convertir en nanomètres.',
+        steps: [
+          'On déplace la virgule de 7 rangs vers la droite pour obtenir $6{,}5$. L\'exposant est donc $-7$.',
+          'Notation scientifique : $6{,}5 \\times 10^{-7}$ m.',
+          'Conversion : $1\\,\\text{nm} = 10^{-9}\\,\\text{m}$, donc $6{,}5 \\times 10^{-7} = 6{,}5 \\times 10^{2}\\,\\text{nm} = 650\\,\\text{nm}$.'
+        ],
+        answer: '$\\lambda = 6{,}5 \\times 10^{-7}\\,\\text{m} = 650\\,\\text{nm}$'
       },
       formulas: [
         '$10^a \\times 10^b = 10^{a+b}$',
         '$\\dfrac{10^a}{10^b} = 10^{a-b}$',
         '$(10^a)^b = 10^{a \\times b}$',
         '$1\\,\\text{nm} = 10^{-9}\\,\\text{m}$, $1\\,\\text{μm} = 10^{-6}\\,\\text{m}$, $1\\,\\text{mm} = 10^{-3}\\,\\text{m}$'
+      ],
+      diagram: '<table><tr><th>Préfixe</th><th>Symbole</th><th>Puissance</th><th>Valeur</th></tr><tr><td>nano</td><td>n</td><td>$10^{-9}$</td><td>0,000 000 001</td></tr><tr><td>micro</td><td>μ</td><td>$10^{-6}$</td><td>0,000 001</td></tr><tr><td>milli</td><td>m</td><td>$10^{-3}$</td><td>0,001</td></tr><tr><td>kilo</td><td>k</td><td>$10^{3}$</td><td>1 000</td></tr><tr><td>méga</td><td>M</td><td>$10^{6}$</td><td>1 000 000</td></tr><tr><td>giga</td><td>G</td><td>$10^{9}$</td><td>1 000 000 000</td></tr></table>',
+      recap: [
+        'Notation scientifique : $a \\times 10^n$ avec $1 \\leq a < 10$',
+        'Multiplier → additionner les exposants ; diviser → soustraire les exposants',
+        'Virgule à droite → exposant négatif ; virgule à gauche → exposant positif',
+        'Toujours vérifier que $a$ a un seul chiffre avant la virgule'
       ],
       piege: 'Piège classique : $0{,}005$ en notation scientifique ne s\'écrit pas $5 \\times 10^{-2}$ mais $5 \\times 10^{-3}$ ! Compte bien : $0{,}005 = \\frac{5}{1000} = 5 \\times 10^{-3}$. Déplace la virgule de 3 rangs vers la droite.'
     },
@@ -152,7 +174,7 @@ window.MODULES.push(
 
     {
     id: 'calcul-algebrique',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '🔧',
     title: 'Calcul Algébrique – Isoler une inconnue',
     subtitle: 'Équations 1er degré, calcul littéral',
@@ -161,18 +183,40 @@ window.MODULES.push(
 
     cours: {
       intro: 'Isoler une inconnue, c\'est comme défaire un nœud : on défait les opérations dans l\'ordre inverse. <strong>Principe fondamental :</strong> l\'égalité est une balance — toute opération effectuée d\'un côté doit l\'être de l\'autre. En physique, la même formule sert dans les deux sens : $\\rho = \\dfrac{m}{V}$ permet de calculer $m$ (si on connaît $\\rho$ et $V$), ou $V$ (si on connaît $m$ et $\\rho$). Il n\'y a pas de "nouvelle formule" — juste de l\'algèbre. <strong>Mémo pour ne pas se perdre :</strong> identifier d\'abord ce que l\'on cherche ($x$), repérer ce qui l\'entoure (additions, multiplications…), défaire de l\'extérieur vers l\'intérieur. Toujours vérifier en réinjectant la solution dans l\'équation de départ.',
+      definitions: [
+        { term: 'Équation', def: 'Égalité comportant une (ou plusieurs) inconnue(s), vraie seulement pour certaines valeurs.' },
+        { term: 'Inconnue', def: 'Quantité que l\'on cherche, souvent notée $x$, $I$, $V$, etc.' },
+        { term: 'Opération inverse', def: 'L\'opération qui « annule » une autre : l\'addition annule la soustraction, la multiplication annule la division.' },
+        { term: 'Vérification', def: 'Remplacer l\'inconnue par la valeur trouvée dans l\'équation de départ pour s\'assurer que l\'égalité est vraie.' }
+      ],
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Identifier l\'inconnue à isoler et repérer les opérations qui "l\'entourent" (addition, multiplication, puissance, etc.).',
-          'Défaire les opérations dans l\'ordre inverse (de l\'extérieur vers l\'intérieur) en faisant la même chose des deux côtés de l\'égalité.',
-          'Vérifier en réinjectant le résultat dans l\'équation de départ.'
+          'Identifier l\'inconnue à isoler et repérer les opérations qui "l\'entourent" (addition, multiplication, puissance, etc.). <strong>Exemple :</strong> dans $3x + 7 = 22$, l\'inconnue est $x$, elle est d\'abord multipliée par 3, puis on ajoute 7.',
+          'Défaire les opérations dans l\'ordre inverse (de l\'extérieur vers l\'intérieur) en faisant la même chose des deux côtés. <strong>Exemple :</strong> $3x + 7 = 22 \\Rightarrow 3x = 22 - 7 = 15 \\Rightarrow x = \\frac{15}{3} = 5$.',
+          'Vérifier en réinjectant le résultat. <strong>Exemple :</strong> $3 \\times 5 + 7 = 15 + 7 = 22$ ✓ C\'est cohérent !'
         ]
+      },
+      example: {
+        statement: 'La formule de la vitesse est $v = \\dfrac{d}{t}$. Un train parcourt $d = 180$ km en $t = 1{,}5$ h. Calcule $v$, puis isole $d$ si $v = 90$ km/h et $t = 2{,}5$ h.',
+        steps: [
+          'Calcul direct : $v = \\dfrac{180}{1{,}5} = 120$ km/h.',
+          'On veut isoler $d$ dans $v = \\dfrac{d}{t}$. On multiplie les deux côtés par $t$ : $d = v \\times t$.',
+          'Application : $d = 90 \\times 2{,}5 = 225$ km.',
+          'Vérification : $\\dfrac{225}{2{,}5} = 90$ km/h ✓'
+        ],
+        answer: '$v = 120$ km/h puis $d = 225$ km'
       },
       formulas: [
         'Si $ax + b = c$ alors $x = \\dfrac{c - b}{a}$ (avec $a \\neq 0$)',
         'Si $\\dfrac{a}{b} = c$ alors $a = b \\times c$ et $b = \\dfrac{a}{c}$',
         'Si $a \\cdot b = c$ alors $a = \\dfrac{c}{b}$ et $b = \\dfrac{c}{a}$'
+      ],
+      recap: [
+        'L\'égalité est une balance : même opération des deux côtés',
+        'Défaire les opérations de l\'extérieur vers l\'intérieur (inverse de la construction)',
+        'Toujours vérifier en substituant la valeur trouvée',
+        'En physique, isoler une grandeur dans une formule = même technique qu\'en algèbre'
       ],
       piege: 'Le piège numéro 1 : oublier d\'appliquer l\'opération des deux côtés. Si tu soustrais 5 à gauche, tu dois soustraire 5 à droite aussi. L\'égalité est une balance : ce que tu fais d\'un côté, tu le fais de l\'autre !'
     },
@@ -294,7 +338,7 @@ window.MODULES.push(
 
     {
     id: '4e-pythagore',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '📏',
     title: 'Théorème de Pythagore',
     subtitle: 'Triangle rectangle, calcul de la troisième longueur',
@@ -303,19 +347,40 @@ window.MODULES.push(
 
     cours: {
       intro: 'Le théorème de Pythagore dit que dans tout triangle rectangle, le carré de l\'hypoténuse est égal à la somme des carrés des deux autres côtés : $c^2 = a^2 + b^2$. <strong>L\'hypoténuse est toujours le côté opposé à l\'angle droit</strong> — c\'est aussi le plus long côté. La réciproque est puissante : si $c^2 = a^2 + b^2$, alors le triangle est rectangle. En physique, cette formule donne la norme d\'un vecteur résultant ($\\|\\vec{F}\\| = \\sqrt{F_x^2 + F_y^2}$) et la distance entre deux points. <strong>Attention au sens de la formule :</strong> pour trouver un côté adjacent, on utilise $a = \\sqrt{c^2 - b^2}$ — on soustrait, pas on additionne ! Vérification : le résultat doit être inférieur à l\'hypoténuse.',
+      definitions: [
+        { term: 'Hypoténuse', def: 'Côté le plus long du triangle rectangle, situé en face de l\'angle droit.' },
+        { term: 'Triangle rectangle', def: 'Triangle possédant un angle droit (90°).' },
+        { term: 'Réciproque', def: 'Si $a^2 + b^2 = c^2$ exactement, alors le triangle est rectangle (l\'angle droit est opposé au côté $c$).' }
+      ],
       method: {
         title: 'Méthode en 4 étapes',
         steps: [
-          'Identifier le triangle rectangle et son hypoténuse (le côté en face de l\'angle droit — toujours le plus long).',
-          'Appliquer le théorème : $c^2 = a^2 + b^2$ où $c$ est l\'hypoténuse et $a$, $b$ les deux autres côtés.',
-          'Si on cherche un côté (non hypoténuse) : $a^2 = c^2 - b^2 \\Rightarrow a = \\sqrt{c^2 - b^2}$.',
-          'Vérifier : l\'hypoténuse est toujours le plus grand côté. Si ton résultat est plus petit que les deux autres côtés, c\'est une erreur.'
+          'Identifier le triangle rectangle et son hypoténuse (le côté en face de l\'angle droit — toujours le plus long). <strong>Exemple :</strong> un triangle avec un angle droit en $C$ a son hypoténuse $[AB]$.',
+          'Appliquer le théorème : $c^2 = a^2 + b^2$ où $c$ est l\'hypoténuse et $a$, $b$ les deux autres côtés. <strong>Exemple :</strong> $AB^2 = AC^2 + BC^2$.',
+          'Si on cherche un côté (non hypoténuse) : $a^2 = c^2 - b^2 \\Rightarrow a = \\sqrt{c^2 - b^2}$. <strong>Exemple :</strong> si $AB = 13$ et $BC = 5$, alors $AC = \\sqrt{13^2 - 5^2} = \\sqrt{144} = 12$.',
+          'Vérifier : l\'hypoténuse est toujours le plus grand côté. Ici $13 > 12 > 5$ ✓'
         ]
+      },
+      example: {
+        statement: 'Un poteau de $4$ m de haut est maintenu par un câble fixé au sol à $3$ m du pied. Quelle est la longueur du câble ?',
+        steps: [
+          'Le poteau, le sol et le câble forment un triangle rectangle (angle droit entre le poteau et le sol).',
+          'Le câble est l\'hypoténuse $c$, le poteau vaut $a = 4$ m et la distance au sol $b = 3$ m.',
+          '$c^2 = a^2 + b^2 = 4^2 + 3^2 = 16 + 9 = 25$.',
+          '$c = \\sqrt{25} = 5$ m.'
+        ],
+        answer: 'Le câble mesure $5$ m (triangle 3-4-5).'
       },
       formulas: [
         '$c^2 = a^2 + b^2$ (avec $c$ = hypoténuse)',
         '$a = \\sqrt{c^2 - b^2}$',
         '$\\|\\vec{v}\\| = \\sqrt{v_x^2 + v_y^2}$ (norme d\'un vecteur 2D)'
+      ],
+      recap: [
+        '$c^2 = a^2 + b^2$ ne fonctionne QUE dans un triangle rectangle',
+        'L\'hypoténuse est toujours en face de l\'angle droit et c\'est le plus grand côté',
+        'Pour trouver un petit côté : on soustrait ($a = \\sqrt{c^2 - b^2}$)',
+        'La réciproque permet de prouver qu\'un triangle est rectangle'
       ],
       piege: 'Le théorème ne s\'applique QU\'aux triangles rectangles. Avant de l\'utiliser, identifie l\'angle droit. Le côté en face de l\'angle droit est l\'hypoténuse — c\'est toujours le plus grand côté. Si tu doutes, la réciproque permet de vérifier : si $a^2 + b^2 = c^2$, alors le triangle est rectangle en... l\'angle opposé à $c$.'
     },
@@ -445,7 +510,7 @@ window.MODULES.push(
 
     {
     id: '4e-fractions-mult-div',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '✖️',
     title: 'Fractions : Multiplication et Division',
     subtitle: 'Produit et quotient de fractions',
@@ -454,18 +519,39 @@ window.MODULES.push(
 
     cours: {
       intro: 'Multiplier des fractions est plus simple que de les additionner : pas besoin de dénominateur commun — on multiplie numérateurs entre eux et dénominateurs entre eux. La <strong>simplification croisée</strong> évite les grands nombres : avant de multiplier, simplifier en diagonale ($\\frac{3}{4} \\times \\frac{8}{9}$ → simplifier $3$ et $9$ par $3$, $4$ et $8$ par $4$ → $\\frac{1}{1} \\times \\frac{2}{3} = \\frac{2}{3}$). Diviser par une fraction revient à multiplier par son inverse : $\\dfrac{a}{b} \\div \\dfrac{c}{d} = \\dfrac{a}{b} \\times \\dfrac{d}{c}$. <strong>Intuition :</strong> diviser par $\\dfrac{1}{2}$ revient à multiplier par $2$ (couper en demi → deux fois plus de morceaux). En physique, les conversions d\'unités enchaînent des multiplications/divisions de fractions : $1$ m/s $= \\dfrac{1\\,\\text{m}}{1\\,\\text{s}} = \\dfrac{1\\,\\text{m}}{1\\,\\text{s}} \\times \\dfrac{3600\\,\\text{s}}{1\\,\\text{h}} = 3600$ m/h = $3{,}6$ km/h.',
+      definitions: [
+        { term: 'Produit de fractions', def: 'On multiplie les numérateurs entre eux et les dénominateurs entre eux : $\\dfrac{a}{b} \\times \\dfrac{c}{d} = \\dfrac{a \\times c}{b \\times d}$.' },
+        { term: 'Inverse d\'une fraction', def: 'L\'inverse de $\\dfrac{a}{b}$ (avec $a \\neq 0$) est $\\dfrac{b}{a}$. Leur produit vaut $1$ : $\\dfrac{a}{b} \\times \\dfrac{b}{a} = 1$.' },
+        { term: 'Quotient de fractions', def: 'Diviser par une fraction, c\'est multiplier par son inverse : $\\dfrac{a}{b} \\div \\dfrac{c}{d} = \\dfrac{a}{b} \\times \\dfrac{d}{c}$.' },
+        { term: 'Simplification croisée', def: 'Avant de multiplier, on simplifie un numérateur avec le dénominateur de l\'autre fraction (en diagonale) par un diviseur commun.' }
+      ],
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Multiplication : $\\dfrac{a}{b} \\times \\dfrac{c}{d} = \\dfrac{a \\times c}{b \\times d}$. Simplifier avant de multiplier si possible (simplification croisée).',
-          'Division : $\\dfrac{a}{b} \\div \\dfrac{c}{d} = \\dfrac{a}{b} \\times \\dfrac{d}{c} = \\dfrac{a \\times d}{b \\times c}$. Diviser par une fraction = multiplier par son inverse.',
-          'Simplification croisée : avant de multiplier, simplifier numérateur avec dénominateur en diagonale. Ex : $\\dfrac{4}{9} \\times \\dfrac{3}{8} = \\dfrac{4}{3 \\times 3} \\times \\dfrac{3}{8} = \\dfrac{1}{6}$.'
+          'Multiplication : $\\dfrac{a}{b} \\times \\dfrac{c}{d} = \\dfrac{a \\times c}{b \\times d}$. Simplifier avant de multiplier si possible (simplification croisée). <strong>Exemple :</strong> $\\dfrac{2}{5} \\times \\dfrac{3}{7} = \\dfrac{2 \\times 3}{5 \\times 7} = \\dfrac{6}{35}$.',
+          'Division : $\\dfrac{a}{b} \\div \\dfrac{c}{d} = \\dfrac{a}{b} \\times \\dfrac{d}{c} = \\dfrac{a \\times d}{b \\times c}$. Diviser par une fraction = multiplier par son inverse. <strong>Exemple :</strong> $\\dfrac{3}{4} \\div \\dfrac{2}{5} = \\dfrac{3}{4} \\times \\dfrac{5}{2} = \\dfrac{15}{8}$.',
+          'Simplification croisée : avant de multiplier, simplifier numérateur avec dénominateur en diagonale. <strong>Exemple :</strong> $\\dfrac{6}{7} \\times \\dfrac{14}{9}$ → on simplifie $6$ et $9$ par $3$ ($\\to 2$ et $3$), $7$ et $14$ par $7$ ($\\to 1$ et $2$) → $\\dfrac{2}{1} \\times \\dfrac{2}{3} = \\dfrac{4}{3}$.'
         ]
+      },
+      example: {
+        statement: 'Une recette de gâteau nécessite $\\dfrac{3}{4}$ de litre de lait. On veut préparer $\\dfrac{2}{3}$ de la recette. Quel volume de lait faut-il ?',
+        steps: [
+          'Il faut calculer $\\dfrac{2}{3}$ de $\\dfrac{3}{4}$ L, c\'est-à-dire $\\dfrac{2}{3} \\times \\dfrac{3}{4}$.',
+          'Simplification croisée : $3$ au numérateur et $3$ au dénominateur se simplifient → $\\dfrac{2}{1} \\times \\dfrac{1}{4} = \\dfrac{2}{4}$.',
+          'On simplifie : $\\dfrac{2}{4} = \\dfrac{1}{2}$.'
+        ],
+        answer: 'Il faut $\\dfrac{1}{2}$ litre de lait, soit $0{,}5$ L.'
       },
       formulas: [
         '$\\dfrac{a}{b} \\times \\dfrac{c}{d} = \\dfrac{ac}{bd}$',
         '$\\dfrac{a}{b} \\div \\dfrac{c}{d} = \\dfrac{a}{b} \\times \\dfrac{d}{c} = \\dfrac{ad}{bc}$',
         '$\\dfrac{a}{b} \\div a = \\dfrac{1}{b}$ et $a \\times \\dfrac{1}{b} = \\dfrac{a}{b}$'
+      ],
+      recap: [
+        'Multiplier deux fractions : on multiplie numérateurs entre eux et dénominateurs entre eux.',
+        'Diviser par une fraction = multiplier par son inverse (on « retourne » la deuxième fraction).',
+        'Toujours simplifier avant de multiplier (simplification croisée) pour éviter les grands nombres.',
+        'L\'inverse de $\\dfrac{a}{b}$ est $\\dfrac{b}{a}$ — attention, $0$ n\'a pas d\'inverse.'
       ],
       piege: 'Erreur fréquente en division : diviser les numérateurs entre eux et les dénominateurs entre eux, comme en multiplication. $\\dfrac{6}{4} \\div \\dfrac{3}{2}$ ne vaut PAS $\\dfrac{6 \\div 3}{4 \\div 2} = \\dfrac{2}{2} = 1$. La bonne méthode : $\\dfrac{6}{4} \\times \\dfrac{2}{3} = \\dfrac{12}{12} = 1$. Même résultat ici, mais par chance !'
     },
@@ -587,7 +673,7 @@ window.MODULES.push(
 
     {
     id: '4e-relatifs-mult-div',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '±',
     title: 'Relatifs : multiplication et division',
     subtitle: 'Règle des signes, produit, quotient',
@@ -595,20 +681,41 @@ window.MODULES.push(
     physics: true,
     cours: {
       intro: 'La règle des signes pour la multiplication est intuitive si on pense aux opposés : multiplier par $-1$ inverse le signe. Donc $(-1) \\times (-1) = 1$ car « l\'opposé de l\'opposé ». Règle générale : pair de $-$ → $+$, impair de $-$ → $-$. <strong>Piège classique avec les exposants :</strong> $(-3)^2 = (-3) \\times (-3) = +9$ (le $-$ est dans la base), mais $-3^2 = -(3 \\times 3) = -9$ (l\'exposant s\'applique uniquement au $3$). Les parenthèses sont essentielles. En physique, les grandeurs algébriques (tension, position, vitesse) peuvent être négatives — le signe indique un sens (opposé à la convention positive choisie).',
+      definitions: [
+        { term: 'Nombre relatif', def: 'Nombre muni d\'un signe ($+$ ou $-$) et d\'une valeur absolue. Exemples : $+7$, $-3{,}5$.' },
+        { term: 'Valeur absolue', def: 'Distance à zéro sur la droite graduée, toujours positive. $|{-5}| = 5$ et $|{+5}| = 5$.' },
+        { term: 'Règle des signes', def: 'Deux facteurs de même signe donnent un produit positif ; deux facteurs de signes contraires donnent un produit négatif.' },
+        { term: 'Opposé d\'un nombre', def: 'L\'opposé de $a$ est $-a$. Leur somme vaut $0$ : $a + (-a) = 0$.' }
+      ],
       method: {
         title: 'Règle des signes',
         steps: [
-          'Calculer la valeur absolue du résultat (comme si les nombres étaient positifs).',
-          'Déterminer le signe : $(+) \\times (+) = (+)$, $(-) \\times (-) = (+)$, $(+) \\times (-) = (-)$, $(-) \\times (+) = (-)$.',
-          'Pour une suite de multiplications : compter le nombre de facteurs négatifs. Pair → positif ; impair → négatif.',
-          'La division suit les mêmes règles de signes que la multiplication.'
+          'Calculer la valeur absolue du résultat (comme si les nombres étaient positifs). <strong>Exemple :</strong> pour $(-6) \\times (+4)$, la valeur absolue est $6 \\times 4 = 24$.',
+          'Déterminer le signe : $(+) \\times (+) = (+)$, $(-) \\times (-) = (+)$, $(+) \\times (-) = (-)$, $(-) \\times (+) = (-)$. <strong>Exemple :</strong> $(-6) \\times (+4)$ → signes contraires → résultat négatif → $-24$.',
+          'Pour une suite de multiplications : compter le nombre de facteurs négatifs. Pair → positif ; impair → négatif. <strong>Exemple :</strong> $(-2) \\times (-3) \\times (-1)$ → $3$ facteurs négatifs (impair) → résultat négatif → $-6$.',
+          'La division suit les mêmes règles de signes que la multiplication. <strong>Exemple :</strong> $(-15) \\div (-3) = +5$ (deux négatifs → positif).'
         ]
+      },
+      example: {
+        statement: 'Un sous-marin plonge de $8$ m par minute pendant $5$ minutes, puis remonte de $3$ m par minute pendant $4$ minutes. Quelle est la variation totale de profondeur ?',
+        steps: [
+          'Descente : $(-8) \\times 5 = -40$ m (le signe $-$ indique qu\'on descend).',
+          'Remontée : $(+3) \\times 4 = +12$ m (le signe $+$ indique qu\'on remonte).',
+          'Variation totale : $(-40) + (+12) = -28$ m.'
+        ],
+        answer: 'Le sous-marin a une variation totale de $-28$ m (il est $28$ m plus profond qu\'au départ).'
       },
       formulas: [
         '$(+a) \\times (+b) = +ab$',
         '$(-a) \\times (-b) = +ab$',
         '$(+a) \\times (-b) = -ab$',
         '$(-a) \\div (+b) = -\\dfrac{a}{b}$'
+      ],
+      recap: [
+        'Mêmes signes → produit positif ; signes contraires → produit négatif.',
+        'La division suit exactement les mêmes règles de signes que la multiplication.',
+        'Pour un produit de plusieurs facteurs : compter les facteurs négatifs. Pair → $+$, impair → $-$.',
+        'Attention aux parenthèses : $(-3)^2 = +9$ mais $-3^2 = -9$.'
       ],
       piege: 'Piège : $(-3)^2 = (-3) \\times (-3) = +9$, mais $-3^2 = -(3 \\times 3) = -9$. Les parenthèses changent tout ! Sans parenthèses, l\'exposant s\'applique uniquement au $3$, pas au signe.'
     },
@@ -730,7 +837,7 @@ window.MODULES.push(
 
     {
     id: '4e-triangle-rectangle-cercle',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '⭕',
     title: 'Triangle rectangle et cercle circonscrit',
     subtitle: 'Angle inscrit dans un demi-cercle (Thalès)',
@@ -738,18 +845,39 @@ window.MODULES.push(
     physics: false,
     cours: {
       intro: 'Le théorème de l\'angle inscrit dans un demi-cercle est un résultat élégant : si un triangle $ABC$ est inscrit dans un cercle et que $[BC]$ est un diamètre, alors l\'angle $\\hat{A}$ est nécessairement droit — et ce quel que soit l\'emplacement de $A$ sur le cercle (tant qu\'il n\'est pas sur le diamètre). <strong>Intuition géométrique :</strong> le centre $O$ du cercle est le milieu de $[BC]$, et $OA = OB = OC = R$ (rayons). Le triangle $OAB$ et $OAC$ sont isocèles. En additionnant les angles on obtient $\\hat{A} = 90°$. La réciproque est aussi vraie et utile : si $\\hat{A} = 90°$ dans $ABC$, alors $[BC]$ est un diamètre du cercle circonscrit, et son rayon est $R = \\dfrac{BC}{2}$.',
+      definitions: [
+        { term: 'Cercle circonscrit', def: 'Cercle passant par les trois sommets d\'un triangle. Son centre est équidistant des trois sommets.' },
+        { term: 'Angle inscrit', def: 'Angle dont le sommet est sur le cercle et dont les côtés sont des cordes du cercle.' },
+        { term: 'Diamètre', def: 'Corde passant par le centre du cercle. C\'est la plus grande corde possible : $d = 2R$.' },
+        { term: 'Hypoténuse', def: 'Côté le plus long d\'un triangle rectangle, situé en face de l\'angle droit.' }
+      ],
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Identifier si l\'un des côtés du triangle est un diamètre du cercle.',
-          'Si oui : l\'angle opposé à ce diamètre est nécessairement droit ($90°$).',
-          'Réciproquement : si un angle d\'un triangle est droit, le côté opposé (hypoténuse) est un diamètre du cercle circonscrit.'
+          'Identifier si l\'un des côtés du triangle est un diamètre du cercle. <strong>Exemple :</strong> si $O$ est le centre du cercle et le milieu de $[BC]$, alors $[BC]$ est un diamètre.',
+          'Si oui : l\'angle opposé à ce diamètre est nécessairement droit ($90°$). <strong>Exemple :</strong> $[BC]$ est un diamètre et $A$ est sur le cercle → $\\hat{A} = 90°$.',
+          'Réciproquement : si un angle d\'un triangle est droit, le côté opposé (hypoténuse) est un diamètre du cercle circonscrit. <strong>Exemple :</strong> $\\hat{A} = 90°$ et $BC = 14$ cm → le cercle circonscrit a pour rayon $R = \\dfrac{14}{2} = 7$ cm.'
         ]
+      },
+      example: {
+        statement: 'Un pont en arc a la forme d\'un demi-cercle de diamètre $[BC] = 20$ m. Un câble relie un point $A$ situé sur l\'arc aux deux extrémités $B$ et $C$. Quel est l\'angle $\\hat{A}$ formé par les deux câbles ? Si $AB = 12$ m, quelle est la longueur $AC$ ?',
+        steps: [
+          '$[BC]$ est un diamètre et $A$ est sur le cercle → d\'après le théorème, $\\hat{A} = 90°$.',
+          'Le triangle $ABC$ est rectangle en $A$. On applique Pythagore : $AC = \\sqrt{BC^2 - AB^2}$.',
+          '$AC = \\sqrt{20^2 - 12^2} = \\sqrt{400 - 144} = \\sqrt{256} = 16$ m.'
+        ],
+        answer: 'L\'angle $\\hat{A} = 90°$ et le câble $AC$ mesure $16$ m.'
       },
       formulas: [
         'Théorème : $[BC]$ diamètre et $A$ sur le cercle $\\Rightarrow \\hat{A} = 90°$',
         'Réciproque : $\\hat{A} = 90°$ dans $ABC$ $\\Rightarrow$ $[BC]$ est un diamètre du cercle circonscrit',
         'Rayon du cercle circonscrit : $R = \\dfrac{BC}{2}$ (BC = hypoténuse)'
+      ],
+      recap: [
+        'Si un côté d\'un triangle inscrit est un diamètre, l\'angle opposé vaut $90°$.',
+        'Réciproque : si un triangle est rectangle, l\'hypoténuse est un diamètre du cercle circonscrit.',
+        'Le centre du cercle circonscrit à un triangle rectangle est le milieu de l\'hypoténuse.',
+        'Le rayon du cercle circonscrit vaut la moitié de l\'hypoténuse : $R = \\dfrac{BC}{2}$.'
       ],
       piege: 'Piège : le théorème s\'applique uniquement quand le côté est un DIAMÈTRE, pas juste une corde du cercle. Un côté = diamètre signifie que son milieu est le centre du cercle.'
     },
@@ -865,7 +993,7 @@ window.MODULES.push(
 
     {
     id: '4e-translations',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '➡️',
     title: 'Translations et rotations',
     subtitle: 'Image d\'un point, vecteur de translation',
@@ -873,18 +1001,39 @@ window.MODULES.push(
     physics: false,
     cours: {
       intro: 'Une translation déplace tous les points du plan du <strong>même vecteur</strong> $\\vec{v}$ — même direction, même sens, même longueur. Ce n\'est pas une rotation ni une symétrie : l\'orientation reste identique, les figures ne sont pas retournées. Une rotation de centre $O$ et d\'angle $\\theta$ tourne chaque point autour de $O$, en conservant la distance $OA$. Ces deux transformations sont des <strong>isométries directes</strong> : elles conservent distances, angles, aires, et l\'orientation (sens des sommets). La translation et la rotation sont omniprésentes en physique : déplacement d\'un solide en translation pure (toutes les parties ont la même vitesse), rotation d\'une roue, mouvement orbital. Composition de deux translations = une translation (les vecteurs s\'additionnent).',
+      definitions: [
+        { term: 'Translation', def: 'Transformation qui déplace chaque point du plan d\'un même vecteur $\\vec{v}$. La figure glisse sans tourner ni se déformer.' },
+        { term: 'Vecteur de translation', def: 'Caractérisé par sa direction, son sens et sa longueur (norme). Noté $\\vec{v}(a ; b)$ en coordonnées.' },
+        { term: 'Rotation', def: 'Transformation qui fait tourner chaque point autour d\'un centre $O$ d\'un angle $\\theta$, en conservant la distance au centre.' },
+        { term: 'Isométrie', def: 'Transformation qui conserve les distances. La translation et la rotation sont des isométries directes (elles conservent aussi l\'orientation).' }
+      ],
       method: {
         title: 'Méthode',
         steps: [
-          'Translation de vecteur $\\vec{v}(a ; b)$ : image de $A(x ; y)$ → $A\'(x + a ; y + b)$.',
-          'Rotation de centre $O$ et d\'angle $\\theta$ : l\'image $A\'$ est telle que $OA\' = OA$ et l\'angle $\\widehat{AOA\'} = \\theta$.',
-          'Les deux transformations conservent longueurs, angles et aires (isométries directes).'
+          'Translation de vecteur $\\vec{v}(a ; b)$ : image de $A(x ; y)$ → $A\'(x + a ; y + b)$. <strong>Exemple :</strong> $A(3 ; 1)$ et $\\vec{v}(2 ; -4)$ → $A\'(3+2 ; 1+(-4)) = A\'(5 ; -3)$.',
+          'Rotation de centre $O$ et d\'angle $\\theta$ : l\'image $A\'$ est telle que $OA\' = OA$ et l\'angle $\\widehat{AOA\'} = \\theta$. <strong>Exemple :</strong> rotation de $180°$ autour de l\'origine : $A(2 ; 3)$ → $A\'(-2 ; -3)$.',
+          'Les deux transformations conservent longueurs, angles et aires (isométries directes). <strong>Exemple :</strong> un carré de côté $5$ cm translaté reste un carré de côté $5$ cm.'
         ]
+      },
+      example: {
+        statement: 'Sur un plan quadrillé, un bateau $B$ est en $(1 ; 3)$. Le courant le déplace selon le vecteur $\\vec{v}(4 ; -2)$. Où se trouve le bateau après ce déplacement ?',
+        steps: [
+          'On applique la formule de la translation : $B\'(x_B + a \\,;\\, y_B + b)$.',
+          '$B\'(1 + 4 \\,;\\, 3 + (-2)) = B\'(5 \\,;\\, 1)$.',
+          'Vérification : la distance parcourue est $\\|\\vec{v}\\| = \\sqrt{4^2 + (-2)^2} = \\sqrt{20} \\approx 4{,}5$ unités.'
+        ],
+        answer: 'Le bateau arrive en $B\'(5 ; 1)$, ayant parcouru environ $4{,}5$ unités.'
       },
       formulas: [
         'Translation $\\vec{v}(a;b)$ : $A(x;y) \\to A\'(x+a\\,;\\,y+b)$',
         'Rotation de $180°$ autour de $O$ : $A(x;y) \\to A\'(2x_O - x\\,;\\,2y_O - y)$',
         '$|OA\'| = |OA|$ (rotation conserve les distances)'
+      ],
+      recap: [
+        'Translation : chaque point se déplace du même vecteur $\\vec{v}(a ; b)$ → on ajoute $a$ à l\'abscisse et $b$ à l\'ordonnée.',
+        'Rotation : chaque point tourne autour d\'un centre $O$ en conservant sa distance à $O$.',
+        'Ces deux transformations sont des isométries : elles conservent distances, angles et aires.',
+        'La composition de deux translations est une translation dont le vecteur est la somme des deux vecteurs.'
       ],
       piege: 'Piège : lors d\'une translation, tous les points se déplacent du MÊME vecteur. On ne tourne pas, on ne dilate pas. Le vecteur $\\vec{v}$ a une direction, un sens ET une longueur.'
     },
@@ -996,7 +1145,7 @@ window.MODULES.push(
 
     {
     id: '4e-droites-remarquables',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '🔺',
     title: 'Droites remarquables du triangle',
     subtitle: 'Médiatrice, bissectrice, médiane, hauteur',
@@ -1004,19 +1153,40 @@ window.MODULES.push(
     physics: false,
     cours: {
       intro: 'Chaque triangle possède quatre familles de droites remarquables, chacune associée à un point de concours unique. <strong>Médiatrices</strong> → circumcentre (équidistant des 3 sommets = centre du cercle circonscrit). <strong>Bissectrices</strong> → incentre (équidistant des 3 côtés = centre du cercle inscrit). <strong>Médianes</strong> → centroïde ou isobarycentre (centre de gravité, à $\\frac{2}{3}$ de chaque sommet). <strong>Hauteurs</strong> → orthocentre (peut être extérieur au triangle si obtus). <strong>Piège fréquent :</strong> ne pas confondre médiane (joint un sommet au milieu du côté opposé) et médiatrice (perpendiculaire à un côté en son milieu — elle ne passe pas nécessairement par un sommet). Ces droites sont utiles en ingénierie : le centroïde est le centre de masse, le circumcentre sert à trouver le cercle passant par 3 points.',
+      definitions: [
+        { term: 'Médiatrice', def: 'Droite perpendiculaire à un côté en son milieu. Lieu des points équidistants des deux extrémités de ce côté.' },
+        { term: 'Bissectrice', def: 'Demi-droite issue d\'un sommet qui partage l\'angle en deux angles égaux.' },
+        { term: 'Médiane', def: 'Segment (ou droite) qui joint un sommet au milieu du côté opposé.' },
+        { term: 'Hauteur', def: 'Droite perpendiculaire à un côté passant par le sommet opposé. Elle peut être extérieure au triangle si celui-ci est obtus.' }
+      ],
       method: {
         title: 'Les quatre droites remarquables',
         steps: [
-          'Médiatrice d\'un côté : perpendiculaire à ce côté en son milieu. Les trois médiatrices se coupent au CIRCUMCENTRE (centre du cercle circonscrit).',
-          'Bissectrice d\'un angle : partage l\'angle en deux angles égaux. Les trois bissectrices se coupent à l\'INCENTRE (centre du cercle inscrit).',
-          'Médiane : joint un sommet au milieu du côté opposé. Les trois médianes se coupent au CENTROÏDE (ou ISOBARYCENTRE), à $\\frac{2}{3}$ de chaque sommet.',
-          'Hauteur : perpendiculaire issue d\'un sommet sur le côté opposé. Les trois hauteurs se coupent à l\'ORTHOCENTRE.'
+          'Médiatrice d\'un côté : perpendiculaire à ce côté en son milieu. Les trois médiatrices se coupent au CIRCUMCENTRE (centre du cercle circonscrit). <strong>Exemple :</strong> pour $[AB]$ avec $A(0;0)$ et $B(6;0)$, le milieu est $(3;0)$ et la médiatrice est la droite $x = 3$.',
+          'Bissectrice d\'un angle : partage l\'angle en deux angles égaux. Les trois bissectrices se coupent à l\'INCENTRE (centre du cercle inscrit). <strong>Exemple :</strong> la bissectrice d\'un angle de $80°$ crée deux angles de $40°$.',
+          'Médiane : joint un sommet au milieu du côté opposé. Les trois médianes se coupent au CENTROÏDE (ou ISOBARYCENTRE), à $\\frac{2}{3}$ de chaque sommet. <strong>Exemple :</strong> si la médiane issue de $A$ mesure $12$ cm, alors $AG = \\frac{2}{3} \\times 12 = 8$ cm.',
+          'Hauteur : perpendiculaire issue d\'un sommet sur le côté opposé. Les trois hauteurs se coupent à l\'ORTHOCENTRE. <strong>Exemple :</strong> dans un triangle rectangle, les deux hauteurs issues des angles aigus sont les deux côtés de l\'angle droit.'
         ]
+      },
+      example: {
+        statement: 'Un triangle $ABC$ a pour sommets $A(0 ; 0)$, $B(8 ; 0)$ et $C(2 ; 6)$. Calculer les coordonnées du centroïde $G$ et la longueur $AG$ sachant que la médiane issue de $A$ va au milieu $M$ de $[BC]$.',
+        steps: [
+          'Milieu de $[BC]$ : $M = \\left(\\dfrac{8+2}{2} ; \\dfrac{0+6}{2}\\right) = (5 ; 3)$.',
+          'Centroïde : $G = \\left(\\dfrac{0+8+2}{3} ; \\dfrac{0+0+6}{3}\\right) = \\left(\\dfrac{10}{3} ; 2\\right)$.',
+          'Longueur $AM = \\sqrt{5^2 + 3^2} = \\sqrt{34} \\approx 5{,}83$ cm. Donc $AG = \\dfrac{2}{3} \\times \\sqrt{34} \\approx 3{,}89$ cm.'
+        ],
+        answer: 'Le centroïde est en $G\\left(\\dfrac{10}{3} ; 2\\right)$ et $AG \\approx 3{,}89$ unités.'
       },
       formulas: [
         'Médiatrice : locus des points équidistants des deux extrémités',
         'Centroïde $G$ : $\\overrightarrow{GA} + \\overrightarrow{GB} + \\overrightarrow{GC} = \\vec{0}$',
         'Sur une médiane : $AG = \\frac{2}{3} AM$ (M = milieu du côté opposé)'
+      ],
+      recap: [
+        'Quatre familles de droites : médiatrices, bissectrices, médianes, hauteurs — chacune a un point de concours.',
+        'Médiatrices → circumcentre (cercle circonscrit) ; bissectrices → incentre (cercle inscrit).',
+        'Médianes → centroïde (centre de gravité, à $\\frac{2}{3}$ du sommet) ; hauteurs → orthocentre.',
+        'Ne pas confondre médiane (passe par un sommet) et médiatrice (perpendiculaire au milieu d\'un côté).'
       ],
       piege: 'Piège : confondre médiane et médiatrice. La médiane joint un sommet au milieu du côté opposé (elle passe par un sommet). La médiatrice est perpendiculaire à un côté en son milieu (elle ne passe pas forcément par un sommet).'
     },
@@ -1126,7 +1296,7 @@ window.MODULES.push(
 
     {
     id: '4e-cosinus',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '📐',
     title: 'Cosinus d\'un angle aigu',
     subtitle: 'cos = adjacent / hypoténuse',
@@ -1134,18 +1304,39 @@ window.MODULES.push(
     physics: true,
     cours: {
       intro: 'Dans un triangle rectangle, le cosinus d\'un angle aigu mesure à quel point cet angle est « ouvert » : $\\cos(\\hat{A}) = \\dfrac{\\text{côté adjacent}}{\\text{hypoténuse}}$. L\'idée clé est que tous les triangles rectangles ayant le même angle $\\hat{A}$ sont semblables, donc le rapport adj/hyp est toujours identique, quelle que soit la taille du triangle. Ce rapport vaut toujours entre $0$ et $1$ : $\\cos(0°) = 1$ (triangle complètement « plat ») et $\\cos(90°) = 0$ (angle droit). Attention : le côté « adjacent » dépend de l\'angle considéré — pour l\'angle $\\hat{A}$, c\'est le côté qui touche $\\hat{A}$ sans être l\'hypoténuse ; pour l\'angle $\\hat{B}$, c\'est l\'autre côté.',
+      definitions: [
+        { term: 'Cosinus d\'un angle aigu', def: 'Rapport entre le côté adjacent à l\'angle et l\'hypoténuse dans un triangle rectangle : $\\cos(\\hat{A}) = \\dfrac{\\text{adj}}{\\text{hyp}}$.' },
+        { term: 'Côté adjacent', def: 'Côté du triangle rectangle qui forme l\'angle considéré, autre que l\'hypoténuse. Il change selon l\'angle choisi.' },
+        { term: 'Hypoténuse', def: 'Plus grand côté du triangle rectangle, situé en face de l\'angle droit. C\'est toujours le dénominateur dans le cosinus.' },
+        { term: 'Arc cosinus ($\\arccos$)', def: 'Fonction inverse du cosinus : si $\\cos(\\hat{A}) = k$, alors $\\hat{A} = \\arccos(k)$. Permet de retrouver un angle à partir d\'un rapport.' }
+      ],
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Identifier l\'angle aigu $\\hat{A}$, l\'hypoténuse (côté opposé à l\'angle droit) et le côté adjacent (côté de l\'angle, autre que l\'hypoténuse).',
-          'Appliquer : $\\cos(\\hat{A}) = \\dfrac{\\text{adj}}{\\text{hyp}}$.',
-          'Pour trouver un côté : $\\text{adj} = \\text{hyp} \\times \\cos(\\hat{A})$ ou $\\text{hyp} = \\dfrac{\\text{adj}}{\\cos(\\hat{A})}$.'
+          'Identifier l\'angle aigu $\\hat{A}$, l\'hypoténuse (côté opposé à l\'angle droit) et le côté adjacent (côté de l\'angle, autre que l\'hypoténuse). <strong>Exemple :</strong> triangle $ABC$ rectangle en $C$ → hypoténuse $= AB$, côté adjacent à $\\hat{A}$ $= AC$.',
+          'Appliquer : $\\cos(\\hat{A}) = \\dfrac{\\text{adj}}{\\text{hyp}}$. <strong>Exemple :</strong> $AC = 4$ cm, $AB = 8$ cm → $\\cos(\\hat{A}) = \\dfrac{4}{8} = 0{,}5$ donc $\\hat{A} = 60°$.',
+          'Pour trouver un côté : $\\text{adj} = \\text{hyp} \\times \\cos(\\hat{A})$ ou $\\text{hyp} = \\dfrac{\\text{adj}}{\\cos(\\hat{A})}$. <strong>Exemple :</strong> $\\hat{A} = 30°$, hyp $= 10$ cm → adj $= 10 \\times \\cos(30°) = 10 \\times 0{,}866 = 8{,}66$ cm.'
         ]
+      },
+      example: {
+        statement: 'Une échelle de $5$ m est posée contre un mur en formant un angle de $60°$ avec le sol. À quelle distance du mur se trouve le pied de l\'échelle ?',
+        steps: [
+          'L\'échelle forme l\'hypoténuse d\'un triangle rectangle. L\'angle au sol est $60°$ et le côté adjacent est la distance au mur.',
+          '$\\cos(60°) = \\dfrac{\\text{distance au mur}}{\\text{échelle}} = \\dfrac{d}{5}$.',
+          '$d = 5 \\times \\cos(60°) = 5 \\times 0{,}5 = 2{,}5$ m.'
+        ],
+        answer: 'Le pied de l\'échelle est à $2{,}5$ m du mur.'
       },
       formulas: [
         '$\\cos(\\hat{A}) = \\dfrac{\\text{adj}}{\\text{hyp}}$',
         '$\\cos(0°) = 1$, $\\cos(30°) = \\frac{\\sqrt{3}}{2}$, $\\cos(45°) = \\frac{\\sqrt{2}}{2}$, $\\cos(60°) = \\frac{1}{2}$, $\\cos(90°) = 0$',
         'Pour trouver l\'angle : $\\hat{A} = \\arccos\\left(\\dfrac{\\text{adj}}{\\text{hyp}}\\right)$'
+      ],
+      recap: [
+        '$\\cos(\\hat{A}) = \\dfrac{\\text{côté adjacent}}{\\text{hypoténuse}}$ — le rapport est toujours compris entre $0$ et $1$.',
+        'Le côté adjacent change selon l\'angle considéré : c\'est le côté qui touche l\'angle (sans être l\'hypoténuse).',
+        'Pour trouver un côté : adj $= $ hyp $\\times \\cos(\\hat{A})$ ; pour trouver un angle : $\\hat{A} = \\arccos\\left(\\dfrac{\\text{adj}}{\\text{hyp}}\\right)$.',
+        'Valeurs clés : $\\cos(0°) = 1$, $\\cos(60°) = 0{,}5$, $\\cos(90°) = 0$.'
       ],
       piege: 'Piège : le côté adjacent change selon l\'angle considéré. Pour l\'angle $\\hat{A}$, l\'adjacent est le côté qui « touche » $\\hat{A}$ (autre que l\'hypoténuse). Ne pas confondre avec le côté opposé.'
     },
@@ -1265,7 +1456,7 @@ window.MODULES.push(
 
     {
     id: '4e-volumes',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '🔺',
     title: 'Volumes des pyramides et cônes',
     subtitle: 'Formule du tiers, cas particuliers',
@@ -1273,18 +1464,39 @@ window.MODULES.push(
     physics: true,
     cours: {
       intro: 'La pyramide et le cône ont un volume égal au tiers du prisme ou cylindre qui les contient : $V = \\frac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$. Intuition : en versant un cône rempli de sable dans le cylindre de même base et même hauteur, il faut exactement 3 remplissages — vérifiable expérimentalement ! Cette formule s\'applique à toute pyramide quelle que soit la forme de sa base (carrée, triangulaire, hexagonale…). Le point crucial est que $h$ désigne la hauteur perpendiculaire — la distance du sommet à la base — jamais l\'arête latérale qui relie le sommet à un coin de la base.',
+      definitions: [
+        { term: 'Pyramide', def: 'Solide dont la base est un polygone et dont les faces latérales sont des triangles qui se rejoignent en un sommet appelé apex.' },
+        { term: 'Cône de révolution', def: 'Solide obtenu en faisant tourner un triangle rectangle autour d\'un de ses côtés de l\'angle droit. La base est un disque.' },
+        { term: 'Hauteur d\'une pyramide ou d\'un cône', def: 'Distance perpendiculaire du sommet (apex) au plan de la base. Ce n\'est pas l\'arête latérale.' },
+        { term: 'Apothème', def: 'Arête latérale d\'une pyramide régulière, ou génératrice d\'un cône. Toujours plus longue que la hauteur.' }
+      ],
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Identifier la base et calculer son aire $\\mathcal{A}_{\\text{base}}$.',
-          'Mesurer la hauteur $h$ (distance perpendiculaire du sommet à la base).',
-          'Appliquer : $V = \\dfrac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$.'
+          'Identifier la base et calculer son aire $\\mathcal{A}_{\\text{base}}$. <strong>Exemple :</strong> base carrée de côté $5$ cm → $\\mathcal{A} = 5^2 = 25$ cm² ; base circulaire de rayon $3$ cm → $\\mathcal{A} = \\pi \\times 3^2 \\approx 28{,}3$ cm².',
+          'Mesurer la hauteur $h$ (distance perpendiculaire du sommet à la base). <strong>Exemple :</strong> si l\'arête latérale vaut $13$ cm et la demi-diagonale de la base carrée vaut $5$ cm, alors $h = \\sqrt{13^2 - 5^2} = 12$ cm (Pythagore).',
+          'Appliquer : $V = \\dfrac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$. <strong>Exemple :</strong> $V = \\dfrac{1}{3} \\times 25 \\times 12 = 100$ cm³.'
         ]
+      },
+      example: {
+        statement: 'Un entonnoir a la forme d\'un cône de rayon $4$ cm et de hauteur $9$ cm. Quel volume de liquide peut-il contenir ? (Prendre $\\pi \\approx 3{,}14$.)',
+        steps: [
+          'Aire de la base circulaire : $\\mathcal{A} = \\pi r^2 = 3{,}14 \\times 4^2 = 3{,}14 \\times 16 = 50{,}24$ cm².',
+          'Volume du cône : $V = \\dfrac{1}{3} \\times 50{,}24 \\times 9 = \\dfrac{452{,}16}{3} = 150{,}72$ cm³.',
+          'Conversion : $150{,}72$ cm³ $= 150{,}72$ mL $\\approx 0{,}15$ L.'
+        ],
+        answer: 'L\'entonnoir peut contenir environ $150{,}7$ cm³ soit $\\approx 0{,}15$ L.'
       },
       formulas: [
         'Pyramide : $V = \\dfrac{1}{3} \\mathcal{A}_{\\text{base}} \\times h$',
         'Cône : $V = \\dfrac{1}{3} \\pi r^2 h$',
         'Pyramide à base carrée de côté $a$ : $V = \\dfrac{1}{3} a^2 h$'
+      ],
+      recap: [
+        'Volume d\'une pyramide ou d\'un cône = $\\dfrac{1}{3}$ du prisme ou cylindre de même base et même hauteur.',
+        'La hauteur $h$ est toujours perpendiculaire à la base — ne pas confondre avec l\'arête latérale.',
+        'Cône : $V = \\dfrac{1}{3} \\pi r^2 h$ ; pyramide à base carrée : $V = \\dfrac{1}{3} a^2 h$.',
+        'Il faut $3$ cônes pour remplir un cylindre de même base et même hauteur.'
       ],
       piege: 'Piège : la hauteur d\'une pyramide est la distance perpendiculaire du sommet à sa base, PAS l\'arête latérale (apothème). Sur les figures obliques, la hauteur est souvent différente de ce qu\'on voit de prime abord.'
     },
@@ -1403,7 +1615,7 @@ window.MODULES.push(
 
     {
     id: '4e-statistiques',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '📊',
     title: 'Statistiques : médiane et quartiles',
     subtitle: 'Médiane, Q1, Q3, boîte à moustaches',
@@ -1411,19 +1623,40 @@ window.MODULES.push(
     physics: false,
     cours: {
       intro: 'La médiane est la valeur qui partage une série ordonnée en deux groupes d\'effectif égal : autant de valeurs en dessous qu\'au-dessus. Contrairement à la moyenne, elle n\'est pas perturbée par les valeurs extrêmes (salaires de PDG, erreurs de mesure…). Les quartiles $Q_1$ et $Q_3$ affinent cette idée : $25\\%$ des valeurs sont inférieures à $Q_1$ et $75\\%$ sont inférieures à $Q_3$. L\'écart interquartile $IQR = Q_3 - Q_1$ mesure la dispersion de la moitié centrale des données, sans être biaisé par les extrêmes. La boîte à moustaches représente graphiquement la médiane et les quartiles pour visualiser rapidement la distribution.',
+      definitions: [
+        { term: 'Médiane', def: 'Valeur qui partage une série ordonnée en deux moitiés d\'effectif égal. Pour $n$ impair : valeur centrale ; pour $n$ pair : moyenne des deux valeurs centrales.' },
+        { term: 'Premier quartile $Q_1$', def: 'Valeur en dessous de laquelle se trouvent $25\\%$ des données. C\'est la médiane de la moitié inférieure de la série.' },
+        { term: 'Troisième quartile $Q_3$', def: 'Valeur en dessous de laquelle se trouvent $75\\%$ des données. C\'est la médiane de la moitié supérieure de la série.' },
+        { term: 'Écart interquartile', def: '$IQR = Q_3 - Q_1$. Mesure la dispersion des $50\\%$ centraux des données, sans être affecté par les valeurs extrêmes.' }
+      ],
       method: {
         title: 'Méthode en 4 étapes',
         steps: [
-          'Ordonner la série dans l\'ordre croissant.',
-          'Médiane $Me$ : valeur centrale si $n$ est impair ; moyenne des deux valeurs centrales si $n$ est pair.',
-          '$Q_1$ : médiane de la moitié inférieure (valeurs $< Me$).',
-          '$Q_3$ : médiane de la moitié supérieure (valeurs $> Me$).'
+          'Ordonner la série dans l\'ordre croissant. <strong>Exemple :</strong> $7, 3, 9, 1, 5$ → $1, 3, 5, 7, 9$.',
+          'Médiane $Me$ : valeur centrale si $n$ est impair ; moyenne des deux valeurs centrales si $n$ est pair. <strong>Exemple :</strong> série $1, 3, 5, 7, 9$ ($n = 5$) → $Me = 5$ (la $3^e$ valeur).',
+          '$Q_1$ : médiane de la moitié inférieure (valeurs $< Me$). <strong>Exemple :</strong> moitié inférieure $\\{1, 3\\}$ → $Q_1 = \\dfrac{1+3}{2} = 2$.',
+          '$Q_3$ : médiane de la moitié supérieure (valeurs $> Me$). <strong>Exemple :</strong> moitié supérieure $\\{7, 9\\}$ → $Q_3 = \\dfrac{7+9}{2} = 8$. $IQR = 8 - 2 = 6$.'
         ]
+      },
+      example: {
+        statement: 'Les temps (en secondes) de $8$ coureurs au $100$ m sont : $12{,}3$ ; $11{,}8$ ; $13{,}5$ ; $11{,}2$ ; $12{,}7$ ; $14{,}1$ ; $11{,}5$ ; $12{,}0$. Calculer la médiane et les quartiles.',
+        steps: [
+          'Série ordonnée : $11{,}2$ ; $11{,}5$ ; $11{,}8$ ; $12{,}0$ ; $12{,}3$ ; $12{,}7$ ; $13{,}5$ ; $14{,}1$.',
+          '$n = 8$ (pair) → $Me = \\dfrac{x_4 + x_5}{2} = \\dfrac{12{,}0 + 12{,}3}{2} = 12{,}15$ s.',
+          'Moitié inférieure $\\{11{,}2 ; 11{,}5 ; 11{,}8 ; 12{,}0\\}$ → $Q_1 = \\dfrac{11{,}5 + 11{,}8}{2} = 11{,}65$ s. Moitié supérieure $\\{12{,}3 ; 12{,}7 ; 13{,}5 ; 14{,}1\\}$ → $Q_3 = \\dfrac{12{,}7 + 13{,}5}{2} = 13{,}1$ s.'
+        ],
+        answer: '$Me = 12{,}15$ s, $Q_1 = 11{,}65$ s, $Q_3 = 13{,}1$ s, $IQR = 13{,}1 - 11{,}65 = 1{,}45$ s.'
       },
       formulas: [
         'Écart interquartile : $IQR = Q_3 - Q_1$',
         'Série de $n$ valeurs ordonnées : $Me = x_{(n+1)/2}$ si $n$ impair',
         'Si $n$ pair : $Me = \\dfrac{x_{n/2} + x_{n/2+1}}{2}$'
+      ],
+      recap: [
+        'Toujours ordonner la série avant de calculer médiane et quartiles.',
+        '$n$ impair → la médiane est la valeur centrale ; $n$ pair → c\'est la moyenne des deux valeurs centrales.',
+        'La médiane résiste aux valeurs extrêmes, contrairement à la moyenne.',
+        '$IQR = Q_3 - Q_1$ mesure la dispersion des $50\\%$ centraux des données.'
       ],
       piege: 'Piège : la médiane d\'une série impaire est la valeur du milieu (pas la moyenne). Pour $n = 7$, la médiane est la $4^e$ valeur (pas la moyenne des $3^e$ et $4^e$).'
     },
@@ -1540,7 +1773,7 @@ window.MODULES.push(
 
     {
     id: '4e-probabilites',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '🎯',
     title: 'Probabilités : calcul et événements',
     subtitle: 'Union, intersection, complémentaire',
@@ -1548,19 +1781,40 @@ window.MODULES.push(
     physics: false,
     cours: {
       intro: 'La probabilité mesure la fréquence à long terme d\'un événement dans une expérience aléatoire. En 4e, on apprend à combiner des événements : la réunion $A \\cup B$ (« au moins l\'un des deux se réalise ») et l\'intersection $A \\cap B$ (« les deux se réalisent simultanément »). La formule $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$ évite de compter deux fois les résultats favorables aux deux événements à la fois. Deux événements sont incompatibles si $A \\cap B = \\emptyset$ : ils ne peuvent jamais se produire ensemble, et la formule se simplifie en $P(A \\cup B) = P(A) + P(B)$. Enfin, $P(\\bar{A}) = 1 - P(A)$ car $A$ et son contraire couvrent tous les cas possibles.',
+      definitions: [
+        { term: 'Expérience aléatoire', def: 'Expérience dont on ne peut pas prévoir le résultat à l\'avance. L\'ensemble de tous les résultats possibles est l\'univers $\\Omega$.' },
+        { term: 'Événement', def: 'Sous-ensemble de l\'univers $\\Omega$. Un événement est réalisé si le résultat de l\'expérience lui appartient.' },
+        { term: 'Événements incompatibles', def: 'Deux événements $A$ et $B$ qui ne peuvent pas se produire simultanément : $A \\cap B = \\emptyset$.' },
+        { term: 'Événement contraire', def: 'Le contraire de $A$, noté $\\bar{A}$, est l\'ensemble des résultats qui ne sont pas dans $A$. $P(\\bar{A}) = 1 - P(A)$.' }
+      ],
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Définir clairement les événements et l\'univers $\\Omega$.',
-          'Calculer $P(A)$, $P(B)$, et si nécessaire $P(A \\cap B)$.',
-          'Appliquer les formules : $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$. Si incompatibles : $P(A \\cap B) = 0$.'
+          'Définir clairement les événements et l\'univers $\\Omega$. <strong>Exemple :</strong> on lance un dé → $\\Omega = \\{1, 2, 3, 4, 5, 6\\}$. $A$ = « obtenir un pair » = $\\{2, 4, 6\\}$.',
+          'Calculer $P(A)$, $P(B)$, et si nécessaire $P(A \\cap B)$. <strong>Exemple :</strong> $P(A) = \\dfrac{3}{6} = 0{,}5$. Si $B$ = « obtenir un $6$ », alors $P(A \\cap B) = P(\\{6\\}) = \\dfrac{1}{6}$.',
+          'Appliquer les formules : $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$. Si incompatibles : $P(A \\cap B) = 0$. <strong>Exemple :</strong> $P(A \\cup B) = \\dfrac{3}{6} + \\dfrac{1}{6} - \\dfrac{1}{6} = \\dfrac{3}{6} = 0{,}5$.'
         ]
+      },
+      example: {
+        statement: 'Dans un jeu de $32$ cartes, on tire une carte au hasard. $A$ = « obtenir un cœur » ($8$ cartes) et $B$ = « obtenir un roi » ($4$ cartes). Quelle est la probabilité d\'obtenir un cœur ou un roi ?',
+        steps: [
+          '$P(A) = \\dfrac{8}{32} = \\dfrac{1}{4}$ et $P(B) = \\dfrac{4}{32} = \\dfrac{1}{8}$.',
+          '$A \\cap B$ = « obtenir le roi de cœur » → $P(A \\cap B) = \\dfrac{1}{32}$.',
+          '$P(A \\cup B) = \\dfrac{1}{4} + \\dfrac{1}{8} - \\dfrac{1}{32} = \\dfrac{8 + 4 - 1}{32} = \\dfrac{11}{32} \\approx 0{,}34$.'
+        ],
+        answer: 'La probabilité d\'obtenir un cœur ou un roi est $\\dfrac{11}{32} \\approx 0{,}34$.'
       },
       formulas: [
         '$P(\\bar{A}) = 1 - P(A)$',
         '$P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$',
         'Événements incompatibles : $P(A \\cap B) = 0 \\Rightarrow P(A \\cup B) = P(A) + P(B)$',
         '$0 \\leq P(A) \\leq 1$ et $P(\\Omega) = 1$'
+      ],
+      recap: [
+        '$P(A) = \\dfrac{\\text{nombre de cas favorables}}{\\text{nombre de cas possibles}}$ (équiprobabilité).',
+        'Union : $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$ — ne pas oublier de soustraire l\'intersection.',
+        'Si $A$ et $B$ sont incompatibles ($A \\cap B = \\emptyset$), alors $P(A \\cup B) = P(A) + P(B)$.',
+        'Événement contraire : $P(\\bar{A}) = 1 - P(A)$ — utile quand le contraire est plus simple à calculer.'
       ],
       piege: 'Piège : ne pas oublier de soustraire $P(A \\cap B)$ dans la formule de l\'union ! Si on additionne simplement $P(A) + P(B)$, on compte deux fois les cas où $A$ et $B$ se produisent simultanément.'
     },

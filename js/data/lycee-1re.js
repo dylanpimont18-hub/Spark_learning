@@ -7,7 +7,7 @@ window.MODULES.push(
 
   {
     id: 'derivation',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '📉',
     title: 'La Dérivation',
     subtitle: 'Taux de variation, dérivées usuelles, extremums',
@@ -144,7 +144,7 @@ window.MODULES.push(
 
     {
     id: '1re-suites',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '🔄',
     title: 'Suites numériques',
     subtitle: 'Suites arithmétiques et géométriques',
@@ -286,7 +286,7 @@ window.MODULES.push(
 
     {
     id: '1re-produit-scalaire',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '⋅',
     title: 'Produit scalaire',
     subtitle: 'Définition, calcul, travail d\'une force',
@@ -428,7 +428,7 @@ window.MODULES.push(
 
     {
     id: '1re-second-degre',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '🔵',
     title: 'Second degré',
     subtitle: 'Équations, discriminant, factorisation',
@@ -541,7 +541,7 @@ window.MODULES.push(
 
     {
     id: '1re-polynomes-signe',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '📉',
     title: 'Signe d\'un trinôme du second degré',
     subtitle: 'Tableau de signe, inéquations du second degré',
@@ -651,7 +651,7 @@ window.MODULES.push(
 
     {
     id: '1re-trigonometrie',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '🔄',
     title: 'Trigonométrie — cercle trigonométrique',
     subtitle: 'Radians, cos, sin, valeurs remarquables',
@@ -770,7 +770,7 @@ window.MODULES.push(
 
     {
     id: '1re-geometrie-reperee',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '📌',
     title: 'Géométrie repérée',
     subtitle: 'Vecteurs colinéaires, équations de droites',
@@ -882,7 +882,7 @@ window.MODULES.push(
 
     {
     id: '1re-probas-conditionnelles',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '🎯',
     title: 'Probabilités conditionnelles',
     subtitle: 'Probabilité sachant, indépendance, arbre',
@@ -996,7 +996,7 @@ window.MODULES.push(
 
     {
     id: '1re-variables-aleatoires',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '🎰',
     title: 'Variables aléatoires et loi binomiale',
     subtitle: 'Espérance, variance, loi B(n,p)',
@@ -1108,7 +1108,7 @@ window.MODULES.push(
 
     {
     id: '1re-information-chiffree',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '💹',
     title: 'Information chiffrée',
     subtitle: 'Pourcentages, évolutions, indices',

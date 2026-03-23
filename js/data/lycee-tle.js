@@ -7,7 +7,7 @@ window.MODULES.push(
 
   {
     id: 'exp-log',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '🧪',
     title: 'Fonctions Exponentielle et Logarithme',
     subtitle: 'pH, demi-vie radioactive, décroissance',
@@ -159,7 +159,7 @@ window.MODULES.push(
 
     {
     id: 'integration',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '∫',
     title: 'Intégration et Primitives',
     subtitle: 'Intégrale définie, aire sous la courbe, primitives',
@@ -302,7 +302,7 @@ window.MODULES.push(
 
     {
     id: 'eq-diff-1',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '🌊',
     title: 'Équations Différentielles du 1er Ordre',
     subtitle: 'Constante de temps τ, régime transitoire',
@@ -444,7 +444,7 @@ window.MODULES.push(
 
     {
     id: 'tle-limites-continuite',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '♾️',
     title: 'Limites de fonctions et continuité',
     subtitle: 'Limites en l\'infini, en un point, continuité',
@@ -555,7 +555,7 @@ window.MODULES.push(
 
     {
     id: 'tle-derivation-complements',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '🔬',
     title: 'Compléments sur la dérivation',
     subtitle: 'Dérivée de composées, produit, quotient',
@@ -670,7 +670,7 @@ window.MODULES.push(
 
     {
     id: 'tle-logarithme',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '🌿',
     title: 'Fonction logarithme népérien',
     subtitle: 'Propriétés, dérivée, étude de fonctions',
@@ -788,7 +788,7 @@ window.MODULES.push(
 
     {
     id: 'tle-convexite',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '🏔️',
     title: 'Convexité',
     subtitle: 'Dérivée seconde, point d\'inflexion',
@@ -898,7 +898,7 @@ window.MODULES.push(
 
     {
     id: 'tle-suites-complements',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '🔗',
     title: 'Suites — compléments',
     subtitle: 'Récurrence, limites, raisonnement par récurrence',
@@ -1010,7 +1010,7 @@ window.MODULES.push(
 
     {
     id: 'tle-denombrement',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '🔢',
     title: 'Dénombrement et combinatoire',
     subtitle: 'Arrangements, permutations, combinaisons',
@@ -1124,7 +1124,7 @@ window.MODULES.push(
 
     {
     id: 'tle-lois-continues',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '🔔',
     title: 'Lois de probabilité continues',
     subtitle: 'Loi uniforme, loi normale',
@@ -1236,7 +1236,7 @@ window.MODULES.push(
 
     {
     id: 'tle-geometrie-espace',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '🧊',
     title: 'Géométrie dans l\'espace',
     subtitle: 'Vecteurs, droites et plans de l\'espace',
@@ -1349,7 +1349,7 @@ window.MODULES.push(
 
     {
     id: 'tle-orthogonalite-espace',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '⊥',
     title: 'Orthogonalité dans l\'espace',
     subtitle: 'Perpendiculaire, distance, produit scalaire 3D',

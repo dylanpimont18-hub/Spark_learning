@@ -11,6 +11,47 @@ const LEVEL_DEFS = [
   { id: 3, icon: '🏆', label: 'BTS',    color: 'var(--accent)' }
 ];
 
+/* ── Subject definitions ── */
+const SUBJECT_DEFS = [
+  {
+    id: 'maths', icon: '📐', label: 'Mathématiques',
+    color: 'var(--primary)',
+    description: 'Du calcul littéral aux équations différentielles, les maths qui servent en sciences.',
+    availableLevels: [1, 2, 3],
+    applicationLabel: 'Application physique-chimie',
+    applicationIcon: '🔬',
+    applicationQuestion: 'Où cette notion est-elle utilisée ?',
+    formulasLabel: 'Formules clés',
+    formulasIcon: '📐'
+  },
+  {
+    id: 'physique', icon: '⚛️', label: 'Physique-Chimie',
+    color: 'var(--secondary)',
+    description: 'Mécanique, électricité, chimie — comprendre le monde par l\'expérience et le calcul.',
+    availableLevels: [1, 2, 3],
+    applicationLabel: 'Application dans la vie courante',
+    applicationIcon: '🌍',
+    applicationQuestion: 'Où ce phénomène intervient-il ?',
+    formulasLabel: 'Lois et formules clés',
+    formulasIcon: '⚗️'
+  },
+  {
+    id: 'si', icon: '⚙️', label: 'Sciences de l\'Ingénieur',
+    color: 'var(--accent)',
+    description: 'Systèmes mécaniques, énergétiques et informatiques — de la conception à la réalisation.',
+    availableLevels: [2, 3],
+    applicationLabel: 'Application industrielle',
+    applicationIcon: '🏭',
+    applicationQuestion: 'Où retrouve-t-on ce principe en ingénierie ?',
+    formulasLabel: 'Relations fondamentales',
+    formulasIcon: '📏'
+  }
+];
+
+function getSubjectDef(id) {
+  return SUBJECT_DEFS.find(s => s.id === id) || SUBJECT_DEFS[0];
+}
+
 /* ── State defaults (factories) ── */
 function defaultQuizState()       { return { current: 0, score: 0, answered: false, complete: false }; }
 function defaultExerciceState()   { return { current: null, attempts: 0, hintShown: false, solved: false, solutionShown: false }; }
@@ -25,6 +66,7 @@ function pluralize(word, count, plural) {
 /* ── State ── */
 const state = {
   view: 'home',
+  subject: null,
   level: null,
   moduleId: null,
   tab: 'cours',
@@ -35,7 +77,9 @@ const state = {
   exerciceState: defaultExerciceState(),
   problemeState: defaultProblemeState(),
   evaluationState: defaultEvaluationState(),
-  progress: JSON.parse(localStorage.getItem('sparkProgress') || '{}')
+  progress: JSON.parse(localStorage.getItem('sparkProgress') || '{}'),
+  batchPrintMode: false,
+  selectedForPrint: []
 };
 
 /* ── Module lookup ── */

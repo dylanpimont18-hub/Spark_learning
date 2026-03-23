@@ -7,7 +7,7 @@ window.MODULES.push(
 
   {
     id: 'vecteurs',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '🎯',
     title: 'Vecteurs 2D et Projection Orthogonale',
     subtitle: 'Composantes, projection, signe et sens',
@@ -16,19 +16,41 @@ window.MODULES.push(
 
     cours: {
       intro: 'Un vecteur possède à la fois une valeur (norme), une direction et un sens — contrairement aux grandeurs scalaires. En physique, toutes les grandeurs vectorielles (force, vitesse, accélération) se projettent sur des axes perpendiculaires pour être exploitées par les lois de Newton. La projection « décompose » un vecteur oblique en deux composantes indépendantes : $F_x = F\\cos(\\theta)$ (côté adjacent = cosinus) et $F_y = F\\sin(\\theta)$ (côté opposé = sinus), où $\\theta$ est l\'angle avec l\'axe horizontal. Le piège du plan incliné est récurrent : le poids est vertical mais les axes sont inclinés, ce qui « retourne » les rôles du sinus et du cosinus par rapport à l\'intuition.',
+      definitions: [
+        { term: 'Vecteur', def: 'Objet mathématique caractérisé par une direction, un sens et une norme (valeur). Notation : $\\vec{F}$.' },
+        { term: 'Norme', def: 'Valeur (longueur) du vecteur : $\\|\\vec{F}\\| = \\sqrt{F_x^2 + F_y^2}$. Toujours positive ou nulle.' },
+        { term: 'Composante', def: 'Projection d\'un vecteur sur un axe. $F_x$ est la composante horizontale, $F_y$ la composante verticale.' },
+        { term: 'Projection orthogonale', def: 'Opération qui décompose un vecteur oblique en deux composantes perpendiculaires, une sur chaque axe du repère.' }
+      ],
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          '**Le signe :** Regarder le sens du vecteur par rapport à l\'axe. S\'il pointe dans le sens positif de l\'axe, la composante est positive. S\'il pointe en sens inverse, elle est négative.',
-          '**L\'angle :** Repérer l\'angle $\\theta$ entre le vecteur et l\'axe de référence. Le côté "qui touche" l\'angle $\\theta$ est adjacent (lié au cosinus). L\'autre est opposé (lié au sinus).',
-          '**La formule :** $F_x = \\pm F \\cdot \\cos(\\theta)$ et $F_y = \\pm F \\cdot \\sin(\\theta)$ si $\\theta$ est l\'angle avec l\'axe $Ox$.'
+          '**Le signe :** Regarder le sens du vecteur par rapport à l\'axe. S\'il pointe dans le sens positif de l\'axe, la composante est positive. S\'il pointe en sens inverse, elle est négative. <strong>Exemple :</strong> Une force $\\vec{F}$ pointe vers la gauche (sens négatif de $Ox$) → $F_x < 0$.',
+          '**L\'angle :** Repérer l\'angle $\\theta$ entre le vecteur et l\'axe de référence. Le côté "qui touche" l\'angle $\\theta$ est adjacent (lié au cosinus). L\'autre est opposé (lié au sinus). <strong>Exemple :</strong> Si $\\theta = 30°$ entre $\\vec{F}$ et $Ox$, le côté le long de $Ox$ est adjacent → on utilise $\\cos(30°)$ pour $F_x$.',
+          '**La formule :** $F_x = \\pm F \\cdot \\cos(\\theta)$ et $F_y = \\pm F \\cdot \\sin(\\theta)$ si $\\theta$ est l\'angle avec l\'axe $Ox$. <strong>Exemple :</strong> $F = 10$ N, $\\theta = 60°$ → $F_x = 10\\cos(60°) = 5$ N, $F_y = 10\\sin(60°) \\approx 8{,}66$ N.'
         ]
       },
+      example: {
+        statement: 'Un câble tire un traîneau avec une force $\\vec{T}$ de norme $T = 50$ N, inclinée de $\\theta = 30°$ au-dessus de l\'horizontale. Déterminer les composantes $T_x$ et $T_y$.',
+        steps: [
+          'Le vecteur pointe vers la droite et le haut → les deux composantes sont positives.',
+          '$T_x = T \\cos(\\theta) = 50 \\times \\cos(30°) = 50 \\times 0{,}866 \\approx 43{,}3$ N (composante horizontale qui fait avancer le traîneau).',
+          '$T_y = T \\sin(\\theta) = 50 \\times \\sin(30°) = 50 \\times 0{,}5 = 25$ N (composante verticale qui allège le traîneau).'
+        ],
+        answer: '$T_x \\approx 43{,}3$ N et $T_y = 25$ N.'
+      },
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto"><tr><th style="border:1px solid var(--border);padding:8px">Quadrant</th><th style="border:1px solid var(--border);padding:8px">Direction</th><th style="border:1px solid var(--border);padding:8px">Signe de $F_x$</th><th style="border:1px solid var(--border);padding:8px">Signe de $F_y$</th></tr><tr><td style="border:1px solid var(--border);padding:8px">I (haut-droite)</td><td style="border:1px solid var(--border);padding:8px">↗</td><td style="border:1px solid var(--border);padding:8px">$+$</td><td style="border:1px solid var(--border);padding:8px">$+$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">II (haut-gauche)</td><td style="border:1px solid var(--border);padding:8px">↖</td><td style="border:1px solid var(--border);padding:8px">$-$</td><td style="border:1px solid var(--border);padding:8px">$+$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">III (bas-gauche)</td><td style="border:1px solid var(--border);padding:8px">↙</td><td style="border:1px solid var(--border);padding:8px">$-$</td><td style="border:1px solid var(--border);padding:8px">$-$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">IV (bas-droite)</td><td style="border:1px solid var(--border);padding:8px">↘</td><td style="border:1px solid var(--border);padding:8px">$+$</td><td style="border:1px solid var(--border);padding:8px">$-$</td></tr></table>',
       formulas: [
         '$F_x = F \\cdot \\cos(\\theta)$ (si $\\theta$ est l\'angle avec $Ox$)',
         '$F_y = F \\cdot \\sin(\\theta)$ (si $\\theta$ est l\'angle avec $Ox$)',
         '$\\|\\vec{F}\\| = \\sqrt{F_x^2 + F_y^2}$ (norme = théorème de Pythagore)',
         '$\\theta = \\arctan\\left(\\dfrac{F_y}{F_x}\\right)$ (retrouver l\'angle depuis les composantes)'
+      ],
+      recap: [
+        'Un vecteur se décompose en deux composantes perpendiculaires via la projection orthogonale.',
+        'Côté adjacent à $\\theta$ → cosinus ; côté opposé → sinus. Le signe dépend du sens par rapport à l\'axe.',
+        'Sur un plan incliné d\'angle $\\alpha$ : composante parallèle $= P\\sin(\\alpha)$, perpendiculaire $= P\\cos(\\alpha)$.',
+        'La norme se retrouve par Pythagore : $\\|\\vec{F}\\| = \\sqrt{F_x^2 + F_y^2}$.'
       ],
       piege: 'Piège du plan incliné : si l\'angle du plan est $\\alpha$ (avec l\'horizontale), et que le poids est vertical, alors la composante du poids PARALLÈLE au plan est $P \\cdot \\sin(\\alpha)$ et PERPENDICULAIRE au plan est $P \\cdot \\cos(\\alpha)$. L\'angle "se retourne" par rapport à l\'intuition !'
     },
@@ -162,7 +184,7 @@ window.MODULES.push(
 
     {
     id: 'fonctions-affines',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '📈',
     title: 'Fonctions Affines et Linéaires',
     subtitle: 'Droite y = ax + b, pente, modélisation',
@@ -171,19 +193,40 @@ window.MODULES.push(
 
     cours: {
       intro: 'Une fonction affine $f(x) = ax + b$ est représentée par une droite dans le plan. Le coefficient $a$ (pente ou coefficient directeur) indique de combien $f(x)$ varie quand $x$ augmente de $1$. Le terme $b$ (ordonnée à l\'origine) est la valeur de $f(0)$, c\'est-à-dire l\'ordonnée du point d\'intersection avec l\'axe vertical. Si $b = 0$, la droite passe par l\'origine et la relation est une proportionnalité directe. En sciences, les lois affines et linéaires sont omniprésentes : loi de Beer-Lambert ($A = \\varepsilon l c$), loi d\'Ohm ($U = RI$), étalonnages de mesure. La pente porte les unités du rapport $\\Delta y / \\Delta x$ — son interprétation physique est toujours à expliciter.',
+      definitions: [
+        { term: 'Fonction affine', def: 'Fonction de la forme $f(x) = ax + b$ dont la représentation graphique est une droite.' },
+        { term: 'Coefficient directeur', def: 'Le nombre $a$ dans $y = ax + b$. Il mesure la variation de $y$ quand $x$ augmente de $1$ : $a = \\dfrac{\\Delta y}{\\Delta x}$.' },
+        { term: 'Ordonnée à l\'origine', def: 'Le nombre $b$ dans $y = ax + b$. C\'est la valeur de $y$ quand $x = 0$, soit le point $(0 ; b)$ sur l\'axe des ordonnées.' },
+        { term: 'Fonction linéaire', def: 'Cas particulier $f(x) = ax$ ($b = 0$). La droite passe par l\'origine : il y a proportionnalité entre $x$ et $y$.' }
+      ],
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Identifier la forme : $y = ax + b$ (affine) ou $y = ax$ (linéaire, passe par l\'origine). La pente $a$ est le "coefficient directeur".',
-          'Calculer la pente à partir de deux points $(x_1, y_1)$ et $(x_2, y_2)$ : $a = \\dfrac{y_2 - y_1}{x_2 - x_1}$.',
-          'Déterminer $b$ (ordonnée à l\'origine) : $b = y_1 - a \\cdot x_1$. En physique, $b$ représente souvent une valeur initiale ou un biais de mesure.'
+          'Identifier la forme : $y = ax + b$ (affine) ou $y = ax$ (linéaire, passe par l\'origine). La pente $a$ est le "coefficient directeur". <strong>Exemple :</strong> $y = 3x - 2$ est affine ($a = 3$, $b = -2$) ; $y = 5x$ est linéaire ($a = 5$, $b = 0$).',
+          'Calculer la pente à partir de deux points $(x_1, y_1)$ et $(x_2, y_2)$ : $a = \\dfrac{y_2 - y_1}{x_2 - x_1}$. <strong>Exemple :</strong> $A(1 ; 4)$ et $B(3 ; 10)$ → $a = \\dfrac{10 - 4}{3 - 1} = \\dfrac{6}{2} = 3$.',
+          'Déterminer $b$ (ordonnée à l\'origine) : $b = y_1 - a \\cdot x_1$. En physique, $b$ représente souvent une valeur initiale ou un biais de mesure. <strong>Exemple :</strong> Avec $a = 3$ et le point $(1 ; 4)$ : $b = 4 - 3 \\times 1 = 1$. Donc $y = 3x + 1$.'
         ]
+      },
+      example: {
+        statement: 'Lors d\'un étalonnage en spectrophotométrie, on mesure $A = 0{,}25$ pour $c = 1{,}0 \\times 10^{-3}$ mol/L et $A = 0{,}75$ pour $c = 3{,}0 \\times 10^{-3}$ mol/L ($l = 1$ cm). Déterminer la relation $A = f(c)$.',
+        steps: [
+          'La loi de Beer-Lambert est linéaire ($A = \\varepsilon l c$, passe par l\'origine), donc $b = 0$.',
+          'Calculer la pente : $\\varepsilon l = \\dfrac{A_2 - A_1}{c_2 - c_1} = \\dfrac{0{,}75 - 0{,}25}{3{,}0 \\times 10^{-3} - 1{,}0 \\times 10^{-3}} = \\dfrac{0{,}50}{2{,}0 \\times 10^{-3}} = 250$ L·mol⁻¹·cm⁻¹.',
+          'Vérification : $A = 250 \\times 1{,}0 \\times 10^{-3} = 0{,}25$ ✓'
+        ],
+        answer: '$A = 250 \\cdot c$ avec $\\varepsilon l = 250$ L·mol⁻¹·cm⁻¹.'
       },
       formulas: [
         '$y = ax + b$ (fonction affine)',
         '$a = \\dfrac{y_2 - y_1}{x_2 - x_1}$ (pente)',
         '$b = y - ax$ (ordonnée à l\'origine)',
         'Beer-Lambert : $A = \\varepsilon \\cdot l \\cdot c$ (droite passant par l\'origine)'
+      ],
+      recap: [
+        'Une fonction affine $y = ax + b$ est représentée par une droite ; $a$ est la pente, $b$ l\'ordonnée à l\'origine.',
+        'Si $b = 0$, la droite passe par l\'origine (proportionnalité directe / fonction linéaire).',
+        'Deux points suffisent pour déterminer l\'équation d\'une droite : calculer $a$, puis $b$.',
+        'En sciences, la pente a des unités physiques ($\\Delta y / \\Delta x$) qu\'il faut toujours interpréter.'
       ],
       piege: 'Ne pas confondre pente et valeur ! Sur un graphe A = f(c) (Beer-Lambert), la pente est $\\varepsilon l$ (coefficient d\'extinction × trajet optique). La concentration inconnue se lit en faisant $c = A / (\\varepsilon l)$, pas en lisant directement la pente.'
     },
@@ -314,7 +357,7 @@ window.MODULES.push(
 
     {
     id: '2nde-ensembles-nombres',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '🔢',
     title: 'Ensembles de nombres et intervalles',
     subtitle: 'ℕ, ℤ, ℚ, ℝ et notation intervalle',
@@ -322,19 +365,41 @@ window.MODULES.push(
     physics: false,
     cours: {
       intro: 'Les nombres se classent en ensembles emboîtés : $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$. Un réel est rationnel s\'il peut s\'écrire $p/q$ (avec $p, q$ entiers, $q \\neq 0$) — sinon il est irrationnel comme $\\sqrt{2}$ ou $\\pi$. Les décimaux périodiques (comme $1{,}\\overline{3} = 4/3$) sont tous rationnels. Les intervalles décrivent des ensembles continus de réels avec une notation compacte : un crochet fermé $[$ inclut la borne, un crochet ouvert $]$ l\'exclut. L\'infini n\'est pas un nombre — la borne infinie est toujours ouverte. Les opérations sur intervalles ($\\cap$, $\\cup$) permettent d\'exprimer les domaines de définition et les conditions de validité des formules.',
+      definitions: [
+        { term: 'Entiers naturels $\\mathbb{N}$', def: 'Ensemble $\\{0 ; 1 ; 2 ; 3 ; \\ldots\\}$ : les nombres entiers positifs ou nuls.' },
+        { term: 'Entiers relatifs $\\mathbb{Z}$', def: 'Ensemble $\\{\\ldots ; -2 ; -1 ; 0 ; 1 ; 2 ; \\ldots\\}$ : les entiers avec leur signe.' },
+        { term: 'Rationnels $\\mathbb{Q}$', def: 'Ensemble des nombres qui s\'écrivent $\\dfrac{p}{q}$ avec $p \\in \\mathbb{Z}$ et $q \\in \\mathbb{Z}^*$. Inclut tous les décimaux périodiques.' },
+        { term: 'Irrationnel', def: 'Réel qui ne peut pas s\'écrire sous forme de fraction. Exemples : $\\sqrt{2}$, $\\pi$, $\\sqrt{3}$. Leur écriture décimale est infinie et non périodique.' }
+      ],
       method: {
         title: 'Lire et écrire un intervalle',
         steps: [
-          'Crochet fermé $[$ ou $]$ : la borne est incluse.',
-          'Crochet ouvert $]$ ou $[$ : la borne est exclue.',
-          'Pour $+\\infty$ ou $-\\infty$, toujours utiliser un crochet ouvert.',
-          'Intersection $\\cap$ = valeurs communes ; union $\\cup$ = toutes les valeurs.'
+          'Crochet fermé $[$ ou $]$ : la borne est incluse. <strong>Exemple :</strong> $[3 ; 7]$ signifie $3 \\le x \\le 7$ (les bornes $3$ et $7$ font partie de l\'ensemble).',
+          'Crochet ouvert $]$ ou $[$ : la borne est exclue. <strong>Exemple :</strong> $]2 ; 5[$ signifie $2 < x < 5$ (ni $2$ ni $5$ ne font partie de l\'ensemble).',
+          'Pour $+\\infty$ ou $-\\infty$, toujours utiliser un crochet ouvert. <strong>Exemple :</strong> $[3 ; +\\infty[$ signifie $x \\ge 3$.',
+          'Intersection $\\cap$ = valeurs communes ; union $\\cup$ = toutes les valeurs. <strong>Exemple :</strong> $[1 ; 5] \\cap [3 ; 8] = [3 ; 5]$ ; $[1 ; 5] \\cup [3 ; 8] = [1 ; 8]$.'
         ]
+      },
+      example: {
+        statement: 'Classer les nombres suivants dans les ensembles $\\mathbb{N}$, $\\mathbb{Z}$, $\\mathbb{Q}$, irrationnel : $7$ ; $-3$ ; $\\dfrac{2}{5}$ ; $\\sqrt{5}$.',
+        steps: [
+          '$7 \\in \\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$ : c\'est un entier naturel.',
+          '$-3 \\in \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$ : entier relatif négatif (pas dans $\\mathbb{N}$).',
+          '$\\dfrac{2}{5} = 0{,}4 \\in \\mathbb{Q}$ : rationnel (quotient de deux entiers).',
+          '$\\sqrt{5}$ est irrationnel : $5$ n\'est pas un carré parfait, donc $\\sqrt{5}$ ne s\'écrit pas sous forme $p/q$.'
+        ],
+        answer: '$7 \\in \\mathbb{N}$ ; $-3 \\in \\mathbb{Z}$ ; $\\frac{2}{5} \\in \\mathbb{Q}$ ; $\\sqrt{5} \\notin \\mathbb{Q}$ (irrationnel).'
       },
       formulas: [
         '$[a;b] = \\{x \\in \\mathbb{R} \\mid a \\le x \\le b\\}$',
         '$]a;b[ = \\{x \\in \\mathbb{R} \\mid a < x < b\\}$',
         '$[a;+\\infty[ = \\{x \\in \\mathbb{R} \\mid x \\ge a\\}$'
+      ],
+      recap: [
+        'Les ensembles s\'emboîtent : $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$.',
+        'Un décimal périodique est toujours rationnel ; un irrationnel a une écriture décimale infinie non périodique.',
+        'Crochet fermé = borne incluse ; crochet ouvert = borne exclue ; l\'infini est toujours exclu.',
+        '$\\cap$ donne les valeurs communes, $\\cup$ donne toutes les valeurs des deux intervalles.'
       ],
       piege: 'Ne jamais écrire $[+\\infty]$ ou $[-\\infty]$ : l\'infini n\'est pas un nombre, la borne est toujours ouverte de ce côté.'
     },
@@ -423,7 +488,7 @@ window.MODULES.push(
 
     {
     id: '2nde-calcul-algebrique',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '🧮',
     title: 'Calcul algébrique',
     subtitle: 'Développer, factoriser, identités remarquables',
@@ -431,19 +496,40 @@ window.MODULES.push(
     physics: false,
     cours: {
       intro: 'Le calcul algébrique permet de transformer une expression en une forme équivalente — plus simple ou plus adaptée au problème. Développer supprime les parenthèses et étale tous les termes ; factoriser fait l\'inverse en regroupant sous un produit. Choisir entre les deux dépend du contexte : pour résoudre $f(x) = 0$, la forme factorisée permet de trouver directement les racines ($f(x) = 0 \\Leftrightarrow$ chaque facteur $= 0$) ; pour comparer ou simplifier, la forme développée est souvent plus lisible. La vérification consiste à redévelopper le résultat factorisé pour retrouver la forme initiale — indispensable pour éviter les erreurs de signe.',
+      definitions: [
+        { term: 'Développer', def: 'Transformer un produit en somme en supprimant les parenthèses : $a(b+c) = ab + ac$.' },
+        { term: 'Factoriser', def: 'Transformer une somme en produit en mettant en facteur un terme commun ou en reconnaissant une identité remarquable.' },
+        { term: 'Identité remarquable', def: 'Formule de calcul toujours vraie, comme $(a+b)^2 = a^2 + 2ab + b^2$, qui accélère les développements et factorisations.' },
+        { term: 'Distributivité', def: 'Propriété : $a(b+c) = ab + ac$. C\'est la base du développement.' }
+      ],
       method: {
         title: 'Choisir entre développer et factoriser',
         steps: [
-          'Développer : appliquer la distributivité $a(b+c)=ab+ac$ ou les identités remarquables.',
-          'Trois identités remarquables : $(a+b)^2$, $(a-b)^2$, $(a+b)(a-b)$.',
-          'Factoriser : repérer un facteur commun ou reconnaître une identité dans l\'expression développée.',
-          'Vérifier en redéveloppant le résultat factorisé.'
+          'Développer : appliquer la distributivité $a(b+c)=ab+ac$ ou les identités remarquables. <strong>Exemple :</strong> $3(2x+5) = 6x + 15$.',
+          'Trois identités remarquables : $(a+b)^2$, $(a-b)^2$, $(a+b)(a-b)$. <strong>Exemple :</strong> $(x+4)^2 = x^2 + 8x + 16$ (ne pas oublier le $2ab = 8x$).',
+          'Factoriser : repérer un facteur commun ou reconnaître une identité dans l\'expression développée. <strong>Exemple :</strong> $x^2 - 9 = (x+3)(x-3)$ (différence de deux carrés).',
+          'Vérifier en redéveloppant le résultat factorisé. <strong>Exemple :</strong> $(x+3)(x-3) = x^2 - 3x + 3x - 9 = x^2 - 9$ ✓'
         ]
+      },
+      example: {
+        statement: 'Factoriser l\'expression $A = 4x^2 - 20x + 25$.',
+        steps: [
+          'On repère que $4x^2 = (2x)^2$ et $25 = 5^2$.',
+          'On vérifie le double produit : $2 \\times 2x \\times 5 = 20x$ ✓ — c\'est bien l\'identité $(a - b)^2 = a^2 - 2ab + b^2$.',
+          'Donc $A = (2x - 5)^2$.'
+        ],
+        answer: '$4x^2 - 20x + 25 = (2x - 5)^2$.'
       },
       formulas: [
         '$(a+b)^2 = a^2 + 2ab + b^2$',
         '$(a-b)^2 = a^2 - 2ab + b^2$',
         '$(a+b)(a-b) = a^2 - b^2$'
+      ],
+      recap: [
+        'Développer = supprimer les parenthèses (produit → somme) ; factoriser = créer des parenthèses (somme → produit).',
+        'Les trois identités remarquables sont les outils centraux : les reconnaître dans les deux sens.',
+        'Pour résoudre $f(x) = 0$, la forme factorisée est indispensable (produit nul ⟺ un facteur nul).',
+        'Toujours vérifier en redéveloppant le résultat factorisé pour retrouver l\'expression initiale.'
       ],
       piege: 'Ne jamais écrire $(a+b)^2 = a^2 + b^2$ : le terme croisé $2ab$ est indispensable !'
     },
@@ -538,7 +624,7 @@ window.MODULES.push(
 
     {
     id: '2nde-equations-inequations',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '⚖️',
     title: 'Équations et inéquations du 1er degré',
     subtitle: 'Résoudre et représenter les solutions',
@@ -546,19 +632,41 @@ window.MODULES.push(
     physics: false,
     cours: {
       intro: 'Une équation du premier degré établit une condition d\'égalité sur une inconnue $x$ : on cherche la valeur qui la rend vraie. Une inéquation remplace l\'égalité par une relation d\'ordre ($<$, $>$, $\\leq$, $\\geq$) et la solution est généralement un intervalle infini. Les deux se résolvent par les mêmes opérations élémentaires — avec une règle d\'or pour les inéquations : toute multiplication ou division par un nombre négatif inverse le sens de l\'inégalité. En physique et en économie, les inéquations décrivent naturellement des contraintes (distance positive, seuil de rentabilité, condition de validité). Exprimer les solutions sous forme d\'intervalle ($]-\\infty ; 2[$, $[3;+\\infty[$…) permet une lecture immédiate.',
+      definitions: [
+        { term: 'Équation du 1er degré', def: 'Relation $ax + b = 0$ où $a \\neq 0$. Elle admet une unique solution : $x = -b/a$.' },
+        { term: 'Inéquation', def: 'Relation d\'ordre portant sur une inconnue ($ax + b < 0$, $\\geq$, etc.). L\'ensemble des solutions est un intervalle.' },
+        { term: 'Ensemble solution', def: 'L\'ensemble de toutes les valeurs de $x$ qui vérifient l\'équation ou l\'inéquation. Noté sous forme d\'intervalle pour les inéquations.' },
+        { term: 'Valeur test', def: 'Valeur numérique substituée dans l\'inéquation pour vérifier que la solution est correcte.' }
+      ],
       method: {
         title: 'Résoudre une inéquation',
         steps: [
-          'Isoler l\'inconnue en appliquant les mêmes opérations des deux côtés.',
-          'Multiplier ou diviser par un nombre négatif inverse le sens de l\'inégalité.',
-          'Exprimer la solution en notation intervalle.',
-          'Vérifier avec une valeur test.'
+          'Isoler l\'inconnue en appliquant les mêmes opérations des deux côtés. <strong>Exemple :</strong> $3x + 7 > 1$ → $3x > -6$.',
+          'Multiplier ou diviser par un nombre négatif inverse le sens de l\'inégalité. <strong>Exemple :</strong> $-2x > 6$ → on divise par $-2$ et on inverse : $x < -3$.',
+          'Exprimer la solution en notation intervalle. <strong>Exemple :</strong> $x < -3$ s\'écrit $]-\\infty ; -3[$.',
+          'Vérifier avec une valeur test. <strong>Exemple :</strong> Prendre $x = -5$ (dans $]-\\infty ; -3[$) : $-2 \\times (-5) = 10 > 6$ ✓.'
         ]
+      },
+      example: {
+        statement: 'Résoudre l\'inéquation $-5x + 3 \\geq 18$.',
+        steps: [
+          'Isoler le terme en $x$ : $-5x \\geq 18 - 3$, soit $-5x \\geq 15$.',
+          'Diviser par $-5$ (négatif !) et inverser le sens : $x \\leq \\dfrac{15}{-5} = -3$.',
+          'Ensemble solution : $]-\\infty ; -3]$.',
+          'Vérification : pour $x = -4$ (dans l\'intervalle) : $-5 \\times (-4) + 3 = 23 \\geq 18$ ✓.'
+        ],
+        answer: '$S = ]-\\infty ; -3]$.'
       },
       formulas: [
         '$ax + b = 0 \\Rightarrow x = -\\dfrac{b}{a}$ (si $a \\ne 0$)',
         'Si $a > 0$ : $ax < c \\Rightarrow x < \\dfrac{c}{a}$',
         'Si $a < 0$ : $ax < c \\Rightarrow x > \\dfrac{c}{a}$ (inversion !)'
+      ],
+      recap: [
+        'Équation du 1er degré : isoler $x$ par opérations réversibles ; une unique solution.',
+        'Inéquation : même méthode, mais inverser le sens si on multiplie/divise par un négatif.',
+        'La solution d\'une inéquation est un intervalle (souvent infini) à exprimer en notation correcte.',
+        'Toujours vérifier avec une valeur test appartenant à l\'intervalle trouvé.'
       ],
       piege: 'Diviser par $-2$ transforme $<$ en $>$. C\'est l\'erreur la plus fréquente dans les inéquations !'
     },
@@ -650,7 +758,7 @@ window.MODULES.push(
 
     {
     id: '2nde-fonctions-generalites',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '📈',
     title: 'Généralités sur les fonctions',
     subtitle: 'Définition, courbe, variations, extremums',
@@ -658,18 +766,39 @@ window.MODULES.push(
     physics: false,
     cours: {
       intro: 'Une fonction est une règle qui associe à chaque $x$ de son domaine de définition une image UNIQUE $f(x)$. Son graphe est la courbe des points $(x ; f(x))$ dans le plan — la courbe ne peut pas se « dédoubler » verticalement. La notion de variation décrit l\'évolution de $f(x)$ quand $x$ augmente : croissante (graphe monte), décroissante (graphe descend). Un extremum est un point où la fonction change de sens. Lire un graphe nécessite de distinguer clairement abscisse ($x$, entrée) et ordonnée ($f(x)$, sortie) : image → lecture verticale, antécédent → lecture horizontale.',
+      definitions: [
+        { term: 'Fonction', def: 'Règle qui associe à chaque valeur $x$ de son domaine de définition une unique image $f(x)$.' },
+        { term: 'Image', def: 'La valeur $f(x)$ obtenue en appliquant la fonction à $x$. Se lit verticalement sur le graphe.' },
+        { term: 'Antécédent', def: 'Valeur $x$ telle que $f(x) = y$. Un antécédent peut ne pas exister, ou il peut y en avoir plusieurs.' },
+        { term: 'Extremum', def: 'Maximum ou minimum de $f$ sur un intervalle. C\'est le point où la fonction atteint sa plus grande (ou plus petite) valeur.' }
+      ],
       method: {
         title: 'Lire une courbe',
         steps: [
-          'Image : partir de $x$ sur l\'axe horizontal, rejoindre la courbe, lire $y = f(x)$.',
-          'Antécédent : partir de $y$ sur l\'axe vertical, rejoindre la courbe, lire $x$.',
-          'Maximum/minimum : chercher le sommet de la courbe sur l\'intervalle donné.',
-          'Variations : la fonction croît si la courbe monte de gauche à droite.'
+          'Image : partir de $x$ sur l\'axe horizontal, rejoindre la courbe, lire $y = f(x)$. <strong>Exemple :</strong> Si la courbe passe par $(3 ; 7)$, alors $f(3) = 7$ : l\'image de $3$ est $7$.',
+          'Antécédent : partir de $y$ sur l\'axe vertical, rejoindre la courbe, lire $x$. <strong>Exemple :</strong> Si la courbe coupe la droite $y = 5$ en $x = 2$ et $x = 6$, alors $2$ et $6$ sont les antécédents de $5$.',
+          'Maximum/minimum : chercher le sommet de la courbe sur l\'intervalle donné. <strong>Exemple :</strong> Si le point le plus haut de la courbe sur $[0 ; 8]$ est $(4 ; 10)$, le maximum est $10$, atteint en $x = 4$.',
+          'Variations : la fonction croît si la courbe monte de gauche à droite. <strong>Exemple :</strong> Si $f(1) = 3$ et $f(4) = 9$ avec la courbe qui monte entre les deux, $f$ est croissante sur $[1 ; 4]$.'
         ]
+      },
+      example: {
+        statement: 'Soit $f(x) = -x^2 + 6x - 5$. Calculer $f(2)$, puis déterminer un antécédent de $-5$.',
+        steps: [
+          'Image de $2$ : $f(2) = -(2)^2 + 6 \\times 2 - 5 = -4 + 12 - 5 = 3$.',
+          'Antécédent de $-5$ : résoudre $f(x) = -5$ → $-x^2 + 6x - 5 = -5$ → $-x^2 + 6x = 0$ → $x(-x + 6) = 0$.',
+          'Donc $x = 0$ ou $x = 6$ : il y a deux antécédents de $-5$.'
+        ],
+        answer: '$f(2) = 3$. Les antécédents de $-5$ sont $x = 0$ et $x = 6$.'
       },
       formulas: [
         '$f$ croissante sur $I$ : $x_1 < x_2 \\Rightarrow f(x_1) < f(x_2)$',
         '$f$ décroissante sur $I$ : $x_1 < x_2 \\Rightarrow f(x_1) > f(x_2)$'
+      ],
+      recap: [
+        'Une fonction associe à chaque $x$ une unique image $f(x)$ ; un antécédent peut ne pas être unique.',
+        'Croissante = la courbe monte (de gauche à droite) ; décroissante = la courbe descend.',
+        'Le maximum sur un intervalle est la plus grande valeur atteinte par $f(x)$ sur cet intervalle.',
+        'Image = lecture verticale du graphe ; antécédent = lecture horizontale.'
       ],
       piege: 'Un antécédent peut ne pas exister ou ne pas être unique. L\'image d\'un $x$ donné, elle, est toujours unique (sinon ce n\'est pas une fonction).'
     },
@@ -760,7 +889,7 @@ window.MODULES.push(
 
     {
     id: '2nde-fonctions-reference',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '🔭',
     title: 'Fonctions de référence',
     subtitle: 'Carré, inverse, racine carrée',
@@ -768,19 +897,40 @@ window.MODULES.push(
     physics: true,
     cours: {
       intro: 'Les trois fonctions de référence ($x\\mapsto x^2$, $x\\mapsto 1/x$, $x\\mapsto \\sqrt{x}$) sont les briques de base de l\'analyse. La fonction carré est paire ($f(-x) = f(x)$), atteint son minimum $0$ en $x=0$, et est définie sur $\\mathbb{R}$. La fonction inverse est impaire et n\'est jamais nulle : son domaine exclut $0$. La racine carrée n\'est définie que pour $x \\geq 0$ et est toujours croissante. Ces domaines sont fondamentaux : $\\sqrt{x-2}$ n\'existe que si $x \\geq 2$, $1/(x-3)$ est interdite en $x = 3$. Enfin, $\\sqrt{ab} = \\sqrt{a}\\cdot\\sqrt{b}$ est vraie pour un produit — mais $\\sqrt{a+b} \\neq \\sqrt{a}+\\sqrt{b}$.',
+      definitions: [
+        { term: 'Fonction carré', def: 'Fonction $f(x) = x^2$. Définie sur $\\mathbb{R}$, paire, minimum en $0$. Sa courbe est une parabole tournée vers le haut.' },
+        { term: 'Fonction inverse', def: 'Fonction $g(x) = \\dfrac{1}{x}$. Définie sur $\\mathbb{R} \\setminus \\{0\\}$, impaire, jamais nulle. Sa courbe est une hyperbole.' },
+        { term: 'Fonction racine carrée', def: 'Fonction $h(x) = \\sqrt{x}$. Définie sur $[0 ; +\\infty[$, toujours croissante, $h(0) = 0$.' },
+        { term: 'Parité', def: 'Une fonction est paire si $f(-x) = f(x)$ (symétrie par rapport à l\'axe des ordonnées) ; impaire si $f(-x) = -f(x)$ (symétrie par rapport à l\'origine).' }
+      ],
       method: {
         title: 'Caractéristiques des trois fonctions',
         steps: [
-          '$f(x)=x^2$ : domaine $\\mathbb{R}$, décroissante sur $]-\\infty;0]$, croissante sur $[0;+\\infty[$, minimum $0$ en $x=0$.',
-          '$g(x)=\\frac{1}{x}$ : domaine $\\mathbb{R}\\setminus\\{0\\}$, décroissante sur $]-\\infty;0[$ et sur $]0;+\\infty[$.',
-          '$h(x)=\\sqrt{x}$ : domaine $[0;+\\infty[$, croissante, $h(0)=0$.',
-          'Pour comparer $\\sqrt{a}$ et $\\sqrt{b}$ : $a > b \\ge 0 \\Rightarrow \\sqrt{a} > \\sqrt{b}$.'
+          '$f(x)=x^2$ : domaine $\\mathbb{R}$, décroissante sur $]-\\infty;0]$, croissante sur $[0;+\\infty[$, minimum $0$ en $x=0$. <strong>Exemple :</strong> $f(-3) = 9$ et $f(3) = 9$ (parité : $f(-x) = f(x)$).',
+          '$g(x)=\\frac{1}{x}$ : domaine $\\mathbb{R}\\setminus\\{0\\}$, décroissante sur $]-\\infty;0[$ et sur $]0;+\\infty[$. <strong>Exemple :</strong> $g(2) = 0{,}5$ et $g(4) = 0{,}25$ : quand $x$ augmente, $g(x)$ diminue.',
+          '$h(x)=\\sqrt{x}$ : domaine $[0;+\\infty[$, croissante, $h(0)=0$. <strong>Exemple :</strong> $\\sqrt{9} = 3$, $\\sqrt{16} = 4$ : quand $x$ augmente, $\\sqrt{x}$ augmente aussi.',
+          'Pour comparer $\\sqrt{a}$ et $\\sqrt{b}$ : $a > b \\ge 0 \\Rightarrow \\sqrt{a} > \\sqrt{b}$. <strong>Exemple :</strong> $25 > 16 \\Rightarrow \\sqrt{25} = 5 > \\sqrt{16} = 4$.'
         ]
+      },
+      example: {
+        statement: 'Déterminer le domaine de définition de $f(x) = \\sqrt{2x - 6} + \\dfrac{1}{x - 1}$.',
+        steps: [
+          'Pour $\\sqrt{2x - 6}$ : il faut $2x - 6 \\geq 0$, soit $x \\geq 3$. Domaine partiel : $[3 ; +\\infty[$.',
+          'Pour $\\dfrac{1}{x - 1}$ : il faut $x - 1 \\neq 0$, soit $x \\neq 1$. Domaine partiel : $\\mathbb{R} \\setminus \\{1\\}$.',
+          'Le domaine de $f$ est l\'intersection : $[3 ; +\\infty[ \\cap \\mathbb{R} \\setminus \\{1\\} = [3 ; +\\infty[$ (car $1 \\notin [3 ; +\\infty[$).'
+        ],
+        answer: 'Le domaine de définition de $f$ est $[3 ; +\\infty[$.'
       },
       formulas: [
         '$\\sqrt{a\\cdot b}=\\sqrt{a}\\cdot\\sqrt{b}$ (pour $a,b\\ge 0$)',
         '$\\left(\\sqrt{a}\\right)^2 = a$ (pour $a\\ge 0$)',
         '$\\sqrt{a^2}=|a|$'
+      ],
+      recap: [
+        'Fonction carré : parabole, paire, minimum $0$ en $x = 0$, décroissante puis croissante.',
+        'Fonction inverse : hyperbole, impaire, décroissante sur chaque intervalle, jamais nulle, interdite en $0$.',
+        'Fonction racine carrée : définie pour $x \\geq 0$, toujours croissante.',
+        '$\\sqrt{a \\cdot b} = \\sqrt{a} \\cdot \\sqrt{b}$ ✓ mais $\\sqrt{a + b} \\neq \\sqrt{a} + \\sqrt{b}$ ✗.'
       ],
       piege: '$\\sqrt{4+9} \\ne \\sqrt{4}+\\sqrt{9}$ : on ne peut pas séparer une somme sous un radical !'
     },
@@ -872,7 +1022,7 @@ window.MODULES.push(
 
     {
     id: '2nde-reperage-plan',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '📐',
     title: 'Repérage dans le plan',
     subtitle: 'Distances, milieux, coordonnées',
@@ -880,18 +1030,39 @@ window.MODULES.push(
     physics: false,
     cours: {
       intro: 'Dans un repère orthonormé, chaque point du plan est identifié de façon unique par ses deux coordonnées $(x ; y)$. La formule $AB = \\sqrt{(x_B-x_A)^2+(y_B-y_A)^2}$ est le théorème de Pythagore appliqué au triangle rectangle dont les côtés sont $|x_B-x_A|$ et $|y_B-y_A|$. Le milieu de $[AB]$ a pour coordonnées la moyenne arithmétique de celles des extrémités. Ces formules permettent de prouver des propriétés géométriques (isocèle, rectangle, parallélogramme) par le calcul, sans dessin — c\'est l\'approche de la géométrie analytique.',
+      definitions: [
+        { term: 'Repère orthonormé', def: 'Système d\'axes perpendiculaires $(Ox, Oy)$ avec la même unité sur chaque axe. Chaque point est repéré par $(x ; y)$.' },
+        { term: 'Distance', def: 'Longueur du segment $[AB]$ : $AB = \\sqrt{(x_B - x_A)^2 + (y_B - y_A)^2}$, application directe du théorème de Pythagore.' },
+        { term: 'Milieu', def: 'Point $M$ situé à égale distance de $A$ et $B$ : $M\\left(\\dfrac{x_A + x_B}{2} ; \\dfrac{y_A + y_B}{2}\\right)$.' },
+        { term: 'Géométrie analytique', def: 'Méthode qui utilise les coordonnées et le calcul pour prouver des propriétés géométriques (au lieu du raisonnement purement graphique).' }
+      ],
       method: {
         title: 'Calculer distance et milieu',
         steps: [
-          'Distance $AB$ : $d = \\sqrt{(x_B-x_A)^2+(y_B-y_A)^2}$.',
-          'Milieu $M$ de $[AB]$ : $M\\left(\\frac{x_A+x_B}{2};\\frac{y_A+y_B}{2}\\right)$.',
-          'Vérifier en recalculant $MA = MB$.',
-          'Attention aux signes lors des soustractions de coordonnées.'
+          'Distance $AB$ : $d = \\sqrt{(x_B-x_A)^2+(y_B-y_A)^2}$. <strong>Exemple :</strong> $A(1 ; 2)$, $B(4 ; 6)$ → $AB = \\sqrt{3^2 + 4^2} = \\sqrt{25} = 5$.',
+          'Milieu $M$ de $[AB]$ : $M\\left(\\frac{x_A+x_B}{2};\\frac{y_A+y_B}{2}\\right)$. <strong>Exemple :</strong> $A(1 ; 2)$, $B(4 ; 6)$ → $M\\left(\\frac{5}{2} ; 4\\right) = (2{,}5 ; 4)$.',
+          'Vérifier en recalculant $MA = MB$. <strong>Exemple :</strong> $MA = \\sqrt{(2{,}5-1)^2+(4-2)^2} = \\sqrt{2{,}25+4} = \\sqrt{6{,}25} = 2{,}5$ et $MB = 2{,}5$ ✓.',
+          'Attention aux signes lors des soustractions de coordonnées. <strong>Exemple :</strong> $A(-3 ; 5)$, $B(2 ; -1)$ → $x_B - x_A = 2 - (-3) = 5$ (pas $-1$).'
         ]
+      },
+      example: {
+        statement: 'On donne $A(−2 ; 3)$ et $B(4 ; −1)$. Calculer $AB$ et les coordonnées du milieu $M$.',
+        steps: [
+          '$AB = \\sqrt{(4 - (-2))^2 + (-1 - 3)^2} = \\sqrt{6^2 + (-4)^2} = \\sqrt{36 + 16} = \\sqrt{52}$.',
+          '$\\sqrt{52} = \\sqrt{4 \\times 13} = 2\\sqrt{13} \\approx 7{,}21$.',
+          'Milieu : $M\\left(\\dfrac{-2+4}{2} ; \\dfrac{3+(-1)}{2}\\right) = M(1 ; 1)$.'
+        ],
+        answer: '$AB = 2\\sqrt{13} \\approx 7{,}21$ et $M(1 ; 1)$.'
       },
       formulas: [
         '$AB = \\sqrt{(x_B-x_A)^2+(y_B-y_A)^2}$',
         '$M = \\left(\\dfrac{x_A+x_B}{2};\\dfrac{y_A+y_B}{2}\\right)$'
+      ],
+      recap: [
+        'La distance entre deux points est le théorème de Pythagore appliqué aux écarts de coordonnées.',
+        'Le milieu a pour coordonnées la moyenne des abscisses et la moyenne des ordonnées.',
+        'Le sens de la soustraction n\'importe pas grâce au carré : $(x_A - x_B)^2 = (x_B - x_A)^2$.',
+        'Pour prouver un triangle isocèle : calculer les trois côtés et comparer les longueurs.'
       ],
       piege: 'Ne pas confondre $AB^2 = (x_B-x_A)^2+(y_B-y_A)^2$ (pas de $2\\times$, c\'est la somme de deux carrés).'
     },
@@ -987,7 +1158,7 @@ window.MODULES.push(
 
     {
     id: '2nde-droites-systemes',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '➗',
     title: 'Droites et systèmes d\'équations',
     subtitle: 'Équation de droite, systèmes 2×2',
@@ -995,19 +1166,40 @@ window.MODULES.push(
     physics: false,
     cours: {
       intro: 'L\'équation $y = mx + p$ décrit toute droite non verticale : $m$ est la pente (combien $y$ change pour $+1$ en $x$) et $p$ est l\'ordonnée à l\'origine. Les droites verticales ont une équation $x = k$ et n\'ont pas de pente définie. Deux droites distinctes sont soit parallèles (même pente $m_1 = m_2$, aucun point commun), soit sécantes (pentes différentes, un unique point commun). Ce point d\'intersection est la solution du système formé par les deux équations : on l\'obtient en égalisant les deux expressions de $y$. Si $m_1 = m_2$ mais $p_1 \\neq p_2$, le système est impossible (contradiction) — les droites ne se croisent jamais.',
+      definitions: [
+        { term: 'Équation de droite', def: 'Toute droite non verticale s\'écrit $y = mx + p$ avec $m$ la pente et $p$ l\'ordonnée à l\'origine. Une droite verticale s\'écrit $x = k$.' },
+        { term: 'Droites parallèles', def: 'Deux droites non verticales sont parallèles si elles ont la même pente : $m_1 = m_2$. Elles n\'ont aucun point commun (sauf si elles sont confondues).' },
+        { term: 'Droites sécantes', def: 'Deux droites de pentes différentes ($m_1 \\neq m_2$). Elles se coupent en un unique point dont les coordonnées sont la solution du système.' },
+        { term: 'Système d\'équations', def: 'Ensemble de deux (ou plus) équations à résoudre simultanément. La solution est le couple $(x ; y)$ vérifiant toutes les équations.' }
+      ],
       method: {
         title: 'Résoudre un système par substitution',
         steps: [
-          'Isoler une inconnue dans l\'une des équations.',
-          'Substituer dans l\'autre équation pour obtenir une équation à une inconnue.',
-          'Résoudre, puis trouver la deuxième inconnue par retour substitution.',
-          'Vérifier dans les deux équations d\'origine.'
+          'Isoler une inconnue dans l\'une des équations. <strong>Exemple :</strong> De $x + y = 5$, on tire $y = 5 - x$.',
+          'Substituer dans l\'autre équation pour obtenir une équation à une inconnue. <strong>Exemple :</strong> $2x + 3(5 - x) = 12$ → $2x + 15 - 3x = 12$ → $-x = -3$ → $x = 3$.',
+          'Résoudre, puis trouver la deuxième inconnue par retour substitution. <strong>Exemple :</strong> $y = 5 - 3 = 2$. Solution : $(3 ; 2)$.',
+          'Vérifier dans les deux équations d\'origine. <strong>Exemple :</strong> $3 + 2 = 5$ ✓ et $2 \\times 3 + 3 \\times 2 = 12$ ✓.'
         ]
+      },
+      example: {
+        statement: 'Déterminer le point d\'intersection des droites $d_1 : y = 2x + 1$ et $d_2 : y = -x + 7$.',
+        steps: [
+          'Les pentes sont différentes ($m_1 = 2 \\neq m_2 = -1$) : les droites sont sécantes, il existe un unique point d\'intersection.',
+          'On égalise : $2x + 1 = -x + 7$ → $3x = 6$ → $x = 2$.',
+          'On remplace : $y = 2 \\times 2 + 1 = 5$.'
+        ],
+        answer: 'Le point d\'intersection est $(2 ; 5)$.'
       },
       formulas: [
         'Équation de droite : $y = mx + p$',
         'Pente : $m = \\dfrac{y_B - y_A}{x_B - x_A}$',
         'Système : $\\begin{cases} y = m_1 x + p_1 \\\\ y = m_2 x + p_2 \\end{cases} \\Rightarrow m_1 x + p_1 = m_2 x + p_2$'
+      ],
+      recap: [
+        'Toute droite non verticale a une équation $y = mx + p$ ; une droite verticale s\'écrit $x = k$.',
+        'Même pente → droites parallèles (pas de solution) ; pentes différentes → un unique point d\'intersection.',
+        'Par substitution : isoler, remplacer, résoudre, puis remonter à la deuxième inconnue.',
+        'Toujours vérifier la solution dans les deux équations du système.'
       ],
       piege: 'Si $m_1 = m_2$ et $p_1 \\ne p_2$, les droites sont parallèles : le système n\'a pas de solution !'
     },
@@ -1104,7 +1296,7 @@ window.MODULES.push(
 
     {
     id: '2nde-geometrie-plane',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '📏',
     title: 'Géométrie plane',
     subtitle: 'Configurations, triangles, parallélisme',
@@ -1112,19 +1304,41 @@ window.MODULES.push(
     physics: false,
     cours: {
       intro: 'La géométrie plane combine raisonnement logique et calcul pour prouver des propriétés sur des figures. Le théorème de Thalès permet de calculer des longueurs inaccessibles à partir de rapports entre segments parallèles. Dans un triangle, quatre droites remarquables se distinguent par leur définition : la médiane joint un sommet au milieu du côté opposé ; la hauteur est perpendiculaire au côté opposé (mais pas nécessairement en son milieu) ; la médiatrice est perpendiculaire au côté par son milieu ; la bissectrice divise l\'angle en deux parties égales. Confondre ces quatre notions est l\'une des erreurs les plus fréquentes en géométrie.',
+      definitions: [
+        { term: 'Théorème de Thalès', def: 'Si $(MN) \\parallel (BC)$ dans un triangle $ABC$ avec $M \\in [AB]$ et $N \\in [AC]$, alors $\\dfrac{AM}{AB} = \\dfrac{AN}{AC} = \\dfrac{MN}{BC}$.' },
+        { term: 'Médiane', def: 'Droite joignant un sommet au milieu du côté opposé. Les trois médianes se coupent au centre de gravité.' },
+        { term: 'Hauteur', def: 'Droite passant par un sommet, perpendiculaire au côté opposé. Attention : elle ne passe pas nécessairement par le milieu du côté.' },
+        { term: 'Médiatrice', def: 'Droite perpendiculaire à un segment en son milieu. Les trois médiatrices d\'un triangle se coupent au centre du cercle circonscrit.' }
+      ],
       method: {
         title: 'Appliquer le théorème de Thalès',
         steps: [
-          'Identifier deux droites sécantes et deux droites parallèles coupant ces sécantes.',
-          'Écrire les rapports égaux : $\\frac{AM}{AB}=\\frac{AN}{AC}=\\frac{MN}{BC}$.',
-          'Calculer la longueur inconnue par produit en croix.',
-          'Vérifier la cohérence (la longueur partielle est inférieure à la totale).'
+          'Identifier deux droites sécantes et deux droites parallèles coupant ces sécantes. <strong>Exemple :</strong> Dans le triangle $ABC$, si $M \\in [AB]$ et $N \\in [AC]$ avec $(MN) \\parallel (BC)$, la configuration est valide.',
+          'Écrire les rapports égaux : $\\frac{AM}{AB}=\\frac{AN}{AC}=\\frac{MN}{BC}$. <strong>Exemple :</strong> Si $AM = 3$, $AB = 9$ → le rapport est $\\frac{3}{9} = \\frac{1}{3}$.',
+          'Calculer la longueur inconnue par produit en croix. <strong>Exemple :</strong> $\\frac{1}{3} = \\frac{MN}{12}$ → $MN = \\frac{12}{3} = 4$.',
+          'Vérifier la cohérence (la longueur partielle est inférieure à la totale). <strong>Exemple :</strong> $MN = 4 < BC = 12$ ✓ (le petit triangle est plus petit).'
         ]
       },
+      example: {
+        statement: 'Dans un triangle $ABC$, $(MN) \\parallel (BC)$ avec $AM = 4$ cm, $MB = 8$ cm, $AN = 3$ cm. Calculer $NC$ et $MN$ sachant que $BC = 15$ cm.',
+        steps: [
+          '$AB = AM + MB = 4 + 8 = 12$ cm. Le rapport de réduction est $k = \\dfrac{AM}{AB} = \\dfrac{4}{12} = \\dfrac{1}{3}$.',
+          '$\\dfrac{AN}{AC} = \\dfrac{1}{3}$ → $AC = 3 \\times 3 = 9$ cm, donc $NC = AC - AN = 9 - 3 = 6$ cm.',
+          '$\\dfrac{MN}{BC} = \\dfrac{1}{3}$ → $MN = \\dfrac{15}{3} = 5$ cm.'
+        ],
+        answer: '$NC = 6$ cm et $MN = 5$ cm.'
+      },
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto"><tr><th style="border:1px solid var(--border);padding:8px">Droite remarquable</th><th style="border:1px solid var(--border);padding:8px">Passe par</th><th style="border:1px solid var(--border);padding:8px">Propriété</th></tr><tr><td style="border:1px solid var(--border);padding:8px">Médiane</td><td style="border:1px solid var(--border);padding:8px">Sommet → milieu du côté opposé</td><td style="border:1px solid var(--border);padding:8px">Centre de gravité</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Hauteur</td><td style="border:1px solid var(--border);padding:8px">Sommet ⊥ côté opposé</td><td style="border:1px solid var(--border);padding:8px">Orthocentre</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Médiatrice</td><td style="border:1px solid var(--border);padding:8px">⊥ au milieu du côté</td><td style="border:1px solid var(--border);padding:8px">Centre du cercle circonscrit</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Bissectrice</td><td style="border:1px solid var(--border);padding:8px">Sommet, divise l\'angle en 2</td><td style="border:1px solid var(--border);padding:8px">Centre du cercle inscrit</td></tr></table>',
       formulas: [
         'Thalès : $\\dfrac{AM}{AB}=\\dfrac{AN}{AC}=\\dfrac{MN}{BC}$',
         'Aire triangle : $\\mathcal{A}=\\dfrac{\\text{base}\\times\\text{hauteur}}{2}$',
         'Somme des angles d\'un triangle : $180°$'
+      ],
+      recap: [
+        'Thalès lie les rapports de longueurs quand une droite est parallèle à un côté du triangle.',
+        'Le rapport des aires de deux triangles en configuration de Thalès est le carré du rapport de réduction : $k^2$.',
+        'Quatre droites remarquables : médiane, hauteur, médiatrice, bissectrice — ne pas les confondre.',
+        'La somme des angles d\'un triangle vaut toujours $180°$.'
       ],
       piege: 'Thalès s\'applique uniquement si $M\\in[AB]$ et $N\\in[AC]$ ET que $(MN)\\parallel(BC)$. Vérifier les conditions avant d\'écrire les rapports.'
     },
@@ -1219,7 +1433,7 @@ window.MODULES.push(
 
     {
     id: '2nde-statistiques',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '📊',
     title: 'Statistiques descriptives',
     subtitle: 'Variance, écart-type, dispersion',
@@ -1227,19 +1441,41 @@ window.MODULES.push(
     physics: false,
     cours: {
       intro: 'La moyenne est la mesure de tendance centrale la plus utilisée, mais elle est sensible aux valeurs extrêmes. La variance mesure la dispersion en moyennant les CARRÉS des écarts à la moyenne (pas les écarts simples, dont la somme est toujours nulle). L\'écart-type $\\sigma = \\sqrt{V}$ est exprimé dans les mêmes unités que les données — ce qui le rend plus interprétable que la variance. Un écart-type faible signifie des données regroupées autour de la moyenne ; élevé, des données très dispersées. La règle empirique des $68\\%$ dit qu\'environ les deux tiers des données se trouvent dans $[\\bar{x}-\\sigma ; \\bar{x}+\\sigma]$ pour une distribution en cloche.',
+      definitions: [
+        { term: 'Moyenne', def: 'Somme des valeurs divisée par l\'effectif total : $\\bar{x} = \\dfrac{1}{n}\\sum x_i$. Sensible aux valeurs extrêmes.' },
+        { term: 'Variance', def: 'Moyenne des carrés des écarts à la moyenne : $V = \\dfrac{1}{n}\\sum(x_i - \\bar{x})^2$. Mesure la dispersion.' },
+        { term: 'Écart-type', def: '$\\sigma = \\sqrt{V}$. Exprimé dans les mêmes unités que les données, il est plus facile à interpréter que la variance.' },
+        { term: 'Dispersion', def: 'Mesure de la variabilité des données autour de la moyenne. Plus $\\sigma$ est grand, plus les données sont dispersées.' }
+      ],
       method: {
         title: 'Calculer l\'écart-type',
         steps: [
-          'Calculer la moyenne $\\bar{x}=\\frac{1}{n}\\sum x_i$.',
-          'Calculer la variance $V=\\frac{1}{n}\\sum (x_i-\\bar{x})^2$.',
-          'L\'écart-type est $\\sigma=\\sqrt{V}$.',
-          'Interpréter : environ $68\\%$ des données sont dans $[\\bar{x}-\\sigma ; \\bar{x}+\\sigma]$.'
+          'Calculer la moyenne $\\bar{x}=\\frac{1}{n}\\sum x_i$. <strong>Exemple :</strong> Série $\\{4 ; 6 ; 8\\}$ → $\\bar{x} = \\frac{4+6+8}{3} = 6$.',
+          'Calculer la variance $V=\\frac{1}{n}\\sum (x_i-\\bar{x})^2$. <strong>Exemple :</strong> $V = \\frac{(4-6)^2 + (6-6)^2 + (8-6)^2}{3} = \\frac{4+0+4}{3} \\approx 2{,}67$.',
+          'L\'écart-type est $\\sigma=\\sqrt{V}$. <strong>Exemple :</strong> $\\sigma = \\sqrt{2{,}67} \\approx 1{,}63$.',
+          'Interpréter : environ $68\\%$ des données sont dans $[\\bar{x}-\\sigma ; \\bar{x}+\\sigma]$. <strong>Exemple :</strong> Ici $[6-1{,}63 ; 6+1{,}63] = [4{,}37 ; 7{,}63]$.'
         ]
+      },
+      example: {
+        statement: 'On mesure les tailles (en cm) de $5$ élèves : $\\{162 ; 168 ; 170 ; 172 ; 178\\}$. Calculer la moyenne, la variance et l\'écart-type.',
+        steps: [
+          'Moyenne : $\\bar{x} = \\dfrac{162 + 168 + 170 + 172 + 178}{5} = \\dfrac{850}{5} = 170$ cm.',
+          'Écarts au carré : $(162-170)^2 = 64$, $(168-170)^2 = 4$, $(170-170)^2 = 0$, $(172-170)^2 = 4$, $(178-170)^2 = 64$.',
+          'Variance : $V = \\dfrac{64+4+0+4+64}{5} = \\dfrac{136}{5} = 27{,}2$ cm².',
+          'Écart-type : $\\sigma = \\sqrt{27{,}2} \\approx 5{,}22$ cm.'
+        ],
+        answer: '$\\bar{x} = 170$ cm, $V = 27{,}2$ cm², $\\sigma \\approx 5{,}22$ cm.'
       },
       formulas: [
         '$\\bar{x} = \\dfrac{1}{n}\\displaystyle\\sum_{i=1}^n x_i$',
         '$V = \\dfrac{1}{n}\\displaystyle\\sum_{i=1}^n (x_i-\\bar{x})^2$',
         '$\\sigma = \\sqrt{V}$'
+      ],
+      recap: [
+        'La moyenne mesure la tendance centrale ; la variance et l\'écart-type mesurent la dispersion.',
+        'On utilise les écarts au carré (pas les écarts simples, dont la somme est toujours nulle).',
+        '$\\sigma$ a les mêmes unités que les données ; la variance est en unités² — c\'est pourquoi on préfère $\\sigma$.',
+        'Un $\\sigma$ faible = données groupées autour de la moyenne ; un $\\sigma$ élevé = données dispersées.'
       ],
       piege: 'La variance se calcule avec les écarts à la moyenne au carré, pas en valeur absolue. Ne pas confondre $V$ et $\\sigma$.'
     },
@@ -1336,7 +1572,7 @@ window.MODULES.push(
 
     {
     id: '2nde-probabilites',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '🎲',
     title: 'Probabilités',
     subtitle: 'Modèle, loi, événements',
@@ -1344,20 +1580,41 @@ window.MODULES.push(
     physics: false,
     cours: {
       intro: 'Une expérience aléatoire est une expérience dont le résultat ne peut pas être prédit à l\'avance — contrairement à une expérience déterministe. L\'univers $\\Omega$ est l\'ensemble de toutes les issues possibles. La probabilité $P(A)$ est un réel de $[0;1]$ qui mesure la fréquence relative de l\'événement $A$ sur un grand nombre de répétitions. En cas d\'équiprobabilité (toutes les issues ont la même probabilité), $P(A) = |A| / |\\Omega|$. L\'équiprobabilité n\'est pas automatique : un dé truqué ou une urne déséquilibrée ne la vérifient pas. Les lancers successifs sont des épreuves indépendantes : la pièce n\'a pas de mémoire, et les résultats passés n\'influencent pas les futurs.',
+      definitions: [
+        { term: 'Expérience aléatoire', def: 'Expérience dont le résultat ne peut pas être prédit à l\'avance (ex. : lancer un dé, tirer une carte).' },
+        { term: 'Univers $\\Omega$', def: 'Ensemble de toutes les issues possibles d\'une expérience aléatoire. Ex. : dé à $6$ faces → $\\Omega = \\{1;2;3;4;5;6\\}$.' },
+        { term: 'Événement', def: 'Sous-ensemble de $\\Omega$. Ex. : « obtenir un nombre pair » $= \\{2;4;6\\}$.' },
+        { term: 'Événement contraire', def: '$\\bar{A}$ contient toutes les issues de $\\Omega$ qui ne sont pas dans $A$. On a $P(\\bar{A}) = 1 - P(A)$.' }
+      ],
       method: {
         title: 'Calculer une probabilité',
         steps: [
-          'Définir l\'univers $\\Omega$ et vérifier si les issues sont équiprobables.',
-          'Compter le nombre d\'issues favorables à $A$.',
-          'Appliquer $P(A) = \\frac{\\text{nombre d\'issues favorables}}{\\text{nombre total d\'issues}}$ si équiprobabilité.',
-          'Utiliser $P(\\bar{A}) = 1 - P(A)$ pour l\'événement contraire.'
+          'Définir l\'univers $\\Omega$ et vérifier si les issues sont équiprobables. <strong>Exemple :</strong> Dé équilibré à $6$ faces → $\\Omega = \\{1;2;3;4;5;6\\}$, équiprobabilité.',
+          'Compter le nombre d\'issues favorables à $A$. <strong>Exemple :</strong> $A$ = « obtenir un multiple de $3$ » → $A = \\{3;6\\}$, soit $2$ issues.',
+          'Appliquer $P(A) = \\frac{\\text{nombre d\'issues favorables}}{\\text{nombre total d\'issues}}$ si équiprobabilité. <strong>Exemple :</strong> $P(A) = \\frac{2}{6} = \\frac{1}{3}$.',
+          'Utiliser $P(\\bar{A}) = 1 - P(A)$ pour l\'événement contraire. <strong>Exemple :</strong> $P(\\bar{A}) = 1 - \\frac{1}{3} = \\frac{2}{3}$ (ne pas obtenir un multiple de $3$).'
         ]
+      },
+      example: {
+        statement: 'Dans une classe de $30$ élèves, $12$ pratiquent le basketball ($B$), $10$ font de la natation ($N$), et $4$ font les deux. On choisit un élève au hasard. Calculer $P(B \\cup N)$.',
+        steps: [
+          'On identifie : $P(B) = \\frac{12}{30}$, $P(N) = \\frac{10}{30}$, $P(B \\cap N) = \\frac{4}{30}$.',
+          'Formule d\'addition : $P(B \\cup N) = P(B) + P(N) - P(B \\cap N) = \\frac{12}{30} + \\frac{10}{30} - \\frac{4}{30} = \\frac{18}{30} = 0{,}6$.',
+          'Vérification : $18$ élèves font au moins un des deux sports (parmi $30$).'
+        ],
+        answer: '$P(B \\cup N) = 0{,}6$ : la probabilité qu\'un élève pratique au moins l\'un des deux sports est $60\\%$.'
       },
       formulas: [
         '$P(A) = \\dfrac{|A|}{|\\Omega|}$ (cas équiprobable)',
         '$P(\\bar{A}) = 1 - P(A)$',
         '$P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$',
         '$0 \\le P(A) \\le 1$'
+      ],
+      recap: [
+        'Probabilité = nombre entre $0$ et $1$ ; la somme des probabilités de tous les événements vaut $1$.',
+        'En cas d\'équiprobabilité : $P(A) = \\frac{\\text{cas favorables}}{\\text{cas possibles}}$.',
+        'Événement contraire : $P(\\bar{A}) = 1 - P(A)$, souvent plus rapide que de compter directement.',
+        'Formule d\'addition : toujours soustraire $P(A \\cap B)$ pour éviter de compter deux fois l\'intersection.'
       ],
       piege: 'Ne pas confondre $P(A\\cup B)$ et $P(A)+P(B)$ : la formule d\'addition doit soustraire $P(A\\cap B)$ pour ne pas compter deux fois l\'intersection.'
     },
@@ -1449,7 +1706,7 @@ window.MODULES.push(
 
     {
     id: '2nde-echantillonnage',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '🧪',
     title: 'Échantillonnage et estimation',
     subtitle: 'Fréquences, fluctuation, intervalle de confiance',
@@ -1457,18 +1714,39 @@ window.MODULES.push(
     physics: false,
     cours: {
       intro: 'L\'échantillonnage permet d\'inférer des propriétés d\'une grande population à partir d\'un sous-groupe représentatif. La fréquence observée dans un échantillon de taille $n$ fluctue aléatoirement autour de la vraie proportion $p$ — cette variabilité diminue quand $n$ augmente. L\'intervalle de confiance à $95\\%$ fournit une plage dans laquelle se trouve la vraie proportion dans $95\\%$ des cas si on répétait l\'expérience. La marge d\'erreur $e = 1/\\sqrt{n}$ montre que passer de $100$ à $400$ personnes divise l\'erreur par $2$ (pas par $4$) : améliorer la précision coûte cher en taille d\'échantillon. Cette formule est une approximation valable pour $n \\geq 30$.',
+      definitions: [
+        { term: 'Échantillon', def: 'Sous-groupe de taille $n$ tiré au hasard dans une population. Il doit être représentatif pour que les résultats soient fiables.' },
+        { term: 'Fréquence observée', def: '$f = \\dfrac{\\text{effectif du caractère}}{n}$ : proportion mesurée dans l\'échantillon. Elle fluctue d\'un échantillon à l\'autre.' },
+        { term: 'Intervalle de confiance', def: 'Plage $[f - e ; f + e]$ qui contient la vraie proportion $p$ avec un niveau de confiance donné (ici $95\\%$).' },
+        { term: 'Marge d\'erreur', def: '$e = \\dfrac{1}{\\sqrt{n}}$ (approximation au niveau $95\\%$). Plus $n$ est grand, plus $e$ est petit.' }
+      ],
       method: {
         title: 'Construire un intervalle de confiance (niveau 95%)',
         steps: [
-          'Calculer la fréquence observée $f = \\frac{\\text{effectif}}{n}$ dans l\'échantillon de taille $n$.',
-          'Calculer la marge d\'erreur $e = \\frac{1}{\\sqrt{n}}$.',
-          'L\'intervalle de confiance est $\\left[f - \\frac{1}{\\sqrt{n}} ; f + \\frac{1}{\\sqrt{n}}\\right]$.',
-          'Interpréter : on est sûr à 95% que la vraie proportion $p$ est dans cet intervalle.'
+          'Calculer la fréquence observée $f = \\frac{\\text{effectif}}{n}$ dans l\'échantillon de taille $n$. <strong>Exemple :</strong> $120$ personnes sur $400$ sont favorables → $f = \\frac{120}{400} = 0{,}3$.',
+          'Calculer la marge d\'erreur $e = \\frac{1}{\\sqrt{n}}$. <strong>Exemple :</strong> $e = \\frac{1}{\\sqrt{400}} = \\frac{1}{20} = 0{,}05$.',
+          'L\'intervalle de confiance est $\\left[f - \\frac{1}{\\sqrt{n}} ; f + \\frac{1}{\\sqrt{n}}\\right]$. <strong>Exemple :</strong> $[0{,}3 - 0{,}05 ; 0{,}3 + 0{,}05] = [0{,}25 ; 0{,}35]$.',
+          'Interpréter : on est sûr à 95% que la vraie proportion $p$ est dans cet intervalle. <strong>Exemple :</strong> La vraie proportion de personnes favorables est entre $25\\%$ et $35\\%$ avec $95\\%$ de confiance.'
         ]
+      },
+      example: {
+        statement: 'Un sondage interroge $n = 900$ personnes. $540$ sont satisfaites d\'un produit. Construire l\'intervalle de confiance à $95\\%$ pour la proportion de satisfaits.',
+        steps: [
+          'Fréquence observée : $f = \\dfrac{540}{900} = 0{,}6$.',
+          'Marge d\'erreur : $e = \\dfrac{1}{\\sqrt{900}} = \\dfrac{1}{30} \\approx 0{,}033$.',
+          'Intervalle de confiance : $[0{,}6 - 0{,}033 ; 0{,}6 + 0{,}033] = [0{,}567 ; 0{,}633]$.'
+        ],
+        answer: 'On peut affirmer, avec $95\\%$ de confiance, que la vraie proportion de satisfaits est comprise entre $56{,}7\\%$ et $63{,}3\\%$.'
       },
       formulas: [
         '$I_{conf} = \\left[f - \\dfrac{1}{\\sqrt{n}} ; f + \\dfrac{1}{\\sqrt{n}}\\right]$',
         'Marge d\'erreur $e = \\dfrac{1}{\\sqrt{n}}$'
+      ],
+      recap: [
+        'La fréquence observée $f$ fluctue autour de la vraie proportion $p$ : c\'est la fluctuation d\'échantillonnage.',
+        'La marge d\'erreur $e = 1/\\sqrt{n}$ diminue quand $n$ augmente, mais lentement (il faut multiplier $n$ par $4$ pour diviser $e$ par $2$).',
+        'L\'intervalle de confiance ne garantit pas à $100\\%$ que $p$ est dedans : il y a $5\\%$ de risque d\'erreur.',
+        'La formule $1/\\sqrt{n}$ est une approximation valable pour $n \\geq 30$.'
       ],
       piege: 'L\'intervalle de confiance ne garantit pas à 100% que $p$ est dedans, seulement à 95%. De plus, la formule $\\frac{1}{\\sqrt{n}}$ est une approximation valable pour $n\\ge 30$.'
     },
@@ -1561,7 +1839,7 @@ window.MODULES.push(
 
     {
     id: '2nde-algorithmique',
-    level: 2,
+    level: 2, subject: 'maths',
     icon: '💻',
     title: 'Algorithmique et programmation (Python)',
     subtitle: 'Variables, boucles, conditions en Python',
@@ -1569,19 +1847,40 @@ window.MODULES.push(
     physics: false,
     cours: {
       intro: 'Un algorithme est une suite finie d\'instructions non ambiguës permettant de résoudre un problème. En seconde, Python est le langage de référence : sa syntaxe minimaliste force une structuration claire. La boucle $\\texttt{for i in range(n)}$ parcourt les entiers de $0$ à $n-1$ (la borne supérieure est exclue) ; $\\texttt{while condition}$ répète tant que la condition est vraie. L\'indentation (espaces obligatoires en début de bloc) est syntaxiquement obligatoire en Python — une indentation incorrecte cause une erreur ou change silencieusement le sens du programme. Déboguer consiste à suivre l\'exécution pas à pas avec des valeurs test pour identifier où le comportement diverge de l\'attendu.',
+      definitions: [
+        { term: 'Algorithme', def: 'Suite finie d\'instructions non ambiguës qui, à partir de données d\'entrée, produit un résultat en un nombre fini d\'étapes.' },
+        { term: 'Variable', def: 'Espace mémoire nommé qui stocke une valeur. En Python : $\\texttt{x = 5}$ crée la variable $x$ avec la valeur $5$.' },
+        { term: 'Boucle $\\texttt{for}$', def: 'Répète un bloc un nombre fixé de fois. $\\texttt{for i in range(n)}$ exécute le bloc $n$ fois avec $i = 0, 1, \\ldots, n-1$.' },
+        { term: 'Boucle $\\texttt{while}$', def: 'Répète un bloc tant qu\'une condition est vraie. Risque de boucle infinie si la condition ne devient jamais fausse.' }
+      ],
       method: {
         title: 'Écrire un algorithme en Python',
         steps: [
-          'Déclarer les variables et leurs valeurs initiales.',
-          'Utiliser $\\texttt{for i in range(n)}$ pour répéter $n$ fois.',
-          'Utiliser $\\texttt{while condition}$ pour répéter tant qu\'une condition est vraie.',
-          'Tester avec des exemples pour vérifier la correction de l\'algorithme.'
+          'Déclarer les variables et leurs valeurs initiales. <strong>Exemple :</strong> $\\texttt{s = 0}$ (accumulateur initialisé à zéro pour une somme).',
+          'Utiliser $\\texttt{for i in range(n)}$ pour répéter $n$ fois. <strong>Exemple :</strong> $\\texttt{for i in range(1, 6):}$ fait varier $i$ de $1$ à $5$ inclus.',
+          'Utiliser $\\texttt{while condition}$ pour répéter tant qu\'une condition est vraie. <strong>Exemple :</strong> $\\texttt{while n > 1: n = n // 2}$ divise $n$ par $2$ jusqu\'à ce qu\'il atteigne $1$.',
+          'Tester avec des exemples pour vérifier la correction de l\'algorithme. <strong>Exemple :</strong> Pour un programme de somme $1+\\ldots+5$, vérifier que le résultat est bien $15$.'
         ]
+      },
+      example: {
+        statement: 'Écrire un algorithme Python qui calcule la factorielle de $n$ (c\'est-à-dire $n! = 1 \\times 2 \\times \\ldots \\times n$). Tester pour $n = 5$.',
+        steps: [
+          'Initialiser le résultat : $\\texttt{resultat = 1}$.',
+          'Boucle : $\\texttt{for i in range(1, n+1):}$ puis $\\texttt{resultat = resultat * i}$.',
+          'Exécution pour $n = 5$ : $i = 1$ → $1$, $i = 2$ → $2$, $i = 3$ → $6$, $i = 4$ → $24$, $i = 5$ → $120$.'
+        ],
+        answer: '$5! = 120$. Le programme affiche $\\texttt{120}$.'
       },
       formulas: [
         '$\\texttt{for i in range(a, b)}$ : $i$ prend les valeurs $a, a+1, \\ldots, b-1$',
         '$\\texttt{range(n)}$ est équivalent à $\\texttt{range(0, n)}$',
         'Indentation obligatoire en Python (4 espaces ou 1 tabulation)'
+      ],
+      recap: [
+        '$\\texttt{range(a, b)}$ produit les entiers de $a$ à $b-1$ : la borne supérieure est toujours exclue.',
+        'La boucle $\\texttt{for}$ est utilisée quand le nombre de répétitions est connu à l\'avance ; $\\texttt{while}$ sinon.',
+        'L\'indentation est obligatoire en Python : elle délimite les blocs de code (pas d\'accolades).',
+        'Pour déboguer, exécuter le code à la main pas à pas avec des valeurs test.'
       ],
       piege: 'En Python, $\\texttt{range(1,6)}$ produit $1,2,3,4,5$ (pas $6$). La borne supérieure est exclue !'
     },

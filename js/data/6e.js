@@ -8,7 +8,7 @@ window.MODULES.push(
   /* ─── Module 1 ─── */
   {
     id: '6e-fractions',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '½',
     title: 'Fractions',
     subtitle: 'Nommer, simplifier, comparer',
@@ -152,7 +152,7 @@ window.MODULES.push(
     /* ─── Module 2 ─── */
   {
     id: '6e-volumes',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '📦',
     title: 'Volumes',
     subtitle: 'Cube, pavé droit, unités (L, mL, m³)',
@@ -298,7 +298,7 @@ window.MODULES.push(
     /* ─── Module 3 ─── */
   {
     id: '6e-angles',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '📐',
     title: 'Angles',
     subtitle: 'Mesurer, construire, types d\'angles',
@@ -438,7 +438,7 @@ window.MODULES.push(
     /* ─── Module 4 ─── */
   {
     id: '6e-nombres-decimaux',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '🔢',
     title: 'Nombres entiers et décimaux',
     subtitle: 'Lire, écrire, comparer, ranger',
@@ -588,7 +588,7 @@ window.MODULES.push(
     /* ─── Module 5 ─── */
   {
     id: '6e-addition-soustraction',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '➕',
     title: 'Addition et soustraction',
     subtitle: 'Entiers et décimaux, calcul posé et mental',
@@ -734,7 +734,7 @@ window.MODULES.push(
     /* ─── Module 6 ─── */
   {
     id: '6e-multiplication',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '✖️',
     title: 'Multiplication des entiers et décimaux',
     subtitle: 'Technique posée, placement de la virgule',
@@ -886,7 +886,7 @@ window.MODULES.push(
     /* ─── Module 7 ─── */
   {
     id: '6e-division',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '➗',
     title: 'Division euclidienne et décimale',
     subtitle: 'Quotient, reste, division posée',
@@ -1035,7 +1035,7 @@ window.MODULES.push(
     /* ─── Module 8 ─── */
   {
     id: '6e-figures-geometriques',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '📐',
     title: 'Figures géométriques de base',
     subtitle: 'Droites, segments, demi-droites, cercles',
@@ -1185,7 +1185,7 @@ window.MODULES.push(
     /* ─── Module 9 ─── */
   {
     id: '6e-symetrie-axiale',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '🪞',
     title: 'Symétrie axiale',
     subtitle: 'Axe de symétrie, construction du symétrique',
@@ -1337,7 +1337,7 @@ window.MODULES.push(
     /* ─── Module 10 ─── */
   {
     id: '6e-perimetres-aires',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '📏',
     title: 'Périmètres et aires',
     subtitle: 'Rectangle, triangle, disque',

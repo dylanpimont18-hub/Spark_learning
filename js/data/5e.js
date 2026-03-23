@@ -7,7 +7,7 @@ window.MODULES.push(
 
   {
     id: 'proportionnalite',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '⚖️',
     title: 'Proportionnalité et Règle de trois',
     subtitle: 'Produit en croix, coefficients, tableaux',
@@ -158,7 +158,7 @@ window.MODULES.push(
 
     {
     id: 'reperage-graphique',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '📊',
     title: 'Repérage spatial et Lecture Graphique',
     subtitle: 'Repère cartésien, interpolation, extrapolation',
@@ -314,7 +314,7 @@ window.MODULES.push(
 
     {
     id: '5e-nombres-relatifs',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '±',
     title: 'Nombres relatifs',
     subtitle: 'Addition, soustraction, repérage',
@@ -463,7 +463,7 @@ window.MODULES.push(
 
     {
     id: '5e-priorites-operations',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '🔢',
     title: 'Priorités des opérations',
     subtitle: 'Règles de calcul, parenthèses, PEMDAS',
@@ -609,7 +609,7 @@ window.MODULES.push(
 
     {
     id: '5e-fractions-operations',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '½',
     title: 'Opérations sur les fractions',
     subtitle: 'Addition, soustraction, comparaison',
@@ -764,7 +764,7 @@ window.MODULES.push(
 
     {
     id: '5e-proportionnalite',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '📊',
     title: 'Proportionnalité appliquée',
     subtitle: 'Pourcentages, échelles, vitesse moyenne',
@@ -911,7 +911,7 @@ window.MODULES.push(
 
     {
     id: '5e-expressions-litterales',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '🔤',
     title: 'Expressions littérales',
     subtitle: 'Calculer, réduire, substituer',
@@ -1058,7 +1058,7 @@ window.MODULES.push(
 
     {
     id: '5e-symetrie-centrale',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '🔄',
     title: 'Symétrie centrale',
     subtitle: 'Centre de symétrie, construction du symétrique',
@@ -1211,7 +1211,7 @@ window.MODULES.push(
 
     {
     id: '5e-triangles',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '🔺',
     title: 'Triangles',
     subtitle: 'Construction, types, inégalité triangulaire',
@@ -1365,7 +1365,7 @@ window.MODULES.push(
 
     {
     id: '5e-parallelogrammes',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '▱',
     title: 'Parallélogrammes et propriétés',
     subtitle: 'Parallélogramme, rectangle, losange, carré',
@@ -1521,7 +1521,7 @@ window.MODULES.push(
 
     {
     id: '5e-angles-parallelisme',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '📏',
     title: 'Angles et parallélisme',
     subtitle: 'Alternes-internes, correspondants, coalternes',
@@ -1663,7 +1663,7 @@ window.MODULES.push(
 
     {
     id: '5e-aires-perimetres',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '🔷',
     title: 'Aires et périmètres (approfondissement)',
     subtitle: 'Disque, figures composées, conversions',
@@ -1801,7 +1801,7 @@ window.MODULES.push(
 
     {
     id: '5e-volumes',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '📦',
     title: 'Volumes (prismes et cylindres)',
     subtitle: 'Formule de base, conversions',
@@ -1938,7 +1938,7 @@ window.MODULES.push(
 
     {
     id: '5e-statistiques',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '📈',
     title: 'Statistiques descriptives',
     subtitle: 'Moyenne, étendue, effectifs, fréquences',
@@ -2081,7 +2081,7 @@ window.MODULES.push(
 
     {
     id: '5e-probabilites',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '🎲',
     title: 'Probabilités (introduction)',
     subtitle: 'Expériences aléatoires, univers, probabilité',

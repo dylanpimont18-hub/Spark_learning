@@ -7,7 +7,7 @@ window.MODULES.push(
 
   {
     id: 'trigonometrie',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '📐',
     title: 'Trigonométrie dans le Triangle Rectangle',
     subtitle: 'SOH-CAH-TOA, angles, hypoténuse',
@@ -158,7 +158,7 @@ window.MODULES.push(
 
     {
     id: '3e-systemes',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '🔗',
     title: "Systèmes d'équations",
     subtitle: 'Substitution, combinaison, deux inconnues',
@@ -311,7 +311,7 @@ window.MODULES.push(
 
     {
     id: '3e-thales',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '🔺',
     title: 'Théorème de Thalès',
     subtitle: 'Triangles semblables, rapports de longueurs',
@@ -459,7 +459,7 @@ window.MODULES.push(
 
     {
     id: '3e-arithmetique',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '🔢',
     title: 'Arithmétique',
     subtitle: 'PGCD, nombres premiers, décomposition',
@@ -594,7 +594,7 @@ window.MODULES.push(
 
     {
     id: '3e-identites-remarquables',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '🔣',
     title: 'Identités remarquables',
     subtitle: '$(a+b)^2$, $(a-b)^2$, $(a+b)(a-b)$',
@@ -724,7 +724,7 @@ window.MODULES.push(
 
     {
     id: '3e-equations-inequations',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '⚖️',
     title: 'Équations et inéquations',
     subtitle: 'Résolution, ensemble solution, représentation',
@@ -859,7 +859,7 @@ window.MODULES.push(
 
     {
     id: '3e-fonctions',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '📉',
     title: 'Fonctions – notions de base',
     subtitle: 'Image, antécédent, représentation graphique',
@@ -995,7 +995,7 @@ window.MODULES.push(
 
     {
     id: '3e-homotheties',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '🔍',
     title: 'Homothéties',
     subtitle: 'Centre, rapport, image d\'une figure',
@@ -1123,7 +1123,7 @@ window.MODULES.push(
 
     {
     id: '3e-sections-solides',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '🔪',
     title: 'Sections de solides',
     subtitle: 'Plans de coupe, sections parallèles et perpendiculaires',
@@ -1250,7 +1250,7 @@ window.MODULES.push(
 
     {
     id: '3e-volumes',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '🌐',
     title: 'Volumes : sphère et solides composés',
     subtitle: 'Formule de la sphère, assemblages',
@@ -1376,7 +1376,7 @@ window.MODULES.push(
 
     {
     id: '3e-stats-probas',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '📋',
     title: 'Statistiques et probabilités (approfondissement)',
     subtitle: 'Fréquences, tableaux croisés, probabilités conditionnelles intro',
@@ -1505,7 +1505,7 @@ window.MODULES.push(
 
     {
     id: '3e-algorithmique',
-    level: 1,
+    level: 1, subject: 'maths',
     icon: '💻',
     title: 'Algorithmes et programmation',
     subtitle: 'Variables, boucles, conditions, Scratch/Python',

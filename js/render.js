@@ -24,7 +24,7 @@ function renderContinueSection() {
                   <span class="continue-card-icon">${m.icon}</span>
                   <div>
                     <div class="continue-card-title">${m.title}</div>
-                    <div class="continue-card-level">${LEVEL_NAMES[m.level]}</div>
+                    <div class="continue-card-level">${getSubjectDef(m.subject || 'maths').icon} ${getSubjectDef(m.subject || 'maths').label} · ${LEVEL_NAMES[m.level]}</div>
                   </div>
                 </div>
                 <div class="progress-bar" style="margin-top:12px;">
@@ -124,6 +124,52 @@ function renderStatsSection() {
 }
 
 /* ═══════════════════════════════════════
+   SUBJECTS PAGE
+═══════════════════════════════════════ */
+function renderSubjects() {
+  return `
+    <div class="container">
+      <div class="page-header">
+        <h1 class="page-title">Choisir ta matière</h1>
+        <p class="page-subtitle">Sélectionne la matière que tu veux travailler</p>
+      </div>
+      <div class="subjects-grid">
+        ${SUBJECT_DEFS.map(s => {
+          const mods = window.MODULES.filter(m => (m.subject || 'maths') === s.id);
+          const count = mods.length;
+          const done = mods.filter(m => {
+            const p = getModuleProgress(m.id);
+            return p.done === p.total && p.done > 0;
+          }).length;
+          const pct = count > 0 ? Math.round((done / count) * 100) : 0;
+          const isEmpty = count === 0;
+          return `
+            <div class="subject-card ${isEmpty ? 'subject-card-empty' : ''}"
+                 style="--subject-color: ${s.color};"
+                 ${isEmpty ? '' : `onclick="navigate('levels', {subject: '${s.id}'})" tabindex="0" role="button" aria-label="Matière ${s.label}"`}>
+              <div class="subject-card-icon">${s.icon}</div>
+              <div class="subject-card-title">${s.label}</div>
+              <p class="subject-card-desc">${s.description}</p>
+              ${isEmpty ? `
+                <span class="subject-card-badge">Bientôt disponible</span>
+              ` : `
+                <span class="subject-card-count" style="--subject-color: ${s.color};">${count} ${pluralize('module', count)}</span>
+                <div class="subject-card-progress">
+                  <div class="subject-card-progress-label">${done === 0 ? 'Pas encore commencé' : `${done} / ${count} ${pluralize('module', done)} ${pluralize('complété', done)}`}</div>
+                  <div class="subject-card-progress-bar">
+                    <div class="subject-card-progress-fill" style="width: ${pct}%;"></div>
+                  </div>
+                </div>
+              `}
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+/* ═══════════════════════════════════════
    HOME PAGE
 ═══════════════════════════════════════ */
 function renderHome() {
@@ -141,26 +187,30 @@ function renderHome() {
         <span class="math-float">Δ = b²−4ac</span>
       </div>
       <div class="container" style="position:relative;z-index:1;">
-        <div class="hero-kicker">✨ Remédiation mathématique </div>
+        <div class="hero-kicker">✨ Remédiation scientifique </div>
         <h1 class="hero-title">
-          Tes lacunes en maths ne bloqueront plus<br/>
-          ta <span class="highlight">physique-chimie</span>.
+          Maths, Physique, Ingénierie :<br/>
+          progresse à <span class="highlight">ton rythme</span>.
         </h1>
         <p class="hero-subtitle">
           Spark Learning te remet à niveau avec une pédagogie bienveillante, étape par étape — du Collège au BTS.
         </p>
         <div class="hero-cta">
-          <button class="btn btn-primary" onclick="navigate('levels')">
+          <button class="btn btn-primary" onclick="navigate('subjects')">
             Commencer maintenant 🚀
           </button>
-          <button class="btn btn-secondary" onclick="navigate('levels')">
-            Voir le programme
+          <button class="btn btn-secondary" onclick="navigate('subjects')">
+            Voir les matières
           </button>
         </div>
         <div class="hero-stats">
           <div class="hero-stat">
             <div class="hero-stat-number">${totalModules}</div>
             <div class="hero-stat-label">modules</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-number">${SUBJECT_DEFS.length}</div>
+            <div class="hero-stat-label">matières</div>
           </div>
           <div class="hero-stat">
             <div class="hero-stat-number">3</div>
@@ -180,12 +230,12 @@ function renderHome() {
     <section class="section" style="background: var(--bg-card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
       <div class="container">
         <h2 class="section-title">Pourquoi Spark Learning ?</h2>
-        <p class="section-subtitle">Une approche différente, conçue pour les étudiants en physique-chimie</p>
+        <p class="section-subtitle">Une approche différente, conçue pour les étudiants en sciences</p>
         <div class="features-grid">
           <div class="card-base feature-card">
             <div class="feature-icon">🎯</div>
-            <div class="feature-title">Ciblé Physique-Chimie</div>
-            <p class="feature-desc">Chaque concept mathématique est justifié par son application directe en physique ou chimie. Tu sais toujours pourquoi tu apprends ce que tu apprends.</p>
+            <div class="feature-title">Ciblé Sciences Appliquées</div>
+            <p class="feature-desc">Chaque concept est justifié par son application concrète. Tu sais toujours pourquoi tu apprends ce que tu apprends.</p>
           </div>
           <div class="card-base feature-card">
             <div class="feature-icon">💡</div>
@@ -208,7 +258,7 @@ function renderHome() {
         <div class="features-grid">
           <div class="card-base feature-card" style="text-align:center;">
             <div class="feature-icon">📖</div>
-            <div class="feature-title">1. Cours orienté physique</div>
+            <div class="feature-title">1. Cours orienté application</div>
             <p class="feature-desc">Comprendre pourquoi la notion est utile avant de l'apprendre.</p>
           </div>
           <div class="card-base feature-card" style="text-align:center;">
@@ -224,7 +274,7 @@ function renderHome() {
           <div class="card-base feature-card" style="text-align:center;">
             <div class="feature-icon">🔭</div>
             <div class="feature-title">4. Problème appliqué</div>
-            <p class="feature-desc">Un vrai problème de physique-chimie résolu étape par étape.</p>
+            <p class="feature-desc">Un vrai problème appliqué résolu étape par étape.</p>
           </div>
           <div class="card-base feature-card" style="text-align:center;">
             <div class="feature-icon">📝</div>
@@ -233,8 +283,8 @@ function renderHome() {
           </div>
         </div>
         <div style="text-align:center; margin-top:32px;">
-          <button class="btn btn-primary" onclick="navigate('levels')">
-            Choisir mon niveau 🎓
+          <button class="btn btn-primary" onclick="navigate('subjects')">
+            Choisir ma matière 🎓
           </button>
         </div>
       </div>
@@ -246,33 +296,24 @@ function renderHome() {
    LEVELS PAGE
 ═══════════════════════════════════════ */
 function renderLevels() {
+  const subjectDef = getSubjectDef(state.subject || 'maths');
+
   const levels = [
-    {
-      id: 1, icon: '🏫', title: 'Fin de Collège', subtitle: '4ème – 3ème',
-      desc: 'Bases essentielles : proportionnalité, puissances, équations, trigonométrie.',
-      color: 'var(--primary)'
-    },
-    {
-      id: 2, icon: '🎓', title: 'Lycée', subtitle: 'Général & Techno',
-      desc: 'Vecteurs, fonctions, dérivation, intégration, équations différentielles.',
-      color: 'var(--secondary)'
-    },
-    {
-      id: 3, icon: '🏆', title: 'BTS', subtitle: 'Enseignement supérieur',
-      desc: 'Nombres complexes, équations diff. 2nd ordre, statistiques et incertitudes.',
-      color: 'var(--accent)'
-    }
-  ];
+    { id: 1, icon: '🏫', title: 'Fin de Collège', subtitle: '4ème – 3ème', color: 'var(--primary)' },
+    { id: 2, icon: '🎓', title: 'Lycée', subtitle: 'Général & Techno', color: 'var(--secondary)' },
+    { id: 3, icon: '🏆', title: 'BTS', subtitle: 'Enseignement supérieur', color: 'var(--accent)' }
+  ].filter(l => subjectDef.availableLevels.includes(l.id));
 
   return `
     <div class="container">
       <div class="page-header">
-        <h1 class="page-title">Choisir ton niveau</h1>
-        <p class="page-subtitle">Commence là où tu te sens le plus à l'aise. Tu peux toujours changer !</p>
+        <button class="btn-back" onclick="navigate('subjects')" aria-label="Retour aux matières">← Matières</button>
+        <h1 class="page-title">${subjectDef.icon} ${subjectDef.label}</h1>
+        <p class="page-subtitle">Choisis ton niveau pour commencer</p>
       </div>
       <div class="levels-grid">
         ${levels.map(l => {
-          const levelModules = window.MODULES.filter(m => m.level === l.id);
+          const levelModules = window.MODULES.filter(m => m.level === l.id && (m.subject || 'maths') === subjectDef.id);
           const count = levelModules.length;
           const done = levelModules.filter(m => {
             const p = getModuleProgress(m.id);
@@ -280,11 +321,10 @@ function renderLevels() {
           }).length;
           const pct = count > 0 ? Math.round((done / count) * 100) : 0;
           return `
-            <div class="level-card" style="--level-color: ${l.color};" onclick="navigate('modules', {level: ${l.id}})" tabindex="0" role="button" aria-label="Niveau ${l.title}">
+            <div class="level-card" style="--level-color: ${l.color};" onclick="navigate('modules', {level: ${l.id}, subject: '${subjectDef.id}'})" tabindex="0" role="button" aria-label="Niveau ${l.title}">
               <div class="level-card-icon">${l.icon}</div>
               <div class="level-card-title">${l.title}</div>
               <div class="level-card-subtitle">${l.subtitle}</div>
-              <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:16px;line-height:1.5;">${l.desc}</p>
               <span class="level-card-count" style="--level-color: ${l.color};">${count} ${pluralize('module', count)}</span>
               <div class="level-card-progress">
                 <div class="level-card-progress-label">${done === 0 ? 'Pas encore commencé' : `${done} / ${count} ${pluralize('module', done)} ${pluralize('complété', done)}`}</div>
@@ -304,8 +344,11 @@ function renderLevels() {
    MODULES LIST
 ═══════════════════════════════════════ */
 function renderModulesList() {
-  const allLevels = LEVEL_DEFS.map(l => ({ id: l.id, label: `${l.icon} ${l.label}` }));
-  const modules = window.MODULES.filter(m => m.level === state.level);
+  const subjectDef = getSubjectDef(state.subject || 'maths');
+  const allLevels = LEVEL_DEFS
+    .filter(l => subjectDef.availableLevels.includes(l.id))
+    .map(l => ({ id: l.id, label: `${l.icon} ${l.label}` }));
+  const modules = window.MODULES.filter(m => m.level === state.level && (m.subject || 'maths') === subjectDef.id);
 
   // Top keywords for this level
   const kwFreq = {};
@@ -315,11 +358,11 @@ function renderModulesList() {
   return `
     <div class="container">
       <div class="level-switcher">
-        <button class="btn-back" onclick="navigate('levels')" aria-label="Retour aux niveaux">← Parcours</button>
+        <button class="btn-back" onclick="navigate('levels', {subject: '${subjectDef.id}'})" aria-label="Retour aux niveaux">← ${subjectDef.icon} ${subjectDef.label}</button>
         <div class="level-switch-tabs">
           ${allLevels.map(l => `
             <button class="level-switch-btn ${state.level === l.id ? 'active' : ''}"
-                    onclick="navigate('modules', {level: ${l.id}})">${l.label}</button>
+                    onclick="navigate('modules', {level: ${l.id}, subject: '${subjectDef.id}'})">${l.label}</button>
           `).join('')}
         </div>
       </div>
@@ -353,6 +396,9 @@ function renderModulesList() {
             <option value="progress" ${state.sortBy === 'progress' ? 'selected' : ''}>Progression ↓</option>
           </select>
         </div>
+        <button class="btn btn-outline btn-print-batch" onclick="toggleBatchPrintMode()">
+          Imprimer les fiches 🖨️
+        </button>
       </div>
 
       <div id="no-results" class="no-results" style="display:none;">
@@ -384,7 +430,7 @@ function renderModulesList() {
               <div class="module-card-keywords">
                 ${m.keywords.slice(0, 2).map(k => `<span class="badge">${k}</span>`).join('')}
               </div>
-              <div class="module-card-physics">⚗️ ${m.physics}</div>
+              <div class="module-card-physics">${subjectDef.applicationIcon} ${m.physics}</div>
               <div class="module-card-progress">
                 <div class="progress-label">
                   <span>Progression</span>
@@ -417,7 +463,9 @@ function renderModuleDetail() {
     { id: 'evaluation', label: '📝 Évaluation' }
   ];
 
-  const levelModules = window.MODULES.filter(m => m.level === mod.level);
+  const modSubject = mod.subject || 'maths';
+  const subjectDef = getSubjectDef(modSubject);
+  const levelModules = window.MODULES.filter(m => m.level === mod.level && (m.subject || 'maths') === modSubject);
   const currentIdx = levelModules.findIndex(m => m.id === mod.id);
   const prevMod = currentIdx > 0 ? levelModules[currentIdx - 1] : null;
   const nextMod = currentIdx < levelModules.length - 1 ? levelModules[currentIdx + 1] : null;
@@ -426,9 +474,11 @@ function renderModuleDetail() {
     <div class="container module-detail">
       <div class="module-detail-header">
         <div class="module-breadcrumb">
-          <button class="breadcrumb-link" onclick="navigate('levels')">Parcours</button>
+          <button class="breadcrumb-link" onclick="navigate('subjects')">Matières</button>
           <span class="breadcrumb-sep">›</span>
-          <button class="breadcrumb-link" onclick="navigate('modules', {level: ${mod.level}})">${LEVEL_NAMES[mod.level]}</button>
+          <button class="breadcrumb-link" onclick="navigate('levels', {subject: '${modSubject}'})">${subjectDef.icon} ${subjectDef.label}</button>
+          <span class="breadcrumb-sep">›</span>
+          <button class="breadcrumb-link" onclick="navigate('modules', {level: ${mod.level}, subject: '${modSubject}'})">${LEVEL_NAMES[mod.level]}</button>
           <span class="breadcrumb-sep">›</span>
           <span aria-current="page">${mod.title}</span>
         </div>
@@ -437,7 +487,7 @@ function renderModuleDetail() {
           <h1 class="module-detail-title">${mod.title}</h1>
         </div>
         <p class="module-detail-subtitle">${mod.subtitle}</p>
-        <div class="module-detail-physics">🔬 Physique-chimie : ${mod.physics}</div>
+        <div class="module-detail-physics">${subjectDef.applicationIcon} ${subjectDef.applicationLabel} : ${mod.physics}</div>
 
         <nav class="tab-bar" role="tablist" aria-label="Onglets du module">
           ${tabs.map(t => `
@@ -546,13 +596,140 @@ function renderErreurConseil(piege) {
 }
 
 /* ═══════════════════════════════════════
+   PRINT — FICHE DE COURS (A4 optimisée)
+═══════════════════════════════════════ */
+function _printLevelLabel(mod) {
+  const grade = mod.id.split('-')[0].toUpperCase();
+  const subjectLabel = getSubjectDef(mod.subject || 'maths').label;
+  return subjectLabel + ' · ' + (LEVEL_NAMES[mod.level] || '') + ' — ' + grade;
+}
+
+function renderFicheCours(mod) {
+  const c = mod.cours;
+  const subjectDef = getSubjectDef(mod.subject || 'maths');
+  const formulasRows = c.formulas.map((f, i, arr) => {
+    if (i % 2 === 0) {
+      const next = arr[i + 1] || '';
+      return `<tr><td>${f}</td><td>${next}</td></tr>`;
+    }
+    return '';
+  }).join('');
+
+  return `
+    <div class="print-fiche">
+      <div class="print-fiche-header">
+        <img src="images/Logo_noir.jpeg" alt="Spark Learning" class="print-logo" />
+        <div class="print-fiche-header-text">
+          <div class="print-fiche-level">${_printLevelLabel(mod)}</div>
+          <h1 class="print-fiche-title">${mod.icon} ${mod.title}</h1>
+          <p class="print-fiche-subtitle">${mod.subtitle}</p>
+        </div>
+      </div>
+
+      <section class="print-section print-intro">
+        <h2>Introduction</h2>
+        <p>${c.intro}</p>
+      </section>
+
+      ${c.definitions && c.definitions.length ? `
+      <section class="print-section print-definitions">
+        <h2>Vocabulaire clé</h2>
+        <div class="print-definitions-grid">
+          ${c.definitions.map(d => `
+            <div class="print-definition-item"><strong>${d.term} :</strong> ${d.def}</div>
+          `).join('')}
+        </div>
+      </section>
+      ` : ''}
+
+      <section class="print-section print-method">
+        <h2>${c.method.title}</h2>
+        <ol>
+          ${c.method.steps.map(s => `<li>${s}</li>`).join('')}
+        </ol>
+      </section>
+
+      ${c.example ? `
+      <section class="print-section print-example">
+        <h2>Exemple résolu</h2>
+        <div class="print-worked-example">
+          <p><strong>Énoncé :</strong> ${c.example.statement}</p>
+          <p><strong>Démarche :</strong></p>
+          <ol>${c.example.steps.map(s => `<li>${s}</li>`).join('')}</ol>
+          <p><strong>Réponse :</strong> ${c.example.answer}</p>
+        </div>
+      </section>
+      ` : ''}
+
+      <section class="print-section print-formulas">
+        <h2>${subjectDef.formulasLabel}</h2>
+        <table class="print-formulas-table">
+          ${formulasRows}
+        </table>
+      </section>
+
+      ${c.diagram ? `
+      <section class="print-section print-diagram">
+        <h2>Illustration</h2>
+        <div>${c.diagram}</div>
+      </section>
+      ` : ''}
+
+      <section class="print-section print-piege">
+        <h2>Piège fréquent &amp; conseil</h2>
+        ${renderErreurConseil(c.piege)}
+      </section>
+
+      ${c.recap && c.recap.length ? `
+      <section class="print-section print-recap">
+        <h2>À retenir</h2>
+        <ul>${c.recap.map(r => `<li>${r}</li>`).join('')}</ul>
+      </section>
+      ` : ''}
+
+      ${mod.physics ? `
+      <section class="print-section print-physics">
+        <h2>${subjectDef.applicationLabel}</h2>
+        <p>${mod.physics}</p>
+        <p class="print-keywords"><em>Mots-clés :</em> ${mod.keywords.join(' · ')}</p>
+      </section>
+      ` : ''}
+
+      <div class="print-fiche-footer">
+        Spark Learning — ${mod.title}
+      </div>
+    </div>
+  `;
+}
+
+function renderFichesBatch(modules) {
+  return modules.map(mod => renderFicheCours(mod)).join('');
+}
+
+/* ═══════════════════════════════════════
    COURS TAB
 ═══════════════════════════════════════ */
 function renderCours(mod) {
   const c = mod.cours;
+  const subjectDef = getSubjectDef(mod.subject || 'maths');
   return `
     <div class="cours-content">
       <blockquote class="cours-intro">${c.intro}</blockquote>
+
+      ${c.definitions && c.definitions.length ? `
+      <div class="cours-section">
+        <h2 class="cours-section-title">📖 Vocabulaire clé</h2>
+        <div class="definitions-grid">
+          ${c.definitions.map(d => `
+            <div class="definition-item">
+              <strong class="definition-term">${d.term}</strong>
+              <span class="definition-sep">:</span>
+              <span class="definition-def">${d.def}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      ` : ''}
 
       <div class="cours-section">
         <h2 class="cours-section-title">📋 ${c.method.title}</h2>
@@ -566,22 +743,60 @@ function renderCours(mod) {
         </ol>
       </div>
 
+      ${c.example ? `
       <div class="cours-section">
-        <h2 class="cours-section-title">📐 Formules clés</h2>
+        <h2 class="cours-section-title">✅ Exemple résolu</h2>
+        <div class="worked-example">
+          <div class="worked-example-statement">
+            <strong>Énoncé :</strong> ${c.example.statement}
+          </div>
+          <div class="worked-example-steps">
+            <strong>Démarche :</strong>
+            <ol>
+              ${c.example.steps.map(s => `<li>${s}</li>`).join('')}
+            </ol>
+          </div>
+          <div class="worked-example-answer">
+            <strong>Réponse :</strong> ${c.example.answer}
+          </div>
+        </div>
+      </div>
+      ` : ''}
+
+      <div class="cours-section">
+        <h2 class="cours-section-title">${subjectDef.formulasIcon} ${subjectDef.formulasLabel}</h2>
         <div class="formulas-grid">
           ${c.formulas.map(f => `<div class="formula-chip">${f}</div>`).join('')}
         </div>
       </div>
+
+      ${c.diagram ? `
+      <div class="cours-section">
+        <h2 class="cours-section-title">🎨 Illustration</h2>
+        <div class="cours-diagram">${c.diagram}</div>
+      </div>
+      ` : ''}
 
       <div class="cours-section">
         <h2 class="cours-section-title">🔍 Une erreur, une suggestion</h2>
         ${renderErreurConseil(c.piege)}
       </div>
 
+      ${c.recap && c.recap.length ? `
       <div class="cours-section">
-        <h2 class="cours-section-title">🔬 Application physique-chimie</h2>
+        <h2 class="cours-section-title">💡 À retenir</h2>
+        <div class="recap-box">
+          <ul>
+            ${c.recap.map(r => `<li>${r}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+      ` : ''}
+
+      <div class="cours-section">
+        <h2 class="cours-section-title">${subjectDef.applicationIcon} ${subjectDef.applicationLabel}</h2>
         <div style="padding:14px 18px;background:color-mix(in srgb,var(--secondary) 10%, var(--bg-card));border-radius:var(--radius);border:1px solid color-mix(in srgb,var(--secondary) 25%,transparent);font-size:0.92rem;line-height:1.6;">
-          <strong>Où cette notion est-elle utilisée ?</strong><br/>
+          <strong>${subjectDef.applicationQuestion}</strong><br/>
           ${mod.physics}<br/><br/>
           <em>Mots-clés associés :</em> ${mod.keywords.map(k => `<span class="badge badge-secondary" style="margin:2px;">${k}</span>`).join('')}
         </div>
@@ -593,6 +808,9 @@ function renderCours(mod) {
         </button>
         <button class="btn btn-secondary" onclick="switchTab('exercice')">
           Passer à l'exercice 🔢
+        </button>
+        <button class="btn btn-outline" onclick="printFiche('${mod.id}')">
+          Imprimer la fiche 🖨️
         </button>
       </div>
     </div>
@@ -856,7 +1074,7 @@ function renderProbleme(mod) {
               Passer à l'évaluation 📝
             </button>
           ` : `
-            <button class="btn btn-primary" onclick="navigate('modules', {level: ${mod.level}})">
+            <button class="btn btn-primary" onclick="navigate('modules', {level: ${mod.level}, subject: '${mod.subject || 'maths'}'})">
               Retour aux modules 📚
             </button>
           `}
