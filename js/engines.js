@@ -67,6 +67,9 @@ function nextQuizQuestion(moduleId) {
   if (qs.current + 1 >= mod.quiz.length) {
     state.quizState.complete = true;
     saveProgress(moduleId, 'quiz');
+    if (typeof Storage !== 'undefined' && Storage.trackQuizScore) {
+      Storage.trackQuizScore(moduleId, qs.score, mod.quiz.length);
+    }
     renderTabContent();
     renderMath();
     createConfetti();
@@ -127,6 +130,10 @@ function submitExerciceAnswer(moduleId) {
   if (isCorrect) {
     state.exerciceState.solved = true;
     saveProgress(moduleId, 'exercice');
+    if (typeof Storage !== 'undefined' && Storage.trackAttempt) {
+      Storage.trackAttempt(moduleId, 'exercice', true);
+      Storage.updateExerciceStreak(state.exerciceState.attempts === 0);
+    }
     card.classList.add('state-success');
     renderTabContent();
     renderMath();
@@ -137,6 +144,9 @@ function submitExerciceAnswer(moduleId) {
     _checkModuleComplete(moduleId);
   } else {
     state.exerciceState.attempts++;
+    if (typeof Storage !== 'undefined' && Storage.trackAttempt) {
+      Storage.trackAttempt(moduleId, 'exercice', false);
+    }
     card.classList.add('state-error');
     _setEngineTimeout(() => {
       if (card) card.classList.remove('state-error');
@@ -266,6 +276,9 @@ function _advanceEvaluation(mod) {
     es.complete = true;
     es.totalPoints = mod.evaluation.questions.reduce((s, q) => s + q.points, 0);
     saveProgress(mod.id, 'evaluation');
+    if (typeof Storage !== 'undefined' && Storage.trackEvaluationScore) {
+      Storage.trackEvaluationScore(mod.id, es.score, es.totalPoints);
+    }
     createConfetti();
     _checkModuleComplete(mod.id);
   } else {

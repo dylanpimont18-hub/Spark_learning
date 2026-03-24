@@ -4,6 +4,23 @@
    ========================================================= */
 
 /* ═══════════════════════════════════════
+   LOADING SKELETON
+═══════════════════════════════════════ */
+function renderLoading() {
+  return `
+    <div class="container" style="padding-top:var(--space-2xl);">
+      <div class="loading-skeleton">
+        <div class="skeleton-line skeleton-title"></div>
+        <div class="skeleton-line skeleton-subtitle"></div>
+        <div class="skeleton-grid">
+          ${Array(6).fill('<div class="skeleton-card"></div>').join('')}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ═══════════════════════════════════════
    CONTINUE SECTION (homepage)
 ═══════════════════════════════════════ */
 function renderContinueSection() {
@@ -95,11 +112,20 @@ function renderStatsSection() {
       <div class="container">
         <h2 class="section-title">Mes statistiques</h2>
         <p class="section-subtitle">${subtitle}</p>
+        ${(() => {
+          if (typeof Storage !== 'undefined' && Storage.getStreak) {
+            const streak = Storage.getStreak();
+            if (streak.currentStreak >= 2) {
+              return '<div style="text-align:center;margin-bottom:var(--space-lg);"><span class="streak-badge"><span class="streak-badge-fire">&#x1F525;</span> ' + streak.currentStreak + ' jours d\'affil\u00e9e</span></div>';
+            }
+          }
+          return '';
+        })()}
 
         <div class="stats-overview">
           <div class="stats-global">
             <div class="stats-global-number">${totalDone}<span class="stats-global-total">/${totalModules}</span></div>
-            <div class="stats-global-label">modules complétés</div>
+            <div class="stats-global-label">modules compl\u00e9t\u00e9s</div>
             <div class="progress-bar" style="margin-top:12px;height:10px;">
               <div class="progress-fill" style="width:${globalPct}%;"></div>
             </div>
@@ -778,8 +804,11 @@ function renderCours(mod) {
       ` : ''}
 
       <div class="cours-section">
-        <h2 class="cours-section-title">🔍 Une erreur, une suggestion</h2>
+        <h2 class="cours-section-title">&#x1F50D; Une erreur, une suggestion</h2>
         ${renderErreurConseil(c.piege)}
+        <button class="teacher-suggest-btn" onclick="openTeacherErrorModal('${mod.id}')" aria-label="Proposer un pi\u00e8ge">
+          &#x1F9D1;&#x200D;&#x1F3EB; Proposer un pi\u00e8ge (Espace Enseignant)
+        </button>
       </div>
 
       ${c.recap && c.recap.length ? `
@@ -804,13 +833,16 @@ function renderCours(mod) {
 
       <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">
         <button class="btn btn-primary" onclick="switchTab('quiz')">
-          Tester mes connaissances ❓
+          Tester mes connaissances
         </button>
         <button class="btn btn-secondary" onclick="switchTab('exercice')">
-          Passer à l'exercice 🔢
+          Passer \u00e0 l'exercice
+        </button>
+        <button class="btn btn-secondary" onclick="navigate('flashcards', {moduleId: '${mod.id}'})">
+          Flashcards
         </button>
         <button class="btn btn-outline" onclick="printFiche('${mod.id}')">
-          Imprimer la fiche 🖨️
+          Imprimer la fiche
         </button>
       </div>
     </div>
@@ -896,12 +928,13 @@ function renderQuizResults(mod) {
       <p class="score-message">${message}</p>
       <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
         <button class="btn btn-primary" onclick="resetQuiz('${mod.id}')">
-          Recommencer le quiz 🔄
+          Recommencer le quiz
         </button>
         <button class="btn btn-secondary" onclick="switchTab('exercice')">
-          Passer à l'exercice 🔢
+          Passer \u00e0 l'exercice
         </button>
       </div>
+      ${typeof renderRecommendationCards === 'function' ? renderRecommendationCards(mod.id) : ''}
     </div>
   `;
 }
@@ -988,10 +1021,19 @@ function renderExercice(mod) {
       ${!es.solved && !es.attempts ? `
         <div class="exercice-actions" style="margin-top:12px;">
           <button class="btn btn-secondary btn-sm" onclick="generateNewExercice('${mod.id}')">
-            Autre exercice 🎲
+            Autre exercice
           </button>
         </div>
       ` : ''}
+
+      <div style="margin-top:var(--space-lg);display:flex;gap:var(--space-sm);flex-wrap:wrap;">
+        <button class="btn btn-secondary btn-sm" onclick="navigate('chrono', {moduleId:'${mod.id}'})">
+          D\u00e9fi Chrono 3 min
+        </button>
+        <button class="add-to-homework-btn" onclick="addToHomework('${mod.id}','exercice')">
+          + Ajouter au devoir
+        </button>
+      </div>
     </div>
   `;
 }
@@ -1093,16 +1135,19 @@ function renderProbleme(mod) {
 function renderEvaluation(mod) {
   if (!mod.evaluation) {
     return `<div class="eval-placeholder">
-      <div style="font-size:3rem;margin-bottom:16px;">📝</div>
+      <div style="font-size:3rem;margin-bottom:16px;">&#x1F4DD;</div>
       <p style="color:var(--text-muted);font-size:1rem;">
-        L'évaluation type pour ce module sera bientôt disponible.
+        L'\u00e9valuation type pour ce module sera bient\u00f4t disponible.
       </p>
     </div>`;
   }
+  const homeworkBtn = `<div style="margin-top:var(--space-md);">
+    <button class="add-to-homework-btn" onclick="addToHomework('${mod.id}','evaluation')">+ Ajouter au devoir</button>
+  </div>`;
   if (state.evaluationState.complete) {
-    return renderEvaluationResults(mod);
+    return renderEvaluationResults(mod) + homeworkBtn;
   }
-  return renderEvaluationQuestion(mod);
+  return renderEvaluationQuestion(mod) + homeworkBtn;
 }
 
 function renderEvaluationQuestion(mod) {

@@ -79,7 +79,12 @@ const state = {
   evaluationState: defaultEvaluationState(),
   progress: JSON.parse(localStorage.getItem('sparkProgress') || '{}'),
   batchPrintMode: false,
-  selectedForPrint: []
+  selectedForPrint: [],
+  flashcardState: null,
+  chronoState: null,
+  playlistState: null,
+  playlistBuilder: null,
+  homeworkState: null
 };
 
 /* ── Module lookup ── */

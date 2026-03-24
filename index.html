@@ -34,8 +34,15 @@
       <nav class="nav" aria-label="Navigation principale">
         <button class="nav-link" id="nav-home" aria-label="Accueil">Accueil</button>
         <button class="nav-link" id="nav-parcours" aria-label="Parcours">Parcours</button>
+        <button class="nav-link" id="nav-teacher" aria-label="Espace Enseignant">Enseignant</button>
       </nav>
-      <button class="theme-toggle" id="theme-toggle" aria-label="Basculer le thème">🌙</button>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button class="homework-badge" id="nav-homework" aria-label="Mon devoir" style="background:none;border:none;cursor:pointer;font-size:1.2rem;position:relative;">
+          &#x1F4CB;<span class="homework-badge-count" id="homework-badge-count" style="display:none;">0</span>
+        </button>
+        <button class="theme-toggle" id="projector-toggle" aria-label="Mode pr&#233;sentation" title="Mode Vid&#233;oprojecteur (Ctrl+Shift+P)" style="font-size:1.1rem;">&#x1F4FA;</button>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Basculer le th&#232;me">&#x1F319;</button>
+      </div>
     </div>
   </header>
 
@@ -87,20 +94,19 @@
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 
-  <!-- Données : helpers + modules par classe (ordre de chargement important) -->
+  <!-- Données : helpers (initialise MODULES[]) + lazy loader -->
   <script src="js/data/helpers.js"></script>
-  <script src="js/data/6e.js"></script>
-  <script src="js/data/5e.js"></script>
-  <script src="js/data/4e.js"></script>
-  <script src="js/data/3e.js"></script>
-  <script src="js/data/lycee-2nde.js"></script>
-  <script src="js/data/lycee-1re.js"></script>
-  <script src="js/data/lycee-tle.js"></script>
-  <script src="js/data/bts.js"></script>
+  <script src="js/loader.js"></script>
 
   <!-- App scripts (ordre de chargement important) -->
+  <script src="js/storage.js"></script>
   <script src="js/state.js"></script>
   <script src="js/engines.js"></script>
+  <script src="js/flashcards.js"></script>
+  <script src="js/chrono.js"></script>
+  <script src="js/recommendations.js"></script>
+  <script src="js/playlist.js"></script>
+  <script src="js/homework.js"></script>
   <script src="js/render.js"></script>
   <script src="js/app.js"></script>
 

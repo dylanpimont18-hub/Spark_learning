@@ -50,15 +50,21 @@ let _suppressHashChange = false;
 
 function buildHash(view, data) {
   switch (view) {
-    case 'home':     return '#home';
-    case 'subjects': return '#subjects';
-    case 'levels':   return `#levels/${data.subject || state.subject || 'maths'}`;
-    case 'modules':  return `#modules/${data.subject || state.subject || 'maths'}/${data.level !== undefined ? data.level : state.level}`;
-    case 'module':
+    case 'home':       return '#home';
+    case 'subjects':   return '#subjects';
+    case 'levels':     return `#levels/${data.subject || state.subject || 'maths'}`;
+    case 'modules':    return `#modules/${data.subject || state.subject || 'maths'}/${data.level !== undefined ? data.level : state.level}`;
+    case 'module': {
       const mid = data.moduleId || state.moduleId;
       const tab = data.tab || state.tab || 'cours';
       return `#module/${mid}/${tab}`;
-    default:         return '#home';
+    }
+    case 'flashcards': return `#flashcards/${data.moduleId || state.moduleId}`;
+    case 'chrono':     return `#chrono/${data.moduleId || state.moduleId}`;
+    case 'teacher':    return '#teacher';
+    case 'homework':   return '#homework';
+    case 'playlist':   return '#playlist/' + (data.playlistData || '');
+    default:           return '#home';
   }
 }
 
@@ -71,17 +77,33 @@ function parseHash(hash) {
       // Rétrocompat: #modules/1 (ancien format sans subject)
       if (/^\d+$/.test(parts[1])) return { view: 'modules', subject: 'maths', level: parseInt(parts[1]) };
       return { view: 'modules', subject: parts[1] || 'maths', level: parseInt(parts[2]) || 1 };
-    case 'module':   return { view: 'module', moduleId: parts[1], tab: parts[2] || 'cours' };
+    case 'module':      return { view: 'module', moduleId: parts[1], tab: parts[2] || 'cours' };
+    case 'flashcards':  return { view: 'flashcards', moduleId: parts[1] };
+    case 'chrono':      return { view: 'chrono', moduleId: parts[1] };
+    case 'teacher':     return { view: 'teacher' };
+    case 'playlist': {
+      const encoded = (hash || '').replace(/^#\/?playlist\//, '');
+      return { view: 'playlist', playlistData: encoded };
+    }
+    case 'homework':    return { view: 'homework' };
     case 'home':
-    default:         return { view: 'home' };
+    default:            return { view: 'home' };
   }
 }
 
 /* ── Navigate ── */
+let _navSequence = 0; // prevents stale async renders
+
 function navigate(view, data = {}) {
   // Cleanup: cancel pending engine timers & remove stale confetti
   clearEngineTimers();
   document.querySelectorAll('.confetti-container').forEach(el => el.remove());
+
+  // Stop chrono timer if leaving chrono view
+  if (state.chronoState && state.chronoState.timerId && view !== 'chrono') {
+    clearInterval(state.chronoState.timerId);
+    document.removeEventListener('visibilitychange', _chronoVisibility);
+  }
 
   // Reset search filters when switching to a different level or subject
   if (view === 'modules' && (
@@ -108,9 +130,6 @@ function navigate(view, data = {}) {
   // Reset sub-states on navigation
   if (view === 'module') {
     if (data.moduleId) trackRecentModule(data.moduleId);
-    // Auto-detect subject from module
-    const _mod = getModule(data.moduleId);
-    if (_mod && _mod.subject) state.subject = _mod.subject;
     state.tab = data.tab || 'cours';
     if (!data.keepQuiz)       state.quizState = defaultQuizState();
     if (!data.keepExercice)   state.exerciceState = defaultExerciceState();
@@ -123,8 +142,120 @@ function navigate(view, data = {}) {
   window.location.hash = buildHash(view, data);
   requestAnimationFrame(() => { _suppressHashChange = false; });
 
-  render();
+  // Lazy loading: check if data needs to be fetched first
+  const seq = ++_navSequence;
+  let loadPromise = null;
+
+  if (view === 'modules') {
+    const subject = state.subject || 'maths';
+    const level = state.level;
+    if (level && typeof ensureLevelData === 'function') {
+      loadPromise = ensureLevelData(subject, level);
+    }
+  } else if (view === 'module' || view === 'flashcards' || view === 'chrono') {
+    const moduleId = data.moduleId || state.moduleId;
+    if (moduleId && !getModule(moduleId) && typeof ensureModuleData === 'function') {
+      loadPromise = ensureModuleData(moduleId);
+    }
+  } else if (view === 'playlist' && data.playlistData) {
+    // Playlist: charger les données nécessaires après décodage
+    if (typeof loadPlaylist === 'function') {
+      loadPlaylist(data.playlistData);
+    }
+  } else if (view === 'teacher' || view === 'homework') {
+    // Charger toutes les données pour le picker
+    if (typeof ensureAllData === 'function') {
+      loadPromise = ensureAllData();
+    }
+  }
+
+  // Init specific view states
+  if (view === 'flashcards') {
+    const moduleId = data.moduleId || state.moduleId;
+    if (getModule(moduleId) && typeof initFlashcards === 'function') {
+      initFlashcards(moduleId);
+    }
+  } else if (view === 'chrono') {
+    const moduleId = data.moduleId || state.moduleId;
+    if (getModule(moduleId) && typeof initChrono === 'function') {
+      // Stop previous chrono if any
+      if (state.chronoState && state.chronoState.timerId) {
+        clearInterval(state.chronoState.timerId);
+      }
+      initChrono(moduleId);
+    }
+  }
+
+  const needsAsyncLoad = loadPromise && (
+    (view === 'module' && !getModule(state.moduleId)) ||
+    (view === 'modules' && window.MODULES.filter(m => m.level === state.level && (m.subject || 'maths') === (state.subject || 'maths')).length === 0) ||
+    (view === 'flashcards' && !getModule(state.moduleId)) ||
+    (view === 'chrono' && !getModule(state.moduleId)) ||
+    (view === 'teacher') || (view === 'homework')
+  );
+
+  if (needsAsyncLoad) {
+    const app = document.getElementById('app');
+    app.innerHTML = renderLoading();
+    updatePageTitle();
+    loadPromise.then(() => {
+      if (_navSequence !== seq) return;
+      if (view === 'module' || view === 'flashcards' || view === 'chrono') {
+        const _mod = getModule(state.moduleId);
+        if (_mod && _mod.subject) state.subject = _mod.subject;
+        if (view === 'flashcards' && typeof initFlashcards === 'function') initFlashcards(state.moduleId);
+        if (view === 'chrono' && typeof initChrono === 'function') initChrono(state.moduleId);
+      }
+      render();
+    });
+  } else {
+    if (loadPromise) loadPromise.catch(() => {});
+    if (view === 'module') {
+      const _mod = getModule(data.moduleId);
+      if (_mod && _mod.subject) state.subject = _mod.subject;
+    }
+    render();
+    updatePageTitle();
+  }
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ── Dynamic page title (SEO) ── */
+function updatePageTitle() {
+  const base = 'Spark Learning';
+  switch (state.view) {
+    case 'home':     document.title = base; break;
+    case 'subjects': document.title = `Mati\u00e8res \u2014 ${base}`; break;
+    case 'levels': {
+      const s = getSubjectDef(state.subject || 'maths');
+      document.title = `${s.label} \u2014 ${base}`;
+      break;
+    }
+    case 'modules': {
+      const s = getSubjectDef(state.subject || 'maths');
+      document.title = `${LEVEL_NAMES[state.level] || ''} ${s.label} \u2014 ${base}`;
+      break;
+    }
+    case 'module': {
+      const mod = getModule(state.moduleId);
+      document.title = mod ? `${mod.title} \u2014 ${base}` : base;
+      break;
+    }
+    case 'flashcards': {
+      const mod = getModule(state.moduleId);
+      document.title = mod ? `Flashcards \u2014 ${mod.title} \u2014 ${base}` : base;
+      break;
+    }
+    case 'chrono': {
+      const mod = getModule(state.moduleId);
+      document.title = mod ? `D\u00e9fi Chrono \u2014 ${mod.title} \u2014 ${base}` : base;
+      break;
+    }
+    case 'teacher':  document.title = `Espace Enseignant \u2014 ${base}`; break;
+    case 'playlist': document.title = `Playlist \u2014 ${base}`; break;
+    default:         document.title = base;
+  }
 }
 
 /* ── Tab switch without full re-navigate ── */
@@ -145,18 +276,24 @@ function switchTab(tabName) {
   }
   renderTabContent();
   renderMath();
+  updatePageTitle();
 }
 
 /* ── Render dispatcher ── */
 function render() {
   const app = document.getElementById('app');
   switch (state.view) {
-    case 'home':     app.innerHTML = renderHome(); break;
-    case 'subjects': app.innerHTML = renderSubjects(); break;
-    case 'levels':   app.innerHTML = renderLevels(); break;
-    case 'modules':  app.innerHTML = renderModulesList(); break;
-    case 'module':   app.innerHTML = renderModuleDetail(); break;
-    default:         app.innerHTML = renderHome();
+    case 'home':       app.innerHTML = renderHome(); break;
+    case 'subjects':   app.innerHTML = renderSubjects(); break;
+    case 'levels':     app.innerHTML = renderLevels(); break;
+    case 'modules':    app.innerHTML = renderModulesList(); break;
+    case 'module':     app.innerHTML = renderModuleDetail(); break;
+    case 'flashcards': app.innerHTML = (typeof renderFlashcards === 'function') ? renderFlashcards() : ''; break;
+    case 'chrono':     app.innerHTML = (typeof renderChrono === 'function') ? renderChrono() : ''; break;
+    case 'teacher':    app.innerHTML = (typeof renderTeacherBuilder === 'function') ? renderTeacherBuilder() : ''; break;
+    case 'playlist':   app.innerHTML = (typeof renderPlaylistView === 'function') ? renderPlaylistView() : ''; break;
+    case 'homework':   app.innerHTML = (typeof renderHomeworkPanel === 'function') ? renderHomeworkPanel() : ''; break;
+    default:           app.innerHTML = renderHome();
   }
   renderMath();
   updateNavActive();
@@ -500,13 +637,123 @@ function handleContactSubmit(e) {
   });
 }
 
+/* ═══════════════════════════════════════
+   PROJECTOR MODE (TASK-3.3)
+═══════════════════════════════════════ */
+function toggleProjector() {
+  const html = document.documentElement;
+  const isActive = html.classList.toggle('projector-mode');
+
+  // Bouton de sortie flottant
+  let exitBtn = document.getElementById('projector-exit-btn');
+  if (isActive) {
+    if (!exitBtn) {
+      exitBtn = document.createElement('button');
+      exitBtn.id = 'projector-exit-btn';
+      exitBtn.className = 'projector-exit-btn';
+      exitBtn.innerHTML = '\u2715 Quitter la pr\u00e9sentation';
+      exitBtn.onclick = toggleProjector;
+      document.body.appendChild(exitBtn);
+    }
+  } else {
+    if (exitBtn) exitBtn.remove();
+  }
+}
+
+/* ═══════════════════════════════════════
+   TEACHER ERROR MODAL (TASK-3.4)
+═══════════════════════════════════════ */
+function openTeacherErrorModal(moduleId) {
+  const mod = getModule(moduleId);
+  if (!mod) return;
+
+  const piege = mod.cours && mod.cours.piege ? mod.cours.piege : 'Aucun pi\u00e8ge r\u00e9f\u00e9renc\u00e9.';
+
+  const overlay = document.createElement('div');
+  overlay.className = 'teacher-modal-overlay';
+  overlay.id = 'teacher-modal';
+  overlay.onclick = (e) => { if (e.target === overlay) closeTeacherErrorModal(); };
+  overlay.innerHTML = `
+    <div class="teacher-modal">
+      <button class="teacher-modal-close" onclick="closeTeacherErrorModal()" aria-label="Fermer">&times;</button>
+      <h3>Proposer un pi\u00e8ge (Espace Enseignant)</h3>
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:var(--space-md);">Module : <strong>${mod.title}</strong></p>
+      <div class="teacher-modal-context">
+        <strong>Pi\u00e8ge actuel :</strong><br>${piege}
+      </div>
+      <label style="font-weight:600;font-size:0.9rem;display:block;margin-bottom:6px;">Votre suggestion :</label>
+      <textarea id="teacher-error-text" placeholder="D\u00e9crivez l'erreur fr\u00e9quente que vous observez chez vos \u00e9l\u00e8ves\u2026" aria-label="Suggestion d'erreur"></textarea>
+      <button class="btn btn-primary" onclick="submitTeacherError('${moduleId}')" style="width:100%;">Envoyer</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelector('textarea').focus();
+}
+
+function closeTeacherErrorModal() {
+  const modal = document.getElementById('teacher-modal');
+  if (modal) modal.remove();
+}
+
+function submitTeacherError(moduleId) {
+  const textarea = document.getElementById('teacher-error-text');
+  if (!textarea || !textarea.value.trim()) {
+    textarea.style.borderColor = 'var(--error)';
+    return;
+  }
+  const mod = getModule(moduleId);
+  const modTitle = mod ? mod.title : moduleId;
+
+  const btn = document.querySelector('#teacher-modal .btn-primary');
+  if (btn) { btn.disabled = true; btn.textContent = 'Envoi\u2026'; }
+
+  fetch('https://formspree.io/f/xnjgyrjd', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({
+      _subject: 'Pi\u00e8ge enseignant \u2014 ' + modTitle,
+      message: textarea.value.trim(),
+      module: moduleId,
+      type: 'piege-enseignant'
+    })
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.ok) {
+      showToast('Merci pour votre contribution !', 'success');
+      closeTeacherErrorModal();
+    } else {
+      showToast('Erreur lors de l\'envoi.', 'error');
+      if (btn) { btn.disabled = false; btn.textContent = 'Envoyer'; }
+    }
+  })
+  .catch(() => {
+    showToast('Erreur r\u00e9seau.', 'error');
+    if (btn) { btn.disabled = false; btn.textContent = 'Envoyer'; }
+  });
+}
+
 /* ── Keyboard shortcuts ── */
 document.addEventListener('keydown', (e) => {
-  // Don't intercept if typing in an input (except Escape)
-  if (e.key !== 'Escape' && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT')) return;
+  // Don't intercept if typing in an input (except Escape and Ctrl+Shift+P)
+  if (e.key !== 'Escape' && !(e.ctrlKey && e.shiftKey && e.key === 'P') &&
+      (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT')) return;
 
-  // Escape: close contact panel first, then navigate back
+  // Ctrl+Shift+P: toggle projector mode
+  if (e.ctrlKey && e.shiftKey && e.key === 'P') {
+    e.preventDefault();
+    toggleProjector();
+    return;
+  }
+
+  // Escape: close modals, contact panel, then navigate back
   if (e.key === 'Escape') {
+    // Close teacher modal first
+    const teacherModal = document.getElementById('teacher-modal');
+    if (teacherModal) { e.preventDefault(); closeTeacherErrorModal(); return; }
+    // Close projector mode
+    if (document.documentElement.classList.contains('projector-mode')) { e.preventDefault(); toggleProjector(); return; }
+
     const panel = document.getElementById('contact-panel');
     if (panel && panel.classList.contains('open')) {
       e.preventDefault();
@@ -515,10 +762,12 @@ document.addEventListener('keydown', (e) => {
     }
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
     e.preventDefault();
-    if (state.view === 'module') navigate('modules', { level: state.level, subject: state.subject });
+    if (state.view === 'flashcards' || state.view === 'chrono') navigate('module', { moduleId: state.moduleId });
+    else if (state.view === 'module') navigate('modules', { level: state.level, subject: state.subject });
     else if (state.view === 'modules') navigate('levels', { subject: state.subject });
     else if (state.view === 'levels') navigate('subjects');
     else if (state.view === 'subjects') navigate('home');
+    else if (state.view === 'teacher' || state.view === 'homework') navigate('home');
     return;
   }
 
@@ -548,6 +797,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('nav-home')?.addEventListener('click', () => navigate('home'));
   document.getElementById('nav-parcours')?.addEventListener('click', () => navigate('subjects'));
+  document.getElementById('nav-teacher')?.addEventListener('click', () => navigate('teacher'));
+  document.getElementById('nav-homework')?.addEventListener('click', () => navigate('homework'));
+  document.getElementById('projector-toggle')?.addEventListener('click', toggleProjector);
   document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
   document.getElementById('logo-link')?.addEventListener('click', (e) => {
     e.preventDefault();
@@ -591,4 +843,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Restore state from URL hash, or default to home
   const route = parseHash(window.location.hash);
   navigate(route.view, route);
+
+  // Preload all data in background for home stats and search
+  if (typeof ensureAllData === 'function') {
+    ensureAllData().then(() => {
+      // Re-render home if we're still on it, so stats appear
+      if (state.view === 'home') render();
+    }).catch(() => {});
+  }
 });
