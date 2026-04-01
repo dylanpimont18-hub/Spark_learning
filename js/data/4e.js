@@ -15,7 +15,13 @@ window.MODULES.push(
     physics: 'Échelles atomiques à cosmiques, conversions d\'unités',
 
     cours: {
-      intro: 'En physique-chimie, on manipule des nombres qui vont de $10^{-15}$ m (taille d\'un proton) à $10^{26}$ m (taille de l\'univers observable) — un écart de $10^{41}$ ordres de grandeur ! La notation scientifique $a \\times 10^n$ (avec $1 \\leq a < 10$) est la seule façon de gérer ces échelles sans erreur. <strong>Pourquoi cette contrainte sur $a$ ?</strong> Pour avoir une représentation unique : $0{,}47 \\times 10^{-4}$ et $4{,}7 \\times 10^{-5}$ sont égaux, mais seule la seconde est en notation scientifique standard. Pour convertir, il suffit de compter combien de rangs on déplace la virgule vers la droite (exposant positif si le nombre est grand, négatif si petit). Les préfixes SI (nano, micro, milli, kilo…) sont des raccourcis pour des puissances de 10 fréquentes.',
+      intro: 'En physique-chimie, on manipule des nombres qui vont de $10^{-15}$ m (taille d\'un proton) à $10^{26}$ m (taille de l\'univers observable) — un écart de $10^{41}$ ordres de grandeur ! La <strong>notation scientifique</strong> $a \\times 10^n$ (avec $1 \\leq a < 10$) est la seule façon de gérer ces échelles sans erreur.' +
+        '<br/><br/>' +
+        '<strong>Pourquoi cette contrainte sur $a$ ?</strong> Pour avoir une représentation unique : $0{,}47 \\times 10^{-4}$ et $4{,}7 \\times 10^{-5}$ sont égaux, mais seule la seconde est en notation scientifique standard.' +
+        '<br/><br/>' +
+        'Pour convertir, il suffit de compter combien de rangs on déplace la virgule vers la droite (exposant positif si le nombre est grand, négatif si petit). Les <strong>préfixes SI</strong> (nano, micro, milli, kilo…) sont des raccourcis pour des puissances de 10 fréquentes.' +
+        '<br/><br/>' +
+        '<strong>Attention :</strong> l\'erreur la plus courante est de mal compter le nombre de décalages de la virgule. Vérifie toujours que ta mantisse $a$ a un seul chiffre avant la virgule.',
       definitions: [
         { term: 'Notation scientifique', def: 'Écriture d\'un nombre sous la forme $a \\times 10^n$ avec $1 \\leq a < 10$ et $n$ entier relatif.' },
         { term: 'Ordre de grandeur', def: 'Puissance de 10 la plus proche d\'un nombre. Ex : l\'ordre de grandeur de $350$ est $10^2$.' },
@@ -45,7 +51,7 @@ window.MODULES.push(
         '$(10^a)^b = 10^{a \\times b}$',
         '$1\\,\\text{nm} = 10^{-9}\\,\\text{m}$, $1\\,\\text{μm} = 10^{-6}\\,\\text{m}$, $1\\,\\text{mm} = 10^{-3}\\,\\text{m}$'
       ],
-      diagram: '<table><tr><th>Préfixe</th><th>Symbole</th><th>Puissance</th><th>Valeur</th></tr><tr><td>nano</td><td>n</td><td>$10^{-9}$</td><td>0,000 000 001</td></tr><tr><td>micro</td><td>μ</td><td>$10^{-6}$</td><td>0,000 001</td></tr><tr><td>milli</td><td>m</td><td>$10^{-3}$</td><td>0,001</td></tr><tr><td>kilo</td><td>k</td><td>$10^{3}$</td><td>1 000</td></tr><tr><td>méga</td><td>M</td><td>$10^{6}$</td><td>1 000 000</td></tr><tr><td>giga</td><td>G</td><td>$10^{9}$</td><td>1 000 000 000</td></tr></table>',
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Préfixe</th><th style="border:1px solid var(--border);padding:6px 14px">Symbole</th><th style="border:1px solid var(--border);padding:6px 14px">Puissance</th><th style="border:1px solid var(--border);padding:6px 14px">Valeur</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">nano</td><td style="border:1px solid var(--border);padding:6px 14px">n</td><td style="border:1px solid var(--border);padding:6px 14px">$10^{-9}$</td><td style="border:1px solid var(--border);padding:6px 14px">0,000 000 001</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">micro</td><td style="border:1px solid var(--border);padding:6px 14px">μ</td><td style="border:1px solid var(--border);padding:6px 14px">$10^{-6}$</td><td style="border:1px solid var(--border);padding:6px 14px">0,000 001</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">milli</td><td style="border:1px solid var(--border);padding:6px 14px">m</td><td style="border:1px solid var(--border);padding:6px 14px">$10^{-3}$</td><td style="border:1px solid var(--border);padding:6px 14px">0,001</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">kilo</td><td style="border:1px solid var(--border);padding:6px 14px">k</td><td style="border:1px solid var(--border);padding:6px 14px">$10^{3}$</td><td style="border:1px solid var(--border);padding:6px 14px">1 000</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">méga</td><td style="border:1px solid var(--border);padding:6px 14px">M</td><td style="border:1px solid var(--border);padding:6px 14px">$10^{6}$</td><td style="border:1px solid var(--border);padding:6px 14px">1 000 000</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">giga</td><td style="border:1px solid var(--border);padding:6px 14px">G</td><td style="border:1px solid var(--border);padding:6px 14px">$10^{9}$</td><td style="border:1px solid var(--border);padding:6px 14px">1 000 000 000</td></tr></table>',
       recap: [
         'Notation scientifique : $a \\times 10^n$ avec $1 \\leq a < 10$',
         'Multiplier → additionner les exposants ; diviser → soustraire les exposants',
@@ -84,6 +90,13 @@ window.MODULES.push(
     exercice: {
       type: 'numeric',
       generate() {
+        const ctx = pick([
+          {intro:'En astronomie, la distance entre deux étoiles est', emoji:'🌌'},
+          {intro:'En chimie, la masse d\'un atome est', emoji:'🧪'},
+          {intro:'En biologie, la taille d\'une bactérie est', emoji:'🦠'},
+          {intro:'En informatique, la capacité d\'un disque dur est', emoji:'💾'},
+          {intro:'En physique nucléaire, l\'énergie libérée est', emoji:'⚛️'}
+        ]);
         // Ask to calculate 10^n1 * 10^n2
         const n1 = rand(-4, 2);
         const n2 = rand(-4, 2);
@@ -91,7 +104,7 @@ window.MODULES.push(
         const mantisse = 3;
         const fullAnswer = parseFloat((mantisse * Math.pow(10, resultExp)).toPrecision(2));
         return {
-          statement: `Calcule $3 \\times 10^{${n1}} \\times 10^{${n2}}$. Donne le résultat sous forme décimale standard.`,
+          statement: `${ctx.emoji} ${ctx.intro} de l'ordre de $3 \\times 10^{${n1}}$. On multiplie cette valeur par $10^{${n2}}$. Calcule $3 \\times 10^{${n1}} \\times 10^{${n2}}$. Donne le résultat sous forme décimale standard.`,
           answer: fullAnswer,
           tolerance: Math.abs(fullAnswer) * 0.01 + 1e-15,
           unit: '',
@@ -182,7 +195,13 @@ window.MODULES.push(
     physics: 'Transformer toute formule physique : $\\rho = m/V$ → trouver $m$',
 
     cours: {
-      intro: 'Isoler une inconnue, c\'est comme défaire un nœud : on défait les opérations dans l\'ordre inverse. <strong>Principe fondamental :</strong> l\'égalité est une balance — toute opération effectuée d\'un côté doit l\'être de l\'autre. En physique, la même formule sert dans les deux sens : $\\rho = \\dfrac{m}{V}$ permet de calculer $m$ (si on connaît $\\rho$ et $V$), ou $V$ (si on connaît $m$ et $\\rho$). Il n\'y a pas de "nouvelle formule" — juste de l\'algèbre. <strong>Mémo pour ne pas se perdre :</strong> identifier d\'abord ce que l\'on cherche ($x$), repérer ce qui l\'entoure (additions, multiplications…), défaire de l\'extérieur vers l\'intérieur. Toujours vérifier en réinjectant la solution dans l\'équation de départ.',
+      intro: 'Isoler une inconnue, c\'est comme défaire un nœud : on défait les opérations dans l\'ordre inverse. <strong>Principe fondamental :</strong> l\'égalité est une balance — toute opération effectuée d\'un côté doit l\'être de l\'autre.' +
+        '<br/><br/>' +
+        'En physique, la même formule sert dans les deux sens : $\\rho = \\dfrac{m}{V}$ permet de calculer $m$ (si on connaît $\\rho$ et $V$), ou $V$ (si on connaît $m$ et $\\rho$). Il n\'y a pas de "nouvelle formule" — juste de l\'algèbre.' +
+        '<br/><br/>' +
+        '<strong>Mémo pour ne pas se perdre :</strong> identifier d\'abord ce que l\'on cherche ($x$), repérer ce qui l\'entoure (additions, multiplications…), défaire de l\'extérieur vers l\'intérieur.' +
+        '<br/><br/>' +
+        'Toujours vérifier en réinjectant la solution dans l\'équation de départ : c\'est la seule façon d\'être sûr à 100% du résultat.',
       definitions: [
         { term: 'Équation', def: 'Égalité comportant une (ou plusieurs) inconnue(s), vraie seulement pour certaines valeurs.' },
         { term: 'Inconnue', def: 'Quantité que l\'on cherche, souvent notée $x$, $I$, $V$, etc.' },
@@ -212,6 +231,7 @@ window.MODULES.push(
         'Si $\\dfrac{a}{b} = c$ alors $a = b \\times c$ et $b = \\dfrac{a}{c}$',
         'Si $a \\cdot b = c$ alors $a = \\dfrac{c}{b}$ et $b = \\dfrac{c}{a}$'
       ],
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Opération sur $x$</th><th style="border:1px solid var(--border);padding:6px 14px">Opération inverse</th><th style="border:1px solid var(--border);padding:6px 14px">Exemple</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$+ b$</td><td style="border:1px solid var(--border);padding:6px 14px">$- b$</td><td style="border:1px solid var(--border);padding:6px 14px">$x + 5 = 12 \\Rightarrow x = 12 - 5$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$- b$</td><td style="border:1px solid var(--border);padding:6px 14px">$+ b$</td><td style="border:1px solid var(--border);padding:6px 14px">$x - 3 = 7 \\Rightarrow x = 7 + 3$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$\\times a$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\div a$</td><td style="border:1px solid var(--border);padding:6px 14px">$4x = 20 \\Rightarrow x = 20 \\div 4$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$\\div a$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\times a$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\frac{x}{3} = 6 \\Rightarrow x = 6 \\times 3$</td></tr></table>',
       recap: [
         'L\'égalité est une balance : même opération des deux côtés',
         'Défaire les opérations de l\'extérieur vers l\'intérieur (inverse de la construction)',
@@ -250,12 +270,19 @@ window.MODULES.push(
     exercice: {
       type: 'numeric',
       generate() {
+        const ctx = pick([
+          {intro:'En mécanique, la relation entre force, masse et accélération donne l\'équation', emoji:'🔧'},
+          {intro:'Pour calculer la tension électrique dans un circuit, on résout', emoji:'⚡'},
+          {intro:'En chimie, l\'équilibre des masses donne l\'équation', emoji:'⚗️'},
+          {intro:'Pour déterminer la vitesse d\'un mobile, on résout', emoji:'🚀'},
+          {intro:'En économie, le calcul du prix de revient conduit à l\'équation', emoji:'💰'}
+        ]);
         const a = rand(2, 9);
         const x = rand(2, 12);
         const b = rand(1, 20);
         const c = a * x + b;
         return {
-          statement: `Résoudre l'équation : $${a}x + ${b} = ${c}$. Quelle est la valeur de $x$ ?`,
+          statement: `${ctx.emoji} ${ctx.intro} : $${a}x + ${b} = ${c}$. Quelle est la valeur de $x$ ?`,
           answer: x,
           tolerance: 0.001,
           unit: '',
@@ -346,7 +373,11 @@ window.MODULES.push(
     physics: 'Norme d\'un vecteur force, distance résultante, calcul de composantes',
 
     cours: {
-      intro: 'Le théorème de Pythagore dit que dans tout triangle rectangle, le carré de l\'hypoténuse est égal à la somme des carrés des deux autres côtés : $c^2 = a^2 + b^2$. <strong>L\'hypoténuse est toujours le côté opposé à l\'angle droit</strong> — c\'est aussi le plus long côté. La réciproque est puissante : si $c^2 = a^2 + b^2$, alors le triangle est rectangle. En physique, cette formule donne la norme d\'un vecteur résultant ($\\|\\vec{F}\\| = \\sqrt{F_x^2 + F_y^2}$) et la distance entre deux points. <strong>Attention au sens de la formule :</strong> pour trouver un côté adjacent, on utilise $a = \\sqrt{c^2 - b^2}$ — on soustrait, pas on additionne ! Vérification : le résultat doit être inférieur à l\'hypoténuse.',
+      intro: 'Le théorème de Pythagore dit que dans tout triangle rectangle, le carré de l\'hypoténuse est égal à la somme des carrés des deux autres côtés : $c^2 = a^2 + b^2$. <strong>L\'hypoténuse est toujours le côté opposé à l\'angle droit</strong> — c\'est aussi le plus long côté.' +
+        '<br/><br/>' +
+        'La réciproque est puissante : si $c^2 = a^2 + b^2$, alors le triangle est rectangle. En physique, cette formule donne la norme d\'un vecteur résultant ($\\|\\vec{F}\\| = \\sqrt{F_x^2 + F_y^2}$) et la distance entre deux points.' +
+        '<br/><br/>' +
+        '<strong>Attention au sens de la formule :</strong> pour trouver un côté adjacent, on utilise $a = \\sqrt{c^2 - b^2}$ — on soustrait, pas on additionne ! Vérification : le résultat doit être inférieur à l\'hypoténuse.',
       definitions: [
         { term: 'Hypoténuse', def: 'Côté le plus long du triangle rectangle, situé en face de l\'angle droit.' },
         { term: 'Triangle rectangle', def: 'Triangle possédant un angle droit (90°).' },
@@ -376,6 +407,7 @@ window.MODULES.push(
         '$a = \\sqrt{c^2 - b^2}$',
         '$\\|\\vec{v}\\| = \\sqrt{v_x^2 + v_y^2}$ (norme d\'un vecteur 2D)'
       ],
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Situation</th><th style="border:1px solid var(--border);padding:6px 14px">Formule</th><th style="border:1px solid var(--border);padding:6px 14px">Opération</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Chercher l\'hypoténuse $c$</td><td style="border:1px solid var(--border);padding:6px 14px">$c = \\sqrt{a^2 + b^2}$</td><td style="border:1px solid var(--border);padding:6px 14px">On additionne les carrés</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Chercher un côté $a$</td><td style="border:1px solid var(--border);padding:6px 14px">$a = \\sqrt{c^2 - b^2}$</td><td style="border:1px solid var(--border);padding:6px 14px">On soustrait les carrés</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Vérifier si rectangle</td><td style="border:1px solid var(--border);padding:6px 14px">$a^2 + b^2 \\stackrel{?}{=} c^2$</td><td style="border:1px solid var(--border);padding:6px 14px">Réciproque (égalité exacte)</td></tr></table>',
       recap: [
         '$c^2 = a^2 + b^2$ ne fonctionne QUE dans un triangle rectangle',
         'L\'hypoténuse est toujours en face de l\'angle droit et c\'est le plus grand côté',
@@ -518,7 +550,13 @@ window.MODULES.push(
     physics: 'Formules enchaînées : $v = \\frac{d}{t}$, $\\rho = \\frac{m}{V}$, changements d\'unités',
 
     cours: {
-      intro: 'Multiplier des fractions est plus simple que de les additionner : pas besoin de dénominateur commun — on multiplie numérateurs entre eux et dénominateurs entre eux. La <strong>simplification croisée</strong> évite les grands nombres : avant de multiplier, simplifier en diagonale ($\\frac{3}{4} \\times \\frac{8}{9}$ → simplifier $3$ et $9$ par $3$, $4$ et $8$ par $4$ → $\\frac{1}{1} \\times \\frac{2}{3} = \\frac{2}{3}$). Diviser par une fraction revient à multiplier par son inverse : $\\dfrac{a}{b} \\div \\dfrac{c}{d} = \\dfrac{a}{b} \\times \\dfrac{d}{c}$. <strong>Intuition :</strong> diviser par $\\dfrac{1}{2}$ revient à multiplier par $2$ (couper en demi → deux fois plus de morceaux). En physique, les conversions d\'unités enchaînent des multiplications/divisions de fractions : $1$ m/s $= \\dfrac{1\\,\\text{m}}{1\\,\\text{s}} = \\dfrac{1\\,\\text{m}}{1\\,\\text{s}} \\times \\dfrac{3600\\,\\text{s}}{1\\,\\text{h}} = 3600$ m/h = $3{,}6$ km/h.',
+      intro: 'Multiplier des fractions est plus simple que de les additionner : pas besoin de dénominateur commun — on multiplie numérateurs entre eux et dénominateurs entre eux.' +
+        '<br/><br/>' +
+        'La <strong>simplification croisée</strong> évite les grands nombres : avant de multiplier, simplifier en diagonale ($\\frac{3}{4} \\times \\frac{8}{9}$ → simplifier $3$ et $9$ par $3$, $4$ et $8$ par $4$ → $\\frac{1}{1} \\times \\frac{2}{3} = \\frac{2}{3}$).' +
+        '<br/><br/>' +
+        'Diviser par une fraction revient à multiplier par son inverse : $\\dfrac{a}{b} \\div \\dfrac{c}{d} = \\dfrac{a}{b} \\times \\dfrac{d}{c}$. <strong>Intuition :</strong> diviser par $\\dfrac{1}{2}$ revient à multiplier par $2$ (couper en demi → deux fois plus de morceaux).' +
+        '<br/><br/>' +
+        'En physique, les conversions d\'unités enchaînent des multiplications/divisions de fractions : $1$ m/s $= \\dfrac{1\\,\\text{m}}{1\\,\\text{s}} \\times \\dfrac{3600\\,\\text{s}}{1\\,\\text{h}} = 3600$ m/h = $3{,}6$ km/h.',
       definitions: [
         { term: 'Produit de fractions', def: 'On multiplie les numérateurs entre eux et les dénominateurs entre eux : $\\dfrac{a}{b} \\times \\dfrac{c}{d} = \\dfrac{a \\times c}{b \\times d}$.' },
         { term: 'Inverse d\'une fraction', def: 'L\'inverse de $\\dfrac{a}{b}$ (avec $a \\neq 0$) est $\\dfrac{b}{a}$. Leur produit vaut $1$ : $\\dfrac{a}{b} \\times \\dfrac{b}{a} = 1$.' },
@@ -547,6 +585,7 @@ window.MODULES.push(
         '$\\dfrac{a}{b} \\div \\dfrac{c}{d} = \\dfrac{a}{b} \\times \\dfrac{d}{c} = \\dfrac{ad}{bc}$',
         '$\\dfrac{a}{b} \\div a = \\dfrac{1}{b}$ et $a \\times \\dfrac{1}{b} = \\dfrac{a}{b}$'
       ],
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Opération</th><th style="border:1px solid var(--border);padding:6px 14px">Règle</th><th style="border:1px solid var(--border);padding:6px 14px">Exemple</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Multiplication</td><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{a}{b} \\times \\dfrac{c}{d} = \\dfrac{ac}{bd}$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{2}{3} \\times \\dfrac{5}{7} = \\dfrac{10}{21}$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Division</td><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{a}{b} \\div \\dfrac{c}{d} = \\dfrac{a}{b} \\times \\dfrac{d}{c}$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{3}{4} \\div \\dfrac{2}{5} = \\dfrac{15}{8}$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Inverse</td><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{a}{b} \\to \\dfrac{b}{a}$</td><td style="border:1px solid var(--border);padding:6px 14px">Inverse de $\\dfrac{3}{7}$ est $\\dfrac{7}{3}$</td></tr></table>',
       recap: [
         'Multiplier deux fractions : on multiplie numérateurs entre eux et dénominateurs entre eux.',
         'Diviser par une fraction = multiplier par son inverse (on « retourne » la deuxième fraction).',
@@ -585,13 +624,20 @@ window.MODULES.push(
     exercice: {
       type: 'numeric',
       generate() {
+        const ctx = pick([
+          {intro:'En cuisine, on prépare', emoji:'🍳'},
+          {intro:'En pharmacie, on dose', emoji:'💊'},
+          {intro:'En bricolage, on mesure', emoji:'🔨'},
+          {intro:'En couture, on coupe', emoji:'✂️'},
+          {intro:'En jardinage, on mélange', emoji:'🌱'}
+        ]);
         const a = rand(2, 7), b = rand(2, 8), c = rand(2, 6), d = rand(2, 7);
         const num = a * c, den = b * d;
         const pgcd = (x, y) => y === 0 ? x : pgcd(y, x % y);
         const g = pgcd(num, den);
         const answer = parseFloat((num / den).toFixed(4));
         return {
-          statement: `Calculer $\\dfrac{${a}}{${b}} \\times \\dfrac{${c}}{${d}}$. Donner le résultat décimal.`,
+          statement: `${ctx.emoji} ${ctx.intro} une quantité qui vaut $\\dfrac{${a}}{${b}}$ d'un lot de $\\dfrac{${c}}{${d}}$. Calculer $\\dfrac{${a}}{${b}} \\times \\dfrac{${c}}{${d}}$. Donner le résultat décimal.`,
           answer,
           tolerance: 0.001,
           unit: '',
@@ -680,7 +726,11 @@ window.MODULES.push(
     keywords: ['Nombres relatifs', 'Règle des signes', 'Produit', 'Quotient', 'Négatif'],
     physics: true,
     cours: {
-      intro: 'La règle des signes pour la multiplication est intuitive si on pense aux opposés : multiplier par $-1$ inverse le signe. Donc $(-1) \\times (-1) = 1$ car « l\'opposé de l\'opposé ». Règle générale : pair de $-$ → $+$, impair de $-$ → $-$. <strong>Piège classique avec les exposants :</strong> $(-3)^2 = (-3) \\times (-3) = +9$ (le $-$ est dans la base), mais $-3^2 = -(3 \\times 3) = -9$ (l\'exposant s\'applique uniquement au $3$). Les parenthèses sont essentielles. En physique, les grandeurs algébriques (tension, position, vitesse) peuvent être négatives — le signe indique un sens (opposé à la convention positive choisie).',
+      intro: 'La règle des signes pour la multiplication est intuitive si on pense aux opposés : multiplier par $-1$ inverse le signe. Donc $(-1) \\times (-1) = 1$ car « l\'opposé de l\'opposé ». Règle générale : pair de $-$ → $+$, impair de $-$ → $-$.' +
+        '<br/><br/>' +
+        '<strong>Piège classique avec les exposants :</strong> $(-3)^2 = (-3) \\times (-3) = +9$ (le $-$ est dans la base), mais $-3^2 = -(3 \\times 3) = -9$ (l\'exposant s\'applique uniquement au $3$). Les parenthèses sont essentielles.' +
+        '<br/><br/>' +
+        'En physique, les grandeurs algébriques (tension, position, vitesse) peuvent être négatives — le signe indique un sens (opposé à la convention positive choisie). Par exemple, une vitesse de $-5$ m/s signifie un déplacement dans le sens opposé à l\'axe choisi.',
       definitions: [
         { term: 'Nombre relatif', def: 'Nombre muni d\'un signe ($+$ ou $-$) et d\'une valeur absolue. Exemples : $+7$, $-3{,}5$.' },
         { term: 'Valeur absolue', def: 'Distance à zéro sur la droite graduée, toujours positive. $|{-5}| = 5$ et $|{+5}| = 5$.' },
@@ -711,6 +761,7 @@ window.MODULES.push(
         '$(+a) \\times (-b) = -ab$',
         '$(-a) \\div (+b) = -\\dfrac{a}{b}$'
       ],
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">$\\times$</th><th style="border:1px solid var(--border);padding:6px 14px">$+$</th><th style="border:1px solid var(--border);padding:6px 14px">$-$</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px"><strong>$+$</strong></td><td style="border:1px solid var(--border);padding:6px 14px">$+$</td><td style="border:1px solid var(--border);padding:6px 14px">$-$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px"><strong>$-$</strong></td><td style="border:1px solid var(--border);padding:6px 14px">$-$</td><td style="border:1px solid var(--border);padding:6px 14px">$+$</td></tr></table>',
       recap: [
         'Mêmes signes → produit positif ; signes contraires → produit négatif.',
         'La division suit exactement les mêmes règles de signes que la multiplication.',
@@ -749,16 +800,26 @@ window.MODULES.push(
       generate() {
         const a = pick([-7,-6,-5,-4,-3,3,4,5,6,7]);
         const b = pick([-6,-5,-4,-3,3,4,5,6]);
+        const result = a * b;
+        const scenario = pick([
+          { emoji: '🧮', statement: `Calcule $(${a}) \\times (${b})$.` },
+          { emoji: '💰', statement: `Un commerçant enregistre une variation de $(${a})$ € par jour pendant $(${b})$ jours. Quelle est la variation totale ? <br/><em>Calcul : $(${a}) \\times (${b})$</em>` },
+          { emoji: '🌡️', statement: `La température change de $(${a})°C$ chaque heure pendant $(${b})$ heures. Quelle est la variation totale ? <br/><em>Calcul : $(${a}) \\times (${b})$</em>` },
+          { emoji: '🏔️', statement: `Un randonneur ${a < 0 ? 'descend' : 'monte'} de $${Math.abs(a)}$ m d'altitude par étape. Après $(${b})$ étapes, quelle est la variation d'altitude totale ? <br/><em>Calcul : $(${a}) \\times (${b})$</em>` },
+          { emoji: '🚰', statement: `Un réservoir ${a < 0 ? 'perd' : 'gagne'} $(${a})$ litres par minute pendant $(${b})$ minutes. Quelle est la variation totale ? <br/><em>Calcul : $(${a}) \\times (${b})$</em>` },
+          { emoji: '📊', statement: `Une action en bourse varie de $(${a})$ points par séance pendant $(${b})$ séances. Quelle est la variation totale ? <br/><em>Calcul : $(${a}) \\times (${b})$</em>` },
+          { emoji: '🤿', statement: `Un plongeur ${a < 0 ? 'descend' : 'remonte'} de $${Math.abs(a)}$ m par minute pendant $(${b})$ minutes. Quelle est la variation de profondeur ? <br/><em>Calcul : $(${a}) \\times (${b})$</em>` }
+        ]);
         return {
-          statement: `Calcule $(${a}) \\times (${b})$.`,
-          answer: a * b,
+          statement: `${scenario.emoji} ${scenario.statement}`,
+          answer: result,
           tolerance: 0,
           unit: '',
           hint: `Règle des signes : les signes sont ${a < 0 && b < 0 ? 'identiques (deux négatifs) → résultat positif' : a > 0 && b > 0 ? 'identiques (deux positifs) → résultat positif' : 'contraires → résultat négatif'}.`,
           solution: [
-            `Valeur absolue : $${Math.abs(a)} \\times ${Math.abs(b)} = ${Math.abs(a * b)}$.`,
+            `Valeur absolue : $${Math.abs(a)} \\times ${Math.abs(b)} = ${Math.abs(result)}$.`,
             `Signe : ${(a < 0) === (b < 0) ? 'mêmes signes → positif' : 'signes contraires → négatif'}.`,
-            `Résultat : $${a * b}$.`
+            `Résultat : $${result}$.`
           ]
         };
       }
@@ -844,7 +905,13 @@ window.MODULES.push(
     keywords: ['Triangle rectangle', 'Cercle circonscrit', 'Angle inscrit', 'Diamètre', 'Hypoténuse'],
     physics: false,
     cours: {
-      intro: 'Le théorème de l\'angle inscrit dans un demi-cercle est un résultat élégant : si un triangle $ABC$ est inscrit dans un cercle et que $[BC]$ est un diamètre, alors l\'angle $\\hat{A}$ est nécessairement droit — et ce quel que soit l\'emplacement de $A$ sur le cercle (tant qu\'il n\'est pas sur le diamètre). <strong>Intuition géométrique :</strong> le centre $O$ du cercle est le milieu de $[BC]$, et $OA = OB = OC = R$ (rayons). Le triangle $OAB$ et $OAC$ sont isocèles. En additionnant les angles on obtient $\\hat{A} = 90°$. La réciproque est aussi vraie et utile : si $\\hat{A} = 90°$ dans $ABC$, alors $[BC]$ est un diamètre du cercle circonscrit, et son rayon est $R = \\dfrac{BC}{2}$.',
+      intro: 'Le théorème de l\'angle inscrit dans un demi-cercle est un résultat élégant : si un triangle $ABC$ est inscrit dans un cercle et que $[BC]$ est un diamètre, alors l\'angle $\\hat{A}$ est nécessairement droit — et ce quel que soit l\'emplacement de $A$ sur le cercle (tant qu\'il n\'est pas sur le diamètre).' +
+        '<br/><br/>' +
+        '<strong>Intuition géométrique :</strong> le centre $O$ du cercle est le milieu de $[BC]$, et $OA = OB = OC = R$ (rayons). Le triangle $OAB$ et $OAC$ sont isocèles. En additionnant les angles on obtient $\\hat{A} = 90°$.' +
+        '<br/><br/>' +
+        'La réciproque est aussi vraie et utile : si $\\hat{A} = 90°$ dans $ABC$, alors $[BC]$ est un diamètre du cercle circonscrit, et son rayon est $R = \\dfrac{BC}{2}$.' +
+        '<br/><br/>' +
+        'Ce résultat est utilisé en construction géométrique : pour tracer un angle droit, il suffit d\'inscrire un triangle dans un demi-cercle.',
       definitions: [
         { term: 'Cercle circonscrit', def: 'Cercle passant par les trois sommets d\'un triangle. Son centre est équidistant des trois sommets.' },
         { term: 'Angle inscrit', def: 'Angle dont le sommet est sur le cercle et dont les côtés sont des cordes du cercle.' },
@@ -873,6 +940,7 @@ window.MODULES.push(
         'Réciproque : $\\hat{A} = 90°$ dans $ABC$ $\\Rightarrow$ $[BC]$ est un diamètre du cercle circonscrit',
         'Rayon du cercle circonscrit : $R = \\dfrac{BC}{2}$ (BC = hypoténuse)'
       ],
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Hypothèse</th><th style="border:1px solid var(--border);padding:6px 14px">Conclusion</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$[BC]$ diamètre, $A$ sur le cercle</td><td style="border:1px solid var(--border);padding:6px 14px">$\\hat{A} = 90°$ (théorème direct)</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$\\hat{A} = 90°$ dans $ABC$</td><td style="border:1px solid var(--border);padding:6px 14px">$[BC]$ est un diamètre, $R = \\dfrac{BC}{2}$ (réciproque)</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Centre du cercle circ. d\'un triangle rect.</td><td style="border:1px solid var(--border);padding:6px 14px">Milieu de l\'hypoténuse</td></tr></table>',
       recap: [
         'Si un côté d\'un triangle inscrit est un diamètre, l\'angle opposé vaut $90°$.',
         'Réciproque : si un triangle est rectangle, l\'hypoténuse est un diamètre du cercle circonscrit.',
@@ -904,9 +972,15 @@ window.MODULES.push(
     exercice: {
       type: 'numeric',
       generate() {
+        const ctx = pick([
+          {intro:'Un vitrail circulaire contient un triangle rectangle inscrit.', emoji:'🎨'},
+          {intro:'Un pont en arc forme un demi-cercle avec un triangle inscrit.', emoji:'🌉'},
+          {intro:'Sur un terrain de sport, un cercle contient un triangle rectangle.', emoji:'🏟️'},
+          {intro:'En optique, un miroir circulaire encadre un triangle rectangle.', emoji:'🔭'}
+        ]);
         const diam = rand(6, 20);
         return {
-          statement: `Un triangle rectangle est inscrit dans un cercle. L'hypoténuse (diamètre) mesure $${diam}$ cm. Quel est le rayon du cercle (en cm) ?`,
+          statement: `${ctx.emoji} ${ctx.intro} L'hypoténuse (diamètre) mesure $${diam}$ cm. Quel est le rayon du cercle (en cm) ?`,
           answer: diam / 2,
           tolerance: 0,
           unit: 'cm',
@@ -1000,7 +1074,13 @@ window.MODULES.push(
     keywords: ['Translation', 'Rotation', 'Vecteur', 'Image', 'Isométrie'],
     physics: false,
     cours: {
-      intro: 'Une translation déplace tous les points du plan du <strong>même vecteur</strong> $\\vec{v}$ — même direction, même sens, même longueur. Ce n\'est pas une rotation ni une symétrie : l\'orientation reste identique, les figures ne sont pas retournées. Une rotation de centre $O$ et d\'angle $\\theta$ tourne chaque point autour de $O$, en conservant la distance $OA$. Ces deux transformations sont des <strong>isométries directes</strong> : elles conservent distances, angles, aires, et l\'orientation (sens des sommets). La translation et la rotation sont omniprésentes en physique : déplacement d\'un solide en translation pure (toutes les parties ont la même vitesse), rotation d\'une roue, mouvement orbital. Composition de deux translations = une translation (les vecteurs s\'additionnent).',
+      intro: 'Une translation déplace tous les points du plan du <strong>même vecteur</strong> $\\vec{v}$ — même direction, même sens, même longueur. Ce n\'est pas une rotation ni une symétrie : l\'orientation reste identique, les figures ne sont pas retournées.' +
+        '<br/><br/>' +
+        'Une rotation de centre $O$ et d\'angle $\\theta$ tourne chaque point autour de $O$, en conservant la distance $OA$. Ces deux transformations sont des <strong>isométries directes</strong> : elles conservent distances, angles, aires, et l\'orientation (sens des sommets).' +
+        '<br/><br/>' +
+        'La translation et la rotation sont omniprésentes en physique : déplacement d\'un solide en translation pure (toutes les parties ont la même vitesse), rotation d\'une roue, mouvement orbital.' +
+        '<br/><br/>' +
+        'Composition de deux translations = une translation (les vecteurs s\'additionnent). C\'est un outil puissant pour enchaîner des déplacements.',
       definitions: [
         { term: 'Translation', def: 'Transformation qui déplace chaque point du plan d\'un même vecteur $\\vec{v}$. La figure glisse sans tourner ni se déformer.' },
         { term: 'Vecteur de translation', def: 'Caractérisé par sa direction, son sens et sa longueur (norme). Noté $\\vec{v}(a ; b)$ en coordonnées.' },
@@ -1029,6 +1109,7 @@ window.MODULES.push(
         'Rotation de $180°$ autour de $O$ : $A(x;y) \\to A\'(2x_O - x\\,;\\,2y_O - y)$',
         '$|OA\'| = |OA|$ (rotation conserve les distances)'
       ],
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Transformation</th><th style="border:1px solid var(--border);padding:6px 14px">Formule image</th><th style="border:1px solid var(--border);padding:6px 14px">Conserve</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Translation $\\vec{v}(a;b)$</td><td style="border:1px solid var(--border);padding:6px 14px">$A\'(x+a\\,;\\,y+b)$</td><td style="border:1px solid var(--border);padding:6px 14px">Distances, angles, aires, orientation</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Rotation ($O$, $\\theta$)</td><td style="border:1px solid var(--border);padding:6px 14px">$OA\' = OA$, $\\widehat{AOA\'} = \\theta$</td><td style="border:1px solid var(--border);padding:6px 14px">Distances, angles, aires, orientation</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Rotation $180°$ en $O(0;0)$</td><td style="border:1px solid var(--border);padding:6px 14px">$A\'(-x\\,;\\,-y)$</td><td style="border:1px solid var(--border);padding:6px 14px">Symétrie centrale</td></tr></table>',
       recap: [
         'Translation : chaque point se déplace du même vecteur $\\vec{v}(a ; b)$ → on ajoute $a$ à l\'abscisse et $b$ à l\'ordonnée.',
         'Rotation : chaque point tourne autour d\'un centre $O$ en conservant sa distance à $O$.',
@@ -1065,10 +1146,17 @@ window.MODULES.push(
     exercice: {
       type: 'numeric',
       generate() {
+        const ctx = pick([
+          {intro:'Un drone se déplace sur une carte', emoji:'🛸'},
+          {intro:'Un robot avance dans un entrepôt', emoji:'🤖'},
+          {intro:'Un pion se déplace sur un plateau de jeu', emoji:'🎲'},
+          {intro:'Un navire change de cap sur la carte marine', emoji:'🚢'},
+          {intro:'Un satellite se repositionne en orbite', emoji:'🛰️'}
+        ]);
         const ax = rand(-5, 5), ay = rand(-5, 5);
         const vx = rand(-4, 4), vy = rand(-4, 4);
         return {
-          statement: `Le point $A(${ax} ; ${ay})$ subit une translation de vecteur $\\vec{v}(${vx} ; ${vy})$. Quelle est l'abscisse de l'image $A'$ ?`,
+          statement: `${ctx.emoji} ${ctx.intro}. Le point $A(${ax} ; ${ay})$ subit une translation de vecteur $\\vec{v}(${vx} ; ${vy})$. Quelle est l'abscisse de l'image $A'$ ?`,
           answer: ax + vx,
           tolerance: 0,
           unit: '',
@@ -1152,7 +1240,13 @@ window.MODULES.push(
     keywords: ['Médiatrice', 'Bissectrice', 'Médiane', 'Hauteur', 'Cercle inscrit', 'Cercle circonscrit'],
     physics: false,
     cours: {
-      intro: 'Chaque triangle possède quatre familles de droites remarquables, chacune associée à un point de concours unique. <strong>Médiatrices</strong> → circumcentre (équidistant des 3 sommets = centre du cercle circonscrit). <strong>Bissectrices</strong> → incentre (équidistant des 3 côtés = centre du cercle inscrit). <strong>Médianes</strong> → centroïde ou isobarycentre (centre de gravité, à $\\frac{2}{3}$ de chaque sommet). <strong>Hauteurs</strong> → orthocentre (peut être extérieur au triangle si obtus). <strong>Piège fréquent :</strong> ne pas confondre médiane (joint un sommet au milieu du côté opposé) et médiatrice (perpendiculaire à un côté en son milieu — elle ne passe pas nécessairement par un sommet). Ces droites sont utiles en ingénierie : le centroïde est le centre de masse, le circumcentre sert à trouver le cercle passant par 3 points.',
+      intro: 'Chaque triangle possède quatre familles de droites remarquables, chacune associée à un point de concours unique.' +
+        '<br/><br/>' +
+        '<strong>Médiatrices</strong> → circumcentre (équidistant des 3 sommets = centre du cercle circonscrit). <strong>Bissectrices</strong> → incentre (équidistant des 3 côtés = centre du cercle inscrit). <strong>Médianes</strong> → centroïde ou isobarycentre (centre de gravité, à $\\frac{2}{3}$ de chaque sommet). <strong>Hauteurs</strong> → orthocentre (peut être extérieur au triangle si obtus).' +
+        '<br/><br/>' +
+        '<strong>Piège fréquent :</strong> ne pas confondre médiane (joint un sommet au milieu du côté opposé) et médiatrice (perpendiculaire à un côté en son milieu — elle ne passe pas nécessairement par un sommet).' +
+        '<br/><br/>' +
+        'Ces droites sont utiles en ingénierie : le centroïde est le centre de masse, le circumcentre sert à trouver le cercle passant par 3 points.',
       definitions: [
         { term: 'Médiatrice', def: 'Droite perpendiculaire à un côté en son milieu. Lieu des points équidistants des deux extrémités de ce côté.' },
         { term: 'Bissectrice', def: 'Demi-droite issue d\'un sommet qui partage l\'angle en deux angles égaux.' },
@@ -1182,6 +1276,7 @@ window.MODULES.push(
         'Centroïde $G$ : $\\overrightarrow{GA} + \\overrightarrow{GB} + \\overrightarrow{GC} = \\vec{0}$',
         'Sur une médiane : $AG = \\frac{2}{3} AM$ (M = milieu du côté opposé)'
       ],
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Droite remarquable</th><th style="border:1px solid var(--border);padding:6px 14px">Définition</th><th style="border:1px solid var(--border);padding:6px 14px">Point de concours</th><th style="border:1px solid var(--border);padding:6px 14px">Cercle associé</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Médiatrice</td><td style="border:1px solid var(--border);padding:6px 14px">$\\perp$ au côté en son milieu</td><td style="border:1px solid var(--border);padding:6px 14px">Circumcentre</td><td style="border:1px solid var(--border);padding:6px 14px">Cercle circonscrit</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Bissectrice</td><td style="border:1px solid var(--border);padding:6px 14px">Partage l\'angle en 2</td><td style="border:1px solid var(--border);padding:6px 14px">Incentre</td><td style="border:1px solid var(--border);padding:6px 14px">Cercle inscrit</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Médiane</td><td style="border:1px solid var(--border);padding:6px 14px">Sommet → milieu opposé</td><td style="border:1px solid var(--border);padding:6px 14px">Centroïde ($\\frac{2}{3}$)</td><td style="border:1px solid var(--border);padding:6px 14px">—</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Hauteur</td><td style="border:1px solid var(--border);padding:6px 14px">$\\perp$ au côté par le sommet</td><td style="border:1px solid var(--border);padding:6px 14px">Orthocentre</td><td style="border:1px solid var(--border);padding:6px 14px">—</td></tr></table>',
       recap: [
         'Quatre familles de droites : médiatrices, bissectrices, médianes, hauteurs — chacune a un point de concours.',
         'Médiatrices → circumcentre (cercle circonscrit) ; bissectrices → incentre (cercle inscrit).',
@@ -1218,10 +1313,16 @@ window.MODULES.push(
     exercice: {
       type: 'numeric',
       generate() {
+        const ctx = pick([
+          {intro:'En architecture, on localise le centre de gravité d\'une pièce triangulaire.', emoji:'🏗️'},
+          {intro:'En physique, on détermine le point d\'équilibre d\'une plaque triangulaire.', emoji:'⚖️'},
+          {intro:'En cartographie, on cherche le centroïde d\'une zone triangulaire.', emoji:'🗺️'},
+          {intro:'En robotique, on calcule la position du barycentre d\'un châssis triangulaire.', emoji:'🤖'}
+        ]);
         const am = rand(6, 18);
         const ag = parseFloat((2 * am / 3).toFixed(1));
         return {
-          statement: `Dans un triangle, la médiane issue de $A$ mesure $${am}$ cm. Le centroïde $G$ se trouve à $\\frac{2}{3}$ de $A$. Quelle est la longueur $AG$ en cm ?`,
+          statement: `${ctx.emoji} ${ctx.intro} La médiane issue de $A$ mesure $${am}$ cm. Le centroïde $G$ se trouve à $\\frac{2}{3}$ de $A$. Quelle est la longueur $AG$ en cm ?`,
           answer: ag,
           tolerance: 0.1,
           unit: 'cm',
@@ -1303,7 +1404,13 @@ window.MODULES.push(
     keywords: ['Cosinus', 'Angle aigu', 'Triangle rectangle', 'Adjacent', 'Hypoténuse'],
     physics: true,
     cours: {
-      intro: 'Dans un triangle rectangle, le cosinus d\'un angle aigu mesure à quel point cet angle est « ouvert » : $\\cos(\\hat{A}) = \\dfrac{\\text{côté adjacent}}{\\text{hypoténuse}}$. L\'idée clé est que tous les triangles rectangles ayant le même angle $\\hat{A}$ sont semblables, donc le rapport adj/hyp est toujours identique, quelle que soit la taille du triangle. Ce rapport vaut toujours entre $0$ et $1$ : $\\cos(0°) = 1$ (triangle complètement « plat ») et $\\cos(90°) = 0$ (angle droit). Attention : le côté « adjacent » dépend de l\'angle considéré — pour l\'angle $\\hat{A}$, c\'est le côté qui touche $\\hat{A}$ sans être l\'hypoténuse ; pour l\'angle $\\hat{B}$, c\'est l\'autre côté.',
+      intro: 'Dans un triangle rectangle, le cosinus d\'un angle aigu mesure à quel point cet angle est « ouvert » : $\\cos(\\hat{A}) = \\dfrac{\\text{côté adjacent}}{\\text{hypoténuse}}$.' +
+        '<br/><br/>' +
+        'L\'idée clé est que tous les triangles rectangles ayant le même angle $\\hat{A}$ sont semblables, donc le rapport adj/hyp est toujours identique, quelle que soit la taille du triangle. Ce rapport vaut toujours entre $0$ et $1$ : $\\cos(0°) = 1$ (triangle complètement « plat ») et $\\cos(90°) = 0$ (angle droit).' +
+        '<br/><br/>' +
+        'Attention : le côté « adjacent » dépend de l\'angle considéré — pour l\'angle $\\hat{A}$, c\'est le côté qui touche $\\hat{A}$ sans être l\'hypoténuse ; pour l\'angle $\\hat{B}$, c\'est l\'autre côté.' +
+        '<br/><br/>' +
+        'En physique, le cosinus intervient dans la décomposition de forces, le travail d\'une force ($W = F \\cdot d \\cdot \\cos\\theta$), et l\'optique (loi de Snell-Descartes).',
       definitions: [
         { term: 'Cosinus d\'un angle aigu', def: 'Rapport entre le côté adjacent à l\'angle et l\'hypoténuse dans un triangle rectangle : $\\cos(\\hat{A}) = \\dfrac{\\text{adj}}{\\text{hyp}}$.' },
         { term: 'Côté adjacent', def: 'Côté du triangle rectangle qui forme l\'angle considéré, autre que l\'hypoténuse. Il change selon l\'angle choisi.' },
@@ -1332,6 +1439,7 @@ window.MODULES.push(
         '$\\cos(0°) = 1$, $\\cos(30°) = \\frac{\\sqrt{3}}{2}$, $\\cos(45°) = \\frac{\\sqrt{2}}{2}$, $\\cos(60°) = \\frac{1}{2}$, $\\cos(90°) = 0$',
         'Pour trouver l\'angle : $\\hat{A} = \\arccos\\left(\\dfrac{\\text{adj}}{\\text{hyp}}\\right)$'
       ],
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Angle</th><th style="border:1px solid var(--border);padding:6px 14px">$\\cos$</th><th style="border:1px solid var(--border);padding:6px 14px">Valeur approchée</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$0°$</td><td style="border:1px solid var(--border);padding:6px 14px">$1$</td><td style="border:1px solid var(--border);padding:6px 14px">$1$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$30°$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\frac{\\sqrt{3}}{2}$</td><td style="border:1px solid var(--border);padding:6px 14px">$0{,}866$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$45°$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\frac{\\sqrt{2}}{2}$</td><td style="border:1px solid var(--border);padding:6px 14px">$0{,}707$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$60°$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\frac{1}{2}$</td><td style="border:1px solid var(--border);padding:6px 14px">$0{,}5$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$90°$</td><td style="border:1px solid var(--border);padding:6px 14px">$0$</td><td style="border:1px solid var(--border);padding:6px 14px">$0$</td></tr></table>',
       recap: [
         '$\\cos(\\hat{A}) = \\dfrac{\\text{côté adjacent}}{\\text{hypoténuse}}$ — le rapport est toujours compris entre $0$ et $1$.',
         'Le côté adjacent change selon l\'angle considéré : c\'est le côté qui touche l\'angle (sans être l\'hypoténuse).',
@@ -1372,13 +1480,21 @@ window.MODULES.push(
         const {a, cos} = pick(angles);
         const hyp = rand(5, 20);
         const adj = parseFloat((hyp * cos).toFixed(1));
+        const scenario = pick([
+          { emoji: '📐', statement: `Dans un triangle rectangle, un angle mesure $${a}°$ et l'hypoténuse vaut $${hyp}$ cm. Calcule le côté adjacent (en cm, arrondi à $0{,}1$).` },
+          { emoji: '🪜', statement: `Une échelle de $${hyp}$ m est appuyée contre un mur et forme un angle de $${a}°$ avec le sol. À quelle distance du mur se trouve le pied de l'échelle (en m, arrondi à $0{,}1$) ? <br/><em>Indication : le côté adjacent = hypoténuse $\\times \\cos(${a}°)$.</em>` },
+          { emoji: '⛷️', statement: `Une piste de ski mesure $${hyp}$ m de long et fait un angle de $${a}°$ avec l'horizontale. Quelle est la distance horizontale parcourue (en m, arrondi à $0{,}1$) ?` },
+          { emoji: '🏠', statement: `Le toit d'une maison a une pente qui forme un angle de $${a}°$ avec l'horizontale. La longueur du pan de toit est $${hyp}$ m. Quelle est la largeur horizontale couverte (en m, arrondi à $0{,}1$) ?` },
+          { emoji: '🔌', statement: `Un câble tendu de $${hyp}$ m relie un poteau au sol en formant un angle de $${a}°$ avec le sol. À quelle distance horizontale du poteau est fixé le câble (en m, arrondi à $0{,}1$) ?` },
+          { emoji: '♿', statement: `Une rampe d'accès mesure $${hyp}$ m de long et forme un angle de $${a}°$ avec le sol. Quelle longueur horizontale la rampe couvre-t-elle (en m, arrondi à $0{,}1$) ?` }
+        ]);
         return {
-          statement: `Dans un triangle rectangle, un angle mesure $${a}°$ et l'hypoténuse vaut $${hyp}$ cm. Calcule le côté adjacent (en cm, arrondi à $0{,}1$).`,
+          statement: `${scenario.emoji} ${scenario.statement}`,
           answer: adj,
           tolerance: 0.2,
-          unit: 'cm',
-          hint: `$\\text{adj} = \\text{hyp} \\times \\cos(${a}°) = ${hyp} \\times ${cos}$.`,
-          solution: [`$\\text{adj} = ${hyp} \\times \\cos(${a}°) = ${hyp} \\times ${cos} = ${adj}$ cm.`]
+          unit: scenario.emoji === '📐' ? 'cm' : 'm',
+          hint: `$\\text{côté adjacent} = \\text{hypoténuse} \\times \\cos(${a}°) = ${hyp} \\times ${cos}$.`,
+          solution: [`$\\text{adj} = ${hyp} \\times \\cos(${a}°) = ${hyp} \\times ${cos} = ${adj}$ ${scenario.emoji === '📐' ? 'cm' : 'm'}.`]
         };
       }
     },
@@ -1463,7 +1579,13 @@ window.MODULES.push(
     keywords: ['Pyramide', 'Cône', 'Volume', 'Base', 'Hauteur', 'Tiers'],
     physics: true,
     cours: {
-      intro: 'La pyramide et le cône ont un volume égal au tiers du prisme ou cylindre qui les contient : $V = \\frac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$. Intuition : en versant un cône rempli de sable dans le cylindre de même base et même hauteur, il faut exactement 3 remplissages — vérifiable expérimentalement ! Cette formule s\'applique à toute pyramide quelle que soit la forme de sa base (carrée, triangulaire, hexagonale…). Le point crucial est que $h$ désigne la hauteur perpendiculaire — la distance du sommet à la base — jamais l\'arête latérale qui relie le sommet à un coin de la base.',
+      intro: 'La pyramide et le cône ont un volume égal au tiers du prisme ou cylindre qui les contient : $V = \\frac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$.' +
+        '<br/><br/>' +
+        '<strong>Intuition :</strong> en versant un cône rempli de sable dans le cylindre de même base et même hauteur, il faut exactement 3 remplissages — vérifiable expérimentalement ! Cette formule s\'applique à toute pyramide quelle que soit la forme de sa base (carrée, triangulaire, hexagonale…).' +
+        '<br/><br/>' +
+        'Le point crucial est que $h$ désigne la <strong>hauteur perpendiculaire</strong> — la distance du sommet à la base — jamais l\'arête latérale qui relie le sommet à un coin de la base.' +
+        '<br/><br/>' +
+        'En physique, ces formules servent à calculer le volume de réservoirs coniques, de silos, d\'entonnoirs, ou de toitures en pyramide.',
       definitions: [
         { term: 'Pyramide', def: 'Solide dont la base est un polygone et dont les faces latérales sont des triangles qui se rejoignent en un sommet appelé apex.' },
         { term: 'Cône de révolution', def: 'Solide obtenu en faisant tourner un triangle rectangle autour d\'un de ses côtés de l\'angle droit. La base est un disque.' },
@@ -1492,6 +1614,7 @@ window.MODULES.push(
         'Cône : $V = \\dfrac{1}{3} \\pi r^2 h$',
         'Pyramide à base carrée de côté $a$ : $V = \\dfrac{1}{3} a^2 h$'
       ],
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Solide</th><th style="border:1px solid var(--border);padding:6px 14px">Base</th><th style="border:1px solid var(--border);padding:6px 14px">Formule du volume</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Pyramide (base carrée)</td><td style="border:1px solid var(--border);padding:6px 14px">Carré de côté $a$</td><td style="border:1px solid var(--border);padding:6px 14px">$V = \\dfrac{1}{3} a^2 h$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Pyramide (base triangulaire)</td><td style="border:1px solid var(--border);padding:6px 14px">Triangle d\'aire $\\mathcal{A}$</td><td style="border:1px solid var(--border);padding:6px 14px">$V = \\dfrac{1}{3} \\mathcal{A} h$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Cône de révolution</td><td style="border:1px solid var(--border);padding:6px 14px">Disque de rayon $r$</td><td style="border:1px solid var(--border);padding:6px 14px">$V = \\dfrac{1}{3} \\pi r^2 h$</td></tr></table>',
       recap: [
         'Volume d\'une pyramide ou d\'un cône = $\\dfrac{1}{3}$ du prisme ou cylindre de même base et même hauteur.',
         'La hauteur $h$ est toujours perpendiculaire à la base — ne pas confondre avec l\'arête latérale.',
@@ -1528,11 +1651,18 @@ window.MODULES.push(
     exercice: {
       type: 'numeric',
       generate() {
+        const ctx = pick([
+          {intro:'Un toit en forme de pyramide a une base carrée de côté', emoji:'🏠'},
+          {intro:'Un monument historique en forme de pyramide a une base carrée de côté', emoji:'🏛️'},
+          {intro:'Un emballage décoratif en forme de pyramide a une base carrée de côté', emoji:'🎁'},
+          {intro:'Un cristal en forme de pyramide a une base carrée de côté', emoji:'💎'},
+          {intro:'Un silo à grain en forme de pyramide a une base carrée de côté', emoji:'🌾'}
+        ]);
         const a = rand(3, 10);
         const h = rand(3, 12);
         const v = parseFloat(((a * a * h) / 3).toFixed(1));
         return {
-          statement: `Une pyramide à base carrée de côté $${a}$ cm a une hauteur de $${h}$ cm. Calcule son volume en cm³.`,
+          statement: `${ctx.emoji} ${ctx.intro} $${a}$ cm et une hauteur de $${h}$ cm. Calcule son volume en cm³.`,
           answer: v,
           tolerance: 0.2,
           unit: 'cm³',
@@ -1622,7 +1752,13 @@ window.MODULES.push(
     keywords: ['Médiane', 'Quartile', 'Étendue', 'Boîte à moustaches', 'Série ordonnée'],
     physics: false,
     cours: {
-      intro: 'La médiane est la valeur qui partage une série ordonnée en deux groupes d\'effectif égal : autant de valeurs en dessous qu\'au-dessus. Contrairement à la moyenne, elle n\'est pas perturbée par les valeurs extrêmes (salaires de PDG, erreurs de mesure…). Les quartiles $Q_1$ et $Q_3$ affinent cette idée : $25\\%$ des valeurs sont inférieures à $Q_1$ et $75\\%$ sont inférieures à $Q_3$. L\'écart interquartile $IQR = Q_3 - Q_1$ mesure la dispersion de la moitié centrale des données, sans être biaisé par les extrêmes. La boîte à moustaches représente graphiquement la médiane et les quartiles pour visualiser rapidement la distribution.',
+      intro: 'La médiane est la valeur qui partage une série ordonnée en deux groupes d\'effectif égal : autant de valeurs en dessous qu\'au-dessus. Contrairement à la moyenne, elle n\'est pas perturbée par les valeurs extrêmes (salaires de PDG, erreurs de mesure…).' +
+        '<br/><br/>' +
+        'Les quartiles $Q_1$ et $Q_3$ affinent cette idée : $25\\%$ des valeurs sont inférieures à $Q_1$ et $75\\%$ sont inférieures à $Q_3$. L\'écart interquartile $IQR = Q_3 - Q_1$ mesure la dispersion de la moitié centrale des données, sans être biaisé par les extrêmes.' +
+        '<br/><br/>' +
+        'La <strong>boîte à moustaches</strong> représente graphiquement la médiane et les quartiles pour visualiser rapidement la distribution : la « boîte » contient les $50\\%$ centraux, et les « moustaches » s\'étendent jusqu\'aux valeurs min et max.' +
+        '<br/><br/>' +
+        'En sciences, on utilise la médiane quand les données contiennent des valeurs aberrantes (outliers), car la moyenne serait alors trompeuse.',
       definitions: [
         { term: 'Médiane', def: 'Valeur qui partage une série ordonnée en deux moitiés d\'effectif égal. Pour $n$ impair : valeur centrale ; pour $n$ pair : moyenne des deux valeurs centrales.' },
         { term: 'Premier quartile $Q_1$', def: 'Valeur en dessous de laquelle se trouvent $25\\%$ des données. C\'est la médiane de la moitié inférieure de la série.' },
@@ -1652,6 +1788,7 @@ window.MODULES.push(
         'Série de $n$ valeurs ordonnées : $Me = x_{(n+1)/2}$ si $n$ impair',
         'Si $n$ pair : $Me = \\dfrac{x_{n/2} + x_{n/2+1}}{2}$'
       ],
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Indicateur</th><th style="border:1px solid var(--border);padding:6px 14px">Position</th><th style="border:1px solid var(--border);padding:6px 14px">Sensible aux extrêmes ?</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Moyenne</td><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{\\sum x_i}{n}$</td><td style="border:1px solid var(--border);padding:6px 14px">Oui</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Médiane ($Me$)</td><td style="border:1px solid var(--border);padding:6px 14px">Valeur centrale ($50\\%$)</td><td style="border:1px solid var(--border);padding:6px 14px">Non (robuste)</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$Q_1$</td><td style="border:1px solid var(--border);padding:6px 14px">$25\\%$ des données</td><td style="border:1px solid var(--border);padding:6px 14px">Non</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$Q_3$</td><td style="border:1px solid var(--border);padding:6px 14px">$75\\%$ des données</td><td style="border:1px solid var(--border);padding:6px 14px">Non</td></tr></table>',
       recap: [
         'Toujours ordonner la série avant de calculer médiane et quartiles.',
         '$n$ impair → la médiane est la valeur centrale ; $n$ pair → c\'est la moyenne des deux valeurs centrales.',
@@ -1780,7 +1917,13 @@ window.MODULES.push(
     keywords: ['Probabilité', 'Événement', 'Union', 'Intersection', 'Complémentaire', 'Incompatibles'],
     physics: false,
     cours: {
-      intro: 'La probabilité mesure la fréquence à long terme d\'un événement dans une expérience aléatoire. En 4e, on apprend à combiner des événements : la réunion $A \\cup B$ (« au moins l\'un des deux se réalise ») et l\'intersection $A \\cap B$ (« les deux se réalisent simultanément »). La formule $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$ évite de compter deux fois les résultats favorables aux deux événements à la fois. Deux événements sont incompatibles si $A \\cap B = \\emptyset$ : ils ne peuvent jamais se produire ensemble, et la formule se simplifie en $P(A \\cup B) = P(A) + P(B)$. Enfin, $P(\\bar{A}) = 1 - P(A)$ car $A$ et son contraire couvrent tous les cas possibles.',
+      intro: 'La probabilité mesure la fréquence à long terme d\'un événement dans une expérience aléatoire. En 4e, on apprend à combiner des événements : la réunion $A \\cup B$ (« au moins l\'un des deux se réalise ») et l\'intersection $A \\cap B$ (« les deux se réalisent simultanément »).' +
+        '<br/><br/>' +
+        'La formule $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$ évite de compter deux fois les résultats favorables aux deux événements à la fois. Deux événements sont <strong>incompatibles</strong> si $A \\cap B = \\emptyset$ : ils ne peuvent jamais se produire ensemble, et la formule se simplifie en $P(A \\cup B) = P(A) + P(B)$.' +
+        '<br/><br/>' +
+        'Enfin, $P(\\bar{A}) = 1 - P(A)$ car $A$ et son contraire couvrent tous les cas possibles. Cette formule est très utile quand le contraire est plus simple à calculer que l\'événement lui-même.' +
+        '<br/><br/>' +
+        'En pratique, les probabilités servent en météo (risque de pluie), en médecine (fiabilité d\'un test), en ingénierie (risque de panne) et dans bien d\'autres domaines.',
       definitions: [
         { term: 'Expérience aléatoire', def: 'Expérience dont on ne peut pas prévoir le résultat à l\'avance. L\'ensemble de tous les résultats possibles est l\'univers $\\Omega$.' },
         { term: 'Événement', def: 'Sous-ensemble de l\'univers $\\Omega$. Un événement est réalisé si le résultat de l\'expérience lui appartient.' },
@@ -1810,6 +1953,7 @@ window.MODULES.push(
         'Événements incompatibles : $P(A \\cap B) = 0 \\Rightarrow P(A \\cup B) = P(A) + P(B)$',
         '$0 \\leq P(A) \\leq 1$ et $P(\\Omega) = 1$'
       ],
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Formule</th><th style="border:1px solid var(--border);padding:6px 14px">Condition</th><th style="border:1px solid var(--border);padding:6px 14px">Utilisation</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$</td><td style="border:1px solid var(--border);padding:6px 14px">Toujours</td><td style="border:1px solid var(--border);padding:6px 14px">Union de deux événements</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$P(A \\cup B) = P(A) + P(B)$</td><td style="border:1px solid var(--border);padding:6px 14px">$A \\cap B = \\emptyset$</td><td style="border:1px solid var(--border);padding:6px 14px">Événements incompatibles</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$P(\\bar{A}) = 1 - P(A)$</td><td style="border:1px solid var(--border);padding:6px 14px">Toujours</td><td style="border:1px solid var(--border);padding:6px 14px">Événement contraire</td></tr></table>',
       recap: [
         '$P(A) = \\dfrac{\\text{nombre de cas favorables}}{\\text{nombre de cas possibles}}$ (équiprobabilité).',
         'Union : $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$ — ne pas oublier de soustraire l\'intersection.',

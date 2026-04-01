@@ -15,7 +15,26 @@ window.MODULES.push(
     physics: 'Loi d\'Ohm, concentrations, stœchiométrie',
 
     cours: {
-      intro: 'Deux grandeurs sont proportionnelles quand leur rapport est constant — ce rapport s\'appelle le <strong>coefficient de proportionnalité</strong>. <strong>Pourquoi est-ce si puissant ?</strong> Parce que si l\'on connaît une paire de valeurs, on peut calculer n\'importe quelle autre. La règle de trois (ou produit en croix) est la technique opératoire de cette propriété. <strong>Attention :</strong> toutes les relations ne sont pas proportionnelles ! La distance de freinage d\'une voiture n\'est pas proportionnelle à la vitesse (elle est quadratique : $d \\propto v^2$). Avant de poser un produit en croix, toujours vérifier que les deux grandeurs varient dans le même sens et de façon linéaire. En physique-chimie, la proportionnalité est omniprésente : loi d\'Ohm ($U = RI$), concentration massique ($m = c_m \\times V$), stœchiométrie (les masses réagissantes sont proportionnelles aux coefficients).',
+      intro: 'Deux grandeurs sont <strong>proportionnelles</strong> quand leur rapport est constant — ce rapport s\'appelle le <strong>coefficient de proportionnalité</strong>. Si l\'on connaît une paire de valeurs, on peut calculer n\'importe quelle autre grâce à ce coefficient.<br/><br/>' +
+        '<strong>Pourquoi est-ce si puissant ?</strong> Parce que la règle de trois (ou produit en croix) est la technique opératoire de cette propriété. Elle permet de résoudre en une étape des problèmes de conversion, de mise à l\'échelle et de dosage.<br/><br/>' +
+        '<strong>Attention :</strong> toutes les relations ne sont pas proportionnelles ! La distance de freinage d\'une voiture n\'est pas proportionnelle à la vitesse (elle est quadratique : $d \\propto v^2$). Avant de poser un produit en croix, toujours vérifier que les deux grandeurs varient de façon linéaire.<br/><br/>' +
+        'En physique-chimie, la proportionnalité est omniprésente : loi d\'Ohm ($U = RI$), concentration massique ($m = c_m \\times V$), stœchiométrie (les masses réagissantes sont proportionnelles aux coefficients).',
+      definitions: [
+        { term: 'Coefficient de proportionnalité', def: 'Constante $k$ telle que $y = k \\cdot x$ pour tout couple $(x, y)$ du tableau. On le calcule par $k = \\dfrac{y}{x}$.' },
+        { term: 'Produit en croix', def: 'Si $\\dfrac{a}{b} = \\dfrac{c}{d}$, alors $a \\times d = b \\times c$. Technique pour trouver la quatrième valeur quand trois sont connues.' },
+        { term: 'Proportion inverse', def: 'Situation où quand une grandeur double, l\'autre est divisée par deux. Exemple : plus d\'ouvriers → moins de temps. Le produit $x \\times y$ est constant.' },
+        { term: 'Pourcentage', def: 'Proportion exprimée sur 100 : $p\\% = \\dfrac{p}{100}$. C\'est un cas particulier de proportionnalité.' }
+      ],
+      example: {
+        statement: '$5$ cahiers coûtent $7{,}50$ €. Combien coûtent $8$ cahiers ?',
+        steps: [
+          'Coefficient de proportionnalité : $k = \\dfrac{7{,}50}{5} = 1{,}50$ €/cahier.',
+          'Prix de $8$ cahiers : $8 \\times 1{,}50 = 12{,}00$ €.',
+          'Ou par produit en croix : $\\dfrac{7{,}50}{5} = \\dfrac{x}{8}$ → $x = \\dfrac{7{,}50 \\times 8}{5} = 12{,}00$ €.'
+        ],
+        answer: '$12{,}00$ €'
+      },
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Quantité $x$</th><td style="border:1px solid var(--border);padding:6px 14px">$5$</td><td style="border:1px solid var(--border);padding:6px 14px">$8$</td></tr><tr><th style="border:1px solid var(--border);padding:6px 14px">Prix $y$ (€)</th><td style="border:1px solid var(--border);padding:6px 14px">$7{,}50$</td><td style="border:1px solid var(--border);padding:6px 14px">$?$</td></tr><tr><td colspan="3" style="padding:6px;font-style:italic">$k = \\dfrac{y}{x} = 1{,}50$ € / cahier → constante ✓</td></tr></table>',
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
@@ -28,6 +47,12 @@ window.MODULES.push(
         '$\\dfrac{a}{b} = \\dfrac{c}{d} \\Rightarrow a \\times d = b \\times c$',
         '$k = \\dfrac{y}{x}$ (coefficient de proportionnalité)',
         '$\\text{Pourcentage} = \\dfrac{\\text{valeur}}{\\text{total}} \\times 100$'
+      ],
+      recap: [
+        'Deux grandeurs sont proportionnelles si et seulement si leur rapport $\\dfrac{y}{x}$ est constant.',
+        'Le produit en croix permet de trouver la 4ᵉ valeur quand 3 sont connues.',
+        'Toujours vérifier la proportionnalité avant d\'appliquer la règle de trois.',
+        'Proportion inverse : le produit $x \\times y$ est constant (pas le rapport).'
       ],
       piege: 'Attention aux inversions ! Si le prix augmente quand la quantité augmente, on est dans une proportion directe. Mais si la vitesse augmente quand le temps diminue, c\'est une proportion inverse (règle de trois inverse) — méthode différente !'
     },
@@ -61,19 +86,26 @@ window.MODULES.push(
     exercice: {
       type: 'numeric',
       generate() {
-        const pricePerLitre = randFloat(1.5, 2.2, 3);
-        const quantity = rand(10, 60);
-        const answer = parseFloat((pricePerLitre * quantity).toFixed(2));
+        const ctx = pick([
+          { item: 'essence', unit: '€/L', qUnit: 'litres', emoji: '⛽' },
+          { item: 'peinture', unit: '€/L', qUnit: 'litres', emoji: '🎨' },
+          { item: 'tissu', unit: '€/m', qUnit: 'mètres', emoji: '🧵' },
+          { item: 'câble électrique', unit: '€/m', qUnit: 'mètres', emoji: '🔌' },
+          { item: 'jus de fruits', unit: '€/L', qUnit: 'litres', emoji: '🧃' }
+        ]);
+        const pricePerUnit = randFloat(1.5, 4.5, 2);
+        const quantity = rand(5, 40);
+        const answer = parseFloat((pricePerUnit * quantity).toFixed(2));
         return {
-          statement: `Le prix de l'essence est de $${pricePerLitre}$ €/L. Quel est le coût total pour remplir un réservoir de $${quantity}$ litres ? (arrondir au centime)`,
+          statement: `${ctx.emoji} Le prix du ${ctx.item} est de $${pricePerUnit}$ ${ctx.unit}. Quel est le coût total pour $${quantity}$ ${ctx.qUnit} ? (arrondir au centime)`,
           answer,
           tolerance: 0.02,
           unit: '€',
-          hint: 'Rappel : si le prix est proportionnel à la quantité, utilise la formule $\\text{Coût} = \\text{prix/L} \\times \\text{quantité}$. C\'est la définition même de la proportionnalité directe.',
+          hint: `Rappel : si le prix est proportionnel à la quantité, utilise la formule $\\text{Coût} = \\text{prix unitaire} \\times \\text{quantité}$.`,
           solution: [
-            `Données : prix par litre $p = ${pricePerLitre}$ €/L, quantité $q = ${quantity}$ L.`,
+            `Données : prix unitaire $p = ${pricePerUnit}$ ${ctx.unit}, quantité $q = ${quantity}$ ${ctx.qUnit}.`,
             `Application de la proportionnalité directe : $\\text{Coût} = p \\times q$`,
-            `$\\text{Coût} = ${pricePerLitre} \\times ${quantity} = ${answer}$ €`
+            `$\\text{Coût} = ${pricePerUnit} \\times ${quantity} = ${answer}$ €`
           ]
         };
       }
@@ -156,7 +188,7 @@ window.MODULES.push(
     }
   },
 
-    {
+  {
     id: 'reperage-graphique',
     level: 1, subject: 'maths',
     icon: '📊',
@@ -166,19 +198,44 @@ window.MODULES.push(
     physics: 'Courbes d\'étalonnage, point d\'équivalence de titrage',
 
     cours: {
-      intro: 'Un graphique traduit visuellement une relation entre deux grandeurs. L\'axe horizontal (abscisse) porte la variable que l\'on contrôle (temps, concentration, volume…), l\'axe vertical (ordonnée) porte ce que l\'on observe (pH, absorbance, tension…). <strong>Interpoler</strong> = estimer une valeur entre deux points mesurés (fiable si la courbe est régulière). <strong>Extrapoler</strong> = prolonger au-delà des mesures (risqué ! une courbe linéaire dans une plage peut devenir non linéaire ailleurs). La pente d\'une droite $a = \dfrac{\\Delta y}{\\Delta x}$ a une signification physique : si $y$ = absorbance et $x$ = concentration, alors $a$ = coefficient d\'absorptivité molaire. Ne jamais lire un graphe sans vérifier les unités sur les axes et l\'origine.',
+      intro: 'Un graphique traduit visuellement une relation entre deux grandeurs. L\'axe horizontal (<strong>abscisse</strong>) porte la variable que l\'on contrôle, l\'axe vertical (<strong>ordonnée</strong>) porte ce que l\'on observe.<br/><br/>' +
+        '<strong>Interpoler</strong> signifie estimer une valeur entre deux points mesurés — c\'est fiable si la courbe est régulière. <strong>Extrapoler</strong> signifie prolonger au-delà des mesures — c\'est risqué car une courbe linéaire dans une plage peut devenir non linéaire ailleurs.<br/><br/>' +
+        'La <strong>pente</strong> d\'une droite $a = \\dfrac{\\Delta y}{\\Delta x}$ a une signification physique : si $y$ = absorbance et $x$ = concentration, alors $a$ = coefficient d\'absorptivité molaire.<br/><br/>' +
+        'Ne jamais lire un graphe sans vérifier les <strong>unités sur les axes</strong> et l\'origine. Un graphique sans légende est inutilisable !',
+      definitions: [
+        { term: 'Abscisse', def: 'Coordonnée horizontale d\'un point dans un repère. Première valeur du couple $(x ; y)$.' },
+        { term: 'Ordonnée', def: 'Coordonnée verticale d\'un point dans un repère. Seconde valeur du couple $(x ; y)$.' },
+        { term: 'Interpolation', def: 'Estimation d\'une valeur entre deux points de mesure connus. Fiable si la courbe est régulière.' },
+        { term: 'Extrapolation', def: 'Prolongation de la tendance au-delà des mesures. Moins fiable — nécessite une justification physique.' }
+      ],
+      example: {
+        statement: 'Une droite passe par $A(1 ; 3)$ et $B(4 ; 9)$. Calcule sa pente et son équation.',
+        steps: [
+          'Pente : $a = \\dfrac{9 - 3}{4 - 1} = \\dfrac{6}{3} = 2$.',
+          'Ordonnée à l\'origine : $b = y_A - a \\cdot x_A = 3 - 2 \\times 1 = 1$.',
+          'Équation : $y = 2x + 1$.'
+        ],
+        answer: '$y = 2x + 1$'
+      },
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px"></th><th style="border:1px solid var(--border);padding:6px 14px">Axe horizontal</th><th style="border:1px solid var(--border);padding:6px 14px">Axe vertical</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px"><strong>Nom</strong></td><td style="border:1px solid var(--border);padding:6px 14px">Abscisse ($x$)</td><td style="border:1px solid var(--border);padding:6px 14px">Ordonnée ($y$)</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px"><strong>Rôle</strong></td><td style="border:1px solid var(--border);padding:6px 14px">Variable indépendante</td><td style="border:1px solid var(--border);padding:6px 14px">Variable dépendante</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px"><strong>Exemple</strong></td><td style="border:1px solid var(--border);padding:6px 14px">Temps, concentration</td><td style="border:1px solid var(--border);padding:6px 14px">Tension, absorbance</td></tr></table>',
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Identifier les axes : abscisse $x$ (horizontal) = variable indépendante (souvent le temps, la concentration…) ; ordonnée $y$ (vertical) = variable dépendante (souvent l\'absorbance, la tension…).',
+          'Identifier les axes : abscisse $x$ (horizontal) = variable indépendante ; ordonnée $y$ (vertical) = variable dépendante.',
           'Lire un point $(x_0, y_0)$ : partir de $x_0$ sur l\'axe des x, monter verticalement jusqu\'à la courbe, puis lire l\'ordonnée à gauche.',
-          'Interpoler = trouver une valeur entre deux points mesurés. Extrapoler = prolonger la tendance au-delà des mesures (moins fiable, à indiquer explicitement).'
+          'Interpoler = trouver une valeur entre deux points mesurés. Extrapoler = prolonger la tendance au-delà des mesures (moins fiable).'
         ]
       },
       formulas: [
         'Pente d\'une droite : $a = \\dfrac{y_2 - y_1}{x_2 - x_1}$',
         'Équation d\'une droite : $y = ax + b$',
         'Ordonnée à l\'origine : $b = y_1 - a \\cdot x_1$'
+      ],
+      recap: [
+        'Un point se repère par un couple $(x ; y)$ : abscisse d\'abord, ordonnée ensuite.',
+        'La pente $a$ se calcule par $\\dfrac{\\Delta y}{\\Delta x}$ — même ordre de soustraction au numérateur et dénominateur.',
+        'Interpoler (entre les données) est plus fiable qu\'extrapoler (au-delà).',
+        'Toujours vérifier les unités sur les axes avant de lire un graphique.'
       ],
       piege: 'Ne jamais extrapoler trop loin ! Une courbe de dosage acido-basique est linéaire près de l\'équivalence, mais pas du tout sur toute la plage. L\'extrapolation n\'est valide que si on a une raison physique de croire que la tendance continue.'
     },
@@ -210,13 +267,19 @@ window.MODULES.push(
           'La pente est $\\dfrac{2}{4} = 0{,}5$.'
         ],
         answer: 1,
-        correction: 'La pente se calcule toujours $a = \\dfrac{\\Delta y}{\\Delta x} = \\dfrac{y_2 - y_1}{x_2 - x_1}$, jamais $\\dfrac{x}{y}$. Ici $y$ ne change pas ($y_1 = y_2 = 2$), donc $\\Delta y = 0$ et la pente est nulle : la droite est horizontale. Une droite horizontale a une équation $y = 2$ (constante), ce qui physiquement peut représenter une grandeur constante dans le temps.'
+        correction: 'La pente se calcule toujours $a = \\dfrac{\\Delta y}{\\Delta x} = \\dfrac{y_2 - y_1}{x_2 - x_1}$, jamais $\\dfrac{x}{y}$. Ici $y$ ne change pas ($y_1 = y_2 = 2$), donc $\\Delta y = 0$ et la pente est nulle : la droite est horizontale.'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
+        const ctx = pick([
+          { name: 'température', unitX: '°C', unitY: 'mV' },
+          { name: 'concentration', unitX: 'mol/L', unitY: '' },
+          { name: 'temps', unitX: 's', unitY: 'm' },
+          { name: 'pression', unitX: 'bar', unitY: 'L' }
+        ]);
         const x1 = rand(1, 5);
         const a = randFloat(0.5, 3.0, 1);
         const b = rand(0, 5);
@@ -312,7 +375,7 @@ window.MODULES.push(
     }
   },
 
-    {
+  {
     id: '5e-nombres-relatifs',
     level: 1, subject: 'maths',
     icon: '±',
@@ -322,7 +385,26 @@ window.MODULES.push(
     physics: 'Coordonnées de vecteurs, températures, altitudes, potentiel électrique',
 
     cours: {
-      intro: 'Les nombres relatifs étendent la droite numérique dans les deux sens. Un nombre négatif n\'est pas « moins que zéro » de façon mystérieuse : c\'est une direction opposée, un manque, un écart vers le bas. En physique, le signe porte une information physique : $-5$ N signifie une force vers la gauche si l\'on a choisi la droite comme sens positif. <strong>Règle d\'or de la soustraction :</strong> $a - b = a + (-b)$ — soustraire un nombre revient à ajouter son opposé. Ainsi $3 - (-5) = 3 + 5 = 8$ : soustraire un négatif augmente la valeur. La <strong>valeur absolue</strong> $|a|$ mesure la distance à zéro, indépendamment du signe : c\'est toujours positive. $|-7| = |+7| = 7$. La distance entre deux points $A$ et $B$ sur une droite graduée vaut $|x_B - x_A|$.',
+      intro: 'Les nombres relatifs étendent la droite numérique dans les deux sens. Un nombre négatif n\'est pas « moins que zéro » de façon mystérieuse : c\'est une <strong>direction opposée</strong>, un manque, un écart vers le bas.<br/><br/>' +
+        'En physique, le signe porte une information physique : $-5$ N signifie une force vers la gauche si l\'on a choisi la droite comme sens positif. $-120$ m signifie 120 m sous la surface de la mer.<br/><br/>' +
+        '<strong>Règle d\'or de la soustraction :</strong> $a - b = a + (-b)$ — soustraire un nombre revient à ajouter son opposé. Ainsi $3 - (-5) = 3 + 5 = 8$ : soustraire un négatif augmente la valeur.<br/><br/>' +
+        'La <strong>valeur absolue</strong> $|a|$ mesure la distance à zéro, indépendamment du signe : $|-7| = |+7| = 7$. La distance entre deux points $A$ et $B$ sur une droite graduée vaut $|x_B - x_A|$.',
+      definitions: [
+        { term: 'Nombre relatif', def: 'Nombre muni d\'un signe : positif ($+$) ou négatif ($-$). Zéro n\'est ni positif ni négatif.' },
+        { term: 'Opposé', def: 'L\'opposé de $a$ est $-a$. Leur somme est nulle : $a + (-a) = 0$. L\'opposé de $-5$ est $+5$.' },
+        { term: 'Valeur absolue', def: 'Distance d\'un nombre à zéro, notée $|a|$. Toujours positive : $|-7| = |+7| = 7$.' },
+        { term: 'Droite graduée', def: 'Droite munie d\'une origine $O$, d\'un sens positif et d\'une unité. Chaque point correspond à un unique nombre relatif.' }
+      ],
+      example: {
+        statement: 'Calculer $(-8) - (-3) + (+5)$.',
+        steps: [
+          'Transformer la soustraction : $(-8) - (-3) = (-8) + (+3)$.',
+          'Calculer étape par étape : $(-8) + (+3) = -5$.',
+          'Puis : $-5 + (+5) = 0$.'
+        ],
+        answer: '$0$'
+      },
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Opération</th><th style="border:1px solid var(--border);padding:6px 14px">Transformation</th><th style="border:1px solid var(--border);padding:6px 14px">Résultat</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$a - (+b)$</td><td style="border:1px solid var(--border);padding:6px 14px">$a + (-b)$</td><td style="border:1px solid var(--border);padding:6px 14px">On recule</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$a - (-b)$</td><td style="border:1px solid var(--border);padding:6px 14px">$a + (+b)$</td><td style="border:1px solid var(--border);padding:6px 14px">On avance</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$a + (-b)$</td><td style="border:1px solid var(--border);padding:6px 14px">$a - b$</td><td style="border:1px solid var(--border);padding:6px 14px">On recule</td></tr></table>',
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
@@ -336,6 +418,12 @@ window.MODULES.push(
         '$-(-a) = a$',
         '$|a| \\geq 0$ et $|-a| = |a|$',
         '$|a - b|$ = distance entre $a$ et $b$ sur la droite graduée'
+      ],
+      recap: [
+        'Soustraire revient à additionner l\'opposé : $a - b = a + (-b)$.',
+        'Même signe → on additionne les valeurs absolues. Signes opposés → on soustrait.',
+        'La valeur absolue donne la distance à zéro (toujours positive).',
+        '$-(a - b) = -a + b$ : le signe $-$ change TOUS les signes dans la parenthèse.'
       ],
       piege: 'Le signe $-$ devant une parenthèse change TOUS les signes à l\'intérieur : $-(a - b) = -a + b$. Erreur classique : $-(3 - 5) = -3 - 5$ (FAUX). La bonne réponse est $-3 + 5 = 2$.'
     },
@@ -362,7 +450,7 @@ window.MODULES.push(
           'Le résultat est $-(3-5) = -3+5 = -8$.'
         ],
         answer: 1,
-        correction: 'Le signe $-$ devant une parenthèse distribue sur tous les termes à l\'intérieur : $-(3 - 5) = -3 + (+5) = 2$. Ou plus simplement : calcule d\'abord l\'intérieur : $3 - 5 = -2$, puis applique le $-$ devant : $-(-2) = +2$. Les deux méthodes donnent $2$, pas $-8$.'
+        correction: 'Le signe $-$ devant une parenthèse distribue sur tous les termes à l\'intérieur : $-(3 - 5) = -3 + (+5) = 2$. Ou plus simplement : calcule d\'abord l\'intérieur : $3 - 5 = -2$, puis applique le $-$ devant : $-(-2) = +2$.'
       }
     ],
 
@@ -373,12 +461,54 @@ window.MODULES.push(
         const op = pick(['+', '-']);
         const answer = op === '+' ? a + b : a - b;
         const bStr = b < 0 ? `(${b})` : `${b}`;
+        const absB = Math.abs(b);
+
+        const ctx = pick([
+          {
+            build: () => op === '+'
+              ? (b >= 0
+                ? `Ce matin, le thermomètre affichait $${a}°C$. La température a <strong>augmenté</strong> de $${absB}°C$ dans la journée.<br/>Quelle est la température maintenant ?`
+                : `Ce matin, le thermomètre affichait $${a}°C$. La température a <strong>baissé</strong> de $${absB}°C$ dans la journée.<br/>Quelle est la température maintenant ?`)
+              : `Ce matin il faisait $${a}°C$. La nuit dernière, il faisait $${bStr}°C$.<br/>Quelle est la <strong>différence de température</strong> entre ce matin et la nuit dernière ?`
+          },
+          {
+            build: () => op === '+'
+              ? (b >= 0
+                ? `Un sous-marin se trouve à $${a}\\,\\text{m}$ de profondeur. Il <strong>remonte</strong> de $${absB}\\,\\text{m}$.<br/>À quelle profondeur se trouve-t-il maintenant ?`
+                : `Un sous-marin se trouve à $${a}\\,\\text{m}$ de profondeur. Il <strong>descend</strong> de $${absB}\\,\\text{m}$.<br/>À quelle profondeur se trouve-t-il maintenant ?`)
+              : `Un sous-marin est à $${a}\\,\\text{m}$. Un plongeur est à $${bStr}\\,\\text{m}$.<br/>Quel est l'<strong>écart de profondeur</strong> entre les deux ?`
+          },
+          {
+            build: () => op === '+'
+              ? (b >= 0
+                ? `Le solde d'un compte en banque est de $${a}$ €. On y <strong>dépose</strong> $${absB}$ €.<br/>Quel est le nouveau solde ?`
+                : `Le solde d'un compte en banque est de $${a}$ €. On en <strong>retire</strong> $${absB}$ €.<br/>Quel est le nouveau solde ?`)
+              : `Le compte de Léa affiche $${a}$ € et celui de Tom affiche $${bStr}$ €.<br/>Quelle est la <strong>différence</strong> entre les deux comptes ?`
+          },
+          {
+            build: () => op === '+'
+              ? (b >= 0
+                ? `Un ascenseur se trouve à l'étage $${a}$ d'un immeuble. Il <strong>monte</strong> de $${absB}$ étages.<br/>À quel étage arrive-t-il ?`
+                : `Un ascenseur se trouve à l'étage $${a}$. Il <strong>descend</strong> de $${absB}$ étages.<br/>À quel étage arrive-t-il ?`)
+              : `Un ascenseur part de l'étage $${a}$ pour aller à l'étage $${bStr}$.<br/>De combien d'étages s'est-il <strong>déplacé</strong> (en valeur signée) ?`
+          },
+          {
+            build: () => op === '+'
+              ? (b >= 0
+                ? `Un randonneur est à une altitude de $${a}\\,\\text{m}$ (sous le niveau de la mer si négatif). Il <strong>grimpe</strong> de $${absB}\\,\\text{m}$.<br/>Quelle est sa nouvelle altitude ?`
+                : `Un randonneur est à $${a}\\,\\text{m}$ d'altitude. Il <strong>descend</strong> de $${absB}\\,\\text{m}$.<br/>Quelle est sa nouvelle altitude ?`)
+              : `Le point $A$ est à $${a}\\,\\text{m}$ d'altitude et le point $B$ à $${bStr}\\,\\text{m}$.<br/>Quel est le <strong>dénivelé</strong> de $A$ à $B$ ?`
+          }
+        ]);
+
         return {
-          statement: `Calculer $${a} ${op} ${bStr}$.`,
+          statement: ctx.build(),
           answer,
           tolerance: 0,
           unit: '',
-          hint: op === '-' ? `Rappel : $a - b = a + (-b)$. Ici, $- ${bStr} = ${-b}$.` : `Même signe ou signes opposés ? Applique la règle.`,
+          hint: op === '-'
+            ? `Rappel : soustraire revient à additionner l'opposé. $${a} - ${bStr} = ${a} + (${-b})$.`
+            : (b < 0 ? `Ajouter un nombre négatif revient à soustraire sa valeur absolue.` : `Même signe ou signes opposés ? Applique la règle.`),
           solution: [
             op === '-'
               ? `$${a} - ${bStr} = ${a} + (${-b}) = ${answer}$`
@@ -461,7 +591,7 @@ window.MODULES.push(
     }
   },
 
-    {
+  {
     id: '5e-priorites-operations',
     level: 1, subject: 'maths',
     icon: '🔢',
@@ -471,14 +601,34 @@ window.MODULES.push(
     physics: 'Calcul numérique de formules physiques : $E = \\frac{1}{2}mv^2$, $P = RI^2$',
 
     cours: {
-      intro: 'Les priorités des opérations sont une <strong>convention universelle</strong> qui garantit qu\'une expression mathématique a une seule interprétation. Sans cette convention, $2 + 3 \\times 4$ pourrait valoir $20$ ou $14$ selon l\'ordre de lecture. L\'ordre est : Parenthèses → Exposants/Racines → Multiplications/Divisions → Additions/Soustractions (mémo : PEMDAS ou « Cher Ami »). <strong>Le trait de fraction agit comme des parenthèses</strong> : $\\dfrac{8+4}{2} = (8+4) \\div 2 = 6$, mais $8 + 4 \\div 2 = 8 + 2 = 10$. En physique, cela évite les erreurs classiques : dans $E_c = \\dfrac{1}{2}mv^2$, c\'est $v$ seul qui est au carré (pas $mv$), et dans $P = RI^2$, c\'est $I$ seul (pas $RI$). Toujours écrire les parenthèses quand le contexte peut être ambigu.',
+      intro: 'Les priorités des opérations sont une <strong>convention universelle</strong> qui garantit qu\'une expression mathématique a une seule interprétation. Sans cette convention, $2 + 3 \\times 4$ pourrait valoir $20$ ou $14$ selon l\'ordre de lecture.<br/><br/>' +
+        'L\'ordre est : <strong>Parenthèses → Exposants/Racines → Multiplications/Divisions → Additions/Soustractions</strong> (mémo : PEMDAS ou « Cher Ami »).<br/><br/>' +
+        '<strong>Le trait de fraction agit comme des parenthèses</strong> : $\\dfrac{8+4}{2} = (8+4) \\div 2 = 6$, mais $8 + 4 \\div 2 = 8 + 2 = 10$.<br/><br/>' +
+        'En physique, cela évite les erreurs classiques : dans $E_c = \\dfrac{1}{2}mv^2$, c\'est $v$ seul qui est au carré (pas $mv$), et dans $P = RI^2$, c\'est $I$ seul (pas $RI$).',
+      definitions: [
+        { term: 'Priorité opératoire', def: 'Ordre dans lequel les opérations doivent être effectuées. La multiplication est prioritaire sur l\'addition.' },
+        { term: 'Parenthèses', def: 'Symboles $()$ qui forcent un calcul à être effectué en premier, quel que soit son rang de priorité.' },
+        { term: 'PEMDAS', def: 'Moyen mnémotechnique : Parenthèses, Exposants, Multiplication/Division, Addition/Soustraction.' },
+        { term: 'Trait de fraction', def: 'Agit comme des parenthèses implicites autour du numérateur et du dénominateur.' }
+      ],
+      example: {
+        statement: 'Calculer $3 + 2 \\times (5 - 1)^2 \\div 4$.',
+        steps: [
+          'Parenthèses : $5 - 1 = 4$.',
+          'Exposant : $4^2 = 16$.',
+          'Multiplication/division (gauche à droite) : $2 \\times 16 = 32$, puis $32 \\div 4 = 8$.',
+          'Addition : $3 + 8 = 11$.'
+        ],
+        answer: '$11$'
+      },
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Priorité</th><th style="border:1px solid var(--border);padding:6px 14px">Opérations</th><th style="border:1px solid var(--border);padding:6px 14px">Ordre</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px;background:color-mix(in srgb,var(--primary) 12%,transparent)"><strong>1ʳᵉ</strong></td><td style="border:1px solid var(--border);padding:6px 14px">Parenthèses $(~)$</td><td style="border:1px solid var(--border);padding:6px 14px">Intérieur → extérieur</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px;background:color-mix(in srgb,var(--primary) 8%,transparent)"><strong>2ᵉ</strong></td><td style="border:1px solid var(--border);padding:6px 14px">Puissances $x^n$, racines</td><td style="border:1px solid var(--border);padding:6px 14px">—</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px"><strong>3ᵉ</strong></td><td style="border:1px solid var(--border);padding:6px 14px">$\\times$ et $\\div$</td><td style="border:1px solid var(--border);padding:6px 14px">Gauche → droite</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px"><strong>4ᵉ</strong></td><td style="border:1px solid var(--border);padding:6px 14px">$+$ et $-$</td><td style="border:1px solid var(--border);padding:6px 14px">Gauche → droite</td></tr></table>',
       method: {
         title: 'Ordre de priorité (de la plus haute à la plus basse)',
         steps: [
-          '1. **Parenthèses** : calculer en premier tout ce qui est entre parenthèses, de l\'intérieur vers l\'extérieur.',
-          '2. **Puissances et racines** : calculer $a^n$ et $\\sqrt{a}$ avant de multiplier ou additionner.',
-          '3. **Multiplications et divisions** : de gauche à droite, avant les additions/soustractions.',
-          '4. **Additions et soustractions** : en dernier, de gauche à droite.'
+          '1. Parenthèses : calculer en premier tout ce qui est entre parenthèses, de l\'intérieur vers l\'extérieur.',
+          '2. Puissances et racines : calculer $a^n$ et $\\sqrt{a}$ avant de multiplier ou additionner.',
+          '3. Multiplications et divisions : de gauche à droite, avant les additions/soustractions.',
+          '4. Additions et soustractions : en dernier, de gauche à droite.'
         ]
       },
       formulas: [
@@ -486,7 +636,13 @@ window.MODULES.push(
         '$a + b \\times c = a + (b \\times c)$ (la multiplication est prioritaire)',
         '$\\dfrac{a + b}{c} = (a + b) \\div c$ (le trait de fraction fait office de parenthèses)'
       ],
-      piege: 'Le signe de division $\\div$ et le trait de fraction se comportent différemment : $10 - 4 \\div 2 = 10 - 2 = 8$ (on divise d\'abord). Mais $\\dfrac{10 - 4}{2} = \\dfrac{6}{2} = 3$ (le trait de fraction groupe le numérateur). Attention aux calculatrices qui interprètent $10-4/2$ différemment !'
+      recap: [
+        'Toujours commencer par les parenthèses (de l\'intérieur vers l\'extérieur).',
+        'La multiplication et la division passent AVANT l\'addition et la soustraction.',
+        'Le trait de fraction agit comme des parenthèses implicites.',
+        'En cas de doute, ajouter des parenthèses pour lever l\'ambiguïté.'
+      ],
+      piege: 'Le signe de division $\\div$ et le trait de fraction se comportent différemment : $10 - 4 \\div 2 = 10 - 2 = 8$ (on divise d\'abord). Mais $\\dfrac{10 - 4}{2} = \\dfrac{6}{2} = 3$ (le trait de fraction groupe le numérateur).'
     },
 
     quiz: [
@@ -511,24 +667,93 @@ window.MODULES.push(
           'Non : il faut calculer $2 \\times 3 + 4 = 10$.'
         ],
         answer: 1,
-        correction: 'La règle de priorité dit que la multiplication est toujours calculée <em>avant</em> l\'addition, sans parenthèses. Donc $2 + 3 \\times 4 = 2 + (3 \\times 4) = 2 + 12 = 14$. Si l\'on voulait additionner d\'abord, on devrait écrire $(2+3) \\times 4 = 20$ avec des parenthèses explicites.'
+        correction: 'La règle de priorité dit que la multiplication est toujours calculée <em>avant</em> l\'addition, sans parenthèses. Donc $2 + 3 \\times 4 = 2 + (3 \\times 4) = 2 + 12 = 14$.'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
-        const a = rand(2, 6), b = rand(2, 5), c = rand(1, 4), d = rand(1, 3);
-        const answer = a + b * c - d;
+        const type = pick(['contexte1', 'contexte2', 'contexte3', 'contexte4', 'contexte5']);
+
+        if (type === 'contexte1') {
+          // Note finale pondérée
+          const noteDS = rand(8, 18), noteInterro = rand(5, 16), coef = rand(2, 3), bonus = rand(1, 3);
+          const answer = noteDS + noteInterro * coef - bonus;
+          return {
+            statement: `Un élève a $${noteDS}$ au DS et $${noteInterro}$ à l'interrogation (coefficient $${coef}$). On retire $${bonus}$ point(s) de malus retard.<br/>La note finale est : $${noteDS} + ${noteInterro} \\times ${coef} - ${bonus}$.<br/>Calcule cette note en respectant les <strong>priorités</strong>.`,
+            answer,
+            tolerance: 0,
+            unit: '',
+            hint: `La multiplication est prioritaire : commence par $${noteInterro} \\times ${coef}$, puis effectue les additions et soustractions.`,
+            solution: [
+              `Priorité (multiplication) : $${noteInterro} \\times ${coef} = ${noteInterro * coef}$`,
+              `Puis de gauche à droite : $${noteDS} + ${noteInterro * coef} - ${bonus} = ${answer}$`
+            ]
+          };
+        }
+        if (type === 'contexte2') {
+          // Budget avec parenthèses : (a + b) × c
+          const prixUnit = rand(3, 8), fraisLiv = rand(2, 5), nb = rand(2, 5);
+          const answer = (prixUnit + fraisLiv) * nb;
+          return {
+            statement: `Un livre coûte $${prixUnit}$ € et les frais de livraison sont de $${fraisLiv}$ € par livre. Tu commandes $${nb}$ livres.<br/>Le coût total est : $(${prixUnit} + ${fraisLiv}) \\times ${nb}$.<br/>Combien paies-tu au total ?`,
+            answer,
+            tolerance: 0,
+            unit: '',
+            hint: `Les parenthèses d'abord : calcule $${prixUnit} + ${fraisLiv}$, puis multiplie par $${nb}$.`,
+            solution: [
+              `Parenthèses : $${prixUnit} + ${fraisLiv} = ${prixUnit + fraisLiv}$`,
+              `Multiplication : $${prixUnit + fraisLiv} \\times ${nb} = ${answer}$`
+            ]
+          };
+        }
+        if (type === 'contexte3') {
+          // Vitesse : a × b + c × d
+          const v1 = rand(2, 5), t1 = rand(1, 3), v2 = rand(3, 7), t2 = rand(1, 3);
+          const answer = v1 * t1 + v2 * t2;
+          return {
+            statement: `Un cycliste roule à $${v1}\\,\\text{km/h}$ pendant $${t1}\\,\\text{h}$, puis accélère à $${v2}\\,\\text{km/h}$ pendant $${t2}\\,\\text{h}$.<br/>La distance totale est : $${v1} \\times ${t1} + ${v2} \\times ${t2}$.<br/>Calcule cette distance.`,
+            answer,
+            tolerance: 0,
+            unit: '',
+            hint: `Il y a deux multiplications prioritaires : $${v1} \\times ${t1}$ et $${v2} \\times ${t2}$. Additionne ensuite.`,
+            solution: [
+              `Priorité : $${v1} \\times ${t1} = ${v1 * t1}$ et $${v2} \\times ${t2} = ${v2 * t2}$`,
+              `Addition : $${v1 * t1} + ${v2 * t2} = ${answer}$`
+            ]
+          };
+        }
+        if (type === 'contexte4') {
+          // Physique : énergie avec parenthèses et puissance : (a + b)² - c
+          const a = rand(2, 5), b = rand(1, 4), c = rand(1, 6);
+          const somme = a + b;
+          const answer = somme * somme - c;
+          return {
+            statement: `En physique, on doit calculer l'expression $(${a} + ${b})^2 - ${c}$.<br/>Applique les <strong>priorités</strong> (parenthèses, puis puissance, puis soustraction).`,
+            answer,
+            tolerance: 0,
+            unit: '',
+            hint: `Étape 1 : parenthèses $${a} + ${b} = ${somme}$. Étape 2 : puissance $${somme}^2$. Étape 3 : soustraction.`,
+            solution: [
+              `Parenthèses : $${a} + ${b} = ${somme}$`,
+              `Puissance : $${somme}^2 = ${somme * somme}$`,
+              `Soustraction : $${somme * somme} - ${c} = ${answer}$`
+            ]
+          };
+        }
+        // contexte5 : Budget courses avec structure a × b + c
+        const prixPommes = rand(2, 5), nbKg = rand(2, 4), prixSac = rand(1, 3);
+        const answer = prixPommes * nbKg + prixSac;
         return {
-          statement: `Calculer $${a} + ${b} \\times ${c} - ${d}$ en respectant les priorités.`,
+          statement: `Au marché, les pommes coûtent $${prixPommes}$ €/kg. Tu en achètes $${nbKg}\\,\\text{kg}$ et tu prends un sac à $${prixSac}$ €.<br/>Le prix total est : $${prixPommes} \\times ${nbKg} + ${prixSac}$.<br/>Combien paies-tu ?`,
           answer,
           tolerance: 0,
           unit: '',
-          hint: 'Commence par la multiplication, puis effectue les additions et soustractions de gauche à droite.',
+          hint: `Multiplication d'abord : $${prixPommes} \\times ${nbKg}$, puis ajoute $${prixSac}$.`,
           solution: [
-            `Priorité : $${b} \\times ${c} = ${b * c}$`,
-            `Puis : $${a} + ${b * c} - ${d} = ${answer}$`
+            `Priorité : $${prixPommes} \\times ${nbKg} = ${prixPommes * nbKg}$`,
+            `Addition : $${prixPommes * nbKg} + ${prixSac} = ${answer}$`
           ]
         };
       }
@@ -592,7 +817,7 @@ window.MODULES.push(
           ],
           answer: 1,
           points: 2,
-          correction: 'La puissance est prioritaire sur la multiplication. On calcule d\'abord $3^2 = 9$, puis $2 \\times 9 = 18$. L\'erreur serait de faire $(2 \\times 3)^2 = 36$.'
+          correction: 'La puissance est prioritaire sur la multiplication. On calcule d\'abord $3^2 = 9$, puis $2 \\times 9 = 18$.'
         },
         {
           statement: 'Calculer $4 + 2 \\times (8 - 3) - 1$.',
@@ -607,7 +832,7 @@ window.MODULES.push(
     }
   },
 
-    {
+  {
     id: '5e-fractions-operations',
     level: 1, subject: 'maths',
     icon: '½',
@@ -617,7 +842,26 @@ window.MODULES.push(
     physics: false,
 
     cours: {
-      intro: 'Additionner des fractions nécessite un dénominateur commun pour la même raison qu\'on ne peut pas additionner des pommes et des oranges directement : $\\dfrac{1}{3} + \\dfrac{1}{4}$ ne vaut pas $\\dfrac{2}{7}$ ! On cherche le PPCM des dénominateurs (le plus petit multiple commun), puis on amplifie chaque fraction pour les amener à ce dénominateur. <strong>Pourquoi le PPCM et pas n\'importe quel multiple commun ?</strong> Pour garder les nombres aussi petits que possible et éviter les simplifications ultérieures. Pour la multiplication, c\'est plus simple : on multiplie directement numérateurs entre eux et dénominateurs entre eux, sans chercher de dénominateur commun. Pour la division, on multiplie par l\'inverse du diviseur. Ces opérations sont fondamentales pour manipuler les fractions molaires, les rapports stœchiométriques et les probabilités.',
+      intro: 'Additionner des fractions nécessite un <strong>dénominateur commun</strong> pour la même raison qu\'on ne peut pas additionner des pommes et des oranges directement : $\\dfrac{1}{3} + \\dfrac{1}{4}$ ne vaut pas $\\dfrac{2}{7}$ !<br/><br/>' +
+        'On cherche le <strong>PPCM</strong> des dénominateurs (le plus petit multiple commun), puis on amplifie chaque fraction pour les amener à ce dénominateur. Le PPCM garde les nombres aussi petits que possible et évite les simplifications ultérieures.<br/><br/>' +
+        'Pour la <strong>multiplication</strong>, c\'est plus simple : on multiplie directement numérateurs entre eux et dénominateurs entre eux, sans chercher de dénominateur commun. Pour la <strong>division</strong>, on multiplie par l\'inverse du diviseur.<br/><br/>' +
+        'Ces opérations sont fondamentales pour manipuler les fractions molaires, les rapports stœchiométriques et les probabilités.',
+      definitions: [
+        { term: 'Fraction', def: 'Nombre de la forme $\\dfrac{a}{b}$ avec $b \\neq 0$. $a$ est le numérateur, $b$ le dénominateur.' },
+        { term: 'PPCM', def: 'Plus Petit Commun Multiple de deux nombres. PPCM(3, 4) = 12. C\'est le plus petit dénominateur commun.' },
+        { term: 'Fractions équivalentes', def: 'Fractions représentant le même nombre : $\\dfrac{2}{3} = \\dfrac{4}{6} = \\dfrac{6}{9}$. On multiplie numérateur et dénominateur par le même facteur.' },
+        { term: 'Fraction irréductible', def: 'Fraction dont le numérateur et le dénominateur n\'ont aucun diviseur commun (sauf 1). Ex : $\\dfrac{7}{12}$.' }
+      ],
+      example: {
+        statement: 'Calculer $\\dfrac{2}{3} + \\dfrac{3}{4}$.',
+        steps: [
+          'PPCM(3, 4) = 12.',
+          'Conversion : $\\dfrac{2}{3} = \\dfrac{8}{12}$ et $\\dfrac{3}{4} = \\dfrac{9}{12}$.',
+          'Addition des numérateurs : $\\dfrac{8 + 9}{12} = \\dfrac{17}{12}$.'
+        ],
+        answer: '$\\dfrac{17}{12}$'
+      },
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Opération</th><th style="border:1px solid var(--border);padding:6px 14px">Formule</th><th style="border:1px solid var(--border);padding:6px 14px">Dénominateur commun ?</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{a}{b} + \\dfrac{c}{d}$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{ad + cb}{bd}$</td><td style="border:1px solid var(--border);padding:6px 14px">✅ Oui</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{a}{b} \\times \\dfrac{c}{d}$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{a \\times c}{b \\times d}$</td><td style="border:1px solid var(--border);padding:6px 14px">❌ Non</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{a}{b} \\div \\dfrac{c}{d}$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{a}{b} \\times \\dfrac{d}{c}$</td><td style="border:1px solid var(--border);padding:6px 14px">❌ Non</td></tr></table>',
       method: {
         title: 'Méthode en 4 étapes',
         steps: [
@@ -631,6 +875,12 @@ window.MODULES.push(
         '$\\dfrac{a}{b} + \\dfrac{c}{b} = \\dfrac{a + c}{b}$ (même dénominateur)',
         '$\\dfrac{a}{b} + \\dfrac{c}{d} = \\dfrac{a \\times d + c \\times b}{b \\times d}$ (dénominateurs différents)',
         'Comparer : $\\dfrac{a}{b}$ et $\\dfrac{c}{d}$ → réduire au même dénominateur puis comparer les numérateurs'
+      ],
+      recap: [
+        'Pour additionner des fractions, il faut ABSOLUMENT un dénominateur commun.',
+        'On ne peut JAMAIS additionner les dénominateurs : $\\dfrac{1}{3} + \\dfrac{1}{4} \\neq \\dfrac{2}{7}$.',
+        'Pour multiplier : numérateurs entre eux, dénominateurs entre eux.',
+        'Diviser par une fraction = multiplier par son inverse.'
       ],
       piege: 'Piège fréquent : additionner les dénominateurs ! $\\dfrac{1}{3} + \\dfrac{1}{4} \\neq \\dfrac{2}{7}$. Il faut réduire au dénominateur commun $12$ : $\\dfrac{4}{12} + \\dfrac{3}{12} = \\dfrac{7}{12}$.'
     },
@@ -657,30 +907,54 @@ window.MODULES.push(
           'La bonne réponse est $\\dfrac{1}{3} + \\dfrac{1}{4} = \\dfrac{2}{12} = \\dfrac{1}{6}$.'
         ],
         answer: 1,
-        correction: 'L\'erreur classique ! On ne peut pas additionner numérateurs et dénominateurs séparément — les dénominateurs représentent des unités différentes (tiers ≠ quarts). Le bon calcul : PPCM(3, 4) = 12, donc $\\dfrac{1}{3} = \\dfrac{4}{12}$ et $\\dfrac{1}{4} = \\dfrac{3}{12}$, et la somme est $\\dfrac{7}{12}$. Vérification : $\\dfrac{7}{12} \\approx 0{,}583$ et $\\dfrac{1}{3} + \\dfrac{1}{4} \\approx 0{,}333 + 0{,}25 = 0{,}583$ ✓'
+        correction: 'L\'erreur classique ! On ne peut pas additionner numérateurs et dénominateurs séparément — les dénominateurs représentent des unités différentes (tiers ≠ quarts). Le bon calcul : PPCM(3, 4) = 12, donc $\\dfrac{1}{3} = \\dfrac{4}{12}$ et $\\dfrac{1}{4} = \\dfrac{3}{12}$, et la somme est $\\dfrac{7}{12}$.'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
-        const denoms = [[2,3],[3,4],[4,5],[2,5],[3,5],[4,3]];
-        const [b, d] = pick(denoms);
+        const denomPairs = [[2,3],[3,4],[4,5],[2,5],[3,5],[4,3],[2,7],[3,7],[5,6]];
+        const [b, d] = pick(denomPairs);
         const a = rand(1, b - 1);
         const c = rand(1, d - 1);
-        const lcm = (b * d) / gcd(b, d);
         function gcd(x, y) { return y === 0 ? x : gcd(y, x % y); }
+        const lcm = (b * d) / gcd(b, d);
         const num = a * (lcm / b) + c * (lcm / d);
         const g = gcd(num, lcm);
         const answerNum = num / g;
         const answerDen = lcm / g;
         const answer = answerNum / answerDen;
+
+        const ctx = pick([
+          {
+            intro: `Pour une recette de crêpes, il faut $\\dfrac{${a}}{${b}}$ de litre de lait et $\\dfrac{${c}}{${d}}$ de litre de crème.<br/>Quelle <strong>quantité totale</strong> de liquide faut-il ?`,
+            hint: `Trouve le dénominateur commun de $${b}$ et $${d}$ pour additionner ces fractions de litre.`
+          },
+          {
+            intro: `Un terrain est partagé : $\\dfrac{${a}}{${b}}$ est un jardin et $\\dfrac{${c}}{${d}}$ est une terrasse.<br/>Quelle <strong>fraction totale</strong> du terrain ces deux espaces occupent-ils ?`,
+            hint: `Pour additionner les fractions, il faut le même dénominateur. Le PPCM de $${b}$ et $${d}$ est $${lcm}$.`
+          },
+          {
+            intro: `Noa a couru pendant $\\dfrac{${a}}{${b}}$ d'heure le matin et $\\dfrac{${c}}{${d}}$ d'heure l'après-midi.<br/>Pendant combien de temps a-t-il couru <strong>au total</strong> ?`,
+            hint: `Convertis les deux fractions d'heure au même dénominateur ($${lcm}$) pour les additionner.`
+          },
+          {
+            intro: `Sur un trajet, Léa a parcouru $\\dfrac{${a}}{${b}}$ du chemin à pied et $\\dfrac{${c}}{${d}}$ du chemin à vélo.<br/>Quelle <strong>fraction du trajet</strong> a-t-elle déjà parcourue ?`,
+            hint: `Même dénominateur nécessaire ! Le PPCM de $${b}$ et $${d}$ est $${lcm}$.`
+          },
+          {
+            intro: `Pour un projet d'arts plastiques, Emma utilise $\\dfrac{${a}}{${b}}$ d'un tube de peinture bleue et $\\dfrac{${c}}{${d}}$ d'un tube de peinture jaune.<br/>Quelle <strong>quantité totale</strong> de peinture a-t-elle utilisée (en tubes) ?`,
+            hint: `Additionne les deux fractions : trouve le dénominateur commun $${lcm}$.`
+          }
+        ]);
+
         return {
-          statement: `Calcule $\\dfrac{${a}}{${b}} + \\dfrac{${c}}{${d}}$. Donne le résultat sous forme décimale arrondie à $0{,}01$.`,
+          statement: `${ctx.intro}<br/>Calcule $\\dfrac{${a}}{${b}} + \\dfrac{${c}}{${d}}$ et donne le résultat sous forme décimale arrondie à $0{,}01$.`,
           answer: parseFloat(answer.toFixed(2)),
           tolerance: 0.01,
           unit: '',
-          hint: `Le dénominateur commun de $${b}$ et $${d}$ est $${lcm}$. Convertis les deux fractions.`,
+          hint: ctx.hint,
           solution: [
             `Dénominateur commun : $${lcm}$.`,
             `$\\dfrac{${a}}{${b}} = \\dfrac{${a * (lcm / b)}}{${lcm}}$ et $\\dfrac{${c}}{${d}} = \\dfrac{${c * (lcm / d)}}{${lcm}}$.`,
@@ -738,7 +1012,7 @@ window.MODULES.push(
           ],
           answer: 1,
           points: 2,
-          correction: 'Le dénominateur commun est $12$. $\\dfrac{1}{4} = \\dfrac{3}{12}$ et $\\dfrac{1}{3} = \\dfrac{4}{12}$. Somme : $\\dfrac{3+4}{12} = \\dfrac{7}{12}$. On ne peut jamais additionner les dénominateurs entre eux.'
+          correction: 'Le dénominateur commun est $12$. $\\dfrac{1}{4} = \\dfrac{3}{12}$ et $\\dfrac{1}{3} = \\dfrac{4}{12}$. Somme : $\\dfrac{3+4}{12} = \\dfrac{7}{12}$.'
         },
         {
           statement: 'Quelle fraction est la plus grande : $\\dfrac{3}{5}$ ou $\\dfrac{5}{8}$ ? Donner la valeur décimale de la plus grande, arrondie à $0{,}01$.',
@@ -762,7 +1036,7 @@ window.MODULES.push(
     }
   },
 
-    {
+  {
     id: '5e-proportionnalite',
     level: 1, subject: 'maths',
     icon: '📊',
@@ -772,7 +1046,26 @@ window.MODULES.push(
     physics: true,
 
     cours: {
-      intro: 'La proportionnalité est l\'outil mathématique de la mise à l\'échelle : quand on double une grandeur, l\'autre double aussi. Les pourcentages sont un cas particulier où le coefficient est exprimé sur 100. <strong>Piège courant avec les pourcentages :</strong> une baisse de $20\\%$ puis une hausse de $20\\%$ ne revient pas au prix initial ! (ex. : $100 \\to 80 \\to 96$, pas $100$). Les échelles cartographiques sont des rapports : $\\frac{1}{25\\ 000}$ signifie que $1$ cm sur la carte = $25\\ 000$ cm = $250$ m en réalité. La vitesse $v = \\dfrac{d}{t}$ est le coefficient de proportionnalité entre distance et temps quand la vitesse est constante — c\'est la pente de la droite $d = f(t)$. Toujours vérifier la cohérence des unités : $1$ km/h $= \\dfrac{1}{3{,}6}$ m/s.',
+      intro: 'La proportionnalité est l\'outil mathématique de la <strong>mise à l\'échelle</strong> : quand on double une grandeur, l\'autre double aussi. Les pourcentages sont un cas particulier où le coefficient est exprimé sur 100.<br/><br/>' +
+        '<strong>Piège courant avec les pourcentages :</strong> une baisse de $20\\%$ puis une hausse de $20\\%$ ne revient PAS au prix initial ! Exemple : $100 \\to 80 \\to 96$ (pas $100$). En effet $0{,}8 \\times 1{,}2 = 0{,}96$.<br/><br/>' +
+        'Les <strong>échelles cartographiques</strong> sont des rapports : $\\dfrac{1}{25\\,000}$ signifie que $1$ cm sur la carte = $25\\,000$ cm = $250$ m en réalité.<br/><br/>' +
+        'La <strong>vitesse</strong> $v = \\dfrac{d}{t}$ est le coefficient de proportionnalité entre distance et temps quand la vitesse est constante. Toujours vérifier la cohérence des unités : $1$ km/h $= \\dfrac{1}{3{,}6}$ m/s.',
+      definitions: [
+        { term: 'Pourcentage', def: 'Proportion exprimée sur 100. $p\\%$ de $T = \\dfrac{p}{100} \\times T$.' },
+        { term: 'Échelle', def: 'Rapport entre une distance sur un plan et la distance réelle correspondante. Échelle $\\dfrac{1}{25\\,000}$ → 1 cm = 250 m.' },
+        { term: 'Vitesse moyenne', def: 'Quotient de la distance totale par le temps total : $v = \\dfrac{d}{t}$. S\'exprime en km/h ou m/s.' },
+        { term: 'Coefficient multiplicateur', def: 'Facteur par lequel on multiplie pour appliquer une variation. $+20\\% \\to \\times 1{,}20$ ; $-15\\% \\to \\times 0{,}85$.' }
+      ],
+      example: {
+        statement: 'Un jean coûte $60$ €. Il est soldé à $-30\\%$. Quel est le nouveau prix ?',
+        steps: [
+          'Réduction : $30\\%$ de $60 = \\dfrac{30}{100} \\times 60 = 18$ €.',
+          'Nouveau prix : $60 - 18 = 42$ €.',
+          'Ou directement : $60 \\times 0{,}70 = 42$ €.'
+        ],
+        answer: '$42$ €'
+      },
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Variation</th><th style="border:1px solid var(--border);padding:6px 14px">Coefficient</th><th style="border:1px solid var(--border);padding:6px 14px">Exemple (100 €)</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$+20\\%$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\times 1{,}20$</td><td style="border:1px solid var(--border);padding:6px 14px">$120$ €</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$-30\\%$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\times 0{,}70$</td><td style="border:1px solid var(--border);padding:6px 14px">$70$ €</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$+20\\%$ puis $-20\\%$</td><td style="border:1px solid var(--border);padding:6px 14px">$1{,}2 \\times 0{,}8 = 0{,}96$</td><td style="border:1px solid var(--border);padding:6px 14px">$96$ € (≠ 100 €)</td></tr></table>',
       method: {
         title: 'Méthode en 3 cas',
         steps: [
@@ -786,6 +1079,12 @@ window.MODULES.push(
         'Échelle $e$ : $d_{\\text{réelle}} = \\dfrac{d_{\\text{plan}}}{e}$',
         '$v = \\dfrac{d}{t}$ ; $d = v \\times t$ ; $t = \\dfrac{d}{v}$',
         'Conversion : $1\\,\\text{km/h} = \\dfrac{1}{3{,}6}\\,\\text{m/s}$'
+      ],
+      recap: [
+        '$p\\%$ de $T$ = $\\dfrac{p}{100} \\times T$. Ne jamais oublier de diviser par 100.',
+        'Les hausses et baisses de pourcentage ne s\'annulent pas : $+20\\%$ puis $-20\\%$ donne $-4\\%$.',
+        'Vitesse = distance ÷ temps. Vérifier que les unités sont cohérentes.',
+        'Échelle : multiplier la distance sur la carte par le dénominateur de l\'échelle.'
       ],
       piege: 'Piège avec les unités de vitesse : $90$ km/h $\\neq$ $90$ m/s. Pour convertir : $90 \\div 3{,}6 = 25$ m/s. Toujours vérifier que distance et temps sont dans les mêmes unités que la vitesse.'
     },
@@ -812,19 +1111,26 @@ window.MODULES.push(
           'Impossible à savoir sans connaître le prix initial.'
         ],
         answer: 1,
-        correction: 'Les pourcentages ne s\'annulent pas ! Partir de $100$ € : $+20\\%$ → $120$ €, puis $-20\\%$ de $120$ → $120 \\times 0{,}8 = 96$ €. Le résultat est $96$ €, soit $4\\%$ de moins que le départ. En général : $1{,}2 \\times 0{,}8 = 0{,}96$ — une perte de $4\\%$.'
+        correction: 'Les pourcentages ne s\'annulent pas ! Partir de $100$ € : $+20\\%$ → $120$ €, puis $-20\\%$ de $120$ → $120 \\times 0{,}8 = 96$ €. Le résultat est $96$ €, soit $4\\%$ de moins que le départ.'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
+        const ctx = pick([
+          { item: 'veste', emoji: '🧥' },
+          { item: 'paire de baskets', emoji: '👟' },
+          { item: 'console de jeux', emoji: '🎮' },
+          { item: 'vélo', emoji: '🚲' },
+          { item: 'montre', emoji: '⌚' }
+        ]);
         const prix = pick([50, 80, 120, 200, 250]);
         const taux = pick([10, 20, 25, 30, 40]);
         const reduction = prix * taux / 100;
         const newPrix = prix - reduction;
         return {
-          statement: `Un article coûte $${prix}$ €. Il est soldé à $-${taux}\\%$. Quel est son nouveau prix en euros ?`,
+          statement: `${ctx.emoji} Une ${ctx.item} coûte $${prix}$ €. Elle est soldée à $-${taux}\\%$. Quel est son nouveau prix en euros ?`,
           answer: newPrix,
           tolerance: 0,
           unit: '€',
@@ -903,13 +1209,13 @@ window.MODULES.push(
           ],
           answer: 1,
           points: 2,
-          correction: 'Avec un prix initial de $100$ € : $+10\\% \\to 110$ €, puis $-10\\%$ de $110 \\to 110 \\times 0{,}9 = 99$ €. Le prix final est $99$ €, soit $1\\%$ de moins. En général : $1{,}1 \\times 0{,}9 = 0{,}99$.'
+          correction: 'Avec un prix initial de $100$ € : $+10\\% \\to 110$ €, puis $-10\\%$ de $110 \\to 110 \\times 0{,}9 = 99$ €. Le prix final est $99$ €, soit $1\\%$ de moins.'
         }
       ]
     }
   },
 
-    {
+  {
     id: '5e-expressions-litterales',
     level: 1, subject: 'maths',
     icon: '🔤',
@@ -919,7 +1225,28 @@ window.MODULES.push(
     physics: false,
 
     cours: {
-      intro: 'Une expression littérale est une formule dans laquelle des lettres représentent des valeurs inconnues ou variables. L\'intérêt : écrire une relation générale valable pour toutes les valeurs, pas seulement un cas particulier. <strong>Termes semblables :</strong> on ne peut additionner que des termes avec la même variable au même degré — $3x$ et $5x$ sont semblables ($8x$), mais $3x$ et $5x^2$ ne le sont pas. De même, $2$ et $3x$ ne sont pas semblables car l\'un est une constante et l\'autre dépend de $x$ : $2 + 3x$ est déjà réduit. La substitution (remplacer la lettre par un nombre) permet de vérifier un résultat ou de calculer une formule physique comme $E_c = \\dfrac{1}{2}mv^2$ ou $U = RI$.',
+      intro: 'Jusqu\'ici, en arithmétique, tu calcules avec des <strong>nombres précis</strong> : « combien font $3 + 5$ ? ». Avec les expressions littérales, on franchit une étape fondamentale : on remplace « un nombre inconnu » par une <strong>lettre</strong> (souvent $x$, $a$, $n$…). C\'est le début de l\'<strong>algèbre</strong> !<br/><br/>' +
+        'Imagine une formule de prix : « le prix est 5 € par kilo, plus 2 € de frais fixes ». En arithmétique, tu calculerais cas par cas ($5 \\times 1 + 2 = 7$, $5 \\times 2 + 2 = 12$…). Avec l\'algèbre, tu écris une seule formule : $P = 5x + 2$, et elle fonctionne <strong>pour toutes les valeurs</strong> de $x$ (le nombre de kilos). C\'est plus puissant, plus rapide, plus général.<br/><br/>' +
+        '<strong>Termes semblables :</strong> on ne peut additionner que des termes avec la même variable au même degré — $3x$ et $5x$ sont semblables ($\\to 8x$), mais $3x$ et $5x^2$ ne le sont pas. De même, $2$ et $3x$ ne sont pas semblables. Pense à des unités : on n\'additionne pas des mètres et des mètres carrés !<br/><br/>' +
+        'La <strong>substitution</strong> (remplacer la lettre par un nombre) permet de vérifier un résultat ou de calculer une formule physique comme $E_c = \\dfrac{1}{2}mv^2$ ou $U = RI$. C\'est un outil essentiel en sciences : on écrit la formule générale, puis on « injecte » les valeurs pour obtenir le résultat numérique.<br/><br/>' +
+        'Pour vérifier qu\'une simplification est correcte, on peut substituer une valeur test : si $2 + 3x = 5x$ était vrai, alors pour $x = 2$ on aurait $2 + 6 = 10$, soit $8 = 10$, ce qui est faux. Cet outil de vérification te sera très utile tout au long du collège et au lycée.',
+      definitions: [
+        { term: 'Expression littérale', def: 'Expression contenant des lettres (variables) et des nombres liés par des opérations. Ex : $3x + 2y - 5$.' },
+        { term: 'Termes semblables', def: 'Termes ayant exactement la même partie littérale (même variable, même exposant). $3x$ et $-5x$ sont semblables ; $3x$ et $3x^2$ ne le sont pas.' },
+        { term: 'Substitution', def: 'Action de remplacer chaque lettre par une valeur numérique pour calculer le résultat.' },
+        { term: 'Forme réduite', def: 'Expression dans laquelle tous les termes semblables ont été regroupés. Ex : $5a + 3b - 2a = 3a + 3b$.' }
+      ],
+      example: {
+        statement: 'Réduire $7x - 3 + 2x + 5$, puis calculer pour $x = 4$.',
+        steps: [
+          'Regrouper les termes en $x$ : $7x + 2x = 9x$.',
+          'Regrouper les constantes : $-3 + 5 = 2$.',
+          'Forme réduite : $9x + 2$.',
+          'Pour $x = 4$ : $9 \\times 4 + 2 = 36 + 2 = 38$.'
+        ],
+        answer: 'Forme réduite : $9x + 2$ ; pour $x = 4$ : $38$'
+      },
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Expression</th><th style="border:1px solid var(--border);padding:6px 14px">Semblables ?</th><th style="border:1px solid var(--border);padding:6px 14px">Résultat</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$3x + 5x$</td><td style="border:1px solid var(--border);padding:6px 14px">✅ Oui</td><td style="border:1px solid var(--border);padding:6px 14px">$8x$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$2 + 3x$</td><td style="border:1px solid var(--border);padding:6px 14px">❌ Non</td><td style="border:1px solid var(--border);padding:6px 14px">$2 + 3x$ (déjà réduit)</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$3x + 5x^2$</td><td style="border:1px solid var(--border);padding:6px 14px">❌ Non</td><td style="border:1px solid var(--border);padding:6px 14px">$3x + 5x^2$ (déjà réduit)</td></tr></table>',
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
@@ -933,6 +1260,12 @@ window.MODULES.push(
         '$a \\times b = ab$ (on peut omettre le signe $\\times$)',
         '$-a \\times (-b) = ab$ et $a \\times (-b) = -ab$',
         'Substitution : si $x = 3$, alors $2x + 1 = 2 \\times 3 + 1 = 7$'
+      ],
+      recap: [
+        'Seuls les termes semblables (même variable, même degré) peuvent être additionnés.',
+        '$2 + 3x \\neq 5x$ — une constante et un terme en $x$ ne se combinent pas.',
+        'La substitution permet de vérifier une simplification.',
+        'Les signes se combinent : $-2x - 3x = -5x$ (pas $-1x$).'
       ],
       piege: 'Piège : $2 + 3x \\neq 5x$. On ne peut pas additionner un terme constant ($2$) et un terme en $x$ ($3x$) — ce ne sont pas des termes semblables. $2 + 3x$ est déjà simplifié !'
     },
@@ -959,25 +1292,31 @@ window.MODULES.push(
           'Il fallait d\'abord substituer une valeur de $x$ avant de simplifier.'
         ],
         answer: 1,
-        correction: 'On ne peut additionner que des termes semblables (même variable, même degré). $2$ est une constante (terme de degré 0) et $3x$ est de degré 1 — ils ne se combinent pas. Vérification : pour $x = 1$, $2 + 3(1) = 5$ mais $5 \\times 1 = 5$ (coïncide !). Pour $x = 2$, $2 + 3(2) = 8$ mais $5 \\times 2 = 10 \\neq 8$ → la simplification est fausse !'
+        correction: 'On ne peut additionner que des termes semblables (même variable, même degré). $2$ est une constante (terme de degré 0) et $3x$ est de degré 1 — ils ne se combinent pas.'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
+        const ctx = pick([
+          { intro: 'Calcule la valeur de', letter: 'x' },
+          { intro: 'Évalue l\'expression', letter: 'x' },
+          { intro: 'Calcule', letter: 'a' },
+          { intro: 'Détermine la valeur de', letter: 't' }
+        ]);
         const a = rand(2, 6);
         const b = rand(1, 5);
         const x = rand(1, 8);
         const val = a * x + b;
         return {
-          statement: `Calcule la valeur de $${a}x + ${b}$ pour $x = ${x}$.`,
+          statement: `${ctx.intro} $${a}${ctx.letter} + ${b}$ pour $${ctx.letter} = ${x}$.`,
           answer: val,
           tolerance: 0,
           unit: '',
-          hint: `Substitue $x$ par $${x}$ : $${a} \\times ${x} + ${b}$.`,
+          hint: `Substitue $${ctx.letter}$ par $${x}$ : $${a} \\times ${x} + ${b}$.`,
           solution: [
-            `On remplace $x$ par $${x}$ :`,
+            `On remplace $${ctx.letter}$ par $${x}$ :`,
             `$${a} \\times ${x} + ${b} = ${a * x} + ${b} = ${val}$`
           ]
         };
@@ -1032,7 +1371,7 @@ window.MODULES.push(
           ],
           answer: 1,
           points: 2,
-          correction: 'Seuls les termes semblables (même variable, même degré) peuvent s\'additionner. $3x + 5x = (3+5)x = 8x$ est correct. $3 + 5x$ ne se simplifie pas car $3$ est une constante et $5x$ un terme en $x$.'
+          correction: 'Seuls les termes semblables peuvent s\'additionner. $3x + 5x = (3+5)x = 8x$ est correct.'
         },
         {
           statement: 'Calculer la valeur de $2x^2 + 3x - 1$ pour $x = 3$.',
@@ -1050,13 +1389,13 @@ window.MODULES.push(
           tolerance: 0,
           unit: '',
           points: 2,
-          correction: '$5(4 + 2) - 3 \\times 4 = 5 \\times 6 - 12 = 30 - 12 = 18$. On peut aussi réduire d\'abord : $5x + 10 - 3x = 2x + 10$, puis $2 \\times 4 + 10 = 18$.'
+          correction: '$5(4 + 2) - 3 \\times 4 = 5 \\times 6 - 12 = 30 - 12 = 18$.'
         }
       ]
     }
   },
 
-    {
+  {
     id: '5e-symetrie-centrale',
     level: 1, subject: 'maths',
     icon: '🔄',
@@ -1066,7 +1405,26 @@ window.MODULES.push(
     physics: false,
 
     cours: {
-      intro: 'La symétrie centrale par rapport à un point $O$ fait correspondre à chaque point $A$ un point $A\'$ tel que $O$ est le milieu de $[AA\']$ — autrement dit, $O$ est « entre » $A$ et $A\'$, à égale distance. C\'est équivalent à une rotation de $180°$ autour de $O$. <strong>Différence avec la symétrie axiale :</strong> la symétrie axiale utilise un axe (droite), la symétrie centrale utilise un point. Une figure peut avoir un centre de symétrie sans avoir d\'axe de symétrie (ex. : le parallélogramme non rectangle). En coordonnées, la formule est simple : $A\'(2x_O - x_A \; ;\; 2y_O - y_A)$. La symétrie centrale conserve les distances et les angles, mais <strong>inverse l\'orientation</strong> : un triangle orienté dans le sens horaire devient anti-horaire après la transformation.',
+      intro: 'La symétrie centrale par rapport à un point $O$ fait correspondre à chaque point $A$ un point $A\'$ tel que <strong>$O$ est le milieu de $[AA\']$</strong> — autrement dit, $O$ est « entre » $A$ et $A\'$, à égale distance des deux.<br/><br/>' +
+        'C\'est équivalent à une <strong>rotation de $180°$</strong> autour de $O$. Visuellement, tout « tourne d\'un demi-tour ».<br/><br/>' +
+        '<strong>Différence avec la symétrie axiale :</strong> la symétrie axiale utilise un axe (droite), la symétrie centrale utilise un point. Une figure peut avoir un centre de symétrie sans avoir d\'axe de symétrie (ex : le parallélogramme non rectangle).<br/><br/>' +
+        'En coordonnées, la formule est simple : $A\'(2x_O - x_A \\;; 2y_O - y_A)$. La symétrie centrale conserve les distances et les angles, mais <strong>inverse l\'orientation</strong>.',
+      definitions: [
+        { term: 'Symétrie centrale', def: 'Transformation qui associe à chaque point $A$ un point $A\'$ tel que le centre $O$ est le milieu de $[AA\']$.' },
+        { term: 'Centre de symétrie', def: 'Point $O$ par rapport auquel la symétrie est définie. Il est le milieu de chaque paire de points symétriques.' },
+        { term: 'Isométrie', def: 'Transformation qui conserve les distances. La symétrie centrale est une isométrie (indirecte car elle inverse l\'orientation).' },
+        { term: 'Milieu d\'un segment', def: 'Point $M$ tel que $M = \\left(\\dfrac{x_A + x_B}{2} ; \\dfrac{y_A + y_B}{2}\\right)$. Partage le segment en deux parties égales.' }
+      ],
+      example: {
+        statement: 'Trouver le symétrique de $A(5 ; 3)$ par rapport à $O(2 ; 1)$.',
+        steps: [
+          '$x_{A\'} = 2 \\times 2 - 5 = 4 - 5 = -1$.',
+          '$y_{A\'} = 2 \\times 1 - 3 = 2 - 3 = -1$.',
+          'Vérification : milieu de $[AA\'] = \\left(\\dfrac{5+(-1)}{2} ; \\dfrac{3+(-1)}{2}\\right) = (2 ; 1) = O$ ✓.'
+        ],
+        answer: '$A\'(-1 ; -1)$'
+      },
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Propriété</th><th style="border:1px solid var(--border);padding:6px 14px">Symétrie axiale</th><th style="border:1px solid var(--border);padding:6px 14px">Symétrie centrale</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px"><strong>Élément</strong></td><td style="border:1px solid var(--border);padding:6px 14px">Axe (droite)</td><td style="border:1px solid var(--border);padding:6px 14px">Centre (point)</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px"><strong>Équivalence</strong></td><td style="border:1px solid var(--border);padding:6px 14px">Pliage / miroir</td><td style="border:1px solid var(--border);padding:6px 14px">Rotation $180°$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px"><strong>Distances</strong></td><td style="border:1px solid var(--border);padding:6px 14px">Conservées ✓</td><td style="border:1px solid var(--border);padding:6px 14px">Conservées ✓</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px"><strong>Orientation</strong></td><td style="border:1px solid var(--border);padding:6px 14px">Inversée</td><td style="border:1px solid var(--border);padding:6px 14px">Inversée</td></tr></table>',
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
@@ -1079,6 +1437,12 @@ window.MODULES.push(
         '$O = $ milieu de $[AA\']$, donc $\\vec{OA\'} = -\\vec{OA}$',
         'En coordonnées : si $O(x_O ; y_O)$ et $A(x_A ; y_A)$, alors $A\'(2x_O - x_A ; 2y_O - y_A)$',
         'La symétrie centrale conserve : distances, angles, aires (isométrie indirecte).'
+      ],
+      recap: [
+        'Le centre $O$ est le milieu de chaque paire de points symétriques.',
+        'Formule : $A\'(2x_O - x_A ; 2y_O - y_A)$.',
+        'Symétrie centrale = rotation de $180°$.',
+        'Ne pas confondre avec la symétrie axiale (axe vs point).'
       ],
       piege: 'Piège : ne pas confondre symétrie axiale et symétrie centrale. La symétrie axiale utilise un axe (droite) ; la symétrie centrale utilise un point. La symétrie centrale revient à une rotation de $180°$.'
     },
@@ -1099,7 +1463,7 @@ window.MODULES.push(
           'Non aux deux.'
         ],
         answer: 1,
-        correction: 'Le parallélogramme général n\'a pas d\'axe de symétrie (ses côtés sont parallèles mais pas perpendiculaires aux diagonales). En revanche, il a un centre de symétrie : le point d\'intersection de ses diagonales. En effet, les diagonales se coupent en leur milieu commun $O$, donc chaque sommet a son symétrique par rapport à $O$.'
+        correction: 'Le parallélogramme général n\'a pas d\'axe de symétrie. En revanche, il a un centre de symétrie : le point d\'intersection de ses diagonales.'
       },
       {
         q: 'Un rectangle admet-il un centre de symétrie ?',
@@ -1112,18 +1476,49 @@ window.MODULES.push(
     exercice: {
       type: 'numeric',
       generate() {
+        const coordType = pick([
+          { ask: 'abscisse', coord: 'x' },
+          { ask: 'ordonnée', coord: 'y' }
+        ]);
         const ox = rand(0, 5);
         const oy = rand(0, 5);
         const ax = rand(-3, 8);
         const ay = rand(-3, 8);
         const symX = 2 * ox - ax;
         const symY = 2 * oy - ay;
+        const answer = coordType.coord === 'x' ? symX : symY;
+
+        const ctx = pick([
+          {
+            intro: `Sur un plan de ville, un monument $A$ se trouve aux coordonnées $(${ax} ; ${ay})$ et la place centrale $O$ est en $(${ox} ; ${oy})$.<br/>On veut construire un monument symétrique $A'$ par rapport à la place $O$.`,
+            question: `Quelle est l'<strong>${coordType.ask}</strong> du monument $A'$ ?`
+          },
+          {
+            intro: `Dans un jeu vidéo, un personnage $A$ est en $(${ax} ; ${ay})$ et un portail magique $O$ se situe en $(${ox} ; ${oy})$.<br/>Le portail téléporte le personnage vers son <strong>symétrique</strong> par rapport à $O$.`,
+            question: `Quelle est l'<strong>${coordType.ask}</strong> de la position d'arrivée $A'$ ?`
+          },
+          {
+            intro: `Sur une carte au trésor, un repère $A$ est placé en $(${ax} ; ${ay})$. Le centre de la carte est le point $O(${ox} ; ${oy})$.<br/>L'indice dit : « le trésor est le symétrique de $A$ par rapport à $O$ ».`,
+            question: `Quelle est l'<strong>${coordType.ask}</strong> du trésor $A'$ ?`
+          },
+          {
+            intro: `En astronomie simplifiée, une planète $A$ orbite en $(${ax} ; ${ay})$ autour d'une étoile $O$ en $(${ox} ; ${oy})$.<br/>Le point diamétralement opposé de l'orbite est le symétrique de $A$ par rapport à $O$.`,
+            question: `Quelle est l'<strong>${coordType.ask}</strong> de ce point opposé $A'$ ?`
+          },
+          {
+            intro: `Sur un terrain de sport quadrillé, un joueur $A$ est en $(${ax} ; ${ay})$ et le centre du terrain $O$ est en $(${ox} ; ${oy})$.<br/>Son coéquipier $A'$ se place au point symétrique de $A$ par rapport à $O$.`,
+            question: `Quelle est l'<strong>${coordType.ask}</strong> de la position de $A'$ ?`
+          }
+        ]);
+
         return {
-          statement: `Donne l'abscisse du symétrique de $A(${ax} ; ${ay})$ par rapport au point $O(${ox} ; ${oy})$.`,
-          answer: symX,
+          statement: `${ctx.intro}<br/>${ctx.question}`,
+          answer,
           tolerance: 0,
           unit: '',
-          hint: `Formule : $x_{A'} = 2 \\times x_O - x_A = 2 \\times ${ox} - ${ax}$.`,
+          hint: coordType.coord === 'x'
+            ? `Formule : $x_{A'} = 2 \\times x_O - x_A = 2 \\times ${ox} - ${ax}$.`
+            : `Formule : $y_{A'} = 2 \\times y_O - y_A = 2 \\times ${oy} - ${ay}$.`,
           solution: [
             `$x_{A'} = 2 \\times ${ox} - ${ax} = ${2 * ox} - ${ax} = ${symX}$`,
             `$y_{A'} = 2 \\times ${oy} - ${ay} = ${2 * oy} - ${ay} = ${symY}$`,
@@ -1181,7 +1576,7 @@ window.MODULES.push(
           ],
           answer: 1,
           points: 2,
-          correction: 'Par définition de la symétrie centrale, $O$ est le milieu de $[AA\']$, c\'est-à-dire $OA = OA\'$ et les trois points sont alignés avec $O$ entre $A$ et $A\'$.'
+          correction: 'Par définition de la symétrie centrale, $O$ est le milieu de $[AA\']$.'
         },
         {
           statement: 'Le milieu du segment $[AB]$ avec $A(-2 ; 6)$ et $B(4 ; -2)$ a pour abscisse :',
@@ -1203,13 +1598,13 @@ window.MODULES.push(
           ],
           answer: 1,
           points: 2,
-          correction: 'Tout parallélogramme possède un centre de symétrie : c\'est le point d\'intersection de ses diagonales. Les diagonales se coupent en leur milieu commun, ce qui définit le centre de symétrie.'
+          correction: 'Tout parallélogramme possède un centre de symétrie : c\'est le point d\'intersection de ses diagonales.'
         }
       ]
     }
   },
 
-    {
+  {
     id: '5e-triangles',
     level: 1, subject: 'maths',
     icon: '🔺',
@@ -1219,13 +1614,33 @@ window.MODULES.push(
     physics: false,
 
     cours: {
-      intro: 'Un triangle est défini par trois points non alignés. Sa propriété fondamentale : la somme des angles intérieurs est toujours $180°$, quelle que soit la forme du triangle. <strong>Pourquoi $180°$ ?</strong> Parce que si l\'on trace une droite parallèle au côté de base passant par le sommet opposé, les trois angles du triangle forment exactement un angle plat (alternes-internes). L\'inégalité triangulaire ($c < a + b$) traduit une réalité physique : le chemin direct entre deux points est toujours plus court que le chemin qui passe par un troisième point. Il suffit de vérifier que le <strong>plus grand côté</strong> est strictement inférieur à la somme des deux autres (les autres vérifications suivent automatiquement). Les triangles isocèles et équilatéraux ont des angles particuliers liés à leur symétrie.',
+      intro: 'Le triangle est la <strong>forme géométrique la plus simple</strong> que l\'on puisse tracer avec des segments : trois côtés, trois sommets, trois angles. Mais derrière cette simplicité se cachent des propriétés puissantes, utilisées partout dans le monde réel.<br/><br/>' +
+        'Sa propriété fondamentale : la <strong>somme des angles intérieurs est toujours $180°$</strong>, quelle que soit la forme du triangle. <strong>Pourquoi $180°$ ?</strong> Si l\'on trace une droite parallèle au côté de base passant par le sommet opposé, les trois angles du triangle forment exactement un angle plat (alternes-internes). Connaître deux angles suffit donc toujours à trouver le troisième !<br/><br/>' +
+        'L\'<strong>inégalité triangulaire</strong> ($c < a + b$) traduit une réalité physique : le chemin direct entre deux points est toujours plus court que le chemin qui passe par un troisième point. Il suffit de vérifier que le <strong>plus grand côté</strong> est strictement inférieur à la somme des deux autres. Si cette condition n\'est pas respectée, le triangle est tout simplement impossible à construire : essaie de fermer un triangle avec des baguettes de $3$ cm, $4$ cm et $10$ cm — tu n\'y arriveras pas !<br/><br/>' +
+        'Dans la <strong>vie courante</strong>, le triangle est partout : la charpente d\'un toit, les pylônes électriques, les ponts en treillis, les grues de chantier… Pourquoi ? Parce que le triangle est la seule figure géométrique qui est <strong>indéformable</strong> : un carré peut s\'aplatir en losange, mais un triangle garde toujours sa forme. C\'est pour cela que les ingénieurs l\'utilisent dans toute structure qui doit résister à des forces.<br/><br/>' +
+        'Les triangles <strong>isocèles</strong> (2 côtés égaux → 2 angles de base égaux) et <strong>équilatéraux</strong> (3 côtés égaux → angles de $60°$) ont des propriétés de symétrie particulières qui les rendent encore plus utiles en architecture et en design.',
+      definitions: [
+        { term: 'Triangle', def: 'Polygone à 3 côtés. La somme de ses angles intérieurs vaut toujours $180°$.' },
+        { term: 'Inégalité triangulaire', def: 'Pour que trois longueurs $a$, $b$, $c$ forment un triangle, le plus grand côté doit être strictement inférieur à la somme des deux autres.' },
+        { term: 'Triangle isocèle', def: 'Triangle ayant au moins deux côtés de même longueur. Les deux angles à la base sont égaux.' },
+        { term: 'Triangle équilatéral', def: 'Triangle dont les trois côtés sont égaux. Les trois angles valent $60°$.' }
+      ],
+      example: {
+        statement: 'Peut-on construire un triangle avec des côtés de $5$ cm, $7$ cm et $10$ cm ? Si oui, quelle est la nature du triangle ?',
+        steps: [
+          'Plus grand côté : $10$. Somme des deux autres : $5 + 7 = 12$. $10 < 12$ ✓ → triangle possible.',
+          'Vérifier si rectangle : $5^2 + 7^2 = 25 + 49 = 74$. $10^2 = 100$. $74 \\neq 100$ → pas rectangle.',
+          'Tous les côtés différents → triangle scalène (quelconque).'
+        ],
+        answer: 'Triangle scalène (quelconque)'
+      },
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Type</th><th style="border:1px solid var(--border);padding:6px 14px">Côtés</th><th style="border:1px solid var(--border);padding:6px 14px">Angles</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Quelconque</td><td style="border:1px solid var(--border);padding:6px 14px">Tous différents</td><td style="border:1px solid var(--border);padding:6px 14px">Tous différents</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Isocèle</td><td style="border:1px solid var(--border);padding:6px 14px">2 côtés égaux</td><td style="border:1px solid var(--border);padding:6px 14px">2 angles de base égaux</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Équilatéral</td><td style="border:1px solid var(--border);padding:6px 14px">3 côtés égaux</td><td style="border:1px solid var(--border);padding:6px 14px">$3 \\times 60°$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Rectangle</td><td style="border:1px solid var(--border);padding:6px 14px">$a^2 + b^2 = c^2$</td><td style="border:1px solid var(--border);padding:6px 14px">1 angle de $90°$</td></tr></table>',
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Vérifier l\'inégalité triangulaire : pour les côtés $a$, $b$, $c$, vérifier $a < b + c$, $b < a + c$, $c < a + b$. (Il suffit de vérifier que le plus grand côté est inférieur à la somme des deux autres.)',
-          'Identifier le type de triangle : isocèle (2 côtés égaux), équilatéral (3 côtés égaux), rectangle (angle droit vérifié par Pythagore).',
-          'Calculer un angle manquant : angle inconnu = $180° - $ (somme des deux autres angles connus).'
+          'Vérifier l\'inégalité triangulaire : le plus grand côté < somme des deux autres.',
+          'Identifier le type : isocèle (2 côtés égaux), équilatéral (3 côtés égaux), rectangle (angle droit vérifié par Pythagore).',
+          'Calculer un angle manquant : angle inconnu = $180° - $ (somme des deux autres angles).'
         ]
       },
       formulas: [
@@ -1234,7 +1649,13 @@ window.MODULES.push(
         'Triangle isocèle : deux côtés égaux ⟹ deux angles à la base égaux',
         'Triangle équilatéral : $a = b = c$ ⟹ $\\hat{A} = \\hat{B} = \\hat{C} = 60°$'
       ],
-      piege: 'Piège : ne vérifier l\'inégalité triangulaire que pour un seul cas. Il faut que LE PLUS GRAND côté soit inférieur à la somme des deux autres. Si $c$ est le plus grand, seule la vérification $c < a + b$ est nécessaire (les autres sont automatiquement satisfaites).'
+      recap: [
+        'La somme des angles d\'un triangle est toujours $180°$.',
+        'Le plus grand côté doit être strictement inférieur à la somme des deux autres.',
+        'Triangle isocèle = 2 côtés égaux = 2 angles de base égaux.',
+        'Triangle équilatéral = 3 côtés égaux = 3 angles de $60°$.'
+      ],
+      piege: 'Piège : ne vérifier l\'inégalité triangulaire que pour un seul cas. Il faut que LE PLUS GRAND côté soit inférieur à la somme des deux autres. Si $c$ est le plus grand, seule la vérification $c < a + b$ est nécessaire.'
     },
 
     quiz: [
@@ -1259,18 +1680,24 @@ window.MODULES.push(
           'Non, un triangle isocèle doit avoir des côtés de longueurs différentes.'
         ],
         answer: 1,
-        correction: 'Pour qu\'un triangle existe, il faut que chaque côté soit <em>strictement</em> inférieur à la somme des deux autres : $10 < 5 + 5 = 10$ est faux ($10 = 10$, pas $<$). Ces trois points sont alignés — on obtient un segment, pas un triangle. L\'inégalité doit être stricte.'
+        correction: 'Pour qu\'un triangle existe, il faut que chaque côté soit <em>strictement</em> inférieur à la somme des deux autres : $10 < 5 + 5 = 10$ est faux ($10 = 10$, pas $<$).'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
+        const ctx = pick([
+          { shape: 'triangle de signalisation', emoji: '⚠️' },
+          { shape: 'toiture triangulaire', emoji: '🏠' },
+          { shape: 'voile de bateau', emoji: '⛵' },
+          { shape: 'triangle de géométrie', emoji: '📐' }
+        ]);
         const a = rand(30, 70);
         const b = rand(30, 70);
         const c = 180 - a - b;
         return {
-          statement: `Dans un triangle, deux angles mesurent $${a}°$ et $${b}°$. Combien mesure le troisième angle (en degrés) ?`,
+          statement: `${ctx.emoji} Dans un ${ctx.shape}, deux angles mesurent $${a}°$ et $${b}°$. Combien mesure le troisième angle (en degrés) ?`,
           answer: c,
           tolerance: 0,
           unit: '°',
@@ -1309,7 +1736,7 @@ window.MODULES.push(
           tolerance: 0,
           unit: '°',
           points: 2,
-          correction: '$\\hat{C} = 180° - 72° - 53° = 55°$. La somme des angles d\'un triangle vaut toujours $180°$.'
+          correction: '$\\hat{C} = 180° - 72° - 53° = 55°$.'
         },
         {
           statement: 'Peut-on construire un triangle avec des côtés de $3$ cm, $5$ cm et $9$ cm ?',
@@ -1335,7 +1762,7 @@ window.MODULES.push(
           ],
           answer: 2,
           points: 2,
-          correction: 'Si les trois angles sont égaux ($60°$), les trois côtés sont aussi égaux : c\'est un triangle équilatéral. (Un triangle équilatéral est aussi isocèle, mais la réponse la plus précise est « équilatéral ».)'
+          correction: 'Si les trois angles sont égaux ($60°$), les trois côtés sont aussi égaux : c\'est un triangle équilatéral.'
         },
         {
           statement: 'Un triangle isocèle a un angle au sommet de $40°$. Combien mesure chaque angle de la base (en degrés) ?',
@@ -1357,13 +1784,13 @@ window.MODULES.push(
           ],
           answer: 1,
           points: 2,
-          correction: 'Il faut vérifier : le plus grand côté est strictement inférieur à la somme des deux autres. $13 < 6 + 8 = 14$ est vrai. L\'inégalité triangulaire est vérifiée : ce triangle existe.'
+          correction: '$13 < 6 + 8 = 14$ est vrai. L\'inégalité triangulaire est vérifiée : ce triangle existe.'
         }
       ]
     }
   },
 
-    {
+  {
     id: '5e-parallelogrammes',
     level: 1, subject: 'maths',
     icon: '▱',
@@ -1373,14 +1800,33 @@ window.MODULES.push(
     physics: false,
 
     cours: {
-      intro: 'Un parallélogramme est un quadrilatère avec deux paires de côtés parallèles. De cette propriété découlent toutes les autres : les côtés opposés sont égaux, les angles opposés sont égaux, et les diagonales se coupent en leur milieu. <strong>Hiérarchie :</strong> tout carré est un rectangle et un losange ; tout rectangle est un parallélogramme ; tout losange est un parallélogramme — mais l\'inverse n\'est pas vrai. Pour identifier un parallélogramme, il suffit de vérifier <em>une</em> des conditions : côtés opposés parallèles, ou côtés opposés égaux, ou diagonales se coupant en leur milieu. L\'aire d\'un parallélogramme est base × hauteur (la hauteur est perpendiculaire à la base, pas le côté latéral).',
+      intro: 'Un parallélogramme est un quadrilatère avec <strong>deux paires de côtés parallèles</strong>. De cette propriété découlent toutes les autres : les côtés opposés sont égaux, les angles opposés sont égaux, et les diagonales se coupent en leur milieu.<br/><br/>' +
+        '<strong>Hiérarchie :</strong> tout carré est un rectangle et un losange ; tout rectangle est un parallélogramme ; tout losange est un parallélogramme — mais l\'inverse n\'est pas vrai.<br/><br/>' +
+        'Pour <strong>identifier</strong> un parallélogramme, il suffit de vérifier <em>une</em> des conditions : côtés opposés parallèles, ou côtés opposés égaux, ou diagonales se coupant en leur milieu.<br/><br/>' +
+        'L\'<strong>aire d\'un parallélogramme</strong> est base × hauteur. Attention : la hauteur est perpendiculaire à la base, pas le côté latéral. L\'aire d\'un losange se calcule avec ses diagonales : $\\mathcal{A} = \\dfrac{d_1 \\times d_2}{2}$.',
+      definitions: [
+        { term: 'Parallélogramme', def: 'Quadrilatère dont les côtés opposés sont parallèles et de même longueur. Les diagonales se coupent en leur milieu.' },
+        { term: 'Rectangle', def: 'Parallélogramme ayant 4 angles droits. Ses diagonales sont de même longueur.' },
+        { term: 'Losange', def: 'Parallélogramme ayant 4 côtés de même longueur. Ses diagonales sont perpendiculaires.' },
+        { term: 'Carré', def: 'Quadrilatère qui est à la fois rectangle ET losange : 4 angles droits et 4 côtés égaux.' }
+      ],
+      example: {
+        statement: 'Un losange a des diagonales de $8$ cm et $6$ cm. Calcule son aire et le demi-côté.',
+        steps: [
+          'Aire : $\\mathcal{A} = \\dfrac{d_1 \\times d_2}{2} = \\dfrac{8 \\times 6}{2} = 24$ cm².',
+          'Les diagonales se coupent perpendiculairement en leur milieu → demi-diagonales : $4$ et $3$ cm.',
+          'Par Pythagore : côté $= \\sqrt{4^2 + 3^2} = \\sqrt{25} = 5$ cm.'
+        ],
+        answer: 'Aire = $24$ cm², côté = $5$ cm'
+      },
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Figure</th><th style="border:1px solid var(--border);padding:6px 14px">Côtés</th><th style="border:1px solid var(--border);padding:6px 14px">Angles</th><th style="border:1px solid var(--border);padding:6px 14px">Diagonales</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Parallélogramme</td><td style="border:1px solid var(--border);padding:6px 14px">Opposés =</td><td style="border:1px solid var(--border);padding:6px 14px">Opposés =</td><td style="border:1px solid var(--border);padding:6px 14px">Se coupent en leur milieu</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Rectangle</td><td style="border:1px solid var(--border);padding:6px 14px">Opposés =</td><td style="border:1px solid var(--border);padding:6px 14px">4 × 90°</td><td style="border:1px solid var(--border);padding:6px 14px">Milieu + même longueur</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Losange</td><td style="border:1px solid var(--border);padding:6px 14px">4 côtés =</td><td style="border:1px solid var(--border);padding:6px 14px">Opposés =</td><td style="border:1px solid var(--border);padding:6px 14px">Milieu + perpendiculaires</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Carré</td><td style="border:1px solid var(--border);padding:6px 14px">4 côtés =</td><td style="border:1px solid var(--border);padding:6px 14px">4 × 90°</td><td style="border:1px solid var(--border);padding:6px 14px">Milieu + = + ⊥</td></tr></table>',
       method: {
         title: 'Méthode : identifier et utiliser les propriétés',
         steps: [
-          'Parallélogramme : côtés opposés parallèles ET égaux ; diagonales qui se coupent en leur milieu ; angles opposés égaux.',
-          'Rectangle : parallélogramme avec 4 angles droits ; diagonales égales et qui se coupent en leur milieu.',
-          'Losange : parallélogramme avec 4 côtés égaux ; diagonales perpendiculaires et qui se coupent en leur milieu.',
-          'Carré : rectangle ET losange (4 angles droits + 4 côtés égaux) ; diagonales égales et perpendiculaires.'
+          'Parallélogramme : côtés opposés parallèles ET égaux ; diagonales qui se coupent en leur milieu.',
+          'Rectangle : parallélogramme avec 4 angles droits ; diagonales égales.',
+          'Losange : parallélogramme avec 4 côtés égaux ; diagonales perpendiculaires.',
+          'Carré : rectangle ET losange (4 angles droits + 4 côtés égaux).'
         ]
       },
       formulas: [
@@ -1388,6 +1834,12 @@ window.MODULES.push(
         'Diagonales d\'un parallélogramme : milieu de $[AC]$ = milieu de $[BD]$',
         'Aire du parallélogramme : $\\mathcal{A} = b \\times h$ (base $\\times$ hauteur)',
         'Aire du losange : $\\mathcal{A} = \\dfrac{d_1 \\times d_2}{2}$ (demi-produit des diagonales)'
+      ],
+      recap: [
+        'Les diagonales d\'un parallélogramme se coupent en leur milieu.',
+        'Rectangle = parallélogramme + angles droits. Losange = parallélogramme + côtés égaux.',
+        'Carré = rectangle + losange.',
+        'Aire du losange : $\\dfrac{d_1 \\times d_2}{2}$.'
       ],
       piege: 'Piège : un rectangle est TOUJOURS un parallélogramme, mais un parallélogramme n\'est pas forcément un rectangle. Hiérarchie : carré ⊂ rectangle ⊂ parallélogramme et carré ⊂ losange ⊂ parallélogramme.'
     },
@@ -1419,18 +1871,24 @@ window.MODULES.push(
           'Non, ça dépend du nombre de côtés égaux.'
         ],
         answer: 1,
-        correction: 'Si dans un parallélogramme $AB = BC$, alors puisque les côtés opposés sont égaux ($AB = DC$ et $BC = AD$), tous les côtés sont égaux → c\'est un <em>losange</em>. Pour que ce soit un carré, il faudrait en plus un angle droit (ce qui forcerait tous les angles à $90°$). Un losange avec un angle de $60°$ existe : tous les côtés égaux, mais pas de droit.'
+        correction: 'Si dans un parallélogramme $AB = BC$, alors tous les côtés sont égaux → c\'est un <em>losange</em>. Pour que ce soit un carré, il faudrait en plus un angle droit.'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
+        const ctx = pick([
+          { shape: 'carreau de mosaïque', emoji: '🔷' },
+          { shape: 'logo en forme de losange', emoji: '💎' },
+          { shape: 'panneau routier losange', emoji: '🔶' },
+          { shape: 'vitrail en losange', emoji: '🪟' }
+        ]);
         const d1 = rand(3, 12);
         const d2 = rand(3, 12);
         const aire = (d1 * d2) / 2;
         return {
-          statement: `Un losange a des diagonales mesurant $${d1}$ cm et $${d2}$ cm. Calcule son aire en cm².`,
+          statement: `${ctx.emoji} Un ${ctx.shape} a des diagonales mesurant $${d1}$ cm et $${d2}$ cm. Calcule son aire en cm².`,
           answer: aire,
           tolerance: 0,
           unit: 'cm²',
@@ -1504,7 +1962,7 @@ window.MODULES.push(
           ],
           answer: 2,
           points: 2,
-          correction: 'Un carré a $4$ côtés égaux et $4$ angles droits. Puisqu\'il a $4$ côtés égaux, c\'est un losange. Mais un losange n\'est pas forcément un rectangle (il peut avoir des angles non droits), et un rectangle n\'est pas forcément un carré.'
+          correction: 'Un carré a $4$ côtés égaux et $4$ angles droits. Puisqu\'il a $4$ côtés égaux, c\'est un losange.'
         },
         {
           statement: 'Les diagonales d\'un rectangle $ABCD$ mesurent $AC = BD = 12$ cm. Elles se coupent en $O$. Quelle est la longueur $OA$ en cm ?',
@@ -1519,7 +1977,7 @@ window.MODULES.push(
     }
   },
 
-    {
+  {
     id: '5e-angles-parallelisme',
     level: 1, subject: 'maths',
     icon: '📏',
@@ -1527,14 +1985,34 @@ window.MODULES.push(
     subtitle: 'Alternes-internes, correspondants, coalternes',
     keywords: ['Angle', 'Parallèles', 'Sécante', 'Alternes-internes', 'Correspondants'],
     physics: false,
+
     cours: {
-      intro: 'Quand une sécante coupe deux droites parallèles, elle crée des paires d\'angles avec des relations précises. Les <strong>alternes-internes</strong> (configuration en Z) sont égaux. Les <strong>correspondants</strong> (configuration en F) sont égaux. Les <strong>coalternes-internes</strong> (configuration en U) sont supplémentaires (somme = $180°$). <strong>Point clé :</strong> ces propriétés ne valent que si les droites sont parallèles — et réciproquement, si ces propriétés sont vérifiées, alors les droites sont forcément parallèles. C\'est une façon de <em>démontrer</em> le parallélisme. En optique, les rayons parallèles incidents sur un miroir vérifient ces propriétés angulaires, ce qui explique la construction des images dans les miroirs plans.',
+      intro: 'Quand une <strong>sécante</strong> coupe deux droites parallèles, elle crée des paires d\'angles avec des relations précises.<br/><br/>' +
+        'Les <strong>alternes-internes</strong> (configuration en Z) sont <strong>égaux</strong>. Les <strong>correspondants</strong> (configuration en F) sont <strong>égaux</strong>. Les <strong>coalternes-internes</strong> (configuration en U) sont <strong>supplémentaires</strong> (somme = $180°$).<br/><br/>' +
+        '<strong>Point clé :</strong> ces propriétés ne valent que si les droites sont parallèles — et réciproquement, si ces propriétés sont vérifiées, alors les droites sont forcément parallèles. C\'est une façon de <em>démontrer</em> le parallélisme.<br/><br/>' +
+        'En optique, les rayons parallèles incidents sur un miroir vérifient ces propriétés angulaires, ce qui explique la construction des images dans les miroirs plans.',
+      definitions: [
+        { term: 'Sécante', def: 'Droite qui coupe deux autres droites. Elle crée des angles à chaque point d\'intersection.' },
+        { term: 'Angles alternes-internes', def: 'Paire d\'angles situés de part et d\'autre de la sécante, entre les deux droites (configuration en Z). Égaux si les droites sont parallèles.' },
+        { term: 'Angles correspondants', def: 'Paire d\'angles situés du même côté de la sécante, l\'un entre les droites et l\'autre à l\'extérieur (configuration en F). Égaux si parallèles.' },
+        { term: 'Angles supplémentaires', def: 'Deux angles dont la somme vaut $180°$. Les coalternes-internes sont supplémentaires si les droites sont parallèles.' }
+      ],
+      example: {
+        statement: 'Deux droites parallèles sont coupées par une sécante. Un angle mesure $72°$. Trouver les angles alternes-internes et coalternes.',
+        steps: [
+          'Angle alterne-interne : même mesure → $72°$ (car droites parallèles, configuration en Z).',
+          'Angle coalterne-interne : supplémentaire → $180° - 72° = 108°$ (configuration en U).',
+          'Angle correspondant : même mesure → $72°$ (configuration en F).'
+        ],
+        answer: 'Alterne-interne : $72°$, coalterne : $108°$, correspondant : $72°$'
+      },
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Paire d\'angles</th><th style="border:1px solid var(--border);padding:6px 14px">Configuration</th><th style="border:1px solid var(--border);padding:6px 14px">Relation (si //)</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Alternes-internes</td><td style="border:1px solid var(--border);padding:6px 14px">Z</td><td style="border:1px solid var(--border);padding:6px 14px">$\\hat{a} = \\hat{b}$ (égaux)</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Correspondants</td><td style="border:1px solid var(--border);padding:6px 14px">F</td><td style="border:1px solid var(--border);padding:6px 14px">$\\hat{a} = \\hat{c}$ (égaux)</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Coalternes-internes</td><td style="border:1px solid var(--border);padding:6px 14px">U</td><td style="border:1px solid var(--border);padding:6px 14px">$\\hat{a} + \\hat{d} = 180°$</td></tr></table>',
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
           'Identifier la sécante (droite qui coupe les deux parallèles) et les deux parallèles.',
           'Repérer la configuration : alternes-internes (en Z), correspondants (en F), ou coalternes (en U).',
-          'Appliquer la propriété : alternes-internes → égaux ; correspondants → égaux ; coalternes → supplémentaires (somme = 180°).'
+          'Appliquer la propriété : alternes-internes → égaux ; correspondants → égaux ; coalternes → supplémentaires.'
         ]
       },
       formulas: [
@@ -1543,8 +2021,15 @@ window.MODULES.push(
         'Coalternes-internes : $\\hat{a} + \\hat{d} = 180°$ (configuration en U)',
         'Angles supplémentaires : $\\hat{a} + \\hat{b} = 180°$'
       ],
+      recap: [
+        'Alternes-internes (Z) et correspondants (F) sont ÉGAUX si les droites sont parallèles.',
+        'Coalternes (U) sont SUPPLÉMENTAIRES ($+ = 180°$) si les droites sont parallèles.',
+        'La réciproque est vraie : si ces relations sont vérifiées, les droites sont parallèles.',
+        'Si les angles ne vérifient pas ces relations, les droites ne sont PAS parallèles.'
+      ],
       piege: 'Piège : ces propriétés ne sont valables QUE si les deux droites sont parallèles. Si elles ne le sont pas, les angles alternes-internes ne sont plus égaux. C\'est aussi une façon de prouver que deux droites sont parallèles !'
     },
+
     quiz: [
       {
         q: 'Deux droites parallèles sont coupées par une sécante. Un angle alterne-interne mesure $65°$. Quel est l\'autre angle alterne-interne ?',
@@ -1567,24 +2052,37 @@ window.MODULES.push(
           'On ne peut rien conclure sans connaître le troisième angle.'
         ],
         answer: 1,
-        correction: 'Les alternes-internes sont égaux <em>si et seulement si</em> les droites sont parallèles. Ici $70° \\neq 75°$, donc les droites ne sont pas parallèles. La réciproque est indispensable : elle permet de prouver le parallélisme par le calcul d\'angles, ou de le réfuter.'
+        correction: 'Les alternes-internes sont égaux <em>si et seulement si</em> les droites sont parallèles. Ici $70° \\neq 75°$, donc les droites ne sont pas parallèles.'
       }
     ],
+
     exercice: {
       type: 'numeric',
       generate() {
+        const type = pick([
+          { name: 'coalterne-interne', relation: 'supplémentaire', calc: (a) => 180 - a },
+          { name: 'correspondant', relation: 'égal', calc: (a) => a },
+          { name: 'alterne-interne', relation: 'égal', calc: (a) => a }
+        ]);
         const a = rand(30, 150);
-        const b = 180 - a;
+        const answer = type.calc(a);
         return {
-          statement: `Deux droites parallèles sont coupées par une sécante. Un angle coalterne-interne mesure $${a}°$. Quel est l'angle coalterne associé (en degrés) ?`,
-          answer: b,
+          statement: `Deux droites parallèles sont coupées par une sécante. Un angle ${type.name} mesure $${a}°$. Quel est l'angle ${type.name} associé (en degrés) ?`,
+          answer,
           tolerance: 0,
           unit: '°',
-          hint: 'Les angles coalternes-internes sont supplémentaires : leur somme vaut $180°$.',
-          solution: [`Angles coalternes supplémentaires : $180 - ${a} = ${b}°$.`]
+          hint: type.relation === 'supplémentaire'
+            ? 'Les angles coalternes-internes sont supplémentaires : leur somme vaut $180°$.'
+            : `Les angles ${type.name}s sont égaux quand les droites sont parallèles.`,
+          solution: [
+            type.relation === 'supplémentaire'
+              ? `Angles coalternes supplémentaires : $180 - ${a} = ${answer}°$.`
+              : `Angles ${type.name}s égaux (droites parallèles) : $${answer}°$.`
+          ]
         };
       }
     },
+
     probleme: {
       context: 'Un menuisier pose des lattes de parquet parallèles. Une règle posée en travers forme un angle de $52°$ avec la première latte.',
       tasks: [
@@ -1661,7 +2159,7 @@ window.MODULES.push(
     }
   },
 
-    {
+  {
     id: '5e-aires-perimetres',
     level: 1, subject: 'maths',
     icon: '🔷',
@@ -1669,8 +2167,28 @@ window.MODULES.push(
     subtitle: 'Disque, figures composées, conversions',
     keywords: ['Aire', 'Périmètre', 'Disque', 'Secteur', 'Figures composées', 'Conversion'],
     physics: false,
+
     cours: {
-      intro: 'Les figures complexes se décomposent toujours en figures simples (rectangles, triangles, disques). L\'aire totale est la somme (ou différence) des aires des parties. <strong>Règle de conversion des aires :</strong> quand on passe d\'une unité de longueur à une autre, l\'exposant $2$ s\'applique aussi au facteur de conversion : $1$ m $= 100$ cm, donc $1$ m² $= 100^2$ cm² $= 10\,000$ cm². Beaucoup d\'élèves multiplient par $100$ au lieu de $10\,000$ ! Le disque de rayon $r$ a une aire $\\pi r^2$ — c\'est $r$ seul au carré, pas $\\pi r$ entier. Pour les figures composées, bien identifier si on ajoute une partie (ex. : rectangle + demi-disque sur un côté) ou si on soustrait (ex. : carré avec un trou circulaire).',
+      intro: 'Les figures complexes se décomposent toujours en <strong>figures simples</strong> (rectangles, triangles, disques). L\'aire totale est la somme (ou différence) des aires des parties.<br/><br/>' +
+        '<strong>Règle de conversion des aires :</strong> quand on passe d\'une unité de longueur à une autre, l\'exposant $2$ s\'applique aussi au facteur de conversion : $1$ m $= 100$ cm, donc $1$ m² $= 100^2$ cm² $= 10\\,000$ cm². Beaucoup d\'élèves multiplient par $100$ au lieu de $10\\,000$ !<br/><br/>' +
+        'Le <strong>disque</strong> de rayon $r$ a une aire $\\pi r^2$ — c\'est $r$ seul au carré, pas $\\pi r$ entier. Le périmètre (ou <strong>circonférence</strong>) vaut $2\\pi r$.<br/><br/>' +
+        'Pour les <strong>figures composées</strong>, bien identifier si on ajoute une partie (rectangle + demi-disque) ou si on soustrait (carré avec un trou circulaire).',
+      definitions: [
+        { term: 'Aire', def: 'Mesure de la surface d\'une figure plane. S\'exprime en unités au carré (cm², m², etc.).' },
+        { term: 'Périmètre', def: 'Longueur du contour d\'une figure. S\'exprime en unités de longueur (cm, m, etc.).' },
+        { term: 'Disque', def: 'Surface délimitée par un cercle. Aire = $\\pi r^2$, périmètre = $2\\pi r$.' },
+        { term: 'Figure composée', def: 'Figure obtenue en assemblant ou en retranchant des figures simples. Son aire est la somme (ou différence) des aires des parties.' }
+      ],
+      example: {
+        statement: 'Calcule l\'aire d\'un terrain rectangulaire de $30$ m × $20$ m dans lequel on a creusé une piscine circulaire de rayon $4$ m.',
+        steps: [
+          'Aire du rectangle : $30 \\times 20 = 600$ m².',
+          'Aire du disque (piscine) : $\\pi \\times 4^2 = 3{,}14 \\times 16 \\approx 50{,}3$ m².',
+          'Aire restante : $600 - 50{,}3 = 549{,}7$ m².'
+        ],
+        answer: '$\\approx 549{,}7$ m²'
+      },
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Conversion</th><th style="border:1px solid var(--border);padding:6px 14px">Longueurs</th><th style="border:1px solid var(--border);padding:6px 14px">Aires ($\\times$ facteur²)</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">m → cm</td><td style="border:1px solid var(--border);padding:6px 14px">$\\times 100$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\times 10\\,000$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">cm → mm</td><td style="border:1px solid var(--border);padding:6px 14px">$\\times 10$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\times 100$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">km → m</td><td style="border:1px solid var(--border);padding:6px 14px">$\\times 1000$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\times 1\\,000\\,000$</td></tr></table>',
       method: {
         title: 'Méthode en 4 étapes',
         steps: [
@@ -1686,8 +2204,15 @@ window.MODULES.push(
         '$1\\,\\text{m}^2 = 10^4\\,\\text{cm}^2 = 10^6\\,\\text{mm}^2$',
         'Figures composées : $\\mathcal{A}_{\\text{tot}} = \\mathcal{A}_1 + \\mathcal{A}_2 \\pm \\ldots$'
       ],
+      recap: [
+        'Aire du disque : $\\pi r^2$ (bien utiliser le rayon, pas le diamètre !).',
+        'Conversion d\'aires : élever le facteur de conversion au carré ($1$ m² = $10\\,000$ cm²).',
+        'Figure composée = somme ou différence de figures simples.',
+        'Périmètre d\'un cercle : $2\\pi r$ (ou $\\pi d$ avec le diamètre).'
+      ],
       piege: 'Piège de conversion : $2\\,\\text{cm} = 20\\,\\text{mm}$ mais $2\\,\\text{cm}^2 \\neq 20\\,\\text{mm}^2$. En réalité $2\\,\\text{cm}^2 = 200\\,\\text{mm}^2$ (on multiplie par $100$, pas par $10$).'
     },
+
     quiz: [
       {
         q: 'Quelle est l\'aire d\'un demi-disque de rayon $6$ cm (avec $\\pi \\approx 3{,}14$) ?',
@@ -1710,15 +2235,23 @@ window.MODULES.push(
           'Les cm² et mm² ne sont pas convertibles directement.'
         ],
         answer: 1,
-        correction: '$1$ cm $= 10$ mm, donc $1$ cm² $= (10\\,\\text{mm})^2 = 100$ mm² — on élève le facteur de conversion au carré ! Ainsi $5$ cm² $= 5 \\times 100 = 500$ mm². L\'erreur classique est de multiplier par $10$ au lieu de $100$. De même, $1$ m² $= 10\\,000$ cm² (pas $100$).'
+        correction: '$1$ cm $= 10$ mm, donc $1$ cm² $= (10\\,\\text{mm})^2 = 100$ mm². Ainsi $5$ cm² $= 5 \\times 100 = 500$ mm².'
       }
     ],
+
     exercice: {
       type: 'numeric',
       generate() {
+        const ctx = pick([
+          { obj: 'pizza', emoji: '🍕' },
+          { obj: 'horloge', emoji: '🕐' },
+          { obj: 'frisbee', emoji: '🥏' },
+          { obj: 'assiette', emoji: '🍽️' },
+          { obj: 'piscine ronde', emoji: '🏊' }
+        ]);
         const r = rand(2, 10);
         return {
-          statement: `Calcule l'aire d'un disque de rayon $${r}$ cm. Utilise $\\pi \\approx 3{,}14$ et arrondi à $0{,}1$ cm².`,
+          statement: `${ctx.emoji} Calcule l'aire d'un(e) ${ctx.obj} circulaire de rayon $${r}$ cm. Utilise $\\pi \\approx 3{,}14$ et arrondis à $0{,}1$ cm².`,
           answer: parseFloat((3.14 * r * r).toFixed(1)),
           tolerance: 0.2,
           unit: 'cm²',
@@ -1727,6 +2260,7 @@ window.MODULES.push(
         };
       }
     },
+
     probleme: {
       context: 'Un stade a une piste d\'athlétisme composée de deux lignes droites de $100$ m chacune et de deux demi-cercles de rayon $36$ m.',
       tasks: [
@@ -1771,7 +2305,7 @@ window.MODULES.push(
           tolerance: 0.1,
           unit: 'cm',
           points: 2,
-          correction: '$\\mathcal{P} = \\pi \\times d = 3{,}14 \\times 10 = 31{,}4$ cm. Ou avec le rayon : $\\mathcal{P} = 2\\pi r = 2 \\times 3{,}14 \\times 5 = 31{,}4$ cm.'
+          correction: '$\\mathcal{P} = \\pi \\times d = 3{,}14 \\times 10 = 31{,}4$ cm.'
         },
         {
           statement: 'Un terrain rectangulaire mesure $40$ m par $25$ m. On y creuse une piscine circulaire de rayon $5$ m. Quelle est l\'aire du terrain restant (avec $\\pi \\approx 3{,}14$) ?',
@@ -1793,13 +2327,13 @@ window.MODULES.push(
           ],
           answer: 1,
           points: 2,
-          correction: '$1\\,\\text{cm}^2 = 100\\,\\text{mm}^2$ (car $1$ cm $= 10$ mm, donc $1$ cm² $= 10^2$ mm²). Ainsi $8$ cm² $= 8 \\times 100 = 800$ mm².'
+          correction: '$1\\,\\text{cm}^2 = 100\\,\\text{mm}^2$. Ainsi $8$ cm² $= 8 \\times 100 = 800$ mm².'
         }
       ]
     }
   },
 
-    {
+  {
     id: '5e-volumes',
     level: 1, subject: 'maths',
     icon: '📦',
@@ -1807,8 +2341,28 @@ window.MODULES.push(
     subtitle: 'Formule de base, conversions',
     keywords: ['Volume', 'Prisme', 'Cylindre', 'Aire de base', 'Hauteur', 'Litre'],
     physics: true,
+
     cours: {
-      intro: 'La formule universelle $V = \\mathcal{A}_{\\text{base}} \\times h$ s\'applique à tout prisme et tout cylindre. L\'intuition : le volume est la surface de la base « empilée » sur une hauteur $h$. <strong>Point clé sur la hauteur :</strong> la hauteur est toujours perpendiculaire aux bases — si le prisme est « incliné », la hauteur est différente du côté latéral. Pour un cylindre, la base est un disque : $V = \\pi r^2 h$. <strong>Conversion :</strong> $1$ dm³ $= 1$ L exactement, et $1$ m³ $= 1000$ L. En chimie, le volume d\'une fiole jaugée est exprimé en mL ou en L ; la conversion vers cm³ est immédiate ($1$ mL $= 1$ cm³). La sphère (non vue en 5e) suit une autre formule : $V = \\dfrac{4}{3}\\pi r^3$.',
+      intro: 'La formule universelle $V = \\mathcal{A}_{\\text{base}} \\times h$ s\'applique à tout <strong>prisme</strong> et tout <strong>cylindre</strong>. L\'intuition : le volume est la surface de la base « empilée » sur une hauteur $h$.<br/><br/>' +
+        '<strong>Point clé sur la hauteur :</strong> la hauteur est toujours perpendiculaire aux bases — si le prisme est « incliné », la hauteur est différente du côté latéral.<br/><br/>' +
+        'Pour un <strong>cylindre</strong>, la base est un disque : $V = \\pi r^2 h$. Attention à ne pas confondre rayon et diamètre !<br/><br/>' +
+        '<strong>Conversion :</strong> $1$ dm³ $= 1$ L exactement, et $1$ m³ $= 1000$ L. En chimie, le volume d\'une fiole jaugée est en mL, et la conversion vers cm³ est immédiate ($1$ mL $= 1$ cm³).',
+      definitions: [
+        { term: 'Prisme droit', def: 'Solide dont les deux bases sont des polygones identiques et parallèles, reliés par des faces rectangulaires. Volume = aire de la base × hauteur.' },
+        { term: 'Cylindre', def: 'Solide dont les deux bases sont des disques identiques et parallèles. Volume = $\\pi r^2 \\times h$.' },
+        { term: 'Pavé droit', def: 'Prisme dont les bases sont des rectangles. Volume = $L \\times l \\times h$. Cas particulier : le cube ($L = l = h$).' },
+        { term: 'Hauteur d\'un solide', def: 'Distance perpendiculaire entre les deux bases. Ne pas confondre avec un côté latéral si le prisme est incliné.' }
+      ],
+      example: {
+        statement: 'Un cylindre a un rayon de $5$ cm et une hauteur de $12$ cm. Calcule son volume.',
+        steps: [
+          'Aire de la base (disque) : $\\pi r^2 = 3{,}14 \\times 25 = 78{,}5$ cm².',
+          'Volume : $V = 78{,}5 \\times 12 = 942$ cm³.',
+          'Conversion : $942$ cm³ $= 0{,}942$ L.'
+        ],
+        answer: '$942$ cm³ $\\approx 0{,}94$ L'
+      },
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Solide</th><th style="border:1px solid var(--border);padding:6px 14px">Base</th><th style="border:1px solid var(--border);padding:6px 14px">Volume</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Pavé droit</td><td style="border:1px solid var(--border);padding:6px 14px">Rectangle</td><td style="border:1px solid var(--border);padding:6px 14px">$L \\times l \\times h$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Cylindre</td><td style="border:1px solid var(--border);padding:6px 14px">Disque</td><td style="border:1px solid var(--border);padding:6px 14px">$\\pi r^2 \\times h$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Prisme triangulaire</td><td style="border:1px solid var(--border);padding:6px 14px">Triangle</td><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{b \\times h_{\\triangle}}{2} \\times H$</td></tr><tr><td colspan="3" style="padding:6px;font-style:italic">$1$ L $= 1$ dm³ $= 1000$ cm³</td></tr></table>',
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
@@ -1823,8 +2377,15 @@ window.MODULES.push(
         'Cylindre : $V = \\pi r^2 \\times h$',
         '$1\\,\\text{L} = 1\\,\\text{dm}^3 = 1000\\,\\text{cm}^3$, $1\\,\\text{m}^3 = 1000\\,\\text{L}$'
       ],
+      recap: [
+        'Volume = aire de la base × hauteur (pour tout prisme et cylindre).',
+        'Cylindre : utiliser le RAYON (pas le diamètre) dans $\\pi r^2 h$.',
+        '$1$ L $= 1$ dm³ $= 1000$ cm³.',
+        'La hauteur est perpendiculaire aux bases (pas un côté latéral).'
+      ],
       piege: 'Piège : la hauteur d\'un prisme est la distance entre les deux bases, perpendiculaire à celles-ci — pas nécessairement un côté latéral. Si le prisme est « penché », la hauteur est différente du côté.'
     },
+
     quiz: [
       {
         q: 'Un cylindre a un rayon de $3$ cm et une hauteur de $10$ cm. Quel est son volume (avec $\\pi \\approx 3{,}14$) ?',
@@ -1847,15 +2408,23 @@ window.MODULES.push(
           'Il a oublié de multiplier par $h$ : $V = \\pi \\times 6^2$.'
         ],
         answer: 1,
-        correction: 'Le rayon est la moitié du diamètre : $r = 6 \\div 2 = 3$ cm. La formule est $V = \\pi r^2 h = \\pi \\times 3^2 \\times 10 = 90\\pi \\approx 282{,}6$ cm³. Utiliser $d = 6$ au lieu de $r = 3$ multiplie le résultat par $4$ — une erreur très fréquente !'
+        correction: 'Le rayon est la moitié du diamètre : $r = 6 \\div 2 = 3$ cm. La formule est $V = \\pi r^2 h = \\pi \\times 3^2 \\times 10 = 90\\pi \\approx 282{,}6$ cm³.'
       }
     ],
+
     exercice: {
       type: 'numeric',
       generate() {
+        const ctx = pick([
+          { obj: 'boîte à chaussures', emoji: '👟' },
+          { obj: 'aquarium', emoji: '🐠' },
+          { obj: 'coffre', emoji: '📦' },
+          { obj: 'brique', emoji: '🧱' },
+          { obj: 'valise', emoji: '🧳' }
+        ]);
         const L = rand(3, 15), l = rand(2, 10), h = rand(2, 10);
         return {
-          statement: `Calcule le volume d'un pavé droit de dimensions $${L}$ cm × $${l}$ cm × $${h}$ cm.`,
+          statement: `${ctx.emoji} Calcule le volume d'un(e) ${ctx.obj} (pavé droit) de dimensions $${L}$ cm × $${l}$ cm × $${h}$ cm.`,
           answer: L * l * h,
           tolerance: 0,
           unit: 'cm³',
@@ -1864,6 +2433,7 @@ window.MODULES.push(
         };
       }
     },
+
     probleme: {
       context: 'Une citerne cylindrique de rayon $0{,}8$ m et de hauteur $2{,}5$ m est utilisée pour stocker de l\'eau de pluie.',
       tasks: [
@@ -1930,13 +2500,13 @@ window.MODULES.push(
           ],
           answer: 1,
           points: 2,
-          correction: 'Le rayon est la moitié du diamètre : $r = 10 \\div 2 = 5$ cm. La formule correcte est $V = \\pi r^2 h = \\pi \\times 25 \\times 8 = 200\\pi \\approx 628$ cm³. Utiliser $d = 10$ au lieu de $r = 5$ multiplie le résultat par $4$.'
+          correction: 'Le rayon est la moitié du diamètre : $r = 10 \\div 2 = 5$ cm. La formule correcte est $V = \\pi r^2 h = \\pi \\times 25 \\times 8 = 200\\pi \\approx 628$ cm³.'
         }
       ]
     }
   },
 
-    {
+  {
     id: '5e-statistiques',
     level: 1, subject: 'maths',
     icon: '📈',
@@ -1944,8 +2514,28 @@ window.MODULES.push(
     subtitle: 'Moyenne, étendue, effectifs, fréquences',
     keywords: ['Moyenne', 'Étendue', 'Effectif', 'Fréquence', 'Tableau', 'Diagramme'],
     physics: false,
+
     cours: {
-      intro: 'Les statistiques résument une série de données par quelques indicateurs clés. La <strong>moyenne</strong> donne la valeur « typique » mais peut être trompée par des valeurs extrêmes : si $9$ élèves ont $10$/20 et $1$ élève a $100$/20 (erreur), la moyenne passe à $19$ — complètement faussée. L\'<strong>étendue</strong> mesure la dispersion (différence max-min) mais ne dit rien sur comment les valeurs sont réparties entre les deux extrêmes. La moyenne peut ne pas être une valeur de la série : $\\bar{x} = 11{,}6$ dans une série d\'entiers est tout à fait possible. Pour calculer une moyenne pondérée : multiplier chaque valeur par son effectif, sommer, diviser par l\'effectif total — ne pas faire la moyenne des valeurs sans tenir compte des effectifs.',
+      intro: 'Les statistiques résument une série de données par quelques <strong>indicateurs clés</strong>. La <strong>moyenne</strong> donne la valeur « typique » mais peut être trompée par des valeurs extrêmes.<br/><br/>' +
+        'Exemple : si $9$ élèves ont $10$/20 et $1$ élève a $100$/20 (erreur), la moyenne passe à $19$ — complètement faussée. C\'est pourquoi la médiane (valeur du milieu) est parfois plus représentative.<br/><br/>' +
+        'L\'<strong>étendue</strong> mesure la dispersion (différence max − min) mais ne dit rien sur la répartition des valeurs entre les deux extrêmes.<br/><br/>' +
+        'Pour calculer une <strong>moyenne pondérée</strong> : multiplier chaque valeur par son effectif (ou coefficient), sommer, diviser par l\'effectif total. Ne pas faire la moyenne des valeurs sans tenir compte des effectifs !',
+      definitions: [
+        { term: 'Moyenne', def: 'Somme de toutes les valeurs divisée par le nombre de valeurs : $\\bar{x} = \\dfrac{\\sum x_i}{n}$.' },
+        { term: 'Étendue', def: 'Différence entre la plus grande et la plus petite valeur de la série : $e = x_{\\max} - x_{\\min}$.' },
+        { term: 'Effectif', def: 'Nombre de fois qu\'une valeur apparaît dans la série. L\'effectif total $N$ est la somme de tous les effectifs.' },
+        { term: 'Fréquence', def: 'Proportion d\'une valeur dans la série : $f = \\dfrac{n_i}{N}$ (entre 0 et 1) ou $\\times 100$ pour un pourcentage.' }
+      ],
+      example: {
+        statement: 'Dans une classe, $4$ élèves ont $8$/20, $6$ ont $12$/20 et $5$ ont $16$/20. Calcule la moyenne.',
+        steps: [
+          'Effectif total : $N = 4 + 6 + 5 = 15$.',
+          'Somme pondérée : $4 \\times 8 + 6 \\times 12 + 5 \\times 16 = 32 + 72 + 80 = 184$.',
+          'Moyenne : $\\bar{x} = \\dfrac{184}{15} \\approx 12{,}27$.'
+        ],
+        answer: '$\\bar{x} \\approx 12{,}27$'
+      },
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Indicateur</th><th style="border:1px solid var(--border);padding:6px 14px">Formule</th><th style="border:1px solid var(--border);padding:6px 14px">Ce qu\'il mesure</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Moyenne</td><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{\\sum x_i \\cdot n_i}{N}$</td><td style="border:1px solid var(--border);padding:6px 14px">Valeur « typique » (sensible aux extrêmes)</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Étendue</td><td style="border:1px solid var(--border);padding:6px 14px">$x_{\\max} - x_{\\min}$</td><td style="border:1px solid var(--border);padding:6px 14px">Dispersion globale</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Fréquence</td><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{n_i}{N}$</td><td style="border:1px solid var(--border);padding:6px 14px">Proportion de chaque valeur</td></tr></table>',
       method: {
         title: 'Méthode en 4 étapes',
         steps: [
@@ -1960,8 +2550,15 @@ window.MODULES.push(
         'Étendue : $e = x_{\\max} - x_{\\min}$',
         'Fréquence : $f_i = \\dfrac{n_i}{N}$ (entre $0$ et $1$) ou $\\dfrac{n_i}{N} \\times 100$ (en %)'
       ],
+      recap: [
+        'Moyenne = somme des valeurs ÷ nombre de valeurs (attention aux coefficients !).',
+        'L\'étendue ne mesure que la « largeur » de la série, pas sa répartition.',
+        'La moyenne n\'est pas forcément une valeur présente dans la série.',
+        'Fréquence en % = effectif de la valeur ÷ effectif total × 100.'
+      ],
       piege: 'Piège : la moyenne n\'est pas forcément une valeur de la série ! Si les notes sont $4, 8, 12$, la moyenne est $8$ — qui est bien une valeur. Mais avec $3, 8, 12$, la moyenne est $\\frac{23}{3} \\approx 7{,}67$, valeur absente de la série.'
     },
+
     quiz: [
       {
         q: 'Les notes d\'une élève sont : $12, 15, 8, 14, 11$. Quelle est sa moyenne ?',
@@ -1984,18 +2581,25 @@ window.MODULES.push(
           'Il faut diviser par le nombre de matières, pas par la somme des coefficients.'
         ],
         answer: 1,
-        correction: 'Une moyenne pondérée tient compte des coefficients : $\\bar{x} = \\dfrac{\\sum x_i \\times c_i}{\\sum c_i} = \\dfrac{10 + 12 + 14 + 8 \\times 3}{1+1+1+3} = \\dfrac{36+24}{6} = \\dfrac{60}{6} = 10$. Le sport, coefficient 3, « tire » la moyenne vers le bas. L\'élève a tort de diviser par $4$ (le nombre de notes) plutôt que par $6$ (la somme des coefficients).'
+        correction: 'Une moyenne pondérée tient compte des coefficients : $\\bar{x} = \\dfrac{10 + 12 + 14 + 8 \\times 3}{1+1+1+3} = \\dfrac{36+24}{6} = \\dfrac{60}{6} = 10$.'
       }
     ],
+
     exercice: {
       type: 'numeric',
       generate() {
+        const ctx = pick([
+          { theme: 'notes d\'un contrôle de maths', emoji: '📝' },
+          { theme: 'températures de la semaine', emoji: '🌡️' },
+          { theme: 'scores au dernier match', emoji: '⚽' },
+          { theme: 'tailles des élèves (en cm)', emoji: '📏' }
+        ]);
         const n = rand(4, 6);
         const vals = Array.from({length: n}, () => rand(5, 18));
         const sum = vals.reduce((a, b) => a + b, 0);
         const mean = parseFloat((sum / n).toFixed(1));
         return {
-          statement: `Calcule la moyenne de la série suivante : $${vals.join(', ')}$.`,
+          statement: `${ctx.emoji} Calcule la moyenne de ces ${ctx.theme} : $${vals.join(', ')}$.`,
           answer: mean,
           tolerance: 0.1,
           unit: '',
@@ -2007,6 +2611,7 @@ window.MODULES.push(
         };
       }
     },
+
     probleme: {
       context: 'Un professeur relève les scores (sur 20) de sa classe lors d\'un contrôle. Résultats : $7, 9, 12, 14, 14, 15, 16, 8, 11, 10$.',
       tasks: [
@@ -2073,13 +2678,13 @@ window.MODULES.push(
           ],
           answer: 1,
           points: 2,
-          correction: '$\\bar{x} = \\dfrac{3 + 7 + 11}{3} = \\dfrac{21}{3} = 7$. Ici $7$ est dans la série, mais c\'est un hasard. Avec $3, 8, 11$ : $\\bar{x} = \\dfrac{22}{3} \\approx 7{,}33$, qui n\'est pas une valeur de la série. La moyenne n\'est pas forcément une valeur observée.'
+          correction: '$\\bar{x} = \\dfrac{3 + 7 + 11}{3} = \\dfrac{21}{3} = 7$. Ici $7$ est dans la série, mais c\'est un hasard. Avec $3, 8, 11$ : $\\bar{x} = \\dfrac{22}{3} \\approx 7{,}33$, qui n\'est pas une valeur de la série.'
         }
       ]
     }
   },
 
-    {
+  {
     id: '5e-probabilites',
     level: 1, subject: 'maths',
     icon: '🎲',
@@ -2087,8 +2692,28 @@ window.MODULES.push(
     subtitle: 'Expériences aléatoires, univers, probabilité',
     keywords: ['Probabilité', 'Événement', 'Univers', 'Fréquence', 'Équiprobabilité'],
     physics: false,
+
     cours: {
-      intro: 'La probabilité quantifie l\'incertitude d\'un événement sur une échelle de $0$ (impossible) à $1$ (certain). <strong>Équiprobabilité :</strong> quand tous les résultats ont la même chance, $P(A) = \\dfrac{\\text{cas favorables}}{\\text{cas possibles}}$. <strong>Attention au raisonnement intuitif !</strong> « Il y a deux issues (gagner ou perdre), donc $P = \\dfrac{1}{2}$ » est faux si les issues ne sont pas équiprobables. De même, après 5 piles de suite à pile-ou-face, la probabilité d\'obtenir face reste $\\dfrac{1}{2}$ — la pièce n\'a pas de mémoire. C\'est le <em>sophisme du joueur</em>. L\'événement contraire $\\bar{A}$ (« $A$ ne se réalise pas ») vérifie $P(\\bar{A}) = 1 - P(A)$ — souvent plus simple à calculer que $P(A)$ directement.',
+      intro: 'La probabilité quantifie l\'incertitude d\'un événement sur une échelle de <strong>$0$ (impossible) à $1$ (certain)</strong>.<br/><br/>' +
+        '<strong>Équiprobabilité :</strong> quand tous les résultats ont la même chance, $P(A) = \\dfrac{\\text{cas favorables}}{\\text{cas possibles}}$. Attention au raisonnement intuitif : « il y a deux issues (gagner ou perdre), donc $P = \\dfrac{1}{2}$ » est faux si les issues ne sont pas équiprobables.<br/><br/>' +
+        'Le <strong>sophisme du joueur</strong> : après 5 piles de suite à pile-ou-face, la probabilité d\'obtenir face reste $\\dfrac{1}{2}$ — la pièce n\'a pas de mémoire. Chaque lancer est indépendant.<br/><br/>' +
+        'L\'<strong>événement contraire</strong> $\\bar{A}$ (« $A$ ne se réalise pas ») vérifie $P(\\bar{A}) = 1 - P(A)$ — souvent plus simple à calculer que $P(A)$ directement.',
+      definitions: [
+        { term: 'Expérience aléatoire', def: 'Expérience dont on ne peut pas prévoir le résultat à l\'avance (lancer de dé, tirage au sort, etc.).' },
+        { term: 'Univers ($\\Omega$)', def: 'Ensemble de tous les résultats possibles d\'une expérience aléatoire. Ex : pour un dé, $\\Omega = \\{1, 2, 3, 4, 5, 6\\}$.' },
+        { term: 'Événement', def: 'Sous-ensemble de l\'univers. Ex : « obtenir un nombre pair » = $\\{2, 4, 6\\}$.' },
+        { term: 'Événement contraire', def: 'Si $A$ est un événement, $\\bar{A}$ est l\'événement « $A$ ne se réalise pas ». $P(\\bar{A}) = 1 - P(A)$.' }
+      ],
+      example: {
+        statement: 'On tire une carte au hasard dans un jeu de $32$ cartes. Quelle est la probabilité d\'obtenir un cœur ?',
+        steps: [
+          'Univers : $32$ cartes (équiprobabilité).',
+          'Cas favorables : $8$ cœurs (il y a $8$ cartes par couleur dans un jeu de $32$).',
+          '$P(\\text{cœur}) = \\dfrac{8}{32} = \\dfrac{1}{4} = 0{,}25$.'
+        ],
+        answer: '$P = \\dfrac{1}{4} = 0{,}25$'
+      },
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">$P(A)$</th><th style="border:1px solid var(--border);padding:6px 14px">Interprétation</th><th style="border:1px solid var(--border);padding:6px 14px">Exemple</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$0$</td><td style="border:1px solid var(--border);padding:6px 14px">Impossible</td><td style="border:1px solid var(--border);padding:6px 14px">Obtenir $7$ avec un dé à $6$ faces</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$0{,}5$</td><td style="border:1px solid var(--border);padding:6px 14px">Aussi probable qu\'improbable</td><td style="border:1px solid var(--border);padding:6px 14px">Pile ou face</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$1$</td><td style="border:1px solid var(--border);padding:6px 14px">Certain</td><td style="border:1px solid var(--border);padding:6px 14px">Obtenir un nombre $\\leq 6$ avec un dé</td></tr></table>',
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
@@ -2104,8 +2729,15 @@ window.MODULES.push(
         '$P(\\bar{A}) = 1 - P(A)$ (événement contraire)',
         'Équiprobabilité : $P(A) = \\dfrac{|A|}{|\\Omega|}$'
       ],
+      recap: [
+        'Une probabilité est toujours entre $0$ (impossible) et $1$ (certain).',
+        'Équiprobabilité : $P = \\dfrac{\\text{cas favorables}}{\\text{cas possibles}}$.',
+        'Événement contraire : $P(\\bar{A}) = 1 - P(A)$.',
+        'Les lancers successifs sont indépendants (la pièce n\'a pas de mémoire).'
+      ],
       piege: 'Piège : $P(A) = \\frac{1}{2}$ ne signifie pas qu\'un événement arrive forcément une fois sur deux dans un petit nombre d\'essais. La loi des grands nombres dit que la fréquence tend vers la probabilité quand le nombre d\'essais est grand.'
     },
+
     quiz: [
       {
         q: 'On lance un dé à 6 faces. Quelle est la probabilité d\'obtenir un nombre pair ?',
@@ -2128,17 +2760,24 @@ window.MODULES.push(
           '$\\frac{1}{64}$ : la probabilité d\'obtenir 6 piles de suite est $\\left(\\frac{1}{2}\\right)^6$.'
         ],
         answer: 1,
-        correction: 'Chaque lancer est indépendant : les résultats précédents n\'influencent pas le suivant. La probabilité d\'obtenir pile reste $\\dfrac{1}{2}$, que l\'on ait eu $0$ ou $100$ piles avant. Croire le contraire s\'appelle le <em>sophisme du joueur</em> (ou erreur de Monte Carlo) — un biais cognitif très répandu !'
+        correction: 'Chaque lancer est indépendant : les résultats précédents n\'influencent pas le suivant. La probabilité d\'obtenir pile reste $\\dfrac{1}{2}$. Croire le contraire s\'appelle le <em>sophisme du joueur</em>.'
       }
     ],
+
     exercice: {
       type: 'numeric',
       generate() {
+        const ctx = pick([
+          { obj: 'roue de loterie', emoji: '🎡' },
+          { obj: 'urne avec des boules numérotées', emoji: '🎱' },
+          { obj: 'jeu de cartes numérotées', emoji: '🃏' },
+          { obj: 'tirage au sort', emoji: '🎲' }
+        ]);
         const total = pick([6, 8, 10, 12]);
         const fav = rand(1, total - 1);
         const p = parseFloat((fav / total).toFixed(2));
         return {
-          statement: `Une roue de loterie comporte $${total}$ cases numérotées de $1$ à $${total}$, toutes équiprobables. On gagne si la roue s'arrête sur un numéro $\\leq ${fav}$. Quelle est la probabilité de gagner (donner un nombre décimal arrondi à $0{,}01$) ?`,
+          statement: `${ctx.emoji} Un(e) ${ctx.obj} comporte $${total}$ éléments numérotés de $1$ à $${total}$, tous équiprobables. On gagne si le numéro tiré est $\\leq ${fav}$. Quelle est la probabilité de gagner (arrondie à $0{,}01$) ?`,
           answer: p,
           tolerance: 0.01,
           unit: '',
@@ -2147,6 +2786,7 @@ window.MODULES.push(
         };
       }
     },
+
     probleme: {
       context: 'Une classe de $30$ élèves tire au sort un délégué. Il y a $13$ filles et $17$ garçons.',
       tasks: [
@@ -2191,7 +2831,7 @@ window.MODULES.push(
           tolerance: 0.01,
           unit: '',
           points: 2,
-          correction: '$P(\\text{perdre}) = 1 - P(\\text{gagner}) = 1 - 0{,}35 = 0{,}65$. L\'événement contraire a une probabilité complémentaire à $1$.'
+          correction: '$P(\\text{perdre}) = 1 - P(\\text{gagner}) = 1 - 0{,}35 = 0{,}65$.'
         },
         {
           statement: 'On lance un dé à $6$ faces. Quel événement est impossible ?',
@@ -2217,7 +2857,7 @@ window.MODULES.push(
           ],
           answer: 1,
           points: 2,
-          correction: 'Chaque lancer est indépendant des précédents. La pièce n\'a pas de mémoire. La probabilité reste $\\dfrac{1}{2}$, quel que soit l\'historique. Croire le contraire s\'appelle le sophisme du joueur.'
+          correction: 'Chaque lancer est indépendant des précédents. La pièce n\'a pas de mémoire. La probabilité reste $\\dfrac{1}{2}$. Croire le contraire s\'appelle le sophisme du joueur.'
         }
       ]
     }

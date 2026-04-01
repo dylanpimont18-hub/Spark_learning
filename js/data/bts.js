@@ -289,7 +289,7 @@ window.MODULES.push(
           solution: [
             `$\\Delta = 4(\\alpha^2 - \\omega_0^2) = 4(${alpha}^2 - ${omega0}^2)$`,
             `$\\Delta = 4 \\times (${alpha*alpha} - ${omega0*omega0}) = 4 \\times ${alpha*alpha - omega0*omega0} = ${delta}$`,
-            `$\\Delta ${delta < 0 ? '< 0' : delta === 0 ? '= 0' : '> 0'}$ → Régime **${regime}**`
+            `$\\Delta ${delta < 0 ? '< 0' : delta === 0 ? '= 0' : '> 0'}$ → Régime ${regime}`
           ]
         };
       }

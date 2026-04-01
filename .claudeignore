@@ -1,0 +1,53 @@
+# =====================================================================
+# 🌍 RÈGLES GLOBALES (Toujours actives - Ne jamais modifier)
+# =====================================================================
+images/
+*.jpeg
+*.png
+.git/
+scripts/
+
+# =====================================================================
+# 🛠️ MODE 1 : CODE MÉTIER (Interface, Moteurs, CSS)
+# =====================================================================
+# 👉 Pour modifier le site (app.js, engines.js...), DÉCOMMENTEZ ces 2 lignes :
+# js/data/
+# docs/
+
+# =====================================================================
+# 📚 MODE 2 : CRÉATION DE CONTENU (Cours, Quiz, Exos)
+# =====================================================================
+# 👉 ÉTAPE A : Règles de base pour le contenu (Actives ci-dessous)
+js/*.js
+css/
+index.html
+js/data/*
+docs/*
+!js/data/helpers.js
+
+# 👉 ÉTAPE B : La matière ciblée (UNE seule ligne décommentée)
+!docs/programmes-maths.md
+# !docs/programmes-physique.md
+# !docs/programmes-si.md
+
+# 👉 ÉTAPE C : La classe ciblée (UNE seule ligne décommentée)
+
+# --- Collège (Maths & Physique) ---
+# !js/data/6e.js
+# !js/data/5e.js
+# !js/data/4e.js
+# !js/data/3e.js
+
+# --- Lycée (Maths & Physique) ---
+!js/data/lycee-2nde.js
+!js/data/lycee-1re.js
+!js/data/lycee-tle.js
+
+# --- BTS (Maths & Physique) ---
+# !js/data/bts.js
+
+# --- Sciences de l'Ingénieur (SI) ---
+# !js/data/si-2nde.js
+# !js/data/si-1re.js
+# !js/data/si-tle.js
+# !js/data/si-bts.js

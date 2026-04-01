@@ -25,9 +25,9 @@ window.MODULES.push(
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          '**Le signe :** Regarder le sens du vecteur par rapport à l\'axe. S\'il pointe dans le sens positif de l\'axe, la composante est positive. S\'il pointe en sens inverse, elle est négative. <strong>Exemple :</strong> Une force $\\vec{F}$ pointe vers la gauche (sens négatif de $Ox$) → $F_x < 0$.',
-          '**L\'angle :** Repérer l\'angle $\\theta$ entre le vecteur et l\'axe de référence. Le côté "qui touche" l\'angle $\\theta$ est adjacent (lié au cosinus). L\'autre est opposé (lié au sinus). <strong>Exemple :</strong> Si $\\theta = 30°$ entre $\\vec{F}$ et $Ox$, le côté le long de $Ox$ est adjacent → on utilise $\\cos(30°)$ pour $F_x$.',
-          '**La formule :** $F_x = \\pm F \\cdot \\cos(\\theta)$ et $F_y = \\pm F \\cdot \\sin(\\theta)$ si $\\theta$ est l\'angle avec l\'axe $Ox$. <strong>Exemple :</strong> $F = 10$ N, $\\theta = 60°$ → $F_x = 10\\cos(60°) = 5$ N, $F_y = 10\\sin(60°) \\approx 8{,}66$ N.'
+          'Le signe : Regarder le sens du vecteur par rapport à l\'axe. S\'il pointe dans le sens positif de l\'axe, la composante est positive. S\'il pointe en sens inverse, elle est négative. <strong>Exemple :</strong> Une force $\\vec{F}$ pointe vers la gauche (sens négatif de $Ox$) → $F_x < 0$.',
+          'L\'angle : Repérer l\'angle $\\theta$ entre le vecteur et l\'axe de référence. Le côté "qui touche" l\'angle $\\theta$ est adjacent (lié au cosinus). L\'autre est opposé (lié au sinus). <strong>Exemple :</strong> Si $\\theta = 30°$ entre $\\vec{F}$ et $Ox$, le côté le long de $Ox$ est adjacent → on utilise $\\cos(30°)$ pour $F_x$.',
+          'La formule : $F_x = \\pm F \\cdot \\cos(\\theta)$ et $F_y = \\pm F \\cdot \\sin(\\theta)$ si $\\theta$ est l\'angle avec l\'axe $Ox$. <strong>Exemple :</strong> $F = 10$ N, $\\theta = 60°$ → $F_x = 10\\cos(60°) = 5$ N, $F_y = 10\\sin(60°) \\approx 8{,}66$ N.'
         ]
       },
       example: {
@@ -88,28 +88,59 @@ window.MODULES.push(
         ],
         answer: 1,
         correction: 'En prenant l\'axe $Ox$ parallèle au plan, l\'angle entre le poids (vertical) et l\'axe $Oy$ (normal au plan) est $\\alpha$. Donc la composante parallèle au plan est $P \\cdot \\sin(\\alpha)$.'
+      },
+      {
+        q: 'Un objet de poids $\\vec{P}$ est sur un plan incliné à $\\alpha = 45°$. On a $P_{\\parallel} = P\\sin(45°)$ et $P_{\\perp} = P\\cos(45°)$. Que peut-on en déduire ?',
+        options: [
+          '$P_{\\parallel} = P_{\\perp}$ car $\\sin(45°) = \\cos(45°)$',
+          '$P_{\\parallel} > P_{\\perp}$ car le sinus est toujours plus grand',
+          '$P_{\\parallel} < P_{\\perp}$ car le cosinus est toujours plus grand',
+          'On ne peut pas comparer sans connaître la valeur de $P$'
+        ],
+        answer: 0,
+        correction: '$\\sin(45°) = \\cos(45°) = \\frac{\\sqrt{2}}{2}$, donc $P_{\\parallel} = P_{\\perp}$. C\'est le seul angle où les deux composantes sont égales. Pour $\\alpha < 45°$, la composante perpendiculaire domine ; pour $\\alpha > 45°$, c\'est la composante parallèle.'
+      },
+      {
+        q: 'On donne $F_x = 8$ N et $F_y = -6$ N. Dans quel quadrant pointe le vecteur $\\vec{F}$ et quelle est sa norme ?',
+        options: [
+          '4ème quadrant (bas-droite), $\\|\\vec{F}\\| = 10$ N',
+          '2ème quadrant (haut-gauche), $\\|\\vec{F}\\| = 10$ N',
+          '4ème quadrant (bas-droite), $\\|\\vec{F}\\| = 14$ N',
+          '1er quadrant (haut-droite), $\\|\\vec{F}\\| = 2$ N'
+        ],
+        answer: 0,
+        correction: '$F_x > 0$ (droite) et $F_y < 0$ (bas) → 4ème quadrant. $\\|\\vec{F}\\| = \\sqrt{8^2 + (-6)^2} = \\sqrt{64 + 36} = \\sqrt{100} = 10$ N. Attention : la norme utilise Pythagore, pas la somme simple des composantes.'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
+        const contexts = [
+          { obj: 'un câble tire un chariot', dir: 'au-dessus de l\'horizontale', axis: 'horizontale' },
+          { obj: 'une grue soulève une poutre', dir: 'par rapport à la verticale', axis: 'verticale' },
+          { obj: 'un remorqueur tracte un bateau', dir: 'sous l\'horizontale', axis: 'horizontale' },
+          { obj: 'un hélicoptère exerce une traction', dir: 'par rapport à l\'horizontale', axis: 'horizontale' }
+        ];
+        const ctx = pick(contexts);
         const angles = [30, 45, 60];
-        const cosVals = [Math.sqrt(3)/2, Math.sqrt(2)/2, 0.5];
-        const idx = rand(0, 2);
-        const angle = angles[idx];
-        const F = rand(5, 20);
-        const Fx = parseFloat((F * cosVals[idx]).toFixed(2));
+        const cosVals = { 30: Math.sqrt(3)/2, 45: Math.sqrt(2)/2, 60: 0.5 };
+        const sinVals = { 30: 0.5, 45: Math.sqrt(2)/2, 60: Math.sqrt(3)/2 };
+        const angle = pick(angles);
+        const F = rand(10, 50);
+        const Fx = parseFloat((F * cosVals[angle]).toFixed(2));
+        const Fy = parseFloat((F * sinVals[angle]).toFixed(2));
+        const norm = parseFloat(Math.sqrt(Fx * Fx + Fy * Fy).toFixed(2));
         return {
-          statement: `Une force $\\vec{F}$ a une norme $F = ${F}$ N et fait un angle $\\theta = ${angle}°$ avec l'axe horizontal $Ox$. Calcule la composante horizontale $F_x$ (arrondie au centième).`,
+          statement: `${ctx.obj[0].toUpperCase() + ctx.obj.slice(1)} avec une force $\\vec{F}$ de norme $F = ${F}$ N, inclinée de $\\theta = ${angle}°$ ${ctx.dir}.<br/><br/>Calcule la composante horizontale $F_x$, puis la composante verticale $F_y$. Vérifie en recalculant la norme $\\|\\vec{F}\\|= \\sqrt{F_x^2+F_y^2}$.<br/><br/>Donne la valeur de $F_x$ (arrondie au centième).`,
           answer: Fx,
           tolerance: 0.1,
           unit: 'N',
-          hint: `La composante horizontale $F_x$ utilise le cosinus : $F_x = F \\cdot \\cos(\\theta) = ${F} \\times \\cos(${angle}°)$. Rappel : $\\cos(${angle}°) \\approx ${cosVals[idx].toFixed(3)}$.`,
+          hint: `$F_x = F\\cos(\\theta)$ et $F_y = F\\sin(\\theta)$ quand $\\theta$ est mesuré par rapport à l\'horizontale. Rappel : $\\cos(${angle}°) \\approx ${cosVals[angle].toFixed(3)}$ et $\\sin(${angle}°) \\approx ${sinVals[angle].toFixed(3)}$.`,
           solution: [
-            `Formule de la composante horizontale : $F_x = F \\cdot \\cos(\\theta)$`,
-            `Application numérique : $F_x = ${F} \\times \\cos(${angle}°) = ${F} \\times ${cosVals[idx].toFixed(3)}$`,
-            `Résultat : $F_x = ${Fx}$ N`
+            `Composante horizontale : $F_x = F\\cos(\\theta) = ${F} \\times \\cos(${angle}°) = ${F} \\times ${cosVals[angle].toFixed(3)} \\approx ${Fx}$ N`,
+            `Composante verticale : $F_y = F\\sin(\\theta) = ${F} \\times \\sin(${angle}°) = ${F} \\times ${sinVals[angle].toFixed(3)} \\approx ${Fy}$ N`,
+            `Vérification par la norme : $\\sqrt{${Fx}^2 + ${Fy}^2} = \\sqrt{${(Fx*Fx).toFixed(1)} + ${(Fy*Fy).toFixed(1)}} \\approx ${norm}$ N $\\approx ${F}$ N ✓`
           ]
         };
       }
@@ -259,29 +290,57 @@ window.MODULES.push(
         ],
         answer: 0,
         correction: '$A = \\varepsilon l c \\Rightarrow \\varepsilon = \\frac{A}{lc} = \\frac{0{,}8}{1 \\times 4 \\times 10^{-3}} = \\frac{0{,}8}{0{,}004} = 200$ L·mol⁻¹·cm⁻¹.'
+      },
+      {
+        q: 'La température d\'un four suit la loi $T(t) = 15t + 20$ ($T$ en °C, $t$ en min). Un élève dit « après $10$ min, la température a augmenté de $20$°C ». A-t-il raison ?',
+        options: [
+          'Non : en $10$ min, $T$ augmente de $15 \\times 10 = 150$°C. Le $20$ est la température initiale, pas la hausse',
+          'Oui : $T(10) = 20$ car $b = 20$',
+          'Non : l\'augmentation est de $15$°C seulement',
+          'Oui : la pente est $20$'
+        ],
+        answer: 0,
+        correction: 'La pente est $a = 15$ : la température augmente de $15$°C par minute. En $10$ min, l\'augmentation est $15 \\times 10 = 150$°C. Le terme $b = 20$ est la température initiale ($t = 0$), pas une variation. Attention à ne pas confondre pente et ordonnée à l\'origine !'
+      },
+      {
+        q: 'Deux droites ont pour équations $y = 2x + 3$ et $y = -0{,}5x + 3$. Elles passent par le même point. Lequel ?',
+        options: [
+          '$(0 ; 3)$ — même ordonnée à l\'origine',
+          '$(3 ; 0)$ — même abscisse à l\'origine',
+          '$(1 ; 5)$',
+          'Elles ne se croisent pas car $b_1 = b_2$'
+        ],
+        answer: 0,
+        correction: 'Les deux droites ont la même ordonnée à l\'origine $b = 3$, donc elles passent toutes les deux par $(0 ; 3)$. Des pentes différentes ($2 \\neq -0{,}5$) garantissent qu\'elles ne sont pas parallèles et se croisent bien en ce point. Attention : même $b$ ne veut pas dire parallèles !'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
-        const x1 = rand(1, 5);
-        const x2 = x1 + rand(1, 6);
-        const a = randFloat(0.5, 4.0, 1);
-        const b = rand(-3, 8);
-        const y1 = parseFloat((a * x1 + b).toFixed(1));
-        const y2 = parseFloat((a * x2 + b).toFixed(1));
-        const slope = parseFloat(((y2 - y1) / (x2 - x1)).toFixed(2));
+        const contexts = [
+          { intro: 'Un réservoir se remplit d\'eau', xUnit: 'min', yUnit: 'L', xName: 't', yName: 'V' },
+          { intro: 'La température d\'un liquide chauffé évolue', xUnit: 'min', yUnit: '°C', xName: 't', yName: 'T' },
+          { intro: 'Le prix d\'un trajet en taxi est modélisé par', xUnit: 'km', yUnit: '€', xName: 'd', yName: 'C' },
+          { intro: 'L\'altitude d\'un randonneur varie selon', xUnit: 'km', yUnit: 'm', xName: 'x', yName: 'h' }
+        ];
+        const ctx = pick(contexts);
+        const a = pick([2, 3, 4, 5, -2, -3]);
+        const b = rand(5, 20);
+        const x1 = rand(1, 4);
+        const x2 = x1 + rand(2, 5);
+        const y1 = a * x1 + b;
+        const y2 = a * x2 + b;
         return {
-          statement: `Une droite passe par les points $A(${x1} ; ${y1})$ et $B(${x2} ; ${y2})$. Calcule le coefficient directeur (la pente) de cette droite.`,
-          answer: slope,
-          tolerance: 0.05,
-          unit: '',
-          hint: `Formule de la pente : $a = \\dfrac{y_B - y_A}{x_B - x_A} = \\dfrac{${y2} - ${y1}}{${x2} - ${x1}}$. Attention à bien faire la même différence en haut et en bas !`,
+          statement: `${ctx.intro}. On mesure $${ctx.yName}(${x1}) = ${y1}$ ${ctx.yUnit} et $${ctx.yName}(${x2}) = ${y2}$ ${ctx.yUnit}.<br/><br/><strong>1.</strong> Déterminer le coefficient directeur $a$.<br/><strong>2.</strong> En déduire l'ordonnée à l'origine $b$ et écrire l'équation $${ctx.yName} = a \\cdot ${ctx.xName} + b$.<br/><br/>Donne la valeur de $b$ (ordonnée à l'origine).`,
+          answer: b,
+          tolerance: 0,
+          unit: ctx.yUnit,
+          hint: `Calcule d'abord la pente : $a = \\dfrac{${y2} - ${y1}}{${x2} - ${x1}} = \\dfrac{${y2-y1}}{${x2-x1}}$. Puis utilise $b = ${ctx.yName} - a \\cdot ${ctx.xName}$ avec l'un des deux points.`,
           solution: [
-            `Formule : $a = \\dfrac{y_2 - y_1}{x_2 - x_1}$`,
-            `$a = \\dfrac{${y2} - (${y1})}{${x2} - ${x1}} = \\dfrac{${(y2-y1).toFixed(1)}}{${x2-x1}}$`,
-            `$a = ${slope}$`
+            `Pente : $a = \\dfrac{${y2} - (${y1})}{${x2} - ${x1}} = \\dfrac{${y2-y1}}{${x2-x1}} = ${a}$ ${ctx.yUnit}/${ctx.xUnit}`,
+            `Ordonnée à l'origine : $b = ${ctx.yName}_1 - a \\cdot ${ctx.xName}_1 = ${y1} - ${a} \\times ${x1} = ${y1} - ${a*x1} = ${b}$ ${ctx.yUnit}`,
+            `Équation : $${ctx.yName} = ${a}${ctx.xName} + ${b}$`
           ]
         };
       }
@@ -406,35 +465,53 @@ window.MODULES.push(
     quiz: [
       { q: 'Un élève dit que $1{,}333\\ldots = 1{,}\\overline{3}$ est irrationnel car « il ne se termine pas ». Quelle est son erreur ?', options: ['$1{,}\\overline{3} = \\frac{4}{3}$ est rationnel — tout décimal périodique est rationnel', 'L\'élève a raison, les décimaux infinis sont irrationnels', '$1{,}\\overline{3}$ est irrationnel comme $\\pi$', 'Cela dépend de la base de numération'], answer: 0, correction: 'Un rationnel peut s\'écrire $p/q$. Or $1{,}\\overline{3} = 4/3$. Les décimaux périodiques (motif répété indéfiniment) sont TOUS rationnels. Les irrationnels comme $\\sqrt{2}$ et $\\pi$ ont une expansion décimale infinie et non périodique.' },
       { q: 'Comment écrire "$x$ strictement supérieur à $2$ et inférieur ou égal à $7$" ?', options: ['$[2;7]$', '$]2;7]$', '$[2;7[$', '$]2;7[$'], answer: 1, correction: 'Strictement supérieur à $2$ → crochet ouvrant. Inférieur ou égal à $7$ → crochet fermant : $]2;7]$.' },
-      { q: 'Que vaut $[-1;3] \\cap [1;5]$ ?', options: ['$[-1;5]$', '$[1;3]$', '$[-1;3]$', '$[1;5]$'], answer: 1, correction: 'L\'intersection contient les valeurs communes : de $\\max(-1,1)=1$ à $\\min(3,5)=3$.' }
+      { q: 'Que vaut $[-1;3] \\cap [1;5]$ ?', options: ['$[-1;5]$', '$[1;3]$', '$[-1;3]$', '$[1;5]$'], answer: 1, correction: 'L\'intersection contient les valeurs communes : de $\\max(-1,1)=1$ à $\\min(3,5)=3$.' },
+      { q: 'Le nombre $\\sqrt{49}$ appartient-il à $\\mathbb{Q}$ ?', options: ['Oui, car $\\sqrt{49} = 7 \\in \\mathbb{N} \\subset \\mathbb{Q}$', 'Non, car toute racine carrée est irrationnelle', 'Oui, car $49$ est pair', 'Non, car $\\sqrt{49}$ ne s\'écrit pas $p/q$'], answer: 0, correction: '$\\sqrt{49} = 7$, qui est un entier naturel. Attention : $\\sqrt{n}$ n\'est irrationnel que si $n$ n\'est pas un carré parfait. $49 = 7^2$, donc $\\sqrt{49}$ est parfaitement rationnel. Ne pas confondre « racine carrée » et « irrationnel ».' },
+      { q: 'Que vaut $[2;6] \\cup [8;10]$ ? Peut-on simplifier ?', options: ['$[2;10]$', '$[2;6] \\cup [8;10]$ (non simplifiable, intervalles disjoints)', '$[8;10]$', '$\\varnothing$ (ensemble vide)'], answer: 1, correction: 'Les intervalles $[2;6]$ et $[8;10]$ ne se chevauchent pas (aucune valeur entre $6$ et $8$ n\'est dans les deux). L\'union ne peut pas se simplifier en un seul intervalle. On écrit $[2;6] \\cup [8;10]$.' }
     ],
     exercice: {
       type: 'numeric',
       generate() {
-        const a = rand(1, 8), b = rand(a+1, a+6);
+        const contexts = [
+          { intro: 'Un médicament est efficace pour des températures corporelles dans', unit: '°C' },
+          { intro: 'Une plante pousse à des altitudes comprises dans', unit: 'm' },
+          { intro: 'Un capteur fonctionne correctement pour des pressions dans', unit: 'hPa' },
+          { intro: 'Un poisson survit dans des températures d\'eau comprises dans', unit: '°C' }
+        ];
+        const ctx = pick(contexts);
+        const a1 = rand(1, 5);
+        const b1 = a1 + rand(4, 8);
+        const a2 = a1 + rand(2, 4);
+        const b2 = b1 + rand(1, 4);
+        const interLeft = Math.max(a1, a2);
+        const interRight = Math.min(b1, b2);
+        const interLength = interRight - interLeft;
         return {
-          statement: `Donner la longueur de l'intervalle $[${a};${b}]$.`,
-          answer: b - a,
+          statement: `${ctx.intro} l'intervalle $I_1 = [${a1};${b1}]$ ${ctx.unit} et un second phénomène se produit dans $I_2 = [${a2};${b2}]$ ${ctx.unit}.<br/><br/><strong>1.</strong> Déterminer $I_1 \\cap I_2$ (valeurs communes).<br/><strong>2.</strong> Calculer la longueur de cette intersection.<br/><br/>Donne la <strong>longueur</strong> de $I_1 \\cap I_2$.`,
+          answer: interLength,
           tolerance: 0,
-          unit: '',
-          hint: 'La longueur d\'un intervalle $[a;b]$ est $b - a$.',
-          solution: [`Longueur $= ${b} - ${a} = ${b-a}$`]
+          unit: ctx.unit,
+          hint: `L'intersection $[a_1;b_1] \\cap [a_2;b_2] = [\\max(a_1,a_2);\\min(b_1,b_2)]$. Ici : $[\\max(${a1},${a2});\\min(${b1},${b2})] = [${interLeft};${interRight}]$.`,
+          solution: [
+            `$I_1 \\cap I_2 = [\\max(${a1},${a2});\\min(${b1},${b2})] = [${interLeft};${interRight}]$`,
+            `Longueur $= ${interRight} - ${interLeft} = ${interLength}$ ${ctx.unit}`
+          ]
         };
       }
     },
     probleme: {
-      context: 'Un thermomètre mesure entre $-15\\,°C$ et $40\\,°C$. Une bactérie se développe dans $[15;37]$ et une levure dans $[10;30]$.',
+      context: 'Un aquarium doit maintenir une température entre $22\\,°C$ et $28\\,°C$ pour les poissons tropicaux ($I_1 = [22;28]$). Les plantes aquatiques nécessitent des températures entre $18\\,°C$ et $26\\,°C$ ($I_2 = [18;26]$). Le chauffage peut régler entre $15\\,°C$ et $30\\,°C$ ($I_3 = [15;30]$).',
       tasks: [
-        'Exprimer la plage du thermomètre en notation intervalle.',
-        'À quelles températures les deux micro-organismes se développent-ils simultanément ?',
-        'À quelles températures au moins un des deux se développe-t-il ?'
+        'Déterminer l\'intervalle de températures convenant simultanément aux poissons et aux plantes ($I_1 \\cap I_2$).',
+        'Déterminer l\'intervalle de températures convenant à au moins l\'un des deux ($I_1 \\cup I_2$).',
+        'La plage du chauffage permet-elle de couvrir tout l\'intervalle $I_1 \\cap I_2$ ? Justifier avec $I_3 \\cap (I_1 \\cap I_2)$.'
       ],
       solutions: [
-        'Plage : $[-15;40]$.',
-        'Simultanément : $[15;37] \\cap [10;30] = [15;30]$.',
-        'Au moins un : $[15;37] \\cup [10;30] = [10;37]$.'
+        '$I_1 \\cap I_2 = [22;28] \\cap [18;26] = [22;26]$.',
+        '$I_1 \\cup I_2 = [22;28] \\cup [18;26] = [18;28]$.',
+        '$I_3 \\cap [22;26] = [15;30] \\cap [22;26] = [22;26]$ : oui, le chauffage couvre entièrement l\'intervalle requis.'
       ],
-      finalAnswer: 'Développement simultané : $[15;30]$ ; au moins un : $[10;37]$.'
+      finalAnswer: 'Température idéale pour les deux : $[22;26]$°C. Le chauffage couvre cette plage.'
     },
 
     evaluation: {
@@ -536,39 +613,87 @@ window.MODULES.push(
     quiz: [
       { q: 'Un élève factorise $x^2 + 6x + 9$ et écrit $(x+3)(x-3)$. Quelle est son erreur ?', options: ['C\'est $(x+3)^2$, pas une différence de carrés — $(x+3)(x-3) = x^2-9 \\neq x^2+6x+9$', 'La factorisation est correcte', 'Il fallait écrire $(x-3)^2$', 'L\'expression n\'est pas factorisable'], answer: 0, correction: '$x^2+6x+9 = (x+3)^2$ (carré d\'une somme). L\'élève a confondu avec $(a+b)(a-b) = a^2 - b^2$, qui ne s\'applique qu\'à une DIFFÉRENCE de carrés. Vérification : $(x+3)(x-3) = x^2-9 \\neq x^2+6x+9$.' },
       { q: 'Factoriser $x^2-25$', options: ['$(x-5)^2$', '$(x+5)(x-5)$', '$(x-5)(x+5)^2$', 'Non factorisable'], answer: 1, correction: '$x^2-25 = x^2-5^2 = (x+5)(x-5)$.' },
-      { q: 'Développer $(2x-1)(2x+1)$', options: ['$4x^2-1$', '$4x^2+1$', '$4x^2-4x+1$', '$2x^2-1$'], answer: 0, correction: '$(2x-1)(2x+1)=(2x)^2-1^2=4x^2-1$.' }
+      { q: 'Développer $(2x-1)(2x+1)$', options: ['$4x^2-1$', '$4x^2+1$', '$4x^2-4x+1$', '$2x^2-1$'], answer: 0, correction: '$(2x-1)(2x+1)=(2x)^2-1^2=4x^2-1$.' },
+      { q: 'Un élève développe $(x-3)^2$ et obtient $x^2 - 9$. Quel terme a-t-il oublié ?', options: ['Le double produit $-6x$ : la bonne réponse est $x^2 - 6x + 9$', 'Le terme $+9$ : il a écrit $x^2 - 6x$ au lieu de $x^2 - 6x + 9$', 'Rien, son calcul est correct', 'Il a inversé le signe : c\'est $x^2 + 9$'], answer: 0, correction: '$(x-3)^2 = x^2 - 2 \\times x \\times 3 + 3^2 = x^2 - 6x + 9$. L\'élève a écrit $x^2 - 9$ qui correspond à $(x-3)(x+3)$ (différence de carrés). L\'oubli du double produit $-6x$ est l\'erreur la plus fréquente avec les identités remarquables.' },
+      { q: 'On veut résoudre $(x-2)(x+5) = 0$. Les solutions sont :', options: ['$x = 2$ ou $x = -5$', '$x = -2$ ou $x = 5$', '$x = 2$ uniquement', '$x = 10$'], answer: 0, correction: 'Un produit est nul si et seulement si l\'un des facteurs est nul. $x - 2 = 0 \\Rightarrow x = 2$ ou $x + 5 = 0 \\Rightarrow x = -5$. C\'est l\'intérêt de la forme factorisée pour résoudre $f(x) = 0$.' }
     ],
     exercice: {
       type: 'numeric',
       generate() {
-        const a = rand(2, 7), b = rand(1, 5);
-        return {
-          statement: `Développer et réduire $(${a}x + ${b})^2$. Donner le coefficient de $x$.`,
-          answer: 2 * a * b,
-          tolerance: 0,
-          unit: '',
-          hint: `Utilise $(a+b)^2 = a^2+2ab+b^2$ avec $a=${a}x$ et $b=${b}$.`,
-          solution: [
-            `$(${a}x+${b})^2 = ${a*a}x^2 + 2\\times${a}\\times${b}\\cdot x + ${b*b}$`,
-            `$= ${a*a}x^2 + ${2*a*b}x + ${b*b}$`,
-            `Le coefficient de $x$ est $${2*a*b}$.`
-          ]
-        };
+        const types = ['factoriser_diff', 'factoriser_carre', 'resoudre'];
+        const type = pick(types);
+        if (type === 'factoriser_diff') {
+          const a = rand(2, 6);
+          const b = rand(1, 9);
+          const a2 = a * a;
+          const b2 = b * b;
+          const expr = a2 + 'x^2 - ' + b2;
+          return {
+            statement: `Factoriser $A = ${a2}x^2 - ${b2}$ en reconnaissant une identité remarquable, puis résoudre $A = 0$.<br/><br/>Combien y a-t-il de solutions ? Donne le <strong>produit</strong> des deux solutions.`,
+            answer: parseFloat(((-b/a) * (b/a)).toFixed(4)),
+            tolerance: 0.01,
+            unit: '',
+            hint: `Reconnaître $${a2}x^2 = (${a}x)^2$ et $${b2} = ${b}^2$. C'est une différence de deux carrés : $(${a}x)^2 - ${b}^2 = (${a}x + ${b})(${a}x - ${b})$.`,
+            solution: [
+              `$${a2}x^2 - ${b2} = (${a}x)^2 - ${b}^2 = (${a}x + ${b})(${a}x - ${b})$`,
+              `$A = 0 \\Leftrightarrow ${a}x + ${b} = 0$ ou $${a}x - ${b} = 0$`,
+              `$x = -\\frac{${b}}{${a}}$ ou $x = \\frac{${b}}{${a}}$`,
+              `Produit : $\\left(-\\frac{${b}}{${a}}\\right) \\times \\frac{${b}}{${a}} = -\\frac{${b*b}}{${a*a}} = ${((-b/a) * (b/a)).toFixed(4)}$`
+            ]
+          };
+        } else if (type === 'factoriser_carre') {
+          const a = rand(2, 5);
+          const b = rand(1, 6);
+          const sign = pick(['+', '-']);
+          const a2 = a * a;
+          const b2 = b * b;
+          const dblProd = 2 * a * b;
+          const constTerm = sign === '+' ? `+ ${dblProd}x + ${b2}` : `- ${dblProd}x + ${b2}`;
+          const answer = sign === '+' ? dblProd : -dblProd;
+          return {
+            statement: `L'expression $B = ${a2}x^2 ${constTerm}$ est un carré parfait. Factoriser $B$ sous la forme $(\\ldots)^2$.<br/><br/>Donne le <strong>coefficient de $x$</strong> dans le développement (avec son signe).`,
+            answer: answer,
+            tolerance: 0,
+            unit: '',
+            hint: `Vérifie si le double produit correspond : $2 \\times ${a}x \\times ${b} = ${dblProd}x$. Identité $(a ${sign} b)^2$.`,
+            solution: [
+              `$${a2}x^2 = (${a}x)^2$, $${b2} = ${b}^2$, double produit $= 2 \\times ${a} \\times ${b} = ${dblProd}$ ✓`,
+              `$B = (${a}x ${sign} ${b})^2$`,
+              `Le coefficient de $x$ est $${answer}$.`
+            ]
+          };
+        } else {
+          const p = rand(1, 6);
+          const q = rand(1, 6);
+          return {
+            statement: `Factoriser $C = x^2 + ${p+q}x + ${p*q}$ puis résoudre $C = 0$.<br/><br/>Donne la <strong>plus grande</strong> solution de $C = 0$.`,
+            answer: -Math.min(p, q),
+            tolerance: 0,
+            unit: '',
+            hint: `On cherche deux nombres dont la somme est $${p+q}$ et le produit est $${p*q}$.`,
+            solution: [
+              `On cherche $a$ et $b$ tels que $a + b = ${p+q}$ et $a \\times b = ${p*q}$`,
+              `$a = ${p}$ et $b = ${q}$ conviennent : $C = (x + ${p})(x + ${q})$`,
+              `$C = 0 \\Leftrightarrow x = -${p}$ ou $x = -${q}$`,
+              `La plus grande solution est $x = ${-Math.min(p, q)}$.`
+            ]
+          };
+        }
       }
     },
     probleme: {
-      context: 'Un jardinier agrandit son carré de côté $x$ m en ajoutant $4$ m à chaque côté.',
+      context: 'Un terrain rectangulaire a pour longueur $(2x + 3)$ m et pour largeur $(2x - 3)$ m. Un second terrain carré a pour côté $2x$ m.',
       tasks: [
-        'Exprimer l\'aire de la nouvelle parcelle sous forme développée.',
-        'Reconnaître l\'identité remarquable et écrire la forme factorisée.',
-        'Calculer la nouvelle aire si $x = 6$ m.'
+        'Exprimer l\'aire $A_1$ du terrain rectangulaire sous forme développée en utilisant une identité remarquable.',
+        'Exprimer l\'aire $A_2$ du terrain carré.',
+        'Calculer la différence $A_2 - A_1$. Que remarque-t-on ? Calculer pour $x = 5$ m.'
       ],
       solutions: [
-        '$(x+4)^2 = x^2 + 8x + 16$.',
-        '$x^2+8x+16 = (x+4)^2$.',
-        '$(6+4)^2 = 100$ m².'
+        '$A_1 = (2x+3)(2x-3) = (2x)^2 - 3^2 = 4x^2 - 9$.',
+        '$A_2 = (2x)^2 = 4x^2$.',
+        '$A_2 - A_1 = 4x^2 - (4x^2 - 9) = 9$ m². La différence est constante, indépendante de $x$ ! Pour $x = 5$ : $A_1 = 91$ m², $A_2 = 100$ m², différence $= 9$ m².'
       ],
-      finalAnswer: 'Aire $= (x+4)^2 = x^2+8x+16$. Pour $x=6$ : $100$ m².'
+      finalAnswer: 'La différence d\'aire est toujours $9$ m², quelle que soit la valeur de $x$.'
     },
 
     evaluation: {
@@ -673,36 +798,71 @@ window.MODULES.push(
     quiz: [
       { q: 'Un élève résout $-4x + 8 > 0$ et obtient $x > 2$. Quelle est son erreur ?', options: ['Il a oublié d\'inverser l\'inégalité en divisant par $-4$ : la solution correcte est $x < 2$', 'Il n\'y a pas d\'erreur, $x > 2$ est correct', 'Il devait soustraire $8$ des deux membres, pas diviser', 'La solution est $x > -2$'], answer: 0, correction: '$-4x + 8 > 0 \\Rightarrow -4x > -8 \\Rightarrow x < \\frac{-8}{-4} = 2$. Diviser par $-4$ (négatif) inverse $>$ en $<$. La solution correcte est $]-\\infty ; 2[$.' },
       { q: 'Résoudre $-2x + 4 > 0$', options: ['$x>2$', '$x<2$', '$x>-2$', '$x<-2$'], answer: 1, correction: '$-2x > -4 \\Rightarrow x < 2$ (division par $-2$, inversion du sens).' },
-      { q: 'L\'ensemble solution de $5x + 1 \\le 11$ est :', options: ['$[2;+\\infty[$', '$]-\\infty;2]$', '$]-\\infty;2[$', '$[2;11]$'], answer: 1, correction: '$5x \\le 10 \\Rightarrow x \\le 2$, soit $]-\\infty;2]$.' }
+      { q: 'L\'ensemble solution de $5x + 1 \\le 11$ est :', options: ['$[2;+\\infty[$', '$]-\\infty;2]$', '$]-\\infty;2[$', '$[2;11]$'], answer: 1, correction: '$5x \\le 10 \\Rightarrow x \\le 2$, soit $]-\\infty;2]$.' },
+      { q: 'Résoudre l\'inéquation $3(x - 2) \\geq 2(x + 1)$. L\'ensemble solution est :', options: ['$[8;+\\infty[$', '$]-\\infty;8]$', '$[4;+\\infty[$', '$]-\\infty;4]$'], answer: 0, correction: '$3x - 6 \\geq 2x + 2 \\Rightarrow 3x - 2x \\geq 2 + 6 \\Rightarrow x \\geq 8$. Ensemble solution : $[8;+\\infty[$. Bien développer avant de regrouper les termes : c\'est une source d\'erreur classique quand on oublie de distribuer le coefficient à tous les termes entre parenthèses.' },
+      { q: 'L\'équation $3x + 5 = 3x - 2$ admet :', options: ['Aucune solution (impossible : $5 = -2$)', 'Une infinité de solutions', '$x = 0$', '$x = 7/6$'], answer: 0, correction: '$3x + 5 = 3x - 2 \\Rightarrow 5 = -2$, ce qui est une contradiction. L\'équation n\'admet aucune solution. On écrit $S = \\varnothing$. Cela se produit lorsque les deux membres ont le même coefficient en $x$ mais des constantes différentes.' }
     ],
     exercice: {
       type: 'numeric',
       generate() {
-        const a = rand(2, 6), b = rand(1, 8), ans = rand(1, 7);
-        const c = a * ans + b;
+        const contexts = [
+          { intro: 'Un plombier facture un déplacement fixe et un tarif horaire. Le coût total est', var: 'h', unit: 'heures' },
+          { intro: 'Un forfait téléphonique inclut un abonnement fixe et un coût par Go. La facture est', var: 'g', unit: 'Go' },
+          { intro: 'Un artisan facture des frais fixes et un tarif au mètre carré. Le devis est', var: 'm', unit: 'm²' }
+        ];
+        const ctx = pick(contexts);
+        const a = rand(2, 8);
+        const b = rand(5, 30);
+        const negCoeff = -rand(2, 5);
+        const c = rand(b + 5, b + 40);
+        const sol = (c - b) / a;
+        if (!Number.isInteger(sol) || sol < 1) {
+          const a2 = rand(2, 6), b2 = rand(3, 15), ans2 = rand(2, 8);
+          const rhs = negCoeff * ans2 + c;
+          const lhs_a = a2;
+          const total = a2 * ans2 + b2;
+          return {
+            statement: `Résoudre l'inéquation $${a2}x + ${b2} > ${total}$ et donner l'ensemble solution sous forme d'intervalle.<br/><br/>Quelle est la borne de l'intervalle solution ?`,
+            answer: ans2,
+            tolerance: 0,
+            unit: '',
+            hint: `$${a2}x > ${total} - ${b2} = ${total - b2}$, puis diviser par $${a2}$.`,
+            solution: [
+              `$${a2}x + ${b2} > ${total}$`,
+              `$${a2}x > ${total - b2}$`,
+              `$x > ${ans2}$`,
+              `Ensemble solution : $]${ans2};+\\infty[$`
+            ]
+          };
+        }
         return {
-          statement: `Résoudre $${a}x + ${b} = ${c}$. Donner la valeur de $x$.`,
-          answer: ans,
+          statement: `${ctx.intro} $C = ${a}${ctx.var} + ${b}$ (en €). Un client dispose d'un budget maximal de $${c}$ €.<br/><br/><strong>1.</strong> Résoudre l'inéquation $${a}${ctx.var} + ${b} \\leq ${c}$ pour trouver le nombre maximal de ${ctx.unit}.<br/><strong>2.</strong> Exprimer la solution en notation intervalle.<br/><br/>Donne la borne supérieure de l'intervalle (nombre maximal de ${ctx.unit}).`,
+          answer: sol,
           tolerance: 0,
-          unit: '',
-          hint: `Soustraire $${b}$ des deux membres, puis diviser par $${a}$.`,
-          solution: [`$${a}x = ${c} - ${b} = ${c-b}$`, `$x = ${c-b} \\div ${a} = ${ans}$`]
+          unit: ctx.unit,
+          hint: `$${a}${ctx.var} \\leq ${c} - ${b} = ${c-b}$, puis diviser par $${a}$.`,
+          solution: [
+            `$${a}${ctx.var} + ${b} \\leq ${c}$`,
+            `$${a}${ctx.var} \\leq ${c} - ${b} = ${c-b}$`,
+            `$${ctx.var} \\leq \\frac{${c-b}}{${a}} = ${sol}$`,
+            `Ensemble solution : $]0;${sol}]$ (en ${ctx.unit})`
+          ]
         };
       }
     },
     probleme: {
-      context: 'Un abonnement A coûte $25$ €/mois + $30$ € d\'inscription. Un abonnement B coûte $35$ €/mois sans inscription.',
+      context: 'Une salle de cinéma propose deux formules :<br/>- <strong>Formule A</strong> : carte d\'abonnement à $30$ € + $5$ € par séance.<br/>- <strong>Formule B</strong> : pas d\'abonnement, $8{,}50$ € par séance.<br/>Un spectateur hésite entre les deux.',
       tasks: [
-        'Modéliser le coût total de chaque offre après $n$ mois.',
-        'À partir de combien de mois l\'offre A est-elle moins chère ?',
-        'Exprimer la solution sous forme d\'intervalle.'
+        'Exprimer le coût total $C_A(n)$ et $C_B(n)$ en fonction du nombre de séances $n$.',
+        'Résoudre l\'inéquation $C_A(n) < C_B(n)$ pour déterminer à partir de combien de séances la formule A est avantageuse.',
+        'Vérifier la réponse en calculant les coûts pour la valeur seuil et la valeur suivante.'
       ],
       solutions: [
-        'Offre A : $C_A = 25n + 30$ ; Offre B : $C_B = 35n$.',
-        '$25n+30 < 35n \\Rightarrow 30 < 10n \\Rightarrow n > 3$. À partir du 4e mois.',
-        '$n \\in ]3;+\\infty[$, soit $n \\ge 4$ (mois entiers).'
+        '$C_A(n) = 5n + 30$ ; $C_B(n) = 8{,}5n$.',
+        '$5n + 30 < 8{,}5n \\Rightarrow 30 < 3{,}5n \\Rightarrow n > \\frac{30}{3{,}5} \\approx 8{,}57$. Donc à partir de $n = 9$ séances.',
+        'Pour $n = 8$ : $C_A = 70$ €, $C_B = 68$ € → B est moins cher. Pour $n = 9$ : $C_A = 75$ €, $C_B = 76{,}5$ € → A est moins cher ✓.'
       ],
-      finalAnswer: 'L\'offre A est moins chère à partir du 4e mois.'
+      finalAnswer: 'La formule A est avantageuse à partir de $9$ séances.'
     },
 
     evaluation: {
@@ -805,35 +965,57 @@ window.MODULES.push(
     quiz: [
       { q: 'Si $f(5) = 3$, laquelle de ces affirmations est VRAIE ?', options: ['$3$ est l\'image de $5$ et $5$ est un antécédent de $3$', '$5$ est l\'image de $3$ et $3$ est un antécédent de $5$', '$f(3) = 5$', '$f$ n\'est définie qu\'en $x=5$'], answer: 0, correction: '$f(5) = 3$ signifie : « l\'image de $5$ est $3$ » et « $5$ est un antécédent de $3$ ». L\'erreur classique est d\'inverser : $5$ est l\'entrée (antécédent), $3$ est la sortie (image).' },
       { q: '$f$ est croissante sur $[1;4]$. On a $f(1)=2$ et $f(4)=9$. Alors :', options: ['$f(2) > f(3)$', '$f(2) < f(3)$', '$f(2) = f(3)$', 'Impossible à dire'], answer: 1, correction: 'Croissante : $2 < 3 \\Rightarrow f(2) < f(3)$.' },
-      { q: 'Le maximum de $f$ sur $[-2;3]$ est $5$. Cela signifie que :', options: ['$f(5)=-2$', '$f(x)\\le 5$ pour tout $x\\in[-2;3]$', '$f(x)\\ge 5$ pour tout $x$', '$f(-2)=5$'], answer: 1, correction: 'Le maximum vaut $5$, donc $f(x)\\le 5$ pour tout $x$ de l\'intervalle.' }
+      { q: 'Le maximum de $f$ sur $[-2;3]$ est $5$. Cela signifie que :', options: ['$f(5)=-2$', '$f(x)\\le 5$ pour tout $x\\in[-2;3]$', '$f(x)\\ge 5$ pour tout $x$', '$f(-2)=5$'], answer: 1, correction: 'Le maximum vaut $5$, donc $f(x)\\le 5$ pour tout $x$ de l\'intervalle.' },
+      { q: 'Soit $f(x) = x^2 - 4x + 3$. On calcule $f(1) = 0$ et $f(3) = 0$. Peut-on dire que $f$ est constante (nulle) sur $[1;3]$ ?', options: ['Non : $f(1) = f(3) = 0$ ne signifie pas que $f$ est nulle entre les deux. Par exemple $f(2) = -1 \\neq 0$', 'Oui : si $f(1) = f(3) = 0$, alors $f$ vaut $0$ partout entre $1$ et $3$', 'Non : $f$ n\'est pas définie entre $1$ et $3$', 'Oui : c\'est le théorème des valeurs intermédiaires'], answer: 0, correction: 'Deux images égales ne signifient pas que la fonction est constante entre les deux. Ici $f(2) = 4 - 8 + 3 = -1 \\neq 0$. La fonction descend puis remonte. On ne peut rien déduire entre deux points sans information supplémentaire sur les variations.' },
+      { q: 'Une fonction $f$ est décroissante sur $[0;5]$ avec $f(0) = 10$ et $f(5) = 2$. L\'équation $f(x) = 7$ admet-elle une solution sur $[0;5]$ ?', options: ['Oui : $2 \\leq 7 \\leq 10$ et $f$ est continue et décroissante, donc $f$ prend exactement une fois la valeur $7$', 'Non : on ne connaît pas l\'expression de $f$', 'Oui : il y a plusieurs solutions', 'Non : $f$ est décroissante donc elle ne peut pas valoir $7$'], answer: 0, correction: '$f$ est décroissante sur $[0;5]$ avec $f(0) = 10 \\geq 7 \\geq 2 = f(5)$. Par le théorème des valeurs intermédiaires, il existe $c \\in [0;5]$ tel que $f(c) = 7$. De plus, comme $f$ est strictement décroissante, cette solution est unique.' }
     ],
     exercice: {
       type: 'numeric',
       generate() {
-        const a = rand(1, 4), b = rand(0, 6), xval = rand(2, 7);
+        const contexts = [
+          { intro: 'La hauteur d\'un ballon lancé en l\'air est modélisée par', unit: 'm', xName: 't', xUnit: 's' },
+          { intro: 'Le bénéfice d\'une entreprise en fonction du nombre de produits vendus est', unit: '€', xName: 'x', xUnit: 'produits' },
+          { intro: 'La distance de freinage d\'une voiture est donnée par', unit: 'm', xName: 'v', xUnit: 'km/h' }
+        ];
+        const ctx = pick(contexts);
+        const a = -rand(1, 3);
+        const b = rand(4, 10);
+        const c = rand(1, 8);
+        const x1 = rand(0, 3);
+        const x2 = rand(x1 + 1, x1 + 3);
+        const x3 = rand(x2 + 1, x2 + 3);
+        const f1 = a * x1 * x1 + b * x1 + c;
+        const f2 = a * x2 * x2 + b * x2 + c;
+        const f3 = a * x3 * x3 + b * x3 + c;
+        const maxVal = Math.max(f1, f2, f3);
         return {
-          statement: `Soit $f(x) = ${a}x + ${b}$. Calculer $f(${xval})$.`,
-          answer: a * xval + b,
+          statement: `Soit $f(${ctx.xName}) = ${a === -1 ? '-' : a}${ctx.xName}^2 + ${b}${ctx.xName} + ${c}$.<br/><br/><strong>1.</strong> Calculer $f(${x1})$, $f(${x2})$ et $f(${x3})$.<br/><strong>2.</strong> La fonction est-elle croissante ou décroissante sur $[${x1};${x2}]$ ? Sur $[${x2};${x3}]$ ?<br/><strong>3.</strong> En déduire le maximum de $f$ sur $\\{${x1};${x2};${x3}\\}$.<br/><br/>Donne la valeur de $f(${x2})$.`,
+          answer: f2,
           tolerance: 0,
-          unit: '',
-          hint: `Remplace $x$ par $${xval}$ dans l\'expression de $f$.`,
-          solution: [`$f(${xval}) = ${a}\\times${xval} + ${b} = ${a*xval}+${b} = ${a*xval+b}$`]
+          unit: ctx.unit,
+          hint: `Remplace $${ctx.xName}$ par $${x2}$ : $f(${x2}) = ${a} \\times ${x2}^2 + ${b} \\times ${x2} + ${c}$.`,
+          solution: [
+            `$f(${x1}) = ${a} \\times ${x1*x1} + ${b} \\times ${x1} + ${c} = ${a*x1*x1} + ${b*x1} + ${c} = ${f1}$`,
+            `$f(${x2}) = ${a} \\times ${x2*x2} + ${b} \\times ${x2} + ${c} = ${a*x2*x2} + ${b*x2} + ${c} = ${f2}$`,
+            `$f(${x3}) = ${a} \\times ${x3*x3} + ${b} \\times ${x3} + ${c} = ${a*x3*x3} + ${b*x3} + ${c} = ${f3}$`,
+            `${f1 < f2 ? 'Croissante' : 'Décroissante'} sur $[${x1};${x2}]$ ; ${f2 > f3 ? 'décroissante' : 'croissante'} sur $[${x2};${x3}]$. Maximum parmi ces trois valeurs : $${maxVal}$.`
+          ]
         };
       }
     },
     probleme: {
-      context: 'La température $T$ (en °C) d\'une pièce est mesurée à $t=0$ h ($T=18$), $t=3$ h ($T=22$), $t=6$ h ($T=20$).',
+      context: 'Un fabricant de boîtes vend ses produits à un prix unitaire de $p$ euros. Le nombre de boîtes vendues par mois est $N(p) = 500 - 20p$ (pour $0 \\leq p \\leq 25$). Le chiffre d\'affaires mensuel est $C(p) = p \\times N(p) = p(500 - 20p) = -20p^2 + 500p$.',
       tasks: [
-        'La fonction $T$ est-elle croissante ou décroissante sur $[0;3]$ ? Sur $[3;6]$ ?',
-        'Quel est le maximum de $T$ et en quel instant est-il atteint ?',
-        'Donner un antécédent de $20$.'
+        'Calculer $C(5)$, $C(10)$, $C(15)$ et $C(20)$.',
+        'Dresser le tableau de variations de $C$ sur $[5;20]$ à partir de ces valeurs. Identifier le maximum.',
+        'Déterminer les antécédents de $2400$ par $C$ (c\'est-à-dire résoudre $C(p) = 2400$).'
       ],
       solutions: [
-        'Croissante sur $[0;3]$ (18→22) ; décroissante sur $[3;6]$ (22→20).',
-        'Maximum $T=22\\,°C$ atteint en $t=3$ h.',
-        '$T(6)=20$, donc $t=6$ est un antécédent de $20$.'
+        '$C(5) = -20 \\times 25 + 500 \\times 5 = 2000$ € ; $C(10) = -2000 + 5000 = 3000$ € ; $C(15) = -4500 + 7500 = 3000$ € ; $C(20) = -8000 + 10000 = 2000$ €.',
+        '$C$ croît sur $[5;10]$ puis décroît (ou reste stable) sur $[10;20]$. Le maximum semble atteint autour de $p = 12{,}5$ (milieu entre $10$ et $15$) avec $C(12{,}5) = 3125$ €.',
+        '$-20p^2 + 500p = 2400 \\Rightarrow -20p^2 + 500p - 2400 = 0 \\Rightarrow p^2 - 25p + 120 = 0$. On trouve $p = 8$ ou $p = 15$ (vérification : $C(8) = C(15) = 2400$ ✓).'
       ],
-      finalAnswer: 'Maximum $T=22\\,°C$ en $t=3$ h ; antécédent de $20$ : $t=6$ h.'
+      finalAnswer: 'Maximum du chiffre d\'affaires : $3125$ € pour $p = 12{,}5$ €. Antécédents de $2400$ : $p = 8$ € et $p = 15$ €.'
     },
 
     evaluation: {
@@ -937,36 +1119,103 @@ window.MODULES.push(
     quiz: [
       { q: 'Sur quel intervalle la fonction $x\\mapsto x^2$ est-elle décroissante ?', options: ['$[0;+\\infty[$', '$]-\\infty;0]$', '$\\mathbb{R}$', 'Elle est toujours croissante'], answer: 1, correction: '$x^2$ décroît sur $]-\\infty;0]$ et croît sur $[0;+\\infty[$. Son minimum est $0$.' },
       { q: 'Quel est le domaine de définition de $\\sqrt{x}$ ?', options: ['$\\mathbb{R}$', '$]0;+\\infty[$', '$[0;+\\infty[$', '$]-\\infty;0[$'], answer: 2, correction: 'On ne peut prendre la racine carrée que d\'un nombre positif ou nul : domaine $[0;+\\infty[$.' },
-      { q: 'Un élève écrit $\\sqrt{9+16} = \\sqrt{9}+\\sqrt{16} = 3+4 = 7$. Quelle est son erreur ?', options: ['On ne peut pas séparer $\\sqrt{a+b}$ : ici $\\sqrt{9+16} = \\sqrt{25} = 5 \\neq 7$', 'Il a mal calculé $\\sqrt{9}$ et $\\sqrt{16}$', 'Il n\'y a pas d\'erreur, $\\sqrt{25} = 7$', 'La racine carrée ne s\'applique qu\'aux entiers impairs'], answer: 0, correction: '$\\sqrt{9+16} = \\sqrt{25} = 5$, pas $7$. La propriété $\\sqrt{a \\cdot b} = \\sqrt{a}\\cdot\\sqrt{b}$ est vraie pour un PRODUIT, mais $\\sqrt{a+b} \\neq \\sqrt{a}+\\sqrt{b}$ pour une SOMME.' }
+      { q: 'Un élève écrit $\\sqrt{9+16} = \\sqrt{9}+\\sqrt{16} = 3+4 = 7$. Quelle est son erreur ?', options: ['On ne peut pas séparer $\\sqrt{a+b}$ : ici $\\sqrt{9+16} = \\sqrt{25} = 5 \\neq 7$', 'Il a mal calculé $\\sqrt{9}$ et $\\sqrt{16}$', 'Il n\'y a pas d\'erreur, $\\sqrt{25} = 7$', 'La racine carrée ne s\'applique qu\'aux entiers impairs'], answer: 0, correction: '$\\sqrt{9+16} = \\sqrt{25} = 5$, pas $7$. La propriété $\\sqrt{a \\cdot b} = \\sqrt{a}\\cdot\\sqrt{b}$ est vraie pour un PRODUIT, mais $\\sqrt{a+b} \\neq \\sqrt{a}+\\sqrt{b}$ pour une SOMME.' },
+      { q: 'Quel est le domaine de définition de $f(x) = \\sqrt{3 - x}$ ?', options: ['$]-\\infty;3]$', '$[3;+\\infty[$', '$\\mathbb{R}$', '$]0;3[$'], answer: 0, correction: 'Il faut $3 - x \\geq 0$, soit $x \\leq 3$. Le domaine est $]-\\infty;3]$. Attention : le signe de l\'inéquation s\'inverse quand l\'expression sous la racine est $a - x$ au lieu de $x - a$.' },
+      { q: 'Comparer $(-3)^2$ et $-3^2$. Ces deux expressions sont-elles égales ?', options: ['Non : $(-3)^2 = 9$ mais $-3^2 = -(3^2) = -9$', 'Oui : les deux valent $9$', 'Oui : les deux valent $-9$', 'Non : $(-3)^2 = -9$ et $-3^2 = 9$'], answer: 0, correction: '$(-3)^2$ signifie « le carré de $-3$ » $= (-3) \\times (-3) = 9$. En revanche, $-3^2$ signifie « l\'opposé du carré de $3$ » $= -(3 \\times 3) = -9$. Les parenthèses changent tout ! C\'est un piège classique lors du calcul d\'images avec la fonction carré.' }
     ],
     exercice: {
       type: 'numeric',
       generate() {
-        const bases = [4, 9, 16, 25, 36, 49, 64];
-        const b = pick(bases);
-        return {
-          statement: `Calculer $\\sqrt{${b}}$.`,
-          answer: Math.sqrt(b),
-          tolerance: 0,
-          unit: '',
-          hint: `Cherche un entier $n$ tel que $n^2 = ${b}$.`,
-          solution: [`$\\sqrt{${b}} = ${Math.sqrt(b)}$ car $${Math.sqrt(b)}^2 = ${b}$`]
-        };
+        const types = ['domaine', 'comparaison', 'composition'];
+        const type = pick(types);
+        if (type === 'domaine') {
+          const a = rand(2, 8);
+          const b = rand(1, 5);
+          const borne = parseFloat((b / a).toFixed(2));
+          const borneExact = b % a === 0 ? (b / a) : borne;
+          const contexts = [
+            { f: `\\sqrt{${a}x - ${b}}`, cond: `${a}x - ${b} \\geq 0`, sol: `x \\geq \\frac{${b}}{${a}}`, borneType: 'inf' },
+            { f: `\\sqrt{${b} - ${a}x}`, cond: `${b} - ${a}x \\geq 0`, sol: `x \\leq \\frac{${b}}{${a}}`, borneType: 'sup' }
+          ];
+          const ctx = pick(contexts);
+          return {
+            statement: `Déterminer le domaine de définition de $f(x) = ${ctx.f}$.<br/><br/>Donne la <strong>borne</strong> de l'intervalle solution (sous forme décimale si nécessaire).`,
+            answer: borneExact,
+            tolerance: 0.01,
+            unit: '',
+            hint: `Pour que $\\sqrt{\\ldots}$ existe, il faut que l'expression sous la racine soit $\\geq 0$ : ${ctx.cond}.`,
+            solution: [
+              `Condition : ${ctx.cond}`,
+              `${ctx.sol}$${b % a === 0 ? ` = ${b/a}` : ` \\approx ${borne}`}$`,
+              `Domaine : $${ctx.borneType === 'inf' ? `[${borneExact};+\\infty[` : `]-\\infty;${borneExact}]`}$`
+            ]
+          };
+        } else if (type === 'comparaison') {
+          const vals = [
+            { a: -5, b: -2 },
+            { a: -7, b: -3 },
+            { a: -4, b: -1 },
+            { a: -6, b: -3 }
+          ];
+          const v = pick(vals);
+          const a2 = v.a * v.a;
+          const b2 = v.b * v.b;
+          return {
+            statement: `Comparer $${v.a}^2$ et $${v.b}^2$ sans calculatrice, en utilisant les variations de la fonction carré.<br/><br/>Lequel est le plus grand ? Donne sa valeur.`,
+            answer: a2,
+            tolerance: 0,
+            unit: '',
+            hint: `$${v.a}$ et $${v.b}$ sont négatifs. La fonction carré est <strong>décroissante</strong> sur $]-\\infty;0]$ : si $a < b < 0$, alors $a^2 > b^2$.`,
+            solution: [
+              `$${v.a} < ${v.b} < 0$ (les deux sont négatifs)`,
+              `La fonction carré est décroissante sur $]-\\infty;0]$`,
+              `Donc $${v.a}^2 > ${v.b}^2$, soit $${a2} > ${b2}$`,
+              `Le plus grand est $${a2}$.`
+            ]
+          };
+        } else {
+          const a = rand(2, 5);
+          const b = rand(1, 8);
+          const xval = rand(2, 6);
+          const innerVal = a * xval - b;
+          if (innerVal <= 0) {
+            return {
+              statement: `Soit $f(x) = \\sqrt{2x + 1}$. Calculer $f(4)$.`,
+              answer: 3,
+              tolerance: 0,
+              unit: '',
+              hint: `$f(4) = \\sqrt{2 \\times 4 + 1} = \\sqrt{9}$.`,
+              solution: [`$f(4) = \\sqrt{8 + 1} = \\sqrt{9} = 3$`]
+            };
+          }
+          const sqrtVal = parseFloat(Math.sqrt(innerVal).toFixed(2));
+          return {
+            statement: `Soit $g(x) = \\sqrt{${a}x - ${b}} + \\frac{1}{x}$.<br/><br/><strong>1.</strong> Vérifier que $x = ${xval}$ appartient au domaine de définition.<br/><strong>2.</strong> Calculer $g(${xval})$ (arrondi au centième).<br/><br/>Donne la valeur de $g(${xval})$.`,
+            answer: parseFloat((sqrtVal + 1/xval).toFixed(2)),
+            tolerance: 0.05,
+            unit: '',
+            hint: `Domaine : $${a}x - ${b} \\geq 0$ (soit $x \\geq ${(b/a).toFixed(1)}$) ET $x \\neq 0$. Puis $g(${xval}) = \\sqrt{${innerVal}} + \\frac{1}{${xval}}$.`,
+            solution: [
+              `Condition racine : $${a} \\times ${xval} - ${b} = ${innerVal} \\geq 0$ ✓ ; $x = ${xval} \\neq 0$ ✓`,
+              `$g(${xval}) = \\sqrt{${innerVal}} + \\frac{1}{${xval}} \\approx ${sqrtVal} + ${(1/xval).toFixed(2)} \\approx ${(sqrtVal + 1/xval).toFixed(2)}$`
+            ]
+          };
+        }
       }
     },
     probleme: {
-      context: 'En physique, la distance de freinage $d$ (en m) d\'une voiture est proportionnelle au carré de sa vitesse : $d = k v^2$ avec $k = 0{,}004$.',
+      context: 'En physique, la période d\'un pendule simple est $T = 2\\pi\\sqrt{\\frac{L}{g}}$, où $L$ est la longueur du fil (en m) et $g = 9{,}81$ m/s². Un horloger veut fabriquer une horloge dont le pendule bat exactement la seconde ($T = 1$ s).',
       tasks: [
-        'Calculer $d$ pour $v=50$ km/h et $v=100$ km/h.',
-        'Si la distance est multipliée par $4$, par combien est multipliée la vitesse ?',
-        'Exprimer $v$ en fonction de $d$.'
+        'Exprimer $L$ en fonction de $T$ et $g$.',
+        'Calculer la longueur $L$ nécessaire pour $T = 1$ s (arrondir au cm).',
+        'Si l\'on double la longueur du fil, par combien est multipliée la période ? Pourquoi ?'
       ],
       solutions: [
-        '$d(50)=0{,}004\\times 2500=10$ m ; $d(100)=0{,}004\\times 10000=40$ m.',
-        '$d$ est multiplié par $4$ quand $v$ est multiplié par $\\sqrt{4}=2$.',
-        '$v = \\sqrt{d/0{,}004} = \\sqrt{250d}$.'
+        '$T = 2\\pi\\sqrt{L/g} \\Rightarrow T^2 = 4\\pi^2 \\cdot L/g \\Rightarrow L = \\frac{gT^2}{4\\pi^2}$.',
+        '$L = \\frac{9{,}81 \\times 1^2}{4\\pi^2} = \\frac{9{,}81}{39{,}48} \\approx 0{,}25$ m $= 25$ cm.',
+        'Si $L\' = 2L$ : $T\' = 2\\pi\\sqrt{2L/g} = \\sqrt{2} \\cdot 2\\pi\\sqrt{L/g} = \\sqrt{2} \\cdot T \\approx 1{,}41 \\cdot T$. La période est multipliée par $\\sqrt{2}$ (pas par $2$) car $T$ dépend de $\\sqrt{L}$.'
       ],
-      finalAnswer: 'À $100$ km/h, $d=40$ m. Doubler la vitesse quadruple la distance de freinage.'
+      finalAnswer: '$L \\approx 25$ cm pour $T = 1$ s. Doubler $L$ multiplie $T$ par $\\sqrt{2} \\approx 1{,}41$.'
     },
 
     evaluation: {
@@ -1069,22 +1318,39 @@ window.MODULES.push(
     quiz: [
       { q: 'Un élève calcule $AB$ avec $A(-3;2)$ et $B(5;-1)$ et écrit $AB = \\sqrt{(-3-5)^2+(2-(-1))^2}$. Ce calcul est-il correct ?', options: ['Oui : $(-8)^2+3^2 = 73$, donc $AB=\\sqrt{73}$ (le sens de la soustraction ne change pas le carré)', 'Non : il faut toujours faire $x_B - x_A$, jamais $x_A - x_B$', 'Non : il faut utiliser $|x_B-x_A|+|y_B-y_A|$ sans carré', 'Non : les coordonnées négatives s\'additionnent'], answer: 0, correction: 'Les deux écritures donnent le même résultat car $(x_A-x_B)^2 = (x_B-x_A)^2$. $AB = \\sqrt{(-8)^2+3^2} = \\sqrt{64+9} = \\sqrt{73}$ ✓ — le sens de la soustraction n\'importe pas grâce au carré.' },
       { q: 'Distance entre $O(0;0)$ et $A(3;4)$ ?', options: ['$5$', '$7$', '$\\sqrt{7}$', '$25$'], answer: 0, correction: '$OA=\\sqrt{3^2+4^2}=\\sqrt{9+16}=\\sqrt{25}=5$.' },
-      { q: 'Si $M(3;5)$ est le milieu de $[AB]$ et $A(1;3)$, alors $B$ est :', options: ['$(5;7)$', '$(2;4)$', '$(4;6)$', '$(6;10)$'], answer: 0, correction: '$x_B=2\\times 3-1=5$ ; $y_B=2\\times 5-3=7$. Donc $B(5;7)$.' }
+      { q: 'Si $M(3;5)$ est le milieu de $[AB]$ et $A(1;3)$, alors $B$ est :', options: ['$(5;7)$', '$(2;4)$', '$(4;6)$', '$(6;10)$'], answer: 0, correction: '$x_B=2\\times 3-1=5$ ; $y_B=2\\times 5-3=7$. Donc $B(5;7)$.' },
+      { q: 'On donne $A(0;0)$, $B(4;0)$ et $C(2;3)$. Le triangle $ABC$ est-il isocèle ?', options: ['Oui, car $AC = BC = \\sqrt{13}$', 'Non, car les trois côtés sont différents', 'Oui, car $AB = AC$', 'Impossible à déterminer sans dessiner'], answer: 0, correction: '$AB = 4$. $AC = \\sqrt{4 + 9} = \\sqrt{13}$. $BC = \\sqrt{4 + 9} = \\sqrt{13}$. Comme $AC = BC$, le triangle est isocèle en $C$. La géométrie analytique permet de prouver des propriétés par le calcul, sans dessin.' },
+      { q: 'Un élève confond $AB^2$ avec $(x_B - x_A)^2 + 2(y_B - y_A)^2$. Pourquoi est-ce faux ?', options: ['La formule correcte est $(x_B-x_A)^2 + (y_B-y_A)^2$ sans coefficient $2$ — c\'est Pythagore, pas une identité remarquable', 'Le coefficient $2$ est correct dans un repère non orthonormé', 'L\'erreur est le signe, pas le coefficient', 'C\'est correct si l\'on divise par $2$ à la fin'], answer: 0, correction: 'La formule de la distance vient du théorème de Pythagore appliqué au triangle rectangle formé par les écarts horizontaux et verticaux. C\'est $AB^2 = \\Delta x^2 + \\Delta y^2$, jamais $2 \\cdot \\Delta y^2$. L\'ajout d\'un coefficient $2$ est probablement une confusion avec l\'identité $(a+b)^2 = a^2 + 2ab + b^2$.' }
     ],
     exercice: {
       type: 'numeric',
       generate() {
-        const x1 = rand(0, 4), y1 = rand(0, 4), x2 = x1 + rand(3, 6), y2 = y1 + rand(0, 4);
-        const dist2 = (x2-x1)**2 + (y2-y1)**2;
-        const dist = parseFloat(Math.sqrt(dist2).toFixed(2));
+        const contexts = [
+          { intro: 'Sur un plan de ville (1 unité = 100 m), un piéton part de', dest: 'et se rend à', unit: 'unités' },
+          { intro: 'Sur une carte au trésor (1 unité = 1 pas), le point de départ est', dest: 'et le trésor est en', unit: 'pas' },
+          { intro: 'Dans un repère orthonormé, un robot part du point', dest: 'et doit atteindre', unit: 'unités' }
+        ];
+        const ctx = pick(contexts);
+        const triples = [[3,4,5],[5,12,13],[6,8,10],[8,15,17],[9,12,15]];
+        const t = pick(triples);
+        const signX = pick([1, -1]);
+        const signY = pick([1, -1]);
+        const x1 = rand(-3, 5);
+        const y1 = rand(-3, 5);
+        const x2 = x1 + signX * t[0];
+        const y2 = y1 + signY * t[1];
+        const mx = (x1 + x2) / 2;
+        const my = (y1 + y2) / 2;
         return {
-          statement: `Calculer la distance entre $A(${x1};${y1})$ et $B(${x2};${y2})$. (Arrondir à $0{,}01$)`,
-          answer: dist,
-          tolerance: 0.05,
-          unit: 'unités',
-          hint: `Applique $AB=\\sqrt{(${x2}-${x1})^2+(${y2}-${y1})^2}$.`,
+          statement: `${ctx.intro} $A(${x1};${y1})$ ${ctx.dest} $B(${x2};${y2})$.<br/><br/><strong>1.</strong> Calculer la distance $AB$.<br/><strong>2.</strong> Déterminer les coordonnées du milieu $M$ de $[AB]$.<br/><strong>3.</strong> Vérifier que $MA = MB = AB/2$.<br/><br/>Donne la distance $AB$.`,
+          answer: t[2],
+          tolerance: 0.01,
+          unit: ctx.unit,
+          hint: `$AB = \\sqrt{(${x2}-${x1 < 0 ? '('+x1+')' : x1})^2+(${y2}-${y1 < 0 ? '('+y1+')' : y1})^2}$. Attention aux signes !`,
           solution: [
-            `$AB=\\sqrt{${x2-x1}^2+${y2-y1}^2}=\\sqrt{${(x2-x1)**2}+${(y2-y1)**2}}=\\sqrt{${dist2}}\\approx ${dist}$`
+            `$AB = \\sqrt{(${x2}-(${x1}))^2+(${y2}-(${y1}))^2} = \\sqrt{${t[0]}^2+${t[1]}^2} = \\sqrt{${t[0]*t[0]}+${t[1]*t[1]}} = \\sqrt{${t[2]*t[2]}} = ${t[2]}$`,
+            `Milieu $M\\left(\\frac{${x1}+${x2}}{2};\\frac{${y1}+${y2}}{2}\\right) = M(${mx};${my})$`,
+            `Vérification : $MA = ${t[2]/2}$ et $MB = ${t[2]/2}$ ✓`
           ]
         };
       }
@@ -1206,40 +1472,57 @@ window.MODULES.push(
     quiz: [
       { q: 'Un élève affirme que les droites $y = 2x + 5$ et $y = 2x - 3$ se croisent en $x = 4$. Pourquoi est-ce impossible ?', options: ['Ces droites ont la même pente ($m=2$) — elles sont parallèles et ne se croisent jamais (et $2x+5=2x-3 \\Rightarrow 5=-3$, contradiction)', 'L\'élève a raison, elles se croisent en $x=4$', 'Elles se croisent uniquement si on change les signes', 'Impossible à dire sans le graphe'], answer: 0, correction: 'Même pente $m=2$ → droites parallèles. Algébriquement, $2x+5=2x-3 \\Rightarrow 5=-3$, qui est une contradiction. Il n\'existe aucun $x$ solution.' },
       { q: 'L\'équation $y=3x-1$ et $y=-x+7$ : quelle est l\'abscisse du point d\'intersection ?', options: ['$x=1$', '$x=2$', '$x=3$', '$x=4$'], answer: 1, correction: '$3x-1=-x+7 \\Rightarrow 4x=8 \\Rightarrow x=2$.' },
-      { q: 'Deux droites de pente $m=4$ sont-elles sécantes ?', options: ['Oui, toujours', 'Non, elles sont parallèles', 'Oui, si même ordonnée à l\'origine', 'Impossible à dire'], answer: 1, correction: 'Même pente → droites parallèles (ou confondues). Elles ne se coupent pas si $p_1\\ne p_2$.' }
+      { q: 'Deux droites de pente $m=4$ sont-elles sécantes ?', options: ['Oui, toujours', 'Non, elles sont parallèles', 'Oui, si même ordonnée à l\'origine', 'Impossible à dire'], answer: 1, correction: 'Même pente → droites parallèles (ou confondues). Elles ne se coupent pas si $p_1\\ne p_2$.' },
+      { q: 'Un système $\\begin{cases} 2x + y = 7 \\\\ 4x + 2y = 14 \\end{cases}$ admet :', options: ['Une infinité de solutions (les deux équations sont proportionnelles : la 2e est le double de la 1re)', 'Aucune solution', 'Exactement une solution : $(2;3)$', 'Exactement deux solutions'], answer: 0, correction: 'La 2e équation est $2 \\times$ la 1re : $4x + 2y = 2(2x + y) = 14$. Les deux droites sont confondues. Tout couple $(x;y)$ vérifiant $2x + y = 7$ est solution : il y en a une infinité. C\'est un cas particulier à distinguer du cas « parallèles strictes » (aucune solution).' },
+      { q: 'La droite $d$ passe par $A(1;5)$ et $B(3;5)$. Son équation est :', options: ['$y = 5$ (droite horizontale, pente nulle)', '$x = 5$', '$y = 5x$', '$y = x + 4$'], answer: 0, correction: 'Les ordonnées sont identiques ($y_A = y_B = 5$) : la droite est horizontale. La pente est $m = \\frac{5-5}{3-1} = 0$, donc $y = 0 \\cdot x + 5 = 5$. Ne pas confondre avec une droite verticale ($x = k$).' }
     ],
     exercice: {
       type: 'numeric',
       generate() {
-        const m1 = rand(1, 4), p1 = rand(0, 3);
-        const m2 = -rand(1, 3), p2 = rand(4, 8);
-        const xAns = (p2 - p1) / (m1 - m2);
-        if (!Number.isInteger(xAns)) {
-          return { statement: `Résoudre $2x+1=x+4$. Donner $x$.`, answer: 3, tolerance: 0, unit: '', hint: 'Isole $x$.', solution: ['$x=3$'] };
-        }
+        const contexts = [
+          { intro: 'Un cinéma vend des places adultes à', prixA: 'prix adulte', prixB: 'prix enfant', unit: '€', objA: 'adultes', objB: 'enfants' },
+          { intro: 'Un magasin vend des stylos à', prixA: 'prix stylo', prixB: 'prix cahier', unit: '€', objA: 'stylos', objB: 'cahiers' },
+          { intro: 'Un traiteur propose des sandwichs à', prixA: 'prix sandwich', prixB: 'prix boisson', unit: '€', objA: 'sandwichs', objB: 'boissons' }
+        ];
+        const ctx = pick(contexts);
+        const x = rand(2, 6);
+        const y = rand(1, 5);
+        const a1 = 1, b1 = 1;
+        const total1 = x + y;
+        const a2 = rand(2, 5);
+        const b2 = rand(2, 5);
+        while (a2 === b2) { b2 = rand(2, 5); }
+        const total2 = a2 * x + b2 * y;
         return {
-          statement: `Résoudre le système $y=${m1}x+${p1}$ et $y=${m2}x+${p2}$. Donner $x$.`,
-          answer: xAns,
+          statement: `${ctx.intro} $${a2}$ € l'un et des ${ctx.objB} à $${b2}$ € l'un. Un client achète $${total1}$ articles au total pour $${total2}$ €.<br/><br/>Poser et résoudre le système pour trouver le nombre de ${ctx.objA} ($x$) et de ${ctx.objB} ($y$).<br/><br/>Donne le nombre de <strong>${ctx.objA}</strong>.`,
+          answer: x,
           tolerance: 0,
           unit: '',
-          hint: `Égalise les deux expressions de $y$ : $${m1}x+${p1}=${m2}x+${p2}$.`,
-          solution: [`$${m1}x-${m2}x=${p2}-${p1}$`, `$${m1-m2}x=${p2-p1}$`, `$x=${xAns}$`]
+          hint: `Système : $\\begin{cases} x + y = ${total1} \\\\ ${a2}x + ${b2}y = ${total2} \\end{cases}$. De la 1re : $y = ${total1} - x$. Substituer dans la 2e.`,
+          solution: [
+            `$\\begin{cases} x + y = ${total1} \\\\ ${a2}x + ${b2}y = ${total2} \\end{cases}$`,
+            `De (1) : $y = ${total1} - x$`,
+            `Dans (2) : $${a2}x + ${b2}(${total1} - x) = ${total2}$`,
+            `$${a2}x + ${b2*total1} - ${b2}x = ${total2}$`,
+            `$${a2-b2}x = ${total2 - b2*total1}$`,
+            `$x = ${x}$ et $y = ${y}$`
+          ]
         };
       }
     },
     probleme: {
-      context: 'Une épicerie vend des pommes à $2$ €/kg et des poires à $3$ €/kg. Un client achète $5$ kg de fruits pour $12$ €.',
+      context: 'Un agriculteur dispose de $200$ hectares et d\'un budget de $36\\,000$ €. Il veut cultiver du blé (coût $150$ €/ha, bénéfice $300$ €/ha) et du tournesol (coût $200$ €/ha, bénéfice $250$ €/ha).',
       tasks: [
-        'Modéliser la situation par un système de deux équations ($x$ = kg pommes, $y$ = kg poires).',
-        'Résoudre le système.',
-        'Combien de kg de chaque fruit a-t-il acheté ?'
+        'Poser le système de contraintes : surface totale $\\leq 200$ ha et budget $\\leq 36\\,000$ €.',
+        'Résoudre le système d\'égalités pour trouver la répartition qui utilise exactement toute la surface et tout le budget.',
+        'Calculer le bénéfice total avec cette répartition.'
       ],
       solutions: [
-        '$\\begin{cases} x+y=5 \\\\ 2x+3y=12 \\end{cases}$',
-        'De la 1re équation : $x=5-y$. Substitution : $2(5-y)+3y=12 \\Rightarrow 10+y=12 \\Rightarrow y=2$. Donc $x=3$.',
-        '$3$ kg de pommes et $2$ kg de poires.'
+        '$\\begin{cases} x + y = 200 \\\\ 150x + 200y = 36\\,000 \\end{cases}$ où $x$ = ha de blé, $y$ = ha de tournesol.',
+        'De (1) : $x = 200 - y$. Dans (2) : $150(200-y) + 200y = 36\\,000 \\Rightarrow 30\\,000 + 50y = 36\\,000 \\Rightarrow y = 120$. Donc $x = 80$.',
+        'Bénéfice : $300 \\times 80 + 250 \\times 120 = 24\\,000 + 30\\,000 = 54\\,000$ €.'
       ],
-      finalAnswer: '$3$ kg de pommes et $2$ kg de poires.'
+      finalAnswer: '$80$ ha de blé et $120$ ha de tournesol, pour un bénéfice de $54\\,000$ €.'
     },
 
     evaluation: {
@@ -1345,23 +1628,35 @@ window.MODULES.push(
     quiz: [
       { q: 'Dans un triangle, deux angles mesurent $60°$ et $80°$. Le troisième mesure :', options: ['$40°$', '$50°$', '$60°$', '$120°$'], answer: 0, correction: '$180-60-80=40°$.' },
       { q: 'Dans un triangle $ABC$, $M\\in[AB]$ et $N\\in[AC]$ avec $(MN)\\parallel(BC)$. Si $AM=3$, $MB=6$, $AN=2$, alors $NC=$ ?', options: ['$2$', '$4$', '$6$', '$3$'], answer: 1, correction: '$\\frac{AM}{AB}=\\frac{AN}{AC} \\Rightarrow \\frac{3}{9}=\\frac{2}{AC} \\Rightarrow AC=6$. Donc $NC=AC-AN=6-2=4$.' },
-      { q: 'La hauteur issue de $A$ dans un triangle $ABC$ est :', options: ['La droite issue de $A$, perpendiculaire au côté $BC$', 'La droite issue de $A$, passant par le milieu de $BC$', 'La droite perpendiculaire à $BC$ par son milieu', 'La droite qui partage l\'angle $\\hat{A}$ en deux parties égales'], answer: 0, correction: 'La hauteur issue de $A$ est perpendiculaire à $BC$ — mais pas nécessairement par le milieu de $BC$. Le milieu de $BC$ est utilisé par la médiane (option B) et la médiatrice (option C). La bissectrice (option D) divise l\'angle. Ces quatre droites sont distinctes !' }
+      { q: 'La hauteur issue de $A$ dans un triangle $ABC$ est :', options: ['La droite issue de $A$, perpendiculaire au côté $BC$', 'La droite issue de $A$, passant par le milieu de $BC$', 'La droite perpendiculaire à $BC$ par son milieu', 'La droite qui partage l\'angle $\\hat{A}$ en deux parties égales'], answer: 0, correction: 'La hauteur issue de $A$ est perpendiculaire à $BC$ — mais pas nécessairement par le milieu de $BC$. Le milieu de $BC$ est utilisé par la médiane (option B) et la médiatrice (option C). La bissectrice (option D) divise l\'angle. Ces quatre droites sont distinctes !' },
+      { q: 'Le rapport de réduction entre deux triangles en configuration de Thalès est $k = \\frac{1}{3}$. Le rapport de leurs aires est :', options: ['$\\frac{1}{3}$', '$\\frac{1}{9}$', '$\\frac{1}{6}$', '$\\frac{2}{3}$'], answer: 1, correction: 'Le rapport des aires est le carré du rapport de réduction : $k^2 = \\left(\\frac{1}{3}\\right)^2 = \\frac{1}{9}$. L\'aire varie comme le carré des longueurs — une erreur fréquente est de confondre rapport de longueurs et rapport d\'aires.' },
+      { q: 'Un triangle a des angles de $90°$, $45°$ et $45°$. Quels types de droites remarquables sont confondues pour le côté face à l\'angle de $90°$ ?', options: ['Médiane et hauteur issues de l\'angle droit sont confondues car le triangle est isocèle rectangle', 'Toutes les droites remarquables sont distinctes', 'Médiatrice et bissectrice sont confondues', 'Hauteur et médiatrice sont confondues'], answer: 0, correction: 'Dans un triangle isocèle rectangle, la médiane issue de l\'angle droit rejoint le milieu de l\'hypoténuse ET est perpendiculaire à l\'hypoténuse (c\'est aussi la hauteur). Les deux droites sont confondues. C\'est un cas particulier — en général, médiane et hauteur sont distinctes.' }
     ],
     exercice: {
       type: 'numeric',
       generate() {
-        const am = rand(2, 5), ratio = rand(2, 4);
+        const contexts = [
+          { intro: 'Un géomètre mesure un terrain triangulaire. Il trace une parallèle à la base', obj: 'la longueur de la clôture parallèle' },
+          { intro: 'Un architecte réduit un plan triangulaire. La droite de coupe est parallèle à la base', obj: 'la longueur du segment réduit' },
+          { intro: 'Un cartographe étudie deux routes parallèles coupées par deux sentiers', obj: 'la distance entre les intersections sur la route secondaire' }
+        ];
+        const ctx = pick(contexts);
+        const am = rand(2, 6);
+        const ratio = rand(2, 4);
         const ab = am * ratio;
-        const an = rand(2, 4);
-        const ac = an * ratio;
-        const nc = ac - an;
+        const bc = rand(3, 8) * ratio;
+        const mn = bc / ratio;
         return {
-          statement: `Dans un triangle $ABC$, $(MN)\\parallel(BC)$, $AM=${am}$, $AB=${ab}$, $AN=${an}$. Calculer $AC$.`,
-          answer: ac,
+          statement: `${ctx.intro} dans un triangle $ABC$. On sait que $(MN) \\parallel (BC)$, $AM = ${am}$, $AB = ${ab}$ et $BC = ${bc}$.<br/><br/><strong>1.</strong> Calculer le rapport de réduction $k = \\frac{AM}{AB}$.<br/><strong>2.</strong> En déduire $MN$ par le théorème de Thalès.<br/><strong>3.</strong> Quel est le rapport des aires des triangles $AMN$ et $ABC$ ?<br/><br/>Donne la valeur de $MN$.`,
+          answer: mn,
           tolerance: 0,
           unit: '',
-          hint: `Par Thalès : $\\frac{AM}{AB}=\\frac{AN}{AC}$.`,
-          solution: [`$\\frac{${am}}{${ab}}=\\frac{${an}}{AC}$`, `$AC=\\frac{${an}\\times${ab}}{${am}}=${ac}$`]
+          hint: `Rapport $k = \\frac{${am}}{${ab}} = \\frac{1}{${ratio}}$. Par Thalès : $\\frac{MN}{BC} = k$.`,
+          solution: [
+            `$k = \\frac{AM}{AB} = \\frac{${am}}{${ab}} = \\frac{1}{${ratio}}$`,
+            `Par Thalès : $MN = k \\times BC = \\frac{1}{${ratio}} \\times ${bc} = ${mn}$`,
+            `Rapport des aires : $k^2 = \\frac{1}{${ratio*ratio}}$`
+          ]
         };
       }
     },
@@ -1482,41 +1777,57 @@ window.MODULES.push(
     quiz: [
       { q: 'Pourquoi calcule-t-on la variance avec les écarts au CARRÉ $(x_i-\\bar{x})^2$ plutôt qu\'en valeur absolue ?', options: ['La somme des écarts simples $\\sum(x_i-\\bar{x})$ est toujours nulle ; le carré évite cette annulation et pénalise davantage les grandes déviations', 'Parce que les valeurs absolues ne s\'additionnent pas', 'Pour que les résultats soient toujours entiers', 'Par convention seulement — les deux formules donnent le même résultat'], answer: 0, correction: 'La somme $\\sum(x_i-\\bar{x}) = 0$ toujours (définition de la moyenne). En prenant les carrés, on évite cette annulation. De plus, le carré pénalise davantage les grandes déviations que les petites — ce qui est souvent souhaitable.' },
       { q: 'Deux séries ont la même moyenne. L\'écart-type de A est $0{,}5$, celui de B est $3$. Quelle série est plus homogène ?', options: ['B', 'A', 'Elles sont identiques', 'Impossible à dire'], answer: 1, correction: 'A est plus homogène : écart-type plus faible = données plus regroupées autour de la moyenne.' },
-      { q: 'Pour la série $\\{2;4;4;6\}$, la moyenne est $4$. La variance est :', options: ['$2$', '$4$', '$2{,}5$', '$1$'], answer: 0, correction: '$V=\\frac{(2-4)^2+(4-4)^2+(4-4)^2+(6-4)^2}{4}=\\frac{4+0+0+4}{4}=2$.' }
+      { q: 'Pour la série $\\{2;4;4;6\}$, la moyenne est $4$. La variance est :', options: ['$2$', '$4$', '$2{,}5$', '$1$'], answer: 0, correction: '$V=\\frac{(2-4)^2+(4-4)^2+(4-4)^2+(6-4)^2}{4}=\\frac{4+0+0+4}{4}=2$.' },
+      { q: 'On ajoute $5$ à chaque valeur d\'une série. Que deviennent la moyenne et l\'écart-type ?', options: ['La moyenne augmente de $5$, l\'écart-type ne change pas', 'La moyenne et l\'écart-type augmentent de $5$', 'La moyenne ne change pas, l\'écart-type augmente de $5$', 'Aucun des deux ne change'], answer: 0, correction: 'Ajouter une constante $c$ à toutes les valeurs translate la série : $\\bar{x}\' = \\bar{x} + c$ (la moyenne augmente de $c$). Mais les écarts à la moyenne ne changent pas ($x_i + c - (\\bar{x} + c) = x_i - \\bar{x}$), donc $\\sigma$ reste identique. La dispersion n\'est pas affectée par une translation.' },
+      { q: 'La variance d\'une série est $V = 9$. Si on multiplie toutes les valeurs par $2$, la nouvelle variance est :', options: ['$18$', '$36$', '$9$', '$81$'], answer: 1, correction: 'Multiplier toutes les valeurs par $k$ multiplie la moyenne par $k$ et les écarts par $k$, donc la variance par $k^2$. Ici $V\' = 2^2 \\times 9 = 36$. L\'écart-type, lui, est multiplié par $|k|$ : $\\sigma\' = 2 \\times 3 = 6$.' }
     ],
     exercice: {
       type: 'numeric',
       generate() {
-        const a = rand(2, 5), d = rand(1, 3);
-        const vals = [a-d, a, a, a+d];
-        const mean = a;
-        const variance = ((d*d)+(0)+(0)+(d*d))/4;
+        const contexts = [
+          { intro: 'Les notes d\'un élève sur $5$ contrôles de maths sont', unit: 'points' },
+          { intro: 'Les durées (en min) de $5$ trajets quotidiens sont', unit: 'min' },
+          { intro: 'Les températures (en °C) relevées sur $5$ jours sont', unit: '°C' },
+          { intro: 'Les prix (en €) de $5$ articles similaires sont', unit: '€' }
+        ];
+        const ctx = pick(contexts);
+        const mean = rand(8, 16);
+        const d1 = rand(1, 4);
+        const d2 = rand(1, 3);
+        const d3 = rand(0, 2);
+        const vals = [mean - d1, mean - d2, mean + d3, mean + d2, mean + d1 - d3];
+        const actualMean = vals.reduce((s, v) => s + v, 0) / 5;
+        const roundedMean = parseFloat(actualMean.toFixed(1));
+        const variance = vals.reduce((s, v) => s + (v - actualMean) ** 2, 0) / 5;
+        const sigma = parseFloat(Math.sqrt(variance).toFixed(2));
         return {
-          statement: `Calculer la variance de la série $\\{${vals.join(';')}\\}$ (moyenne $= ${mean}$).`,
-          answer: variance,
-          tolerance: 0.01,
-          unit: '',
-          hint: `$V = \\frac{1}{4}\\sum(x_i - ${mean})^2$`,
+          statement: `${ctx.intro} : $\\{${vals.join(' ; ')}\\}$.<br/><br/><strong>1.</strong> Calculer la moyenne $\\bar{x}$.<br/><strong>2.</strong> Calculer la variance $V$.<br/><strong>3.</strong> En déduire l'écart-type $\\sigma = \\sqrt{V}$.<br/><br/>Donne l'<strong>écart-type</strong> $\\sigma$ (arrondi au centième).`,
+          answer: sigma,
+          tolerance: 0.05,
+          unit: ctx.unit,
+          hint: `Commence par la moyenne : $\\bar{x} = \\frac{${vals.join('+')}}{5}$. Puis calcule chaque écart au carré $(x_i - \\bar{x})^2$.`,
           solution: [
-            `Écarts au carré : $(${vals[0]}-${mean})^2=${d*d}$, $(${vals[1]}-${mean})^2=0$, $(${vals[2]}-${mean})^2=0$, $(${vals[3]}-${mean})^2=${d*d}$`,
-            `$V = \\frac{${d*d}+0+0+${d*d}}{4} = ${variance}$`
+            `$\\bar{x} = \\frac{${vals.join('+')}}{5} = \\frac{${vals.reduce((s,v)=>s+v,0)}}{5} = ${roundedMean}$`,
+            `Écarts au carré : ${vals.map(v => `(${v}-${roundedMean})^2 = ${((v-actualMean)**2).toFixed(2)}`).join(', ')}`,
+            `$V = \\frac{${vals.map(v => ((v-actualMean)**2).toFixed(2)).join('+')}}{5} = ${variance.toFixed(2)}$`,
+            `$\\sigma = \\sqrt{${variance.toFixed(2)}} \\approx ${sigma}$ ${ctx.unit}`
           ]
         };
       }
     },
     probleme: {
-      context: 'Les notes de deux élèves sur $5$ contrôles : Alice $\\{12;14;13;15;11\\}$, Baptiste $\\{8;18;10;20;9\\}$.',
+      context: 'Deux classes de Seconde passent le même devoir de maths :<br/><br/>- <strong>Classe A</strong> ($5$ élèves, notes simplifiées) : $\\{12 ; 14 ; 13 ; 15 ; 11\\}$<br/>- <strong>Classe B</strong> ($5$ élèves) : $\\{8 ; 18 ; 10 ; 20 ; 9\\}$<br/><br/>Le professeur veut comparer la régularité des deux classes.',
       tasks: [
-        'Calculer la moyenne de chaque élève.',
-        'Calculer la variance et l\'écart-type de chaque série.',
-        'Quel élève est le plus régulier ? Justifier.'
+        'Calculer la moyenne de chaque classe. Que remarque-t-on ?',
+        'Calculer la variance puis l\'écart-type de chaque série.',
+        'Le professeur envisage d\'ajouter $2$ points à toutes les notes de la classe B. Quels sont les effets sur la moyenne et l\'écart-type de B ?'
       ],
       solutions: [
-        '$\\bar{A}=\\frac{65}{5}=13$ ; $\\bar{B}=\\frac{65}{5}=13$.',
-        '$V_A=\\frac{1+1+0+4+4}{5}=2$, $\\sigma_A=\\sqrt{2}\\approx 1{,}41$. $V_B=\\frac{25+25+9+49+16}{5}=24{,}8$, $\\sigma_B\\approx 4{,}98$.',
-        'Alice est plus régulière : $\\sigma_A\\approx 1{,}41 \\ll \\sigma_B\\approx 4{,}98$.'
+        '$\\bar{A}=\\frac{12+14+13+15+11}{5}=\\frac{65}{5}=13$ ; $\\bar{B}=\\frac{8+18+10+20+9}{5}=\\frac{65}{5}=13$. Les moyennes sont identiques !',
+        '$V_A=\\frac{(12-13)^2+(14-13)^2+(13-13)^2+(15-13)^2+(11-13)^2}{5}=\\frac{1+1+0+4+4}{5}=2$, $\\sigma_A=\\sqrt{2}\\approx 1{,}41$.<br/>$V_B=\\frac{25+25+9+49+16}{5}=24{,}8$, $\\sigma_B=\\sqrt{24{,}8}\\approx 4{,}98$.',
+        'Ajouter $2$ points à toutes les notes augmente la moyenne de $2$ ($\\bar{B}\' = 15$) mais ne change pas l\'écart-type ($\\sigma_B\' = \\sigma_B \\approx 4{,}98$). La dispersion ne dépend pas d\'une translation.'
       ],
-      finalAnswer: 'Mêmes moyennes ($13$), mais Alice est nettement plus régulière ($\\sigma\\approx 1{,}41$ vs $4{,}98$).'
+      finalAnswer: 'Mêmes moyennes ($13$), mais A est bien plus régulière ($\\sigma_A \\approx 1{,}41$ vs $\\sigma_B \\approx 4{,}98$). Ajouter $2$ pts ne change pas la dispersion.'
     },
 
     evaluation: {
@@ -1621,20 +1932,38 @@ window.MODULES.push(
     quiz: [
       { q: 'On lance une pièce équilibrée $10$ fois et on obtient $10$ fois « pile ». Quelle est la probabilité d\'obtenir « face » au $11^e$ lancer ?', options: ['$\\frac{1}{2}$ — chaque lancer est indépendant du passé', 'Plus grande que $\\frac{1}{2}$ — la « face » est en retard', 'Plus petite que $\\frac{1}{2}$ — la pièce semble biaisée', '$\\frac{1}{11}$ — il y a déjà eu $10$ piles'], answer: 0, correction: 'Les lancers sont des épreuves indépendantes : la pièce n\'a pas de mémoire. $P(\\text{face}) = \\frac{1}{2}$ à chaque lancer, quel que soit le passé. Croire que la « face est en retard » est le sophisme du joueur (gambler\'s fallacy).' },
       { q: 'Si $P(A)=0{,}3$, alors $P(\\bar{A})=$ ?', options: ['$0{,}3$', '$0{,}7$', '$1{,}3$', '$-0{,}3$'], answer: 1, correction: '$P(\\bar{A})=1-0{,}3=0{,}7$.' },
-      { q: 'Si $A$ et $B$ sont incompatibles, $P(A)=0{,}2$, $P(B)=0{,}5$. Alors $P(A\\cup B)=$ ?', options: ['$0{,}1$', '$0{,}3$', '$0{,}7$', '$1{,}0$'], answer: 2, correction: 'Incompatibles : $P(A\\cap B)=0$. Donc $P(A\\cup B)=0{,}2+0{,}5=0{,}7$.' }
+      { q: 'Si $A$ et $B$ sont incompatibles, $P(A)=0{,}2$, $P(B)=0{,}5$. Alors $P(A\\cup B)=$ ?', options: ['$0{,}1$', '$0{,}3$', '$0{,}7$', '$1{,}0$'], answer: 2, correction: 'Incompatibles : $P(A\\cap B)=0$. Donc $P(A\\cup B)=0{,}2+0{,}5=0{,}7$.' },
+      { q: '$P(A) = 0{,}6$, $P(B) = 0{,}5$ et $P(A \\cap B) = 0{,}3$. Calculer $P(A \\cup B)$ :', options: ['$0{,}8$', '$1{,}1$', '$0{,}3$', '$0{,}5$'], answer: 0, correction: '$P(A \\cup B) = P(A) + P(B) - P(A \\cap B) = 0{,}6 + 0{,}5 - 0{,}3 = 0{,}8$. Sans soustraire $P(A \\cap B)$, on obtiendrait $1{,}1 > 1$, ce qui est impossible pour une probabilité. La soustraction de l\'intersection corrige le double comptage.' },
+      { q: 'On lance un dé à $6$ faces. Calculer la probabilité de NE PAS obtenir un $6$. Quelle méthode est la plus efficace ?', options: ['$P(\\bar{A}) = 1 - P(A) = 1 - \\frac{1}{6} = \\frac{5}{6}$ — le complémentaire est plus rapide que de compter les $5$ issues favorables', '$P = \\frac{5}{6}$ en comptant $\\{1;2;3;4;5\\}$, c\'est la seule méthode', '$P = \\frac{1}{6}$ car il y a $1$ chance sur $6$', '$P = \\frac{6}{5}$'], answer: 0, correction: 'Les deux méthodes donnent le même résultat, mais le passage par le complémentaire ($1 - P(A)$) est souvent plus rapide, surtout quand l\'événement contraire est plus simple à dénombrer que l\'événement lui-même. Ici $P(A) = P(\\{6\\}) = 1/6$, donc $P(\\bar{A}) = 5/6$.' }
     ],
     exercice: {
       type: 'numeric',
       generate() {
-        const total = pick([4, 5, 6, 8, 10]);
-        const fav = rand(1, total - 1);
+        const contexts = [
+          { intro: 'Dans une classe de', total: rand(25, 35), traitA: 'pratiquent un sport', traitB: 'jouent d\'un instrument', both: 'les deux' },
+          { intro: 'Dans un club de', total: rand(40, 60), traitA: 'participent au cours de peinture', traitB: 'participent au cours de musique', both: 'les deux activités' },
+          { intro: 'Parmi les', total: rand(30, 50), traitA: 'suivent l\'option maths', traitB: 'suivent l\'option SVT', both: 'les deux options' }
+        ];
+        const ctx = pick(contexts);
+        const n = ctx.total;
+        const nA = rand(Math.floor(n * 0.3), Math.floor(n * 0.6));
+        const nB = rand(Math.floor(n * 0.2), Math.floor(n * 0.5));
+        const maxInter = Math.min(nA, nB);
+        const nAB = rand(Math.max(1, nA + nB - n), Math.floor(maxInter * 0.6));
+        const nAuB = nA + nB - nAB;
+        const pAuB = parseFloat((nAuB / n).toFixed(4));
+        const pNi = parseFloat((1 - pAuB).toFixed(4));
         return {
-          statement: `Une urne contient ${total} boules numérotées de 1 à ${total}. On tire une boule au hasard. Calculer $P$(numéro $\\le$ ${fav}) en fraction décimale.`,
-          answer: parseFloat((fav / total).toFixed(4)),
-          tolerance: 0.01,
+          statement: `${ctx.intro} $${n}$ élèves, $${nA}$ ${ctx.traitA} ($A$), $${nB}$ ${ctx.traitB} ($B$) et $${nAB}$ font ${ctx.both} ($A \\cap B$).<br/><br/><strong>1.</strong> Calculer $P(A \\cup B)$ (probabilité qu'un élève choisi au hasard fasse au moins l'une des deux activités).<br/><strong>2.</strong> En déduire $P(\\overline{A \\cup B})$ (probabilité de ne faire ni l'une ni l'autre).<br/><br/>Donne $P(\\overline{A \\cup B})$ en décimal (arrondi à $0{,}01$).`,
+          answer: pNi,
+          tolerance: 0.02,
           unit: '',
-          hint: `${fav} issues sur ${total} sont favorables.`,
-          solution: [`$P = \\frac{${fav}}{${total}} \\approx ${(fav/total).toFixed(4)}$`]
+          hint: `$P(A \\cup B) = P(A) + P(B) - P(A \\cap B) = \\frac{${nA}}{${n}} + \\frac{${nB}}{${n}} - \\frac{${nAB}}{${n}}$. Puis $P(\\overline{A \\cup B}) = 1 - P(A \\cup B)$.`,
+          solution: [
+            `$P(A \\cup B) = \\frac{${nA} + ${nB} - ${nAB}}{${n}} = \\frac{${nAuB}}{${n}} \\approx ${pAuB}$`,
+            `$P(\\overline{A \\cup B}) = 1 - ${pAuB} = ${pNi}$`,
+            `Il y a environ $${(pNi * 100).toFixed(1)}\\%$ de chances que l'élève ne fasse aucune des deux activités.`
+          ]
         };
       }
     },
@@ -1753,21 +2082,41 @@ window.MODULES.push(
     quiz: [
       { q: 'Pour réduire la marge d\'erreur de $10\\%$ à $5\\%$, par combien faut-il multiplier la taille de l\'échantillon ?', options: ['$4$', '$2$', '$10$', '$\\sqrt{2}$'], answer: 0, correction: '$e = 1/\\sqrt{n}$. Diviser $e$ par $2$ exige que $\\sqrt{n}$ soit multiplié par $2$, donc $n$ multiplié par $4$. Exemple : $e=0{,}1 \\Rightarrow n=100$ ; $e=0{,}05 \\Rightarrow n=400$. Améliorer la précision d\'un facteur $2$ coûte $4$ fois plus de participants.' },
       { q: 'Doubler la taille de l\'échantillon réduit la marge d\'erreur d\'un facteur :', options: ['$2$', '$\\sqrt{2}$', '$4$', '$\\sqrt{2}/2$'], answer: 1, correction: '$e=1/\\sqrt{n}$. Si $n\\to 2n$ : $e\'=1/\\sqrt{2n}=e/\\sqrt{2}$. Réduction d\'un facteur $\\sqrt{2}\\approx 1{,}41$.' },
-      { q: 'Un sondage sur $400$ personnes donne $f=0{,}6$. L\'intervalle de confiance à 95% est :', options: ['$[0{,}55;0{,}65]$', '$[0{,}59;0{,}61]$', '$[0{,}5;0{,}7]$', '$[0{,}56;0{,}64]$'], answer: 0, correction: '$e=1/\\sqrt{400}=0{,}05$. IC $=[0{,}6-0{,}05;0{,}6+0{,}05]=[0{,}55;0{,}65]$.' }
+      { q: 'Un sondage sur $400$ personnes donne $f=0{,}6$. L\'intervalle de confiance à 95% est :', options: ['$[0{,}55;0{,}65]$', '$[0{,}59;0{,}61]$', '$[0{,}5;0{,}7]$', '$[0{,}56;0{,}64]$'], answer: 0, correction: '$e=1/\\sqrt{400}=0{,}05$. IC $=[0{,}6-0{,}05;0{,}6+0{,}05]=[0{,}55;0{,}65]$.' },
+      { q: 'Un sondage donne $f = 0{,}52$ avec $n = 2500$. Peut-on affirmer que la vraie proportion $p$ est supérieure à $0{,}5$ (avec $95\\%$ de confiance) ?', options: ['Oui : l\'IC est $[0{,}50 ; 0{,}54]$, entièrement $\\geq 0{,}5$', 'Non : l\'IC contient des valeurs inférieures à $0{,}5$', 'Oui : $0{,}52 > 0{,}5$ suffit', 'Non : il faudrait $n > 10\\,000$'], answer: 0, correction: '$e = 1/\\sqrt{2500} = 0{,}02$. L\'IC est $[0{,}52 - 0{,}02 ; 0{,}52 + 0{,}02] = [0{,}50 ; 0{,}54]$. La borne inférieure est exactement $0{,}50$, donc on peut tout juste affirmer que $p \\geq 0{,}50$ à $95\\%$ de confiance. En pratique, c\'est à la limite — un échantillon plus grand serait recommandé.' },
+      { q: 'Deux sondages donnent $f_1 = 0{,}48$ ($n_1 = 100$) et $f_2 = 0{,}52$ ($n_2 = 100$). Peut-on conclure que les deux populations sont différentes ?', options: ['Non : les IC se chevauchent largement ($[0{,}38;0{,}58]$ et $[0{,}42;0{,}62]$), donc on ne peut pas distinguer les proportions', 'Oui : $0{,}52 > 0{,}48$', 'Non : les deux intervalles sont identiques', 'Oui : les fréquences sont différentes'], answer: 0, correction: '$e = 1/\\sqrt{100} = 0{,}1$. IC$_1 = [0{,}38;0{,}58]$ et IC$_2 = [0{,}42;0{,}62]$. Les intervalles se chevauchent : on ne peut pas conclure que les vraies proportions sont différentes. Il faudrait un échantillon bien plus grand pour distinguer deux proportions aussi proches.' }
     ],
     exercice: {
       type: 'numeric',
       generate() {
+        const contexts = [
+          { intro: 'Un sondage politique interroge', question: 'votants déclarant soutenir un candidat', unit: 'personnes' },
+          { intro: 'Un contrôle qualité examine', question: 'pièces défectueuses trouvées dans l\'échantillon', unit: 'pièces' },
+          { intro: 'Une enquête de satisfaction interroge', question: 'clients satisfaits du service', unit: 'clients' }
+        ];
+        const ctx = pick(contexts);
         const squares = [100, 225, 400, 625, 900];
         const n = pick(squares);
-        const e = parseFloat((1/Math.sqrt(n)).toFixed(4));
+        const sqrtN = Math.sqrt(n);
+        const fPercent = rand(30, 70);
+        const f = fPercent / 100;
+        const fav = Math.round(f * n);
+        const fActual = parseFloat((fav / n).toFixed(4));
+        const e = parseFloat((1 / sqrtN).toFixed(4));
+        const bInf = parseFloat((fActual - e).toFixed(4));
+        const bSup = parseFloat((fActual + e).toFixed(4));
         return {
-          statement: `Calculer la marge d'erreur pour un échantillon de taille $n=${n}$.`,
-          answer: e,
-          tolerance: 0.005,
+          statement: `${ctx.intro} $n = ${n}$ ${ctx.unit}. On trouve $${fav}$ ${ctx.question}.<br/><br/><strong>1.</strong> Calculer la fréquence observée $f$.<br/><strong>2.</strong> Calculer la marge d'erreur $e = 1/\\sqrt{n}$.<br/><strong>3.</strong> Construire l'intervalle de confiance à $95\\%$ : $[f-e ; f+e]$.<br/><br/>Donne la <strong>borne supérieure</strong> de l'intervalle de confiance (arrondie à $0{,}01$).`,
+          answer: parseFloat(bSup.toFixed(2)),
+          tolerance: 0.02,
           unit: '',
-          hint: `$e = 1/\\sqrt{n} = 1/\\sqrt{${n}}$.`,
-          solution: [`$e=\\frac{1}{\\sqrt{${n}}}=\\frac{1}{${Math.sqrt(n)}}=${e}$`]
+          hint: `$f = \\frac{${fav}}{${n}} = ${fActual}$. Puis $e = \\frac{1}{\\sqrt{${n}}} = \\frac{1}{${sqrtN}} = ${e}$.`,
+          solution: [
+            `$f = \\frac{${fav}}{${n}} = ${fActual}$`,
+            `$e = \\frac{1}{\\sqrt{${n}}} = \\frac{1}{${sqrtN}} = ${e}$`,
+            `IC = $[${fActual} - ${e} ; ${fActual} + ${e}] = [${bInf} ; ${bSup}]$`,
+            `On est sûr à $95\\%$ que la vraie proportion est entre $${(bInf*100).toFixed(1)}\\%$ et $${(bSup*100).toFixed(1)}\\%$.`
+          ]
         };
       }
     },
@@ -1887,36 +2236,81 @@ window.MODULES.push(
     quiz: [
       { q: 'Que calcule ce code ?\n$\\texttt{s=0}$\n$\\texttt{for i in range(1,5):}$\n$\\quad\\texttt{s=s+i}$', options: ['$s=10$', '$s=15$', '$s=4$', '$s=6$'], answer: 0, correction: '$i$ prend les valeurs $1,2,3,4$. $s=1+2+3+4=10$.' },
       { q: 'Un élève veut calculer $1+2+\\cdots+10$. Il écrit $\\texttt{s=0}$ puis $\\texttt{for i in range(10): s=s+i}$. Pourquoi son résultat sera-t-il incorrect ?', options: ['$\\texttt{range(10)}$ produit $0,1,\\ldots,9$ (le $10$ est exclu). Il faut $\\texttt{range(1,11)}$ pour inclure $10$', 'Il faut initialiser $\\texttt{s=1}$ et non $\\texttt{s=0}$', 'La boucle ne peut pas calculer une somme', 'Il n\'y a pas d\'erreur, le résultat est correct'], answer: 0, correction: '$\\texttt{range(10)}$ produit $0,1,2,\\ldots,9$ — la borne supérieure $10$ est exclue. La somme calculée est $0+1+\\ldots+9=45$ au lieu de $1+\\ldots+10=55$. Pour inclure $10$, il faut $\\texttt{range(1,11)}$.' },
-      { q: '$\\texttt{range(3,8)}$ produit :', options: ['$3,4,5,6,7,8$', '$3,4,5,6,7$', '$3,4,5,6$', '$0,1,2,3,4$'], answer: 1, correction: 'La borne supérieure $8$ est exclue : $3,4,5,6,7$.' }
+      { q: '$\\texttt{range(3,8)}$ produit :', options: ['$3,4,5,6,7,8$', '$3,4,5,6,7$', '$3,4,5,6$', '$0,1,2,3,4$'], answer: 1, correction: 'La borne supérieure $8$ est exclue : $3,4,5,6,7$.' },
+      { q: 'Quelle est la valeur de $x$ après :\n$\\texttt{x = 1}$\n$\\texttt{for i in range(4):}$\n$\\quad\\texttt{x = x * 3}$', options: ['$81$', '$12$', '$64$', '$27$'], answer: 0, correction: 'La boucle s\'exécute $4$ fois. $x$ est multiplié par $3$ à chaque passage : $1 \\to 3 \\to 9 \\to 27 \\to 81$. On calcule $3^4 = 81$. Attention : ce n\'est pas $3 \\times 4 = 12$ (multiplication) mais $3^4 = 81$ (puissance).' },
+      { q: 'Ce code contient une erreur. Laquelle ?\n$\\texttt{n = 5}$\n$\\texttt{while n > 0:}$\n$\\quad\\texttt{print(n)}$', options: ['Boucle infinie : $n$ n\'est jamais modifié dans la boucle, la condition $n > 0$ reste toujours vraie', '$\\texttt{print}$ n\'est pas une fonction Python valide', 'Il faut $\\texttt{while n >= 0}$', 'Il manque un $\\texttt{return}$'], answer: 0, correction: 'Le corps de la boucle affiche $n$ mais ne le modifie jamais. Comme $n = 5 > 0$ est toujours vrai, la boucle ne s\'arrête jamais. Il faudrait ajouter $\\texttt{n = n - 1}$ dans le bloc. C\'est le risque principal des boucles $\\texttt{while}$ : toujours vérifier que la condition finira par devenir fausse.' }
     ],
     exercice: {
       type: 'numeric',
       generate() {
-        const n = rand(3, 8);
-        const ans = n * (n + 1) / 2;
-        return {
-          statement: `Le code suivant calcule la somme $S = 1+2+\\cdots+${n}$ :\n$\\texttt{s=0}$\n$\\texttt{for i in range(1,${n+1}):}$\n$\\quad\\texttt{s=s+i}$\nQuelle est la valeur finale de $s$ ?`,
-          answer: ans,
-          tolerance: 0,
-          unit: '',
-          hint: `La somme des entiers de $1$ à $n$ est $n(n+1)/2 = ${n}\\times${n+1}/2$.`,
-          solution: [`$s = 1+2+\\cdots+${n} = \\frac{${n}\\times${n+1}}{2} = ${ans}$`]
-        };
+        const types = ['produit', 'while_compteur', 'condition'];
+        const type = pick(types);
+        if (type === 'produit') {
+          const base = rand(2, 4);
+          const n = rand(3, 6);
+          const ans = Math.pow(base, n);
+          return {
+            statement: `Déterminer la valeur finale de $\\texttt{p}$ après l'exécution du code suivant :<br/><br/>$\\texttt{p = 1}$<br/>$\\texttt{for i in range(${n}):}$<br/>$\\quad\\texttt{p = p * ${base}}$<br/><br/>Vérifie en exécutant le code « à la main » (pas à pas).`,
+            answer: ans,
+            tolerance: 0,
+            unit: '',
+            hint: `La boucle multiplie $\\texttt{p}$ par $${base}$ à chaque passage, $${n}$ fois. On calcule $${base}^{${n}}$.`,
+            solution: [
+              `Exécution pas à pas : $p = 1$`,
+              `${Array.from({length: n}, (_, k) => `Passage $i=${k}$ : $p = ${Math.pow(base, k)} \\times ${base} = ${Math.pow(base, k+1)}$`).join('<br/>')}`,
+              `Valeur finale : $p = ${base}^{${n}} = ${ans}$`
+            ]
+          };
+        } else if (type === 'while_compteur') {
+          const start = rand(50, 200);
+          const divisor = pick([2, 3, 5]);
+          let val = start, count = 0;
+          while (val >= divisor) { val = Math.floor(val / divisor); count++; }
+          return {
+            statement: `Déterminer la valeur finale de $\\texttt{compteur}$ après l'exécution :<br/><br/>$\\texttt{n = ${start}}$<br/>$\\texttt{compteur = 0}$<br/>$\\texttt{while n >= ${divisor}:}$<br/>$\\quad\\texttt{n = n // ${divisor}}$<br/>$\\quad\\texttt{compteur = compteur + 1}$<br/><br/>Exécute le code à la main en notant les valeurs successives de $n$.`,
+            answer: count,
+            tolerance: 0,
+            unit: '',
+            hint: `$\\texttt{//}$ est la division entière. Trace les valeurs de $n$ : $${start}$, puis $${start} // ${divisor} = ${Math.floor(start/divisor)}$, etc. Compte le nombre de passages.`,
+            solution: [
+              `Valeurs successives de $n$ : ${(() => { let v = start, steps = []; while (v >= divisor) { let nv = Math.floor(v/divisor); steps.push(`$${v} \\to ${nv}$`); v = nv; } return steps.join(', '); })()}`,
+              `$\\texttt{compteur} = ${count}$`
+            ]
+          };
+        } else {
+          const a = rand(2, 5);
+          const b = rand(10, 30);
+          const n = rand(5, 10);
+          let s = 0;
+          for (let i = 1; i <= n; i++) { s += a * i + b; }
+          return {
+            statement: `On exécute le code suivant :<br/><br/>$\\texttt{s = 0}$<br/>$\\texttt{for i in range(1, ${n+1}):}$<br/>$\\quad\\texttt{s = s + ${a}*i + ${b}}$<br/><br/>Quelle est la valeur finale de $\\texttt{s}$ ? (On calcule $\\sum_{i=1}^{${n}} (${a}i + ${b})$.)`,
+            answer: s,
+            tolerance: 0,
+            unit: '',
+            hint: `La somme est $\\sum_{i=1}^{${n}} (${a}i + ${b}) = ${a} \\cdot \\frac{${n}(${n}+1)}{2} + ${b} \\cdot ${n}$.`,
+            solution: [
+              `$s = \\sum_{i=1}^{${n}} (${a}i + ${b}) = ${a} \\cdot \\frac{${n} \\times ${n+1}}{2} + ${b} \\times ${n}$`,
+              `$= ${a} \\times ${n*(n+1)/2} + ${b*n}$`,
+              `$= ${a*n*(n+1)/2} + ${b*n} = ${s}$`
+            ]
+          };
+        }
       }
     },
     probleme: {
-      context: 'On veut écrire un programme Python qui calcule la moyenne de $5$ notes saisies par l\'utilisateur.',
+      context: 'On place un capital initial $C_0 = 1000$ € sur un livret à taux annuel $t = 3\\%$ ($= 0{,}03$). Chaque année, les intérêts sont ajoutés au capital : $C_{n+1} = C_n \\times (1 + t)$.',
       tasks: [
-        'Écrire le pseudo-code de l\'algorithme.',
-        'Traduire en Python (utiliser $\\texttt{input()}$ et $\\texttt{float()}$).',
-        'Que doit-on modifier pour gérer $n$ notes (avec $n$ saisi par l\'utilisateur) ?'
+        'Écrire un programme Python qui calcule le capital après $n$ années (avec une boucle $\\texttt{for}$).',
+        'Modifier le programme pour qu\'il affiche le nombre d\'années nécessaires pour doubler le capital initial (utiliser une boucle $\\texttt{while}$).',
+        'Exécuter à la main le programme $\\texttt{while}$ et donner le résultat.'
       ],
       solutions: [
-        'Pseudo-code : initialiser $S=0$, répéter 5 fois (saisir note, $S \\leftarrow S+$note), afficher $S/5$.',
-        '$\\texttt{s=0}$\n$\\texttt{for i in range(5):}$\n$\\quad\\texttt{n=float(input("Note : "))}$\n$\\quad\\texttt{s+=n}$\n$\\texttt{print(s/5)}$',
-        'Remplacer $5$ par $n$ (saisi via $\\texttt{n=int(input())}$ avant la boucle) et diviser par $n$.'
+        '$\\texttt{C = 1000}$<br/>$\\texttt{t = 0.03}$<br/>$\\texttt{for i in range(n):}$<br/>$\\quad\\texttt{C = C * (1 + t)}$<br/>$\\texttt{print(C)}$',
+        '$\\texttt{C = 1000}$<br/>$\\texttt{t = 0.03}$<br/>$\\texttt{annees = 0}$<br/>$\\texttt{while C < 2000:}$<br/>$\\quad\\texttt{C = C * 1.03}$<br/>$\\quad\\texttt{annees = annees + 1}$<br/>$\\texttt{print(annees)}$',
+        'Après $23$ ans : $C_{23} = 1000 \\times 1{,}03^{23} \\approx 1974$ € (pas encore doublé). Après $24$ ans : $C_{24} \\approx 2033$ €. Il faut $24$ ans pour doubler le capital.'
       ],
-      finalAnswer: 'Utiliser une boucle $\\texttt{for i in range(n)}$ avec $n$ paramétrable.'
+      finalAnswer: 'Il faut $24$ ans pour doubler un capital à $3\\%$ par an (intérêts composés).'
     },
 
     evaluation: {

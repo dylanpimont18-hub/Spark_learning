@@ -8,7 +8,11 @@
       "Bash(grep -n \"preventDefault\\\\|stopPropagation\\\\|return false\" \"/c/Users/Dylan/Desktop/Creation_site/Spark_learning/js/\"*.js)",
       "Bash(\" \"/c/Users/Dylan/Desktop/Creation_site/Spark_learning/js/app.js\" \"/c/Users/Dylan/Desktop/Creation_site/Spark_learning/js/engines.js \")",
       "Bash(grep -n \"print\\\\|debug\\\\|verbose\\\\|metric\\\\|analytics\\\\|tracking\" \"/c/Users/Dylan/Desktop/Creation_site/Spark_learning/js/\"*.js)",
-      "Bash(grep -n \"submitChronoAnswer\\\\|playlistNext\\\\|playlistPrev\\\\|addToHomework\" /c/Users/Dylan/Desktop/Creation_site/Spark_learning/js/*.js)"
+      "Bash(grep -n \"submitChronoAnswer\\\\|playlistNext\\\\|playlistPrev\\\\|addToHomework\" /c/Users/Dylan/Desktop/Creation_site/Spark_learning/js/*.js)",
+      "Bash(node -c c:/Users/Dylan/Desktop/Creation_site/Spark_learning/js/data/si-2nde.js)",
+      "Bash(node -c c:/Users/Dylan/Desktop/Creation_site/Spark_learning/js/data/si-1re.js)",
+      "Bash(node -c c:/Users/Dylan/Desktop/Creation_site/Spark_learning/js/data/si-tle.js)",
+      "Bash(node -c c:/Users/Dylan/Desktop/Creation_site/Spark_learning/js/data/si-bts.js)"
     ]
   }
 }

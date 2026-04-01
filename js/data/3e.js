@@ -16,19 +16,41 @@ window.MODULES.push(
 
     cours: {
       intro: 'Dans tout triangle rectangle, les rapports entre les côtés dépendent uniquement des angles — pas de la taille du triangle. La trigonométrie exploite cette invariance : $\\sin$, $\\cos$ et $\\tan$ sont des fonctions de l\'angle qui restent constantes pour tous les triangles semblables. SOH-CAH-TOA est le mémo qui associe chaque fonction à la bonne paire de côtés. En physique, décomposer une force ou une vitesse revient toujours à trouver des triangles rectangles cachés dans la situation réelle. La relation $\\sin^2(\\theta) + \\cos^2(\\theta) = 1$ relie les deux fonctions pour tout angle — c\'est le théorème de Pythagore exprimé en termes de rapports trigonométriques.',
+      definitions: [
+        { term: 'Hypoténuse', def: 'Le <strong>plus grand côté</strong> du triangle rectangle, situé en face de l\'angle droit. C\'est toujours le dénominateur dans les formules de $\\sin$ et $\\cos$.' },
+        { term: 'Sinus', def: 'Pour un angle $\\theta$ dans un triangle rectangle : $\\sin(\\theta) = \\dfrac{\\text{côté opposé}}{\\text{hypoténuse}}$.<br/><br/>Le sinus mesure le rapport entre le côté <strong>en face</strong> de l\'angle et l\'hypoténuse.' },
+        { term: 'Cosinus', def: 'Pour un angle $\\theta$ dans un triangle rectangle : $\\cos(\\theta) = \\dfrac{\\text{côté adjacent}}{\\text{hypoténuse}}$.<br/><br/>Le cosinus mesure le rapport entre le côté <strong>à côté</strong> de l\'angle et l\'hypoténuse.' },
+        { term: 'Tangente', def: 'Pour un angle $\\theta$ dans un triangle rectangle : $\\tan(\\theta) = \\dfrac{\\text{côté opposé}}{\\text{côté adjacent}} = \\dfrac{\\sin(\\theta)}{\\cos(\\theta)}$.<br/><br/>La tangente ne fait <strong>pas intervenir l\'hypoténuse</strong>.' }
+      ],
       method: {
         title: 'Méthode SOH-CAH-TOA',
         steps: [
-          '**SOH** : $\\sin(\\theta) = \\dfrac{\\text{côté Opposé}}{\\text{Hypoténuse}}$. Le côté "Opposé" est celui qui ne touche pas l\'angle $\\theta$.',
-          '**CAH** : $\\cos(\\theta) = \\dfrac{\\text{côté Adjacent}}{\\text{Hypoténuse}}$. Le côté "Adjacent" est celui qui touche l\'angle $\\theta$ (l\'autre côté, pas l\'hypoténuse).',
-          '**TOA** : $\\tan(\\theta) = \\dfrac{\\text{côté Opposé}}{\\text{côté Adjacent}} = \\dfrac{\\sin(\\theta)}{\\cos(\\theta)}$. Pour retrouver un angle : $\\theta = \\arccos\\left(\\frac{\\text{adj}}{\\text{hyp}}\\right)$.'
+          'SOH : $\\sin(\\theta) = \\dfrac{\\text{côté Opposé}}{\\text{Hypoténuse}}$. Le côté "Opposé" est celui qui ne touche pas l\'angle $\\theta$.',
+          'CAH : $\\cos(\\theta) = \\dfrac{\\text{côté Adjacent}}{\\text{Hypoténuse}}$. Le côté "Adjacent" est celui qui touche l\'angle $\\theta$ (l\'autre côté, pas l\'hypoténuse).',
+          'TOA : $\\tan(\\theta) = \\dfrac{\\text{côté Opposé}}{\\text{côté Adjacent}} = \\dfrac{\\sin(\\theta)}{\\cos(\\theta)}$. Pour retrouver un angle : $\\theta = \\arccos\\left(\\frac{\\text{adj}}{\\text{hyp}}\\right)$.'
         ]
+      },
+      example: {
+        statement: 'Dans un triangle rectangle, l\'hypoténuse mesure $13$ cm et un angle vaut $30°$. Calculer le côté opposé et le côté adjacent à cet angle.',
+        steps: [
+          '<strong>Côté opposé</strong> (SOH) : $\\sin(30°) = \\dfrac{\\text{opp}}{13}$, donc $\\text{opp} = 13 \\times \\sin(30°) = 13 \\times 0{,}5 = 6{,}5$ cm.',
+          '<strong>Côté adjacent</strong> (CAH) : $\\cos(30°) = \\dfrac{\\text{adj}}{13}$, donc $\\text{adj} = 13 \\times \\cos(30°) = 13 \\times \\dfrac{\\sqrt{3}}{2} \\approx 11{,}26$ cm.',
+          '<strong>Vérification</strong> par Pythagore : $6{,}5^2 + 11{,}26^2 = 42{,}25 + 126{,}79 = 169{,}04 \\approx 13^2 = 169$ ✓'
+        ],
+        answer: 'Côté opposé $= 6{,}5$ cm ; côté adjacent $\\approx 11{,}26$ cm.'
       },
       formulas: [
         '$\\sin(30°) = 0{,}5$, $\\cos(30°) = \\frac{\\sqrt{3}}{2} \\approx 0{,}866$',
         '$\\sin(45°) = \\cos(45°) = \\frac{\\sqrt{2}}{2} \\approx 0{,}707$',
         '$\\sin(60°) = \\frac{\\sqrt{3}}{2} \\approx 0{,}866$, $\\cos(60°) = 0{,}5$',
         '$\\sin^2(\\theta) + \\cos^2(\\theta) = 1$ (relation fondamentale)'
+      ],
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Angle $\\theta$</th><th style="border:1px solid var(--border);padding:8px">$\\sin(\\theta)$</th><th style="border:1px solid var(--border);padding:8px">$\\cos(\\theta)$</th><th style="border:1px solid var(--border);padding:8px">$\\tan(\\theta)$</th></tr><tr><td style="border:1px solid var(--border);padding:8px">$30°$</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{1}{2} = 0{,}5$</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{\\sqrt{3}}{2} \\approx 0{,}866$</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{1}{\\sqrt{3}} \\approx 0{,}577$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">$45°$</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{\\sqrt{2}}{2} \\approx 0{,}707$</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{\\sqrt{2}}{2} \\approx 0{,}707$</td><td style="border:1px solid var(--border);padding:8px">$1$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">$60°$</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{\\sqrt{3}}{2} \\approx 0{,}866$</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{1}{2} = 0{,}5$</td><td style="border:1px solid var(--border);padding:8px">$\\sqrt{3} \\approx 1{,}732$</td></tr></table>',
+      recap: [
+        '<strong>SOH-CAH-TOA</strong> : Sinus = Opposé/Hypoténuse, Cosinus = Adjacent/Hypoténuse, Tangente = Opposé/Adjacent.',
+        '<strong>Relation fondamentale</strong> : $\\sin^2(\\theta) + \\cos^2(\\theta) = 1$ pour tout angle $\\theta$. Cette relation permet de trouver l\'un si on connaît l\'autre.',
+        '<strong>Valeurs remarquables</strong> : connaître par cœur $\\sin$ et $\\cos$ de $30°$, $45°$ et $60°$ est indispensable (on les retrouve dans le triangle équilatéral et le carré).',
+        '<strong>Fonctions inverses</strong> : pour retrouver un angle, on utilise $\\arcsin$, $\\arccos$ ou $\\arctan$ à la calculatrice.'
       ],
       piege: 'Piège classique sur un plan incliné : le poids $\\vec{P}$ est vertical. Si l\'angle du plan par rapport à l\'horizontal est $\\alpha$, alors la composante le long du plan est $P \\cdot \\sin(\\alpha)$ (et non $\\cos$). L\'angle se "décale" par rapport à l\'intuition !'
     },
@@ -167,18 +189,40 @@ window.MODULES.push(
 
     cours: {
       intro: 'Un système de deux équations à deux inconnues apparaît dès qu\'un problème met en jeu deux quantités liées par deux relations indépendantes. La substitution isole une variable dans une équation et la remplace dans l\'autre ; la combinaison (addition) choisit un coefficient pour éliminer directement une variable — plus rapide quand les coefficients s\'y prêtent. En physique, les lois de Kirchhoff pour les circuits électriques et les bilans de mélange en chimie donnent naturellement des systèmes. L\'étape de vérification est indispensable : une erreur de substitution peut donner un résultat qui satisfait une équation mais pas l\'autre, et seul le test dans LES DEUX équations permet de le détecter.',
+      definitions: [
+        { term: 'Système d\'équations', def: 'Ensemble de <strong>deux équations</strong> à <strong>deux inconnues</strong> ($x$ et $y$) que l\'on doit résoudre <strong>simultanément</strong>. La solution est le couple $(x\\,;\\,y)$ qui vérifie les deux équations en même temps.' },
+        { term: 'Substitution', def: 'Méthode qui consiste à <strong>isoler une inconnue</strong> dans une équation (par exemple $y = 7 - 2x$) puis à <strong>remplacer</strong> cette expression dans l\'autre équation pour ne garder qu\'une seule inconnue.' },
+        { term: 'Combinaison (addition)', def: 'Méthode qui consiste à <strong>multiplier</strong> une ou deux équations par des coefficients bien choisis, puis à les <strong>additionner</strong> pour éliminer directement une inconnue.' },
+        { term: 'Solution du système', def: 'Le couple $(x\\,;\\,y)$ qui satisfait <strong>les deux équations</strong> simultanément. Un système peut avoir une solution unique, aucune solution (droites parallèles) ou une infinité (droites confondues).' }
+      ],
       method: {
         title: 'Deux méthodes',
         steps: [
-          '**Substitution** : exprimer une inconnue en fonction de l\'autre à partir d\'une équation, puis substituer dans la seconde.',
-          '**Combinaison (addition)** : multiplier une équation par un coefficient pour que l\'un des termes s\'annule lors de l\'addition des deux équations.',
+          'Substitution : exprimer une inconnue en fonction de l\'autre à partir d\'une équation, puis substituer dans la seconde.',
+          'Combinaison (addition) : multiplier une équation par un coefficient pour que l\'un des termes s\'annule lors de l\'addition des deux équations.',
           'Vérification obligatoire : réinjecter les valeurs trouvées dans LES DEUX équations de départ.'
         ]
+      },
+      example: {
+        statement: 'Résoudre le système $\\begin{cases} 2x + y = 7 \\\\ x - y = 2 \\end{cases}$ par la méthode de combinaison.',
+        steps: [
+          '<strong>Addition des deux équations</strong> : $(2x + y) + (x - y) = 7 + 2$, soit $3x = 9$, donc $x = 3$.',
+          '<strong>Substitution de $x$</strong> dans la 2e équation : $3 - y = 2$, donc $y = 1$.',
+          '<strong>Vérification</strong> : dans la 1ère : $2(3) + 1 = 7$ ✓ ; dans la 2e : $3 - 1 = 2$ ✓. Le couple $(3\\,;\\,1)$ est bien la solution.'
+        ],
+        answer: 'La solution du système est $(x\\,;\\,y) = (3\\,;\\,1)$.'
       },
       formulas: [
         '$\\begin{cases} ax + by = c \\\\ dx + ey = f \\end{cases}$',
         'Par substitution : $x = \\dfrac{c - by}{a}$ puis substituer.',
         'Par combinaison : multiplier pour éliminer une variable.'
+      ],
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px"></th><th style="border:1px solid var(--border);padding:8px">Substitution</th><th style="border:1px solid var(--border);padding:8px">Combinaison (addition)</th></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Quand l\'utiliser ?</strong></td><td style="border:1px solid var(--border);padding:8px">Quand une inconnue a un coefficient $1$ ou $-1$</td><td style="border:1px solid var(--border);padding:8px">Quand les coefficients sont quelconques ou se prêtent bien à l\'élimination</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Avantage</strong></td><td style="border:1px solid var(--border);padding:8px">Simple et directe, facile à comprendre</td><td style="border:1px solid var(--border);padding:8px">Rapide, évite les fractions</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Inconvénient</strong></td><td style="border:1px solid var(--border);padding:8px">Peut donner des fractions compliquées</td><td style="border:1px solid var(--border);padding:8px">Nécessite de bien choisir les coefficients multiplicateurs</td></tr></table>',
+      recap: [
+        '<strong>Deux méthodes</strong> : la substitution isole puis remplace ; la combinaison multiplie puis additionne pour éliminer une inconnue.',
+        '<strong>Vérification obligatoire</strong> : toujours tester le couple trouvé dans les DEUX équations de départ. Une seule ne suffit pas !',
+        '<strong>Cas particuliers</strong> : si les deux droites sont parallèles, le système n\'a aucune solution ; si elles sont confondues, il en a une infinité.',
+        '<strong>En physique</strong> : les lois de Kirchhoff et les bilans de mélange donnent naturellement des systèmes à résoudre.'
       ],
       piege: 'Oublier de vérifier les solutions dans les deux équations. Une erreur de calcul dans la substitution peut donner un résultat faux qui satisfait une équation mais pas l\'autre. La vérification ne prend que 30 secondes et évite les erreurs.'
     },
@@ -320,6 +364,12 @@ window.MODULES.push(
 
     cours: {
       intro: 'Le théorème de Thalès est l\'un des résultats les plus puissants de la géométrie : quand deux droites parallèles coupent deux sécantes issues d\'un même point, tous les rapports de longueurs correspondants sont égaux. Cette égalité des rapports permet de calculer n\'importe quelle longueur inconnue dans une figure de triangles semblables. En pratique, Thalès apparaît partout : en optique (lentilles, grandissement), en topographie (mesure d\'objets inaccessibles par ombres portées), et dans les plans à l\'échelle. La réciproque est tout aussi utile : elle permet de prouver que deux droites sont parallèles à partir des seules mesures. Attention au cas « croisé » où le point $O$ est entre les deux parallèles : les rapports doivent encore être exprimés de façon cohérente.',
+      definitions: [
+        { term: 'Configuration de Thalès', def: 'Figure formée par <strong>deux droites sécantes</strong> passant par un même point $O$, coupées par <strong>deux droites parallèles</strong> $(AB)$ et $(A\'B\')$. C\'est la situation géométrique requise pour appliquer le théorème.' },
+        { term: 'Rapport de Thalès', def: 'Le quotient $\\dfrac{OA\'}{OA} = \\dfrac{OB\'}{OB} = \\dfrac{A\'B\'}{AB}$ qui est <strong>constant</strong> dans une configuration de Thalès. On dit que les longueurs sont <strong>proportionnelles</strong>.' },
+        { term: 'Réciproque de Thalès', def: 'Si les points $A$, $A\'$ sont sur une sécante et $B$, $B\'$ sur l\'autre, et que $\\dfrac{OA\'}{OA} = \\dfrac{OB\'}{OB}$ avec les points du <strong>même côté</strong> de $O$, alors $(AB) \\parallel (A\'B\')$.' },
+        { term: 'Grandissement', def: 'En optique, le rapport $\\gamma = \\dfrac{A\'B\'}{AB}$ qui indique de combien l\'image est <strong>agrandie</strong> ($|\\gamma| > 1$) ou <strong>réduite</strong> ($|\\gamma| < 1$). Si $\\gamma < 0$, l\'image est renversée.' }
+      ],
       method: {
         title: 'Méthode en 4 étapes',
         steps: [
@@ -329,10 +379,26 @@ window.MODULES.push(
           'Retrouver l\'inconnue par produit en croix à partir de l\'égalité de rapports.'
         ]
       },
+      example: {
+        statement: 'Dans une configuration de Thalès, $O$, $A$, $A\'$ sont alignés et $O$, $B$, $B\'$ sont alignés avec $(AB) \\parallel (A\'B\')$. On donne : $OA = 4$ cm, $OA\' = 6$ cm et $AB = 5$ cm. Calculer $A\'B\'$.',
+        steps: [
+          '<strong>Identifier la configuration</strong> : $(AB) \\parallel (A\'B\')$ et les deux sécantes passent par $O$. On peut appliquer le théorème de Thalès.',
+          '<strong>Écrire l\'égalité des rapports</strong> : $\\dfrac{OA\'}{OA} = \\dfrac{A\'B\'}{AB}$, soit $\\dfrac{6}{4} = \\dfrac{A\'B\'}{5}$.',
+          '<strong>Produit en croix</strong> : $A\'B\' = 5 \\times \\dfrac{6}{4} = 5 \\times 1{,}5 = 7{,}5$ cm.'
+        ],
+        answer: '$A\'B\' = 7{,}5$ cm.'
+      },
       formulas: [
         'Si $(AB) \\parallel (A\'B\')$ : $\\dfrac{OA\'}{OA} = \\dfrac{OB\'}{OB} = \\dfrac{A\'B\'}{AB}$',
         'Grandissement optique : $\\gamma = \\dfrac{A\'B\'}{AB} = \\dfrac{\\overline{OA\'}}{\\overline{OA}}$',
         'Réciproque : si $\\dfrac{OA\'}{OA} = \\dfrac{OB\'}{OB}$, alors $(AB) \\parallel (A\'B\')$'
+      ],
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px"></th><th style="border:1px solid var(--border);padding:8px">Théorème direct</th><th style="border:1px solid var(--border);padding:8px">Réciproque</th></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Hypothèses</strong></td><td style="border:1px solid var(--border);padding:8px">$(AB) \\parallel (A\'B\')$ et deux sécantes passant par $O$</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{OA\'}{OA} = \\dfrac{OB\'}{OB}$ avec points du même côté de $O$</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Conclusion</strong></td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{OA\'}{OA} = \\dfrac{OB\'}{OB} = \\dfrac{A\'B\'}{AB}$</td><td style="border:1px solid var(--border);padding:8px">$(AB) \\parallel (A\'B\')$</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Utilité</strong></td><td style="border:1px solid var(--border);padding:8px">Calculer une longueur inconnue</td><td style="border:1px solid var(--border);padding:8px">Prouver un parallélisme</td></tr></table>',
+      recap: [
+        '<strong>Rapports cohérents</strong> : toujours écrire les rapports dans le même sens (grand sur petit ou petit sur grand), jamais mélangés.',
+        '<strong>Réciproque</strong> : elle sert à <strong>prouver</strong> que deux droites sont parallèles, à condition que les points soient du même côté de $O$.',
+        '<strong>Grandissement en optique</strong> : le signe de $\\gamma$ indique si l\'image est droite ($\\gamma > 0$) ou renversée ($\\gamma < 0$) ; sa valeur absolue donne le facteur d\'agrandissement.',
+        '<strong>Configuration croisée</strong> : quand $O$ est entre les parallèles, les rapports restent égaux mais on utilise des mesures algébriques (avec signe).'
       ],
       piege: 'Attention aux rapports : ils peuvent être négatifs en optique (image renversée). Le grandissement $\\gamma$ est négatif quand l\'image est renversée. Ne jamais écrire juste $|AB|/|A\'B\'|$ sans tenir compte des sens — utiliser les mesures algébriques.'
     },
@@ -467,6 +533,12 @@ window.MODULES.push(
     physics: false,
     cours: {
       intro: 'Tout entier $n \\geq 2$ admet une décomposition en facteurs premiers unique (à l\'ordre près) — c\'est le théorème fondamental de l\'arithmétique. Cette décomposition est le « code-barres » du nombre : elle révèle instantanément tous ses diviseurs, son PGCD avec un autre nombre, et leur PPCM. Le PGCD (Plus Grand Commun Diviseur) donne la taille maximale d\'une part équitable ; le PPCM (Plus Petit Commun Multiple) indique le premier moment où deux cycles se synchronisent. L\'algorithme d\'Euclide calcule le PGCD en quelques divisions successives, sans décomposer en facteurs premiers — très pratique pour les grands nombres. La relation $a \\times b = \\text{PGCD}(a,b) \\times \\text{PPCM}(a,b)$ relie élégamment les deux notions.',
+      definitions: [
+        { term: 'Nombre premier', def: 'Entier $n \\geq 2$ qui n\'a que <strong>deux diviseurs distincts</strong> : $1$ et lui-même.<br/><br/>Exemples : $2, 3, 5, 7, 11, 13\\ldots$ Le nombre $1$ n\'est <strong>pas</strong> premier.' },
+        { term: 'PGCD', def: '<strong>Plus Grand Commun Diviseur</strong> de deux entiers $a$ et $b$ : c\'est le plus grand entier qui divise à la fois $a$ et $b$.<br/><br/>Exemple : $\\text{PGCD}(12, 18) = 6$.' },
+        { term: 'PPCM', def: '<strong>Plus Petit Commun Multiple</strong> de deux entiers $a$ et $b$ : c\'est le plus petit entier strictement positif qui est multiple de $a$ et de $b$ simultanément.<br/><br/>Exemple : $\\text{PPCM}(4, 6) = 12$.' },
+        { term: 'Algorithme d\'Euclide', def: 'Méthode de calcul du PGCD par <strong>divisions euclidiennes successives</strong> : $\\text{PGCD}(a, b) = \\text{PGCD}(b, a \\mod b)$, jusqu\'à obtenir un reste nul. Le dernier diviseur non nul est le PGCD.' }
+      ],
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
@@ -475,10 +547,26 @@ window.MODULES.push(
           'PPCM : prendre tous les facteurs premiers avec le plus grand exposant.'
         ]
       },
+      example: {
+        statement: 'Trouver le PGCD de $84$ et $56$ par l\'algorithme d\'Euclide.',
+        steps: [
+          '<strong>1ère division</strong> : $84 = 56 \\times 1 + 28$. Le reste est $28 \\neq 0$, on continue avec $\\text{PGCD}(56, 28)$.',
+          '<strong>2e division</strong> : $56 = 28 \\times 2 + 0$. Le reste est $0$, on s\'arrête.',
+          '<strong>Conclusion</strong> : le dernier reste non nul est $28$, donc $\\text{PGCD}(84, 56) = 28$. Vérification : $84 = 28 \\times 3$ et $56 = 28 \\times 2$ ✓'
+        ],
+        answer: '$\\text{PGCD}(84, 56) = 28$.'
+      },
       formulas: [
         'PGCD × PPCM $= a \\times b$',
         'Fraction irréductible : diviser numérateur et dénominateur par le PGCD',
         'Algorithme d\'Euclide : $\\text{PGCD}(a, b) = \\text{PGCD}(b, a \\mod b)$'
+      ],
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Premiers nombres premiers</th><th style="border:1px solid var(--border);padding:8px">Décomposition — méthode</th></tr><tr><td style="border:1px solid var(--border);padding:8px">$2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37$</td><td style="border:1px solid var(--border);padding:8px">Diviser par $2$, puis $3$, puis $5$, puis $7\\ldots$ jusqu\'à obtenir $1$</td></tr><tr><th style="border:1px solid var(--border);padding:8px">Exemple : $180$</th><th style="border:1px solid var(--border);padding:8px">Étapes</th></tr><tr><td style="border:1px solid var(--border);padding:8px">$180 = 2^2 \\times 3^2 \\times 5$</td><td style="border:1px solid var(--border);padding:8px">$180 \\div 2 = 90$, $90 \\div 2 = 45$, $45 \\div 3 = 15$, $15 \\div 3 = 5$, $5 \\div 5 = 1$</td></tr></table>',
+      recap: [
+        '<strong>Théorème fondamental</strong> : tout entier $\\geq 2$ se décompose de manière <strong>unique</strong> en produit de nombres premiers.',
+        '<strong>Relation PGCD-PPCM</strong> : $\\text{PGCD}(a, b) \\times \\text{PPCM}(a, b) = a \\times b$. Connaître l\'un permet de calculer l\'autre.',
+        '<strong>$1$ n\'est pas premier</strong> : un nombre premier a exactement deux diviseurs distincts. $1$ n\'en a qu\'un.',
+        '<strong>Algorithme d\'Euclide</strong> : méthode rapide pour calculer le PGCD sans décomposer en facteurs premiers — idéal pour les grands nombres.'
       ],
       piege: 'Piège : $1$ n\'est PAS un nombre premier (il faut exactement deux diviseurs distincts). Le plus petit nombre premier est $2$. Et $2$ est le seul nombre premier pair.'
     },
@@ -602,6 +690,12 @@ window.MODULES.push(
     physics: false,
     cours: {
       intro: 'Les trois identités remarquables sont des égalités algébriques vraies pour toutes valeurs de $a$ et $b$. Elles permettent deux opérations inverses : développer (produit → somme) et factoriser (somme → produit). La troisième, $(a+b)(a-b) = a^2 - b^2$, est redoutable pour le calcul mental : $99 \\times 101 = (100-1)(100+1) = 10000 - 1 = 9999$ en deux secondes ! L\'erreur la plus répandue est d\'écrire $(a+b)^2 = a^2 + b^2$ en oubliant le terme croisé $2ab$ : $(3+4)^2 = 49 \\neq 9 + 16 = 25$. Pour factoriser $x^2 - k$, la troisième identité exige que $k$ soit un carré parfait ; sinon, on écrit $x^2 - k = (x - \\sqrt{k})(x + \\sqrt{k})$ avec une racine irrationnelle.',
+      definitions: [
+        { term: 'Développer', def: 'Transformer un <strong>produit</strong> en <strong>somme</strong>.<br/><br/>Exemple : $(a+b)^2$ devient $a^2 + 2ab + b^2$. On « ouvre » les parenthèses.' },
+        { term: 'Factoriser', def: 'Transformer une <strong>somme</strong> en <strong>produit</strong> — l\'opération inverse du développement.<br/><br/>Exemple : $a^2 - b^2$ devient $(a+b)(a-b)$.' },
+        { term: 'Identité remarquable', def: 'Égalité algébrique <strong>toujours vraie</strong>, quelles que soient les valeurs de $a$ et $b$. Il y en a trois à connaître par cœur en 3e.' },
+        { term: 'Double produit', def: 'Le terme $2ab$ qui apparaît dans $(a+b)^2 = a^2 + \\boldsymbol{2ab} + b^2$. C\'est le terme le plus souvent <strong>oublié</strong> — source de l\'erreur classique $(a+b)^2 = a^2 + b^2$.' }
+      ],
       method: {
         title: 'Les trois identités à retenir',
         steps: [
@@ -610,10 +704,26 @@ window.MODULES.push(
           '$(a + b)(a - b) = a^2 - b^2$ (produit de la somme et de la différence)'
         ]
       },
+      example: {
+        statement: 'Développer $(3x + 2)^2$.',
+        steps: [
+          '<strong>Identifier $a$ et $b$</strong> : ici $a = 3x$ et $b = 2$. On applique la 1ère identité : $(a+b)^2 = a^2 + 2ab + b^2$.',
+          '<strong>Calculer chaque terme</strong> : $a^2 = (3x)^2 = 9x^2$, $2ab = 2 \\times 3x \\times 2 = 12x$, $b^2 = 2^2 = 4$.',
+          '<strong>Assembler</strong> : $(3x+2)^2 = 9x^2 + 12x + 4$. On vérifie : pour $x = 1$, $(3+2)^2 = 25$ et $9 + 12 + 4 = 25$ ✓'
+        ],
+        answer: '$(3x+2)^2 = 9x^2 + 12x + 4$.'
+      },
       formulas: [
         '$(a+b)^2 = a^2 + 2ab + b^2$',
         '$(a-b)^2 = a^2 - 2ab + b^2$',
         '$(a+b)(a-b) = a^2 - b^2$'
+      ],
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Identité</th><th style="border:1px solid var(--border);padding:8px">Formule développée</th><th style="border:1px solid var(--border);padding:8px">Exemple numérique</th></tr><tr><td style="border:1px solid var(--border);padding:8px">$(a+b)^2$</td><td style="border:1px solid var(--border);padding:8px">$a^2 + 2ab + b^2$</td><td style="border:1px solid var(--border);padding:8px">$(3+2)^2 = 9 + 12 + 4 = 25$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">$(a-b)^2$</td><td style="border:1px solid var(--border);padding:8px">$a^2 - 2ab + b^2$</td><td style="border:1px solid var(--border);padding:8px">$(7-3)^2 = 49 - 42 + 9 = 16$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">$(a+b)(a-b)$</td><td style="border:1px solid var(--border);padding:8px">$a^2 - b^2$</td><td style="border:1px solid var(--border);padding:8px">$101 \\times 99 = 10201 - 1 = 10\\,200 $</td></tr></table>',
+      recap: [
+        '<strong>Ne jamais oublier $2ab$</strong> : $(a+b)^2 = a^2 + \\boldsymbol{2ab} + b^2$. L\'erreur $(a+b)^2 = a^2 + b^2$ est la plus fréquente en algèbre.',
+        '<strong>$(a+b)(a-b) = a^2 - b^2$</strong> : identité idéale pour le calcul mental ($99 \\times 101 = 10000 - 1$) et pour factoriser une différence de deux carrés.',
+        '<strong>$(a+b)^2 \\neq a^2 + b^2$</strong> : vérifier systématiquement avec des nombres simples quand on hésite (par exemple $a = 3$, $b = 4$).',
+        '<strong>Factoriser</strong> : repérer un carré parfait ou une différence de carrés permet de revenir à un produit, utile pour résoudre des équations.'
       ],
       piege: 'Piège classique : $(a+b)^2 \\neq a^2 + b^2$. Il ne faut pas oublier le terme $2ab$ au milieu ! $(3+4)^2 = 49 \\neq 9 + 16 = 25$.'
     },
@@ -732,6 +842,12 @@ window.MODULES.push(
     physics: true,
     cours: {
       intro: 'Une équation fixe une condition d\'égalité sur $x$ ; on cherche toutes les valeurs qui la rendent vraie. Une inéquation fixe une condition d\'ordre : la solution est un intervalle, pas un point isolé. Les deux se résolvent par les mêmes opérations élémentaires — avec une différence cruciale : multiplier ou diviser par un nombre négatif inverse le sens de l\'inégalité. Intuition : si $-x < 3$, alors $x$ est au-delà de $-3$, c\'est-à-dire $x > -3$. En physique, les inéquations apparaissent dans les conditions de validité des modèles : une distance est positive, une probabilité reste entre $0$ et $1$, un courant ne dépasse pas une valeur limite. Toujours vérifier la solution en la substituant dans l\'expression de départ.',
+      definitions: [
+        { term: 'Équation', def: 'Égalité comportant une <strong>inconnue</strong> $x$. Résoudre une équation, c\'est trouver la (ou les) valeur(s) de $x$ qui rendent l\'égalité vraie.<br/><br/>Exemple : $2x + 3 = 7$ a pour solution $x = 2$.' },
+        { term: 'Inéquation', def: 'Inégalité comportant une inconnue $x$ (avec $<$, $>$, $\\leq$ ou $\\geq$). La solution est généralement un <strong>intervalle</strong> de valeurs, pas un nombre unique.<br/><br/>Exemple : $x + 1 > 3$ a pour solution $x > 2$.' },
+        { term: 'Solution', def: 'Valeur de l\'inconnue qui rend l\'équation ou l\'inéquation <strong>vraie</strong>. Pour une équation du 1er degré, il y a en général <strong>une seule solution</strong> ; pour une inéquation, c\'est un <strong>ensemble</strong> de valeurs.' },
+        { term: 'Intervalle', def: 'Ensemble de nombres compris entre deux bornes. Notation : $[2\\,;\\,5]$ (bornes incluses), $]2\\,;\\,5[$ (bornes exclues), $]-\\infty\\,;\\,3[$ (tous les nombres inférieurs à $3$).' }
+      ],
       method: {
         title: 'Méthode en 4 étapes',
         steps: [
@@ -741,10 +857,26 @@ window.MODULES.push(
           'Vérifier en substituant la solution dans l\'expression de départ.'
         ]
       },
+      example: {
+        statement: 'Résoudre l\'inéquation $3(x - 2) > 2x + 1$.',
+        steps: [
+          '<strong>Développer</strong> le membre de gauche : $3x - 6 > 2x + 1$.',
+          '<strong>Regrouper</strong> : on soustrait $2x$ des deux côtés : $x - 6 > 1$, puis on ajoute $6$ : $x > 7$.',
+          '<strong>Vérification</strong> : pour $x = 10$ : $3(10-2) = 24$ et $2(10)+1 = 21$, or $24 > 21$ ✓. Pour $x = 5$ : $3(5-2) = 9$ et $2(5)+1 = 11$, or $9 \\not> 11$ ✓ (hors solution).'
+        ],
+        answer: '$x > 7$, soit $x \\in ]7\\,;\\,+\\infty[$.'
+      },
       formulas: [
         'Si $ax = b$ : $x = \\dfrac{b}{a}$ (avec $a \\neq 0$)',
         'Inéquation : si $a < 0$ et $ax < b$, alors $x > \\dfrac{b}{a}$ (sens inversé !)',
         'Notation intervalle : $x > 2 \\Leftrightarrow x \\in ]2 ; +\\infty[$'
+      ],
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px"></th><th style="border:1px solid var(--border);padding:8px">Équation</th><th style="border:1px solid var(--border);padding:8px">Inéquation</th></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Symbole</strong></td><td style="border:1px solid var(--border);padding:8px">$=$</td><td style="border:1px solid var(--border);padding:8px">$<$, $>$, $\\leq$, $\\geq$</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Opérations autorisées</strong></td><td style="border:1px solid var(--border);padding:8px">Ajouter, soustraire, multiplier, diviser (sauf par $0$)</td><td style="border:1px solid var(--border);padding:8px">Idem, mais $\\times$ ou $\\div$ par un négatif <strong>inverse le sens</strong></td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Résultat</strong></td><td style="border:1px solid var(--border);padding:8px">Une valeur unique : $x = a$</td><td style="border:1px solid var(--border);padding:8px">Un intervalle : $x \\in ]a\\,;\\,+\\infty[$</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Notation</strong></td><td style="border:1px solid var(--border);padding:8px">$S = \\{a\\}$</td><td style="border:1px solid var(--border);padding:8px">$S = ]a\\,;\\,+\\infty[$ ou $S = ]-\\infty\\,;\\,a[$</td></tr></table>',
+      recap: [
+        '<strong>Principe de la balance</strong> : on effectue la même opération des deux côtés de l\'égalité (ou inégalité) pour isoler $x$.',
+        '<strong>Inversion du sens</strong> : multiplier ou diviser par un nombre <strong>négatif</strong> inverse le sens de l\'inégalité. C\'est LA différence majeure entre équation et inéquation.',
+        '<strong>Vérification</strong> : toujours substituer la solution trouvée dans l\'expression initiale pour confirmer le résultat.',
+        '<strong>Notation intervalle</strong> : $x > a$ s\'écrit $x \\in ]a\\,;\\,+\\infty[$, $x \\leq a$ s\'écrit $x \\in ]-\\infty\\,;\\,a]$. Les crochets sont tournés vers l\'extérieur pour les bornes exclues.'
       ],
       piege: 'Piège : multiplier ou diviser une inéquation par un nombre NÉGATIF inverse le sens ! $-2x < 6 \\Rightarrow x > -3$ (pas $x < -3$). C\'est la différence clé entre équation et inéquation.'
     },
@@ -867,6 +999,12 @@ window.MODULES.push(
     physics: true,
     cours: {
       intro: 'Une fonction est une règle qui associe à chaque valeur d\'entrée $x$ une valeur de sortie $f(x)$ — et une seule. C\'est la notion mathématique de « machine déterministe » : une même entrée donne toujours la même sortie. L\'image de $x$ est la valeur de sortie $f(x)$ ; l\'antécédent de $y$ est la (ou les) valeur(s) $x$ qui donnent $f(x) = y$. Un antécédent peut ne pas exister (si $y$ n\'est pas atteint) ou être multiple : $f(x) = x^2$ associe $f(3) = f(-3) = 9$, donc $9$ a deux antécédents. Graphiquement, l\'image se lit sur l\'axe vertical (ordonnée), l\'antécédent sur l\'axe horizontal (abscisse). En physique, toutes les formules ($v = d/t$, $U = RI$) sont des fonctions d\'une ou plusieurs variables.',
+      definitions: [
+        { term: 'Fonction', def: 'Règle qui associe à chaque valeur $x$ d\'un ensemble de départ <strong>une unique</strong> valeur $f(x)$ dans l\'ensemble d\'arrivée. On note $f : x \\mapsto f(x)$.' },
+        { term: 'Image', def: 'La valeur $f(a)$ obtenue en remplaçant $x$ par $a$ dans l\'expression de $f$. On dit que $f(a)$ est l\'<strong>image de $a$</strong> par $f$.' },
+        { term: 'Antécédent', def: 'Un nombre $a$ tel que $f(a) = b$. On dit que $a$ est un <strong>antécédent de $b$</strong> par $f$. Il peut y en avoir $0$, $1$ ou plusieurs.' },
+        { term: 'Domaine de définition', def: 'Ensemble des valeurs de $x$ pour lesquelles $f(x)$ existe. Par exemple, $f(x) = \\dfrac{1}{x}$ n\'est pas définie pour $x = 0$.' }
+      ],
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
@@ -875,11 +1013,27 @@ window.MODULES.push(
           'Lire sur un graphe : image → lire l\'ordonnée ; antécédent → lire l\'abscisse.'
         ]
       },
+      example: {
+        statement: 'Soit $f(x) = 2x^2 - 3$. Calculer l\'image de $4$ par $f$, puis trouver le(s) antécédent(s) de $5$ par $f$.',
+        steps: [
+          '<strong>Image de $4$</strong> : on remplace $x$ par $4$ dans l\'expression.<br/>$f(4) = 2 \\times 4^2 - 3 = 2 \\times 16 - 3 = 32 - 3 = 29$.',
+          '<strong>Antécédent(s) de $5$</strong> : on résout $f(x) = 5$.<br/>$2x^2 - 3 = 5 \\Rightarrow 2x^2 = 8 \\Rightarrow x^2 = 4$.',
+          'Donc $x = 2$ ou $x = -2$. Les deux antécédents de $5$ par $f$ sont $2$ et $-2$.'
+        ],
+        answer: '$f(4) = 29$ ; les antécédents de $5$ sont $x = 2$ et $x = -2$.'
+      },
       formulas: [
         '$f(x) = $ expression en $x$ (définition de la fonction)',
         'Image de $a$ : calculer $f(a)$',
         'Antécédent de $b$ : résoudre $f(x) = b$',
         'Notation : $x \\mapsto f(x)$ (on lit « $x$ a pour image $f(x)$ »)'
+      ],
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">$x$</th><td style="border:1px solid var(--border);padding:8px">$-2$</td><td style="border:1px solid var(--border);padding:8px">$-1$</td><td style="border:1px solid var(--border);padding:8px">$0$</td><td style="border:1px solid var(--border);padding:8px">$1$</td><td style="border:1px solid var(--border);padding:8px">$2$</td><td style="border:1px solid var(--border);padding:8px">$3$</td></tr><tr><th style="border:1px solid var(--border);padding:8px">$f(x) = 2x^2 - 3$</th><td style="border:1px solid var(--border);padding:8px">$5$</td><td style="border:1px solid var(--border);padding:8px">$-1$</td><td style="border:1px solid var(--border);padding:8px">$-3$</td><td style="border:1px solid var(--border);padding:8px">$-1$</td><td style="border:1px solid var(--border);padding:8px">$5$</td><td style="border:1px solid var(--border);padding:8px">$15$</td></tr><tr><td colspan="7" style="border:1px solid var(--border);padding:8px;font-size:0.9em"><strong>Lecture graphique</strong> : l\'image se lit sur l\'axe des ordonnées (vertical) ; l\'antécédent se lit sur l\'axe des abscisses (horizontal).</td></tr></table>',
+      recap: [
+        'Une fonction associe à chaque entrée $x$ <strong>une seule sortie</strong> $f(x)$ — c\'est la règle fondamentale.',
+        'L\'<strong>image</strong> se lit sur l\'axe des ordonnées : on part de $x$, on monte jusqu\'à la courbe, on lit $f(x)$.',
+        'L\'<strong>antécédent</strong> se trouve en résolvant $f(x) = y$ ; il peut y avoir $0$, $1$ ou plusieurs solutions.',
+        'Sur un graphique, les antécédents de $y$ correspondent aux abscisses des points d\'intersection de la courbe avec la droite $y = b$.'
       ],
       piege: 'Piège : une fonction peut avoir plusieurs antécédents pour un même y, mais un seul image pour chaque x. Par exemple, $f(x) = x^2$ : $f(2) = 4$ et $f(-2) = 4$, donc $4$ a deux antécédents ($2$ et $-2$).'
     },
@@ -1003,6 +1157,12 @@ window.MODULES.push(
     physics: false,
     cours: {
       intro: 'L\'homothétie est la transformation géométrique qui réalise tous les agrandissements et réductions : elle conserve les angles et multiplie toutes les longueurs par $|k|$. Le centre $O$ est le seul point qui reste fixe ; tous les autres « glissent » sur leur droite passant par $O$. Si $k > 0$, l\'image est du même côté que l\'original ; si $k < 0$, elle passe de l\'autre côté du centre (retournement). En optique, une lentille réalise une homothétie entre objet et image. La propriété sur les aires est souvent sous-estimée : multiplier les longueurs par $k$ multiplie les aires par $k^2$ — un agrandissement de facteur $3$ donne une aire $9$ fois plus grande.',
+      definitions: [
+        { term: 'Homothétie', def: 'Transformation géométrique qui associe à tout point $A$ un point $A\'$ tel que $\\vec{OA\'} = k \\cdot \\vec{OA}$. Elle <strong>conserve les formes</strong> mais change les dimensions.' },
+        { term: 'Centre', def: 'Le point fixe $O$ de l\'homothétie : c\'est le <strong>seul point qui ne bouge pas</strong>. Tous les autres points « glissent » le long de la droite qui les relie à $O$.' },
+        { term: 'Rapport', def: 'Le nombre $k$ qui détermine l\'<strong>agrandissement</strong> ($|k| > 1$), la <strong>réduction</strong> ($0 < |k| < 1$) ou le <strong>retournement</strong> ($k < 0$). $k = 1$ donne l\'identité.' },
+        { term: 'Similitude', def: 'Transformation qui conserve les <strong>angles</strong> et multiplie les longueurs par un même facteur. L\'homothétie est un cas particulier de similitude.' }
+      ],
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
@@ -1011,11 +1171,27 @@ window.MODULES.push(
           'Les longueurs sont multipliées par $|k|$ ; les aires par $k^2$ ; le périmètre par $|k|$.'
         ]
       },
+      example: {
+        statement: 'On considère l\'homothétie de centre $O(0\\,;\\,0)$ et de rapport $k = 2$. Déterminer l\'image du point $A(3\\,;\\,1)$.',
+        steps: [
+          '<strong>Formule</strong> : $A\'(x_O + k(x_A - x_O) \\,;\\, y_O + k(y_A - y_O))$.<br/>Ici $O$ est l\'origine, donc $A\'(k \\cdot x_A \\,;\\, k \\cdot y_A)$.',
+          '<strong>Calcul</strong> : $A\'(2 \\times 3 \\,;\\, 2 \\times 1) = A\'(6\\,;\\,2)$.',
+          '<strong>Vérification</strong> : $OA = \\sqrt{3^2 + 1^2} = \\sqrt{10}$ et $OA\' = \\sqrt{6^2 + 2^2} = \\sqrt{40} = 2\\sqrt{10}$. On a bien $OA\' = 2 \\times OA$ ✓.'
+        ],
+        answer: '$A\'(6\\,;\\,2)$. La distance au centre est bien multipliée par $k = 2$.'
+      },
       formulas: [
         '$\\vec{OA\'} = k \\cdot \\vec{OA}$',
         'Longueurs : $A\'B\' = |k| \\times AB$',
         'Aires : $\\mathcal{A}_{\\text{image}} = k^2 \\times \\mathcal{A}_{\\text{original}}$',
         'Les angles sont conservés (similitude)'
+      ],
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Rapport $k$</th><th style="border:1px solid var(--border);padding:8px">Effet géométrique</th><th style="border:1px solid var(--border);padding:8px">Longueurs</th><th style="border:1px solid var(--border);padding:8px">Aires</th></tr><tr><td style="border:1px solid var(--border);padding:8px">$k > 1$</td><td style="border:1px solid var(--border);padding:8px">Agrandissement (même côté)</td><td style="border:1px solid var(--border);padding:8px">$\\times |k|$</td><td style="border:1px solid var(--border);padding:8px">$\\times k^2$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">$0 < k < 1$</td><td style="border:1px solid var(--border);padding:8px">Réduction (même côté)</td><td style="border:1px solid var(--border);padding:8px">$\\times k$</td><td style="border:1px solid var(--border);padding:8px">$\\times k^2$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">$k < 0$</td><td style="border:1px solid var(--border);padding:8px">Retournement (côté opposé)</td><td style="border:1px solid var(--border);padding:8px">$\\times |k|$</td><td style="border:1px solid var(--border);padding:8px">$\\times k^2$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">$k = -1$</td><td style="border:1px solid var(--border);padding:8px">Symétrie centrale</td><td style="border:1px solid var(--border);padding:8px">$\\times 1$ (conservées)</td><td style="border:1px solid var(--border);padding:8px">$\\times 1$ (conservées)</td></tr></table>',
+      recap: [
+        'Les <strong>longueurs</strong> sont multipliées par $|k|$ et les <strong>aires</strong> par $k^2$ — ne pas confondre !',
+        'Les <strong>angles</strong> sont toujours conservés : l\'image d\'un triangle équilatéral reste équilatéral.',
+        'Si $k = -1$, l\'homothétie est une <strong>symétrie centrale</strong> par rapport au centre $O$.',
+        'Pour trouver l\'image d\'un point en coordonnées : $A\'(x_O + k(x_A - x_O) \\,;\\, y_O + k(y_A - y_O))$.'
       ],
       piege: 'Piège : l\'homothétie multiplie les LONGUEURS par $|k|$ mais les AIRES par $k^2$. Si on agrandit d\'un facteur $3$, les longueurs sont $\\times 3$ mais l\'aire est $\\times 9$ !'
     },
@@ -1131,6 +1307,12 @@ window.MODULES.push(
     physics: false,
     cours: {
       intro: 'Couper un solide par un plan donne une section plane dont la forme révèle la structure géométrique du solide. Les sections parallèles à une base conservent la forme de celle-ci, en plus petit selon un rapport de similitude lié aux hauteurs. Les coupes obliques donnent des formes moins intuitives : une coupe oblique d\'un cylindre produit une ellipse, pas un rectangle ni un cercle. Ces sections ont des applications concrètes en médecine (IRM, scanner qui reconstitue des coupes), en architecture (plans de coupe de bâtiments) et en fabrication. Pour les pyramides et cônes, le rapport de similitude entre la section et la base est le rapport des hauteurs — c\'est le théorème de Thalès appliqué dans l\'espace.',
+      definitions: [
+        { term: 'Section', def: 'Figure plane obtenue en <strong>coupant un solide par un plan</strong>. Sa forme dépend du type de solide et de l\'orientation du plan de coupe.' },
+        { term: 'Plan de coupe', def: 'Le plan qui <strong>intersecte le solide</strong>. Il peut être parallèle à la base, perpendiculaire à l\'axe ou oblique — chaque orientation produit une section différente.' },
+        { term: 'Similitude dans l\'espace', def: 'Quand un plan coupe une pyramide ou un cône <strong>parallèlement à la base</strong>, la section est une figure <strong>semblable</strong> à la base (mêmes angles, proportions conservées).' },
+        { term: 'Rapport de réduction', def: 'Le quotient $k = \\dfrac{h\'}{h}$ entre la distance du sommet au plan de coupe ($h\'$) et la hauteur totale ($h$). Les dimensions de la section sont multipliées par $k$.' }
+      ],
       method: {
         title: 'Méthode selon le type de solide',
         steps: [
@@ -1140,9 +1322,25 @@ window.MODULES.push(
           'Pyramide : section parallèle à la base → figure semblable à la base (homothétie).'
         ]
       },
+      example: {
+        statement: 'Une pyramide à base carrée de côté $8$ cm et de hauteur $12$ cm est coupée par un plan parallèle à la base, situé à $4$ cm du sommet. Déterminer le côté et l\'aire de la section.',
+        steps: [
+          '<strong>Rapport de réduction</strong> : $k = \\dfrac{h\'}{h} = \\dfrac{4}{12} = \\dfrac{1}{3}$.',
+          '<strong>Côté de la section</strong> : $c\' = 8 \\times \\dfrac{1}{3} = \\dfrac{8}{3} \\approx 2{,}67$ cm. La section est un carré semblable à la base.',
+          '<strong>Aire de la section</strong> : $\\mathcal{A} = c\'^2 = \\left(\\dfrac{8}{3}\\right)^2 = \\dfrac{64}{9} \\approx 7{,}11$ cm². On vérifie : $\\dfrac{\\mathcal{A}_{\\text{section}}}{\\mathcal{A}_{\\text{base}}} = \\dfrac{7{,}11}{64} \\approx \\dfrac{1}{9} = k^2$ ✓.'
+        ],
+        answer: 'La section est un carré de côté $\\dfrac{8}{3} \\approx 2{,}67$ cm et d\'aire $\\approx 7{,}11$ cm².'
+      },
       formulas: [
         'Section parallèle à la base d\'un cône ou pyramide : rapport de similitude $= \\dfrac{h\'}{h}$',
         'Côté de la section : $c\' = c \\times \\dfrac{h\'}{h}$ (homothétie)'
+      ],
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Solide</th><th style="border:1px solid var(--border);padding:8px">Coupe parallèle à la base</th><th style="border:1px solid var(--border);padding:8px">Coupe par l\'axe</th><th style="border:1px solid var(--border);padding:8px">Coupe oblique</th></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Pavé droit</strong></td><td style="border:1px solid var(--border);padding:8px">Rectangle</td><td style="border:1px solid var(--border);padding:8px">Rectangle</td><td style="border:1px solid var(--border);padding:8px">Parallélogramme</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Cylindre</strong></td><td style="border:1px solid var(--border);padding:8px">Disque (même rayon)</td><td style="border:1px solid var(--border);padding:8px">Rectangle</td><td style="border:1px solid var(--border);padding:8px">Ellipse</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Cône</strong></td><td style="border:1px solid var(--border);padding:8px">Disque (rayon réduit)</td><td style="border:1px solid var(--border);padding:8px">Triangle isocèle</td><td style="border:1px solid var(--border);padding:8px">Ellipse / Parabole</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Pyramide</strong></td><td style="border:1px solid var(--border);padding:8px">Figure semblable à la base</td><td style="border:1px solid var(--border);padding:8px">Triangle</td><td style="border:1px solid var(--border);padding:8px">Polygone quelconque</td></tr></table>',
+      recap: [
+        'Une coupe <strong>parallèle à la base</strong> donne toujours une figure <strong>semblable</strong> à la base (même forme, dimensions réduites).',
+        'Le <strong>rapport de réduction</strong> est $k = \\dfrac{h\'}{h}$ — les longueurs sont multipliées par $k$, les aires par $k^2$.',
+        'Une coupe <strong>oblique</strong> d\'un cylindre ou d\'un cône produit une <strong>ellipse</strong>, pas un cercle.',
+        'Pour calculer une section : identifier le solide, le type de coupe, appliquer le rapport de similitude si parallèle.'
       ],
       piege: 'Piège : la section d\'un cylindre PAR un plan oblique (ni perpendiculaire ni contenant l\'axe) est une ELLIPSE, pas un rectangle ni un cercle. Souvent négligé mais important !'
     },
@@ -1258,6 +1456,12 @@ window.MODULES.push(
     physics: true,
     cours: {
       intro: 'La sphère est la surface des points à distance $r$ d\'un centre ; la boule est le volume qu\'elle délimite. La formule $V = \\frac{4}{3}\\pi r^3$ porte le cube du rayon : doubler le rayon multiplie le volume par $8$, pas par $2$. Cette sensibilité au rayon explique pourquoi les cellules biologiques ne dépassent pas une certaine taille — leur surface (en $r^2$) ne peut plus suffire aux échanges si le volume (en $r^3$) croît trop vite. Pour les solides composés, on décompose en formes simples (boule, cylindre, cône, pyramide) et on additionne leurs volumes — ou on soustrait si un solide est « creusé » dans un autre. Identifier clairement la géométrie de chaque composante est la première étape.',
+      definitions: [
+        { term: 'Sphère', def: 'La <strong>surface</strong> formée par tous les points situés à la même distance $r$ d\'un point central. La sphère est « creuse » : elle n\'inclut que la surface.' },
+        { term: 'Boule', def: 'Le <strong>volume</strong> délimité par une sphère : la boule contient tous les points à distance $\\leq r$ du centre. C\'est la sphère « pleine ».' },
+        { term: 'Rayon', def: 'La distance $r$ du centre à n\'importe quel point de la sphère. <strong>Attention</strong> : si l\'énoncé donne le diamètre $d$, il faut calculer $r = \\dfrac{d}{2}$ avant d\'appliquer les formules.' },
+        { term: 'Solide composé', def: 'Solide formé par <strong>assemblage de solides simples</strong> (cylindre + cône, boule creusée, etc.). Son volume se calcule par addition ou soustraction des volumes des parties.' }
+      ],
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
@@ -1266,10 +1470,26 @@ window.MODULES.push(
           'Additionner les volumes (ou soustraire si un solide est creusé dans un autre).'
         ]
       },
+      example: {
+        statement: 'Calculer le volume d\'une boule de rayon $r = 6$ cm. On prendra $\\pi \\approx 3{,}14$.',
+        steps: [
+          '<strong>Formule</strong> : $V = \\dfrac{4}{3}\\pi r^3$.',
+          '<strong>Calcul de $r^3$</strong> : $6^3 = 216$. Puis $V = \\dfrac{4}{3} \\times 3{,}14 \\times 216 = \\dfrac{4 \\times 3{,}14 \\times 216}{3}$.',
+          '<strong>Résultat</strong> : $V = \\dfrac{2\\,713{,}44}{3} \\approx 904{,}32$ cm³.'
+        ],
+        answer: '$V \\approx 904{,}32$ cm³.'
+      },
       formulas: [
         'Boule : $V = \\dfrac{4}{3}\\pi r^3$',
         'Surface d\'une sphère : $S = 4\\pi r^2$',
         'Hémisphère : $V = \\dfrac{2}{3}\\pi r^3$'
+      ],
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Solide</th><th style="border:1px solid var(--border);padding:8px">Formule du volume</th><th style="border:1px solid var(--border);padding:8px">Exemple ($r = 3$ cm)</th></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Boule</strong></td><td style="border:1px solid var(--border);padding:8px">$V = \\dfrac{4}{3}\\pi r^3$</td><td style="border:1px solid var(--border);padding:8px">$V = \\dfrac{4}{3} \\times 3{,}14 \\times 27 \\approx 113{,}04$ cm³</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Cylindre</strong></td><td style="border:1px solid var(--border);padding:8px">$V = \\pi r^2 h$</td><td style="border:1px solid var(--border);padding:8px">$V = 3{,}14 \\times 9 \\times 5 = 141{,}3$ cm³ ($h = 5$)</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Cône</strong></td><td style="border:1px solid var(--border);padding:8px">$V = \\dfrac{1}{3}\\pi r^2 h$</td><td style="border:1px solid var(--border);padding:8px">$V = \\dfrac{1}{3} \\times 3{,}14 \\times 9 \\times 5 = 47{,}1$ cm³</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Pyramide</strong></td><td style="border:1px solid var(--border);padding:8px">$V = \\dfrac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$</td><td style="border:1px solid var(--border);padding:8px">Base $4 \\times 4$, $h = 5$ : $V = \\dfrac{1}{3} \\times 16 \\times 5 \\approx 26{,}67$ cm³</td></tr></table>',
+      recap: [
+        'La formule de la boule est $V = \\dfrac{4}{3}\\pi r^3$ — le volume dépend du <strong>cube</strong> du rayon.',
+        'Doubler le rayon multiplie le volume par $2^3 = 8$ — pas par $2$ ! C\'est la principale source d\'erreur.',
+        'Toujours vérifier si l\'énoncé donne le <strong>rayon</strong> ou le <strong>diamètre</strong> ($r = d/2$).',
+        'Pour un solide composé : <strong>décomposer</strong> en formes simples, calculer chaque volume, puis additionner (ou soustraire).'
       ],
       piege: 'Piège : $V = \\frac{4}{3}\\pi r^3$ — c\'est le RAYON au cube, pas le diamètre ! Si on donne le diamètre $d$, ne pas oublier $r = d/2$ avant de calculer $r^3$.'
     },
@@ -1384,6 +1604,12 @@ window.MODULES.push(
     physics: false,
     cours: {
       intro: 'Un tableau croisé (ou de contingence) analyse simultanément deux caractères d\'une population et révèle leurs dépendances éventuelles. La clé est de distinguer deux types de fréquences : la fréquence globale (effectif de la case / total général) et la fréquence conditionnelle (effectif / total de la sous-population). La fréquence conditionnelle répond à « parmi les personnes de type $B$, quelle proportion est de type $A$ ? » — c\'est la base des probabilités conditionnelles. Deux caractères sont indépendants si la fréquence conditionnelle est égale à la fréquence globale : connaître l\'un ne donne aucune information sur l\'autre. Cette notion d\'indépendance est fondamentale en statistique et en médecine (tests cliniques, études épidémiologiques).',
+      definitions: [
+        { term: 'Tableau croisé', def: 'Tableau à double entrée qui croise <strong>deux caractères</strong> d\'une population. Les lignes représentent un caractère, les colonnes un autre, et chaque case contient un effectif.' },
+        { term: 'Fréquence globale', def: 'Proportion d\'une case par rapport au <strong>total général</strong> : $f = \\dfrac{n_{ij}}{N}$. Elle répond à « quelle part de la population totale ? ».' },
+        { term: 'Fréquence conditionnelle', def: 'Proportion d\'une case par rapport au <strong>total d\'une sous-population</strong> : $f_{A|B} = \\dfrac{n(A \\cap B)}{n(B)}$. Elle répond à « parmi les $B$, quelle part est $A$ ? ».' },
+        { term: 'Indépendance', def: 'Deux caractères sont <strong>indépendants</strong> si connaître l\'un ne change pas la probabilité de l\'autre : $P(A|B) = P(A)$, soit $P(A \\cap B) = P(A) \\times P(B)$.' }
+      ],
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
@@ -1392,10 +1618,26 @@ window.MODULES.push(
           'Fréquence conditionnelle : $f_{A|B} = \\dfrac{\\text{effectif}(A \\cap B)}{\\text{effectif de }B}$ (proportion dans une sous-population).'
         ]
       },
+      example: {
+        statement: 'Dans un collège de $200$ élèves, on recense $80$ sportifs et $60$ musiciens, dont $25$ qui pratiquent les deux. Calculer les fréquences globale et conditionnelle de la musique parmi les sportifs.',
+        steps: [
+          '<strong>Fréquence globale</strong> des musiciens-sportifs : $f = \\dfrac{25}{200} = 0{,}125 = 12{,}5\\%$ de la population totale.',
+          '<strong>Fréquence conditionnelle</strong> de la musique parmi les sportifs : $f_{M|S} = \\dfrac{25}{80} = 0{,}3125 = 31{,}25\\%$.',
+          '<strong>Interprétation</strong> : dans la population globale, $12{,}5\\%$ font sport ET musique. Mais parmi les sportifs seuls, $31{,}25\\%$ font aussi de la musique — la sous-population de référence change tout.'
+        ],
+        answer: 'Fréquence globale $= 0{,}125$ ; fréquence conditionnelle $f_{M|S} = 0{,}3125$.'
+      },
       formulas: [
         'Fréquence globale : $f = \\dfrac{n_{ij}}{N}$',
         'Fréquence en ligne : $f_{i|j} = \\dfrac{n_{ij}}{n_{j}}$',
         'Probabilité : $P(A|B) = \\dfrac{P(A \\cap B)}{P(B)}$ (introduction)'
+      ],
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px"></th><th style="border:1px solid var(--border);padding:8px">Musicien</th><th style="border:1px solid var(--border);padding:8px">Non musicien</th><th style="border:1px solid var(--border);padding:8px"><strong>Total</strong></th></tr><tr><th style="border:1px solid var(--border);padding:8px">Sportif</th><td style="border:1px solid var(--border);padding:8px">$25$</td><td style="border:1px solid var(--border);padding:8px">$55$</td><td style="border:1px solid var(--border);padding:8px"><strong>$80$</strong></td></tr><tr><th style="border:1px solid var(--border);padding:8px">Non sportif</th><td style="border:1px solid var(--border);padding:8px">$35$</td><td style="border:1px solid var(--border);padding:8px">$85$</td><td style="border:1px solid var(--border);padding:8px"><strong>$120$</strong></td></tr><tr><th style="border:1px solid var(--border);padding:8px"><strong>Total</strong></th><td style="border:1px solid var(--border);padding:8px"><strong>$60$</strong></td><td style="border:1px solid var(--border);padding:8px"><strong>$140$</strong></td><td style="border:1px solid var(--border);padding:8px"><strong>$200$</strong></td></tr></table>',
+      recap: [
+        'La <strong>fréquence globale</strong> divise par le total général $N$ ; la <strong>fréquence conditionnelle</strong> divise par le total de la sous-population.',
+        'Pour l\'union : $|A \\cup B| = |A| + |B| - |A \\cap B|$ — ne pas oublier de <strong>soustraire l\'intersection</strong>.',
+        '$P(A \\cap B) = P(A|B) \\times P(B)$ — la formule de la probabilité de l\'intersection.',
+        'Deux caractères sont <strong>indépendants</strong> si $P(A|B) = P(A)$ : savoir que quelqu\'un est $B$ ne change pas la probabilité d\'être $A$.'
       ],
       piege: 'Piège : la fréquence conditionnelle dépend de la population de référence (ligne ou colonne). $\\frac{n_{ij}}{N}$ et $\\frac{n_{ij}}{n_j}$ ne donnent pas le même résultat. Toujours préciser « parmi les… ».'
     },
@@ -1513,6 +1755,12 @@ window.MODULES.push(
     physics: false,
     cours: {
       intro: 'Un algorithme est une suite finie et non ambiguë d\'instructions permettant de résoudre un problème — chaque instruction doit être interprétable de façon univoque, sans ambiguïté. Les trois structures fondamentales (séquence, condition, boucle) suffisent à exprimer n\'importe quel calcul : c\'est le théorème de structure de Böhm-Jacopini. L\'affectation $x \\leftarrow x + 1$ est conceptuellement différente d\'une équation : en maths, $x = x+1$ est absurde ; en algorithmique, c\'est une mise à jour (lire l\'ancienne valeur, calculer, stocker). Pour déboguer un algorithme, on trace son exécution ligne par ligne dans un tableau de valeurs des variables — c\'est la technique la plus fiable et la plus universelle.',
+      definitions: [
+        { term: 'Algorithme', def: 'Suite <strong>finie et non ambiguë</strong> d\'instructions qui résout un problème donné. Chaque étape doit être suffisamment précise pour être exécutée mécaniquement.' },
+        { term: 'Variable', def: 'Espace mémoire nommé qui <strong>stocke une valeur</strong>. Une variable peut contenir un nombre, du texte, etc. Sa valeur peut changer au cours de l\'exécution.' },
+        { term: 'Affectation', def: 'Instruction $x \\leftarrow \\text{valeur}$ qui <strong>donne une nouvelle valeur</strong> à la variable $x$. Attention : $x \\leftarrow x + 1$ n\'est pas une équation, c\'est une mise à jour.' },
+        { term: 'Boucle', def: 'Structure qui <strong>répète un bloc d\'instructions</strong>. La boucle <strong>bornée</strong> ($\\mathtt{pour}$) a un nombre fixé de tours ; la boucle <strong>non bornée</strong> ($\\mathtt{tant que}$) continue jusqu\'à ce qu\'une condition devienne fausse.' }
+      ],
       method: {
         title: 'Les trois structures de base',
         steps: [
@@ -1521,10 +1769,26 @@ window.MODULES.push(
           'Boucle : $\\mathtt{pour}$ $i$ $\\mathtt{de}$ $1$ $\\mathtt{à}$ $n$ — ou $\\mathtt{tant que}$ (condition) — répétition d\'un bloc.'
         ]
       },
+      example: {
+        statement: 'Tracer l\'exécution de l\'algorithme suivant :<br/>$S \\leftarrow 0$<br/>$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; 3\\; \\mathtt{faire}$<br/>$\\quad S \\leftarrow S + i^2$<br/>$\\mathtt{fin pour}$',
+        steps: [
+          '<strong>Initialisation</strong> : $S = 0$.',
+          '<strong>Tour $i = 1$</strong> : $S \\leftarrow 0 + 1^2 = 1$.<br/><strong>Tour $i = 2$</strong> : $S \\leftarrow 1 + 2^2 = 1 + 4 = 5$.<br/><strong>Tour $i = 3$</strong> : $S \\leftarrow 5 + 3^2 = 5 + 9 = 14$.',
+          'La boucle est terminée ($i$ a atteint $3$). La valeur finale de $S$ est $14 = 1^2 + 2^2 + 3^2$.'
+        ],
+        answer: '$S = 14$. L\'algorithme calcule la somme des carrés de $1$ à $3$ : $1 + 4 + 9 = 14$.'
+      },
       formulas: [
         'Affectation : $x \\leftarrow 5$ (la variable $x$ prend la valeur $5$)',
         'Boucle bornée : $\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; n\\; \\mathtt{faire}\\; \\ldots$',
         'Test : $\\mathtt{si}\\; (x > 0)\\; \\mathtt{alors}\\; \\ldots\\; \\mathtt{sinon}\\; \\ldots$'
+      ],
+      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Étape</th><th style="border:1px solid var(--border);padding:8px">$i$</th><th style="border:1px solid var(--border);padding:8px">$i^2$</th><th style="border:1px solid var(--border);padding:8px">$S$ (après affectation)</th></tr><tr><td style="border:1px solid var(--border);padding:8px">Init</td><td style="border:1px solid var(--border);padding:8px">—</td><td style="border:1px solid var(--border);padding:8px">—</td><td style="border:1px solid var(--border);padding:8px">$0$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Tour 1</td><td style="border:1px solid var(--border);padding:8px">$1$</td><td style="border:1px solid var(--border);padding:8px">$1$</td><td style="border:1px solid var(--border);padding:8px">$0 + 1 = 1$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Tour 2</td><td style="border:1px solid var(--border);padding:8px">$2$</td><td style="border:1px solid var(--border);padding:8px">$4$</td><td style="border:1px solid var(--border);padding:8px">$1 + 4 = 5$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Tour 3</td><td style="border:1px solid var(--border);padding:8px">$3$</td><td style="border:1px solid var(--border);padding:8px">$9$</td><td style="border:1px solid var(--border);padding:8px">$5 + 9 = 14$</td></tr></table>',
+      recap: [
+        'Les trois structures fondamentales sont la <strong>séquence</strong>, la <strong>condition</strong> ($\\mathtt{si/sinon}$) et la <strong>boucle</strong> ($\\mathtt{pour}$ ou $\\mathtt{tant que}$).',
+        'L\'<strong>affectation</strong> $x \\leftarrow x + 1$ n\'est PAS une équation : c\'est une mise à jour qui lit l\'ancienne valeur, calcule, et stocke le résultat.',
+        '<strong>Tracer</strong> l\'exécution dans un tableau (une ligne par étape, une colonne par variable) est la méthode la plus sûre pour comprendre et déboguer.',
+        'Une boucle <strong>bornée</strong> ($\\mathtt{pour}$) a un nombre de tours fixé à l\'avance ; une boucle <strong>non bornée</strong> ($\\mathtt{tant que}$) peut tourner indéfiniment si la condition ne devient jamais fausse.'
       ],
       piege: 'Piège : l\'affectation $x \\leftarrow x + 1$ signifie « prendre la valeur actuelle de $x$, y ajouter $1$, et stocker le résultat dans $x$ ». Ce n\'est pas une équation : $x = x + 1$ est impossible en maths, mais parfaitement valide en algorithmique.'
     },

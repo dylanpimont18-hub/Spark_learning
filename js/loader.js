@@ -6,8 +6,9 @@
 const DATA_FILES = {
   'maths-1': ['js/data/6e.js', 'js/data/5e.js', 'js/data/4e.js', 'js/data/3e.js'],
   'maths-2': ['js/data/lycee-2nde.js', 'js/data/lycee-1re.js', 'js/data/lycee-tle.js'],
-  'maths-3': ['js/data/bts.js']
-  // Future: 'physique-1': [...], 'si-2': [...], etc.
+  'maths-3': ['js/data/bts.js'],
+  'si-2': ['js/data/si-2nde.js', 'js/data/si-1re.js', 'js/data/si-tle.js'],
+  'si-3': ['js/data/si-bts.js']
 };
 
 /* Static index: moduleId → data group key (for direct URL access) */
@@ -52,7 +53,23 @@ const MODULE_INDEX = {
   'complexes':'maths-3','eq-diff-2':'maths-3','statistiques':'maths-3','bts-loi-normale':'maths-3',
   'bts-fonctions-reelles':'maths-3','bts-derivation-appliquee':'maths-3','bts-integrales-appliquees':'maths-3',
   'bts-stats-deux-variables':'maths-3','bts-probas-discretes':'maths-3','bts-suites-appliquees':'maths-3',
-  'bts-matrices':'maths-3','bts-fourier':'maths-3','bts-laplace':'maths-3'
+  'bts-matrices':'maths-3','bts-fourier':'maths-3','bts-laplace':'maths-3',
+  // SI 2nde
+  'si-2nde-analyse-fonctionnelle':'si-2','si-2nde-chaines-energie-info':'si-2',
+  'si-2nde-capteurs-actionneurs':'si-2','si-2nde-programmation':'si-2',
+  'si-2nde-mecanique-base':'si-2',
+  // SI 1re
+  'si-1re-sysml':'si-2','si-1re-cinematique':'si-2','si-1re-statique-pfs':'si-2',
+  'si-1re-logique-boole':'si-2','si-1re-asservissement':'si-2','si-1re-energie-rendement':'si-2',
+  'si-1re-rdm':'si-2','si-1re-poo':'si-2',
+  // SI Tle
+  'si-tle-dynamique-pfd':'si-2','si-tle-energie-cinetique':'si-2','si-tle-asservis-pid':'si-2',
+  'si-tle-grafcet':'si-2','si-tle-transmission':'si-2','si-tle-bode':'si-2',
+  'si-tle-reseaux':'si-2',
+  // SI BTS
+  'si-bts-mecanique-solides':'si-3','si-bts-rdm-avancee':'si-3','si-bts-hydraulique':'si-3',
+  'si-bts-electrotechnique':'si-3','si-bts-automatique':'si-3','si-bts-capteurs-industriels':'si-3',
+  'si-bts-cao':'si-3','si-bts-gestion-energie':'si-3'
 };
 
 const _loadedGroups = new Set();
