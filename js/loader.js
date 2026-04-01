@@ -4,9 +4,49 @@
    ========================================================= */
 
 const DATA_FILES = {
-  'maths-1': ['js/data/6e.js', 'js/data/5e.js', 'js/data/4e.js', 'js/data/3e.js'],
+  'maths-1': [
+    'js/data/6e.js', 'js/data/5e.js',
+    'js/data/4e/puissances.js',
+    'js/data/4e/calcul-algebrique.js',
+    'js/data/4e/4e-pythagore.js',
+    'js/data/4e/4e-fractions-mult-div.js',
+    'js/data/4e/4e-relatifs-mult-div.js',
+    'js/data/4e/4e-triangle-rectangle-cercle.js',
+    'js/data/4e/4e-translations.js',
+    'js/data/4e/4e-droites-remarquables.js',
+    'js/data/4e/4e-cosinus.js',
+    'js/data/4e/4e-volumes.js',
+    'js/data/4e/4e-statistiques.js',
+    'js/data/4e/4e-probabilites.js',
+    'js/data/3e/trigonometrie.js',
+    'js/data/3e/3e-systemes.js',
+    'js/data/3e/3e-thales.js',
+    'js/data/3e/3e-arithmetique.js',
+    'js/data/3e/3e-identites-remarquables.js',
+    'js/data/3e/3e-equations-inequations.js',
+    'js/data/3e/3e-fonctions.js',
+    'js/data/3e/3e-homotheties.js',
+    'js/data/3e/3e-sections-solides.js',
+    'js/data/3e/3e-volumes.js',
+    'js/data/3e/3e-stats-probas.js',
+    'js/data/3e/3e-algorithmique.js'
+  ],
   'maths-2': ['js/data/lycee-2nde.js', 'js/data/lycee-1re.js', 'js/data/lycee-tle.js'],
-  'maths-3': ['js/data/bts.js'],
+  'maths-3': [
+    'js/data/bts/complexes.js',
+    'js/data/bts/eq-diff-2.js',
+    'js/data/bts/statistiques.js',
+    'js/data/bts/bts-loi-normale.js',
+    'js/data/bts/bts-fonctions-reelles.js',
+    'js/data/bts/bts-derivation-appliquee.js',
+    'js/data/bts/bts-integrales-appliquees.js',
+    'js/data/bts/bts-stats-deux-variables.js',
+    'js/data/bts/bts-probas-discretes.js',
+    'js/data/bts/bts-suites-appliquees.js',
+    'js/data/bts/bts-matrices.js',
+    'js/data/bts/bts-fourier.js',
+    'js/data/bts/bts-laplace.js'
+  ],
   'si-2': ['js/data/si-2nde.js', 'js/data/si-1re.js', 'js/data/si-tle.js'],
   'si-3': ['js/data/si-bts.js']
 };
