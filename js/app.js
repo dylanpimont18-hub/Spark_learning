@@ -1,7 +1,54 @@
+// --- Intégration guidedNarrationEngine (narration guidée) ---
+import guidedNarrationEngine from './engines/guidedNarrationEngine.js';
+
+// Exemple d'utilisation :
+// Décompose une démonstration en étapes interactives
+function startGuidedNarrationExample() {
+  const demonstration = [
+    { question: 'Quel est le discriminant ?', hint: 'Δ = b²-4ac', answer: '...' },
+    { question: 'Que vaut la racine positive ?', hint: '(-b+√Δ)/2a', answer: '...' }
+  ];
+  const narration = guidedNarrationEngine.decompose(demonstration);
+  let step = narration.nextStep();
+  while (step) {
+    console.log('Étape :', step.question, '| Indice :', step.hint);
+    // Ici, brancher sur l’UI pour afficher la question et attendre la réponse utilisateur
+    step = narration.nextStep();
+  }
+}
+// --- Intégration dynamicExerciseEngine (exercices dynamiques) ---
+import dynamicExerciseEngine from './engines/dynamicExerciseEngine.js';
+
+// Exemple d'utilisation :
+// Génère un exercice dynamique à partir d'un module data
+function generateDynamicExerciseExample(moduleData) {
+  // moduleData doit contenir une fonction generate()
+  const exo = dynamicExerciseEngine.generate(moduleData, { contexte: 'quotidien', prenom: 'Lina' });
+  console.log('Exercice dynamique généré :', exo);
+  // À brancher sur l'UI d'exercice si besoin
+}
 /* =========================================================
    Spark Learning – app.js
    Routeur SPA, utilitaires (KaTeX, confetti), init
    ========================================================= */
+
+// --- Intégration progressionEngine (parcours progressifs) ---
+import progressionEngine from './engines/progressionEngine.js';
+
+// Exemple d'utilisation :
+// Lance un parcours progressif sur une liste de modules
+function startProgressivePathExample() {
+  const modules = ['3e-thales', '3e-systemes', '3e-fonctions'];
+  const parcours = progressionEngine.startProgressivePath({
+    modules,
+    niveau: 1,
+    onStep: (moduleId, userState, step) => {
+      console.log('Étape', step, 'Module:', moduleId, 'État:', userState);
+      // Ici, tu pourrais naviguer vers le module ou afficher une UI
+    }
+  });
+  // Pour passer à l'étape suivante : parcours.nextStep(state)
+}
 
 /* ── KaTeX rendering ── */
 function renderMath() {
@@ -59,6 +106,10 @@ function buildHash(view, data) {
       const tab = data.tab || state.tab || 'cours';
       return `#module/${mid}/${tab}`;
     }
+    case 'companion': {
+      const mid = data.moduleId || state.moduleId;
+      return mid ? `#companion/${mid}` : '#companion';
+    }
     case 'flashcards': return `#flashcards/${data.moduleId || state.moduleId}`;
     case 'chrono':     return `#chrono/${data.moduleId || state.moduleId}`;
     case 'teacher':    return '#teacher';
@@ -78,6 +129,7 @@ function parseHash(hash) {
       if (/^\d+$/.test(parts[1])) return { view: 'modules', subject: 'maths', level: parseInt(parts[1]) };
       return { view: 'modules', subject: parts[1] || 'maths', level: parseInt(parts[2]) || 1 };
     case 'module':      return { view: 'module', moduleId: parts[1], tab: parts[2] || 'cours' };
+    case 'companion':   return { view: 'companion', moduleId: parts[1] };
     case 'flashcards':  return { view: 'flashcards', moduleId: parts[1] };
     case 'chrono':      return { view: 'chrono', moduleId: parts[1] };
     case 'teacher':     return { view: 'teacher' };
@@ -152,7 +204,7 @@ function navigate(view, data = {}) {
     if (level && typeof ensureLevelData === 'function') {
       loadPromise = ensureLevelData(subject, level);
     }
-  } else if (view === 'module' || view === 'flashcards' || view === 'chrono') {
+  } else if (view === 'module' || view === 'flashcards' || view === 'chrono' || view === 'companion') {
     const moduleId = data.moduleId || state.moduleId;
     if (moduleId && !getModule(moduleId) && typeof ensureModuleData === 'function') {
       loadPromise = ensureModuleData(moduleId);
@@ -191,6 +243,7 @@ function navigate(view, data = {}) {
     (view === 'modules' && window.MODULES.filter(m => m.level === state.level && (m.subject || 'maths') === (state.subject || 'maths')).length === 0) ||
     (view === 'flashcards' && !getModule(state.moduleId)) ||
     (view === 'chrono' && !getModule(state.moduleId)) ||
+    (view === 'companion' && state.moduleId && !getModule(state.moduleId)) ||
     (view === 'teacher') || (view === 'homework')
   );
 
@@ -242,6 +295,11 @@ function updatePageTitle() {
       document.title = mod ? `${mod.title} \u2014 ${base}` : base;
       break;
     }
+    case 'companion': {
+      const mod = state.moduleId ? getModule(state.moduleId) : null;
+      document.title = mod ? `Spark Companion \u2014 ${mod.title} \u2014 ${base}` : `Spark Companion \u2014 ${base}`;
+      break;
+    }
     case 'flashcards': {
       const mod = getModule(state.moduleId);
       document.title = mod ? `Flashcards \u2014 ${mod.title} \u2014 ${base}` : base;
@@ -288,6 +346,7 @@ function render() {
     case 'levels':     app.innerHTML = renderLevels(); break;
     case 'modules':    app.innerHTML = renderModulesList(); break;
     case 'module':     app.innerHTML = renderModuleDetail(); break;
+    case 'companion':  app.innerHTML = (typeof renderCompanionHome === 'function' && !state.moduleId) ? renderCompanionHome() : (typeof renderCompanionSession === 'function') ? renderCompanionSession(state.moduleId) : renderCompanionHome(); break;
     case 'flashcards': app.innerHTML = (typeof renderFlashcards === 'function') ? renderFlashcards() : ''; break;
     case 'chrono':     app.innerHTML = (typeof renderChrono === 'function') ? renderChrono() : ''; break;
     case 'teacher':    app.innerHTML = (typeof renderTeacherBuilder === 'function') ? renderTeacherBuilder() : ''; break;

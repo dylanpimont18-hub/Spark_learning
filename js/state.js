@@ -57,6 +57,7 @@ function defaultQuizState()       { return { current: 0, score: 0, answered: fal
 function defaultExerciceState()   { return { current: null, attempts: 0, hintShown: false, solved: false, solutionShown: false }; }
 function defaultProblemeState()   { return { revealed: 0 }; }
 function defaultEvaluationState() { return { current: 0, answers: [], complete: false, score: 0, totalPoints: 0, showCorrection: false }; }
+function defaultCompanionState()  { return { points: 0, badges: [], objectives: { completed: [], inProgress: [] }, remediation: { moduleId: null, lacunes: [], attempts: {} }, freeMode: { enabled: false, level: null } }; }
 
 /* ── Helpers ── */
 function pluralize(word, count, plural) {
@@ -77,6 +78,7 @@ const state = {
   exerciceState: defaultExerciceState(),
   problemeState: defaultProblemeState(),
   evaluationState: defaultEvaluationState(),
+  companionState: JSON.parse(localStorage.getItem('sparkCompanionState') || JSON.stringify(defaultCompanionState())),
   progress: JSON.parse(localStorage.getItem('sparkProgress') || '{}'),
   batchPrintMode: false,
   selectedForPrint: [],
