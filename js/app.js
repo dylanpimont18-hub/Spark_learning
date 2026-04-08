@@ -220,7 +220,7 @@ function navigate(view, data = {}, options = {}) {
 
   const needsAsyncLoad = loadPromise && (
     (view === 'module' && !getModule(state.moduleId)) ||
-    (view === 'modules' && window.MODULES.filter(m => m.level === state.level && (m.subject || 'maths') === (state.subject || 'maths')).length === 0) ||
+    (view === 'modules') ||
     (view === 'flashcards' && !getModule(state.moduleId)) ||
     (view === 'chrono' && !getModule(state.moduleId)) ||
     (view === 'companion' && state.moduleId && !getModule(state.moduleId)) ||

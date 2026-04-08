@@ -165,4 +165,5 @@ window.MODULES.push(
         }
       ]
     }
+  }
 );

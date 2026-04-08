@@ -137,4 +137,5 @@ window.MODULES.push(
         }
       ]
     }
+  }
 );

@@ -188,4 +188,5 @@ window.MODULES.push(
         }
       ]
     }
+  }
 );

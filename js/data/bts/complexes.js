@@ -173,4 +173,5 @@ window.MODULES.push(
         }
       ]
     }
+  }
 );
