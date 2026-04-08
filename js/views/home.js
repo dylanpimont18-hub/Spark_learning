@@ -410,27 +410,51 @@ function renderModulesList() {
     .map(l => ({ id: l.id, label: `${l.icon} ${l.label}` }));
   allLevels.unshift({ id: 'all', label: '🧭 Tous niveaux' });
 
-  const modules = window.MODULES.filter(m => {
-    const sameSubject = (m.subject || 'maths') === subjectDef.id;
+  const allSubjectModules = window.MODULES.filter(m => (m.subject || 'maths') === subjectDef.id);
+  const themeFreq = {};
+  allSubjectModules.forEach(m => getModuleThemes(m).forEach(t => { themeFreq[t] = (themeFreq[t] || 0) + 1; }));
+  const availableThemes = Object.entries(themeFreq)
+    .sort((a, b) => b[1] - a[1])
+    .map(([id]) => ({ id, label: getThemeLabel(id) }));
+
+  const modules = allSubjectModules.filter(m => {
+    if (state.moduleSelectionMode === 'theme') {
+      if (state.selectedTheme === 'all') return true;
+      return getModuleThemes(m).includes(state.selectedTheme);
+    }
     const matchLevel = state.level === 'all' ? true : m.level === state.level;
-    return sameSubject && matchLevel;
+    return matchLevel;
   });
 
   const kwFreq = {};
-  modules.forEach(m => m.keywords.forEach(k => { kwFreq[k] = (kwFreq[k] || 0) + 1; }));
+  modules.forEach(m => getModuleSearchKeywords(m).forEach(k => { kwFreq[k] = (kwFreq[k] || 0) + 1; }));
   const topKeywords = Object.entries(kwFreq).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([k]) => k);
 
   return `
     <div class="container">
       <div class="level-switcher">
         <button class="btn-back" onclick="navigate('levels', {subject: '${subjectDef.id}'})" aria-label="Retour aux niveaux">← ${subjectDef.icon} ${subjectDef.label}</button>
+        <div class="module-mode-switch" role="tablist" aria-label="Mode de sélection">
+          <button class="module-mode-btn ${state.moduleSelectionMode === 'level' ? 'active' : ''}" onclick="setModuleSelectionMode('level')">Par niveau</button>
+          <button class="module-mode-btn ${state.moduleSelectionMode === 'theme' ? 'active' : ''}" onclick="setModuleSelectionMode('theme')">Par thème</button>
+        </div>
+      </div>
+
+      ${state.moduleSelectionMode === 'level' ? `
         <div class="level-switch-tabs">
           ${allLevels.map(l => `
             <button class="level-switch-btn ${state.level === l.id ? 'active' : ''}"
-                    onclick="navigate('modules', {level: ${l.id}, subject: '${subjectDef.id}'})">${l.label}</button>
+                    onclick="navigate('modules', {level: ${typeof l.id === 'string' ? `'${l.id}'` : l.id}, subject: '${subjectDef.id}'})">${l.label}</button>
           `).join('')}
         </div>
-      </div>
+      ` : `
+        <div class="theme-switch-tabs">
+          <button class="level-switch-btn ${state.selectedTheme === 'all' ? 'active' : ''}" onclick="setModuleTheme('all')">Tous les thèmes</button>
+          ${availableThemes.map(t => `
+            <button class="level-switch-btn ${state.selectedTheme === t.id ? 'active' : ''}" onclick="setModuleTheme('${t.id}')">${t.label}</button>
+          `).join('')}
+        </div>
+      `}
 
       <div class="search-bar-wrapper">
         <label for="search-modules" class="sr-only">Rechercher un module</label>
@@ -492,8 +516,8 @@ function renderModulesList() {
                  aria-disabled="${unavailable}"
                  data-title="${m.title.toLowerCase().replace(/"/g, '&quot;')}"
                  data-subtitle="${m.subtitle.toLowerCase().replace(/"/g, '&quot;')}"
-                 data-keywords="${m.keywords.join('|').toLowerCase().replace(/"/g, '&quot;')}"
-                 data-theme="${(m.keywords[0] || '').toLowerCase().replace(/"/g, '&quot;')}"
+                 data-keywords="${getModuleSearchKeywords(m).join('|').toLowerCase().replace(/"/g, '&quot;')}"
+                 data-theme="${(getThemeLabel(getModuleThemes(m)[0]) || '').toLowerCase().replace(/"/g, '&quot;')}"
                  data-progress="${prog.pct}">
               <div class="module-card-top">
                 <div class="module-card-icon">${m.icon}</div>
@@ -504,7 +528,7 @@ function renderModulesList() {
               </div>
               ${statusBadge}
               <div class="module-card-keywords">
-                ${m.keywords.slice(0, 2).map(k => `<span class="badge">${k}</span>`).join('')}
+                ${getModuleSearchKeywords(m).slice(0, 3).map(k => `<span class="badge">${k}</span>`).join('')}
               </div>
               <div class="module-card-physics">${subjectDef.applicationIcon} ${m.physics}</div>
               <div class="module-card-progress">

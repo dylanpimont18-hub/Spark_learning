@@ -371,6 +371,34 @@ function sortModules(criterion) {
   _applyModuleFilters();
 }
 
+function setModuleSelectionMode(mode) {
+  state.moduleSelectionMode = mode === 'theme' ? 'theme' : 'level';
+  state.searchQuery = '';
+  state.activeKeywords = [];
+
+  if (state.moduleSelectionMode === 'theme') {
+    state.level = 'all';
+    if (!state.selectedTheme) state.selectedTheme = 'all';
+  } else {
+    state.selectedTheme = 'all';
+    if (state.level === 'all' || !state.level) {
+      const s = getSubjectDef(state.subject || 'maths');
+      state.level = (s.availableLevels && s.availableLevels[0]) || 1;
+    }
+  }
+
+  render();
+}
+
+function setModuleTheme(themeId) {
+  state.moduleSelectionMode = 'theme';
+  state.selectedTheme = themeId || 'all';
+  state.level = 'all';
+  state.searchQuery = '';
+  state.activeKeywords = [];
+  render();
+}
+
 function toggleKeyword(kw) {
   const idx = state.activeKeywords.indexOf(kw);
   if (idx === -1) state.activeKeywords.push(kw);
@@ -823,7 +851,7 @@ function _findGlobalModules(query) {
   return list.map(mod => {
     const title = _globalSearchNormalize(mod.title);
     const subtitle = _globalSearchNormalize(mod.subtitle);
-    const keywords = _globalSearchNormalize((mod.keywords || []).join(' '));
+    const keywords = _globalSearchNormalize(getModuleSearchKeywords(mod).join(' '));
     const haystack = `${title} ${subtitle} ${keywords}`;
     const allTermsMatch = terms.every(t => haystack.includes(t));
     if (!allTermsMatch) return null;

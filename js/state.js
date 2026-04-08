@@ -11,6 +11,76 @@ const LEVEL_DEFS = [
   { id: 3, icon: '🏆', label: 'BTS',    color: 'var(--accent)' }
 ];
 
+const MODULE_THEME_RULES = [
+  { id: 'fonctions', label: 'Fonctions', pattern: /(fonction|dériv|limite|continuit|convexit|polyn|second degr|exponent|logarithm|suite)/i },
+  { id: 'suites', label: 'Suites', pattern: /(suite|récurrence|arithmétique|géométrique|annuit|intérêts composés)/i },
+  { id: 'geometrie', label: 'Géométrie', pattern: /(géométr|thal|pythag|triangle|cercle|vecteur|espace|translation|symétrie|homothét|volume|aire|périmètre)/i },
+  { id: 'trigonometrie', label: 'Trigonométrie', pattern: /(trigonom|sinus|cosinus|tangente|angle)/i },
+  { id: 'proba-stats', label: 'Probas & Stats', pattern: /(probabilit|statistique|loi normale|corrélation|régression|variance|écart-type)/i },
+  { id: 'algebre', label: 'Algèbre', pattern: /(équation|inéquation|système|identit|factorisation|matrice|complexe|calcul littéral|arithmétique)/i },
+  { id: 'analyse', label: 'Analyse', pattern: /(intégrale|primitive|fourier|laplace|équation différentielle|dériv)/i },
+  { id: 'mecanique', label: 'Mécanique', pattern: /(mécanique|cinématique|dynamique|rdm|solide|torsion|flexion)/i },
+  { id: 'electrique', label: 'Électrique', pattern: /(électri|ohm|circuit|impédance|r[lc]|électrotechnique|puissance)/i },
+  { id: 'automatique', label: 'Automatique', pattern: /(asservissement|automatique|boucle|capteur|commande|système)/i },
+  { id: 'algorithmique', label: 'Algorithmique', pattern: /(algorithm|programm|python|poo|sysml|logique boolé)/i }
+];
+
+function normalizeSearchText(str) {
+  return (str || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+}
+
+function tokenizeText(str) {
+  return normalizeSearchText(str)
+    .replace(/[^a-z0-9\s-]/g, ' ')
+    .split(/\s+/)
+    .filter(t => t && t.length >= 3);
+}
+
+function getModuleThemes(mod) {
+  const haystack = [mod.title, mod.subtitle, (mod.keywords || []).join(' ')].join(' ');
+  const themeIds = MODULE_THEME_RULES
+    .filter(rule => rule.pattern.test(haystack))
+    .map(rule => rule.id);
+  return themeIds.length > 0 ? themeIds : ['algebre'];
+}
+
+function getThemeLabel(themeId) {
+  const found = MODULE_THEME_RULES.find(r => r.id === themeId);
+  return found ? found.label : themeId;
+}
+
+function getModuleSearchKeywords(mod) {
+  const base = Array.isArray(mod.keywords) ? mod.keywords : [];
+  const fromText = [mod.title, mod.subtitle].flatMap(tokenizeText);
+  const themeLabels = getModuleThemes(mod).map(getThemeLabel);
+
+  const levelLabel = LEVEL_NAMES[mod.level] || '';
+  const subjectLabel = getSubjectDef(mod.subject || 'maths').label;
+
+  const all = [
+    ...base,
+    ...fromText,
+    ...themeLabels,
+    levelLabel,
+    subjectLabel
+  ];
+
+  const unique = [];
+  const seen = new Set();
+  all.forEach(k => {
+    const raw = (k || '').toString().trim();
+    if (!raw) return;
+    const norm = normalizeSearchText(raw);
+    if (seen.has(norm)) return;
+    seen.add(norm);
+    unique.push(raw);
+  });
+  return unique;
+}
+
 /* ── Subject definitions ── */
 const SUBJECT_DEFS = [
   {
@@ -69,6 +139,8 @@ const state = {
   view: 'home',
   subject: null,
   level: null,
+  moduleSelectionMode: 'level',
+  selectedTheme: 'all',
   moduleId: null,
   tab: 'cours',
   searchQuery: '',
