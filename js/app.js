@@ -399,6 +399,27 @@ function setModuleTheme(themeId) {
   render();
 }
 
+function setParcoursMode(mode) {
+  state.moduleSelectionMode = mode === 'theme' ? 'theme' : 'level';
+  if (state.moduleSelectionMode === 'level' && (state.level === 'all' || !state.level)) {
+    const s = getSubjectDef(state.subject || 'maths');
+    state.level = (s.availableLevels && s.availableLevels[0]) || 1;
+  }
+  if (state.moduleSelectionMode === 'theme') {
+    state.selectedTheme = state.selectedTheme || 'all';
+  }
+  render();
+}
+
+function openThemeModules(subject, themeId) {
+  state.moduleSelectionMode = 'theme';
+  state.selectedTheme = themeId || 'all';
+  state.level = 'all';
+  state.searchQuery = '';
+  state.activeKeywords = [];
+  navigate('modules', { subject: subject || state.subject || 'maths', level: 'all' });
+}
+
 function toggleKeyword(kw) {
   const idx = state.activeKeywords.indexOf(kw);
   if (idx === -1) state.activeKeywords.push(kw);

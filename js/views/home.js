@@ -296,38 +296,69 @@ function renderLevels() {
     { id: 3, icon: '🏆', title: 'BTS', subtitle: 'Enseignement supérieur', color: 'var(--accent)' }
   ].filter(l => subjectDef.availableLevels.includes(l.id));
 
+  const subjectModules = window.MODULES.filter(m => (m.subject || 'maths') === subjectDef.id);
+  const themeFreq = {};
+  subjectModules.forEach(m => getModuleThemes(m).forEach(t => { themeFreq[t] = (themeFreq[t] || 0) + 1; }));
+  const themes = Object.entries(themeFreq)
+    .sort((a, b) => b[1] - a[1])
+    .map(([id, count]) => ({ id, label: getThemeLabel(id), count }));
+
   return `
     <div class="container">
       <div class="page-header">
         <button class="btn-back" onclick="navigate('subjects')" aria-label="Retour aux matières">← Matières</button>
         <h1 class="page-title">${subjectDef.icon} ${subjectDef.label}</h1>
-        <p class="page-subtitle">Choisis ton niveau pour commencer</p>
+        <p class="page-subtitle">Choisis ton mode de parcours puis sélectionne tes modules</p>
       </div>
-      <div class="levels-grid">
-        ${levels.map(l => {
-          const levelModules = window.MODULES.filter(m => m.level === l.id && (m.subject || 'maths') === subjectDef.id);
-          const count = levelModules.length;
-          const done = levelModules.filter(m => {
-            const p = getModuleProgress(m.id);
-            return p.done === p.total && p.done > 0;
-          }).length;
-          const pct = count > 0 ? Math.round((done / count) * 100) : 0;
-          return `
-            <div class="level-card" style="--level-color: ${l.color};" onclick="navigate('modules', {level: ${l.id}, subject: '${subjectDef.id}'})" tabindex="0" role="button" aria-label="Niveau ${l.title}">
-              <div class="level-card-icon">${l.icon}</div>
-              <div class="level-card-title">${l.title}</div>
-              <div class="level-card-subtitle">${l.subtitle}</div>
-              <span class="level-card-count" style="--level-color: ${l.color};">${count} ${pluralize('module', count)}</span>
-              <div class="level-card-progress">
-                <div class="level-card-progress-label">${done === 0 ? 'Pas encore commencé' : `${done} / ${count} ${pluralize('module', done)} ${pluralize('complété', done)}`}</div>
-                <div class="level-card-progress-bar">
-                  <div class="level-card-progress-fill" style="width: ${pct}%;"></div>
+      <div class="module-mode-switch" style="margin:0 0 18px 0;">
+        <button class="module-mode-btn ${state.moduleSelectionMode === 'level' ? 'active' : ''}" onclick="setParcoursMode('level')">Par niveau</button>
+        <button class="module-mode-btn ${state.moduleSelectionMode === 'theme' ? 'active' : ''}" onclick="setParcoursMode('theme')">Par thème</button>
+      </div>
+
+      ${state.moduleSelectionMode === 'theme' ? `
+        <div class="levels-grid">
+          <div class="level-card" style="--level-color: var(--primary);" onclick="openThemeModules('${subjectDef.id}', 'all')" tabindex="0" role="button" aria-label="Tous les thèmes">
+            <div class="level-card-icon">🧭</div>
+            <div class="level-card-title">Tous les thèmes</div>
+            <div class="level-card-subtitle">Explorer toute la matière</div>
+            <span class="level-card-count" style="--level-color: var(--primary);">${subjectModules.length} ${pluralize('module', subjectModules.length)}</span>
+          </div>
+          ${themes.map(t => `
+            <div class="level-card" style="--level-color: var(--secondary);" onclick="openThemeModules('${subjectDef.id}', '${t.id}')" tabindex="0" role="button" aria-label="Thème ${t.label}">
+              <div class="level-card-icon">🏷️</div>
+              <div class="level-card-title">${t.label}</div>
+              <div class="level-card-subtitle">Modules regroupés par thème</div>
+              <span class="level-card-count" style="--level-color: var(--secondary);">${t.count} ${pluralize('module', t.count)}</span>
+            </div>
+          `).join('')}
+        </div>
+      ` : `
+        <div class="levels-grid">
+          ${levels.map(l => {
+            const levelModules = window.MODULES.filter(m => m.level === l.id && (m.subject || 'maths') === subjectDef.id);
+            const count = levelModules.length;
+            const done = levelModules.filter(m => {
+              const p = getModuleProgress(m.id);
+              return p.done === p.total && p.done > 0;
+            }).length;
+            const pct = count > 0 ? Math.round((done / count) * 100) : 0;
+            return `
+              <div class="level-card" style="--level-color: ${l.color};" onclick="navigate('modules', {level: ${l.id}, subject: '${subjectDef.id}'})" tabindex="0" role="button" aria-label="Niveau ${l.title}">
+                <div class="level-card-icon">${l.icon}</div>
+                <div class="level-card-title">${l.title}</div>
+                <div class="level-card-subtitle">${l.subtitle}</div>
+                <span class="level-card-count" style="--level-color: ${l.color};">${count} ${pluralize('module', count)}</span>
+                <div class="level-card-progress">
+                  <div class="level-card-progress-label">${done === 0 ? 'Pas encore commencé' : `${done} / ${count} ${pluralize('module', done)} ${pluralize('complété', done)}`}</div>
+                  <div class="level-card-progress-bar">
+                    <div class="level-card-progress-fill" style="width: ${pct}%;"></div>
+                  </div>
                 </div>
               </div>
-            </div>
-          `;
-        }).join('')}
-      </div>
+            `;
+          }).join('')}
+        </div>
+      `}
     </div>
   `;
 }
