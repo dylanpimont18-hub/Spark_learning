@@ -3,17 +3,6 @@
    Recommandations adaptatives basées sur la progression
    ========================================================= */
 
-// --- Intégration errorAnalysisEngine (analyse erreurs & recommandations) ---
-import errorAnalysisEngine from './engines/errorAnalysisEngine.js';
-
-// Exemple d'utilisation :
-// Analyse l'historique utilisateur et recommande des modules prioritaires
-function analyzeAndRecommendExample(userHistory, modules) {
-  const difficulties = errorAnalysisEngine.analyze(userHistory);
-  const recommandations = errorAnalysisEngine.recommend(difficulties, modules);
-  console.log('Modules à retravailler en priorité :', recommandations);
-  // À brancher sur l’UI de recommandations si besoin
-}
 
 /**
  * Retourne des recommandations pour un module donné.

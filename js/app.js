@@ -1,54 +1,7 @@
-// --- Intégration guidedNarrationEngine (narration guidée) ---
-import guidedNarrationEngine from './engines/guidedNarrationEngine.js';
-
-// Exemple d'utilisation :
-// Décompose une démonstration en étapes interactives
-function startGuidedNarrationExample() {
-  const demonstration = [
-    { question: 'Quel est le discriminant ?', hint: 'Δ = b²-4ac', answer: '...' },
-    { question: 'Que vaut la racine positive ?', hint: '(-b+√Δ)/2a', answer: '...' }
-  ];
-  const narration = guidedNarrationEngine.decompose(demonstration);
-  let step = narration.nextStep();
-  while (step) {
-    console.log('Étape :', step.question, '| Indice :', step.hint);
-    // Ici, brancher sur l’UI pour afficher la question et attendre la réponse utilisateur
-    step = narration.nextStep();
-  }
-}
-// --- Intégration dynamicExerciseEngine (exercices dynamiques) ---
-import dynamicExerciseEngine from './engines/dynamicExerciseEngine.js';
-
-// Exemple d'utilisation :
-// Génère un exercice dynamique à partir d'un module data
-function generateDynamicExerciseExample(moduleData) {
-  // moduleData doit contenir une fonction generate()
-  const exo = dynamicExerciseEngine.generate(moduleData, { contexte: 'quotidien', prenom: 'Lina' });
-  console.log('Exercice dynamique généré :', exo);
-  // À brancher sur l'UI d'exercice si besoin
-}
 /* =========================================================
    Spark Learning – app.js
    Routeur SPA, utilitaires (KaTeX, confetti), init
    ========================================================= */
-
-// --- Intégration progressionEngine (parcours progressifs) ---
-import progressionEngine from './engines/progressionEngine.js';
-
-// Exemple d'utilisation :
-// Lance un parcours progressif sur une liste de modules
-function startProgressivePathExample() {
-  const modules = ['3e-thales', '3e-systemes', '3e-fonctions'];
-  const parcours = progressionEngine.startProgressivePath({
-    modules,
-    niveau: 1,
-    onStep: (moduleId, userState, step) => {
-      console.log('Étape', step, 'Module:', moduleId, 'État:', userState);
-      // Ici, tu pourrais naviguer vers le module ou afficher une UI
-    }
-  });
-  // Pour passer à l'étape suivante : parcours.nextStep(state)
-}
 
 /* ── KaTeX rendering ── */
 function renderMath() {
