@@ -13,7 +13,10 @@ window.MODULES.push(
     keywords: ['Algorithme', 'Variable', 'Boucle', 'Condition', 'Instruction', 'Pseudo-code'],
     physics: false,
     cours: {
-      intro: 'Un algorithme est une suite finie et non ambiguë d\'instructions permettant de résoudre un problème — chaque instruction doit être interprétable de façon univoque, sans ambiguïté. Les trois structures fondamentales (séquence, condition, boucle) suffisent à exprimer n\'importe quel calcul : c\'est le théorème de structure de Böhm-Jacopini. L\'affectation $x \\leftarrow x + 1$ est conceptuellement différente d\'une équation : en maths, $x = x+1$ est absurde ; en algorithmique, c\'est une mise à jour (lire l\'ancienne valeur, calculer, stocker). Pour déboguer un algorithme, on trace son exécution ligne par ligne dans un tableau de valeurs des variables — c\'est la technique la plus fiable et la plus universelle.',
+      intro: 'Un <strong>algorithme</strong> est une suite finie et non ambiguë d\'instructions permettant de résoudre un problème. Les trois <strong>structures fondamentales</strong> — séquence, condition, boucle — suffisent à exprimer n\'importe quel calcul.<br/><br/>' +
+        'L\'<strong>affectation</strong> $x \\leftarrow x + 1$ est très différente d\'une équation : en maths, $x = x + 1$ est absurde ; en algorithmique, c\'est une <strong>mise à jour</strong> (lire l\'ancienne valeur, ajouter $1$, stocker le résultat).<br/><br/>' +
+        'Pour <strong>déboguer</strong> un algorithme : tracer son exécution ligne par ligne dans un tableau de valeurs des variables — une colonne par variable, une ligne par étape.<br/><br/>' +
+        'Deux types de boucles : la boucle <strong>bornée</strong> ($\\mathtt{pour}$) avec un nombre fixé de tours ; la boucle <strong>non bornée</strong> ($\\mathtt{tant\\ que}$) qui continue sous condition.',
       definitions: [
         { term: 'Algorithme', def: 'Suite <strong>finie et non ambiguë</strong> d\'instructions qui résout un problème donné. Chaque étape doit être suffisamment précise pour être exécutée mécaniquement.' },
         { term: 'Variable', def: 'Espace mémoire nommé qui <strong>stocke une valeur</strong>. Une variable peut contenir un nombre, du texte, etc. Sa valeur peut changer au cours de l\'exécution.' },
@@ -23,9 +26,9 @@ window.MODULES.push(
       method: {
         title: 'Les trois structures de base',
         steps: [
-          'Séquence : les instructions s\'exécutent dans l\'ordre, l\'une après l\'autre.',
-          'Condition : $\\mathtt{si}$ (condition) $\\mathtt{alors}$ (bloc) $\\mathtt{sinon}$ (autre bloc) — exécution conditionnelle.',
-          'Boucle : $\\mathtt{pour}$ $i$ $\\mathtt{de}$ $1$ $\\mathtt{à}$ $n$ — ou $\\mathtt{tant que}$ (condition) — répétition d\'un bloc.'
+          '<strong>Séquence</strong> : les instructions s\'exécutent dans l\'ordre, l\'une après l\'autre. C\'est la structure la plus simple.',
+          '<strong>Condition</strong> : $\\mathtt{si}$ (condition) $\\mathtt{alors}$ (bloc A) $\\mathtt{sinon}$ (bloc B). Exécution <strong>conditionnelle</strong> — un seul des deux blocs s\'exécute.',
+          '<strong>Boucle bornée</strong> : $\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; n\\; \\mathtt{faire}$ — nombre de tours <strong>fixé à l\'avance</strong>.<br/><strong>Boucle non bornée</strong> : $\\mathtt{tant\\ que}$ (condition) — continue jusqu\'à ce que la condition devienne fausse.'
         ]
       },
       example: {

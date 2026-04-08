@@ -23,10 +23,10 @@ window.MODULES.push({
       method: {
         title: 'Réaliser un bilan énergétique',
         steps: [
-          'Étape 1 — Identifier les formes d\'énergie en entrée et en sortie.<br/>Exemple : moteur électrique → entrée : énergie électrique ($P = UI$) ; sortie utile : énergie mécanique ; pertes : chaleur (effet Joule, frottements).',
-          'Étape 2 — Appliquer la conservation de l\'énergie :<br/>$P_{\\text{absorbée}} = P_{\\text{utile}} + P_{\\text{pertes}}$. Si on connaît deux grandeurs, on déduit la troisième.',
-          'Étape 3 — Calculer le rendement :<br/>$\\eta = \\dfrac{P_{\\text{utile}}}{P_{\\text{absorbée}}}$ ou de façon équivalente $\\eta = 1 - \\dfrac{P_{\\text{pertes}}}{P_{\\text{absorbée}}}$.',
-          'Étape 4 — Chaîne de rendements : pour plusieurs convertisseurs en série, le rendement global est le <strong>produit</strong> :<br/>$\\eta_{\\text{global}} = \\eta_1 \\times \\eta_2 \\times \\ldots$ Ce résultat est toujours inférieur au plus petit rendement de la chaîne.'
+          '<strong>Identification des énergies</strong> : Étape 1 — Identifier les formes d\'énergie en entrée et en sortie.\nExemple : moteur électrique → entrée : énergie électrique ($P = UI$) ; sortie utile : énergie mécanique ; pertes : chaleur (effet Joule, frottements).',
+          '<strong>Conservation de l\'énergie</strong> : Étape 2 — Appliquer la conservation de l\'énergie :\n$P_{\\text{absorbée}} = P_{\\text{utile}} + P_{\\text{pertes}}$. Si on connaît deux grandeurs, on déduit la troisième.',
+          '<strong>Calcul du rendement</strong> : Étape 3 — Calculer le rendement :\n$\\eta = \\dfrac{P_{\\text{utile}}}{P_{\\text{absorbée}}}$ ou de façon équivalente $\\eta = 1 - \\dfrac{P_{\\text{pertes}}}{P_{\\text{absorbée}}}$.',
+          '<strong>Chaîne de rendements</strong> : Étape 4 — Chaîne de rendements : pour plusieurs convertisseurs en série, le rendement global est le produit :\n$\\eta_{\\text{global}} = \\eta_1 \\times \\eta_2 \\times \\ldots$ Ce résultat est toujours inférieur au plus petit rendement de la chaîne.'
         ]
       },
       example: {

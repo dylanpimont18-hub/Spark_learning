@@ -23,10 +23,10 @@ window.MODULES.push({
       method: {
         title: 'Créer et utiliser une classe en Python',
         steps: [
-          'Étape 1 — Définir la classe et le constructeur :<br/><code>class NomClasse:</code><br/><code>&nbsp;&nbsp;def __init__(self, param1, param2):</code><br/><code>&nbsp;&nbsp;&nbsp;&nbsp;self.attribut1 = param1</code><br/><code>&nbsp;&nbsp;&nbsp;&nbsp;self.attribut2 = param2</code>',
-          'Étape 2 — Définir les méthodes (fonctions de la classe) :<br/><code>&nbsp;&nbsp;def ma_methode(self, arg):</code><br/><code>&nbsp;&nbsp;&nbsp;&nbsp;self.attribut1 += arg</code><br/>Toujours <code>self</code> en premier paramètre pour accéder aux attributs.',
-          'Étape 3 — Instancier et utiliser :<br/><code>obj = NomClasse(val1, val2)</code> crée un objet.<br/><code>obj.ma_methode(5)</code> appelle la méthode sur cet objet.',
-          'Étape 4 — Héritage (si nécessaire) :<br/><code>class Fille(Mere):</code><br/><code>&nbsp;&nbsp;def __init__(self, param_mere, param_fille):</code><br/><code>&nbsp;&nbsp;&nbsp;&nbsp;super().__init__(param_mere)</code><br/><code>&nbsp;&nbsp;&nbsp;&nbsp;self.nouveau_attr = param_fille</code>'
+          '<strong>Classe et constructeur</strong> : Étape 1 — Définir la classe et le constructeur :<br/><code>class NomClasse:</code><br/><code>&nbsp;&nbsp;def __init__(self, param1, param2):</code><br/><code>&nbsp;&nbsp;&nbsp;&nbsp;self.attribut1 = param1</code><br/><code>&nbsp;&nbsp;&nbsp;&nbsp;self.attribut2 = param2</code>',
+          '<strong>Méthodes</strong> : Étape 2 — Définir les méthodes (fonctions de la classe) :<br/><code>&nbsp;&nbsp;def ma_methode(self, arg):</code><br/><code>&nbsp;&nbsp;&nbsp;&nbsp;self.attribut1 += arg</code><br/>Toujours <code>self</code> en premier paramètre pour accéder aux attributs.',
+          '<strong>Instanciation et utilisation</strong> : Étape 3 — Instancier et utiliser :<br/><code>obj = NomClasse(val1, val2)</code> crée un objet.<br/><code>obj.ma_methode(5)</code> appelle la méthode sur cet objet.',
+          '<strong>Héritage</strong> : Étape 4 — Héritage (si nécessaire) :<br/><code>class Fille(Mere):</code><br/><code>&nbsp;&nbsp;def __init__(self, param_mere, param_fille):</code><br/><code>&nbsp;&nbsp;&nbsp;&nbsp;super().__init__(param_mere)</code><br/><code>&nbsp;&nbsp;&nbsp;&nbsp;self.nouveau_attr = param_fille</code>'
         ]
       },
       example: {

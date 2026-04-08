@@ -22,10 +22,10 @@ window.MODULES.push({
       method: {
         title: 'Calculer une limite',
         steps: [
-          'Substituer directement : si le résultat est défini, c\'est la limite.',
-          'Si forme indéterminée ($0/0$, $\\infty/\\infty$, $\\infty-\\infty$) : factoriser, simplifier, ou utiliser les croissances comparées.',
-          'Limites en $\\pm\\infty$ d\'un polynôme : terme de plus haut degré dominant.',
-          '$f$ continue en $a$ $\\Leftrightarrow$ $\\lim_{x\\to a}f(x)=f(a)$.'
+          '<strong>Substitution directe</strong> : si le résultat est défini, c\'est la limite.',
+          '<strong>Formes indéterminées</strong> : si $0/0$, $\\infty/\\infty$, ou $\\infty-\\infty$, factoriser, simplifier, ou croissances comparées.',
+          '<strong>Dominance polynomiale</strong> : en $\\pm\\infty$, le terme de plus haut degré domine.',
+          '<strong>Continuité</strong> : $f$ continue en $a$ $\\Leftrightarrow$ $\\lim_{x\\to a}f(x)=f(a)$.'
         ]
       },
       example: {

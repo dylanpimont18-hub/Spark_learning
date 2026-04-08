@@ -21,10 +21,10 @@
       method: {
         title: 'Règle des signes',
         steps: [
-          'Calculer la valeur absolue du résultat (comme si les nombres étaient positifs). <strong>Exemple :</strong> pour $(-6) \\times (+4)$, la valeur absolue est $6 \\times 4 = 24$.',
-          'Déterminer le signe : $(+) \\times (+) = (+)$, $(-) \\times (-) = (+)$, $(+) \\times (-) = (-)$, $(-) \\times (+) = (-)$. <strong>Exemple :</strong> $(-6) \\times (+4)$ → signes contraires → résultat négatif → $-24$.',
-          'Pour une suite de multiplications : compter le nombre de facteurs négatifs. Pair → positif ; impair → négatif. <strong>Exemple :</strong> $(-2) \\times (-3) \\times (-1)$ → $3$ facteurs négatifs (impair) → résultat négatif → $-6$.',
-          'La division suit les mêmes règles de signes que la multiplication. <strong>Exemple :</strong> $(-15) \\div (-3) = +5$ (deux négatifs → positif).'
+          '<strong>Valeur absolue</strong> : calculer la valeur du résultat comme si les nombres étaient positifs. <strong>Exemple :</strong> pour $(-6) \\times (+4)$, la valeur absolue est $6 \\times 4 = 24$.',
+          '<strong>Déterminer le signe</strong> : $(+) \\times (+) = (+)$, $(-) \\times (-) = (+)$, $(+) \\times (-) = (-)$, $(-) \\times (+) = (-)$. <strong>Exemple :</strong> $(-6) \\times (+4)$ → signes contraires → résultat négatif → $-24$.',
+          '<strong>Suite de multiplications</strong> : compter le nombre de facteurs négatifs. Pair → positif ; impair → négatif. <strong>Exemple :</strong> $(-2) \\times (-3) \\times (-1)$ → $3$ facteurs négatifs (impair) → résultat négatif → $-6$.',
+          '<strong>Division</strong> : suit les mêmes règles de signes que la multiplication. <strong>Exemple :</strong> $(-15) \\div (-3) = +5$ (deux négatifs → positif).'
         ]
       },
       example: {

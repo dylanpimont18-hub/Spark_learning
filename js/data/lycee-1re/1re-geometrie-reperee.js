@@ -22,10 +22,10 @@ window.MODULES.push({
       method: {
         title: 'Tester la colinéarité et écrire l\'équation d\'une droite',
         steps: [
-          'Colinéarité : $\\vec{u}(x;y)$ et $\\vec{v}(x\';y\')$ colinéaires $\\Leftrightarrow xy\'-x\'y=0$ (déterminant nul).',
-          'Équation de droite passant par $A(x_0;y_0)$ de vecteur directeur $\\vec{u}(a;b)$ : $b(x-x_0)-a(y-y_0)=0$.',
-          'Ou utiliser la forme $y=mx+p$ si la droite n\'est pas verticale.',
-          'Trois points $A$, $B$, $C$ sont alignés si $\\vec{AB}$ et $\\vec{AC}$ sont colinéaires.'
+          '<strong>Colinéarité</strong> : $\\vec{u}(x;y)$ et $\\vec{v}(x\';y\')$ colinéaires $\\Leftrightarrow xy\'-x\'y=0$ (déterminant nul).',
+          '<strong>Équation de droite</strong> passant par $A(x_0;y_0)$ de vecteur directeur $\\vec{u}(a;b)$ : $b(x-x_0)-a(y-y_0)=0$.',
+          '<strong>Forme simple</strong> : utiliser $y=mx+p$ si la droite n\'est pas verticale.',
+          '<strong>Alignement</strong> : trois points $A$, $B$, $C$ sont alignés si $\\vec{AB}$ et $\\vec{AC}$ sont colinéaires.'
         ]
       },
       example: {

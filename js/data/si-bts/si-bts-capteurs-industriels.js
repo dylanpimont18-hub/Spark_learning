@@ -24,10 +24,10 @@ window.MODULES.push({
       method: {
         title: 'Caractériser un capteur et exploiter un pont de Wheatstone',
         steps: [
-          'Identifier l\'étendue de mesure (EM) et calculer la sensibilité : $S = (V_{\\max} - V_{\\min}) / (X_{\\max} - X_{\\min})$.<br/><strong>Exemple :</strong> Capteur de force : $0$ à $500$ N → $0$ à $5$ V. $S = 5/500 = 10$ mV/N.',
-          'Calculer la grandeur mesurée : $X = V / S$ (si linéaire passant par l\'origine).<br/><strong>Exemple :</strong> $V = 3{,}2$ V → $X = 3200/10 = 320$ N.',
-          'Pour un pont de Wheatstone (Pt100 : $R_0 = 100$ Ω, $S_{\\text{Pt}} = 0{,}385$ Ω/°C) :<br/>$R(T) = R_0 + S_{\\text{Pt}} \\cdot T$, $\\Delta R = S_{\\text{Pt}} \\cdot T$, $\\Delta V \\approx E \\cdot \\Delta R / (4R_0)$.<br/><strong>Exemple :</strong> $T = 50°$C, $E = 10$ V → $\\Delta R = 19{,}25$ Ω → $\\Delta V = 10 \\times 19{,}25 / 400 = 0{,}481$ V.',
-          'Incertitude : si $n$ mesures avec écart-type $\\sigma$ → $u = \\sigma / \\sqrt{n}$, $U = 2u$.<br/><strong>Exemple :</strong> $\\sigma = 0{,}3$ °C, $n = 16$ → $u = 0{,}3/4 = 0{,}075$ °C, $U = 0{,}15$ °C.'
+          '<strong>Sensibilité du capteur</strong> : Identifier l\'étendue de mesure (EM) et calculer la sensibilité : $S = (V_{\\max} - V_{\\min}) / (X_{\\max} - X_{\\min})$.<br/><strong>Exemple :</strong> Capteur de force : $0$ à $500$ N → $0$ à $5$ V. $S = 5/500 = 10$ mV/N.',
+          '<strong>Conversion signal-mesure</strong> : Calculer la grandeur mesurée : $X = V / S$ (si linéaire passant par l\'origine).<br/><strong>Exemple :</strong> $V = 3{,}2$ V → $X = 3200/10 = 320$ N.',
+          '<strong>Capteur Pt100 en pont</strong> : Pour un pont de Wheatstone (Pt100 : $R_0 = 100$ Ω, $S_{\\text{Pt}} = 0{,}385$ Ω/°C) :<br/>$R(T) = R_0 + S_{\\text{Pt}} \\cdot T$, $\\Delta R = S_{\\text{Pt}} \\cdot T$, $\\Delta V \\approx E \\cdot \\Delta R / (4R_0)$.<br/><strong>Exemple :</strong> $T = 50°$C, $E = 10$ V → $\\Delta R = 19{,}25$ Ω → $\\Delta V = 10 \\times 19{,}25 / 400 = 0{,}481$ V.',
+          '<strong>Incertitude de mesure</strong> : Incertitude : si $n$ mesures avec écart-type $\\sigma$ → $u = \\sigma / \\sqrt{n}$, $U = 2u$.<br/><strong>Exemple :</strong> $\\sigma = 0{,}3$ °C, $n = 16$ → $u = 0{,}3/4 = 0{,}075$ °C, $U = 0{,}15$ °C.'
         ]
       },
       example: {

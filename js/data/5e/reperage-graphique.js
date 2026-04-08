@@ -36,9 +36,9 @@ window.MODULES.push({
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Identifier les axes : abscisse $x$ (horizontal) = variable indépendante ; ordonnée $y$ (vertical) = variable dépendante.',
-          'Lire un point $(x_0, y_0)$ : partir de $x_0$ sur l\'axe des x, monter verticalement jusqu\'à la courbe, puis lire l\'ordonnée à gauche.',
-          'Interpoler = trouver une valeur entre deux points mesurés. Extrapoler = prolonger la tendance au-delà des mesures (moins fiable).'
+          '<strong>Identifier les axes</strong> : abscisse $x$ (horizontal) = variable indépendante ; ordonnée $y$ (vertical) = variable dépendante.',
+          '<strong>Lire un point $(x_0, y_0)$</strong> : partir de $x_0$ sur l\'axe des x, monter verticalement jusqu\'\u00e0 la courbe, puis lire l\'ordonnée à gauche.',
+          '<strong>Interpoler / Extrapoler</strong> : interpoler = trouver une valeur entre deux points mesurés ; extrapoler = prolonger la tendance au-delà des mesures (moins fiable).'
         ]
       },
       formulas: [

@@ -24,10 +24,10 @@ window.MODULES.push({
       method: {
         title: 'Calculer la force et la vitesse d\'un vérin hydraulique',
         steps: [
-          'Identifier la pression $P$ et le diamètre du piston $D$. Calculer la section : $S = \\pi D^2 / 4$.<br/><strong>Exemple :</strong> $P = 150$ bar, $D = 80$ mm → $S = \\pi \\times 0{,}08^2 / 4 = 5{,}027 \\times 10^{-3}$ m².',
-          'Force de poussée : $F = P \\times S$. Convertir la pression en Pa : $150$ bar $= 150 \\times 10^5$ Pa.<br/><strong>Exemple :</strong> $F = 1{,}5 \\times 10^7 \\times 5{,}027 \\times 10^{-3} = 75{,}4$ kN.',
-          'En rétraction, soustraire la section de la tige : $S_{\\text{ann}} = \\pi(D^2 - d^2)/4$.<br/><strong>Exemple :</strong> Tige $d = 40$ mm → $S_{\\text{ann}} = \\pi(0{,}08^2 - 0{,}04^2)/4 = 3{,}77 \\times 10^{-3}$ m² → $F_{\\text{ret}} = 56{,}5$ kN.',
-          'Vitesse du vérin : $v = Q / S$, avec $Q$ le débit de la pompe (en m³/s).<br/><strong>Exemple :</strong> $Q = 15$ L/min $= 2{,}5 \\times 10^{-4}$ m³/s → $v = 2{,}5 \\times 10^{-4} / 5{,}027 \\times 10^{-3} = 0{,}050$ m/s $= 50$ mm/s.'
+          '<strong>Section et pression</strong> : Identifier la pression $P$ et le diamètre du piston $D$. Calculer la section : $S = \\pi D^2 / 4$.<br/><strong>Exemple :</strong> $P = 150$ bar, $D = 80$ mm → $S = \\pi \\times 0{,}08^2 / 4 = 5{,}027 \\times 10^{-3}$ m².',
+          '<strong>Force de poussée</strong> : Force de poussée : $F = P \\times S$. Convertir la pression en Pa : $150$ bar $= 150 \\times 10^5$ Pa.<br/><strong>Exemple :</strong> $F = 1{,}5 \\times 10^7 \\times 5{,}027 \\times 10^{-3} = 75{,}4$ kN.',
+          '<strong>Rétraction avec tige</strong> : En rétraction, soustraire la section de la tige : $S_{\\text{ann}} = \\pi(D^2 - d^2)/4$.<br/><strong>Exemple :</strong> Tige $d = 40$ mm → $S_{\\text{ann}} = \\pi(0{,}08^2 - 0{,}04^2)/4 = 3{,}77 \\times 10^{-3}$ m² → $F_{\\text{ret}} = 56{,}5$ kN.',
+          '<strong>Vitesse du vérin</strong> : Vitesse du vérin : $v = Q / S$, avec $Q$ le débit de la pompe (en m³/s).<br/><strong>Exemple :</strong> $Q = 15$ L/min $= 2{,}5 \\times 10^{-4}$ m³/s → $v = 2{,}5 \\times 10^{-4} / 5{,}027 \\times 10^{-3} = 0{,}050$ m/s $= 50$ mm/s.'
         ]
       },
       example: {

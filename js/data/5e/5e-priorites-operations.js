@@ -37,10 +37,10 @@ window.MODULES.push({
       method: {
         title: 'Ordre de priorité (de la plus haute à la plus basse)',
         steps: [
-          '1. Parenthèses : calculer en premier tout ce qui est entre parenthèses, de l\'intérieur vers l\'extérieur.',
-          '2. Puissances et racines : calculer $a^n$ et $\\sqrt{a}$ avant de multiplier ou additionner.',
-          '3. Multiplications et divisions : de gauche à droite, avant les additions/soustractions.',
-          '4. Additions et soustractions : en dernier, de gauche à droite.'
+          '<strong>1. Parenthèses</strong> : calculer en premier tout ce qui est entre parenthèses, de l\'intérieur vers l\'extérieur.',
+          '<strong>2. Puissances et racines</strong> : calculer $a^n$ et $\\sqrt{a}$ avant de multiplier ou additionner.',
+          '<strong>3. Multiplications et divisions</strong> : de gauche à droite, avant les additions/soustractions.',
+          '<strong>4. Additions et soustractions</strong> : en dernier, de gauche à droite.'
         ]
       },
       formulas: [

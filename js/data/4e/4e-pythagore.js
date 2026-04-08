@@ -22,10 +22,10 @@
       method: {
         title: 'Méthode en 4 étapes',
         steps: [
-          'Identifier le triangle rectangle et son hypoténuse (le côté en face de l\'angle droit — toujours le plus long). <strong>Exemple :</strong> un triangle avec un angle droit en $C$ a son hypoténuse $[AB]$.',
-          'Appliquer le théorème : $c^2 = a^2 + b^2$ où $c$ est l\'hypoténuse et $a$, $b$ les deux autres côtés. <strong>Exemple :</strong> $AB^2 = AC^2 + BC^2$.',
-          'Si on cherche un côté (non hypoténuse) : $a^2 = c^2 - b^2 \\Rightarrow a = \\sqrt{c^2 - b^2}$. <strong>Exemple :</strong> si $AB = 13$ et $BC = 5$, alors $AC = \\sqrt{13^2 - 5^2} = \\sqrt{144} = 12$.',
-          'Vérifier : l\'hypoténuse est toujours le plus grand côté. Ici $13 > 12 > 5$ ✓'
+          '<strong>Identifier</strong> le triangle rectangle et son hypoténuse (le côté en face de l\'angle droit — toujours le plus long). <strong>Exemple :</strong> un triangle avec un angle droit en $C$ a son hypoténuse $[AB]$.',
+          '<strong>Appliquer le théorème</strong> : $c^2 = a^2 + b^2$ où $c$ est l\'hypoténuse et $a$, $b$ les deux autres côtés. <strong>Exemple :</strong> $AB^2 = AC^2 + BC^2$.',
+          '<strong>Chercher un côté non-hypoténuse</strong> : $a^2 = c^2 - b^2 \\Rightarrow a = \\sqrt{c^2 - b^2}$. <strong>Exemple :</strong> si $AB = 13$ et $BC = 5$, alors $AC = \\sqrt{13^2 - 5^2} = \\sqrt{144} = 12$.',
+          '<strong>Vérification</strong> : l\'hypoténuse est toujours le plus grand côté. Ici $13 > 12 > 5$ ✓'
         ]
       },
       example: {

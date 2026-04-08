@@ -22,10 +22,10 @@ window.MODULES.push({
       method: {
         title: 'Étudier la convexité via $f\'\'$',
         steps: [
-          'Calculer $f\'\'(x)$ (dérivée de la dérivée).',
-          '$f\'\'(x) > 0$ sur $I$ $\\Rightarrow$ $f$ convexe sur $I$.',
-          '$f\'\'(x) < 0$ sur $I$ $\\Rightarrow$ $f$ concave sur $I$.',
-          'Un point d\'inflexion est un point où $f\'\'$ change de signe (et $f\'\'(x)=0$).'
+          '<strong>Dérivée seconde</strong> : calculer $f\'\'(x)$ (dérivée de la dérivée).',
+          '<strong>Convexité</strong> : $f\'\'(x) > 0$ sur $I$ $\\Rightarrow$ $f$ convexe sur $I$.',
+          '<strong>Concavité</strong> : $f\'\'(x) < 0$ sur $I$ $\\Rightarrow$ $f$ concave sur $I$.',
+          '<strong>Point d\'inflexion</strong> : point où $f\'\'$ change de signe (et $f\'\'(x)=0$).'
         ]
       },
       example: {

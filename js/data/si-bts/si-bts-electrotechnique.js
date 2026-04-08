@@ -24,10 +24,10 @@ window.MODULES.push({
       method: {
         title: 'Analyser un moteur et établir son bilan de puissance',
         steps: [
-          'Calculer la vitesse de synchronisme : $n_s = 60f / p$ (en tr/min).<br/><strong>Exemple :</strong> $f = 50$ Hz, $p = 2$ → $n_s = 1500$ tr/min.',
-          'Calculer le glissement : $g = (n_s - n) / n_s$.<br/><strong>Exemple :</strong> $n = 1440$ tr/min → $g = (1500 - 1440)/1500 = 0{,}04 = 4\\%$.',
-          'Convertir en rad/s et calculer la puissance mécanique : $\\Omega = 2\\pi n / 60$, puis $P_u = C \\times \\Omega$.<br/><strong>Exemple :</strong> $C = 50$ N·m → $\\Omega = 150{,}8$ rad/s → $P_u = 7540$ W.',
-          'Établir le bilan : $P_a = P_{\\text{Joule}} + P_{\\text{fer}} + P_{\\text{méc}} + P_u$. Calculer $\\eta = P_u / P_a$.<br/><strong>Exemple :</strong> $P_a = 8500$ W → $\\eta = 7540/8500 = 88{,}7\\%$.'
+          '<strong>Vitesse de synchronisme</strong> : Calculer la vitesse de synchronisme : $n_s = 60f / p$ (en tr/min).<br/><strong>Exemple :</strong> $f = 50$ Hz, $p = 2$ → $n_s = 1500$ tr/min.',
+          '<strong>Glissement du moteur</strong> : Calculer le glissement : $g = (n_s - n) / n_s$.<br/><strong>Exemple :</strong> $n = 1440$ tr/min → $g = (1500 - 1440)/1500 = 0{,}04 = 4\\%$.',
+          '<strong>Puissance mécanique</strong> : Convertir en rad/s et calculer la puissance mécanique : $\\Omega = 2\\pi n / 60$, puis $P_u = C \\times \\Omega$.<br/><strong>Exemple :</strong> $C = 50$ N·m → $\\Omega = 150{,}8$ rad/s → $P_u = 7540$ W.',
+          '<strong>Rendement du moteur</strong> : Établir le bilan : $P_a = P_{\\text{Joule}} + P_{\\text{fer}} + P_{\\text{méc}} + P_u$. Calculer $\\eta = P_u / P_a$.<br/><strong>Exemple :</strong> $P_a = 8500$ W → $\\eta = 7540/8500 = 88{,}7\\%$.'
         ]
       },
       example: {

@@ -24,9 +24,9 @@ window.MODULES.push(
       method: {
         title: 'Opérations sur les complexes',
         steps: [
-          'Forme algébrique : $\\underline{Z} = a + jb$ (avec $j^2 = -1$). Module : $|\\underline{Z}| = \\sqrt{a^2 + b^2}$. Argument : $\\phi = \\arctan(b/a)$. <strong>Exemple :</strong> $\\underline{Z} = 6 + 8j$ → $|\\underline{Z}| = \\sqrt{36 + 64} = \\sqrt{100} = 10$ Ω et $\\phi = \\arctan(8/6) \\approx 53{,}1°$.',
-          'Forme exponentielle (polaire) : $\\underline{Z} = |\\underline{Z}| e^{j\\phi}$. Utile pour multiplier/diviser des impédances. <strong>Exemple :</strong> $\\underline{Z}_1 = 5e^{j30°}$ et $\\underline{Z}_2 = 2e^{j15°}$ → $\\underline{Z}_1 \\cdot \\underline{Z}_2 = 10e^{j45°}$ (modules multipliés, arguments additionnés).',
-          'Impédances : résistance $\\underline{Z}_R = R$ ; bobine $\\underline{Z}_L = jL\\omega$ ; condensateur $\\underline{Z}_C = \\dfrac{1}{jC\\omega} = \\dfrac{-j}{C\\omega}$. <strong>Exemple :</strong> Bobine $L = 50$ mH à $\\omega = 1000$ rad/s → $\\underline{Z}_L = j \\times 0{,}05 \\times 1000 = 50j$ Ω (module $50$ Ω, déphasage $+90°$).'
+          '<strong>Forme algébrique</strong> : Forme algébrique : $\\underline{Z} = a + jb$ (avec $j^2 = -1$). Module : $|\\underline{Z}| = \\sqrt{a^2 + b^2}$. Argument : $\\phi = \\arctan(b/a)$. <strong>Exemple :</strong> $\\underline{Z} = 6 + 8j$ → $|\\underline{Z}| = \\sqrt{36 + 64} = \\sqrt{100} = 10$ Ω et $\\phi = \\arctan(8/6) \\approx 53{,}1°$.',
+          '<strong>Forme exponentielle (polaire)</strong> : Forme exponentielle (polaire) : $\\underline{Z} = |\\underline{Z}| e^{j\\phi}$. Utile pour multiplier/diviser des impédances. <strong>Exemple :</strong> $\\underline{Z}_1 = 5e^{j30°}$ et $\\underline{Z}_2 = 2e^{j15°}$ → $\\underline{Z}_1 \\cdot \\underline{Z}_2 = 10e^{j45°}$ (modules multipliés, arguments additionnés).',
+          '<strong>Calcul des impédances</strong> : Impédances : résistance $\\underline{Z}_R = R$ ; bobine $\\underline{Z}_L = jL\\omega$ ; condensateur $\\underline{Z}_C = \\dfrac{1}{jC\\omega} = \\dfrac{-j}{C\\omega}$. <strong>Exemple :</strong> Bobine $L = 50$ mH à $\\omega = 1000$ rad/s → $\\underline{Z}_L = j \\times 0{,}05 \\times 1000 = 50j$ Ω (module $50$ Ω, déphasage $+90°$).'
         ]
       },
       example: {

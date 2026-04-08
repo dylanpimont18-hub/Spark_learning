@@ -24,10 +24,10 @@ window.MODULES.push({
       method: {
         title: 'Résoudre une chaîne de cotes (méthode arithmétique)',
         steps: [
-          'Identifier la cote condition (jeu ou serrage fonctionnel). Nommer $J$.<br/><strong>Exemple :</strong> Jeu axial entre deux pièces, spécifié $0{,}1 \\leq J \\leq 0{,}5$ mm.',
-          'Tracer la chaîne : relier les surfaces fonctionnelles. Orienter chaque cote : $+$ dans le sens de $J$, $-$ dans le sens opposé.',
-          'Écrire : $J_{\\max} = \\sum c_i^{\\max}(+) - \\sum c_j^{\\min}(-)$, $J_{\\min} = \\sum c_i^{\\min}(+) - \\sum c_j^{\\max}(-)$.<br/><strong>Exemple :</strong> $J = a - b$ → $J_{\\max} = a_{\\max} - b_{\\min}$, $J_{\\min} = a_{\\min} - b_{\\max}$.',
-          'Vérifier : $J_{\\min} \\geq 0$ (si jeu requis). $IT_J = J_{\\max} - J_{\\min} = \\sum IT_i$.<br/>Si le CdC n\'est pas respecté, réduire les IT des cotes composantes ou revoir les nominaux.'
+          '<strong>Cote condition</strong> : Identifier la cote condition (jeu ou serrage fonctionnel). Nommer $J$.<br/><strong>Exemple :</strong> Jeu axial entre deux pièces, spécifié $0{,}1 \\leq J \\leq 0{,}5$ mm.',
+          '<strong>Chaîne de cotes</strong> : Tracer la chaîne : relier les surfaces fonctionnelles. Orienter chaque cote : $+$ dans le sens de $J$, $-$ dans le sens opposé.',
+          '<strong>Calcul des limites</strong> : Écrire : $J_{\\max} = \\sum c_i^{\\max}(+) - \\sum c_j^{\\min}(-)$, $J_{\\min} = \\sum c_i^{\\min}(+) - \\sum c_j^{\\max}(-)$.<br/><strong>Exemple :</strong> $J = a - b$ → $J_{\\max} = a_{\\max} - b_{\\min}$, $J_{\\min} = a_{\\min} - b_{\\max}$.',
+          '<strong>Vérification du CdC</strong> : Vérifier : $J_{\\min} \\geq 0$ (si jeu requis). $IT_J = J_{\\max} - J_{\\min} = \\sum IT_i$.<br/>Si le CdC n\'est pas respecté, réduire les IT des cotes composantes ou revoir les nominaux.'
         ]
       },
       example: {

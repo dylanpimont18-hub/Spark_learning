@@ -25,10 +25,10 @@ window.MODULES.push({
       method: {
         title: 'Appliquer le PFD à un solide en mouvement',
         steps: [
-          'Isoler le solide et dresser le bilan des actions mécaniques extérieures (poids, liaisons, couples moteurs, frottements).<br/>Écrire chaque action sous forme de torseur au même point de réduction.<br/><strong>Exemple :</strong> Un volant d\'inertie soumis à un couple moteur $C_m$ et à un couple de frottement $C_f$.',
-          'Écrire le PFD en translation : $\\sum \\vec{F}_{\\text{ext}} = m\\vec{a}_G$. Projeter sur les axes pour obtenir les équations scalaires.<br/><strong>Exemple :</strong> Chariot horizontal : $F_{\\text{motrice}} - F_{\\text{frottement}} = m \\cdot a$.',
-          'Écrire le PFD en rotation : $\\sum M_{\\Delta} = J_{\\Delta} \\cdot \\alpha$. Identifier $J$ et $\\alpha$.<br/><strong>Exemple :</strong> $C_m - C_f = J \\cdot \\alpha$, d\'où $\\alpha = (C_m - C_f)/J$.',
-          'Utiliser la relation de Chasles pour relier les vitesses entre points du solide : $\\vec{V}(B) = \\vec{V}(A) + \\vec{\\omega} \\wedge \\vec{AB}$.<br/><strong>Exemple :</strong> Disque tournant à $\\omega = 10$ rad/s, point à $r = 0{,}3$ m du centre : $V = \\omega \\times r = 3$ m/s.'
+          '<strong>Isolation et torseurs</strong> : Isoler le solide et dresser le bilan des actions mécaniques extérieures (poids, liaisons, couples moteurs, frottements).<br/>Écrire chaque action sous forme de torseur au même point de réduction.<br/><strong>Exemple :</strong> Un volant d\'inertie soumis à un couple moteur $C_m$ et à un couple de frottement $C_f$.',
+          '<strong>PFD en translation</strong> : Écrire le PFD en translation : $\\sum \\vec{F}_{\\text{ext}} = m\\vec{a}_G$. Projeter sur les axes pour obtenir les équations scalaires.<br/><strong>Exemple :</strong> Chariot horizontal : $F_{\\text{motrice}} - F_{\\text{frottement}} = m \\cdot a$.',
+          '<strong>PFD en rotation</strong> : Écrire le PFD en rotation : $\\sum M_{\\Delta} = J_{\\Delta} \\cdot \\alpha$. Identifier $J$ et $\\alpha$.<br/><strong>Exemple :</strong> $C_m - C_f = J \\cdot \\alpha$, d\'où $\\alpha = (C_m - C_f)/J$.',
+          '<strong>Cinématique multi-points</strong> : Utiliser la relation de Chasles pour relier les vitesses entre points du solide : $\\vec{V}(B) = \\vec{V}(A) + \\vec{\\omega} \\wedge \\vec{AB}$.<br/><strong>Exemple :</strong> Disque tournant à $\\omega = 10$ rad/s, point à $r = 0{,}3$ m du centre : $V = \\omega \\times r = 3$ m/s.'
         ]
       },
       example: {

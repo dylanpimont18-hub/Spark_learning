@@ -24,10 +24,10 @@ window.MODULES.push({
       method: {
         title: 'Réaliser un bilan de puissance complet',
         steps: [
-          'Identifier chaque étage de la chaîne et son rendement.<br/><strong>Exemple :</strong> Batterie ($\\eta_1 = 95\\%$) → Variateur ($\\eta_2 = 98\\%$) → Moteur ($\\eta_3 = 90\\%$) → Réducteur ($\\eta_4 = 85\\%$).',
-          'Calculer le rendement global : $\\eta_g = 0{,}95 \\times 0{,}98 \\times 0{,}90 \\times 0{,}85 = 0{,}712 = 71{,}2\\%$.',
-          'Calculer la puissance absorbée : $P_a = P_u / \\eta_g$.<br/><strong>Exemple :</strong> $P_u = 500$ W → $P_a = 500 / 0{,}712 = 702$ W. Pertes : $P_a - P_u = 202$ W.',
-          'Dimensionner le stockage : autonomie $= E_{\\text{batterie}} / P_a$.<br/><strong>Exemple :</strong> Batterie 48 V, 100 Ah → $E = 4800$ Wh. Autonomie $= 4800/702 = 6{,}84$ h.'
+          '<strong>Chaîne d\'étages</strong> : Identifier chaque étage de la chaîne et son rendement.<br/><strong>Exemple :</strong> Batterie ($\\eta_1 = 95\\%$) → Variateur ($\\eta_2 = 98\\%$) → Moteur ($\\eta_3 = 90\\%$) → Réducteur ($\\eta_4 = 85\\%$).',
+          '<strong>Rendement global</strong> : Calculer le rendement global : $\\eta_g = 0{,}95 \\times 0{,}98 \\times 0{,}90 \\times 0{,}85 = 0{,}712 = 71{,}2\\%$.',
+          '<strong>Puissance absorbée et pertes</strong> : Calculer la puissance absorbée : $P_a = P_u / \\eta_g$.<br/><strong>Exemple :</strong> $P_u = 500$ W → $P_a = 500 / 0{,}712 = 702$ W. Pertes : $P_a - P_u = 202$ W.',
+          '<strong>Autonomie du système</strong> : Dimensionner le stockage : autonomie $= E_{\\text{batterie}} / P_a$.<br/><strong>Exemple :</strong> Batterie 48 V, 100 Ah → $E = 4800$ Wh. Autonomie $= 4800/702 = 6{,}84$ h.'
         ]
       },
       example: {

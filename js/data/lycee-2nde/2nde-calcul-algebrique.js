@@ -12,7 +12,7 @@ window.MODULES.push({
     keywords: ['Développer', 'Factoriser', 'Identité remarquable', 'Distributivité'],
     physics: false,
     cours: {
-      intro: 'Le calcul algébrique permet de transformer une expression en une forme équivalente — plus simple ou plus adaptée au problème. Développer supprime les parenthèses et étale tous les termes ; factoriser fait l\'inverse en regroupant sous un produit. Choisir entre les deux dépend du contexte : pour résoudre $f(x) = 0$, la forme factorisée permet de trouver directement les racines ($f(x) = 0 \\Leftrightarrow$ chaque facteur $= 0$) ; pour comparer ou simplifier, la forme développée est souvent plus lisible. La vérification consiste à redévelopper le résultat factorisé pour retrouver la forme initiale — indispensable pour éviter les erreurs de signe.',
+      intro: 'Le <strong>calcul algébrique</strong> permet de transformer une expression en une forme équivalente — plus simple ou plus adaptée au problème.<br/><br/><strong>Développer</strong> supprime les parenthèses et étale tous les termes ; <strong>factoriser</strong> fait l\'inverse en regroupant sous un produit.<br/><br/>Choisir entre les deux dépend du contexte : pour résoudre $f(x) = 0$, la forme factorisée permet de trouver directement les racines ($f(x) = 0 \\Leftrightarrow$ chaque facteur $= 0$) ; pour comparer ou simplifier, la forme développée est souvent plus lisible.<br/><br/>La vérification consiste à redévelopper le résultat factorisé pour retrouver la forme initiale — indispensable pour éviter les erreurs de signe.',
       definitions: [
         { term: 'Développer', def: 'Transformer un produit en somme en supprimant les parenthèses : $a(b+c) = ab + ac$.' },
         { term: 'Factoriser', def: 'Transformer une somme en produit en mettant en facteur un terme commun ou en reconnaissant une identité remarquable.' },
@@ -22,10 +22,10 @@ window.MODULES.push({
       method: {
         title: 'Choisir entre développer et factoriser',
         steps: [
-          'Développer : appliquer la distributivité $a(b+c)=ab+ac$ ou les identités remarquables. <strong>Exemple :</strong> $3(2x+5) = 6x + 15$.',
-          'Trois identités remarquables : $(a+b)^2$, $(a-b)^2$, $(a+b)(a-b)$. <strong>Exemple :</strong> $(x+4)^2 = x^2 + 8x + 16$ (ne pas oublier le $2ab = 8x$).',
-          'Factoriser : repérer un facteur commun ou reconnaître une identité dans l\'expression développée. <strong>Exemple :</strong> $x^2 - 9 = (x+3)(x-3)$ (différence de deux carrés).',
-          'Vérifier en redéveloppant le résultat factorisé. <strong>Exemple :</strong> $(x+3)(x-3) = x^2 - 3x + 3x - 9 = x^2 - 9$ ✓'
+          '<strong>Développer</strong> : appliquer la distributivité $a(b+c)=ab+ac$ ou les identités remarquables. <strong>Exemple :</strong> $3(2x+5) = 6x + 15$.',
+          '<strong>Trois identités remarquables</strong> : $(a+b)^2$, $(a-b)^2$, $(a+b)(a-b)$. <strong>Exemple :</strong> $(x+4)^2 = x^2 + 8x + 16$ (ne pas oublier le $2ab = 8x$).',
+          '<strong>Factoriser</strong> : repérer un facteur commun ou reconnaître une identité dans l\'expression développée. <strong>Exemple :</strong> $x^2 - 9 = (x+3)(x-3)$ (différence de deux carrés).',
+          '<strong>Vérification</strong> : redévelopper le résultat factorisé. <strong>Exemple :</strong> $(x+3)(x-3) = x^2 - 3x + 3x - 9 = x^2 - 9$ ✓'
         ]
       },
       example: {

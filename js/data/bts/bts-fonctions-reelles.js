@@ -23,10 +23,10 @@ window.MODULES.push(
       method: {
         title: 'Étude complète d\'une fonction',
         steps: [
-          'Domaine : annuler les dénominateurs, conditions de la racine ou du logarithme. <strong>Exemple :</strong> $f(x) = \\ln(3x - 6)$ → condition $3x - 6 > 0$, soit $x > 2$ → $D_f = ]2 ; +\\infty[$.',
-          'Limites aux bornes du domaine (et en $\\pm\\infty$). <strong>Exemple :</strong> $f(x) = \\frac{2x+1}{x-3}$ → $\\lim_{x \\to +\\infty} f(x) = 2$ (AH) et $\\lim_{x \\to 3} f(x) = \\pm\\infty$ (AV en $x=3$).',
-          'Signe de la dérivée $f\'$ pour les variations ; tableau de variations. <strong>Exemple :</strong> $f(x) = x^2 - 4x$ → $f\'(x) = 2x - 4 = 0$ en $x = 2$. $f\'(x) < 0$ pour $x < 2$ (décroissante), $f\'(x) > 0$ pour $x > 2$ (croissante). Minimum en $x = 2$ : $f(2) = -4$.',
-          'Asymptotes : horizontale si $\\lim_{x\\to\\pm\\infty}f(x)=L$ ; verticale si $\\lim_{x\\to a}f(x)=\\pm\\infty$. <strong>Exemple :</strong> $f(x) = \\frac{x^2+1}{x} = x + \\frac{1}{x}$ → pas d\'AH, mais asymptote oblique $y = x$ (car $f(x) - x = 1/x \\to 0$).'
+          '<strong>Domaine de définition</strong> : Domaine : annuler les dénominateurs, conditions de la racine ou du logarithme. <strong>Exemple :</strong> $f(x) = \\ln(3x - 6)$ → condition $3x - 6 > 0$, soit $x > 2$ → $D_f = ]2 ; +\\infty[$.',
+          '<strong>Étude des limites</strong> : Limites aux bornes du domaine (et en $\\pm\\infty$). <strong>Exemple :</strong> $f(x) = \\frac{2x+1}{x-3}$ → $\\lim_{x \\to +\\infty} f(x) = 2$ (AH) et $\\lim_{x \\to 3} f(x) = \\pm\\infty$ (AV en $x=3$).',
+          '<strong>Tableau de variations</strong> : Signe de la dérivée $f\'$ pour les variations ; tableau de variations. <strong>Exemple :</strong> $f(x) = x^2 - 4x$ → $f\'(x) = 2x - 4 = 0$ en $x = 2$. $f\'(x) < 0$ pour $x < 2$ (décroissante), $f\'(x) > 0$ pour $x > 2$ (croissante). Minimum en $x = 2$ : $f(2) = -4$.',
+          '<strong>Asymptotes</strong> : Asymptotes : horizontale si $\\lim_{x\\to\\pm\\infty}f(x)=L$ ; verticale si $\\lim_{x\\to a}f(x)=\\pm\\infty$. <strong>Exemple :</strong> $f(x) = \\frac{x^2+1}{x} = x + \\frac{1}{x}$ → pas d\'AH, mais asymptote oblique $y = x$ (car $f(x) - x = 1/x \\to 0$).'
         ]
       },
       example: {

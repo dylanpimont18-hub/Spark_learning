@@ -24,9 +24,9 @@ window.MODULES.push(
       method: {
         title: 'Méthode',
         steps: [
-          'Centrer-réduire : $Z = \\dfrac{X - \\mu}{\\sigma}$ suit une loi normale centrée réduite $\\mathcal{N}(0, 1)$. <strong>Exemple :</strong> Si $X \\sim \\mathcal{N}(80, 10^2)$ et $x = 95$ → $Z = (95 - 80)/10 = 1{,}5$.',
-          'Lire la table de la loi normale : $P(Z \\leq z) = \\Phi(z)$. La table donne les probabilités pour des valeurs positives. <strong>Exemple :</strong> $P(Z \\leq 1{,}5) = \\Phi(1{,}5) \\approx 0{,}9332$, donc $P(X \\leq 95) \\approx 93{,}3\\%$.',
-          'Intervalle de confiance à 95 % : $\\left[\\bar{x} - 1{,}96\\dfrac{\\sigma}{\\sqrt{n}}\\ ;\\ \\bar{x} + 1{,}96\\dfrac{\\sigma}{\\sqrt{n}}\\right]$ (ou $\\pm 2\\sigma$ en approximation). <strong>Exemple :</strong> $\\bar{x} = 80$, $\\sigma = 10$, $n = 25$ → IC = $[80 - 1{,}96 \\times 2 ;\\ 80 + 1{,}96 \\times 2] = [76{,}08 ;\\ 83{,}92]$.'
+          '<strong>Centrage-réduction</strong> : Centrer-réduire : $Z = \\dfrac{X - \\mu}{\\sigma}$ suit une loi normale centrée réduite $\\mathcal{N}(0, 1)$. <strong>Exemple :</strong> Si $X \\sim \\mathcal{N}(80, 10^2)$ et $x = 95$ → $Z = (95 - 80)/10 = 1{,}5$.',
+          '<strong>Lecture de la table</strong> : Lire la table de la loi normale : $P(Z \\leq z) = \\Phi(z)$. La table donne les probabilités pour des valeurs positives. <strong>Exemple :</strong> $P(Z \\leq 1{,}5) = \\Phi(1{,}5) \\approx 0{,}9332$, donc $P(X \\leq 95) \\approx 93{,}3\\%$.',
+          '<strong>Intervalle de confiance</strong> : Intervalle de confiance à 95 % : $\\left[\\bar{x} - 1{,}96\\dfrac{\\sigma}{\\sqrt{n}}\\ ;\\ \\bar{x} + 1{,}96\\dfrac{\\sigma}{\\sqrt{n}}\\right]$ (ou $\\pm 2\\sigma$ en approximation). <strong>Exemple :</strong> $\\bar{x} = 80$, $\\sigma = 10$, $n = 25$ → IC = $[80 - 1{,}96 \\times 2 ;\\ 80 + 1{,}96 \\times 2] = [76{,}08 ;\\ 83{,}92]$.'
         ]
       },
       example: {

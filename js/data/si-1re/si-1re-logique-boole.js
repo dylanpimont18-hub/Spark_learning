@@ -23,10 +23,10 @@ window.MODULES.push({
       method: {
         title: 'Analyser ou simplifier une expression logique',
         steps: [
-          'Étape 1 — Écrire l\'expression booléenne : traduire le cahier des charges en opérateurs.<br/>Exemple : « la pompe fonctionne si le niveau est bas ET le bouton est appuyé » → $S = N \\cdot B$.',
-          'Étape 2 — Construire la table de vérité : lister les $2^n$ combinaisons des $n$ entrées.<br/>Calculer la sortie pour chaque ligne en appliquant l\'expression.',
-          'Étape 3 — Simplifier avec les propriétés algébriques :<br/>Absorption : $A + A \\cdot B = A$ ; Complémentarité : $A + \\overline{A} = 1$ ; De Morgan pour transformer ET ↔ OU.',
-          'Étape 4 — Tracer le logigramme : dessiner le circuit avec les portes logiques correspondant à l\'expression simplifiée.'
+          '<strong>Expression booléenne</strong> : Étape 1 — Écrire l\'expression booléenne : traduire le cahier des charges en opérateurs.\nExemple : « la pompe fonctionne si le niveau est bas ET le bouton est appuyé » → $S = N \\cdot B$.',
+          '<strong>Table de vérité</strong> : Étape 2 — Construire la table de vérité : lister les $2^n$ combinaisons des $n$ entrées.\nCalculer la sortie pour chaque ligne en appliquant l\'expression.',
+          '<strong>Simplification algébrique</strong> : Étape 3 — Simplifier avec les propriétés algébriques :\nAbsorption : $A + A \\cdot B = A$ ; Complémentarité : $A + \\overline{A} = 1$ ; De Morgan pour transformer ET ↔ OU.',
+          '<strong>Logigramme</strong> : Étape 4 — Tracer le logigramme : dessiner le circuit avec les portes logiques correspondant à l\'expression simplifiée.'
         ]
       },
       example: {

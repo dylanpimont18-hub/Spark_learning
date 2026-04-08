@@ -22,10 +22,10 @@ window.MODULES.push({
       method: {
         title: 'Utiliser les propriétés de ln',
         steps: [
-          '$\\ln(ab) = \\ln a + \\ln b$ pour $a,b>0$.',
-          '$\\ln\\left(\\frac{a}{b}\\right) = \\ln a - \\ln b$.',
-          '$\\ln(a^n) = n\\ln a$.',
-          'Dérivée : $(\\ln x)\'=\\frac{1}{x}$ ; plus généralement $(\\ln u)\'=\\frac{u\'}{u}$.'
+          '<strong>Somme de ln</strong> : $\\ln(ab) = \\ln a + \\ln b$ pour $a,b>0$.',
+          '<strong>Différence de ln</strong> : $\\ln\\left(\\frac{a}{b}\\right) = \\ln a - \\ln b$.',
+          '<strong>Puissance et ln</strong> : $\\ln(a^n) = n\\ln a$.',
+          '<strong>Dérivée de ln</strong> : $(\\ln x)\'=\\frac{1}{x}$ ; généralement $(\\ln u)\'=\\frac{u\'}{u}$.'
         ]
       },
       example: {

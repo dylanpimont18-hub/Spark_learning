@@ -23,9 +23,9 @@ window.MODULES.push({
       method: {
         title: 'Méthode de résolution',
         steps: [
-          'Écrire l\'équation sous la forme canonique : $\\tau \\dfrac{dy}{dt} + y = y_{\\infty}$ où $\\tau$ est la constante de temps et $y_{\\infty}$ la valeur en régime permanent.',
-          'La solution générale est : $y(t) = y_{\\infty} + (y_0 - y_{\\infty}) e^{-t/\\tau}$ où $y_0 = y(0)$ est la condition initiale.',
-          'Identifier les paramètres physiques : pour un circuit RC, $\\tau = RC$. Pour le circuit RC en charge depuis $U_0 = 0$ : $U_C(t) = E(1 - e^{-t/\\tau})$.'
+          '<strong>Forme canonique</strong> : écrire sous $\\tau \\dfrac{dy}{dt} + y = y_{\\infty}$ où $\\tau$ est la constante de temps et $y_{\\infty}$ la valeur en régime permanent.',
+          '<strong>Solution générale</strong> : $y(t) = y_{\\infty} + (y_0 - y_{\\infty}) e^{-t/\\tau}$ où $y_0 = y(0)$ est la condition initiale.',
+          '<strong>Paramètres physiques</strong> : circuit RC, $\\tau = RC$ ; charge depuis $U_0 = 0$ : $U_C(t) = E(1 - e^{-t/\\tau})$.'
         ]
       },
       example: {

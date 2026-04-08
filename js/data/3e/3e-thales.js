@@ -14,7 +14,10 @@ window.MODULES.push(
     physics: 'Optique géométrique : grandissement, lentilles, rayons lumineux',
 
     cours: {
-      intro: 'Le théorème de Thalès est l\'un des résultats les plus puissants de la géométrie : quand deux droites parallèles coupent deux sécantes issues d\'un même point, tous les rapports de longueurs correspondants sont égaux. Cette égalité des rapports permet de calculer n\'importe quelle longueur inconnue dans une figure de triangles semblables. En pratique, Thalès apparaît partout : en optique (lentilles, grandissement), en topographie (mesure d\'objets inaccessibles par ombres portées), et dans les plans à l\'échelle. La réciproque est tout aussi utile : elle permet de prouver que deux droites sont parallèles à partir des seules mesures. Attention au cas « croisé » où le point $O$ est entre les deux parallèles : les rapports doivent encore être exprimés de façon cohérente.',
+      intro: 'Le <strong>théorème de Thalès</strong> est l\'un des résultats les plus puissants de la géométrie : quand deux droites parallèles coupent deux sécantes issues d\'un même point, tous les <strong>rapports de longueurs correspondants sont égaux</strong>.<br/><br/>' +
+        'Cette égalité permet de calculer n\'importe quelle longueur inconnue dans une figure de triangles semblables. En pratique, Thalès apparaît partout : en <strong>optique</strong> (lentilles, grandissement), en topographie (mesure d\'objets inaccessibles) et dans les plans à l\'échelle.<br/><br/>' +
+        'La <strong>réciproque</strong> est tout aussi utile : elle permet de prouver que deux droites sont parallèles à partir des seules mesures.<br/><br/>' +
+        'Attention au <strong>cas « croisé »</strong> où le point $O$ est entre les deux parallèles : les rapports restent égaux, mais les mesures algébriques (avec signe) sont nécessaires.',
       definitions: [
         { term: 'Configuration de Thalès', def: 'Figure formée par <strong>deux droites sécantes</strong> passant par un même point $O$, coupées par <strong>deux droites parallèles</strong> $(AB)$ et $(A\'B\')$. C\'est la situation géométrique requise pour appliquer le théorème.' },
         { term: 'Rapport de Thalès', def: 'Le quotient $\\dfrac{OA\'}{OA} = \\dfrac{OB\'}{OB} = \\dfrac{A\'B\'}{AB}$ qui est <strong>constant</strong> dans une configuration de Thalès. On dit que les longueurs sont <strong>proportionnelles</strong>.' },
@@ -24,10 +27,10 @@ window.MODULES.push(
       method: {
         title: 'Méthode en 4 étapes',
         steps: [
-          'Identifier deux droites parallèles coupées par deux sécantes passant par le même point.',
-          'Nommer correctement les points : le point commun $O$, les points sur une parallèle $A$ et $B$, les points sur l\'autre $A\'$ et $B\'$.',
-          'Appliquer : $\\dfrac{OA\'}{OA} = \\dfrac{OB\'}{OB} = \\dfrac{A\'B\'}{AB}$ (les rapports sont égaux).',
-          'Retrouver l\'inconnue par produit en croix à partir de l\'égalité de rapports.'
+          '<strong>Étape 1 : Identifier</strong> deux droites parallèles coupées par deux sécantes passant par le même point $O$.',
+          '<strong>Étape 2 : Nommer</strong> les points : le point commun $O$, les points sur une parallèle $A$ et $B$, les points sur l\'autre $A\'$ et $B\'$ (du même côté de $O$).',
+          '<strong>Étape 3 : Appliquer</strong> l\'égalité des rapports : $\\dfrac{OA\'}{OA} = \\dfrac{OB\'}{OB} = \\dfrac{A\'B\'}{AB}$.',
+          '<strong>Étape 4 : Calculer</strong> l\'inconnue par produit en croix à partir de l\'égalité choisie.'
         ]
       },
       example: {

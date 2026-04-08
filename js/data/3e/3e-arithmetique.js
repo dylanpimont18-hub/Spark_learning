@@ -13,7 +13,10 @@ window.MODULES.push(
     keywords: ['PGCD', 'PPCM', 'Nombre premier', 'Décomposition', 'Divisibilité'],
     physics: false,
     cours: {
-      intro: 'Tout entier $n \\geq 2$ admet une décomposition en facteurs premiers unique (à l\'ordre près) — c\'est le théorème fondamental de l\'arithmétique. Cette décomposition est le « code-barres » du nombre : elle révèle instantanément tous ses diviseurs, son PGCD avec un autre nombre, et leur PPCM. Le PGCD (Plus Grand Commun Diviseur) donne la taille maximale d\'une part équitable ; le PPCM (Plus Petit Commun Multiple) indique le premier moment où deux cycles se synchronisent. L\'algorithme d\'Euclide calcule le PGCD en quelques divisions successives, sans décomposer en facteurs premiers — très pratique pour les grands nombres. La relation $a \\times b = \\text{PGCD}(a,b) \\times \\text{PPCM}(a,b)$ relie élégamment les deux notions.',
+      intro: 'Tout entier $n \\geq 2$ admet une décomposition en <strong>facteurs premiers</strong> unique (à l\'ordre près) — c\'est le <strong>théorème fondamental de l\'arithmétique</strong>. Cette décomposition est le « code-barres » du nombre : elle révèle instantanément tous ses diviseurs, son PGCD et son PPCM.<br/><br/>' +
+        'Le <strong>PGCD</strong> (Plus Grand Commun Diviseur) donne la taille maximale d\'une part équitable. Le <strong>PPCM</strong> (Plus Petit Commun Multiple) indique le premier moment où deux cycles se synchronisent.<br/><br/>' +
+        'L\'<strong>algorithme d\'Euclide</strong> calcule le PGCD en quelques divisions successives, sans décomposer en facteurs premiers — très pratique pour les grands nombres.<br/><br/>' +
+        '<strong>Relation clé</strong> : $a \\times b = \\text{PGCD}(a,b) \\times \\text{PPCM}(a,b)$ — connaître l\'un permet de calculer l\'autre.',
       definitions: [
         { term: 'Nombre premier', def: 'Entier $n \\geq 2$ qui n\'a que <strong>deux diviseurs distincts</strong> : $1$ et lui-même.<br/><br/>Exemples : $2, 3, 5, 7, 11, 13\\ldots$ Le nombre $1$ n\'est <strong>pas</strong> premier.' },
         { term: 'PGCD', def: '<strong>Plus Grand Commun Diviseur</strong> de deux entiers $a$ et $b$ : c\'est le plus grand entier qui divise à la fois $a$ et $b$.<br/><br/>Exemple : $\\text{PGCD}(12, 18) = 6$.' },
@@ -23,9 +26,9 @@ window.MODULES.push(
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Décomposer chaque nombre en produit de facteurs premiers (diviser successivement par $2, 3, 5, 7, 11…$).',
-          'PGCD : prendre les facteurs premiers communs avec le plus petit exposant.',
-          'PPCM : prendre tous les facteurs premiers avec le plus grand exposant.'
+          '<strong>Étape 1 : Décomposer</strong> chaque nombre en produit de facteurs premiers (diviser successivement par $2$, $3$, $5$, $7$, $11\\ldots$ jusqu\'à $1$).',
+          '<strong>Étape 2 : PGCD</strong> — prendre les facteurs premiers <strong>communs</strong> avec le <strong>plus petit exposant</strong>.',
+          '<strong>Étape 3 : PPCM</strong> — prendre <strong>tous</strong> les facteurs premiers (communs ou non) avec le <strong>plus grand exposant</strong>.'
         ]
       },
       example: {

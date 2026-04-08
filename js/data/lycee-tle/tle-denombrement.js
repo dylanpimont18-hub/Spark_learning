@@ -12,7 +12,7 @@ window.MODULES.push({
     keywords: ['Combinatoire', 'Arrangements', 'Permutations', 'Combinaisons', 'Coefficient binomial'],
     physics: false,
     cours: {
-      intro: 'Le dénombrement répond à "combien de façons ?" La clé est de savoir si l\'ordre compte. Quand l\'ordre compte (podium, code PIN, anagramme) → arrangements. Quand l\'ordre ne compte pas (comité, main de cartes, groupe de travail) → combinaisons. La formule $\\binom{n}{k} = \\frac{n!}{k!(n-k)!}$ donne le nombre de façons de choisir $k$ éléments parmi $n$ sans tenir compte de l\'ordre. Erreur classique : calculer $n \\times (n-1) \\times \\cdots$ (arrangement) sans diviser par $k!$ pour les combinaisons. $\\binom{10}{3} = 720/6 = 120$ et non $720$. Propriété utile : $\\binom{n}{k} = \\binom{n}{n-k}$ (choisir $k$ éléments revient à exclure $n-k$ éléments).',
+      intro: 'Le dénombrement répond à <strong>"combien de façons ?"</strong><br/><br/>La clé est de savoir si <strong>l\'ordre compte</strong>. Quand l\'ordre compte (podium, code PIN) → <strong>arrangements</strong>. Quand l\'ordre ne compte pas (comité, main de cartes) → <strong>combinaisons</strong>.<br/><br/>La formule $\\binom{n}{k} = \\frac{n!}{k!(n-k)!}$ donne le nombre de façons de choisir $k$ éléments parmi $n$ sans ordre. <strong>Erreur classique</strong> : diviser ou non par $k!$ selon le contexte. $\\binom{10}{3} = 120$ (combinaison), tandis que $A_{10}^3 = 720$ (arrangement).<br/><br/><strong>Propriété clé</strong> : $\\binom{n}{k} = \\binom{n}{n-k}$ (choisir $k$ éléments revient à en exclure $n-k$).',
       definitions: [
         { term: 'Factorielle $n!$', def: '$n! = n \\times (n-1) \\times \\cdots \\times 2 \\times 1$. Convention : $0! = 1$. Interprétation : $n!$ est le nombre de façons d\'ordonner $n$ objets distincts (permutations).' },
         { term: 'Arrangement $A_n^k$', def: 'Nombre de façons de choisir et <strong>ordonner</strong> $k$ éléments parmi $n$ : $A_n^k = \\dfrac{n!}{(n-k)!} = n(n-1)\\cdots(n-k+1)$. L\'ordre compte.' },
@@ -22,10 +22,10 @@ window.MODULES.push({
       method: {
         title: 'Choisir la bonne formule',
         steps: [
-          'Arrangements de $k$ éléments parmi $n$ (ordre compte, sans remise) : $A_n^k = \\frac{n!}{(n-k)!}$.',
-          'Permutations de $n$ éléments : $n!$.',
-          'Combinaisons de $k$ éléments parmi $n$ (ordre ne compte pas) : $\\binom{n}{k}=\\frac{n!}{k!(n-k)!}$.',
-          'Règle du produit : si un choix comporte $p$ façons puis $q$ façons, le total est $p\\times q$.'
+          '<strong>Arrangements</strong> de $k$ éléments parmi $n$ (ordre compte) : $A_n^k = \\frac{n!}{(n-k)!}$.',
+          '<strong>Permutations</strong> de $n$ éléments : $n!$.',
+          '<strong>Combinaisons</strong> de $k$ éléments parmi $n$ (ordre ne compte pas) : $\\binom{n}{k}=\\frac{n!}{k!(n-k)!}$.',
+          '<strong>Multiplication des choix</strong> : si un choix comporte $p$ façons puis $q$ façons, le total est $p\\times q$.'
         ]
       },
       example: {

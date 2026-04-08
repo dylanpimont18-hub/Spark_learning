@@ -23,10 +23,10 @@ window.MODULES.push({
       method: {
         title: 'Analyser un système asservi',
         steps: [
-          'Étape 1 — Identifier la structure : boucle ouverte (pas de capteur de retour) ou boucle fermée (avec retour) ?<br/>En boucle fermée, repérer les $5$ éléments : comparateur, correcteur, actionneur, système, capteur.',
-          'Étape 2 — Identifier les grandeurs : quelle est la consigne $C$ ? Quelle est la mesure $M$ ? Quelles sont les unités ?<br/>Exemple : pour un régulateur de vitesse, $C$ = vitesse souhaitée (km/h), $M$ = vitesse mesurée.',
-          'Étape 3 — Calculer l\'écart : $\\varepsilon = C - M$.<br/>Signe positif → la sortie est insuffisante → le correcteur doit augmenter la commande.<br/>Signe négatif → la sortie est excessive → le correcteur doit diminuer la commande.',
-          'Étape 4 — Calculer la commande : pour un correcteur proportionnel, $U = K_p \\cdot \\varepsilon$.<br/>Vérifier que la commande est physiquement réalisable (pas de saturation de l\'actionneur).'
+          '<strong>Boucle ouverte ou fermée</strong> : Étape 1 — Identifier la structure : boucle ouverte (pas de capteur de retour) ou boucle fermée (avec retour) ?\nEn boucle fermée, repérer les $5$ éléments : comparateur, correcteur, actionneur, système, capteur.',
+          '<strong>Consigne et mesure</strong> : Étape 2 — Identifier les grandeurs : quelle est la consigne $C$ ? Quelle est la mesure $M$ ? Quelles sont les unités ?\nExemple : pour un régulateur de vitesse, $C$ = vitesse souhaitée (km/h), $M$ = vitesse mesurée.',
+          '<strong>Calcul de l\'écart</strong> : Étape 3 — Calculer l\'écart : $\\varepsilon = C - M$.\nSigne positif → la sortie est insuffisante → le correcteur doit augmenter la commande.\nSigne négatif → la sortie est excessive → le correcteur doit diminuer la commande.',
+          '<strong>Commande du correcteur</strong> : Étape 4 — Calculer la commande : pour un correcteur proportionnel, $U = K_p \\cdot \\varepsilon$.\nVérifier que la commande est physiquement réalisable (pas de saturation de l\'actionneur).'
         ]
       },
       example: {

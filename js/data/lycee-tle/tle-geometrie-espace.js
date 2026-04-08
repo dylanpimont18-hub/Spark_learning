@@ -12,7 +12,7 @@ window.MODULES.push({
     keywords: ['Espace', 'Vecteur', 'Plan', 'Droite', 'Coplanaire', 'Position relative'],
     physics: true,
     cours: {
-      intro: 'En 3D, les droites et plans se comportent de façon plus riche qu\'en 2D. Deux droites de l\'espace peuvent être sécantes (se croisent), parallèles, ou GAUCHES — ni parallèles ni sécantes, passant "l\'une au-dessus de l\'autre" sans se toucher. Les droites gauches n\'existent pas en 2D et constituent le principal piège de la géométrie spatiale : deux droites non parallèles ne se croisent pas forcément ! Un plan est défini par son vecteur NORMAL $\\vec{n}(a;b;c)$ (perpendiculaire au plan) et son équation $ax+by+cz+d=0$. Une droite est perpendiculaire à un plan si son vecteur directeur est colinéaire au vecteur normal. Pour vérifier si deux droites se croisent, il faut résoudre le système et vérifier qu\'il admet une solution.',
+      intro: 'En 3D, les droites et plans se comportent de façon plus riche qu\'en 2D. <strong>Deux droites peuvent être</strong> : sécantes (se croisent), parallèles, ou <strong>GAUCHES</strong> — ni parallèles ni sécantes, passant "l\'une au-dessus de l\'autre".<br/><br/><strong>Les droites gauches n\'existent pas en 2D</strong> : c\'est le principal piège de la géométrie spatiale. Deux droites croisant le même point n\'en définissent pas toujours un plan unique.<br/><br/>Un <strong>plan</strong> est défini par son <strong>vecteur NORMAL</strong> $\\vec{n}(a;b;c)$ (perpendiculaire au plan) et son équation $ax+by+cz+d=0$. Une droite est perpendiculaire à un plan si son vecteur directeur est colinéaire au vecteur normal.<br/><br/><strong>Cas fondamental</strong> : vérifier si deux droites se croisent nécessite de résoudre le système paramétrique et d\'examiner la cohérence des solutions.',
       definitions: [
         { term: 'Vecteur normal à un plan', def: 'Vecteur $\\vec{n}(a;b;c)$ perpendiculaire au plan d\'équation $ax+by+cz+d=0$. Il est orthogonal à tout vecteur contenu dans le plan.' },
         { term: 'Droites gauches', def: 'Deux droites de l\'espace qui ne sont <strong>ni parallèles ni sécantes</strong>. Elles ne se croisent pas et ne sont pas dans le même plan. Ce cas n\'existe qu\'en dimension $\\geq 3$.' },
@@ -22,10 +22,10 @@ window.MODULES.push({
       method: {
         title: 'Positions relatives et équations',
         steps: [
-          'Deux droites peuvent être : sécantes, parallèles, ou gauches (ni parallèles ni sécantes).',
-          'Equation de plan : $ax+by+cz+d=0$, vecteur normal $\\vec{n}(a;b;c)$.',
-          'Droite parallèle à un plan : vecteur directeur orthogonal à $\\vec{n}$.',
-          'Droite perpendiculaire à un plan : vecteur directeur colinéaire à $\\vec{n}$.'
+          '<strong>Positions relatives des droites</strong> : sécantes, parallèles, ou gauches (ni l\'un ni l\'autre).',
+          '<strong>Équation d\'un plan</strong> : $ax+by+cz+d=0$, vecteur normal $\\vec{n}(a;b;c)$.',
+          '<strong>Parallélisme droite-plan</strong> : vecteur directeur orthogonal à $\\vec{n}$.',
+          '<strong>Perpendicularité droite-plan</strong> : vecteur directeur colinéaire à $\\vec{n}$.'
         ]
       },
       example: {

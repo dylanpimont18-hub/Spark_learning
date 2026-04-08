@@ -13,7 +13,10 @@ window.MODULES.push(
     keywords: ['Fonction', 'Image', 'Antécédent', 'Tableau de valeurs', 'Courbe'],
     physics: true,
     cours: {
-      intro: 'Une fonction est une règle qui associe à chaque valeur d\'entrée $x$ une valeur de sortie $f(x)$ — et une seule. C\'est la notion mathématique de « machine déterministe » : une même entrée donne toujours la même sortie. L\'image de $x$ est la valeur de sortie $f(x)$ ; l\'antécédent de $y$ est la (ou les) valeur(s) $x$ qui donnent $f(x) = y$. Un antécédent peut ne pas exister (si $y$ n\'est pas atteint) ou être multiple : $f(x) = x^2$ associe $f(3) = f(-3) = 9$, donc $9$ a deux antécédents. Graphiquement, l\'image se lit sur l\'axe vertical (ordonnée), l\'antécédent sur l\'axe horizontal (abscisse). En physique, toutes les formules ($v = d/t$, $U = RI$) sont des fonctions d\'une ou plusieurs variables.',
+      intro: 'Une <strong>fonction</strong> est une règle qui associe à chaque valeur d\'entrée $x$ une valeur de sortie $f(x)$ — <strong>et une seule</strong>. C\'est la « machine déterministe » des mathématiques : une même entrée donne toujours la même sortie.<br/><br/>' +
+        'L\'<strong>image</strong> de $x$ est la valeur obtenue $f(x)$. L\'<strong>antécédent</strong> de $y$ est la (ou les) valeur(s) $x$ telles que $f(x) = y$. Un antécédent peut ne pas exister, ou être multiple : pour $f(x) = x^2$, le nombre $9$ a deux antécédents ($3$ et $-3$).<br/><br/>' +
+        'Graphiquement : l\'<strong>image</strong> se lit sur l\'axe vertical (ordonnée) ; l\'<strong>antécédent</strong> se lit sur l\'axe horizontal (abscisse).<br/><br/>' +
+        'En physique, toutes les formules ($v = d/t$, $U = RI$) sont des <strong>fonctions de variables</strong> — la notion est universelle.',
       definitions: [
         { term: 'Fonction', def: 'Règle qui associe à chaque valeur $x$ d\'un ensemble de départ <strong>une unique</strong> valeur $f(x)$ dans l\'ensemble d\'arrivée. On note $f : x \\mapsto f(x)$.' },
         { term: 'Image', def: 'La valeur $f(a)$ obtenue en remplaçant $x$ par $a$ dans l\'expression de $f$. On dit que $f(a)$ est l\'<strong>image de $a$</strong> par $f$.' },
@@ -23,9 +26,9 @@ window.MODULES.push(
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Calculer une image : substituer $x$ par la valeur donnée dans l\'expression de $f(x)$.',
-          'Trouver un antécédent : résoudre $f(x) = y$ (équation).',
-          'Lire sur un graphe : image → lire l\'ordonnée ; antécédent → lire l\'abscisse.'
+          '<strong>Calculer une image</strong> : remplacer $x$ par la valeur donnée dans l\'expression de $f(x)$.<br/><em>Exemple :</em> $f(x) = 2x + 1$, image de $3$ : $f(3) = 2 \\times 3 + 1 = 7$.',
+          '<strong>Trouver un antécédent</strong> : résoudre l\'équation $f(x) = y$, puis exprimer $x$.<br/><em>Exemple :</em> antécédent de $7$ : $2x + 1 = 7 \\Rightarrow x = 3$.',
+          '<strong>Lire sur un graphe</strong> : image → lire l\'ordonnée (axe vertical) ; antécédent → lire l\'abscisse (axe horizontal).'
         ]
       },
       example: {

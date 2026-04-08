@@ -12,7 +12,7 @@ window.MODULES.push({
     keywords: ['Loi normale', 'Loi uniforme', 'Densité', 'Espérance', 'Écart-type'],
     physics: true,
     cours: {
-      intro: 'Pour une loi CONTINUE, la probabilité d\'une valeur EXACTE est nulle : $P(X = 5) = 0$ (on ne peut pas mesurer précisément un point sur une courbe). On calcule uniquement des probabilités sur des intervalles : $P(a \\leq X \\leq b)$ = aire sous la courbe de densité entre $a$ et $b$. La loi normale $\\mathcal{N}(\\mu;\\sigma^2)$ est symétrique autour de $\\mu$ : $P(X \\leq \\mu) = 0{,}5$ exactement. La règle des $2\\sigma$ donne $P(\\mu-2\\sigma \\leq X \\leq \\mu+2\\sigma) \\approx 0{,}954$. Piège classique : en déduire $P(X \\leq \\mu-2\\sigma) \\approx 0{,}046$ en oubliant de diviser par $2$ — la bonne valeur est $(1-0{,}954)/2 \\approx 0{,}023$ par symétrie.',
+      intro: 'Pour une loi <strong>CONTINUE</strong>, la probabilité d\'une valeur <strong>EXACTE</strong> est nulle : $P(X = 5) = 0$ (on ne peut pas mesurer précisément un point sur une courbe).<br/><br/>On calcule uniquement des probabilités sur des <strong>intervalles</strong> : $P(a \\leq X \\leq b)$ = aire sous la courbe de densité entre $a$ et $b$.<br/><br/>La loi normale $\\mathcal{N}(\\mu;\\sigma^2)$ est <strong>symétrique</strong> autour de $\\mu$ : $P(X \\leq \\mu) = 0{,}5$ exactement. La <strong>règle des $2\\sigma$</strong> donne $P(\\mu-2\\sigma \\leq X \\leq \\mu+2\\sigma) \\approx 0{,}954$.<br/><br/><strong>Piège classique</strong> : en déduire $P(X \\leq \\mu-2\\sigma) \\approx 0{,}046$ (mauvais !) = la bonne valeur est $(1-0{,}954)/2 \\approx 0{,}023$ par symétrie.',
       definitions: [
         { term: 'Variable aléatoire continue', def: 'Variable $X$ pouvant prendre toute valeur dans un intervalle. Sa loi est définie par une <strong>fonction de densité</strong> $f$ telle que $P(a \\leq X \\leq b) = \\int_a^b f(x)\\,dx$.' },
         { term: 'Loi normale $\\mathcal{N}(\\mu;\\sigma^2)$', def: 'Loi continue symétrique en cloche autour de $\\mu$ (espérance), d\'écart-type $\\sigma$. C\'est la loi la plus importante en statistique : par le théorème central limite, la moyenne de nombreuses mesures suit approximativement une loi normale.' },
@@ -22,10 +22,10 @@ window.MODULES.push({
       method: {
         title: 'Utiliser la loi normale',
         steps: [
-          'Paramètres : $\\mu$ (espérance/moyenne) et $\\sigma$ (écart-type).',
-          'Loi normale centrée réduite : $Z=\\frac{X-\\mu}{\\sigma}\\sim\\mathcal{N}(0;1)$.',
-          'Règle des $3\\sigma$ : $P(\\mu-3\\sigma\\le X\\le\\mu+3\\sigma)\\approx0{,}997$.',
-          'Règle des $2\\sigma$ : $P(\\mu-2\\sigma\\le X\\le\\mu+2\\sigma)\\approx0{,}954$.'
+          '<strong>Paramètres fondamentaux</strong> : $\\mu$ (espérance/moyenne) et $\\sigma$ (écart-type).',
+          '<strong>Centrage-réduction</strong> : $Z=\\frac{X-\\mu}{\\sigma}\\sim\\mathcal{N}(0;1)$.',
+          '<strong>Règle des $3\\sigma$</strong> : $P(\\mu-3\\sigma\\le X\\le\\mu+3\\sigma)\\approx0{,}997$.',
+          '<strong>Règle des $2\\sigma$</strong> : $P(\\mu-2\\sigma\\le X\\le\\mu+2\\sigma)\\approx0{,}954$.'
         ]
       },
       example: {

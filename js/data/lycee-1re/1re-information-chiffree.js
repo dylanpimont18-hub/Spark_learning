@@ -22,10 +22,10 @@ window.MODULES.push({
       method: {
         title: 'Calculer un taux d\'évolution',
         steps: [
-          'Taux d\'évolution : $t = \\dfrac{V_{final} - V_{initial}}{V_{initial}}$.',
-          'Coefficient multiplicateur : $CM = 1 + t$ (si $t$ en décimal).',
-          'Évolutions successives : multiplier les CM ($CM_{total} = CM_1 \\times CM_2$).',
-          'Taux réciproque : $t_{reciproque} = \\dfrac{1}{CM}-1$.'
+          '<strong>Taux d\'évolution</strong> : $t = \\dfrac{V_{final} - V_{initial}}{V_{initial}}$.',
+          '<strong>Coefficient multiplicateur</strong> : $CM = 1 + t$ (si $t$ en décimal).',
+          '<strong>Évolutions successives</strong> : multiplier les CM ($CM_{total} = CM_1 \\times CM_2$).',
+          '<strong>Taux réciproque</strong> : $t_{reciproque} = \\dfrac{1}{CM}-1$.'
         ]
       },
       formulas: [

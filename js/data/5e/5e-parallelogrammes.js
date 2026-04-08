@@ -36,10 +36,10 @@ window.MODULES.push({
       method: {
         title: 'Méthode : identifier et utiliser les propriétés',
         steps: [
-          'Parallélogramme : côtés opposés parallèles ET égaux ; diagonales qui se coupent en leur milieu.',
-          'Rectangle : parallélogramme avec 4 angles droits ; diagonales égales.',
-          'Losange : parallélogramme avec 4 côtés égaux ; diagonales perpendiculaires.',
-          'Carré : rectangle ET losange (4 angles droits + 4 côtés égaux).'
+          '<strong>Parallélogramme</strong> : côtés opposés parallèles ET égaux ; diagonales qui se coupent en leur milieu.',
+          '<strong>Rectangle</strong> : parallélogramme avec 4 angles droits ; diagonales égales.',
+          '<strong>Losange</strong> : parallélogramme avec 4 côtés égaux ; diagonales perpendiculaires.',
+          '<strong>Carré</strong> : rectangle ET losange (4 angles droits + 4 côtés égaux).'
         ]
       },
       formulas: [

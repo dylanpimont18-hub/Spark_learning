@@ -13,7 +13,7 @@ window.MODULES.push({
     physics: '2ème loi de Newton, plan incliné, bilan des forces',
 
     cours: {
-      intro: 'Un vecteur possède à la fois une valeur (norme), une direction et un sens — contrairement aux grandeurs scalaires. En physique, toutes les grandeurs vectorielles (force, vitesse, accélération) se projettent sur des axes perpendiculaires pour être exploitées par les lois de Newton. La projection « décompose » un vecteur oblique en deux composantes indépendantes : $F_x = F\\cos(\\theta)$ (côté adjacent = cosinus) et $F_y = F\\sin(\\theta)$ (côté opposé = sinus), où $\\theta$ est l\'angle avec l\'axe horizontal. Le piège du plan incliné est récurrent : le poids est vertical mais les axes sont inclinés, ce qui « retourne » les rôles du sinus et du cosinus par rapport à l\'intuition.',
+      intro: 'Un <strong>vecteur</strong> possède à la fois une valeur (norme), une direction et un sens — contrairement aux grandeurs scalaires.<br/><br/>En physique, toutes les grandeurs vectorielles (force, vitesse, accélération) se <strong>projettent</strong> sur des axes perpendiculaires pour être exploitées par les lois de Newton.<br/><br/>La projection « décompose » un vecteur oblique en deux <strong>composantes indépendantes</strong> : $F_x = F\\cos(\\theta)$ (côté adjacent = cosinus) et $F_y = F\\sin(\\theta)$ (côté opposé = sinus), où $\\theta$ est l\'angle avec l\'axe horizontal.<br/><br/>Le <strong>piège du plan incliné</strong> est récurrent : le poids est vertical mais les axes sont inclinés, ce qui « retourne » les rôles du sinus et du cosinus par rapport à l\'intuition.',
       definitions: [
         { term: 'Vecteur', def: 'Objet mathématique caractérisé par une direction, un sens et une norme (valeur). Notation : $\\vec{F}$.' },
         { term: 'Norme', def: 'Valeur (longueur) du vecteur : $\\|\\vec{F}\\| = \\sqrt{F_x^2 + F_y^2}$. Toujours positive ou nulle.' },
@@ -23,9 +23,9 @@ window.MODULES.push({
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Le signe : Regarder le sens du vecteur par rapport à l\'axe. S\'il pointe dans le sens positif de l\'axe, la composante est positive. S\'il pointe en sens inverse, elle est négative. <strong>Exemple :</strong> Une force $\\vec{F}$ pointe vers la gauche (sens négatif de $Ox$) → $F_x < 0$.',
-          'L\'angle : Repérer l\'angle $\\theta$ entre le vecteur et l\'axe de référence. Le côté "qui touche" l\'angle $\\theta$ est adjacent (lié au cosinus). L\'autre est opposé (lié au sinus). <strong>Exemple :</strong> Si $\\theta = 30°$ entre $\\vec{F}$ et $Ox$, le côté le long de $Ox$ est adjacent → on utilise $\\cos(30°)$ pour $F_x$.',
-          'La formule : $F_x = \\pm F \\cdot \\cos(\\theta)$ et $F_y = \\pm F \\cdot \\sin(\\theta)$ si $\\theta$ est l\'angle avec l\'axe $Ox$. <strong>Exemple :</strong> $F = 10$ N, $\\theta = 60°$ → $F_x = 10\\cos(60°) = 5$ N, $F_y = 10\\sin(60°) \\approx 8{,}66$ N.'
+          '<strong>Le signe</strong> : regarder le sens du vecteur par rapport à l\'axe. S\'il pointe dans le sens positif de l\'axe, la composante est positive. S\'il pointe en sens inverse, elle est négative. <strong>Exemple :</strong> Une force $\\vec{F}$ pointe vers la gauche (sens négatif de $Ox$) → $F_x < 0$.',
+          '<strong>L\'angle</strong> : repérer l\'angle $\\theta$ entre le vecteur et l\'axe de référence. Le côté "qui touche" l\'angle $\\theta$ est adjacent (lié au cosinus). L\'autre est opposé (lié au sinus). <strong>Exemple :</strong> Si $\\theta = 30°$ entre $\\vec{F}$ et $Ox$, le côté le long de $Ox$ est adjacent → on utilise $\\cos(30°)$ pour $F_x$.',
+          '<strong>La formule</strong> : $F_x = \\pm F \\cdot \\cos(\\theta)$ et $F_y = \\pm F \\cdot \\sin(\\theta)$ si $\\theta$ est l\'angle avec l\'axe $Ox$. <strong>Exemple :</strong> $F = 10$ N, $\\theta = 60°$ → $F_x = 10\\cos(60°) = 5$ N, $F_y = 10\\sin(60°) \\approx 8{,}66$ N.'
         ]
       },
       example: {

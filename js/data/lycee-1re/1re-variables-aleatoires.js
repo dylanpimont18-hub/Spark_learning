@@ -22,10 +22,10 @@ window.MODULES.push({
       method: {
         title: 'Calculer avec la loi binomiale',
         steps: [
-          'Vérifier les conditions : expériences indépendantes, même probabilité $p$, $n$ répétitions.',
-          '$P(X=k) = \\binom{n}{k}p^k(1-p)^{n-k}$.',
-          'Espérance : $E(X)=np$.',
-          'Variance : $V(X)=np(1-p)$, écart-type $\\sigma=\\sqrt{np(1-p)}$.'
+          '<strong>Conditions</strong> : expériences indépendantes, même probabilité $p$, $n$ répétitions.',
+          '<strong>Probabilité binomiale</strong> : $P(X=k) = \\binom{n}{k}p^k(1-p)^{n-k}$.',
+          '<strong>Espérance</strong> : $E(X)=np$.',
+          '<strong>Variance et écart-type</strong> : $V(X)=np(1-p)$, écart-type $\\sigma=\\sqrt{np(1-p)}$.'
         ]
       },
       example: {

@@ -12,7 +12,7 @@ window.MODULES.push({
     keywords: ['Probabilité', 'Événement', 'Univers', 'Équiprobabilité', 'Complémentaire'],
     physics: false,
     cours: {
-      intro: 'Une expérience aléatoire est une expérience dont le résultat ne peut pas être prédit à l\'avance — contrairement à une expérience déterministe. L\'univers $\\Omega$ est l\'ensemble de toutes les issues possibles. La probabilité $P(A)$ est un réel de $[0;1]$ qui mesure la fréquence relative de l\'événement $A$ sur un grand nombre de répétitions. En cas d\'équiprobabilité (toutes les issues ont la même probabilité), $P(A) = |A| / |\\Omega|$. L\'équiprobabilité n\'est pas automatique : un dé truqué ou une urne déséquilibrée ne la vérifient pas. Les lancers successifs sont des épreuves indépendantes : la pièce n\'a pas de mémoire, et les résultats passés n\'influencent pas les futurs.',
+      intro: 'Une <strong>expérience aléatoire</strong> est une expérience dont le résultat ne peut pas être prédit à l\'avance — contrairement à une expérience déterministe. L\'<strong>univers $\\Omega$</strong> est l\'ensemble de toutes les issues possibles.<br/><br/>La <strong>probabilité $P(A)$</strong> est un réel de $[0;1]$ qui mesure la fréquence relative de l\'événement $A$ sur un grand nombre de répétitions.<br/><br/>En cas d\'<strong>équiprobabilité</strong> (toutes les issues ont la même probabilité), $P(A) = |A| / |\\Omega|$. L\'équiprobabilité n\'est pas automatique : un dé truqué ou une urne déséquilibrée ne la vérifient pas.<br/><br/>Les lancers successifs sont des <strong>épreuves indépendantes</strong> : la pièce n\'a pas de mémoire, et les résultats passés n\'influencent pas les futurs.',
       definitions: [
         { term: 'Expérience aléatoire', def: 'Expérience dont le résultat ne peut pas être prédit à l\'avance (ex. : lancer un dé, tirer une carte).' },
         { term: 'Univers $\\Omega$', def: 'Ensemble de toutes les issues possibles d\'une expérience aléatoire. Ex. : dé à $6$ faces → $\\Omega = \\{1;2;3;4;5;6\\}$.' },
@@ -22,10 +22,10 @@ window.MODULES.push({
       method: {
         title: 'Calculer une probabilité',
         steps: [
-          'Définir l\'univers $\\Omega$ et vérifier si les issues sont équiprobables. <strong>Exemple :</strong> Dé équilibré à $6$ faces → $\\Omega = \\{1;2;3;4;5;6\\}$, équiprobabilité.',
-          'Compter le nombre d\'issues favorables à $A$. <strong>Exemple :</strong> $A$ = « obtenir un multiple de $3$ » → $A = \\{3;6\\}$, soit $2$ issues.',
-          'Appliquer $P(A) = \\frac{\\text{nombre d\'issues favorables}}{\\text{nombre total d\'issues}}$ si équiprobabilité. <strong>Exemple :</strong> $P(A) = \\frac{2}{6} = \\frac{1}{3}$.',
-          'Utiliser $P(\\bar{A}) = 1 - P(A)$ pour l\'événement contraire. <strong>Exemple :</strong> $P(\\bar{A}) = 1 - \\frac{1}{3} = \\frac{2}{3}$ (ne pas obtenir un multiple de $3$).'
+          '<strong>Définir l\'univers $\\Omega$</strong> et vérifier si les issues sont équiprobables. <strong>Exemple :</strong> Dé équilibré à $6$ faces → $\\Omega = \\{1;2;3;4;5;6\\}$, équiprobabilité.',
+          '<strong>Compter les issues favorables</strong> à $A$. <strong>Exemple :</strong> $A$ = « obtenir un multiple de $3$ » → $A = \\{3;6\\}$, soit $2$ issues.',
+          '<strong>Appliquer la formule</strong> $P(A) = \\frac{\\text{nombre d\'issues favorables}}{\\text{nombre total d\'issues}}$ si équiprobabilité. <strong>Exemple :</strong> $P(A) = \\frac{2}{6} = \\frac{1}{3}$.',
+          '<strong>Événement contraire</strong> : utiliser $P(\\bar{A}) = 1 - P(A)$. <strong>Exemple :</strong> $P(\\bar{A}) = 1 - \\frac{1}{3} = \\frac{2}{3}$ (ne pas obtenir un multiple de $3$).'
         ]
       },
       example: {

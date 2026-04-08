@@ -23,9 +23,9 @@ window.MODULES.push({
       method: {
         title: 'Propriétés essentielles',
         steps: [
-          'Logarithme décimal : $\\log(a \\times b) = \\log a + \\log b$ ; $\\log(10^n) = n$ ; $\\log(a/b) = \\log a - \\log b$. Application directe : $pH = -\\log[H_3O^+]$.',
-          'Exponentielle naturelle : $(e^x)\' = e^x$ (unique fonction égale à sa dérivée). Propriété : $e^{a+b} = e^a \\cdot e^b$.',
-          'Demi-vie : après $k$ demi-vies, la masse restante est $m = m_0 \\times \\left(\\dfrac{1}{2}\\right)^k$. En continu : $m(t) = m_0 e^{-\\lambda t}$ où $\\lambda = \\ln 2 / t_{1/2}$.'
+          '<strong>Logarithme décimal et pH</strong> : $\\log(a \\times b) = \\log a + \\log b$ ; $\\log(10^n) = n$ ; $pH = -\\log[H_3O^+]$.',
+          '<strong>Exponentielle naturelle</strong> : $(e^x)\' = e^x$ (unique égale à sa dérivée). Propriété : $e^{a+b} = e^a \\cdot e^b$.',
+          '<strong>Croissance exponentielle</strong> : demi-vie après $k$ périodes : $m = m_0 \\times (1/2)^k$ ; continu : $m(t) = m_0 e^{-\\lambda t}$ où $\\lambda = \\ln 2 / t_{1/2}$.'
         ]
       },
       example: {

@@ -13,7 +13,9 @@ window.MODULES.push(
     keywords: ['Sphère', 'Boule', 'Volume', 'Solides composés', 'Rayon'],
     physics: true,
     cours: {
-      intro: 'La sphère est la surface des points à distance $r$ d\'un centre ; la boule est le volume qu\'elle délimite. La formule $V = \\frac{4}{3}\\pi r^3$ porte le cube du rayon : doubler le rayon multiplie le volume par $8$, pas par $2$. Cette sensibilité au rayon explique pourquoi les cellules biologiques ne dépassent pas une certaine taille — leur surface (en $r^2$) ne peut plus suffire aux échanges si le volume (en $r^3$) croît trop vite. Pour les solides composés, on décompose en formes simples (boule, cylindre, cône, pyramide) et on additionne leurs volumes — ou on soustrait si un solide est « creusé » dans un autre. Identifier clairement la géométrie de chaque composante est la première étape.',
+      intro: 'La <strong>sphère</strong> est la surface des points à distance $r$ d\'un centre ; la <strong>boule</strong> est le volume plein qu\'elle délimite. La formule $V = \\dfrac{4}{3}\\pi r^3$ porte le <strong>cube du rayon</strong> : doubler le rayon multiplie le volume par $8$, pas par $2$ !<br/><br/>' +
+        'Cette sensibilité au rayon explique pourquoi les cellules biologiques ne dépassent pas une certaine taille : leur surface (en $r^2$) ne peut plus suffire aux échanges si le volume (en $r^3$) croît trop vite.<br/><br/>' +
+        'Pour les <strong>solides composés</strong> : décomposer en formes simples (boule, cylindre, cône, pyramide), calculer chaque volume, puis <strong>additionner</strong> — ou <strong>soustraire</strong> si un solide est creusé dans un autre.',
       definitions: [
         { term: 'Sphère', def: 'La <strong>surface</strong> formée par tous les points situés à la même distance $r$ d\'un point central. La sphère est « creuse » : elle n\'inclut que la surface.' },
         { term: 'Boule', def: 'Le <strong>volume</strong> délimité par une sphère : la boule contient tous les points à distance $\\leq r$ du centre. C\'est la sphère « pleine ».' },
@@ -23,9 +25,9 @@ window.MODULES.push(
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Identifier les composantes du solide (boule, cône, cylindre, pyramide…).',
-          'Calculer le volume de chaque partie avec la formule adaptée.',
-          'Additionner les volumes (ou soustraire si un solide est creusé dans un autre).'
+          '<strong>Étape 1 : Identifier</strong> les composantes du solide (boule, cône, cylindre, pyramide…).<br/><em>Exemple :</em> une figurine = cylindre + demi-sphère.',
+          '<strong>Étape 2 : Calculer</strong> le volume de chaque partie avec la formule adaptée.<br/><em>Exemple :</em> $V_{\\text{boule}} = \\dfrac{4}{3}\\pi r^3$, $V_{\\text{cylindre}} = \\pi r^2 h$.',
+          '<strong>Étape 3 : Combiner</strong> — additionner les volumes si juxtaposés, <strong>soustraire</strong> si un solide est creusé dans un autre.'
         ]
       },
       example: {

@@ -36,9 +36,9 @@ window.MODULES.push({
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Décrire l\'univers $\\Omega$ = ensemble de tous les résultats possibles.',
-          'Identifier l\'événement $A$ = sous-ensemble des résultats favorables.',
-          'Si équiprobabilité : $P(A) = \\dfrac{\\text{nombre de cas favorables}}{\\text{nombre de cas possibles}}$.'
+          '<strong>Décrire l\'univers $\\Omega$</strong> : ensemble de tous les résultats possibles.',
+          '<strong>Identifier l\'événement $A$</strong> : sous-ensemble des résultats favorables.',
+          '<strong>Équiprobabilité</strong> : $P(A) = \\dfrac{\\text{nombre de cas favorables}}{\\text{nombre de cas possibles}}$.'
         ]
       },
       formulas: [

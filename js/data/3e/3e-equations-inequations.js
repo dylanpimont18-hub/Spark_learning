@@ -13,7 +13,10 @@ window.MODULES.push(
     keywords: ['Équation', 'Inéquation', 'Inconnue', 'Solution', 'Intervalle'],
     physics: true,
     cours: {
-      intro: 'Une équation fixe une condition d\'égalité sur $x$ ; on cherche toutes les valeurs qui la rendent vraie. Une inéquation fixe une condition d\'ordre : la solution est un intervalle, pas un point isolé. Les deux se résolvent par les mêmes opérations élémentaires — avec une différence cruciale : multiplier ou diviser par un nombre négatif inverse le sens de l\'inégalité. Intuition : si $-x < 3$, alors $x$ est au-delà de $-3$, c\'est-à-dire $x > -3$. En physique, les inéquations apparaissent dans les conditions de validité des modèles : une distance est positive, une probabilité reste entre $0$ et $1$, un courant ne dépasse pas une valeur limite. Toujours vérifier la solution en la substituant dans l\'expression de départ.',
+      intro: 'Une <strong>équation</strong> fixe une condition d\'égalité : on cherche toutes les valeurs de $x$ qui la rendent vraie. Une <strong>inéquation</strong> fixe une condition d\'ordre : la solution est un <strong>intervalle</strong>, pas un point isolé.<br/><br/>' +
+        'Les deux se résolvent par les mêmes opérations — avec une <strong>différence cruciale</strong> : multiplier ou diviser par un nombre <strong>négatif inverse le sens de l\'inégalité</strong>.<br/>Intuition : si $-x < 3$, alors $x > -3$.<br/><br/>' +
+        'En physique, les inéquations apparaissent dans les <strong>conditions de validité</strong> des modèles : une distance est positive, une probabilité reste entre $0$ et $1$.<br/><br/>' +
+        'Règle d\'or : <strong>toujours vérifier</strong> la solution en la substituant dans l\'expression de départ.',
       definitions: [
         { term: 'Équation', def: 'Égalité comportant une <strong>inconnue</strong> $x$. Résoudre une équation, c\'est trouver la (ou les) valeur(s) de $x$ qui rendent l\'égalité vraie.<br/><br/>Exemple : $2x + 3 = 7$ a pour solution $x = 2$.' },
         { term: 'Inéquation', def: 'Inégalité comportant une inconnue $x$ (avec $<$, $>$, $\\leq$ ou $\\geq$). La solution est généralement un <strong>intervalle</strong> de valeurs, pas un nombre unique.<br/><br/>Exemple : $x + 1 > 3$ a pour solution $x > 2$.' },
@@ -23,10 +26,10 @@ window.MODULES.push(
       method: {
         title: 'Méthode en 4 étapes',
         steps: [
-          'Développer et réduire les deux membres.',
-          'Regrouper les termes en $x$ d\'un côté, les constantes de l\'autre.',
-          'Diviser par le coefficient de $x$ (attention : si négatif, inverser le sens de l\'inégalité).',
-          'Vérifier en substituant la solution dans l\'expression de départ.'
+          '<strong>Étape 1 : Développer</strong> et réduire les deux membres de l\'équation ou inéquation.',
+          '<strong>Étape 2 : Regrouper</strong> les termes en $x$ d\'un côté, les constantes de l\'autre.',
+          '<strong>Étape 3 : Isoler $x$</strong> en divisant par le coefficient de $x$.<br/><strong>Attention :</strong> si ce coefficient est <strong>négatif</strong>, inverser le sens de l\'inégalité.',
+          '<strong>Étape 4 : Vérifier</strong> en substituant la solution trouvée dans l\'expression de départ.'
         ]
       },
       example: {

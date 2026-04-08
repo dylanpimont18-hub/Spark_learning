@@ -36,10 +36,10 @@ window.MODULES.push({
       method: {
         title: 'Méthode en 4 étapes',
         steps: [
-          'Trouver le PPCM des deux dénominateurs (le plus petit multiple commun).',
-          'Convertir chaque fraction au dénominateur commun en multipliant numérateur et dénominateur par le même facteur.',
-          'Additionner (ou soustraire) les numérateurs ; conserver le dénominateur commun.',
-          'Simplifier la fraction obtenue si possible (diviser numérateur et dénominateur par leur PGCD).'
+          '<strong>Trouver le PPCM</strong> des deux dénominateurs (le plus petit multiple commun).',
+          '<strong>Convertir</strong> chaque fraction au dénominateur commun en multipliant numérateur et dénominateur par le même facteur.',
+          '<strong>Additionner/Soustraire</strong> les numérateurs ; conserver le dénominateur commun.',
+          '<strong>Simplifier</strong> la fraction obtenue si possible (diviser numérateur et dénominateur par leur PGCD).'
         ]
       },
       formulas: [

@@ -22,10 +22,10 @@ window.MODULES.push({
       method: {
         title: 'Résoudre $ax^2+bx+c=0$',
         steps: [
-          'Calculer $\\Delta = b^2-4ac$.',
-          'Si $\\Delta < 0$ : pas de solution réelle.',
-          'Si $\\Delta = 0$ : une solution double $x_0 = -\\dfrac{b}{2a}$.',
-          'Si $\\Delta > 0$ : deux solutions $x_{1,2} = \\dfrac{-b \\pm \\sqrt{\\Delta}}{2a}$.'
+          '<strong>Calculer le discriminant</strong> $\\Delta = b^2-4ac$.',
+          '<strong>Si $\\Delta < 0$</strong> : pas de solution réelle.',
+          '<strong>Si $\\Delta = 0$</strong> : une solution double $x_0 = -\\dfrac{b}{2a}$.',
+          '<strong>Si $\\Delta > 0$</strong> : deux solutions $x_{1,2} = \\dfrac{-b \\pm \\sqrt{\\Delta}}{2a}$.'
         ]
       },
       example: {

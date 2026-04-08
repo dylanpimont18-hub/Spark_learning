@@ -23,10 +23,10 @@ window.MODULES.push(
       method: {
         title: 'Multiplier et inverser une matrice',
         steps: [
-          'Produit $AB$ : la ligne $i$ de $A$ et la colonne $j$ de $B$ donnent le terme $c_{ij}=\\sum_k a_{ik}b_{kj}$. <strong>Exemple :</strong> $\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}\\begin{pmatrix}5\\\\6\\end{pmatrix} = \\begin{pmatrix}1 \\times 5 + 2 \\times 6\\\\3 \\times 5 + 4 \\times 6\\end{pmatrix} = \\begin{pmatrix}17\\\\39\\end{pmatrix}$.',
-          '$AB$ n\'est défini que si le nombre de colonnes de $A$ = nombre de lignes de $B$. <strong>Exemple :</strong> $A$ est $2 \\times 3$ et $B$ est $3 \\times 1$ → $AB$ est $2 \\times 1$ (OK). Mais $BA$ n\'est pas défini ($1 \\times 1$ fois $2 \\times 3$ : non compatible).',
-          'Inverse de $A$ $2\\times2$ : $A^{-1}=\\frac{1}{\\det A}\\begin{pmatrix}d&-b\\\\-c&a\\end{pmatrix}$ avec $\\det A=ad-bc$. <strong>Exemple :</strong> $A = \\begin{pmatrix}3&1\\\\2&4\\end{pmatrix}$, $\\det A = 10$. $A^{-1} = \\frac{1}{10}\\begin{pmatrix}4&-1\\\\-2&3\\end{pmatrix}$.',
-          'Système $AX=B$ → $X=A^{-1}B$ si $A$ est inversible. <strong>Exemple :</strong> $\\begin{pmatrix}3&1\\\\2&4\\end{pmatrix}\\begin{pmatrix}x\\\\y\\end{pmatrix} = \\begin{pmatrix}7\\\\14\\end{pmatrix}$ → $\\begin{pmatrix}x\\\\y\\end{pmatrix} = \\frac{1}{10}\\begin{pmatrix}4&-1\\\\-2&3\\end{pmatrix}\\begin{pmatrix}7\\\\14\\end{pmatrix} = \\begin{pmatrix}1{,}4\\\\2{,}8\\end{pmatrix}$.'
+          '<strong>Produit de matrices</strong> : Produit $AB$ : la ligne $i$ de $A$ et la colonne $j$ de $B$ donnent le terme $c_{ij}=\\sum_k a_{ik}b_{kj}$. <strong>Exemple :</strong> $\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}\\begin{pmatrix}5\\\\6\\end{pmatrix} = \\begin{pmatrix}1 \\times 5 + 2 \\times 6\\\\3 \\times 5 + 4 \\times 6\\end{pmatrix} = \\begin{pmatrix}17\\\\39\\end{pmatrix}$.',
+          '<strong>Compatibilité matricielle</strong> : $AB$ n\'est défini que si le nombre de colonnes de $A$ = nombre de lignes de $B$. <strong>Exemple :</strong> $A$ est $2 \\times 3$ et $B$ est $3 \\times 1$ → $AB$ est $2 \\times 1$ (OK). Mais $BA$ n\'est pas défini ($1 \\times 1$ fois $2 \\times 3$ : non compatible).',
+          '<strong>Calcul de l\'inverse</strong> : Inverse de $A$ $2\\times2$ : $A^{-1}=\\frac{1}{\\det A}\\begin{pmatrix}d&-b\\\\-c&a\\end{pmatrix}$ avec $\\det A=ad-bc$. <strong>Exemple :</strong> $A = \\begin{pmatrix}3&1\\\\2&4\\end{pmatrix}$, $\\det A = 10$. $A^{-1} = \\frac{1}{10}\\begin{pmatrix}4&-1\\\\-2&3\\end{pmatrix}$.',
+          '<strong>Résolution de systèmes</strong> : Système $AX=B$ → $X=A^{-1}B$ si $A$ est inversible. <strong>Exemple :</strong> $\\begin{pmatrix}3&1\\\\2&4\\end{pmatrix}\\begin{pmatrix}x\\\\y\\end{pmatrix} = \\begin{pmatrix}7\\\\14\\end{pmatrix}$ → $\\begin{pmatrix}x\\\\y\\end{pmatrix} = \\frac{1}{10}\\begin{pmatrix}4&-1\\\\-2&3\\end{pmatrix}\\begin{pmatrix}7\\\\14\\end{pmatrix} = \\begin{pmatrix}1{,}4\\\\2{,}8\\end{pmatrix}$.'
         ]
       },
       example: {

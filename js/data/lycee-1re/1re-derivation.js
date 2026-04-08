@@ -23,9 +23,9 @@ window.MODULES.push({
       method: {
         title: 'Règles de dérivation usuelles',
         steps: [
-          'Fonction constante : si $f(x) = k$ alors $f\'(x) = 0$.',
-          'Fonction puissance : si $f(x) = x^n$ alors $f\'(x) = n \\cdot x^{n-1}$. Exemple : $(x^3)\' = 3x^2$.',
-          'Combinaisons : $(af + bg)\' = af\' + bg\'$ (linéarité). Exemple : $f(x) = 3x^2 + 5x - 2 \\Rightarrow f\'(x) = 6x + 5$.'
+          '<strong>Fonction constante</strong> : si $f(x) = k$ alors $f\'(x) = 0$.',
+          '<strong>Fonction puissance</strong> : si $f(x) = x^n$ alors $f\'(x) = n \\cdot x^{n-1}$. Exemple : $(x^3)\' = 3x^2$.',
+          '<strong>Combinaisons linéaires</strong> : $(af + bg)\' = af\' + bg\'$ (linéarité). Exemple : $f(x) = 3x^2 + 5x - 2 \\Rightarrow f\'(x) = 6x + 5$.'
         ]
       },
       example: {

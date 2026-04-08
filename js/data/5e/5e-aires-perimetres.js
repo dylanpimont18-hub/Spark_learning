@@ -36,10 +36,10 @@ window.MODULES.push({
       method: {
         title: 'Méthode en 4 étapes',
         steps: [
-          'Décomposer la figure complexe en figures simples connues.',
-          'Calculer l\'aire de chaque partie séparément.',
-          'Additionner (ou soustraire si une partie est retirée).',
-          'Conversions : $1\\,\\text{m}^2 = 10\\,000\\,\\text{cm}^2$, $1\\,\\text{cm}^2 = 100\\,\\text{mm}^2$.'
+          '<strong>Décomposer</strong> la figure complexe en figures simples connues.',
+          '<strong>Calculer l\'aire</strong> de chaque partie séparément.',
+          '<strong>Additionner</strong> (ou soustraire si une partie est retirée).',
+          '<strong>Conversions</strong> : $1\\,\\text{m}^2 = 10\\,000\\,\\text{cm}^2$, $1\\,\\text{cm}^2 = 100\\,\\text{mm}^2$.'
         ]
       },
       formulas: [

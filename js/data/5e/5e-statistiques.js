@@ -36,10 +36,10 @@ window.MODULES.push({
       method: {
         title: 'Méthode en 4 étapes',
         steps: [
-          'Organiser les données dans un tableau (valeurs, effectifs, effectifs cumulés).',
-          'Calculer la moyenne : $\\bar{x} = \\dfrac{\\text{somme de toutes les valeurs}}{\\text{nombre de valeurs}} = \\dfrac{\\sum x_i \\cdot n_i}{\\sum n_i}$.',
-          'Calculer l\'étendue : $e = x_{\\max} - x_{\\min}$.',
-          'Calculer les fréquences : $f_i = \\dfrac{n_i}{N} \\times 100\\%$.'
+          '<strong>Organiser</strong> les données dans un tableau (valeurs, effectifs, effectifs cumulés).',
+          '<strong>Calculer la moyenne</strong> : $\\bar{x} = \\dfrac{\\text{somme de toutes les valeurs}}{\\text{nombre de valeurs}} = \\dfrac{\\sum x_i \\cdot n_i}{\\sum n_i}$.',
+          '<strong>Calculer l\'étendue</strong> : $e = x_{\\max} - x_{\\min}$.',
+          '<strong>Calculer les fréquences</strong> : $f_i = \\dfrac{n_i}{N} \\times 100\\%$.'
         ]
       },
       formulas: [

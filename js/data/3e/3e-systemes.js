@@ -14,7 +14,10 @@ window.MODULES.push(
     physics: 'Lois de Kirchhoff (tensions et courants), mélange de solutions, bilan forces',
 
     cours: {
-      intro: 'Un système de deux équations à deux inconnues apparaît dès qu\'un problème met en jeu deux quantités liées par deux relations indépendantes. La substitution isole une variable dans une équation et la remplace dans l\'autre ; la combinaison (addition) choisit un coefficient pour éliminer directement une variable — plus rapide quand les coefficients s\'y prêtent. En physique, les lois de Kirchhoff pour les circuits électriques et les bilans de mélange en chimie donnent naturellement des systèmes. L\'étape de vérification est indispensable : une erreur de substitution peut donner un résultat qui satisfait une équation mais pas l\'autre, et seul le test dans LES DEUX équations permet de le détecter.',
+      intro: 'Un <strong>système de deux équations</strong> à deux inconnues apparaît dès qu\'un problème lie deux quantités par deux relations indépendantes. On dispose de deux méthodes : la <strong>substitution</strong> et la <strong>combinaison</strong> (addition).<br/><br/>' +
+        'La <strong>substitution</strong> isole une variable dans une équation et la remplace dans l\'autre. La <strong>combinaison</strong> multiplie une équation par un coefficient pour éliminer directement une variable — plus rapide quand les coefficients s\'y prêtent.<br/><br/>' +
+        'En physique, les <strong>lois de Kirchhoff</strong> (circuits électriques) et les bilans de mélange (chimie) donnent naturellement des systèmes.<br/><br/>' +
+        '<strong>Vérification obligatoire</strong> : réinjecter les valeurs dans LES DEUX équations — une erreur peut satisfaire l\'une mais pas l\'autre.',
       definitions: [
         { term: 'Système d\'équations', def: 'Ensemble de <strong>deux équations</strong> à <strong>deux inconnues</strong> ($x$ et $y$) que l\'on doit résoudre <strong>simultanément</strong>. La solution est le couple $(x\\,;\\,y)$ qui vérifie les deux équations en même temps.' },
         { term: 'Substitution', def: 'Méthode qui consiste à <strong>isoler une inconnue</strong> dans une équation (par exemple $y = 7 - 2x$) puis à <strong>remplacer</strong> cette expression dans l\'autre équation pour ne garder qu\'une seule inconnue.' },
@@ -24,9 +27,9 @@ window.MODULES.push(
       method: {
         title: 'Deux méthodes',
         steps: [
-          'Substitution : exprimer une inconnue en fonction de l\'autre à partir d\'une équation, puis substituer dans la seconde.',
-          'Combinaison (addition) : multiplier une équation par un coefficient pour que l\'un des termes s\'annule lors de l\'addition des deux équations.',
-          'Vérification obligatoire : réinjecter les valeurs trouvées dans LES DEUX équations de départ.'
+          '<strong>Méthode 1 — Substitution</strong> : exprimer une inconnue en fonction de l\'autre (ex. $y = 7 - 2x$), puis substituer dans la 2e équation pour n\'avoir qu\'une seule inconnue.',
+          '<strong>Méthode 2 — Combinaison</strong> : multiplier une équation par un coefficient bien choisi, puis additionner les deux équations pour éliminer directement une inconnue.',
+          '<strong>Vérification obligatoire</strong> : réinjecter les valeurs trouvées dans les <strong>deux</strong> équations de départ. Une seule vérification ne suffit pas !'
         ]
       },
       example: {

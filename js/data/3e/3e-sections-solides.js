@@ -13,7 +13,10 @@ window.MODULES.push(
     keywords: ['Section', 'Plan de coupe', 'Pavé', 'Cône', 'Cylindre', 'Pyramide'],
     physics: false,
     cours: {
-      intro: 'Couper un solide par un plan donne une section plane dont la forme révèle la structure géométrique du solide. Les sections parallèles à une base conservent la forme de celle-ci, en plus petit selon un rapport de similitude lié aux hauteurs. Les coupes obliques donnent des formes moins intuitives : une coupe oblique d\'un cylindre produit une ellipse, pas un rectangle ni un cercle. Ces sections ont des applications concrètes en médecine (IRM, scanner qui reconstitue des coupes), en architecture (plans de coupe de bâtiments) et en fabrication. Pour les pyramides et cônes, le rapport de similitude entre la section et la base est le rapport des hauteurs — c\'est le théorème de Thalès appliqué dans l\'espace.',
+      intro: 'Couper un solide par un plan donne une <strong>section plane</strong> dont la forme révèle la structure géométrique du solide. Les <strong>sections parallèles à une base</strong> conservent la forme de celle-ci, en plus petit, selon un rapport de similitude lié aux hauteurs.<br/><br/>' +
+        'Les <strong>coupes obliques</strong> donnent des formes moins intuitives : une coupe oblique d\'un cylindre produit une <strong>ellipse</strong>, pas un rectangle ni un cercle.<br/><br/>' +
+        'Applications concrètes : en <strong>médecine</strong> (IRM, scanner), en <strong>architecture</strong> (plans de coupe), en fabrication industrielle.<br/><br/>' +
+        'Pour les pyramides et cônes, le <strong>rapport de similitude</strong> entre la section et la base est le rapport des hauteurs — c\'est le théorème de Thalès appliqué dans l\'espace.',
       definitions: [
         { term: 'Section', def: 'Figure plane obtenue en <strong>coupant un solide par un plan</strong>. Sa forme dépend du type de solide et de l\'orientation du plan de coupe.' },
         { term: 'Plan de coupe', def: 'Le plan qui <strong>intersecte le solide</strong>. Il peut être parallèle à la base, perpendiculaire à l\'axe ou oblique — chaque orientation produit une section différente.' },
@@ -23,10 +26,10 @@ window.MODULES.push(
       method: {
         title: 'Méthode selon le type de solide',
         steps: [
-          'Pavé droit : toute section parallèle à une face est un rectangle (ou carré). Section oblique → parallélogramme.',
-          'Cylindre : section parallèle aux bases → disque. Section perpendiculaire à l\'axe → disque. Section par un plan contenant l\'axe → rectangle.',
-          'Cône : section parallèle à la base → disque (plus petit). Section par un plan passant par le sommet → triangle isocèle.',
-          'Pyramide : section parallèle à la base → figure semblable à la base (homothétie).'
+          '<strong>Pavé droit</strong> : section parallèle à une face → rectangle (ou carré).<br/>Section oblique → parallélogramme.',
+          '<strong>Cylindre</strong> : section parallèle aux bases → disque (même rayon).<br/>Section par un plan contenant l\'axe → rectangle.<br/>Section oblique → ellipse.',
+          '<strong>Cône</strong> : section parallèle à la base → disque (rayon réduit, rapport $= h\'/h$).<br/>Section par un plan passant par le sommet et l\'axe → triangle isocèle.',
+          '<strong>Pyramide</strong> : section parallèle à la base → figure semblable à la base.<br/>Rapport de similitude $= k = h\'/h$ (Thalès dans l\'espace).'
         ]
       },
       example: {

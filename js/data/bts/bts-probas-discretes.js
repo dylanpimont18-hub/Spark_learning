@@ -23,10 +23,10 @@ window.MODULES.push(
       method: {
         title: 'Choisir entre binomiale et Poisson',
         steps: [
-          'Loi binomiale : $n$ répétitions indépendantes, probabilité $p$ constante. <strong>Exemple :</strong> On tire $n = 10$ pièces d\'un lot à $5\\%$ de défauts. $X \\sim \\mathcal{B}(10 ; 0{,}05)$. $P(X = 0) = 0{,}95^{10} \\approx 0{,}599$.',
-          'Loi de Poisson : événements rares ($\\lambda=np$ fixé, $n$ grand, $p$ petit). <strong>Exemple :</strong> Une machine a $2$ pannes/jour en moyenne. $P(X = 0) = e^{-2} \\approx 0{,}135$ (probabilité d\'aucune panne).',
-          '$P_{\\mathcal{P}(\\lambda)}(X=k)=\\dfrac{\\lambda^k}{k!}e^{-\\lambda}$. <strong>Exemple :</strong> $\\lambda = 3$, $k = 2$ → $P(X=2) = \\frac{9}{2} \\times e^{-3} \\approx 4{,}5 \\times 0{,}0498 \\approx 0{,}224$.',
-          'Espérance et variance de Poisson : $E(X)=V(X)=\\lambda$. <strong>Exemple :</strong> Si $\\lambda = 5$ pannes/jour, l\'écart-type est $\\sigma = \\sqrt{5} \\approx 2{,}24$ pannes/jour.'
+          '<strong>Loi binomiale</strong> : Loi binomiale : $n$ répétitions indépendantes, probabilité $p$ constante. <strong>Exemple :</strong> On tire $n = 10$ pièces d\'un lot à $5\\%$ de défauts. $X \\sim \\mathcal{B}(10 ; 0{,}05)$. $P(X = 0) = 0{,}95^{10} \\approx 0{,}599$.',
+          '<strong>Loi de Poisson</strong> : Loi de Poisson : événements rares ($\\lambda=np$ fixé, $n$ grand, $p$ petit). <strong>Exemple :</strong> Une machine a $2$ pannes/jour en moyenne. $P(X = 0) = e^{-2} \\approx 0{,}135$ (probabilité d\'aucune panne).',
+          '<strong>Formule de Poisson</strong> : $P_{\\mathcal{P}(\\lambda)}(X=k)=\\dfrac{\\lambda^k}{k!}e^{-\\lambda}$. <strong>Exemple :</strong> $\\lambda = 3$, $k = 2$ → $P(X=2) = \\frac{9}{2} \\times e^{-3} \\approx 4{,}5 \\times 0{,}0498 \\approx 0{,}224$.',
+          '<strong>Moments de Poisson</strong> : Espérance et variance de Poisson : $E(X)=V(X)=\\lambda$. <strong>Exemple :</strong> Si $\\lambda = 5$ pannes/jour, l\'écart-type est $\\sigma = \\sqrt{5} \\approx 2{,}24$ pannes/jour.'
         ]
       },
       example: {

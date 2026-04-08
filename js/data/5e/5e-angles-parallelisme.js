@@ -36,9 +36,9 @@ window.MODULES.push({
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Identifier la sécante (droite qui coupe les deux parallèles) et les deux parallèles.',
-          'Repérer la configuration : alternes-internes (en Z), correspondants (en F), ou coalternes (en U).',
-          'Appliquer la propriété : alternes-internes → égaux ; correspondants → égaux ; coalternes → supplémentaires.'
+          '<strong>Identifier la sécante</strong> (droite qui coupe les deux parallèles) et les deux parallèles.',
+          '<strong>Repérer la configuration</strong> : alternes-internes (en Z), correspondants (en F), ou coalternes (en U).',
+          '<strong>Appliquer la propriété</strong> : alternes-internes → égaux ; correspondants → égaux ; coalternes → supplémentaires.'
         ]
       },
       formulas: [

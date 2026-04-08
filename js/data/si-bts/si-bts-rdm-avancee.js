@@ -24,10 +24,10 @@ window.MODULES.push({
       method: {
         title: 'Dimensionner une pièce en sollicitations combinées',
         steps: [
-          'Identifier les sollicitations et dresser les diagrammes ($N$, $T$, $M_f$, $M_t$).<br/>Repérer la section la plus sollicitée (moment fléchissant maximal).<br/><strong>Exemple :</strong> Arbre de transmission soumis à $M_f = 200$ N·m et $M_t = 300$ N·m.',
-          'Calculer $\\sigma_{\\max}$ en flexion. Pour une section circulaire pleine de diamètre $d$ :<br/>$I_{Gz} = \\pi d^4 / 64$, $y_{\\max} = d/2$, donc $\\sigma_{\\max} = 32\\,M_f / (\\pi d^3)$.<br/><strong>Exemple :</strong> $d = 50$ mm → $\\sigma_{\\max} = 32 \\times 200 / (\\pi \\times 0{,}05^3) = 16{,}3$ MPa.',
-          'Calculer $\\tau_{\\max}$ en torsion. Pour une section circulaire pleine :<br/>$I_0 = \\pi d^4 / 32$, $r_{\\max} = d/2$, donc $\\tau_{\\max} = 16\\,M_t / (\\pi d^3)$.<br/><strong>Exemple :</strong> $\\tau_{\\max} = 16 \\times 300 / (\\pi \\times 0{,}05^3) = 12{,}2$ MPa.',
-          'Calculer Von Mises : $\\sigma_{\\text{VM}} = \\sqrt{\\sigma_{\\max}^2 + 3\\tau_{\\max}^2}$ et vérifier $\\sigma_{\\text{VM}} \\leq R_e / s$.<br/><strong>Exemple :</strong> $\\sigma_{\\text{VM}} = \\sqrt{16{,}3^2 + 3 \\times 12{,}2^2} \\approx 25{,}6$ MPa. Avec $R_e = 235$ MPa et $s = 2$ : $\\sigma_{\\text{adm}} = 117{,}5$ MPa. OK.'
+          '<strong>Diagrammes de sollicitations</strong> : Identifier les sollicitations et dresser les diagrammes ($N$, $T$, $M_f$, $M_t$).<br/>Repérer la section la plus sollicitée (moment fléchissant maximal).<br/><strong>Exemple :</strong> Arbre de transmission soumis à $M_f = 200$ N·m et $M_t = 300$ N·m.',
+          '<strong>Contrainte de flexion</strong> : Calculer $\\sigma_{\\max}$ en flexion. Pour une section circulaire pleine de diamètre $d$ :<br/>$I_{Gz} = \\pi d^4 / 64$, $y_{\\max} = d/2$, donc $\\sigma_{\\max} = 32\\,M_f / (\\pi d^3)$.<br/><strong>Exemple :</strong> $d = 50$ mm → $\\sigma_{\\max} = 32 \\times 200 / (\\pi \\times 0{,}05^3) = 16{,}3$ MPa.',
+          '<strong>Contrainte de torsion</strong> : Calculer $\\tau_{\\max}$ en torsion. Pour une section circulaire pleine :<br/>$I_0 = \\pi d^4 / 32$, $r_{\\max} = d/2$, donc $\\tau_{\\max} = 16\\,M_t / (\\pi d^3)$.<br/><strong>Exemple :</strong> $\\tau_{\\max} = 16 \\times 300 / (\\pi \\times 0{,}05^3) = 12{,}2$ MPa.',
+          '<strong>Critère de Von Mises</strong> : Calculer Von Mises : $\\sigma_{\\text{VM}} = \\sqrt{\\sigma_{\\max}^2 + 3\\tau_{\\max}^2}$ et vérifier $\\sigma_{\\text{VM}} \\leq R_e / s$.<br/><strong>Exemple :</strong> $\\sigma_{\\text{VM}} = \\sqrt{16{,}3^2 + 3 \\times 12{,}2^2} \\approx 25{,}6$ MPa. Avec $R_e = 235$ MPa et $s = 2$ : $\\sigma_{\\text{adm}} = 117{,}5$ MPa. OK.'
         ]
       },
       example: {

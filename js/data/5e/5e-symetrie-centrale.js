@@ -36,9 +36,9 @@ window.MODULES.push({
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Pour construire le symétrique de $A$ par rapport à $O$ : tracer la droite $(OA)$.',
-          'Reporter la distance $OA$ de l\'autre côté de $O$ : $OA\' = OA$, et $O$ est entre $A$ et $A\'$.',
-          'Pour une figure : construire le symétrique de chaque sommet, puis relier dans le même ordre.'
+          '<strong>Symétrique d\'un point</strong> : tracer la droite $(OA)$ passant par $A$ et le centre $O$.',
+          '<strong>Reporter la distance</strong> $OA$ de l\'autre côté de $O$ : $OA\' = OA$, et $O$ est entre $A$ et $A\'$.',
+          '<strong>Pour une figure</strong> : construire le symétrique de chaque sommet, puis relier dans le même ordre.'
         ]
       },
       formulas: [

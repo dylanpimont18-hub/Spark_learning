@@ -23,10 +23,10 @@ window.MODULES.push({
       method: {
         title: 'Analyser un système avec SysML',
         steps: [
-          'Étape 1 — Identifier les exigences : lire le cahier des charges, extraire chaque besoin fonctionnel et chaque contrainte.<br/>Les numéroter (R1, R2…) et tracer le diagramme <strong>req</strong>. Préciser les liens <em>deriveReqt</em>, <em>satisfy</em> et <em>verify</em>.',
-          'Étape 2 — Identifier les acteurs et cas d\'utilisation : qui interagit avec le système ? Quels scénarios d\'usage ?<br/>Tracer le diagramme <strong>uc</strong> avec les relations <em>include</em> (obligatoire) et <em>extend</em> (optionnel).',
-          'Étape 3 — Décomposer en blocs : identifier les sous-systèmes (chaîne d\'énergie, chaîne d\'information).<br/>Tracer le <strong>bdd</strong> pour la hiérarchie, puis le <strong>ibd</strong> pour les flux internes (matière, énergie, information).',
-          'Étape 4 — Décrire le comportement : pour les systèmes séquentiels, utiliser le <strong>stm</strong> (diagramme d\'états) pour les modes de fonctionnement et les transitions entre états.'
+          '<strong>Exigences et diagramme req</strong> : Étape 1 — Identifier les exigences : lire le cahier des charges, extraire chaque besoin fonctionnel et chaque contrainte.<br/>Les numéroter (R1, R2…) et tracer le diagramme <strong>req</strong>. Préciser les liens <em>deriveReqt</em>, <em>satisfy</em> et <em>verify</em>.',
+          '<strong>Cas d\'utilisation</strong> : Étape 2 — Identifier les acteurs et cas d\'utilisation : qui interagit avec le système ? Quels scénarios d\'usage ?<br/>Tracer le diagramme <strong>uc</strong> avec les relations <em>include</em> (obligatoire) et <em>extend</em> (optionnel).',
+          '<strong>Décomposition en blocs</strong> : Étape 3 — Décomposer en blocs : identifier les sous-systèmes (chaîne d\'énergie, chaîne d\'information).<br/>Tracer le <strong>bdd</strong> pour la hiérarchie, puis le <strong>ibd</strong> pour les flux internes (matière, énergie, information).',
+          '<strong>Diagramme d\'états</strong> : Étape 4 — Décrire le comportement : pour les systèmes séquentiels, utiliser le <strong>stm</strong> (diagramme d\'états) pour les modes de fonctionnement et les transitions entre états.'
         ]
       },
       example: {

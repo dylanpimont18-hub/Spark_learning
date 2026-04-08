@@ -36,9 +36,9 @@ window.MODULES.push({
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Identifier la forme de la base et calculer son aire $\\mathcal{A}_{\\text{base}}$.',
-          'Appliquer : $V = \\mathcal{A}_{\\text{base}} \\times h$.',
-          'Convertir si nécessaire : $1\\,\\text{L} = 1\\,\\text{dm}^3 = 1000\\,\\text{cm}^3$.'
+          '<strong>Identifier la base</strong> et calculer son aire $\\mathcal{A}_{\\text{base}}$.',
+          '<strong>Appliquer</strong> : $V = \\mathcal{A}_{\\text{base}} \\times h$.',
+          '<strong>Convertir</strong> si nécessaire : $1\\,\\text{L} = 1\\,\\text{dm}^3 = 1000\\,\\text{cm}^3$.'
         ]
       },
       formulas: [

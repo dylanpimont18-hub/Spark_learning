@@ -22,10 +22,10 @@ window.MODULES.push({
       method: {
         title: 'Raisonnement par récurrence',
         steps: [
-          'Initialisation : vérifier la propriété pour le rang de départ (souvent $n=0$ ou $n=1$).',
-          'Hérédité : supposer la propriété vraie au rang $n$ et montrer qu\'elle est vraie au rang $n+1$.',
-          'Conclusion : par le principe de récurrence, la propriété est vraie pour tout $n$.',
-          'Pour les suites monotones : étudier le signe de $u_{n+1}-u_n$.'
+          '<strong>Initialisation</strong> : vérifier la propriété pour le rang de départ (souvent $n=0$ ou $n=1$).',
+          '<strong>Hérédité</strong> : supposer la propriété vraie au rang $n$ et montrer qu\'elle est vraie au rang $n+1$.',
+          '<strong>Conclusion</strong> : par le principe de récurrence, la propriété est vraie pour tout $n$.',
+          '<strong>Monotonie des suites</strong> : étudier le signe de $u_{n+1}-u_n$.'
         ]
       },
       example: {

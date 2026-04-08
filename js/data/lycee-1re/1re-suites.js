@@ -23,9 +23,9 @@ window.MODULES.push({
       method: {
         title: 'Méthode',
         steps: [
-          'Suite arithmétique (raison $r$) : $u_n = u_0 + n \\times r$. Terme suivant = terme précédent $+ r$ (variation constante).',
-          'Suite géométrique (raison $q$) : $u_n = u_0 \\times q^n$. Terme suivant = terme précédent $\\times q$ (taux de variation constant).',
-          'Identifier le type : si $u_{n+1} - u_n$ est constant → arithmétique. Si $u_{n+1}/u_n$ est constant → géométrique.'
+          '<strong>Suite arithmétique</strong> (raison $r$) : $u_n = u_0 + n \\times r$. Terme suivant = terme précédent $+ r$ (variation constante).',
+          '<strong>Suite géométrique</strong> (raison $q$) : $u_n = u_0 \\times q^n$. Terme suivant = terme précédent $\\times q$ (taux de variation constant).',
+          '<strong>Identifier le type</strong> : si $u_{n+1} - u_n$ est constant → arithmétique. Si $u_{n+1}/u_n$ est constant → géométrique.'
         ]
       },
       example: {

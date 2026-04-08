@@ -22,10 +22,10 @@ window.MODULES.push({
       method: {
         title: 'Établir le tableau de signe',
         steps: [
-          'Calculer $\\Delta$ et les racines éventuelles $x_1 < x_2$.',
-          'Si $\\Delta < 0$ : le signe est celui de $a$ sur $\\mathbb{R}$ entier.',
-          'Si $\\Delta = 0$ : le signe est celui de $a$, sauf en $x_0$ où il est nul.',
-          'Si $\\Delta > 0$ : le trinôme est de signe opposé à $a$ entre $x_1$ et $x_2$, et de même signe que $a$ en dehors.'
+          '<strong>Calculer le discriminant</strong> $\\Delta$ et les racines éventuelles $x_1 < x_2$.',
+          '<strong>Si $\\Delta < 0$</strong> : le signe est celui de $a$ sur $\\mathbb{R}$ entier.',
+          '<strong>Si $\\Delta = 0$</strong> : le signe est celui de $a$, sauf en $x_0$ où il est nul.',
+          '<strong>Si $\\Delta > 0$</strong> : le trinôme est de signe opposé à $a$ entre $x_1$ et $x_2$, et de même signe que $a$ en dehors.'
         ]
       },
       example: {

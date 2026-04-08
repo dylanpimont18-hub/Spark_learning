@@ -22,10 +22,10 @@ window.MODULES.push({
       method: {
         title: 'Choisir la bonne formule',
         steps: [
-          'Produit : $(uv)\'=u\'v+uv\'$.',
-          'Quotient : $\\left(\\frac{u}{v}\\right)\'=\\frac{u\'v-uv\'}{v^2}$.',
-          'Composée : $(f\\circ g)\'(x)=g\'(x)\\cdot f\'(g(x))$.',
-          'Cas courant : $[u^n]\'=n\\cdot u^{n-1}\\cdot u\'$.'
+          '<strong>Produit</strong> : $(uv)\'=u\'v+uv\'$.',
+          '<strong>Quotient</strong> : $\\left(\\frac{u}{v}\\right)\'=\\frac{u\'v-uv\'}{v^2}$.',
+          '<strong>Fonction composée</strong> : $(f\\circ g)\'(x)=g\'(x)\\cdot f\'(g(x))$.',
+          '<strong>Puissance composée</strong> : $[u^n]\'=n\\cdot u^{n-1}\\cdot u\'$.'
         ]
       },
       example: {

@@ -23,10 +23,10 @@ window.MODULES.push(
       method: {
         title: 'Calculer une intégrale définie',
         steps: [
-          'Trouver une primitive $F$ de $f$ (antidérivée : $F\'=f$). <strong>Exemple :</strong> $f(x) = 3x^2$ → $F(x) = x^3$ (car $(x^3)\' = 3x^2$).',
-          'Appliquer la formule : $\\int_a^b f(x)\\,dx = [F(x)]_a^b = F(b)-F(a)$. <strong>Exemple :</strong> $\\int_1^3 3x^2\\,dx = [x^3]_1^3 = 27 - 1 = 26$.',
-          'Valeur moyenne : $\\bar{f}=\\frac{1}{b-a}\\int_a^b f(x)\\,dx$. <strong>Exemple :</strong> $\\bar{f} = \\frac{26}{3-1} = 13$.',
-          'Intégration par parties : $\\int u\\,v\'\\,dx = [uv]-\\int u\'\\,v\\,dx$. <strong>Exemple :</strong> $\\int_0^1 x e^x\\,dx$ : $u = x$, $v\' = e^x$ → $[xe^x]_0^1 - \\int_0^1 e^x\\,dx = e - (e - 1) = 1$.'
+          '<strong>Recherche de la primitive</strong> : Trouver une primitive $F$ de $f$ (antidérivée : $F\'=f$). <strong>Exemple :</strong> $f(x) = 3x^2$ → $F(x) = x^3$ (car $(x^3)\' = 3x^2$).',
+          '<strong>Calcul de l\'intégrale définie</strong> : Appliquer la formule : $\\int_a^b f(x)\\,dx = [F(x)]_a^b = F(b)-F(a)$. <strong>Exemple :</strong> $\\int_1^3 3x^2\\,dx = [x^3]_1^3 = 27 - 1 = 26$.',
+          '<strong>Moyenne d\'une fonction</strong> : Valeur moyenne : $\\bar{f}=\\frac{1}{b-a}\\int_a^b f(x)\\,dx$. <strong>Exemple :</strong> $\\bar{f} = \\frac{26}{3-1} = 13$.',
+          '<strong>Intégration par parties</strong> : Intégration par parties : $\\int u\\,v\'\\,dx = [uv]-\\int u\'\\,v\\,dx$. <strong>Exemple :</strong> $\\int_0^1 x e^x\\,dx$ : $u = x$, $v\' = e^x$ → $[xe^x]_0^1 - \\int_0^1 e^x\\,dx = e - (e - 1) = 1$.'
         ]
       },
       example: {

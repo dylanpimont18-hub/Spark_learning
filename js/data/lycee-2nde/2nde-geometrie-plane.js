@@ -12,7 +12,7 @@ window.MODULES.push({
     keywords: ['Triangle', 'Parallélisme', 'Thalès', 'Médiane', 'Hauteur'],
     physics: false,
     cours: {
-      intro: 'La géométrie plane combine raisonnement logique et calcul pour prouver des propriétés sur des figures. Le théorème de Thalès permet de calculer des longueurs inaccessibles à partir de rapports entre segments parallèles. Dans un triangle, quatre droites remarquables se distinguent par leur définition : la médiane joint un sommet au milieu du côté opposé ; la hauteur est perpendiculaire au côté opposé (mais pas nécessairement en son milieu) ; la médiatrice est perpendiculaire au côté par son milieu ; la bissectrice divise l\'angle en deux parties égales. Confondre ces quatre notions est l\'une des erreurs les plus fréquentes en géométrie.',
+      intro: 'La géométrie plane combine raisonnement logique et calcul pour prouver des propriétés sur des figures.<br/><br/>Le <strong>théorème de Thalès</strong> permet de calculer des longueurs inaccessibles à partir de rapports entre segments parallèles.<br/><br/>Dans un triangle, quatre <strong>droites remarquables</strong> se distinguent par leur définition : la médiane joint un sommet au milieu du côté opposé ; la hauteur est perpendiculaire au côté opposé (mais pas nécessairement en son milieu) ; la médiatrice est perpendiculaire au côté par son milieu ; la bissectrice divise l\'angle en deux parties égales.<br/><br/>Confondre ces quatre notions est l\'une des erreurs les plus fréquentes en géométrie.',
       definitions: [
         { term: 'Théorème de Thalès', def: 'Si $(MN) \\parallel (BC)$ dans un triangle $ABC$ avec $M \\in [AB]$ et $N \\in [AC]$, alors $\\dfrac{AM}{AB} = \\dfrac{AN}{AC} = \\dfrac{MN}{BC}$.' },
         { term: 'Médiane', def: 'Droite joignant un sommet au milieu du côté opposé. Les trois médianes se coupent au centre de gravité.' },
@@ -22,10 +22,10 @@ window.MODULES.push({
       method: {
         title: 'Appliquer le théorème de Thalès',
         steps: [
-          'Identifier deux droites sécantes et deux droites parallèles coupant ces sécantes. <strong>Exemple :</strong> Dans le triangle $ABC$, si $M \\in [AB]$ et $N \\in [AC]$ avec $(MN) \\parallel (BC)$, la configuration est valide.',
-          'Écrire les rapports égaux : $\\frac{AM}{AB}=\\frac{AN}{AC}=\\frac{MN}{BC}$. <strong>Exemple :</strong> Si $AM = 3$, $AB = 9$ → le rapport est $\\frac{3}{9} = \\frac{1}{3}$.',
-          'Calculer la longueur inconnue par produit en croix. <strong>Exemple :</strong> $\\frac{1}{3} = \\frac{MN}{12}$ → $MN = \\frac{12}{3} = 4$.',
-          'Vérifier la cohérence (la longueur partielle est inférieure à la totale). <strong>Exemple :</strong> $MN = 4 < BC = 12$ ✓ (le petit triangle est plus petit).'
+          '<strong>Identifier la configuration</strong> : deux droites sécantes et deux droites parallèles coupant ces sécantes. <strong>Exemple :</strong> Dans le triangle $ABC$, si $M \\in [AB]$ et $N \\in [AC]$ avec $(MN) \\parallel (BC)$, la configuration est valide.',
+          '<strong>Écrire les rapports égaux</strong> : $\\frac{AM}{AB}=\\frac{AN}{AC}=\\frac{MN}{BC}$. <strong>Exemple :</strong> Si $AM = 3$, $AB = 9$ → le rapport est $\\frac{3}{9} = \\frac{1}{3}$.',
+          '<strong>Calculer la longueur inconnue</strong> par produit en croix. <strong>Exemple :</strong> $\\frac{1}{3} = \\frac{MN}{12}$ → $MN = \\frac{12}{3} = 4$.',
+          '<strong>Vérifier la cohérence</strong> (la longueur partielle est inférieure à la totale). <strong>Exemple :</strong> $MN = 4 < BC = 12$ ✓ (le petit triangle est plus petit).'
         ]
       },
       example: {

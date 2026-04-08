@@ -23,10 +23,10 @@ window.MODULES.push(
       method: {
         title: 'Optimiser une fonction économique',
         steps: [
-          'Définir la fonction à optimiser (profit, coût, recette) sur son domaine. <strong>Exemple :</strong> $R(x) = 20x$ (prix unitaire $20$ €), $C(x) = x^2 + 4x + 30$. Profit : $\\Pi(x) = -x^2 + 16x - 30$.',
-          'Calculer la dérivée et résoudre $f\'(x)=0$. <strong>Exemple :</strong> $\\Pi\'(x) = -2x + 16 = 0 \\Rightarrow x^* = 8$ unités.',
-          'Vérifier que c\'est bien un maximum (ou minimum) par le signe de $f\'$ ou $f\'\'$. <strong>Exemple :</strong> $\\Pi\'\'(x) = -2 < 0$ : c\'est bien un maximum.',
-          'Interpréter le résultat en unités économiques. <strong>Exemple :</strong> $\\Pi(8) = -64 + 128 - 30 = 34$ €. Produire $8$ unités maximise le profit à $34$ €.'
+          '<strong>Optimisation économique</strong> : Définir la fonction à optimiser (profit, coût, recette) sur son domaine. <strong>Exemple :</strong> $R(x) = 20x$ (prix unitaire $20$ €), $C(x) = x^2 + 4x + 30$. Profit : $\\Pi(x) = -x^2 + 16x - 30$.',
+          '<strong>Dérivée et points critiques</strong> : Calculer la dérivée et résoudre $f\'(x)=0$. <strong>Exemple :</strong> $\\Pi\'(x) = -2x + 16 = 0 \\Rightarrow x^* = 8$ unités.',
+          '<strong>Vérification du maximum</strong> : Vérifier que c\'est bien un maximum (ou minimum) par le signe de $f\'$ ou $f\'\'$. <strong>Exemple :</strong> $\\Pi\'\'(x) = -2 < 0$ : c\'est bien un maximum.',
+          '<strong>Interprétation économique</strong> : Interpréter le résultat en unités économiques. <strong>Exemple :</strong> $\\Pi(8) = -64 + 128 - 30 = 34$ €. Produire $8$ unités maximise le profit à $34$ €.'
         ]
       },
       example: {

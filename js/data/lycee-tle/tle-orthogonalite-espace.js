@@ -22,10 +22,10 @@ window.MODULES.push({
       method: {
         title: 'Distance d\'un point à un plan',
         steps: [
-          'Plan $\\mathcal{P}$ : $ax+by+cz+d=0$, point $M(x_0;y_0;z_0)$.',
-          'Distance : $d(M;\\mathcal{P})=\\dfrac{|ax_0+by_0+cz_0+d|}{\\sqrt{a^2+b^2+c^2}}$.',
-          'Droite $\\perp$ à un plan $\\Leftrightarrow$ son vecteur directeur est colinéaire au vecteur normal du plan.',
-          'Deux plans $\\perp$ $\\Leftrightarrow$ leurs vecteurs normaux sont $\\perp$ ($\\vec{n_1}\\cdot\\vec{n_2}=0$).'
+          '<strong>Équation et point</strong> : plan $\\mathcal{P}$ : $ax+by+cz+d=0$, point $M(x_0;y_0;z_0)$.',
+          '<strong>Distance point-plan</strong> : $d(M;\\mathcal{P})=\\dfrac{|ax_0+by_0+cz_0+d|}{\\sqrt{a^2+b^2+c^2}}$.',
+          '<strong>Perpendicularité</strong> : droite $\\perp$ à un plan $\\Leftrightarrow$ son vecteur directeur colinéaire au vecteur normal.',
+          '<strong>Plans perpendiculaires</strong> : deux plans $\\perp$ $\\Leftrightarrow$ leurs vecteurs normaux sont $\\perp$ ($\\vec{n_1}\\cdot\\vec{n_2}=0$).'
         ]
       },
       example: {

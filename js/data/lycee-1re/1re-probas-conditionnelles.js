@@ -22,10 +22,10 @@ window.MODULES.push({
       method: {
         title: 'Utiliser un arbre de probabilité',
         steps: [
-          'Représenter les événements en branches, les probabilités sur chaque branche.',
-          '$P(A\\cap B) = P(B)\\times P(A|B)$ (multiplication des branches).',
-          'La somme des probabilités à chaque nœud est $1$.',
-          'Additionner les branches favorables pour obtenir $P(A)$.'
+          '<strong>Arbre de probabilité</strong> : représenter les événements en branches, les probabilités sur chaque branche.',
+          '<strong>Multiplication des branches</strong> : $P(A\\cap B) = P(B)\\times P(A|B)$.',
+          '<strong>Normalisation</strong> : la somme des probabilités à chaque nœud est $1$.',
+          '<strong>Somme des chemins</strong> : additionner les branches favorables pour obtenir $P(A)$.'
         ]
       },
       example: {

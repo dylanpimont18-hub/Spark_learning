@@ -23,9 +23,9 @@ window.MODULES.push({
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Trouver la primitive $F(x)$ telle que $F\'(x) = f(x)$. Règle clé : la primitive de $x^n$ est $\\dfrac{x^{n+1}}{n+1}$ (pour $n \\neq -1$).',
-          'L\'intégrale définie : $\\int_a^b f(x)\\,dx = F(b) - F(a)$ (le crochet).',
-          'En physique, utiliser les conditions initiales pour fixer la constante d\'intégration $C$. Si $v(0) = v_0$, on en déduit $C$.'
+          '<strong>Primitive de fonctions usuelles</strong> : trouver $F(x)$ telle que $F\'(x) = f(x)$ ; la primitive de $x^n$ est $\\dfrac{x^{n+1}}{n+1}$ (pour $n \\neq -1$).',
+          '<strong>Intégrale définie</strong> : $\\int_a^b f(x)\\,dx = F(b) - F(a)$ (le crochet).',
+          '<strong>Conditions initiales</strong> : utiliser les conditions initiales pour fixer la constante d\'intégration $C$. Si $v(0) = v_0$, on en déduit $C$.'
         ]
       },
       example: {

@@ -23,9 +23,9 @@ window.MODULES.push({
       method: {
         title: 'Méthode',
         steps: [
-          'Définition angulaire : $\\vec{u} \\cdot \\vec{v} = \\|\\vec{u}\\| \\times \\|\\vec{v}\\| \\times \\cos(\\theta)$.',
-          'Définition par coordonnées : si $\\vec{u}(x_1, y_1)$ et $\\vec{v}(x_2, y_2)$, alors $\\vec{u} \\cdot \\vec{v} = x_1 x_2 + y_1 y_2$.',
-          'Orthogonalité : $\\vec{u} \\perp \\vec{v} \\Leftrightarrow \\vec{u} \\cdot \\vec{v} = 0$. Auto-produit : $\\vec{u} \\cdot \\vec{u} = \\|\\vec{u}\\|^2$.'
+          '<strong>Définition angulaire</strong> : $\\vec{u} \\cdot \\vec{v} = \\|\\vec{u}\\| \\times \\|\\vec{v}\\| \\times \\cos(\\theta)$.',
+          '<strong>Définition par coordonnées</strong> : si $\\vec{u}(x_1, y_1)$ et $\\vec{v}(x_2, y_2)$, alors $\\vec{u} \\cdot \\vec{v} = x_1 x_2 + y_1 y_2$.',
+          '<strong>Orthogonalité</strong> : $\\vec{u} \\perp \\vec{v} \\Leftrightarrow \\vec{u} \\cdot \\vec{v} = 0$. Auto-produit : $\\vec{u} \\cdot \\vec{u} = \\|\\vec{u}\\|^2$.'
         ]
       },
       example: {

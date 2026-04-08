@@ -23,10 +23,10 @@ window.MODULES.push({
       method: {
         title: 'Vérifier la résistance d\'une pièce en traction',
         steps: [
-          'Étape 1 — Identifier la sollicitation : traction, compression, flexion, cisaillement ou torsion ?<br/>En Première, on se concentre sur la <strong>traction-compression</strong> (effort normal).',
-          'Étape 2 — Calculer la contrainte : $\\sigma = \\dfrac{F}{S}$ avec $F$ en N et $S$ en m².<br/>Attention : $1$ mm² $= 10^{-6}$ m². C\'est l\'erreur de conversion la plus fréquente !',
-          'Étape 3 — Calculer la déformation (si demandée) : $\\varepsilon = \\dfrac{\\sigma}{E}$ puis $\\Delta L = \\varepsilon \\times L_0$.<br/>Ou directement : $\\Delta L = \\dfrac{F \\times L_0}{E \\times S}$.',
-          'Étape 4 — Vérifier la sécurité : $s = \\dfrac{\\sigma_e}{\\sigma_{\\max}}$.<br/>Si $s \\geq s_{\\text{requis}}$ → pièce correctement dimensionnée. Sinon, augmenter la section $S$.'
+          '<strong>Type de sollicitation</strong> : Étape 1 — Identifier la sollicitation : traction, compression, flexion, cisaillement ou torsion ?\nEn Première, on se concentre sur la <strong>traction-compression</strong> (effort normal).',
+          '<strong>Calcul de la contrainte</strong> : Étape 2 — Calculer la contrainte : $\\sigma = \\dfrac{F}{S}$ avec $F$ en N et $S$ en m².\nAttention : $1$ mm² $= 10^{-6}$ m². C\'est l\'erreur de conversion la plus fréquente !',
+          '<strong>Calcul de la déformation</strong> : Étape 3 — Calculer la déformation (si demandée) : $\\varepsilon = \\dfrac{\\sigma}{E}$ puis $\\Delta L = \\varepsilon \\times L_0$.\nOu directement : $\\Delta L = \\dfrac{F \\times L_0}{E \\times S}$.',
+          '<strong>Vérification de sécurité</strong> : Étape 4 — Vérifier la sécurité : $s = \\dfrac{\\sigma_e}{\\sigma_{\\max}}$.\nSi $s \\geq s_{\\text{requis}}$ → pièce correctement dimensionnée. Sinon, augmenter la section $S$.'
         ]
       },
       example: {

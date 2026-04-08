@@ -38,9 +38,9 @@ window.MODULES.push({
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Pour calculer la valeur : remplacer chaque lettre par sa valeur numérique, puis effectuer les calculs dans l\'ordre (priorités).',
-          'Pour réduire : regrouper les termes semblables (même variable avec même exposant). Ex : $3x + 2x = 5x$.',
-          'Attention aux signes : $-2x - 3x = -5x$ (les signes se combinent).'
+          '<strong>Calculer la valeur</strong> : remplacer chaque lettre par sa valeur numérique, puis effectuer les calculs dans l\'ordre (priorités).',
+          '<strong>Réduire</strong> : regrouper les termes semblables (même variable avec même exposant). Ex : $3x + 2x = 5x$.',
+          '<strong>Attention aux signes</strong> : $-2x - 3x = -5x$ (les signes se combinent).'
         ]
       },
       formulas: [

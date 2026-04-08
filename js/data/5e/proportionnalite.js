@@ -36,9 +36,9 @@ window.MODULES.push({
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Identifier les deux grandeurs proportionnelles et les noter dans un tableau à deux colonnes.',
-          'Poser le produit en croix : si $\\frac{a}{b} = \\frac{c}{d}$, alors $a \\times d = b \\times c$.',
-          'Isoler l\'inconnue et vérifier que le résultat est cohérent (ordre de grandeur, signe).'
+          '<strong>Identifier les grandeurs</strong> proportionnelles et les noter dans un tableau à deux colonnes.',
+          '<strong>Produit en croix</strong> : si $\\frac{a}{b} = \\frac{c}{d}$, alors $a \\times d = b \\times c$.',
+          '<strong>Isoler l\'inconnue</strong> et vérifier que le résultat est cohérent (ordre de grandeur, signe).'
         ]
       },
       formulas: [

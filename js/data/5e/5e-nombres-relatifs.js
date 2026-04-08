@@ -36,9 +36,9 @@ window.MODULES.push({
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Addition de relatifs : si même signe → additionner les valeurs absolues et garder le signe. Si signes opposés → soustraire les valeurs absolues et prendre le signe du plus grand.',
-          'Soustraction : transformer en addition de l\'opposé. $a - b = a + (-b)$. Ex : $3 - (-5) = 3 + 5 = 8$.',
-          'Valeur absolue $|a|$ = distance à zéro, toujours positive. $|-7| = 7$, $|+7| = 7$.'
+          '<strong>Addition de relatifs</strong> : si même signe → additionner les valeurs absolues et garder le signe. Si signes opposés → soustraire les valeurs absolues et prendre le signe du plus grand.',
+          '<strong>Soustraction</strong> : transformer en addition de l\'opposé. $a - b = a + (-b)$. Ex : $3 - (-5) = 3 + 5 = 8$.',
+          '<strong>Valeur absolue $|a|$</strong> = distance à zéro, toujours positive. $|-7| = 7$, $|+7| = 7$.'
         ]
       },
       formulas: [

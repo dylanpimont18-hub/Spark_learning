@@ -14,7 +14,10 @@ window.MODULES.push(
     physics: 'Décomposition de forces, lois de Snell-Descartes',
 
     cours: {
-      intro: 'Dans tout triangle rectangle, les rapports entre les côtés dépendent uniquement des angles — pas de la taille du triangle. La trigonométrie exploite cette invariance : $\\sin$, $\\cos$ et $\\tan$ sont des fonctions de l\'angle qui restent constantes pour tous les triangles semblables. SOH-CAH-TOA est le mémo qui associe chaque fonction à la bonne paire de côtés. En physique, décomposer une force ou une vitesse revient toujours à trouver des triangles rectangles cachés dans la situation réelle. La relation $\\sin^2(\\theta) + \\cos^2(\\theta) = 1$ relie les deux fonctions pour tout angle — c\'est le théorème de Pythagore exprimé en termes de rapports trigonométriques.',
+      intro: 'Dans tout triangle rectangle, les rapports entre les côtés dépendent <strong>uniquement des angles</strong> — jamais de la taille du triangle. La <strong>trigonométrie</strong> exploite cette invariance : $\\sin$, $\\cos$ et $\\tan$ sont des fonctions de l\'angle constantes pour tous les triangles semblables.<br/><br/>' +
+        '<strong>SOH-CAH-TOA</strong> est le mémo fondamental : Sinus = Opposé/Hypoténuse, Cosinus = Adjacent/Hypoténuse, Tangente = Opposé/Adjacent. Chaque fonction est liée à une paire précise de côtés.<br/><br/>' +
+        'En physique, <strong>décomposer une force</strong> ou une vitesse revient à trouver les <strong>triangles rectangles cachés</strong> dans la situation réelle.<br/><br/>' +
+        'La <strong>relation fondamentale</strong> $\\sin^2(\\theta) + \\cos^2(\\theta) = 1$ relie sinus et cosinus pour tout angle — c\'est le théorème de Pythagore exprimé en rapports trigonométriques.',
       definitions: [
         { term: 'Hypoténuse', def: 'Le <strong>plus grand côté</strong> du triangle rectangle, situé en face de l\'angle droit. C\'est toujours le dénominateur dans les formules de $\\sin$ et $\\cos$.' },
         { term: 'Sinus', def: 'Pour un angle $\\theta$ dans un triangle rectangle : $\\sin(\\theta) = \\dfrac{\\text{côté opposé}}{\\text{hypoténuse}}$.<br/><br/>Le sinus mesure le rapport entre le côté <strong>en face</strong> de l\'angle et l\'hypoténuse.' },
@@ -24,9 +27,9 @@ window.MODULES.push(
       method: {
         title: 'Méthode SOH-CAH-TOA',
         steps: [
-          'SOH : $\\sin(\\theta) = \\dfrac{\\text{côté Opposé}}{\\text{Hypoténuse}}$. Le côté "Opposé" est celui qui ne touche pas l\'angle $\\theta$.',
-          'CAH : $\\cos(\\theta) = \\dfrac{\\text{côté Adjacent}}{\\text{Hypoténuse}}$. Le côté "Adjacent" est celui qui touche l\'angle $\\theta$ (l\'autre côté, pas l\'hypoténuse).',
-          'TOA : $\\tan(\\theta) = \\dfrac{\\text{côté Opposé}}{\\text{côté Adjacent}} = \\dfrac{\\sin(\\theta)}{\\cos(\\theta)}$. Pour retrouver un angle : $\\theta = \\arccos\\left(\\frac{\\text{adj}}{\\text{hyp}}\\right)$.'
+          '<strong>SOH</strong> : $\\sin(\\theta) = \\dfrac{\\text{côté Opposé}}{\\text{Hypoténuse}}$.<br/>Le côté « Opposé » est celui qui <strong>ne touche pas</strong> l\'angle $\\theta$.',
+          '<strong>CAH</strong> : $\\cos(\\theta) = \\dfrac{\\text{côté Adjacent}}{\\text{Hypoténuse}}$.<br/>Le côté « Adjacent » est celui qui <strong>touche</strong> l\'angle $\\theta$ (l\'autre côté, pas l\'hypoténuse).',
+          '<strong>TOA</strong> : $\\tan(\\theta) = \\dfrac{\\text{côté Opposé}}{\\text{côté Adjacent}} = \\dfrac{\\sin(\\theta)}{\\cos(\\theta)}$.<br/>Pour retrouver l\'angle : $\\theta = \\arccos\\left(\\dfrac{\\text{adj}}{\\text{hyp}}\\right)$, $\\arcsin$, ou $\\arctan$.'
         ]
       },
       example: {

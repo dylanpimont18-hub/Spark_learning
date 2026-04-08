@@ -23,10 +23,10 @@ window.MODULES.push(
       method: {
         title: 'Résoudre une ED par Laplace',
         steps: [
-          'Transformer l\'équation différentielle avec $\\mathcal{L}\\{f\'\\}=pF(p)-f(0)$. <strong>Exemple :</strong> $y\' + 5y = 10$, $y(0) = 0$ → $pY(p) - 0 + 5Y(p) = 10/p$ → $(p+5)Y(p) = 10/p$.',
-          'Résoudre l\'équation algébrique en $F(p)$. <strong>Exemple :</strong> $Y(p) = \\frac{10}{p(p+5)}$.',
-          'Décomposer $F(p)$ en éléments simples. <strong>Exemple :</strong> $\\frac{10}{p(p+5)} = \\frac{A}{p} + \\frac{B}{p+5}$. En $p=0$ : $A = 2$. En $p=-5$ : $B = -2$. Donc $Y(p) = \\frac{2}{p} - \\frac{2}{p+5}$.',
-          'Inverser : utiliser le tableau des transformées pour trouver $f(t)$. <strong>Exemple :</strong> $y(t) = 2 - 2e^{-5t} = 2(1 - e^{-5t})$ pour $t \\geq 0$.'
+          '<strong>Transformation et équation algébrique</strong> : Transformer l\'équation différentielle avec $\\mathcal{L}\\{f\'\\}=pF(p)-f(0)$. <strong>Exemple :</strong> $y\' + 5y = 10$, $y(0) = 0$ → $pY(p) - 0 + 5Y(p) = 10/p$ → $(p+5)Y(p) = 10/p$.',
+          '<strong>Résolution algébrique</strong> : Résoudre l\'équation algébrique en $F(p)$. <strong>Exemple :</strong> $Y(p) = \\frac{10}{p(p+5)}$.',
+          '<strong>Décomposition en éléments simples</strong> : Décomposer $F(p)$ en éléments simples. <strong>Exemple :</strong> $\\frac{10}{p(p+5)} = \\frac{A}{p} + \\frac{B}{p+5}$. En $p=0$ : $A = 2$. En $p=-5$ : $B = -2$. Donc $Y(p) = \\frac{2}{p} - \\frac{2}{p+5}$.',
+          '<strong>Transformation inverse</strong> : Inverser : utiliser le tableau des transformées pour trouver $f(t)$. <strong>Exemple :</strong> $y(t) = 2 - 2e^{-5t} = 2(1 - e^{-5t})$ pour $t \\geq 0$.'
         ]
       },
       example: {

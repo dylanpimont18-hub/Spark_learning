@@ -23,10 +23,10 @@ window.MODULES.push(
       method: {
         title: 'Calculer la droite de régression',
         steps: [
-          'Calculer les moyennes $\\bar{x}$ et $\\bar{y}$, les variances $V_x$, $V_y$ et la covariance $\\text{Cov}(x,y)$. <strong>Exemple :</strong> Points $(1;3)$, $(2;5)$, $(3;7)$ → $\\bar{x} = 2$, $\\bar{y} = 5$, $\\overline{xy} = (3+10+21)/3 = 34/3 \\approx 11{,}33$, $\\text{Cov} = 11{,}33 - 10 = 1{,}33$.',
-          'Coefficient directeur : $a=\\dfrac{\\text{Cov}(x,y)}{V_x}$. <strong>Exemple :</strong> $V_x = \\overline{x^2} - \\bar{x}^2 = 14/3 - 4 = 2/3$. $a = 1{,}33/(2/3) = 2$.',
-          'Ordonnée à l\'origine : $b=\\bar{y}-a\\bar{x}$. <strong>Exemple :</strong> $b = 5 - 2 \\times 2 = 1$. Droite : $y = 2x + 1$.',
-          'Coefficient de corrélation : $r=\\dfrac{\\text{Cov}(x,y)}{\\sigma_x\\sigma_y}\\in[-1;1]$. <strong>Exemple :</strong> Ici $r = 1$ (alignement parfait sur la droite).'
+          '<strong>Covariance et variances</strong> : Calculer les moyennes $\\bar{x}$ et $\\bar{y}$, les variances $V_x$, $V_y$ et la covariance $\\text{Cov}(x,y)$. <strong>Exemple :</strong> Points $(1;3)$, $(2;5)$, $(3;7)$ → $\\bar{x} = 2$, $\\bar{y} = 5$, $\\overline{xy} = (3+10+21)/3 = 34/3 \\approx 11{,}33$, $\\text{Cov} = 11{,}33 - 10 = 1{,}33$.',
+          '<strong>Pente de la droite</strong> : Coefficient directeur : $a=\\dfrac{\\text{Cov}(x,y)}{V_x}$. <strong>Exemple :</strong> $V_x = \\overline{x^2} - \\bar{x}^2 = 14/3 - 4 = 2/3$. $a = 1{,}33/(2/3) = 2$.',
+          '<strong>Ordonnée à l\'origine</strong> : Ordonnée à l\'origine : $b=\\bar{y}-a\\bar{x}$. <strong>Exemple :</strong> $b = 5 - 2 \\times 2 = 1$. Droite : $y = 2x + 1$.',
+          '<strong>Coefficient de corrélation</strong> : Coefficient de corrélation : $r=\\dfrac{\\text{Cov}(x,y)}{\\sigma_x\\sigma_y}\\in[-1;1]$. <strong>Exemple :</strong> Ici $r = 1$ (alignement parfait sur la droite).'
         ]
       },
       example: {

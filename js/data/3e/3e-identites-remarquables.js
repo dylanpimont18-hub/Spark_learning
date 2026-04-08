@@ -13,7 +13,10 @@ window.MODULES.push(
     keywords: ['Identités remarquables', 'Développer', 'Factoriser', 'Carré', 'Différence'],
     physics: false,
     cours: {
-      intro: 'Les trois identités remarquables sont des égalités algébriques vraies pour toutes valeurs de $a$ et $b$. Elles permettent deux opérations inverses : développer (produit → somme) et factoriser (somme → produit). La troisième, $(a+b)(a-b) = a^2 - b^2$, est redoutable pour le calcul mental : $99 \\times 101 = (100-1)(100+1) = 10000 - 1 = 9999$ en deux secondes ! L\'erreur la plus répandue est d\'écrire $(a+b)^2 = a^2 + b^2$ en oubliant le terme croisé $2ab$ : $(3+4)^2 = 49 \\neq 9 + 16 = 25$. Pour factoriser $x^2 - k$, la troisième identité exige que $k$ soit un carré parfait ; sinon, on écrit $x^2 - k = (x - \\sqrt{k})(x + \\sqrt{k})$ avec une racine irrationnelle.',
+      intro: 'Les trois <strong>identités remarquables</strong> sont des égalités algébriques vraies pour toutes valeurs de $a$ et $b$. Elles permettent deux opérations inverses : <strong>développer</strong> (produit → somme) et <strong>factoriser</strong> (somme → produit).<br/><br/>' +
+        'La troisième identité, $(a+b)(a-b) = a^2 - b^2$, est redoutable pour le <strong>calcul mental</strong> : $99 \\times 101 = (100-1)(100+1) = 10\\,000 - 1 = 9\\,999$ en deux secondes !<br/><br/>' +
+        '<strong>Erreur classique à éviter</strong> : $(a+b)^2 \\neq a^2 + b^2$. Le terme croisé $2ab$ est souvent oublié : $(3+4)^2 = 49 \\neq 9 + 16 = 25$.<br/><br/>' +
+        'Pour <strong>factoriser</strong> $x^2 - k$ : si $k$ est un carré parfait, appliquer la 3e identité ; sinon, écrire $x^2 - k = (x - \\sqrt{k})(x + \\sqrt{k})$.',
       definitions: [
         { term: 'Développer', def: 'Transformer un <strong>produit</strong> en <strong>somme</strong>.<br/><br/>Exemple : $(a+b)^2$ devient $a^2 + 2ab + b^2$. On « ouvre » les parenthèses.' },
         { term: 'Factoriser', def: 'Transformer une <strong>somme</strong> en <strong>produit</strong> — l\'opération inverse du développement.<br/><br/>Exemple : $a^2 - b^2$ devient $(a+b)(a-b)$.' },
@@ -23,9 +26,9 @@ window.MODULES.push(
       method: {
         title: 'Les trois identités à retenir',
         steps: [
-          '$(a + b)^2 = a^2 + 2ab + b^2$ (carré d\'une somme)',
-          '$(a - b)^2 = a^2 - 2ab + b^2$ (carré d\'une différence)',
-          '$(a + b)(a - b) = a^2 - b^2$ (produit de la somme et de la différence)'
+          '<strong>Identité 1 — Carré d\'une somme</strong> : $(a + b)^2 = a^2 + 2ab + b^2$.<br/><em>Exemple :</em> $(3+2)^2 = 9 + 12 + 4 = 25$ ✓',
+          '<strong>Identité 2 — Carré d\'une différence</strong> : $(a - b)^2 = a^2 - 2ab + b^2$.<br/><em>Exemple :</em> $(7-3)^2 = 49 - 42 + 9 = 16$ ✓',
+          '<strong>Identité 3 — Produit somme × différence</strong> : $(a + b)(a - b) = a^2 - b^2$.<br/><em>Exemple :</em> $101 \\times 99 = (100+1)(100-1) = 10\\,000 - 1 = 9\\,999$ ✓'
         ]
       },
       example: {

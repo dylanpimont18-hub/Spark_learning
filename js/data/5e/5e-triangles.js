@@ -37,9 +37,9 @@ window.MODULES.push({
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Vérifier l\'inégalité triangulaire : le plus grand côté < somme des deux autres.',
-          'Identifier le type : isocèle (2 côtés égaux), équilatéral (3 côtés égaux), rectangle (angle droit vérifié par Pythagore).',
-          'Calculer un angle manquant : angle inconnu = $180° - $ (somme des deux autres angles).'
+          '<strong>Vérifier l\'inégalité triangulaire</strong> : le plus grand côté < somme des deux autres.',
+          '<strong>Identifier le type</strong> : isocèle (2 côtés égaux), équilatéral (3 côtés égaux), rectangle (angle droit vérifié par Pythagore).',
+          '<strong>Calculer un angle manquant</strong> : angle inconnu = $180° - $ (somme des deux autres angles).'
         ]
       },
       formulas: [

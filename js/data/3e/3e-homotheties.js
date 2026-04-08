@@ -13,7 +13,10 @@ window.MODULES.push(
     keywords: ['Homothétie', 'Rapport', 'Centre', 'Agrandissement', 'Réduction', 'Similitude'],
     physics: false,
     cours: {
-      intro: 'L\'homothétie est la transformation géométrique qui réalise tous les agrandissements et réductions : elle conserve les angles et multiplie toutes les longueurs par $|k|$. Le centre $O$ est le seul point qui reste fixe ; tous les autres « glissent » sur leur droite passant par $O$. Si $k > 0$, l\'image est du même côté que l\'original ; si $k < 0$, elle passe de l\'autre côté du centre (retournement). En optique, une lentille réalise une homothétie entre objet et image. La propriété sur les aires est souvent sous-estimée : multiplier les longueurs par $k$ multiplie les aires par $k^2$ — un agrandissement de facteur $3$ donne une aire $9$ fois plus grande.',
+      intro: 'L\'<strong>homothétie</strong> est la transformation géométrique qui réalise tous les agrandissements et réductions. Elle <strong>conserve les angles</strong> et multiplie toutes les longueurs par $|k|$, où $k$ est le <strong>rapport</strong>.<br/><br/>' +
+        'Le <strong>centre $O$</strong> est le seul point fixe : tous les autres « glissent » sur leur droite passant par $O$. Si $k > 0$, l\'image est du même côté ; si $k < 0$, elle est de l\'autre côté du centre (retournement).<br/><br/>' +
+        'En optique, une lentille réalise une <strong>homothétie entre objet et image</strong>.<br/><br/>' +
+        '<strong>Piège des aires</strong> : multiplier les longueurs par $k$ multiplie les <strong>aires par $k^2$</strong> — un agrandissement de facteur $3$ donne une aire $9$ fois plus grande !',
       definitions: [
         { term: 'Homothétie', def: 'Transformation géométrique qui associe à tout point $A$ un point $A\'$ tel que $\\vec{OA\'} = k \\cdot \\vec{OA}$. Elle <strong>conserve les formes</strong> mais change les dimensions.' },
         { term: 'Centre', def: 'Le point fixe $O$ de l\'homothétie : c\'est le <strong>seul point qui ne bouge pas</strong>. Tous les autres points « glissent » le long de la droite qui les relie à $O$.' },
@@ -23,9 +26,9 @@ window.MODULES.push(
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Identifier le centre $O$ et le rapport $k$.',
-          'Image de $A$ : $A\'$ tel que $\\vec{OA\'} = k \\cdot \\vec{OA}$. En coordonnées : $A\'(x_O + k(x_A - x_O) \\,;\\, y_O + k(y_A - y_O))$.',
-          'Les longueurs sont multipliées par $|k|$ ; les aires par $k^2$ ; le périmètre par $|k|$.'
+          '<strong>Étape 1 : Identifier</strong> le centre $O$ et le rapport $k$ (donné dans l\'énoncé).',
+          '<strong>Étape 2 : Construire l\'image</strong> de $A$ : le point $A\'$ tel que $\\vec{OA\'} = k \\cdot \\vec{OA}$.<br/>En coordonnées : $A\'\\bigl(x_O + k(x_A - x_O) \\,;\\, y_O + k(y_A - y_O)\\bigr)$.',
+          '<strong>Étape 3 : Calculer</strong> les nouvelles dimensions :<br/>— Longueurs : $\\times |k|$<br/>— Aires : $\\times k^2$<br/>— Angles : conservés (inchangés)'
         ]
       },
       example: {

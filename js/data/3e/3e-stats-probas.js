@@ -13,7 +13,11 @@ window.MODULES.push(
     keywords: ['Tableau croisé', 'Fréquence conditionnelle', 'Probabilité', 'Effectif', 'Proportion'],
     physics: false,
     cours: {
-      intro: 'Un tableau croisé (ou de contingence) analyse simultanément deux caractères d\'une population et révèle leurs dépendances éventuelles. La clé est de distinguer deux types de fréquences : la fréquence globale (effectif de la case / total général) et la fréquence conditionnelle (effectif / total de la sous-population). La fréquence conditionnelle répond à « parmi les personnes de type $B$, quelle proportion est de type $A$ ? » — c\'est la base des probabilités conditionnelles. Deux caractères sont indépendants si la fréquence conditionnelle est égale à la fréquence globale : connaître l\'un ne donne aucune information sur l\'autre. Cette notion d\'indépendance est fondamentale en statistique et en médecine (tests cliniques, études épidémiologiques).',
+      intro: 'Un <strong>tableau croisé</strong> (ou de contingence) analyse simultanément deux caractères d\'une population et révèle leurs dépendances éventuelles. La clé est de distinguer deux types de fréquences.<br/><br/>' +
+        'La <strong>fréquence globale</strong> : effectif de la case / total général — répond à « quelle proportion dans toute la population ? ».<br/>' +
+        'La <strong>fréquence conditionnelle</strong> : effectif / total de la sous-population — répond à « parmi les personnes de type $B$, quelle proportion est de type $A$ ? ».<br/><br/>' +
+        'Deux caractères sont <strong>indépendants</strong> si la fréquence conditionnelle est égale à la fréquence globale : connaître l\'un ne donne aucune information sur l\'autre.<br/><br/>' +
+        'Cette notion est fondamentale en <strong>statistique et médecine</strong> (tests cliniques, études épidémiologiques).',
       definitions: [
         { term: 'Tableau croisé', def: 'Tableau à double entrée qui croise <strong>deux caractères</strong> d\'une population. Les lignes représentent un caractère, les colonnes un autre, et chaque case contient un effectif.' },
         { term: 'Fréquence globale', def: 'Proportion d\'une case par rapport au <strong>total général</strong> : $f = \\dfrac{n_{ij}}{N}$. Elle répond à « quelle part de la population totale ? ».' },
@@ -23,9 +27,9 @@ window.MODULES.push(
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          'Lire le tableau : les lignes représentent un caractère, les colonnes un autre. Les marges donnent les totaux.',
-          'Fréquence globale : $f = \\dfrac{\\text{effectif de la case}}{\\text{effectif total}}$.',
-          'Fréquence conditionnelle : $f_{A|B} = \\dfrac{\\text{effectif}(A \\cap B)}{\\text{effectif de }B}$ (proportion dans une sous-population).'
+          '<strong>Étape 1 : Lire le tableau</strong> — les lignes représentent un caractère, les colonnes un autre. Les <strong>marges</strong> donnent les totaux (lignes et colonnes).',
+          '<strong>Étape 2 : Fréquence globale</strong> : $f = \\dfrac{\\text{effectif de la case}}{\\text{effectif total}}$.<br/><em>Question :</em> « Quelle proportion dans TOUTE la population ? »',
+          '<strong>Étape 3 : Fréquence conditionnelle</strong> : $f_{A|B} = \\dfrac{\\text{effectif}(A \\cap B)}{\\text{effectif de }B}$.<br/><em>Question :</em> « Parmi les $B$, quelle proportion est aussi $A$ ? »'
         ]
       },
       example: {

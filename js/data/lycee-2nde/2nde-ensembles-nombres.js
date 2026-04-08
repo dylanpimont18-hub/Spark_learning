@@ -12,7 +12,7 @@ window.MODULES.push({
     keywords: ['Ensemble', 'Intervalle', 'Réels', 'Appartenance'],
     physics: false,
     cours: {
-      intro: 'Les nombres se classent en ensembles emboîtés : $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$. Un réel est rationnel s\'il peut s\'écrire $p/q$ (avec $p, q$ entiers, $q \\neq 0$) — sinon il est irrationnel comme $\\sqrt{2}$ ou $\\pi$. Les décimaux périodiques (comme $1{,}\\overline{3} = 4/3$) sont tous rationnels. Les intervalles décrivent des ensembles continus de réels avec une notation compacte : un crochet fermé $[$ inclut la borne, un crochet ouvert $]$ l\'exclut. L\'infini n\'est pas un nombre — la borne infinie est toujours ouverte. Les opérations sur intervalles ($\\cap$, $\\cup$) permettent d\'exprimer les domaines de définition et les conditions de validité des formules.',
+      intro: 'Les nombres se classent en <strong>ensembles emboîtés</strong> : $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$.<br/><br/>Un réel est <strong>rationnel</strong> s\'il peut s\'écrire $p/q$ (avec $p, q$ entiers, $q \\neq 0$) — sinon il est <strong>irrationnel</strong> comme $\\sqrt{2}$ ou $\\pi$. Les décimaux périodiques (comme $1{,}\\overline{3} = 4/3$) sont tous rationnels.<br/><br/>Les <strong>intervalles</strong> décrivent des ensembles continus de réels avec une notation compacte : un crochet fermé $[$ inclut la borne, un crochet ouvert $]$ l\'exclut. L\'infini n\'est pas un nombre — la borne infinie est toujours ouverte.<br/><br/>Les opérations sur intervalles ($\\cap$, $\\cup$) permettent d\'exprimer les domaines de définition et les conditions de validité des formules.',
       definitions: [
         { term: 'Entiers naturels $\\mathbb{N}$', def: 'Ensemble $\\{0 ; 1 ; 2 ; 3 ; \\ldots\\}$ : les nombres entiers positifs ou nuls.' },
         { term: 'Entiers relatifs $\\mathbb{Z}$', def: 'Ensemble $\\{\\ldots ; -2 ; -1 ; 0 ; 1 ; 2 ; \\ldots\\}$ : les entiers avec leur signe.' },
@@ -22,10 +22,10 @@ window.MODULES.push({
       method: {
         title: 'Lire et écrire un intervalle',
         steps: [
-          'Crochet fermé $[$ ou $]$ : la borne est incluse. <strong>Exemple :</strong> $[3 ; 7]$ signifie $3 \\le x \\le 7$ (les bornes $3$ et $7$ font partie de l\'ensemble).',
-          'Crochet ouvert $]$ ou $[$ : la borne est exclue. <strong>Exemple :</strong> $]2 ; 5[$ signifie $2 < x < 5$ (ni $2$ ni $5$ ne font partie de l\'ensemble).',
-          'Pour $+\\infty$ ou $-\\infty$, toujours utiliser un crochet ouvert. <strong>Exemple :</strong> $[3 ; +\\infty[$ signifie $x \\ge 3$.',
-          'Intersection $\\cap$ = valeurs communes ; union $\\cup$ = toutes les valeurs. <strong>Exemple :</strong> $[1 ; 5] \\cap [3 ; 8] = [3 ; 5]$ ; $[1 ; 5] \\cup [3 ; 8] = [1 ; 8]$.'
+          '<strong>Crochet fermé</strong> $[$ ou $]$ : la borne est incluse. <strong>Exemple :</strong> $[3 ; 7]$ signifie $3 \\le x \\le 7$ (les bornes $3$ et $7$ font partie de l\'ensemble).',
+          '<strong>Crochet ouvert</strong> $]$ ou $[$ : la borne est exclue. <strong>Exemple :</strong> $]2 ; 5[$ signifie $2 < x < 5$ (ni $2$ ni $5$ ne font partie de l\'ensemble).',
+          '<strong>Bornes infinies</strong> : toujours utiliser un crochet ouvert pour $+\\infty$ ou $-\\infty$. <strong>Exemple :</strong> $[3 ; +\\infty[$ signifie $x \\ge 3$.',
+          '<strong>Intersection $\\cap$</strong> = valeurs communes ; <strong>union $\\cup$</strong> = toutes les valeurs. <strong>Exemple :</strong> $[1 ; 5] \\cap [3 ; 8] = [3 ; 5]$ ; $[1 ; 5] \\cup [3 ; 8] = [1 ; 8]$.'
         ]
       },
       example: {
