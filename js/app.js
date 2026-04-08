@@ -53,7 +53,11 @@ function buildHash(view, data) {
     case 'home':       return '#home';
     case 'subjects':   return '#subjects';
     case 'levels':     return `#levels/${data.subject || state.subject || 'maths'}`;
-    case 'modules':    return `#modules/${data.subject || state.subject || 'maths'}/${data.level !== undefined ? data.level : state.level}`;
+    case 'modules': {
+      const level = data.level !== undefined ? data.level : state.level;
+      const levelPart = level === 'all' ? 'all' : level;
+      return `#modules/${data.subject || state.subject || 'maths'}/${levelPart}`;
+    }
     case 'module': {
       const mid = data.moduleId || state.moduleId;
       const tab = data.tab || state.tab || 'cours';
@@ -80,6 +84,7 @@ function parseHash(hash) {
     case 'modules':
       // Rétrocompat: #modules/1 (ancien format sans subject)
       if (/^\d+$/.test(parts[1])) return { view: 'modules', subject: 'maths', level: parseInt(parts[1]) };
+      if (parts[2] === 'all') return { view: 'modules', subject: parts[1] || 'maths', level: 'all' };
       return { view: 'modules', subject: parts[1] || 'maths', level: parseInt(parts[2]) || 1 };
     case 'module':      return { view: 'module', moduleId: parts[1], tab: parts[2] || 'cours' };
     case 'companion':   return { view: 'companion', moduleId: parts[1] };
@@ -177,7 +182,9 @@ function navigate(view, data = {}, options = {}) {
   if (view === 'modules') {
     const subject = state.subject || 'maths';
     const level = state.level;
-    if (level && typeof ensureLevelData === 'function') {
+    if (level === 'all' && typeof ensureAllData === 'function') {
+      loadPromise = ensureAllData();
+    } else if (level && typeof ensureLevelData === 'function') {
       loadPromise = ensureLevelData(subject, level);
     }
   } else if (view === 'module' || view === 'flashcards' || view === 'chrono' || view === 'companion') {
@@ -267,7 +274,8 @@ function updatePageTitle() {
     }
     case 'modules': {
       const s = getSubjectDef(state.subject || 'maths');
-      document.title = `${LEVEL_NAMES[state.level] || ''} ${s.label} \u2014 ${base}`;
+      const levelLabel = state.level === 'all' ? 'Tous niveaux' : (LEVEL_NAMES[state.level] || '');
+      document.title = `${levelLabel} ${s.label} \u2014 ${base}`;
       break;
     }
     case 'module': {
@@ -389,6 +397,11 @@ function _applyModuleFilters() {
         const pA = parseInt(a.dataset.progress || '0');
         const pB = parseInt(b.dataset.progress || '0');
         return pB - pA;
+      }
+      if (sortBy === 'theme') {
+        const themeCmp = (a.dataset.theme || '').localeCompare((b.dataset.theme || ''), 'fr');
+        if (themeCmp !== 0) return themeCmp;
+        return (a.dataset.title || '').localeCompare((b.dataset.title || ''), 'fr');
       }
       return 0;
     });
@@ -795,8 +808,113 @@ function setModuleAccessMode(moduleId, mode) {
   render();
 }
 
+/* ── Global module search (available from all pages) ── */
+function _globalSearchNormalize(str) {
+  return (str || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+}
+
+function _findGlobalModules(query) {
+  const q = _globalSearchNormalize(query);
+  if (!q || q.length < 2) return [];
+
+  const terms = q.split(/\s+/).filter(Boolean);
+  const list = window.MODULES || [];
+
+  return list.map(mod => {
+    const title = _globalSearchNormalize(mod.title);
+    const subtitle = _globalSearchNormalize(mod.subtitle);
+    const keywords = _globalSearchNormalize((mod.keywords || []).join(' '));
+    const haystack = `${title} ${subtitle} ${keywords}`;
+    const allTermsMatch = terms.every(t => haystack.includes(t));
+    if (!allTermsMatch) return null;
+
+    // Score léger: privilégie les titres qui commencent par la requête
+    const score =
+      (title.startsWith(q) ? 30 : 0) +
+      (title.includes(q) ? 15 : 0) +
+      (keywords.includes(q) ? 8 : 0) +
+      (subtitle.includes(q) ? 4 : 0);
+
+    return { mod, score };
+  }).filter(Boolean)
+    .sort((a, b) => b.score - a.score || a.mod.title.localeCompare(b.mod.title, 'fr'))
+    .slice(0, 8)
+    .map(x => x.mod);
+}
+
+function _renderGlobalSearchResults(query) {
+  const panel = document.getElementById('global-search-panel');
+  const resultsEl = document.getElementById('global-search-results');
+  if (!panel || !resultsEl) return;
+
+  const results = _findGlobalModules(query);
+  if (!query || query.trim().length < 2) {
+    resultsEl.innerHTML = '<div class="global-search-empty">Tape au moins 2 caractères</div>';
+    return;
+  }
+
+  if (results.length === 0) {
+    resultsEl.innerHTML = '<div class="global-search-empty">Aucun module trouvé</div>';
+    return;
+  }
+
+  resultsEl.innerHTML = results.map(mod => {
+    const subject = getSubjectDef(mod.subject || 'maths');
+    const levelLabel = LEVEL_NAMES[mod.level] || 'Niveau';
+    return `
+      <button class="global-search-result" onclick="openModuleFromGlobalSearch('${mod.id}')">
+        <span class="global-search-result-icon">${mod.icon || '📘'}</span>
+        <span class="global-search-result-content">
+          <span class="global-search-result-title">${mod.title}</span>
+          <span class="global-search-result-meta">${subject.icon} ${subject.label} · ${levelLabel}</span>
+        </span>
+      </button>
+    `;
+  }).join('');
+}
+
+function openGlobalSearchPanel() {
+  const panel = document.getElementById('global-search-panel');
+  const input = document.getElementById('global-module-search');
+  const toggle = document.getElementById('global-search-toggle');
+  if (!panel || !input || !toggle) return;
+  panel.classList.add('open');
+  panel.setAttribute('aria-hidden', 'false');
+  toggle.setAttribute('aria-expanded', 'true');
+  input.focus();
+  _renderGlobalSearchResults(input.value || '');
+}
+
+function closeGlobalSearchPanel() {
+  const panel = document.getElementById('global-search-panel');
+  const toggle = document.getElementById('global-search-toggle');
+  if (!panel || !toggle) return;
+  panel.classList.remove('open');
+  panel.setAttribute('aria-hidden', 'true');
+  toggle.setAttribute('aria-expanded', 'false');
+}
+
+function toggleGlobalSearchPanel() {
+  const panel = document.getElementById('global-search-panel');
+  if (!panel) return;
+  if (panel.classList.contains('open')) closeGlobalSearchPanel();
+  else openGlobalSearchPanel();
+}
+
+function openModuleFromGlobalSearch(moduleId) {
+  closeGlobalSearchPanel();
+  navigate('module', { moduleId });
+}
+
 /* ── Keyboard shortcuts ── */
 document.addEventListener('keydown', (e) => {
+  // Ctrl/Cmd + K: ouvrir la recherche globale
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+    e.preventDefault();
+    openGlobalSearchPanel();
+    return;
+  }
+
   // Don't intercept if typing in an input (except Escape and Ctrl+Shift+P)
   if (e.key !== 'Escape' && !(e.ctrlKey && e.shiftKey && e.key === 'P') &&
       (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT')) return;
@@ -810,6 +928,13 @@ document.addEventListener('keydown', (e) => {
 
   // Escape: close modals, contact panel, then navigate back
   if (e.key === 'Escape') {
+    const globalSearch = document.getElementById('global-search-panel');
+    if (globalSearch && globalSearch.classList.contains('open')) {
+      e.preventDefault();
+      closeGlobalSearchPanel();
+      return;
+    }
+
     // Close teacher modal first
     const teacherModal = document.getElementById('teacher-modal');
     if (teacherModal) { e.preventDefault(); closeTeacherErrorModal(); return; }
@@ -877,6 +1002,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('nav-teacher')?.addEventListener('click', () => navigate('teacher'));
   document.getElementById('nav-homework')?.addEventListener('click', () => navigate('homework'));
   document.getElementById('projector-toggle')?.addEventListener('click', toggleProjector);
+  document.getElementById('global-search-toggle')?.addEventListener('click', toggleGlobalSearchPanel);
   document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
   document.getElementById('logo-link')?.addEventListener('click', (e) => {
     e.preventDefault();
@@ -907,6 +1033,23 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('contact-close')?.addEventListener('click', closeContactPanel);
   document.getElementById('contact-form')?.addEventListener('submit', handleContactSubmit);
 
+  // Global search panel
+  const globalSearchInput = document.getElementById('global-module-search');
+  globalSearchInput?.addEventListener('input', (e) => {
+    _renderGlobalSearchResults(e.target.value || '');
+  });
+  globalSearchInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const first = _findGlobalModules(globalSearchInput.value || '')[0];
+      if (first) {
+        e.preventDefault();
+        openModuleFromGlobalSearch(first.id);
+      }
+    }
+  });
+
+  document.getElementById('global-search-close')?.addEventListener('click', closeGlobalSearchPanel);
+
   // Close contact panel on outside click
   document.addEventListener('click', (e) => {
     const panel = document.getElementById('contact-panel');
@@ -914,6 +1057,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (panel && panel.classList.contains('open') &&
         !panel.contains(e.target) && e.target !== btn) {
       closeContactPanel();
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    const panel = document.getElementById('global-search-panel');
+    const toggle = document.getElementById('global-search-toggle');
+    if (!panel || !toggle) return;
+    if (panel.classList.contains('open') && !panel.contains(e.target) && e.target !== toggle) {
+      closeGlobalSearchPanel();
     }
   });
 

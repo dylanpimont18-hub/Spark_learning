@@ -408,7 +408,13 @@ function renderModulesList() {
   const allLevels = LEVEL_DEFS
     .filter(l => subjectDef.availableLevels.includes(l.id))
     .map(l => ({ id: l.id, label: `${l.icon} ${l.label}` }));
-  const modules = window.MODULES.filter(m => m.level === state.level && (m.subject || 'maths') === subjectDef.id);
+  allLevels.unshift({ id: 'all', label: '🧭 Tous niveaux' });
+
+  const modules = window.MODULES.filter(m => {
+    const sameSubject = (m.subject || 'maths') === subjectDef.id;
+    const matchLevel = state.level === 'all' ? true : m.level === state.level;
+    return sameSubject && matchLevel;
+  });
 
   const kwFreq = {};
   modules.forEach(m => m.keywords.forEach(k => { kwFreq[k] = (kwFreq[k] || 0) + 1; }));
@@ -453,6 +459,7 @@ function renderModulesList() {
             <option value="default" ${state.sortBy === 'default' ? 'selected' : ''}>Ordre du programme</option>
             <option value="alpha" ${state.sortBy === 'alpha' ? 'selected' : ''}>Alphabétique</option>
             <option value="progress" ${state.sortBy === 'progress' ? 'selected' : ''}>Progression ↓</option>
+            <option value="theme" ${state.sortBy === 'theme' ? 'selected' : ''}>Thème (mots-clés)</option>
           </select>
         </div>
         <button class="btn btn-outline btn-print-batch" onclick="toggleBatchPrintMode()">
@@ -486,6 +493,7 @@ function renderModulesList() {
                  data-title="${m.title.toLowerCase().replace(/"/g, '&quot;')}"
                  data-subtitle="${m.subtitle.toLowerCase().replace(/"/g, '&quot;')}"
                  data-keywords="${m.keywords.join('|').toLowerCase().replace(/"/g, '&quot;')}"
+                 data-theme="${(m.keywords[0] || '').toLowerCase().replace(/"/g, '&quot;')}"
                  data-progress="${prog.pct}">
               <div class="module-card-top">
                 <div class="module-card-icon">${m.icon}</div>

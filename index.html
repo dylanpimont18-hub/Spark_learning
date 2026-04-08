@@ -38,11 +38,24 @@
         <button class="nav-link" id="nav-teacher" aria-label="Espace Enseignant">Enseignant</button>
       </nav>
       <div style="display:flex;align-items:center;gap:8px;">
+        <button class="theme-toggle" id="global-search-toggle" aria-label="Rechercher un module" aria-expanded="false" title="Rechercher un module (Ctrl+K)">&#x1F50D;</button>
         <button class="homework-badge" id="nav-homework" aria-label="Mon devoir" style="background:none;border:none;cursor:pointer;font-size:1.2rem;position:relative;">
           &#x1F4CB;<span class="homework-badge-count" id="homework-badge-count" style="display:none;">0</span>
         </button>
         <button class="theme-toggle" id="projector-toggle" aria-label="Mode pr&#233;sentation" title="Mode Vid&#233;oprojecteur (Ctrl+Shift+P)" style="font-size:1.1rem;">&#x1F4FA;</button>
         <button class="theme-toggle" id="theme-toggle" aria-label="Basculer le th&#232;me">&#x1F319;</button>
+      </div>
+
+      <div class="global-search-panel" id="global-search-panel" aria-hidden="true">
+        <div class="global-search-panel-header">
+          <strong>Rechercher un module</strong>
+          <button class="global-search-close" id="global-search-close" aria-label="Fermer">&times;</button>
+        </div>
+        <div class="global-search-input-wrap">
+          <span aria-hidden="true">&#x1F50D;</span>
+          <input type="text" id="global-module-search" class="global-search-input" placeholder="Fonctions, suites, Pythagore, loi normale..." autocomplete="off" spellcheck="false" />
+        </div>
+        <div class="global-search-results" id="global-search-results"></div>
       </div>
     </div>
   </header>
