@@ -332,6 +332,77 @@ function renderLevels() {
   `;
 }
 
+function renderAdminPage() {
+  const modules = (window.MODULES || []).slice().sort((a, b) => {
+    if (a.level !== b.level) return a.level - b.level;
+    const sa = (a.subject || 'maths').localeCompare((b.subject || 'maths'), 'fr');
+    if (sa !== 0) return sa;
+    return a.title.localeCompare(b.title, 'fr');
+  });
+
+  const lockedCount = modules.filter(m => isModuleLocked(m.id)).length;
+  const maintenanceCount = modules.filter(m => isModuleInMaintenance(m.id)).length;
+
+  return `
+    <div class="container">
+      <div class="page-header">
+        <h1 class="page-title">Administration des modules</h1>
+        <p class="page-subtitle">Gère l'accès aux modules: verrouillé ou maintenance</p>
+      </div>
+
+      <div class="admin-kpis">
+        <div class="card-base admin-kpi">
+          <span class="admin-kpi-label">Total modules</span>
+          <strong class="admin-kpi-value">${modules.length}</strong>
+        </div>
+        <div class="card-base admin-kpi">
+          <span class="admin-kpi-label">Verrouillés</span>
+          <strong class="admin-kpi-value">${lockedCount}</strong>
+        </div>
+        <div class="card-base admin-kpi">
+          <span class="admin-kpi-label">Maintenance</span>
+          <strong class="admin-kpi-value">${maintenanceCount}</strong>
+        </div>
+      </div>
+
+      <div class="admin-modules-grid">
+        ${modules.map(m => {
+          const subject = getSubjectDef(m.subject || 'maths');
+          const access = getModuleAccess(m.id);
+          const statusLabel = access.locked
+            ? '<span class="badge badge-admin-locked">🔒 Verrouillé</span>'
+            : access.maintenance
+              ? '<span class="badge badge-admin-maintenance">🛠️ Maintenance</span>'
+              : '<span class="badge badge-admin-open">✅ Actif</span>';
+
+          return `
+            <div class="card-base admin-module-card">
+              <div class="admin-module-head">
+                <div>
+                  <div class="admin-module-title">${m.icon} ${m.title}</div>
+                  <div class="admin-module-meta">${subject.icon} ${subject.label} · ${LEVEL_NAMES[m.level]}</div>
+                </div>
+                <div>${statusLabel}</div>
+              </div>
+              <div class="admin-module-actions">
+                <button class="btn btn-sm ${access.locked ? 'btn-primary' : 'btn-outline'}" onclick="setModuleAccessMode('${m.id}', 'locked')">
+                  ${access.locked ? 'Déverrouiller' : 'Verrouiller'}
+                </button>
+                <button class="btn btn-sm ${access.maintenance ? 'btn-primary' : 'btn-outline'}" onclick="setModuleAccessMode('${m.id}', 'maintenance')">
+                  ${access.maintenance ? 'Retirer maintenance' : 'Mettre en maintenance'}
+                </button>
+                <button class="btn btn-sm btn-secondary" onclick="setModuleAccessMode('${m.id}', 'open')">
+                  Rendre actif
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
 function renderModulesList() {
   const subjectDef = getSubjectDef(state.subject || 'maths');
   const allLevels = LEVEL_DEFS
@@ -399,11 +470,19 @@ function renderModulesList() {
       <div class="modules-grid" id="modules-grid">
         ${modules.map(m => {
           const prog = getModuleProgress(m.id);
+          const access = getModuleAccess(m.id);
+          const unavailable = access.locked || access.maintenance;
+          const statusBadge = access.locked
+            ? '<span class="badge badge-admin-locked">🔒 Verrouillé</span>'
+            : access.maintenance
+              ? '<span class="badge badge-admin-maintenance">🛠️ Maintenance</span>'
+              : '';
           return `
-            <div class="card-base module-card"
-                 onclick="navigate('module', {moduleId: '${m.id}'})"
+            <div class="card-base module-card ${unavailable ? 'module-card-unavailable' : ''}"
+                 ${unavailable ? '' : `onclick="navigate('module', {moduleId: '${m.id}'})"`}
                  tabindex="0" role="button"
                  aria-label="Module ${m.title}"
+                 aria-disabled="${unavailable}"
                  data-title="${m.title.toLowerCase().replace(/"/g, '&quot;')}"
                  data-subtitle="${m.subtitle.toLowerCase().replace(/"/g, '&quot;')}"
                  data-keywords="${m.keywords.join('|').toLowerCase().replace(/"/g, '&quot;')}"
@@ -415,6 +494,7 @@ function renderModulesList() {
                   <div class="module-card-subtitle">${m.subtitle}</div>
                 </div>
               </div>
+              ${statusBadge}
               <div class="module-card-keywords">
                 ${m.keywords.slice(0, 2).map(k => `<span class="badge">${k}</span>`).join('')}
               </div>
@@ -439,6 +519,24 @@ function renderModulesList() {
 function renderModuleDetail() {
   const mod = getModule(state.moduleId);
   if (!mod) return '<div class="container"><p>Module introuvable.</p></div>';
+
+  if (isModuleLocked(mod.id) || isModuleInMaintenance(mod.id)) {
+    const isLocked = isModuleLocked(mod.id);
+    const statusTitle = isLocked ? 'Module verrouillé' : 'Module en maintenance';
+    const statusText = isLocked
+      ? 'Ce module est actuellement verrouillé par l\'administration.'
+      : 'Ce module est temporairement indisponible pour maintenance.';
+
+    return `
+      <div class="container module-detail">
+        <div class="page-header">
+          <button class="btn-back" onclick="navigate('modules', {level: ${mod.level}, subject: '${mod.subject || 'maths'}'})">← Retour aux modules</button>
+          <h1 class="page-title">${statusTitle}</h1>
+          <p class="page-subtitle">${statusText}</p>
+        </div>
+      </div>
+    `;
+  }
 
   const tabs = [
     { id: 'cours',      label: '📖 Cours' },

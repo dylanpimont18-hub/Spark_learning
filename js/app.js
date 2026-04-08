@@ -96,10 +96,18 @@ function parseHash(hash) {
   }
 }
 
+function parsePathRoute(pathname) {
+  const clean = (pathname || '').replace(/\/+$/, '') || '/';
+  if (clean === '/admin') return { view: 'admin' };
+  return null;
+}
+
 /* ── Navigate ── */
 let _navSequence = 0; // prevents stale async renders
 
-function navigate(view, data = {}) {
+function navigate(view, data = {}, options = {}) {
+  const skipUrlSync = !!options.skipUrlSync;
+
   // Cleanup: cancel pending engine timers & remove stale confetti
   clearEngineTimers();
   document.querySelectorAll('.confetti-container').forEach(el => el.remove());
@@ -142,10 +150,25 @@ function navigate(view, data = {}) {
     if (!data.keepEvaluation) state.evaluationState = defaultEvaluationState();
   }
 
-  // Update URL hash (suppress hashchange listener to avoid double render)
-  _suppressHashChange = true;
-  window.location.hash = buildHash(view, data);
-  requestAnimationFrame(() => { _suppressHashChange = false; });
+  // Sync URL (suppress hashchange listener to avoid double render)
+  if (!skipUrlSync) {
+    if (view === 'admin') {
+      _suppressHashChange = true;
+      if (window.location.pathname !== '/admin') {
+        history.pushState({}, '', '/admin');
+      } else {
+        history.replaceState({}, '', '/admin');
+      }
+      requestAnimationFrame(() => { _suppressHashChange = false; });
+    } else {
+      if (window.location.pathname === '/admin') {
+        history.pushState({}, '', '/');
+      }
+      _suppressHashChange = true;
+      window.location.hash = buildHash(view, data);
+      requestAnimationFrame(() => { _suppressHashChange = false; });
+    }
+  }
 
   // Lazy loading: check if data needs to be fetched first
   const seq = ++_navSequence;
@@ -169,6 +192,10 @@ function navigate(view, data = {}) {
     }
   } else if (view === 'teacher' || view === 'homework') {
     // Charger toutes les données pour le picker
+    if (typeof ensureAllData === 'function') {
+      loadPromise = ensureAllData();
+    }
+  } else if (view === 'admin') {
     if (typeof ensureAllData === 'function') {
       loadPromise = ensureAllData();
     }
@@ -197,7 +224,7 @@ function navigate(view, data = {}) {
     (view === 'flashcards' && !getModule(state.moduleId)) ||
     (view === 'chrono' && !getModule(state.moduleId)) ||
     (view === 'companion' && state.moduleId && !getModule(state.moduleId)) ||
-    (view === 'teacher') || (view === 'homework')
+    (view === 'teacher') || (view === 'homework') || (view === 'admin')
   );
 
   if (needsAsyncLoad) {
@@ -263,6 +290,7 @@ function updatePageTitle() {
       document.title = mod ? `D\u00e9fi Chrono \u2014 ${mod.title} \u2014 ${base}` : base;
       break;
     }
+    case 'admin':    document.title = `Administration \u2014 ${base}`; break;
     case 'teacher':  document.title = `Espace Enseignant \u2014 ${base}`; break;
     case 'playlist': document.title = `Playlist \u2014 ${base}`; break;
     default:         document.title = base;
@@ -302,6 +330,7 @@ function render() {
     case 'companion':  app.innerHTML = (typeof renderCompanionHome === 'function' && !state.moduleId) ? renderCompanionHome() : (typeof renderCompanionSession === 'function') ? renderCompanionSession(state.moduleId) : renderCompanionHome(); break;
     case 'flashcards': app.innerHTML = (typeof renderFlashcards === 'function') ? renderFlashcards() : ''; break;
     case 'chrono':     app.innerHTML = (typeof renderChrono === 'function') ? renderChrono() : ''; break;
+    case 'admin':      app.innerHTML = (typeof renderAdminPage === 'function') ? renderAdminPage() : ''; break;
     case 'teacher':    app.innerHTML = (typeof renderTeacherBuilder === 'function') ? renderTeacherBuilder() : ''; break;
     case 'playlist':   app.innerHTML = (typeof renderPlaylistView === 'function') ? renderPlaylistView() : ''; break;
     case 'homework':   app.innerHTML = (typeof renderHomeworkPanel === 'function') ? renderHomeworkPanel() : ''; break;
@@ -745,6 +774,27 @@ function submitTeacherError(moduleId) {
   });
 }
 
+function setModuleAccessMode(moduleId, mode) {
+  if (!moduleId || typeof Storage === 'undefined') return;
+  if (mode === 'open') Storage.resetModuleStatus(moduleId);
+  else if (mode === 'locked') Storage.setModuleStatus(moduleId, { locked: true, maintenance: false });
+  else if (mode === 'maintenance') Storage.setModuleStatus(moduleId, { locked: false, maintenance: true });
+
+  state.moduleAccess = Storage.getModuleStatuses();
+
+  // If current module becomes unavailable, bounce user back to modules list
+  if (state.view === 'module' && state.moduleId === moduleId && isModuleUnavailable(moduleId)) {
+    const mod = getModule(moduleId);
+    if (mod) {
+      navigate('modules', { level: mod.level, subject: mod.subject || 'maths' });
+      showToast('Module désactivé via admin', 'info');
+      return;
+    }
+  }
+
+  render();
+}
+
 /* ── Keyboard shortcuts ── */
 document.addEventListener('keydown', (e) => {
   // Don't intercept if typing in an input (except Escape and Ctrl+Shift+P)
@@ -779,7 +829,7 @@ document.addEventListener('keydown', (e) => {
     else if (state.view === 'modules') navigate('levels', { subject: state.subject });
     else if (state.view === 'levels') navigate('subjects');
     else if (state.view === 'subjects') navigate('home');
-    else if (state.view === 'teacher' || state.view === 'homework') navigate('home');
+    else if (state.view === 'teacher' || state.view === 'homework' || state.view === 'admin') navigate('home');
     return;
   }
 
@@ -798,8 +848,23 @@ document.addEventListener('keydown', (e) => {
 /* ── Hash change listener (back/forward buttons) ── */
 window.addEventListener('hashchange', () => {
   if (_suppressHashChange) return;
+  const pathRoute = parsePathRoute(window.location.pathname);
+  if (pathRoute) {
+    navigate(pathRoute.view, pathRoute, { skipUrlSync: true });
+    return;
+  }
   const route = parseHash(window.location.hash);
-  navigate(route.view, route);
+  navigate(route.view, route, { skipUrlSync: true });
+});
+
+window.addEventListener('popstate', () => {
+  const pathRoute = parsePathRoute(window.location.pathname);
+  if (pathRoute) {
+    navigate(pathRoute.view, pathRoute, { skipUrlSync: true });
+    return;
+  }
+  const route = parseHash(window.location.hash);
+  navigate(route.view, route, { skipUrlSync: true });
 });
 
 /* ── Init ── */
@@ -852,9 +917,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Restore state from URL hash, or default to home
-  const route = parseHash(window.location.hash);
-  navigate(route.view, route);
+  // Restore route from path (/admin) or hash
+  const pathRoute = parsePathRoute(window.location.pathname);
+  const route = pathRoute || parseHash(window.location.hash);
+  navigate(route.view, route, { skipUrlSync: true });
 
   // Preload all data in background for home stats and search
   if (typeof ensureAllData === 'function') {

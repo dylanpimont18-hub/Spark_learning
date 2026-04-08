@@ -80,6 +80,9 @@ const state = {
   evaluationState: defaultEvaluationState(),
   companionState: JSON.parse(localStorage.getItem('sparkCompanionState') || JSON.stringify(defaultCompanionState())),
   progress: JSON.parse(localStorage.getItem('sparkProgress') || '{}'),
+  moduleAccess: (typeof Storage !== 'undefined' && Storage.getModuleStatuses)
+    ? Storage.getModuleStatuses()
+    : JSON.parse(localStorage.getItem('sparkModuleStatus') || '{}'),
   batchPrintMode: false,
   selectedForPrint: [],
   flashcardState: null,
@@ -88,6 +91,24 @@ const state = {
   playlistBuilder: null,
   homeworkState: null
 };
+
+function getModuleAccess(moduleId) {
+  const s = state.moduleAccess && state.moduleAccess[moduleId];
+  return s || { locked: false, maintenance: false };
+}
+
+function isModuleLocked(moduleId) {
+  return !!getModuleAccess(moduleId).locked;
+}
+
+function isModuleInMaintenance(moduleId) {
+  return !!getModuleAccess(moduleId).maintenance;
+}
+
+function isModuleUnavailable(moduleId) {
+  const access = getModuleAccess(moduleId);
+  return !!(access.locked || access.maintenance);
+}
 
 /* ── Module lookup ── */
 function getModule(id) {

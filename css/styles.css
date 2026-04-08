@@ -1072,6 +1072,17 @@ main { flex: 1; }
   border-color: var(--primary);
 }
 
+.module-card-unavailable {
+  cursor: not-allowed;
+  opacity: 0.78;
+}
+
+.module-card-unavailable:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: var(--border);
+}
+
 .module-card-top {
   display: flex;
   align-items: flex-start;
@@ -1122,6 +1133,88 @@ main { flex: 1; }
   font-size: 0.75rem;
   color: var(--text-muted);
   margin-bottom: 4px;
+}
+
+.badge-admin-locked {
+  background: color-mix(in srgb, var(--error) 18%, transparent);
+  color: var(--error);
+}
+
+.badge-admin-maintenance {
+  background: color-mix(in srgb, var(--accent) 20%, transparent);
+  color: color-mix(in srgb, var(--accent) 80%, #000);
+}
+
+.badge-admin-open {
+  background: color-mix(in srgb, var(--success) 16%, transparent);
+  color: var(--success);
+}
+
+/* ── Admin page ── */
+.admin-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.admin-kpi {
+  padding: 16px;
+}
+
+.admin-kpi-label {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.admin-kpi-value {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  color: var(--primary);
+}
+
+.admin-modules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 14px;
+  padding-bottom: 60px;
+}
+
+.admin-module-card {
+  padding: 16px;
+}
+
+.admin-module-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.admin-module-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.admin-module-meta {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  margin-top: 2px;
+}
+
+.admin-module-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+@media (max-width: 720px) {
+  .admin-kpis {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ────────────────────────────────────────

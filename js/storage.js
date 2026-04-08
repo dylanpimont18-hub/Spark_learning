@@ -11,7 +11,8 @@ const Storage = {
     RECENT:     'sparkRecent',
     TRACKING:   'sparkTracking',
     STREAK:     'sparkStreak',
-    FLASHCARDS: 'sparkFlashcards'
+    FLASHCARDS: 'sparkFlashcards',
+    MODULE_STATUS: 'sparkModuleStatus'
   },
 
   /* ── Helpers internes ── */
@@ -176,6 +177,41 @@ const Storage = {
     const all = this._get(this.KEYS.FLASHCARDS, {});
     all[moduleId] = { known: knownIndices };
     this._set(this.KEYS.FLASHCARDS, all);
+  },
+
+  /* ══════════════════════════════════════
+     MODULE STATUS (admin: verrouille / maintenance)
+  ══════════════════════════════════════ */
+  getModuleStatuses() {
+    return this._get(this.KEYS.MODULE_STATUS, {});
+  },
+
+  getModuleStatus(moduleId) {
+    const all = this.getModuleStatuses();
+    return all[moduleId] || { locked: false, maintenance: false };
+  },
+
+  setModuleStatus(moduleId, patch) {
+    const all = this.getModuleStatuses();
+    const current = all[moduleId] || { locked: false, maintenance: false };
+    const next = {
+      locked: !!(patch && patch.locked),
+      maintenance: !!(patch && patch.maintenance)
+    };
+
+    // locked et maintenance sont exclusifs
+    if (next.locked) next.maintenance = false;
+    if (next.maintenance) next.locked = false;
+
+    all[moduleId] = { ...current, ...next };
+    this._set(this.KEYS.MODULE_STATUS, all);
+    return all[moduleId];
+  },
+
+  resetModuleStatus(moduleId) {
+    const all = this.getModuleStatuses();
+    delete all[moduleId];
+    this._set(this.KEYS.MODULE_STATUS, all);
   },
 
   /* ══════════════════════════════════════
