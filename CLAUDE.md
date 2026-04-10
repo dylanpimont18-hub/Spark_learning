@@ -2,11 +2,13 @@
 
 ## 1. Stack & Architecture Globale
 - **Vanilla JS SPA** : Aucun bundler, pas de build, pas de npm. Tout passe par `index.html`.
+- **Ordre de chargement** : `index.html` est la source de vérité pour l'ordre des scripts. `js/loader.js` gère le chargement asynchrone des données via `ensureLevelData(subject, level)`.
 - **Règle de séparation stricte** : 
-  - DOM/UI : Uniquement dans `js/render.js`.
+  - DOM/UI : `js/views/` (vues complètes) et `js/components/` (onglets, quiz, exercices...). `js/render.js` est un stub léger.
   - État/State : Uniquement dans `js/state.js` (objet `state` unique).
-  - Logique métiers/moteurs : `js/engines.js` (quiz, exos, évaluations).
+  - Logique métiers/moteurs : `js/engines/` (10 fichiers : quizEngine, exerciceEngine, companionEngine...).
   - Routage/Events : `js/app.js` (Hash routing `#view/data`).
+- **Gotcha** : Ne jamais utiliser `export`/`import` dans `js/engines/` ou `js/data/` — pas de bundler. `progressionEngine.js` utilise `export default` et est actuellement inaccessible.
 - **Styling** : Utiliser exclusivement les variables CSS de `css/styles.css` (ex: `var(--primary)`). Ne jamais hardcoder de couleurs.
 
 ## 2. Règles de création de contenu (Modules)
@@ -28,7 +30,7 @@ Lors de la création ou modification dans `js/data/` :
 
 ## 3. Workflow d'ajout de module (Génération)
 1. Vérifier le programme dans `docs/programmes-{subject}.md` (Ne traiter que les chapitres 🔴).
-2. Ajouter l'objet au fichier approprié (ex: `js/data/{subject}-{level}.js`). Ne faire qu'un seul appel d'écriture global si plusieurs modules.
+2. Ajouter l'objet dans `js/data/{level}/{level}-{topic}.js`. Déclarer le fichier dans `js/data/{level}/index.js` ET dans `index.html` (ordre de chargement). Mettre à jour `contenu.md`.
 3. Passer le statut à 🟢 dans le fichier markdown du programme.
 
 ## 4. Optimisation du Contexte (INTERDICTIONS)

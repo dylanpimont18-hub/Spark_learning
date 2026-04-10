@@ -1305,7 +1305,134 @@ main { flex: 1; }
   color: var(--success);
 }
 
+/* ── Admin login ── */
+.admin-login-wrapper {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+}
+
+.admin-login-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+.admin-login-logo {
+  font-size: 2.4rem;
+  margin-bottom: 12px;
+}
+
+.admin-login-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 4px;
+}
+
+.admin-login-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0 0 28px;
+}
+
+.admin-login-form {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admin-login-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.admin-login-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+
+.admin-login-input:focus {
+  border-color: var(--primary);
+}
+
+.admin-login-error {
+  font-size: 0.85rem;
+  color: var(--error);
+  background: rgba(231, 76, 60, 0.08);
+  border-radius: var(--radius);
+  padding: 8px 12px;
+  text-align: center;
+}
+
+.admin-login-btn {
+  width: 100%;
+  margin-top: 4px;
+  padding: 11px;
+  font-size: 0.95rem;
+}
+
 /* ── Admin page ── */
+.admin-subject-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.admin-subject-card {
+  padding: 16px;
+}
+
+.admin-subject-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.admin-subject-icon {
+  font-size: 1.6rem;
+}
+
+.admin-subject-name {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.admin-subject-count {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
 .admin-kpis {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

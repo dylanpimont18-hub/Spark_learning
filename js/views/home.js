@@ -363,7 +363,60 @@ function renderLevels() {
   `;
 }
 
+function isAdminAuthenticated() {
+  return sessionStorage.getItem('sparkAdminAuth') === '1';
+}
+
+function handleAdminLogin(event) {
+  event.preventDefault();
+  const username = document.getElementById('admin-username').value;
+  const password = document.getElementById('admin-password').value;
+  const errorEl = document.getElementById('admin-login-error');
+
+  if (username === 'users45' && password === 'USERS45@') {
+    sessionStorage.setItem('sparkAdminAuth', '1');
+    navigate('admin', {});
+  } else {
+    errorEl.textContent = 'Identifiants incorrects.';
+    errorEl.style.display = 'block';
+    document.getElementById('admin-password').value = '';
+    document.getElementById('admin-password').focus();
+  }
+}
+
+function adminLogout() {
+  sessionStorage.removeItem('sparkAdminAuth');
+  navigate('home');
+}
+
 function renderAdminPage() {
+  if (!isAdminAuthenticated()) {
+    return `
+      <div class="admin-login-wrapper">
+        <div class="admin-login-card">
+          <div class="admin-login-logo">⚙️</div>
+          <h1 class="admin-login-title">Administration</h1>
+          <p class="admin-login-subtitle">Accès réservé</p>
+          <form class="admin-login-form" onsubmit="handleAdminLogin(event)">
+            <div class="admin-login-field">
+              <label for="admin-username" class="admin-login-label">Nom d'utilisateur</label>
+              <input type="text" id="admin-username" class="admin-login-input"
+                     autocomplete="username" autocorrect="off" autocapitalize="off"
+                     spellcheck="false" required autofocus />
+            </div>
+            <div class="admin-login-field">
+              <label for="admin-password" class="admin-login-label">Mot de passe</label>
+              <input type="password" id="admin-password" class="admin-login-input"
+                     autocomplete="current-password" required />
+            </div>
+            <div id="admin-login-error" class="admin-login-error" style="display:none;"></div>
+            <button type="submit" class="btn btn-primary admin-login-btn">Se connecter</button>
+          </form>
+        </div>
+      </div>
+    `;
+  }
+
   const modules = (window.MODULES || []).slice().sort((a, b) => {
     if (a.level !== b.level) return a.level - b.level;
     const sa = (a.subject || 'maths').localeCompare((b.subject || 'maths'), 'fr');
@@ -376,9 +429,12 @@ function renderAdminPage() {
 
   return `
     <div class="container">
-      <div class="page-header">
-        <h1 class="page-title">Administration des modules</h1>
-        <p class="page-subtitle">Gère l'accès aux modules: verrouillé ou maintenance</p>
+      <div class="page-header" style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+        <div>
+          <h1 class="page-title">Administration des modules</h1>
+          <p class="page-subtitle">Gère l'accès aux modules: verrouillé ou maintenance</p>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="adminLogout()">Déconnexion</button>
       </div>
 
       <div class="admin-kpis">
@@ -394,6 +450,35 @@ function renderAdminPage() {
           <span class="admin-kpi-label">Maintenance</span>
           <strong class="admin-kpi-value">${maintenanceCount}</strong>
         </div>
+      </div>
+
+      <div class="admin-subject-controls">
+        ${SUBJECT_DEFS.map(s => {
+          const subjectModules = modules.filter(m => (m.subject || 'maths') === s.id);
+          const lockedAll = subjectModules.length > 0 && subjectModules.every(m => isModuleLocked(m.id));
+          const maintenanceAll = subjectModules.length > 0 && subjectModules.every(m => isModuleInMaintenance(m.id));
+          return `
+            <div class="card-base admin-subject-card">
+              <div class="admin-subject-header">
+                <span class="admin-subject-icon">${s.icon}</span>
+                <div>
+                  <div class="admin-subject-name">${s.label}</div>
+                  <div class="admin-subject-count">${subjectModules.length} modules</div>
+                </div>
+              </div>
+              <div class="admin-module-actions">
+                <button class="btn btn-sm ${lockedAll ? 'btn-primary' : 'btn-outline'}"
+                        onclick="setSubjectAccessMode('${s.id}', ${lockedAll ? "'open'" : "'locked'"})">
+                  ${lockedAll ? '🔓 Déverrouiller tout' : '🔒 Verrouiller tout'}
+                </button>
+                <button class="btn btn-sm ${maintenanceAll ? 'btn-primary' : 'btn-outline'}"
+                        onclick="setSubjectAccessMode('${s.id}', ${maintenanceAll ? "'open'" : "'maintenance'"})">
+                  ${maintenanceAll ? '✅ Retirer maintenance' : '🛠️ Maintenance tout'}
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('')}
       </div>
 
       <div class="admin-modules-grid">

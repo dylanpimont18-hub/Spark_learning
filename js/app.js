@@ -72,6 +72,7 @@ function buildHash(view, data) {
     case 'teacher':    return '#teacher';
     case 'homework':   return '#homework';
     case 'playlist':   return '#playlist/' + (data.playlistData || '');
+    case 'admin':      return '#admin';
     default:           return '#home';
   }
 }
@@ -96,6 +97,7 @@ function parseHash(hash) {
       return { view: 'playlist', playlistData: encoded };
     }
     case 'homework':    return { view: 'homework' };
+    case 'admin':       return { view: 'admin' };
     case 'home':
     default:            return { view: 'home' };
   }
@@ -157,22 +159,9 @@ function navigate(view, data = {}, options = {}) {
 
   // Sync URL (suppress hashchange listener to avoid double render)
   if (!skipUrlSync) {
-    if (view === 'admin') {
-      _suppressHashChange = true;
-      if (window.location.pathname !== '/admin') {
-        history.pushState({}, '', '/admin');
-      } else {
-        history.replaceState({}, '', '/admin');
-      }
-      requestAnimationFrame(() => { _suppressHashChange = false; });
-    } else {
-      if (window.location.pathname === '/admin') {
-        history.pushState({}, '', '/');
-      }
-      _suppressHashChange = true;
-      window.location.hash = buildHash(view, data);
-      requestAnimationFrame(() => { _suppressHashChange = false; });
-    }
+    _suppressHashChange = true;
+    window.location.hash = buildHash(view, data);
+    requestAnimationFrame(() => { _suppressHashChange = false; });
   }
 
   // Lazy loading: check if data needs to be fetched first
@@ -836,6 +825,20 @@ function submitTeacherError(moduleId) {
   });
 }
 
+function setSubjectAccessMode(subjectId, mode) {
+  const modules = (window.MODULES || []).filter(m => (m.subject || 'maths') === subjectId);
+  modules.forEach(m => {
+    if (mode === 'open') Storage.resetModuleStatus(m.id);
+    else if (mode === 'locked') Storage.setModuleStatus(m.id, { locked: true, maintenance: false });
+    else if (mode === 'maintenance') Storage.setModuleStatus(m.id, { locked: false, maintenance: true });
+  });
+  state.moduleAccess = Storage.getModuleStatuses();
+  const subjectLabel = { maths: 'Mathématiques', physique: 'Physique-Chimie', si: 'Sciences de l\'Ingénieur' }[subjectId] || subjectId;
+  const modeLabel = { open: 'activée', locked: 'verrouillée', maintenance: 'en maintenance' }[mode] || mode;
+  showToast(`Matière « ${subjectLabel} » ${modeLabel} (${modules.length} modules)`, 'info');
+  render();
+}
+
 function setModuleAccessMode(moduleId, mode) {
   if (!moduleId || typeof Storage === 'undefined') return;
   if (mode === 'open') Storage.resetModuleStatus(moduleId);
@@ -1022,21 +1025,11 @@ document.addEventListener('keydown', (e) => {
 /* ── Hash change listener (back/forward buttons) ── */
 window.addEventListener('hashchange', () => {
   if (_suppressHashChange) return;
-  const pathRoute = parsePathRoute(window.location.pathname);
-  if (pathRoute) {
-    navigate(pathRoute.view, pathRoute, { skipUrlSync: true });
-    return;
-  }
   const route = parseHash(window.location.hash);
   navigate(route.view, route, { skipUrlSync: true });
 });
 
 window.addEventListener('popstate', () => {
-  const pathRoute = parsePathRoute(window.location.pathname);
-  if (pathRoute) {
-    navigate(pathRoute.view, pathRoute, { skipUrlSync: true });
-    return;
-  }
   const route = parseHash(window.location.hash);
   navigate(route.view, route, { skipUrlSync: true });
 });
@@ -1118,9 +1111,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Restore route from path (/admin) or hash
-  const pathRoute = parsePathRoute(window.location.pathname);
-  const route = pathRoute || parseHash(window.location.hash);
+  // Restore route from hash
+  const route = parseHash(window.location.hash);
   navigate(route.view, route, { skipUrlSync: true });
 
   // Preload all data in background for home stats and search
