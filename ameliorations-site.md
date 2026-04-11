@@ -85,7 +85,7 @@ Sans création de compte, sans connexion obligatoire. Données utilisateur local
 ## 8. Promesse "sans compte" rendue explicite
 
 - [x] Ajouter dans `js/views/home.js` un bandeau ou une ligne sous le titre : "Aucun compte requis — ta progression est sauvegardée sur cet appareil"
-- [ ] Vérifier que ce message est visible sans scroll sur mobile (viewport < 400 px)
+- [x] Vérifier que ce message est visible sans scroll sur mobile (viewport < 400 px)
 - [x] Ajouter une icône d'info (ℹ️ en texte ou SVG inline) avec tooltip expliquant brièvement le localStorage
 
 ---
