@@ -84,9 +84,9 @@ Sans création de compte, sans connexion obligatoire. Données utilisateur local
 
 ## 8. Promesse "sans compte" rendue explicite
 
-- [ ] Ajouter dans `js/views/home.js` un bandeau ou une ligne sous le titre : "Aucun compte requis — ta progression est sauvegardée sur cet appareil"
+- [x] Ajouter dans `js/views/home.js` un bandeau ou une ligne sous le titre : "Aucun compte requis — ta progression est sauvegardée sur cet appareil"
 - [ ] Vérifier que ce message est visible sans scroll sur mobile (viewport < 400 px)
-- [ ] Ajouter une icône d'info (ℹ️ en texte ou SVG inline) avec tooltip expliquant brièvement le localStorage
+- [x] Ajouter une icône d'info (ℹ️ en texte ou SVG inline) avec tooltip expliquant brièvement le localStorage
 
 ---
 
@@ -137,8 +137,8 @@ Sans création de compte, sans connexion obligatoire. Données utilisateur local
 
 ## 13. Optimisation pour smartphone
 
-- [ ] Auditer `css/styles.css` : identifier tous les boutons de quiz/exercice avec hauteur < 48 px et les passer à `min-height: 48px`
-- [ ] Ajouter `overflow-x: auto; -webkit-overflow-scrolling: touch;` sur les blocs `.katex-display` dans `css/styles.css`
+- [x] Auditer `css/styles.css` : identifier tous les boutons de quiz/exercice avec hauteur < 48 px et les passer à `min-height: 48px`
+- [x] Ajouter `overflow-x: auto; -webkit-overflow-scrolling: touch;` sur les blocs `.katex-display` dans `css/styles.css`
 - [ ] Réduire le menu de navigation mobile dans `css/styles.css` : icônes + labels courts, pas de texte long tronqué
 - [ ] Ajouter un bouton "Reprendre" sur l'accueil mobile dans `js/views/home.js` (visible uniquement si un module est en cours, viewport < 768 px)
 - [ ] Modifier `js/components/exercice.js` : après focus sur `<input>`, appeler `element.scrollIntoView({ behavior: 'smooth', block: 'center' })` pour éviter l'écrasement par le clavier virtuel

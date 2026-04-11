@@ -586,6 +586,35 @@ main { flex: 1; }
   margin: 0 auto 36px;
 }
 
+.hero-no-account {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: -20px auto 28px;
+  max-width: 560px;
+}
+
+.no-account-info {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid var(--text-muted);
+  font-size: 0.7rem;
+  font-style: normal;
+  cursor: help;
+  vertical-align: middle;
+  position: relative;
+  margin-left: 4px;
+  color: var(--text-muted);
+}
+
+.no-account-info:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
 .hero-cta {
   display: flex;
   gap: 14px;
@@ -2729,7 +2758,7 @@ main { flex: 1; }
 ──────────────────────────────────────── */
 
 /* ── KaTeX overflow protection (all sizes) ── */
-.katex-display { overflow-x: auto; overflow-y: hidden; }
+.katex-display { overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
 
 /* ── Large tablet / small desktop (≤ 1024px) ── */
 @media (max-width: 1024px) {
@@ -2777,12 +2806,12 @@ main { flex: 1; }
   }
   .tab-bar::-webkit-scrollbar { display: none; }
 
-  /* Touch targets — minimum 44px */
+  /* Touch targets — minimum 48px for interactive buttons, 44px for nav */
   .tab-btn { white-space: nowrap; min-height: 44px; }
-  .btn { min-height: 44px; }
-  .quiz-option { min-height: 44px; }
+  .btn { min-height: 48px; }
+  .quiz-option { min-height: 48px; }
   .keyword-tag { min-height: 36px; }
-  .level-switch-btn { min-height: 44px; }
+  .level-switch-btn { min-height: 48px; }
   .nav-link { min-height: 44px; display: inline-flex; align-items: center; }
   .theme-toggle { min-width: 44px; min-height: 44px; }
   .search-clear { min-width: 36px; min-height: 36px; }

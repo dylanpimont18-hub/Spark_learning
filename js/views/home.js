@@ -190,6 +190,10 @@ function renderHome() {
 				<p class="hero-subtitle">
 					Spark Learning te remet à niveau avec une pédagogie bienveillante, étape par étape — du Collège au BTS.
 				</p>
+				<p class="hero-no-account">
+					Aucun compte requis — ta progression est sauvegardée sur cet appareil.
+					<span class="no-account-info" tabindex="0" aria-label="En savoir plus sur la sauvegarde locale" title="Tes données (progression, résultats, préférences) sont stockées uniquement dans le navigateur via localStorage. Elles ne quittent jamais ton appareil.">ℹ</span>
+				</p>
 				<div class="hero-cta">
 					<button class="btn btn-primary" onclick="navigate('subjects')">
 						Commencer maintenant 🚀
