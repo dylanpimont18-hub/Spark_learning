@@ -209,7 +209,9 @@ main { flex: 1; }
   display: flex;
   align-items: center;
   gap: 4px;
-  margin-left: auto;
+  flex: 1 1 auto;
+  justify-content: center;
+  min-width: 0;
 }
 
 .nav-link {
@@ -224,6 +226,51 @@ main { flex: 1; }
 .nav-link.active {
   color: var(--primary);
   background: color-mix(in srgb, var(--primary) 8%, transparent);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.profile-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  padding: 0 14px 0 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--primary);
+  font-weight: 600;
+  transition: transform var(--transition), border-color var(--transition), background var(--transition), color var(--transition);
+}
+
+.profile-link:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--primary) 30%, var(--border));
+  background: color-mix(in srgb, var(--primary) 8%, var(--bg-card));
+}
+
+.profile-link-mark {
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary);
+  color: var(--on-primary);
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.profile-link-label {
+  white-space: nowrap;
 }
 
 /* ── Theme Toggle ── */
@@ -2698,6 +2745,8 @@ main { flex: 1; }
   /* Header */
   .header-inner { gap: var(--space-sm); }
   .nav-link { padding: 8px 12px; font-size: 0.9rem; }
+  .header-actions { gap: 6px; }
+  .profile-link { padding: 0 12px 0 10px; }
 
   /* Hero */
   .hero { padding: 60px 0 48px; }
@@ -2780,10 +2829,25 @@ main { flex: 1; }
   /* Header — compact */
   .header { height: 56px; }
   .header-inner { height: 56px; }
+  .logo-learning { display: none; }
   .logo-text { font-size: 1.05rem; }
   .logo-img { height: 28px; }
   .nav { gap: 2px; }
   .nav-link { padding: 6px 10px; font-size: 0.85rem; }
+  .profile-link {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    justify-content: center;
+    border-radius: 50%;
+  }
+  .profile-link-label { display: none; }
+  .profile-link-mark {
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    font-size: 0.76rem;
+  }
 
   .global-search-panel {
     top: calc(100% + 6px);
