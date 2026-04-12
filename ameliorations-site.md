@@ -126,9 +126,9 @@ Sans création de compte, sans connexion obligatoire. Données utilisateur local
 
 ## 12. Célébrations contextuelles
 
-- [ ] Créer `js/components/celebration.js` exposant `celebrate(type)` avec les types : `'level-complete'`, `'streak'`, `'badge'`
-- [ ] Définir les 3 animations dans `css/styles.css` via `@keyframes` : confetti (particules CSS), message flash (fade + scale), badge pulse
-- [ ] Déclarer `js/components/celebration.js` dans `index.html`
+- [x] Créer `js/components/celebration.js` exposant `celebrate(type)` avec les types : `'level-complete'`, `'streak'`, `'badge'`
+- [x] Définir les 3 animations dans `css/styles.css` via `@keyframes` : confetti (particules CSS), message flash (fade + scale), badge pulse
+- [x] Déclarer `js/components/celebration.js` dans `index.html`
 - [ ] Brancher `celebrate('level-complete')` dans la logique de complétion de niveau dans `js/storage.js`
 - [ ] Brancher `celebrate('streak')` après 5 bonnes réponses consécutives dans `js/components/quiz.js`
 - [ ] Brancher `celebrate('badge')` dans `js/engines/companionEngine.js` lors de l'attribution d'un badge
@@ -139,9 +139,9 @@ Sans création de compte, sans connexion obligatoire. Données utilisateur local
 
 - [x] Auditer `css/styles.css` : identifier tous les boutons de quiz/exercice avec hauteur < 48 px et les passer à `min-height: 48px`
 - [x] Ajouter `overflow-x: auto; -webkit-overflow-scrolling: touch;` sur les blocs `.katex-display` dans `css/styles.css`
-- [ ] Réduire le menu de navigation mobile dans `css/styles.css` : icônes + labels courts, pas de texte long tronqué
+- [x] Réduire le menu de navigation mobile dans `css/styles.css` : icônes + labels courts, pas de texte long tronqué
 - [ ] Ajouter un bouton "Reprendre" sur l'accueil mobile dans `js/views/home.js` (visible uniquement si un module est en cours, viewport < 768 px)
-- [ ] Modifier `js/components/exercice.js` : après focus sur `<input>`, appeler `element.scrollIntoView({ behavior: 'smooth', block: 'center' })` pour éviter l'écrasement par le clavier virtuel
+- [x] Modifier `js/components/exercice.js` : après focus sur `<input>`, appeler `element.scrollIntoView({ behavior: 'smooth', block: 'center' })` pour éviter l'écrasement par le clavier virtuel
 
 ---
 

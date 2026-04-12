@@ -24,6 +24,7 @@ function renderExercice(mod) {
             placeholder="Ta réponse…"
             step="any"
             aria-label="Entrer ta réponse"
+            onfocus="this.scrollIntoView({behavior:'smooth',block:'center'})"
             onkeydown="if(event.key==='Enter') submitExerciceAnswer('${mod.id}')"
           />
           ${ex.unit ? `<span class="exercice-unit">${ex.unit}</span>` : ''}
