@@ -29,35 +29,125 @@ Sans création de compte, sans connexion obligatoire. Données utilisateur local
 
 ## 3. Remédiation réellement adaptative
 
-- [ ] Étendre le schéma de `js/storage.js` : stocker tentatives, scores et temps passé par module (clé `moduleStats`)
-- [ ] Modifier `js/components/quiz.js` et `js/components/exercice.js` pour appeler une fonction `recordAttempt(moduleId, score, timeMs)` après chaque session
-- [ ] Mettre à jour `js/engines/companionEngine.js` : `detectLacunes()` lit `moduleStats` et calcule un score de lacune pondéré
-- [ ] Modifier `getRemediationRecommendations()` pour trier les modules par score de lacune décroissant
-- [ ] Ajouter dans `js/components/companion.js` un bloc "À retravailler en priorité" avec les 3 modules les plus lacunaires
+Objectif : sortir d'une logique "non complété = lacune" et calculer une priorité de remédiation à partir des erreurs réelles, du temps passé et du niveau d'autonomie.
+
+### 3.1. Unifier la donnée de suivi
+
+- [ ] Auditer `sparkTracking` existant dans `js/storage.js` et décider d'une source de vérité unique : éviter un doublon entre `sparkTracking` et `moduleStats` si une migration suffit
+- [ ] Définir un schéma cible par module puis par section (`quiz`, `exercice`, `evaluation`) avec : `attempts`, `correct`, `wrong`, `bestScore`, `lastScore`, `avgTimeMs`, `hintCount`, `solutionCount`, `lastAttemptAt`, `questionStats`
+- [ ] Ajouter une migration one-shot au démarrage pour convertir les anciennes données vers le nouveau schéma sans casser l'existant
+- [ ] Exposer des helpers stables dans `js/storage.js` : `getModuleStats(moduleId)`, `recordAttempt(...)`, `recordSessionSummary(...)`, `getWeakQuestions(moduleId)`
+
+### 3.2. Instrumenter chaque activité
+
+- [ ] Quiz : démarrer un timer à la première question, enregistrer chaque réponse, le score final, le temps moyen par question et la liste des questions ratées
+- [ ] Exercice : enregistrer chaque mauvaise tentative, le temps avant réussite, l'affichage d'indice et l'affichage de solution
+- [ ] Évaluation : enregistrer le score, les questions ratées, le temps total et l'abandon éventuel
+- [ ] Chrono et problème : garder ce périmètre pour une phase 2, après stabilisation de `quiz`, `exercice` et `evaluation`
+
+### 3.3. Calculer un score de lacune pondéré
+
+- [ ] Réécrire `detectLacunes()` dans `js/engines/companionEngine.js` pour utiliser un score pondéré au lieu d'un simple booléen de complétion
+- [ ] Pondération V1 proposée : taux d'erreur `45 %`, faible score `20 %`, usage d'indice `15 %`, solution révélée `10 %`, temps anormalement long `10 %`
+- [ ] Ajouter une décroissance temporelle : une erreur ancienne doit peser moins qu'une erreur récente
+- [ ] Distinguer trois états par module : `jamais vu`, `en cours mais fragile`, `maîtrisé`
+- [ ] Retourner pour chaque module un objet explicable : `score`, `raisons`, `questionsFaibles`, `nextAction`
+
+### 3.4. Rendre la remédiation lisible dans l'interface
+
+- [ ] Ajouter dans `js/components/companion.js` un bloc `À retravailler en priorité` avec les 3 modules les plus fragiles
+- [ ] Afficher pour chaque recommandation une raison concrète : `2 quiz ratés`, `indice affiché 3 fois`, `score d'évaluation < 50 %`
+- [ ] Ajouter un CTA par besoin : `Revoir le cours`, `Refaire le quiz`, `Lancer un exercice ciblé`
+- [ ] Ajouter un écran de fin de remédiation avec progression avant/après, points gagnés et prochaine recommandation
+
+### 3.5. Déploiement progressif
+
+- [ ] Piloter la V1 sur 3 modules repères : `4e-pythagore`, `trigonometrie`, `1re-derivation`
+- [ ] Simuler plusieurs profils élèves en local pour vérifier que le tri des priorités reste cohérent
+- [ ] Ajuster les poids de calcul avant généralisation à tout le catalogue
+- [ ] Mettre à jour `contenu.md` si un nouveau moteur ou un nouveau script est ajouté en `js/`
 
 ---
 
 ## 4. Mode "Révision espacée" (Spaced Repetition)
 
-- [ ] Ajouter dans `js/storage.js` la fonction `saveQuestionResult(moduleId, questionId, correct)` — calcule et stocke l'intervalle SM-2 suivant
-- [ ] Ajouter `getDueReviews()` retournant toutes les questions dont la date de prochaine révision est dépassée
-- [ ] Créer `js/views/revision.js` — vue listant les questions dues une par une avec validation
+Objectif : créer une file de révision quotidienne courte, stable et réellement utile, sans essayer de mettre tout le site en SM-2 dès la V1.
+
+### 4.1. Définir un périmètre V1 réaliste
+
+- [ ] Limiter la V1 aux questions de quiz et aux flashcards : exclure les exercices génératifs tant que les identifiants ne sont pas stables d'une session à l'autre
+- [ ] Définir des identifiants stables de révision : `moduleId:quiz:index` pour les quiz et `moduleId:flashcard:index` pour les cartes mémoire
+- [ ] Décider d'un plafond quotidien simple pour la V1 : par exemple `10 à 20` révisions dues maximum par jour
+
+### 4.2. Séparer la logique SM-2 de la persistance
+
+- [ ] Créer `js/engines/revisionEngine.js` pour implémenter la logique de planification SM-2 sans DOM
+- [ ] Ajouter dans `js/storage.js` la persistance des objets de révision : `easiness`, `intervalDays`, `repetition`, `nextReviewAt`, `lastReviewedAt`, `lastResult`
+- [ ] Exposer des helpers de stockage : `getReviews()`, `saveReviewItem()`, `getDueReviews()`, `saveQuestionResult(moduleId, questionId, correct)`
+- [ ] En V1, mapper `correct = true` vers une qualité SM-2 élevée et `correct = false` vers une qualité basse ; garder une V2 plus fine avec auto-évaluation `facile / fragile / à revoir`
+
+### 4.3. Alimenter la base de révision
+
+- [ ] Brancher `saveQuestionResult()` dans le moteur de quiz au moment où la réponse est validée
+- [ ] Réutiliser les flashcards existantes : `Je sais` décale la prochaine révision, `À revoir` la rapproche
+- [ ] Prévoir un bootstrap initial : lorsqu'un module est terminé, injecter ses cartes de base dans la file de révision
+- [ ] Ajouter un mécanisme anti-bruit : ne pas recréer plusieurs entrées pour la même question
+
+### 4.4. Construire la vue de révision
+
+- [ ] Créer `js/views/revision.js` avec une expérience `une carte / une question à la fois`
 - [ ] Ajouter le routage `#revision` dans `js/app.js`
 - [ ] Déclarer `js/views/revision.js` dans `index.html`
-- [ ] Brancher `saveQuestionResult()` dans `js/components/quiz.js` après chaque réponse validée
-- [ ] Ajouter le compteur "X révisions dues" sur l'accueil dans `js/views/home.js`
+- [ ] Afficher pour chaque item : module, type (`quiz` ou `flashcard`), question, réponse attendue, boutons `Je savais`, `À revoir`
+- [ ] Ajouter un écran de fin : nombre d'items traités, taux de réussite, prochains items dus
+
+### 4.5. Intégrer la révision au tableau de bord
+
+- [ ] Ajouter sur l'accueil un compteur `X révisions dues aujourd'hui`
+- [ ] Ajouter un CTA direct `Lancer mes révisions`
+- [ ] Ajouter un petit historique : `dernière session`, `série en cours`, `prochaine échéance`
+- [ ] Mettre à jour `contenu.md` immédiatement après ajout de `js/engines/revisionEngine.js` ou `js/views/revision.js`
 
 ---
 
 ## 5. Journal d'erreurs personnel
 
-- [ ] Ajouter dans `js/storage.js` les fonctions `saveError(moduleId, questionText, correctAnswer)`, `getErrors()` et `markErrorUnderstood(errorId)`
-- [ ] Brancher `saveError()` dans `js/components/quiz.js` après chaque mauvaise réponse
-- [ ] Brancher `saveError()` dans `js/components/exercice.js` après chaque mauvaise réponse
-- [ ] Créer `js/views/erreurs.js` — vue listant les erreurs avec : intitulé, bonne réponse, module, date, bouton "Comprise", bouton "Réviser"
+Objectif : transformer chaque erreur en objet révisable, compréhensible et actionnable, au lieu de laisser les mauvaises réponses disparaître après la session.
+
+### 5.1. Définir le modèle de donnée
+
+- [ ] Ajouter dans `js/storage.js` un journal `errorJournal` avec : `id`, `moduleId`, `sourceType`, `sourceId`, `prompt`, `userAnswer`, `correctAnswer`, `correction`, `hint`, `createdAt`, `lastReviewedAt`, `status`
+- [ ] Réutiliser les mêmes identifiants stables que la révision espacée pour relier une erreur à une question ou une carte précise
+- [ ] Prévoir une déduplication minimale : éviter 10 entrées identiques si l'élève rate la même question 10 fois d'affilée dans la même session
+
+### 5.2. Définir quand une erreur doit être enregistrée
+
+- [ ] Quiz : enregistrer immédiatement toute mauvaise réponse avec la correction associée
+- [ ] Exercice : enregistrer une erreur seulement après `2` échecs ou dès que la solution complète est affichée, pour éviter un journal trop bruyant
+- [ ] Évaluation : phase 2, après stabilisation du flux quiz + exercice
+- [ ] Ajouter `markErrorUnderstood(errorId)` et `reopenError(errorId)` pour distinguer `nouvelle`, `à revoir`, `comprise`
+
+### 5.3. Brancher le journal sur les moteurs existants
+
+- [ ] Quiz : appeler `saveError(...)` depuis le moteur de quiz juste après la validation d'une mauvaise réponse
+- [ ] Exercice : appeler `saveError(...)` depuis le moteur d'exercice quand le seuil d'échec est atteint ou quand la solution est dévoilée
+- [ ] Renseigner systématiquement : énoncé, réponse de l'élève, bonne réponse, correction, module source
+- [ ] Corriger ou remplacer `js/engines/errorAnalysisEngine.js`, actuellement non compatible avec l'architecture Vanilla JS globale
+
+### 5.4. Construire la vue `Mes erreurs`
+
+- [ ] Créer `js/views/erreurs.js` avec filtres par matière, module, statut et date
 - [ ] Ajouter le routage `#erreurs` dans `js/app.js`
 - [ ] Déclarer `js/views/erreurs.js` dans `index.html`
-- [ ] Ajouter un lien "Mes erreurs" dans la navigation principale (avec compteur de badge si erreurs non comprises)
+- [ ] Afficher par carte : énoncé, réponse donnée, bonne réponse, correction, date, module, boutons `Comprise`, `Réviser`, `Revoir le cours`
+- [ ] Ajouter un état vide utile : `Aucune erreur en attente`, avec renvoi vers les révisions ou les modules recommandés
+
+### 5.5. Relier le journal au reste du produit
+
+- [ ] Ajouter un lien `Mes erreurs` dans la navigation principale avec badge du nombre d'erreurs non comprises
+- [ ] Ajouter un bouton `Réviser` qui envoie soit vers `#revision`, soit vers le module source avec l'onglet pertinent
+- [ ] Ajouter sur l'accueil un mini-widget `Erreurs à revoir aujourd'hui`
+- [ ] Mettre à jour `contenu.md` immédiatement après ajout de `js/views/erreurs.js` ou d'un nouveau moteur associé
 
 ---
 
@@ -104,11 +194,39 @@ Sans création de compte, sans connexion obligatoire. Données utilisateur local
 
 ## 10. Partage enseignant sans authentification
 
-- [ ] Lire `js/playlist.js` pour comprendre la structure des playlists existantes
-- [ ] Ajouter `generateShareUrl(playlistId)` encodant la playlist en base64 dans le hash URL
-- [ ] Ajouter `importFromUrl()` décodant et chargeant une playlist depuis l'URL au démarrage dans `js/app.js`
-- [ ] Intégrer la génération de QR code via un script CDN léger (ex: `qrcode.js`) déclaré dans `index.html`
-- [ ] Ajouter un bouton "Partager" dans l'interface playlist affichant l'URL copiable et le QR code
+Objectif : fiabiliser et enrichir un partage déjà partiellement présent, sans ajouter d'authentification ni de backend.
+
+### 10.1. État actuel déjà présent dans le code
+
+- [x] Le partage par lien hash existe déjà via `generatePlaylistLink()` dans `js/playlist.js`
+- [x] Le décodage et le chargement de `#playlist/...` existent déjà via `parseHash()` dans `js/app.js` et `loadPlaylist()` dans `js/playlist.js`
+- [x] La structure de base `title + steps` est déjà sérialisée en base64 et limitée à `20` étapes
+
+### 10.2. Refactoriser l'existant en API claire
+
+- [ ] Extraire une API explicite : `generateShareUrl({ title, steps })`, `parseSharedPlaylist(hash)`, `isValidSharedPlaylist(data)`
+- [ ] Versionner le payload partagé : `{ v: 1, title, steps }` pour permettre des évolutions futures sans casser les anciens liens
+- [ ] Centraliser l'encodage/décodage dans un seul endroit pour éviter la duplication entre builder, routeur et lecture de hash
+
+### 10.3. Sécuriser et valider les liens importés
+
+- [ ] Vérifier côté import : structure JSON valide, longueur maximale, onglets autorisés, `moduleId` existants, titre nettoyé
+- [ ] Gérer les erreurs utilisateur proprement : `lien invalide`, `module supprimé`, `playlist vide`, `version non supportée`
+- [ ] Ajouter des garde-fous si le lien est trop long ou contient trop d'étapes
+
+### 10.4. Améliorer l'expérience de partage enseignant
+
+- [ ] Ajouter un vrai bouton `Partager` dans l'interface playlist, distinct du simple `Générer le lien`
+- [ ] Afficher dans un panneau unique : URL copiable, bouton `Copier`, bouton `Ouvrir comme élève`, aperçu du nombre d'étapes
+- [ ] Intégrer un QR code via un script CDN léger `qrcode.js`, déclaré dans `index.html` sans dépendance npm
+- [ ] Ajouter un message clair côté enseignant : `Aucun compte requis — le lien suffit pour lancer le parcours`
+
+### 10.5. Rendre le partage plus robuste côté produit
+
+- [ ] Sauvegarder localement la dernière playlist partagée pour pouvoir la régénérer sans tout reconstruire
+- [ ] Ajouter un mini mode `aperçu élève` depuis l'espace enseignant avant copie du lien
+- [ ] Prévoir une stratégie si l'URL devient trop longue : alerte, réduction du nombre d'étapes, ou suppression des métadonnées non essentielles
+- [ ] Mettre à jour `contenu.md` si un nouveau script est ajouté pour le QR code ou pour le parsing partagé
 
 ---
 
