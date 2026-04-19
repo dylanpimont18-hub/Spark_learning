@@ -3963,12 +3963,12 @@ html.projector-mode .projector-exit-btn { display: flex; align-items: center; ga
 }
 
 /* ═══════════════════════════════════════
-   NAV MOBILE — labels courts (≤ 400px)
+   NAV MOBILE — icônes sur mobile (≤ 600px)
 ═══════════════════════════════════════ */
 .nav-short { display: none; }
 
-@media (max-width: 400px) {
+@media (max-width: 600px) {
   .nav-full  { display: none; }
-  .nav-short { display: inline; font-size: 1.2rem; }
-  .nav-link  { padding: 6px 8px; }
+  .nav-short { display: inline; font-size: 1.3rem; }
+  .nav-link  { padding: 6px 10px; }
 }
