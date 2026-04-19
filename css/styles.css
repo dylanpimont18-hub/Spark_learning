@@ -3885,3 +3885,90 @@ html.projector-mode .projector-exit-btn { display: flex; align-items: center; ga
   border-color: var(--primary);
   background: color-mix(in srgb, var(--primary) 12%, transparent);
 }
+
+/* ═══════════════════════════════════════
+   CELEBRATION — Confetti, Flash, Badge
+═══════════════════════════════════════ */
+@keyframes confetti-fall {
+  0%   { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+  80%  { opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+.celebration-confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: var(--z-confetti);
+  overflow: hidden;
+}
+
+.confetti-particle {
+  position: absolute;
+  top: -16px;
+  border-radius: 2px;
+  animation: confetti-fall 2.4s ease-in forwards;
+}
+
+@keyframes flash-in-out {
+  0%   { opacity: 0; transform: translateX(-50%) scale(0.7); }
+  20%  { opacity: 1; transform: translateX(-50%) scale(1.05); }
+  80%  { opacity: 1; transform: translateX(-50%) scale(1); }
+  100% { opacity: 0; transform: translateX(-50%) scale(0.9); }
+}
+
+.celebration-flash {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #FF6B35, var(--accent));
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.4rem;
+  padding: 16px 32px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  pointer-events: none;
+  z-index: var(--z-confetti);
+  animation: flash-in-out 2s ease forwards;
+  white-space: nowrap;
+}
+
+@keyframes badge-pulse {
+  0%   { opacity: 0; transform: translateX(-50%) scale(0.5); }
+  30%  { opacity: 1; transform: translateX(-50%) scale(1.1); }
+  50%  { transform: translateX(-50%) scale(0.95); }
+  70%  { transform: translateX(-50%) scale(1.03); }
+  85%  { opacity: 1; transform: translateX(-50%) scale(1); }
+  100% { opacity: 0; transform: translateX(-50%) scale(0.9); }
+}
+
+.celebration-badge {
+  position: fixed;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--secondary), var(--primary));
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.3rem;
+  padding: 14px 28px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  pointer-events: none;
+  z-index: var(--z-confetti);
+  animation: badge-pulse 2.2s ease forwards;
+  white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════
+   NAV MOBILE — labels courts (≤ 400px)
+═══════════════════════════════════════ */
+.nav-short { display: none; }
+
+@media (max-width: 400px) {
+  .nav-full  { display: none; }
+  .nav-short { display: inline; font-size: 1.2rem; }
+  .nav-link  { padding: 6px 8px; }
+}
