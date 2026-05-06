@@ -13,65 +13,65 @@ window.MODULES.push({
     intro: `Les fonctions logarithme et exponentielle sont complémentaires — l'une est l'inverse de l'autre. Elles apparaissent systématiquement lorsqu'une grandeur physique <em>croît ou décroît proportionnellement à elle-même</em> : charge d'un condensateur, désintégration radioactive, refroidissement d'un corps, réaction d'ordre 1 en chimie.<br/><br/>
 En BTS, vous les rencontrerez principalement sous deux formes : le <strong>logarithme décimal</strong> ($\\log_{10}$) pour les décibels et le pH, et le <strong>logarithme naturel</strong> ($\\ln$) pour les équations différentielles et les cinétiques.`,
 
-    definitions: `<strong>Rappels fondamentaux</strong><br/><br/>
-La fonction exponentielle $e^x$ (ou $\\exp(x)$) est définie pour tout réel $x$. Sa base $e \\approx 2{,}718$ est appelée la constante de Neper.<br/><br/>
-Le logarithme naturel $\\ln(x)$ est la <strong>réciproque</strong> de $e^x$ :<br/>
-$$\\ln(e^x) = x \\qquad e^{\\ln(x)} = x \\qquad (x > 0)$$<br/><br/>
-Le logarithme décimal $\\log_{10}(x)$ (ou simplement $\\log$) est la réciproque de $10^x$ :<br/>
-$$\\log_{10}(10^x) = x \\qquad 10^{\\log_{10}(x)} = x$$<br/><br/>
-Relation entre les deux : $\\ln(x) = \\log_{10}(x) \\times \\ln(10) \\approx 2{,}303 \\times \\log_{10}(x)$<br/><br/>
-<strong>Propriétés algébriques (valables pour ln et log)</strong><br/><br/>
-$$\\ln(a \\times b) = \\ln a + \\ln b$$
-$$\\ln\\left(\\frac{a}{b}\\right) = \\ln a - \\ln b$$
-$$\\ln(a^n) = n \\times \\ln a$$
-$$\\ln(1) = 0 \\qquad \\ln(e) = 1$$<br/><br/>
-<strong>Propriétés de l'exponentielle</strong><br/><br/>
-$$e^{a+b} = e^a \\times e^b \\qquad e^{a-b} = \\frac{e^a}{e^b} \\qquad (e^a)^n = e^{na}$$
-$$e^0 = 1 \\qquad e^1 = e \\approx 2{,}718 \\qquad e^{-x} = \\frac{1}{e^x}$$<br/><br/>
-<strong>Résoudre une équation avec ln ou exp</strong><br/><br/>
-Si $e^x = k$ → $x = \\ln(k)$<br/>
+    definitions: [
+      {
+        term: 'Rappels fondamentaux (ln et exp)',
+        def: `$e^x$ est définie pour tout réel $x$, base $e \\approx 2{,}718$ (constante de Neper).<br/><br/>
+<strong>Réciproques</strong> : $\\ln(e^x) = x$ et $e^{\\ln(x)} = x$ (pour $x > 0$).<br/>
+$\\log_{10}(10^x) = x$ et $10^{\\log_{10}(x)} = x$.<br/><br/>
+Relation : $\\ln(x) = \\log_{10}(x) \\times \\ln(10) \\approx 2{,}303 \\times \\log_{10}(x)$`,
+      },
+      {
+        term: 'Propriétés algébriques (valables pour ln et log)',
+        def: `$\\ln(a \\times b) = \\ln a + \\ln b$<br/>
+$\\ln\\left(\\dfrac{a}{b}\\right) = \\ln a - \\ln b$<br/>
+$\\ln(a^n) = n \\times \\ln a$<br/>
+$\\ln(1) = 0 \\quad \\ln(e) = 1$`,
+      },
+      {
+        term: "Propriétés de l'exponentielle",
+        def: `$e^{a+b} = e^a \\times e^b \\quad e^{a-b} = \\dfrac{e^a}{e^b} \\quad (e^a)^n = e^{na}$<br/>
+$e^0 = 1 \\quad e^1 = e \\approx 2{,}718 \\quad e^{-x} = \\dfrac{1}{e^x}$`,
+      },
+      {
+        term: 'Résoudre une équation avec ln ou exp',
+        def: `Si $e^x = k$ → $x = \\ln(k)$<br/>
 Si $\\ln(x) = k$ → $x = e^k$<br/>
 Si $a \\cdot e^{bx} = c$ → $e^{bx} = c/a$ → $bx = \\ln(c/a)$ → $x = \\ln(c/a)/b$`,
+      },
+    ],
 
-    method: `<strong>Les décibels (dB) — cas appliqué majeur</strong><br/><br/>
-Le décibel est une unité logarithmique qui permet d'exprimer des rapports très grands sur une échelle comprimée.<br/><br/>
-Niveau de puissance : $L_P = 10 \\times \\log_{10}\\left(\\dfrac{P}{P_0}\\right)\\;\\text{dB}$<br/><br/>
-Niveau de pression sonore : $L_p = 20 \\times \\log_{10}\\left(\\dfrac{p}{p_0}\\right)\\;\\text{dB}$<br/><br/>
-(Le facteur 20 au lieu de 10 vient de $P \\propto p^2$, donc $\\log(p^2/p_0^2) = 2\\log(p/p_0)$)<br/><br/>
-<strong>Valeurs repères :</strong> +3 dB ≈ doubler la puissance ; +6 dB ≈ doubler la pression ; +10 dB ≈ multiplier par 10 la puissance perçue.<br/><br/>
-<strong>La constante de temps τ — systèmes RC et RL</strong><br/><br/>
-La charge d'un condensateur suit : $u_C(t) = E\\left(1 - e^{-t/\\tau}\\right)$ avec $\\tau = RC$<br/>
-La décharge suit : $u_C(t) = U_0 \\cdot e^{-t/\\tau}$<br/><br/>
-À $t = \\tau$ : $u_C = E(1 - e^{-1}) \\approx 0{,}632 \\times E$ (63,2% de la valeur finale).<br/>
-À $t = 5\\tau$ : le système est considéré en régime permanent (>99%).`,
+    method: {
+      title: 'Décibels et constante de temps τ — applications majeures',
+      steps: [
+        '<strong>Décibels (puissance)</strong> : $L_P = 10 \\times \\log_{10}\\left(\\dfrac{P}{P_0}\\right)\\;\\text{dB}$',
+        '<strong>Décibels (pression/tension)</strong> : $L_p = 20 \\times \\log_{10}\\left(\\dfrac{p}{p_0}\\right)\\;\\text{dB}$ (facteur 20 car $P \\propto p^2$)',
+        '<strong>Valeurs repères dB</strong> : +3 dB ≈ ×2 puissance | +6 dB ≈ ×2 pression | +10 dB ≈ ×10 puissance perçue',
+        '<strong>Constante de temps τ (RC)</strong> : charge $u_C(t) = E(1 - e^{-t/\\tau})$ | décharge $u_C(t) = U_0 \\cdot e^{-t/\\tau}$',
+        'À $t = \\tau$ : $u_C \\approx 63{,}2\\%$ de $E$. À $t = 5\\tau$ : régime permanent (>99%).',
+      ],
+    },
 
-    example: `<strong>Exemple 1 — Électrotechnique : atténuation en dB</strong><br/><br/>
-Un filtre passe-bas atténue le signal d'un facteur 100 en tension. L'atténuation en dB est :<br/>
-$$L = 20 \\times \\log_{10}(100) = 20 \\times 2 = 40\\;\\text{dB}$$<br/><br/>
-Le signal de sortie est à -40 dB par rapport à l'entrée.<br/><br/>
-<strong>Exemple 2 — Chimie : constante de temps d'une réaction d'ordre 1</strong><br/><br/>
-Une réaction de décomposition suit la loi $[A](t) = [A]_0 \\cdot e^{-kt}$ avec $k = 0{,}05\\;\\text{min}^{-1}$.<br/>
-Temps de demi-vie : $[A] = [A]_0 / 2 \\Rightarrow e^{-kt_{1/2}} = 1/2 \\Rightarrow -kt_{1/2} = \\ln(1/2) = -\\ln 2$<br/>
-$$t_{1/2} = \\frac{\\ln 2}{k} = \\frac{0{,}693}{0{,}05} = 13{,}9\\;\\text{min}$$<br/><br/>
-<strong>Exemple 3 — Thermique : NTU d'un échangeur</strong><br/><br/>
-L'efficacité d'un échangeur à courant croisé suit : $\\varepsilon = 1 - e^{-\\text{NTU}}$ (formule simplifiée).<br/>
-Si on souhaite $\\varepsilon = 0{,}8$ :<br/>
-$$0{,}8 = 1 - e^{-\\text{NTU}} \\Rightarrow e^{-\\text{NTU}} = 0{,}2 \\Rightarrow -\\text{NTU} = \\ln(0{,}2) = -1{,}609$$
-$$\\text{NTU} = 1{,}61$$<br/><br/>
-<strong>Exemple 4 — Acoustique industrielle : addition de sources sonores</strong><br/><br/>
-Deux machines produisent chacune 80 dB. Le niveau combiné n'est pas 160 dB, mais :<br/>
-$$L_{\\text{tot}} = 10\\log_{10}(10^{8} + 10^{8}) = 10\\log_{10}(2 \\times 10^{8}) = 10(\\log 2 + 8) = 10(0{,}301 + 8) = 83\\;\\text{dB}$$<br/>
-Deux sources identiques ajoutent toujours +3 dB.`,
+    example: {
+      statement: 'Applications des logarithmes et exponentielles : décibels, demi-vie, efficacité d\'échangeur, acoustique.',
+      steps: [
+        '<strong>Exemple 1 — Atténuation dB</strong> : filtre atténue ×100 en tension → $L = 20\\log_{10}(100) = 20 \\times 2 = 40\\;\\text{dB}$ (signal sortie à -40 dB)',
+        '<strong>Exemple 2 — Demi-vie (réaction d\'ordre 1)</strong> : $k = 0{,}05\\;\\text{min}^{-1}$ → $t_{1/2} = \\ln 2 / k = 0{,}693/0{,}05 = 13{,}9\\;\\text{min}$',
+        '<strong>Exemple 3 — Échangeur thermique (NTU)</strong> : $\\varepsilon = 0{,}8 = 1 - e^{-\\text{NTU}}$ → $e^{-\\text{NTU}} = 0{,}2$ → $\\text{NTU} = \\ln(5) \\approx 1{,}61$',
+        '<strong>Exemple 4 — Acoustique : addition de sources</strong> : deux sources de 80 dB → $L = 10\\log_{10}(10^8 + 10^8) = 10(\\log 2 + 8) \\approx 83\\;\\text{dB}$ (deux sources identiques = +3 dB)',
+      ],
+      answer: 'On ne peut pas additionner des dB directement. Il faut revenir aux puissances ($10^{L/10}$), les additionner, puis repasser en dB avec $10\\log_{10}$.',
+    },
 
     formulas: [
-      { label: 'Réciproque ln/exp', formula: 'e^{\\ln x} = x \\quad \\text{et} \\quad \\ln(e^x) = x' },
-      { label: 'Produit → somme', formula: '\\ln(ab) = \\ln a + \\ln b' },
-      { label: 'Quotient → différence', formula: '\\ln(a/b) = \\ln a - \\ln b' },
-      { label: 'Puissance', formula: '\\ln(a^n) = n\\ln a' },
-      { label: 'Décibel (puissance)', formula: 'L = 10\\log_{10}(P/P_0)\\;\\text{dB}' },
-      { label: 'Décibel (pression/tension)', formula: 'L = 20\\log_{10}(V/V_0)\\;\\text{dB}' },
-      { label: 'Charge condensateur', formula: 'u_C(t) = E\\left(1 - e^{-t/\\tau}\\right), \\quad \\tau = RC' },
-      { label: 'Demi-vie', formula: 't_{1/2} = \\dfrac{\\ln 2}{k} \\approx \\dfrac{0{,}693}{k}' },
+      '<strong>Réciproque ln/exp</strong> : $e^{\\ln x} = x \\quad \\text{et} \\quad \\ln(e^x) = x$',
+      '<strong>Produit → somme</strong> : $\\ln(ab) = \\ln a + \\ln b$',
+      '<strong>Quotient → différence</strong> : $\\ln(a/b) = \\ln a - \\ln b$',
+      '<strong>Puissance</strong> : $\\ln(a^n) = n\\ln a$',
+      '<strong>Décibel (puissance)</strong> : $L = 10\\log_{10}(P/P_0)\\;\\text{dB}$',
+      '<strong>Décibel (pression/tension)</strong> : $L = 20\\log_{10}(V/V_0)\\;\\text{dB}$',
+      '<strong>Charge condensateur</strong> : $u_C(t) = E\\left(1 - e^{-t/\\tau}\\right), \\quad \\tau = RC$',
+      '<strong>Demi-vie</strong> : $t_{1/2} = \\dfrac{\\ln 2}{k} \\approx \\dfrac{0{,}693}{k}$',
     ],
 
     diagram: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:10px;padding:20px;font-family:monospace;font-size:0.88rem;line-height:1.8">
@@ -92,13 +92,14 @@ Deux sources identiques ajoutent toujours +3 dB.`,
 </div>
 </div>`,
 
-    recap: `<strong>Ce qu'il faut retenir</strong><br/><br/>
-• $\\ln$ et $\\exp$ sont inverses l'une de l'autre : $e^{\\ln x} = x$<br/>
-• Propriétés : $\\ln(ab) = \\ln a + \\ln b$ — $\\ln(a/b) = \\ln a - \\ln b$ — $\\ln(a^n) = n\\ln a$<br/>
-• Décibels : $L = 10\\log(P/P_0)$ pour les puissances, $20\\log(V/V_0)$ pour les tensions<br/>
-• +3 dB ≈ doubler la puissance ; +10 dB ≈ ×10 la puissance perçue<br/>
-• Constante de temps : à $t = \\tau$, on atteint 63% de la valeur finale ; à $5\\tau$, régime permanent<br/>
-• Demi-vie : $t_{1/2} = \\ln 2 / k \\approx 0{,}693/k$`,
+    recap: [
+      '$\\ln$ et $\\exp$ sont inverses : $e^{\\ln x} = x$ et $\\ln(e^x) = x$',
+      'Propriétés : $\\ln(ab) = \\ln a + \\ln b$ — $\\ln(a/b) = \\ln a - \\ln b$ — $\\ln(a^n) = n\\ln a$',
+      'Décibels : $L = 10\\log(P/P_0)$ pour les puissances, $20\\log(V/V_0)$ pour les tensions',
+      '+3 dB ≈ doubler la puissance ; +10 dB ≈ ×10 la puissance perçue',
+      'Constante de temps : à $t = \\tau$, on atteint 63% de la valeur finale ; à $5\\tau$, régime permanent',
+      'Demi-vie : $t_{1/2} = \\ln 2 / k \\approx 0{,}693/k$',
+    ],
 
     piege: `<strong>Pièges fréquents</strong><br/><br/>
 • <strong>$\\ln$ vs $\\log$</strong> : sur les calculatrices, "log" est souvent $\\log_{10}$ et "ln" est le logarithme naturel. Ne pas les confondre.<br/><br/>
