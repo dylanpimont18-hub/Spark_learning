@@ -12,67 +12,43 @@ window.MODULES.push({
   cours: {
     intro: `Un graphique est une représentation visuelle d'une relation entre deux grandeurs. En bureau d'études et sur le terrain, les techniciens utilisent constamment des abaques, des courbes de performance et des diagrammes. La lecture graphique précise est une compétence technique à part entière, distincte du calcul numérique.`,
 
-    definitions: `<strong>Anatomie d'un graphique</strong><br/><br/>
-• <strong>Axe des abscisses (x)</strong> : grandeur indépendante (cause). Ex : débit, température, fréquence.<br/>
-• <strong>Axe des ordonnées (y)</strong> : grandeur dépendante (effet). Ex : HMT, rendement, puissance.<br/>
-• <strong>Échelle</strong> : graduation des axes. Elle peut être linéaire, logarithmique, ou semi-logarithmique.<br/>
-• <strong>Légende</strong> : identification des courbes si plusieurs sont représentées.<br/>
-• <strong>Titre et unités</strong> : indispensables pour donner un sens au graphique.<br/><br/>
-<strong>Interpolation linéaire</strong><br/><br/>
-Si on connaît deux points $(x_1, y_1)$ et $(x_2, y_2)$ sur une courbe, on peut estimer la valeur $y$ pour un $x$ intermédiaire ($x_1 < x < x_2$) :<br/><br/>
-$$y = y_1 + \\frac{x - x_1}{x_2 - x_1} \\times (y_2 - y_1)$$<br/><br/>
-C'est l'équation de la droite passant par les deux points connus.<br/><br/>
-<strong>Pente d'une courbe (entre deux points)</strong><br/><br/>
-$$a = \\frac{y_2 - y_1}{x_2 - x_1} \\qquad \\text{(même unité que } y/x\\text{)}$$<br/><br/>
-<strong>Extrapolation</strong><br/><br/>
-Estimer $y$ pour un $x$ en dehors de la plage connue $(x_1, x_2)$. C'est risqué : la tendance peut changer hors de la plage de mesure. Toujours signaler qu'on extrapole et indiquer les limites de validité.<br/><br/>
-<strong>Échelle logarithmique</strong><br/><br/>
-Sur une échelle logarithmique, les graduations sont espacées en proportion de $\\log(x)$. Une droite sur un graphe log-log correspond à une loi puissance : $y = a \\cdot x^n$. Une droite sur un graphe semi-log (x lin, y log) correspond à une exponentielle.`,
+    definitions: [
+      { term: 'Anatomie d\'un graphique', def: '<strong>Abscisses (x)</strong> : grandeur indépendante (cause) — ex. débit, température.<br/><strong>Ordonnées (y)</strong> : grandeur dépendante (effet) — ex. HMT, rendement.<br/><strong>Échelle</strong> : linéaire, logarithmique ou semi-logarithmique.<br/><strong>Titre, unités, légende</strong> : indispensables pour interpréter le graphique.' },
+      { term: 'Interpolation linéaire', def: 'Estimer $y$ pour un $x$ intermédiaire entre deux points $(x_1, y_1)$ et $(x_2, y_2)$ :<br/>$$y = y_1 + \\frac{x - x_1}{x_2 - x_1} \\times (y_2 - y_1)$$' },
+      { term: 'Pente d\'une courbe', def: '$a = \\dfrac{y_2 - y_1}{x_2 - x_1}$ — unité : $[y]/[x]$. Choisir deux points éloignés pour limiter l\'erreur de lecture.' },
+      { term: 'Extrapolation', def: 'Estimer $y$ pour un $x$ <em>hors</em> de la plage connue. Risqué : la tendance peut changer. Toujours signaler qu\'on extrapole et indiquer les limites de validité.' },
+      { term: 'Échelle logarithmique', def: 'Graduations en proportion de $\\log(x)$. Une droite sur un graphe log-log = loi puissance $y = a \\cdot x^n$. Une droite sur un graphe semi-log (x lin, y log) = loi exponentielle.' },
+    ],
 
-    method: `<strong>Méthode de lecture graphique précise</strong><br/><br/>
-1. Identifier les axes, les unités et les échelles<br/>
-2. Repérer les graduations principales et secondaires<br/>
-3. Tracer mentalement (ou au crayon) des lignes de projection verticale et horizontale<br/>
-4. Lire la valeur à l'intersection avec l'axe correspondant<br/>
-5. Estimer l'incertitude de lecture (typiquement ±0,5 graduation)<br/><br/>
-<strong>Comment calculer la pente d'une droite sur un graphique</strong><br/><br/>
-1. Choisir deux points éloignés sur la droite (pas forcément des points de mesure)<br/>
-2. Lire leurs coordonnées $(x_1, y_1)$ et $(x_2, y_2)$ avec soin<br/>
-3. Calculer $a = (y_2 - y_1)/(x_2 - x_1)$<br/>
-4. Vérifier l'unité : $[a] = [y]/[x]$`,
+    method: {
+      title: 'Méthode de lecture graphique précise',
+      steps: [
+        'Identifier les axes, les unités et les échelles (linéaire ou logarithmique).',
+        'Repérer les graduations principales et secondaires.',
+        'Tracer mentalement (ou au crayon) des lignes de projection verticale et horizontale.',
+        'Lire la valeur à l\'intersection avec l\'axe correspondant.',
+        'Estimer l\'incertitude de lecture (typiquement ±$0{,}5$ graduation).',
+        '<strong>Calculer une pente</strong> : choisir deux points éloignés sur la droite, lire $(x_1, y_1)$ et $(x_2, y_2)$, calculer $a = (y_2-y_1)/(x_2-x_1)$, vérifier l\'unité $[a] = [y]/[x]$.',
+      ],
+    },
 
-    example: `<strong>Exemple 1 — Courbe pompe Grundfos (hydraulique)</strong><br/><br/>
-Une courbe de pompe donne les points suivants :<br/>
-
-| Q (m³/h) | HMT (m) |
-|----------|---------|
-| 0 | 48 |
-| 5 | 45 |
-| 10 | 38 |
-| 15 | 27 |
-| 20 | 10 |<br/><br/>
-
-Pour $Q = 12\\;\\text{m}^3/\\text{h}$ (entre 10 et 15) :<br/>
-$$\\text{HMT} = 38 + \\frac{12 - 10}{15 - 10} \\times (27 - 38) = 38 + \\frac{2}{5} \\times (-11) = 38 - 4{,}4 = 33{,}6\\;\\text{m}$$<br/><br/>
-<strong>Exemple 2 — Diagramme de Moody (hydraulique)</strong><br/><br/>
-Le diagramme de Moody permet de lire le coefficient de frottement $\\lambda$ en fonction du nombre de Reynolds et de la rugosité relative. C'est un abaque en double échelle logarithmique. Pour $Re = 10^5$ et $\\varepsilon/D = 10^{-3}$, on lit graphiquement $\\lambda \\approx 0{,}021$.<br/><br/>
-<strong>Exemple 3 — Courbe caractéristique d'une diode (électronique)</strong><br/><br/>
-La caractéristique I(V) d'une diode est non linéaire. Pour estimer le courant à $V = 0{,}65\\;\\text{V}$ à partir des points $(0{,}60\\;\\text{V}, 10\\;\\text{mA})$ et $(0{,}70\\;\\text{V}, 80\\;\\text{mA})$ :<br/>
-$$I = 10 + \\frac{0{,}65 - 0{,}60}{0{,}70 - 0{,}60} \\times (80 - 10) = 10 + 0{,}5 \\times 70 = 45\\;\\text{mA}$$<br/>
-(Approximation valable seulement si la variation est quasi-linéaire entre ces deux points.)<br/><br/>
-<strong>Exemple 4 — Diagramme enthalpique frigorigène (thermodynamique)</strong><br/><br/>
-Dans le diagramme de Mollier (p-h), on lit :<br/>
-• L'enthalpie à l'entrée du compresseur : $h_1$<br/>
-• L'enthalpie à la sortie du compresseur : $h_2$<br/>
-• L'enthalpie à l'entrée de l'évaporateur : $h_4$<br/>
-La puissance frigorifique par kg de fluide : $q_f = h_1 - h_4$ (lu graphiquement).`,
+    example: {
+      statement: 'Quatre cas de lecture graphique : courbe de pompe, diagramme de Moody, caractéristique de diode, diagramme de Mollier.',
+      steps: [
+        '<strong>Courbe pompe Grundfos — interpolation linéaire</strong><br/>Points connus : $(10\\;\\text{m}^3/\\text{h},\\;38\\;\\text{m})$ et $(15\\;\\text{m}^3/\\text{h},\\;27\\;\\text{m})$.<br/>Pour $Q = 12\\;\\text{m}^3/\\text{h}$ :<br/>$\\text{HMT} = 38 + \\dfrac{12-10}{15-10} \\times (27-38) = 38 - 4{,}4 = 33{,}6\\;\\text{m}$',
+        '<strong>Diagramme de Moody — double échelle log</strong><br/>Pour $Re = 10^5$ et $\\varepsilon/D = 10^{-3}$ : lecture graphique → $\\lambda \\approx 0{,}021$.',
+        '<strong>Caractéristique de diode — courbe non linéaire</strong><br/>Points : $(0{,}60\\;\\text{V},\\;10\\;\\text{mA})$ et $(0{,}70\\;\\text{V},\\;80\\;\\text{mA})$.<br/>Pour $V = 0{,}65\\;\\text{V}$ : $I = 10 + 0{,}5 \\times 70 = 45\\;\\text{mA}$ (approximation quasi-linéaire locale).',
+        '<strong>Diagramme enthalpique frigorigène (Mollier)</strong><br/>Lecture des enthalpies $h_1$, $h_2$, $h_4$ sur le diagramme p-h. Puissance frigorifique par kg : $q_f = h_1 - h_4$ (lu graphiquement).',
+      ],
+      answer: 'Toujours vérifier l\'échelle et les unités avant de lire. Indiquer l\'incertitude de lecture et préciser si on extrapole.',
+    },
 
     formulas: [
-      { label: 'Interpolation linéaire', formula: 'y = y_1 + \\frac{x - x_1}{x_2 - x_1} \\times (y_2 - y_1)' },
-      { label: 'Pente d\'une droite', formula: 'a = \\frac{y_2 - y_1}{x_2 - x_1} \\quad [a] = [y]/[x]' },
-      { label: 'Équation d\'une droite', formula: 'y = ax + b \\quad (b = y_1 - a \\cdot x_1)' },
-      { label: 'Loi puissance (log-log)', formula: '\\log y = n \\log x + \\log a \\Leftrightarrow y = a x^n' },
-      { label: 'Loi exponentielle (semi-log)', formula: '\\ln y = bx + \\ln a \\Leftrightarrow y = a e^{bx}' },
+      '<strong>Interpolation linéaire</strong> : $y = y_1 + \\dfrac{x - x_1}{x_2 - x_1} \\times (y_2 - y_1)$',
+      '<strong>Pente d\'une droite</strong> : $a = \\dfrac{y_2 - y_1}{x_2 - x_1}$ — $[a] = [y]/[x]$',
+      '<strong>Équation d\'une droite</strong> : $y = ax + b$ avec $b = y_1 - a \\cdot x_1$',
+      '<strong>Loi puissance (log-log)</strong> : $\\log y = n \\log x + \\log a \\Leftrightarrow y = a x^n$',
+      '<strong>Loi exponentielle (semi-log)</strong> : $\\ln y = bx + \\ln a \\Leftrightarrow y = a e^{bx}$',
     ],
 
     diagram: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:10px;padding:20px;font-family:monospace;font-size:0.85rem;line-height:1.8">
@@ -91,12 +67,13 @@ La puissance frigorifique par kg de fluide : $q_f = h_1 - h_4$ (lu graphiquement
 </pre>
 </div>`,
 
-    recap: `<strong>Ce qu'il faut retenir</strong><br/><br/>
-• Toujours vérifier les unités et l'échelle d'un graphique avant de lire<br/>
-• Interpolation : estimer entre deux points connus → formule $(y_2-y_1)/(x_2-x_1)$<br/>
-• Extrapolation : estimer hors des points connus → prudence et signalement obligatoires<br/>
-• Pente : $a = \\Delta y / \\Delta x$ — unité = $[y]/[x]$<br/>
-• Échelle log : une droite correspond à une loi puissance ou exponentielle`,
+    recap: [
+      'Toujours vérifier les unités et l\'échelle d\'un graphique avant de lire.',
+      'Interpolation : estimer entre deux points connus → formule $(y_2-y_1)/(x_2-x_1)$.',
+      'Extrapolation : estimer hors des points connus → prudence et signalement obligatoires.',
+      'Pente : $a = \\Delta y / \\Delta x$ — unité = $[y]/[x]$.',
+      'Échelle log : une droite correspond à une loi puissance ou exponentielle.',
+    ],
 
     piege: `<strong>Pièges fréquents</strong><br/><br/>
 • <strong>Confondre la variable et la valeur lue</strong> : l'axe des x est la variable indépendante. Pour lire la valeur en y correspondant à un x donné, on projette verticalement sur la courbe, puis horizontalement sur l'axe y.<br/><br/>
