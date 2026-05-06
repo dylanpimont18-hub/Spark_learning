@@ -13,63 +13,41 @@ window.MODULES.push({
     intro: `En BTS technique, la trigonométrie n'est pas un exercice abstrait : c'est l'outil qui permet de calculer un angle de phase entre tension et courant en électrotechnique, une pente de canalisation en BTP, un effort sur un plan incliné en mécanique, ou encore la résolution vectorielle d'une force de traction.<br/><br/>
 Ce module couvre les trois fonctions essentielles dans le triangle rectangle, les valeurs remarquables à connaître de mémoire, et l'extension au cercle trigonométrique pour les angles quelconques (nécessaire pour les signaux sinusoïdaux).`,
 
-    definitions: `<strong>Le triangle rectangle</strong><br/><br/>
-Dans un triangle rectangle, par rapport à un angle $\\theta$ (différent de 90°) :<br/><br/>
-$$\\sin\\theta = \\frac{\\text{côté opposé}}{\\text{hypoténuse}} \\qquad \\cos\\theta = \\frac{\\text{côté adjacent}}{\\text{hypoténuse}} \\qquad \\tan\\theta = \\frac{\\text{côté opposé}}{\\text{côté adjacent}}$$<br/><br/>
-Moyen mnémotechnique : <strong>SOH-CAH-TOA</strong> (Sin = Opposé/Hypoténuse, Cos = Adjacent/Hypoténuse, Tan = Opposé/Adjacent).<br/><br/>
-La relation fondamentale (identité trigonométrique) : $\\cos^2\\theta + \\sin^2\\theta = 1$<br/><br/>
-<strong>Unités d'angle : degrés et radians</strong><br/><br/>
-Les ingénieurs utilisent les deux systèmes. La conversion est :<br/><br/>
-$$\\theta_{\\text{rad}} = \\theta_{\\text{°}} \\times \\frac{\\pi}{180} \\qquad \\theta_{\\text{°}} = \\theta_{\\text{rad}} \\times \\frac{180}{\\pi}$$<br/><br/>
-Un tour complet = 360° = $2\\pi$ rad. Un angle droit = 90° = $\\dfrac{\\pi}{2}$ rad.<br/><br/>
-<strong>Valeurs remarquables</strong><br/><br/>
-Ces valeurs sont à connaître absolument :<br/><br/>
-| Angle | $\\sin$ | $\\cos$ | $\\tan$ |
-|-------|--------|--------|--------|
-| 0° | 0 | 1 | 0 |
-| 30° | $\\frac{1}{2}$ | $\\frac{\\sqrt{3}}{2}$ | $\\frac{1}{\\sqrt{3}} \\approx 0{,}577$ |
-| 45° | $\\frac{\\sqrt{2}}{2}$ | $\\frac{\\sqrt{2}}{2}$ | 1 |
-| 60° | $\\frac{\\sqrt{3}}{2}$ | $\\frac{1}{2}$ | $\\sqrt{3} \\approx 1{,}732$ |
-| 90° | 1 | 0 | indéfinie |<br/><br/>
-<strong>Le cercle trigonométrique</strong><br/><br/>
-Pour les angles supérieurs à 90° (signaux AC, rotations), on utilise le cercle de rayon 1 centré à l'origine. Un point sur ce cercle a pour coordonnées $M = (\\cos\\theta,\\; \\sin\\theta)$.<br/><br/>
-Les fonctions sin et cos sont périodiques de période $2\\pi$ (360°). C'est la base de la représentation des signaux sinusoïdaux : $u(t) = U_{\\max} \\sin(\\omega t + \\varphi)$.`,
+    definitions: [
+      { term: 'Triangle rectangle — SOH-CAH-TOA', def: '$\\sin\\theta = \\text{opposé}/\\text{hypoténuse}$<br/>$\\cos\\theta = \\text{adjacent}/\\text{hypoténuse}$<br/>$\\tan\\theta = \\text{opposé}/\\text{adjacent}$<br/>Identité fondamentale : $\\cos^2\\theta + \\sin^2\\theta = 1$' },
+      { term: 'Degrés et radians', def: '$\\theta_{\\text{rad}} = \\theta_{°} \\times \\pi/180$ — $\\theta_{°} = \\theta_{\\text{rad}} \\times 180/\\pi$<br/>360° = $2\\pi$ rad. Angle droit = 90° = $\\pi/2$ rad.' },
+      { term: 'Valeurs remarquables', def: 'sin 0° = 0, cos 0° = 1, tan 0° = 0<br/>sin 30° = $1/2$, cos 30° = $\\sqrt{3}/2$, tan 30° ≈ $0{,}577$<br/>sin 45° = cos 45° = $\\sqrt{2}/2$, tan 45° = 1<br/>sin 60° = $\\sqrt{3}/2$, cos 60° = $1/2$, tan 60° = $\\sqrt{3} \\approx 1{,}732$<br/>sin 90° = 1, cos 90° = 0' },
+      { term: 'Cercle trigonométrique', def: 'Pour les angles quelconques, le point $M = (\\cos\\theta,\\; \\sin\\theta)$ est sur le cercle unité. Sin et cos sont périodiques de période $2\\pi$. Base des signaux AC : $u(t) = U_{\\max}\\sin(\\omega t + \\varphi)$.' },
+    ],
 
-    method: `<strong>Résoudre un triangle rectangle</strong><br/><br/>
-Pour trouver un côté ou un angle inconnu, on identifie ce qu'on connaît et ce qu'on cherche, puis on choisit la bonne fonction.<br/><br/>
-<strong>Méthode pas à pas :</strong><br/><br/>
-1. Identifier l'angle de référence $\\theta$<br/>
-2. Nommer les côtés : opposé, adjacent, hypoténuse<br/>
-3. Choisir la fonction trigonométrique qui relie les éléments connus et l'inconnu<br/>
-4. Isoler l'inconnu et calculer<br/><br/>
-Pour trouver un <strong>angle</strong> à partir de deux côtés, utiliser les fonctions réciproques : $\\arcsin$, $\\arccos$, $\\arctan$ (notées aussi $\\sin^{-1}$, $\\cos^{-1}$, $\\tan^{-1}$ sur les calculatrices).`,
+    method: {
+      title: 'Résoudre un triangle rectangle',
+      steps: [
+        'Identifier l\'angle de référence $\\theta$.',
+        'Nommer les côtés : opposé (face à θ), adjacent (touche θ sans être l\'hypoténuse), hypoténuse (face à 90°).',
+        'Choisir la fonction trigonométrique reliant les éléments connus à l\'inconnu (SOH-CAH-TOA).',
+        'Isoler l\'inconnu et calculer. Pour trouver un angle depuis deux côtés : utiliser $\\arcsin$, $\\arccos$ ou $\\arctan$.',
+      ],
+    },
 
-    example: `<strong>Exemple 1 — Électrotechnique (angle de phase)</strong><br/><br/>
-Un circuit RL présente une résistance $R = 60\\;\\Omega$ et une réactance $X_L = 80\\;\\Omega$.<br/>
-L'impédance vaut $Z = \\sqrt{R^2 + X_L^2} = \\sqrt{3600 + 6400} = \\sqrt{10000} = 100\\;\\Omega$.<br/><br/>
-L'angle de déphasage est :<br/>
-$$\\varphi = \\arctan\\left(\\frac{X_L}{R}\\right) = \\arctan\\left(\\frac{80}{60}\\right) = \\arctan(1{,}333) \\approx 53{,}1°$$<br/><br/>
-Vérification : $\\cos\\varphi = \\dfrac{R}{Z} = \\dfrac{60}{100} = 0{,}6$ → $\\varphi = \\arccos(0{,}6) \\approx 53{,}1°$ ✓<br/><br/>
-<strong>Exemple 2 — BTP (pente d'une canalisation)</strong><br/><br/>
-Une canalisation d'assainissement doit être posée avec une pente de 2 % sur une longueur horizontale de 25 m.<br/><br/>
-L'angle par rapport à l'horizontale est :<br/>
-$$\\theta = \\arctan(0{,}02) \\approx 1{,}15°$$<br/><br/>
-La dénivellation verticale est :<br/>
-$$h = 25 \\times \\tan(1{,}15°) = 25 \\times 0{,}02 = 0{,}5\\;\\text{m} = 50\\;\\text{cm}$$<br/><br/>
-<strong>Exemple 3 — Mécanique (effort sur plan incliné)</strong><br/><br/>
-Une pièce de masse $m = 200\\;\\text{kg}$ est posée sur un plan incliné à $\\theta = 30°$.<br/>
-Le poids $P = mg = 200 \\times 9{,}81 = 1962\\;\\text{N}$.<br/><br/>
-Composante parallèle au plan (tend à faire glisser) : $P_{//} = P\\sin 30° = 1962 \\times 0{,}5 = 981\\;\\text{N}$<br/>
-Composante perpendiculaire (réaction normale) : $P_\\perp = P\\cos 30° = 1962 \\times 0{,}866 = 1699\\;\\text{N}$`,
+    example: {
+      statement: 'Trois applications : angle de déphasage en électrotechnique, pente de canalisation en BTP, effort sur plan incliné.',
+      steps: [
+        '<strong>Électrotechnique — angle de phase</strong><br/>Circuit RL : $R = 60\\;\\Omega$, $X_L = 80\\;\\Omega$<br/>$Z = \\sqrt{60^2 + 80^2} = 100\\;\\Omega$<br/>$\\varphi = \\arctan(80/60) \\approx 53{,}1°$ — Vérif : $\\cos\\varphi = 60/100 = 0{,}6$ ✓',
+        '<strong>BTP — pente d\'une canalisation</strong><br/>Pente 2 % sur 25 m horizontal :<br/>$\\theta = \\arctan(0{,}02) \\approx 1{,}15°$ — Dénivellation : $h = 25 \\times 0{,}02 = 0{,}5\\;\\text{m}$',
+        '<strong>Mécanique — plan incliné à 30°</strong><br/>$m = 200\\;\\text{kg}$, $P = 1962\\;\\text{N}$<br/>$P_{//} = 1962 \\times \\sin 30° = 981\\;\\text{N}$ (tend à faire glisser)<br/>$P_{\\perp} = 1962 \\times \\cos 30° = 1699\\;\\text{N}$ (réaction normale)',
+      ],
+      answer: 'Identifier l\'angle, nommer les côtés, choisir la bonne fonction. Pour un angle inconnu, utiliser $\\arctan$, $\\arcsin$ ou $\\arccos$.',
+    },
 
     formulas: [
-      { label: 'SOH', formula: '\\sin\\theta = \\dfrac{\\text{opposé}}{\\text{hypoténuse}}' },
-      { label: 'CAH', formula: '\\cos\\theta = \\dfrac{\\text{adjacent}}{\\text{hypoténuse}}' },
-      { label: 'TOA', formula: '\\tan\\theta = \\dfrac{\\text{opposé}}{\\text{adjacent}} = \\dfrac{\\sin\\theta}{\\cos\\theta}' },
-      { label: 'Identité fondamentale', formula: '\\cos^2\\theta + \\sin^2\\theta = 1' },
-      { label: 'Pythagore', formula: 'a^2 + b^2 = c^2 \\quad (c=\\text{hypoténuse})' },
-      { label: 'Conversion °→rad', formula: '\\theta_{\\text{rad}} = \\theta_{°} \\times \\dfrac{\\pi}{180}' },
-      { label: 'Signal sinusoïdal', formula: 'u(t) = U_{\\max}\\sin(\\omega t + \\varphi)' },
+      '<strong>SOH</strong> : $\\sin\\theta = \\dfrac{\\text{opposé}}{\\text{hypoténuse}}$',
+      '<strong>CAH</strong> : $\\cos\\theta = \\dfrac{\\text{adjacent}}{\\text{hypoténuse}}$',
+      '<strong>TOA</strong> : $\\tan\\theta = \\dfrac{\\text{opposé}}{\\text{adjacent}} = \\dfrac{\\sin\\theta}{\\cos\\theta}$',
+      '<strong>Identité fondamentale</strong> : $\\cos^2\\theta + \\sin^2\\theta = 1$',
+      '<strong>Pythagore</strong> : $a^2 + b^2 = c^2$ ($c$ = hypoténuse)',
+      '<strong>Conversion °→rad</strong> : $\\theta_{\\text{rad}} = \\theta_{°} \\times \\dfrac{\\pi}{180}$',
+      '<strong>Signal sinusoïdal</strong> : $u(t) = U_{\\max}\\sin(\\omega t + \\varphi)$',
     ],
 
     diagram: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:10px;padding:20px;font-family:monospace;font-size:0.88rem;line-height:1.8">
@@ -94,12 +72,13 @@ opposé  |  \\
 </div>
 </div>`,
 
-    recap: `<strong>Ce qu'il faut retenir</strong><br/><br/>
-• <strong>SOH-CAH-TOA</strong> : le triptyque à ne jamais oublier<br/>
-• $\\cos^2\\theta + \\sin^2\\theta = 1$ : l'identité fondamentale (toujours vraie)<br/>
-• Valeurs clés : sin 30° = 0,5 — cos 60° = 0,5 — tan 45° = 1 — sin 90° = 1<br/>
-• Pour trouver un angle : utiliser $\\arctan$, $\\arcsin$ ou $\\arccos$<br/>
-• Les signaux AC utilisent le cercle trigo : $u(t) = U_{\\max}\\sin(\\omega t + \\varphi)$`,
+    recap: [
+      '<strong>SOH-CAH-TOA</strong> : le triptyque à ne jamais oublier.',
+      '$\\cos^2\\theta + \\sin^2\\theta = 1$ : l\'identité fondamentale (toujours vraie).',
+      'Valeurs clés : $\\sin 30° = 0{,}5$ — $\\cos 60° = 0{,}5$ — $\\tan 45° = 1$ — $\\sin 90° = 1$.',
+      'Pour trouver un angle : utiliser $\\arctan$, $\\arcsin$ ou $\\arccos$.',
+      'Les signaux AC utilisent le cercle trigo : $u(t) = U_{\\max}\\sin(\\omega t + \\varphi)$.',
+    ],
 
     piege: `<strong>Pièges fréquents</strong><br/><br/>
 • <strong>Degrés vs radians sur la calculatrice</strong> : vérifier systématiquement le mode. $\\sin(90)$ en radians ≠ $\\sin(90°)$. En radians, $\\sin(\\pi/2) = 1$.<br/><br/>
