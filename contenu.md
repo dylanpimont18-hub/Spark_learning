@@ -84,6 +84,22 @@ Ce fichier est la **source de vérité** pour la structure de fichiers du projet
 | 3e/3e-stats-probas.js | Statistiques et probabilités |
 | 3e/3e-algorithmique.js | Algorithmique |
 | 3e/index.js | Manifest d'ordre de chargement |
+| **bts-prep/** | Prérequis BTS Scientifique — **TERMINÉ** (14 modules remise à niveau) |
+| bts-prep/bts-prep-calcul-litteral.js | Calcul littéral — Isolation de l'inconnue |
+| bts-prep/bts-prep-equations.js | Équations 1er/2nd degré, systèmes 2×2 |
+| bts-prep/bts-prep-proportionnalite.js | Proportionnalité, règle de trois, rendement |
+| bts-prep/bts-prep-puissances.js | Puissances de 10, notation scientifique, préfixes SI |
+| bts-prep/bts-prep-fonctions.js | Fonctions affine/carré/inverse, pente, intersection |
+| bts-prep/bts-prep-trigonometrie.js | Sin/cos/tan, triangle rectangle, valeurs remarquables |
+| bts-prep/bts-prep-logarithme.js | ln/exp, propriétés, décibels, constante de temps RC |
+| bts-prep/bts-prep-vecteurs.js | Composantes, norme, addition, produit scalaire |
+| bts-prep/bts-prep-si-unites.js | 7 grandeurs SI, unités dérivées, préfixes, conversions |
+| bts-prep/bts-prep-analyse-dim.js | Homogénéité, dimensions, détection d'erreurs |
+| bts-prep/bts-prep-conversions.js | Pression, débit, énergie, vitesse angulaire |
+| bts-prep/bts-prep-equations-transf.js | Inverser racine, puissance, exp, ln |
+| bts-prep/bts-prep-graphiques.js | Interpolation linéaire, pente, extrapolation, abaques |
+| bts-prep/bts-prep-donnees-techniques.js | Catalogues Grundfos/Daikin/Schneider, NPSH, COP |
+| bts-prep/index.js | Manifest d'ordre de chargement |
 | **bts/** | Contenus BTS (Maths) — **refactoring TERMINÉ** (13 sous-modules) |
 | bts/complexes.js | Nombres Complexes (impédances, régimes AC) |
 | bts/eq-diff-2.js | Équations Différentielles 2nd ordre |
