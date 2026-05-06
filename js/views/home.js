@@ -618,8 +618,8 @@ function renderModulesList() {
 				<button class="btn btn-secondary btn-sm" onclick="filterModules('')">Effacer la recherche</button>
 			</div>
 
-			<div class="modules-grid" id="modules-grid">
-				${modules.map(m => {
+			${(() => {
+				const _renderCard = m => {
 					const prog = getModuleProgress(m.id);
 					const access = getModuleAccess(m.id);
 					const unavailable = access.locked || access.maintenance;
@@ -662,8 +662,37 @@ function renderModulesList() {
 							</div>
 						</div>
 					`;
-				}).join('')}
-			</div>
+				};
+
+				const prepModules = modules.filter(m => m.tag === 'prep');
+				const coreModules = modules.filter(m => m.tag !== 'prep');
+
+				if (prepModules.length > 0) {
+					return `
+						<div class="prep-section-banner">
+							<div class="prep-section-banner-icon">🎯</div>
+							<div>
+								<div class="prep-section-banner-title">Parcours Prérequis — Remise à niveau scientifique</div>
+								<div class="prep-section-banner-sub">${prepModules.length} modules · Bases indispensables avant les matières BTS</div>
+							</div>
+						</div>
+						<div class="modules-grid" id="modules-grid">
+							${prepModules.map(_renderCard).join('')}
+							${coreModules.length > 0 ? `
+								<div class="prep-section-separator" style="grid-column:1/-1">
+									<span>📐 Modules BTS — Mathématiques avancées</span>
+								</div>
+								${coreModules.map(_renderCard).join('')}
+							` : ''}
+						</div>
+					`;
+				}
+				return `
+					<div class="modules-grid" id="modules-grid">
+						${modules.map(_renderCard).join('')}
+					</div>
+				`;
+			})()}
 		</div>
 	`;
 }

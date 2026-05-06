@@ -94,6 +94,22 @@ const DATA_FILES = {
     'js/data/lycee-tle/tle-orthogonalite-espace.js'
   ],
   'maths-3': [
+    // Remise à niveau BTS — Prérequis (chargés en premier)
+    'js/data/bts-prep/bts-prep-calcul-litteral.js',
+    'js/data/bts-prep/bts-prep-equations.js',
+    'js/data/bts-prep/bts-prep-proportionnalite.js',
+    'js/data/bts-prep/bts-prep-puissances.js',
+    'js/data/bts-prep/bts-prep-fonctions.js',
+    'js/data/bts-prep/bts-prep-trigonometrie.js',
+    'js/data/bts-prep/bts-prep-logarithme.js',
+    'js/data/bts-prep/bts-prep-vecteurs.js',
+    'js/data/bts-prep/bts-prep-si-unites.js',
+    'js/data/bts-prep/bts-prep-analyse-dim.js',
+    'js/data/bts-prep/bts-prep-conversions.js',
+    'js/data/bts-prep/bts-prep-equations-transf.js',
+    'js/data/bts-prep/bts-prep-graphiques.js',
+    'js/data/bts-prep/bts-prep-donnees-techniques.js',
+    // Modules BTS Maths avancés
     'js/data/bts/complexes.js',
     'js/data/bts/eq-diff-2.js',
     'js/data/bts/statistiques.js',
@@ -180,6 +196,12 @@ const MODULE_INDEX = {
   'tle-derivation-complements':'maths-2','tle-logarithme':'maths-2','tle-convexite':'maths-2',
   'tle-suites-complements':'maths-2','tle-denombrement':'maths-2','tle-lois-continues':'maths-2',
   'tle-geometrie-espace':'maths-2','tle-orthogonalite-espace':'maths-2',
+  // BTS Prérequis
+  'bts-prep-calcul-litteral':'maths-3','bts-prep-equations':'maths-3','bts-prep-proportionnalite':'maths-3',
+  'bts-prep-puissances':'maths-3','bts-prep-fonctions':'maths-3','bts-prep-trigonometrie':'maths-3',
+  'bts-prep-logarithme':'maths-3','bts-prep-vecteurs':'maths-3','bts-prep-si-unites':'maths-3',
+  'bts-prep-analyse-dim':'maths-3','bts-prep-conversions':'maths-3','bts-prep-equations-transf':'maths-3',
+  'bts-prep-graphiques':'maths-3','bts-prep-donnees-techniques':'maths-3',
   // BTS
   'complexes':'maths-3','eq-diff-2':'maths-3','statistiques':'maths-3','bts-loi-normale':'maths-3',
   'bts-fonctions-reelles':'maths-3','bts-derivation-appliquee':'maths-3','bts-integrales-appliquees':'maths-3',

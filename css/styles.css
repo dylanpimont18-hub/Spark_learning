@@ -1366,6 +1366,48 @@ main { flex: 1; }
   margin-bottom: 4px;
 }
 
+/* ── Prérequis BTS banner ── */
+.prep-section-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border: 1.5px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+}
+.prep-section-banner-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+.prep-section-banner-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text);
+}
+.prep-section-banner-sub {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.prep-section-separator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 28px 0 12px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+.prep-section-separator::before,
+.prep-section-separator::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
 .badge-admin-locked {
   background: color-mix(in srgb, var(--error) 18%, transparent);
   color: var(--error);
