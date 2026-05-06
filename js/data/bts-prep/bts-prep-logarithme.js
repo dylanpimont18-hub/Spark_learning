@@ -1,3 +1,4 @@
+// qualite_ok: 2026
 window.MODULES.push({
   id: 'bts-prep-logarithme',
   level: 3,

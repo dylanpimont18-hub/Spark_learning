@@ -1,3 +1,4 @@
+// qualite_ok: 2026
 /* =========================================================
    Spark Learning – data/bts-prep/bts-prep-calcul-litteral.js
    Remise à niveau BTS — Calcul littéral & manipulation d'équations

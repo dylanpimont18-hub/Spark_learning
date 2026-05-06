@@ -1,3 +1,4 @@
+// qualite_ok: 2026
 /* =========================================================
    Spark Learning – data/bts-prep/bts-prep-fonctions.js
    Remise à niveau BTS — Fonctions & lecture graphique

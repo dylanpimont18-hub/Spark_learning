@@ -1,3 +1,4 @@
+// qualite_ok: 2026
 /* =========================================================
    Spark Learning – data/bts-prep/bts-prep-equations.js
    Remise à niveau BTS — Équations du 1er et 2nd degré, systèmes 2×2
