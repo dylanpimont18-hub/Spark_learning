@@ -271,3 +271,5 @@ Le catalogue Grundfos propose les pompes suivantes :<br/><br/>
     ],
   },
 });
+
+// qualite_ok: 2026

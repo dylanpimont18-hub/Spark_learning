@@ -271,3 +271,5 @@ Rappel : si $Re < 2300$ → laminaire ; si $Re > 4000$ → turbulent.`,
     ],
   },
 });
+
+// qualite_ok: 2026
