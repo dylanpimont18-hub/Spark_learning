@@ -17,8 +17,10 @@ Cette règle permet :<br/>
 • de <strong>retrouver des formules</strong> partiellement oubliées<br/>
 • de comprendre les <strong>nombres adimensionnels</strong> utilisés en thermique et en mécanique des fluides`,
 
-    definitions: `<strong>Les dimensions fondamentales</strong><br/><br/>
-En analyse dimensionnelle, on utilise des symboles pour les dimensions (pas des unités) :<br/><br/>
+    definitions: [
+      {
+        term: 'Dimensions fondamentales',
+        def: `En analyse dimensionnelle, on utilise des symboles pour les dimensions (pas des unités) :<br/><br/>
 | Grandeur de base | Dimension |
 |-----------------|-----------|
 | Longueur | L |
@@ -33,48 +35,51 @@ $[v] = \\text{L·T}^{-1}$ (vitesse = longueur par temps)<br/>
 $[F] = \\text{M·L·T}^{-2}$ (force = masse × accélération)<br/>
 $[P] = \\text{M·L}^{-1}\\text{·T}^{-2}$ (pression = force / surface)<br/>
 $[W] = \\text{M·L}^2\\text{·T}^{-2}$ (énergie = force × longueur)<br/>
-$[P_{\\text{élec}}] = \\text{M·L}^2\\text{·T}^{-3}$ (puissance)<br/><br/>
-<strong>Principe d'homogénéité</strong><br/><br/>
-Une équation $A = B + C$ est homogène si et seulement si $[A] = [B] = [C]$.<br/><br/>
+$[P_{\\text{élec}}] = \\text{M·L}^2\\text{·T}^{-3}$ (puissance)`,
+      },
+      {
+        term: 'Principe d\'homogénéité',
+        def: `Une équation $A = B + C$ est homogène si et seulement si $[A] = [B] = [C]$.<br/><br/>
 <strong>On ne peut pas additionner des grandeurs de dimensions différentes.</strong><br/>
-$5\\;\\text{m} + 3\\;\\text{kg}$ est physiquement absurde.<br/><br/>
-<strong>Nombres adimensionnels</strong><br/><br/>
-Certains groupes de grandeurs forment des nombres sans dimension : ce sont des <em>nombres adimensionnels</em>. Ils ont la même valeur dans n'importe quel système d'unités.<br/>
+$5\\;\\text{m} + 3\\;\\text{kg}$ est physiquement absurde.`,
+      },
+      {
+        term: 'Nombres adimensionnels',
+        def: `Certains groupes de grandeurs forment des nombres sans dimension : ce sont des <em>nombres adimensionnels</em>. Ils ont la même valeur dans n'importe quel système d'unités.<br/>
 Exemples : nombre de Reynolds $Re = \\rho v D / \\mu$, rendement $\\eta = P_{\\text{utile}} / P_{\\text{absorbée}}$, COP.`,
+      },
+    ],
 
-    method: `<strong>Méthode de vérification dimensionnelle</strong><br/><br/>
-1. Identifier toutes les grandeurs de la formule<br/>
-2. Écrire la dimension de chaque grandeur en termes de M, L, T, I, θ…<br/>
-3. Substituer dans la formule<br/>
-4. Simplifier et vérifier que les deux membres sont identiques<br/><br/>
-<strong>Méthode de détermination d'une inconnue</strong><br/><br/>
-Si une formule est de la forme $A = k \\cdot B^a \\cdot C^b$ et qu'on connaît les dimensions de A, B et C, on peut trouver les exposants a et b en écrivant l'équation dimensionnelle et en identifiant les puissances de chaque dimension.`,
+    method: {
+      title: 'Méthode de vérification dimensionnelle',
+      steps: [
+        'Identifier toutes les grandeurs de la formule',
+        'Écrire la dimension de chaque grandeur en termes de M, L, T, I, θ…',
+        'Substituer dans la formule',
+        'Simplifier et vérifier que les deux membres sont identiques',
+        '<strong>Détermination d\'une inconnue</strong> : si une formule est de la forme $A = k \\cdot B^a \\cdot C^b$ et qu\'on connaît les dimensions de A, B et C, trouver les exposants a et b en écrivant l\'équation dimensionnelle et en identifiant les puissances de chaque dimension',
+      ],
+    },
 
-    example: `<strong>Exemple 1 — Vérification : $E = \\frac{1}{2}mv^2$ (énergie cinétique)</strong><br/><br/>
-$[m] = \\text{M}$, $[v] = \\text{L·T}^{-1}$<br/>
-$\\left[\\frac{1}{2}mv^2\\right] = \\text{M} \\times (\\text{L·T}^{-1})^2 = \\text{M·L}^2\\text{·T}^{-2}$<br/>
-$[E] = \\text{J} = \\text{M·L}^2\\text{·T}^{-2}$ ✓<br/><br/>
-<strong>Exemple 2 — Détection d'erreur : $P = F \\times v^2$ (faux !)</strong><br/><br/>
-$[F \\times v^2] = \\text{M·L·T}^{-2} \\times (\\text{L·T}^{-1})^2 = \\text{M·L}^3\\text{·T}^{-4}$<br/>
-$[P] = \\text{W} = \\text{M·L}^2\\text{·T}^{-3}$<br/>
-$\\text{M·L}^3\\text{·T}^{-4} \\neq \\text{M·L}^2\\text{·T}^{-3}$ → formule <strong>fausse</strong>.<br/>
-La formule correcte est $P = F \\times v$.<br/><br/>
-<strong>Exemple 3 — Électrotechnique : vérifier $U = \\sqrt{P \\times R}$</strong><br/><br/>
-$[P \\times R] = \\text{W} \\times \\Omega = \\text{M·L}^2\\text{·T}^{-3} \\times \\text{M·L}^2\\text{·T}^{-3}\\text{·I}^{-2}$<br/>
-$= \\text{M}^2\\text{·L}^4\\text{·T}^{-6}\\text{·I}^{-2}$<br/>
-$\\left[\\sqrt{P \\times R}\\right] = \\text{M·L}^2\\text{·T}^{-3}\\text{·I}^{-1} = [\\text{V}]$ ✓<br/><br/>
-<strong>Exemple 4 — Hydraulique : nombre de Reynolds</strong><br/><br/>
-$Re = \\rho v D / \\mu$ où $[\\rho] = \\text{M·L}^{-3}$, $[v] = \\text{L·T}^{-1}$, $[D] = \\text{L}$, $[\\mu] = \\text{M·L}^{-1}\\text{·T}^{-1}$<br/>
-$[Re] = \\frac{\\text{M·L}^{-3} \\times \\text{L·T}^{-1} \\times \\text{L}}{\\text{M·L}^{-1}\\text{·T}^{-1}} = \\frac{\\text{M·L}^{-1}\\text{·T}^{-1}}{\\text{M·L}^{-1}\\text{·T}^{-1}} = 1$ → adimensionnel ✓`,
+    example: {
+      statement: 'Vérification dimensionnelle — 4 exemples résolus',
+      steps: [
+        '<strong>Exemple 1 — Énergie cinétique $E = \\frac{1}{2}mv^2$</strong> : $[m] = \\text{M}$, $[v] = \\text{L·T}^{-1}$ → $\\left[\\frac{1}{2}mv^2\\right] = \\text{M·L}^2\\text{·T}^{-2} = [\\text{J}]$ ✓',
+        '<strong>Exemple 2 — Détection d\'erreur $P = F \\times v^2$ (faux)</strong> : $[F \\times v^2] = \\text{M·L}^3\\text{·T}^{-4} \\neq [P] = \\text{M·L}^2\\text{·T}^{-3}$ → formule <strong>fausse</strong>. La formule correcte est $P = F \\times v$.',
+        '<strong>Exemple 3 — Électrotechnique : vérifier $U = \\sqrt{P \\times R}$</strong> : $\\left[\\sqrt{P \\times R}\\right] = \\text{M·L}^2\\text{·T}^{-3}\\text{·I}^{-1} = [\\text{V}]$ ✓',
+        '<strong>Exemple 4 — Nombre de Reynolds (hydraulique)</strong> : $Re = \\rho v D / \\mu$ → $[Re] = \\frac{\\text{M·L}^{-1}\\text{·T}^{-1}}{\\text{M·L}^{-1}\\text{·T}^{-1}} = 1$ → adimensionnel ✓',
+      ],
+      answer: 'Homogène ✓ → formule cohérente dimensionnellement. Non homogène → formule forcément fausse. Adimensionnel → valeur indépendante du système d\'unités.',
+    },
 
     formulas: [
-      { label: 'Force', formula: '[F] = \\text{M·L·T}^{-2}' },
-      { label: 'Énergie', formula: '[W] = \\text{M·L}^2\\text{·T}^{-2}' },
-      { label: 'Puissance', formula: '[P] = \\text{M·L}^2\\text{·T}^{-3}' },
-      { label: 'Pression', formula: '[P_{\\text{press}}] = \\text{M·L}^{-1}\\text{·T}^{-2}' },
-      { label: 'Tension électrique', formula: '[U] = \\text{M·L}^2\\text{·T}^{-3}\\text{·I}^{-1}' },
-      { label: 'Viscosité dynamique', formula: '[\\mu] = \\text{M·L}^{-1}\\text{·T}^{-1}' },
-      { label: 'Principe d\'homogénéité', formula: 'A = B \\Rightarrow [A] = [B]' },
+      '<strong>Force</strong> : $[F] = \\text{M·L·T}^{-2}$',
+      '<strong>Énergie</strong> : $[W] = \\text{M·L}^2\\text{·T}^{-2}$',
+      '<strong>Puissance</strong> : $[P] = \\text{M·L}^2\\text{·T}^{-3}$',
+      '<strong>Pression</strong> : $[P_{\\text{press}}] = \\text{M·L}^{-1}\\text{·T}^{-2}$',
+      '<strong>Tension électrique</strong> : $[U] = \\text{M·L}^2\\text{·T}^{-3}\\text{·I}^{-1}$',
+      '<strong>Viscosité dynamique</strong> : $[\\mu] = \\text{M·L}^{-1}\\text{·T}^{-1}$',
+      '<strong>Principe d\'homogénéité</strong> : $A = B \\Rightarrow [A] = [B]$',
     ],
 
     diagram: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:10px;padding:20px;font-size:0.88rem;line-height:1.8">
@@ -93,12 +98,13 @@ $[Re] = \\frac{\\text{M·L}^{-3} \\times \\text{L·T}^{-1} \\times \\text{L}}{\\
 </div>
 </div>`,
 
-    recap: `<strong>Ce qu'il faut retenir</strong><br/><br/>
-• Le principe d'homogénéité : les deux membres d'une équation doivent avoir les mêmes dimensions<br/>
-• Notation : $[x]$ = dimension de x en termes de M, L, T, I, θ…<br/>
-• Une formule homogène n'est pas forcément juste (peut manquer un facteur numérique)<br/>
-• Une formule non homogène est forcément fausse<br/>
-• Un nombre adimensionnel a une valeur indépendante du système d'unités`,
+    recap: [
+      'Le principe d\'homogénéité : les deux membres d\'une équation doivent avoir les mêmes dimensions',
+      'Notation : $[x]$ = dimension de x en termes de M, L, T, I, θ…',
+      'Une formule homogène n\'est pas forcément juste (peut manquer un facteur numérique)',
+      'Une formule non homogène est forcément fausse',
+      'Un nombre adimensionnel a une valeur indépendante du système d\'unités',
+    ],
 
     piege: `<strong>Pièges fréquents</strong><br/><br/>
 • <strong>Homogène ≠ correct</strong> : $E = mv^2$ est homogène mais faux (il manque le facteur 1/2). L'analyse dimensionnelle détecte les incohérences, pas les erreurs numériques.<br/><br/>
