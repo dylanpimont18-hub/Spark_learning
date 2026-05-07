@@ -254,3 +254,4 @@ window.MODULES.push({
     ]
   }
 });
+// qualite_ok: 2026
