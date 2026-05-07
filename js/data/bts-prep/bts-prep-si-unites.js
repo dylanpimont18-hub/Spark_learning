@@ -12,76 +12,55 @@ window.MODULES.push({
   cours: {
     intro: `Les unités ne sont pas une formalité administrative : elles portent la signification physique d'un résultat. Un résultat sans unité est inutilisable, voire dangereux. En BTS, vous travaillerez constamment avec des grandeurs de natures différentes (électrique, mécanique, thermique, chimique), et la cohérence des unités est le premier contrôle de validité de tout calcul.`,
 
-    definitions: `<strong>Les 7 grandeurs de base du SI</strong><br/><br/>
-| Grandeur | Symbole | Unité | Abréviation |
-|----------|---------|-------|-------------|
-| Longueur | $l$ | mètre | m |
-| Masse | $m$ | kilogramme | kg |
-| Temps | $t$ | seconde | s |
-| Intensité électrique | $I$ | ampère | A |
-| Température thermodynamique | $T$ | kelvin | K |
-| Quantité de matière | $n$ | mole | mol |
-| Intensité lumineuse | $I_v$ | candela | cd |<br/><br/>
-<strong>Unités dérivées essentielles</strong><br/><br/>
-Toutes les autres unités sont des combinaisons de ces 7 grandeurs de base :<br/><br/>
-| Grandeur | Unité | Symbole | En unités de base |
-|----------|-------|---------|-------------------|
-| Force | newton | N | kg·m·s⁻² |
-| Pression | pascal | Pa | kg·m⁻¹·s⁻² |
-| Énergie/Travail | joule | J | kg·m²·s⁻² |
-| Puissance | watt | W | kg·m²·s⁻³ |
-| Charge électrique | coulomb | C | A·s |
-| Tension | volt | V | kg·m²·s⁻³·A⁻¹ |
-| Résistance | ohm | Ω | kg·m²·s⁻³·A⁻² |
-| Fréquence | hertz | Hz | s⁻¹ |
-| Débit volumique | — | m³/s | m³·s⁻¹ |<br/><br/>
-<strong>Préfixes SI</strong><br/><br/>
-| Préfixe | Symbole | Facteur | Exemple |
-|---------|---------|---------|---------|
-| téra | T | $10^{12}$ | TW (térawatt) |
-| giga | G | $10^{9}$ | GHz (gigahertz) |
-| méga | M | $10^{6}$ | MPa (mégapascal) |
-| kilo | k | $10^{3}$ | kW (kilowatt) |
-| milli | m | $10^{-3}$ | mm (millimètre) |
-| micro | μ | $10^{-6}$ | μF (microfarad) |
-| nano | n | $10^{-9}$ | nm (nanomètre) |
-| pico | p | $10^{-12}$ | pF (picofarad) |`,
+    definitions: [
+      {
+        term: 'Les 7 grandeurs de base du SI',
+        def: `Longueur (m) &nbsp;·&nbsp; Masse (kg) &nbsp;·&nbsp; Temps (s) &nbsp;·&nbsp; Intensité électrique (A) &nbsp;·&nbsp; Température thermodynamique (K) &nbsp;·&nbsp; Quantité de matière (mol) &nbsp;·&nbsp; Intensité lumineuse (cd)`,
+      },
+      {
+        term: 'Unités dérivées essentielles',
+        def: `Force → <strong>newton</strong> N = kg·m·s⁻² &nbsp;·&nbsp; Pression → <strong>pascal</strong> Pa = kg·m⁻¹·s⁻² &nbsp;·&nbsp; Énergie → <strong>joule</strong> J = kg·m²·s⁻²<br/>
+Puissance → <strong>watt</strong> W = kg·m²·s⁻³ &nbsp;·&nbsp; Charge → <strong>coulomb</strong> C = A·s &nbsp;·&nbsp; Tension → <strong>volt</strong> V = kg·m²·s⁻³·A⁻¹<br/>
+Résistance → <strong>ohm</strong> Ω = kg·m²·s⁻³·A⁻² &nbsp;·&nbsp; Fréquence → <strong>hertz</strong> Hz = s⁻¹`,
+      },
+      {
+        term: 'Préfixes SI',
+        def: `T (téra, $10^{12}$) &nbsp;·&nbsp; G (giga, $10^9$) &nbsp;·&nbsp; M (méga, $10^6$) &nbsp;·&nbsp; k (kilo, $10^3$)<br/>
+m (milli, $10^{-3}$) &nbsp;·&nbsp; μ (micro, $10^{-6}$) &nbsp;·&nbsp; n (nano, $10^{-9}$) &nbsp;·&nbsp; p (pico, $10^{-12}$)<br/><br/>
+<strong>Attention :</strong> m minuscule = milli ($10^{-3}$) ; M majuscule = méga ($10^6$). La casse est cruciale.`,
+      },
+    ],
 
-    method: `<strong>Convertir une unité</strong><br/><br/>
-La méthode universelle est la <strong>multiplication par 1</strong> sous forme de fraction d'unités.<br/><br/>
-Exemple : convertir 72 km/h en m/s :<br/>
-$$72\\;\\frac{\\text{km}}{\\text{h}} = 72 \\times \\frac{1000\\;\\text{m}}{1\\;\\text{km}} \\times \\frac{1\\;\\text{h}}{3600\\;\\text{s}} = \\frac{72000}{3600}\\;\\frac{\\text{m}}{\\text{s}} = 20\\;\\frac{\\text{m}}{\\text{s}}$$<br/><br/>
-<strong>Vérification de cohérence dimensionnelle</strong><br/><br/>
-Toute équation physique doit être homogène : les deux membres doivent avoir la même dimension.<br/><br/>
-Exemple : $P = F \\times v$ (puissance = force × vitesse)<br/>
-$[P] = \\text{W} = \\text{kg·m}^2\\text{s}^{-3}$<br/>
-$[F \\times v] = \\text{N} \\times \\text{m/s} = \\text{kg·m·s}^{-2} \\times \\text{m·s}^{-1} = \\text{kg·m}^2\\text{s}^{-3}$ ✓`,
+    method: {
+      title: 'Convertir une unité et vérifier la cohérence dimensionnelle',
+      steps: [
+        `<strong>Méthode universelle :</strong> multiplier par 1 sous forme de fraction d'unités.<br/>
+Exemple : $72\;\\text{km/h} = 72 \\times \\dfrac{1000\;\\text{m}}{1\;\\text{km}} \\times \\dfrac{1\;\\text{h}}{3600\;\\text{s}} = 20\;\\text{m/s}$`,
+        `<strong>Vérification dimensionnelle :</strong> toute équation physique doit être homogène (mêmes dimensions des deux côtés).<br/>
+Exemple : $P = F \\times v$ → $[F \\times v] = \\text{N} \\times \\text{m/s} = \\text{kg·m}^2\\text{s}^{-3} = [\\text{W}]$ ✓`,
+      ],
+    },
 
-    example: `<strong>Exemple 1 — Électrotechnique : unité du watt</strong><br/><br/>
-La puissance électrique $P = U \\times I$ :<br/>
-$[U \\times I] = \\text{V} \\times \\text{A} = \\text{W}$<br/><br/>
-En unités de base : $\\text{V} = \\text{kg·m}^2\\text{s}^{-3}\\text{A}^{-1}$, donc $\\text{V·A} = \\text{kg·m}^2\\text{s}^{-3} = \\text{W}$ ✓<br/><br/>
-<strong>Exemple 2 — BTP : unité du pascal</strong><br/><br/>
-La pression $P = F/A$ (force par unité de surface) :<br/>
-$[F/A] = \\text{N/m}^2 = \\text{Pa}$<br/><br/>
-En pratique, une pression de 6 bar (pression courante d'un réseau d'eau) s'exprime :<br/>
-$6\\;\\text{bar} = 6 \\times 10^5\\;\\text{Pa} = 0{,}6\\;\\text{MPa} = 600\\;\\text{kPa}$<br/><br/>
-<strong>Exemple 3 — Maintenance : énergie en kWh vs joules</strong><br/><br/>
-Un moteur consomme $P = 5{,}5\\;\\text{kW}$ pendant $t = 8\\;\\text{h}$ :<br/>
-$W = P \\times t = 5{,}5\\;\\text{kW} \\times 8\\;\\text{h} = 44\\;\\text{kWh}$<br/><br/>
-Conversion en joules : $44\\;\\text{kWh} = 44 \\times 3{,}6 \\times 10^6\\;\\text{J} = 1{,}584 \\times 10^8\\;\\text{J} = 158{,}4\\;\\text{MJ}$<br/><br/>
-<strong>Exemple 4 — Chimie : la mole</strong><br/><br/>
-La mole est la quantité de matière contenant $6{,}022 \\times 10^{23}$ entités (nombre d'Avogadro). La masse molaire relie masse et quantité : $n = m/M$.<br/>
-Pour 180 g d'eau ($M_{\\text{H}_2\\text{O}} = 18\\;\\text{g/mol}$) : $n = 180/18 = 10\\;\\text{mol}$.`,
+    example: {
+      statement: `Électrotechnique : vérifier que l'unité du watt est cohérente avec $P = U \\times I$`,
+      steps: [
+        '$[U \\times I] = \\text{V} \\times \\text{A} = \\text{W}$',
+        'En unités de base : $\\text{V} = \\text{kg·m}^2\\text{s}^{-3}\\text{A}^{-1}$, donc $\\text{V·A} = \\text{kg·m}^2\\text{s}^{-3} = \\text{W}$ ✓',
+        `<strong>Exemple 2 — BTP :</strong> pression $P = F/A$ → $[F/A] = \\text{N/m}^2 = \\text{Pa}$<br/>$6\;\\text{bar} = 6 \\times 10^5\;\\text{Pa} = 0{,}6\;\\text{MPa} = 600\;\\text{kPa}$`,
+        `<strong>Exemple 3 — Maintenance :</strong> moteur $5{,}5\;\\text{kW}$ pendant $8\;\\text{h}$ → $W = 44\;\\text{kWh} = 44 \\times 3{,}6 \\times 10^6\;\\text{J} = 158{,}4\;\\text{MJ}$`,
+        `<strong>Exemple 4 — Chimie :</strong> 180 g d'eau ($M = 18\;\\text{g/mol}$) → $n = 180/18 = 10\;\\text{mol}$`,
+      ],
+      answer: '$[U \\times I] = [P] = \\text{W} = \\text{kg·m}^2\\text{s}^{-3}$ ✓',
+    },
 
     formulas: [
-      { label: 'Pression', formula: 'P = F/A \\quad [\\text{Pa} = \\text{N/m}^2]' },
-      { label: 'Puissance mécanique', formula: 'P = F \\times v \\quad [\\text{W} = \\text{N·m/s}]' },
-      { label: 'Énergie', formula: 'W = P \\times t \\quad [\\text{J} = \\text{W·s}]' },
-      { label: 'kWh → J', formula: '1\\;\\text{kWh} = 3{,}6 \\times 10^6\\;\\text{J}' },
-      { label: 'bar → Pa', formula: '1\\;\\text{bar} = 10^5\\;\\text{Pa} = 100\\;\\text{kPa}' },
-      { label: 'km/h → m/s', formula: '\\times \\frac{1}{3{,}6}' },
-      { label: 'Quantité de matière', formula: 'n = m/M \\quad [\\text{mol}]' },
+      '<strong>Pression</strong> : $P = F/A \\quad [\\text{Pa} = \\text{N/m}^2]$',
+      '<strong>Puissance mécanique</strong> : $P = F \\times v \\quad [\\text{W} = \\text{N·m/s}]$',
+      '<strong>Énergie</strong> : $W = P \\times t \\quad [\\text{J} = \\text{W·s}]$',
+      '<strong>kWh → J</strong> : $1\\;\\text{kWh} = 3{,}6 \\times 10^6\\;\\text{J}$',
+      '<strong>bar → Pa</strong> : $1\\;\\text{bar} = 10^5\\;\\text{Pa} = 100\\;\\text{kPa}$',
+      '<strong>km/h → m/s</strong> : $\\times \\frac{1}{3{,}6}$',
+      '<strong>Quantité de matière</strong> : $n = m/M \\quad [\\text{mol}]$',
     ],
 
     diagram: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:10px;padding:20px;font-family:monospace;font-size:0.85rem;line-height:1.9">
@@ -99,12 +78,13 @@ Pour 180 g d'eau ($M_{\\text{H}_2\\text{O}} = 18\\;\\text{g/mol}$) : $n = 180/18
 </pre>
 </div>`,
 
-    recap: `<strong>Ce qu'il faut retenir</strong><br/><br/>
-• 7 grandeurs de base du SI : m, kg, s, A, K, mol, cd<br/>
-• Unités dérivées clés : N, Pa, J, W, V, Ω, Hz<br/>
-• 1 kWh = 3,6 MJ — 1 bar = 10⁵ Pa — 1 km/h = 1/3,6 m/s<br/>
-• Vérifier toujours la cohérence dimensionnelle de vos équations<br/>
-• Les préfixes : T(10¹²), G(10⁹), M(10⁶), k(10³), m(10⁻³), μ(10⁻⁶), n(10⁻⁹), p(10⁻¹²)`,
+    recap: [
+      '7 grandeurs de base du SI : m, kg, s, A, K, mol, cd.',
+      'Unités dérivées clés : N, Pa, J, W, V, Ω, Hz.',
+      '1 kWh = 3,6 MJ — 1 bar = $10^5$ Pa — 1 km/h = 1/3,6 m/s.',
+      'Vérifier toujours la cohérence dimensionnelle de vos équations.',
+      'Préfixes : T($10^{12}$), G($10^9$), M($10^6$), k($10^3$), m($10^{-3}$), μ($10^{-6}$), n($10^{-9}$), p($10^{-12}$).',
+    ],
 
     piege: `<strong>Pièges fréquents</strong><br/><br/>
 • <strong>kg et g</strong> : l'unité SI de masse est le kilogramme (kg), pas le gramme. Une masse de 500 g = 0,5 kg dans les calculs.<br/><br/>

@@ -13,66 +13,60 @@ window.MODULES.push({
     intro: `Un vecteur est une grandeur définie par trois informations : sa <strong>direction</strong>, son <strong>sens</strong> et sa <strong>valeur</strong> (ou norme). En BTS technique, on travaille principalement en 2D (plan) et parfois en 3D.<br/><br/>
 Exemples concrets : la force exercée par un câble de levage, la vitesse d'un fluide dans une canalisation, le champ électrique créé par un conducteur, la poussée d'Archimède sur un sous-marin.`,
 
-    definitions: `<strong>Représentation d'un vecteur</strong><br/><br/>
-Un vecteur $\\vec{u}$ dans le plan est défini par ses composantes dans un repère orthonormé $(O, \\vec{x}, \\vec{y})$ :<br/>
-$$\\vec{u} = \\begin{pmatrix} u_x \\\\ u_y \\end{pmatrix} = u_x\\,\\vec{x} + u_y\\,\\vec{y}$$<br/><br/>
-La <strong>norme</strong> (ou module) du vecteur est sa longueur :<br/>
-$$\\|\\vec{u}\\| = \\sqrt{u_x^2 + u_y^2}$$<br/><br/>
-L'<strong>angle</strong> par rapport à l'axe horizontal :<br/>
-$$\\theta = \\arctan\\left(\\frac{u_y}{u_x}\\right)$$<br/><br/>
-<strong>Opérations sur les vecteurs</strong><br/><br/>
-<em>Addition (résultante) :</em><br/>
-$$\\vec{u} + \\vec{v} = \\begin{pmatrix} u_x + v_x \\\\ u_y + v_y \\end{pmatrix}$$<br/><br/>
-<em>Multiplication par un scalaire :</em><br/>
-$$k\\,\\vec{u} = \\begin{pmatrix} k\\,u_x \\\\ k\\,u_y \\end{pmatrix}$$<br/><br/>
-<em>Vecteur opposé :</em> $-\\vec{u} = \\begin{pmatrix} -u_x \\\\ -u_y \\end{pmatrix}$<br/><br/>
-<strong>Produit scalaire</strong><br/><br/>
-Le produit scalaire de deux vecteurs $\\vec{u}$ et $\\vec{v}$ est un <em>nombre</em> (pas un vecteur) :<br/>
-$$\\vec{u} \\cdot \\vec{v} = u_x v_x + u_y v_y = \\|\\vec{u}\\| \\times \\|\\vec{v}\\| \\times \\cos\\theta$$<br/>
-où $\\theta$ est l'angle entre les deux vecteurs.<br/><br/>
-Propriétés utiles :<br/>
-• Si $\\vec{u} \\cdot \\vec{v} = 0$ → les vecteurs sont <strong>perpendiculaires</strong><br/>
-• Si $\\vec{u} \\cdot \\vec{v} = \\|\\vec{u}\\| \\times \\|\\vec{v}\\|$ → ils sont <strong>colinéaires et de même sens</strong>`,
+    definitions: [
+      {
+        term: 'Représentation d\'un vecteur',
+        def: `Un vecteur $\\vec{u}$ est défini par ses composantes : $\\vec{u} = \\begin{pmatrix} u_x \\\\ u_y \\end{pmatrix}$<br/><br/>
+<strong>Norme</strong> : $\\|\\vec{u}\\| = \\sqrt{u_x^2 + u_y^2}$<br/>
+<strong>Angle</strong> par rapport à l'horizontal : $\\theta = \\arctan\\left(\\dfrac{u_y}{u_x}\\right)$`,
+      },
+      {
+        term: 'Opérations sur les vecteurs',
+        def: `<strong>Addition</strong> (résultante) : $\\vec{u} + \\vec{v} = \\begin{pmatrix} u_x + v_x \\\\ u_y + v_y \\end{pmatrix}$<br/><br/>
+<strong>Multiplication scalaire</strong> : $k\\,\\vec{u} = \\begin{pmatrix} k\\,u_x \\\\ k\\,u_y \\end{pmatrix}$<br/><br/>
+<strong>Vecteur opposé</strong> : $-\\vec{u} = \\begin{pmatrix} -u_x \\\\ -u_y \\end{pmatrix}$`,
+      },
+      {
+        term: 'Produit scalaire',
+        def: `Le produit scalaire est un <em>nombre</em> (scalaire) :<br/>
+$$\\vec{u} \\cdot \\vec{v} = u_x v_x + u_y v_y = \\|\\vec{u}\\| \\times \\|\\vec{v}\\| \\times \\cos\\theta$$<br/><br/>
+• Si $\\vec{u} \\cdot \\vec{v} = 0$ → vecteurs <strong>perpendiculaires</strong><br/>
+• Si $\\vec{u} \\cdot \\vec{v} = \\|\\vec{u}\\| \\times \\|\\vec{v}\\|$ → vecteurs <strong>colinéaires de même sens</strong>`,
+      },
+    ],
 
-    method: `<strong>Décomposer une force en composantes</strong><br/><br/>
-C'est l'application la plus courante en BTS technique. Une force d'intensité $F$ faisant un angle $\\theta$ avec l'horizontale se décompose en :<br/>
-$$F_x = F\\cos\\theta \\qquad F_y = F\\sin\\theta$$<br/><br/>
-<strong>Calculer la résultante de plusieurs forces</strong><br/><br/>
-1. Décomposer chaque force en composantes $(F_{x,i}, F_{y,i})$<br/>
-2. Additionner composante par composante : $R_x = \\sum F_{x,i}$, $R_y = \\sum F_{y,i}$<br/>
-3. Calculer la norme : $R = \\sqrt{R_x^2 + R_y^2}$<br/>
-4. Calculer l'angle : $\\alpha = \\arctan(R_y / R_x)$<br/><br/>
-<strong>Travail d'une force (produit scalaire)</strong><br/><br/>
-En mécanique, le travail d'une force $\\vec{F}$ lors d'un déplacement $\\vec{d}$ est :<br/>
-$$W = \\vec{F} \\cdot \\vec{d} = F \\times d \\times \\cos\\theta$$<br/>
-où $\\theta$ est l'angle entre la force et le déplacement.`,
+    method: {
+      title: 'Décomposer une force et calculer la résultante',
+      steps: [
+        `<strong>Décomposer une force</strong> $F$ faisant un angle $\\theta$ avec l'horizontale :<br/>$F_x = F\\cos\\theta$ &nbsp;·&nbsp; $F_y = F\\sin\\theta$`,
+        'Décomposer chaque force en composantes $(F_{x,i}, F_{y,i})$.',
+        'Additionner composante par composante : $R_x = \\sum F_{x,i}$, $R_y = \\sum F_{y,i}$.',
+        'Calculer la norme de la résultante : $R = \\sqrt{R_x^2 + R_y^2}$.',
+        'Calculer l\'angle : $\\alpha = \\arctan(R_y / R_x)$.',
+        `<strong>Travail d'une force :</strong> $W = \\vec{F} \\cdot \\vec{d} = F \\times d \\times \\cos\\theta\;\\text{(J)}$`,
+      ],
+    },
 
-    example: `<strong>Exemple 1 — Mécanique : résultante de deux câbles</strong><br/><br/>
-Deux câbles soutiennent une charge. Câble 1 : $F_1 = 800\\;\\text{N}$ à 60° de l'horizontal. Câble 2 : $F_2 = 600\\;\\text{N}$ à 120° de l'horizontal.<br/><br/>
-Composantes :<br/>
-$F_{1x} = 800\\cos 60° = 400\\;\\text{N}$ ; $F_{1y} = 800\\sin 60° = 693\\;\\text{N}$<br/>
-$F_{2x} = 600\\cos 120° = -300\\;\\text{N}$ ; $F_{2y} = 600\\sin 120° = 520\\;\\text{N}$<br/><br/>
-Résultante :<br/>
-$R_x = 400 + (-300) = 100\\;\\text{N}$ ; $R_y = 693 + 520 = 1213\\;\\text{N}$<br/>
-$R = \\sqrt{100^2 + 1213^2} = \\sqrt{10000 + 1471369} \\approx 1217\\;\\text{N}$<br/>
-$\\alpha = \\arctan(1213/100) \\approx 85{,}3°$ par rapport à l'horizontal.<br/><br/>
-<strong>Exemple 2 — Électrotechnique : champ électrique résultant</strong><br/><br/>
-Deux charges créent des champs $\\vec{E_1} = (300, 0)$ V/m et $\\vec{E_2} = (0, 400)$ V/m en un point P.<br/>
-Champ résultant : $\\vec{E} = (300, 400)$ V/m<br/>
-Norme : $E = \\sqrt{300^2 + 400^2} = \\sqrt{90000 + 160000} = \\sqrt{250000} = 500\\;\\text{V/m}$<br/><br/>
-<strong>Exemple 3 — Thermique : poussée d'Archimède</strong><br/><br/>
-Un réservoir cylindrique de 3 m de long est immergé horizontalement. La poussée d'Archimède $\\vec{\\Pi}$ est verticale vers le haut. Le poids $\\vec{P}$ est vertical vers le bas. Ces deux vecteurs sont colinéaires et opposés.<br/>
-$\\vec{\\Pi} \\cdot \\vec{P} = \\Pi \\times P \\times \\cos(180°) = -\\Pi \\times P$<br/>
-Si $\\Pi > P$, le flotteur monte ; si $\\Pi < P$, il coule.`,
+    example: {
+      statement: `Mécanique : deux câbles soutiennent une charge. Câble 1 : $F_1 = 800\;\\text{N}$ à 60°. Câble 2 : $F_2 = 600\;\\text{N}$ à 120°. Calculer la résultante.`,
+      steps: [
+        '$F_{1x} = 800\\cos 60° = 400\;\\text{N}$ — $F_{1y} = 800\\sin 60° = 693\;\\text{N}$',
+        '$F_{2x} = 600\\cos 120° = -300\;\\text{N}$ — $F_{2y} = 600\\sin 120° = 520\;\\text{N}$',
+        '$R_x = 400 + (-300) = 100\;\\text{N}$ — $R_y = 693 + 520 = 1213\;\\text{N}$',
+        '$R = \\sqrt{100^2 + 1213^2} \\approx 1217\;\\text{N}$ — $\\alpha = \\arctan(1213/100) \\approx 85{,}3°$',
+        `<strong>Exemple 2 — Électrotechnique :</strong> $\\vec{E_1} = (300, 0)$ V/m, $\\vec{E_2} = (0, 400)$ V/m → $E = \\sqrt{300^2 + 400^2} = 500\;\\text{V/m}$`,
+      ],
+      answer: '$R \\approx 1217\;\\text{N}$ à $\\alpha \\approx 85{,}3°$ par rapport à l\'horizontal.',
+    },
 
     formulas: [
-      { label: 'Norme', formula: '\\|\\vec{u}\\| = \\sqrt{u_x^2 + u_y^2}' },
-      { label: 'Addition', formula: '\\vec{u} + \\vec{v} = (u_x+v_x,\\; u_y+v_y)' },
-      { label: 'Produit scalaire (composantes)', formula: '\\vec{u}\\cdot\\vec{v} = u_x v_x + u_y v_y' },
-      { label: 'Produit scalaire (géométrique)', formula: '\\vec{u}\\cdot\\vec{v} = \\|\\vec{u}\\|\\,\\|\\vec{v}\\|\\cos\\theta' },
-      { label: 'Angle entre deux vecteurs', formula: '\\cos\\theta = \\dfrac{\\vec{u}\\cdot\\vec{v}}{\\|\\vec{u}\\|\\,\\|\\vec{v}\\|}' },
-      { label: 'Décomposition d\'une force', formula: 'F_x = F\\cos\\theta, \\quad F_y = F\\sin\\theta' },
-      { label: 'Travail d\'une force', formula: 'W = \\vec{F}\\cdot\\vec{d} = F\\,d\\cos\\theta\\;\\text{(J)}' },
+      '<strong>Norme</strong> : $\\|\\vec{u}\\| = \\sqrt{u_x^2 + u_y^2}$',
+      '<strong>Addition</strong> : $\\vec{u} + \\vec{v} = (u_x+v_x,\\; u_y+v_y)$',
+      '<strong>Produit scalaire (composantes)</strong> : $\\vec{u}\\cdot\\vec{v} = u_x v_x + u_y v_y$',
+      '<strong>Produit scalaire (géométrique)</strong> : $\\vec{u}\\cdot\\vec{v} = \\|\\vec{u}\\|\\,\\|\\vec{v}\\|\\cos\\theta$',
+      '<strong>Angle entre deux vecteurs</strong> : $\\cos\\theta = \\dfrac{\\vec{u}\\cdot\\vec{v}}{\\|\\vec{u}\\|\\,\\|\\vec{v}\\|}$',
+      '<strong>Décomposition d\'une force</strong> : $F_x = F\\cos\\theta, \\quad F_y = F\\sin\\theta$',
+      '<strong>Travail d\'une force</strong> : $W = \\vec{F}\\cdot\\vec{d} = F\\,d\\cos\\theta\\;\\text{(J)}$',
     ],
 
     diagram: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:10px;padding:20px;font-family:monospace;font-size:0.88rem;line-height:1.8">
@@ -91,13 +85,14 @@ Si $\\Pi > P$, le flotteur monte ; si $\\Pi < P$, il coule.`,
 </pre>
 </div>`,
 
-    recap: `<strong>Ce qu'il faut retenir</strong><br/><br/>
-• Un vecteur a une direction, un sens et une norme<br/>
-• Norme : $\\|\\vec{u}\\| = \\sqrt{u_x^2 + u_y^2}$<br/>
-• Addition composante par composante<br/>
-• Produit scalaire : $\\vec{u}\\cdot\\vec{v} = u_x v_x + u_y v_y = \\|u\\|\\|v\\|\\cos\\theta$<br/>
-• $\\vec{u}\\perp\\vec{v}$ ↔ $\\vec{u}\\cdot\\vec{v} = 0$<br/>
-• Décomposition d'une force en $F\\cos\\theta$ et $F\\sin\\theta$`,
+    recap: [
+      'Un vecteur a une direction, un sens et une norme.',
+      'Norme : $\\|\\vec{u}\\| = \\sqrt{u_x^2 + u_y^2}$.',
+      'Addition composante par composante.',
+      'Produit scalaire : $\\vec{u}\\cdot\\vec{v} = u_x v_x + u_y v_y = \\|u\\|\\|v\\|\\cos\\theta$.',
+      '$\\vec{u}\\perp\\vec{v}$ ↔ $\\vec{u}\\cdot\\vec{v} = 0$.',
+      'Décomposition d\'une force : $F_x = F\\cos\\theta$, $F_y = F\\sin\\theta$.',
+    ],
 
     piege: `<strong>Pièges fréquents</strong><br/><br/>
 • <strong>Additionner des normes</strong> : $\\|\\vec{F_1} + \\vec{F_2}\\| \\neq \\|\\vec{F_1}\\| + \\|\\vec{F_2}\\|$ en général. On additionne les composantes, pas les normes.<br/><br/>
