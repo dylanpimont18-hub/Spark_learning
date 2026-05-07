@@ -10,7 +10,8 @@ window.MODULES.push({
   physics: 'Le Système International d\'Unités (SI) est le cadre légal et scientifique universel. Maîtriser les unités, c\'est éviter les erreurs de dimensionnement qui peuvent conduire à des catastrophes : la sonde Mars Climate Orbiter a été perdue en 1999 à cause d\'une confusion entre Newton et livre-force.',
 
   cours: {
-    intro: `Les unités ne sont pas une formalité administrative : elles portent la signification physique d'un résultat. Un résultat sans unité est inutilisable, voire dangereux. En BTS, vous travaillerez constamment avec des grandeurs de natures différentes (électrique, mécanique, thermique, chimique), et la cohérence des unités est le premier contrôle de validité de tout calcul.`,
+    intro: `Les unités ne sont pas une formalité administrative : elles portent la signification physique d'un résultat. Un résultat sans unité est inutilisable, voire dangereux.<br/><br/>
+En BTS, vous travaillerez constamment avec des grandeurs de natures différentes (électrique, mécanique, thermique, chimique). <br/><br/>La cohérence des unités est le premier contrôle de validité de tout calcul.`,
 
     definitions: [
       {
@@ -267,3 +268,4 @@ Exemple : $P = F \\times v$ → $[F \\times v] = \\text{N} \\times \\text{m/s} =
     ],
   },
 });
+// qualite_ok: 2026
