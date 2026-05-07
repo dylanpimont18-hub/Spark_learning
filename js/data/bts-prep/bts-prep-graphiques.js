@@ -10,7 +10,9 @@ window.MODULES.push({
   physics: 'En BTS technique, la lecture graphique est une compétence quotidienne : courbes caractéristiques de pompes, diagrammes enthalpiques, courbes de charge, caractéristiques de composants électroniques. Savoir lire, interpoler et extrapoler rigoureusement est indispensable pour le dimensionnement.',
 
   cours: {
-    intro: `Un graphique est une représentation visuelle d'une relation entre deux grandeurs. En bureau d'études et sur le terrain, les techniciens utilisent constamment des abaques, des courbes de performance et des diagrammes. La lecture graphique précise est une compétence technique à part entière, distincte du calcul numérique.`,
+    intro: `Un graphique est une représentation visuelle d'une relation entre deux grandeurs. <br/><br/>
+En bureau d'études et sur le terrain, les techniciens utilisent constamment des abaques, des courbes de performance et des diagrammes. <br/><br/>
+La lecture graphique précise est une compétence technique à part entière, distincte du calcul numérique.`,
 
     definitions: [
       {
@@ -308,3 +310,4 @@ La courbe de réseau (pertes de charge du circuit) suit la loi : $\\Delta H_{\\t
     ],
   },
 });
+// qualite_ok: 2026

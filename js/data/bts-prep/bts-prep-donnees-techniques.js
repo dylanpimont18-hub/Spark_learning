@@ -10,7 +10,9 @@ window.MODULES.push({
   physics: 'Un BTS technique forme des praticiens capables de dialoguer avec les fournisseurs, de lire les documentations techniques et de sélectionner le bon équipement dans un catalogue. Décrypter une fiche technique est une compétence professionnelle fondamentale.',
 
   cours: {
-    intro: `Les catalogues fabricants et les fiches techniques sont les outils de travail quotidiens du technicien BTS. Ils condensent des dizaines de paramètres sous des formes standardisées (tableaux, abaques, courbes, notes techniques). Ce module enseigne la méthode pour extraire l'information utile sans se noyer dans les données.`,
+    intro: `Les catalogues fabricants et les fiches techniques sont les outils de travail quotidiens du technicien BTS. <br/><br/>
+Ils condensent des dizaines de paramètres sous des formes standardisées (tableaux, abaques, courbes, notes techniques). <br/><br/>
+Ce module enseigne la méthode pour extraire l'information utile sans se noyer dans les données.`,
 
     definitions: [
       {
@@ -293,3 +295,4 @@ Le catalogue Grundfos propose les pompes suivantes :<br/><br/>
     ],
   },
 });
+// qualite_ok: 2026

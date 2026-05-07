@@ -10,7 +10,9 @@ window.MODULES.push({
   physics: 'En BTS technique, on jongle constamment entre les unités du fabricant (bar, l/h, °C, kW, tr/min) et les unités SI (Pa, m³/s, K, W, rad/s). Maîtriser ces conversions, c\'est éviter les erreurs de dimensionnement sur le terrain.',
 
   cours: {
-    intro: `Les catalogues fabricants, les fiches techniques et les normes utilisent souvent des unités différentes de celles du cours. Un thermicien travaille en kW et en kcal/h, un hydraulicien en bar et en l/min, un électricien en kWh et en kVA. Ce module rassemble les conversions les plus courantes en BTS, classées par grandeur physique.`,
+    intro: `Les catalogues fabricants, les fiches techniques et les normes utilisent souvent des unités différentes de celles du cours. <br/><br/>
+Un thermicien travaille en kW et en kcal/h, un hydraulicien en bar et en l/min, un électricien en kWh et en kVA. <br/><br/>
+Ce module rassemble les conversions les plus courantes en BTS, classées par grandeur physique.`,
 
     definitions: [
       {
@@ -291,3 +293,4 @@ $n (\\text{tr/min}) = \\omega (\\text{rad/s}) \\times \\dfrac{60}{2\\pi} \\appro
     ],
   },
 });
+// qualite_ok: 2026
