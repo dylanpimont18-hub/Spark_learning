@@ -16,79 +16,54 @@ window.MODULES.push({
 • Inverser une loi de charge RC : retrouver $t$ à partir de $u_C$<br/>
 • Calculer une atténuation en dB ou retrouver un rapport de tension`,
 
-    definitions: `<strong>Inverser une racine carrée</strong><br/><br/>
-Si $\\sqrt{x} = a$ (avec $a > 0$), alors $x = a^2$.<br/>
-Si $A = \\sqrt{B^2 + C^2}$, alors $B = \\sqrt{A^2 - C^2}$ (à condition que $A > C$).<br/><br/>
-<strong>Inverser une puissance</strong><br/><br/>
-Si $x^n = a$, alors $x = a^{1/n} = \\sqrt[n]{a}$.<br/>
-Cas courants :<br/>
-• $x^2 = a \\Rightarrow x = \\pm\\sqrt{a}$ (ne garder que la solution physique)<br/>
-• $x^3 = a \\Rightarrow x = \\sqrt[3]{a} = a^{1/3}$<br/><br/>
-<strong>Inverser une exponentielle</strong><br/><br/>
-Si $e^x = a$, alors $x = \\ln(a)$.<br/>
-Si $A \\cdot e^{Bx} = C$, on isole progressivement :<br/>
-1. $e^{Bx} = C/A$<br/>
-2. $Bx = \\ln(C/A)$<br/>
-3. $x = \\dfrac{\\ln(C/A)}{B}$<br/><br/>
-<strong>Inverser un logarithme</strong><br/><br/>
-Si $\\ln(x) = a$, alors $x = e^a$.<br/>
-Si $\\log_{10}(x) = a$, alors $x = 10^a$.<br/><br/>
-Si $A \\cdot \\ln(Bx) = C$ :<br/>
-1. $\\ln(Bx) = C/A$<br/>
-2. $Bx = e^{C/A}$<br/>
-3. $x = e^{C/A} / B$`,
+    definitions: [
+      {
+        term: 'Inverser une racine carrée',
+        def: `Si $\\sqrt{x} = a$ (avec $a > 0$), alors $x = a^2$.<br/><br/>Si $A = \\sqrt{B^2 + C^2}$, alors $B = \\sqrt{A^2 - C^2}$ (à condition que $A > C$).`,
+      },
+      {
+        term: 'Inverser une puissance',
+        def: `Si $x^n = a$, alors $x = a^{1/n} = \\sqrt[n]{a}$.<br/><br/>Cas courants :<br/>• $x^2 = a \\Rightarrow x = \\pm\\sqrt{a}$ (ne garder que la solution physique)<br/>• $x^3 = a \\Rightarrow x = \\sqrt[3]{a} = a^{1/3}$`,
+      },
+      {
+        term: 'Inverser une exponentielle',
+        def: `Si $e^x = a$, alors $x = \\ln(a)$.<br/><br/>Si $A \\cdot e^{Bx} = C$, on isole progressivement :<br/>1. $e^{Bx} = C/A$<br/>2. $Bx = \\ln(C/A)$<br/>3. $x = \\dfrac{\\ln(C/A)}{B}$`,
+      },
+      {
+        term: 'Inverser un logarithme',
+        def: `Si $\\ln(x) = a$, alors $x = e^a$.<br/>Si $\\log_{10}(x) = a$, alors $x = 10^a$.<br/><br/>Si $A \\cdot \\ln(Bx) = C$ :<br/>1. $\\ln(Bx) = C/A$<br/>2. $Bx = e^{C/A}$<br/>3. $x = e^{C/A} / B$`,
+      },
+    ],
 
-    method: `<strong>Méthode générale : isoler l'inconnue par transformations successives</strong><br/><br/>
-La règle d'or : <strong>appliquer l'opération inverse de chaque côté de l'équation</strong>.<br/><br/>
-| Si on voit... | Opération inverse |
-|--------------|------------------|
-| $\\sqrt{x}$ | Mettre au carré : $( )^2$ |
-| $x^2$ | Racine carrée : $\\sqrt{ }$ |
-| $x^n$ | Puissance $1/n$ : $( )^{1/n}$ |
-| $e^x$ | Logarithme naturel : $\\ln( )$ |
-| $\\ln(x)$ | Exponentielle : $e^{( )}$ |
-| $\\log_{10}(x)$ | Puissance de 10 : $10^{( )}$ |<br/><br/>
-<strong>Attention aux domaines</strong> :<br/>
-• $\\sqrt{x}$ n'existe que si $x \\geq 0$<br/>
-• $\\ln(x)$ n'existe que si $x > 0$<br/>
-• $x^2 = a$ a deux solutions ($\\pm\\sqrt{a}$), choisir la physiquement cohérente`,
+    method: {
+      title: 'Méthode générale : isoler l\'inconnue par transformations successives',
+      steps: [
+        'La règle d\'or : <strong>appliquer l\'opération inverse de chaque côté de l\'équation</strong>.',
+        '| Si on voit... | Opération inverse |\n|--------------|------------------|\n| $\\sqrt{x}$ | Mettre au carré : $( )^2$ |\n| $x^2$ | Racine carrée : $\\sqrt{ }$ |\n| $x^n$ | Puissance $1/n$ : $( )^{1/n}$ |\n| $e^x$ | Logarithme naturel : $\\ln( )$ |\n| $\\ln(x)$ | Exponentielle : $e^{( )}$ |\n| $\\log_{10}(x)$ | Puissance de 10 : $10^{( )}$ |',
+        '<strong>Attention aux domaines</strong> : $\\sqrt{x}$ n\'existe que si $x \\geq 0$ — $\\ln(x)$ n\'existe que si $x > 0$ — $x^2 = a$ a deux solutions ($\\pm\\sqrt{a}$), choisir la physiquement cohérente.',
+      ],
+    },
 
-    example: `<strong>Exemple 1 — Retrouver R dans $Z = \\sqrt{R^2 + X_L^2}$</strong><br/><br/>
-Un circuit présente $Z = 100\\;\\Omega$ et $X_L = 60\\;\\Omega$. Trouver $R$ :<br/>
-$100 = \\sqrt{R^2 + 60^2}$<br/>
-$100^2 = R^2 + 3600$ (mise au carré des deux membres)<br/>
-$R^2 = 10000 - 3600 = 6400$<br/>
-$R = \\sqrt{6400} = 80\\;\\Omega$<br/><br/>
-<strong>Exemple 2 — Trouver la vitesse depuis $E_c = \\frac{1}{2}mv^2$</strong><br/><br/>
-$E_c = 3600\\;\\text{J}$, $m = 80\\;\\text{kg}$. Trouver $v$ :<br/>
-$3600 = \\frac{1}{2} \\times 80 \\times v^2 = 40\\,v^2$<br/>
-$v^2 = 3600 / 40 = 90$<br/>
-$v = \\sqrt{90} \\approx 9{,}49\\;\\text{m/s}$<br/><br/>
-<strong>Exemple 3 — Inverser une loi exponentielle RC</strong><br/><br/>
-$u_C(t) = 12(1 - e^{-t/0{,}5})$. À quel instant $t$ est-ce que $u_C = 9\\;\\text{V}$ ?<br/>
-$9 = 12(1 - e^{-t/0{,}5})$<br/>
-$9/12 = 1 - e^{-t/0{,}5}$<br/>
-$e^{-t/0{,}5} = 1 - 0{,}75 = 0{,}25$<br/>
-$-t/0{,}5 = \\ln(0{,}25) = -1{,}386$<br/>
-$t = 0{,}5 \\times 1{,}386 = 0{,}693\\;\\text{s}$<br/><br/>
-<strong>Exemple 4 — Retrouver un rapport de tension depuis des dB</strong><br/><br/>
-Un filtre atténue de $-30\\;\\text{dB}$ en tension. Quel est le rapport $V_s/V_e$ ?<br/>
-$-30 = 20\\log_{10}(V_s/V_e)$<br/>
-$\\log_{10}(V_s/V_e) = -30/20 = -1{,}5$<br/>
-$V_s/V_e = 10^{-1{,}5} \\approx 0{,}0316$<br/><br/>
-<strong>Exemple 5 — Pression dynamique (BTP, ventilation)</strong><br/><br/>
-La pression dynamique $p_d = \\frac{1}{2}\\rho v^2$. Si $p_d = 20\\;\\text{Pa}$ et $\\rho = 1{,}2\\;\\text{kg/m}^3$ :<br/>
-$v^2 = 2 p_d / \\rho = 2 \\times 20 / 1{,}2 = 33{,}33$<br/>
-$v = \\sqrt{33{,}33} \\approx 5{,}77\\;\\text{m/s}$`,
+    example: {
+      statement: 'Cinq applications des transformations algébriques inverses dans des contextes techniques réels.',
+      steps: [
+        '<strong>Exemple 1 — Retrouver R dans $Z = \\sqrt{R^2 + X_L^2}$</strong><br/><br/>Un circuit présente $Z = 100\\;\\Omega$ et $X_L = 60\\;\\Omega$. Trouver $R$ :<br/>$100 = \\sqrt{R^2 + 60^2}$<br/>$100^2 = R^2 + 3600$ (mise au carré des deux membres)<br/>$R^2 = 10000 - 3600 = 6400$<br/>$R = \\sqrt{6400} = 80\\;\\Omega$',
+        '<strong>Exemple 2 — Trouver la vitesse depuis $E_c = \\frac{1}{2}mv^2$</strong><br/><br/>$E_c = 3600\\;\\text{J}$, $m = 80\\;\\text{kg}$. Trouver $v$ :<br/>$3600 = \\frac{1}{2} \\times 80 \\times v^2 = 40\\,v^2$<br/>$v^2 = 3600 / 40 = 90$<br/>$v = \\sqrt{90} \\approx 9{,}49\\;\\text{m/s}$',
+        '<strong>Exemple 3 — Inverser une loi exponentielle RC</strong><br/><br/>$u_C(t) = 12(1 - e^{-t/0{,}5})$. À quel instant $t$ est-ce que $u_C = 9\\;\\text{V}$ ?<br/>$9 = 12(1 - e^{-t/0{,}5})$<br/>$9/12 = 1 - e^{-t/0{,}5}$<br/>$e^{-t/0{,}5} = 1 - 0{,}75 = 0{,}25$<br/>$-t/0{,}5 = \\ln(0{,}25) = -1{,}386$<br/>$t = 0{,}5 \\times 1{,}386 = 0{,}693\\;\\text{s}$',
+        '<strong>Exemple 4 — Retrouver un rapport de tension depuis des dB</strong><br/><br/>Un filtre atténue de $-30\\;\\text{dB}$ en tension. Quel est le rapport $V_s/V_e$ ?<br/>$-30 = 20\\log_{10}(V_s/V_e)$<br/>$\\log_{10}(V_s/V_e) = -30/20 = -1{,}5$<br/>$V_s/V_e = 10^{-1{,}5} \\approx 0{,}0316$',
+        '<strong>Exemple 5 — Pression dynamique (BTP, ventilation)</strong><br/><br/>La pression dynamique $p_d = \\frac{1}{2}\\rho v^2$. Si $p_d = 20\\;\\text{Pa}$ et $\\rho = 1{,}2\\;\\text{kg/m}^3$ :<br/>$v^2 = 2 p_d / \\rho = 2 \\times 20 / 1{,}2 = 33{,}33$<br/>$v = \\sqrt{33{,}33} \\approx 5{,}77\\;\\text{m/s}$',
+      ],
+      answer: 'La clé est d\'identifier le type de transformation (racine, puissance, exponentielle, logarithme) et d\'appliquer l\'opération inverse des deux côtés de l\'équation.',
+    },
 
     formulas: [
-      { label: 'Racine → carré', formula: '\\sqrt{x} = a \\Rightarrow x = a^2' },
-      { label: 'Puissance 2 → racine', formula: 'x^2 = a \\Rightarrow x = \\pm\\sqrt{a}' },
-      { label: 'Exp → ln', formula: 'e^x = a \\Rightarrow x = \\ln a' },
-      { label: 'Ln → exp', formula: '\\ln x = a \\Rightarrow x = e^a' },
-      { label: 'Log10 → 10^', formula: '\\log_{10} x = a \\Rightarrow x = 10^a' },
-      { label: 'Retrouver R', formula: 'Z = \\sqrt{R^2+X^2} \\Rightarrow R = \\sqrt{Z^2-X^2}' },
-      { label: 'Retrouver v', formula: 'E_c = \\frac{1}{2}mv^2 \\Rightarrow v = \\sqrt{2E_c/m}' },
+      '<strong>Racine → carré</strong> : $\\sqrt{x} = a \\Rightarrow x = a^2$',
+      '<strong>Puissance 2 → racine</strong> : $x^2 = a \\Rightarrow x = \\pm\\sqrt{a}$',
+      '<strong>Exp → ln</strong> : $e^x = a \\Rightarrow x = \\ln a$',
+      '<strong>Ln → exp</strong> : $\\ln x = a \\Rightarrow x = e^a$',
+      '<strong>Log10 → 10^</strong> : $\\log_{10} x = a \\Rightarrow x = 10^a$',
+      '<strong>Retrouver R</strong> : $Z = \\sqrt{R^2+X^2} \\Rightarrow R = \\sqrt{Z^2-X^2}$',
+      '<strong>Retrouver v</strong> : $E_c = \\frac{1}{2}mv^2 \\Rightarrow v = \\sqrt{2E_c/m}$',
     ],
 
     diagram: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:10px;padding:20px;font-size:0.88rem;line-height:2">
@@ -105,12 +80,13 @@ $v = \\sqrt{33{,}33} \\approx 5{,}77\\;\\text{m/s}$`,
 </div>
 </div>`,
 
-    recap: `<strong>Ce qu'il faut retenir</strong><br/><br/>
-• Pour inverser $\\sqrt{x}$ : mettre au carré les deux membres<br/>
-• Pour inverser $e^x$ : prendre $\\ln$ des deux membres<br/>
-• Pour inverser $\\ln(x)$ : prendre $e^{()}$ des deux membres<br/>
-• Pour inverser $x^2$ : prendre $\\sqrt{}$ des deux membres (vérifier le signe)<br/>
-• Dans les formules physiques : isoler le terme avec l'inconnue, puis appliquer la transformation inverse`,
+    recap: [
+      'Pour inverser $\\sqrt{x}$ : mettre au carré les deux membres',
+      'Pour inverser $e^x$ : prendre $\\ln$ des deux membres',
+      'Pour inverser $\\ln(x)$ : prendre $e^{()}$ des deux membres',
+      'Pour inverser $x^2$ : prendre $\\sqrt{}$ des deux membres (vérifier le signe)',
+      'Dans les formules physiques : isoler le terme avec l\'inconnue, puis appliquer la transformation inverse',
+    ],
 
     piege: `<strong>Pièges fréquents</strong><br/><br/>
 • <strong>Oublier d'isoler avant de transformer</strong> : si $\\ln(x+1) = 3$, c'est $x+1 = e^3$, donc $x = e^3 - 1$. On ne peut pas appliquer $e^{()}$ membre par membre à $\\ln(x) + 1 = 3$.<br/><br/>
