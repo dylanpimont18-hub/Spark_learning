@@ -12,8 +12,10 @@ window.MODULES.push({
   cours: {
     intro: `Les catalogues fabricants et les fiches techniques sont les outils de travail quotidiens du technicien BTS. Ils condensent des dizaines de paramètres sous des formes standardisées (tableaux, abaques, courbes, notes techniques). Ce module enseigne la méthode pour extraire l'information utile sans se noyer dans les données.`,
 
-    definitions: `<strong>Structure d'une fiche technique</strong><br/><br/>
-Une fiche technique (datasheet) contient généralement :<br/><br/>
+    definitions: [
+      {
+        term: 'Structure d\'une fiche technique',
+        def: `Une fiche technique (datasheet) contient généralement :<br/><br/>
 • <strong>Référence et désignation</strong> : code produit, famille, variante<br/>
 • <strong>Données de performance nominale</strong> : puissance, débit, pression, rendement, vitesse de rotation<br/>
 • <strong>Plage de fonctionnement</strong> : températures, pressions, débits admissibles<br/>
@@ -21,41 +23,40 @@ Une fiche technique (datasheet) contient généralement :<br/><br/>
 • <strong>Caractéristiques mécaniques</strong> : masse, dimensions, raccordements, matériaux<br/>
 • <strong>Courbes de performance</strong> : HMT/Q, rendement/Q, puissance/Q pour les pompes<br/>
 • <strong>Conditions de référence</strong> : température ambiante, altitude, fluide de référence<br/>
-• <strong>Certifications et normes</strong> : CE, NF, IP, classe d'isolation<br/><br/>
-<strong>Paramètres clés par type d'équipement</strong><br/><br/>
-<em>Pompes (ex : Grundfos) :</em><br/>
+• <strong>Certifications et normes</strong> : CE, NF, IP, classe d'isolation`,
+      },
+      {
+        term: 'Paramètres clés par type d\'équipement',
+        def: `<em>Pompes (ex : Grundfos) :</em><br/>
 $Q_{\\text{nominal}}$ (m³/h), $H_{\\text{nominal}}$ (m), $P_{\\text{absorbée}}$ (kW), $\\eta_{\\text{pompe}}$ (%), $\\text{NPSH}_r$ (m), DN raccordement (mm)<br/><br/>
 <em>Climatiseurs/Groupes froids (ex : Daikin) :</em><br/>
 $P_f$ (kW), $P_{\\text{chaud}}$ (kW), COP, EER, $P_{\\text{élec}}$ (kW), Classe énergétique (A++ à G)<br/><br/>
 <em>Disjoncteurs/Contacteurs (ex : Schneider) :</em><br/>
 $I_n$ (A) courant nominal, $I_{cu}$ (kA) pouvoir de coupure, catégorie (AC-3, AC-1), tension nominale (V)<br/><br/>
 <em>Chaudières industrielles :</em><br/>
-$P_{\text{utile}}$ (kW), rendement PCI (%), pression de travail (bar), débit fumées (m³/h)`,
+$P_{\\text{utile}}$ (kW), rendement PCI (%), pression de travail (bar), débit fumées (m³/h)`,
+      },
+    ],
 
-    method: `<strong>Méthode de sélection dans un catalogue</strong><br/><br/>
-1. <strong>Identifier les contraintes</strong> : débit requis, pression, température, environnement<br/>
-2. <strong>Aller à l'abaque de sélection</strong> : placer le point de fonctionnement (Q, H) sur l'abaque<br/>
-3. <strong>Sélectionner le modèle</strong> : choisir la pompe/machine dont la courbe passe au-dessus du point<br/>
-4. <strong>Vérifier les critères secondaires</strong> : rendement maximal, puissance absorbée, NPSH, niveau sonore<br/>
-5. <strong>Appliquer les coefficients de sécurité</strong> : généralement 10 à 20% sur le débit<br/>
-6. <strong>Vérifier la compatibilité électrique</strong> : tension, courant, protection<br/><br/>
-<strong>Lire une courbe de pompe</strong><br/><br/>
-La courbe caractéristique d'une pompe représente la HMT disponible en fonction du débit Q. Elle décroît typiquement de gauche (débit nul, HMT maximale = HMT à débit nul) à droite (débit maximal, HMT nulle).<br/><br/>
-Le point de fonctionnement est l'intersection entre la courbe pompe et la courbe de réseau.<br/><br/>
-<strong>Les indices de protection IP</strong><br/><br/>
-IP XY : X = protection contre les solides (0 à 6), Y = protection contre les liquides (0 à 8).<br/>
-IP 54 = protégé contre les poussières (5) et les projections d'eau (4).<br/>
-IP 65 = étanche aux poussières (6) et aux jets d'eau basse pression (5).`,
+    method: {
+      title: 'Méthode de sélection dans un catalogue',
+      steps: [
+        '<strong>Identifier les contraintes</strong> : débit requis, pression, température, environnement.',
+        '<strong>Aller à l\'abaque de sélection</strong> : placer le point de fonctionnement (Q, H) sur l\'abaque.',
+        '<strong>Sélectionner le modèle</strong> : choisir la pompe/machine dont la courbe passe au-dessus du point.',
+        '<strong>Vérifier les critères secondaires</strong> : rendement maximal, puissance absorbée, NPSH, niveau sonore.',
+        '<strong>Appliquer les coefficients de sécurité</strong> : généralement 10 à 20% sur le débit.',
+        '<strong>Vérifier la compatibilité électrique</strong> : tension, courant, protection.',
+        '<strong>Lire une courbe de pompe</strong> : la courbe HMT/Q décroît de gauche (débit nul, HMT maximale) à droite (débit maximal, HMT nulle). Le point de fonctionnement est l\'intersection entre la courbe pompe et la courbe de réseau.',
+        '<strong>Indices de protection IP</strong> : IP XY — X = protection contre les solides (0 à 6), Y = protection contre les liquides (0 à 8). IP 54 = poussières (5) + projections d\'eau (4). IP 65 = étanche aux poussières + jets d\'eau basse pression.',
+      ],
+    },
 
-    example: `<strong>Exemple 1 — Sélection d'une pompe (Grundfos CM)</strong><br/><br/>
-Besoin : alimenter un circuit de chauffage avec $Q = 8\\;\\text{m}^3/\\text{h}$ à $H = 15\\;\\text{m}$.<br/><br/>
-Sur l'abaque Grundfos, on repère le point $(8\\;\\text{m}^3/\\text{h}, 15\\;\\text{m})$. La pompe CM5-8 couvre ce point avec :<br/>
-• $Q_n = 9\\;\\text{m}^3/\\text{h}$, $H_n = 17\\;\\text{m}$<br/>
-• $P_{\text{abs}} = 0{,}85\\;\\text{kW}$<br/>
-• $\\eta_n = 52\\%$<br/>
-• IP 44, 230 V monophasé<br/><br/>
-Coefficient de sécurité appliqué : le point de fonctionnement (8 m³/h, 15 m) est bien dans la plage utile de la courbe, avec une réserve de 1 m³/h sur le débit.<br/><br/>
-<strong>Exemple 2 — Fiche technique climatiseur Daikin FTXM35M</strong><br/><br/>
+    example: {
+      statement: 'Trois exemples de lecture et de sélection dans des catalogues techniques industriels.',
+      steps: [
+        '<strong>Exemple 1 — Sélection d\'une pompe (Grundfos CM)</strong><br/><br/>Besoin : alimenter un circuit de chauffage avec $Q = 8\\;\\text{m}^3/\\text{h}$ à $H = 15\\;\\text{m}$.<br/><br/>Sur l\'abaque Grundfos, on repère le point $(8\\;\\text{m}^3/\\text{h}, 15\\;\\text{m})$. La pompe CM5-8 couvre ce point avec :<br/>• $Q_n = 9\\;\\text{m}^3/\\text{h}$, $H_n = 17\\;\\text{m}$<br/>• $P_{\\text{abs}} = 0{,}85\\;\\text{kW}$<br/>• $\\eta_n = 52\\%$<br/>• IP 44, 230 V monophasé<br/><br/>Le point de fonctionnement (8 m³/h, 15 m) est dans la plage utile, avec une réserve de 1 m³/h sur le débit.',
+        `<strong>Exemple 2 — Fiche technique climatiseur Daikin FTXM35M</strong><br/><br/>
 | Paramètre | Valeur |
 |-----------|--------|
 | Puissance frigorifique | 3,5 kW |
@@ -65,19 +66,19 @@ Coefficient de sécurité appliqué : le point de fonctionnement (8 m³/h, 15 m)
 | Débit d'air | 570 m³/h |
 | Niveau sonore intérieur | 21–40 dB(A) |
 | IP | IP24 (unité intérieure) |<br/><br/>
-Lecture : pour $P_f = 3{,}5\\;\\text{kW}$ et $P_{\text{élec}} = 0{,}88\\;\\text{kW}$, le COP est bien $3{,}5/0{,}88 \\approx 4{,}0$. La valeur COP = 5,0 est mesurée dans des conditions standard (air à 35°C/extérieur, 27°C intérieur).<br/><br/>
-<strong>Exemple 3 — Disjoncteur Schneider GV2M</strong><br/><br/>
-Pour un moteur $P = 2{,}2\\;\\text{kW}$, $U = 400\\;\\text{V}$, $\\cos\\varphi = 0{,}85$ :<br/>
-$I_n = P/(\\sqrt{3} \\times U \\times \\cos\\varphi) = 2200/(1{,}732 \\times 400 \\times 0{,}85) \\approx 3{,}74\\;\\text{A}$<br/>
-On sélectionne le GV2M08 ($I_n = 6\\;\\text{A}$, réglable de 4 à 6 A) — on règle à 4 A pour protéger le moteur.`,
+Lecture : pour $P_f = 3{,}5\\;\\text{kW}$ et $P_{\\text{élec}} = 0{,}88\\;\\text{kW}$, le COP est bien $3{,}5/0{,}88 \\approx 4{,}0$. La valeur COP = 5,0 est mesurée dans les conditions standard (air à 35°C extérieur, 27°C intérieur).`,
+        '<strong>Exemple 3 — Disjoncteur Schneider GV2M</strong><br/><br/>Pour un moteur $P = 2{,}2\\;\\text{kW}$, $U = 400\\;\\text{V}$, $\\cos\\varphi = 0{,}85$ :<br/>$I_n = P/(\\sqrt{3} \\times U \\times \\cos\\varphi) = 2200/(1{,}732 \\times 400 \\times 0{,}85) \\approx 3{,}74\\;\\text{A}$<br/>On sélectionne le GV2M08 ($I_n = 6\\;\\text{A}$, réglable de 4 à 6 A) — on règle à 4 A pour protéger le moteur.',
+      ],
+      answer: 'La sélection d\'un équipement dans un catalogue commence par identifier le point de fonctionnement, puis à vérifier que le modèle choisi le couvre avec une marge de sécurité.',
+    },
 
     formulas: [
-      { label: 'Puissance utile pompe', formula: 'P_{\\text{utile}} = \\rho g Q H \\quad (\\text{W si SI})' },
-      { label: 'Rendement pompe', formula: '\\eta_{\\text{pompe}} = P_{\\text{utile}} / P_{\\text{absorbée}}' },
-      { label: 'COP groupe froid', formula: '\\text{COP} = P_f / P_{\\text{élec}}' },
-      { label: 'Courant moteur tri', formula: 'I_n = P / (\\sqrt{3} \\cdot U \\cdot \\cos\\varphi \\cdot \\eta)' },
-      { label: 'NPSH disponible', formula: '\\text{NPSH}_{\\text{dispo}} = h_{\\text{atm}} - h_v - h_s - J_a' },
-      { label: 'Condition NPSH', formula: '\\text{NPSH}_{\\text{dispo}} \\geq \\text{NPSH}_{r} + 0{,}5\\;\\text{m}' },
+      '<strong>Puissance utile pompe</strong> : $P_{\\text{utile}} = \\rho g Q H \\quad (\\text{W si SI})$',
+      '<strong>Rendement pompe</strong> : $\\eta_{\\text{pompe}} = P_{\\text{utile}} / P_{\\text{absorbée}}$',
+      '<strong>COP groupe froid</strong> : $\\text{COP} = P_f / P_{\\text{élec}}$',
+      '<strong>Courant moteur tri</strong> : $I_n = P / (\\sqrt{3} \\cdot U \\cdot \\cos\\varphi \\cdot \\eta)$',
+      '<strong>NPSH disponible</strong> : $\\text{NPSH}_{\\text{dispo}} = h_{\\text{atm}} - h_v - h_s - J_a$',
+      '<strong>Condition NPSH</strong> : $\\text{NPSH}_{\\text{dispo}} \\geq \\text{NPSH}_{r} + 0{,}5\\;\\text{m}$',
     ],
 
     diagram: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:10px;padding:20px;font-size:0.88rem;line-height:1.8">
@@ -99,17 +100,18 @@ On sélectionne le GV2M08 ($I_n = 6\\;\\text{A}$, réglable de 4 à 6 A) — on 
 </div>
 </div>`,
 
-    recap: `<strong>Ce qu'il faut retenir</strong><br/><br/>
-• Une fiche technique contient toujours : performances nominales, plage de fonctionnement, caractéristiques électriques, conditions de référence<br/>
-• Point de fonctionnement pompe = intersection courbe pompe + courbe réseau<br/>
-• IP XY : X = solides (0→6), Y = liquides (0→8). IP 65 = full protection poussières + jet d'eau<br/>
-• COP = puissance utile / puissance électrique absorbée<br/>
-• NPSH : condition anti-cavitation — toujours vérifier`,
+    recap: [
+      'Une fiche technique contient toujours : performances nominales, plage de fonctionnement, caractéristiques électriques, conditions de référence',
+      'Point de fonctionnement pompe = intersection courbe pompe + courbe réseau',
+      'IP XY : X = solides (0→6), Y = liquides (0→8). IP 65 = protection totale poussières + jet d\'eau',
+      'COP = puissance utile / puissance électrique absorbée',
+      'NPSH : condition anti-cavitation — toujours vérifier',
+    ],
 
     piege: `<strong>Pièges fréquents</strong><br/><br/>
 • <strong>Conditions de référence</strong> : les performances sont données pour des conditions standard (température, altitude, fluide). En altitude ou chaleur, les performances réelles sont moindres.<br/><br/>
 • <strong>COP vs EER</strong> : le COP est pour le chauffage, l'EER pour le refroidissement. Ce sont des valeurs mesurées dans des conditions standard (EN 14511), différentes des conditions réelles d'utilisation.<br/><br/>
-• <strong>Puissance absorbée vs nominale</strong> : la puissance nominale d'un moteur est la puissance utile sur l'arbre. La puissance absorbée au réseau est $P_{\text{abs}} = P_n / \\eta$.<br/><br/>
+• <strong>Puissance absorbée vs nominale</strong> : la puissance nominale d'un moteur est la puissance utile sur l'arbre. La puissance absorbée au réseau est $P_{\\text{abs}} = P_n / \\eta$.<br/><br/>
 • <strong>NPSH requis vs disponible</strong> : si NPSH disponible < NPSH requis, la pompe cavite (bruit, vibrations, usure rapide). Toujours vérifier avant installation.`,
   },
 

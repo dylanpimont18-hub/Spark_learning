@@ -12,8 +12,10 @@ window.MODULES.push({
   cours: {
     intro: `Les catalogues fabricants, les fiches techniques et les normes utilisent souvent des unités différentes de celles du cours. Un thermicien travaille en kW et en kcal/h, un hydraulicien en bar et en l/min, un électricien en kWh et en kVA. Ce module rassemble les conversions les plus courantes en BTS, classées par grandeur physique.`,
 
-    definitions: `<strong>Pression</strong><br/><br/>
-| De | Vers | Facteur |
+    definitions: [
+      {
+        term: 'Pression',
+        def: `| De | Vers | Facteur |
 |----|------|---------|
 | 1 bar | Pa | $1 \\times 10^5$ |
 | 1 bar | kPa | 100 |
@@ -22,74 +24,80 @@ window.MODULES.push({
 | 1 bar | mbar | 1000 |
 | 1 psi | Pa | 6895 |
 | 1 MPa | bar | 10 |<br/><br/>
-Règle pratique : <strong>1 bar ≈ 10 m de colonne d'eau</strong> (pour la pression hydrostatique : $p = \\rho g h$)<br/><br/>
-<strong>Débit</strong><br/><br/>
-| De | Vers | Facteur |
+Règle pratique : <strong>1 bar ≈ 10 m de colonne d'eau</strong> (pour la pression hydrostatique : $p = \\rho g h$)`,
+      },
+      {
+        term: 'Débit',
+        def: `| De | Vers | Facteur |
 |----|------|---------|
 | 1 m³/s | l/s | 1000 |
 | 1 m³/h | l/min | $1000/60 \\approx 16{,}67$ |
 | 1 m³/h | m³/s | $1/3600 \\approx 2{,}78 \\times 10^{-4}$ |
-| 1 l/min | m³/h | $1/16{,}67 = 0{,}06$ |<br/><br/>
-<strong>Énergie</strong><br/><br/>
-| De | Vers | Facteur |
+| 1 l/min | m³/h | $1/16{,}67 = 0{,}06$ |`,
+      },
+      {
+        term: 'Énergie',
+        def: `| De | Vers | Facteur |
 |----|------|---------|
 | 1 kWh | MJ | 3,6 |
 | 1 kcal | J | 4186 |
 | 1 kWh | kcal | 860 |
 | 1 BTU | J | 1055 |
-| 1 tep (tonne équivalent pétrole) | kWh | 11 630 |<br/><br/>
-<strong>Puissance</strong><br/><br/>
-| De | Vers | Facteur |
+| 1 tep (tonne équivalent pétrole) | kWh | 11 630 |`,
+      },
+      {
+        term: 'Puissance',
+        def: `| De | Vers | Facteur |
 |----|------|---------|
 | 1 kW | kcal/h | 860 |
 | 1 kcal/h | W | $1{,}163$ |
 | 1 ch (cheval-vapeur) | W | 736 |
-| 1 hp (horsepower) | W | 746 |<br/><br/>
-<strong>Température</strong><br/><br/>
-| De | Vers | Formule |
+| 1 hp (horsepower) | W | 746 |`,
+      },
+      {
+        term: 'Température',
+        def: `| De | Vers | Formule |
 |----|------|---------|
 | °C | K | $T(K) = T(°C) + 273{,}15$ |
 | °C | °F | $T(°F) = T(°C) \\times 1{,}8 + 32$ |
-| °F | °C | $T(°C) = (T(°F) - 32) / 1{,}8$ |<br/><br/>
-<strong>Vitesse de rotation</strong><br/><br/>
-| De | Vers | Formule |
+| °F | °C | $T(°C) = (T(°F) - 32) / 1{,}8$ |`,
+      },
+      {
+        term: 'Vitesse de rotation',
+        def: `| De | Vers | Formule |
 |----|------|---------|
 | tr/min (rpm) | rad/s | $\\omega = n \\times 2\\pi / 60$ |
 | rad/s | tr/min | $n = \\omega \\times 60 / (2\\pi)$ |`,
+      },
+    ],
 
-    method: `<strong>Méthode de conversion par facteur</strong><br/><br/>
-Toujours écrire la conversion comme une multiplication par "1" :<br/>
-$$Q(\\text{m}^3/\\text{h}) = Q(\\text{l/min}) \\times \\frac{1\\;\\text{m}^3}{1000\\;\\text{l}} \\times \\frac{60\\;\\text{min}}{1\\;\\text{h}} = Q(\\text{l/min}) \\times 0{,}06$$<br/><br/>
-Cette méthode permet de ne jamais se tromper de sens (multiplier ou diviser).<br/><br/>
-<strong>Règle du "passage par le SI"</strong><br/><br/>
-Quand on ne connaît pas la conversion directe, on passe toujours par l'unité SI :<br/>
-Unité A → Unité SI → Unité B`,
+    method: {
+      title: 'Méthode de conversion par facteur',
+      steps: [
+        'Toujours écrire la conversion comme une multiplication par "1" :<br/>$$Q(\\text{m}^3/\\text{h}) = Q(\\text{l/min}) \\times \\frac{1\\;\\text{m}^3}{1000\\;\\text{l}} \\times \\frac{60\\;\\text{min}}{1\\;\\text{h}} = Q(\\text{l/min}) \\times 0{,}06$$<br/>Cette méthode permet de ne jamais se tromper de sens (multiplier ou diviser).',
+        '<strong>Règle du "passage par le SI"</strong> : quand on ne connaît pas la conversion directe, on passe toujours par l\'unité SI — Unité A → Unité SI → Unité B.',
+      ],
+    },
 
-    example: `<strong>Exemple 1 — Hydraulique (pompe Grundfos)</strong><br/><br/>
-Un catalogue indique un débit de $Q = 12\\;\\text{m}^3/\\text{h}$ et une HMT de $45\\;\\text{m}$.<br/>
-Conversion en l/min : $12\\;\\text{m}^3/\\text{h} \\times \\frac{1000\\;\\text{l}}{\\text{m}^3} \\times \\frac{1\\;\\text{h}}{60\\;\\text{min}} = 200\\;\\text{l/min}$<br/>
-Conversion HMT en bar : $p = \\rho g h = 1000 \\times 9{,}81 \\times 45 = 441\\,450\\;\\text{Pa} \\approx 4{,}4\\;\\text{bar}$<br/><br/>
-<strong>Exemple 2 — Thermique (chaudière industrielle)</strong><br/><br/>
-Une chaudière délivre $Q = 250\\;\\text{kW}$. Exprimer en kcal/h :<br/>
-$250\\;\\text{kW} \\times 860\\;\\text{kcal/h par kW} = 215\\,000\\;\\text{kcal/h} = 215\\;\\text{Mcal/h}$<br/><br/>
-<strong>Exemple 3 — Électrotechnique (moteur)</strong><br/><br/>
-Un moteur électrique tourne à $n = 1450\\;\\text{tr/min}$.<br/>
-$\\omega = 1450 \\times \\dfrac{2\\pi}{60} = 1450 \\times 0{,}1047 = 151{,}8\\;\\text{rad/s}$<br/><br/>
-Sa puissance utile sur l'arbre est $P = 5{,}5\\;\\text{kW}$.<br/>
-Son couple moteur : $C = P / \\omega = 5500 / 151{,}8 = 36{,}2\\;\\text{N·m}$<br/><br/>
-<strong>Exemple 4 — Climatisation (catalogue Daikin)</strong><br/><br/>
-Un groupe froid annonce une puissance frigorifique de $P_f = 28\\;\\text{kW}$ et un COP de 3,2.<br/>
-Puissance électrique absorbée : $P_{\\text{élec}} = P_f / \\text{COP} = 28 / 3{,}2 = 8{,}75\\;\\text{kW}$<br/>
-En chevaux-vapeur : $P = 8750 / 736 \\approx 11{,}9\\;\\text{ch}$`,
+    example: {
+      statement: 'Quatre exemples de conversions techniques issues de contextes industriels réels.',
+      steps: [
+        '<strong>Exemple 1 — Hydraulique (pompe Grundfos)</strong><br/><br/>Un catalogue indique un débit de $Q = 12\\;\\text{m}^3/\\text{h}$ et une HMT de $45\\;\\text{m}$.<br/>Conversion en l/min : $12\\;\\text{m}^3/\\text{h} \\times \\frac{1000\\;\\text{l}}{\\text{m}^3} \\times \\frac{1\\;\\text{h}}{60\\;\\text{min}} = 200\\;\\text{l/min}$<br/>Conversion HMT en bar : $p = \\rho g h = 1000 \\times 9{,}81 \\times 45 = 441\\,450\\;\\text{Pa} \\approx 4{,}4\\;\\text{bar}$',
+        '<strong>Exemple 2 — Thermique (chaudière industrielle)</strong><br/><br/>Une chaudière délivre $Q = 250\\;\\text{kW}$. Exprimer en kcal/h :<br/>$250\\;\\text{kW} \\times 860\\;\\text{kcal/h par kW} = 215\\,000\\;\\text{kcal/h} = 215\\;\\text{Mcal/h}$',
+        '<strong>Exemple 3 — Électrotechnique (moteur)</strong><br/><br/>Un moteur électrique tourne à $n = 1450\\;\\text{tr/min}$.<br/>$\\omega = 1450 \\times \\dfrac{2\\pi}{60} = 1450 \\times 0{,}1047 = 151{,}8\\;\\text{rad/s}$<br/><br/>Sa puissance utile sur l\'arbre est $P = 5{,}5\\;\\text{kW}$. Son couple moteur : $C = P / \\omega = 5500 / 151{,}8 = 36{,}2\\;\\text{N·m}$',
+        '<strong>Exemple 4 — Climatisation (catalogue Daikin)</strong><br/><br/>Un groupe froid annonce une puissance frigorifique de $P_f = 28\\;\\text{kW}$ et un COP de 3,2.<br/>Puissance électrique absorbée : $P_{\\text{élec}} = P_f / \\text{COP} = 28 / 3{,}2 = 8{,}75\\;\\text{kW}$<br/>En chevaux-vapeur : $P = 8750 / 736 \\approx 11{,}9\\;\\text{ch}$',
+      ],
+      answer: 'La maîtrise des conversions d\'unités permet de passer sans erreur entre les données catalogue et les calculs en SI.',
+    },
 
     formulas: [
-      { label: 'bar → Pa', formula: '1\\;\\text{bar} = 10^5\\;\\text{Pa}' },
-      { label: 'm³/h → l/min', formula: 'Q_{\\text{l/min}} = Q_{\\text{m}^3/\\text{h}} \\times \\frac{1000}{60} \\approx 16{,}67 \\times Q' },
-      { label: 'kWh → MJ', formula: '1\\;\\text{kWh} = 3{,}6\\;\\text{MJ}' },
-      { label: 'kW → kcal/h', formula: '1\\;\\text{kW} = 860\\;\\text{kcal/h}' },
-      { label: '°C → K', formula: 'T(K) = T(°C) + 273{,}15' },
-      { label: 'tr/min → rad/s', formula: '\\omega = n \\times 2\\pi / 60 \\approx n / 9{,}55' },
-      { label: 'HMT → pression', formula: 'p(\\text{Pa}) = \\rho g h \\quad (\\rho_{\\text{eau}} = 1000\\;\\text{kg/m}^3)' },
+      '<strong>bar → Pa</strong> : $1\\;\\text{bar} = 10^5\\;\\text{Pa}$',
+      '<strong>m³/h → l/min</strong> : $Q_{\\text{l/min}} = Q_{\\text{m}^3/\\text{h}} \\times \\frac{1000}{60} \\approx 16{,}67 \\times Q$',
+      '<strong>kWh → MJ</strong> : $1\\;\\text{kWh} = 3{,}6\\;\\text{MJ}$',
+      '<strong>kW → kcal/h</strong> : $1\\;\\text{kW} = 860\\;\\text{kcal/h}$',
+      '<strong>°C → K</strong> : $T(K) = T(°C) + 273{,}15$',
+      '<strong>tr/min → rad/s</strong> : $\\omega = n \\times 2\\pi / 60 \\approx n / 9{,}55$',
+      '<strong>HMT → pression</strong> : $p(\\text{Pa}) = \\rho g h \\quad (\\rho_{\\text{eau}} = 1000\\;\\text{kg/m}^3)$',
     ],
 
     diagram: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:10px;padding:20px;font-size:0.88rem;line-height:2">
@@ -105,12 +113,13 @@ En chevaux-vapeur : $P = 8750 / 736 \\approx 11{,}9\\;\\text{ch}$`,
 </div>
 </div>`,
 
-    recap: `<strong>Ce qu'il faut retenir</strong><br/><br/>
-• 1 bar = 10⁵ Pa = 100 kPa — 1 MPa = 10 bar<br/>
-• 1 m³/h = 16,67 l/min — 1 l/min = 0,06 m³/h<br/>
-• 1 kWh = 3,6 MJ — 1 kW = 860 kcal/h<br/>
-• °C → K : ajouter 273,15<br/>
-• tr/min → rad/s : multiplier par 2π/60 ≈ 0,1047`,
+    recap: [
+      '1 bar = 10⁵ Pa = 100 kPa — 1 MPa = 10 bar',
+      '1 m³/h = 16,67 l/min — 1 l/min = 0,06 m³/h',
+      '1 kWh = 3,6 MJ — 1 kW = 860 kcal/h',
+      '°C → K : ajouter 273,15',
+      'tr/min → rad/s : multiplier par 2π/60 ≈ 0,1047',
+    ],
 
     piege: `<strong>Pièges fréquents</strong><br/><br/>
 • <strong>l/min vs m³/h</strong> : ne pas confondre les débits volumiques exprimés dans des unités différentes. Utiliser systématiquement le facteur 0,06 (m³/h = l/min × 0,06).<br/><br/>
