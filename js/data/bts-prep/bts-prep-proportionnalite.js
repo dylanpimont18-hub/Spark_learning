@@ -201,7 +201,7 @@ window.MODULES.push({
       '$P_{hyd} = 0{,}72 \\times 495 = 356{,}4$ W.',
       '$\\eta_{global} = 0{,}90 \\times 0{,}72 = 0{,}648$. $\\dot{V} = 1{,}8/3600 = 5 \\times 10^{-4}$ m³/s. $\\Delta P = 356{,}4 / (5 \\times 10^{-4}) = 712\\,800$ Pa $\\approx 7{,}1$ bar. C\'est légèrement élevé pour du chauffage domestique — soit la pompe est surdimensionnée, soit le réseau présente des pertes de charge importantes.'
     ],
-    finalAnswer: '$P_{hyd} \\approx 356$ W, $\\eta_{global} = 64{,}8\\%$, $\\Delta P \\approx 7{,}1$ bar.'
+    finalAnswer: '$P_{hyd} \\approx 356$ W, $\\eta_{global} = 64{,}8\\%$, $\\Delta P \\approx 7{,}1$ bar. → Rendement acceptable pour une installation hydraulique industrielle ; la pression de 7,1 bar est à comparer à la pression maximale admissible du circuit.'
   },
 
   evaluation: {
@@ -254,3 +254,4 @@ window.MODULES.push({
     ]
   }
 });
+// qualite_ok: 2026

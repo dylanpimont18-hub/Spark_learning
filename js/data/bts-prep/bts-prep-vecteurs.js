@@ -274,7 +274,7 @@ $1{,}550\\,T_2 = 24\\,525 \\Rightarrow T_2 \\approx 15\\,823\\;\\text{N} \\appro
 $T_1 = 1{,}274 \\times 15\\,823 \\approx 20\\,158\\;\\text{N} \\approx 20{,}2\\;\\text{kN}$`,
       `Vérification verticale :<br/>$T_1\\cos 40° + T_2\\cos 55° = 20158 \\times 0{,}766 + 15823 \\times 0{,}574$<br/>$= 15441 + 9082 = 24\\,523\\;\\text{N} \\approx 24\\,525\\;\\text{N}$ ✓ (erreur < 0,01% due aux arrondis)`,
     ],
-    finalAnswer: 'Tension câble 1 : $T_1 \\approx 20{,}2\\;\\text{kN}$. Tension câble 2 : $T_2 \\approx 15{,}8\\;\\text{kN}$.',
+    finalAnswer: 'Tension câble 1 : $T_1 \\approx 20{,}2\\;\\text{kN}$. Tension câble 2 : $T_2 \\approx 15{,}8\\;\\text{kN}$. → Vérifier que la charge de rupture des câbles est au moins 4 à 6 fois supérieure aux tensions calculées (coefficient de sécurité réglementaire en levage).',
   },
 
   evaluation: {
@@ -304,3 +304,4 @@ $T_1 = 1{,}274 \\times 15\\,823 \\approx 20\\,158\\;\\text{N} \\approx 20{,}2\\;
     ],
   },
 });
+// qualite_ok: 2026

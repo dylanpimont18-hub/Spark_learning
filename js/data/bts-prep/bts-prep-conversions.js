@@ -288,7 +288,7 @@ Règle pratique : <strong>1 bar ≈ 10 m de colonne d'eau</strong> (pour la pres
       `$T_s(K) = 14 + 273{,}15 = 287{,}15\\;\\text{K}$`,
       `$\\omega = 2900 \\times \\dfrac{2\\pi}{60} = 2900 \\times 0{,}1047 \\approx 303{,}7\\;\\text{rad/s}$`,
     ],
-    finalAnswer: 'Puissance électrique : 9,2 kW. Débit en m³/s : 1,5. Température soufflée : 287,15 K. Vitesse angulaire : 303,7 rad/s.',
+    finalAnswer: 'Puissance électrique : 9,2 kW. Débit d\'air : 1,5 m³/s. Température soufflée : 287,15 K. Vitesse angulaire compresseur : 303,7 rad/s. → Mise en service conforme aux données catalogue Daikin ; le groupe froid fonctionne en régime nominal.',
   },
 
   evaluation: {
@@ -318,3 +318,4 @@ Règle pratique : <strong>1 bar ≈ 10 m de colonne d'eau</strong> (pour la pres
     ],
   },
 });
+// qualite_ok: 2026

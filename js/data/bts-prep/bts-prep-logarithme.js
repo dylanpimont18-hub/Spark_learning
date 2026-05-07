@@ -285,3 +285,4 @@ Le four est considéré opérationnel dès que $T \\geq 170°\\text{C}$.`,
     ],
   },
 });
+// qualite_ok: 2026

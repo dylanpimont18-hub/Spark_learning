@@ -167,8 +167,9 @@ window.MODULES.push({
         const S_mm2 = pick([1.5, 2.5, 4, 6, 10]);
         const S_m2 = S_mm2 * 1e-6;
         const R = Math.round(rho * L / S_m2 * 1000) / 1000;
+        const context = pick(['câble de distribution BT en tableau électrique', 'conducteur d\'alimentation de pompe industrielle', 'câble de connexion d\'armoire de commande']);
         return {
-          statement: `Calculer la résistance d'un câble de cuivre ($\\rho = 1{,}7 \\times 10^{-8}$ Ω·m) de longueur $L = ${L}$ m et de section $S = ${S_mm2}$ mm² (en Ω, 3 chiffres significatifs).`,
+          statement: `Calculer la résistance d'un ${context} en cuivre ($\\rho = 1{,}7 \\times 10^{-8}$ Ω·m) de longueur $L = ${L}$ m et de section $S = ${S_mm2}$ mm² (en Ω, 3 chiffres significatifs).`,
           answer: R,
           tolerance: 0.005,
           unit: 'Ω',
@@ -261,3 +262,4 @@ window.MODULES.push({
     ]
   }
 });
+// qualite_ok: 2026

@@ -291,3 +291,4 @@ Le technicien souhaite choisir une bouche circulaire de diamètre $D$.`,
     ],
   },
 });
+// qualite_ok: 2026

@@ -219,7 +219,7 @@ window.MODULES.push({
       '$H = Q^2 + 4 = 6 + 4 = 10$ m.',
       '$-Q^2 + 19 = Q^2 + 4 \\Rightarrow 15 = 2Q^2 \\Rightarrow Q = \\sqrt{7{,}5} \\approx 2{,}74$ m³/h, $H = 7{,}5 + 4 = 11{,}5$ m. La pompe de secours augmente légèrement le débit et la pression de distribution.'
     ],
-    finalAnswer: 'Point de fonctionnement nominal : $Q \\approx 2{,}45$ m³/h, $H = 10$ m. Avec pompe de secours : $Q \\approx 2{,}74$ m³/h, $H = 11{,}5$ m.'
+    finalAnswer: 'Point de fonctionnement nominal : $Q \\approx 2{,}45$ m³/h, $H = 10$ m. Avec pompe de secours : $Q \\approx 2{,}74$ m³/h, $H = 11{,}5$ m. → La pompe de secours augmente le débit de 12 % et la pression de 1,5 m ; sélectionner une pompe couvrant les deux régimes de fonctionnement.'
   },
 
   evaluation: {
@@ -273,3 +273,4 @@ window.MODULES.push({
     ]
   }
 });
+// qualite_ok: 2026

@@ -215,7 +215,7 @@ window.MODULES.push({
       '$Q_{total} = 2{,}24 + 2{,}89 = 5{,}13$ m³/h. Vérif pompe : $H_p(5{,}13) = -0{,}8 \\times 26{,}3 + 20 = -21 + 20 = -1$ m — incohérent. En pratique, la HMT de 8 m est fixée par le réseau ; recalculer avec $H_p = H_r$ donne le vrai point.',
       'Circuit A seul : $-0{,}8Q^2 + 20 = 1{,}2Q^2 + 2 \\Rightarrow 18 = 2Q^2 \\Rightarrow Q = 3$ m³/h, $H = 1{,}2 \\times 9 + 2 = 12{,}8$ m.'
     ],
-    finalAnswer: 'Circuit A seul : $Q_A = 3$ m³/h, $H = 12{,}8$ m.'
+    finalAnswer: 'Circuit A seul : $Q_A = 3$ m³/h, $H = 12{,}8$ m. → La fermeture du circuit B élève la HMT à 12,8 m ; vérifier que la pompe reste dans sa plage de bon rendement à ce nouveau point de fonctionnement.'
   },
 
   evaluation: {
@@ -269,3 +269,4 @@ window.MODULES.push({
     ]
   }
 });
+// qualite_ok: 2026

@@ -309,3 +309,4 @@ La courbe de réseau (pertes de charge du circuit) suit la loi : $\\Delta H_{\\t
     ],
   },
 });
+// qualite_ok: 2026
