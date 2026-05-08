@@ -3,6 +3,73 @@
    Rendu du contenu du cours
    ========================================================= */
 
+function renderCoursDiagram(diagram, subjectId) {
+  if (!diagram) return '';
+
+  if (typeof diagram === 'string') {
+    return `
+      <figure class="cours-diagram cours-diagram-legacy diagram-theme-${subjectId}">
+        <div class="cours-diagram-stage">${diagram}</div>
+      </figure>
+    `;
+  }
+
+  const markup = diagram.svg || diagram.html || diagram.markup || '';
+  if (!markup) return '';
+
+  const title = diagram.title
+    ? `<div class="cours-diagram-title-text">${diagram.title}</div>`
+    : '';
+  const kicker = diagram.kicker
+    ? `<div class="cours-diagram-kicker">${diagram.kicker}</div>`
+    : '';
+  const description = diagram.description
+    ? `<p class="cours-diagram-description">${diagram.description}</p>`
+    : '';
+  const notes = Array.isArray(diagram.notes) ? diagram.notes : [];
+  const notesHtml = notes.length
+    ? `
+      <ul class="cours-diagram-notes">
+        ${notes.map((note, index) => `
+          <li>
+            <span class="cours-diagram-note-index">${index + 1}</span>
+            <span>${note}</span>
+          </li>
+        `).join('')}
+      </ul>
+    `
+    : '';
+  const reading = diagram.reading
+    ? `<div class="cours-diagram-reading"><strong>Ce qu'il faut lire :</strong> ${diagram.reading}</div>`
+    : '';
+  const caption = diagram.caption
+    ? `<figcaption class="cours-diagram-caption">${diagram.caption}</figcaption>`
+    : '';
+  const head = (title || kicker || description)
+    ? `
+      <div class="cours-diagram-head">
+        ${kicker}
+        ${title}
+        ${description}
+      </div>
+    `
+    : '';
+  const layoutClass = notes.length ? 'cours-diagram-layout has-notes' : 'cours-diagram-layout';
+  const theme = diagram.theme || subjectId || 'maths';
+
+  return `
+    <figure class="cours-diagram cours-diagram-rich diagram-theme-${theme}">
+      ${head}
+      <div class="${layoutClass}">
+        <div class="cours-diagram-stage">${markup}</div>
+        ${notesHtml}
+      </div>
+      ${reading}
+      ${caption}
+    </figure>
+  `;
+}
+
 function renderCours(mod) {
   const c = mod.cours;
   const subjectDef = getSubjectDef(mod.subject || 'maths');
@@ -67,7 +134,7 @@ function renderCours(mod) {
       ${c.diagram ? `
       <div class="cours-section">
         <h2 class="cours-section-title">🎨 Illustration</h2>
-        <div class="cours-diagram">${c.diagram}</div>
+        ${renderCoursDiagram(c.diagram, mod.subject || 'maths')}
       </div>
       ` : ''}
 

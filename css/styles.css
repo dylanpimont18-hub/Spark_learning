@@ -1857,15 +1857,180 @@ main { flex: 1; }
 
 /* ── Diagram / Illustration ── */
 .cours-diagram {
-  padding: 16px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  --diagram-accent: var(--primary);
+  --diagram-soft: color-mix(in srgb, var(--diagram-accent) 10%, var(--bg-card));
+  --diagram-grid: color-mix(in srgb, var(--diagram-accent) 14%, var(--border));
+  padding: 18px;
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--accent) 14%, transparent), transparent 34%),
+    linear-gradient(180deg, color-mix(in srgb, var(--diagram-accent) 4%, var(--bg-card)), var(--bg-card));
+  border: 1px solid color-mix(in srgb, var(--diagram-accent) 20%, var(--border));
+  border-radius: calc(var(--radius) + 2px);
+  box-shadow: var(--shadow);
   font-size: 0.9rem;
   line-height: 1.6;
+  overflow: hidden;
+}
+.diagram-theme-physique {
+  --diagram-accent: var(--secondary);
+}
+.diagram-theme-si {
+  --diagram-accent: color-mix(in srgb, var(--accent) 60%, var(--primary));
+}
+.cours-diagram-rich {
+  padding: 22px;
+}
+.cours-diagram-head {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+.cours-diagram-kicker {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--diagram-accent) 12%, transparent);
+  color: var(--diagram-accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.cours-diagram-title-text {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.cours-diagram-description {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+.cours-diagram-layout {
+  display: grid;
+  gap: 16px;
+}
+.cours-diagram-layout.has-notes {
+  align-items: start;
+}
+.cours-diagram-stage {
+  padding: 16px;
+  background: color-mix(in srgb, var(--diagram-accent) 4%, var(--bg-card));
+  border: 1px solid color-mix(in srgb, var(--diagram-accent) 16%, var(--border));
+  border-radius: calc(var(--radius) - 2px);
   overflow-x: auto;
 }
+.cours-diagram-rich .cours-diagram-stage {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--diagram-accent) 3%, var(--bg-card)), color-mix(in srgb, var(--diagram-accent) 8%, var(--bg-card)));
+}
+.cours-diagram-stage svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.cours-diagram-stage svg .grid-line {
+  stroke: var(--diagram-grid);
+  stroke-width: 1;
+}
+.cours-diagram-stage svg .axis,
+.cours-diagram-stage svg .frame-line {
+  stroke: color-mix(in srgb, var(--text) 80%, var(--diagram-accent));
+  stroke-width: 2.2;
+}
+.cours-diagram-stage svg .curve-main,
+.cours-diagram-stage svg .graph-line {
+  fill: none;
+  stroke: var(--diagram-accent);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.cours-diagram-stage svg .guide-line,
+.cours-diagram-stage svg .focus-line {
+  stroke: color-mix(in srgb, var(--diagram-accent) 60%, var(--border));
+  stroke-width: 1.8;
+  stroke-dasharray: 6 5;
+}
+.cours-diagram-stage svg .plot-point {
+  fill: var(--diagram-accent);
+  stroke: var(--bg-card);
+  stroke-width: 3;
+}
+.cours-diagram-stage svg .plot-point-alt {
+  fill: var(--bg-card);
+  stroke: var(--diagram-accent);
+  stroke-width: 3;
+}
+.cours-diagram-stage svg .label,
+.cours-diagram-stage svg .axis-label,
+.cours-diagram-stage svg .tick-label,
+.cours-diagram-stage svg .annotation-label {
+  fill: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
+}
+.cours-diagram-stage svg .axis-label,
+.cours-diagram-stage svg .annotation-label {
+  font-size: 12px;
+  font-weight: 700;
+}
+.cours-diagram-stage svg .tick-label,
+.cours-diagram-stage svg .label-soft {
+  fill: var(--text-muted);
+  font-size: 11px;
+}
+.cours-diagram-notes {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.cours-diagram-notes li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  background: color-mix(in srgb, var(--diagram-accent) 7%, var(--bg-card));
+  border: 1px solid color-mix(in srgb, var(--diagram-accent) 14%, transparent);
+  border-radius: 12px;
+}
+.cours-diagram-note-index {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--diagram-accent);
+  color: var(--bg-card);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+.cours-diagram-reading {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--secondary) 8%, var(--bg-card));
+  border: 1px solid color-mix(in srgb, var(--secondary) 18%, transparent);
+}
+.cours-diagram-caption {
+  margin-top: 12px;
+  color: var(--text-muted);
+  font-size: 0.84rem;
+}
+.cours-diagram-legacy {
+  padding: 16px;
+}
+.cours-diagram-legacy .cours-diagram-stage {
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
 .cours-diagram table {
+  min-width: 560px;
   border-collapse: collapse;
   width: 100%;
   font-size: 0.88rem;
@@ -1879,6 +2044,12 @@ main { flex: 1; }
 .cours-diagram th {
   background: color-mix(in srgb, var(--primary) 8%, var(--bg-card));
   font-weight: 600;
+}
+
+@media (min-width: 820px) {
+  .cours-diagram-layout.has-notes {
+    grid-template-columns: minmax(0, 1.7fr) minmax(220px, 0.9fr);
+  }
 }
 
 /* ── Recap / À retenir ── */

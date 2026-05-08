@@ -46,7 +46,65 @@ window.MODULES.push(
         'Antécédent de $b$ : résoudre $f(x) = b$',
         'Notation : $x \\mapsto f(x)$ (on lit « $x$ a pour image $f(x)$ »)'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">$x$</th><td style="border:1px solid var(--border);padding:8px">$-2$</td><td style="border:1px solid var(--border);padding:8px">$-1$</td><td style="border:1px solid var(--border);padding:8px">$0$</td><td style="border:1px solid var(--border);padding:8px">$1$</td><td style="border:1px solid var(--border);padding:8px">$2$</td><td style="border:1px solid var(--border);padding:8px">$3$</td></tr><tr><th style="border:1px solid var(--border);padding:8px">$f(x) = 2x^2 - 3$</th><td style="border:1px solid var(--border);padding:8px">$5$</td><td style="border:1px solid var(--border);padding:8px">$-1$</td><td style="border:1px solid var(--border);padding:8px">$-3$</td><td style="border:1px solid var(--border);padding:8px">$-1$</td><td style="border:1px solid var(--border);padding:8px">$5$</td><td style="border:1px solid var(--border);padding:8px">$15$</td></tr><tr><td colspan="7" style="border:1px solid var(--border);padding:8px;font-size:0.9em"><strong>Lecture graphique</strong> : l\'image se lit sur l\'axe des ordonnées (vertical) ; l\'antécédent se lit sur l\'axe des abscisses (horizontal).</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Lecture graphique',
+        title: 'Lire une image et des antécédents sur une courbe',
+        description: 'Exemple visuel pour $f(x) = 2x^2 - 3$. Les pointillés montrent comment lire $f(2) = 5$ et pourquoi $5$ admet deux antécédents.',
+        svg: `
+          <svg viewBox="0 0 360 240" role="img" aria-labelledby="fonctions-graph-title fonctions-graph-desc">
+            <title id="fonctions-graph-title">Courbe de la fonction f(x)=2x²-3</title>
+            <desc id="fonctions-graph-desc">Le graphique met en évidence l'image de 2, égale à 5, et les deux antécédents de 5 : -2 et 2.</desc>
+            <rect x="26" y="18" width="308" height="176" rx="18" fill="transparent"></rect>
+            <line class="grid-line" x1="42" y1="28.5" x2="318" y2="28.5"></line>
+            <line class="grid-line" x1="42" y1="71" x2="318" y2="71"></line>
+            <line class="grid-line" x1="42" y1="113.5" x2="318" y2="113.5"></line>
+            <line class="grid-line" x1="42" y1="156" x2="318" y2="156"></line>
+            <line class="grid-line" x1="42" y1="181.5" x2="318" y2="181.5"></line>
+            <line class="grid-line" x1="42" y1="28.5" x2="42" y2="190"></line>
+            <line class="grid-line" x1="88" y1="28.5" x2="88" y2="190"></line>
+            <line class="grid-line" x1="134" y1="28.5" x2="134" y2="190"></line>
+            <line class="grid-line" x1="180" y1="28.5" x2="180" y2="190"></line>
+            <line class="grid-line" x1="226" y1="28.5" x2="226" y2="190"></line>
+            <line class="grid-line" x1="272" y1="28.5" x2="272" y2="190"></line>
+            <line class="grid-line" x1="318" y1="28.5" x2="318" y2="190"></line>
+            <line class="axis" x1="42" y1="156" x2="326" y2="156"></line>
+            <line class="axis" x1="180" y1="190" x2="180" y2="20"></line>
+            <polyline class="curve-main" points="42,28.5 65,75.25 88,113.5 111,143.25 134,164.5 157,177.25 180,181.5 203,177.25 226,164.5 249,143.25 272,113.5 295,75.25 318,28.5"></polyline>
+            <line class="focus-line" x1="88" y1="113.5" x2="272" y2="113.5"></line>
+            <line class="guide-line" x1="88" y1="113.5" x2="88" y2="156"></line>
+            <line class="guide-line" x1="272" y1="113.5" x2="272" y2="156"></line>
+            <line class="guide-line" x1="272" y1="156" x2="272" y2="113.5"></line>
+            <circle class="plot-point-alt" cx="88" cy="113.5" r="6"></circle>
+            <circle class="plot-point" cx="272" cy="113.5" r="6"></circle>
+            <circle class="plot-point-alt" cx="180" cy="181.5" r="6"></circle>
+            <text class="axis-label" x="330" y="160">x</text>
+            <text class="axis-label" x="186" y="24">f(x)</text>
+            <text class="tick-label" x="37" y="160">-3</text>
+            <text class="tick-label" x="82" y="160">-2</text>
+            <text class="tick-label" x="129" y="160">-1</text>
+            <text class="tick-label" x="176" y="160">0</text>
+            <text class="tick-label" x="222" y="160">1</text>
+            <text class="tick-label" x="268" y="160">2</text>
+            <text class="tick-label" x="314" y="160">3</text>
+            <text class="tick-label" x="148" y="186">-3</text>
+            <text class="tick-label" x="160" y="160">0</text>
+            <text class="tick-label" x="158" y="118">5</text>
+            <text class="tick-label" x="154" y="75">10</text>
+            <text class="tick-label" x="154" y="33">15</text>
+            <text class="annotation-label" x="283" y="104">f(2) = 5</text>
+            <text class="annotation-label" x="197" y="204">Sommet (0 ; -3)</text>
+            <text class="annotation-label" x="108" y="99">y = 5</text>
+          </svg>
+        `,
+        notes: [
+          'On part de $x = 2$ sur l’axe horizontal, on monte jusqu’à la courbe, puis on lit l’ordonnée : $f(2) = 5$.',
+          'La droite horizontale $y = 5$ coupe la courbe en deux points : les antécédents de $5$ sont donc $-2$ et $2$.',
+          'Le sommet $(0 ; -3)$ aide à comprendre pourquoi la courbe redescend puis remonte : une même valeur de sortie peut avoir deux antécédents.'
+        ],
+        reading: 'Pour une image, on part de $x$. Pour un antécédent, on part de la valeur $y$ et on revient vers l’axe des abscisses.',
+        caption: 'Courbe de $f(x) = 2x^2 - 3$ avec lecture guidée de l’image de $2$ et des antécédents de $5$.'
+      },
       recap: [
         'Une fonction associe à chaque entrée $x$ <strong>une seule sortie</strong> $f(x)$ — c\'est la règle fondamentale.',
         'L\'<strong>image</strong> se lit sur l\'axe des ordonnées : on part de $x$, on monte jusqu\'à la courbe, on lit $f(x)$.',

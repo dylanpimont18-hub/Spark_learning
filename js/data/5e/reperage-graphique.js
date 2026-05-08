@@ -32,7 +32,62 @@ window.MODULES.push({
         ],
         answer: '$y = 2x + 1$'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px"></th><th style="border:1px solid var(--border);padding:6px 14px">Axe horizontal</th><th style="border:1px solid var(--border);padding:6px 14px">Axe vertical</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px"><strong>Nom</strong></td><td style="border:1px solid var(--border);padding:6px 14px">Abscisse ($x$)</td><td style="border:1px solid var(--border);padding:6px 14px">Ordonnée ($y$)</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px"><strong>Rôle</strong></td><td style="border:1px solid var(--border);padding:6px 14px">Variable indépendante</td><td style="border:1px solid var(--border);padding:6px 14px">Variable dépendante</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px"><strong>Exemple</strong></td><td style="border:1px solid var(--border);padding:6px 14px">Temps, concentration</td><td style="border:1px solid var(--border);padding:6px 14px">Tension, absorbance</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Repère cartésien',
+        title: 'Lire un point, interpoler et reconnaître une pente',
+        description: 'La droite $y = 2x + 1$ passe par $A(1 ; 3)$ et $B(4 ; 9)$. On voit comment lire un point et estimer une valeur intermédiaire sur une tendance régulière.',
+        svg: `
+          <svg viewBox="0 0 360 240" role="img" aria-labelledby="reperage-graph-title reperage-graph-desc">
+            <title id="reperage-graph-title">Droite de lecture graphique dans un repère</title>
+            <desc id="reperage-graph-desc">La droite représente y égale à 2x plus 1, avec deux points connus et une lecture intermédiaire par interpolation.</desc>
+            <line class="grid-line" x1="50" y1="30" x2="310" y2="30"></line>
+            <line class="grid-line" x1="50" y1="62" x2="310" y2="62"></line>
+            <line class="grid-line" x1="50" y1="94" x2="310" y2="94"></line>
+            <line class="grid-line" x1="50" y1="126" x2="310" y2="126"></line>
+            <line class="grid-line" x1="50" y1="158" x2="310" y2="158"></line>
+            <line class="grid-line" x1="50" y1="190" x2="310" y2="190"></line>
+            <line class="grid-line" x1="50" y1="30" x2="50" y2="190"></line>
+            <line class="grid-line" x1="102" y1="30" x2="102" y2="190"></line>
+            <line class="grid-line" x1="154" y1="30" x2="154" y2="190"></line>
+            <line class="grid-line" x1="206" y1="30" x2="206" y2="190"></line>
+            <line class="grid-line" x1="258" y1="30" x2="258" y2="190"></line>
+            <line class="grid-line" x1="310" y1="30" x2="310" y2="190"></line>
+            <line class="axis" x1="50" y1="190" x2="318" y2="190"></line>
+            <line class="axis" x1="50" y1="198" x2="50" y2="22"></line>
+            <polyline class="graph-line" points="50,174 102,142 154,110 206,78 258,46 310,14"></polyline>
+            <line class="guide-line" x1="180" y1="94" x2="180" y2="190"></line>
+            <line class="guide-line" x1="50" y1="94" x2="180" y2="94"></line>
+            <circle class="plot-point-alt" cx="102" cy="142" r="6"></circle>
+            <circle class="plot-point-alt" cx="258" cy="46" r="6"></circle>
+            <circle class="plot-point" cx="180" cy="94" r="6"></circle>
+            <text class="annotation-label" x="112" y="134">A(1 ; 3)</text>
+            <text class="annotation-label" x="196" y="86">Interpolation : (2{,}5 ; 6)</text>
+            <text class="annotation-label" x="224" y="38">B(4 ; 9)</text>
+            <text class="axis-label" x="322" y="194">x</text>
+            <text class="axis-label" x="56" y="24">y</text>
+            <text class="tick-label" x="46" y="206">0</text>
+            <text class="tick-label" x="98" y="206">1</text>
+            <text class="tick-label" x="150" y="206">2</text>
+            <text class="tick-label" x="202" y="206">3</text>
+            <text class="tick-label" x="254" y="206">4</text>
+            <text class="tick-label" x="306" y="206">5</text>
+            <text class="tick-label" x="36" y="194">0</text>
+            <text class="tick-label" x="36" y="162">2</text>
+            <text class="tick-label" x="36" y="130">4</text>
+            <text class="tick-label" x="36" y="98">6</text>
+            <text class="tick-label" x="36" y="66">8</text>
+            <text class="tick-label" x="30" y="34">10</text>
+          </svg>
+        `,
+        notes: [
+          'Le point $A(1 ; 3)$ se lit en allant d’abord vers la droite jusqu’à $x = 1$, puis vers le haut jusqu’à $y = 3$.',
+          'Le point intermédiaire $(2{,}5 ; 6)$ n’a pas été mesuré : on l’estime sur la droite, c’est une interpolation.',
+          'Comme la droite monte régulièrement, la pente est positive : quand $x$ augmente d’une unité, $y$ augmente de $2$.'
+        ],
+        reading: 'Toujours lire l’abscisse sur l’axe horizontal puis l’ordonnée sur l’axe vertical. Le couple s’écrit dans cet ordre : $(x ; y)$.',
+        caption: 'Repère cartésien avec lecture d’un point connu, d’un second point et d’une valeur interpolée sur la droite $y = 2x + 1$.'
+      },
       method: {
         title: 'Méthode en 3 étapes',
         steps: [

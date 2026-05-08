@@ -1,5 +1,7 @@
 ﻿# Index du projet Spark Learning
 
+Contrainte structurante : le projet reste une SPA purement statique, sans serveur, sans backend et avec persistance locale côté navigateur.
+
 Ce fichier est la **source de vérité** pour la structure de fichiers du projet. Mis à jour après chaque création ou déplacement majeur.
 
 ## Racine & Configuration
