@@ -47,7 +47,50 @@ window.MODULES.push(
         'Grandissement optique : $\\gamma = \\dfrac{A\'B\'}{AB} = \\dfrac{\\overline{OA\'}}{\\overline{OA}}$',
         'Réciproque : si $\\dfrac{OA\'}{OA} = \\dfrac{OB\'}{OB}$, alors $(AB) \\parallel (A\'B\')$'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px"></th><th style="border:1px solid var(--border);padding:8px">Théorème direct</th><th style="border:1px solid var(--border);padding:8px">Réciproque</th></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Hypothèses</strong></td><td style="border:1px solid var(--border);padding:8px">$(AB) \\parallel (A\'B\')$ et deux sécantes passant par $O$</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{OA\'}{OA} = \\dfrac{OB\'}{OB}$ avec points du même côté de $O$</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Conclusion</strong></td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{OA\'}{OA} = \\dfrac{OB\'}{OB} = \\dfrac{A\'B\'}{AB}$</td><td style="border:1px solid var(--border);padding:8px">$(AB) \\parallel (A\'B\')$</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Utilité</strong></td><td style="border:1px solid var(--border);padding:8px">Calculer une longueur inconnue</td><td style="border:1px solid var(--border);padding:8px">Prouver un parallélisme</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Triangles semblables',
+        title: 'Voir les longueurs correspondantes dans une configuration de Thales',
+        description: 'Les deux segments relies en parallele creent deux triangles semblables : on compare toujours des longueurs placees dans le meme sens.',
+        svg: `
+          <svg viewBox="0 0 360 240" role="img" aria-labelledby="thales-graph-title thales-graph-desc">
+            <title id="thales-graph-title">Configuration de Thales</title>
+            <desc id="thales-graph-desc">Le schema montre deux secantes issues du point O et deux segments paralleles AB et A'B'.</desc>
+            <line class="frame-line" x1="54" y1="178" x2="314" y2="44"></line>
+            <line class="frame-line" x1="54" y1="178" x2="314" y2="198"></line>
+            <line class="curve-main" x1="158" y1="124" x2="210" y2="136"></line>
+            <line class="curve-main" x1="262" y1="72" x2="314" y2="76"></line>
+            <line class="guide-line" x1="158" y1="124" x2="262" y2="72"></line>
+            <line class="guide-line" x1="210" y1="136" x2="314" y2="76"></line>
+            <circle class="plot-point-alt" cx="54" cy="178" r="5"></circle>
+            <circle class="plot-point-alt" cx="158" cy="124" r="5"></circle>
+            <circle class="plot-point-alt" cx="210" cy="136" r="5"></circle>
+            <circle class="plot-point" cx="262" cy="72" r="5"></circle>
+            <circle class="plot-point" cx="314" cy="76" r="5"></circle>
+            <text class="annotation-label" x="42" y="194">O</text>
+            <text class="annotation-label" x="146" y="118">A</text>
+            <text class="annotation-label" x="214" y="150">B</text>
+            <text class="annotation-label" x="248" y="66">A'</text>
+            <text class="annotation-label" x="318" y="92">B'</text>
+            <text class="annotation-label" x="96" y="140">OA</text>
+            <text class="annotation-label" x="136" y="92">OA'</text>
+            <text class="annotation-label" x="120" y="184">OB</text>
+            <text class="annotation-label" x="200" y="184">OB'</text>
+            <text class="annotation-label" x="172" y="116">AB</text>
+            <text class="annotation-label" x="278" y="66">A'B'</text>
+            <text class="annotation-label" x="220" y="122">AB // A'B'</text>
+            <rect x="30" y="18" width="304" height="34" rx="12" fill="color-mix(in srgb, var(--diagram-accent) 7%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 22%, var(--border))"></rect>
+            <text class="annotation-label" x="42" y="40">OA'/OA = OB'/OB = A'B'/AB</text>
+          </svg>
+        `,
+        notes: [
+          'Le theoreme direct commence toujours par la parallelite : ici les segments $AB$ et $A\'B\'$ sont paralleles.',
+          'On compare des longueurs correspondantes dans le meme sens : grand sur grand ou petit sur petit, jamais un melange des deux.',
+          'La reciproque renverse la logique : si les rapports sont egaux et les points du meme cote de $O$, on peut conclure au parallelisme.'
+        ],
+        reading: 'Le plus sur est de suivre chaque secante depuis $O$ : on lit d\'abord la petite longueur, puis la grande qui lui correspond.',
+        caption: 'Configuration de Thales avec deux secantes, un segment intermediaire et un segment parallele plus eloigne.'
+      },
       recap: [
         '<strong>Rapports cohérents</strong> : toujours écrire les rapports dans le même sens (grand sur petit ou petit sur grand), jamais mélangés.',
         '<strong>Réciproque</strong> : elle sert à <strong>prouver</strong> que deux droites sont parallèles, à condition que les points soient du même côté de $O$.',

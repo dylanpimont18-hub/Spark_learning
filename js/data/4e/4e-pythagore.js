@@ -43,7 +43,48 @@
         '$a = \\sqrt{c^2 - b^2}$',
         '$\\|\\vec{v}\\| = \\sqrt{v_x^2 + v_y^2}$ (norme d\'un vecteur 2D)'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Situation</th><th style="border:1px solid var(--border);padding:6px 14px">Formule</th><th style="border:1px solid var(--border);padding:6px 14px">Opération</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Chercher l\'hypoténuse $c$</td><td style="border:1px solid var(--border);padding:6px 14px">$c = \\sqrt{a^2 + b^2}$</td><td style="border:1px solid var(--border);padding:6px 14px">On additionne les carrés</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Chercher un côté $a$</td><td style="border:1px solid var(--border);padding:6px 14px">$a = \\sqrt{c^2 - b^2}$</td><td style="border:1px solid var(--border);padding:6px 14px">On soustrait les carrés</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Vérifier si rectangle</td><td style="border:1px solid var(--border);padding:6px 14px">$a^2 + b^2 \\stackrel{?}{=} c^2$</td><td style="border:1px solid var(--border);padding:6px 14px">Réciproque (égalité exacte)</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Triangle rectangle',
+        title: 'Repérer visuellement l\'hypoténuse et choisir la bonne formule',
+        description: 'Le côté opposé à l\'angle droit décide toute la suite : si c\'est lui qu\'on cherche, on additionne ; sinon on soustrait.',
+        svg: `
+          <svg viewBox="0 0 360 240" role="img" aria-labelledby="pythagore-graph-title pythagore-graph-desc">
+            <title id="pythagore-graph-title">Triangle rectangle pour le theoreme de Pythagore</title>
+            <desc id="pythagore-graph-desc">Le schema montre un triangle rectangle 3 4 5 avec l'hypotenuse en evidence et les deux formules utiles selon l'inconnue.</desc>
+            <line class="grid-line" x1="34" y1="190" x2="330" y2="190"></line>
+            <polygon points="78,182 78,74 248,182" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></polygon>
+            <line class="frame-line" x1="78" y1="182" x2="78" y2="74"></line>
+            <line class="frame-line" x1="78" y1="182" x2="248" y2="182"></line>
+            <line class="curve-main" x1="78" y1="74" x2="248" y2="182"></line>
+            <path class="axis" d="M78 168 L92 168 L92 182"></path>
+            <circle class="plot-point-alt" cx="78" cy="182" r="5"></circle>
+            <circle class="plot-point-alt" cx="78" cy="74" r="5"></circle>
+            <circle class="plot-point" cx="248" cy="182" r="5"></circle>
+            <text class="annotation-label" x="64" y="198">A</text>
+            <text class="annotation-label" x="64" y="68">B</text>
+            <text class="annotation-label" x="254" y="198">C</text>
+            <text class="annotation-label" x="44" y="132">a = 4</text>
+            <text class="annotation-label" x="142" y="205">b = 3</text>
+            <text class="annotation-label" x="164" y="118">c = 5</text>
+            <text class="annotation-label" x="146" y="56">Hypotenuse</text>
+            <line class="guide-line" x1="182" y1="60" x2="188" y2="100"></line>
+            <rect x="26" y="18" width="126" height="38" rx="12" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
+            <text class="annotation-label" x="40" y="42">Chercher c :</text>
+            <text class="tick-label" x="108" y="42">c^2 = a^2 + b^2</text>
+            <rect x="198" y="18" width="136" height="38" rx="12" fill="color-mix(in srgb, var(--accent) 14%, var(--bg-card))" stroke="color-mix(in srgb, var(--accent) 38%, var(--border))"></rect>
+            <text class="annotation-label" x="212" y="42">Chercher a ou b :</text>
+            <text class="tick-label" x="304" y="42">a^2 = c^2 - b^2</text>
+          </svg>
+        `,
+        notes: [
+          'L\'hypotenuse est le seul cote oppose a l\'angle droit. C\'est aussi le plus long cote du triangle.',
+          'Si l\'inconnue est l\'hypotenuse $c$, on additionne les carres des deux autres cotes.',
+          'Si l\'inconnue est un petit cote, on isole son carre puis on soustrait le carre du cote connu a celui de l\'hypotenuse.'
+        ],
+        reading: 'Avant toute formule, trouve l\'angle droit. Le cote en face fixe le role de l\'hypotenuse.',
+        caption: 'Schema de reference pour distinguer rapidement addition et soustraction dans un calcul de Pythagore.'
+      },
       recap: [
         '$c^2 = a^2 + b^2$ ne fonctionne QUE dans un triangle rectangle',
         'L\'hypoténuse est toujours en face de l\'angle droit et c\'est le plus grand côté',
@@ -174,7 +215,5 @@
         }
       ]
     }
-  },
-
-    {
+  }
 );

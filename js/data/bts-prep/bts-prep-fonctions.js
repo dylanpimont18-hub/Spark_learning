@@ -63,7 +63,61 @@ window.MODULES.push({
       'Pente d\'une droite passant par $(x_1, y_1)$ et $(x_2, y_2)$ : $a = (y_2-y_1)/(x_2-x_1)$'
     ],
 
-    diagram: '<table style="width:100%;border-collapse:collapse;text-align:center;font-size:0.88rem"><tr style="background:var(--bg-card)"><th style="border:1px solid var(--border);padding:7px">Famille</th><th style="border:1px solid var(--border);padding:7px">Forme</th><th style="border:1px solid var(--border);padding:7px">Allure</th><th style="border:1px solid var(--border);padding:7px">Exemple BTS</th></tr><tr><td style="border:1px solid var(--border);padding:6px">Affine</td><td style="border:1px solid var(--border);padding:6px">$ax + b$</td><td style="border:1px solid var(--border);padding:6px">Droite</td><td style="border:1px solid var(--border);padding:6px">Réseau hydraulique $H = kQ$</td></tr><tr><td style="border:1px solid var(--border);padding:6px">Carré</td><td style="border:1px solid var(--border);padding:6px">$ax^2 + bx + c$</td><td style="border:1px solid var(--border);padding:6px">Parabole</td><td style="border:1px solid var(--border);padding:6px">Pertes de charge $\\Delta P = kQ^2$</td></tr><tr><td style="border:1px solid var(--border);padding:6px">Inverse</td><td style="border:1px solid var(--border);padding:6px">$k/x$</td><td style="border:1px solid var(--border);padding:6px">Hyperbole</td><td style="border:1px solid var(--border);padding:6px">$R = \\rho L/S$ (câble)</td></tr><tr><td style="border:1px solid var(--border);padding:6px">Racine</td><td style="border:1px solid var(--border);padding:6px">$\\sqrt{x}$</td><td style="border:1px solid var(--border);padding:6px">Demi-parabole</td><td style="border:1px solid var(--border);padding:6px">Vitesse sonore $c = \\sqrt{\\gamma RT}$</td></tr></table>',
+    diagram: {
+      theme: 'maths',
+      kicker: 'Lecture graphique BTS',
+      title: 'Lire un point de fonctionnement entre une pompe et son reseau',
+      description: 'Une courbe de pompe decroit quand le debit augmente, alors que la courbe de reseau croise generalement vers le haut. Leur intersection donne le regime reel.',
+      svg: `
+        <svg viewBox="0 0 360 240" role="img" aria-labelledby="bts-fonctions-graph-title bts-fonctions-graph-desc">
+          <title id="bts-fonctions-graph-title">Point de fonctionnement d'une pompe</title>
+          <desc id="bts-fonctions-graph-desc">Le graphique montre une courbe de pompe descendante, une courbe de reseau montante et leur intersection.</desc>
+          <line class="grid-line" x1="52" y1="34" x2="316" y2="34"></line>
+          <line class="grid-line" x1="52" y1="72" x2="316" y2="72"></line>
+          <line class="grid-line" x1="52" y1="110" x2="316" y2="110"></line>
+          <line class="grid-line" x1="52" y1="148" x2="316" y2="148"></line>
+          <line class="grid-line" x1="52" y1="186" x2="316" y2="186"></line>
+          <line class="grid-line" x1="52" y1="34" x2="52" y2="186"></line>
+          <line class="grid-line" x1="105" y1="34" x2="105" y2="186"></line>
+          <line class="grid-line" x1="158" y1="34" x2="158" y2="186"></line>
+          <line class="grid-line" x1="211" y1="34" x2="211" y2="186"></line>
+          <line class="grid-line" x1="264" y1="34" x2="264" y2="186"></line>
+          <line class="grid-line" x1="316" y1="34" x2="316" y2="186"></line>
+          <line class="axis" x1="52" y1="186" x2="324" y2="186"></line>
+          <line class="axis" x1="52" y1="194" x2="52" y2="24"></line>
+          <path class="curve-main" d="M52 46 C96 52, 142 72, 186 98 C220 120, 248 142, 276 170"></path>
+          <path class="graph-line" d="M52 172 C98 166, 146 154, 194 132 C236 112, 276 86, 316 44"></path>
+          <line class="guide-line" x1="199" y1="129" x2="199" y2="186"></line>
+          <line class="guide-line" x1="52" y1="129" x2="199" y2="129"></line>
+          <circle class="plot-point" cx="199" cy="129" r="6"></circle>
+          <text class="annotation-label" x="226" y="70">Courbe pompe</text>
+          <text class="annotation-label" x="220" y="158">Courbe reseau</text>
+          <text class="annotation-label" x="208" y="121">P</text>
+          <text class="annotation-label" x="207" y="201">Qf</text>
+          <text class="annotation-label" x="20" y="133">Hf</text>
+          <text class="axis-label" x="326" y="189">Q</text>
+          <text class="axis-label" x="58" y="24">H</text>
+          <text class="tick-label" x="44" y="203">0</text>
+          <text class="tick-label" x="100" y="203">1</text>
+          <text class="tick-label" x="153" y="203">2</text>
+          <text class="tick-label" x="206" y="203">3</text>
+          <text class="tick-label" x="259" y="203">4</text>
+          <text class="tick-label" x="311" y="203">5</text>
+          <text class="tick-label" x="36" y="189">0</text>
+          <text class="tick-label" x="30" y="151">4</text>
+          <text class="tick-label" x="30" y="113">8</text>
+          <text class="tick-label" x="24" y="75">12</text>
+          <text class="tick-label" x="24" y="37">16</text>
+        </svg>
+      `,
+      notes: [
+        'La courbe pompe descend : plus le debit $Q$ augmente, plus la hauteur disponible $H$ diminue.',
+        'La courbe reseau monte : il faut davantage de hauteur pour pousser un debit plus grand dans l\'installation.',
+        'Le point d\'intersection $P$ est le point de fonctionnement. On y lit simultanement le debit reel $Q_f$ et la hauteur reelle $H_f$.'
+      ],
+      reading: 'Quand deux courbes techniques se croisent, on lit les deux coordonnees du point d\'intersection. C\'est souvent l\'information la plus utile du graphe.',
+      caption: 'Exemple de lecture d\'un point de fonctionnement sur un graphe de type pompe-reseau.'
+    },
 
     recap: [
       'La pente d\'une droite mesure la vitesse de variation : une grande pente signifie une grande sensibilité.',

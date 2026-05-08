@@ -46,7 +46,50 @@ window.MODULES.push(
         '$b_n=\\dfrac{2}{T}\\int_0^T f(t)\\sin(n\\omega_0 t)\\,dt$',
         'Théorème de Parseval : $\\frac{1}{T}\\int_0^T[f(t)]^2dt=a_0^2+\\frac{1}{2}\\sum(a_n^2+b_n^2)$'
       ],
-      diagram: '<table style="width:100%;border-collapse:collapse;text-align:center;"><tr style="background:var(--bg-card);"><th style="border:1px solid var(--border);padding:8px;">Signal</th><th style="border:1px solid var(--border);padding:8px;">Parité</th><th style="border:1px solid var(--border);padding:8px;">Coefficients</th><th style="border:1px solid var(--border);padding:8px;">Harmoniques présentes</th></tr><tr><td style="border:1px solid var(--border);padding:8px;">Créneau symétrique</td><td style="border:1px solid var(--border);padding:8px;">Impair</td><td style="border:1px solid var(--border);padding:8px;">$a_n=0$, $b_n=\\frac{4A}{n\\pi}$</td><td style="border:1px solid var(--border);padding:8px;">Sinus impairs ($1, 3, 5, \\ldots$)</td></tr><tr><td style="border:1px solid var(--border);padding:8px;">Triangle symétrique</td><td style="border:1px solid var(--border);padding:8px;">Pair</td><td style="border:1px solid var(--border);padding:8px;">$b_n=0$, $a_n=\\frac{-8A}{n^2\\pi^2}$</td><td style="border:1px solid var(--border);padding:8px;">Cosinus impairs ($1, 3, 5, \\ldots$)</td></tr><tr><td style="border:1px solid var(--border);padding:8px;">Dent de scie</td><td style="border:1px solid var(--border);padding:8px;">Impair</td><td style="border:1px solid var(--border);padding:8px;">$a_n=0$, $b_n=\\frac{2A}{n\\pi}(-1)^{n+1}$</td><td style="border:1px solid var(--border);padding:8px;">Tous les sinus ($1, 2, 3, \\ldots$)</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Spectre frequentiel',
+        title: 'Passer d\'un signal creaneau a ses harmoniques dominantes',
+        description: 'Le signal temporel garde une forme brutale, mais son spectre isole des barres d\'amplitude aux frequences multiples de la fondamentale.',
+        svg: `
+          <svg viewBox="0 0 360 260" role="img" aria-labelledby="fourier-graph-title fourier-graph-desc">
+            <title id="fourier-graph-title">Signal temporel et spectre de Fourier</title>
+            <desc id="fourier-graph-desc">Le haut du schema montre un signal creaneau et le bas les amplitudes des harmoniques 1, 3 et 5.</desc>
+            <text class="annotation-label" x="34" y="24">Signal temporel</text>
+            <line class="axis" x1="38" y1="88" x2="324" y2="88"></line>
+            <line class="axis" x1="38" y1="36" x2="38" y2="140"></line>
+            <path class="curve-main" d="M38 52 L82 52 L82 124 L144 124 L144 52 L206 52 L206 124 L268 124 L268 52 L324 52"></path>
+            <text class="tick-label" x="30" y="56">+A</text>
+            <text class="tick-label" x="30" y="128">-A</text>
+            <text class="tick-label" x="77" y="146">T/2</text>
+            <text class="tick-label" x="140" y="146">T</text>
+            <text class="tick-label" x="202" y="146">3T/2</text>
+            <text class="tick-label" x="262" y="146">2T</text>
+            <line class="guide-line" x1="30" y1="164" x2="324" y2="164"></line>
+            <text class="annotation-label" x="34" y="182">Spectre</text>
+            <line class="axis" x1="38" y1="232" x2="324" y2="232"></line>
+            <line class="axis" x1="38" y1="232" x2="38" y2="182"></line>
+            <rect x="82" y="188" width="24" height="44" rx="4" fill="var(--diagram-accent)"></rect>
+            <rect x="166" y="204" width="24" height="28" rx="4" fill="color-mix(in srgb, var(--diagram-accent) 78%, white)"></rect>
+            <rect x="250" y="214" width="24" height="18" rx="4" fill="color-mix(in srgb, var(--diagram-accent) 58%, white)"></rect>
+            <text class="annotation-label" x="82" y="182">Fondamental</text>
+            <text class="annotation-label" x="159" y="198">3e</text>
+            <text class="annotation-label" x="244" y="208">5e</text>
+            <text class="tick-label" x="88" y="246">1</text>
+            <text class="tick-label" x="172" y="246">3</text>
+            <text class="tick-label" x="256" y="246">5</text>
+            <text class="tick-label" x="18" y="190">c_n</text>
+            <text class="axis-label" x="327" y="236">n</text>
+          </svg>
+        `,
+        notes: [
+          'Le signal creaneau est brutal dans le temps, mais il peut etre decompose en une somme d\'ondes sinusoïdales.',
+          'Pour un creaneau symetrique impair, seules les harmoniques impaires apparaissent : 1, 3, 5, etc.',
+          'Les barres du spectre decroissent : le fondamental domine, puis les harmoniques corrigent la forme du signal.'
+        ],
+        reading: 'Le haut dit a quoi ressemble le signal. Le bas dit quelles frequences il contient vraiment et avec quelle importance.',
+        caption: 'Representation conjointe d\'un creaneau et de son spectre en harmoniques impaires.'
+      },
       recap: [
         'Tout signal périodique = composante continue ($a_0$) + somme infinie d\'harmoniques ($a_n\\cos + b_n\\sin$).',
         'Signal pair → seulement des cosinus ($b_n = 0$). Signal impair → seulement des sinus ($a_n = 0$).',
