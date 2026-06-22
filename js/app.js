@@ -319,7 +319,7 @@ function switchTab(tabName) {
 function render() {
   const app = document.getElementById('app');
   switch (state.view) {
-    case 'home':       app.innerHTML = renderHome(); break;
+    case 'home':       app.innerHTML = renderHome(); if (typeof renderAssignmentWidget === 'function') renderAssignmentWidget(); break;
     case 'subjects':   app.innerHTML = renderSubjects(); break;
     case 'levels':     app.innerHTML = renderLevels(); break;
     case 'modules':    app.innerHTML = renderModulesList(); break;

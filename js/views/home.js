@@ -167,6 +167,31 @@ function renderSubjects() {
 	`;
 }
 
+async function renderAssignmentWidget() {
+  var widgetEl = document.getElementById('home-assignment-widget');
+  if (!widgetEl) return;
+  var classCode = state.user && state.user.classes && state.user.classes[0];
+  if (!classCode) return;
+  try {
+    var assignments = await AuthService.getClassAssignments(classCode);
+    if (!assignments || assignments.length === 0) return;
+    var a = assignments[0];
+    var mod = getModule(a.moduleId);
+    var title = mod ? mod.title : a.moduleId;
+    var due = a.dueDate ? new Date(a.dueDate).toLocaleDateString('fr-FR') : '—';
+    var safeTitle = String(title).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    var safeDue = String(due).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    var safeModuleId = String(a.moduleId).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,'&#39;');
+    widgetEl.innerHTML = '<div class="hw-assignment-widget" onclick="navigate(\'module\', {moduleId: \'' + safeModuleId + '\'})" tabindex="0" role="button" aria-label="Aller au devoir">' +
+      '<div class="hw-assignment-icon">📋</div>' +
+      '<div>' +
+        '<div class="hw-assignment-title">Devoir en cours : ' + safeTitle + '</div>' +
+        '<div class="hw-assignment-meta">À rendre avant le ' + safeDue + '</div>' +
+      '</div>' +
+    '</div>';
+  } catch(e) { /* silencieux */ }
+}
+
 function renderHome() {
 	const totalModules = window.MODULES ? window.MODULES.length : 0;
 
@@ -223,6 +248,7 @@ function renderHome() {
 			</div>
 		</section>
 
+		<div id="home-assignment-widget" style="padding: 0 var(--space-lg);max-width:900px;margin:0 auto;"></div>
 		${renderContinueSection()}
 		${renderStatsSection()}
 
