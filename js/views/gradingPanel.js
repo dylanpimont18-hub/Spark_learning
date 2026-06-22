@@ -131,7 +131,7 @@ var GradingPanel = {
       lines.push(name + ';' + note + ';' + app);
     });
     var csvContent = lines.join('\n');
-    var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    var blob = new Blob(['﻿' + csvContent], { type: 'text/csv;charset=utf-8;' });
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
     a.href = url;

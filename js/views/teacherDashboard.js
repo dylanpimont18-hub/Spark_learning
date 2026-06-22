@@ -162,7 +162,7 @@ var TeacherDashboard = {
       : assignments.map(function(a) {
           var mod = getModule(a.moduleId);
           var title = mod ? TeacherDashboard._esc(mod.title) : TeacherDashboard._esc(a.moduleId);
-          var due = a.dueDate ? new Date(a.dueDate).toLocaleDateString('fr-FR') : '—';
+          var due = a.dueDate ? TeacherDashboard._esc(new Date(a.dueDate).toLocaleDateString('fr-FR')) : '—';
           var completedCount = students.filter(function(s) {
             var prog = progressMap[s.uid];
             var progData = prog && prog.progress ? prog.progress : {};
