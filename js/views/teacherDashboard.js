@@ -191,6 +191,10 @@ var TeacherDashboard = {
       '<button class="td-assign-btn" onclick="TeacherDashboard._addAssignment(' + classIndex + ')">Assigner</button>' +
     '</div>';
 
+    // Stocker dans l'objet pour que GradingPanel puisse y accéder
+    TeacherDashboard._currentStudents = students;
+    TeacherDashboard._currentProgressMap = progressMap;
+
     document.getElementById('app').innerHTML =
       '<div class="td-container">' +
         '<div class="td-header">' +
@@ -207,10 +211,6 @@ var TeacherDashboard = {
           assignForm +
         '</div>' +
       '</div>';
-
-    // Stocker dans l'objet pour que GradingPanel puisse y accéder
-    TeacherDashboard._currentStudents = students;
-    TeacherDashboard._currentProgressMap = progressMap;
   },
 
   _viewStudent: async function(studentUid, classId) {
@@ -250,7 +250,8 @@ var TeacherDashboard = {
           var m = item.data;
           var score = m && m.score != null ? m.score + '%' : (m && m.evaluationScore != null ? m.evaluationScore + '%' : '—');
           var done = item.completed ? '✅' : '⏳';
-          var modTitle = (getModule(item.key) && getModule(item.key).title) ? getModule(item.key).title : item.key;
+          var modObj = getModule(item.key);
+          var modTitle = (modObj && modObj.title) ? modObj.title : item.key;
           var quizIcon = item.hasQuiz ? '✅' : '—';
           var exoIcon = item.hasExo ? '✅' : '—';
           var evalIcon = item.hasEval ? '✅' : '—';
