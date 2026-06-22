@@ -188,6 +188,21 @@ Vues globales : accueil, liste matières, niveaux, modules, détail module.
 - `renderLevels()` — niveaux d'une matière
 - `renderModules()` — grille des modules d'un niveau
 - `renderModule(moduleId)` — page détail d'un module
+- `renderAssignmentWidget()` — async, injecte l'encart "Devoir en cours" pour l'élève connecté à une classe
+
+## js/auth/authService.js
+Service d'authentification et d'autorisations Firestore.
+- `signUp(email, password, role)` — crée un compte
+- `signIn(email, password)` — connecte l'utilisateur
+- `signOut()` — déconnecte
+- `setTeacherApprovalStatus(uid, isApproved)` — approuve/refuse un enseignant
+- `createClass(teacherUid, className, description)` — crée une classe
+- `getTeacherClasses(teacherUid)` — récupère les classes d'un enseignant
+- `addStudentToClass(studentUid, classCode)` — ajoute un élève à une classe (batch update users + classes)
+- `removeStudentFromClass(studentUid, classCode)` — retire un élève d'une classe (batch update users + classes)
+- `createAssignment(classCode, moduleId, dueDate)` — crée un devoir dans la collection assignments
+- `getClassAssignments(classCode)` — récupère les devoirs d'une classe, triés par date côté client
+- `deleteAssignment(assignmentId)` — supprime un devoir
 
 ## js/views/adminPanel.js
 Panneau d'administration : gestion des enseignants en attente et comptes utilisateurs.
@@ -198,6 +213,23 @@ Panneau d'administration : gestion des enseignants en attente et comptes utilisa
 - `AdminPanel._renderAll(users)` — rendu tous les comptes avec barre de recherche et filtrage
 - `AdminPanel._approve(uid)` / `_reject(uid)` — approuve/refuse un enseignant
 - `AdminPanel._setStatus(uid, status)` — modifie le statut d'un utilisateur
+
+## js/views/teacherDashboard.js
+Tableau de bord enseignant : classes, élèves, progression, devoirs, grading.
+- `TeacherDashboard.render(backCode)` — charge les classes de l'enseignant
+- `TeacherDashboard._viewClass(classIndex)` — charge profils + progressions en parallèle (Promise.all)
+- `TeacherDashboard._renderClassDetail(cls, students, progressMap)` — vue classe : stats bar, liste élèves, devoirs, bouton grading
+- `TeacherDashboard._renderStudentProgress(uid, classId, profile, progress)` — progression lisible par titre de module, détail quiz/exo/eval
+- `TeacherDashboard._removeStudent(uid, classCode, classIndex)` — retire un élève
+- `TeacherDashboard._openGrading(classIndex)` — ouvre GradingPanel avec les données déjà chargées
+- `TeacherDashboard._addAssignment(classIndex)` — crée un devoir pour la classe
+- `TeacherDashboard._deleteAssignment(assignmentId, classIndex)` — supprime un devoir
+
+## js/views/gradingPanel.js
+Panneau de notation enseignant : tableau comparatif élèves × modules + export Pronote CSV.
+- `GradingPanel.render({ cls, students, progressMap, backIndex })` — point d'entrée, reçoit les données de TeacherDashboard (pas de double requête Firestore)
+- `GradingPanel._renderGradeTable()` — tableau de saisie /20 + appréciation pour le module sélectionné
+- `GradingPanel._exportCSV()` — génère et télécharge le CSV via Blob + URL.createObjectURL
 
 ---
 
