@@ -42,5 +42,17 @@ service cloud.firestore {
       allow read: if isOwner(uid) || isTeacherOrAdmin();
       allow write: if isOwner(uid);
     }
+
+    // ─── config (annonces, paramètres plateforme) ───
+    match /config/{doc} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // ─── adminLogs ───
+    match /adminLogs/{logId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
   }
 }

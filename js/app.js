@@ -465,6 +465,29 @@ function _applyModuleFilters() {
   if (input && document.activeElement !== input && state.searchQuery) input.focus();
 }
 
+/* ── Bannière d'annonce globale ── */
+function showAnnouncementBanner(text) {
+  var banner = document.getElementById('announcement-banner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'announcement-banner';
+    banner.className = 'ap-announcement-banner';
+    var header = document.getElementById('site-header');
+    if (header && header.parentNode) {
+      header.parentNode.insertBefore(banner, header.nextSibling);
+    } else {
+      document.body.insertBefore(banner, document.body.firstChild);
+    }
+  }
+  banner.textContent = text;
+  banner.style.display = 'block';
+}
+
+function hideAnnouncementBanner() {
+  var banner = document.getElementById('announcement-banner');
+  if (banner) banner.style.display = 'none';
+}
+
 /* ── Toast notifications ── */
 function showToast(message, type = 'success') {
   const toast = document.createElement('div');
@@ -1077,6 +1100,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Active user
     SyncService.init(uid);
+
+    // Charger et afficher l'annonce globale si présente
+    AuthService.getAnnouncement().then(function(ann) {
+      if (ann && ann.text) showAnnouncementBanner(ann.text);
+    }).catch(function() {});
 
     if (role === 'admin') {
       _setupCommonListeners();

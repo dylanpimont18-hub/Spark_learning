@@ -160,5 +160,99 @@ const AuthService = {
     const snap = await this._db.collection('users').get();
     return snap.docs.map(d => ({ uid: d.id, ...d.data() }))
       .sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
+  },
+
+  /* ── Admin : stats ── */
+  async getAdminStats() {
+    const [usersSnap, classesSnap, progressSnap] = await Promise.all([
+      this._db.collection('users').get(),
+      this._db.collection('classes').get(),
+      this._db.collection('progress').get()
+    ]);
+    const users = usersSnap.docs.map(d => d.data());
+    return {
+      totalStudents: users.filter(u => u.role === 'student').length,
+      activeTeachers: users.filter(u => u.role === 'teacher' && u.status === 'active').length,
+      totalClasses: classesSnap.size,
+      totalProgressDocs: progressSnap.size
+    };
+  },
+
+  /* ── Admin : classes orphelines ── */
+  async getOrphanClasses() {
+    const classesSnap = await this._db.collection('classes').get();
+    const classes = classesSnap.docs.map(d => ({ id: d.id, ...d.data() }))
+      .filter(c => !c.status || c.status !== 'archived');
+    if (!classes.length) return [];
+    const teacherUids = [...new Set(classes.map(c => c.teacherId).filter(Boolean))];
+    if (!teacherUids.length) return classes;
+    const teacherDocs = await Promise.all(
+      teacherUids.map(uid => this._db.collection('users').doc(uid).get())
+    );
+    const teacherMap = {};
+    teacherDocs.forEach(d => { if (d.exists) teacherMap[d.id] = d.data(); });
+    return classes.filter(cls => {
+      const t = teacherMap[cls.teacherId];
+      return !t || t.status !== 'active';
+    });
+  },
+
+  async archiveClass(classId) {
+    await this._db.collection('classes').doc(classId).update({ status: 'archived' });
+  },
+
+  /* ── Admin : rôles ── */
+  async setUserRole(uid, role) {
+    await this.updateUserProfile(uid, { role });
+  },
+
+  /* ── Admin : annonce globale ── */
+  async getAnnouncement() {
+    const doc = await this._db.collection('config').doc('announcement').get();
+    return doc.exists ? doc.data() : null;
+  },
+
+  async setAnnouncement(text) {
+    const uid = this.getCurrentUser().uid;
+    await this._db.collection('config').doc('announcement').set({
+      text,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      updatedBy: uid
+    });
+  },
+
+  async clearAnnouncement() {
+    await this._db.collection('config').doc('announcement').delete();
+  },
+
+  /* ── Admin : paramètres plateforme ── */
+  async getPlatformSettings() {
+    const doc = await this._db.collection('config').doc('settings').get();
+    return doc.exists ? doc.data() : { teacherSignupEnabled: true, maintenanceMode: false, maxStudentsPerClass: 35 };
+  },
+
+  async savePlatformSettings(data) {
+    await this._db.collection('config').doc('settings').set(data, { merge: true });
+  },
+
+  /* ── Admin : audit log ── */
+  async logAdminAction(action, targetUid, details) {
+    const user = this.getCurrentUser();
+    await this._db.collection('adminLogs').add({
+      action,
+      targetUid: targetUid || null,
+      details: details || null,
+      adminUid: user.uid,
+      adminName: user.displayName || user.email || user.uid,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+  },
+
+  async getAdminLogs(limitCount) {
+    const snap = await this._db.collection('adminLogs')
+      .orderBy('createdAt', 'desc')
+      .limit(limitCount || 50)
+      .get();
+    return snap.docs.map(d => ({ id: d.id, ...d.data() }));
   }
 };

@@ -1,36 +1,178 @@
 var AdminPanel = {
   _tab: 'pending',
+  _settingsOpen: false,
+  _allUsersCache: [],
 
   _esc: function(str) {
     return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   },
 
+  _timeAgo: function(ts) {
+    if (!ts) return '—';
+    var ms = ts.toMillis ? ts.toMillis() : (ts.seconds ? ts.seconds * 1000 : 0);
+    if (!ms) return '—';
+    var diff = Date.now() - ms;
+    if (diff < 60000) return 'à l\'instant';
+    if (diff < 3600000) return 'il y a ' + Math.floor(diff / 60000) + ' min';
+    if (diff < 86400000) return 'il y a ' + Math.floor(diff / 3600000) + 'h';
+    return 'il y a ' + Math.floor(diff / 86400000) + 'j';
+  },
+
   render: async function() {
-    var app = document.getElementById('app');
-    app.innerHTML = '<div class="ap-loading">Chargement...</div>';
-    AdminPanel._renderShell();
+    document.getElementById('app').innerHTML = '<div class="ap-loading">Chargement...</div>';
+    var results = await Promise.allSettled([
+      AuthService.getAdminStats(),
+      AuthService.getPlatformSettings(),
+      AuthService.getAnnouncement()
+    ]);
+    var stats       = results[0].status === 'fulfilled' ? results[0].value : null;
+    var settings    = results[1].status === 'fulfilled' ? results[1].value : {};
+    var announcement = results[2].status === 'fulfilled' ? results[2].value : null;
+
+    AdminPanel._renderShell(stats, settings, announcement);
     AdminPanel._loadTab(AdminPanel._tab);
   },
 
-  _renderShell: function() {
+  _renderShell: function(stats, settings, announcement) {
     document.getElementById('app').innerHTML =
       '<div class="ap-container">' +
         '<div class="ap-header">' +
           '<h1 class="ap-title">⚙️ Administration</h1>' +
           '<button class="ap-teacher-btn" onclick="TeacherDashboard.render(\'__admin__\')">Mon espace enseignant →</button>' +
         '</div>' +
+        AdminPanel._renderDashboard(stats) +
+        AdminPanel._renderSettingsSection(settings, announcement) +
         '<div class="ap-tabs">' +
-          '<button class="ap-tab' + (AdminPanel._tab === 'pending' ? ' active' : '') + '" onclick="AdminPanel._switchTab(\'pending\')">En attente</button>' +
-          '<button class="ap-tab' + (AdminPanel._tab === 'all' ? ' active' : '') + '" onclick="AdminPanel._switchTab(\'all\')">Tous les comptes</button>' +
+          '<button class="ap-tab' + (AdminPanel._tab === 'pending' ? ' active' : '') + '" data-tab="pending" onclick="AdminPanel._switchTab(\'pending\')">En attente</button>' +
+          '<button class="ap-tab' + (AdminPanel._tab === 'all' ? ' active' : '') + '" data-tab="all" onclick="AdminPanel._switchTab(\'all\')">Tous les comptes</button>' +
+          '<button class="ap-tab' + (AdminPanel._tab === 'logs' ? ' active' : '') + '" data-tab="logs" onclick="AdminPanel._switchTab(\'logs\')">Historique</button>' +
         '</div>' +
         '<div id="ap-content"></div>' +
       '</div>';
   },
 
+  /* ── Dashboard ── */
+  _renderDashboard: function(stats) {
+    if (!stats) {
+      return '<div class="ap-stats-grid" style="grid-template-columns:1fr"><p class="ap-empty">Statistiques indisponibles.</p></div>';
+    }
+    return '<div class="ap-stats-grid">' +
+      AdminPanel._statCard('👩‍🎓', stats.totalStudents, 'Élèves inscrits') +
+      AdminPanel._statCard('👨‍🏫', stats.activeTeachers, 'Enseignants actifs') +
+      AdminPanel._statCard('🏫', stats.totalClasses, 'Classes') +
+      AdminPanel._statCard('📊', stats.totalProgressDocs, 'Progressions') +
+    '</div>';
+  },
+
+  _statCard: function(icon, value, label) {
+    return '<div class="ap-stat-card">' +
+      '<span class="ap-stat-icon">' + icon + '</span>' +
+      '<span class="ap-stat-value">' + value + '</span>' +
+      '<span class="ap-stat-label">' + label + '</span>' +
+    '</div>';
+  },
+
+  /* ── Paramètres & Annonces ── */
+  _renderSettingsSection: function(settings, announcement) {
+    var announcementText = announcement ? AdminPanel._esc(announcement.text) : '';
+    var open = AdminPanel._settingsOpen;
+    return '<div class="ap-settings-section">' +
+      '<button class="ap-settings-toggle" onclick="AdminPanel._toggleSettings()">' +
+        '⚙️ Paramètres &amp; Annonces &nbsp;' + (open ? '▲' : '▼') +
+      '</button>' +
+      '<div class="ap-settings-body" id="ap-settings-body" style="display:' + (open ? 'flex' : 'none') + '">' +
+
+        '<div class="ap-settings-group">' +
+          '<div class="ap-settings-group-title">Annonce globale</div>' +
+          '<textarea class="ap-announce-textarea" id="ap-announce-input" placeholder="Message affiché pour tous les utilisateurs connectés...">' + announcementText + '</textarea>' +
+          '<div class="ap-settings-row">' +
+            '<button class="ap-save-btn" onclick="AdminPanel._saveAnnouncement()">Publier</button>' +
+            (announcementText ? '<button class="ap-reject-btn" onclick="AdminPanel._clearAnnouncement()">Supprimer l\'annonce</button>' : '') +
+          '</div>' +
+        '</div>' +
+
+        '<div class="ap-settings-group">' +
+          '<div class="ap-settings-group-title">Paramètres plateforme</div>' +
+          '<label class="ap-toggle-row">' +
+            '<span>Inscription enseignants activée</span>' +
+            '<input type="checkbox" id="ap-teacher-signup"' + (settings.teacherSignupEnabled !== false ? ' checked' : '') + ' />' +
+          '</label>' +
+          '<label class="ap-toggle-row">' +
+            '<span>Mode maintenance (site en pause)</span>' +
+            '<input type="checkbox" id="ap-maintenance"' + (settings.maintenanceMode ? ' checked' : '') + ' />' +
+          '</label>' +
+          '<div class="ap-field-row">' +
+            '<span>Max élèves par classe</span>' +
+            '<input type="number" id="ap-max-students" class="ap-number-input" value="' + (settings.maxStudentsPerClass || 35) + '" min="1" max="200" />' +
+          '</div>' +
+          '<div class="ap-settings-save-row">' +
+            '<button class="ap-save-btn" onclick="AdminPanel._saveSettings()">Enregistrer</button>' +
+          '</div>' +
+        '</div>' +
+
+      '</div>' +
+    '</div>';
+  },
+
+  _toggleSettings: function() {
+    AdminPanel._settingsOpen = !AdminPanel._settingsOpen;
+    var body = document.getElementById('ap-settings-body');
+    var btn  = document.querySelector('.ap-settings-toggle');
+    if (body) body.style.display = AdminPanel._settingsOpen ? 'flex' : 'none';
+    if (btn)  btn.innerHTML = '⚙️ Paramètres &amp; Annonces &nbsp;' + (AdminPanel._settingsOpen ? '▲' : '▼');
+  },
+
+  _saveAnnouncement: async function() {
+    var input = document.getElementById('ap-announce-input');
+    if (!input) return;
+    var text = input.value.trim();
+    if (!text) { AdminPanel._clearAnnouncement(); return; }
+    try {
+      await AuthService.setAnnouncement(text);
+      await AuthService.logAdminAction('announcement_set', null, text.substring(0, 100));
+      if (typeof showAnnouncementBanner === 'function') showAnnouncementBanner(text);
+      showToast('Annonce publiée.', 'success');
+    } catch(e) {
+      showToast('Erreur lors de la publication.', 'error');
+    }
+  },
+
+  _clearAnnouncement: async function() {
+    try {
+      await AuthService.clearAnnouncement();
+      await AuthService.logAdminAction('announcement_cleared', null, null);
+      if (typeof hideAnnouncementBanner === 'function') hideAnnouncementBanner();
+      showToast('Annonce supprimée.', 'success');
+      AdminPanel.render();
+    } catch(e) {
+      showToast('Erreur lors de la suppression.', 'error');
+    }
+  },
+
+  _saveSettings: async function() {
+    var teacherSignup = document.getElementById('ap-teacher-signup');
+    var maintenance   = document.getElementById('ap-maintenance');
+    var maxStudents   = document.getElementById('ap-max-students');
+    if (!teacherSignup || !maintenance || !maxStudents) return;
+    var data = {
+      teacherSignupEnabled: teacherSignup.checked,
+      maintenanceMode: maintenance.checked,
+      maxStudentsPerClass: parseInt(maxStudents.value) || 35
+    };
+    try {
+      await AuthService.savePlatformSettings(data);
+      await AuthService.logAdminAction('settings_saved', null, JSON.stringify(data));
+      showToast('Paramètres enregistrés.', 'success');
+    } catch(e) {
+      showToast('Erreur lors de l\'enregistrement.', 'error');
+    }
+  },
+
+  /* ── Onglets ── */
   _switchTab: function(tab) {
     AdminPanel._tab = tab;
     document.querySelectorAll('.ap-tab').forEach(function(t) {
-      t.classList.toggle('active', t.textContent === (tab === 'pending' ? 'En attente' : 'Tous les comptes'));
+      t.classList.toggle('active', t.dataset.tab === tab);
     });
     AdminPanel._loadTab(tab);
   },
@@ -43,16 +185,25 @@ var AdminPanel = {
       if (tab === 'pending') {
         var pending = await AuthService.getPendingTeachers();
         AdminPanel._renderPending(pending);
-      } else {
-        var users = await AuthService.getAllUsers();
-        AdminPanel._renderAll(users);
+      } else if (tab === 'all') {
+        var results = await Promise.allSettled([
+          AuthService.getAllUsers(),
+          AuthService.getOrphanClasses()
+        ]);
+        var users   = results[0].status === 'fulfilled' ? results[0].value : [];
+        var orphans = results[1].status === 'fulfilled' ? results[1].value : [];
+        AdminPanel._renderAll(users, orphans);
+      } else if (tab === 'logs') {
+        var logs = await AuthService.getAdminLogs(50);
+        AdminPanel._renderLogs(logs);
       }
-    } catch (e) {
+    } catch(e) {
       console.error('[AdminPanel] _loadTab error:', e);
-      content.innerHTML = '<div class="ap-error">Erreur : ' + (e.message || e.code || 'inconnue') + '</div>';
+      content.innerHTML = '<div class="ap-error">Erreur : ' + AdminPanel._esc(e.message || e.code || 'inconnue') + '</div>';
     }
   },
 
+  /* ── Tab : En attente ── */
   _renderPending: function(pending) {
     var content = document.getElementById('ap-content');
     if (!content) return;
@@ -61,39 +212,97 @@ var AdminPanel = {
       return;
     }
     content.innerHTML = pending.map(function(u) {
-      var name = AdminPanel._esc(u.displayName || 'Inconnu');
+      var name    = AdminPanel._esc(u.displayName || 'Inconnu');
       var contact = AdminPanel._esc(u.phone || u.email || '—');
+      var uid     = AdminPanel._esc(u.uid);
       return '<div class="ap-user-card">' +
         '<div class="ap-user-info">' +
           '<span class="ap-user-name">' + name + '</span>' +
           '<span class="ap-user-contact">' + contact + '</span>' +
         '</div>' +
         '<div class="ap-user-actions">' +
-          '<button class="ap-approve-btn" onclick="AdminPanel._approve(\'' + AdminPanel._esc(u.uid) + '\')">✅ Approuver</button>' +
-          '<button class="ap-reject-btn" onclick="AdminPanel._reject(\'' + AdminPanel._esc(u.uid) + '\')">❌ Refuser</button>' +
+          '<button class="ap-approve-btn" onclick="AdminPanel._approve(\'' + uid + '\')">✅ Approuver</button>' +
+          '<button class="ap-reject-btn"  onclick="AdminPanel._reject(\''   + uid + '\')">❌ Refuser</button>' +
         '</div>' +
       '</div>';
     }).join('');
   },
 
-  _renderAll: function(users) {
+  /* ── Tab : Tous les comptes ── */
+  _renderAll: function(users, orphans) {
     var content = document.getElementById('ap-content');
     if (!content) return;
-    if (!users || users.length === 0) {
-      content.innerHTML = '<p class="ap-empty">Aucun compte trouvé.</p>';
-      return;
+
+    var orphanHtml = '';
+    if (orphans && orphans.length > 0) {
+      orphanHtml =
+        '<div class="ap-orphan-section">' +
+          '<div class="ap-section-title">⚠️ Classes sans enseignant actif (' + orphans.length + ')</div>' +
+          orphans.map(function(cls) {
+            return '<div class="ap-orphan-card">' +
+              '<div class="ap-user-info">' +
+                '<span class="ap-user-name">' + AdminPanel._esc(cls.name || cls.id) + '</span>' +
+                '<span class="ap-user-contact">Code&nbsp;: ' + AdminPanel._esc(cls.id) + ' &nbsp;·&nbsp; ' + (cls.students ? cls.students.length : 0) + ' élève(s)</span>' +
+              '</div>' +
+              '<div class="ap-user-actions">' +
+                '<button class="ap-reject-btn" onclick="AdminPanel._archiveClass(\'' + AdminPanel._esc(cls.id) + '\')">Archiver</button>' +
+              '</div>' +
+            '</div>';
+          }).join('') +
+        '</div>';
     }
+
     content.innerHTML =
+      orphanHtml +
       '<div class="ap-search-wrap">' +
-        '<input class="ap-search-input" type="text" placeholder="Rechercher par nom..." oninput="AdminPanel._filterUsers(this.value)" id="ap-search" />' +
+        '<input class="ap-search-input" type="text" placeholder="Rechercher par nom, email ou téléphone..." oninput="AdminPanel._filterUsers(this.value)" id="ap-search" />' +
       '</div>' +
-      '<div id="ap-users-list">' +
-        AdminPanel._renderUsersList(users) +
-      '</div>';
+      '<div id="ap-users-list">' + AdminPanel._renderUsersList(users) + '</div>';
+
     AdminPanel._allUsersCache = users;
   },
 
-  _allUsersCache: [],
+  _renderUsersList: function(users) {
+    if (!users || !users.length) return '<p class="ap-empty">Aucun compte trouvé.</p>';
+    var roleLabel   = { student: 'Élève', teacher: 'Enseignant', admin: 'Admin' };
+    var statusLabel = { active: '🟢 Actif', pending: '🟡 En attente', rejected: '🔴 Refusé' };
+    return users.map(function(u) {
+      var name    = AdminPanel._esc(u.displayName || 'Inconnu');
+      var contact = AdminPanel._esc(u.phone || u.email || '—');
+      var role    = roleLabel[u.role] || u.role;
+      var status  = statusLabel[u.status] || u.status;
+      var uid     = AdminPanel._esc(u.uid);
+
+      if (u.role === 'admin') {
+        return '<div class="ap-user-card">' +
+          '<div class="ap-user-info">' +
+            '<span class="ap-user-name">' + name + '</span>' +
+            '<span class="ap-user-contact">' + contact + '</span>' +
+            '<span class="ap-user-meta">' + role + ' · ' + status + '</span>' +
+          '</div>' +
+        '</div>';
+      }
+
+      var actions = '';
+      if (u.status !== 'active') actions += '<button class="ap-approve-btn" onclick="AdminPanel._setStatus(\'' + uid + '\',\'active\')">Activer</button>';
+      if (u.status === 'active') actions += '<button class="ap-reject-btn" onclick="AdminPanel._setStatus(\'' + uid + '\',\'rejected\')">Désactiver</button>';
+      if (u.role === 'student') {
+        actions += '<button class="ap-role-btn" onclick="AdminPanel._setRole(\'' + uid + '\',\'teacher\')">→ Enseignant</button>';
+      } else if (u.role === 'teacher') {
+        actions += '<button class="ap-role-btn" onclick="AdminPanel._setRole(\'' + uid + '\',\'admin\')">→ Admin</button>';
+        actions += '<button class="ap-role-btn ap-role-btn--down" onclick="AdminPanel._setRole(\'' + uid + '\',\'student\')">→ Élève</button>';
+      }
+
+      return '<div class="ap-user-card">' +
+        '<div class="ap-user-info">' +
+          '<span class="ap-user-name">' + name + '</span>' +
+          '<span class="ap-user-contact">' + contact + '</span>' +
+          '<span class="ap-user-meta">' + role + ' · ' + status + '</span>' +
+        '</div>' +
+        '<div class="ap-user-actions">' + actions + '</div>' +
+      '</div>';
+    }).join('');
+  },
 
   _filterUsers: function(query) {
     var list = document.getElementById('ap-users-list');
@@ -107,34 +316,53 @@ var AdminPanel = {
     list.innerHTML = AdminPanel._renderUsersList(filtered);
   },
 
-  _renderUsersList: function(users) {
-    return users.map(function(u) {
-      var name = AdminPanel._esc(u.displayName || 'Inconnu');
-      var contact = AdminPanel._esc(u.phone || u.email || '—');
-      var roleLabel = { student: 'Élève', teacher: 'Enseignant', admin: 'Admin' }[u.role] || u.role;
-      var statusLabel = { active: '🟢 Actif', pending: '🟡 En attente', rejected: '🔴 Refusé' }[u.status] || u.status;
-      return '<div class="ap-user-card">' +
-        '<div class="ap-user-info">' +
-          '<span class="ap-user-name">' + name + '</span>' +
-          '<span class="ap-user-contact">' + contact + '</span>' +
-          '<span class="ap-user-meta">' + roleLabel + ' · ' + statusLabel + '</span>' +
-        '</div>' +
-        (u.role !== 'admin'
-          ? '<div class="ap-user-actions">' +
-              (u.status !== 'active' ? '<button class="ap-approve-btn" onclick="AdminPanel._setStatus(\'' + AdminPanel._esc(u.uid) + '\',\'active\')">Activer</button>' : '') +
-              (u.status === 'active' ? '<button class="ap-reject-btn" onclick="AdminPanel._setStatus(\'' + AdminPanel._esc(u.uid) + '\',\'rejected\')">Désactiver</button>' : '') +
-            '</div>'
-          : '') +
-      '</div>';
-    }).join('');
+  /* ── Tab : Historique ── */
+  _renderLogs: function(logs) {
+    var content = document.getElementById('ap-content');
+    if (!content) return;
+    if (!logs || !logs.length) {
+      content.innerHTML = '<p class="ap-empty">Aucune action enregistrée pour l\'instant.</p>';
+      return;
+    }
+    var labels = {
+      teacher_approved:    '✅ Enseignant approuvé',
+      teacher_rejected:    '❌ Enseignant refusé',
+      user_activated:      '🟢 Compte activé',
+      user_deactivated:    '🔴 Compte désactivé',
+      role_changed:        '🔄 Rôle modifié',
+      announcement_set:    '📢 Annonce publiée',
+      announcement_cleared:'🗑️ Annonce supprimée',
+      settings_saved:      '⚙️ Paramètres modifiés',
+      class_archived:      '📦 Classe archivée'
+    };
+    content.innerHTML = '<div class="ap-logs-list">' +
+      logs.map(function(log) {
+        var label   = labels[log.action] || AdminPanel._esc(log.action);
+        var time    = AdminPanel._timeAgo(log.createdAt);
+        var admin   = AdminPanel._esc(log.adminName || log.adminUid || '—');
+        var details = log.details ? ' — ' + AdminPanel._esc(String(log.details).substring(0, 100)) : '';
+        return '<div class="ap-log-card">' +
+          '<div class="ap-log-main">' +
+            '<span class="ap-log-action">' + label + '</span>' +
+            '<span class="ap-log-details">' + details + '</span>' +
+          '</div>' +
+          '<div class="ap-log-meta">' +
+            '<span class="ap-log-admin">' + admin + '</span>' +
+            '<span class="ap-log-time">' + time + '</span>' +
+          '</div>' +
+        '</div>';
+      }).join('') +
+    '</div>';
   },
 
+  /* ── Actions ── */
   _approve: async function(uid) {
     try {
       await AuthService.approveTeacher(uid);
+      await AuthService.logAdminAction('teacher_approved', uid, null);
       showToast('Enseignant approuvé.', 'success');
       AdminPanel._loadTab('pending');
-    } catch (e) {
+    } catch(e) {
       showToast('Erreur lors de l\'approbation.', 'error');
     }
   },
@@ -142,9 +370,10 @@ var AdminPanel = {
   _reject: async function(uid) {
     try {
       await AuthService.rejectTeacher(uid);
+      await AuthService.logAdminAction('teacher_rejected', uid, null);
       showToast('Demande refusée.', 'success');
       AdminPanel._loadTab('pending');
-    } catch (e) {
+    } catch(e) {
       showToast('Erreur lors du refus.', 'error');
     }
   },
@@ -152,10 +381,35 @@ var AdminPanel = {
   _setStatus: async function(uid, status) {
     try {
       await AuthService.updateUserProfile(uid, { status: status });
+      var action = status === 'active' ? 'user_activated' : 'user_deactivated';
+      await AuthService.logAdminAction(action, uid, null);
       showToast('Statut mis à jour.', 'success');
       AdminPanel._loadTab('all');
-    } catch (e) {
+    } catch(e) {
       showToast('Erreur lors de la mise à jour.', 'error');
+    }
+  },
+
+  _setRole: async function(uid, role) {
+    var roleLabel = { student: 'Élève', teacher: 'Enseignant', admin: 'Admin' }[role] || role;
+    try {
+      await AuthService.setUserRole(uid, role);
+      await AuthService.logAdminAction('role_changed', uid, 'Nouveau rôle : ' + roleLabel);
+      showToast('Rôle mis à jour : ' + roleLabel + '.', 'success');
+      AdminPanel._loadTab('all');
+    } catch(e) {
+      showToast('Erreur lors du changement de rôle.', 'error');
+    }
+  },
+
+  _archiveClass: async function(classId) {
+    try {
+      await AuthService.archiveClass(classId);
+      await AuthService.logAdminAction('class_archived', null, 'Classe : ' + classId);
+      showToast('Classe archivée.', 'success');
+      AdminPanel._loadTab('all');
+    } catch(e) {
+      showToast('Erreur lors de l\'archivage.', 'error');
     }
   }
 };
