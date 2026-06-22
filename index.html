@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr" data-theme="light">
 <head>
-  <script>window.location.replace("maintenance.html");</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <base href="/" />
@@ -19,6 +18,14 @@
 
   <!-- App CSS -->
   <link rel="stylesheet" href="css/styles.css" />
+
+  <!-- Firebase SDK (doit être le premier script) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <!-- Firebase Config -->
+  <script src="js/auth/firebase-config.js"></script>
 </head>
 <body>
 
