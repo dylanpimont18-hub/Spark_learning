@@ -1104,6 +1104,7 @@ function _setupCommonListeners() {
     var role = AuthGuard.getRole();
     if (role === 'admin') AdminPanel.render();
     else if (role === 'teacher') TeacherDashboard.render();
+    else navigate('teacher');
   });
   document.getElementById('logo-link')?.addEventListener('click', (e) => {
     e.preventDefault();
@@ -1152,7 +1153,6 @@ function _setupStudentApp() {
   _setupCommonListeners();
 
   document.getElementById('nav-homework')?.addEventListener('click', () => navigate('homework'));
-  document.getElementById('nav-teacher')?.addEventListener('click', () => navigate('teacher'));
 
   const appEl = document.getElementById('app');
   appEl.addEventListener('keydown', (e) => {
