@@ -1,10 +1,14 @@
 var SyncService = {
   _uid: null,
   _wrapped: false,
-  _origSaveProgress: null,
-  _origSaveTracking: null,
-  _origSaveStreak: null,
-  _origSaveFlashcards: null,
+  _origSet: null,
+
+  _SYNC_KEYS: {
+    sparkProgress:  'progress',
+    sparkTracking:  'tracking',
+    sparkStreak:    'streak',
+    sparkFlashcards:'flashcards'
+  },
 
   init: async function(uid) {
     SyncService._uid = uid;
@@ -58,47 +62,22 @@ var SyncService = {
   },
 
   _wrapStorage: function() {
-    if (SyncService._wrapped || typeof Storage === 'undefined') return;
+    if (SyncService._wrapped || typeof Storage === 'undefined' || !Storage._set) return;
     SyncService._wrapped = true;
 
-    // Sauvegarde les originaux AVANT de les remplacer
-    SyncService._origSaveProgress   = Storage.saveProgress;
-    SyncService._origSaveTracking   = Storage.saveTracking;
-    SyncService._origSaveStreak     = Storage.saveStreak;
-    SyncService._origSaveFlashcards = Storage.saveFlashcards;
+    SyncService._origSet = Storage._set.bind(Storage);
 
-    var _origSaveProgress   = SyncService._origSaveProgress.bind(Storage);
-    var _origSaveTracking   = SyncService._origSaveTracking.bind(Storage);
-    var _origSaveStreak     = SyncService._origSaveStreak.bind(Storage);
-    var _origSaveFlashcards = SyncService._origSaveFlashcards.bind(Storage);
-
-    Storage.saveProgress = function(data) {
-      _origSaveProgress(data);
-      SyncService._push('progress', data);
-    };
-    Storage.saveTracking = function(data) {
-      _origSaveTracking(data);
-      SyncService._push('tracking', data);
-    };
-    Storage.saveStreak = function(data) {
-      _origSaveStreak(data);
-      SyncService._push('streak', data);
-    };
-    Storage.saveFlashcards = function(data) {
-      _origSaveFlashcards(data);
-      SyncService._push('flashcards', data);
+    Storage._set = function(key, value) {
+      SyncService._origSet(key, value);
+      var field = SyncService._SYNC_KEYS[key];
+      if (field) SyncService._push(field, value);
     };
   },
 
   unwrap: function() {
-    // Appelé lors du logout pour arrêter la sync
     SyncService._uid = null;
-    if (SyncService._wrapped) {
-      // Restaure les méthodes originales si elles ont été sauvegardées
-      if (SyncService._origSaveProgress)   Storage.saveProgress   = SyncService._origSaveProgress;
-      if (SyncService._origSaveTracking)   Storage.saveTracking   = SyncService._origSaveTracking;
-      if (SyncService._origSaveStreak)     Storage.saveStreak     = SyncService._origSaveStreak;
-      if (SyncService._origSaveFlashcards) Storage.saveFlashcards = SyncService._origSaveFlashcards;
+    if (SyncService._wrapped && SyncService._origSet) {
+      Storage._set = SyncService._origSet;
     }
     SyncService._wrapped = false;
   }
