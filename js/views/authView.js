@@ -203,8 +203,9 @@ var AuthView = {
     var container = document.getElementById('reg-class-section');
     if (!container) return;
     if (AuthView._selectedRole !== 'student') { container.innerHTML = ''; return; }
+    var esc = function(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); };
     var tags = AuthView._joinedClasses.map(function(c, i) {
-      return '<span class="auth-class-tag">' + c + '<button onclick="AuthView._removeClass(' + i + ')">✕</button></span>';
+      return '<span class="auth-class-tag">' + esc(c) + '<button onclick="AuthView._removeClass(' + i + ')">✕</button></span>';
     }).join('');
     container.innerHTML =
       '<div class="auth-field">' +

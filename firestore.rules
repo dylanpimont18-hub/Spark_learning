@@ -27,14 +27,14 @@ service cloud.firestore {
     match /users/{uid} {
       allow read: if isOwner(uid) || isAdmin();
       allow create: if isOwner(uid);
-      allow update: if isOwner(uid) || isAdmin();
+      allow update: if isAdmin() || (isOwner(uid) && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'status', 'approvedAt', 'approvedBy']));
     }
 
     // ─── classes ───
     match /classes/{classCode} {
       allow read: if isSignedIn();
       allow create: if isTeacherOrAdmin();
-      allow update: if isTeacherOrAdmin();
+      allow update: if isAdmin() || (isTeacherOrAdmin() && resource.data.teacherId == request.auth.uid);
     }
 
     // ─── progress ───

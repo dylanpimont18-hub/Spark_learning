@@ -55,8 +55,7 @@ var TeacherDashboard = {
     if (!name || !name.trim()) return;
     try {
       var uid = AuthService.getCurrentUser().uid;
-      var code = name.trim().toUpperCase().replace(/\s+/g, '-').replace(/[^A-Z0-9\-]/g, '').slice(0, 20) + '-' + Math.random().toString(36).slice(2, 6).toUpperCase();
-      await AuthService.createClass(uid, code, name.trim());
+      var code = await AuthService.createClass(uid, name.trim());
       showToast('Classe créée ! Code : ' + code, 'success');
       TeacherDashboard.render(TeacherDashboard._backCode);
     } catch (e) {
@@ -130,7 +129,7 @@ var TeacherDashboard = {
           var score = m && m.score != null ? m.score + '%' : '—';
           var done = m && m.completed ? '✅' : '⏳';
           return '<div class="td-module-row">' +
-            '<span class="td-module-name">' + done + ' ' + key + '</span>' +
+            '<span class="td-module-name">' + done + ' ' + TeacherDashboard._esc(key) + '</span>' +
             '<span class="td-module-score">' + score + '</span>' +
           '</div>';
         }).join('');
