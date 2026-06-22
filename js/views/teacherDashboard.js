@@ -1,6 +1,9 @@
 var TeacherDashboard = {
   _classes: [],
   _backCode: null,
+  _esc: function(str) {
+    return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  },
 
   render: async function(backCode) {
     // backCode : si '__admin__', le bouton retour va vers AdminPanel; sinon, retour normal
@@ -27,8 +30,8 @@ var TeacherDashboard = {
           return '<div class="td-class-card">' +
             '<div class="td-class-header">' +
               '<div>' +
-                '<h3 class="td-class-name">' + cls.name + '</h3>' +
-                '<span class="td-class-code">Code : ' + cls.id + '</span>' +
+                '<h3 class="td-class-name">' + TeacherDashboard._esc(cls.name) + '</h3>' +
+                '<span class="td-class-code">Code : ' + TeacherDashboard._esc(cls.id) + '</span>' +
               '</div>' +
               '<span class="td-student-count">' + (cls.students ? cls.students.length : 0) + ' élève(s)</span>' +
             '</div>' +
@@ -85,8 +88,8 @@ var TeacherDashboard = {
       ? '<p class="td-empty">Aucun élève dans cette classe.</p>'
       : students.map(function(s) {
           return '<div class="td-student-row">' +
-            '<span class="td-student-name">' + (s.profile.displayName || 'Élève') + '</span>' +
-            '<button class="td-view-btn" onclick="TeacherDashboard._viewStudent(\'' + s.uid + '\', \'' + cls.id + '\')">Voir progression →</button>' +
+            '<span class="td-student-name">' + TeacherDashboard._esc(s.profile.displayName || 'Élève') + '</span>' +
+            '<button class="td-view-btn" onclick="TeacherDashboard._viewStudent(\'' + s.uid + '\', \'' + TeacherDashboard._esc(cls.id) + '\')">Voir progression →</button>' +
           '</div>';
         }).join('');
 
@@ -94,8 +97,8 @@ var TeacherDashboard = {
       '<div class="td-container">' +
         '<div class="td-header">' +
           '<button class="td-back-btn" onclick="TeacherDashboard.render(TeacherDashboard._backCode)">← Retour</button>' +
-          '<h1 class="td-title">' + cls.name + '</h1>' +
-          '<span class="td-class-code">Code : ' + cls.id + '</span>' +
+          '<h1 class="td-title">' + TeacherDashboard._esc(cls.name) + '</h1>' +
+          '<span class="td-class-code">Code : ' + TeacherDashboard._esc(cls.id) + '</span>' +
         '</div>' +
         '<div class="td-students">' + studentsHtml + '</div>' +
       '</div>';
@@ -138,8 +141,8 @@ var TeacherDashboard = {
       '<div class="td-container">' +
         '<div class="td-header">' +
           '<button class="td-back-btn" onclick="TeacherDashboard._viewClass(' +
-            TeacherDashboard._classes.findIndex(function(c){ return c.id === classId; }) + ')">← Retour</button>' +
-          '<h1 class="td-title">' + name + '</h1>' +
+            (function(){ var idx = TeacherDashboard._classes.findIndex(function(c){ return c.id === classId; }); return idx >= 0 ? idx : 0; })() + ')">← Retour</button>' +
+          '<h1 class="td-title">' + TeacherDashboard._esc(name) + '</h1>' +
           '<span class="td-streak">🔥 Série : ' + streakVal + ' jours</span>' +
         '</div>' +
         '<div class="td-modules">' + modulesHtml + '</div>' +
