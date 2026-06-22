@@ -4420,3 +4420,154 @@ html.projector-mode .projector-exit-btn { display: flex; align-items: center; ga
   padding: 0;
   line-height: 1;
 }
+
+/* ═══════════════════════════════════════════════════════
+   TEACHER DASHBOARD
+═══════════════════════════════════════════════════════ */
+.td-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem 1.5rem;
+}
+
+.td-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.td-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  flex: 1;
+}
+
+.td-back-btn {
+  background: none;
+  border: 1px solid var(--border, rgba(0,0,0,0.1));
+  border-radius: 8px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: var(--text-muted, #9090b0);
+  transition: all 0.2s;
+}
+
+.td-back-btn:hover {
+  background: var(--bg-card);
+}
+
+.td-create-btn {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.td-create-btn:hover { opacity: 0.9; }
+
+.td-classes, .td-students, .td-modules {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.td-class-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border, rgba(0,0,0,0.1));
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+}
+
+.td-class-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.td-class-name {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  margin: 0 0 0.25rem;
+}
+
+.td-class-code {
+  font-size: 0.8rem;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.td-student-count {
+  font-size: 0.85rem;
+  color: var(--text-muted, #9090b0);
+}
+
+.td-view-btn {
+  background: none;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  border-radius: 8px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.td-view-btn:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+.td-student-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border, rgba(0,0,0,0.1));
+  border-radius: 10px;
+  padding: 0.85rem 1.25rem;
+}
+
+.td-student-name {
+  font-weight: 600;
+}
+
+.td-module-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--border, rgba(0,0,0,0.07));
+  font-size: 0.9rem;
+}
+
+.td-module-name { flex: 1; }
+
+.td-module-score {
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.td-streak {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.td-loading, .td-error, .td-empty {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-muted, #9090b0);
+}
+
+.td-error { color: #ef4444; }
