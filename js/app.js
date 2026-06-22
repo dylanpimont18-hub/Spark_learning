@@ -327,8 +327,8 @@ function render() {
     case 'companion':  app.innerHTML = (typeof renderCompanionHome === 'function' && !state.moduleId) ? renderCompanionHome() : (typeof renderCompanionSession === 'function') ? renderCompanionSession(state.moduleId) : renderCompanionHome(); break;
     case 'flashcards': app.innerHTML = (typeof renderFlashcards === 'function') ? renderFlashcards() : ''; break;
     case 'chrono':     app.innerHTML = (typeof renderChrono === 'function') ? renderChrono() : ''; break;
-    case 'admin':      app.innerHTML = (typeof renderAdminPage === 'function') ? renderAdminPage() : ''; break;
-    case 'teacher':    app.innerHTML = (typeof renderTeacherBuilder === 'function') ? renderTeacherBuilder() : ''; break;
+    case 'admin':      AdminPanel.render(); return;
+    case 'teacher':    TeacherDashboard.render(); return;
     case 'playlist':   app.innerHTML = (typeof renderPlaylistView === 'function') ? renderPlaylistView() : ''; break;
     case 'homework':   app.innerHTML = (typeof renderHomeworkPanel === 'function') ? renderHomeworkPanel() : ''; break;
     default:           app.innerHTML = renderHome();
@@ -1039,22 +1039,121 @@ document.addEventListener('DOMContentLoaded', () => {
   const savedTheme = localStorage.getItem('sparkTheme') || 'light';
   applyTheme(savedTheme);
 
+  // Auth init
+  AuthService.init();
+
+  AuthService.onAuthStateChanged(async function(firebaseUser) {
+    if (!firebaseUser) {
+      SyncService.unwrap();
+      AuthView.render();
+      return;
+    }
+
+    try {
+      await AuthGuard.init();
+    } catch (e) {
+      AuthView.render();
+      return;
+    }
+
+    if (!AuthGuard.isAuthenticated()) {
+      AuthView.render();
+      return;
+    }
+
+    var status = AuthGuard.getStatus();
+    var role = AuthGuard.getRole();
+    var uid = AuthGuard.getCurrentUser().uid;
+
+    if (status === 'pending') {
+      AuthView.renderPending();
+      return;
+    }
+    if (status === 'rejected') {
+      SyncService.unwrap();
+      AuthView.render();
+      return;
+    }
+
+    // Active user
+    SyncService.init(uid);
+
+    if (role === 'admin') {
+      _setupCommonListeners();
+      AdminPanel.render();
+      return;
+    }
+    if (role === 'teacher') {
+      _setupCommonListeners();
+      TeacherDashboard.render();
+      return;
+    }
+
+    // Student — full app
+    _setupStudentApp();
+  });
+});
+
+function _setupCommonListeners() {
+  if (_setupCommonListeners._done) return;
+  _setupCommonListeners._done = true;
+
   document.getElementById('nav-home')?.addEventListener('click', () => navigate('home'));
   document.getElementById('nav-parcours')?.addEventListener('click', () => navigate('subjects'));
-  document.getElementById('nav-teacher')?.addEventListener('click', () => navigate('teacher'));
-  document.getElementById('nav-homework')?.addEventListener('click', () => navigate('homework'));
-  document.getElementById('projector-toggle')?.addEventListener('click', toggleProjector);
-  document.getElementById('global-search-toggle')?.addEventListener('click', toggleGlobalSearchPanel);
-  document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
+  document.getElementById('nav-teacher')?.addEventListener('click', () => {
+    var role = AuthGuard.getRole();
+    if (role === 'admin') AdminPanel.render();
+    else if (role === 'teacher') TeacherDashboard.render();
+  });
   document.getElementById('logo-link')?.addEventListener('click', (e) => {
     e.preventDefault();
-    navigate('home');
+    var role = AuthGuard.getRole();
+    if (role === 'admin') AdminPanel.render();
+    else if (role === 'teacher') TeacherDashboard.render();
+    else navigate('home');
   });
+  document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
+  document.getElementById('projector-toggle')?.addEventListener('click', toggleProjector);
+  document.getElementById('global-search-toggle')?.addEventListener('click', toggleGlobalSearchPanel);
   document.getElementById('scroll-top')?.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
+  document.getElementById('contact-toggle')?.addEventListener('click', toggleContactPanel);
+  document.getElementById('contact-close')?.addEventListener('click', closeContactPanel);
+  document.getElementById('contact-form')?.addEventListener('submit', handleContactSubmit);
+  document.getElementById('global-search-close')?.addEventListener('click', closeGlobalSearchPanel);
+  document.addEventListener('click', (e) => {
+    const panel = document.getElementById('contact-panel');
+    const btn = document.getElementById('contact-toggle');
+    if (panel && panel.classList.contains('open') &&
+        !panel.contains(e.target) && e.target !== btn) {
+      closeContactPanel();
+    }
+  });
+  document.addEventListener('click', (e) => {
+    const panel = document.getElementById('global-search-panel');
+    const toggle = document.getElementById('global-search-toggle');
+    if (!panel || !toggle) return;
+    if (panel.classList.contains('open') && !panel.contains(e.target) && e.target !== toggle) {
+      closeGlobalSearchPanel();
+    }
+  });
 
-  // Event delegation on #app for role="button" and keyword tags
+  var signOutBtn = document.getElementById('nav-signout');
+  if (signOutBtn) {
+    signOutBtn.style.display = 'inline-flex';
+    signOutBtn.addEventListener('click', function() {
+      if (confirm('Se déconnecter ?')) AuthService.signOut();
+    });
+  }
+}
+
+function _setupStudentApp() {
+  _setupCommonListeners();
+
+  document.getElementById('nav-homework')?.addEventListener('click', () => navigate('homework'));
+  document.getElementById('nav-teacher')?.addEventListener('click', () => navigate('teacher'));
+
   const appEl = document.getElementById('app');
   appEl.addEventListener('keydown', (e) => {
     const el = e.target.closest('[role="button"]');
@@ -1070,12 +1169,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Contact panel
-  document.getElementById('contact-toggle')?.addEventListener('click', toggleContactPanel);
-  document.getElementById('contact-close')?.addEventListener('click', closeContactPanel);
-  document.getElementById('contact-form')?.addEventListener('submit', handleContactSubmit);
-
-  // Global search panel
   const globalSearchInput = document.getElementById('global-module-search');
   globalSearchInput?.addEventListener('input', (e) => {
     _renderGlobalSearchResults(e.target.value || '');
@@ -1090,36 +1183,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  document.getElementById('global-search-close')?.addEventListener('click', closeGlobalSearchPanel);
-
-  // Close contact panel on outside click
-  document.addEventListener('click', (e) => {
-    const panel = document.getElementById('contact-panel');
-    const btn = document.getElementById('contact-toggle');
-    if (panel && panel.classList.contains('open') &&
-        !panel.contains(e.target) && e.target !== btn) {
-      closeContactPanel();
-    }
-  });
-
-  document.addEventListener('click', (e) => {
-    const panel = document.getElementById('global-search-panel');
-    const toggle = document.getElementById('global-search-toggle');
-    if (!panel || !toggle) return;
-    if (panel.classList.contains('open') && !panel.contains(e.target) && e.target !== toggle) {
-      closeGlobalSearchPanel();
-    }
-  });
-
   // Restore route from hash
   const route = parseHash(window.location.hash);
   navigate(route.view, route, { skipUrlSync: true });
 
-  // Preload all data in background for home stats and search
+  // Preload all data
   if (typeof ensureAllData === 'function') {
     ensureAllData().then(() => {
-      // Re-render home if we're still on it, so stats appear
       if (state.view === 'home') render();
     }).catch(() => {});
   }
-});
+}
