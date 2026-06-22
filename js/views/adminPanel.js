@@ -20,17 +20,26 @@ var AdminPanel = {
 
   render: async function() {
     document.getElementById('app').innerHTML = '<div class="ap-loading">Chargement...</div>';
-    var results = await Promise.allSettled([
-      AuthService.getAdminStats(),
-      AuthService.getPlatformSettings(),
-      AuthService.getAnnouncement()
-    ]);
-    var stats       = results[0].status === 'fulfilled' ? results[0].value : null;
-    var settings    = results[1].status === 'fulfilled' ? results[1].value : {};
-    var announcement = results[2].status === 'fulfilled' ? results[2].value : null;
+    try {
+      var statsPromise    = (typeof AuthService.getAdminStats === 'function')    ? AuthService.getAdminStats()    : Promise.resolve(null);
+      var settingsPromise = (typeof AuthService.getPlatformSettings === 'function') ? AuthService.getPlatformSettings() : Promise.resolve({});
+      var annPromise      = (typeof AuthService.getAnnouncement === 'function')   ? AuthService.getAnnouncement()  : Promise.resolve(null);
 
-    AdminPanel._renderShell(stats, settings, announcement);
-    AdminPanel._loadTab(AdminPanel._tab);
+      var results = await Promise.allSettled([statsPromise, settingsPromise, annPromise]);
+      var stats       = results[0].status === 'fulfilled' ? results[0].value : null;
+      var settings    = results[1].status === 'fulfilled' ? results[1].value : {};
+      var announcement = results[2].status === 'fulfilled' ? results[2].value : null;
+
+      if (results[0].status === 'rejected') console.error('[AdminPanel] getAdminStats failed:', results[0].reason);
+      if (results[1].status === 'rejected') console.error('[AdminPanel] getPlatformSettings failed:', results[1].reason);
+      if (results[2].status === 'rejected') console.error('[AdminPanel] getAnnouncement failed:', results[2].reason);
+
+      AdminPanel._renderShell(stats, settings, announcement);
+      AdminPanel._loadTab(AdminPanel._tab);
+    } catch(e) {
+      console.error('[AdminPanel] render error:', e);
+      document.getElementById('app').innerHTML = '<div class="ap-container"><div class="ap-error">Erreur de chargement : ' + AdminPanel._esc(e.message || String(e)) + '</div></div>';
+    }
   },
 
   _renderShell: function(stats, settings, announcement) {
