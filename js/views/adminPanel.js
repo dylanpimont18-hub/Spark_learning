@@ -68,8 +68,8 @@ var AdminPanel = {
           '<span class="ap-user-contact">' + contact + '</span>' +
         '</div>' +
         '<div class="ap-user-actions">' +
-          '<button class="ap-approve-btn" onclick="AdminPanel._approve(\'' + u.uid + '\')">✅ Approuver</button>' +
-          '<button class="ap-reject-btn" onclick="AdminPanel._reject(\'' + u.uid + '\')">❌ Refuser</button>' +
+          '<button class="ap-approve-btn" onclick="AdminPanel._approve(\'' + AdminPanel._esc(u.uid) + '\')">✅ Approuver</button>' +
+          '<button class="ap-reject-btn" onclick="AdminPanel._reject(\'' + AdminPanel._esc(u.uid) + '\')">❌ Refuser</button>' +
         '</div>' +
       '</div>';
     }).join('');
@@ -120,8 +120,8 @@ var AdminPanel = {
         '</div>' +
         (u.role !== 'admin'
           ? '<div class="ap-user-actions">' +
-              (u.status !== 'active' ? '<button class="ap-approve-btn" onclick="AdminPanel._setStatus(\'' + u.uid + '\',\'active\')">Activer</button>' : '') +
-              (u.status === 'active' ? '<button class="ap-reject-btn" onclick="AdminPanel._setStatus(\'' + u.uid + '\',\'rejected\')">Désactiver</button>' : '') +
+              (u.status !== 'active' ? '<button class="ap-approve-btn" onclick="AdminPanel._setStatus(\'' + AdminPanel._esc(u.uid) + '\',\'active\')">Activer</button>' : '') +
+              (u.status === 'active' ? '<button class="ap-reject-btn" onclick="AdminPanel._setStatus(\'' + AdminPanel._esc(u.uid) + '\',\'rejected\')">Désactiver</button>' : '') +
             '</div>'
           : '') +
       '</div>';
