@@ -54,5 +54,13 @@ service cloud.firestore {
       allow read: if isAdmin();
       allow write: if isAdmin();
     }
+
+    // ─── assignments (devoirs) ───
+    match /assignments/{assignmentId} {
+      allow read: if isSignedIn();
+      allow create: if isTeacherOrAdmin();
+      allow update: if isAdmin() || (isTeacherOrAdmin() && resource.data.teacherId == request.auth.uid);
+      allow delete: if isAdmin() || (isTeacherOrAdmin() && resource.data.teacherId == request.auth.uid);
+    }
   }
 }
