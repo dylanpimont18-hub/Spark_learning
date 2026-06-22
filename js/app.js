@@ -1111,6 +1111,21 @@ document.addEventListener('DOMContentLoaded', () => {
       AdminPanel.render();
       return;
     }
+
+    // Vérifier le mode maintenance avant d'afficher l'app aux non-admins
+    try {
+      var platformSettings = await AuthService.getPlatformSettings();
+      if (platformSettings && platformSettings.maintenanceMode) {
+        document.getElementById('app').innerHTML =
+          '<div class="maintenance-page">' +
+            '<div class="maintenance-icon">🛠️</div>' +
+            '<h1 class="maintenance-title">Site en maintenance</h1>' +
+            '<p class="maintenance-msg">Spark Learning est temporairement indisponible.<br/>Revenez dans quelques instants !</p>' +
+          '</div>';
+        return;
+      }
+    } catch(e) { /* En cas d'erreur Firestore, on laisse passer */ }
+
     if (role === 'teacher') {
       _setupCommonListeners();
       TeacherDashboard.render();
