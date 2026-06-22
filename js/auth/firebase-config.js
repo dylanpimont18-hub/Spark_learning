@@ -7,7 +7,3 @@ const FIREBASE_CONFIG = {
   appId: "1:94424829172:web:be571db12ebf726a8d62a1"
 };
 
-// Initialiser Firebase si pas déjà fait
-if (!firebase.apps.length) {
-  firebase.initializeApp(FIREBASE_CONFIG);
-}
