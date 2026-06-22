@@ -48,7 +48,8 @@ var AdminPanel = {
         AdminPanel._renderAll(users);
       }
     } catch (e) {
-      content.innerHTML = '<div class="ap-error">Erreur de chargement.</div>';
+      console.error('[AdminPanel] _loadTab error:', e);
+      content.innerHTML = '<div class="ap-error">Erreur : ' + (e.message || e.code || 'inconnue') + '</div>';
     }
   },
 
