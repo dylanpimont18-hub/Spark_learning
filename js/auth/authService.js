@@ -133,6 +133,45 @@ const AuthService = {
     return doc.exists ? doc.data() : null;
   },
 
+  async removeStudentFromClass(studentUid, classCode) {
+    const batch = this._db.batch();
+    batch.update(this._db.collection('users').doc(studentUid), {
+      classes: firebase.firestore.FieldValue.arrayRemove(classCode)
+    });
+    batch.update(this._db.collection('classes').doc(classCode), {
+      students: firebase.firestore.FieldValue.arrayRemove(studentUid)
+    });
+    await batch.commit();
+  },
+
+  async createAssignment(classCode, moduleId, dueDate) {
+    const ref = await this._db.collection('assignments').add({
+      classCode: classCode,
+      moduleId: moduleId,
+      dueDate: dueDate,
+      teacherId: this.getCurrentUser().uid,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    return ref.id;
+  },
+
+  async getClassAssignments(classCode) {
+    const snap = await this._db.collection('assignments')
+      .where('classCode', '==', classCode)
+      .get();
+    return snap.docs
+      .map(function(d) { return Object.assign({ id: d.id }, d.data()); })
+      .sort(function(a, b) {
+        var ta = a.createdAt && a.createdAt.toMillis ? a.createdAt.toMillis() : 0;
+        var tb = b.createdAt && b.createdAt.toMillis ? b.createdAt.toMillis() : 0;
+        return tb - ta;
+      });
+  },
+
+  async deleteAssignment(assignmentId) {
+    await this._db.collection('assignments').doc(assignmentId).delete();
+  },
+
   /* ── Admin ── */
   async getPendingTeachers() {
     const snap = await this._db.collection('users')
