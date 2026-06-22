@@ -122,9 +122,9 @@ const AuthService = {
   async getTeacherClasses(teacherUid) {
     const snap = await this._db.collection('classes')
       .where('teacherId', '==', teacherUid)
-      .orderBy('createdAt', 'desc')
       .get();
-    return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    return snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      .sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
   },
 
   /* ── Firestore : progression élèves ── */
@@ -138,9 +138,9 @@ const AuthService = {
     const snap = await this._db.collection('users')
       .where('role', '==', 'teacher')
       .where('status', '==', 'pending')
-      .orderBy('createdAt', 'desc')
       .get();
-    return snap.docs.map(d => ({ uid: d.id, ...d.data() }));
+    return snap.docs.map(d => ({ uid: d.id, ...d.data() }))
+      .sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
   },
 
   async approveTeacher(uid) {
@@ -157,9 +157,8 @@ const AuthService = {
   },
 
   async getAllUsers() {
-    const snap = await this._db.collection('users')
-      .orderBy('createdAt', 'desc')
-      .get();
-    return snap.docs.map(d => ({ uid: d.id, ...d.data() }));
+    const snap = await this._db.collection('users').get();
+    return snap.docs.map(d => ({ uid: d.id, ...d.data() }))
+      .sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
   }
 };
