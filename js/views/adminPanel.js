@@ -119,8 +119,29 @@ var AdminPanel = {
           '</div>' +
         '</div>' +
 
+        '<div class="ap-settings-group">' +
+          '<div class="ap-settings-group-title">Sécurité</div>' +
+          '<p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:8px;">' +
+            'À exécuter une seule fois après la mise à jour des règles Firestore : ' +
+            'restaure l\'accès des enseignants à la progression de leurs élèves déjà inscrits.' +
+          '</p>' +
+          '<button class="ap-save-btn" onclick="AdminPanel._runBackfillTeacherIds()">Réparer les accès enseignants</button>' +
+        '</div>' +
+
       '</div>' +
     '</div>';
+  },
+
+  _runBackfillTeacherIds: async function() {
+    if (!confirm('Lancer la migration des accès enseignants ? Cette opération est sûre et peut être relancée sans risque.')) return;
+    try {
+      var count = await AuthService.backfillProgressTeacherIds();
+      await AuthService.logAdminAction('teacherIds_backfill', null, count + ' documents mis à jour');
+      showToast('Migration terminée : ' + count + ' élève(s) mis à jour.', 'success');
+    } catch (e) {
+      console.error('[AdminPanel] backfill error:', e);
+      showToast('Erreur lors de la migration.', 'error');
+    }
   },
 
   _toggleSettings: function() {
@@ -342,7 +363,8 @@ var AdminPanel = {
       announcement_set:    '📢 Annonce publiée',
       announcement_cleared:'🗑️ Annonce supprimée',
       settings_saved:      '⚙️ Paramètres modifiés',
-      class_archived:      '📦 Classe archivée'
+      class_archived:      '📦 Classe archivée',
+      teacherIds_backfill: '🔧 Migration accès enseignants'
     };
     content.innerHTML = '<div class="ap-logs-list">' +
       logs.map(function(log) {

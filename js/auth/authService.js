@@ -97,6 +97,14 @@ const AuthService = {
       students: firebase.firestore.FieldValue.arrayUnion(uid)
     });
     await batch.commit();
+
+    // Dénormalise le prof propriétaire sur le doc progress de l'élève,
+    // nécessaire aux règles Firestore pour autoriser la lecture de sa progression.
+    if (cls.teacherId) {
+      await this._db.collection('progress').doc(uid).set({
+        teacherIds: firebase.firestore.FieldValue.arrayUnion(cls.teacherId)
+      }, { merge: true });
+    }
   },
 
   async createClass(teacherUid, className) {
@@ -134,6 +142,7 @@ const AuthService = {
   },
 
   async removeStudentFromClass(studentUid, classCode) {
+    const cls = await this.getClass(classCode);
     const batch = this._db.batch();
     batch.update(this._db.collection('users').doc(studentUid), {
       classes: firebase.firestore.FieldValue.arrayRemove(classCode)
@@ -142,6 +151,18 @@ const AuthService = {
       students: firebase.firestore.FieldValue.arrayRemove(studentUid)
     });
     await batch.commit();
+
+    // Retire le prof de la liste dénormalisée sur le doc progress (perte d'accès à cette progression).
+    // Note : si l'élève reste dans une autre classe du même enseignant, cet enseignant
+    // perdra l'accès à tort — cas limite acceptable tant qu'un enseignant a rarement
+    // plusieurs classes avec le même élève.
+    if (cls && cls.teacherId) {
+      try {
+        await this._db.collection('progress').doc(studentUid).update({
+          teacherIds: firebase.firestore.FieldValue.arrayRemove(cls.teacherId)
+        });
+      } catch (e) { /* le doc progress peut ne pas exister si l'élève n'a rien fait */ }
+    }
   },
 
   async createAssignment(classCode, moduleId, dueDate) {
@@ -170,6 +191,28 @@ const AuthService = {
 
   async deleteAssignment(assignmentId) {
     await this._db.collection('assignments').doc(assignmentId).delete();
+  },
+
+  /* ── Admin : migration ── */
+  // À exécuter une seule fois après déploiement des nouvelles règles Firestore :
+  // reconstruit le champ progress/{uid}.teacherIds pour tous les élèves déjà inscrits
+  // dans une classe (nécessaire pour que les enseignants gardent l'accès à leur progression).
+  async backfillProgressTeacherIds() {
+    const classesSnap = await this._db.collection('classes').get();
+    let updated = 0;
+    for (const doc of classesSnap.docs) {
+      const cls = doc.data();
+      if (!cls.teacherId || !Array.isArray(cls.students) || !cls.students.length) continue;
+      for (const studentUid of cls.students) {
+        try {
+          await this._db.collection('progress').doc(studentUid).set({
+            teacherIds: firebase.firestore.FieldValue.arrayUnion(cls.teacherId)
+          }, { merge: true });
+          updated++;
+        } catch (e) { console.warn('[backfillProgressTeacherIds] échec pour', studentUid, e); }
+      }
+    }
+    return updated;
   },
 
   /* ── Admin ── */

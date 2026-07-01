@@ -23,6 +23,18 @@ service cloud.firestore {
              && getUserData().status == 'active';
     }
 
+    // L'utilisateur courant est-il enseignant propriétaire de cette classe ?
+    function isOwningTeacher(classResource) {
+      return isTeacherOrAdmin() && classResource.data.teacherId == request.auth.uid;
+    }
+
+    // L'utilisateur courant est-il élève inscrit dans cette classe ?
+    function isMemberStudent(classCode) {
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/classes/$(classCode)) &&
+        get(/databases/$(database)/documents/classes/$(classCode)).data.students.hasAny([request.auth.uid]);
+    }
+
     // ─── users ───
     match /users/{uid} {
       allow read: if isOwner(uid) || isAdmin();
@@ -32,15 +44,46 @@ service cloud.firestore {
 
     // ─── classes ───
     match /classes/{classCode} {
-      allow read: if isSignedIn();
+      // Lecture réservée à l'enseignant propriétaire, à l'admin, ou aux élèves inscrits dans CETTE classe
+      // (évite qu'un élève ou un autre enseignant puisse lister tous les effectifs de la plateforme)
+      allow read: if isAdmin() ||
+                     isOwningTeacher(resource) ||
+                     (isSignedIn() && resource.data.students.hasAny([request.auth.uid]));
+
       allow create: if isTeacherOrAdmin();
-      allow update: if isAdmin() || (isTeacherOrAdmin() && resource.data.teacherId == request.auth.uid);
+
+      // L'enseignant propriétaire (ou l'admin) peut tout modifier.
+      // Un élève signé ne peut modifier QUE le champ "students", et uniquement pour s'ajouter
+      // ou se retirer lui-même (auto-inscription via code de classe / auto-désinscription).
+      allow update: if isAdmin() ||
+                       isOwningTeacher(resource) ||
+                       (
+                         isSignedIn() &&
+                         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['students']) &&
+                         (
+                           (request.resource.data.students.removeAll(resource.data.students).hasOnly([request.auth.uid]) &&
+                            resource.data.students.removeAll(request.resource.data.students).size() == 0) ||
+                           (resource.data.students.removeAll(request.resource.data.students).hasOnly([request.auth.uid]) &&
+                            request.resource.data.students.removeAll(resource.data.students).size() == 0)
+                         )
+                       );
     }
 
     // ─── progress ───
     match /progress/{uid} {
-      allow read: if isOwner(uid) || isTeacherOrAdmin();
-      allow write: if isOwner(uid);
+      // Un enseignant ne peut lire la progression d'un élève que si celui-ci fait partie
+      // d'une de ses classes (référencé via le tableau dénormalisé "teacherIds").
+      allow read: if isOwner(uid) || isAdmin() ||
+                     (isTeacherOrAdmin() &&
+                      resource.data.teacherIds is list &&
+                      resource.data.teacherIds.hasAny([request.auth.uid]));
+
+      // L'élève garde le contrôle total de son propre document.
+      // Un enseignant/admin peut uniquement créer/maintenir le champ "teacherIds"
+      // (utilisé lors de l'ajout/retrait d'un élève d'une classe, ou de la migration de backfill).
+      allow write: if isOwner(uid) ||
+                      (isTeacherOrAdmin() &&
+                       request.resource.data.diff(resource.data).affectedKeys().hasOnly(['teacherIds']));
     }
 
     // ─── config (annonces, paramètres plateforme) ───
@@ -58,7 +101,11 @@ service cloud.firestore {
 
     // ─── assignments (devoirs) ───
     match /assignments/{assignmentId} {
-      allow read: if isSignedIn();
+      // Lecture réservée à l'enseignant propriétaire, à l'admin, ou aux élèves de la classe concernée
+      // (empêche un élève de lister les devoirs de toutes les classes de la plateforme).
+      allow read: if isAdmin() ||
+                     (isTeacherOrAdmin() && resource.data.teacherId == request.auth.uid) ||
+                     isMemberStudent(resource.data.classCode);
       allow create: if isTeacherOrAdmin();
       allow update: if isAdmin() || (isTeacherOrAdmin() && resource.data.teacherId == request.auth.uid);
       allow delete: if isAdmin() || (isTeacherOrAdmin() && resource.data.teacherId == request.auth.uid);

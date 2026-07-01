@@ -17,6 +17,9 @@ Système de design complet : variables CSS (`--primary`, `--secondary`, `--accen
 ## firestore.rules
 Règles de sécurité Firestore.
 - `config/{doc}` — lecture publique (invités inclus, pour lire `maintenanceMode`/annonce), écriture réservée admin
+- `classes/{classCode}` — lecture restreinte à l'enseignant propriétaire/admin/élèves inscrits (plus de listing global) ; un élève peut s'auto-ajouter/retirer du champ `students` uniquement
+- `progress/{uid}` — lecture enseignant conditionnée au tableau dénormalisé `teacherIds` (élève dans une de ses classes), au lieu d'un accès enseignant global
+- `assignments/{id}` — lecture restreinte enseignant propriétaire/admin/élèves de la classe concernée (plus de listing global)
 
 ---
 
@@ -208,8 +211,9 @@ Service d'authentification et d'autorisations Firestore.
 - `setTeacherApprovalStatus(uid, isApproved)` — approuve/refuse un enseignant
 - `createClass(teacherUid, className, description)` — crée une classe
 - `getTeacherClasses(teacherUid)` — récupère les classes d'un enseignant
-- `addStudentToClass(studentUid, classCode)` — ajoute un élève à une classe (batch update users + classes)
-- `removeStudentFromClass(studentUid, classCode)` — retire un élève d'une classe (batch update users + classes)
+- `joinClass(uid, classCode)` — ajoute un élève à une classe (batch update users + classes) + dénormalise `progress.teacherIds`
+- `removeStudentFromClass(studentUid, classCode)` — retire un élève d'une classe (batch update users + classes) + retire `progress.teacherIds`
+- `backfillProgressTeacherIds()` — migration one-shot : reconstruit `progress.teacherIds` pour les élèves déjà inscrits (bouton admin)
 - `createAssignment(classCode, moduleId, dueDate)` — crée un devoir dans la collection assignments
 - `getClassAssignments(classCode)` — récupère les devoirs d'une classe, triés par date côté client
 - `deleteAssignment(assignmentId)` — supprime un devoir
@@ -235,6 +239,7 @@ Panneau d'administration : gestion des enseignants en attente et comptes utilisa
 - `AdminPanel._renderAll(users)` — rendu tous les comptes avec barre de recherche et filtrage
 - `AdminPanel._approve(uid)` / `_reject(uid)` — approuve/refuse un enseignant
 - `AdminPanel._setStatus(uid, status)` — modifie le statut d'un utilisateur
+- `AdminPanel._runBackfillTeacherIds()` — lance la migration `progress.teacherIds` (à exécuter une fois après déploiement des règles)
 
 ## js/views/teacherDashboard.js
 Tableau de bord enseignant : classes, élèves, progression, devoirs, grading.
@@ -252,6 +257,7 @@ Panneau de notation enseignant : tableau comparatif élèves × modules + export
 - `GradingPanel.render({ cls, students, progressMap, backIndex })` — point d'entrée, reçoit les données de TeacherDashboard (pas de double requête Firestore)
 - `GradingPanel._renderGradeTable()` — tableau de saisie /20 + appréciation pour le module sélectionné
 - `GradingPanel._exportCSV()` — génère et télécharge le CSV via Blob + URL.createObjectURL
+- `GradingPanel._csvSafe(value)` — neutralise l'injection de formule CSV (préfixe `'` si valeur commence par `=+-@`)
 
 ---
 

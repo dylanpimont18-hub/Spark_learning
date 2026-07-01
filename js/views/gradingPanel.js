@@ -118,6 +118,13 @@ var GradingPanel = {
     '</table>';
   },
 
+  // Neutralise l'injection de formule CSV (Excel/LibreOffice) : si une valeur
+  // commence par =, +, - ou @, elle serait interprétée comme une formule à l'ouverture.
+  _csvSafe: function(value) {
+    var str = String(value == null ? '' : value);
+    return /^[=+\-@]/.test(str) ? "'" + str : str;
+  },
+
   _exportCSV: function() {
     var students = GradingPanel._students;
     var lines = ['Nom;Note;Appreciation'];
@@ -126,8 +133,8 @@ var GradingPanel = {
       var noteEl = document.getElementById('gp-note-' + safeUid);
       var appEl = document.getElementById('gp-app-' + safeUid);
       var note = noteEl ? noteEl.value : '';
-      var app = appEl ? appEl.value.replace(/;/g, ',') : '';
-      var name = (s.profile.displayName || 'Élève').replace(/;/g, ',');
+      var app = GradingPanel._csvSafe((appEl ? appEl.value : '').replace(/;/g, ','));
+      var name = GradingPanel._csvSafe((s.profile.displayName || 'Élève').replace(/;/g, ','));
       lines.push(name + ';' + note + ';' + app);
     });
     var csvContent = lines.join('\n');
