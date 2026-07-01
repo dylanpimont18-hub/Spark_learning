@@ -317,6 +317,21 @@ const AuthService = {
     await this._db.collection('config').doc('settings').set(data, { merge: true });
   },
 
+  /* ── Admin : verrouillage/maintenance des modules (source de vérité serveur) ── */
+  async getModuleAccess() {
+    const doc = await this._db.collection('config').doc('moduleAccess').get();
+    return doc.exists ? (doc.data().statuses || {}) : {};
+  },
+
+  async saveModuleAccess(statuses) {
+    const user = this.getCurrentUser();
+    await this._db.collection('config').doc('moduleAccess').set({
+      statuses: statuses,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      updatedBy: user ? user.uid : null
+    });
+  },
+
   /* ── Admin : audit log ── */
   async logAdminAction(action, targetUid, details) {
     const user = this.getCurrentUser();

@@ -39,9 +39,11 @@ Routeur hash SPA, init, KaTeX, confetti.
 - `renderMath()` — déclenche KaTeX sur `#app`
 - `createConfetti()` — animation confetti de succès
 - `showToast(msg, type)` — notification toast
-- `_checkMaintenance()` — lit `config/settings.maintenanceMode`, affiche la page maintenance si actif (invités + comptes non-admin)
+- `_checkMaintenance()` — lit `config/settings.maintenanceMode`, affiche la page maintenance si actif (invités + comptes non-admin) ; fail-open assumé si Firestore inaccessible
+- `_syncModuleAccess()` — lit `config/moduleAccess.statuses` (Firestore, source de vérité) et remplace `state.moduleAccess` + le cache local `Storage`, pour que le verrouillage/maintenance décidé par un admin s'applique à tous les utilisateurs
+- `setSubjectAccessMode(subjectId, mode)` / `setModuleAccessMode(moduleId, mode)` — admin : met à jour `Storage` puis pousse la carte complète vers `AuthService.saveModuleAccess()`
 - `_setupCommonListeners()` — bind nav globale ; recalcule à chaque appel la visibilité `nav-teacher`/`nav-homework`/`nav-signout`/`nav-login` selon `AuthGuard.isAuthenticated()`
-- Mode invité : `onAuthStateChanged` sans `firebaseUser` → `AuthGuard.reset()` + `_checkMaintenance()` + `_setupStudentApp()` (accès direct au contenu sans connexion)
+- Mode invité : `onAuthStateChanged` sans `firebaseUser` → `AuthGuard.reset()` + `_checkMaintenance()` + `_syncModuleAccess()` + `_setupStudentApp()` (accès direct au contenu sans connexion)
 
 ## js/loader.js
 Lazy loading des fichiers de données par niveau/matière.
@@ -54,6 +56,8 @@ Centralise toute la persistance localStorage.
 - `Storage.getStreak()` / `updateStreak()` — suivi des séries journalières
 - `Storage.getFlashcards()` / `saveFlashcard()` — état des flashcards
 - `Storage.getRecent()` / `addRecent(moduleId)` — modules récemment visités
+- `Storage.getModuleStatuses()` / `setModuleStatus(id, patch)` / `resetModuleStatus(id)` — cache local verrouillage/maintenance par module
+- `Storage.setAllModuleStatuses(all)` — remplace tout le cache local par la carte reçue de Firestore (`config/moduleAccess`)
 
 ---
 
@@ -217,10 +221,12 @@ Service d'authentification et d'autorisations Firestore.
 - `createAssignment(classCode, moduleId, dueDate)` — crée un devoir dans la collection assignments
 - `getClassAssignments(classCode)` — récupère les devoirs d'une classe, triés par date côté client
 - `deleteAssignment(assignmentId)` — supprime un devoir
+- `getPlatformSettings()` / `savePlatformSettings(data)` — lit/écrit `config/settings` (dont `maintenanceMode`)
+- `getModuleAccess()` / `saveModuleAccess(statuses)` — lit/écrit `config/moduleAccess.statuses` (verrouillage/maintenance par module, lecture publique, écriture admin) : rend le verrouillage admin effectif pour tous les utilisateurs
 
 ## js/auth/authGuard.js
 Vérifie l'état Firebase auth avant d'afficher l'app (profil, rôle, statut).
-- `AuthGuard.init()` — souscrit à l'auth Firebase, charge le profil utilisateur
+- `AuthGuard.init(user)` — reçoit l'utilisateur Firebase déjà résolu par l'unique listener global de `js/app.js`, charge le profil Firestore une fois ; NE s'abonne PAS lui-même à `onAuthStateChanged` (évite l'empilement de listeners imbriqués à chaque rafraîchissement de token)
 - `AuthGuard.reset()` — efface `_currentUser`/`_currentProfile` (utilisé au retour en mode invité)
 - `AuthGuard.isAuthenticated() / getRole() / getStatus()` — accesseurs d'état
 

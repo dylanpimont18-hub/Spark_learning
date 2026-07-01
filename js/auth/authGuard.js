@@ -7,21 +7,18 @@ var AuthGuard = {
   _currentUser: null,
   _currentProfile: null,
 
-  init: function() {
-    var self = this;
-    return new Promise(function(resolve) {
-      AuthService.onAuthStateChanged(async function(user) {
-        if (user) {
-          self._currentUser = user;
-          self._currentProfile = await AuthService.getUserProfile(user.uid);
-          resolve(self._currentProfile);
-        } else {
-          self._currentUser = null;
-          self._currentProfile = null;
-          resolve(null);
-        }
-      });
-    });
+  // Reçoit l'utilisateur Firebase déjà résolu par l'unique listener global (js/app.js) —
+  // ne doit JAMAIS s'abonner lui-même à onAuthStateChanged, sinon chaque changement d'état
+  // (y compris les rafraîchissements de token) empile un nouveau listener imbriqué non nettoyé.
+  init: async function(user) {
+    if (user) {
+      this._currentUser = user;
+      this._currentProfile = await AuthService.getUserProfile(user.uid);
+      return this._currentProfile;
+    }
+    this._currentUser = null;
+    this._currentProfile = null;
+    return null;
   },
 
   reset: function() { this._currentUser = null; this._currentProfile = null; },

@@ -214,6 +214,11 @@ const Storage = {
     this._set(this.KEYS.MODULE_STATUS, all);
   },
 
+  // Remplace le cache local par la carte de statuts reçue du serveur (Firestore = source de vérité)
+  setAllModuleStatuses(all) {
+    this._set(this.KEYS.MODULE_STATUS, all || {});
+  },
+
   /* ══════════════════════════════════════
      EXERCICE STREAK (premier coup consécutifs)
   ══════════════════════════════════════ */

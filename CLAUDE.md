@@ -8,7 +8,7 @@
   - État/State : Uniquement dans `js/state.js` (objet `state` unique).
   - Logique métiers/moteurs : `js/engines/` (10 fichiers : quizEngine, exerciceEngine, companionEngine...).
   - Routage/Events : `js/app.js` (Hash routing `#view/data`).
-- **Gotcha** : Ne jamais utiliser `export`/`import` dans `js/engines/` ou `js/data/` — pas de bundler. `progressionEngine.js` utilise `export default` et est actuellement inaccessible.
+- **Gotcha** : Ne jamais utiliser `export`/`import` dans `js/engines/` ou `js/data/` — pas de bundler.
 - **Styling** : Utiliser exclusivement les variables CSS de `css/styles.css` (ex: `var(--primary)`). Ne jamais hardcoder de couleurs.
 
 ## 2. Règles de création de contenu (Modules)

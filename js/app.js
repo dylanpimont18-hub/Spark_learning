@@ -103,12 +103,6 @@ function parseHash(hash) {
   }
 }
 
-function parsePathRoute(pathname) {
-  const clean = (pathname || '').replace(/\/+$/, '') || '/';
-  if (clean === '/admin') return { view: 'admin' };
-  return null;
-}
-
 /* ── Navigate ── */
 let _navSequence = 0; // prevents stale async renders
 
@@ -862,6 +856,7 @@ function setSubjectAccessMode(subjectId, mode) {
     else if (mode === 'maintenance') Storage.setModuleStatus(m.id, { locked: false, maintenance: true });
   });
   state.moduleAccess = Storage.getModuleStatuses();
+  AuthService.saveModuleAccess(state.moduleAccess).catch(e => console.warn('[moduleAccess] push failed:', e));
   const subjectLabel = { maths: 'Mathématiques', physique: 'Physique-Chimie', si: 'Sciences de l\'Ingénieur' }[subjectId] || subjectId;
   const modeLabel = { open: 'activée', locked: 'verrouillée', maintenance: 'en maintenance' }[mode] || mode;
   showToast(`Matière « ${subjectLabel} » ${modeLabel} (${modules.length} modules)`, 'info');
@@ -875,6 +870,7 @@ function setModuleAccessMode(moduleId, mode) {
   else if (mode === 'maintenance') Storage.setModuleStatus(moduleId, { locked: false, maintenance: true });
 
   state.moduleAccess = Storage.getModuleStatuses();
+  AuthService.saveModuleAccess(state.moduleAccess).catch(e => console.warn('[moduleAccess] push failed:', e));
 
   // If current module becomes unavailable, bounce user back to modules list
   if (state.view === 'module' && state.moduleId === moduleId && isModuleUnavailable(moduleId)) {
@@ -1076,12 +1072,13 @@ document.addEventListener('DOMContentLoaded', () => {
       SyncService.unwrap();
       AuthGuard.reset();
       if (await _checkMaintenance()) return;
+      await _syncModuleAccess();
       _setupStudentApp();
       return;
     }
 
     try {
-      await AuthGuard.init();
+      await AuthGuard.init(firebaseUser);
     } catch (e) {
       AuthView.render();
       return;
@@ -1108,6 +1105,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Active user
     SyncService.init(uid);
+    await _syncModuleAccess();
 
     // Charger et afficher l'annonce globale si présente
     AuthService.getAnnouncement().then(function(ann) {
@@ -1134,6 +1132,17 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+// Récupère l'état verrouillage/maintenance des modules depuis Firestore (source de vérité serveur),
+// nécessaire pour que le verrouillage décidé par un admin s'applique aux autres utilisateurs
+// (auparavant stocké uniquement dans le localStorage de l'admin, donc jamais vu par les élèves).
+async function _syncModuleAccess() {
+  try {
+    var remote = await AuthService.getModuleAccess();
+    Storage.setAllModuleStatuses(remote);
+    state.moduleAccess = remote;
+  } catch (e) { /* en cas d'erreur, on garde le cache local existant */ }
+}
+
 async function _checkMaintenance() {
   try {
     var platformSettings = await AuthService.getPlatformSettings();
@@ -1146,7 +1155,9 @@ async function _checkMaintenance() {
         '</div>';
       return true;
     }
-  } catch (e) { /* En cas d'erreur Firestore, on laisse passer */ }
+  } catch (e) { /* Fail-open assumé : en cas d'erreur Firestore (offline, quota...), on privilégie la
+                   disponibilité de l'app plutôt que de bloquer tous les utilisateurs sur une panne
+                   du contrôle de maintenance lui-même. */ }
   return false;
 }
 
