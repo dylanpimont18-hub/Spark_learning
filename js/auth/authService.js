@@ -307,6 +307,17 @@ const AuthService = {
     await this._db.collection('config').doc('announcement').delete();
   },
 
+  // Écoute en temps réel : dès que l'admin publie/dépublie, tous les utilisateurs déjà
+  // sur l'app (invités compris) voient l'annonce apparaître/disparaître sans recharger.
+  // Retourne la fonction unsubscribe (à appeler avant de re-souscrire, pour ne jamais empiler
+  // plusieurs listeners — cf. bug d'AuthGuard corrigé précédemment).
+  watchAnnouncement(callback) {
+    return this._db.collection('config').doc('announcement').onSnapshot(
+      function(doc) { callback(doc.exists ? doc.data() : null); },
+      function(e) { console.warn('[AuthService] watchAnnouncement error:', e); }
+    );
+  },
+
   /* ── Admin : paramètres plateforme ── */
   async getPlatformSettings() {
     const doc = await this._db.collection('config').doc('settings').get();

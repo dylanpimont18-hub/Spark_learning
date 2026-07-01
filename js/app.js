@@ -472,6 +472,7 @@ function showAnnouncementBanner(text) {
     banner = document.createElement('div');
     banner.id = 'announcement-banner';
     banner.className = 'ap-announcement-banner';
+    banner.innerHTML = '<div class="ap-announcement-track"><span class="ap-announcement-text"></span></div>';
     var header = document.getElementById('site-header');
     if (header && header.parentNode) {
       header.parentNode.insertBefore(banner, header.nextSibling);
@@ -479,8 +480,23 @@ function showAnnouncementBanner(text) {
       document.body.insertBefore(banner, document.body.firstChild);
     }
   }
-  banner.textContent = text;
+
+  var track = banner.querySelector('.ap-announcement-track');
+  var textEl = banner.querySelector('.ap-announcement-text');
+  textEl.textContent = text;
   banner.style.display = 'block';
+
+  // Défilement horizontal uniquement si le texte ne tient pas sur une ligne
+  track.classList.remove('ap-scrolling');
+  track.style.animationDuration = '';
+  requestAnimationFrame(function() {
+    if (textEl.scrollWidth > banner.clientWidth) {
+      var speedPxPerSec = 70;
+      var duration = (textEl.scrollWidth + banner.clientWidth) / speedPxPerSec;
+      track.style.animationDuration = duration + 's';
+      track.classList.add('ap-scrolling');
+    }
+  });
 }
 
 function hideAnnouncementBanner() {
@@ -1073,6 +1089,7 @@ document.addEventListener('DOMContentLoaded', () => {
       AuthGuard.reset();
       if (await _checkMaintenance()) return;
       await _syncModuleAccess();
+      _watchAnnouncement();
       _setupStudentApp();
       return;
     }
@@ -1106,11 +1123,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Active user
     SyncService.init(uid);
     await _syncModuleAccess();
-
-    // Charger et afficher l'annonce globale si présente
-    AuthService.getAnnouncement().then(function(ann) {
-      if (ann && ann.text) showAnnouncementBanner(ann.text);
-    }).catch(function() {});
+    _watchAnnouncement();
 
     if (role === 'admin') {
       _setupCommonListeners();
@@ -1141,6 +1154,17 @@ async function _syncModuleAccess() {
     Storage.setAllModuleStatuses(remote);
     state.moduleAccess = remote;
   } catch (e) { /* en cas d'erreur, on garde le cache local existant */ }
+}
+
+// Écoute Firestore en temps réel : la bannière apparaît/disparaît pour tout le monde
+// (invités compris) dès qu'un admin publie/dépublie, sans attendre un rechargement.
+var _announcementUnsub = null;
+function _watchAnnouncement() {
+  if (_announcementUnsub) { _announcementUnsub(); _announcementUnsub = null; }
+  _announcementUnsub = AuthService.watchAnnouncement(function(ann) {
+    if (ann && ann.text) showAnnouncementBanner(ann.text);
+    else hideAnnouncementBanner();
+  });
 }
 
 async function _checkMaintenance() {

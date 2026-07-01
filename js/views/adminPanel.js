@@ -162,6 +162,7 @@ var AdminPanel = {
       await AuthService.logAdminAction('announcement_set', null, text.substring(0, 100));
       if (typeof showAnnouncementBanner === 'function') showAnnouncementBanner(text);
       showToast('Annonce publiée.', 'success');
+      AdminPanel.render();
     } catch(e) {
       showToast('Erreur lors de la publication.', 'error');
     }
