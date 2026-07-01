@@ -4220,6 +4220,7 @@ html.projector-mode .projector-exit-btn { display: flex; align-items: center; ga
 }
 
 .auth-card {
+  position: relative;
   background: var(--bg-card, #1a1a2e);
   border: 1px solid var(--border, rgba(255,255,255,0.1));
   border-radius: 20px;
@@ -4227,6 +4228,19 @@ html.projector-mode .projector-exit-btn { display: flex; align-items: center; ga
   max-width: 480px;
   width: 100%;
   box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+
+.auth-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--text-muted, inherit);
+  padding: 0.25rem;
 }
 
 .auth-logo {

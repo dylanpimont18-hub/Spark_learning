@@ -44,8 +44,9 @@ service cloud.firestore {
     }
 
     // ─── config (annonces, paramètres plateforme) ───
+    // Lecture publique (nécessaire pour vérifier le mode maintenance côté invité, avant connexion)
     match /config/{doc} {
-      allow read: if isSignedIn();
+      allow read: if true;
       allow write: if isAdmin();
     }
 

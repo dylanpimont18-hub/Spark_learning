@@ -7,10 +7,16 @@ SPA Vanilla JS sans bundler. Chargement des scripts via `index.html` (ordre crit
 ## index.html
 Point d'entrée unique. Déclare l'ordre de chargement de tous les scripts.
 - Chargement : `<script src="...">` dans l'ordre exact requis (Firebase → authService → views (authView, teacherDashboard, adminPanel) → sync → data → engines → components → app)
+- `#nav-login` — bouton nav (masqué par défaut), affiché en mode invité pour ouvrir `AuthView`
 
 ## css/styles.css
 Système de design complet : variables CSS (`--primary`, `--secondary`, `--accent`, `--error`, `--space-*`), thèmes, composants UI.
 - `.ap-*` classes pour AdminPanel (conteneur, header, tabs, search, cartes utilisateurs, boutons actions)
+- `.auth-close` — bouton ✕ sur `.auth-card` pour fermer l'écran de connexion et revenir au mode invité
+
+## firestore.rules
+Règles de sécurité Firestore.
+- `config/{doc}` — lecture publique (invités inclus, pour lire `maintenanceMode`/annonce), écriture réservée admin
 
 ---
 
@@ -26,9 +32,13 @@ Système de design complet : variables CSS (`--primary`, `--secondary`, `--accen
 Routeur hash SPA, init, KaTeX, confetti.
 - `buildHash(view, data)` — construit un hash `#view/data`
 - `navigateTo(view, data)` — change la vue active via hash
+- `navigate(view, data, options)` — redirige vers `home` les vues `teacher`/`homework`/`admin` si invité (pas de compte)
 - `renderMath()` — déclenche KaTeX sur `#app`
 - `createConfetti()` — animation confetti de succès
 - `showToast(msg, type)` — notification toast
+- `_checkMaintenance()` — lit `config/settings.maintenanceMode`, affiche la page maintenance si actif (invités + comptes non-admin)
+- `_setupCommonListeners()` — bind nav globale ; recalcule à chaque appel la visibilité `nav-teacher`/`nav-homework`/`nav-signout`/`nav-login` selon `AuthGuard.isAuthenticated()`
+- Mode invité : `onAuthStateChanged` sans `firebaseUser` → `AuthGuard.reset()` + `_checkMaintenance()` + `_setupStudentApp()` (accès direct au contenu sans connexion)
 
 ## js/loader.js
 Lazy loading des fichiers de données par niveau/matière.
@@ -203,6 +213,18 @@ Service d'authentification et d'autorisations Firestore.
 - `createAssignment(classCode, moduleId, dueDate)` — crée un devoir dans la collection assignments
 - `getClassAssignments(classCode)` — récupère les devoirs d'une classe, triés par date côté client
 - `deleteAssignment(assignmentId)` — supprime un devoir
+
+## js/auth/authGuard.js
+Vérifie l'état Firebase auth avant d'afficher l'app (profil, rôle, statut).
+- `AuthGuard.init()` — souscrit à l'auth Firebase, charge le profil utilisateur
+- `AuthGuard.reset()` — efface `_currentUser`/`_currentProfile` (utilisé au retour en mode invité)
+- `AuthGuard.isAuthenticated() / getRole() / getStatus()` — accesseurs d'état
+
+## js/views/authView.js
+Pages Inscription / Connexion (overlay plein `#app`, header/nav restent visibles).
+- `AuthView.render(fromGuest)` — affiche l'écran de connexion ; si `fromGuest`, ajoute un bouton `.auth-close` (✕)
+- `AuthView._closeToGuest()` — ferme l'écran de connexion et revient à l'accueil en mode invité (`navigate('home')`)
+- `AuthView.renderPending()` — écran d'attente de validation enseignant
 
 ## js/views/adminPanel.js
 Panneau d'administration : gestion des enseignants en attente et comptes utilisateurs.

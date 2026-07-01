@@ -10,11 +10,12 @@ var AuthView = {
   _selectedMethod: 'phone',
   _joinedClasses: [],
 
-  render: function() {
+  render: function(fromGuest) {
     var app = document.getElementById('app');
     app.innerHTML =
       '<div class="auth-overlay">' +
         '<div class="auth-card">' +
+          (fromGuest ? '<button class="auth-close" aria-label="Continuer sans compte" title="Continuer sans compte" onclick="AuthView._closeToGuest()">✕</button>' : '') +
           '<img src="images/Logo_noir.jpeg" alt="Spark Learning" class="auth-logo" />' +
           '<h1 class="auth-title">Spark Learning</h1>' +
           '<div class="auth-tabs">' +
@@ -43,6 +44,10 @@ var AuthView = {
           '</div>' +
         '</div>' +
       '</div>';
+  },
+
+  _closeToGuest: function() {
+    navigate('home');
   },
 
   _switchTab: function(tab) {

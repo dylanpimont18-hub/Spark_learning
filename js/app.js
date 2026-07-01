@@ -141,6 +141,12 @@ function navigate(view, data = {}, options = {}) {
     hideBatchToolbar();
   }
 
+  // Vues réservées aux comptes (classe/prof) : inaccessibles en mode invité, même par hash direct
+  if ((view === 'teacher' || view === 'homework' || view === 'admin') &&
+      typeof AuthGuard !== 'undefined' && !AuthGuard.isAuthenticated()) {
+    view = 'home';
+  }
+
   state.view = view;
   if (data.subject !== undefined) state.subject = data.subject;
   if (data.level !== undefined) state.level = data.level;
@@ -1068,7 +1074,9 @@ document.addEventListener('DOMContentLoaded', () => {
   AuthService.onAuthStateChanged(async function(firebaseUser) {
     if (!firebaseUser) {
       SyncService.unwrap();
-      AuthView.render();
+      AuthGuard.reset();
+      if (await _checkMaintenance()) return;
+      _setupStudentApp();
       return;
     }
 
@@ -1113,18 +1121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Vérifier le mode maintenance avant d'afficher l'app aux non-admins
-    try {
-      var platformSettings = await AuthService.getPlatformSettings();
-      if (platformSettings && platformSettings.maintenanceMode) {
-        document.getElementById('app').innerHTML =
-          '<div class="maintenance-page">' +
-            '<div class="maintenance-icon">🛠️</div>' +
-            '<h1 class="maintenance-title">Site en maintenance</h1>' +
-            '<p class="maintenance-msg">Spark Learning est temporairement indisponible.<br/>Revenez dans quelques instants !</p>' +
-          '</div>';
-        return;
-      }
-    } catch(e) { /* En cas d'erreur Firestore, on laisse passer */ }
+    if (await _checkMaintenance()) return;
 
     if (role === 'teacher') {
       _setupCommonListeners();
@@ -1137,7 +1134,34 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+async function _checkMaintenance() {
+  try {
+    var platformSettings = await AuthService.getPlatformSettings();
+    if (platformSettings && platformSettings.maintenanceMode) {
+      document.getElementById('app').innerHTML =
+        '<div class="maintenance-page">' +
+          '<div class="maintenance-icon">🛠️</div>' +
+          '<h1 class="maintenance-title">Site en maintenance</h1>' +
+          '<p class="maintenance-msg">Spark Learning est temporairement indisponible.<br/>Revenez dans quelques instants !</p>' +
+        '</div>';
+      return true;
+    }
+  } catch (e) { /* En cas d'erreur Firestore, on laisse passer */ }
+  return false;
+}
+
 function _setupCommonListeners() {
+  // Visibilité nav selon le statut invité/connecté (recalculée à chaque appel)
+  var isGuest = !AuthGuard.isAuthenticated();
+  var teacherNav = document.getElementById('nav-teacher');
+  if (teacherNav) teacherNav.style.display = isGuest ? 'none' : '';
+  var homeworkNav = document.getElementById('nav-homework');
+  if (homeworkNav) homeworkNav.style.display = isGuest ? 'none' : '';
+  var signOutBtn = document.getElementById('nav-signout');
+  if (signOutBtn) signOutBtn.style.display = isGuest ? 'none' : 'inline-flex';
+  var loginBtn = document.getElementById('nav-login');
+  if (loginBtn) loginBtn.style.display = isGuest ? 'inline-flex' : 'none';
+
   if (_setupCommonListeners._done) return;
   _setupCommonListeners._done = true;
 
@@ -1149,6 +1173,7 @@ function _setupCommonListeners() {
     else if (role === 'teacher') TeacherDashboard.render();
     else navigate('teacher');
   });
+  loginBtn?.addEventListener('click', () => AuthView.render(true));
   document.getElementById('logo-link')?.addEventListener('click', (e) => {
     e.preventDefault();
     var role = AuthGuard.getRole();
@@ -1183,13 +1208,9 @@ function _setupCommonListeners() {
     }
   });
 
-  var signOutBtn = document.getElementById('nav-signout');
-  if (signOutBtn) {
-    signOutBtn.style.display = 'inline-flex';
-    signOutBtn.addEventListener('click', function() {
-      if (confirm('Se déconnecter ?')) AuthService.signOut();
-    });
-  }
+  signOutBtn?.addEventListener('click', function() {
+    if (confirm('Se déconnecter ?')) AuthService.signOut();
+  });
 }
 
 function _setupStudentApp() {

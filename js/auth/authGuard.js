@@ -24,6 +24,8 @@ var AuthGuard = {
     });
   },
 
+  reset: function() { this._currentUser = null; this._currentProfile = null; },
+
   getCurrentUser:    function() { return this._currentUser; },
   getCurrentProfile: function() { return this._currentProfile; },
   getRole:   function() { return this._currentProfile ? this._currentProfile.role : null; },
