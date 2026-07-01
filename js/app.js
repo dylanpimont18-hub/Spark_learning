@@ -334,6 +334,7 @@ function render() {
     default:           app.innerHTML = renderHome();
   }
   renderMath();
+  if (typeof initAdSlots === 'function') initAdSlots();
   updateNavActive();
   if (state.view === 'modules') _applyModuleFilters();
 }

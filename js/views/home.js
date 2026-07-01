@@ -163,6 +163,7 @@ function renderSubjects() {
 					`;
 				}).join('')}
 			</div>
+			${renderAdSlot('liste des matières — bas de grille', 'subjects')}
 		</div>
 	`;
 }
@@ -275,6 +276,8 @@ function renderHome() {
 				</div>
 			</div>
 		</section>
+
+		${renderAdSlot('accueil — entre "Pourquoi" et "Comment ça marche"', 'home')}
 
 		<section class="section">
 			<div class="container">
@@ -711,12 +714,14 @@ function renderModulesList() {
 								${coreModules.map(_renderCard).join('')}
 							` : ''}
 						</div>
+				${renderAdSlot('liste des modules — bas de grille (parcours prérequis)', 'modules')}
 					`;
 				}
 				return `
 					<div class="modules-grid" id="modules-grid">
 						${modules.map(_renderCard).join('')}
 					</div>
+				${renderAdSlot('liste des modules — bas de grille', 'modules')}
 				`;
 			})()}
 		</div>

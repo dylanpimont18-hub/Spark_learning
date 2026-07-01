@@ -13,6 +13,10 @@ Point d'entrée unique. Déclare l'ordre de chargement de tous les scripts.
 Système de design complet : variables CSS (`--primary`, `--secondary`, `--accent`, `--error`, `--space-*`), thèmes, composants UI.
 - `.ap-*` classes pour AdminPanel (conteneur, header, tabs, search, cartes utilisateurs, boutons actions)
 - `.auth-close` — bouton ✕ sur `.auth-card` pour fermer l'écran de connexion et revenir au mode invité
+- `.ad-slot-placeholder` — cadre pointillé pour les emplacements publicitaires (placeholder, pas de pub réelle encore)
+
+## ads.txt
+Fichier de vérification standard IAB pour Google AdSense (`google.com, pub-5320273649803132, DIRECT, ...`).
 
 ## firestore.rules
 Règles de sécurité Firestore.
@@ -37,6 +41,7 @@ Routeur hash SPA, init, KaTeX, confetti.
 - `navigateTo(view, data)` — change la vue active via hash
 - `navigate(view, data, options)` — redirige vers `home` les vues `teacher`/`homework`/`admin` si invité (pas de compte)
 - `renderMath()` — déclenche KaTeX sur `#app`
+- Appelle `initAdSlots()` (voir `js/components/adSlot.js`) après chaque rendu de vue dans le dispatcher `render()`
 - `createConfetti()` — animation confetti de succès
 - `showToast(msg, type)` — notification toast
 - `_checkMaintenance()` — lit `config/settings.maintenanceMode`, affiche la page maintenance si actif (invités + comptes non-admin) ; fail-open assumé si Firestore inaccessible
@@ -174,6 +179,17 @@ Moteur Spark Companion : remédiation, rattrapage, CCF.
 
 ---
 
+## js/adsConfig.js
+Point unique de contrôle des emplacements publicitaires AdSense.
+- `ADS_ENABLED` — tant qu'à `false`, tous les emplacements restent en placeholder visuel (aucun ad unit réel créé côté AdSense)
+- `ADSENSE_CLIENT` — identifiant éditeur (`ca-pub-...`)
+- `AD_SLOTS` — map `{ home, subjects, modules } → data-ad-slot`, à renseigner quand les ad units seront créés dans le dashboard AdSense
+
+## js/components/adSlot.js
+Emplacement publicitaire : placeholder visuel tant qu'`ADS_ENABLED` est à `false`, sinon vrai bloc `<ins class="adsbygoogle">`.
+- `renderAdSlot(placement, slotKey)` — rend le placeholder ou l'ad unit réel selon `js/adsConfig.js`, utilisé uniquement sur les pages de navigation (accueil, matières, modules) — jamais dans les onglets d'apprentissage actif d'un module
+- `initAdSlots()` — pousse les nouveaux `<ins class="adsbygoogle">` injectés dans le DOM vers `adsbygoogle.push({})` ; appelée depuis `js/app.js` après chaque rendu de vue ; sans effet tant qu'`ADS_ENABLED` est à `false`
+
 ## js/components/moduleTabs.js
 Rendu des onglets d'un module (cours / quiz / exercice / problème / évaluation / flashcards).
 - `renderTabContent()` — sélectionne et rend l'onglet actif
@@ -205,6 +221,7 @@ Vues globales : accueil, liste matières, niveaux, modules, détail module.
 - `renderLevels()` — niveaux d'une matière
 - `renderModules()` — grille des modules d'un niveau
 - `renderModule(moduleId)` — page détail d'un module
+- `renderHome()`, `renderSubjects()`, `renderModulesList()` — incluent chacune un `renderAdSlot(...)` (voir `js/components/adSlot.js`) en bas de section ; jamais dans les onglets d'apprentissage actif
 - `renderAssignmentWidget()` — async, injecte l'encart "Devoir en cours" pour l'élève connecté à une classe
 
 ## js/auth/authService.js
