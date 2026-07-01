@@ -9,6 +9,7 @@
   - Logique métiers/moteurs : `js/engines/` (10 fichiers : quizEngine, exerciceEngine, companionEngine...).
   - Routage/Events : `js/app.js` (Hash routing `#view/data`).
 - **Gotcha** : Ne jamais utiliser `export`/`import` dans `js/engines/` ou `js/data/` — pas de bundler.
+- **Cache-busting** : les balises `<script>`/`<link>` locales dans `index.html` portent un suffixe `?v=N` (ex: `js/app.js?v=2`). Sans bundler, un déploiement ne suffit pas à faire recharger le JS/CSS chez des utilisateurs dont le navigateur (ou un CDN) a mis les fichiers en cache — incrémenter ce `N` sur TOUTES les balises locales à chaque déploiement qui touche `js/` ou `css/styles.css`, sinon certains clients continuent d'exécuter l'ancien code silencieusement.
 - **Styling** : Utiliser exclusivement les variables CSS de `css/styles.css` (ex: `var(--primary)`). Ne jamais hardcoder de couleurs.
 
 ## 2. Règles de création de contenu (Modules)
