@@ -1254,7 +1254,9 @@ function _setupStudentApp() {
   // Preload all data
   if (typeof ensureAllData === 'function') {
     ensureAllData().then(() => {
-      if (state.view === 'home') render();
+      // Re-render les vues listant les modules si elles ont fini de charger entre-temps
+      // (subjects/levels/modules lisent window.MODULES synchronement, sans passer par navigate())
+      if (['home', 'subjects', 'levels', 'modules'].includes(state.view)) render();
     }).catch(() => {});
   }
 }
