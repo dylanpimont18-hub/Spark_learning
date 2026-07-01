@@ -2659,6 +2659,50 @@ main { flex: 1; }
   transition: background var(--transition), border-color var(--transition);
 }
 
+.footer-legal {
+  margin-top: 6px;
+}
+
+.footer-legal-link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.footer-legal-link:hover {
+  color: var(--primary);
+}
+
+/* ── Pages légales (confidentialité, etc.) ── */
+.legal-page {
+  max-width: 760px;
+  padding-bottom: var(--space-xl, 48px);
+}
+
+.legal-content h2 {
+  font-size: 1.1rem;
+  margin: var(--space-lg) 0 var(--space-sm);
+}
+
+.legal-content p,
+.legal-content li {
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.legal-content ul {
+  padding-left: 20px;
+  margin: var(--space-sm) 0;
+}
+
+.legal-content a {
+  color: var(--primary);
+}
+
 /* ────────────────────────────────────────
    ANIMATIONS
 ──────────────────────────────────────── */

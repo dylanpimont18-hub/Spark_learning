@@ -73,6 +73,7 @@ function buildHash(view, data) {
     case 'homework':   return '#homework';
     case 'playlist':   return '#playlist/' + (data.playlistData || '');
     case 'admin':      return '#admin';
+    case 'confidentialite': return '#confidentialite';
     default:           return '#home';
   }
 }
@@ -98,6 +99,7 @@ function parseHash(hash) {
     }
     case 'homework':    return { view: 'homework' };
     case 'admin':       return { view: 'admin' };
+    case 'confidentialite': return { view: 'confidentialite' };
     case 'home':
     default:            return { view: 'home' };
   }
@@ -331,6 +333,7 @@ function render() {
     case 'teacher':    TeacherDashboard.render(); return;
     case 'playlist':   app.innerHTML = (typeof renderPlaylistView === 'function') ? renderPlaylistView() : ''; break;
     case 'homework':   app.innerHTML = (typeof renderHomeworkPanel === 'function') ? renderHomeworkPanel() : ''; break;
+    case 'confidentialite': app.innerHTML = renderConfidentialite(); break;
     default:           app.innerHTML = renderHome();
   }
   renderMath();

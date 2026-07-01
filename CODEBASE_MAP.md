@@ -224,6 +224,10 @@ Vues globales : accueil, liste matières, niveaux, modules, détail module.
 - `renderHome()`, `renderSubjects()`, `renderModulesList()` — incluent chacune un `renderAdSlot(...)` (voir `js/components/adSlot.js`) en bas de section ; jamais dans les onglets d'apprentissage actif
 - `renderAssignmentWidget()` — async, injecte l'encart "Devoir en cours" pour l'élève connecté à une classe
 
+## js/views/confidentialite.js
+Politique de confidentialité (RGPD, exigence Google AdSense).
+- `renderConfidentialite()` — page statique : localStorage sans compte, données Firebase si compte créé, publicité AdSense non personnalisée, formulaire de contact (Formspree), droits RGPD. Route `#confidentialite`, lien en footer.
+
 ## js/auth/authService.js
 Service d'authentification et d'autorisations Firestore.
 - `signUp(email, password, role)` — crée un compte
