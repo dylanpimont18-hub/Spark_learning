@@ -38,7 +38,19 @@ service cloud.firestore {
     // ─── users ───
     match /users/{uid} {
       allow read: if isOwner(uid) || isAdmin();
-      allow create: if isOwner(uid);
+
+      // Auto-inscription : uniquement élève (actif) ou enseignant (en attente d'approbation admin).
+      // Empêche un utilisateur de s'auto-créer avec role="admin" ou status="active" en enseignant
+      // via un appel direct au SDK Firestore (contournement de l'UI).
+      allow create: if isOwner(uid) &&
+                       request.resource.data.role in ['student', 'teacher'] &&
+                       (
+                         (request.resource.data.role == 'student' && request.resource.data.status == 'active') ||
+                         (request.resource.data.role == 'teacher' && request.resource.data.status == 'pending')
+                       ) &&
+                       request.resource.data.approvedAt == null &&
+                       request.resource.data.approvedBy == null;
+
       allow update: if isAdmin() || (isOwner(uid) && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'status', 'approvedAt', 'approvedBy']));
     }
 
