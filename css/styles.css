@@ -40,6 +40,7 @@
   --z-toast:      300;
   --z-confetti:   400;
   --z-skip:       500;
+  --z-consent:    600;
 
   /* Border widths */
   --border-width:    1px;
@@ -2822,6 +2823,94 @@ main { flex: 1; }
 .toast-achievement {
   background: linear-gradient(135deg, #F4D03F 0%, #D4AC0D 100%);
   color: #2C3E50;
+}
+
+/* ── Cookie consent banner ── */
+.consent-banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: var(--z-consent);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  background: var(--bg-card);
+  border-top: var(--border-width-lg) solid var(--border);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+.consent-banner-visible {
+  transform: translateY(0);
+}
+.consent-banner-text {
+  flex: 1 1 320px;
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+.consent-banner-link {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: 4px;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.consent-banner-actions {
+  display: flex;
+  gap: var(--space-sm);
+  flex: 0 0 auto;
+}
+/* .consent-btn-refuse et .consent-btn-accept doivent rester visuellement
+   équivalents (même padding/taille/police/épaisseur de bordure) — exigence
+   légale, pas un détail esthétique. Ne pas transformer l'un des deux en
+   bouton "plein"/CTA pendant que l'autre reste un simple lien. */
+.consent-btn {
+  padding: 12px 24px;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: var(--border-width-lg) solid transparent;
+  min-height: 48px;
+  background: transparent;
+}
+.consent-btn-refuse {
+  color: var(--text);
+  border-color: var(--border);
+}
+.consent-btn-refuse:hover {
+  border-color: var(--text-muted);
+}
+.consent-btn-accept {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+.consent-btn-accept:hover {
+  background: color-mix(in srgb, var(--primary) 8%, transparent);
+}
+
+@media (max-width: 640px) {
+  .consent-banner {
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--space-md);
+  }
+  .consent-banner-actions {
+    justify-content: stretch;
+  }
+  .consent-btn {
+    flex: 1;
+  }
 }
 
 /* ── Scroll to top button ── */
