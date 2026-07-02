@@ -1286,10 +1286,13 @@ function _setupStudentApp() {
     }
   });
 
-  // Restore route from URL. Un ancien lien #hash (déjà partagé/en favori) est
-  // redirigé une fois vers le chemin équivalent, puis le routage normal prend le relais.
+  // Restore route from URL. Un ancien lien #hash (déjà partagé/en favori) n'a
+  // jamais de vrai chemin (pathname reste '/') : on ne le traite comme route
+  // legacy que dans ce cas précis, sinon un fragment sans rapport avec le
+  // routage (ex. '#app' laissé par le lien d'accessibilité après un clic +
+  // rechargement) écraserait un vrai chemin profond via replaceState.
   let route;
-  if (window.location.hash) {
+  if (window.location.pathname === '/' && window.location.hash) {
     route = parseLegacyHash(window.location.hash);
     history.replaceState(null, '', buildPath(route.view, route));
   } else {
