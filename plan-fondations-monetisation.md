@@ -123,7 +123,7 @@ Objectif : pouvoir mesurer ce qui marche, et laisser à Google le temps d'indexe
 
 ## Actions externes — récapitulatif (utilisateur)
 
-- [ ] Choisir/souscrire une solution de CMP (3.1)
+- [x] ~~Choisir/souscrire une solution de CMP (3.1)~~ — fait maison (`js/consent.js`), aucune action externe nécessaire
 - [ ] Créer le compte Ko-fi (3.2)
 - [ ] Suivre la validation AdSense + créer les ad units (3.3)
 - [ ] Créer les propriétés GA4 et Search Console, vérifier le domaine (4.1)
