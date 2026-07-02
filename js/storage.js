@@ -12,7 +12,8 @@ const Storage = {
     TRACKING:   'sparkTracking',
     STREAK:     'sparkStreak',
     FLASHCARDS: 'sparkFlashcards',
-    MODULE_STATUS: 'sparkModuleStatus'
+    MODULE_STATUS: 'sparkModuleStatus',
+    CONSENT: 'sparkConsent'
   },
 
   /* ── Helpers internes ── */
@@ -239,5 +240,25 @@ const Storage = {
       localStorage.setItem('sparkExStreak', '0');
     }
     return streak;
+  },
+
+  /* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
+     CONSENT (RGPD/CNIL \u2014 cookies pub, par cat\u00e9gorie)
+  \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+  CONSENT_MAX_AGE_MS: 1000 * 60 * 60 * 24 * 180, // 6 mois (pratique recommand\u00e9e CNIL)
+
+  getConsent(category) {
+    const all = this._get(this.KEYS.CONSENT, {});
+    const record = all[category];
+    if (!record) return null;
+    const age = Date.now() - new Date(record.decidedAt).getTime();
+    if (age > this.CONSENT_MAX_AGE_MS) return null;
+    return record;
+  },
+
+  setConsent(category, granted) {
+    const all = this._get(this.KEYS.CONSENT, {});
+    all[category] = { granted: !!granted, decidedAt: new Date().toISOString() };
+    this._set(this.KEYS.CONSENT, all);
   }
 };
