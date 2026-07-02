@@ -46,8 +46,6 @@ function createConfetti() {
 }
 
 /* ── Hash routing helpers ── */
-let _suppressHashChange = false;
-
 
 function buildPath(view, data) {
   switch (view) {
@@ -76,33 +74,6 @@ function buildPath(view, data) {
     case 'admin':      return '/admin';
     case 'confidentialite': return '/confidentialite';
     default:           return '/';
-  }
-}
-
-function parseHash(hash) {
-  const parts = (hash || '').replace(/^#\/?/, '').split('/');
-  switch (parts[0]) {
-    case 'subjects': return { view: 'subjects' };
-    case 'levels':   return { view: 'levels', subject: parts[1] || 'maths' };
-    case 'modules':
-      // Rétrocompat: #modules/1 (ancien format sans subject)
-      if (/^\d+$/.test(parts[1])) return { view: 'modules', subject: 'maths', level: parseInt(parts[1]) };
-      if (parts[2] === 'all') return { view: 'modules', subject: parts[1] || 'maths', level: 'all' };
-      return { view: 'modules', subject: parts[1] || 'maths', level: parseInt(parts[2]) || 1 };
-    case 'module':      return { view: 'module', moduleId: parts[1], tab: parts[2] || 'cours' };
-    case 'companion':   return { view: 'companion', moduleId: parts[1] };
-    case 'flashcards':  return { view: 'flashcards', moduleId: parts[1] };
-    case 'chrono':      return { view: 'chrono', moduleId: parts[1] };
-    case 'teacher':     return { view: 'teacher' };
-    case 'playlist': {
-      const encoded = (hash || '').replace(/^#\/?playlist\//, '');
-      return { view: 'playlist', playlistData: encoded };
-    }
-    case 'homework':    return { view: 'homework' };
-    case 'admin':       return { view: 'admin' };
-    case 'confidentialite': return { view: 'confidentialite' };
-    case 'home':
-    default:            return { view: 'home' };
   }
 }
 
@@ -1102,15 +1073,9 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-/* ── Hash change listener (back/forward buttons) ── */
-window.addEventListener('hashchange', () => {
-  if (_suppressHashChange) return;
-  const route = parseHash(window.location.hash);
-  navigate(route.view, route, { skipUrlSync: true });
-});
-
+/* ── Back/forward buttons ── */
 window.addEventListener('popstate', () => {
-  const route = parseHash(window.location.hash);
+  const route = parsePath(window.location.pathname);
   navigate(route.view, route, { skipUrlSync: true });
 });
 
@@ -1321,8 +1286,15 @@ function _setupStudentApp() {
     }
   });
 
-  // Restore route from hash
-  const route = parseHash(window.location.hash);
+  // Restore route from URL. Un ancien lien #hash (déjà partagé/en favori) est
+  // redirigé une fois vers le chemin équivalent, puis le routage normal prend le relais.
+  let route;
+  if (window.location.hash) {
+    route = parseLegacyHash(window.location.hash);
+    history.replaceState(null, '', buildPath(route.view, route));
+  } else {
+    route = parsePath(window.location.pathname);
+  }
   navigate(route.view, route, { skipUrlSync: true });
 
   // Preload all data

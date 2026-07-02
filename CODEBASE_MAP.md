@@ -37,9 +37,9 @@ Règles de sécurité Firestore.
 
 ## js/app.js
 Routeur hash SPA, init, KaTeX, confetti.
-- `buildHash(view, data)` — construit un hash `#view/data`
-- `navigateTo(view, data)` — change la vue active via hash
-- `navigate(view, data, options)` — redirige vers `home` les vues `teacher`/`homework`/`admin` si invité (pas de compte)
+- `buildPath(view, data)` — construit un chemin d'URL réel `/view/data` (pushState)
+- `parsePath(pathname)` / `parseLegacyHash(hash)` — parsent respectivement une URL réelle et un ancien lien `#hash` (rétrocompat), partagent `_parseRouteParts(parts)`
+- `navigate(view, data)` — change la vue active via `history.pushState` (plus de hash routing)
 - `renderMath()` — déclenche KaTeX sur `#app`
 - Appelle `initAdSlots()` (voir `js/components/adSlot.js`) après chaque rendu de vue dans le dispatcher `render()`
 - `createConfetti()` — animation confetti de succès
