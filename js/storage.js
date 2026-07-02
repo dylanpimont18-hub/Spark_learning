@@ -252,7 +252,7 @@ const Storage = {
     const record = all[category];
     if (!record) return null;
     const age = Date.now() - new Date(record.decidedAt).getTime();
-    if (age > this.CONSENT_MAX_AGE_MS) return null;
+    if (Number.isNaN(age) || age > this.CONSENT_MAX_AGE_MS) return null;
     return record;
   },
 
