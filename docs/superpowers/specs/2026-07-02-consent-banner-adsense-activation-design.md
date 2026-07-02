@@ -14,7 +14,7 @@ Bannière de consentement **maison, en Vanilla JS** (pas de service CMP tiers) :
 
 ## Architecture
 
-- **`js/storage.js`** (existant, étendu) : `Storage.getConsent()` / `Storage.setConsent(category, granted)`. Persistance par **catégorie** (`'ads'` dès maintenant) plutôt qu'un booléen unique — la Semaine 4 du plan (`plan-fondations-monetisation.md`) prévoit Google Analytics, qui aura besoin du même mécanisme de consentement (catégorie `'analytics'`) ; cette forme de données évite un rework à ce moment-là, sans construire aujourd'hui une UI pour une catégorie qui n'existe pas encore.
+- **`js/storage.js`** (existant, étendu) : `Storage.getConsent()` / `Storage.setConsent(category, granted)`. Persistance par **catégorie** (`'ads'` dès maintenant) plutôt qu'un booléen unique — la Semaine 4 du plan (`plan-fondations-monetisation.md`) prévoit Google Analytics, qui aura besoin du même mécanisme de consentement (catégorie `'analytics'`) ; cette forme de données évite un rework à ce moment-là, sans construire aujourd'hui une UI pour une catégorie qui n'existe pas encore. Chaque choix est horodaté et **expire après 6 mois** (pratique recommandée par la CNIL) : passé ce délai, `getConsent()` redevient `null` et la bannière se réaffiche.
 - **`js/consent.js`** (nouveau, autonome — même esprit que `js/components/celebration.js`) :
   - `Consent.hasAdConsent()` — lit `Storage.getConsent('ads')`, retourne `true` uniquement si explicitement accordé (défaut sûr : absence de choix = pas de consentement).
   - `Consent.needsPrompt()` — vrai si aucun choix n'a jamais été enregistré.
