@@ -48,35 +48,6 @@ function createConfetti() {
 /* ── Hash routing helpers ── */
 let _suppressHashChange = false;
 
-function buildHash(view, data) {
-  switch (view) {
-    case 'home':       return '#home';
-    case 'subjects':   return '#subjects';
-    case 'levels':     return `#levels/${data.subject || state.subject || 'maths'}`;
-    case 'modules': {
-      const level = data.level !== undefined ? data.level : state.level;
-      const levelPart = level === 'all' ? 'all' : level;
-      return `#modules/${data.subject || state.subject || 'maths'}/${levelPart}`;
-    }
-    case 'module': {
-      const mid = data.moduleId || state.moduleId;
-      const tab = data.tab || state.tab || 'cours';
-      return `#module/${mid}/${tab}`;
-    }
-    case 'companion': {
-      const mid = data.moduleId || state.moduleId;
-      return mid ? `#companion/${mid}` : '#companion';
-    }
-    case 'flashcards': return `#flashcards/${data.moduleId || state.moduleId}`;
-    case 'chrono':     return `#chrono/${data.moduleId || state.moduleId}`;
-    case 'teacher':    return '#teacher';
-    case 'homework':   return '#homework';
-    case 'playlist':   return '#playlist/' + (data.playlistData || '');
-    case 'admin':      return '#admin';
-    case 'confidentialite': return '#confidentialite';
-    default:           return '#home';
-  }
-}
 
 function buildPath(view, data) {
   switch (view) {
@@ -226,11 +197,10 @@ function navigate(view, data = {}, options = {}) {
     if (!data.keepEvaluation) state.evaluationState = defaultEvaluationState();
   }
 
-  // Sync URL (suppress hashchange listener to avoid double render)
+  // Sync URL (pushState ne déclenche jamais popstate dans le même onglet,
+  // donc pas besoin de flag de suppression comme avec hashchange)
   if (!skipUrlSync) {
-    _suppressHashChange = true;
-    window.location.hash = buildHash(view, data);
-    requestAnimationFrame(() => { _suppressHashChange = false; });
+    history.pushState(null, '', buildPath(view, data));
   }
 
   // Lazy loading: check if data needs to be fetched first
@@ -367,10 +337,8 @@ function updatePageTitle() {
 function switchTab(tabName) {
   state.tab = tabName;
 
-  // Update hash to reflect current tab
-  _suppressHashChange = true;
-  window.location.hash = buildHash('module', { moduleId: state.moduleId, tab: tabName });
-  requestAnimationFrame(() => { _suppressHashChange = false; });
+  // Update URL to reflect current tab
+  history.pushState(null, '', buildPath('module', { moduleId: state.moduleId, tab: tabName }));
 
   // Generate exercice on first visit to exercice tab
   if (tabName === 'exercice' && !state.exerciceState.current) {

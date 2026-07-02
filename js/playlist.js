@@ -193,7 +193,7 @@ function generatePlaylistLink() {
   const titleInput = document.getElementById('playlist-title-input');
   if (titleInput) pb.title = titleInput.value || 'Mon parcours';
   const encoded = encodePlaylist(pb.title, pb.steps);
-  pb.generatedLink = window.location.origin + window.location.pathname + '#playlist/' + encoded;
+  pb.generatedLink = window.location.origin + buildPath('playlist', { playlistData: encoded });
   _refreshBuilder();
 }
 
