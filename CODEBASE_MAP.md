@@ -36,7 +36,7 @@ Règles de sécurité Firestore.
 - `getModuleSearchKeywords(mod)` — mots-clés pour la recherche
 
 ## js/app.js
-Routeur hash SPA, init, KaTeX, confetti.
+Routeur SPA (pushState), init, KaTeX, confetti.
 - `buildPath(view, data)` — construit un chemin d'URL réel `/view/data` (pushState)
 - `parsePath(pathname)` / `parseLegacyHash(hash)` — parsent respectivement une URL réelle et un ancien lien `#hash` (rétrocompat), partagent `_parseRouteParts(parts)`
 - `navigate(view, data)` — change la vue active via `history.pushState` (plus de hash routing)
