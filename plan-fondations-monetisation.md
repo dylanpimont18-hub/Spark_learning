@@ -69,11 +69,11 @@ Objectif : maintenant que les URLs sont réelles, donner à Google de quoi compr
 
 Objectif : lever le seul vrai bloquant légal avant d'activer de la pub réelle, et finir ce qui a déjà été décidé mais jamais construit.
 
-### 3.1 Consentement cookies (bloquant avant toute vraie pub)
-- [ ] **[Externe]** Choisir une solution de CMP conforme à la politique "EU User Consent Policy" de Google (ex. solution gratuite type consentmanager.net, ou CMP maison respectant les critères Google : refus aussi facile qu'acceptation, pas de cases pré-cochées)
-- [ ] Intégrer le script du CMP choisi dans `index.html`, avant le script `adsbygoogle.js`
-- [ ] Bloquer le chargement effectif des ad units tant que le consentement n'est pas donné (adapter `js/components/adSlot.js` / `js/adsConfig.js` si nécessaire)
-- [ ] Ajouter un lien "Gérer mes préférences cookies" dans le footer, à côté du lien "Politique de confidentialité" déjà présent
+### 3.1 Consentement cookies (bloquant avant toute vraie pub) — TERMINÉ le 2026-07-02
+- [x] Bannière maison en Vanilla JS (`js/consent.js`), pas de CMP tiers — voir `docs/superpowers/specs/2026-07-02-consent-banner-adsense-activation-design.md`
+- [x] Persistance par catégorie dans `js/storage.js` (`Storage.getConsent`/`setConsent`, expiration 6 mois)
+- [x] `js/components/adSlot.js` bloque tout rendu de vraie pub sans consentement explicite (`renderAdSlot`/`initAdSlots`)
+- [x] Lien "Gérer mes préférences cookies" dans le footer, à côté de "Politique de confidentialité"
 
 ### 3.2 Page de dons
 - [ ] **[Externe]** Créer le compte Ko-fi (ou équivalent) mentionné dans les décisions de monétisation précédentes
@@ -82,11 +82,20 @@ Objectif : lever le seul vrai bloquant légal avant d'activer de la pub réelle,
 - [ ] Déclarer `js/views/soutenir.js` dans `index.html`
 - [ ] Ajouter un lien discret "Soutenir le projet" dans le footer et/ou la nav
 
-### 3.3 Checklist d'activation AdSense
-- [ ] **[Externe]** Suivre la validation du compte AdSense (déjà en attente depuis les commits précédents)
-- [ ] **[Externe]** Une fois validé, créer les ad units dans le dashboard AdSense (home, subjects, modules)
-- [ ] Renseigner les IDs réels dans `AD_SLOTS` (`js/adsConfig.js`)
-- [ ] Passer `ADS_ENABLED` à `true` — uniquement après que 3.1 (CMP) soit en place
+### 3.3 Checklist d'activation AdSense (le jour de l'approbation — code déjà prêt depuis le 2026-07-02)
+- [ ] **[Externe]** Attendre l'email de validation du compte AdSense
+- [ ] **[Externe]** Dans le dashboard AdSense, créer 3 ad units : accueil (`home`), liste des matières (`subjects`), liste des modules (`modules`)
+- [ ] Dans `js/adsConfig.js`, remplacer les 3 chaînes vides de `AD_SLOTS` par les IDs obtenus :
+  ```javascript
+  var AD_SLOTS = {
+    home: 'XXXXXXXXXX',
+    subjects: 'XXXXXXXXXX',
+    modules: 'XXXXXXXXXX'
+  };
+  ```
+- [ ] Dans `js/adsConfig.js`, passer `var ADS_ENABLED = false;` à `var ADS_ENABLED = true;`
+- [ ] Bump `?v=N` sur toutes les balises locales de `index.html` (convention du projet)
+- [ ] Déployer (`git push`) — la bannière de consentement (déjà en place) gère automatiquement le reste : aucune pub ne se chargera avant qu'un visiteur ait cliqué "Accepter"
 
 ---
 
