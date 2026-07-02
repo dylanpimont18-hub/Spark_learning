@@ -78,6 +78,36 @@ function buildHash(view, data) {
   }
 }
 
+function buildPath(view, data) {
+  switch (view) {
+    case 'home':       return '/';
+    case 'subjects':   return '/subjects';
+    case 'levels':     return `/levels/${data.subject || state.subject || 'maths'}`;
+    case 'modules': {
+      const level = data.level !== undefined ? data.level : state.level;
+      const levelPart = level === 'all' ? 'all' : level;
+      return `/modules/${data.subject || state.subject || 'maths'}/${levelPart}`;
+    }
+    case 'module': {
+      const mid = data.moduleId || state.moduleId;
+      const tab = data.tab || state.tab || 'cours';
+      return `/module/${mid}/${tab}`;
+    }
+    case 'companion': {
+      const mid = data.moduleId || state.moduleId;
+      return mid ? `/companion/${mid}` : '/companion';
+    }
+    case 'flashcards': return `/flashcards/${data.moduleId || state.moduleId}`;
+    case 'chrono':     return `/chrono/${data.moduleId || state.moduleId}`;
+    case 'teacher':    return '/teacher';
+    case 'homework':   return '/homework';
+    case 'playlist':   return '/playlist/' + (data.playlistData || '');
+    case 'admin':      return '/admin';
+    case 'confidentialite': return '/confidentialite';
+    default:           return '/';
+  }
+}
+
 function parseHash(hash) {
   const parts = (hash || '').replace(/^#\/?/, '').split('/');
   switch (parts[0]) {
@@ -103,6 +133,43 @@ function parseHash(hash) {
     case 'home':
     default:            return { view: 'home' };
   }
+}
+
+function _parseRouteParts(parts) {
+  switch (parts[0]) {
+    case 'subjects': return { view: 'subjects' };
+    case 'levels':   return { view: 'levels', subject: parts[1] || 'maths' };
+    case 'modules':
+      // Rétrocompat : .../modules/1 (ancien format sans subject)
+      if (/^\d+$/.test(parts[1])) return { view: 'modules', subject: 'maths', level: parseInt(parts[1]) };
+      if (parts[2] === 'all') return { view: 'modules', subject: parts[1] || 'maths', level: 'all' };
+      return { view: 'modules', subject: parts[1] || 'maths', level: parseInt(parts[2]) || 1 };
+    case 'module':      return { view: 'module', moduleId: parts[1], tab: parts[2] || 'cours' };
+    case 'companion':   return { view: 'companion', moduleId: parts[1] };
+    case 'flashcards':  return { view: 'flashcards', moduleId: parts[1] };
+    case 'chrono':      return { view: 'chrono', moduleId: parts[1] };
+    case 'teacher':     return { view: 'teacher' };
+    case 'playlist': {
+      // slice(1).join('/') reconstruit fidèlement les données base64 même si elles contiennent '/'
+      const encoded = parts.slice(1).join('/');
+      return { view: 'playlist', playlistData: encoded };
+    }
+    case 'homework':    return { view: 'homework' };
+    case 'admin':       return { view: 'admin' };
+    case 'confidentialite': return { view: 'confidentialite' };
+    case 'home':
+    default:            return { view: 'home' };
+  }
+}
+
+function parsePath(pathname) {
+  const parts = (pathname || '/').replace(/^\//, '').split('/');
+  return _parseRouteParts(parts);
+}
+
+function parseLegacyHash(hash) {
+  const parts = (hash || '').replace(/^#\/?/, '').split('/');
+  return _parseRouteParts(parts);
 }
 
 /* ── Navigate ── */
