@@ -8,6 +8,18 @@
   <meta name="description" content="Plateforme de remédiation scientifique : Mathématiques, Physique-Chimie, Sciences de l'Ingénieur — du Collège au BTS." />
   <link rel="icon" type="image/jpeg" href="images/Logo_noir.jpeg" />
 
+  <script>
+    // Restaure l'URL propre après un aller-retour par 404.html (spa-github-pages)
+    (function (l) {
+      if (l.search[1] === '/') {
+        var decoded = l.search.slice(1).split('&').map(function (s) {
+          return s.replace(/~and~/g, '&');
+        }).join('?');
+        window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
+      }
+    }(window.location));
+  </script>
+
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,7 +29,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
 
   <!-- App CSS -->
-  <link rel="stylesheet" href="css/styles.css?v=5" />
+  <link rel="stylesheet" href="css/styles.css?v=6" />
 
   <!-- Google AdSense (vérification site + chargement du script ; les emplacements restent en placeholder tant que ADS_ENABLED est à false dans js/adsConfig.js) -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5320273649803132" crossorigin="anonymous"></script>
@@ -28,14 +40,14 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
   <!-- Firebase Config -->
-  <script src="js/auth/firebase-config.js?v=5"></script>
-  <script src="js/auth/authService.js?v=5"></script>
-  <script src="js/auth/authGuard.js?v=5"></script>
-  <script src="js/views/authView.js?v=5"></script>
-  <script src="js/sync/syncService.js?v=5"></script>
-  <script src="js/views/teacherDashboard.js?v=5"></script>
-  <script src="js/views/gradingPanel.js?v=5"></script>
-  <script src="js/views/adminPanel.js?v=5"></script>
+  <script src="js/auth/firebase-config.js?v=6"></script>
+  <script src="js/auth/authService.js?v=6"></script>
+  <script src="js/auth/authGuard.js?v=6"></script>
+  <script src="js/views/authView.js?v=6"></script>
+  <script src="js/sync/syncService.js?v=6"></script>
+  <script src="js/views/teacherDashboard.js?v=6"></script>
+  <script src="js/views/gradingPanel.js?v=6"></script>
+  <script src="js/views/adminPanel.js?v=6"></script>
 </head>
 <body>
 
@@ -141,37 +153,37 @@
   <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 
   <!-- Données : helpers (initialise MODULES[]) + lazy loader -->
-  <script src="js/data/helpers.js?v=5"></script>
-  <script src="js/loader.js?v=5"></script>
+  <script src="js/data/helpers.js?v=6"></script>
+  <script src="js/loader.js?v=6"></script>
 
   <!-- App scripts (ordre de chargement important) -->
-  <script src="js/storage.js?v=5"></script>
-  <script src="js/state.js?v=5"></script>
-  <script src="js/engines/shared.js?v=5"></script>
-  <script src="js/engines/quizEngine.js?v=5"></script>
-  <script src="js/engines/exerciceEngine.js?v=5"></script>
-  <script src="js/engines/evaluationEngine.js?v=5"></script>
-  <script src="js/engines/problemeEngine.js?v=5"></script>
-  <script src="js/engines/companionEngine.js?v=5"></script>
-  <script src="js/utils/ui-helpers.js?v=5"></script>
-  <script src="js/views/home.js?v=5"></script>
-  <script src="js/views/confidentialite.js?v=5"></script>
-  <script src="js/components/moduleTabs.js?v=5"></script>
-  <script src="js/components/renderCours.js?v=5"></script>
-  <script src="js/components/quiz.js?v=5"></script>
-  <script src="js/components/exercice.js?v=5"></script>
-  <script src="js/components/probleme.js?v=5"></script>
-  <script src="js/components/evaluation.js?v=5"></script>
-  <script src="js/components/companion.js?v=5"></script>
-  <script src="js/components/celebration.js?v=5"></script>
-  <script src="js/adsConfig.js?v=5"></script>
-  <script src="js/components/adSlot.js?v=5"></script>
-  <script src="js/flashcards.js?v=5"></script>
-  <script src="js/chrono.js?v=5"></script>
-  <script src="js/recommendations.js?v=5"></script>
-  <script src="js/playlist.js?v=5"></script>
-  <script src="js/homework.js?v=5"></script>
-  <script src="js/app.js?v=5"></script>
+  <script src="js/storage.js?v=6"></script>
+  <script src="js/state.js?v=6"></script>
+  <script src="js/engines/shared.js?v=6"></script>
+  <script src="js/engines/quizEngine.js?v=6"></script>
+  <script src="js/engines/exerciceEngine.js?v=6"></script>
+  <script src="js/engines/evaluationEngine.js?v=6"></script>
+  <script src="js/engines/problemeEngine.js?v=6"></script>
+  <script src="js/engines/companionEngine.js?v=6"></script>
+  <script src="js/utils/ui-helpers.js?v=6"></script>
+  <script src="js/views/home.js?v=6"></script>
+  <script src="js/views/confidentialite.js?v=6"></script>
+  <script src="js/components/moduleTabs.js?v=6"></script>
+  <script src="js/components/renderCours.js?v=6"></script>
+  <script src="js/components/quiz.js?v=6"></script>
+  <script src="js/components/exercice.js?v=6"></script>
+  <script src="js/components/probleme.js?v=6"></script>
+  <script src="js/components/evaluation.js?v=6"></script>
+  <script src="js/components/companion.js?v=6"></script>
+  <script src="js/components/celebration.js?v=6"></script>
+  <script src="js/adsConfig.js?v=6"></script>
+  <script src="js/components/adSlot.js?v=6"></script>
+  <script src="js/flashcards.js?v=6"></script>
+  <script src="js/chrono.js?v=6"></script>
+  <script src="js/recommendations.js?v=6"></script>
+  <script src="js/playlist.js?v=6"></script>
+  <script src="js/homework.js?v=6"></script>
+  <script src="js/app.js?v=6"></script>
 
 </body>
 </html>
