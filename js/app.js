@@ -1084,6 +1084,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const savedTheme = localStorage.getItem('sparkTheme') || 'light';
   applyTheme(savedTheme);
 
+  // Bannière de consentement cookies (RGPD/CNIL) — avant toute autre init,
+  // indépendant du rôle (invité/élève/enseignant/admin)
+  if (typeof Consent !== 'undefined') Consent.init();
+
   // Auth init
   AuthService.init();
 
