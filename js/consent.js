@@ -1,8 +1,8 @@
 /* =========================================================
    Spark Learning – consent.js
-   Bannière de consentement cookies (RGPD/CNIL). Catégorie
-   'ads' active aujourd'hui ; structure de données prête pour
-   une future catégorie 'analytics' (Semaine 4 du plan).
+   Bannière de consentement cookies (RGPD/CNIL). Un seul
+   consentement global (catégorie 'ads') couvre à la fois la
+   pub et la mesure d'audience (Google Analytics, analytics.js).
    ========================================================= */
 
 var Consent = {
@@ -25,6 +25,7 @@ var Consent = {
     Storage.setConsent(this.CATEGORY_ADS, true);
     this.hideBanner();
     if (typeof initAdSlots === 'function') initAdSlots();
+    if (typeof trackPageView === 'function') trackPageView();
   },
 
   reject() {
@@ -45,7 +46,7 @@ var Consent = {
     el.setAttribute('aria-label', 'Préférences de cookies');
     el.innerHTML = `
       <p class="consent-banner-text">
-        Spark Learning peut afficher des publicités <strong>non personnalisées</strong> pour financer l'hébergement, sans jamais te suivre ni vendre tes données. Le contenu pédagogique reste 100&nbsp;% gratuit dans tous les cas.
+        Spark Learning peut afficher des publicités <strong>non personnalisées</strong> et mesurer l'audience du site (Google Analytics) pour financer l'hébergement et améliorer le contenu, sans jamais te suivre ni vendre tes données. Le contenu pédagogique reste 100&nbsp;% gratuit dans tous les cas.
         <button class="consent-banner-link" onclick="navigate('confidentialite')">En savoir plus</button>
       </p>
       <div class="consent-banner-actions">

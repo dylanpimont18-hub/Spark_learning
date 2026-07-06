@@ -104,9 +104,9 @@ Objectif : lever le seul vrai bloquant légal avant d'activer de la pub réelle,
 Objectif : pouvoir mesurer ce qui marche, et laisser à Google le temps d'indexer avant le pic de trafic de rentrée.
 
 ### 4.1 Analytics & Search Console
-- [ ] **[Externe]** Créer une propriété Google Analytics 4
+- [x] **[Externe]** Créer une propriété Google Analytics 4 — fait le 2026-07-06 (`G-QPNXD2D9VD`)
 - [ ] **[Externe]** Créer une propriété Google Search Console, vérifier la propriété du domaine `sparklearning.fr`
-- [ ] Intégrer GA4 dans `index.html`, avec anonymisation IP, chargé uniquement après consentement (cohérent avec 3.1)
+- [x] Intégrer GA4, chargé uniquement après consentement (cohérent avec 3.1) — `js/analyticsConfig.js` + `js/analytics.js`, suivi manuel des pages vues (SPA pushState) via `trackPageView()`
 - [ ] **[Externe]** Soumettre `sitemap.xml` dans Search Console — à faire tôt dans la semaine pour maximiser le délai d'indexation avant la rentrée
 
 ### 4.2 Performance & accessibilité (passe rapide)
@@ -126,7 +126,8 @@ Objectif : pouvoir mesurer ce qui marche, et laisser à Google le temps d'indexe
 - [x] ~~Choisir/souscrire une solution de CMP (3.1)~~ — fait maison (`js/consent.js`), aucune action externe nécessaire
 - [ ] Créer le compte Ko-fi (3.2)
 - [ ] Suivre la validation AdSense + créer les ad units (3.3)
-- [ ] Créer les propriétés GA4 et Search Console, vérifier le domaine (4.1)
+- [x] ~~Créer la propriété GA4 (4.1)~~ — fait le 2026-07-06
+- [ ] Créer la propriété Search Console, vérifier le domaine (4.1)
 - [ ] Soumettre le sitemap dans Search Console (4.1)
 
 ---

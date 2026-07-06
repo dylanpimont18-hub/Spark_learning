@@ -344,6 +344,7 @@ function render() {
   }
   renderMath();
   if (typeof initAdSlots === 'function') initAdSlots();
+  if (typeof trackPageView === 'function') trackPageView();
   updateNavActive();
   if (state.view === 'modules') _applyModuleFilters();
 }

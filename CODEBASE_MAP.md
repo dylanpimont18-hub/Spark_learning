@@ -41,7 +41,7 @@ Routeur SPA (pushState), init, KaTeX, confetti.
 - `parsePath(pathname)` / `parseLegacyHash(hash)` — parsent respectivement une URL réelle et un ancien lien `#hash` (rétrocompat), partagent `_parseRouteParts(parts)`
 - `navigate(view, data)` — change la vue active via `history.pushState` (plus de hash routing)
 - `renderMath()` — déclenche KaTeX sur `#app`
-- Appelle `initAdSlots()` (voir `js/components/adSlot.js`) après chaque rendu de vue dans le dispatcher `render()`
+- Appelle `initAdSlots()` (voir `js/components/adSlot.js`) et `trackPageView()` (voir `js/analytics.js`) après chaque rendu de vue dans le dispatcher `render()` — sauf branches `admin`/`teacher` (return anticipé, hors suivi)
 - `createConfetti()` — animation confetti de succès
 - `showToast(msg, type)` — notification toast
 - `_checkMaintenance()` — lit `config/settings.maintenanceMode`, affiche la page maintenance si actif (invités + comptes non-admin) ; fail-open assumé si Firestore inaccessible
@@ -178,6 +178,22 @@ Moteur Spark Companion : remédiation, rattrapage, CCF.
 - `generateRemediationPlan(moduleId)` — crée un plan de rattrapage
 
 ---
+
+## js/consent.js
+Bannière de consentement cookies (RGPD/CNIL) ; un seul consentement global couvre pub ET mesure d'audience.
+- `Consent.hasAdConsent()` — lit `Storage.getConsent('ads')`, utilisé aussi bien par `adSlot.js` que par `analytics.js`
+- `Consent.accept()` / `Consent.reject()` — enregistrent le choix ; `accept()` déclenche `initAdSlots()` et `trackPageView()`
+- `Consent.init()` / `Consent.showBanner()` / `Consent.hideBanner()` / `Consent.openPreferences()` — cycle d'affichage de la bannière
+
+## js/analyticsConfig.js
+Point unique de contrôle du suivi d'audience (Google Analytics 4).
+- `ANALYTICS_ENABLED` — `true` : suivi actif (propriété GA4 créée le 2026-07-06)
+- `GA_MEASUREMENT_ID` — `G-QPNXD2D9VD`, Measurement ID de la propriété GA4 de sparklearning.fr
+
+## js/analytics.js
+Chargement différé de gtag.js (GA4) et suivi des pages vues (SPA pushState, pas de détection automatique des routes par GA4).
+- `loadAnalytics()` — injecte le script `gtag.js` si `ANALYTICS_ENABLED` + `GA_MEASUREMENT_ID` + `Consent.hasAdConsent()` ; idempotent (`window._gaLoaded`)
+- `trackPageView()` — envoie un événement `page_view` (path/title/location courants) ; appelée depuis `js/app.js` (dispatcher `render()`) et `Consent.accept()`
 
 ## js/adsConfig.js
 Point unique de contrôle des emplacements publicitaires AdSense.
