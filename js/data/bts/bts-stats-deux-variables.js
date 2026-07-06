@@ -11,9 +11,9 @@ window.MODULES.push(
     title: 'Statistiques à deux variables',
     subtitle: 'Nuage de points, corrélation, régression linéaire',
     keywords: ['Régression linéaire', 'Corrélation', 'Nuage de points', 'Droite des moindres carrés'],
-    physics: false,
+    physics: 'Modélisation et prévision industrielles : rendement d\'un capteur, relation charge-consommation',
     cours: {
-      intro: 'Les statistiques à deux variables permettent de modéliser et prévoir : ventes en fonction de la publicité, résistance d\'un matériau en fonction de la température, consommation en fonction de la vitesse. La droite de régression des moindres carrés minimise la somme des carrés des écarts verticaux entre les points et la droite — c\'est la droite qui "passe au mieux" à travers le nuage. Le coefficient de corrélation $r \\in [-1;1]$ mesure la force de la liaison LINÉAIRE uniquement : $r = 0$ ne signifie pas "pas de liaison" mais "pas de liaison linéaire" (il peut y avoir une relation parabolique). Piège majeur : $r \\approx \\pm 1$ prouve une forte liaison linéaire, mais JAMAIS une causalité. Deux variables peuvent être fortement corrélées via une troisième variable cachée.',
+      intro: 'Les statistiques à deux variables permettent de modéliser et prévoir : ventes en fonction de la publicité, résistance d\'un matériau en fonction de la température, consommation en fonction de la vitesse.<br/><br/>La droite de régression des moindres carrés minimise la somme des carrés des écarts verticaux entre les points et la droite — c\'est la droite qui "passe au mieux" à travers le nuage.<br/><br/>Le coefficient de corrélation $r \\in [-1;1]$ mesure la force de la liaison LINÉAIRE uniquement : $r = 0$ ne signifie pas "pas de liaison" mais "pas de liaison linéaire" (il peut y avoir une relation parabolique).<br/><br/>Piège majeur : $r \\approx \\pm 1$ prouve une forte liaison linéaire, mais JAMAIS une causalité. Deux variables peuvent être fortement corrélées via une troisième variable cachée.',
       definitions: [
         { term: 'Covariance $\\text{Cov}(x,y)$', def: 'Mesure la tendance de $x$ et $y$ à varier ensemble : $\\text{Cov}(x,y) = \\overline{xy} - \\bar{x}\\bar{y}$. Positive si les deux augmentent ensemble, négative si l\'une augmente quand l\'autre diminue.' },
         { term: 'Coefficient de corrélation $r$', def: 'Covariance normalisée : $r = \\text{Cov}(x,y)/(\\sigma_x \\cdot \\sigma_y) \\in [-1;1]$. $|r| \\approx 1$ : forte liaison linéaire. $r \\approx 0$ : pas de liaison linéaire (mais une liaison non linéaire reste possible).' },
@@ -23,10 +23,10 @@ window.MODULES.push(
       method: {
         title: 'Calculer la droite de régression',
         steps: [
-          '<strong>Covariance et variances</strong> : Calculer les moyennes $\\bar{x}$ et $\\bar{y}$, les variances $V_x$, $V_y$ et la covariance $\\text{Cov}(x,y)$. <strong>Exemple :</strong> Points $(1;3)$, $(2;5)$, $(3;7)$ → $\\bar{x} = 2$, $\\bar{y} = 5$, $\\overline{xy} = (3+10+21)/3 = 34/3 \\approx 11{,}33$, $\\text{Cov} = 11{,}33 - 10 = 1{,}33$.',
-          '<strong>Pente de la droite</strong> : Coefficient directeur : $a=\\dfrac{\\text{Cov}(x,y)}{V_x}$. <strong>Exemple :</strong> $V_x = \\overline{x^2} - \\bar{x}^2 = 14/3 - 4 = 2/3$. $a = 1{,}33/(2/3) = 2$.',
-          '<strong>Ordonnée à l\'origine</strong> : Ordonnée à l\'origine : $b=\\bar{y}-a\\bar{x}$. <strong>Exemple :</strong> $b = 5 - 2 \\times 2 = 1$. Droite : $y = 2x + 1$.',
-          '<strong>Coefficient de corrélation</strong> : Coefficient de corrélation : $r=\\dfrac{\\text{Cov}(x,y)}{\\sigma_x\\sigma_y}\\in[-1;1]$. <strong>Exemple :</strong> Ici $r = 1$ (alignement parfait sur la droite).'
+          '<strong>Covariance et variances</strong> : calculer les moyennes $\\bar{x}$ et $\\bar{y}$, les variances $V_x$, $V_y$ et la covariance $\\text{Cov}(x,y)$.<br/><br/><strong>Exemple :</strong> Points $(1;3)$, $(2;5)$, $(3;7)$ → $\\bar{x} = 2$, $\\bar{y} = 5$, $\\overline{xy} = (3+10+21)/3 = 34/3 \\approx 11{,}33$, $\\text{Cov} = 11{,}33 - 10 = 1{,}33$.',
+          '<strong>Pente de la droite</strong> : coefficient directeur $a=\\dfrac{\\text{Cov}(x,y)}{V_x}$.<br/><br/><strong>Exemple :</strong> $V_x = \\overline{x^2} - \\bar{x}^2 = 14/3 - 4 = 2/3$. $a = 1{,}33/(2/3) = 2$.',
+          '<strong>Ordonnée à l\'origine</strong> : $b=\\bar{y}-a\\bar{x}$.<br/><br/><strong>Exemple :</strong> $b = 5 - 2 \\times 2 = 1$. Droite : $y = 2x + 1$.',
+          '<strong>Coefficient de corrélation</strong> : $r=\\dfrac{\\text{Cov}(x,y)}{\\sigma_x\\sigma_y}\\in[-1;1]$.<br/><br/><strong>Exemple :</strong> Ici $r = 1$ (alignement parfait sur la droite).'
         ]
       },
       example: {

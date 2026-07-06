@@ -14,7 +14,7 @@ window.MODULES.push(
     physics: 'Oscillateurs RLC, résonance, amortissement',
 
     cours: {
-      intro: 'Tout oscillateur physique — circuit RLC, suspension de voiture, bâtiment face au vent — est décrit par la même équation du 2nd ordre. Le facteur de qualité $Q$ et le coefficient d\'amortissement $\\alpha$ définissent le comportement : sous-amorti ($Q > 0{,}5$, oscillations qui s\'éteignent progressivement), critique ($Q = 0{,}5$, retour le plus rapide à l\'équilibre sans oscillation), sur-amorti ($Q < 0{,}5$, retour lent). La suspension critique est le compromis recherché en automatique pour un temps de réponse optimal. En ingénierie, le régime pseudo-périodique est parfois souhaitable (résonance acoustique, filtres sélectifs) ou au contraire à éviter (amortissement des vibrations). La pseudo-pulsation $\\omega_p = \\sqrt{\\omega_0^2 - \\alpha^2}$ est TOUJOURS inférieure à $\\omega_0$ : l\'amortissement ralentit les oscillations.',
+      intro: 'Tout oscillateur physique — circuit RLC, suspension de voiture, bâtiment face au vent — est décrit par la même équation du 2nd ordre.<br/><br/>Le facteur de qualité $Q$ et le coefficient d\'amortissement $\\alpha$ définissent le comportement : sous-amorti ($Q > 0{,}5$, oscillations qui s\'éteignent progressivement), critique ($Q = 0{,}5$, retour le plus rapide à l\'équilibre sans oscillation), sur-amorti ($Q < 0{,}5$, retour lent).<br/><br/>La suspension critique est le compromis recherché en automatique pour un temps de réponse optimal.<br/><br/>En ingénierie, le régime pseudo-périodique est parfois souhaitable (résonance acoustique, filtres sélectifs) ou au contraire à éviter (amortissement des vibrations).<br/><br/>La pseudo-pulsation $\\omega_p = \\sqrt{\\omega_0^2 - \\alpha^2}$ est TOUJOURS inférieure à $\\omega_0$ : l\'amortissement ralentit les oscillations.',
       definitions: [
         { term: 'Pulsation propre $\\omega_0$', def: 'Pulsation des oscillations libres du système non amorti ($R = 0$ pour un RLC). Pour un circuit RLC série : $\\omega_0 = 1/\\sqrt{LC}$.' },
         { term: 'Coefficient d\'amortissement $\\alpha$', def: 'Paramètre qui traduit la dissipation d\'énergie. Pour un circuit RLC série : $\\alpha = R/(2L)$. Plus $\\alpha$ est grand, plus les oscillations s\'éteignent vite.' },
@@ -24,9 +24,9 @@ window.MODULES.push(
       method: {
         title: 'Les 3 régimes',
         steps: [
-          '<strong>Équation caractéristique</strong> : Écrire l\'équation caractéristique (en remplaçant $\\frac{d^2y}{dt^2}$ par $r^2$ et $\\frac{dy}{dt}$ par $r$) : $r^2 + 2\\alpha r + \\omega_0^2 = 0$. <strong>Exemple :</strong> Pour $\\alpha = 3$ et $\\omega_0 = 5$ : $r^2 + 6r + 25 = 0$.',
-          '<strong>Discriminant et régime</strong> : Calculer le discriminant $\\Delta = 4\\alpha^2 - 4\\omega_0^2 = 4(\\alpha^2 - \\omega_0^2)$. Si $\\Delta < 0$ → pseudo-périodique (oscillant amorti). Si $\\Delta = 0$ → critique (le plus rapide sans oscillation). Si $\\Delta > 0$ → apériodique (lent, pas d\'oscillation). <strong>Exemple :</strong> $\\Delta = 4(9 - 25) = -64 < 0$ → régime pseudo-périodique.',
-          '<strong>Facteur de qualité</strong> : Facteur de qualité : $Q = \\omega_0 / (2\\alpha)$. Si $Q > 0{,}5$ : pseudo-périodique. $Q = 0{,}5$ : critique. $Q < 0{,}5$ : apériodique. <strong>Exemple :</strong> $Q = 5/(2 \\times 3) = 0{,}83 > 0{,}5$ → confirme le régime pseudo-périodique.'
+          '<strong>Équation caractéristique</strong> : en remplaçant $\\frac{d^2y}{dt^2}$ par $r^2$ et $\\frac{dy}{dt}$ par $r$ : $r^2 + 2\\alpha r + \\omega_0^2 = 0$.<br/><br/><strong>Exemple :</strong> Pour $\\alpha = 3$ et $\\omega_0 = 5$ : $r^2 + 6r + 25 = 0$.',
+          '<strong>Discriminant et régime</strong> : $\\Delta = 4\\alpha^2 - 4\\omega_0^2 = 4(\\alpha^2 - \\omega_0^2)$. Si $\\Delta < 0$ → pseudo-périodique (oscillant amorti). Si $\\Delta = 0$ → critique (le plus rapide sans oscillation). Si $\\Delta > 0$ → apériodique (lent, pas d\'oscillation).<br/><br/><strong>Exemple :</strong> $\\Delta = 4(9 - 25) = -64 < 0$ → régime pseudo-périodique.',
+          '<strong>Facteur de qualité</strong> : $Q = \\omega_0 / (2\\alpha)$. Si $Q > 0{,}5$ : pseudo-périodique. $Q = 0{,}5$ : critique. $Q < 0{,}5$ : apériodique.<br/><br/><strong>Exemple :</strong> $Q = 5/(2 \\times 3) = 0{,}83 > 0{,}5$ → confirme le régime pseudo-périodique.'
         ]
       },
       example: {
@@ -92,7 +92,7 @@ window.MODULES.push(
     ],
 
     exercice: {
-      type: 'multiple-choice',
+      type: 'numeric',
       generate() {
         const alpha = rand(1, 6);
         const omega0 = rand(1, 6);
@@ -100,17 +100,14 @@ window.MODULES.push(
         let regime;
         if (delta < 0) {
           regime = 'pseudo-périodique';
-          reponse = 0;
         } else if (delta === 0) {
           regime = 'critique';
-          reponse = 1;
         } else {
           regime = 'apériodique';
-          reponse = 2;
         }
         return {
           statement: `Un système est décrit par l'équation caractéristique avec $\\alpha = ${alpha}$ rad/s et $\\omega_0 = ${omega0}$ rad/s. Calcule $\\Delta = 4(\\alpha^2 - \\omega_0^2)$ et détermine le régime.`,
-          answer: parseFloat(delta.toString()),
+          answer: delta,
           tolerance: 0.001,
           unit: '',
           hint: `$\\Delta = 4(\\alpha^2 - \\omega_0^2) = 4(${alpha}^2 - ${omega0}^2) = 4(${alpha*alpha} - ${omega0*omega0})$. Ensuite : $\\Delta < 0$ → pseudo-périodique, $\\Delta = 0$ → critique, $\\Delta > 0$ → apériodique.`,

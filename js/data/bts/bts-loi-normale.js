@@ -14,7 +14,7 @@ window.MODULES.push(
     physics: 'Analyse des erreurs de mesure, contrôle qualité, distribution des résultats expérimentaux',
 
     cours: {
-      intro: 'La loi normale est omniprésente car le théorème central limite garantit que la MOYENNE d\'un grand nombre de variables indépendantes converge vers une loi normale — quelle que soit la distribution d\'origine. En contrôle qualité, les cotes d\'usinage, les résistances de composants, les erreurs de pesée suivent toutes une loi normale. La règle des $68$-$95$-$99{,}7\\%$ (une, deux, trois fois $\\sigma$) est à connaître par cœur. La centration-réduction $Z = (X-\\mu)/\\sigma$ ramène toute loi $\\mathcal{N}(\\mu,\\sigma^2)$ à la loi standard $\\mathcal{N}(0,1)$, dont on lit les probabilités dans une table unique. Pour les petits échantillons ($n < 30$), la loi de Student remplace la loi normale : ses queues sont plus épaisses, ce qui élargit les intervalles de confiance.',
+      intro: 'La loi normale est omniprésente car le théorème central limite garantit que la MOYENNE d\'un grand nombre de variables indépendantes converge vers une loi normale — quelle que soit la distribution d\'origine.<br/><br/>En contrôle qualité, les cotes d\'usinage, les résistances de composants, les erreurs de pesée suivent toutes une loi normale. La règle des $68$-$95$-$99{,}7\\%$ (une, deux, trois fois $\\sigma$) est à connaître par cœur.<br/><br/>La centration-réduction $Z = (X-\\mu)/\\sigma$ ramène toute loi $\\mathcal{N}(\\mu,\\sigma^2)$ à la loi standard $\\mathcal{N}(0,1)$, dont on lit les probabilités dans une table unique.<br/><br/>Pour les petits échantillons ($n < 30$), la loi de Student remplace la loi normale : ses queues sont plus épaisses, ce qui élargit les intervalles de confiance.',
       definitions: [
         { term: 'Espérance $\\mu$', def: 'Centre de la distribution normale. C\'est la valeur la plus probable (mode = médiane = moyenne). La courbe de Gauss est symétrique autour de $\\mu$.' },
         { term: 'Écart-type $\\sigma$', def: 'Largeur de la cloche de Gauss. $68\\%$ des valeurs tombent dans $[\\mu - \\sigma ; \\mu + \\sigma]$. Plus $\\sigma$ est petit, plus la distribution est concentrée.' },
@@ -24,9 +24,9 @@ window.MODULES.push(
       method: {
         title: 'Méthode',
         steps: [
-          '<strong>Centrage-réduction</strong> : Centrer-réduire : $Z = \\dfrac{X - \\mu}{\\sigma}$ suit une loi normale centrée réduite $\\mathcal{N}(0, 1)$. <strong>Exemple :</strong> Si $X \\sim \\mathcal{N}(80, 10^2)$ et $x = 95$ → $Z = (95 - 80)/10 = 1{,}5$.',
-          '<strong>Lecture de la table</strong> : Lire la table de la loi normale : $P(Z \\leq z) = \\Phi(z)$. La table donne les probabilités pour des valeurs positives. <strong>Exemple :</strong> $P(Z \\leq 1{,}5) = \\Phi(1{,}5) \\approx 0{,}9332$, donc $P(X \\leq 95) \\approx 93{,}3\\%$.',
-          '<strong>Intervalle de confiance</strong> : Intervalle de confiance à 95 % : $\\left[\\bar{x} - 1{,}96\\dfrac{\\sigma}{\\sqrt{n}}\\ ;\\ \\bar{x} + 1{,}96\\dfrac{\\sigma}{\\sqrt{n}}\\right]$ (ou $\\pm 2\\sigma$ en approximation). <strong>Exemple :</strong> $\\bar{x} = 80$, $\\sigma = 10$, $n = 25$ → IC = $[80 - 1{,}96 \\times 2 ;\\ 80 + 1{,}96 \\times 2] = [76{,}08 ;\\ 83{,}92]$.'
+          '<strong>Centrage-réduction</strong> : $Z = \\dfrac{X - \\mu}{\\sigma}$ suit une loi normale centrée réduite $\\mathcal{N}(0, 1)$.<br/><br/><strong>Exemple :</strong> Si $X \\sim \\mathcal{N}(80, 10^2)$ et $x = 95$ → $Z = (95 - 80)/10 = 1{,}5$.',
+          '<strong>Lecture de la table</strong> : $P(Z \\leq z) = \\Phi(z)$. La table donne les probabilités pour des valeurs positives.<br/><br/><strong>Exemple :</strong> $P(Z \\leq 1{,}5) = \\Phi(1{,}5) \\approx 0{,}9332$, donc $P(X \\leq 95) \\approx 93{,}3\\%$.',
+          '<strong>Intervalle de confiance</strong> : à 95 % : $\\left[\\bar{x} - 1{,}96\\dfrac{\\sigma}{\\sqrt{n}}\\ ;\\ \\bar{x} + 1{,}96\\dfrac{\\sigma}{\\sqrt{n}}\\right]$ (ou $\\pm 2\\sigma$ en approximation).<br/><br/><strong>Exemple :</strong> $\\bar{x} = 80$, $\\sigma = 10$, $n = 25$ → IC = $[80 - 1{,}96 \\times 2 ;\\ 80 + 1{,}96 \\times 2] = [76{,}08 ;\\ 83{,}92]$.'
         ]
       },
       example: {
@@ -51,7 +51,7 @@ window.MODULES.push(
         'L\'intervalle de confiance se rétrécit quand $n$ augmente (en $1/\\sqrt{n}$) ou quand $\\sigma$ diminue.',
         'Pour $n < 30$, utiliser la loi de Student (queues plus épaisses que la loi normale).'
       ],
-      piege: 'La loi normale est définie par $\\mu$ (espérance = centre) et $\\sigma$ (écart-type = largeur). Ne pas confondre $\\sigma$ (paramètre de la population) et $s$ (écart-type de l\'échantillon, estimateur de $\\sigma$). Pour un petit échantillon ($n < 30$), on utilise la loi de Student au lieu de la loi normale.'
+      piege: 'La loi normale est définie par $\\mu$ (espérance = centre) et $\\sigma$ (écart-type = largeur). Ne pas confondre $\\sigma$ (paramètre de la population) et $s$ (écart-type de l\'échantillon, estimateur de $\\sigma$).<br/><br/>Pour un petit échantillon ($n < 30$), on utilise la loi de Student au lieu de la loi normale.'
     },
 
     quiz: [
@@ -75,8 +75,8 @@ window.MODULES.push(
       {
         q: 'Un échantillon de $n = 100$ mesures donne $\\bar{x} = 200$ et $s = 10$. Quel est l\'intervalle de confiance à 95 % pour $\\mu$ ?',
         options: ['$[180 ; 220]$', '$[198 ; 202]$', '$[190 ; 210]$', '$[196 ; 204]$'],
-        answer: 3,
-        correction: '$\\text{IC}_{95\\%} = 200 \\pm 1{,}96 \\times \\dfrac{10}{\\sqrt{100}} = 200 \\pm 1{,}96 \\approx [198{,}04 ; 201{,}96] \\approx [198 ; 202]$. Mais l\'option la plus proche avec $\\pm 2 \\times 10/\\sqrt{100} = \\pm 2$ → $[198;202]$.'
+        answer: 1,
+        correction: '$\\text{IC}_{95\\%} = 200 \\pm 1{,}96 \\times \\dfrac{10}{\\sqrt{100}} = 200 \\pm 1{,}96 \\approx [198{,}04 ; 201{,}96] \\approx [198 ; 202]$.'
       }
     ],
 

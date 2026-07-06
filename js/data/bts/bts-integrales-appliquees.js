@@ -11,9 +11,9 @@ window.MODULES.push(
     title: 'Primitives et calcul intégral appliqué',
     subtitle: 'Intégrales définies, aires, valeur moyenne',
     keywords: ['Primitive', 'Intégrale', 'Aire', 'Valeur moyenne', 'Intégration par parties'],
-    physics: true,
+    physics: 'Grandeurs qui s\'accumulent : distance, charge électrique, énergie, valeur efficace d\'un signal',
     cours: {
-      intro: 'L\'intégrale définie est l\'outil de l\'accumulation : distance = $\\int v\\,dt$, charge électrique = $\\int i\\,dt$, énergie = $\\int p\\,dt$, revenu cumulé = $\\int r(t)\\,dt$. Elle calcule une AIRE ALGÉBRIQUE : négative si $f < 0$. Pour l\'aire géométrique réelle (toujours positive), il faut découper l\'intervalle là où $f$ change de signe et prendre la valeur absolue de chaque morceau. La valeur moyenne $\\bar{f} = \\frac{1}{b-a}\\int_a^b f(x)\\,dx$ est fondamentale en électronique AC : la valeur efficace (RMS) d\'un signal est $U_{eff} = \\sqrt{\\frac{1}{T}\\int_0^T u^2(t)\\,dt}$. L\'intégration par parties $\\int u\\,v\'\\,dx = [uv] - \\int u\'v\\,dx$ permet de traiter les produits $x e^x$, $x \\cos x$, etc.',
+      intro: 'L\'intégrale définie est l\'outil de l\'accumulation : distance = $\\int v\\,dt$, charge électrique = $\\int i\\,dt$, énergie = $\\int p\\,dt$, revenu cumulé = $\\int r(t)\\,dt$.<br/><br/>Elle calcule une AIRE ALGÉBRIQUE : négative si $f < 0$. Pour l\'aire géométrique réelle (toujours positive), il faut découper l\'intervalle là où $f$ change de signe et prendre la valeur absolue de chaque morceau.<br/><br/>La valeur moyenne $\\bar{f} = \\frac{1}{b-a}\\int_a^b f(x)\\,dx$ est fondamentale en électronique AC : la valeur efficace (RMS) d\'un signal est $U_{eff} = \\sqrt{\\frac{1}{T}\\int_0^T u^2(t)\\,dt}$.<br/><br/>L\'intégration par parties $\\int u\\,v\'\\,dx = [uv] - \\int u\'v\\,dx$ permet de traiter les produits $x e^x$, $x \\cos x$, etc.',
       definitions: [
         { term: 'Primitive $F$ de $f$', def: 'Fonction telle que $F\'(x) = f(x)$ sur un intervalle. Elle est unique à une constante près : si $F$ est une primitive, toute primitive s\'écrit $F + C$.' },
         { term: 'Intégrale définie $\\int_a^b f(x)\\,dx$', def: 'Aire algébrique entre la courbe $y = f(x)$, l\'axe $x$ et les droites $x = a$, $x = b$. Positive si $f \\geq 0$, négative si $f \\leq 0$.' },
@@ -23,10 +23,10 @@ window.MODULES.push(
       method: {
         title: 'Calculer une intégrale définie',
         steps: [
-          '<strong>Recherche de la primitive</strong> : Trouver une primitive $F$ de $f$ (antidérivée : $F\'=f$). <strong>Exemple :</strong> $f(x) = 3x^2$ → $F(x) = x^3$ (car $(x^3)\' = 3x^2$).',
-          '<strong>Calcul de l\'intégrale définie</strong> : Appliquer la formule : $\\int_a^b f(x)\\,dx = [F(x)]_a^b = F(b)-F(a)$. <strong>Exemple :</strong> $\\int_1^3 3x^2\\,dx = [x^3]_1^3 = 27 - 1 = 26$.',
-          '<strong>Moyenne d\'une fonction</strong> : Valeur moyenne : $\\bar{f}=\\frac{1}{b-a}\\int_a^b f(x)\\,dx$. <strong>Exemple :</strong> $\\bar{f} = \\frac{26}{3-1} = 13$.',
-          '<strong>Intégration par parties</strong> : Intégration par parties : $\\int u\\,v\'\\,dx = [uv]-\\int u\'\\,v\\,dx$. <strong>Exemple :</strong> $\\int_0^1 x e^x\\,dx$ : $u = x$, $v\' = e^x$ → $[xe^x]_0^1 - \\int_0^1 e^x\\,dx = e - (e - 1) = 1$.'
+          '<strong>Recherche de la primitive</strong> : trouver une fonction $F$ telle que $F\'=f$ (antidérivée).<br/><br/><strong>Exemple :</strong> $f(x) = 3x^2$ → $F(x) = x^3$ (car $(x^3)\' = 3x^2$).',
+          '<strong>Calcul de l\'intégrale définie</strong> : appliquer la formule $\\int_a^b f(x)\\,dx = [F(x)]_a^b = F(b)-F(a)$.<br/><br/><strong>Exemple :</strong> $\\int_1^3 3x^2\\,dx = [x^3]_1^3 = 27 - 1 = 26$.',
+          '<strong>Moyenne d\'une fonction</strong> : $\\bar{f}=\\frac{1}{b-a}\\int_a^b f(x)\\,dx$.<br/><br/><strong>Exemple :</strong> $\\bar{f} = \\frac{26}{3-1} = 13$.',
+          '<strong>Intégration par parties</strong> : $\\int u\\,v\'\\,dx = [uv]-\\int u\'\\,v\\,dx$.<br/><br/><strong>Exemple :</strong> $\\int_0^1 x e^x\\,dx$ : $u = x$, $v\' = e^x$ → $[xe^x]_0^1 - \\int_0^1 e^x\\,dx = e - (e - 1) = 1$.'
         ]
       },
       example: {

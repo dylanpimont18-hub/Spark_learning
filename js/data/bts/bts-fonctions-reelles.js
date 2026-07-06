@@ -11,9 +11,9 @@ window.MODULES.push(
     title: 'Fonctions d\'une variable réelle',
     subtitle: 'Révisions et compléments (limites, continuité, dérivée)',
     keywords: ['Fonction', 'Limite', 'Continuité', 'Dérivée', 'Tableau de variations'],
-    physics: true,
+    physics: 'Modélisation de grandeurs physiques : rendement d\'un convertisseur, réponse en fréquence, lois de saturation',
     cours: {
-      intro: 'En BTS, l\'étude complète d\'une fonction est un outil de modélisation : une fonction de coût, une loi de transfert, une réponse impulsionnelle — chacune nécessite domaine, limites, variations et asymptotes. Le domaine de définition est contraint par les dénominateurs ($\\neq 0$), les racines carrées ($\\geq 0$) et les logarithmes ($> 0$). Les asymptotes décrivent le comportement aux extrêmes : asymptote verticale là où la fonction "explose", horizontale si elle se stabilise. Attention : un point exclu du domaine ne génère pas toujours une asymptote verticale — si le numérateur s\'annule aussi, on obtient un "trou" (discontinuité effaçable) et non une asymptote. La règle de L\'Hôpital lève les formes indéterminées $0/0$ ou $\\infty/\\infty$ en dérivant numérateur et dénominateur séparément — elle est correcte mais souvent inutile si on sait factoriser.',
+      intro: 'En BTS, l\'étude complète d\'une fonction est un outil de modélisation : une fonction de coût, une loi de transfert, une réponse impulsionnelle — chacune nécessite domaine, limites, variations et asymptotes.<br/><br/>Le domaine de définition est contraint par les dénominateurs ($\\neq 0$), les racines carrées ($\\geq 0$) et les logarithmes ($> 0$).<br/><br/>Les asymptotes décrivent le comportement aux extrêmes : asymptote verticale là où la fonction "explose", horizontale si elle se stabilise.<br/><br/>Attention : un point exclu du domaine ne génère pas toujours une asymptote verticale — si le numérateur s\'annule aussi, on obtient un "trou" (discontinuité effaçable) et non une asymptote.<br/><br/>La règle de L\'Hôpital lève les formes indéterminées $0/0$ ou $\\infty/\\infty$ en dérivant numérateur et dénominateur séparément — elle est correcte mais souvent inutile si on sait factoriser.',
       definitions: [
         { term: 'Domaine de définition $D_f$', def: 'Ensemble des valeurs de $x$ pour lesquelles $f(x)$ existe. Exclu : les valeurs qui annulent un dénominateur, qui rendent un radicande négatif, ou un argument de logarithme $\\leq 0$.' },
         { term: 'Asymptote horizontale', def: 'Droite $y = L$ telle que $\\lim_{x \\to \\pm\\infty} f(x) = L$. La courbe s\'en rapproche indéfiniment sans la toucher (en général).' },
@@ -23,10 +23,10 @@ window.MODULES.push(
       method: {
         title: 'Étude complète d\'une fonction',
         steps: [
-          '<strong>Domaine de définition</strong> : Domaine : annuler les dénominateurs, conditions de la racine ou du logarithme. <strong>Exemple :</strong> $f(x) = \\ln(3x - 6)$ → condition $3x - 6 > 0$, soit $x > 2$ → $D_f = ]2 ; +\\infty[$.',
-          '<strong>Étude des limites</strong> : Limites aux bornes du domaine (et en $\\pm\\infty$). <strong>Exemple :</strong> $f(x) = \\frac{2x+1}{x-3}$ → $\\lim_{x \\to +\\infty} f(x) = 2$ (AH) et $\\lim_{x \\to 3} f(x) = \\pm\\infty$ (AV en $x=3$).',
-          '<strong>Tableau de variations</strong> : Signe de la dérivée $f\'$ pour les variations ; tableau de variations. <strong>Exemple :</strong> $f(x) = x^2 - 4x$ → $f\'(x) = 2x - 4 = 0$ en $x = 2$. $f\'(x) < 0$ pour $x < 2$ (décroissante), $f\'(x) > 0$ pour $x > 2$ (croissante). Minimum en $x = 2$ : $f(2) = -4$.',
-          '<strong>Asymptotes</strong> : Asymptotes : horizontale si $\\lim_{x\\to\\pm\\infty}f(x)=L$ ; verticale si $\\lim_{x\\to a}f(x)=\\pm\\infty$. <strong>Exemple :</strong> $f(x) = \\frac{x^2+1}{x} = x + \\frac{1}{x}$ → pas d\'AH, mais asymptote oblique $y = x$ (car $f(x) - x = 1/x \\to 0$).'
+          '<strong>Domaine de définition</strong> : annuler les dénominateurs, poser les conditions de la racine ou du logarithme.<br/><br/><strong>Exemple :</strong> $f(x) = \\ln(3x - 6)$ → condition $3x - 6 > 0$, soit $x > 2$ → $D_f = ]2 ; +\\infty[$.',
+          '<strong>Étude des limites</strong> : limites aux bornes du domaine (et en $\\pm\\infty$).<br/><br/><strong>Exemple :</strong> $f(x) = \\frac{2x+1}{x-3}$ → $\\lim_{x \\to +\\infty} f(x) = 2$ (AH) et $\\lim_{x \\to 3} f(x) = \\pm\\infty$ (AV en $x=3$).',
+          '<strong>Tableau de variations</strong> : le signe de la dérivée $f\'$ donne directement les intervalles de croissance et de décroissance.<br/><br/><strong>Exemple :</strong> $f(x) = x^2 - 4x$ → $f\'(x) = 2x - 4 = 0$ en $x = 2$. $f\'(x) < 0$ pour $x < 2$ (décroissante), $f\'(x) > 0$ pour $x > 2$ (croissante). Minimum en $x = 2$ : $f(2) = -4$.',
+          '<strong>Asymptotes</strong> : horizontale si $\\lim_{x\\to\\pm\\infty}f(x)=L$ ; verticale si $\\lim_{x\\to a}f(x)=\\pm\\infty$.<br/><br/><strong>Exemple :</strong> $f(x) = \\frac{x^2+1}{x} = x + \\frac{1}{x}$ → pas d\'AH, mais asymptote oblique $y = x$ (car $f(x) - x = 1/x \\to 0$).'
         ]
       },
       example: {

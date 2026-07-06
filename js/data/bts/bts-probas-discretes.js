@@ -11,9 +11,9 @@ window.MODULES.push(
     title: 'Lois de probabilité discrètes',
     subtitle: 'Loi binomiale et loi de Poisson',
     keywords: ['Loi binomiale', 'Loi de Poisson', 'Espérance', 'Variance', 'Processus aléatoire'],
-    physics: true,
+    physics: 'Fiabilité et contrôle qualité : taux de défauts, pannes machines, événements rares',
     cours: {
-      intro: 'En BTS, les lois discrètes modélisent les défauts de production, les pannes, les demandes clients. La loi binomiale $\\mathcal{B}(n,p)$ compte les succès en $n$ essais indépendants avec probabilité $p$ constante — typiquement un contrôle qualité par échantillonnage. La loi de Poisson $\\mathcal{P}(\\lambda)$ modélise les événements rares dans un intervalle : pannes/heure, arrivées/minute dans un centre d\'appels, défauts/m² sur une tôle. Quand $n$ est grand et $p$ petit, la Poisson approche la binomiale avec $\\lambda = np$ : un contrôle sur $500$ pièces avec $2\\%$ de défauts ($\\lambda = 10$) se calcule bien plus simplement avec Poisson. Le critère pratique d\'approximation : $n \\geq 30$ et $p \\leq 0{,}1$. La propriété clé de Poisson : $E(X) = V(X) = \\lambda$ — variance égale à la moyenne, ce qui n\'est pas le cas en général.',
+      intro: 'En BTS, les lois discrètes modélisent les défauts de production, les pannes, les demandes clients.<br/><br/>La loi binomiale $\\mathcal{B}(n,p)$ compte les succès en $n$ essais indépendants avec probabilité $p$ constante — typiquement un contrôle qualité par échantillonnage.<br/><br/>La loi de Poisson $\\mathcal{P}(\\lambda)$ modélise les événements rares dans un intervalle : pannes/heure, arrivées/minute dans un centre d\'appels, défauts/m² sur une tôle.<br/><br/>Quand $n$ est grand et $p$ petit, la Poisson approche la binomiale avec $\\lambda = np$ : un contrôle sur $500$ pièces avec $2\\%$ de défauts ($\\lambda = 10$) se calcule bien plus simplement avec Poisson. Le critère pratique d\'approximation : $n \\geq 30$ et $p \\leq 0{,}1$.<br/><br/>La propriété clé de Poisson : $E(X) = V(X) = \\lambda$ — variance égale à la moyenne, ce qui n\'est pas le cas en général.',
       definitions: [
         { term: 'Loi binomiale $\\mathcal{B}(n, p)$', def: 'Loi du nombre de succès en $n$ épreuves indépendantes, chacune avec probabilité de succès $p$. $E(X) = np$, $V(X) = np(1-p)$.' },
         { term: 'Loi de Poisson $\\mathcal{P}(\\lambda)$', def: 'Loi du nombre d\'événements rares dans un intervalle donné (temps, surface, volume). Paramètre $\\lambda$ = nombre moyen d\'événements. Propriété clé : $E(X) = V(X) = \\lambda$.' },
@@ -23,10 +23,10 @@ window.MODULES.push(
       method: {
         title: 'Choisir entre binomiale et Poisson',
         steps: [
-          '<strong>Loi binomiale</strong> : Loi binomiale : $n$ répétitions indépendantes, probabilité $p$ constante. <strong>Exemple :</strong> On tire $n = 10$ pièces d\'un lot à $5\\%$ de défauts. $X \\sim \\mathcal{B}(10 ; 0{,}05)$. $P(X = 0) = 0{,}95^{10} \\approx 0{,}599$.',
-          '<strong>Loi de Poisson</strong> : Loi de Poisson : événements rares ($\\lambda=np$ fixé, $n$ grand, $p$ petit). <strong>Exemple :</strong> Une machine a $2$ pannes/jour en moyenne. $P(X = 0) = e^{-2} \\approx 0{,}135$ (probabilité d\'aucune panne).',
-          '<strong>Formule de Poisson</strong> : $P_{\\mathcal{P}(\\lambda)}(X=k)=\\dfrac{\\lambda^k}{k!}e^{-\\lambda}$. <strong>Exemple :</strong> $\\lambda = 3$, $k = 2$ → $P(X=2) = \\frac{9}{2} \\times e^{-3} \\approx 4{,}5 \\times 0{,}0498 \\approx 0{,}224$.',
-          '<strong>Moments de Poisson</strong> : Espérance et variance de Poisson : $E(X)=V(X)=\\lambda$. <strong>Exemple :</strong> Si $\\lambda = 5$ pannes/jour, l\'écart-type est $\\sigma = \\sqrt{5} \\approx 2{,}24$ pannes/jour.'
+          '<strong>Loi binomiale</strong> : $n$ répétitions indépendantes, probabilité $p$ constante.<br/><br/><strong>Exemple :</strong> On tire $n = 10$ pièces d\'un lot à $5\\%$ de défauts. $X \\sim \\mathcal{B}(10 ; 0{,}05)$. $P(X = 0) = 0{,}95^{10} \\approx 0{,}599$.',
+          '<strong>Loi de Poisson</strong> : événements rares ($\\lambda=np$ fixé, $n$ grand, $p$ petit).<br/><br/><strong>Exemple :</strong> Une machine a $2$ pannes/jour en moyenne. $P(X = 0) = e^{-2} \\approx 0{,}135$ (probabilité d\'aucune panne).',
+          '<strong>Formule de Poisson</strong> : $P_{\\mathcal{P}(\\lambda)}(X=k)=\\dfrac{\\lambda^k}{k!}e^{-\\lambda}$.<br/><br/><strong>Exemple :</strong> $\\lambda = 3$, $k = 2$ → $P(X=2) = \\frac{9}{2} \\times e^{-3} \\approx 4{,}5 \\times 0{,}0498 \\approx 0{,}224$.',
+          '<strong>Moments de Poisson</strong> : $E(X)=V(X)=\\lambda$.<br/><br/><strong>Exemple :</strong> Si $\\lambda = 5$ pannes/jour, l\'écart-type est $\\sigma = \\sqrt{5} \\approx 2{,}24$ pannes/jour.'
         ]
       },
       example: {

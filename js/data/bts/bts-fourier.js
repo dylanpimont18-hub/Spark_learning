@@ -11,9 +11,9 @@ window.MODULES.push(
     title: 'Séries de Fourier',
     subtitle: 'Décomposition en harmoniques, spectre fréquentiel',
     keywords: ['Fourier', 'Harmonique', 'Fréquence', 'Signal périodique', 'Coefficients'],
-    physics: true,
+    physics: 'Analyse spectrale de signaux : harmoniques de courant, acoustique, traitement du signal',
     cours: {
-      intro: 'Toute fonction périodique peut être décomposée en une somme infinie de sinusoïdes de fréquences multiples de la fréquence fondamentale : c\'est le théorème de Fourier. L\'intuition : n\'importe quelle forme d\'onde — créneau, dent de scie, impulsion — est une superposition de "sons purs" (harmoniques), ce que l\'oreille et les filtres électroniques perçoivent séparément. En BTS, cette décomposition est centrale en électronique de puissance (harmoniques de courant des variateurs de vitesse), en acoustique (timbre d\'un instrument) et en traitement numérique du signal. L\'amplitude de la $n$-ième harmonique est $c_n=\\sqrt{a_n^2+b_n^2}$ : le tracé de $c_n$ en fonction de $n$ s\'appelle le spectre du signal. Piège fréquent : en un point de discontinuité (signal carré, créneau), la série de Fourier ne converge pas vers la valeur du signal mais vers la moyenne des limites à gauche et à droite — phénomène de Gibbs.',
+      intro: 'Toute fonction périodique peut être décomposée en une somme infinie de sinusoïdes de fréquences multiples de la fréquence fondamentale : c\'est le théorème de Fourier.<br/><br/>L\'intuition : n\'importe quelle forme d\'onde — créneau, dent de scie, impulsion — est une superposition de "sons purs" (harmoniques), ce que l\'oreille et les filtres électroniques perçoivent séparément.<br/><br/>En BTS, cette décomposition est centrale en électronique de puissance (harmoniques de courant des variateurs de vitesse), en acoustique (timbre d\'un instrument) et en traitement numérique du signal.<br/><br/>L\'amplitude de la $n$-ième harmonique est $c_n=\\sqrt{a_n^2+b_n^2}$ : le tracé de $c_n$ en fonction de $n$ s\'appelle le spectre du signal.<br/><br/>Piège fréquent : en un point de discontinuité (signal carré, créneau), la série de Fourier ne converge pas vers la valeur du signal mais vers la moyenne des limites à gauche et à droite — phénomène de Gibbs.',
       definitions: [
         { term: 'Harmonique de rang $n$', def: 'Composante sinusoïdale de fréquence $nf_0$ ($n$ fois la fréquence fondamentale). Le fondamental ($n=1$) a la fréquence $f_0 = 1/T$. L\'harmonique 3 a la fréquence $3f_0$, etc.' },
         { term: 'Spectre fréquentiel', def: 'Graphe de l\'amplitude $c_n = \\sqrt{a_n^2+b_n^2}$ en fonction du rang $n$ (ou de la fréquence $nf_0$). Il montre la "recette" du signal en termes de sinusoïdes.' },
@@ -23,10 +23,10 @@ window.MODULES.push(
       method: {
         title: 'Calculer les coefficients de Fourier',
         steps: [
-          '<strong>Signal périodique</strong> : Signal périodique de période $T$ (ou pulsation $\\omega_0=2\\pi/T$). <strong>Exemple :</strong> Signal de fréquence $f_0 = 50$ Hz → $T = 1/50 = 0{,}02$ s, $\\omega_0 = 2\\pi \\times 50 = 100\\pi$ rad/s.',
-          '<strong>Composante continue</strong> : $a_0=\\frac{1}{T}\\int_0^T f(t)\\,dt$ (valeur moyenne). <strong>Exemple :</strong> Signal créneau $\\pm A$ symétrique → $a_0 = 0$ (aires positives et négatives s\'annulent).',
-          '<strong>Coefficients de Fourier</strong> : $a_n=\\frac{2}{T}\\int_0^T f(t)\\cos(n\\omega_0 t)\\,dt$ et $b_n=\\frac{2}{T}\\int_0^T f(t)\\sin(n\\omega_0 t)\\,dt$. <strong>Exemple :</strong> Signal créneau impair d\'amplitude $A$ → $a_n = 0$ (impair, pas de cosinus) et $b_n = 4A/(n\\pi)$ pour $n$ impair, $0$ pour $n$ pair.',
-          '<strong>Décomposition complète</strong> : Développement : $f(t)=a_0+\\sum_{n=1}^{\\infty}(a_n\\cos(n\\omega_0 t)+b_n\\sin(n\\omega_0 t))$. <strong>Exemple :</strong> Créneau $\\pm 5$ V → $f(t) \\approx \\frac{20}{\\pi}\\sin(\\omega_0 t) + \\frac{20}{3\\pi}\\sin(3\\omega_0 t) + \\frac{20}{5\\pi}\\sin(5\\omega_0 t) + \\ldots$'
+          '<strong>Signal périodique</strong> : de période $T$ (ou pulsation $\\omega_0=2\\pi/T$).<br/><br/><strong>Exemple :</strong> Signal de fréquence $f_0 = 50$ Hz → $T = 1/50 = 0{,}02$ s, $\\omega_0 = 2\\pi \\times 50 = 100\\pi$ rad/s.',
+          '<strong>Composante continue</strong> : $a_0=\\frac{1}{T}\\int_0^T f(t)\\,dt$ (valeur moyenne).<br/><br/><strong>Exemple :</strong> Signal créneau $\\pm A$ symétrique → $a_0 = 0$ (aires positives et négatives s\'annulent).',
+          '<strong>Coefficients de Fourier</strong> : $a_n=\\frac{2}{T}\\int_0^T f(t)\\cos(n\\omega_0 t)\\,dt$ et $b_n=\\frac{2}{T}\\int_0^T f(t)\\sin(n\\omega_0 t)\\,dt$.<br/><br/><strong>Exemple :</strong> Signal créneau impair d\'amplitude $A$ → $a_n = 0$ (impair, pas de cosinus) et $b_n = 4A/(n\\pi)$ pour $n$ impair, $0$ pour $n$ pair.',
+          '<strong>Décomposition complète</strong> : $f(t)=a_0+\\sum_{n=1}^{\\infty}(a_n\\cos(n\\omega_0 t)+b_n\\sin(n\\omega_0 t))$.<br/><br/><strong>Exemple :</strong> Créneau $\\pm 5$ V → $f(t) \\approx \\frac{20}{\\pi}\\sin(\\omega_0 t) + \\frac{20}{3\\pi}\\sin(3\\omega_0 t) + \\frac{20}{5\\pi}\\sin(5\\omega_0 t) + \\ldots$'
         ]
       },
       example: {
@@ -48,9 +48,9 @@ window.MODULES.push(
       ],
       diagram: {
         theme: 'maths',
-        kicker: 'Spectre frequentiel',
-        title: 'Passer d\'un signal creaneau a ses harmoniques dominantes',
-        description: 'Le signal temporel garde une forme brutale, mais son spectre isole des barres d\'amplitude aux frequences multiples de la fondamentale.',
+        kicker: 'Spectre fréquentiel',
+        title: 'Passer d\'un signal créneau à ses harmoniques dominantes',
+        description: 'Le signal temporel garde une forme brutale, mais son spectre isole des barres d\'amplitude aux fréquences multiples de la fondamentale.',
         svg: `
           <svg viewBox="0 0 360 260" role="img" aria-labelledby="fourier-graph-title fourier-graph-desc">
             <title id="fourier-graph-title">Signal temporel et spectre de Fourier</title>
@@ -83,12 +83,12 @@ window.MODULES.push(
           </svg>
         `,
         notes: [
-          'Le signal creaneau est brutal dans le temps, mais il peut etre decompose en une somme d\'ondes sinusoïdales.',
-          'Pour un creaneau symetrique impair, seules les harmoniques impaires apparaissent : 1, 3, 5, etc.',
-          'Les barres du spectre decroissent : le fondamental domine, puis les harmoniques corrigent la forme du signal.'
+          'Le signal créneau est brutal dans le temps, mais il peut être décomposé en une somme d\'ondes sinusoïdales.',
+          'Pour un créneau symétrique impair, seules les harmoniques impaires apparaissent : 1, 3, 5, etc.',
+          'Les barres du spectre décroissent : le fondamental domine, puis les harmoniques corrigent la forme du signal.'
         ],
-        reading: 'Le haut dit a quoi ressemble le signal. Le bas dit quelles frequences il contient vraiment et avec quelle importance.',
-        caption: 'Representation conjointe d\'un creaneau et de son spectre en harmoniques impaires.'
+        reading: 'Le haut montre à quoi ressemble le signal. Le bas montre quelles fréquences il contient vraiment et avec quelle importance.',
+        caption: 'Représentation conjointe d\'un créneau et de son spectre en harmoniques impaires.'
       },
       recap: [
         'Tout signal périodique = composante continue ($a_0$) + somme infinie d\'harmoniques ($a_n\\cos + b_n\\sin$).',

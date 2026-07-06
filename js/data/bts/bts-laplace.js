@@ -11,9 +11,9 @@ window.MODULES.push(
     title: 'Transformée de Laplace',
     subtitle: 'Définition, propriétés, résolution d\'équations différentielles',
     keywords: ['Laplace', 'Transformée', 'Équation différentielle', 'Fonction de transfert', 'Système'],
-    physics: true,
+    physics: 'Automatique et asservissement : fonction de transfert, stabilité, réponse d\'un circuit RC/RL',
     cours: {
-      intro: 'La transformée de Laplace convertit une équation différentielle (domaine temporel) en une équation algébrique (domaine de $p$), rendant la résolution beaucoup plus systématique. La clé est la propriété de dérivation : $\\mathcal{L}\\{f\'\\}=pF(p)-f(0)$ — la condition initiale $f(0)$ apparaît explicitement, ce qui "encode" l\'état de départ du système directement dans le calcul. En automatique BTS, la transformée de Laplace permet de définir la fonction de transfert $H(p)=S(p)/E(p)$ d\'un système (asservissement, régulateur PID, filtre actif) et d\'analyser sa stabilité via les pôles (valeurs de $p$ qui annulent le dénominateur). Le passage au domaine fréquentiel s\'obtient en posant $p=j\\omega$ : on retrouve alors la réponse en fréquence classique (diagramme de Bode). Piège majeur : oublier le terme $-f(0)$ dans $\\mathcal{L}\\{f\'\\}=pF(p)-f(0)$ donne une solution incorrecte dès que les conditions initiales ne sont pas nulles.',
+      intro: 'La transformée de Laplace convertit une équation différentielle (domaine temporel) en une équation algébrique (domaine de $p$), rendant la résolution beaucoup plus systématique.<br/><br/>La clé est la propriété de dérivation : $\\mathcal{L}\\{f\'\\}=pF(p)-f(0)$ — la condition initiale $f(0)$ apparaît explicitement, ce qui "encode" l\'état de départ du système directement dans le calcul.<br/><br/>En automatique BTS, la transformée de Laplace permet de définir la fonction de transfert $H(p)=S(p)/E(p)$ d\'un système (asservissement, régulateur PID, filtre actif) et d\'analyser sa stabilité via les pôles (valeurs de $p$ qui annulent le dénominateur).<br/><br/>Le passage au domaine fréquentiel s\'obtient en posant $p=j\\omega$ : on retrouve alors la réponse en fréquence classique (diagramme de Bode).<br/><br/>Piège majeur : oublier le terme $-f(0)$ dans $\\mathcal{L}\\{f\'\\}=pF(p)-f(0)$ donne une solution incorrecte dès que les conditions initiales ne sont pas nulles.',
       definitions: [
         { term: 'Transformée de Laplace $\\mathcal{L}\\{f\\}$', def: 'Opération qui convertit une fonction temporelle $f(t)$ en une fonction $F(p) = \\int_0^{+\\infty} f(t)e^{-pt}\\,dt$ dans le domaine de la variable complexe $p$. Les équations différentielles deviennent algébriques.' },
         { term: 'Fonction de transfert $H(p)$', def: 'Rapport $H(p) = S(p)/E(p)$ entre la sortie et l\'entrée d\'un système linéaire dans le domaine de Laplace. Elle caractérise complètement le comportement du système.' },
@@ -23,10 +23,10 @@ window.MODULES.push(
       method: {
         title: 'Résoudre une ED par Laplace',
         steps: [
-          '<strong>Transformation et équation algébrique</strong> : Transformer l\'équation différentielle avec $\\mathcal{L}\\{f\'\\}=pF(p)-f(0)$. <strong>Exemple :</strong> $y\' + 5y = 10$, $y(0) = 0$ → $pY(p) - 0 + 5Y(p) = 10/p$ → $(p+5)Y(p) = 10/p$.',
-          '<strong>Résolution algébrique</strong> : Résoudre l\'équation algébrique en $F(p)$. <strong>Exemple :</strong> $Y(p) = \\frac{10}{p(p+5)}$.',
-          '<strong>Décomposition en éléments simples</strong> : Décomposer $F(p)$ en éléments simples. <strong>Exemple :</strong> $\\frac{10}{p(p+5)} = \\frac{A}{p} + \\frac{B}{p+5}$. En $p=0$ : $A = 2$. En $p=-5$ : $B = -2$. Donc $Y(p) = \\frac{2}{p} - \\frac{2}{p+5}$.',
-          '<strong>Transformation inverse</strong> : Inverser : utiliser le tableau des transformées pour trouver $f(t)$. <strong>Exemple :</strong> $y(t) = 2 - 2e^{-5t} = 2(1 - e^{-5t})$ pour $t \\geq 0$.'
+          '<strong>Transformation et équation algébrique</strong> : appliquer $\\mathcal{L}\\{f\'\\}=pF(p)-f(0)$ à l\'équation différentielle.<br/><br/><strong>Exemple :</strong> $y\' + 5y = 10$, $y(0) = 0$ → $pY(p) - 0 + 5Y(p) = 10/p$ → $(p+5)Y(p) = 10/p$.',
+          '<strong>Résolution algébrique</strong> : isoler $F(p)$ dans l\'équation obtenue.<br/><br/><strong>Exemple :</strong> $Y(p) = \\frac{10}{p(p+5)}$.',
+          '<strong>Décomposition en éléments simples</strong> : $F(p)$ se réécrit comme une somme de fractions simples inversibles directement.<br/><br/><strong>Exemple :</strong> $\\frac{10}{p(p+5)} = \\frac{A}{p} + \\frac{B}{p+5}$. En $p=0$ : $A = 2$. En $p=-5$ : $B = -2$. Donc $Y(p) = \\frac{2}{p} - \\frac{2}{p+5}$.',
+          '<strong>Transformation inverse</strong> : utiliser le tableau des transformées pour retrouver $f(t)$.<br/><br/><strong>Exemple :</strong> $y(t) = 2 - 2e^{-5t} = 2(1 - e^{-5t})$ pour $t \\geq 0$.'
         ]
       },
       example: {

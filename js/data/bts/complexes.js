@@ -14,7 +14,7 @@ window.MODULES.push(
     physics: 'Impédance $\\underline{Z}$, régimes sinusoïdaux, déphasage',
 
     cours: {
-      intro: 'En régime sinusoïdal, chaque composant introduit un DÉPHASAGE entre courant et tension : la résistance ne déphasé pas ($\\phi=0$), la bobine avance le courant de $-90°$ ($\\underline{Z}_L = jL\\omega$), le condensateur le retarde de $+90°$ ($\\underline{Z}_C = -j/(C\\omega)$). Représenter ces effets comme des nombres complexes permet de les combiner algébriquement — le module de l\'impédance donne l\'amplitude, l\'argument donne le déphasage. La partie réelle de $\\underline{Z}$ est résistive (énergie dissipée en chaleur) ; la partie imaginaire est réactive (énergie stockée et restituée). En notation BTS, on écrit $j = \\sqrt{-1}$ (et non $i$) pour éviter la confusion avec l\'intensité $i(t)$. La résonance ($\\omega_0 = 1/\\sqrt{LC}$) annule la partie imaginaire : le circuit se comporte alors comme une résistance pure.',
+      intro: 'En régime sinusoïdal, chaque composant introduit un DÉPHASAGE entre courant et tension : la résistance ne déphase pas ($\\phi=0$), la bobine avance le courant de $-90°$ ($\\underline{Z}_L = jL\\omega$), le condensateur le retarde de $+90°$ ($\\underline{Z}_C = -j/(C\\omega)$).<br/><br/>Représenter ces effets comme des nombres complexes permet de les combiner algébriquement — le module de l\'impédance donne l\'amplitude, l\'argument donne le déphasage.<br/><br/>La partie réelle de $\\underline{Z}$ est résistive (énergie dissipée en chaleur) ; la partie imaginaire est réactive (énergie stockée et restituée).<br/><br/>En notation BTS, on écrit $j = \\sqrt{-1}$ (et non $i$) pour éviter la confusion avec l\'intensité $i(t)$.<br/><br/>La résonance ($\\omega_0 = 1/\\sqrt{LC}$) annule la partie imaginaire : le circuit se comporte alors comme une résistance pure.',
       definitions: [
         { term: 'Module $|\\underline{Z}|$', def: 'Longueur du vecteur dans le plan complexe : $|\\underline{Z}| = \\sqrt{a^2 + b^2}$. En électricité, il représente l\'amplitude du rapport tension/courant (en Ω).' },
         { term: 'Argument $\\arg(\\underline{Z})$', def: 'Angle du vecteur avec l\'axe réel : $\\phi = \\arctan(b/a)$. Il donne le déphasage entre tension et courant.' },
@@ -24,9 +24,9 @@ window.MODULES.push(
       method: {
         title: 'Opérations sur les complexes',
         steps: [
-          '<strong>Forme algébrique</strong> : Forme algébrique : $\\underline{Z} = a + jb$ (avec $j^2 = -1$). Module : $|\\underline{Z}| = \\sqrt{a^2 + b^2}$. Argument : $\\phi = \\arctan(b/a)$. <strong>Exemple :</strong> $\\underline{Z} = 6 + 8j$ → $|\\underline{Z}| = \\sqrt{36 + 64} = \\sqrt{100} = 10$ Ω et $\\phi = \\arctan(8/6) \\approx 53{,}1°$.',
-          '<strong>Forme exponentielle (polaire)</strong> : Forme exponentielle (polaire) : $\\underline{Z} = |\\underline{Z}| e^{j\\phi}$. Utile pour multiplier/diviser des impédances. <strong>Exemple :</strong> $\\underline{Z}_1 = 5e^{j30°}$ et $\\underline{Z}_2 = 2e^{j15°}$ → $\\underline{Z}_1 \\cdot \\underline{Z}_2 = 10e^{j45°}$ (modules multipliés, arguments additionnés).',
-          '<strong>Calcul des impédances</strong> : Impédances : résistance $\\underline{Z}_R = R$ ; bobine $\\underline{Z}_L = jL\\omega$ ; condensateur $\\underline{Z}_C = \\dfrac{1}{jC\\omega} = \\dfrac{-j}{C\\omega}$. <strong>Exemple :</strong> Bobine $L = 50$ mH à $\\omega = 1000$ rad/s → $\\underline{Z}_L = j \\times 0{,}05 \\times 1000 = 50j$ Ω (module $50$ Ω, déphasage $+90°$).'
+          '<strong>Forme algébrique</strong> : $\\underline{Z} = a + jb$ (avec $j^2 = -1$). Module : $|\\underline{Z}| = \\sqrt{a^2 + b^2}$. Argument : $\\phi = \\arctan(b/a)$.<br/><br/><strong>Exemple :</strong> $\\underline{Z} = 6 + 8j$ → $|\\underline{Z}| = \\sqrt{36 + 64} = \\sqrt{100} = 10$ Ω et $\\phi = \\arctan(8/6) \\approx 53{,}1°$.',
+          '<strong>Forme exponentielle (polaire)</strong> : $\\underline{Z} = |\\underline{Z}| e^{j\\phi}$. Utile pour multiplier/diviser des impédances.<br/><br/><strong>Exemple :</strong> $\\underline{Z}_1 = 5e^{j30°}$ et $\\underline{Z}_2 = 2e^{j15°}$ → $\\underline{Z}_1 \\cdot \\underline{Z}_2 = 10e^{j45°}$ (modules multipliés, arguments additionnés).',
+          '<strong>Calcul des impédances</strong> : résistance $\\underline{Z}_R = R$ ; bobine $\\underline{Z}_L = jL\\omega$ ; condensateur $\\underline{Z}_C = \\dfrac{1}{jC\\omega} = \\dfrac{-j}{C\\omega}$.<br/><br/><strong>Exemple :</strong> Bobine $L = 50$ mH à $\\omega = 1000$ rad/s → $\\underline{Z}_L = j \\times 0{,}05 \\times 1000 = 50j$ Ω (module $50$ Ω, déphasage $+90°$).'
         ]
       },
       example: {
@@ -53,7 +53,7 @@ window.MODULES.push(
         'À la résonance ($\\omega_0 = 1/\\sqrt{LC}$), l\'impédance est purement réelle ($\\underline{Z} = R$) et le courant est maximal.',
         'Toujours utiliser $j$ (pas $i$) en électronique pour éviter la confusion avec l\'intensité $i(t)$.'
       ],
-      piege: 'En électronique, on utilise $j$ (et non $i$) pour l\'unité imaginaire, pour éviter la confusion avec l\'intensité du courant $i(t)$. Les deux notations désignent la même chose mathématiquement.'
+      piege: 'En électronique, on utilise $j$ (et non $i$) pour l\'unité imaginaire, pour éviter la confusion avec l\'intensité du courant $i(t)$.<br/><br/>Les deux notations désignent la même chose mathématiquement.'
     },
 
     quiz: [

@@ -11,9 +11,9 @@ window.MODULES.push(
     title: 'Dérivation appliquée',
     subtitle: 'Coûts marginaux, optimisation économique',
     keywords: ['Coût marginal', 'Optimisation', 'Dérivée', 'Maximum de profit', 'Élasticité'],
-    physics: false,
+    physics: 'Gestion de production industrielle : quantité optimale, seuil de rentabilité, coût marginal',
     cours: {
-      intro: 'En économie et gestion, chaque dérivée porte un nom métier : $C\'(x)$ est le coût marginal (coût supplémentaire de la $x$-ième unité), $R\'(x)$ est la recette marginale. Le profit $\\Pi = R - C$ est maximisé quand $R\'(x) = C\'(x)$ — c\'est-à-dire quand il n\'est plus rentable de produire une unité supplémentaire. ATTENTION : $R(x) = C(x)$ est le SEUIL DE RENTABILITÉ (profit nul), pas la condition de maximum — confondre les deux est une erreur classique en gestion. La dérivée seconde $\\Pi\'\'(x_0) < 0$ confirme que l\'extremum est bien un maximum (et non un minimum). En pratique, la quantité optimale doit toujours être entière et positive : si $x^* = 4{,}7$, on compare $\\Pi(4)$ et $\\Pi(5)$.',
+      intro: 'En économie et gestion, chaque dérivée porte un nom métier : $C\'(x)$ est le coût marginal (coût supplémentaire de la $x$-ième unité), $R\'(x)$ est la recette marginale.<br/><br/>Le profit $\\Pi = R - C$ est maximisé quand $R\'(x) = C\'(x)$ — c\'est-à-dire quand il n\'est plus rentable de produire une unité supplémentaire.<br/><br/>ATTENTION : $R(x) = C(x)$ est le SEUIL DE RENTABILITÉ (profit nul), pas la condition de maximum — confondre les deux est une erreur classique en gestion.<br/><br/>La dérivée seconde $\\Pi\'\'(x_0) < 0$ confirme que l\'extremum est bien un maximum (et non un minimum).<br/><br/>En pratique, la quantité optimale doit toujours être entière et positive : si $x^* = 4{,}7$, on compare $\\Pi(4)$ et $\\Pi(5)$.',
       definitions: [
         { term: 'Coût marginal $C_m(x) = C\'(x)$', def: 'Coût supplémentaire engendré par la production d\'une unité de plus. C\'est la dérivée de la fonction de coût total.' },
         { term: 'Recette marginale $R_m(x) = R\'(x)$', def: 'Recette supplémentaire apportée par la vente d\'une unité de plus. C\'est la dérivée de la fonction de recette totale.' },
@@ -23,10 +23,10 @@ window.MODULES.push(
       method: {
         title: 'Optimiser une fonction économique',
         steps: [
-          '<strong>Optimisation économique</strong> : Définir la fonction à optimiser (profit, coût, recette) sur son domaine. <strong>Exemple :</strong> $R(x) = 20x$ (prix unitaire $20$ €), $C(x) = x^2 + 4x + 30$. Profit : $\\Pi(x) = -x^2 + 16x - 30$.',
-          '<strong>Dérivée et points critiques</strong> : Calculer la dérivée et résoudre $f\'(x)=0$. <strong>Exemple :</strong> $\\Pi\'(x) = -2x + 16 = 0 \\Rightarrow x^* = 8$ unités.',
-          '<strong>Vérification du maximum</strong> : Vérifier que c\'est bien un maximum (ou minimum) par le signe de $f\'$ ou $f\'\'$. <strong>Exemple :</strong> $\\Pi\'\'(x) = -2 < 0$ : c\'est bien un maximum.',
-          '<strong>Interprétation économique</strong> : Interpréter le résultat en unités économiques. <strong>Exemple :</strong> $\\Pi(8) = -64 + 128 - 30 = 34$ €. Produire $8$ unités maximise le profit à $34$ €.'
+          '<strong>Optimisation économique</strong> : définir la fonction à optimiser (profit, coût, recette) sur son domaine.<br/><br/><strong>Exemple :</strong> $R(x) = 20x$ (prix unitaire $20$ €), $C(x) = x^2 + 4x + 30$. Profit : $\\Pi(x) = -x^2 + 16x - 30$.',
+          '<strong>Dérivée et points critiques</strong> : calculer la dérivée et résoudre $f\'(x)=0$.<br/><br/><strong>Exemple :</strong> $\\Pi\'(x) = -2x + 16 = 0 \\Rightarrow x^* = 8$ unités.',
+          '<strong>Vérification du maximum</strong> : vérifier le signe de $f\'$ ou $f\'\'$ de part et d\'autre du point critique.<br/><br/><strong>Exemple :</strong> $\\Pi\'\'(x) = -2 < 0$ : c\'est bien un maximum.',
+          '<strong>Interprétation économique</strong> : traduire le résultat en unités concrètes (quantité, profit).<br/><br/><strong>Exemple :</strong> $\\Pi(8) = -64 + 128 - 30 = 34$ €. Produire $8$ unités maximise le profit à $34$ €.'
         ]
       },
       example: {
