@@ -92,6 +92,79 @@ var TeacherDashboard = {
     }
   },
 
+  // Agrège les scores réels (tracking) de la classe par module pour repérer les notions
+  // les plus fragiles collectivement. Utilise sparkTracking (quiz.bestScore, evaluation.bestScore,
+  // exercice.correct/attempts), synchronisé côté Firestore par SyncService — distinct de
+  // progress[moduleId] qui ne contient que des booléens completed/quiz/exercice/evaluation.
+  _computeWeakPoints: function(students, progressMap) {
+    var moduleAgg = {};
+    students.forEach(function(s) {
+      var prog = progressMap[s.uid];
+      var tracking = (prog && prog.tracking) ? prog.tracking : {};
+      Object.keys(tracking).forEach(function(moduleId) {
+        var mod = getModule(moduleId);
+        if (!mod) return;
+        var t = tracking[moduleId];
+        var sectionPcts = [];
+        if (t.quiz && t.quiz.bestScore != null && mod.quiz && mod.quiz.length) {
+          sectionPcts.push({ section: 'quiz', pct: (t.quiz.bestScore / mod.quiz.length) * 100 });
+        }
+        if (t.evaluation && t.evaluation.bestTotal) {
+          sectionPcts.push({ section: 'évaluation', pct: (t.evaluation.bestScore / t.evaluation.bestTotal) * 100 });
+        }
+        if (t.exercice && t.exercice.attempts > 0) {
+          sectionPcts.push({ section: 'exercice', pct: (t.exercice.correct / t.exercice.attempts) * 100 });
+        }
+        if (sectionPcts.length === 0) return;
+
+        if (!moduleAgg[moduleId]) moduleAgg[moduleId] = { studentAvgs: [], sectionPcts: {} };
+        var studentAvg = sectionPcts.reduce(function(sum, sp) { return sum + sp.pct; }, 0) / sectionPcts.length;
+        moduleAgg[moduleId].studentAvgs.push(studentAvg);
+        sectionPcts.forEach(function(sp) {
+          if (!moduleAgg[moduleId].sectionPcts[sp.section]) moduleAgg[moduleId].sectionPcts[sp.section] = [];
+          moduleAgg[moduleId].sectionPcts[sp.section].push(sp.pct);
+        });
+      });
+    });
+
+    var results = Object.keys(moduleAgg).map(function(moduleId) {
+      var agg = moduleAgg[moduleId];
+      var mod = getModule(moduleId);
+      var avgScore = agg.studentAvgs.reduce(function(a, b) { return a + b; }, 0) / agg.studentAvgs.length;
+
+      var weakestSection = null;
+      var weakestPct = 101;
+      Object.keys(agg.sectionPcts).forEach(function(sec) {
+        var arr = agg.sectionPcts[sec];
+        var secAvg = arr.reduce(function(a, b) { return a + b; }, 0) / arr.length;
+        if (secAvg < weakestPct) { weakestPct = secAvg; weakestSection = sec; }
+      });
+
+      return {
+        moduleId: moduleId,
+        title: mod ? mod.title : moduleId,
+        avgScoreRaw: avgScore,
+        avgScore: Math.round(avgScore),
+        studentCount: agg.studentAvgs.length,
+        weakestSection: weakestSection,
+        weakestPct: Math.round(weakestPct)
+      };
+    });
+
+    return results
+      .filter(function(r) { return r.avgScoreRaw < 80; })
+      .sort(function(a, b) { return a.avgScoreRaw - b.avgScoreRaw; })
+      .slice(0, 5);
+  },
+
+  _prefillAssignment: function(classIndex, moduleId) {
+    var sel = document.getElementById('td-assign-module');
+    if (!sel) return;
+    sel.value = moduleId;
+    sel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    sel.focus();
+  },
+
   _renderClassDetail: async function(cls, students, progressMap) {
     // ── Calcul stats ──
     var sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
@@ -120,6 +193,8 @@ var TeacherDashboard = {
       ? Math.round((totalCompleted / totalModuleSlots) * 100)
       : 0;
 
+    var weakPoints = TeacherDashboard._computeWeakPoints(students, progressMap);
+
     var classIndex = TeacherDashboard._classes.findIndex(function(c) { return c.id === cls.id; });
 
     // ── Stats bar ──
@@ -136,6 +211,23 @@ var TeacherDashboard = {
         '<span class="td-stats-bar-value">' + inactiveCount + '</span>' +
         '<span class="td-stats-bar-label">inactifs +7j</span>' +
       '</div>' +
+    '</div>';
+
+    // ── Points faibles de la classe ──
+    var weakPointsHtml = '<div class="td-weakpoints-section">' +
+      '<h3>🎯 Points faibles de la classe</h3>' +
+      (weakPoints.length === 0
+        ? '<p class="td-empty" style="font-size:0.85rem;padding:1rem;">Pas encore assez de quiz/exercices/évaluations réalisés pour détecter des points faibles.</p>'
+        : weakPoints.map(function(wp) {
+            return '<div class="td-weakpoint-card">' +
+              '<div class="td-weakpoint-info">' +
+                '<span class="td-weakpoint-title">' + TeacherDashboard._esc(wp.title) + '</span>' +
+                '<span class="td-weakpoint-detail">Moyenne classe ' + wp.avgScore + '% · ' + wp.studentCount + ' élève(s) · le plus faible en ' + TeacherDashboard._esc(wp.weakestSection) + ' (' + wp.weakestPct + '%)</span>' +
+              '</div>' +
+              '<button class="td-weakpoint-assign-btn" onclick="TeacherDashboard._prefillAssignment(' + classIndex + ', \'' + TeacherDashboard._esc(wp.moduleId) + '\')">Assigner</button>' +
+            '</div>';
+          }).join('')
+      ) +
     '</div>';
 
     // ── Liste élèves ──
@@ -204,6 +296,7 @@ var TeacherDashboard = {
           '<button class="td-grading-btn" onclick="TeacherDashboard._openGrading(' + classIndex + ')">📊 Notes & Pronote</button>' +
         '</div>' +
         statsBar +
+        weakPointsHtml +
         '<div class="td-students">' + studentsHtml + '</div>' +
         '<div class="td-assignment-section">' +
           '<h3>📋 Devoirs</h3>' +

@@ -14,6 +14,8 @@ Système de design complet : variables CSS (`--primary`, `--secondary`, `--accen
 - `.ap-*` classes pour AdminPanel (conteneur, header, tabs, search, cartes utilisateurs, boutons actions)
 - `.auth-close` — bouton ✕ sur `.auth-card` pour fermer l'écran de connexion et revenir au mode invité
 - `.ad-slot-placeholder` — cadre pointillé pour les emplacements publicitaires (placeholder, pas de pub réelle encore)
+- `@media print` (~L3440+) — mise en page A4 des fiches (`.print-fiche`, `.print-fiche-header`, etc.) ; `body.printing` bascule l'affichage de `#app` vers `#print-container`
+- `.td-weakpoint-*` / `.td-weakpoints-section` — bloc "Points faibles de la classe" dans TeacherDashboard (bordure `--error` à gauche pour signaler visuellement)
 
 ## ads.txt
 Fichier de vérification standard IAB pour Google AdSense (`google.com, pub-5320273649803132, DIRECT, ...`).
@@ -44,6 +46,8 @@ Routeur SPA (pushState), init, KaTeX, confetti.
 - Appelle `initAdSlots()` (voir `js/components/adSlot.js`) et `trackPageView()` (voir `js/analytics.js`) après chaque rendu de vue dans le dispatcher `render()` — sauf branches `admin`/`teacher` (return anticipé, hors suivi)
 - `createConfetti()` — animation confetti de succès
 - `showToast(msg, type)` — notification toast
+- `printFiche(moduleId)` — imprime la fiche de synthèse d'un module (via `#print-container` + `renderFicheCours()`, voir `js/utils/ui-helpers.js`)
+- `toggleBatchPrintMode()` / `togglePrintSelection()` / `selectAllForPrint()` / `printSelectedFiches()` — sélection multi-modules sur la grille (`renderModules()`) puis impression groupée via `renderFichesBatch()`
 - `_checkMaintenance()` — lit `config/settings.maintenanceMode`, affiche la page maintenance si actif (invités + comptes non-admin) ; fail-open assumé si Firestore inaccessible
 - `_syncModuleAccess()` — lit `config/moduleAccess.statuses` (Firestore, source de vérité) et remplace `state.moduleAccess` + le cache local `Storage`, pour que le verrouillage/maintenance décidé par un admin s'applique à tous les utilisateurs
 - `setSubjectAccessMode(subjectId, mode)` / `setModuleAccessMode(moduleId, mode)` — admin : met à jour `Storage` puis pousse la carte complète vers `AuthService.saveModuleAccess()`
@@ -288,7 +292,9 @@ Panneau d'administration : gestion des enseignants en attente et comptes utilisa
 Tableau de bord enseignant : classes, élèves, progression, devoirs, grading.
 - `TeacherDashboard.render(backCode)` — charge les classes de l'enseignant
 - `TeacherDashboard._viewClass(classIndex)` — charge profils + progressions en parallèle (Promise.all)
-- `TeacherDashboard._renderClassDetail(cls, students, progressMap)` — vue classe : stats bar, liste élèves, devoirs, bouton grading
+- `TeacherDashboard._renderClassDetail(cls, students, progressMap)` — vue classe : stats bar, points faibles, liste élèves, devoirs, bouton grading
+- `TeacherDashboard._computeWeakPoints(students, progressMap)` — agrège `progress.tracking` (scores réels quiz/évaluation/exercice, distinct des booléens de `progress.progress`) par module sur toute la classe ; retourne le top 5 des modules sous 80% de moyenne avec la section la plus faible
+- `TeacherDashboard._prefillAssignment(classIndex, moduleId)` — pré-remplit le sélecteur de devoir avec un module repéré comme point faible et y scrolle
 - `TeacherDashboard._renderStudentProgress(uid, classId, profile, progress)` — progression lisible par titre de module, détail quiz/exo/eval
 - `TeacherDashboard._removeStudent(uid, classCode, classIndex)` — retire un élève
 - `TeacherDashboard._openGrading(classIndex)` — ouvre GradingPanel avec les données déjà chargées
@@ -337,3 +343,6 @@ Helpers de rendu et utilitaires UI partagés.
 - `renderLoading()` — squelette de chargement
 - `renderErreurConseil(piege)` — bloc conseil sur l'erreur classique
 - `showToast(message, type)` — notification toast temporaire
+- `renderFicheCours(mod)` — fiche de synthèse imprimable A4 d'un module (intro, définitions, méthode, exemple, formules, piège, récap) ; consommée par `printFiche()` dans `js/app.js`
+- `renderFichesBatch(modules)` — concatène plusieurs `renderFicheCours()` pour l'impression groupée
+- `_printLevelLabel(mod)` — libellé "Matière · Niveau — Classe" affiché en en-tête de fiche

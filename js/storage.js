@@ -102,7 +102,8 @@ const Storage = {
     }
     const e = all[moduleId].evaluation;
     e.attempts++;
-    if (score > e.bestScore) { e.bestScore = score; e.bestTotal = totalPoints; }
+    e.bestTotal = totalPoints;
+    if (score > e.bestScore) { e.bestScore = score; }
     e.lastAttempt = new Date().toISOString();
     this._set(this.KEYS.TRACKING, all);
     this.updateStreak();

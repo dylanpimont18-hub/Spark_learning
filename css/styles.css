@@ -4733,6 +4733,42 @@ html.projector-mode .projector-exit-btn { display: flex; align-items: center; ga
   margin-bottom: var(--space-sm);
   flex-wrap: wrap;
 }
+.td-weakpoints-section {
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+.td-weakpoints-section h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: var(--space-md);
+}
+.td-weakpoint-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  background: var(--bg-card);
+  border: 1px solid color-mix(in srgb, var(--error) 35%, var(--border));
+  border-left: 3px solid var(--error);
+  border-radius: 8px;
+  padding: var(--space-sm) var(--space-md);
+  margin-bottom: var(--space-sm);
+  flex-wrap: wrap;
+}
+.td-weakpoint-info { display: flex; flex-direction: column; flex: 1; min-width: 200px; }
+.td-weakpoint-title { font-weight: 600; }
+.td-weakpoint-detail { font-size: 0.82rem; color: var(--text-muted); }
+.td-weakpoint-assign-btn {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.td-weakpoint-assign-btn:hover { opacity: 0.9; }
 .td-assignment-card-title { font-weight: 600; flex: 1; }
 .td-assignment-card-meta { font-size: 0.82rem; color: var(--text-muted); }
 .td-assignment-card-count { font-size: 0.82rem; color: var(--primary); }
