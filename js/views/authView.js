@@ -83,7 +83,7 @@ var AuthView = {
       '<div id="login-error"></div>' +
       '<div id="phone-step">' +
         '<div class="auth-field"><label class="auth-label">Numéro de téléphone</label>' +
-        '<input class="auth-input" id="login-phone" type="tel" placeholder="+33 6 00 00 00 00" /></div>' +
+        '<input class="auth-input" id="login-phone" type="tel" placeholder="06 00 00 00 00" /></div>' +
         '<button class="auth-btn-primary" onclick="AuthView._loginSendOTP()">Envoyer le code SMS</button>' +
       '</div>' +
       '<div id="otp-step" style="display:none">' +
@@ -180,7 +180,7 @@ var AuthView = {
       '<input class="auth-input" id="reg-name" type="text" placeholder="Marie Curie" /></div>' +
       '<div id="reg-phone-step">' +
         '<div class="auth-field"><label class="auth-label">Numéro de téléphone</label>' +
-        '<input class="auth-input" id="reg-phone" type="tel" placeholder="+33 6 00 00 00 00" /></div>' +
+        '<input class="auth-input" id="reg-phone" type="tel" placeholder="06 00 00 00 00" /></div>' +
         '<button class="auth-btn-primary" onclick="AuthView._registerSendOTP()">Envoyer le code SMS</button>' +
       '</div>' +
       '<div id="reg-otp-step" style="display:none">' +
@@ -304,7 +304,9 @@ var AuthView = {
   },
 
   _normalizePhone: function(raw) {
-    return raw.trim().replace(/[^\d+]/g, '');
+    var cleaned = raw.trim().replace(/[^\d+]/g, '');
+    if (cleaned.charAt(0) === '0') cleaned = '+33' + cleaned.slice(1);
+    return cleaned;
   },
 
   _showError: function(containerId, message) {

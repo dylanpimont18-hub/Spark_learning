@@ -276,7 +276,7 @@ Pages Inscription / Connexion (overlay plein `#app`, header/nav restent visibles
 - `AuthView.render(fromGuest)` — affiche l'écran de connexion ; si `fromGuest`, ajoute un bouton `.auth-close` (✕)
 - `AuthView._closeToGuest()` — ferme l'écran de connexion et revient à l'accueil en mode invité (`navigate('home')`)
 - `AuthView.renderPending()` — écran d'attente de validation enseignant
-- `AuthView._normalizePhone(raw)` — retire tout sauf `+` et chiffres avant envoi à Firebase (le placeholder `+33 6 00 00 00 00` contient des espaces que l'utilisateur reproduit ; Firebase exige un E.164 strict sans espace) ; utilisé par `_loginSendOTP()` et `_registerSendOTP()`
+- `AuthView._normalizePhone(raw)` — retire tout sauf `+` et chiffres, puis convertit un format local français `0X XX XX XX XX` en E.164 (`+33X...`) avant envoi à Firebase ; utilisé par `_loginSendOTP()` et `_registerSendOTP()`
 
 ## js/views/adminPanel.js
 Panneau d'administration : gestion des enseignants en attente et comptes utilisateurs.
