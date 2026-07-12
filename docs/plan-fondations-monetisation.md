@@ -4,7 +4,7 @@ Contexte : le produit pédagogique (contenu, moteurs, design system) est mature 
 
 Diagnostic et arbitrages discutés avec l'utilisateur le 2026-07-02. Objectif calendaire : être prêt avant le pic de trafic de la rentrée scolaire (~1er septembre 2026), en laissant à Google le temps d'indexer.
 
-Backlog produit (diagnostic d'entrée, révision espacée, journal d'erreurs, carte des prérequis...) : voir `ameliorations-site.md`, **non traité ici** — prochain sprint.
+Backlog produit (diagnostic d'entrée, révision espacée, journal d'erreurs, carte des prérequis...) : voir `docs/ameliorations-site.md`, **non traité ici** — prochain sprint.
 
 Format : l'agent IA prend quelques tâches `[ ]` à chaque session, les réalise, et coche `[x]`. Les tâches marquées **[Externe]** sont à réaliser par l'utilisateur (comptes, validations tierces) — l'agent ne peut pas les faire à sa place.
 
@@ -134,10 +134,10 @@ Objectif : pouvoir mesurer ce qui marche, et laisser à Google le temps d'indexe
 
 ## Hors scope de ce sprint (backlog toujours valide)
 
-- `ameliorations-site.md` — diagnostic d'entrée, révision espacée, journal d'erreurs, carte des prérequis, etc. Prochain sprint.
+- `docs/ameliorations-site.md` — diagnostic d'entrée, révision espacée, journal d'erreurs, carte des prérequis, etc. Prochain sprint.
 - Abonnement enseignant payant — sujet non rouvert par décision explicite de l'utilisateur (2026-07-02).
 - Refactor de `js/app.js` (1300 lignes) au-delà de ce qu'impose la migration du routeur.
-- `refactoring-plan.md` Phase 4 (Spark Companion) — en cours indépendamment.
+- `docs/refactoring-plan.md` Phase 4 (Spark Companion) — en cours indépendamment.
 
 ## Contrainte produit à conserver
 - Le site doit rester utilisable sans création de compte, contenu élève 100% gratuit.
