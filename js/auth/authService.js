@@ -31,22 +31,6 @@ const AuthService = {
     await this._auth.signOut();
   },
 
-  /* ── Phone auth ── */
-  setupRecaptcha(containerId) {
-    return new firebase.auth.RecaptchaVerifier(containerId, {
-      size: 'invisible',
-      callback: function() {}
-    });
-  },
-
-  async sendOTP(phoneNumber, recaptchaVerifier) {
-    return await this._auth.signInWithPhoneNumber(phoneNumber, recaptchaVerifier);
-  },
-
-  async confirmOTP(confirmationResult, code) {
-    return await confirmationResult.confirm(code);
-  },
-
   /* ── Email auth ── */
   async signInWithEmail(email, password) {
     return await this._auth.signInWithEmailAndPassword(email, password);
