@@ -445,3 +445,41 @@ var AdminPanel = {
     }
   }
 };
+
+/* ── Verrouillage/maintenance par matière ou par module (admin) ── */
+function setSubjectAccessMode(subjectId, mode) {
+  const modules = (window.MODULES || []).filter(m => (m.subject || 'maths') === subjectId);
+  modules.forEach(m => {
+    if (mode === 'open') Storage.resetModuleStatus(m.id);
+    else if (mode === 'locked') Storage.setModuleStatus(m.id, { locked: true, maintenance: false });
+    else if (mode === 'maintenance') Storage.setModuleStatus(m.id, { locked: false, maintenance: true });
+  });
+  state.moduleAccess = Storage.getModuleStatuses();
+  AuthService.saveModuleAccess(state.moduleAccess).catch(e => console.warn('[moduleAccess] push failed:', e));
+  const subjectLabel = { maths: 'Mathématiques', physique: 'Physique-Chimie', si: 'Sciences de l\'Ingénieur' }[subjectId] || subjectId;
+  const modeLabel = { open: 'activée', locked: 'verrouillée', maintenance: 'en maintenance' }[mode] || mode;
+  showToast(`Matière « ${subjectLabel} » ${modeLabel} (${modules.length} modules)`, 'info');
+  render();
+}
+
+function setModuleAccessMode(moduleId, mode) {
+  if (!moduleId || typeof Storage === 'undefined') return;
+  if (mode === 'open') Storage.resetModuleStatus(moduleId);
+  else if (mode === 'locked') Storage.setModuleStatus(moduleId, { locked: true, maintenance: false });
+  else if (mode === 'maintenance') Storage.setModuleStatus(moduleId, { locked: false, maintenance: true });
+
+  state.moduleAccess = Storage.getModuleStatuses();
+  AuthService.saveModuleAccess(state.moduleAccess).catch(e => console.warn('[moduleAccess] push failed:', e));
+
+  // If current module becomes unavailable, bounce user back to modules list
+  if (state.view === 'module' && state.moduleId === moduleId && isModuleUnavailable(moduleId)) {
+    const mod = getModule(moduleId);
+    if (mod) {
+      navigate('modules', { level: mod.level, subject: mod.subject || 'maths' });
+      showToast('Module désactivé via admin', 'info');
+      return;
+    }
+  }
+
+  render();
+}

@@ -20,7 +20,8 @@ Ce fichier est la **source de vérité** pour la structure de fichiers du projet
 ## Core Application (Vanilla JS)
 | Fichier | Rôle |
 |---------|------|
-| js/app.js | Point de montage principal, initialisation des modules |
+| js/app.js | Point de montage principal, routeur, initialisation des modules |
+| js/print.js | Impression des fiches de cours (individuelle + sélection multiple) |
 | js/state.js | Gestion de l'état global et session |
 | js/storage.js | Gestion de la persistance (LocalStorage, sauvegarde progrès) |
 | js/views/ + js/components/ | Vues globales, onglets et rendu des modules |
@@ -51,6 +52,9 @@ Ce fichier est la **source de vérité** pour la structure de fichiers du projet
 | js/components/probleme.js | Interface des problèmes |
 | js/components/evaluation.js | Interface des évaluations |
 | js/components/companion.js | **[PHASE 4]** Interface Spark Companion : accueil, remédiation, suivi CCF |
+| js/components/contactPanel.js | Panneau de contact flottant (signalement erreur/remarque/question) |
+| js/components/globalSearch.js | Recherche globale de modules (Ctrl/Cmd+K) |
+| js/components/teacherErrorModal.js | Modale enseignant : proposer un piège fréquent sur un module |
 
 ## Données Scolaires (js/data/)
 | Fichier | Rôle |

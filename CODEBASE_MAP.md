@@ -46,14 +46,17 @@ Routeur SPA (pushState), init, KaTeX, confetti.
 - Appelle `initAdSlots()` (voir `js/components/adSlot.js`) et `trackPageView()` (voir `js/analytics.js`) après chaque rendu de vue dans le dispatcher `render()` — sauf branches `admin`/`teacher` (return anticipé, hors suivi)
 - `createConfetti()` — animation confetti de succès
 - `showToast(msg, type)` — notification toast
-- `printFiche(moduleId)` — imprime la fiche de synthèse d'un module (via `#print-container` + `renderFicheCours()`, voir `js/utils/ui-helpers.js`) ; réservé enseignant (`AuthGuard.isTeacher()`, garde en début de fonction)
-- `toggleBatchPrintMode()` / `togglePrintSelection()` / `selectAllForPrint()` / `printSelectedFiches()` — sélection multi-modules sur la grille (`renderModules()`) puis impression groupée via `renderFichesBatch()` ; `toggleBatchPrintMode()` et `printSelectedFiches()` réservées enseignant (`AuthGuard.isTeacher()`)
 - `_checkMaintenance()` — lit `config/settings.maintenanceMode`, affiche la page maintenance si actif (invités + comptes non-admin) ; fail-open assumé si Firestore inaccessible
 - `_syncModuleAccess()` — lit `config/moduleAccess.statuses` (Firestore, source de vérité) et remplace `state.moduleAccess` + le cache local `Storage`, pour que le verrouillage/maintenance décidé par un admin s'applique à tous les utilisateurs
-- `setSubjectAccessMode(subjectId, mode)` / `setModuleAccessMode(moduleId, mode)` — admin : met à jour `Storage` puis pousse la carte complète vers `AuthService.saveModuleAccess()`
 - `_setupCommonListeners()` — bind nav globale ; recalcule à chaque appel la visibilité `nav-teacher`/`nav-homework`/`nav-signout`/`nav-login` selon `AuthGuard.isAuthenticated()`
+- Impression (`printFiche`, mode batch), panneau de contact, modale "piège enseignant" et recherche globale (Ctrl+K) ont été extraits respectivement dans `js/print.js`, `js/components/contactPanel.js`, `js/components/teacherErrorModal.js` et `js/components/globalSearch.js` ; les setters d'accès admin (`setSubjectAccessMode`, `setModuleAccessMode`) sont dans `js/views/adminPanel.js`
 - `filterModules(query)` / `sortModules(criterion)` / `_applyModuleFilters()` — filtre/trie les cartes de `#modules-grid` côté client ; masque aussi `#modules-ad-slot` (voir `js/views/home.js`) quand la recherche ne donne aucun résultat, pour ne jamais afficher de pub sur une grille vide (conformité AdSense)
 - Mode invité : `onAuthStateChanged` sans `firebaseUser` → `AuthGuard.reset()` + `_checkMaintenance()` + `_syncModuleAccess()` + `_setupStudentApp()` (accès direct au contenu sans connexion)
+
+## js/print.js
+Impression des fiches de cours (extrait de `js/app.js`).
+- `printFiche(moduleId)` — imprime la fiche de synthèse d'un module (via `#print-container` + `renderFicheCours()`, voir `js/utils/ui-helpers.js`) ; réservé enseignant (`AuthGuard.isTeacher()`)
+- `toggleBatchPrintMode()` / `togglePrintSelection()` / `selectAllForPrint()` / `deselectAllForPrint()` / `printSelectedFiches()` — sélection multi-modules sur la grille puis impression groupée via `renderFichesBatch()` ; `toggleBatchPrintMode()` et `printSelectedFiches()` réservées enseignant
 
 ## js/loader.js
 Lazy loading des fichiers de données par niveau/matière.
@@ -239,6 +242,23 @@ Interface Spark Companion.
 - `renderCompanionHome()` — accueil companion (badges, sélection module)
 - `renderCompanionSession(moduleId)` — session de remédiation active
 
+## js/components/contactPanel.js
+Panneau de contact flottant (extrait de `js/app.js`), envoie vers Formspree.
+- `toggleContactPanel()` / `closeContactPanel()` — ouvre/ferme le panneau
+- `handleContactSubmit(e)` — soumet le formulaire (catégorie erreur/remarque/question) via `fetch` vers Formspree
+- `_restoreContactForm()` — réinjecte le formulaire vierge après un envoi réussi
+
+## js/components/globalSearch.js
+Recherche globale de modules (Ctrl/Cmd+K), extrait de `js/app.js`.
+- `openGlobalSearchPanel()` / `closeGlobalSearchPanel()` / `toggleGlobalSearchPanel()` — ouvre/ferme le panneau
+- `_findGlobalModules(query)` — cherche dans `window.MODULES` (titre/sous-titre/mots-clés), scoring léger, limite à 8 résultats
+- `openModuleFromGlobalSearch(moduleId)` — ferme le panneau et navigue vers le module
+
+## js/components/teacherErrorModal.js
+Modale enseignant "proposer un piège fréquent" sur un module, extrait de `js/app.js`.
+- `openTeacherErrorModal(moduleId)` / `closeTeacherErrorModal()` — ouvre/ferme la modale
+- `submitTeacherError(moduleId)` — envoie la suggestion via `fetch` vers Formspree
+
 ## js/views/home.js
 Vues globales : accueil, liste matières, niveaux, modules, détail module.
 - `renderContinueSection()` — section "Reprendre ton parcours"
@@ -296,6 +316,7 @@ Panneau d'administration : gestion des enseignants en attente et comptes utilisa
 - `AdminPanel._approve(uid)` / `_reject(uid)` — approuve/refuse un enseignant
 - `AdminPanel._setStatus(uid, status)` — modifie le statut d'un utilisateur
 - `AdminPanel._runBackfillTeacherIds()` — lance la migration `progress.teacherIds` (à exécuter une fois après déploiement des règles)
+- `setSubjectAccessMode(subjectId, mode)` / `setModuleAccessMode(moduleId, mode)` — fonctions globales (hors objet `AdminPanel`, extraites de `js/app.js`) : verrouillage/maintenance par matière ou par module, mettent à jour `Storage` puis poussent la carte complète vers `AuthService.saveModuleAccess()`
 
 ## js/views/teacherDashboard.js
 Tableau de bord enseignant : classes, élèves, progression, devoirs, grading.
@@ -351,7 +372,6 @@ Recommandations adaptatives basées sur la progression.
 Helpers de rendu et utilitaires UI partagés.
 - `renderLoading()` — squelette de chargement
 - `renderErreurConseil(piege)` — bloc conseil sur l'erreur classique
-- `showToast(message, type)` — notification toast temporaire
 - `renderFicheCours(mod)` — fiche de synthèse imprimable A4 d'un module (intro, définitions, méthode, exemple, formules, illustration, piège, récap) ; consommée par `printFiche()` dans `js/app.js` ; l'illustration utilise `renderCoursDiagram()` (voir `js/components/renderCours.js`), qui gère le format legacy (string) et le format riche (objet `{svg, notes...}`)
 - `renderFichesBatch(modules)` — concatène plusieurs `renderFicheCours()` pour l'impression groupée
 - `_printLevelLabel(mod)` — libellé "Matière · Niveau — Classe" affiché en en-tête de fiche
