@@ -568,6 +568,7 @@ function _triggerPrint() {
 }
 
 function printFiche(moduleId) {
+  if (!AuthGuard.isTeacher()) return;
   const mod = getModule(moduleId);
   if (!mod) return;
   const container = document.getElementById('print-container');
@@ -579,6 +580,7 @@ function printFiche(moduleId) {
 
 /* ── Batch print mode ── */
 function toggleBatchPrintMode() {
+  if (!AuthGuard.isTeacher()) return;
   state.batchPrintMode = !state.batchPrintMode;
   const grid = document.getElementById('modules-grid');
   if (!grid) return;
@@ -636,6 +638,7 @@ function deselectAllForPrint() {
 }
 
 function printSelectedFiches() {
+  if (!AuthGuard.isTeacher()) return;
   const modules = state.selectedForPrint.map(id => getModule(id)).filter(Boolean);
   if (modules.length === 0) {
     showToast('Sélectionne au moins un module', 'info');

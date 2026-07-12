@@ -14,7 +14,7 @@ Système de design complet : variables CSS (`--primary`, `--secondary`, `--accen
 - `.ap-*` classes pour AdminPanel (conteneur, header, tabs, search, cartes utilisateurs, boutons actions)
 - `.auth-close` — bouton ✕ sur `.auth-card` pour fermer l'écran de connexion et revenir au mode invité
 - `.ad-slot-placeholder` — cadre pointillé pour les emplacements publicitaires (placeholder, pas de pub réelle encore)
-- `@media print` (~L3440+) — mise en page A4 des fiches (`.print-fiche`, `.print-fiche-header`, etc.) ; `body.printing` bascule l'affichage de `#app` vers `#print-container`
+- `@media print` (~L3440+) — mise en page A4 des fiches (`.print-fiche`, `.print-fiche-header`, etc.) ; `body.printing` bascule l'affichage de `#app` vers `#print-container` ; `#print-container` fige les variables CSS couleur (`--primary`, `--text`, `--bg-card`...) sur le thème clair, pour que les illustrations riches (`renderCoursDiagram`) restent lisibles en PDF même si le site est en thème sombre à l'impression
 - `.td-weakpoint-*` / `.td-weakpoints-section` — bloc "Points faibles de la classe" dans TeacherDashboard (bordure `--error` à gauche pour signaler visuellement)
 
 ## ads.txt
@@ -46,8 +46,8 @@ Routeur SPA (pushState), init, KaTeX, confetti.
 - Appelle `initAdSlots()` (voir `js/components/adSlot.js`) et `trackPageView()` (voir `js/analytics.js`) après chaque rendu de vue dans le dispatcher `render()` — sauf branches `admin`/`teacher` (return anticipé, hors suivi)
 - `createConfetti()` — animation confetti de succès
 - `showToast(msg, type)` — notification toast
-- `printFiche(moduleId)` — imprime la fiche de synthèse d'un module (via `#print-container` + `renderFicheCours()`, voir `js/utils/ui-helpers.js`)
-- `toggleBatchPrintMode()` / `togglePrintSelection()` / `selectAllForPrint()` / `printSelectedFiches()` — sélection multi-modules sur la grille (`renderModules()`) puis impression groupée via `renderFichesBatch()`
+- `printFiche(moduleId)` — imprime la fiche de synthèse d'un module (via `#print-container` + `renderFicheCours()`, voir `js/utils/ui-helpers.js`) ; réservé enseignant (`AuthGuard.isTeacher()`, garde en début de fonction)
+- `toggleBatchPrintMode()` / `togglePrintSelection()` / `selectAllForPrint()` / `printSelectedFiches()` — sélection multi-modules sur la grille (`renderModules()`) puis impression groupée via `renderFichesBatch()` ; `toggleBatchPrintMode()` et `printSelectedFiches()` réservées enseignant (`AuthGuard.isTeacher()`)
 - `_checkMaintenance()` — lit `config/settings.maintenanceMode`, affiche la page maintenance si actif (invités + comptes non-admin) ; fail-open assumé si Firestore inaccessible
 - `_syncModuleAccess()` — lit `config/moduleAccess.statuses` (Firestore, source de vérité) et remplace `state.moduleAccess` + le cache local `Storage`, pour que le verrouillage/maintenance décidé par un admin s'applique à tous les utilisateurs
 - `setSubjectAccessMode(subjectId, mode)` / `setModuleAccessMode(moduleId, mode)` — admin : met à jour `Storage` puis pousse la carte complète vers `AuthService.saveModuleAccess()`
@@ -210,6 +210,11 @@ Emplacement publicitaire : placeholder visuel tant qu'`ADS_ENABLED` est à `fals
 - `renderAdSlot(placement, slotKey)` — rend le placeholder ou l'ad unit réel selon `js/adsConfig.js`, utilisé uniquement sur les pages de navigation (accueil, matières, modules) — jamais dans les onglets d'apprentissage actif d'un module
 - `initAdSlots()` — pousse les nouveaux `<ins class="adsbygoogle">` injectés dans le DOM vers `adsbygoogle.push({})` ; appelée depuis `js/app.js` après chaque rendu de vue ; sans effet tant qu'`ADS_ENABLED` est à `false`
 
+## js/components/renderCours.js
+Rendu HTML de l'onglet Cours d'un module (écran, pas impression).
+- `renderCours(mod)` — intro, définitions, méthode, exemple, formules, illustration, piège, récap, application ; bouton "Imprimer la fiche" visible seulement si `AuthGuard.isTeacher()`
+- `renderCoursDiagram(diagram, subjectId)` — rend une illustration au format legacy (string HTML) ou riche (objet `{svg, title, kicker, description, notes, reading, caption, theme}`) ; réutilisée par `renderFicheCours()` (`js/utils/ui-helpers.js`) pour l'impression
+
 ## js/components/moduleTabs.js
 Rendu des onglets d'un module (cours / quiz / exercice / problème / évaluation / flashcards).
 - `renderTabContent()` — sélectionne et rend l'onglet actif
@@ -242,6 +247,7 @@ Vues globales : accueil, liste matières, niveaux, modules, détail module.
 - `renderModules()` — grille des modules d'un niveau
 - `renderModule(moduleId)` — page détail d'un module
 - `renderHome()`, `renderSubjects()`, `renderModulesList()` — incluent chacune un `renderAdSlot(...)` (voir `js/components/adSlot.js`) en bas de section ; jamais dans les onglets d'apprentissage actif
+- `renderModulesList()` — le bouton "Imprimer les fiches 🖨️" (`toggleBatchPrintMode()`) n'est rendu que si `AuthGuard.isTeacher()`
 - `renderAssignmentWidget()` — async, injecte l'encart "Devoir en cours" pour l'élève connecté à une classe
 
 ## js/views/confidentialite.js
@@ -343,6 +349,6 @@ Helpers de rendu et utilitaires UI partagés.
 - `renderLoading()` — squelette de chargement
 - `renderErreurConseil(piege)` — bloc conseil sur l'erreur classique
 - `showToast(message, type)` — notification toast temporaire
-- `renderFicheCours(mod)` — fiche de synthèse imprimable A4 d'un module (intro, définitions, méthode, exemple, formules, piège, récap) ; consommée par `printFiche()` dans `js/app.js`
+- `renderFicheCours(mod)` — fiche de synthèse imprimable A4 d'un module (intro, définitions, méthode, exemple, formules, illustration, piège, récap) ; consommée par `printFiche()` dans `js/app.js` ; l'illustration utilise `renderCoursDiagram()` (voir `js/components/renderCours.js`), qui gère le format legacy (string) et le format riche (objet `{svg, notes...}`)
 - `renderFichesBatch(modules)` — concatène plusieurs `renderFicheCours()` pour l'impression groupée
 - `_printLevelLabel(mod)` — libellé "Matière · Niveau — Classe" affiché en en-tête de fiche

@@ -635,9 +635,11 @@ function renderModulesList() {
 						<option value="theme" ${state.sortBy === 'theme' ? 'selected' : ''}>Thème (mots-clés)</option>
 					</select>
 				</div>
+				${AuthGuard.isTeacher() ? `
 				<button class="btn btn-outline btn-print-batch" onclick="toggleBatchPrintMode()">
 					Imprimer les fiches 🖨️
 				</button>
+				` : ''}
 			</div>
 
 			<div id="no-results" class="no-results" style="display:none;">

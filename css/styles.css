@@ -3657,6 +3657,18 @@ main { flex: 1; }
   /* ── KaTeX print fixes ── */
   .katex { font-size: 1em !important; }
   .katex-display { margin: 8px 0 !important; }
+
+  /* ── Diagrammes riches (renderCoursDiagram) : couleurs figées sur le thème clair,
+     indépendamment du thème actif à l'écran (clair/sombre), pour un PDF lisible ── */
+  #print-container {
+    --primary: #2C3E50;
+    --secondary: #48C9B0;
+    --accent: #F4D03F;
+    --bg-card: #FFFFFF;
+    --text: #212529;
+    --text-muted: #6C757D;
+    --border: #DEE2E6;
+  }
 }
 
 /* ═══════════════════════════════════════

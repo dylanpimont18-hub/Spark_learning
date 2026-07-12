@@ -126,7 +126,7 @@ function renderFicheCours(mod) {
       ${c.diagram ? `
       <section class="print-section print-diagram">
         <h2>Illustration</h2>
-        <div>${c.diagram}</div>
+        ${renderCoursDiagram(c.diagram, mod.subject || 'maths')}
       </section>
       ` : ''}
 

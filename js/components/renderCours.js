@@ -176,9 +176,11 @@ function renderCours(mod) {
         <button class="btn btn-secondary" onclick="navigate('flashcards', {moduleId: '${mod.id}'})">
           Flashcards
         </button>
+        ${AuthGuard.isTeacher() ? `
         <button class="btn btn-outline" onclick="printFiche('${mod.id}')">
           Imprimer la fiche
         </button>
+        ` : ''}
       </div>
     </div>
   `;
