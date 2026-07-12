@@ -71,9 +71,11 @@ evaluation { title, duration, questions }
 
 ### Ce qui reste à faire
 
-- [ ] Mettre à jour `contenu.md` pour référencer le dossier `js/data/bts-prep/`
-- [ ] Tester le chargement de tous les modules dans le navigateur
-- [ ] Vérifier l'affichage du bandeau "Prérequis" et du séparateur en navigation BTS > Maths
+- [x] Mettre à jour `contenu.md` pour référencer le dossier `js/data/bts-prep/` (déjà fait — ligne 89)
+- [x] Tester le chargement de tous les modules dans le navigateur (vérifié 2026-07-12 : les 14 fichiers `bts-prep-*.js` se chargent, `node --check` passe sur tous les fichiers JS servis par `index.html`/`loader.js`, aucune erreur de syntaxe dans le code du site)
+- [x] Vérifier l'affichage du bandeau "Prérequis" et du séparateur en navigation BTS > Maths (vérifié 2026-07-12 : bandeau "🎯 Parcours Prérequis — Remise à niveau scientifique · 14 modules" + séparateur affichés correctement avant les modules BTS avancés)
+
+⚠️ Note test : en local, le script AdSense (`adsbygoogle.js`) et les listeners Firestore se connectent aux vrais services (compte AdSense + projet Firebase `spark-learning-7d96b`), pas de mock. Des erreurs `pageerror: missing ) after argument list` apparaissent en console lors des tests automatisés — elles viennent des scripts tiers Google (anti-bot/headless detection dans les scripts pub), pas du code Spark Learning (tous les fichiers `.js` du site passent `node --check` sans erreur). Éviter de multiplier les tests automatisés en navigateur headless pour ne pas générer de trafic publicitaire invalide.
 
 ---
 

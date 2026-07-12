@@ -104,7 +104,7 @@ var AuthView = {
   },
 
   _loginSendOTP: async function() {
-    var phone = document.getElementById('login-phone').value.trim();
+    var phone = AuthView._normalizePhone(document.getElementById('login-phone').value);
     if (!phone) return AuthView._showError('login-error', 'Entrez votre numéro de téléphone.');
     try {
       if (!AuthView._recaptchaVerifier) {
@@ -239,7 +239,7 @@ var AuthView = {
   },
 
   _registerSendOTP: async function() {
-    var phone = document.getElementById('reg-phone').value.trim();
+    var phone = AuthView._normalizePhone(document.getElementById('reg-phone').value);
     if (!phone) return AuthView._showError('register-error', 'Entrez votre numéro de téléphone.');
     try {
       if (!AuthView._recaptchaVerifier) {
@@ -301,6 +301,10 @@ var AuthView = {
       }
     }
     // onAuthStateChanged dans app.js gère la redirection
+  },
+
+  _normalizePhone: function(raw) {
+    return raw.trim().replace(/[^\d+]/g, '');
   },
 
   _showError: function(containerId, message) {
