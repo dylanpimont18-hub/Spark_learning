@@ -471,6 +471,9 @@ function _applyModuleFilters() {
   const noResults = document.getElementById('no-results');
   if (noResults) noResults.style.display = visible === 0 ? 'block' : 'none';
 
+  const adSlot = document.getElementById('modules-ad-slot');
+  if (adSlot) adSlot.style.display = visible === 0 ? 'none' : '';
+
   // Restore focus on search input
   const input = document.getElementById('search-modules');
   if (input && document.activeElement !== input && state.searchQuery) input.focus();

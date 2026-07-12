@@ -52,6 +52,7 @@ Routeur SPA (pushState), init, KaTeX, confetti.
 - `_syncModuleAccess()` — lit `config/moduleAccess.statuses` (Firestore, source de vérité) et remplace `state.moduleAccess` + le cache local `Storage`, pour que le verrouillage/maintenance décidé par un admin s'applique à tous les utilisateurs
 - `setSubjectAccessMode(subjectId, mode)` / `setModuleAccessMode(moduleId, mode)` — admin : met à jour `Storage` puis pousse la carte complète vers `AuthService.saveModuleAccess()`
 - `_setupCommonListeners()` — bind nav globale ; recalcule à chaque appel la visibilité `nav-teacher`/`nav-homework`/`nav-signout`/`nav-login` selon `AuthGuard.isAuthenticated()`
+- `filterModules(query)` / `sortModules(criterion)` / `_applyModuleFilters()` — filtre/trie les cartes de `#modules-grid` côté client ; masque aussi `#modules-ad-slot` (voir `js/views/home.js`) quand la recherche ne donne aucun résultat, pour ne jamais afficher de pub sur une grille vide (conformité AdSense)
 - Mode invité : `onAuthStateChanged` sans `firebaseUser` → `AuthGuard.reset()` + `_checkMaintenance()` + `_syncModuleAccess()` + `_setupStudentApp()` (accès direct au contenu sans connexion)
 
 ## js/loader.js
@@ -246,8 +247,10 @@ Vues globales : accueil, liste matières, niveaux, modules, détail module.
 - `renderLevels()` — niveaux d'une matière
 - `renderModules()` — grille des modules d'un niveau
 - `renderModule(moduleId)` — page détail d'un module
-- `renderHome()`, `renderSubjects()`, `renderModulesList()` — incluent chacune un `renderAdSlot(...)` (voir `js/components/adSlot.js`) en bas de section ; jamais dans les onglets d'apprentissage actif
+- `renderSubjects()` — inclut un `renderAdSlot(...)` (voir `js/components/adSlot.js`) en bas de grille, seulement si `window.MODULES` contient au moins un module (jamais sur une grille sans contenu)
+- `renderModulesList()` — inclut un `renderAdSlot(...)` dans un wrapper `#modules-ad-slot`, seulement si `modules.length > 0` ; ce wrapper est masqué dynamiquement par `_applyModuleFilters()` (`js/app.js`) quand une recherche ne donne aucun résultat
 - `renderModulesList()` — le bouton "Imprimer les fiches 🖨️" (`toggleBatchPrintMode()`) n'est rendu que si `AuthGuard.isTeacher()`
+- `renderHome()` — page d'accueil, volontairement sans bloc pub (page à contenu essentiellement promotionnel, retiré suite à un rejet AdSense "contenu à faible valeur informative") ; jamais de pub non plus dans les onglets d'apprentissage actif (`module`)
 - `renderAssignmentWidget()` — async, injecte l'encart "Devoir en cours" pour l'élève connecté à une classe
 
 ## js/views/confidentialite.js
