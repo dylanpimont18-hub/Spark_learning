@@ -1,4 +1,5 @@
 ﻿window.MODULES.push(
+    {
     id: '4e-probabilites',
     level: 1, subject: 'maths',
     icon: '🎯',

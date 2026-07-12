@@ -1,4 +1,5 @@
 ﻿window.MODULES.push(
+    {
     id: '4e-statistiques',
     level: 1, subject: 'maths',
     icon: '📊',
@@ -161,7 +162,5 @@
         }
       ]
     }
-  },
-
-    {
+  }
 );

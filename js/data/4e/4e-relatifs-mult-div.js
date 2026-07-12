@@ -1,4 +1,5 @@
 ﻿window.MODULES.push(
+    {
     id: '4e-relatifs-mult-div',
     level: 1, subject: 'maths',
     icon: '±',
@@ -175,7 +176,5 @@
         }
       ]
     }
-  },
-
-    {
+  }
 );

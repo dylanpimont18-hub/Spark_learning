@@ -1,4 +1,5 @@
 ﻿window.MODULES.push(
+    {
     id: '4e-translations',
     level: 1, subject: 'maths',
     icon: '➡️',
@@ -162,7 +163,5 @@
         }
       ]
     }
-  },
-
-    {
+  }
 );

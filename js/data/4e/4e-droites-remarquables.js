@@ -1,4 +1,5 @@
 ﻿window.MODULES.push(
+    {
     id: '4e-droites-remarquables',
     level: 1, subject: 'maths',
     icon: '🔺',
@@ -160,7 +161,5 @@
         }
       ]
     }
-  },
-
-    {
+  }
 );

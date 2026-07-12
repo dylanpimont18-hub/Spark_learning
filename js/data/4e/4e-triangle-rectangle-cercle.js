@@ -1,4 +1,5 @@
 ﻿window.MODULES.push(
+    {
     id: '4e-triangle-rectangle-cercle',
     level: 1, subject: 'maths',
     icon: '⭕',
@@ -165,7 +166,5 @@
         }
       ]
     }
-  },
-
-    {
+  }
 );

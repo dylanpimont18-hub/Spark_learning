@@ -1,4 +1,5 @@
 ﻿window.MODULES.push(
+    {
     id: '4e-volumes',
     level: 1, subject: 'maths',
     icon: '🔺',
@@ -169,7 +170,5 @@
         }
       ]
     }
-  },
-
-    {
+  }
 );

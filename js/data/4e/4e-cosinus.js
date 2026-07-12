@@ -1,4 +1,5 @@
 ﻿window.MODULES.push(
+    {
     id: '4e-cosinus',
     level: 1, subject: 'maths',
     icon: '📐',
@@ -171,7 +172,5 @@
         }
       ]
     }
-  },
-
-    {
+  }
 );

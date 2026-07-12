@@ -1,4 +1,5 @@
 ﻿window.MODULES.push(
+    {
     id: '4e-fractions-mult-div',
     level: 1, subject: 'maths',
     icon: '✖️',
@@ -173,7 +174,5 @@
         }
       ]
     }
-  },
-
-    {
+  }
 );
