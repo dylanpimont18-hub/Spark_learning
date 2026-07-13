@@ -93,7 +93,7 @@ window.MODULES.push(
           hint: `Soustraire $${b}$ des deux membres, puis diviser par $${a}$.`,
           solution: [
             `$${a}x = ${c} - ${b} = ${c-b}$`,
-            `$x = \\dfrac{${c-b}}{${a}} = ${sol}$`
+            `$x = \\dfrac{${c-b}}{${a}} = ${String(sol).replace('.', '{,}')}$`
           ]
         };
       }

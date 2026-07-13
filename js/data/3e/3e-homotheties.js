@@ -80,13 +80,16 @@ window.MODULES.push(
       generate() {
         const k = pick([2, 3, 0.5]);
         const ab = rand(3, 12);
+        const kStr = String(k).replace('.', '{,}');
+        const absKStr = String(Math.abs(k)).replace('.', '{,}');
+        const resultStr = String(Math.abs(k) * ab).replace('.', '{,}');
         return {
-          statement: `Une homothétie de rapport $k = ${k}$ transforme un segment de longueur $${ab}$ cm. Quelle est la longueur de l'image (en cm) ?`,
+          statement: `Une homothétie de rapport $k = ${kStr}$ transforme un segment de longueur $${ab}$ cm. Quelle est la longueur de l'image (en cm) ?`,
           answer: parseFloat((Math.abs(k) * ab).toFixed(1)),
           tolerance: 0.1,
           unit: 'cm',
-          hint: `Longueur image $= |k| \\times$ longueur originale $= ${Math.abs(k)} \\times ${ab}$.`,
-          solution: [`$A'B' = |${k}| \\times ${ab} = ${Math.abs(k) * ab}$ cm.`]
+          hint: `Longueur image $= |k| \\times$ longueur originale $= ${absKStr} \\times ${ab}$.`,
+          solution: [`$A'B' = |${kStr}| \\times ${ab} = ${resultStr}$ cm.`]
         };
       }
     },

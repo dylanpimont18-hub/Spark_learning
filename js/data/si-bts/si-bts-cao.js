@@ -112,15 +112,15 @@ window.MODULES.push({
           'un palier lisse'
         ]);
         return {
-          statement: `Dans ${scenario}, l'alésage a pour cote $A = ${Anom} \\pm ${String(tolA).replace('.', '{,')}$ mm et l'arbre $B = ${String(Bnom).replace('.', '{,')} \\pm ${String(tolB).replace('.', '{,')}$ mm. Calcule le jeu minimal $J_{\\min}$ (en mm, arrondi à $0{,}01$).`,
+          statement: `Dans ${scenario}, l'alésage a pour cote $A = ${Anom} \\pm ${String(tolA).replace('.', '{,}')}$ mm et l'arbre $B = ${String(Bnom).replace('.', '{,}')} \\pm ${String(tolB).replace('.', '{,}')}$ mm. Calcule le jeu minimal $J_{\\min}$ (en mm, arrondi à $0{,}01$).`,
           answer: Jmin,
           tolerance: 0.02,
           unit: 'mm',
           hint: '$J_{\\min} = A_{\\min} - B_{\\max}$. Le jeu minimal correspond au plus petit alésage et au plus grand arbre.',
           solution: [
-            `$A_{\\min} = ${Anom} - ${String(tolA).replace('.', '{,')} = ${String(Amin).replace('.', '{,')}$ mm`,
-            `$B_{\\max} = ${String(Bnom).replace('.', '{,')} + ${String(tolB).replace('.', '{,')} = ${String(Bmax).replace('.', '{,')}$ mm`,
-            `$J_{\\min} = A_{\\min} - B_{\\max} = ${String(Amin).replace('.', '{,')} - ${String(Bmax).replace('.', '{,')} = ${String(Jmin).replace('.', '{,')}$ mm`
+            `$A_{\\min} = ${Anom} - ${String(tolA).replace('.', '{,}')} = ${String(Amin).replace('.', '{,}')}$ mm`,
+            `$B_{\\max} = ${String(Bnom).replace('.', '{,}')} + ${String(tolB).replace('.', '{,}')} = ${String(Bmax).replace('.', '{,}')}$ mm`,
+            `$J_{\\min} = A_{\\min} - B_{\\max} = ${String(Amin).replace('.', '{,}')} - ${String(Bmax).replace('.', '{,}')} = ${String(Jmin).replace('.', '{,}')}$ mm`
           ]
         };
       }

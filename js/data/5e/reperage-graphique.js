@@ -158,15 +158,15 @@ window.MODULES.push({
         const y2 = parseFloat((a * x2 + b).toFixed(1));
         const slope = parseFloat(((y2 - y1) / (x2 - x1)).toFixed(2));
         return {
-          statement: `Une droite passe par les points $A(${x1} ; ${y1})$ et $B(${x2} ; ${y2})$. Calcule le coefficient directeur (la pente) de cette droite.`,
+          statement: `Une droite passe par les points $A(${x1} ; ${y1.toString().replace('.', '{,}')})$ et $B(${x2} ; ${y2.toString().replace('.', '{,}')})$. Calcule le coefficient directeur (la pente) de cette droite.`,
           answer: slope,
           tolerance: 0.02,
           unit: '',
-          hint: `La formule de la pente est $a = \\dfrac{y_B - y_A}{x_B - x_A} = \\dfrac{${y2} - ${y1}}{${x2} - ${x1}}$. Fais bien la soustraction dans le même ordre au numérateur et au dénominateur !`,
+          hint: `La formule de la pente est $a = \\dfrac{y_B - y_A}{x_B - x_A} = \\dfrac{${y2.toString().replace('.', '{,}')} - ${y1.toString().replace('.', '{,}')}}{${x2} - ${x1}}$. Fais bien la soustraction dans le même ordre au numérateur et au dénominateur !`,
           solution: [
             `On applique la formule : $a = \\dfrac{y_2 - y_1}{x_2 - x_1}$`,
-            `$a = \\dfrac{${y2} - ${y1}}{${x2} - ${x1}} = \\dfrac{${(y2-y1).toFixed(1)}}{${x2-x1}}$`,
-            `$a = ${slope}$`
+            `$a = \\dfrac{${y2.toString().replace('.', '{,}')} - ${y1.toString().replace('.', '{,}')}}{${x2} - ${x1}} = \\dfrac{${(y2-y1).toFixed(1).replace('.', '{,}')}}{${x2-x1}}$`,
+            `$a = ${slope.toString().replace('.', '{,}')}$`
           ]
         };
       }

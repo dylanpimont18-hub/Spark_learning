@@ -106,7 +106,7 @@ window.MODULES.push({
             `Calcul du volume : $V = ${L} \\times ${l} \\times ${h}$`,
             `$V = ${L * l} \\times ${h} = ${vcm3}\\,\\text{cm}^3$`,
             `Conversion cm³ → L : on divise par 1000 car $1\\,\\text{L} = 1000\\,\\text{cm}^3$`,
-            `$V = \\dfrac{${vcm3}}{1000} = ${vL}\\,\\text{L}$`
+            `$V = \\dfrac{${vcm3}}{1000} = ${vL.toString().replace('.', '{,}')}\\,\\text{L}$`
           ]
         };
       }

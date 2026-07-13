@@ -95,14 +95,14 @@ window.MODULES.push({
       tasks: [
         'Calculer $C(5)$, $C(10)$, $C(15)$ et $C(20)$.',
         'Dresser le tableau de variations de $C$ sur $[5;20]$ à partir de ces valeurs. Identifier le maximum.',
-        'Déterminer les antécédents de $2400$ par $C$ (c\'est-à-dire résoudre $C(p) = 2400$).'
+        'Déterminer les antécédents de $2000$ par $C$ (c\'est-à-dire résoudre $C(p) = 2000$).'
       ],
       solutions: [
         '$C(5) = -20 \\times 25 + 500 \\times 5 = 2000$ € ; $C(10) = -2000 + 5000 = 3000$ € ; $C(15) = -4500 + 7500 = 3000$ € ; $C(20) = -8000 + 10000 = 2000$ €.',
         '$C$ croît sur $[5;10]$ puis décroît (ou reste stable) sur $[10;20]$. Le maximum semble atteint autour de $p = 12{,}5$ (milieu entre $10$ et $15$) avec $C(12{,}5) = 3125$ €.',
-        '$-20p^2 + 500p = 2400 \\Rightarrow -20p^2 + 500p - 2400 = 0 \\Rightarrow p^2 - 25p + 120 = 0$. On trouve $p = 8$ ou $p = 15$ (vérification : $C(8) = C(15) = 2400$ ✓).'
+        '$-20p^2 + 500p = 2000 \\Rightarrow -20p^2 + 500p - 2000 = 0 \\Rightarrow p^2 - 25p + 100 = 0$. On trouve $p = 5$ ou $p = 20$ (vérification : $C(5) = C(20) = 2000$ ✓, cohérent avec les valeurs calculées en 1).'
       ],
-      finalAnswer: 'Maximum du chiffre d\'affaires : $3125$ € pour $p = 12{,}5$ €. Antécédents de $2400$ : $p = 8$ € et $p = 15$ €.'
+      finalAnswer: 'Maximum du chiffre d\'affaires : $3125$ € pour $p = 12{,}5$ €. Antécédents de $2000$ : $p = 5$ € et $p = 20$ €.'
     },
 
     evaluation: {

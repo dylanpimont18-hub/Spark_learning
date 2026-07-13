@@ -95,7 +95,7 @@
           tolerance: 0.1,
           unit: 'cm',
           hint: `$AG = \\dfrac{2}{3} \\times AM = \\dfrac{2}{3} \\times ${am}$.`,
-          solution: [`$AG = \\dfrac{2}{3} \\times ${am} = \\dfrac{${2*am}}{3} = ${ag}$ cm.`]
+          solution: [`$AG = \\dfrac{2}{3} \\times ${am} = \\dfrac{${2*am}}{3} = ${ag.toString().replace('.', '{,}')}$ cm.`]
         };
       }
     },

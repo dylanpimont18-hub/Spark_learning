@@ -105,8 +105,8 @@ window.MODULES.push({
             solution: [
               'On identifie un mouvement rectiligne uniformément accéléré (MRUA).',
               'Formule applicable : $v = v_0 + at$',
-              `$v = ${v0} + ${a.toFixed(1).replace('.', '{,')} \\times ${t}$`,
-              `$v = ${v0} + ${(a * t).toFixed(1).replace('.', '{,')} = ${vf.toString().replace('.', '{,')}$ m/s`
+              `$v = ${v0} + ${a.toFixed(1).replace('.', '{,}')} \\times ${t}$`,
+              `$v = ${v0} + ${(a * t).toFixed(1).replace('.', '{,}')} = ${vf.toString().replace('.', '{,}')}$ m/s`
             ]
           };
         } else {
@@ -119,8 +119,8 @@ window.MODULES.push({
             solution: [
               'On identifie un mouvement rectiligne uniformément accéléré (MRUA).',
               'Formule applicable : $x = v_0 t + \\dfrac{1}{2}at^2$',
-              `$x = ${v0} \\times ${t} + \\dfrac{1}{2} \\times ${a.toFixed(1).replace('.', '{,')} \\times ${t}^2$`,
-              `$x = ${(v0 * t).toFixed(1).replace('.', '{,')} + ${(0.5 * a * t * t).toFixed(1).replace('.', '{,')} = ${x.toString().replace('.', '{,')}$ m`
+              `$x = ${v0} \\times ${t} + \\dfrac{1}{2} \\times ${a.toFixed(1).replace('.', '{,}')} \\times ${t}^2$`,
+              `$x = ${(v0 * t).toFixed(1).replace('.', '{,}')} + ${(0.5 * a * t * t).toFixed(1).replace('.', '{,}')} = ${x.toString().replace('.', '{,}')}$ m`
             ]
           };
         }

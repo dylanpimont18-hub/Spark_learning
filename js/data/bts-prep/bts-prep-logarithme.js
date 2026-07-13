@@ -191,7 +191,7 @@ Si $a \\cdot e^{bx} = c$ → $e^{bx} = c/a$ → $bx = \\ln(c/a)$ → $x = \\ln(c
           tolerance: 0.05,
           unit: 'V',
           hint: `Calculer d'abord $\\tau = RC$, puis appliquer $u_C = E(1 - e^{-t/\\tau})$ avec $t = 2{,}5\\tau$.`,
-          solution: `$\\tau = ${R} \\times 10^3 \\times ${C} \\times 10^{-6} = ${tau.toFixed(3)}\\;\\text{s}$<br/>$u_C = ${E}\\left(1 - e^{-2{,}5}\\right) = ${E} \\times (1 - 0{,}0821) = ${E} \\times 0{,}9179 \\approx ${uc.toFixed(2)}\\;\\text{V}$`,
+          solution: `$\\tau = ${R} \\times 10^3 \\times ${C} \\times 10^{-6} = ${tau.toFixed(3).replace('.', '{,}')}\\;\\text{s}$<br/>$u_C = ${E}\\left(1 - e^{-2{,}5}\\right) = ${E} \\times (1 - 0{,}0821) = ${E} \\times 0{,}9179 \\approx ${uc.toFixed(2).replace('.', '{,}')}\\;\\text{V}$`,
         };
       }
 
@@ -206,7 +206,7 @@ Si $a \\cdot e^{bx} = c$ → $e^{bx} = c/a$ → $bx = \\ln(c/a)$ → $x = \\ln(c
           tolerance: 0.001,
           unit: '',
           hint: `$G_{dB} = 20\\log_{10}(V_s/V_e)$ → $V_s/V_e = 10^{G_{dB}/20}$.`,
-          solution: `$\\dfrac{V_s}{V_e} = 10^{${gain_dB}/20} = 10^{${(gain_dB/20).toFixed(1)}} = ${factor.toFixed(4)}$`,
+          solution: `$\\dfrac{V_s}{V_e} = 10^{${gain_dB}/20} = 10^{${(gain_dB/20).toFixed(1).replace('.', '{,}')}} = ${factor.toFixed(4).replace('.', '{,}')}$`,
         };
       }
 
@@ -215,12 +215,12 @@ Si $a \\cdot e^{bx} = c$ → $e^{bx} = c/a$ → $bx = \\ln(c/a)$ → $x = \\ln(c
       const t_half = Math.log(2) / k;
       const context = pick(['traitement d\'eau potable (chloration)', 'réaction de saponification', 'dépollution d\'effluents industriels', 'désinfection UV de l\'air']);
       return {
-        statement: `Une réaction de premier ordre lors d'un ${context} a une constante de vitesse $k = ${k}\\;\\text{min}^{-1}$.<br/><br/>Calculez le temps de demi-vie $t_{1/2}$ (en min, arrondi à 0,1 min).`,
+        statement: `Une réaction de premier ordre lors d'un ${context} a une constante de vitesse $k = ${String(k).replace('.', '{,}')}\\;\\text{min}^{-1}$.<br/><br/>Calculez le temps de demi-vie $t_{1/2}$ (en min, arrondi à 0,1 min).`,
         answer: parseFloat(t_half.toFixed(1)),
         tolerance: 0.1,
         unit: 'min',
         hint: `$t_{1/2} = \\ln 2 / k \\approx 0{,}693 / k$.`,
-        solution: `$t_{1/2} = \\dfrac{\\ln 2}{k} = \\dfrac{0{,}6931}{${k}} \\approx ${t_half.toFixed(1)}\\;\\text{min}$`,
+        solution: `$t_{1/2} = \\dfrac{\\ln 2}{k} = \\dfrac{0{,}6931}{${String(k).replace('.', '{,}')}} \\approx ${t_half.toFixed(1).replace('.', '{,}')}\\;\\text{min}$`,
       };
     },
   },

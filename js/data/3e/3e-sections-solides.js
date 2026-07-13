@@ -87,7 +87,7 @@ window.MODULES.push(
           tolerance: 0.1,
           unit: 'cm',
           hint: `Rapport de similitude : $\\dfrac{${hprime}}{${h}}$. Côté section $= ${base} \\times \\dfrac{${hprime}}{${h}}$.`,
-          solution: [`$c' = ${base} \\times \\dfrac{${hprime}}{${h}} = \\dfrac{${base*hprime}}{${h}} = ${cprime}$ cm.`]
+          solution: [`$c' = ${base} \\times \\dfrac{${hprime}}{${h}} = \\dfrac{${base*hprime}}{${h}} = ${String(cprime).replace('.', '{,}')}$ cm.`]
         };
       }
     },

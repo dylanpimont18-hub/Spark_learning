@@ -133,15 +133,18 @@ window.MODULES.push(
         const oaP = oa * ratio;
         const ab = rand(2, 8);
         const abP = parseFloat((ab * ratio).toFixed(2));
+        const oaPStr = String(oaP).replace('.', '{,}');
+        const ratioStr = String(ratio).replace('.', '{,}');
+        const abPStr = String(abP).replace('.', '{,}');
         return {
-          statement: `Dans une configuration de Thalès, $OA = ${oa}$ cm, $OA' = ${oaP}$ cm, $AB = ${ab}$ cm, $(AB) \\parallel (A'B')$. Calculer $A'B'$.`,
+          statement: `Dans une configuration de Thalès, $OA = ${oa}$ cm, $OA' = ${oaPStr}$ cm, $AB = ${ab}$ cm, $(AB) \\parallel (A'B')$. Calculer $A'B'$.`,
           answer: abP,
           tolerance: 0.05,
           unit: 'cm',
-          hint: `Le rapport de Thalès est $k = \\dfrac{OA'}{OA} = \\dfrac{${oaP}}{${oa}}$. Puis $A'B' = k \\times AB$.`,
+          hint: `Le rapport de Thalès est $k = \\dfrac{OA'}{OA} = \\dfrac{${oaPStr}}{${oa}}$. Puis $A'B' = k \\times AB$.`,
           solution: [
-            `$k = \\dfrac{OA'}{OA} = \\dfrac{${oaP}}{${oa}} = ${ratio}$`,
-            `$A'B' = k \\times AB = ${ratio} \\times ${ab} = ${abP}$ cm`
+            `$k = \\dfrac{OA'}{OA} = \\dfrac{${oaPStr}}{${oa}} = ${ratioStr}$`,
+            `$A'B' = k \\times AB = ${ratioStr} \\times ${ab} = ${abPStr}$ cm`
           ]
         };
       }

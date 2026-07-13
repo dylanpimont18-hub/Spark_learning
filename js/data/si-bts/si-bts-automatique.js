@@ -102,30 +102,30 @@ window.MODULES.push({
           const tau = randFloat(0.1, 2.0, 1);
           const t95 = parseFloat((3 * tau).toFixed(1));
           return {
-            statement: `Un système du 1er ordre a pour fonction de transfert $H(s) = ${K}/(1 + ${String(tau).replace('.', '{,')}s)$. Calcule le temps de réponse à $95\\%$ (en s, arrondi à $0{,}1$ s).`,
+            statement: `Un système du 1er ordre a pour fonction de transfert $H(s) = ${K}/(1 + ${String(tau).replace('.', '{,}')}s)$. Calcule le temps de réponse à $95\\%$ (en s, arrondi à $0{,}1$ s).`,
             answer: t95,
             tolerance: 0.1,
             unit: 's',
             hint: 'Pour un 1er ordre, $t_{95\\%} = 3\\tau$. Identifie $\\tau$ dans le dénominateur.',
             solution: [
-              `$\\tau = ${String(tau).replace('.', '{,')}$ s (coefficient de $s$).`,
-              `$t_{95\\%} = 3\\tau = 3 \\times ${String(tau).replace('.', '{,')} = ${String(t95).replace('.', '{,')}$ s.`
+              `$\\tau = ${String(tau).replace('.', '{,}')}$ s (coefficient de $s$).`,
+              `$t_{95\\%} = 3\\tau = 3 \\times ${String(tau).replace('.', '{,}')} = ${String(t95).replace('.', '{,}')}$ s.`
             ]
           };
         } else {
           const xi = randFloat(0.2, 0.8, 1);
           const D = parseFloat((Math.exp(-Math.PI * xi / Math.sqrt(1 - xi * xi)) * 100).toFixed(1));
           return {
-            statement: `Un système du 2nd ordre a un amortissement $\\xi = ${String(xi).replace('.', '{,')}$. Calcule le premier dépassement $D\\%$ avec la formule $D\\% = e^{-\\pi\\xi/\\sqrt{1-\\xi^2}} \\times 100$ (arrondi à $0{,}1\\%$).`,
+            statement: `Un système du 2nd ordre a un amortissement $\\xi = ${String(xi).replace('.', '{,}')}$. Calcule le premier dépassement $D\\%$ avec la formule $D\\% = e^{-\\pi\\xi/\\sqrt{1-\\xi^2}} \\times 100$ (arrondi à $0{,}1\\%$).`,
             answer: D,
             tolerance: 0.5,
             unit: '%',
             hint: 'Calcule d\'abord $\\pi\\xi/\\sqrt{1-\\xi^2}$, puis l\'exponentielle, puis multiplie par 100.',
             solution: [
-              `$1 - \\xi^2 = 1 - ${String(xi).replace('.', '{,')}^2 = ${String(parseFloat((1 - xi * xi).toFixed(2))).replace('.', '{,')}$`,
-              `$\\sqrt{1-\\xi^2} = ${String(parseFloat(Math.sqrt(1 - xi * xi).toFixed(3))).replace('.', '{,')}$`,
-              `$\\pi\\xi/\\sqrt{1-\\xi^2} = ${String(parseFloat((Math.PI * xi / Math.sqrt(1 - xi * xi)).toFixed(3))).replace('.', '{,')}$`,
-              `$D\\% = e^{-${String(parseFloat((Math.PI * xi / Math.sqrt(1 - xi * xi)).toFixed(3))).replace('.', '{,')}} \\times 100 = ${String(D).replace('.', '{,')}\\%$`
+              `$1 - \\xi^2 = 1 - ${String(xi).replace('.', '{,}')}^2 = ${String(parseFloat((1 - xi * xi).toFixed(2))).replace('.', '{,}')}$`,
+              `$\\sqrt{1-\\xi^2} = ${String(parseFloat(Math.sqrt(1 - xi * xi).toFixed(3))).replace('.', '{,}')}$`,
+              `$\\pi\\xi/\\sqrt{1-\\xi^2} = ${String(parseFloat((Math.PI * xi / Math.sqrt(1 - xi * xi)).toFixed(3))).replace('.', '{,}')}$`,
+              `$D\\% = e^{-${String(parseFloat((Math.PI * xi / Math.sqrt(1 - xi * xi)).toFixed(3))).replace('.', '{,}')}} \\times 100 = ${String(D).replace('.', '{,}')}\\%$`
             ]
           };
         }

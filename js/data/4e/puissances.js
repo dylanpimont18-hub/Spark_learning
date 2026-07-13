@@ -96,7 +96,9 @@
         const n2 = rand(-4, 2);
         const resultExp = n1 + n2;
         const mantisse = 3;
-        const fullAnswer = parseFloat((mantisse * Math.pow(10, resultExp)).toPrecision(2));
+        const decimals = resultExp < 0 ? -resultExp : 0;
+        const fullAnswer = parseFloat((mantisse * Math.pow(10, resultExp)).toFixed(decimals));
+        const fullAnswerDisplay = fullAnswer.toFixed(decimals).replace('.', '{,}');
         return {
           statement: `${ctx.emoji} ${ctx.intro} de l'ordre de $3 \\times 10^{${n1}}$. On multiplie cette valeur par $10^{${n2}}$. Calcule $3 \\times 10^{${n1}} \\times 10^{${n2}}$. Donne le résultat sous forme décimale standard.`,
           answer: fullAnswer,
@@ -106,7 +108,7 @@
           solution: [
             `Regrouper les puissances : $3 \\times 10^{${n1}} \\times 10^{${n2}} = 3 \\times 10^{${n1} + (${n2})}$`,
             `Addition des exposants : $${n1} + (${n2}) = ${resultExp}$`,
-            `Résultat : $3 \\times 10^{${resultExp}} = ${fullAnswer}$`
+            `Résultat : $3 \\times 10^{${resultExp}} = ${fullAnswerDisplay}$`
           ]
         };
       }

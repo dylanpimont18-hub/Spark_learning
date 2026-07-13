@@ -95,15 +95,15 @@ window.MODULES.push({
         const quantity = rand(5, 40);
         const answer = parseFloat((pricePerUnit * quantity).toFixed(2));
         return {
-          statement: `${ctx.emoji} Le prix du ${ctx.item} est de $${pricePerUnit}$ ${ctx.unit}. Quel est le coût total pour $${quantity}$ ${ctx.qUnit} ? (arrondir au centime)`,
+          statement: `${ctx.emoji} Le prix du ${ctx.item} est de $${pricePerUnit.toString().replace('.', '{,}')}$ ${ctx.unit}. Quel est le coût total pour $${quantity}$ ${ctx.qUnit} ? (arrondir au centime)`,
           answer,
           tolerance: 0.02,
           unit: '€',
           hint: `Rappel : si le prix est proportionnel à la quantité, utilise la formule $\\text{Coût} = \\text{prix unitaire} \\times \\text{quantité}$.`,
           solution: [
-            `Données : prix unitaire $p = ${pricePerUnit}$ ${ctx.unit}, quantité $q = ${quantity}$ ${ctx.qUnit}.`,
+            `Données : prix unitaire $p = ${pricePerUnit.toString().replace('.', '{,}')}$ ${ctx.unit}, quantité $q = ${quantity}$ ${ctx.qUnit}.`,
             `Application de la proportionnalité directe : $\\text{Coût} = p \\times q$`,
-            `$\\text{Coût} = ${pricePerUnit} \\times ${quantity} = ${answer}$ €`
+            `$\\text{Coût} = ${pricePerUnit.toString().replace('.', '{,}')} \\times ${quantity} = ${answer.toString().replace('.', '{,}')}$ €`
           ]
         };
       }

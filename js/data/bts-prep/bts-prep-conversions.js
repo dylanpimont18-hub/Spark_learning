@@ -209,7 +209,7 @@ Règle pratique : <strong>1 bar ≈ 10 m de colonne d'eau</strong> (pour la pres
           tolerance: 0.01,
           unit: 'bar',
           hint: `$p = \\rho g h$ en Pa, puis diviser par $10^5$.`,
-          solution: `$p = 1000 \\times 9{,}81 \\times ${h} = ${p_Pa.toFixed(0)}\\;\\text{Pa} = ${p_bar.toFixed(2)}\\;\\text{bar}$`,
+          solution: `$p = 1000 \\times 9{,}81 \\times ${h} = ${p_Pa.toFixed(0)}\\;\\text{Pa} = ${p_bar.toFixed(2).replace('.', '{,}')}\\;\\text{bar}$`,
         };
       }
 
@@ -218,12 +218,12 @@ Règle pratique : <strong>1 bar ≈ 10 m de colonne d'eau</strong> (pour la pres
         const Q_lmin = Q_m3h * 1000 / 60;
         const context = pick(['installation sanitaire d\'un hôtel', 'réseau de sprinklers', 'circuit de refroidissement', 'réseau d\'irrigation']);
         return {
-          statement: `Le débit de conception d'un ${context} est de $Q = ${Q_m3h}\\;\\text{m}^3/\\text{h}$.<br/><br/>Exprimer ce débit en l/min (arrondir à 0,1 l/min).`,
+          statement: `Le débit de conception d'un ${context} est de $Q = ${String(Q_m3h).replace('.', '{,}')}\\;\\text{m}^3/\\text{h}$.<br/><br/>Exprimer ce débit en l/min (arrondir à 0,1 l/min).`,
           answer: parseFloat(Q_lmin.toFixed(1)),
           tolerance: 0.1,
           unit: 'l/min',
           hint: `Multiplier par 1000 (m³→l) et diviser par 60 (h→min).`,
-          solution: `$Q = ${Q_m3h} \\times \\dfrac{1000}{60} = ${Q_lmin.toFixed(1)}\\;\\text{l/min}$`,
+          solution: `$Q = ${String(Q_m3h).replace('.', '{,}')} \\times \\dfrac{1000}{60} = ${Q_lmin.toFixed(1).replace('.', '{,}')}\\;\\text{l/min}$`,
         };
       }
 
@@ -237,7 +237,7 @@ Règle pratique : <strong>1 bar ≈ 10 m de colonne d'eau</strong> (pour la pres
           tolerance: 0.2,
           unit: 'rad/s',
           hint: `$\\omega = n \\times \\dfrac{2\\pi}{60}$`,
-          solution: `$\\omega = ${n} \\times \\dfrac{2\\pi}{60} = ${n} \\times 0{,}1047 = ${omega.toFixed(1)}\\;\\text{rad/s}$`,
+          solution: `$\\omega = ${n} \\times \\dfrac{2\\pi}{60} = ${n} \\times 0{,}1047 = ${omega.toFixed(1).replace('.', '{,}')}\\;\\text{rad/s}$`,
         };
       }
 

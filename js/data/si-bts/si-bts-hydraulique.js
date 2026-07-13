@@ -119,10 +119,10 @@ window.MODULES.push({
           unit: 'kN',
           hint: 'Calcule la section $S = \\pi D^2 / 4$ (en m²), convertis la pression en Pa ($1$ bar $= 10^5$ Pa), puis applique $F = P \\times S$.',
           solution: [
-            `$D = ${D_mm}$ mm $= ${String(D_m).replace('.', '{,')}$ m`,
-            `$S = \\pi D^2 / 4 = \\pi \\times ${String(D_m).replace('.', '{,')}^2 / 4 \\approx ${String(parseFloat(S.toFixed(6))).replace('.', '{,')}$ m²`,
+            `$D = ${D_mm}$ mm $= ${String(D_m).replace('.', '{,}')}$ m`,
+            `$S = \\pi D^2 / 4 = \\pi \\times ${String(D_m).replace('.', '{,}')}^2 / 4 \\approx ${String(parseFloat(S.toFixed(6))).replace('.', '{,}')}$ m²`,
             `$P = ${P_bar}$ bar $= ${P_bar} \\times 10^5$ Pa`,
-            `$F = P \\times S \\approx ${String(F_kN).replace('.', '{,')}$ kN`
+            `$F = P \\times S \\approx ${String(F_kN).replace('.', '{,}')}$ kN`
           ]
         };
       }

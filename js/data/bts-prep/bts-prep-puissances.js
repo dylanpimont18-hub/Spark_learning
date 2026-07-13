@@ -77,7 +77,7 @@ window.MODULES.push({
   quiz: [
     {
       q: '$3{,}5 \\times 10^3 \\times 2 \\times 10^4$ vaut :',
-      options: ['$7 \\times 10^7$', '$5{,}5 \\times 10^7$', '$7 \\times 10^{12}$', '$7 \\times 10^{12}$'],
+      options: ['$7 \\times 10^7$', '$5{,}5 \\times 10^7$', '$7 \\times 10^{12}$', '$7 \\times 10^{8}$'],
       answer: 0,
       correction: '$3{,}5 \\times 2 = 7$ et $10^3 \\times 10^4 = 10^{3+4} = 10^7$. Résultat : $7 \\times 10^7$.'
     },
@@ -152,12 +152,12 @@ window.MODULES.push({
         const p = pick(pairs);
         const ans = p.val * Math.pow(10, p.exp);
         return {
-          statement: `Convertir $${p.val}$ ${p.from}${p.unit} en ${p.unit} (${p.label}).`,
+          statement: `Convertir $${String(p.val).replace('.', '{,}')}$ ${p.from}${p.unit} en ${p.unit} (${p.label}).`,
           answer: ans,
           tolerance: Math.abs(ans) * 0.001,
           unit: p.unit,
           hint: `Le préfixe ${p.from} correspond à $10^{${p.exp}}$. Multiplier par $10^{${p.exp}}$.`,
-          solution: [`$${p.val}\\,${p.from}${p.unit} = ${p.val} \\times 10^{${p.exp}}\\,${p.unit} = ${ans}\\,${p.unit}$`]
+          solution: [`$${String(p.val).replace('.', '{,}')}\\,${p.from}${p.unit} = ${String(p.val).replace('.', '{,}')} \\times 10^{${p.exp}}\\,${p.unit} = ${String(ans).replace('.', '{,}')}\\,${p.unit}$`]
         };
       }
 
@@ -168,12 +168,12 @@ window.MODULES.push({
         const S_m2 = S_mm2 * 1e-6;
         const R = Math.round(rho * L / S_m2 * 1000) / 1000;
         return {
-          statement: `Calculer la résistance d'un câble de cuivre ($\\rho = 1{,}7 \\times 10^{-8}$ Ω·m) de longueur $L = ${L}$ m et de section $S = ${S_mm2}$ mm² (en Ω, 3 chiffres significatifs).`,
+          statement: `Calculer la résistance d'un câble de cuivre ($\\rho = 1{,}7 \\times 10^{-8}$ Ω·m) de longueur $L = ${L}$ m et de section $S = ${String(S_mm2).replace('.', '{,}')}$ mm² (en Ω, 3 chiffres significatifs).`,
           answer: R,
           tolerance: 0.005,
           unit: 'Ω',
-          hint: `$S = ${S_mm2} \\times 10^{-6}$ m². $R = \\rho L / S$.`,
-          solution: [`$S = ${S_mm2} \\times 10^{-6}$ m²`, `$R = \\dfrac{1{,}7 \\times 10^{-8} \\times ${L}}{${S_mm2} \\times 10^{-6}} = ${R}$ Ω`]
+          hint: `$S = ${String(S_mm2).replace('.', '{,}')} \\times 10^{-6}$ m². $R = \\rho L / S$.`,
+          solution: [`$S = ${String(S_mm2).replace('.', '{,}')} \\times 10^{-6}$ m²`, `$R = \\dfrac{1{,}7 \\times 10^{-8} \\times ${L}}{${String(S_mm2).replace('.', '{,}')} \\times 10^{-6}} = ${String(R).replace('.', '{,}')}$ Ω`]
         };
       }
 

@@ -90,7 +90,7 @@ window.MODULES.push(
           tolerance: 0.01,
           unit: '',
           hint: `$f_{B|A} = \\dfrac{n(A \\cap B)}{n(A)} = \\dfrac{${nAB}}{${nA}}$.`,
-          solution: [`$f_{B|A} = \\dfrac{${nAB}}{${nA}} = ${fcond}$ soit $${Math.round(fcond*100)}\\%$ des sportifs.`]
+          solution: [`$f_{B|A} = \\dfrac{${nAB}}{${nA}} = ${String(fcond).replace('.', '{,}')}$ soit $${Math.round(fcond*100)}\\%$ des sportifs.`]
         };
       }
     },

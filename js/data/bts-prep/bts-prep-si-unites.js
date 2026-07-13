@@ -190,12 +190,12 @@ window.MODULES.push({
         const W_MJ = W_kWh * 3.6;
         const context = pick(['moteur de pompe industrielle', 'compresseur d\'air', 'ventilateur de traitement d\'air', 'convoyeur à bande']);
         return {
-          statement: `Un ${context} de puissance nominale $P = ${P_kW}\\;\\text{kW}$ fonctionne pendant $t = ${t_h}\\;\\text{h}$ à pleine charge.<br/><br/>Calculez l'énergie consommée en mégajoules (MJ, arrondi à 0,1 MJ).`,
+          statement: `Un ${context} de puissance nominale $P = ${String(P_kW).replace('.', '{,}')}\\;\\text{kW}$ fonctionne pendant $t = ${t_h}\\;\\text{h}$ à pleine charge.<br/><br/>Calculez l'énergie consommée en mégajoules (MJ, arrondi à 0,1 MJ).`,
           answer: parseFloat(W_MJ.toFixed(1)),
           tolerance: 0.1,
           unit: 'MJ',
           hint: `$W = P \\times t$ en kWh, puis convertir : $1\\;\\text{kWh} = 3{,}6\\;\\text{MJ}$.`,
-          solution: `$W = ${P_kW}\\;\\text{kW} \\times ${t_h}\\;\\text{h} = ${W_kWh}\\;\\text{kWh}$<br/>$W = ${W_kWh} \\times 3{,}6 = ${W_MJ.toFixed(1)}\\;\\text{MJ}$`,
+          solution: `$W = ${String(P_kW).replace('.', '{,}')}\\;\\text{kW} \\times ${t_h}\\;\\text{h} = ${String(W_kWh).replace('.', '{,}')}\\;\\text{kWh}$<br/>$W = ${String(W_kWh).replace('.', '{,}')} \\times 3{,}6 = ${W_MJ.toFixed(1).replace('.', '{,}')}\\;\\text{MJ}$`,
         };
       }
 
@@ -223,7 +223,7 @@ window.MODULES.push({
         tolerance: 0.01,
         unit: 'm/s',
         hint: `Diviser par 3,6 (ou multiplier par 1000/3600).`,
-        solution: `$${v_kmh}\\;\\text{km/h} = \\dfrac{${v_kmh}}{3{,}6} = ${v_ms.toFixed(2)}\\;\\text{m/s}$`,
+        solution: `$${v_kmh}\\;\\text{km/h} = \\dfrac{${v_kmh}}{3{,}6} = ${v_ms.toFixed(2).replace('.', '{,}')}\\;\\text{m/s}$`,
       };
     },
   },

@@ -97,8 +97,8 @@
           answer: adj,
           tolerance: 0.2,
           unit: scenario.emoji === '📐' ? 'cm' : 'm',
-          hint: `$\\text{côté adjacent} = \\text{hypoténuse} \\times \\cos(${a}°) = ${hyp} \\times ${cos}$.`,
-          solution: [`$\\text{adj} = ${hyp} \\times \\cos(${a}°) = ${hyp} \\times ${cos} = ${adj}$ ${scenario.emoji === '📐' ? 'cm' : 'm'}.`]
+          hint: `$\\text{côté adjacent} = \\text{hypoténuse} \\times \\cos(${a}°) = ${hyp} \\times ${cos.toString().replace('.', '{,}')}$.`,
+          solution: [`$\\text{adj} = ${hyp} \\times \\cos(${a}°) = ${hyp} \\times ${cos.toString().replace('.', '{,}')} = ${adj.toString().replace('.', '{,}')}$ ${scenario.emoji === '📐' ? 'cm' : 'm'}.`]
         };
       }
     },

@@ -82,11 +82,11 @@ window.MODULES.push(
         'Estimer le CA pour $x=6$ k€ de publicité.'
       ],
       solutions: [
-        '$\\bar{x}=3$, $\\bar{y}=12$, $\\overline{xy}=38{,}4$, $V_x=2$, $\\text{Cov}=38{,}4-36=2{,}4$.',
-        '$a=2{,}4/2=1{,}2$ ; $b=12-1{,}2\\times3=8{,}4$. Droite : $y=1{,}2x+8{,}4$.',
-        '$y(6)=1{,}2\\times6+8{,}4=15{,}6$ k€.'
+        '$\\bar{x}=3$, $\\bar{y}=12$, $\\overline{xy}=39{,}4$, $V_x=2$, $\\text{Cov}=39{,}4-36=3{,}4$.',
+        '$a=3{,}4/2=1{,}7$ ; $b=12-1{,}7\\times3=6{,}9$. Droite : $y=1{,}7x+6{,}9$.',
+        '$y(6)=1{,}7\\times6+6{,}9=17{,}1$ k€.'
       ],
-      finalAnswer: 'Droite : $y=1{,}2x+8{,}4$. Pour $6$ k€ pub → CA estimé : $15{,}6$ k€.'
+      finalAnswer: 'Droite : $y=1{,}7x+6{,}9$. Pour $6$ k€ pub → CA estimé : $17{,}1$ k€.'
     },
 
     evaluation: {

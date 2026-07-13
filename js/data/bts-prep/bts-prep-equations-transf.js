@@ -123,8 +123,8 @@ window.MODULES.push({
     {
       q: 'L\'énergie cinétique d\'un véhicule est $E_c = 180\\;\\text{kJ}$ pour une masse $m = 1800\\;\\text{kg}$. Sa vitesse est :',
       options: ['10 m/s', '14,1 m/s', '100 m/s', '200 m/s'],
-      answer: 0,
-      correction: 'v = √(2Ec/m) = √(2×180000/1800) = √(200) ≈ 14,1 m/s... Attention : v = √(2×180000/1800) = √200 ≈ 14,1 m/s. (Correction : réponse correcte = 14,1 m/s → option B)',
+      answer: 1,
+      correction: 'v = √(2Ec/m) = √(2×180000/1800) = √200 ≈ 14,1 m/s.',
     },
     {
       q: 'Un filtre a un gain de $-40\\;\\text{dB}$ en tension. Le rapport $V_s/V_e$ est :',
@@ -165,8 +165,7 @@ window.MODULES.push({
 
       if (type === 'impedance_R') {
         const Z = pick([50, 100, 130, 170, 260]);
-        const X = pick([30, 40, 60, 80, 100, 120]);
-        if (X >= Z) return { statement: 'Recalcul...', answer: 0, tolerance: 1, unit: 'Ω', hint: '', solution: '' };
+        const X = pick([30, 40, 60, 80, 100, 120].filter(x => x < Z));
         const R = Math.sqrt(Z * Z - X * X);
         const Rn = parseFloat(R.toFixed(1));
         const context = pick(['circuit de filtre LC', 'transformateur de mesure', 'ligne d\'alimentation BT']);

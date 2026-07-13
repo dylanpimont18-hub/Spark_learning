@@ -120,8 +120,8 @@ window.MODULES.push({
             hint: `Utilise la formule $G_{\\text{dB}} = 20 \\log(|H|)$. Rappel : $\\log(10) = 1$, $\\log(2) \\approx 0{,}301$, $\\log(5) \\approx 0{,}699$.`,
             solution: [
               `$G_{\\text{dB}} = 20 \\log(${H0})$`,
-              `$G_{\\text{dB}} = 20 \\times ${Math.log10(H0).toFixed(3)}$`,
-              `$G_{\\text{dB}} = ${GdB}$ dB`
+              `$G_{\\text{dB}} = 20 \\times ${Math.log10(H0).toFixed(3).replace('.', '{,}')}$`,
+              `$G_{\\text{dB}} = ${String(GdB).replace('.', '{,}')}$ dB`
             ]
           };
         } else if (scenario === 'freq') {
@@ -136,7 +136,7 @@ window.MODULES.push({
             solution: [
               `$f_c = \\dfrac{\\omega_c}{2\\pi} = \\dfrac{${wc}}{2\\pi}$`,
               `$f_c = \\dfrac{${wc}}{6{,}283}$`,
-              `$f_c \\approx ${fc}$ Hz`
+              `$f_c \\approx ${String(fc).replace('.', '{,}')}$ Hz`
             ]
           };
         } else {
@@ -150,7 +150,7 @@ window.MODULES.push({
             hint: `À la coupure, le module vaut $|H(j\\omega_c)| = \\dfrac{H_0}{\\sqrt{2}}$.`,
             solution: [
               `$|H(j\\omega_c)| = \\dfrac{H_0}{\\sqrt{2}} = \\dfrac{${H0}}{1{,}414}$`,
-              `$|H(j\\omega_c)| \\approx ${Hc}$`
+              `$|H(j\\omega_c)| \\approx ${String(Hc).replace('.', '{,}')}$`
             ]
           };
         }

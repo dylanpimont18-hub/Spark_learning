@@ -108,15 +108,15 @@ window.MODULES.push({
         const V = randFloat(0.5, Vmax - 0.5, 1);
         const X = parseFloat((V / S).toFixed(1));
         return {
-          statement: `Un capteur de ${scenario.type} a une EM de $0$ à $${scenario.Xmax}$ ${scenario.unit} et délivre $0$ à $${Vmax}$ V (linéaire). La tension mesurée est $V = ${String(V).replace('.', '{,')}$ V. Calcule la ${scenario.type} mesurée (en ${scenario.unit}, arrondi à $0{,}1$).`,
+          statement: `Un capteur de ${scenario.type} a une EM de $0$ à $${scenario.Xmax}$ ${scenario.unit} et délivre $0$ à $${Vmax}$ V (linéaire). La tension mesurée est $V = ${String(V).replace('.', '{,}')}$ V. Calcule la ${scenario.type} mesurée (en ${scenario.unit}, arrondi à $0{,}1$).`,
           answer: X,
           tolerance: 0.5,
           unit: scenario.unit,
           hint: `Calcule la sensibilité $S = V_{\\max} / X_{\\max}$, puis $X = V / S$.`,
           solution: [
-            `$S = ${Vmax} / ${scenario.Xmax} = ${String(S).replace('.', '{,')}$ V/${scenario.unit}`,
-            `$X = V / S = ${String(V).replace('.', '{,')} / ${String(S).replace('.', '{,')}$`,
-            `$X = ${String(X).replace('.', '{,')}$ ${scenario.unit}`
+            `$S = ${Vmax} / ${scenario.Xmax} = ${String(S).replace('.', '{,}')}$ V/${scenario.unit}`,
+            `$X = V / S = ${String(V).replace('.', '{,}')} / ${String(S).replace('.', '{,}')}$`,
+            `$X = ${String(X).replace('.', '{,}')}$ ${scenario.unit}`
           ]
         };
       }

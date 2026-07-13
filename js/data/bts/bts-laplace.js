@@ -64,13 +64,16 @@ window.MODULES.push(
       type: 'numeric',
       generate() {
         const a = rand(1, 4);
+        const delta = pick([1, 2, 3, 4, 5]);
+        const p = a + delta;
+        const val = parseFloat((1 / delta).toFixed(4));
         return {
-          statement: `Calculer $\\mathcal{L}\\{e^{${a}t}\\}$ évalué en $p=${a+2}$. (Donner la valeur numérique)`,
-          answer: parseFloat((1/(a+2-a)).toFixed(4)),
+          statement: `Calculer $\\mathcal{L}\\{e^{${a}t}\\}$ évalué en $p=${p}$. (Donner la valeur numérique)`,
+          answer: val,
           tolerance: 0.01,
           unit: '',
-          hint: `$\\mathcal{L}\\{e^{${a}t}\\}=\\frac{1}{p-${a}}$. Évaluer en $p=${a+2}$.`,
-          solution: [`$F(p)=\\frac{1}{p-${a}}$. En $p=${a+2}$ : $F(${a+2})=\\frac{1}{${a+2}-${a}}=\\frac{1}{2}=0{,}5$`]
+          hint: `$\\mathcal{L}\\{e^{${a}t}\\}=\\frac{1}{p-${a}}$. Évaluer en $p=${p}$.`,
+          solution: [`$F(p)=\\frac{1}{p-${a}}$. En $p=${p}$ : $F(${p})=\\frac{1}{${p}-${a}}=\\frac{1}{${delta}}=${val.toString().replace('.', '{,}')}$`]
         };
       }
     },

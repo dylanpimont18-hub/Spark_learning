@@ -75,7 +75,7 @@ window.MODULES.push({
         // u_{n+1} = u_n/a + b => l = ab/(a-1)
         const l = parseFloat((a * b / (a - 1)).toFixed(2));
         return {
-          statement: `Soit la suite définie par $u_0 = ${u0}$ et $u_{n+1} = \\dfrac{u_n}{${a}} + ${b}$. Si cette suite converge, calculer sa limite $\\ell$. Arrondir à $0{,}01$.`,
+          statement: `${ctx.intro} $u_{n+1} = \\dfrac{u_n}{${a}} + ${b}$ ${ctx.unite}, avec $u_0 = ${u0}$ ${ctx.unite}. Si cette suite converge, calculer sa limite $\\ell$ (en ${ctx.unite}). Arrondir à $0{,}01$.`,
           answer: l,
           tolerance: 0.05,
           unit: '',

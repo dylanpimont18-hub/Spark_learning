@@ -131,14 +131,14 @@ window.MODULES.push({
           const eta = pick([0.85, 0.9, 0.95]);
           const Cs = parseFloat((eta * factor * Ce).toFixed(1));
           return {
-            statement: `Un réducteur ($|r| = 1/${factor}$, $\\eta = ${eta.toFixed(2).replace('.', '{,')}$) reçoit un couple moteur $C_e = ${Ce}$ N·m. Calcule le couple de sortie $C_s$ (en N·m).`,
+            statement: `Un réducteur ($|r| = 1/${factor}$, $\\eta = ${eta.toFixed(2).replace('.', '{,}')}$) reçoit un couple moteur $C_e = ${Ce}$ N·m. Calcule le couple de sortie $C_s$ (en N·m).`,
             answer: Cs,
             tolerance: 0.5,
             unit: 'N·m',
-            hint: `$C_s = \\dfrac{\\eta}{|r|} \\times C_e = \\dfrac{${eta.toFixed(2).replace('.', '{,')}}{1/${factor}} \\times ${Ce}$.`,
+            hint: `$C_s = \\dfrac{\\eta}{|r|} \\times C_e = \\dfrac{${eta.toFixed(2).replace('.', '{,}')}}{1/${factor}} \\times ${Ce}$.`,
             solution: [
-              `$C_s = \\dfrac{\\eta}{|r|} \\times C_e = \\dfrac{${eta.toFixed(2).replace('.', '{,')}}{1/${factor}} \\times ${Ce}$`,
-              `$C_s = ${eta.toFixed(2).replace('.', '{,')} \\times ${factor} \\times ${Ce}$`,
+              `$C_s = \\dfrac{\\eta}{|r|} \\times C_e = \\dfrac{${eta.toFixed(2).replace('.', '{,}')}}{1/${factor}} \\times ${Ce}$`,
+              `$C_s = ${eta.toFixed(2).replace('.', '{,}')} \\times ${factor} \\times ${Ce}$`,
               `$C_s = ${Cs}$ N·m`
             ]
           };

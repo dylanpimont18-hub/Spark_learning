@@ -96,7 +96,7 @@
           tolerance: 0.2,
           unit: 'cm³',
           hint: `$V = \\dfrac{1}{3} \\times ${a}^2 \\times ${h} = \\dfrac{1}{3} \\times ${a*a} \\times ${h}$.`,
-          solution: [`$V = \\dfrac{${a*a} \\times ${h}}{3} = \\dfrac{${a*a*h}}{3} = ${v}$ cm³.`]
+          solution: [`$V = \\dfrac{${a*a} \\times ${h}}{3} = \\dfrac{${a*a*h}}{3} = ${v.toString().replace('.', '{,}')}$ cm³.`]
         };
       }
     },
@@ -108,7 +108,7 @@
         'Un bloc de pierre occupe environ $1\\,\\text{m}^3$. Estimer le nombre de blocs.'
       ],
       solutions: [
-        '$V = \\dfrac{1}{3} \\times 230^2 \\times 146 = \\dfrac{1}{3} \\times 52900 \\times 146 \\approx 2\\,573\\,133$ m³.',
+        '$V = \\dfrac{1}{3} \\times 230^2 \\times 146 = \\dfrac{1}{3} \\times 52900 \\times 146 = \\dfrac{7\\,723\\,400}{3} \\approx 2\\,574\\,467$ m³.',
         '$\\approx 2{,}57 \\times 10^{-3}$ km³.',
         '$\\approx 2{,}57$ millions de blocs.'
       ],

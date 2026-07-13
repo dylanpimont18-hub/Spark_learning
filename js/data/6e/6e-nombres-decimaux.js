@@ -78,15 +78,16 @@ window.MODULES.push({
         const nums = [a, b, c, d];
         nums.sort((x, y) => x - y);
         const minVal = nums[0];
+        const fr = n => n.toString().replace('.', '{,}');
         return {
-          statement: `${context} $${a}$ ; $${b}$ ; $${c}$ ; $${d}$. Lequel est le plus petit ?`,
+          statement: `${context} $${fr(a)}$ ; $${fr(b)}$ ; $${fr(c)}$ ; $${fr(d)}$. Lequel est le plus petit ?`,
           answer: minVal,
           tolerance: 0.001,
           unit: '',
           hint: 'Compare d\'abord les parties entières. Si elles sont égales, compare les dixièmes, puis les centièmes.',
           solution: [
-            `Rangement croissant : ${nums.map(n => `$${n}$`).join(' < ')}.`,
-            `Le plus petit est $${minVal}$.`
+            `Rangement croissant : ${nums.map(n => `$${fr(n)}$`).join(' < ')}.`,
+            `Le plus petit est $${fr(minVal)}$.`
           ]
         };
       }

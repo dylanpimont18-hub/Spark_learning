@@ -100,7 +100,7 @@ window.MODULES.push({
           tolerance: 0.2,
           unit: 'cm²',
           hint: `$\\mathcal{A} = \\pi r^2 = 3{,}14 \\times ${r}^2 = 3{,}14 \\times ${r * r}$.`,
-          solution: [`$\\mathcal{A} = 3{,}14 \\times ${r}^2 = 3{,}14 \\times ${r * r} = ${parseFloat((3.14 * r * r).toFixed(1))}$ cm².`]
+          solution: [`$\\mathcal{A} = 3{,}14 \\times ${r}^2 = 3{,}14 \\times ${r * r} = ${parseFloat((3.14 * r * r).toFixed(1)).toString().replace('.', '{,}')}$ cm².`]
         };
       }
     },

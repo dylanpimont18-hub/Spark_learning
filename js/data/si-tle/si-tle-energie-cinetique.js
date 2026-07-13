@@ -135,8 +135,8 @@ window.MODULES.push({
             unit: 'J',
             hint: `Utilise la formule $E_{c,\\text{rot}} = \\frac{1}{2} J \\omega^2$.`,
             solution: [
-              `$E_{c,\\text{rot}} = \\frac{1}{2} \\times ${J.toFixed(1).replace('.', '{,')} \\times ${omega}^2$`,
-              `$E_{c,\\text{rot}} = ${(0.5 * J).toFixed(2).replace('.', '{,')} \\times ${omega * omega}$`,
+              `$E_{c,\\text{rot}} = \\frac{1}{2} \\times ${J.toFixed(1).replace('.', '{,}')} \\times ${omega}^2$`,
+              `$E_{c,\\text{rot}} = ${(0.5 * J).toFixed(2).replace('.', '{,}')} \\times ${omega * omega}$`,
               `$E_{c,\\text{rot}} = ${Ec}$ J`
             ]
           };

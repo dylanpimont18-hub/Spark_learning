@@ -103,7 +103,7 @@ window.MODULES.push({
             `On observe : $${num} = ${k} \\times ${a}$ et $${den} = ${k} \\times ${b}$.`,
             `On divise numérateur et dénominateur par $${k}$ : $\\dfrac{${num}}{${den}} = \\dfrac{${a}}{${b}}$.`,
             `Vérification : $\\text{PGCD}(${a}, ${b}) = 1$ → la fraction $\\dfrac{${a}}{${b}}$ est irréductible ✓`,
-            `Valeur décimale : $${a} \\div ${b} = ${val}$`
+            `Valeur décimale : $${a} \\div ${b} = ${val.toString().replace('.', '{,}')}$`
           ]
         };
       }

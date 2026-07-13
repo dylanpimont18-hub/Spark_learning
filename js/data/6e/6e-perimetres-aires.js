@@ -84,7 +84,7 @@ window.MODULES.push({
             tolerance: 0.1,
             unit: 'cm²',
             hint: `$\\mathcal{A} = \\dfrac{b \\times h}{2}$.`,
-            solution: [`$\\mathcal{A} = \\dfrac{${b} \\times ${h}}{2} = \\dfrac{${b * h}}{2} = ${aire}$ cm²`]
+            solution: [`$\\mathcal{A} = \\dfrac{${b} \\times ${h}}{2} = \\dfrac{${b * h}}{2} = ${aire.toString().replace('.', '{,}')}$ cm²`]
           };
         }
         const r = rand(2, 10);
@@ -95,7 +95,7 @@ window.MODULES.push({
           tolerance: 0.5,
           unit: 'cm²',
           hint: `$\\mathcal{A} = \\pi r^2 = 3{,}14 \\times ${r}^2$.`,
-          solution: [`$\\mathcal{A} = 3{,}14 \\times ${r * r} = ${aire}$ cm²`]
+          solution: [`$\\mathcal{A} = 3{,}14 \\times ${r * r} = ${aire.toString().replace('.', '{,}')}$ cm²`]
         };
       }
     },

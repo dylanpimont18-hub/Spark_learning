@@ -125,7 +125,7 @@ window.MODULES.push({
             solution: [
               `Taille en bits : $${tailleMo}$ Mo $= ${tailleMo} \\times 8 = ${tailleMbit}$ Mbit`,
               `$t = \\dfrac{${tailleMbit}}{${debitMbps}}$`,
-              `$t = ${t}$ s`
+              `$t = ${String(t).replace('.', '{,}')}$ s`
             ]
           };
         } else if (scenario === 'debit_utile') {
@@ -139,8 +139,8 @@ window.MODULES.push({
             unit: 'Mbit/s',
             hint: `$D_{\\text{utile}} = D_{\\text{brut}} \\times (1 - \\text{overhead})$.`,
             solution: [
-              `$D_{\\text{utile}} = ${Dbrut} \\times (1 - ${overhead / 100})$`,
-              `$D_{\\text{utile}} = ${Dbrut} \\times ${(1 - overhead / 100).toFixed(2)}$`,
+              `$D_{\\text{utile}} = ${Dbrut} \\times (1 - ${String(overhead / 100).replace('.', '{,}')})$`,
+              `$D_{\\text{utile}} = ${Dbrut} \\times ${(1 - overhead / 100).toFixed(2).replace('.', '{,}')}$`,
               `$D_{\\text{utile}} = ${Dutile}$ Mbit/s`
             ]
           };

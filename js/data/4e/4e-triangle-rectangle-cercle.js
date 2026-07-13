@@ -88,7 +88,7 @@
           tolerance: 0,
           unit: 'cm',
           hint: `Le rayon est la moitié du diamètre : $R = \\dfrac{${diam}}{2}$.`,
-          solution: [`$R = \\dfrac{${diam}}{2} = ${diam / 2}$ cm.`]
+          solution: [`$R = \\dfrac{${diam}}{2} = ${(diam / 2).toString().replace('.', '{,}')}$ cm.`]
         };
       }
     },

@@ -150,12 +150,12 @@ window.MODULES.push({
         const Putile = Math.round(eta * Pabs * 100) / 100;
         const domain = pick(['moteur électrique (Électrotechnique)', 'moto-pompe (Hydraulique)', 'compresseur (Pneumatique)']);
         return {
-          statement: `Un ${domain} a un rendement $\\eta = ${eta}$ et absorbe une puissance $P_{abs} = ${Pabs}$ kW. Calculer la puissance utile $P_{utile}$ (en kW).`,
+          statement: `Un ${domain} a un rendement $\\eta = ${String(eta).replace('.', '{,}')}$ et absorbe une puissance $P_{abs} = ${String(Pabs).replace('.', '{,}')}$ kW. Calculer la puissance utile $P_{utile}$ (en kW).`,
           answer: Putile,
           tolerance: 0.01,
           unit: 'kW',
-          hint: `$P_{utile} = \\eta \\times P_{abs} = ${eta} \\times ${Pabs}$.`,
-          solution: [`$P_{utile} = ${eta} \\times ${Pabs} = ${Putile}$ kW`]
+          hint: `$P_{utile} = \\eta \\times P_{abs} = ${String(eta).replace('.', '{,}')} \\times ${String(Pabs).replace('.', '{,}')}$.`,
+          solution: [`$P_{utile} = ${String(eta).replace('.', '{,}')} \\times ${String(Pabs).replace('.', '{,}')} = ${String(Putile).replace('.', '{,}')}$ kW`]
         };
       }
 
@@ -170,7 +170,7 @@ window.MODULES.push({
           tolerance: 0.05,
           unit: 'kg',
           hint: `Règle de trois : $m = ${y1} \\times ${x2} / ${x1}$.`,
-          solution: [`$m = \\dfrac{${y1} \\times ${x2}}{${x1}} = ${y2}$ kg`]
+          solution: [`$m = \\dfrac{${y1} \\times ${x2}}{${x1}} = ${String(y2).replace('.', '{,}')}$ kg`]
         };
       }
 
@@ -182,8 +182,8 @@ window.MODULES.push({
         answer: V1,
         tolerance: 0.1,
         unit: '',
-        hint: `Appliquer la réduction : valeur $\\times (1 - ${p}/100) = $ valeur $\\times ${1 - p/100}$.`,
-        solution: [`$V_1 = ${V0} \\times (1 - ${p}/100) = ${V0} \\times ${(1 - p/100).toFixed(2)} = ${V1}$`]
+        hint: `Appliquer la réduction : valeur $\\times (1 - ${p}/100) = $ valeur $\\times ${String(1 - p/100).replace('.', '{,}')}$.`,
+        solution: [`$V_1 = ${V0} \\times (1 - ${p}/100) = ${V0} \\times ${(1 - p/100).toFixed(2).replace('.', '{,}')} = ${String(V1).replace('.', '{,}')}$`]
       };
     }
   },

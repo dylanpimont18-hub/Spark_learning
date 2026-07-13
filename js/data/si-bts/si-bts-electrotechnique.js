@@ -111,14 +111,14 @@ window.MODULES.push({
           const E = U - R * I;
           const omega = parseFloat((E / KPhi).toFixed(1));
           return {
-            statement: `Un ${scenario.desc} ($K\\Phi = ${String(KPhi).replace('.', '{,')}$ V·s/rad, $R = ${String(R).replace('.', '{,')}$ Ω) est alimenté sous $U = ${U}$ V et absorbe $I = ${I}$ A. Calcule la vitesse $\\Omega$ (en rad/s, arrondi à $0{,}1$).`,
+            statement: `Un ${scenario.desc} ($K\\Phi = ${String(KPhi).replace('.', '{,}')}$ V·s/rad, $R = ${String(R).replace('.', '{,}')}$ Ω) est alimenté sous $U = ${U}$ V et absorbe $I = ${I}$ A. Calcule la vitesse $\\Omega$ (en rad/s, arrondi à $0{,}1$).`,
             answer: omega,
             tolerance: 0.5,
             unit: 'rad/s',
             hint: 'D\'abord $E = U - RI$, puis $\\Omega = E / (K\\Phi)$.',
             solution: [
-              `$E = U - RI = ${U} - ${String(R).replace('.', '{,')} \\times ${I} = ${U} - ${R * I} = ${E}$ V`,
-              `$\\Omega = E / (K\\Phi) = ${E} / ${String(KPhi).replace('.', '{,')} = ${String(omega).replace('.', '{,')}$ rad/s`
+              `$E = U - RI = ${U} - ${String(R).replace('.', '{,}')} \\times ${I} = ${U} - ${R * I} = ${E}$ V`,
+              `$\\Omega = E / (K\\Phi) = ${E} / ${String(KPhi).replace('.', '{,}')} = ${String(omega).replace('.', '{,}')}$ rad/s`
             ]
           };
         } else {
@@ -137,7 +137,7 @@ window.MODULES.push({
             solution: [
               `$n_s = 60f/p = 60 \\times 50 / ${p} = ${ns}$ tr/min`,
               `$g = (n_s - n)/n_s = (${ns} - ${n}) / ${ns} = ${ns - n} / ${ns}$`,
-              `$g = ${String(gCalc).replace('.', '{,')}\\%$`
+              `$g = ${String(gCalc).replace('.', '{,}')}\\%$`
             ]
           };
         }

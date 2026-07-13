@@ -122,7 +122,7 @@ window.MODULES.push({
             solution: [
               `Gain de boucle : $K = K_p \\times G_0 = ${Kp} \\times ${G0} = ${K}$`,
               `$\\varepsilon = \\dfrac{1}{1 + K} = \\dfrac{1}{1 + ${K}} = \\dfrac{1}{${1 + K}}$`,
-              `$\\varepsilon = ${(1 / (1 + K)).toFixed(4)} = ${eps}\\%$`
+              `$\\varepsilon = ${(1 / (1 + K)).toFixed(4).replace('.', '{,}')} = ${String(eps).replace('.', '{,}')}\\%$`
             ]
           };
         } else if (scenario === 'gain_ftbf') {
@@ -138,7 +138,7 @@ window.MODULES.push({
             hint: `Le gain statique de la FTBF ($p = 0$) est $\\text{FTBF}(0) = \\dfrac{K}{1 + K}$.`,
             solution: [
               `$\\text{FTBF}(0) = \\dfrac{K}{1 + K} = \\dfrac{${K}}{${1 + K}}$`,
-              `$\\text{FTBF}(0) = ${ftbf0}$`
+              `$\\text{FTBF}(0) = ${String(ftbf0).replace('.', '{,}')}$`
             ]
           };
         } else {
@@ -151,11 +151,11 @@ window.MODULES.push({
             answer: Kp_needed,
             tolerance: 0.2,
             unit: '',
-            hint: `L'erreur statique est $\\varepsilon = \\dfrac{1}{1 + K_p G_0}$. Résous pour $K_p$ avec $\\varepsilon = ${eps_target / 100}$.`,
+            hint: `L'erreur statique est $\\varepsilon = \\dfrac{1}{1 + K_p G_0}$. Résous pour $K_p$ avec $\\varepsilon = ${String(eps_target / 100).replace('.', '{,}')}$.`,
             solution: [
-              `$\\varepsilon = \\dfrac{1}{1 + K_p G_0} = ${eps_target / 100}$`,
+              `$\\varepsilon = \\dfrac{1}{1 + K_p G_0} = ${String(eps_target / 100).replace('.', '{,}')}$`,
               `$1 + K_p \\times ${G0} = ${100 / eps_target}$, donc $K_p \\times ${G0} = ${K_needed}$`,
-              `$K_p = \\dfrac{${K_needed}}{${G0}} = ${Kp_needed}$`
+              `$K_p = \\dfrac{${K_needed}}{${G0}} = ${String(Kp_needed).replace('.', '{,}')}$`
             ]
           };
         }

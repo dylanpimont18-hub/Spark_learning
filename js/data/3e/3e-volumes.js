@@ -84,7 +84,7 @@ window.MODULES.push(
           tolerance: 1,
           unit: 'cm³',
           hint: `$V = \\dfrac{4}{3} \\times 3{,}14 \\times ${r}^3 = \\dfrac{4}{3} \\times 3{,}14 \\times ${r*r*r}$.`,
-          solution: [`$V = \\dfrac{4 \\times 3{,}14 \\times ${r*r*r}}{3} = \\dfrac{${parseFloat((4*3.14*r*r*r).toFixed(2))}}{3} \\approx ${v}$ cm³.`]
+          solution: [`$V = \\dfrac{4 \\times 3{,}14 \\times ${r*r*r}}{3} = \\dfrac{${String(parseFloat((4*3.14*r*r*r).toFixed(2))).replace('.', '{,}')}}{3} \\approx ${String(v).replace('.', '{,}')}$ cm³.`]
         };
       }
     },

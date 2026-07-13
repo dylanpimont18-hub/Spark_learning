@@ -205,7 +205,7 @@ opposé  |  \\
           tolerance: 0.2,
           unit: '°',
           hint: `Commencer par $Z = \\sqrt{R^2 + X_L^2}$, puis $\\varphi = \\arctan(X_L / R)$.`,
-          solution: `$Z = \\sqrt{${R}^2 + ${X}^2} = \\sqrt{${R*R + X*X}} = ${Z.toFixed(1)}\\;\\Omega$<br/>$\\varphi = \\arctan\\left(\\dfrac{${X}}{${R}}\\right) = \\arctan(${(X/R).toFixed(3)}) \\approx ${phi.toFixed(1)}°$`,
+          solution: `$Z = \\sqrt{${R}^2 + ${X}^2} = \\sqrt{${R*R + X*X}} = ${Z.toFixed(1).replace('.', '{,}')}\\;\\Omega$<br/>$\\varphi = \\arctan\\left(\\dfrac{${X}}{${R}}\\right) = \\arctan(${(X/R).toFixed(3).replace('.', '{,}')}) \\approx ${phi.toFixed(1).replace('.', '{,}')}°$`,
         };
       }
 
@@ -222,7 +222,7 @@ opposé  |  \\
           tolerance: 2,
           unit: 'N',
           hint: `$P = mg$, puis $P_{//} = P \\sin\\theta$.`,
-          solution: `$P = ${mass} \\times 9{,}81 = ${P.toFixed(0)}\\;\\text{N}$<br/>$P_{//} = P\\sin${theta}° = ${P.toFixed(0)} \\times ${Math.sin(theta * Math.PI/180).toFixed(3)} \\approx ${Math.round(Ppar)}\\;\\text{N}$`,
+          solution: `$P = ${mass} \\times 9{,}81 = ${P.toFixed(0)}\\;\\text{N}$<br/>$P_{//} = P\\sin${theta}° = ${P.toFixed(0)} \\times ${Math.sin(theta * Math.PI/180).toFixed(3).replace('.', '{,}')} \\approx ${Math.round(Ppar)}\\;\\text{N}$`,
         };
       }
 
@@ -241,7 +241,7 @@ opposé  |  \\
         tolerance: 2,
         unit: 'N',
         hint: `Composante horizontale = $F\\cos\\theta$, verticale = $F\\sin\\theta$.`,
-        solution: `$F_{${comp === 'horizontale' ? 'x' : 'y'}} = F \\times ${trig} = ${F} \\times ${(comp === 'horizontale' ? Math.cos : Math.sin)(theta * Math.PI/180).toFixed(3)} \\approx ${Math.round(answer)}\\;\\text{N}$`,
+        solution: `$F_{${comp === 'horizontale' ? 'x' : 'y'}} = F \\times ${trig} = ${F} \\times ${(comp === 'horizontale' ? Math.cos : Math.sin)(theta * Math.PI/180).toFixed(3).replace('.', '{,}')} \\approx ${Math.round(answer)}\\;\\text{N}$`,
       };
     },
   },

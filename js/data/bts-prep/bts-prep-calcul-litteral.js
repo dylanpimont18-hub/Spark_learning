@@ -137,8 +137,8 @@ window.MODULES.push({
     {
       q: 'La quantité de chaleur stockée est $Q = m \\cdot c \\cdot \\Delta T$. Un ballon d\'eau chaude de $m = 200$ kg avec $c = 4180$ J/(kg·K) monte de $\\Delta T = 40$ K. Quelle est l\'énergie stockée (en MJ) ?',
       options: ['$Q = 8{,}36$ MJ', '$Q = 33{,}44$ MJ', '$Q = 0{,}836$ MJ', '$Q = 836$ kJ'],
-      answer: 3,
-      correction: '$Q = 200 \\times 4180 \\times 40 = 33\\,440\\,000$ J $= 33{,}44$ MJ $= 33\\,440$ kJ. La réponse D (836 kJ) est fausse car $200 \\times 4180 \\times 40 \\neq 836\\,000$. La bonne réponse est A : 33,44 MJ. Attention à ne pas confondre les puissances de 10.',
+      answer: 1,
+      correction: '$Q = 200 \\times 4180 \\times 40 = 33\\,440\\,000$ J $= 33{,}44$ MJ $= 33\\,440$ kJ. La bonne réponse est B : 33,44 MJ. Attention à ne pas confondre les puissances de 10 (33,44 MJ ≠ 836 kJ).',
     },
     {
       q: 'La tension aux bornes d\'un condensateur en régime permanent est $U_C = U_0 \\cdot (1 - e^{-t/RC})$. Pour isoler $t$ :',
@@ -184,7 +184,7 @@ window.MODULES.push({
           statement: () => {
             const U = pick([12, 24, 48, 120, 230]);
             const I = pick([2, 4, 5, 10]);
-            return { q: `La tension aux bornes d'une résistance est $U = ${U}$ V et le courant qui la traverse est $I = ${I}$ A. Calcule la résistance $R$ (en Ω) à l'aide de $U = R \\cdot I$.`, ans: U / I, unit: 'Ω', hint: `Isole $R$ : $R = U / I = ${U} / ${I}$.`, sol: [`$R = \\dfrac{U}{I} = \\dfrac{${U}}{${I}} = ${U/I}$ Ω`] };
+            return { q: `La tension aux bornes d'une résistance est $U = ${U}$ V et le courant qui la traverse est $I = ${I}$ A. Calcule la résistance $R$ (en Ω) à l'aide de $U = R \\cdot I$.`, ans: U / I, unit: 'Ω', hint: `Isole $R$ : $R = U / I = ${U} / ${I}$.`, sol: [`$R = \\dfrac{U}{I} = \\dfrac{${U}}{${I}} = ${String(U/I).replace('.', '{,}')}$ Ω`] };
           }
         },
         {
@@ -193,7 +193,7 @@ window.MODULES.push({
             const P = pick([1500, 3000, 5500, 7500, 11000]);
             const v = pick([1, 1.5, 2, 2.5, 3]);
             const F = Math.round(P / v);
-            return { q: `Un moteur de convoyeur développe une puissance $P = ${P}$ W pour une vitesse de déplacement $v = ${v}$ m/s. Calcule la force de traction $F$ (en N) à l'aide de $P = F \\cdot v$.`, ans: F, unit: 'N', hint: `Isole $F$ : $F = P / v = ${P} / ${v}$.`, sol: [`$F = \\dfrac{P}{v} = \\dfrac{${P}}{${v}} = ${F}$ N`] };
+            return { q: `Un moteur de convoyeur développe une puissance $P = ${P}$ W pour une vitesse de déplacement $v = ${String(v).replace('.', '{,}')}$ m/s. Calcule la force de traction $F$ (en N) à l'aide de $P = F \\cdot v$.`, ans: F, unit: 'N', hint: `Isole $F$ : $F = P / v = ${P} / ${String(v).replace('.', '{,}')}$.`, sol: [`$F = \\dfrac{P}{v} = \\dfrac{${P}}{${String(v).replace('.', '{,}')}} = ${F}$ N`] };
           }
         },
         {
@@ -202,7 +202,7 @@ window.MODULES.push({
             const Vdot = pick([0.02, 0.05, 0.08, 0.1]);
             const A = pick([0.01, 0.02, 0.04, 0.05]);
             const v = Math.round((Vdot / A) * 100) / 100;
-            return { q: `Un réseau hydraulique a un débit volumique $\\dot{V} = ${Vdot}$ m³/s et une section de conduite $A = ${A}$ m². Calcule la vitesse d'écoulement $v$ (en m/s) à l'aide de $\\dot{V} = v \\cdot A$.`, ans: v, unit: 'm/s', hint: `Isole $v$ : $v = \\dot{V} / A = ${Vdot} / ${A}$.`, sol: [`$v = \\dfrac{\\dot{V}}{A} = \\dfrac{${Vdot}}{${A}} = ${v}$ m/s`] };
+            return { q: `Un réseau hydraulique a un débit volumique $\\dot{V} = ${String(Vdot).replace('.', '{,}')}$ m³/s et une section de conduite $A = ${String(A).replace('.', '{,}')}$ m². Calcule la vitesse d'écoulement $v$ (en m/s) à l'aide de $\\dot{V} = v \\cdot A$.`, ans: v, unit: 'm/s', hint: `Isole $v$ : $v = \\dot{V} / A = ${String(Vdot).replace('.', '{,}')} / ${String(A).replace('.', '{,}')}$.`, sol: [`$v = \\dfrac{\\dot{V}}{A} = \\dfrac{${String(Vdot).replace('.', '{,}')}}{${String(A).replace('.', '{,}')}} = ${String(v).replace('.', '{,}')}$ m/s`] };
           }
         }
       ];

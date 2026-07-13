@@ -92,16 +92,18 @@ window.MODULES.push(
         const angle = angles[idx];
         const hyp = rand(8, 20);
         const adj = parseFloat((hyp * cosVals[idx]).toFixed(2));
+        const cosStr = cosVals[idx].toFixed(3).replace('.', '{,}');
+        const adjStr = String(adj).replace('.', '{,}');
         return {
           statement: `Dans un triangle rectangle, l'hypoténuse mesure $${hyp}$ cm et l'angle étudié est $\\theta = ${angle}°$. Calcule le côté adjacent (arrondi au centième).`,
           answer: adj,
           tolerance: 0.05,
           unit: 'cm',
-          hint: `La formule CAH donne : $\\cos(${angle}°) = \\dfrac{\\text{adj}}{\\text{hyp}}$. Donc $\\text{adj} = \\text{hyp} \\times \\cos(${angle}°)$. La valeur exacte est $\\cos(${angle}°) \\approx ${cosVals[idx].toFixed(3)}$.`,
+          hint: `La formule CAH donne : $\\cos(${angle}°) = \\dfrac{\\text{adj}}{\\text{hyp}}$. Donc $\\text{adj} = \\text{hyp} \\times \\cos(${angle}°)$. La valeur exacte est $\\cos(${angle}°) \\approx ${cosStr}$.`,
           solution: [
             `Formule : $\\cos(${angle}°) = \\dfrac{\\text{adj}}{\\text{hyp}}$`,
-            `Donc : $\\text{adj} = \\text{hyp} \\times \\cos(${angle}°) = ${hyp} \\times ${cosVals[idx].toFixed(3)}$`,
-            `Résultat : $\\text{adj} = ${adj}$ cm`
+            `Donc : $\\text{adj} = \\text{hyp} \\times \\cos(${angle}°) = ${hyp} \\times ${cosStr}$`,
+            `Résultat : $\\text{adj} = ${adjStr}$ cm`
           ]
         };
       }

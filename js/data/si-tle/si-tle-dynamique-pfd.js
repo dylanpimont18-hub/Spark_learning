@@ -120,7 +120,7 @@ window.MODULES.push({
             solution: [
               `Bilan des forces projeté : $F - f = m a$`,
               `$a = \\dfrac{F - f}{m} = \\dfrac{${F} - ${f}}{${m}} = \\dfrac{${F - f}}{${m}}$`,
-              `$a = ${a}$ m/s²`
+              `$a = ${String(a).replace('.', '{,}')}$ m/s²`
             ]
           };
         } else {
@@ -130,15 +130,15 @@ window.MODULES.push({
           const J = parseFloat((0.5 * m * R * R).toFixed(4));
           const alpha = parseFloat((M_couple / J).toFixed(1));
           return {
-            statement: `Un cylindre plein de masse $m = ${m}$ kg et de rayon $R = ${R}$ m est soumis à un couple moteur $M = ${M_couple}$ N·m. Calcule son accélération angulaire $\\alpha$ (en rad/s²).`,
+            statement: `Un cylindre plein de masse $m = ${m}$ kg et de rayon $R = ${String(R).replace('.', '{,}')}$ m est soumis à un couple moteur $M = ${String(M_couple).replace('.', '{,}')}$ N·m. Calcule son accélération angulaire $\\alpha$ (en rad/s²).`,
             answer: alpha,
             tolerance: 0.5,
             unit: 'rad/s²',
             hint: `Le moment d'inertie d'un cylindre plein est $J = \\frac{1}{2} m R^2$. Puis $\\alpha = \\dfrac{M}{J}$.`,
             solution: [
-              `$J = \\dfrac{1}{2} m R^2 = \\dfrac{1}{2} \\times ${m} \\times ${R}^2 = ${J}$ kg·m²`,
-              `$\\alpha = \\dfrac{M}{J} = \\dfrac{${M_couple}}{${J}}$`,
-              `$\\alpha \\approx ${alpha}$ rad/s²`
+              `$J = \\dfrac{1}{2} m R^2 = \\dfrac{1}{2} \\times ${m} \\times ${String(R).replace('.', '{,}')}^2 = ${String(J).replace('.', '{,}')}$ kg·m²`,
+              `$\\alpha = \\dfrac{M}{J} = \\dfrac{${String(M_couple).replace('.', '{,}')}}{${String(J).replace('.', '{,}')}}$`,
+              `$\\alpha \\approx ${String(alpha).replace('.', '{,}')}$ rad/s²`
             ]
           };
         }

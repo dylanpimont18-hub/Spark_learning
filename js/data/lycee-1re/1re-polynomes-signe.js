@@ -96,7 +96,7 @@ window.MODULES.push({
       solutions: [
         '$\\Delta=36-20=16$. $x_1=\\frac{-6+4}{-2}=1$ ; $x_2=\\frac{-6-4}{-2}=5$.',
         '$a=-1<0$ : $B(x)>0$ entre les racines, soit pour $1<x<5$ (100 à 500 produits).',
-        'Sommet en $x_s=-b/(2a)=6/(-2)=3$. $B(3)=-9+18-5=4$ (soit $4000$ €).'
+        'Sommet en $x_s=-b/(2a)=-6/(-2)=3$. $B(3)=-9+18-5=4$ (soit $4000$ €).'
       ],
       finalAnswer: 'Bénéfice positif pour $x\\in]1;5[$. Maximum $4000$ € pour $300$ produits.'
     },

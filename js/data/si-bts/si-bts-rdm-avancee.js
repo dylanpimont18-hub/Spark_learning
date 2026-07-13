@@ -116,7 +116,7 @@ window.MODULES.push({
             '$\\sigma_{\\text{VM}} = \\sqrt{\\sigma^2 + 3\\tau^2}$',
             `$= \\sqrt{${sigma}^2 + 3 \\times ${tau}^2}$`,
             `$= \\sqrt{${sigma * sigma} + ${3 * tau * tau}} = \\sqrt{${sigma * sigma + 3 * tau * tau}}$`,
-            `$\\sigma_{\\text{VM}} \\approx ${String(vm).replace('.', '{,')}$ MPa`,
+            `$\\sigma_{\\text{VM}} \\approx ${String(vm).replace('.', '{,}')}$ MPa`,
             `Comparaison : $\\sigma_{\\text{adm}} = R_e / s = ${scenario.Re} / 2 = ${scenario.Re / 2}$ MPa (avec $s = 2$). ${vm <= scenario.Re / 2 ? 'La pièce résiste.' : 'La pièce ne résiste pas : il faut augmenter la section.'}`
           ]
         };
@@ -145,7 +145,7 @@ window.MODULES.push({
         {
           statement: 'Calculer la contrainte de Von Mises pour $\\sigma = 100$ MPa et $\\tau = 40$ MPa (arrondi à l\'entier).',
           type: 'numeric',
-          answer: 119,
+          answer: 122,
           tolerance: 1,
           unit: 'MPa',
           points: 2,

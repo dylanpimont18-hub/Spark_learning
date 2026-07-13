@@ -108,34 +108,34 @@ window.MODULES.push({
             unit: 'W',
             hint: 'Le rendement relie puissance utile et absorbée : $\\eta = P_u / P_a$, donc $P_u = \\eta \\times P_a$.',
             solution: [
-              `On identifie : $P_a = ${Pa_round}$ W, $\\eta = ${eta_pct}\\% = ${eta.toFixed(2).replace('.', '{,')}$.`,
+              `On identifie : $P_a = ${Pa_round}$ W, $\\eta = ${eta_pct}\\% = ${eta.toFixed(2).replace('.', '{,}')}$.`,
               'Formule : $P_u = \\eta \\times P_a$',
-              `$P_u = ${eta.toFixed(2).replace('.', '{,')} \\times ${Pa_round} = ${Pu.toString().replace('.', '{,')}$ W`
+              `$P_u = ${eta.toFixed(2).replace('.', '{,}')} \\times ${Pa_round} = ${Pu.toString().replace('.', '{,}')}$ W`
             ]
           };
         } else if (askWhat === 'pertes') {
           return {
-            statement: `${scenario.name.charAt(0).toUpperCase() + scenario.name.slice(1)} absorbe $P_a = ${Pa_round}$ W et fournit une puissance utile $P_u = ${Pu.toString().replace('.', ',')}$ W. Calcule les pertes $P_{\\text{pertes}}$ (en W).`,
+            statement: `${scenario.name.charAt(0).toUpperCase() + scenario.name.slice(1)} absorbe $P_a = ${Pa_round}$ W et fournit une puissance utile $P_u = ${Pu.toString().replace('.', '{,}')}$ W. Calcule les pertes $P_{\\text{pertes}}$ (en W).`,
             answer: Pertes,
             tolerance: 1,
             unit: 'W',
             hint: 'Conservation de l\'énergie : $P_a = P_u + P_{\\text{pertes}}$, donc $P_{\\text{pertes}} = P_a - P_u$.',
             solution: [
               'Conservation de l\'énergie : $P_{\\text{pertes}} = P_a - P_u$',
-              `$P_{\\text{pertes}} = ${Pa_round} - ${Pu.toString().replace('.', '{,')}$`,
-              `$P_{\\text{pertes}} = ${Pertes.toString().replace('.', '{,')}$ W`
+              `$P_{\\text{pertes}} = ${Pa_round} - ${Pu.toString().replace('.', '{,}')}$`,
+              `$P_{\\text{pertes}} = ${Pertes.toString().replace('.', '{,}')}$ W`
             ]
           };
         } else {
           return {
-            statement: `${scenario.name.charAt(0).toUpperCase() + scenario.name.slice(1)} absorbe $P_a = ${Pa_round}$ W et fournit $P_u = ${Pu.toString().replace('.', ',')}$ W. Calcule le rendement $\\eta$ en pourcentage.`,
+            statement: `${scenario.name.charAt(0).toUpperCase() + scenario.name.slice(1)} absorbe $P_a = ${Pa_round}$ W et fournit $P_u = ${Pu.toString().replace('.', '{,}')}$ W. Calcule le rendement $\\eta$ en pourcentage.`,
             answer: eta_pct,
             tolerance: 0.5,
             unit: '%',
             hint: 'Le rendement est $\\eta = P_u / P_a$. Multiplie par $100$ pour avoir le pourcentage.',
             solution: [
               'Formule : $\\eta = \\dfrac{P_u}{P_a}$',
-              `$\\eta = \\dfrac{${Pu.toString().replace('.', '{,')}}{${Pa_round}} = ${eta.toFixed(2).replace('.', '{,')}$`,
+              `$\\eta = \\dfrac{${Pu.toString().replace('.', '{,}')}}{${Pa_round}} = ${eta.toFixed(2).replace('.', '{,}')}$`,
               `$\\eta = ${eta_pct}\\%$`
             ]
           };

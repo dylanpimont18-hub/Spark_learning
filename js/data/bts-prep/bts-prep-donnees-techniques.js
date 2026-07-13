@@ -136,9 +136,9 @@ Lecture : pour $P_f = 3{,}5\\;\\text{kW}$ et $P_{\\text{élec}} = 0{,}88\\;\\tex
     },
     {
       q: 'Pour un moteur $P = 5{,}5\\;\\text{kW}$ alimenté en 400 V triphasé, $\\cos\\varphi = 0{,}85$, $\\eta = 0{,}88$. Le courant absorbé est :',
-      options: ['7,9 A', '9,0 A', '13,1 A', '11,2 A'],
-      answer: 1,
-      correction: 'I = P_absorbée/(√3·U·cosφ) = (P/η)/(√3·U·cosφ) = (5500/0,88)/(1,732×400×0,85) = 6250/588,9 ≈ 10,6 A... Recalcul : I = 5500/(0,88×1,732×400×0,85) ≈ 5500/518,5 ≈ 10,6 A → la réponse la plus proche est B (9 A correspond à ηcosφ=1). Avec cosφ=0,85 et η=0,88 : I ≈ 10,6 A.',
+      options: ['7,9 A', '9,0 A', '13,1 A', '10,6 A'],
+      answer: 3,
+      correction: 'La puissance électrique absorbée tient compte du rendement : P_absorbée = P/η = 5500/0,88 = 6250 W. Le courant est I = P_absorbée/(√3·U·cosφ) = 6250/(1,732×400×0,85) = 6250/588,9 ≈ 10,6 A.',
     },
     {
       q: 'Sur une courbe de pompe, le "point de fonctionnement à débit nul" ($Q = 0$) est aussi appelé :',

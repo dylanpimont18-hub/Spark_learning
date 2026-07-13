@@ -85,13 +85,17 @@
         const pb = pick([0.2, 0.3, 0.4]);
         const pab = parseFloat((Math.min(pa, pb) * 0.5).toFixed(1));
         const punion = parseFloat((pa + pb - pab).toFixed(1));
+        const paStr = pa.toString().replace('.', '{,}');
+        const pbStr = pb.toString().replace('.', '{,}');
+        const pabStr = pab.toString().replace('.', '{,}');
+        const punionStr = punion.toString().replace('.', '{,}');
         return {
-          statement: `$P(A) = ${pa}$, $P(B) = ${pb}$, $P(A \\cap B) = ${pab}$. Calculer $P(A \\cup B)$.`,
+          statement: `$P(A) = ${paStr}$, $P(B) = ${pbStr}$, $P(A \\cap B) = ${pabStr}$. Calculer $P(A \\cup B)$.`,
           answer: punion,
           tolerance: 0.01,
           unit: '',
-          hint: `$P(A \\cup B) = P(A) + P(B) - P(A \\cap B) = ${pa} + ${pb} - ${pab}$.`,
-          solution: [`$P(A \\cup B) = ${pa} + ${pb} - ${pab} = ${punion}$.`]
+          hint: `$P(A \\cup B) = P(A) + P(B) - P(A \\cap B) = ${paStr} + ${pbStr} - ${pabStr}$.`,
+          solution: [`$P(A \\cup B) = ${paStr} + ${pbStr} - ${pabStr} = ${punionStr}$.`]
         };
       }
     },

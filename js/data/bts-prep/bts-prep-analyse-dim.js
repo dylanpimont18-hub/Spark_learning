@@ -185,14 +185,14 @@ Exemples : nombre de Reynolds $Re = \\rho v D / \\mu$, rendement $\\eta = P_{\\t
         const P = F * v_ms;
         const context = pick(['chariot élévateur', 'tapis roulant logistique', 'système de convoyage automatisé']);
         return {
-          statement: `Un ${context} exerce une force motrice de $F = ${F}\\;\\text{N}$ et avance à $v = ${v_kmh}\\;\\text{km/h}$.<br/><br/>
+          statement: `Un ${context} exerce une force motrice de $F = ${F}\\;\\text{N}$ et avance à $v = ${String(v_kmh).replace('.', '{,}')}\\;\\text{km/h}$.<br/><br/>
 1. Convertir $v$ en m/s.<br/>
 2. Calculer la puissance mécanique $P = F \\times v$ (en W).`,
           answer: parseFloat(P.toFixed(1)),
           tolerance: 1,
           unit: 'W',
           hint: `Convertir d'abord : $v(\\text{m/s}) = v(\\text{km/h}) / 3{,}6$.`,
-          solution: `$v = ${v_kmh} / 3{,}6 = ${v_ms.toFixed(2)}\\;\\text{m/s}$<br/>$P = ${F} \\times ${v_ms.toFixed(2)} = ${P.toFixed(1)}\\;\\text{W}$<br/>Vérification : $[F \\times v] = \\text{N·m·s}^{-1} = \\text{W}$ ✓`,
+          solution: `$v = ${String(v_kmh).replace('.', '{,}')} / 3{,}6 = ${v_ms.toFixed(2).replace('.', '{,}')}\\;\\text{m/s}$<br/>$P = ${F} \\times ${v_ms.toFixed(2).replace('.', '{,}')} = ${P.toFixed(1).replace('.', '{,}')}\\;\\text{W}$<br/>Vérification : $[F \\times v] = \\text{N·m·s}^{-1} = \\text{W}$ ✓`,
         };
       }
 
@@ -211,7 +211,7 @@ Calculer la pression $p = F/A$ en MPa (arrondi à 0,01 MPa).`,
           tolerance: 0.01,
           unit: 'MPa',
           hint: `Convertir F en N et A en m², puis $p = F/A$ en Pa, puis en MPa ($\\div 10^6$).`,
-          solution: `$F = ${F_kN} \\times 10^3 = ${F_N}\\;\\text{N}$<br/>$A = ${A_cm2} \\times 10^{-4} = ${A_m2}\\;\\text{m}^2$<br/>$p = ${F_N} / ${A_m2} = ${P_Pa.toFixed(0)}\\;\\text{Pa} = ${P_MPa.toFixed(2)}\\;\\text{MPa}$`,
+          solution: `$F = ${F_kN} \\times 10^3 = ${F_N}\\;\\text{N}$<br/>$A = ${A_cm2} \\times 10^{-4} = ${String(A_m2).replace('.', '{,}')}\\;\\text{m}^2$<br/>$p = ${F_N} / ${String(A_m2).replace('.', '{,}')} = ${P_Pa.toFixed(0)}\\;\\text{Pa} = ${P_MPa.toFixed(2).replace('.', '{,}')}\\;\\text{MPa}$`,
         };
       }
 
@@ -228,7 +228,7 @@ Calculer son énergie cinétique $E_c = \\dfrac{1}{2}mv^2$ en kilojoules (kJ, ar
         tolerance: 0.1,
         unit: 'kJ',
         hint: `Convertir $v$ en m/s, puis $E_c = \\frac{1}{2}mv^2$, résultat en J divisé par 1000.`,
-        solution: `$v = ${v_kmh}/3{,}6 = ${v_ms.toFixed(2)}\\;\\text{m/s}$<br/>$E_c = \\frac{1}{2} \\times ${m} \\times ${v_ms.toFixed(2)}^2 = \\frac{1}{2} \\times ${m} \\times ${(v_ms*v_ms).toFixed(2)} = ${Ec.toFixed(0)}\\;\\text{J} = ${Ec_kJ.toFixed(1)}\\;\\text{kJ}$<br/>Vérification : $[\\frac{1}{2}mv^2] = \\text{kg·m}^2\\text{·s}^{-2} = \\text{J}$ ✓`,
+        solution: `$v = ${v_kmh}/3{,}6 = ${v_ms.toFixed(2).replace('.', '{,}')}\\;\\text{m/s}$<br/>$E_c = \\frac{1}{2} \\times ${m} \\times ${v_ms.toFixed(2).replace('.', '{,}')}^2 = \\frac{1}{2} \\times ${m} \\times ${(v_ms*v_ms).toFixed(2).replace('.', '{,}')} = ${Ec.toFixed(0)}\\;\\text{J} = ${Ec_kJ.toFixed(1).replace('.', '{,}')}\\;\\text{kJ}$<br/>Vérification : $[\\frac{1}{2}mv^2] = \\text{kg·m}^2\\text{·s}^{-2} = \\text{J}$ ✓`,
       };
     },
   },

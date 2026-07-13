@@ -109,15 +109,15 @@ window.MODULES.push({
         const Cf = rand(1, Math.max(1, Cm - 2));
         const alpha = parseFloat(((Cm - Cf) / J).toFixed(2));
         return {
-          statement: `Un ${scenario.desc} a un moment d'inertie $J = ${String(J).replace('.', '{,')}$ kg·m². Il est soumis à un couple moteur $C_m = ${Cm}$ N·m et un couple de frottement $C_f = ${Cf}$ N·m. Calcule l'accélération angulaire $\\alpha$ (en rad/s², arrondi à $0{,}01$).`,
+          statement: `Un ${scenario.desc} a un moment d'inertie $J = ${String(J).replace('.', '{,}')}$ kg·m². Il est soumis à un couple moteur $C_m = ${Cm}$ N·m et un couple de frottement $C_f = ${Cf}$ N·m. Calcule l'accélération angulaire $\\alpha$ (en rad/s², arrondi à $0{,}01$).`,
           answer: alpha,
           tolerance: 0.1,
           unit: 'rad/s²',
           hint: 'Applique le PFD en rotation : $C_m - C_f = J \\cdot \\alpha$, donc $\\alpha = (C_m - C_f) / J$.',
           solution: [
             'PFD en rotation : $C_m - C_f = J \\cdot \\alpha$',
-            `$\\alpha = (C_m - C_f) / J = (${Cm} - ${Cf}) / ${String(J).replace('.', '{,')}$`,
-            `$\\alpha = ${Cm - Cf} / ${String(J).replace('.', '{,')} = ${String(alpha).replace('.', '{,')}$ rad/s²`
+            `$\\alpha = (C_m - C_f) / J = (${Cm} - ${Cf}) / ${String(J).replace('.', '{,}')}$`,
+            `$\\alpha = ${Cm - Cf} / ${String(J).replace('.', '{,}')} = ${String(alpha).replace('.', '{,}')}$ rad/s²`
           ]
         };
       }

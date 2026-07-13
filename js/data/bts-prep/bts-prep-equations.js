@@ -144,10 +144,10 @@ window.MODULES.push({
       correction: '$\\Delta = 100 - 84 = 16$. $I = (10 \\pm 4)/2$. $I_1 = 7$ A et $I_2 = 3$ A. Physiquement, les deux courants sont positifs et admissibles — on retient le plus grand pour le démarrage.'
     },
     {
-      q: 'Le système $\\begin{cases} 3x + 2y = 11 \\\\ x + 4y = 9 \\end{cases}$ a pour solution :',
+      q: 'Le système $\\begin{cases} 3x + 2y = 11 \\\\ x + y = 5 \\end{cases}$ a pour solution :',
       options: ['$(x, y) = (1, 4)$', '$(x, y) = (3, 1)$', '$(x, y) = (2, 2{,}5)$', '$(x, y) = (4, 1)$'],
-      answer: 1,
-      correction: 'Depuis (2) : $x = 9 - 4y$. Dans (1) : $3(9-4y) + 2y = 11 \\Rightarrow 27 - 12y + 2y = 11 \\Rightarrow -10y = -16$ → erreur, recalcul : $27 - 10y = 11 \\Rightarrow y = 1{,}6$. Vérifier : $(x,y) = (3,1)$ → $3\\times3 + 2\\times1 = 11$ ✓ et $3 + 4 = 7 \\neq 9$. La bonne réponse est $(x=3, y=1)$ : $9+2=11$ ✓ et $3+4=7$... Recalculons correctement : $x=9-4y$ dans (1) : $3(9-4y)+2y=11 \\Rightarrow 27-12y+2y=11 \\Rightarrow -10y=-16 \\Rightarrow y=1{,}6$, $x=9-6{,}4=2{,}6$. La solution C $(2,2{,}5)$ donne $3\\times2+2\\times2{,}5=11$ ✓ et $2+4\\times2{,}5=12 \\neq 9$. Solution exacte : $y = 8/5 = 1{,}6$, $x = 13/5 = 2{,}6$. Aucune option n\'est exacte : la plus proche est C pour la question pédagogique.'
+      answer: 0,
+      correction: 'Depuis (2) : $x = 5 - y$. Dans (1) : $3(5-y) + 2y = 11 \\Rightarrow 15 - 3y + 2y = 11 \\Rightarrow 15 - y = 11 \\Rightarrow y = 4$. Puis $x = 5 - 4 = 1$. Vérification : $3\\times1 + 2\\times4 = 3+8=11$ ✓ et $1+4=5$ ✓.'
     },
     {
       q: 'Pour l\'équation $5x + 15 = 0$, la solution est $x = 3$. Vrai ou faux ?',

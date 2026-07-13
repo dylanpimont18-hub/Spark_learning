@@ -101,7 +101,7 @@ window.MODULES.push({
           tolerance: 0.01,
           unit: '',
           hint: `$P = \\dfrac{\\text{cas favorables}}{\\text{cas possibles}} = \\dfrac{${fav}}{${total}}$.`,
-          solution: [`$P = \\dfrac{${fav}}{${total}} = ${p}$.`]
+          solution: [`$P = \\dfrac{${fav}}{${total}} = ${p.toString().replace('.', '{,}')}$.`]
         };
       }
     },

@@ -77,19 +77,22 @@ window.MODULES.push({
         const a = randFloat(1, 20, 1);
         const b = randFloat(1, 10, 2);
         const sum = parseFloat((a + b).toFixed(2));
+        const aStr = a.toString().replace('.', '{,}');
+        const bStr = b.toString().replace('.', '{,}');
+        const sumStr = sum.toString().replace('.', '{,}');
         const statement = scenario.twoPart
-          ? `${scenario.emoji} ${scenario.intro} $${a}$ ${scenario.suffix} $${b}$ ${scenario.unit}. Quel est le total ?`
-          : `${scenario.emoji} ${scenario.intro} $${a} + ${b}$.`;
+          ? `${scenario.emoji} ${scenario.intro} $${aStr}$ ${scenario.suffix} $${bStr}$ ${scenario.unit}. Quel est le total ?`
+          : `${scenario.emoji} ${scenario.intro} $${aStr} + ${bStr}$.`;
         return {
           statement,
           answer: sum,
           tolerance: 0.01,
           unit: scenario.unit,
-          hint: `Aligne les virgules : écris $${a}$ comme $${a.toFixed(2)}$, puis additionne colonne par colonne.`,
+          hint: `Aligne les virgules : écris $${aStr}$ comme $${a.toFixed(2).replace('.', '{,}')}$, puis additionne colonne par colonne.`,
           solution: [
-            `Aligner les virgules : $${a.toFixed(2)} + ${b.toFixed(2)}$`,
+            `Aligner les virgules : $${a.toFixed(2).replace('.', '{,}')} + ${b.toFixed(2).replace('.', '{,}')}$`,
             `Additionner chiffre par chiffre de droite à gauche.`,
-            `Résultat : $${sum}$${scenario.unit ? ' ' + scenario.unit : ''}`
+            `Résultat : $${sumStr}$${scenario.unit ? ' ' + scenario.unit : ''}`
           ]
         };
       }

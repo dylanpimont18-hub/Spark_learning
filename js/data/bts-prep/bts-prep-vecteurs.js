@@ -192,10 +192,10 @@ Calculez la norme de la résultante $R = \\|\\vec{F_1} + \\vec{F_2}\\|$ en N (ar
           tolerance: 2,
           unit: 'N',
           hint: 'Décomposer chaque force en composantes x et y, additionner, puis calculer la norme.',
-          solution: `$F_{1x} = ${F1}\\cos${theta1}° = ${F1x.toFixed(1)}\\;\\text{N}$, $F_{1y} = ${F1}\\sin${theta1}° = ${F1y.toFixed(1)}\\;\\text{N}$<br/>
-$F_{2x} = ${F2}\\cos${theta2}° = ${F2x.toFixed(1)}\\;\\text{N}$, $F_{2y} = ${F2}\\sin${theta2}° = ${F2y.toFixed(1)}\\;\\text{N}$<br/>
-$R_x = ${Rx.toFixed(1)}\\;\\text{N}$, $R_y = ${Ry.toFixed(1)}\\;\\text{N}$<br/>
-$R = \\sqrt{${Rx.toFixed(1)}^2 + ${Ry.toFixed(1)}^2} \\approx ${Math.round(R)}\\;\\text{N}$`,
+          solution: `$F_{1x} = ${F1}\\cos${theta1}° = ${F1x.toFixed(1).replace('.', '{,}')}\\;\\text{N}$, $F_{1y} = ${F1}\\sin${theta1}° = ${F1y.toFixed(1).replace('.', '{,}')}\\;\\text{N}$<br/>
+$F_{2x} = ${F2}\\cos${theta2}° = ${F2x.toFixed(1).replace('.', '{,}')}\\;\\text{N}$, $F_{2y} = ${F2}\\sin${theta2}° = ${F2y.toFixed(1).replace('.', '{,}')}\\;\\text{N}$<br/>
+$R_x = ${Rx.toFixed(1).replace('.', '{,}')}\\;\\text{N}$, $R_y = ${Ry.toFixed(1).replace('.', '{,}')}\\;\\text{N}$<br/>
+$R = \\sqrt{${Rx.toFixed(1).replace('.', '{,}')}^2 + ${Ry.toFixed(1).replace('.', '{,}')}^2} \\approx ${Math.round(R)}\\;\\text{N}$`,
         };
       }
 
@@ -212,7 +212,7 @@ Calculez le travail $W$ de cette force (en J, arrondi à l'unité).`,
           tolerance: 2,
           unit: 'J',
           hint: '$W = F \\times d \\times \\cos\\theta$',
-          solution: `$W = ${F} \\times ${d} \\times \\cos${theta}° = ${F} \\times ${d} \\times ${Math.cos(theta * Math.PI/180).toFixed(3)} \\approx ${Math.round(W)}\\;\\text{J}$`,
+          solution: `$W = ${F} \\times ${d} \\times \\cos${theta}° = ${F} \\times ${d} \\times ${Math.cos(theta * Math.PI/180).toFixed(3).replace('.', '{,}')} \\approx ${Math.round(W)}\\;\\text{J}$`,
         };
       }
 
@@ -232,9 +232,9 @@ Calculez l'angle $\\theta$ entre ces deux vecteurs (en degrés, arrondi à 0,1°
         unit: '°',
         hint: '$\\cos\\theta = \\dfrac{\\vec{u}\\cdot\\vec{v}}{\\|\\vec{u}\\|\\,\\|\\vec{v}\\|}$',
         solution: `$\\vec{u}\\cdot\\vec{v} = ${u[0]}\\times${v[0]} + ${u[1]}\\times${v[1]} = ${dot}$<br/>
-$\\|\\vec{u}\\| = \\sqrt{${u[0]}^2+${u[1]}^2} = ${nu.toFixed(3)}$, $\\|\\vec{v}\\| = \\sqrt{${v[0]}^2+${v[1]}^2} = ${nv.toFixed(3)}$<br/>
-$\\cos\\theta = ${dot} / (${nu.toFixed(3)} \\times ${nv.toFixed(3)}) = ${cosTheta.toFixed(3)}$<br/>
-$\\theta = \\arccos(${cosTheta.toFixed(3)}) \\approx ${theta.toFixed(1)}°$`,
+$\\|\\vec{u}\\| = \\sqrt{${u[0]}^2+${u[1]}^2} = ${nu.toFixed(3).replace('.', '{,}')}$, $\\|\\vec{v}\\| = \\sqrt{${v[0]}^2+${v[1]}^2} = ${nv.toFixed(3).replace('.', '{,}')}$<br/>
+$\\cos\\theta = ${dot} / (${nu.toFixed(3).replace('.', '{,}')} \\times ${nv.toFixed(3).replace('.', '{,}')}) = ${cosTheta.toFixed(3).replace('.', '{,}')}$<br/>
+$\\theta = \\arccos(${cosTheta.toFixed(3).replace('.', '{,}')}) \\approx ${theta.toFixed(1).replace('.', '{,}')}°$`,
       };
     },
   },

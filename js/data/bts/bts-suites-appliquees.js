@@ -24,7 +24,7 @@ window.MODULES.push(
         title: 'Calculs financiers avec les suites',
         steps: [
           '<strong>Intérêts composés</strong> : $C_n = C_0\\times(1+t)^n$ (suite géométrique de raison $q=1+t$).<br/><br/><strong>Exemple :</strong> $C_0 = 5000$ €, $t = 3\\%$, $n = 4$ ans → $C_4 = 5000 \\times 1{,}03^4 = 5000 \\times 1{,}1255 \\approx 5628$ €.',
-          '<strong>Annuités constantes</strong> : pour un emprunt, la somme des valeurs actualisées des annuités égale le capital emprunté.<br/><br/><strong>Exemple :</strong> Emprunt $10000$ € à $5\\%$ sur $3$ ans → $a = 10000 \\times \\frac{0{,}05}{1-1{,}05^{-3}} = 10000 \\times \\frac{0{,}05}{0{,}1426} \\approx 3672$ €/an.',
+          '<strong>Annuités constantes</strong> : pour un emprunt, la somme des valeurs actualisées des annuités égale le capital emprunté.<br/><br/><strong>Exemple :</strong> Emprunt $10000$ € à $5\\%$ sur $3$ ans → $a = 10000 \\times \\frac{0{,}05}{1-1{,}05^{-3}} = 10000 \\times \\frac{0{,}05}{0{,}1362} \\approx 3672$ €/an.',
           '<strong>Amortissement constant</strong> : remboursement $=$ capital $/$ durée, intérêts dégressifs.<br/><br/><strong>Exemple :</strong> $10000$ € sur $4$ ans → amortissement $= 2500$ €/an. An 1 : intérêts $= 10000 \\times 0{,}05 = 500$ €, versement $= 3000$ €.',
           '<strong>Valeur acquise</strong> : par $n$ versements $a$ : $V=a\\times\\dfrac{(1+t)^n-1}{t}$.<br/><br/><strong>Exemple :</strong> $a = 100$ €/mois ($1200$ €/an), $t = 4\\%$, $n = 10$ ans → $V = 1200 \\times \\frac{1{,}04^{10}-1}{0{,}04} \\approx 14400$ €.'
         ]

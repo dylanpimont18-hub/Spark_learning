@@ -286,13 +286,13 @@ window.MODULES.push({
         correction: '$a = (12-2)/(5-0) = 10/5 = 2$.'
       },
       {
-        statement: 'La courbe $H_p = -Q^2 + 16$ (pompe) et $H_r = 2Q + 4$ (réseau) s\'intersectent. Trouver $Q$ (en m³/h).',
+        statement: 'La courbe $H_p = -Q^2 + 16$ (pompe) et $H_r = 2Q + 4$ (réseau) s\'intersectent. Trouver $Q$ (en m³/h, arrondi à $0{,}1$).',
         type: 'numeric',
-        answer: 3,
-        tolerance: 0.05,
+        answer: 2.6,
+        tolerance: 0.1,
         unit: 'm³/h',
         points: 3,
-        correction: '$-Q^2 + 16 = 2Q + 4 \\Rightarrow Q^2 + 2Q - 12 = 0 \\Rightarrow \\Delta = 4 + 48 = 52$. $Q = (-2 + \\sqrt{52})/2 \\approx (-2 + 7{,}21)/2 \\approx 2{,}6$ m³/h. Recalcul exact : si $Q = 3$ : $-9+16=7$ et $6+4=10$ — pas égaux. La correction cible $Q \\approx 2{,}6$ avec tolérance 0.1.'
+        correction: '$-Q^2 + 16 = 2Q + 4 \\Rightarrow Q^2 + 2Q - 12 = 0 \\Rightarrow \\Delta = 4 + 48 = 52$. $Q = \\dfrac{-2 + \\sqrt{52}}{2} \\approx \\dfrac{-2 + 7{,}21}{2} \\approx 2{,}6$ m³/h (on ne garde que la solution positive).'
       },
       {
         statement: 'La fonction $f(x) = 6/x$ pour $x = 3$ donne $f(3) =$',

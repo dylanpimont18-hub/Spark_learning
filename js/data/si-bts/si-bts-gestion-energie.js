@@ -119,8 +119,8 @@ window.MODULES.push({
             unit: '%',
             hint: '$\\eta_g = \\eta_1 \\times \\eta_2 \\times \\cdots$ Convertis les % en décimaux avant de multiplier.',
             solution: [
-              `$\\eta_g = ${etas.map(e => String(e / 100).replace('.', '{,')).join(' \\times ')}$`,
-              `$\\eta_g = ${String(etaG.toFixed(4)).replace('.', '{,')} = ${String(result).replace('.', '{,')}\\%$`
+              `$\\eta_g = ${etas.map(e => String(e / 100).replace('.', '{,}')).join(' \\times ')}$`,
+              `$\\eta_g = ${String(etaG.toFixed(4)).replace('.', '{,}')} = ${String(result).replace('.', '{,}')}\\%$`
             ]
           };
         } else if (scenario === 'supercap') {
@@ -128,15 +128,15 @@ window.MODULES.push({
           const V = randFloat(2.0, 5.0, 1);
           const E = parseFloat((0.5 * C * V * V).toFixed(1));
           return {
-            statement: `Un supercondensateur de $C = ${C}$ F est chargé à $V = ${String(V).replace('.', '{,')}$ V. Calcule l'énergie stockée $E = \\frac{1}{2}CV^2$ (en J, arrondi à $0{,}1$).`,
+            statement: `Un supercondensateur de $C = ${C}$ F est chargé à $V = ${String(V).replace('.', '{,}')}$ V. Calcule l'énergie stockée $E = \\frac{1}{2}CV^2$ (en J, arrondi à $0{,}1$).`,
             answer: E,
             tolerance: 1,
             unit: 'J',
             hint: '$E = \\frac{1}{2}CV^2$. N\'oublie pas le $\\frac{1}{2}$ et le carré de $V$.',
             solution: [
-              `$E = \\frac{1}{2} \\times ${C} \\times ${String(V).replace('.', '{,')}^2$`,
-              `$= \\frac{1}{2} \\times ${C} \\times ${String(parseFloat((V * V).toFixed(2))).replace('.', '{,')}$`,
-              `$= ${String(E).replace('.', '{,')}$ J`
+              `$E = \\frac{1}{2} \\times ${C} \\times ${String(V).replace('.', '{,}')}^2$`,
+              `$= \\frac{1}{2} \\times ${C} \\times ${String(parseFloat((V * V).toFixed(2))).replace('.', '{,}')}$`,
+              `$= ${String(E).replace('.', '{,}')}$ J`
             ]
           };
         } else {
@@ -152,7 +152,7 @@ window.MODULES.push({
             hint: '$E = Q \\times U$ donne le résultat en Wh. Diviser par $1000$ pour obtenir des kWh.',
             solution: [
               `$E = Q \\times U = ${Q} \\times ${U} = ${E_Wh}$ Wh`,
-              `$E = ${E_Wh} / 1000 = ${String(E_kWh).replace('.', '{,')}$ kWh`
+              `$E = ${E_Wh} / 1000 = ${String(E_kWh).replace('.', '{,}')}$ kWh`
             ]
           };
         }

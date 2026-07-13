@@ -111,7 +111,7 @@ window.MODULES.push({
             solution: [
               `Conversion : $F = ${F_kN}$ kN $= ${F}$ N ; $S = ${S_mm2}$ mm² $= ${S_mm2} \\times 10^{-6}$ m²`,
               `$\\sigma = \\dfrac{F}{S} = \\dfrac{${F}}{${S_mm2} \\times 10^{-6}}$`,
-              `$\\sigma = ${sigma_MPa.toString().replace('.', '{,')}$ MPa`
+              `$\\sigma = ${sigma_MPa.toString().replace('.', '{,}')}$ MPa`
             ]
           };
         } else {
@@ -122,9 +122,9 @@ window.MODULES.push({
             unit: '',
             hint: 'Calcule d\'abord $\\sigma = F/S$, puis $s = \\sigma_e / \\sigma$.',
             solution: [
-              `Contrainte : $\\sigma = \\dfrac{${F}}{${S_mm2} \\times 10^{-6}} = ${sigma_MPa.toString().replace('.', '{,')}$ MPa`,
-              `Coefficient de sécurité : $s = \\dfrac{\\sigma_e}{\\sigma} = \\dfrac{${material.sigma_e}}{${sigma_MPa.toString().replace('.', '{,')}}$`,
-              `$s = ${s_coeff.toString().replace('.', '{,')}$`
+              `Contrainte : $\\sigma = \\dfrac{${F}}{${S_mm2} \\times 10^{-6}} = ${sigma_MPa.toString().replace('.', '{,}')}$ MPa`,
+              `Coefficient de sécurité : $s = \\dfrac{\\sigma_e}{\\sigma} = \\dfrac{${material.sigma_e}}{${sigma_MPa.toString().replace('.', '{,}')}}$`,
+              `$s = ${s_coeff.toString().replace('.', '{,}')}$`
             ]
           };
         }
