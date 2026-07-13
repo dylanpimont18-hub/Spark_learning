@@ -92,8 +92,19 @@ window.MODULES.push({
         ]);
         const a = rand(30, 150);
         const answer = type.calc(a);
+
+        const ctx = pick([
+          { build: () => `Deux droites parallèles sont coupées par une <strong>sécante</strong>.<br/>Un angle ${type.name} mesure $${a}°$. Quel est l'angle ${type.name} associé (en degrés) ?` },
+          { build: () => `Deux rails de chemin de fer parallèles sont coupés par une traverse oblique, la <strong>sécante</strong>.<br/>Un angle ${type.name} mesure $${a}°$. Quel est l'angle ${type.name} associé (en degrés) ?` },
+          { build: () => `Sur un plan d'architecte, deux murs parallèles sont coupés par une cloison oblique, la <strong>sécante</strong>.<br/>Un angle ${type.name} mesure $${a}°$. Quel est l'angle ${type.name} associé (en degrés) ?` },
+          { build: () => `Deux barreaux parallèles d'une échelle sont coupés par un montant oblique, la <strong>sécante</strong>.<br/>Un angle ${type.name} mesure $${a}°$. Quel est l'angle ${type.name} associé (en degrés) ?` },
+          { build: () => `Sur un cahier, deux lignes parallèles sont coupées par un trait tracé en diagonale, la <strong>sécante</strong>.<br/>Un angle ${type.name} mesure $${a}°$. Quel est l'angle ${type.name} associé (en degrés) ?` },
+          { build: () => `Deux câbles électriques parallèles sont coupés par un poteau incliné, la <strong>sécante</strong>.<br/>Un angle ${type.name} mesure $${a}°$. Quel est l'angle ${type.name} associé (en degrés) ?` },
+          { build: () => `Deux mains courantes parallèles d'un escalier sont coupées par une rampe oblique, la <strong>sécante</strong>.<br/>Un angle ${type.name} mesure $${a}°$. Quel est l'angle ${type.name} associé (en degrés) ?` }
+        ]);
+
         return {
-          statement: `Deux droites parallèles sont coupées par une sécante. Un angle ${type.name} mesure $${a}°$. Quel est l'angle ${type.name} associé (en degrés) ?`,
+          statement: ctx.build(),
           answer,
           tolerance: 0,
           unit: '°',

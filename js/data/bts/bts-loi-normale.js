@@ -83,18 +83,47 @@ window.MODULES.push(
     exercice: {
       type: 'numeric',
       generate() {
+        const fr = x => String(x).replace('.', '{,}');
         const mu = rand(50, 200), sigma = rand(5, 20);
         const k = pick([1, 2, 3]);
         const pcts = [68.27, 95.45, 99.73];
+
+        const ctx = pick([
+          {
+            build: () => `Le <strong>diamètre de pièces usinées</strong> sur un tour à commande numérique suit une loi normale $\\mathcal{N}(${mu}, ${sigma}^2)$ (en centièmes de mm).<br/><br/>` +
+              `Quelle est la <strong>borne supérieure</strong> de l'intervalle $[\\mu - ${k}\\sigma ;\\ \\mu + ${k}\\sigma]$ ?`
+          },
+          {
+            build: () => `La <strong>durée de vie d'un composant électronique</strong> (en centaines d'heures) suit une loi normale $\\mathcal{N}(${mu}, ${sigma}^2)$.<br/><br/>` +
+              `Quelle est la <strong>borne supérieure</strong> de l'intervalle $[\\mu - ${k}\\sigma ;\\ \\mu + ${k}\\sigma]$ ?`
+          },
+          {
+            build: () => `La <strong>résistance de sortie</strong> d'une série de composants (en Ω) fabriqués en usine suit une loi normale $\\mathcal{N}(${mu}, ${sigma}^2)$.<br/><br/>` +
+              `Quelle est la <strong>borne supérieure</strong> de l'intervalle $[\\mu - ${k}\\sigma ;\\ \\mu + ${k}\\sigma]$ ?`
+          },
+          {
+            build: () => `Le <strong>poids de sachets</strong> conditionnés par une machine de remplissage (en grammes) suit une loi normale $\\mathcal{N}(${mu}, ${sigma}^2)$.<br/><br/>` +
+              `Quelle est la <strong>borne supérieure</strong> de l'intervalle $[\\mu - ${k}\\sigma ;\\ \\mu + ${k}\\sigma]$ ?`
+          },
+          {
+            build: () => `La <strong>longueur de câbles</strong> découpés automatiquement (en cm) suit une loi normale $\\mathcal{N}(${mu}, ${sigma}^2)$.<br/><br/>` +
+              `Quelle est la <strong>borne supérieure</strong> de l'intervalle $[\\mu - ${k}\\sigma ;\\ \\mu + ${k}\\sigma]$ ?`
+          },
+          {
+            build: () => `Le <strong>débit d'une pompe hydraulique</strong> (en L/min) mesuré sur banc d'essai suit une loi normale $\\mathcal{N}(${mu}, ${sigma}^2)$.<br/><br/>` +
+              `Quelle est la <strong>borne supérieure</strong> de l'intervalle $[\\mu - ${k}\\sigma ;\\ \\mu + ${k}\\sigma]$ ?`
+          }
+        ]);
+
         return {
-          statement: `Une variable suit $\\mathcal{N}(${mu}, ${sigma}^2)$. Quelle est la borne supérieure de l'intervalle $[\\mu - ${k}\\sigma ;\\ \\mu + ${k}\\sigma]$ ?`,
+          statement: ctx.build(),
           answer: mu + k * sigma,
           tolerance: 0,
           unit: '',
           hint: `$\\mu + ${k}\\sigma = ${mu} + ${k} \\times ${sigma}$.`,
           solution: [
             `Borne supérieure : $\\mu + ${k}\\sigma = ${mu} + ${k} \\times ${sigma} = ${mu + k * sigma}$`,
-            `Cet intervalle contient environ $${pcts[k-1]}\\%$ des valeurs.`
+            `Cet intervalle contient environ $${fr(pcts[k-1])}\\%$ des valeurs.`
           ]
         };
       }

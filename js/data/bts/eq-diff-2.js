@@ -105,8 +105,40 @@ window.MODULES.push(
         } else {
           regime = 'apériodique';
         }
+
+        const ctx = pick([
+          {
+            build: () => `Un <strong>circuit RLC série</strong> se décharge après ouverture de l'interrupteur. L'étude conduit à un coefficient d'amortissement $\\alpha = ${alpha}$ rad/s et une pulsation propre $\\omega_0 = ${omega0}$ rad/s.<br/><br/>` +
+              `Calcule $\\Delta = 4(\\alpha^2 - \\omega_0^2)$ et détermine le <strong>régime transitoire</strong> de la tension aux bornes du condensateur.`
+          },
+          {
+            build: () => `La <strong>suspension d'une voiture</strong> réagit à un nid-de-poule. Le modèle du 2nd ordre donne $\\alpha = ${alpha}$ rad/s (amortisseur) et $\\omega_0 = ${omega0}$ rad/s (raideur du ressort).<br/><br/>` +
+              `Calcule $\\Delta = 4(\\alpha^2 - \\omega_0^2)$ et détermine le <strong>régime</strong> du retour à l'équilibre de la caisse.`
+          },
+          {
+            build: () => `Un <strong>immeuble</strong> soumis à une rafale de vent oscille avant de revenir à sa position d'équilibre. L'ingénieur structure identifie $\\alpha = ${alpha}$ rad/s et $\\omega_0 = ${omega0}$ rad/s pour ce mode de vibration.<br/><br/>` +
+              `Calcule $\\Delta = 4(\\alpha^2 - \\omega_0^2)$ et détermine le <strong>régime</strong> d'amortissement du bâtiment.`
+          },
+          {
+            build: () => `Le <strong>bras articulé d'un robot industriel</strong> doit s'arrêter précisément après un déplacement. Le réglage de l'asservissement donne $\\alpha = ${alpha}$ rad/s et $\\omega_0 = ${omega0}$ rad/s.<br/><br/>` +
+              `Calcule $\\Delta = 4(\\alpha^2 - \\omega_0^2)$ et détermine le <strong>régime</strong> de positionnement du bras.`
+          },
+          {
+            build: () => `Un <strong>ferme-porte automatique</strong> (porte coupe-feu) doit se refermer sans claquer. Son modèle mécanique donne $\\alpha = ${alpha}$ rad/s et $\\omega_0 = ${omega0}$ rad/s.<br/><br/>` +
+              `Calcule $\\Delta = 4(\\alpha^2 - \\omega_0^2)$ et détermine le <strong>régime</strong> de fermeture de la porte.`
+          },
+          {
+            build: () => `Un <strong>haut-parleur de caisson de basses</strong> est modélisé par un système du 2nd ordre avec $\\alpha = ${alpha}$ rad/s (amortissement de la membrane) et $\\omega_0 = ${omega0}$ rad/s (résonance mécanique).<br/><br/>` +
+              `Calcule $\\Delta = 4(\\alpha^2 - \\omega_0^2)$ et détermine le <strong>régime</strong> de la membrane après une impulsion.`
+          },
+          {
+            build: () => `Un <strong>capteur sismique</strong> (sismomètre) doit revenir rapidement au repos après une secousse. Le fabricant donne $\\alpha = ${alpha}$ rad/s et $\\omega_0 = ${omega0}$ rad/s pour la masse suspendue.<br/><br/>` +
+              `Calcule $\\Delta = 4(\\alpha^2 - \\omega_0^2)$ et détermine le <strong>régime</strong> de réponse du capteur.`
+          }
+        ]);
+
         return {
-          statement: `Un système est décrit par l'équation caractéristique avec $\\alpha = ${alpha}$ rad/s et $\\omega_0 = ${omega0}$ rad/s. Calcule $\\Delta = 4(\\alpha^2 - \\omega_0^2)$ et détermine le régime.`,
+          statement: ctx.build(),
           answer: delta,
           tolerance: 0.001,
           unit: '',

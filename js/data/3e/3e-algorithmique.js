@@ -85,12 +85,25 @@ window.MODULES.push(
         const n = rand(3, 8);
         let s = 0;
         for (let i = 1; i <= n; i++) s += i;
+
+        const algoCode = `$S \\leftarrow 0$<br/>$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; ${n}\\; \\mathtt{faire}$<br/>$\\quad S \\leftarrow S + i$`;
+        const question = `Quelle est la <strong>valeur finale</strong> de $S$ à la fin de cet algorithme ?`;
+
+        const ctx = pick([
+          { build: () => `Léa débute en <strong>programmation Python</strong> et teste cet algorithme avec $n = ${n}$ :<br/><br/>${algoCode}<br/><br/>${question}` },
+          { build: () => `Ton professeur d'informatique te demande de <strong>tracer l'exécution</strong> de ce programme avec $n = ${n}$ :<br/><br/>${algoCode}<br/><br/>${question}` },
+          { build: () => `Un <strong>robot programmable</strong> exécute ce script pour calculer un score de mission, avec $n = ${n}$ :<br/><br/>${algoCode}<br/><br/>${question}` },
+          { build: () => `Sur sa calculatrice, Tom <strong>programme</strong> cet algorithme avec $n = ${n}$ :<br/><br/>${algoCode}<br/><br/>${question}` },
+          { build: () => `Une application mobile exécute ce code en <strong>arrière-plan</strong>, avec $n = ${n}$ :<br/><br/>${algoCode}<br/><br/>${question}` },
+          { build: () => `Dans un jeu vidéo, ce script calcule des <strong>points d'expérience</strong> à partir de $n = ${n}$ :<br/><br/>${algoCode}<br/><br/>${question}` }
+        ]);
+
         return {
-          statement: `Cet algorithme est exécuté avec $n = ${n}$ :\n$S \\leftarrow 0$\n$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; ${n}\\; \\mathtt{faire}$\n$\\quad S \\leftarrow S + i$\nQuelle est la valeur finale de $S$ ?`,
+          statement: ctx.build(),
           answer: s,
           tolerance: 0,
           unit: '',
-          hint: `La boucle calcule $1 + 2 + 3 + \\ldots + ${n}$. Formule : $S = \\dfrac{${n} \\times ${n+1}}{2}$.`,
+          hint: `La boucle calcule $1 + 2 + 3 + \\ldots + ${n}$.<br/><br/>Formule : $S = \\dfrac{${n} \\times ${n+1}}{2}$.`,
           solution: [
             `$S = 1 + 2 + \\ldots + ${n} = \\dfrac{${n} \\times ${n+1}}{2} = ${s}$.`
           ]

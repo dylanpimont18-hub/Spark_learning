@@ -81,12 +81,22 @@ window.MODULES.push(
         const h = rand(6, 15);
         const hprime = rand(1, h - 1);
         const cprime = parseFloat((base * hprime / h).toFixed(1));
+
+        const ctx = pick([
+          { build: () => `Une <strong>pyramide égyptienne miniature</strong> (souvenir touristique) a une base carrée de côté $${base}$ cm et une hauteur de $${h}$ cm. On la coupe à $${hprime}$ cm du sommet, parallèlement à la base.<br/><br/>Quel est le <strong>côté de la section</strong> obtenue (en cm) ?` },
+          { build: () => `Une <strong>tente de camping</strong> pyramidale a une base carrée de côté $${base}$ cm et une hauteur de $${h}$ cm. Une moustiquaire est tendue à $${hprime}$ cm du sommet, parallèlement au sol.<br/><br/>Quel est le <strong>côté</strong> de cette moustiquaire (en cm) ?` },
+          { build: () => `Un <strong>abat-jour</strong> pyramidal a une base carrée de côté $${base}$ cm et une hauteur de $${h}$ cm. On le coupe à $${hprime}$ cm du sommet, parallèlement à la base.<br/><br/>Quel est le <strong>côté de la section</strong> obtenue (en cm) ?` },
+          { build: () => `Un <strong>chocolatier</strong> moule une pyramide de côté $${base}$ cm et de hauteur $${h}$ cm. Il tranche la pointe à $${hprime}$ cm du sommet, parallèlement à la base.<br/><br/>Quel est le <strong>côté de la tranche</strong> obtenue (en cm) ?` },
+          { build: () => `Une <strong>trémie de silo</strong> agricole a la forme d'une pyramide de côté $${base}$ cm et de hauteur $${h}$ cm. On observe le niveau du grain à $${hprime}$ cm du sommet, parallèlement à la base.<br/><br/>Quel est le <strong>côté</strong> de la section de grain à ce niveau (en cm) ?` },
+          { build: () => `Un décorateur conçoit un <strong>présentoir de vitrine</strong> pyramidal de côté $${base}$ cm et de hauteur $${h}$ cm. Une étagère est fixée à $${hprime}$ cm du sommet, parallèlement à la base.<br/><br/>Quel est le <strong>côté</strong> de cette étagère (en cm) ?` }
+        ]);
+
         return {
-          statement: `Une pyramide à base carrée de côté $${base}$ cm et de hauteur $${h}$ cm est coupée à $${hprime}$ cm du sommet, parallèlement à la base. Quel est le côté de la section (en cm) ?`,
+          statement: ctx.build(),
           answer: cprime,
           tolerance: 0.1,
           unit: 'cm',
-          hint: `Rapport de similitude : $\\dfrac{${hprime}}{${h}}$. Côté section $= ${base} \\times \\dfrac{${hprime}}{${h}}$.`,
+          hint: `Rapport de similitude : $\\dfrac{${hprime}}{${h}}$.<br/><br/>Côté section $= ${base} \\times \\dfrac{${hprime}}{${h}}$.`,
           solution: [`$c' = ${base} \\times \\dfrac{${hprime}}{${h}} = \\dfrac{${base*hprime}}{${h}} = ${String(cprime).replace('.', '{,}')}$ cm.`]
         };
       }

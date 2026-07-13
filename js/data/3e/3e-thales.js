@@ -136,12 +136,23 @@ window.MODULES.push(
         const oaPStr = String(oaP).replace('.', '{,}');
         const ratioStr = String(ratio).replace('.', '{,}');
         const abPStr = String(abP).replace('.', '{,}');
+        const data = `$OA = ${oa}$ cm, $OA' = ${oaPStr}$ cm, $AB = ${ab}$ cm`;
+
+        const ctx = pick([
+          { build: () => `Un <strong>projecteur de cinéma</strong> envoie un faisceau lumineux depuis la source $O$. Un premier écran intercepte le segment $AB$, un second écran plus loin (parallèle au premier) intercepte le segment correspondant $A'B'$.<br/><br/>Sur le schéma : ${data}, avec $(AB) \\parallel (A'B')$.<br/><br/>Calcule <strong>$A'B'$</strong>.` },
+          { build: () => `Un <strong>géomètre</strong> veut mesurer la largeur d'une rivière sans la traverser. Depuis son point de visée $O$, il plante des piquets alignés formant une configuration de Thalès.<br/><br/>Sur son schéma : ${data}, avec $(AB) \\parallel (A'B')$.<br/><br/>Calcule <strong>$A'B'$</strong>, la largeur cherchée.` },
+          { build: () => `Un <strong>architecte</strong> agrandit un plan depuis un point de fuite $O$. Sur le plan initial, un mur correspond au segment $AB$ ; sur l'agrandissement, il correspond à $A'B'$.<br/><br/>On donne : ${data}, avec $(AB) \\parallel (A'B')$.<br/><br/>Calcule <strong>$A'B'$</strong>, la longueur du mur agrandi.` },
+          { build: () => `Un randonneur utilise sa <strong>canne à pêche</strong> tenue à bout de bras pour estimer la hauteur d'une falaise (méthode du bâton de Thalès), avec $O$ pour son œil.<br/><br/>Sur son schéma : ${data}, avec $(AB) \\parallel (A'B')$.<br/><br/>Calcule <strong>$A'B'$</strong>, la hauteur réelle de la falaise.` },
+          { build: () => `Sur un <strong>chantier</strong>, un câble de grue tendu depuis le point d'ancrage $O$ passe par deux poulies parallèles.<br/><br/>Sur le schéma : ${data}, avec $(AB) \\parallel (A'B')$.<br/><br/>Calcule <strong>$A'B'$</strong>, l'écart à la seconde poulie.` },
+          { build: () => `Un <strong>phare</strong> éclaire la mer depuis son sommet $O$ ; deux bateaux alignés sur le même rayon lumineux sont repérés sur le schéma d'observation.<br/><br/>On donne : ${data}, avec $(AB) \\parallel (A'B')$.<br/><br/>Calcule <strong>$A'B'$</strong>, la largeur apparente du second bateau.` }
+        ]);
+
         return {
-          statement: `Dans une configuration de Thalès, $OA = ${oa}$ cm, $OA' = ${oaPStr}$ cm, $AB = ${ab}$ cm, $(AB) \\parallel (A'B')$. Calculer $A'B'$.`,
+          statement: ctx.build(),
           answer: abP,
           tolerance: 0.05,
           unit: 'cm',
-          hint: `Le rapport de Thalès est $k = \\dfrac{OA'}{OA} = \\dfrac{${oaPStr}}{${oa}}$. Puis $A'B' = k \\times AB$.`,
+          hint: `Le rapport de Thalès est $k = \\dfrac{OA'}{OA} = \\dfrac{${oaPStr}}{${oa}}$.<br/><br/>Puis $A'B' = k \\times AB$.`,
           solution: [
             `$k = \\dfrac{OA'}{OA} = \\dfrac{${oaPStr}}{${oa}} = ${ratioStr}$`,
             `$A'B' = k \\times AB = ${ratioStr} \\times ${ab} = ${abPStr}$ cm`

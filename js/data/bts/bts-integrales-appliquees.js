@@ -62,17 +62,46 @@ window.MODULES.push(
     exercice: {
       type: 'numeric',
       generate() {
+        const fr = x => String(x).replace('.', '{,}');
         const a = rand(1, 4), b = rand(a+1, a+4), n = rand(1, 3);
         const Fb = Math.pow(b, n+1)/(n+1), Fa = Math.pow(a, n+1)/(n+1);
-        const ans = parseFloat((Fb - Fa).toFixed(4));
+        const ans = parseFloat((Fb - Fa).toFixed(2));
+
+        const ctx = pick([
+          {
+            build: () => `Un <strong>vérin hydraulique</strong> exerce une force $F(x) = x^{${n}}$ (en N) qui dépend de sa position $x$ (en m).<br/><br/>` +
+              `Calcule le <strong>travail</strong> fourni entre $x=${a}$ m et $x=${b}$ m : $W = \\displaystyle\\int_{${a}}^{${b}} x^${n}\\,dx$.`
+          },
+          {
+            build: () => `La <strong>puissance instantanée</strong> dissipée par un composant électronique suit la loi $p(x) = x^{${n}}$ (en W), $x$ étant le temps (en s).<br/><br/>` +
+              `Calcule l'<strong>énergie</strong> dissipée entre $x=${a}$ s et $x=${b}$ s : $E = \\displaystyle\\int_{${a}}^{${b}} x^${n}\\,dx$.`
+          },
+          {
+            build: () => `Le <strong>débit</strong> d'une pompe de relevage suit la loi $Q(x) = x^{${n}}$ (en m³/s), $x$ étant le temps (en s).<br/><br/>` +
+              `Calcule le <strong>volume</strong> écoulé entre $x=${a}$ s et $x=${b}$ s : $V = \\displaystyle\\int_{${a}}^{${b}} x^${n}\\,dx$.`
+          },
+          {
+            build: () => `Le <strong>taux de production</strong> d'une chaîne d'assemblage suit la loi $r(x) = x^{${n}}$ (en unités/h), $x$ étant le temps (en h).<br/><br/>` +
+              `Calcule la <strong>quantité produite</strong> entre $x=${a}$ h et $x=${b}$ h : $N = \\displaystyle\\int_{${a}}^{${b}} x^${n}\\,dx$.`
+          },
+          {
+            build: () => `La <strong>vitesse</strong> d'un mobile en phase d'accélération suit la loi $v(x) = x^{${n}}$ (en m/s), $x$ étant le temps (en s).<br/><br/>` +
+              `Calcule la <strong>distance</strong> parcourue entre $x=${a}$ s et $x=${b}$ s : $d = \\displaystyle\\int_{${a}}^{${b}} x^${n}\\,dx$.`
+          },
+          {
+            build: () => `Le <strong>flux thermique</strong> traversant une paroi suit la loi $\\phi(x) = x^{${n}}$ (en W), $x$ étant le temps (en s).<br/><br/>` +
+              `Calcule l'<strong>énergie thermique</strong> transférée entre $x=${a}$ s et $x=${b}$ s : $E = \\displaystyle\\int_{${a}}^{${b}} x^${n}\\,dx$.`
+          }
+        ]);
+
         return {
-          statement: `Calculer $\\int_{${a}}^{${b}} x^${n}\\,dx$.`,
-          answer: parseFloat(ans.toFixed(2)),
+          statement: ctx.build(),
+          answer: ans,
           tolerance: 0.05,
           unit: '',
           hint: `$\\int x^${n}dx=\\frac{x^{${n+1}}}{${n+1}}$. Évaluer entre $${a}$ et $${b}$.`,
           solution: [
-            `$\\left[\\dfrac{x^{${n+1}}}{${n+1}}\\right]_{${a}}^{${b}}=\\dfrac{${b}^{${n+1}}}{${n+1}}-\\dfrac{${a}^{${n+1}}}{${n+1}}=${ans}$`
+            `$\\left[\\dfrac{x^{${n+1}}}{${n+1}}\\right]_{${a}}^{${b}}=\\dfrac{${b}^{${n+1}}}{${n+1}}-\\dfrac{${a}^{${n+1}}}{${n+1}}=${fr(ans)}$`
           ]
         };
       }

@@ -94,16 +94,26 @@ window.MODULES.push(
         const adj = parseFloat((hyp * cosVals[idx]).toFixed(2));
         const cosStr = cosVals[idx].toFixed(3).replace('.', '{,}');
         const adjStr = String(adj).replace('.', '{,}');
+
+        const ctx = pick([
+          { build: () => `Une <strong>échelle</strong> de $${hyp}$ m est appuyée contre un mur et forme un angle $\\theta = ${angle}°$ avec le sol.<br/><br/>Calcule la <strong>distance</strong> entre le pied de l'échelle et le mur (arrondie au centième).` },
+          { build: () => `Une <strong>rampe d'accès</strong> pour fauteuil roulant mesure $${hyp}$ m et forme un angle $\\theta = ${angle}°$ avec le sol.<br/><br/>Calcule la <strong>distance horizontale</strong> qu'elle couvre (arrondie au centième).` },
+          { build: () => `Un <strong>toboggan de piscine</strong> mesure $${hyp}$ m et forme un angle $\\theta = ${angle}°$ avec le sol.<br/><br/>Calcule la <strong>distance horizontale</strong> entre le sommet et le point d'arrivée dans l'eau (arrondie au centième).` },
+          { build: () => `Un <strong>câble de tyrolienne</strong> tendu entre deux arbres mesure $${hyp}$ m et forme un angle $\\theta = ${angle}°$ avec l'horizontale.<br/><br/>Calcule la <strong>distance horizontale</strong> entre les deux points d'ancrage (arrondie au centième).` },
+          { build: () => `Un randonneur parcourt un <strong>chemin en pente</strong> de $${hyp}$ m, incliné d'un angle $\\theta = ${angle}°$ par rapport à l'horizontale.<br/><br/>Calcule la <strong>distance horizontale</strong> réellement parcourue (arrondie au centième).` },
+          { build: () => `Une <strong>antenne</strong> est maintenue par un hauban de $${hyp}$ m formant un angle $\\theta = ${angle}°$ avec le sol.<br/><br/>Calcule la <strong>distance</strong> entre le point d'ancrage du hauban et le pied de l'antenne (arrondie au centième).` }
+        ]);
+
         return {
-          statement: `Dans un triangle rectangle, l'hypoténuse mesure $${hyp}$ cm et l'angle étudié est $\\theta = ${angle}°$. Calcule le côté adjacent (arrondi au centième).`,
+          statement: ctx.build(),
           answer: adj,
           tolerance: 0.05,
-          unit: 'cm',
-          hint: `La formule CAH donne : $\\cos(${angle}°) = \\dfrac{\\text{adj}}{\\text{hyp}}$. Donc $\\text{adj} = \\text{hyp} \\times \\cos(${angle}°)$. La valeur exacte est $\\cos(${angle}°) \\approx ${cosStr}$.`,
+          unit: 'm',
+          hint: `La formule CAH donne : $\\cos(${angle}°) = \\dfrac{\\text{adj}}{\\text{hyp}}$. Donc $\\text{adj} = \\text{hyp} \\times \\cos(${angle}°)$.<br/><br/>La valeur exacte est $\\cos(${angle}°) \\approx ${cosStr}$.`,
           solution: [
             `Formule : $\\cos(${angle}°) = \\dfrac{\\text{adj}}{\\text{hyp}}$`,
             `Donc : $\\text{adj} = \\text{hyp} \\times \\cos(${angle}°) = ${hyp} \\times ${cosStr}$`,
-            `Résultat : $\\text{adj} = ${adjStr}$ cm`
+            `Résultat : $\\text{adj} = ${adjStr}$ m`
           ]
         };
       }

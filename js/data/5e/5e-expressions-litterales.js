@@ -87,25 +87,51 @@ window.MODULES.push({
     exercice: {
       type: 'numeric',
       generate() {
+        const coef = rand(2, 6);
+        const cst = rand(1, 5);
+        const val = rand(1, 8);
+        const result = coef * val + cst;
+
         const ctx = pick([
-          { intro: 'Calcule la valeur de', letter: 'x' },
-          { intro: 'Évalue l\'expression', letter: 'x' },
-          { intro: 'Calcule', letter: 'a' },
-          { intro: 'Détermine la valeur de', letter: 't' }
+          {
+            letter: 'x',
+            build: () => `Calcule la valeur de l'expression $${coef}x + ${cst}$ pour $x = ${val}$.`
+          },
+          {
+            letter: 'x',
+            build: () => `Un opérateur téléphonique facture $${coef}$ € la minute de communication, plus $${cst}$ € d'abonnement fixe.<br/>Le prix total est donné par l'expression $${coef}x + ${cst}$, où $x$ est le nombre de minutes.<br/>Calcule le <strong>prix total</strong> pour $x = ${val}$ minutes.`
+          },
+          {
+            letter: 'x',
+            build: () => `Un maraîcher vend ses tomates $${coef}$ € le kilo, avec $${cst}$ € de frais de livraison fixes.<br/>Le prix total est $${coef}x + ${cst}$, où $x$ représente le nombre de kilos.<br/>Calcule le <strong>prix total</strong> pour $x = ${val}$ kg.`
+          },
+          {
+            letter: 't',
+            build: () => `Un loueur de vélos facture $${coef}$ € par heure, plus $${cst}$ € de forfait fixe.<br/>Le prix total s'écrit $${coef}t + ${cst}$, où $t$ est la durée en heures.<br/>Calcule le <strong>prix total</strong> pour $t = ${val}$ heures.`
+          },
+          {
+            letter: 'n',
+            build: () => `Dans un jeu vidéo, chaque niveau réussi rapporte $${coef}$ points, et le joueur démarre avec un bonus de $${cst}$ points.<br/>Le score total est $${coef}n + ${cst}$, où $n$ est le nombre de niveaux réussis.<br/>Calcule le <strong>score total</strong> pour $n = ${val}$ niveaux.`
+          },
+          {
+            letter: 'x',
+            build: () => `Une facture d'eau comprend $${coef}$ € par m³ consommé, plus $${cst}$ € d'abonnement fixe.<br/>Le montant total est $${coef}x + ${cst}$, où $x$ est le nombre de m³ consommés.<br/>Calcule le <strong>montant total</strong> pour $x = ${val}$ m³.`
+          },
+          {
+            letter: 'a',
+            build: () => `Détermine la valeur de l'expression $${coef}a + ${cst}$ pour $a = ${val}$.`
+          }
         ]);
-        const a = rand(2, 6);
-        const b = rand(1, 5);
-        const x = rand(1, 8);
-        const val = a * x + b;
+
         return {
-          statement: `${ctx.intro} $${a}${ctx.letter} + ${b}$ pour $${ctx.letter} = ${x}$.`,
-          answer: val,
+          statement: ctx.build(),
+          answer: result,
           tolerance: 0,
           unit: '',
-          hint: `Substitue $${ctx.letter}$ par $${x}$ : $${a} \\times ${x} + ${b}$.`,
+          hint: `Substitue $${ctx.letter}$ par $${val}$ : $${coef} \\times ${val} + ${cst}$.`,
           solution: [
-            `On remplace $${ctx.letter}$ par $${x}$ :`,
-            `$${a} \\times ${x} + ${b} = ${a * x} + ${b} = ${val}$`
+            `On remplace $${ctx.letter}$ par $${val}$ :`,
+            `$${coef} \\times ${val} + ${cst} = ${coef * val} + ${cst} = ${result}$`
           ]
         };
       }

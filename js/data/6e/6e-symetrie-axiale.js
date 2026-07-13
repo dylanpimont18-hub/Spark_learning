@@ -67,29 +67,29 @@ window.MODULES.push({
       type: 'numeric',
       generate() {
         const axType = pick(['vertical', 'horizontal']);
-        if (axType === 'vertical') {
-          const ax = rand(2, 8);
-          const pointX = rand(ax + 1, ax + 6);
-          const symX = 2 * ax - pointX;
-          return {
-            statement: `Le point $A$ a pour abscisse $x_A = ${pointX}$. L'axe de symétrie est $x = ${ax}$. Quelle est l'abscisse de $A'$ ?`,
-            answer: symX,
-            tolerance: 0,
-            unit: '',
-            hint: `$x_{A'} = 2k - x_A = 2 \\times ${ax} - ${pointX}$.`,
-            solution: [`$x_{A'} = 2 \\times ${ax} - ${pointX} = ${symX}$`]
-          };
-        }
-        const ay = rand(2, 8);
-        const pointY = rand(ay + 1, ay + 6);
-        const symY = 2 * ay - pointY;
+        const varSym = axType === 'vertical' ? 'x' : 'y';
+        const coord = axType === 'vertical' ? 'abscisse' : 'ordonnée';
+        const k = rand(2, 8);
+        const pointVal = rand(k + 1, k + 6);
+        const symVal = 2 * k - pointVal;
+        const axisEq = `${varSym} = ${k}`;
+
+        const ctx = pick([
+          { build: () => `Le point $A$ a pour ${coord} $${varSym}_A = ${pointVal}$. L'axe de symétrie est $${axisEq}$.<br/>Quelle est l'${coord} de $A'$, le <strong>symétrique</strong> de $A$ ?` },
+          { build: () => `En pliant une feuille le long de la droite $${axisEq}$, un point $A$ (${coord} $${varSym}_A = ${pointVal}$) se superpose exactement à son symétrique $A'$.<br/>Quelle est l'${coord} de $A'$ ?` },
+          { build: () => `Le reflet d'un point $A$ dans un miroir plan d'axe $${axisEq}$ donne un point $A'$. Le point $A$ a pour ${coord} $${varSym}_A = ${pointVal}$.<br/>Quelle est l'${coord} du reflet $A'$ ?` },
+          { build: () => `Un carreleur pose un motif <strong>symétrique</strong> par rapport à la ligne $${axisEq}$. Un point $A$ du motif a pour ${coord} $${varSym}_A = ${pointVal}$.<br/>Quelle est l'${coord} du point symétrique $A'$ qu'il doit tracer ?` },
+          { build: () => `Sur un logo, un point $A$ (${coord} $${varSym}_A = ${pointVal}$) doit être reproduit par symétrie par rapport à l'axe $${axisEq}$ pour obtenir $A'$.<br/>Quelle est l'${coord} de $A'$ ?` },
+          { build: () => `Le reflet d'un point $A$ à la surface d'un lac (axe $${axisEq}$) donne un point $A'$ sous l'eau. Le point $A$ a pour ${coord} $${varSym}_A = ${pointVal}$.<br/>Quelle est l'${coord} du reflet $A'$ ?` }
+        ]);
+
         return {
-          statement: `Le point $A$ a pour ordonnée $y_A = ${pointY}$. L'axe de symétrie est $y = ${ay}$. Quelle est l'ordonnée de $A'$ ?`,
-          answer: symY,
+          statement: ctx.build(),
+          answer: symVal,
           tolerance: 0,
           unit: '',
-          hint: `$y_{A'} = 2k - y_A = 2 \\times ${ay} - ${pointY}$.`,
-          solution: [`$y_{A'} = 2 \\times ${ay} - ${pointY} = ${symY}$`]
+          hint: `$${varSym}_{A'} = 2k - ${varSym}_A = 2 \\times ${k} - ${pointVal}$.`,
+          solution: [`$${varSym}_{A'} = 2 \\times ${k} - ${pointVal} = ${symVal}$`]
         };
       }
     },

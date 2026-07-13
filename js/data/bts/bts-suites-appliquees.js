@@ -62,15 +62,38 @@ window.MODULES.push(
     exercice: {
       type: 'numeric',
       generate() {
+        const fr = x => String(x).replace('.', '{,}');
         const C0 = rand(1, 5) * 1000, t = pick([0.02, 0.03, 0.04, 0.05]), n = rand(2, 4);
         const Cn = parseFloat((C0 * Math.pow(1+t, n)).toFixed(2));
+
+        const ctx = pick([
+          {
+            build: () => `Un particulier place $${C0}$ € sur un <strong>livret bancaire</strong> à $${t*100}\\%$ par an (intérêts composés).<br/><br/>Quelle est sa <strong>valeur acquise</strong> après $${n}$ ans ? (Arrondir à l'euro)`
+          },
+          {
+            build: () => `Un salarié verse $${C0}$ € sur un <strong>plan d'épargne entreprise</strong> rémunéré à $${t*100}\\%$ par an (intérêts composés).<br/><br/>Quelle est sa <strong>valeur acquise</strong> après $${n}$ ans ? (Arrondir à l'euro)`
+          },
+          {
+            build: () => `Une <strong>PME investit</strong> $${C0}$ € de trésorerie sur un placement à $${t*100}\\%$ par an (intérêts composés) en attendant de financer un projet.<br/><br/>Quelle est sa <strong>valeur acquise</strong> après $${n}$ ans ? (Arrondir à l'euro)`
+          },
+          {
+            build: () => `Un <strong>fonds de pension</strong> place $${C0}$ € de cotisations à $${t*100}\\%$ par an (intérêts composés).<br/><br/>Quelle est sa <strong>valeur acquise</strong> après $${n}$ ans ? (Arrondir à l'euro)`
+          },
+          {
+            build: () => `Une <strong>coopérative agricole</strong> place $${C0}$ € de réserves à $${t*100}\\%$ par an (intérêts composés) pour anticiper le renouvellement de son matériel.<br/><br/>Quelle est sa <strong>valeur acquise</strong> après $${n}$ ans ? (Arrondir à l'euro)`
+          },
+          {
+            build: () => `Un artisan place $${C0}$ € sur un <strong>compte à terme</strong> à $${t*100}\\%$ par an (intérêts composés) en vue d'acheter une nouvelle machine.<br/><br/>Quelle est sa <strong>valeur acquise</strong> après $${n}$ ans ? (Arrondir à l'euro)`
+          }
+        ]);
+
         return {
-          statement: `Un capital de $${C0}$ € est placé à $${t*100}\\%$ par an (intérêts composés). Quelle est sa valeur après $${n}$ ans ? (Arrondir à l'euro)`,
+          statement: ctx.build(),
           answer: Math.round(Cn),
           tolerance: 1,
           unit: '€',
-          hint: `$C_${n}=${C0}\\times(1+${t})^{${n}}$`,
-          solution: [`$C_{${n}}=${C0}\\times${(1+t).toFixed(2)}^{${n}}\\approx${Cn}$ €`]
+          hint: `$C_${n}=${C0}\\times(1+${fr(t)})^{${n}}$`,
+          solution: [`$C_{${n}}=${C0}\\times${fr((1+t).toFixed(2))}^{${n}}\\approx${fr(Cn)}$ €`]
         };
       }
     },

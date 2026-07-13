@@ -78,13 +78,25 @@ window.MODULES.push(
       generate() {
         const r = rand(2, 8);
         const v = parseFloat((4/3 * 3.14 * r * r * r).toFixed(1));
+        const vStr = String(v).replace('.', '{,}');
+        const numStr = String(parseFloat((4*3.14*r*r*r).toFixed(2))).replace('.', '{,}');
+
+        const ctx = pick([
+          { build: () => `Un <strong>ballon de basket</strong> a un rayon de $${r}$ cm.<br/><br/>Calcule le <strong>volume d'air</strong> qu'il contient. Utilise $\\pi \\approx 3{,}14$, arrondi à $0{,}1$ cm³.` },
+          { build: () => `Une <strong>boule de pétanque</strong> en acier a un rayon de $${r}$ cm.<br/><br/>Calcule son <strong>volume</strong> de métal. Utilise $\\pi \\approx 3{,}14$, arrondi à $0{,}1$ cm³.` },
+          { build: () => `Un globe terrestre miniature (<strong>mappemonde</strong> de bureau) a un rayon de $${r}$ cm.<br/><br/>Calcule son <strong>volume</strong>. Utilise $\\pi \\approx 3{,}14$, arrondi à $0{,}1$ cm³.` },
+          { build: () => `Une <strong>boule à neige</strong> décorative a un rayon intérieur de $${r}$ cm.<br/><br/>Calcule le <strong>volume de liquide</strong> qu'elle contient. Utilise $\\pi \\approx 3{,}14$, arrondi à $0{,}1$ cm³.` },
+          { build: () => `Une <strong>boule de bowling</strong> a un rayon de $${r}$ cm.<br/><br/>Calcule son <strong>volume</strong>. Utilise $\\pi \\approx 3{,}14$, arrondi à $0{,}1$ cm³.` },
+          { build: () => `Une <strong>perle</strong> destinée à un collier a un rayon de $${r}$ cm.<br/><br/>Calcule son <strong>volume</strong> de matière. Utilise $\\pi \\approx 3{,}14$, arrondi à $0{,}1$ cm³.` }
+        ]);
+
         return {
-          statement: `Calcule le volume d'une boule de rayon $${r}$ cm. Utilise $\\pi \\approx 3{,}14$, arrondi à $0{,}1$ cm³.`,
+          statement: ctx.build(),
           answer: v,
           tolerance: 1,
           unit: 'cm³',
           hint: `$V = \\dfrac{4}{3} \\times 3{,}14 \\times ${r}^3 = \\dfrac{4}{3} \\times 3{,}14 \\times ${r*r*r}$.`,
-          solution: [`$V = \\dfrac{4 \\times 3{,}14 \\times ${r*r*r}}{3} = \\dfrac{${String(parseFloat((4*3.14*r*r*r).toFixed(2))).replace('.', '{,}')}}{3} \\approx ${String(v).replace('.', '{,}')}$ cm³.`]
+          solution: [`$V = \\dfrac{4 \\times 3{,}14 \\times ${r*r*r}}{3} = \\dfrac{${numStr}}{3} \\approx ${vStr}$ cm³.`]
         };
       }
     },

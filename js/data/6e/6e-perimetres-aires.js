@@ -66,8 +66,16 @@ window.MODULES.push({
         const fig = pick(['rectangle', 'triangle', 'disque']);
         if (fig === 'rectangle') {
           const L = rand(4, 15), l = rand(2, L - 1);
+          const ctx = pick([
+            { build: () => `Un rectangle mesure $${L}$ cm de long et $${l}$ cm de large.<br/>Calcule son <strong>aire</strong> en cm².` },
+            { build: () => `Léa découpe une tablette de chocolat rectangulaire de $${L}$ cm sur $${l}$ cm.<br/>Quelle est l'<strong>aire</strong> de cette tablette (en cm²) ?` },
+            { build: () => `Une carte de visite mesure $${L}$ cm de long et $${l}$ cm de large.<br/>Calcule son <strong>aire</strong> en cm².` },
+            { build: () => `Un cahier de brouillon a pour dimensions $${L}$ cm × $${l}$ cm.<br/>Quelle est l'<strong>aire</strong> de sa couverture (en cm²) ?` },
+            { build: () => `Un napperon rectangulaire mesure $${L}$ cm de long et $${l}$ cm de large.<br/>Calcule son <strong>aire</strong> en cm².` },
+            { build: () => `Une carte postale a pour dimensions $${L}$ cm × $${l}$ cm.<br/>Quelle est l'<strong>aire</strong> occupée par cette carte (en cm²) ?` }
+          ]);
           return {
-            statement: `Un rectangle mesure $${L}$ cm × $${l}$ cm. Calcule son aire en cm².`,
+            statement: ctx.build(),
             answer: L * l,
             tolerance: 0,
             unit: 'cm²',
@@ -78,8 +86,16 @@ window.MODULES.push({
         if (fig === 'triangle') {
           const b = rand(4, 12), h = rand(3, 10);
           const aire = parseFloat((b * h / 2).toFixed(1));
+          const ctx = pick([
+            { build: () => `Un triangle a une base de $${b}$ cm et une hauteur de $${h}$ cm.<br/>Calcule son <strong>aire</strong> en cm².` },
+            { build: () => `La voile triangulaire d'une maquette de bateau a une base de $${b}$ cm et une hauteur de $${h}$ cm.<br/>Quelle est l'<strong>aire</strong> de cette voile (en cm²) ?` },
+            { build: () => `Un fanion triangulaire a une base de $${b}$ cm et une hauteur de $${h}$ cm.<br/>Calcule l'<strong>aire</strong> de ce fanion en cm².` },
+            { build: () => `Un panneau de signalisation triangulaire a une base de $${b}$ cm et une hauteur de $${h}$ cm.<br/>Quelle est l'<strong>aire</strong> de ce panneau (en cm²) ?` },
+            { build: () => `L'aile d'un cerf-volant a la forme d'un triangle de base $${b}$ cm et de hauteur $${h}$ cm.<br/>Calcule l'<strong>aire</strong> de cette aile en cm².` },
+            { build: () => `Une part de pizza triangulaire a une base de $${b}$ cm et une hauteur de $${h}$ cm.<br/>Quelle est l'<strong>aire</strong> de cette part (en cm²) ?` }
+          ]);
           return {
-            statement: `Un triangle a une base de $${b}$ cm et une hauteur de $${h}$ cm. Calcule son aire en cm².`,
+            statement: ctx.build(),
             answer: aire,
             tolerance: 0.1,
             unit: 'cm²',
@@ -89,8 +105,16 @@ window.MODULES.push({
         }
         const r = rand(2, 10);
         const aire = parseFloat((3.14 * r * r).toFixed(2));
+        const ctx = pick([
+          { build: () => `Un disque a un rayon de $${r}$ cm.<br/>Calcule son <strong>aire</strong> avec $\\pi \\approx 3{,}14$.` },
+          { build: () => `Un CD a un rayon de $${r}$ cm.<br/>Calcule l'<strong>aire</strong> de ce disque avec $\\pi \\approx 3{,}14$.` },
+          { build: () => `Un sous-verre circulaire a un rayon de $${r}$ cm.<br/>Quelle est son <strong>aire</strong> (avec $\\pi \\approx 3{,}14$) ?` },
+          { build: () => `Le couvercle rond d'un bocal a un rayon de $${r}$ cm.<br/>Calcule l'<strong>aire</strong> de ce couvercle avec $\\pi \\approx 3{,}14$.` },
+          { build: () => `Le cadran d'une horloge circulaire a un rayon de $${r}$ cm.<br/>Calcule l'<strong>aire</strong> de ce cadran avec $\\pi \\approx 3{,}14$.` },
+          { build: () => `La roue d'un jouet a un rayon de $${r}$ cm.<br/>Quelle est l'<strong>aire</strong> de cette roue (avec $\\pi \\approx 3{,}14$) ?` }
+        ]);
         return {
-          statement: `Un disque a un rayon de $${r}$ cm. Calcule son aire avec $\\pi \\approx 3{,}14$.`,
+          statement: ctx.build(),
           answer: aire,
           tolerance: 0.5,
           unit: 'cm²',

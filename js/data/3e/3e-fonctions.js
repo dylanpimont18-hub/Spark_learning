@@ -142,13 +142,24 @@ window.MODULES.push(
       type: 'numeric',
       generate() {
         const a = rand(1, 4), b = rand(-5, 5), x = rand(-3, 8);
+        const val = a * x + b;
+
+        const ctx = pick([
+          { fn: 'T', build: () => `La <strong>température</strong> d'un four (en °C) suit $T(x) = ${a}x + ${b}$, où $x$ est le nombre de minutes depuis le lancement d'une recette (une valeur négative correspond à un instant avant le lancement).<br/><br/>Calcule <strong>$T(${x})$</strong>.` },
+          { fn: 'A', build: () => `L'<strong>altitude</strong> d'un drone (en m) suit $A(x) = ${a}x + ${b}$, où $x$ est le temps en secondes depuis le décollage.<br/><br/>Calcule <strong>$A(${x})$</strong>.` },
+          { fn: 'P', build: () => `La <strong>profondeur</strong> d'un sous-marin (en m, négative sous la surface) suit $P(x) = ${a}x + ${b}$, où $x$ est le temps en minutes depuis le début de la plongée.<br/><br/>Calcule <strong>$P(${x})$</strong>.` },
+          { fn: 'v', build: () => `La <strong>vitesse</strong> d'une voiture (en km/h) suit $v(x) = ${a}x + ${b}$, où $x$ est le temps en secondes depuis le passage devant un radar (une valeur négative correspond à un instant avant le radar).<br/><br/>Calcule <strong>$v(${x})$</strong>.` },
+          { fn: 'U', build: () => `La <strong>tension</strong> aux bornes d'un condensateur (en V) suit $U(x) = ${a}x + ${b}$, où $x$ est le temps en ms depuis le début de la charge.<br/><br/>Calcule <strong>$U(${x})$</strong>.` },
+          { fn: 'D', build: () => `La <strong>distance</strong> parcourue par un cycliste (en km) suit $D(x) = ${a}x + ${b}$, où $x$ est le temps en heures depuis un point de contrôle (une valeur négative correspond à un instant avant le contrôle).<br/><br/>Calcule <strong>$D(${x})$</strong>.` }
+        ]);
+
         return {
-          statement: `Soit $f(x) = ${a}x + ${b}$. Calcule $f(${x})$.`,
-          answer: a * x + b,
+          statement: ctx.build(),
+          answer: val,
           tolerance: 0,
           unit: '',
-          hint: `Substitue $x = ${x}$ : $f(${x}) = ${a} \\times ${x} + (${b})$.`,
-          solution: [`$f(${x}) = ${a} \\times ${x} + (${b}) = ${a*x} + (${b}) = ${a*x+b}$.`]
+          hint: `Remplace $x$ par $${x}$ dans l'expression : $${ctx.fn}(${x}) = ${a} \\times ${x} + (${b})$.`,
+          solution: [`$${ctx.fn}(${x}) = ${a} \\times ${x} + (${b}) = ${a*x} + (${b}) = ${val}$.`]
         };
       }
     },

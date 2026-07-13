@@ -85,12 +85,22 @@ window.MODULES.push(
         const pairs = [[12,18],[15,25],[24,36],[18,30],[20,28],[12,8]];
         const [a,b] = pick(pairs);
         function gcd(x,y){return y===0?x:gcd(y,x%y);}
+
+        const ctx = pick([
+          { build: () => `Un fleuriste veut confectionner des <strong>bouquets identiques</strong> à partir de $${a}$ roses et $${b}$ tulipes, sans qu'il ne reste aucune fleur de côté.<br/><br/>Quel est le <strong>nombre maximal de bouquets</strong> qu'il peut réaliser ?` },
+          { build: () => `Un traiteur veut préparer des <strong>sachets identiques</strong> à partir de $${a}$ chocolats et $${b}$ bonbons, sans rien gaspiller.<br/><br/>Quel est le <strong>nombre maximal de sachets</strong> identiques qu'il peut composer ?` },
+          { build: () => `Un professeur veut répartir $${a}$ garçons et $${b}$ filles en <strong>équipes identiques</strong> (même nombre de garçons et même nombre de filles dans chaque équipe).<br/><br/>Quel est le <strong>nombre maximal d'équipes</strong> qu'il peut former ?` },
+          { build: () => `Un artisan possède un ruban de $${a}\\,\\text{cm}$ et un ruban de $${b}\\,\\text{cm}$. Il veut les <strong>découper en morceaux de même longueur</strong>, la plus grande possible, sans perte.<br/><br/>Quelle est la <strong>longueur maximale</strong> de chaque morceau (en cm) ?` },
+          { build: () => `Un carreleur doit paver une pièce de $${a}\\,\\text{cm}$ sur $${b}\\,\\text{cm}$ avec des <strong>carreaux carrés identiques</strong>, les plus grands possible, sans découpe.<br/><br/>Quelle est la <strong>longueur du côté</strong> d'un carreau (en cm) ?` },
+          { build: () => `Un jardinier veut planter $${a}$ tulipes et $${b}$ roses en <strong>rangées identiques</strong> (même nombre de tulipes et même nombre de roses par rangée).<br/><br/>Quel est le <strong>nombre maximal de rangées</strong> qu'il peut créer ?` }
+        ]);
+
         return {
-          statement: `Calcule le PGCD de $${a}$ et $${b}$.`,
+          statement: ctx.build(),
           answer: gcd(a,b),
           tolerance: 0,
           unit: '',
-          hint: `Utilise l'algorithme d'Euclide : $\\text{PGCD}(${a}, ${b}) = \\text{PGCD}(${b}, ${a % b})$…`,
+          hint: `Utilise l'<strong>algorithme d'Euclide</strong> : $\\text{PGCD}(${a}, ${b}) = \\text{PGCD}(${b}, ${a % b})$…`,
           solution: [
             `Algorithme d'Euclide : $${a} = ${b} \\times ${Math.floor(a/b)} + ${a%b}$.`,
             `$\\text{PGCD}(${a}, ${b}) = \\text{PGCD}(${b}, ${a%b}) = ${gcd(a,b)}$.`

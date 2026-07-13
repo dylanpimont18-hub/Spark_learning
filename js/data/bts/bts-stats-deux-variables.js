@@ -62,15 +62,38 @@ window.MODULES.push(
     exercice: {
       type: 'numeric',
       generate() {
+        const fr = x => String(x).replace('.', '{,}');
         const xbar = rand(2, 5), ybar = rand(3, 8), cov = rand(1, 4), vx = rand(1, 3);
-        const a = parseFloat((cov/vx).toFixed(4));
+        const a = parseFloat((cov/vx).toFixed(2));
+
+        const ctx = pick([
+          {
+            build: () => `Un technicien étudie la relation entre la <strong>vitesse de rotation d'un moteur</strong> ($x$) et sa <strong>température</strong> ($y$) : $\\bar{x}=${xbar}$, $\\bar{y}=${ybar}$, $\\text{Cov}(x,y)=${cov}$, $V_x=${vx}$.<br/><br/>Calcule la <strong>pente</strong> $a=\\text{Cov}/V_x$ de la droite de régression.`
+          },
+          {
+            build: () => `On étudie la relation entre les <strong>heures de fonctionnement d'un outil</strong> ($x$) et son <strong>usure</strong> ($y$) : $\\bar{x}=${xbar}$, $\\bar{y}=${ybar}$, $\\text{Cov}(x,y)=${cov}$, $V_x=${vx}$.<br/><br/>Calcule la <strong>pente</strong> $a=\\text{Cov}/V_x$ de la droite de régression.`
+          },
+          {
+            build: () => `On étudie la relation entre la <strong>surface d'un bâtiment</strong> ($x$) et sa <strong>consommation énergétique</strong> ($y$) : $\\bar{x}=${xbar}$, $\\bar{y}=${ybar}$, $\\text{Cov}(x,y)=${cov}$, $V_x=${vx}$.<br/><br/>Calcule la <strong>pente</strong> $a=\\text{Cov}/V_x$ de la droite de régression.`
+          },
+          {
+            build: () => `Le service maintenance étudie la relation entre l'<strong>âge d'une machine</strong> ($x$) et son <strong>coût annuel de maintenance</strong> ($y$) : $\\bar{x}=${xbar}$, $\\bar{y}=${ybar}$, $\\text{Cov}(x,y)=${cov}$, $V_x=${vx}$.<br/><br/>Calcule la <strong>pente</strong> $a=\\text{Cov}/V_x$ de la droite de régression.`
+          },
+          {
+            build: () => `On étudie la relation entre l'<strong>épaisseur d'isolant</strong> ($x$) posé et la <strong>perte thermique</strong> ($y$) d'un local : $\\bar{x}=${xbar}$, $\\bar{y}=${ybar}$, $\\text{Cov}(x,y)=${cov}$, $V_x=${vx}$.<br/><br/>Calcule la <strong>pente</strong> $a=\\text{Cov}/V_x$ de la droite de régression.`
+          },
+          {
+            build: () => `On étudie la relation entre la <strong>vitesse du vent</strong> ($x$) et la <strong>production d'une éolienne</strong> ($y$) : $\\bar{x}=${xbar}$, $\\bar{y}=${ybar}$, $\\text{Cov}(x,y)=${cov}$, $V_x=${vx}$.<br/><br/>Calcule la <strong>pente</strong> $a=\\text{Cov}/V_x$ de la droite de régression.`
+          }
+        ]);
+
         return {
-          statement: `$\\bar{x}=${xbar}$, $\\bar{y}=${ybar}$, $\\text{Cov}(x,y)=${cov}$, $V_x=${vx}$. Calculer $a=\\text{Cov}/V_x$.`,
-          answer: parseFloat(a.toFixed(2)),
+          statement: ctx.build(),
+          answer: a,
           tolerance: 0.05,
           unit: '',
           hint: '$a = \\text{Cov}(x,y) / V_x$',
-          solution: [`$a=${cov}/${vx}=${a}$`]
+          solution: [`$a=${cov}/${vx}=${fr(a)}$`]
         };
       }
     },

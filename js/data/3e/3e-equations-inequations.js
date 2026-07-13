@@ -83,17 +83,28 @@ window.MODULES.push(
     exercice: {
       type: 'numeric',
       generate() {
-        const a = rand(2, 6), b = rand(1, 10), c = rand(5, 20);
-        const sol = parseFloat(((c - b) / a).toFixed(2));
+        const a = rand(2, 6), b = rand(1, 10), diff = rand(3, 20), c = b + diff;
+        const sol = parseFloat((diff / a).toFixed(2));
+        const solStr = String(sol).replace('.', '{,}');
+
+        const ctx = pick([
+          { build: () => `Une compagnie de <strong>taxi</strong> facture $${b}$ € de forfait de prise en charge, plus $${a}$ € par km parcouru. Une course coûte $${c}$ € au total.<br/><br/>Combien de <strong>km</strong> ($x$) ont été parcourus ? On pose $${a}x + ${b} = ${c}$.` },
+          { build: () => `Un loueur de <strong>vélos</strong> demande une caution de $${b}$ €, puis facture $${a}$ € par heure de location. La facture finale s'élève à $${c}$ €.<br/><br/>Combien d'<strong>heures</strong> ($x$) le vélo a-t-il été loué ? On pose $${a}x + ${b} = ${c}$.` },
+          { build: () => `Un <strong>réservoir</strong> contient $${b}$ L d'eau au départ. Un robinet le remplit à un débit de $${a}$ L par minute, jusqu'à atteindre $${c}$ L.<br/><br/>Après combien de <strong>minutes</strong> ($x$) le réservoir atteint-il ce niveau ? On pose $${a}x + ${b} = ${c}$.` },
+          { build: () => `Un <strong>randonneur</strong> part d'une altitude de $${b}$ m et grimpe à un rythme régulier de $${a}$ m par heure, jusqu'à atteindre $${c}$ m d'altitude.<br/><br/>Combien d'<strong>heures</strong> ($x$) a duré son ascension ? On pose $${a}x + ${b} = ${c}$.` },
+          { build: () => `Pour une <strong>recette</strong>, un pâtissier utilise $${b}$ g de farine de base, puis ajoute $${a}$ g par part supplémentaire, jusqu'à un total de $${c}$ g.<br/><br/>Combien de <strong>parts</strong> ($x$) prépare-t-il ? On pose $${a}x + ${b} = ${c}$.` },
+          { build: () => `Un objet se déplace sur un axe : il part de la position $${b}$ m et avance à une vitesse constante de $${a}$ m par seconde, jusqu'à atteindre la position $${c}$ m.<br/><br/>Combien de <strong>secondes</strong> ($x$) se sont écoulées ? On pose $${a}x + ${b} = ${c}$.` }
+        ]);
+
         return {
-          statement: `Résoudre $${a}x + ${b} = ${c}$.`,
+          statement: ctx.build(),
           answer: sol,
           tolerance: 0.01,
           unit: '',
           hint: `Soustraire $${b}$ des deux membres, puis diviser par $${a}$.`,
           solution: [
-            `$${a}x = ${c} - ${b} = ${c-b}$`,
-            `$x = \\dfrac{${c-b}}{${a}} = ${String(sol).replace('.', '{,}')}$`
+            `$${a}x = ${c} - ${b} = ${diff}$`,
+            `$x = \\dfrac{${diff}}{${a}} = ${solStr}$`
           ]
         };
       }

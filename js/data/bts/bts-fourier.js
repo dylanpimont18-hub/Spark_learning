@@ -108,8 +108,30 @@ window.MODULES.push(
       generate() {
         const T = pick([1, 2, 4]);
         const A = rand(2, 5);
+
+        const ctx = pick([
+          {
+            build: () => `Le <strong>courant de sortie d'un variateur de vitesse</strong> est un signal créneau qui vaut $+${A}$ A sur $[0;T/2]$ et $-${A}$ A sur $[T/2;T]$ (période $T=${T}$ s).<br/><br/>Calcule $a_0$, la <strong>valeur moyenne</strong> de ce courant.`
+          },
+          {
+            build: () => `La <strong>tension de sortie d'un onduleur</strong> est un signal créneau qui vaut $+${A}$ V sur $[0;T/2]$ et $-${A}$ V sur $[T/2;T]$ (période $T=${T}$ s).<br/><br/>Calcule $a_0$, la <strong>valeur moyenne</strong> de cette tension.`
+          },
+          {
+            build: () => `Un <strong>signal audio carré</strong> émis par un synthétiseur vaut $+${A}$ V sur $[0;T/2]$ et $-${A}$ V sur $[T/2;T]$ (période $T=${T}$ s).<br/><br/>Calcule $a_0$, la <strong>valeur moyenne</strong> de ce signal.`
+          },
+          {
+            build: () => `Un <strong>signal de commande PWM</strong> piloté par un microcontrôleur vaut $+${A}$ V sur $[0;T/2]$ et $-${A}$ V sur $[T/2;T]$ (période $T=${T}$ s).<br/><br/>Calcule $a_0$, la <strong>valeur moyenne</strong> de ce signal de commande.`
+          },
+          {
+            build: () => `Un capteur mesure une <strong>vibration mécanique</strong> alternée qui vaut $+${A}$ mm/s² sur $[0;T/2]$ et $-${A}$ mm/s² sur $[T/2;T]$ (période $T=${T}$ s).<br/><br/>Calcule $a_0$, la <strong>valeur moyenne</strong> de cette vibration.`
+          },
+          {
+            build: () => `La <strong>pression dans un vérin pneumatique</strong> à cycle alterné vaut $+${A}$ bar sur $[0;T/2]$ et $-${A}$ bar (dépression) sur $[T/2;T]$ (période $T=${T}$ s).<br/><br/>Calcule $a_0$, la <strong>valeur moyenne</strong> de cette pression.`
+          }
+        ]);
+
         return {
-          statement: `Un signal créneau vaut $+${A}$ sur $[0;T/2]$ et $-${A}$ sur $[T/2;T]$ (période $T=${T}$ s). Calculer $a_0$ (valeur moyenne).`,
+          statement: ctx.build(),
           answer: 0,
           tolerance: 0,
           unit: '',

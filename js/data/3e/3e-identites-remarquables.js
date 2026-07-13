@@ -82,14 +82,24 @@ window.MODULES.push(
     exercice: {
       type: 'numeric',
       generate() {
-        const a = rand(2, 9), b = rand(1, 7);
+        const a = rand(5, 12), b = rand(1, a - 1);
         const val = a * a - b * b;
+
+        const ctx = pick([
+          { build: () => `Un jardinier trace un <strong>potager rectangulaire</strong> de longueur $(${a}+${b})$ m et de largeur $(${a}-${b})$ m.<br/><br/>En utilisant l'identité $(a+b)(a-b) = a^2 - b^2$, calcule son <strong>aire</strong> (en m²) sans développer.` },
+          { build: () => `Un menuisier construit une <strong>terrasse</strong> rectangulaire de longueur $(${a}+${b})$ m et de largeur $(${a}-${b})$ m.<br/><br/>Sans développer, calcule l'<strong>aire</strong> de cette terrasse (en m²) grâce à l'identité $(a+b)(a-b) = a^2 - b^2$.` },
+          { build: () => `Un professeur d'EPS déroule un <strong>tapis de sol</strong> rectangulaire de longueur $(${a}+${b})$ m et de largeur $(${a}-${b})$ m.<br/><br/>Calcule son <strong>aire</strong> (en m²) sans développer, en utilisant $(a+b)(a-b) = a^2 - b^2$.` },
+          { build: () => `Un agriculteur délimite une <strong>parcelle rectangulaire</strong> de longueur $(${a}+${b})$ m et de largeur $(${a}-${b})$ m.<br/><br/>Sans développer, calcule l'<strong>aire</strong> de cette parcelle (en m²) grâce à l'identité $(a+b)(a-b) = a^2 - b^2$.` },
+          { build: () => `Un technicien installe un <strong>panneau solaire</strong> rectangulaire de longueur $(${a}+${b})$ m et de largeur $(${a}-${b})$ m.<br/><br/>Calcule son <strong>aire</strong> (en m²) sans développer, en utilisant $(a+b)(a-b) = a^2 - b^2$.` },
+          { build: () => `Un paysagiste creuse une <strong>piscine rectangulaire</strong> de longueur $(${a}+${b})$ m et de largeur $(${a}-${b})$ m.<br/><br/>Sans développer, calcule l'<strong>aire</strong> de la piscine (en m²) grâce à l'identité $(a+b)(a-b) = a^2 - b^2$.` }
+        ]);
+
         return {
-          statement: `En utilisant $(a+b)(a-b) = a^2 - b^2$, calcule $(${a}+${b})(${a}-${b})$ sans développer.`,
+          statement: ctx.build(),
           answer: val,
           tolerance: 0,
           unit: '',
-          hint: `Identifie $a = ${a}$ et $b = ${b}$. Résultat : $a^2 - b^2 = ${a}^2 - ${b}^2$.`,
+          hint: `Identifie $a = ${a}$ et $b = ${b}$.<br/><br/>Résultat : $a^2 - b^2 = ${a}^2 - ${b}^2$.`,
           solution: [`$(${a}+${b})(${a}-${b}) = ${a}^2 - ${b}^2 = ${a*a} - ${b*b} = ${val}$.`]
         };
       }

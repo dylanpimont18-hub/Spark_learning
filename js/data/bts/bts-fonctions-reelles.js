@@ -61,8 +61,33 @@ window.MODULES.push(
       type: 'numeric',
       generate() {
         const a = rand(2, 6), b = rand(1, 4);
+
+        const ctx = pick([
+          {
+            build: () => `Le <strong>rendement</strong> d'un convertisseur électronique en fonction de la charge $x$ (en A) est modélisé par $\\eta(x)=\\dfrac{${a}x+${b}}{x+1}$.<br/><br/>Calcule $\\lim_{x\\to+\\infty}\\eta(x)$ pour connaître la valeur de <strong>saturation</strong> du rendement.`
+          },
+          {
+            build: () => `La <strong>vitesse</strong> d'un mobile freiné par les frottements, en fonction du temps $x$ (en s), est modélisée par $v(x)=\\dfrac{${a}x+${b}}{x+1}$.<br/><br/>Calcule $\\lim_{x\\to+\\infty}v(x)$ pour trouver sa <strong>vitesse limite</strong>.`
+          },
+          {
+            build: () => `La <strong>concentration</strong> d'un gaz évacué d'une cuve industrielle, en fonction du temps de purge $x$ (en min), suit la loi $C(x)=\\dfrac{${a}x+${b}}{x+1}$.<br/><br/>Calcule $\\lim_{x\\to+\\infty}C(x)$ pour connaître la <strong>concentration résiduelle</strong>.`
+          },
+          {
+            build: () => `Le <strong>coût moyen</strong> de fabrication d'une pièce, en fonction du nombre d'unités produites $x$, est donné par $c(x)=\\dfrac{${a}x+${b}}{x+1}$ (en €).<br/><br/>Calcule $\\lim_{x\\to+\\infty}c(x)$ pour estimer le coût moyen en <strong>grande série</strong>.`
+          },
+          {
+            build: () => `La <strong>température</strong> d'un four industriel, en fonction du temps de chauffe $x$ (en min), est modélisée par $T(x)=\\dfrac{${a}x+${b}}{x+1}$ (en centaines de °C).<br/><br/>Calcule $\\lim_{x\\to+\\infty}T(x)$ pour trouver la <strong>température de consigne</strong> atteinte.`
+          },
+          {
+            build: () => `Le <strong>débit</strong> d'une pompe hydraulique, en fonction de sa vitesse de rotation $x$ (en centaines de tr/min), est modélisé par $D(x)=\\dfrac{${a}x+${b}}{x+1}$ (en L/min).<br/><br/>Calcule $\\lim_{x\\to+\\infty}D(x)$ pour connaître le <strong>débit de saturation</strong> de la pompe.`
+          },
+          {
+            build: () => `La <strong>tension de sortie</strong> d'un régulateur, en fonction du courant de charge $x$ (en A), suit la loi $U(x)=\\dfrac{${a}x+${b}}{x+1}$ (en V).<br/><br/>Calcule $\\lim_{x\\to+\\infty}U(x)$ pour connaître la tension de sortie en <strong>surcharge</strong>.`
+          }
+        ]);
+
         return {
-          statement: `Calculer $\\lim_{x\\to+\\infty}\\dfrac{${a}x+${b}}{x+1}$.`,
+          statement: ctx.build(),
           answer: a,
           tolerance: 0,
           unit: '',

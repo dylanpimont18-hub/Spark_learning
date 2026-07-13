@@ -62,15 +62,44 @@ window.MODULES.push({
     exercice: {
       type: 'numeric',
       generate() {
-        const x = rand(-3, 3), y = rand(-3, 3), z = rand(-3, 3);
-        const norm = parseFloat(Math.sqrt(x*x+y*y+z*z).toFixed(4));
+        // Point de référence A variable (ne part plus systématiquement de l'origine)
+        const ax = rand(-4, 4), ay = rand(-4, 4), az = rand(-4, 4);
+        let x = rand(-3, 3), y = rand(-3, 3), z = rand(-3, 3);
+        if (x === 0 && y === 0 && z === 0) x = 2; // évite un déplacement nul
+        const bx = ax + x, by = ay + y, bz = az + z;
+        const sumSq = x*x + y*y + z*z;
+        const normExact = Math.sqrt(sumSq);
+        const norm = parseFloat(normExact.toFixed(2));
+        const normStr = norm.toFixed(2).replace('.', '{,}');
+
+        const ctx = pick([
+          {
+            build: () => `Un <strong>architecte</strong> place le sommet d'une charpente au point $A(${ax};${ay};${az})$ (coordonnées en mètres). La panne rejoint le point $B(${bx};${by};${bz})$ selon le vecteur $\\vec{u}(${x};${y};${z})$.<br/><br/>Calculer la <strong>norme</strong> du vecteur $\\vec{u}$, c'est-à-dire la longueur $AB$ de la panne. Arrondir à $0{,}01$.`
+          },
+          {
+            build: () => `Un <strong>drone</strong> décolle du point $A(${ax};${ay};${az})$ (coordonnées en mètres) et effectue le déplacement $\\vec{u}(${x};${y};${z})$ jusqu'au point $B(${bx};${by};${bz})$.<br/><br/>Quelle est la <strong>distance parcourue</strong> $AB$, c'est-à-dire la norme du vecteur $\\vec{u}$ ? Arrondir à $0{,}01$.`
+          },
+          {
+            build: () => `Dans un <strong>jeu vidéo 3D</strong>, un personnage se trouve au point $A(${ax};${ay};${az})$ du décor. Il se déplace selon le vecteur $\\vec{u}(${x};${y};${z})$ jusqu'au point $B(${bx};${by};${bz})$.<br/><br/>Calculer la <strong>norme</strong> de $\\vec{u}$ pour connaître la distance franchie par le personnage. Arrondir à $0{,}01$.`
+          },
+          {
+            build: () => `L'extrémité du bras d'un <strong>robot industriel</strong> se trouve en $A(${ax};${ay};${az})$. Un mouvement programmé correspond au vecteur $\\vec{u}(${x};${y};${z})$, amenant l'outil au point $B(${bx};${by};${bz})$.<br/><br/>Calculer la longueur $\\|\\vec{u}\\|$ de ce déplacement. Arrondir à $0{,}01$.`
+          },
+          {
+            build: () => `Sur la <strong>maquette numérique</strong> d'un bâtiment, un point de fixation est repéré par $A(${ax};${ay};${az})$. Le vecteur $\\vec{u}(${x};${y};${z})$ relie ce point à un second point d'ancrage $B(${bx};${by};${bz})$.<br/><br/>Calculer la <strong>norme</strong> du vecteur $\\vec{u}$. Arrondir à $0{,}01$.`
+          },
+          {
+            build: () => `Un <strong>avion</strong> amorce sa trajectoire au point $A(${ax};${ay};${az})$ (coordonnées en km). Il suit le vecteur vitesse $\\vec{u}(${x};${y};${z})$ jusqu'au point $B(${bx};${by};${bz})$.<br/><br/>Quelle distance $AB$ (norme de $\\vec{u}$) l'avion a-t-il parcourue ? Arrondir à $0{,}01$.`
+          }
+        ]);
+
         return {
-          statement: `Calculer la norme du vecteur $\\vec{u}(${x};${y};${z})$. Arrondir à $0{,}01$.`,
-          answer: parseFloat(norm.toFixed(2)),
+          statement: ctx.build(),
+          answer: norm,
           tolerance: 0.05,
           unit: '',
-          hint: `$\\|\\vec{u}\\|=\\sqrt{${x}^2+${y}^2+${z}^2}$`,
-          solution: [`$\\|\\vec{u}\\|=\\sqrt{${x*x}+${y*y}+${z*z}}=\\sqrt{${x*x+y*y+z*z}}\\approx${norm}$`]
+          hint: `Seul le vecteur $\\vec{u}$ compte pour la longueur $AB$ : le point $A$ ne change pas la norme. $\\|\\vec{u}\\|=\\sqrt{${x}^2+${y}^2+${z}^2}$`,
+          solution: [`$\\|\\vec{u}\\|=\\sqrt{${x*x}+${y*y}+${z*z}}=\\sqrt{${sumSq}}\\approx${normStr}$`]
         };
       }
     },

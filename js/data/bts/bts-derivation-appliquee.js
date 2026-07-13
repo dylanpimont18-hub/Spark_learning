@@ -63,8 +63,33 @@ window.MODULES.push(
       type: 'numeric',
       generate() {
         const a = rand(2, 5), b = rand(3, 8);
+
+        const ctx = pick([
+          {
+            build: () => `Une <strong>PME fabricant des capteurs électroniques</strong> a un profit modélisé par $\\Pi(x)=-${a}x^2+${2*a*b}x-10$ (en k€), $x$ étant le nombre de capteurs produits.<br/><br/>Trouve la <strong>quantité $x^*$</strong> qui maximise le profit.`
+          },
+          {
+            build: () => `Un <strong>atelier de menuiserie</strong> fabriquant des meubles sur mesure a un profit $\\Pi(x)=-${a}x^2+${2*a*b}x-10$ (en k€), $x$ étant le nombre de meubles vendus.<br/><br/>Trouve la <strong>quantité $x^*$</strong> qui maximise le profit.`
+          },
+          {
+            build: () => `Une <strong>exploitation maraîchère</strong> vendant des paniers de légumes en circuit court a un profit $\\Pi(x)=-${a}x^2+${2*a*b}x-10$ (en k€), $x$ étant le nombre de paniers vendus par semaine.<br/><br/>Trouve la <strong>quantité $x^*$</strong> qui maximise le profit.`
+          },
+          {
+            build: () => `Un <strong>atelier d'assemblage de panneaux solaires</strong> a un profit $\\Pi(x)=-${a}x^2+${2*a*b}x-10$ (en k€), $x$ étant le nombre de panneaux produits.<br/><br/>Trouve la <strong>quantité $x^*$</strong> qui maximise le profit.`
+          },
+          {
+            build: () => `Une <strong>imprimerie</strong> produisant des catalogues pour des clients professionnels a un profit $\\Pi(x)=-${a}x^2+${2*a*b}x-10$ (en k€), $x$ étant le nombre de lots de catalogues imprimés.<br/><br/>Trouve la <strong>quantité $x^*$</strong> qui maximise le profit.`
+          },
+          {
+            build: () => `Une <strong>société de maintenance industrielle</strong> vendant des contrats annuels a un profit $\\Pi(x)=-${a}x^2+${2*a*b}x-10$ (en k€), $x$ étant le nombre de contrats signés.<br/><br/>Trouve la <strong>quantité $x^*$</strong> qui maximise le profit.`
+          },
+          {
+            build: () => `Un <strong>atelier de mécanique</strong> usinant des pièces à la demande a un profit $\\Pi(x)=-${a}x^2+${2*a*b}x-10$ (en k€), $x$ étant le nombre de lots de pièces usinées.<br/><br/>Trouve la <strong>quantité $x^*$</strong> qui maximise le profit.`
+          }
+        ]);
+
         return {
-          statement: `Le profit est $\\Pi(x)=-${a}x^2+${2*a*b}x-10$ (en k€). Trouver la quantité $x^*$ qui maximise le profit.`,
+          statement: ctx.build(),
           answer: b,
           tolerance: 0,
           unit: 'unités',

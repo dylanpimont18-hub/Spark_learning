@@ -67,8 +67,30 @@ window.MODULES.push(
         const delta = pick([1, 2, 3, 4, 5]);
         const p = a + delta;
         const val = parseFloat((1 / delta).toFixed(4));
+
+        const ctx = pick([
+          {
+            build: () => `La réponse temporelle d'un <strong>circuit RC</strong> comporte un terme en $e^{${a}t}$.<br/><br/>Calcule $\\mathcal{L}\\{e^{${a}t}\\}$ évalué en $p=${p}$ (donner la valeur numérique).`
+          },
+          {
+            build: () => `Un <strong>système asservi</strong> présente, dans sa réponse, un terme en $e^{${a}t}$.<br/><br/>Calcule $\\mathcal{L}\\{e^{${a}t}\\}$ évalué en $p=${p}$ (donner la valeur numérique).`
+          },
+          {
+            build: () => `Un <strong>filtre actif</strong> a une réponse impulsionnelle contenant un terme en $e^{${a}t}$.<br/><br/>Calcule $\\mathcal{L}\\{e^{${a}t}\\}$ évalué en $p=${p}$ (donner la valeur numérique).`
+          },
+          {
+            build: () => `Le courant transitoire d'un <strong>moteur électrique</strong> à sa mise sous tension comporte un terme en $e^{${a}t}$.<br/><br/>Calcule $\\mathcal{L}\\{e^{${a}t}\\}$ évalué en $p=${p}$ (donner la valeur numérique).`
+          },
+          {
+            build: () => `Un <strong>régulateur PID</strong> génère, en réponse à un échelon, un terme transitoire en $e^{${a}t}$.<br/><br/>Calcule $\\mathcal{L}\\{e^{${a}t}\\}$ évalué en $p=${p}$ (donner la valeur numérique).`
+          },
+          {
+            build: () => `La réponse d'une <strong>suspension mécanique</strong> asservie comporte un terme en $e^{${a}t}$.<br/><br/>Calcule $\\mathcal{L}\\{e^{${a}t}\\}$ évalué en $p=${p}$ (donner la valeur numérique).`
+          }
+        ]);
+
         return {
-          statement: `Calculer $\\mathcal{L}\\{e^{${a}t}\\}$ évalué en $p=${p}$. (Donner la valeur numérique)`,
+          statement: ctx.build(),
           answer: val,
           tolerance: 0.01,
           unit: '',

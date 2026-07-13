@@ -83,8 +83,18 @@ window.MODULES.push(
         const kStr = String(k).replace('.', '{,}');
         const absKStr = String(Math.abs(k)).replace('.', '{,}');
         const resultStr = String(Math.abs(k) * ab).replace('.', '{,}');
+
+        const ctx = pick([
+          { build: () => `Une <strong>photocopieuse</strong> applique un rapport $k = ${kStr}$ à un document. Un segment y mesure $${ab}$ cm.<br/><br/>Quelle est la longueur de son <strong>image</strong> sur la copie (en cm) ?` },
+          { build: () => `Sur un <strong>plan d'architecte</strong>, une homothétie de rapport $k = ${kStr}$ transforme les dimensions d'un bâtiment. Un mur du plan mesure $${ab}$ cm.<br/><br/>Quelle est la longueur de son <strong>image</strong> (en cm) ?` },
+          { build: () => `Un modéliste construit une <strong>maquette d'avion</strong> selon un rapport $k = ${kStr}$. Une pièce d'origine mesure $${ab}$ cm.<br/><br/>Quelle est la longueur de cette pièce sur la <strong>maquette</strong> (en cm) ?` },
+          { build: () => `Un <strong>vidéoprojecteur</strong> agrandit une image selon un rapport $k = ${kStr}$. Un segment de l'image source mesure $${ab}$ cm.<br/><br/>Quelle est la longueur de ce segment une fois <strong>projeté</strong> (en cm) ?` },
+          { build: () => `Un graphiste redimensionne un <strong>logo</strong> pour une bannière selon un rapport $k = ${kStr}$. Un trait du logo original mesure $${ab}$ cm.<br/><br/>Quelle est la longueur de ce trait sur la <strong>bannière</strong> (en cm) ?` },
+          { build: () => `Au <strong>microscope</strong>, un rapport d'agrandissement $k = ${kStr}$ est appliqué à un échantillon. Un détail y mesure $${ab}$ cm.<br/><br/>Quelle est la longueur de son <strong>image observée</strong> (en cm) ?` }
+        ]);
+
         return {
-          statement: `Une homothétie de rapport $k = ${kStr}$ transforme un segment de longueur $${ab}$ cm. Quelle est la longueur de l'image (en cm) ?`,
+          statement: ctx.build(),
           answer: parseFloat((Math.abs(k) * ab).toFixed(1)),
           tolerance: 0.1,
           unit: 'cm',

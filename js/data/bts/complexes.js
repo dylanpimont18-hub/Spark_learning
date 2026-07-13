@@ -93,8 +93,40 @@ window.MODULES.push(
         // Pythagorean triples for clean answers
         const triples = [[3,4,5],[5,12,13],[6,8,10],[8,15,17]];
         const [a, b, mod] = pick(triples);
+
+        const ctx = pick([
+          {
+            build: () => `Un circuit <strong>RL série</strong> comporte une résistance $R = ${a}\\,\\Omega$ et une bobine dont la réactance vaut $X_L = ${b}\\,\\Omega$ à la pulsation de travail.<br/><br/>` +
+              `L'impédance complexe du circuit s'écrit $\\underline{Z} = ${a} + ${b}j$ (en Ω).<br/><br/>Calcule le <strong>module</strong> $|\\underline{Z}|$.`
+          },
+          {
+            build: () => `Une <strong>ligne de transmission électrique</strong> présente, vue depuis son entrée, une partie résistive $R = ${a}\\,\\Omega$ et une partie réactive $X = ${b}\\,\\Omega$.<br/><br/>` +
+              `Son impédance complexe est $\\underline{Z} = ${a} + ${b}j$ (en Ω).<br/><br/>Détermine le <strong>module</strong> de cette impédance.`
+          },
+          {
+            build: () => `L'<strong>impédance d'entrée d'une antenne</strong> mesurée par un technicien radio vaut $\\underline{Z} = ${a} + ${b}j$ (en Ω), où $${a}\\,\\Omega$ est la résistance de rayonnement et $${b}\\,\\Omega$ la partie réactive.<br/><br/>` +
+              `Calcule le <strong>module</strong> $|\\underline{Z}|$ pour vérifier l'adaptation d'impédance.`
+          },
+          {
+            build: () => `Dans un <strong>amplificateur audio</strong>, l'étage de sortie présente au haut-parleur une impédance complexe $\\underline{Z} = ${a} + ${b}j$ (en Ω), avec $${a}\\,\\Omega$ de résistance série et $${b}\\,\\Omega$ de réactance.<br/><br/>` +
+              `Calcule le <strong>module</strong> de cette impédance pour estimer la puissance transmise.`
+          },
+          {
+            build: () => `L'<strong>enroulement statorique</strong> d'un moteur asynchrone a pour impédance complexe $\\underline{Z} = ${a} + ${b}j$ (en Ω) à la fréquence du réseau.<br/><br/>` +
+              `Calcule le <strong>module</strong> $|\\underline{Z}|$ afin d'estimer le courant absorbé.`
+          },
+          {
+            build: () => `Un <strong>poste de soudure à induction</strong> présente, vu de la bobine chauffante, une impédance complexe $\\underline{Z} = ${a} + ${b}j$ (en Ω) : $${a}\\,\\Omega$ de résistance (pertes dans la pièce) et $${b}\\,\\Omega$ de réactance inductive.<br/><br/>` +
+              `Calcule le <strong>module</strong> de cette impédance.`
+          },
+          {
+            build: () => `Sur une <strong>installation électrique domestique</strong>, un technicien mesure l'impédance de boucle $\\underline{Z} = ${a} + ${b}j$ (en Ω) entre phase et neutre au point le plus défavorable.<br/><br/>` +
+              `Calcule le <strong>module</strong> $|\\underline{Z}|$ pour vérifier le déclenchement de la protection.`
+          }
+        ]);
+
         return {
-          statement: `Calcule le module de l'impédance complexe $\\underline{Z} = ${a} + ${b}j$ (en Ω).`,
+          statement: ctx.build(),
           answer: mod,
           tolerance: 0.1,
           unit: 'Ω',

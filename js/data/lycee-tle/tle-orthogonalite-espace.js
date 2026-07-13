@@ -64,18 +64,45 @@ window.MODULES.push({
       generate() {
         const a = rand(1, 3), b = rand(1, 3), c = rand(1, 3);
         const d = rand(-5, -1);
-        const x0 = 0, y0 = 0, z0 = 0;
+        // Point de référence M variable (ne reste plus figé à l'origine)
+        const x0 = rand(-3, 3), y0 = rand(-3, 3), z0 = rand(-3, 3);
         const num = Math.abs(a*x0 + b*y0 + c*z0 + d);
         const denom = parseFloat(Math.sqrt(a*a+b*b+c*c).toFixed(4));
         const dist = parseFloat((num/denom).toFixed(4));
+        const distAnswer = parseFloat(dist.toFixed(2));
+        const distStr = distAnswer.toFixed(2).replace('.', '{,}');
+        const planeEq = `${a}x+${b}y+${c}z${d}=0`;
+        const numDetail = `${a}\\times${x0}+${b}\\times${y0}+${c}\\times${z0}${d}`;
+
+        const ctx = pick([
+          {
+            build: () => `Un <strong>drone de surveillance</strong> survole un site industriel et se situe au point $M(${x0};${y0};${z0})$ (coordonnées en mètres). Le toit du hangar est modélisé par le plan $\\mathcal{P}$ d'équation $${planeEq}$.<br/><br/>Calculer la <strong>distance</strong> du drone $M$ au plan $\\mathcal{P}$. Arrondir à $0{,}01$.`
+          },
+          {
+            build: () => `Sur le chantier d'une <strong>charpente</strong>, le sommet d'une lucarne est repéré par le point $M(${x0};${y0};${z0})$. Le pan de toiture est modélisé par le plan $\\mathcal{P}$ d'équation $${planeEq}$.<br/><br/>Calculer la <strong>distance</strong> entre la lucarne $M$ et le plan du toit $\\mathcal{P}$. Arrondir à $0{,}01$.`
+          },
+          {
+            build: () => `Un <strong>avion</strong> se situe au point $M(${x0};${y0};${z0})$ (coordonnées en km) lorsqu'il amorce sa descente. La piste d'atterrissage est modélisée par le plan $\\mathcal{P}$ d'équation $${planeEq}$.<br/><br/>Calculer la <strong>distance</strong> de l'avion $M$ au plan de la piste $\\mathcal{P}$. Arrondir à $0{,}01$.`
+          },
+          {
+            build: () => `Dans un <strong>jeu vidéo 3D</strong>, un personnage occupe la position $M(${x0};${y0};${z0})$. Le sol de la scène est modélisé par le plan $\\mathcal{P}$ d'équation $${planeEq}$.<br/><br/>Calculer la <strong>distance</strong> qui sépare le personnage $M$ du sol $\\mathcal{P}$. Arrondir à $0{,}01$.`
+          },
+          {
+            build: () => `L'extrémité du bras d'un <strong>robot de soudure</strong> se trouve en $M(${x0};${y0};${z0})$. La plaque métallique à souder correspond au plan $\\mathcal{P}$ d'équation $${planeEq}$.<br/><br/>Calculer la <strong>distance</strong> entre l'outil $M$ et la plaque $\\mathcal{P}$. Arrondir à $0{,}01$.`
+          },
+          {
+            build: () => `Sur la <strong>maquette numérique</strong> d'un bâtiment, un capteur de température est positionné en $M(${x0};${y0};${z0})$. Le mur auquel il pourrait être fixé correspond au plan $\\mathcal{P}$ d'équation $${planeEq}$.<br/><br/>Calculer la <strong>distance</strong> du capteur $M$ au mur $\\mathcal{P}$. Arrondir à $0{,}01$.`
+          }
+        ]);
+
         return {
-          statement: `Calculer la distance de $O(0;0;0)$ au plan $${a}x+${b}y+${c}z${d}=0$. Arrondir à $0{,}01$.`,
-          answer: parseFloat(dist.toFixed(2)),
+          statement: ctx.build(),
+          answer: distAnswer,
           tolerance: 0.05,
           unit: 'unités',
-          hint: `$d=\\frac{|${a}\\cdot0+${b}\\cdot0+${c}\\cdot0${d}|}{\\sqrt{${a}^2+${b}^2+${c}^2}}$`,
+          hint: `$d=\\dfrac{|${numDetail}|}{\\sqrt{${a}^2+${b}^2+${c}^2}}$`,
           solution: [
-            `$d=\\frac{|${d}|}{\\sqrt{${a*a+b*b+c*c}}}=\\frac{${Math.abs(d)}}{\\sqrt{${a*a+b*b+c*c}}}\\approx${dist}$`
+            `$d=\\dfrac{|${numDetail}|}{\\sqrt{${a*a+b*b+c*c}}}=\\dfrac{${num}}{\\sqrt{${a*a+b*b+c*c}}}\\approx${distStr}$`
           ]
         };
       }

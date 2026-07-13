@@ -90,12 +90,24 @@ window.MODULES.push(
         const c = a * x + b * y;
         const d = rand(1, 3), e = rand(1, 3);
         const f = d * x + e * y;
+
+        const system = `$\\begin{cases} ${a}x + ${b}y = ${c} \\\\ ${d}x + ${e}y = ${f} \\end{cases}$`;
+
+        const ctx = pick([
+          { build: () => `Un marchand vend des pommes à $x$ €/kg et des poires à $y$ €/kg.<br/><br/>Un premier client achète $${a}\\,\\text{kg}$ de pommes et $${b}\\,\\text{kg}$ de poires pour $${c}$ €. Un second achète $${d}\\,\\text{kg}$ de pommes et $${e}\\,\\text{kg}$ de poires pour $${f}$ €.<br/><br/>Traduis la situation par un <strong>système</strong> ${system} et donne le <strong>prix d'un kg de pommes</strong> ($x$).` },
+          { build: () => `Dans une papeterie, un cahier coûte $x$ € et un stylo coûte $y$ €.<br/><br/>Une première commande contient $${a}$ cahiers et $${b}$ stylos pour $${c}$ €. Une seconde commande contient $${d}$ cahiers et $${e}$ stylos pour $${f}$ €.<br/><br/>Le système correspondant est ${system}. Quel est le <strong>prix d'un cahier</strong> ($x$) ?` },
+          { build: () => `Dans une boulangerie, une baguette coûte $x$ € et un croissant coûte $y$ €.<br/><br/>Un client achète $${a}$ baguettes et $${b}$ croissants pour $${c}$ €. Un autre achète $${d}$ baguettes et $${e}$ croissants pour $${f}$ €.<br/><br/>Ceci se traduit par le système ${system}. Détermine le <strong>prix d'une baguette</strong> ($x$).` },
+          { build: () => `Une jardinerie vend des rosiers à $x$ € pièce et des bulbes de tulipes à $y$ € pièce.<br/><br/>Un client achète $${a}$ rosiers et $${b}$ bulbes pour $${c}$ €. Un autre achète $${d}$ rosiers et $${e}$ bulbes pour $${f}$ €.<br/><br/>D'où le système ${system}. Quel est le <strong>prix d'un rosier</strong> ($x$) ?` },
+          { build: () => `Dans une quincaillerie, une vis coûte $x$ € et un boulon coûte $y$ €.<br/><br/>Un artisan achète $${a}$ vis et $${b}$ boulons pour $${c}$ €. Un autre en achète $${d}$ et $${e}$ pour $${f}$ €.<br/><br/>Ce qui donne le système ${system}. Quel est le <strong>prix d'une vis</strong> ($x$) ?` },
+          { build: () => `Une fromagerie vend du comté à $x$ €/kg et du brie à $y$ €/kg.<br/><br/>Un client prend $${a}\\,\\text{kg}$ de comté et $${b}\\,\\text{kg}$ de brie pour $${c}$ €. Un autre prend $${d}\\,\\text{kg}$ de comté et $${e}\\,\\text{kg}$ de brie pour $${f}$ €.<br/><br/>Le système associé est ${system}. Détermine le <strong>prix du kg de comté</strong> ($x$).` }
+        ]);
+
         return {
-          statement: `Résoudre le système et donner la valeur de $x$ : $\\begin{cases} ${a}x + ${b}y = ${c} \\\\ ${d}x + ${e}y = ${f} \\end{cases}$`,
+          statement: ctx.build(),
           answer: x,
           tolerance: 0,
           unit: '',
-          hint: 'Essaie la méthode de combinaison : multiplie la première équation par $' + d + '$ et la seconde par $' + a + '$ pour éliminer $x$... ou utilise la substitution.',
+          hint: `Essaie la méthode de <strong>combinaison</strong> : multiplie la première équation par $${d}$ et la seconde par $${a}$ pour éliminer $x$...<br/><br/>Ou utilise la <strong>substitution</strong>.`,
           solution: [
             `On cherche $x = ${x}$ et $y = ${y}$.`,
             `Vérif éq 1 : $${a} \\times ${x} + ${b} \\times ${y} = ${a*x} + ${b*y} = ${c}$ ✓`,

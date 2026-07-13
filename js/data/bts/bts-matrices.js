@@ -62,8 +62,30 @@ window.MODULES.push(
       generate() {
         const a = rand(1, 4), b = rand(0, 3), c = rand(0, 3), d = rand(1, 4);
         const det = a*d - b*c;
+
+        const ctx = pick([
+          {
+            build: () => `Un <strong>circuit électrique à deux mailles</strong> se met sous forme matricielle $AX = B$ avec $A = \\begin{pmatrix}${a}&${b}\\\\${c}&${d}\\end{pmatrix}$.<br/><br/>Calcule $\\det(A)$ pour vérifier si le système admet une <strong>solution unique</strong>.`
+          },
+          {
+            build: () => `Un <strong>atelier de production</strong> répartit deux matières premières entre deux lignes de fabrication selon la matrice $A = \\begin{pmatrix}${a}&${b}\\\\${c}&${d}\\end{pmatrix}$.<br/><br/>Calcule $\\det(A)$ pour savoir si le système de répartition est <strong>inversible</strong>.`
+          },
+          {
+            build: () => `Un logiciel de <strong>CAO</strong> applique une transformation géométrique à un plan, représentée par la matrice $A = \\begin{pmatrix}${a}&${b}\\\\${c}&${d}\\end{pmatrix}$.<br/><br/>Calcule $\\det(A)$ pour vérifier que la transformation est bien <strong>réversible</strong> (ne réduit pas le plan à une droite).`
+          },
+          {
+            build: () => `Le <strong>bilan matière</strong> d'un procédé chimique reliant deux réactifs à deux produits s'écrit avec la matrice $A = \\begin{pmatrix}${a}&${b}\\\\${c}&${d}\\end{pmatrix}$.<br/><br/>Calcule $\\det(A)$ pour vérifier que le bilan admet une <strong>solution unique</strong>.`
+          },
+          {
+            build: () => `Un <strong>réseau électrique à deux nœuds</strong> a pour matrice d'admittance simplifiée $A = \\begin{pmatrix}${a}&${b}\\\\${c}&${d}\\end{pmatrix}$.<br/><br/>Calcule $\\det(A)$ pour vérifier que le système est <strong>résoluble</strong>.`
+          },
+          {
+            build: () => `Un <strong>répartiteur de charge</strong> entre deux machines d'une chaîne de production est modélisé par la matrice $A = \\begin{pmatrix}${a}&${b}\\\\${c}&${d}\\end{pmatrix}$.<br/><br/>Calcule $\\det(A)$ pour vérifier que la répartition est <strong>inversible</strong>.`
+          }
+        ]);
+
         return {
-          statement: `Calculer $\\det\\begin{pmatrix}${a}&${b}\\\\${c}&${d}\\end{pmatrix}$.`,
+          statement: ctx.build(),
           answer: det,
           tolerance: 0,
           unit: '',

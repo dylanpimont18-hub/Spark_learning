@@ -61,15 +61,38 @@ window.MODULES.push(
     exercice: {
       type: 'numeric',
       generate() {
+        const fr = x => String(x).replace('.', '{,}');
         const lambda = pick([2, 3, 4, 5]);
-        const ans = parseFloat((Math.exp(-lambda)).toFixed(4));
+        const ans = parseFloat((Math.exp(-lambda)).toFixed(3));
+
+        const ctx = pick([
+          {
+            build: () => `Une <strong>machine industrielle</strong> tombe en panne en moyenne $\\lambda=${lambda}$ fois par semaine (loi de Poisson).<br/><br/>Pour $X\\sim\\mathcal{P}(${lambda})$, calcule $P(X=0)$, la probabilité de <strong>ne subir aucune panne</strong> une semaine donnée. Arrondir à $0{,}001$.`
+          },
+          {
+            build: () => `Un <strong>centre d'appels</strong> reçoit en moyenne $\\lambda=${lambda}$ appels par minute (loi de Poisson).<br/><br/>Pour $X\\sim\\mathcal{P}(${lambda})$, calcule $P(X=0)$, la probabilité de <strong>ne recevoir aucun appel</strong> pendant une minute. Arrondir à $0{,}001$.`
+          },
+          {
+            build: () => `Un contrôle qualité relève en moyenne $\\lambda=${lambda}$ <strong>défauts par tôle</strong> produite (loi de Poisson).<br/><br/>Pour $X\\sim\\mathcal{P}(${lambda})$, calcule $P(X=0)$, la probabilité qu'une tôle soit <strong>sans aucun défaut</strong>. Arrondir à $0{,}001$.`
+          },
+          {
+            build: () => `Un <strong>serveur informatique</strong> reçoit en moyenne $\\lambda=${lambda}$ requêtes par seconde (loi de Poisson).<br/><br/>Pour $X\\sim\\mathcal{P}(${lambda})$, calcule $P(X=0)$, la probabilité de <strong>n'avoir aucune requête</strong> pendant une seconde. Arrondir à $0{,}001$.`
+          },
+          {
+            build: () => `Un assureur observe en moyenne $\\lambda=${lambda}$ <strong>sinistres déclarés</strong> par jour sur un portefeuille de contrats (loi de Poisson).<br/><br/>Pour $X\\sim\\mathcal{P}(${lambda})$, calcule $P(X=0)$, la probabilité de <strong>n'avoir aucun sinistre</strong> un jour donné. Arrondir à $0{,}001$.`
+          },
+          {
+            build: () => `Un magasin enregistre en moyenne $\\lambda=${lambda}$ <strong>arrivées de clients</strong> par minute aux heures creuses (loi de Poisson).<br/><br/>Pour $X\\sim\\mathcal{P}(${lambda})$, calcule $P(X=0)$, la probabilité de <strong>n'avoir aucun client</strong> pendant une minute. Arrondir à $0{,}001$.`
+          }
+        ]);
+
         return {
-          statement: `Pour $X\\sim\\mathcal{P}(${lambda})$, calculer $P(X=0)$. Arrondir à $0{,}001$.`,
-          answer: parseFloat(ans.toFixed(3)),
+          statement: ctx.build(),
+          answer: ans,
           tolerance: 0.002,
           unit: '',
           hint: `$P(X=0)=e^{-${lambda}}$`,
-          solution: [`$P(X=0)=e^{-${lambda}}\\approx${ans}$`]
+          solution: [`$P(X=0)=e^{-${lambda}}\\approx${fr(ans)}$`]
         };
       }
     },

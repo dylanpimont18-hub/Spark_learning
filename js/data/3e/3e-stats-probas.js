@@ -84,13 +84,25 @@ window.MODULES.push(
         const pAB = pick([0.2, 0.3, 0.4]);
         const nAB = Math.round(nA * pAB);
         const fcond = parseFloat((nAB / nA).toFixed(2));
+        const fcondStr = String(fcond).replace('.', '{,}');
+        const pctStr = Math.round(fcond * 100);
+
+        const ctx = pick([
+          { build: () => `Dans une <strong>entreprise</strong> de $${total}$ employés, $${nA}$ pratiquent le <strong>télétravail</strong> $(A)$, dont $${nAB}$ viennent aussi au bureau à <strong>vélo</strong> $(B)$ les autres jours.<br/><br/>Quelle est la <strong>fréquence conditionnelle</strong> de $B$ parmi les télétravailleurs ?` },
+          { build: () => `Dans un <strong>hôpital</strong>, sur $${total}$ patients suivis, $${nA}$ ont été <strong>vaccinés</strong> $(A)$, dont $${nAB}$ ont déclaré une <strong>allergie</strong> connue $(B)$.<br/><br/>Quelle est la <strong>fréquence conditionnelle</strong> de $B$ parmi les patients vaccinés ?` },
+          { build: () => `Lors d'un <strong>festival</strong> de $${total}$ spectateurs, $${nA}$ ont un <strong>pass VIP</strong> $(A)$, dont $${nAB}$ publient des photos sur les <strong>réseaux sociaux</strong> $(B)$.<br/><br/>Quelle est la <strong>fréquence conditionnelle</strong> de $B$ parmi les détenteurs du pass VIP ?` },
+          { build: () => `Dans un <strong>élevage</strong> de $${total}$ animaux, $${nA}$ ont été <strong>vaccinés</strong> $(A)$, dont $${nAB}$ portent aussi une <strong>puce électronique</strong> $(B)$.<br/><br/>Quelle est la <strong>fréquence conditionnelle</strong> de $B$ parmi les animaux vaccinés ?` },
+          { build: () => `Dans un lycée, sur $${total}$ élèves, $${nA}$ sont inscrits au <strong>club théâtre</strong> $(A)$, dont $${nAB}$ pratiquent aussi la <strong>danse</strong> $(B)$.<br/><br/>Quelle est la <strong>fréquence conditionnelle</strong> de $B$ parmi les membres du club théâtre ?` },
+          { build: () => `Dans une <strong>bibliothèque</strong> de $${total}$ adhérents, $${nA}$ empruntent régulièrement des <strong>bandes dessinées</strong> $(A)$, dont $${nAB}$ empruntent aussi des <strong>romans</strong> $(B)$.<br/><br/>Quelle est la <strong>fréquence conditionnelle</strong> de $B$ parmi les emprunteurs de BD ?` }
+        ]);
+
         return {
-          statement: `Dans un groupe de $${total}$ personnes, $${nA}$ pratiquent le sport $(A)$, dont $${nAB}$ pratiquent aussi un instrument $(B)$. Quelle est la fréquence conditionnelle de $B$ parmi les sportifs ?`,
+          statement: ctx.build(),
           answer: fcond,
           tolerance: 0.01,
           unit: '',
           hint: `$f_{B|A} = \\dfrac{n(A \\cap B)}{n(A)} = \\dfrac{${nAB}}{${nA}}$.`,
-          solution: [`$f_{B|A} = \\dfrac{${nAB}}{${nA}} = ${String(fcond).replace('.', '{,}')}$ soit $${Math.round(fcond*100)}\\%$ des sportifs.`]
+          solution: [`$f_{B|A} = \\dfrac{${nAB}}{${nA}} = ${fcondStr}$ soit $${pctStr}\\%$ du groupe $A$.`]
         };
       }
     },

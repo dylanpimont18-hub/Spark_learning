@@ -66,17 +66,20 @@ window.MODULES.push({
     exercice: {
       type: 'numeric',
       generate() {
-        const context = pick([
-          'Dans un triangle',
-          'Sur un plan de construction',
-          'En optique, dans un prisme',
-          'Dans un triangle isocèle'
-        ]);
         const a1 = rand(20, 70), a2 = rand(20, 70);
         const a3 = 180 - a1 - a2;
         if (a3 <= 0) { return { statement: `Dans un triangle, deux angles mesurent $40°$ et $60°$. Calcule le troisième angle.`, answer: 80, tolerance: 0, unit: '°', hint: 'La somme des trois angles d\'un triangle est toujours 180°.', solution: ['$180° - 40° - 60° = 80°$'] }; }
+        const ctx = pick([
+          { build: () => `Dans un triangle, deux angles mesurent $${a1}°$ et $${a2}°$.<br/>Quelle est la mesure du <strong>troisième angle</strong> (en degrés) ?` },
+          { build: () => `Sur un plan de construction, un architecte trace un triangle dont deux angles mesurent $${a1}°$ et $${a2}°$.<br/>Quelle est la mesure du <strong>troisième angle</strong> qu'il doit reporter sur le plan ?` },
+          { build: () => `En optique, la section d'un prisme a la forme d'un triangle dont deux angles mesurent $${a1}°$ et $${a2}°$.<br/>Quelle est la mesure du <strong>troisième angle</strong> du prisme ?` },
+          { build: () => `Un charpentier construit une ferme de toit triangulaire. Deux de ses angles mesurent $${a1}°$ et $${a2}°$.<br/>Quelle est la mesure du <strong>troisième angle</strong> de la charpente ?` },
+          { build: () => `La voile triangulaire d'un petit voilier a deux angles qui mesurent $${a1}°$ et $${a2}°$.<br/>Quelle est la mesure du <strong>troisième angle</strong> de la voile ?` },
+          { build: () => `Dans le triangle formé par l'équerre d'un menuisier, deux angles mesurent $${a1}°$ et $${a2}°$.<br/>Quelle est la mesure du <strong>troisième angle</strong> de l'équerre ?` },
+          { build: () => `Une part de pizza en forme de triangle a deux angles qui mesurent $${a1}°$ et $${a2}°$.<br/>Quelle est la mesure du <strong>troisième angle</strong> de cette part ?` }
+        ]);
         return {
-          statement: `${context}, deux angles mesurent $${a1}°$ et $${a2}°$. Quelle est la mesure du troisième angle (en degrés) ?`,
+          statement: ctx.build(),
           answer: a3,
           tolerance: 0,
           unit: '°',

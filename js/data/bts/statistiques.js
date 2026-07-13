@@ -85,18 +85,42 @@ window.MODULES.push(
     exercice: {
       type: 'numeric',
       generate() {
+        const fr = x => String(x).replace('.', '{,}');
         const vals = [rand(5,15), rand(5,15), rand(5,15), rand(5,15)];
-        const mean = parseFloat((vals.reduce((a,b) => a+b, 0) / 4).toFixed(2));
+        const sum = vals.reduce((a,b) => a+b, 0);
+        const mean = parseFloat((sum / 4).toFixed(2));
+
+        const ctx = pick([
+          {
+            build: () => `Un technicien mesure 4 fois la <strong>résistance</strong> d'un résistor au multimètre et obtient (en Ω) : $\\{${vals[0]};\\; ${vals[1]};\\; ${vals[2]};\\; ${vals[3]}\\}$.<br/><br/>Calcule la <strong>moyenne</strong> $\\bar{x}$ de ces mesures.`
+          },
+          {
+            build: () => `Un contrôleur qualité mesure 4 fois l'<strong>épaisseur</strong> d'une tôle usinée au pied à coulisse et obtient (en mm) : $\\{${vals[0]};\\; ${vals[1]};\\; ${vals[2]};\\; ${vals[3]}\\}$.<br/><br/>Calcule la <strong>moyenne</strong> $\\bar{x}$ de ces mesures.`
+          },
+          {
+            build: () => `Lors du test d'une <strong>alimentation stabilisée</strong>, on relève 4 fois la tension de sortie (en V) : $\\{${vals[0]};\\; ${vals[1]};\\; ${vals[2]};\\; ${vals[3]}\\}$.<br/><br/>Calcule la <strong>moyenne</strong> $\\bar{x}$ de ces mesures.`
+          },
+          {
+            build: () => `Sur un <strong>circuit hydraulique</strong>, un capteur relève 4 fois la pression (en bar) : $\\{${vals[0]};\\; ${vals[1]};\\; ${vals[2]};\\; ${vals[3]}\\}$.<br/><br/>Calcule la <strong>moyenne</strong> $\\bar{x}$ de ces mesures.`
+          },
+          {
+            build: () => `Un contrôle de production pèse 4 fois le même <strong>connecteur</strong> sortant de la chaîne et obtient (en g) : $\\{${vals[0]};\\; ${vals[1]};\\; ${vals[2]};\\; ${vals[3]}\\}$.<br/><br/>Calcule la <strong>moyenne</strong> $\\bar{x}$ de ces mesures.`
+          },
+          {
+            build: () => `On relève 4 fois l'<strong>écart de température</strong> à l'intérieur d'une enceinte climatique et obtient (en °C) : $\\{${vals[0]};\\; ${vals[1]};\\; ${vals[2]};\\; ${vals[3]}\\}$.<br/><br/>Calcule la <strong>moyenne</strong> $\\bar{x}$ de ces mesures.`
+          }
+        ]);
+
         return {
-          statement: `On mesure 4 fois une grandeur et on obtient les valeurs : $\\{${vals[0]};\\; ${vals[1]};\\; ${vals[2]};\\; ${vals[3]}\\}$. Calcule la moyenne $\\bar{x}$ de ces mesures.`,
+          statement: ctx.build(),
           answer: mean,
           tolerance: 0.05,
           unit: '',
           hint: `La moyenne, c'est la somme de toutes les valeurs divisée par le nombre de valeurs : $\\bar{x} = \\dfrac{${vals[0]} + ${vals[1]} + ${vals[2]} + ${vals[3]}}{4}$.`,
           solution: [
-            `Somme : $${vals[0]} + ${vals[1]} + ${vals[2]} + ${vals[3]} = ${vals.reduce((a,b)=>a+b,0)}$`,
+            `Somme : $${vals[0]} + ${vals[1]} + ${vals[2]} + ${vals[3]} = ${sum}$`,
             `Nombre de valeurs : $n = 4$`,
-            `Moyenne : $\\bar{x} = \\dfrac{${vals.reduce((a,b)=>a+b,0)}}{4} = ${mean}$`
+            `Moyenne : $\\bar{x} = \\dfrac{${sum}}{4} = ${fr(mean)}$`
           ]
         };
       }
