@@ -57,6 +57,7 @@ var TutoringStudent = {
           TutoringStudent._renderSessionsList() +
         '</div>' +
       '</div>';
+    updatePageTitle();
   },
 
   _saveNotes: async function() {
@@ -94,7 +95,7 @@ var TutoringStudent = {
         '<p class="tt-session-topic">' + TutoringStudent._esc(sess.topic) + '</p>' +
         (sess.difficultiesObserved ? '<p class="tt-session-difficulties">' + TutoringStudent._esc(sess.difficultiesObserved) + '</p>' : '') +
         (sess.status === 'draft'
-          ? '<button class="tt-rate-btn" onclick="TutoringStudent._showRatingForm(\'' + sess.id + '\')">Noter cette séance</button>'
+          ? '<button class="tt-rate-btn" onclick="TutoringStudent._showRatingForm(\'' + TutoringStudent._esc(sess.id) + '\')">Noter cette séance</button>'
           : '<div class="tt-session-rating">Note : ' + sess.rating + '/10' + (sess.ratingRemarks ? ' — ' + TutoringStudent._esc(sess.ratingRemarks) : '') + '</div>'
         ) +
       '</div>';
