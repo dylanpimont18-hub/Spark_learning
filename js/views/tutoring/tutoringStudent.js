@@ -93,6 +93,10 @@ var TutoringStudent = {
         '</div>' +
         '<p class="tt-session-topic">' + TutoringStudent._esc(sess.topic) + '</p>' +
         (sess.difficultiesObserved ? '<p class="tt-session-difficulties">' + TutoringStudent._esc(sess.difficultiesObserved) + '</p>' : '') +
+        (sess.status === 'draft'
+          ? '<button class="tt-rate-btn" onclick="TutoringStudent._showRatingForm(\'' + sess.id + '\')">Noter cette séance</button>'
+          : '<div class="tt-session-rating">Note : ' + sess.rating + '/10' + (sess.ratingRemarks ? ' — ' + TutoringStudent._esc(sess.ratingRemarks) : '') + '</div>'
+        ) +
       '</div>';
     }).join('');
   },
@@ -137,6 +141,41 @@ var TutoringStudent = {
       TutoringStudent.render(TutoringStudent._student.id);
     }).catch(function() {
       showToast('Erreur lors de l\'enregistrement.', 'error');
+    });
+
+    return false;
+  }
+  ,
+  _showRatingForm: function(sessionId) {
+    document.getElementById('app').innerHTML =
+      '<div class="tt-container">' +
+        '<div class="tt-header">' +
+          '<button class="tt-back-btn" onclick="TutoringStudent._renderFiche()">← Retour</button>' +
+          '<h1 class="tt-title">Noter la séance</h1>' +
+        '</div>' +
+        '<form class="tt-form" onsubmit="return TutoringStudent._submitRating(event, \'' + sessionId + '\')">' +
+          '<label class="tt-label">Note (1 à 10)<input type="number" id="tt-rating-value" class="tt-input" min="1" max="10" required/></label>' +
+          '<label class="tt-label">Remarques<textarea id="tt-rating-remarks" class="tt-textarea"></textarea></label>' +
+          '<button type="submit" class="tt-submit-btn">Enregistrer la note</button>' +
+        '</form>' +
+      '</div>';
+  },
+
+  _submitRating: function(e, sessionId) {
+    e.preventDefault();
+    var rating = parseInt(document.getElementById('tt-rating-value').value, 10);
+    var remarks = document.getElementById('tt-rating-remarks').value.trim();
+
+    if (!rating || rating < 1 || rating > 10) {
+      showToast('La note doit être comprise entre 1 et 10.', 'error');
+      return false;
+    }
+
+    TutoringService.rateSession(sessionId, rating, remarks).then(function() {
+      showToast('Séance notée !', 'success');
+      TutoringStudent.render(TutoringStudent._student.id);
+    }).catch(function() {
+      showToast('Erreur lors de l\'enregistrement de la note.', 'error');
     });
 
     return false;
