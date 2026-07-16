@@ -45,18 +45,6 @@ var TutoringService = {
   },
 
   /* ── Séances ── */
-  getStudentSessions: async function(studentId) {
-    var snap = await this._db().collection('tutoringSessions')
-      .where('studentId', '==', studentId)
-      .get();
-    return snap.docs.map(function(d) { return Object.assign({ id: d.id }, d.data()); })
-      .sort(function(a, b) {
-        var ta = a.date && a.date.toMillis ? a.date.toMillis() : 0;
-        var tb = b.date && b.date.toMillis ? b.date.toMillis() : 0;
-        return tb - ta;
-      });
-  },
-
   createSession: async function(studentId, data) {
     var uid = AuthService.getCurrentUser().uid;
     var dateValue = data.date
@@ -83,5 +71,30 @@ var TutoringService = {
       ratingRemarks: remarks || '',
       status: 'rated'
     });
+  },
+
+  requestGeneration: async function(sessionId, opts) {
+    var uid = AuthService.getCurrentUser().uid;
+    await this._db().collection('tutoringSessions').doc(sessionId).update({
+      generationStatus: 'generating',
+      generationRequestedBy: uid,
+      generationError: null,
+      contentType: opts.contentType,
+      figuresCount: opts.figuresCount
+    });
+  },
+
+  watchStudentSessions: function(studentId, callback) {
+    return this._db().collection('tutoringSessions')
+      .where('studentId', '==', studentId)
+      .onSnapshot(function(snap) {
+        var sessions = snap.docs.map(function(d) { return Object.assign({ id: d.id }, d.data()); })
+          .sort(function(a, b) {
+            var ta = a.date && a.date.toMillis ? a.date.toMillis() : 0;
+            var tb = b.date && b.date.toMillis ? b.date.toMillis() : 0;
+            return tb - ta;
+          });
+        callback(sessions);
+      });
   }
 };
