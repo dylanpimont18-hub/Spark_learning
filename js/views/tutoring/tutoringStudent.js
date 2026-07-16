@@ -57,6 +57,7 @@ var TutoringStudent = {
           TutoringStudent._renderSessionsList() +
         '</div>' +
       '</div>';
+    updatePageTitle();
   },
 
   _saveNotes: async function() {

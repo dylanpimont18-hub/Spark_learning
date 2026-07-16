@@ -353,8 +353,8 @@ function render() {
     case 'flashcards': app.innerHTML = (typeof renderFlashcards === 'function') ? renderFlashcards() : ''; break;
     case 'chrono':     app.innerHTML = (typeof renderChrono === 'function') ? renderChrono() : ''; break;
     case 'admin':      AdminPanel.render(); return;
-    case 'tutoring':        TutoringHome.render(); return;
-    case 'tutoringStudent': TutoringStudent.render(state.tutoringStudentId); return;
+    case 'tutoring':        TutoringHome.render(); updateNavActive(); return;
+    case 'tutoringStudent': TutoringStudent.render(state.tutoringStudentId); updateNavActive(); return;
     case 'teacher':    TeacherDashboard.render(); return;
     case 'playlist':   app.innerHTML = (typeof renderPlaylistView === 'function') ? renderPlaylistView() : ''; break;
     case 'homework':   app.innerHTML = (typeof renderHomeworkPanel === 'function') ? renderHomeworkPanel() : ''; break;
