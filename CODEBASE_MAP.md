@@ -344,8 +344,9 @@ Panneau de notation enseignant : tableau comparatif élèves × modules + export
 Firestore CRUD pour le suivi de cours particuliers (tutorat privé, réservé aux comptes `tutorAccess: true`).
 - `getStudents()` / `getStudent(id)` — liste (non archivés) / détail d'un élève
 - `createStudent(data)` / `updateStudent(id, patch)` / `archiveStudent(id)` — CRUD élève (soft delete via `archived`)
-- `getStudentSessions(studentId)` / `createSession(studentId, data)` — historique et création de séance (`status: 'draft'`)
+- `watchStudentSessions(studentId, callback)` / `createSession(studentId, data)` — écoute temps réel de l'historique et création de séance (`status: 'draft'`)
 - `rateSession(sessionId, rating, remarks)` — note une séance 1-10 + remarques, passe en `status: 'rated'`
+- `requestGeneration(sessionId, opts)` — déclenche la génération IA (Cloud Function)
 
 ## js/views/tutoring/tutoringHome.js
 Liste des élèves de cours particuliers (route `/tutorat`), réservée aux comptes tutor.
@@ -354,11 +355,22 @@ Liste des élèves de cours particuliers (route `/tutorat`), réservée aux comp
 - `TutoringHome._showAddForm()` / `_submitAddForm(e)` — formulaire de création d'élève
 
 ## js/views/tutoring/tutoringStudent.js
-Fiche élève (route `/tutorat/:studentId`) : notes générales, historique des séances, notation.
-- `TutoringStudent.render(studentId)` — charge élève + séances en parallèle
+Fiche élève (route `/tutorat/:studentId`) : notes générales, historique des séances (temps réel), notation, génération IA.
+- `TutoringStudent.render(studentId)` — charge l'élève puis s'abonne aux séances via `watchStudentSessions`
 - `TutoringStudent._saveNotes()` / `_archive()` — édition notes générales / soft delete élève
-- `TutoringStudent._showSessionForm()` / `_submitSessionForm(e)` — création d'une séance (`status: 'draft'`)
+- `TutoringStudent._showSessionForm()` / `_submitSessionForm(e, generate)` — création d'une séance (`status: 'draft'`), option "Générer un cours" immédiat
 - `TutoringStudent._showRatingForm(sessionId)` / `_submitRating(e, sessionId)` — notation d'une séance (1-10 + remarques)
+- `TutoringStudent._renderGenerationBadge(sess)` — badge d'état de génération (generating/generated/failed)
+- `TutoringStudent._requestGeneration(sessionId, contentType, figuresCount)` — relance la génération sur une séance existante
+
+## functions/ (Cloud Functions — générateur de cours IA, tutorat Phase 2)
+- `functions/index.js` — trigger `generateCourse` (`onDocumentWritten` sur `tutoringSessions`, filtré sur `generationStatus === 'generating'`)
+- `functions/src/generateCourse.js` — orchestrateur : verrou anti-double-déclenchement, rédaction, relecture, compilation (retry jusqu'à 3x), livraison Storage + email
+- `functions/src/anthropicClient.js` — appels Claude Opus 4.8 (code execution + web search), gestion `pause_turn` (jusqu'à 5 continuations)
+- `functions/src/promptBuilder.js` — construction des prompts rédaction/relecture/fix-compile
+- `functions/src/latexCompiler.js` — compilation via Tectonic (binaire téléchargé au `postinstall`, Linux uniquement)
+- `functions/src/mailer.js` — écriture dans la collection `mail` (extension Firebase "Trigger Email")
+- `functions/src/lock.js`, `errors.js`, `storagePaths.js` — utilitaires purs (verrou 10 min, formatage d'erreur, chemins Storage)
 
 ---
 

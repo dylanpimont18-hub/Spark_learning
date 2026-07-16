@@ -61,7 +61,9 @@ Ce fichier est la **source de vérité** pour la structure de fichiers du projet
 |---------|------|
 | js/tutoring/tutoringService.js | CRUD Firestore élèves/séances de cours particuliers |
 | js/views/tutoring/tutoringHome.js | Liste des élèves (route /tutorat) |
-| js/views/tutoring/tutoringStudent.js | Fiche élève : notes, historique séances, notation |
+| js/views/tutoring/tutoringStudent.js | Fiche élève : notes, historique séances (temps réel), notation, génération IA |
+
+- Phase 2 (générateur IA) : backend `functions/` (Cloud Functions) — voir docs/superpowers/specs/2026-07-16-tutorat-phase2-generateur-design.md
 
 ## Données Scolaires (js/data/)
 | Fichier | Rôle |
