@@ -5506,3 +5506,42 @@ html.projector-mode .projector-exit-btn { display: flex; align-items: center; ga
   color: var(--text-muted, #9090b0);
 }
 .tt-error { color: var(--error); }
+
+.tt-textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border, rgba(0,0,0,0.1));
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  background: var(--bg-card);
+  color: var(--text);
+  resize: vertical;
+}
+
+.tt-sessions-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.tt-session-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border, rgba(0,0,0,0.1));
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.tt-session-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--text-muted, #9090b0);
+  margin-bottom: 0.4rem;
+}
+
+.tt-session-topic { font-weight: 600; margin-bottom: 0.3rem; }
+.tt-session-difficulties { font-size: 0.85rem; color: var(--text-muted, #9090b0); }
