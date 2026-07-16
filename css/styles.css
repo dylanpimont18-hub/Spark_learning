@@ -5370,3 +5370,139 @@ html.projector-mode .projector-exit-btn { display: flex; align-items: center; ga
   0%   { transform: translateX(0); }
   100% { transform: translateX(-100%); }
 }
+
+/* ── Tutorat privé (TutoringHome / TutoringStudent) ── */
+.tt-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem 1.5rem;
+}
+
+.tt-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.tt-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  flex: 1;
+}
+
+.tt-back-btn {
+  background: none;
+  border: 1px solid var(--border, rgba(0,0,0,0.1));
+  border-radius: 8px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: var(--text-muted, #9090b0);
+  transition: all 0.2s;
+}
+.tt-back-btn:hover { background: var(--bg-card); }
+
+.tt-add-btn, .tt-submit-btn, .tt-save-notes-btn {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.tt-add-btn:hover, .tt-submit-btn:hover, .tt-save-notes-btn:hover { opacity: 0.9; }
+
+.tt-archive-btn {
+  background: none;
+  border: 1px solid var(--error);
+  color: var(--error);
+  border-radius: 8px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.tt-archive-btn:hover { background: var(--error); color: #fff; }
+
+.tt-search {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--border, rgba(0,0,0,0.1));
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  background: var(--bg-card);
+  color: var(--text);
+}
+
+.tt-students-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.tt-student-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border, rgba(0,0,0,0.1));
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.tt-student-card:hover { transform: translateY(-2px); }
+
+.tt-student-name { font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 0.25rem; }
+.tt-student-level { color: var(--text-muted, #9090b0); font-size: 0.85rem; }
+.tt-student-subjects { font-size: 0.85rem; margin-top: 0.5rem; color: var(--secondary); }
+
+.tt-student-meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-muted, #9090b0);
+  font-size: 0.9rem;
+}
+
+.tt-section-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 1.5rem 0 0.75rem;
+}
+
+.tt-notes-textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 0.75rem;
+  border: 1px solid var(--border, rgba(0,0,0,0.1));
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  background: var(--bg-card);
+  color: var(--text);
+  resize: vertical;
+  margin-bottom: 0.75rem;
+}
+
+.tt-form { display: flex; flex-direction: column; gap: 1rem; max-width: 480px; }
+.tt-label { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.9rem; font-weight: 600; }
+.tt-input {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border, rgba(0,0,0,0.1));
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  background: var(--bg-card);
+  color: var(--text);
+}
+
+.tt-loading, .tt-error, .tt-empty {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-muted, #9090b0);
+}
+.tt-error { color: var(--error); }
