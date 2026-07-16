@@ -32,5 +32,6 @@ var AuthGuard = {
   isAdmin:   function() { return !!(this._currentProfile && this._currentProfile.role === 'admin'); },
   isTeacher: function() { return !!(this._currentProfile && (this._currentProfile.role === 'teacher' || this._currentProfile.role === 'admin')); },
   isStudent: function() { return !!(this._currentProfile && this._currentProfile.role === 'student'); },
-  isActive:  function() { return !!(this._currentProfile && this._currentProfile.status === 'active'); }
+  isActive:  function() { return !!(this._currentProfile && this._currentProfile.status === 'active'); },
+  isTutor:   function() { return !!(this._currentProfile && this._currentProfile.tutorAccess === true); }
 };
