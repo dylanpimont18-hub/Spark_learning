@@ -23,6 +23,10 @@ service cloud.firestore {
              && getUserData().status == 'active';
     }
 
+    function isTutor() {
+      return isSignedIn() && getUserData().tutorAccess == true;
+    }
+
     // L'utilisateur courant est-il enseignant propriétaire de cette classe ?
     function isOwningTeacher(classResource) {
       return isTeacherOrAdmin() && classResource.data.teacherId == request.auth.uid;
@@ -121,6 +125,16 @@ service cloud.firestore {
       allow create: if isTeacherOrAdmin();
       allow update: if isAdmin() || (isTeacherOrAdmin() && resource.data.teacherId == request.auth.uid);
       allow delete: if isAdmin() || (isTeacherOrAdmin() && resource.data.teacherId == request.auth.uid);
+    }
+
+    // ─── tutoringStudents (suivi cours particuliers, privé à 2 comptes) ───
+    match /tutoringStudents/{studentId} {
+      allow read, write: if isTutor();
+    }
+
+    // ─── tutoringSessions (suivi cours particuliers, privé à 2 comptes) ───
+    match /tutoringSessions/{sessionId} {
+      allow read, write: if isTutor();
     }
   }
 }
