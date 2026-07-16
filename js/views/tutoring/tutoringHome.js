@@ -31,7 +31,7 @@ var TutoringHome = {
     var cardsHtml = students.length === 0
       ? '<p class="tt-empty">Aucun élève pour l\'instant.</p>'
       : students.map(function(s) {
-          return '<div class="tt-student-card" onclick="navigate(\'tutoringStudent\', {studentId: \'' + s.id + '\'})">' +
+          return '<div class="tt-student-card" onclick="navigate(\'tutoringStudent\', {studentId: \'' + TutoringHome._esc(s.id) + '\'})">' +
             '<h3 class="tt-student-name">' + TutoringHome._esc(s.firstName) + ' ' + TutoringHome._esc(s.lastName) + '</h3>' +
             '<div class="tt-student-level">' + TutoringHome._esc(s.level) + '</div>' +
             '<div class="tt-student-subjects">' + (s.subjects || []).map(TutoringHome._esc).join(' · ') + '</div>' +
