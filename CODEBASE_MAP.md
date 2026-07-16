@@ -26,6 +26,7 @@ Règles de sécurité Firestore.
 - `classes/{classCode}` — lecture restreinte à l'enseignant propriétaire/admin/élèves inscrits (plus de listing global) ; un élève peut s'auto-ajouter/retirer du champ `students` uniquement
 - `progress/{uid}` — lecture enseignant conditionnée au tableau dénormalisé `teacherIds` (élève dans une de ses classes), au lieu d'un accès enseignant global
 - `assignments/{id}` — lecture restreinte enseignant propriétaire/admin/élèves de la classe concernée (plus de listing global)
+- `tutoringStudents/{studentId}` / `tutoringSessions/{sessionId}` — lecture/écriture réservées aux comptes `tutorAccess: true` (`isTutor()`), fermé à tous les autres rôles
 
 ---
 
@@ -299,6 +300,7 @@ Vérifie l'état Firebase auth avant d'afficher l'app (profil, rôle, statut).
 - `AuthGuard.init(user)` — reçoit l'utilisateur Firebase déjà résolu par l'unique listener global de `js/app.js`, charge le profil Firestore une fois ; NE s'abonne PAS lui-même à `onAuthStateChanged` (évite l'empilement de listeners imbriqués à chaque rafraîchissement de token)
 - `AuthGuard.reset()` — efface `_currentUser`/`_currentProfile` (utilisé au retour en mode invité)
 - `AuthGuard.isAuthenticated() / getRole() / getStatus()` — accesseurs d'état
+- `AuthGuard.isTutor()` — accesseur : `tutorAccess === true` sur le profil chargé (tutorat privé, indépendant du champ `role`)
 
 ## js/views/authView.js
 Pages Inscription / Connexion (overlay plein `#app`, header/nav restent visibles). Email + mot de passe uniquement — l'auth par téléphone (SMS) a été retirée (nécessitait l'offre payante Firebase Blaze, refusée par le projet).
@@ -337,6 +339,26 @@ Panneau de notation enseignant : tableau comparatif élèves × modules + export
 - `GradingPanel._renderGradeTable()` — tableau de saisie /20 + appréciation pour le module sélectionné
 - `GradingPanel._exportCSV()` — génère et télécharge le CSV via Blob + URL.createObjectURL
 - `GradingPanel._csvSafe(value)` — neutralise l'injection de formule CSV (préfixe `'` si valeur commence par `=+-@`)
+
+## js/tutoring/tutoringService.js
+Firestore CRUD pour le suivi de cours particuliers (tutorat privé, réservé aux comptes `tutorAccess: true`).
+- `getStudents()` / `getStudent(id)` — liste (non archivés) / détail d'un élève
+- `createStudent(data)` / `updateStudent(id, patch)` / `archiveStudent(id)` — CRUD élève (soft delete via `archived`)
+- `getStudentSessions(studentId)` / `createSession(studentId, data)` — historique et création de séance (`status: 'draft'`)
+- `rateSession(sessionId, rating, remarks)` — note une séance 1-10 + remarques, passe en `status: 'rated'`
+
+## js/views/tutoring/tutoringHome.js
+Liste des élèves de cours particuliers (route `/tutorat`), réservée aux comptes tutor.
+- `TutoringHome.render()` — charge et affiche la grille des élèves
+- `TutoringHome._renderList(filter)` — recherche client-side par nom
+- `TutoringHome._showAddForm()` / `_submitAddForm(e)` — formulaire de création d'élève
+
+## js/views/tutoring/tutoringStudent.js
+Fiche élève (route `/tutorat/:studentId`) : notes générales, historique des séances, notation.
+- `TutoringStudent.render(studentId)` — charge élève + séances en parallèle
+- `TutoringStudent._saveNotes()` / `_archive()` — édition notes générales / soft delete élève
+- `TutoringStudent._showSessionForm()` / `_submitSessionForm(e)` — création d'une séance (`status: 'draft'`)
+- `TutoringStudent._showRatingForm(sessionId)` / `_submitRating(e, sessionId)` — notation d'une séance (1-10 + remarques)
 
 ---
 

@@ -56,6 +56,13 @@ Ce fichier est la **source de vérité** pour la structure de fichiers du projet
 | js/components/globalSearch.js | Recherche globale de modules (Ctrl/Cmd+K) |
 | js/components/teacherErrorModal.js | Modale enseignant : proposer un piège fréquent sur un module |
 
+## Tutorat privé (réservé à 2 comptes, js/tutoring/ + js/views/tutoring/)
+| Fichier | Rôle |
+|---------|------|
+| js/tutoring/tutoringService.js | CRUD Firestore élèves/séances de cours particuliers |
+| js/views/tutoring/tutoringHome.js | Liste des élèves (route /tutorat) |
+| js/views/tutoring/tutoringStudent.js | Fiche élève : notes, historique séances, notation |
+
 ## Données Scolaires (js/data/)
 | Fichier | Rôle |
 |---------|------|
