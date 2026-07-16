@@ -73,6 +73,8 @@ function buildPath(view, data) {
     case 'playlist':   return '/playlist/' + (data.playlistData || '');
     case 'admin':      return '/admin';
     case 'confidentialite': return '/confidentialite';
+    case 'tutoring':        return '/tutorat';
+    case 'tutoringStudent': return `/tutorat/${data.studentId || state.tutoringStudentId}`;
     default:           return '/';
   }
 }
@@ -99,6 +101,8 @@ function _parseRouteParts(parts) {
     case 'homework':    return { view: 'homework' };
     case 'admin':       return { view: 'admin' };
     case 'confidentialite': return { view: 'confidentialite' };
+    case 'tutorat':
+      return parts[1] ? { view: 'tutoringStudent', studentId: parts[1] } : { view: 'tutoring' };
     case 'home':
     default:            return { view: 'home' };
   }
@@ -147,8 +151,14 @@ function navigate(view, data = {}, options = {}) {
   }
 
   // Vues réservées aux comptes (classe/prof) : inaccessibles en mode invité, même par hash direct
-  if ((view === 'teacher' || view === 'homework' || view === 'admin') &&
+  if ((view === 'teacher' || view === 'homework' || view === 'admin' || view === 'tutoring' || view === 'tutoringStudent') &&
       typeof AuthGuard !== 'undefined' && !AuthGuard.isAuthenticated()) {
+    view = 'home';
+  }
+
+  // Tutorat réservé aux comptes tutorAccess (défense en profondeur, en plus des règles Firestore)
+  if ((view === 'tutoring' || view === 'tutoringStudent') &&
+      typeof AuthGuard !== 'undefined' && !AuthGuard.isTutor()) {
     view = 'home';
   }
 
@@ -157,6 +167,7 @@ function navigate(view, data = {}, options = {}) {
   if (data.level !== undefined) state.level = data.level;
   if (data.moduleId !== undefined) state.moduleId = data.moduleId;
   if (data.tab !== undefined) state.tab = data.tab;
+  if (data.studentId !== undefined) state.tutoringStudentId = data.studentId;
 
   // Reset sub-states on navigation
   if (view === 'module') {
@@ -300,6 +311,12 @@ function updatePageTitle() {
     case 'admin':    document.title = `Administration \u2014 ${base}`; break;
     case 'teacher':  document.title = `Espace Enseignant \u2014 ${base}`; break;
     case 'playlist': document.title = `Playlist \u2014 ${base}`; break;
+    case 'tutoring':        document.title = `Tutorat \u2014 ${base}`; break;
+    case 'tutoringStudent': {
+      const s = TutoringStudent._student;
+      document.title = s ? `${s.firstName} ${s.lastName} \u2014 Tutorat \u2014 ${base}` : `Tutorat \u2014 ${base}`;
+      break;
+    }
     default:         document.title = base;
   }
 }
@@ -340,6 +357,8 @@ function render() {
     case 'playlist':   app.innerHTML = (typeof renderPlaylistView === 'function') ? renderPlaylistView() : ''; break;
     case 'homework':   app.innerHTML = (typeof renderHomeworkPanel === 'function') ? renderHomeworkPanel() : ''; break;
     case 'confidentialite': app.innerHTML = renderConfidentialite(); break;
+    case 'tutoring':        TutoringHome.render(); return;
+    case 'tutoringStudent': TutoringStudent.render(state.tutoringStudentId); return;
     default:           app.innerHTML = renderHome();
   }
   renderMath();
@@ -352,6 +371,7 @@ function render() {
 function updateNavActive() {
   document.getElementById('nav-home')?.classList.toggle('active', state.view === 'home');
   document.getElementById('nav-parcours')?.classList.toggle('active', ['subjects','levels','modules','module'].includes(state.view));
+  document.getElementById('nav-tutoring')?.classList.toggle('active', ['tutoring','tutoringStudent'].includes(state.view));
 }
 
 /* ── Module search & filter ── */
@@ -761,6 +781,8 @@ function _setupCommonListeners() {
   if (signOutBtn) signOutBtn.style.display = isGuest ? 'none' : 'inline-flex';
   var loginBtn = document.getElementById('nav-login');
   if (loginBtn) loginBtn.style.display = isGuest ? 'inline-flex' : 'none';
+  var tutoringNav = document.getElementById('nav-tutoring');
+  if (tutoringNav) tutoringNav.style.display = (typeof AuthGuard !== 'undefined' && AuthGuard.isTutor()) ? '' : 'none';
 
   if (_setupCommonListeners._done) return;
   _setupCommonListeners._done = true;
@@ -773,6 +795,7 @@ function _setupCommonListeners() {
     else if (role === 'teacher') TeacherDashboard.render();
     else navigate('teacher');
   });
+  document.getElementById('nav-tutoring')?.addEventListener('click', () => navigate('tutoring'));
   loginBtn?.addEventListener('click', () => AuthView.render(true));
   document.getElementById('logo-link')?.addEventListener('click', (e) => {
     e.preventDefault();
