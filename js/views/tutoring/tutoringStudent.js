@@ -6,12 +6,14 @@
 var TutoringStudent = {
   _student: null,
   _sessions: [],
+  _positioningTests: [],
 
   _esc: function(str) {
     return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   },
 
   _unsubscribeSessions: null,
+  _unsubscribePositioning: null,
 
   render: async function(studentId) {
     var app = document.getElementById('app');
@@ -29,6 +31,13 @@ var TutoringStudent = {
         TutoringStudent._sessions = sessions;
         TutoringStudent._renderFiche();
       });
+      if (TutoringStudent._unsubscribePositioning) {
+        TutoringStudent._unsubscribePositioning();
+      }
+      TutoringStudent._unsubscribePositioning = TutoringService.watchStudentPositioningTests(studentId, function(tests) {
+        TutoringStudent._positioningTests = tests;
+        TutoringStudent._renderFiche();
+      });
     } catch (e) {
       app.innerHTML = '<div class="tt-error">Erreur de chargement.</div>';
     }
@@ -41,8 +50,10 @@ var TutoringStudent = {
         '<div class="tt-header">' +
           '<button class="tt-back-btn" onclick="navigate(\'tutoring\')">← Retour</button>' +
           '<h1 class="tt-title">' + TutoringStudent._esc(s.firstName) + ' ' + TutoringStudent._esc(s.lastName) + '</h1>' +
+          '<button class="tt-add-btn" onclick="TutoringStudent._sendPositioningLink()">Envoyer un test de positionnement</button>' +
           '<button class="tt-archive-btn" onclick="TutoringStudent._archive()">Archiver</button>' +
         '</div>' +
+        TutoringStudent._renderPositioningReports() +
         '<div class="tt-student-meta">' +
           '<span class="tt-student-level">' + TutoringStudent._esc(s.level) + '</span>' +
           '<span class="tt-student-subjects">' + (s.subjects || []).map(TutoringStudent._esc).join(' · ') + '</span>' +
@@ -224,5 +235,44 @@ var TutoringStudent = {
     });
 
     return false;
+  }
+  ,
+  _renderPositioningReports: function() {
+    var completedTests = TutoringStudent._positioningTests.filter(function(t) {
+      var r = t.results || {};
+      return (r.maths && r.maths.status === 'completed') || (r.physique && r.physique.status === 'completed');
+    });
+    if (completedTests.length === 0) return '';
+
+    var declaredLevel = TutoringStudent._student.level;
+    return '<div class="pt-report-block">' +
+      '<h2 class="tt-section-title">Test de positionnement</h2>' +
+      completedTests.map(function(t) {
+        return ['maths', 'physique'].map(function(subject) {
+          var r = t.results && t.results[subject];
+          if (!r || r.status !== 'completed') return '';
+          var themesHtml = Object.keys(r.themes).map(function(themeId) {
+            var theme = r.themes[themeId];
+            return '<span class="pt-theme-badge">' + TutoringStudent._esc(theme.label || themeId) + ' : ' + TutoringStudent._esc(theme.level) + '</span>';
+          }).join('');
+          var recommendation = positioningBuildRecommendation(declaredLevel, r.themes);
+          return '<div class="pt-subject-report">' +
+            '<h3 class="pt-subject-title">' + (subject === 'maths' ? 'Maths' : 'Physique-Chimie') + '</h3>' +
+            '<div class="pt-themes-grid">' + themesHtml + '</div>' +
+            '<p class="pt-recommendation">' + TutoringStudent._esc(recommendation) + '</p>' +
+          '</div>';
+        }).join('');
+      }).join('') +
+    '</div>';
+  },
+
+  _sendPositioningLink: async function() {
+    try {
+      var token = await TutoringService.createPositioningTest({ studentId: TutoringStudent._student.id });
+      var url = window.location.origin + '/positionnement/' + token;
+      window.prompt('Lien à envoyer à ' + TutoringStudent._student.firstName + ' (Ctrl+C puis Entrée) :', url);
+    } catch (e) {
+      showToast('Erreur lors de la création du lien.', 'error');
+    }
   }
 };
