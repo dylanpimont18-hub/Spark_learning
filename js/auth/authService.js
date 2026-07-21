@@ -6,6 +6,7 @@
 const AuthService = {
   _auth: null,
   _db: null,
+  _functions: null,
 
   init() {
     if (!firebase.apps.length) {
@@ -13,10 +14,12 @@ const AuthService = {
     }
     this._auth = firebase.auth();
     this._db = firebase.firestore();
+    this._functions = firebase.functions();
   },
 
   getAuth() { return this._auth; },
   getDb()   { return this._db; },
+  getFunctions() { return this._functions; },
 
   /* ── Auth state ── */
   onAuthStateChanged(callback) {
