@@ -96,5 +96,54 @@ var TutoringService = {
           });
         callback(sessions);
       });
+  },
+
+  /* ── Test de positionnement ── */
+  createPositioningTest: async function(opts) {
+    var uid = AuthService.getCurrentUser().uid;
+    var ref = await this._db().collection('positioningTests').add({
+      studentId: (opts && opts.studentId) || null,
+      studentNameInput: null,
+      studentLevelInput: null,
+      createdBy: uid,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      results: {},
+      reviewed: false
+    });
+    return ref.id;
+  },
+
+  getPendingPositioningTests: async function() {
+    var snap = await this._db().collection('positioningTests')
+      .where('studentId', '==', null)
+      .get();
+    return snap.docs.map(function(d) { return Object.assign({ id: d.id }, d.data()); })
+      .filter(function(t) {
+        if (t.reviewed) return false;
+        var r = t.results || {};
+        return (r.maths && r.maths.status === 'completed') || (r.physique && r.physique.status === 'completed');
+      });
+  },
+
+  watchStudentPositioningTests: function(studentId, callback) {
+    return this._db().collection('positioningTests')
+      .where('studentId', '==', studentId)
+      .onSnapshot(function(snap) {
+        callback(snap.docs.map(function(d) { return Object.assign({ id: d.id }, d.data()); }));
+      });
+  },
+
+  markPositioningTestReviewed: async function(token) {
+    await this._db().collection('positioningTests').doc(token).update({ reviewed: true });
+  },
+
+  attachPositioningTestToNewStudent: async function(token, studentData) {
+    var studentId = await this.createStudent(studentData);
+    await this._db().collection('positioningTests').doc(token).update({ studentId: studentId, reviewed: true });
+    return studentId;
+  },
+
+  attachPositioningTestToStudent: async function(token, studentId) {
+    await this._db().collection('positioningTests').doc(token).update({ studentId: studentId, reviewed: true });
   }
 };
