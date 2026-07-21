@@ -109,7 +109,13 @@ var PositioningTest = {
     var themeId = PositioningTest._themeIds[PositioningTest._themeIndex];
     var theme = PositioningTest._bank.themes[themeId];
     var pool = theme.levels[PositioningTest._palier];
-    var q = pool[Math.floor(Math.random() * pool.length)];
+    var candidates = pool;
+    if (PositioningTest._currentQuestion && pool.length > 1) {
+      var prevId = PositioningTest._currentQuestion.id;
+      var filtered = pool.filter(function(item) { return item.id !== prevId; });
+      if (filtered.length > 0) candidates = filtered;
+    }
+    var q = candidates[Math.floor(Math.random() * candidates.length)];
     PositioningTest._currentQuestion = q;
 
     var totalQuestions = PositioningTest._themeIds.length * PT_STAIRCASE_STEPS.length;
