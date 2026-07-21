@@ -50,7 +50,80 @@ window.MODULES.push({
         '$P_h = p \\times Q$ (puissance hydraulique)',
         '$\\Delta P = \\lambda \\cdot \\dfrac{L}{D} \\cdot \\dfrac{\\rho v^2}{2}$ (pertes de charge)'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">Critère</th><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">Hydraulique (huile)</th><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">Pneumatique (air)</th></tr><tr><td style="border:1px solid var(--border);padding:8px">Fluide</td><td style="border:1px solid var(--border);padding:8px">Huile minérale (incompressible)</td><td style="border:1px solid var(--border);padding:8px">Air comprimé (compressible)</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Pression usuelle</td><td style="border:1px solid var(--border);padding:8px">100 à 350 bars</td><td style="border:1px solid var(--border);padding:8px">4 à 10 bars</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Forces obtenues</td><td style="border:1px solid var(--border);padding:8px">Très élevées (centaines de kN)</td><td style="border:1px solid var(--border);padding:8px">Modérées (centaines de N)</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Vitesse</td><td style="border:1px solid var(--border);padding:8px">Contrôlable finement</td><td style="border:1px solid var(--border);padding:8px">Rapide, moins précise</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Avantages</td><td style="border:1px solid var(--border);padding:8px">Puissance volumique élevée, rigidité</td><td style="border:1px solid var(--border);padding:8px">Propre, simple, peu coûteux</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Inconvénients</td><td style="border:1px solid var(--border);padding:8px">Fuites, entretien, pollution</td><td style="border:1px solid var(--border);padding:8px">Faible force, compressibilité</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Coupe de vérin double effet',
+        title: 'Piston de diamètre D = 60 mm, tige de diamètre d = 30 mm, P = 200 bar',
+        description: 'Schéma de principe en coupe (à gauche/au-dessus) et photo réelle d\'un vérin coupé (ci-dessous) : on retrouve la même architecture — corps, piston, tige, deux chambres.',
+        svg: `
+          <svg viewBox="0 0 560 240" role="img" aria-labelledby="verin-graph-title verin-graph-desc">
+            <title id="verin-graph-title">Coupe d'un verin hydraulique double effet</title>
+            <desc id="verin-graph-desc">Vue en coupe longitudinale d'un verin : corps cylindrique, piston de diametre D separant deux chambres, tige de diametre d qui sort d'un cote. La chambre A (cote piston plein) recoit la pression pour la poussee ; la chambre B (annulaire, autour de la tige) recoit la pression pour la retraction.</desc>
+
+            <defs>
+              <marker id="flow-arrow-verin" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+              <marker id="dim-arrow-verin" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="color-mix(in srgb, var(--text) 80%, var(--diagram-accent))"></path>
+              </marker>
+            </defs>
+
+            <!-- corps du verin -->
+            <rect class="frame-line" x="60" y="60" width="230" height="100" fill="none"></rect>
+            <rect class="frame-line" x="50" y="55" width="10" height="110" fill="color-mix(in srgb, var(--diagram-accent) 25%, var(--bg-card))"></rect>
+            <rect class="frame-line" x="290" y="60" width="10" height="100" fill="color-mix(in srgb, var(--diagram-accent) 25%, var(--bg-card))"></rect>
+
+            <!-- chambre A : cote plein (poussee) -->
+            <rect x="61" y="61" width="117" height="98" fill="color-mix(in srgb, var(--diagram-accent) 14%, transparent)"></rect>
+            <!-- chambre B : annulaire autour de la tige (retraction) -->
+            <rect x="200" y="61" width="90" height="24" fill="color-mix(in srgb, var(--diagram-accent) 14%, transparent)"></rect>
+            <rect x="200" y="136" width="90" height="24" fill="color-mix(in srgb, var(--diagram-accent) 14%, transparent)"></rect>
+
+            <!-- piston -->
+            <rect class="frame-line" x="178" y="60" width="22" height="100" fill="color-mix(in srgb, var(--diagram-accent) 45%, var(--bg-card))"></rect>
+            <!-- tige -->
+            <rect class="frame-line" x="200" y="85" width="200" height="50" fill="color-mix(in srgb, var(--diagram-accent) 45%, var(--bg-card))"></rect>
+            <!-- chape en bout de tige -->
+            <circle class="frame-line" cx="415" cy="110" r="15" fill="color-mix(in srgb, var(--diagram-accent) 45%, var(--bg-card))"></circle>
+            <circle class="frame-line" cx="415" cy="110" r="6" fill="var(--bg-card)"></circle>
+
+            <!-- alimentations -->
+            <line class="curve-main" x1="100" y1="205" x2="100" y2="161" marker-end="url(#flow-arrow-verin)"></line>
+            <text class="annotation-label" x="100" y="220" text-anchor="middle">P (poussée)</text>
+            <line class="curve-main" x1="245" y1="205" x2="245" y2="161" marker-end="url(#flow-arrow-verin)"></line>
+            <text class="annotation-label" x="245" y="220" text-anchor="middle">P (rétraction)</text>
+
+            <!-- force de sortie -->
+            <line class="curve-main" x1="430" y1="110" x2="460" y2="110" marker-end="url(#flow-arrow-verin)"></line>
+            <text class="annotation-label" x="400" y="155" text-anchor="start">F ≈ 56,5 kN</text>
+
+            <!-- cotes D et d -->
+            <line x1="170" y1="60" x2="170" y2="160" stroke="color-mix(in srgb, var(--text) 80%, var(--diagram-accent))" stroke-width="1.4" marker-start="url(#dim-arrow-verin)" marker-end="url(#dim-arrow-verin)"></line>
+            <text class="annotation-label" x="150" y="114" text-anchor="end">D = 60 mm</text>
+            <line x1="365" y1="85" x2="365" y2="135" stroke="color-mix(in srgb, var(--text) 80%, var(--diagram-accent))" stroke-width="1.4" marker-start="url(#dim-arrow-verin)" marker-end="url(#dim-arrow-verin)"></line>
+            <text class="annotation-label" x="365" y="78" text-anchor="middle">d = 30 mm</text>
+
+            <!-- etiquettes des zones -->
+            <text class="label-soft" x="119" y="45" text-anchor="middle">Chambre A (poussée)</text>
+            <text class="label-soft" x="245" y="45" text-anchor="middle">Chambre B (rétraction)</text>
+            <text class="label-soft" x="189" y="185" text-anchor="middle">Piston</text>
+            <text class="label-soft" x="340" y="185" text-anchor="middle">Tige</text>
+          </svg>
+
+          <div style="margin-top:18px;display:flex;flex-direction:column;align-items:center;gap:6px;">
+            <img src="images/modules/si-bts/verin-hydraulique-coupe.jpg" alt="Photo d'un vérin hydraulique réel, coupé, montrant le corps, le piston et la tige" style="max-width:100%;width:480px;border-radius:calc(var(--radius) - 2px);border:1px solid color-mix(in srgb, var(--diagram-accent) 20%, var(--border));" loading="lazy">
+            <small style="color:var(--text-muted);font-size:12px;text-align:center;max-width:480px;">Vérin hydraulique réel, coupé — mêmes éléments que le schéma : corps, piston, tige. Photo domaine public (Hotdogcartman / Hyco, Wikimedia Commons).</small>
+          </div>
+        `,
+        notes: [
+          'La chambre A (côté plein) donne la poussée : F = P × S, avec S = π D²/4. Ici F ≈ 56,5 kN, exactement l\'exemple du cours.',
+          'La chambre B est annulaire — elle entoure la tige — donc sa surface utile S_ann = π(D² − d²)/4 est plus petite : en rétraction, la force tombe à environ 42,4 kN, soit 75 % de la poussée.',
+          'Sur la photo, la même logique s\'applique : le piston sépare bien deux volumes de tailles différentes de part et d\'autre, à cause de la tige qui n\'occupe qu\'un seul côté.'
+        ],
+        reading: 'Repère d\'abord le piston (la pièce qui bouge) puis la tige qui en sort d\'un seul côté : c\'est cette dissymétrie qui explique pourquoi pousser est toujours plus fort que tirer.',
+        caption: 'Coupe de principe d\'un vérin double effet (D = 60 mm, d = 30 mm, P = 200 bar) et photo d\'un vérin réel en coupe pour comparaison.'
+      },
       recap: [
         'Le théorème de Pascal est le fondement : la pression se transmet intégralement dans un fluide incompressible au repos.',
         'Force du vérin en poussée : $F = P \\times S$. En rétraction : $F = P \\times S_{\\text{ann}}$ (toujours inférieure).',

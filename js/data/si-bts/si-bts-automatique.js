@@ -46,7 +46,81 @@ window.MODULES.push({
         '$D\\% = e^{-\\pi\\xi / \\sqrt{1-\\xi^2}} \\times 100$ ($\\xi < 1$)',
         '$\\omega_p = \\omega_n\\sqrt{1-\\xi^2}$ (pseudo-pulsation)'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">Propriété</th><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">1er ordre</th><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">2nd ordre ($\\xi < 1$)</th></tr><tr><td style="border:1px solid var(--border);padding:8px">$H(s)$</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{K}{1+\\tau s}$</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{K\\omega_n^2}{s^2+2\\xi\\omega_n s+\\omega_n^2}$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Réponse indicielle</td><td style="border:1px solid var(--border);padding:8px">Exponentielle (sans dépassement)</td><td style="border:1px solid var(--border);padding:8px">Oscillations amorties (dépassement $D\\%$)</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Gain statique</td><td style="border:1px solid var(--border);padding:8px">$K$</td><td style="border:1px solid var(--border);padding:8px">$K$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Temps de réponse (5%)</td><td style="border:1px solid var(--border);padding:8px">$t_r = 3\\tau$</td><td style="border:1px solid var(--border);padding:8px">$t_r \\approx 3/(\\xi\\omega_n)$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Paramètres clés</td><td style="border:1px solid var(--border);padding:8px">$K$, $\\tau$</td><td style="border:1px solid var(--border);padding:8px">$K$, $\\omega_n$, $\\xi$</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Schéma-bloc et réponse indicielle',
+        title: 'Boucle fermée du 2nd ordre : ξ = 0,5, ωn = 14,5 rad/s',
+        description: 'En haut, la structure générale d\'un asservissement (comparateur, correcteur, système, retour). En bas, la réponse à un échelon du système du 2nd ordre étudié dans l\'exemple du cours.',
+        svg: `
+          <svg viewBox="0 0 480 380" role="img" aria-labelledby="auto-graph-title auto-graph-desc">
+            <title id="auto-graph-title">Schema-bloc d'un asservissement et reponse indicielle du 2nd ordre</title>
+            <desc id="auto-graph-desc">En haut, chaine consigne, comparateur, correcteur C(p), systeme G(p), sortie S(p), avec un retour H(p). En bas, la reponse a un echelon d'un systeme du 2nd ordre avec un premier depassement de 16,3 pourcent a t=0,25 seconde avant stabilisation a la valeur 1.</desc>
+
+            <defs>
+              <marker id="arrow-si-bts-auto" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
+
+            <!-- ===== schema-bloc ===== -->
+            <line class="curve-main" x1="38" y1="85" x2="86" y2="85" marker-end="url(#arrow-si-bts-auto)"></line>
+            <circle class="frame-line" cx="100" cy="85" r="14" fill="none"></circle>
+            <text class="annotation-label" x="84" y="76">+</text>
+            <text class="annotation-label" x="104" y="107">−</text>
+
+            <line class="curve-main" x1="114" y1="85" x2="140" y2="85" marker-end="url(#arrow-si-bts-auto)"></line>
+            <rect class="frame-line" x="140" y="65" width="80" height="40" fill="none"></rect>
+            <text class="annotation-label" x="180" y="90" text-anchor="middle">C(p)</text>
+            <text class="label-soft" x="180" y="58" text-anchor="middle">Correcteur</text>
+
+            <line class="curve-main" x1="220" y1="85" x2="250" y2="85" marker-end="url(#arrow-si-bts-auto)"></line>
+            <rect class="frame-line" x="250" y="65" width="90" height="40" fill="none"></rect>
+            <text class="annotation-label" x="295" y="90" text-anchor="middle">G(p)</text>
+            <text class="label-soft" x="295" y="58" text-anchor="middle">Système</text>
+
+            <line class="curve-main" x1="340" y1="85" x2="400" y2="85" marker-end="url(#arrow-si-bts-auto)"></line>
+            <text class="annotation-label" x="18" y="78">E(p)</text>
+            <text class="annotation-label" x="405" y="80">S(p)</text>
+
+            <line class="curve-main" x1="370" y1="85" x2="370" y2="135" marker-end="url(#arrow-si-bts-auto)"></line>
+            <line class="curve-main" x1="370" y1="135" x2="220" y2="135" marker-end="url(#arrow-si-bts-auto)"></line>
+            <rect class="frame-line" x="140" y="118" width="80" height="34" fill="none"></rect>
+            <text class="annotation-label" x="180" y="140" text-anchor="middle">H(p)</text>
+            <text class="label-soft" x="180" y="167" text-anchor="middle">Capteur (retour)</text>
+            <line class="curve-main" x1="140" y1="135" x2="100" y2="135"></line>
+            <line class="curve-main" x1="100" y1="135" x2="100" y2="99" marker-end="url(#arrow-si-bts-auto)"></line>
+
+            <!-- ===== reponse indicielle (exemple du cours : xi=0,5 ; wn=14,5 rad/s) ===== -->
+            <rect class="frame-line" x="60" y="190" width="380" height="150" fill="none"></rect>
+            <line class="grid-line" x1="60" y1="224.6" x2="440" y2="224.6"></line>
+            <line class="guide-line" x1="60" y1="205.8" x2="139.2" y2="205.8"></line>
+            <line class="guide-line" x1="139.2" y1="205.8" x2="139.2" y2="340"></line>
+
+            <polyline class="curve-main" points="60.0,340.0 62.7,339.1 65.5,336.7 68.2,332.9 70.9,327.9 73.7,322.0 76.4,315.4 79.1,308.2 81.9,300.6 84.6,292.8 87.3,285.0 90.1,277.1 92.8,269.4 95.5,262.0 98.3,254.9 101.0,248.1 103.7,241.9 106.5,236.1 109.2,230.8 111.9,226.0 114.7,221.8 117.4,218.1 120.1,215.0 122.9,212.3 125.6,210.2 128.3,208.5 131.1,207.3 133.8,206.4 136.5,206.0 139.3,205.8 142.0,206.0 144.7,206.4 147.5,207.0 150.2,207.8 152.9,208.8 155.7,209.8 158.4,211.0 161.2,212.2 163.9,213.5 166.6,214.8 169.4,216.1 172.1,217.3 174.8,218.5 177.6,219.7 180.3,220.8 183.0,221.8 185.8,222.8 188.5,223.6 191.2,224.4 194.0,225.1 196.7,225.7 199.4,226.2 202.2,226.6 204.9,227.0 207.6,227.2 210.4,227.4 213.1,227.6 215.8,227.7 218.6,227.7 221.3,227.7 224.0,227.6 226.8,227.5 229.5,227.4 232.2,227.2 235.0,227.0 237.7,226.8 240.4,226.6 243.2,226.4 245.9,226.2 248.6,226.0 251.4,225.8 254.1,225.6 256.8,225.4 259.6,225.2 262.3,225.1 265.0,224.9 267.8,224.8 270.5,224.6 273.2,224.5 276.0,224.4 278.7,224.4 281.4,224.3 284.2,224.2 286.9,224.2 289.6,224.2 292.4,224.1 295.1,224.1 297.8,224.1 300.6,224.1 303.3,224.1 306.0,224.1 308.8,224.2 311.5,224.2 314.2,224.2 317.0,224.3 319.7,224.3 322.4,224.3 325.2,224.4 327.9,224.4 330.6,224.4 333.4,224.5 336.1,224.5 338.8,224.5 341.6,224.5 344.3,224.6 347.1,224.6 349.8,224.6 352.5,224.6 355.3,224.6 358.0,224.7 360.7,224.7 363.5,224.7 366.2,224.7 368.9,224.7 371.7,224.7 374.4,224.7 377.1,224.7 379.9,224.7 382.6,224.7 385.3,224.7 388.1,224.7 390.8,224.7 393.5,224.7 396.3,224.7 399.0,224.7 401.7,224.7 404.5,224.7 407.2,224.7 409.9,224.6 412.7,224.6 415.4,224.6 418.1,224.6 420.9,224.6 423.6,224.6 426.3,224.6 429.1,224.6 431.8,224.6 434.5,224.6 437.3,224.6 440.0,224.6"></polyline>
+
+            <circle class="plot-point" cx="139.2" cy="205.8" r="5"></circle>
+            <text class="annotation-label" x="150" y="200">D ≈ 16,3 %</text>
+            <text class="label-soft" x="350" y="218" text-anchor="middle">valeur finale s∞ = 1</text>
+
+            <text class="tick-label" x="60" y="352" text-anchor="middle">0</text>
+            <text class="tick-label" x="139.2" y="352" text-anchor="middle">0,25</text>
+            <text class="tick-label" x="218.3" y="352" text-anchor="middle">0,5</text>
+            <text class="tick-label" x="297.5" y="352" text-anchor="middle">0,75</text>
+            <text class="tick-label" x="376.7" y="352" text-anchor="middle">1</text>
+            <text class="axis-label" x="250" y="368" text-anchor="middle">t (s)</text>
+            <text class="tick-label" x="50" y="344" text-anchor="end">0</text>
+            <text class="tick-label" x="50" y="228" text-anchor="end">1</text>
+            <text class="axis-label" x="15" y="265" text-anchor="middle" transform="rotate(-90 15 265)">s(t)</text>
+          </svg>
+        `,
+        notes: [
+          'Le comparateur calcule l\'écart ε(p) = E(p) − retour, jamais directement E(p) − S(p) si le capteur H(p) n\'est pas unitaire.',
+          'Avec ξ = 0,5 < 1, la réponse oscille avant de se stabiliser : premier dépassement D ≈ 16,3 % à t ≈ 0,25 s — exactement la valeur calculée dans l\'exemple du cours.',
+          'La pseudo-période mesurée sur la courbe (0,5 s entre deux pics) permet de retrouver ωn à partir de ωp = ωn·√(1−ξ²).'
+        ],
+        reading: 'Suis d\'abord le trajet du signal dans le schéma-bloc, de la consigne à la sortie, puis repère sur la courbe le premier pic (dépassement) et son instant avant de lire la valeur finale en régime permanent.',
+        caption: 'Schéma-bloc générique d\'un asservissement et réponse indicielle du système du 2nd ordre de l\'exemple (ξ = 0,5, ωn = 14,5 rad/s, dépassement 16,3 %).'
+      },
       recap: [
         'La transformée de Laplace convertit les équations différentielles en équations algébriques.',
         '1er ordre : $K$ (valeur finale) et $\\tau$ (vitesse de réponse). À $5\\tau$, régime permanent atteint.',

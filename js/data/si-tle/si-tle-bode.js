@@ -57,7 +57,85 @@ window.MODULES.push({
         '$Q = \\dfrac{1}{2m}$ — Facteur de qualité (2nd ordre)'
       ],
 
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr style="background:var(--bg-card);"><th style="border:1px solid var(--border);padding:8px">Caractéristique</th><th style="border:1px solid var(--border);padding:8px">1er ordre</th><th style="border:1px solid var(--border);padding:8px">2nd ordre</th></tr><tr><td style="border:1px solid var(--border);padding:8px">Fonction de transfert</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{H_0}{1 + j\\omega/\\omega_c}$</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{H_0}{1 + 2m(j\\omega/\\omega_0) + (j\\omega/\\omega_0)^2}$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Pente asymptotique HF</td><td style="border:1px solid var(--border);padding:8px">$-20$ dB/décade</td><td style="border:1px solid var(--border);padding:8px">$-40$ dB/décade</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Phase à la pulsation caractéristique</td><td style="border:1px solid var(--border);padding:8px">$-45°$ à $\\omega_c$</td><td style="border:1px solid var(--border);padding:8px">$-90°$ à $\\omega_0$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Phase en HF ($\\omega \\to \\infty$)</td><td style="border:1px solid var(--border);padding:8px">$-90°$</td><td style="border:1px solid var(--border);padding:8px">$-180°$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Résonance</td><td style="border:1px solid var(--border);padding:8px">Aucune</td><td style="border:1px solid var(--border);padding:8px">Si $m < 0{,}707$ (soit $Q > 0{,}707$)</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Gain à la coupure</td><td style="border:1px solid var(--border);padding:8px">$G_0 - 3$ dB</td><td style="border:1px solid var(--border);padding:8px">$G_0 + 20\\log(Q)$ dB (au pic)</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Diagramme de Bode',
+        title: 'Filtre passe-bas du 1er ordre : H0 = 10, ωc = 100 rad/s',
+        description: 'Les deux courbes (gain et phase) partagent le même axe des fréquences, en échelle logarithmique. Le tracé en pointillés donne les asymptotes ; la courbe pleine est la réponse réelle du filtre.',
+        svg: `
+          <svg viewBox="0 0 480 380" role="img" aria-labelledby="bode-graph-title bode-graph-desc">
+            <title id="bode-graph-title">Diagramme de Bode d'un filtre passe-bas du 1er ordre</title>
+            <desc id="bode-graph-desc">Deux courbes empilées, gain en decibels et phase en degres, en fonction de la pulsation en echelle logarithmique de 1 a 10000 rad/s. Le gain part d'un plateau a 20 dB puis chute a -20 dB par decade au-dela de 100 rad/s ; la phase passe de 0 a -90 degres en valant -45 degres a 100 rad/s.</desc>
+
+            <!-- grilles -->
+            <line class="grid-line" x1="155" y1="20" x2="155" y2="340"></line>
+            <line class="grid-line" x1="345" y1="20" x2="345" y2="340"></line>
+            <line class="grid-line" x1="60" y1="82.5" x2="440" y2="82.5"></line>
+
+            <!-- cadres des deux graphes -->
+            <rect class="frame-line" x="60" y="20" width="380" height="150" fill="none"></rect>
+            <rect class="frame-line" x="60" y="210" width="380" height="130" fill="none"></rect>
+
+            <!-- asymptotes du gain : plateau BF puis pente -20 dB/decade -->
+            <line class="guide-line" x1="60" y1="32.5" x2="250" y2="32.5"></line>
+            <line class="guide-line" x1="250" y1="32.5" x2="440" y2="132.5"></line>
+
+            <!-- asymptotes de la phase : 0 deg, pente, -90 deg -->
+            <line class="guide-line" x1="60" y1="216.5" x2="155" y2="216.5"></line>
+            <line class="guide-line" x1="155" y1="216.5" x2="345" y2="333.5"></line>
+            <line class="guide-line" x1="345" y1="333.5" x2="440" y2="333.5"></line>
+
+            <!-- reperage vertical de la pulsation de coupure -->
+            <line class="guide-line" x1="250" y1="20" x2="250" y2="340"></line>
+
+            <!-- courbe de gain reelle -->
+            <polyline class="curve-main" points="60.0,32.5 66.4,32.5 72.9,32.5 79.3,32.5 85.8,32.5 92.2,32.5 98.6,32.5 105.1,32.5 111.5,32.5 118.0,32.5 124.4,32.5 130.8,32.5 137.3,32.5 143.7,32.6 150.2,32.6 156.6,32.6 163.1,32.7 169.5,32.7 175.9,32.8 182.4,32.9 188.8,33.0 195.3,33.2 201.7,33.5 208.1,33.8 214.6,34.3 221.0,34.9 227.5,35.6 233.9,36.6 240.3,37.8 246.8,39.2 253.2,40.9 259.7,42.9 266.1,45.1 272.5,47.5 279.0,50.1 285.4,52.9 291.9,55.9 298.3,58.9 304.7,62.1 311.2,65.2 317.6,68.5 324.1,71.8 330.5,75.1 336.9,78.4 343.4,81.8 349.8,85.1 356.3,88.5 362.7,91.9 369.2,95.2 375.6,98.6 382.0,102.0 388.5,105.4 394.9,108.8 401.4,112.2 407.8,115.6 414.2,118.9 420.7,122.3 427.1,125.7 433.6,129.1 440.0,132.5"></polyline>
+
+            <!-- courbe de phase reelle -->
+            <polyline class="curve-main" points="60.0,217.2 66.4,217.4 72.9,217.5 79.3,217.7 85.8,217.9 92.2,218.1 98.6,218.4 105.1,218.7 111.5,219.1 118.0,219.5 124.4,220.0 130.8,220.6 137.3,221.3 143.7,222.2 150.2,223.1 156.6,224.2 163.1,225.5 169.5,227.0 175.9,228.8 182.4,230.8 188.8,233.1 195.3,235.8 201.7,238.9 208.1,242.4 214.6,246.4 221.0,250.8 227.5,255.6 233.9,260.8 240.3,266.4 246.8,272.1 253.2,277.9 259.7,283.6 266.1,289.2 272.5,294.4 279.0,299.2 285.4,303.6 291.9,307.6 298.3,311.1 304.7,314.2 311.2,316.9 317.6,319.2 324.1,321.2 330.5,323.0 336.9,324.5 343.4,325.8 349.8,326.9 356.3,327.8 362.7,328.7 369.2,329.4 375.6,330.0 382.0,330.5 388.5,330.9 394.9,331.3 401.4,331.6 407.8,331.9 414.2,332.1 420.7,332.3 427.1,332.5 433.6,332.6 440.0,332.8"></polyline>
+
+            <!-- points remarquables a la pulsation de coupure -->
+            <circle class="plot-point" cx="250" cy="40.0" r="5"></circle>
+            <circle class="plot-point-alt" cx="250" cy="275" r="5"></circle>
+
+            <!-- graduations verticales (decades) -->
+            <text class="tick-label" x="60" y="352" text-anchor="middle">1</text>
+            <text class="tick-label" x="155" y="352" text-anchor="middle">10</text>
+            <text class="tick-label" x="250" y="352" text-anchor="middle">10²</text>
+            <text class="tick-label" x="345" y="352" text-anchor="middle">10³</text>
+            <text class="tick-label" x="440" y="352" text-anchor="middle">10⁴</text>
+            <text class="axis-label" x="250" y="368" text-anchor="middle">ω (rad/s)</text>
+
+            <!-- graduations du gain -->
+            <text class="tick-label" x="50" y="36" text-anchor="end">20</text>
+            <text class="tick-label" x="50" y="86" text-anchor="end">0</text>
+            <text class="tick-label" x="50" y="136" text-anchor="end">-20</text>
+            <text class="axis-label" x="15" y="95" text-anchor="middle" transform="rotate(-90 15 95)">G (dB)</text>
+
+            <!-- graduations de la phase -->
+            <text class="tick-label" x="50" y="220" text-anchor="end">0°</text>
+            <text class="tick-label" x="50" y="279" text-anchor="end">-45°</text>
+            <text class="tick-label" x="50" y="337" text-anchor="end">-90°</text>
+            <text class="axis-label" x="15" y="275" text-anchor="middle" transform="rotate(-90 15 275)">φ (°)</text>
+
+            <!-- etiquettes des deux graphes -->
+            <text class="label-soft" x="66" y="34">Gain</text>
+            <text class="label-soft" x="66" y="224">Phase</text>
+
+            <!-- annotations sur les points remarquables -->
+            <text class="annotation-label" x="256" y="30">ωc = 100 rad/s</text>
+            <text class="annotation-label" x="258" y="37">17 dB</text>
+            <text class="annotation-label" x="258" y="271">-45°</text>
+          </svg>
+        `,
+        notes: [
+          'Le gain part du plateau G0 = 20 dB en basse fréquence, puis chute avec une pente de -20 dB/décade au-delà de ωc.',
+          'Au point de coupure ωc = 100 rad/s, le gain réel vaut 17 dB — 3 dB sous l\'intersection des deux asymptotes, jamais pile sur le coin.',
+          'La phase passe de 0° à -90°, en valant exactement -45° à ωc : c\'est le point d\'inflexion de la courbe.'
+        ],
+        reading: 'Repère d\'abord les deux asymptotes en pointillés : leur intersection donne ωc. La vraie courbe (trait plein) passe toujours 3 dB en dessous de ce coin.',
+        caption: 'Diagramme de Bode du filtre H(jω) = 10 / (1 + jω/100) — gain (haut) et phase (bas) en fonction de ω, échelle logarithmique.'
+      },
 
       recap: [
         'Le gain en dB convertit un rapport d\'amplitude en échelle logarithmique : $G = 20 \\log|H|$.',

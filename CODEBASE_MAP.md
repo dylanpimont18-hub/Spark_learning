@@ -20,6 +20,9 @@ Système de design complet : variables CSS (`--primary`, `--secondary`, `--accen
 ## ads.txt
 Fichier de vérification standard IAB pour Google AdSense (`google.com, pub-5320273649803132, DIRECT, ...`).
 
+## images/modules/{niveau}/{slug}.jpg
+Nouveau dossier d'assets (2026-07-21) : photos réelles utilisées en complément d'un schéma SVG dans `cours.diagram` (jamais en remplacement), référencées via `<img src="images/modules/...">` dans le champ `diagram.svg`/`html`. Uniquement des images sous licence libre (domaine public, CC) car le site est public — contrairement aux fiches BTS FED internes, aucune tolérance "tous droits réservés" ici. Premier exemple : `si-bts/verin-hydraulique-coupe.jpg` (domaine public, Hotdogcartman/Hyco, Wikimedia Commons).
+
 ## firestore.rules
 Règles de sécurité Firestore.
 - `config/{doc}` — lecture publique (invités inclus, pour lire `maintenanceMode`/annonce), écriture réservée admin

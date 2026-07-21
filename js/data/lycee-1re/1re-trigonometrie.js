@@ -43,6 +43,64 @@ window.MODULES.push({
         '$\\cos\\frac{\\pi}{4}=\\sin\\frac{\\pi}{4}=\\frac{\\sqrt{2}}{2}$',
         '$\\cos\\frac{\\pi}{6}=\\frac{\\sqrt{3}}{2}$, $\\sin\\frac{\\pi}{6}=\\frac{1}{2}$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Cercle trigonométrique',
+        title: 'Placer un angle et lire directement cosinus et sinus',
+        description: 'Le point M associé à l\'angle θ a pour abscisse cos θ et pour ordonnée sin θ. Ici θ = 5π/6, l\'angle de l\'exemple traité dans le cours.',
+        svg: `
+          <svg viewBox="0 0 340 340" role="img" aria-labelledby="trigo-graph-title trigo-graph-desc">
+            <title id="trigo-graph-title">Cercle trigonometrique, angle theta = 5 pi/6</title>
+            <desc id="trigo-graph-desc">Cercle de rayon 1 centre en O. Le point M associe a l'angle 5 pi/6 (150 degres) a pour coordonnees moins racine de 3 sur 2 et un demi. Des pointilles projettent M sur les deux axes pour lire le cosinus et le sinus.</desc>
+
+            <!-- axes -->
+            <line class="axis" x1="25" y1="175" x2="315" y2="175"></line>
+            <line class="axis" x1="170" y1="30" x2="170" y2="320"></line>
+            <text class="annotation-label" x="318" y="179">x</text>
+            <text class="annotation-label" x="176" y="26">y</text>
+            <text class="annotation-label" x="178" y="192">O</text>
+
+            <!-- cercle trigonometrique (rayon 1) -->
+            <circle class="frame-line" cx="170" cy="175" r="120" fill="none"></circle>
+
+            <!-- reperes des angles remarquables du 1er quadrant -->
+            <circle class="plot-point-alt" cx="290.0" cy="175.0" r="3"></circle>
+            <circle class="plot-point-alt" cx="273.9" cy="115.0" r="3"></circle>
+            <circle class="plot-point-alt" cx="254.9" cy="90.1" r="3"></circle>
+            <circle class="plot-point-alt" cx="230.0" cy="71.1" r="3"></circle>
+            <circle class="plot-point-alt" cx="170.0" cy="55.0" r="3"></circle>
+            <text class="tick-label" x="308.0" y="178" text-anchor="middle">0</text>
+            <text class="tick-label" x="289.5" y="106.0" text-anchor="middle">π/6</text>
+            <text class="tick-label" x="267.6" y="77.4" text-anchor="middle">π/4</text>
+            <text class="tick-label" x="239.0" y="55.5" text-anchor="middle">π/3</text>
+            <text class="tick-label" x="170.0" y="30" text-anchor="middle">π/2</text>
+
+            <!-- arc de l'angle theta = 5pi/6 -->
+            <polyline class="guide-line" points="202.0,175.0 201.5,169.4 200.1,164.1 197.7,159.0 194.5,154.4 190.6,150.5 186.0,147.3 180.9,144.9 175.6,143.5 170.0,143.0 164.4,143.5 159.1,144.9 154.0,147.3 149.4,150.5 145.5,154.4 142.3,159.0" fill="none"></polyline>
+            <text class="annotation-label" x="181.9" y="130.6" text-anchor="middle">θ</text>
+
+            <!-- rayon OM -->
+            <line class="curve-main" x1="170" y1="175" x2="66.1" y2="115.0"></line>
+            <circle class="plot-point" cx="66.1" cy="115.0" r="6"></circle>
+            <text class="annotation-label" x="40" y="104">M</text>
+
+            <!-- projections en pointilles (lecture de cos et sin) -->
+            <line class="guide-line" x1="66.1" y1="115.0" x2="66.1" y2="175"></line>
+            <line class="guide-line" x1="66.1" y1="115.0" x2="170" y2="115.0"></line>
+            <circle class="plot-point-alt" cx="66.1" cy="175" r="4"></circle>
+            <circle class="plot-point-alt" cx="170" cy="115.0" r="4"></circle>
+            <text class="annotation-label" x="66.1" y="196" text-anchor="middle">cos θ = -√3/2</text>
+            <text class="annotation-label" x="150" y="111.0" text-anchor="end">sin θ = 1/2</text>
+          </svg>
+        `,
+        notes: [
+          'θ = 5π/6 se décompose en π − π/6 : on retombe sur l\'angle remarquable π/6, mais dans le 2e quadrant (abscisse négative).',
+          'L\'abscisse de M donne directement cos θ = −√3/2 ; l\'ordonnée donne sin θ = 1/2 — ce sont les projections en pointillés sur les deux axes.',
+          'Les 4 points de repère sur le cercle (π/6, π/4, π/3, π/2) sont les angles remarquables du premier quadrant : leurs coordonnées sont à connaître par cœur.'
+        ],
+        reading: 'Repère d\'abord l\'angle remarquable le plus proche (ici π/6, car 5π/6 = π − π/6), puis applique la symétrie pour placer M dans le bon quadrant.',
+        caption: 'Point M associé à l\'angle θ = 5π/6 sur le cercle trigonométrique, avec projections donnant cos θ et sin θ.'
+      },
       recap: [
         'Conversion : $\\text{radians} = \\text{degrés} \\times \\dfrac{\\pi}{180}$. Toujours travailler en radians pour les dérivées.',
         '$\\cos^2\\theta + \\sin^2\\theta = 1$ : la relation fondamentale, valide pour tout angle $\\theta$.',
