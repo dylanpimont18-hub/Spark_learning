@@ -181,7 +181,7 @@ module.exports = {
       {
         id: 'physique-energie-thermique-8-a',
         question: "Une chaudière consomme une énergie de combustible de $12\\text{ kWh}$ et restitue une énergie thermique utile de $10\\text{ kWh}$ au circuit de chauffage, le reste étant perdu par les fumées et les parois.<br/><br/>Quel est le rendement de cette chaudière, défini par $\\eta = \\dfrac{E_{utile}}{E_{abs}}$ ?",
-        options: ['$83\\%$', '$120\\%$', '$0{,}83$', '$2\\text{ kWh}$'],
+        options: ['$83\\%$', '$120\\%$', '$17\\%$', '$2\\text{ kWh}$'],
         correctIndex: 0
       },
       {
