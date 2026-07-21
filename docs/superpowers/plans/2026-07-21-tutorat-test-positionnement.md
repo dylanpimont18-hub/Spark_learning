@@ -46,6 +46,7 @@ Règles strictes (vérifiées par `validateTheme`, Task 2) :
 - `id` de question unique dans tout le fichier, format `<subject>-<theme-id>-<palier>-<a|b|c>` (ex: `maths-algebre-equations-4-a`).
 - Décimales françaises avec accolades (`1{,}5`), jamais `1.5`. KaTeX autorisé dans `question`/`options` (`$...$`), il sera rendu côté client.
 - Aucun retour "bonne/mauvaise réponse" n'est jamais affiché pendant le test — la formulation reste neutre, sans ton punitif ni encourageant (ce n'est pas un module pédagogique, c'est une évaluation).
+- `correctIndex` n'a pas besoin d'être varié à la main entre les questions (mettre systématiquement la bonne réponse en position 0 est acceptable) : la page publique du test (Task 22) mélange l'ordre des options à l'affichage, donc la position dans le fichier source n'est jamais ce que l'élève voit.
 - Le palier doit correspondre à une notion réellement enseignée à ce niveau ; se référer à `contenu.md` / `docs/programmes-maths.md` en cas de doute sur le programme officiel.
 
 **Exemple travaillé complet** (thème `algebre-equations`, paliers 4 et 9 — les deux extrêmes du rubric ci-dessous) :
@@ -1619,8 +1620,18 @@ var PositioningTest = {
     var doneQuestions = PositioningTest._themeIndex * PT_STAIRCASE_STEPS.length + PositioningTest._stepIndex;
     var progressPct = Math.round((doneQuestions / totalQuestions) * 100);
 
-    var optionsHtml = q.options.map(function(opt, i) {
-      return '<button class="pt-option-btn" onclick="PositioningTest._answerQuestion(' + i + ')">' + opt + '</button>';
+    // Le contenu source met souvent la bonne réponse en position 0 (c'est autorisé,
+    // voir Content Authoring Guide) : on mélange l'ordre d'affichage ici pour que ça
+    // ne soit jamais visible/devinable côté élève. onclick reçoit l'index ORIGINAL
+    // (celui qui correspond à q.correctIndex et sera soumis au serveur), pas la
+    // position affichée.
+    var displayOrder = [0, 1, 2, 3];
+    for (var i = displayOrder.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = displayOrder[i]; displayOrder[i] = displayOrder[j]; displayOrder[j] = tmp;
+    }
+    var optionsHtml = displayOrder.map(function(originalIndex) {
+      return '<button class="pt-option-btn" onclick="PositioningTest._answerQuestion(' + originalIndex + ')">' + q.options[originalIndex] + '</button>';
     }).join('');
 
     document.getElementById('app').innerHTML =
@@ -1922,6 +1933,7 @@ Pas d'accès navigateur pour l'agent qui exécute ce plan — cette tâche est u
 - [ ] Depuis `TutoringHome`, cliquer "+ Envoyer un test de positionnement", copier le lien généré.
 - [ ] Ouvrir le lien dans une fenêtre de navigation privée (non connecté) : l'écran prénom/nom + classe s'affiche.
 - [ ] Choisir Maths, répondre au test complet (30 questions), vérifier qu'aucun feedback bonne/mauvaise réponse n'apparaît en cours de route.
+- [ ] Vérifier que l'ordre des options change d'une question à l'autre (la bonne réponse n'est pas toujours en première position) — le contenu source la met souvent en position 0, c'est le mélange à l'affichage (Task 22) qui doit la masquer.
 - [ ] Vérifier l'écran de remerciement, avec proposition de tester aussi Physique-Chimie.
 - [ ] Tester aussi Physique-Chimie jusqu'au bout.
 - [ ] Recharger le même lien : les deux matières doivent apparaître comme déjà complétées (pas de retest possible).
