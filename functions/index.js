@@ -2,6 +2,7 @@ var path = require('path');
 var os = require('os');
 var fs = require('fs/promises');
 var { onDocumentWritten } = require('firebase-functions/v2/firestore');
+var { onCall, HttpsError } = require('firebase-functions/v2/https');
 var { defineSecret } = require('firebase-functions/params');
 var admin = require('firebase-admin');
 var Anthropic = require('@anthropic-ai/sdk');
@@ -10,6 +11,8 @@ var { handleGenerationRequest } = require('./src/generateCourse');
 var { queueSuccessEmail, queueFailureEmail } = require('./src/mailer');
 var { compileTex } = require('./src/latexCompiler');
 var { draftCourse, reviewDraft, fixCompileError } = require('./src/anthropicClient');
+var { getBank } = require('./src/positioningBank');
+var { handleGetLinkInfo, handleSubmitResult } = require('./src/positioning');
 
 admin.initializeApp();
 
@@ -57,3 +60,35 @@ exports.generateCourse = onDocumentWritten(
     });
   }
 );
+
+exports.getPositioningLinkInfo = onCall(async function (request) {
+  var token = request.data && request.data.token;
+  if (!token) throw new HttpsError('invalid-argument', 'token manquant.');
+  try {
+    return await handleGetLinkInfo(admin.firestore().collection('positioningTests').doc(token));
+  } catch (e) {
+    throw new HttpsError('not-found', 'Lien invalide.');
+  }
+});
+
+exports.getPositioningQuestionBank = onCall(async function (request) {
+  var subject = request.data && request.data.subject;
+  try {
+    return getBank(subject);
+  } catch (e) {
+    throw new HttpsError('invalid-argument', 'Matière invalide.');
+  }
+});
+
+exports.submitPositioningResult = onCall(async function (request) {
+  var token = request.data && request.data.token;
+  if (!token) throw new HttpsError('invalid-argument', 'token manquant.');
+  try {
+    return await handleSubmitResult(admin.firestore().collection('positioningTests').doc(token), request.data, {
+      getBank: getBank,
+      now: function () { return admin.firestore.Timestamp.now(); }
+    });
+  } catch (e) {
+    throw new HttpsError('invalid-argument', e.message || 'Soumission invalide.');
+  }
+});
