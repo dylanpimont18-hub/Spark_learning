@@ -5618,3 +5618,74 @@ html.projector-mode .projector-exit-btn { display: flex; align-items: center; ga
 }
 
 @keyframes tt-spin { to { transform: rotate(360deg); } }
+
+/* ── Test de positionnement (page publique) ── */
+.pt-container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--space-lg, 1.5rem) 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.pt-title { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
+.pt-intro-text { font-size: 1.05rem; }
+
+.pt-subject-choice { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+.pt-progress-bar {
+  width: 100%;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+  overflow: hidden;
+}
+.pt-progress-fill { height: 100%; background: var(--primary); transition: width 0.3s ease; }
+
+.pt-theme-label { font-size: 0.85rem; font-weight: 700; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.03em; }
+.pt-question { font-size: 1.15rem; line-height: 1.6; }
+
+.pt-options { display: flex; flex-direction: column; gap: 0.75rem; }
+.pt-option-btn {
+  text-align: left;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--primary) 30%, transparent);
+  background: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.pt-option-btn:hover { background: color-mix(in srgb, var(--primary) 10%, transparent); }
+
+.pt-pending-block { margin: 1rem 0; }
+.pt-pending-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--secondary) 25%, transparent);
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+.pt-pending-name { font-weight: 700; }
+.pt-pending-level { color: var(--secondary); font-size: 0.85rem; }
+
+.pt-report-block { margin: 1rem 0; display: flex; flex-direction: column; gap: 1rem; }
+.pt-subject-report {
+  padding: 1rem;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--primary) 6%, transparent);
+}
+.pt-subject-title { font-size: 1rem; font-weight: 800; margin-bottom: 0.5rem; }
+.pt-themes-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem; }
+.pt-theme-badge {
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: color-mix(in srgb, var(--secondary) 16%, transparent);
+  color: var(--secondary);
+}
+.pt-recommendation { font-size: 0.95rem; font-style: italic; }
