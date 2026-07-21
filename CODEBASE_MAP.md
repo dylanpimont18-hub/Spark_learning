@@ -27,6 +27,7 @@ Règles de sécurité Firestore.
 - `progress/{uid}` — lecture enseignant conditionnée au tableau dénormalisé `teacherIds` (élève dans une de ses classes), au lieu d'un accès enseignant global
 - `assignments/{id}` — lecture restreinte enseignant propriétaire/admin/élèves de la classe concernée (plus de listing global)
 - `tutoringStudents/{studentId}` / `tutoringSessions/{sessionId}` — lecture/écriture réservées aux comptes `tutorAccess: true` (`isTutor()`), fermé à tous les autres rôles
+- `positioningTests/{token}` — lecture/écriture réservées `isTutor()` ; aucun accès public en direct, l'élève non authentifié qui passe le test de positionnement transite exclusivement par les Cloud Functions `onCall` (SDK Admin, contourne ces règles)
 
 ---
 
@@ -42,6 +43,7 @@ Règles de sécurité Firestore.
 Routeur SPA (pushState), init, KaTeX, confetti.
 - `buildPath(view, data)` — construit un chemin d'URL réel `/view/data` (pushState)
 - `parsePath(pathname)` / `parseLegacyHash(hash)` — parsent respectivement une URL réelle et un ancien lien `#hash` (rétrocompat), partagent `_parseRouteParts(parts)`
+- Route `/positionnement/:token` (view `positioning`) → `PositioningTest.render(token)` (voir `js/views/positioning/positioningTest.js`) ; page publique, non authentifiée, hors flux `AuthGuard`
 - `navigate(view, data)` — change la vue active via `history.pushState` (plus de hash routing)
 - `renderMath()` — déclenche KaTeX sur `#app`
 - Appelle `initAdSlots()` (voir `js/components/adSlot.js`) et `trackPageView()` (voir `js/analytics.js`) après chaque rendu de vue dans le dispatcher `render()` — sauf branches `admin`/`teacher` (return anticipé, hors suivi)
@@ -347,30 +349,71 @@ Firestore CRUD pour le suivi de cours particuliers (tutorat privé, réservé au
 - `watchStudentSessions(studentId, callback)` / `createSession(studentId, data)` — écoute temps réel de l'historique et création de séance (`status: 'draft'`)
 - `rateSession(sessionId, rating, remarks)` — note une séance 1-10 + remarques, passe en `status: 'rated'`
 - `requestGeneration(sessionId, opts)` — déclenche la génération IA (Cloud Function)
+- `createPositioningTest(opts)` — crée un doc `positioningTests` (l'id du doc sert de token de lien public), lié à `opts.studentId` ou `null` pour un nouvel élève pas encore fiché
+- `getPendingPositioningTests()` — tests non rattachés (`studentId: null`), non `reviewed`, avec au moins une matière `completed` (pour le bloc "à traiter" de `tutoringHome.js`)
+- `watchStudentPositioningTests(studentId, callback)` — écoute temps réel des tests de positionnement rattachés à un élève
+- `markPositioningTestReviewed(token)` / `attachPositioningTestToNewStudent(token, studentData)` / `attachPositioningTestToStudent(token, studentId)` — marque un test traité, ou le rattache en créant une nouvelle fiche élève / à un élève existant
 
 ## js/views/tutoring/tutoringHome.js
 Liste des élèves de cours particuliers (route `/tutorat`), réservée aux comptes tutor.
-- `TutoringHome.render()` — charge et affiche la grille des élèves
+- `TutoringHome.render()` — charge élèves + tests de positionnement en attente, puis affiche la grille
 - `TutoringHome._renderList(filter)` — recherche client-side par nom
 - `TutoringHome._showAddForm()` / `_submitAddForm(e)` — formulaire de création d'élève
+- `TutoringHome._sendPositioningLink()` — crée un lien de test (`createPositioningTest`) et l'affiche via `window.prompt` pour copie/envoi manuel
+- `TutoringHome._showAttachForm(token)` / `_submitAttachForm(e, token)` — bloc "Tests de positionnement à traiter" : crée la fiche élève à partir des infos saisies pendant le test, puis rattache le test
+- `TutoringHome._showAttachToExistingForm(token)` / `_submitAttachToExisting(e, token)` — rattache un test en attente à un élève déjà fiché
 
 ## js/views/tutoring/tutoringStudent.js
-Fiche élève (route `/tutorat/:studentId`) : notes générales, historique des séances (temps réel), notation, génération IA.
-- `TutoringStudent.render(studentId)` — charge l'élève puis s'abonne aux séances via `watchStudentSessions`
+Fiche élève (route `/tutorat/:studentId`) : notes générales, historique des séances (temps réel), notation, génération IA, tests de positionnement.
+- `TutoringStudent.render(studentId)` — charge l'élève puis s'abonne aux séances (`watchStudentSessions`) et aux tests de positionnement (`watchStudentPositioningTests`)
 - `TutoringStudent._saveNotes()` / `_archive()` — édition notes générales / soft delete élève
 - `TutoringStudent._showSessionForm()` / `_submitSessionForm(e, generate)` — création d'une séance (`status: 'draft'`), option "Générer un cours" immédiat
 - `TutoringStudent._showRatingForm(sessionId)` / `_submitRating(e, sessionId)` — notation d'une séance (1-10 + remarques)
 - `TutoringStudent._renderGenerationBadge(sess)` — badge d'état de génération (generating/generated/failed)
 - `TutoringStudent._requestGeneration(sessionId, contentType, figuresCount)` — relance la génération sur une séance existante
+- `TutoringStudent._sendPositioningLink()` — crée un lien de test de positionnement pré-rattaché à cet élève (`createPositioningTest`), affiché via `window.prompt`
+- `TutoringStudent._renderPositioningReports()` — affiche, par test complété, le niveau estimé par thème + une recommandation (`positioningBuildRecommendation`, voir `js/positioning/positioningReport.js`) comparée au niveau déclaré de l'élève
 
-## functions/ (Cloud Functions — générateur de cours IA, tutorat Phase 2)
-- `functions/index.js` — trigger `generateCourse` (`onDocumentWritten` sur `tutoringSessions`, filtré sur `generationStatus === 'generating'`)
+## js/positioning/positioningClient.js
+Wrapper d'appel aux 3 Cloud Functions publiques du test de positionnement (utilisé côté page de test non authentifiée ET côté `js/views/tutoring/`).
+- `PositioningClient.getLinkInfo(token)` — infos du lien (nom élève déjà connu ? matières déjà complétées ?)
+- `PositioningClient.getQuestionBank(subject)` — récupère la banque de questions QCM d'une matière (`maths`/`physique`)
+- `PositioningClient.submitResult(token, subject, payload)` — soumet nom/niveau déclarés + réponses pour correction serveur
+
+## js/positioning/positioningReport.js
+Logique pure de comparaison niveau déclaré / niveaux estimés par thème (consommée par `tutoringStudent.js`).
+- `positioningNormalizeLevel(raw)` — convertit un libellé de classe (ex: `"3e"`, `"Tle"`) en palier numérique 1-9
+- `positioningBuildRecommendation(declaredLevel, themeResults)` — texte de recommandation ("lacunes probables sur…") si un thème est ≥2 paliers en dessous du niveau déclaré, sinon message neutre
+
+## js/views/positioning/positioningTest.js
+Page publique (route `/positionnement/:token`), non authentifiée : passage du test par l'élève.
+- `PositioningTest.render(token)` — charge les infos du lien ; formulaire prénom/classe si élève inconnu, sinon choix de matière direct
+- `PositioningTest._chooseSubject(subject)` — charge la banque de questions (`PositioningClient.getQuestionBank`) et démarre le test
+- `PositioningTest._renderQuestion()` / `_answerQuestion(selectedOption)` — affiche une question (options mélangées à l'affichage, l'index original est soumis) ; rejoue localement l'algorithme "escalier" (mêmes constantes que `positioningStaircase.js`) pour choisir le palier de la question suivante, palier remis à 5 à chaque nouveau thème
+- `PositioningTest._finishSubject()` — soumet les réponses via `PositioningClient.submitResult` (la notation finale/autoritaire est recalculée côté serveur) puis affiche le remerciement
+- `PositioningTest._renderThankYou()` — remerciement + option d'enchaîner sur l'autre matière si elle n'a pas déjà été testée
+
+## functions/ (Cloud Functions — générateur de cours IA, tutorat Phase 2 + test de positionnement)
+- `functions/index.js` — trigger `generateCourse` (`onDocumentWritten` sur `tutoringSessions`, filtré sur `generationStatus === 'generating'`) ; `onCall` publics `getPositioningLinkInfo`, `getPositioningQuestionBank`, `submitPositioningResult` (test de positionnement, accessibles sans authentification, délèguent à `functions/src/positioning.js`)
 - `functions/src/generateCourse.js` — orchestrateur : verrou anti-double-déclenchement, rédaction, relecture, compilation (retry jusqu'à 3x), livraison Storage + email
 - `functions/src/anthropicClient.js` — appels Claude Opus 4.8 (code execution + web search), gestion `pause_turn` (jusqu'à 5 continuations)
 - `functions/src/promptBuilder.js` — construction des prompts rédaction/relecture/fix-compile
 - `functions/src/latexCompiler.js` — compilation via Tectonic (binaire téléchargé au `postinstall`, Linux uniquement)
 - `functions/src/mailer.js` — écriture dans la collection `mail` (extension Firebase "Trigger Email")
 - `functions/src/lock.js`, `errors.js`, `storagePaths.js` — utilitaires purs (verrou 10 min, formatage d'erreur, chemins Storage)
+- `functions/src/positioning.js` — logique métier du test de positionnement
+  - `handleGetLinkInfo(testRef)` — lit le doc `positioningTests/{token}`, retourne si le nom élève est connu et quelles matières sont déjà `completed`
+  - `handleSubmitResult(testRef, params, deps)` — corrige les réponses via la banque (`deps.getBank`), calcule le niveau par thème (`runStaircase`/`palierToLabel`), écrit `results.{subject}` (refuse si la matière est déjà complétée sur ce lien)
+- `functions/src/positioningStaircase.js` — algorithme adaptatif "escalier" utilisé pour noter chaque thème
+  - `runStaircase(correctFlags)` — part du palier `START_PALIER = 5` (sur 9) et applique 6 pas décroissants (`STAIRCASE_STEPS = [4,2,1,1,1,1]`, +/- selon réponse correcte), clampé entre 1 et 9
+  - `palierToLabel(palier)` — convertit le palier numérique en libellé de classe (`LEVEL_LABELS`: 6e → BTS2)
+- `functions/src/positioningBank/validate.js` — validateur de schéma de la banque, appelé au chargement (fail-fast)
+  - `validateQuestion(q, context)` — vérifie id/question/4 options/`correctIndex` 0-3
+  - `validateTheme(theme)` — vérifie que chaque palier 1-9 a 2 ou 3 questions, ids uniques dans le thème
+  - `validateBank(bank, expectedThemeIds)` — valide tous les thèmes attendus d'une banque
+- `functions/src/positioningBank/maths/*.js` *(5 fichiers thème)* et `functions/src/positioningBank/physique/*.js` *(5 fichiers thème)* — banque de questions QCM du test de positionnement, un fichier par thème, format `{id, label, levels: {1..9: [questions]}}` ; Maths : `numerique-calcul`, `algebre-equations`, `geometrie`, `fonctions`, `statistiques-probabilites` ; Physique-Chimie : `mecanique`, `electricite`, `energie-thermique`, `matiere-chimie`, `ondes-optique`
+- `functions/src/positioningBank/maths/index.js` / `functions/src/positioningBank/physique/index.js` — assemblent les 5 thèmes de la matière en `{themes: {...}}`
+- `functions/src/positioningBank/index.js` — `getBank(subject)` — valide (`validateBank`) les deux banques au chargement du module, puis expose `maths`/`physique` assemblées
 
 ---
 

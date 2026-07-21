@@ -59,11 +59,25 @@ Ce fichier est la **source de vérité** pour la structure de fichiers du projet
 ## Tutorat privé (réservé à 2 comptes, js/tutoring/ + js/views/tutoring/)
 | Fichier | Rôle |
 |---------|------|
-| js/tutoring/tutoringService.js | CRUD Firestore élèves/séances de cours particuliers |
-| js/views/tutoring/tutoringHome.js | Liste des élèves (route /tutorat) |
-| js/views/tutoring/tutoringStudent.js | Fiche élève : notes, historique séances (temps réel), notation, génération IA |
+| js/tutoring/tutoringService.js | CRUD Firestore élèves/séances de cours particuliers + tests de positionnement |
+| js/views/tutoring/tutoringHome.js | Liste des élèves (route /tutorat), envoi de lien de test, traitement des tests en attente |
+| js/views/tutoring/tutoringStudent.js | Fiche élève : notes, historique séances (temps réel), notation, génération IA, rapport de positionnement |
 
 - Phase 2 (générateur IA) : backend `functions/` (Cloud Functions) — voir docs/superpowers/specs/2026-07-16-tutorat-phase2-generateur-design.md
+
+### Test de positionnement (adaptatif, lien public envoyé aux nouveaux élèves)
+
+Permet au tuteur d'envoyer un lien à un futur élève pour évaluer son niveau réel (Maths et/ou Physique-Chimie) avant le premier cours, sans que l'élève ait besoin d'un compte.
+
+- **Collection Firestore `positioningTests/{token}`** — l'id du document sert directement de token dans l'URL publique. Champs : `studentId` (`null` tant que non rattaché à une fiche élève), `studentNameInput`/`studentLevelInput` (saisis par l'élève si nouveau), `createdBy`, `results.{maths|physique}` (`{status, themes: {themeId: {label, level}}, completedAt}`), `reviewed` (bool, coché quand le tuteur a traité le résultat). Lecture/écriture Firestore réservées `isTutor()` — l'élève non authentifié n'y accède jamais directement, uniquement via les Cloud Functions `onCall` ci-dessous (voir `firestore.rules`).
+- **Route publique `/positionnement/:token`** (`js/views/positioning/positioningTest.js`, `PositioningTest`) — hors flux `AuthGuard`, accessible sans connexion. Recueille prénom/classe si l'élève est nouveau, propose le choix de la matière, fait passer 5 thèmes × 6 questions QCM adaptatives par matière, puis soumet le résultat.
+- **Algorithme adaptatif "escalier"** (`functions/src/positioningStaircase.js`, dupliqué côté client dans `positioningTest.js` pour le choix de question en direct) : part du palier 5/9, applique 6 pas `[4,2,1,1,1,1]` (+ si correct, − sinon), clampé entre 1 (6e) et 9 (BTS2) — `LEVEL_LABELS` fait la correspondance palier → classe.
+- **Banque de questions** (`functions/src/positioningBank/`) : 10 thèmes fixes (5 Maths, 5 Physique-Chimie), 2-3 questions QCM par palier et par thème, validés au chargement par `functions/src/positioningBank/validate.js` (fail-fast si un thème/palier est incomplet).
+- **3 Cloud Functions `onCall`** (déclarées dans `functions/index.js`, logique dans `functions/src/positioning.js`) :
+  - `getPositioningLinkInfo` — infos du lien (nom élève déjà connu ? matières déjà complétées ?)
+  - `getPositioningQuestionBank` — sert la banque de questions d'une matière au client
+  - `submitPositioningResult` — corrige les réponses côté serveur (autoritaire, indépendant du calcul client), calcule le niveau par thème via l'algorithme escalier, écrit `results.{subject}` dans le doc
+- **Côté tuteur** : `js/tutoring/tutoringService.js` expose `createPositioningTest`, `getPendingPositioningTests`, `watchStudentPositioningTests`, `markPositioningTestReviewed`, `attachPositioningTestToNewStudent`, `attachPositioningTestToStudent`. `tutoringHome.js` affiche un bloc "Tests à traiter" (rattachement à une fiche nouvelle ou existante) ; `tutoringStudent.js` affiche le rapport par thème + une recommandation générée par `js/positioning/positioningReport.js` (compare le niveau déclaré de l'élève aux niveaux estimés par thème).
 
 ## Données Scolaires (js/data/)
 | Fichier | Rôle |
