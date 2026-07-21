@@ -75,6 +75,7 @@ function buildPath(view, data) {
     case 'confidentialite': return '/confidentialite';
     case 'tutoring':        return '/tutorat';
     case 'tutoringStudent': return `/tutorat/${data.studentId || state.tutoringStudentId}`;
+    case 'positioning':      return `/positionnement/${data.token || state.positioningToken || ''}`;
     default:           return '/';
   }
 }
@@ -103,6 +104,8 @@ function _parseRouteParts(parts) {
     case 'confidentialite': return { view: 'confidentialite' };
     case 'tutorat':
       return parts[1] ? { view: 'tutoringStudent', studentId: parts[1] } : { view: 'tutoring' };
+    case 'positionnement':
+      return { view: 'positioning', token: parts[1] };
     case 'home':
     default:            return { view: 'home' };
   }
@@ -168,6 +171,7 @@ function navigate(view, data = {}, options = {}) {
   if (data.moduleId !== undefined) state.moduleId = data.moduleId;
   if (data.tab !== undefined) state.tab = data.tab;
   if (data.studentId !== undefined) state.tutoringStudentId = data.studentId;
+  if (data.token !== undefined) state.positioningToken = data.token;
 
   // Reset sub-states on navigation
   if (view === 'module') {
@@ -355,6 +359,7 @@ function render() {
     case 'admin':      AdminPanel.render(); return;
     case 'tutoring':        TutoringHome.render(); updateNavActive(); return;
     case 'tutoringStudent': TutoringStudent.render(state.tutoringStudentId); updateNavActive(); return;
+    case 'positioning':      PositioningTest.render(state.positioningToken); return;
     case 'teacher':    TeacherDashboard.render(); return;
     case 'playlist':   app.innerHTML = (typeof renderPlaylistView === 'function') ? renderPlaylistView() : ''; break;
     case 'homework':   app.innerHTML = (typeof renderHomeworkPanel === 'function') ? renderHomeworkPanel() : ''; break;
