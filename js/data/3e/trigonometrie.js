@@ -47,7 +47,61 @@ window.MODULES.push(
         '$\\sin(60°) = \\frac{\\sqrt{3}}{2} \\approx 0{,}866$, $\\cos(60°) = 0{,}5$',
         '$\\sin^2(\\theta) + \\cos^2(\\theta) = 1$ (relation fondamentale)'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Angle $\\theta$</th><th style="border:1px solid var(--border);padding:8px">$\\sin(\\theta)$</th><th style="border:1px solid var(--border);padding:8px">$\\cos(\\theta)$</th><th style="border:1px solid var(--border);padding:8px">$\\tan(\\theta)$</th></tr><tr><td style="border:1px solid var(--border);padding:8px">$30°$</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{1}{2} = 0{,}5$</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{\\sqrt{3}}{2} \\approx 0{,}866$</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{1}{\\sqrt{3}} \\approx 0{,}577$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">$45°$</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{\\sqrt{2}}{2} \\approx 0{,}707$</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{\\sqrt{2}}{2} \\approx 0{,}707$</td><td style="border:1px solid var(--border);padding:8px">$1$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">$60°$</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{\\sqrt{3}}{2} \\approx 0{,}866$</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{1}{2} = 0{,}5$</td><td style="border:1px solid var(--border);padding:8px">$\\sqrt{3} \\approx 1{,}732$</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Triangle rectangle',
+        title: 'SOH-CAH-TOA : repérer opposé, adjacent et hypoténuse',
+        description: 'Le rôle de chaque côté dépend de l\'angle de référence $\\theta$ choisi : identifie-le avant d\'appliquer une formule.',
+        svg: `
+          <svg viewBox="0 0 380 316" role="img" aria-labelledby="trig3e-graph-title trig3e-graph-desc">
+            <title id="trig3e-graph-title">Triangle rectangle et SOH-CAH-TOA</title>
+            <desc id="trig3e-graph-desc">Triangle rectangle avec l'angle de reference theta, le cote oppose, le cote adjacent et l'hypotenuse identifies, les trois formules sinus cosinus tangente, et l'exemple chiffre du cours avec une hypotenuse de 13 cm et un angle de 30 degres.</desc>
+
+            <rect x="16" y="12" width="112" height="38" rx="10" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
+            <text class="annotation-label" x="26" y="27">SOH</text>
+            <text class="tick-label" x="26" y="43">sin θ = opp / hyp</text>
+
+            <rect x="134" y="12" width="112" height="38" rx="10" fill="color-mix(in srgb, var(--accent) 14%, var(--bg-card))" stroke="color-mix(in srgb, var(--accent) 38%, var(--border))"></rect>
+            <text class="annotation-label" x="144" y="27">CAH</text>
+            <text class="tick-label" x="144" y="43">cos θ = adj / hyp</text>
+
+            <rect x="252" y="12" width="112" height="38" rx="10" fill="color-mix(in srgb, var(--diagram-accent) 12%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 34%, var(--border))"></rect>
+            <text class="annotation-label" x="262" y="27">TOA</text>
+            <text class="tick-label" x="262" y="43">tan θ = opp / adj</text>
+
+            <polygon points="100,230 300,230 100,90" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></polygon>
+            <line class="frame-line" x1="100" y1="230" x2="100" y2="90"></line>
+            <line class="frame-line" x1="100" y1="230" x2="300" y2="230"></line>
+            <line class="curve-main" x1="300" y1="230" x2="100" y2="90"></line>
+
+            <path class="axis" d="M100 216 L114 216 L114 230"></path>
+
+            <line class="guide-line" x1="274" y1="230" x2="279" y2="215"></line>
+            <text class="annotation-label" x="256" y="221">θ</text>
+
+            <circle class="plot-point-alt" cx="100" cy="230" r="5"></circle>
+            <circle class="plot-point-alt" cx="100" cy="90" r="5"></circle>
+            <circle class="plot-point" cx="300" cy="230" r="5"></circle>
+
+            <text class="annotation-label" x="172" y="246">adjacent</text>
+            <text class="annotation-label" x="30" y="164">opposé</text>
+            <text class="annotation-label" x="190" y="130">hypoténuse</text>
+            <line class="guide-line" x1="195" y1="133" x2="179" y2="145"></line>
+
+            <rect x="16" y="258" width="348" height="50" rx="10" fill="color-mix(in srgb, var(--diagram-accent) 6%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 20%, var(--border))"></rect>
+            <text class="tick-label" x="26" y="272">Exemple du cours : hyp = 13 cm, θ = 30°</text>
+            <text class="tick-label" x="26" y="288">opposé = 13 × sin 30° = 6,5 cm</text>
+            <text class="tick-label" x="26" y="304">adjacent = 13 × cos 30° ≈ 11,26 cm</text>
+          </svg>
+        `,
+        notes: [
+          'Le côté opposé à $\\theta$ ne le touche jamais ; le côté adjacent le touche sans être l\'hypoténuse ; l\'hypoténuse fait toujours face à l\'angle droit.',
+          'SOH-CAH-TOA relie chaque paire de côtés à une fonction : Sinus, Cosinus, Tangente.',
+          'Avec hyp $= 13$ cm et $\\theta = 30°$, on retrouve les longueurs de l\'exemple du cours : opposé $= 6{,}5$ cm et adjacent $\\approx 11{,}26$ cm.'
+        ],
+        reading: 'Repère d\'abord l\'angle droit, puis l\'angle $\\theta$ : le troisième sommet donne l\'hypoténuse, le côté opposé à l\'angle droit.',
+        caption: 'Triangle de référence pour SOH-CAH-TOA, avec l\'exemple chiffré du cours (hypoténuse 13 cm, angle 30°).'
+      },
       recap: [
         '<strong>SOH-CAH-TOA</strong> : Sinus = Opposé/Hypoténuse, Cosinus = Adjacent/Hypoténuse, Tangente = Opposé/Adjacent.',
         '<strong>Relation fondamentale</strong> : $\\sin^2(\\theta) + \\cos^2(\\theta) = 1$ pour tout angle $\\theta$. Cette relation permet de trouver l\'un si on connaît l\'autre.',

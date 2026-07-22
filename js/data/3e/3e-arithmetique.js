@@ -45,7 +45,58 @@ window.MODULES.push(
         'Fraction irréductible : diviser numérateur et dénominateur par le PGCD',
         'Algorithme d\'Euclide : $\\text{PGCD}(a, b) = \\text{PGCD}(b, a \\mod b)$'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Premiers nombres premiers</th><th style="border:1px solid var(--border);padding:8px">Décomposition — méthode</th></tr><tr><td style="border:1px solid var(--border);padding:8px">$2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37$</td><td style="border:1px solid var(--border);padding:8px">Diviser par $2$, puis $3$, puis $5$, puis $7\\ldots$ jusqu\'à obtenir $1$</td></tr><tr><th style="border:1px solid var(--border);padding:8px">Exemple : $180$</th><th style="border:1px solid var(--border);padding:8px">Étapes</th></tr><tr><td style="border:1px solid var(--border);padding:8px">$180 = 2^2 \\times 3^2 \\times 5$</td><td style="border:1px solid var(--border);padding:8px">$180 \\div 2 = 90$, $90 \\div 2 = 45$, $45 \\div 3 = 15$, $15 \\div 3 = 5$, $5 \\div 5 = 1$</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Décomposition en facteurs premiers',
+        title: 'Un arbre pour décomposer 180 en facteurs premiers',
+        description: 'Chaque nombre composé se sépare en deux facteurs jusqu\'à n\'obtenir que des nombres premiers, en bout de branche.',
+        svg: `
+          <svg viewBox="0 0 480 380" role="img" aria-labelledby="arithmetique-graph-title arithmetique-graph-desc">
+            <title id="arithmetique-graph-title">Arbre de decomposition en facteurs premiers de 180</title>
+            <desc id="arithmetique-graph-desc">Le schema montre 180 se separant en 4 et 45, puis 4 en 2 et 2, 45 en 9 et 5, et 9 en 3 et 3, jusqu'a n'obtenir que des nombres premiers.</desc>
+            <rect x="16" y="12" width="230" height="26" rx="8" fill="color-mix(in srgb, var(--diagram-accent) 8%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 24%, var(--border))"></rect>
+            <circle class="plot-point-alt" cx="30" cy="25" r="7"></circle>
+            <text class="tick-label" x="44" y="29">Nombre compose : on continue</text>
+            <rect x="16" y="44" width="230" height="26" rx="8" fill="color-mix(in srgb, var(--diagram-accent) 8%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 24%, var(--border))"></rect>
+            <circle class="plot-point" cx="30" cy="57" r="7"></circle>
+            <text class="tick-label" x="44" y="61">Nombre premier : on s'arrete</text>
+            <line class="frame-line" x1="240" y1="110" x2="120" y2="185"></line>
+            <line class="frame-line" x1="240" y1="110" x2="360" y2="185"></line>
+            <line class="frame-line" x1="120" y1="185" x2="70" y2="255"></line>
+            <line class="frame-line" x1="120" y1="185" x2="170" y2="255"></line>
+            <line class="frame-line" x1="360" y1="185" x2="310" y2="255"></line>
+            <line class="frame-line" x1="360" y1="185" x2="410" y2="255"></line>
+            <line class="frame-line" x1="310" y1="255" x2="280" y2="320"></line>
+            <line class="frame-line" x1="310" y1="255" x2="340" y2="320"></line>
+            <circle class="plot-point-alt" cx="240" cy="110" r="22"></circle>
+            <text class="annotation-label" text-anchor="middle" x="240" y="115">180</text>
+            <circle class="plot-point-alt" cx="120" cy="185" r="19"></circle>
+            <text class="annotation-label" text-anchor="middle" x="120" y="190">4</text>
+            <circle class="plot-point-alt" cx="360" cy="185" r="19"></circle>
+            <text class="annotation-label" text-anchor="middle" x="360" y="190">45</text>
+            <circle class="plot-point" cx="70" cy="255" r="15"></circle>
+            <text class="annotation-label" text-anchor="middle" x="70" y="260" style="fill:var(--bg-card)">2</text>
+            <circle class="plot-point" cx="170" cy="255" r="15"></circle>
+            <text class="annotation-label" text-anchor="middle" x="170" y="260" style="fill:var(--bg-card)">2</text>
+            <circle class="plot-point-alt" cx="310" cy="255" r="18"></circle>
+            <text class="annotation-label" text-anchor="middle" x="310" y="260">9</text>
+            <circle class="plot-point" cx="410" cy="255" r="15"></circle>
+            <text class="annotation-label" text-anchor="middle" x="410" y="260" style="fill:var(--bg-card)">5</text>
+            <circle class="plot-point" cx="280" cy="320" r="15"></circle>
+            <text class="annotation-label" text-anchor="middle" x="280" y="325" style="fill:var(--bg-card)">3</text>
+            <circle class="plot-point" cx="340" cy="320" r="15"></circle>
+            <text class="annotation-label" text-anchor="middle" x="340" y="325" style="fill:var(--bg-card)">3</text>
+            <text class="annotation-label" text-anchor="middle" x="240" y="362">180 = 2² × 3² × 5</text>
+          </svg>
+        `,
+        notes: [
+          'Peu importe la paire de facteurs choisie au depart (ici 4 et 45) : on retombe toujours sur la meme decomposition finale. C\'est le theoreme fondamental de l\'arithmetique.',
+          'Les cercles bordes (180, 4, 45, 9) sont des nombres composes : on continue a les decomposer. Les cercles pleins (2, 2, 3, 3, 5) sont des nombres premiers : la branche s\'arrete.',
+          'On regroupe ensuite les facteurs identiques avec des exposants : $180 = 2^2 \\times 3^2 \\times 5$.'
+        ],
+        reading: 'Un arbre de decomposition se lit de haut en bas : a chaque noeud compose, on choisit deux facteurs dont le produit redonne le nombre, jusqu\'a n\'obtenir que des nombres premiers.',
+        caption: 'Decomposition de $180$ en produit de facteurs premiers : $180 = 2^2 \\times 3^2 \\times 5$.'
+      },
       recap: [
         '<strong>Théorème fondamental</strong> : tout entier $\\geq 2$ se décompose de manière <strong>unique</strong> en produit de nombres premiers.',
         '<strong>Relation PGCD-PPCM</strong> : $\\text{PGCD}(a, b) \\times \\text{PPCM}(a, b) = a \\times b$. Connaître l\'un permet de calculer l\'autre.',

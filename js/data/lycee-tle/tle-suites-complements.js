@@ -45,6 +45,67 @@ window.MODULES.push({
         '$\\lim_{n\\to+\\infty} q^n = 0$ si $|q|<1$',
         '$\\lim_{n\\to+\\infty} q^n = +\\infty$ si $q>1$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Toile d\'araignée',
+        title: 'Visualiser la convergence de $u_{n+1}=\\frac{1}{2}u_n+3$ vers son point fixe',
+        description: 'Reprise de l\'exemple du cours : $u_0=5$. On trace la courbe de $f(u)=\\frac{1}{2}u+3$, la droite $y=u$, puis le chemin en escalier qui relie chaque terme au suivant. Les marches rétrécissent à vue d\'œil : c\'est la convergence vers $\\ell=6$.',
+        svg: `
+          <svg viewBox="0 0 400 300" role="img" aria-labelledby="cobweb-title cobweb-desc">
+            <title id="cobweb-title">Toile d'araignée de la suite u(n+1) = u(n)/2 + 3</title>
+            <desc id="cobweb-desc">Cadre allant de 4 a 7 en abscisse et en ordonnee. La droite y=x est en pointille, la courbe de f est une droite solide moins pentue. Un escalier part du point (5,5), rebondit entre la courbe et la droite y=x, et se resserre en spirale rectangulaire vers le point fixe (6,6).</desc>
+
+            <rect class="frame-line" x="60" y="20" width="250" height="250" fill="none"></rect>
+            <line class="grid-line" x1="143.33" y1="20" x2="143.33" y2="270"></line>
+            <line class="grid-line" x1="226.67" y1="20" x2="226.67" y2="270"></line>
+            <line class="grid-line" x1="60" y1="186.67" x2="310" y2="186.67"></line>
+            <line class="grid-line" x1="60" y1="103.33" x2="310" y2="103.33"></line>
+
+            <!-- droite y = x (reference) -->
+            <line class="guide-line" x1="60" y1="270" x2="310" y2="20"></line>
+
+            <!-- courbe de f(u) = u/2 + 3 -->
+            <line class="curve-main" x1="60" y1="186.67" x2="310" y2="61.67"></line>
+
+            <!-- chemin en escalier : u0=5, u1=5,5, u2=5,75, u3=5,875, u4=5,9375, u5=5,96875, u6=5,984375 -->
+            <polyline points="143.33,186.67 143.33,145.0 185.0,145.0 185.0,124.17 205.83,124.17 205.83,113.75 216.25,113.75 216.25,108.54 221.46,108.54 221.46,105.94 224.06,105.94 224.06,104.64 225.36,104.64" fill="none" style="stroke: var(--secondary); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round;"></polyline>
+
+            <circle class="plot-point" cx="143.33" cy="186.67" r="5"></circle>
+            <circle class="plot-point-alt" cx="185.0" cy="145.0" r="4"></circle>
+            <circle class="plot-point-alt" cx="205.83" cy="124.17" r="4"></circle>
+            <circle class="plot-point-alt" cx="216.25" cy="113.75" r="4"></circle>
+            <circle class="plot-point-alt" cx="221.46" cy="108.54" r="3.5"></circle>
+            <circle class="plot-point-alt" cx="224.06" cy="105.94" r="3"></circle>
+            <circle class="plot-point" cx="226.67" cy="103.33" r="5.5"></circle>
+
+            <text class="tick-label" x="60" y="286" text-anchor="middle">4</text>
+            <text class="tick-label" x="143.33" y="286" text-anchor="middle">5</text>
+            <text class="tick-label" x="226.67" y="286" text-anchor="middle">6</text>
+            <text class="tick-label" x="310" y="286" text-anchor="middle">7</text>
+            <text class="tick-label" x="50" y="274" text-anchor="end">4</text>
+            <text class="tick-label" x="50" y="190.67" text-anchor="end">5</text>
+            <text class="tick-label" x="50" y="107.33" text-anchor="end">6</text>
+            <text class="tick-label" x="50" y="24" text-anchor="end">7</text>
+
+            <text class="axis-label" x="185" y="299" text-anchor="middle">uₙ</text>
+            <text class="axis-label" x="14" y="145" text-anchor="middle" transform="rotate(-90 14 145)">uₙ₊₁</text>
+
+            <text class="annotation-label" x="296" y="28" text-anchor="end">y = uₙ</text>
+            <text class="annotation-label" x="296" y="70" text-anchor="end">f(uₙ) = uₙ/2 + 3</text>
+            <text class="annotation-label" x="130" y="210">u₀ = 5</text>
+            <text class="annotation-label" x="231" y="94">ℓ = 6</text>
+
+            <text class="label-soft" x="150" y="160" style="fill: var(--secondary);">trajectoire (uₙ)</text>
+          </svg>
+        `,
+        notes: [
+          'On part de $u_0=5$ sur la droite $y=u$. On monte (ou descend) verticalement jusqu\'à la courbe de $f$ : ça donne $u_1=f(u_0)$.',
+          'On se déplace horizontalement jusqu\'à la droite $y=u$ : le point obtenu a pour abscisse $u_1$, prêt pour l\'itération suivante.',
+          'Les marches de l\'escalier rétrécissent à chaque itération : $u_2=5{,}75$, $u_3=5{,}875$, $u_4=5{,}9375\\ldots$ La suite se rapproche du point fixe $\\ell=6$, intersection de $y=u$ et de la courbe de $f$.'
+        ],
+        reading: 'Le point fixe $\\ell$ est toujours l\'intersection entre la droite $y=u$ et la courbe de $f$. Ici $0<a=\\frac12<1$ : l\'escalier ne rebondit pas d\'un côté à l\'autre, il progresse en marches régulières d\'un seul côté — signe d\'une convergence monotone (suite croissante majorée par $\\ell$).',
+        caption: 'Toile d\'araignée de $u_{n+1}=\\frac{1}{2}u_n+3$, $u_0=5$ : convergence monotone vers $\\ell=6$.'
+      },
       recap: [
         'Récurrence = initialisation + hérédité. Les deux étapes sont <strong>indispensables</strong>.',
         'Suite croissante et majorée → converge. Suite décroissante et minorée → converge. Théorème de la limite monotone.',

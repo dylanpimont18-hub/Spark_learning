@@ -37,6 +37,72 @@ window.MODULES.push({
         ],
         answer: '$A = 250 \\cdot c$ avec $\\varepsilon l = 250$ L·mol⁻¹·cm⁻¹.'
       },
+      diagram: {
+        theme: 'maths',
+        kicker: 'Pente et ordonnée à l\'origine',
+        title: 'Tracer la droite $y = 3x + 1$ à partir de deux points',
+        description: 'Reconstruction de l\'exemple du cours : $A(1 ; 4)$ et $B(3 ; 10)$ donnent le coefficient directeur $a = 3$, puis $b = 1$.',
+        svg: `
+          <svg viewBox="0 0 360 260" role="img" aria-labelledby="affine-diagram-title affine-diagram-desc">
+            <title id="affine-diagram-title">Droite y = 3x + 1</title>
+            <desc id="affine-diagram-desc">Repere avec la droite y = 3x + 1, passant par les points A(1;4) et B(3;10), le triangle de pente delta x = 2, delta y = 6, et le point (0;1) marquant l'ordonnee a l'origine.</desc>
+
+            <line class="grid-line" x1="10" y1="220" x2="10" y2="60"></line>
+            <line class="grid-line" x1="60" y1="220" x2="60" y2="60"></line>
+            <line class="grid-line" x1="110" y1="220" x2="110" y2="60"></line>
+            <line class="grid-line" x1="160" y1="220" x2="160" y2="60"></line>
+            <line class="grid-line" x1="210" y1="220" x2="210" y2="60"></line>
+            <line class="grid-line" x1="260" y1="220" x2="260" y2="60"></line>
+            <line class="grid-line" x1="10" y1="220" x2="260" y2="220"></line>
+            <line class="grid-line" x1="10" y1="188" x2="260" y2="188"></line>
+            <line class="grid-line" x1="10" y1="156" x2="260" y2="156"></line>
+            <line class="grid-line" x1="10" y1="124" x2="260" y2="124"></line>
+            <line class="grid-line" x1="10" y1="92" x2="260" y2="92"></line>
+            <line class="grid-line" x1="10" y1="60" x2="260" y2="60"></line>
+
+            <line class="axis" x1="10" y1="220" x2="290" y2="220"></line>
+            <line class="axis" x1="60" y1="236" x2="60" y2="20"></line>
+            <text class="axis-label" x="294" y="224">x</text>
+            <text class="axis-label" x="66" y="16">y</text>
+
+            <text class="tick-label" x="10" y="234" text-anchor="middle">-1</text>
+            <text class="tick-label" x="60" y="234" text-anchor="middle">0</text>
+            <text class="tick-label" x="110" y="234" text-anchor="middle">1</text>
+            <text class="tick-label" x="160" y="234" text-anchor="middle">2</text>
+            <text class="tick-label" x="210" y="234" text-anchor="middle">3</text>
+            <text class="tick-label" x="260" y="234" text-anchor="middle">4</text>
+
+            <text class="tick-label" x="48" y="224" text-anchor="end">0</text>
+            <text class="tick-label" x="48" y="192" text-anchor="end">2</text>
+            <text class="tick-label" x="48" y="160" text-anchor="end">4</text>
+            <text class="tick-label" x="48" y="128" text-anchor="end">6</text>
+            <text class="tick-label" x="48" y="96" text-anchor="end">8</text>
+            <text class="tick-label" x="48" y="64" text-anchor="end">10</text>
+
+            <line class="guide-line" x1="110" y1="156" x2="210" y2="156"></line>
+            <line class="guide-line" x1="210" y1="156" x2="210" y2="60"></line>
+            <text class="annotation-label" x="160" y="172" text-anchor="middle">Δx = 2</text>
+            <text class="annotation-label" x="216" y="112">Δy = 6</text>
+
+            <line class="curve-main" x1="35" y1="228" x2="240" y2="31"></line>
+            <text class="annotation-label" x="150" y="82">y = 3x + 1</text>
+
+            <circle class="plot-point" cx="60" cy="204" r="4"></circle>
+            <text class="annotation-label" x="66" y="200">(0 ; 1)</text>
+            <circle class="plot-point" cx="110" cy="156" r="4"></circle>
+            <text class="annotation-label" x="70" y="146">A(1 ; 4)</text>
+            <circle class="plot-point" cx="210" cy="60" r="4"></circle>
+            <text class="annotation-label" x="214" y="50">B(3 ; 10)</text>
+          </svg>
+        `,
+        notes: [
+          'Le point $(0 ; 1)$ marque l\'ordonnée à l\'origine $b = 1$ : c\'est là que la droite coupe l\'axe des $y$.',
+          'Le triangle de pente relie $A(1 ; 4)$ à $B(3 ; 10)$ : $\\Delta x = 2$ et $\\Delta y = 6$, donc $a = \\Delta y / \\Delta x = 3$.',
+          'Plus $a$ est grand, plus la droite est pentue : ici $a = 3$ signifie que $y$ augmente de $3$ à chaque fois que $x$ augmente de $1$.'
+        ],
+        reading: 'Repère la pente en comptant le déplacement horizontal ($\\Delta x$) puis vertical ($\\Delta y$) entre deux points de la droite ; leur rapport donne $a$.',
+        caption: 'Droite $y = 3x + 1$, reconstruite à partir des points $A(1 ; 4)$ et $B(3 ; 10)$ de l\'exemple du cours.'
+      },
       formulas: [
         '$y = ax + b$ (fonction affine)',
         '$a = \\dfrac{y_2 - y_1}{x_2 - x_1}$ (pente)',

@@ -32,7 +32,59 @@ window.MODULES.push({
         ],
         answer: '$0$'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Opération</th><th style="border:1px solid var(--border);padding:6px 14px">Transformation</th><th style="border:1px solid var(--border);padding:6px 14px">Résultat</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$a - (+b)$</td><td style="border:1px solid var(--border);padding:6px 14px">$a + (-b)$</td><td style="border:1px solid var(--border);padding:6px 14px">On recule</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$a - (-b)$</td><td style="border:1px solid var(--border);padding:6px 14px">$a + (+b)$</td><td style="border:1px solid var(--border);padding:6px 14px">On avance</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$a + (-b)$</td><td style="border:1px solid var(--border);padding:6px 14px">$a - b$</td><td style="border:1px solid var(--border);padding:6px 14px">On recule</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Droite graduée',
+        title: 'Suivre des déplacements sur une droite graduée : la profondeur d’un sous-marin',
+        description: 'Le sous-marin part de $-120\\,\\text{m}$, remonte de $45\\,\\text{m}$ puis redescend de $80\\,\\text{m}$. Chaque déplacement est un saut sur la droite graduée : vers la droite pour une remontée, vers la gauche pour une descente.',
+        svg: `
+          <svg viewBox="0 0 360 240" role="img" aria-labelledby="relatifs-graph-title relatifs-graph-desc">
+            <title id="relatifs-graph-title">Droite graduée : profondeur d'un sous-marin</title>
+            <desc id="relatifs-graph-desc">Droite graduée horizontale allant de moins 160 à 0. Le sous-marin part de moins 120, remonte de 45 jusqu'à moins 75, puis descend de 80 jusqu'à moins 155.</desc>
+            <text class="axis-label" x="130" y="26">Profondeur (m)</text>
+            <line class="axis" x1="15" y1="140" x2="335" y2="140"></line>
+            <line class="grid-line" x1="30" y1="136" x2="30" y2="144"></line>
+            <line class="grid-line" x1="65" y1="136" x2="65" y2="144"></line>
+            <line class="grid-line" x1="135" y1="136" x2="135" y2="144"></line>
+            <line class="grid-line" x1="170" y1="136" x2="170" y2="144"></line>
+            <line class="grid-line" x1="205" y1="136" x2="205" y2="144"></line>
+            <line class="grid-line" x1="240" y1="136" x2="240" y2="144"></line>
+            <line class="grid-line" x1="275" y1="136" x2="275" y2="144"></line>
+            <text class="tick-label" x="20" y="156">-160</text>
+            <text class="tick-label" x="55" y="156">-140</text>
+            <text class="tick-label" x="125" y="156">-100</text>
+            <text class="tick-label" x="161" y="156">-80</text>
+            <text class="tick-label" x="196" y="156">-60</text>
+            <text class="tick-label" x="231" y="156">-40</text>
+            <text class="tick-label" x="266" y="156">-20</text>
+            <line class="frame-line" x1="38.75" y1="122" x2="38.75" y2="158"></line>
+            <line class="frame-line" x1="100" y1="122" x2="100" y2="158"></line>
+            <line class="frame-line" x1="178.75" y1="122" x2="178.75" y2="158"></line>
+            <line class="frame-line" x1="310" y1="122" x2="310" y2="158"></line>
+            <text class="annotation-label" x="27" y="112">-155</text>
+            <text class="annotation-label" x="90" y="112">-120</text>
+            <text class="annotation-label" x="169" y="112">-75</text>
+            <text class="annotation-label" x="306" y="112">0</text>
+            <path class="curve-main" d="M100,140 Q139.375,95 178.75,140" fill="none"></path>
+            <polygon class="plot-point" points="174,131 183,131 178.75,140"></polygon>
+            <text class="annotation-label" x="90" y="80">+45 m (remonte)</text>
+            <path class="guide-line" d="M178.75,140 Q108.75,185 38.75,140" fill="none"></path>
+            <polygon class="plot-point-alt" points="34,149 43,149 38.75,140"></polygon>
+            <text class="annotation-label" x="60" y="207">-80 m (descend)</text>
+            <circle class="plot-point-alt" cx="100" cy="140" r="6"></circle>
+            <circle class="plot-point-alt" cx="178.75" cy="140" r="6"></circle>
+            <circle class="plot-point" cx="38.75" cy="140" r="6"></circle>
+          </svg>
+        `,
+        notes: [
+          'Position de départ : le sous-marin est à $-120\\,\\text{m}$ (120 m sous la surface, repérée par 0).',
+          'Il remonte de $45\\,\\text{m}$ : $-120 + 45 = -75$. Sur la droite, ce déplacement est un saut vers la droite (vers les valeurs plus grandes).',
+          'Il descend ensuite de $80\\,\\text{m}$ : $-75 - 80 = -155$. Ce saut se lit vers la gauche (vers les valeurs plus petites).',
+          'Déplacement net entre le départ et l’arrivée : $-155 - (-120) = -35\\,\\text{m}$ (le sous-marin termine 35 m plus bas qu’au départ).'
+        ],
+        reading: 'Sur une droite graduée, additionner un nombre positif fait avancer vers la droite ; soustraire un nombre positif (ou additionner un négatif) fait reculer vers la gauche.',
+        caption: 'Droite graduée horizontale représentant la profondeur d’un sous-marin : départ à $-120\\,\\text{m}$, remontée de $45\\,\\text{m}$ jusqu’à $-75\\,\\text{m}$, puis descente de $80\\,\\text{m}$ jusqu’à $-155\\,\\text{m}$.'
+      },
       method: {
         title: 'Méthode en 3 étapes',
         steps: [

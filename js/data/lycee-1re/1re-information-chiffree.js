@@ -44,6 +44,61 @@ window.MODULES.push({
         '$CM_{total} = CM_1 \\times CM_2 \\times \\cdots$',
         'Taux réciproque : $CM_{reciproque} = \\dfrac{1}{CM}$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Évolutions successives',
+        title: 'Frise multiplicative — les coefficients se composent par multiplication',
+        description: 'Sur l\'exemple du cours : un abonnement de $50$ € en 2023 augmente de $8\\%$ en 2024 puis de $5\\%$ en 2025. Chaque flèche multiplie par un coefficient multiplicateur ; le lien direct entre $V_i$ et $V_f$ est le produit des deux coefficients, jamais leur somme.',
+        svg: `
+          <svg viewBox="0 0 640 300" role="img" aria-labelledby="info-chiffree-title info-chiffree-desc">
+            <title id="info-chiffree-title">Frise des evolutions successives du prix de l'abonnement</title>
+            <desc id="info-chiffree-desc">Frise horizontale en trois etapes. Valeur initiale Vi egale 50 euros en 2023. Apres multiplication par le coefficient multiplicateur 1,08, correspondant a une hausse de 8 pourcent, valeur intermediaire Vinterm egale 54 euros en 2024. Apres multiplication par le coefficient multiplicateur 1,05, correspondant a une hausse de 5 pourcent, valeur finale Vf egale 56,7 euros en 2025. Un arc en pointilles en dessous relie directement Vi a Vf et indique le coefficient multiplicateur global, produit des deux coefficients successifs, egal a 1,134, soit une hausse globale de 13,4 pourcent.</desc>
+
+            <defs>
+              <marker id="arrow-info-chiffree" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+              <marker id="arrow-info-chiffree-soft" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"></path>
+              </marker>
+            </defs>
+
+            <!-- etape Vi : 2023 -->
+            <circle class="plot-point" cx="90" cy="90" r="7"></circle>
+            <text class="annotation-label" x="90" y="50" text-anchor="middle">Vi = 50 €</text>
+            <text class="label-soft" x="90" y="115" text-anchor="middle">2023</text>
+
+            <!-- fleche 1 : hausse de 8% -->
+            <line class="curve-main" x1="100" y1="90" x2="330" y2="90" marker-end="url(#arrow-info-chiffree)"></line>
+            <text class="annotation-label" x="215" y="75" text-anchor="middle">CM1 = 1,08 (+8 %)</text>
+
+            <!-- etape Vinterm : 2024 -->
+            <circle class="plot-point" cx="340" cy="90" r="7"></circle>
+            <text class="annotation-label" x="340" y="50" text-anchor="middle">Vinterm = 54 €</text>
+            <text class="label-soft" x="340" y="115" text-anchor="middle">2024</text>
+
+            <!-- fleche 2 : hausse de 5% -->
+            <line class="curve-main" x1="350" y1="90" x2="580" y2="90" marker-end="url(#arrow-info-chiffree)"></line>
+            <text class="annotation-label" x="465" y="75" text-anchor="middle">CM2 = 1,05 (+5 %)</text>
+
+            <!-- etape Vf : 2025 -->
+            <circle class="plot-point" cx="590" cy="90" r="7"></circle>
+            <text class="annotation-label" x="590" y="50" text-anchor="middle">Vf = 56,7 €</text>
+            <text class="label-soft" x="590" y="115" text-anchor="middle">2025</text>
+
+            <!-- arc global Vi -> Vf -->
+            <path class="guide-line" d="M90,100 C90,235 590,235 590,100" fill="none" marker-end="url(#arrow-info-chiffree-soft)"></path>
+            <text class="label-soft" x="340" y="260" text-anchor="middle">CM global = 1,08 × 1,05 = 1,134 → +13,4 %</text>
+          </svg>
+        `,
+        notes: [
+          '$V_i = 50$ € (2023) $\\times\\, CM_1 = 1{,}08 \\Rightarrow V_{interm} = 54$ € (2024).',
+          '$V_{interm} = 54$ € $\\times\\, CM_2 = 1{,}05 \\Rightarrow V_f = 56{,}7$ € (2025).',
+          'Coefficient global : $CM_{global} = CM_1 \\times CM_2 = 1{,}08 \\times 1{,}05 = 1{,}134$, soit $+13{,}4\\%$ — et non $8\\% + 5\\% = 13\\%$.'
+        ],
+        reading: 'Suis la frise de gauche à droite : chaque flèche pleine multiplie par le coefficient indiqué. L\'arc en pointillés en dessous rappelle que le lien direct entre $V_i$ et $V_f$ est le produit $CM_1 \\times CM_2$, jamais la somme des taux.',
+        caption: 'Frise de l\'exemple du cours : abonnement à $50$ € (2023) $\\to$ $54$ € (2024, $+8\\%$) $\\to$ $56{,}7$ € (2025, $+5\\%$). Coefficient global $CM_{global} = 1{,}134$, soit $+13{,}4\\%$.'
+      },
       recap: [
         'Le <strong>coefficient multiplicateur</strong> se calcule toujours par $CM = 1 + t$, avec $t$ en décimal (positif pour une hausse, négatif pour une baisse).',
         'Pour des <strong>évolutions successives</strong>, on <strong>multiplie</strong> les coefficients multiplicateurs : $CM_{global} = CM_1 \\times CM_2 \\times \\cdots$ — on n\'additionne jamais les taux entre eux.',

@@ -37,7 +37,52 @@ window.MODULES.push({
         ],
         answer: '$T_x \\approx 43{,}3$ N et $T_y = 25$ N.'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto"><tr><th style="border:1px solid var(--border);padding:8px">Quadrant</th><th style="border:1px solid var(--border);padding:8px">Direction</th><th style="border:1px solid var(--border);padding:8px">Signe de $F_x$</th><th style="border:1px solid var(--border);padding:8px">Signe de $F_y$</th></tr><tr><td style="border:1px solid var(--border);padding:8px">I (haut-droite)</td><td style="border:1px solid var(--border);padding:8px">↗</td><td style="border:1px solid var(--border);padding:8px">$+$</td><td style="border:1px solid var(--border);padding:8px">$+$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">II (haut-gauche)</td><td style="border:1px solid var(--border);padding:8px">↖</td><td style="border:1px solid var(--border);padding:8px">$-$</td><td style="border:1px solid var(--border);padding:8px">$+$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">III (bas-gauche)</td><td style="border:1px solid var(--border);padding:8px">↙</td><td style="border:1px solid var(--border);padding:8px">$-$</td><td style="border:1px solid var(--border);padding:8px">$-$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">IV (bas-droite)</td><td style="border:1px solid var(--border);padding:8px">↘</td><td style="border:1px solid var(--border);padding:8px">$+$</td><td style="border:1px solid var(--border);padding:8px">$-$</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Projection d\'une force inclinée',
+        title: 'Le câble tire le traîneau : $T = 50$ N à $30°$ (exemple du cours)',
+        description: 'Décomposition du vecteur $\\vec{T}$ en ses composantes $T_x$ et $T_y$, tracées en pointillés jusqu\'aux axes.',
+        svg: `
+          <svg viewBox="0 0 320 240" role="img" aria-labelledby="vecteurs-diagram-title vecteurs-diagram-desc">
+            <title id="vecteurs-diagram-title">Vecteur force incline avec projections</title>
+            <desc id="vecteurs-diagram-desc">Vecteur T de norme 50 newtons incline de 30 degres au-dessus de l'horizontale, avec ses projections Tx = 43,3 N et Ty = 25 N tracees en pointilles jusqu'aux axes.</desc>
+            <defs>
+              <marker id="arrow-2nde-vecteurs" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
+
+            <line class="axis" x1="30" y1="200" x2="280" y2="200" marker-end="url(#arrow-2nde-vecteurs)"></line>
+            <line class="axis" x1="60" y1="220" x2="60" y2="30" marker-end="url(#arrow-2nde-vecteurs)"></line>
+            <text class="axis-label" x="284" y="204">x</text>
+            <text class="axis-label" x="50" y="26" text-anchor="end">y</text>
+            <text class="tick-label" x="52" y="214" text-anchor="middle">O</text>
+
+            <line class="guide-line" x1="190" y1="125" x2="190" y2="200"></line>
+            <line class="guide-line" x1="190" y1="125" x2="60" y2="125"></line>
+
+            <path class="guide-line" d="M90 200 A 30 30 0 0 0 86 185" fill="none"></path>
+            <text class="annotation-label" x="96" y="192">θ = 30°</text>
+
+            <line class="curve-main" x1="60" y1="200" x2="190" y2="125" marker-end="url(#arrow-2nde-vecteurs)"></line>
+            <circle class="plot-point" cx="190" cy="125" r="4"></circle>
+            <text class="annotation-label" x="196" y="116">T = 50 N</text>
+
+            <circle class="plot-point-alt" cx="190" cy="200" r="3"></circle>
+            <circle class="plot-point-alt" cx="60" cy="125" r="3"></circle>
+            <text class="tick-label" x="125" y="215" text-anchor="middle">Tx = 43,3 N</text>
+            <text class="tick-label" x="10" y="121" text-anchor="start">Ty = 25 N</text>
+          </svg>
+        `,
+        notes: [
+          'La composante horizontale $T_x = T\\cos(\\theta) = 50 \\times \\cos(30°) \\approx 43{,}3$ N est le côté adjacent à l\'angle $\\theta$.',
+          'La composante verticale $T_y = T\\sin(\\theta) = 50 \\times \\sin(30°) = 25$ N est le côté opposé à l\'angle $\\theta$.',
+          'Vérification par Pythagore : $\\sqrt{T_x^2+T_y^2} = \\sqrt{43{,}3^2+25^2} \\approx 50$ N $= T$ ✓',
+          'Le signe des composantes dépend du quadrant visé par le vecteur : I (haut-droite) → $+,+$ ; II (haut-gauche) → $-,+$ ; III (bas-gauche) → $-,-$ ; IV (bas-droite) → $+,-$.'
+        ],
+        reading: 'Les pointillés horizontaux et verticaux montrent comment le vecteur incliné se « range » sur les deux axes : c\'est la projection orthogonale.',
+        caption: 'Câble tirant un traîneau : $\\vec{T}$ de norme $50$ N, incliné de $30°$ au-dessus de l\'horizontale (exemple du cours).'
+      },
       formulas: [
         '$F_x = F \\cdot \\cos(\\theta)$ (si $\\theta$ est l\'angle avec $Ox$)',
         '$F_y = F \\cdot \\sin(\\theta)$ (si $\\theta$ est l\'angle avec $Ox$)',

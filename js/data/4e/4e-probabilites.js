@@ -44,7 +44,48 @@
         'Événements incompatibles : $P(A \\cap B) = 0 \\Rightarrow P(A \\cup B) = P(A) + P(B)$',
         '$0 \\leq P(A) \\leq 1$ et $P(\\Omega) = 1$'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Formule</th><th style="border:1px solid var(--border);padding:6px 14px">Condition</th><th style="border:1px solid var(--border);padding:6px 14px">Utilisation</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$</td><td style="border:1px solid var(--border);padding:6px 14px">Toujours</td><td style="border:1px solid var(--border);padding:6px 14px">Union de deux événements</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$P(A \\cup B) = P(A) + P(B)$</td><td style="border:1px solid var(--border);padding:6px 14px">$A \\cap B = \\emptyset$</td><td style="border:1px solid var(--border);padding:6px 14px">Événements incompatibles</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$P(\\bar{A}) = 1 - P(A)$</td><td style="border:1px solid var(--border);padding:6px 14px">Toujours</td><td style="border:1px solid var(--border);padding:6px 14px">Événement contraire</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Diagramme de Venn',
+        title: 'Union et intersection sur l\'exemple des cœurs et des rois',
+        description: 'Dans un jeu de $32$ cartes : $A$ = « obtenir un cœur » ($8$ cartes), $B$ = « obtenir un roi » ($4$ cartes). La zone ombrée est l\'intersection $A \\cap B$ = « le roi de cœur », comptée une seule fois dans $P(A \\cup B)$.',
+        svg: `
+          <svg viewBox="0 0 440 320" role="img" aria-labelledby="proba-venn-title proba-venn-desc">
+            <title id="proba-venn-title">Diagramme de Venn pour le tirage d'une carte parmi 32</title>
+            <desc id="proba-venn-desc">Deux ensembles se chevauchent dans l'univers des 32 cartes : A regroupe les 8 coeurs, B regroupe les 4 rois, et leur intersection ombree, le roi de coeur, ne compte que pour une carte.</desc>
+            <defs>
+              <clipPath id="probaVennClip">
+                <circle cx="290" cy="195" r="90"></circle>
+              </clipPath>
+            </defs>
+            <rect class="frame-line" x="20" y="40" width="400" height="250" rx="10" fill="none"></rect>
+            <text class="label-soft" x="34" y="60">Univers : 32 cartes</text>
+            <circle class="axis" cx="170" cy="195" r="90" fill="color-mix(in srgb, var(--diagram-accent) 10%, transparent)"></circle>
+            <circle class="axis" cx="290" cy="195" r="90" fill="color-mix(in srgb, var(--diagram-accent) 10%, transparent)"></circle>
+            <circle cx="170" cy="195" r="90" clip-path="url(#probaVennClip)" fill="color-mix(in srgb, var(--diagram-accent) 34%, transparent)" stroke="none"></circle>
+            <text class="annotation-label" x="170" y="96" text-anchor="middle">A : Coeur</text>
+            <text class="tick-label" x="170" y="112" text-anchor="middle">8 cartes</text>
+            <text class="annotation-label" x="290" y="96" text-anchor="middle">B : Roi</text>
+            <text class="tick-label" x="290" y="112" text-anchor="middle">4 cartes</text>
+            <text class="annotation-label" x="135" y="200" text-anchor="middle">7</text>
+            <text class="annotation-label" x="230" y="200" text-anchor="middle">1</text>
+            <text class="annotation-label" x="325" y="200" text-anchor="middle">3</text>
+            <text class="tick-label" x="25" y="272">21 cartes</text>
+            <text class="tick-label" x="25" y="286">ni coeur ni roi</text>
+            <rect x="105" y="8" width="230" height="30" rx="10" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
+            <text class="tick-label" x="117" y="28">Zone ombree = A inter B = roi de coeur</text>
+            <line class="guide-line" x1="230" y1="38" x2="230" y2="160"></line>
+          </svg>
+        `,
+        notes: [
+          'L\'ensemble $A$ = « tirer un cœur » contient $8$ cartes sur $32$ : $P(A) = \\dfrac{8}{32} = \\dfrac{1}{4}$.',
+          'L\'ensemble $B$ = « tirer un roi » contient $4$ cartes sur $32$ : $P(B) = \\dfrac{4}{32} = \\dfrac{1}{8}$.',
+          'La zone ombrée (l\'intersection) est « le roi de cœur », une seule carte : $P(A \\cap B) = \\dfrac{1}{32}$.',
+          'En dehors des deux cercles : $32 - 11 = 21$ cartes qui ne sont ni un cœur ni un roi.'
+        ],
+        reading: 'La zone ombrée n\'est comptée qu\'une seule fois : $P(A \\cup B) = P(A) + P(B) - P(A \\cap B) = \\dfrac{8+4-1}{32} = \\dfrac{11}{32} \\approx 0{,}34$.',
+        caption: 'Diagramme de Venn pour le tirage d\'une carte dans un jeu de $32$ cartes : $A$ = cœur, $B$ = roi, intersection ombrée = roi de cœur.'
+      },
       recap: [
         '$P(A) = \\dfrac{\\text{nombre de cas favorables}}{\\text{nombre de cas possibles}}$ (équiprobabilité).',
         'Union : $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$ — ne pas oublier de soustraire l\'intersection.',

@@ -37,6 +37,92 @@ window.MODULES.push({
         ],
         answer: '$f(2) = 3$. Les antécédents de $-5$ sont $x = 0$ et $x = 6$.'
       },
+      diagram: {
+        theme: 'maths',
+        kicker: 'Lecture graphique d\'une courbe',
+        title: 'Courbe de $f(x) = -x^2 + 6x - 5$',
+        description: 'Reconstruction de l\'exemple du cours : lecture des deux antécédents de $-5$ (flèches en pointillés) et maximum de la fonction.',
+        svg: `
+          <svg viewBox="0 0 520 340" role="img" aria-labelledby="fonctions-diagram-title fonctions-diagram-desc">
+            <title id="fonctions-diagram-title">Courbe de f(x) = -x2 + 6x - 5</title>
+            <desc id="fonctions-diagram-desc">Repere avec la parabole f(x) = -x2 + 6x - 5, le maximum en (3 ; 4), et la lecture graphique des deux antecedents de -5 (x = 0 et x = 6) par fleches en pointilles.</desc>
+            <defs>
+              <marker id="fg-arrow" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto">
+                <path d="M0,0 L8,4 L0,8 Z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
+
+            <line class="grid-line" x1="80" y1="20" x2="80" y2="320"></line>
+            <line class="grid-line" x1="140" y1="20" x2="140" y2="320"></line>
+            <line class="grid-line" x1="200" y1="20" x2="200" y2="320"></line>
+            <line class="grid-line" x1="260" y1="20" x2="260" y2="320"></line>
+            <line class="grid-line" x1="320" y1="20" x2="320" y2="320"></line>
+            <line class="grid-line" x1="380" y1="20" x2="380" y2="320"></line>
+            <line class="grid-line" x1="440" y1="20" x2="440" y2="320"></line>
+
+            <line class="grid-line" x1="50" y1="305" x2="470" y2="305"></line>
+            <line class="grid-line" x1="50" y1="275" x2="470" y2="275"></line>
+            <line class="grid-line" x1="50" y1="245" x2="470" y2="245"></line>
+            <line class="grid-line" x1="50" y1="215" x2="470" y2="215"></line>
+            <line class="grid-line" x1="50" y1="185" x2="470" y2="185"></line>
+            <line class="grid-line" x1="50" y1="155" x2="470" y2="155"></line>
+            <line class="grid-line" x1="50" y1="125" x2="470" y2="125"></line>
+            <line class="grid-line" x1="50" y1="95" x2="470" y2="95"></line>
+            <line class="grid-line" x1="50" y1="65" x2="470" y2="65"></line>
+            <line class="grid-line" x1="50" y1="35" x2="470" y2="35"></line>
+
+            <line class="axis" x1="45" y1="155" x2="480" y2="155"></line>
+            <line class="axis" x1="80" y1="325" x2="80" y2="15"></line>
+            <text class="axis-label" x="486" y="159">x</text>
+            <text class="axis-label" x="85" y="12">y</text>
+
+            <text class="tick-label" x="68" y="171" text-anchor="end">0</text>
+            <text class="tick-label" x="140" y="171" text-anchor="middle">1</text>
+            <text class="tick-label" x="200" y="171" text-anchor="middle">2</text>
+            <text class="tick-label" x="260" y="171" text-anchor="middle">3</text>
+            <text class="tick-label" x="320" y="171" text-anchor="middle">4</text>
+            <text class="tick-label" x="380" y="171" text-anchor="middle">5</text>
+            <text class="tick-label" x="440" y="171" text-anchor="middle">6</text>
+
+            <text class="tick-label" x="70" y="39" text-anchor="end">4</text>
+            <text class="tick-label" x="70" y="69" text-anchor="end">3</text>
+            <text class="tick-label" x="70" y="99" text-anchor="end">2</text>
+            <text class="tick-label" x="70" y="129" text-anchor="end">1</text>
+            <text class="tick-label" x="70" y="189" text-anchor="end">-1</text>
+            <text class="tick-label" x="70" y="219" text-anchor="end">-2</text>
+            <text class="tick-label" x="70" y="249" text-anchor="end">-3</text>
+            <text class="tick-label" x="70" y="279" text-anchor="end">-4</text>
+            <text class="tick-label" x="70" y="309" text-anchor="end">-5</text>
+
+            <polyline class="curve-main" points="80,305 110,222.5 140,155 170,102.5 200,65 230,42.5 260,35 290,42.5 320,65 350,102.5 380,155 410,222.5 440,305"></polyline>
+            <text class="annotation-label" x="300" y="27" text-anchor="middle">f(x) = -x2 + 6x - 5</text>
+
+            <line class="guide-line" x1="260" y1="155" x2="260" y2="35" marker-end="url(#fg-arrow)"></line>
+            <line class="guide-line" x1="80" y1="35" x2="260" y2="35" marker-end="url(#fg-arrow)"></line>
+            <circle class="plot-point" cx="260" cy="35" r="5"></circle>
+            <text class="annotation-label" x="266" y="26">Maximum (3 ; 4)</text>
+
+            <line class="guide-line" x1="80" y1="305" x2="440" y2="305" marker-end="url(#fg-arrow)"></line>
+            <line class="guide-line" x1="440" y1="305" x2="440" y2="155" marker-end="url(#fg-arrow)"></line>
+            <circle class="plot-point-alt" cx="440" cy="305" r="4"></circle>
+            <text class="label-soft" x="446" y="300">x = 6</text>
+
+            <circle class="plot-point-alt" cx="80" cy="305" r="4"></circle>
+            <text class="label-soft" x="50" y="300" text-anchor="end">x = 0</text>
+            <text class="label-soft" x="50" y="317" text-anchor="end">y = -5</text>
+
+            <circle class="plot-point-alt" cx="200" cy="65" r="4"></circle>
+            <text class="label-soft" x="206" y="58">(2 ; 3)</text>
+          </svg>
+        `,
+        notes: [
+          'Antécédent de $-5$ : on part de $y=-5$ sur l\'axe vertical, on rejoint la courbe (flèche horizontale en pointillés), puis on lit l\'abscisse (flèche verticale). On trouve deux antécédents : $x = 0$ et $x = 6$.',
+          'Maximum : le sommet de la courbe est en $(3 ; 4)$. C\'est la plus grande valeur atteinte par $f$ sur ce domaine : $f(x) \\leq 4$ pour tout $x$.',
+          '$f$ est croissante sur $[0 ; 3]$ (la courbe monte) puis décroissante sur $[3 ; 6]$ (la courbe descend) — le maximum est exactement au changement de sens.'
+        ],
+        reading: 'Pour un antécédent, on part de l\'axe des $y$ et on rejoint horizontalement la courbe avant de redescendre verticalement sur l\'axe des $x$ — c\'est l\'inverse de la lecture d\'une image (verticale puis horizontale).',
+        caption: 'Courbe de $f(x) = -x^2 + 6x - 5$ (exemple du cours) : deux antécédents de $-5$ ($x=0$ et $x=6$) et maximum en $(3 ; 4)$.'
+      },
       formulas: [
         '$f$ croissante sur $I$ : $x_1 < x_2 \\Rightarrow f(x_1) < f(x_2)$',
         '$f$ décroissante sur $I$ : $x_1 < x_2 \\Rightarrow f(x_1) > f(x_2)$'

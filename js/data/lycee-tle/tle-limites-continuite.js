@@ -10,7 +10,7 @@ window.MODULES.push({
     title: 'Limites de fonctions et continuité',
     subtitle: 'Limites en l\'infini, en un point, continuité',
     keywords: ['Limite', 'Continuité', 'Infini', 'Indétermination'],
-    physics: true,
+    physics: 'Vitesse limite en chute avec frottements, régime permanent lors de la charge d\'un condensateur',
     cours: {
       intro: 'La <strong>limite</strong> de $f$ en $a$ décrit le comportement de $f$ quand $x$ se rapproche de $a$ — sans que $f(a)$ soit nécessairement définie. Exemple : $f(x) = \\frac{x^2-4}{x-2}$ n\'est pas définie en $x=2$, mais $\\lim_{x\\to2}f(x) = 4$.<br/><br/>Les <strong>formes indéterminées</strong> ($0/0$, $\\infty/\\infty$, $\\infty-\\infty$) ne sont pas des valeurs — ce sont des signaux d\'alarme : la limite peut être n\'importe quel réel ou $\\pm\\infty$ selon le contexte.<br/><br/>L\'erreur classique : conclure "$0/0 = 0$" ou "$0/0$ : pas de limite". Il faut factoriser pour <strong>lever l\'indétermination</strong>.<br/><br/>En $\\pm\\infty$, le terme de plus haut degré domine : $3x^2 - 100x + 500 \\sim 3x^2$ quand $x \\to +\\infty$.<br/><br/>La <strong>continuité</strong> de $f$ en $a$ exige : $f(a)$ existe, $\\lim_{x\\to a} f(x)$ existe, et elles sont égales.',
       definitions: [
@@ -44,6 +44,62 @@ window.MODULES.push({
         '$\\lim_{x\\to+\\infty}\\frac{1}{x^n}=0$ ($n>0$)',
         '$\\lim_{x\\to+\\infty}\\frac{a_n x^n+\\cdots}{b_m x^m+\\cdots}=\\lim_{x\\to+\\infty}\\frac{a_n x^n}{b_m x^m}$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Asymptotes verticale et horizontale',
+        title: 'Les deux asymptotes de $f(x)=\\dfrac{2x^3-x}{x^3+1}$',
+        description: 'Fonction reprise du quiz de ce cours : le dénominateur $x^3+1$ s\'annule uniquement en $x=-1$ (asymptote verticale), et les termes de plus haut degré donnent $\\lim_{x\\to\\pm\\infty}f(x)=2$ (asymptote horizontale).',
+        svg: `
+          <svg viewBox="0 0 420 300" role="img" aria-labelledby="limites-graph-title limites-graph-desc">
+            <title id="limites-graph-title">Courbe de f avec asymptote verticale et horizontale</title>
+            <desc id="limites-graph-desc">Deux branches separees par l'asymptote verticale x=-1, toutes deux se rapprochant de l'asymptote horizontale y=2.</desc>
+            <line class="grid-line" x1="88.8" y1="30" x2="88.8" y2="260"></line>
+            <line class="grid-line" x1="132.5" y1="30" x2="132.5" y2="260"></line>
+            <line class="grid-line" x1="263.8" y1="30" x2="263.8" y2="260"></line>
+            <line class="grid-line" x1="307.5" y1="30" x2="307.5" y2="260"></line>
+            <line class="grid-line" x1="351.3" y1="30" x2="351.3" y2="260"></line>
+            <line class="grid-line" x1="40" y1="231.3" x2="400" y2="231.3"></line>
+            <line class="grid-line" x1="40" y1="116.3" x2="400" y2="116.3"></line>
+            <line class="grid-line" x1="40" y1="87.5" x2="400" y2="87.5"></line>
+            <line class="grid-line" x1="40" y1="58.8" x2="400" y2="58.8"></line>
+            <line class="axis" x1="40" y1="173.8" x2="400" y2="173.8"></line>
+            <line class="axis" x1="220" y1="25" x2="220" y2="265"></line>
+            <line class="guide-line" x1="176.25" y1="25" x2="176.25" y2="265"></line>
+            <line class="guide-line" x1="40" y1="145" x2="400" y2="145"></line>
+            <path class="curve-main" d="M45 145.5 L88.8 145.5 L132.5 145 L154.4 142 L167.5 129.2 L171.9 105.9 L174.5 34.5"></path>
+            <path class="curve-main" d="M178.2 260 L180.6 203.3 L185 180.3 L193.8 170.7 L202.5 169.6 L211.3 171.1 L220 173.8 L233.1 177.2 L246.3 175.7 L263.8 166.6 L285.6 156.5 L307.5 151.4 L329.4 148.9 L351.3 147.6 L395 146.3"></path>
+            <circle class="plot-point" cx="220" cy="173.8" r="4.5"></circle>
+            <text class="tick-label" x="41" y="280">-4</text>
+            <text class="tick-label" x="85" y="280">-3</text>
+            <text class="tick-label" x="129" y="280">-2</text>
+            <text class="tick-label" x="172" y="280">-1</text>
+            <text class="tick-label" x="216" y="280">0</text>
+            <text class="tick-label" x="260" y="280">1</text>
+            <text class="tick-label" x="304" y="280">2</text>
+            <text class="tick-label" x="347" y="280">3</text>
+            <text class="tick-label" x="391" y="280">4</text>
+            <text class="tick-label" x="200" y="235">-4</text>
+            <text class="tick-label" x="204" y="149">2</text>
+            <text class="tick-label" x="204" y="120">4</text>
+            <text class="tick-label" x="204" y="91">6</text>
+            <text class="tick-label" x="204" y="63">8</text>
+            <text class="axis-label" x="404" y="178">x</text>
+            <text class="axis-label" x="224" y="26">f(x)</text>
+            <text class="annotation-label" x="60" y="50">x = -1</text>
+            <text class="annotation-label" x="330" y="60">y = 2</text>
+            <text class="annotation-label" x="235" y="100">f(x) = (2x³ − x) / (x³ + 1)</text>
+            <text class="annotation-label" x="226" y="166">f(0) = 0</text>
+          </svg>
+        `,
+        notes: [
+          'Le dénominateur $x^3+1=(x+1)(x^2-x+1)$ ne s\'annule qu\'en $x=-1$ (le facteur $x^2-x+1$ a un discriminant négatif) : c\'est l\'unique asymptote verticale, tracée en pointillé vertical.',
+          'En $\\pm\\infty$, les termes de plus haut degré dominent : $\\lim_{x\\to\\pm\\infty}\\dfrac{2x^3-x}{x^3+1}=\\lim_{x\\to\\pm\\infty}\\dfrac{2x^3}{x^3}=2$, d\'où l\'asymptote horizontale $y=2$, tracée en pointillé horizontal.',
+          'Les deux branches ne sont jamais reliées : à gauche de $x=-1$, $f(x)\\to+\\infty$ ; à droite, $f(x)\\to-\\infty$ (changement de signe au voisinage du pôle).',
+          'Vérification simple en $x=0$ : $f(0)=\\dfrac{0}{1}=0$, un point de passage exact confirmé par substitution directe.'
+        ],
+        reading: 'Les deux courbes (une par branche) ne traversent jamais la droite verticale $x=-1$ : elles s\'en approchent indéfiniment sans jamais la toucher, tout en se rapprochant de la droite horizontale $y=2$ loin de l\'origine.',
+        caption: 'Courbe de $f(x)=(2x^3-x)/(x^3+1)$ (fonction du quiz de ce module), avec ses asymptotes $x=-1$ et $y=2$.'
+      },
       recap: [
         'En $\\pm\\infty$, le terme de plus haut degré domine : $\\lim \\frac{P(x)}{Q(x)} = \\lim \\frac{\\text{terme dominant de }P}{\\text{terme dominant de }Q}$.',
         'Les formes indéterminées ($0/0$, $\\infty/\\infty$, etc.) exigent un travail algébrique (factorisation, simplification) avant de conclure.',

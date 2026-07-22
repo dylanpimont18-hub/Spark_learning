@@ -40,7 +40,67 @@ window.MODULES.push({
         ],
         answer: '$r = 4{,}2$ cm. $P$ est à l\'extérieur du cercle.'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Objet</th><th style="border:1px solid var(--border);padding:8px">Notation</th><th style="border:1px solid var(--border);padding:8px">Longueur</th></tr><tr><td style="border:1px solid var(--border);padding:8px">Droite</td><td style="border:1px solid var(--border);padding:8px">$(AB)$</td><td style="border:1px solid var(--border);padding:8px">Infinie (2 sens)</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Demi-droite</td><td style="border:1px solid var(--border);padding:8px">$[AB)$</td><td style="border:1px solid var(--border);padding:8px">Infinie (1 sens)</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Segment</td><td style="border:1px solid var(--border);padding:8px">$[AB]$</td><td style="border:1px solid var(--border);padding:8px">Finie</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Cercle</td><td style="border:1px solid var(--border);padding:8px">$\\mathcal{C}(O, r)$</td><td style="border:1px solid var(--border);padding:8px">$d = 2r$</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Objets de base de la géométrie',
+        title: 'Distinguer droite, segment, demi-droite et cercle',
+        description: 'Les mêmes points $A$ et $B$ donnent trois figures différentes selon qu\'on prolonge la ligne des deux côtés, d\'un seul côté, ou pas du tout.',
+        svg: `
+          <svg viewBox="0 0 440 320" role="img" aria-labelledby="figures-diagram-title figures-diagram-desc">
+            <title id="figures-diagram-title">Droite, segment, demi-droite et cercle</title>
+            <desc id="figures-diagram-desc">Quatre figures : une droite infinie passant par A et B, un segment fini AB, une demi-droite d'origine A passant par B, et un cercle de centre O et de rayon r.</desc>
+            <line class="grid-line" x1="220" y1="20" x2="220" y2="300"></line>
+            <line class="grid-line" x1="20" y1="160" x2="420" y2="160"></line>
+
+            <text class="label-soft" x="30" y="34">Droite (AB) — infinie</text>
+            <line class="curve-main" x1="40" y1="85" x2="190" y2="85"></line>
+            <path class="frame-line" d="M46 79 L40 85 L46 91" fill="none"></path>
+            <path class="frame-line" d="M184 79 L190 85 L184 91" fill="none"></path>
+            <circle class="plot-point-alt" cx="80" cy="85" r="4"></circle>
+            <circle class="plot-point-alt" cx="150" cy="85" r="4"></circle>
+            <text class="annotation-label" x="76" y="72">A</text>
+            <text class="annotation-label" x="146" y="72">B</text>
+            <text class="annotation-label" x="92" y="112">(AB)</text>
+
+            <text class="label-soft" x="240" y="34">Segment [AB] — finie</text>
+            <line class="curve-main" x1="260" y1="85" x2="380" y2="85"></line>
+            <path class="frame-line" d="M260 78 L260 92" fill="none"></path>
+            <path class="frame-line" d="M380 78 L380 92" fill="none"></path>
+            <circle class="plot-point" cx="260" cy="85" r="4"></circle>
+            <circle class="plot-point" cx="380" cy="85" r="4"></circle>
+            <text class="annotation-label" x="250" y="72">A</text>
+            <text class="annotation-label" x="376" y="72">B</text>
+            <text class="annotation-label" x="304" y="112">[AB]</text>
+
+            <text class="label-soft" x="30" y="178">Demi-droite [AB) — 1 sens</text>
+            <line class="curve-main" x1="55" y1="235" x2="190" y2="235"></line>
+            <path class="frame-line" d="M184 229 L190 235 L184 241" fill="none"></path>
+            <circle class="plot-point" cx="55" cy="235" r="4"></circle>
+            <circle class="plot-point-alt" cx="150" cy="235" r="4"></circle>
+            <text class="annotation-label" x="45" y="222">A</text>
+            <text class="annotation-label" x="146" y="222">B</text>
+            <text class="annotation-label" x="85" y="262">[AB)</text>
+
+            <text class="label-soft" x="240" y="178">Cercle (O, r)</text>
+            <circle cx="325" cy="238" r="50" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></circle>
+            <circle class="frame-line" cx="325" cy="238" r="50" fill="none"></circle>
+            <line class="guide-line" x1="325" y1="238" x2="363.3" y2="205.9"></line>
+            <circle class="plot-point" cx="325" cy="238" r="4"></circle>
+            <circle class="plot-point-alt" cx="363.3" cy="205.9" r="4"></circle>
+            <text class="annotation-label" x="312" y="255">O</text>
+            <text class="annotation-label" x="338" y="216">r</text>
+            <text class="tick-label" x="252" y="294">OM = r</text>
+          </svg>
+        `,
+        notes: [
+          'La droite $(AB)$ est infinie des deux côtés — elle se dessine toujours avec des flèches aux extrémités.',
+          'Le segment $[AB]$ est fini : ses deux extrémités $A$ et $B$ sont marquées, et lui seul a une longueur mesurable.',
+          'La demi-droite $[AB)$ a une seule origine ($A$) et continue à l\'infini dans la direction de $B$.',
+          'Le cercle de centre $O$ et de rayon $r$ contient tous les points $M$ tels que $OM = r$. Exemple du cours : diamètre $8{,}4$ cm $\\Rightarrow$ rayon $r = 4{,}2$ cm.'
+        ],
+        reading: 'Cherche d\'abord combien d\'extrémités la ligne possède : zéro pour une droite, une pour une demi-droite, deux pour un segment.',
+        caption: 'Segment $[AB]$, droite $(AB)$ et demi-droite $[AB)$ construits à partir des mêmes points, et cercle de centre $O$ et de rayon $r$.'
+      },
       formulas: [
         '$(AB)$ = droite passant par $A$ et $B$ (infinie)',
         '$[AB]$ = segment d\'extrémités $A$ et $B$',

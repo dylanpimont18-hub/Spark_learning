@@ -10,7 +10,7 @@ window.MODULES.push({
     title: 'Lois de probabilité continues',
     subtitle: 'Loi uniforme, loi normale',
     keywords: ['Loi normale', 'Loi uniforme', 'Densité', 'Espérance', 'Écart-type'],
-    physics: true,
+    physics: 'Répartition gaussienne des erreurs de mesure, durée de vie de composants, contrôle qualité industriel',
     cours: {
       intro: 'Pour une loi <strong>CONTINUE</strong>, la probabilité d\'une valeur <strong>EXACTE</strong> est nulle : $P(X = 5) = 0$ (on ne peut pas mesurer précisément un point sur une courbe).<br/><br/>On calcule uniquement des probabilités sur des <strong>intervalles</strong> : $P(a \\leq X \\leq b)$ = aire sous la courbe de densité entre $a$ et $b$.<br/><br/>La loi normale $\\mathcal{N}(\\mu;\\sigma^2)$ est <strong>symétrique</strong> autour de $\\mu$ : $P(X \\leq \\mu) = 0{,}5$ exactement. La <strong>règle des $2\\sigma$</strong> donne $P(\\mu-2\\sigma \\leq X \\leq \\mu+2\\sigma) \\approx 0{,}954$.<br/><br/><strong>Piège classique</strong> : en déduire $P(X \\leq \\mu-2\\sigma) \\approx 0{,}046$ (mauvais !) = la bonne valeur est $(1-0{,}954)/2 \\approx 0{,}023$ par symétrie.',
       definitions: [
@@ -44,6 +44,62 @@ window.MODULES.push({
         '$P(\\mu-3\\sigma\\le X\\le\\mu+3\\sigma)\\approx0{,}997$',
         'Loi uniforme sur $[a;b]$ : $E(X)=\\dfrac{a+b}{2}$, $f(x)=\\dfrac{1}{b-a}$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Courbe de Gauss',
+        title: 'Durée de vie d\'une LED : $\\mathcal{N}(20000\\,;\\,2000^2)$',
+        description: 'Courbe de densité $f(x)=\\dfrac{1}{\\sigma\\sqrt{2\\pi}}e^{-\\frac{(x-\\mu)^2}{2\\sigma^2}}$ calculée point par point pour $\\mu = 20000$ h et $\\sigma = 2000$ h (l\'exemple ci-dessus) : les trois bandes montrent où se concentrent $68{,}3\\%$, $95{,}4\\%$ et $99{,}7\\%$ des ampoules.',
+        svg: `
+          <svg viewBox="0 0 470 310" role="img" aria-labelledby="loicontinue-tle-title loicontinue-tle-desc">
+            <title id="loicontinue-tle-title">Courbe de Gauss de moyenne 20000 heures et d'ecart-type 2000 heures</title>
+            <desc id="loicontinue-tle-desc">Courbe en cloche calculee a partir de la fonction de densite normale, avec trois bandes concentriques marquant 68,3%, 95,4% et 99,7% des ampoules autour de la duree de vie moyenne de 20000 heures.</desc>
+            <line class="grid-line" x1="65.7" y1="40" x2="65.7" y2="224"></line>
+            <line class="grid-line" x1="117.1" y1="40" x2="117.1" y2="224"></line>
+            <line class="grid-line" x1="168.6" y1="40" x2="168.6" y2="224"></line>
+            <line class="grid-line" x1="220.0" y1="40" x2="220.0" y2="224"></line>
+            <line class="grid-line" x1="271.4" y1="40" x2="271.4" y2="224"></line>
+            <line class="grid-line" x1="322.9" y1="40" x2="322.9" y2="224"></line>
+            <line class="grid-line" x1="374.3" y1="40" x2="374.3" y2="224"></line>
+            <path d="M65.7 224.0 L65.7 222.0 L78.6 219.8 L91.4 215.9 L104.3 209.4 L117.1 199.1 L130.0 184.2 L142.9 164.3 L155.7 139.8 L168.6 112.4 L181.4 85.1 L194.3 61.6 L207.1 45.7 L220.0 40.0 L232.9 45.7 L245.7 61.6 L258.6 85.1 L271.4 112.4 L284.3 139.8 L297.1 164.3 L310.0 184.2 L322.9 199.1 L335.7 209.4 L348.6 215.9 L361.4 219.8 L374.3 222.0 L374.3 224.0 Z" fill="color-mix(in srgb, var(--diagram-accent) 12%, transparent)" stroke="none"></path>
+            <path d="M117.1 224.0 L117.1 199.1 L130.0 184.2 L142.9 164.3 L155.7 139.8 L168.6 112.4 L181.4 85.1 L194.3 61.6 L207.1 45.7 L220.0 40.0 L232.9 45.7 L245.7 61.6 L258.6 85.1 L271.4 112.4 L284.3 139.8 L297.1 164.3 L310.0 184.2 L322.9 199.1 L322.9 224.0 Z" fill="color-mix(in srgb, var(--diagram-accent) 18%, transparent)" stroke="none"></path>
+            <path d="M168.6 224.0 L168.6 112.4 L181.4 85.1 L194.3 61.6 L207.1 45.7 L220.0 40.0 L232.9 45.7 L245.7 61.6 L258.6 85.1 L271.4 112.4 L271.4 224.0 Z" fill="color-mix(in srgb, var(--diagram-accent) 26%, transparent)" stroke="none"></path>
+            <path class="curve-main" d="M40.0 223.6 L52.9 223.1 L65.7 222.0 L78.6 219.8 L91.4 215.9 L104.3 209.4 L117.1 199.1 L130.0 184.2 L142.9 164.3 L155.7 139.8 L168.6 112.4 L181.4 85.1 L194.3 61.6 L207.1 45.7 L220.0 40.0 L232.9 45.7 L245.7 61.6 L258.6 85.1 L271.4 112.4 L284.3 139.8 L297.1 164.3 L310.0 184.2 L322.9 199.1 L335.7 209.4 L348.6 215.9 L361.4 219.8 L374.3 222.0 L387.1 223.1 L400.0 223.6"></path>
+            <line class="axis" x1="30" y1="224" x2="410" y2="224"></line>
+            <line class="axis" x1="65.7" y1="224" x2="65.7" y2="230"></line>
+            <line class="axis" x1="117.1" y1="224" x2="117.1" y2="230"></line>
+            <line class="axis" x1="168.6" y1="224" x2="168.6" y2="230"></line>
+            <line class="axis" x1="220.0" y1="224" x2="220.0" y2="230"></line>
+            <line class="axis" x1="271.4" y1="224" x2="271.4" y2="230"></line>
+            <line class="axis" x1="322.9" y1="224" x2="322.9" y2="230"></line>
+            <line class="axis" x1="374.3" y1="224" x2="374.3" y2="230"></line>
+            <circle class="plot-point" cx="220.0" cy="40.0" r="4"></circle>
+            <circle class="plot-point-alt" cx="168.6" cy="112.4" r="3"></circle>
+            <circle class="plot-point-alt" cx="271.4" cy="112.4" r="3"></circle>
+            <text class="annotation-label" x="220.0" y="20" text-anchor="middle">μ = 20000 h</text>
+            <text class="tick-label" x="65.7" y="242" text-anchor="middle">14000</text>
+            <text class="tick-label" x="117.1" y="242" text-anchor="middle">16000</text>
+            <text class="tick-label" x="168.6" y="242" text-anchor="middle">18000</text>
+            <text class="tick-label" x="220.0" y="242" text-anchor="middle">20000</text>
+            <text class="tick-label" x="271.4" y="242" text-anchor="middle">22000</text>
+            <text class="tick-label" x="322.9" y="242" text-anchor="middle">24000</text>
+            <text class="tick-label" x="374.3" y="242" text-anchor="middle">26000</text>
+            <text class="axis-label" x="414" y="228">durée (h)</text>
+            <line class="guide-line" x1="168.6" y1="254" x2="271.4" y2="254"></line>
+            <text class="annotation-label" x="277.4" y="258">68,3 %</text>
+            <line class="guide-line" x1="117.1" y1="270" x2="322.9" y2="270"></line>
+            <text class="annotation-label" x="328.9" y="274">95,4 %</text>
+            <line class="guide-line" x1="65.7" y1="286" x2="374.3" y2="286"></line>
+            <text class="annotation-label" x="380.3" y="290">99,7 %</text>
+          </svg>
+        `,
+        notes: [
+          'Bande la plus foncée : $[18000\\,;\\,22000]$ h $=[\\mu-\\sigma\\,;\\,\\mu+\\sigma]$, soit $68{,}3\\%$ des ampoules.',
+          'Bande intermédiaire : $[16000\\,;\\,24000]$ h $=[\\mu-2\\sigma\\,;\\,\\mu+2\\sigma]$, soit $95{,}4\\%$ — c\'est l\'exemple traité ci-dessus.',
+          'Bande la plus large : $[14000\\,;\\,26000]$ h $=[\\mu-3\\sigma\\,;\\,\\mu+3\\sigma]$, soit $99{,}7\\%$ des ampoules.'
+        ],
+        reading: 'La hauteur de la courbe en chaque point $x$ est la vraie valeur de la densité $f(x)$, calculée formule en main — pas une cloche dessinée approximativement. Plus une durée de vie s\'éloigne de $\\mu=20000$ h, plus elle devient improbable.',
+        caption: 'Courbe de densité de $\\mathcal{N}(20000\\,;\\,2000^2)$ (durée de vie en heures) avec la règle $68$-$95$-$99{,}7\\%$.'
+      },
       recap: [
         'Loi continue : $P(X = a) = 0$ toujours. On calcule des probabilités sur des <strong>intervalles</strong> : $P(a \\leq X \\leq b) = $ aire sous la courbe de densité.',
         'Loi normale $\\mathcal{N}(\\mu;\\sigma^2)$ : symétrique autour de $\\mu$, $P(X \\leq \\mu) = 0{,}5$. Les règles $1\\sigma$ / $2\\sigma$ / $3\\sigma$ donnent $68{,}3\\%$ / $95{,}4\\%$ / $99{,}7\\%$.',

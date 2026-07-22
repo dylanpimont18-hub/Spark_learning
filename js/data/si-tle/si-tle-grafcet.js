@@ -59,7 +59,78 @@ window.MODULES.push({
         'Règle 5 — Priorité : si une étape doit être simultanément activée et désactivée, elle reste active'
       ],
 
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr style="background:var(--bg-card);"><th style="border:1px solid var(--border);padding:8px">Règle</th><th style="border:1px solid var(--border);padding:8px">Intitulé</th><th style="border:1px solid var(--border);padding:8px">Description</th></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>R1</strong></td><td style="border:1px solid var(--border);padding:8px">Situation initiale</td><td style="border:1px solid var(--border);padding:8px">À la mise sous énergie, seules les étapes initiales (double contour) sont actives</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>R2</strong></td><td style="border:1px solid var(--border);padding:8px">Franchissement</td><td style="border:1px solid var(--border);padding:8px">Transition franchie si étape amont active ET réceptivité vraie</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>R3</strong></td><td style="border:1px solid var(--border);padding:8px">Évolution des étapes actives</td><td style="border:1px solid var(--border);padding:8px">Le franchissement active l\'étape aval et désactive l\'étape amont simultanément</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>R4</strong></td><td style="border:1px solid var(--border);padding:8px">Franchissements simultanés</td><td style="border:1px solid var(--border);padding:8px">Plusieurs transitions franchissables en même temps sont franchies simultanément</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>R5</strong></td><td style="border:1px solid var(--border);padding:8px">Activation et désactivation simultanées</td><td style="border:1px solid var(--border);padding:8px">Si une étape doit être activée et désactivée au même instant, elle reste active</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'GRAFCET — Portail automatique',
+        title: 'Cycle bouclé E0 → E1 → E2 → E0',
+        description: 'GRAFCET de l\'exemple du cours : un portail automatique à 3 étapes, avec l\'étape initiale E0 (double carré) et une boucle de retour après temporisation.',
+        svg: `
+          <svg viewBox="0 0 500 320" role="img" aria-labelledby="grafcet-portail-title grafcet-portail-desc">
+            <title id="grafcet-portail-title">GRAFCET du portail automatique</title>
+            <desc id="grafcet-portail-desc">Trois etapes reliees verticalement : E0, etape initiale a double carre (portail ferme, attente), E1 (ouverture en cours), E2 (ouvert, temporisation). Les transitions sont des traits horizontaux courts portant la receptivite : bouton presse et portail ferme entre E0 et E1, capteur fin de course ouverture entre E1 et E2, temporisation de 10 secondes ecoulee entre E2 et E0. Une boucle sur la gauche ramene la sortie de la derniere transition vers le haut de l'etape E0.</desc>
+
+            <defs>
+              <marker id="arrow-si-tle-grafcet" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
+
+            <text class="label-soft" x="300" y="18" text-anchor="middle">État du système (description)</text>
+
+            <!-- E0 : etape initiale (double carre) -->
+            <rect class="frame-line" x="125" y="30" width="50" height="50" fill="none"></rect>
+            <rect class="frame-line" x="130" y="35" width="40" height="40" fill="none"></rect>
+            <text class="annotation-label" x="150" y="59" text-anchor="middle">0</text>
+            <line class="guide-line" x1="175" y1="55" x2="210" y2="55"></line>
+            <rect class="frame-line" x="210" y="30" width="180" height="50" fill="none"></rect>
+            <text class="label-soft" x="220" y="59">Fermé, attente</text>
+
+            <!-- transition E0 -> E1 -->
+            <line class="curve-main" x1="150" y1="80" x2="150" y2="100"></line>
+            <line class="axis" x1="135" y1="100" x2="165" y2="100"></line>
+            <text class="annotation-label" x="175" y="104">Bouton pressé ET portail fermé</text>
+            <line class="curve-main" x1="150" y1="100" x2="150" y2="120"></line>
+
+            <!-- E1 -->
+            <rect class="frame-line" x="125" y="120" width="50" height="50" fill="none"></rect>
+            <text class="annotation-label" x="150" y="150" text-anchor="middle">1</text>
+            <line class="guide-line" x1="175" y1="145" x2="210" y2="145"></line>
+            <rect class="frame-line" x="210" y="120" width="180" height="50" fill="none"></rect>
+            <text class="label-soft" x="220" y="149">Ouverture en cours</text>
+
+            <!-- transition E1 -> E2 -->
+            <line class="curve-main" x1="150" y1="170" x2="150" y2="190"></line>
+            <line class="axis" x1="135" y1="190" x2="165" y2="190"></line>
+            <text class="annotation-label" x="175" y="194">Capteur fin de course ouverture activé</text>
+            <line class="curve-main" x1="150" y1="190" x2="150" y2="210"></line>
+
+            <!-- E2 -->
+            <rect class="frame-line" x="125" y="210" width="50" height="50" fill="none"></rect>
+            <text class="annotation-label" x="150" y="240" text-anchor="middle">2</text>
+            <line class="guide-line" x1="175" y1="235" x2="210" y2="235"></line>
+            <rect class="frame-line" x="210" y="210" width="180" height="50" fill="none"></rect>
+            <text class="label-soft" x="220" y="239">Ouvert, temporisation</text>
+
+            <!-- transition E2 -> E0 (boucle) -->
+            <line class="curve-main" x1="150" y1="260" x2="150" y2="280"></line>
+            <line class="axis" x1="135" y1="280" x2="165" y2="280"></line>
+            <text class="annotation-label" x="175" y="284">Temporisation de 10 s écoulée</text>
+            <line class="curve-main" x1="150" y1="280" x2="150" y2="300"></line>
+            <line class="curve-main" x1="150" y1="300" x2="60" y2="300"></line>
+            <line class="curve-main" x1="60" y1="300" x2="60" y2="15"></line>
+            <line class="curve-main" x1="60" y1="15" x2="150" y2="15"></line>
+            <line class="curve-main" x1="150" y1="15" x2="150" y2="30" marker-end="url(#arrow-si-tle-grafcet)"></line>
+            <text class="label-soft" x="40" y="160" text-anchor="middle" transform="rotate(-90 40 160)">Retour à E0 (boucle)</text>
+          </svg>
+        `,
+        notes: [
+          'Transition E0→E1 : réceptivité « Bouton pressé ET portail fermé ».',
+          'Transition E1→E2 : réceptivité « Capteur fin de course ouverture activé ».',
+          'Transition E2→E0 : réceptivité « Temporisation de 10 s écoulée » — retour à l\'étape initiale.'
+        ],
+        reading: 'Suis la chaîne verticale étape–transition–étape de haut en bas, puis remonte par la boucle de gauche : la transition E2→E0 ramène le système à l\'étape initiale après la temporisation.',
+        caption: 'GRAFCET à 3 étapes de l\'exemple du cours (portail automatique) : E0 (fermé, attente) → E1 (ouverture en cours) → E2 (ouvert, temporisation) → retour à E0.'
+      },
 
       recap: [
         'Un GRAFCET modélise un système séquentiel avec des étapes, des transitions et des actions.',

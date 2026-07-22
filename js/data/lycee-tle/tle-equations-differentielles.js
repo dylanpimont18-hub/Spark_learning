@@ -44,6 +44,74 @@ window.MODULES.push({
         '$\\tau = R \\times C$ (circuit RC)',
         'À $t = \\tau$ : $U_C(\\tau) = E(1 - e^{-1}) \\approx 0{,}632 E$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Courbe de charge d\'un condensateur',
+        title: '$U_C(t) = E(1 - e^{-t/\\tau})$ avec $E = 12$ V et $\\tau = 1$ s (exemple du cours)',
+        description: 'Tracé point par point de la tension aux bornes du condensateur pendant la charge à travers une résistance, avec le repère caractéristique à $\\tau$ où $63{,}2\\%$ de la tension finale $E$ est atteinte.',
+        svg: `
+          <svg viewBox="0 0 480 260" role="img" aria-labelledby="rc-graph-title rc-graph-desc">
+            <title id="rc-graph-title">Charge d'un condensateur a travers une resistance</title>
+            <desc id="rc-graph-desc">Courbe de la tension U_C en fonction du temps pour un circuit RC en charge, avec E = 12 V et tau = 1 s. Le point a t = tau est marque : U_C atteint 63,2% de la tension finale E. La courbe se rapproche de E sans jamais l'atteindre exactement ; le point a t = 2 s (exemple du cours) et le point a 5 tau (regime permanent conventionnel) sont egalement marques.</desc>
+
+            <!-- grille -->
+            <line class="grid-line" x1="60" y1="170.8" x2="440" y2="170.8"></line>
+            <line class="grid-line" x1="60" y1="131.5" x2="440" y2="131.5"></line>
+            <line class="grid-line" x1="60" y1="92.3" x2="440" y2="92.3"></line>
+            <line class="grid-line" x1="136" y1="20" x2="136" y2="210"></line>
+            <line class="grid-line" x1="212" y1="20" x2="212" y2="210"></line>
+            <line class="grid-line" x1="288" y1="20" x2="288" y2="210"></line>
+            <line class="grid-line" x1="364" y1="20" x2="364" y2="210"></line>
+
+            <!-- axes -->
+            <line class="axis" x1="60" y1="210" x2="460" y2="210"></line>
+            <line class="axis" x1="60" y1="210" x2="60" y2="20"></line>
+
+            <!-- asymptote E -->
+            <line class="guide-line" x1="60" y1="53.1" x2="440" y2="53.1"></line>
+            <text class="annotation-label" x="436" y="46" text-anchor="end">E = 12 V</text>
+
+            <!-- courbe U_C(t) = E(1 - e^(-t/tau)) -->
+            <path class="curve-main" d="M60.0 210.0 L75.2 181.6 L90.4 158.3 L105.6 139.2 L120.8 123.6 L136.0 110.8 L151.2 100.3 L166.4 91.8 L181.6 84.8 L196.8 79.0 L212.0 74.3 L227.2 70.5 L242.4 67.3 L257.6 64.7 L272.8 62.6 L288.0 60.9 L303.2 59.5 L318.4 58.3 L333.6 57.4 L348.8 56.6 L364.0 56.0 L379.2 55.4 L394.4 55.0 L409.6 54.7 L424.8 54.4 L440.0 54.1"></path>
+
+            <!-- repere a tau -->
+            <line class="guide-line" x1="136" y1="210" x2="136" y2="110.8"></line>
+            <line class="guide-line" x1="60" y1="110.8" x2="136" y2="110.8"></line>
+            <circle class="plot-point" cx="136" cy="110.8" r="5"></circle>
+            <text class="annotation-label" x="141" y="129" text-anchor="start">63,2 % de E</text>
+
+            <!-- point exemple t = 2 s -->
+            <circle class="plot-point-alt" cx="212" cy="74.3" r="5"></circle>
+            <text class="annotation-label" x="217" y="100" text-anchor="start">t = 2 s : 10,38 V</text>
+
+            <!-- point a 5 tau (regime permanent) -->
+            <circle class="plot-point-alt" cx="440" cy="54.1" r="4"></circle>
+
+            <!-- ticks x -->
+            <text class="tick-label" x="60" y="228" text-anchor="middle">0</text>
+            <text class="tick-label" x="136" y="228" text-anchor="middle">τ</text>
+            <text class="tick-label" x="212" y="228" text-anchor="middle">2τ</text>
+            <text class="tick-label" x="288" y="228" text-anchor="middle">3τ</text>
+            <text class="tick-label" x="364" y="228" text-anchor="middle">4τ</text>
+            <text class="tick-label" x="440" y="228" text-anchor="middle">5τ</text>
+            <text class="axis-label" x="440" y="245" text-anchor="end">t (s)</text>
+
+            <!-- ticks y -->
+            <text class="tick-label" x="50" y="213" text-anchor="end">0</text>
+            <text class="tick-label" x="50" y="174.8" text-anchor="end">3</text>
+            <text class="tick-label" x="50" y="135.5" text-anchor="end">6</text>
+            <text class="tick-label" x="50" y="96.3" text-anchor="end">9</text>
+            <text class="axis-label" x="16" y="13" text-anchor="start">U_C (V)</text>
+          </svg>
+        `,
+        notes: [
+          'À $t=\\tau=1$ s, $U_C(\\tau)=E(1-e^{-1})\\approx 7{,}58$ V, soit $63{,}2\\%$ de $E$ — c\'est la définition même de $\\tau$, quel que soit le circuit.',
+          'À $t=2$ s (l\'exemple du cours), $U_C(2)\\approx 10{,}38$ V, soit $86{,}5\\%$ de $E$.',
+          'Le régime permanent est atteint conventionnellement à $5\\tau=5$ s, où $U_C\\approx 11{,}92$ V ($99{,}3\\%$ de $E$) — la courbe ne touche jamais exactement l\'asymptote $E$.'
+        ],
+        reading: 'Repère d\'abord la ligne pointillée horizontale qui indique $E$, la valeur finale jamais atteinte exactement. Puis repère le point à $\\tau$ : il est toujours à $63{,}2\\%$ du chemin parcouru, quel que soit le circuit.',
+        caption: 'Charge d\'un condensateur à travers une résistance : $U_C(t) = E(1 - e^{-t/\\tau})$, avec $E = 12$ V et $\\tau = RC = 1$ s (mêmes valeurs que l\'exemple du cours).'
+      },
       recap: [
         'L\'équation $\\tau y\' + y = y_\\infty$ a pour solution $y(t) = y_\\infty + (y_0 - y_\\infty)e^{-t/\\tau}$ : exponentielle décroissante vers $y_\\infty$.',
         'La constante de temps $\\tau$ fixe la rapidité du transitoire : à $\\tau$, on est à $63{,}2\\%$ ; à $5\\tau$, à $99{,}3\\%$.',

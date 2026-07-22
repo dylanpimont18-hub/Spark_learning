@@ -32,7 +32,63 @@ window.MODULES.push({
         ],
         answer: '$P = \\dfrac{1}{4} = 0{,}25$'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">$P(A)$</th><th style="border:1px solid var(--border);padding:6px 14px">Interprétation</th><th style="border:1px solid var(--border);padding:6px 14px">Exemple</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$0$</td><td style="border:1px solid var(--border);padding:6px 14px">Impossible</td><td style="border:1px solid var(--border);padding:6px 14px">Obtenir $7$ avec un dé à $6$ faces</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$0{,}5$</td><td style="border:1px solid var(--border);padding:6px 14px">Aussi probable qu\'improbable</td><td style="border:1px solid var(--border);padding:6px 14px">Pile ou face</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$1$</td><td style="border:1px solid var(--border);padding:6px 14px">Certain</td><td style="border:1px solid var(--border);padding:6px 14px">Obtenir un nombre $\\leq 6$ avec un dé</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Repère visuel',
+        title: 'De l\'impossible au certain',
+        description: 'La probabilité d\'un événement est toujours comprise entre $0$ et $1$. Cette règle graduée reprend les trois repères numériques du cours ($0$, $0{,}5$, $1$) et les complète avec le vocabulaire courant utilisé pour décrire une chance intermédiaire.',
+        svg: `
+          <svg viewBox="0 0 540 240" role="img" aria-labelledby="proba5e-title proba5e-desc">
+            <title id="proba5e-title">Echelle des probabilites de 0 a 1</title>
+            <desc id="proba5e-desc">Regle graduee horizontale de 0 (impossible) a 1 (certain), avec cinq reperes qualitatifs : impossible, peu probable, equiprobable, probable, certain, places respectivement a 0, 0,25, 0,5, 0,75 et 1.</desc>
+            <line class="axis" x1="40" y1="150" x2="520" y2="150"></line>
+            <line class="axis" x1="60" y1="150" x2="60" y2="158"></line>
+            <line class="axis" x1="170" y1="150" x2="170" y2="158"></line>
+            <line class="axis" x1="280" y1="150" x2="280" y2="158"></line>
+            <line class="axis" x1="390" y1="150" x2="390" y2="158"></line>
+            <line class="axis" x1="500" y1="150" x2="500" y2="158"></line>
+            <text class="tick-label" x="60" y="174" text-anchor="middle">0</text>
+            <text class="tick-label" x="170" y="174" text-anchor="middle">0,25</text>
+            <text class="tick-label" x="280" y="174" text-anchor="middle">0,5</text>
+            <text class="tick-label" x="390" y="174" text-anchor="middle">0,75</text>
+            <text class="tick-label" x="500" y="174" text-anchor="middle">1</text>
+            <line class="guide-line" x1="60" y1="72" x2="60" y2="144"></line>
+            <line class="guide-line" x1="170" y1="72" x2="170" y2="144"></line>
+            <line class="guide-line" x1="280" y1="72" x2="280" y2="144"></line>
+            <line class="guide-line" x1="390" y1="72" x2="390" y2="144"></line>
+            <line class="guide-line" x1="500" y1="72" x2="500" y2="144"></line>
+            <text class="annotation-label" x="60" y="60" text-anchor="middle">impossible</text>
+            <text class="annotation-label" x="170" y="60" text-anchor="middle">peu probable</text>
+            <text class="annotation-label" x="280" y="60" text-anchor="middle">équiprobable</text>
+            <text class="annotation-label" x="390" y="60" text-anchor="middle">probable</text>
+            <text class="annotation-label" x="500" y="60" text-anchor="middle">certain</text>
+            <circle class="plot-point" cx="60" cy="150" r="6"></circle>
+            <circle class="plot-point-alt" cx="170" cy="150" r="6"></circle>
+            <circle class="plot-point" cx="280" cy="150" r="6"></circle>
+            <circle class="plot-point-alt" cx="390" cy="150" r="6"></circle>
+            <circle class="plot-point" cx="500" cy="150" r="6"></circle>
+            <rect x="40" y="192" width="130" height="16" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></rect>
+            <rect x="170" y="192" width="110" height="16" fill="color-mix(in srgb, var(--diagram-accent) 20%, transparent)" stroke="none"></rect>
+            <rect x="280" y="192" width="110" height="16" fill="color-mix(in srgb, var(--diagram-accent) 38%, transparent)" stroke="none"></rect>
+            <rect x="390" y="192" width="130" height="16" fill="color-mix(in srgb, var(--diagram-accent) 60%, transparent)" stroke="none"></rect>
+            <rect class="frame-line" x="40" y="192" width="480" height="16" fill="none"></rect>
+            <line class="grid-line" x1="170" y1="192" x2="170" y2="208"></line>
+            <line class="grid-line" x1="280" y1="192" x2="280" y2="208"></line>
+            <line class="grid-line" x1="390" y1="192" x2="390" y2="208"></line>
+            <text class="label-soft" x="40" y="228" text-anchor="start">moins probable</text>
+            <text class="label-soft" x="520" y="228" text-anchor="end">plus probable</text>
+          </svg>
+        `,
+        notes: [
+          '<strong>Impossible</strong> ($P=0$) : obtenir $7$ avec un dé à $6$ faces, comme dans le tableau du cours — cet événement ne se produit jamais.',
+          '<strong>Peu probable</strong> : les cas favorables sont nettement minoritaires (ex. tirer une bille rouge dans un sac qui en compte $3$ sur $10$).',
+          '<strong>Équiprobable</strong> ($P=0{,}5$) : pile ou face — les deux issues sont « aussi probables l\'une que l\'autre », comme l\'indique le tableau du cours.',
+          '<strong>Probable</strong> : les cas favorables sont nettement majoritaires (ex. tirer une bille verte dans ce même sac, qui en compte $5$ sur $10$).',
+          '<strong>Certain</strong> ($P=1$) : obtenir un nombre $\\leq 6$ avec un dé à $6$ faces, comme dans le tableau du cours — cet événement se produit à chaque lancer.'
+        ],
+        reading: 'Les repères « peu probable » et « probable » n\'ont pas de seuil chiffré officiel — ce sont des mots du langage courant. Un calcul de $P(A)$ doit toujours donner une fraction ou un nombre exact entre $0$ et $1$, jamais une simple impression.',
+        caption: 'Échelle qualitative superposée aux trois repères numériques du cours : $0$ (impossible), $0{,}5$ (équiprobable), $1$ (certain).'
+      },
       method: {
         title: 'Méthode en 3 étapes',
         steps: [

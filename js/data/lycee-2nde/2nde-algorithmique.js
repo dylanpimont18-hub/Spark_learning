@@ -42,6 +42,72 @@ window.MODULES.push({
         '$\\texttt{range(n)}$ est équivalent à $\\texttt{range(0, n)}$',
         'Indentation obligatoire en Python (4 espaces ou 1 tabulation)'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Algorithmique — boucle for',
+        title: 'Organigramme de l\'exemple du cours : factorielle avec une boucle for',
+        description: 'Traduction en organigramme normalisé de l\'exemple du cours ($\\texttt{resultat = 1}$ puis $\\texttt{for i in range(1, n+1): resultat = resultat * i}$), déroulé pour $n = 5$.',
+        svg: `
+          <svg viewBox="0 0 500 430" role="img" aria-labelledby="algo-flow-title algo-flow-desc">
+            <title id="algo-flow-title">Organigramme de la boucle for pour calculer une factorielle</title>
+            <desc id="algo-flow-desc">Organigramme vertical : terminal Debut, rectangle d'initialisation resultat egal 1 et i egal 1, puis losange de condition i inferieur ou egal a n. Si oui, deux rectangles d'action a droite : resultat = resultat fois i, puis i = i plus 1, avec une boucle de retour qui ramene vers le cote gauche du losange. Si non, un rectangle affiche le resultat puis le terminal Fin.</desc>
+
+            <defs>
+              <marker id="arrow-2nde-algorithmique" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
+
+            <rect x="330" y="10" width="160" height="44" rx="10" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
+            <text class="annotation-label" x="345" y="28">Exemple :</text>
+            <text class="tick-label" x="345" y="44">n = 5 -&gt; resultat = 120 (5!)</text>
+
+            <!-- Terminal Debut -->
+            <ellipse class="frame-line" cx="170" cy="28" rx="62" ry="20" fill="none"></ellipse>
+            <text class="annotation-label" x="170" y="32" text-anchor="middle">Début</text>
+            <line class="curve-main" x1="170" y1="48" x2="170" y2="74"></line>
+
+            <!-- Initialisation -->
+            <rect class="frame-line" x="95" y="74" width="150" height="50" fill="none"></rect>
+            <text class="annotation-label" x="170" y="94" text-anchor="middle">resultat = 1</text>
+            <text class="annotation-label" x="170" y="114" text-anchor="middle">i = 1</text>
+            <line class="curve-main" x1="170" y1="124" x2="170" y2="150"></line>
+
+            <!-- Condition -->
+            <polygon class="frame-line" points="170,150 260,192 170,234 80,192" fill="none"></polygon>
+            <text class="annotation-label" x="170" y="196" text-anchor="middle">i &lt;= n ?</text>
+
+            <!-- Branche Oui : corps de la boucle -->
+            <text class="tick-label" x="270" y="182">Oui</text>
+            <line class="curve-main" x1="260" y1="192" x2="300" y2="192" marker-end="url(#arrow-2nde-algorithmique)"></line>
+            <rect class="frame-line" x="300" y="169" width="170" height="44" fill="none"></rect>
+            <text class="annotation-label" x="385" y="196" text-anchor="middle" font-size="11">resultat = resultat * i</text>
+            <line class="curve-main" x1="385" y1="213" x2="385" y2="239"></line>
+            <rect class="frame-line" x="300" y="239" width="170" height="44" fill="none"></rect>
+            <text class="annotation-label" x="385" y="266" text-anchor="middle" font-size="11">i = i + 1</text>
+            <polyline class="curve-main" points="385,283 385,400 20,400 20,192 80,192" fill="none" marker-end="url(#arrow-2nde-algorithmique)"></polyline>
+            <text class="label-soft" x="8" y="350" text-anchor="middle" transform="rotate(-90 8 350)">Retour au test (boucle for)</text>
+
+            <!-- Branche Non : sortie -->
+            <text class="tick-label" x="185" y="248">Non</text>
+            <line class="curve-main" x1="170" y1="234" x2="170" y2="260"></line>
+            <rect class="frame-line" x="95" y="260" width="150" height="44" fill="none"></rect>
+            <text class="annotation-label" x="170" y="287" text-anchor="middle">Afficher resultat</text>
+            <line class="curve-main" x1="170" y1="304" x2="170" y2="330"></line>
+
+            <!-- Terminal Fin -->
+            <ellipse class="frame-line" cx="170" cy="352" rx="55" ry="20" fill="none"></ellipse>
+            <text class="annotation-label" x="170" y="356" text-anchor="middle">Fin</text>
+          </svg>
+        `,
+        notes: [
+          'En Python, l\'incrémentation $\\texttt{i = i + 1}$ est gérée automatiquement par $\\texttt{range()}$ ; l\'organigramme la rend explicite pour montrer l\'équivalence avec une boucle $\\texttt{while}$.',
+          'Pour $n = 5$, $\\texttt{range(1, n+1)}$ vaut $\\texttt{range(1, 6)}$ et fournit $i = 1, 2, 3, 4, 5$ (le $6$ est exclu, comme rappelé dans le piège du cours).',
+          'Trace de l\'exécution : $i=1 \\to resultat=1$, $i=2 \\to 2$, $i=3 \\to 6$, $i=4 \\to 24$, $i=5 \\to 120$, puis $i=6$ fait sortir de la boucle ($i \\le n$ devient faux) : le programme affiche $120 = 5!$.'
+        ],
+        reading: 'Suis la branche « Oui » autour du losange tant que $i \\le n$ est vrai ; dès que $i$ dépasse $n$, la branche « Non » affiche le résultat final.',
+        caption: 'Organigramme normalisé de l\'exemple du cours (calcul de $5!$ avec une boucle $\\texttt{for}$) : Début → initialisation → test $i \\le n$ → action répétée ou sortie.'
+      },
       recap: [
         '$\\texttt{range(a, b)}$ produit les entiers de $a$ à $b-1$ : la borne supérieure est toujours exclue.',
         'La boucle $\\texttt{for}$ est utilisée quand le nombre de répétitions est connu à l\'avance ; $\\texttt{while}$ sinon.',

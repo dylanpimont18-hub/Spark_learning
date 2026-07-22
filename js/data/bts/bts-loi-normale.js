@@ -45,6 +45,62 @@ window.MODULES.push(
         '$P(\\mu - 2\\sigma \\leq X \\leq \\mu + 2\\sigma) \\approx 95{,}4\\%$',
         '$\\text{IC}_{95\\%} = \\bar{x} \\pm 1{,}96 \\dfrac{\\sigma}{\\sqrt{n}}$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Courbe de Gauss',
+        title: 'Répartition des valeurs pour $\\mathcal{N}(100\\,;\\,15^2)$',
+        description: 'Courbe de densité $f(x)=\\dfrac{1}{\\sigma\\sqrt{2\\pi}}e^{-\\frac{(x-\\mu)^2}{2\\sigma^2}}$ calculée point par point pour $\\mu = 100$ et $\\sigma = 15$ : les trois bandes montrent où se concentrent $68{,}3\\%$, $95{,}4\\%$ et $99{,}7\\%$ des valeurs autour de la moyenne.',
+        svg: `
+          <svg viewBox="0 0 470 310" role="img" aria-labelledby="loinormale-bts-title loinormale-bts-desc">
+            <title id="loinormale-bts-title">Courbe de Gauss de moyenne 100 et d'ecart-type 15</title>
+            <desc id="loinormale-bts-desc">Courbe en cloche calculee a partir de la fonction de densite normale, avec trois bandes concentriques marquant 68,3%, 95,4% et 99,7% des valeurs autour de la moyenne 100.</desc>
+            <line class="grid-line" x1="65.7" y1="40" x2="65.7" y2="224"></line>
+            <line class="grid-line" x1="117.1" y1="40" x2="117.1" y2="224"></line>
+            <line class="grid-line" x1="168.6" y1="40" x2="168.6" y2="224"></line>
+            <line class="grid-line" x1="220.0" y1="40" x2="220.0" y2="224"></line>
+            <line class="grid-line" x1="271.4" y1="40" x2="271.4" y2="224"></line>
+            <line class="grid-line" x1="322.9" y1="40" x2="322.9" y2="224"></line>
+            <line class="grid-line" x1="374.3" y1="40" x2="374.3" y2="224"></line>
+            <path d="M65.7 224.0 L65.7 222.0 L78.6 219.8 L91.4 215.9 L104.3 209.4 L117.1 199.1 L130.0 184.2 L142.9 164.3 L155.7 139.8 L168.6 112.4 L181.4 85.1 L194.3 61.6 L207.1 45.7 L220.0 40.0 L232.9 45.7 L245.7 61.6 L258.6 85.1 L271.4 112.4 L284.3 139.8 L297.1 164.3 L310.0 184.2 L322.9 199.1 L335.7 209.4 L348.6 215.9 L361.4 219.8 L374.3 222.0 L374.3 224.0 Z" fill="color-mix(in srgb, var(--diagram-accent) 12%, transparent)" stroke="none"></path>
+            <path d="M117.1 224.0 L117.1 199.1 L130.0 184.2 L142.9 164.3 L155.7 139.8 L168.6 112.4 L181.4 85.1 L194.3 61.6 L207.1 45.7 L220.0 40.0 L232.9 45.7 L245.7 61.6 L258.6 85.1 L271.4 112.4 L284.3 139.8 L297.1 164.3 L310.0 184.2 L322.9 199.1 L322.9 224.0 Z" fill="color-mix(in srgb, var(--diagram-accent) 18%, transparent)" stroke="none"></path>
+            <path d="M168.6 224.0 L168.6 112.4 L181.4 85.1 L194.3 61.6 L207.1 45.7 L220.0 40.0 L232.9 45.7 L245.7 61.6 L258.6 85.1 L271.4 112.4 L271.4 224.0 Z" fill="color-mix(in srgb, var(--diagram-accent) 26%, transparent)" stroke="none"></path>
+            <path class="curve-main" d="M40.0 223.6 L52.9 223.1 L65.7 222.0 L78.6 219.8 L91.4 215.9 L104.3 209.4 L117.1 199.1 L130.0 184.2 L142.9 164.3 L155.7 139.8 L168.6 112.4 L181.4 85.1 L194.3 61.6 L207.1 45.7 L220.0 40.0 L232.9 45.7 L245.7 61.6 L258.6 85.1 L271.4 112.4 L284.3 139.8 L297.1 164.3 L310.0 184.2 L322.9 199.1 L335.7 209.4 L348.6 215.9 L361.4 219.8 L374.3 222.0 L387.1 223.1 L400.0 223.6"></path>
+            <line class="axis" x1="30" y1="224" x2="410" y2="224"></line>
+            <line class="axis" x1="65.7" y1="224" x2="65.7" y2="230"></line>
+            <line class="axis" x1="117.1" y1="224" x2="117.1" y2="230"></line>
+            <line class="axis" x1="168.6" y1="224" x2="168.6" y2="230"></line>
+            <line class="axis" x1="220.0" y1="224" x2="220.0" y2="230"></line>
+            <line class="axis" x1="271.4" y1="224" x2="271.4" y2="230"></line>
+            <line class="axis" x1="322.9" y1="224" x2="322.9" y2="230"></line>
+            <line class="axis" x1="374.3" y1="224" x2="374.3" y2="230"></line>
+            <circle class="plot-point" cx="220.0" cy="40.0" r="4"></circle>
+            <circle class="plot-point-alt" cx="168.6" cy="112.4" r="3"></circle>
+            <circle class="plot-point-alt" cx="271.4" cy="112.4" r="3"></circle>
+            <text class="annotation-label" x="220.0" y="20" text-anchor="middle">μ = 100</text>
+            <text class="tick-label" x="65.7" y="242" text-anchor="middle">55</text>
+            <text class="tick-label" x="117.1" y="242" text-anchor="middle">70</text>
+            <text class="tick-label" x="168.6" y="242" text-anchor="middle">85</text>
+            <text class="tick-label" x="220.0" y="242" text-anchor="middle">100</text>
+            <text class="tick-label" x="271.4" y="242" text-anchor="middle">115</text>
+            <text class="tick-label" x="322.9" y="242" text-anchor="middle">130</text>
+            <text class="tick-label" x="374.3" y="242" text-anchor="middle">145</text>
+            <text class="axis-label" x="414" y="228">x</text>
+            <line class="guide-line" x1="168.6" y1="254" x2="271.4" y2="254"></line>
+            <text class="annotation-label" x="277.4" y="258">68,3 %</text>
+            <line class="guide-line" x1="117.1" y1="270" x2="322.9" y2="270"></line>
+            <text class="annotation-label" x="328.9" y="274">95,4 %</text>
+            <line class="guide-line" x1="65.7" y1="286" x2="374.3" y2="286"></line>
+            <text class="annotation-label" x="380.3" y="290">99,7 %</text>
+          </svg>
+        `,
+        notes: [
+          'Bande la plus foncée : $[85\\,;\\,115] = [\\mu-\\sigma\\,;\\,\\mu+\\sigma]$, soit $68{,}3\\%$ des valeurs.',
+          'Bande intermédiaire : $[70\\,;\\,130] = [\\mu-2\\sigma\\,;\\,\\mu+2\\sigma]$, soit $95{,}4\\%$ des valeurs — c\'est l\'intervalle du quiz ci-dessus.',
+          'Bande la plus large : $[55\\,;\\,145] = [\\mu-3\\sigma\\,;\\,\\mu+3\\sigma]$, soit $99{,}7\\%$ des valeurs : au-delà, une valeur est quasiment exclue.'
+        ],
+        reading: 'La hauteur de la courbe en chaque point $x$ est calculée avec la vraie formule de densité $f(x)$, pas dessinée à main levée : plus $x$ s\'éloigne de $\\mu=100$, plus $f(x)$ chute, ce qui traduit la rareté des valeurs extrêmes.',
+        caption: 'Courbe de densité de $\\mathcal{N}(100\\,;\\,15^2)$ avec la règle $68$-$95$-$99{,}7\\%$.'
+      },
       recap: [
         'La règle $68$-$95$-$99{,}7$ : $\\pm 1\\sigma$ contient $68\\%$, $\\pm 2\\sigma$ contient $95\\%$, $\\pm 3\\sigma$ contient $99{,}7\\%$ des valeurs.',
         'La centration-réduction $Z = (X-\\mu)/\\sigma$ ramène toute loi normale à $\\mathcal{N}(0,1)$ pour utiliser une table unique.',

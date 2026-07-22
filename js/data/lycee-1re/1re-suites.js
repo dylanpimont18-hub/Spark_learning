@@ -43,6 +43,93 @@ window.MODULES.push({
         '$S_n^{\\text{arith}} = \\dfrac{(u_0 + u_n)(n+1)}{2}$',
         '$S_n^{\\text{géom}} = u_0 \\times \\dfrac{1 - q^{n+1}}{1 - q}$ (si $q \\neq 1$)'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Nuage de points $(n\\,;\\,u_n)$',
+        title: 'Même point de départ, deux croissances : $u_n = 2+3n$ contre $u_n = 2\\times3^n$',
+        description: 'Reprise de deux exemples déjà utilisés dans le quiz du module : une suite arithmétique $u_0=2$, $r=3$ (dont on a vérifié $u_5=17$) et une suite géométrique $u_0=2$, $q=3$ (dont on a vérifié $u_3=54$). Les deux nuages sont tracés côte à côte, avec des échelles verticales différentes : à l\'échelle de la suite géométrique, la suite arithmétique serait totalement écrasée contre l\'axe.',
+        svg: `
+          <svg viewBox="0 0 480 300" role="img" aria-labelledby="suites-cmp-title suites-cmp-desc">
+            <title id="suites-cmp-title">Comparaison suite arithmetique et suite geometrique de meme depart</title>
+            <desc id="suites-cmp-desc">Deux nuages de points cote a cote. A gauche, la suite arithmetique u(n)=2+3n croit de facon reguliere de 2 a 17 pour n de 0 a 5. A droite, la suite geometrique u(n)=2 fois 3 puissance n croit de 2 a 486 sur le meme intervalle, avec une echelle verticale plus grande et une forme qui s'envole en fin de parcours.</desc>
+
+            <!-- Panel A : suite arithmetique u_n = 2 + 3n -->
+            <rect class="frame-line" x="50" y="20" width="155" height="210" fill="none"></rect>
+            <line class="grid-line" x1="50" y1="160" x2="205" y2="160"></line>
+            <line class="grid-line" x1="50" y1="90" x2="205" y2="90"></line>
+
+            <polyline class="guide-line" points="50,206.67 81,171.67 112,136.67 143,101.67 174,66.67 205,31.67" fill="none"></polyline>
+
+            <circle class="plot-point" cx="50" cy="206.67" r="5"></circle>
+            <circle class="plot-point-alt" cx="81" cy="171.67" r="4"></circle>
+            <circle class="plot-point-alt" cx="112" cy="136.67" r="4"></circle>
+            <circle class="plot-point-alt" cx="143" cy="101.67" r="4"></circle>
+            <circle class="plot-point-alt" cx="174" cy="66.67" r="4"></circle>
+            <circle class="plot-point" cx="205" cy="31.67" r="5.5"></circle>
+
+            <text class="tick-label" x="40" y="234" text-anchor="end">0</text>
+            <text class="tick-label" x="40" y="164" text-anchor="end">6</text>
+            <text class="tick-label" x="40" y="94" text-anchor="end">12</text>
+            <text class="tick-label" x="40" y="24" text-anchor="end">18</text>
+
+            <text class="tick-label" x="50" y="248" text-anchor="middle">0</text>
+            <text class="tick-label" x="81" y="248" text-anchor="middle">1</text>
+            <text class="tick-label" x="112" y="248" text-anchor="middle">2</text>
+            <text class="tick-label" x="143" y="248" text-anchor="middle">3</text>
+            <text class="tick-label" x="174" y="248" text-anchor="middle">4</text>
+            <text class="tick-label" x="205" y="248" text-anchor="middle">5</text>
+
+            <text class="annotation-label" x="127" y="14" text-anchor="middle">Arithmetique : u(n) = 2 + 3n</text>
+            <text class="axis-label" x="127" y="264" text-anchor="middle">n</text>
+            <text class="label-soft" x="15" y="125" text-anchor="middle" transform="rotate(-90 15 125)">u(n)</text>
+            <text class="annotation-label" x="55" y="200">u0 = 2</text>
+            <text class="annotation-label" x="200" y="45" text-anchor="end">u5 = 17</text>
+
+            <!-- Panel B : suite geometrique u_n = 2 x 3^n -->
+            <rect class="frame-line" x="290" y="20" width="155" height="210" fill="none"></rect>
+            <line class="grid-line" x1="290" y1="188" x2="445" y2="188"></line>
+            <line class="grid-line" x1="290" y1="146" x2="445" y2="146"></line>
+            <line class="grid-line" x1="290" y1="104" x2="445" y2="104"></line>
+            <line class="grid-line" x1="290" y1="62" x2="445" y2="62"></line>
+
+            <polyline class="guide-line" points="290,229.16 321,227.48 352,222.44 383,207.32 414,161.96 445,25.88" fill="none"></polyline>
+
+            <circle class="plot-point" cx="290" cy="229.16" r="5"></circle>
+            <circle class="plot-point-alt" cx="321" cy="227.48" r="4"></circle>
+            <circle class="plot-point-alt" cx="352" cy="222.44" r="4"></circle>
+            <circle class="plot-point-alt" cx="383" cy="207.32" r="4"></circle>
+            <circle class="plot-point-alt" cx="414" cy="161.96" r="4"></circle>
+            <circle class="plot-point" cx="445" cy="25.88" r="5.5"></circle>
+
+            <text class="tick-label" x="280" y="234" text-anchor="end">0</text>
+            <text class="tick-label" x="280" y="192" text-anchor="end">100</text>
+            <text class="tick-label" x="280" y="150" text-anchor="end">200</text>
+            <text class="tick-label" x="280" y="108" text-anchor="end">300</text>
+            <text class="tick-label" x="280" y="66" text-anchor="end">400</text>
+            <text class="tick-label" x="280" y="24" text-anchor="end">500</text>
+
+            <text class="tick-label" x="290" y="248" text-anchor="middle">0</text>
+            <text class="tick-label" x="321" y="248" text-anchor="middle">1</text>
+            <text class="tick-label" x="352" y="248" text-anchor="middle">2</text>
+            <text class="tick-label" x="383" y="248" text-anchor="middle">3</text>
+            <text class="tick-label" x="414" y="248" text-anchor="middle">4</text>
+            <text class="tick-label" x="445" y="248" text-anchor="middle">5</text>
+
+            <text class="annotation-label" x="367" y="14" text-anchor="middle">Geometrique : u(n) = 2 x 3^n</text>
+            <text class="axis-label" x="367" y="264" text-anchor="middle">n</text>
+            <text class="label-soft" x="255" y="125" text-anchor="middle" transform="rotate(-90 255 125)">u(n)</text>
+            <text class="annotation-label" x="295" y="222">u0 = 2</text>
+            <text class="annotation-label" x="440" y="40" text-anchor="end">u5 = 486</text>
+          </svg>
+        `,
+        notes: [
+          'Suite arithmétique $u_n=2+3n$ : $2, 5, 8, 11, 14, 17$ pour $n=0$ à $5$. Chaque terme ajoute $3$ au précédent — la pente du nuage de points est constante.',
+          'Suite géométrique $u_n=2\\times3^n$ : $2, 6, 18, 54, 162, 486$ pour $n=0$ à $5$. Chaque terme multiplie le précédent par $3$ — l\'écart entre deux termes grossit lui-même à chaque étape.',
+          'Sur $5$ pas, l\'arithmétique est multipliée par $8{,}5$ (soit $17/2$) alors que la géométrique est multipliée par $243$ (soit $486/2=3^5$) : c\'est la signature d\'une croissance exponentielle.'
+        ],
+        reading: 'Les deux suites partent du même $u_0=2$ et utilisent le même nombre $3$ (comme raison $r$ ou comme raison $q$) — pourtant leurs profils sont radicalement différents : alignement régulier de points sur une droite (arithmétique) contre courbe qui s\'envole (géométrique). Sur un même graphique à échelle unique, les $6$ points de la suite arithmétique seraient quasiment collés à l\'axe des abscisses tant $486$ écrase $17$ : c\'est pourquoi les deux nuages utilisent des échelles verticales différentes.',
+        caption: 'Comparaison à $u_0=2$ identique : $u_n=2+3n$ (gauche) contre $u_n=2\\times3^n$ (droite), pour $n=0$ à $5$.'
+      },
       recap: [
         'Arithmétique : on <strong>ajoute</strong> toujours la même quantité $r$. Formule : $u_n = u_0 + nr$.',
         'Géométrique : on <strong>multiplie</strong> toujours par le même facteur $q$. Formule : $u_n = u_0 \\times q^n$.',

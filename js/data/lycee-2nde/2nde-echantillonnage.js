@@ -41,6 +41,59 @@ window.MODULES.push({
         '$I_{conf} = \\left[f - \\dfrac{1}{\\sqrt{n}} ; f + \\dfrac{1}{\\sqrt{n}}\\right]$',
         'Marge d\'erreur $e = \\dfrac{1}{\\sqrt{n}}$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Fluctuation d\'échantillonnage',
+        title: 'Distribution de la fréquence $f$ pour $n = 900$',
+        description: 'Courbe en cloche calculée à partir de l\'approximation normale du théorème central limite (écart-type $\\sigma = \\sqrt{f(1-f)/n} \\approx 1{,}63$ point), sur l\'exemple du cours : $n = 900$ personnes interrogées, $540$ satisfaites, $f = 0{,}6$. La bande centrale surligne l\'intervalle de confiance $[f-e\\,;\\,f+e]$.',
+        svg: `
+          <svg viewBox="0 0 470 285" role="img" aria-labelledby="ech2nde-title ech2nde-desc">
+            <title id="ech2nde-title">Distribution approchee de la frequence observee pour n=900</title>
+            <desc id="ech2nde-desc">Courbe en cloche centree sur f=60%, avec la bande de l'intervalle de confiance a 95% entre 56,7% et 63,3% surlignee.</desc>
+            <line class="grid-line" x1="40.0" y1="40" x2="40.0" y2="224"></line>
+            <line class="grid-line" x1="105.0" y1="40" x2="105.0" y2="224"></line>
+            <line class="grid-line" x1="170.0" y1="40" x2="170.0" y2="224"></line>
+            <line class="grid-line" x1="235.0" y1="40" x2="235.0" y2="224"></line>
+            <line class="grid-line" x1="300.0" y1="40" x2="300.0" y2="224"></line>
+            <line class="grid-line" x1="365.0" y1="40" x2="365.0" y2="224"></line>
+            <line class="grid-line" x1="430.0" y1="40" x2="430.0" y2="224"></line>
+            <path d="M20.5 224.0 L20.5 223.9 L40.0 223.8 L59.5 223.2 L79.0 221.6 L98.5 217.3 L118.0 207.8 L137.5 190.0 L157.0 161.5 L176.5 123.8 L196.0 83.5 L215.5 52.0 L235.0 40.0 L254.5 52.0 L274.0 83.5 L293.5 123.8 L313.0 161.5 L332.5 190.0 L352.0 207.8 L371.5 217.3 L391.0 221.6 L410.5 223.2 L430.0 223.8 L449.5 223.9 L449.5 224.0 Z" fill="color-mix(in srgb, var(--diagram-accent) 10%, transparent)" stroke="none"></path>
+            <path d="M126.7 224.0 L126.7 201.1 L137.5 190.0 L157.0 161.5 L176.5 123.8 L196.0 83.5 L215.5 52.0 L235.0 40.0 L254.5 52.0 L274.0 83.5 L293.5 123.8 L313.0 161.5 L332.5 190.0 L343.3 201.1 L343.3 224.0 Z" fill="color-mix(in srgb, var(--diagram-accent) 24%, transparent)" stroke="none"></path>
+            <path class="curve-main" d="M20.5 223.9 L40.0 223.8 L59.5 223.2 L79.0 221.6 L98.5 217.3 L118.0 207.8 L137.5 190.0 L157.0 161.5 L176.5 123.8 L196.0 83.5 L215.5 52.0 L235.0 40.0 L254.5 52.0 L274.0 83.5 L293.5 123.8 L313.0 161.5 L332.5 190.0 L352.0 207.8 L371.5 217.3 L391.0 221.6 L410.5 223.2 L430.0 223.8 L449.5 223.9"></path>
+            <line class="axis" x1="15" y1="224" x2="455" y2="224"></line>
+            <line class="axis" x1="40.0" y1="224" x2="40.0" y2="230"></line>
+            <line class="axis" x1="105.0" y1="224" x2="105.0" y2="230"></line>
+            <line class="axis" x1="170.0" y1="224" x2="170.0" y2="230"></line>
+            <line class="axis" x1="235.0" y1="224" x2="235.0" y2="230"></line>
+            <line class="axis" x1="300.0" y1="224" x2="300.0" y2="230"></line>
+            <line class="axis" x1="365.0" y1="224" x2="365.0" y2="230"></line>
+            <line class="axis" x1="430.0" y1="224" x2="430.0" y2="230"></line>
+            <circle class="plot-point" cx="235.0" cy="40.0" r="4"></circle>
+            <circle class="plot-point-alt" cx="126.7" cy="201.1" r="3"></circle>
+            <circle class="plot-point-alt" cx="343.3" cy="201.1" r="3"></circle>
+            <text class="annotation-label" x="235.0" y="20" text-anchor="middle">f = 60 %</text>
+            <text class="annotation-label" x="121" y="193" text-anchor="end">56,7 %</text>
+            <text class="annotation-label" x="348" y="193" text-anchor="start">63,3 %</text>
+            <text class="tick-label" x="40.0" y="242" text-anchor="middle">54 %</text>
+            <text class="tick-label" x="105.0" y="242" text-anchor="middle">56 %</text>
+            <text class="tick-label" x="170.0" y="242" text-anchor="middle">58 %</text>
+            <text class="tick-label" x="235.0" y="242" text-anchor="middle">60 %</text>
+            <text class="tick-label" x="300.0" y="242" text-anchor="middle">62 %</text>
+            <text class="tick-label" x="365.0" y="242" text-anchor="middle">64 %</text>
+            <text class="tick-label" x="430.0" y="242" text-anchor="middle">66 %</text>
+            <text class="axis-label" x="459" y="228">f</text>
+            <line class="guide-line" x1="126.7" y1="256" x2="343.3" y2="256"></line>
+            <text class="annotation-label" x="349" y="260">IC 95 %</text>
+          </svg>
+        `,
+        notes: [
+          'Fréquence observée : $f = 540/900 = 0{,}6$, soit $60\\%$.',
+          'Marge d\'erreur du cours : $e = 1/\\sqrt{900} = 1/30 \\approx 0{,}033$, soit environ $3{,}3$ points.',
+          'Intervalle de confiance à $95\\%$ : $[f-e\\,;\\,f+e] = [0{,}567\\,;\\,0{,}633]$, soit $[56{,}7\\,\\%\\,;\\,63{,}3\\,\\%]$ — la bande foncée du schéma.'
+        ],
+        reading: 'La marge $e=1/\\sqrt{n}$ du cours majore légèrement l\'écart-type théorique $\\sigma = \\sqrt{f(1-f)/n} \\approx 1{,}63$ point : elle correspond au pire cas $f=0{,}5$ (où $\\sigma$ est maximal), ce qui rend la formule valable quelle que soit la valeur de $f$.',
+        caption: 'Distribution approchée de la fréquence observée $f$ autour de la vraie proportion, avec l\'intervalle de confiance $[f-e\\,;\\,f+e]$ en évidence.'
+      },
       recap: [
         'La fréquence observée $f$ fluctue autour de la vraie proportion $p$ : c\'est la fluctuation d\'échantillonnage.',
         'La marge d\'erreur $e = 1/\\sqrt{n}$ diminue quand $n$ augmente, mais lentement (il faut multiplier $n$ par $4$ pour diviser $e$ par $2$).',

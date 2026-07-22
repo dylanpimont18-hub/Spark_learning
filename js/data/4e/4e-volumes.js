@@ -6,7 +6,7 @@
     title: 'Volumes des pyramides et cônes',
     subtitle: 'Formule du tiers, cas particuliers',
     keywords: ['Pyramide', 'Cône', 'Volume', 'Base', 'Hauteur', 'Tiers'],
-    physics: true,
+    physics: 'Calcul du volume d\'un silo conique, d\'une pyramide, d\'un tas de sable en génie civil',
     cours: {
       intro: 'La pyramide et le cône ont un volume égal au tiers du prisme ou cylindre qui les contient : $V = \\frac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$.' +
         '<br/><br/>' +
@@ -43,7 +43,41 @@
         'Cône : $V = \\dfrac{1}{3} \\pi r^2 h$',
         'Pyramide à base carrée de côté $a$ : $V = \\dfrac{1}{3} a^2 h$'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Solide</th><th style="border:1px solid var(--border);padding:6px 14px">Base</th><th style="border:1px solid var(--border);padding:6px 14px">Formule du volume</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Pyramide (base carrée)</td><td style="border:1px solid var(--border);padding:6px 14px">Carré de côté $a$</td><td style="border:1px solid var(--border);padding:6px 14px">$V = \\dfrac{1}{3} a^2 h$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Pyramide (base triangulaire)</td><td style="border:1px solid var(--border);padding:6px 14px">Triangle d\'aire $\\mathcal{A}$</td><td style="border:1px solid var(--border);padding:6px 14px">$V = \\dfrac{1}{3} \\mathcal{A} h$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Cône de révolution</td><td style="border:1px solid var(--border);padding:6px 14px">Disque de rayon $r$</td><td style="border:1px solid var(--border);padding:6px 14px">$V = \\dfrac{1}{3} \\pi r^2 h$</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Coupe d\'un cône',
+        title: 'Hauteur perpendiculaire et génératrice : ne pas confondre',
+        description: 'Coupe de l\'entonnoir de l\'exemple du cours : un cône de rayon $r = 4$ cm et de hauteur $h = 9$ cm. La hauteur (en pointillés) relie le sommet au centre de la base ; la génératrice (trait plein) relie le sommet au bord de la base et sert de côté visible du cône.',
+        svg: `
+          <svg viewBox="0 0 360 260" role="img" aria-labelledby="volumes-cone-title volumes-cone-desc">
+            <title id="volumes-cone-title">Coupe d'un cone avec hauteur et generatrice</title>
+            <desc id="volumes-cone-desc">Un cone est represente en perspective avec sa base elliptique, sa hauteur perpendiculaire en pointilles reliant le sommet au centre de la base, et sa generatrice en trait plein reliant le sommet au bord de la base, plus longue que la hauteur.</desc>
+            <path class="guide-line" d="M80 195 A100 24 0 0 1 280 195"></path>
+            <path class="frame-line" d="M80 195 A100 24 0 0 0 280 195" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)"></path>
+            <line class="curve-main" x1="180" y1="45" x2="80" y2="195"></line>
+            <line class="curve-main" x1="180" y1="45" x2="280" y2="195"></line>
+            <line class="guide-line" x1="180" y1="45" x2="180" y2="195"></line>
+            <line class="axis" x1="180" y1="195" x2="280" y2="195"></line>
+            <path class="axis" d="M180 181 L194 181 L194 195"></path>
+            <circle class="plot-point" cx="180" cy="45" r="4"></circle>
+            <circle class="plot-point-alt" cx="180" cy="195" r="4"></circle>
+            <circle class="plot-point-alt" cx="280" cy="195" r="4"></circle>
+            <text class="annotation-label" x="180" y="30" text-anchor="middle">Sommet</text>
+            <text class="annotation-label" x="172" y="120" text-anchor="end">h = 9 cm</text>
+            <text class="annotation-label" x="230" y="214" text-anchor="middle">r = 4 cm</text>
+            <text class="annotation-label" x="245" y="115" text-anchor="start">Génératrice</text>
+            <text class="tick-label" x="245" y="130" text-anchor="start">(l ≈ 9,85 cm)</text>
+          </svg>
+        `,
+        notes: [
+          'La hauteur $h$ (en pointillés) est la distance perpendiculaire entre le sommet et le centre de la base — c\'est elle qui sert dans la formule du volume.',
+          'La génératrice (trait plein) relie le sommet à un point du bord de la base : elle est toujours plus longue que $h$. Ici $l = \\sqrt{r^2+h^2} = \\sqrt{4^2+9^2} = \\sqrt{97} \\approx 9{,}85$ cm.',
+          'Le petit carré marque l\'angle droit entre la hauteur et le rayon de la base.',
+          'Volume : $V = \\dfrac{1}{3}\\pi r^2 h = \\dfrac{1}{3}\\times 3{,}14\\times 4^2\\times 9 = 150{,}72$ cm³ (voir l\'exemple du cours).'
+        ],
+        reading: 'Repère d\'abord l\'angle droit entre la hauteur et le rayon de la base : c\'est ce qui distingue $h$ de la génératrice, plus longue et oblique.',
+        caption: 'Coupe d\'un cône (entonnoir de l\'exemple du cours) avec hauteur perpendiculaire en pointillés et génératrice en trait plein.'
+      },
       recap: [
         'Volume d\'une pyramide ou d\'un cône = $\\dfrac{1}{3}$ du prisme ou cylindre de même base et même hauteur.',
         'La hauteur $h$ est toujours perpendiculaire à la base — ne pas confondre avec l\'arête latérale.',

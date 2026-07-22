@@ -46,7 +46,52 @@ window.MODULES.push(
         'Aires : $\\mathcal{A}_{\\text{image}} = k^2 \\times \\mathcal{A}_{\\text{original}}$',
         'Les angles sont conservés (similitude)'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Rapport $k$</th><th style="border:1px solid var(--border);padding:8px">Effet géométrique</th><th style="border:1px solid var(--border);padding:8px">Longueurs</th><th style="border:1px solid var(--border);padding:8px">Aires</th></tr><tr><td style="border:1px solid var(--border);padding:8px">$k > 1$</td><td style="border:1px solid var(--border);padding:8px">Agrandissement (même côté)</td><td style="border:1px solid var(--border);padding:8px">$\\times |k|$</td><td style="border:1px solid var(--border);padding:8px">$\\times k^2$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">$0 < k < 1$</td><td style="border:1px solid var(--border);padding:8px">Réduction (même côté)</td><td style="border:1px solid var(--border);padding:8px">$\\times k$</td><td style="border:1px solid var(--border);padding:8px">$\\times k^2$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">$k < 0$</td><td style="border:1px solid var(--border);padding:8px">Retournement (côté opposé)</td><td style="border:1px solid var(--border);padding:8px">$\\times |k|$</td><td style="border:1px solid var(--border);padding:8px">$\\times k^2$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">$k = -1$</td><td style="border:1px solid var(--border);padding:8px">Symétrie centrale</td><td style="border:1px solid var(--border);padding:8px">$\\times 1$ (conservées)</td><td style="border:1px solid var(--border);padding:8px">$\\times 1$ (conservées)</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Transformation géométrique',
+        title: 'Visualiser une homothétie de rapport k = 2',
+        description: 'Le triangle $ABC$ et son image $A\'B\'C\'$ par l\'homothétie de centre $O$ et de rapport $k = 2$ : chaque sommet image est deux fois plus loin de $O$ que le sommet d\'origine, sur la même droite.',
+        svg: `
+          <svg viewBox="0 0 340 290" role="img" aria-labelledby="homothetie-graph-title homothetie-graph-desc">
+            <title id="homothetie-graph-title">Homothetie de centre O et de rapport k = 2</title>
+            <desc id="homothetie-graph-desc">Le schema montre le triangle ABC et son image A'B'C' par l'homothetie de centre O et de rapport k = 2 : chaque sommet image est deux fois plus loin de O que le sommet d'origine, sur la meme droite.</desc>
+            <rect x="20" y="8" width="280" height="30" rx="12" fill="color-mix(in srgb, var(--diagram-accent) 7%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 22%, var(--border))"></rect>
+            <text class="annotation-label" x="32" y="28">Homothetie centre O, rapport k = 2</text>
+            <line class="guide-line" x1="40" y1="250" x2="172" y2="206"></line>
+            <line class="guide-line" x1="40" y1="250" x2="260" y2="74"></line>
+            <line class="guide-line" x1="40" y1="250" x2="84" y2="74"></line>
+            <line class="frame-line" x1="106" y1="228" x2="150" y2="162"></line>
+            <line class="frame-line" x1="150" y1="162" x2="62" y2="162"></line>
+            <line class="frame-line" x1="62" y1="162" x2="106" y2="228"></line>
+            <line class="curve-main" x1="172" y1="206" x2="260" y2="74"></line>
+            <line class="curve-main" x1="260" y1="74" x2="84" y2="74"></line>
+            <line class="curve-main" x1="84" y1="74" x2="172" y2="206"></line>
+            <text class="label-soft" x="100" y="190">ABC</text>
+            <text class="label-soft" x="160" y="124">A'B'C'</text>
+            <circle class="plot-point-alt" cx="40" cy="250" r="6"></circle>
+            <circle class="plot-point-alt" cx="106" cy="228" r="5"></circle>
+            <circle class="plot-point-alt" cx="150" cy="162" r="5"></circle>
+            <circle class="plot-point-alt" cx="62" cy="162" r="5"></circle>
+            <circle class="plot-point" cx="172" cy="206" r="5"></circle>
+            <circle class="plot-point" cx="260" cy="74" r="5"></circle>
+            <circle class="plot-point" cx="84" cy="74" r="5"></circle>
+            <text class="annotation-label" x="20" y="266">O</text>
+            <text class="annotation-label" x="112" y="246">A</text>
+            <text class="annotation-label" x="140" y="146">B</text>
+            <text class="annotation-label" x="18" y="168">C</text>
+            <text class="annotation-label" x="182" y="220">A'</text>
+            <text class="annotation-label" x="250" y="56">B'</text>
+            <text class="annotation-label" x="36" y="56">C'</text>
+          </svg>
+        `,
+        notes: [
+          'Le centre $O$ est le seul point fixe de l\'homothétie : $A$, $B$, $C$ glissent chacun le long de leur droite $(OA)$, $(OB)$, $(OC)$ jusqu\'à leur image.',
+          'Ici $k = 2$ : $\\vec{OA\'} = 2\\vec{OA}$ (idem pour $B$ et $C$), donc chaque point d\'origine se trouve exactement au milieu du segment reliant $O$ à son image.',
+          'Le triangle image $A\'B\'C\'$ est semblable à $ABC$ : mêmes angles, côtés multipliés par $k = 2$, donc une aire multipliée par $k^2 = 4$.'
+        ],
+        reading: 'Pars toujours de $O$ et suis chaque droite jusqu\'à l\'image : avec $k = 2$, la distance double à chaque fois.',
+        caption: 'Homothétie de centre $O$ et de rapport $k = 2$ : triangle $ABC$ et son image $A\'B\'C\'$, avec les droites $(OA)$, $(OB)$, $(OC)$ prolongées jusqu\'aux points images.'
+      },
       recap: [
         'Les <strong>longueurs</strong> sont multipliées par $|k|$ et les <strong>aires</strong> par $k^2$ — ne pas confondre !',
         'Les <strong>angles</strong> sont toujours conservés : l\'image d\'un triangle équilatéral reste équilatéral.',

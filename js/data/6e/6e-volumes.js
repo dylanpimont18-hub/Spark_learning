@@ -39,7 +39,41 @@ window.MODULES.push({
         ],
         answer: '$V = 72\\,000$ cm³ $= 72$ L'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Solide</th><th style="border:1px solid var(--border);padding:8px">Formule</th><th style="border:1px solid var(--border);padding:8px">Unité</th></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Pavé droit</strong></td><td style="border:1px solid var(--border);padding:8px">$V = L \\times l \\times h$</td><td style="border:1px solid var(--border);padding:8px">cm³, m³</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Cube</strong></td><td style="border:1px solid var(--border);padding:8px">$V = a^3$</td><td style="border:1px solid var(--border);padding:8px">cm³, m³</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Conversions</strong></td><td style="border:1px solid var(--border);padding:8px">$1$ m³ $= 1000$ L $= 10^6$ cm³</td><td style="border:1px solid var(--border);padding:8px">—</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Pavé droit et cube',
+        title: 'Le cube unité et le pavé droit de l\'aquarium, en perspective',
+        description: 'Le petit cube de $1$ cm d\'arête rappelle que $1\\,\\text{cm}^3 = 1\\,\\text{mL}$ ; le pavé droit reprend l\'exemple de l\'aquarium du cours.',
+        svg: `
+          <svg viewBox="0 0 430 260" role="img" aria-labelledby="volumes-diagram-title volumes-diagram-desc">
+            <title id="volumes-diagram-title">Cube unite et pave droit en perspective</title>
+            <desc id="volumes-diagram-desc">Un petit cube de 1 cm d'arete illustre l'egalite 1 cm cube egale 1 mL. Un pave droit represente l'aquarium de 60 cm sur 30 cm sur 40 cm du cours, de volume 72000 cm cube soit 72 L.</desc>
+            <rect x="60" y="14" width="160" height="52" rx="12" fill="color-mix(in srgb, var(--diagram-accent) 9%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 26%, var(--border))"></rect>
+            <text class="annotation-label" x="74" y="38">1 cm³ = 1 mL</text>
+            <text class="tick-label" x="74" y="56">1 000 cm³ = 1 L</text>
+            <line class="guide-line" x1="130" y1="66" x2="90" y2="118"></line>
+            <path fill="color-mix(in srgb, var(--diagram-accent) 22%, var(--bg-card))" class="frame-line" d="M50 190 L100 190 L100 140 L50 140 Z"></path>
+            <path fill="color-mix(in srgb, var(--diagram-accent) 10%, var(--bg-card))" class="frame-line" d="M50 140 L100 140 L126 120 L76 120 Z"></path>
+            <path fill="color-mix(in srgb, var(--diagram-accent) 38%, var(--bg-card))" class="frame-line" d="M100 190 L100 140 L126 120 L126 170 Z"></path>
+            <text class="annotation-label" x="75" y="210" text-anchor="middle">1 cm³</text>
+            <path fill="color-mix(in srgb, var(--diagram-accent) 22%, var(--bg-card))" class="frame-line" d="M230 190 L380 190 L380 90 L230 90 Z"></path>
+            <path fill="color-mix(in srgb, var(--diagram-accent) 10%, var(--bg-card))" class="frame-line" d="M230 90 L380 90 L415 62 L265 62 Z"></path>
+            <path fill="color-mix(in srgb, var(--diagram-accent) 38%, var(--bg-card))" class="frame-line" d="M380 190 L380 90 L415 62 L415 162 Z"></path>
+            <text class="annotation-label" x="215" y="145">h = 40 cm</text>
+            <text class="annotation-label" x="305" y="208" text-anchor="middle">L = 60 cm</text>
+            <text class="annotation-label" x="340" y="72">l = 30 cm</text>
+            <text class="annotation-label" x="305" y="226" text-anchor="middle">V = 60 × 30 × 40 cm³</text>
+            <text class="tick-label" x="305" y="240" text-anchor="middle">= 72 000 cm³ = 72 L</text>
+          </svg>
+        `,
+        notes: [
+          'Un cube de $1$ cm d\'arête a un volume de $1$ cm³, et $1$ cm³ $= 1$ mL exactement — c\'est le lien fondamental entre les unités de volume et de contenance.',
+          'Le pavé droit reprend l\'exemple du cours (l\'aquarium) : $L = 60$ cm, $l = 30$ cm, $h = 40$ cm, donc $V = 60 \\times 30 \\times 40 = 72\\,000$ cm³.',
+          'Conversion : $72\\,000$ cm³ $\\div 1000 = 72$ L, car $1000$ cm³ $= 1$ L.'
+        ],
+        reading: 'Le petit cube donne l\'unité de référence ($1$ cm³ $= 1$ mL) ; le grand pavé montre comment cette unité s\'accumule pour donner un volume en litres.',
+        caption: 'Cube unité ($1$ cm³ $= 1$ mL) et pavé droit de l\'aquarium ($60 \\times 30 \\times 40$ cm $= 72$ L), en perspective cavalière schématique.'
+      },
       formulas: [
         '$V_{\\text{pavé}} = L \\times l \\times h$',
         '$V_{\\text{cube}} = a^3$',

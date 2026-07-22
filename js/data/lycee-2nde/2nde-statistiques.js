@@ -43,6 +43,74 @@ window.MODULES.push({
         '$V = \\dfrac{1}{n}\\displaystyle\\sum_{i=1}^n (x_i-\\bar{x})^2$',
         '$\\sigma = \\sqrt{V}$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Nuage de points',
+        title: 'Série des tailles : moyenne et écart-type',
+        description: 'Cinq tailles d\'élèves (en cm), l\'exemple du cours, placées sur un axe : moyenne $\\bar{x}=170$ cm et bande $[\\bar{x}-\\sigma\\,;\\,\\bar{x}+\\sigma]$ calculée à partir de $\\sigma=\\sqrt{27{,}2}\\approx 5{,}22$ cm.',
+        svg: `
+          <svg viewBox="0 0 470 255" role="img" aria-labelledby="stat2nde-title stat2nde-desc">
+            <title id="stat2nde-title">Nuage de points de la serie des tailles avec moyenne et ecart-type</title>
+            <desc id="stat2nde-desc">Cinq points places sur un axe gradue de 155 a 185 cm, avec une bande centree sur la moyenne 170 cm et large d'un ecart-type de part et d'autre.</desc>
+            <line class="grid-line" x1="40.0" y1="60" x2="40.0" y2="200"></line>
+            <line class="grid-line" x1="105.0" y1="60" x2="105.0" y2="200"></line>
+            <line class="grid-line" x1="170.0" y1="60" x2="170.0" y2="200"></line>
+            <line class="grid-line" x1="235.0" y1="60" x2="235.0" y2="200"></line>
+            <line class="grid-line" x1="300.0" y1="60" x2="300.0" y2="200"></line>
+            <line class="grid-line" x1="365.0" y1="60" x2="365.0" y2="200"></line>
+            <line class="grid-line" x1="430.0" y1="60" x2="430.0" y2="200"></line>
+            <rect x="167.2" y="60" width="135.6" height="140" fill="color-mix(in srgb, var(--diagram-accent) 16%, transparent)" stroke="none"></rect>
+            <line class="guide-line" x1="167.2" y1="60" x2="167.2" y2="200"></line>
+            <line class="guide-line" x1="302.8" y1="60" x2="302.8" y2="200"></line>
+            <line class="focus-line" x1="235.0" y1="60" x2="235.0" y2="200"></line>
+            <line class="grid-line" x1="131.0" y1="110" x2="131.0" y2="200"></line>
+            <line class="grid-line" x1="209.0" y1="110" x2="209.0" y2="200"></line>
+            <line class="grid-line" x1="235.0" y1="110" x2="235.0" y2="200"></line>
+            <line class="grid-line" x1="261.0" y1="110" x2="261.0" y2="200"></line>
+            <line class="grid-line" x1="339.0" y1="110" x2="339.0" y2="200"></line>
+            <line class="axis" x1="15" y1="200" x2="455" y2="200"></line>
+            <line class="axis" x1="40.0" y1="200" x2="40.0" y2="206"></line>
+            <line class="axis" x1="105.0" y1="200" x2="105.0" y2="206"></line>
+            <line class="axis" x1="170.0" y1="200" x2="170.0" y2="206"></line>
+            <line class="axis" x1="235.0" y1="200" x2="235.0" y2="206"></line>
+            <line class="axis" x1="300.0" y1="200" x2="300.0" y2="206"></line>
+            <line class="axis" x1="365.0" y1="200" x2="365.0" y2="206"></line>
+            <line class="axis" x1="430.0" y1="200" x2="430.0" y2="206"></line>
+            <circle class="plot-point" cx="131.0" cy="110" r="5"></circle>
+            <circle class="plot-point" cx="209.0" cy="110" r="5"></circle>
+            <circle class="plot-point" cx="235.0" cy="110" r="5"></circle>
+            <circle class="plot-point" cx="261.0" cy="110" r="5"></circle>
+            <circle class="plot-point" cx="339.0" cy="110" r="5"></circle>
+            <circle class="plot-point-alt" cx="167.2" cy="200" r="3"></circle>
+            <circle class="plot-point-alt" cx="302.8" cy="200" r="3"></circle>
+            <text class="annotation-label" x="131.0" y="95" text-anchor="middle">162</text>
+            <text class="annotation-label" x="209.0" y="95" text-anchor="middle">168</text>
+            <text class="annotation-label" x="235.0" y="95" text-anchor="middle">170</text>
+            <text class="annotation-label" x="261.0" y="95" text-anchor="middle">172</text>
+            <text class="annotation-label" x="339.0" y="95" text-anchor="middle">178</text>
+            <text class="annotation-label" x="235.0" y="45" text-anchor="middle">moyenne = 170 cm</text>
+            <text class="annotation-label" x="163" y="52" text-anchor="end">164,78</text>
+            <text class="annotation-label" x="307" y="52" text-anchor="start">175,22</text>
+            <text class="tick-label" x="40.0" y="218" text-anchor="middle">155</text>
+            <text class="tick-label" x="105.0" y="218" text-anchor="middle">160</text>
+            <text class="tick-label" x="170.0" y="218" text-anchor="middle">165</text>
+            <text class="tick-label" x="235.0" y="218" text-anchor="middle">170</text>
+            <text class="tick-label" x="300.0" y="218" text-anchor="middle">175</text>
+            <text class="tick-label" x="365.0" y="218" text-anchor="middle">180</text>
+            <text class="tick-label" x="430.0" y="218" text-anchor="middle">185</text>
+            <text class="axis-label" x="459" y="204">cm</text>
+            <line class="guide-line" x1="167.2" y1="232" x2="302.8" y2="232"></line>
+            <text class="annotation-label" x="308" y="236">3 valeurs sur 5</text>
+          </svg>
+        `,
+        notes: [
+          'Série des tailles (cm) du cours : $\\{162\\,;\\,168\\,;\\,170\\,;\\,172\\,;\\,178\\}$, moyenne $\\bar{x} = 170$ cm.',
+          'Écart-type : $\\sigma = \\sqrt{27{,}2} \\approx 5{,}22$ cm (valeur calculée dans l\'exemple du cours).',
+          'Bande $[\\bar{x}-\\sigma\\,;\\,\\bar{x}+\\sigma] = [164{,}78\\,;\\,175{,}22]$ cm : $3$ des $5$ tailles y sont comprises ($168$, $170$, $172$), soit $60\\%$ — proche des $68\\%$ théoriques mais sur un échantillon trop petit pour vérifier la règle empirique avec précision.'
+        ],
+        reading: 'La règle des $68\\%$ ($[\\bar{x}-\\sigma\\,;\\,\\bar{x}+\\sigma]$) décrit une tendance valable pour de grandes séries en forme de cloche ; sur seulement $5$ valeurs elle reste approximative — ici $3$ tailles sur $5$ (soit $60\\%$) tombent dans la bande.',
+        caption: 'Série statistique des tailles de $5$ élèves, avec la moyenne $\\bar{x}=170$ cm et la bande $\\bar{x}\\pm\\sigma$.'
+      },
       recap: [
         'La moyenne mesure la tendance centrale ; la variance et l\'écart-type mesurent la dispersion.',
         'On utilise les écarts au carré (pas les écarts simples, dont la somme est toujours nulle).',

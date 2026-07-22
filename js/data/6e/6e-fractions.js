@@ -40,7 +40,60 @@ window.MODULES.push({
         ],
         answer: '$\\dfrac{42}{56} = \\dfrac{3}{4} = 0{,}75$'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Opération</th><th style="border:1px solid var(--border);padding:8px">Formule</th><th style="border:1px solid var(--border);padding:8px">Exemple</th></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Simplifier</strong></td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{a}{b} = \\dfrac{a \\div k}{b \\div k}$</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{18}{24} = \\dfrac{3}{4}$ (PGCD $= 6$)</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Amplifier</strong></td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{a}{b} = \\dfrac{a \\times n}{b \\times n}$</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{2}{3} = \\dfrac{10}{15}$</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Comparer</strong></td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{a}{b} \\lessgtr \\dfrac{c}{d} \\Leftrightarrow ad \\lessgtr bc$</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{2}{3} > \\dfrac{3}{5}$ car $10 > 9$</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Équivalence de fractions',
+        title: 'Trois façons de colorier la même moitié',
+        description: 'Un disque, une bande de $6$ parts et une grille de $100$ cases : dans chaque cas, exactement la moitié est coloriée, donc $\\dfrac{1}{2} = \\dfrac{3}{6} = \\dfrac{50}{100}$.',
+        svg: `
+          <svg viewBox="0 0 400 205" role="img" aria-labelledby="fractions-diagram-title fractions-diagram-desc">
+            <title id="fractions-diagram-title">Equivalence de fractions 1/2, 3/6 et 50/100</title>
+            <desc id="fractions-diagram-desc">Un disque coupe en 2 parts avec une moitie coloree, une bande coupee en 6 parts avec 3 parts colorees, et une grille de 100 cases avec 50 cases colorees : les trois figures representent la meme proportion.</desc>
+            <circle class="frame-line" cx="70" cy="100" r="54" fill="none"></circle>
+            <path d="M70 46 A54 54 0 0 0 70 154 Z" fill="color-mix(in srgb, var(--diagram-accent) 55%, transparent)" stroke="none"></path>
+            <line class="grid-line" x1="70" y1="46" x2="70" y2="154"></line>
+            <text class="annotation-label" x="70" y="188" text-anchor="middle">1/2</text>
+            <text x="140" y="107" text-anchor="middle" fill="var(--text)" font-size="22" font-weight="700">=</text>
+            <rect class="frame-line" x="160" y="70" width="120" height="60" fill="none"></rect>
+            <rect x="160" y="70" width="60" height="60" fill="color-mix(in srgb, var(--diagram-accent) 55%, transparent)" stroke="none"></rect>
+            <line class="grid-line" x1="180" y1="70" x2="180" y2="130"></line>
+            <line class="grid-line" x1="200" y1="70" x2="200" y2="130"></line>
+            <line class="grid-line" x1="220" y1="70" x2="220" y2="130"></line>
+            <line class="grid-line" x1="240" y1="70" x2="240" y2="130"></line>
+            <line class="grid-line" x1="260" y1="70" x2="260" y2="130"></line>
+            <text class="annotation-label" x="220" y="188" text-anchor="middle">3/6</text>
+            <text x="296" y="107" text-anchor="middle" fill="var(--text)" font-size="22" font-weight="700">=</text>
+            <rect class="frame-line" x="312" y="60" width="80" height="80" fill="none"></rect>
+            <rect x="312" y="60" width="80" height="40" fill="color-mix(in srgb, var(--diagram-accent) 55%, transparent)" stroke="none"></rect>
+            <line class="grid-line" x1="320" y1="60" x2="320" y2="140"></line>
+            <line class="grid-line" x1="328" y1="60" x2="328" y2="140"></line>
+            <line class="grid-line" x1="336" y1="60" x2="336" y2="140"></line>
+            <line class="grid-line" x1="344" y1="60" x2="344" y2="140"></line>
+            <line class="grid-line" x1="352" y1="60" x2="352" y2="140"></line>
+            <line class="grid-line" x1="360" y1="60" x2="360" y2="140"></line>
+            <line class="grid-line" x1="368" y1="60" x2="368" y2="140"></line>
+            <line class="grid-line" x1="376" y1="60" x2="376" y2="140"></line>
+            <line class="grid-line" x1="384" y1="60" x2="384" y2="140"></line>
+            <line class="grid-line" x1="312" y1="68" x2="392" y2="68"></line>
+            <line class="grid-line" x1="312" y1="76" x2="392" y2="76"></line>
+            <line class="grid-line" x1="312" y1="84" x2="392" y2="84"></line>
+            <line class="grid-line" x1="312" y1="92" x2="392" y2="92"></line>
+            <line class="grid-line" x1="312" y1="100" x2="392" y2="100"></line>
+            <line class="grid-line" x1="312" y1="108" x2="392" y2="108"></line>
+            <line class="grid-line" x1="312" y1="116" x2="392" y2="116"></line>
+            <line class="grid-line" x1="312" y1="124" x2="392" y2="124"></line>
+            <line class="grid-line" x1="312" y1="132" x2="392" y2="132"></line>
+            <text class="annotation-label" x="352" y="188" text-anchor="middle">50/100</text>
+          </svg>
+        `,
+        notes: [
+          'Le disque est coupe en $2$ parts egales, la bande en $6$ parts egales, la grille en $100$ cases egales : dans chaque figure, on colorie exactement la moitie de la surface.',
+          'On passe de $\\dfrac{1}{2}$ a $\\dfrac{3}{6}$ en multipliant numerateur et denominateur par $3$, et de $\\dfrac{1}{2}$ a $\\dfrac{50}{100}$ en multipliant par $50$ : c\'est la propriete $\\dfrac{a}{b} = \\dfrac{a \\times n}{b \\times n}$.',
+          'Pour retrouver la forme la plus simple $\\dfrac{1}{2}$ a partir de $\\dfrac{50}{100}$, on divise les deux termes par leur PGCD, ici $50$.'
+        ],
+        reading: 'Compte les parts coloriees et le nombre total de parts dans chaque figure : le rapport colorie/total reste toujours $1$ sur $2$.',
+        caption: 'Trois representations visuelles de la meme fraction : $\\dfrac{1}{2} = \\dfrac{3}{6} = \\dfrac{50}{100}$.'
+      },
       formulas: [
         '$\\dfrac{a}{b} = \\dfrac{a \\div k}{b \\div k}$ (simplification par $k$)',
         '$\\dfrac{a}{b} = \\dfrac{a \\times n}{b \\times n}$ (amplification par $n$)',

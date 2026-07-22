@@ -10,7 +10,7 @@ window.MODULES.push({
     title: 'Trigonométrie — cercle trigonométrique',
     subtitle: 'Radians, cos, sin, valeurs remarquables',
     keywords: ['Radian', 'Cercle trigonométrique', 'Cosinus', 'Sinus', 'Valeurs remarquables'],
-    physics: true,
+    physics: 'Mouvement circulaire uniforme, signal sinusoïdal du courant alternatif, décomposition d\'une onde',
     cours: {
       intro: 'Le <strong>cercle trigonométrique</strong> unifie toutes les définitions du cosinus et du sinus : pour tout angle $\\theta$ en radians, le point $M(\\cos\\theta\\,;\\,\\sin\\theta)$ se trouve sur le cercle de rayon $1$. Cela généralise le triangle rectangle à tous les angles réels.<br/><br/>Le <strong>radian</strong> est l\'unité naturelle : $\\pi$ rad $= 180°$, un tour complet $= 2\\pi$ rad. Les formules de dérivée ($(\\sin x)\' = \\cos x$) ne sont valides qu\'en radians.<br/><br/>Deux familles de <strong>valeurs remarquables</strong> sont souvent confondues : $\\cos(\\pi/6)=\\frac{\\sqrt{3}}{2}$ et $\\cos(\\pi/3)=\\frac{1}{2}$.<br/><br/>Pour les retenir, penser que plus l\'angle est grand, plus le cosinus est petit (le cosinus décroît de $0$ à $\\pi$).',
       definitions: [

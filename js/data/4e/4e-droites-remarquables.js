@@ -44,7 +44,86 @@
         'Centroïde $G$ : $\\overrightarrow{GA} + \\overrightarrow{GB} + \\overrightarrow{GC} = \\vec{0}$',
         'Sur une médiane : $AG = \\frac{2}{3} AM$ (M = milieu du côté opposé)'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Droite remarquable</th><th style="border:1px solid var(--border);padding:6px 14px">Définition</th><th style="border:1px solid var(--border);padding:6px 14px">Point de concours</th><th style="border:1px solid var(--border);padding:6px 14px">Cercle associé</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Médiatrice</td><td style="border:1px solid var(--border);padding:6px 14px">$\\perp$ au côté en son milieu</td><td style="border:1px solid var(--border);padding:6px 14px">Circumcentre</td><td style="border:1px solid var(--border);padding:6px 14px">Cercle circonscrit</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Bissectrice</td><td style="border:1px solid var(--border);padding:6px 14px">Partage l\'angle en 2</td><td style="border:1px solid var(--border);padding:6px 14px">Incentre</td><td style="border:1px solid var(--border);padding:6px 14px">Cercle inscrit</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Médiane</td><td style="border:1px solid var(--border);padding:6px 14px">Sommet → milieu opposé</td><td style="border:1px solid var(--border);padding:6px 14px">Centroïde ($\\frac{2}{3}$)</td><td style="border:1px solid var(--border);padding:6px 14px">—</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Hauteur</td><td style="border:1px solid var(--border);padding:6px 14px">$\\perp$ au côté par le sommet</td><td style="border:1px solid var(--border);padding:6px 14px">Orthocentre</td><td style="border:1px solid var(--border);padding:6px 14px">—</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Triangle et droites remarquables',
+        title: 'Superposer les quatre familles de droites et leurs points de concours',
+        description: 'Sur le triangle $ABC$ de l\'exemple ($A(0;0)$, $B(8;0)$, $C(2;6)$) : les médianes se coupent au centre de gravité $G$, les médiatrices au centre du cercle circonscrit $O$, les hauteurs à l\'orthocentre $H$, et les bissectrices au centre du cercle inscrit $I$.',
+        svg: `
+          <svg viewBox="0 0 500 330" role="img" aria-labelledby="droites-rem-title droites-rem-desc">
+            <title id="droites-rem-title">Triangle ABC avec ses quatre droites remarquables</title>
+            <desc id="droites-rem-desc">Triangle A(0;0) B(8;0) C(2;6) avec medianes, mediatrices, hauteurs et bissectrices superposees, chacune avec un style de trait different, et leurs quatre points de concours G, O, H et I etiquetes.</desc>
+
+            <line x1="10" y1="16" x2="40" y2="16" class="curve-main"></line>
+            <text class="tick-label" x="46" y="20">Mediane -&gt; G</text>
+            <line x1="240" y1="16" x2="270" y2="16" class="guide-line"></line>
+            <text class="tick-label" x="276" y="20">Mediatrice -&gt; O</text>
+            <line x1="10" y1="38" x2="40" y2="38" style="stroke:var(--secondary);stroke-width:2.5"></line>
+            <text class="tick-label" x="46" y="42">Hauteur -&gt; H</text>
+            <line x1="240" y1="38" x2="270" y2="38" style="stroke:var(--accent);stroke-width:2;stroke-dasharray:3 3"></line>
+            <text class="tick-label" x="276" y="42">Bissectrice -&gt; I</text>
+
+            <polygon points="50,260 322,260 118,56" fill="color-mix(in srgb, var(--diagram-accent) 6%, transparent)" stroke="none"></polygon>
+            <line class="frame-line" x1="50" y1="260" x2="322" y2="260"></line>
+            <line class="frame-line" x1="322" y1="260" x2="118" y2="56"></line>
+            <line class="frame-line" x1="118" y1="56" x2="50" y2="260"></line>
+
+            <line class="curve-main" x1="50" y1="260" x2="220" y2="158"></line>
+            <line class="curve-main" x1="322" y1="260" x2="84" y2="158"></line>
+            <line class="curve-main" x1="118" y1="56" x2="186" y2="260"></line>
+
+            <line class="guide-line" x1="186" y1="260" x2="186" y2="160"></line>
+            <line class="guide-line" x1="13" y1="134" x2="268" y2="219"></line>
+            <line class="guide-line" x1="145" y1="233" x2="261" y2="117"></line>
+
+            <line x1="118" y1="56" x2="118" y2="260" style="stroke:var(--secondary);stroke-width:2.5;stroke-linecap:round"></line>
+            <line x1="322" y1="260" x2="77" y2="178" style="stroke:var(--secondary);stroke-width:2.5;stroke-linecap:round"></line>
+            <line x1="50" y1="260" x2="186" y2="124" style="stroke:var(--secondary);stroke-width:2.5;stroke-linecap:round"></line>
+
+            <line x1="50" y1="260" x2="208" y2="146" style="stroke:var(--accent);stroke-width:2;stroke-dasharray:3 3;stroke-linecap:round"></line>
+            <line x1="322" y1="260" x2="83" y2="161" style="stroke:var(--accent);stroke-width:2;stroke-dasharray:3 3;stroke-linecap:round"></line>
+            <line x1="118" y1="56" x2="166" y2="260" style="stroke:var(--accent);stroke-width:2;stroke-dasharray:3 3;stroke-linecap:round"></line>
+
+            <circle class="plot-point-alt" cx="50" cy="260" r="5"></circle>
+            <circle class="plot-point-alt" cx="322" cy="260" r="5"></circle>
+            <circle class="plot-point-alt" cx="118" cy="56" r="5"></circle>
+            <text class="annotation-label" x="30" y="282">A</text>
+            <text class="annotation-label" x="330" y="282">B</text>
+            <text class="annotation-label" x="128" y="46">C</text>
+
+            <circle class="plot-point" cx="163" cy="192" r="6"></circle>
+            <circle cx="186" cy="192" r="6" fill="none" stroke="var(--diagram-accent)" stroke-width="2" stroke-dasharray="3 2"></circle>
+            <rect x="113" y="187" width="10" height="10" fill="var(--secondary)" stroke="var(--bg-card)" stroke-width="2"></rect>
+            <rect x="144" y="183" width="10" height="10" transform="rotate(45 149 188)" fill="var(--bg-card)" stroke="var(--accent)" stroke-width="2.5"></rect>
+
+            <line x1="163" y1="192" x2="345" y2="100" style="stroke:var(--border);stroke-width:1;stroke-dasharray:2 2"></line>
+            <line x1="186" y1="192" x2="345" y2="140" style="stroke:var(--border);stroke-width:1;stroke-dasharray:2 2"></line>
+            <line x1="118" y1="192" x2="345" y2="180" style="stroke:var(--border);stroke-width:1;stroke-dasharray:2 2"></line>
+            <line x1="149" y1="188" x2="345" y2="220" style="stroke:var(--border);stroke-width:1;stroke-dasharray:2 2"></line>
+
+            <circle class="plot-point" cx="345" cy="100" r="4"></circle>
+            <text class="annotation-label" x="356" y="105">G</text>
+            <text class="tick-label" x="368" y="105">centre de gravité</text>
+            <circle cx="345" cy="140" r="4" fill="none" stroke="var(--diagram-accent)" stroke-width="2" stroke-dasharray="3 2"></circle>
+            <text class="annotation-label" x="356" y="145">O</text>
+            <text class="tick-label" x="368" y="145">cercle circonscrit</text>
+            <rect x="341" y="176" width="8" height="8" fill="var(--secondary)" stroke="var(--bg-card)" stroke-width="1.5"></rect>
+            <text class="annotation-label" x="356" y="185">H</text>
+            <text class="tick-label" x="368" y="185">orthocentre</text>
+            <rect x="341" y="216" width="8" height="8" transform="rotate(45 345 220)" fill="var(--bg-card)" stroke="var(--accent)" stroke-width="2"></rect>
+            <text class="annotation-label" x="356" y="225">I</text>
+            <text class="tick-label" x="368" y="225">cercle inscrit</text>
+          </svg>
+        `,
+        notes: [
+          'Medianes (trait plein epais) : chaque sommet relie au milieu du cote oppose. Les trois se coupent au centre de gravite G, aux 2/3 de chaque sommet.',
+          'Mediatrices (tirets longs) : perpendiculaires a chaque cote en son milieu, elles ne passent pas forcement par un sommet. Elles se coupent au centre du cercle circonscrit O, equidistant de A, B et C.',
+          'Hauteurs (trait plein colore) : perpendiculaires issues de chaque sommet sur le cote oppose. Elles se coupent a l\'orthocentre H.',
+          'Bissectrices (tirets courts) : partagent chaque angle en deux. Elles se coupent au centre du cercle inscrit I, equidistant des trois cotes.'
+        ],
+        reading: 'Suis une seule couleur/style a la fois : les quatre familles se croisent près du centre du triangle, mais chacune a son propre point de concours, distinct des trois autres.',
+        caption: 'Triangle $ABC$ avec ses médianes (→ $G$), médiatrices (→ $O$), hauteurs (→ $H$) et bissectrices (→ $I$). Ce triangle étant acutangle, les quatre points restent à l\'intérieur du triangle.'
+      },
       recap: [
         'Quatre familles de droites : médiatrices, bissectrices, médianes, hauteurs — chacune a un point de concours.',
         'Médiatrices → circumcentre (cercle circonscrit) ; bissectrices → incentre (cercle inscrit).',

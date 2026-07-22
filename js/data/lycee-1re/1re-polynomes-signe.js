@@ -41,6 +41,103 @@ window.MODULES.push({
         '$a > 0, \\Delta > 0$ : $ax^2+bx+c < 0 \\Leftrightarrow x_1 < x < x_2$',
         '$a > 0, \\Delta > 0$ : $ax^2+bx+c > 0 \\Leftrightarrow x < x_1$ ou $x > x_2$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Deux paraboles, deux signes',
+        title: 'Comparer le signe d\'un trinôme selon $a>0$ ou $a<0$',
+        description: 'À gauche, $f(x)=x^2-x-6$ ($a=1>0$) : la parabole "sourit", elle est négative entre ses racines. À droite, $g(x)=-x^2+4x-3$ ($a=-1<0$, l\'exemple du cours) : la parabole est renversée, elle est positive entre ses racines.',
+        svg: `
+          <svg viewBox="0 0 460 300" role="img" aria-labelledby="poly-signe-title poly-signe-desc">
+            <title id="poly-signe-title">Signe de deux trinômes selon le signe de a</title>
+            <desc id="poly-signe-desc">Deux paraboles cote a cote. A gauche a=1 positif, courbe vers le haut, negative entre les racines -2 et 3. A droite a=-1 negatif, courbe vers le bas, positive entre les racines 1 et 3. Les zones de signe positif sont teintees en vert, les zones negatives en rouge.</desc>
+
+            <!-- grilles verticales panneau A -->
+            <line class="grid-line" x1="40.0" y1="20" x2="40.0" y2="230"></line>
+            <line class="grid-line" x1="59.4" y1="20" x2="59.4" y2="230"></line>
+            <line class="grid-line" x1="78.9" y1="20" x2="78.9" y2="230"></line>
+            <line class="grid-line" x1="98.3" y1="20" x2="98.3" y2="230"></line>
+            <line class="grid-line" x1="117.8" y1="20" x2="117.8" y2="230"></line>
+            <line class="grid-line" x1="137.2" y1="20" x2="137.2" y2="230"></line>
+            <line class="grid-line" x1="156.7" y1="20" x2="156.7" y2="230"></line>
+            <line class="grid-line" x1="176.1" y1="20" x2="176.1" y2="230"></line>
+            <line class="grid-line" x1="195.6" y1="20" x2="195.6" y2="230"></line>
+            <line class="grid-line" x1="215.0" y1="20" x2="215.0" y2="230"></line>
+
+            <!-- grilles verticales panneau B -->
+            <line class="grid-line" x1="245.0" y1="20" x2="245.0" y2="230"></line>
+            <line class="grid-line" x1="274.2" y1="20" x2="274.2" y2="230"></line>
+            <line class="grid-line" x1="303.3" y1="20" x2="303.3" y2="230"></line>
+            <line class="grid-line" x1="332.5" y1="20" x2="332.5" y2="230"></line>
+            <line class="grid-line" x1="361.7" y1="20" x2="361.7" y2="230"></line>
+            <line class="grid-line" x1="390.8" y1="20" x2="390.8" y2="230"></line>
+            <line class="grid-line" x1="420.0" y1="20" x2="420.0" y2="230"></line>
+
+            <!-- zones de signe panneau A : f(x) = x^2 - x - 6, racines -2 et 3 -->
+            <polygon points="40.0,37.5 44.9,56.6 49.7,74.7 54.6,91.6 59.4,107.5 64.3,122.3 69.2,135.9 74.0,148.5 78.9,160.0 40.0,160.0" fill="color-mix(in srgb, var(--success) 20%, transparent)" stroke="none"></polygon>
+            <polygon points="78.9,160.0 83.8,170.4 88.6,179.7 93.5,187.9 98.3,195.0 103.2,201.0 108.1,205.9 112.9,209.8 117.8,212.5 122.6,214.1 127.5,214.7 132.4,214.1 137.2,212.5 142.1,209.8 146.9,205.9 151.8,201.0 156.7,195.0 161.5,187.9 166.4,179.7 171.2,170.4 176.1,160.0" fill="color-mix(in srgb, var(--error) 20%, transparent)" stroke="none"></polygon>
+            <polygon points="176.1,160.0 181.0,148.5 185.8,135.9 190.7,122.3 195.6,107.5 200.4,91.6 205.3,74.7 210.1,56.6 215.0,37.5 215.0,160.0" fill="color-mix(in srgb, var(--success) 20%, transparent)" stroke="none"></polygon>
+
+            <!-- zones de signe panneau B : g(x) = -x^2 + 4x - 3, racines 1 et 3 -->
+            <polygon points="245.0,212.5 252.3,187.3 259.6,164.4 266.9,143.6 274.2,125.0 281.5,108.6 288.8,94.4 296.0,82.3 303.3,72.5 245.0,72.5" fill="color-mix(in srgb, var(--error) 20%, transparent)" stroke="none"></polygon>
+            <polygon points="303.3,72.5 310.6,64.8 317.9,59.4 325.2,56.1 332.5,55.0 339.8,56.1 347.1,59.4 354.4,64.8 361.7,72.5" fill="color-mix(in srgb, var(--success) 20%, transparent)" stroke="none"></polygon>
+            <polygon points="361.7,72.5 369.0,82.3 376.2,94.4 383.5,108.6 390.8,125.0 398.1,143.6 405.4,164.4 412.7,187.3 420.0,212.5 420.0,72.5" fill="color-mix(in srgb, var(--error) 20%, transparent)" stroke="none"></polygon>
+
+            <!-- axes panneau A -->
+            <line class="axis" x1="33" y1="160.0" x2="222" y2="160.0"></line>
+            <line class="axis" x1="117.8" y1="12" x2="117.8" y2="238"></line>
+            <!-- axes panneau B -->
+            <line class="axis" x1="238" y1="72.5" x2="427" y2="72.5"></line>
+            <line class="axis" x1="274.2" y1="12" x2="274.2" y2="238"></line>
+
+            <!-- courbes -->
+            <polyline class="curve-main" points="40.0,37.5 44.9,56.6 49.7,74.7 54.6,91.6 59.4,107.5 64.3,122.3 69.2,135.9 74.0,148.5 78.9,160.0 83.8,170.4 88.6,179.7 93.5,187.9 98.3,195.0 103.2,201.0 108.1,205.9 112.9,209.8 117.8,212.5 122.6,214.1 127.5,214.7 132.4,214.1 137.2,212.5 142.1,209.8 146.9,205.9 151.8,201.0 156.7,195.0 161.5,187.9 166.4,179.7 171.2,170.4 176.1,160.0 181.0,148.5 185.8,135.9 190.7,122.3 195.6,107.5 200.4,91.6 205.3,74.7 210.1,56.6 215.0,37.5"></polyline>
+            <polyline class="curve-main" points="245.0,212.5 252.3,187.3 259.6,164.4 266.9,143.6 274.2,125.0 281.5,108.6 288.8,94.4 296.0,82.3 303.3,72.5 310.6,64.8 317.9,59.4 325.2,56.1 332.5,55.0 339.8,56.1 347.1,59.4 354.4,64.8 361.7,72.5 369.0,82.3 376.2,94.4 383.5,108.6 390.8,125.0 398.1,143.6 405.4,164.4 412.7,187.3 420.0,212.5"></polyline>
+
+            <!-- racines et sommets -->
+            <circle class="plot-point" cx="78.9" cy="160.0" r="5"></circle>
+            <circle class="plot-point" cx="176.1" cy="160.0" r="5"></circle>
+            <circle class="plot-point-alt" cx="127.5" cy="214.7" r="5"></circle>
+            <circle class="plot-point" cx="303.3" cy="72.5" r="5"></circle>
+            <circle class="plot-point" cx="361.7" cy="72.5" r="5"></circle>
+            <circle class="plot-point-alt" cx="332.5" cy="55.0" r="5"></circle>
+
+            <!-- etiquettes panneau A -->
+            <text class="annotation-label" x="127.5" y="14" text-anchor="middle">f(x) = x² − x − 6 (a = 1 &gt; 0)</text>
+            <text class="tick-label" x="40.0" y="176" text-anchor="middle">-4</text>
+            <text class="tick-label" x="117.8" y="176" text-anchor="middle">0</text>
+            <text class="tick-label" x="215.0" y="176" text-anchor="middle">5</text>
+            <text class="annotation-label" x="78.9" y="146" text-anchor="middle">x₁ = -2</text>
+            <text class="annotation-label" x="176.1" y="146" text-anchor="middle">x₂ = 3</text>
+            <text class="tick-label" x="127.5" y="228" text-anchor="middle">S(0,5 ; -6,25)</text>
+            <text class="label-soft" x="59.4" y="140">+</text>
+            <text class="label-soft" x="127.5" y="196">−</text>
+            <text class="label-soft" x="195.6" y="130">+</text>
+            <text class="axis-label" x="224" y="164">x</text>
+            <text class="axis-label" x="121" y="18">y</text>
+
+            <!-- etiquettes panneau B -->
+            <text class="annotation-label" x="332.5" y="14" text-anchor="middle">g(x) = -x² + 4x − 3 (a = -1 &lt; 0)</text>
+            <text class="tick-label" x="245.0" y="88" text-anchor="middle">-1</text>
+            <text class="tick-label" x="274.2" y="88" text-anchor="middle">0</text>
+            <text class="tick-label" x="420.0" y="88" text-anchor="middle">5</text>
+            <text class="annotation-label" x="303.3" y="58" text-anchor="middle">x₁ = 1</text>
+            <text class="annotation-label" x="361.7" y="58" text-anchor="middle">x₂ = 3</text>
+            <text class="tick-label" x="332.5" y="228" text-anchor="middle">S(2 ; 1)</text>
+            <text class="label-soft" x="274.2" y="105">−</text>
+            <text class="label-soft" x="332.5" y="65">+</text>
+            <text class="label-soft" x="390.8" y="115">−</text>
+            <text class="axis-label" x="429" y="76.5">x</text>
+            <text class="axis-label" x="278" y="18">y</text>
+          </svg>
+        `,
+        notes: [
+          'Panneau gauche ($a=1>0$) : la parabole "sourit" vers le haut. Elle est <strong>négative entre les racines</strong> ($-2 < x < 3$, zone rouge) et <strong>positive à l\'extérieur</strong> (zones vertes).',
+          'Panneau droit ($a=-1<0$, exemple du cours) : la parabole est renversée. Elle est <strong>positive entre les racines</strong> ($1 < x < 3$, zone verte) et <strong>négative à l\'extérieur</strong> (zones rouges).',
+          'Dans les deux cas, le sommet $S$ (point le plus bas ou le plus haut) marque l\'axe de symétrie de la parabole, à mi-chemin entre les deux racines.'
+        ],
+        reading: 'Repère d\'abord l\'orientation de la parabole (signe de $a$), puis lis directement la couleur des zones : vert = positif, rouge = négatif. Le changement de couleur se produit exactement aux racines.',
+        caption: 'Comparaison des deux cas $a>0$ et $a<0$ pour un même type de trinôme, avec zones de signe coloriées.'
+      },
       recap: [
         '<strong>Première étape</strong> : toujours identifier le signe de $a$ (orientation de la parabole).',
         '$\\Delta > 0$ : le signe change aux racines. $\\Delta = 0$ : nul au sommet. $\\Delta < 0$ : signe constant (celui de $a$).',

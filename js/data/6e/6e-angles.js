@@ -41,7 +41,79 @@ window.MODULES.push({
         ],
         answer: 'L\'autre angle aigu mesure $53°$.'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Type</th><th style="border:1px solid var(--border);padding:8px">Mesure</th><th style="border:1px solid var(--border);padding:8px">Exemple</th></tr><tr><td style="border:1px solid var(--border);padding:8px">Aigu</td><td style="border:1px solid var(--border);padding:8px">$0° < \\alpha < 90°$</td><td style="border:1px solid var(--border);padding:8px">$45°$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Droit</td><td style="border:1px solid var(--border);padding:8px">$\\alpha = 90°$</td><td style="border:1px solid var(--border);padding:8px">$90°$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Obtus</td><td style="border:1px solid var(--border);padding:8px">$90° < \\alpha < 180°$</td><td style="border:1px solid var(--border);padding:8px">$120°$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Plat</td><td style="border:1px solid var(--border);padding:8px">$\\alpha = 180°$</td><td style="border:1px solid var(--border);padding:8px">$180°$</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Types d\'angles et somme d\'un triangle',
+        title: 'Reconnaître aigu, droit, obtus, plat — et retrouver les 180° d\'un triangle',
+        description: 'Le même sommet, un écartement différent : c\'est la seule chose qui distingue un angle aigu, droit, obtus ou plat. Dans un triangle, les trois angles s\'additionnent toujours à $180°$.',
+        svg: `
+          <svg viewBox="0 0 460 340" role="img" aria-labelledby="angles-diagram-title angles-diagram-desc">
+            <title id="angles-diagram-title">Quatre types d'angles et un triangle rectangle</title>
+            <desc id="angles-diagram-desc">Quatre secteurs angulaires (45°, 90°, 120°, 180°) et un triangle rectangle dont les angles mesurent 37°, 53° et 90°, soit une somme de 180°.</desc>
+            <line class="grid-line" x1="121" y1="15" x2="121" y2="165"></line>
+            <line class="grid-line" x1="235" y1="15" x2="235" y2="165"></line>
+            <line class="grid-line" x1="350" y1="15" x2="350" y2="165"></line>
+            <line class="grid-line" x1="10" y1="170" x2="450" y2="170"></line>
+
+            <text class="label-soft" x="14" y="34">Aigu</text>
+            <line class="frame-line" x1="30" y1="132" x2="100" y2="132"></line>
+            <line class="frame-line" x1="30" y1="132" x2="79.5" y2="82.5"></line>
+            <path class="guide-line" d="M52 132 L51.3 126.3 L49.1 121.0 L45.6 116.5" fill="none"></path>
+            <circle class="plot-point" cx="30" cy="132" r="3.5"></circle>
+            <text class="annotation-label" x="56" y="118">45°</text>
+
+            <text class="label-soft" x="129" y="34">Droit</text>
+            <line class="frame-line" x1="145" y1="132" x2="215" y2="132"></line>
+            <line class="frame-line" x1="145" y1="132" x2="145" y2="62"></line>
+            <path class="frame-line" d="M160 132 L160 117 L145 117" fill="none"></path>
+            <circle class="plot-point" cx="145" cy="132" r="3.5"></circle>
+            <text class="annotation-label" x="168" y="112">90°</text>
+
+            <text class="label-soft" x="244" y="34">Obtus</text>
+            <line class="frame-line" x1="278" y1="132" x2="333" y2="132"></line>
+            <line class="frame-line" x1="278" y1="132" x2="250.5" y2="84.4"></line>
+            <path class="guide-line" d="M298 132 L297.3 126.8 L295.3 122.0 L292.1 117.9 L288.0 114.7 L283.2 112.7 L278.0 112.0 L272.8 112.7 L268.0 114.7" fill="none"></path>
+            <circle class="plot-point" cx="278" cy="132" r="3.5"></circle>
+            <text class="annotation-label" x="292" y="100">120°</text>
+
+            <text class="label-soft" x="359" y="34">Plat</text>
+            <line class="frame-line" x1="407" y1="132" x2="433" y2="132"></line>
+            <line class="frame-line" x1="407" y1="132" x2="381" y2="132"></line>
+            <path class="guide-line" d="M433 132 L429.5 119.0 L420.0 109.5 L407.0 106.0 L394.0 109.5 L384.5 119.0 L381.0 132" fill="none"></path>
+            <circle class="plot-point" cx="407" cy="132" r="3.5"></circle>
+            <text class="annotation-label" x="396" y="97">180°</text>
+
+            <text class="label-soft" x="20" y="205">Triangle — la somme des angles vaut 180°</text>
+            <polygon points="170,234 170,300 258,300" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></polygon>
+            <line class="frame-line" x1="170" y1="234" x2="170" y2="300"></line>
+            <line class="frame-line" x1="170" y1="300" x2="258" y2="300"></line>
+            <line class="curve-main" x1="170" y1="234" x2="258" y2="300"></line>
+            <path class="frame-line" d="M185 300 L185 285 L170 285" fill="none"></path>
+            <path class="guide-line" d="M243.6 289.2 L242.4 291.0 L241.1 293.8 L240.3 296.9 L240.0 300.0" fill="none"></path>
+            <path class="guide-line" d="M186 246 L184.1 248.1 L181.5 250.4 L178.5 252.1 L175.2 253.3 L170 254" fill="none"></path>
+            <circle class="plot-point" cx="170" cy="234" r="4"></circle>
+            <circle class="plot-point" cx="258" cy="300" r="4"></circle>
+            <circle class="plot-point" cx="170" cy="300" r="4"></circle>
+            <text class="annotation-label" x="152" y="224">A</text>
+            <text class="annotation-label" x="262" y="315">B</text>
+            <text class="annotation-label" x="148" y="315">C</text>
+            <text class="annotation-label" x="222" y="290">37°</text>
+            <text class="annotation-label" x="180" y="244">53°</text>
+            <text class="annotation-label" x="191" y="297">90°</text>
+            <rect x="295" y="188" width="150" height="30" rx="10" fill="color-mix(in srgb, var(--diagram-accent) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 30%, var(--border))"></rect>
+            <text class="tick-label" x="305" y="207">37° + 53° + 90° = 180°</text>
+          </svg>
+        `,
+        notes: [
+          'Angle aigu (ici $45°$) : strictement compris entre $0°$ et $90°$.',
+          'Angle droit ($90°$) : repéré par le petit carré au sommet, jamais par un arc.',
+          'Angle obtus (ici $120°$) : strictement compris entre $90°$ et $180°$.',
+          'Angle plat ($180°$) : les deux côtés forment une ligne droite.',
+          'Dans le triangle rectangle de l\'exemple du cours, les trois angles vérifient $37° + 53° + 90° = 180°$.'
+        ],
+        reading: 'Repère d\'abord le sommet, le point où les deux côtés se rejoignent : c\'est entre ces deux côtés que se mesure l\'angle, jamais le long d\'un seul côté.',
+        caption: 'Les quatre types d\'angles (aigu, droit, obtus, plat) et le triangle rectangle de l\'exemple du cours, où $37° + 53° + 90° = 180°$.'
+      },
       formulas: [
         '$\\alpha + \\beta = 90°$ (angles complémentaires)',
         '$\\alpha + \\beta = 180°$ (angles supplémentaires)',

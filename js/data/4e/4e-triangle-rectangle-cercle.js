@@ -43,7 +43,41 @@
         'Réciproque : $\\hat{A} = 90°$ dans $ABC$ $\\Rightarrow$ $[BC]$ est un diamètre du cercle circonscrit',
         'Rayon du cercle circonscrit : $R = \\dfrac{BC}{2}$ (BC = hypoténuse)'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Hypothèse</th><th style="border:1px solid var(--border);padding:6px 14px">Conclusion</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$[BC]$ diamètre, $A$ sur le cercle</td><td style="border:1px solid var(--border);padding:6px 14px">$\\hat{A} = 90°$ (théorème direct)</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$\\hat{A} = 90°$ dans $ABC$</td><td style="border:1px solid var(--border);padding:6px 14px">$[BC]$ est un diamètre, $R = \\dfrac{BC}{2}$ (réciproque)</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Centre du cercle circ. d\'un triangle rect.</td><td style="border:1px solid var(--border);padding:6px 14px">Milieu de l\'hypoténuse</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Cercle circonscrit',
+        title: 'Angle inscrit dans un demi-cercle : pourquoi l\'angle en A est droit',
+        description: 'Le point A est n\'importe ou sur le cercle (hors B et C) : l\'angle en A reste toujours droit tant que BC est un diametre.',
+        svg: `
+          <svg viewBox="0 0 400 300" role="img" aria-labelledby="cercle-circonscrit-title cercle-circonscrit-desc">
+            <title id="cercle-circonscrit-title">Triangle rectangle inscrit dans un demi-cercle</title>
+            <desc id="cercle-circonscrit-desc">Cercle de centre O et de diametre BC, avec un point A sur le cercle formant un angle droit en A, marque par un petit carre.</desc>
+            <circle class="curve-main" cx="200" cy="150" r="90" fill="none"></circle>
+            <polygon points="148.38,76.28 110,150 290,150" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></polygon>
+            <line class="frame-line" x1="110" y1="150" x2="290" y2="150"></line>
+            <line class="frame-line" x1="148.38" y1="76.28" x2="110" y2="150"></line>
+            <line class="frame-line" x1="148.38" y1="76.28" x2="290" y2="150"></line>
+            <line class="guide-line" x1="200" y1="150" x2="148.38" y2="76.28"></line>
+            <path class="axis" d="M142.84,86.93 L153.48,92.47 L159.02,81.82"></path>
+            <circle class="plot-point-alt" cx="110" cy="150" r="5"></circle>
+            <circle class="plot-point-alt" cx="290" cy="150" r="5"></circle>
+            <circle class="plot-point" cx="148.38" cy="76.28" r="5"></circle>
+            <circle class="plot-point-alt" cx="200" cy="150" r="4"></circle>
+            <text class="annotation-label" x="88" y="168">B</text>
+            <text class="annotation-label" x="296" y="168">C</text>
+            <text class="annotation-label" x="132" y="64">A</text>
+            <text class="tick-label" x="204" y="145">O</text>
+            <text class="tick-label" x="176" y="106">R</text>
+          </svg>
+        `,
+        notes: [
+          'O est le centre du cercle et le milieu du diametre BC : donc OA = OB = OC = R.',
+          'Ou que se trouve A sur le cercle, l\'angle en A reste droit : ce n\'est pas une coincidence liee a la position choisie ici.',
+          'Ici A n\'est pas au sommet du demi-cercle, pour bien montrer que le theoreme est general et ne depend pas de cette position particuliere.'
+        ],
+        reading: 'Repere d\'abord le diametre BC : si A est sur le cercle, l\'angle oppose a ce diametre est automatiquement droit, quelle que soit la position de A.',
+        caption: 'Theoreme de l\'angle inscrit dans un demi-cercle : BC diametre et A sur le cercle donc l\'angle en A vaut 90 degres.'
+      },
       recap: [
         'Si un côté d\'un triangle inscrit est un diamètre, l\'angle opposé vaut $90°$.',
         'Réciproque : si un triangle est rectangle, l\'hypoténuse est un diamètre du cercle circonscrit.',

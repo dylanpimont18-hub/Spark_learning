@@ -28,7 +28,74 @@ window.MODULES.push({
           '<strong>Condition de rotation</strong> : écrire $\\sum M_O = 0$ en choisissant un point $O$ judicieux (souvent un appui, pour éliminer une inconnue).<br/>Exemple au point A : $R_A \\times 0 + R_B \\times L - P \\times \\dfrac{L}{2} = 0$. On en déduit $R_B = \\dfrac{P}{2}$, puis $R_A = P - R_B$.<br/>Conseil : choisir le point de calcul là où s\'applique une force <strong>inconnue</strong> pour l\'éliminer de l\'équation.'
         ]
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Grandeur</th><th style="border:1px solid var(--border);padding:8px">Force ($\\vec{F}$)</th><th style="border:1px solid var(--border);padding:8px">Moment ($M_O$)</th></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Unité</strong></td><td style="border:1px solid var(--border);padding:8px">Newton (N)</td><td style="border:1px solid var(--border);padding:8px">Newton-mètre (N$\\cdot$m)</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Formule</strong></td><td style="border:1px solid var(--border);padding:8px">$P = m \\times g$</td><td style="border:1px solid var(--border);padding:8px">$M = F \\times d$</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Nature</strong></td><td style="border:1px solid var(--border);padding:8px">Vectorielle (direction + sens)</td><td style="border:1px solid var(--border);padding:8px">Scalaire signé ($+/-$)</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Condition d\'équilibre</strong></td><td style="border:1px solid var(--border);padding:8px">$\\sum \\vec{F} = \\vec{0}$</td><td style="border:1px solid var(--border);padding:8px">$\\sum M_O = 0$</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Exemple concret</strong></td><td style="border:1px solid var(--border);padding:8px">Ciseaux : force de coupe</td><td style="border:1px solid var(--border);padding:8px">Brouette : moment de la charge / effort</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Schéma de la brouette (levier inter-appui)',
+        title: 'Équilibre de la brouette : F₁ × d₁ = F₂ × d₂',
+        description: 'Vue schématique de l\'exemple du cours : pivot sur l\'axe de la roue, charge à d₁ = 0,4 m, poignées à d₂ = 1,2 m.',
+        svg: `
+          <svg viewBox="0 0 540 380" role="img" aria-labelledby="lever-brouette-title lever-brouette-desc">
+            <title id="lever-brouette-title">Schema de la brouette assimilee a un levier</title>
+            <desc id="lever-brouette-desc">Vue laterale schematique d'une brouette : pivot sur l'axe de la roue a gauche, charge de 300 N appliquee a 0,4 m du pivot (moment horaire de 120 newton-metres), et force du jardinier de 100 N appliquee vers le haut aux poignees a 1,2 m du pivot (moment antihoraire de 120 newton-metres). Les deux moments s'annulent a l'equilibre.</desc>
+
+            <defs>
+              <marker id="arrow-si2nde-lever" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
+
+            <!-- sol (uniquement sous la roue : le reste de la brouette est souleve) -->
+            <line class="frame-line" x1="70" y1="250" x2="150" y2="250"></line>
+            <line class="grid-line" x1="75" y1="250" x2="67" y2="260"></line>
+            <line class="grid-line" x1="90" y1="250" x2="82" y2="260"></line>
+            <line class="grid-line" x1="105" y1="250" x2="97" y2="260"></line>
+            <line class="grid-line" x1="120" y1="250" x2="112" y2="260"></line>
+            <line class="grid-line" x1="135" y1="250" x2="127" y2="260"></line>
+            <line class="grid-line" x1="150" y1="250" x2="142" y2="260"></line>
+
+            <!-- roue = pivot -->
+            <circle class="frame-line" cx="110" cy="220" r="30" fill="none"></circle>
+            <circle class="plot-point" cx="110" cy="220" r="4"></circle>
+            <text class="label-soft" x="110" y="182" text-anchor="middle">Pivot O (axe de la roue)</text>
+
+            <!-- levier (brancards de la brouette) -->
+            <line class="curve-main" x1="110" y1="220" x2="470" y2="220"></line>
+
+            <!-- charge, a d1 = 0,4 m du pivot -->
+            <rect class="frame-line" x="210" y="185" width="40" height="35" fill="none"></rect>
+            <text class="label-soft" x="230" y="175" text-anchor="middle">Charge</text>
+            <circle class="plot-point-alt" cx="230" cy="220" r="5"></circle>
+            <line class="curve-main" x1="230" y1="220" x2="230" y2="270" marker-end="url(#arrow-si2nde-lever)"></line>
+            <text class="annotation-label" x="242" y="248">F₁ = P = 300 N</text>
+            <text class="label-soft" x="242" y="264">M₁ = −F₁ × d₁ = −120 N·m</text>
+
+            <!-- poignees, a d2 = 1,2 m du pivot -->
+            <circle class="plot-point-alt" cx="470" cy="220" r="5"></circle>
+            <line class="curve-main" x1="470" y1="220" x2="470" y2="165" marker-end="url(#arrow-si2nde-lever)"></line>
+            <text class="annotation-label" x="458" y="178" text-anchor="end">F₂ = F = 100 N</text>
+            <text class="label-soft" x="458" y="196" text-anchor="end">M₂ = +F₂ × d₂ = +120 N·m</text>
+
+            <!-- cotation d1 -->
+            <line class="frame-line" x1="110" y1="290" x2="110" y2="304"></line>
+            <line class="frame-line" x1="230" y1="290" x2="230" y2="304"></line>
+            <line class="guide-line" x1="110" y1="297" x2="230" y2="297"></line>
+            <text class="tick-label" x="170" y="316" text-anchor="middle">d₁ = 0,4 m</text>
+
+            <!-- cotation d2 -->
+            <line class="frame-line" x1="110" y1="330" x2="110" y2="344"></line>
+            <line class="frame-line" x1="470" y1="330" x2="470" y2="344"></line>
+            <line class="guide-line" x1="110" y1="337" x2="470" y2="337"></line>
+            <text class="tick-label" x="290" y="356" text-anchor="middle">d₂ = 1,2 m</text>
+          </svg>
+        `,
+        notes: [
+          'La charge (P = 300 N) crée un moment horaire (négatif) autour du pivot : M₁ = −300 × 0,4 = −120 N·m.',
+          'La force du jardinier (F = 100 N, vers le haut) crée un moment antihoraire (positif) : M₂ = +100 × 1,2 = +120 N·m.',
+          'À l\'équilibre, M₁ + M₂ = 0 : les deux moments s\'annulent exactement — c\'est le principe du levier F₁ × d₁ = F₂ × d₂.'
+        ],
+        reading: 'Repère d\'abord le pivot (axe de la roue), puis les deux points d\'application des forces le long du levier : la charge, proche du pivot, et les poignées, plus loin.',
+        caption: 'Brouette assimilée à un levier inter-appui : pivot sur l\'axe de la roue, charge P = 300 N à d₁ = 0,4 m, force du jardinier F = 100 N à d₂ = 1,2 m — exemple du cours.'
+      },
       example: {
         statement: 'Une brouette porte une charge de $P_{\\text{charge}} = 300$ N placée à $d_1 = 0{,}4$ m de l\'axe de la roue (pivot). Le jardinier soulève les poignées situées à $d_2 = 1{,}2$ m de l\'axe. Quelle force $F$ doit-il exercer pour maintenir la brouette en équilibre horizontal ? On néglige le poids de la brouette.',
         steps: [

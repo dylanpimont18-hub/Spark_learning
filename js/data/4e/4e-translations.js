@@ -43,7 +43,74 @@
         'Rotation de $180°$ autour de $O$ : $A(x;y) \\to A\'(2x_O - x\\,;\\,2y_O - y)$',
         '$|OA\'| = |OA|$ (rotation conserve les distances)'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Transformation</th><th style="border:1px solid var(--border);padding:6px 14px">Formule image</th><th style="border:1px solid var(--border);padding:6px 14px">Conserve</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Translation $\\vec{v}(a;b)$</td><td style="border:1px solid var(--border);padding:6px 14px">$A\'(x+a\\,;\\,y+b)$</td><td style="border:1px solid var(--border);padding:6px 14px">Distances, angles, aires, orientation</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Rotation ($O$, $\\theta$)</td><td style="border:1px solid var(--border);padding:6px 14px">$OA\' = OA$, $\\widehat{AOA\'} = \\theta$</td><td style="border:1px solid var(--border);padding:6px 14px">Distances, angles, aires, orientation</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Rotation $180°$ en $O(0;0)$</td><td style="border:1px solid var(--border);padding:6px 14px">$A\'(-x\\,;\\,-y)$</td><td style="border:1px solid var(--border);padding:6px 14px">Symétrie centrale</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Translation dans le plan',
+        title: 'Construire l\'image d\'un point par une translation de vecteur $\\vec{v}(a\\,;\\,b)$',
+        description: 'Reprise de l\'exemple du cours : $A(3\\,;\\,1)$ et $\\vec{v}(2\\,;\\,-4)$ donnent $A\'(3+2\\,;\\,1+(-4)) = A\'(5\\,;\\,-3)$.',
+        svg: `
+          <svg viewBox="0 0 360 300" role="img" aria-labelledby="translation-graph-title translation-graph-desc">
+            <title id="translation-graph-title">Translation du point A par le vecteur v</title>
+            <desc id="translation-graph-desc">Repere avec le point A en 3 ; 1 et son image A prime en 5 ; -3 par la translation de vecteur v de coordonnees 2 ; -4, avec la fleche du vecteur tracee entre les deux points.</desc>
+
+            <line class="grid-line" x1="50" y1="20" x2="50" y2="272"></line>
+            <line class="grid-line" x1="86" y1="20" x2="86" y2="272"></line>
+            <line class="grid-line" x1="122" y1="20" x2="122" y2="272"></line>
+            <line class="grid-line" x1="158" y1="20" x2="158" y2="272"></line>
+            <line class="grid-line" x1="194" y1="20" x2="194" y2="272"></line>
+            <line class="grid-line" x1="230" y1="20" x2="230" y2="272"></line>
+            <line class="grid-line" x1="266" y1="20" x2="266" y2="272"></line>
+            <line class="grid-line" x1="302" y1="20" x2="302" y2="272"></line>
+            <line class="grid-line" x1="50" y1="272" x2="302" y2="272"></line>
+            <line class="grid-line" x1="50" y1="236" x2="302" y2="236"></line>
+            <line class="grid-line" x1="50" y1="200" x2="302" y2="200"></line>
+            <line class="grid-line" x1="50" y1="164" x2="302" y2="164"></line>
+            <line class="grid-line" x1="50" y1="128" x2="302" y2="128"></line>
+            <line class="grid-line" x1="50" y1="92" x2="302" y2="92"></line>
+            <line class="grid-line" x1="50" y1="56" x2="302" y2="56"></line>
+            <line class="grid-line" x1="50" y1="20" x2="302" y2="20"></line>
+
+            <line class="axis" x1="44" y1="128" x2="312" y2="128"></line>
+            <line class="axis" x1="86" y1="280" x2="86" y2="12"></line>
+            <text class="axis-label" x="316" y="132">x</text>
+            <text class="axis-label" x="92" y="16">y</text>
+
+            <text class="tick-label" x="82" y="146">0</text>
+            <text class="tick-label" x="118" y="146">1</text>
+            <text class="tick-label" x="154" y="146">2</text>
+            <text class="tick-label" x="190" y="146">3</text>
+            <text class="tick-label" x="226" y="146">4</text>
+            <text class="tick-label" x="262" y="146">5</text>
+            <text class="tick-label" x="60" y="276">-4</text>
+            <text class="tick-label" x="64" y="240">-3</text>
+            <text class="tick-label" x="64" y="204">-2</text>
+            <text class="tick-label" x="64" y="168">-1</text>
+            <text class="tick-label" x="72" y="96">1</text>
+            <text class="tick-label" x="72" y="60">2</text>
+
+            <line class="guide-line" x1="194" y1="92" x2="266" y2="92"></line>
+            <line class="guide-line" x1="266" y1="92" x2="266" y2="236"></line>
+            <text class="annotation-label" x="210" y="82">a = 2</text>
+            <text class="annotation-label" x="272" y="168">b = -4</text>
+
+            <line class="curve-main" x1="194" y1="92" x2="260" y2="223"></line>
+            <polygon points="266,236 254,226 265,221" fill="var(--diagram-accent)" stroke="none"></polygon>
+            <text class="annotation-label" x="150" y="192">v(2 ; -4)</text>
+
+            <circle class="plot-point-alt" cx="194" cy="92" r="6"></circle>
+            <circle class="plot-point" cx="266" cy="236" r="6"></circle>
+            <text class="annotation-label" x="138" y="80">A(3 ; 1)</text>
+            <text class="annotation-label" x="252" y="256">A'(5 ; -3)</text>
+          </svg>
+        `,
+        notes: [
+          'Le vecteur $\\vec{v}(2\\,;\\,-4)$ donne le déplacement : on avance de $2$ vers la droite (abscisse) puis de $4$ vers le bas (ordonnée négative).',
+          'La flèche relie directement $A$ à son image $A\'$ : c\'est le même vecteur $\\vec{v}$ qui déplacerait n\'importe quel autre point du plan.',
+          'Vérification par coordonnées : $A\'(3+2\\,;\\,1+(-4)) = A\'(5\\,;\\,-3)$, exactement le point marqué sur le graphique.'
+        ],
+        reading: 'Le trajet en escalier (pointillés) montre séparément l\'effet de $a$ puis de $b$ ; la flèche pleine montre le vecteur réel $\\vec{v}$ qui va directement de $A$ à $A\'$.',
+        caption: 'Translation du point $A(3\\,;\\,1)$ par le vecteur $\\vec{v}(2\\,;\\,-4)$, donnant l\'image $A\'(5\\,;\\,-3)$ — exemple repris de la méthode du cours.'
+      },
       recap: [
         'Translation : chaque point se déplace du même vecteur $\\vec{v}(a ; b)$ → on ajoute $a$ à l\'abscisse et $b$ à l\'ordonnée.',
         'Rotation : chaque point tourne autour d\'un centre $O$ en conservant sa distance à $O$.',

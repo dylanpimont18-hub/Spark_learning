@@ -32,7 +32,104 @@ window.MODULES.push({
         ],
         answer: '$\\dfrac{17}{12}$'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Opération</th><th style="border:1px solid var(--border);padding:6px 14px">Formule</th><th style="border:1px solid var(--border);padding:6px 14px">Dénominateur commun ?</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{a}{b} + \\dfrac{c}{d}$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{ad + cb}{bd}$</td><td style="border:1px solid var(--border);padding:6px 14px">✅ Oui</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{a}{b} \\times \\dfrac{c}{d}$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{a \\times c}{b \\times d}$</td><td style="border:1px solid var(--border);padding:6px 14px">❌ Non</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{a}{b} \\div \\dfrac{c}{d}$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{a}{b} \\times \\dfrac{d}{c}$</td><td style="border:1px solid var(--border);padding:6px 14px">❌ Non</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Addition de fractions',
+        title: 'De 2/3 + 3/4 aux douzièmes : visualiser 17/12',
+        description: 'L\'exemple du cours : $\\dfrac{2}{3} + \\dfrac{3}{4}$. Ramenées au dénominateur commun $12$ (PPCM de $3$ et $4$), les deux fractions deviennent $\\dfrac{8}{12}$ et $\\dfrac{9}{12}$, dont la somme $\\dfrac{17}{12}$ dépasse un entier.',
+        svg: `
+          <svg viewBox="0 0 460 310" role="img" aria-labelledby="frac-op-title frac-op-desc">
+            <title id="frac-op-title">Addition de fractions par bandes</title>
+            <desc id="frac-op-desc">Bandes representant deux tiers, trois quarts, leur conversion en douziemes huit sur douze et neuf sur douze, puis la somme dix-sept douziemes decomposee en un entier plus cinq douziemes.</desc>
+            <text class="annotation-label" x="90" y="18">2/3</text>
+            <rect class="frame-line" x="90" y="24" width="240" height="24" fill="none"></rect>
+            <rect x="90" y="24" width="160" height="24" fill="var(--diagram-accent)"></rect>
+            <line class="grid-line" x1="170" y1="24" x2="170" y2="48"></line>
+            <line class="grid-line" x1="250" y1="24" x2="250" y2="48"></line>
+            <text class="tick-label" x="84" y="58">0</text>
+            <text class="tick-label" x="322" y="58">1</text>
+
+            <text class="annotation-label" x="90" y="64">3/4</text>
+            <rect class="frame-line" x="90" y="70" width="240" height="24" fill="none"></rect>
+            <rect x="90" y="70" width="180" height="24" fill="var(--diagram-accent)"></rect>
+            <line class="grid-line" x1="150" y1="70" x2="150" y2="94"></line>
+            <line class="grid-line" x1="210" y1="70" x2="210" y2="94"></line>
+            <line class="grid-line" x1="270" y1="70" x2="270" y2="94"></line>
+            <text class="tick-label" x="84" y="104">0</text>
+            <text class="tick-label" x="322" y="104">1</text>
+
+            <text class="label-soft" x="90" y="118">Dénominateur commun : douzièmes (PPCM(3,4) = 12)</text>
+
+            <text class="annotation-label" x="90" y="132">8/12 (= 2/3 converti)</text>
+            <rect class="frame-line" x="90" y="138" width="240" height="24" fill="none"></rect>
+            <rect x="90" y="138" width="160" height="24" fill="var(--diagram-accent)"></rect>
+            <line class="grid-line" x1="110" y1="138" x2="110" y2="162"></line>
+            <line class="grid-line" x1="130" y1="138" x2="130" y2="162"></line>
+            <line class="grid-line" x1="150" y1="138" x2="150" y2="162"></line>
+            <line class="grid-line" x1="170" y1="138" x2="170" y2="162"></line>
+            <line class="grid-line" x1="190" y1="138" x2="190" y2="162"></line>
+            <line class="grid-line" x1="210" y1="138" x2="210" y2="162"></line>
+            <line class="grid-line" x1="230" y1="138" x2="230" y2="162"></line>
+            <line class="grid-line" x1="250" y1="138" x2="250" y2="162"></line>
+            <line class="grid-line" x1="270" y1="138" x2="270" y2="162"></line>
+            <line class="grid-line" x1="290" y1="138" x2="290" y2="162"></line>
+            <line class="grid-line" x1="310" y1="138" x2="310" y2="162"></line>
+            <text class="tick-label" x="84" y="172">0</text>
+            <text class="tick-label" x="322" y="172">1</text>
+
+            <text class="annotation-label" x="90" y="178">9/12 (= 3/4 converti)</text>
+            <rect class="frame-line" x="90" y="184" width="240" height="24" fill="none"></rect>
+            <rect x="90" y="184" width="180" height="24" fill="var(--diagram-accent)"></rect>
+            <line class="grid-line" x1="110" y1="184" x2="110" y2="208"></line>
+            <line class="grid-line" x1="130" y1="184" x2="130" y2="208"></line>
+            <line class="grid-line" x1="150" y1="184" x2="150" y2="208"></line>
+            <line class="grid-line" x1="170" y1="184" x2="170" y2="208"></line>
+            <line class="grid-line" x1="190" y1="184" x2="190" y2="208"></line>
+            <line class="grid-line" x1="210" y1="184" x2="210" y2="208"></line>
+            <line class="grid-line" x1="230" y1="184" x2="230" y2="208"></line>
+            <line class="grid-line" x1="250" y1="184" x2="250" y2="208"></line>
+            <line class="grid-line" x1="270" y1="184" x2="270" y2="208"></line>
+            <line class="grid-line" x1="290" y1="184" x2="290" y2="208"></line>
+            <line class="grid-line" x1="310" y1="184" x2="310" y2="208"></line>
+            <text class="tick-label" x="84" y="218">0</text>
+            <text class="tick-label" x="322" y="218">1</text>
+
+            <text class="label-soft" x="90" y="232">Somme : 8/12 + 9/12 = 17/12</text>
+
+            <text class="annotation-label" x="90" y="246">17/12 = 1 entier + 5/12</text>
+            <line class="guide-line" x1="330" y1="20" x2="330" y2="280"></line>
+            <rect class="frame-line" x="90" y="252" width="240" height="24" fill="none"></rect>
+            <rect x="90" y="252" width="240" height="24" fill="var(--diagram-accent)"></rect>
+            <line class="grid-line" x1="110" y1="252" x2="110" y2="276"></line>
+            <line class="grid-line" x1="130" y1="252" x2="130" y2="276"></line>
+            <line class="grid-line" x1="150" y1="252" x2="150" y2="276"></line>
+            <line class="grid-line" x1="170" y1="252" x2="170" y2="276"></line>
+            <line class="grid-line" x1="190" y1="252" x2="190" y2="276"></line>
+            <line class="grid-line" x1="210" y1="252" x2="210" y2="276"></line>
+            <line class="grid-line" x1="230" y1="252" x2="230" y2="276"></line>
+            <line class="grid-line" x1="250" y1="252" x2="250" y2="276"></line>
+            <line class="grid-line" x1="270" y1="252" x2="270" y2="276"></line>
+            <line class="grid-line" x1="290" y1="252" x2="290" y2="276"></line>
+            <line class="grid-line" x1="310" y1="252" x2="310" y2="276"></line>
+            <text class="annotation-label" x="326" y="270">+</text>
+            <rect class="frame-line" x="340" y="252" width="100" height="24" fill="none"></rect>
+            <rect x="340" y="252" width="100" height="24" fill="color-mix(in srgb, var(--diagram-accent) 55%, white)"></rect>
+            <line class="grid-line" x1="360" y1="252" x2="360" y2="276"></line>
+            <line class="grid-line" x1="380" y1="252" x2="380" y2="276"></line>
+            <line class="grid-line" x1="400" y1="252" x2="400" y2="276"></line>
+            <line class="grid-line" x1="420" y1="252" x2="420" y2="276"></line>
+            <text class="tick-label" x="196" y="292">1 entier (12/12)</text>
+            <text class="tick-label" x="374" y="292">5/12</text>
+          </svg>
+        `,
+        notes: [
+          'Les deux premières bandes montrent $\\dfrac{2}{3}$ et $\\dfrac{3}{4}$ avec leur découpage naturel (en tiers, puis en quarts).',
+          'En redécoupant les deux bandes en douzièmes, on voit que $\\dfrac{2}{3} = \\dfrac{8}{12}$ et $\\dfrac{3}{4} = \\dfrac{9}{12}$ : même longueur, juste plus de parts.',
+          'La ligne verticale pointillée marque la valeur $1$ (un entier) : la bande finale $\\dfrac{17}{12}$ la dépasse, ce qui correspond à $1$ entier plus $\\dfrac{5}{12}$.'
+        ],
+        reading: 'Une fois les bandes redécoupées au même dénominateur, on additionne simplement les parts coloriées : $8 + 9 = 17$ douzièmes.',
+        caption: 'Bandes fractionnaires pour $\\dfrac{2}{3} + \\dfrac{3}{4} = \\dfrac{8}{12} + \\dfrac{9}{12} = \\dfrac{17}{12} = 1\\dfrac{5}{12}$.'
+      },
       method: {
         title: 'Méthode en 4 étapes',
         steps: [

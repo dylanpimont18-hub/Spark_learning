@@ -187,12 +187,12 @@ const MODULE_INDEX = {
   '2nde-geometrie-plane':'maths-2','2nde-statistiques':'maths-2','2nde-probabilites':'maths-2',
   '2nde-echantillonnage':'maths-2','2nde-algorithmique':'maths-2',
   // 1re
-  'derivation':'maths-2','1re-suites':'maths-2','1re-produit-scalaire':'maths-2',
+  '1re-derivation':'maths-2','1re-suites':'maths-2','1re-produit-scalaire':'maths-2',
   '1re-second-degre':'maths-2','1re-polynomes-signe':'maths-2','1re-trigonometrie':'maths-2',
   '1re-geometrie-reperee':'maths-2','1re-probas-conditionnelles':'maths-2',
   '1re-variables-aleatoires':'maths-2','1re-information-chiffree':'maths-2',
   // Tle
-  'exp-log':'maths-2','integration':'maths-2','eq-diff-1':'maths-2','tle-limites-continuite':'maths-2',
+  'tle-exponentielle-logarithme':'maths-2','tle-primitives-integrales':'maths-2','tle-equations-differentielles':'maths-2','tle-limites-continuite':'maths-2',
   'tle-derivation-complements':'maths-2','tle-logarithme':'maths-2','tle-convexite':'maths-2',
   'tle-suites-complements':'maths-2','tle-denombrement':'maths-2','tle-lois-continues':'maths-2',
   'tle-geometrie-espace':'maths-2','tle-orthogonalite-espace':'maths-2',

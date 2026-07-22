@@ -42,6 +42,46 @@ window.MODULES.push({
         '$(a-b)^2 = a^2 - 2ab + b^2$',
         '$(a+b)(a-b) = a^2 - b^2$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Identité remarquable — $(a+b)^2$',
+        title: 'Aire du carré de côté (x + 4) découpée en 4 régions',
+        description: 'Preuve géométrique de l\'exemple du cours (méthode, étape 2) : $(x+4)^2 = x^2+8x+16$, obtenue en sommant les 4 aires d\'un carré de côté $x+4$.',
+        svg: `
+          <svg viewBox="0 0 460 410" role="img" aria-labelledby="carre-identite-title carre-identite-desc">
+            <title id="carre-identite-title">Carre de cote (x+4) decompose en 4 aires</title>
+            <desc id="carre-identite-desc">Un grand carre de cote x plus 4 est partage par une ligne verticale et une ligne horizontale en 4 rectangles : un carre d'aire x au carre en haut a gauche, deux rectangles egaux d'aire 4x en haut a droite et en bas a gauche, et un petit carre d'aire 16 en bas a droite. La somme des quatre aires redonne x au carre plus 8x plus 16.</desc>
+
+            <text class="label-soft" x="240" y="28" text-anchor="middle">Aire totale = (x + 4)^2</text>
+
+            <rect class="frame-line" x="100" y="60" width="200" height="200" fill="color-mix(in srgb, var(--diagram-accent) 10%, transparent)"></rect>
+            <rect class="frame-line" x="300" y="60" width="80" height="200" fill="color-mix(in srgb, var(--accent) 14%, transparent)"></rect>
+            <rect class="frame-line" x="100" y="260" width="200" height="80" fill="color-mix(in srgb, var(--accent) 14%, transparent)"></rect>
+            <rect class="frame-line" x="300" y="260" width="80" height="80" fill="color-mix(in srgb, var(--secondary) 14%, transparent)"></rect>
+            <rect class="frame-line" x="100" y="60" width="280" height="280" fill="none"></rect>
+
+            <text class="annotation-label" x="200" y="165" text-anchor="middle">x^2</text>
+            <text class="annotation-label" x="340" y="165" text-anchor="middle">4x</text>
+            <text class="annotation-label" x="200" y="304" text-anchor="middle">4x</text>
+            <text class="annotation-label" x="340" y="304" text-anchor="middle">16</text>
+
+            <text class="axis-label" x="200" y="50" text-anchor="middle">x</text>
+            <text class="axis-label" x="340" y="50" text-anchor="middle">4</text>
+            <text class="axis-label" x="80" y="164" text-anchor="middle">x</text>
+            <text class="axis-label" x="80" y="304" text-anchor="middle">4</text>
+
+            <rect x="100" y="350" width="280" height="40" rx="10" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
+            <text class="tick-label" x="240" y="374" text-anchor="middle">x^2 + 4x + 4x + 16 = x^2 + 8x + 16</text>
+          </svg>
+        `,
+        notes: [
+          'Le carré de côté $(x+4)$ se découpe en 4 aires : le grand carré $x^2$, les deux rectangles égaux $4x$, et le petit carré $16$.',
+          'La somme des 4 aires redonne le développement : $x^2 + 4x + 4x + 16 = x^2 + 8x + 16$, soit l\'identité $(a+b)^2 = a^2 + 2ab + b^2$ avec $a=x$ et $b=4$.',
+          'Ce découpage est une preuve géométrique valable quels que soient $a$ et $b$ — le schéma n\'est pas à l\'échelle puisque $x$ est une variable.'
+        ],
+        reading: 'Repère les deux rectangles du milieu (aire $4x$ chacun) : ensemble, ils forment le terme croisé $2ab = 8x$ de la formule.',
+        caption: 'Décomposition géométrique de $(x+4)^2$ reprenant l\'exemple du cours (méthode, étape 2) : $x^2 + 8x + 16$.'
+      },
       recap: [
         'Développer = supprimer les parenthèses (produit → somme) ; factoriser = créer des parenthèses (somme → produit).',
         'Les trois identités remarquables sont les outils centraux : les reconnaître dans les deux sens.',

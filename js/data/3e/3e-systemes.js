@@ -46,7 +46,83 @@ window.MODULES.push(
         'Par substitution : $x = \\dfrac{c - by}{a}$ puis substituer.',
         'Par combinaison : multiplier pour éliminer une variable.'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px"></th><th style="border:1px solid var(--border);padding:8px">Substitution</th><th style="border:1px solid var(--border);padding:8px">Combinaison (addition)</th></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Quand l\'utiliser ?</strong></td><td style="border:1px solid var(--border);padding:8px">Quand une inconnue a un coefficient $1$ ou $-1$</td><td style="border:1px solid var(--border);padding:8px">Quand les coefficients sont quelconques ou se prêtent bien à l\'élimination</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Avantage</strong></td><td style="border:1px solid var(--border);padding:8px">Simple et directe, facile à comprendre</td><td style="border:1px solid var(--border);padding:8px">Rapide, évite les fractions</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Inconvénient</strong></td><td style="border:1px solid var(--border);padding:8px">Peut donner des fractions compliquées</td><td style="border:1px solid var(--border);padding:8px">Nécessite de bien choisir les coefficients multiplicateurs</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Résolution graphique',
+        title: 'Deux droites, un point d\'intersection : la solution du système',
+        description: 'Le système $\\begin{cases} 2x+y=7 \\\\ x-y=2 \\end{cases}$ de l\'exemple du cours, résolu ici graphiquement : chaque droite représente une équation, et leur point commun est la solution.',
+        svg: `
+          <svg viewBox="0 0 380 400" role="img" aria-labelledby="sys3e-title sys3e-desc">
+            <title id="sys3e-title">Deux droites et leur point d'intersection</title>
+            <desc id="sys3e-desc">Repere avec deux droites D1 d'equation 2x plus y egal 7 et D2 d'equation x moins y egal 2, qui se croisent au point de coordonnees 3 et 1, solution du systeme.</desc>
+            <defs>
+              <marker id="arrow-3e-systemes" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
+
+            <line class="grid-line" x1="70" y1="350" x2="70" y2="75"></line>
+            <line class="grid-line" x1="120" y1="350" x2="120" y2="75"></line>
+            <line class="grid-line" x1="170" y1="350" x2="170" y2="75"></line>
+            <line class="grid-line" x1="220" y1="350" x2="220" y2="75"></line>
+            <line class="grid-line" x1="270" y1="350" x2="270" y2="75"></line>
+            <line class="grid-line" x1="320" y1="350" x2="320" y2="75"></line>
+
+            <line class="grid-line" x1="70" y1="350" x2="345" y2="350"></line>
+            <line class="grid-line" x1="70" y1="325" x2="345" y2="325"></line>
+            <line class="grid-line" x1="70" y1="300" x2="345" y2="300"></line>
+            <line class="grid-line" x1="70" y1="275" x2="345" y2="275"></line>
+            <line class="grid-line" x1="70" y1="250" x2="345" y2="250"></line>
+            <line class="grid-line" x1="70" y1="225" x2="345" y2="225"></line>
+            <line class="grid-line" x1="70" y1="200" x2="345" y2="200"></line>
+            <line class="grid-line" x1="70" y1="175" x2="345" y2="175"></line>
+            <line class="grid-line" x1="70" y1="150" x2="345" y2="150"></line>
+            <line class="grid-line" x1="70" y1="125" x2="345" y2="125"></line>
+            <line class="grid-line" x1="70" y1="100" x2="345" y2="100"></line>
+            <line class="grid-line" x1="70" y1="75" x2="345" y2="75"></line>
+
+            <line class="axis" x1="70" y1="275" x2="345" y2="275" marker-end="url(#arrow-3e-systemes)"></line>
+            <line class="axis" x1="120" y1="350" x2="120" y2="75" marker-end="url(#arrow-3e-systemes)"></line>
+            <text class="axis-label" x="350" y="268">x</text>
+            <text class="axis-label" x="128" y="80">y</text>
+
+            <text class="tick-label" x="120" y="289" text-anchor="middle">0</text>
+            <text class="tick-label" x="170" y="289" text-anchor="middle">1</text>
+            <text class="tick-label" x="220" y="289" text-anchor="middle">2</text>
+            <text class="tick-label" x="270" y="289" text-anchor="middle">3</text>
+            <text class="tick-label" x="320" y="289" text-anchor="middle">4</text>
+
+            <text class="tick-label" x="112" y="329" text-anchor="end">-2</text>
+            <text class="tick-label" x="112" y="254" text-anchor="end">1</text>
+            <text class="tick-label" x="112" y="204" text-anchor="end">3</text>
+            <text class="tick-label" x="112" y="154" text-anchor="end">5</text>
+            <text class="tick-label" x="112" y="104" text-anchor="end">7</text>
+
+            <line class="curve-main" x1="95" y1="75" x2="345" y2="325"></line>
+            <line x1="70" y1="350" x2="345" y2="212.5" stroke="color-mix(in srgb, var(--diagram-accent) 55%, var(--text))" stroke-width="3" stroke-dasharray="9 6" stroke-linecap="round"></line>
+
+            <line class="guide-line" x1="270" y1="250" x2="270" y2="275"></line>
+            <line class="guide-line" x1="120" y1="250" x2="270" y2="250"></line>
+            <circle class="plot-point" cx="270" cy="250" r="6"></circle>
+            <text class="annotation-label" x="280" y="238">S(3 ; 1)</text>
+
+            <circle class="plot-point-alt" cx="120" cy="100" r="4"></circle>
+            <circle class="plot-point-alt" cx="120" cy="325" r="4"></circle>
+
+            <line x1="140" y1="25" x2="170" y2="25" class="curve-main"></line>
+            <text class="annotation-label" x="178" y="29">D1 : 2x + y = 7</text>
+            <line x1="140" y1="45" x2="170" y2="45" stroke="color-mix(in srgb, var(--diagram-accent) 55%, var(--text))" stroke-width="3" stroke-dasharray="9 6" stroke-linecap="round"></line>
+            <text class="annotation-label" x="178" y="49">D2 : x − y = 2</text>
+          </svg>
+        `,
+        notes: [
+          'La droite D1 représente l\'équation $2x + y = 7$ ; la droite D2 représente $x - y = 2$.',
+          'Le point d\'intersection $S(3\\,;\\,1)$ est l\'unique couple qui appartient aux deux droites, donc qui vérifie les deux équations en même temps.',
+          'Vérification : $2 \\times 3 + 1 = 7$ ✓ et $3 - 1 = 2$ ✓ — cela confirme la solution trouvée par combinaison dans le cours.'
+        ],
+        reading: 'Repère l\'unique point où les deux droites se croisent : c\'est le seul point du plan qui appartient à la fois à D1 et à D2, donc l\'unique solution du système.',
+        caption: 'Représentation graphique du système $\\begin{cases} 2x+y=7 \\\\ x-y=2 \\end{cases}$ : les droites se croisent en $(x\\,;\\,y)=(3\\,;\\,1)$, solution trouvée par combinaison dans l\'exemple du cours.'
+      },
       recap: [
         '<strong>Deux méthodes</strong> : la substitution isole puis remplace ; la combinaison multiplie puis additionne pour éliminer une inconnue.',
         '<strong>Vérification obligatoire</strong> : toujours tester le couple trouvé dans les DEUX équations de départ. Une seule ne suffit pas !',

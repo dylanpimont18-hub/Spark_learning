@@ -32,7 +32,41 @@ window.MODULES.push({
         ],
         answer: '$\\approx 549{,}7$ m²'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Conversion</th><th style="border:1px solid var(--border);padding:6px 14px">Longueurs</th><th style="border:1px solid var(--border);padding:6px 14px">Aires ($\\times$ facteur²)</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">m → cm</td><td style="border:1px solid var(--border);padding:6px 14px">$\\times 100$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\times 10\\,000$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">cm → mm</td><td style="border:1px solid var(--border);padding:6px 14px">$\\times 10$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\times 100$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">km → m</td><td style="border:1px solid var(--border);padding:6px 14px">$\\times 1000$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\times 1\\,000\\,000$</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Figure composée',
+        title: 'Décomposer une aire composée : additionner ou soustraire ?',
+        description: 'Terrain rectangulaire de $30$ m $\\times$ $20$ m dans lequel une piscine circulaire de rayon $4$ m est retirée : l\'aire restante est une différence d\'aires, l\'exemple du cours.',
+        svg: `
+          <svg viewBox="0 0 360 250" role="img" aria-labelledby="aires-terrain-title aires-terrain-desc">
+            <title id="aires-terrain-title">Terrain rectangulaire avec piscine circulaire retiree</title>
+            <desc id="aires-terrain-desc">Un rectangle de 30 metres sur 20 metres represente un terrain. Un disque de rayon 4 metres est retire en son centre pour figurer une piscine : l'aire restante est l'aire du rectangle moins l'aire du disque.</desc>
+            <rect class="frame-line" x="60" y="40" width="240" height="160" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)"></rect>
+            <circle class="curve-main" cx="200" cy="120" r="32" fill="var(--bg-card)"></circle>
+            <line class="guide-line" x1="200" y1="120" x2="232" y2="120"></line>
+            <circle class="plot-point" cx="200" cy="120" r="4"></circle>
+            <circle class="plot-point-alt" cx="232" cy="120" r="4"></circle>
+            <line class="frame-line" x1="60" y1="210" x2="60" y2="222"></line>
+            <line class="frame-line" x1="300" y1="210" x2="300" y2="222"></line>
+            <line class="guide-line" x1="60" y1="216" x2="300" y2="216"></line>
+            <line class="frame-line" x1="38" y1="40" x2="50" y2="40"></line>
+            <line class="frame-line" x1="38" y1="200" x2="50" y2="200"></line>
+            <line class="guide-line" x1="44" y1="40" x2="44" y2="200"></line>
+            <text class="label-soft" x="70" y="58">Terrain</text>
+            <text class="label-soft" x="182" y="124">Piscine</text>
+            <text class="annotation-label" x="204" y="112">r = 4 m</text>
+            <text class="axis-label" x="150" y="234">30 m</text>
+            <text class="axis-label" x="14" y="124" transform="rotate(-90 14 124)">20 m</text>
+          </svg>
+        `,
+        notes: [
+          'L\'aire du rectangle (le terrain) vaut $30 \\times 20 = 600$ m².',
+          'Le disque retiré (la piscine) a un rayon de $4$ m : son aire vaut $\\pi \\times 4^2 \\approx 3{,}14 \\times 16 \\approx 50{,}3$ m².',
+          'Le disque est creusé DANS le rectangle : on soustrait. Aire restante $\\approx 600 - 50{,}3 \\approx 549{,}7$ m².'
+        ],
+        reading: 'Face à une figure composée, identifie d\'abord si une partie est ajoutée (on additionne) ou retirée comme ici (on soustrait), avant de calculer quoi que ce soit.',
+        caption: 'Terrain rectangulaire de $30$ m $\\times$ $20$ m avec une piscine circulaire de rayon $4$ m retirée en son centre — aire restante $\\approx 549{,}7$ m², exemple du cours.'
+      },
       method: {
         title: 'Méthode en 4 étapes',
         steps: [

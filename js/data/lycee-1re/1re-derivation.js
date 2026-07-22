@@ -44,6 +44,63 @@ window.MODULES.push({
         '$(\\ln x)\' = \\dfrac{1}{x}$',
         '$(\\sin x)\' = \\cos x$, $(\\cos x)\' = -\\sin x$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Tangente et extremum',
+        title: 'Lire une tangente horizontale sur la courbe de $f$',
+        description: 'La courbe de $f(x) = 2x^3 - 5x^2 + 4x - 1$ (l\'exemple du cours) calculée point par point entre $x=-0{,}3$ et $x=1{,}8$.<br/><br/>En $x_0 = 1$, la tangente est horizontale : elle est confondue avec l\'axe des abscisses, car $f\'(1)=0$ et $f(1)=0$.',
+        svg: `
+          <svg viewBox="0 0 430 300" role="img" aria-labelledby="deriv-graph-title deriv-graph-desc">
+            <title id="deriv-graph-title">Courbe de f et tangente horizontale au point (1;0)</title>
+            <desc id="deriv-graph-desc">Courbe de la fonction cubique f(x) = 2x au cube - 5x au carre + 4x - 1, tracee entre x=-0,3 et x=1,8. La tangente en x=1 est horizontale et confondue avec l'axe des abscisses car f(1)=0 est un minimum local.</desc>
+
+            <!-- grille verticale -->
+            <line class="grid-line" x1="104.3" y1="30" x2="104.3" y2="250"></line>
+            <line class="grid-line" x1="186.4" y1="30" x2="186.4" y2="250"></line>
+            <line class="grid-line" x1="268.6" y1="30" x2="268.6" y2="250"></line>
+            <line class="grid-line" x1="350.7" y1="30" x2="350.7" y2="250"></line>
+
+            <!-- axes -->
+            <line class="axis" x1="48" y1="116.6" x2="407" y2="116.6"></line>
+            <line class="axis" x1="104.3" y1="23" x2="104.3" y2="257"></line>
+
+            <!-- courbe calculee point par point -->
+            <polyline class="curve-main" points="55.0,238.2 69.4,210.8 83.8,187.8 98.1,168.7 104.3,161.6 112.5,153.1 126.9,140.9 141.2,131.5 155.6,124.6 170.0,119.9 184.4,116.9 198.8,115.4 213.1,115.0 213.8,115.0 227.5,115.2 241.9,115.8 256.2,116.4 268.6,116.6 270.6,116.6 285.0,116.1 299.4,114.4 313.8,111.3 328.1,106.4 342.5,99.3 356.9,89.7 371.2,77.1 385.6,61.3 400.0,41.8"></polyline>
+
+            <!-- tangente horizontale en x=1, superposee a l'axe des abscisses -->
+            <line class="focus-line" x1="219.3" y1="116.6" x2="317.9" y2="116.6"></line>
+
+            <!-- guide vers l'etiquette -->
+            <line class="guide-line" x1="268.6" y1="72" x2="268.6" y2="110"></line>
+
+            <!-- point de tangence -->
+            <circle class="plot-point" cx="268.6" cy="116.6" r="5"></circle>
+
+            <!-- etiquettes -->
+            <text class="annotation-label" x="227" y="16" text-anchor="middle">f(x) = 2x³ − 5x² + 4x − 1</text>
+            <text class="annotation-label" x="268.6" y="50" text-anchor="middle">Tangente horizontale</text>
+            <text class="annotation-label" x="268.6" y="66" text-anchor="middle">en (1 ; 0)</text>
+
+            <text class="tick-label" x="104.3" y="132" text-anchor="middle">0</text>
+            <text class="tick-label" x="186.4" y="132" text-anchor="middle">0,5</text>
+            <text class="tick-label" x="268.6" y="132" text-anchor="middle">1</text>
+            <text class="tick-label" x="350.7" y="132" text-anchor="middle">1,5</text>
+            <text class="tick-label" x="94" y="210" text-anchor="end">-2</text>
+            <text class="tick-label" x="94" y="165" text-anchor="end">-1</text>
+            <text class="tick-label" x="94" y="75" text-anchor="end">1</text>
+            <text class="axis-label" x="412" y="121">x</text>
+            <text class="axis-label" x="108" y="20">y</text>
+          </svg>
+        `,
+        notes: [
+          'Le calcul donne $f\'(x) = 6x^2 - 10x + 4$, donc $f\'(1) = 6 - 10 + 4 = 0$ : la pente de la tangente est nulle, la tangente est <strong>horizontale</strong>.',
+          'Comme $f(1) = 0$ également, la tangente horizontale est ici confondue avec l\'axe des abscisses — le trait en tirets superposé à l\'axe matérialise cette tangente.',
+          'En étudiant le signe de $f\'$, on montre que $x=1$ est un <strong>minimum local</strong> : $f\'$ est négative juste avant (entre $x=\\frac{2}{3}$ et $1$) et positive juste après.',
+          'Il existe un second point où $f\'(x)=0$, en $x=\\frac{2}{3}$ (un maximum local, $f(2/3)=\\frac{1}{27}\\approx0{,}04$) — non détaillé dans l\'exemple du cours, mais visible sur la courbe comme un léger palier juste avant $x=1$.'
+        ],
+        reading: 'Repère d\'abord le point où la courbe s\'aplatit (la tangente devient horizontale) : c\'est là que $f\'(x_0)=0$. Le signe de $f\'$ avant et après ce point indique s\'il s\'agit d\'un minimum ou d\'un maximum local.',
+        caption: 'Courbe de $f(x)=2x^3-5x^2+4x-1$ et tangente horizontale au point $(1\\,;\\,0)$, extremum local de l\'exemple du cours.'
+      },
       recap: [
         'La dérivée $f\'(x_0)$ est la <strong>pente de la tangente</strong> à la courbe en $x_0$ : c\'est un nombre.',
         'La fonction dérivée $f\'$ est une <strong>fonction</strong> : elle associe à chaque $x$ la pente de la tangente en ce point.',

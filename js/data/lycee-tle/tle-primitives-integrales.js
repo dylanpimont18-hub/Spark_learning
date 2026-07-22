@@ -34,7 +34,7 @@ window.MODULES.push({
           'On cherche la primitive de $f(x) = x^2 - 1$ : $F(x) = \\dfrac{x^3}{3} - x$.',
           'On calcule l\'intégrale : $\\int_0^2 (x^2 - 1)\\,dx = \\left[\\dfrac{x^3}{3} - x\\right]_0^2 = \\left(\\dfrac{8}{3} - 2\\right) - 0 = \\dfrac{2}{3}$.',
           'Attention : $f$ change de signe en $x = 1$. Sur $[0;1]$, $f < 0$ et sur $[1;2]$, $f > 0$.',
-          'L\'aire géométrique est : $\\int_0^1 |f(x)|\\,dx + \\int_1^2 f(x)\\,dx = \\dfrac{4}{3} + \\dfrac{2}{3} - \\left(-\\dfrac{2}{3}\\right) = 2$.'
+          'L\'aire géométrique est : $\\int_0^1 |f(x)|\\,dx + \\int_1^2 f(x)\\,dx = \\dfrac{2}{3} + \\dfrac{4}{3} = 2$.'
         ],
         answer: 'L\'intégrale vaut $\\dfrac{2}{3}$, mais l\'aire géométrique réelle est $2$ unités d\'aire (il faut tenir compte du changement de signe).'
       },
@@ -44,6 +44,84 @@ window.MODULES.push({
         '$\\int e^x\\,dx = e^x + C$',
         '$\\int \\cos x\\,dx = \\sin x + C$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Aire signée',
+        title: 'Intégrale de $f(x) = x^2 - 1$ sur $[0\\,;\\,2]$ (exemple du cours)',
+        description: 'La courbe passe sous l\'axe des abscisses sur $[0\\,;\\,1]$ (aire hachurée en rouge, contribution <strong>négative</strong>) puis au-dessus sur $[1\\,;\\,2]$ (aire hachurée en vert, contribution <strong>positive</strong>). L\'intégrale $\\int_0^2 f(x)\\,dx = \\dfrac{2}{3}$ est la somme signée de ces deux aires ; l\'aire géométrique réelle (sans compensation de signe) vaut $2$.',
+        svg: `
+          <svg viewBox="0 0 420 300" role="img" aria-labelledby="integrale-title integrale-desc">
+            <title id="integrale-title">Aires positive et negative de f(x) = x^2 - 1 sur [0;2]</title>
+            <desc id="integrale-desc">Courbe parabolique passant sous l'axe des abscisses entre 0 et 1 (aire negative hachuree en rouge) puis au-dessus entre 1 et 2 (aire positive hachuree en vert). L'integrale signee vaut 2/3 et l'aire geometrique totale vaut 2.</desc>
+
+            <defs>
+              <pattern id="conv-int-hatch-neg" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
+                <rect width="8" height="8" fill="color-mix(in srgb, var(--error) 10%, transparent)"></rect>
+                <line x1="0" y1="0" x2="0" y2="8" stroke="var(--error)" stroke-width="1.6" opacity="0.6"></line>
+              </pattern>
+              <pattern id="conv-int-hatch-pos" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
+                <rect width="8" height="8" fill="color-mix(in srgb, var(--success) 10%, transparent)"></rect>
+                <line x1="0" y1="0" x2="0" y2="8" stroke="var(--success)" stroke-width="1.6" opacity="0.6"></line>
+              </pattern>
+            </defs>
+
+            <!-- grille verticale -->
+            <line class="grid-line" x1="94.2" y1="40" x2="94.2" y2="235"></line>
+            <line class="grid-line" x1="225.0" y1="40" x2="225.0" y2="235"></line>
+            <line class="grid-line" x1="355.8" y1="40" x2="355.8" y2="235"></line>
+
+            <!-- grille horizontale -->
+            <line class="grid-line" x1="55" y1="225.1" x2="395" y2="225.1"></line>
+            <line class="grid-line" x1="55" y1="159.0" x2="395" y2="159.0"></line>
+            <line class="grid-line" x1="55" y1="125.9" x2="395" y2="125.9"></line>
+            <line class="grid-line" x1="55" y1="92.9" x2="395" y2="92.9"></line>
+
+            <!-- aire negative [0;1], hachures rouges -->
+            <polygon points="94.2,192.0 94.2,225.1 107.3,224.8 120.4,223.8 133.5,222.1 146.5,219.8 159.6,216.8 172.7,213.2 185.8,208.9 198.8,203.9 211.9,198.3 225.0,192.0" fill="url(#conv-int-hatch-neg)" stroke="none"></polygon>
+
+            <!-- aire positive [1;2], hachures vertes -->
+            <polygon points="225.0,192.0 238.1,185.1 251.2,177.5 264.2,169.2 277.3,160.3 290.4,150.7 303.5,140.5 316.5,129.6 329.6,118.0 342.7,105.8 355.8,92.9 355.8,192.0" fill="url(#conv-int-hatch-pos)" stroke="none"></polygon>
+
+            <!-- axes -->
+            <line class="axis" x1="48" y1="192.0" x2="402" y2="192.0"></line>
+            <line class="axis" x1="94.2" y1="30" x2="94.2" y2="245"></line>
+
+            <!-- courbe -->
+            <polyline class="curve-main" points="55.0,222.1 68.1,223.8 81.2,224.8 94.2,225.1 107.3,224.8 120.4,223.8 133.5,222.1 146.5,219.8 159.6,216.8 172.7,213.2 185.8,208.9 198.8,203.9 211.9,198.3 225.0,192.0 238.1,185.1 251.2,177.5 264.2,169.2 277.3,160.3 290.4,150.7 303.5,140.5 316.5,129.6 329.6,118.0 342.7,105.8 355.8,92.9 368.8,79.3 381.9,65.1 395.0,50.2"></polyline>
+
+            <!-- points cles -->
+            <circle class="plot-point" cx="94.2" cy="225.1" r="5"></circle>
+            <circle class="plot-point-alt" cx="225.0" cy="192.0" r="5"></circle>
+            <circle class="plot-point" cx="355.8" cy="92.9" r="5"></circle>
+
+            <!-- etiquettes -->
+            <text class="annotation-label" x="210" y="18" text-anchor="middle">f(x) = x² − 1</text>
+            <text class="annotation-label" x="115" y="207" text-anchor="middle">Aire négative</text>
+            <text class="label-soft" x="115" y="220" text-anchor="middle">2/3</text>
+            <text class="annotation-label" x="333" y="140" text-anchor="middle">Aire positive</text>
+            <text class="label-soft" x="333" y="154" text-anchor="middle">4/3</text>
+
+            <text class="tick-label" x="94.2" y="250" text-anchor="middle">0</text>
+            <text class="tick-label" x="225.0" y="250" text-anchor="middle">1</text>
+            <text class="tick-label" x="355.8" y="250" text-anchor="middle">2</text>
+
+            <text class="tick-label" x="35" y="229" text-anchor="middle">-1</text>
+            <text class="tick-label" x="35" y="163" text-anchor="middle">1</text>
+            <text class="tick-label" x="35" y="130" text-anchor="middle">2</text>
+            <text class="tick-label" x="35" y="97" text-anchor="middle">3</text>
+
+            <text class="axis-label" x="406" y="196">x</text>
+            <text class="axis-label" x="99" y="24">y</text>
+          </svg>
+        `,
+        notes: [
+          'Sur $[0\\,;\\,1]$, $f(x) < 0$ : la courbe est sous l\'axe. La contribution signée à l\'intégrale est <strong>négative</strong> ($-\\dfrac{2}{3}$), hachurée en rouge.',
+          'Sur $[1\\,;\\,2]$, $f(x) > 0$ : la courbe est au-dessus de l\'axe. La contribution signée est <strong>positive</strong> ($\\dfrac{4}{3}$), hachurée en vert.',
+          'L\'intégrale $\\int_0^2 f(x)\\,dx = -\\dfrac{2}{3} + \\dfrac{4}{3} = \\dfrac{2}{3}$ additionne les deux contributions AVEC leur signe. L\'aire géométrique réelle (toujours positive) est $\\dfrac{2}{3} + \\dfrac{4}{3} = 2$.'
+        ],
+        reading: 'Le rouge et le vert distinguent les deux zones où la courbe change de côté par rapport à l\'axe. L\'intégrale les additionne avec leur signe ; l\'aire géométrique les additionne en valeur absolue.',
+        caption: 'Aires signées de $f(x) = x^2 - 1$ sur $[0\\,;\\,2]$ : $-\\dfrac{2}{3}$ (rouge) et $\\dfrac{4}{3}$ (vert), soit $\\int_0^2 f(x)\\,dx = \\dfrac{2}{3}$ et une aire géométrique de $2$.'
+      },
       recap: [
         'La primitive de $x^n$ est $\\dfrac{x^{n+1}}{n+1} + C$ — on augmente l\'exposant de $1$ et on divise par le nouvel exposant.',
         'L\'intégrale définie $\\int_a^b f(x)\\,dx = F(b) - F(a)$ : le crochet évalue la primitive aux bornes.',

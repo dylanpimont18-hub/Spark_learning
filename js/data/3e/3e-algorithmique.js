@@ -45,7 +45,67 @@ window.MODULES.push(
         'Boucle bornée : $\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; n\\; \\mathtt{faire}\\; \\ldots$',
         'Test : $\\mathtt{si}\\; (x > 0)\\; \\mathtt{alors}\\; \\ldots\\; \\mathtt{sinon}\\; \\ldots$'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Étape</th><th style="border:1px solid var(--border);padding:8px">$i$</th><th style="border:1px solid var(--border);padding:8px">$i^2$</th><th style="border:1px solid var(--border);padding:8px">$S$ (après affectation)</th></tr><tr><td style="border:1px solid var(--border);padding:8px">Init</td><td style="border:1px solid var(--border);padding:8px">—</td><td style="border:1px solid var(--border);padding:8px">—</td><td style="border:1px solid var(--border);padding:8px">$0$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Tour 1</td><td style="border:1px solid var(--border);padding:8px">$1$</td><td style="border:1px solid var(--border);padding:8px">$1$</td><td style="border:1px solid var(--border);padding:8px">$0 + 1 = 1$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Tour 2</td><td style="border:1px solid var(--border);padding:8px">$2$</td><td style="border:1px solid var(--border);padding:8px">$4$</td><td style="border:1px solid var(--border);padding:8px">$1 + 4 = 5$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Tour 3</td><td style="border:1px solid var(--border);padding:8px">$3$</td><td style="border:1px solid var(--border);padding:8px">$9$</td><td style="border:1px solid var(--border);padding:8px">$5 + 9 = 14$</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Algorigramme',
+        title: 'Une boucle bornée pas à pas : calculer S = 1² + 2² + 3²',
+        description: 'Le même algorithme que dans l\'exemple du cours, sous forme d\'organigramme normalisé : rectangles pour les actions, losange pour le test de la boucle, terminaux arrondis pour le début et la fin.',
+        svg: `
+          <svg viewBox="0 0 540 460" role="img" aria-labelledby="algo3e-title algo3e-desc">
+            <title id="algo3e-title">Algorigramme de la boucle bornée</title>
+            <desc id="algo3e-desc">Organigramme : debut, S recoit 0, i recoit 1, puis tant que i est inferieur ou egal a 3 on execute S recoit S plus i au carre et i recoit i plus 1 en bouclant sur le test, sinon on affiche S et on termine. Le deroulement donne S egal a 14.</desc>
+            <defs>
+              <marker id="arrow-3e-algorithmique" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
+
+            <rect class="frame-line" x="100" y="20" width="140" height="40" rx="20" fill="none"></rect>
+            <text class="annotation-label" x="170" y="45" text-anchor="middle">Début</text>
+            <line class="curve-main" x1="170" y1="60" x2="170" y2="80" marker-end="url(#arrow-3e-algorithmique)"></line>
+
+            <rect class="frame-line" x="90" y="80" width="160" height="40" fill="none"></rect>
+            <text class="annotation-label" x="170" y="105" text-anchor="middle">S ← 0</text>
+            <line class="curve-main" x1="170" y1="120" x2="170" y2="140" marker-end="url(#arrow-3e-algorithmique)"></line>
+
+            <rect class="frame-line" x="90" y="140" width="160" height="40" fill="none"></rect>
+            <text class="annotation-label" x="170" y="165" text-anchor="middle">i ← 1</text>
+            <line class="curve-main" x1="170" y1="180" x2="170" y2="205" marker-end="url(#arrow-3e-algorithmique)"></line>
+
+            <polygon class="frame-line" points="170,205 260,250 170,295 80,250" fill="none"></polygon>
+            <text class="annotation-label" x="170" y="254" text-anchor="middle">i ≤ 3 ?</text>
+
+            <line class="curve-main" x1="170" y1="295" x2="170" y2="330" marker-end="url(#arrow-3e-algorithmique)"></line>
+            <text class="label-soft" x="184" y="317">Oui</text>
+
+            <rect class="frame-line" x="80" y="330" width="180" height="40" fill="none"></rect>
+            <text class="annotation-label" x="170" y="355" text-anchor="middle">S ← S + i²</text>
+            <line class="curve-main" x1="170" y1="370" x2="170" y2="390" marker-end="url(#arrow-3e-algorithmique)"></line>
+
+            <rect class="frame-line" x="90" y="390" width="160" height="40" fill="none"></rect>
+            <text class="annotation-label" x="170" y="415" text-anchor="middle">i ← i + 1</text>
+
+            <path class="curve-main" d="M90,410 L30,410 L30,250 L80,250" marker-end="url(#arrow-3e-algorithmique)"></path>
+
+            <line class="curve-main" x1="260" y1="250" x2="340" y2="250" marker-end="url(#arrow-3e-algorithmique)"></line>
+            <text class="label-soft" x="272" y="240">Non</text>
+
+            <rect class="frame-line" x="340" y="230" width="150" height="40" fill="none"></rect>
+            <text class="annotation-label" x="415" y="255" text-anchor="middle">Afficher S</text>
+            <line class="curve-main" x1="415" y1="270" x2="415" y2="320" marker-end="url(#arrow-3e-algorithmique)"></line>
+
+            <rect class="frame-line" x="345" y="320" width="140" height="40" rx="20" fill="none"></rect>
+            <text class="annotation-label" x="415" y="345" text-anchor="middle">Fin</text>
+          </svg>
+        `,
+        notes: [
+          'Initialisation : S ← 0 puis i ← 1, avant d\'entrer dans la boucle.',
+          'Tant que i ≤ 3 (branche « Oui ») : on exécute S ← S + i² puis i ← i + 1, et on revient tester la condition.',
+          'Dès que i ≤ 3 devient faux, c\'est-à-dire à i = 4 (branche « Non ») : on sort de la boucle et on affiche S.'
+        ],
+        reading: 'Suis la boucle « Oui » qui revient sur le losange tant que i ≤ 3 ; dès qu\'elle devient fausse, la branche « Non » mène à l\'affichage du résultat.',
+        caption: 'Algorigramme de l\'exemple du cours : $S \\leftarrow 0$, $\\mathtt{pour}\\ i\\ \\mathtt{de}\\ 1\\ \\mathtt{à}\\ 3$, $S \\leftarrow S + i^2$, ce qui donne $S = 1^2+2^2+3^2 = 14$.'
+      },
       recap: [
         'Les trois structures fondamentales sont la <strong>séquence</strong>, la <strong>condition</strong> ($\\mathtt{si/sinon}$) et la <strong>boucle</strong> ($\\mathtt{pour}$ ou $\\mathtt{tant que}$).',
         'L\'<strong>affectation</strong> $x \\leftarrow x + 1$ n\'est PAS une équation : c\'est une mise à jour qui lit l\'ancienne valeur, calcule, et stocke le résultat.',

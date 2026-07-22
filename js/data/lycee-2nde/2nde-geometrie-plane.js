@@ -37,7 +37,51 @@ window.MODULES.push({
         ],
         answer: '$NC = 6$ cm et $MN = 5$ cm.'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto"><tr><th style="border:1px solid var(--border);padding:8px">Droite remarquable</th><th style="border:1px solid var(--border);padding:8px">Passe par</th><th style="border:1px solid var(--border);padding:8px">Propriété</th></tr><tr><td style="border:1px solid var(--border);padding:8px">Médiane</td><td style="border:1px solid var(--border);padding:8px">Sommet → milieu du côté opposé</td><td style="border:1px solid var(--border);padding:8px">Centre de gravité</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Hauteur</td><td style="border:1px solid var(--border);padding:8px">Sommet ⊥ côté opposé</td><td style="border:1px solid var(--border);padding:8px">Orthocentre</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Médiatrice</td><td style="border:1px solid var(--border);padding:8px">⊥ au milieu du côté</td><td style="border:1px solid var(--border);padding:8px">Centre du cercle circonscrit</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Bissectrice</td><td style="border:1px solid var(--border);padding:8px">Sommet, divise l\'angle en 2</td><td style="border:1px solid var(--border);padding:8px">Centre du cercle inscrit</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Configuration de Thalès',
+        title: 'Voir le rapport 1/3 entre les deux triangles emboîtés',
+        description: 'Le petit triangle $AMN$ et le grand triangle $ABC$ partagent le sommet $A$. Comme $(MN) \\parallel (BC)$, les longueurs correspondantes sont proportionnelles : $AM = 4$, $AB = 12$, et $MN = 5$, $BC = 15$.',
+        svg: `
+          <svg viewBox="0 0 380 280" role="img" aria-labelledby="geomplane-thales-title geomplane-thales-desc">
+            <title id="geomplane-thales-title">Configuration de Thales dans le triangle ABC</title>
+            <desc id="geomplane-thales-desc">Triangle ABC avec un petit triangle AMN emboite au sommet A, cote MN parallele au cote BC.</desc>
+            <rect x="20" y="10" width="340" height="32" rx="12" fill="color-mix(in srgb, var(--diagram-accent) 7%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 22%, var(--border))"></rect>
+            <text class="annotation-label" x="32" y="31">AM/AB = AN/AC = MN/BC = 1/3</text>
+            <line class="frame-line" x1="190" y1="58" x2="60" y2="248"></line>
+            <line class="frame-line" x1="190" y1="58" x2="320" y2="248"></line>
+            <line class="curve-main" x1="147" y1="121" x2="233" y2="121"></line>
+            <line class="curve-main" x1="60" y1="248" x2="320" y2="248"></line>
+            <line class="frame-line" x1="183" y1="115" x2="195" y2="121"></line>
+            <line class="frame-line" x1="183" y1="127" x2="195" y2="121"></line>
+            <line class="frame-line" x1="238" y1="242" x2="250" y2="248"></line>
+            <line class="frame-line" x1="238" y1="254" x2="250" y2="248"></line>
+            <circle class="plot-point-alt" cx="190" cy="58" r="5"></circle>
+            <circle class="plot-point-alt" cx="147" cy="121" r="5"></circle>
+            <circle class="plot-point-alt" cx="233" cy="121" r="5"></circle>
+            <circle class="plot-point" cx="60" cy="248" r="5"></circle>
+            <circle class="plot-point" cx="320" cy="248" r="5"></circle>
+            <text class="annotation-label" x="186" y="50">A</text>
+            <text class="annotation-label" x="118" y="125">M</text>
+            <text class="annotation-label" x="240" y="125">N</text>
+            <text class="annotation-label" x="44" y="264">B</text>
+            <text class="annotation-label" x="324" y="264">C</text>
+            <text class="label-soft" x="95" y="88">AM = 4</text>
+            <text class="label-soft" x="38" y="188">MB = 8</text>
+            <text class="label-soft" x="248" y="88">AN = 3</text>
+            <text class="label-soft" x="300" y="188">NC = 6</text>
+            <text class="annotation-label" x="168" y="138">MN = 5</text>
+            <text class="annotation-label" x="150" y="232">BC = 15</text>
+          </svg>
+        `,
+        notes: [
+          'Le triangle $AMN$ est emboîté dans le triangle $ABC$ : ils partagent le sommet $A$, et $(MN)$ est parallèle à $(BC)$ — c\'est la configuration de Thalès.',
+          'Les petits chevrons dessinés sur $MN$ et sur $BC$ indiquent que ces deux segments sont parallèles : c\'est la condition indispensable pour appliquer le théorème.',
+          'Le rapport $k = \\dfrac{AM}{AB} = \\dfrac{4}{12} = \\dfrac{1}{3}$ se retrouve identique sur les trois paires de côtés : $\\dfrac{AN}{AC} = \\dfrac{3}{9} = \\dfrac{1}{3}$ et $\\dfrac{MN}{BC} = \\dfrac{5}{15} = \\dfrac{1}{3}$.'
+        ],
+        reading: 'Suivre chaque côté depuis le sommet commun $A$ : on lit d\'abord la petite longueur ($AM$ ou $AN$), puis la longueur totale ($AB$ ou $AC$).',
+        caption: 'Triangle $ABC$ avec le petit triangle $AMN$ emboîté au sommet $A$ ; $(MN) \\parallel (BC)$ dans un rapport de $\\dfrac{1}{3}$, conformément à l\'exemple du cours.'
+      },
       formulas: [
         'Thalès : $\\dfrac{AM}{AB}=\\dfrac{AN}{AC}=\\dfrac{MN}{BC}$',
         'Aire triangle : $\\mathcal{A}=\\dfrac{\\text{base}\\times\\text{hauteur}}{2}$',

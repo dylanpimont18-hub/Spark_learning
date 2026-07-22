@@ -43,6 +43,48 @@ window.MODULES.push({
         '$P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$',
         '$0 \\le P(A) \\le 1$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Diagramme de Venn',
+        title: 'Union et intersection sur l\'exemple de la classe de 30 élèves',
+        description: 'Dans une classe de $30$ élèves : $B$ = « pratiquer le basketball » ($12$ élèves), $N$ = « faire de la natation » ($10$ élèves), et $4$ élèves pratiquent les deux. La zone ombrée est l\'intersection $B \\cap N$, comptée une seule fois dans $P(B \\cup N)$.',
+        svg: `
+          <svg viewBox="0 0 440 320" role="img" aria-labelledby="proba2nde-venn-title proba2nde-venn-desc">
+            <title id="proba2nde-venn-title">Diagramme de Venn pour le choix d'un eleve parmi 30</title>
+            <desc id="proba2nde-venn-desc">Deux ensembles se chevauchent dans l'univers des 30 eleves d'une classe : B regroupe les 12 eleves qui pratiquent le basketball, N regroupe les 10 eleves qui font de la natation, et leur intersection ombree, les 4 eleves qui pratiquent les deux, ne compte qu'une seule fois dans l'union.</desc>
+            <defs>
+              <clipPath id="proba2ndeVennClip">
+                <circle cx="290" cy="195" r="90"></circle>
+              </clipPath>
+            </defs>
+            <rect class="frame-line" x="20" y="40" width="400" height="250" rx="10" fill="none"></rect>
+            <text class="label-soft" x="34" y="60">Univers : 30 élèves</text>
+            <circle class="axis" cx="170" cy="195" r="90" fill="color-mix(in srgb, var(--diagram-accent) 10%, transparent)"></circle>
+            <circle class="axis" cx="290" cy="195" r="90" fill="color-mix(in srgb, var(--diagram-accent) 10%, transparent)"></circle>
+            <circle cx="170" cy="195" r="90" clip-path="url(#proba2ndeVennClip)" fill="color-mix(in srgb, var(--diagram-accent) 34%, transparent)" stroke="none"></circle>
+            <text class="annotation-label" x="170" y="96" text-anchor="middle">B : Basket</text>
+            <text class="tick-label" x="170" y="112" text-anchor="middle">12 élèves</text>
+            <text class="annotation-label" x="290" y="96" text-anchor="middle">N : Natation</text>
+            <text class="tick-label" x="290" y="112" text-anchor="middle">10 élèves</text>
+            <text class="annotation-label" x="135" y="200" text-anchor="middle">8</text>
+            <text class="annotation-label" x="230" y="200" text-anchor="middle">4</text>
+            <text class="annotation-label" x="325" y="200" text-anchor="middle">6</text>
+            <text class="tick-label" x="25" y="272">12 élèves</text>
+            <text class="tick-label" x="25" y="286">ni basket ni natation</text>
+            <rect x="105" y="8" width="230" height="30" rx="10" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
+            <text class="tick-label" x="117" y="28">Zone ombree = B inter N = 4 eleves</text>
+            <line class="guide-line" x1="230" y1="38" x2="230" y2="160"></line>
+          </svg>
+        `,
+        notes: [
+          'L\'ensemble $B$ = « pratiquer le basketball » regroupe $12$ élèves sur $30$ : $P(B) = \\dfrac{12}{30} = 0{,}4$.',
+          'L\'ensemble $N$ = « faire de la natation » regroupe $10$ élèves sur $30$ : $P(N) = \\dfrac{10}{30} \\approx 0{,}33$.',
+          'La zone ombrée (l\'intersection) représente les $4$ élèves qui pratiquent les deux activités : $P(B \\cap N) = \\dfrac{4}{30} \\approx 0{,}13$.',
+          'En dehors des deux cercles : $30 - 18 = 12$ élèves qui ne pratiquent ni l\'un ni l\'autre.'
+        ],
+        reading: 'La zone ombrée n\'est comptée qu\'une seule fois : $P(B \\cup N) = P(B) + P(N) - P(B \\cap N) = \\dfrac{12+10-4}{30} = \\dfrac{18}{30} = 0{,}6$.',
+        caption: 'Diagramme de Venn pour le choix d\'un élève au hasard dans une classe de $30$ : $B$ = basketball, $N$ = natation, intersection ombrée = pratique les deux.'
+      },
       recap: [
         'Probabilité = nombre entre $0$ et $1$ ; la somme des probabilités de tous les événements vaut $1$.',
         'En cas d\'équiprobabilité : $P(A) = \\frac{\\text{cas favorables}}{\\text{cas possibles}}$.',

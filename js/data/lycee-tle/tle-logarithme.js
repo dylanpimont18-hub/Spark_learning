@@ -10,7 +10,7 @@ window.MODULES.push({
     title: 'Fonction logarithme népérien',
     subtitle: 'Propriétés, dérivée, étude de fonctions',
     keywords: ['Logarithme', 'ln', 'Propriétés', 'Dérivée', 'Croissances comparées'],
-    physics: true,
+    physics: 'Échelle des décibels en acoustique, pH en chimie, magnitude sismique (échelle de Richter)',
     cours: {
       intro: 'Le <strong>logarithme</strong> $\\ln$ est la fonction réciproque de l\'exponentielle : $\\ln(e^x) = x$ et $e^{\\ln x} = x$ pour $x > 0$.<br/><br/>Intuitivement, $\\ln(x)$ est l\'exposant qu\'il faut donner à $e$ pour obtenir $x$. Sa dérivée $1/x$ en fait un outil clé en physique (résolution des équations différentielles, calcul de temps de demi-vie).<br/><br/>Les règles algébriques s\'appliquent aux <strong>PRODUITS et QUOTIENTS</strong> : $\\ln(ab) = \\ln a + \\ln b$ — mais PAS aux sommes ! $\\ln(a+b) \\neq \\ln a + \\ln b$ est l\'erreur la plus fréquente.<br/><br/>Les <strong>croissances comparées</strong> montrent que $\\ln x$ tend vers $+\\infty$ mais infiniment plus lentement que $x$ : $\\lim_{x\\to+\\infty}\\frac{\\ln x}{x} = 0$.',
       definitions: [
@@ -45,6 +45,96 @@ window.MODULES.push({
         '$(\\ln x)\'=\\dfrac{1}{x}$',
         '$\\lim_{x\\to+\\infty}\\frac{\\ln x}{x}=0$ (croissances comparées)'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Croissances comparées',
+        title: '$\\ln(x)$ contre $\\sqrt{x}$ : qui domine à l\'infini ?',
+        description: 'Les deux courbes sont calculées point par point de $x=0{,}2$ à $x=25$. Le logarithme reste toujours en dessous de la racine carrée, et l\'écart entre les deux se creuse continuellement — la traduction graphique de $\\lim_{x\\to+\\infty}\\frac{\\ln x}{\\sqrt{x}}=0$.',
+        svg: `
+          <svg viewBox="0 0 460 300" role="img" aria-labelledby="log-croissances-title log-croissances-desc">
+            <title id="log-croissances-title">Comparaison des courbes de ln(x) et racine de x</title>
+            <desc id="log-croissances-desc">Deux courbes tracees de x=0,2 a x=25 sur le meme repere. La courbe pleine est ln(x), qui vaut 0 en x=1 et atteint environ 3,22 en x=25. La courbe pointillee est racine de x, qui vaut 1 en x=1 et 5 en x=25. La courbe pointillee reste toujours au-dessus de la courbe pleine et l'ecart entre les deux augmente a mesure que x grandit.</desc>
+
+            <defs>
+              <marker id="arrow-tle-logarithme" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
+
+            <!-- légende -->
+            <line class="curve-main" x1="60" y1="16" x2="90" y2="16"></line>
+            <text class="annotation-label" x="96" y="20">ln(x)</text>
+            <line x1="150" y1="16" x2="180" y2="16" stroke="color-mix(in srgb, var(--diagram-accent) 55%, var(--text))" stroke-width="3" stroke-dasharray="9 6" stroke-linecap="round"></line>
+            <text class="annotation-label" x="186" y="20">√x</text>
+
+            <!-- grille verticale (x = 5,10,15,20,25) -->
+            <line class="grid-line" x1="118.0" y1="45" x2="118.0" y2="255"></line>
+            <line class="grid-line" x1="181.0" y1="45" x2="181.0" y2="255"></line>
+            <line class="grid-line" x1="244.0" y1="45" x2="244.0" y2="255"></line>
+            <line class="grid-line" x1="307.0" y1="45" x2="307.0" y2="255"></line>
+            <line class="grid-line" x1="370.0" y1="45" x2="370.0" y2="255"></line>
+
+            <!-- grille horizontale (y = -1,1,2,3,4,5) -->
+            <line class="grid-line" x1="55" y1="227.0" x2="370" y2="227.0"></line>
+            <line class="grid-line" x1="55" y1="171.0" x2="370" y2="171.0"></line>
+            <line class="grid-line" x1="55" y1="143.0" x2="370" y2="143.0"></line>
+            <line class="grid-line" x1="55" y1="115.0" x2="370" y2="115.0"></line>
+            <line class="grid-line" x1="55" y1="87.0" x2="370" y2="87.0"></line>
+            <line class="grid-line" x1="55" y1="59.0" x2="370" y2="59.0"></line>
+
+            <!-- axes -->
+            <line class="axis" x1="50" y1="199.0" x2="382" y2="199.0" marker-end="url(#arrow-tle-logarithme)"></line>
+            <line class="axis" x1="55" y1="255" x2="55" y2="40" marker-end="url(#arrow-tle-logarithme)"></line>
+            <text class="axis-label" x="376" y="192">x</text>
+            <text class="axis-label" x="62" y="46">y</text>
+
+            <!-- graduations x -->
+            <text class="tick-label" x="67.6" y="212" text-anchor="middle">1</text>
+            <text class="tick-label" x="118.0" y="212" text-anchor="middle">5</text>
+            <text class="tick-label" x="181.0" y="212" text-anchor="middle">10</text>
+            <text class="tick-label" x="244.0" y="212" text-anchor="middle">15</text>
+            <text class="tick-label" x="307.0" y="212" text-anchor="middle">20</text>
+            <text class="tick-label" x="370.0" y="212" text-anchor="middle">25</text>
+
+            <!-- graduations y -->
+            <text class="tick-label" x="47" y="230.0" text-anchor="end">-1</text>
+            <text class="tick-label" x="47" y="202.0" text-anchor="end">0</text>
+            <text class="tick-label" x="47" y="174.0" text-anchor="end">1</text>
+            <text class="tick-label" x="47" y="146.0" text-anchor="end">2</text>
+            <text class="tick-label" x="47" y="118.0" text-anchor="end">3</text>
+            <text class="tick-label" x="47" y="90.0" text-anchor="end">4</text>
+            <text class="tick-label" x="47" y="62.0" text-anchor="end">5</text>
+
+            <!-- courbe ln(x), calculee point par point de x=0,2 a x=25 -->
+            <polyline class="curve-main" points="57.5,244.1 61.3,218.4 67.6,199.0 80.2,179.6 92.8,168.2 105.4,160.2 118.0,153.9 130.6,148.8 155.8,140.8 181.0,134.5 206.2,129.4 244.0,123.2 281.8,118.1 307.0,115.1 332.2,112.5 370.0,108.9"></polyline>
+
+            <!-- courbe racine(x), calculee point par point de x=0,2 a x=25 -->
+            <polyline fill="none" stroke="color-mix(in srgb, var(--diagram-accent) 55%, var(--text))" stroke-width="3" stroke-dasharray="9 6" stroke-linecap="round" stroke-linejoin="round" points="57.5,186.5 61.3,179.2 67.6,171.0 80.2,159.4 92.8,150.5 105.4,143.0 118.0,136.4 130.6,130.4 155.8,119.8 181.0,110.5 206.2,102.0 244.0,90.6 281.8,80.2 307.0,73.8 332.2,67.7 370.0,59.0"></polyline>
+
+            <!-- points remarquables : x=1, x=4, x=25 -->
+            <circle class="plot-point" cx="67.6" cy="199.0" r="4"></circle>
+            <circle class="plot-point-alt" cx="67.6" cy="171.0" r="4"></circle>
+            <circle class="plot-point" cx="105.4" cy="160.2" r="4"></circle>
+            <circle class="plot-point-alt" cx="105.4" cy="143.0" r="4"></circle>
+            <circle class="plot-point" cx="370.0" cy="108.9" r="5"></circle>
+            <circle class="plot-point-alt" cx="370.0" cy="59.0" r="5"></circle>
+
+            <!-- écart visualisé en x=25 -->
+            <line class="guide-line" x1="370.0" y1="108.9" x2="370.0" y2="59.0"></line>
+            <text class="annotation-label" x="315" y="80" text-anchor="end">écart croissant</text>
+
+            <text class="tick-label" x="378" y="112">ln(25)≈3,22</text>
+            <text class="tick-label" x="378" y="60">√25=5</text>
+          </svg>
+        `,
+        notes: [
+          'En $x=1$ : $\\ln(1)=0$ tandis que $\\sqrt{1}=1$ — la racine carrée est déjà au-dessus.',
+          'En $x=4$ : $\\ln(4)\\approx1{,}39$ contre $\\sqrt{4}=2$ — l\'écart reste modeste.',
+          'En $x=25$ : $\\ln(25)\\approx3{,}22$ contre $\\sqrt{25}=5$ — l\'écart a presque doublé, alors que $x$ a été multiplié par $6{,}25$.'
+        ],
+        reading: 'Suis les deux courbes de gauche à droite : la courbe pointillée ($\\sqrt{x}$) s\'échappe vers le haut, tandis que la courbe pleine ($\\ln x$) progresse à peine — c\'est la traduction graphique de la croissance comparée $\\lim_{x\\to+\\infty}\\frac{\\ln x}{\\sqrt{x}}=0$.',
+        caption: 'Comparaison des courbes de $\\ln(x)$ et $\\sqrt{x}$ sur $[0{,}2\\,;\\,25]$, points calculés analytiquement.'
+      },
       recap: [
         '$\\ln$ est la réciproque de $\\exp$ : $\\ln(e^x) = x$ et $e^{\\ln x} = x$ (pour $x > 0$). $\\ln(1) = 0$, $\\ln(e) = 1$.',
         'Règles algébriques : $\\ln(ab) = \\ln a + \\ln b$, $\\ln(a/b) = \\ln a - \\ln b$, $\\ln(a^n) = n\\ln a$. JAMAIS pour la somme : $\\ln(a+b) \\neq \\ln a + \\ln b$.',

@@ -6,7 +6,7 @@
     title: 'Relatifs : multiplication et division',
     subtitle: 'Règle des signes, produit, quotient',
     keywords: ['Nombres relatifs', 'Règle des signes', 'Produit', 'Quotient', 'Négatif'],
-    physics: true,
+    physics: 'Calcul de variations de température, produit de charges électriques de signes opposés',
     cours: {
       intro: 'La règle des signes pour la multiplication est intuitive si on pense aux opposés : multiplier par $-1$ inverse le signe. Donc $(-1) \\times (-1) = 1$ car « l\'opposé de l\'opposé ». Règle générale : pair de $-$ → $+$, impair de $-$ → $-$.' +
         '<br/><br/>' +

@@ -6,7 +6,7 @@
     title: 'Cosinus d\'un angle aigu',
     subtitle: 'cos = adjacent / hypoténuse',
     keywords: ['Cosinus', 'Angle aigu', 'Triangle rectangle', 'Adjacent', 'Hypoténuse'],
-    physics: true,
+    physics: 'Décomposition de forces, travail d\'une force ($W = F \\cdot d \\cdot \\cos\\theta$), loi de Snell-Descartes en optique',
     cours: {
       intro: 'Dans un triangle rectangle, le cosinus d\'un angle aigu mesure à quel point cet angle est « ouvert » : $\\cos(\\hat{A}) = \\dfrac{\\text{côté adjacent}}{\\text{hypoténuse}}$.' +
         '<br/><br/>' +
@@ -43,7 +43,53 @@
         '$\\cos(0°) = 1$, $\\cos(30°) = \\frac{\\sqrt{3}}{2}$, $\\cos(45°) = \\frac{\\sqrt{2}}{2}$, $\\cos(60°) = \\frac{1}{2}$, $\\cos(90°) = 0$',
         'Pour trouver l\'angle : $\\hat{A} = \\arccos\\left(\\dfrac{\\text{adj}}{\\text{hyp}}\\right)$'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Angle</th><th style="border:1px solid var(--border);padding:6px 14px">$\\cos$</th><th style="border:1px solid var(--border);padding:6px 14px">Valeur approchée</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$0°$</td><td style="border:1px solid var(--border);padding:6px 14px">$1$</td><td style="border:1px solid var(--border);padding:6px 14px">$1$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$30°$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\frac{\\sqrt{3}}{2}$</td><td style="border:1px solid var(--border);padding:6px 14px">$0{,}866$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$45°$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\frac{\\sqrt{2}}{2}$</td><td style="border:1px solid var(--border);padding:6px 14px">$0{,}707$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$60°$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\frac{1}{2}$</td><td style="border:1px solid var(--border);padding:6px 14px">$0{,}5$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$90°$</td><td style="border:1px solid var(--border);padding:6px 14px">$0$</td><td style="border:1px solid var(--border);padding:6px 14px">$0$</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Triangle rectangle',
+        title: 'Le cosinus : adjacent sur hypoténuse',
+        description: 'À ce niveau, seul le cosinus est au programme : on ne nomme que le côté adjacent et l\'hypoténuse — le troisième côté n\'a pas besoin de nom pour l\'instant.',
+        svg: `
+          <svg viewBox="0 0 380 300" role="img" aria-labelledby="cosinus-graph-title cosinus-graph-desc">
+            <title id="cosinus-graph-title">Triangle rectangle ABC et cosinus de l'angle A</title>
+            <desc id="cosinus-graph-desc">Triangle rectangle ABC, angle droit en C, angle aigu marque en A. Le cote AC, adjacent a l'angle A, et l'hypotenuse AB sont identifies avec la formule cosinus de A egale adjacent sur hypotenuse. Exemple chiffre du cours avec une echelle de 5 metres et un angle de 60 degres.</desc>
+
+            <rect x="130" y="12" width="120" height="38" rx="10" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
+            <text class="annotation-label" x="140" y="27">COS</text>
+            <text class="tick-label" x="140" y="43">cos Â = adj / hyp</text>
+
+            <polygon points="100,230 300,230 100,90" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></polygon>
+            <line class="frame-line" x1="100" y1="230" x2="100" y2="90"></line>
+            <line class="frame-line" x1="100" y1="230" x2="300" y2="230"></line>
+            <line class="curve-main" x1="300" y1="230" x2="100" y2="90"></line>
+
+            <path class="axis" d="M100 216 L114 216 L114 230"></path>
+
+            <line class="guide-line" x1="274" y1="230" x2="279" y2="215"></line>
+            <text class="annotation-label" x="256" y="221">Â</text>
+
+            <circle class="plot-point-alt" cx="100" cy="230" r="5"></circle>
+            <circle class="plot-point-alt" cx="100" cy="90" r="5"></circle>
+            <circle class="plot-point" cx="300" cy="230" r="5"></circle>
+            <text class="annotation-label" x="80" y="250">C</text>
+            <text class="annotation-label" x="84" y="82">B</text>
+            <text class="annotation-label" x="306" y="250">A</text>
+
+            <text class="annotation-label" x="155" y="246">AC = adjacent</text>
+            <text class="annotation-label" x="178" y="130">AB = hypoténuse</text>
+
+            <rect x="16" y="256" width="348" height="36" rx="10" fill="color-mix(in srgb, var(--diagram-accent) 6%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 20%, var(--border))"></rect>
+            <text class="tick-label" x="26" y="270">Exemple du cours : échelle de 5 m, angle 60° au sol</text>
+            <text class="tick-label" x="26" y="286">distance au mur = 5 × cos 60° = 5 × 0,5 = 2,5 m</text>
+          </svg>
+        `,
+        notes: [
+          'Le côté adjacent à $\\hat{A}$ est $AC$ : il touche $\\hat{A}$ sans être l\'hypoténuse. L\'hypoténuse $AB$ fait face à l\'angle droit en $C$.',
+          'À ce niveau, on ne nomme pas le troisième côté ($BC$) : son nom (opposé) et son usage (sinus) arrivent plus tard.',
+          'Avec hyp $= 5$ m et $\\hat{A} = 60°$, on retrouve l\'exemple du cours : adjacent $= 5 \\times \\cos(60°) = 2{,}5$ m.'
+        ],
+        reading: 'Le cosinus ne fait intervenir que deux côtés : celui qui touche l\'angle (adjacent) et le plus long (hypoténuse).',
+        caption: 'Triangle $ABC$ rectangle en $C$, avec l\'exemple chiffré du cours (échelle de 5 m à 60°).'
+      },
       recap: [
         '$\\cos(\\hat{A}) = \\dfrac{\\text{côté adjacent}}{\\text{hypoténuse}}$ — le rapport est toujours compris entre $0$ et $1$.',
         'Le côté adjacent change selon l\'angle considéré : c\'est le côté qui touche l\'angle (sans être l\'hypoténuse).',

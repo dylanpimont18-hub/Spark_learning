@@ -33,7 +33,56 @@ window.MODULES.push({
         ],
         answer: 'Triangle scalène (quelconque)'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Type</th><th style="border:1px solid var(--border);padding:6px 14px">Côtés</th><th style="border:1px solid var(--border);padding:6px 14px">Angles</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Quelconque</td><td style="border:1px solid var(--border);padding:6px 14px">Tous différents</td><td style="border:1px solid var(--border);padding:6px 14px">Tous différents</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Isocèle</td><td style="border:1px solid var(--border);padding:6px 14px">2 côtés égaux</td><td style="border:1px solid var(--border);padding:6px 14px">2 angles de base égaux</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Équilatéral</td><td style="border:1px solid var(--border);padding:6px 14px">3 côtés égaux</td><td style="border:1px solid var(--border);padding:6px 14px">$3 \\times 60°$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Rectangle</td><td style="border:1px solid var(--border);padding:6px 14px">$a^2 + b^2 = c^2$</td><td style="border:1px solid var(--border);padding:6px 14px">1 angle de $90°$</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Types de triangles',
+        title: 'Isocele, equilateral, rectangle : les marques conventionnelles',
+        description: 'Les tics indiquent une egalite de longueur ; le petit carre indique un angle droit.',
+        svg: `
+          <svg viewBox="0 0 560 260" role="img" aria-labelledby="triangles-types-title triangles-types-desc">
+            <title id="triangles-types-title">Trois types de triangles : isocele, equilateral, rectangle</title>
+            <desc id="triangles-types-desc">Trois petits triangles cote a cote avec leurs marques conventionnelles : tics d'egalite sur les cotes egaux pour l'isocele et l'equilateral, petit carre d'angle droit pour le rectangle.</desc>
+            <line class="grid-line" x1="20" y1="200" x2="530" y2="200"></line>
+
+            <polygon points="40,200 90,80 140,200" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></polygon>
+            <line class="frame-line" x1="40" y1="200" x2="90" y2="80"></line>
+            <line class="frame-line" x1="90" y1="80" x2="140" y2="200"></line>
+            <line class="frame-line" x1="40" y1="200" x2="140" y2="200"></line>
+            <line class="axis" x1="59.5" y1="137.7" x2="70.5" y2="142.3"></line>
+            <line class="axis" x1="109.5" y1="142.3" x2="120.5" y2="137.7"></line>
+            <text class="annotation-label" x="90" y="228" text-anchor="middle">Isocele</text>
+
+            <polygon points="220,200 270,113.4 320,200" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></polygon>
+            <line class="frame-line" x1="220" y1="200" x2="270" y2="113.4"></line>
+            <line class="frame-line" x1="270" y1="113.4" x2="320" y2="200"></line>
+            <line class="frame-line" x1="220" y1="200" x2="320" y2="200"></line>
+            <line class="axis" x1="239.8" y1="153.7" x2="250.2" y2="159.7"></line>
+            <line class="axis" x1="289.8" y1="159.7" x2="300.2" y2="153.7"></line>
+            <line class="axis" x1="270" y1="194" x2="270" y2="206"></line>
+            <text class="annotation-label" x="270" y="228" text-anchor="middle">Equilateral</text>
+
+            <polygon points="400,200 400,110 500,200" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></polygon>
+            <line class="frame-line" x1="400" y1="200" x2="400" y2="110"></line>
+            <line class="frame-line" x1="400" y1="200" x2="500" y2="200"></line>
+            <line class="curve-main" x1="400" y1="110" x2="500" y2="200"></line>
+            <path class="axis" d="M400,186 L414,186 L414,200"></path>
+            <circle class="plot-point-alt" cx="400" cy="200" r="4"></circle>
+            <circle class="plot-point-alt" cx="400" cy="110" r="4"></circle>
+            <circle class="plot-point" cx="500" cy="200" r="4"></circle>
+            <text class="annotation-label" x="382" y="217">A</text>
+            <text class="annotation-label" x="382" y="106">B</text>
+            <text class="annotation-label" x="506" y="217">C</text>
+            <text class="annotation-label" x="450" y="228" text-anchor="middle">Rectangle</text>
+          </svg>
+        `,
+        notes: [
+          'Isocele : les deux cotes marques du meme tic sont egaux, donc les deux angles a la base sont egaux.',
+          'Equilateral : les trois cotes portent le meme tic, les trois angles valent 60 degres.',
+          'Rectangle : le petit carre signale l\'angle droit, oppose a l\'hypotenuse (en couleur).'
+        ],
+        reading: 'Les marques sur la figure (tics, carre) remplacent les mesures : elles suffisent a identifier le type de triangle sans mesurer.',
+        caption: 'Les trois grandes familles de triangles et leurs marques conventionnelles.'
+      },
       method: {
         title: 'Méthode en 3 étapes',
         steps: [

@@ -37,6 +37,78 @@ window.MODULES.push({
         ],
         answer: 'L\'équation de la droite $(AB)$ est $4x + 3y - 13 = 0$. Vérification en $B$ : $4 \\times 4 + 3 \\times (-1) - 13 = 16 - 3 - 13 = 0$ ✓.'
       },
+      diagram: {
+        theme: 'maths',
+        kicker: 'Droite, vecteur normal et vecteur directeur',
+        title: 'La droite $4x + 3y - 13 = 0$ : vecteur normal $\\vec{n}$ et vecteur directeur $\\vec{u}$ (exemple du cours)',
+        description: 'La droite $(AB)$ d\'équation $4x+3y-13=0$ (exemple du cours) passe par $A(1\\,;\\,3)$ et $B(4\\,;\\,-1)$.<br/>Son vecteur normal $\\vec{n}(4\\,;\\,3)$ et son vecteur directeur $\\vec{u}(-3\\,;\\,4)$ sont tracés depuis $A$, perpendiculaires entre eux.',
+        svg: `
+          <svg viewBox="0 0 300 340" role="img" aria-labelledby="geored-diagram-title geored-diagram-desc">
+            <title id="geored-diagram-title">Droite avec vecteur normal et vecteur directeur</title>
+            <desc id="geored-diagram-desc">Repere orthonorme montrant la droite d'equation 4x + 3y - 13 = 0, passant par les points A(1;3) et B(4;-1). Le vecteur normal n(4;3) et le vecteur directeur u(-3;4) sont traces depuis A, perpendiculaires entre eux, avec un marqueur d'angle droit.</desc>
+            <defs>
+              <marker id="arrow-1re-geored" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
+
+            <line class="grid-line" x1="10" y1="10" x2="10" y2="310"></line>
+            <line class="grid-line" x1="40" y1="10" x2="40" y2="310"></line>
+            <line class="grid-line" x1="100" y1="10" x2="100" y2="310"></line>
+            <line class="grid-line" x1="130" y1="10" x2="130" y2="310"></line>
+            <line class="grid-line" x1="160" y1="10" x2="160" y2="310"></line>
+            <line class="grid-line" x1="190" y1="10" x2="190" y2="310"></line>
+            <line class="grid-line" x1="220" y1="10" x2="220" y2="310"></line>
+            <line class="grid-line" x1="10" y1="310" x2="220" y2="310"></line>
+            <line class="grid-line" x1="10" y1="280" x2="220" y2="280"></line>
+            <line class="grid-line" x1="10" y1="220" x2="220" y2="220"></line>
+            <line class="grid-line" x1="10" y1="190" x2="220" y2="190"></line>
+            <line class="grid-line" x1="10" y1="160" x2="220" y2="160"></line>
+            <line class="grid-line" x1="10" y1="130" x2="220" y2="130"></line>
+            <line class="grid-line" x1="10" y1="100" x2="220" y2="100"></line>
+            <line class="grid-line" x1="10" y1="70" x2="220" y2="70"></line>
+            <line class="grid-line" x1="10" y1="40" x2="220" y2="40"></line>
+            <line class="grid-line" x1="10" y1="10" x2="220" y2="10"></line>
+
+            <line class="axis" x1="5" y1="250" x2="280" y2="250" marker-end="url(#arrow-1re-geored)"></line>
+            <line class="axis" x1="70" y1="325" x2="70" y2="8" marker-end="url(#arrow-1re-geored)"></line>
+            <text class="axis-label" x="284" y="254">x</text>
+            <text class="axis-label" x="76" y="14">y</text>
+            <text class="tick-label" x="58" y="264" text-anchor="middle">O</text>
+            <text class="tick-label" x="10" y="266" text-anchor="middle">-2</text>
+            <text class="tick-label" x="220" y="266" text-anchor="middle">5</text>
+            <text class="tick-label" x="50" y="313" text-anchor="middle">-2</text>
+            <text class="tick-label" x="50" y="18" text-anchor="middle">8</text>
+
+            <line class="frame-line" x1="37.0" y1="76.0" x2="226.0" y2="328.0"></line>
+            <text class="annotation-label" x="128" y="205" text-anchor="middle">(d) : 4x + 3y − 13 = 0</text>
+
+            <circle class="plot-point" cx="100" cy="160" r="4"></circle>
+            <text class="tick-label" x="108" y="172">A (1 ; 3)</text>
+            <circle class="plot-point" cx="190" cy="280" r="4"></circle>
+            <text class="tick-label" x="150" y="272">B (4 ; -1)</text>
+
+            <line class="curve-main" x1="100" y1="160" x2="220" y2="70" marker-end="url(#arrow-1re-geored)"></line>
+            <circle class="plot-point-alt" cx="220" cy="70" r="3"></circle>
+            <text class="annotation-label" x="224" y="66">n (4 ; 3)</text>
+
+            <line class="curve-main" x1="100" y1="160" x2="10" y2="40" marker-end="url(#arrow-1re-geored)"></line>
+            <circle class="plot-point-alt" cx="10" cy="40" r="3"></circle>
+            <text class="annotation-label" x="14" y="34" text-anchor="start">u (-3 ; 4)</text>
+
+            <path class="guide-line" d="M111.2,151.6 L102.8,140.4 L91.6,148.8" fill="none"></path>
+            <text class="label-soft" x="100" y="132" text-anchor="middle">90°</text>
+          </svg>
+        `,
+        notes: [
+          '$\\vec{n} \\cdot \\vec{u} = 4 \\times (-3) + 3 \\times 4 = -12 + 12 = 0$ : le vecteur normal et le vecteur directeur sont bien <strong>orthogonaux</strong>, comme pour toute droite $ax+by+c=0$.',
+          'Le vecteur directeur $\\vec{u}(-3\\,;\\,4)$ est bien parallèle à la droite : en partant de $A(1\\,;\\,3)$ et en ajoutant $\\vec{u}$, on obtient $(-2\\,;\\,7)$, qui vérifie $4\\times(-2)+3\\times7-13 = -8+21-13 = 0$ ✓.',
+          'On retrouve aussi $\\vec{AB}(3\\,;\\,-4) = -\\vec{u}$ : $\\vec{AB}$ et $\\vec{u}$ sont colinéaires (même direction, sens opposé), ce qui confirme que $\\vec{u}$ dirige bien la droite $(AB)$.',
+          'Le vecteur normal $\\vec{n}(4\\,;\\,3)$ correspond exactement aux coefficients de $x$ et $y$ dans l\'équation $4x+3y-13=0$ — c\'est la lecture directe évoquée dans le cours.'
+        ],
+        reading: 'Repère l\'angle droit marqué en $A$ : c\'est la signature visuelle que $\\vec{n}$ (perpendiculaire à la droite) et $\\vec{u}$ (parallèle à la droite) jouent des rôles opposés.',
+        caption: 'Droite $(AB)$ d\'équation $4x+3y-13=0$ (exemple du cours), avec son vecteur normal $\\vec{n}(4\\,;\\,3)$ et son vecteur directeur $\\vec{u}(-3\\,;\\,4)$.'
+      },
       formulas: [
         '$\\vec{u}(a;b)$ et $\\vec{v}(c;d)$ colinéaires $\\Leftrightarrow ad-bc=0$',
         'Droite de vecteur directeur $(a;b)$ passant par $(x_0;y_0)$ : $b(x-x_0)=a(y-y_0)$'

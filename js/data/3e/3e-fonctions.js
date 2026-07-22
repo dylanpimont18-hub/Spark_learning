@@ -11,7 +11,7 @@ window.MODULES.push(
     title: 'Fonctions – notions de base',
     subtitle: 'Image, antécédent, représentation graphique',
     keywords: ['Fonction', 'Image', 'Antécédent', 'Tableau de valeurs', 'Courbe'],
-    physics: true,
+    physics: 'Lecture de graphiques physiques : évolution de la température, distance parcourue en fonction du temps',
     cours: {
       intro: 'Une <strong>fonction</strong> est une règle qui associe à chaque valeur d\'entrée $x$ une valeur de sortie $f(x)$ — <strong>et une seule</strong>. C\'est la « machine déterministe » des mathématiques : une même entrée donne toujours la même sortie.<br/><br/>' +
         'L\'<strong>image</strong> de $x$ est la valeur obtenue $f(x)$. L\'<strong>antécédent</strong> de $y$ est la (ou les) valeur(s) $x$ telles que $f(x) = y$. Un antécédent peut ne pas exister, ou être multiple : pour $f(x) = x^2$, le nombre $9$ a deux antécédents ($3$ et $-3$).<br/><br/>' +

@@ -10,7 +10,7 @@ window.MODULES.push({
     title: 'Volumes (prismes et cylindres)',
     subtitle: 'Formule de base, conversions',
     keywords: ['Volume', 'Prisme', 'Cylindre', 'Aire de base', 'Hauteur', 'Litre'],
-    physics: true,
+    physics: 'Calcul du volume d\'une canalisation cylindrique, d\'un réservoir ou d\'une citerne',
 
     cours: {
       intro: 'La formule universelle $V = \\mathcal{A}_{\\text{base}} \\times h$ s\'applique à tout <strong>prisme</strong> et tout <strong>cylindre</strong>. L\'intuition : le volume est la surface de la base « empilée » sur une hauteur $h$.<br/><br/>' +
@@ -32,7 +32,63 @@ window.MODULES.push({
         ],
         answer: '$942$ cm³ $\\approx 0{,}94$ L'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Solide</th><th style="border:1px solid var(--border);padding:6px 14px">Base</th><th style="border:1px solid var(--border);padding:6px 14px">Volume</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Pavé droit</td><td style="border:1px solid var(--border);padding:6px 14px">Rectangle</td><td style="border:1px solid var(--border);padding:6px 14px">$L \\times l \\times h$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Cylindre</td><td style="border:1px solid var(--border);padding:6px 14px">Disque</td><td style="border:1px solid var(--border);padding:6px 14px">$\\pi r^2 \\times h$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Prisme triangulaire</td><td style="border:1px solid var(--border);padding:6px 14px">Triangle</td><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{b \\times h_{\\triangle}}{2} \\times H$</td></tr><tr><td colspan="3" style="padding:6px;font-style:italic">$1$ L $= 1$ dm³ $= 1000$ cm³</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Prismes et cylindres',
+        title: 'Volume = aire de la base × hauteur, hauteur toujours perpendiculaire',
+        description: 'Le pavé droit et le cylindre partagent la même formule $V = \\mathcal{A}_{\\text{base}} \\times h$. Sur le cylindre de l\'exemple du cours ($r = 5$ cm, $h = 12$ cm), l\'angle droit rappelle que la hauteur est perpendiculaire à la base — jamais un côté incliné.',
+        svg: `
+          <svg viewBox="0 0 420 240" role="img" aria-labelledby="volumes-title volumes-desc">
+            <title id="volumes-title">Pave droit et cylindre avec hauteur perpendiculaire a la base</title>
+            <desc id="volumes-desc">A gauche un pave droit de longueur L, largeur l et hauteur h. A droite le cylindre de l'exemple du cours, de rayon 5 centimetres et de hauteur 12 centimetres, avec sa base en disque mise en evidence et sa hauteur perpendiculaire marquee par un angle droit.</desc>
+            <rect x="15" y="14" width="185" height="34" rx="10" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
+            <text class="annotation-label" x="26" y="36">Pavé droit :</text>
+            <text class="tick-label" x="108" y="36">V = L × l × h</text>
+            <rect x="215" y="14" width="190" height="34" rx="10" fill="color-mix(in srgb, var(--accent) 14%, var(--bg-card))" stroke="color-mix(in srgb, var(--accent) 38%, var(--border))"></rect>
+            <text class="annotation-label" x="226" y="36">Cylindre :</text>
+            <text class="tick-label" x="296" y="36">V = π × r² × h</text>
+            <polygon points="30,105 120,105 150,80 60,80" fill="color-mix(in srgb, var(--diagram-accent) 16%, transparent)" stroke="none"></polygon>
+            <polygon points="120,195 120,105 150,80 150,170" fill="color-mix(in srgb, var(--diagram-accent) 4%, transparent)" stroke="none"></polygon>
+            <polygon points="30,195 120,195 120,105 30,105" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></polygon>
+            <line class="frame-line" x1="30" y1="195" x2="120" y2="195"></line>
+            <line class="frame-line" x1="120" y1="195" x2="120" y2="105"></line>
+            <line class="frame-line" x1="120" y1="105" x2="30" y2="105"></line>
+            <line class="frame-line" x1="30" y1="105" x2="30" y2="195"></line>
+            <line class="frame-line" x1="30" y1="105" x2="60" y2="80"></line>
+            <line class="frame-line" x1="120" y1="105" x2="150" y2="80"></line>
+            <line class="frame-line" x1="60" y1="80" x2="150" y2="80"></line>
+            <line class="frame-line" x1="120" y1="195" x2="150" y2="170"></line>
+            <line class="frame-line" x1="150" y1="170" x2="150" y2="80"></line>
+            <path class="axis" d="M30 183 L42 183 L42 195"></path>
+            <text class="annotation-label" x="68" y="213">L</text>
+            <text class="annotation-label" x="34" y="74">l</text>
+            <text class="annotation-label" x="10" y="153">h</text>
+            <text class="label-soft" x="88" y="66">Base</text>
+            <ellipse class="frame-line" cx="280" cy="200" rx="50" ry="16" fill="color-mix(in srgb, var(--diagram-accent) 4%, transparent)"></ellipse>
+            <line class="frame-line" x1="230" y1="80" x2="230" y2="200"></line>
+            <line class="frame-line" x1="330" y1="80" x2="330" y2="200"></line>
+            <ellipse class="frame-line" cx="280" cy="80" rx="50" ry="16" fill="color-mix(in srgb, var(--diagram-accent) 16%, transparent)"></ellipse>
+            <line class="guide-line" x1="280" y1="80" x2="330" y2="80"></line>
+            <circle class="plot-point" cx="280" cy="80" r="4"></circle>
+            <circle class="plot-point-alt" cx="330" cy="80" r="4"></circle>
+            <line class="guide-line" x1="280" y1="200" x2="345" y2="200"></line>
+            <line class="guide-line" x1="345" y1="80" x2="345" y2="200"></line>
+            <line class="frame-line" x1="340" y1="80" x2="350" y2="80"></line>
+            <line class="frame-line" x1="340" y1="200" x2="350" y2="200"></line>
+            <path class="axis" d="M333 200 L333 188 L345 188"></path>
+            <text class="label-soft" x="264" y="58">Base</text>
+            <text class="annotation-label" x="334" y="72">r = 5 cm</text>
+            <text class="annotation-label" x="352" y="143">h = 12 cm</text>
+          </svg>
+        `,
+        notes: [
+          'Le pavé droit a pour base un rectangle $L \\times l$ ; sa hauteur $h$ est perpendiculaire à cette base : $V = L \\times l \\times h$.',
+          'Le cylindre a pour base un disque de rayon $r = 5$ cm ; son aire de base vaut $\\pi \\times 5^2 \\approx 78{,}5$ cm² (avec $\\pi \\approx 3{,}14$).',
+          'Avec une hauteur $h = 12$ cm, le volume du cylindre est $V = 78{,}5 \\times 12 = 942$ cm³, soit environ $0{,}94$ L.'
+        ],
+        reading: 'Repère toujours d\'abord la base et sa forme, puis mesure la hauteur perpendiculairement à cette base — pas le long d\'une arête inclinée.',
+        caption: 'Pavé droit (formule générale $V = L \\times l \\times h$) et cylindre de rayon $5$ cm et hauteur $12$ cm — l\'exemple du cours donne $V = 942$ cm³. Dans les deux cas, la hauteur est perpendiculaire à la base.'
+      },
       method: {
         title: 'Méthode en 3 étapes',
         steps: [

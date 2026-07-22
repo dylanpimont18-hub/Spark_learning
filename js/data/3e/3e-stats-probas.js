@@ -46,7 +46,36 @@ window.MODULES.push(
         'Fréquence en ligne : $f_{i|j} = \\dfrac{n_{ij}}{n_{j}}$',
         'Probabilité : $P(A|B) = \\dfrac{P(A \\cap B)}{P(B)}$ (introduction)'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px"></th><th style="border:1px solid var(--border);padding:8px">Musicien</th><th style="border:1px solid var(--border);padding:8px">Non musicien</th><th style="border:1px solid var(--border);padding:8px"><strong>Total</strong></th></tr><tr><th style="border:1px solid var(--border);padding:8px">Sportif</th><td style="border:1px solid var(--border);padding:8px">$25$</td><td style="border:1px solid var(--border);padding:8px">$55$</td><td style="border:1px solid var(--border);padding:8px"><strong>$80$</strong></td></tr><tr><th style="border:1px solid var(--border);padding:8px">Non sportif</th><td style="border:1px solid var(--border);padding:8px">$35$</td><td style="border:1px solid var(--border);padding:8px">$85$</td><td style="border:1px solid var(--border);padding:8px"><strong>$120$</strong></td></tr><tr><th style="border:1px solid var(--border);padding:8px"><strong>Total</strong></th><td style="border:1px solid var(--border);padding:8px"><strong>$60$</strong></td><td style="border:1px solid var(--border);padding:8px"><strong>$140$</strong></td><td style="border:1px solid var(--border);padding:8px"><strong>$200$</strong></td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Diagramme de Venn',
+        title: 'Sportifs et musiciens parmi 200 élèves',
+        description: 'Représentation du tableau croisé de l\'exemple : $80$ sportifs, $60$ musiciens, dont $25$ pratiquent les deux activités, sur un total de $200$ élèves du collège.',
+        svg: `
+          <svg viewBox="0 0 480 350" role="img" aria-labelledby="venn3e-title venn3e-desc">
+            <title id="venn3e-title">Diagramme de Venn des sportifs et des musiciens</title>
+            <desc id="venn3e-desc">Deux cercles qui se chevauchent representant les sportifs et les musiciens parmi 200 eleves, avec 55 eleves uniquement sportifs, 35 uniquement musiciens, 25 dans les deux a la fois, et 85 en dehors des deux groupes.</desc>
+            <rect class="frame-line" x="40" y="40" width="400" height="270" rx="12" fill="none"></rect>
+            <circle class="axis" cx="195" cy="175" r="85" fill="color-mix(in srgb, var(--diagram-accent) 14%, transparent)"></circle>
+            <circle class="axis" cx="295" cy="175" r="85" fill="color-mix(in srgb, var(--diagram-accent) 14%, transparent)"></circle>
+            <text class="label" x="195" y="65" text-anchor="middle">Sportifs</text>
+            <text class="label" x="295" y="65" text-anchor="middle">Musiciens</text>
+            <text class="tick-label" x="60" y="60" text-anchor="start">N = 200 eleves</text>
+            <text class="annotation-label" x="150" y="180" text-anchor="middle">55</text>
+            <text class="annotation-label" x="245" y="180" text-anchor="middle">25</text>
+            <text class="annotation-label" x="340" y="180" text-anchor="middle">35</text>
+            <text class="annotation-label" x="240" y="285" text-anchor="middle">85</text>
+            <text class="tick-label" x="240" y="302" text-anchor="middle">aucun des deux</text>
+          </svg>
+        `,
+        notes: [
+          'Zone commune aux deux cercles : $25$ élèves pratiquent à la fois un sport et un instrument — comptés une seule fois même s\'ils appartiennent aux deux groupes.',
+          'Zone « Sportifs » seule : $80 - 25 = 55$ élèves. Zone « Musiciens » seule : $60 - 25 = 35$ élèves — chaque effectif de départ moins l\'intersection commune.',
+          'En dehors des deux cercles : $200 - (55 + 35 + 25) = 85$ élèves ne pratiquent ni sport ni musique — c\'est la case « Non sportif / Non musicien » du tableau croisé.'
+        ],
+        reading: 'Chaque nombre correspond à une case du tableau croisé de l\'exemple : les deux cercles se chevauchent pour représenter les $25$ élèves comptés dans les deux catégories à la fois. En additionnant les quatre zones ($55 + 35 + 25 + 85$), on retrouve bien le total de $200$ élèves.',
+        caption: 'Diagramme de Venn équivalent au tableau croisé « Sportifs / Musiciens » (200 élèves, dont 25 dans les deux catégories).'
+      },
       recap: [
         'La <strong>fréquence globale</strong> divise par le total général $N$ ; la <strong>fréquence conditionnelle</strong> divise par le total de la sous-population.',
         'Pour l\'union : $|A \\cup B| = |A| + |B| - |A \\cap B|$ — ne pas oublier de <strong>soustraire l\'intersection</strong>.',

@@ -32,7 +32,61 @@ window.MODULES.push({
         ],
         answer: '$12{,}00$ €'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Quantité $x$</th><td style="border:1px solid var(--border);padding:6px 14px">$5$</td><td style="border:1px solid var(--border);padding:6px 14px">$8$</td></tr><tr><th style="border:1px solid var(--border);padding:6px 14px">Prix $y$ (€)</th><td style="border:1px solid var(--border);padding:6px 14px">$7{,}50$</td><td style="border:1px solid var(--border);padding:6px 14px">$?$</td></tr><tr><td colspan="3" style="padding:6px;font-style:italic">$k = \\dfrac{y}{x} = 1{,}50$ € / cahier → constante ✓</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Proportionnalité directe',
+        title: 'Le prix des cahiers : une droite qui passe par l\'origine',
+        description: 'L\'exemple du cours : $5$ cahiers coûtent $7{,}50$ €, donc le coefficient de proportionnalité est $k = \\dfrac{7{,}50}{5} = 1{,}50$ €/cahier. La droite $y = 1{,}50x$ passe par l\'origine et par les points $A(5\\,;\\,7{,}50)$ et $B(8\\,;\\,12{,}00)$.',
+        svg: `
+          <svg viewBox="0 0 360 250" role="img" aria-labelledby="propor-title propor-desc">
+            <title id="propor-title">Droite de proportionnalite prix en fonction du nombre de cahiers</title>
+            <desc id="propor-desc">Droite passant par l'origine, le point A cinq cahiers sept virgule cinquante euros et le point B huit cahiers douze euros, de pente un virgule cinquante euro par cahier.</desc>
+            <line class="grid-line" x1="50" y1="30" x2="310" y2="30"></line>
+            <line class="grid-line" x1="50" y1="70" x2="310" y2="70"></line>
+            <line class="grid-line" x1="50" y1="110" x2="310" y2="110"></line>
+            <line class="grid-line" x1="50" y1="150" x2="310" y2="150"></line>
+            <line class="grid-line" x1="50" y1="190" x2="310" y2="190"></line>
+            <line class="grid-line" x1="50" y1="30" x2="50" y2="190"></line>
+            <line class="grid-line" x1="102" y1="30" x2="102" y2="190"></line>
+            <line class="grid-line" x1="154" y1="30" x2="154" y2="190"></line>
+            <line class="grid-line" x1="206" y1="30" x2="206" y2="190"></line>
+            <line class="grid-line" x1="258" y1="30" x2="258" y2="190"></line>
+            <line class="grid-line" x1="310" y1="30" x2="310" y2="190"></line>
+            <line class="axis" x1="50" y1="190" x2="318" y2="190"></line>
+            <line class="axis" x1="50" y1="198" x2="50" y2="22"></line>
+            <line class="guide-line" x1="180" y1="190" x2="180" y2="90"></line>
+            <line class="guide-line" x1="50" y1="90" x2="180" y2="90"></line>
+            <line class="graph-line" x1="50" y1="190" x2="258" y2="30"></line>
+            <circle class="plot-point" cx="50" cy="190" r="6"></circle>
+            <circle class="plot-point-alt" cx="180" cy="90" r="6"></circle>
+            <circle class="plot-point-alt" cx="258" cy="30" r="6"></circle>
+            <text class="annotation-label" x="58" y="172">O(0 ; 0)</text>
+            <text class="annotation-label" x="190" y="82">A(5 ; 7,50 €)</text>
+            <text class="annotation-label" x="224" y="22">B(8 ; 12,00 €)</text>
+            <text class="annotation-label" x="58" y="115">k = 1,50 €/cahier</text>
+            <text class="axis-label" x="270" y="228">Cahiers</text>
+            <text class="axis-label" x="56" y="20">Prix (€)</text>
+            <text class="tick-label" x="46" y="206">0</text>
+            <text class="tick-label" x="98" y="206">2</text>
+            <text class="tick-label" x="150" y="206">4</text>
+            <text class="tick-label" x="202" y="206">6</text>
+            <text class="tick-label" x="254" y="206">8</text>
+            <text class="tick-label" x="300" y="206">10</text>
+            <text class="tick-label" x="36" y="194">0</text>
+            <text class="tick-label" x="36" y="154">3</text>
+            <text class="tick-label" x="36" y="114">6</text>
+            <text class="tick-label" x="36" y="74">9</text>
+            <text class="tick-label" x="30" y="34">12</text>
+          </svg>
+        `,
+        notes: [
+          'La droite passe par l\'origine $O(0\\,;\\,0)$ : c\'est la signature d\'une situation de proportionnalité, $0$ cahier coûte $0$ €.',
+          'Le point $A(5\\,;\\,7{,}50)$ est la donnée de l\'énoncé ; le point $B(8\\,;\\,12{,}00)$ est calculé avec le coefficient $k = 1{,}50$.',
+          'La pente de la droite est justement le coefficient de proportionnalité : chaque cahier supplémentaire ajoute $1{,}50$ € au prix.'
+        ],
+        reading: 'Sur une droite de proportionnalité, il suffit de connaître la pente $k$ pour calculer n\'importe quel prix : $y = k \\times x$.',
+        caption: 'Droite $y = 1{,}50x$ passant par l\'origine, avec les points $A(5\\,;\\,7{,}50\\,€)$ et $B(8\\,;\\,12{,}00\\,€)$ de l\'exemple du cours.'
+      },
       method: {
         title: 'Méthode en 3 étapes',
         steps: [

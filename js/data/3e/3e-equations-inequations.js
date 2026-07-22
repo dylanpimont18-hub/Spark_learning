@@ -11,7 +11,7 @@ window.MODULES.push(
     title: 'Équations et inéquations',
     subtitle: 'Résolution, ensemble solution, représentation',
     keywords: ['Équation', 'Inéquation', 'Inconnue', 'Solution', 'Intervalle'],
-    physics: true,
+    physics: 'Résolution d\'équations horaires du mouvement, calcul de seuils de tension ou d\'intensité en électricité',
     cours: {
       intro: 'Une <strong>équation</strong> fixe une condition d\'égalité : on cherche toutes les valeurs de $x$ qui la rendent vraie. Une <strong>inéquation</strong> fixe une condition d\'ordre : la solution est un <strong>intervalle</strong>, pas un point isolé.<br/><br/>' +
         'Les deux se résolvent par les mêmes opérations — avec une <strong>différence cruciale</strong> : multiplier ou diviser par un nombre <strong>négatif inverse le sens de l\'inégalité</strong>.<br/>Intuition : si $-x < 3$, alors $x > -3$.<br/><br/>' +
@@ -46,7 +46,62 @@ window.MODULES.push(
         'Inéquation : si $a < 0$ et $ax < b$, alors $x > \\dfrac{b}{a}$ (sens inversé !)',
         'Notation intervalle : $x > 2 \\Leftrightarrow x \\in ]2 ; +\\infty[$'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px"></th><th style="border:1px solid var(--border);padding:8px">Équation</th><th style="border:1px solid var(--border);padding:8px">Inéquation</th></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Symbole</strong></td><td style="border:1px solid var(--border);padding:8px">$=$</td><td style="border:1px solid var(--border);padding:8px">$<$, $>$, $\\leq$, $\\geq$</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Opérations autorisées</strong></td><td style="border:1px solid var(--border);padding:8px">Ajouter, soustraire, multiplier, diviser (sauf par $0$)</td><td style="border:1px solid var(--border);padding:8px">Idem, mais $\\times$ ou $\\div$ par un négatif <strong>inverse le sens</strong></td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Résultat</strong></td><td style="border:1px solid var(--border);padding:8px">Une valeur unique : $x = a$</td><td style="border:1px solid var(--border);padding:8px">Un intervalle : $x \\in ]a\\,;\\,+\\infty[$</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Notation</strong></td><td style="border:1px solid var(--border);padding:8px">$S = \\{a\\}$</td><td style="border:1px solid var(--border);padding:8px">$S = ]a\\,;\\,+\\infty[$ ou $S = ]-\\infty\\,;\\,a[$</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Droite graduée',
+        title: 'L\'ensemble solution de 3(x − 2) > 2x + 1',
+        description: 'La solution de l\'inéquation résolue dans l\'exemple du cours ($x > 7$) représentée sur une droite graduée : cercle non rempli en $7$ (borne exclue) et zone hachurée vers $+\\infty$.',
+        svg: `
+          <svg viewBox="0 0 400 150" role="img" aria-labelledby="ineq3e-title ineq3e-desc">
+            <title id="ineq3e-title">Droite graduée : ensemble solution de l'inéquation</title>
+            <desc id="ineq3e-desc">Droite graduee de 4 a 10, avec un cercle non rempli au point 7 car l'inegalite est stricte, et une portion hachuree partant de 7 vers la droite jusqu'a plus l'infini, representant l'ensemble des solutions x strictement superieur a 7.</desc>
+            <defs>
+              <marker id="arrow-3e-eq-ineq" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
+
+            <line class="axis" x1="15" y1="80" x2="385" y2="80" marker-start="url(#arrow-3e-eq-ineq)" marker-end="url(#arrow-3e-eq-ineq)"></line>
+
+            <line class="grid-line" x1="45" y1="75" x2="45" y2="85"></line>
+            <text class="tick-label" x="45" y="102" text-anchor="middle">4</text>
+            <line class="grid-line" x1="90" y1="75" x2="90" y2="85"></line>
+            <text class="tick-label" x="90" y="102" text-anchor="middle">5</text>
+            <line class="grid-line" x1="135" y1="75" x2="135" y2="85"></line>
+            <text class="tick-label" x="135" y="102" text-anchor="middle">6</text>
+            <line class="grid-line" x1="180" y1="75" x2="180" y2="85"></line>
+            <text class="annotation-label" x="180" y="102" text-anchor="middle">7</text>
+            <line class="grid-line" x1="225" y1="75" x2="225" y2="85"></line>
+            <text class="tick-label" x="225" y="102" text-anchor="middle">8</text>
+            <line class="grid-line" x1="270" y1="75" x2="270" y2="85"></line>
+            <text class="tick-label" x="270" y="102" text-anchor="middle">9</text>
+            <line class="grid-line" x1="315" y1="75" x2="315" y2="85"></line>
+            <text class="tick-label" x="315" y="102" text-anchor="middle">10</text>
+
+            <line class="curve-main" x1="186" y1="80" x2="345" y2="80" marker-end="url(#arrow-3e-eq-ineq)"></line>
+            <line x1="200" y1="72" x2="212" y2="88" stroke="var(--diagram-accent)" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="220" y1="72" x2="232" y2="88" stroke="var(--diagram-accent)" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="240" y1="72" x2="252" y2="88" stroke="var(--diagram-accent)" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="260" y1="72" x2="272" y2="88" stroke="var(--diagram-accent)" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="280" y1="72" x2="292" y2="88" stroke="var(--diagram-accent)" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="300" y1="72" x2="312" y2="88" stroke="var(--diagram-accent)" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="320" y1="72" x2="332" y2="88" stroke="var(--diagram-accent)" stroke-width="2" stroke-linecap="round"></line>
+
+            <circle class="plot-point-alt" cx="180" cy="80" r="6"></circle>
+
+            <text class="annotation-label" x="255" y="55" text-anchor="middle">x > 7</text>
+            <text class="label-soft" x="355" y="60" text-anchor="middle">+∞</text>
+            <text class="axis-label" x="368" y="70">x</text>
+          </svg>
+        `,
+        notes: [
+          'Le cercle est <strong>ouvert</strong> (non rempli) en $7$ car l\'inégalité est stricte ($>$) : $7$ lui-même n\'est pas solution.',
+          'Les hachures et la flèche s\'étendent vers la droite ($+\\infty$) car $x$ doit être strictement plus grand que $7$.',
+          'Notation : $x \\in\\, ]7\\,;\\,+\\infty[$ — le crochet est tourné vers l\'extérieur car la borne $7$ est exclue.'
+        ],
+        reading: 'Repère le cercle non rempli en $7$ : il signale une borne exclue. La zone hachurée à sa droite représente toutes les valeurs solutions.',
+        caption: 'Ensemble solution de l\'inéquation $3(x-2) > 2x+1$ résolue dans l\'exemple du cours, soit $x \\in\\, ]7\\,;\\,+\\infty[$.'
+      },
       recap: [
         '<strong>Principe de la balance</strong> : on effectue la même opération des deux côtés de l\'égalité (ou inégalité) pour isoler $x$.',
         '<strong>Inversion du sens</strong> : multiplier ou diviser par un nombre <strong>négatif</strong> inverse le sens de l\'inégalité. C\'est LA différence majeure entre équation et inéquation.',

@@ -76,27 +76,73 @@ Les fonctions sin et cos sont périodiques de période $2\\pi$ (360°). C'est la
       '<strong>Signal sinusoïdal</strong> : $u(t) = U_{\\max}\\sin(\\omega t + \\varphi)$',
     ],
 
-    diagram: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:10px;padding:20px;font-family:monospace;font-size:0.88rem;line-height:1.8">
-<div style="font-weight:700;margin-bottom:10px;font-family:sans-serif">Triangle rectangle — repérage des côtés</div>
-<pre style="margin:0;color:var(--text)">
-        C
-        |\\
-        | \\   hypoténuse (h)
-opposé  |  \\
- (opp)  |   \\
-        |  θ \\
-        A-----B
-         adjacent
-            (adj)
+    diagram: {
+      theme: 'maths',
+      kicker: 'Triangle rectangle',
+      title: 'SOH-CAH-TOA appliqué à un cas concret : le circuit RL',
+      description: 'Le même triangle abstrait décrit n\'importe quelle situation BTS : ici, le déphasage φ d\'un circuit RL est un angle comme un autre, avec sa propre hypoténuse et ses deux côtés.',
+      svg: `
+        <svg viewBox="0 0 460 316" role="img" aria-labelledby="btstrig-graph-title btstrig-graph-desc">
+          <title id="btstrig-graph-title">Triangle rectangle SOH-CAH-TOA et triangle des impedances</title>
+          <desc id="btstrig-graph-desc">A gauche, triangle rectangle abstrait avec angle theta, cote oppose, cote adjacent et hypotenuse, et les formules sinus cosinus tangente. A droite, le meme triangle applique a un circuit RL avec R = 60 ohms, X_L = 80 ohms, Z = 100 ohms et phi environ 53,1 degres.</desc>
 
-  sin θ = opp / h
-  cos θ = adj / h
-  tan θ = opp / adj
-</pre>
-<div style="margin-top:14px;font-family:sans-serif;font-size:0.85rem;color:var(--text-muted)">
-  θ est l'angle en A (≠ 90°) — l'angle droit est en C.
-</div>
-</div>`,
+          <rect x="16" y="12" width="137" height="38" rx="10" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
+          <text class="annotation-label" x="26" y="27">SOH</text>
+          <text class="tick-label" x="26" y="43">sin θ = opp / hyp</text>
+
+          <rect x="161" y="12" width="137" height="38" rx="10" fill="color-mix(in srgb, var(--accent) 14%, var(--bg-card))" stroke="color-mix(in srgb, var(--accent) 38%, var(--border))"></rect>
+          <text class="annotation-label" x="171" y="27">CAH</text>
+          <text class="tick-label" x="171" y="43">cos θ = adj / hyp</text>
+
+          <rect x="306" y="12" width="138" height="38" rx="10" fill="color-mix(in srgb, var(--diagram-accent) 12%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 34%, var(--border))"></rect>
+          <text class="annotation-label" x="316" y="27">TOA</text>
+          <text class="tick-label" x="316" y="43">tan θ = opp / adj</text>
+
+          <text class="tick-label label-soft" x="40" y="78">Cas général</text>
+          <polygon points="60,230 230,230 60,90" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></polygon>
+          <line class="frame-line" x1="60" y1="230" x2="60" y2="90"></line>
+          <line class="frame-line" x1="60" y1="230" x2="230" y2="230"></line>
+          <line class="curve-main" x1="230" y1="230" x2="60" y2="90"></line>
+          <path class="axis" d="M60 216 L74 216 L74 230"></path>
+          <line class="guide-line" x1="206" y1="230" x2="211" y2="215"></line>
+          <text class="annotation-label" x="192" y="221">θ</text>
+          <circle class="plot-point-alt" cx="60" cy="230" r="5"></circle>
+          <circle class="plot-point-alt" cx="60" cy="90" r="5"></circle>
+          <circle class="plot-point" cx="230" cy="230" r="5"></circle>
+          <text class="annotation-label" x="117" y="246">adjacent</text>
+          <text class="annotation-label" x="12" y="164">opposé</text>
+          <text class="annotation-label" x="145" y="133">hypoténuse</text>
+          <line class="guide-line" x1="150" y1="128" x2="130" y2="148"></line>
+
+          <text class="tick-label label-soft" x="296" y="128">Application : circuit RL</text>
+          <polygon points="300,230 430,230 300,140" fill="color-mix(in srgb, var(--secondary) 8%, transparent)" stroke="none"></polygon>
+          <line class="frame-line" x1="300" y1="230" x2="300" y2="140"></line>
+          <line class="frame-line" x1="300" y1="230" x2="430" y2="230"></line>
+          <line class="curve-main" x1="430" y1="230" x2="300" y2="140"></line>
+          <path class="axis" d="M300 216 L314 216 L314 230"></path>
+          <line class="guide-line" x1="408" y1="230" x2="412" y2="217"></line>
+          <text class="annotation-label" x="393" y="224">φ</text>
+          <circle class="plot-point-alt" cx="300" cy="230" r="5"></circle>
+          <circle class="plot-point-alt" cx="300" cy="140" r="5"></circle>
+          <circle class="plot-point" cx="430" cy="230" r="5"></circle>
+          <text class="annotation-label" x="358" y="246">R</text>
+          <text class="annotation-label" x="266" y="189">XL</text>
+          <text class="annotation-label" x="374" y="161">Z</text>
+
+          <rect x="16" y="258" width="428" height="50" rx="10" fill="color-mix(in srgb, var(--diagram-accent) 6%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 20%, var(--border))"></rect>
+          <text class="tick-label" x="26" y="272">Exemple du cours — circuit RL : R = 60 Ω, X_L = 80 Ω</text>
+          <text class="tick-label" x="26" y="288">Z = √(60² + 80²) = √10000 = 100 Ω</text>
+          <text class="tick-label" x="26" y="304">φ = arctan(80/60) ≈ 53,1°  (vérif. : cos φ = 60/100 = 0,6)</text>
+        </svg>
+      `,
+      notes: [
+        'Le côté adjacent à θ (ou φ) touche l\'angle sans être l\'hypoténuse ; le côté opposé ne touche jamais l\'angle ; l\'hypoténuse est toujours en face de l\'angle droit.',
+        'Le triangle des impédances est exactement le même objet géométrique : $R$ joue le rôle de l\'adjacent, $X_L$ celui de l\'opposé, $Z$ celui de l\'hypoténuse.',
+        'Vérification indépendante : $60^2+80^2=3600+6400=10000=100^2$ (Pythagore), et $\\arctan(80/60)=\\arctan(1{,}333)\\approx 53{,}1°$ — cohérent avec $\\arccos(0{,}6)\\approx 53{,}1°$.'
+      ],
+      reading: 'Avant toute application (électrotechnique, BTP, mécanique), reviens à ce triangle générique : identifie l\'angle droit, puis l\'angle de référence, puis nomme les trois côtés.',
+      caption: 'Triangle SOH-CAH-TOA de référence et son application directe au calcul de déphasage d\'un circuit RL (exemple du cours).'
+    },
 
     recap: [
       '<strong>SOH-CAH-TOA</strong> : le triptyque à ne jamais oublier',

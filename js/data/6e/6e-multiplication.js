@@ -41,7 +41,45 @@ window.MODULES.push({
         ],
         answer: '$0{,}6 \\times 0{,}7 = 0{,}42$'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Facteurs</th><th style="border:1px solid var(--border);padding:8px">Décimales</th><th style="border:1px solid var(--border);padding:8px">Calcul entier</th><th style="border:1px solid var(--border);padding:8px">Résultat</th></tr><tr><td style="border:1px solid var(--border);padding:8px">$3{,}5 \\times 4{,}2$</td><td style="border:1px solid var(--border);padding:8px">$1 + 1 = 2$</td><td style="border:1px solid var(--border);padding:8px">$35 \\times 42 = 1470$</td><td style="border:1px solid var(--border);padding:8px">$14{,}70$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">$2{,}75 \\times 1{,}3$</td><td style="border:1px solid var(--border);padding:8px">$2 + 1 = 3$</td><td style="border:1px solid var(--border);padding:8px">$275 \\times 13 = 3575$</td><td style="border:1px solid var(--border);padding:8px">$3{,}575$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">$0{,}6 \\times 0{,}7$</td><td style="border:1px solid var(--border);padding:8px">$1 + 1 = 2$</td><td style="border:1px solid var(--border);padding:8px">$6 \\times 7 = 42$</td><td style="border:1px solid var(--border);padding:8px">$0{,}42$</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Multiplication et distributivité',
+        title: 'Découper un rectangle d\'aire pour voir la distributivité',
+        description: 'Sur l\'exemple du cours $7 \\times 5{,}2 = 7 \\times 5 + 7 \\times 0{,}2$, l\'aire totale se calcule en additionnant celle des deux morceaux du rectangle.',
+        svg: `
+          <svg viewBox="0 0 360 260" role="img" aria-labelledby="multiplication-graph-title multiplication-graph-desc">
+            <title id="multiplication-graph-title">Rectangle d'aire decoupe pour 7 fois 5,2</title>
+            <desc id="multiplication-graph-desc">Le schema montre un rectangle de largeur 5,2 et de hauteur 7 decoupe en deux parties, largeur 5 et largeur 0,2, pour illustrer la distributivite.</desc>
+            <line class="frame-line" x1="70" y1="20" x2="70" y2="26"></line>
+            <line class="frame-line" x1="220" y1="20" x2="220" y2="26"></line>
+            <line class="frame-line" x1="70" y1="20" x2="220" y2="20"></line>
+            <text class="axis-label" x="132" y="14">5,2</text>
+            <rect x="70" y="30" width="120" height="150" fill="color-mix(in srgb, var(--diagram-accent) 8%, var(--bg-card))"></rect>
+            <rect x="190" y="30" width="30" height="150" fill="color-mix(in srgb, var(--accent) 16%, var(--bg-card))"></rect>
+            <rect x="70" y="30" width="150" height="150" fill="none" class="frame-line"></rect>
+            <line class="guide-line" x1="190" y1="30" x2="190" y2="180"></line>
+            <line class="frame-line" x1="52" y1="30" x2="64" y2="30"></line>
+            <line class="frame-line" x1="52" y1="180" x2="64" y2="180"></line>
+            <line class="frame-line" x1="58" y1="30" x2="58" y2="180"></line>
+            <text class="axis-label" x="36" y="108">7</text>
+            <text class="axis-label" x="118" y="50">5</text>
+            <text class="axis-label" x="193" y="46">0,2</text>
+            <text class="annotation-label" x="90" y="112">7 x 5 = 35</text>
+            <line class="guide-line" x1="220" y1="105" x2="248" y2="90"></line>
+            <text class="annotation-label" x="224" y="86">7 x 0,2 = 1,4</text>
+            <rect x="50" y="200" width="270" height="34" rx="12" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
+            <text class="annotation-label" x="64" y="222">Total : 35 + 1,4 = 36,4</text>
+          </svg>
+        `,
+        notes: [
+          'Le rectangle représente l\'aire $7 \\times 5{,}2$ : on découpe la largeur $5{,}2$ en $5 + 0{,}2$ pour retrouver un calcul plus simple.',
+          'Grand rectangle : $7 \\times 5 = 35$.',
+          'Petit rectangle (largeur $0{,}2$ agrandie sur le schéma pour rester lisible) : $7 \\times 0{,}2 = 1{,}4$.',
+          'On additionne les deux aires : $35 + 1{,}4 = 36{,}4$, donc $7 \\times 5{,}2 = 36{,}4$.'
+        ],
+        reading: 'La distributivité $a \\times (b + c) = a \\times b + a \\times c$ se voit directement : l\'aire totale est la somme des deux aires du découpage.',
+        caption: 'Découpage d\'aire illustrant $7 \\times 5{,}2 = 7 \\times 5 + 7 \\times 0{,}2 = 36{,}4$ (bande $0{,}2$ non à l\'échelle, agrandie pour la lisibilité).'
+      },
       formulas: [
         '$a \\times b = b \\times a$ (commutativité)',
         '$a \\times (b + c) = a \\times b + a \\times c$ (distributivité)',

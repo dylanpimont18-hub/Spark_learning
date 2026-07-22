@@ -15,7 +15,7 @@ window.MODULES.push({
     cours: {
       intro: 'Une figure est <strong>symétrique</strong> par rapport à un axe si, en la pliant le long de cet axe, les deux parties se superposent exactement.<br/><br/>' +
         'La symétrie axiale est une <strong>isométrie</strong> : elle conserve les distances, les angles et les aires. Les figures sont identiques, juste retournées.<br/><br/>' +
-        'Pour construire le symétrique d\'un point $A$ par rapport à un axe $d$, on cherche $A\'$ tel que l\'axe soit la <strong>médiatrice</strong> de $[AA\']$ : l\'axe coupe $[AA\']$ en son milieu et perpendiculairement. Formule pour un axe $x = k$ : $x_{A\'} = 2k - x_A$.',
+        'Pour construire le symétrique d\'un point $A$ par rapport à un axe $d$, on cherche $A\'$ tel que l\'axe soit la <strong>médiatrice</strong> de $[AA\']$ : l\'axe coupe $[AA\']$ en son milieu et perpendiculairement. Pour un axe vertical $x = k$ : $x_{A\'} = 2k - x_A$ (l\'ordonnée ne change pas). Pour un axe horizontal $y = k$ : $y_{A\'} = 2k - y_A$ (l\'abscisse ne change pas). Cas particuliers : par rapport à l\'axe des ordonnées ($x = 0$), $x_{A\'} = -x_A$ ; par rapport à l\'axe des abscisses ($y = 0$), $y_{A\'} = -y_A$.',
       definitions: [
         { term: 'Axe de symétrie', def: 'Droite $d$ telle que la réflexion de la figure par rapport à $d$ donne la même figure.' },
         { term: 'Isométrie', def: 'Transformation qui conserve les distances. La symétrie axiale en est une.' },
@@ -41,16 +41,72 @@ window.MODULES.push({
         ],
         answer: '$A\'(1 ; 2)$'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Axe</th><th style="border:1px solid var(--border);padding:8px">Formule abscisse</th><th style="border:1px solid var(--border);padding:8px">Formule ordonnée</th></tr><tr><td style="border:1px solid var(--border);padding:8px">$x = 0$ (axe des ordonnées)</td><td style="border:1px solid var(--border);padding:8px">$x\' = -x$</td><td style="border:1px solid var(--border);padding:8px">$y\' = y$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">$y = 0$ (axe des abscisses)</td><td style="border:1px solid var(--border);padding:8px">$x\' = x$</td><td style="border:1px solid var(--border);padding:8px">$y\' = -y$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">$x = k$ (verticale)</td><td style="border:1px solid var(--border);padding:8px">$x\' = 2k - x$</td><td style="border:1px solid var(--border);padding:8px">$y\' = y$</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Construction du symétrique',
+        title: 'Réfléchir un point par rapport à un axe',
+        description: 'Le point $A(5 ; 2)$ est réfléchi par rapport à l\'axe $d$ d\'équation $x = 3$. On trace la perpendiculaire à $d$ passant par $A$, on repère son pied $H$, puis on reporte la même distance de l\'autre côté pour obtenir $A\'(1 ; 2)$.',
+        svg: `
+          <svg viewBox="0 0 360 240" role="img" aria-labelledby="symaxiale-title symaxiale-desc">
+            <title id="symaxiale-title">Symétrique d'un point par rapport à un axe vertical</title>
+            <desc id="symaxiale-desc">Le point A en 5 ; 2 est réfléchi par rapport à l'axe d d'équation x égale 3. Le pied H est en 3 ; 2 et le symétrique A' est en 1 ; 2, à la même distance de l'axe que A.</desc>
+            <line class="grid-line" x1="50" y1="30" x2="50" y2="194"></line>
+            <line class="grid-line" x1="90" y1="30" x2="90" y2="194"></line>
+            <line class="grid-line" x1="130" y1="30" x2="130" y2="194"></line>
+            <line class="grid-line" x1="210" y1="30" x2="210" y2="194"></line>
+            <line class="grid-line" x1="250" y1="30" x2="250" y2="194"></line>
+            <line class="grid-line" x1="290" y1="30" x2="290" y2="194"></line>
+            <line class="grid-line" x1="50" y1="194" x2="290" y2="194"></line>
+            <line class="grid-line" x1="50" y1="153" x2="290" y2="153"></line>
+            <line class="grid-line" x1="50" y1="112" x2="290" y2="112"></line>
+            <line class="grid-line" x1="50" y1="71" x2="290" y2="71"></line>
+            <line class="grid-line" x1="50" y1="30" x2="290" y2="30"></line>
+            <line class="axis" x1="170" y1="20" x2="170" y2="204"></line>
+            <line class="guide-line" x1="90" y1="112" x2="250" y2="112"></line>
+            <polyline class="frame-line" points="170,104 178,104 178,112" fill="none"></polyline>
+            <line class="frame-line" x1="210" y1="106" x2="210" y2="118"></line>
+            <line class="frame-line" x1="130" y1="106" x2="130" y2="118"></line>
+            <circle class="plot-point-alt" cx="250" cy="112" r="6"></circle>
+            <circle class="plot-point-alt" cx="170" cy="112" r="5"></circle>
+            <circle class="plot-point" cx="90" cy="112" r="6"></circle>
+            <text class="annotation-label" x="252" y="100">A(5 ; 2)</text>
+            <text class="annotation-label" x="94" y="96">H(3 ; 2)</text>
+            <text class="annotation-label" x="56" y="132">A'(1 ; 2)</text>
+            <text class="axis-label" x="176" y="18">d</text>
+            <text class="tick-label" x="46" y="206">0</text>
+            <text class="tick-label" x="86" y="206">1</text>
+            <text class="tick-label" x="126" y="206">2</text>
+            <text class="tick-label" x="166" y="206">3</text>
+            <text class="tick-label" x="206" y="206">4</text>
+            <text class="tick-label" x="246" y="206">5</text>
+            <text class="tick-label" x="286" y="206">6</text>
+            <text class="tick-label" x="36" y="198">0</text>
+            <text class="tick-label" x="36" y="157">1</text>
+            <text class="tick-label" x="36" y="116">2</text>
+            <text class="tick-label" x="36" y="75">3</text>
+            <text class="tick-label" x="36" y="34">4</text>
+          </svg>
+        `,
+        notes: [
+          'On trace la perpendiculaire à l\'axe $d$ passant par $A$ : ici elle est horizontale, donc perpendiculaire à l\'axe vertical $d$.',
+          'Le pied $H(3 ; 2)$ est le point où cette perpendiculaire coupe $d$ — l\'angle marqué en $H$ est droit.',
+          'On reporte la même distance de l\'autre côté de $H$ : $AH = HA\' = 2$, donc $A\'(1 ; 2)$.'
+        ],
+        reading: 'L\'axe $d$ est la médiatrice de $[AA\']$ : il coupe le segment $[AA\']$ perpendiculairement, exactement en son milieu $H$.',
+        caption: 'Construction du symétrique de $A(5 ; 2)$ par rapport à l\'axe $d : x = 3$ — pied $H(3 ; 2)$ et symétrique $A\'(1 ; 2)$.'
+      },
       formulas: [
         '$H = $ milieu de $[AA\']$ (pied de la perpendiculaire)',
         '$AH = HA\'$',
+        'Axe vertical $x = k$ : $x_{A\'} = 2k - x_A$, $y_{A\'} = y_A$',
+        'Axe horizontal $y = k$ : $y_{A\'} = 2k - y_A$, $x_{A\'} = x_A$',
         'La symétrie conserve : distances, angles, aires.',
         'L\'axe est la médiatrice de $[AA\']$'
       ],
       recap: [
         'La symétrie axiale conserve distances, angles et aires (c\'est une isométrie).',
-        'Le symétrique de $A$ par rapport à $x = k$ a pour abscisse $x\' = 2k - x$.',
+        'Le symétrique de $A$ par rapport à $x = k$ (axe vertical) a pour abscisse $x\' = 2k - x$ ; par rapport à $y = k$ (axe horizontal), pour ordonnée $y\' = 2k - y$.',
+        'Cas particuliers : axe des ordonnées ($x=0$) → $x\' = -x$ ; axe des abscisses ($y=0$) → $y\' = -y$.',
         'Un point situé sur l\'axe est son propre symétrique.',
         'Un triangle équilatéral a $3$ axes, un carré en a $4$, un cercle en a une infinité.'
       ],

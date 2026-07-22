@@ -43,6 +43,47 @@ window.MODULES.push({
         '$]a;b[ = \\{x \\in \\mathbb{R} \\mid a < x < b\\}$',
         '$[a;+\\infty[ = \\{x \\in \\mathbb{R} \\mid x \\ge a\\}$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Ensembles de nombres emboîtés',
+        title: 'Quatre exemples du cours placés dans l\'ensemble le plus restreint',
+        description: 'Reprend l\'exemple du cours : $7 \\in \\mathbb{N}$, $-3 \\in \\mathbb{Z}$, $\\dfrac{2}{5} \\in \\mathbb{Q}$, $\\sqrt{5}$ irrationnel (dans $\\mathbb{R}$ seulement), chacun placé dans l\'anneau le plus intérieur possible.',
+        svg: `
+          <svg viewBox="0 0 460 460" role="img" aria-labelledby="ensembles-nombres-title ensembles-nombres-desc">
+            <title id="ensembles-nombres-title">Cercles emboites des ensembles de nombres</title>
+            <desc id="ensembles-nombres-desc">Quatre cercles concentriques centres au meme point, du plus petit au plus grand : N (entiers naturels), Z (entiers relatifs), Q (rationnels), R (reels). Le nombre 7 est place dans le cercle N, le nombre moins 3 entre les cercles N et Z, la fraction 2 cinquiemes entre les cercles Z et Q, et racine de 5 entre les cercles Q et R, chacun dans l'anneau le plus restreint possible.</desc>
+
+            <text class="label-soft" x="230" y="22" text-anchor="middle">ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ</text>
+
+            <circle class="frame-line" cx="230" cy="230" r="185" fill="color-mix(in srgb, var(--diagram-accent) 5%, transparent)"></circle>
+            <circle class="frame-line" cx="230" cy="230" r="135" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)"></circle>
+            <circle class="frame-line" cx="230" cy="230" r="90" fill="color-mix(in srgb, var(--diagram-accent) 12%, transparent)"></circle>
+            <circle class="frame-line" cx="230" cy="230" r="45" fill="color-mix(in srgb, var(--diagram-accent) 18%, transparent)"></circle>
+
+            <text class="axis-label" x="110" y="114" text-anchor="middle">ℝ</text>
+            <text class="axis-label" x="145" y="149" text-anchor="middle">ℚ</text>
+            <text class="axis-label" x="177" y="181" text-anchor="middle">ℤ</text>
+            <text class="axis-label" x="209" y="213" text-anchor="middle">ℕ</text>
+
+            <circle class="plot-point" cx="235" cy="230" r="4"></circle>
+            <text class="annotation-label" x="235" y="215" text-anchor="middle">7</text>
+            <circle class="plot-point" cx="295" cy="230" r="4"></circle>
+            <text class="annotation-label" x="295" y="215" text-anchor="middle">-3</text>
+            <circle class="plot-point" cx="342" cy="230" r="4"></circle>
+            <text class="annotation-label" x="342" y="215" text-anchor="middle">2/5</text>
+            <circle class="plot-point" cx="390" cy="230" r="4"></circle>
+            <text class="annotation-label" x="390" y="215" text-anchor="middle">√5</text>
+          </svg>
+        `,
+        notes: [
+          '$7 \\in \\mathbb{N}$ : entier naturel, c\'est l\'ensemble le plus restreint possible pour ce nombre.',
+          '$-3 \\in \\mathbb{Z}$ mais $-3 \\notin \\mathbb{N}$ (les entiers naturels sont positifs ou nuls).',
+          '$\\dfrac{2}{5} \\in \\mathbb{Q}$ mais $\\dfrac{2}{5} \\notin \\mathbb{Z}$ (ce n\'est pas un entier).',
+          '$\\sqrt{5}$ est irrationnel : il appartient à $\\mathbb{R}$ mais pas à $\\mathbb{Q}$, comme le rappelle l\'exemple du cours.'
+        ],
+        reading: 'Chaque nombre est placé dans l\'anneau le plus intérieur possible : c\'est cet anneau qui donne son ensemble de référence le plus précis.',
+        caption: 'Reprend exactement l\'exemple du cours : $7$, $-3$, $\\dfrac{2}{5}$, $\\sqrt{5}$, chacun classé dans $\\mathbb{N}$, $\\mathbb{Z}$, $\\mathbb{Q}$ ou $\\mathbb{R}$ (irrationnel).'
+      },
       recap: [
         'Les ensembles s\'emboîtent : $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$.',
         'Un décimal périodique est toujours rationnel ; un irrationnel a une écriture décimale infinie non périodique.',

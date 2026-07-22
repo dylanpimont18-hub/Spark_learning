@@ -32,7 +32,62 @@ window.MODULES.push({
         ],
         answer: '$\\bar{x} \\approx 12{,}27$'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Indicateur</th><th style="border:1px solid var(--border);padding:6px 14px">Formule</th><th style="border:1px solid var(--border);padding:6px 14px">Ce qu\'il mesure</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Moyenne</td><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{\\sum x_i \\cdot n_i}{N}$</td><td style="border:1px solid var(--border);padding:6px 14px">Valeur « typique » (sensible aux extrêmes)</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Étendue</td><td style="border:1px solid var(--border);padding:6px 14px">$x_{\\max} - x_{\\min}$</td><td style="border:1px solid var(--border);padding:6px 14px">Dispersion globale</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Fréquence</td><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{n_i}{N}$</td><td style="border:1px solid var(--border);padding:6px 14px">Proportion de chaque valeur</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Série statistique',
+        title: 'Notes de la classe et moyenne',
+        description: 'Diagramme en bâtons de la série $7, 9, 12, 14, 14, 15, 16, 8, 11, 10$ du problème du cours, classée par ordre croissant, avec la moyenne $\\bar{x} \\approx 11{,}6$ tracée en pointillé.',
+        svg: `
+          <svg viewBox="0 0 600 320" role="img" aria-labelledby="stats5e-title stats5e-desc">
+            <title id="stats5e-title">Diagramme en batons des notes de la classe</title>
+            <desc id="stats5e-desc">Diagramme en batons des dix notes 7, 8, 9, 10, 11, 12, 14, 14, 15, 16 classees par ordre croissant, avec une ligne pointillee marquant la moyenne 11,6.</desc>
+            <text class="axis-label" x="20" y="26" text-anchor="start">Note /20</text>
+            <line class="axis" x1="50" y1="40" x2="50" y2="260"></line>
+            <line class="axis" x1="50" y1="260" x2="530" y2="260"></line>
+            <line class="grid-line" x1="50" y1="205" x2="530" y2="205"></line>
+            <line class="grid-line" x1="50" y1="150" x2="530" y2="150"></line>
+            <line class="grid-line" x1="50" y1="95" x2="530" y2="95"></line>
+            <line class="grid-line" x1="50" y1="40" x2="530" y2="40"></line>
+            <text class="tick-label" x="42" y="264" text-anchor="end">0</text>
+            <text class="tick-label" x="42" y="209" text-anchor="end">5</text>
+            <text class="tick-label" x="42" y="154" text-anchor="end">10</text>
+            <text class="tick-label" x="42" y="99" text-anchor="end">15</text>
+            <text class="tick-label" x="42" y="44" text-anchor="end">20</text>
+            <rect x="69" y="183" width="30" height="77" fill="color-mix(in srgb, var(--diagram-accent) 28%, transparent)" stroke="none"></rect>
+            <rect x="117" y="172" width="30" height="88" fill="color-mix(in srgb, var(--diagram-accent) 28%, transparent)" stroke="none"></rect>
+            <rect x="165" y="161" width="30" height="99" fill="color-mix(in srgb, var(--diagram-accent) 28%, transparent)" stroke="none"></rect>
+            <rect x="213" y="150" width="30" height="110" fill="color-mix(in srgb, var(--diagram-accent) 28%, transparent)" stroke="none"></rect>
+            <rect x="261" y="139" width="30" height="121" fill="color-mix(in srgb, var(--diagram-accent) 28%, transparent)" stroke="none"></rect>
+            <rect x="309" y="128" width="30" height="132" fill="color-mix(in srgb, var(--diagram-accent) 55%, transparent)" stroke="none"></rect>
+            <rect x="357" y="106" width="30" height="154" fill="color-mix(in srgb, var(--diagram-accent) 55%, transparent)" stroke="none"></rect>
+            <rect x="405" y="106" width="30" height="154" fill="color-mix(in srgb, var(--diagram-accent) 55%, transparent)" stroke="none"></rect>
+            <rect x="453" y="95" width="30" height="165" fill="color-mix(in srgb, var(--diagram-accent) 55%, transparent)" stroke="none"></rect>
+            <rect x="501" y="84" width="30" height="176" fill="color-mix(in srgb, var(--diagram-accent) 55%, transparent)" stroke="none"></rect>
+            <text class="tick-label" x="84" y="175" text-anchor="middle">7</text>
+            <text class="tick-label" x="132" y="164" text-anchor="middle">8</text>
+            <text class="tick-label" x="180" y="153" text-anchor="middle">9</text>
+            <text class="tick-label" x="228" y="142" text-anchor="middle">10</text>
+            <text class="tick-label" x="276" y="131" text-anchor="middle">11</text>
+            <text class="tick-label" x="324" y="120" text-anchor="middle">12</text>
+            <text class="tick-label" x="372" y="98" text-anchor="middle">14</text>
+            <text class="tick-label" x="420" y="98" text-anchor="middle">14</text>
+            <text class="tick-label" x="468" y="87" text-anchor="middle">15</text>
+            <text class="tick-label" x="516" y="76" text-anchor="middle">16</text>
+            <line class="guide-line" x1="50" y1="132.4" x2="530" y2="132.4"></line>
+            <text class="annotation-label" x="534" y="128" text-anchor="start">moyenne</text>
+            <text class="annotation-label" x="534" y="142" text-anchor="start">≈ 11,6</text>
+            <text class="axis-label" x="290" y="298" text-anchor="middle">Élèves classés par note croissante</text>
+          </svg>
+        `,
+        notes: [
+          '<strong>Moyenne</strong> : $\\bar{x} = \\dfrac{7+9+12+14+14+15+16+8+11+10}{10} = \\dfrac{116}{10} = 11{,}6$.',
+          '<strong>Étendue</strong> : $16 - 7 = 9$.',
+          'Les $5$ bâtons foncés ($12, 14, 14, 15, 16$) correspondent aux notes $\\geq \\bar{x}$ : ce sont les $5$ élèves au-dessus de la moyenne, comme calculé dans le problème du cours.',
+          'Les $5$ bâtons clairs ($7, 8, 9, 10, 11$) correspondent aux notes $< \\bar{x}$.'
+        ],
+        reading: 'Ce qu\'il faut lire : la moyenne ($11{,}6$) ne partage pas les bâtons en deux groupes de tailles visuellement égales, car les notes ne sont pas réparties symétriquement autour d\'elle — un exemple concret du piège du cours : la moyenne peut être « tirée » par la répartition réelle des valeurs.',
+        caption: 'Diagramme en bâtons de la série de notes du problème du cours ($\\bar{x} = 11{,}6$, recalculée indépendamment à partir des $10$ valeurs brutes).'
+      },
       method: {
         title: 'Méthode en 4 étapes',
         steps: [

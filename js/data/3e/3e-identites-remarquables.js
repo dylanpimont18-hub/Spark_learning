@@ -45,7 +45,55 @@ window.MODULES.push(
         '$(a-b)^2 = a^2 - 2ab + b^2$',
         '$(a+b)(a-b) = a^2 - b^2$'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Identité</th><th style="border:1px solid var(--border);padding:8px">Formule développée</th><th style="border:1px solid var(--border);padding:8px">Exemple numérique</th></tr><tr><td style="border:1px solid var(--border);padding:8px">$(a+b)^2$</td><td style="border:1px solid var(--border);padding:8px">$a^2 + 2ab + b^2$</td><td style="border:1px solid var(--border);padding:8px">$(3+2)^2 = 9 + 12 + 4 = 25$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">$(a-b)^2$</td><td style="border:1px solid var(--border);padding:8px">$a^2 - 2ab + b^2$</td><td style="border:1px solid var(--border);padding:8px">$(7-3)^2 = 49 - 42 + 9 = 16$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">$(a+b)(a-b)$</td><td style="border:1px solid var(--border);padding:8px">$a^2 - b^2$</td><td style="border:1px solid var(--border);padding:8px">$101 \\times 99 = 100^2 - 1^2 = 10\\,000 - 1 = 9\\,999$</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Preuve géométrique',
+        title: 'Le carré $(a+b)^2$ découpé en quatre aires',
+        description: 'Chaque partie du carré correspond à un terme de l\'identité remarquable : deux carrés et deux rectangles identiques, illustrés ici avec $a = 3$ et $b = 2$ (le même exemple que dans la méthode ci-dessus).',
+        svg: `
+          <svg viewBox="0 0 380 320" role="img" aria-labelledby="identites-graph-title identites-graph-desc">
+            <title id="identites-graph-title">Decoupage du carre (a+b) au carre en quatre aires</title>
+            <desc id="identites-graph-desc">Le schema montre un carre de cote a+b decoupe en un carre a au carre, deux rectangles ab, et un carre b au carre, avec a = 3 et b = 2.</desc>
+            <rect x="60" y="40" width="144" height="144" fill="color-mix(in srgb, var(--diagram-accent) 16%, transparent)" stroke="none"></rect>
+            <rect x="204" y="40" width="96" height="144" fill="color-mix(in srgb, var(--accent) 16%, transparent)" stroke="none"></rect>
+            <rect x="60" y="184" width="144" height="96" fill="color-mix(in srgb, var(--accent) 16%, transparent)" stroke="none"></rect>
+            <rect x="204" y="184" width="96" height="96" fill="color-mix(in srgb, var(--secondary) 18%, transparent)" stroke="none"></rect>
+            <rect x="60" y="40" width="240" height="240" fill="none" class="frame-line"></rect>
+            <line class="frame-line" x1="204" y1="40" x2="204" y2="280"></line>
+            <line class="frame-line" x1="60" y1="184" x2="300" y2="184"></line>
+            <line class="guide-line" x1="60" y1="26" x2="204" y2="26"></line>
+            <line class="guide-line" x1="60" y1="22" x2="60" y2="30"></line>
+            <line class="guide-line" x1="204" y1="22" x2="204" y2="30"></line>
+            <text class="annotation-label" text-anchor="middle" x="132" y="18">a</text>
+            <line class="guide-line" x1="204" y1="26" x2="300" y2="26"></line>
+            <line class="guide-line" x1="300" y1="22" x2="300" y2="30"></line>
+            <text class="annotation-label" text-anchor="middle" x="252" y="18">b</text>
+            <line class="guide-line" x1="46" y1="40" x2="46" y2="184"></line>
+            <line class="guide-line" x1="42" y1="40" x2="50" y2="40"></line>
+            <line class="guide-line" x1="42" y1="184" x2="50" y2="184"></line>
+            <text class="annotation-label" text-anchor="middle" x="30" y="116">a</text>
+            <line class="guide-line" x1="46" y1="184" x2="46" y2="280"></line>
+            <line class="guide-line" x1="42" y1="280" x2="50" y2="280"></line>
+            <text class="annotation-label" text-anchor="middle" x="30" y="236">b</text>
+            <text class="annotation-label" text-anchor="middle" x="132" y="104">a²</text>
+            <text class="tick-label" text-anchor="middle" x="132" y="122">3 × 3 = 9</text>
+            <text class="annotation-label" text-anchor="middle" x="252" y="104">ab</text>
+            <text class="tick-label" text-anchor="middle" x="252" y="122">3 × 2 = 6</text>
+            <text class="annotation-label" text-anchor="middle" x="132" y="224">ab</text>
+            <text class="tick-label" text-anchor="middle" x="132" y="242">2 × 3 = 6</text>
+            <text class="annotation-label" text-anchor="middle" x="252" y="224">b²</text>
+            <text class="tick-label" text-anchor="middle" x="252" y="242">2 × 2 = 4</text>
+            <text class="annotation-label" text-anchor="middle" x="190" y="304">(3 + 2)² = 9 + 6 + 6 + 4 = 25</text>
+          </svg>
+        `,
+        notes: [
+          'Le carre de cote $(a+b)$ se decoupe en 4 rectangles : un carre $a^2$, un carre $b^2$, et deux rectangles identiques d\'aire $ab$.',
+          'Les deux rectangles $ab$ ont la meme aire : c\'est exactement le terme $2ab$ souvent oublie dans $(a+b)^2 = a^2 + 2ab + b^2$.',
+          'Avec $a = 3$ et $b = 2$ : $9 + 6 + 6 + 4 = 25$, ce qui correspond bien a $(3+2)^2 = 5^2 = 25$.'
+        ],
+        reading: 'L\'aire totale du grand carre, $(a+b)^2$, est la somme des 4 aires internes : c\'est une preuve visuelle de l\'identite remarquable.',
+        caption: 'Découpage géométrique de $(a+b)^2 = a^2 + 2ab + b^2$, illustré avec $a = 3$ et $b = 2$ (exemple repris de la méthode).'
+      },
       recap: [
         '<strong>Ne jamais oublier $2ab$</strong> : $(a+b)^2 = a^2 + \\boldsymbol{2ab} + b^2$. L\'erreur $(a+b)^2 = a^2 + b^2$ est la plus fréquente en algèbre.',
         '<strong>$(a+b)(a-b) = a^2 - b^2$</strong> : identité idéale pour le calcul mental ($99 \\times 101 = 10000 - 1$) et pour factoriser une différence de deux carrés.',

@@ -44,7 +44,78 @@
         'Série de $n$ valeurs ordonnées : $Me = x_{(n+1)/2}$ si $n$ impair',
         'Si $n$ pair : $Me = \\dfrac{x_{n/2} + x_{n/2+1}}{2}$'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Indicateur</th><th style="border:1px solid var(--border);padding:6px 14px">Position</th><th style="border:1px solid var(--border);padding:6px 14px">Sensible aux extrêmes ?</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Moyenne</td><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{\\sum x_i}{n}$</td><td style="border:1px solid var(--border);padding:6px 14px">Oui</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Médiane ($Me$)</td><td style="border:1px solid var(--border);padding:6px 14px">Valeur centrale ($50\\%$)</td><td style="border:1px solid var(--border);padding:6px 14px">Non (robuste)</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$Q_1$</td><td style="border:1px solid var(--border);padding:6px 14px">$25\\%$ des données</td><td style="border:1px solid var(--border);padding:6px 14px">Non</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$Q_3$</td><td style="border:1px solid var(--border);padding:6px 14px">$75\\%$ des données</td><td style="border:1px solid var(--border);padding:6px 14px">Non</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Boîte à moustaches',
+        title: 'Les 8 temps au 100 m : de la série à la boîte à moustaches',
+        description: 'Série ordonnée (en secondes) : $11{,}2\\,;\\,11{,}5\\,;\\,11{,}8\\,;\\,12{,}0\\,;\\,12{,}3\\,;\\,12{,}7\\,;\\,13{,}5\\,;\\,14{,}1$. La boîte va de $Q_1 = 11{,}65$ à $Q_3 = 13{,}1$, coupée par la médiane $Me = 12{,}15$, avec des moustaches jusqu\'au minimum et au maximum.',
+        svg: `
+          <svg viewBox="0 0 490 230" role="img" aria-labelledby="stats-boxplot-title stats-boxplot-desc">
+            <title id="stats-boxplot-title">Boite a moustaches des temps de 8 coureurs au 100 m</title>
+            <desc id="stats-boxplot-desc">Huit points representant les temps ordonnes sont places au dessus d'une boite a moustaches allant du minimum 11,2 au maximum 14,1 secondes, avec la boite entre le premier quartile 11,65 et le troisieme quartile 13,1, coupee par la mediane 12,15.</desc>
+            <line class="grid-line" x1="60.0" y1="40" x2="60.0" y2="170"></line>
+            <line class="grid-line" x1="112.9" y1="40" x2="112.9" y2="170"></line>
+            <line class="grid-line" x1="165.7" y1="40" x2="165.7" y2="170"></line>
+            <line class="grid-line" x1="218.6" y1="40" x2="218.6" y2="170"></line>
+            <line class="grid-line" x1="271.4" y1="40" x2="271.4" y2="170"></line>
+            <line class="grid-line" x1="324.3" y1="40" x2="324.3" y2="170"></line>
+            <line class="grid-line" x1="377.1" y1="40" x2="377.1" y2="170"></line>
+            <line class="grid-line" x1="430.0" y1="40" x2="430.0" y2="170"></line>
+            <text class="label-soft" x="60" y="26">Les 8 temps mesurés (s)</text>
+            <circle class="plot-point-alt" cx="81.1" cy="45" r="3"></circle>
+            <circle class="plot-point-alt" cx="112.9" cy="45" r="3"></circle>
+            <circle class="plot-point-alt" cx="144.6" cy="45" r="3"></circle>
+            <circle class="plot-point-alt" cx="165.7" cy="45" r="3"></circle>
+            <circle class="plot-point-alt" cx="197.4" cy="45" r="3"></circle>
+            <circle class="plot-point-alt" cx="239.7" cy="45" r="3"></circle>
+            <circle class="plot-point-alt" cx="324.3" cy="45" r="3"></circle>
+            <circle class="plot-point-alt" cx="387.7" cy="45" r="3"></circle>
+            <line class="axis" x1="81.1" y1="110" x2="128.7" y2="110"></line>
+            <line class="axis" x1="282.0" y1="110" x2="387.7" y2="110"></line>
+            <line class="axis" x1="81.1" y1="100" x2="81.1" y2="120"></line>
+            <line class="axis" x1="387.7" y1="100" x2="387.7" y2="120"></line>
+            <rect class="frame-line" x="128.7" y="90" width="153.3" height="40" fill="color-mix(in srgb, var(--diagram-accent) 12%, transparent)"></rect>
+            <line class="curve-main" x1="181.6" y1="90" x2="181.6" y2="130"></line>
+            <circle class="plot-point-alt" cx="81.1" cy="110" r="4"></circle>
+            <circle class="plot-point" cx="181.6" cy="110" r="4"></circle>
+            <circle class="plot-point-alt" cx="387.7" cy="110" r="4"></circle>
+            <text class="tick-label" x="128.7" y="84" text-anchor="middle">Q1</text>
+            <text class="annotation-label" x="181.6" y="84" text-anchor="middle">Médiane</text>
+            <text class="tick-label" x="282.0" y="84" text-anchor="middle">Q3</text>
+            <text class="tick-label" x="81.1" y="145" text-anchor="end">Min : 11,2 s</text>
+            <text class="tick-label" x="128.7" y="145" text-anchor="middle">11,65 s</text>
+            <text class="annotation-label" x="181.6" y="145" text-anchor="middle">12,15 s</text>
+            <text class="tick-label" x="282.0" y="145" text-anchor="middle">13,1 s</text>
+            <text class="tick-label" x="387.7" y="145" text-anchor="start">Max : 14,1 s</text>
+            <line class="axis" x1="30" y1="170" x2="460" y2="170"></line>
+            <line class="axis" x1="60.0" y1="170" x2="60.0" y2="176"></line>
+            <line class="axis" x1="112.9" y1="170" x2="112.9" y2="176"></line>
+            <line class="axis" x1="165.7" y1="170" x2="165.7" y2="176"></line>
+            <line class="axis" x1="218.6" y1="170" x2="218.6" y2="176"></line>
+            <line class="axis" x1="271.4" y1="170" x2="271.4" y2="176"></line>
+            <line class="axis" x1="324.3" y1="170" x2="324.3" y2="176"></line>
+            <line class="axis" x1="377.1" y1="170" x2="377.1" y2="176"></line>
+            <line class="axis" x1="430.0" y1="170" x2="430.0" y2="176"></line>
+            <text class="tick-label" x="60.0" y="188" text-anchor="middle">11,0</text>
+            <text class="tick-label" x="112.9" y="188" text-anchor="middle">11,5</text>
+            <text class="tick-label" x="165.7" y="188" text-anchor="middle">12,0</text>
+            <text class="tick-label" x="218.6" y="188" text-anchor="middle">12,5</text>
+            <text class="tick-label" x="271.4" y="188" text-anchor="middle">13,0</text>
+            <text class="tick-label" x="324.3" y="188" text-anchor="middle">13,5</text>
+            <text class="tick-label" x="377.1" y="188" text-anchor="middle">14,0</text>
+            <text class="tick-label" x="430.0" y="188" text-anchor="middle">14,5</text>
+            <text class="tick-label" x="460" y="205" text-anchor="end">Temps (s)</text>
+          </svg>
+        `,
+        notes: [
+          'Série ordonnée : $11{,}2\\,;\\,11{,}5\\,;\\,11{,}8\\,;\\,12{,}0\\,;\\,12{,}3\\,;\\,12{,}7\\,;\\,13{,}5\\,;\\,14{,}1$ (les 8 points au-dessus de la boîte).',
+          '$n = 8$ (pair) → $Me = \\dfrac{x_4 + x_5}{2} = \\dfrac{12{,}0 + 12{,}3}{2} = 12{,}15$ s (trait épais dans la boîte).',
+          'La boîte va de $Q_1 = 11{,}65$ s à $Q_3 = 13{,}1$ s : elle contient les $50\\%$ centraux des temps.',
+          'Les moustaches relient la boîte au minimum ($11{,}2$ s) et au maximum ($14{,}1$ s).'
+        ],
+        reading: 'La largeur de la boîte, $IQR = Q_3 - Q_1 = 13{,}1 - 11{,}65 = 1{,}45$ s, mesure la dispersion des temps centraux sans être influencée par le coureur le plus lent.',
+        caption: 'Boîte à moustaches construite à partir des 8 temps réels de l\'exemple du cours.'
+      },
       recap: [
         'Toujours ordonner la série avant de calculer médiane et quartiles.',
         '$n$ impair → la médiane est la valeur centrale ; $n$ pair → c\'est la moyenne des deux valeurs centrales.',

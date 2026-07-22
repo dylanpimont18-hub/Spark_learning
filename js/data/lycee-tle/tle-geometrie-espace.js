@@ -10,7 +10,7 @@ window.MODULES.push({
     title: 'Géométrie dans l\'espace',
     subtitle: 'Vecteurs, droites et plans de l\'espace',
     keywords: ['Espace', 'Vecteur', 'Plan', 'Droite', 'Coplanaire', 'Position relative'],
-    physics: true,
+    physics: 'Modélisation de trajectoires et de forces dans l\'espace, robotique et conception assistée par ordinateur (CAO)',
     cours: {
       intro: 'En 3D, les droites et plans se comportent de façon plus riche qu\'en 2D. <strong>Deux droites peuvent être</strong> : sécantes (se croisent), parallèles, ou <strong>GAUCHES</strong> — ni parallèles ni sécantes, passant "l\'une au-dessus de l\'autre".<br/><br/><strong>Les droites gauches n\'existent pas en 2D</strong> : c\'est le principal piège de la géométrie spatiale. Deux droites croisant le même point n\'en définissent pas toujours un plan unique.<br/><br/>Un <strong>plan</strong> est défini par son <strong>vecteur NORMAL</strong> $\\vec{n}(a;b;c)$ (perpendiculaire au plan) et son équation $ax+by+cz+d=0$. Une droite est perpendiculaire à un plan si son vecteur directeur est colinéaire au vecteur normal.<br/><br/><strong>Cas fondamental</strong> : vérifier si deux droites se croisent nécessite de résoudre le système paramétrique et d\'examiner la cohérence des solutions.',
       definitions: [
@@ -44,6 +44,107 @@ window.MODULES.push({
         '$\\vec{u}\\perp\\vec{v} \\Leftrightarrow \\vec{u}\\cdot\\vec{v}=0$',
         '$\\|\\vec{u}\\|=\\sqrt{x^2+y^2+z^2}$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Positions relatives dans l\'espace',
+        title: 'Sécantes, parallèles ou gauches : trois arêtes d\'un même cube',
+        description: 'Sur un cube $ABCDEFGH$, l\'arête $(AB)$ est comparée successivement à $(BC)$, à $(EF)$ puis à $(CG)$ pour illustrer les trois positions relatives possibles de deux droites dans l\'espace.',
+        svg: `
+          <svg viewBox="0 0 780 330" role="img" aria-labelledby="espace-diagram-title espace-diagram-desc">
+            <title id="espace-diagram-title">Trois positions relatives de droites dans l'espace, sur un cube</title>
+            <desc id="espace-diagram-desc">Trois cubes identiques en perspective cavaliere ABCDEFGH. Panneau 1 : les aretes (AB) et (BC) sont secantes, elles se croisent au sommet B. Panneau 2 : les aretes (AB) et (EF) sont paralleles, meme direction horizontale a des hauteurs differentes, elles ne se rencontrent jamais. Panneau 3 : les aretes (AB) et (CG) sont gauches, ni paralleles ni secantes, non coplanaires.</desc>
+
+            <!-- separateurs entre panneaux -->
+            <line class="grid-line" x1="245" y1="25" x2="245" y2="290"></line>
+            <line class="grid-line" x1="515" y1="25" x2="515" y2="290"></line>
+
+            <!-- ===================== PANNEAU 1 : SECANTES ===================== -->
+            <text class="annotation-label" x="110" y="40" text-anchor="middle">1. Sécantes</text>
+            <!-- aretes cachees -->
+            <line class="guide-line" x1="85" y1="225" x2="60" y2="250"></line>
+            <line class="guide-line" x1="155" y1="225" x2="85" y2="225"></line>
+            <line class="guide-line" x1="85" y1="225" x2="85" y2="155"></line>
+            <!-- aretes visibles non mises en evidence -->
+            <line class="frame-line" x1="130" y1="250" x2="130" y2="180"></line>
+            <line class="frame-line" x1="60" y1="250" x2="60" y2="180"></line>
+            <line class="frame-line" x1="60" y1="180" x2="130" y2="180"></line>
+            <line class="frame-line" x1="85" y1="155" x2="60" y2="180"></line>
+            <line class="frame-line" x1="130" y1="180" x2="155" y2="155"></line>
+            <line class="frame-line" x1="155" y1="155" x2="85" y2="155"></line>
+            <line class="frame-line" x1="155" y1="225" x2="155" y2="155"></line>
+            <!-- paire etudiee : (AB) et (BC), secantes en B -->
+            <line class="curve-main" x1="60" y1="250" x2="130" y2="250"></line>
+            <line class="curve-main" x1="130" y1="250" x2="155" y2="225"></line>
+            <circle class="plot-point-alt" cx="60" cy="250" r="4"></circle>
+            <circle class="plot-point" cx="130" cy="250" r="5"></circle>
+            <circle class="plot-point-alt" cx="155" cy="225" r="4"></circle>
+            <text class="label-soft" x="48" y="266" text-anchor="middle">A</text>
+            <text class="annotation-label" x="140" y="266" text-anchor="start">B</text>
+            <text class="label-soft" x="168" y="220" text-anchor="start">C</text>
+            <text class="label-soft" x="110" y="282" text-anchor="middle">(AB) et (BC)</text>
+
+            <!-- ===================== PANNEAU 2 : PARALLELES ===================== -->
+            <text class="annotation-label" x="380" y="40" text-anchor="middle">2. Parallèles</text>
+            <line class="guide-line" x1="355" y1="225" x2="330" y2="250"></line>
+            <line class="guide-line" x1="425" y1="225" x2="355" y2="225"></line>
+            <line class="guide-line" x1="355" y1="225" x2="355" y2="155"></line>
+            <line class="frame-line" x1="400" y1="250" x2="425" y2="225"></line>
+            <line class="frame-line" x1="400" y1="250" x2="400" y2="180"></line>
+            <line class="frame-line" x1="330" y1="250" x2="330" y2="180"></line>
+            <line class="frame-line" x1="425" y1="225" x2="425" y2="155"></line>
+            <line class="frame-line" x1="400" y1="180" x2="425" y2="155"></line>
+            <line class="frame-line" x1="425" y1="155" x2="355" y2="155"></line>
+            <line class="frame-line" x1="355" y1="155" x2="330" y2="180"></line>
+            <!-- paire etudiee : (AB) et (EF), paralleles -->
+            <line class="curve-main" x1="330" y1="250" x2="400" y2="250"></line>
+            <line class="curve-main" x1="330" y1="180" x2="400" y2="180"></line>
+            <circle class="plot-point-alt" cx="330" cy="250" r="4"></circle>
+            <circle class="plot-point-alt" cx="400" cy="250" r="4"></circle>
+            <circle class="plot-point-alt" cx="330" cy="180" r="4"></circle>
+            <circle class="plot-point-alt" cx="400" cy="180" r="4"></circle>
+            <text class="label-soft" x="318" y="266" text-anchor="middle">A</text>
+            <text class="label-soft" x="412" y="266" text-anchor="start">B</text>
+            <text class="label-soft" x="316" y="176" text-anchor="end">E</text>
+            <text class="label-soft" x="414" y="176" text-anchor="start">F</text>
+            <text class="label-soft" x="380" y="282" text-anchor="middle">(AB) et (EF)</text>
+
+            <!-- ===================== PANNEAU 3 : GAUCHES ===================== -->
+            <text class="annotation-label" x="650" y="40" text-anchor="middle">3. Gauches (non coplanaires)</text>
+            <line class="guide-line" x1="625" y1="225" x2="600" y2="250"></line>
+            <line class="guide-line" x1="695" y1="225" x2="625" y2="225"></line>
+            <line class="guide-line" x1="625" y1="225" x2="625" y2="155"></line>
+            <line class="frame-line" x1="670" y1="250" x2="695" y2="225"></line>
+            <line class="frame-line" x1="670" y1="250" x2="670" y2="180"></line>
+            <line class="frame-line" x1="600" y1="250" x2="600" y2="180"></line>
+            <line class="frame-line" x1="600" y1="180" x2="670" y2="180"></line>
+            <line class="frame-line" x1="625" y1="155" x2="600" y2="180"></line>
+            <line class="frame-line" x1="670" y1="180" x2="695" y2="155"></line>
+            <line class="frame-line" x1="695" y1="155" x2="625" y2="155"></line>
+            <!-- paire etudiee : (AB) et (CG), gauches -->
+            <line class="curve-main" x1="600" y1="250" x2="670" y2="250"></line>
+            <line class="curve-main" x1="695" y1="225" x2="695" y2="155"></line>
+            <circle class="plot-point-alt" cx="600" cy="250" r="4"></circle>
+            <circle class="plot-point-alt" cx="670" cy="250" r="4"></circle>
+            <circle class="plot-point-alt" cx="695" cy="225" r="4"></circle>
+            <circle class="plot-point-alt" cx="695" cy="155" r="4"></circle>
+            <text class="label-soft" x="588" y="266" text-anchor="middle">A</text>
+            <text class="label-soft" x="682" y="266" text-anchor="start">B</text>
+            <text class="label-soft" x="710" y="220" text-anchor="start">C</text>
+            <text class="label-soft" x="712" y="150" text-anchor="start">G</text>
+            <text class="label-soft" x="650" y="282" text-anchor="middle">(AB) et (CG)</text>
+
+            <text class="label-soft" x="390" y="312" text-anchor="middle">trait fin = arête visible du cube · pointillé = arête cachée · trait épais = paire de droites étudiée</text>
+          </svg>
+        `,
+        notes: [
+          'Sur le cube $ABCDEFGH$, les arêtes $(AB)$ et $(BC)$ sont <strong>sécantes</strong> : elles partagent le sommet $B$, leur unique point commun.',
+          'Les arêtes $(AB)$ et $(EF)$ sont <strong>parallèles</strong> : même direction (arêtes horizontales du cube), mais situées à des hauteurs différentes — elles ne se rencontrent donc jamais.',
+          'Les arêtes $(AB)$ et $(CG)$ sont <strong>gauches</strong> (non coplanaires) : $(AB)$ est horizontale et $(CG)$ est verticale — deux directions non colinéaires — et pourtant ces deux droites ne se croisent à aucun endroit.',
+          'Piège classique : $(AB)$ et $(CG)$ ne sont pas parallèles, mais l\'absence de parallélisme ne suffit pas à conclure qu\'elles sont sécantes — c\'est exactement la définition de deux droites gauches, un cas qui n\'existe qu\'à partir de la dimension $3$.'
+        ],
+        reading: 'Repère d\'abord l\'arête commune $(AB)$, présente dans les trois panneaux : elle sert de référence pour comparer sa position par rapport à $(BC)$, puis $(EF)$, puis $(CG)$.',
+        caption: 'Trois positions relatives de deux droites dans l\'espace, illustrées sur un même cube $ABCDEFGH$ : $(AB)$/$(BC)$ sécantes en $B$, $(AB)$/$(EF)$ parallèles, $(AB)$/$(CG)$ gauches (non coplanaires).'
+      },
       recap: [
         'Un plan est défini par son <strong>vecteur normal</strong> $\\vec{n}(a;b;c)$ et son équation $ax+by+cz+d=0$.',
         'En 3D, deux droites non parallèles peuvent être <strong>gauches</strong> : ni parallèles, ni sécantes. Toujours vérifier l\'existence d\'une intersection.',
@@ -53,7 +154,7 @@ window.MODULES.push({
       piege: 'En 3D, deux droites non parallèles peuvent être gauches (elles ne se croisent pas).<br/><br/>Avant de conclure qu\'elles sont sécantes, il faut résoudre le système et vérifier qu\'il admet une solution.'
     },
     quiz: [
-      { q: 'Dans l\'espace, deux droites non parallèles se croisent forcément. Cette affirmation est :', options: ['FAUSSE : deux droites non parallèles peuvent être "gauches" (ni parallèles ni sécantes, elles passent l\'une au-dessus de l\'autre)', 'Vraie : si deux droites ne sont pas parallèles, elles ont forcément un point commun', 'Vraie seulement si les deux droites sont dans le même plan', 'Vraie en 3D, fausse en 2D'], answer: 0, correction: 'En 3D, deux droites non parallèles peuvent être GAUCHES : elles ne sont pas parallèles (directions distinctes) mais ne se croisent pas non plus. Exemple simple : l\'axe $x$ ($z=0$, $y=0$) et la droite $y=1$, $z=1$ ont des directions distinctes mais ne se rencontrent jamais. En 2D, ce cas n\'existe pas car deux droites non parallèles se croisent toujours en un point.' },
+      { q: 'Dans l\'espace, deux droites non parallèles se croisent forcément. Cette affirmation est :', options: ['FAUSSE : deux droites non parallèles peuvent être "gauches" (ni parallèles ni sécantes, elles passent l\'une au-dessus de l\'autre)', 'Vraie : si deux droites ne sont pas parallèles, elles ont forcément un point commun', 'Vraie seulement si les deux droites sont dans le même plan', 'Vraie en 3D, fausse en 2D'], answer: 0, correction: 'En 3D, deux droites non parallèles peuvent être GAUCHES : elles ne sont pas parallèles (directions distinctes) mais ne se croisent pas non plus. Exemple simple : l\'axe $x$ ($y=0$, $z=0$, direction $(1;0;0)$) et la droite $x=0$, $z=1$ (direction $(0;1;0)$) ont des directions distinctes mais ne se rencontrent jamais, car $z$ vaut $0$ sur l\'une et $1$ sur l\'autre. En 2D, ce cas n\'existe pas car deux droites non parallèles se croisent toujours en un point.' },
       { q: '$\\vec{u}(1;2;-1)\\cdot\\vec{v}(2;-1;0)=$ ?', options: ['$0$', '$3$', '$-3$', '$1$'], answer: 0, correction: '$1\\times2+2\\times(-1)+(-1)\\times0=2-2+0=0$. Les vecteurs sont orthogonaux !' },
       { q: 'La norme de $\\vec{u}(3;0;4)$ est :', options: ['$7$', '$5$', '$25$', '$\\sqrt{7}$'], answer: 1, correction: '$\\|\\vec{u}\\|=\\sqrt{9+0+16}=\\sqrt{25}=5$.<br/><br/>On applique la formule $\\|\\vec{u}\\| = \\sqrt{x^2+y^2+z^2}$ en additionnant les carrés des trois coordonnées.' },
       { q: 'Le plan $\\mathcal{P}$ a pour équation $3x - y + 2z + 5 = 0$. Son vecteur normal est :', options: ['$\\vec{n}(3;-1;2)$', '$\\vec{n}(3;1;2)$', '$\\vec{n}(3;-1;5)$', '$\\vec{n}(5;-1;2)$'], answer: 0, correction: 'Le vecteur normal au plan $ax+by+cz+d=0$ est $\\vec{n}(a;b;c)$.<br/><br/>On lit directement les coefficients de $x$, $y$ et $z$ : ici $a=3$, $b=-1$, $c=2$. La constante $d=5$ ne fait pas partie du vecteur normal.' },

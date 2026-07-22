@@ -42,6 +42,78 @@ window.MODULES.push({
         '$P(A\\cap B) = P(B)\\times P(A|B)$',
         '$A$ et $B$ indépendants $\\Leftrightarrow P(A\\cap B)=P(A)\\times P(B)$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Arbre pondéré à deux niveaux',
+        title: 'Arbre de probabilité — sport et moyenne en maths',
+        description: 'Sur l\'exemple du cours : $40\\%$ des élèves pratiquent un sport ($S$). Parmi les sportifs, $70\\%$ ont la moyenne ($M$) ; parmi les non-sportifs, $50\\%$ ont la moyenne. Le chemin en couleur (racine $\\to S \\to M$) est celui qui donne $P(S\\cap M)$.',
+        svg: `
+          <svg viewBox="0 0 720 400" role="img" aria-labelledby="probas-arbre-title probas-arbre-desc">
+            <title id="probas-arbre-title">Arbre pondere a deux niveaux, exemple sport et moyenne en maths</title>
+            <desc id="probas-arbre-desc">Arbre de probabilite a deux niveaux. Niveau 1 : depuis la racine, deux branches, S (sport) avec probabilite 0,4 et non S avec probabilite 0,6. Niveau 2 : sous S, deux branches, M (moyenne) avec probabilite 0,7 et non M avec probabilite 0,3 ; sous non S, deux branches, M avec probabilite 0,5 et non M avec probabilite 0,5. Le chemin racine vers S vers M est mis en evidence en trait plein colore et aboutit a l'intersection S inter M dont la probabilite vaut 0,4 fois 0,7 soit 0,28. Les trois autres chemins sont en pointilles : S inter non M egale 0,12, non S inter M egale 0,30, non S inter non M egale 0,30. La somme des quatre chemins vaut 1.</desc>
+
+            <!-- repères de colonnes -->
+            <line class="grid-line" x1="250" y1="10" x2="250" y2="390"></line>
+            <line class="grid-line" x1="470" y1="10" x2="470" y2="390"></line>
+            <text class="tick-label" x="250" y="18" text-anchor="middle">Niveau 1 — sport (S)</text>
+            <text class="tick-label" x="470" y="18" text-anchor="middle">Niveau 2 — moyenne (M) sachant S</text>
+
+            <!-- branches niveau 1 -->
+            <line class="curve-main" x1="60" y1="200" x2="250" y2="90"></line>
+            <line class="guide-line" x1="60" y1="200" x2="250" y2="310"></line>
+
+            <!-- branches niveau 2 -->
+            <line class="curve-main" x1="250" y1="90" x2="470" y2="35"></line>
+            <line class="guide-line" x1="250" y1="90" x2="470" y2="145"></line>
+            <line class="guide-line" x1="250" y1="310" x2="470" y2="255"></line>
+            <line class="guide-line" x1="250" y1="310" x2="470" y2="365"></line>
+
+            <!-- probabilites sur les branches (valeur seule, l'evenement se lit au noeud d'arrivee) -->
+            <text class="annotation-label" x="136" y="132" text-anchor="middle">0,4</text>
+            <text class="tick-label" x="136" y="266" text-anchor="middle">0,6</text>
+            <text class="annotation-label" x="338" y="50" text-anchor="middle">0,7</text>
+            <text class="tick-label" x="338" y="130" text-anchor="middle">0,3</text>
+            <text class="tick-label" x="338" y="270" text-anchor="middle">0,5</text>
+            <text class="tick-label" x="338" y="350" text-anchor="middle">0,5</text>
+
+            <!-- noeuds -->
+            <circle class="plot-point" cx="60" cy="200" r="7"></circle>
+            <text class="annotation-label" x="45" y="195" text-anchor="end">Ω</text>
+
+            <circle class="plot-point" cx="250" cy="90" r="7"></circle>
+            <text class="annotation-label" x="235" y="80" text-anchor="end">S</text>
+
+            <circle class="plot-point-alt" cx="250" cy="310" r="6"></circle>
+            <text class="tick-label" x="235" y="330" text-anchor="end">non S</text>
+
+            <circle class="plot-point" cx="470" cy="35" r="8"></circle>
+            <text class="annotation-label" x="484" y="30" text-anchor="start">M</text>
+
+            <circle class="plot-point-alt" cx="470" cy="145" r="6"></circle>
+            <text class="tick-label" x="484" y="150" text-anchor="start">non M</text>
+
+            <circle class="plot-point-alt" cx="470" cy="255" r="6"></circle>
+            <text class="tick-label" x="484" y="260" text-anchor="start">M</text>
+
+            <circle class="plot-point-alt" cx="470" cy="365" r="6"></circle>
+            <text class="tick-label" x="484" y="370" text-anchor="start">non M</text>
+
+            <!-- chemins et intersections -->
+            <text class="annotation-label" x="545" y="30" text-anchor="start" style="fill:var(--diagram-accent)">S∩M = 0,28</text>
+            <text class="tick-label" x="545" y="150" text-anchor="start">S∩(non M) = 0,12</text>
+            <text class="tick-label" x="545" y="260" text-anchor="start">(non S)∩M = 0,30</text>
+            <text class="tick-label" x="545" y="370" text-anchor="start">(non S)∩(non M) = 0,30</text>
+          </svg>
+        `,
+        notes: [
+          'Niveau 1 : $P(S) = 0{,}4$ et $P(\\bar{S}) = 0{,}6$ — la somme des deux branches vaut bien $1$.',
+          'Niveau 2 sous $S$ : $P(M|S) = 0{,}7$ et $P(\\bar{M}|S) = 0{,}3$ (somme $=1$). Sous $\\bar{S}$ : $P(M|\\bar{S}) = 0{,}5$ et $P(\\bar{M}|\\bar{S}) = 0{,}5$ (somme $=1$).',
+          'Chemin mis en évidence : $P(S\\cap M) = P(S)\\times P(M|S) = 0{,}4 \\times 0{,}7 = 0{,}28$ — la multiplication le long des branches.',
+          'Les quatre chemins somment à $1$ : $0{,}28+0{,}12+0{,}30+0{,}30=1$, ce qui redonne $P(M)=0{,}28+0{,}30=0{,}58$, retrouvé dans l\'exemple du cours.'
+        ],
+        reading: 'Multiplie les probabilités le long d\'un chemin (racine → branche 1 → branche 2) pour obtenir la probabilité d\'une intersection ; le chemin en trait plein coloré, racine → $S$ → $M$, donne $P(S\\cap M) = 0{,}28$.',
+        caption: 'Arbre pondéré à deux niveaux de l\'exemple du cours : $P(S)=0{,}4$, $P(M|S)=0{,}7$, $P(M|\\bar{S})=0{,}5$. Chemin $S\\cap M$ mis en évidence, avec $P(S\\cap M)=0{,}28$.'
+      },
       recap: [
         '$P(A|B) \\neq P(B|A)$ en général : ne <strong>jamais</strong> inverser les conditionnements sans Bayes.',
         'Sur un arbre : multiplier le long d\'un chemin, additionner les chemins menant au même événement.',

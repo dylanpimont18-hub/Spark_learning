@@ -40,7 +40,52 @@ window.MODULES.push({
         ],
         answer: '$15{,}2 - 6{,}75 = 8{,}45$'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Opération</th><th style="border:1px solid var(--border);padding:8px">Propriété</th><th style="border:1px solid var(--border);padding:8px">Formule</th></tr><tr><td style="border:1px solid var(--border);padding:8px">Addition</td><td style="border:1px solid var(--border);padding:8px">Commutative + Associative</td><td style="border:1px solid var(--border);padding:8px">$a + b = b + a$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Soustraction</td><td style="border:1px solid var(--border);padding:8px">Non commutative</td><td style="border:1px solid var(--border);padding:8px">Vérif : $(a - b) + b = a$</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Addition et soustraction',
+        title: 'Poser une soustraction décimale avec retenues',
+        description: 'Sur l\'exemple du cours $15{,}20 - 6{,}75$, les virgules sont alignées et chaque emprunt se lit colonne par colonne jusqu\'au résultat $8{,}45$.',
+        svg: `
+          <svg viewBox="0 0 360 240" role="img" aria-labelledby="add-soustr-title add-soustr-desc">
+            <title id="add-soustr-title">Soustraction posee de 15,20 par 6,75</title>
+            <desc id="add-soustr-desc">Le schema montre la soustraction posee de 15,20 par 6,75 colonne par colonne, avec virgules alignees, emprunts successifs et resultat 8,45.</desc>
+            <line class="guide-line" x1="170" y1="52" x2="170" y2="222"></line>
+            <rect x="50" y="14" width="260" height="32" rx="12" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
+            <text class="annotation-label" x="64" y="35">Etape cle : aligner les virgules</text>
+            <text class="tick-label" x="100" y="60">Diz.</text>
+            <text class="tick-label" x="140" y="60">Unites</text>
+            <text class="tick-label" x="188" y="60">Dix.</text>
+            <text class="tick-label" x="220" y="60">Cent.</text>
+            <text class="annotation-label" x="106" y="95">1</text>
+            <text class="annotation-label" x="146" y="95">5</text>
+            <text class="annotation-label" x="166" y="95">,</text>
+            <text class="annotation-label" x="196" y="95">2</text>
+            <text class="annotation-label" x="231" y="95">0</text>
+            <text class="annotation-label" x="70" y="135">-</text>
+            <text class="annotation-label" x="146" y="135">6</text>
+            <text class="annotation-label" x="166" y="135">,</text>
+            <text class="annotation-label" x="196" y="135">7</text>
+            <text class="annotation-label" x="231" y="135">5</text>
+            <line class="frame-line" x1="65" y1="150" x2="255" y2="150"></line>
+            <text class="tick-label" x="126" y="172">14-6=8</text>
+            <text class="tick-label" x="178" y="172">11-7=4</text>
+            <text class="tick-label" x="216" y="172">10-5=5</text>
+            <rect x="125" y="186" width="130" height="40" rx="12" fill="color-mix(in srgb, var(--diagram-accent) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 30%, var(--border))"></rect>
+            <text class="annotation-label" x="146" y="212">8</text>
+            <text class="annotation-label" x="166" y="212">,</text>
+            <text class="annotation-label" x="196" y="212">4</text>
+            <text class="annotation-label" x="231" y="212">5</text>
+          </svg>
+        `,
+        notes: [
+          'On complète $15{,}2$ en $15{,}20$ pour avoir autant de décimales que $6{,}75$, puis on aligne les virgules avant tout calcul.',
+          'Centièmes : $0 - 5$ est impossible, on emprunte $1$ dixième : $10 - 5 = 5$.',
+          'Dixièmes : après avoir prêté $1$, il reste $1$ dixième pour $7$ ; on emprunte à nouveau à la colonne des unités : $11 - 7 = 4$.',
+          'Unités : après avoir prêté $1$, il reste $4$ unités pour $6$ ; on emprunte à la dizaine : $14 - 6 = 8$.'
+        ],
+        reading: 'Le résultat se lit directement sous la barre, colonne par colonne : unités, dixièmes puis centièmes, dans le même ordre que le calcul.',
+        caption: 'Soustraction posée sur l\'exemple du cours : $15{,}20 - 6{,}75 = 8{,}45$.'
+      },
       formulas: [
         '$a + b = b + a$ (commutativité)',
         '$(a + b) + c = a + (b + c)$ (associativité)',

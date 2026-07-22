@@ -157,6 +157,7 @@ function renderCours(mod) {
       </div>
       ` : ''}
 
+      ${mod.physics ? `
       <div class="cours-section">
         <h2 class="cours-section-title">${subjectDef.applicationIcon} ${subjectDef.applicationLabel}</h2>
         <div style="padding:14px 18px;background:color-mix(in srgb,var(--secondary) 10%, var(--bg-card));border-radius:var(--radius);border:1px solid color-mix(in srgb,var(--secondary) 25%,transparent);font-size:0.92rem;line-height:1.6;">
@@ -165,6 +166,7 @@ function renderCours(mod) {
           <em>Mots-clés associés :</em> ${mod.keywords.map(k => `<span class="badge badge-secondary" style="margin:2px;">${k}</span>`).join('')}
         </div>
       </div>
+      ` : ''}
 
       <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">
         <button class="btn btn-primary" onclick="switchTab('quiz')">

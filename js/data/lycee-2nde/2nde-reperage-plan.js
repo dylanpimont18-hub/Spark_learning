@@ -41,6 +41,70 @@ window.MODULES.push({
         '$AB = \\sqrt{(x_B-x_A)^2+(y_B-y_A)^2}$',
         '$M = \\left(\\dfrac{x_A+x_B}{2};\\dfrac{y_A+y_B}{2}\\right)$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Repère orthonormé',
+        title: 'Voir le triangle des écarts entre deux points',
+        description: 'Avec $A(-2 ; 3)$ et $B(4 ; -1)$, le triangle rectangle formé par $\\Delta x$ et $\\Delta y$ rend visible la formule de la distance $AB = \\sqrt{\\Delta x^2 + \\Delta y^2}$ et prépare le calcul du milieu $M$.',
+        svg: `
+          <svg viewBox="0 0 380 300" role="img" aria-labelledby="reperage2nde-graph-title reperage2nde-graph-desc">
+            <title id="reperage2nde-graph-title">Repere avec deux points et le triangle des ecarts</title>
+            <desc id="reperage2nde-graph-desc">Repere orthonorme avec les points A(-2;3) et B(4;-1), et le triangle rectangle forme par les ecarts delta x et delta y entre les deux points.</desc>
+            <line class="grid-line" x1="40" y1="20" x2="40" y2="236"></line>
+            <line class="grid-line" x1="76" y1="20" x2="76" y2="236"></line>
+            <line class="grid-line" x1="112" y1="20" x2="112" y2="236"></line>
+            <line class="grid-line" x1="184" y1="20" x2="184" y2="236"></line>
+            <line class="grid-line" x1="220" y1="20" x2="220" y2="236"></line>
+            <line class="grid-line" x1="256" y1="20" x2="256" y2="236"></line>
+            <line class="grid-line" x1="292" y1="20" x2="292" y2="236"></line>
+            <line class="grid-line" x1="328" y1="20" x2="328" y2="236"></line>
+            <line class="grid-line" x1="40" y1="20" x2="328" y2="20"></line>
+            <line class="grid-line" x1="40" y1="56" x2="328" y2="56"></line>
+            <line class="grid-line" x1="40" y1="92" x2="328" y2="92"></line>
+            <line class="grid-line" x1="40" y1="128" x2="328" y2="128"></line>
+            <line class="grid-line" x1="40" y1="200" x2="328" y2="200"></line>
+            <line class="grid-line" x1="40" y1="236" x2="328" y2="236"></line>
+            <line class="axis" x1="34" y1="164" x2="344" y2="164"></line>
+            <line class="axis" x1="148" y1="246" x2="148" y2="10"></line>
+            <line class="guide-line" x1="76" y1="56" x2="292" y2="56"></line>
+            <line class="guide-line" x1="292" y1="56" x2="292" y2="200"></line>
+            <line class="curve-main" x1="76" y1="56" x2="292" y2="200"></line>
+            <circle class="plot-point" cx="76" cy="56" r="6"></circle>
+            <circle class="plot-point" cx="292" cy="200" r="6"></circle>
+            <circle class="plot-point-alt" cx="184" cy="128" r="5"></circle>
+            <text class="annotation-label" x="16" y="44">A(-2 ; 3)</text>
+            <text class="annotation-label" x="296" y="222">B(4 ; -1)</text>
+            <text class="annotation-label" x="190" y="146">M(1 ; 1)</text>
+            <text class="annotation-label" x="160" y="48">&#916;x = 6</text>
+            <text class="annotation-label" x="225" y="132">&#916;y = -4</text>
+            <text class="label-soft" x="94" y="94">AB &#8776; 7,21</text>
+            <text class="axis-label" x="348" y="168">x</text>
+            <text class="axis-label" x="152" y="16">y</text>
+            <text class="tick-label" x="34" y="180">-3</text>
+            <text class="tick-label" x="70" y="180">-2</text>
+            <text class="tick-label" x="106" y="180">-1</text>
+            <text class="tick-label" x="180" y="180">1</text>
+            <text class="tick-label" x="216" y="180">2</text>
+            <text class="tick-label" x="252" y="180">3</text>
+            <text class="tick-label" x="288" y="180">4</text>
+            <text class="tick-label" x="324" y="180">5</text>
+            <text class="tick-label" x="126" y="24">4</text>
+            <text class="tick-label" x="126" y="60">3</text>
+            <text class="tick-label" x="126" y="96">2</text>
+            <text class="tick-label" x="126" y="132">1</text>
+            <text class="tick-label" x="130" y="204">-1</text>
+            <text class="tick-label" x="130" y="240">-2</text>
+            <text class="tick-label" x="140" y="176">0</text>
+          </svg>
+        `,
+        notes: [
+          'Le segment horizontal en pointillés mesure $\\Delta x = x_B - x_A = 4 - (-2) = 6$ : c\'est l\'écart entre les deux abscisses.',
+          'Le segment vertical en pointillés mesure $\\Delta y = y_B - y_A = -1 - 3 = -4$ : c\'est l\'écart entre les deux ordonnées (négatif car $B$ est plus bas que $A$).',
+          'La distance $AB$ est l\'hypoténuse de ce triangle rectangle : $AB = \\sqrt{\\Delta x^2 + \\Delta y^2} = \\sqrt{6^2+(-4)^2} = \\sqrt{52} = 2\\sqrt{13} \\approx 7{,}21$.'
+        ],
+        reading: 'Le point $M$ marqué sur $[AB]$ est le milieu : $M\\left(\\dfrac{-2+4}{2} ; \\dfrac{3+(-1)}{2}\\right) = M(1 ; 1)$, exactement au centre du segment.',
+        caption: 'Repère orthonormé avec $A(-2 ; 3)$, $B(4 ; -1)$, le triangle des écarts $\\Delta x$/$\\Delta y$ et le milieu $M(1 ; 1)$, conformément à l\'exemple du cours.'
+      },
       recap: [
         'La distance entre deux points est le théorème de Pythagore appliqué aux écarts de coordonnées.',
         'Le milieu a pour coordonnées la moyenne des abscisses et la moyenne des ordonnées.',

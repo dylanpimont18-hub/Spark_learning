@@ -42,7 +42,50 @@ window.MODULES.push({
         ],
         answer: 'Quotient $= 13$, reste $= 1$.'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Terme</th><th style="border:1px solid var(--border);padding:8px">Symbole</th><th style="border:1px solid var(--border);padding:8px">Exemple ($87 \\div 5$)</th></tr><tr><td style="border:1px solid var(--border);padding:8px">Dividende</td><td style="border:1px solid var(--border);padding:8px">$a$</td><td style="border:1px solid var(--border);padding:8px">$87$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Diviseur</td><td style="border:1px solid var(--border);padding:8px">$b$</td><td style="border:1px solid var(--border);padding:8px">$5$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Quotient</td><td style="border:1px solid var(--border);padding:8px">$q$</td><td style="border:1px solid var(--border);padding:8px">$17$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Reste</td><td style="border:1px solid var(--border);padding:8px">$r$</td><td style="border:1px solid var(--border);padding:8px">$2$</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Division euclidienne',
+        title: 'Poser une division « en potence »',
+        description: 'Sur l\'exemple du cours, $157 = 12 \\times 13 + 1$ : le quotient et le reste s\'obtiennent en descendant les chiffres du dividende un à un.',
+        svg: `
+          <svg viewBox="0 0 360 280" role="img" aria-labelledby="division-graph-title division-graph-desc">
+            <title id="division-graph-title">Division posee de 157 par 12</title>
+            <desc id="division-graph-desc">Le schema montre la division posee en potence de 157 par 12, avec les etapes de soustraction menant au quotient 13 et au reste 1.</desc>
+            <text class="tick-label" x="42" y="30">Dividende</text>
+            <text class="tick-label" x="138" y="30">Diviseur</text>
+            <text class="annotation-label" x="50" y="70">1</text>
+            <text class="annotation-label" x="75" y="70">5</text>
+            <text class="annotation-label" x="100" y="70">7</text>
+            <line class="frame-line" x1="125" y1="45" x2="125" y2="230"></line>
+            <text class="annotation-label" x="145" y="70">12</text>
+            <line class="frame-line" x1="138" y1="85" x2="210" y2="85"></line>
+            <rect x="138" y="95" width="60" height="35" rx="10" fill="color-mix(in srgb, var(--diagram-accent) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 30%, var(--border))"></rect>
+            <text class="annotation-label" x="155" y="118">13</text>
+            <text class="annotation-label" x="30" y="110">-</text>
+            <text class="annotation-label" x="50" y="110">1</text>
+            <text class="annotation-label" x="75" y="110">2</text>
+            <line class="frame-line" x1="35" y1="122" x2="100" y2="122"></line>
+            <text class="annotation-label" x="75" y="150">3</text>
+            <text class="annotation-label" x="100" y="150">7</text>
+            <text class="annotation-label" x="55" y="185">-</text>
+            <text class="annotation-label" x="75" y="185">3</text>
+            <text class="annotation-label" x="100" y="185">6</text>
+            <line class="frame-line" x1="60" y1="197" x2="115" y2="197"></line>
+            <rect x="88" y="204" width="32" height="28" rx="8" fill="color-mix(in srgb, var(--accent) 16%, var(--bg-card))" stroke="color-mix(in srgb, var(--accent) 36%, var(--border))"></rect>
+            <text class="annotation-label" x="98" y="224">1</text>
+            <rect x="30" y="244" width="300" height="28" rx="10" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
+            <text class="annotation-label" x="42" y="263">Verification : 12 x 13 + 1 = 157</text>
+          </svg>
+        `,
+        notes: [
+          '$12$ ne « tient » pas dans $1$, donc on regarde les deux premiers chiffres : $12$ tient une fois dans $15$ ($1 \\times 12 = 12$), reste $3$.',
+          'On abaisse le chiffre suivant, le $7$ : on obtient $37$.',
+          '$12$ tient trois fois dans $37$ ($3 \\times 12 = 36$), reste $37 - 36 = 1$.',
+          'Il n\'y a plus de chiffre à abaisser : le reste final est $1$, et $1 < 12$ comme l\'exige la division euclidienne.'
+        ],
+        reading: 'Le quotient se construit chiffre par chiffre au-dessus de la barre, dans le même ordre que les chiffres abaissés du dividende.',
+        caption: 'Division posée de $157$ par $12$ : quotient $13$, reste $1$, vérifiée par $12 \\times 13 + 1 = 157$.'
+      },
       formulas: [
         'Division euclidienne : $a = b \\times q + r$ avec $0 \\leq r < b$',
         'Vérification : $b \\times q + r = a$',

@@ -41,7 +41,56 @@ window.MODULES.push({
         ],
         answer: '$5{,}007 < 5{,}07 < 5{,}7 = 5{,}70$'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Position</th><th style="border:1px solid var(--border);padding:8px">Nom</th><th style="border:1px solid var(--border);padding:8px">Valeur</th><th style="border:1px solid var(--border);padding:8px">Ex. dans $47{,}356$</th></tr><tr><td style="border:1px solid var(--border);padding:8px">Dizaines</td><td style="border:1px solid var(--border);padding:8px">$\\times 10$</td><td style="border:1px solid var(--border);padding:8px">40</td><td style="border:1px solid var(--border);padding:8px">$4$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Unités</td><td style="border:1px solid var(--border);padding:8px">$\\times 1$</td><td style="border:1px solid var(--border);padding:8px">7</td><td style="border:1px solid var(--border);padding:8px">$7$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Dixièmes</td><td style="border:1px solid var(--border);padding:8px">$\\times 0{,}1$</td><td style="border:1px solid var(--border);padding:8px">0,3</td><td style="border:1px solid var(--border);padding:8px">$3$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Centièmes</td><td style="border:1px solid var(--border);padding:8px">$\\times 0{,}01$</td><td style="border:1px solid var(--border);padding:8px">0,05</td><td style="border:1px solid var(--border);padding:8px">$5$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Millièmes</td><td style="border:1px solid var(--border);padding:8px">$\\times 0{,}001$</td><td style="border:1px solid var(--border);padding:8px">0,006</td><td style="border:1px solid var(--border);padding:8px">$6$</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Nombres décimaux',
+        title: 'Positionner des décimaux proches sur une droite graduée',
+        description: 'Sur l\'exemple du cours, $5{,}007$, $5{,}07$ et $5{,}7$ ($= 5{,}70$) se comparent en regardant les dixièmes, puis les centièmes.',
+        svg: `
+          <svg viewBox="0 0 360 220" role="img" aria-labelledby="decimaux-graph-title decimaux-graph-desc">
+            <title id="decimaux-graph-title">Droite graduee comparant 5,007 ; 5,07 et 5,7</title>
+            <desc id="decimaux-graph-desc">Le schema montre une droite graduee de 5,0 a 5,8 avec les points 5,007 ; 5,07 et 5,7 places selon leur valeur, 5,7 et 5,70 etant le meme point.</desc>
+            <rect x="35" y="14" width="290" height="30" rx="12" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
+            <text class="annotation-label" x="48" y="34">Ordre : 5,007 &lt; 5,07 &lt; 5,7 = 5,70</text>
+            <line class="grid-line" x1="40" y1="132" x2="40" y2="148"></line>
+            <line class="grid-line" x1="75" y1="132" x2="75" y2="148"></line>
+            <line class="grid-line" x1="110" y1="132" x2="110" y2="148"></line>
+            <line class="grid-line" x1="145" y1="132" x2="145" y2="148"></line>
+            <line class="grid-line" x1="180" y1="132" x2="180" y2="148"></line>
+            <line class="grid-line" x1="215" y1="132" x2="215" y2="148"></line>
+            <line class="grid-line" x1="250" y1="132" x2="250" y2="148"></line>
+            <line class="grid-line" x1="285" y1="132" x2="285" y2="148"></line>
+            <line class="grid-line" x1="320" y1="132" x2="320" y2="148"></line>
+            <line class="axis" x1="30" y1="140" x2="330" y2="140"></line>
+            <text class="tick-label" x="32" y="162">5,0</text>
+            <text class="tick-label" x="67" y="162">5,1</text>
+            <text class="tick-label" x="102" y="162">5,2</text>
+            <text class="tick-label" x="137" y="162">5,3</text>
+            <text class="tick-label" x="172" y="162">5,4</text>
+            <text class="tick-label" x="207" y="162">5,5</text>
+            <text class="tick-label" x="242" y="162">5,6</text>
+            <text class="tick-label" x="277" y="162">5,7</text>
+            <text class="tick-label" x="312" y="162">5,8</text>
+            <line class="guide-line" x1="42" y1="140" x2="42" y2="100"></line>
+            <circle class="plot-point-alt" cx="42" cy="140" r="5"></circle>
+            <text class="annotation-label" x="14" y="92">5,007</text>
+            <line class="guide-line" x1="65" y1="140" x2="65" y2="178"></line>
+            <circle class="plot-point-alt" cx="65" cy="140" r="5"></circle>
+            <text class="annotation-label" x="50" y="196">5,07</text>
+            <line class="guide-line" x1="285" y1="140" x2="285" y2="100"></line>
+            <circle class="plot-point" cx="285" cy="140" r="6"></circle>
+            <text class="annotation-label" x="246" y="92">5,7 = 5,70</text>
+          </svg>
+        `,
+        notes: [
+          'Les parties entières valent toutes $5$ : on compare donc les dixièmes en premier.',
+          '$5{,}007$ et $5{,}07$ ont $0$ dixième ; on compare alors les centièmes : $0 < 7$, donc $5{,}007 < 5{,}07$.',
+          '$5{,}7$ a $7$ dixièmes, largement plus que les deux précédents : c\'est le plus grand des trois valeurs distinctes.',
+          'Ajouter un zéro à droite ne change pas la valeur : $5{,}7 = 5{,}70$, ils occupent donc le même point sur la droite.'
+        ],
+        reading: 'Plus de chiffres après la virgule ne signifie pas « plus grand » : $5{,}007$ a trois décimales mais reste le plus petit des quatre nombres.',
+        caption: 'Droite graduée positionnant $5{,}007$, $5{,}07$ et $5{,}7$ ($= 5{,}70$) selon l\'exemple du cours.'
+      },
       formulas: [
         '$3{,}75 = 3 + \\dfrac{7}{10} + \\dfrac{5}{100} = 3 + 0{,}7 + 0{,}05$',
         'Comparer : $a{,}bc < a{,}bd$ si $c < d$ (à partie entière égale)',

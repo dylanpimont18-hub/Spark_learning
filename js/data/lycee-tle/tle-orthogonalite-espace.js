@@ -10,7 +10,7 @@ window.MODULES.push({
     title: 'Orthogonalité dans l\'espace',
     subtitle: 'Perpendiculaire, distance, produit scalaire 3D',
     keywords: ['Orthogonalité', 'Produit scalaire', 'Distance', 'Perpendiculaire', 'Projection'],
-    physics: true,
+    physics: 'Calcul de distances en mécanique du solide, positionnement GPS, forces perpendiculaires en architecture',
     cours: {
       intro: 'L\'<strong>orthogonalité</strong> en 3D se teste toujours par le produit scalaire : $\\vec{u} \\perp \\vec{v} \\Leftrightarrow \\vec{u} \\cdot \\vec{v} = 0$.<br/><br/>La formule de <strong>distance d\'un point à un plan</strong> $M(x_0;y_0;z_0)$ au plan $ax+by+cz+d=0$ est $d = |ax_0+by_0+cz_0+d|/\\sqrt{a^2+b^2+c^2}$.<br/><br/>Le numérateur est en <strong>valeur absolue</strong> car une distance est toujours positive — même si $M$ est du "mauvais côté" du plan (le signe du numérateur indique de quel côté se trouve $M$, mais la distance reste positive).<br/><br/>Intuition : la formule projette le vecteur $\\overrightarrow{HM}$ (où $H$ est le pied de la perpendiculaire) sur le vecteur normal unitaire.',
       definitions: [
@@ -44,6 +44,50 @@ window.MODULES.push({
         'Plans $\\perp$ : $\\vec{n_1}\\cdot\\vec{n_2}=0$',
         'Droite $\\perp$ plan : $\\vec{u}=k\\vec{n}$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Distance point-plan',
+        title: 'Perpendiculaire abaissée de A sur le plan P',
+        description: 'Reprise exacte de l\'exemple du cours : le plan $\\mathcal{P}$ d\'équation $x-2y+2z+1=0$, le point $A(3;1;-2)$ situé hors du plan, et le pied $H$ de la perpendiculaire abaissée de $A$ sur $\\mathcal{P}$.',
+        svg: `
+          <svg viewBox="0 0 640 320" role="img" aria-labelledby="ortho-diagram-title ortho-diagram-desc">
+            <title id="ortho-diagram-title">Perpendiculaire abaissee de A sur le plan P</title>
+            <desc id="ortho-diagram-desc">Un plan P represente en perspective par un parallelogramme, d'equation x moins 2y plus 2z plus 1 egale 0. Le point A(3;1;-2) est place au-dessus du plan, hors de celui-ci. Un segment en pointilles relie A au point H, pied de la perpendiculaire dans le plan, avec un petit carre indiquant l'angle droit en H entre le segment AH et le plan. La longueur AH vaut deux tiers, soit environ 0,67.</desc>
+
+            <!-- plan P, vu en perspective -->
+            <polygon points="70,230 430,230 500,130 140,130" fill="color-mix(in srgb, var(--diagram-accent) 10%, transparent)" class="frame-line"></polygon>
+            <!-- texture de surface du plan -->
+            <line class="grid-line" x1="105" y1="180" x2="465" y2="180"></line>
+            <line class="grid-line" x1="250" y1="230" x2="320" y2="130"></line>
+
+            <!-- perpendiculaire [AH], en pointilles -->
+            <line class="focus-line" x1="340" y1="60" x2="300" y2="190"></line>
+
+            <!-- marque d'angle droit en H -->
+            <polygon points="300,190 310,190 312.9,180.4 302.9,180.4" class="frame-line" fill="none"></polygon>
+
+            <!-- points -->
+            <circle class="plot-point" cx="340" cy="60" r="5"></circle>
+            <circle class="plot-point-alt" cx="300" cy="190" r="5"></circle>
+
+            <!-- libelles -->
+            <text class="annotation-label" x="320" y="112" text-anchor="middle">Plan P : x - 2y + 2z + 1 = 0</text>
+            <text class="annotation-label" x="355" y="50" text-anchor="start">A(3 ; 1 ; -2)</text>
+            <text class="annotation-label" x="315" y="205" text-anchor="start">H</text>
+            <text class="label-soft" x="315" y="219" text-anchor="start">H ≈ (3,22 ; 0,56 ; -1,56)</text>
+            <text class="annotation-label" x="345" y="118" text-anchor="start">AH = 2/3 ≈ 0,67</text>
+            <text class="label-soft" x="270" y="140" text-anchor="end">vecteur normal n(1;-2;2)</text>
+          </svg>
+        `,
+        notes: [
+          'Le plan $\\mathcal{P}$ a pour vecteur normal $\\vec{n}(1;-2;2)$, lu directement sur les coefficients de l\'équation $x-2y+2z+1=0$.',
+          'Le point $H$, pied de la perpendiculaire, vérifie $\\overrightarrow{HA} = -\\dfrac{2}{9}\\,\\vec{n}$ : il est bien colinéaire au vecteur normal, ce qui confirme que $(AH)$ est perpendiculaire au plan $\\mathcal{P}$.',
+          'Calcul : $H\\left(\\dfrac{29}{9};\\dfrac{5}{9};-\\dfrac{14}{9}\\right) \\approx (3{,}22\\,;\\,0{,}56\\,;\\,-1{,}56)$, obtenu en résolvant $A + t\\,\\vec{n} \\in \\mathcal{P}$ (on trouve $t = \\dfrac{2}{9}$).',
+          'La longueur $AH = \\dfrac{2}{3} \\approx 0{,}67$ correspond exactement à la distance $d(A;\\mathcal{P})$ calculée dans l\'exemple du cours.'
+        ],
+        reading: 'Le petit carré tracé au point $H$ signale l\'angle droit entre le segment $[AH]$ et le plan $\\mathcal{P}$ : c\'est la définition même de la perpendiculaire abaissée d\'un point sur un plan.',
+        caption: 'Perpendiculaire $[AH]$ abaissée du point $A(3;1;-2)$ sur le plan $\\mathcal{P} : x-2y+2z+1=0$ — reprise exacte de l\'exemple du cours, avec vérification $\\overrightarrow{HA} = -\\frac{2}{9}\\vec{n}$ et $AH = \\frac{2}{3} \\approx 0{,}67$.'
+      },
       recap: [
         'Test d\'orthogonalité : $\\vec{u} \\perp \\vec{v} \\Leftrightarrow \\vec{u} \\cdot \\vec{v} = 0$. En 3D, on calcule la somme des produits coordonnée par coordonnée.',
         'La <strong>distance point-plan</strong> utilise la formule $d = |ax_0+by_0+cz_0+d| / \\sqrt{a^2+b^2+c^2}$. Ne jamais oublier la valeur absolue au numérateur.',

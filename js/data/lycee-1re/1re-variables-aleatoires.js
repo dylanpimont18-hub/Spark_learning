@@ -43,6 +43,62 @@ window.MODULES.push({
         '$V(X) = np(1-p)$',
         '$\\binom{n}{k} = \\dfrac{n!}{k!(n-k)!}$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Diagramme en bâtons — $\\mathcal{B}(6\\,;\\,0{,}5)$',
+        title: 'Loi de $X$ = nombre de "Pile" en $6$ lancers, avec $E(X)$ repéré',
+        description: 'Reprise de l\'exemple du cours : une pièce équilibrée lancée $6$ fois, $X\\sim\\mathcal{B}(6\\,;\\,0{,}5)$. Chaque bâton donne $P(X=k)=\\binom{6}{k}\\times(0{,}5)^6$, recalculée indépendamment pour $k=0$ à $6$ ; le repère vertical marque $E(X)=np=3$, qui tombe exactement sur le bâton le plus haut.',
+        svg: `
+          <svg viewBox="0 0 460 290" role="img" aria-labelledby="binom-bar-title binom-bar-desc">
+            <title id="binom-bar-title">Diagramme en batons de la loi binomiale B(6;0,5)</title>
+            <desc id="binom-bar-desc">Sept batons verticaux representant P(X=k) pour k de 0 a 6, avec X le nombre de Pile en 6 lancers d'une piece equilibree. La distribution est symetrique, maximale en k=3 avec une probabilite de 0,3125, ce qui correspond a l'esperance E(X)=3 marquee par un repere vertical.</desc>
+
+            <rect class="frame-line" x="60" y="30" width="360" height="220" fill="none"></rect>
+            <line class="grid-line" x1="60" y1="187.14" x2="420" y2="187.14"></line>
+            <line class="grid-line" x1="60" y1="124.29" x2="420" y2="124.29"></line>
+            <line class="grid-line" x1="60" y1="61.43" x2="420" y2="61.43"></line>
+
+            <rect x="68.71" y="240.18" width="34" height="9.82" fill="color-mix(in srgb, var(--diagram-accent) 45%, transparent)"></rect>
+            <rect x="120.14" y="191.07" width="34" height="58.93" fill="color-mix(in srgb, var(--diagram-accent) 55%, transparent)"></rect>
+            <rect x="171.57" y="102.68" width="34" height="147.32" fill="color-mix(in srgb, var(--diagram-accent) 70%, transparent)"></rect>
+            <rect x="223.00" y="53.57" width="34" height="196.43" fill="var(--diagram-accent)"></rect>
+            <rect x="274.43" y="102.68" width="34" height="147.32" fill="color-mix(in srgb, var(--diagram-accent) 70%, transparent)"></rect>
+            <rect x="325.86" y="191.07" width="34" height="58.93" fill="color-mix(in srgb, var(--diagram-accent) 55%, transparent)"></rect>
+            <rect x="377.29" y="240.18" width="34" height="9.82" fill="color-mix(in srgb, var(--diagram-accent) 45%, transparent)"></rect>
+
+            <line class="guide-line" x1="240" y1="16" x2="240" y2="53.57"></line>
+            <circle class="plot-point" cx="240" cy="53.57" r="5"></circle>
+            <text class="annotation-label" x="240" y="10" text-anchor="middle">E(X) = 3</text>
+
+            <text class="tick-label" x="50" y="254" text-anchor="end">0</text>
+            <text class="tick-label" x="50" y="191.14" text-anchor="end">0,10</text>
+            <text class="tick-label" x="50" y="128.29" text-anchor="end">0,20</text>
+            <text class="tick-label" x="50" y="65.43" text-anchor="end">0,30</text>
+
+            <text class="tick-label" x="85.71" y="266" text-anchor="middle">0</text>
+            <text class="tick-label" x="137.14" y="266" text-anchor="middle">1</text>
+            <text class="tick-label" x="188.57" y="266" text-anchor="middle">2</text>
+            <text class="tick-label" x="240" y="266" text-anchor="middle">3</text>
+            <text class="tick-label" x="291.43" y="266" text-anchor="middle">4</text>
+            <text class="tick-label" x="342.86" y="266" text-anchor="middle">5</text>
+            <text class="tick-label" x="394.29" y="266" text-anchor="middle">6</text>
+
+            <text class="axis-label" x="430" y="254" text-anchor="start">k</text>
+            <text class="label-soft" x="20" y="140" text-anchor="middle" transform="rotate(-90 20 140)">P(X=k)</text>
+
+            <text class="annotation-label" x="188.57" y="97" text-anchor="middle">0,234</text>
+            <text class="annotation-label" x="291.43" y="97" text-anchor="middle">0,234</text>
+            <text class="annotation-label" x="262" y="58" text-anchor="start">0,3125</text>
+          </svg>
+        `,
+        notes: [
+          'Distribution complète recalculée : $P(X=0)=P(X=6)\\approx0{,}016$, $P(X=1)=P(X=5)\\approx0{,}094$, $P(X=2)=P(X=4)\\approx0{,}234$, $P(X=3)=0{,}3125$. La somme des $7$ valeurs fait bien $1$.',
+          'Le bâton le plus haut est exactement en $k=3$ : ce n\'est pas une coïncidence — avec $p=0{,}5$, la loi est symétrique et $E(X)=np=3$ tombe sur une valeur entière de $k$.',
+          'La valeur $P(X=4)\\approx0{,}234$ est celle calculée dans l\'exemple du cours ($P(X=4)=\\binom{6}{4}\\times(0{,}5)^4\\times(0{,}5)^2=15/64$) — on la retrouve ici sur le bâton correspondant.'
+        ],
+        reading: 'Avec $p=0{,}5$, la loi binomiale est parfaitement symétrique autour de $E(X)=np$ : $P(X=k)=P(X=n-k)$. Le repère vertical (pointillé) tombe exactement sur le bâton central car $E(X)=3$ est un entier compris entre $0$ et $6$ — ce ne serait pas toujours aussi net pour d\'autres valeurs de $p$.',
+        caption: 'Diagramme en bâtons de $\\mathcal{B}(6\\,;\\,0{,}5)$ avec $E(X)=3$ repéré.'
+      },
       recap: [
         'Loi binomiale : $n$ épreuves <strong>indépendantes</strong>, même probabilité $p$. Si l\'une de ces conditions manque, ce n\'est pas binomial.',
         '$E(X) = np$ donne le nombre moyen de succès ; $\\sigma = \\sqrt{np(1-p)}$ mesure la dispersion.',

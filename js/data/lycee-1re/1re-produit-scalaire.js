@@ -37,6 +37,70 @@ window.MODULES.push({
         ],
         answer: '$\\vec{u} \\cdot \\vec{v} = 0$ : les vecteurs $\\vec{u}(3\\,;\\,-1)$ et $\\vec{v}(2\\,;\\,6)$ sont bien orthogonaux.'
       },
+      diagram: {
+        theme: 'maths',
+        kicker: 'Deux vecteurs orthogonaux',
+        title: 'Le produit scalaire de $\\vec{u}$ et $\\vec{v}$ (exemple du cours) : une projection nulle',
+        description: 'Les vecteurs $\\vec{u}(3\\,;\\,-1)$ et $\\vec{v}(2\\,;\\,6)$ (exemple du cours) sont tracés depuis l\'origine $O$.<br/><br/>Le petit carré en $O$ marque l\'angle droit entre eux ; le cercle en pointillés autour de $O$ représente la projection orthogonale de $\\vec{u}$ sur $\\vec{v}$, réduite au point $O$.',
+        svg: `
+          <svg viewBox="0 0 300 345" role="img" aria-labelledby="prodscal-diagram-title prodscal-diagram-desc">
+            <title id="prodscal-diagram-title">Deux vecteurs orthogonaux et leur projection nulle</title>
+            <desc id="prodscal-diagram-desc">Repere orthonorme montrant les vecteurs u(3;-1) et v(2;6) traces depuis l'origine O. Un marqueur d'angle droit en O indique leur perpendicularite. La projection orthogonale de u sur v est marquee par un cercle en pointilles autour de O, car elle est le vecteur nul.</desc>
+            <defs>
+              <marker id="arrow-1re-prodscal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
+
+            <line class="grid-line" x1="58" y1="60" x2="58" y2="325"></line>
+            <line class="grid-line" x1="122" y1="60" x2="122" y2="325"></line>
+            <line class="grid-line" x1="154" y1="60" x2="154" y2="325"></line>
+            <line class="grid-line" x1="186" y1="60" x2="186" y2="325"></line>
+            <line class="grid-line" x1="218" y1="60" x2="218" y2="325"></line>
+            <line class="grid-line" x1="55" y1="322" x2="225" y2="322"></line>
+            <line class="grid-line" x1="55" y1="258" x2="225" y2="258"></line>
+            <line class="grid-line" x1="55" y1="226" x2="225" y2="226"></line>
+            <line class="grid-line" x1="55" y1="194" x2="225" y2="194"></line>
+            <line class="grid-line" x1="55" y1="162" x2="225" y2="162"></line>
+            <line class="grid-line" x1="55" y1="130" x2="225" y2="130"></line>
+            <line class="grid-line" x1="55" y1="98" x2="225" y2="98"></line>
+            <line class="grid-line" x1="55" y1="66" x2="225" y2="66"></line>
+
+            <line class="axis" x1="45" y1="290" x2="245" y2="290" marker-end="url(#arrow-1re-prodscal)"></line>
+            <line class="axis" x1="90" y1="335" x2="90" y2="45" marker-end="url(#arrow-1re-prodscal)"></line>
+            <text class="axis-label" x="249" y="294">x</text>
+            <text class="axis-label" x="96" y="50">y</text>
+            <text class="tick-label" x="58" y="304" text-anchor="middle">-1</text>
+            <text class="tick-label" x="218" y="304" text-anchor="middle">4</text>
+            <text class="tick-label" x="78" y="326" text-anchor="end">-1</text>
+            <text class="tick-label" x="78" y="70" text-anchor="end">7</text>
+            <text class="tick-label" x="78" y="282" text-anchor="end">O</text>
+
+            <line class="curve-main" x1="90" y1="290" x2="154" y2="98" marker-end="url(#arrow-1re-prodscal)"></line>
+            <circle class="plot-point-alt" cx="154" cy="98" r="3"></circle>
+            <text class="annotation-label" x="158" y="92">v (2 ; 6)</text>
+
+            <line class="curve-main" x1="90" y1="290" x2="186" y2="322" marker-end="url(#arrow-1re-prodscal)"></line>
+            <circle class="plot-point-alt" cx="186" cy="322" r="3"></circle>
+            <text class="annotation-label" x="190" y="334">u (3 ; -1)</text>
+
+            <path class="guide-line" d="M103.3,294.4 L107.7,281.2 L94.4,276.7" fill="none"></path>
+            <text class="label-soft" x="118" y="272">90°</text>
+
+            <circle class="guide-line" cx="90" cy="290" r="9" fill="none"></circle>
+            <circle class="plot-point" cx="90" cy="290" r="3"></circle>
+            <text class="annotation-label" x="100" y="312">H = O (projection nulle)</text>
+          </svg>
+        `,
+        notes: [
+          '$\\vec{u} \\cdot \\vec{v} = x_1x_2 + y_1y_2 = 3\\times2 + (-1)\\times6 = 6 - 6 = 0$ : le produit scalaire est nul, donc $\\vec{u} \\perp \\vec{v}$.',
+          'Le projeté orthogonal de $\\vec{u}$ sur la droite portée par $\\vec{v}$ est le point $H$ tel que $\\overrightarrow{OH} = \\dfrac{\\vec{u} \\cdot \\vec{v}}{\\|\\vec{v}\\|^2}\\vec{v} = \\dfrac{0}{40}\\vec{v} = \\vec{0}$ : $H$ coïncide avec $O$, c\'est le cercle en pointillés.',
+          'Vérification géométrique du cours : $\\|\\vec{u}\\| = \\sqrt{10}$, $\\|\\vec{v}\\| = \\sqrt{40}$, donc $\\cos\\theta = \\dfrac{0}{\\sqrt{10}\\times\\sqrt{40}} = 0$ et $\\theta = 90°$.',
+          'Une projection nulle est la signature géométrique de l\'orthogonalité : c\'est le cas particulier où le « pied » de la projection remonte jusqu\'à l\'origine du vecteur projeté.'
+        ],
+        reading: 'Le carré à angle droit en $O$ et le cercle en pointillés se lisent ensemble : la projection de $\\vec{u}$ sur $\\vec{v}$ n\'a littéralement aucune longueur, car les deux vecteurs sont perpendiculaires.',
+        caption: 'Vecteurs $\\vec{u}(3\\,;\\,-1)$ et $\\vec{v}(2\\,;\\,6)$ (exemple du cours) : orthogonaux, donc de projection nulle l\'un sur l\'autre.'
+      },
       formulas: [
         '$\\vec{u} \\cdot \\vec{v} = \\|\\vec{u}\\| \\cdot \\|\\vec{v}\\| \\cdot \\cos\\theta$',
         '$\\vec{u} \\cdot \\vec{v} = x_1 x_2 + y_1 y_2$',

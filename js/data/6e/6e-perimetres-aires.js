@@ -39,7 +39,48 @@ window.MODULES.push({
         ],
         answer: '$\\mathcal{P} = 31{,}4$ cm et $\\mathcal{A} = 78{,}5$ cm²'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Figure</th><th style="border:1px solid var(--border);padding:8px">Périmètre</th><th style="border:1px solid var(--border);padding:8px">Aire</th></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Rectangle</strong></td><td style="border:1px solid var(--border);padding:8px">$2(L + l)$</td><td style="border:1px solid var(--border);padding:8px">$L \\times l$</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Triangle</strong></td><td style="border:1px solid var(--border);padding:8px">$a + b + c$</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{b \\times h}{2}$</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Disque</strong></td><td style="border:1px solid var(--border);padding:8px">$2\\pi r$</td><td style="border:1px solid var(--border);padding:8px">$\\pi r^2$</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Contour vs surface',
+        title: 'Périmètre (le contour) et aire (la surface teintée) sur trois figures',
+        description: 'Le trait épais mesure le tour de la figure (périmètre) ; la teinte à l\'intérieur mesure la surface (aire). Rectangle et disque reprennent les valeurs du cours.',
+        svg: `
+          <svg viewBox="0 0 400 215" role="img" aria-labelledby="perimaire-diagram-title perimaire-diagram-desc">
+            <title id="perimaire-diagram-title">Perimetre et aire d'un rectangle, d'un triangle et d'un disque</title>
+            <desc id="perimaire-diagram-desc">Trois figures cote a cote : rectangle 8 sur 5, triangle de base et hauteur, disque de rayon 5. Le contour represente le perimetre et la teinte interieure represente l'aire.</desc>
+            <rect x="20" y="14" width="170" height="30" rx="10" fill="color-mix(in srgb, var(--diagram-accent) 7%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 22%, var(--border))"></rect>
+            <line class="frame-line" x1="32" y1="29" x2="56" y2="29"></line>
+            <text class="annotation-label" x="64" y="34">Perimetre (contour)</text>
+            <rect x="210" y="14" width="170" height="30" rx="10" fill="color-mix(in srgb, var(--diagram-accent) 7%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 22%, var(--border))"></rect>
+            <rect x="222" y="21" width="16" height="16" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)" stroke="none"></rect>
+            <text class="annotation-label" x="248" y="34">Aire (surface)</text>
+            <rect class="frame-line" x="30" y="90" width="100" height="62" fill="color-mix(in srgb, var(--diagram-accent) 16%, transparent)"></rect>
+            <text class="annotation-label" x="36" y="104">l = 5 cm</text>
+            <text class="annotation-label" x="80" y="168" text-anchor="middle">L = 8 cm</text>
+            <text class="annotation-label" x="80" y="186" text-anchor="middle">P = 26 cm</text>
+            <text class="tick-label" x="80" y="200" text-anchor="middle">A = 40 cm²</text>
+            <polygon class="frame-line" points="160,152 260,152 210,90" fill="color-mix(in srgb, var(--diagram-accent) 16%, transparent)"></polygon>
+            <line class="guide-line" x1="210" y1="90" x2="210" y2="152"></line>
+            <path fill="none" class="grid-line" d="M204 152 L204 146 L210 146"></path>
+            <text class="annotation-label" x="216" y="122">hauteur</text>
+            <text class="annotation-label" x="210" y="168" text-anchor="middle">base</text>
+            <text class="annotation-label" x="210" y="186" text-anchor="middle">P = a + b + c</text>
+            <text class="tick-label" x="210" y="200" text-anchor="middle">A = base × h / 2</text>
+            <circle class="frame-line" cx="340" cy="121" r="41" fill="color-mix(in srgb, var(--diagram-accent) 16%, transparent)"></circle>
+            <line class="guide-line" x1="340" y1="121" x2="381" y2="121"></line>
+            <text class="annotation-label" x="346" y="115">r = 5 cm</text>
+            <text class="annotation-label" x="340" y="186" text-anchor="middle">P = 2 π r</text>
+            <text class="tick-label" x="340" y="200" text-anchor="middle">A = π r²</text>
+          </svg>
+        `,
+        notes: [
+          'Le rectangle reprend l\'exemple du cours : $L = 8$ cm, $l = 5$ cm, donc $\\mathcal{P} = 2(8+5) = 26$ cm et $\\mathcal{A} = 8 \\times 5 = 40$ cm².',
+          'Le triangle n\'a pas de valeurs chiffrees dans le cours : seules les formules $\\mathcal{P} = a+b+c$ et $\\mathcal{A} = \\dfrac{\\text{base} \\times h}{2}$ sont rappelees, sur une figure generique.',
+          'Le disque reprend l\'exemple du cours : $r = 5$ cm, donc $\\mathcal{P} = 2\\pi \\times 5 \\approx 31{,}4$ cm et $\\mathcal{A} = \\pi \\times 5^2 \\approx 78{,}5$ cm² (avec $\\pi \\approx 3{,}14$).'
+        ],
+        reading: 'Suis le trait epais du doigt : c\'est le perimetre. La zone coloree a l\'interieur, c\'est l\'aire. Les deux se calculent avec des formules differentes et ne s\'expriment jamais dans la meme unite.',
+        caption: 'Perimetre (contour, en cm) et aire (surface teintee, en cm²) sur un rectangle, un triangle et un disque.'
+      },
       formulas: [
         'Rectangle : $\\mathcal{P} = 2(L + l)$ et $\\mathcal{A} = L \\times l$',
         'Triangle : $\\mathcal{P} = a + b + c$ et $\\mathcal{A} = \\dfrac{\\text{base} \\times h}{2}$',

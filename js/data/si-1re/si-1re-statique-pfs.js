@@ -40,7 +40,86 @@ window.MODULES.push({
         ],
         answer: '$R_A = 450$ N et $R_B = 150$ N.'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><td style="border:1px solid var(--border);padding:8px"><strong>Type de liaison</strong></td><td style="border:1px solid var(--border);padding:8px"><strong>Symbole</strong></td><td style="border:1px solid var(--border);padding:8px"><strong>Inconnues en 2D</strong></td><td style="border:1px solid var(--border);padding:8px"><strong>Mouvements bloqués</strong></td></tr><tr><td style="border:1px solid var(--border);padding:8px">Appui simple</td><td style="border:1px solid var(--border);padding:8px">△</td><td style="border:1px solid var(--border);padding:8px">$1$ ($R_y$)</td><td style="border:1px solid var(--border);padding:8px">Translation ⊥ à l\'appui</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Appui glissant</td><td style="border:1px solid var(--border);padding:8px">△ sur rouleaux</td><td style="border:1px solid var(--border);padding:8px">$1$ ($R_y$)</td><td style="border:1px solid var(--border);padding:8px">Translation ⊥ à l\'appui</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Pivot (articulation)</td><td style="border:1px solid var(--border);padding:8px">○</td><td style="border:1px solid var(--border);padding:8px">$2$ ($R_x$, $R_y$)</td><td style="border:1px solid var(--border);padding:8px">Translations x et y</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Encastrement</td><td style="border:1px solid var(--border);padding:8px">▰</td><td style="border:1px solid var(--border);padding:8px">$3$ ($R_x$, $R_y$, $M$)</td><td style="border:1px solid var(--border);padding:8px">Tout mouvement plan</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Poutre isostatique — exemple du cours',
+        title: 'Bilan des réactions d\'appui : poutre AB, F = 600 N à 1 m de A',
+        description: 'Reconstruction chiffrée de l\'exemple résolu du cours : poutre de $4$ m sur deux appuis simples, charge $F$ à $1$ m de $A$, réactions $R_A$ et $R_B$ obtenues par le PFS.',
+        svg: `
+          <svg viewBox="0 0 480 300" role="img" aria-labelledby="pfs-diagram-title pfs-diagram-desc">
+            <title id="pfs-diagram-title">Poutre isostatique avec charge F et reactions RA, RB</title>
+            <desc id="pfs-diagram-desc">Poutre horizontale de 4 metres reposant sur deux appuis simples, A a gauche et B a droite. Une charge F de 600 newtons est appliquee a 1 metre de A. Les reactions d'appui valent RA = 450 newtons en A et RB = 150 newtons en B, obtenues par le principe fondamental de la statique.</desc>
+
+            <defs>
+              <marker id="arrow-si1re-pfs" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
+
+            <!-- repère x,y de travail -->
+            <line class="axis" x1="18" y1="62" x2="50" y2="62" marker-end="url(#arrow-si1re-pfs)"></line>
+            <line class="axis" x1="18" y1="62" x2="18" y2="30" marker-end="url(#arrow-si1re-pfs)"></line>
+            <text class="tick-label" x="54" y="66">x</text>
+            <text class="tick-label" x="10" y="28" text-anchor="end">y</text>
+
+            <!-- charge F appliquee a 1 m de A -->
+            <line class="curve-main" x1="150" y1="56" x2="150" y2="102" marker-end="url(#arrow-si1re-pfs)"></line>
+            <circle class="plot-point" cx="150" cy="104" r="4"></circle>
+            <text class="annotation-label" x="150" y="46" text-anchor="middle">F = 600 N</text>
+
+            <!-- poutre AB (4 m) -->
+            <rect class="frame-line" x="70" y="104" width="320" height="16" fill="none"></rect>
+            <text class="annotation-label" x="70" y="96" text-anchor="middle">A</text>
+            <text class="annotation-label" x="390" y="96" text-anchor="middle">B</text>
+
+            <!-- appui simple en A (triangle + sol hachure) -->
+            <polygon class="frame-line" points="70,120 58,142 82,142" fill="none"></polygon>
+            <line class="frame-line" x1="50" y1="142" x2="90" y2="142"></line>
+            <line class="grid-line" x1="52" y1="142" x2="44" y2="152"></line>
+            <line class="grid-line" x1="61" y1="142" x2="53" y2="152"></line>
+            <line class="grid-line" x1="70" y1="142" x2="62" y2="152"></line>
+            <line class="grid-line" x1="79" y1="142" x2="71" y2="152"></line>
+            <line class="grid-line" x1="88" y1="142" x2="80" y2="152"></line>
+
+            <!-- appui simple en B (triangle + sol hachure) -->
+            <polygon class="frame-line" points="390,120 378,142 402,142" fill="none"></polygon>
+            <line class="frame-line" x1="370" y1="142" x2="410" y2="142"></line>
+            <line class="grid-line" x1="372" y1="142" x2="364" y2="152"></line>
+            <line class="grid-line" x1="381" y1="142" x2="373" y2="152"></line>
+            <line class="grid-line" x1="390" y1="142" x2="382" y2="152"></line>
+            <line class="grid-line" x1="399" y1="142" x2="391" y2="152"></line>
+            <line class="grid-line" x1="408" y1="142" x2="400" y2="152"></line>
+
+            <!-- reactions d'appui (verticales, PFS) -->
+            <line class="curve-main" x1="70" y1="176" x2="70" y2="119" marker-end="url(#arrow-si1re-pfs)"></line>
+            <line class="curve-main" x1="390" y1="176" x2="390" y2="119" marker-end="url(#arrow-si1re-pfs)"></line>
+            <text class="annotation-label" x="70" y="193" text-anchor="middle">R_A = 450 N</text>
+            <text class="annotation-label" x="390" y="193" text-anchor="middle">R_B = 150 N</text>
+
+            <!-- cote d = 1 m (A -> point d'application de F) -->
+            <line class="guide-line" x1="70" y1="205" x2="70" y2="275"></line>
+            <line class="guide-line" x1="150" y1="205" x2="150" y2="235"></line>
+            <line class="frame-line" x1="70" y1="235" x2="150" y2="235"></line>
+            <line class="frame-line" x1="70" y1="232" x2="70" y2="238"></line>
+            <line class="frame-line" x1="150" y1="232" x2="150" y2="238"></line>
+            <text class="tick-label" x="110" y="250" text-anchor="middle">d = 1 m</text>
+
+            <!-- cote L = 4 m (A -> B) -->
+            <line class="guide-line" x1="390" y1="205" x2="390" y2="275"></line>
+            <line class="frame-line" x1="70" y1="275" x2="390" y2="275"></line>
+            <line class="frame-line" x1="70" y1="272" x2="70" y2="278"></line>
+            <line class="frame-line" x1="390" y1="272" x2="390" y2="278"></line>
+            <text class="tick-label" x="230" y="291" text-anchor="middle">L = 4 m</text>
+          </svg>
+        `,
+        notes: [
+          'Chaque appui simple (△ sur sol hachuré) ne bloque qu\'une translation perpendiculaire à son plan d\'appui : il n\'introduit qu\'une seule inconnue, verticale ici — $R_A$ en $A$, $R_B$ en $B$.',
+          'Le point $A$ est choisi pour écrire $\\sum M_A = 0$ : le bras de levier de $R_A$ y est nul, donc $R_A$ disparaît de l\'équation et $R_B$ se calcule directement.',
+          'Vérification : $R_A + R_B = 450 + 150 = 600$ N $= F$ — le bilan des forces verticales ($\\sum F_y = 0$) est cohérent.'
+        ],
+        reading: 'Repère d\'abord les deux appuis $A$ et $B$ et la charge $F$, puis suis les cotes $d$ et $L$ : ce sont les bras de levier utilisés dans le calcul des moments.',
+        caption: 'Exemple du cours : poutre $L = 4$ m sur appuis simples $A$/$B$, charge $F = 600$ N à $d = 1$ m de $A$ → $R_A = 450$ N, $R_B = 150$ N.'
+      },
       formulas: [
         '$\\sum F_x = 0$ (équilibre des forces horizontales)',
         '$\\sum F_y = 0$ (équilibre des forces verticales)',

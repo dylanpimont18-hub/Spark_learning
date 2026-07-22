@@ -45,6 +45,113 @@ window.MODULES.push({
         '$\\dbinom{n}{k}=\\dfrac{n!}{k!(n-k)!}$',
         '$\\dbinom{n}{k}=\\dbinom{n}{n-k}$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Ordre compte vs ordre ne compte pas',
+        title: 'Du groupe de 4 aux rôles chef/secrétaire : arrangement contre combinaison',
+        description: 'Reprise de l\'exemple du cours (le groupe de 4 élèves du problème) : en haut, on désigne un chef puis un secrétaire — l\'ordre compte, $A_4^2=12$. En bas, les mêmes 4 élèves forment simplement un duo sans rôle — l\'ordre ne compte pas, $\\binom{4}{2}=6$.',
+        svg: `
+          <svg viewBox="0 0 480 300" role="img" aria-labelledby="denombrement-arbre-title denombrement-arbre-desc">
+            <title id="denombrement-arbre-title">Arbre comparant arrangement et combinaison sur un groupe de 4 élèves</title>
+            <desc id="denombrement-arbre-desc">En haut, un arbre a deux niveaux part d'un groupe de 4 eleves A, B, C, D. Le premier niveau choisit le chef parmi les 4, soit 4 branches. Le second niveau choisit le secretaire parmi les 3 eleves restants, soit 3 branches par chef, pour un total de 12 feuilles ordonnees comme A vers B ou B vers A. En bas, les memes 4 eleves sont regroupes en 6 duos non ordonnes AB, AC, AD, BC, BD, CD. Deux lignes en pointilles relient les feuilles A vers B et B vers A du haut vers le meme duo AB en bas, montrant que chaque duo non ordonne regroupe deux issues ordonnees.</desc>
+
+            <!-- panneau 1 : arrangement (ordre compte) -->
+            <text class="annotation-label" x="240" y="14" text-anchor="middle">Ordre compte : arrangement A(4,2) — chef puis secrétaire</text>
+
+            <rect class="frame-line" x="160" y="20" width="160" height="28" rx="6" fill="none"></rect>
+            <text class="tick-label" x="240" y="38" text-anchor="middle">Groupe : A, B, C, D</text>
+
+            <line class="curve-main" x1="240" y1="48" x2="80" y2="86"></line>
+            <line class="curve-main" x1="240" y1="48" x2="192" y2="86"></line>
+            <line class="curve-main" x1="240" y1="48" x2="304" y2="86"></line>
+            <line class="curve-main" x1="240" y1="48" x2="416" y2="86"></line>
+
+            <rect class="frame-line" x="40" y="86" width="80" height="26" rx="5" fill="none"></rect>
+            <text class="annotation-label" x="80" y="103" text-anchor="middle">Chef = A</text>
+            <rect class="frame-line" x="152" y="86" width="80" height="26" rx="5" fill="none"></rect>
+            <text class="annotation-label" x="192" y="103" text-anchor="middle">Chef = B</text>
+            <rect class="frame-line" x="264" y="86" width="80" height="26" rx="5" fill="none"></rect>
+            <text class="annotation-label" x="304" y="103" text-anchor="middle">Chef = C</text>
+            <rect class="frame-line" x="376" y="86" width="80" height="26" rx="5" fill="none"></rect>
+            <text class="annotation-label" x="416" y="103" text-anchor="middle">Chef = D</text>
+
+            <line class="guide-line" x1="80" y1="112" x2="44" y2="148"></line>
+            <line class="guide-line" x1="80" y1="112" x2="80" y2="148"></line>
+            <line class="guide-line" x1="80" y1="112" x2="116" y2="148"></line>
+            <line class="guide-line" x1="192" y1="112" x2="156" y2="148"></line>
+            <line class="guide-line" x1="192" y1="112" x2="192" y2="148"></line>
+            <line class="guide-line" x1="192" y1="112" x2="228" y2="148"></line>
+            <line class="guide-line" x1="304" y1="112" x2="268" y2="148"></line>
+            <line class="guide-line" x1="304" y1="112" x2="304" y2="148"></line>
+            <line class="guide-line" x1="304" y1="112" x2="340" y2="148"></line>
+            <line class="guide-line" x1="416" y1="112" x2="380" y2="148"></line>
+            <line class="guide-line" x1="416" y1="112" x2="416" y2="148"></line>
+            <line class="guide-line" x1="416" y1="112" x2="452" y2="148"></line>
+
+            <rect class="frame-line" x="27" y="148" width="34" height="22" rx="4" fill="none"></rect>
+            <text class="tick-label" x="44" y="163" text-anchor="middle">A→B</text>
+            <rect class="frame-line" x="63" y="148" width="34" height="22" rx="4" fill="none"></rect>
+            <text class="tick-label" x="80" y="163" text-anchor="middle">A→C</text>
+            <rect class="frame-line" x="99" y="148" width="34" height="22" rx="4" fill="none"></rect>
+            <text class="tick-label" x="116" y="163" text-anchor="middle">A→D</text>
+
+            <rect class="frame-line" x="139" y="148" width="34" height="22" rx="4" fill="none"></rect>
+            <text class="tick-label" x="156" y="163" text-anchor="middle">B→A</text>
+            <rect class="frame-line" x="175" y="148" width="34" height="22" rx="4" fill="none"></rect>
+            <text class="tick-label" x="192" y="163" text-anchor="middle">B→C</text>
+            <rect class="frame-line" x="211" y="148" width="34" height="22" rx="4" fill="none"></rect>
+            <text class="tick-label" x="228" y="163" text-anchor="middle">B→D</text>
+
+            <rect class="frame-line" x="251" y="148" width="34" height="22" rx="4" fill="none"></rect>
+            <text class="tick-label" x="268" y="163" text-anchor="middle">C→A</text>
+            <rect class="frame-line" x="287" y="148" width="34" height="22" rx="4" fill="none"></rect>
+            <text class="tick-label" x="304" y="163" text-anchor="middle">C→B</text>
+            <rect class="frame-line" x="323" y="148" width="34" height="22" rx="4" fill="none"></rect>
+            <text class="tick-label" x="340" y="163" text-anchor="middle">C→D</text>
+
+            <rect class="frame-line" x="363" y="148" width="34" height="22" rx="4" fill="none"></rect>
+            <text class="tick-label" x="380" y="163" text-anchor="middle">D→A</text>
+            <rect class="frame-line" x="399" y="148" width="34" height="22" rx="4" fill="none"></rect>
+            <text class="tick-label" x="416" y="163" text-anchor="middle">D→B</text>
+            <rect class="frame-line" x="435" y="148" width="34" height="22" rx="4" fill="none"></rect>
+            <text class="tick-label" x="452" y="163" text-anchor="middle">D→C</text>
+
+            <text class="label-soft" x="240" y="182" text-anchor="middle">12 issues ordonnées (4 × 3)</text>
+
+            <!-- panneau 2 : combinaison (ordre ne compte pas) -->
+            <text class="annotation-label" x="240" y="204" text-anchor="middle">Ordre ne compte pas : combinaison C(4,2) — un duo, sans rôle</text>
+
+            <rect class="frame-line" x="8" y="224" width="64" height="30" rx="6" fill="none"></rect>
+            <text class="tick-label" x="40" y="243" text-anchor="middle">{A,B}</text>
+            <rect class="frame-line" x="88" y="224" width="64" height="30" rx="6" fill="none"></rect>
+            <text class="tick-label" x="120" y="243" text-anchor="middle">{A,C}</text>
+            <rect class="frame-line" x="168" y="224" width="64" height="30" rx="6" fill="none"></rect>
+            <text class="tick-label" x="200" y="243" text-anchor="middle">{A,D}</text>
+            <rect class="frame-line" x="248" y="224" width="64" height="30" rx="6" fill="none"></rect>
+            <text class="tick-label" x="280" y="243" text-anchor="middle">{B,C}</text>
+            <rect class="frame-line" x="328" y="224" width="64" height="30" rx="6" fill="none"></rect>
+            <text class="tick-label" x="360" y="243" text-anchor="middle">{B,D}</text>
+            <rect class="frame-line" x="408" y="224" width="64" height="30" rx="6" fill="none"></rect>
+            <text class="tick-label" x="440" y="243" text-anchor="middle">{C,D}</text>
+
+            <line class="focus-line" x1="44" y1="170" x2="40" y2="224"></line>
+            <line class="focus-line" x1="156" y1="170" x2="40" y2="224"></line>
+            <circle class="plot-point-alt" cx="44" cy="170" r="4"></circle>
+            <circle class="plot-point-alt" cx="156" cy="170" r="4"></circle>
+            <circle class="plot-point" cx="40" cy="224" r="4"></circle>
+
+            <text class="label-soft" x="240" y="278" text-anchor="middle">6 duos non ordonnés = 12 ÷ 2!</text>
+            <text class="label-soft" x="240" y="292" text-anchor="middle">(A→B et B→A se regroupent en {A,B})</text>
+          </svg>
+        `,
+        notes: [
+          'Arrangement $A_4^2$ : $4$ choix de chef puis $3$ choix de secrétaire parmi les élèves restants, soit $4\\times3=12$ issues où l\'ordre (qui est chef, qui est secrétaire) compte.',
+          'Combinaison $\\binom{4}{2}$ : en oubliant les rôles, $(A,B)$ et $(B,A)$ désignent le même duo $\\{A,B\\}$ — chaque paire non ordonnée regroupe $2!=2$ issues ordonnées de l\'arbre du haut.',
+          'Vérification : $\\binom{4}{2}=\\dfrac{A_4^2}{2!}=\\dfrac{12}{2}=6$, ce qui correspond bien aux $6$ duos $\\{A,B\\},\\{A,C\\},\\{A,D\\},\\{B,C\\},\\{B,D\\},\\{C,D\\}$ affichés en bas.'
+        ],
+        reading: 'En haut, l\'arbre des $12$ façons ordonnées de désigner un chef puis un secrétaire parmi les $4$ élèves du problème du cours. En bas, les mêmes $4$ élèves regroupés en $6$ duos non ordonnés : chaque duo apparaît deux fois dans l\'arbre du haut (une fois par ordre des rôles), d\'où la division par $2!$.',
+        caption: 'Exemple du cours (problème : groupe de 4 élèves, tâche « chef et secrétaire ») : $A_4^2=4\\times3=12$ façons ordonnées, regroupées en $\\binom{4}{2}=\\frac{12}{2!}=6$ duos non ordonnés.'
+      },
       recap: [
         'Question clé : <strong>l\'ordre compte-t-il ?</strong> Oui → arrangement ($A_n^k$). Non → combinaison ($\\binom{n}{k}$).',
         '$\\binom{n}{k} = \\binom{n}{n-k}$ : choisir $k$ éléments revient à exclure $n-k$ éléments.',

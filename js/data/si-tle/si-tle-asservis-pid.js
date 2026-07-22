@@ -56,7 +56,101 @@ window.MODULES.push({
         '$K = K_p \\times G_0$ — Gain de boucle (gain statique de la FTBO)'
       ],
 
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr style="background:var(--bg-card);"><th style="border:1px solid var(--border);padding:8px">Correcteur</th><th style="border:1px solid var(--border);padding:8px">Expression $C(p)$</th><th style="border:1px solid var(--border);padding:8px">Erreur statique</th><th style="border:1px solid var(--border);padding:8px">Rapidité</th><th style="border:1px solid var(--border);padding:8px">Dépassement</th><th style="border:1px solid var(--border);padding:8px">Stabilité</th></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>P</strong></td><td style="border:1px solid var(--border);padding:8px">$K_p$</td><td style="border:1px solid var(--border);padding:8px">Réduite ($\\neq 0$)</td><td style="border:1px solid var(--border);padding:8px">Augmente avec $K_p$</td><td style="border:1px solid var(--border);padding:8px">Peut augmenter</td><td style="border:1px solid var(--border);padding:8px">Risque si $K_p$ trop grand</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>PI</strong></td><td style="border:1px solid var(--border);padding:8px">$K_p + \\dfrac{K_i}{p}$</td><td style="border:1px solid var(--border);padding:8px"><strong>Nulle</strong></td><td style="border:1px solid var(--border);padding:8px">Peut ralentir</td><td style="border:1px solid var(--border);padding:8px">Augmente</td><td style="border:1px solid var(--border);padding:8px">Diminuée (marge de phase réduite)</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>PID</strong></td><td style="border:1px solid var(--border);padding:8px">$K_p + \\dfrac{K_i}{p} + K_d p$</td><td style="border:1px solid var(--border);padding:8px"><strong>Nulle</strong></td><td style="border:1px solid var(--border);padding:8px">Améliorée par $K_d$</td><td style="border:1px solid var(--border);padding:8px">Réduit par $K_d$</td><td style="border:1px solid var(--border);padding:8px">Améliorée ($K_d$ amortit)</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Schéma-bloc et réponses indicielles comparées',
+        title: 'Correcteurs P, PI, PID : erreur statique et dépassement',
+        description: 'En haut, la structure générale d\'un asservissement avec correcteur $C(p)$ (réglé en P, PI ou PID) et procédé $G(p)$. En bas, la réponse à un échelon de consigne pour les trois réglages : le P se stabilise sous la consigne (erreur statique), le PI atteint la consigne mais avec un dépassement marqué, le PID l\'atteint plus vite avec un dépassement réduit.',
+        svg: `
+          <svg viewBox="0 0 500 470" role="img" aria-labelledby="pid-graph-title pid-graph-desc">
+            <title id="pid-graph-title">Schema-bloc d'un asservissement et reponses indicielles comparees P, PI, PID</title>
+            <desc id="pid-graph-desc">En haut, chaine consigne, comparateur, correcteur C(p), procede G(p), sortie S(p), avec un retour capteur H(p). En bas, trois courbes de reponse a un echelon : le correcteur P se stabilise en dessous de la consigne (erreur statique residuelle), le correcteur PI rejoint la consigne avec un depassement d'environ 31 pourcent, le correcteur PID rejoint la consigne plus vite avec un depassement reduit a environ 3 pourcent.</desc>
+
+            <defs>
+              <marker id="arrow-si-tle-pid" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
+
+            <!-- ===== schema-bloc ===== -->
+            <line class="curve-main" x1="38" y1="85" x2="86" y2="85" marker-end="url(#arrow-si-tle-pid)"></line>
+            <circle class="frame-line" cx="100" cy="85" r="14" fill="none"></circle>
+            <text class="annotation-label" x="84" y="76">+</text>
+            <text class="annotation-label" x="104" y="107">−</text>
+
+            <line class="curve-main" x1="114" y1="85" x2="140" y2="85" marker-end="url(#arrow-si-tle-pid)"></line>
+            <rect class="frame-line" x="140" y="65" width="80" height="40" fill="none"></rect>
+            <text class="annotation-label" x="180" y="90" text-anchor="middle">C(p)</text>
+            <text class="label-soft" x="180" y="58" text-anchor="middle">Correcteur (P, PI ou PID)</text>
+
+            <line class="curve-main" x1="220" y1="85" x2="250" y2="85" marker-end="url(#arrow-si-tle-pid)"></line>
+            <rect class="frame-line" x="250" y="65" width="90" height="40" fill="none"></rect>
+            <text class="annotation-label" x="295" y="90" text-anchor="middle">G(p)</text>
+            <text class="label-soft" x="295" y="58" text-anchor="middle">Procédé</text>
+
+            <line class="curve-main" x1="340" y1="85" x2="400" y2="85" marker-end="url(#arrow-si-tle-pid)"></line>
+            <text class="annotation-label" x="18" y="78">E(p)</text>
+            <text class="annotation-label" x="405" y="80">S(p)</text>
+
+            <line class="curve-main" x1="370" y1="85" x2="370" y2="135" marker-end="url(#arrow-si-tle-pid)"></line>
+            <line class="curve-main" x1="370" y1="135" x2="220" y2="135" marker-end="url(#arrow-si-tle-pid)"></line>
+            <rect class="frame-line" x="140" y="118" width="80" height="34" fill="none"></rect>
+            <text class="annotation-label" x="180" y="140" text-anchor="middle">H(p)</text>
+            <text class="label-soft" x="180" y="167" text-anchor="middle">Capteur (retour), H(p) = 1 dans les exemples</text>
+            <line class="curve-main" x1="140" y1="135" x2="100" y2="135"></line>
+            <line class="curve-main" x1="100" y1="135" x2="100" y2="99" marker-end="url(#arrow-si-tle-pid)"></line>
+
+            <!-- ===== reponses indicielles comparees P / PI / PID (illustration qualitative) ===== -->
+            <rect class="frame-line" x="60" y="200" width="400" height="220" fill="none"></rect>
+            <line class="grid-line" x1="140" y1="200" x2="140" y2="420"></line>
+            <line class="grid-line" x1="220" y1="200" x2="220" y2="420"></line>
+            <line class="grid-line" x1="300" y1="200" x2="300" y2="420"></line>
+            <line class="grid-line" x1="380" y1="200" x2="380" y2="420"></line>
+            <line class="guide-line" x1="60" y1="260" x2="460" y2="260"></line>
+            <text class="label-soft" x="250" y="253" text-anchor="middle">consigne E(p) = 1</text>
+
+            <polyline class="curve-main" stroke-dasharray="2 6" points="60,420 68,399.1 76,381.4 84,366.5 92,353.8 100,343.1 108,334 116,326.4 124,319.8 132,314.3 140,309.7 148,305.7 156,302.4 164,299.6 172,297.2 180,295.2 188,293.4 196,292 204,290.8 212,289.7 220,288.9 228,288.1 236,287.5 244,286.9 252,286.5 260,286.1 268,285.8 276,285.5 284,285.3 292,285.1 300,284.9 308,284.8 316,284.7 324,284.6 332,284.5 340,284.4 348,284.3 356,284.3 364,284.2 372,284.2 380,284.2 388,284.1 396,284.1 404,284.1 412,284.1 420,284.1 428,284.1 436,284.1 444,284 452,284 460,284"></polyline>
+
+            <polyline class="curve-main" stroke-dasharray="10 6" points="60,420 68,413.3 76,395.6 84,370.2 92,340.8 100,310.5 108,281.8 116,256.8 124,236.8 132,222.5 140,213.9 148,210.6 156,211.9 164,216.9 172,224.4 180,233.3 188,242.7 196,251.7 204,259.7 212,266.2 220,270.9 228,273.9 236,275.2 244,275 252,273.7 260,271.5 268,268.8 276,265.9 284,263 292,260.5 300,258.4 308,256.8 316,255.8 324,255.3 332,255.3 340,255.7 348,256.3 356,257.1 364,258 372,258.9 380,259.7 388,260.4 396,260.9 404,261.2 412,261.4 420,261.5 428,261.4 436,261.2 444,260.9 452,260.7 460,260.4"></polyline>
+
+            <polyline class="curve-main" points="60,420 68,409.6 76,386.1 84,358.2 92,331.3 100,308 108,289.5 116,275.9 124,266.5 132,260.6 140,257.3 148,255.8 156,255.5 164,255.8 172,256.5 180,257.3 188,258.1 196,258.7 204,259.2 212,259.6 220,259.8 228,260 236,260.1 244,260.1 252,260.1 260,260.1 268,260.1 276,260.1 284,260.1 292,260 300,260 308,260 316,260 324,260 332,260 340,260 348,260 356,260 364,260 372,260 380,260 388,260 396,260 404,260 412,260 420,260 428,260 436,260 444,260 452,260 460,260"></polyline>
+
+            <circle class="plot-point" cx="149.4" cy="210.5" r="5"></circle>
+            <text class="annotation-label" x="158" y="200">D(PI) ≈ 31 %</text>
+            <circle class="plot-point-alt" cx="155" cy="255.5" r="5"></circle>
+            <text class="annotation-label" x="164" y="245">D(PID) ≈ 3 %</text>
+            <circle class="plot-point" cx="460" cy="284" r="5"></circle>
+            <text class="annotation-label" x="345" y="272" text-anchor="end">erreur résiduelle du P (ε &gt; 0)</text>
+
+            <!-- légende (distinction par pointillés, pas par couleur) -->
+            <rect class="grid-line" fill="none" x="354" y="204" width="100" height="48"></rect>
+            <line class="curve-main" stroke-dasharray="2 6" x1="360" y1="214" x2="386" y2="214"></line>
+            <text class="annotation-label" x="392" y="218">P</text>
+            <line class="curve-main" stroke-dasharray="10 6" x1="360" y1="228" x2="386" y2="228"></line>
+            <text class="annotation-label" x="392" y="232">PI</text>
+            <line class="curve-main" x1="360" y1="242" x2="386" y2="242"></line>
+            <text class="annotation-label" x="392" y="246">PID</text>
+
+            <text class="tick-label" x="60" y="435" text-anchor="middle">0</text>
+            <text class="tick-label" x="140" y="435" text-anchor="middle">1</text>
+            <text class="tick-label" x="220" y="435" text-anchor="middle">2</text>
+            <text class="tick-label" x="300" y="435" text-anchor="middle">3</text>
+            <text class="tick-label" x="380" y="435" text-anchor="middle">4</text>
+            <text class="tick-label" x="460" y="435" text-anchor="middle">5</text>
+            <text class="axis-label" x="260" y="452" text-anchor="middle">t (temps, échelle qualitative)</text>
+            <text class="tick-label" x="50" y="424" text-anchor="end">0</text>
+            <text class="tick-label" x="50" y="264" text-anchor="end">1</text>
+            <text class="axis-label" x="15" y="310" text-anchor="middle" transform="rotate(-90 15 310)">s(t)</text>
+          </svg>
+        `,
+        notes: [
+          'Correcteur P (proportionnel seul) : la boucle reste du 1er ordre, donc jamais de dépassement, mais une erreur statique subsiste toujours — $\\varepsilon = \\frac{1}{1+K} > 0$ quel que soit le gain de boucle $K$ choisi (formule du cours).',
+          'Correcteur PI : le terme intégral $K_i/p$ ajoute un pôle à l\'origine qui annule l\'erreur statique (la sortie rejoint la consigne), mais peut faire apparaître un dépassement plus marqué et ralentir la stabilisation.',
+          'Correcteur PID : le terme dérivé $K_d \\cdot p$ amortit les oscillations introduites par l\'intégrateur — dépassement réduit et stabilisation plus rapide qu\'avec le PI seul, tout en conservant une erreur statique nulle.'
+        ],
+        reading: 'Suis d\'abord le trajet du signal dans le schéma-bloc (consigne → comparateur → correcteur → procédé → sortie, avec le retour du capteur H(p)), puis compare les trois courbes en bas : seule la courbe du P se stabilise sous la ligne pointillée de consigne, les trois courbes sont distinguées par leur tracé (pointillé fin, tirets, trait plein) et non par leur couleur.',
+        caption: 'Illustration qualitative des trois réglages P / PI / PID sur un même procédé de principe : les courbes respectent les propriétés démontrées dans le cours (erreur statique du P, annulation par l\'intégrateur, amortissement par le dérivateur) mais ne sont pas le recalcul littéral de l\'exemple chiffré du « Problème » du cours.'
+      },
 
       recap: [
         'La FTBF se calcule toujours par $\\dfrac{\\text{chaîne directe}}{1 + \\text{chaîne de retour (boucle)}}$.',

@@ -10,7 +10,7 @@ window.MODULES.push({
     title: 'Proportionnalité appliquée',
     subtitle: 'Pourcentages, échelles, vitesse moyenne',
     keywords: ['Proportionnalité', 'Pourcentage', 'Échelle', 'Vitesse', 'Distance', 'Durée'],
-    physics: true,
+    physics: 'Calcul de la vitesse moyenne d\'un mobile, lecture d\'échelles sur une carte ou un plan d\'architecte',
 
     cours: {
       intro: 'La proportionnalité est l\'outil mathématique de la <strong>mise à l\'échelle</strong> : quand on double une grandeur, l\'autre double aussi. Les pourcentages sont un cas particulier où le coefficient est exprimé sur 100.<br/><br/>' +
@@ -32,7 +32,59 @@ window.MODULES.push({
         ],
         answer: '$42$ €'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Variation</th><th style="border:1px solid var(--border);padding:6px 14px">Coefficient</th><th style="border:1px solid var(--border);padding:6px 14px">Exemple (100 €)</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$+20\\%$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\times 1{,}20$</td><td style="border:1px solid var(--border);padding:6px 14px">$120$ €</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$-30\\%$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\times 0{,}70$</td><td style="border:1px solid var(--border);padding:6px 14px">$70$ €</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$+20\\%$ puis $-20\\%$</td><td style="border:1px solid var(--border);padding:6px 14px">$1{,}2 \\times 0{,}8 = 0{,}96$</td><td style="border:1px solid var(--border);padding:6px 14px">$96$ € (≠ 100 €)</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Échelle et proportionnalité',
+        title: 'Une carte à l\'échelle 1/25 000 : du papier au terrain',
+        description: 'D\'après le cours, l\'échelle $\\dfrac{1}{25\\,000}$ signifie que $1$ cm sur la carte représente $250$ m dans la réalité. En appliquant le même coefficient, $6$ cm représentent $6 \\times 250 = 1\\,500$ m, comme dans l\'évaluation du module.',
+        svg: `
+          <svg viewBox="0 0 400 230" role="img" aria-labelledby="echelle-title echelle-desc">
+            <title id="echelle-title">Double regle carte et distance reelle a l'echelle 1 sur 25000</title>
+            <desc id="echelle-desc">Deux regles horizontales alignees : distance sur la carte en centimetres en haut, distance reelle en metres en bas. Un centimetre correspond a deux cent cinquante metres, six centimetres correspondent a mille cinq cents metres.</desc>
+            <text class="axis-label" x="50" y="30">Distance sur la carte (cm)</text>
+            <line class="grid-line" x1="50" y1="60" x2="50" y2="170"></line>
+            <line class="grid-line" x1="134" y1="60" x2="134" y2="170"></line>
+            <line class="grid-line" x1="176" y1="60" x2="176" y2="170"></line>
+            <line class="grid-line" x1="218" y1="60" x2="218" y2="170"></line>
+            <line class="grid-line" x1="260" y1="60" x2="260" y2="170"></line>
+            <line class="grid-line" x1="344" y1="60" x2="344" y2="170"></line>
+            <line class="guide-line" x1="92" y1="60" x2="92" y2="170"></line>
+            <line class="guide-line" x1="302" y1="60" x2="302" y2="170"></line>
+            <line class="axis" x1="50" y1="60" x2="352" y2="60"></line>
+            <line class="axis" x1="50" y1="170" x2="352" y2="170"></line>
+            <text class="tick-label" x="47" y="48">0</text>
+            <text class="tick-label" x="89" y="48">1</text>
+            <text class="tick-label" x="131" y="48">2</text>
+            <text class="tick-label" x="173" y="48">3</text>
+            <text class="tick-label" x="215" y="48">4</text>
+            <text class="tick-label" x="257" y="48">5</text>
+            <text class="tick-label" x="299" y="48">6</text>
+            <text class="tick-label" x="341" y="48">7</text>
+            <circle class="plot-point-alt" cx="92" cy="60" r="6"></circle>
+            <circle class="plot-point-alt" cx="302" cy="60" r="6"></circle>
+            <text class="tick-label" x="38" y="186">0</text>
+            <text class="tick-label" x="70" y="186">250</text>
+            <text class="tick-label" x="112" y="186">500</text>
+            <text class="tick-label" x="154" y="186">750</text>
+            <text class="tick-label" x="198" y="186">1000</text>
+            <text class="tick-label" x="240" y="186">1250</text>
+            <text class="tick-label" x="282" y="186">1500</text>
+            <text class="tick-label" x="324" y="186">1750</text>
+            <circle class="plot-point" cx="92" cy="170" r="6"></circle>
+            <circle class="plot-point" cx="302" cy="170" r="6"></circle>
+            <text class="axis-label" x="50" y="210">Distance réelle (m)</text>
+            <text class="annotation-label" x="92" y="118" text-anchor="middle">1 cm ↔ 250 m</text>
+            <text class="annotation-label" x="302" y="118" text-anchor="middle">6 cm ↔ 1500 m</text>
+          </svg>
+        `,
+        notes: [
+          'Les deux règles sont alignées verticalement : une même colonne représente une même distance, lue en centimètres en haut et en mètres en réalité en bas.',
+          'Le trait en pointillé sur $1$ cm rejoint $250$ m : c\'est la définition même de l\'échelle $\\dfrac{1}{25\\,000}$.',
+          'Le second trait en pointillé sur $6$ cm rejoint $1\\,500$ m, en appliquant exactement le même coefficient — c\'est la valeur utilisée dans l\'évaluation du cours.'
+        ],
+        reading: 'Sur une carte, chaque centimètre correspond toujours au même nombre de mètres réels : c\'est une situation de proportionnalité directe.',
+        caption: 'Correspondance à l\'échelle $\\dfrac{1}{25\\,000}$ entre distance sur la carte (cm) et distance réelle (m).'
+      },
       method: {
         title: 'Méthode en 3 cas',
         steps: [

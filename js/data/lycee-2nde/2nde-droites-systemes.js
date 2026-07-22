@@ -37,6 +37,89 @@ window.MODULES.push({
         ],
         answer: 'Le point d\'intersection est $(2 ; 5)$.'
       },
+      diagram: {
+        theme: 'maths',
+        kicker: 'Résolution graphique d\'un système',
+        title: 'Intersection de $d_1 : y = 2x + 1$ et $d_2 : y = -x + 7$',
+        description: 'Reconstruction de l\'exemple du cours : les deux droites sont sécantes et se coupent en un unique point, solution du système.',
+        svg: `
+          <svg viewBox="0 0 480 380" role="img" aria-labelledby="droites-diagram-title droites-diagram-desc">
+            <title id="droites-diagram-title">Intersection des droites d1 et d2</title>
+            <desc id="droites-diagram-desc">Repere avec la droite d1 : y = 2x + 1, la droite d2 : y = -x + 7, et leur point d'intersection (2 ; 5), solution graphique du systeme.</desc>
+
+            <line class="grid-line" x1="50" y1="40" x2="50" y2="340"></line>
+            <line class="grid-line" x1="95" y1="40" x2="95" y2="340"></line>
+            <line class="grid-line" x1="140" y1="40" x2="140" y2="340"></line>
+            <line class="grid-line" x1="185" y1="40" x2="185" y2="340"></line>
+            <line class="grid-line" x1="230" y1="40" x2="230" y2="340"></line>
+            <line class="grid-line" x1="275" y1="40" x2="275" y2="340"></line>
+            <line class="grid-line" x1="320" y1="40" x2="320" y2="340"></line>
+            <line class="grid-line" x1="365" y1="40" x2="365" y2="340"></line>
+            <line class="grid-line" x1="410" y1="40" x2="410" y2="340"></line>
+
+            <line class="grid-line" x1="50" y1="340" x2="410" y2="340"></line>
+            <line class="grid-line" x1="50" y1="310" x2="410" y2="310"></line>
+            <line class="grid-line" x1="50" y1="280" x2="410" y2="280"></line>
+            <line class="grid-line" x1="50" y1="250" x2="410" y2="250"></line>
+            <line class="grid-line" x1="50" y1="220" x2="410" y2="220"></line>
+            <line class="grid-line" x1="50" y1="190" x2="410" y2="190"></line>
+            <line class="grid-line" x1="50" y1="160" x2="410" y2="160"></line>
+            <line class="grid-line" x1="50" y1="130" x2="410" y2="130"></line>
+            <line class="grid-line" x1="50" y1="100" x2="410" y2="100"></line>
+            <line class="grid-line" x1="50" y1="70" x2="410" y2="70"></line>
+            <line class="grid-line" x1="50" y1="40" x2="410" y2="40"></line>
+
+            <line class="axis" x1="45" y1="310" x2="440" y2="310"></line>
+            <line class="axis" x1="95" y1="355" x2="95" y2="20"></line>
+            <text class="axis-label" x="446" y="314">x</text>
+            <text class="axis-label" x="100" y="16">y</text>
+
+            <text class="tick-label" x="50" y="326" text-anchor="middle">-1</text>
+            <text class="tick-label" x="80" y="328" text-anchor="end">0</text>
+            <text class="tick-label" x="140" y="326" text-anchor="middle">1</text>
+            <text class="tick-label" x="185" y="326" text-anchor="middle">2</text>
+            <text class="tick-label" x="230" y="326" text-anchor="middle">3</text>
+            <text class="tick-label" x="275" y="326" text-anchor="middle">4</text>
+            <text class="tick-label" x="320" y="326" text-anchor="middle">5</text>
+            <text class="tick-label" x="365" y="326" text-anchor="middle">6</text>
+            <text class="tick-label" x="410" y="326" text-anchor="middle">7</text>
+
+            <text class="tick-label" x="85" y="344" text-anchor="end">-1</text>
+            <text class="tick-label" x="85" y="284" text-anchor="end">1</text>
+            <text class="tick-label" x="85" y="254" text-anchor="end">2</text>
+            <text class="tick-label" x="85" y="224" text-anchor="end">3</text>
+            <text class="tick-label" x="85" y="194" text-anchor="end">4</text>
+            <text class="tick-label" x="85" y="164" text-anchor="end">5</text>
+            <text class="tick-label" x="85" y="134" text-anchor="end">6</text>
+            <text class="tick-label" x="85" y="104" text-anchor="end">7</text>
+            <text class="tick-label" x="85" y="74" text-anchor="end">8</text>
+            <text class="tick-label" x="85" y="44" text-anchor="end">9</text>
+
+            <line class="curve-main" x1="50" y1="340" x2="275" y2="40"></line>
+            <text class="annotation-label" x="205" y="52">d1 : y = 2x + 1</text>
+
+            <line class="curve-main" x1="50" y1="70" x2="410" y2="310" style="stroke: color-mix(in srgb, var(--diagram-accent) 55%, var(--text));"></line>
+            <text class="annotation-label" x="330" y="262">d2 : y = -x + 7</text>
+
+            <line class="guide-line" x1="185" y1="310" x2="185" y2="160"></line>
+            <line class="guide-line" x1="95" y1="160" x2="185" y2="160"></line>
+            <circle class="plot-point" cx="185" cy="160" r="5"></circle>
+            <text class="annotation-label" x="192" y="150">(2 ; 5)</text>
+
+            <circle class="plot-point-alt" cx="95" cy="280" r="4"></circle>
+            <text class="label-soft" x="60" y="272" text-anchor="end">(0 ; 1)</text>
+            <circle class="plot-point-alt" cx="95" cy="100" r="4"></circle>
+            <text class="label-soft" x="60" y="94" text-anchor="end">(0 ; 7)</text>
+          </svg>
+        `,
+        notes: [
+          'Les deux droites ont des pentes différentes ($m_1 = 2 \\neq m_2 = -1$) : elles sont donc <strong>sécantes</strong> et se coupent en un unique point.',
+          'Le point d\'intersection $(2 ; 5)$ se lit graphiquement à la croisée des deux droites, et se retrouve par le calcul : $2x + 1 = -x + 7 \\Rightarrow x = 2$.',
+          'Les ordonnées à l\'origine se lisent où chaque droite coupe l\'axe des $y$ : $d_1$ en $(0 ; 1)$, $d_2$ en $(0 ; 7)$.'
+        ],
+        reading: 'Le point $(2 ; 5)$ est la solution du système : c\'est le seul couple $(x ; y)$ qui vérifie à la fois $y = 2x + 1$ et $y = -x + 7$.',
+        caption: 'Droites $d_1 : y = 2x + 1$ et $d_2 : y = -x + 7$, sécantes en $(2 ; 5)$ — solution graphique de l\'exemple du cours.'
+      },
       formulas: [
         'Équation de droite : $y = mx + p$',
         'Pente : $m = \\dfrac{y_B - y_A}{x_B - x_A}$',

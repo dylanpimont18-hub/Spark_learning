@@ -44,6 +44,74 @@ window.MODULES.push({
         '$m(t) = m_0 \\left(\\dfrac{1}{2}\\right)^{t/t_{1/2}} = m_0 e^{-\\lambda t}$',
         '$\\log(10^n) = n$ ; $\\ln(e^n) = n$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Décroissance radioactive',
+        title: '$m(t) = m_0 e^{-\\lambda t}$ avec $m_0 = 200$ mg et $t_{1/2} = 28{,}8$ ans (strontium 90, exemple du cours)',
+        description: 'Tracé point par point de la masse restante de strontium 90 au cours du temps, avec les paliers de demi-vie ($t_{1/2}$, $2t_{1/2}$, $3t_{1/2}$) marqués et vérifiés par calcul.',
+        svg: `
+          <svg viewBox="0 0 480 260" role="img" aria-labelledby="decay-graph-title decay-graph-desc">
+            <title id="decay-graph-title">Decroissance radioactive du strontium 90</title>
+            <desc id="decay-graph-desc">Courbe de la masse restante m(t) en fonction du temps pour le strontium 90, avec m0 = 200 mg et une demi-vie de 28,8 ans. Trois paliers de demi-vie sont marques : a 28,8 ans il reste 100 mg (la moitie), a 57,6 ans il reste 50 mg (le quart), a 86,4 ans il reste 25 mg (le huitieme). Le point a t = 50 ans, repris de l'exemple du cours, est egalement marque avec une masse restante d'environ 60 mg.</desc>
+
+            <!-- grille -->
+            <line class="grid-line" x1="60" y1="169.5" x2="440" y2="169.5"></line>
+            <line class="grid-line" x1="60" y1="88.6" x2="440" y2="88.6"></line>
+            <line class="grid-line" x1="186.7" y1="20" x2="186.7" y2="210"></line>
+            <line class="grid-line" x1="313.3" y1="20" x2="313.3" y2="210"></line>
+
+            <!-- axes -->
+            <line class="axis" x1="60" y1="210" x2="460" y2="210"></line>
+            <line class="axis" x1="60" y1="210" x2="60" y2="20"></line>
+
+            <!-- valeur initiale m0 -->
+            <line class="guide-line" x1="60" y1="48.1" x2="440" y2="48.1"></line>
+            <text class="annotation-label" x="436" y="41" text-anchor="end">m0 = 200 mg</text>
+
+            <!-- courbe m(t) = m0 * e^(-lambda t) -->
+            <path class="curve-main" d="M60.0 48.1 L72.7 58.9 L85.3 69.1 L98.0 78.5 L110.7 87.3 L123.3 95.5 L136.0 103.2 L148.7 110.3 L161.3 117.0 L174.0 123.2 L186.7 129.0 L199.3 134.5 L212.0 139.5 L224.7 144.2 L237.3 148.6 L250.0 152.8 L262.7 156.6 L275.3 160.2 L288.0 163.5 L300.7 166.6 L313.3 169.5 L326.0 172.2 L338.7 174.8 L351.3 177.1 L364.0 179.3 L376.7 181.4 L389.3 183.3 L402.0 185.1 L414.7 186.8 L427.3 188.3 L440.0 189.8"></path>
+
+            <!-- repere a 1 demi-vie : 100 mg -->
+            <line class="guide-line" x1="186.7" y1="210" x2="186.7" y2="129.0"></line>
+            <line class="guide-line" x1="60" y1="129.0" x2="186.7" y2="129.0"></line>
+            <circle class="plot-point" cx="186.7" cy="129.0" r="5"></circle>
+            <text class="annotation-label" x="191.7" y="124" text-anchor="start">100 mg (1/2)</text>
+
+            <!-- repere a 2 demi-vies : 50 mg -->
+            <line class="guide-line" x1="313.3" y1="210" x2="313.3" y2="169.5"></line>
+            <circle class="plot-point-alt" cx="313.3" cy="169.5" r="5"></circle>
+            <text class="annotation-label" x="318.3" y="150" text-anchor="start">50 mg (1/4)</text>
+
+            <!-- repere a 3 demi-vies : 25 mg -->
+            <circle class="plot-point-alt" cx="440" cy="189.8" r="4"></circle>
+            <text class="annotation-label" x="435" y="206" text-anchor="end">25 mg (1/8)</text>
+
+            <!-- point exemple t = 50 ans (repris de l'exemple du cours) -->
+            <circle class="plot-point-alt" cx="279.9" cy="161.4" r="4"></circle>
+            <text class="annotation-label" x="225" y="188" text-anchor="start">t = 50 ans</text>
+
+            <!-- ticks x -->
+            <text class="tick-label" x="60" y="228" text-anchor="middle">0</text>
+            <text class="tick-label" x="186.7" y="228" text-anchor="middle">t½ = 28,8 ans</text>
+            <text class="tick-label" x="313.3" y="228" text-anchor="middle">2t½ = 57,6 ans</text>
+            <text class="tick-label" x="440" y="228" text-anchor="end">3t½ = 86,4 ans</text>
+            <text class="axis-label" x="440" y="245" text-anchor="end">t (années)</text>
+
+            <!-- ticks y -->
+            <text class="tick-label" x="50" y="213" text-anchor="end">0</text>
+            <text class="tick-label" x="50" y="172.5" text-anchor="end">50</text>
+            <text class="tick-label" x="50" y="91.6" text-anchor="end">150</text>
+            <text class="axis-label" x="16" y="13" text-anchor="start">m (mg)</text>
+          </svg>
+        `,
+        notes: [
+          'À chaque demi-vie $t_{1/2}=28{,}8$ ans, la masse est divisée par $2$ : $200 \\to 100 \\to 50 \\to 25$ mg — c\'est la définition même de la demi-vie, vérifiée par $\\lambda = \\ln 2 / t_{1/2} \\approx 0{,}02407$ an$^{-1}$.',
+          'À $t=50$ ans (l\'exemple du cours, entre $1$ et $2$ demi-vies), il reste $m(50) = 200\\,e^{-\\lambda \\times 50} \\approx 60{,}0$ mg, soit environ $30\\%$ de la masse initiale.',
+          'La courbe s\'aplatit progressivement mais ne touche jamais l\'axe $m=0$ : en théorie, il reste toujours une trace de l\'échantillon, aussi petite soit-elle.'
+        ],
+        reading: 'Repère d\'abord les trois paliers régulièrement espacés dans le temps (une demi-vie à chaque fois) : la masse y est systématiquement divisée par $2$, ce qui donne la forme caractéristique en "marches qui s\'aplatissent" d\'une décroissance exponentielle.',
+        caption: 'Décroissance radioactive du strontium 90 : $m(t) = m_0\\,e^{-\\lambda t}$, avec $m_0 = 200$ mg et $t_{1/2} = 28{,}8$ ans (mêmes valeurs que l\'exemple du cours).'
+      },
       recap: [
         '$e^x$ est l\'unique fonction égale à sa propre dérivée, strictement positive, avec $e^0 = 1$ et $e^{a+b} = e^a \\cdot e^b$.',
         '$\\ln$ et $\\exp$ sont réciproques : $\\ln(e^x) = x$ et $e^{\\ln x} = x$. Ne jamais confondre $\\ln$ (base $e$) et $\\log$ (base $10$).',

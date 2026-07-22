@@ -679,7 +679,7 @@ function renderModulesList() {
 							<div class="module-card-keywords">
 								${getModuleSearchKeywords(m).slice(0, 3).map(k => `<span class="badge">${k}</span>`).join('')}
 							</div>
-							<div class="module-card-physics">${subjectDef.applicationIcon} ${m.physics}</div>
+							${m.physics ? `<div class="module-card-physics">${subjectDef.applicationIcon} ${m.physics}</div>` : ''}
 							<div class="module-card-progress">
 								<div class="progress-label">
 									<span>Progression</span>
@@ -783,7 +783,7 @@ function renderModuleDetail() {
 					<h1 class="module-detail-title">${mod.title}</h1>
 				</div>
 				<p class="module-detail-subtitle">${mod.subtitle}</p>
-				<div class="module-detail-physics">${subjectDef.applicationIcon} ${subjectDef.applicationLabel} : ${mod.physics}</div>
+				${mod.physics ? `<div class="module-detail-physics">${subjectDef.applicationIcon} ${subjectDef.applicationLabel} : ${mod.physics}</div>` : ''}
 
 				<nav class="tab-bar" role="tablist" aria-label="Onglets du module">
 					${tabs.map(t => `

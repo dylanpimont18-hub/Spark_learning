@@ -11,7 +11,7 @@ window.MODULES.push(
     title: 'Volumes : sphère et solides composés',
     subtitle: 'Formule de la sphère, assemblages',
     keywords: ['Sphère', 'Boule', 'Volume', 'Solides composés', 'Rayon'],
-    physics: true,
+    physics: 'Calcul du volume d\'un réservoir sphérique, d\'une planète, d\'une bulle de gaz',
     cours: {
       intro: 'La <strong>sphère</strong> est la surface des points à distance $r$ d\'un centre ; la <strong>boule</strong> est le volume plein qu\'elle délimite. La formule $V = \\dfrac{4}{3}\\pi r^3$ porte le <strong>cube du rayon</strong> : doubler le rayon multiplie le volume par $8$, pas par $2$ !<br/><br/>' +
         'Cette sensibilité au rayon explique pourquoi les cellules biologiques ne dépassent pas une certaine taille : leur surface (en $r^2$) ne peut plus suffire aux échanges si le volume (en $r^3$) croît trop vite.<br/><br/>' +
@@ -44,7 +44,43 @@ window.MODULES.push(
         'Surface d\'une sphère : $S = 4\\pi r^2$',
         'Hémisphère : $V = \\dfrac{2}{3}\\pi r^3$'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Solide</th><th style="border:1px solid var(--border);padding:8px">Formule du volume</th><th style="border:1px solid var(--border);padding:8px">Exemple ($r = 3$ cm)</th></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Boule</strong></td><td style="border:1px solid var(--border);padding:8px">$V = \\dfrac{4}{3}\\pi r^3$</td><td style="border:1px solid var(--border);padding:8px">$V = \\dfrac{4}{3} \\times 3{,}14 \\times 27 \\approx 113{,}04$ cm³</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Cylindre</strong></td><td style="border:1px solid var(--border);padding:8px">$V = \\pi r^2 h$</td><td style="border:1px solid var(--border);padding:8px">$V = 3{,}14 \\times 9 \\times 5 = 141{,}3$ cm³ ($h = 5$)</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Cône</strong></td><td style="border:1px solid var(--border);padding:8px">$V = \\dfrac{1}{3}\\pi r^2 h$</td><td style="border:1px solid var(--border);padding:8px">$V = \\dfrac{1}{3} \\times 3{,}14 \\times 9 \\times 5 = 47{,}1$ cm³</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Pyramide</strong></td><td style="border:1px solid var(--border);padding:8px">$V = \\dfrac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$</td><td style="border:1px solid var(--border);padding:8px">Base $4 \\times 4$, $h = 5$ : $V = \\dfrac{1}{3} \\times 16 \\times 5 \\approx 26{,}67$ cm³</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Puissance du rayon',
+        title: 'Comparer deux sphères : quand le rayon double, le volume est multiplié par 8',
+        description: 'Le rayon passe de $r$ à $2r$ : chaque longueur double, mais le volume dépend du <strong>cube</strong> du rayon, donc $V\' = 2^3 \\times V = 8V$.',
+        svg: `
+          <svg viewBox="0 0 380 290" role="img" aria-labelledby="volumes-graph-title volumes-graph-desc">
+            <title id="volumes-graph-title">Deux spheres de rayons r et 2r</title>
+            <desc id="volumes-graph-desc">Le schema montre deux spheres, l'une de rayon r = 3 cm et l'autre de rayon double 2r = 6 cm, avec leurs volumes V = 113,04 cm3 et V' = 904,32 cm3, dans un rapport de 8.</desc>
+            <rect x="20" y="8" width="340" height="30" rx="12" fill="color-mix(in srgb, var(--diagram-accent) 7%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 22%, var(--border))"></rect>
+            <text class="annotation-label" x="32" y="28">Rayon x 2  -&gt;  Volume x 2^3 = 8</text>
+            <circle cx="110" cy="200" r="36" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></circle>
+            <circle class="frame-line" cx="110" cy="200" r="36" fill="none"></circle>
+            <circle cx="270" cy="160" r="72" fill="color-mix(in srgb, var(--diagram-accent) 14%, transparent)" stroke="none"></circle>
+            <circle class="curve-main" cx="270" cy="160" r="72" fill="none"></circle>
+            <line class="guide-line" x1="110" y1="200" x2="146" y2="200"></line>
+            <line class="guide-line" x1="270" y1="160" x2="342" y2="160"></line>
+            <circle class="plot-point-alt" cx="110" cy="200" r="4"></circle>
+            <circle class="plot-point-alt" cx="270" cy="160" r="4"></circle>
+            <circle class="plot-point" cx="146" cy="200" r="4"></circle>
+            <circle class="plot-point" cx="342" cy="160" r="4"></circle>
+            <text class="annotation-label" x="118" y="190">r = 3 cm</text>
+            <text class="annotation-label" x="278" y="148">2r = 6 cm</text>
+            <text class="label-soft" x="110" y="150" text-anchor="middle">Sphere 1</text>
+            <text class="label-soft" x="270" y="74" text-anchor="middle">Sphere 2</text>
+            <text class="annotation-label" x="110" y="254" text-anchor="middle">V = 113,04 cm3</text>
+            <text class="annotation-label" x="270" y="254" text-anchor="middle">V' = 904,32 cm3</text>
+          </svg>
+        `,
+        notes: [
+          'Ici $r = 3$ cm et $2r = 6$ cm : ce sont les mêmes valeurs que dans l\'exemple du cours, pour vérifier la cohérence des deux calculs.',
+          '$V = \\dfrac{4}{3}\\pi r^3 \\approx 113{,}04$ cm³ pour la petite sphère, avec $\\pi \\approx 3{,}14$.',
+          '$V\' = \\dfrac{4}{3}\\pi (2r)^3 = 2^3 \\times \\dfrac{4}{3}\\pi r^3 = 8V \\approx 904{,}32$ cm³ : on vérifie $904{,}32 \\div 113{,}04 = 8$.'
+        ],
+        reading: 'Ne confonds pas facteur de longueur et facteur de volume : le rayon double (facteur $2$) mais le volume est multiplié par $2^3 = 8$, pas par $2$.',
+        caption: 'Deux sphères de rayons $r = 3$ cm et $2r = 6$ cm : leurs volumes sont dans un rapport de $8 = 2^3$.'
+      },
       recap: [
         'La formule de la boule est $V = \\dfrac{4}{3}\\pi r^3$ — le volume dépend du <strong>cube</strong> du rayon.',
         'Doubler le rayon multiplie le volume par $2^3 = 8$ — pas par $2$ ! C\'est la principale source d\'erreur.',

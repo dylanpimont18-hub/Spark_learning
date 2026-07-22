@@ -43,6 +43,61 @@ window.MODULES.push({
         'Si $a > 0$ : $ax < c \\Rightarrow x < \\dfrac{c}{a}$',
         'Si $a < 0$ : $ax < c \\Rightarrow x > \\dfrac{c}{a}$ (inversion !)'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Droite graduée',
+        title: 'L\'ensemble solution de −5x + 3 ≥ 18',
+        description: 'La solution de l\'inéquation résolue dans l\'exemple du cours ($x \\leq -3$) représentée sur une droite graduée : cercle rempli en $-3$ (borne incluse) et zone hachurée vers $-\\infty$.',
+        svg: `
+          <svg viewBox="0 0 400 150" role="img" aria-labelledby="ineq2nde-title ineq2nde-desc">
+            <title id="ineq2nde-title">Droite graduee : ensemble solution de l'inequation</title>
+            <desc id="ineq2nde-desc">Droite graduee de -6 a 0, avec un cercle rempli au point -3 car l'inegalite est large, et une portion hachuree partant de -3 vers la gauche jusqu'a moins l'infini, representant l'ensemble des solutions x inferieur ou egal a -3.</desc>
+            <defs>
+              <marker id="arrow-2nde-eq-ineq" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
+
+            <line class="axis" x1="15" y1="80" x2="385" y2="80" marker-start="url(#arrow-2nde-eq-ineq)" marker-end="url(#arrow-2nde-eq-ineq)"></line>
+
+            <line class="grid-line" x1="45" y1="75" x2="45" y2="85"></line>
+            <text class="tick-label" x="45" y="102" text-anchor="middle">-6</text>
+            <line class="grid-line" x1="90" y1="75" x2="90" y2="85"></line>
+            <text class="tick-label" x="90" y="102" text-anchor="middle">-5</text>
+            <line class="grid-line" x1="135" y1="75" x2="135" y2="85"></line>
+            <text class="tick-label" x="135" y="102" text-anchor="middle">-4</text>
+            <line class="grid-line" x1="180" y1="75" x2="180" y2="85"></line>
+            <text class="annotation-label" x="180" y="102" text-anchor="middle">-3</text>
+            <line class="grid-line" x1="225" y1="75" x2="225" y2="85"></line>
+            <text class="tick-label" x="225" y="102" text-anchor="middle">-2</text>
+            <line class="grid-line" x1="270" y1="75" x2="270" y2="85"></line>
+            <text class="tick-label" x="270" y="102" text-anchor="middle">-1</text>
+            <line class="grid-line" x1="315" y1="75" x2="315" y2="85"></line>
+            <text class="tick-label" x="315" y="102" text-anchor="middle">0</text>
+
+            <line class="curve-main" x1="174" y1="80" x2="55" y2="80" marker-end="url(#arrow-2nde-eq-ineq)"></line>
+            <line x1="62" y1="72" x2="74" y2="88" stroke="var(--diagram-accent)" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="82" y1="72" x2="94" y2="88" stroke="var(--diagram-accent)" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="102" y1="72" x2="114" y2="88" stroke="var(--diagram-accent)" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="122" y1="72" x2="134" y2="88" stroke="var(--diagram-accent)" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="142" y1="72" x2="154" y2="88" stroke="var(--diagram-accent)" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="162" y1="72" x2="174" y2="88" stroke="var(--diagram-accent)" stroke-width="2" stroke-linecap="round"></line>
+
+            <circle class="plot-point" cx="180" cy="80" r="6"></circle>
+
+            <text class="annotation-label" x="115" y="55" text-anchor="middle">x ≤ -3</text>
+            <text class="label-soft" x="35" y="60" text-anchor="middle">-∞</text>
+            <text class="axis-label" x="368" y="70">x</text>
+          </svg>
+        `,
+        notes: [
+          'Le cercle est <strong>fermé</strong> (rempli) en $-3$ car l\'inégalité est large ($\\geq$) : $-3$ lui-même fait partie de la solution.',
+          'Les hachures et la flèche s\'étendent vers la gauche ($-\\infty$) car $x$ doit être inférieur ou égal à $-3$.',
+          'Notation : $x \\in\\, ]-\\infty\\,;\\,-3]$ — le crochet est tourné vers l\'intérieur du côté de $-3$ car la borne est incluse.'
+        ],
+        reading: 'Repère le cercle rempli en $-3$ : il signale une borne incluse. La zone hachurée à sa gauche représente toutes les valeurs solutions.',
+        caption: 'Ensemble solution de l\'inéquation $-5x + 3 \\geq 18$ résolue dans l\'exemple du cours, soit $x \\in\\, ]-\\infty\\,;\\,-3]$.'
+      },
       recap: [
         'Équation du 1er degré : isoler $x$ par opérations réversibles ; une unique solution.',
         'Inéquation : même méthode, mais inverser le sens si on multiplie/divise par un négatif.',

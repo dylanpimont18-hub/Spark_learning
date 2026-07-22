@@ -32,7 +32,64 @@ window.MODULES.push({
         ],
         answer: '$A\'(-1 ; -1)$'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Propriété</th><th style="border:1px solid var(--border);padding:6px 14px">Symétrie axiale</th><th style="border:1px solid var(--border);padding:6px 14px">Symétrie centrale</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px"><strong>Élément</strong></td><td style="border:1px solid var(--border);padding:6px 14px">Axe (droite)</td><td style="border:1px solid var(--border);padding:6px 14px">Centre (point)</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px"><strong>Équivalence</strong></td><td style="border:1px solid var(--border);padding:6px 14px">Pliage / miroir</td><td style="border:1px solid var(--border);padding:6px 14px">Rotation $180°$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px"><strong>Distances</strong></td><td style="border:1px solid var(--border);padding:6px 14px">Conservées ✓</td><td style="border:1px solid var(--border);padding:6px 14px">Conservées ✓</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px"><strong>Orientation</strong></td><td style="border:1px solid var(--border);padding:6px 14px">Inversée</td><td style="border:1px solid var(--border);padding:6px 14px">Inversée</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Symétrie centrale dans un repère',
+        title: 'Construire le symétrique d\'un point par rapport à un centre',
+        description: 'Le point $A(5 ; 3)$ est réfléchi par rapport au centre $O(2 ; 1)$. Le symétrique $A\'$ est tel que $O$ est le milieu de $[AA\']$ : on trouve $A\'(-1 ; -1)$.',
+        svg: `
+          <svg viewBox="0 0 360 290" role="img" aria-labelledby="symcentrale-title symcentrale-desc">
+            <title id="symcentrale-title">Symétrique d'un point par rapport à un centre</title>
+            <desc id="symcentrale-desc">Le point A en 5 ; 3 est réfléchi par rapport au centre O en 2 ; 1. Les points A, O et A' sont alignés, avec O au milieu du segment AA'. Le symétrique A' est en moins 1 ; moins 1.</desc>
+            <line class="grid-line" x1="50" y1="30" x2="50" y2="246"></line>
+            <line class="grid-line" x1="122" y1="30" x2="122" y2="246"></line>
+            <line class="grid-line" x1="158" y1="30" x2="158" y2="246"></line>
+            <line class="grid-line" x1="194" y1="30" x2="194" y2="246"></line>
+            <line class="grid-line" x1="230" y1="30" x2="230" y2="246"></line>
+            <line class="grid-line" x1="266" y1="30" x2="266" y2="246"></line>
+            <line class="grid-line" x1="50" y1="30" x2="266" y2="30"></line>
+            <line class="grid-line" x1="50" y1="66" x2="266" y2="66"></line>
+            <line class="grid-line" x1="50" y1="102" x2="266" y2="102"></line>
+            <line class="grid-line" x1="50" y1="138" x2="266" y2="138"></line>
+            <line class="grid-line" x1="50" y1="210" x2="266" y2="210"></line>
+            <line class="grid-line" x1="50" y1="246" x2="266" y2="246"></line>
+            <line class="axis" x1="86" y1="20" x2="86" y2="256"></line>
+            <line class="axis" x1="40" y1="174" x2="280" y2="174"></line>
+            <line class="guide-line" x1="266" y1="66" x2="50" y2="210"></line>
+            <line class="frame-line" x1="208" y1="96" x2="216" y2="108"></line>
+            <line class="frame-line" x1="100" y1="168" x2="108" y2="180"></line>
+            <circle class="plot-point-alt" cx="266" cy="66" r="6"></circle>
+            <circle class="plot-point" cx="158" cy="138" r="7"></circle>
+            <circle class="plot-point" cx="50" cy="210" r="6"></circle>
+            <text class="annotation-label" x="270" y="58">A(5 ; 3)</text>
+            <text class="annotation-label" x="132" y="118">O(2 ; 1)</text>
+            <text class="annotation-label" x="4" y="236">A'(-1 ; -1)</text>
+            <text class="axis-label" x="284" y="178">x</text>
+            <text class="axis-label" x="92" y="26">y</text>
+            <text class="tick-label" x="40" y="260">-1</text>
+            <text class="tick-label" x="82" y="260">0</text>
+            <text class="tick-label" x="118" y="260">1</text>
+            <text class="tick-label" x="154" y="260">2</text>
+            <text class="tick-label" x="190" y="260">3</text>
+            <text class="tick-label" x="226" y="260">4</text>
+            <text class="tick-label" x="262" y="260">5</text>
+            <text class="tick-label" x="36" y="34">4</text>
+            <text class="tick-label" x="36" y="70">3</text>
+            <text class="tick-label" x="36" y="106">2</text>
+            <text class="tick-label" x="36" y="142">1</text>
+            <text class="tick-label" x="36" y="178">0</text>
+            <text class="tick-label" x="28" y="214">-1</text>
+            <text class="tick-label" x="28" y="250">-2</text>
+          </svg>
+        `,
+        notes: [
+          'Les points $A$, $O$ et $A\'$ sont alignés : $A\'$ se trouve sur la droite $(AO)$, de l\'autre côté de $O$.',
+          'Les deux petites marques sur $[OA]$ et $[OA\']$ indiquent des distances égales : $OA = OA\'$.',
+          'Formule : $x_{A\'} = 2x_O - x_A = 2 \\times 2 - 5 = -1$ et $y_{A\'} = 2y_O - y_A = 2 \\times 1 - 3 = -1$.'
+        ],
+        reading: 'Le centre $O$ est le milieu de $[AA\']$ : il se trouve exactement au milieu du segment qui relie un point à son symétrique.',
+        caption: 'Symétrique de $A(5 ; 3)$ par rapport au centre $O(2 ; 1)$ : on obtient $A\'(-1 ; -1)$, avec $O$ milieu de $[AA\']$.'
+      },
       method: {
         title: 'Méthode en 3 étapes',
         steps: [

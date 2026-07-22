@@ -44,6 +44,76 @@ window.MODULES.push({
         '$f$ concave $\\Leftrightarrow f\'\'\\le 0$',
         'Point d\'inflexion : $f\'\'(a)=0$ et changement de signe de $f\'\'$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Point d\'inflexion',
+        title: 'Convexité de $f(x) = x^3 - 3x^2 + 2$ (exemple du cours)',
+        description: 'La courbe est <strong>concave</strong> sur $]-\\infty\\,;\\,1]$ (zone teintée à gauche, $f\'\'<0$) puis <strong>convexe</strong> sur $[1\\,;\\,+\\infty[$ (zone teintée à droite, $f\'\'>0$). La courbure change exactement au point d\'inflexion $(1\\,;\\,0)$, où la tangente pointillée traverse la courbe.',
+        svg: `
+          <svg viewBox="0 0 420 300" role="img" aria-labelledby="convexite-title convexite-desc">
+            <title id="convexite-title">Convexite et concavite de f(x) = x^3 - 3x^2 + 2</title>
+            <desc id="convexite-desc">Courbe cubique avec une zone concave teintee a gauche du point d'inflexion et une zone convexe teintee a droite. Le point d'inflexion est marque en (1;0) et la tangente pointillee en ce point traverse la courbe.</desc>
+
+            <!-- zones de courbure -->
+            <rect x="55" y="40" width="170" height="195" fill="color-mix(in srgb, var(--secondary) 13%, transparent)" stroke="none"></rect>
+            <rect x="225" y="40" width="170" height="195" fill="color-mix(in srgb, var(--accent) 16%, transparent)" stroke="none"></rect>
+
+            <!-- grille verticale -->
+            <line class="grid-line" x1="59.1" y1="40" x2="59.1" y2="235"></line>
+            <line class="grid-line" x1="142.1" y1="40" x2="142.1" y2="235"></line>
+            <line class="grid-line" x1="225.0" y1="40" x2="225.0" y2="235"></line>
+            <line class="grid-line" x1="307.9" y1="40" x2="307.9" y2="235"></line>
+            <line class="grid-line" x1="390.9" y1="40" x2="390.9" y2="235"></line>
+
+            <!-- grille horizontale -->
+            <line class="grid-line" x1="55" y1="207.1" x2="395" y2="207.1"></line>
+            <line class="grid-line" x1="55" y1="172.3" x2="395" y2="172.3"></line>
+            <line class="grid-line" x1="55" y1="102.7" x2="395" y2="102.7"></line>
+            <line class="grid-line" x1="55" y1="67.9" x2="395" y2="67.9"></line>
+
+            <!-- axes -->
+            <line class="axis" x1="48" y1="137.5" x2="402" y2="137.5"></line>
+            <line class="axis" x1="142.1" y1="30" x2="142.1" y2="245"></line>
+
+            <!-- tangente au point d'inflexion (pointille), traverse la courbe -->
+            <line class="guide-line" x1="175.2" y1="74.8" x2="274.8" y2="200.2"></line>
+
+            <!-- courbe -->
+            <polyline class="curve-main" points="55.0,223.3 63.3,192.0 71.6,164.7 79.9,141.3 88.2,121.6 96.5,105.3 104.8,92.2 113.0,82.1 121.3,74.9 129.6,70.3 137.9,68.1 146.2,68.1 154.5,70.1 162.8,73.8 171.1,79.2 179.4,85.8 187.7,93.7 196.0,102.4 204.3,111.9 212.6,121.9 220.9,132.3 229.1,142.7 237.4,153.1 245.7,163.1 254.0,172.6 262.3,181.3 270.6,189.2 278.9,195.8 287.2,201.2 295.5,204.9 303.8,206.9 312.1,206.9 320.4,204.7 328.7,200.1 337.0,192.9 345.2,182.8 353.5,169.7 361.8,153.4 370.1,133.7 378.4,110.3 386.7,83.0 395.0,51.7"></polyline>
+
+            <!-- point d'inflexion -->
+            <circle class="plot-point-alt" cx="225.0" cy="137.5" r="6"></circle>
+
+            <!-- etiquettes -->
+            <text class="annotation-label" x="210" y="18" text-anchor="middle">f(x) = x³ − 3x² + 2</text>
+            <text class="annotation-label" x="140" y="55" text-anchor="middle">Concave (f'' &lt; 0)</text>
+            <text class="annotation-label" x="310" y="55" text-anchor="middle">Convexe (f'' &gt; 0)</text>
+            <text class="annotation-label" x="231" y="120" text-anchor="start">Inflexion (1 ; 0)</text>
+            <text class="label-soft" x="278" y="212" text-anchor="middle">tangente</text>
+
+            <text class="tick-label" x="59.1" y="250" text-anchor="middle">-1</text>
+            <text class="tick-label" x="142.1" y="250" text-anchor="middle">0</text>
+            <text class="tick-label" x="225.0" y="250" text-anchor="middle">1</text>
+            <text class="tick-label" x="307.9" y="250" text-anchor="middle">2</text>
+            <text class="tick-label" x="390.9" y="250" text-anchor="middle">3</text>
+
+            <text class="tick-label" x="35" y="211" text-anchor="middle">-2</text>
+            <text class="tick-label" x="35" y="176" text-anchor="middle">-1</text>
+            <text class="tick-label" x="35" y="107" text-anchor="middle">1</text>
+            <text class="tick-label" x="35" y="72" text-anchor="middle">2</text>
+
+            <text class="axis-label" x="406" y="141">x</text>
+            <text class="axis-label" x="147" y="24">y</text>
+          </svg>
+        `,
+        notes: [
+          'Zone teintée à gauche : sur $]-\\infty\\,;\\,1]$, $f\'\'(x) < 0$ donc $f$ est <strong>concave</strong> — les tangentes sont AU-DESSUS de la courbe.',
+          'Zone teintée à droite : sur $[1\\,;\\,+\\infty[$, $f\'\'(x) > 0$ donc $f$ est <strong>convexe</strong> — les tangentes sont EN-DESSOUS de la courbe.',
+          'Au point d\'inflexion $(1\\,;\\,0)$ (marqué en évidé), la tangente pointillée <strong>traverse</strong> la courbe : c\'est la signature visuelle d\'un changement de convexité.'
+        ],
+        reading: 'Repère d\'abord la couleur des deux zones : la courbure change de sens exactement à la frontière entre elles, au point d\'inflexion $(1\\,;\\,0)$.',
+        caption: 'Courbe de $f(x) = x^3 - 3x^2 + 2$ avec zones de concavité/convexité distinguées et point d\'inflexion en $(1\\,;\\,0)$.'
+      },
       recap: [
         '$f\'\' > 0$ → convexe (bol / tangentes en-dessous). $f\'\' < 0$ → concave (dôme / tangentes au-dessus).',
         'Point d\'inflexion = $f\'\'$ change de signe. La condition $f\'\'(a) = 0$ est <strong>nécessaire mais pas suffisante</strong>.',

@@ -32,7 +32,52 @@ window.MODULES.push({
         ],
         answer: 'Alterne-interne : $72°$, coalterne : $108°$, correspondant : $72°$'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Paire d\'angles</th><th style="border:1px solid var(--border);padding:6px 14px">Configuration</th><th style="border:1px solid var(--border);padding:6px 14px">Relation (si //)</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Alternes-internes</td><td style="border:1px solid var(--border);padding:6px 14px">Z</td><td style="border:1px solid var(--border);padding:6px 14px">$\\hat{a} = \\hat{b}$ (égaux)</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Correspondants</td><td style="border:1px solid var(--border);padding:6px 14px">F</td><td style="border:1px solid var(--border);padding:6px 14px">$\\hat{a} = \\hat{c}$ (égaux)</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Coalternes-internes</td><td style="border:1px solid var(--border);padding:6px 14px">U</td><td style="border:1px solid var(--border);padding:6px 14px">$\\hat{a} + \\hat{d} = 180°$</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Angles et parallélisme',
+        title: 'Les 8 angles formés par une sécante coupant deux parallèles',
+        description: 'Deux droites parallèles $(d_1)$ et $(d_2)$ sont coupées par une sécante : quatre angles se forment à chaque point d’intersection, soit huit angles au total, numérotés de 1 à 8.',
+        svg: `
+          <svg viewBox="0 0 360 240" role="img" aria-labelledby="angles-graph-title angles-graph-desc">
+            <title id="angles-graph-title">Huit angles formés par une sécante coupant deux droites parallèles</title>
+            <desc id="angles-graph-desc">Deux droites parallèles d1 et d2 sont coupées par une sécante. Quatre angles se forment à chaque intersection, numérotés de 1 à 8. Les angles 3, 5 et 7 sont égaux entre eux ; l'angle 6 est supplémentaire à l'angle 3.</desc>
+            <line class="frame-line" x1="30" y1="70" x2="330" y2="70"></line>
+            <line class="frame-line" x1="30" y1="170" x2="330" y2="170"></line>
+            <line class="frame-line" x1="48" y1="10" x2="312" y2="230"></line>
+            <polyline class="frame-line" points="85,64 93,70 85,76" fill="none"></polyline>
+            <polyline class="frame-line" points="85,164 93,170 85,176" fill="none"></polyline>
+            <path class="grid-line" d="M102,70 A18,18 0 0,1 106.17,58.48" fill="none"></path>
+            <path class="grid-line" d="M106.17,58.48 A18,18 0 0,1 138,70" fill="none"></path>
+            <path class="grid-line" d="M133.83,81.52 A18,18 0 0,1 102,70" fill="none"></path>
+            <path class="grid-line" d="M253.83,181.52 A18,18 0 0,1 222,170" fill="none"></path>
+            <path class="curve-main" d="M144,70 A24,24 0 0,1 138.44,85.36" fill="none"></path>
+            <path class="curve-main" d="M216,170 A24,24 0 0,1 221.56,154.64" fill="none"></path>
+            <path class="axis" d="M221.56,154.64 A24,24 0 0,1 264,170" fill="none"></path>
+            <path class="curve-main" d="M264,170 A24,24 0 0,1 258.44,185.36" fill="none"></path>
+            <circle class="plot-point" cx="120" cy="70" r="5"></circle>
+            <circle class="plot-point" cx="240" cy="170" r="5"></circle>
+            <text class="axis-label" x="30" y="60">d1</text>
+            <text class="axis-label" x="30" y="188">d2</text>
+            <text class="annotation-label" x="52" y="20">sécante</text>
+            <text class="tick-label" x="84" y="62">1</text>
+            <text class="tick-label" x="128" y="42">2</text>
+            <text class="annotation-label" x="148" y="86">3</text>
+            <text class="tick-label" x="104" y="106">4</text>
+            <text class="annotation-label" x="204" y="162">5</text>
+            <text class="annotation-label" x="248" y="142">6</text>
+            <text class="annotation-label" x="268" y="186">7</text>
+            <text class="tick-label" x="224" y="206">8</text>
+          </svg>
+        `,
+        notes: [
+          'Les angles <strong>3</strong> et <strong>7</strong> sont <strong>correspondants</strong> (même position par rapport à la sécante, arcs pleins) : ils sont égaux.',
+          'Les angles <strong>3</strong> et <strong>5</strong> sont <strong>alternes-internes</strong> (configuration en Z : entre les deux parallèles, de part et d’autre de la sécante) : ils sont égaux.',
+          'Les angles <strong>3</strong> et <strong>6</strong> sont <strong>coalternes-internes</strong> (configuration en U : entre les deux parallèles, du même côté de la sécante, arc plus sombre) : leur somme vaut $180°$, ils sont supplémentaires.',
+          'Les angles 1, 2, 4 et 8 ferment la figure : chacun est soit vertical (égal à l’angle opposé par le sommet), soit supplémentaire à ses voisins immédiats.'
+        ],
+        reading: 'Repère d’abord la sécante (la droite oblique), puis regarde si les deux angles à comparer sont entre les deux parallèles (internes) ou à l’extérieur, et s’ils sont du même côté ou de part et d’autre de la sécante.',
+        caption: 'Deux droites parallèles coupées par une sécante : huit angles numérotés, avec le trio 3-5-7 égal (arcs pleins) et l’angle 6 supplémentaire à l’angle 3 (arc plus sombre).'
+      },
       method: {
         title: 'Méthode en 3 étapes',
         steps: [

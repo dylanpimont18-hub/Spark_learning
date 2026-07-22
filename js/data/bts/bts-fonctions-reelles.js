@@ -44,6 +44,59 @@ window.MODULES.push(
         '$(e^x)\' = e^x$, $(\\ln x)\'=\\frac{1}{x}$, $(x^n)\'=nx^{n-1}$',
         'Règle de L\'Hôpital : $\\lim\\frac{f}{g}\\xrightarrow[0/0 \\text{ ou } \\infty/\\infty]{}\\lim\\frac{f\'}{g\'}$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Exemple du cours — asymptote horizontale',
+        title: 'Courbe du rendement $\\eta(x) = \\dfrac{100x}{x+5}$',
+        description: 'Sur le domaine $]0\\,;\\,+\\infty[$, la courbe croît rapidement puis se rapproche de l\'asymptote horizontale $y=100$ sans jamais l\'atteindre.',
+        svg: `
+          <svg viewBox="0 0 360 240" role="img" aria-labelledby="bts-fonctions-reelles-graph-title bts-fonctions-reelles-graph-desc">
+            <title id="bts-fonctions-reelles-graph-title">Courbe de rendement avec asymptote horizontale</title>
+            <desc id="bts-fonctions-reelles-graph-desc">La courbe de eta(x) = 100x/(x+5) part d'un point ouvert en x=0, croit sur tout le domaine et se rapproche de l'asymptote horizontale y=100 sans la toucher.</desc>
+            <line class="grid-line" x1="52" y1="156.5" x2="324" y2="156.5"></line>
+            <line class="grid-line" x1="52" y1="127.1" x2="324" y2="127.1"></line>
+            <line class="grid-line" x1="52" y1="97.6" x2="324" y2="97.6"></line>
+            <line class="grid-line" x1="52" y1="68.2" x2="324" y2="68.2"></line>
+            <line class="grid-line" x1="106.4" y1="24" x2="106.4" y2="186"></line>
+            <line class="grid-line" x1="160.8" y1="24" x2="160.8" y2="186"></line>
+            <line class="grid-line" x1="215.2" y1="24" x2="215.2" y2="186"></line>
+            <line class="grid-line" x1="269.6" y1="24" x2="269.6" y2="186"></line>
+            <line class="grid-line" x1="324" y1="24" x2="324" y2="186"></line>
+            <line class="axis" x1="52" y1="186" x2="332" y2="186"></line>
+            <line class="axis" x1="52" y1="194" x2="52" y2="20"></line>
+            <line class="guide-line" x1="52" y1="38.7" x2="332" y2="38.7"></line>
+            <path class="curve-main" d="M52.0 186.0 L65.6 136.9 L79.2 112.4 L92.8 97.6 L106.4 87.8 L120.0 80.8 L133.6 75.5 L147.2 71.5 L160.8 68.2 L174.4 65.5 L188.0 63.3 L201.6 61.4 L215.2 59.8 L228.8 58.4 L242.4 57.1 L256.0 56.1 L269.6 55.1 L283.2 54.2 L296.8 53.5 L310.4 52.8 L324.0 52.1"></path>
+            <line class="guide-line" x1="160.8" y1="68.2" x2="160.8" y2="186"></line>
+            <line class="guide-line" x1="52" y1="68.2" x2="160.8" y2="68.2"></line>
+            <circle class="plot-point-alt" cx="52" cy="186" r="5"></circle>
+            <circle class="plot-point" cx="160.8" cy="68.2" r="6"></circle>
+            <text class="annotation-label" x="150" y="30">y = 100 (asymptote)</text>
+            <text class="annotation-label" x="164" y="60">η(20) = 80 %</text>
+            <text class="annotation-label" x="60" y="70">η(x) = 100x / (x+5)</text>
+            <text class="label-soft" x="58" y="178">x = 0 exclu</text>
+            <text class="axis-label" x="336" y="190">x (A)</text>
+            <text class="axis-label" x="58" y="20">η (%)</text>
+            <text class="tick-label" x="48" y="203">0</text>
+            <text class="tick-label" x="100" y="203">10</text>
+            <text class="tick-label" x="155" y="203">20</text>
+            <text class="tick-label" x="209" y="203">30</text>
+            <text class="tick-label" x="264" y="203">40</text>
+            <text class="tick-label" x="318" y="203">50</text>
+            <text class="tick-label" x="30" y="160">20</text>
+            <text class="tick-label" x="30" y="131">40</text>
+            <text class="tick-label" x="30" y="101">60</text>
+            <text class="tick-label" x="30" y="72">80</text>
+            <text class="tick-label" x="24" y="42">100</text>
+          </svg>
+        `,
+        notes: [
+          'Le domaine est $]0\\,;\\,+\\infty[$ : la courbe part d\'un point ouvert en $x=0$ (cercle non rempli), valeur exclue du domaine.',
+          'La dérivée $\\eta\'(x) = \\dfrac{500}{(x+5)^2} > 0$ pour tout $x>0$ : la fonction est strictement croissante sur tout le domaine.',
+          'L\'asymptote horizontale $y=100$ (pointillés) montre que le rendement se rapproche de $100\\,\\%$ sans jamais l\'atteindre : par exemple $\\eta(20)=80\\,\\%$, encore loin de la saturation.'
+        ],
+        reading: 'La courbe illustre une saturation typique en électronique : le rendement croît vite au début, puis de plus en plus lentement, en restant toujours en dessous de l\'asymptote horizontale $y=100$.',
+        caption: 'Rendement $\\eta(x)=\\dfrac{100x}{x+5}$ d\'un convertisseur : croissance sur $]0\\,;\\,+\\infty[$ vers l\'asymptote horizontale $y=100$.'
+      },
       recap: [
         'Le domaine est contraint par 3 interdits : dénominateur $= 0$, radicande $< 0$, argument du $\\ln \\leq 0$.',
         'Bien distinguer asymptote verticale ($\\lim = \\pm\\infty$) et trou (discontinuité effaçable, $\\lim$ finie).',

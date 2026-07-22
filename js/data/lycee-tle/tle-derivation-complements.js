@@ -10,7 +10,7 @@ window.MODULES.push({
     title: 'Compléments sur la dérivation',
     subtitle: 'Dérivée de composées, produit, quotient',
     keywords: ['Dérivée', 'Produit', 'Quotient', 'Composée', 'Fonction'],
-    physics: true,
+    physics: 'Calcul de la vitesse et de l\'accélération instantanées à partir de la position, puissance électrique instantanée',
     cours: {
       intro: 'La <strong>règle du produit</strong> $(uv)\' = u\'v + uv\'$ s\'explique géométriquement : si une longueur $u$ et une largeur $v$ varient, l\'aire $uv$ varie de $u\\ \\delta v + v\\ \\delta u$ (le terme $\\delta u\\ \\delta v$ est négligeable).<br/><br/>La <strong>règle du quotient</strong> $(u/v)\' = (u\'v - uv\')/v^2$ s\'en déduit algébriquement.<br/><br/>La <strong>règle de la chaîne</strong> $(f\\circ g)\' = g\' \\times f\'(g)$ dit que "les taux de variation se multiplient".<br/><br/>Deux pièges fréquents : croire que $(u/v)\' = u\'/v\'$ (faux — on ne divise pas les dérivées) et inverser l\'ordre dans le numérateur du quotient ($u\'v - uv\'$, et non $uv\' - u\'v$).<br/><br/>Un contre-exemple simple : $(x/(x+1))\' = 1/(x+1)^2$ et non $1/1 = 1$.',
       definitions: [
@@ -44,6 +44,50 @@ window.MODULES.push({
         '$(u^n)\'=nu^{n-1}u\'$',
         '$(\\sqrt{u})\'=\\dfrac{u\'}{2\\sqrt{u}}$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Tangente et règle du quotient',
+        title: 'Tangente à $f(x)=\\dfrac{e^x}{x^2+1}$ au point où $f\'(0)=1$',
+        description: 'La courbe reprend l\'exemple du cours, calculée point par point : elle est croissante sur $\\mathbb{R}$ car $f\'(x)=\\dfrac{e^x(x-1)^2}{(x^2+1)^2}\\geq0$. Au point $A(0\\,;\\,1)$, la tangente a pour coefficient directeur $f\'(0)=1$.',
+        svg: `
+          <svg viewBox="0 0 400 280" role="img" aria-labelledby="deriv-graph-title deriv-graph-desc">
+            <title id="deriv-graph-title">Courbe de f et sa tangente au point A</title>
+            <desc id="deriv-graph-desc">Courbe croissante de f(x) egale e puissance x sur x carre plus 1, avec la tangente au point A(0;1) de pente 1.</desc>
+            <line class="grid-line" x1="50" y1="20" x2="50" y2="250"></line>
+            <line class="grid-line" x1="116" y1="20" x2="116" y2="250"></line>
+            <line class="grid-line" x1="248" y1="20" x2="248" y2="250"></line>
+            <line class="grid-line" x1="314" y1="20" x2="314" y2="250"></line>
+            <line class="grid-line" x1="380" y1="20" x2="380" y2="250"></line>
+            <line class="grid-line" x1="40" y1="144.5" x2="390" y2="144.5"></line>
+            <line class="grid-line" x1="40" y1="49.1" x2="390" y2="49.1"></line>
+            <line class="axis" x1="40" y1="240" x2="390" y2="240"></line>
+            <line class="axis" x1="182" y1="20" x2="182" y2="250"></line>
+            <path class="curve-main" d="M50 237.4 L83 233.4 L116 222.4 L149 193.7 L182 144.5 L215 114.1 L248 110.3 L281 108.4 L314 98.9 L347 79.6 L380 48.3"></path>
+            <line class="guide-line" x1="129.2" y1="220.9" x2="261.2" y2="30"></line>
+            <circle class="plot-point" cx="182" cy="144.5" r="4.5"></circle>
+            <text class="tick-label" x="46" y="254">-2</text>
+            <text class="tick-label" x="112" y="254">-1</text>
+            <text class="tick-label" x="178" y="254">0</text>
+            <text class="tick-label" x="244" y="254">1</text>
+            <text class="tick-label" x="310" y="254">2</text>
+            <text class="tick-label" x="376" y="254">3</text>
+            <text class="tick-label" x="160" y="148">1</text>
+            <text class="tick-label" x="160" y="53">2</text>
+            <text class="axis-label" x="393" y="244">x</text>
+            <text class="axis-label" x="188" y="24">f(x)</text>
+            <text class="annotation-label" x="188" y="152">A(0 ; 1)</text>
+            <text class="annotation-label" x="250" y="46">Tangente : y = x + 1</text>
+            <text class="annotation-label" x="205" y="205">f(x) = e^x / (x²+1)</text>
+          </svg>
+        `,
+        notes: [
+          'Fonction du cours : $f(x)=\\dfrac{e^x}{x^2+1}$, calculée point par point sur $[-2\\,;\\,3]$ avec la règle du quotient.',
+          'Dérivée vérifiée : $f\'(x)=\\dfrac{e^x(x-1)^2}{(x^2+1)^2}\\geq0$ pour tout $x$ : la courbe est bien croissante, même au voisinage de $x=1$ où la pente s\'annule un instant sans faire redescendre la courbe.',
+          'Au point $A(0\\,;\\,1)$ : $f\'(0)=1$, donc la tangente a pour équation $y=1\\times(x-0)+1=x+1$, tracée en pointillé.'
+        ],
+        reading: 'La tangente (pointillés) touche la courbe exactement en $A$ et a la même pente que la courbe à cet endroit précis : c\'est la définition du nombre dérivé $f\'(0)$.',
+        caption: 'Courbe de l\'exemple du cours ($f(x)=e^x/(x^2+1)$) et tangente au point $A(0\\,;\\,1)$, de pente $f\'(0)=1$.'
+      },
       recap: [
         '<strong>Produit</strong> : $(uv)\' = u\'v + uv\'$. Astuce mnémotechnique : "dérive le premier, garde le second, puis l\'inverse".',
         '<strong>Quotient</strong> : $(u/v)\' = (u\'v - uv\')/v^2$. Attention à l\'ordre : c\'est $u\'v$ MOINS $uv\'$, jamais l\'inverse.',

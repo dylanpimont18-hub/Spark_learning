@@ -10,7 +10,7 @@ window.MODULES.push({
     title: 'Second degré',
     subtitle: 'Équations, discriminant, factorisation',
     keywords: ['Trinôme', 'Discriminant', 'Racine', 'Factorisation'],
-    physics: true,
+    physics: 'Trajectoire parabolique d\'un projectile, étude de la chute libre',
     cours: {
       intro: 'Une équation du <strong>second degré</strong> modélise toute situation où une quantité dépend du carré d\'une autre : trajectoire d\'un projectile, aire d\'un carré, bénéfice d\'une entreprise.<br/><br/>Le <strong>discriminant</strong> $\\Delta = b^2 - 4ac$ agit comme un capteur : $\\Delta > 0$ signifie que la parabole coupe l\'axe des abscisses en 2 points distincts, $\\Delta = 0$ en 1 point (sommet sur l\'axe), $\\Delta < 0$ jamais.<br/><br/>Une erreur très fréquente : résoudre $x^2 = 9$ et n\'écrire que $x = 3$, en oubliant que $(-3)^2 = 9$ aussi — il y a <strong>deux solutions</strong> $x = 3$ et $x = -3$.<br/><br/>La forme factorisée $a(x-x_1)(x-x_2)$ est très utile en physique pour trouver les instants où une grandeur s\'annule.',
       definitions: [
@@ -42,6 +42,67 @@ window.MODULES.push({
         '$x_{1,2}=\\dfrac{-b\\pm\\sqrt{\\Delta}}{2a}$ si $\\Delta>0$',
         'Forme factorisée : $a(x-x_1)(x-x_2)$ si $\\Delta>0$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Racines et sommet',
+        title: 'Repérer les racines et le sommet sur la parabole',
+        description: 'La parabole de $g(x) = 2x^2 - 8x + 6$ (l\'exemple du cours), calculée point par point entre $x=-0{,}5$ et $x=4{,}5$, avec ses deux racines $x_1=1$ et $x_2=3$ et son sommet $S(2\\,;\\,-2)$.',
+        svg: `
+          <svg viewBox="0 0 430 300" role="img" aria-labelledby="second-degre-graph-title second-degre-graph-desc">
+            <title id="second-degre-graph-title">Parabole de g(x) = 2x carre - 8x + 6 avec racines et sommet</title>
+            <desc id="second-degre-graph-desc">Parabole tracee entre x=-0,5 et x=4,5. Elle coupe l'axe des abscisses en x=1 et x=3, et son sommet, minimum de la parabole, est au point (2 ; -2), a mi-chemin entre les deux racines.</desc>
+
+            <!-- grille verticale -->
+            <line class="grid-line" x1="89.5" y1="30" x2="89.5" y2="250"></line>
+            <line class="grid-line" x1="158.5" y1="30" x2="158.5" y2="250"></line>
+            <line class="grid-line" x1="227.5" y1="30" x2="227.5" y2="250"></line>
+            <line class="grid-line" x1="296.5" y1="30" x2="296.5" y2="250"></line>
+            <line class="grid-line" x1="365.5" y1="30" x2="365.5" y2="250"></line>
+
+            <!-- axe de symetrie x = 2 -->
+            <line class="guide-line" x1="227.5" y1="30" x2="227.5" y2="250"></line>
+
+            <!-- axes -->
+            <line class="axis" x1="48" y1="206.8" x2="407" y2="206.8"></line>
+            <line class="axis" x1="89.5" y1="23" x2="89.5" y2="257"></line>
+
+            <!-- parabole calculee point par point -->
+            <polyline class="curve-main" points="55.0,41.8 66.5,67.1 78.0,90.7 89.5,112.5 101.0,132.6 112.5,150.9 124.0,167.5 135.5,182.3 147.0,195.4 158.5,206.8 170.0,216.4 181.5,224.2 193.0,230.4 204.5,234.7 216.0,237.3 227.5,238.2 239.0,237.3 250.5,234.7 262.0,230.4 273.5,224.2 285.0,216.4 296.5,206.8 308.0,195.4 319.5,182.3 331.0,167.5 342.5,150.9 354.0,132.6 365.5,112.5 377.0,90.7 388.5,67.1 400.0,41.8"></polyline>
+
+            <!-- racines -->
+            <circle class="plot-point" cx="158.5" cy="206.8" r="5"></circle>
+            <circle class="plot-point" cx="296.5" cy="206.8" r="5"></circle>
+            <!-- sommet -->
+            <circle class="plot-point-alt" cx="227.5" cy="238.2" r="5"></circle>
+
+            <!-- etiquettes -->
+            <text class="annotation-label" x="227" y="16" text-anchor="middle">g(x) = 2x² − 8x + 6</text>
+            <text class="annotation-label" x="158.5" y="194" text-anchor="middle">x₁ = 1</text>
+            <text class="annotation-label" x="296.5" y="194" text-anchor="middle">x₂ = 3</text>
+            <text class="annotation-label" x="236" y="248" text-anchor="start">S(2 ; -2)</text>
+            <text class="label-soft" x="227.5" y="44" text-anchor="middle">axe de symétrie (x = 2)</text>
+
+            <text class="tick-label" x="89.5" y="222" text-anchor="middle">0</text>
+            <text class="tick-label" x="158.5" y="222" text-anchor="middle">1</text>
+            <text class="tick-label" x="227.5" y="222" text-anchor="middle">2</text>
+            <text class="tick-label" x="296.5" y="222" text-anchor="middle">3</text>
+            <text class="tick-label" x="365.5" y="222" text-anchor="middle">4</text>
+            <text class="tick-label" x="79" y="242" text-anchor="end">-2</text>
+            <text class="tick-label" x="79" y="116" text-anchor="end">6</text>
+            <text class="tick-label" x="79" y="53" text-anchor="end">10</text>
+            <text class="axis-label" x="412" y="211">x</text>
+            <text class="axis-label" x="94" y="20">y</text>
+          </svg>
+        `,
+        notes: [
+          'Le discriminant vaut $\\Delta = (-8)^2 - 4\\times2\\times6 = 64-48=16$, donc $\\sqrt{\\Delta}=4$ : il y a deux racines distinctes.',
+          'Les racines sont $x_1=\\dfrac{8-4}{4}=1$ et $x_2=\\dfrac{8+4}{4}=3$ : ce sont les deux points où la parabole coupe l\'axe des abscisses (points pleins sur le graphique).',
+          'Le sommet est en $x_S=-\\dfrac{b}{2a}=\\dfrac{8}{4}=2$, à mi-chemin entre les deux racines (axe de symétrie en tirets). Son ordonnée est $g(2)=8-16+6=-2$.',
+          'Comme $a=2>0$, la parabole "sourit" vers le haut : le sommet $S(2\\,;\\,-2)$ est un <strong>minimum</strong>.'
+        ],
+        reading: 'Repère d\'abord les deux racines (là où la courbe touche l\'axe horizontal), puis le sommet exactement à mi-chemin entre elles : c\'est l\'axe de symétrie de la parabole.',
+        caption: 'Parabole de $g(x)=2x^2-8x+6$, exemple du cours, avec racines et sommet vérifiés indépendamment ($\\Delta=16$, $x_1=1$, $x_2=3$, $S(2\\,;\\,-2)$).'
+      },
       recap: [
         'Toujours calculer $\\Delta = b^2 - 4ac$ <strong>en premier</strong> : c\'est lui qui dicte le nombre de solutions.',
         '$\\Delta > 0$ : deux racines ; $\\Delta = 0$ : racine double ; $\\Delta < 0$ : aucune racine réelle.',

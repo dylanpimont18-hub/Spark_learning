@@ -45,7 +45,79 @@ window.MODULES.push(
         'Section parallèle à la base d\'un cône ou pyramide : rapport de similitude $= \\dfrac{h\'}{h}$',
         'Côté de la section : $c\' = c \\times \\dfrac{h\'}{h}$ (homothétie)'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Solide</th><th style="border:1px solid var(--border);padding:8px">Coupe parallèle à la base</th><th style="border:1px solid var(--border);padding:8px">Coupe par l\'axe</th><th style="border:1px solid var(--border);padding:8px">Coupe oblique</th></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Pavé droit</strong></td><td style="border:1px solid var(--border);padding:8px">Rectangle</td><td style="border:1px solid var(--border);padding:8px">Rectangle</td><td style="border:1px solid var(--border);padding:8px">Parallélogramme</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Cylindre</strong></td><td style="border:1px solid var(--border);padding:8px">Disque (même rayon)</td><td style="border:1px solid var(--border);padding:8px">Rectangle</td><td style="border:1px solid var(--border);padding:8px">Ellipse</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Cône</strong></td><td style="border:1px solid var(--border);padding:8px">Disque (rayon réduit)</td><td style="border:1px solid var(--border);padding:8px">Triangle isocèle</td><td style="border:1px solid var(--border);padding:8px">Ellipse / Parabole</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Pyramide</strong></td><td style="border:1px solid var(--border);padding:8px">Figure semblable à la base</td><td style="border:1px solid var(--border);padding:8px">Triangle</td><td style="border:1px solid var(--border);padding:8px">Polygone quelconque</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Thalès dans l\'espace',
+        title: 'Section d\'une pyramide par un plan parallèle à la base',
+        description: 'Pyramide à base carrée de côté $8$ cm et de hauteur $12$ cm, coupée à $4$ cm du sommet — reprise exacte de l\'exemple du cours.',
+        svg: `
+          <svg viewBox="0 0 640 300" role="img" aria-labelledby="section-graph-title section-graph-desc">
+            <title id="section-graph-title">Section d'une pyramide par un plan parallele a la base</title>
+            <desc id="section-graph-desc">A gauche, une pyramide a base carree en perspective avec un plan de coupe parallele a la base pres du sommet. A droite, la coupe de profil montrant deux triangles emboites semblables : le grand triangle (sommet-base) et le petit triangle (sommet-section), dans le rapport 1/3.</desc>
+
+            <!-- separation entre les deux vues -->
+            <line class="grid-line" x1="320" y1="10" x2="320" y2="290"></line>
+
+            <!-- ===================== VUE 1 : pyramide en perspective ===================== -->
+            <!-- petite pyramide (pointe) mise en evidence -->
+            <polygon points="160,30 125,97 160,106 195,97" fill="color-mix(in srgb, var(--diagram-accent) 16%, transparent)" stroke="none"></polygon>
+
+            <!-- aretes cachees (pointilles) -->
+            <line class="guide-line" x1="55" y1="230" x2="160" y2="202"></line>
+            <line class="guide-line" x1="160" y1="202" x2="265" y2="230"></line>
+            <line class="guide-line" x1="160" y1="30" x2="160" y2="202"></line>
+            <line class="guide-line" x1="125" y1="97" x2="160" y2="87"></line>
+            <line class="guide-line" x1="160" y1="87" x2="195" y2="97"></line>
+
+            <!-- aretes visibles de la pyramide -->
+            <line class="frame-line" x1="160" y1="30" x2="55" y2="230"></line>
+            <line class="frame-line" x1="160" y1="30" x2="265" y2="230"></line>
+            <line class="frame-line" x1="160" y1="30" x2="160" y2="258"></line>
+            <line class="frame-line" x1="55" y1="230" x2="160" y2="258"></line>
+            <line class="frame-line" x1="160" y1="258" x2="265" y2="230"></line>
+
+            <!-- plan de coupe (section), face visible, mis en valeur -->
+            <line class="curve-main" x1="125" y1="97" x2="160" y2="106"></line>
+            <line class="curve-main" x1="160" y1="106" x2="195" y2="97"></line>
+
+            <!-- reperes sur l'axe sommet-base -->
+            <circle class="plot-point-alt" cx="160" cy="30" r="5"></circle>
+            <circle class="plot-point-alt" cx="160" cy="97" r="4"></circle>
+            <circle class="plot-point-alt" cx="160" cy="230" r="4"></circle>
+
+            <text class="annotation-label" x="160" y="18" text-anchor="middle">S (sommet)</text>
+            <text class="label-soft" x="200" y="80" text-anchor="start">côté ≈ 2,67 cm</text>
+            <text class="label-soft" x="160" y="278" text-anchor="middle">base : côté 8 cm</text>
+
+            <!-- ===================== VUE 2 : coupe de profil (triangles semblables) ===================== -->
+            <line class="guide-line" x1="460" y1="40" x2="460" y2="220"></line>
+            <line class="frame-line" x1="460" y1="40" x2="550" y2="220"></line>
+            <line class="frame-line" x1="460" y1="100" x2="490" y2="100"></line>
+            <line class="frame-line" x1="460" y1="220" x2="550" y2="220"></line>
+
+            <circle class="plot-point-alt" cx="460" cy="40" r="5"></circle>
+            <circle class="plot-point-alt" cx="490" cy="100" r="5"></circle>
+            <circle class="plot-point" cx="460" cy="220" r="5"></circle>
+            <circle class="plot-point" cx="550" cy="220" r="5"></circle>
+
+            <text class="annotation-label" x="460" y="26" text-anchor="middle">S</text>
+            <text class="annotation-label" x="468" y="58" text-anchor="start">k = 1/3</text>
+            <text class="annotation-label" x="445" y="74" text-anchor="end">h' = 4 cm</text>
+            <text class="annotation-label" x="475" y="90" text-anchor="middle">c'/2 ≈ 1,33 cm</text>
+            <text class="annotation-label" x="505" y="236" text-anchor="middle">c/2 = 4 cm</text>
+            <text class="label-soft" x="505" y="76" text-anchor="start">petit triangle</text>
+            <text class="label-soft" x="535" y="165" text-anchor="start">grand triangle</text>
+          </svg>
+        `,
+        notes: [
+          'Le plan de coupe est parallèle à la base, à $h\' = 4$ cm du sommet $S$ (hauteur totale $h = 12$ cm) : le rapport de réduction est $k = \\dfrac{h\'}{h} = \\dfrac{4}{12} = \\dfrac{1}{3}$.',
+          'La base est un carré de côté $8$ cm ; la section, semblable à la base (Thalès dans l\'espace), a pour côté $c\' = 8 \\times \\dfrac{1}{3} = \\dfrac{8}{3} \\approx 2{,}67$ cm.',
+          'Les aires suivent le carré du rapport : $\\dfrac{\\mathcal{A}_{\\text{section}}}{\\mathcal{A}_{\\text{base}}} = k^2 = \\dfrac{1}{9}$, soit $\\dfrac{7{,}11}{64} \\approx 0{,}11$ — cohérent avec l\'exemple du cours.',
+          'La vue de profil (à droite) est la coupe passant par le sommet et les milieux de deux côtés opposés de la base : on y retrouve la configuration de Thalès en 2D, avec le petit triangle (section) semblable au grand triangle (base).'
+        ],
+        reading: 'Repère d\'abord le sommet $S$ et l\'axe pointillé sommet-base : la section (à gauche) est la figure semblable à la base, réduite selon le même rapport $k$ que sur la vue de profil (à droite).',
+        caption: 'Pyramide à base carrée (côté $8$ cm, hauteur $12$ cm) coupée à $4$ cm du sommet, parallèlement à la base — exemple du cours, avec vérification du rapport $k = 1/3$ sur les longueurs et $k^2 = 1/9$ sur les aires.'
+      },
       recap: [
         'Une coupe <strong>parallèle à la base</strong> donne toujours une figure <strong>semblable</strong> à la base (même forme, dimensions réduites).',
         'Le <strong>rapport de réduction</strong> est $k = \\dfrac{h\'}{h}$ — les longueurs sont multipliées par $k$, les aires par $k^2$.',

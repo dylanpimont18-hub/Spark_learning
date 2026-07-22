@@ -39,11 +39,85 @@ window.MODULES.push({
         ],
         answer: '$\\varepsilon = 2°$C et $P = 100$ W.'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><td style="border:1px solid var(--border);padding:8px"><strong>Critère</strong></td><td style="border:1px solid var(--border);padding:8px"><strong>Boucle ouverte</strong></td><td style="border:1px solid var(--border);padding:8px"><strong>Boucle fermée</strong></td></tr><tr><td style="border:1px solid var(--border);padding:8px">Capteur de retour</td><td style="border:1px solid var(--border);padding:8px">Absent</td><td style="border:1px solid var(--border);padding:8px">Présent</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Calcul d\'écart</td><td style="border:1px solid var(--border);padding:8px">Aucun</td><td style="border:1px solid var(--border);padding:8px">$\\varepsilon = C - M$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Correction auto.</td><td style="border:1px solid var(--border);padding:8px">Non</td><td style="border:1px solid var(--border);padding:8px">Oui</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Sensibilité aux perturbations</td><td style="border:1px solid var(--border);padding:8px">Forte (pas de correction)</td><td style="border:1px solid var(--border);padding:8px">Faible (correction auto.)</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Précision</td><td style="border:1px solid var(--border);padding:8px">Faible</td><td style="border:1px solid var(--border);padding:8px">Élevée</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Risque d\'instabilité</td><td style="border:1px solid var(--border);padding:8px">Aucun</td><td style="border:1px solid var(--border);padding:8px">Possible (si $K_p$ trop grand)</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Exemple</td><td style="border:1px solid var(--border);padding:8px">Grille-pain (minuterie)</td><td style="border:1px solid var(--border);padding:8px">Thermostat, cruise control</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Schéma-bloc de la boucle fermée',
+        title: 'Structure d\'un système asservi : les 5 éléments de la boucle fermée',
+        description: 'Le comparateur calcule l\'écart ε = C − M entre la consigne et la mesure. Le correcteur, l\'actionneur et le système traduisent cet écart en action physique ; le capteur referme la boucle en mesurant la sortie.',
+        svg: `
+          <svg viewBox="0 0 500 195" role="img" aria-labelledby="asser-diagram-title asser-diagram-desc">
+            <title id="asser-diagram-title">Schema-bloc d'un systeme asservi en boucle fermee</title>
+            <desc id="asser-diagram-desc">La consigne C entre dans un comparateur avec la mesure M en retour. L'ecart epsilon alimente le correcteur qui calcule la commande U. L'actionneur agit alors sur le systeme, dont la sortie S est mesuree par le capteur qui renvoie M au comparateur.</desc>
+
+            <defs>
+              <marker id="arrow-si-1re-asser" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
+
+            <!-- ===== entree : consigne C ===== -->
+            <line class="curve-main" x1="34" y1="85" x2="56" y2="85" marker-end="url(#arrow-si-1re-asser)"></line>
+            <text class="annotation-label" x="10" y="78" text-anchor="start">C</text>
+
+            <!-- ===== comparateur ===== -->
+            <circle class="frame-line" cx="70" cy="85" r="14" fill="none"></circle>
+            <text class="annotation-label" x="53" y="75">+</text>
+            <text class="annotation-label" x="75" y="109">−</text>
+
+            <!-- comparateur -> correcteur : ecart epsilon -->
+            <line class="curve-main" x1="84" y1="85" x2="112" y2="85" marker-end="url(#arrow-si-1re-asser)"></line>
+            <text class="annotation-label" x="97" y="76" text-anchor="middle">ε</text>
+
+            <!-- ===== correcteur ===== -->
+            <rect class="frame-line" x="112" y="65" width="80" height="40" fill="none"></rect>
+            <text class="annotation-label" x="152" y="90" text-anchor="middle">Correcteur</text>
+            <text class="label-soft" x="152" y="58" text-anchor="middle">gain Kp</text>
+
+            <!-- correcteur -> actionneur : commande U -->
+            <line class="curve-main" x1="192" y1="85" x2="218" y2="85" marker-end="url(#arrow-si-1re-asser)"></line>
+            <text class="annotation-label" x="205" y="76" text-anchor="middle">U</text>
+
+            <!-- ===== actionneur ===== -->
+            <rect class="frame-line" x="218" y="65" width="78" height="40" fill="none"></rect>
+            <text class="annotation-label" x="257" y="90" text-anchor="middle">Actionneur</text>
+
+            <!-- actionneur -> systeme -->
+            <line class="curve-main" x1="296" y1="85" x2="322" y2="85" marker-end="url(#arrow-si-1re-asser)"></line>
+
+            <!-- ===== systeme ===== -->
+            <rect class="frame-line" x="322" y="65" width="88" height="40" fill="none"></rect>
+            <text class="annotation-label" x="366" y="90" text-anchor="middle">Système</text>
+
+            <!-- systeme -> sortie S -->
+            <line class="curve-main" x1="410" y1="85" x2="452" y2="85" marker-end="url(#arrow-si-1re-asser)"></line>
+            <text class="annotation-label" x="459" y="88" text-anchor="start">S</text>
+
+            <!-- ===== retour : sortie S vers capteur ===== -->
+            <line class="curve-main" x1="430" y1="85" x2="430" y2="150" marker-end="url(#arrow-si-1re-asser)"></line>
+            <line class="curve-main" x1="430" y1="150" x2="338" y2="150" marker-end="url(#arrow-si-1re-asser)"></line>
+
+            <rect class="frame-line" x="258" y="133" width="80" height="34" fill="none"></rect>
+            <text class="annotation-label" x="298" y="154" text-anchor="middle">Capteur</text>
+            <text class="label-soft" x="298" y="180" text-anchor="middle">mesure la sortie S</text>
+
+            <!-- capteur -> comparateur : mesure M -->
+            <line class="curve-main" x1="258" y1="150" x2="70" y2="150"></line>
+            <text class="annotation-label" x="164" y="144" text-anchor="middle">M</text>
+            <line class="curve-main" x1="70" y1="150" x2="70" y2="99" marker-end="url(#arrow-si-1re-asser)"></line>
+          </svg>
+        `,
+        notes: [
+          'Le comparateur calcule l\'écart ε = C − M en soustrayant la mesure du capteur à la consigne — jamais l\'inverse.',
+          'Le correcteur proportionnel transforme l\'écart ε en commande U = Kp·ε ; cette commande pilote l\'actionneur, qui agit à son tour sur le système physique.',
+          'Le capteur ne mesure pas la consigne mais la sortie réelle S du système, et renvoie cette mesure M au comparateur : c\'est ce retour qui distingue la boucle fermée de la boucle ouverte.'
+        ],
+        reading: 'Suis d\'abord le trajet du signal de la consigne C à la sortie S, en passant par le comparateur, le correcteur, l\'actionneur et le système, puis repère le chemin de retour du capteur vers le comparateur.',
+        caption: 'Schéma-bloc d\'un système asservi en boucle fermée : consigne C, comparateur (± ), correcteur proportionnel (gain Kp), actionneur, système, sortie S, et retour par le capteur (mesure M).'
+      },
       formulas: [
         '$\\varepsilon = C - M$ (écart = consigne − mesure)',
         '$U = K_p \\times \\varepsilon$ (commande du correcteur proportionnel)',
-        'Boucle fermée : $C \\to [\\text{Comparateur}] \\to [\\text{Correcteur}] \\to [\\text{Actionneur}] \\to [\\text{Système}] \\to M$',
+        'Boucle fermée : $C \\to [\\text{Comparateur}] \\to [\\text{Correcteur}] \\to [\\text{Actionneur}] \\to [\\text{Système}] \\to S$, puis retour $S \\to [\\text{Capteur}] \\to M$ vers le comparateur',
         'Objectif : $\\varepsilon \\to 0$ (la sortie rejoint la consigne)'
       ],
       recap: [
