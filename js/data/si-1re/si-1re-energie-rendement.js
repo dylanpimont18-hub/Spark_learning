@@ -38,7 +38,49 @@ window.MODULES.push({
         ],
         answer: '$\\eta = 0{,}8$ soit $80\\%$ et $P_{\\text{pertes}} = 100$ W.'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><td style="border:1px solid var(--border);padding:8px"><strong>Forme d\'énergie</strong></td><td style="border:1px solid var(--border);padding:8px"><strong>Formule</strong></td><td style="border:1px solid var(--border);padding:8px"><strong>Unité</strong></td></tr><tr><td style="border:1px solid var(--border);padding:8px">Cinétique</td><td style="border:1px solid var(--border);padding:8px">$E_c = \\frac{1}{2}mv^2$</td><td style="border:1px solid var(--border);padding:8px">J</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Potentielle de pesanteur</td><td style="border:1px solid var(--border);padding:8px">$E_p = mgh$</td><td style="border:1px solid var(--border);padding:8px">J</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Électrique</td><td style="border:1px solid var(--border);padding:8px">$E = U \\cdot I \\cdot t = P \\cdot t$</td><td style="border:1px solid var(--border);padding:8px">J (ou Wh)</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Thermique</td><td style="border:1px solid var(--border);padding:8px">$Q = m \\cdot c \\cdot \\Delta T$</td><td style="border:1px solid var(--border);padding:8px">J</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Mécanique de rotation</td><td style="border:1px solid var(--border);padding:8px">$E = C \\cdot \\theta$ ou $P = C \\cdot \\omega$</td><td style="border:1px solid var(--border);padding:8px">J (ou W)</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Bilan de puissance (diagramme de Sankey simplifié)',
+        title: 'Où passe la puissance qu\'un moteur électrique absorbe ?',
+        description: 'La <strong>largeur</strong> de chaque bande est proportionnelle à la puissance qu\'elle transporte : plus la bande est large, plus la puissance est grande.<br/><br/>La puissance absorbée entre à gauche, traverse le moteur, puis se sépare en une bande <strong>utile</strong> (énergie mécanique récupérée) et une bande de <strong>pertes</strong> (chaleur due à l\'effet Joule et aux frottements) — reprend les valeurs de l\'exemple chiffré du cours.',
+        svg: `
+          <svg viewBox="0 0 480 330" role="img" aria-labelledby="energie-sankey-title energie-sankey-desc">
+            <title id="energie-sankey-title">Bilan de puissance d'un moteur électrique, diagramme de Sankey simplifié</title>
+            <desc id="energie-sankey-desc">Une bande d'entrée large de 60 pixels representant 500 watts absorbes traverse un bloc moteur electrique puis se separe en une bande de sortie utile large de 48 pixels representant 400 watts mecaniques et une bande de pertes large de 12 pixels representant 100 watts dissipes en chaleur ; les deux largeurs de sortie additionnees redonnent exactement la largeur d'entree.</desc>
+
+            <!-- Bande d'entrée : P absorbée -->
+            <rect class="frame-line" x="20" y="105" width="150" height="60" fill="color-mix(in srgb, var(--diagram-accent) 45%, var(--bg-card))"></rect>
+            <text class="annotation-label" x="95" y="95" text-anchor="middle">P absorbée = 500 W</text>
+
+            <!-- Bloc moteur électrique -->
+            <rect class="frame-line" x="170" y="95" width="100" height="80" fill="color-mix(in srgb, var(--diagram-accent) 8%, var(--bg-card))"></rect>
+            <text class="annotation-label" x="220" y="128" text-anchor="middle">Moteur</text>
+            <text class="annotation-label" x="220" y="144" text-anchor="middle">électrique</text>
+            <text class="label-soft" x="220" y="160" text-anchor="middle">rendement = 80 %</text>
+
+            <!-- Bande de sortie utile -->
+            <rect class="frame-line" x="270" y="105" width="132" height="48" fill="color-mix(in srgb, var(--diagram-accent) 45%, var(--bg-card))"></rect>
+            <polygon class="frame-line" points="402,105 402,153 430,129" fill="color-mix(in srgb, var(--diagram-accent) 45%, var(--bg-card))"></polygon>
+            <text class="annotation-label" x="336" y="95" text-anchor="middle">P utile = 400 W</text>
+            <text class="label-soft" x="336" y="187" text-anchor="middle">énergie mécanique</text>
+
+            <!-- Bande de pertes -->
+            <rect class="guide-line" x="204" y="175" width="12" height="70" fill="color-mix(in srgb, var(--diagram-accent) 18%, var(--bg-card))"></rect>
+            <polygon class="guide-line" points="204,245 216,245 210,267" fill="color-mix(in srgb, var(--diagram-accent) 18%, var(--bg-card))"></polygon>
+            <text class="annotation-label" x="225" y="210">P pertes = 100 W</text>
+            <text class="label-soft" x="225" y="226">chaleur, frottements</text>
+
+            <text class="label-soft" x="240" y="305" text-anchor="middle">Vérification : 500 W = 400 W + 100 W</text>
+          </svg>
+        `,
+        notes: [
+          'La <strong>largeur</strong> de chaque bande est proportionnelle à la puissance : $500$ W se séparent en $400$ W utiles et $100$ W de pertes, exactement l\'exemple chiffré du cours.',
+          'On vérifie la <strong>conservation de l\'énergie</strong> : $500 = 400 + 100$, donc $P_{\\text{absorbée}} = P_{\\text{utile}} + P_{\\text{pertes}}$.',
+          'Le <strong>rendement</strong> $\\eta = 400/500 = 0{,}8 = 80\\%$ se lit directement comme la part de la bande d\'entrée qui ressort en sortie utile.'
+        ],
+        reading: 'Suis la bande d\'entrée de gauche à droite : elle traverse le moteur puis se scinde en deux bandes dont les largeurs cumulées redonnent exactement la largeur d\'entrée.',
+        caption: 'Diagramme de Sankey simplifié du bilan de puissance d\'un moteur électrique : $P_a = 500$ W se répartit en $P_u = 400$ W (rendement $80\\%$) et $P_{\\text{pertes}} = 100$ W dissipés sous forme de chaleur.'
+      },
       formulas: [
         '$E_c = \\dfrac{1}{2}mv^2$ (énergie cinétique)',
         '$E_p = mgh$ (énergie potentielle de pesanteur)',

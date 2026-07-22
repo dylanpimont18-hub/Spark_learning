@@ -39,7 +39,79 @@ window.MODULES.push({
         ],
         answer: 'Le système se décompose en $6$ blocs principaux avec $3$ exigences fonctionnelles. Le diagramme bdd montre les blocs et leurs relations de composition.'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><td style="border:1px solid var(--border);padding:8px"><strong>Abréviation</strong></td><td style="border:1px solid var(--border);padding:8px"><strong>Nom complet</strong></td><td style="border:1px solid var(--border);padding:8px"><strong>Rôle</strong></td></tr><tr><td style="border:1px solid var(--border);padding:8px">req</td><td style="border:1px solid var(--border);padding:8px">Diagramme des exigences</td><td style="border:1px solid var(--border);padding:8px">Besoins et contraintes du CdC</td></tr><tr><td style="border:1px solid var(--border);padding:8px">bdd</td><td style="border:1px solid var(--border);padding:8px">Définition de blocs</td><td style="border:1px solid var(--border);padding:8px">Décomposition structurelle</td></tr><tr><td style="border:1px solid var(--border);padding:8px">ibd</td><td style="border:1px solid var(--border);padding:8px">Blocs internes</td><td style="border:1px solid var(--border);padding:8px">Flux entre sous-systèmes</td></tr><tr><td style="border:1px solid var(--border);padding:8px">uc</td><td style="border:1px solid var(--border);padding:8px">Cas d\'utilisation</td><td style="border:1px solid var(--border);padding:8px">Acteurs et scénarios d\'usage</td></tr><tr><td style="border:1px solid var(--border);padding:8px">stm</td><td style="border:1px solid var(--border);padding:8px">Machine à états</td><td style="border:1px solid var(--border);padding:8px">États et transitions</td></tr><tr><td style="border:1px solid var(--border);padding:8px">act</td><td style="border:1px solid var(--border);padding:8px">Diagramme d\'activité</td><td style="border:1px solid var(--border);padding:8px">Séquence d\'actions</td></tr><tr><td style="border:1px solid var(--border);padding:8px">sd</td><td style="border:1px solid var(--border);padding:8px">Diagramme de séquence</td><td style="border:1px solid var(--border);padding:8px">Échanges temporels entre blocs</td></tr><tr><td style="border:1px solid var(--border);padding:8px">pkg</td><td style="border:1px solid var(--border);padding:8px">Diagramme de paquetage</td><td style="border:1px solid var(--border);padding:8px">Organisation du modèle</td></tr><tr><td style="border:1px solid var(--border);padding:8px">par</td><td style="border:1px solid var(--border);padding:8px">Diagramme paramétrique</td><td style="border:1px solid var(--border);padding:8px">Contraintes physiques et équations</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Diagramme de blocs (bdd) — SysML',
+        title: 'Portail automatique : décomposition en 6 blocs',
+        description: 'Le bloc système <strong>Portail automatique</strong> se décompose en <strong>6 sous-blocs</strong>, exactement ceux identifiés dans l\'exemple du cours.<br/><br/>Chaque lien est une relation de <strong>composition</strong> (notation SysML : <strong>losange plein</strong> côté « tout », trait simple côté « partie ») : un sous-bloc ne peut exister sans le système qui le contient.',
+        svg: `
+          <svg viewBox="0 0 900 280" role="img" aria-labelledby="sysml-bdd-title sysml-bdd-desc">
+            <title id="sysml-bdd-title">Diagramme de blocs (bdd) du portail automatique</title>
+            <desc id="sysml-bdd-desc">Un bloc systeme "Portail automatique" en haut, relie par 6 liens de composition (losange plein cote systeme) a 6 sous-blocs alignes en bas : Telecommande (emetteur), Recepteur radio, Carte de commande, Moteur, Portail (vantail), Capteur d'obstacle.</desc>
+
+            <!-- Bloc système -->
+            <rect class="frame-line" x="330" y="15" width="240" height="55" fill="none"></rect>
+            <text class="label-soft" x="450" y="33" text-anchor="middle">«block»</text>
+            <text class="annotation-label" x="450" y="54" text-anchor="middle">Portail automatique</text>
+
+            <!-- Tronc de composition -->
+            <line class="frame-line" x1="450" y1="70" x2="450" y2="100"></line>
+            <line class="frame-line" x1="75" y1="100" x2="825" y2="100"></line>
+            <text class="label-soft" x="560" y="86">◆ = composition</text>
+
+            <!-- Branches vers les 6 sous-blocs (losange plein = côté "tout") -->
+            <line class="frame-line" x1="75" y1="100" x2="75" y2="170"></line>
+            <polygon class="plot-point" points="75,92 83,100 75,108 67,100"></polygon>
+            <line class="frame-line" x1="225" y1="100" x2="225" y2="170"></line>
+            <polygon class="plot-point" points="225,92 233,100 225,108 217,100"></polygon>
+            <line class="frame-line" x1="375" y1="100" x2="375" y2="170"></line>
+            <polygon class="plot-point" points="375,92 383,100 375,108 367,100"></polygon>
+            <line class="frame-line" x1="525" y1="100" x2="525" y2="170"></line>
+            <polygon class="plot-point" points="525,92 533,100 525,108 517,100"></polygon>
+            <line class="frame-line" x1="675" y1="100" x2="675" y2="170"></line>
+            <polygon class="plot-point" points="675,92 683,100 675,108 667,100"></polygon>
+            <line class="frame-line" x1="825" y1="100" x2="825" y2="170"></line>
+            <polygon class="plot-point" points="825,92 833,100 825,108 817,100"></polygon>
+
+            <!-- 6 sous-blocs -->
+            <rect class="frame-line" x="10" y="170" width="130" height="90" fill="none"></rect>
+            <text class="label-soft" x="75" y="192" text-anchor="middle">«block»</text>
+            <text class="annotation-label" x="75" y="214" text-anchor="middle">Télécommande</text>
+            <text class="annotation-label" x="75" y="232" text-anchor="middle">(émetteur)</text>
+
+            <rect class="frame-line" x="160" y="170" width="130" height="90" fill="none"></rect>
+            <text class="label-soft" x="225" y="192" text-anchor="middle">«block»</text>
+            <text class="annotation-label" x="225" y="214" text-anchor="middle">Récepteur</text>
+            <text class="annotation-label" x="225" y="232" text-anchor="middle">radio</text>
+
+            <rect class="frame-line" x="310" y="170" width="130" height="90" fill="none"></rect>
+            <text class="label-soft" x="375" y="192" text-anchor="middle">«block»</text>
+            <text class="annotation-label" x="375" y="214" text-anchor="middle">Carte de</text>
+            <text class="annotation-label" x="375" y="232" text-anchor="middle">commande</text>
+
+            <rect class="frame-line" x="460" y="170" width="130" height="90" fill="none"></rect>
+            <text class="label-soft" x="525" y="192" text-anchor="middle">«block»</text>
+            <text class="annotation-label" x="525" y="220" text-anchor="middle">Moteur</text>
+
+            <rect class="frame-line" x="610" y="170" width="130" height="90" fill="none"></rect>
+            <text class="label-soft" x="675" y="192" text-anchor="middle">«block»</text>
+            <text class="annotation-label" x="675" y="214" text-anchor="middle">Portail</text>
+            <text class="annotation-label" x="675" y="232" text-anchor="middle">(vantail)</text>
+
+            <rect class="frame-line" x="760" y="170" width="130" height="90" fill="none"></rect>
+            <text class="label-soft" x="825" y="192" text-anchor="middle">«block»</text>
+            <text class="annotation-label" x="825" y="214" text-anchor="middle">Capteur</text>
+            <text class="annotation-label" x="825" y="232" text-anchor="middle">d'obstacle</text>
+          </svg>
+        `,
+        notes: [
+          'Les <strong>6 blocs</strong> repris de l\'exemple du cours : <code>Télécommande</code> (émetteur), <code>Récepteur radio</code>, <code>Carte de commande</code>, <code>Moteur</code>, <code>Portail</code> (vantail), <code>Capteur d\'obstacle</code>.',
+          'Chaque lien porte un <strong>losange plein</strong> du côté du bloc système : c\'est la notation SysML de la <strong>composition</strong> (le sous-bloc fait partie intégrante du système, il n\'existe pas sans lui).',
+          'Ce diagramme <strong>bdd</strong> montre la vue externe (hiérarchie des blocs). Il ne montre pas les flux internes : ceux-ci sont modélisés dans le diagramme <strong>ibd</strong> associé.'
+        ],
+        reading: 'Pars du bloc système en haut, puis suis chaque branche vers le bas : chaque losange plein indique que le sous-bloc atteint est un <strong>composant</strong> du système <strong>Portail automatique</strong>.',
+        caption: 'Diagramme de blocs (bdd) de l\'exemple du cours : le système « Portail automatique » composé de ses 6 sous-blocs.'
+      },
       formulas: [
         'Diagramme <strong>req</strong> : modélise les exigences (id, texte, criticité) et leurs liens (<em>deriveReqt</em>, <em>satisfy</em>, <em>verify</em>)',
         'Diagramme <strong>bdd</strong> : décomposition structurelle en blocs avec relations de composition et d\'association',

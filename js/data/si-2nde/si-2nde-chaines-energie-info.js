@@ -29,7 +29,84 @@ window.MODULES.push({
           '<strong>Rendement global</strong> : Multiplier les rendements de chaque bloc traversé : $\\eta_{\\text{global}} = \\eta_1 \\times \\eta_2 \\times \\cdots \\times \\eta_n$.<br/>Exemple numérique : moteur CC ($\\eta_1 = 0{,}85$, soit $P_{\\text{utile}} = 0{,}85 \\times 200 = 170$ W) + réducteur ($\\eta_2 = 0{,}90$) → $\\eta_{\\text{global}} = 0{,}85 \\times 0{,}90 = 0{,}765$ soit $76{,}5\\%$. Puissance utile finale : $0{,}765 \\times 200 = 153$ W.'
         ]
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px" colspan="4">Chaîne d\'énergie</th><th style="border:1px solid var(--border);padding:8px" colspan="3">Chaîne d\'information</th></tr><tr><th style="border:1px solid var(--border);padding:8px">Alimenter</th><th style="border:1px solid var(--border);padding:8px">Distribuer</th><th style="border:1px solid var(--border);padding:8px">Convertir</th><th style="border:1px solid var(--border);padding:8px">Transmettre</th><th style="border:1px solid var(--border);padding:8px">Acquérir</th><th style="border:1px solid var(--border);padding:8px">Traiter</th><th style="border:1px solid var(--border);padding:8px">Communiquer</th></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Rôle</strong><br/>Fournir l\'énergie</td><td style="border:1px solid var(--border);padding:8px"><strong>Rôle</strong><br/>Répartir / moduler</td><td style="border:1px solid var(--border);padding:8px"><strong>Rôle</strong><br/>Transformer la nature</td><td style="border:1px solid var(--border);padding:8px"><strong>Rôle</strong><br/>Adapter et transmettre</td><td style="border:1px solid var(--border);padding:8px"><strong>Rôle</strong><br/>Mesurer une grandeur</td><td style="border:1px solid var(--border);padding:8px"><strong>Rôle</strong><br/>Décider / calculer</td><td style="border:1px solid var(--border);padding:8px"><strong>Rôle</strong><br/>Afficher / transmettre</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Batterie, secteur, panneau solaire</td><td style="border:1px solid var(--border);padding:8px">Relais, contacteur, hacheur</td><td style="border:1px solid var(--border);padding:8px">Moteur CC, MAS, vérin, résistance</td><td style="border:1px solid var(--border);padding:8px">Réducteur, courroie, engrenage</td><td style="border:1px solid var(--border);padding:8px">Capteur IR, LDR, ultrason</td><td style="border:1px solid var(--border);padding:8px">Arduino, automate, Raspberry Pi</td><td style="border:1px solid var(--border);padding:8px">Écran LCD, LED, Wi-Fi</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Schéma-bloc SysML',
+        title: 'Chaîne d\'énergie et chaîne d\'information — exemple du portail automatique',
+        description: 'En bas, la <strong>chaîne d\'énergie</strong> (4 blocs) reprend l\'exemple du cours : batterie $12$ V → relais → moteur CC $12$ V / $50$ W → réducteur + crémaillère. En haut, la <strong>chaîne d\'information</strong> (3 blocs) pilote cette chaîne d\'énergie : capteur infrarouge → Arduino → LED/buzzer.',
+        svg: `
+          <svg viewBox="0 0 620 430" role="img" aria-labelledby="chaines-title chaines-desc">
+            <title id="chaines-title">Chaine d'energie et chaine d'information du portail automatique</title>
+            <desc id="chaines-desc">En haut, la chaine d'information : acquerir avec un capteur infrarouge, traiter avec un Arduino, communiquer avec une LED et un buzzer. En bas, la chaine d'energie : alimenter avec une batterie 12 volts, distribuer avec un relais, convertir avec un moteur CC 12 volts 50 watts, transmettre avec un reducteur et une cremaillere. Une fleche pointillee descend de traiter vers distribuer pour les ordres de commande, une autre fleche pointillee remonte du bas vers acquerir pour la presence detectee par le capteur.</desc>
+
+            <defs>
+              <marker id="arrow-si2nde-chaines" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
+
+            <text class="label-soft" x="30" y="27">CHAÎNE D'INFORMATION</text>
+            <text class="label-soft" x="30" y="292">CHAÎNE D'ÉNERGIE</text>
+
+            <!-- ===== Chaîne d'information (haut) ===== -->
+            <rect class="frame-line" x="30" y="40" width="120" height="60" rx="8" fill="var(--bg-card)"></rect>
+            <text class="annotation-label" x="90" y="65" text-anchor="middle">Acquérir</text>
+            <text class="label-soft" x="90" y="81" text-anchor="middle">Capteur infrarouge</text>
+
+            <rect class="frame-line" x="170" y="40" width="120" height="60" rx="8" fill="var(--bg-card)"></rect>
+            <text class="annotation-label" x="230" y="65" text-anchor="middle">Traiter</text>
+            <text class="label-soft" x="230" y="81" text-anchor="middle">Arduino / ATmega328</text>
+
+            <rect class="frame-line" x="340" y="40" width="120" height="60" rx="8" fill="var(--bg-card)"></rect>
+            <text class="annotation-label" x="400" y="65" text-anchor="middle">Communiquer</text>
+            <text class="label-soft" x="400" y="81" text-anchor="middle">LED + buzzer</text>
+
+            <line class="curve-main" x1="150" y1="70" x2="168" y2="70" marker-end="url(#arrow-si2nde-chaines)"></line>
+            <line class="curve-main" x1="290" y1="70" x2="338" y2="70" marker-end="url(#arrow-si2nde-chaines)"></line>
+
+            <!-- ===== Chaîne d'énergie (bas) ===== -->
+            <rect class="frame-line" x="30" y="300" width="120" height="60" rx="8" fill="var(--bg-card)"></rect>
+            <text class="annotation-label" x="90" y="324" text-anchor="middle">Alimenter</text>
+            <text class="label-soft" x="90" y="340" text-anchor="middle">Batterie 12 V</text>
+
+            <rect class="frame-line" x="170" y="300" width="120" height="60" rx="8" fill="var(--bg-card)"></rect>
+            <text class="annotation-label" x="230" y="324" text-anchor="middle">Distribuer</text>
+            <text class="label-soft" x="230" y="340" text-anchor="middle">Relais</text>
+
+            <rect class="frame-line" x="310" y="300" width="120" height="60" rx="8" fill="var(--bg-card)"></rect>
+            <text class="annotation-label" x="370" y="324" text-anchor="middle">Convertir</text>
+            <text class="label-soft" x="370" y="340" text-anchor="middle">Moteur CC 12 V/50 W</text>
+
+            <rect class="frame-line" x="450" y="300" width="120" height="60" rx="8" fill="var(--bg-card)"></rect>
+            <text class="annotation-label" x="510" y="324" text-anchor="middle">Transmettre</text>
+            <text class="label-soft" x="510" y="340" text-anchor="middle">Réducteur + crémaillère</text>
+
+            <line class="curve-main" x1="150" y1="330" x2="168" y2="330" marker-end="url(#arrow-si2nde-chaines)"></line>
+            <line class="curve-main" x1="290" y1="330" x2="308" y2="330" marker-end="url(#arrow-si2nde-chaines)"></line>
+            <line class="curve-main" x1="430" y1="330" x2="448" y2="330" marker-end="url(#arrow-si2nde-chaines)"></line>
+
+            <!-- ===== Interactions entre les deux chaînes ===== -->
+            <line class="focus-line" x1="230" y1="100" x2="230" y2="298" marker-end="url(#arrow-si2nde-chaines)"></line>
+            <text class="annotation-label" x="240" y="205">Ordres</text>
+
+            <polyline class="focus-line" points="570,300 570,130 90,130 90,102" marker-end="url(#arrow-si2nde-chaines)" fill="none"></polyline>
+            <text class="annotation-label" x="330" y="123" text-anchor="middle">Présence détectée (capteur)</text>
+
+            <!-- ===== Légende ===== -->
+            <line class="curve-main" x1="30" y1="400" x2="70" y2="400"></line>
+            <text class="label-soft" x="78" y="404">Flux principal de la chaîne (énergie ou information)</text>
+            <line class="focus-line" x1="30" y1="418" x2="70" y2="418"></line>
+            <text class="label-soft" x="78" y="422">Interaction entre les deux chaînes (ordres / mesure)</text>
+          </svg>
+        `,
+        notes: [
+          'La chaîne d\'information <strong>pilote</strong> la chaîne d\'énergie : le bloc « Traiter » (Arduino) envoie des <strong>ordres</strong> au bloc « Distribuer » (relais) — exactement ce que dit le cours : « elle pilote la chaîne d\'énergie via des ordres ».',
+          'En retour, le capteur infrarouge (bloc « Acquérir ») détecte la présence d\'un obstacle ou d\'un véhicule près du portail : c\'est une grandeur physique issue de la chaîne d\'énergie / matière d\'œuvre.',
+          'Chaque bloc de la chaîne d\'énergie reprend l\'exemple du cours (portail automatique) : batterie $12$ V → relais → moteur CC $12$ V / $50$ W → réducteur + crémaillère.'
+        ],
+        reading: 'Lis d\'abord chaque chaîne horizontalement (flèches pleines), puis repère les deux flèches pointillées verticales qui relient les deux chaînes : l\'une envoie un ordre vers le bas, l\'autre remonte une mesure vers le haut.',
+        caption: 'Chaîne d\'énergie (Alimenter → Distribuer → Convertir → Transmettre) et chaîne d\'information (Acquérir → Traiter → Communiquer) du portail automatique, avec leurs interactions.'
+      },
       example: {
         statement: 'Un store automatique est alimenté par le secteur ($230$ V). Un moteur tubulaire de rendement $\\eta_1 = 0{,}80$ entraîne un réducteur de rendement $\\eta_2 = 0{,}90$, qui fait tourner un tube d\'enroulement. La puissance absorbée par le moteur est $P_{\\text{abs}} = 150$ W. Calculer le rendement global et la puissance utile transmise au store.',
         steps: [

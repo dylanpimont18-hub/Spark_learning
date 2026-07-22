@@ -39,7 +39,70 @@ window.MODULES.push({
         ],
         answer: '$S = A + B$ (une simple porte OU).'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><td style="border:1px solid var(--border);padding:8px"><strong>$A$</strong></td><td style="border:1px solid var(--border);padding:8px"><strong>$B$</strong></td><td style="border:1px solid var(--border);padding:8px"><strong>AND</strong><br/>$A \\cdot B$</td><td style="border:1px solid var(--border);padding:8px"><strong>OR</strong><br/>$A + B$</td><td style="border:1px solid var(--border);padding:8px"><strong>XOR</strong><br/>$A \\oplus B$</td><td style="border:1px solid var(--border);padding:8px"><strong>NAND</strong><br/>$\\overline{A \\cdot B}$</td><td style="border:1px solid var(--border);padding:8px"><strong>NOR</strong><br/>$\\overline{A + B}$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">$0$</td><td style="border:1px solid var(--border);padding:8px">$0$</td><td style="border:1px solid var(--border);padding:8px">$0$</td><td style="border:1px solid var(--border);padding:8px">$0$</td><td style="border:1px solid var(--border);padding:8px">$0$</td><td style="border:1px solid var(--border);padding:8px">$1$</td><td style="border:1px solid var(--border);padding:8px">$1$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">$0$</td><td style="border:1px solid var(--border);padding:8px">$1$</td><td style="border:1px solid var(--border);padding:8px">$0$</td><td style="border:1px solid var(--border);padding:8px">$1$</td><td style="border:1px solid var(--border);padding:8px">$1$</td><td style="border:1px solid var(--border);padding:8px">$1$</td><td style="border:1px solid var(--border);padding:8px">$0$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">$1$</td><td style="border:1px solid var(--border);padding:8px">$0$</td><td style="border:1px solid var(--border);padding:8px">$0$</td><td style="border:1px solid var(--border);padding:8px">$1$</td><td style="border:1px solid var(--border);padding:8px">$1$</td><td style="border:1px solid var(--border);padding:8px">$1$</td><td style="border:1px solid var(--border);padding:8px">$0$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">$1$</td><td style="border:1px solid var(--border);padding:8px">$1$</td><td style="border:1px solid var(--border);padding:8px">$1$</td><td style="border:1px solid var(--border);padding:8px">$1$</td><td style="border:1px solid var(--border);padding:8px">$0$</td><td style="border:1px solid var(--border);padding:8px">$0$</td><td style="border:1px solid var(--border);padding:8px">$0$</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Logigramme : simplification par les lois de De Morgan',
+        title: 'NON(NON(A) ET NON(B)) est-il vraiment la même chose que A OU B ?',
+        description: 'À gauche, le circuit qui traduit <strong>littéralement</strong> l\'expression de l\'exemple du cours, $S = \\overline{\\overline{A} \\cdot \\overline{B}}$ : deux portes NON sur les entrées, une porte ET, puis une porte NON en sortie.<br/><br/>À droite, le circuit simplifié par les lois de De Morgan : une seule porte OU. Les deux circuits ont exactement la même table de vérité.',
+        svg: `
+          <svg viewBox="0 0 580 230" role="img" aria-labelledby="demorgan-logigramme-title demorgan-logigramme-desc">
+            <title id="demorgan-logigramme-title">Deux logigrammes equivalents illustrant la loi de De Morgan</title>
+            <desc id="demorgan-logigramme-desc">A gauche, un circuit avec deux portes NON sur les entrees A et B, suivies d'une porte ET puis d'une porte NON en sortie, realisant S egale NON de NON A ET NON B. A droite, une seule porte OU prenant A et B en entree, realisant S egale A OU B. Les deux circuits produisent la meme sortie pour les quatre combinaisons de A et B.</desc>
+
+            <!-- ===== Circuit initial (gauche) ===== -->
+            <line class="curve-main" x1="20" y1="85" x2="55" y2="85"></line>
+            <text class="annotation-label" x="12" y="89">A</text>
+            <polygon class="frame-line" points="55,70 55,100 90,85" fill="color-mix(in srgb, var(--diagram-accent) 25%, var(--bg-card))"></polygon>
+            <circle class="frame-line" cx="97" cy="85" r="6" fill="var(--bg-card)"></circle>
+            <line class="curve-main" x1="103" y1="85" x2="150" y2="85"></line>
+
+            <line class="curve-main" x1="20" y1="115" x2="55" y2="115"></line>
+            <text class="annotation-label" x="12" y="119">B</text>
+            <polygon class="frame-line" points="55,100 55,130 90,115" fill="color-mix(in srgb, var(--diagram-accent) 25%, var(--bg-card))"></polygon>
+            <circle class="frame-line" cx="97" cy="115" r="6" fill="var(--bg-card)"></circle>
+            <line class="curve-main" x1="103" y1="115" x2="150" y2="115"></line>
+
+            <path class="frame-line" d="M150,70 H180 A30,30 0 0 1 180,130 H150 Z" fill="color-mix(in srgb, var(--diagram-accent) 12%, var(--bg-card))"></path>
+            <text class="label-soft" x="163" y="104" text-anchor="middle">ET</text>
+            <line class="curve-main" x1="210" y1="100" x2="225" y2="100"></line>
+
+            <polygon class="frame-line" points="225,85 225,115 260,100" fill="color-mix(in srgb, var(--diagram-accent) 25%, var(--bg-card))"></polygon>
+            <circle class="frame-line" cx="267" cy="100" r="6" fill="var(--bg-card)"></circle>
+            <line class="curve-main" x1="273" y1="100" x2="300" y2="100"></line>
+            <text class="annotation-label" x="305" y="104">S</text>
+
+            <text class="label-soft" x="160" y="175" text-anchor="middle">Circuit initial (lecture littérale)</text>
+            <text class="annotation-label" x="160" y="192" text-anchor="middle">S = NON( NON(A) ET NON(B) )</text>
+
+            <!-- ===== Signe d'équivalence ===== -->
+            <text class="annotation-label" x="330" y="106" text-anchor="middle" font-size="20">=</text>
+            <text class="label-soft" x="330" y="128" text-anchor="middle">De Morgan</text>
+
+            <!-- ===== Circuit simplifié (droite) ===== -->
+            <line class="curve-main" x1="400" y1="85" x2="435" y2="85"></line>
+            <text class="annotation-label" x="390" y="89">A</text>
+            <line class="curve-main" x1="400" y1="115" x2="435" y2="115"></line>
+            <text class="annotation-label" x="390" y="119">B</text>
+
+            <path class="frame-line" d="M435,70 Q450,100 435,130 Q480,128 500,100 Q480,72 435,70 Z" fill="color-mix(in srgb, var(--diagram-accent) 20%, var(--bg-card))"></path>
+            <text class="label-soft" x="458" y="104" text-anchor="middle">OU</text>
+            <line class="curve-main" x1="500" y1="100" x2="530" y2="100"></line>
+            <text class="annotation-label" x="535" y="104">S</text>
+
+            <text class="label-soft" x="465" y="175" text-anchor="middle">Circuit simplifié (De Morgan)</text>
+            <text class="annotation-label" x="465" y="192" text-anchor="middle">S = A OU B</text>
+
+            <text class="label-soft" x="300" y="215" text-anchor="middle">Une bulle sur une porte représente une inversion (NON).</text>
+          </svg>
+        `,
+        notes: [
+          'La double négation s\'annule : $\\overline{\\overline{A}} = A$ et $\\overline{\\overline{B}} = B$, donc $\\overline{\\overline{A} \\cdot \\overline{B}} = A + B$ (loi de De Morgan appliquée à $X = \\overline{A}$ et $Y = \\overline{B}$).',
+          'Le circuit de gauche utilise <strong>4 portes</strong> (2 NON, 1 ET, 1 NON) ; le circuit de droite n\'en utilise <strong>qu\'une seule</strong> (OU) — la simplification réduit le coût et la consommation du circuit.',
+          'Vérification sur les $4$ combinaisons de $A$ et $B$ : les deux circuits donnent $0, 1, 1, 1$ dans le même ordre $(A,B) = (0,0), (0,1), (1,0), (1,1)$ — table de vérité identique.'
+        ],
+        reading: 'Compare les sorties des deux circuits pour les mêmes entrées $A$ et $B$ : le nombre de portes change, mais jamais le comportement logique.',
+        caption: 'Deux logigrammes équivalents pour $S = \\overline{\\overline{A} \\cdot \\overline{B}} = A + B$ : la loi de De Morgan permet de remplacer 4 portes par une seule porte OU.'
+      },
       formulas: [
         '$\\overline{A \\cdot B} = \\overline{A} + \\overline{B}$ (1ère loi de De Morgan)',
         '$\\overline{A + B} = \\overline{A} \\cdot \\overline{B}$ (2ème loi de De Morgan)',

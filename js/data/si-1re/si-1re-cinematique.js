@@ -39,7 +39,112 @@ window.MODULES.push({
         ],
         answer: '$v = 10$ m/s et $x = 25$ m.'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><td style="border:1px solid var(--border);padding:8px"><strong>Grandeur</strong></td><td style="border:1px solid var(--border);padding:8px"><strong>MRU</strong></td><td style="border:1px solid var(--border);padding:8px"><strong>MRUA</strong></td><td style="border:1px solid var(--border);padding:8px"><strong>Rotation uniforme</strong></td></tr><tr><td style="border:1px solid var(--border);padding:8px">Position</td><td style="border:1px solid var(--border);padding:8px">$x = x_0 + vt$</td><td style="border:1px solid var(--border);padding:8px">$x = x_0 + v_0 t + \\frac{1}{2}at^2$</td><td style="border:1px solid var(--border);padding:8px">$\\theta = \\theta_0 + \\omega t$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Vitesse</td><td style="border:1px solid var(--border);padding:8px">$v = \\text{cte}$</td><td style="border:1px solid var(--border);padding:8px">$v = v_0 + at$</td><td style="border:1px solid var(--border);padding:8px">$v = R\\omega$ (cte)</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Accélération</td><td style="border:1px solid var(--border);padding:8px">$a = 0$</td><td style="border:1px solid var(--border);padding:8px">$a = \\text{cte}$</td><td style="border:1px solid var(--border);padding:8px">$a_n = R\\omega^2$ (centripète)</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Sans le temps</td><td style="border:1px solid var(--border);padding:8px">—</td><td style="border:1px solid var(--border);padding:8px">$v^2 = v_0^2 + 2a\\Delta x$</td><td style="border:1px solid var(--border);padding:8px">—</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'MRUA — exemple du cours',
+        title: 'Vitesse $v(t)$ et position $x(t)$ d\'un MRUA (exemple du cours : $a = 2$ m/s²)',
+        description: 'Reconstruction chiffrée de l\'exemple résolu du cours : chariot partant du repos ($v_0 = 0$) avec une accélération $a = 2$ m/s² pendant $t = 5$ s.',
+        svg: `
+          <svg viewBox="0 0 400 226" role="img" aria-labelledby="si1re-cine-title si1re-cine-desc">
+            <title id="si1re-cine-title">Graphes v(t) et x(t) d'un mouvement uniformement accelere</title>
+            <desc id="si1re-cine-desc">Deux graphes cote a cote : a gauche la vitesse v(t), droite de pente a = 2 m/s2 partant de v0 = 0 et atteignant v = 10 m/s a t = 5 s ; a droite la position x(t), parabole partant de x0 = 0 et atteignant x = 25 m a t = 5 s. L'aire sous la droite v(t) represente la distance parcourue.</desc>
+
+            <!-- Graphe 1 : v(t) -->
+            <text class="annotation-label" x="120" y="14" text-anchor="middle">v(t) — vitesse</text>
+            <text class="axis-label" x="14" y="22">v (m/s)</text>
+
+            <line class="grid-line" x1="78" y1="180" x2="78" y2="30"></line>
+            <line class="grid-line" x1="106" y1="180" x2="106" y2="30"></line>
+            <line class="grid-line" x1="134" y1="180" x2="134" y2="30"></line>
+            <line class="grid-line" x1="162" y1="180" x2="162" y2="30"></line>
+            <line class="grid-line" x1="50" y1="150" x2="190" y2="150"></line>
+            <line class="grid-line" x1="50" y1="120" x2="190" y2="120"></line>
+            <line class="grid-line" x1="50" y1="90" x2="190" y2="90"></line>
+            <line class="grid-line" x1="50" y1="60" x2="190" y2="60"></line>
+
+            <polygon points="50,180 190,180 190,30" fill="var(--diagram-accent)" opacity="0.14"></polygon>
+
+            <line class="axis" x1="50" y1="180" x2="196" y2="180"></line>
+            <line class="axis" x1="50" y1="186" x2="50" y2="24"></line>
+
+            <line class="curve-main" x1="50" y1="180" x2="190" y2="30"></line>
+
+            <line class="guide-line" x1="106" y1="120" x2="162" y2="120"></line>
+            <line class="guide-line" x1="162" y1="120" x2="162" y2="60"></line>
+
+            <circle class="plot-point-alt" cx="50" cy="180" r="4"></circle>
+            <circle class="plot-point" cx="190" cy="30" r="5"></circle>
+
+            <text class="annotation-label" x="56" y="52">pente = a = 2 m/s²</text>
+            <text class="tick-label" x="134" y="134" text-anchor="middle">Δt = 2 s</text>
+            <text class="tick-label" x="168" y="94">Δv = 4 m/s</text>
+            <text class="annotation-label" x="110" y="160" text-anchor="middle">Aire = x = 25 m</text>
+
+            <text class="tick-label" x="50" y="194" text-anchor="middle">0</text>
+            <text class="tick-label" x="78" y="194" text-anchor="middle">1</text>
+            <text class="tick-label" x="106" y="194" text-anchor="middle">2</text>
+            <text class="tick-label" x="134" y="194" text-anchor="middle">3</text>
+            <text class="tick-label" x="162" y="194" text-anchor="middle">4</text>
+            <text class="tick-label" x="190" y="194" text-anchor="middle">5</text>
+            <text class="axis-label" x="198" y="184">t (s)</text>
+
+            <text class="tick-label" x="44" y="184" text-anchor="end">0</text>
+            <text class="tick-label" x="44" y="154" text-anchor="end">2</text>
+            <text class="tick-label" x="44" y="124" text-anchor="end">4</text>
+            <text class="tick-label" x="44" y="94" text-anchor="end">6</text>
+            <text class="tick-label" x="44" y="64" text-anchor="end">8</text>
+            <text class="tick-label" x="44" y="34" text-anchor="end">10</text>
+
+            <!-- Graphe 2 : x(t) -->
+            <text class="annotation-label" x="300" y="14" text-anchor="middle">x(t) — position</text>
+            <text class="axis-label" x="200" y="22">x (m)</text>
+
+            <line class="grid-line" x1="258" y1="180" x2="258" y2="30"></line>
+            <line class="grid-line" x1="286" y1="180" x2="286" y2="30"></line>
+            <line class="grid-line" x1="314" y1="180" x2="314" y2="30"></line>
+            <line class="grid-line" x1="342" y1="180" x2="342" y2="30"></line>
+            <line class="grid-line" x1="230" y1="150" x2="370" y2="150"></line>
+            <line class="grid-line" x1="230" y1="120" x2="370" y2="120"></line>
+            <line class="grid-line" x1="230" y1="90" x2="370" y2="90"></line>
+            <line class="grid-line" x1="230" y1="60" x2="370" y2="60"></line>
+
+            <line class="axis" x1="230" y1="180" x2="376" y2="180"></line>
+            <line class="axis" x1="230" y1="186" x2="230" y2="24"></line>
+
+            <path class="curve-main" d="M230 180 L244 178.5 L258 174 L272 166.5 L286 156 L300 142.5 L314 126 L328 106.5 L342 84 L356 58.5 L370 30"></path>
+
+            <line class="guide-line" x1="370" y1="30" x2="370" y2="180"></line>
+            <line class="guide-line" x1="230" y1="30" x2="370" y2="30"></line>
+
+            <circle class="plot-point-alt" cx="230" cy="180" r="4"></circle>
+            <circle class="plot-point" cx="370" cy="30" r="5"></circle>
+
+            <text class="annotation-label" x="300" y="44" text-anchor="middle">x(5) = 25 m</text>
+
+            <text class="tick-label" x="230" y="194" text-anchor="middle">0</text>
+            <text class="tick-label" x="258" y="194" text-anchor="middle">1</text>
+            <text class="tick-label" x="286" y="194" text-anchor="middle">2</text>
+            <text class="tick-label" x="314" y="194" text-anchor="middle">3</text>
+            <text class="tick-label" x="342" y="194" text-anchor="middle">4</text>
+            <text class="tick-label" x="370" y="194" text-anchor="middle">5</text>
+            <text class="axis-label" x="378" y="184">t (s)</text>
+
+            <text class="tick-label" x="224" y="184" text-anchor="end">0</text>
+            <text class="tick-label" x="224" y="154" text-anchor="end">5</text>
+            <text class="tick-label" x="224" y="124" text-anchor="end">10</text>
+            <text class="tick-label" x="224" y="94" text-anchor="end">15</text>
+            <text class="tick-label" x="224" y="64" text-anchor="end">20</text>
+            <text class="tick-label" x="224" y="34" text-anchor="end">25</text>
+          </svg>
+        `,
+        notes: [
+          'La pente de la droite $v(t)$ est constante et égale à l\'accélération : ici $a = \\dfrac{\\Delta v}{\\Delta t} = \\dfrac{4}{2} = 2$ m/s², conforme à l\'exemple du cours.',
+          'L\'aire sous la droite $v(t)$, ici un triangle de base $t = 5$ s et de hauteur $v = 10$ m/s, vaut $\\dfrac{1}{2} \\times 5 \\times 10 = 25$ m : exactement la distance $x$ calculée dans l\'exemple.',
+          'La courbe $x(t)$ est une parabole (fonction quadratique du temps) : sa pente locale — donc la vitesse instantanée — augmente continûment, contrairement à la droite $v(t)$ dont la pente (l\'accélération) reste constante.'
+        ],
+        reading: 'Sur $v(t)$, lis la pente pour retrouver l\'accélération et l\'aire sous la courbe pour retrouver la distance parcourue. Sur $x(t)$, la courbure vers le haut traduit une vitesse qui augmente sans cesse.',
+        caption: 'Exemple du cours : $a = 2$ m/s², $v_0 = 0$ → $v(5) = 10$ m/s (droite) et $x(5) = 25$ m (parabole).'
+      },
       formulas: [
         '$v = v_0 + at$ (vitesse en MRUA)',
         '$x = x_0 + v_0 t + \\dfrac{1}{2}at^2$ (position en MRUA)',

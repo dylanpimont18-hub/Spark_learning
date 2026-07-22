@@ -29,7 +29,80 @@ window.MODULES.push({
           '<strong>Rédiger le CdCF</strong> : Pour chaque fonction, définir un critère, un niveau et une flexibilité.<br/>Exemple : $FS_1$ → critère : vitesse maximale assistée ; niveau : $25$ km/h ; flexibilité : $\\pm 1$ km/h.'
         ]
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Type</th><th style="border:1px solid var(--border);padding:8px">Fonction de service (FS)</th><th style="border:1px solid var(--border);padding:8px">Fonction de contrainte (FC)</th></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Définition</strong></td><td style="border:1px solid var(--border);padding:8px">Action attendue du produit pour l\'utilisateur</td><td style="border:1px solid var(--border);padding:8px">Exigence imposée par le milieu extérieur</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Liaison</strong></td><td style="border:1px solid var(--border);padding:8px">Relie <strong>2</strong> éléments extérieurs via le produit</td><td style="border:1px solid var(--border);padding:8px">Relie <strong>1</strong> seul élément au produit</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Exemple (vélo)</strong></td><td style="border:1px solid var(--border);padding:8px">Permettre au cycliste de se déplacer sur la route</td><td style="border:1px solid var(--border);padding:8px">Résister à la pluie</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Notation</strong></td><td style="border:1px solid var(--border);padding:8px">$FS_1, FS_2, \\ldots$</td><td style="border:1px solid var(--border);padding:8px">$FC_1, FC_2, \\ldots$</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Diagramme pieuvre (méthode APTE)',
+        title: 'Diagramme pieuvre du distributeur de boissons chaudes (exemple du cours)',
+        description: 'Le produit est placé au centre. Un <strong>trait plein</strong> relie deux éléments du milieu extérieur en passant par le produit : c\'est une fonction de service ($FS$). Un <strong>trait pointillé</strong> relie un seul élément au produit : c\'est une fonction de contrainte ($FC$).',
+        svg: `
+          <svg viewBox="0 0 560 470" role="img" aria-labelledby="pieuvre-title pieuvre-desc">
+            <title id="pieuvre-title">Diagramme pieuvre du distributeur de boissons chaudes</title>
+            <desc id="pieuvre-desc">Le distributeur de boissons chaudes est au centre. Deux fonctions de service en traits pleins relient l'utilisateur aux boissons et l'utilisateur au paiement en passant par le produit. Trois fonctions de contrainte en traits pointilles relient le produit aux normes d'hygiene, a l'energie electrique et a l'esthetique du hall.</desc>
+
+            <!-- Traits FS (pleins) : relient 2 elements via le produit -->
+            <line class="curve-main" x1="250" y1="77" x2="280" y2="220"></line>
+            <line class="curve-main" x1="280" y1="220" x2="382" y2="135"></line>
+            <line class="curve-main" x1="310" y1="77" x2="280" y2="220"></line>
+            <line class="curve-main" x1="280" y1="220" x2="382" y2="305"></line>
+
+            <!-- Traits FC (pointillés) : relient 1 seul élément au produit -->
+            <line class="guide-line" x1="178" y1="135" x2="280" y2="220"></line>
+            <line class="guide-line" x1="178" y1="305" x2="280" y2="220"></line>
+            <line class="guide-line" x1="280" y1="363" x2="280" y2="220"></line>
+
+            <!-- Produit au centre (dessiné après les traits pour masquer leur convergence) -->
+            <rect class="frame-line" x="195" y="188" width="170" height="64" rx="8" fill="var(--bg-card)"></rect>
+            <text class="annotation-label" x="280" y="207" text-anchor="middle">Distributeur de</text>
+            <text class="annotation-label" x="280" y="223" text-anchor="middle">boissons chaudes</text>
+            <text class="label-soft" x="280" y="239" text-anchor="middle">(lycée)</text>
+
+            <!-- Éléments du milieu extérieur -->
+            <rect class="frame-line" x="200" y="23" width="160" height="54" rx="8" fill="var(--bg-card)"></rect>
+            <text class="label" x="280" y="46" text-anchor="middle">Utilisateur</text>
+            <text class="label-soft" x="280" y="62" text-anchor="middle">(élèves, personnel)</text>
+
+            <rect class="frame-line" x="382" y="108" width="160" height="54" rx="8" fill="var(--bg-card)"></rect>
+            <text class="label" x="462" y="131" text-anchor="middle">Boissons</text>
+            <text class="label-soft" x="462" y="147" text-anchor="middle">(eau, café, chocolat)</text>
+
+            <rect class="frame-line" x="382" y="278" width="160" height="54" rx="8" fill="var(--bg-card)"></rect>
+            <text class="label" x="462" y="301" text-anchor="middle">Monnaie</text>
+            <text class="label-soft" x="462" y="317" text-anchor="middle">/ paiement</text>
+
+            <rect class="frame-line" x="200" y="363" width="160" height="54" rx="8" fill="var(--bg-card)"></rect>
+            <text class="label" x="280" y="386" text-anchor="middle">Esthétique</text>
+            <text class="label-soft" x="280" y="402" text-anchor="middle">(hall du lycée)</text>
+
+            <rect class="frame-line" x="18" y="278" width="160" height="54" rx="8" fill="var(--bg-card)"></rect>
+            <text class="label" x="98" y="301" text-anchor="middle">Énergie</text>
+            <text class="label-soft" x="98" y="317" text-anchor="middle">électrique</text>
+
+            <rect class="frame-line" x="18" y="108" width="160" height="54" rx="8" fill="var(--bg-card)"></rect>
+            <text class="label" x="98" y="131" text-anchor="middle">Normes</text>
+            <text class="label-soft" x="98" y="147" text-anchor="middle">d'hygiène</text>
+
+            <!-- Étiquettes FS / FC -->
+            <text class="annotation-label" x="212" y="98" text-anchor="middle">FS₁</text>
+            <text class="annotation-label" x="348" y="98" text-anchor="middle">FS₂</text>
+            <text class="annotation-label" x="150" y="163" text-anchor="middle">FC₁</text>
+            <text class="annotation-label" x="150" y="288" text-anchor="middle">FC₂</text>
+            <text class="annotation-label" x="303" y="335" text-anchor="middle">FC₃</text>
+
+            <!-- Légende -->
+            <line class="curve-main" x1="20" y1="440" x2="60" y2="440"></line>
+            <text class="label-soft" x="68" y="444">FS — fonction de service (relie 2 éléments)</text>
+            <line class="guide-line" x1="20" y1="458" x2="60" y2="458"></line>
+            <text class="label-soft" x="68" y="462">FC — fonction de contrainte (relie 1 élément)</text>
+          </svg>
+        `,
+        notes: [
+          '<strong>FS₁</strong> relie l\'utilisateur et les boissons en passant par le produit : « permettre à l\'utilisateur d\'obtenir la boisson choisie ».',
+          '<strong>FS₂</strong> relie l\'utilisateur et le paiement en passant par le produit : « accepter le paiement de l\'utilisateur ».',
+          '<strong>FC₁, FC₂, FC₃</strong> relient chacune un seul élément au produit : normes d\'hygiène, énergie électrique, esthétique du hall.'
+        ],
+        reading: 'Suis chaque trait plein d\'un bout à l\'autre : il traverse toujours le produit pour relier deux éléments extérieurs (une $FS$). Un trait pointillé s\'arrête au produit : un seul élément est concerné (une $FC$).',
+        caption: '2 fonctions de service ($FS_1$, $FS_2$, traits pleins) et 3 fonctions de contrainte ($FC_1$, $FC_2$, $FC_3$, traits pointillés), soit 5 fonctions au total — conforme à l\'exemple du cours.'
+      },
       example: {
         statement: 'On analyse un distributeur automatique de boissons chaudes installé dans un lycée. Identifier le besoin, puis lister les fonctions de service et de contrainte.',
         steps: [

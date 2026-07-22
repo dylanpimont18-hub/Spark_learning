@@ -39,7 +39,67 @@ window.MODULES.push({
         ],
         answer: '$\\sigma = 200$ MPa, $\\varepsilon \\approx 9{,}5 \\times 10^{-4}$, $\\Delta L \\approx 1{,}9$ mm, $s = 2$.'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><td style="border:1px solid var(--border);padding:8px"><strong>Sollicitation</strong></td><td style="border:1px solid var(--border);padding:8px"><strong>Effort</strong></td><td style="border:1px solid var(--border);padding:8px"><strong>Contrainte</strong></td><td style="border:1px solid var(--border);padding:8px"><strong>Unité</strong></td></tr><tr><td style="border:1px solid var(--border);padding:8px">Traction</td><td style="border:1px solid var(--border);padding:8px">$N > 0$</td><td style="border:1px solid var(--border);padding:8px">$\\sigma = N/S$</td><td style="border:1px solid var(--border);padding:8px">Pa (MPa)</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Compression</td><td style="border:1px solid var(--border);padding:8px">$N < 0$</td><td style="border:1px solid var(--border);padding:8px">$\\sigma = N/S$</td><td style="border:1px solid var(--border);padding:8px">Pa (MPa)</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Cisaillement</td><td style="border:1px solid var(--border);padding:8px">$T$</td><td style="border:1px solid var(--border);padding:8px">$\\tau = T/S$</td><td style="border:1px solid var(--border);padding:8px">Pa (MPa)</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Flexion</td><td style="border:1px solid var(--border);padding:8px">$M_f$</td><td style="border:1px solid var(--border);padding:8px">$\\sigma = M_f \\cdot y / I$</td><td style="border:1px solid var(--border);padding:8px">Pa (MPa)</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Torsion</td><td style="border:1px solid var(--border);padding:8px">$M_t$</td><td style="border:1px solid var(--border);padding:8px">$\\tau = M_t \\cdot r / I_0$</td><td style="border:1px solid var(--border);padding:8px">Pa (MPa)</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Loi de Hooke — exemple du cours',
+        title: 'Contrainte-déformation $\\sigma = f(\\varepsilon)$ : acier vs aluminium ($E \\approx 210$ GPa et $70$ GPa)',
+        description: 'Reconstruction chiffrée à partir des valeurs du cours : deux droites partant de l\'origine, la pente de chacune étant le module de Young $E$ du matériau (loi de Hooke $\\sigma = E \\times \\varepsilon$).',
+        svg: `
+          <svg viewBox="0 0 400 260" role="img" aria-labelledby="si1re-rdm-title si1re-rdm-desc">
+            <title id="si1re-rdm-title">Courbe contrainte-deformation de deux materiaux</title>
+            <desc id="si1re-rdm-desc">Deux droites partant de l'origine dans le repere contrainte sigma (MPa) - deformation epsilon (x10-3) : la droite de l'acier (module de Young E=210 GPa) a une pente trois fois plus raide que celle de l'aluminium (E=70 GPa). A epsilon=2x10-3, l'acier atteint sigma=420 MPa et l'aluminium sigma=140 MPa.</desc>
+
+            <text class="axis-label" x="14" y="22">σ (MPa)</text>
+
+            <line class="grid-line" x1="60" y1="177.8" x2="320" y2="177.8"></line>
+            <line class="grid-line" x1="60" y1="135.6" x2="320" y2="135.6"></line>
+            <line class="grid-line" x1="60" y1="93.3" x2="320" y2="93.3"></line>
+            <line class="grid-line" x1="60" y1="51.1" x2="320" y2="51.1"></line>
+            <line class="grid-line" x1="125" y1="220" x2="125" y2="30"></line>
+            <line class="grid-line" x1="190" y1="220" x2="190" y2="30"></line>
+            <line class="grid-line" x1="255" y1="220" x2="255" y2="30"></line>
+
+            <line class="guide-line" x1="320" y1="220" x2="320" y2="42.7"></line>
+            <line class="guide-line" x1="60" y1="42.7" x2="320" y2="42.7"></line>
+            <line class="guide-line" x1="60" y1="160.9" x2="320" y2="160.9"></line>
+
+            <line class="axis" x1="60" y1="220" x2="326" y2="220"></line>
+            <line class="axis" x1="60" y1="226" x2="60" y2="24"></line>
+
+            <line class="curve-main" x1="60" y1="220" x2="320" y2="42.7"></line>
+            <line class="graph-line" x1="60" y1="220" x2="320" y2="160.9"></line>
+
+            <circle class="plot-point" cx="320" cy="42.7" r="5"></circle>
+            <circle class="plot-point-alt" cx="320" cy="160.9" r="5"></circle>
+
+            <text class="annotation-label" x="170" y="58">Acier — E ≈ 210 GPa</text>
+            <text class="annotation-label" x="170" y="213">Alu — E ≈ 70 GPa</text>
+
+            <text class="tick-label" x="60" y="234" text-anchor="middle">0</text>
+            <text class="tick-label" x="125" y="234" text-anchor="middle">0,5</text>
+            <text class="tick-label" x="190" y="234" text-anchor="middle">1</text>
+            <text class="tick-label" x="255" y="234" text-anchor="middle">1,5</text>
+            <text class="tick-label" x="320" y="234" text-anchor="middle">2</text>
+            <text class="axis-label" x="330" y="234">ε (×10⁻³)</text>
+
+            <text class="tick-label" x="50" y="224" text-anchor="end">0</text>
+            <text class="tick-label" x="50" y="182" text-anchor="end">100</text>
+            <text class="tick-label" x="50" y="140" text-anchor="end">200</text>
+            <text class="tick-label" x="50" y="97" text-anchor="end">300</text>
+            <text class="tick-label" x="50" y="55" text-anchor="end">400</text>
+
+            <text class="tick-label" x="328" y="46">420</text>
+            <text class="tick-label" x="328" y="165">140</text>
+          </svg>
+        `,
+        notes: [
+          'Pour une même déformation $\\varepsilon = 2 \\times 10^{-3}$, l\'acier atteint $\\sigma = 210 \\times 10^9 \\times 2\\times10^{-3} = 420 \\times 10^6$ Pa $= 420$ MPa, soit trois fois la contrainte de l\'aluminium ($\\sigma = 70 \\times 10^9 \\times 2\\times10^{-3} = 140$ MPa).',
+          'Ce facteur $3$ entre les deux pentes correspond exactement au rapport des modules de Young : $\\dfrac{E_{acier}}{E_{alu}} = \\dfrac{210}{70} = 3$.',
+          'Plus la pente $\\sigma/\\varepsilon$ est grande, plus le matériau est rigide : à contrainte égale, l\'acier se déforme donc trois fois moins que l\'aluminium — cohérent avec le quiz du cours (l\'aluminium s\'allonge davantage sous la même charge).'
+        ],
+        reading: 'Compare les pentes plutôt que les valeurs isolées : la droite la plus raide correspond toujours au matériau le plus rigide (le plus grand $E$).',
+        caption: 'Droites $\\sigma = E\\varepsilon$ tracées avec $E_{acier} = 210$ GPa et $E_{alu} = 70$ GPa : à $\\varepsilon = 2\\times10^{-3}$, $\\sigma_{acier} = 420$ MPa contre $\\sigma_{alu} = 140$ MPa.'
+      },
       formulas: [
         '$\\sigma = \\dfrac{F}{S}$ (contrainte en Pa)',
         '$\\varepsilon = \\dfrac{\\Delta L}{L_0}$ (déformation relative)',

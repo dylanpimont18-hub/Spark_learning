@@ -39,7 +39,56 @@ window.MODULES.push({
         ],
         answer: 'Après les deux remplissages, <code>r.volume = 18</code> litres.'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><td style="border:1px solid var(--border);padding:8px"><strong>Concept POO</strong></td><td style="border:1px solid var(--border);padding:8px"><strong>Définition</strong></td><td style="border:1px solid var(--border);padding:8px"><strong>Syntaxe Python</strong></td></tr><tr><td style="border:1px solid var(--border);padding:8px">Classe</td><td style="border:1px solid var(--border);padding:8px">Plan / modèle d\'objet</td><td style="border:1px solid var(--border);padding:8px"><code>class Moteur:</code></td></tr><tr><td style="border:1px solid var(--border);padding:8px">Constructeur</td><td style="border:1px solid var(--border);padding:8px">Initialise les attributs</td><td style="border:1px solid var(--border);padding:8px"><code>def __init__(self, p):</code></td></tr><tr><td style="border:1px solid var(--border);padding:8px">Attribut</td><td style="border:1px solid var(--border);padding:8px">Donnée propre à l\'objet</td><td style="border:1px solid var(--border);padding:8px"><code>self.puissance = p</code></td></tr><tr><td style="border:1px solid var(--border);padding:8px">Méthode</td><td style="border:1px solid var(--border);padding:8px">Fonction de la classe</td><td style="border:1px solid var(--border);padding:8px"><code>def demarrer(self):</code></td></tr><tr><td style="border:1px solid var(--border);padding:8px">Instanciation</td><td style="border:1px solid var(--border);padding:8px">Création d\'un objet</td><td style="border:1px solid var(--border);padding:8px"><code>m = Moteur(500)</code></td></tr><tr><td style="border:1px solid var(--border);padding:8px">Héritage</td><td style="border:1px solid var(--border);padding:8px">Classe fille hérite de mère</td><td style="border:1px solid var(--border);padding:8px"><code>class Electrique(Moteur):</code></td></tr><tr><td style="border:1px solid var(--border);padding:8px">Appel parent</td><td style="border:1px solid var(--border);padding:8px">Constructeur de la mère</td><td style="border:1px solid var(--border);padding:8px"><code>super().__init__(p)</code></td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Diagramme de classes UML',
+        title: 'Héritage : Capteur → CapteurAlarme',
+        description: 'La classe <strong>CapteurAlarme</strong> hérite de la classe <strong>Capteur</strong> : elle réutilise ses attributs et méthodes, et en ajoute de nouveaux.<br/><br/>La flèche à tête triangulaire <strong>creuse</strong> pointe toujours vers la <strong>classe mère</strong>, jamais vers la classe fille.',
+        svg: `
+          <svg viewBox="0 0 340 385" role="img" aria-labelledby="poo-uml-title poo-uml-desc">
+            <title id="poo-uml-title">Diagramme de classes UML : heritage Capteur / CapteurAlarme</title>
+            <desc id="poo-uml-desc">Deux classes UML reliees par une fleche d'heritage a tete triangulaire creuse pointant vers le haut, de CapteurAlarme (classe fille, en bas) vers Capteur (classe mere, en haut). La classe Capteur possede les attributs nom (str), unite (str) et valeur (float initialise a 0), et les methodes constructeur, mesurer(v) et afficher(). La classe CapteurAlarme ajoute l'attribut seuil (float) et la methode alarme(), en plus de son propre constructeur qui appelle celui de la classe mere via super().</desc>
+
+            <defs>
+              <marker id="uml-generalization-poo" viewBox="0 0 20 20" refX="18" refY="10" markerWidth="18" markerHeight="18" markerUnits="userSpaceOnUse" orient="auto">
+                <path class="frame-line" d="M0,0 L20,10 L0,20 z" fill="var(--bg-card)"></path>
+              </marker>
+            </defs>
+
+            <!-- Classe mère : Capteur -->
+            <rect class="frame-line" x="60" y="20" width="220" height="30" fill="none"></rect>
+            <rect class="frame-line" x="60" y="50" width="220" height="56" fill="none"></rect>
+            <rect class="frame-line" x="60" y="106" width="220" height="56" fill="none"></rect>
+            <text class="annotation-label" x="170" y="39" text-anchor="middle">Capteur</text>
+            <text class="label-soft" x="70" y="68">- nom : str</text>
+            <text class="label-soft" x="70" y="84">- unite : str</text>
+            <text class="label-soft" x="70" y="100">- valeur : float = 0</text>
+            <text class="label-soft" x="70" y="124">+ __init__(nom, unite)</text>
+            <text class="label-soft" x="70" y="140">+ mesurer(v)</text>
+            <text class="label-soft" x="70" y="156">+ afficher()</text>
+
+            <!-- Flèche de généralisation (héritage), tête creuse pointant vers Capteur -->
+            <line class="frame-line" x1="170" y1="252" x2="170" y2="162" marker-end="url(#uml-generalization-poo)"></line>
+            <text class="label-soft" x="185" y="212">hérite de</text>
+
+            <!-- Classe fille : CapteurAlarme -->
+            <rect class="frame-line" x="60" y="252" width="220" height="30" fill="none"></rect>
+            <rect class="frame-line" x="60" y="282" width="220" height="32" fill="none"></rect>
+            <rect class="frame-line" x="60" y="314" width="220" height="48" fill="none"></rect>
+            <text class="annotation-label" x="170" y="271" text-anchor="middle">CapteurAlarme</text>
+            <text class="label-soft" x="70" y="302">- seuil : float</text>
+            <text class="label-soft" x="70" y="332">+ __init__(nom, unite, seuil)</text>
+            <text class="label-soft" x="70" y="348">+ alarme()</text>
+          </svg>
+        `,
+        notes: [
+          '<strong>Capteur</strong> (classe mère) : attributs <code>nom</code>, <code>unite</code>, <code>valeur</code> ; méthodes <code>__init__</code>, <code>mesurer(v)</code>, <code>afficher()</code>.',
+          '<strong>CapteurAlarme</strong> (classe fille) : ajoute l\'attribut <code>seuil</code> et la méthode <code>alarme()</code>, tout en héritant du reste via <code>super().__init__(...)</code>.',
+          'La flèche à tête <strong>triangulaire creuse</strong> (notation UML de généralisation) pointe de la classe fille vers la classe mère.'
+        ],
+        reading: 'Lis le diagramme de bas en haut : la classe fille <strong>CapteurAlarme</strong> hérite de tout ce que possède <strong>Capteur</strong>, et lui ajoute son propre attribut et sa propre méthode.',
+        caption: 'Diagramme de classes UML de l\'exemple du cours : héritage entre <code>Capteur</code> et <code>CapteurAlarme</code>.'
+      },
       formulas: [
         '<code>class NomClasse:</code> — déclaration d\'une classe',
         '<code>def __init__(self, ...):</code> — constructeur (initialise les attributs)',

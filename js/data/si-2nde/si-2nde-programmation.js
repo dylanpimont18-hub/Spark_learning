@@ -28,7 +28,67 @@ window.MODULES.push({
           '<strong>Évaluer les conditions avec les valeurs courantes</strong> : Pour chaque <code>if</code>, tester la condition avec les valeurs du moment. Si vraie → bloc <code>if</code> ; sinon → bloc <code>else</code>.<br/>Exemple : Si $s = 6$ et la condition est <code>if (s > 5)</code>, la condition est vraie → on exécute le bloc <code>if</code>.'
         ]
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Type</th><th style="border:1px solid var(--border);padding:8px">Arduino (C++)</th><th style="border:1px solid var(--border);padding:8px">Python</th><th style="border:1px solid var(--border);padding:8px">Exemple de valeur</th></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Entier</strong></td><td style="border:1px solid var(--border);padding:8px"><code>int x = 10;</code></td><td style="border:1px solid var(--border);padding:8px"><code>x = 10</code></td><td style="border:1px solid var(--border);padding:8px">$10$, $-3$, $1024$</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Décimal</strong></td><td style="border:1px solid var(--border);padding:8px"><code>float t = 3.14;</code></td><td style="border:1px solid var(--border);padding:8px"><code>t = 3.14</code></td><td style="border:1px solid var(--border);padding:8px">$3{,}14$, $0{,}5$</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Booléen</strong></td><td style="border:1px solid var(--border);padding:8px"><code>bool etat = true;</code></td><td style="border:1px solid var(--border);padding:8px"><code>etat = True</code></td><td style="border:1px solid var(--border);padding:8px"><code>true</code> / <code>false</code></td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Chaîne</strong></td><td style="border:1px solid var(--border);padding:8px"><code>String msg = "OK";</code></td><td style="border:1px solid var(--border);padding:8px"><code>msg = "OK"</code></td><td style="border:1px solid var(--border);padding:8px"><code>"Bonjour"</code></td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Algorigramme',
+        title: 'Une boucle for pas à pas : calculer s = 1² + 2² + 3² + 4²',
+        description: 'Le même programme que dans l\'exemple du cours (<code>int s = 0; for (int i = 1; i <= 4; i++) { s = s + i * i; }</code>), sous forme d\'organigramme normalisé : rectangles pour les traitements, losange pour le test de la boucle, terminaux arrondis pour le début et la fin.',
+        svg: `
+          <svg viewBox="0 0 540 460" role="img" aria-labelledby="prog2nde-title prog2nde-desc">
+            <title id="prog2nde-title">Algorigramme de la boucle for calculant une somme de carrés</title>
+            <desc id="prog2nde-desc">Organigramme : debut, s recoit 0, i recoit 1, puis tant que i est inferieur ou egal a 4 on execute s recoit s plus i au carre et i recoit i plus 1 en bouclant sur le test, sinon on affiche s et on termine. Le deroulement donne s egal a 30.</desc>
+            <defs>
+              <marker id="arrow-si2nde-programmation" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
+
+            <rect class="frame-line" x="100" y="20" width="140" height="40" rx="20" fill="none"></rect>
+            <text class="annotation-label" x="170" y="45" text-anchor="middle">Début</text>
+            <line class="curve-main" x1="170" y1="60" x2="170" y2="80" marker-end="url(#arrow-si2nde-programmation)"></line>
+
+            <rect class="frame-line" x="90" y="80" width="160" height="40" fill="none"></rect>
+            <text class="annotation-label" x="170" y="105" text-anchor="middle">s ← 0</text>
+            <line class="curve-main" x1="170" y1="120" x2="170" y2="140" marker-end="url(#arrow-si2nde-programmation)"></line>
+
+            <rect class="frame-line" x="90" y="140" width="160" height="40" fill="none"></rect>
+            <text class="annotation-label" x="170" y="165" text-anchor="middle">i ← 1</text>
+            <line class="curve-main" x1="170" y1="180" x2="170" y2="205" marker-end="url(#arrow-si2nde-programmation)"></line>
+
+            <polygon class="frame-line" points="170,205 260,250 170,295 80,250" fill="none"></polygon>
+            <text class="annotation-label" x="170" y="254" text-anchor="middle">i ≤ 4 ?</text>
+
+            <line class="curve-main" x1="170" y1="295" x2="170" y2="330" marker-end="url(#arrow-si2nde-programmation)"></line>
+            <text class="label-soft" x="184" y="317">Oui</text>
+
+            <rect class="frame-line" x="70" y="330" width="200" height="40" fill="none"></rect>
+            <text class="annotation-label" x="170" y="355" text-anchor="middle">s ← s + i × i</text>
+            <line class="curve-main" x1="170" y1="370" x2="170" y2="390" marker-end="url(#arrow-si2nde-programmation)"></line>
+
+            <rect class="frame-line" x="90" y="390" width="160" height="40" fill="none"></rect>
+            <text class="annotation-label" x="170" y="415" text-anchor="middle">i ← i + 1</text>
+
+            <path class="curve-main" d="M90,410 L30,410 L30,250 L80,250" marker-end="url(#arrow-si2nde-programmation)"></path>
+
+            <line class="curve-main" x1="260" y1="250" x2="340" y2="250" marker-end="url(#arrow-si2nde-programmation)"></line>
+            <text class="label-soft" x="272" y="240">Non</text>
+
+            <rect class="frame-line" x="340" y="230" width="150" height="40" fill="none"></rect>
+            <text class="annotation-label" x="415" y="255" text-anchor="middle">Afficher s</text>
+            <line class="curve-main" x1="415" y1="270" x2="415" y2="320" marker-end="url(#arrow-si2nde-programmation)"></line>
+
+            <rect class="frame-line" x="345" y="320" width="140" height="40" rx="20" fill="none"></rect>
+            <text class="annotation-label" x="415" y="345" text-anchor="middle">Fin</text>
+          </svg>
+        `,
+        notes: [
+          'Initialisation : s ← 0 puis i ← 1, avant d\'entrer dans la boucle.',
+          'Tant que i ≤ 4 (branche « Oui ») : on exécute s ← s + i × i puis i ← i + 1, et on revient tester la condition.',
+          'Dès que i ≤ 4 devient faux, c\'est-à-dire à i = 5 (branche « Non ») : on sort de la boucle et on affiche s.'
+        ],
+        reading: 'Suis la boucle « Oui » qui revient sur le losange tant que i ≤ 4 ; dès qu\'elle devient fausse, la branche « Non » mène à l\'affichage du résultat.',
+        caption: 'Algorigramme de l\'exemple du cours : <code>int s = 0; for (int i = 1; i <= 4; i++) { s = s + i * i; }</code>, ce qui donne $s = 1^2 + 2^2 + 3^2 + 4^2 = 30$.'
+      },
       example: {
         statement: 'On considère le programme Arduino suivant. Quelle est la valeur finale de <code>s</code> ?\n\n<code>int s = 0;</code>\n<code>for (int i = 1; i <= 4; i++) {</code>\n<code>  s = s + i * i;</code>\n<code>}</code>',
         steps: [

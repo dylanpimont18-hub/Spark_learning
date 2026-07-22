@@ -28,7 +28,81 @@ window.MODULES.push({
           '<strong>Reconvertir (CNA)</strong> : $V_{\\text{reconstitué}} = N \\times q + V_{\\text{min}}$. L\'erreur maximale de quantification est $\\dfrac{q}{2}$.<br/>Exemple : $V = 51 \\times 0{,}00488 = 0{,}2489$ V, soit une erreur de $0{,}0011$ V ($\\approx 0{,}1°$C pour le LM35).'
         ]
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px">Grandeur mesurée</th><th style="border:1px solid var(--border);padding:8px">Capteur</th><th style="border:1px solid var(--border);padding:8px">Référence</th><th style="border:1px solid var(--border);padding:8px">Type de sortie</th></tr><tr><td style="border:1px solid var(--border);padding:8px">Température</td><td style="border:1px solid var(--border);padding:8px">Sonde analogique</td><td style="border:1px solid var(--border);padding:8px">LM35</td><td style="border:1px solid var(--border);padding:8px">Analogique ($10$ mV/°C)</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Distance</td><td style="border:1px solid var(--border);padding:8px">Capteur ultrason</td><td style="border:1px solid var(--border);padding:8px">HC-SR04</td><td style="border:1px solid var(--border);padding:8px">Numérique (durée d\'écho en $\\mu$s)</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Luminosité</td><td style="border:1px solid var(--border);padding:8px">Photorésistance</td><td style="border:1px solid var(--border);padding:8px">LDR</td><td style="border:1px solid var(--border);padding:8px">Analogique (résistance variable)</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Pression</td><td style="border:1px solid var(--border);padding:8px">Capteur piézorésistif</td><td style="border:1px solid var(--border);padding:8px">BMP280</td><td style="border:1px solid var(--border);padding:8px">Numérique (I2C)</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Conversion analogique-numérique',
+        title: 'Escalier de quantification d\'un CAN',
+        description: 'Le CAN remplace un signal <strong>analogique continu</strong> (courbe pointillée) par un signal <strong>numérique en escalier</strong> (marches pleines) : à chaque instant d\'échantillonnage, la tension mesurée est arrondie au palier immédiatement inférieur. La hauteur d\'une marche est le <strong>quantum</strong> $q$.<br/><br/>Schéma simplifié à $8$ niveaux ($n = 3$ bits, $2^3 = 8$) pour que les marches restent lisibles. Le CAN réel de l\'Arduino Uno de l\'exemple du cours a $n = 10$ bits, soit $2^{10} = 1024$ niveaux — un escalier bien plus fin.',
+        svg: `
+          <svg viewBox="0 0 540 300" role="img" aria-labelledby="can2nde-title can2nde-desc">
+            <title id="can2nde-title">Escalier de quantification d'un CAN</title>
+            <desc id="can2nde-desc">Le signal analogique continu croit lineairement ; le CAN le remplace par un signal en escalier, chaque marche ayant une hauteur constante appelee quantum q. Schema a 8 niveaux (3 bits) pour la lisibilite.</desc>
+
+            <line class="grid-line" x1="80" y1="220" x2="440" y2="220"></line>
+            <line class="grid-line" x1="80" y1="200" x2="440" y2="200"></line>
+            <line class="grid-line" x1="80" y1="180" x2="440" y2="180"></line>
+            <line class="grid-line" x1="80" y1="160" x2="440" y2="160"></line>
+            <line class="grid-line" x1="80" y1="140" x2="440" y2="140"></line>
+            <line class="grid-line" x1="80" y1="120" x2="440" y2="120"></line>
+            <line class="grid-line" x1="80" y1="100" x2="440" y2="100"></line>
+            <line class="grid-line" x1="80" y1="80" x2="440" y2="80"></line>
+            <line class="grid-line" x1="80" y1="60" x2="440" y2="60"></line>
+
+            <line class="grid-line" x1="80" y1="60" x2="80" y2="220"></line>
+            <line class="grid-line" x1="170" y1="60" x2="170" y2="220"></line>
+            <line class="grid-line" x1="260" y1="60" x2="260" y2="220"></line>
+            <line class="grid-line" x1="350" y1="60" x2="350" y2="220"></line>
+            <line class="grid-line" x1="440" y1="60" x2="440" y2="220"></line>
+
+            <line class="axis" x1="80" y1="235" x2="80" y2="50"></line>
+            <line class="axis" x1="65" y1="220" x2="460" y2="220"></line>
+
+            <line class="curve-main" x1="80" y1="220" x2="440" y2="60" stroke-dasharray="2 7"></line>
+
+            <path class="graph-line" d="M80,220 L125,220 L125,200 L170,200 L170,180 L215,180 L215,160 L260,160 L260,140 L305,140 L305,120 L350,120 L350,100 L395,100 L395,80 L440,80"></path>
+
+            <circle class="plot-point" cx="80" cy="220" r="4"></circle>
+            <circle class="plot-point" cx="125" cy="200" r="4"></circle>
+            <circle class="plot-point" cx="170" cy="180" r="4"></circle>
+            <circle class="plot-point" cx="215" cy="160" r="4"></circle>
+            <circle class="plot-point" cx="260" cy="140" r="4"></circle>
+            <circle class="plot-point" cx="305" cy="120" r="4"></circle>
+            <circle class="plot-point" cx="350" cy="100" r="4"></circle>
+            <circle class="plot-point" cx="395" cy="80" r="4"></circle>
+
+            <line class="frame-line" x1="468" y1="140" x2="482" y2="140"></line>
+            <line class="frame-line" x1="468" y1="120" x2="482" y2="120"></line>
+            <line class="guide-line" x1="475" y1="140" x2="475" y2="120"></line>
+            <text class="annotation-label" x="488" y="133">q</text>
+
+            <line class="curve-main" x1="90" y1="25" x2="115" y2="25" stroke-dasharray="2 7"></line>
+            <text class="annotation-label" x="122" y="29">Signal analogique (continu)</text>
+            <line class="graph-line" x1="90" y1="44" x2="115" y2="44"></line>
+            <text class="annotation-label" x="122" y="48">Signal numérique (escalier)</text>
+
+            <text class="axis-label" x="66" y="46">V</text>
+            <text class="axis-label" x="448" y="236">t</text>
+            <text class="tick-label" x="70" y="224" text-anchor="end">0</text>
+            <text class="tick-label" x="70" y="204" text-anchor="end">q</text>
+            <text class="tick-label" x="70" y="184" text-anchor="end">2q</text>
+            <text class="tick-label" x="70" y="164" text-anchor="end">3q</text>
+            <text class="tick-label" x="70" y="144" text-anchor="end">4q</text>
+            <text class="tick-label" x="70" y="124" text-anchor="end">5q</text>
+            <text class="tick-label" x="70" y="104" text-anchor="end">6q</text>
+            <text class="tick-label" x="70" y="84" text-anchor="end">7q</text>
+            <text class="tick-label" x="70" y="64" text-anchor="end">8q</text>
+            <text class="tick-label" x="80" y="248" text-anchor="middle">t0</text>
+            <text class="tick-label" x="440" y="248" text-anchor="middle">t8</text>
+          </svg>
+        `,
+        notes: [
+          'Le signal analogique (pointillé) varie de façon continue : à chaque instant il peut prendre une infinité de valeurs de tension.',
+          'Le CAN échantillonne ce signal à intervalles réguliers et retient la valeur du palier immédiatement inférieur : c\'est la <strong>quantification</strong>, représentée ici par l\'escalier plein.',
+          'La hauteur d\'une marche est le quantum $q$. Sur ce schéma simplifié à $8$ niveaux ($n=3$), $q = \\dfrac{V_{\\text{max}} - V_{\\text{min}}}{2^3}$. Pour le CAN $10$ bits de l\'Arduino Uno de l\'exemple du cours ($0$–$5$ V), $q = \\dfrac{5}{2^{10}} = \\dfrac{5}{1024} \\approx 4{,}88$ mV.'
+        ],
+        reading: 'Compare la courbe pointillée (valeur réelle) à l\'escalier plein (valeur lue par le CAN) : l\'écart entre les deux ne dépasse jamais $q/2$, c\'est l\'erreur de quantification.',
+        caption: 'Escalier de quantification (schéma pédagogique à $8$ niveaux, $n = 3$ bits) — pour le CAN $10$ bits réel de l\'Arduino Uno ($0$–$5$ V) utilisé dans le cours, le quantum vaut $q \\approx 4{,}88$ mV sur $1024$ niveaux.'
+      },
       example: {
         statement: 'Un capteur de température LM35 ($10$ mV/°C) est connecté à l\'entrée analogique A0 d\'un Arduino Uno (CAN $10$ bits, plage $0$–$5$ V). La température ambiante est de $22°$C. Calculer la tension $V$, le quantum $q$ et la valeur numérique $N$ lue par l\'Arduino.',
         steps: [
