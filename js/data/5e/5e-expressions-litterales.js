@@ -34,7 +34,51 @@ window.MODULES.push({
         ],
         answer: 'Forme réduite : $9x + 2$ ; pour $x = 4$ : $38$'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Expression</th><th style="border:1px solid var(--border);padding:6px 14px">Semblables ?</th><th style="border:1px solid var(--border);padding:6px 14px">Résultat</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$3x + 5x$</td><td style="border:1px solid var(--border);padding:6px 14px">✅ Oui</td><td style="border:1px solid var(--border);padding:6px 14px">$8x$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$2 + 3x$</td><td style="border:1px solid var(--border);padding:6px 14px">❌ Non</td><td style="border:1px solid var(--border);padding:6px 14px">$2 + 3x$ (déjà réduit)</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$3x + 5x^2$</td><td style="border:1px solid var(--border);padding:6px 14px">❌ Non</td><td style="border:1px solid var(--border);padding:6px 14px">$3x + 5x^2$ (déjà réduit)</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Termes semblables — le regroupement',
+        title: 'Regrouper $3x$ et $5x$ en un seul terme',
+        description: 'Deux termes en $x$ peuvent se rassembler en un seul, comme deux paquets identiques qu\'on empile.<br/><br/>' +
+          '<strong>$3x$</strong> et <strong>$5x$</strong> sont des termes semblables (même lettre $x$, même exposant) : on additionne simplement leurs coefficients pour obtenir <strong>$8x$</strong>.',
+        svg: `
+          <svg viewBox="0 0 600 380" role="img" aria-labelledby="5e-expr-regroupement-title 5e-expr-regroupement-desc">
+            <title id="5e-expr-regroupement-title">Regroupement des termes semblables 3x et 5x</title>
+            <desc id="5e-expr-regroupement-desc">Deux etiquettes encadrees, l'une marquee 3x et l'autre 5x, sont reliees par des courbes qui convergent vers une seule etiquette encadree en bas marquee 8x, illustrant que les deux termes en x se combinent en additionnant leurs coefficients 3 et 5 pour donner 8.</desc>
+
+            <text class="axis-label" x="135" y="30" text-anchor="middle">Terme n°1</text>
+            <rect class="frame-line" x="50" y="45" width="170" height="95" rx="14" fill="none"></rect>
+            <circle class="plot-point" cx="90" cy="92" r="10"></circle>
+            <text class="annotation-label" x="150" y="98" text-anchor="middle">3x</text>
+            <text class="label-soft" x="135" y="122" text-anchor="middle">terme en x</text>
+
+            <text class="axis-label" x="465" y="30" text-anchor="middle">Terme n°2</text>
+            <rect class="frame-line" x="380" y="45" width="170" height="95" rx="14" fill="none"></rect>
+            <circle class="plot-point" cx="420" cy="92" r="10"></circle>
+            <text class="annotation-label" x="480" y="98" text-anchor="middle">5x</text>
+            <text class="label-soft" x="465" y="122" text-anchor="middle">terme en x</text>
+
+            <text class="axis-label" x="300" y="98" text-anchor="middle">+</text>
+
+            <path class="graph-line" d="M135,140 Q135,200 300,235" fill="none"></path>
+            <path class="graph-line" d="M465,140 Q465,200 300,235" fill="none"></path>
+            <polygon class="plot-point" points="288,232 312,232 300,248"></polygon>
+            <text class="label-soft" x="300" y="195" text-anchor="middle">on regroupe : 3 + 5 = 8</text>
+
+            <text class="axis-label" x="300" y="243" text-anchor="middle">Après regroupement</text>
+            <rect class="frame-line" x="200" y="252" width="200" height="110" rx="14" fill="none"></rect>
+            <circle class="plot-point" cx="245" cy="300" r="13"></circle>
+            <text class="annotation-label" x="340" y="306" text-anchor="middle">8x</text>
+            <text class="label-soft" x="300" y="338" text-anchor="middle">forme réduite</text>
+          </svg>
+        `,
+        notes: [
+          '<strong>Étape 1 — Repérer les termes semblables :</strong> $3x$ et $5x$ ont tous les deux la lettre $x$ à l\'exposant $1$ : ils peuvent se regrouper.',
+          '<strong>Étape 2 — Additionner les coefficients :</strong> on garde la lettre $x$ et on additionne seulement les nombres devant : $3 + 5 = 8$.',
+          '<strong>Étape 3 — Écrire la forme réduite :</strong> $3x + 5x = 8x$. Un seul terme reste, plus simple à utiliser.'
+        ],
+        reading: 'Regrouper des termes semblables, c\'est <strong>additionner leurs coefficients</strong> en gardant la partie littérale inchangée : $3x + 5x = (3+5)x = 8x$.',
+        caption: 'Les deux étiquettes $3x$ et $5x$ convergent vers une seule étiquette $8x$ : $3 + 5 = 8$.'
+      },
       method: {
         title: 'Méthode en 3 étapes',
         steps: [

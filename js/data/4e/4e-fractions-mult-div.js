@@ -44,7 +44,54 @@
         '$\\dfrac{a}{b} \\div \\dfrac{c}{d} = \\dfrac{a}{b} \\times \\dfrac{d}{c} = \\dfrac{ad}{bc}$',
         '$\\dfrac{a}{b} \\div a = \\dfrac{1}{b}$ et $a \\times \\dfrac{1}{b} = \\dfrac{a}{b}$'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Opération</th><th style="border:1px solid var(--border);padding:6px 14px">Règle</th><th style="border:1px solid var(--border);padding:6px 14px">Exemple</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Multiplication</td><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{a}{b} \\times \\dfrac{c}{d} = \\dfrac{ac}{bd}$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{2}{3} \\times \\dfrac{5}{7} = \\dfrac{10}{21}$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Division</td><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{a}{b} \\div \\dfrac{c}{d} = \\dfrac{a}{b} \\times \\dfrac{d}{c}$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{3}{4} \\div \\dfrac{2}{5} = \\dfrac{15}{8}$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">Inverse</td><td style="border:1px solid var(--border);padding:6px 14px">$\\dfrac{a}{b} \\to \\dfrac{b}{a}$</td><td style="border:1px solid var(--border);padding:6px 14px">Inverse de $\\dfrac{3}{7}$ est $\\dfrac{7}{3}$</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Modèle d\'aire pour la multiplication de fractions',
+        title: 'Le rectangle unité découpé en 21 cases pour visualiser $\\dfrac{2}{3} \\times \\dfrac{5}{7}$',
+        description: 'Le rectangle représente le nombre $1$.<br/><br/>On le partage en $3$ colonnes (des <strong>tiers</strong>) et en $7$ lignes (des <strong>septièmes</strong>) : cela crée $3 \\times 7 = 21$ petites cases identiques.',
+        svg: `
+          <svg viewBox="0 0 420 340" role="img" aria-labelledby="fracmultdiv-graph-title fracmultdiv-graph-desc">
+            <title id="fracmultdiv-graph-title">Rectangle unite decoupe pour illustrer 2/3 fois 5/7</title>
+            <desc id="fracmultdiv-graph-desc">Un rectangle representant 1 est quadrille en 3 colonnes et 7 lignes, soit 21 petites cases. La bande des 2 premieres colonnes (2/3) et la bande des 5 premieres lignes (5/7) se superposent sur une zone de 10 cases, illustrant 2/3 fois 5/7 egale 10/21.</desc>
+            <rect x="110" y="50" width="100" height="210" fill="var(--diagram-accent)" fill-opacity="0.10"></rect>
+            <rect x="110" y="50" width="150" height="150" fill="var(--secondary)" fill-opacity="0.10"></rect>
+            <rect x="110" y="50" width="100" height="150" fill="var(--diagram-accent)" fill-opacity="0.38"></rect>
+            <line class="grid-line" x1="160" y1="50" x2="160" y2="260"></line>
+            <line class="grid-line" x1="210" y1="50" x2="210" y2="260"></line>
+            <line class="grid-line" x1="110" y1="80" x2="260" y2="80"></line>
+            <line class="grid-line" x1="110" y1="110" x2="260" y2="110"></line>
+            <line class="grid-line" x1="110" y1="140" x2="260" y2="140"></line>
+            <line class="grid-line" x1="110" y1="170" x2="260" y2="170"></line>
+            <line class="grid-line" x1="110" y1="200" x2="260" y2="200"></line>
+            <line class="grid-line" x1="110" y1="230" x2="260" y2="230"></line>
+            <rect x="110" y="50" width="150" height="210" fill="none" class="frame-line"></rect>
+            <rect x="110" y="50" width="100" height="150" fill="none" stroke="var(--diagram-accent)" stroke-width="3"></rect>
+            <line class="frame-line" x1="110" y1="34" x2="110" y2="40"></line>
+            <line class="frame-line" x1="210" y1="34" x2="210" y2="40"></line>
+            <line class="frame-line" x1="110" y1="34" x2="210" y2="34"></line>
+            <line class="frame-line" x1="92" y1="50" x2="98" y2="50"></line>
+            <line class="frame-line" x1="92" y1="200" x2="98" y2="200"></line>
+            <line class="frame-line" x1="92" y1="50" x2="92" y2="200"></line>
+            <text class="axis-label" x="160" y="26" text-anchor="middle">2/3</text>
+            <text class="tick-label" x="235" y="26" text-anchor="middle">1/3</text>
+            <text class="axis-label" x="60" y="129" text-anchor="middle">5/7</text>
+            <text class="tick-label" x="60" y="234" text-anchor="middle">2/7</text>
+            <rect x="128" y="112" width="64" height="26" rx="8" fill="var(--bg-card)" fill-opacity="0.9" stroke="var(--diagram-accent)" stroke-width="1"></rect>
+            <text class="annotation-label" x="160" y="129" text-anchor="middle">10/21</text>
+            <rect x="60" y="274" width="300" height="48" rx="12" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
+            <text class="annotation-label" x="80" y="292" text-anchor="start">3 x 7 = 21 cases au total</text>
+            <text class="annotation-label" x="80" y="310" text-anchor="start">2 x 5 = 10 cases coloriees</text>
+          </svg>
+        `,
+        notes: [
+          '<strong>Étape 1 :</strong> Le rectangle entier vaut $1$. On le découpe en $3$ colonnes verticales : chaque colonne vaut $\\dfrac{1}{3}$.',
+          '<strong>Étape 2 :</strong> On découpe aussi en $7$ lignes horizontales : chaque ligne vaut $\\dfrac{1}{7}$. Le quadrillage complet compte $3 \\times 7 = 21$ petites cases, chacune valant $\\dfrac{1}{21}$.',
+          '<strong>Étape 3 :</strong> La bande verticale des $2$ premières colonnes représente $\\dfrac{2}{3}$ ; la bande horizontale des $5$ premières lignes représente $\\dfrac{5}{7}$.',
+          '<strong>Étape 4 :</strong> La zone où les deux bandes se superposent (en couleur foncée) contient $2 \\times 5 = 10$ petites cases sur les $21$ : c\'est exactement $\\dfrac{2}{3} \\times \\dfrac{5}{7} = \\dfrac{10}{21}$.'
+        ],
+        reading: 'Multiplier deux fractions, c\'est croiser deux découpages du même rectangle : le nombre de petites cases coloriées (produit des numérateurs) sur le nombre total de petites cases (produit des dénominateurs) donne directement $\\dfrac{2}{3} \\times \\dfrac{5}{7} = \\dfrac{10}{21}$.',
+        caption: 'Modèle d\'aire : $3 \\times 7 = 21$ petites cases au total, dont $2 \\times 5 = 10$ coloriées, soit $\\dfrac{2}{3} \\times \\dfrac{5}{7} = \\dfrac{10}{21}$.'
+      },
       recap: [
         'Multiplier deux fractions : on multiplie numérateurs entre eux et dénominateurs entre eux.',
         'Diviser par une fraction = multiplier par son inverse (on « retourne » la deuxième fraction).',

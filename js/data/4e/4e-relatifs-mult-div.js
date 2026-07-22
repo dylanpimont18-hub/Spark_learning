@@ -43,7 +43,128 @@
         '$(+a) \\times (-b) = -ab$',
         '$(-a) \\div (+b) = -\\dfrac{a}{b}$'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">$\\times$</th><th style="border:1px solid var(--border);padding:6px 14px">$+$</th><th style="border:1px solid var(--border);padding:6px 14px">$-$</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px"><strong>$+$</strong></td><td style="border:1px solid var(--border);padding:6px 14px">$+$</td><td style="border:1px solid var(--border);padding:6px 14px">$-$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px"><strong>$-$</strong></td><td style="border:1px solid var(--border);padding:6px 14px">$-$</td><td style="border:1px solid var(--border);padding:6px 14px">$+$</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Droite graduée — sauts et changement de sens',
+        title: 'Multiplier par un relatif : une histoire de sens',
+        description: 'La longueur du saut ne change pas, mais quand on multiplie par un nombre <strong>négatif</strong>, on inverse le sens de la répétition.' +
+          '<br/><br/>' +
+          'Comparons $(-2) \\times 3$ et $(-2) \\times (-3)$ sur deux droites graduées superposées.',
+        svg: `
+          <svg viewBox="0 0 640 300" role="img" aria-labelledby="relatifs-multdiv-title relatifs-multdiv-desc">
+            <title id="relatifs-multdiv-title">Deux droites graduées comparant (-2) x 3 et (-2) x (-3)</title>
+            <desc id="relatifs-multdiv-desc">En haut, une droite graduée de -8 a 8 montre trois sauts de -2 vers la gauche partant de 0 et arrivant a -6, illustrant (-2) x 3 = -6. En bas, une deuxieme droite graduee identique montre trois sauts de +2 vers la droite partant de 0 et arrivant a +6, illustrant (-2) x (-3) = +6 : le sens des sauts s'est inverse.</desc>
+
+            <text class="annotation-label" x="320" y="22" text-anchor="middle">(-2) x 3 = -6</text>
+            <text class="label-soft" x="320" y="40" text-anchor="middle">3 sauts de -2, vers la gauche</text>
+
+            <line class="graph-line" x1="316" y1="90" x2="260" y2="90"></line>
+            <polygon class="plot-point" points="250,90 260,84 260,96"></polygon>
+            <text class="annotation-label" x="285" y="78" text-anchor="middle">-2</text>
+            <line class="guide-line" x1="250" y1="96" x2="250" y2="104"></line>
+
+            <line class="graph-line" x1="246" y1="90" x2="190" y2="90"></line>
+            <polygon class="plot-point" points="180,90 190,84 190,96"></polygon>
+            <text class="annotation-label" x="215" y="78" text-anchor="middle">-2</text>
+            <line class="guide-line" x1="180" y1="96" x2="180" y2="104"></line>
+
+            <line class="graph-line" x1="176" y1="90" x2="120" y2="90"></line>
+            <polygon class="plot-point" points="110,90 120,84 120,96"></polygon>
+            <text class="annotation-label" x="145" y="78" text-anchor="middle">-2</text>
+            <line class="guide-line" x1="110" y1="96" x2="110" y2="104"></line>
+
+            <line class="axis" x1="40" y1="110" x2="600" y2="110"></line>
+            <line class="grid-line" x1="40" y1="104" x2="40" y2="116"></line>
+            <line class="grid-line" x1="75" y1="104" x2="75" y2="116"></line>
+            <line class="grid-line" x1="110" y1="104" x2="110" y2="116"></line>
+            <line class="grid-line" x1="145" y1="104" x2="145" y2="116"></line>
+            <line class="grid-line" x1="180" y1="104" x2="180" y2="116"></line>
+            <line class="grid-line" x1="215" y1="104" x2="215" y2="116"></line>
+            <line class="grid-line" x1="250" y1="104" x2="250" y2="116"></line>
+            <line class="grid-line" x1="285" y1="104" x2="285" y2="116"></line>
+            <line class="grid-line" x1="320" y1="104" x2="320" y2="116"></line>
+            <line class="grid-line" x1="355" y1="104" x2="355" y2="116"></line>
+            <line class="grid-line" x1="390" y1="104" x2="390" y2="116"></line>
+            <line class="grid-line" x1="425" y1="104" x2="425" y2="116"></line>
+            <line class="grid-line" x1="460" y1="104" x2="460" y2="116"></line>
+            <line class="grid-line" x1="495" y1="104" x2="495" y2="116"></line>
+            <line class="grid-line" x1="530" y1="104" x2="530" y2="116"></line>
+            <line class="grid-line" x1="565" y1="104" x2="565" y2="116"></line>
+            <line class="grid-line" x1="600" y1="104" x2="600" y2="116"></line>
+
+            <text class="tick-label" x="40" y="132" text-anchor="middle">-8</text>
+            <text class="tick-label" x="180" y="132" text-anchor="middle">-4</text>
+            <text class="tick-label" x="250" y="132" text-anchor="middle">-2</text>
+            <text class="axis-label" x="110" y="132" text-anchor="middle">-6</text>
+            <text class="axis-label" x="320" y="132" text-anchor="middle">0</text>
+            <text class="tick-label" x="390" y="132" text-anchor="middle">+2</text>
+            <text class="tick-label" x="460" y="132" text-anchor="middle">+4</text>
+            <text class="tick-label" x="530" y="132" text-anchor="middle">+6</text>
+            <text class="tick-label" x="600" y="132" text-anchor="middle">+8</text>
+
+            <circle class="plot-point-alt" cx="320" cy="110" r="5"></circle>
+            <circle class="plot-point" cx="110" cy="110" r="5"></circle>
+
+            <text class="annotation-label" x="320" y="168" text-anchor="middle">(-2) x (-3) = +6</text>
+            <text class="label-soft" x="320" y="186" text-anchor="middle">3 sauts de +2, vers la droite (sens inverse !)</text>
+
+            <line class="graph-line" x1="324" y1="236" x2="380" y2="236"></line>
+            <polygon class="plot-point" points="390,236 380,230 380,242"></polygon>
+            <text class="annotation-label" x="355" y="224" text-anchor="middle">+2</text>
+            <line class="guide-line" x1="390" y1="242" x2="390" y2="250"></line>
+
+            <line class="graph-line" x1="394" y1="236" x2="450" y2="236"></line>
+            <polygon class="plot-point" points="460,236 450,230 450,242"></polygon>
+            <text class="annotation-label" x="425" y="224" text-anchor="middle">+2</text>
+            <line class="guide-line" x1="460" y1="242" x2="460" y2="250"></line>
+
+            <line class="graph-line" x1="464" y1="236" x2="520" y2="236"></line>
+            <polygon class="plot-point" points="530,236 520,230 520,242"></polygon>
+            <text class="annotation-label" x="495" y="224" text-anchor="middle">+2</text>
+            <line class="guide-line" x1="530" y1="242" x2="530" y2="250"></line>
+
+            <line class="axis" x1="40" y1="256" x2="600" y2="256"></line>
+            <line class="grid-line" x1="40" y1="250" x2="40" y2="262"></line>
+            <line class="grid-line" x1="75" y1="250" x2="75" y2="262"></line>
+            <line class="grid-line" x1="110" y1="250" x2="110" y2="262"></line>
+            <line class="grid-line" x1="145" y1="250" x2="145" y2="262"></line>
+            <line class="grid-line" x1="180" y1="250" x2="180" y2="262"></line>
+            <line class="grid-line" x1="215" y1="250" x2="215" y2="262"></line>
+            <line class="grid-line" x1="250" y1="250" x2="250" y2="262"></line>
+            <line class="grid-line" x1="285" y1="250" x2="285" y2="262"></line>
+            <line class="grid-line" x1="320" y1="250" x2="320" y2="262"></line>
+            <line class="grid-line" x1="355" y1="250" x2="355" y2="262"></line>
+            <line class="grid-line" x1="390" y1="250" x2="390" y2="262"></line>
+            <line class="grid-line" x1="425" y1="250" x2="425" y2="262"></line>
+            <line class="grid-line" x1="460" y1="250" x2="460" y2="262"></line>
+            <line class="grid-line" x1="495" y1="250" x2="495" y2="262"></line>
+            <line class="grid-line" x1="530" y1="250" x2="530" y2="262"></line>
+            <line class="grid-line" x1="565" y1="250" x2="565" y2="262"></line>
+            <line class="grid-line" x1="600" y1="250" x2="600" y2="262"></line>
+
+            <text class="tick-label" x="40" y="278" text-anchor="middle">-8</text>
+            <text class="tick-label" x="110" y="278" text-anchor="middle">-6</text>
+            <text class="tick-label" x="180" y="278" text-anchor="middle">-4</text>
+            <text class="tick-label" x="250" y="278" text-anchor="middle">-2</text>
+            <text class="axis-label" x="320" y="278" text-anchor="middle">0</text>
+            <text class="tick-label" x="390" y="278" text-anchor="middle">+2</text>
+            <text class="tick-label" x="460" y="278" text-anchor="middle">+4</text>
+            <text class="axis-label" x="530" y="278" text-anchor="middle">+6</text>
+            <text class="tick-label" x="600" y="278" text-anchor="middle">+8</text>
+
+            <circle class="plot-point-alt" cx="320" cy="256" r="5"></circle>
+            <circle class="plot-point" cx="530" cy="256" r="5"></circle>
+          </svg>
+        `,
+        notes: [
+          '<strong>Ligne du haut — $(-2) \\times 3$ :</strong> on répète $3$ fois le saut de $-2$, toujours dans le même sens (vers la gauche), comme une addition répétée. On part de $0$ et on arrive à $-6$.',
+          '<strong>Ligne du bas — $(-2) \\times (-3)$ :</strong> multiplier par $-3$ revient à faire l\'opposé de « $3$ sauts de $-2$ ». Le sens s\'inverse : ce sont désormais $3$ sauts de $+2$ vers la droite. On part de $0$ et on arrive à $+6$.',
+          '<strong>Ce qui ne change pas :</strong> la longueur du saut reste $2$ dans les deux cas — seul le signe du deuxième facteur décide de la direction.',
+          '<strong>Règle des signes retrouvée :</strong> $(-) \\times (+) = (-)$ (même sens → résultat négatif) et $(-) \\times (-) = (+)$ (sens inversé → résultat positif).'
+        ],
+        reading: 'Multiplier par un nombre négatif <strong>inverse le sens</strong> des sauts sur la droite graduée : $(-2) \\times 3 = -6$ (vers la gauche) devient $(-2) \\times (-3) = +6$ (mêmes sauts, mais vers la droite).',
+        caption: 'Deux droites graduées superposées : en haut $(-2) \\times 3 = -6$, en bas $(-2) \\times (-3) = +6$, pour visualiser le renversement de sens.'
+      },
       recap: [
         'Mêmes signes → produit positif ; signes contraires → produit négatif.',
         'La division suit exactement les mêmes règles de signes que la multiplication.',

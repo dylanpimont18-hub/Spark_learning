@@ -45,7 +45,58 @@
         'Si $\\dfrac{a}{b} = c$ alors $a = b \\times c$ et $b = \\dfrac{a}{c}$',
         'Si $a \\cdot b = c$ alors $a = \\dfrac{c}{b}$ et $b = \\dfrac{c}{a}$'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Opération sur $x$</th><th style="border:1px solid var(--border);padding:6px 14px">Opération inverse</th><th style="border:1px solid var(--border);padding:6px 14px">Exemple</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$+ b$</td><td style="border:1px solid var(--border);padding:6px 14px">$- b$</td><td style="border:1px solid var(--border);padding:6px 14px">$x + 5 = 12 \\Rightarrow x = 12 - 5$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$- b$</td><td style="border:1px solid var(--border);padding:6px 14px">$+ b$</td><td style="border:1px solid var(--border);padding:6px 14px">$x - 3 = 7 \\Rightarrow x = 7 + 3$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$\\times a$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\div a$</td><td style="border:1px solid var(--border);padding:6px 14px">$4x = 20 \\Rightarrow x = 20 \\div 4$</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px">$\\div a$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\times a$</td><td style="border:1px solid var(--border);padding:6px 14px">$\\frac{x}{3} = 6 \\Rightarrow x = 6 \\times 3$</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Résoudre une équation — la balance à deux plateaux',
+        title: 'Isoler $x$ en gardant l\'égalité en équilibre',
+        description: 'Reprenons l\'exemple du tableau ci-dessus : <strong>$4x = 20$</strong>.' +
+          '<br/><br/>' +
+          'Pour isoler $x$, on applique la <strong>même opération aux deux plateaux</strong> de la balance : ici, diviser par $4$ des deux côtés.',
+        svg: `
+          <svg viewBox="0 0 480 280" role="img" aria-labelledby="calcalg-balance-title calcalg-balance-desc">
+            <title id="calcalg-balance-title">Isoler x par la métaphore de la balance</title>
+            <desc id="calcalg-balance-desc">Deux balances a deux plateaux montrent comment isoler x dans l'equation 4x = 20 : la balance de depart avec 4x sur un plateau et 20 sur l'autre, puis apres division des deux cotes par 4, la balance montre x seul face a 5.</desc>
+
+            <text class="axis-label" x="110" y="30" text-anchor="middle">Départ</text>
+            <line class="frame-line" x1="55" y1="120" x2="165" y2="120"></line>
+            <polygon class="plot-point" points="94,158 126,158 110,120"></polygon>
+            <circle class="plot-point-alt" cx="110" cy="120" r="4"></circle>
+            <line class="grid-line" x1="55" y1="120" x2="55" y2="170"></line>
+            <line class="grid-line" x1="165" y1="120" x2="165" y2="170"></line>
+            <line class="frame-line" x1="33" y1="170" x2="77" y2="170"></line>
+            <line class="frame-line" x1="143" y1="170" x2="187" y2="170"></line>
+            <text class="annotation-label" x="55" y="165" text-anchor="middle">4x</text>
+            <text class="label-soft" x="165" y="165" text-anchor="middle">20</text>
+            <text class="label-soft" x="110" y="108" text-anchor="middle">=</text>
+
+            <line class="graph-line" x1="180" y1="120" x2="292" y2="120"></line>
+            <polygon class="plot-point" points="292,113 304,120 292,127"></polygon>
+            <text class="annotation-label" x="240" y="102" text-anchor="middle">÷ 4</text>
+            <text class="label-soft" x="240" y="145" text-anchor="middle">(les deux côtés)</text>
+
+            <text class="axis-label" x="370" y="30" text-anchor="middle">Résultat</text>
+            <line class="frame-line" x1="315" y1="120" x2="425" y2="120"></line>
+            <polygon class="plot-point" points="354,158 386,158 370,120"></polygon>
+            <circle class="plot-point-alt" cx="370" cy="120" r="4"></circle>
+            <line class="grid-line" x1="315" y1="120" x2="315" y2="170"></line>
+            <line class="grid-line" x1="425" y1="120" x2="425" y2="170"></line>
+            <line class="frame-line" x1="293" y1="170" x2="337" y2="170"></line>
+            <line class="frame-line" x1="403" y1="170" x2="447" y2="170"></line>
+            <text class="annotation-label" x="315" y="165" text-anchor="middle">x</text>
+            <text class="label-soft" x="425" y="165" text-anchor="middle">5</text>
+            <text class="label-soft" x="370" y="108" text-anchor="middle">=</text>
+
+            <text class="annotation-label" x="240" y="250" text-anchor="middle">x = 5</text>
+          </svg>
+        `,
+        notes: [
+          '<strong>Étape 1 — Départ :</strong> la balance est en équilibre, avec $4x$ sur un plateau et $20$ sur l\'autre.',
+          '<strong>Étape 2 — Diviser les deux côtés par $4$ :</strong> le plateau de gauche passe de $4x$ à $x$ (le facteur $4$ disparaît), et celui de droite passe de $20$ à $20 \\div 4 = 5$.',
+          '<strong>Résultat :</strong> $x$ se retrouve seul sur son plateau, face à $5$ — l\'égalité reste vraie tout au long de la manipulation.'
+        ],
+        reading: 'Le principe est toujours le même : <strong>ce qu\'on fait à un plateau, on le fait à l\'autre</strong> — sinon la balance penche et l\'égalité n\'est plus vraie.',
+        caption: 'Résolution de $4x = 20$ par la métaphore de la balance à deux plateaux : diviser les deux côtés par $4$ pour isoler $x = 5$.'
+      },
       recap: [
         'L\'égalité est une balance : même opération des deux côtés',
         'Défaire les opérations de l\'extérieur vers l\'intérieur (inverse de la construction)',

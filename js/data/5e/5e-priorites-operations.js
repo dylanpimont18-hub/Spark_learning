@@ -33,7 +33,63 @@ window.MODULES.push({
         ],
         answer: '$11$'
       },
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:1em auto"><tr><th style="border:1px solid var(--border);padding:6px 14px">Priorité</th><th style="border:1px solid var(--border);padding:6px 14px">Opérations</th><th style="border:1px solid var(--border);padding:6px 14px">Ordre</th></tr><tr><td style="border:1px solid var(--border);padding:6px 14px;background:color-mix(in srgb,var(--primary) 12%,transparent)"><strong>1ʳᵉ</strong></td><td style="border:1px solid var(--border);padding:6px 14px">Parenthèses $(~)$</td><td style="border:1px solid var(--border);padding:6px 14px">Intérieur → extérieur</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px;background:color-mix(in srgb,var(--primary) 8%,transparent)"><strong>2ᵉ</strong></td><td style="border:1px solid var(--border);padding:6px 14px">Puissances $x^n$, racines</td><td style="border:1px solid var(--border);padding:6px 14px">—</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px"><strong>3ᵉ</strong></td><td style="border:1px solid var(--border);padding:6px 14px">$\\times$ et $\\div$</td><td style="border:1px solid var(--border);padding:6px 14px">Gauche → droite</td></tr><tr><td style="border:1px solid var(--border);padding:6px 14px"><strong>4ᵉ</strong></td><td style="border:1px solid var(--border);padding:6px 14px">$+$ et $-$</td><td style="border:1px solid var(--border);padding:6px 14px">Gauche → droite</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Priorités des opérations — pas à pas',
+        title: 'Un même calcul, quatre étapes : dans quel ordre calculer ?',
+        description: 'Reprenons un calcul qui mobilise <strong>les quatre niveaux de priorité</strong> : $2 + 3^2 \\times (7 - 4) \\div 3 - 1$.<br/><br/>' +
+          'Plutôt que de calculer dans l\'ordre de lecture, on traite <strong>une priorité à la fois</strong> : d\'abord les parenthèses, puis les puissances, puis les multiplications/divisions, et enfin les additions/soustractions.',
+        svg: `
+          <svg viewBox="0 0 1220 240" role="img" aria-labelledby="priorites-diag-title priorites-diag-desc">
+            <title id="priorites-diag-title">Résolution de 2 + 3² × (7 − 4) ÷ 3 − 1 en 4 étapes</title>
+            <desc id="priorites-diag-desc">Quatre colonnes montrent l'expression 2 + 3 au carre fois (7 moins 4) divise par 3 moins 1, resolue etape par etape : d'abord la partie entre parentheses est mise en evidence et calculee (7 moins 4 egale 3), puis la puissance 3 au carre est mise en evidence et calculee (egale 9), puis la multiplication et la division sont mises en evidence et calculees de gauche a droite (9 fois 3 egale 27, puis 27 divise par 3 egale 9), puis enfin l'addition et la soustraction sont mises en evidence et calculees de gauche a droite (2 plus 9 egale 11, puis 11 moins 1 egale 10), pour un resultat final de 10. Des fleches relient chaque colonne a la suivante.</desc>
+
+            <text class="axis-label" x="150" y="28" text-anchor="middle">1. Parenthèses</text>
+            <rect class="frame-line" fill="none" rx="5" x="116" y="76" width="77" height="27"></rect>
+            <text class="label" x="35" y="95" style="font-family:monospace;font-size:16px;font-weight:600">2 + 3² × (7 − 4) ÷ 3 − 1</text>
+            <text class="label-soft" x="150" y="135" text-anchor="middle" style="font-size:13px">7 − 4 = 3</text>
+            <text class="annotation-label" x="150" y="182" text-anchor="middle">2 + 3² × 3 ÷ 3 − 1</text>
+
+            <line class="graph-line" x1="278" y1="95" x2="317" y2="95"></line>
+            <polygon class="plot-point" points="317,88 329,95 317,102"></polygon>
+
+            <text class="axis-label" x="450" y="28" text-anchor="middle">2. Puissances</text>
+            <rect class="frame-line" fill="none" rx="5" x="367" y="76" width="31" height="27"></rect>
+            <text class="label" x="335" y="95" style="font-family:monospace;font-size:16px;font-weight:600">2 + 3² × 3 ÷ 3 − 1</text>
+            <text class="label-soft" x="450" y="135" text-anchor="middle" style="font-size:13px">3² = 9</text>
+            <text class="annotation-label" x="450" y="182" text-anchor="middle">2 + 9 × 3 ÷ 3 − 1</text>
+
+            <line class="graph-line" x1="578" y1="95" x2="617" y2="95"></line>
+            <polygon class="plot-point" points="617,88 629,95 617,102"></polygon>
+
+            <text class="axis-label" x="750" y="28" text-anchor="middle">3. Multiplication / Division</text>
+            <rect class="frame-line" fill="none" rx="5" x="668" y="76" width="96" height="27"></rect>
+            <text class="label" x="635" y="95" style="font-family:monospace;font-size:16px;font-weight:600">2 + 9 × 3 ÷ 3 − 1</text>
+            <text class="label-soft" x="750" y="124" text-anchor="middle" style="font-size:13px">9 × 3 = 27</text>
+            <text class="label-soft" x="750" y="146" text-anchor="middle" style="font-size:13px">27 ÷ 3 = 9</text>
+            <text class="annotation-label" x="750" y="182" text-anchor="middle">2 + 9 − 1</text>
+
+            <line class="graph-line" x1="878" y1="95" x2="917" y2="95"></line>
+            <polygon class="plot-point" points="917,88 929,95 917,102"></polygon>
+
+            <text class="axis-label" x="1050" y="28" text-anchor="middle">4. Addition / Soustraction</text>
+            <rect class="frame-line" fill="none" rx="5" x="930" y="76" width="96" height="27"></rect>
+            <text class="label" x="935" y="95" style="font-family:monospace;font-size:16px;font-weight:600">2 + 9 − 1</text>
+            <text class="label-soft" x="1050" y="124" text-anchor="middle" style="font-size:13px">2 + 9 = 11</text>
+            <text class="label-soft" x="1050" y="146" text-anchor="middle" style="font-size:13px">11 − 1 = 10</text>
+            <text class="label-soft" x="1050" y="176" text-anchor="middle" style="font-size:12px">Résultat final</text>
+            <text class="plot-point" x="1050" y="216" text-anchor="middle" style="font-family:'Poppins',sans-serif;font-weight:800;font-size:26px">= 10</text>
+          </svg>
+        `,
+        notes: [
+          '<strong>Parenthèses :</strong> on calcule d\'abord ce qui est entre parenthèses, même si ce n\'est pas la première opération rencontrée en lisant de gauche à droite. $7 - 4 = 3$.',
+          '<strong>Puissances :</strong> une fois les parenthèses résolues, on calcule les puissances avant tout le reste. $3^2 = 9$.',
+          '<strong>Multiplications et divisions :</strong> elles ont la même priorité, donc on les effectue dans l\'ordre de lecture, de gauche à droite. $9 \\times 3 = 27$, puis $27 \\div 3 = 9$.',
+          '<strong>Additions et soustractions :</strong> en dernier, toujours de gauche à droite. $2 + 9 = 11$, puis $11 - 1 = 10$.'
+        ],
+        reading: 'Le résultat final est <strong>$10$</strong>.<br/><br/>Ce n\'est ni un calcul « de gauche à droite », ni un calcul « au hasard » : c\'est un <strong>ordre fixe et universel</strong>, le même pour tout le monde, ce qui garantit qu\'une expression mathématique a toujours une seule valeur.',
+        caption: 'Résolution de $2 + 3^2 \\times (7 - 4) \\div 3 - 1$ en 4 étapes, en respectant l\'ordre <strong>parenthèses → puissances → multiplications/divisions → additions/soustractions</strong>.'
+      },
       method: {
         title: 'Ordre de priorité (de la plus haute à la plus basse)',
         steps: [

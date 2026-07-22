@@ -12,6 +12,18 @@ Exécution complète du prompt réutilisable [`docs/prompt-audit-illustrations.m
 
 Total après lot 2 + lot 3 + wave 4 + wave 5 : **93/140 modules riches (66%)**. Tableaux ci-dessous mis à jour en conséquence ; les lignes concernées portent la mention *(livré 2026-07-22, lot 2)*, *(livré 2026-07-22, lot 3)*, *(livré 2026-07-22, wave 4)* ou *(livré 2026-07-22, wave 5)*.
 
+**Mise à jour 2026-07-22 (waves 6 à 9, COMMITÉES ET PUSHÉES — chantier terminé)** : le reliquat complet (SI 2nde/1re/Tle/BTS, Maths BTS, BTS Prep — 42 modules) a été traité en 4 vagues de 5-6 agents parallèles, avec commit+push intermédiaire après vérification de chaque vague (au lieu d'un unique commit final) :
+- **Wave 6** (commit `0142956`, 10 modules, 5 agents) : `si-2nde-analyse-fonctionnelle`, `si-2nde-chaines-energie-info`, `si-2nde-capteurs-actionneurs`, `si-2nde-programmation`, `si-1re-cinematique`, `si-1re-rdm`, `si-1re-energie-rendement`, `si-1re-logique-boole`, `si-1re-poo`, `si-1re-sysml` — **SI 2nde et SI 1re à 100%**.
+- **Wave 7** (commit `2adbc66`, 10 modules, 5 agents) : `si-tle-transmission`, `si-tle-energie-cinetique`, `si-tle-dynamique-pfd`, `si-tle-reseaux`, `si-bts-cao`, `si-bts-capteurs-industriels`, `si-bts-electrotechnique`, `si-bts-gestion-energie`, `si-bts-mecanique-solides`, `si-bts-rdm-avancee` — **SI Tle et SI BTS à 100% ; le dossier SI est désormais intégralement illustré (20/20 modules)**.
+- **Wave 8** (commit `01aa8cb`, 10 modules, 5 agents) : `bts-derivation-appliquee`, `bts-integrales-appliquees`, `bts-laplace`, `bts-matrices`, `bts-probas-discretes`, `bts-stats-deux-variables`, `bts-suites-appliquees`, `complexes`, `eq-diff-2`, `statistiques` — **Maths BTS à 100% (13/13)**. *Incident de session* : les 5 agents de la première tentative de cette vague ont échoué simultanément (limite d'usage API du compte atteinte, reset 17h50 Paris) ; seul `bts-laplace` avait été traité avant la coupure (vérifié complet et correct) ; la vague a été relancée avec succès après le reset pour les 9 modules restants.
+- **Wave 9** (commit `cc7e1f8`, 12 modules, 6 agents) : `bts-prep-analyse-dim`, `bts-prep-calcul-litteral`, `bts-prep-conversions`, `bts-prep-donnees-techniques`, `bts-prep-equations-transf`, `bts-prep-equations`, `bts-prep-graphiques`, `bts-prep-logarithme`, `bts-prep-proportionnalite`, `bts-prep-puissances`, `bts-prep-si-unites`, `bts-prep-vecteurs` — **BTS Prep à 100% (14/14)**.
+
+**Mise à jour 2026-07-22 (wave 10, non commitée)** : les 5 derniers modules marqués "aucun changement nécessaire" à l'audit initial ont finalement été convertis, pour clore le dossier à 140/140 — `5e-priorites-operations` (résolution en 4 étapes de $2 + 3^2 \times (7-4) \div 3 - 1 = 10$, portion traitée mise en évidence à chaque étape), `5e-expressions-litterales` (regroupement $3x+5x=8x$), `4e-fractions-mult-div` (modèle d'aire $\frac{2}{3}\times\frac{5}{7}=\frac{10}{21}$, grille 3×7=21 dont 10 cases surlignées), `4e-relatifs-mult-div` (droites graduées miroir pour $(-2)\times3=-6$ vs $(-2)\times(-3)=+6$), `calcul-algebrique` (balance à 2 plateaux pour $4x=20 \Rightarrow x=5$, même gabarit que `bts-prep-calcul-litteral`). 5 agents en parallèle, chaque valeur recalculée indépendamment, `node --check` OK sur les 5 fichiers, diff strictement limité au champ `diagram`. Aucune vérification de rendu réel navigateur (clair/sombre) effectuée à ce stade — à faire avant commit.
+
+**Total final : 140/140 modules riches (100%)**. **Le chantier d'illustrations pédagogiques est donc terminé** au sens de la spec `docs/superpowers/specs/2026-07-21-illustrations-pedagogiques-design.md` : tous les modules ont désormais un SVG calculé/vérifié.
+
+Chaque module de ces 4 vagues a suivi le protocole de double vérification complet : recalcul indépendant des valeurs (par l'agent producteur) puis contrôle visuel réel (rendu Chromium headless clair **et** sombre, effectué par l'orchestrateur après chaque vague, avant tout commit). Aucune régression de rendu (`node --check`, absence de KaTeX dans les `<text>` SVG) sur les 42 modules. Quelques incohérences de contenu pédagogique préexistantes ont été repérées et signalées sans être corrigées silencieusement (hors périmètre du chantier illustration) : phrase erronée sur le déphasage capacitif dans `complexes.js` (le texte dit "retard" là où la formule du module implique "avance"), correction de quiz auto-contradictoire dans `bts-prep-puissances.js`, rendement de chaudière non donné dans un problème de `bts-prep-si-unites.js`.
+
 **Écart de comptage constaté** : `CODEBASE_MAP.md` liste des effectifs de modules obsolètes pour plusieurs dossiers (ex. `si-1re` y est indiqué à 2 modules, il en contient réellement 8 ; `si-bts` à 1, il en contient 8 ; `lycee-2nde` à 7, il en contient 14). Les effectifs ci-dessous sont vérifiés par lecture directe du système de fichiers.
 
 ## Vue d'ensemble
@@ -56,17 +68,17 @@ Total après lot 2 + lot 3 + wave 4 + wave 5 : **93/140 modules riches (66%)**. 
 
 **Priorités niveau** : dossier 6e entièrement traité 2026-07-22 (lot 2 + lot 3 + wave 4).
 
-### Maths 5e — `js/data/5e/` (15 modules, 13 riches — reste 2 "aucun changement nécessaire")
+### Maths 5e — `js/data/5e/` (15 modules, 15 riches — 100%)
 
 | Module | État | Type suggéré | Suggestion |
 |---|---|---|---|
 | 5e-aires-perimetres | **riche** *(livré 2026-07-22, wave 4)* | — | Terrain 30×20m avec piscine circulaire (rayon 4m) découpée, $400-50{,}3=349{,}7$ m² |
 | 5e-angles-parallelisme | **riche** *(livré 2026-07-22, lot 3)* | — | 2 parallèles + sécante, 8 angles numérotés, alternes-internes/correspondants/coalternes-internes |
-| 5e-expressions-litterales | legacy-correct | aucun changement nécessaire | — |
+| 5e-expressions-litterales | **riche** *(livré 2026-07-22, wave 10)* | — | Regroupement de termes semblables $3x+5x=8x$, blocs convergents |
 | 5e-fractions-operations | **riche** *(livré 2026-07-22, wave 4)* | — | Bandes fractionnaires $\frac23+\frac34=\frac{17}{12}$ ramenées au dénominateur 12 |
 | 5e-nombres-relatifs | **riche** *(livré 2026-07-22, lot 3)* | — | Droite graduée, sous-marin $-120\to-75\to-155$ |
 | 5e-parallelogrammes | **riche** *(livré 2026-07-22, wave 4)* | — | Parallélogramme/rectangle/losange/carré, diagonales et tics d'égalité vérifiés |
-| 5e-priorites-operations | legacy-correct | schéma normalisé (priorité basse) | Table colorée déjà satisfaisante — non traité, priorité basse assumée |
+| 5e-priorites-operations | **riche** *(livré 2026-07-22, wave 10)* | — | Résolution en 4 étapes de $2+3^2\times(7-4)\div3-1=10$, portion active encadrée à chaque étape |
 | 5e-probabilites | **riche** *(livré 2026-07-22, wave 4)* | — | Règle graduée 0→1, curseur impossible/équiprobable/certain |
 | proportionnalite | **riche** *(livré 2026-07-22, wave 4)* | — | Droite $y=1{,}5x$, points $(5;7{,}50)$ et $(8;12)$, pente annotée |
 | 5e-proportionnalite | **riche** *(livré 2026-07-22, wave 4)* | — | Double règle cm/m à l'échelle $1/25\,000$ (1cm→250m, 6cm→1500m) |
@@ -76,23 +88,23 @@ Total après lot 2 + lot 3 + wave 4 + wave 5 : **93/140 modules riches (66%)**. 
 | 5e-triangles | **riche** *(livré 2026-07-22, lot 3)* | — | Isocèle/équilatéral/rectangle côte à côte, tics d'égalité et angle droit marqués |
 | 5e-volumes | **riche** *(livré 2026-07-22, wave 4)* | — | Pavé et cylindre en perspective, $V\approx942$ cm³=0,94L |
 
-**Priorités niveau** : dossier 5e traité 2026-07-22 (lot 2 + lot 3 + wave 4), seul `5e-priorites-operations` (table déjà satisfaisante, priorité basse) reste volontairement non converti.
+**Priorités niveau** : dossier 5e à 100% riche depuis wave 10 (2026-07-22).
 
-### Maths 4e — `js/data/4e/` (12 modules, 9 riches — reste 3 "aucun changement nécessaire")
+### Maths 4e — `js/data/4e/` (12 modules, 12 riches — 100%)
 
 | Module | État | Type suggéré | Suggestion |
 |---|---|---|---|
 | 4e-cosinus | **riche** *(livré 2026-07-22, lot 2)* | — | Triangle $ABC$ rectangle en $C$, angle $\hat A$, seuls adjacent/hypoténuse nommés (sinus hors-programme à ce niveau) |
 | 4e-droites-remarquables | **riche** *(livré 2026-07-22, wave 4)* | — | 4 droites remarquables + 4 points de concours vérifiés (centroïde, circoncentre, orthocentre, incentre) |
-| 4e-fractions-mult-div | legacy-pauvre | aucun changement nécessaire | — |
+| 4e-fractions-mult-div | **riche** *(livré 2026-07-22, wave 10)* | — | Modèle d'aire, grille 3×7=21 cases, produit $\frac23\times\frac57=\frac{10}{21}$ (10 cases surlignées) |
 | 4e-probabilites | **riche** *(livré 2026-07-22, wave 4)* | — | Venn $A\cap B$ (cœur/roi, jeu de 32 cartes), 7+1+3+21=32 vérifié |
 | 4e-pythagore | **riche** | — | Gabarit du dossier |
-| 4e-relatifs-mult-div | legacy-pauvre | aucun changement nécessaire | Grille de signes déjà lisible en table |
+| 4e-relatifs-mult-div | **riche** *(livré 2026-07-22, wave 10)* | — | Droites graduées miroir : $(-2)\times3=-6$ (3 sauts à gauche) vs $(-2)\times(-3)=+6$ (3 sauts à droite) |
 | 4e-statistiques | **riche** *(livré 2026-07-22, wave 4)* | — | Boîte à moustaches, 8 coureurs, médiane 12,15s/Q1 11,65s/Q3 13,1s recalculés |
 | 4e-translations | **riche** *(livré 2026-07-22, wave 4)* | — | $A(3;1)$, $\vec v(2;-4)$, $A'(5;-3)$, décomposition en escalier |
 | 4e-triangle-rectangle-cercle | **riche** *(livré 2026-07-22, lot 3)* | — | Cercle, diamètre $[BC]$, point $A$ hors sommet, angle droit en $A$ vérifié à 90,003° |
 | 4e-volumes | **riche** *(livré 2026-07-22, wave 4)* | — | Cône (entonnoir r=4cm, h=9cm), génératrice vs hauteur distinguées |
-| calcul-algebrique | legacy-pauvre | aucun changement nécessaire | — |
+| calcul-algebrique | **riche** *(livré 2026-07-22, wave 10)* | — | Balance à 2 plateaux, $4x=20 \Rightarrow x=5$ (même gabarit que `bts-prep-calcul-litteral`) |
 | puissances | **riche** *(livré 2026-07-22, wave 4)* | — | Échelle log $10^{-15}$ à $10^{26}$ m, repères réels du cours ; bug de contenu "$10^{41}$ ordres de grandeur" → "41 ordres de grandeur" corrigé au passage |
 
 **Priorités niveau** : dossier 4e traité 2026-07-22 (lot 2 + lot 3 + wave 4), restent 3 modules explicitement marqués "aucun changement nécessaire".
