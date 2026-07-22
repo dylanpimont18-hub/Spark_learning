@@ -55,7 +55,81 @@ window.MODULES.push({
         '$v = \\dfrac{p \\times N}{60}$ — Vitesse linéaire (vis-écrou, $p$ en mm/tour)'
       ],
 
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr style="background:var(--bg-card);"><th style="border:1px solid var(--border);padding:8px">Type</th><th style="border:1px solid var(--border);padding:8px">Rapport $|r|$</th><th style="border:1px solid var(--border);padding:8px">Sens de rotation</th><th style="border:1px solid var(--border);padding:8px">Rendement typique</th></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Engrenage extérieur</strong></td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{Z_e}{Z_s}$</td><td style="border:1px solid var(--border);padding:8px">Inversé</td><td style="border:1px solid var(--border);padding:8px">$0{,}95$ à $0{,}98$</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Engrenage intérieur</strong></td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{Z_e}{Z_s}$</td><td style="border:1px solid var(--border);padding:8px">Même sens</td><td style="border:1px solid var(--border);padding:8px">$0{,}95$ à $0{,}98$</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Courroie (directe)</strong></td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{D_e}{D_s}$</td><td style="border:1px solid var(--border);padding:8px">Même sens</td><td style="border:1px solid var(--border);padding:8px">$0{,}90$ à $0{,}95$</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Vis sans fin</strong></td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{1}{Z_s}$ (1 filet)</td><td style="border:1px solid var(--border);padding:8px">Perpendiculaire</td><td style="border:1px solid var(--border);padding:8px">$0{,}40$ à $0{,}70$</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>Vis-écrou</strong></td><td style="border:1px solid var(--border);padding:8px">$v = p \\times N / 60$</td><td style="border:1px solid var(--border);padding:8px">Rotation → Translation</td><td style="border:1px solid var(--border);padding:8px">$0{,}30$ à $0{,}90$</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Transmission mécanique',
+        title: 'Deux technologies, même rapport r = 1/3 : engrenage (sens opposés) vs courroie (même sens)',
+        description: 'À gauche, un engrenage extérieur à deux roues dentées (20 et 60 dents, l\'exemple du cours) inverse le sens de rotation. À droite, un système courroie-poulie (40 et 120 mm de diamètre) conserve le même sens. Les deux exemples partagent volontairement le même rapport de transmission $r = 1/3$, recalculé indépendamment pour chaque cas.',
+        svg: `
+          <svg viewBox="0 0 560 360" role="img" aria-labelledby="trans-diagram-title trans-diagram-desc">
+            <title id="trans-diagram-title">Engrenage et courroie-poulie : rapport de transmission 1/3</title>
+            <desc id="trans-diagram-desc">A gauche, un engrenage exterieur avec un pignon de 20 dents entrainant une roue de 60 dents, rapport 1/3, sens de rotation opposes. A droite, un systeme courroie-poulie avec un diametre moteur de 40 mm entrainant une poulie de 120 mm, meme rapport 1/3, sens de rotation identiques.</desc>
+
+            <defs>
+              <marker id="arrow-si-tle-trans" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
+
+            <line class="guide-line" x1="270" y1="46" x2="270" y2="330"></line>
+
+            <!-- ===== Panel 1 : engrenage exterieur (Ze=20, Zs=60, r=1/3) ===== -->
+            <text class="annotation-label" x="96" y="24" text-anchor="middle">Engrenage extérieur</text>
+            <text class="label-soft" x="96" y="40" text-anchor="middle">sens de rotation opposés</text>
+
+            <!-- pignon d'entree Ze=20 : cercle primitif + cercle de tete pointille -->
+            <circle class="frame-line" cx="60" cy="190" r="18" fill="none"></circle>
+            <circle class="guide-line" cx="60" cy="190" r="26" fill="none"></circle>
+            <circle class="plot-point" cx="60" cy="190" r="3"></circle>
+            <path class="curve-main" d="M60,156 A34,34 0 1,1 26,190" marker-end="url(#arrow-si-tle-trans)" fill="none"></path>
+            <text class="tick-label" x="60" y="142" text-anchor="middle">ωₑ</text>
+
+            <!-- roue de sortie Zs=60 : cercle primitif + cercle de tete pointille -->
+            <circle class="frame-line" cx="132" cy="190" r="54" fill="none"></circle>
+            <circle class="guide-line" cx="132" cy="190" r="64" fill="none"></circle>
+            <circle class="plot-point" cx="132" cy="190" r="3"></circle>
+            <path class="curve-main" d="M132,116 A74,74 0 1,0 206,190" marker-end="url(#arrow-si-tle-trans)" fill="none"></path>
+            <text class="tick-label" x="132" y="102" text-anchor="middle">ωₛ</text>
+
+            <text class="label-soft" x="60" y="278" text-anchor="middle">Entrée (moteur)</text>
+            <text class="label-soft" x="132" y="278" text-anchor="middle">Sortie (récepteur)</text>
+            <text class="annotation-label" x="60" y="298" text-anchor="middle">Zₑ = 20 dents</text>
+            <text class="annotation-label" x="132" y="298" text-anchor="middle">Zₛ = 60 dents</text>
+            <text class="annotation-label" x="96" y="320" text-anchor="middle">r = Zₑ/Zₛ = 20/60 = 1/3</text>
+
+            <!-- ===== Panel 2 : courroie-poulie (De=40, Ds=120, r=1/3) ===== -->
+            <text class="annotation-label" x="405" y="24" text-anchor="middle">Courroie-poulie</text>
+            <text class="label-soft" x="405" y="40" text-anchor="middle">même sens de rotation</text>
+
+            <line class="curve-main" x1="330" y1="172" x2="480" y2="136"></line>
+            <line class="curve-main" x1="330" y1="208" x2="480" y2="244"></line>
+
+            <circle class="frame-line" cx="330" cy="190" r="18" fill="none"></circle>
+            <circle class="plot-point" cx="330" cy="190" r="3"></circle>
+            <path class="curve-main" d="M330,157 A33,33 0 1,1 297,190" marker-end="url(#arrow-si-tle-trans)" fill="none"></path>
+            <text class="tick-label" x="330" y="143" text-anchor="middle">ωₑ</text>
+
+            <circle class="frame-line" cx="480" cy="190" r="54" fill="none"></circle>
+            <circle class="plot-point" cx="480" cy="190" r="3"></circle>
+            <path class="curve-main" d="M480,121 A69,69 0 1,1 411,190" marker-end="url(#arrow-si-tle-trans)" fill="none"></path>
+            <text class="tick-label" x="480" y="107" text-anchor="middle">ωₛ</text>
+
+            <text class="label-soft" x="330" y="278" text-anchor="middle">Entrée (moteur)</text>
+            <text class="label-soft" x="480" y="278" text-anchor="middle">Sortie (récepteur)</text>
+            <text class="annotation-label" x="330" y="298" text-anchor="middle">Dₑ = 40 mm</text>
+            <text class="annotation-label" x="480" y="298" text-anchor="middle">Dₛ = 120 mm</text>
+            <text class="annotation-label" x="405" y="320" text-anchor="middle">r = Dₑ/Dₛ = 40/120 = 1/3</text>
+          </svg>
+        `,
+        notes: [
+          'Vérification indépendante : engrenage $r = Z_e/Z_s = 20/60 = 1/3$ (valeurs de l\'exemple du cours), courroie $r = D_e/D_s = 40/120 = 1/3$ — les deux exemples partagent volontairement le même rapport pour comparer les deux technologies à parité.',
+          'Engrenage extérieur : les deux cercles primitifs sont tangents (contact direct), les flèches $\\omega_e$ et $\\omega_s$ tournent en sens opposés.',
+          'Courroie ouverte (non croisée) : la courroie relie les deux poulies sans croisement, les deux flèches $\\omega_e$ et $\\omega_s$ tournent dans le même sens.',
+          'Convention de schéma : chaque roue dentée est représentée par son cercle primitif (trait plein) et son cercle de tête (pointillé) — la denture réelle n\'est pas dessinée dent par dent. Les diamètres de poulie ($40$ mm / $120$ mm) sont des valeurs illustratives cohérentes avec $r=1/3$, le cours ne fixant pas de valeurs numériques pour l\'exemple courroie.'
+        ],
+        reading: 'Compare d\'abord la taille des deux roues ou poulies (le rapport des rayons donne directement $r$), puis observe le sens des flèches de rotation : engrenage = sens opposés, courroie = même sens.',
+        caption: 'Engrenage extérieur ($Z_e=20$, $Z_s=60$, $r=1/3$, sens opposés) et système courroie-poulie ($D_e=40$ mm, $D_s=120$ mm, $r=1/3$, même sens) — même rapport de transmission, deux technologies différentes.'
+      },
 
       recap: [
         'Un réducteur ($|r| < 1$) diminue la vitesse et augmente le couple. Un multiplicateur ($|r| > 1$) fait l\'inverse.',

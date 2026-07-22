@@ -49,7 +49,57 @@ window.MODULES.push({
         '$U = E + RI$ (équation de l\'induit MCC)',
         '$\\eta = \\dfrac{P_u}{P_a}$ (rendement)'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">Caractéristique</th><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">MCC</th><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">Asynchrone</th><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">Synchrone</th></tr><tr><td style="border:1px solid var(--border);padding:8px">Alimentation</td><td style="border:1px solid var(--border);padding:8px">Continu (DC)</td><td style="border:1px solid var(--border);padding:8px">Triphasé (AC)</td><td style="border:1px solid var(--border);padding:8px">Triphasé (AC)</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Vitesse</td><td style="border:1px solid var(--border);padding:8px">Variable ($\\propto U$)</td><td style="border:1px solid var(--border);padding:8px">$n < n_s$ (glissement)</td><td style="border:1px solid var(--border);padding:8px">$n = n_s$ (exacte)</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Couple</td><td style="border:1px solid var(--border);padding:8px">$C = K\\Phi I$</td><td style="border:1px solid var(--border);padding:8px">Variable avec $g$</td><td style="border:1px solid var(--border);padding:8px">Constant à $n_s$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Avantages</td><td style="border:1px solid var(--border);padding:8px">Contrôle simple de vitesse</td><td style="border:1px solid var(--border);padding:8px">Robuste, peu d\'entretien</td><td style="border:1px solid var(--border);padding:8px">Vitesse précise, $\\cos\\phi$ réglable</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Inconvénients</td><td style="border:1px solid var(--border);padding:8px">Balais, entretien</td><td style="border:1px solid var(--border);padding:8px">Courant d\'appel au démarrage</td><td style="border:1px solid var(--border);padding:8px">Démarrage complexe, coût</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Caractéristique couple-vitesse',
+        title: 'Lire la courbe C(n) d\'un moteur asynchrone triphasé',
+        description: 'Le <strong>couple moteur</strong> dépend fortement de la vitesse de rotation. Cette courbe typique montre le couple de démarrage, le couple maximal (décrochage) et la <strong>zone stable</strong> où se situe le point de fonctionnement nominal, proche de la vitesse de synchronisme $n_s$.',
+        svg: `
+          <svg viewBox="0 0 360 240" role="img" aria-labelledby="electrotech-graph-title electrotech-graph-desc">
+            <title id="electrotech-graph-title">Caractéristique couple-vitesse d'un moteur asynchrone</title>
+            <desc id="electrotech-graph-desc">Le graphique montre le couple moteur C en fonction de la vitesse de rotation n, avec le couple de demarrage, le couple maximal de decrochage, la zone stable pres du synchronisme et le point de fonctionnement nominal.</desc>
+            <line class="grid-line" x1="52" y1="34" x2="316" y2="34"></line>
+            <line class="grid-line" x1="52" y1="85" x2="316" y2="85"></line>
+            <line class="grid-line" x1="52" y1="135" x2="316" y2="135"></line>
+            <line class="grid-line" x1="52" y1="186" x2="316" y2="186"></line>
+            <line class="grid-line" x1="52" y1="34" x2="52" y2="186"></line>
+            <line class="grid-line" x1="140" y1="34" x2="140" y2="186"></line>
+            <line class="grid-line" x1="228" y1="34" x2="228" y2="186"></line>
+            <line class="grid-line" x1="316" y1="34" x2="316" y2="186"></line>
+            <line class="axis" x1="52" y1="186" x2="330" y2="186"></line>
+            <line class="axis" x1="52" y1="194" x2="52" y2="24"></line>
+            <line class="guide-line" x1="316" y1="24" x2="316" y2="186"></line>
+            <path class="curve-main" d="M52 95 C130 78 200 55 263 59 C275 63 292 90 305 135 C309 152 313 172 316 186"></path>
+            <line class="guide-line" x1="305" y1="135" x2="305" y2="186"></line>
+            <line class="guide-line" x1="52" y1="135" x2="305" y2="135"></line>
+            <circle class="plot-point-alt" cx="52" cy="95" r="5"></circle>
+            <circle class="plot-point-alt" cx="263" cy="59" r="5"></circle>
+            <circle class="plot-point" cx="305" cy="135" r="6"></circle>
+            <text class="annotation-label" x="58" y="79">Cd (démarrage)</text>
+            <text class="annotation-label" x="188" y="44">Cmax (décrochage)</text>
+            <text class="annotation-label" x="214" y="127">Cn (nominal)</text>
+            <text class="annotation-label" x="266" y="102">Zone stable</text>
+            <text class="axis-label" x="333" y="190">n</text>
+            <text class="axis-label" x="58" y="22">C</text>
+            <text class="tick-label" x="52" y="203" text-anchor="middle">0</text>
+            <text class="tick-label" x="140" y="203" text-anchor="middle">500</text>
+            <text class="tick-label" x="228" y="203" text-anchor="middle">1000</text>
+            <text class="tick-label" x="316" y="203" text-anchor="middle">1500</text>
+            <text class="tick-label" x="34" y="190">0</text>
+            <text class="tick-label" x="24" y="139">50</text>
+            <text class="tick-label" x="18" y="89">100</text>
+            <text class="tick-label" x="18" y="38">150</text>
+            <text class="tick-label" x="316" y="216" text-anchor="middle">ns</text>
+          </svg>
+        `,
+        notes: [
+          'Le <strong>couple de démarrage</strong> $C_d$ (à $n = 0$) est modéré : le moteur démarre avec un couple supérieur au couple nominal, mais inférieur à son maximum.',
+          'Le couple augmente ensuite jusqu\'à un maximum, le <strong>couple de décrochage</strong> $C_{max}$, situé peu avant la vitesse de synchronisme $n_s$.',
+          'Au-delà de ce maximum s\'ouvre la <strong>zone stable</strong> (pente négative) : le couple redescend jusqu\'à $n_s$. Le point de fonctionnement nominal s\'y trouve, à $n = 1440$ tr/min et $C_n = 50$ N·m (glissement $g = 4\\%$), tout près du synchronisme $n_s = 1500$ tr/min.'
+        ],
+        reading: 'Sur cette courbe, on ne fait fonctionner le moteur que dans la <strong>zone stable</strong> (entre le couple maximal et $n_s$) : si la charge dépasse $C_{max}$, le moteur décroche et cale.',
+        caption: 'Caractéristique couple-vitesse typique d\'un moteur asynchrone triphasé ($p = 2$, $f = 50$ Hz, $n_s = 1500$ tr/min), avec le point de fonctionnement nominal de l\'exemple du cours.'
+      },
       recap: [
         'MCC : $E = K\\Phi\\Omega$, $C = K\\Phi I$, $U = E + RI$. Couple proportionnel au courant.',
         'Moteur asynchrone : $n_s = 60f/p$, $g = (n_s - n)/n_s$. Toujours $n < n_s$ en charge.',

@@ -59,7 +59,46 @@ window.MODULES.push({
         'Hôtes possibles dans un sous-réseau $/n$ : $2^{32-n} - 2$'
       ],
 
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr style="background:var(--bg-card);"><th style="border:1px solid var(--border);padding:8px">Couche TCP/IP</th><th style="border:1px solid var(--border);padding:8px">Équivalent OSI</th><th style="border:1px solid var(--border);padding:8px">Protocoles / Standards</th><th style="border:1px solid var(--border);padding:8px">Rôle</th></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>4 — Application</strong></td><td style="border:1px solid var(--border);padding:8px">Couches 5, 6, 7</td><td style="border:1px solid var(--border);padding:8px">HTTP, FTP, MQTT, DNS</td><td style="border:1px solid var(--border);padding:8px">Échange de données applicatives</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>3 — Transport</strong></td><td style="border:1px solid var(--border);padding:8px">Couche 4</td><td style="border:1px solid var(--border);padding:8px">TCP (fiable), UDP (rapide)</td><td style="border:1px solid var(--border);padding:8px">Fiabilité, multiplexage (ports)</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>2 — Internet</strong></td><td style="border:1px solid var(--border);padding:8px">Couche 3</td><td style="border:1px solid var(--border);padding:8px">IP (IPv4, IPv6), ICMP</td><td style="border:1px solid var(--border);padding:8px">Adressage logique, routage</td></tr><tr><td style="border:1px solid var(--border);padding:8px"><strong>1 — Accès réseau</strong></td><td style="border:1px solid var(--border);padding:8px">Couches 1, 2</td><td style="border:1px solid var(--border);padding:8px">Ethernet, Wi-Fi, fibre</td><td style="border:1px solid var(--border);padding:8px">Transmission physique, adressage MAC</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Encapsulation TCP/IP — poupées russes',
+        title: 'Les 4 couches TCP/IP, emboîtées comme des poupées russes',
+        description: 'À l\'émission, chaque couche <strong>encapsule</strong> les données de la couche du dessus en lui ajoutant son propre en-tête — un peu comme des poupées russes : la couche <strong>Application</strong> est la plus intérieure, la couche <strong>Accès réseau</strong> forme l\'enveloppe la plus extérieure, celle réellement transmise sur le câble ou dans l\'air.',
+        svg: `
+          <svg viewBox="0 0 500 400" role="img" aria-labelledby="reseaux-title reseaux-desc">
+            <title id="reseaux-title">Encapsulation TCP/IP en poupees russes</title>
+            <desc id="reseaux-desc">Quatre rectangles concentriques representent les 4 couches du modele TCP/IP. Le plus grand, a l'exterieur, est la couche 1, Acces reseau, qui produit la trame Ethernet ou Wi-Fi. A l'interieur de celui-ci, la couche 2, Internet, produit le paquet IP. A l'interieur, la couche 3, Transport, produit le segment TCP ou UDP. Au centre, la couche 4, Application, contient les donnees applicatives HTTP, FTP, MQTT ou DNS. A l'emission les donnees sont encapsulees de l'interieur vers l'exterieur ; a la reception elles sont decapsulees de l'exterieur vers l'interieur.</desc>
+
+            <text class="label-soft" x="250" y="20" text-anchor="middle">Émission : encapsulation, de l'intérieur vers l'extérieur</text>
+
+            <rect class="frame-line" x="20" y="40" width="460" height="310" rx="16" fill="color-mix(in srgb, var(--diagram-accent) 6%, var(--bg-card))"></rect>
+            <text class="annotation-label" x="250" y="55" text-anchor="middle">Couche 1 — Accès réseau</text>
+            <text class="label-soft" x="250" y="69" text-anchor="middle">Trame (Ethernet, Wi-Fi, fibre)</text>
+
+            <rect class="frame-line" x="60" y="75" width="380" height="240" rx="14" fill="color-mix(in srgb, var(--diagram-accent) 9%, var(--bg-card))"></rect>
+            <text class="annotation-label" x="250" y="90" text-anchor="middle">Couche 2 — Internet</text>
+            <text class="label-soft" x="250" y="104" text-anchor="middle">Paquet (IP, ICMP)</text>
+
+            <rect class="frame-line" x="100" y="110" width="300" height="170" rx="12" fill="color-mix(in srgb, var(--diagram-accent) 12%, var(--bg-card))"></rect>
+            <text class="annotation-label" x="250" y="125" text-anchor="middle">Couche 3 — Transport</text>
+            <text class="label-soft" x="250" y="139" text-anchor="middle">Segment (TCP / UDP)</text>
+
+            <rect class="frame-line" x="140" y="145" width="220" height="100" rx="10" fill="color-mix(in srgb, var(--diagram-accent) 16%, var(--bg-card))"></rect>
+            <text class="annotation-label" x="250" y="182" text-anchor="middle">Couche 4 — Application</text>
+            <text class="label-soft" x="250" y="198" text-anchor="middle">Données applicatives</text>
+            <text class="label-soft" x="250" y="214" text-anchor="middle">(HTTP, FTP, MQTT, DNS)</text>
+
+            <text class="label-soft" x="250" y="368" text-anchor="middle">Réception : décapsulation, de l'extérieur vers l'intérieur</text>
+          </svg>
+        `,
+        notes: [
+          'À l\'émission (encapsulation) : Application → Transport → Internet → Accès réseau, de l\'intérieur vers l\'extérieur.',
+          'À la réception (décapsulation) : chaque couche retire son propre en-tête dans l\'ordre inverse, de l\'extérieur vers l\'intérieur, jusqu\'à retrouver les données applicatives.',
+          'Le nom de l\'unité de données change à chaque couche : <strong>segment</strong> en Transport (TCP), <strong>paquet</strong> en Internet (IP), <strong>trame</strong> en Accès réseau.'
+        ],
+        reading: 'Pars de la plus petite poupée, au centre (les données applicatives), et remonte vers l\'extérieur : chaque couche traversée ajoute un en-tête, jusqu\'à obtenir la trame réellement transmise.',
+        caption: 'Encapsulation TCP/IP : 4 couches emboîtées, chacune ajoutant son en-tête (segment, paquet, trame) autour des données de la couche supérieure.'
+      },
 
       recap: [
         'Le modèle TCP/IP a 4 couches : Accès réseau, Internet, Transport, Application.',

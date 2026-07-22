@@ -49,7 +49,54 @@ window.MODULES.push({
         '$E = \\dfrac{1}{2}LI^2$ (inductance)',
         '$E = Q \\times U$ (batterie, en Wh)'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">Technologie</th><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">Densité d\'énergie</th><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">Densité de puissance</th><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">Durée de vie</th></tr><tr><td style="border:1px solid var(--border);padding:8px">Batterie Li-ion</td><td style="border:1px solid var(--border);padding:8px">150 – 250 Wh/kg</td><td style="border:1px solid var(--border);padding:8px">250 – 1000 W/kg</td><td style="border:1px solid var(--border);padding:8px">500 – 2000 cycles</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Supercondensateur</td><td style="border:1px solid var(--border);padding:8px">5 – 15 Wh/kg</td><td style="border:1px solid var(--border);padding:8px">5000 – 15000 W/kg</td><td style="border:1px solid var(--border);padding:8px">> 500 000 cycles</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Volant d\'inertie</td><td style="border:1px solid var(--border);padding:8px">10 – 50 Wh/kg</td><td style="border:1px solid var(--border);padding:8px">1000 – 5000 W/kg</td><td style="border:1px solid var(--border);padding:8px">> 1 000 000 cycles</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Diagramme de Ragone',
+        title: 'Comparer les technologies de stockage sur un graphe log-log puissance / énergie',
+        description: 'Le <strong>diagramme de Ragone</strong> place chaque technologie selon sa puissance massique (axe vertical) et son énergie massique (axe horizontal), toutes deux en <strong>échelle logarithmique</strong>. Les zones reprennent exactement les plages du tableau du cours.',
+        svg: `
+          <svg viewBox="0 0 360 240" role="img" aria-labelledby="ragone-graph-title ragone-graph-desc">
+            <title id="ragone-graph-title">Diagramme de Ragone des technologies de stockage</title>
+            <desc id="ragone-graph-desc">Le graphique log-log montre la puissance massique en fonction de l'energie massique pour la batterie Li-ion, le supercondensateur et le volant d'inertie.</desc>
+            <line class="grid-line" x1="52" y1="34" x2="316" y2="34"></line>
+            <line class="grid-line" x1="52" y1="85" x2="316" y2="85"></line>
+            <line class="grid-line" x1="52" y1="135" x2="316" y2="135"></line>
+            <line class="grid-line" x1="52" y1="186" x2="316" y2="186"></line>
+            <line class="grid-line" x1="52" y1="34" x2="52" y2="186"></line>
+            <line class="grid-line" x1="140" y1="34" x2="140" y2="186"></line>
+            <line class="grid-line" x1="228" y1="34" x2="228" y2="186"></line>
+            <line class="grid-line" x1="316" y1="34" x2="316" y2="186"></line>
+            <line class="axis" x1="52" y1="186" x2="330" y2="186"></line>
+            <line class="axis" x1="52" y1="194" x2="52" y2="24"></line>
+            <rect x="113.5" y="75.8" width="42" height="24.1" rx="3" fill="color-mix(in srgb, var(--diagram-accent) 75%, white)" opacity="0.5"></rect>
+            <rect x="140" y="99.9" width="61.5" height="35.4" rx="3" fill="color-mix(in srgb, var(--diagram-accent) 45%, white)" opacity="0.5"></rect>
+            <rect x="243.5" y="135.3" width="19.5" height="30.5" rx="3" fill="var(--diagram-accent)" opacity="0.5"></rect>
+            <circle class="plot-point-alt" cx="134.5" cy="87.8" r="5"></circle>
+            <circle class="plot-point-alt" cx="170.8" cy="117.6" r="5"></circle>
+            <circle class="plot-point" cx="253.3" cy="150.6" r="6"></circle>
+            <text class="annotation-label" x="88" y="70">Supercondensateur</text>
+            <text class="annotation-label" x="146" y="152">Volant d'inertie</text>
+            <text class="annotation-label" x="214" y="180">Batterie Li-ion</text>
+            <text class="axis-label" x="333" y="190">E</text>
+            <text class="axis-label" x="58" y="22">P</text>
+            <text class="tick-label" x="52" y="203" text-anchor="middle">1</text>
+            <text class="tick-label" x="140" y="203" text-anchor="middle">10</text>
+            <text class="tick-label" x="228" y="203" text-anchor="middle">100</text>
+            <text class="tick-label" x="316" y="203" text-anchor="middle">1000</text>
+            <text class="tick-label" x="34" y="190">100</text>
+            <text class="tick-label" x="20" y="139">1000</text>
+            <text class="tick-label" x="12" y="89">10000</text>
+            <text class="tick-label" x="4" y="38">100000</text>
+          </svg>
+        `,
+        notes: [
+          'La <strong>batterie Li-ion</strong> stocke beaucoup d\'énergie ($150$ à $250$ Wh/kg) mais la restitue relativement lentement ($250$ à $1000$ W/kg) : elle occupe la zone la plus à droite, en bas.',
+          'Le <strong>supercondensateur</strong> restitue une puissance très élevée ($5000$ à $15\\,000$ W/kg) mais avec une énergie massique faible ($5$ à $15$ Wh/kg) : il occupe la zone la plus haute, à gauche.',
+          'Le <strong>volant d\'inertie</strong> occupe une position intermédiaire ($10$ à $50$ Wh/kg, $1000$ à $5000$ W/kg), entre les deux précédentes.'
+        ],
+        reading: 'Sur un diagramme de Ragone, plus un point est <strong>haut</strong>, plus la technologie restitue de puissance rapidement ; plus il est à <strong>droite</strong>, plus elle stocke d\'énergie sur la durée. Aucune technologie ne cumule les deux avantages : c\'est tout l\'enjeu du choix de stockage.',
+        caption: 'Positionnement des trois technologies de stockage du tableau du cours sur le diagramme de Ragone (échelles logarithmiques en abscisse et en ordonnée).'
+      },
       recap: [
         'Le rendement global est un PRODUIT (pas une moyenne) : $\\eta_g = \\prod \\eta_i$.',
         'Les pertes Joule $P_J = RI^2$ sont proportionnelles au carré du courant.',

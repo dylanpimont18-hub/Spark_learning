@@ -48,7 +48,89 @@ window.MODULES.push({
         '$\\sigma_{\\text{VM}} = \\sqrt{\\sigma^2 + 3\\tau^2}$ (Von Mises)',
         '$\\sigma_{\\text{VM}} \\leq \\dfrac{R_e}{s}$ (critère de dimensionnement)'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">Sollicitation</th><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">Formule de contrainte</th><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">Section circulaire pleine ($d$)</th><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">Localisation du max</th></tr><tr><td style="border:1px solid var(--border);padding:8px">Traction / Compression</td><td style="border:1px solid var(--border);padding:8px">$\\sigma = N / S$</td><td style="border:1px solid var(--border);padding:8px">$S = \\pi d^2 / 4$</td><td style="border:1px solid var(--border);padding:8px">Uniforme</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Flexion</td><td style="border:1px solid var(--border);padding:8px">$\\sigma = M_f \\cdot y / I_{Gz}$</td><td style="border:1px solid var(--border);padding:8px">$\\sigma_{\\max} = 32\\,M_f / (\\pi d^3)$</td><td style="border:1px solid var(--border);padding:8px">Fibres extrêmes</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Cisaillement</td><td style="border:1px solid var(--border);padding:8px">$\\tau = T / S$</td><td style="border:1px solid var(--border);padding:8px">$S = \\pi d^2 / 4$</td><td style="border:1px solid var(--border);padding:8px">Axe neutre</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Torsion</td><td style="border:1px solid var(--border);padding:8px">$\\tau_t = M_t \\cdot r / I_0$</td><td style="border:1px solid var(--border);padding:8px">$\\tau_{\\max} = 16\\,M_t / (\\pi d^3)$</td><td style="border:1px solid var(--border);padding:8px">Périphérie</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Répartition des contraintes dans une section',
+        title: 'Arbre circulaire (d = 40 mm) : flexion Mf = 150 N·m et torsion Mt = 250 N·m',
+        description: 'À gauche, la contrainte normale σ(y) en flexion : nulle sur la fibre neutre, maximale (en valeur absolue, signe opposé) aux fibres extrêmes. À droite, la contrainte de cisaillement τ(r) en torsion : nulle au centre, maximale à la périphérie, toujours tangentielle. Les deux lois sont linéaires.',
+        svg: `
+          <svg viewBox="0 0 660 170" role="img" aria-labelledby="rdm-graph-title rdm-graph-desc">
+            <title id="rdm-graph-title">Repartition des contraintes de flexion et de torsion dans une section circulaire</title>
+            <desc id="rdm-graph-desc">A gauche, section circulaire en flexion avec la contrainte normale sigma qui varie lineairement de moins sigma max a la fibre inferieure a plus sigma max a la fibre superieure, en passant par zero sur la fibre neutre au centre. A droite, section circulaire en torsion avec la contrainte de cisaillement tau, tangentielle, nulle au centre et maximale a la peripherie, croissant lineairement avec le rayon.</desc>
+
+            <defs>
+              <marker id="rdm-arrow-avancee" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
+
+            <!-- ===== BLOC 1 : FLEXION ===== -->
+            <text class="annotation-label" x="160" y="18" text-anchor="middle">FLEXION — contrainte normale σ(y)</text>
+
+            <!-- section circulaire -->
+            <circle class="frame-line" cx="90" cy="85" r="45" fill="none"></circle>
+            <line class="guide-line" x1="35" y1="85" x2="145" y2="85"></line>
+            <text class="label-soft" x="150" y="89">σ = 0</text>
+            <circle class="plot-point" cx="90" cy="40" r="4"></circle>
+            <text class="annotation-label" x="90" y="28" text-anchor="middle">+y_max</text>
+            <circle class="plot-point-alt" cx="90" cy="85" r="4"></circle>
+            <circle class="plot-point" cx="90" cy="130" r="4"></circle>
+            <text class="annotation-label" x="90" y="150" text-anchor="middle">−y_max</text>
+
+            <!-- graphe sigma(y) -->
+            <line class="axis" x1="235" y1="35" x2="235" y2="135"></line>
+            <line class="axis" x1="190" y1="85" x2="300" y2="85"></line>
+            <line class="curve-main" x1="205" y1="135" x2="265" y2="35"></line>
+            <circle class="plot-point" cx="265" cy="35" r="4"></circle>
+            <text class="annotation-label" x="270" y="32" text-anchor="start">+σmax ≈ 23,9 MPa</text>
+            <circle class="plot-point" cx="205" cy="135" r="4"></circle>
+            <text class="annotation-label" x="200" y="150" text-anchor="end">−σmax ≈ −23,9 MPa</text>
+            <circle class="plot-point-alt" cx="235" cy="85" r="4"></circle>
+            <text class="label-soft" x="241" y="90" text-anchor="start">0</text>
+            <text class="axis-label" x="235" y="28" text-anchor="middle">y</text>
+            <text class="axis-label" x="305" y="89" text-anchor="start">σ</text>
+
+            <!-- séparateur -->
+            <line class="grid-line" x1="330" y1="8" x2="330" y2="165"></line>
+
+            <!-- ===== BLOC 2 : TORSION ===== -->
+            <text class="annotation-label" x="500" y="18" text-anchor="middle">TORSION — cisaillement τ(r)</text>
+
+            <!-- section circulaire -->
+            <circle class="frame-line" cx="430" cy="85" r="45" fill="none"></circle>
+            <line class="guide-line" x1="430" y1="85" x2="430" y2="40"></line>
+            <circle class="plot-point-alt" cx="430" cy="85" r="4"></circle>
+            <text class="label-soft" x="430" y="103" text-anchor="middle">r = 0 : τ = 0</text>
+            <circle class="plot-point" cx="430" cy="40" r="4"></circle>
+            <text class="annotation-label" x="430" y="28" text-anchor="middle">R (périphérie)</text>
+
+            <!-- contraintes tangentielles croissant avec r -->
+            <line class="curve-main" x1="430" y1="70" x2="439" y2="70" marker-end="url(#rdm-arrow-avancee)"></line>
+            <line class="curve-main" x1="430" y1="55" x2="448" y2="55" marker-end="url(#rdm-arrow-avancee)"></line>
+            <line class="curve-main" x1="430" y1="40" x2="457" y2="40" marker-end="url(#rdm-arrow-avancee)"></line>
+
+            <!-- graphe tau(r) -->
+            <line class="axis" x1="520" y1="125" x2="520" y2="35"></line>
+            <line class="axis" x1="520" y1="125" x2="610" y2="125"></line>
+            <line class="curve-main" x1="520" y1="125" x2="600" y2="40"></line>
+            <circle class="plot-point-alt" cx="520" cy="125" r="4"></circle>
+            <text class="label-soft" x="512" y="130" text-anchor="end">0</text>
+            <circle class="plot-point" cx="600" cy="40" r="4"></circle>
+            <text class="annotation-label" x="605" y="36" text-anchor="start">τmax ≈ 19,9 MPa</text>
+            <text class="axis-label" x="520" y="28" text-anchor="middle">τ</text>
+            <text class="axis-label" x="615" y="130" text-anchor="start">r</text>
+            <text class="tick-label" x="600" y="138" text-anchor="middle">R</text>
+          </svg>
+        `,
+        notes: [
+          'En flexion, $\\sigma(y) = M_f \\cdot y / I_{Gz}$ est proportionnelle à $y$ : nulle sur la fibre neutre, maximale aux fibres extrêmes. Avec l\'exemple du cours ($d = 40$ mm, $M_f = 150$ N·m) : $\\sigma_{\\max} = 32\\,M_f/(\\pi d^3) \\approx 23{,}9$ MPa.',
+          'En torsion, $\\tau(r) = M_t \\cdot r / I_0$ est proportionnelle à $r$ (distance au centre) : nulle sur l\'axe, maximale à la périphérie. Avec $M_t = 250$ N·m : $\\tau_{\\max} = 16\\,M_t/(\\pi d^3) \\approx 19{,}9$ MPa.',
+          'La flexion crée des contraintes de signes opposés de part et d\'autre de la fibre neutre (traction/compression) ; la torsion ne change pas de signe : c\'est une contrainte tangentielle, la même dans toutes les directions autour du centre à un rayon donné.',
+          'Ces deux répartitions se combinent dans le critère de Von Mises : $\\sigma_{\\text{VM}} = \\sqrt{\\sigma_{\\max}^2 + 3\\tau_{\\max}^2} \\approx 41{,}9$ MPa pour cet arbre (cf. exemple du cours).'
+        ],
+        reading: 'Repère d\'abord le point où chaque contrainte s\'annule (fibre neutre pour σ, centre pour τ), puis suis la droite jusqu\'à la valeur maximale, aux fibres extrêmes ou à la périphérie.',
+        caption: 'Répartition linéaire de la contrainte normale σ(y) en flexion et de la contrainte de cisaillement τ(r) en torsion, pour l\'arbre de l\'exemple du cours (d = 40 mm, Mf = 150 N·m, Mt = 250 N·m).'
+      },
       recap: [
         'La flexion crée des contraintes normales $\\sigma$ maximales aux fibres extrêmes, nulles à l\'axe neutre.',
         'Le cisaillement crée des contraintes tangentielles $\\tau$ maximales à l\'axe neutre.',

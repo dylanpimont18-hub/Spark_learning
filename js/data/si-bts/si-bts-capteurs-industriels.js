@@ -48,7 +48,85 @@ window.MODULES.push({
         '$u = \\dfrac{\\sigma}{\\sqrt{n}}$ (incertitude type A)',
         '$U = 2u$ (incertitude élargie, 95%)'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">Type de capteur</th><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">Mesurande</th><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">Étendue typique</th><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">Sensibilité typique</th></tr><tr><td style="border:1px solid var(--border);padding:8px">Pt100 (résistif)</td><td style="border:1px solid var(--border);padding:8px">Température</td><td style="border:1px solid var(--border);padding:8px">$-200$ à $+850$ °C</td><td style="border:1px solid var(--border);padding:8px">$0{,}385$ Ω/°C</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Jauge de contrainte</td><td style="border:1px solid var(--border);padding:8px">Déformation / Force</td><td style="border:1px solid var(--border);padding:8px">$0$ à $2000$ $\\mu\\varepsilon$</td><td style="border:1px solid var(--border);padding:8px">$k \\approx 2$ (facteur de jauge)</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Piézoélectrique</td><td style="border:1px solid var(--border);padding:8px">Pression / Accélération</td><td style="border:1px solid var(--border);padding:8px">$0$ à $700$ bar</td><td style="border:1px solid var(--border);padding:8px">$\\approx 5$ pC/bar</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Codeur incrémental</td><td style="border:1px solid var(--border);padding:8px">Position / Vitesse</td><td style="border:1px solid var(--border);padding:8px">360° (continu)</td><td style="border:1px solid var(--border);padding:8px">$1000$ à $10000$ pts/tour</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Pont de Wheatstone',
+        title: 'Trois résistances fixes $R_0$, une branche capteur variable',
+        description: 'Le pont mesure une variation de résistance $\\Delta R$ (donc une tension $\\Delta V$) autour d\'une résistance de référence $R_0$. Ici : trois résistances fixes $R_0 = 100$ Ω et une sonde Pt100 comme quatrième branche.',
+        svg: `
+          <svg viewBox="0 0 600 380" role="img" aria-labelledby="wheatstone-graph-title wheatstone-graph-desc">
+            <title id="wheatstone-graph-title">Pont de Wheatstone avec capteur Pt100</title>
+            <desc id="wheatstone-graph-desc">Schema en losange a quatre resistances : trois resistances fixes de 100 ohms (traits pleins) et une resistance variable, le capteur Pt100, en trait pointille. La source de tension E alimente la diagonale verticale ; le galvanometre mesure la tension de desequilibre Delta V sur la diagonale horizontale.</desc>
+
+            <!-- branches (fils) -->
+            <line class="frame-line" x1="300" y1="70" x2="200" y2="190"></line>
+            <line class="frame-line" x1="300" y1="70" x2="400" y2="190"></line>
+            <line class="frame-line" x1="400" y1="190" x2="300" y2="310"></line>
+            <line class="frame-line" x1="200" y1="190" x2="300" y2="310"></line>
+
+            <!-- diagonale d'alimentation E (verticale), coupee au niveau du galvanometre -->
+            <line class="frame-line" x1="300" y1="70" x2="300" y2="174"></line>
+            <line class="frame-line" x1="300" y1="206" x2="300" y2="310"></line>
+
+            <!-- diagonale de mesure (horizontale), coupee au niveau du galvanometre -->
+            <line class="frame-line" x1="200" y1="190" x2="284" y2="190"></line>
+            <line class="frame-line" x1="316" y1="190" x2="400" y2="190"></line>
+
+            <!-- galvanometre / voltmetre au centre -->
+            <circle class="frame-line" cx="300" cy="190" r="16" fill="var(--bg-card)"></circle>
+            <text class="label-soft" x="300" y="194" text-anchor="middle">mV</text>
+            <text class="annotation-label" x="320" y="216" text-anchor="start">ΔV (mesure)</text>
+
+            <!-- source E -->
+            <line x1="280" y1="262" x2="320" y2="262" stroke="color-mix(in srgb, var(--text) 80%, var(--diagram-accent))" stroke-width="1.6"></line>
+            <line x1="288" y1="270" x2="312" y2="270" stroke="color-mix(in srgb, var(--text) 80%, var(--diagram-accent))" stroke-width="4"></line>
+            <text class="annotation-label" x="330" y="270" text-anchor="start">E = 10 V</text>
+
+            <!-- resistances fixes -->
+            <rect class="frame-line" x="328" y="121" width="44" height="18" transform="rotate(50.2 350 130)" fill="color-mix(in srgb, var(--diagram-accent) 20%, var(--bg-card))"></rect>
+            <rect class="frame-line" x="328" y="241" width="44" height="18" transform="rotate(129.8 350 250)" fill="color-mix(in srgb, var(--diagram-accent) 20%, var(--bg-card))"></rect>
+            <rect class="frame-line" x="228" y="241" width="44" height="18" transform="rotate(50.2 250 250)" fill="color-mix(in srgb, var(--diagram-accent) 20%, var(--bg-card))"></rect>
+
+            <!-- capteur variable (pointille) -->
+            <rect class="guide-line" x="228" y="121" width="44" height="18" transform="rotate(129.8 250 130)" fill="color-mix(in srgb, var(--diagram-accent) 40%, var(--bg-card))"></rect>
+
+            <!-- noeuds -->
+            <circle class="plot-point-alt" cx="300" cy="70" r="4"></circle>
+            <circle class="plot-point-alt" cx="400" cy="190" r="4"></circle>
+            <circle class="plot-point-alt" cx="300" cy="310" r="4"></circle>
+            <circle class="plot-point-alt" cx="200" cy="190" r="4"></circle>
+
+            <!-- etiquettes + lignes de rappel -->
+            <line class="guide-line" x1="150" y1="108" x2="235" y2="122"></line>
+            <text class="annotation-label" x="110" y="100" text-anchor="middle">Capteur Pt100</text>
+            <text class="label-soft" x="110" y="116" text-anchor="middle">R(T) = R0 + ΔR (variable)</text>
+
+            <line class="guide-line" x1="450" y1="108" x2="345" y2="122"></line>
+            <text class="annotation-label" x="490" y="100" text-anchor="middle">R2</text>
+            <text class="label-soft" x="490" y="116" text-anchor="middle">R = 100 Ω (fixe)</text>
+
+            <line class="guide-line" x1="450" y1="272" x2="345" y2="258"></line>
+            <text class="annotation-label" x="490" y="268" text-anchor="middle">R3</text>
+            <text class="label-soft" x="490" y="284" text-anchor="middle">R = 100 Ω (fixe)</text>
+
+            <line class="guide-line" x1="150" y1="272" x2="235" y2="258"></line>
+            <text class="annotation-label" x="110" y="268" text-anchor="middle">R4</text>
+            <text class="label-soft" x="110" y="284" text-anchor="middle">R = 100 Ω (fixe)</text>
+
+            <!-- formule -->
+            <rect x="140" y="330" width="320" height="34" rx="12" fill="color-mix(in srgb, var(--diagram-accent) 7%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 22%, var(--border))"></rect>
+            <text class="annotation-label" x="155" y="352" text-anchor="start">ΔV ≈ E × ΔR / (4 × R0)</text>
+          </svg>
+        `,
+        notes: [
+          'La source $E = 10$ V alimente la diagonale verticale (haut-bas) ; le galvanomètre/voltmètre mesure la tension de déséquilibre $\\Delta V$ sur la diagonale horizontale (gauche-droite).',
+          'Les trois résistances fixes valent $R_0 = 100$ Ω (traits pleins). La quatrième branche, en pointillé, est le capteur variable : $R(T) = R_0 + \\Delta R$.',
+          'Pour $T = 50$ °C : $\\Delta R = S_{\\text{Pt}} \\times T = 0{,}385 \\times 50 = 19{,}25$ Ω, donc $\\Delta V \\approx E \\cdot \\Delta R / (4R_0) = 10 \\times 19{,}25 / 400 = 0{,}481$ V — exactement la valeur du cours.',
+          'Comme les trois autres branches valent toutes $R_0$, la formule $\\Delta V \\approx E \\Delta R / (4R_0)$ reste valable quelle que soit la branche choisie pour le capteur.'
+        ],
+        reading: 'Repère d\'abord la branche en pointillé : c\'est la seule dont la résistance change (le capteur). Les trois autres, à traits pleins, restent fixes à $R_0$.',
+        caption: 'Pont de Wheatstone : 3 résistances fixes $R_0 = 100$ Ω et un capteur Pt100 variable, alimenté par $E = 10$ V, mesuré par $\\Delta V$.'
+      },
       recap: [
         'La sensibilité $S$ est la pente de la droite d\'étalonnage : $S = \\Delta V / \\Delta X$.',
         'Résolution $\\neq$ précision : la résolution dépend de la technologie, la précision de l\'étalonnage.',

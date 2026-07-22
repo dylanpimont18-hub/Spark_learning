@@ -49,7 +49,74 @@ window.MODULES.push({
         '$\\omega = \\alpha \\cdot t + \\omega_0$ (mouvement uniformément accéléré)',
         '$\\omega = 2\\pi n / 60$ (conversion tr/min → rad/s)'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">Type de torseur</th><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">Résultante</th><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">Moment en $A$</th><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">Exemple</th></tr><tr><td style="border:1px solid var(--border);padding:8px">Translation pure</td><td style="border:1px solid var(--border);padding:8px">$\\vec{\\omega} = \\vec{0}$</td><td style="border:1px solid var(--border);padding:8px">$\\vec{V}(A) = \\vec{V}_0$</td><td style="border:1px solid var(--border);padding:8px">Chariot sur rail</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Rotation pure (axe fixe)</td><td style="border:1px solid var(--border);padding:8px">$\\vec{\\omega} \\neq \\vec{0}$</td><td style="border:1px solid var(--border);padding:8px">$\\vec{V}(I) = \\vec{0}$ (CIR)</td><td style="border:1px solid var(--border);padding:8px">Roue, volant</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Mouvement hélicoïdal</td><td style="border:1px solid var(--border);padding:8px">$\\vec{\\omega} \\neq \\vec{0}$</td><td style="border:1px solid var(--border);padding:8px">$\\vec{V}(A) \\parallel \\vec{\\omega}$</td><td style="border:1px solid var(--border);padding:8px">Vis, hélice</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Construction géométrique du CIR',
+        title: 'Roue qui roule sans glisser : ω = 20 rad/s, R = 0,3 m',
+        description: 'Deux points A (centre) et B (point du bord) de la roue, avec leurs vecteurs vitesse respectifs. Les perpendiculaires à ces vecteurs, tracées depuis A et depuis B, se coupent au point I : c\'est le CIR, confondu ici avec le point de contact au sol.',
+        svg: `
+          <svg viewBox="0 0 400 290" role="img" aria-labelledby="cir-graph-title cir-graph-desc">
+            <title id="cir-graph-title">Construction du CIR d'une roue qui roule sans glisser</title>
+            <desc id="cir-graph-desc">Une roue de centre A roule sans glisser sur un plan horizontal. B est un point du bord de la roue, a la meme hauteur que A. Les vecteurs vitesse en A (horizontal) et en B (oblique) sont traces, ainsi que les perpendiculaires a ces vecteurs issues de A et de B : leur intersection donne le point I, Centre Instantane de Rotation, confondu avec le point de contact au sol.</desc>
+
+            <defs>
+              <marker id="cir-arrow-mecasol" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
+
+            <!-- sol fixe -->
+            <line class="axis" x1="30" y1="230" x2="370" y2="230"></line>
+            <line class="grid-line" x1="45" y1="230" x2="35" y2="242"></line>
+            <line class="grid-line" x1="75" y1="230" x2="65" y2="242"></line>
+            <line class="grid-line" x1="105" y1="230" x2="95" y2="242"></line>
+            <line class="grid-line" x1="135" y1="230" x2="125" y2="242"></line>
+            <line class="grid-line" x1="265" y1="230" x2="255" y2="242"></line>
+            <line class="grid-line" x1="295" y1="230" x2="285" y2="242"></line>
+            <line class="grid-line" x1="325" y1="230" x2="315" y2="242"></line>
+            <line class="grid-line" x1="355" y1="230" x2="345" y2="242"></line>
+            <text class="label-soft" x="30" y="256">sol fixe</text>
+
+            <!-- roue (solide) -->
+            <circle class="frame-line" cx="200" cy="160" r="70" fill="none"></circle>
+
+            <!-- perpendiculaires (construction du CIR) -->
+            <line class="guide-line" x1="200" y1="130" x2="200" y2="255"></line>
+            <line class="guide-line" x1="291" y1="139" x2="179" y2="251"></line>
+
+            <!-- vecteurs vitesse -->
+            <line class="curve-main" x1="200" y1="160" x2="258" y2="160" marker-end="url(#cir-arrow-mecasol)"></line>
+            <line class="curve-main" x1="270" y1="160" x2="326" y2="216" marker-end="url(#cir-arrow-mecasol)"></line>
+
+            <!-- sens de rotation omega (clockwise = roue avancant vers la droite) -->
+            <path class="guide-line" d="M175.6,151.1 A26,26 0 0 1 195.5,134.4" fill="none" marker-end="url(#cir-arrow-mecasol)"></path>
+            <text class="label-soft" x="152" y="152">ω</text>
+
+            <!-- points -->
+            <circle class="plot-point-alt" cx="200" cy="160" r="5"></circle>
+            <circle class="plot-point-alt" cx="270" cy="160" r="5"></circle>
+            <circle class="guide-line" cx="200" cy="230" r="12" fill="none"></circle>
+            <circle class="plot-point" cx="200" cy="230" r="6"></circle>
+
+            <!-- libellés -->
+            <text class="annotation-label" x="182" y="146">A</text>
+            <text class="annotation-label" x="278" y="150">B</text>
+            <text class="annotation-label" x="200" y="252" text-anchor="middle">I ≡ CIR</text>
+            <text class="annotation-label" x="206" y="148">V(A) = 6 m/s</text>
+            <text class="annotation-label" x="290" y="236">V(B) ≈ 8,49 m/s</text>
+            <text class="label-soft" x="204" y="122">⟂ à V(A)</text>
+            <text class="label-soft" x="296" y="132">⟂ à V(B)</text>
+          </svg>
+        `,
+        notes: [
+          'A est le centre de la roue : sa vitesse est horizontale, $V(A) = \\omega \\times R = 20 \\times 0{,}3 = 6$ m/s (translation pure).',
+          'B est un point du bord, à la même hauteur que A : sa vitesse est perpendiculaire au rayon $IB$, de norme $V(B) = \\omega \\times IB = \\omega \\times R\\sqrt{2} \\approx 8{,}49$ m/s.',
+          'La perpendiculaire à $V(A)$ en A et la perpendiculaire à $V(B)$ en B se coupent en $I$ : c\'est le CIR, confondu ici avec le point de contact au sol (roulement sans glissement).',
+          'Vérification croisée : au sommet de la roue (point diamétralement opposé à $I$), $V = 2\\omega R = 12$ m/s, cohérent avec $V(P) = \\omega \\times IP$ pour tout point $P$ du solide.'
+        ],
+        reading: 'Repère d\'abord les deux points dont tu connais la direction de la vitesse (ici A et B), trace les deux perpendiculaires, et lis directement le CIR à leur intersection.',
+        caption: 'Construction du CIR par intersection des perpendiculaires aux vecteurs vitesse de deux points A et B d\'une roue roulant sans glissement (ω = 20 rad/s, R = 0,3 m).'
+      },
       recap: [
         'Le torseur cinématique regroupe $\\vec{\\omega}$ et $\\vec{V}(A)$ : il décrit complètement le mouvement d\'un solide.',
         'La relation de Chasles $\\vec{V}(B) = \\vec{V}(A) + \\vec{\\omega} \\wedge \\vec{AB}$ est la formule fondamentale de la cinématique du solide.',

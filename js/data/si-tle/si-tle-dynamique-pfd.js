@@ -54,7 +54,73 @@ window.MODULES.push({
         '$a = \\dfrac{\\sum F}{m}$ — Accélération en translation'
       ],
 
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr style="background:var(--bg-card);"><th style="border:1px solid var(--border);padding:8px">Solide</th><th style="border:1px solid var(--border);padding:8px">Moment d\'inertie $J_{\\Delta}$</th><th style="border:1px solid var(--border);padding:8px">Axe</th></tr><tr><td style="border:1px solid var(--border);padding:8px">Cylindre plein (rayon $R$)</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{1}{2} m R^2$</td><td style="border:1px solid var(--border);padding:8px">Axe du cylindre</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Sphère pleine (rayon $R$)</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{2}{5} m R^2$</td><td style="border:1px solid var(--border);padding:8px">Diamètre quelconque</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Tige mince (longueur $L$)</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{1}{12} m L^2$</td><td style="border:1px solid var(--border);padding:8px">Axe perpendiculaire passant par le centre</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Disque mince (rayon $R$)</td><td style="border:1px solid var(--border);padding:8px">$\\dfrac{1}{2} m R^2$</td><td style="border:1px solid var(--border);padding:8px">Axe perpendiculaire au disque, passant par le centre</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Anneau mince (rayon $R$)</td><td style="border:1px solid var(--border);padding:8px">$m R^2$</td><td style="border:1px solid var(--border);padding:8px">Axe perpendiculaire passant par le centre</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Bilan des forces — exemple du cours',
+        title: 'Chariot tiré sur un sol horizontal',
+        description: 'Le chariot de <strong>l\'exemple du cours</strong> ($m = 5$ kg, $F = 20$ N, $f = 5$ N) est isolé et son <strong>bilan des forces</strong> est représenté au niveau du centre de masse $G$ : le poids $\\vec{P}$, la réaction normale $\\vec{N}$, la force motrice $\\vec{F}$ et le frottement $\\vec{f}$.',
+        svg: `
+          <svg viewBox="0 0 480 350" role="img" aria-labelledby="pfd-title pfd-desc">
+            <title id="pfd-title">Bilan des forces sur un chariot tire sur un sol horizontal</title>
+            <desc id="pfd-desc">Un chariot de masse m egale 5 kilogrammes repose sur un sol horizontal fixe. Quatre vecteurs partent du centre de masse G : le poids P vers le bas, la reaction normale N vers le haut, de meme longueur que P car il n'y a pas d'acceleration verticale, la force motrice F horizontale vers la droite dans le sens du mouvement, et la force de frottement f horizontale vers la gauche, opposee au mouvement et plus courte que F puisque F vaut 20 newtons et f vaut 5 newtons. Une fleche en pointilles au-dessus du chariot indique le sens du mouvement, vers la droite.</desc>
+
+            <defs>
+              <marker id="arrow-si-tle-pfd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
+
+            <!-- sens du mouvement -->
+            <line class="guide-line" x1="245" y1="110" x2="340" y2="110" marker-end="url(#arrow-si-tle-pfd)"></line>
+            <text class="label-soft" x="292" y="98" text-anchor="middle">sens du mouvement</text>
+
+            <!-- sol horizontal -->
+            <line class="frame-line" x1="40" y1="270" x2="440" y2="270"></line>
+            <line class="grid-line" x1="60" y1="270" x2="46" y2="286"></line>
+            <line class="grid-line" x1="100" y1="270" x2="86" y2="286"></line>
+            <line class="grid-line" x1="140" y1="270" x2="126" y2="286"></line>
+            <line class="grid-line" x1="340" y1="270" x2="326" y2="286"></line>
+            <line class="grid-line" x1="380" y1="270" x2="366" y2="286"></line>
+            <line class="grid-line" x1="420" y1="270" x2="406" y2="286"></line>
+            <text class="label-soft" x="55" y="300">Sol horizontal (référentiel galiléen)</text>
+
+            <!-- axe de reference -->
+            <line class="axis" x1="55" y1="318" x2="105" y2="318" marker-end="url(#arrow-si-tle-pfd)"></line>
+            <text class="axis-label" x="112" y="322">x</text>
+
+            <!-- chariot -->
+            <rect class="frame-line" x="175" y="200" width="140" height="70" fill="color-mix(in srgb, var(--diagram-accent) 10%, var(--bg-card))"></rect>
+            <text class="annotation-label" x="245" y="260" text-anchor="middle">m = 5 kg</text>
+
+            <!-- centre de masse G -->
+            <circle class="plot-point" cx="245" cy="235" r="4"></circle>
+            <text class="label-soft" x="218" y="255" text-anchor="end">G</text>
+
+            <!-- vecteur N (reaction normale) -->
+            <line class="curve-main" x1="245" y1="235" x2="245" y2="165" marker-end="url(#arrow-si-tle-pfd)"></line>
+            <text class="annotation-label" x="245" y="155" text-anchor="middle">N</text>
+
+            <!-- vecteur P (poids) -->
+            <line class="curve-main" x1="245" y1="235" x2="245" y2="305" marker-end="url(#arrow-si-tle-pfd)"></line>
+            <text class="annotation-label" x="245" y="322" text-anchor="middle">P</text>
+
+            <!-- vecteur F (force motrice) -->
+            <line class="curve-main" x1="245" y1="235" x2="335" y2="235" marker-end="url(#arrow-si-tle-pfd)"></line>
+            <text class="annotation-label" x="347" y="240" text-anchor="middle">F</text>
+
+            <!-- vecteur f (frottement) -->
+            <line class="curve-main" x1="245" y1="235" x2="221" y2="235" marker-end="url(#arrow-si-tle-pfd)"></line>
+            <text class="annotation-label" x="212" y="222" text-anchor="middle">f</text>
+          </svg>
+        `,
+        notes: [
+          'Verticalement, le chariot ne décolle pas et ne s\'enfonce pas dans le sol : $\\vec{P}$ et $\\vec{N}$ se compensent exactement, donc $N = P$.',
+          'Horizontalement, $F$ l\'emporte sur $f$ ($20$ N contre $5$ N) : c\'est cet écart $F - f = 15$ N qui produit l\'accélération $a = 3$ m/s² calculée dans l\'exemple du cours.',
+          'Les longueurs des flèches sont schématiques (non strictement à l\'échelle) mais respectent le sens et l\'ordre de grandeur relatif de chaque force.'
+        ],
+        reading: 'Repère d\'abord la flèche en pointillés qui indique le <strong>sens du mouvement</strong>, puis observe les deux couples de forces opposées : $\\vec{P}$ et $\\vec{N}$ à la verticale, $\\vec{F}$ et $\\vec{f}$ à l\'horizontale.',
+        caption: 'Bilan des forces sur le chariot de l\'exemple du cours, isolé sur un sol horizontal supposé galiléen.'
+      },
 
       recap: [
         'Le PFD relie forces et accélération : $\\sum F = m a$ en translation, $\\sum M = J \\alpha$ en rotation.',

@@ -48,7 +48,71 @@ window.MODULES.push({
         '$J_{\\min} = A_{\\min} - B_{\\max}$',
         '$IT_J = \\sum IT_i$ (méthode arithmétique)'
       ],
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">Qualité ISO</th><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">IT ($\\mu$m) pour $\\varnothing$ 50</th><th style="border:1px solid var(--border);padding:8px;background:var(--bg-card)">Usage typique</th></tr><tr><td style="border:1px solid var(--border);padding:8px">IT5</td><td style="border:1px solid var(--border);padding:8px">11</td><td style="border:1px solid var(--border);padding:8px">Roulements, pièces de précision</td></tr><tr><td style="border:1px solid var(--border);padding:8px">IT6</td><td style="border:1px solid var(--border);padding:8px">16</td><td style="border:1px solid var(--border);padding:8px">Arbres de qualité (ajustement $g6$, $h6$)</td></tr><tr><td style="border:1px solid var(--border);padding:8px">IT7</td><td style="border:1px solid var(--border);padding:8px">25</td><td style="border:1px solid var(--border);padding:8px">Alésages de qualité ($H7$)</td></tr><tr><td style="border:1px solid var(--border);padding:8px">IT8</td><td style="border:1px solid var(--border);padding:8px">39</td><td style="border:1px solid var(--border);padding:8px">Pièces mécaniques courantes</td></tr><tr><td style="border:1px solid var(--border);padding:8px">IT9</td><td style="border:1px solid var(--border);padding:8px">62</td><td style="border:1px solid var(--border);padding:8px">Pièces usinées ordinaires</td></tr><tr><td style="border:1px solid var(--border);padding:8px">IT11</td><td style="border:1px solid var(--border);padding:8px">160</td><td style="border:1px solid var(--border);padding:8px">Cotes libres, tôlerie</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Ajustement H7/g6',
+        title: 'Coupe et zones de tolérance : alésage ⌀50 H7, arbre ⌀50 g6',
+        description: 'En haut, la coupe de principe (jeu très exagéré pour la lisibilité). En bas, le diagramme des zones de tolérance : il donne directement $J_{\\min}$ et $J_{\\max}$ en comparant les zones de l\'alésage et de l\'arbre autour de la cote nominale.',
+        svg: `
+          <svg viewBox="0 0 620 430" role="img" aria-labelledby="cao-graph-title cao-graph-desc">
+            <title id="cao-graph-title">Ajustement H7/g6 : coupe et zones de tolerance</title>
+            <desc id="cao-graph-desc">En haut, coupe schematique d'un alesage et d'un arbre concentriques avec un jeu visible (echelle exageree). En bas, diagramme des zones de tolerance : la zone de l'alesage H7 (0 a +25 micrometres) et la zone de l'arbre g6 (-9 a -25 micrometres) de part et d'autre de la cote nominale, avec les jeux minimal et maximal cotes.</desc>
+
+            <defs>
+              <marker id="dim-arrow-cao" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="color-mix(in srgb, var(--text) 80%, var(--diagram-accent))"></path>
+              </marker>
+            </defs>
+
+            <!-- Coupe schematique : alesage et arbre concentriques (jeu exagere pour lisibilite) -->
+            <circle class="frame-line" cx="150" cy="100" r="70" fill="color-mix(in srgb, var(--diagram-accent) 10%, var(--bg-card))"></circle>
+            <circle class="frame-line" cx="150" cy="115" r="55" fill="color-mix(in srgb, var(--diagram-accent) 45%, var(--bg-card))"></circle>
+
+            <line x1="150" y1="32" x2="150" y2="58" stroke="color-mix(in srgb, var(--text) 80%, var(--diagram-accent))" stroke-width="1.4" marker-start="url(#dim-arrow-cao)" marker-end="url(#dim-arrow-cao)"></line>
+            <text class="label-soft" x="165" y="42">jeu diamétral</text>
+            <text class="label-soft" x="165" y="54">(échelle exagérée)</text>
+
+            <text class="annotation-label" x="150" y="18" text-anchor="middle">Alésage ⌀50 H7</text>
+            <text class="label-soft" x="150" y="182" text-anchor="middle">(contact en bas, jeu visible en haut)</text>
+            <text class="annotation-label" x="150" y="197" text-anchor="middle">Arbre ⌀50 g6</text>
+
+            <!-- Diagramme des zones de tolerance -->
+            <line class="axis" x1="140" y1="250" x2="140" y2="392"></line>
+            <line class="axis" x1="140" y1="320" x2="520" y2="320"></line>
+
+            <line x1="133" y1="265" x2="147" y2="265" stroke="var(--text-muted)" stroke-width="1.2"></line>
+            <text class="tick-label" x="125" y="269" text-anchor="end">+25</text>
+            <text class="tick-label" x="125" y="324" text-anchor="end">0</text>
+            <line x1="133" y1="340" x2="147" y2="340" stroke="var(--text-muted)" stroke-width="1.2"></line>
+            <text class="tick-label" x="125" y="344" text-anchor="end">-9</text>
+            <line x1="133" y1="375" x2="147" y2="375" stroke="var(--text-muted)" stroke-width="1.2"></line>
+            <text class="tick-label" x="125" y="379" text-anchor="end">-25</text>
+            <text class="tick-label" x="120" y="243" text-anchor="end">µm</text>
+
+            <rect class="frame-line" x="260" y="265" width="140" height="55" fill="color-mix(in srgb, var(--diagram-accent) 20%, transparent)"></rect>
+            <rect class="frame-line" x="260" y="340" width="140" height="35" fill="color-mix(in srgb, var(--diagram-accent) 45%, transparent)"></rect>
+
+            <text class="label-soft" x="330" y="255" text-anchor="middle">Alésage ⌀50 H7 — IT7 = 25 µm</text>
+            <text class="label-soft" x="330" y="398" text-anchor="middle">Arbre ⌀50 g6 — IT6 = 16 µm</text>
+
+            <text class="label-soft" x="150" y="312" text-anchor="start">Cote nominale ⌀50 (écart = 0)</text>
+
+            <line x1="430" y1="320" x2="430" y2="340" stroke="color-mix(in srgb, var(--text) 80%, var(--diagram-accent))" stroke-width="1.4" marker-start="url(#dim-arrow-cao)" marker-end="url(#dim-arrow-cao)"></line>
+            <text class="annotation-label" x="445" y="333" text-anchor="start">Jmin = 9 µm</text>
+
+            <line x1="490" y1="265" x2="490" y2="375" stroke="color-mix(in srgb, var(--text) 80%, var(--diagram-accent))" stroke-width="1.4" marker-start="url(#dim-arrow-cao)" marker-end="url(#dim-arrow-cao)"></line>
+            <text class="annotation-label" x="505" y="323" text-anchor="start">Jmax = 50 µm</text>
+          </svg>
+        `,
+        notes: [
+          'L\'alésage $H7$ occupe la zone $[0\\,;\\,+25]$ µm au-dessus de la cote nominale (IT7 = 25 µm) : $A_{\\min} = 50{,}000$ mm, $A_{\\max} = 50{,}025$ mm.',
+          'L\'arbre $g6$ occupe la zone $[-25\\,;\\,-9]$ µm en dessous (IT6 = 16 µm) : $B_{\\min} = 49{,}975$ mm, $B_{\\max} = 49{,}991$ mm.',
+          'L\'écart entre le bas de la zone alésage (0) et le haut de la zone arbre ($-9$) donne $J_{\\min} = A_{\\min} - B_{\\max} = 9$ µm.',
+          'L\'écart entre le haut de la zone alésage ($+25$) et le bas de la zone arbre ($-25$) donne $J_{\\max} = A_{\\max} - B_{\\min} = 50$ µm, avec $IT_J = 41$ µm $= IT7 + IT6$. ✓'
+        ],
+        reading: 'Les deux zones ne se touchent jamais (l\'alésage reste toujours au-dessus de l\'arbre) : c\'est ce qui garantit un jeu toujours positif, donc un ajustement tournant libre.',
+        caption: 'Ajustement ⌀50 H7/g6 : $J_{\\min} = 9$ µm, $J_{\\max} = 50$ µm (jeu toujours positif).'
+      },
       recap: [
         'La cotation fonctionnelle ne retient que les cotes nécessaires au fonctionnement.',
         '$IT = c_{\\max} - c_{\\min}$ : plus l\'IT est serré, plus c\'est coûteux.',

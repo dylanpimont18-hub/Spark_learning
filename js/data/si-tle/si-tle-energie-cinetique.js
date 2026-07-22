@@ -54,7 +54,61 @@ window.MODULES.push({
         '$d_{\\text{arrêt}} = \\dfrac{m v_i^2}{2 F_f}$ — Distance d\'arrêt (freinage pur)'
       ],
 
-      diagram: '<table style="border-collapse:collapse;text-align:center;margin:auto;width:100%"><tr style="background:var(--bg-card);"><th style="border:1px solid var(--border);padding:8px">Grandeur</th><th style="border:1px solid var(--border);padding:8px">Translation</th><th style="border:1px solid var(--border);padding:8px">Rotation</th></tr><tr><td style="border:1px solid var(--border);padding:8px">Énergie cinétique</td><td style="border:1px solid var(--border);padding:8px">$E_c = \\frac{1}{2} m v^2$</td><td style="border:1px solid var(--border);padding:8px">$E_c = \\frac{1}{2} J \\omega^2$</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Paramètre d\'inertie</td><td style="border:1px solid var(--border);padding:8px">Masse $m$ (kg)</td><td style="border:1px solid var(--border);padding:8px">Moment d\'inertie $J$ (kg·m²)</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Paramètre cinématique</td><td style="border:1px solid var(--border);padding:8px">Vitesse $v$ (m/s)</td><td style="border:1px solid var(--border);padding:8px">Vitesse angulaire $\\omega$ (rad/s)</td></tr><tr><td style="border:1px solid var(--border);padding:8px">Travail / Puissance</td><td style="border:1px solid var(--border);padding:8px">$W = F \\cdot d \\cdot \\cos \\alpha$</td><td style="border:1px solid var(--border);padding:8px">$W = M \\cdot \\theta$</td></tr></table>',
+      diagram: {
+        theme: 'si',
+        kicker: 'Distance de freinage',
+        title: 'Doubler la vitesse quadruple la distance de freinage',
+        description: 'Courbe $d(v) = v^2/(2a)$ tracée à partir des valeurs de l\'exemple du cours ($m = 1\\,000$ kg, $F_f = 5\\,000$ N, donc $a = F_f/m = 5$ m/s²). Deux points sont marqués : $v = 20$ m/s (l\'exemple du cours, $d = 40$ m) et $v = 40$ m/s, vitesse doublée, qui donne $d = 160$ m — exactement $4$ fois plus.',
+        svg: `
+          <svg viewBox="0 0 420 340" role="img" aria-labelledby="ec-diagram-title ec-diagram-desc">
+            <title id="ec-diagram-title">Distance de freinage en fonction de la vitesse : d(v) = v au carre / (2a)</title>
+            <desc id="ec-diagram-desc">Courbe parabolique d(v) tracee avec a = 5 m/s carre (m = 1000 kg, force de freinage 5000 N, exemple du cours). Point a v = 20 m/s : d = 40 m. Point a v = 40 m/s, vitesse doublee : d = 160 m, soit une distance quadruplee, ce qui illustre que d est proportionnelle au carre de la vitesse et non a la vitesse.</desc>
+
+            <rect class="frame-line" x="60" y="40" width="320" height="240" fill="none"></rect>
+
+            <line class="grid-line" x1="60" y1="234.3" x2="380" y2="234.3"></line>
+            <line class="grid-line" x1="60" y1="188.6" x2="380" y2="188.6"></line>
+            <line class="grid-line" x1="60" y1="142.9" x2="380" y2="142.9"></line>
+            <line class="grid-line" x1="60" y1="97.1" x2="380" y2="97.1"></line>
+            <line class="grid-line" x1="60" y1="51.4" x2="380" y2="51.4"></line>
+
+            <polyline class="curve-main" points="60.0,280.0 77.8,279.3 95.6,277.1 113.3,273.6 131.1,268.6 148.9,262.1 166.7,254.3 184.4,245.0 202.2,234.3 220.0,222.1 237.8,208.6 255.6,193.6 273.3,177.1 291.1,159.3 308.9,140.0 326.7,119.3 344.4,97.1 362.2,73.6 380.0,48.6"></polyline>
+
+            <line class="guide-line" x1="202.2" y1="234.3" x2="202.2" y2="280"></line>
+            <line class="guide-line" x1="60" y1="234.3" x2="202.2" y2="234.3"></line>
+            <circle class="plot-point" cx="202.2" cy="234.3" r="5"></circle>
+
+            <line class="guide-line" x1="344.4" y1="97.1" x2="344.4" y2="280"></line>
+            <line class="guide-line" x1="60" y1="97.1" x2="344.4" y2="97.1"></line>
+            <circle class="plot-point-alt" cx="344.4" cy="97.1" r="5"></circle>
+
+            <text class="annotation-label" x="150" y="60" text-anchor="middle">v : 20 → 40 m/s (× 2)</text>
+            <text class="annotation-label" x="150" y="78" text-anchor="middle">d : 40 → 160 m (× 4)</text>
+
+            <text class="tick-label" x="60" y="300" text-anchor="middle">0</text>
+            <text class="tick-label" x="131.1" y="300" text-anchor="middle">10</text>
+            <text class="tick-label" x="202.2" y="300" text-anchor="middle">20</text>
+            <text class="tick-label" x="273.3" y="300" text-anchor="middle">30</text>
+            <text class="tick-label" x="344.4" y="300" text-anchor="middle">40</text>
+            <text class="axis-label" x="220" y="320" text-anchor="middle">v (m/s)</text>
+
+            <text class="tick-label" x="50" y="284" text-anchor="end">0</text>
+            <text class="tick-label" x="50" y="238.3" text-anchor="end">40</text>
+            <text class="tick-label" x="50" y="192.6" text-anchor="end">80</text>
+            <text class="tick-label" x="50" y="146.9" text-anchor="end">120</text>
+            <text class="tick-label" x="50" y="101.1" text-anchor="end">160</text>
+            <text class="tick-label" x="50" y="55.4" text-anchor="end">200</text>
+            <text class="axis-label" x="18" y="160" text-anchor="middle" transform="rotate(-90 18 160)">d (m)</text>
+          </svg>
+        `,
+        notes: [
+          'Vérification indépendante : $a = F_f/m = 5\\,000/1\\,000 = 5$ m/s². Pour $v=20$ m/s, $d = v^2/(2a) = 400/10 = 40$ m — exactement la valeur de l\'exemple du cours.',
+          'Pour $v=40$ m/s (vitesse doublée), $d = 1\\,600/10 = 160$ m, soit $4$ fois la distance à $20$ m/s : $d$ est proportionnelle à $v^2$, pas à $v$.',
+          'La courbe est calculée point par point (19 valeurs régulièrement espacées entre $0$ et $45$ m/s) à partir de la même formule que le cours, pas une esquisse approximative.'
+        ],
+        reading: 'Repère d\'abord le point à $v=20$ m/s (l\'exemple du cours), puis celui à $v=40$ m/s : la distance n\'a pas doublé mais quadruplé, alors que la vitesse n\'a fait que doubler.',
+        caption: 'Distance de freinage $d(v) = v^2/(2a)$ avec $a=5$ m/s² : doubler $v$ (de $20$ à $40$ m/s) quadruple $d$ (de $40$ à $160$ m).'
+      },
 
       recap: [
         'L\'énergie cinétique est proportionnelle à $v^2$ : doubler la vitesse quadruple l\'énergie (et la distance de freinage).',
