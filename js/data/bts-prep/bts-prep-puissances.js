@@ -62,7 +62,88 @@ window.MODULES.push({
       'G = $10^9$, M = $10^6$, k = $10^3$, m = $10^{-3}$, μ = $10^{-6}$, n = $10^{-9}$'
     ],
 
-    diagram: '<table style="width:100%;border-collapse:collapse;text-align:center;font-size:0.88rem"><tr style="background:var(--bg-card)"><th style="border:1px solid var(--border);padding:7px">Préfixe</th><th style="border:1px solid var(--border);padding:7px">Symbole</th><th style="border:1px solid var(--border);padding:7px">Puissance</th><th style="border:1px solid var(--border);padding:7px">Exemple BTS</th></tr><tr><td style="border:1px solid var(--border);padding:6px">giga</td><td style="border:1px solid var(--border);padding:6px">G</td><td style="border:1px solid var(--border);padding:6px">$10^9$</td><td style="border:1px solid var(--border);padding:6px">1 GW (centrale électrique)</td></tr><tr><td style="border:1px solid var(--border);padding:6px">méga</td><td style="border:1px solid var(--border);padding:6px">M</td><td style="border:1px solid var(--border);padding:6px">$10^6$</td><td style="border:1px solid var(--border);padding:6px">1 MΩ (isolant)</td></tr><tr><td style="border:1px solid var(--border);padding:6px">kilo</td><td style="border:1px solid var(--border);padding:6px">k</td><td style="border:1px solid var(--border);padding:6px">$10^3$</td><td style="border:1px solid var(--border);padding:6px">4{,}7 kΩ, 10 kW</td></tr><tr><td style="border:1px solid var(--border);padding:6px">milli</td><td style="border:1px solid var(--border);padding:6px">m</td><td style="border:1px solid var(--border);padding:6px">$10^{-3}$</td><td style="border:1px solid var(--border);padding:6px">50 mA, 0{,}5 mm</td></tr><tr><td style="border:1px solid var(--border);padding:6px">micro</td><td style="border:1px solid var(--border);padding:6px">μ</td><td style="border:1px solid var(--border);padding:6px">$10^{-6}$</td><td style="border:1px solid var(--border);padding:6px">100 μF, 2{,}5 mm²</td></tr><tr><td style="border:1px solid var(--border);padding:6px">nano</td><td style="border:1px solid var(--border);padding:6px">n</td><td style="border:1px solid var(--border);padding:6px">$10^{-9}$</td><td style="border:1px solid var(--border);padding:6px">10 nF (électronique)</td></tr></table>',
+    diagram: {
+      theme: 'maths',
+      kicker: 'Ordres de grandeur en électrotechnique',
+      title: 'Échelle logarithmique de $10^{-12}$ à $10^{12}$ — les préfixes SI',
+      description: 'Chaque repère est un préfixe SI cité dans le cours (de pico à téra), avec les exemples numériques réellement utilisés : résistivité du cuivre, capacités, courant, résistances et puissances.',
+      svg: `
+        <svg viewBox="0 0 480 210" role="img" aria-labelledby="bts-puissances-echelle-title bts-puissances-echelle-desc">
+          <title id="bts-puissances-echelle-title">Echelle logarithmique des prefixes SI de pico a tera</title>
+          <desc id="bts-puissances-echelle-desc">Un axe gradue de 10 puissance -12 a 10 puissance 12 place les neuf prefixes SI (pico, nano, micro, milli, base, kilo, mega, giga, tera) et sept exemples numeriques cites dans le cours : nanofarad, resistivite du cuivre a 10 puissance -8, microfarad, milliampere et millimetre, kilohm et kilowatt, megohm, gigawatt.</desc>
+          <line class="grid-line" x1="55.0" y1="40" x2="55.0" y2="130"></line>
+          <line class="grid-line" x1="101.3" y1="40" x2="101.3" y2="130"></line>
+          <line class="grid-line" x1="147.5" y1="40" x2="147.5" y2="130"></line>
+          <line class="grid-line" x1="193.8" y1="40" x2="193.8" y2="130"></line>
+          <line class="grid-line" x1="240.0" y1="40" x2="240.0" y2="130"></line>
+          <line class="grid-line" x1="286.3" y1="40" x2="286.3" y2="130"></line>
+          <line class="grid-line" x1="332.5" y1="40" x2="332.5" y2="130"></line>
+          <line class="grid-line" x1="378.8" y1="40" x2="378.8" y2="130"></line>
+          <line class="grid-line" x1="425.0" y1="40" x2="425.0" y2="130"></line>
+          <line class="axis" x1="40" y1="130" x2="440" y2="130"></line>
+          <line class="axis" x1="55.0" y1="130" x2="55.0" y2="136"></line>
+          <line class="axis" x1="101.3" y1="130" x2="101.3" y2="136"></line>
+          <line class="axis" x1="147.5" y1="130" x2="147.5" y2="136"></line>
+          <line class="axis" x1="193.8" y1="130" x2="193.8" y2="136"></line>
+          <line class="axis" x1="240.0" y1="130" x2="240.0" y2="136"></line>
+          <line class="axis" x1="286.3" y1="130" x2="286.3" y2="136"></line>
+          <line class="axis" x1="332.5" y1="130" x2="332.5" y2="136"></line>
+          <line class="axis" x1="378.8" y1="130" x2="378.8" y2="136"></line>
+          <line class="axis" x1="425.0" y1="130" x2="425.0" y2="136"></line>
+          <text class="label" x="55.0" y="150" text-anchor="middle">p</text>
+          <text class="label" x="101.3" y="150" text-anchor="middle">n</text>
+          <text class="label" x="147.5" y="150" text-anchor="middle">μ</text>
+          <text class="label" x="193.8" y="150" text-anchor="middle">m</text>
+          <text class="label" x="240.0" y="150" text-anchor="middle">base</text>
+          <text class="label" x="286.3" y="150" text-anchor="middle">k</text>
+          <text class="label" x="332.5" y="150" text-anchor="middle">M</text>
+          <text class="label" x="378.8" y="150" text-anchor="middle">G</text>
+          <text class="label" x="425.0" y="150" text-anchor="middle">T</text>
+          <text class="tick-label" x="55.0" y="167" text-anchor="middle">10⁻¹²</text>
+          <text class="tick-label" x="101.3" y="167" text-anchor="middle">10⁻⁹</text>
+          <text class="tick-label" x="147.5" y="167" text-anchor="middle">10⁻⁶</text>
+          <text class="tick-label" x="193.8" y="167" text-anchor="middle">10⁻³</text>
+          <text class="tick-label" x="240.0" y="167" text-anchor="middle">10⁰</text>
+          <text class="tick-label" x="286.3" y="167" text-anchor="middle">10³</text>
+          <text class="tick-label" x="332.5" y="167" text-anchor="middle">10⁶</text>
+          <text class="tick-label" x="378.8" y="167" text-anchor="middle">10⁹</text>
+          <text class="tick-label" x="425.0" y="167" text-anchor="middle">10¹²</text>
+          <text class="axis-label" x="440" y="190" text-anchor="end">Echelle log — facteur 1000 entre prefixes voisins</text>
+          <line class="guide-line" x1="101.3" y1="64" x2="101.3" y2="130"></line>
+          <line class="guide-line" x1="116.7" y1="86" x2="116.7" y2="130"></line>
+          <line class="guide-line" x1="147.5" y1="64" x2="147.5" y2="130"></line>
+          <line class="guide-line" x1="193.8" y1="86" x2="193.8" y2="130"></line>
+          <line class="guide-line" x1="286.3" y1="64" x2="286.3" y2="130"></line>
+          <line class="guide-line" x1="332.5" y1="86" x2="332.5" y2="130"></line>
+          <line class="guide-line" x1="378.8" y1="64" x2="378.8" y2="130"></line>
+          <circle class="plot-point" cx="101.3" cy="130" r="4"></circle>
+          <circle class="plot-point" cx="116.7" cy="130" r="4"></circle>
+          <circle class="plot-point" cx="147.5" cy="130" r="4"></circle>
+          <circle class="plot-point" cx="193.8" cy="130" r="4"></circle>
+          <circle class="plot-point" cx="286.3" cy="130" r="4"></circle>
+          <circle class="plot-point" cx="332.5" cy="130" r="4"></circle>
+          <circle class="plot-point" cx="378.8" cy="130" r="4"></circle>
+          <text class="annotation-label" x="101.3" y="58" text-anchor="middle">10 nF</text>
+          <text class="annotation-label" x="116.7" y="80" text-anchor="middle">ρ:10⁻⁸</text>
+          <text class="annotation-label" x="147.5" y="58" text-anchor="middle">100 μF</text>
+          <text class="annotation-label" x="193.8" y="80" text-anchor="middle">50mA/0,5mm</text>
+          <text class="annotation-label" x="286.3" y="58" text-anchor="middle">4,7kΩ/10kW</text>
+          <text class="annotation-label" x="332.5" y="80" text-anchor="middle">1 MΩ</text>
+          <text class="annotation-label" x="378.8" y="58" text-anchor="middle">1 GW</text>
+        </svg>
+      `,
+      notes: [
+        'Le <strong>nanofarad (nF)</strong> illustre le préfixe nano ($10^{-9}$) : $10$ nF, valeur typique en électronique.',
+        'La <strong>résistivité du cuivre</strong> $\\rho = 1{,}7 \\times 10^{-8}$ Ω·m (donnée de l\'exemple du cours) se situe entre nano et micro.',
+        'Le <strong>microfarad (μF)</strong> illustre le préfixe micro ($10^{-6}$) : $100$ μF, valeur typique d\'un condensateur de filtrage.',
+        'Le préfixe <strong>milli</strong> ($10^{-3}$) regroupe deux exemples du cours : un courant $I = 50$ mA et une longueur $0{,}5$ mm.',
+        'Le préfixe <strong>kilo</strong> ($10^3$) regroupe $4{,}7$ kΩ (résistance) et $10$ kW (puissance), cités dans le cours.',
+        'Le <strong>mégohm (MΩ)</strong> illustre le préfixe méga ($10^6$), utilisé pour une résistance d\'isolement.',
+        'Le <strong>gigawatt (GW)</strong> illustre le préfixe giga ($10^9$), échelle d\'une centrale électrique.'
+      ],
+      reading: 'Chaque graduation multiplie par $1000$ ($10^3$) : c\'est l\'écart entre deux préfixes SI consécutifs (pico → nano → micro → milli → base → kilo → méga → giga → téra). Les préfixes pico et téra bornent l\'axe pour situer les six exemples numériques réellement traités dans ce cours.',
+      caption: 'Échelle logarithmique de $10^{-12}$ à $10^{12}$ avec les préfixes SI et les exemples numériques du cours (résistivité, capacités, courant, résistances, puissances).'
+    },
 
     recap: [
       'Avant tout calcul, convertir toutes les grandeurs en unités de base SI (m, kg, s, A, K…).',

@@ -74,23 +74,49 @@ Si $a \\cdot e^{bx} = c$ → $e^{bx} = c/a$ → $bx = \\ln(c/a)$ → $x = \\ln(c
       '<strong>Demi-vie</strong> : $t_{1/2} = \\dfrac{\\ln 2}{k} \\approx \\dfrac{0{,}693}{k}$',
     ],
 
-    diagram: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:10px;padding:20px;font-family:monospace;font-size:0.88rem;line-height:1.8">
-<div style="font-weight:700;margin-bottom:10px;font-family:sans-serif">Charge d'un condensateur RC</div>
-<pre style="margin:0;color:var(--text)">
-  u_C
-   E ─────────────────────────── 99%
- 0.95E ─────────────────── 95%
- 0.86E ────────────
- 0.63E ─────                     ← t = τ
-       │   τ   2τ  3τ  4τ  5τ → t
-
-  u_C(τ)  = E(1 - 1/e) ≈ 0.632 E
-  u_C(5τ) ≈ 0.993 E  → régime permanent
-</pre>
-<div style="margin-top:10px;font-family:sans-serif;font-size:0.85rem;color:var(--text-muted)">
-  τ = RC (en secondes si R en Ω et C en F)
-</div>
-</div>`,
+    diagram: {
+      theme: 'maths',
+      kicker: 'Régime transitoire RC',
+      title: 'Charge d\'un condensateur : la courbe exponentielle et ses repères',
+      description: 'La tension $u(t)$ aux bornes du condensateur tend vers $E$ sans jamais l\'atteindre exactement. Les repères $\\tau$, $2\\tau$ et $5\\tau$ situent l\'avancement réel de la charge sur cette courbe.',
+      svg: `
+        <svg viewBox="0 0 360 240" role="img" aria-labelledby="bts-log-rc-title bts-log-rc-desc">
+          <title id="bts-log-rc-title">Charge d'un condensateur RC</title>
+          <desc id="bts-log-rc-desc">Courbe exponentielle croissante u(t) = E(1 - e^(-t/tau)) avec les reperes tau, 2tau et 5tau marquant 63,2%, 86,5% et 99,3% de la valeur finale E.</desc>
+          <line class="guide-line" x1="55" y1="37.6" x2="330" y2="37.6"></line>
+          <line class="axis" x1="55" y1="190" x2="345" y2="190"></line>
+          <line class="axis" x1="55" y1="198" x2="55" y2="16"></line>
+          <line class="guide-line" x1="105" y1="93.7" x2="105" y2="190"></line>
+          <line class="guide-line" x1="55" y1="93.7" x2="105" y2="93.7"></line>
+          <line class="guide-line" x1="155" y1="58.2" x2="155" y2="190"></line>
+          <line class="guide-line" x1="55" y1="58.2" x2="155" y2="58.2"></line>
+          <line class="guide-line" x1="305" y1="38.6" x2="305" y2="190"></line>
+          <line class="guide-line" x1="55" y1="38.6" x2="305" y2="38.6"></line>
+          <polyline class="curve-main" points="55,190 67.5,156.3 80,130.0 92.5,109.6 105,93.7 117.5,81.3 130,71.6 142.5,64.1 155,58.2 180,50.1 205,45.2 230,42.2 255,40.4 280,39.3 305,38.6 330,38.2"></polyline>
+          <circle class="plot-point" cx="105" cy="93.7" r="4.5"></circle>
+          <circle class="plot-point" cx="155" cy="58.2" r="4.5"></circle>
+          <circle class="plot-point" cx="305" cy="38.6" r="4.5"></circle>
+          <text class="annotation-label" x="112" y="116">63,2 %</text>
+          <text class="annotation-label" x="162" y="82">86,5 %</text>
+          <text class="annotation-label" x="298" y="62">99,3 %</text>
+          <text class="annotation-label" x="270" y="30">E (valeur finale)</text>
+          <text class="tick-label" x="50" y="204">0</text>
+          <text class="tick-label" x="100" y="204">τ</text>
+          <text class="tick-label" x="149" y="204">2τ</text>
+          <text class="tick-label" x="299" y="204">5τ</text>
+          <text class="tick-label" x="42" y="193">0</text>
+          <text class="axis-label" x="336" y="207">t</text>
+          <text class="axis-label" x="18" y="20">u(t)</text>
+        </svg>
+      `,
+      notes: [
+        'À $t = \\tau$, la tension a déjà atteint $u(\\tau) = E(1-e^{-1}) \\approx 0{,}632\\,E$, soit <strong>63,2 %</strong> de la valeur finale.',
+        'À $t = 2\\tau$, $u(2\\tau) = E(1-e^{-2}) \\approx 0{,}865\\,E$, soit <strong>86,5 %</strong> — la progression ralentit nettement.',
+        'À $t = 5\\tau$, $u(5\\tau) = E(1-e^{-5}) \\approx 0{,}993\\,E$, soit <strong>99,3 %</strong> : on considère alors le <strong>régime permanent</strong> atteint.'
+      ],
+      reading: 'La courbe se rapproche de $E$ de plus en plus lentement : chaque intervalle $\\tau$ supplémentaire ne comble qu\'une fraction de l\'écart restant, jamais la totalité.',
+      caption: 'Charge d\'un condensateur RC : $u(t) = E\\left(1-e^{-t/\\tau}\\right)$, avec les repères usuels $\\tau$, $2\\tau$ et $5\\tau$.'
+    },
 
     recap: [
       '$\\ln$ et $\\exp$ sont inverses l\'une de l\'autre : $e^{\\ln x} = x$',

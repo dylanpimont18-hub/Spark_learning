@@ -65,7 +65,60 @@ window.MODULES.push({
       'Système par combinaison : multiplier pour faire apparaître des coefficients opposés, additionner les équations'
     ],
 
-    diagram: '<table style="width:100%;border-collapse:collapse;text-align:center;font-size:0.9rem"><tr style="background:var(--bg-card)"><th style="border:1px solid var(--border);padding:8px">Signe de $\\Delta$</th><th style="border:1px solid var(--border);padding:8px">Nombre de solutions réelles</th><th style="border:1px solid var(--border);padding:8px">Formule</th></tr><tr><td style="border:1px solid var(--border);padding:7px">$\\Delta > 0$</td><td style="border:1px solid var(--border);padding:7px">2 solutions distinctes</td><td style="border:1px solid var(--border);padding:7px">$x_{1,2} = \\dfrac{-b \\pm \\sqrt{\\Delta}}{2a}$</td></tr><tr><td style="border:1px solid var(--border);padding:7px">$\\Delta = 0$</td><td style="border:1px solid var(--border);padding:7px">1 solution double</td><td style="border:1px solid var(--border);padding:7px">$x_0 = -b/(2a)$</td></tr><tr><td style="border:1px solid var(--border);padding:7px">$\\Delta < 0$</td><td style="border:1px solid var(--border);padding:7px">0 solution réelle</td><td style="border:1px solid var(--border);padding:7px">—</td></tr></table>',
+    diagram: {
+      theme: 'maths',
+      kicker: 'Discriminant Δ — lecture graphique',
+      title: 'Trois paraboles, trois discriminants',
+      description: 'Trois paraboles superposées sur le même repère illustrent les trois cas possibles du discriminant $\\Delta = b^2 - 4ac$ : deux racines distinctes, une racine double, ou aucune racine réelle.',
+      svg: `
+        <svg viewBox="0 0 400 305" role="img" aria-labelledby="bts-eq-graph-title bts-eq-graph-desc">
+          <title id="bts-eq-graph-title">Trois paraboles selon le signe du discriminant</title>
+          <desc id="bts-eq-graph-desc">Le graphique superpose trois paraboles : l'une coupe l'axe des abscisses en deux points, l'une est tangente a l'axe, et l'une reste entierement au-dessus.</desc>
+          <line class="grid-line" x1="171" y1="25" x2="171" y2="275"></line>
+          <line class="grid-line" x1="229" y1="25" x2="229" y2="275"></line>
+          <line class="grid-line" x1="287" y1="25" x2="287" y2="275"></line>
+          <line class="grid-line" x1="55" y1="142.1" x2="345" y2="142.1"></line>
+          <line class="grid-line" x1="55" y1="60.7" x2="345" y2="60.7"></line>
+          <rect class="frame-line" x="55" y="25" width="290" height="250" fill="none"></rect>
+          <line class="axis" x1="55" y1="203.6" x2="345" y2="203.6"></line>
+          <line class="axis" x1="113" y1="275" x2="113" y2="25"></line>
+          <line class="guide-line" x1="113" y1="203.6" x2="113" y2="132.1"></line>
+          <line class="guide-line" x1="214.5" y1="203.6" x2="214.5" y2="259.4"></line>
+          <path class="curve-main" d="M66.6,27.2 L84,78.6 L113,150 L142,203.6 L171,239.3 L200,257.1 L214.5,259.4 L229,257.1 L258,239.3 L287,203.6 L316,150 L345,78.6"></path>
+          <path class="graph-line" style="opacity:0.65" d="M103.7,25.2 L113,42.9 L142,92.0 L171,132.1 L200,163.4 L229,185.7 L258,199.1 L287,203.6 L316,199.1 L345,185.7"></path>
+          <path class="graph-line" style="opacity:0.4" d="M55,114.3 L84,127.7 L113,132.1 L142,127.7 L171,114.3 L200,92.0 L229,60.7 L255,25"></path>
+          <circle class="plot-point" cx="142" cy="203.6" r="5"></circle>
+          <circle class="plot-point-alt" cx="287" cy="203.6" r="8"></circle>
+          <circle class="plot-point" cx="287" cy="203.6" r="5"></circle>
+          <circle class="plot-point-alt" cx="113" cy="132.1" r="4"></circle>
+          <text class="axis-label" x="350" y="208">x</text>
+          <text class="axis-label" x="108" y="17">y</text>
+          <text class="tick-label" x="48" y="290">-1</text>
+          <text class="tick-label" x="108" y="290">0</text>
+          <text class="tick-label" x="166" y="290">1</text>
+          <text class="tick-label" x="224" y="290">2</text>
+          <text class="tick-label" x="282" y="290">3</text>
+          <text class="tick-label" x="340" y="290">4</text>
+          <text class="tick-label" x="28" y="278">-4</text>
+          <text class="tick-label" x="28" y="208">0</text>
+          <text class="tick-label" x="28" y="146">4</text>
+          <text class="tick-label" x="28" y="65">8</text>
+          <text class="annotation-label" x="330" y="100">1</text>
+          <text class="annotation-label" x="108" y="35">2</text>
+          <text class="annotation-label" x="65" y="100">3</text>
+          <text class="annotation-label" x="90" y="168">min = 4</text>
+          <text class="annotation-label" x="222" y="235">min ≈ -3,13</text>
+          <text class="annotation-label" x="250" y="188">tangente</text>
+        </svg>
+      `,
+      notes: [
+        '<strong>Courbe 1</strong> — $y = 2x^2 - 7x + 3$ : $\\Delta = (-7)^2 - 4 \\times 2 \\times 3 = 49 - 24 = 25 > 0$. Elle coupe l\'axe des abscisses en <strong>deux points distincts</strong> : $x = 0{,}5$ et $x = 3$.',
+        '<strong>Courbe 2</strong> — $y = (x-3)^2$ : $\\Delta = 0^2 - 4 \\times 1 \\times 9 = 36 - 36 = 0$. Elle est <strong>tangente</strong> à l\'axe en un unique point double $x = 3$ — qui coïncide numériquement avec une racine de la courbe 1 (une coïncidence propre à ces deux exemples, pas une règle générale).',
+        '<strong>Courbe 3</strong> — $y = x^2 + 4$ : $\\Delta = 0^2 - 4 \\times 1 \\times 4 = -16 < 0$. Son minimum vaut $4 > 0$ : la parabole reste <strong>entièrement au-dessus</strong> de l\'axe, donc <strong>aucune racine réelle</strong>.',
+      ],
+      reading: 'Le signe de $\\Delta$ se lit directement sur le nombre d\'intersections avec l\'axe des abscisses : 2 points ($\\Delta>0$), 1 point ($\\Delta=0$, tangence), ou 0 point ($\\Delta<0$).',
+      caption: 'Les trois cas du discriminant illustrés avec des exemples chiffrés du cours ($2x^2-7x+3$, $(x-3)^2$, $x^2+4$) : racines et sommets recalculés et vérifiés indépendamment.',
+    },
 
     recap: [
       'Une équation du 1er degré a toujours exactement une solution (si $a \\neq 0$).',

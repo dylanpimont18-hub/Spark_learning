@@ -77,21 +77,74 @@ Exemples : nombre de Reynolds $Re = \\rho v D / \\mu$, rendement $\\eta = P_{\\t
       '<strong>Principe d\'homogénéité</strong> : $A = B \\Rightarrow [A] = [B]$',
     ],
 
-    diagram: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:10px;padding:20px;font-size:0.88rem;line-height:1.8">
-<div style="font-weight:700;margin-bottom:12px">Dimensions des grandeurs électriques</div>
-<div style="font-family:monospace;color:var(--text)">
-  [U] Volt       = M·L²·T⁻³·I⁻¹<br/>
-  [I] Ampère     = I  (base)<br/>
-  [R] Ohm        = M·L²·T⁻³·I⁻²<br/>
-  [P] Watt       = M·L²·T⁻³<br/>
-  [Q] Coulomb    = I·T<br/>
-  [C] Farad      = M⁻¹·L⁻²·T⁴·I²<br/>
-  [L] Henry      = M·L²·T⁻²·I⁻²<br/>
-</div>
-<div style="margin-top:12px;font-size:0.82rem;color:var(--text-muted)">
-  Vérification : [U] = [R·I] = M·L²·T⁻³·I⁻²·I = M·L²·T⁻³·I⁻¹ ✓
-</div>
-</div>`,
+    diagram: {
+      theme: 'maths',
+      kicker: 'Mécanique des fluides — nombre de Reynolds',
+      title: 'Écoulement dans une tuyauterie : laminaire ou turbulent ?',
+      description: 'Le nombre de Reynolds <strong>Re = ρvD/µ</strong> compare les forces d\'inertie aux forces de viscosité dans un fluide en écoulement. Reprenons l\'exemple chiffré du cours : une conduite d\'eau de diamètre $D = 50$ mm parcourue à $v = 1{,}5$ m/s.',
+      svg: `
+        <svg viewBox="0 0 460 260" role="img" aria-labelledby="bts-analysedim-reynolds-title bts-analysedim-reynolds-desc">
+          <title id="bts-analysedim-reynolds-title">Écoulement turbulent dans une conduite d'eau</title>
+          <desc id="bts-analysedim-reynolds-desc">Coupe longitudinale d'une tuyauterie : le fluide entre à gauche avec sa vitesse v, s'écoule dans un tube de diamètre D, et les lignes de courant chaotiques à l'intérieur indiquent un régime turbulent ; le nombre de Reynolds est calculé en bas du schéma.</desc>
+          <text class="annotation-label" x="14" y="45">ρ = 1000 kg/m³</text>
+          <text class="annotation-label" x="14" y="60">µ = 1,002×10⁻³ Pa·s</text>
+          <text class="annotation-label" x="14" y="118">v = 1,5 m/s</text>
+          <line class="graph-line" x1="14" y1="130" x2="52" y2="130"></line>
+          <polygon class="plot-point" points="46,124 56,130 46,136"></polygon>
+          <line class="grid-line" x1="58" y1="80" x2="366" y2="80"></line>
+          <line class="frame-line" x1="58" y1="90" x2="366" y2="90"></line>
+          <line class="frame-line" x1="58" y1="170" x2="366" y2="170"></line>
+          <line class="grid-line" x1="58" y1="180" x2="366" y2="180"></line>
+          <line class="grid-line" x1="70" y1="80" x2="62" y2="90"></line>
+          <line class="grid-line" x1="100" y1="80" x2="92" y2="90"></line>
+          <line class="grid-line" x1="130" y1="80" x2="122" y2="90"></line>
+          <line class="grid-line" x1="160" y1="80" x2="152" y2="90"></line>
+          <line class="grid-line" x1="190" y1="80" x2="182" y2="90"></line>
+          <line class="grid-line" x1="220" y1="80" x2="212" y2="90"></line>
+          <line class="grid-line" x1="250" y1="80" x2="242" y2="90"></line>
+          <line class="grid-line" x1="280" y1="80" x2="272" y2="90"></line>
+          <line class="grid-line" x1="310" y1="80" x2="302" y2="90"></line>
+          <line class="grid-line" x1="340" y1="80" x2="332" y2="90"></line>
+          <line class="grid-line" x1="70" y1="180" x2="62" y2="170"></line>
+          <line class="grid-line" x1="100" y1="180" x2="92" y2="170"></line>
+          <line class="grid-line" x1="130" y1="180" x2="122" y2="170"></line>
+          <line class="grid-line" x1="160" y1="180" x2="152" y2="170"></line>
+          <line class="grid-line" x1="190" y1="180" x2="182" y2="170"></line>
+          <line class="grid-line" x1="220" y1="180" x2="212" y2="170"></line>
+          <line class="grid-line" x1="250" y1="180" x2="242" y2="170"></line>
+          <line class="grid-line" x1="280" y1="180" x2="272" y2="170"></line>
+          <line class="grid-line" x1="310" y1="180" x2="302" y2="170"></line>
+          <line class="grid-line" x1="340" y1="180" x2="332" y2="170"></line>
+          <path class="graph-line" d="M65,105 Q95,92 125,105 Q155,118 185,104 Q215,90 245,106 Q275,120 305,104 Q335,90 365,106" fill="none"></path>
+          <path class="graph-line" d="M65,130 Q95,142 125,130 Q155,118 185,131 Q215,144 245,129 Q275,116 305,131 Q335,144 365,129" fill="none"></path>
+          <path class="graph-line" d="M65,155 Q95,168 125,155 Q155,142 185,156 Q215,170 245,154 Q275,140 305,156 Q335,170 365,154" fill="none"></path>
+          <circle class="plot-point-alt" cx="145" cy="118" r="4"></circle>
+          <circle class="plot-point-alt" cx="225" cy="144" r="4"></circle>
+          <circle class="plot-point-alt" cx="305" cy="112" r="4"></circle>
+          <path class="grid-line" d="M141,118 q4,-6 8,0 q4,6 -8,0" fill="none"></path>
+          <path class="grid-line" d="M221,144 q4,-6 8,0 q4,6 -8,0" fill="none"></path>
+          <path class="grid-line" d="M301,112 q4,-6 8,0 q4,6 -8,0" fill="none"></path>
+          <line class="graph-line" x1="366" y1="130" x2="396" y2="130"></line>
+          <polygon class="plot-point" points="390,124 400,130 390,136"></polygon>
+          <line class="guide-line" x1="408" y1="90" x2="408" y2="170"></line>
+          <line class="axis" x1="402" y1="90" x2="414" y2="90"></line>
+          <line class="axis" x1="402" y1="170" x2="414" y2="170"></line>
+          <polygon class="plot-point" points="404,96 408,88 412,96"></polygon>
+          <polygon class="plot-point" points="404,164 408,172 412,164"></polygon>
+          <text class="axis-label" x="420" y="126">D</text>
+          <text class="tick-label" x="420" y="142">50 mm</text>
+          <text class="annotation-label" x="212" y="200" text-anchor="middle">Re = ρ·v·D / µ ≈ 74 850</text>
+          <text class="annotation-label" x="212" y="220" text-anchor="middle">Écoulement TURBULENT (Re > 4000)</text>
+        </svg>
+      `,
+      notes: [
+        'Données reprises de l\'exemple chiffré du cours : <strong>ρ = 1000 kg/m³</strong> (eau), <strong>v = 1{,}5 m/s</strong>, <strong>D = 50 mm</strong>, <strong>µ = 1{,}002 × 10⁻³ Pa·s</strong> (viscosité à 20°C).',
+        'Calcul indépendant : $Re = \\dfrac{\\rho v D}{\\mu} = \\dfrac{1000 \\times 1{,}5 \\times 0{,}050}{1{,}002 \\times 10^{-3}} \\approx 74\\,850$.',
+        'Comme <strong>Re ≈ 74 850 > 4000</strong>, l\'écoulement est <strong>turbulent</strong> : les lignes de courant se mélangent de façon chaotique au lieu de glisser en couches parallèles comme en régime laminaire.'
+      ],
+      reading: 'Un nombre de Reynolds élevé (régime turbulent) annonce des <strong>pertes de charge plus importantes</strong> dans la tuyauterie qu\'en régime laminaire — un point essentiel pour bien dimensionner une pompe.',
+      caption: 'Schéma de principe d\'une conduite d\'eau en régime turbulent (Re ≈ 74 850), avec les grandeurs du nombre de Reynolds reprises de l\'exemple chiffré du cours.'
+    },
 
     recap: [
       'Le principe d\'homogénéité : les deux membres d\'une équation doivent avoir les mêmes dimensions.',

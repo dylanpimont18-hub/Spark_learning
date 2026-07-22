@@ -64,7 +64,49 @@ window.MODULES.push({
       'Appliquer une réduction de $p\\%$ : multiplier par $(1 - p/100)$'
     ],
 
-    diagram: '<table style="width:100%;border-collapse:collapse;text-align:center;font-size:0.9rem"><tr style="background:var(--bg-card)"><th style="border:1px solid var(--border);padding:8px">Grandeur</th><th style="border:1px solid var(--border);padding:8px">Formule rendement</th><th style="border:1px solid var(--border);padding:8px">Domaine</th></tr><tr><td style="border:1px solid var(--border);padding:7px">Moteur électrique</td><td style="border:1px solid var(--border);padding:7px">$\\eta = P_{mec}/P_{élec}$</td><td style="border:1px solid var(--border);padding:7px">Électrotechnique</td></tr><tr><td style="border:1px solid var(--border);padding:7px">Pompe hydraulique</td><td style="border:1px solid var(--border);padding:7px">$\\eta = P_{hydraulique}/P_{absorbée}$</td><td style="border:1px solid var(--border);padding:7px">Hydraulique / FED</td></tr><tr><td style="border:1px solid var(--border);padding:7px">Échangeur thermique</td><td style="border:1px solid var(--border);padding:7px">$\\varepsilon = \\dot{Q}_{réel}/\\dot{Q}_{max}$</td><td style="border:1px solid var(--border);padding:7px">Thermique / FED</td></tr><tr><td style="border:1px solid var(--border);padding:7px">Réseau électrique</td><td style="border:1px solid var(--border);padding:7px">$\\eta = P_{reçue}/P_{émise}$</td><td style="border:1px solid var(--border);padding:7px">Distribution électrique</td></tr></table>',
+    diagram: {
+      theme: 'maths',
+      kicker: 'Bilan de puissance (diagramme de Sankey simplifié)',
+      title: 'Où passe la puissance qu\'un moteur électrique absorbe ?',
+      description: 'La <strong>largeur</strong> de chaque bande est proportionnelle à la puissance qu\'elle transporte : plus la bande est large, plus la puissance est grande.<br/><br/>La puissance absorbée entre à gauche, traverse le moteur, puis se sépare en une bande <strong>utile</strong> (puissance mécanique récupérée) et une bande de <strong>pertes</strong> (chaleur due à l\'effet Joule et aux frottements) — reprend exactement l\'exemple chiffré du cours : $P_{abs} = 4{,}5$ kW, $\\eta = 80\\%$.',
+      svg: `
+        <svg viewBox="0 0 480 330" role="img" aria-labelledby="proportionnalite-sankey-title proportionnalite-sankey-desc">
+          <title id="proportionnalite-sankey-title">Bilan de puissance d'un moteur électrique, diagramme de Sankey simplifié</title>
+          <desc id="proportionnalite-sankey-desc">Une bande d'entree large de 60 pixels representant 4,5 kilowatts absorbes traverse un bloc moteur electrique puis se separe en une bande de sortie utile large de 48 pixels representant 3,6 kilowatts mecaniques et une bande de pertes large de 12 pixels representant 0,9 kilowatt dissipe en chaleur ; les deux largeurs de sortie additionnees redonnent exactement la largeur d'entree.</desc>
+
+          <!-- Bande d'entrée : P absorbée -->
+          <rect class="frame-line" x="20" y="105" width="150" height="60" fill="color-mix(in srgb, var(--diagram-accent) 45%, var(--bg-card))"></rect>
+          <text class="annotation-label" x="95" y="95" text-anchor="middle">P absorbée = 4,5 kW</text>
+
+          <!-- Bloc moteur électrique -->
+          <rect class="frame-line" x="170" y="95" width="100" height="80" fill="color-mix(in srgb, var(--diagram-accent) 8%, var(--bg-card))"></rect>
+          <text class="annotation-label" x="220" y="128" text-anchor="middle">Moteur</text>
+          <text class="annotation-label" x="220" y="144" text-anchor="middle">électrique</text>
+          <text class="label-soft" x="220" y="160" text-anchor="middle">rendement = 80 %</text>
+
+          <!-- Bande de sortie utile -->
+          <rect class="frame-line" x="270" y="105" width="132" height="48" fill="color-mix(in srgb, var(--diagram-accent) 45%, var(--bg-card))"></rect>
+          <polygon class="frame-line" points="402,105 402,153 430,129" fill="color-mix(in srgb, var(--diagram-accent) 45%, var(--bg-card))"></polygon>
+          <text class="annotation-label" x="336" y="95" text-anchor="middle">P utile = 3,6 kW</text>
+          <text class="label-soft" x="336" y="187" text-anchor="middle">puissance mécanique</text>
+
+          <!-- Bande de pertes -->
+          <rect class="guide-line" x="204" y="175" width="12" height="70" fill="color-mix(in srgb, var(--diagram-accent) 18%, var(--bg-card))"></rect>
+          <polygon class="guide-line" points="204,245 216,245 210,267" fill="color-mix(in srgb, var(--diagram-accent) 18%, var(--bg-card))"></polygon>
+          <text class="annotation-label" x="225" y="210">P pertes = 0,9 kW</text>
+          <text class="label-soft" x="225" y="226">chaleur, frottements</text>
+
+          <text class="label-soft" x="240" y="305" text-anchor="middle">Vérification : 4,5 kW = 3,6 kW + 0,9 kW</text>
+        </svg>
+      `,
+      notes: [
+        'La <strong>largeur</strong> de chaque bande est proportionnelle à la puissance : $4{,}5$ kW se séparent en $3{,}6$ kW utiles et $0{,}9$ kW de pertes, exactement l\'exemple chiffré du cours.',
+        'On vérifie la <strong>conservation de l\'énergie</strong> : $4{,}5 = 3{,}6 + 0{,}9$, donc $P_{abs} = P_{mec} + P_{pertes}$.',
+        'Le <strong>rendement</strong> $\\eta = 3{,}6/4{,}5 = 0{,}80 = 80\\%$ se lit directement comme la part de la bande d\'entrée qui ressort en sortie utile.'
+      ],
+      reading: 'Suis la bande d\'entrée de gauche à droite : elle traverse le moteur puis se scinde en deux bandes dont les largeurs cumulées redonnent exactement la largeur d\'entrée.',
+      caption: 'Diagramme de Sankey simplifié du bilan de puissance d\'un moteur électrique : $P_{abs} = 4{,}5$ kW se répartit en $P_{mec} = 3{,}6$ kW (rendement $80\\%$) et $P_{pertes} = 0{,}9$ kW dissipés sous forme de chaleur.'
+    },
 
     recap: [
       'Proportionnalité directe : $y/x = k$ (si $x$ double, $y$ double). Proportionnalité inverse : $x \\cdot y = k$ (si $x$ double, $y$ est divisé par 2).',

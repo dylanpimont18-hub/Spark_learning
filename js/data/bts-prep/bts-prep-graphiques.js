@@ -74,21 +74,48 @@ Pour $Q = 12\\;\\text{m}^3/\\text{h}$ (entre 10 et 15) :<br/>$$\\text{HMT} = 38 
       '<strong>Loi exponentielle (semi-log)</strong> : $\\ln y = bx + \\ln a \\Leftrightarrow y = a e^{bx}$',
     ],
 
-    diagram: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:10px;padding:20px;font-family:monospace;font-size:0.85rem;line-height:1.8">
-<div style="font-weight:700;margin-bottom:10px;font-family:sans-serif">Interpolation linéaire — visualisation</div>
-<pre style="margin:0;color:var(--text)">
-  y
-  y2 ──────────────●  (x2, y2)
-                  /
-  y  ············/·····← valeur interpolée
-                /
-  y1 ────●     (interpolé en x)
-     (x1,y1)
-        x1   x   x2  → x
-
-  y = y1 + (x-x1)/(x2-x1) × (y2-y1)
-</pre>
-</div>`,
+    diagram: {
+      theme: 'maths',
+      kicker: 'Construction graphique',
+      title: 'Interpoler un point entre deux valeurs connues',
+      description: 'Deux points connus $(x_1, y_1)$ et $(x_2, y_2)$ sont reliés par une droite. La valeur intermédiaire se lit par simple projection sur cette droite, sans calcul si le graphique est précis.',
+      svg: `
+        <svg viewBox="0 0 360 240" role="img" aria-labelledby="bts-graphiques-interp-title bts-graphiques-interp-desc">
+          <title id="bts-graphiques-interp-title">Construction de l'interpolation lineaire</title>
+          <desc id="bts-graphiques-interp-desc">Deux points connus A et B relies par une droite ; projection du point intermediaire Q=12 pour lire HMT=33,6 m.</desc>
+          <line class="grid-line" x1="55" y1="50" x2="330" y2="50"></line>
+          <line class="grid-line" x1="55" y1="160" x2="330" y2="160"></line>
+          <line class="grid-line" x1="94.3" y1="30" x2="94.3" y2="190"></line>
+          <line class="grid-line" x1="290.7" y1="30" x2="290.7" y2="190"></line>
+          <line class="axis" x1="55" y1="190" x2="345" y2="190"></line>
+          <line class="axis" x1="55" y1="198" x2="55" y2="16"></line>
+          <line class="guide-line" x1="172.9" y1="94" x2="172.9" y2="190"></line>
+          <line class="guide-line" x1="55" y1="94" x2="172.9" y2="94"></line>
+          <line class="curve-main" x1="94.3" y1="50" x2="290.7" y2="160"></line>
+          <circle class="plot-point" cx="94.3" cy="50" r="4.5"></circle>
+          <circle class="plot-point" cx="290.7" cy="160" r="4.5"></circle>
+          <circle class="plot-point-alt" cx="172.9" cy="94" r="4.5"></circle>
+          <text class="annotation-label" x="96" y="40">A (10 ; 38)</text>
+          <text class="annotation-label" x="228" y="178">B (15 ; 27)</text>
+          <text class="annotation-label" x="176" y="84">HMT interpolee</text>
+          <text class="tick-label" x="86" y="204">10</text>
+          <text class="tick-label" x="164" y="204">12</text>
+          <text class="tick-label" x="282" y="204">15</text>
+          <text class="tick-label" x="26" y="53">38</text>
+          <text class="tick-label" x="8" y="97">33,6</text>
+          <text class="tick-label" x="26" y="163">27</text>
+          <text class="axis-label" x="298" y="207">Q (m3/h)</text>
+          <text class="axis-label" x="14" y="22">HMT (m)</text>
+        </svg>
+      `,
+      notes: [
+        'Les deux points connus, <strong>A</strong> $(10\\;;\\,38)$ et <strong>B</strong> $(15\\;;\\,27)$, sont ceux de l\'exemple 1 (courbe pompe).',
+        'On projette verticalement depuis $Q = 12\\;\\text{m}^3/\\text{h}$ jusqu\'à la droite $AB$, puis horizontalement jusqu\'à l\'axe des HMT : on lit $\\text{HMT} \\approx 33{,}6\\;\\text{m}$.',
+        'C\'est exactement la construction géométrique de la formule <strong>d\'interpolation linéaire</strong> : $y = y_1 + \\dfrac{x-x_1}{x_2-x_1}(y_2-y_1)$.'
+      ],
+      reading: 'Le point clair (cercle non rempli) sur la droite <strong>n\'a jamais été mesuré</strong> : c\'est la valeur estimée par interpolation, obtenue uniquement par construction graphique entre deux points réels.',
+      caption: 'Interpolation linéaire entre $Q_1 = 10$ et $Q_2 = 15\\;\\text{m}^3/\\text{h}$ : $\\text{HMT}(12) \\approx 33{,}6\\;\\text{m}$.'
+    },
 
     recap: [
       'Toujours vérifier les unités et l\'échelle d\'un graphique avant de lire',

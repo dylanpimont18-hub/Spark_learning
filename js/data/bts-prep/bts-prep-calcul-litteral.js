@@ -63,7 +63,73 @@ window.MODULES.push({
       'Si $A = B^2$ → $B = \\sqrt{A}$ (avec $B \\geq 0$ en physique)'
     ],
 
-    diagram: '<table style="width:100%;border-collapse:collapse;text-align:center;font-size:0.9rem"><tr style="background:var(--bg-card)"><th style="border:1px solid var(--border);padding:8px">Formule de départ</th><th style="border:1px solid var(--border);padding:8px">Grandeur cherchée</th><th style="border:1px solid var(--border);padding:8px">Résultat</th><th style="border:1px solid var(--border);padding:8px">Domaine</th></tr><tr><td style="border:1px solid var(--border);padding:7px">$U = R \\cdot I$</td><td style="border:1px solid var(--border);padding:7px">$R$</td><td style="border:1px solid var(--border);padding:7px">$R = U/I$</td><td style="border:1px solid var(--border);padding:7px">Électrotechnique</td></tr><tr><td style="border:1px solid var(--border);padding:7px">$P = F \\cdot v$</td><td style="border:1px solid var(--border);padding:7px">$F$</td><td style="border:1px solid var(--border);padding:7px">$F = P/v$</td><td style="border:1px solid var(--border);padding:7px">Mécanique</td></tr><tr><td style="border:1px solid var(--border);padding:7px">$\\dot{Q} = \\dot{m} c_p \\Delta T$</td><td style="border:1px solid var(--border);padding:7px">$\\Delta T$</td><td style="border:1px solid var(--border);padding:7px">$\\Delta T = \\dot{Q}/(\\dot{m} c_p)$</td><td style="border:1px solid var(--border);padding:7px">Thermique / FED</td></tr><tr><td style="border:1px solid var(--border);padding:7px">$\\sigma = F/A$</td><td style="border:1px solid var(--border);padding:7px">$F$</td><td style="border:1px solid var(--border);padding:7px">$F = \\sigma \\cdot A$</td><td style="border:1px solid var(--border);padding:7px">RDM / Mécanique</td></tr><tr><td style="border:1px solid var(--border);padding:7px">$\\dot{V} = v \\cdot A$</td><td style="border:1px solid var(--border);padding:7px">$A$</td><td style="border:1px solid var(--border);padding:7px">$A = \\dot{V}/v$</td><td style="border:1px solid var(--border);padding:7px">Hydraulique / FED</td></tr></table>',
+    diagram: {
+      theme: 'maths',
+      kicker: 'Calcul littéral — la balance des deux côtés',
+      title: 'Isoler une grandeur, c\'est garder la balance en équilibre',
+      description: 'Reprenons l\'exemple du cours : le bilan d\'un échangeur de chaleur <strong>$\\dot{Q} = \\dot{m} \\cdot c_p \\cdot (T_e - T_s)$</strong>. Pour isoler $T_s$, on applique la <strong>même opération aux deux plateaux</strong> de la balance, étape par étape.',
+      svg: `
+        <svg viewBox="0 0 640 280" role="img" aria-labelledby="bts-calcullitteral-balance-title bts-calcullitteral-balance-desc">
+          <title id="bts-calcullitteral-balance-title">Isoler Ts par la métaphore de la balance</title>
+          <desc id="bts-calcullitteral-balance-desc">Trois balances a deux plateaux montrent, etape par etape, comment isoler Ts dans l'equation du bilan d'un echangeur de chaleur : la balance de depart, puis apres division des deux cotes par m fois cp, puis apres avoir retire Te et change les signes des deux cotes, ce qui isole Ts seul sur son plateau.</desc>
+
+          <text class="axis-label" x="100" y="30" text-anchor="middle">Départ</text>
+          <line class="frame-line" x1="45" y1="120" x2="155" y2="120"></line>
+          <polygon class="plot-point" points="84,158 116,158 100,120"></polygon>
+          <circle class="plot-point-alt" cx="100" cy="120" r="4"></circle>
+          <line class="grid-line" x1="45" y1="120" x2="45" y2="170"></line>
+          <line class="grid-line" x1="155" y1="120" x2="155" y2="170"></line>
+          <line class="frame-line" x1="23" y1="170" x2="67" y2="170"></line>
+          <line class="frame-line" x1="133" y1="170" x2="177" y2="170"></line>
+          <text class="annotation-label" x="45" y="165" text-anchor="middle">Q</text>
+          <text class="label-soft" x="155" y="165" text-anchor="middle">m·cp·(Te−Ts)</text>
+          <text class="label-soft" x="100" y="108" text-anchor="middle">=</text>
+
+          <line class="graph-line" x1="183" y1="120" x2="233" y2="120"></line>
+          <polygon class="plot-point" points="227,113 239,120 227,127"></polygon>
+          <text class="annotation-label" x="208" y="102" text-anchor="middle">÷ (m·cp)</text>
+          <text class="label-soft" x="208" y="145" text-anchor="middle">(les deux côtés)</text>
+
+          <text class="axis-label" x="320" y="30" text-anchor="middle">Après division par m·cp</text>
+          <line class="frame-line" x1="265" y1="120" x2="375" y2="120"></line>
+          <polygon class="plot-point" points="304,158 336,158 320,120"></polygon>
+          <circle class="plot-point-alt" cx="320" cy="120" r="4"></circle>
+          <line class="grid-line" x1="265" y1="120" x2="265" y2="170"></line>
+          <line class="grid-line" x1="375" y1="120" x2="375" y2="170"></line>
+          <line class="frame-line" x1="243" y1="170" x2="287" y2="170"></line>
+          <line class="frame-line" x1="353" y1="170" x2="397" y2="170"></line>
+          <text class="label-soft" x="265" y="165" text-anchor="middle">Q / (m·cp)</text>
+          <text class="annotation-label" x="375" y="165" text-anchor="middle">Te − Ts</text>
+          <text class="label-soft" x="320" y="108" text-anchor="middle">=</text>
+
+          <line class="graph-line" x1="403" y1="120" x2="453" y2="120"></line>
+          <polygon class="plot-point" points="447,113 459,120 447,127"></polygon>
+          <text class="annotation-label" x="428" y="102" text-anchor="middle">− Te puis ×(−1)</text>
+          <text class="label-soft" x="428" y="145" text-anchor="middle">(les deux côtés)</text>
+
+          <text class="axis-label" x="540" y="30" text-anchor="middle">Ts isolé</text>
+          <line class="frame-line" x1="485" y1="120" x2="595" y2="120"></line>
+          <polygon class="plot-point" points="524,158 556,158 540,120"></polygon>
+          <circle class="plot-point-alt" cx="540" cy="120" r="4"></circle>
+          <line class="grid-line" x1="485" y1="120" x2="485" y2="170"></line>
+          <line class="grid-line" x1="595" y1="120" x2="595" y2="170"></line>
+          <line class="frame-line" x1="463" y1="170" x2="507" y2="170"></line>
+          <line class="frame-line" x1="573" y1="170" x2="617" y2="170"></line>
+          <text class="label-soft" x="485" y="165" text-anchor="middle">Te − Q/(m·cp)</text>
+          <text class="annotation-label" x="595" y="165" text-anchor="middle">Ts</text>
+          <text class="label-soft" x="540" y="108" text-anchor="middle">=</text>
+
+          <text class="annotation-label" x="320" y="250" text-anchor="middle">Ts = Te − Q / (m·cp)</text>
+        </svg>
+      `,
+      notes: [
+        '<strong>Étape 1 — Départ :</strong> la balance est en équilibre : $\\dot{Q}$ sur un plateau, $\\dot{m} \\cdot c_p \\cdot (T_e - T_s)$ sur l\'autre.',
+        '<strong>Étape 2 — Diviser les deux côtés par $\\dot{m} \\cdot c_p$ :</strong> la balance reste équilibrée, il reste $\\dfrac{\\dot{Q}}{\\dot{m} \\cdot c_p} = T_e - T_s$.',
+        '<strong>Étape 3 — Retirer $T_e$ des deux côtés puis changer les signes :</strong> $T_s$ se retrouve seul sur son plateau : $T_s = T_e - \\dfrac{\\dot{Q}}{\\dot{m} \\cdot c_p}$.'
+      ],
+      reading: 'Le principe est toujours le même : <strong>ce qu\'on fait à un plateau, on le fait à l\'autre</strong> — sinon la balance penche et l\'égalité n\'est plus vraie. (Sur le schéma, $\\dot{Q}$ et $\\dot{m}$ sont notés simplement Q et m par souci de lisibilité.)',
+      caption: 'Résolution en 3 étapes de l\'équation du cours (bilan de l\'échangeur de chaleur), illustrée par la métaphore de la balance à deux plateaux.'
+    },
 
     recap: [
       'Isoler une grandeur = appliquer l\'opération inverse de la même façon aux deux membres.',

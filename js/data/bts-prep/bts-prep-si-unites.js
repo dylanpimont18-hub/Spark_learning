@@ -84,20 +84,96 @@ window.MODULES.push({
       '<strong>Quantité de matière</strong> : $n = m/M \\quad [\\text{mol}]$',
     ],
 
-    diagram: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:10px;padding:20px;font-family:monospace;font-size:0.85rem;line-height:1.9">
-<div style="font-weight:700;margin-bottom:10px;font-family:sans-serif">Préfixes SI — mémorisation rapide</div>
-<pre style="margin:0;color:var(--text)">
-  10¹²  T  téra   │  Gros réseau électrique (TW)
-  10⁹   G  giga   │  Fréquence processeur (GHz)
-  10⁶   M  méga   │  Pression (MPa), fréquence (MHz)
-  10³   k  kilo   │  Poids (kg), puissance (kW)
-─────────────────────────────────────
-  10⁻³  m  milli  │  Épaisseur (mm), courant (mA)
-  10⁻⁶  μ  micro  │  Condensateur (μF), micron (μm)
-  10⁻⁹  n  nano   │  Électronique (nm, nF)
-  10⁻¹² p  pico   │  RF, capteurs précis (pF)
-</pre>
-</div>`,
+    diagram: {
+      theme: 'maths',
+      kicker: 'Préfixes SI et unités dérivées',
+      title: 'Échelle logarithmique de $10^{-12}$ à $10^{12}$ — les huit préfixes SI',
+      description: 'Chaque repère correspond à un préfixe SI du cours, illustré par une unité dérivée réellement citée : farad, mètre, watt, pascal, hertz. Au centre, les 7 grandeurs de base du SI ($10^0$).',
+      svg: `
+        <svg viewBox="0 0 480 210" role="img" aria-labelledby="bts-siunites-echelle-title bts-siunites-echelle-desc">
+          <title id="bts-siunites-echelle-title">Echelle logarithmique des huit prefixes SI de pico a tera</title>
+          <desc id="bts-siunites-echelle-desc">Un axe gradue de 10 puissance -12 a 10 puissance 12 place les huit prefixes SI cites dans le cours (pico, nano, micro, milli, kilo, mega, giga, tera) avec un exemple d'unite derivee pour chacun : picofarad, nanometre, microfarad, millimetre, kilowatt, megapascal, gigahertz, terawatt. Au centre, a l'exposant zero, les sept grandeurs de base du systeme international.</desc>
+          <line class="grid-line" x1="55.0" y1="40" x2="55.0" y2="130"></line>
+          <line class="grid-line" x1="101.3" y1="40" x2="101.3" y2="130"></line>
+          <line class="grid-line" x1="147.5" y1="40" x2="147.5" y2="130"></line>
+          <line class="grid-line" x1="193.8" y1="40" x2="193.8" y2="130"></line>
+          <line class="grid-line" x1="240.0" y1="40" x2="240.0" y2="130"></line>
+          <line class="grid-line" x1="286.3" y1="40" x2="286.3" y2="130"></line>
+          <line class="grid-line" x1="332.5" y1="40" x2="332.5" y2="130"></line>
+          <line class="grid-line" x1="378.8" y1="40" x2="378.8" y2="130"></line>
+          <line class="grid-line" x1="425.0" y1="40" x2="425.0" y2="130"></line>
+          <line class="axis" x1="40" y1="130" x2="440" y2="130"></line>
+          <line class="axis" x1="55.0" y1="130" x2="55.0" y2="136"></line>
+          <line class="axis" x1="101.3" y1="130" x2="101.3" y2="136"></line>
+          <line class="axis" x1="147.5" y1="130" x2="147.5" y2="136"></line>
+          <line class="axis" x1="193.8" y1="130" x2="193.8" y2="136"></line>
+          <line class="axis" x1="240.0" y1="130" x2="240.0" y2="136"></line>
+          <line class="axis" x1="286.3" y1="130" x2="286.3" y2="136"></line>
+          <line class="axis" x1="332.5" y1="130" x2="332.5" y2="136"></line>
+          <line class="axis" x1="378.8" y1="130" x2="378.8" y2="136"></line>
+          <line class="axis" x1="425.0" y1="130" x2="425.0" y2="136"></line>
+          <text class="label" x="55.0" y="150" text-anchor="middle">p</text>
+          <text class="label" x="101.3" y="150" text-anchor="middle">n</text>
+          <text class="label" x="147.5" y="150" text-anchor="middle">μ</text>
+          <text class="label" x="193.8" y="150" text-anchor="middle">m</text>
+          <text class="label" x="240.0" y="150" text-anchor="middle">base</text>
+          <text class="label" x="286.3" y="150" text-anchor="middle">k</text>
+          <text class="label" x="332.5" y="150" text-anchor="middle">M</text>
+          <text class="label" x="378.8" y="150" text-anchor="middle">G</text>
+          <text class="label" x="425.0" y="150" text-anchor="middle">T</text>
+          <text class="tick-label" x="55.0" y="167" text-anchor="middle">10⁻¹²</text>
+          <text class="tick-label" x="101.3" y="167" text-anchor="middle">10⁻⁹</text>
+          <text class="tick-label" x="147.5" y="167" text-anchor="middle">10⁻⁶</text>
+          <text class="tick-label" x="193.8" y="167" text-anchor="middle">10⁻³</text>
+          <text class="tick-label" x="240.0" y="167" text-anchor="middle">10⁰</text>
+          <text class="tick-label" x="286.3" y="167" text-anchor="middle">10³</text>
+          <text class="tick-label" x="332.5" y="167" text-anchor="middle">10⁶</text>
+          <text class="tick-label" x="378.8" y="167" text-anchor="middle">10⁹</text>
+          <text class="tick-label" x="425.0" y="167" text-anchor="middle">10¹²</text>
+          <text class="axis-label" x="440" y="190" text-anchor="end">Echelle log — facteur 1000 entre prefixes voisins</text>
+          <line class="guide-line" x1="55.0" y1="64" x2="55.0" y2="130"></line>
+          <line class="guide-line" x1="101.3" y1="86" x2="101.3" y2="130"></line>
+          <line class="guide-line" x1="147.5" y1="64" x2="147.5" y2="130"></line>
+          <line class="guide-line" x1="193.8" y1="86" x2="193.8" y2="130"></line>
+          <line class="guide-line" x1="240.0" y1="64" x2="240.0" y2="130"></line>
+          <line class="guide-line" x1="286.3" y1="86" x2="286.3" y2="130"></line>
+          <line class="guide-line" x1="332.5" y1="64" x2="332.5" y2="130"></line>
+          <line class="guide-line" x1="378.8" y1="86" x2="378.8" y2="130"></line>
+          <line class="guide-line" x1="425.0" y1="64" x2="425.0" y2="130"></line>
+          <circle class="plot-point" cx="55.0" cy="130" r="4"></circle>
+          <circle class="plot-point" cx="101.3" cy="130" r="4"></circle>
+          <circle class="plot-point" cx="147.5" cy="130" r="4"></circle>
+          <circle class="plot-point" cx="193.8" cy="130" r="4"></circle>
+          <circle class="plot-point-alt" cx="240.0" cy="130" r="4"></circle>
+          <circle class="plot-point" cx="286.3" cy="130" r="4"></circle>
+          <circle class="plot-point" cx="332.5" cy="130" r="4"></circle>
+          <circle class="plot-point" cx="378.8" cy="130" r="4"></circle>
+          <circle class="plot-point" cx="425.0" cy="130" r="4"></circle>
+          <text class="annotation-label" x="55.0" y="58" text-anchor="middle">pF</text>
+          <text class="annotation-label" x="101.3" y="80" text-anchor="middle">nm</text>
+          <text class="annotation-label" x="147.5" y="58" text-anchor="middle">μF</text>
+          <text class="annotation-label" x="193.8" y="80" text-anchor="middle">mm</text>
+          <text class="annotation-label" x="240.0" y="58" text-anchor="middle">7 grandeurs</text>
+          <text class="annotation-label" x="286.3" y="80" text-anchor="middle">kW</text>
+          <text class="annotation-label" x="332.5" y="58" text-anchor="middle">MPa</text>
+          <text class="annotation-label" x="378.8" y="80" text-anchor="middle">GHz</text>
+          <text class="annotation-label" x="425.0" y="58" text-anchor="middle">TW</text>
+        </svg>
+      `,
+      notes: [
+        'Le <strong>picofarad (pF)</strong> vaut $10^{-12}$ F — capacités très faibles en électronique RF, citées dans le cours.',
+        'Le <strong>nanomètre (nm)</strong> vaut $10^{-9}$ m — préfixe nano du cours.',
+        'Le <strong>microfarad (μF)</strong> vaut $10^{-6}$ F — condensateur, préfixe micro du cours.',
+        'Le <strong>millimètre (mm)</strong> vaut $10^{-3}$ m — préfixe milli, épaisseur ou courant (mA) selon le cours.',
+        'Au centre ($10^0$), les <strong>7 grandeurs de base</strong> du SI : mètre, kilogramme, seconde, ampère, kelvin, mole, candela.',
+        'Le <strong>kilowatt (kW)</strong> vaut $10^3$ W — exemple du cours (moteur, chaudière).',
+        'Le <strong>mégapascal (MPa)</strong> vaut $10^6$ Pa — pression, exemple du cours ($6$ bar $= 0{,}6$ MPa).',
+        'Le <strong>gigahertz (GHz)</strong> vaut $10^9$ Hz — fréquence d\'un processeur, cité dans le cours.',
+        'Le <strong>térawatt (TW)</strong> vaut $10^{12}$ W — échelle d\'un grand réseau électrique, cité dans le cours.'
+      ],
+      reading: 'Contrairement au module « Puissances de 10 », les huit préfixes SI ont ici chacun un exemple d\'unité dérivée réellement cité dans le cours (farad, mètre, watt, pascal, hertz), organisés symétriquement autour des 7 grandeurs de base à l\'exposant $10^0$.',
+      caption: 'Échelle logarithmique de $10^{-12}$ à $10^{12}$ : les huit préfixes SI du cours, chacun illustré par une unité dérivée caractéristique (F, m, W, Pa, Hz).'
+    },
 
     recap: [
       '7 grandeurs de base du SI : m, kg, s, A, K, mol, cd',

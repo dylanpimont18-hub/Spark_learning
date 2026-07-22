@@ -81,24 +81,72 @@ Lecture : pour $P_f = 3{,}5\\;\\text{kW}$ et $P_{\\text{élec}} = 0{,}88\\;\\tex
       '<strong>Condition NPSH</strong> : $\\text{NPSH}_{\\text{dispo}} \\geq \\text{NPSH}_{r} + 0{,}5\\;\\text{m}$',
     ],
 
-    diagram: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:10px;padding:20px;font-size:0.88rem;line-height:1.8">
-<div style="font-weight:700;margin-bottom:12px">Courbe pompe — éléments à repérer</div>
-<div style="font-family:monospace;color:var(--text)">
-  HMT (m)                          Zone recommandée
-   H_0 ●──────────────────────┐   ─────────────────
-       │    courbe pompe        │      ← η maxi
-       │      ↘                 │
-  H_n ─ ─ ─ ─ ●  ←point nominal │
-               │  ↘             │
-               │    ↘           │
-               └─────────────●──┘ Q_max
-                Q_n         Q (m³/h)
+    diagram: {
+      theme: 'maths',
+      kicker: 'Courbe de pompe calculée',
+      title: 'HMT(Q) d\'une pompe centrifuge : une courbe décroissante',
+      description: 'La hauteur manométrique totale disponible décroît quand le débit demandé augmente, depuis la hauteur à vanne fermée (Q = 0) jusqu\'au débit maximal (HMT = 0). Le point nominal du catalogue est annoté sur la courbe.',
+      svg: `
+        <svg viewBox="0 0 360 240" role="img" aria-labelledby="bts-dt-title bts-dt-desc">
+          <title id="bts-dt-title">Courbe HMT en fonction du debit d'une pompe centrifuge</title>
+          <desc id="bts-dt-desc">La hauteur manometrique totale decroit quand le debit augmente, depuis la hauteur a vanne fermee jusqu'au debit maximal a hauteur nulle ; le point de fonctionnement nominal du catalogue est annote sur la courbe.</desc>
 
-  Η_0 = HMT à débit nul (fermeture totale)
-  Point nominal = rendement maximal
-  Q_max = débit maxi (HMT = 0)
-</div>
-</div>`,
+          <line class="grid-line" x1="52" y1="34" x2="316" y2="34"></line>
+          <line class="grid-line" x1="52" y1="64.4" x2="316" y2="64.4"></line>
+          <line class="grid-line" x1="52" y1="94.8" x2="316" y2="94.8"></line>
+          <line class="grid-line" x1="52" y1="125.2" x2="316" y2="125.2"></line>
+          <line class="grid-line" x1="52" y1="155.6" x2="316" y2="155.6"></line>
+          <line class="grid-line" x1="52" y1="186" x2="316" y2="186"></line>
+
+          <line class="grid-line" x1="52" y1="34" x2="52" y2="186"></line>
+          <line class="grid-line" x1="118" y1="34" x2="118" y2="186"></line>
+          <line class="grid-line" x1="184" y1="34" x2="184" y2="186"></line>
+          <line class="grid-line" x1="250" y1="34" x2="250" y2="186"></line>
+          <line class="grid-line" x1="316" y1="34" x2="316" y2="186"></line>
+
+          <line class="axis" x1="52" y1="186" x2="328" y2="186"></line>
+          <line class="axis" x1="52" y1="194" x2="52" y2="24"></line>
+
+          <path class="curve-main" d="M52 34 L85 36.4 L118 43.5 L151 55.4 L184 72 L200.5 82.1 L217 93.4 L250 119.5 L283 150.4 L316 186"></path>
+
+          <line class="guide-line" x1="200.5" y1="82.1" x2="200.5" y2="186"></line>
+          <line class="guide-line" x1="52" y1="82.1" x2="200.5" y2="82.1"></line>
+          <circle class="plot-point" cx="200.5" cy="82.1" r="6"></circle>
+
+          <circle class="plot-point-alt" cx="52" cy="34" r="5"></circle>
+          <circle class="plot-point-alt" cx="316" cy="186" r="5"></circle>
+
+          <text class="annotation-label" x="230" y="45">Courbe HMT(Q)</text>
+          <text class="annotation-label" x="215" y="65">Point nominal</text>
+          <text class="label-soft" x="215" y="79">Qn≈9 m³/h · Hn≈17 m</text>
+          <text class="label-soft" x="62" y="48">H₀ = 25 m (Q=0)</text>
+          <text class="label-soft" x="222" y="178">Qmax≈16 m³/h (H=0)</text>
+
+          <text class="axis-label" x="330" y="189">Q (m³/h)</text>
+          <text class="axis-label" x="58" y="24">H (m)</text>
+
+          <text class="tick-label" x="52" y="203" text-anchor="middle">0</text>
+          <text class="tick-label" x="118" y="203" text-anchor="middle">4</text>
+          <text class="tick-label" x="184" y="203" text-anchor="middle">8</text>
+          <text class="tick-label" x="250" y="203" text-anchor="middle">12</text>
+          <text class="tick-label" x="316" y="203" text-anchor="middle">16</text>
+
+          <text class="tick-label" x="44" y="189" text-anchor="end">0</text>
+          <text class="tick-label" x="44" y="158.6" text-anchor="end">5</text>
+          <text class="tick-label" x="44" y="128.2" text-anchor="end">10</text>
+          <text class="tick-label" x="44" y="97.8" text-anchor="end">15</text>
+          <text class="tick-label" x="44" y="67.4" text-anchor="end">20</text>
+          <text class="tick-label" x="44" y="37" text-anchor="end">25</text>
+        </svg>
+      `,
+      notes: [
+        'Le point nominal ($Q_n \\approx 9\\;\\text{m}^3/\\text{h}$, $H_n \\approx 17\\;\\text{m}$) reprend les valeurs de la pompe Grundfos CM5-8 citée dans l\'exemple 1 du cours.',
+        'La courbe est tracée avec $H(Q) = H_0 - k Q^2$ : $H_0 = 25\\;\\text{m}$ à débit nul (vanne fermée) et $Q_{\\max} \\approx 16\\;\\text{m}^3/\\text{h}$ à HMT nulle sont des bornes typiques choisies pour faire passer la courbe par le point nominal du catalogue — la fiche technique citée dans le cours ne donne que ce point nominal, pas l\'équation complète.',
+        'Vérification au point client de l\'exemple 1 ($Q = 8\\;\\text{m}^3/\\text{h}$) : la courbe donne $H \\approx 18{,}8\\;\\text{m}$, bien au-dessus des $15\\;\\text{m}$ requis — cohérent avec la « réserve de 1 m³/h sur le débit » mentionnée dans le cours.'
+      ],
+      reading: 'Une courbe de pompe se lit toujours de gauche (débit nul, HMT maximale) vers la droite (débit maximal, HMT nulle) : plus on demande de débit, moins la pompe peut fournir de hauteur.',
+      caption: 'Points recalculés indépendamment sur $H(Q) = 25 - 0{,}0977\\,Q^2$ : (0 ; 25), (9 ; 17,1) point nominal catalogue, (16 ; 0). Décroissance strictement vérifiée sur toute la plage.'
+    },
 
     recap: [
       'Une fiche technique contient toujours : performances nominales, plage de fonctionnement, caractéristiques électriques, conditions de référence',

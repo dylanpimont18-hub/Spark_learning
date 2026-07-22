@@ -70,21 +70,60 @@ Propriétés utiles :<br/>
       '<strong>Travail d\'une force</strong> : $W = \\vec{F}\\cdot\\vec{d} = F\\,d\\cos\\theta\\;\\text{(J)}$',
     ],
 
-    diagram: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:10px;padding:20px;font-family:monospace;font-size:0.88rem;line-height:1.8">
-<div style="font-weight:700;margin-bottom:10px;font-family:sans-serif">Décomposition d'un vecteur force</div>
-<pre style="margin:0;color:var(--text)">
-       y
-       │     ↗ F (norme = F, angle θ)
-  F_y  │   ↗
-       │ ↗ θ
-       O──────────── x
-            F_x
+    diagram: {
+      theme: 'maths',
+      kicker: 'Décomposition d\'un vecteur force',
+      title: 'Comment décomposer une force selon ses deux axes ?',
+      description: 'Un vecteur force $\\vec{F}$ se décompose en une composante <strong>horizontale</strong> $F_x$ et une composante <strong>verticale</strong> $F_y$, à l\'aide de l\'angle $\\theta$ qu\'il forme avec l\'axe horizontal : $F_x = F\\cos\\theta$ et $F_y = F\\sin\\theta$.<br/><br/>Reprend exactement le câble 1 de l\'exemple 1 du cours : $F_1 = 800$ N à $\\theta = 60°$ de l\'horizontale.',
+      svg: `
+        <svg viewBox="0 0 400 300" role="img" aria-labelledby="vecteurs-decomposition-title vecteurs-decomposition-desc">
+          <title id="vecteurs-decomposition-title">Décomposition d'une force en composantes horizontale et verticale</title>
+          <desc id="vecteurs-decomposition-desc">Un vecteur force de 800 newtons incline a 60 degres de l'horizontale est trace depuis l'origine ; des pointilles projettent son extremite sur l'axe horizontal, ou l'on lit la composante Fx de 400 newtons, et sur l'axe vertical, ou l'on lit la composante Fy d'environ 693 newtons, formant un rectangle dont la diagonale est le vecteur F.</desc>
 
-  F_x = F·cos(θ)   (composante horizontale)
-  F_y = F·sin(θ)   (composante verticale)
-  F   = √(F_x² + F_y²)  (retour à la norme)
-</pre>
-</div>`,
+          <!-- Axes -->
+          <line class="axis" x1="60" y1="250" x2="365" y2="250"></line>
+          <polygon class="axis" points="365,250 355,245 355,255"></polygon>
+          <line class="axis" x1="60" y1="250" x2="60" y2="30"></line>
+          <polygon class="axis" points="60,30 55,40 65,40"></polygon>
+          <text class="axis-label" x="372" y="255">x</text>
+          <text class="axis-label" x="46" y="26">y</text>
+          <text class="label-soft" x="44" y="264">O</text>
+
+          <!-- Composante horizontale Fx (sur l'axe x) -->
+          <line class="graph-line" x1="60" y1="250" x2="180" y2="250"></line>
+          <circle class="plot-point-alt" cx="180" cy="250" r="4"></circle>
+          <text class="annotation-label" x="120" y="270" text-anchor="middle">Fx = 400 N</text>
+
+          <!-- Composante verticale Fy (sur l'axe y) -->
+          <line class="graph-line" x1="60" y1="250" x2="60" y2="42"></line>
+          <circle class="plot-point-alt" cx="60" cy="42" r="4"></circle>
+          <text class="annotation-label" x="50" y="146" text-anchor="end">Fy = 693 N</text>
+
+          <!-- Pointillés de projection (rectangle de décomposition) -->
+          <line class="guide-line" x1="180" y1="250" x2="180" y2="42"></line>
+          <line class="guide-line" x1="60" y1="42" x2="180" y2="42"></line>
+
+          <!-- Vecteur résultant F -->
+          <line class="curve-main" x1="60" y1="250" x2="180" y2="42"></line>
+          <polygon class="curve-main" points="180,42 178.5,52.7 171.5,48.7"></polygon>
+          <circle class="plot-point" cx="180" cy="42" r="5"></circle>
+          <text class="annotation-label" x="150" y="150">F = 800 N</text>
+
+          <!-- Arc de l'angle theta -->
+          <path class="focus-line" d="M 88 250 A 28 28 0 0 0 74 226" fill="none"></path>
+          <text class="annotation-label" x="94" y="235">θ ≈ 60°</text>
+
+          <text class="label-soft" x="220" y="288" text-anchor="middle">Vérification : F = √(Fx² + Fy²) ≈ √(400² + 693²) ≈ 800 N</text>
+        </svg>
+      `,
+      notes: [
+        'La composante <strong>horizontale</strong> se lit en projetant l\'extrémité du vecteur sur l\'axe des $x$ : $F_x = F\\cos\\theta = 800 \\times \\cos 60° = 400$ N.',
+        'La composante <strong>verticale</strong> se lit en projetant l\'extrémité du vecteur sur l\'axe des $y$ : $F_y = F\\sin\\theta = 800 \\times \\sin 60° \\approx 692{,}8$ N, arrondi à $693$ N.',
+        'On retrouve la <strong>norme</strong> du vecteur avec le théorème de Pythagore : $F = \\sqrt{F_x^2 + F_y^2} = \\sqrt{400^2 + 692{,}8^2} \\approx 800$ N — cohérent avec la valeur de départ.'
+      ],
+      reading: 'Le vecteur $\\vec{F}$ est la diagonale du rectangle formé par ses deux projections : $F_x$ sur l\'axe horizontal et $F_y$ sur l\'axe vertical. L\'angle $\\theta$ se lit entre le vecteur et l\'axe horizontal.',
+      caption: 'Décomposition du vecteur force $\\vec{F_1} = 800$ N à $\\theta = 60°$ (câble 1 de l\'exemple 1 du cours) en ses composantes $F_x = 400$ N et $F_y \\approx 693$ N.'
+    },
 
     recap: [
       'Un vecteur a une direction, un sens et une norme',

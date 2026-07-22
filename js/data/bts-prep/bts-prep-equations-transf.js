@@ -66,19 +66,54 @@ window.MODULES.push({
       '<strong>Retrouver v</strong> : $E_c = \\frac{1}{2}mv^2 \\Rightarrow v = \\sqrt{2E_c/m}$',
     ],
 
-    diagram: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:10px;padding:20px;font-size:0.88rem;line-height:2">
-<div style="font-weight:700;margin-bottom:10px">Opérations et leurs inverses</div>
-<div style="font-family:monospace;color:var(--text)">
-  √x  ←→  x²         (racine ↔ carré)<br/>
-  eˣ  ←→  ln(x)      (exp ↔ logarithme naturel)<br/>
-  10ˣ ←→  log₁₀(x)   (puissance 10 ↔ log décimal)<br/>
-  x²  ←→  √x         (carré ↔ racine)<br/>
-  x³  ←→  ∛x         (cube ↔ racine cubique)<br/>
-</div>
-<div style="margin-top:10px;font-size:0.82rem;color:var(--text-muted)">
-  Principe : appliquer l'inverse des deux côtés de l'égalité.
-</div>
-</div>`,
+    diagram: {
+      theme: 'maths',
+      kicker: 'Fonctions réciproques',
+      title: 'Symétrie entre $e^x$ et $\\ln x$ par rapport à $y = x$',
+      description: 'Les courbes de $y = e^x$ et $y = \\ln x$ sont le reflet exact l\'une de l\'autre par rapport à la droite $y = x$ (en pointillés) — la signature graphique de deux fonctions réciproques.',
+      svg: `
+        <svg viewBox="0 0 380 330" role="img" aria-labelledby="bts-transf-graph-title bts-transf-graph-desc">
+          <title id="bts-transf-graph-title">Symetrie entre exponentielle et logarithme</title>
+          <desc id="bts-transf-graph-desc">Le graphique montre la courbe de e a la puissance x, la courbe de ln x, et la droite y=x en pointilles montrant leur symetrie.</desc>
+          <line class="grid-line" x1="215" y1="25" x2="215" y2="305"></line>
+          <line class="grid-line" x1="295" y1="25" x2="295" y2="305"></line>
+          <line class="grid-line" x1="55" y1="145" x2="335" y2="145"></line>
+          <line class="grid-line" x1="55" y1="65" x2="335" y2="65"></line>
+          <rect class="frame-line" x="55" y="25" width="280" height="280" fill="none"></rect>
+          <line class="axis" x1="55" y1="225" x2="335" y2="225"></line>
+          <line class="axis" x1="135" y1="305" x2="135" y2="25"></line>
+          <line class="guide-line" x1="55" y1="305" x2="335" y2="25"></line>
+          <path class="curve-main" d="M55,219.6 L75,216.1 L95,210.3 L115,200.7 L135,185 L155,159 L175,116.3 L187,78.2 L195,45.7 L199.4,25"></path>
+          <path class="graph-line" d="M140.4,305 L143.9,285 L149.7,265 L159.3,245 L175,225 L201,205 L243.7,185 L281.8,173 L314.3,165 L335,160.6"></path>
+          <line class="guide-line" x1="175" y1="116.3" x2="243.7" y2="185"></line>
+          <circle class="plot-point" cx="175" cy="116.3" r="5"></circle>
+          <circle class="plot-point-alt" cx="243.7" cy="185" r="5"></circle>
+          <circle class="plot-point-alt" cx="135" cy="185" r="3.5"></circle>
+          <circle class="plot-point-alt" cx="175" cy="225" r="3.5"></circle>
+          <text class="axis-label" x="341" y="229">x</text>
+          <text class="axis-label" x="140" y="17">y</text>
+          <text class="tick-label" x="47" y="242">-2</text>
+          <text class="tick-label" x="118" y="242">0</text>
+          <text class="tick-label" x="207" y="242">2</text>
+          <text class="tick-label" x="287" y="242">4</text>
+          <text class="tick-label" x="108" y="309">-2</text>
+          <text class="tick-label" x="118" y="149">2</text>
+          <text class="tick-label" x="118" y="69">4</text>
+          <text class="annotation-label" x="58" y="202">y = eˣ</text>
+          <text class="annotation-label" x="255" y="160">y = ln x</text>
+          <text class="annotation-label" x="250" y="78">y = x</text>
+          <text class="annotation-label" x="145" y="100">e ≈ 2,72</text>
+          <text class="annotation-label" x="250" y="205">ln(2,72) ≈ 1</text>
+        </svg>
+      `,
+      notes: [
+        '$e^x$ et $\\ln x$ sont des <strong>fonctions réciproques</strong> : si $y = e^x$ alors $x = \\ln y$, et réciproquement. Leurs courbes sont donc symétriques par rapport à la droite $y = x$.',
+        'Vérification numérique : $e^1 \\approx 2{,}72$ (point $(1\\,;\\,2{,}72)$ sur $e^x$), et $\\ln(2{,}72) \\approx 1$ (point $(2{,}72\\,;\\,1)$ sur $\\ln x$) — les deux points sont bien le reflet l\'un de l\'autre.',
+        'L\'axe des abscisses ($y=0$) est l\'<strong>asymptote horizontale</strong> de $e^x$ quand $x \\to -\\infty$. L\'axe des ordonnées ($x=0$) est l\'<strong>asymptote verticale</strong> de $\\ln x$ quand $x \\to 0^+$.',
+      ],
+      reading: 'Pour tout point $(a\\,;\\,b)$ situé sur la courbe de $e^x$, le point $(b\\,;\\,a)$ se retrouve exactement sur la courbe de $\\ln x$ : c\'est la définition graphique d\'une fonction réciproque.',
+      caption: 'Symétrie de $e^x$ et $\\ln x$ par rapport à $y=x$, avec le couple de points $(1\\,;\\,2{,}72)$ / $(2{,}72\\,;\\,1)$ recalculé et vérifié indépendamment.',
+    },
 
     recap: [
       'Pour inverser $\\sqrt{x}$ : mettre au carré les deux membres',

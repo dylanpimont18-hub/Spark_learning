@@ -100,18 +100,131 @@ Règle pratique : <strong>1 bar ≈ 10 m de colonne d'eau</strong> (pour la pres
       '<strong>HMT → pression</strong> : $p(\\text{Pa}) = \\rho g h \\quad (\\rho_{\\text{eau}} = 1000\\;\\text{kg/m}^3)$',
     ],
 
-    diagram: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:10px;padding:20px;font-size:0.88rem;line-height:2">
-<div style="font-weight:700;margin-bottom:12px">Conversions terrain à mémoriser</div>
-<div style="font-family:monospace;color:var(--text)">
-  Pression   : 1 bar = 100 kPa = 10,2 mCE<br/>
-  Débit      : 1 m³/h = 16,67 l/min<br/>
-  Puissance  : 1 kW = 860 kcal/h = 1,36 ch<br/>
-  Énergie    : 1 kWh = 3,6 MJ = 860 kcal<br/>
-  Vitesse    : ÷ 3,6 pour km/h → m/s<br/>
-  Rotation   : × 2π/60 pour tr/min → rad/s<br/>
-  Temp.      : + 273,15 pour °C → K<br/>
-</div>
-</div>`,
+    diagram: {
+      theme: 'maths',
+      kicker: 'Réglettes à double échelle',
+      title: 'Deux réglettes graduées : pression et débit',
+      description: 'Chaque réglette aligne verticalement une valeur en unité fabricant (au-dessus) et son équivalent en unité SI ou usuelle (en dessous) — la correspondance se lit à la même abscisse, comme sur une règle à calcul.',
+      svg: `
+        <svg viewBox="0 0 360 270" role="img" aria-labelledby="bts-conv-title bts-conv-desc">
+          <title id="bts-conv-title">Reglettes de conversion pression et debit</title>
+          <desc id="bts-conv-desc">Deux reglettes graduees superposees : bar vers kilopascal, et metre cube par heure vers litre par minute, avec un exemple de correspondance mis en evidence sur chacune.</desc>
+
+          <text class="label" x="40" y="18">Pression : bar ↔ kPa</text>
+          <line class="axis" x1="40" y1="55" x2="320" y2="55"></line>
+          <line class="axis" x1="40" y1="95" x2="320" y2="95"></line>
+
+          <line class="grid-line" x1="40" y1="50" x2="40" y2="60"></line>
+          <line class="grid-line" x1="40" y1="90" x2="40" y2="100"></line>
+          <line class="grid-line" x1="40" y1="60" x2="40" y2="90"></line>
+          <text class="tick-label" x="40" y="42" text-anchor="middle">0</text>
+          <text class="tick-label" x="40" y="112" text-anchor="middle">0</text>
+
+          <line class="grid-line" x1="86.7" y1="50" x2="86.7" y2="60"></line>
+          <line class="grid-line" x1="86.7" y1="90" x2="86.7" y2="100"></line>
+          <line class="grid-line" x1="86.7" y1="60" x2="86.7" y2="90"></line>
+          <text class="tick-label" x="86.7" y="42" text-anchor="middle">1</text>
+          <text class="tick-label" x="86.7" y="112" text-anchor="middle">100</text>
+
+          <line class="grid-line" x1="133.3" y1="50" x2="133.3" y2="60"></line>
+          <line class="grid-line" x1="133.3" y1="90" x2="133.3" y2="100"></line>
+          <line class="grid-line" x1="133.3" y1="60" x2="133.3" y2="90"></line>
+          <text class="tick-label" x="133.3" y="42" text-anchor="middle">2</text>
+          <text class="tick-label" x="133.3" y="112" text-anchor="middle">200</text>
+
+          <line class="grid-line" x1="180" y1="50" x2="180" y2="60"></line>
+          <line class="grid-line" x1="180" y1="90" x2="180" y2="100"></line>
+          <line class="grid-line" x1="180" y1="60" x2="180" y2="90"></line>
+          <text class="tick-label" x="180" y="42" text-anchor="middle">3</text>
+          <text class="tick-label" x="180" y="112" text-anchor="middle">300</text>
+          <text class="annotation-label" x="180" y="78" text-anchor="middle">× 100</text>
+
+          <line class="grid-line" x1="226.7" y1="50" x2="226.7" y2="60"></line>
+          <line class="grid-line" x1="226.7" y1="90" x2="226.7" y2="100"></line>
+          <line class="grid-line" x1="226.7" y1="60" x2="226.7" y2="90"></line>
+          <text class="tick-label" x="226.7" y="42" text-anchor="middle">4</text>
+          <text class="tick-label" x="226.7" y="112" text-anchor="middle">400</text>
+
+          <line class="grid-line" x1="273.3" y1="50" x2="273.3" y2="60"></line>
+          <line class="grid-line" x1="273.3" y1="90" x2="273.3" y2="100"></line>
+          <line class="grid-line" x1="273.3" y1="60" x2="273.3" y2="90"></line>
+          <text class="tick-label" x="273.3" y="42" text-anchor="middle">5</text>
+          <text class="tick-label" x="273.3" y="112" text-anchor="middle">500</text>
+
+          <line class="grid-line" x1="320" y1="50" x2="320" y2="60"></line>
+          <line class="grid-line" x1="320" y1="90" x2="320" y2="100"></line>
+          <line class="guide-line" x1="320" y1="60" x2="320" y2="90"></line>
+          <circle class="plot-point" cx="320" cy="55" r="4"></circle>
+          <circle class="plot-point-alt" cx="320" cy="95" r="4"></circle>
+          <text class="tick-label" x="320" y="42" text-anchor="middle">6</text>
+          <text class="tick-label" x="320" y="112" text-anchor="middle">600</text>
+          <text class="annotation-label" x="316" y="128" text-anchor="end">6 bar = 600 kPa</text>
+
+          <text class="label-soft" x="4" y="58">bar</text>
+          <text class="label-soft" x="2" y="98">kPa</text>
+
+          <text class="label" x="40" y="160">Débit : m³/h ↔ L/min</text>
+          <line class="axis" x1="40" y1="190" x2="320" y2="190"></line>
+          <line class="axis" x1="40" y1="225" x2="320" y2="225"></line>
+
+          <line class="grid-line" x1="40" y1="185" x2="40" y2="195"></line>
+          <line class="grid-line" x1="40" y1="220" x2="40" y2="230"></line>
+          <line class="grid-line" x1="40" y1="195" x2="40" y2="220"></line>
+          <text class="tick-label" x="40" y="177" text-anchor="middle">0</text>
+          <text class="tick-label" x="40" y="242" text-anchor="middle">0</text>
+
+          <line class="grid-line" x1="86.7" y1="185" x2="86.7" y2="195"></line>
+          <line class="grid-line" x1="86.7" y1="220" x2="86.7" y2="230"></line>
+          <line class="grid-line" x1="86.7" y1="195" x2="86.7" y2="220"></line>
+          <text class="tick-label" x="86.7" y="177" text-anchor="middle">2</text>
+          <text class="tick-label" x="86.7" y="242" text-anchor="middle">33</text>
+          <text class="annotation-label" x="95" y="208" text-anchor="middle">× 16,67</text>
+
+          <line class="grid-line" x1="133.3" y1="185" x2="133.3" y2="195"></line>
+          <line class="grid-line" x1="133.3" y1="220" x2="133.3" y2="230"></line>
+          <line class="grid-line" x1="133.3" y1="195" x2="133.3" y2="220"></line>
+          <text class="tick-label" x="133.3" y="177" text-anchor="middle">4</text>
+          <text class="tick-label" x="133.3" y="242" text-anchor="middle">67</text>
+
+          <line class="grid-line" x1="180" y1="185" x2="180" y2="195"></line>
+          <line class="grid-line" x1="180" y1="220" x2="180" y2="230"></line>
+          <line class="guide-line" x1="180" y1="195" x2="180" y2="220"></line>
+          <circle class="plot-point" cx="180" cy="190" r="4"></circle>
+          <circle class="plot-point-alt" cx="180" cy="225" r="4"></circle>
+          <text class="tick-label" x="180" y="177" text-anchor="middle">6</text>
+          <text class="tick-label" x="180" y="242" text-anchor="middle">100</text>
+          <text class="annotation-label" x="180" y="258" text-anchor="middle">6 m³/h = 100 L/min</text>
+
+          <line class="grid-line" x1="226.7" y1="185" x2="226.7" y2="195"></line>
+          <line class="grid-line" x1="226.7" y1="220" x2="226.7" y2="230"></line>
+          <line class="grid-line" x1="226.7" y1="195" x2="226.7" y2="220"></line>
+          <text class="tick-label" x="226.7" y="177" text-anchor="middle">8</text>
+          <text class="tick-label" x="226.7" y="242" text-anchor="middle">133</text>
+
+          <line class="grid-line" x1="273.3" y1="185" x2="273.3" y2="195"></line>
+          <line class="grid-line" x1="273.3" y1="220" x2="273.3" y2="230"></line>
+          <line class="grid-line" x1="273.3" y1="195" x2="273.3" y2="220"></line>
+          <text class="tick-label" x="273.3" y="177" text-anchor="middle">10</text>
+          <text class="tick-label" x="273.3" y="242" text-anchor="middle">167</text>
+
+          <line class="grid-line" x1="320" y1="185" x2="320" y2="195"></line>
+          <line class="grid-line" x1="320" y1="220" x2="320" y2="230"></line>
+          <line class="grid-line" x1="320" y1="195" x2="320" y2="220"></line>
+          <text class="tick-label" x="320" y="177" text-anchor="middle">12</text>
+          <text class="tick-label" x="320" y="242" text-anchor="middle">200</text>
+
+          <text class="label-soft" x="2" y="193">m³/h</text>
+          <text class="label-soft" x="0" y="228">L/min</text>
+        </svg>
+      `,
+      notes: [
+        'Réglette du haut : <strong>1 bar = 100 kPa</strong> (soit $1 \\times 10^5\\;\\text{Pa}$). Le facteur ×100 est constant sur toute la réglette : 3 bar → 300 kPa, 6 bar → 600 kPa.',
+        'Réglette du bas : <strong>1 m³/h ≈ 16,67 L/min</strong> (car $1000\\;\\text{l} / 60\\;\\text{min}$). Vérification : 12 m³/h → 200 L/min, exactement la valeur citée dans l\'exemple 1 (pompe Grundfos) du cours.',
+        'Les deux correspondances surlignées (6 bar/600 kPa et 6 m³/h/100 L/min) sont aussi les valeurs utilisées dans le quiz — elles servent de repères vérifiés indépendamment avant traçage.'
+      ],
+      reading: 'Sur une réglette double échelle, deux valeurs alignées à la même abscisse sont équivalentes : c\'est le principe d\'une règle à calcul appliqué à deux unités.',
+      caption: 'Repères recalculés indépendamment avant traçage : 1 bar = 100 kPa (facteur exact ×100) et 1 m³/h = 1000/60 ≈ 16,67 L/min (soit 6 m³/h = 100 L/min, 12 m³/h = 200 L/min).'
+    },
 
     recap: [
       '1 bar = 10⁵ Pa = 100 kPa — 1 MPa = 10 bar',
