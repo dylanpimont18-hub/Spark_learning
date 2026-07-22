@@ -46,6 +46,92 @@ window.MODULES.push(
         '$\\int \\dfrac{1}{x}\\,dx = \\ln|x|+C$',
         '$\\bar{f}=\\dfrac{1}{b-a}\\displaystyle\\int_a^b f(x)\\,dx$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Aire algébrique — application électronique',
+        title: 'Charge $Q=\\int i(t)\\,dt$ : aires positive et négative sur une période complète',
+        description: 'Reprise du courant $i(t) = 2\\sin(100\\pi t)$ A du cours ($f=50$ Hz, période $T=0{,}02$ s), observé ici sur la <strong>période complète</strong> $t\\in[0\\,;\\,0{,}02]$ s plutôt que sur la demi-période de l\'exemple.<br/><br/>Sur $[0\\,;\\,10]$ ms, $i(t)\\geq0$ : l\'aire est <strong>positive</strong> (hachures vertes), $Q_+\\approx12{,}7$ mC — c\'est exactement la valeur calculée dans l\'exemple du cours.<br/><br/>Sur $[10\\,;\\,20]$ ms, $i(t)\\leq0$ : l\'aire est <strong>négative</strong> (hachures rouges), $Q_-\\approx-12{,}7$ mC.<br/><br/>La charge algébrique totale sur la période complète est $Q=Q_++Q_-=0$ C, cohérente avec la valeur moyenne nulle d\'un signal AC symétrique.',
+        svg: `
+          <svg viewBox="0 0 420 300" role="img" aria-labelledby="bts-int-title bts-int-desc">
+            <title id="bts-int-title">Aires positive et negative du courant i(t) = 2 sin(100 pi t)</title>
+            <desc id="bts-int-desc">Courbe sinusoidale sur une periode T = 0,02 s. Aire positive hachuree en vert sur [0;10] ms (Q+ environ 12,7 mC), aire negative hachuree en rouge sur [10;20] ms (Q- environ -12,7 mC). La somme algebrique est nulle.</desc>
+
+            <defs>
+              <pattern id="bts-int-hatch-pos" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
+                <rect width="8" height="8" fill="color-mix(in srgb, var(--success) 10%, transparent)"></rect>
+                <line x1="0" y1="0" x2="0" y2="8" stroke="var(--success)" stroke-width="1.6" opacity="0.6"></line>
+              </pattern>
+              <pattern id="bts-int-hatch-neg" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
+                <rect width="8" height="8" fill="color-mix(in srgb, var(--error) 10%, transparent)"></rect>
+                <line x1="0" y1="0" x2="0" y2="8" stroke="var(--error)" stroke-width="1.6" opacity="0.6"></line>
+              </pattern>
+            </defs>
+
+            <!-- grille verticale (t = 5, 10, 15, 20 ms) -->
+            <line class="grid-line" x1="142.5" y1="30" x2="142.5" y2="260"></line>
+            <line class="grid-line" x1="225.0" y1="30" x2="225.0" y2="260"></line>
+            <line class="grid-line" x1="307.5" y1="30" x2="307.5" y2="260"></line>
+            <line class="grid-line" x1="390.0" y1="30" x2="390.0" y2="260"></line>
+
+            <!-- grille horizontale (i = -2, -1, 1, 2 A) -->
+            <line class="grid-line" x1="55" y1="245.0" x2="400" y2="245.0"></line>
+            <line class="grid-line" x1="55" y1="195.0" x2="400" y2="195.0"></line>
+            <line class="grid-line" x1="55" y1="95.0" x2="400" y2="95.0"></line>
+            <line class="grid-line" x1="55" y1="45.0" x2="400" y2="45.0"></line>
+
+            <!-- aire positive [0;10] ms, hachures vertes -->
+            <polygon points="60.0,145.0 76.5,114.1 93.0,86.2 109.5,64.1 126.0,49.9 142.5,45.0 159.0,49.9 175.5,64.1 192.0,86.2 208.5,114.1 225.0,145.0" fill="url(#bts-int-hatch-pos)" stroke="none"></polygon>
+
+            <!-- aire negative [10;20] ms, hachures rouges -->
+            <polygon points="225.0,145.0 241.5,175.9 258.0,203.8 274.5,225.9 291.0,240.1 307.5,245.0 324.0,240.1 340.5,225.9 357.0,203.8 373.5,175.9 390.0,145.0" fill="url(#bts-int-hatch-neg)" stroke="none"></polygon>
+
+            <!-- axes : i(t)=0 en y=145, t=0 en x=60 -->
+            <line class="axis" x1="50" y1="145.0" x2="400" y2="145.0"></line>
+            <line class="axis" x1="60" y1="25" x2="60" y2="270"></line>
+
+            <!-- courbe i(t) = 2 sin(100 pi t), t de 0 a 0,02 s -->
+            <polyline class="curve-main" points="60.0,145.0 76.5,114.1 93.0,86.2 109.5,64.1 126.0,49.9 142.5,45.0 159.0,49.9 175.5,64.1 192.0,86.2 208.5,114.1 225.0,145.0 241.5,175.9 258.0,203.8 274.5,225.9 291.0,240.1 307.5,245.0 324.0,240.1 340.5,225.9 357.0,203.8 373.5,175.9 390.0,145.0"></polyline>
+
+            <!-- point du changement de signe -->
+            <circle class="plot-point-alt" cx="225.0" cy="145.0" r="4"></circle>
+            <text class="label-soft" x="225.0" y="163" text-anchor="middle">t = 10 ms (signe + → -)</text>
+
+            <!-- extrema du courant -->
+            <circle class="plot-point" cx="142.5" cy="45.0" r="6"></circle>
+            <circle class="plot-point" cx="307.5" cy="245.0" r="6"></circle>
+            <text class="label-soft" x="142.5" y="28" text-anchor="middle">i max = 2 A</text>
+            <text class="label-soft" x="307.5" y="262" text-anchor="middle">i min = -2 A</text>
+
+            <!-- etiquettes des zones -->
+            <text class="annotation-label" x="110" y="75" text-anchor="middle">Zone positive</text>
+            <text class="label-soft" x="110" y="90" text-anchor="middle">Q+ ≈ +12,7 mC</text>
+            <text class="annotation-label" x="340" y="205" text-anchor="middle">Zone négative</text>
+            <text class="label-soft" x="340" y="220" text-anchor="middle">Q- ≈ -12,7 mC</text>
+
+            <!-- axes et graduations -->
+            <text class="axis-label" x="400" y="288" text-anchor="end">t (ms)</text>
+            <text class="axis-label" x="65" y="18">i(t) (A)</text>
+
+            <text class="tick-label" x="60" y="278" text-anchor="middle">0</text>
+            <text class="tick-label" x="142.5" y="278" text-anchor="middle">5</text>
+            <text class="tick-label" x="225.0" y="278" text-anchor="middle">10</text>
+            <text class="tick-label" x="307.5" y="278" text-anchor="middle">15</text>
+            <text class="tick-label" x="390.0" y="278" text-anchor="middle">20</text>
+
+            <text class="tick-label" x="40" y="249" text-anchor="end">-2</text>
+            <text class="tick-label" x="40" y="199" text-anchor="end">-1</text>
+            <text class="tick-label" x="40" y="99" text-anchor="end">1</text>
+            <text class="tick-label" x="40" y="49" text-anchor="end">2</text>
+          </svg>
+        `,
+        notes: [
+          'Sur $[0\\,;\\,10]$ ms, $i(t)=2\\sin(100\\pi t)\\geq0$ : la contribution à l\'intégrale est <strong>positive</strong>, $Q_+=\\int_0^{0{,}01}i(t)\\,dt\\approx12{,}7$ mC (hachures vertes) — c\'est la valeur calculée dans l\'exemple du cours.',
+          'Sur $[10\\,;\\,20]$ ms, $i(t)\\leq0$ : la contribution est <strong>négative</strong>, $Q_-=\\int_{0{,}01}^{0{,}02}i(t)\\,dt\\approx-12{,}7$ mC (hachures rouges).',
+          'La charge totale sur une période complète $Q=Q_++Q_-=0$ C confirme que la <strong>valeur moyenne</strong> d\'un courant sinusoïdal pur sur une période entière est nulle — seule la valeur efficace (RMS) rend compte de l\'énergie réellement transportée.'
+        ],
+        reading: 'Le vert et le rouge distinguent les deux demi-périodes où le courant change de sens. L\'intégrale les additionne avec leur signe (ici elles s\'annulent) ; l\'aire géométrique réelle (charge totale déplacée, sans compensation de signe) serait $|Q_+|+|Q_-|\\approx25{,}5$ mC.',
+        caption: 'Courant $i(t)=2\\sin(100\\pi t)$ A sur une période $T=0{,}02$ s : $Q_+\\approx12{,}7$ mC (vert) et $Q_-\\approx-12{,}7$ mC (rouge), soit une charge algébrique nette nulle sur la période.'
+      },
       recap: [
         'L\'intégrale définie calcule une aire ALGÉBRIQUE (peut être négative). Pour l\'aire géométrique, prendre $\\int |f(x)|\\,dx$.',
         'La formule fondamentale $\\int_a^b f\\,dx = F(b) - F(a)$ nécessite de connaître une primitive $F$.',

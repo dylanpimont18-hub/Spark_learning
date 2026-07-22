@@ -46,7 +46,58 @@ window.MODULES.push(
         '$j^2 = -1$, $j = \\sqrt{-1}$',
         '$\\underline{Z}_{RLC \\text{ série}} = R + j\\left(L\\omega - \\dfrac{1}{C\\omega}\\right)$'
       ],
-      diagram: '<table style="width:100%;border-collapse:collapse;text-align:center;"><tr style="background:var(--bg-card);"><th style="border:1px solid var(--border);padding:8px;">Composant</th><th style="border:1px solid var(--border);padding:8px;">Impédance $\\underline{Z}$</th><th style="border:1px solid var(--border);padding:8px;">Module</th><th style="border:1px solid var(--border);padding:8px;">Déphasage $\\phi$</th></tr><tr><td style="border:1px solid var(--border);padding:8px;">Résistance $R$</td><td style="border:1px solid var(--border);padding:8px;">$R$</td><td style="border:1px solid var(--border);padding:8px;">$R$</td><td style="border:1px solid var(--border);padding:8px;">$0°$</td></tr><tr><td style="border:1px solid var(--border);padding:8px;">Bobine $L$</td><td style="border:1px solid var(--border);padding:8px;">$jL\\omega$</td><td style="border:1px solid var(--border);padding:8px;">$L\\omega$</td><td style="border:1px solid var(--border);padding:8px;">$+90°$</td></tr><tr><td style="border:1px solid var(--border);padding:8px;">Condensateur $C$</td><td style="border:1px solid var(--border);padding:8px;">$\\dfrac{-j}{C\\omega}$</td><td style="border:1px solid var(--border);padding:8px;">$\\dfrac{1}{C\\omega}$</td><td style="border:1px solid var(--border);padding:8px;">$-90°$</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Représentation de Fresnel',
+        title: 'Le courant $I$ est-il en avance ou en retard sur la tension $U$ ?',
+        description: 'On place le courant $\\underline{I}$ comme référence (angle nul) et la tension $\\underline{U}$ à l\'angle $\\phi = \\arg(\\underline{Z})$ — exactement les deux exemples chiffrés du cours, l\'un inductif ($R=30\\,\\Omega$, $L\\omega=40\\,\\Omega$), l\'autre capacitif ($R=50\\,\\Omega$, $L\\omega-1/(C\\omega)=-60\\,\\Omega$).<br/><br/>Le <strong>signe de $\\phi$</strong> indique qui traîne derrière qui.',
+        svg: `
+          <svg viewBox="0 0 560 320" role="img" aria-labelledby="complexes-fresnel-title complexes-fresnel-desc">
+            <title id="complexes-fresnel-title">Diagramme de Fresnel : cas inductif et cas capacitif</title>
+            <desc id="complexes-fresnel-desc">Deux panneaux. A gauche, circuit RL : le courant I sert de reference horizontale et la tension U est tracee a 53,1 degres au-dessus de l'axe, montrant un courant en retard. A droite, circuit a partie imaginaire negative : la tension U est tracee a 50,2 degres en dessous de l'axe, montrant un courant en avance.</desc>
+            <defs>
+              <marker id="arrow-complexes-fresnel" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
+
+            <line class="grid-line" x1="290" y1="16" x2="290" y2="296"></line>
+
+            <text class="annotation-label" x="30" y="24">Cas inductif — circuit RL</text>
+            <text class="tick-label" x="30" y="40">Z = 30 + 40j Ω, |Z| = 50 Ω</text>
+            <circle class="plot-point-alt" cx="100" cy="190" r="3"></circle>
+            <text class="tick-label" x="90" y="204" text-anchor="end">O</text>
+            <line class="axis" x1="100" y1="190" x2="190" y2="190" marker-end="url(#arrow-complexes-fresnel)"></line>
+            <text class="axis-label" x="196" y="194">I</text>
+            <line class="curve-main" x1="100" y1="190" x2="154" y2="118" marker-end="url(#arrow-complexes-fresnel)"></line>
+            <circle class="plot-point" cx="154" cy="118" r="4"></circle>
+            <text class="axis-label" x="160" y="112">U</text>
+            <path class="guide-line" d="M130 190 A 30 30 0 0 0 118 166" fill="none"></path>
+            <text class="annotation-label" x="134" y="172">φ ≈ +53,1°</text>
+            <text class="tick-label" x="145" y="300" text-anchor="middle">Courant en retard : φ &gt; 0</text>
+
+            <text class="annotation-label" x="310" y="24">Cas capacitif — Im(Z) &lt; 0</text>
+            <text class="tick-label" x="310" y="40">Z = 50 − 60j Ω, |Z| ≈ 78,1 Ω</text>
+            <circle class="plot-point-alt" cx="400" cy="190" r="3"></circle>
+            <text class="tick-label" x="390" y="204" text-anchor="end">O</text>
+            <line class="axis" x1="400" y1="190" x2="490" y2="190" marker-end="url(#arrow-complexes-fresnel)"></line>
+            <text class="axis-label" x="496" y="194">I</text>
+            <line class="curve-main" x1="400" y1="190" x2="458" y2="259" marker-end="url(#arrow-complexes-fresnel)"></line>
+            <circle class="plot-point" cx="458" cy="259" r="4"></circle>
+            <text class="axis-label" x="448" y="277">U</text>
+            <path class="guide-line" d="M430 190 A 30 30 0 0 1 419 213" fill="none"></path>
+            <text class="annotation-label" x="405" y="228">φ ≈ -50,2°</text>
+            <text class="tick-label" x="445" y="300" text-anchor="middle">Courant en avance : φ &lt; 0</text>
+          </svg>
+        `,
+        notes: [
+          'Cas inductif (exemple du cours) : $R = 30\\,\\Omega$, $L\\omega = 40\\,\\Omega$ donc $\\underline{Z} = 30 + 40j\\,\\Omega$, $|\\underline{Z}| = 50\\,\\Omega$ et $\\phi = \\arctan(40/30) \\approx +53{,}1°$.<br/><br/>Comme $\\phi > 0$, la tension $\\underline{U}$ est en avance sur le courant : autrement dit, <strong>le courant est en retard</strong> sur la tension.',
+          'Cas capacitif (partie imaginaire négative, $R = 50\\,\\Omega$ et $L\\omega - 1/(C\\omega) = -60\\,\\Omega$) : $\\underline{Z} = 50 - 60j\\,\\Omega$, $|\\underline{Z}| = \\sqrt{50^2+60^2} \\approx 78{,}1\\,\\Omega$ et $\\phi = \\arctan(-60/50) \\approx -50{,}2°$.<br/><br/>Comme $\\phi < 0$ cette fois, <strong>le courant est en avance</strong> sur la tension : c\'est l\'effet inverse de la bobine.',
+          'Les deux vecteurs sont tracés à la même longueur par souci de lisibilité : $U$ (en volts) et $I$ (en ampères) n\'ont pas la même unité — seul l\'angle $\\phi$ entre eux est représenté à l\'échelle réelle.'
+        ],
+        reading: 'Le courant $\\underline{I}$ sert toujours de référence horizontale. Si la flèche $\\underline{U}$ pointe au-dessus de l\'axe, le circuit est inductif et le courant traîne derrière la tension. Si elle pointe en dessous, le circuit est capacitif et le courant devance la tension.',
+        caption: 'Diagramme de Fresnel : déphasage $\\phi$ dans un circuit inductif ($\\phi>0$, courant en retard) comparé à un circuit capacitif ($\\phi<0$, courant en avance). Vecteurs non proportionnels en amplitude (unités différentes V/A), seuls les angles sont à l\'échelle.'
+      },
       recap: [
         'Le module de $\\underline{Z}$ donne l\'amplitude (rapport $U/I$), l\'argument donne le déphasage tension-courant.',
         'En forme exponentielle, les multiplications deviennent simples : modules multipliés, arguments additionnés.',

@@ -45,6 +45,72 @@ window.MODULES.push(
         '$P_{\\mathcal{P}(\\lambda)}(X=k)=\\dfrac{\\lambda^k}{k!}e^{-\\lambda}$',
         '$E_{\\mathcal{P}}(X)=V_{\\mathcal{P}}(X)=\\lambda$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Loi de Poisson',
+        title: 'Diagramme en bâtons de $\\mathcal{P}(\\lambda = 5)$',
+        description: 'En reprenant $\\lambda = 5$ appels par minute (exemple du centre d\'appels du problème du cours), chaque bâton a une hauteur <strong>calculée</strong> avec $P(X=k) = \\dfrac{\\lambda^k}{k!}e^{-\\lambda}$ pour $k = 0$ à $10$ : la distribution est asymétrique, avec un pic autour de $\\lambda$.',
+        svg: `
+          <svg viewBox="0 0 600 320" role="img" aria-labelledby="poisson-bts-title poisson-bts-desc">
+            <title id="poisson-bts-title">Diagramme en batons de la loi de Poisson de parametre 5</title>
+            <desc id="poisson-bts-desc">Diagramme en batons montrant P(X=k) pour k de 0 a 10 pour une loi de Poisson de parametre lambda egal 5, calculee avec la formule lambda puissance k sur k factorielle fois exponentielle de moins lambda. La distribution est asymetrique avec un maximum partage entre k=4 et k=5.</desc>
+            <text class="axis-label" x="20" y="26" text-anchor="start">P(X = k)</text>
+            <line class="axis" x1="50" y1="40" x2="50" y2="260"></line>
+            <line class="axis" x1="50" y1="260" x2="560" y2="260"></line>
+            <line class="grid-line" x1="50" y1="205" x2="560" y2="205"></line>
+            <line class="grid-line" x1="50" y1="150" x2="560" y2="150"></line>
+            <line class="grid-line" x1="50" y1="95" x2="560" y2="95"></line>
+            <line class="grid-line" x1="50" y1="40" x2="560" y2="40"></line>
+            <text class="tick-label" x="42" y="264" text-anchor="end">0</text>
+            <text class="tick-label" x="42" y="209" text-anchor="end">0,05</text>
+            <text class="tick-label" x="42" y="154" text-anchor="end">0,10</text>
+            <text class="tick-label" x="42" y="99" text-anchor="end">0,15</text>
+            <text class="tick-label" x="42" y="44" text-anchor="end">0,20</text>
+            <rect x="59" y="252.59" width="30" height="7.41" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)" stroke="none"></rect>
+            <rect x="104" y="222.94" width="30" height="37.06" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)" stroke="none"></rect>
+            <rect x="149" y="167.35" width="30" height="92.65" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)" stroke="none"></rect>
+            <rect x="194" y="105.59" width="30" height="154.41" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)" stroke="none"></rect>
+            <rect x="239" y="66.99" width="30" height="193.01" fill="color-mix(in srgb, var(--diagram-accent) 58%, transparent)" stroke="none"></rect>
+            <rect x="284" y="66.99" width="30" height="193.01" fill="color-mix(in srgb, var(--diagram-accent) 58%, transparent)" stroke="none"></rect>
+            <rect x="329" y="99.15" width="30" height="160.85" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)" stroke="none"></rect>
+            <rect x="374" y="145.11" width="30" height="114.89" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)" stroke="none"></rect>
+            <rect x="419" y="188.19" width="30" height="71.81" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)" stroke="none"></rect>
+            <rect x="464" y="220.11" width="30" height="39.89" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)" stroke="none"></rect>
+            <rect x="509" y="240.05" width="30" height="19.95" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)" stroke="none"></rect>
+            <text class="tick-label" x="74" y="244.59" text-anchor="middle">0,007</text>
+            <text class="tick-label" x="119" y="214.94" text-anchor="middle">0,034</text>
+            <text class="tick-label" x="164" y="159.35" text-anchor="middle">0,084</text>
+            <text class="tick-label" x="209" y="97.59" text-anchor="middle">0,140</text>
+            <text class="tick-label" x="254" y="58.99" text-anchor="middle">0,175</text>
+            <text class="tick-label" x="299" y="58.99" text-anchor="middle">0,175</text>
+            <text class="tick-label" x="344" y="91.15" text-anchor="middle">0,146</text>
+            <text class="tick-label" x="389" y="137.11" text-anchor="middle">0,104</text>
+            <text class="tick-label" x="434" y="180.19" text-anchor="middle">0,065</text>
+            <text class="tick-label" x="479" y="212.11" text-anchor="middle">0,036</text>
+            <text class="tick-label" x="524" y="232.05" text-anchor="middle">0,018</text>
+            <text class="annotation-label" x="276.5" y="50" text-anchor="middle">λ = 5</text>
+            <text class="tick-label" x="74" y="278" text-anchor="middle">0</text>
+            <text class="tick-label" x="119" y="278" text-anchor="middle">1</text>
+            <text class="tick-label" x="164" y="278" text-anchor="middle">2</text>
+            <text class="tick-label" x="209" y="278" text-anchor="middle">3</text>
+            <text class="tick-label" x="254" y="278" text-anchor="middle">4</text>
+            <text class="tick-label" x="299" y="278" text-anchor="middle">5</text>
+            <text class="tick-label" x="344" y="278" text-anchor="middle">6</text>
+            <text class="tick-label" x="389" y="278" text-anchor="middle">7</text>
+            <text class="tick-label" x="434" y="278" text-anchor="middle">8</text>
+            <text class="tick-label" x="479" y="278" text-anchor="middle">9</text>
+            <text class="tick-label" x="524" y="278" text-anchor="middle">10</text>
+            <text class="axis-label" x="305" y="300" text-anchor="middle">k (nombre d'appels par minute)</text>
+          </svg>
+        `,
+        notes: [
+          'Calcul $P(X=k) = \\dfrac{\\lambda^k}{k!}e^{-\\lambda}$ pour $\\lambda = 5$ : $P(X=3) \\approx 0{,}140$ (valeur du problème du cours), $P(X=4) \\approx 0{,}175$, $P(X=5) \\approx 0{,}175$ — les deux valeurs les plus probables.',
+          'Bâtons foncés : $k=4$ et $k=5$, qui se partagent exactement le maximum de probabilité — particularité de la loi de Poisson quand $\\lambda$ est un entier (les deux valeurs entières encadrant $\\lambda$ sont alors co-modales).',
+          'La distribution est asymétrique : la probabilité décroît plus lentement à droite ($P(X=10) \\approx 0{,}018$) qu\'elle ne le ferait par symétrie stricte, contrairement à la loi normale.'
+        ],
+        reading: 'Ce qu\'il faut lire : la hauteur de chaque bâton est calculée avec la vraie formule $P(X=k)=\\lambda^k e^{-\\lambda}/k!$, pas dessinée à main levée — la probabilité culmine autour de $k \\approx \\lambda$ puis décroît, plus lentement à droite qu\'à gauche.',
+        caption: 'Diagramme en bâtons de $\\mathcal{P}(\\lambda=5)$, calculé pour $k=0$ à $10$ (exemple du centre d\'appels du cours).'
+      },
       recap: [
         'Binomiale = $n$ essais indépendants avec $p$ constant. Poisson = événements rares dans un intervalle.',
         'Si $n \\geq 30$ et $p \\leq 0{,}1$ : approcher $\\mathcal{B}(n,p)$ par $\\mathcal{P}(np)$ pour simplifier les calculs.',

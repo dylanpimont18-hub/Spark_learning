@@ -46,6 +46,68 @@ window.MODULES.push(
         '$a=\\dfrac{\\text{Cov}(x,y)}{V_x}$, $b=\\bar{y}-a\\bar{x}$',
         '$r=\\dfrac{\\text{Cov}(x,y)}{\\sigma_x\\cdot\\sigma_y}$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Nuage de points et régression',
+        title: 'Ajuster une droite à un nuage de points, et lire les résidus',
+        description: 'Reprise des <strong>5 points</strong> de l\'exemple des panneaux solaires (puissance selon ensoleillement), avec la <strong>droite de régression</strong> $y=29{,}5x+23$ ajustée dessus.<br/><br/>Les petits segments verticaux sont les <strong>résidus</strong> : l\'écart entre chaque point réel et la droite.',
+        svg: `
+          <svg viewBox="0 0 360 240" role="img" aria-labelledby="stats-reg-title stats-reg-desc">
+            <title id="stats-reg-title">Nuage de points et droite de regression</title>
+            <desc id="stats-reg-desc">Cinq points representant la puissance solaire selon l'ensoleillement, une droite de regression ajustee, et des segments montrant les residus entre points et droite.</desc>
+            <line class="grid-line" x1="50" y1="18" x2="50" y2="205"></line>
+            <line class="grid-line" x1="95" y1="18" x2="95" y2="205"></line>
+            <line class="grid-line" x1="140" y1="18" x2="140" y2="205"></line>
+            <line class="grid-line" x1="185" y1="18" x2="185" y2="205"></line>
+            <line class="grid-line" x1="230" y1="18" x2="230" y2="205"></line>
+            <line class="grid-line" x1="275" y1="18" x2="275" y2="205"></line>
+            <line class="grid-line" x1="320" y1="18" x2="320" y2="205"></line>
+            <line class="grid-line" x1="50" y1="205" x2="335" y2="205"></line>
+            <line class="grid-line" x1="50" y1="169" x2="335" y2="169"></line>
+            <line class="grid-line" x1="50" y1="133" x2="335" y2="133"></line>
+            <line class="grid-line" x1="50" y1="97" x2="335" y2="97"></line>
+            <line class="grid-line" x1="50" y1="61" x2="335" y2="61"></line>
+            <line class="grid-line" x1="50" y1="25" x2="335" y2="25"></line>
+            <line class="axis" x1="50" y1="205" x2="335" y2="205"></line>
+            <line class="axis" x1="50" y1="210" x2="50" y2="18"></line>
+            <path class="curve-main" d="M95 179 L275 37"></path>
+            <line class="guide-line" x1="95" y1="181" x2="95" y2="179"></line>
+            <line class="guide-line" x1="140" y1="139" x2="140" y2="144"></line>
+            <line class="guide-line" x1="185" y1="109" x2="185" y2="108"></line>
+            <circle class="plot-point" cx="95" cy="181" r="5"></circle>
+            <circle class="plot-point" cx="140" cy="139" r="5"></circle>
+            <circle class="plot-point" cx="185" cy="109" r="5"></circle>
+            <circle class="plot-point" cx="230" cy="73" r="5"></circle>
+            <circle class="plot-point" cx="275" cy="37" r="5"></circle>
+            <text class="annotation-label" x="132" y="90">Droite : y = 29,5x + 23</text>
+            <text class="annotation-label" x="98" y="197">residu</text>
+            <text class="tick-label" x="66" y="176">80 W</text>
+            <text class="tick-label" x="246" y="30">200 W</text>
+            <text class="axis-label" x="339" y="209">x</text>
+            <text class="axis-label" x="34" y="14">y</text>
+            <text class="tick-label" x="46" y="219">1</text>
+            <text class="tick-label" x="91" y="219">2</text>
+            <text class="tick-label" x="136" y="219">3</text>
+            <text class="tick-label" x="181" y="219">4</text>
+            <text class="tick-label" x="226" y="219">5</text>
+            <text class="tick-label" x="271" y="219">6</text>
+            <text class="tick-label" x="316" y="219">7</text>
+            <text class="tick-label" x="26" y="209">60</text>
+            <text class="tick-label" x="20" y="173">90</text>
+            <text class="tick-label" x="14" y="137">120</text>
+            <text class="tick-label" x="14" y="101">150</text>
+            <text class="tick-label" x="14" y="65">180</text>
+            <text class="tick-label" x="14" y="29">210</text>
+          </svg>
+        `,
+        notes: [
+          'Axe $x$ : <strong>ensoleillement</strong> (kWh/m²/jour). Axe $y$ : <strong>puissance produite</strong> (W). Les 5 points sont $(2\\,;\\,80)$, $(3\\,;\\,115)$, $(4\\,;\\,140)$, $(5\\,;\\,170)$, $(6\\,;\\,200)$.',
+          'La droite $y=29{,}5x+23$ passe par le <strong>point moyen</strong> $(\\bar{x}\\,;\\,\\bar{y})=(4\\,;\\,141)$ : on vérifie $29{,}5\\times4+23=141$, exactement $\\bar{y}$.',
+          'Les résidus sont petits (entre $-2$ et $+3{,}5$ W) : signe d\'un <strong>excellent ajustement linéaire</strong>, confirmé par un coefficient de corrélation recalculé $r\\approx0{,}999$.'
+        ],
+        reading: 'Chaque point représente une mesure réelle. Le petit segment vertical entre un point et la droite est son <strong>résidu</strong> : plus il est court, mieux la droite représente ce point.',
+        caption: 'Nuage de points, droite de régression ($y=29{,}5x+23$, vérifiée par recalcul : $a=\\text{Cov}/V_x=59/2=29{,}5$, $b=\\bar{y}-a\\bar{x}=141-118=23$) et résidus pour l\'exemple des panneaux solaires.'
+      },
       recap: [
         'La droite de régression $y = ax + b$ passe toujours par le point moyen $(\\bar{x}, \\bar{y})$.',
         '$|r|$ proche de $1$ indique une forte liaison linéaire. $|r| < 0{,}5$ : liaison linéaire faible.',

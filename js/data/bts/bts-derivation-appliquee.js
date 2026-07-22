@@ -46,6 +46,81 @@ window.MODULES.push(
         'Profit maximal : $R\'(x)=C\'(x)$',
         'Profit : $\\Pi(x)=R(x)-C(x)$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Parabole de profit',
+        title: 'Profit $\\Pi(x) = -0{,}5x^2+22x-100$ : sommet et seuils de rentabilité',
+        description: 'Reprise de l\'exemple chiffré du cours : une PME vend des capteurs à $25$ € l\'unité, pour un coût total $C(x)=0{,}5x^2+3x+100$.<br/><br/>Le profit $\\Pi(x) = -0{,}5x^2+22x-100$ trace une parabole tournée vers le bas.<br/><br/>Le <strong>marqueur plein</strong> repère le <strong>sommet</strong> ($\\Pi\'(x)=0$) : maximum de profit en $x^{*}=22$, avec $\\Pi(22)=142$ €.<br/><br/>Les <strong>marqueurs creux</strong> repèrent les <strong>seuils de rentabilité</strong> ($\\Pi(x)=0$), recalculés à partir de l\'équation $x^2-44x+200=0$ : $x_1\\approx5{,}15$ et $x_2\\approx38{,}85$ unités.',
+        svg: `
+          <svg viewBox="0 0 420 300" role="img" aria-labelledby="deriv-profit-title deriv-profit-desc">
+            <title id="deriv-profit-title">Parabole de profit avec sommet et seuils de rentabilite</title>
+            <desc id="deriv-profit-desc">Courbe de Pi(x) = -0,5x^2 + 22x - 100. Sommet (maximum, marqueur plein) en x=22, Pi=142. Racines (seuils de rentabilite, marqueurs creux) en x=5,15 et x=38,85.</desc>
+
+            <!-- grille verticale (x = 10, 20, 30, 40) -->
+            <line class="grid-line" x1="138.6" y1="30" x2="138.6" y2="260"></line>
+            <line class="grid-line" x1="217.1" y1="30" x2="217.1" y2="260"></line>
+            <line class="grid-line" x1="295.7" y1="30" x2="295.7" y2="260"></line>
+            <line class="grid-line" x1="374.3" y1="30" x2="374.3" y2="260"></line>
+
+            <!-- grille horizontale (Pi = -100, 0, 50, 100) -->
+            <line class="grid-line" x1="55" y1="251.3" x2="400" y2="251.3"></line>
+            <line class="grid-line" x1="55" y1="121.1" x2="400" y2="121.1"></line>
+            <line class="grid-line" x1="55" y1="77.7" x2="400" y2="77.7"></line>
+
+            <!-- axes : Pi(x)=0 en y=164.5, x=0 en x=60 -->
+            <line class="axis" x1="50" y1="164.5" x2="400" y2="164.5"></line>
+            <line class="axis" x1="60" y1="25" x2="60" y2="270"></line>
+
+            <!-- courbe de profit Pi(x) = -0,5x^2 + 22x - 100, x de 0 a 42 -->
+            <polyline class="curve-main" points="60.0,251.3 83.6,197.9 107.1,152.4 130.7,114.6 154.3,84.7 177.9,62.5 201.4,48.2 225.0,41.7 232.9,41.3 248.6,43.0 272.1,52.1 295.7,69.1 319.3,93.8 342.9,126.3 366.4,166.6 390.0,214.9"></polyline>
+
+            <!-- guides vers le sommet -->
+            <line class="guide-line" x1="232.9" y1="41.3" x2="232.9" y2="164.5"></line>
+            <line class="guide-line" x1="60" y1="41.3" x2="232.9" y2="41.3"></line>
+
+            <!-- marqueurs creux des racines (seuils de rentabilite) -->
+            <circle class="plot-point-alt" cx="100.5" cy="164.5" r="6"></circle>
+            <circle class="plot-point-alt" cx="365.2" cy="164.5" r="6"></circle>
+
+            <!-- marqueur plein du sommet (maximum de profit) -->
+            <circle class="plot-point" cx="232.9" cy="41.3" r="7"></circle>
+
+            <!-- etiquettes des points cles -->
+            <text class="annotation-label" x="180" y="20" text-anchor="middle">Sommet : maximum de profit</text>
+            <text class="label-soft" x="180" y="33" text-anchor="middle">x* = 22 ; Pi(22) = 142 €</text>
+            <text class="annotation-label" x="100.5" y="182" text-anchor="middle">x1 ≈ 5,15</text>
+            <text class="label-soft" x="100.5" y="195" text-anchor="middle">seuil de rentabilite</text>
+            <text class="annotation-label" x="365.2" y="182" text-anchor="middle">x2 ≈ 38,85</text>
+            <text class="label-soft" x="365.2" y="195" text-anchor="middle">seuil de rentabilite</text>
+
+            <!-- etiquettes de zones -->
+            <text class="label-soft" x="75" y="235" text-anchor="middle">Perte</text>
+            <text class="label-soft" x="230" y="130" text-anchor="middle">Profit</text>
+            <text class="label-soft" x="385" y="210" text-anchor="middle">Perte</text>
+
+            <!-- axes et graduations -->
+            <text class="axis-label" x="400" y="285" text-anchor="end">x (unités)</text>
+            <text class="axis-label" x="65" y="18">Pi(x) (€)</text>
+
+            <text class="tick-label" x="60" y="278" text-anchor="middle">0</text>
+            <text class="tick-label" x="138.6" y="278" text-anchor="middle">10</text>
+            <text class="tick-label" x="217.1" y="278" text-anchor="middle">20</text>
+            <text class="tick-label" x="295.7" y="278" text-anchor="middle">30</text>
+            <text class="tick-label" x="374.3" y="278" text-anchor="middle">40</text>
+
+            <text class="tick-label" x="40" y="255" text-anchor="end">-100</text>
+            <text class="tick-label" x="40" y="125" text-anchor="end">50</text>
+            <text class="tick-label" x="40" y="81" text-anchor="end">100</text>
+          </svg>
+        `,
+        notes: [
+          'Le <strong>marqueur plein</strong> est le sommet de la parabole, où $\\Pi\'(x)=-x+22=0$, soit $x^{*}=22$. C\'est le <strong>maximum de profit</strong> ($\\Pi\'\'(x)=-1<0$ confirme un maximum) : $\\Pi(22)=142$ €.',
+          'Les <strong>deux marqueurs creux</strong> sur l\'axe horizontal sont les <strong>seuils de rentabilité</strong> ($\\Pi(x)=0$) : en résolvant $x^2-44x+200=0$, on trouve $x_1\\approx5{,}15$ et $x_2\\approx38{,}85$. Entre ces deux valeurs, l\'entreprise est bénéficiaire ; en dehors, elle est en perte.',
+          'Ne jamais confondre les deux notions : le sommet donne le <strong>meilleur</strong> profit possible ; les racines donnent seulement un profit <strong>nul</strong> (ni gain, ni perte).'
+        ],
+        reading: 'Un marqueur plein signale un extremum (ici un maximum) ; des marqueurs creux signalent des zéros de la fonction. Sur une courbe de profit, ne jamais confondre les deux : le sommet est le meilleur résultat, les racines ne sont que le seuil de rentabilité (profit nul).',
+        caption: 'Profit $\\Pi(x)=-0{,}5x^2+22x-100$ : maximum en $(22\\,;\\,142)$, seuils de rentabilité en $x\\approx5{,}15$ et $x\\approx38{,}85$ (exemple chiffré du cours).'
+      },
       recap: [
         'Le profit est maximal quand $R\'(x) = C\'(x)$ (recette marginale = coût marginal), pas quand $R(x) = C(x)$ (seuil de rentabilité).',
         'Toujours vérifier la nature de l\'extremum : $\\Pi\'\'(x^*) < 0$ confirme un maximum, $> 0$ un minimum.',

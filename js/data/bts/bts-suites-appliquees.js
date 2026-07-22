@@ -46,6 +46,60 @@ window.MODULES.push(
         '$C_0 = a\\cdot\\dfrac{1-(1+t)^{-n}}{t}$ (capital = valeur actuelle d\'annuités)',
         'Durée : $n = \\dfrac{\\ln(C_n/C_0)}{\\ln(1+t)}$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Capitalisation dans le temps',
+        title: 'Intérêts simples contre intérêts composés : un écart qui explose',
+        description: 'Les deux placements partent du <strong>même capital</strong> de 10 000 € à 5 % par an.<br/><br/>La <strong>capitalisation</strong> des intérêts composés (chaque intérêt produit lui-même des intérêts) creuse un écart de plus en plus grand avec le temps.',
+        svg: `
+          <svg viewBox="0 0 360 250" role="img" aria-labelledby="suites-interets-title suites-interets-desc">
+            <title id="suites-interets-title">Comparaison interets simples et interets composes</title>
+            <desc id="suites-interets-desc">Deux courbes partant de 10000 euros a 5 pourcent par an sur 30 ans : la droite des interets simples et la courbe des interets composes qui s'en ecarte de plus en plus.</desc>
+            <line class="grid-line" x1="50" y1="200" x2="330" y2="200"></line>
+            <line class="grid-line" x1="50" y1="162" x2="330" y2="162"></line>
+            <line class="grid-line" x1="50" y1="124" x2="330" y2="124"></line>
+            <line class="grid-line" x1="50" y1="87" x2="330" y2="87"></line>
+            <line class="grid-line" x1="50" y1="49" x2="330" y2="49"></line>
+            <line class="grid-line" x1="50" y1="20" x2="50" y2="200"></line>
+            <line class="grid-line" x1="140" y1="20" x2="140" y2="200"></line>
+            <line class="grid-line" x1="230" y1="20" x2="230" y2="200"></line>
+            <line class="grid-line" x1="320" y1="20" x2="320" y2="200"></line>
+            <line class="axis" x1="50" y1="200" x2="335" y2="200"></line>
+            <line class="axis" x1="50" y1="205" x2="50" y2="18"></line>
+            <path class="curve-main" d="M50 162 L68 158 L86 154 L104 149 L122 144 L140 139 L158 132 L176 125 L194 118 L212 109 L230 100 L248 90 L266 78 L284 66 L302 52 L320 37"></path>
+            <path class="graph-line" d="M50 162 L140 143 L230 124 L320 106"></path>
+            <line class="guide-line" x1="320" y1="37" x2="320" y2="106"></line>
+            <circle class="plot-point" cx="50" cy="162" r="4"></circle>
+            <circle class="plot-point" cx="140" cy="139" r="5"></circle>
+            <circle class="plot-point" cx="320" cy="37" r="5"></circle>
+            <circle class="plot-point-alt" cx="140" cy="143" r="5"></circle>
+            <circle class="plot-point-alt" cx="320" cy="106" r="5"></circle>
+            <text class="annotation-label" x="222" y="68">Interets composes</text>
+            <text class="annotation-label" x="222" y="138">Interets simples</text>
+            <text class="tick-label" x="270" y="28">43 219 EUR</text>
+            <text class="tick-label" x="270" y="100">25 000 EUR</text>
+            <text class="label-soft" x="54" y="177">C0 = 10 000 EUR</text>
+            <text class="axis-label" x="337" y="204">n (annees)</text>
+            <text class="axis-label" x="30" y="14">Capital (EUR)</text>
+            <text class="tick-label" x="46" y="216">0</text>
+            <text class="tick-label" x="132" y="216">10</text>
+            <text class="tick-label" x="222" y="216">20</text>
+            <text class="tick-label" x="312" y="216">30</text>
+            <text class="tick-label" x="20" y="204">0</text>
+            <text class="tick-label" x="14" y="166">10k</text>
+            <text class="tick-label" x="14" y="128">20k</text>
+            <text class="tick-label" x="14" y="91">30k</text>
+            <text class="tick-label" x="14" y="53">40k</text>
+          </svg>
+        `,
+        notes: [
+          'À $5\\%$ par an, un capital de $10\\,000$ € placé en <strong>intérêts simples</strong> (droite) atteint $25\\,000$ € après $30$ ans : chaque année rapporte toujours le même montant d\'intérêts.',
+          'Le même capital en <strong>intérêts composés</strong> (courbe) atteint $43\\,219$ € après $30$ ans : chaque année, les intérêts déjà accumulés produisent eux-mêmes des intérêts.',
+          'L\'écart entre les deux ($18\\,219$ € après $30$ ans) grandit chaque année — c\'est la capitalisation qui fait toute la différence sur longue durée.'
+        ],
+        reading: 'Les deux courbes partent du même point à gauche (le capital initial).<br/><br/>Plus on avance vers la droite (plus le temps passe), plus la courbe des intérêts composés s\'éloigne vers le haut de la droite des intérêts simples.',
+        caption: 'Évolution comparée de 10 000 € placés à 5 % par an, en intérêts simples et en intérêts composés, sur 30 ans (valeurs vérifiées : $10\\,000\\times1{,}05^{10}\\approx16\\,289$ €, $10\\,000\\times1{,}05^{30}\\approx43\\,219$ €).'
+      },
       recap: [
         'Intérêts simples = suite arithmétique ($C_0(1+nt)$). Intérêts composés = suite géométrique ($C_0(1+t)^n$).',
         'La règle des 72 : le capital double en $\\approx 72/t\\%$ années (ex. : $72/6 = 12$ ans à $6\\%$).',

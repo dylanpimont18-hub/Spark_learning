@@ -46,7 +46,53 @@ window.MODULES.push(
         '$\\mathcal{L}\\{f\'\\}=pF(p)-f(0)$',
         '$\\mathcal{L}\\{\\cos(\\omega t)\\}=\\dfrac{p}{p^2+\\omega^2}$, $\\mathcal{L}\\{\\sin(\\omega t)\\}=\\dfrac{\\omega}{p^2+\\omega^2}$'
       ],
-      diagram: '<table style="width:100%;border-collapse:collapse;text-align:center;"><tr style="background:var(--bg-card);"><th style="border:1px solid var(--border);padding:8px;">$f(t)$ (domaine temporel)</th><th style="border:1px solid var(--border);padding:8px;">$F(p)$ (domaine de Laplace)</th></tr><tr><td style="border:1px solid var(--border);padding:8px;">$1$ (échelon)</td><td style="border:1px solid var(--border);padding:8px;">$\\dfrac{1}{p}$</td></tr><tr><td style="border:1px solid var(--border);padding:8px;">$t$</td><td style="border:1px solid var(--border);padding:8px;">$\\dfrac{1}{p^2}$</td></tr><tr><td style="border:1px solid var(--border);padding:8px;">$e^{at}$</td><td style="border:1px solid var(--border);padding:8px;">$\\dfrac{1}{p-a}$</td></tr><tr><td style="border:1px solid var(--border);padding:8px;">$\\sin(\\omega t)$</td><td style="border:1px solid var(--border);padding:8px;">$\\dfrac{\\omega}{p^2+\\omega^2}$</td></tr><tr><td style="border:1px solid var(--border);padding:8px;">$\\cos(\\omega t)$</td><td style="border:1px solid var(--border);padding:8px;">$\\dfrac{p}{p^2+\\omega^2}$</td></tr><tr><td style="border:1px solid var(--border);padding:8px;">$f\'(t)$</td><td style="border:1px solid var(--border);padding:8px;">$pF(p) - f(0)$</td></tr></table>',
+      diagram: {
+        theme: 'maths',
+        kicker: 'Réponse indicielle',
+        title: 'Charge du condensateur dans un circuit RC (échelon de tension)',
+        description: 'La tension $u_C(t)$ croît exponentiellement vers sa valeur finale de $5$ V, avec une constante de temps $\\tau=1$ s : au bout d\'une durée $\\tau$, elle a déjà atteint $63\\%$ de cette valeur finale.',
+        svg: `
+          <svg viewBox="0 0 380 260" role="img" aria-labelledby="laplace-rc-title laplace-rc-desc">
+            <title id="laplace-rc-title">Reponse indicielle d'un circuit RC</title>
+            <desc id="laplace-rc-desc">Courbe exponentielle croissante de la tension aux bornes du condensateur, avec asymptote horizontale a 5 V et le point a t egal tau marque a 63% de la valeur finale.</desc>
+            <line class="grid-line" x1="50" y1="192" x2="350" y2="192"></line>
+            <line class="grid-line" x1="50" y1="160" x2="350" y2="160"></line>
+            <line class="grid-line" x1="50" y1="128" x2="350" y2="128"></line>
+            <line class="grid-line" x1="50" y1="96" x2="350" y2="96"></line>
+            <line class="grid-line" x1="100" y1="224" x2="100" y2="40"></line>
+            <line class="grid-line" x1="150" y1="224" x2="150" y2="40"></line>
+            <line class="grid-line" x1="200" y1="224" x2="200" y2="40"></line>
+            <line class="grid-line" x1="250" y1="224" x2="250" y2="40"></line>
+            <line class="grid-line" x1="300" y1="224" x2="300" y2="40"></line>
+            <line class="axis" x1="50" y1="224" x2="358" y2="224"></line>
+            <line class="axis" x1="50" y1="224" x2="50" y2="30"></line>
+            <line class="guide-line" x1="50" y1="64" x2="358" y2="64"></line>
+            <path class="curve-main" d="M50 224 L60 195 L70 171 L80 152 L90 136 L100 123 L110 112 L120 103 L130 96 L140 90 L150 86 L175 77 L200 72 L225 69 L250 67 L275 66 L300 65 L325 65 L350 64"></path>
+            <line class="guide-line" x1="100" y1="123" x2="100" y2="224"></line>
+            <line class="guide-line" x1="50" y1="123" x2="100" y2="123"></line>
+            <circle class="plot-point" cx="100" cy="123" r="5"></circle>
+            <text class="axis-label" x="360" y="228">t</text>
+            <text class="axis-label" x="18" y="38">u_C</text>
+            <text class="tick-label" x="40" y="240">0</text>
+            <text class="tick-label" x="94" y="240">τ</text>
+            <text class="tick-label" x="140" y="240">2τ</text>
+            <text class="tick-label" x="190" y="240">3τ</text>
+            <text class="tick-label" x="240" y="240">4τ</text>
+            <text class="tick-label" x="290" y="240">5τ</text>
+            <text class="tick-label" x="12" y="68">5 V</text>
+            <text class="tick-label" x="4" y="118">3,16 V</text>
+            <text class="annotation-label" x="178" y="56">Asymptote : u_C → 5 V</text>
+            <text class="annotation-label" x="106" y="94">63 % à t = τ</text>
+          </svg>
+        `,
+        notes: [
+          'À $t=0$, le condensateur est déchargé : $u_C(0)=0$ V.',
+          'Après une durée $\\tau=RC=1$ s, la tension atteint $u_C(\\tau)=5(1-e^{-1})\\approx3{,}16$ V, soit $63\\%$ de la valeur finale — c\'est la définition même de la constante de temps.',
+          'Après environ $5\\tau$, la tension est quasiment confondue avec l\'asymptote à $5$ V : le régime transitoire est terminé.'
+        ],
+        reading: 'La courbe monte vite au début puis ralentit en s\'approchant de l\'asymptote horizontale à $5$ V, qu\'elle n\'atteint jamais tout à fait.',
+        caption: 'Réponse indicielle $u_C(t)=5(1-e^{-t/\\tau})$ d\'un circuit RC avec $\\tau=RC=1$ s — le point marqué correspond à $t=\\tau$.'
+      },
       recap: [
         'La transformée de Laplace convertit une ED en équation algébrique : dériver ↔ multiplier par $p$.',
         'Ne JAMAIS oublier le terme $-f(0)$ dans $\\mathcal{L}\\{f\'\\} = pF(p) - f(0)$ : il encode les conditions initiales.',

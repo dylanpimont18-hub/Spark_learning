@@ -44,6 +44,85 @@ window.MODULES.push(
         '$A^{-1}=\\dfrac{1}{ad-bc}\\begin{pmatrix}d&-b\\\\-c&a\\end{pmatrix}$',
         '$(AB)^{-1}=B^{-1}A^{-1}$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Résolution matricielle appliquée à un circuit',
+        title: 'Circuit à deux mailles : retrouver I1 et I2 par X = A⁻¹B',
+        description: 'Le système de l\'exemple du cours (3I1 + I2 = 12 et I1 + 2I2 = 8) correspond à deux mailles qui partagent une résistance commune R3.<br/><br/>Chaque terme diagonal de la matrice A est la résistance totale d\'une maille (résistance propre + résistance commune), et le terme croisé (1) est la résistance commune R3 aux deux mailles.',
+        svg: `
+          <svg viewBox="0 0 420 250" role="img" aria-labelledby="matrices-circuit-title matrices-circuit-desc">
+            <title id="matrices-circuit-title">Circuit electrique a deux mailles resolu par methode matricielle</title>
+            <desc id="matrices-circuit-desc">Deux mailles partageant une resistance centrale R3 de 1 ohm. Maille 1 : source E1 de 12 V et resistance R1 de 2 ohms, courant I1 de 3,2 A. Maille 2 : source E2 de 8 V et resistance R2 de 1 ohm, courant I2 de 2,4 A. Le courant dans R3 vaut I1 plus I2, soit 5,6 A.</desc>
+
+            <defs>
+              <marker id="arrow-bts-matrices" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
+
+            <!-- ===== maille 1 (gauche) : E1, R1 ===== -->
+            <line class="curve-main" x1="60" y1="70" x2="100" y2="70"></line>
+            <rect class="frame-line" x="100" y="57" width="70" height="26" fill="none"></rect>
+            <text class="annotation-label" x="135" y="74" text-anchor="middle">R1</text>
+            <text class="label-soft" x="135" y="44" text-anchor="middle">2 Ω</text>
+            <line class="curve-main" x1="170" y1="70" x2="210" y2="70" marker-end="url(#arrow-bts-matrices)"></line>
+            <text class="annotation-label" x="150" y="95" text-anchor="middle">I1</text>
+
+            <line class="curve-main" x1="60" y1="70" x2="60" y2="122"></line>
+            <circle class="frame-line" cx="60" cy="140" r="18" fill="none"></circle>
+            <text class="annotation-label" x="60" y="145" text-anchor="middle">E1</text>
+            <text class="annotation-label" x="60" y="115" text-anchor="middle">+</text>
+            <text class="annotation-label" x="60" y="175" text-anchor="middle">−</text>
+            <text class="label-soft" x="25" y="145" text-anchor="middle">12 V</text>
+            <line class="curve-main" x1="60" y1="210" x2="60" y2="158" marker-end="url(#arrow-bts-matrices)"></line>
+
+            <line class="curve-main" x1="210" y1="210" x2="65" y2="210" marker-end="url(#arrow-bts-matrices)"></line>
+            <text class="label-soft" x="100" y="228" text-anchor="middle">I1 = 3,2 A</text>
+
+            <!-- ===== maille 2 (droite) : E2, R2 ===== -->
+            <line class="curve-main" x1="360" y1="70" x2="320" y2="70"></line>
+            <rect class="frame-line" x="250" y="57" width="70" height="26" fill="none"></rect>
+            <text class="annotation-label" x="285" y="74" text-anchor="middle">R2</text>
+            <text class="label-soft" x="285" y="44" text-anchor="middle">1 Ω</text>
+            <line class="curve-main" x1="250" y1="70" x2="210" y2="70" marker-end="url(#arrow-bts-matrices)"></line>
+            <text class="annotation-label" x="270" y="95" text-anchor="middle">I2</text>
+
+            <line class="curve-main" x1="360" y1="70" x2="360" y2="122"></line>
+            <circle class="frame-line" cx="360" cy="140" r="18" fill="none"></circle>
+            <text class="annotation-label" x="360" y="145" text-anchor="middle">E2</text>
+            <text class="annotation-label" x="360" y="115" text-anchor="middle">+</text>
+            <text class="annotation-label" x="360" y="175" text-anchor="middle">−</text>
+            <text class="label-soft" x="397" y="145" text-anchor="middle">8 V</text>
+            <line class="curve-main" x1="360" y1="210" x2="360" y2="158" marker-end="url(#arrow-bts-matrices)"></line>
+
+            <line class="curve-main" x1="210" y1="210" x2="355" y2="210" marker-end="url(#arrow-bts-matrices)"></line>
+            <text class="label-soft" x="320" y="228" text-anchor="middle">I2 = 2,4 A</text>
+
+            <!-- ===== branche commune R3 ===== -->
+            <line class="curve-main" x1="210" y1="70" x2="210" y2="105"></line>
+            <rect class="frame-line" x="197" y="105" width="26" height="70" fill="none"></rect>
+            <text class="annotation-label" x="210" y="140" text-anchor="middle">R3</text>
+            <text class="label-soft" x="245" y="140" text-anchor="middle">1 Ω</text>
+            <line class="curve-main" x1="210" y1="175" x2="210" y2="210" marker-end="url(#arrow-bts-matrices)"></line>
+            <text class="annotation-label" x="240" y="196">I1+I2 = 5,6 A</text>
+
+            <!-- noeuds -->
+            <circle class="plot-point" cx="60" cy="70" r="3"></circle>
+            <circle class="plot-point-alt" cx="210" cy="70" r="4"></circle>
+            <circle class="plot-point" cx="360" cy="70" r="3"></circle>
+            <circle class="plot-point" cx="60" cy="210" r="3"></circle>
+            <circle class="plot-point-alt" cx="210" cy="210" r="4"></circle>
+            <circle class="plot-point" cx="360" cy="210" r="3"></circle>
+          </svg>
+        `,
+        notes: [
+          'Nœud B (haut, au centre) : les courants I1 (venant de E1 à travers R1) et I2 (venant de E2 à travers R2) se rejoignent et traversent ensemble R3 vers le bas.',
+          'Nœud C (bas, au centre) : le courant commun I1 + I2 se sépare à nouveau — I1 repart vers E1, I2 repart vers E2. C\'est la loi des nœuds appliquée à ce circuit.',
+          'Résolution : X = A⁻¹B donne I1 = 3,2 A et I2 = 2,4 A — retrouvé indépendamment par la méthode de Cramer : I1 = 16/5 = 3,2 A, I2 = 12/5 = 2,4 A.'
+        ],
+        reading: 'Suis le trajet du courant : il part de chaque source, traverse sa résistance propre, se combine dans la résistance commune R3, puis se sépare à nouveau pour retourner à chaque source.',
+        caption: 'Circuit à deux mailles correspondant au système matriciel de l\'exemple du cours — R1 = 2 Ω, R2 = 1 Ω et R3 = 1 Ω (commune) déduits des coefficients de la matrice A, avec I1 = 3,2 A et I2 = 2,4 A vérifiés par substitution.'
+      },
       recap: [
         'Le produit matriciel n\'est PAS commutatif ($AB \\neq BA$) : l\'ordre compte toujours.',
         '$\\det(A) = 0$ ↔ matrice non inversible ↔ système sans solution unique.',

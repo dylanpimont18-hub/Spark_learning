@@ -47,6 +47,63 @@ window.MODULES.push(
         '$u_A = \\dfrac{s}{\\sqrt{n}}$ (incertitude type A)',
         'Résultat : $R = \\bar{x} \\pm k \\cdot u_A$'
       ],
+      diagram: {
+        theme: 'maths',
+        kicker: 'Intervalles emboîtés',
+        title: 'Intervalles de confiance autour de $\\bar{x} = 100{,}0$ Ω',
+        description: 'En reprenant l\'exemple du problème du cours ($n=5$ résistances, $\\bar{x} = 100{,}0$ Ω, $s \\approx 1{,}19$ Ω, $u_A \\approx 0{,}53$ Ω), l\'axe gradué place la moyenne au centre et fait apparaître <strong>deux intervalles emboîtés</strong> : $\\bar{x} \\pm u_A$ (zone foncée) et $\\bar{x} \\pm 2u_A$ (zone claire), ce dernier englobant entièrement le premier.',
+        svg: `
+          <svg viewBox="0 0 480 300" role="img" aria-labelledby="stats-bts-ic-title stats-bts-ic-desc">
+            <title id="stats-bts-ic-title">Intervalles de confiance autour de la moyenne</title>
+            <desc id="stats-bts-ic-desc">Axe gradue de la resistance en ohms, moyenne x barre egale 100,0, avec deux intervalles emboites : x barre plus ou moins u_A soit de 99,47 a 100,53, et x barre plus ou moins 2 u_A soit de 98,94 a 101,06, ce dernier englobant totalement le premier.</desc>
+            <rect x="98.13" y="60" width="283.74" height="100" fill="color-mix(in srgb, var(--diagram-accent) 14%, transparent)" stroke="none"></rect>
+            <rect x="169.07" y="60" width="141.86" height="100" fill="color-mix(in srgb, var(--diagram-accent) 26%, transparent)" stroke="none"></rect>
+            <text class="label-soft" x="125" y="78" text-anchor="middle">zone ± 2u_A</text>
+            <text class="label-soft" x="240" y="98" text-anchor="middle">zone ± u_A</text>
+            <line class="axis" x1="30" y1="160" x2="450" y2="160"></line>
+            <line class="axis" x1="40" y1="160" x2="40" y2="166"></line>
+            <line class="axis" x1="106.67" y1="160" x2="106.67" y2="166"></line>
+            <line class="axis" x1="173.33" y1="160" x2="173.33" y2="166"></line>
+            <line class="axis" x1="240" y1="160" x2="240" y2="166"></line>
+            <line class="axis" x1="306.67" y1="160" x2="306.67" y2="166"></line>
+            <line class="axis" x1="373.33" y1="160" x2="373.33" y2="166"></line>
+            <line class="axis" x1="440" y1="160" x2="440" y2="166"></line>
+            <text class="tick-label" x="40" y="182" text-anchor="middle">98,5</text>
+            <text class="tick-label" x="106.67" y="182" text-anchor="middle">99</text>
+            <text class="tick-label" x="173.33" y="182" text-anchor="middle">99,5</text>
+            <text class="tick-label" x="240" y="182" text-anchor="middle">100</text>
+            <text class="tick-label" x="306.67" y="182" text-anchor="middle">100,5</text>
+            <text class="tick-label" x="373.33" y="182" text-anchor="middle">101</text>
+            <text class="tick-label" x="440" y="182" text-anchor="middle">101,5</text>
+            <text class="axis-label" x="454" y="164" text-anchor="start">R (Ω)</text>
+            <line class="focus-line" x1="98.13" y1="150" x2="98.13" y2="170"></line>
+            <line class="focus-line" x1="169.07" y1="150" x2="169.07" y2="170"></line>
+            <line class="focus-line" x1="310.93" y1="150" x2="310.93" y2="170"></line>
+            <line class="focus-line" x1="381.87" y1="150" x2="381.87" y2="170"></line>
+            <circle class="plot-point" cx="240" cy="160" r="5"></circle>
+            <circle class="plot-point-alt" cx="169.07" cy="160" r="3"></circle>
+            <circle class="plot-point-alt" cx="310.93" cy="160" r="3"></circle>
+            <circle class="plot-point-alt" cx="98.13" cy="160" r="3"></circle>
+            <circle class="plot-point-alt" cx="381.87" cy="160" r="3"></circle>
+            <text class="annotation-label" x="240" y="145" text-anchor="middle">x̄ = 100,0</text>
+            <line class="guide-line" x1="169.07" y1="210" x2="310.93" y2="210"></line>
+            <line class="guide-line" x1="169.07" y1="204" x2="169.07" y2="216"></line>
+            <line class="guide-line" x1="310.93" y1="204" x2="310.93" y2="216"></line>
+            <text class="annotation-label" x="240" y="228" text-anchor="middle">± u_A → [99,47 ; 100,53]</text>
+            <line class="guide-line" x1="98.13" y1="250" x2="381.87" y2="250"></line>
+            <line class="guide-line" x1="98.13" y1="244" x2="98.13" y2="256"></line>
+            <line class="guide-line" x1="381.87" y1="244" x2="381.87" y2="256"></line>
+            <text class="annotation-label" x="240" y="268" text-anchor="middle">± 2u_A → [98,94 ; 101,06]</text>
+          </svg>
+        `,
+        notes: [
+          'Intervalle $\\bar{x} \\pm u_A$ : $[100{,}0 - 0{,}53\\,;\\,100{,}0 + 0{,}53] = [99{,}47\\,;\\,100{,}53]$ Ω (zone foncée, la plus étroite).',
+          'Intervalle $\\bar{x} \\pm 2u_A$ : $[100{,}0 - 1{,}06\\,;\\,100{,}0 + 1{,}06] = [98{,}94\\,;\\,101{,}06]$ Ω (zone claire, deux fois plus large, qui englobe entièrement la première).',
+          'Valeurs reprises du problème du cours : $\\bar{R} = 100{,}0$ Ω et $s \\approx 1{,}19$ Ω pour $n = 5$ mesures, d\'où $u_A = s/\\sqrt{5} \\approx 0{,}53$ Ω.'
+        ],
+        reading: 'Ce qu\'il faut lire : le second intervalle ($\\pm 2u_A$) englobe complètement le premier ($\\pm u_A$) — il est deux fois plus large et correspond au niveau de confiance à $95\\%$ utilisé dans le cours (contre un niveau de confiance plus faible pour $\\pm u_A$ seul).',
+        caption: 'Axe gradué de la résistance $R$ (Ω) : intervalles de confiance emboîtés $\\bar{x} \\pm u_A$ et $\\bar{x} \\pm 2u_A$, recalculés à partir de l\'exemple du cours ($\\bar{x}=100{,}0$ Ω, $u_A \\approx 0{,}53$ Ω).'
+      },
       recap: [
         'Toujours exprimer un résultat expérimental avec son incertitude : $\\bar{x} \\pm k \\cdot u_A$.',
         'L\'écart-type $s$ (dispersion) se calcule avec $(n-1)$ au dénominateur (correction de Bessel), pas $n$.',
