@@ -33,6 +33,7 @@ Lors de la création ou modification dans `js/data/` :
 1. Vérifier le programme dans `docs/programmes-{subject}.md` (Ne traiter que les chapitres 🔴).
 2. Ajouter l'objet dans `js/data/{level}/{level}-{topic}.js`. Déclarer le fichier dans `js/data/{level}/index.js` ET dans `index.html` (ordre de chargement). Mettre à jour `contenu.md`.
 3. Passer le statut à 🟢 dans le fichier markdown du programme.
+4. Régénérer `sitemap.xml` avec `node scripts/generate-sitemap.js` (lit directement `js/loader.js`, aucune liste à maintenir à la main).
 
 ## 4. Optimisation du Contexte (INTERDICTIONS)
 - **NE LIS JAMAIS** les fichiers du dossier `js/data/` à moins d'une demande explicite concernant le contenu pédagogique.

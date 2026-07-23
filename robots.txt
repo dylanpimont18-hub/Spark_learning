@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /teacher
+Disallow: /homework
+Disallow: /admin
+Disallow: /tutorat
+Disallow: /positionnement
+Disallow: /playlist
+
+Sitemap: https://sparklearning.fr/sitemap.xml

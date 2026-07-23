@@ -10,6 +10,10 @@ Ce fichier est la **source de vérité** pour la structure de fichiers du projet
 | index.html | Point d'entrée principal de l'application SPA |
 | CLAUDE.md | Instructions système Claude et workflow |
 | contenu.md | Carte architecturale du projet (ce fichier) |
+| robots.txt | Règles d'indexation pour les robots ; référence `sitemap.xml` |
+| sitemap.xml | Généré par `scripts/generate-sitemap.js`, jamais édité à la main |
+| manifest.json | Manifeste PWA minimal (nom, icône, couleur de thème) |
+| scripts/generate-sitemap.js | Génère `sitemap.xml` à partir de `js/loader.js` — à relancer après ajout de module |
 
 ## Interface & Style
 | Dossier/Fichier | Rôle |

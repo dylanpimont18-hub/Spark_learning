@@ -10,35 +10,35 @@ Format : l'agent IA prend quelques tâches `[ ]` à chaque session, les réalise
 
 ---
 
-## Semaine 1 — Migration du routeur (hash → pushState)
+## Semaine 1 — Migration du routeur (hash → pushState) — TERMINÉE (code vérifié le 2026-07-23, non coché à l'époque)
 
 Objectif : sortir du hash-routing qui rend le site invisible pour Google, sans casser l'app existante. Périmètre confirmé restreint : la logique de routage est déjà centralisée dans `js/app.js` (`buildHash`, `parseHash`, `navigate`), aucun `href="#route"` éparpillé ailleurs dans le code (vérifié par grep).
 
 ### 1.1 Cœur du routeur
-- [ ] Réécrire `buildHash(view, data)` en `buildPath(view, data)` dans `js/app.js` : même `switch/case`, générer des chemins réels (`/modules/4e-pythagore/cours`) au lieu de `#module/...`
-- [ ] Réécrire `parseHash(hash)` en `parsePath(pathname)` : même logique de parsing, lire `location.pathname` au lieu de `location.hash`
-- [ ] Remplacer les 2 assignations `window.location.hash = buildHash(...)` (`js/app.js` ~ligne 165 et ~305) par `history.pushState(null, '', buildPath(...))`
-- [ ] Remplacer l'écouteur `window.addEventListener('hashchange', ...)` (~ligne 1071) par `popstate`, appelant `parsePath(location.pathname)`
-- [ ] Mettre à jour les 3 appels restants à `parseHash(window.location.hash)` (~lignes 1073, 1078, 1290) vers `parsePath(window.location.pathname)`
-- [ ] Vérifier que `<base href="/" />` (déjà présent dans `index.html`) reste cohérent avec des chemins absolus
+- [x] Réécrire `buildHash(view, data)` en `buildPath(view, data)` dans `js/app.js` : même `switch/case`, générer des chemins réels (`/modules/4e-pythagore/cours`) au lieu de `#module/...`
+- [x] Réécrire `parseHash(hash)` en `parsePath(pathname)` : même logique de parsing, lire `location.pathname` au lieu de `location.hash`
+- [x] Remplacer les 2 assignations `window.location.hash = buildHash(...)` (`js/app.js` ~ligne 165 et ~305) par `history.pushState(null, '', buildPath(...))`
+- [x] Remplacer l'écouteur `window.addEventListener('hashchange', ...)` (~ligne 1071) par `popstate`, appelant `parsePath(location.pathname)`
+- [x] Mettre à jour les 3 appels restants à `parseHash(window.location.hash)` (~lignes 1073, 1078, 1290) vers `parsePath(window.location.pathname)`
+- [x] Vérifier que `<base href="/" />` (déjà présent dans `index.html`) reste cohérent avec des chemins absolus
 
 ### 1.2 Compatibilité serveur (déploiement)
-- [ ] Confirmer le mode de déploiement exact du site (`sparklearning.fr` via `CNAME` — aucun workflow GitHub Actions détecté, ni `firebase.json` hosting, ni config Netlify/Vercel : probable GitHub Pages "Deploy from branch" configuré dans Settings). À vérifier avant d'implémenter le fallback ci-dessous.
-- [ ] Si GitHub Pages confirmé : créer `404.html` à la racine avec le script de redirection standard "spa-github-pages" (stocke le chemin demandé, redirige vers `/?p=/chemin`, `index.html` restaure via `history.replaceState`)
-- [ ] Ajouter le script de restauration correspondant dans `index.html` (avant le chargement de `js/app.js`)
-- [ ] Vérifier en conditions réelles (post-déploiement) qu'une URL profonde ouverte directement fonctionne
+- [x] Confirmer le mode de déploiement exact du site (`sparklearning.fr` via `CNAME` — aucun workflow GitHub Actions détecté, ni `firebase.json` hosting, ni config Netlify/Vercel : probable GitHub Pages "Deploy from branch" configuré dans Settings). À vérifier avant d'implémenter le fallback ci-dessous.
+- [x] Si GitHub Pages confirmé : créer `404.html` à la racine avec le script de redirection standard "spa-github-pages" (stocke le chemin demandé, redirige vers `/?p=/chemin`, `index.html` restaure via `history.replaceState`)
+- [x] Ajouter le script de restauration correspondant dans `index.html` (avant le chargement de `js/app.js`)
+- [ ] Vérifier en conditions réelles (post-déploiement) qu'une URL profonde ouverte directement fonctionne — **[Externe]** reste à faire par Dylan (pas de navigateur côté agent)
 
 ### 1.3 Rétrocompatibilité des anciens liens
-- [ ] Au boot de `js/app.js`, détecter un `location.hash` non vide de l'ancien format (`#module/...`, `#playlist/...`, `#modules/...`, etc.) et rediriger vers l'équivalent pushState — même esprit que la rétrocompat déjà existante pour `#modules/1` dans `parseHash()`
-- [ ] Tester spécifiquement le partage de playlist (`generatePlaylistLink()` dans `js/playlist.js`) : un lien déjà généré et partagé par un enseignant doit continuer à fonctionner
+- [x] Au boot de `js/app.js`, détecter un `location.hash` non vide de l'ancien format (`#module/...`, `#playlist/...`, `#modules/...`, etc.) et rediriger vers l'équivalent pushState — même esprit que la rétrocompat déjà existante pour `#modules/1` dans `parseHash()`
+- [ ] Tester spécifiquement le partage de playlist (`generatePlaylistLink()` dans `js/playlist.js`) : un lien déjà généré et partagé par un enseignant doit continuer à fonctionner — **[Externe]** QA manuelle
 
-### 1.4 QA manuelle (pas de suite de tests automatisée dans ce repo)
+### 1.4 QA manuelle (pas de suite de tests automatisée dans ce repo) — **[Externe]**, reste à faire par Dylan
 - [ ] Naviguer vers chaque type de vue (home, subjects, levels, modules, module/tab, companion, flashcards, chrono, teacher, admin, playlist) et vérifier l'URL + le rendu
 - [ ] Tester le bouton retour/avant du navigateur sur plusieurs navigations successives
 - [ ] Ouvrir une URL profonde directement dans un nouvel onglet
 - [ ] Tester un lien playlist généré avant la migration
 - [ ] Tester en navigation invité ET connecté (élève/enseignant/admin)
-- [ ] Bump `?v=N` sur toutes les balises `<script>`/`<link>` locales dans `index.html` (convention du projet, cf. `CLAUDE.md`)
+- [x] Bump `?v=N` sur toutes les balises `<script>`/`<link>` locales dans `index.html` (convention du projet, cf. `CLAUDE.md`) — fait au fil des sessions suivantes (actuellement `v27`)
 
 ---
 
@@ -46,22 +46,22 @@ Objectif : sortir du hash-routing qui rend le site invisible pour Google, sans c
 
 Objectif : maintenant que les URLs sont réelles, donner à Google de quoi comprendre et indexer chaque page.
 
-### 2.1 Métadonnées dynamiques par route
-- [ ] Étendre `updatePageTitle()` (`js/app.js`) en `updatePageMeta()` : ajouter/mettre à jour dynamiquement `<meta name="description">`, `<link rel="canonical">`, `og:title`, `og:description`, `og:url`, `og:image`, `twitter:card`
-- [ ] Rédiger une description courte par type de vue (home, subjects, levels, modules, module) — réutiliser `mod.subtitle`/`mod.title` déjà disponibles sur les modules pour les pages module
+### 2.1 Métadonnées dynamiques par route — TERMINÉ le 2026-07-23
+- [x] Étendre `updatePageTitle()` (`js/app.js`) en `updatePageMeta()` : ajouter/mettre à jour dynamiquement `<meta name="description">`, `<link rel="canonical">`, `og:title`, `og:description`, `og:url`, `og:image`, `twitter:card`, `meta name="robots"` (`noindex` sur les vues privées/éphémères : teacher, homework, admin, tutoring, tutoringStudent, positioning, playlist)
+- [x] Rédiger une description courte par type de vue (home, subjects, levels, modules, module) — réutilise `mod.subtitle`/`mod.title` déjà disponibles sur les modules pour les pages module
 
-### 2.2 Données structurées
-- [ ] Ajouter un bloc JSON-LD (`schema.org/Course` ou `LearningResource`) injecté dynamiquement sur les pages module
+### 2.2 Données structurées — TERMINÉ le 2026-07-23
+- [x] Ajouter un bloc JSON-LD (`schema.org/LearningResource`) injecté dynamiquement sur les pages module (`_updateJsonLd()` dans `js/app.js`)
 
-### 2.3 Sitemap & robots
-- [ ] Créer `scripts/generate-sitemap.js` (Node, même logique que `scripts/split-data-modules.js` existant) qui parcourt les manifests `js/data/*/index.js` et génère `sitemap.xml` à la racine avec toutes les routes réelles
-- [ ] Créer `robots.txt` à la racine référençant `sitemap.xml`, autorisant l'indexation complète
-- [ ] Documenter dans le workflow d'ajout de module (`CLAUDE.md` section 3) : régénérer le sitemap après ajout de nouveaux modules
+### 2.3 Sitemap & robots — TERMINÉ le 2026-07-23
+- [x] Créer `scripts/generate-sitemap.js` (Node) qui lit directement `js/loader.js` (`DATA_FILES` + `MODULE_INDEX` — pas de manifests `js/data/*/index.js`, ceux-ci sont des stubs vides depuis le passage au lazy-loading) et génère `sitemap.xml` à la racine avec toutes les routes réelles (150 URLs : 3 pages statiques + 2 matières peuplées + 5 paires matière/niveau + 140 modules)
+- [x] Créer `robots.txt` à la racine référençant `sitemap.xml`, autorisant l'indexation complète (sauf vues privées : teacher/homework/admin/tutorat/positionnement/playlist)
+- [x] Documenter dans le workflow d'ajout de module (`CLAUDE.md` section 3) : régénérer le sitemap (`node scripts/generate-sitemap.js`) après ajout de nouveaux modules
 
-### 2.4 Identité visuelle minimale pour le partage
-- [ ] Créer une image Open Graph par défaut 1200×630 (`images/og-default.png`) à partir du logo existant
-- [ ] Générer un set de favicons complet (`favicon.ico`, `apple-touch-icon.png`, `favicon-32x32.png`) à partir de `images/Logo_noir.jpeg`
-- [ ] Créer `manifest.json` minimal (nom, icônes, couleur de thème `var(--primary)`) et le lier dans `index.html`
+### 2.4 Identité visuelle minimale pour le partage — PARTIEL (2026-07-23)
+- [ ] Créer une image Open Graph par défaut 1200×630 (`images/og-default.png`) à partir du logo existant — **bloqué** : aucun outil de manipulation d'image disponible dans l'environnement agent (pas d'ImageMagick, pas de lib npm type `sharp`/`jimp` — le projet n'a pas de `package.json`/`node_modules`, volontairement zéro-npm). En attendant, `og:image` pointe vers le logo existant (`images/Logo_noir.jpeg`) tel quel, fonctionnel mais pas au format optimal. À faire : soit fournir un visuel 1200×630 déjà détouré, soit autoriser l'ajout ponctuel d'une lib d'image en devDependency.
+- [ ] Générer un set de favicons complet (`favicon.ico`, `apple-touch-icon.png`, `favicon-32x32.png`) à partir de `images/Logo_noir.jpeg` — même blocage. Le favicon JPEG existant (`<link rel="icon" type="image/jpeg">`) reste en place et fonctionne dans les navigateurs modernes.
+- [x] Créer `manifest.json` minimal (nom, icône existante, couleur de thème `#2C3E50`) et le lier dans `index.html`
 
 ---
 

@@ -8,6 +8,21 @@ SPA Vanilla JS sans bundler. Chargement des scripts via `index.html` (ordre crit
 Point d'entrée unique. Déclare l'ordre de chargement de tous les scripts.
 - Chargement : `<script src="...">` dans l'ordre exact requis (Firebase → authService → views (authView, teacherDashboard, adminPanel) → sync → data → engines → components → app)
 - `#nav-login` — bouton nav (masqué par défaut), affiché en mode invité pour ouvrir `AuthView`
+- `<head>` — meta SEO statiques par défaut (description, canonical, robots, OG, Twitter Card, `manifest.json`) ; réécrites dynamiquement par vue via `updatePageMeta()` (`js/app.js`)
+
+## robots.txt
+Autorise l'indexation complète sauf les vues privées/éphémères (teacher, homework, admin, tutorat, positionnement, playlist) ; référence `sitemap.xml`.
+
+## sitemap.xml
+Généré, jamais édité à la main — voir `scripts/generate-sitemap.js`.
+
+## manifest.json
+Manifeste PWA minimal (nom, icône = logo existant, `theme_color` = `--primary`). Pas d'icônes PNG dédiées (aucun outil de manipulation d'image dans l'environnement agent).
+
+## scripts/generate-sitemap.js
+Génère `sitemap.xml` à la racine à partir des manifests réels de `js/loader.js` (`DATA_FILES` + `MODULE_INDEX`), sans dupliquer la liste des modules à la main.
+- `extractConst(src, name)` — extrait un objet littéral `const NAME = {...}` d'un fichier source par comptage d'accolades (pas de dépendance `acorn`)
+- Usage : `node scripts/generate-sitemap.js` — à relancer après tout ajout de module (voir `CLAUDE.md` section 3)
 
 ## css/styles.css
 Système de design complet : variables CSS (`--primary`, `--secondary`, `--accent`, `--error`, `--space-*`), thèmes, composants UI.
@@ -50,6 +65,7 @@ Routeur SPA (pushState), init, KaTeX, confetti.
 - `parsePath(pathname)` / `parseLegacyHash(hash)` — parsent respectivement une URL réelle et un ancien lien `#hash` (rétrocompat), partagent `_parseRouteParts(parts)`
 - Route `/positionnement/:token` (view `positioning`) → `PositioningTest.render(token)` (voir `js/views/positioning/positioningTest.js`) ; page publique, non authentifiée, hors flux `AuthGuard`
 - `navigate(view, data)` — change la vue active via `history.pushState` (plus de hash routing)
+- `updatePageMeta()` — remplace l'ancien `updatePageTitle()` : en plus du `document.title`, met à jour dynamiquement description, `<link rel="canonical">`, OG/Twitter Card et `meta name="robots"` (`noindex` sur les vues privées listées dans `NOINDEX_VIEWS`) ; `_updateJsonLd(mod)` injecte/retire un bloc `schema.org/LearningResource` sur les pages module
 - `renderMath()` — déclenche KaTeX sur `#app` ; macro `\cdotp` redirigée vers le glyphe unicode ⋅ car le caractère « · » tapé dans le contenu (`\text{M·L}`) plante KaTeX (`\cdotp` indéfini en mode texte)
 - Appelle `initAdSlots()` (voir `js/components/adSlot.js`) et `trackPageView()` (voir `js/analytics.js`) après chaque rendu de vue dans le dispatcher `render()` — sauf branches `admin`/`teacher` (return anticipé, hors suivi)
 - `createConfetti()` — animation confetti de succès

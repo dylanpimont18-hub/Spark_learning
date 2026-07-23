@@ -257,7 +257,7 @@ function navigate(view, data = {}, options = {}) {
   if (needsAsyncLoad) {
     const app = document.getElementById('app');
     app.innerHTML = renderLoading();
-    updatePageTitle();
+    updatePageMeta();
     loadPromise.then(() => {
       if (_navSequence !== seq) return;
       if (view === 'module' || view === 'flashcards' || view === 'chrono') {
@@ -275,60 +275,154 @@ function navigate(view, data = {}, options = {}) {
       if (_mod && _mod.subject) state.subject = _mod.subject;
     }
     render();
-    updatePageTitle();
+    updatePageMeta();
   }
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-/* ── Dynamic page title (SEO) ── */
-function updatePageTitle() {
+/* ── Dynamic page metadata (SEO: title, description, canonical, OG, JSON-LD) ── */
+const SITE_BASE_URL = 'https://sparklearning.fr';
+const SITE_DEFAULT_DESCRIPTION = 'Plateforme de rémédiation scientifique : Mathématiques, Physique-Chimie, Sciences de l’Ingénieur — du Collège au BTS.';
+const SITE_DEFAULT_OG_IMAGE = SITE_BASE_URL + '/images/Logo_noir.jpeg';
+// Vues privées/éphémères sans intérêt pour l'indexation (comptes ou liens à usage unique)
+const NOINDEX_VIEWS = ['teacher', 'homework', 'admin', 'tutoring', 'tutoringStudent', 'positioning', 'playlist'];
+
+function _setMetaTag(attr, key, content) {
+  let el = document.head.querySelector(`meta[${attr}="${key}"]`);
+  if (!el) {
+    el = document.createElement('meta');
+    el.setAttribute(attr, key);
+    document.head.appendChild(el);
+  }
+  el.setAttribute('content', content);
+}
+
+function _setCanonical(href) {
+  let el = document.head.querySelector('link[rel="canonical"]');
+  if (!el) {
+    el = document.createElement('link');
+    el.setAttribute('rel', 'canonical');
+    document.head.appendChild(el);
+  }
+  el.setAttribute('href', href);
+}
+
+function _updateJsonLd(mod) {
+  let el = document.getElementById('ld-json');
+  if (!mod) {
+    if (el) el.remove();
+    return;
+  }
+  if (!el) {
+    el = document.createElement('script');
+    el.type = 'application/ld+json';
+    el.id = 'ld-json';
+    document.head.appendChild(el);
+  }
+  el.textContent = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'LearningResource',
+    name: mod.title,
+    description: mod.subtitle || SITE_DEFAULT_DESCRIPTION,
+    learningResourceType: 'Cours interactif',
+    educationalLevel: LEVEL_NAMES[mod.level] || '',
+    about: getSubjectDef(mod.subject || 'maths').label,
+    url: SITE_BASE_URL + buildPath('module', { moduleId: mod.id, tab: 'cours' }),
+    isAccessibleForFree: true,
+    inLanguage: 'fr'
+  });
+}
+
+function updatePageMeta() {
   const base = 'Spark Learning';
+  let title = base;
+  let description = SITE_DEFAULT_DESCRIPTION;
+  let jsonLdModule = null;
+
   switch (state.view) {
-    case 'home':     document.title = base; break;
-    case 'subjects': document.title = `Mati\u00e8res \u2014 ${base}`; break;
+    case 'home':     title = base; break;
+    case 'subjects':
+      title = `Matières — ${base}`;
+      description = 'Choisissez votre matière : Mathématiques, Physique-Chimie ou Sciences de l’Ingénieur, du Collège au BTS.';
+      break;
     case 'levels': {
       const s = getSubjectDef(state.subject || 'maths');
-      document.title = `${s.label} \u2014 ${base}`;
+      title = `${s.label} — ${base}`;
+      description = `Modules de ${s.label} du Collège au BTS : cours, quiz et exercices interactifs, gratuits et sans compte.`;
       break;
     }
     case 'modules': {
       const s = getSubjectDef(state.subject || 'maths');
       const levelLabel = state.level === 'all' ? 'Tous niveaux' : (LEVEL_NAMES[state.level] || '');
-      document.title = `${levelLabel} ${s.label} \u2014 ${base}`;
+      title = `${levelLabel} ${s.label} — ${base}`;
+      description = `${levelLabel} — ${s.label} : liste des modules de cours, quiz et exercices interactifs.`;
       break;
     }
     case 'module': {
       const mod = getModule(state.moduleId);
-      document.title = mod ? `${mod.title} \u2014 ${base}` : base;
+      if (mod) {
+        const s = getSubjectDef(mod.subject || 'maths');
+        const levelLabel = LEVEL_NAMES[mod.level] || '';
+        title = `${mod.title} — ${base}`;
+        description = mod.subtitle
+          ? `${mod.subtitle} — Cours, quiz et exercices interactifs (${s.label}, ${levelLabel}).`
+          : `Cours, quiz et exercices interactifs sur ${mod.title} (${s.label}, ${levelLabel}).`;
+        jsonLdModule = mod;
+      } else {
+        title = base;
+      }
       break;
     }
     case 'companion': {
       const mod = state.moduleId ? getModule(state.moduleId) : null;
-      document.title = mod ? `Spark Companion \u2014 ${mod.title} \u2014 ${base}` : `Spark Companion \u2014 ${base}`;
+      title = mod ? `Spark Companion — ${mod.title} — ${base}` : `Spark Companion — ${base}`;
       break;
     }
     case 'flashcards': {
       const mod = getModule(state.moduleId);
-      document.title = mod ? `Flashcards \u2014 ${mod.title} \u2014 ${base}` : base;
+      title = mod ? `Flashcards — ${mod.title} — ${base}` : base;
       break;
     }
     case 'chrono': {
       const mod = getModule(state.moduleId);
-      document.title = mod ? `D\u00e9fi Chrono \u2014 ${mod.title} \u2014 ${base}` : base;
+      title = mod ? `Défi Chrono — ${mod.title} — ${base}` : base;
       break;
     }
-    case 'admin':    document.title = `Administration \u2014 ${base}`; break;
-    case 'teacher':  document.title = `Espace Enseignant \u2014 ${base}`; break;
-    case 'playlist': document.title = `Playlist \u2014 ${base}`; break;
-    case 'tutoring':        document.title = `Tutorat \u2014 ${base}`; break;
+    case 'admin':    title = `Administration — ${base}`; break;
+    case 'teacher':  title = `Espace Enseignant — ${base}`; break;
+    case 'playlist': title = `Playlist — ${base}`; break;
+    case 'tutoring':        title = `Tutorat — ${base}`; break;
     case 'tutoringStudent': {
       const s = TutoringStudent._student;
-      document.title = s ? `${s.firstName} ${s.lastName} \u2014 Tutorat \u2014 ${base}` : `Tutorat \u2014 ${base}`;
+      title = s ? `${s.firstName} ${s.lastName} — Tutorat — ${base}` : `Tutorat — ${base}`;
       break;
     }
-    default:         document.title = base;
+    case 'confidentialite':
+      title = `Politique de confidentialité — ${base}`;
+      description = 'Politique de confidentialité de Spark Learning : données collectées, cookies, contact.';
+      break;
+    default: title = base;
   }
+
+  document.title = title;
+
+  const url = SITE_BASE_URL + buildPath(state.view, state);
+  const noindex = NOINDEX_VIEWS.includes(state.view);
+
+  _setMetaTag('name', 'description', description);
+  _setMetaTag('name', 'robots', noindex ? 'noindex, nofollow' : 'index, follow');
+  _setCanonical(url);
+  _setMetaTag('property', 'og:type', 'website');
+  _setMetaTag('property', 'og:site_name', base);
+  _setMetaTag('property', 'og:title', title);
+  _setMetaTag('property', 'og:description', description);
+  _setMetaTag('property', 'og:url', url);
+  _setMetaTag('property', 'og:image', SITE_DEFAULT_OG_IMAGE);
+  _setMetaTag('name', 'twitter:card', 'summary_large_image');
+  _setMetaTag('name', 'twitter:title', title);
+  _setMetaTag('name', 'twitter:description', description);
+  _updateJsonLd(jsonLdModule);
 }
 
 /* ── Tab switch without full re-navigate ── */
@@ -347,7 +441,7 @@ function switchTab(tabName) {
   }
   renderTabContent();
   renderMath();
-  updatePageTitle();
+  updatePageMeta();
 }
 
 /* ── Render dispatcher ── */

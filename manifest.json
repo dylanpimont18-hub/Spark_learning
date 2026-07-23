@@ -1,0 +1,17 @@
+{
+  "name": "Spark Learning",
+  "short_name": "Spark Learning",
+  "description": "Plateforme de remédiation scientifique : Mathématiques, Physique-Chimie, Sciences de l'Ingénieur — du Collège au BTS.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2C3E50",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "images/Logo_noir.jpeg",
+      "sizes": "any",
+      "type": "image/jpeg"
+    }
+  ]
+}
