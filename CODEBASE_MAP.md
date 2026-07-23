@@ -49,7 +49,7 @@ Routeur SPA (pushState), init, KaTeX, confetti.
 - `parsePath(pathname)` / `parseLegacyHash(hash)` — parsent respectivement une URL réelle et un ancien lien `#hash` (rétrocompat), partagent `_parseRouteParts(parts)`
 - Route `/positionnement/:token` (view `positioning`) → `PositioningTest.render(token)` (voir `js/views/positioning/positioningTest.js`) ; page publique, non authentifiée, hors flux `AuthGuard`
 - `navigate(view, data)` — change la vue active via `history.pushState` (plus de hash routing)
-- `renderMath()` — déclenche KaTeX sur `#app`
+- `renderMath()` — déclenche KaTeX sur `#app` ; macro `\cdotp` redirigée vers le glyphe unicode ⋅ car le caractère « · » tapé dans le contenu (`\text{M·L}`) plante KaTeX (`\cdotp` indéfini en mode texte)
 - Appelle `initAdSlots()` (voir `js/components/adSlot.js`) et `trackPageView()` (voir `js/analytics.js`) après chaque rendu de vue dans le dispatcher `render()` — sauf branches `admin`/`teacher` (return anticipé, hors suivi)
 - `createConfetti()` — animation confetti de succès
 - `showToast(msg, type)` — notification toast

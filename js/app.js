@@ -12,6 +12,12 @@ function renderMath() {
           { left: '$$', right: '$$', display: true },
           { left: '$', right: '$', display: false }
         ],
+        macros: {
+          // KaTeX mappe le caractère unicode « · » vers \cdotp, une commande
+          // math-only qui échoue dans \text{...} : on la redirige vers le
+          // glyphe unicode ⋅ (DOT OPERATOR), valide en mode texte et math.
+          '\\cdotp': '⋅'
+        },
         throwOnError: false
       });
     } catch (e) {

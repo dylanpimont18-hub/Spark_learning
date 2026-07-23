@@ -19,18 +19,20 @@ function renderTabContent() {
     panel.style.animation = 'none';
     panel.offsetHeight;
     panel.style.animation = '';
-    panel.innerHTML = convertMarkdownTables(renderTabContentHTML(mod));
+    panel.innerHTML = renderTabContentHTML(mod);
   }
 }
 
 function renderTabContentHTML(mod) {
+  let html;
   switch (state.tab) {
-    case 'cours':     return renderCours(mod);
-    case 'quiz':      return renderQuiz(mod);
-    case 'exercice':  return renderExercice(mod);
-    case 'probleme':  return renderProbleme(mod);
-    case 'evaluation':return renderEvaluation(mod);
-    case 'companion': return renderCompanionSession(mod.id);
-    default:          return renderCours(mod);
+    case 'cours':     html = renderCours(mod); break;
+    case 'quiz':      html = renderQuiz(mod); break;
+    case 'exercice':  html = renderExercice(mod); break;
+    case 'probleme':  html = renderProbleme(mod); break;
+    case 'evaluation':html = renderEvaluation(mod); break;
+    case 'companion': html = renderCompanionSession(mod.id); break;
+    default:          html = renderCours(mod);
   }
+  return convertMarkdownTables(html);
 }

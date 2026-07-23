@@ -9,13 +9,13 @@ function convertMarkdownTables(html) {
   let i = 0;
 
   const parseRow = (line) => {
-    const trimmed = line.trim();
-    if (!trimmed.startsWith('|')) return null;
-    const lastPipe = trimmed.lastIndexOf('|');
-    if (lastPipe <= 0) return null;
-    const cells = trimmed.slice(0, lastPipe + 1).split('|').slice(1, -1).map(c => c.trim());
-    const trailing = trimmed.slice(lastPipe + 1);
-    return { cells, trailing };
+    const firstPipe = line.indexOf('|');
+    const lastPipe = line.lastIndexOf('|');
+    if (firstPipe === -1 || lastPipe === firstPipe) return null;
+    const prefix = line.slice(0, firstPipe);
+    const trailing = line.slice(lastPipe + 1);
+    const cells = line.slice(firstPipe, lastPipe + 1).split('|').slice(1, -1).map(c => c.trim());
+    return { cells, prefix, trailing };
   };
 
   const isSeparator = (cells) => cells.length > 0 && cells.every(c => /^:?-+:?$/.test(c));
@@ -24,7 +24,7 @@ function convertMarkdownTables(html) {
     const header = parseRow(lines[i]);
     const sep = header && i + 1 < lines.length ? parseRow(lines[i + 1]) : null;
 
-    if (header && sep && sep.cells.length === header.cells.length && isSeparator(sep.cells)) {
+    if (header && sep && !sep.prefix.trim() && sep.cells.length === header.cells.length && isSeparator(sep.cells)) {
       const bodyRows = [];
       let j = i + 2;
       let trailing = '';
@@ -37,7 +37,7 @@ function convertMarkdownTables(html) {
       }
       const thead = `<thead><tr>${header.cells.map(c => `<th>${c}</th>`).join('')}</tr></thead>`;
       const tbody = `<tbody>${bodyRows.map(cells => `<tr>${cells.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody>`;
-      out.push(`<div class="content-table-wrap"><table class="content-table">${thead}${tbody}</table></div>${trailing}`);
+      out.push(`${header.prefix}<div class="content-table-wrap"><table class="content-table">${thead}${tbody}</table></div>${trailing}`);
       i = j;
     } else {
       out.push(lines[i]);
