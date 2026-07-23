@@ -36,7 +36,8 @@ function closeTeacherErrorModal() {
 
 function submitTeacherError(moduleId) {
   const textarea = document.getElementById('teacher-error-text');
-  if (!textarea || !textarea.value.trim()) {
+  if (!textarea) return;
+  if (!textarea.value.trim()) {
     textarea.style.borderColor = 'var(--error)';
     return;
   }

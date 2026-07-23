@@ -187,6 +187,7 @@ const AuthService = {
   async backfillProgressTeacherIds() {
     const classesSnap = await this._db.collection('classes').get();
     let updated = 0;
+    const failures = [];
     for (const doc of classesSnap.docs) {
       const cls = doc.data();
       if (!cls.teacherId || !Array.isArray(cls.students) || !cls.students.length) continue;
@@ -196,10 +197,16 @@ const AuthService = {
             teacherIds: firebase.firestore.FieldValue.arrayUnion(cls.teacherId)
           }, { merge: true });
           updated++;
-        } catch (e) { console.warn('[backfillProgressTeacherIds] échec pour', studentUid, e); }
+        } catch (e) {
+          console.warn('[backfillProgressTeacherIds] échec pour', studentUid, e);
+          failures.push(studentUid);
+        }
       }
     }
-    return updated;
+    // failures.length remonté à l'appelant : sans ça, l'admin voit "X mis à jour" et
+    // croit la migration complète alors que certains élèves peuvent rester bloqués
+    // (permission-denied sur progress/{uid} côté enseignant).
+    return { updated: updated, failed: failures.length, failedUids: failures };
   },
 
   /* ── Admin ── */

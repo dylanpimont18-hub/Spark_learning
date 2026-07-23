@@ -4098,43 +4098,6 @@ main { flex: 1; }
 .recommendation-reason { font-size: 0.82rem; color: var(--text-muted); margin-top: 2px; }
 
 /* ═══════════════════════════════════════
-   PROJECTOR MODE
-═══════════════════════════════════════ */
-html.projector-mode { font-size: 22px; }
-html.projector-mode .header,
-html.projector-mode .footer,
-html.projector-mode .contact-btn,
-html.projector-mode .contact-panel,
-html.projector-mode .scroll-top-btn,
-html.projector-mode .module-breadcrumb { display: none !important; }
-html.projector-mode .container { max-width: 100%; padding: 0 40px; }
-html.projector-mode #app { padding-top: 20px; }
-html.projector-mode .cours-intro { font-size: 1.2rem; line-height: 1.8; }
-html.projector-mode .formula-chip { font-size: 1.3rem; padding: 16px 24px; }
-html.projector-mode .quiz-option { font-size: 1.15rem; padding: 18px 24px; }
-html.projector-mode .module-detail-title { font-size: 2rem; }
-html.projector-mode .cours-section-title { font-size: 1.5rem; }
-html.projector-mode .tab-btn { font-size: 1rem; padding: 12px 20px; }
-html.projector-mode .card-exercise { font-size: 1.1rem; }
-.projector-exit-btn {
-  position: fixed;
-  top: 16px;
-  right: 16px;
-  z-index: 500;
-  padding: 10px 20px;
-  border-radius: var(--radius);
-  border: 2px solid var(--error);
-  background: var(--bg-card);
-  color: var(--error);
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  display: none;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-html.projector-mode .projector-exit-btn { display: flex; align-items: center; gap: 6px; }
-
-/* ═══════════════════════════════════════
    TEACHER ERROR MODAL
 ═══════════════════════════════════════ */
 .teacher-modal-overlay {
@@ -4207,6 +4170,63 @@ html.projector-mode .projector-exit-btn { display: flex; align-items: center; ga
   border-color: var(--primary);
   color: var(--primary);
 }
+
+/* ═══════════════════════════════════════
+   COPY LINK MODAL (test de positionnement)
+═══════════════════════════════════════ */
+.copy-link-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+}
+.copy-link-modal-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  max-width: 480px;
+  width: 100%;
+  padding: var(--space-xl);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+  position: relative;
+}
+.copy-link-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  line-height: 1;
+}
+.copy-link-modal-message { margin-bottom: var(--space-md); font-weight: 600; }
+.copy-link-modal-row { display: flex; gap: var(--space-sm); }
+.copy-link-modal-input {
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-sm);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  background: var(--bg);
+  color: var(--text);
+}
+.copy-link-modal-btn {
+  padding: var(--space-sm) var(--space-md);
+  border: none;
+  border-radius: 8px;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.copy-link-modal-btn:hover { opacity: 0.9; }
 
 /* ═══════════════════════════════════════
    PLAYLIST
@@ -4467,7 +4487,6 @@ html.projector-mode .projector-exit-btn { display: flex; align-items: center; ga
   .nav-full           { display: none; }
   .nav-short          { display: inline; font-size: 1.3rem; }
   .nav-link           { padding: 6px 10px; }
-  #projector-toggle   { display: none; }
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -4847,6 +4866,21 @@ html.projector-mode .projector-exit-btn { display: flex; align-items: center; ga
 }
 
 .td-error { color: #ef4444; }
+
+.td-inline-warning {
+  font-size: 0.85rem;
+  color: #ef4444;
+  background: color-mix(in srgb, #ef4444 8%, transparent);
+  border-left: 3px solid #ef4444;
+  border-radius: 8px;
+  padding: var(--space-sm) var(--space-md);
+  margin-bottom: var(--space-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+.td-student-unavailable { font-size: 0.78rem; color: #ef4444; font-weight: 600; }
 
 /* ── TeacherDashboard extensions ── */
 .td-stats-bar {

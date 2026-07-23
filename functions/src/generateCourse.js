@@ -16,6 +16,7 @@ async function handleGenerationRequest(sessionRef, deps) {
 
   await sessionRef.update({ generationLockAt: deps.now() });
 
+  var workDir = deps.workDirFor(sessionRef.id);
   var texSource;
   var figures;
   try {
@@ -29,12 +30,16 @@ async function handleGenerationRequest(sessionRef, deps) {
       figureDescriptions: figures.map(function (f) { return f.filename; })
     });
     texSource = reviewed.tex;
+
+    for (var i = 0; i < figures.length; i++) {
+      var figureBuffer = await deps.downloadGeneratedFile(deps.anthropicClient, figures[i].fileId);
+      await deps.writeBinaryFile(path.join(workDir, figures[i].filename), figureBuffer);
+    }
   } catch (draftError) {
     await failSession(sessionRef, deps, sessionData, draftError);
     return;
   }
 
-  var workDir = deps.workDirFor(sessionRef.id);
   var texFilename = 'cours.tex';
   var compileResult = null;
 
@@ -58,20 +63,24 @@ async function handleGenerationRequest(sessionRef, deps) {
     return;
   }
 
-  var pdfUrl = await deps.storageBucket.upload(compileResult.pdfPath, pdfPathFor(sessionRef.id));
-  var mdLocalPath = path.join(workDir, 'cours.md');
-  await deps.writeTexFile(mdLocalPath, texSource);
-  var mdUrl = await deps.storageBucket.upload(mdLocalPath, mdPathFor(sessionRef.id));
+  try {
+    var pdfUrl = await deps.storageBucket.upload(compileResult.pdfPath, pdfPathFor(sessionRef.id));
+    var mdLocalPath = path.join(workDir, 'cours.md');
+    await deps.writeTexFile(mdLocalPath, texSource);
+    var mdUrl = await deps.storageBucket.upload(mdLocalPath, mdPathFor(sessionRef.id));
 
-  await sessionRef.update({
-    generationStatus: 'generated',
-    pdfUrl: pdfUrl,
-    mdUrl: mdUrl,
-    generatedAt: deps.now(),
-    generationError: null
-  });
+    await sessionRef.update({
+      generationStatus: 'generated',
+      pdfUrl: pdfUrl,
+      mdUrl: mdUrl,
+      generatedAt: deps.now(),
+      generationError: null
+    });
 
-  await deps.queueSuccessEmail(deps.db, { session: sessionData, pdfUrl: pdfUrl });
+    await deps.queueSuccessEmail(deps.db, { session: sessionData, pdfUrl: pdfUrl });
+  } catch (deliveryError) {
+    await failSession(sessionRef, deps, sessionData, deliveryError);
+  }
 }
 
 async function failSession(sessionRef, deps, sessionData, error) {

@@ -42,9 +42,9 @@ Nouveau dossier d'assets (2026-07-21) : photos réelles utilisées en complémen
 ## firestore.rules
 Règles de sécurité Firestore.
 - `config/{doc}` — lecture publique (invités inclus, pour lire `maintenanceMode`/annonce), écriture réservée admin
-- `classes/{classCode}` — lecture restreinte à l'enseignant propriétaire/admin/élèves inscrits (plus de listing global) ; un élève peut s'auto-ajouter/retirer du champ `students` uniquement
+- `classes/{classCode}` — lecture restreinte à l'enseignant propriétaire/admin/élèves inscrits (plus de listing global) ; un élève peut s'auto-ajouter/retirer du champ `students` uniquement ; **création** exigeant `teacherId == request.auth.uid` (sauf admin) — sinon un compte enseignant pouvait, via un appel Firestore direct, créer une classe attribuée à un autre `teacherId`
 - `progress/{uid}` — lecture enseignant conditionnée au tableau dénormalisé `teacherIds` (élève dans une de ses classes), au lieu d'un accès enseignant global
-- `assignments/{id}` — lecture restreinte enseignant propriétaire/admin/élèves de la classe concernée (plus de listing global)
+- `assignments/{id}` — lecture restreinte enseignant propriétaire/admin/élèves de la classe concernée (plus de listing global) ; **création** exigeant `teacherId == request.auth.uid` ET `isOwningTeacherOfClass(classCode)` (sauf admin) — sinon un enseignant pouvait injecter un devoir sur le `classCode` d'un collègue, visible par ses élèves à lui
 - `tutoringStudents/{studentId}` / `tutoringSessions/{sessionId}` — lecture/écriture réservées aux comptes `tutorAccess: true` (`isTutor()`), fermé à tous les autres rôles
 - `positioningTests/{token}` — lecture/écriture réservées `isTutor()` ; aucun accès public en direct, l'élève non authentifié qui passe le test de positionnement transite exclusivement par les Cloud Functions `onCall` (SDK Admin, contourne ces règles)
 
@@ -80,8 +80,9 @@ Routeur SPA (pushState), init, KaTeX, confetti.
 ## js/print.js
 Impression des fiches de cours et des évaluations (extrait de `js/app.js`).
 - `printFiche(moduleId)` — imprime la fiche de synthèse d'un module (via `#print-container` + `renderFicheCours()`, voir `js/utils/ui-helpers.js`) ; réservé enseignant (`AuthGuard.isTeacher()`)
-- `toggleBatchPrintMode()` / `togglePrintSelection()` / `selectAllForPrint()` / `deselectAllForPrint()` / `printSelectedFiches()` — sélection multi-modules sur la grille puis impression groupée via `renderFichesBatch()` ; `toggleBatchPrintMode()` et `printSelectedFiches()` réservées enseignant
-- `toggleEvalBuilderMode()` — active/désactive le mode "composer une évaluation" sur `#modules-grid` (réservé enseignant) : injecte une case à cocher (module entier, toutes ses `evaluation.questions` par défaut) + un lien "✎ Ajuster" par carte de module possédant une banque d'évaluation non vide
+- `toggleBatchPrintMode()` / `togglePrintSelection()` / `selectAllForPrint()` / `deselectAllForPrint()` / `printSelectedFiches()` — sélection multi-modules sur la grille puis impression groupée via `renderFichesBatch()` ; `toggleBatchPrintMode()` et `printSelectedFiches()` réservées enseignant ; les checkboxes injectées portent un `aria-label` avec le titre du module
+- `toggleEvalBuilderMode()` — active/désactive le mode "composer une évaluation" sur `#modules-grid` (réservé enseignant) : injecte une case à cocher (module entier, toutes ses `evaluation.questions` par défaut, `aria-label` avec le titre du module) + un lien "✎ Ajuster" par carte de module possédant une banque d'évaluation non vide
+- `toggleBatchPrintMode()` et `toggleEvalBuilderMode()` sont mutuellement exclusifs : activer l'un désactive l'autre s'il était en cours (les deux partagent `#modules-grid` et une toolbar flottante) ; `navigate()` (`js/app.js`) nettoie aussi les deux modes (état + toolbar DOM) en quittant la vue `modules`
 - `toggleEvalModuleSelection(moduleId)` / `toggleEvalQuestion(moduleId, index)` / `toggleEvalQuestionPicker(moduleId, card)` — gèrent `state.selectedEvalQuestions` (sélection fine question par question via le panneau "Ajuster")
 - `showEvalToolbar()` / `hideEvalToolbar()` / `updateEvalCount()` — barre flottante (questions/points sélectionnés) et boutons d'impression
 - `_collectSelectedEvalQuestions()` — aplatit `state.selectedEvalQuestions` en liste `{moduleTitle, question}` triée par index
@@ -321,7 +322,7 @@ Service d'authentification et d'autorisations Firestore.
 - `getTeacherClasses(teacherUid)` — récupère les classes d'un enseignant
 - `joinClass(uid, classCode)` — ajoute un élève à une classe (batch update users + classes) + dénormalise `progress.teacherIds`
 - `removeStudentFromClass(studentUid, classCode)` — retire un élève d'une classe (batch update users + classes) + retire `progress.teacherIds`
-- `backfillProgressTeacherIds()` — migration one-shot : reconstruit `progress.teacherIds` pour les élèves déjà inscrits (bouton admin)
+- `backfillProgressTeacherIds()` — migration one-shot : reconstruit `progress.teacherIds` pour les élèves déjà inscrits (bouton admin) ; retourne `{ updated, failed, failedUids }` (plus un simple nombre) pour que l'admin voie les échecs individuels au lieu d'un compteur de succès trompeur
 - `createAssignment(classCode, moduleId, dueDate)` — crée un devoir dans la collection assignments
 - `getClassAssignments(classCode)` — récupère les devoirs d'une classe, triés par date côté client
 - `deleteAssignment(assignmentId)` — supprime un devoir
@@ -350,14 +351,15 @@ Panneau d'administration : gestion des enseignants en attente et comptes utilisa
 - `AdminPanel._renderAll(users)` — rendu tous les comptes avec barre de recherche et filtrage
 - `AdminPanel._approve(uid)` / `_reject(uid)` — approuve/refuse un enseignant
 - `AdminPanel._setStatus(uid, status)` — modifie le statut d'un utilisateur
-- `AdminPanel._runBackfillTeacherIds()` — lance la migration `progress.teacherIds` (à exécuter une fois après déploiement des règles)
-- `setSubjectAccessMode(subjectId, mode)` / `setModuleAccessMode(moduleId, mode)` — fonctions globales (hors objet `AdminPanel`, extraites de `js/app.js`) : verrouillage/maintenance par matière ou par module, mettent à jour `Storage` puis poussent la carte complète vers `AuthService.saveModuleAccess()`
+- `AdminPanel._runBackfillTeacherIds()` — lance la migration `progress.teacherIds` (à exécuter une fois après déploiement des règles) ; affiche distinctement le nombre d'échecs individuels (`result.failed`) plutôt qu'un simple compteur de succès, pour ne pas laisser croire à une migration complète
+- `AdminPanel._archiveClass(classId)` — demande confirmation avant d'archiver une classe orpheline (cohérent avec les autres actions destructives du panneau)
+- `setSubjectAccessMode(subjectId, mode)` / `setModuleAccessMode(moduleId, mode)` — fonctions globales async (hors objet `AdminPanel`, extraites de `js/app.js`) : verrouillage/maintenance par matière ou par module ; calculent la carte cible puis **attendent la confirmation d'écriture** (`AuthService.saveModuleAccess()`) avant de mettre à jour `Storage`/`state.moduleAccess` et de re-render — sinon l'admin voyait le verrouillage confirmé localement même si l'écriture Firestore (lue par tous, y compris invités) avait échoué
 
 ## js/views/teacherDashboard.js
 Tableau de bord enseignant : classes, élèves, progression, devoirs, grading.
 - `TeacherDashboard.render(backCode)` — charge les classes de l'enseignant
-- `TeacherDashboard._viewClass(classIndex)` — charge profils + progressions en parallèle (Promise.all)
-- `TeacherDashboard._renderClassDetail(cls, students, progressMap)` — vue classe : stats bar, points faibles, liste élèves, devoirs, bouton grading
+- `TeacherDashboard._viewClass(classIndex)` — charge profils + progressions en parallèle via `Promise.allSettled` (pas `Promise.all`) : un élève dont `progress/{uid}` est inaccessible (permission-denied, réseau) n'empêche plus l'affichage du reste de la classe — il apparaît avec un badge "⚠️ données incomplètes" et une bannière `td-inline-warning` récapitule le nombre d'échecs
+- `TeacherDashboard._renderClassDetail(cls, students, progressMap, loadErrorCount)` — vue classe : stats bar, points faibles, liste élèves, devoirs, bouton grading ; distingue "aucun devoir" d'un échec réseau de chargement des devoirs (bannière + bouton "Réessayer" au lieu d'une liste vide silencieuse) ; priorité `evaluationScore` puis `score` pour l'affichage du score d'un module, alignée sur `GradingPanel` (sinon même élève affichait un % différent selon l'écran)
 - `TeacherDashboard._computeWeakPoints(students, progressMap)` — agrège `progress.tracking` (scores réels quiz/évaluation/exercice, distinct des booléens de `progress.progress`) par module sur toute la classe ; retourne le top 5 des modules sous 80% de moyenne avec la section la plus faible
 - `TeacherDashboard._prefillAssignment(classIndex, moduleId)` — pré-remplit le sélecteur de devoir avec un module repéré comme point faible et y scrolle
 - `TeacherDashboard._renderStudentProgress(uid, classId, profile, progress)` — progression lisible par titre de module, détail quiz/exo/eval
@@ -368,8 +370,9 @@ Tableau de bord enseignant : classes, élèves, progression, devoirs, grading.
 
 ## js/views/gradingPanel.js
 Panneau de notation enseignant : tableau comparatif élèves × modules + export Pronote CSV.
-- `GradingPanel.render({ cls, students, progressMap, backIndex })` — point d'entrée, reçoit les données de TeacherDashboard (pas de double requête Firestore)
-- `GradingPanel._renderGradeTable()` — tableau de saisie /20 + appréciation pour le module sélectionné
+- `GradingPanel.render({ cls, students, progressMap, backIndex })` — point d'entrée, reçoit les données de TeacherDashboard (pas de double requête Firestore) ; initialise `_gradeDrafts` (brouillons de saisie par module, en mémoire pour la session)
+- `GradingPanel._onModuleChange()` — appelé par le `<select>` module au lieu de `_renderGradeTable()` directement : capture d'abord la saisie en cours (`_captureCurrentDraft()`) avant de changer de module, pour ne pas la perdre si l'enseignant revient dessus
+- `GradingPanel._renderGradeTable()` — tableau de saisie /20 + appréciation pour le module sélectionné, pré-rempli depuis `_gradeDrafts[moduleId]` si l'enseignant y était déjà passé dans cette session
 - `GradingPanel._exportCSV()` — génère et télécharge le CSV via Blob + URL.createObjectURL
 - `GradingPanel._csvSafe(value)` — neutralise l'injection de formule CSV (préfixe `'` si valeur commence par `=+-@`)
 
@@ -377,12 +380,12 @@ Panneau de notation enseignant : tableau comparatif élèves × modules + export
 Firestore CRUD pour le suivi de cours particuliers (tutorat privé, réservé aux comptes `tutorAccess: true`).
 - `getStudents()` / `getStudent(id)` — liste (non archivés) / détail d'un élève
 - `createStudent(data)` / `updateStudent(id, patch)` / `archiveStudent(id)` — CRUD élève (soft delete via `archived`)
-- `watchStudentSessions(studentId, callback)` / `createSession(studentId, data)` — écoute temps réel de l'historique et création de séance (`status: 'draft'`)
+- `watchStudentSessions(studentId, callback, onError)` / `createSession(studentId, data)` — écoute temps réel de l'historique et création de séance (`status: 'draft'`) ; `onError` (optionnel) reçoit les erreurs Firestore du listener (sinon la vue restait bloquée sur "Chargement..." en cas d'échec silencieux)
 - `rateSession(sessionId, rating, remarks)` — note une séance 1-10 + remarques, passe en `status: 'rated'`
 - `requestGeneration(sessionId, opts)` — déclenche la génération IA (Cloud Function)
 - `createPositioningTest(opts)` — crée un doc `positioningTests` (l'id du doc sert de token de lien public), lié à `opts.studentId` ou `null` pour un nouvel élève pas encore fiché
 - `getPendingPositioningTests()` — tests non rattachés (`studentId: null`), non `reviewed`, avec au moins une matière `completed` (pour le bloc "à traiter" de `tutoringHome.js`)
-- `watchStudentPositioningTests(studentId, callback)` — écoute temps réel des tests de positionnement rattachés à un élève
+- `watchStudentPositioningTests(studentId, callback, onError)` — écoute temps réel des tests de positionnement rattachés à un élève
 - `markPositioningTestReviewed(token)` / `attachPositioningTestToNewStudent(token, studentData)` / `attachPositioningTestToStudent(token, studentId)` — marque un test traité, ou le rattache en créant une nouvelle fiche élève / à un élève existant
 
 ## js/views/tutoring/tutoringHome.js
@@ -390,19 +393,19 @@ Liste des élèves de cours particuliers (route `/tutorat`), réservée aux comp
 - `TutoringHome.render()` — charge élèves + tests de positionnement en attente, puis affiche la grille
 - `TutoringHome._renderList(filter)` — recherche client-side par nom
 - `TutoringHome._showAddForm()` / `_submitAddForm(e)` — formulaire de création d'élève
-- `TutoringHome._sendPositioningLink()` — crée un lien de test (`createPositioningTest`) et l'affiche via `window.prompt` pour copie/envoi manuel
+- `TutoringHome._sendPositioningLink()` — crée un lien de test (`createPositioningTest`) et l'affiche via `showCopyLinkModal()` (`js/utils/ui-helpers.js`) pour copie/envoi manuel
 - `TutoringHome._showAttachForm(token)` / `_submitAttachForm(e, token)` — bloc "Tests de positionnement à traiter" : crée la fiche élève à partir des infos saisies pendant le test, puis rattache le test
 - `TutoringHome._showAttachToExistingForm(token)` / `_submitAttachToExisting(e, token)` — rattache un test en attente à un élève déjà fiché
 
 ## js/views/tutoring/tutoringStudent.js
 Fiche élève (route `/tutorat/:studentId`) : notes générales, historique des séances (temps réel), notation, génération IA, tests de positionnement.
-- `TutoringStudent.render(studentId)` — charge l'élève puis s'abonne aux séances (`watchStudentSessions`) et aux tests de positionnement (`watchStudentPositioningTests`)
+- `TutoringStudent.render(studentId)` — charge l'élève puis s'abonne aux séances (`watchStudentSessions`) et aux tests de positionnement (`watchStudentPositioningTests`) ; affiche la fiche immédiatement (sans attendre le 1er snapshot) et bascule `_syncError` + bannière "Réessayer" si un listener remonte une erreur
 - `TutoringStudent._saveNotes()` / `_archive()` — édition notes générales / soft delete élève
 - `TutoringStudent._showSessionForm()` / `_submitSessionForm(e, generate)` — création d'une séance (`status: 'draft'`), option "Générer un cours" immédiat
 - `TutoringStudent._showRatingForm(sessionId)` / `_submitRating(e, sessionId)` — notation d'une séance (1-10 + remarques)
 - `TutoringStudent._renderGenerationBadge(sess)` — badge d'état de génération (generating/generated/failed)
 - `TutoringStudent._requestGeneration(sessionId, contentType, figuresCount)` — relance la génération sur une séance existante
-- `TutoringStudent._sendPositioningLink()` — crée un lien de test de positionnement pré-rattaché à cet élève (`createPositioningTest`), affiché via `window.prompt`
+- `TutoringStudent._sendPositioningLink()` — crée un lien de test de positionnement pré-rattaché à cet élève (`createPositioningTest`), affiché via `showCopyLinkModal()`
 - `TutoringStudent._renderPositioningReports()` — affiche, par test complété, le niveau estimé par thème + une recommandation textuelle (`positioningBuildRecommendation`) comparée au niveau déclaré de l'élève, plus des boutons de lien direct vers les modules `bts-prep` concernés (`positioningRecommendedModules`, voir `js/positioning/positioningReport.js`)
 
 ## js/positioning/positioningClient.js
@@ -422,13 +425,14 @@ Page publique (route `/positionnement/:token`), non authentifiée : passage du t
 - `PositioningTest.render(token)` — charge les infos du lien ; formulaire prénom/classe si élève inconnu, sinon choix de matière direct
 - `PositioningTest._chooseSubject(subject)` — charge la banque de questions (`PositioningClient.getQuestionBank`) et démarre le test
 - `PositioningTest._renderQuestion()` / `_answerQuestion(selectedOption)` — affiche une question (options mélangées à l'affichage, l'index original est soumis) ; rejoue localement l'algorithme "escalier" (mêmes constantes que `positioningStaircase.js`) pour choisir le palier de la question suivante, palier remis à 5 à chaque nouveau thème
-- `PositioningTest._finishSubject()` — soumet les réponses via `PositioningClient.submitResult` (la notation finale/autoritaire est recalculée côté serveur) puis affiche le remerciement
+- `PositioningTest._finishSubject()` — soumet les réponses via `PositioningClient.submitResult` (la notation finale/autoritaire est recalculée côté serveur) puis affiche le remerciement ; en cas d'échec réseau, affiche un bouton "Réessayer l'envoi" qui rappelle `_finishSubject()` sans perdre `_answers` (pas besoin de refaire les ~24 questions)
 - `PositioningTest._renderThankYou()` — remerciement + option d'enchaîner sur l'autre matière si elle n'a pas déjà été testée
 
 ## functions/ (Cloud Functions — générateur de cours IA, tutorat Phase 2 + test de positionnement)
 - `functions/index.js` — trigger `generateCourse` (`onDocumentWritten` sur `tutoringSessions`, filtré sur `generationStatus === 'generating'`) ; `onCall` publics `getPositioningLinkInfo`, `getPositioningQuestionBank`, `submitPositioningResult` (test de positionnement, accessibles sans authentification, délèguent à `functions/src/positioning.js`)
-- `functions/src/generateCourse.js` — orchestrateur : verrou anti-double-déclenchement, rédaction, relecture, compilation (retry jusqu'à 3x), livraison Storage + email
+- `functions/src/generateCourse.js` — orchestrateur : verrou anti-double-déclenchement, rédaction, relecture, téléchargement des figures générées (`deps.downloadGeneratedFile`) + écriture dans `workDir` avant compilation, compilation (retry jusqu'à 3x), livraison Storage + email ; le bloc de livraison (upload + update Firestore + email) est dans son propre `try/catch` → `failSession()` sur échec (sinon une séance restait bloquée en `generating` indéfiniment si l'upload réseau échouait après une compilation réussie)
 - `functions/src/anthropicClient.js` — appels Claude Opus 4.8 (code execution + web search), gestion `pause_turn` (jusqu'à 5 continuations)
+  - `downloadGeneratedFile(anthropic, fileId)` — télécharge le contenu binaire d'une figure générée par `code_execution` via l'API Files (`GET /v1/files/{id}/content`, `__binaryResponse: true` — pas de resource dédiée dans le SDK installé) ; sans ça les figures n'étaient jamais matérialisées sur disque et toute séance avec `figuresCount > 0` échouait systématiquement à la compilation
 - `functions/src/promptBuilder.js` — construction des prompts rédaction/relecture/fix-compile
 - `functions/src/latexCompiler.js` — compilation via Tectonic (binaire téléchargé au `postinstall`, Linux uniquement)
 - `functions/src/mailer.js` — écriture dans la collection `mail` (extension Firebase "Trigger Email")
@@ -479,6 +483,8 @@ Recommandations adaptatives basées sur la progression.
 
 ## js/utils/ui-helpers.js
 Helpers de rendu et utilitaires UI partagés.
+- `escapeHtml(str)` — échappement HTML partagé (auparavant dupliqué à l'identique en 6 endroits : `teacherDashboard.js`, `gradingPanel.js`, `adminPanel.js`, `tutoringHome.js`, `tutoringStudent.js`, `positioningTest.js`) ; ces fichiers chargent AVANT ce fichier dans `index.html`, donc chacun garde un wrapper local `_esc: function(str) { return escapeHtml(str); }` (une référence directe `_esc: escapeHtml` casserait au chargement, `escapeHtml` n'existant pas encore)
+- `showCopyLinkModal(url, message)` — panneau modal "copier le lien" (bouton copier-presse-papiers + fallback `execCommand('copy')` + sélection manuelle) ; remplace `window.prompt()` (fragile sur mobile/webview) pour partager les liens de test de positionnement (`tutoringHome.js`, `tutoringStudent.js`)
 - `convertMarkdownTables(html)` — convertit les tableaux markdown (`| a | b |` + ligne `|---|---|`) présents dans le contenu (`def`, `steps`, `context`...) en vrais `<table>` HTML ; appelé sur le HTML assemblé dans `moduleTabs.js` et `renderFicheCours()`, pas dans `js/data/`
 - `renderLoading()` — squelette de chargement
 - `renderErreurConseil(piege)` — bloc conseil sur l'erreur classique

@@ -50,6 +50,9 @@ function toggleBatchPrintMode() {
   const grid = document.getElementById('modules-grid');
   if (!grid) return;
 
+  // Les deux modes partagent #modules-grid et une toolbar flottante : un seul actif à la fois
+  if (state.batchPrintMode && state.evalBuilderMode) toggleEvalBuilderMode();
+
   if (state.batchPrintMode) {
     state.selectedForPrint = [];
     grid.querySelectorAll('.module-card').forEach(card => {
@@ -57,9 +60,11 @@ function toggleBatchPrintMode() {
       const match = onclick.match(/moduleId:\s*'([^']+)'/);
       if (!match) return;
       const moduleId = match[1];
+      const mod = getModule(moduleId);
+      const label = mod ? mod.title : moduleId;
       const cb = document.createElement('label');
       cb.className = 'print-select-checkbox';
-      cb.innerHTML = '<input type="checkbox" data-print-id="' + moduleId + '" onclick="event.stopPropagation(); togglePrintSelection(\'' + moduleId + '\')">';
+      cb.innerHTML = '<input type="checkbox" data-print-id="' + moduleId + '" aria-label="Sélectionner ' + escapeHtml(label) + ' pour l\'impression" onclick="event.stopPropagation(); togglePrintSelection(\'' + moduleId + '\')">';
       card.prepend(cb);
     });
     showBatchToolbar();
@@ -151,6 +156,9 @@ function toggleEvalBuilderMode() {
   const grid = document.getElementById('modules-grid');
   if (!grid) return;
 
+  // Les deux modes partagent #modules-grid et une toolbar flottante : un seul actif à la fois
+  if (state.evalBuilderMode && state.batchPrintMode) toggleBatchPrintMode();
+
   if (state.evalBuilderMode) {
     state.selectedEvalQuestions = {};
     grid.querySelectorAll('.module-card').forEach(card => {
@@ -163,7 +171,7 @@ function toggleEvalBuilderMode() {
 
       const cb = document.createElement('label');
       cb.className = 'eval-select-checkbox';
-      cb.innerHTML = '<input type="checkbox" data-eval-id="' + moduleId + '" onclick="event.stopPropagation(); toggleEvalModuleSelection(\'' + moduleId + '\')">';
+      cb.innerHTML = '<input type="checkbox" data-eval-id="' + moduleId + '" aria-label="Sélectionner ' + escapeHtml(mod.title) + ' pour l\'évaluation" onclick="event.stopPropagation(); toggleEvalModuleSelection(\'' + moduleId + '\')">';
       card.prepend(cb);
 
       const adjustBtn = document.createElement('button');

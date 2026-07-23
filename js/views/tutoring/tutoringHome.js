@@ -7,9 +7,9 @@ var TutoringHome = {
   _students: [],
   _pendingTests: [],
 
-  _esc: function(str) {
-    return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-  },
+  // escapeHtml (js/utils/ui-helpers.js) charge après ce fichier dans index.html :
+  // wrapper nécessaire, une référence directe échouerait au chargement (ReferenceError).
+  _esc: function(str) { return escapeHtml(str); },
 
   render: async function() {
     var app = document.getElementById('app');
@@ -125,7 +125,7 @@ var TutoringHome = {
     try {
       var token = await TutoringService.createPositioningTest({ studentId: null });
       var url = window.location.origin + '/positionnement/' + token;
-      window.prompt('Lien à envoyer au nouvel élève (Ctrl+C puis Entrée) :', url);
+      showCopyLinkModal(url, 'Lien à envoyer au nouvel élève :');
     } catch (e) {
       showToast('Erreur lors de la création du lien.', 'error');
     }
@@ -176,6 +176,17 @@ var TutoringHome = {
   },
 
   _showAttachToExistingForm: function(token) {
+    if (TutoringHome._students.length === 0) {
+      document.getElementById('app').innerHTML =
+        '<div class="tt-container">' +
+          '<div class="tt-header">' +
+            '<button class="tt-back-btn" onclick="TutoringHome._renderList(\'\')">← Retour</button>' +
+            '<h1 class="tt-title">Rattacher le test à un élève existant</h1>' +
+          '</div>' +
+          '<p class="tt-empty">Aucun élève fiché pour l\'instant — crée d\'abord une fiche élève.</p>' +
+        '</div>';
+      return;
+    }
     var optionsHtml = TutoringHome._students.map(function(s) {
       return '<option value="' + TutoringHome._esc(s.id) + '">' + TutoringHome._esc(s.firstName) + ' ' + TutoringHome._esc(s.lastName) + '</option>';
     }).join('');
@@ -195,6 +206,10 @@ var TutoringHome = {
   _submitAttachToExisting: function(e, token) {
     e.preventDefault();
     var studentId = document.getElementById('tt-attach-existing-select').value;
+    if (!studentId) {
+      showToast('Sélectionne un élève.', 'error');
+      return false;
+    }
     TutoringService.attachPositioningTestToStudent(token, studentId).then(function() {
       showToast('Test rattaché !', 'success');
       navigate('tutoringStudent', { studentId: studentId });

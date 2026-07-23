@@ -84,7 +84,7 @@ var TutoringService = {
     });
   },
 
-  watchStudentSessions: function(studentId, callback) {
+  watchStudentSessions: function(studentId, callback, onError) {
     return this._db().collection('tutoringSessions')
       .where('studentId', '==', studentId)
       .onSnapshot(function(snap) {
@@ -95,7 +95,7 @@ var TutoringService = {
             return tb - ta;
           });
         callback(sessions);
-      });
+      }, onError || function() {});
   },
 
   /* ── Test de positionnement ── */
@@ -125,12 +125,12 @@ var TutoringService = {
       });
   },
 
-  watchStudentPositioningTests: function(studentId, callback) {
+  watchStudentPositioningTests: function(studentId, callback, onError) {
     return this._db().collection('positioningTests')
       .where('studentId', '==', studentId)
       .onSnapshot(function(snap) {
         callback(snap.docs.map(function(d) { return Object.assign({ id: d.id }, d.data()); }));
-      });
+      }, onError || function() {});
   },
 
   markPositioningTestReviewed: async function(token) {

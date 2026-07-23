@@ -28,10 +28,12 @@ function baseDeps(overrides) {
     draftCourse: async function () { return { tex: '\\section{Draft}', figures: [] }; },
     reviewDraft: async function () { return { tex: '\\section{Reviewed}' }; },
     fixCompileError: async function () { return { tex: '\\section{Fixed}' }; },
+    downloadGeneratedFile: async function () { return Buffer.from('fake-image-bytes'); },
     compileTex: async function () { return { success: true, pdfPath: '/tmp/fake/cours.pdf', errorLog: null }; },
     queueSuccessEmail: async function () {},
     queueFailureEmail: async function () {},
     writeTexFile: async function () {},
+    writeBinaryFile: async function () {},
     getStudentLevel: async function () { return '1re'; }
   }, overrides || {});
 }
@@ -94,4 +96,50 @@ test('compile fails then succeeds on retry -> generated status', async function 
   await handleGenerationRequest(ref, deps);
   var last = ref.updates[ref.updates.length - 1];
   assert.equal(last.generationStatus, 'generated');
+});
+
+test('figures returned by draftCourse are downloaded and written before compiling', async function () {
+  var ref = fakeSessionRef({ generationStatus: 'generating', generationLockAt: null, generationRequestedBy: 'uid1' });
+  var downloadedIds = [];
+  var writtenFiles = [];
+  var deps = baseDeps({
+    draftCourse: async function () {
+      return { tex: '\\section{Draft}', figures: [{ filename: 'schema1.png', fileId: 'file_abc' }] };
+    },
+    downloadGeneratedFile: async function (anthropic, fileId) { downloadedIds.push(fileId); return Buffer.from('png-bytes'); },
+    writeBinaryFile: async function (filePath, buffer) { writtenFiles.push({ filePath: filePath, buffer: buffer }); }
+  });
+  await handleGenerationRequest(ref, deps);
+  assert.deepEqual(downloadedIds, ['file_abc']);
+  assert.equal(writtenFiles.length, 1);
+  assert.match(writtenFiles[0].filePath, /schema1\.png$/);
+  var last = ref.updates[ref.updates.length - 1];
+  assert.equal(last.generationStatus, 'generated');
+});
+
+test('figure download failure -> failed status (not an unhandled rejection)', async function () {
+  var ref = fakeSessionRef({ generationStatus: 'generating', generationLockAt: null, generationRequestedBy: 'uid1' });
+  var deps = baseDeps({
+    draftCourse: async function () {
+      return { tex: '\\section{Draft}', figures: [{ filename: 'schema1.png', fileId: 'file_abc' }] };
+    },
+    downloadGeneratedFile: async function () { throw new Error('files API unavailable'); }
+  });
+  await handleGenerationRequest(ref, deps);
+  var last = ref.updates[ref.updates.length - 1];
+  assert.equal(last.generationStatus, 'failed');
+});
+
+test('storage upload failure after successful compile -> failed status, not stuck in "generating"', async function () {
+  var ref = fakeSessionRef({ generationStatus: 'generating', generationLockAt: null, generationRequestedBy: 'uid1' });
+  var failureEmailCalls = [];
+  var deps = baseDeps({
+    storageBucket: { upload: async function () { throw new Error('network error during upload'); } },
+    queueFailureEmail: async function (db, params) { failureEmailCalls.push(params); }
+  });
+  await handleGenerationRequest(ref, deps);
+  var last = ref.updates[ref.updates.length - 1];
+  assert.equal(last.generationStatus, 'failed');
+  assert.ok(last.generationError);
+  assert.equal(failureEmailCalls.length, 1);
 });

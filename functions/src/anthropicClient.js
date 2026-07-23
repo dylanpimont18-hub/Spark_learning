@@ -79,9 +79,22 @@ async function fixCompileError(anthropic, params) {
   return { tex: extractText(response), response: response };
 }
 
+// Le tool code_execution ne renvoie que des références (file_id) aux fichiers générés
+// (figures) : il faut ensuite les récupérer via l'API Files pour pouvoir les inclure
+// (\includegraphics) lors de la compilation LaTeX.
+async function downloadGeneratedFile(anthropic, fileId) {
+  var response = await anthropic.get('/v1/files/' + fileId + '/content', {
+    headers: { 'anthropic-beta': 'files-api-2025-04-14' },
+    __binaryResponse: true
+  });
+  var arrayBuffer = await response.arrayBuffer();
+  return Buffer.from(arrayBuffer);
+}
+
 module.exports = {
   draftCourse: draftCourse,
   reviewDraft: reviewDraft,
   fixCompileError: fixCompileError,
+  downloadGeneratedFile: downloadGeneratedFile,
   runMessageWithPauseHandling: runMessageWithPauseHandling
 };

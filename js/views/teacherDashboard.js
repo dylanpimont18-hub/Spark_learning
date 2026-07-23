@@ -1,9 +1,9 @@
 var TeacherDashboard = {
   _classes: [],
   _backCode: null,
-  _esc: function(str) {
-    return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-  },
+  // escapeHtml (js/utils/ui-helpers.js) charge après ce fichier dans index.html :
+  // wrapper nécessaire, une référence directe échouerait au chargement (ReferenceError).
+  _esc: function(str) { return escapeHtml(str); },
 
   render: async function(backCode) {
     // backCode : si '__admin__', le bouton retour va vers AdminPanel; sinon, retour normal
@@ -15,7 +15,7 @@ var TeacherDashboard = {
       TeacherDashboard._classes = await AuthService.getTeacherClasses(uid);
       TeacherDashboard._renderDashboard();
     } catch (e) {
-      app.innerHTML = '<div class="td-error">Erreur de chargement.</div>';
+      app.innerHTML = '<div class="td-error">Erreur de chargement.<button class="td-back-btn" onclick="TeacherDashboard.render(\'' + (backCode || '') + '\')">Réessayer</button></div>';
     }
   },
 
@@ -71,6 +71,7 @@ var TeacherDashboard = {
     try {
       var students = [];
       var progressMap = {};
+      var loadErrorCount = 0;
       if (cls.students && cls.students.length > 0) {
         var profilePromises = cls.students.map(function(uid) {
           return AuthService.getUserProfile(uid);
@@ -78,17 +79,27 @@ var TeacherDashboard = {
         var progressPromises = cls.students.map(function(uid) {
           return AuthService.getStudentProgress(uid);
         });
-        var profiles = await Promise.all(profilePromises);
-        var progresses = await Promise.all(progressPromises);
+        // allSettled plutôt que Promise.all : un seul élève dont le doc progress/{uid}
+        // est inaccessible (ex. teacherIds pas encore backfillé) ne doit pas faire
+        // échouer l'affichage de toute la classe.
+        var profileResults = await Promise.allSettled(profilePromises);
+        var progressResults = await Promise.allSettled(progressPromises);
         for (var i = 0; i < cls.students.length; i++) {
           var uid = cls.students[i];
-          if (profiles[i]) students.push({ uid: uid, profile: profiles[i] });
-          progressMap[uid] = progresses[i];
+          var profileOk = profileResults[i].status === 'fulfilled' && profileResults[i].value;
+          var progressOk = progressResults[i].status === 'fulfilled';
+          if (!profileOk || !progressOk) loadErrorCount++;
+          students.push({
+            uid: uid,
+            profile: profileOk ? profileResults[i].value : { displayName: 'Élève (profil inaccessible)' },
+            dataUnavailable: !profileOk || !progressOk
+          });
+          progressMap[uid] = progressOk ? progressResults[i].value : null;
         }
       }
-      TeacherDashboard._renderClassDetail(cls, students, progressMap);
+      TeacherDashboard._renderClassDetail(cls, students, progressMap, loadErrorCount);
     } catch (e) {
-      app.innerHTML = '<div class="td-error">Erreur de chargement.</div>';
+      app.innerHTML = '<div class="td-error">Erreur de chargement.<button class="td-back-btn" onclick="TeacherDashboard._viewClass(' + classIndex + ')">Réessayer</button></div>';
     }
   },
 
@@ -165,7 +176,7 @@ var TeacherDashboard = {
     sel.focus();
   },
 
-  _renderClassDetail: async function(cls, students, progressMap) {
+  _renderClassDetail: async function(cls, students, progressMap, loadErrorCount) {
     // ── Calcul stats ──
     var sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
     var totalCompleted = 0;
@@ -236,8 +247,11 @@ var TeacherDashboard = {
       : students.map(function(s) {
           var safeUid = TeacherDashboard._esc(s.uid);
           var safeCode = TeacherDashboard._esc(cls.id);
+          var unavailableBadge = s.dataUnavailable
+            ? ' <span class="td-student-unavailable" title="Données indisponibles (erreur réseau ou permissions)">⚠️ données incomplètes</span>'
+            : '';
           return '<div class="td-student-row">' +
-            '<span class="td-student-name">' + TeacherDashboard._esc(s.profile.displayName || 'Élève') + '</span>' +
+            '<span class="td-student-name">' + TeacherDashboard._esc(s.profile.displayName || 'Élève') + unavailableBadge + '</span>' +
             '<button class="td-view-btn" onclick="TeacherDashboard._viewStudent(\'' + safeUid + '\', \'' + safeCode + '\')">Voir progression →</button>' +
             '<button class="td-remove-btn" onclick="TeacherDashboard._removeStudent(\'' + safeUid + '\', \'' + safeCode + '\', ' + classIndex + ')">Retirer</button>' +
           '</div>';
@@ -245,11 +259,14 @@ var TeacherDashboard = {
 
     // ── Devoirs ──
     var assignments = [];
+    var assignmentsLoadFailed = false;
     try {
       assignments = await AuthService.getClassAssignments(cls.id);
-    } catch(e) { assignments = []; }
+    } catch(e) { assignments = []; assignmentsLoadFailed = true; }
 
-    var assignmentsHtml = assignments.length === 0
+    var assignmentsHtml = assignmentsLoadFailed
+      ? '<p class="td-inline-warning">Impossible de charger les devoirs (erreur réseau).<button class="td-back-btn" onclick="TeacherDashboard._viewClass(' + classIndex + ')">Réessayer</button></p>'
+      : assignments.length === 0
       ? '<p class="td-empty" style="font-size:0.85rem;">Aucun devoir assigné.</p>'
       : assignments.map(function(a) {
           var mod = getModule(a.moduleId);
@@ -295,6 +312,9 @@ var TeacherDashboard = {
           '<span class="td-class-code">Code : ' + TeacherDashboard._esc(cls.id) + '</span>' +
           '<button class="td-grading-btn" onclick="TeacherDashboard._openGrading(' + classIndex + ')">📊 Notes & Pronote</button>' +
         '</div>' +
+        (loadErrorCount > 0
+          ? '<p class="td-inline-warning">' + loadErrorCount + ' élève(s) affiché(s) avec des données incomplètes (erreur réseau/permissions) — les stats ci-dessous peuvent être sous-estimées.<button class="td-back-btn" onclick="TeacherDashboard._viewClass(' + classIndex + ')">Réessayer</button></p>'
+          : '') +
         statsBar +
         weakPointsHtml +
         '<div class="td-students">' + studentsHtml + '</div>' +
@@ -341,7 +361,10 @@ var TeacherDashboard = {
       ? '<p class="td-empty">Aucun module commencé.</p>'
       : modules.map(function(item) {
           var m = item.data;
-          var score = m && m.score != null ? m.score + '%' : (m && m.evaluationScore != null ? m.evaluationScore + '%' : '—');
+          // Même ordre de priorité que GradingPanel._renderGradeTable() / _renderAll()
+          // (js/views/gradingPanel.js) : sans ça, le même élève peut afficher un
+          // pourcentage différent selon l'écran quand les deux champs sont présents.
+          var score = m && m.evaluationScore != null ? m.evaluationScore + '%' : (m && m.score != null ? m.score + '%' : '—');
           var done = item.completed ? '✅' : '⏳';
           var modObj = getModule(item.key);
           var modTitle = (modObj && modObj.title) ? modObj.title : item.key;

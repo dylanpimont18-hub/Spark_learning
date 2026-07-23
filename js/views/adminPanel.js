@@ -3,9 +3,9 @@ var AdminPanel = {
   _settingsOpen: false,
   _allUsersCache: [],
 
-  _esc: function(str) {
-    return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-  },
+  // escapeHtml (js/utils/ui-helpers.js) charge après ce fichier dans index.html :
+  // wrapper nécessaire, une référence directe échouerait au chargement (ReferenceError).
+  _esc: function(str) { return escapeHtml(str); },
 
   _timeAgo: function(ts) {
     if (!ts) return '—';
@@ -135,9 +135,14 @@ var AdminPanel = {
   _runBackfillTeacherIds: async function() {
     if (!confirm('Lancer la migration des accès enseignants ? Cette opération est sûre et peut être relancée sans risque.')) return;
     try {
-      var count = await AuthService.backfillProgressTeacherIds();
-      await AuthService.logAdminAction('teacherIds_backfill', null, count + ' documents mis à jour');
-      showToast('Migration terminée : ' + count + ' élève(s) mis à jour.', 'success');
+      var result = await AuthService.backfillProgressTeacherIds();
+      var detail = result.updated + ' mis à jour' + (result.failed > 0 ? ', ' + result.failed + ' échec(s)' : '');
+      await AuthService.logAdminAction('teacherIds_backfill', null, detail);
+      if (result.failed > 0) {
+        showToast('Migration partielle : ' + result.updated + ' élève(s) mis à jour, ' + result.failed + ' échec(s) — relance la migration (sans risque) pour réessayer les échecs.', 'error');
+      } else {
+        showToast('Migration terminée : ' + result.updated + ' élève(s) mis à jour.', 'success');
+      }
     } catch (e) {
       console.error('[AdminPanel] backfill error:', e);
       showToast('Erreur lors de la migration.', 'error');
@@ -435,6 +440,7 @@ var AdminPanel = {
   },
 
   _archiveClass: async function(classId) {
+    if (!confirm('Archiver cette classe orpheline ? Cette action est irréversible depuis ce panneau.')) return;
     try {
       await AuthService.archiveClass(classId);
       await AuthService.logAdminAction('class_archived', null, 'Classe : ' + classId);
@@ -446,30 +452,54 @@ var AdminPanel = {
   }
 };
 
-/* ── Verrouillage/maintenance par matière ou par module (admin) ── */
-function setSubjectAccessMode(subjectId, mode) {
+/* ── Verrouillage/maintenance par matière ou par module (admin) ──
+   IMPORTANT : `config/moduleAccess` est lu par tous les utilisateurs (y compris invités) ;
+   on ne met à jour le cache local (et donc l'affichage admin) qu'APRÈS confirmation que
+   l'écriture Firestore a réussi. Sinon l'admin croit le verrouillage effectif partout
+   alors que seul son propre navigateur l'aurait vu (cache local optimiste, doc distant
+   inchangé). */
+async function setSubjectAccessMode(subjectId, mode) {
   const modules = (window.MODULES || []).filter(m => (m.subject || 'maths') === subjectId);
+  const nextAccess = Object.assign({}, Storage.getModuleStatuses());
   modules.forEach(m => {
-    if (mode === 'open') Storage.resetModuleStatus(m.id);
-    else if (mode === 'locked') Storage.setModuleStatus(m.id, { locked: true, maintenance: false });
-    else if (mode === 'maintenance') Storage.setModuleStatus(m.id, { locked: false, maintenance: true });
+    if (mode === 'open') delete nextAccess[m.id];
+    else if (mode === 'locked') nextAccess[m.id] = { locked: true, maintenance: false };
+    else if (mode === 'maintenance') nextAccess[m.id] = { locked: false, maintenance: true };
   });
-  state.moduleAccess = Storage.getModuleStatuses();
-  AuthService.saveModuleAccess(state.moduleAccess).catch(e => console.warn('[moduleAccess] push failed:', e));
+
+  try {
+    await AuthService.saveModuleAccess(nextAccess);
+  } catch (e) {
+    console.warn('[moduleAccess] push failed:', e);
+    showToast('Échec de la synchronisation : le verrouillage n\'a pas été appliqué. Réessaie.', 'error');
+    return;
+  }
+
+  Storage.setAllModuleStatuses(nextAccess);
+  state.moduleAccess = nextAccess;
   const subjectLabel = { maths: 'Mathématiques', physique: 'Physique-Chimie', si: 'Sciences de l\'Ingénieur' }[subjectId] || subjectId;
   const modeLabel = { open: 'activée', locked: 'verrouillée', maintenance: 'en maintenance' }[mode] || mode;
   showToast(`Matière « ${subjectLabel} » ${modeLabel} (${modules.length} modules)`, 'info');
   render();
 }
 
-function setModuleAccessMode(moduleId, mode) {
+async function setModuleAccessMode(moduleId, mode) {
   if (!moduleId || typeof Storage === 'undefined') return;
-  if (mode === 'open') Storage.resetModuleStatus(moduleId);
-  else if (mode === 'locked') Storage.setModuleStatus(moduleId, { locked: true, maintenance: false });
-  else if (mode === 'maintenance') Storage.setModuleStatus(moduleId, { locked: false, maintenance: true });
+  const nextAccess = Object.assign({}, Storage.getModuleStatuses());
+  if (mode === 'open') delete nextAccess[moduleId];
+  else if (mode === 'locked') nextAccess[moduleId] = { locked: true, maintenance: false };
+  else if (mode === 'maintenance') nextAccess[moduleId] = { locked: false, maintenance: true };
 
-  state.moduleAccess = Storage.getModuleStatuses();
-  AuthService.saveModuleAccess(state.moduleAccess).catch(e => console.warn('[moduleAccess] push failed:', e));
+  try {
+    await AuthService.saveModuleAccess(nextAccess);
+  } catch (e) {
+    console.warn('[moduleAccess] push failed:', e);
+    showToast('Échec de la synchronisation : le changement n\'a pas été appliqué. Réessaie.', 'error');
+    return;
+  }
+
+  Storage.setAllModuleStatuses(nextAccess);
+  state.moduleAccess = nextAccess;
 
   // If current module becomes unavailable, bounce user back to modules list
   if (state.view === 'module' && state.moduleId === moduleId && isModuleUnavailable(moduleId)) {

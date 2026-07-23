@@ -8,12 +8,13 @@ var TutoringStudent = {
   _sessions: [],
   _positioningTests: [],
 
-  _esc: function(str) {
-    return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-  },
+  // escapeHtml (js/utils/ui-helpers.js) charge après ce fichier dans index.html :
+  // wrapper nécessaire, une référence directe échouerait au chargement (ReferenceError).
+  _esc: function(str) { return escapeHtml(str); },
 
   _unsubscribeSessions: null,
   _unsubscribePositioning: null,
+  _syncError: false,
 
   render: async function(studentId) {
     var app = document.getElementById('app');
@@ -24,11 +25,17 @@ var TutoringStudent = {
         app.innerHTML = '<div class="tt-error">Élève introuvable.</div>';
         return;
       }
+      TutoringStudent._syncError = false;
       if (TutoringStudent._unsubscribeSessions) {
         TutoringStudent._unsubscribeSessions();
       }
       TutoringStudent._unsubscribeSessions = TutoringService.watchStudentSessions(studentId, function(sessions) {
         TutoringStudent._sessions = sessions;
+        TutoringStudent._syncError = false;
+        TutoringStudent._renderFiche();
+      }, function(err) {
+        console.error('watchStudentSessions', err);
+        TutoringStudent._syncError = true;
         TutoringStudent._renderFiche();
       });
       if (TutoringStudent._unsubscribePositioning) {
@@ -37,7 +44,14 @@ var TutoringStudent = {
       TutoringStudent._unsubscribePositioning = TutoringService.watchStudentPositioningTests(studentId, function(tests) {
         TutoringStudent._positioningTests = tests;
         TutoringStudent._renderFiche();
+      }, function(err) {
+        console.error('watchStudentPositioningTests', err);
+        TutoringStudent._syncError = true;
+        TutoringStudent._renderFiche();
       });
+      // Affiche la fiche immédiatement (sans attendre le premier snapshot) pour ne
+      // jamais rester bloqué sur "Chargement..." si le temps réel échoue silencieusement.
+      TutoringStudent._renderFiche();
     } catch (e) {
       app.innerHTML = '<div class="tt-error">Erreur de chargement.</div>';
     }
@@ -53,6 +67,10 @@ var TutoringStudent = {
           '<button class="tt-add-btn" onclick="TutoringStudent._sendPositioningLink()">Envoyer un test de positionnement</button>' +
           '<button class="tt-archive-btn" onclick="TutoringStudent._archive()">Archiver</button>' +
         '</div>' +
+        (TutoringStudent._syncError
+          ? '<div class="tt-error tt-sync-error">Synchronisation en temps réel interrompue (séances/tests de positionnement) — les données affichées peuvent être obsolètes. ' +
+            '<button type="button" class="tt-rate-btn" onclick="TutoringStudent.render(\'' + TutoringStudent._esc(s.id) + '\')">Réessayer</button></div>'
+          : '') +
         TutoringStudent._renderPositioningReports() +
         '<div class="tt-student-meta">' +
           '<span class="tt-student-level">' + TutoringStudent._esc(s.level) + '</span>' +
@@ -161,6 +179,7 @@ var TutoringStudent = {
 
   _submitSessionForm: function(e, generate) {
     e.preventDefault();
+    if (TutoringStudent._submittingSession) return false;
     var date = document.getElementById('tt-session-date').value;
     var subject = document.getElementById('tt-session-subject').value.trim();
     var topic = document.getElementById('tt-session-topic').value.trim();
@@ -173,6 +192,7 @@ var TutoringStudent = {
       return false;
     }
 
+    TutoringStudent._submittingSession = true;
     TutoringService.createSession(TutoringStudent._student.id, {
       date: date,
       subject: subject,
@@ -188,9 +208,17 @@ var TutoringStudent = {
         .then(function() {
           showToast('Génération lancée !', 'success');
           TutoringStudent._renderFiche();
+        })
+        .catch(function() {
+          // La séance EST enregistrée à ce stade : ne pas dire "erreur d'enregistrement"
+          // (ferait croire à une perte de données et pousserait à resoumettre en double).
+          showToast('Séance enregistrée, mais échec du lancement de la génération. Réessaie depuis la fiche.', 'error');
+          TutoringStudent._renderFiche();
         });
     }).catch(function() {
-      showToast('Erreur lors de l\'enregistrement.', 'error');
+      showToast('Erreur lors de l\'enregistrement de la séance.', 'error');
+    }).finally(function() {
+      TutoringStudent._submittingSession = false;
     });
 
     return false;
@@ -209,7 +237,7 @@ var TutoringStudent = {
           '<button class="tt-back-btn" onclick="TutoringStudent._renderFiche()">← Retour</button>' +
           '<h1 class="tt-title">Noter la séance</h1>' +
         '</div>' +
-        '<form class="tt-form" onsubmit="return TutoringStudent._submitRating(event, \'' + sessionId + '\')">' +
+        '<form class="tt-form" onsubmit="return TutoringStudent._submitRating(event, \'' + TutoringStudent._esc(sessionId) + '\')">' +
           '<label class="tt-label">Note (1 à 10)<input type="number" id="tt-rating-value" class="tt-input" min="1" max="10" required/></label>' +
           '<label class="tt-label">Remarques<textarea id="tt-rating-remarks" class="tt-textarea"></textarea></label>' +
           '<button type="submit" class="tt-submit-btn">Enregistrer la note</button>' +
@@ -278,7 +306,7 @@ var TutoringStudent = {
     try {
       var token = await TutoringService.createPositioningTest({ studentId: TutoringStudent._student.id });
       var url = window.location.origin + '/positionnement/' + token;
-      window.prompt('Lien à envoyer à ' + TutoringStudent._student.firstName + ' (Ctrl+C puis Entrée) :', url);
+      showCopyLinkModal(url, 'Lien à envoyer à ' + TutoringStudent._student.firstName + ' :');
     } catch (e) {
       showToast('Erreur lors de la création du lien.', 'error');
     }

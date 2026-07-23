@@ -10,7 +10,7 @@ var Anthropic = require('@anthropic-ai/sdk');
 var { handleGenerationRequest } = require('./src/generateCourse');
 var { queueSuccessEmail, queueFailureEmail } = require('./src/mailer');
 var { compileTex } = require('./src/latexCompiler');
-var { draftCourse, reviewDraft, fixCompileError } = require('./src/anthropicClient');
+var { draftCourse, reviewDraft, fixCompileError, downloadGeneratedFile } = require('./src/anthropicClient');
 var { getBank } = require('./src/positioningBank');
 var { handleGetLinkInfo, handleSubmitResult } = require('./src/positioning');
 
@@ -49,10 +49,12 @@ exports.generateCourse = onDocumentWritten(
       draftCourse: draftCourse,
       reviewDraft: reviewDraft,
       fixCompileError: fixCompileError,
+      downloadGeneratedFile: downloadGeneratedFile,
       compileTex: compileTex,
       queueSuccessEmail: queueSuccessEmail,
       queueFailureEmail: queueFailureEmail,
       writeTexFile: async function (filePath, content) { await fs.writeFile(filePath, content, 'utf8'); },
+      writeBinaryFile: async function (filePath, buffer) { await fs.writeFile(filePath, buffer); },
       getStudentLevel: async function (studentId) {
         var studentDoc = await db.collection('tutoringStudents').doc(studentId).get();
         return studentDoc.exists ? studentDoc.data().level : '';

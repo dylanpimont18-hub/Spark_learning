@@ -39,6 +39,17 @@ service cloud.firestore {
         get(/databases/$(database)/documents/classes/$(classCode)).data.students.hasAny([request.auth.uid]);
     }
 
+    // L'utilisateur courant est-il l'enseignant propriétaire de CETTE classe (par code) ?
+    // Utilisé pour vérifier qu'un devoir n'est créé que sur une classe qui appartient
+    // bien à l'enseignant qui le crée (le champ teacherId du devoir seul ne suffit pas :
+    // un client malveillant pourrait s'auto-attribuer un devoir sur le classCode d'un
+    // autre enseignant sans ce contrôle).
+    function isOwningTeacherOfClass(classCode) {
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/classes/$(classCode)) &&
+        get(/databases/$(database)/documents/classes/$(classCode)).data.teacherId == request.auth.uid;
+    }
+
     // ─── users ───
     match /users/{uid} {
       allow read: if isOwner(uid) || isAdmin();
@@ -66,7 +77,11 @@ service cloud.firestore {
                      isOwningTeacher(resource) ||
                      (isSignedIn() && resource.data.students.hasAny([request.auth.uid]));
 
-      allow create: if isTeacherOrAdmin();
+      // teacherId doit être l'enseignant qui crée la classe (sauf admin) : sans ce
+      // contrôle, un compte enseignant pouvait s'attribuer teacherId = uid d'un collègue
+      // via un appel Firestore direct (hors UI), créant une classe fantôme au nom d'autrui.
+      allow create: if isAdmin() ||
+                       (isTeacherOrAdmin() && request.resource.data.teacherId == request.auth.uid);
 
       // L'enseignant propriétaire (ou l'admin) peut tout modifier.
       // Un élève signé ne peut modifier QUE le champ "students", et uniquement pour s'ajouter
@@ -122,7 +137,13 @@ service cloud.firestore {
       allow read: if isAdmin() ||
                      (isTeacherOrAdmin() && resource.data.teacherId == request.auth.uid) ||
                      isMemberStudent(resource.data.classCode);
-      allow create: if isTeacherOrAdmin();
+      // teacherId doit être l'enseignant qui crée le devoir, ET classCode doit référencer
+      // une classe dont il est réellement propriétaire (sinon un enseignant pouvait
+      // injecter un devoir sur le classCode d'un collègue, visible par ses élèves à lui).
+      allow create: if isAdmin() ||
+                       (isTeacherOrAdmin() &&
+                        request.resource.data.teacherId == request.auth.uid &&
+                        isOwningTeacherOfClass(request.resource.data.classCode));
       allow update: if isAdmin() || (isTeacherOrAdmin() && resource.data.teacherId == request.auth.uid);
       allow delete: if isAdmin() || (isTeacherOrAdmin() && resource.data.teacherId == request.auth.uid);
     }

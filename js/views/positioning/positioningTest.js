@@ -24,9 +24,9 @@ var PositioningTest = {
   _answers: [],
   _currentQuestion: null,
 
-  _esc: function(str) {
-    return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-  },
+  // escapeHtml (js/utils/ui-helpers.js) charge après ce fichier dans index.html :
+  // wrapper nécessaire, une référence directe échouerait au chargement (ReferenceError).
+  _esc: function(str) { return escapeHtml(str); },
 
   render: async function(token) {
     PositioningTest._token = token;
@@ -101,7 +101,10 @@ var PositioningTest = {
       PositioningTest._answers = [];
       PositioningTest._renderQuestion();
     } catch (e) {
-      document.getElementById('app').innerHTML = '<div class="pt-container"><div class="tt-error">Erreur de chargement des questions.</div></div>';
+      document.getElementById('app').innerHTML =
+        '<div class="pt-container"><div class="tt-error">Erreur de chargement des questions.' +
+          '<button type="button" class="tt-submit-btn" onclick="PositioningTest._chooseSubject(\'' + subject + '\')">Réessayer</button>' +
+        '</div></div>';
     }
   },
 
@@ -180,7 +183,12 @@ var PositioningTest = {
       PositioningTest._linkInfo.alreadyCompleted[PositioningTest._subject] = true;
       PositioningTest._renderThankYou();
     } catch (e) {
-      document.getElementById('app').innerHTML = '<div class="pt-container"><div class="tt-error">Une erreur est survenue lors de l\'envoi. Recharge la page pour réessayer.</div></div>';
+      // Les réponses (_answers) restent en mémoire : on retente juste l'envoi,
+      // pas besoin de refaire tout le test adaptatif (~24 questions).
+      document.getElementById('app').innerHTML =
+        '<div class="pt-container"><div class="tt-error">Une erreur est survenue lors de l\'envoi de tes réponses. Vérifie ta connexion et réessaie.' +
+          '<button type="button" class="tt-submit-btn" onclick="PositioningTest._finishSubject()">Réessayer l\'envoi</button>' +
+        '</div></div>';
     }
   },
 

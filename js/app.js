@@ -159,6 +159,15 @@ function navigate(view, data = {}, options = {}) {
     hideBatchToolbar();
   }
 
+  // Exit eval builder mode when leaving modules view (même nettoyage que batch print
+  // ci-dessus — sans ça la toolbar restait affichée sur d'autres vues, avec des boutons
+  // qui ciblaient une #modules-grid qui n'existe plus)
+  if (state.evalBuilderMode && view !== 'modules') {
+    state.evalBuilderMode = false;
+    state.selectedEvalQuestions = {};
+    hideEvalToolbar();
+  }
+
   // Vues réservées aux comptes (classe/prof) : inaccessibles en mode invité, même par hash direct
   if ((view === 'teacher' || view === 'homework' || view === 'admin' || view === 'tutoring' || view === 'tutoringStudent') &&
       typeof AuthGuard !== 'undefined' && !AuthGuard.isAuthenticated()) {
@@ -668,29 +677,6 @@ window.addEventListener('scroll', () => {
   if (btn) btn.classList.toggle('visible', window.scrollY > 300);
 }, { passive: true });
 
-/* ═══════════════════════════════════════
-   PROJECTOR MODE (TASK-3.3)
-═══════════════════════════════════════ */
-function toggleProjector() {
-  const html = document.documentElement;
-  const isActive = html.classList.toggle('projector-mode');
-
-  // Bouton de sortie flottant
-  let exitBtn = document.getElementById('projector-exit-btn');
-  if (isActive) {
-    if (!exitBtn) {
-      exitBtn = document.createElement('button');
-      exitBtn.id = 'projector-exit-btn';
-      exitBtn.className = 'projector-exit-btn';
-      exitBtn.innerHTML = '\u2715 Quitter la pr\u00e9sentation';
-      exitBtn.onclick = toggleProjector;
-      document.body.appendChild(exitBtn);
-    }
-  } else {
-    if (exitBtn) exitBtn.remove();
-  }
-}
-
 /* ── Keyboard shortcuts ── */
 document.addEventListener('keydown', (e) => {
   // Ctrl/Cmd + K: ouvrir la recherche globale
@@ -700,16 +686,9 @@ document.addEventListener('keydown', (e) => {
     return;
   }
 
-  // Don't intercept if typing in an input (except Escape and Ctrl+Shift+P)
-  if (e.key !== 'Escape' && !(e.ctrlKey && e.shiftKey && e.key === 'P') &&
+  // Don't intercept if typing in an input (except Escape)
+  if (e.key !== 'Escape' &&
       (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT')) return;
-
-  // Ctrl+Shift+P: toggle projector mode
-  if (e.ctrlKey && e.shiftKey && e.key === 'P') {
-    e.preventDefault();
-    toggleProjector();
-    return;
-  }
 
   // Escape: close modals, contact panel, then navigate back
   if (e.key === 'Escape') {
@@ -723,8 +702,6 @@ document.addEventListener('keydown', (e) => {
     // Close teacher modal first
     const teacherModal = document.getElementById('teacher-modal');
     if (teacherModal) { e.preventDefault(); closeTeacherErrorModal(); return; }
-    // Close projector mode
-    if (document.documentElement.classList.contains('projector-mode')) { e.preventDefault(); toggleProjector(); return; }
 
     const panel = document.getElementById('contact-panel');
     if (panel && panel.classList.contains('open')) {
@@ -910,7 +887,6 @@ function _setupCommonListeners() {
     else navigate('home');
   });
   document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
-  document.getElementById('projector-toggle')?.addEventListener('click', toggleProjector);
   document.getElementById('global-search-toggle')?.addEventListener('click', toggleGlobalSearchPanel);
   document.getElementById('scroll-top')?.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });

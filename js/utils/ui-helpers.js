@@ -3,6 +3,12 @@
    Helpers de rendu et utilitaires UI
    ========================================================= */
 
+// Échappement HTML partagé (auparavant dupliqué à l'identique dans teacherDashboard.js,
+// gradingPanel.js, adminPanel.js, tutoringHome.js, tutoringStudent.js, positioningTest.js).
+function escapeHtml(str) {
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
 function convertMarkdownTables(html) {
   const lines = html.split('\n');
   const out = [];
@@ -263,4 +269,47 @@ function renderEvaluationPrintSheet(items, mode) {
       <div class="print-eval-questions">${rows}</div>
       <div class="print-eval-footer">Spark Learning — Évaluation</div>
     </div>`;
+}
+
+/* ── Panneau "copier le lien" (remplace window.prompt(), fragile sur mobile/webview) ── */
+function showCopyLinkModal(url, message) {
+  var existing = document.getElementById('copy-link-modal');
+  if (existing) existing.remove();
+
+  var overlay = document.createElement('div');
+  overlay.id = 'copy-link-modal';
+  overlay.className = 'copy-link-modal-overlay';
+  overlay.innerHTML = `
+    <div class="copy-link-modal-card">
+      <button type="button" class="copy-link-modal-close" aria-label="Fermer" onclick="document.getElementById('copy-link-modal').remove()">&times;</button>
+      <p class="copy-link-modal-message">${escapeHtml(message || 'Lien à partager :')}</p>
+      <div class="copy-link-modal-row">
+        <input type="text" class="copy-link-modal-input" id="copy-link-modal-input" value="${escapeHtml(url)}" readonly />
+        <button type="button" class="copy-link-modal-btn" id="copy-link-modal-btn">Copier</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+
+  var input = document.getElementById('copy-link-modal-input');
+  var btn = document.getElementById('copy-link-modal-btn');
+  input.addEventListener('click', function () { input.select(); });
+
+  btn.addEventListener('click', async function () {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(url);
+      } else {
+        input.select();
+        document.execCommand('copy');
+      }
+      btn.textContent = 'Copié !';
+      setTimeout(function () { btn.textContent = 'Copier'; }, 2000);
+    } catch (e) {
+      input.select();
+      showToast('Copie automatique indisponible — le lien est sélectionné, utilise Ctrl+C.', 'error');
+    }
+  });
+
+  input.focus();
+  input.select();
 }
