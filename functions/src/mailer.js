@@ -1,4 +1,5 @@
-var TUTOR_EMAILS = ['dylan@spark-learning.example', 'simon@spark-learning.example'];
+// Simon pas encore ajouté (adresse réelle à fournir avant qu'il utilise le générateur).
+var TUTOR_EMAILS = ['dylan.pimont18@gmail.com'];
 
 async function queueSuccessEmail(db, params) {
   await db.collection('mail').add({

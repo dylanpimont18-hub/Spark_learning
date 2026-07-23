@@ -17,7 +17,7 @@ function fakeDb(userEmail) {
   };
 }
 
-test('queueSuccessEmail addresses Dylan and Simon with the PDF link', async function () {
+test('queueSuccessEmail addresses the configured tutor(s) with the PDF link', async function () {
   var db = fakeDb();
   await queueSuccessEmail(db, {
     session: { studentId: 'stu1', subject: 'Maths', topic: 'Dérivation' },
@@ -25,7 +25,7 @@ test('queueSuccessEmail addresses Dylan and Simon with the PDF link', async func
   });
   assert.equal(db.added.length, 1);
   assert.equal(db.added[0].collection, 'mail');
-  assert.ok(db.added[0].doc.to.length >= 2);
+  assert.ok(db.added[0].doc.to.length >= 1);
   assert.ok(db.added[0].doc.message.html.includes('https://storage.example/cours.pdf'));
 });
 
