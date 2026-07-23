@@ -256,10 +256,18 @@ var TutoringStudent = {
             return '<span class="pt-theme-badge">' + TutoringStudent._esc(theme.label || themeId) + ' : ' + TutoringStudent._esc(theme.level) + '</span>';
           }).join('');
           var recommendation = positioningBuildRecommendation(declaredLevel, r.themes);
+          var recommendedModules = positioningRecommendedModules(declaredLevel, r.themes);
+          var modulesHtml = recommendedModules.length === 0 ? '' :
+            '<div class="pt-recommended-modules">' +
+              recommendedModules.map(function(m) {
+                return '<button type="button" class="pt-module-link" onclick="navigate(\'module\', {moduleId: \'' + m.id + '\'})">📘 ' + TutoringStudent._esc(m.title) + '</button>';
+              }).join('') +
+            '</div>';
           return '<div class="pt-subject-report">' +
             '<h3 class="pt-subject-title">' + (subject === 'maths' ? 'Maths' : 'Physique-Chimie') + '</h3>' +
             '<div class="pt-themes-grid">' + themesHtml + '</div>' +
             '<p class="pt-recommendation">' + TutoringStudent._esc(recommendation) + '</p>' +
+            modulesHtml +
           '</div>';
         }).join('');
       }).join('') +

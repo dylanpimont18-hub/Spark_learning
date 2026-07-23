@@ -108,6 +108,11 @@ Initialise `window.MODULES = []`, utilitaires aléatoires.
 - `rand(min, max)` — entier aléatoire
 - `randFloat(min, max, d)` — flottant aléatoire
 - `pick(arr)` — élément aléatoire dans un tableau
+- `fr(value, decimals)` — formate un nombre en notation décimale française pour LaTeX (`fr(1.5)` → `"1{,}5"`) ; à utiliser dans tout `exercice.generate()` au lieu de `.replace('.', '{,}')` à la main
+
+## scripts/check-decimal-notation.js
+Détecte les régressions du bug de notation décimale française dans `js/data/` (accolade `{,` manquante, `.toFixed(n)` interpolé sans `fr()`).
+- Usage : `node scripts/check-decimal-notation.js` — à lancer après toute modification d'un `exercice.generate()` (voir `CLAUDE.md` section 2)
 
 ## js/data/6e/index.js
 Manifest 6e — liste et ordre des modules (chargés via `<script>` dans index.html).
@@ -398,7 +403,7 @@ Fiche élève (route `/tutorat/:studentId`) : notes générales, historique des 
 - `TutoringStudent._renderGenerationBadge(sess)` — badge d'état de génération (generating/generated/failed)
 - `TutoringStudent._requestGeneration(sessionId, contentType, figuresCount)` — relance la génération sur une séance existante
 - `TutoringStudent._sendPositioningLink()` — crée un lien de test de positionnement pré-rattaché à cet élève (`createPositioningTest`), affiché via `window.prompt`
-- `TutoringStudent._renderPositioningReports()` — affiche, par test complété, le niveau estimé par thème + une recommandation (`positioningBuildRecommendation`, voir `js/positioning/positioningReport.js`) comparée au niveau déclaré de l'élève
+- `TutoringStudent._renderPositioningReports()` — affiche, par test complété, le niveau estimé par thème + une recommandation textuelle (`positioningBuildRecommendation`) comparée au niveau déclaré de l'élève, plus des boutons de lien direct vers les modules `bts-prep` concernés (`positioningRecommendedModules`, voir `js/positioning/positioningReport.js`)
 
 ## js/positioning/positioningClient.js
 Wrapper d'appel aux 3 Cloud Functions publiques du test de positionnement (utilisé côté page de test non authentifiée ET côté `js/views/tutoring/`).
@@ -410,6 +415,7 @@ Wrapper d'appel aux 3 Cloud Functions publiques du test de positionnement (utili
 Logique pure de comparaison niveau déclaré / niveaux estimés par thème (consommée par `tutoringStudent.js`).
 - `positioningNormalizeLevel(raw)` — convertit un libellé de classe (ex: `"3e"`, `"Tle"`) en palier numérique 1-9
 - `positioningBuildRecommendation(declaredLevel, themeResults)` — texte de recommandation ("lacunes probables sur…") si un thème est ≥2 paliers en dessous du niveau déclaré, sinon message neutre
+- `positioningRecommendedModules(declaredLevel, themeResults)` — retourne les modules `js/data/bts-prep/` (tag `prep`) correspondant aux thèmes maths où l'élève est ≥2 paliers en dessous (même seuil que `positioningBuildRecommendation`), via la table statique `POSITIONING_THEME_TO_BTS_PREP` ; aucun mapping côté Physique-Chimie (pas encore de contenu `physique` sur le site)
 
 ## js/views/positioning/positioningTest.js
 Page publique (route `/positionnement/:token`), non authentifiée : passage du test par l'élève.

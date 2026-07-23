@@ -28,6 +28,8 @@ Lors de la création ou modification dans `js/data/` :
 - **Ton** : Socratique, encourageant, jamais punitif (pas de "Faux" ou "Erreur").
 
 - **Exercices dynamiques** : La fonction `generate()` doit utiliser `pick()` pour varier les contextes textuels, pas juste les valeurs numériques.
+  - **Notation décimale dans `generate()`** : ne jamais taper `.replace('.', '{,}')` à la main — utiliser `fr(value)` ou `fr(value, decimals)` (`js/data/helpers.js`). Bug récurrent (corrigé au moins 2 fois en 2026) : décimale anglaise (`0.75`) qui fuite dans l'énoncé, ou accolade fermante oubliée (`{,` au lieu de `{,}`) qui casse KaTeX.
+  - Après toute modification d'un `generate()`, lancer `node scripts/check-decimal-notation.js` : détecte l'accolade manquante (erreur) et les `.toFixed(n)` interpolés sans `fr()`/`.replace()` (avertissement).
 
 ## 3. Workflow d'ajout de module (Génération)
 1. Vérifier le programme dans `docs/programmes-{subject}.md` (Ne traiter que les chapitres 🔴).

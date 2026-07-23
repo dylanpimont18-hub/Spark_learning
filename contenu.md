@@ -14,6 +14,7 @@ Ce fichier est la **source de vérité** pour la structure de fichiers du projet
 | sitemap.xml | Généré par `scripts/generate-sitemap.js`, jamais édité à la main |
 | manifest.json | Manifeste PWA minimal (nom, icône, couleur de thème) |
 | scripts/generate-sitemap.js | Génère `sitemap.xml` à partir de `js/loader.js` — à relancer après ajout de module |
+| scripts/check-decimal-notation.js | Détecte les régressions de notation décimale française dans `js/data/` — à relancer après modification d'un `exercice.generate()` |
 
 ## Interface & Style
 | Dossier/Fichier | Rôle |

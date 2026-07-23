@@ -5863,3 +5863,19 @@ html.projector-mode .projector-exit-btn { display: flex; align-items: center; ga
   color: var(--secondary);
 }
 .pt-recommendation { font-size: 0.95rem; font-style: italic; }
+.pt-recommended-modules { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.6rem; }
+.pt-module-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--primary) 30%, transparent);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+  color: var(--primary);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.pt-module-link:hover { background: color-mix(in srgb, var(--primary) 18%, transparent); }
