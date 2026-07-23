@@ -1,0 +1,208 @@
+\documentclass[11pt,a4paper]{article}
+
+% ---------- Mise en page ----------
+\usepackage[margin=2cm,top=2.4cm]{geometry}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage[most]{tcolorbox}
+\usepackage{fontawesome5}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{icomma} % virgule française comme séparateur décimal en mode maths, sans espace parasite
+\usepackage{ragged2e}
+\usepackage{parskip}
+
+% ---------- Polices (charte : sans-serif système simple) ----------
+\setmainfont{Calibri}
+\newfontfamily\titlefont{Century Gothic}
+\setmonofont{Consolas}
+
+% ---------- Palette de la charte ----------
+\definecolor{bleupetrole}{HTML}{1C4E56}
+\definecolor{grisclair}{HTML}{E4E4E4}
+\definecolor{grisfonce}{HTML}{4A4A4A}
+\definecolor{orangedoux}{HTML}{E08E45}
+\definecolor{vertsapin}{HTML}{2F5D50}
+\definecolor{fondcasse}{HTML}{F8F8F8}
+
+\pagecolor{fondcasse}
+\color{black}
+
+% ---------- Encadrés pédagogiques ----------
+\tcbset{
+  fonttitle=\titlefont\bfseries\small,
+  colbacktitle=bleupetrole, coltitle=white,
+  boxrule=0.5pt, arc=2pt, left=8pt, right=8pt, top=5pt, bottom=6pt,
+  fonttitle=\sffamily\bfseries\small
+}
+
+\newtcolorbox{objectifsbox}{
+  colback=grisclair!45, colframe=grisclair!90!black,
+  coltitle=vertsapin, colbacktitle=grisclair!45,
+  fonttitle=\sffamily\bfseries, boxrule=0.5pt, arc=2pt,
+  left=8pt, right=8pt, top=4pt, bottom=4pt,
+  title={\faBook\ \ Objectifs du cours}
+}
+
+\newtcolorbox{definitionbox}[1]{
+  colback=white, colframe=bleupetrole,
+  coltitle=white, colbacktitle=bleupetrole,
+  fonttitle=\sffamily\bfseries\small, boxrule=0.6pt, arc=2pt,
+  left=8pt, right=8pt, top=4pt, bottom=4pt,
+  title={\faBook\ \ Définition --- #1}
+}
+
+\newtcolorbox{theoremebox}[1]{
+  colback=grisclair!30, colframe=bleupetrole,
+  coltitle=bleupetrole, colbacktitle=white,
+  fonttitle=\sffamily\bfseries\small, boxrule=0.8pt, arc=2pt,
+  left=8pt, right=8pt, top=4pt, bottom=4pt,
+  title={\faBook\ \ Théorème --- #1}
+}
+
+\newtcolorbox{methodebox}[1]{
+  colback=vertsapin!8, colframe=vertsapin,
+  coltitle=white, colbacktitle=vertsapin,
+  fonttitle=\sffamily\bfseries\small, boxrule=0.6pt, arc=2pt,
+  left=8pt, right=8pt, top=4pt, bottom=4pt,
+  title={\faLightbulb\ \ Méthode --- #1}
+}
+
+\newtcolorbox{attentionbox}[1]{
+  colback=orangedoux!10, colframe=orangedoux,
+  coltitle=white, colbacktitle=orangedoux,
+  fonttitle=\sffamily\bfseries\small, boxrule=0.6pt, arc=2pt,
+  left=8pt, right=8pt, top=4pt, bottom=4pt,
+  title={\faExclamationTriangle\ \ Attention --- #1}
+}
+
+% ---------- Exercice numéroté ----------
+\newcommand{\exercice}[2]{%
+  \par\vspace{8pt}%
+  {\sffamily\bfseries\color{bleupetrole} Exercice #1}\quad #2\par\vspace{4pt}%
+}
+\newcommand{\etoiles}[1]{\textcolor{orangedoux}{\faStar[#1]}}
+
+% ---------- Pied de page ----------
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.6pt}
+\fancyfootoffset{0pt}
+\renewcommand{\footrule}{\color{bleupetrole}\hrule height\footrulewidth}
+\fancyfoot[L]{\small\sffamily\color{grisfonce} Suites numériques -- Terminale}
+\fancyfoot[C]{\small\sffamily\color{grisfonce}\thepage}
+\fancyfoot[R]{\small\sffamily\color{grisfonce} Spark Learning}
+
+% ---------- Bandeau d'en-tête (fiche cours) ----------
+\newcommand{\bandeaucours}[4]{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[bleupetrole] (current page.north west) rectangle ([yshift=-2.1cm]current page.north east);
+    \node[anchor=north west, xshift=1cm, yshift=-0.55cm] at (current page.north west)
+      {\includegraphics[height=1.1cm]{Logo_blanc.jpeg}};
+    \node[anchor=north west, xshift=3.6cm, yshift=-0.55cm, text=white, align=left, font=\sffamily] at (current page.north west)
+      {\textbf{#1}\\[2pt]\small #2};
+    \node[anchor=north east, xshift=-1cm, yshift=-0.55cm, text=white, align=right, font=\sffamily] at (current page.north east)
+      {\textbf{#3}\\[2pt]\small #4};
+  \end{tikzpicture}%
+  \vspace*{2.3cm}%
+}
+
+% ---------- Bandeau sobre (fiche exercices) ----------
+\newcommand{\bandeauexo}[2]{%
+  {\color{bleupetrole}\rule{\linewidth}{1.2pt}}\\[4pt]
+  {\sffamily\small\color{grisfonce} #1 \hfill #2}\\[2pt]
+  {\color{bleupetrole}\rule{\linewidth}{1.2pt}}
+  \vspace{10pt}
+}
+
+\begin{document}
+
+% =====================================================================
+% PAGE 1 --- FICHE COURS
+% =====================================================================
+\bandeaucours{D. Pimont \& S.}{Mathématiques \& Sciences de l'ingénieur}{Terminale -- Suites}{Fiche n\textdegree{}3 -- Juillet 2026}
+
+{\titlefont\bfseries\Large\color{bleupetrole} Suites numériques : convergence et limites}\\[2pt]
+{\sffamily\color{grisfonce} Cours}
+
+\vspace{10pt}
+
+\begin{objectifsbox}
+\begin{itemize}[leftmargin=1.2em, itemsep=2pt, topsep=2pt]
+  \item Reconnaître qu'une suite est convergente à partir de sa définition.
+  \item Déterminer la limite d'une suite simple par le calcul ou par comparaison.
+  \item Appliquer les théorèmes de comparaison pour lever une indétermination.
+\end{itemize}
+\end{objectifsbox}
+
+\vspace{8pt}
+
+\begin{definitionbox}{Limite finie d'une suite}
+On dit que la suite $(u_n)$ \textbf{converge} vers un réel $\ell$ si tout intervalle ouvert contenant $\ell$ contient tous les termes de la suite à partir d'un certain rang.\\[4pt]
+On note alors $\displaystyle\lim_{n \to +\infty} u_n = \ell$.
+\end{definitionbox}
+
+\vspace{6pt}
+
+\begin{theoremebox}{Convergence monotone}
+Si une suite $(u_n)$ est \textbf{croissante} et \textbf{majorée}, alors elle converge.\\[4pt]
+De même, une suite \textbf{décroissante} et \textbf{minorée} converge.
+\end{theoremebox}
+
+\vspace{6pt}
+
+\begin{methodebox}{Étudier le sens de variation}
+On calcule la différence $u_{n+1} - u_n$ et on étudie son signe.\\[4pt]
+Si $u_{n+1} - u_n \geqslant 0$ pour tout $n$, la suite est croissante ; si $u_{n+1} - u_n \leqslant 0$, elle est décroissante.
+\end{methodebox}
+
+\vspace{6pt}
+
+\begin{attentionbox}{Piège classique}
+Une suite \textbf{majorée} n'est pas forcément \textbf{convergente} : il faut aussi la monotonie ! Une suite peut être bornée et diverger si elle oscille indéfiniment.
+\end{attentionbox}
+
+\vspace{10pt}
+
+{\titlefont\bfseries\color{bleupetrole} Exercices d'application}
+\vspace{4pt}
+
+\exercice{1}{\etoiles{1}\ \ On considère la suite définie par $u_0 = 1$ et $u_{n+1} = \dfrac{1}{2}u_n + 3$ pour tout $n \in \mathbb{N}$.\\
+a) Montrer que la suite $(u_n)$ est croissante.\\
+b) Montrer que $(u_n)$ est majorée par $6$.\\
+c) En déduire que $(u_n)$ converge et déterminer sa limite.}
+
+\clearpage
+
+% =====================================================================
+% PAGE 2 --- FICHE EXERCICES (variante sobre)
+% =====================================================================
+\bandeauexo{\textbf{Série d'exercices n\textdegree{}4} -- Suites numériques}{Terminale -- Juillet 2026}
+
+{\titlefont\bfseries\Large\color{bleupetrole} Suites numériques : entraînement}
+
+\vspace{12pt}
+
+\exercice{2}{\etoiles{1}\etoiles{1}\ \ Soit $(v_n)$ la suite géométrique de premier terme $v_0 = 2$ et de raison $q = 0{,}5$.\\
+a) Exprimer $v_n$ en fonction de $n$.\\
+b) Déterminer $\displaystyle\lim_{n \to +\infty} v_n$.}
+
+\vspace{6pt}
+\noindent\textcolor{grisclair!90!black}{\rule{\linewidth}{0.4pt}}
+\vspace{4pt}
+\textit{\small Espace réponse :}\\[2pt]
+\noindent\textcolor{grisclair!90!black}{\rule{\linewidth}{0.4pt}}\\[10pt]
+\noindent\textcolor{grisclair!90!black}{\rule{\linewidth}{0.4pt}}\\[10pt]
+\noindent\textcolor{grisclair!90!black}{\rule{\linewidth}{0.4pt}}
+
+\vspace{10pt}
+
+\exercice{3}{\etoiles{1}\etoiles{1}\etoiles{1}\ \ Une suite $(w_n)$ vérifie $w_{n+1} = \dfrac{2w_n + 5}{w_n + 4}$ pour tout $n$, avec $w_0 = 1$.\\
+a) Montrer que si $(w_n)$ converge, sa limite $\ell$ vérifie $\ell = \dfrac{2\ell+5}{\ell+4}$.\\
+b) Résoudre cette équation et conclure.}
+
+\end{document}
