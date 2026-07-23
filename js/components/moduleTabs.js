@@ -19,7 +19,7 @@ function renderTabContent() {
     panel.style.animation = 'none';
     panel.offsetHeight;
     panel.style.animation = '';
-    panel.innerHTML = renderTabContentHTML(mod);
+    panel.innerHTML = convertMarkdownTables(renderTabContentHTML(mod));
   }
 }
 

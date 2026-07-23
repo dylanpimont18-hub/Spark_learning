@@ -3,6 +3,51 @@
    Helpers de rendu et utilitaires UI
    ========================================================= */
 
+function convertMarkdownTables(html) {
+  const lines = html.split('\n');
+  const out = [];
+  let i = 0;
+
+  const parseRow = (line) => {
+    const trimmed = line.trim();
+    if (!trimmed.startsWith('|')) return null;
+    const lastPipe = trimmed.lastIndexOf('|');
+    if (lastPipe <= 0) return null;
+    const cells = trimmed.slice(0, lastPipe + 1).split('|').slice(1, -1).map(c => c.trim());
+    const trailing = trimmed.slice(lastPipe + 1);
+    return { cells, trailing };
+  };
+
+  const isSeparator = (cells) => cells.length > 0 && cells.every(c => /^:?-+:?$/.test(c));
+
+  while (i < lines.length) {
+    const header = parseRow(lines[i]);
+    const sep = header && i + 1 < lines.length ? parseRow(lines[i + 1]) : null;
+
+    if (header && sep && sep.cells.length === header.cells.length && isSeparator(sep.cells)) {
+      const bodyRows = [];
+      let j = i + 2;
+      let trailing = '';
+      while (j < lines.length) {
+        const row = parseRow(lines[j]);
+        if (!row) break;
+        bodyRows.push(row.cells);
+        trailing = row.trailing;
+        j++;
+      }
+      const thead = `<thead><tr>${header.cells.map(c => `<th>${c}</th>`).join('')}</tr></thead>`;
+      const tbody = `<tbody>${bodyRows.map(cells => `<tr>${cells.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody>`;
+      out.push(`<div class="content-table-wrap"><table class="content-table">${thead}${tbody}</table></div>${trailing}`);
+      i = j;
+    } else {
+      out.push(lines[i]);
+      i++;
+    }
+  }
+
+  return out.join('\n');
+}
+
 function renderLoading() {
   return `
     <div class="container" style="padding-top:var(--space-2xl);">
@@ -70,7 +115,7 @@ function renderFicheCours(mod) {
     return '';
   }).join('');
 
-  return `
+  return convertMarkdownTables(`
     <div class="print-fiche">
       <div class="print-fiche-header">
         <img src="images/Logo_noir.jpeg" alt="Spark Learning" class="print-logo" />
@@ -154,7 +199,7 @@ function renderFicheCours(mod) {
         Spark Learning — ${mod.title}
       </div>
     </div>
-  `;
+  `);
 }
 
 function renderFichesBatch(modules) {

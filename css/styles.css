@@ -2032,6 +2032,30 @@ main { flex: 1; }
   }
 }
 
+.content-table-wrap {
+  overflow-x: auto;
+  margin: 10px 0;
+}
+.content-table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 420px;
+  font-size: 0.88rem;
+}
+.content-table th,
+.content-table td {
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  text-align: center;
+}
+.content-table th {
+  background: color-mix(in srgb, var(--primary) 8%, var(--bg-card));
+  font-weight: 600;
+}
+.content-table tr:nth-child(even) td {
+  background: color-mix(in srgb, var(--bg-card) 60%, transparent);
+}
+
 /* ── Recap / À retenir ── */
 .recap-box {
   background: color-mix(in srgb, var(--accent) 10%, var(--bg-card));

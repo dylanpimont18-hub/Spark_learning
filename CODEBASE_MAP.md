@@ -14,6 +14,7 @@ Système de design complet : variables CSS (`--primary`, `--secondary`, `--accen
 - `.ap-*` classes pour AdminPanel (conteneur, header, tabs, search, cartes utilisateurs, boutons actions)
 - `.auth-close` — bouton ✕ sur `.auth-card` pour fermer l'écran de connexion et revenir au mode invité
 - `.ad-slot-placeholder` — cadre pointillé pour les emplacements publicitaires (placeholder, pas de pub réelle encore)
+- `.content-table-wrap` / `.content-table` — tableau généré par `convertMarkdownTables()` (js/utils/ui-helpers.js) à partir d'un tableau markdown dans le contenu d'un module
 - `@media print` (~L3440+) — mise en page A4 des fiches (`.print-fiche`, `.print-fiche-header`, etc.) ; `body.printing` bascule l'affichage de `#app` vers `#print-container` ; `#print-container` fige les variables CSS couleur (`--primary`, `--text`, `--bg-card`...) sur le thème clair, pour que les illustrations riches (`renderCoursDiagram`) restent lisibles en PDF même si le site est en thème sombre à l'impression
 - `.td-weakpoint-*` / `.td-weakpoints-section` — bloc "Points faibles de la classe" dans TeacherDashboard (bordure `--error` à gauche pour signaler visuellement)
 
@@ -227,7 +228,7 @@ Rendu HTML de l'onglet Cours d'un module (écran, pas impression).
 
 ## js/components/moduleTabs.js
 Rendu des onglets d'un module (cours / quiz / exercice / problème / évaluation / flashcards).
-- `renderTabContent()` — sélectionne et rend l'onglet actif
+- `renderTabContent()` — sélectionne et rend l'onglet actif ; passe le HTML par `convertMarkdownTables()` avant `innerHTML` pour transformer les tableaux markdown éventuels en `<table>`
 
 ## js/components/quiz.js
 Rendu HTML du quiz.
@@ -450,6 +451,7 @@ Recommandations adaptatives basées sur la progression.
 
 ## js/utils/ui-helpers.js
 Helpers de rendu et utilitaires UI partagés.
+- `convertMarkdownTables(html)` — convertit les tableaux markdown (`| a | b |` + ligne `|---|---|`) présents dans le contenu (`def`, `steps`, `context`...) en vrais `<table>` HTML ; appelé sur le HTML assemblé dans `moduleTabs.js` et `renderFicheCours()`, pas dans `js/data/`
 - `renderLoading()` — squelette de chargement
 - `renderErreurConseil(piege)` — bloc conseil sur l'erreur classique
 - `renderFicheCours(mod)` — fiche de synthèse imprimable A4 d'un module (intro, définitions, méthode, exemple, formules, illustration, piège, récap) ; consommée par `printFiche()` dans `js/app.js` ; l'illustration utilise `renderCoursDiagram()` (voir `js/components/renderCours.js`), qui gère le format legacy (string) et le format riche (objet `{svg, notes...}`)

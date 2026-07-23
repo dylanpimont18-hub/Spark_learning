@@ -301,8 +301,17 @@ La courbe de réseau (pertes de charge du circuit) suit la loi : $\\Delta H_{\\t
       'Ce groupe hydrophore doit alimenter une installation nécessitant $Q = 7\\;\\text{m}^3/\\text{h}$ à 30 m. Est-ce que la pompe convient ? Justifier.',
     ],
     solutions: [
-      `| Q | 0 | 2 | 4 | 6 | 8 | 10 |<br/>| ΔH réseau | 5 | 6,2 | 9,8 | 15,8 | 24,2 | 35 |<br/>(Calcul : $0{,}3Q^2 + 5$)`,
-      `Comparaison HMT pompe vs réseau :<br/>| Q | 8 | 10 |<br/>| HMT pompe | 29 | 14 |<br/>| HMT réseau | 24,2 | 35 |<br/>Écart (pompe − réseau) : à Q=8 → +4,8 m (pompe > réseau) ; à Q=10 → −21 m (réseau > pompe).<br/>Le croisement est entre Q=8 et Q=10 m³/h.`,
+      `| $Q$ (m³/h) | 0 | 2 | 4 | 6 | 8 | 10 |
+|------------|---|---|---|---|---|---|
+| $\\Delta H_{\\text{réseau}}$ (m) | 5 | 6,2 | 9,8 | 15,8 | 24,2 | 35 |<br/><br/>
+(Calcul : $\\Delta H_{\\text{réseau}} = 0{,}3Q^2 + 5$)`,
+      `Comparaison HMT pompe vs réseau :<br/><br/>
+| $Q$ (m³/h) | 8 | 10 |
+|------------|---|---|
+| HMT pompe (m) | 29 | 14 |
+| HMT réseau (m) | 24,2 | 35 |<br/><br/>
+Écart (pompe − réseau) : à Q=8 → +4,8 m (pompe > réseau) ; à Q=10 → −21 m (réseau > pompe).<br/><br/>
+Le croisement est entre Q=8 et Q=10 m³/h.`,
       `Entre Q=8 et Q=10, on cherche $Q_F$ tel que HMT_pompe = HMT_réseau.<br/>Pente pompe : $(14-29)/(10-8) = -7{,}5$ m/(m³/h)<br/>Pente réseau : $(35-24{,}2)/(10-8) = 5{,}4$ m/(m³/h)<br/>À $Q=8$, l'écart pompe − réseau vaut $29-24{,}2=4{,}8$ m ; il se réduit de $7{,}5+5{,}4=12{,}9$ m par m³/h supplémentaire.<br/>$Q_F \\approx 8 + \\dfrac{4{,}8}{12{,}9} \\approx 8{,}4\\;\\text{m}^3/\\text{h}$<br/>$H_F \\approx 24{,}2 + 5{,}4 \\times 0{,}4 \\approx 26{,}2\\;\\text{m}$.`,
       `Pour $Q = 7\\;\\text{m}^3/\\text{h}$, HMT pompe (interpolée entre Q=6 et Q=8) ≈ $39 + \\dfrac{29-39}{8-6} \\times 1 = 34$ m. La pression requise est 30 m. La pompe fournit 34 m > 30 m : elle <strong>convient</strong>. Le débit de fonctionnement réel du système (≈ 8,4 m³/h) sera supérieur à 7 m³/h puisque la pompe peut fournir plus que requis, et le système s'équilibrera au point de fonctionnement pompe/réseau.`,
     ],
