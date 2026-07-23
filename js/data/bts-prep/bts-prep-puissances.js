@@ -141,7 +141,7 @@ window.MODULES.push({
         'Le <strong>mégohm (MΩ)</strong> illustre le préfixe méga ($10^6$), utilisé pour une résistance d\'isolement.',
         'Le <strong>gigawatt (GW)</strong> illustre le préfixe giga ($10^9$), échelle d\'une centrale électrique.'
       ],
-      reading: 'Chaque graduation multiplie par $1000$ ($10^3$) : c\'est l\'écart entre deux préfixes SI consécutifs (pico → nano → micro → milli → base → kilo → méga → giga → téra). Les préfixes pico et téra bornent l\'axe pour situer les six exemples numériques réellement traités dans ce cours.',
+      reading: 'Chaque graduation multiplie par $1000$ ($10^3$) : c\'est l\'écart entre deux préfixes SI consécutifs (pico → nano → micro → milli → base → kilo → méga → giga → téra). Les préfixes pico et téra bornent l\'axe pour situer les sept exemples numériques réellement traités dans ce cours.',
       caption: 'Échelle logarithmique de $10^{-12}$ à $10^{12}$ avec les préfixes SI et les exemples numériques du cours (résistivité, capacités, courant, résistances, puissances).'
     },
 
@@ -202,7 +202,7 @@ window.MODULES.push({
       q: 'La résistivité du cuivre est $\\rho = 1{,}7 \\times 10^{-8}$ Ω·m. Pour un câble de $L = 100$ m et $S = 4$ mm² $= 4 \\times 10^{-6}$ m², la résistance est :',
       options: ['$R = 0{,}425$ Ω', '$R = 4{,}25$ Ω', '$R = 0{,}0425$ Ω', '$R = 425$ mΩ'],
       answer: 0,
-      correction: '$R = \\rho L/S = (1{,}7 \\times 10^{-8} \\times 100)/(4 \\times 10^{-6}) = (1{,}7 \\times 10^{-6})/(4 \\times 10^{-6}) = 1{,}7/4 = 0{,}425$ Ω. Aussi écrit $425$ mΩ (réponse D — correcte aussi mais pas dans la liste).'
+      correction: '$R = \\rho L/S = (1{,}7 \\times 10^{-8} \\times 100)/(4 \\times 10^{-6}) = (1{,}7 \\times 10^{-6})/(4 \\times 10^{-6}) = 1{,}7/4 = 0{,}425$ Ω. C\'est la réponse A. Attention à ne pas confondre avec la réponse D ($425$ mΩ) : c\'est la même valeur mais exprimée dans une autre unité, donc elle ne compte pas comme une deuxième bonne réponse dans ce QCM en Ω.'
     },
     {
       q: 'L\'énergie stockée dans un condensateur est $E = \\frac{1}{2}CU^2$ avec $C = 470$ μF et $U = 12$ V. L\'énergie vaut :',

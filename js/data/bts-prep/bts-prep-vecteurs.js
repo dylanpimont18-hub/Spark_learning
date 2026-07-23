@@ -332,7 +332,7 @@ $T_1 = 1{,}274 \\times 15\\,823 \\approx 20\\,158\\;\\text{N} \\approx 20{,}2\\;
       },
       {
         q: 'Un opérateur tire une palette sur 12 m avec une force de 300 N à 25° de l\'horizontale. Calculez le travail effectué.',
-        answer: '$W = F \\times d \\times \\cos\\theta = 300 \\times 12 \\times \\cos 25° = 3600 \\times 0{,}906 \\approx 3262\\;\\text{J} \\approx 3{,}26\\;\\text{kJ}$',
+        answer: '$W = F \\times d \\times \\cos\\theta = 300 \\times 12 \\times \\cos 25° = 3600 \\times 0{,}906 \\approx 3263\\;\\text{J} \\approx 3{,}26\\;\\text{kJ}$',
         points: 3,
       },
       {

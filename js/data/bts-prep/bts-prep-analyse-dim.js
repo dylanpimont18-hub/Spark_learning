@@ -313,10 +313,10 @@ Rappel : si $Re < 2300$ → laminaire ; si $Re > 4000$ → turbulent.`,
     solutions: [
       `$[Re] = \\dfrac{[\\rho][v][D]}{[\\mu]} = \\dfrac{(\\text{M·L}^{-3})(\\text{L·T}^{-1})(\\text{L})}{\\text{M·L}^{-1}\\text{·T}^{-1}} = \\dfrac{\\text{M·L}^{-1}\\text{·T}^{-1}}{\\text{M·L}^{-1}\\text{·T}^{-1}} = 1$ → adimensionnel ✓`,
       `$D = 50\\;\\text{mm} = 50 \\times 10^{-3}\\;\\text{m} = 0{,}050\\;\\text{m}$`,
-      `$Re = \\dfrac{1000 \\times 1{,}5 \\times 0{,}050}{1{,}002 \\times 10^{-3}} = \\dfrac{75}{1{,}002 \\times 10^{-3}} \\approx 74\\,850 \\approx 74\\,900$`,
-      `$Re \\approx 74\\,900 > 4000$ → régime <strong>turbulent</strong>.<br/>En régime turbulent, les pertes de charge sont beaucoup plus importantes qu'en régime laminaire et varient approximativement avec $v^{1{,}75}$ à $v^2$. Il faudra donc reconsidérer la puissance de la pompe ou augmenter le diamètre de la canalisation pour réduire la vitesse.`,
+      `$Re = \\dfrac{1000 \\times 1{,}5 \\times 0{,}050}{1{,}002 \\times 10^{-3}} = \\dfrac{75}{1{,}002 \\times 10^{-3}} \\approx 74\\,850$`,
+      `$Re \\approx 74\\,850 > 4000$ → régime <strong>turbulent</strong>.<br/>En régime turbulent, les pertes de charge sont beaucoup plus importantes qu'en régime laminaire et varient approximativement avec $v^{1{,}75}$ à $v^2$. Il faudra donc reconsidérer la puissance de la pompe ou augmenter le diamètre de la canalisation pour réduire la vitesse.`,
     ],
-    finalAnswer: '$Re \\approx 74\\,900$ → régime turbulent. Les pertes de charge seront significatives ; envisager d\'augmenter $D$ ou de réduire $v$.',
+    finalAnswer: '$Re \\approx 74\\,850$ → régime turbulent. Les pertes de charge seront significatives ; envisager d\'augmenter $D$ ou de réduire $v$.',
   },
 
   evaluation: {

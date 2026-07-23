@@ -272,9 +272,10 @@ window.MODULES.push({
           }
         }
       ];
-      const s = pick(scenarios).statement();
+      const scenario = pick(scenarios);
+      const s = scenario.statement();
       return {
-        statement: s.q,
+        statement: `<em>${scenario.context}</em><br/><br/>${s.q}`,
         answer: s.ans,
         tolerance: 0.05,
         unit: s.unit,

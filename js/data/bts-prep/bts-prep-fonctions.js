@@ -197,8 +197,8 @@ window.MODULES.push({
     {
       q: 'Sur une courbe pompe, on lit $H = 6$ m pour $Q = 4$ m³/h. La puissance hydraulique est $P_{hyd} = \\rho g H \\dot{V}$ avec $\\rho = 1000$ kg/m³, $g = 9{,}81$ m/s². Calculer $P_{hyd}$ (en W) :',
       options: ['$P_{hyd} = 653$ W', '$P_{hyd} = 6534$ W', '$P_{hyd} = 65{,}3$ W', '$P_{hyd} = 24$ W'],
-      answer: 0,
-      correction: '$\\dot{V} = 4/3600$ m³/s $\\approx 1{,}11 \\times 10^{-3}$ m³/s. $P_{hyd} = 1000 \\times 9{,}81 \\times 6 \\times 1{,}11 \\times 10^{-3} \\approx 653$ W.'
+      answer: 2,
+      correction: '$\\dot{V} = 4/3600$ m³/s $\\approx 1{,}11 \\times 10^{-3}$ m³/s. $P_{hyd} = 1000 \\times 9{,}81 \\times 6 \\times 1{,}11 \\times 10^{-3} \\approx 65{,}3$ W.'
     }
   ],
 
@@ -227,17 +227,18 @@ window.MODULES.push({
         const Q = pick([2, 3, 4, 5]);
         const kp = pick([1, 2]);
         const kr = pick([1, 2]);
-        const H0p = Q * Q * (kp + kr) + pick([2, 3, 4]);
         const H0r = pick([1, 2, 3]);
-        const Hp_at_Q = H0p - kp * Q * Q;
+        // H0p est dérivée de H0r pour que Hp(Q) = Hr(Q) : Q est ainsi un vrai point de fonctionnement.
+        const H0p = Q * Q * (kp + kr) + H0r;
         const Hr_at_Q = kr * Q * Q + H0r;
+        const Hp_at_Q = H0p - kp * Q * Q;
         return {
           statement: `La pompe a pour courbe $H_p = ${H0p} - ${kp}Q^2$ et le réseau $H_r = ${kr}Q^2 + ${H0r}$ (H en m, Q en m³/h). Au point de fonctionnement ($Q = ${Q}$ m³/h), calculer la HMT $H$ (en m).`,
           answer: Hr_at_Q,
           tolerance: 0.05,
           unit: 'm',
-          hint: `Au point de fonctionnement, $H = H_r(${Q}) = ${kr} \\times ${Q}^2 + ${H0r}$.`,
-          solution: [`$H = ${kr} \\times ${Q*Q} + ${H0r} = ${Hr_at_Q}$ m`]
+          hint: `Au point de fonctionnement, $H_p(${Q}) = H_r(${Q})$. Le plus simple est de calculer $H = H_r(${Q}) = ${kr} \\times ${Q}^2 + ${H0r}$.`,
+          solution: [`$H = ${kr} \\times ${Q*Q} + ${H0r} = ${Hr_at_Q}$ m`, `Vérification : $H_p(${Q}) = ${H0p} - ${kp} \\times ${Q*Q} = ${Hp_at_Q}$ m, bien égal à $H_r(${Q})$.`]
         };
       }
 

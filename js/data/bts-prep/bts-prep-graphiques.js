@@ -104,7 +104,7 @@ Pour $Q = 12\\;\\text{m}^3/\\text{h}$ (entre 10 et 15) :<br/>$$\\text{HMT} = 38 
           <text class="tick-label" x="26" y="53">38</text>
           <text class="tick-label" x="8" y="97">33,6</text>
           <text class="tick-label" x="26" y="163">27</text>
-          <text class="axis-label" x="298" y="207">Q (m3/h)</text>
+          <text class="axis-label" x="298" y="207">Q (m³/h)</text>
           <text class="axis-label" x="14" y="22">HMT (m)</text>
         </svg>
       `,
@@ -214,16 +214,19 @@ Pour $Q = 12\\;\\text{m}^3/\\text{h}$ (entre 10 et 15) :<br/>$$\\text{HMT} = 38 
         const p2 = points[idx + 1];
         const Q_target = parseFloat((p1.Q + (p2.Q - p1.Q) * pick([0.25, 0.4, 0.5, 0.6, 0.75])).toFixed(1));
         const H_target = p1.H + (Q_target - p1.Q) / (p2.Q - p1.Q) * (p2.H - p1.H);
+        const Q_target_str = String(Q_target).replace('.', '{,}');
+        const H_target_str = H_target.toFixed(1).replace('.', '{,}');
+        const ratio_str = ((Q_target - p1.Q) / (p2.Q - p1.Q)).toFixed(2).replace('.', '{,}');
         return {
           statement: `Une courbe de pompe donne les deux points suivants :<br/>
 - Point A : $Q_1 = ${p1.Q}\\;\\text{m}^3/\\text{h}$, $\\text{HMT}_1 = ${p1.H}\\;\\text{m}$<br/>
 - Point B : $Q_2 = ${p2.Q}\\;\\text{m}^3/\\text{h}$, $\\text{HMT}_2 = ${p2.H}\\;\\text{m}$<br/><br/>
-Par interpolation linéaire, estimer la HMT pour $Q = ${Q_target}\\;\\text{m}^3/\\text{h}$ (en m, arrondi à 0,1 m).`,
+Par interpolation linéaire, estimer la HMT pour $Q = ${Q_target_str}\\;\\text{m}^3/\\text{h}$ (en m, arrondi à 0,1 m).`,
           answer: parseFloat(H_target.toFixed(1)),
           tolerance: 0.2,
           unit: 'm',
           hint: `Formule d'interpolation : $y = y_1 + \\dfrac{x - x_1}{x_2 - x_1} \\times (y_2 - y_1)$.`,
-          solution: `$\\text{HMT} = ${p1.H} + \\dfrac{${Q_target} - ${p1.Q}}{${p2.Q} - ${p1.Q}} \\times (${p2.H} - ${p1.H}) = ${p1.H} + ${((Q_target-p1.Q)/(p2.Q-p1.Q)).toFixed(2)} \\times (${p2.H-p1.H}) = ${H_target.toFixed(1)}\\;\\text{m}$`,
+          solution: `$\\text{HMT} = ${p1.H} + \\dfrac{${Q_target_str} - ${p1.Q}}{${p2.Q} - ${p1.Q}} \\times (${p2.H} - ${p1.H}) = ${p1.H} + ${ratio_str} \\times (${p2.H-p1.H}) = ${H_target_str}\\;\\text{m}$`,
         };
       }
 
@@ -234,6 +237,7 @@ Par interpolation linéaire, estimer la HMT pour $Q = ${Q_target}\\;\\text{m}^3/
         const x2 = x1 + pick([5, 10, 15, 20]);
         const y1 = a * x1 + b;
         const y2 = a * x2 + b;
+        const a_str = String(a).replace('.', '{,}');
         const units = pick([
           { x: 'débit (m³/h)', y: 'pertes de charge (Pa)', yunit: 'Pa/(m³/h)' },
           { x: 'courant (A)', y: 'tension (V)', yunit: 'V/A = Ω' },
@@ -248,7 +252,7 @@ Calculer la pente de la droite passant par ces deux points (en ${units.yunit}, a
           tolerance: 0.02,
           unit: units.yunit,
           hint: `$a = \\dfrac{y_2 - y_1}{x_2 - x_1}$`,
-          solution: `$a = \\dfrac{${y2.toFixed(0)} - ${y1.toFixed(0)}}{${x2} - ${x1}} = \\dfrac{${(y2-y1).toFixed(0)}}{${x2-x1}} = ${a}\\;${units.yunit}$`,
+          solution: `$a = \\dfrac{${y2.toFixed(0)} - ${y1.toFixed(0)}}{${x2} - ${x1}} = \\dfrac{${(y2-y1).toFixed(0)}}{${x2-x1}} = ${a_str}\\;${units.yunit}$`,
         };
       }
 
@@ -259,6 +263,8 @@ Calculer la pente de la droite passant par ces deux points (en ${units.yunit}, a
       const eta2 = pick([85, 87, 90, 92, 88]);
       const Q_t = parseFloat((Q1 + (Q2 - Q1) * pick([0.3, 0.4, 0.5, 0.6, 0.7])).toFixed(0));
       const eta_t = eta1 + (Q_t - Q1) / (Q2 - Q1) * (eta2 - eta1);
+      const ratio2_str = ((Q_t - Q1) / (Q2 - Q1)).toFixed(2).replace('.', '{,}');
+      const eta_t_str = eta_t.toFixed(1).replace('.', '{,}');
       return {
         statement: `La courbe de rendement d'un moteur donne :<br/>
 - À $P = ${Q1}\\%$ de charge : $\\eta = ${eta1}\\%$<br/>
@@ -268,7 +274,7 @@ Par interpolation, estimer le rendement à $${Q_t}\\%$ de charge (en %, arrondi 
         tolerance: 0.3,
         unit: '%',
         hint: 'Appliquer la formule d\'interpolation linéaire.',
-        solution: `$\\eta = ${eta1} + \\dfrac{${Q_t} - ${Q1}}{${Q2} - ${Q1}} \\times (${eta2} - ${eta1}) = ${eta1} + ${((Q_t-Q1)/(Q2-Q1)).toFixed(2)} \\times ${eta2-eta1} = ${eta_t.toFixed(1)}\\%$`,
+        solution: `$\\eta = ${eta1} + \\dfrac{${Q_t} - ${Q1}}{${Q2} - ${Q1}} \\times (${eta2} - ${eta1}) = ${eta1} + ${ratio2_str} \\times ${eta2-eta1} = ${eta_t_str}\\%$`,
       };
     },
   },

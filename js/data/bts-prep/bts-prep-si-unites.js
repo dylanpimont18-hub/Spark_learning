@@ -200,9 +200,9 @@ window.MODULES.push({
     },
     {
       q: 'Un condensateur vaut $470\\;\\mu\\text{F}$. En farads, cela représente :',
-      options: ['$470 \\times 10^3\\;\\text{F}$', '$470 \\times 10^{-6}\\;\\text{F}$', '$470 \\times 10^{-3}\\;\\text{F}$', '$4{,}7 \\times 10^{-4}\\;\\text{F}$'],
+      options: ['$470 \\times 10^3\\;\\text{F}$', '$470 \\times 10^{-6}\\;\\text{F}$', '$470 \\times 10^{-3}\\;\\text{F}$', '$4{,}7 \\times 10^{-2}\\;\\text{F}$'],
       answer: 1,
-      correction: '1 μF = 10⁻⁶ F, donc 470 μF = 470 × 10⁻⁶ F = 4,70 × 10⁻⁴ F. Les réponses B et D sont équivalentes.',
+      correction: '1 μF = 10⁻⁶ F, donc 470 μF = 470 × 10⁻⁶ F.',
     },
     {
       q: 'La puissance $P = U \\times I$ en unités SI donne :',
@@ -271,7 +271,7 @@ window.MODULES.push({
           tolerance: 0.1,
           unit: 'MJ',
           hint: `$W = P \\times t$ en kWh, puis convertir : $1\\;\\text{kWh} = 3{,}6\\;\\text{MJ}$.`,
-          solution: `$W = ${String(P_kW).replace('.', '{,}')}\\;\\text{kW} \\times ${t_h}\\;\\text{h} = ${String(W_kWh).replace('.', '{,}')}\\;\\text{kWh}$<br/>$W = ${String(W_kWh).replace('.', '{,}')} \\times 3{,}6 = ${W_MJ.toFixed(1).replace('.', '{,}')}\\;\\text{MJ}$`,
+          solution: `$W = ${String(P_kW).replace('.', '{,}')}\\;\\text{kW} \\times ${t_h}\\;\\text{h} = ${W_kWh.toFixed(1).replace('.', '{,}')}\\;\\text{kWh}$<br/>$W = ${W_kWh.toFixed(1).replace('.', '{,}')} \\times 3{,}6 = ${W_MJ.toFixed(1).replace('.', '{,}')}\\;\\text{MJ}$`,
         };
       }
 

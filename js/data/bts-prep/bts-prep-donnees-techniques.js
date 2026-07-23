@@ -62,12 +62,12 @@ $P_{\\text{utile}}$ (kW), rendement PCI (%), pression de travail (bar), débit f
 | Puissance frigorifique | 3,5 kW |
 | Puissance de chauffage | 4,0 kW |
 | Puissance absorbée (froid) | 0,88 kW |
-| COP | 5,0 (classe A+++) |
+| COP (chauffage) | 5,0 (classe A+++) |
 | Débit d'air | 570 m³/h |
 | Niveau sonore intérieur | 21–40 dB(A) |
 | IP | IP24 (unité intérieure) |<br/><br/>
-Lecture : pour $P_f = 3{,}5\\;\\text{kW}$ et $P_{\\text{élec}} = 0{,}88\\;\\text{kW}$, le COP est bien $3{,}5/0{,}88 \\approx 4{,}0$. La valeur COP = 5,0 est mesurée dans les conditions standard (air à 35°C extérieur, 27°C intérieur).`,
-        '<strong>Exemple 3 — Disjoncteur Schneider GV2M</strong><br/><br/>Pour un moteur $P = 2{,}2\\;\\text{kW}$, $U = 400\\;\\text{V}$, $\\cos\\varphi = 0{,}85$ :<br/>$I_n = P/(\\sqrt{3} \\times U \\times \\cos\\varphi) = 2200/(1{,}732 \\times 400 \\times 0{,}85) \\approx 3{,}74\\;\\text{A}$<br/>On sélectionne le GV2M08 ($I_n = 6\\;\\text{A}$, réglable de 4 à 6 A) — on règle à 4 A pour protéger le moteur.',
+Lecture : pour $P_f = 3{,}5\\;\\text{kW}$ et $P_{\\text{élec}} = 0{,}88\\;\\text{kW}$ (grandeurs de <strong>refroidissement</strong>), le rapport calculé est $3{,}5/0{,}88 \\approx 4{,}0$ : c'est un <strong>EER</strong> (Energy Efficiency Ratio), pas un COP — le COP désigne le mode chauffage (voir piège ci-dessous). Le COP = 5,0 du tableau est la valeur chauffage, mesurée dans des conditions standard (air à 7°C extérieur, 20°C intérieur pour le chauffage).`,
+        '<strong>Exemple 3 — Disjoncteur Schneider GV2M</strong><br/><br/>Pour un moteur $P = 2{,}2\\;\\text{kW}$, $U = 400\\;\\text{V}$, $\\cos\\varphi = 0{,}85$ :<br/>$I_n = P/(\\sqrt{3} \\times U \\times \\cos\\varphi) = 2200/(1{,}732 \\times 400 \\times 0{,}85) \\approx 3{,}74\\;\\text{A}$<br/>On sélectionne le GV2ME08 (plage de réglage $2{,}5$ à $4\\;\\text{A}$) — on règle à $4\\;\\text{A}$ (haut de plage) pour couvrir les $3{,}74\\;\\text{A}$ calculés avec une marge de sécurité.',
       ],
       answer: 'La sélection d\'un équipement dans un catalogue commence par identifier le point de fonctionnement, puis à vérifier que le modèle choisi le couvre avec une marge de sécurité.',
     },
@@ -239,6 +239,8 @@ Lecture : pour $P_f = 3{,}5\\;\\text{kW}$ et $P_{\\text{élec}} = 0{,}88\\;\\tex
         const g = 9.81;
         const P_utile = rho * g * (Q_m3h / 3600) * H;
         const P_abs = P_utile / eta;
+        const eta_str = String(eta).replace('.', '{,}');
+        const Q_over_3600_str = (Q_m3h / 3600).toFixed(5).replace('.', '{,}');
         const context = pick(['pompe de distribution d\'eau potable', 'groupe hydrophore', 'pompe de circulation chauffage']);
         return {
           statement: `Une ${context} fonctionne au point $Q = ${Q_m3h}\\;\\text{m}^3/\\text{h}$, $H = ${H}\\;\\text{m}$. Son rendement est $\\eta = ${(eta*100).toFixed(0)}\\%$.<br/><br/>Calculez la puissance absorbée $P_{\\text{abs}}$ en W (arrondi à l'unité).<br/>($P_{\\text{utile}} = \\rho g Q H$, $\\rho_{\\text{eau}} = 1000\\;\\text{kg/m}^3$, $g = 9{,}81\\;\\text{m/s}^2$)`,
@@ -246,7 +248,7 @@ Lecture : pour $P_f = 3{,}5\\;\\text{kW}$ et $P_{\\text{élec}} = 0{,}88\\;\\tex
           tolerance: 20,
           unit: 'W',
           hint: `Convertir $Q$ en m³/s, calculer $P_{\\text{utile}} = \\rho g Q H$, puis $P_{\\text{abs}} = P_{\\text{utile}}/\\eta$.`,
-          solution: `$Q = ${Q_m3h}/3600 = ${(Q_m3h/3600).toFixed(5)}\\;\\text{m}^3/\\text{s}$<br/>$P_{\\text{utile}} = 1000 \\times 9{,}81 \\times ${(Q_m3h/3600).toFixed(5)} \\times ${H} = ${P_utile.toFixed(0)}\\;\\text{W}$<br/>$P_{\\text{abs}} = ${P_utile.toFixed(0)} / ${eta} = ${Math.round(P_abs)}\\;\\text{W}$`,
+          solution: `$Q = ${Q_m3h}/3600 = ${Q_over_3600_str}\\;\\text{m}^3/\\text{s}$<br/>$P_{\\text{utile}} = 1000 \\times 9{,}81 \\times ${Q_over_3600_str} \\times ${H} = ${P_utile.toFixed(0)}\\;\\text{W}$<br/>$P_{\\text{abs}} = ${P_utile.toFixed(0)} / ${eta_str} = ${Math.round(P_abs)}\\;\\text{W}$`,
         };
       }
 
@@ -254,14 +256,16 @@ Lecture : pour $P_f = 3{,}5\\;\\text{kW}$ et $P_{\\text{élec}} = 0{,}88\\;\\tex
         const COP = pick([3.2, 3.5, 3.8, 4.0, 4.5]);
         const P_elec = pick([2, 3, 4, 5, 6, 8]);
         const P_f = parseFloat((COP * P_elec).toFixed(1));
+        const COP_str = String(COP).replace('.', '{,}');
+        const P_f_str = String(P_f).replace('.', '{,}');
         const context = pick(['split mural de bureau', 'groupe froid de production froide', 'pompe à chaleur air-eau']);
         return {
-          statement: `Un ${context} a un COP de $${COP}$ et consomme $P_{\\text{élec}} = ${P_elec}\\;\\text{kW}$.<br/><br/>Calculez la puissance frigorifique $P_f$ en kW.`,
+          statement: `Un ${context} a un COP de $${COP_str}$ et consomme $P_{\\text{élec}} = ${P_elec}\\;\\text{kW}$.<br/><br/>Calculez la puissance frigorifique $P_f$ en kW.`,
           answer: P_f,
           tolerance: 0.1,
           unit: 'kW',
           hint: `$\\text{COP} = P_f / P_{\\text{élec}}$ → $P_f = \\text{COP} \\times P_{\\text{élec}}$.`,
-          solution: `$P_f = \\text{COP} \\times P_{\\text{élec}} = ${COP} \\times ${P_elec} = ${P_f}\\;\\text{kW}$`,
+          solution: `$P_f = \\text{COP} \\times P_{\\text{élec}} = ${COP_str} \\times ${P_elec} = ${P_f_str}\\;\\text{kW}$`,
         };
       }
 
@@ -271,14 +275,18 @@ Lecture : pour $P_f = 3{,}5\\;\\text{kW}$ et $P_{\\text{élec}} = 0{,}88\\;\\tex
       const cosfi = pick([0.82, 0.84, 0.86, 0.88]);
       const eta_m = pick([0.86, 0.88, 0.90, 0.92]);
       const I = (P_kW * 1000) / (Math.sqrt(3) * U * cosfi * eta_m);
+      const P_kW_str = String(P_kW).replace('.', '{,}');
+      const cosfi_str = String(cosfi).replace('.', '{,}');
+      const eta_m_str = String(eta_m).replace('.', '{,}');
+      const denom_str = (Math.sqrt(3) * 400 * cosfi * eta_m).toFixed(1).replace('.', '{,}');
       const context = pick(['pompe centrifuge', 'ventilateur CVC', 'compresseur d\'air']);
       return {
-        statement: `Un moteur entraîne un ${context}. Puissance mécanique : $P = ${P_kW}\\;\\text{kW}$, tension : $U = 400\\;\\text{V}$ triphasé, $\\cos\\varphi = ${cosfi}$, rendement moteur $\\eta = ${(eta_m*100).toFixed(0)}\\%$.<br/><br/>Calculez le courant absorbé $I_n$ en ampères (arrondi à 0,1 A).<br/>($P = \\sqrt{3} \\cdot U \\cdot I \\cdot \\cos\\varphi \\cdot \\eta$)`,
+        statement: `Un moteur entraîne un ${context}. Puissance mécanique : $P = ${P_kW_str}\\;\\text{kW}$, tension : $U = 400\\;\\text{V}$ triphasé, $\\cos\\varphi = ${cosfi_str}$, rendement moteur $\\eta = ${(eta_m*100).toFixed(0)}\\%$.<br/><br/>Calculez le courant absorbé $I_n$ en ampères (arrondi à 0,1 A).<br/>($P = \\sqrt{3} \\cdot U \\cdot I \\cdot \\cos\\varphi \\cdot \\eta$)`,
         answer: parseFloat(I.toFixed(1)),
         tolerance: 0.2,
         unit: 'A',
         hint: `Isoler $I = \\dfrac{P}{\\sqrt{3} \\cdot U \\cdot \\cos\\varphi \\cdot \\eta}$.`,
-        solution: `$I = \\dfrac{${P_kW} \\times 10^3}{\\sqrt{3} \\times 400 \\times ${cosfi} \\times ${eta_m}} = \\dfrac{${P_kW*1000}}{${(Math.sqrt(3)*400*cosfi*eta_m).toFixed(1)}} \\approx ${I.toFixed(1)}\\;\\text{A}$`,
+        solution: `$I = \\dfrac{${P_kW_str} \\times 10^3}{\\sqrt{3} \\times 400 \\times ${cosfi_str} \\times ${eta_m_str}} = \\dfrac{${P_kW*1000}}{${denom_str}} \\approx ${I.toFixed(1).replace('.', '{,}')}\\;\\text{A}$`,
       };
     },
   },

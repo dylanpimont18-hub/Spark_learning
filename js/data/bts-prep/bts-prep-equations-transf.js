@@ -211,7 +211,7 @@ D'après $Z = \\sqrt{R^2 + X^2}$, calculez la résistance $R$ en ohms (arrondi �
           tolerance: 0.2,
           unit: 'Ω',
           hint: `Isoler $R$ : $R = \\sqrt{Z^2 - X^2}$.`,
-          solution: `$R = \\sqrt{${Z}^2 - ${X}^2} = \\sqrt{${Z*Z} - ${X*X}} = \\sqrt{${Z*Z - X*X}} \\approx ${Rn}\\;\\Omega$`,
+          solution: `$R = \\sqrt{${Z}^2 - ${X}^2} = \\sqrt{${Z*Z} - ${X*X}} = \\sqrt{${Z*Z - X*X}} \\approx ${String(Rn).replace('.', '{,}')}\\;\\Omega$`,
         };
       }
 
@@ -228,7 +228,7 @@ Calculez sa vitesse $v$ en m/s (arrondi à 0,1 m/s). ($E_c = \\frac{1}{2}mv^2$)`
           tolerance: 0.1,
           unit: 'm/s',
           hint: `Isoler $v$ : $v = \\sqrt{2E_c/m}$. Attention : convertir $E_c$ en joules.`,
-          solution: `$v = \\sqrt{\\dfrac{2 \\times ${Ec_kJ} \\times 10^3}{${m}}} = \\sqrt{${(2*Ec/m).toFixed(2)}} \\approx ${v.toFixed(1)}\\;\\text{m/s}$`,
+          solution: `$v = \\sqrt{\\dfrac{2 \\times ${Ec_kJ} \\times 10^3}{${m}}} = \\sqrt{${(2*Ec/m).toFixed(2).replace('.', '{,}')}} \\approx ${v.toFixed(1).replace('.', '{,}')}\\;\\text{m/s}$`,
         };
       }
 
@@ -240,13 +240,13 @@ Calculez sa vitesse $v$ en m/s (arrondi à 0,1 m/s). ($E_c = \\frac{1}{2}mv^2$)`
         const t = -tau * Math.log(1 - frac);
         const context = pick(['circuit de temporisation', 'alimentation à découpage', 'système de démarrage progressif']);
         return {
-          statement: `Dans un ${context}, la tension aux bornes du condensateur suit : $u_C(t) = ${E}\\left(1 - e^{-t/${tau}}\\right)$ V.<br/>
-À quel instant $t$ la tension atteint-elle $u_C = ${uc.toFixed(1)}\\;\\text{V}$ ? (Arrondir à 0,01 s)`,
+          statement: `Dans un ${context}, la tension aux bornes du condensateur suit : $u_C(t) = ${E}\\left(1 - e^{-t/${String(tau).replace('.', '{,}')}}\\right)$ V.<br/>
+À quel instant $t$ la tension atteint-elle $u_C = ${uc.toFixed(1).replace('.', '{,}')}\\;\\text{V}$ ? (Arrondir à 0,01 s)`,
           answer: parseFloat(t.toFixed(2)),
           tolerance: 0.02,
           unit: 's',
           hint: `Isoler $e^{-t/\\tau}$, puis prendre $\\ln$ et résoudre pour $t$.`,
-          solution: `$${uc.toFixed(1)} = ${E}(1 - e^{-t/${tau}})$<br/>$e^{-t/${tau}} = 1 - ${frac} = ${(1-frac).toFixed(2)}$<br/>$-t/${tau} = \\ln(${(1-frac).toFixed(2)}) \\approx ${Math.log(1-frac).toFixed(3)}$<br/>$t = ${tau} \\times ${(-Math.log(1-frac)).toFixed(3)} \\approx ${t.toFixed(2)}\\;\\text{s}$`,
+          solution: `$${uc.toFixed(1).replace('.', '{,}')} = ${E}(1 - e^{-t/${String(tau).replace('.', '{,}')}})$<br/>$e^{-t/${String(tau).replace('.', '{,}')}} = 1 - ${String(frac).replace('.', '{,}')} = ${(1-frac).toFixed(2).replace('.', '{,}')}$<br/>$-t/${String(tau).replace('.', '{,}')} = \\ln(${(1-frac).toFixed(2).replace('.', '{,}')}) \\approx ${Math.log(1-frac).toFixed(3).replace('.', '{,}')}$<br/>$t = ${String(tau).replace('.', '{,}')} \\times ${(-Math.log(1-frac)).toFixed(3).replace('.', '{,}')} \\approx ${t.toFixed(2).replace('.', '{,}')}\\;\\text{s}$`,
         };
       }
 
@@ -262,7 +262,7 @@ Calculez la vitesse d'écoulement de l'air $v$ en m/s (arrondi à 0,1 m/s). ($p_
         tolerance: 0.1,
         unit: 'm/s',
         hint: `Isoler $v$ : $v = \\sqrt{2p_d / \\rho}$.`,
-        solution: `$v = \\sqrt{\\dfrac{2 \\times ${pd}}{1{,}2}} = \\sqrt{${(2*pd/rho).toFixed(1)}} \\approx ${v.toFixed(1)}\\;\\text{m/s}$`,
+        solution: `$v = \\sqrt{\\dfrac{2 \\times ${pd}}{1{,}2}} = \\sqrt{${(2*pd/rho).toFixed(1).replace('.', '{,}')}} \\approx ${v.toFixed(1).replace('.', '{,}')}\\;\\text{m/s}$`,
       };
     },
   },
@@ -303,24 +303,40 @@ Le technicien souhaite choisir une bouche circulaire de diamètre $D$.`,
     duration: '25 min',
     questions: [
       {
-        q: 'Un condensateur se décharge selon $u_C(t) = 48 \\cdot e^{-t/3}$ V. À quel instant la tension est-elle égale à $12\\;\\text{V}$ ?',
-        answer: '$12 = 48 e^{-t/3}$<br/>$e^{-t/3} = 12/48 = 1/4$<br/>$-t/3 = \\ln(1/4) = -\\ln 4$<br/>$t = 3\\ln 4 \\approx 4{,}16\\;\\text{s}$',
+        statement: 'Un condensateur se décharge selon $u_C(t) = 48 \\cdot e^{-t/3}$ V. À quel instant $t$ (en s) la tension est-elle égale à $12\\;\\text{V}$ ? (Arrondir à 0,01 s)',
+        type: 'numeric',
+        answer: 4.16,
+        tolerance: 0.02,
+        unit: 's',
         points: 4,
+        correction: '$12 = 48 e^{-t/3}$<br/>$e^{-t/3} = 12/48 = 1/4$<br/>$-t/3 = \\ln(1/4) = -\\ln 4$<br/>$t = 3\\ln 4 \\approx 4{,}16\\;\\text{s}$'
       },
       {
-        q: 'La formule de la puissance sonore est $L_W = 10\\log_{10}(W/W_0)$ avec $W_0 = 10^{-12}\\;\\text{W}$. Un moteur produit $L_W = 85\\;\\text{dB}$. Quelle est sa puissance acoustique $W$ ?',
-        answer: '$85 = 10\\log(W/10^{-12})$<br/>$\\log(W/10^{-12}) = 8{,}5$<br/>$W/10^{-12} = 10^{8{,}5} = 3{,}16 \\times 10^8$<br/>$W = 3{,}16 \\times 10^{-4}\\;\\text{W} \\approx 0{,}316\\;\\text{mW}$',
+        statement: 'La formule de la puissance sonore est $L_W = 10\\log_{10}(W/W_0)$ avec $W_0 = 10^{-12}\\;\\text{W}$. Un moteur produit $L_W = 85\\;\\text{dB}$. Quelle est sa puissance acoustique $W$, en mW (arrondi à 0,01 mW) ?',
+        type: 'numeric',
+        answer: 0.316,
+        tolerance: 0.01,
+        unit: 'mW',
         points: 4,
+        correction: '$85 = 10\\log(W/10^{-12})$<br/>$\\log(W/10^{-12}) = 8{,}5$<br/>$W/10^{-12} = 10^{8{,}5} = 3{,}16 \\times 10^8$<br/>$W = 3{,}16 \\times 10^{-4}\\;\\text{W} \\approx 0{,}316\\;\\text{mW}$'
       },
       {
-        q: 'Un ressort a une énergie potentielle $E_p = \\frac{1}{2}kx^2 = 2{,}5\\;\\text{J}$ avec $k = 800\\;\\text{N/m}$. Calculer l\'allongement $x$.',
-        answer: '$2{,}5 = \\frac{1}{2} \\times 800 \\times x^2 = 400 x^2$<br/>$x^2 = 2{,}5/400 = 6{,}25 \\times 10^{-3}$<br/>$x = \\sqrt{6{,}25 \\times 10^{-3}} = 0{,}0791\\;\\text{m} \\approx 7{,}9\\;\\text{cm}$',
+        statement: 'Un ressort a une énergie potentielle $E_p = \\frac{1}{2}kx^2 = 2{,}5\\;\\text{J}$ avec $k = 800\\;\\text{N/m}$. Calculer l\'allongement $x$, en cm (arrondi à 0,1 cm).',
+        type: 'numeric',
+        answer: 7.9,
+        tolerance: 0.1,
+        unit: 'cm',
         points: 4,
+        correction: '$2{,}5 = \\frac{1}{2} \\times 800 \\times x^2 = 400 x^2$<br/>$x^2 = 2{,}5/400 = 6{,}25 \\times 10^{-3}$<br/>$x = \\sqrt{6{,}25 \\times 10^{-3}} = 0{,}0791\\;\\text{m} \\approx 7{,}9\\;\\text{cm}$'
       },
       {
-        q: 'Résoudre : $\\sqrt{3x - 5} = 4$. Vérifier la solution.',
-        answer: '$3x - 5 = 16$ (mise au carré)<br/>$3x = 21$<br/>$x = 7$<br/>Vérification : $\\sqrt{3 \\times 7 - 5} = \\sqrt{16} = 4$ ✓',
+        statement: 'Résoudre : $\\sqrt{3x - 5} = 4$. Donner la valeur de $x$.',
+        type: 'numeric',
+        answer: 7,
+        tolerance: 0,
+        unit: '',
         points: 3,
+        correction: '$3x - 5 = 16$ (mise au carré)<br/>$3x = 21$<br/>$x = 7$<br/>Vérification : $\\sqrt{3 \\times 7 - 5} = \\sqrt{16} = 4$ ✓'
       },
     ],
   },

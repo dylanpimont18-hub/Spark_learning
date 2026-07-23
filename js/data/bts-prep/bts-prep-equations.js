@@ -249,7 +249,7 @@ window.MODULES.push({
       const y = pick([1, 2, 3]);
       const S = x + y, D = x - y;
       return {
-        statement: `Résoudre le système $\\begin{cases} x + y = ${S} \\\\ x - y = ${D} \\end{cases}$ (équilibrage d'un réseau). Donner la valeur de $x$.`,
+        statement: `Résoudre le système $\\begin{cases} x + y = ${S} \\\\ x - y = ${D} \\end{cases}$ (${pick(['équilibrage d\'un réseau hydraulique', 'répartition de charge sur deux appuis', 'bilan de deux courants de branche'])}). Donner la valeur de $x$.`,
         answer: x,
         tolerance: 0,
         unit: '',

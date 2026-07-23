@@ -250,9 +250,9 @@ Règle pratique : <strong>1 bar ≈ 10 m de colonne d'eau</strong> (pour la pres
     },
     {
       q: 'La pression de 6 bar correspond à :',
-      options: ['6 Pa', '600 kPa', '0,6 MPa', '6 MPa'],
+      options: ['6 Pa', '600 kPa', '60 kPa', '6 MPa'],
       answer: 1,
-      correction: '6 bar = 6 × 10⁵ Pa = 600 kPa = 0,6 MPa. Les réponses B et C sont équivalentes.',
+      correction: '6 bar = 6 × 10⁵ Pa = 600 kPa (soit 0,6 MPa).',
     },
     {
       q: 'Un moteur tourne à $n = 3000\\;\\text{tr/min}$. Sa vitesse angulaire en rad/s est :',
@@ -415,7 +415,7 @@ Règle pratique : <strong>1 bar ≈ 10 m de colonne d'eau</strong> (pour la pres
       },
       {
         q: 'Un ventilateur de CTA (centrale de traitement d\'air) souffle $Q = 8000\\;\\text{m}^3/\\text{h}$. Convertir en m³/s et en l/min.',
-        answer: '$Q = 8000 / 3600 \\approx 2{,}22\\;\\text{m}^3/\\text{s}$<br/>$Q = 8000 \\times 1000/60 \\approx 133\\,333\\;\\text{l/min} \\approx 133{,}3\\;\\text{kl/min}$',
+        answer: '$Q = 8000 / 3600 \\approx 2{,}22\\;\\text{m}^3/\\text{s}$<br/>$Q = 8000 \\times 1000/60 \\approx 133\\,333\\;\\text{l/min}$',
         points: 2,
       },
       {

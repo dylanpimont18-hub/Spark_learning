@@ -219,13 +219,18 @@ window.MODULES.push({
       const V0 = pick([100, 200, 500, 1000]);
       const p = pick([5, 8, 10, 12, 15, 20]);
       const V1 = V0 * (1 - p / 100);
+      const { intro, unite } = pick([
+        { intro: 'Un ventilateur a un débit nominal de', unite: 'm³/h' },
+        { intro: 'Un réseau hydraulique a un débit nominal de', unite: 'm³/h' },
+        { intro: 'Une ligne électrique a une puissance nominale de', unite: 'kW' }
+      ]);
       return {
-        statement: `Un ${pick(['ventilateur', 'réseau hydraulique', 'ligne électrique'])} a un débit (ou puissance) nominal de ${V0} ${pick(['m³/h', 'W', 'kW'])}. Une réduction de ${p} % est appliquée. Calculer la nouvelle valeur.`,
+        statement: `${intro} ${V0} ${unite}. Une réduction de ${p} % est appliquée. Calculer la nouvelle valeur (en ${unite}).`,
         answer: V1,
         tolerance: 0.1,
-        unit: '',
+        unit: unite,
         hint: `Appliquer la réduction : valeur $\\times (1 - ${p}/100) = $ valeur $\\times ${String(1 - p/100).replace('.', '{,}')}$.`,
-        solution: [`$V_1 = ${V0} \\times (1 - ${p}/100) = ${V0} \\times ${(1 - p/100).toFixed(2).replace('.', '{,}')} = ${String(V1).replace('.', '{,}')}$`]
+        solution: [`$V_1 = ${V0} \\times (1 - ${p}/100) = ${V0} \\times ${(1 - p/100).toFixed(2).replace('.', '{,}')} = ${String(V1).replace('.', '{,}')}\\;\\text{${unite}}$`]
       };
     }
   },
