@@ -205,3 +205,62 @@ function renderFicheCours(mod) {
 function renderFichesBatch(modules) {
   return modules.map(mod => renderFicheCours(mod)).join('');
 }
+
+function renderEvaluationPrintSheet(items, mode) {
+  const totalPoints = items.reduce((sum, it) => sum + (it.question.points || 0), 0);
+
+  const rows = items.map((it, i) => {
+    const q = it.question;
+    const num = i + 1;
+    const ptsLabel = q.points + ' pt' + (q.points > 1 ? 's' : '');
+
+    let answerBlock;
+    if (mode === 'correction') {
+      const answerLabel = q.type === 'multiple-choice'
+        ? String.fromCharCode(65 + q.answer) + '. ' + q.options[q.answer]
+        : q.answer + (q.unit ? ' ' + q.unit : '');
+      answerBlock = `
+        <div class="print-eval-correction">
+          <strong>Réponse :</strong> ${answerLabel}
+          ${q.correction ? `<div class="print-eval-correction-detail">${q.correction}</div>` : ''}
+        </div>`;
+    } else if (q.type === 'multiple-choice') {
+      answerBlock = `<ul class="print-eval-options">
+        ${q.options.map((opt, oi) => `<li>${String.fromCharCode(65 + oi)}. ${opt}</li>`).join('')}
+      </ul>`;
+    } else {
+      answerBlock = `<div class="print-eval-answer-line">Réponse : _________________________${q.unit ? ' ' + q.unit : ''}</div>`;
+    }
+
+    return `
+      <div class="print-eval-question">
+        <div class="print-eval-question-head">
+          <span class="print-eval-question-num">${num}.</span>
+          <span class="print-eval-question-theme">${it.moduleTitle}</span>
+          <span class="print-eval-question-pts">${ptsLabel}</span>
+        </div>
+        <div class="print-eval-question-statement">${q.statement}</div>
+        ${answerBlock}
+      </div>`;
+  }).join('');
+
+  return `
+    <div class="print-eval-sheet">
+      <div class="print-eval-header">
+        <img src="images/Logo_noir.jpeg" alt="Spark Learning" class="print-logo" />
+        <div class="print-eval-header-text">
+          <h1 class="print-eval-title">${mode === 'correction' ? 'Corrigé — ' : ''}Évaluation — Remise à niveau maths</h1>
+          <p class="print-eval-subtitle">${items.length} question${items.length > 1 ? 's' : ''} · ${totalPoints} point${totalPoints > 1 ? 's' : ''}</p>
+        </div>
+      </div>
+      ${mode === 'subject' ? `
+      <div class="print-eval-student-fields">
+        <span>Nom : ________________________</span>
+        <span>Prénom : ________________________</span>
+        <span>Date : ______________</span>
+      </div>
+      ` : ''}
+      <div class="print-eval-questions">${rows}</div>
+      <div class="print-eval-footer">Spark Learning — Évaluation</div>
+    </div>`;
+}

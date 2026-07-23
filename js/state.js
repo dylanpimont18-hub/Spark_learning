@@ -157,6 +157,8 @@ const state = {
     : JSON.parse(localStorage.getItem('sparkModuleStatus') || '{}'),
   batchPrintMode: false,
   selectedForPrint: [],
+  evalBuilderMode: false,
+  selectedEvalQuestions: {},
   flashcardState: null,
   chronoState: null,
   playlistState: null,

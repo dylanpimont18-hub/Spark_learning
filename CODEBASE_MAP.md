@@ -42,6 +42,7 @@ Règles de sécurité Firestore.
 - `MODULE_THEME_RULES` — règles regex pour catégoriser les modules par thème
 - `getModuleThemes(mod)` — retourne les thèmes d'un module
 - `getModuleSearchKeywords(mod)` — mots-clés pour la recherche
+- `state.evalBuilderMode` / `state.selectedEvalQuestions` — mode "composer une évaluation" (grille de modules, enseignant) et sélection courante `{ moduleId: [indexQuestion,...] }`, gérés par `js/print.js`
 
 ## js/app.js
 Routeur SPA (pushState), init, KaTeX, confetti.
@@ -61,9 +62,14 @@ Routeur SPA (pushState), init, KaTeX, confetti.
 - Mode invité : `onAuthStateChanged` sans `firebaseUser` → `AuthGuard.reset()` + `_checkMaintenance()` + `_syncModuleAccess()` + `_setupStudentApp()` (accès direct au contenu sans connexion)
 
 ## js/print.js
-Impression des fiches de cours (extrait de `js/app.js`).
+Impression des fiches de cours et des évaluations (extrait de `js/app.js`).
 - `printFiche(moduleId)` — imprime la fiche de synthèse d'un module (via `#print-container` + `renderFicheCours()`, voir `js/utils/ui-helpers.js`) ; réservé enseignant (`AuthGuard.isTeacher()`)
 - `toggleBatchPrintMode()` / `togglePrintSelection()` / `selectAllForPrint()` / `deselectAllForPrint()` / `printSelectedFiches()` — sélection multi-modules sur la grille puis impression groupée via `renderFichesBatch()` ; `toggleBatchPrintMode()` et `printSelectedFiches()` réservées enseignant
+- `toggleEvalBuilderMode()` — active/désactive le mode "composer une évaluation" sur `#modules-grid` (réservé enseignant) : injecte une case à cocher (module entier, toutes ses `evaluation.questions` par défaut) + un lien "✎ Ajuster" par carte de module possédant une banque d'évaluation non vide
+- `toggleEvalModuleSelection(moduleId)` / `toggleEvalQuestion(moduleId, index)` / `toggleEvalQuestionPicker(moduleId, card)` — gèrent `state.selectedEvalQuestions` (sélection fine question par question via le panneau "Ajuster")
+- `showEvalToolbar()` / `hideEvalToolbar()` / `updateEvalCount()` — barre flottante (questions/points sélectionnés) et boutons d'impression
+- `_collectSelectedEvalQuestions()` — aplatit `state.selectedEvalQuestions` en liste `{moduleTitle, question}` triée par index
+- `printEvaluationSubject()` / `printEvaluationCorrection()` — impriment respectivement la copie élève (vierge) et le corrigé (réponses + barème) via `renderEvaluationPrintSheet()` (voir `js/utils/ui-helpers.js`) ; réservées enseignant, composition éphémère (rien n'est sauvegardé côté serveur)
 
 ## js/loader.js
 Lazy loading des fichiers de données par niveau/matière.
@@ -276,7 +282,7 @@ Vues globales : accueil, liste matières, niveaux, modules, détail module.
 - `renderModule(moduleId)` — page détail d'un module
 - `renderSubjects()` — inclut un `renderAdSlot(...)` (voir `js/components/adSlot.js`) en bas de grille, seulement si `window.MODULES` contient au moins un module (jamais sur une grille sans contenu)
 - `renderModulesList()` — inclut un `renderAdSlot(...)` dans un wrapper `#modules-ad-slot`, seulement si `modules.length > 0` ; ce wrapper est masqué dynamiquement par `_applyModuleFilters()` (`js/app.js`) quand une recherche ne donne aucun résultat
-- `renderModulesList()` — le bouton "Imprimer les fiches 🖨️" (`toggleBatchPrintMode()`) n'est rendu que si `AuthGuard.isTeacher()`
+- `renderModulesList()` — les boutons "Imprimer les fiches 🖨️" (`toggleBatchPrintMode()`) et "Composer une évaluation 📝" (`toggleEvalBuilderMode()`, voir `js/print.js`) ne sont rendus que si `AuthGuard.isTeacher()`
 - `renderHome()` — page d'accueil, volontairement sans bloc pub (page à contenu essentiellement promotionnel, retiré suite à un rejet AdSense "contenu à faible valeur informative") ; jamais de pub non plus dans les onglets d'apprentissage actif (`module`)
 - `renderAssignmentWidget()` — async, injecte l'encart "Devoir en cours" pour l'élève connecté à une classe
 
@@ -457,3 +463,4 @@ Helpers de rendu et utilitaires UI partagés.
 - `renderFicheCours(mod)` — fiche de synthèse imprimable A4 d'un module (intro, définitions, méthode, exemple, formules, illustration, piège, récap) ; consommée par `printFiche()` dans `js/app.js` ; l'illustration utilise `renderCoursDiagram()` (voir `js/components/renderCours.js`), qui gère le format legacy (string) et le format riche (objet `{svg, notes...}`)
 - `renderFichesBatch(modules)` — concatène plusieurs `renderFicheCours()` pour l'impression groupée
 - `_printLevelLabel(mod)` — libellé "Matière · Niveau — Classe" affiché en en-tête de fiche
+- `renderEvaluationPrintSheet(items, mode)` — sujet imprimable (`mode:'subject'`, réponses vierges) ou corrigé (`mode:'correction'`, réponses + barème) à partir d'une liste `{moduleTitle, question}` où `question` suit le schéma `evaluation.questions` (`statement`, `type:'numeric'|'multiple-choice'`, `answer`, `unit`, `points`, `correction`) ; consommée par `printEvaluationSubject()`/`printEvaluationCorrection()` (voir `js/print.js`)

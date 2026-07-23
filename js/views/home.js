@@ -637,6 +637,9 @@ function renderModulesList() {
 				<button class="btn btn-outline btn-print-batch" onclick="toggleBatchPrintMode()">
 					Imprimer les fiches 🖨️
 				</button>
+				<button class="btn btn-outline btn-print-batch" onclick="toggleEvalBuilderMode()">
+					Composer une évaluation 📝
+				</button>
 				` : ''}
 			</div>
 
