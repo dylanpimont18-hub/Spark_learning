@@ -76,8 +76,8 @@ Aucun changement : `tutoringSessions` reste sous `allow read, write: if isTutor(
 
 Modifications de `js/views/tutoring/tutoringStudent.js` :
 - `_renderGenerationBadge(sess)` : ajoute le bouton "Régénérer" sur l'état `generated`, la liste dépliable des versions précédentes, et le bouton conditionnel "forcer l'échec" sur `generating` (condition sur `generationRequestedAt`).
-- Réutilise le mini-formulaire déjà existant pour la relance sur échec (type de contenu + figures) — pas de nouveau composant, juste rendu aussi depuis le nouveau bouton "Régénérer".
-- Aucun nouveau fichier de vue, aucune nouvelle classe CSS structurante (réutilise les classes `.tt-gen-badge`, `.tt-rate-btn` existantes).
+- **Correction par rapport à une hypothèse initiale** : il n'existe *pas* de mini-formulaire pour la relance sur échec — le bouton "Générer un cours" de l'état `failed` relance directement avec les mêmes `contentType`/`figuresCount`, sans formulaire. Le petit formulaire d'ajustement (type de contenu + figures, pré-rempli) est donc un **nouvel élément**, `_showRegenerateForm`, propre au bouton "Régénérer" — repris visuellement du formulaire "+ Nouvelle séance" existant, mais pas littéralement le même code. Le flux de relance sur échec reste inchangé.
+- Aucun nouveau fichier de vue, aucune nouvelle classe CSS structurante hormis les 4 règles ajoutées pour la liste "Versions précédentes" (réutilise sinon `.tt-gen-badge`, `.tt-rate-btn` existantes).
 
 Modifications de `js/tutoring/tutoringService.js` :
 - `requestGeneration(sessionId, opts)` : ajoute `generationRequestedAt: firebase.firestore.FieldValue.serverTimestamp()` à l'écriture existante.
