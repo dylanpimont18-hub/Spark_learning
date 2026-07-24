@@ -349,17 +349,21 @@ Pages Inscription / Connexion (overlay plein `#app`, header/nav restent visibles
 - `AuthView.renderPending()` — écran d'attente de validation enseignant
 
 ## js/views/adminPanel.js
-Panneau d'administration : gestion des enseignants en attente et comptes utilisateurs.
+Panneau d'administration : gestion des enseignants en attente, comptes utilisateurs, modules et historique.
 - `AdminPanel.render()` — point d'entrée async, affiche le panneau
-- `AdminPanel._switchTab(tab)` — bascule entre onglets (pending/all)
-- `AdminPanel._loadTab(tab)` — charge les données de l'onglet actif via `AuthService`
+- `AdminPanel._switchTab(tab)` — bascule entre onglets (pending/all/modules/logs)
+- `AdminPanel._loadTab(tab)` — charge les données de l'onglet actif via `AuthService` ; onglet `modules` attend `ensureAllData()` avant de rendre (nécessaire car le chemin `role === 'admin'` de `js/app.js` appelle `AdminPanel.render()` directement, sans passer par `navigate()` qui charge normalement toutes les données)
 - `AdminPanel._renderPending(pending)` — rendu liste enseignants en attente avec boutons Approuver/Refuser
-- `AdminPanel._renderAll(users)` — rendu tous les comptes avec barre de recherche et filtrage
+- `AdminPanel._renderAll(users, orphans)` — rendu tous les comptes avec filtres de rôle (`_roleFilter`), barre de recherche et classes orphelines ; alimente `_allUsersCache`/`_orphanClassesCache`
+- `AdminPanel._applyRoleFilter(users)` / `_setRoleFilter(role)` — filtre client-side par rôle (Tous/Élèves/Enseignants/Admins), combiné avec la recherche texte dans `_filterUsers`
+- `AdminPanel._goToUsers(role)` — appelée par les cartes KPI du dashboard (élèves/enseignants) : bascule sur l'onglet "Tous les comptes" pré-filtré par rôle
+- `AdminPanel._renderModulesTab()` — onglet "Modules" : verrouillage/maintenance par matière (`setSubjectAccessMode`) ou par module (`setModuleAccessMode`) ; réintègre l'UI qui vivait auparavant dans la page morte `renderAdminPage()` (`js/views/home.js`, supprimée) — sans cet onglet, il n'existait plus aucun moyen dans l'interface de verrouiller un module
+- `AdminPanel._renderLogs(logs)` / `_renderLogsList()` — onglet Historique avec filtres par type d'action (`_logActionFilter`) et par admin (`_logAdminFilter`), calculés dynamiquement à partir des logs chargés (`_logsCache`)
 - `AdminPanel._approve(uid)` / `_reject(uid)` — approuve/refuse un enseignant
 - `AdminPanel._setStatus(uid, status)` — modifie le statut d'un utilisateur
 - `AdminPanel._runBackfillTeacherIds()` — lance la migration `progress.teacherIds` (à exécuter une fois après déploiement des règles) ; affiche distinctement le nombre d'échecs individuels (`result.failed`) plutôt qu'un simple compteur de succès, pour ne pas laisser croire à une migration complète
-- `AdminPanel._archiveClass(classId)` — demande confirmation avant d'archiver une classe orpheline (cohérent avec les autres actions destructives du panneau)
-- `setSubjectAccessMode(subjectId, mode)` / `setModuleAccessMode(moduleId, mode)` — fonctions globales async (hors objet `AdminPanel`, extraites de `js/app.js`) : verrouillage/maintenance par matière ou par module ; calculent la carte cible puis **attendent la confirmation d'écriture** (`AuthService.saveModuleAccess()`) avant de mettre à jour `Storage`/`state.moduleAccess` et de re-render — sinon l'admin voyait le verrouillage confirmé localement même si l'écriture Firestore (lue par tous, y compris invités) avait échoué
+- `AdminPanel._archiveClass(classId)` — recherche la classe dans `_orphanClassesCache` pour afficher son nom et son nombre d'élèves dans la confirmation avant d'archiver (au lieu d'un message générique)
+- `setSubjectAccessMode(subjectId, mode)` / `setModuleAccessMode(moduleId, mode)` — fonctions globales async (hors objet `AdminPanel`, extraites de `js/app.js`) : verrouillage/maintenance par matière ou par module ; calculent la carte cible puis **attendent la confirmation d'écriture** (`AuthService.saveModuleAccess()`) avant de mettre à jour `Storage`/`state.moduleAccess` et de re-render — sinon l'admin voyait le verrouillage confirmé localement même si l'écriture Firestore (lue par tous, y compris invités) avait échoué ; appelées désormais depuis l'onglet Modules d'`AdminPanel` (ex-`renderAdminPage()` de `home.js`, supprimée)
 
 ## js/views/teacherDashboard.js
 Tableau de bord enseignant : classes, élèves, progression, devoirs, grading.

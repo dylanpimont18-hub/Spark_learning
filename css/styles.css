@@ -1403,100 +1403,6 @@ main { flex: 1; }
   color: var(--success);
 }
 
-/* ── Admin login ── */
-.admin-login-wrapper {
-  min-height: 80vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-lg);
-}
-
-.admin-login-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 40px 36px;
-  width: 100%;
-  max-width: 380px;
-  text-align: center;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-}
-
-.admin-login-logo {
-  font-size: 2.4rem;
-  margin-bottom: 12px;
-}
-
-.admin-login-title {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: var(--text);
-  margin: 0 0 4px;
-}
-
-.admin-login-subtitle {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  margin: 0 0 28px;
-}
-
-.admin-login-form {
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.admin-login-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.admin-login-label {
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.admin-login-input {
-  width: 100%;
-  padding: 10px 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--bg);
-  color: var(--text);
-  font-size: 0.95rem;
-  font-family: inherit;
-  outline: none;
-  box-sizing: border-box;
-  transition: border-color 0.15s;
-}
-
-.admin-login-input:focus {
-  border-color: var(--primary);
-}
-
-.admin-login-error {
-  font-size: 0.85rem;
-  color: var(--error);
-  background: rgba(231, 76, 60, 0.08);
-  border-radius: var(--radius);
-  padding: 8px 12px;
-  text-align: center;
-}
-
-.admin-login-btn {
-  width: 100%;
-  margin-top: 4px;
-  padding: 11px;
-  font-size: 0.95rem;
-}
-
 /* ── Admin page ── */
 .admin-subject-controls {
   display: grid;
@@ -5375,6 +5281,48 @@ main { flex: 1; }
 }
 @media (max-width: 600px) {
   .ap-stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.ap-stat-card-clickable {
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.ap-stat-card-clickable:hover,
+.ap-stat-card-clickable:focus-visible {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+/* ── Filtres (comptes / historique) ── */
+.ap-role-filters, .ap-log-filters {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+  flex-wrap: wrap;
+}
+.ap-role-filter-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border, rgba(0,0,0,0.1));
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted, #9090b0);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.ap-role-filter-btn.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+.ap-log-filter-select {
+  padding: 0.5rem 0.85rem;
+  border: 2px solid var(--border, rgba(0,0,0,0.1));
+  border-radius: 10px;
+  background: var(--bg-card);
+  color: inherit;
+  font-size: 0.85rem;
+  font-family: 'Inter', sans-serif;
 }
 
 /* ── Settings & Annonces ── */

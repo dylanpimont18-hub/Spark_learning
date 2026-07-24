@@ -2,6 +2,11 @@ var AdminPanel = {
   _tab: 'pending',
   _settingsOpen: false,
   _allUsersCache: [],
+  _orphanClassesCache: [],
+  _roleFilter: 'all',
+  _logActionFilter: 'all',
+  _logAdminFilter: 'all',
+  _logsCache: [],
 
   // escapeHtml (js/utils/ui-helpers.js) charge après ce fichier dans index.html :
   // wrapper nécessaire, une référence directe échouerait au chargement (ReferenceError).
@@ -54,6 +59,7 @@ var AdminPanel = {
         '<div class="ap-tabs">' +
           '<button class="ap-tab' + (AdminPanel._tab === 'pending' ? ' active' : '') + '" data-tab="pending" onclick="AdminPanel._switchTab(\'pending\')">En attente</button>' +
           '<button class="ap-tab' + (AdminPanel._tab === 'all' ? ' active' : '') + '" data-tab="all" onclick="AdminPanel._switchTab(\'all\')">Tous les comptes</button>' +
+          '<button class="ap-tab' + (AdminPanel._tab === 'modules' ? ' active' : '') + '" data-tab="modules" onclick="AdminPanel._switchTab(\'modules\')">Modules</button>' +
           '<button class="ap-tab' + (AdminPanel._tab === 'logs' ? ' active' : '') + '" data-tab="logs" onclick="AdminPanel._switchTab(\'logs\')">Historique</button>' +
         '</div>' +
         '<div id="ap-content"></div>' +
@@ -66,19 +72,27 @@ var AdminPanel = {
       return '<div class="ap-stats-grid" style="grid-template-columns:1fr"><p class="ap-empty">Statistiques indisponibles.</p></div>';
     }
     return '<div class="ap-stats-grid">' +
-      AdminPanel._statCard('👩‍🎓', stats.totalStudents, 'Élèves inscrits') +
-      AdminPanel._statCard('👨‍🏫', stats.activeTeachers, 'Enseignants actifs') +
+      AdminPanel._statCard('👩‍🎓', stats.totalStudents, 'Élèves inscrits', 'student') +
+      AdminPanel._statCard('👨‍🏫', stats.activeTeachers, 'Enseignants actifs', 'teacher') +
       AdminPanel._statCard('🏫', stats.totalClasses, 'Classes') +
       AdminPanel._statCard('📊', stats.totalProgressDocs, 'Progressions') +
     '</div>';
   },
 
-  _statCard: function(icon, value, label) {
-    return '<div class="ap-stat-card">' +
+  _statCard: function(icon, value, label, roleLink) {
+    var attrs = roleLink
+      ? ' ap-stat-card-clickable" onclick="AdminPanel._goToUsers(\'' + roleLink + '\')" tabindex="0" role="button" aria-label="Voir : ' + label + '"'
+      : '"';
+    return '<div class="ap-stat-card' + attrs + '>' +
       '<span class="ap-stat-icon">' + icon + '</span>' +
       '<span class="ap-stat-value">' + value + '</span>' +
       '<span class="ap-stat-label">' + label + '</span>' +
     '</div>';
+  },
+
+  _goToUsers: function(role) {
+    AdminPanel._roleFilter = role;
+    AdminPanel._switchTab('all');
   },
 
   /* ── Paramètres & Annonces ── */
@@ -229,14 +243,94 @@ var AdminPanel = {
         var users   = results[0].status === 'fulfilled' ? results[0].value : [];
         var orphans = results[1].status === 'fulfilled' ? results[1].value : [];
         AdminPanel._renderAll(users, orphans);
+      } else if (tab === 'modules') {
+        if (typeof ensureAllData === 'function') await ensureAllData();
+        AdminPanel._renderModulesTab();
       } else if (tab === 'logs') {
         var logs = await AuthService.getAdminLogs(50);
+        AdminPanel._logsCache = logs;
         AdminPanel._renderLogs(logs);
       }
     } catch(e) {
       console.error('[AdminPanel] _loadTab error:', e);
       content.innerHTML = '<div class="ap-error">Erreur : ' + AdminPanel._esc(e.message || e.code || 'inconnue') + '</div>';
     }
+  },
+
+  /* ── Tab : Modules (verrouillage / maintenance) ── */
+  _renderModulesTab: function() {
+    var content = document.getElementById('ap-content');
+    if (!content) return;
+
+    var modules = (window.MODULES || []).slice().sort(function(a, b) {
+      if (a.level !== b.level) return a.level - b.level;
+      var sa = (a.subject || 'maths').localeCompare(b.subject || 'maths', 'fr');
+      if (sa !== 0) return sa;
+      return a.title.localeCompare(b.title, 'fr');
+    });
+
+    if (modules.length === 0) {
+      content.innerHTML = '<p class="ap-empty">Aucun module chargé.</p>';
+      return;
+    }
+
+    var lockedCount = modules.filter(function(m) { return isModuleLocked(m.id); }).length;
+    var maintenanceCount = modules.filter(function(m) { return isModuleInMaintenance(m.id); }).length;
+
+    var kpisHtml =
+      '<div class="admin-kpis">' +
+        '<div class="card-base admin-kpi"><span class="admin-kpi-label">Total modules</span><strong class="admin-kpi-value">' + modules.length + '</strong></div>' +
+        '<div class="card-base admin-kpi"><span class="admin-kpi-label">Verrouillés</span><strong class="admin-kpi-value">' + lockedCount + '</strong></div>' +
+        '<div class="card-base admin-kpi"><span class="admin-kpi-label">Maintenance</span><strong class="admin-kpi-value">' + maintenanceCount + '</strong></div>' +
+      '</div>';
+
+    var subjectControlsHtml = '<div class="admin-subject-controls">' +
+      SUBJECT_DEFS.map(function(s) {
+        var subjectModules = modules.filter(function(m) { return (m.subject || 'maths') === s.id; });
+        var lockedAll = subjectModules.length > 0 && subjectModules.every(function(m) { return isModuleLocked(m.id); });
+        var maintenanceAll = subjectModules.length > 0 && subjectModules.every(function(m) { return isModuleInMaintenance(m.id); });
+        return '<div class="card-base admin-subject-card">' +
+          '<div class="admin-subject-header">' +
+            '<span class="admin-subject-icon">' + s.icon + '</span>' +
+            '<div><div class="admin-subject-name">' + s.label + '</div><div class="admin-subject-count">' + subjectModules.length + ' modules</div></div>' +
+          '</div>' +
+          '<div class="admin-module-actions">' +
+            '<button class="btn btn-sm ' + (lockedAll ? 'btn-primary' : 'btn-outline') + '" onclick="setSubjectAccessMode(\'' + s.id + '\', ' + (lockedAll ? "'open'" : "'locked'") + ')">' +
+              (lockedAll ? '🔓 Déverrouiller tout' : '🔒 Verrouiller tout') +
+            '</button>' +
+            '<button class="btn btn-sm ' + (maintenanceAll ? 'btn-primary' : 'btn-outline') + '" onclick="setSubjectAccessMode(\'' + s.id + '\', ' + (maintenanceAll ? "'open'" : "'maintenance'") + ')">' +
+              (maintenanceAll ? '✅ Retirer maintenance' : '🛠️ Maintenance tout') +
+            '</button>' +
+          '</div>' +
+        '</div>';
+      }).join('') +
+    '</div>';
+
+    var gridHtml = '<div class="admin-modules-grid">' +
+      modules.map(function(m) {
+        var subject = getSubjectDef(m.subject || 'maths');
+        var access = getModuleAccess(m.id);
+        var statusLabel = access.locked
+          ? '<span class="badge badge-admin-locked">🔒 Verrouillé</span>'
+          : access.maintenance
+            ? '<span class="badge badge-admin-maintenance">🛠️ Maintenance</span>'
+            : '<span class="badge badge-admin-open">✅ Actif</span>';
+        return '<div class="card-base admin-module-card">' +
+          '<div class="admin-module-head">' +
+            '<div><div class="admin-module-title">' + m.icon + ' ' + AdminPanel._esc(m.title) + '</div>' +
+            '<div class="admin-module-meta">' + subject.icon + ' ' + subject.label + ' · ' + LEVEL_NAMES[m.level] + '</div></div>' +
+            '<div>' + statusLabel + '</div>' +
+          '</div>' +
+          '<div class="admin-module-actions">' +
+            '<button class="btn btn-sm ' + (access.locked ? 'btn-primary' : 'btn-outline') + '" onclick="setModuleAccessMode(\'' + m.id + '\', \'locked\')">' + (access.locked ? 'Déverrouiller' : 'Verrouiller') + '</button>' +
+            '<button class="btn btn-sm ' + (access.maintenance ? 'btn-primary' : 'btn-outline') + '" onclick="setModuleAccessMode(\'' + m.id + '\', \'maintenance\')">' + (access.maintenance ? 'Retirer maintenance' : 'Mettre en maintenance') + '</button>' +
+            '<button class="btn btn-sm btn-secondary" onclick="setModuleAccessMode(\'' + m.id + '\', \'open\')">Rendre actif</button>' +
+          '</div>' +
+        '</div>';
+      }).join('') +
+    '</div>';
+
+    content.innerHTML = kpisHtml + subjectControlsHtml + gridHtml;
   },
 
   /* ── Tab : En attente ── */
@@ -288,14 +382,42 @@ var AdminPanel = {
         '</div>';
     }
 
+    var roleFilters = [
+      { id: 'all', label: 'Tous' },
+      { id: 'student', label: 'Élèves' },
+      { id: 'teacher', label: 'Enseignants' },
+      { id: 'admin', label: 'Admins' }
+    ];
+    var roleFiltersHtml = '<div class="ap-role-filters">' +
+      roleFilters.map(function(r) {
+        return '<button class="ap-role-filter-btn' + (AdminPanel._roleFilter === r.id ? ' active' : '') + '" data-role="' + r.id + '" onclick="AdminPanel._setRoleFilter(\'' + r.id + '\')">' + r.label + '</button>';
+      }).join('') +
+    '</div>';
+
     content.innerHTML =
       orphanHtml +
+      roleFiltersHtml +
       '<div class="ap-search-wrap">' +
         '<input class="ap-search-input" type="text" placeholder="Rechercher par nom, email ou téléphone..." oninput="AdminPanel._filterUsers(this.value)" id="ap-search" />' +
       '</div>' +
-      '<div id="ap-users-list">' + AdminPanel._renderUsersList(users) + '</div>';
+      '<div id="ap-users-list">' + AdminPanel._renderUsersList(AdminPanel._applyRoleFilter(users)) + '</div>';
 
     AdminPanel._allUsersCache = users;
+    AdminPanel._orphanClassesCache = orphans || [];
+  },
+
+  _applyRoleFilter: function(users) {
+    if (AdminPanel._roleFilter === 'all') return users;
+    return users.filter(function(u) { return u.role === AdminPanel._roleFilter; });
+  },
+
+  _setRoleFilter: function(role) {
+    AdminPanel._roleFilter = role;
+    document.querySelectorAll('.ap-role-filter-btn').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.role === role);
+    });
+    var searchInput = document.getElementById('ap-search');
+    AdminPanel._filterUsers(searchInput ? searchInput.value : '');
   },
 
   _renderUsersList: function(users) {
@@ -344,7 +466,7 @@ var AdminPanel = {
     var list = document.getElementById('ap-users-list');
     if (!list) return;
     var q = query.toLowerCase();
-    var filtered = AdminPanel._allUsersCache.filter(function(u) {
+    var filtered = AdminPanel._applyRoleFilter(AdminPanel._allUsersCache).filter(function(u) {
       return (u.displayName || '').toLowerCase().indexOf(q) !== -1 ||
              (u.email || '').toLowerCase().indexOf(q) !== -1 ||
              (u.phone || '').toLowerCase().indexOf(q) !== -1;
@@ -353,6 +475,19 @@ var AdminPanel = {
   },
 
   /* ── Tab : Historique ── */
+  _logActionLabels: {
+    teacher_approved:    '✅ Enseignant approuvé',
+    teacher_rejected:    '❌ Enseignant refusé',
+    user_activated:      '🟢 Compte activé',
+    user_deactivated:    '🔴 Compte désactivé',
+    role_changed:        '🔄 Rôle modifié',
+    announcement_set:    '📢 Annonce publiée',
+    announcement_cleared:'🗑️ Annonce supprimée',
+    settings_saved:      '⚙️ Paramètres modifiés',
+    class_archived:      '📦 Classe archivée',
+    teacherIds_backfill: '🔧 Migration accès enseignants'
+  },
+
   _renderLogs: function(logs) {
     var content = document.getElementById('ap-content');
     if (!content) return;
@@ -360,21 +495,57 @@ var AdminPanel = {
       content.innerHTML = '<p class="ap-empty">Aucune action enregistrée pour l\'instant.</p>';
       return;
     }
-    var labels = {
-      teacher_approved:    '✅ Enseignant approuvé',
-      teacher_rejected:    '❌ Enseignant refusé',
-      user_activated:      '🟢 Compte activé',
-      user_deactivated:    '🔴 Compte désactivé',
-      role_changed:        '🔄 Rôle modifié',
-      announcement_set:    '📢 Annonce publiée',
-      announcement_cleared:'🗑️ Annonce supprimée',
-      settings_saved:      '⚙️ Paramètres modifiés',
-      class_archived:      '📦 Classe archivée',
-      teacherIds_backfill: '🔧 Migration accès enseignants'
-    };
-    content.innerHTML = '<div class="ap-logs-list">' +
-      logs.map(function(log) {
-        var label   = labels[log.action] || AdminPanel._esc(log.action);
+
+    var actions = Array.from(new Set(logs.map(function(l) { return l.action; })));
+    var admins = Array.from(new Set(logs.map(function(l) { return l.adminName || l.adminUid || '—'; })));
+
+    var actionOptions = '<option value="all">Toutes les actions</option>' +
+      actions.map(function(a) {
+        var label = AdminPanel._logActionLabels[a] || a;
+        return '<option value="' + AdminPanel._esc(a) + '"' + (AdminPanel._logActionFilter === a ? ' selected' : '') + '>' + AdminPanel._esc(label) + '</option>';
+      }).join('');
+    var adminOptions = '<option value="all">Tous les admins</option>' +
+      admins.map(function(a) {
+        return '<option value="' + AdminPanel._esc(a) + '"' + (AdminPanel._logAdminFilter === a ? ' selected' : '') + '>' + AdminPanel._esc(a) + '</option>';
+      }).join('');
+
+    content.innerHTML =
+      '<div class="ap-log-filters">' +
+        '<select class="ap-log-filter-select" id="ap-log-action-filter" onchange="AdminPanel._setLogActionFilter(this.value)">' + actionOptions + '</select>' +
+        '<select class="ap-log-filter-select" id="ap-log-admin-filter" onchange="AdminPanel._setLogAdminFilter(this.value)">' + adminOptions + '</select>' +
+      '</div>' +
+      '<div id="ap-logs-list-body"></div>';
+
+    AdminPanel._renderLogsList();
+  },
+
+  _setLogActionFilter: function(action) {
+    AdminPanel._logActionFilter = action;
+    AdminPanel._renderLogsList();
+  },
+
+  _setLogAdminFilter: function(admin) {
+    AdminPanel._logAdminFilter = admin;
+    AdminPanel._renderLogsList();
+  },
+
+  _renderLogsList: function() {
+    var body = document.getElementById('ap-logs-list-body');
+    if (!body) return;
+    var filtered = AdminPanel._logsCache.filter(function(log) {
+      if (AdminPanel._logActionFilter !== 'all' && log.action !== AdminPanel._logActionFilter) return false;
+      if (AdminPanel._logAdminFilter !== 'all' && (log.adminName || log.adminUid || '—') !== AdminPanel._logAdminFilter) return false;
+      return true;
+    });
+
+    if (!filtered.length) {
+      body.innerHTML = '<p class="ap-empty">Aucune action ne correspond à ces filtres.</p>';
+      return;
+    }
+
+    body.innerHTML = '<div class="ap-logs-list">' +
+      filtered.map(function(log) {
+        var label   = AdminPanel._logActionLabels[log.action] || AdminPanel._esc(log.action);
         var time    = AdminPanel._timeAgo(log.createdAt);
         var admin   = AdminPanel._esc(log.adminName || log.adminUid || '—');
         var details = log.details ? ' — ' + AdminPanel._esc(String(log.details).substring(0, 100)) : '';
@@ -440,10 +611,14 @@ var AdminPanel = {
   },
 
   _archiveClass: async function(classId) {
-    if (!confirm('Archiver cette classe orpheline ? Cette action est irréversible depuis ce panneau.')) return;
+    var cls = AdminPanel._orphanClassesCache.find(function(c) { return c.id === classId; });
+    var label = cls && cls.name ? '« ' + cls.name + ' »' : 'cette classe orpheline';
+    var count = cls && cls.students ? cls.students.length : 0;
+    var countMsg = count > 0 ? ' (' + count + ' élève' + (count > 1 ? 's' : '') + ' inscrit' + (count > 1 ? 's' : '') + ')' : '';
+    if (!confirm('Archiver ' + label + countMsg + ' ? Cette action est irréversible depuis ce panneau.')) return;
     try {
       await AuthService.archiveClass(classId);
-      await AuthService.logAdminAction('class_archived', null, 'Classe : ' + classId);
+      await AuthService.logAdminAction('class_archived', null, 'Classe : ' + (cls && cls.name ? cls.name + ' (' + classId + ')' : classId));
       showToast('Classe archivée.', 'success');
       AdminPanel._loadTab('all');
     } catch(e) {
