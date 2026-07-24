@@ -81,13 +81,13 @@
 
 | # | Chapitre | id suggéré | Statut |
 |---|----------|------------|--------|
-| 1 | Mécanique du point (cinématique, dynamique) | `physique-bts-mecanique-point` | 🔴 |
-| 2 | Statique des fluides | `physique-bts-statique-fluides` | 🔴 |
-| 3 | Dynamique des fluides (Bernoulli) | `physique-bts-dynamique-fluides` | 🔴 |
-| 4 | Thermodynamique appliquée | `physique-bts-thermodynamique` | 🔴 |
-| 5 | Circuits électriques en régime continu | `physique-bts-circuits-continu` | 🔴 |
-| 6 | Circuits en régime sinusoïdal (impédance) | `physique-bts-regime-sinusoidal` | 🔴 |
-| 7 | Optique géométrique | `physique-bts-optique` | 🔴 |
-| 8 | Chimie des solutions (pH, tampons, titrages) | `physique-bts-chimie-solutions` | 🔴 |
-| 9 | Cinétique chimique | `physique-bts-cinetique` | 🔴 |
-| 10 | Électromagnétisme (champs, induction) | `physique-bts-electromagnetisme` | 🔴 |
+| 1 | Mécanique du point (cinématique, dynamique) | `physique-bts-mecanique-point` | 🟢 |
+| 2 | Statique des fluides | `physique-bts-statique-fluides` | 🟢 |
+| 3 | Dynamique des fluides (Bernoulli) | `physique-bts-dynamique-fluides` | 🟢 |
+| 4 | Thermodynamique appliquée | `physique-bts-thermodynamique` | 🟢 |
+| 5 | Circuits électriques en régime continu | `physique-bts-circuits-continu` | 🟢 |
+| 6 | Circuits en régime sinusoïdal (impédance) | `physique-bts-regime-sinusoidal` | 🟢 |
+| 7 | Optique géométrique | `physique-bts-optique` | 🟢 |
+| 8 | Chimie des solutions (pH, tampons, titrages) | `physique-bts-chimie-solutions` | 🟢 |
+| 9 | Cinétique chimique | `physique-bts-cinetique` | 🟢 |
+| 10 | Électromagnétisme (champs, induction) | `physique-bts-electromagnetisme` | 🟢 |

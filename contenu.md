@@ -156,6 +156,7 @@ Permet au tuteur d'envoyer un lien à un futur élève pour évaluer son niveau 
 | **si-1re/** | Contenus SI 1re — refactoring terminé |
 | **si-tle/** | Contenus SI Tle — refactoring terminé |
 | **si-bts/** | Contenus SI BTS — refactoring terminé |
+| **physique-bts/** | Contenus Physique-Chimie BTS — complet (10/10 sous-modules) |
 
 ## Documentation (docs/)
 | Fichier | Rôle |

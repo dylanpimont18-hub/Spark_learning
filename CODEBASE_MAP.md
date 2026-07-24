@@ -187,6 +187,12 @@ Manifest SI BTS.
 ## js/data/si-bts/si-bts-*.js *(1 module)*
 Modules SI BTS : automatique.
 
+## js/data/physique-bts/index.js
+Manifest Physique-Chimie BTS (vide, chargement direct via `DATA_FILES` dans `js/loader.js`).
+
+## js/data/physique-bts/physique-bts-*.js *(10 modules, complet)*
+Modules Physique-Chimie BTS : mécanique du point, statique/dynamique des fluides, thermodynamique, circuits en régime continu/sinusoïdal, optique géométrique, chimie des solutions (pH/tampons/titrages), cinétique chimique, électromagnétisme (champs, induction).
+
 ---
 
 ## js/engines/shared.js

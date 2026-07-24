@@ -155,6 +155,18 @@ const DATA_FILES = {
     'js/data/si-bts/si-bts-capteurs-industriels.js',
     'js/data/si-bts/si-bts-cao.js',
     'js/data/si-bts/si-bts-gestion-energie.js'
+  ],
+  'physique-3': [
+    'js/data/physique-bts/physique-bts-mecanique-point.js',
+    'js/data/physique-bts/physique-bts-statique-fluides.js',
+    'js/data/physique-bts/physique-bts-dynamique-fluides.js',
+    'js/data/physique-bts/physique-bts-thermodynamique.js',
+    'js/data/physique-bts/physique-bts-circuits-continu.js',
+    'js/data/physique-bts/physique-bts-regime-sinusoidal.js',
+    'js/data/physique-bts/physique-bts-optique.js',
+    'js/data/physique-bts/physique-bts-chimie-solutions.js',
+    'js/data/physique-bts/physique-bts-cinetique.js',
+    'js/data/physique-bts/physique-bts-electromagnetisme.js'
   ]
 };
 
@@ -222,7 +234,13 @@ const MODULE_INDEX = {
   // SI BTS
   'si-bts-mecanique-solides':'si-3','si-bts-rdm-avancee':'si-3','si-bts-hydraulique':'si-3',
   'si-bts-electrotechnique':'si-3','si-bts-automatique':'si-3','si-bts-capteurs-industriels':'si-3',
-  'si-bts-cao':'si-3','si-bts-gestion-energie':'si-3'
+  'si-bts-cao':'si-3','si-bts-gestion-energie':'si-3',
+  // Physique-Chimie BTS
+  'physique-bts-mecanique-point':'physique-3','physique-bts-statique-fluides':'physique-3',
+  'physique-bts-dynamique-fluides':'physique-3','physique-bts-thermodynamique':'physique-3',
+  'physique-bts-circuits-continu':'physique-3','physique-bts-regime-sinusoidal':'physique-3',
+  'physique-bts-optique':'physique-3','physique-bts-chimie-solutions':'physique-3',
+  'physique-bts-cinetique':'physique-3','physique-bts-electromagnetisme':'physique-3'
 };
 
 const _loadedGroups = new Set();
