@@ -29,9 +29,11 @@ Système de design complet : variables CSS (`--primary`, `--secondary`, `--accen
 - `.ap-*` classes pour AdminPanel (conteneur, header, tabs, search, cartes utilisateurs, boutons actions)
 - `.auth-close` — bouton ✕ sur `.auth-card` pour fermer l'écran de connexion et revenir au mode invité
 - `.ad-slot-placeholder` — cadre pointillé pour les emplacements publicitaires (placeholder, pas de pub réelle encore)
+- `.hub-intro-text` — court paragraphe éditorial (`--text-muted`) sous le titre des pages hub (`/subjects`, `/levels/:subject`), ajouté pour la conformité contenu AdSense
 - `.content-table-wrap` / `.content-table` — tableau généré par `convertMarkdownTables()` (js/utils/ui-helpers.js) à partir d'un tableau markdown dans le contenu d'un module
 - `@media print` (~L3440+) — mise en page A4 des fiches (`.print-fiche`, `.print-fiche-header`, etc.) ; `body.printing` bascule l'affichage de `#app` vers `#print-container` ; `#print-container` fige les variables CSS couleur (`--primary`, `--text`, `--bg-card`...) sur le thème clair, pour que les illustrations riches (`renderCoursDiagram`) restent lisibles en PDF même si le site est en thème sombre à l'impression
 - `.td-weakpoint-*` / `.td-weakpoints-section` — bloc "Points faibles de la classe" dans TeacherDashboard (bordure `--error` à gauche pour signaler visuellement)
+- `.td-students-toolbar` — sélecteur de tri (nom/score/inactivité) au-dessus de la liste d'élèves d'une classe (TeacherDashboard)
 
 ## ads.txt
 Fichier de vérification standard IAB pour Google AdSense (`google.com, pub-5320273649803132, DIRECT, ...`).
@@ -248,11 +250,11 @@ Chargement différé de gtag.js (GA4) et suivi des pages vues (SPA pushState, pa
 Point unique de contrôle des emplacements publicitaires AdSense.
 - `ADS_ENABLED` — tant qu'à `false`, tous les emplacements restent en placeholder visuel (aucun ad unit réel créé côté AdSense)
 - `ADSENSE_CLIENT` — identifiant éditeur (`ca-pub-...`)
-- `AD_SLOTS` — map `{ home, subjects, modules } → data-ad-slot`, à renseigner quand les ad units seront créés dans le dashboard AdSense
+- `AD_SLOTS` — map `{ home, moduleTab } → data-ad-slot`, à renseigner quand les ad units seront créés dans le dashboard AdSense (emplacements `subjects`/`modules` retirés le 2026-07-30, refus AdSense "pages sans contenu d'éditeur")
 
 ## js/components/adSlot.js
 Emplacement publicitaire : placeholder visuel tant qu'`ADS_ENABLED` est à `false`, sinon vrai bloc `<ins class="adsbygoogle">`.
-- `renderAdSlot(placement, slotKey)` — rend le placeholder ou l'ad unit réel selon `js/adsConfig.js`, utilisé uniquement sur les pages de navigation (accueil, matières, modules) — jamais dans les onglets d'apprentissage actif d'un module
+- `renderAdSlot(placement, slotKey)` — rend le placeholder ou l'ad unit réel selon `js/adsConfig.js` ; un seul emplacement `moduleTab` en bas de contenu des onglets de module, plus l'emplacement accueil — jamais sur une page de navigation pure, jamais dans un onglet d'apprentissage en cours d'interaction
 - `initAdSlots()` — pousse les nouveaux `<ins class="adsbygoogle">` injectés dans le DOM vers `adsbygoogle.push({})` ; appelée depuis `js/app.js` après chaque rendu de vue ; sans effet tant qu'`ADS_ENABLED` est à `false`
 
 ## js/components/renderCours.js
@@ -308,7 +310,9 @@ Vues globales : accueil, liste matières, niveaux, modules, détail module.
 - `renderLevels()` — niveaux d'une matière
 - `renderModules()` — grille des modules d'un niveau
 - `renderModule(moduleId)` — page détail d'un module
-- `renderSubjects()` — inclut un `renderAdSlot(...)` (voir `js/components/adSlot.js`) en bas de grille, seulement si `window.MODULES` contient au moins un module (jamais sur une grille sans contenu)
+- `renderSubjects()` — filtre les matières à 0 module (plus de badge "Bientôt disponible" public), affiche un court texte éditorial (`.hub-intro-text`) au-dessus de la grille ; plus d'emplacement pub sur cette page (retiré 2026-07-30)
+- `renderLevels()` — affiche `subjectDef.description` en texte éditorial (`.hub-intro-text`) sous le titre
+- `renderModuleDetail()` — inclut un `renderAdSlot('onglet module — bas de contenu', 'moduleTab')` après `.tab-content`, seul emplacement pub restant avec l'accueil
 - `renderModulesList()` — inclut un `renderAdSlot(...)` dans un wrapper `#modules-ad-slot`, seulement si `modules.length > 0` ; ce wrapper est masqué dynamiquement par `_applyModuleFilters()` (`js/app.js`) quand une recherche ne donne aucun résultat
 - `renderModulesList()` — les boutons "Imprimer les fiches 🖨️" (`toggleBatchPrintMode()`) et "Composer une évaluation 📝" (`toggleEvalBuilderMode()`, voir `js/print.js`) ne sont rendus que si `AuthGuard.isTeacher()`
 - `renderHome()` — page d'accueil, volontairement sans bloc pub (page à contenu essentiellement promotionnel, retiré suite à un rejet AdSense "contenu à faible valeur informative") ; jamais de pub non plus dans les onglets d'apprentissage actif (`module`)
@@ -324,7 +328,7 @@ Service d'authentification et d'autorisations Firestore.
 - `signIn(email, password)` — connecte l'utilisateur
 - `signOut()` — déconnecte
 - `setTeacherApprovalStatus(uid, isApproved)` — approuve/refuse un enseignant
-- `createClass(teacherUid, className, description)` — crée une classe
+- `createClass(teacherUid, className)` — crée une classe ; code généré (préfixe nom + suffixe aléatoire) vérifié via transaction Firestore check-then-set avec retry (jusqu'à 5 tentatives) pour ne jamais écraser silencieusement une classe existante en cas de collision
 - `getTeacherClasses(teacherUid)` — récupère les classes d'un enseignant
 - `joinClass(uid, classCode)` — ajoute un élève à une classe (batch update users + classes) + dénormalise `progress.teacherIds`
 - `removeStudentFromClass(studentUid, classCode)` — retire un élève d'une classe (batch update users + classes) + retire `progress.teacherIds`
@@ -347,6 +351,7 @@ Pages Inscription / Connexion (overlay plein `#app`, header/nav restent visibles
 - `AuthView.render(fromGuest)` — affiche l'écran de connexion ; si `fromGuest`, ajoute un bouton `.auth-close` (✕)
 - `AuthView._closeToGuest()` — ferme l'écran de connexion et revient à l'accueil en mode invité (`navigate('home')`)
 - `AuthView.renderPending()` — écran d'attente de validation enseignant
+- `AuthView._finishRegistration(user, contactData, displayName)` — si un ou plusieurs codes de classe saisis à l'inscription élève sont invalides, `joinClass()` échoue par code mais le compte reste créé (impossible d'annuler l'inscription à ce stade) ; un `showToast` liste les codes en échec au lieu de les avaler silencieusement
 
 ## js/views/adminPanel.js
 Panneau d'administration : gestion des enseignants en attente, comptes utilisateurs, modules et historique.
@@ -367,7 +372,10 @@ Panneau d'administration : gestion des enseignants en attente, comptes utilisate
 
 ## js/views/teacherDashboard.js
 Tableau de bord enseignant : classes, élèves, progression, devoirs, grading.
-- `TeacherDashboard.render(backCode)` — charge les classes de l'enseignant
+- `TeacherDashboard.render(backCode)` — charge les classes de l'enseignant ; attend aussi `ensureAllData()` (`js/loader.js`) avant de rendre — sans ça, un enseignant arrivant directement sur ce tableau de bord (ex: juste après connexion) avait `window.MODULES` vide : sélecteur "Assigner un devoir" vide, titres de modules affichés en ID brut dans points faibles/devoirs
+- `TeacherDashboard._moduleScorePct(mod, trackingEntry)` — calcule le % de score réel d'un module depuis `progress.tracking[moduleId]` (priorité évaluation > quiz > exercice, même agrégation que `_computeWeakPoints`) ; réutilisé par `GradingPanel` (chargé après ce fichier dans `index.html`) — `progress.progress[moduleId].score`/`.evaluationScore` ne sont **jamais écrits** par les moteurs (`Storage.saveProgress` ne pose qu'un booléen `completed`), donc tout code qui les lisait affichait toujours "—"/vide
+- `TeacherDashboard._sortStudents(students, progressMap)` / `_renderStudentsSection(cls, students, progressMap, classIndex)` / `_changeSortMode(mode, classIndex)` — tri client-side de la liste d'élèves d'une classe (nom / score moyen le plus faible via `_studentAvgScorePct` / inactivité via `_studentLastActiveMs`) ; `_changeSortMode` regénère uniquement `#td-students-section` depuis `_currentStudents`/`_currentProgressMap` (pas de rechargement Firestore)
+- Formulaire "Assigner un devoir" (`_renderClassDetail`) — le `<select>` de modules exclut ceux verrouillés/en maintenance (`isModuleUnavailable`, `js/state.js`), pour ne pas assigner un module inaccessible aux élèves
 - `TeacherDashboard._viewClass(classIndex)` — charge profils + progressions en parallèle via `Promise.allSettled` (pas `Promise.all`) : un élève dont `progress/{uid}` est inaccessible (permission-denied, réseau) n'empêche plus l'affichage du reste de la classe — il apparaît avec un badge "⚠️ données incomplètes" et une bannière `td-inline-warning` récapitule le nombre d'échecs
 - `TeacherDashboard._renderClassDetail(cls, students, progressMap, loadErrorCount)` — vue classe : stats bar, points faibles, liste élèves, devoirs, bouton grading ; distingue "aucun devoir" d'un échec réseau de chargement des devoirs (bannière + bouton "Réessayer" au lieu d'une liste vide silencieuse) ; priorité `evaluationScore` puis `score` pour l'affichage du score d'un module, alignée sur `GradingPanel` (sinon même élève affichait un % différent selon l'écran)
 - `TeacherDashboard._computeWeakPoints(students, progressMap)` — agrège `progress.tracking` (scores réels quiz/évaluation/exercice, distinct des booléens de `progress.progress`) par module sur toute la classe ; retourne le top 5 des modules sous 80% de moyenne avec la section la plus faible
@@ -381,6 +389,7 @@ Tableau de bord enseignant : classes, élèves, progression, devoirs, grading.
 ## js/views/gradingPanel.js
 Panneau de notation enseignant : tableau comparatif élèves × modules + export Pronote CSV.
 - `GradingPanel.render({ cls, students, progressMap, backIndex })` — point d'entrée, reçoit les données de TeacherDashboard (pas de double requête Firestore) ; initialise `_gradeDrafts` (brouillons de saisie par module, en mémoire pour la session)
+- Tableau comparatif et auto-remplissage des notes (`_renderGradeTable`) lisent le score via `TeacherDashboard._moduleScorePct(mod, progress.tracking[moduleId])` — pas `progress.progress[moduleId].score` (champ jamais écrit, voir `js/views/teacherDashboard.js`)
 - `GradingPanel._onModuleChange()` — appelé par le `<select>` module au lieu de `_renderGradeTable()` directement : capture d'abord la saisie en cours (`_captureCurrentDraft()`) avant de changer de module, pour ne pas la perdre si l'enseignant revient dessus
 - `GradingPanel._renderGradeTable()` — tableau de saisie /20 + appréciation pour le module sélectionné, pré-rempli depuis `_gradeDrafts[moduleId]` si l'enseignant y était déjà passé dans cette session
 - `GradingPanel._exportCSV()` — génère et télécharge le CSV via Blob + URL.createObjectURL

@@ -125,14 +125,19 @@ function renderStatsSection() {
 }
 
 function renderSubjects() {
+	const availableSubjects = SUBJECT_DEFS.filter(s => window.MODULES.filter(m => (m.subject || 'maths') === s.id).length > 0);
+
 	return `
 		<div class="container">
 			<div class="page-header">
 				<h1 class="page-title">Choisir ta matière</h1>
 				<p class="page-subtitle">Sélectionne la matière que tu veux travailler</p>
 			</div>
+			<p class="hub-intro-text">
+				Chaque matière suit la même progression : un cours orienté application, un quiz diagnostique, des exercices génératifs, un problème type et une évaluation — pour construire ta compréhension étape par étape plutôt que l'apprendre par cœur. Choisis la matière qui correspond à ce que tu travailles en ce moment, tu pourras toujours en changer ensuite.
+			</p>
 			<div class="subjects-grid">
-				${SUBJECT_DEFS.map(s => {
+				${availableSubjects.map(s => {
 					const mods = window.MODULES.filter(m => (m.subject || 'maths') === s.id);
 					const count = mods.length;
 					const done = mods.filter(m => {
@@ -163,7 +168,6 @@ function renderSubjects() {
 					`;
 				}).join('')}
 			</div>
-			${window.MODULES && window.MODULES.length > 0 ? renderAdSlot('liste des matières — bas de grille', 'subjects') : ''}
 		</div>
 	`;
 }
@@ -341,6 +345,7 @@ function renderLevels() {
 				<h1 class="page-title">${subjectDef.icon} ${subjectDef.label}</h1>
 				<p class="page-subtitle">Choisis ton mode de parcours puis sélectionne tes modules</p>
 			</div>
+			<p class="hub-intro-text">${subjectDef.description} Parcours par niveau si tu veux suivre l'ordre du programme, ou par thème si tu cherches à revoir une notion précise.</p>
 			<div class="module-mode-switch" style="margin:0 0 18px 0;">
 				<button class="module-mode-btn ${state.moduleSelectionMode === 'level' ? 'active' : ''}" onclick="setParcoursMode('level')">Par niveau</button>
 				<button class="module-mode-btn ${state.moduleSelectionMode === 'theme' ? 'active' : ''}" onclick="setParcoursMode('theme')">Par thème</button>
@@ -561,14 +566,12 @@ function renderModulesList() {
 								${coreModules.map(_renderCard).join('')}
 							` : ''}
 						</div>
-				<div id="modules-ad-slot">${modules.length > 0 ? renderAdSlot('liste des modules — bas de grille (parcours prérequis)', 'modules') : ''}</div>
 					`;
 				}
 				return `
 					<div class="modules-grid" id="modules-grid">
 						${modules.map(_renderCard).join('')}
 					</div>
-				<div id="modules-ad-slot">${modules.length > 0 ? renderAdSlot('liste des modules — bas de grille', 'modules') : ''}</div>
 				`;
 			})()}
 		</div>
@@ -649,6 +652,7 @@ function renderModuleDetail() {
 			<div class="tab-content" id="tab-panel-${state.tab}" role="tabpanel">
 				${renderTabContentHTML(mod)}
 			</div>
+			${renderAdSlot('onglet module — bas de contenu', 'moduleTab')}
 
 			<div class="module-nav-arrows">
 				${prevMod

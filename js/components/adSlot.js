@@ -1,7 +1,8 @@
 /* =========================================================
 	 Spark Learning – components/adSlot.js
-	 Emplacements publicitaires (pages de navigation uniquement,
-	 jamais dans les onglets d'apprentissage actif).
+	 Une pub par page, toujours en bas / après le contenu ou
+	 l'interaction — jamais insérée au milieu d'un exercice, quiz
+	 ou évaluation en cours.
 	 Le rendu d'une vraie pub exige ADS_ENABLED=true, un slot ID
 	 configuré, ET un consentement cookies explicite (js/consent.js).
 	 ========================================================= */

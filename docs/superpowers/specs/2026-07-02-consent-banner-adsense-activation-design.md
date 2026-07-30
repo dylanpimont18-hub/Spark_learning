@@ -36,9 +36,11 @@ Bannière de consentement **maison, en Vanilla JS** (pas de service CMP tiers) :
 
 ## Checklist d'activation AdSense (jour de l'approbation)
 
+Mise à jour par la spec `2026-07-24-adsense-conformite-contenu-design.md` : les emplacements ne sont plus accueil/matières/modules mais **accueil** et **onglet module** (un seul ad unit `moduleTab`, réutilisé sur les 6 onglets).
+
 Aucune de ces 3 actions ne touche à la logique JS (déjà prête après ce chantier) :
-1. Créer les ad units dans le dashboard AdSense (emplacements : accueil, matières, modules).
-2. Coller les 3 IDs obtenus dans `AD_SLOTS` (`js/adsConfig.js`).
+1. Créer les 2 ad units dans le dashboard AdSense (emplacements : accueil, onglet module).
+2. Coller les 2 IDs obtenus dans `AD_SLOTS` (`js/adsConfig.js`).
 3. Passer `ADS_ENABLED` à `true`, bump cache-busting (`?v=N`), déployer.
 
 ## Hors scope de ce chantier
