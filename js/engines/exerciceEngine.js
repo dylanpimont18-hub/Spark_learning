@@ -42,6 +42,9 @@ function submitExerciceAnswer(moduleId) {
       Storage.trackAttempt(moduleId, 'exercice', true);
       Storage.updateExerciceStreak(state.exerciceState.attempts === 0);
     }
+    if (typeof scheduleReview === 'function') {
+      scheduleReview(moduleId, true);
+    }
     card.classList.add('state-success');
     renderTabContent();
     renderMath();
@@ -54,6 +57,9 @@ function submitExerciceAnswer(moduleId) {
     state.exerciceState.attempts++;
     if (typeof Storage !== 'undefined' && Storage.trackAttempt) {
       Storage.trackAttempt(moduleId, 'exercice', false);
+    }
+    if (typeof scheduleReview === 'function') {
+      scheduleReview(moduleId, false);
     }
     card.classList.add('state-error');
     _setEngineTimeout(() => {

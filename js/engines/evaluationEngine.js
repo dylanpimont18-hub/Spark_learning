@@ -57,6 +57,9 @@ function _advanceEvaluation(mod) {
     if (typeof Storage !== 'undefined' && Storage.trackEvaluationScore) {
       Storage.trackEvaluationScore(mod.id, es.score, es.totalPoints);
     }
+    if (typeof scheduleReview === 'function') {
+      scheduleReview(mod.id, es.totalPoints > 0 && (es.score / es.totalPoints) >= 0.8);
+    }
     createConfetti();
     _checkModuleComplete(mod.id);
   } else {

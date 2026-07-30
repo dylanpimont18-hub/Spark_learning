@@ -53,6 +53,9 @@ function nextQuizQuestion(moduleId) {
     if (typeof Storage !== 'undefined' && Storage.trackQuizScore) {
       Storage.trackQuizScore(moduleId, qs.score, mod.quiz.length);
     }
+    if (typeof scheduleReview === 'function') {
+      scheduleReview(moduleId, qs.score / mod.quiz.length >= 0.8);
+    }
     renderTabContent();
     renderMath();
     createConfetti();
