@@ -7,5 +7,31 @@
   },
   "storage": {
     "rules": "storage.rules"
+  },
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "functions/**",
+      "docs/**",
+      "scripts/**",
+      "communication/**",
+      "LinkedIn/**",
+      "CLAUDE.md",
+      "CODEBASE_MAP.md",
+      "README.md",
+      "contenu.md",
+      "firestore.rules",
+      "storage.rules",
+      "CNAME"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
   }
 }
