@@ -226,3 +226,60 @@ function trackRemediationAttempt(exerciseKey, isCorrect) {
   }
   saveCompanionState();
 }
+
+/**
+ * Échelle de répétition espacée (en jours). Un échec ramène toujours à l'échelon 0 ;
+ * une réussite fait avancer d'un cran, plafonné au dernier échelon.
+ */
+const SRS_LADDER_DAYS = [1, 3, 7, 16, 35];
+
+/**
+ * Planifie (ou replanifie) la prochaine révision d'un module en fonction du résultat
+ * réel d'une tentative (quiz, exercice ou évaluation). Si le module était déjà en retard
+ * de révision et que la réponse est correcte, ajoute un bonus de points Companion pour
+ * relier explicitement la répétition espacée à la gamification existante.
+ */
+function scheduleReview(moduleId, isCorrect) {
+  if (!state.companionState.srs) state.companionState.srs = {};
+  const srs = state.companionState.srs;
+  const prev = srs[moduleId];
+  const wasDue = !!(prev && new Date(prev.dueAt).getTime() <= Date.now());
+
+  const intervalIndex = isCorrect
+    ? Math.min((prev ? prev.intervalIndex + 1 : 0), SRS_LADDER_DAYS.length - 1)
+    : 0;
+  const dueAt = new Date(Date.now() + SRS_LADDER_DAYS[intervalIndex] * 86400000).toISOString();
+
+  srs[moduleId] = { intervalIndex, dueAt, lastResult: isCorrect ? 'correct' : 'wrong' };
+  saveCompanionState();
+
+  if (isCorrect && wasDue) {
+    addCompanionPoints(15);
+    if (typeof showToast === 'function') {
+      showToast('Révision réussie ! +15 points 🔁', 'achievement');
+    }
+  }
+
+  return srs[moduleId];
+}
+
+/**
+ * Retourne les modules dont la révision est due aujourd'hui (ou en retard),
+ * triés du plus en retard au moins en retard. Exclut les modules verrouillés
+ * ou introuvables (module supprimé/renommé depuis la planification).
+ */
+function getDueReviews() {
+  const srs = (state.companionState && state.companionState.srs) || {};
+  const now = Date.now();
+
+  return Object.keys(srs)
+    .filter(moduleId => new Date(srs[moduleId].dueAt).getTime() <= now)
+    .filter(moduleId => getModule(moduleId) && !isModuleUnavailable(moduleId))
+    .map(moduleId => {
+      const mod = getModule(moduleId);
+      const overdueDays = Math.max(0, Math.floor((now - new Date(srs[moduleId].dueAt).getTime()) / 86400000));
+      return { moduleId, title: mod.title, icon: mod.icon, overdueDays };
+    })
+    .sort((a, b) => b.overdueDays - a.overdueDays)
+    .slice(0, 5);
+}
