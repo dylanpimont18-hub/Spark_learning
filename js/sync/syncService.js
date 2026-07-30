@@ -7,7 +7,8 @@ var SyncService = {
     sparkProgress:  'progress',
     sparkTracking:  'tracking',
     sparkStreak:    'streak',
-    sparkFlashcards:'flashcards'
+    sparkFlashcards:'flashcards',
+    sparkCompanionState: 'companion'
   },
 
   init: async function(uid) {
@@ -27,6 +28,7 @@ var SyncService = {
         if (remote.tracking)   localStorage.setItem('sparkTracking',  JSON.stringify(remote.tracking));
         if (remote.streak)     localStorage.setItem('sparkStreak',    JSON.stringify(remote.streak));
         if (remote.flashcards) localStorage.setItem('sparkFlashcards',JSON.stringify(remote.flashcards));
+        if (remote.companion)  localStorage.setItem('sparkCompanionState', JSON.stringify(remote.companion));
         localStorage.setItem('sparkLastSync', String(remoteTs));
       } else if (localTs > 0) {
         // localStorage plus récent → pousser vers Firestore
@@ -35,10 +37,12 @@ var SyncService = {
         var lt = localStorage.getItem('sparkTracking');
         var ls = localStorage.getItem('sparkStreak');
         var lf = localStorage.getItem('sparkFlashcards');
+        var lc = localStorage.getItem('sparkCompanionState');
         if (lp) localData.progress   = JSON.parse(lp);
         if (lt) localData.tracking   = JSON.parse(lt);
         if (ls) localData.streak     = JSON.parse(ls);
         if (lf) localData.flashcards = JSON.parse(lf);
+        if (lc) localData.companion  = JSON.parse(lc);
         if (Object.keys(localData).length > 0) {
           localData.lastSync = firebase.firestore.FieldValue.serverTimestamp();
           db.collection('progress').doc(uid).set(localData, { merge: true })
