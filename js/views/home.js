@@ -197,6 +197,25 @@ async function renderAssignmentWidget() {
   } catch(e) { /* silencieux */ }
 }
 
+function renderSrsReviewWidget() {
+	const due = (typeof getDueReviews === 'function') ? getDueReviews() : [];
+	if (due.length === 0) return '';
+
+	const first = due[0];
+	const extra = due.length - 1;
+	const suffix = extra > 0 ? ` (+${extra} autre${extra > 1 ? 's' : ''})` : '';
+
+	return `
+		<div class="hw-assignment-widget" style="margin-bottom:12px;" onclick="navigate('module', {moduleId: '${first.moduleId}'})" tabindex="0" role="button" aria-label="Réviser ${first.title}">
+			<div class="hw-assignment-icon">🔁</div>
+			<div>
+				<div class="hw-assignment-title">À réviser aujourd'hui : ${first.title}${suffix}</div>
+				<div class="hw-assignment-meta">La répétition espacée t'aide à ne pas ré-oublier ce que tu as déjà appris</div>
+			</div>
+		</div>
+	`;
+}
+
 function renderHome() {
 	const totalModules = window.MODULES ? window.MODULES.length : 0;
 
@@ -254,6 +273,7 @@ function renderHome() {
 		</section>
 
 		<div id="home-assignment-widget" style="padding: 0 var(--space-lg);max-width:900px;margin:0 auto;"></div>
+		<div style="padding: 0 var(--space-lg);max-width:900px;margin:0 auto;">${renderSrsReviewWidget()}</div>
 		${renderContinueSection()}
 		${renderStatsSection()}
 
