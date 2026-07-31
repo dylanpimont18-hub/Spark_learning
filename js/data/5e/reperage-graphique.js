@@ -10,12 +10,12 @@ window.MODULES.push({
     title: 'Repérage spatial et Lecture Graphique',
     subtitle: 'Repère cartésien, interpolation, extrapolation',
     keywords: ['Abscisse', 'Ordonnée', 'Graphique', 'Interpolation'],
-    physics: 'Courbes d\'étalonnage, point d\'équivalence de titrage',
+    physics: 'Suivi de croissance en SVT, relevés météo, mouvement à vitesse constante en physique-chimie',
 
     cours: {
       intro: 'Un graphique traduit visuellement une relation entre deux grandeurs. L\'axe horizontal (<strong>abscisse</strong>) porte la variable que l\'on contrôle, l\'axe vertical (<strong>ordonnée</strong>) porte ce que l\'on observe.<br/><br/>' +
         '<strong>Interpoler</strong> signifie estimer une valeur entre deux points mesurés — c\'est fiable si la courbe est régulière. <strong>Extrapoler</strong> signifie prolonger au-delà des mesures — c\'est risqué car une courbe linéaire dans une plage peut devenir non linéaire ailleurs.<br/><br/>' +
-        'La <strong>pente</strong> d\'une droite $a = \\dfrac{\\Delta y}{\\Delta x}$ a une signification physique : si $y$ = absorbance et $x$ = concentration, alors $a$ = coefficient d\'absorptivité molaire.<br/><br/>' +
+        'La <strong>pente</strong> d\'une droite $a = \\dfrac{\\Delta y}{\\Delta x}$ a toujours un sens concret : si $y$ = distance parcourue et $x$ = temps, alors $a$ est une <strong>vitesse</strong> (en km/h par exemple) — le nombre de km gagnés à chaque heure qui passe.<br/><br/>' +
         'Ne jamais lire un graphe sans vérifier les <strong>unités sur les axes</strong> et l\'origine. Un graphique sans légende est inutilisable !',
       definitions: [
         { term: 'Abscisse', def: 'Coordonnée horizontale d\'un point dans un repère. Première valeur du couple $(x ; y)$.' },
@@ -107,7 +107,7 @@ window.MODULES.push({
         'Interpoler (entre les données) est plus fiable qu\'extrapoler (au-delà).',
         'Toujours vérifier les unités sur les axes avant de lire un graphique.'
       ],
-      piege: 'Ne jamais extrapoler trop loin ! Une courbe de dosage acido-basique est linéaire près de l\'équivalence, mais pas du tout sur toute la plage. L\'extrapolation n\'est valide que si on a une raison physique de croire que la tendance continue.'
+      piege: 'Ne jamais extrapoler trop loin ! La taille d\'un enfant peut suivre une droite assez régulière pendant quelques années, mais cette tendance ne continue pas indéfiniment (personne ne mesure $3$ mètres à $40$ ans). L\'extrapolation n\'est valide que si on a une bonne raison de croire que la tendance se poursuit.'
     },
 
     quiz: [
@@ -123,10 +123,10 @@ window.MODULES.push({
         correction: 'Dans le couple $(x ; y)$, le premier terme est TOUJOURS l\'abscisse (axe horizontal) et le second est l\'ordonnée (axe vertical). Donc abscisse = 3, ordonnée = 7,5.'
       },
       {
-        q: 'La droite d\'étalonnage passe par $(0 ; 0)$ et $(2 ; 0{,}8)$. Quelle absorbance correspond à une concentration de $1{,}5$ mol/L ?',
+        q: 'Un robinet remplit un bassin à débit constant. Le niveau d\'eau suit une droite passant par $(0 ; 0)$ et $(2 ; 0{,}8)$ (temps en minutes ; hauteur en mètres). Quelle est la hauteur d\'eau après $1{,}5$ minute ?',
         options: ['$0{,}4$', '$0{,}5$', '$0{,}6$', '$0{,}75$'],
         answer: 2,
-        correction: 'Pente : $a = 0{,}8/2 = 0{,}4$ L/mol. Pour $c = 1{,}5$ mol/L : $A = 0{,}4 \\times 1{,}5 = 0{,}6$. Interpolation linéaire directe.'
+        correction: 'Pente : $a = 0{,}8/2 = 0{,}4$ m/min. Pour $t = 1{,}5$ min : $h = 0{,}4 \\times 1{,}5 = 0{,}6$ m. Interpolation linéaire directe.'
       },
       {
         q: 'Une droite passe par $(0 ; 2)$ et $(4 ; 2)$. Un élève dit que sa pente est $\\dfrac{4}{2} = 2$. Quelle est son erreur ?',
@@ -145,10 +145,10 @@ window.MODULES.push({
       type: 'numeric',
       generate() {
         const ctx = pick([
-          { name: 'température', unitX: '°C', unitY: 'mV' },
-          { name: 'concentration', unitX: 'mol/L', unitY: '' },
-          { name: 'temps', unitX: 's', unitY: 'm' },
-          { name: 'pression', unitX: 'bar', unitY: 'L' }
+          { name: 'la distance parcourue par un cycliste', unitX: 'h', unitY: 'km' },
+          { name: 'le prix total à payer', unitX: 'L', unitY: '€' },
+          { name: 'la hauteur d\'un plant', unitX: 'semaines', unitY: 'cm' },
+          { name: 'le nombre de pages lues', unitX: 'jours', unitY: 'pages' }
         ]);
         const x1 = rand(1, 5);
         const a = randFloat(0.5, 3.0, 1);
@@ -158,15 +158,15 @@ window.MODULES.push({
         const y2 = parseFloat((a * x2 + b).toFixed(1));
         const slope = parseFloat(((y2 - y1) / (x2 - x1)).toFixed(2));
         return {
-          statement: `Une droite passe par les points $A(${x1} ; ${y1.toString().replace('.', '{,}')})$ et $B(${x2} ; ${y2.toString().replace('.', '{,}')})$. Calcule le coefficient directeur (la pente) de cette droite.`,
+          statement: `On suit ${ctx.name} : à $x_1 = ${x1}$ ${ctx.unitX}, on mesure $y_1 = ${fr(y1)}$ ${ctx.unitY} ; à $x_2 = ${x2}$ ${ctx.unitX}, on mesure $y_2 = ${fr(y2)}$ ${ctx.unitY}. Sur un graphique, ces deux mesures correspondent aux points $A(${x1} ; ${fr(y1)})$ et $B(${x2} ; ${fr(y2)})$.<br/><br/>Calcule le coefficient directeur (la pente) de la droite $(AB)$.`,
           answer: slope,
           tolerance: 0.02,
-          unit: '',
-          hint: `La formule de la pente est $a = \\dfrac{y_B - y_A}{x_B - x_A} = \\dfrac{${y2.toString().replace('.', '{,}')} - ${y1.toString().replace('.', '{,}')}}{${x2} - ${x1}}$. Fais bien la soustraction dans le même ordre au numérateur et au dénominateur !`,
+          unit: `${ctx.unitY}/${ctx.unitX}`,
+          hint: `La formule de la pente est $a = \\dfrac{y_B - y_A}{x_B - x_A} = \\dfrac{${fr(y2)} - ${fr(y1)}}{${x2} - ${x1}}$. Fais bien la soustraction dans le même ordre au numérateur et au dénominateur !`,
           solution: [
             `On applique la formule : $a = \\dfrac{y_2 - y_1}{x_2 - x_1}$`,
-            `$a = \\dfrac{${y2.toString().replace('.', '{,}')} - ${y1.toString().replace('.', '{,}')}}{${x2} - ${x1}} = \\dfrac{${(y2-y1).toFixed(1).replace('.', '{,}')}}{${x2-x1}}$`,
-            `$a = ${slope.toString().replace('.', '{,}')}$`
+            `$a = \\dfrac{${fr(y2)} - ${fr(y1)}}{${x2} - ${x1}} = \\dfrac{${fr(y2 - y1, 1)}}{${x2 - x1}}$`,
+            `$a = ${fr(slope)}$`
           ]
         };
       }
