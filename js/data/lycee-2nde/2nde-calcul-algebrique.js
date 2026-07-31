@@ -118,7 +118,7 @@ window.MODULES.push({
               `$${a2}x^2 - ${b2} = (${a}x)^2 - ${b}^2 = (${a}x + ${b})(${a}x - ${b})$`,
               `$A = 0 \\Leftrightarrow ${a}x + ${b} = 0$ ou $${a}x - ${b} = 0$`,
               `$x = -\\frac{${b}}{${a}}$ ou $x = \\frac{${b}}{${a}}$`,
-              `Produit : $\\left(-\\frac{${b}}{${a}}\\right) \\times \\frac{${b}}{${a}} = -\\frac{${b*b}}{${a*a}} = ${((-b/a) * (b/a)).toFixed(4)}$`
+              `Produit : $\\left(-\\frac{${b}}{${a}}\\right) \\times \\frac{${b}}{${a}} = -\\frac{${b*b}}{${a*a}} = ${fr((-b/a) * (b/a), 4)}$`
             ]
           };
         } else if (type === 'factoriser_carre') {

@@ -121,8 +121,8 @@ window.MODULES.push({
         const tp = rand(5, 30);
         const cm = 1 + tp / 100;
         const vf = Math.round(vi * cm * 100) / 100;
-        const cmStr = cm.toFixed(2).replace('.', '{,}');
-        const vfStr = vf.toFixed(2).replace('.', '{,}');
+        const cmStr = fr(cm, 2);
+        const vfStr = fr(vf, 2);
         const ctx = pick([
           { intro: 'Un produit coûte', unit: '€', sujet: 'Son prix' },
           { intro: 'Un salarié touche un salaire mensuel de', unit: '€', sujet: 'Son salaire' },

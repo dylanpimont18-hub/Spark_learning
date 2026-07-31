@@ -173,19 +173,19 @@ window.MODULES.push({
     },
 
     probleme: {
-      context: 'Lors d\'un titrage pH-métrique, on verse un volume $V$ (en mL) de soude (NaOH) dans une solution d\'acide chlorhydrique (HCl). On mesure les points suivants : $V = 0$ mL → pH $= 1{,}0$ ; $V = 8$ mL → pH $= 2{,}5$ ; $V = 10$ mL → pH $= 7{,}0$ (SAUT) ; $V = 12$ mL → pH $= 11{,}5$ ; $V = 20$ mL → pH $= 12{,}9$.',
-      schema: 'Courbe : pH augmente lentement de 1 à ~6, puis saut brutal autour de V=10 mL (de 4 à 10), puis plateau à pH ≈ 13.',
+      context: 'Un pépiniériste mesure chaque semaine la hauteur d\'un jeune plant : à $S = 2$ semaines, il mesure $12$ cm ; à $S = 6$ semaines, il mesure $28$ cm. Sur cette période, la croissance est régulière (le graphique est une droite).',
+      schema: 'Droite passant par les points (2 ; 12) et (6 ; 28) dans un repère Semaines / Hauteur (cm).',
       tasks: [
-        'Identifier graphiquement le volume équivalent $V_E$ (volume au point d\'équivalence).',
-        'Sachant que la solution de NaOH a une concentration $c_{NaOH} = 0{,}1$ mol/L, calculer le nombre de moles de NaOH versées à l\'équivalence.',
-        'En déduire la concentration initiale de la solution d\'acide HCl, sachant que le volume initial de HCl était $V_{HCl} = 10$ mL.'
+        'Calculer la pente de la droite (la vitesse de croissance, en cm par semaine).',
+        'Par interpolation, estimer la hauteur du plant à $S = 4$ semaines.',
+        'Peut-on utiliser la même méthode pour prédire la hauteur du plant à $S = 50$ semaines ? Pourquoi ?'
       ],
       solutions: [
-        'Le point d\'équivalence correspond au saut brusque de pH. D\'après les données, ce saut se situe pour $V_E = 10$ mL.',
-        '$n_{NaOH} = c_{NaOH} \\times V_E = 0{,}1 \\times 10 \\times 10^{-3} = 1{,}0 \\times 10^{-3}$ mol.',
-        'À l\'équivalence $n_{HCl} = n_{NaOH} = 1{,}0 \\times 10^{-3}$ mol. Donc $c_{HCl} = \\frac{n}{V} = \\frac{10^{-3}}{10 \\times 10^{-3}} = 0{,}1$ mol/L.'
+        'Pente $a = \\dfrac{28 - 12}{6 - 2} = \\dfrac{16}{4} = 4$ cm par semaine.',
+        '$S = 4$ est entre les deux mesures (interpolation) : $12 + 4 \\times (4 - 2) = 12 + 8 = 20$ cm.',
+        'Non : cela reviendrait à extrapoler très loin des mesures, en supposant que la croissance reste linéaire indéfiniment — or une plante ralentit en vieillissant. Extrapoler loin des données mesurées n\'est pas fiable.'
       ],
-      finalAnswer: '$c_{HCl} = 0{,}1$ mol/L'
+      finalAnswer: 'À $4$ semaines, le plant mesure environ $20$ cm (interpolation fiable) ; on ne peut pas prédire fiablement sa hauteur à $50$ semaines par extrapolation.'
     },
 
     evaluation: {

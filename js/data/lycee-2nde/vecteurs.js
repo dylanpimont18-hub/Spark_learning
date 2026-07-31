@@ -179,11 +179,11 @@ window.MODULES.push({
           answer: Fx,
           tolerance: 0.1,
           unit: 'N',
-          hint: `$F_x = F\\cos(\\theta)$ et $F_y = F\\sin(\\theta)$ quand $\\theta$ est mesuré par rapport à l\'horizontale. Rappel : $\\cos(${angle}°) \\approx ${cosVals[angle].toFixed(3)}$ et $\\sin(${angle}°) \\approx ${sinVals[angle].toFixed(3)}$.`,
+          hint: `$F_x = F\\cos(\\theta)$ et $F_y = F\\sin(\\theta)$ quand $\\theta$ est mesuré par rapport à l\'horizontale. Rappel : $\\cos(${angle}°) \\approx ${fr(cosVals[angle], 3)}$ et $\\sin(${angle}°) \\approx ${fr(sinVals[angle], 3)}$.`,
           solution: [
-            `Composante horizontale : $F_x = F\\cos(\\theta) = ${F} \\times \\cos(${angle}°) = ${F} \\times ${cosVals[angle].toFixed(3)} \\approx ${Fx}$ N`,
-            `Composante verticale : $F_y = F\\sin(\\theta) = ${F} \\times \\sin(${angle}°) = ${F} \\times ${sinVals[angle].toFixed(3)} \\approx ${Fy}$ N`,
-            `Vérification par la norme : $\\sqrt{${Fx}^2 + ${Fy}^2} = \\sqrt{${(Fx*Fx).toFixed(1)} + ${(Fy*Fy).toFixed(1)}} \\approx ${norm}$ N $\\approx ${F}$ N ✓`
+            `Composante horizontale : $F_x = F\\cos(\\theta) = ${F} \\times \\cos(${angle}°) = ${F} \\times ${fr(cosVals[angle], 3)} \\approx ${fr(Fx)}$ N`,
+            `Composante verticale : $F_y = F\\sin(\\theta) = ${F} \\times \\sin(${angle}°) = ${F} \\times ${fr(sinVals[angle], 3)} \\approx ${fr(Fy)}$ N`,
+            `Vérification par la norme : $\\sqrt{${Fx}^2 + ${Fy}^2} = \\sqrt{${fr(Fx*Fx, 1)} + ${fr(Fy*Fy, 1)}} \\approx ${fr(norm)}$ N $\\approx ${F}$ N ✓`
           ]
         };
       }

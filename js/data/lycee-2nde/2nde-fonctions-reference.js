@@ -237,10 +237,10 @@ window.MODULES.push({
             answer: parseFloat((sqrtVal + 1/xval).toFixed(2)),
             tolerance: 0.05,
             unit: '',
-            hint: `Domaine : $${a}x - ${b} \\geq 0$ (soit $x \\geq ${(b/a).toFixed(1)}$) ET $x \\neq 0$. Puis $g(${xval}) = \\sqrt{${innerVal}} + \\frac{1}{${xval}}$.`,
+            hint: `Domaine : $${a}x - ${b} \\geq 0$ (soit $x \\geq ${fr(b/a, 1)}$) ET $x \\neq 0$. Puis $g(${xval}) = \\sqrt{${innerVal}} + \\frac{1}{${xval}}$.`,
             solution: [
               `Condition racine : $${a} \\times ${xval} - ${b} = ${innerVal} \\geq 0$ ✓ ; $x = ${xval} \\neq 0$ ✓`,
-              `$g(${xval}) = \\sqrt{${innerVal}} + \\frac{1}{${xval}} \\approx ${sqrtVal} + ${(1/xval).toFixed(2)} \\approx ${(sqrtVal + 1/xval).toFixed(2)}$`
+              `$g(${xval}) = \\sqrt{${innerVal}} + \\frac{1}{${xval}} \\approx ${fr(sqrtVal)} + ${fr(1/xval, 2)} \\approx ${fr(sqrtVal + 1/xval, 2)}$`
             ]
           };
         }

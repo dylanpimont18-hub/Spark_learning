@@ -155,7 +155,7 @@ window.MODULES.push({
       solutions: [
         '$-5t^2+20t+1=16 \\Rightarrow -5t^2+20t-15=0 \\Rightarrow t^2-4t+3=0$.',
         '$\\Delta=16-12=4$. $t_1=\\frac{4-2}{2}=1$ s et $t_2=\\frac{4+2}{2}=3$ s.',
-        '$-5t^2+20t+1=0$ ; $\\Delta=400+20=420$ ; $t=\\frac{-20+\\sqrt{420}}{-10}\\approx 4{,}05$ s.'
+        '$-5t^2+20t+1=0$ ; $\\Delta=400+20=420$ ; on garde la racine positive $t=\\frac{-20-\\sqrt{420}}{-10}\\approx 4{,}05$ s (l\'autre racine, $t=\\frac{-20+\\sqrt{420}}{-10}\\approx -0{,}05$ s, est négative et donc physiquement impossible).'
       ],
       finalAnswer: 'La balle est à $16$ m en $t=1$ s et $t=3$ s. Elle touche le sol vers $t\\approx 4{,}05$ s.'
     },

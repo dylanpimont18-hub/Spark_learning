@@ -14,7 +14,8 @@ window.MODULES.push(
     physics: 'Optique géométrique : grandissement, lentilles, rayons lumineux',
 
     cours: {
-      intro: 'Le <strong>théorème de Thalès</strong> est l\'un des résultats les plus puissants de la géométrie : quand deux droites parallèles coupent deux sécantes issues d\'un même point, tous les <strong>rapports de longueurs correspondants sont égaux</strong>.<br/><br/>' +
+      intro: 'Comment mesurer la hauteur d\'un arbre ou la largeur d\'une rivière sans les traverser, juste avec un mètre et une observation ? En comparant des longueurs mesurables au sol (une ombre, un piquet) à une longueur inaccessible, on peut la retrouver par calcul — c\'est l\'application la plus ancienne du <strong>théorème de Thalès</strong>.<br/><br/>' +
+        'Le <strong>théorème de Thalès</strong> est l\'un des résultats les plus puissants de la géométrie : quand deux droites parallèles coupent deux sécantes issues d\'un même point, tous les <strong>rapports de longueurs correspondants sont égaux</strong>.<br/><br/>' +
         'Cette égalité permet de calculer n\'importe quelle longueur inconnue dans une figure de triangles semblables. En pratique, Thalès apparaît partout : en <strong>optique</strong> (lentilles, grandissement), en topographie (mesure d\'objets inaccessibles) et dans les plans à l\'échelle.<br/><br/>' +
         'La <strong>réciproque</strong> est tout aussi utile : elle permet de prouver que deux droites sont parallèles à partir des seules mesures.<br/><br/>' +
         'Attention au <strong>cas « croisé »</strong> où le point $O$ est entre les deux parallèles : les rapports restent égaux, mais les mesures algébriques (avec signe) sont nécessaires.',

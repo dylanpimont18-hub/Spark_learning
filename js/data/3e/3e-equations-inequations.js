@@ -174,7 +174,7 @@ window.MODULES.push(
       solutions: [
         'Plombier : $40 + 35h$ €. Électricien : $20 + 45h$ €.',
         '$40 + 35h = 20 + 45h \\Rightarrow 20 = 10h \\Rightarrow h = 2$ heures.',
-        'Pour $h = 1$ : plombier $75$ € < électricien $65$ €… Attends : $40 + 35 = 75$ et $20 + 45 = 65$. L\'électricien est moins cher pour $h < 2$.'
+        'Pour $h = 1$ : le plombier facture $40 + 35 = 75$ € et l\'électricien facture $20 + 45 = 65$ €, donc l\'électricien est moins cher. C\'est vrai pour toute valeur $h < 2$.'
       ],
       finalAnswer: 'Les deux factures sont égales pour $h = 2$ h. L\'électricien est moins cher pour moins de $2$ heures.'
     },

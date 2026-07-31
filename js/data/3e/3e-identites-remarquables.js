@@ -13,8 +13,8 @@ window.MODULES.push(
     keywords: ['Identités remarquables', 'Développer', 'Factoriser', 'Carré', 'Différence'],
     physics: false,
     cours: {
-      intro: 'Les trois <strong>identités remarquables</strong> sont des égalités algébriques vraies pour toutes valeurs de $a$ et $b$. Elles permettent deux opérations inverses : <strong>développer</strong> (produit → somme) et <strong>factoriser</strong> (somme → produit).<br/><br/>' +
-        'La troisième identité, $(a+b)(a-b) = a^2 - b^2$, est redoutable pour le <strong>calcul mental</strong> : $99 \\times 101 = (100-1)(100+1) = 10\\,000 - 1 = 9\\,999$ en deux secondes !<br/><br/>' +
+      intro: 'Calculer $99 \\times 101$ de tête, en moins de deux secondes, sans poser l\'opération ? C\'est possible : $99 \\times 101 = (100-1)(100+1) = 10\\,000 - 1 = 9\\,999$. Ce raccourci n\'est pas un hasard — il repose sur les <strong>identités remarquables</strong>.<br/><br/>' +
+        'Les trois <strong>identités remarquables</strong> sont des égalités algébriques vraies pour toutes valeurs de $a$ et $b$. Elles permettent deux opérations inverses : <strong>développer</strong> (produit → somme) et <strong>factoriser</strong> (somme → produit).<br/><br/>' +
         '<strong>Erreur classique à éviter</strong> : $(a+b)^2 \\neq a^2 + b^2$. Le terme croisé $2ab$ est souvent oublié : $(3+4)^2 = 49 \\neq 9 + 16 = 25$.<br/><br/>' +
         'Pour <strong>factoriser</strong> $x^2 - k$ : si $k$ est un carré parfait, appliquer la 3e identité ; sinon, écrire $x^2 - k = (x - \\sqrt{k})(x + \\sqrt{k})$.',
       definitions: [

@@ -126,8 +126,8 @@ Modules pédagogiques Maths 6e : `6e-addition-soustraction`, `6e-angles`, `6e-di
 ## js/data/5e/index.js
 Manifest 5e.
 
-## js/data/5e/5e-*.js + proportionnalite.js *(14 modules)*
-Modules Maths 5e : relatifs, fractions, proportionnalité, expressions littérales, probabilités, statistiques, géométrie, volumes.
+## js/data/5e/5e-*.js + reperage-graphique.js *(14 modules)*
+Modules Maths 5e : relatifs, fractions, proportionnalité, expressions littérales, probabilités, statistiques, géométrie, volumes. (`proportionnalite.js`, doublon de moindre qualité de `5e-proportionnalite.js`, supprimé le 2026-07-31 — retiré de `js/loader.js` DATA_FILES/MODULE_INDEX et de `sitemap.xml`.)
 
 ## js/data/4e/index.js
 Manifest 4e.

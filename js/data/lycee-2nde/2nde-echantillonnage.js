@@ -138,7 +138,7 @@ window.MODULES.push({
             `$f = \\frac{${fav}}{${n}} = ${fActual}$`,
             `$e = \\frac{1}{\\sqrt{${n}}} = \\frac{1}{${sqrtN}} = ${e}$`,
             `IC = $[${fActual} - ${e} ; ${fActual} + ${e}] = [${bInf} ; ${bSup}]$`,
-            `On est sûr à $95\\%$ que la vraie proportion est entre $${(bInf*100).toFixed(1)}\\%$ et $${(bSup*100).toFixed(1)}\\%$.`
+            `On est sûr à $95\\%$ que la vraie proportion est entre $${fr(bInf*100, 1)}\\%$ et $${fr(bSup*100, 1)}\\%$.`
           ]
         };
       }

@@ -166,19 +166,19 @@ window.MODULES.push({
     },
 
     probleme: {
-      context: 'Un rayon lumineux se propage dans l\'air ($n_1 = 1{,}00$) et arrive à la surface d\'un verre ($n_2 = 1{,}50$). L\'angle d\'incidence par rapport à la normale est $i_1 = 30°$.',
+      context: 'Un rayon lumineux passe de l\'air dans l\'eau : c\'est la <strong>réfraction</strong>, il change de direction en traversant la surface.<br/><br/>En arrivant à la surface, il fait un angle d\'incidence $i_1 = 30°$ avec la normale (la droite perpendiculaire à la surface). En entrant dans l\'eau, il ressort avec un angle de réfraction $i_2 = 22°$.',
       schema: null,
       tasks: [
-        'Rappeler la loi de Snell-Descartes : $n_1 \\sin i_1 = n_2 \\sin i_2$.',
-        'Calculer $\\sin i_2$ puis l\'angle de réfraction $i_2$ (en degrés, arrondi à l\'unité).',
-        'Le rayon réfracté se rapproche-t-il ou s\'éloigne-t-il de la normale ? Pourquoi ?'
+        'Comparer les deux angles $i_1$ et $i_2$ : lequel est le plus grand ?',
+        'Ranger les trois angles $i_1 = 30°$, $i_2 = 22°$ et un angle droit ($90°$) du plus petit au plus grand.',
+        'Le rayon s\'est-il rapproché ou éloigné de la normale en entrant dans l\'eau ?'
       ],
       solutions: [
-        '$n_1 \\sin i_1 = n_2 \\sin i_2$.',
-        '$\\sin i_2 = \\dfrac{1{,}00 \\times \\sin 30°}{1{,}50} = \\dfrac{0{,}500}{1{,}50} = 0{,}333$. Donc $i_2 = \\arcsin(0{,}333) \\approx 19°$.',
-        'Le rayon se rapproche de la normale ($i_2 < i_1$) car il passe dans un milieu plus dense ($n_2 > n_1$).'
+        '$i_1 = 30°$ est plus grand que $i_2 = 22°$.',
+        '$i_2 = 22° < i_1 = 30° < 90°$ (angle droit).',
+        'Le rayon se rapproche de la normale : son angle a diminué en passant de l\'air à l\'eau.'
       ],
-      finalAnswer: '$i_2 \\approx 19°$ — le rayon se rapproche de la normale en entrant dans le verre.'
+      finalAnswer: 'Le rayon lumineux se rapproche de la normale en entrant dans l\'eau, car $i_2 = 22°$ est plus petit que $i_1 = 30°$.'
     },
 
     evaluation: {

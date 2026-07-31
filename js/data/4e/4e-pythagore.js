@@ -9,7 +9,8 @@
     physics: 'Norme d\'un vecteur force, distance résultante, calcul de composantes',
 
     cours: {
-      intro: 'Le théorème de Pythagore dit que dans tout triangle rectangle, le carré de l\'hypoténuse est égal à la somme des carrés des deux autres côtés : $c^2 = a^2 + b^2$. <strong>L\'hypoténuse est toujours le côté opposé à l\'angle droit</strong> — c\'est aussi le plus long côté.' +
+      intro: 'Pour vérifier qu\'un poteau est parfaitement vertical sans équerre ni rapporteur, un technicien peut simplement tendre un câble depuis son sommet jusqu\'au sol et mesurer trois longueurs : la hauteur du poteau, la distance au sol, et la longueur du câble. Si ces trois mesures respectent une certaine relation, l\'angle est bien droit — c\'est le théorème de Pythagore.<br/><br/>' +
+        'Le théorème de Pythagore dit que dans tout triangle rectangle, le carré de l\'hypoténuse est égal à la somme des carrés des deux autres côtés : $c^2 = a^2 + b^2$. <strong>L\'hypoténuse est toujours le côté opposé à l\'angle droit</strong> — c\'est aussi le plus long côté.' +
         '<br/><br/>' +
         'La réciproque est puissante : si $c^2 = a^2 + b^2$, alors le triangle est rectangle. En physique, cette formule donne la norme d\'un vecteur résultant ($\\|\\vec{F}\\| = \\sqrt{F_x^2 + F_y^2}$) et la distance entre deux points.' +
         '<br/><br/>' +

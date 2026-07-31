@@ -13,7 +13,8 @@ window.MODULES.push({
     physics: false,
 
     cours: {
-      intro: 'En géométrie, tout repose sur quelques objets de base : le <strong>point</strong> (position sans dimension), le <strong>segment</strong> (longueur finie entre deux points), la <strong>droite</strong> (infinie dans les deux sens) et le <strong>cercle</strong> (ensemble de points à égale distance d\'un centre).<br/><br/>' +
+      intro: 'Pour tracer le mur d\'une maison bien droit, un maçon tend un fil entre deux piquets : c\'est l\'image concrète d\'une <strong>droite</strong>. Pour dessiner une roue de vélo, on plante la pointe d\'un compas en un point fixe et on trace tous les points à la même distance : c\'est un <strong>cercle</strong>.<br/><br/>' +
+        'En géométrie, tout repose sur quelques objets de base : le <strong>point</strong> (position sans dimension), le <strong>segment</strong> (longueur finie entre deux points), la <strong>droite</strong> (infinie dans les deux sens) et le <strong>cercle</strong> (ensemble de points à égale distance d\'un centre).<br/><br/>' +
         '<strong>Distinction importante :</strong> le segment $[AB]$ a une longueur mesurable ; la droite $(AB)$ est infinie et on la dessine avec des flèches aux extrémités. La demi-droite $[AB)$ est infinie dans un seul sens.<br/><br/>' +
         'Le <strong>cercle</strong> de centre $O$ et de rayon $r$ contient tous les points $M$ tels que $OM = r$. Le diamètre est $d = 2r$.',
       definitions: [

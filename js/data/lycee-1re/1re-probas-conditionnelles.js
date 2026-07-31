@@ -151,7 +151,7 @@ window.MODULES.push({
           solution: [
             `$P(A) = P(A|B) \\times P(B) + P(A|\\bar{B}) \\times P(\\bar{B})$`,
             `$= ${pAgivenB} \\times ${pB} + ${pAgivenBbar} \\times ${pBbar}$`,
-            `$= ${(pAgivenB * pB).toFixed(4)} + ${(pAgivenBbar * pBbar).toFixed(4)} = ${pA}$`
+            `$= ${fr(pAgivenB * pB, 4)} + ${fr(pAgivenBbar * pBbar, 4)} = ${fr(pA)}$`
           ]
         };
       }

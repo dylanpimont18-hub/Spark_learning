@@ -8,7 +8,8 @@
     keywords: ['Médiatrice', 'Bissectrice', 'Médiane', 'Hauteur', 'Cercle inscrit', 'Cercle circonscrit'],
     physics: false,
     cours: {
-      intro: 'Chaque triangle possède quatre familles de droites remarquables, chacune associée à un point de concours unique.' +
+      intro: 'Un archéologue retrouve trois éclats du bord d\'une assiette circulaire cassée : comment retrouver le centre exact de l\'assiette sans le reste de l\'objet ? En traçant certaines droites bien choisies à partir des trois points, on peut reconstruire le centre — c\'est le genre de problème que résolvent les droites remarquables du triangle.<br/><br/>' +
+        'Chaque triangle possède quatre familles de droites remarquables, chacune associée à un point de concours unique.' +
         '<br/><br/>' +
         '<strong>Médiatrices</strong> → circumcentre (équidistant des 3 sommets = centre du cercle circonscrit). <strong>Bissectrices</strong> → incentre (équidistant des 3 côtés = centre du cercle inscrit). <strong>Médianes</strong> → centroïde ou isobarycentre (centre de gravité, à $\\frac{2}{3}$ de chaque sommet). <strong>Hauteurs</strong> → orthocentre (peut être extérieur au triangle si obtus).' +
         '<br/><br/>' +

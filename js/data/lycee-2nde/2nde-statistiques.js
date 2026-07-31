@@ -153,9 +153,9 @@ window.MODULES.push({
           hint: `Commence par la moyenne : $\\bar{x} = \\frac{${vals.join('+')}}{5}$. Puis calcule chaque écart au carré $(x_i - \\bar{x})^2$.`,
           solution: [
             `$\\bar{x} = \\frac{${vals.join('+')}}{5} = \\frac{${vals.reduce((s,v)=>s+v,0)}}{5} = ${roundedMean}$`,
-            `Écarts au carré : ${vals.map(v => `(${v}-${roundedMean})^2 = ${((v-actualMean)**2).toFixed(2)}`).join(', ')}`,
-            `$V = \\frac{${vals.map(v => ((v-actualMean)**2).toFixed(2)).join('+')}}{5} = ${variance.toFixed(2)}$`,
-            `$\\sigma = \\sqrt{${variance.toFixed(2)}} \\approx ${sigma}$ ${ctx.unit}`
+            `Écarts au carré : ${vals.map(v => `(${v}-${roundedMean})^2 = ${fr((v-actualMean)**2, 2)}`).join(', ')}`,
+            `$V = \\frac{${vals.map(v => fr((v-actualMean)**2, 2)).join('+')}}{5} = ${fr(variance, 2)}$`,
+            `$\\sigma = \\sqrt{${fr(variance, 2)}} \\approx ${fr(sigma)}$ ${ctx.unit}`
           ]
         };
       }

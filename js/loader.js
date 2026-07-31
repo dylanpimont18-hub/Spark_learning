@@ -15,7 +15,6 @@ const DATA_FILES = {
     'js/data/6e/6e-figures-geometriques.js',
     'js/data/6e/6e-symetrie-axiale.js',
     'js/data/6e/6e-perimetres-aires.js',
-    'js/data/5e/proportionnalite.js',
     'js/data/5e/reperage-graphique.js',
     'js/data/5e/5e-nombres-relatifs.js',
     'js/data/5e/5e-priorites-operations.js',
@@ -177,7 +176,7 @@ const MODULE_INDEX = {
   '6e-addition-soustraction':'maths-1','6e-multiplication':'maths-1','6e-division':'maths-1',
   '6e-figures-geometriques':'maths-1','6e-symetrie-axiale':'maths-1','6e-perimetres-aires':'maths-1',
   // 5e
-  'proportionnalite':'maths-1','reperage-graphique':'maths-1','5e-nombres-relatifs':'maths-1',
+  'reperage-graphique':'maths-1','5e-nombres-relatifs':'maths-1',
   '5e-priorites-operations':'maths-1','5e-fractions-operations':'maths-1','5e-proportionnalite':'maths-1',
   '5e-expressions-litterales':'maths-1','5e-symetrie-centrale':'maths-1','5e-triangles':'maths-1',
   '5e-parallelogrammes':'maths-1','5e-angles-parallelisme':'maths-1','5e-aires-perimetres':'maths-1',

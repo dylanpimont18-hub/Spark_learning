@@ -126,7 +126,7 @@ window.MODULES.push({
           solution: [
             `$P(A \\cup B) = \\frac{${nA} + ${nB} - ${nAB}}{${n}} = \\frac{${nAuB}}{${n}} \\approx ${pAuB}$`,
             `$P(\\overline{A \\cup B}) = 1 - ${pAuB} = ${pNi}$`,
-            `Il y a environ $${(pNi * 100).toFixed(1)}\\%$ de chances que l'élève ne fasse aucune des deux activités.`
+            `Il y a environ $${fr(pNi * 100, 1)}\\%$ de chances que l'élève ne fasse aucune des deux activités.`
           ]
         };
       }

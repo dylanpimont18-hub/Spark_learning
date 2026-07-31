@@ -2,61 +2,73 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://sparklearning.fr/</loc>
-    <lastmod>2026-07-23</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://sparklearning.fr/subjects</loc>
-    <lastmod>2026-07-23</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://sparklearning.fr/confidentialite</loc>
-    <lastmod>2026-07-23</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://sparklearning.fr/levels/maths</loc>
-    <lastmod>2026-07-23</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://sparklearning.fr/modules/maths/1</loc>
-    <lastmod>2026-07-23</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://sparklearning.fr/modules/maths/2</loc>
-    <lastmod>2026-07-23</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://sparklearning.fr/modules/maths/3</loc>
-    <lastmod>2026-07-23</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://sparklearning.fr/levels/si</loc>
-    <lastmod>2026-07-23</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://sparklearning.fr/modules/si/2</loc>
-    <lastmod>2026-07-23</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://sparklearning.fr/modules/si/3</loc>
-    <lastmod>2026-07-23</lastmod>
+    <lastmod>2026-07-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sparklearning.fr/levels/physique</loc>
+    <lastmod>2026-07-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sparklearning.fr/modules/physique/3</loc>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -74,7 +86,7 @@
   </url>
   <url>
     <loc>https://sparklearning.fr/module/6e-angles/cours</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -104,7 +116,7 @@
   </url>
   <url>
     <loc>https://sparklearning.fr/module/6e-figures-geometriques/cours</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -121,14 +133,8 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://sparklearning.fr/module/proportionnalite/cours</loc>
-    <lastmod>2026-07-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://sparklearning.fr/module/reperage-graphique/cours</loc>
-    <lastmod>2026-07-13</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -164,7 +170,7 @@
   </url>
   <url>
     <loc>https://sparklearning.fr/module/5e-symetrie-centrale/cours</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -176,7 +182,7 @@
   </url>
   <url>
     <loc>https://sparklearning.fr/module/5e-parallelogrammes/cours</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -224,7 +230,7 @@
   </url>
   <url>
     <loc>https://sparklearning.fr/module/4e-pythagore/cours</loc>
-    <lastmod>2026-05-08</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -254,7 +260,7 @@
   </url>
   <url>
     <loc>https://sparklearning.fr/module/4e-droites-remarquables/cours</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -296,7 +302,7 @@
   </url>
   <url>
     <loc>https://sparklearning.fr/module/3e-thales/cours</loc>
-    <lastmod>2026-07-13</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -308,13 +314,13 @@
   </url>
   <url>
     <loc>https://sparklearning.fr/module/3e-identites-remarquables/cours</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://sparklearning.fr/module/3e-equations-inequations/cours</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -338,7 +344,7 @@
   </url>
   <url>
     <loc>https://sparklearning.fr/module/3e-volumes/cours</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -356,7 +362,7 @@
   </url>
   <url>
     <loc>https://sparklearning.fr/module/vecteurs/cours</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -374,7 +380,7 @@
   </url>
   <url>
     <loc>https://sparklearning.fr/module/2nde-calcul-algebrique/cours</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -392,7 +398,7 @@
   </url>
   <url>
     <loc>https://sparklearning.fr/module/2nde-fonctions-reference/cours</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -416,19 +422,19 @@
   </url>
   <url>
     <loc>https://sparklearning.fr/module/2nde-statistiques/cours</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://sparklearning.fr/module/2nde-probabilites/cours</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://sparklearning.fr/module/2nde-echantillonnage/cours</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -452,13 +458,13 @@
   </url>
   <url>
     <loc>https://sparklearning.fr/module/1re-produit-scalaire/cours</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://sparklearning.fr/module/1re-second-degre/cours</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -476,13 +482,13 @@
   </url>
   <url>
     <loc>https://sparklearning.fr/module/1re-geometrie-reperee/cours</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://sparklearning.fr/module/1re-probas-conditionnelles/cours</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -494,7 +500,7 @@
   </url>
   <url>
     <loc>https://sparklearning.fr/module/1re-information-chiffree/cours</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -530,7 +536,7 @@
   </url>
   <url>
     <loc>https://sparklearning.fr/module/tle-logarithme/cours</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -560,13 +566,13 @@
   </url>
   <url>
     <loc>https://sparklearning.fr/module/tle-geometrie-espace/cours</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://sparklearning.fr/module/tle-orthogonalite-espace/cours</loc>
-    <lastmod>2026-07-22</lastmod>
+    <lastmod>2026-07-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -897,6 +903,66 @@
   <url>
     <loc>https://sparklearning.fr/module/si-bts-gestion-energie/cours</loc>
     <lastmod>2026-07-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sparklearning.fr/module/physique-bts-mecanique-point/cours</loc>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sparklearning.fr/module/physique-bts-statique-fluides/cours</loc>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sparklearning.fr/module/physique-bts-dynamique-fluides/cours</loc>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sparklearning.fr/module/physique-bts-thermodynamique/cours</loc>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sparklearning.fr/module/physique-bts-circuits-continu/cours</loc>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sparklearning.fr/module/physique-bts-regime-sinusoidal/cours</loc>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sparklearning.fr/module/physique-bts-optique/cours</loc>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sparklearning.fr/module/physique-bts-chimie-solutions/cours</loc>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sparklearning.fr/module/physique-bts-cinetique/cours</loc>
+    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sparklearning.fr/module/physique-bts-electromagnetisme/cours</loc>
+    <lastmod>2026-07-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

@@ -174,8 +174,8 @@ window.MODULES.push({
             hint: `$m = \\dfrac{y_B - y_A}{x_B - x_A} = \\dfrac{${dy}}{${dx}}$. Puis $p = y_A - m \\times x_A$.`,
             solution: [
               `$m = \\dfrac{${yB} - ${yA}}{${xB} - ${xA}} = \\dfrac{${dy}}{${dx}}${Number.isInteger(m) ? ' = ' + m : ''}$.`,
-              `$p = ${yA} - ${m.toFixed(2)} \\times ${xA} = ${answer}$.`,
-              `Droite : $y = ${m.toFixed(2)}x + ${answer}$.`
+              `$p = ${yA} - ${fr(m, 2)} \\times ${xA} = ${fr(answer)}$.`,
+              `Droite : $y = ${fr(m, 2)}x + ${fr(answer)}$.`
             ]
           };
         }

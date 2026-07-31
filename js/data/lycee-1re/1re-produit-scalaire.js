@@ -195,7 +195,7 @@ window.MODULES.push({
             hint: `$W = F \\times d \\times \\cos(${angleDeg}°) = ${F} \\times ${d} \\times \\cos(${angleDeg}°)$.`,
             solution: [
               `$W = ${F} \\times ${d} \\times \\cos(${angleDeg}°)$`,
-              `$= ${F} \\times ${d} \\times ${cosVal.toFixed(4)}$`,
+              `$= ${F} \\times ${d} \\times ${fr(cosVal, 4)}$`,
               `$= ${answer}\\,\\text{J}$`
             ]
           };
