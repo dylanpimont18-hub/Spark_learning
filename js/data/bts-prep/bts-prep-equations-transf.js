@@ -140,6 +140,26 @@ window.MODULES.push({
     },
     {
       q: 'Dans un circuit RLC, $Z = \\sqrt{R^2 + X^2}$ avec $Z = 130\\;\\Omega$ et $X = 50\\;\\Omega$. Trouver $R$.',
+      figure: {
+        svg: `
+          <svg viewBox="0 0 320 180" role="img" aria-labelledby="qeqt-imp-title qeqt-imp-desc">
+            <title id="qeqt-imp-title">Triangle des impedances</title>
+            <desc id="qeqt-imp-desc">Un triangle rectangle dont l'hypotenuse est l'impedance Z de 130 ohms, le cote vertical la reactance X de 50 ohms et le cote horizontal la resistance R, qui est l'inconnue a determiner.</desc>
+            <polygon points="55,140 245,140 245,55" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></polygon>
+            <line class="frame-line" x1="55" y1="140" x2="245" y2="140"></line>
+            <line class="frame-line" x1="245" y1="140" x2="245" y2="55" stroke="var(--secondary)"></line>
+            <line class="curve-main" x1="55" y1="140" x2="245" y2="55"></line>
+            <path class="axis" fill="none" d="M 231 140 L 231 126 L 245 126"></path>
+            <text class="annotation-label" x="150" y="160" text-anchor="middle" fill="var(--accent)">R = ?</text>
+            <text class="annotation-label" x="256" y="102" fill="var(--secondary)">X = 50 Ω</text>
+            <text class="annotation-label" x="120" y="88">Z = 130 Ω</text>
+            <circle class="plot-point-alt" cx="55" cy="140" r="5"></circle>
+            <circle class="plot-point" cx="245" cy="55" r="5"></circle>
+            <text class="tick-label" x="55" y="30">Z est l\'hypoténuse</text>
+          </svg>
+        `,
+        caption: 'Isoler R impose d\'élever Z et X au carré avant de soustraire, puis de reprendre la racine.'
+      },
       options: ['80 Ω', '120 Ω', '100 Ω', '√(130²+50²) Ω'],
       answer: 1,
       correction: 'R = √(Z²-X²) = √(130²-50²) = √(16900-2500) = √14400 = 120 Ω.',
@@ -235,6 +255,27 @@ window.MODULES.push({
       correction: '$R = \\sqrt{Z^2-X^2} = \\sqrt{625-225} = \\sqrt{400} = 20\\;\\Omega$.',
     },
     {
+      figure: {
+        svg: `
+          <svg viewBox="0 0 340 175" role="img" aria-labelledby="qeqt-charge-title qeqt-charge-desc">
+            <title id="qeqt-charge-title">Charge d'un condensateur vers une tension finale de 10 volts</title>
+            <desc id="qeqt-charge-desc">Une courbe de charge monte depuis zero et s'approche de l'asymptote a 10 volts sans jamais l'atteindre. Un niveau cible intermediaire est trace en pointilles ; l'instant auquel la courbe le franchit est l'inconnue, et son calcul necessite un logarithme neperien.</desc>
+            <line class="axis" x1="55" y1="145" x2="315" y2="145"></line>
+            <line class="axis" x1="55" y1="158" x2="55" y2="30"></line>
+            <line class="guide-line" x1="55" y1="45" x2="310" y2="45" stroke="var(--secondary)"></line>
+            <text class="tick-label" x="47" y="49" text-anchor="end">10 V</text>
+            <path class="curve-main" fill="none" d="M 55 145 L 65 128 L 75 114 L 85 102 L 95 92 L 105 84 L 115 78 L 125 72 L 135 67 L 145 63 L 155 60 L 165 58 L 175 56 L 185 54 L 195 52 L 205 51 L 215 50 L 225 49 L 235 48 L 245 48 L 255 47 L 265 47 L 275 46 L 285 46 L 295 46 L 305 45"></path>
+            <line class="graph-line" x1="55" y1="72" x2="310" y2="72" stroke="var(--accent)"></line>
+            <text class="tick-label" x="270" y="66" fill="var(--accent)">seuil visé</text>
+            <line class="guide-line" x1="125" y1="72" x2="125" y2="145"></line>
+            <circle class="plot-point" cx="125" cy="72" r="7"></circle>
+            <text class="annotation-label" x="132" y="90">t = ?</text>
+            <text class="axis-label" x="315" y="162" text-anchor="end">t</text>
+            <text class="axis-label" x="55" y="24">u_C(t)</text>
+          </svg>
+        `,
+        caption: 'L\'inconnue est dans l\'exposant : seul le logarithme népérien permet de la faire redescendre.'
+      },
       q: 'Un condensateur se charge selon $u_C(t) = 10(1 - e^{-t/2})$ V. Au bout de combien de temps $u_C = 5$ V (arrondi à 0,01 s) ?',
       options: ['$2\\ln2 \\approx 1{,}39$ s', '$\\ln2 \\approx 0{,}69$ s', '$2$ s', '$\\ln(0{,}5) \\approx -0{,}69$ s'],
       answer: 0,
@@ -366,16 +407,34 @@ Calculez la vitesse d'écoulement de l'air $v$ en m/s (arrondi à 0,1 m/s). ($p_
 • Vitesse maximale admissible en bouche : $v_{\\max} = 4\\;\\text{m/s}$ (pour ne pas générer de bruit)<br/>
 • Densité de l'air : $\\rho = 1{,}2\\;\\text{kg/m}^3$<br/><br/>
 Le technicien souhaite choisir une bouche circulaire de diamètre $D$.`,
-    schema: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:8px;padding:16px;font-family:monospace;font-size:0.85rem">
-<pre>
-  ┌───────────────────────┐
-  │     Local ventilé     │
-  │                       │→ Q = 500 m³/h
-  │      ○ ← bouche       │
-  │    D = ?              │   v ≤ 4 m/s
-  └───────────────────────┘
-</pre>
-</div>`,
+    figure: {
+      svg: `
+        <svg viewBox="0 0 450 210" role="img" aria-labelledby="pb-eqtransf-title pb-eqtransf-desc">
+          <title id="pb-eqtransf-title">Bouche d'extraction circulaire d'un local ventile</title>
+          <desc id="pb-eqtransf-desc">Un local ventile est represente par un rectangle. Sur sa paroi droite, une bouche d'extraction circulaire de diametre inconnu laisse sortir un debit de 500 metres cubes par heure. La vitesse dans la bouche ne doit pas depasser 4 metres par seconde pour eviter le bruit. Un agrandissement montre la section circulaire et rappelle que l'aire vaut pi D au carre sur quatre.</desc>
+
+          <rect x="25" y="40" width="230" height="130" rx="8" fill="color-mix(in srgb, var(--primary) 5%, var(--bg-card))" stroke="color-mix(in srgb, var(--primary) 30%, var(--border))"></rect>
+          <text class="annotation-label" x="140" y="30" text-anchor="middle">Local ventilé</text>
+          <line class="graph-line" x1="70" y1="80" x2="180" y2="90" stroke="var(--secondary)"></line>
+          <line class="graph-line" x1="70" y1="130" x2="180" y2="118" stroke="var(--secondary)"></line>
+          <text class="tick-label" x="90" y="108">air vicié</text>
+
+          <circle cx="255" cy="105" r="22" fill="color-mix(in srgb, var(--accent) 18%, var(--bg-card))" stroke="color-mix(in srgb, var(--accent) 45%, var(--border))" stroke-width="2.5"></circle>
+          <line class="curve-main" x1="277" y1="105" x2="360" y2="105" stroke="var(--accent)"></line>
+          <polygon points="358,98 376,105 358,112" fill="var(--accent)"></polygon>
+          <text class="annotation-label" x="330" y="94" text-anchor="middle" fill="var(--accent)">Q = 500 m³/h</text>
+          <text class="annotation-label" x="330" y="128" text-anchor="middle">v ≤ 4 m/s</text>
+
+          <circle cx="410" cy="105" r="30" fill="none" class="frame-line"></circle>
+          <line class="guide-line" x1="380" y1="105" x2="440" y2="105"></line>
+          <text class="annotation-label" x="410" y="98" text-anchor="middle">D = ?</text>
+          <text class="tick-label" x="410" y="160" text-anchor="middle">A = πD²/4</text>
+
+          <text class="tick-label" x="25" y="196">Au-delà de 4 m/s la bouche siffle : on cherche le D minimal.</text>
+        </svg>
+      `,
+      caption: 'La vitesse impose une section minimale : $A = Q/v$, puis on remonte au diamètre par $A = \\pi D^2/4$.'
+    },
     tasks: [
       'Convertir le débit $Q$ de m³/h en m³/s.',
       'La relation débit/vitesse/section est $Q = v \\times S$. Calculer la section minimale $S_{\\min}$ de la bouche pour respecter $v \\leq v_{\\max}$.',

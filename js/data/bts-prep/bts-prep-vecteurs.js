@@ -98,7 +98,7 @@ Propriétés utiles :<br/>
           <!-- Composante verticale Fy (sur l'axe y) -->
           <line class="graph-line" x1="60" y1="250" x2="60" y2="42"></line>
           <circle class="plot-point-alt" cx="60" cy="42" r="4"></circle>
-          <text class="annotation-label" x="50" y="146" text-anchor="end">Fy = 693 N</text>
+          <text class="annotation-label" x="62" y="146" text-anchor="end">Fy = 693 N</text>
 
           <!-- Pointillés de projection (rectangle de décomposition) -->
           <line class="guide-line" x1="180" y1="250" x2="180" y2="42"></line>
@@ -126,6 +126,122 @@ Propriétés utiles :<br/>
       caption: 'Décomposition du vecteur force $\\vec{F_1} = 800$ N à $\\theta = 60°$ (câble 1 de l\'exemple 1 du cours) en ses composantes $F_x = 400$ N et $F_y \\approx 693$ N.'
     },
 
+    diagrams: [
+      {
+        theme: 'maths',
+        kicker: 'Somme de deux forces',
+        title: 'Deux méthodes, une seule résultante',
+        description: 'Additionner deux vecteurs se fait de deux façons équivalentes : la <strong>règle du parallélogramme</strong> (les deux forces partent du même point) et la <strong>mise bout à bout</strong> (relation de Chasles). Les deux donnent exactement le même vecteur résultant.',
+        svg: `
+          <svg viewBox="0 0 460 272" role="img" aria-labelledby="btsvect-somme-title btsvect-somme-desc">
+            <title id="btsvect-somme-title">Somme de deux vecteurs : parallelogramme et mise bout a bout</title>
+            <desc id="btsvect-somme-desc">A gauche, deux vecteurs force partant du meme point O forment un parallelogramme dont la diagonale est la resultante R. A droite, les deux memes vecteurs sont places bout a bout : l'extremite du second donne le meme point d'arrivee, donc la meme resultante.</desc>
+            <defs>
+              <marker id="btsvect-tip-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--primary)"></path>
+              </marker>
+              <marker id="btsvect-tip-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--secondary)"></path>
+              </marker>
+              <marker id="btsvect-tip-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent)"></path>
+              </marker>
+            </defs>
+
+            <text class="axis-label" x="112" y="26" text-anchor="middle">Règle du parallélogramme</text>
+            <line class="grid-line" x1="30" y1="210" x2="215" y2="210"></line>
+            <line class="grid-line" x1="45" y1="225" x2="45" y2="55"></line>
+            <line class="guide-line" x1="165" y1="170" x2="205" y2="90"></line>
+            <line class="guide-line" x1="85" y1="130" x2="205" y2="90"></line>
+            <line class="curve-main" x1="45" y1="210" x2="165" y2="170" marker-end="url(#btsvect-tip-a)"></line>
+            <line class="curve-main" x1="45" y1="210" x2="85" y2="130" stroke="var(--secondary)" marker-end="url(#btsvect-tip-b)"></line>
+            <line class="curve-main" x1="45" y1="210" x2="205" y2="90" stroke="var(--accent)" marker-end="url(#btsvect-tip-r)"></line>
+            <circle class="plot-point-alt" cx="45" cy="210" r="5"></circle>
+            <text class="annotation-label" x="30" y="228">O</text>
+            <text class="annotation-label" x="104" y="204">F₁</text>
+            <text class="annotation-label" x="48" y="160" fill="var(--secondary)">F₂</text>
+            <text class="annotation-label" x="130" y="136" fill="var(--accent)">R</text>
+
+            <text class="axis-label" x="345" y="26" text-anchor="middle">Bout à bout (Chasles)</text>
+            <line class="grid-line" x1="265" y1="210" x2="450" y2="210"></line>
+            <line class="grid-line" x1="280" y1="225" x2="280" y2="55"></line>
+            <line class="curve-main" x1="280" y1="210" x2="400" y2="170" marker-end="url(#btsvect-tip-a)"></line>
+            <line class="curve-main" x1="400" y1="170" x2="440" y2="90" stroke="var(--secondary)" marker-end="url(#btsvect-tip-b)"></line>
+            <line class="curve-main" x1="280" y1="210" x2="440" y2="90" stroke="var(--accent)" marker-end="url(#btsvect-tip-r)"></line>
+            <circle class="plot-point-alt" cx="280" cy="210" r="5"></circle>
+            <circle class="plot-point-alt" cx="400" cy="170" r="4"></circle>
+            <text class="annotation-label" x="265" y="228">O</text>
+            <text class="annotation-label" x="339" y="204">F₁</text>
+            <text class="annotation-label" x="442" y="132" text-anchor="end" fill="var(--secondary)">F₂</text>
+            <text class="annotation-label" x="322" y="152" fill="var(--accent)">R</text>
+
+            <text class="tick-label" x="30" y="248">En composantes, la règle est la même dans les deux cas :</text>
+            <text class="annotation-label" x="30" y="264">Rx = F₁x + F₂x    et    Ry = F₁y + F₂y</text>
+          </svg>
+        `,
+        notes: [
+          '<strong>Le calcul est indépendant du dessin :</strong> quelle que soit la méthode graphique, on additionne <strong>composante par composante</strong>. C\'est toujours la voie la plus sûre en examen.',
+          '<strong>La norme ne s\'additionne PAS :</strong> $\\|\\vec{R}\\| \\neq \\|\\vec{F_1}\\| + \\|\\vec{F_2}\\|$, sauf si les deux vecteurs sont colinéaires et de même sens. Deux forces de 100 N à 90° donnent $\\|\\vec{R}\\| = 100\\sqrt{2} \\approx 141$ N, pas 200 N.',
+          '<strong>Puis on revient aux polaires :</strong> $\\|\\vec{R}\\| = \\sqrt{R_x^2 + R_y^2}$ et $\\theta = \\arctan\\left(\\dfrac{R_y}{R_x}\\right)$ — c\'est le chemin inverse de la décomposition du schéma précédent.'
+        ],
+        reading: 'Le parallélogramme sert à <strong>comprendre</strong> et à vérifier l\'ordre de grandeur ; le calcul en composantes sert à <strong>répondre</strong>. Fais toujours les deux : le dessin détecte les erreurs de signe que le calcul laisse passer.',
+        caption: 'Les deux constructions graphiques de la somme vectorielle, et la règle de calcul en composantes qu\'elles traduisent.'
+      },
+      {
+        theme: 'maths',
+        kicker: 'Statique — condition d\'équilibre',
+        title: 'Trois forces en équilibre : le triangle se referme',
+        description: 'Un solide est en équilibre quand $\\sum \\vec{F} = \\vec{0}$. Graphiquement, cela a une signature imparable : mises bout à bout, les forces forment un <strong>polygone fermé</strong> — on revient exactement au point de départ.',
+        svg: `
+          <svg viewBox="0 0 460 250" role="img" aria-labelledby="btsvect-equilibre-title btsvect-equilibre-desc">
+            <title id="btsvect-equilibre-title">Equilibre de trois forces et triangle des forces ferme</title>
+            <desc id="btsvect-equilibre-desc">A gauche, une charge suspendue a deux cables : les tensions T1 et T2 montent en oblique et le poids P descend a la verticale. A droite, les trois memes vecteurs places bout a bout referment exactement un triangle, ce qui traduit la condition somme des forces egale zero.</desc>
+            <defs>
+              <marker id="btsvect-eq-tip" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--primary)"></path>
+              </marker>
+              <marker id="btsvect-eq-tip2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--secondary)"></path>
+              </marker>
+            </defs>
+
+            <text class="axis-label" x="112" y="26" text-anchor="middle">La situation réelle</text>
+            <line class="frame-line" x1="25" y1="55" x2="200" y2="55"></line>
+            <line class="guide-line" x1="45" y1="55" x2="112" y2="130"></line>
+            <line class="guide-line" x1="180" y1="55" x2="112" y2="130"></line>
+            <line class="curve-main" x1="112" y1="130" x2="62" y2="74" marker-end="url(#btsvect-eq-tip)"></line>
+            <line class="curve-main" x1="112" y1="130" x2="162" y2="74" marker-end="url(#btsvect-eq-tip)"></line>
+            <line class="curve-main" x1="112" y1="130" x2="112" y2="205" stroke="var(--secondary)" marker-end="url(#btsvect-eq-tip2)"></line>
+            <circle class="plot-point" cx="112" cy="130" r="6"></circle>
+            <text class="annotation-label" x="52" y="106">T₁</text>
+            <text class="annotation-label" x="160" y="106">T₂</text>
+            <text class="annotation-label" x="120" y="182" fill="var(--secondary)">P = mg</text>
+
+            <text class="axis-label" x="345" y="26" text-anchor="middle">Le triangle des forces</text>
+            <line class="curve-main" x1="280" y1="200" x2="345" y2="90" marker-end="url(#btsvect-eq-tip)"></line>
+            <line class="curve-main" x1="345" y1="90" x2="410" y2="200" marker-end="url(#btsvect-eq-tip)"></line>
+            <line class="curve-main" x1="410" y1="200" x2="280" y2="200" stroke="var(--secondary)" marker-end="url(#btsvect-eq-tip2)"></line>
+            <circle class="plot-point-alt" cx="280" cy="200" r="6"></circle>
+            <circle class="plot-point-alt" cx="345" cy="90" r="4"></circle>
+            <circle class="plot-point-alt" cx="410" cy="200" r="4"></circle>
+            <text class="annotation-label" x="292" y="140">T₁</text>
+            <text class="annotation-label" x="382" y="140">T₂</text>
+            <text class="annotation-label" x="345" y="222" text-anchor="middle" fill="var(--secondary)">P</text>
+            <text class="tick-label" x="240" y="216">départ = arrivée</text>
+
+            <text class="annotation-label" x="30" y="240">Σ Fx = 0    et    Σ Fy = 0    ⟺    le polygone des forces est fermé</text>
+          </svg>
+        `,
+        notes: [
+          '<strong>Deux équations, pas une :</strong> l\'équilibre impose $\\sum F_x = 0$ <em>et</em> $\\sum F_y = 0$. Deux équations permettent de trouver deux inconnues — typiquement les deux tensions de câbles.',
+          '<strong>Le poids est toujours vertical vers le bas :</strong> $\\vec{P} = (0\\,;\\, -mg)$. C\'est la seule force dont on connaît la direction sans réfléchir, et donc le meilleur point de départ.',
+          '<strong>Contrôle graphique gratuit :</strong> si ton triangle ne se referme pas quand tu reportes tes résultats à l\'échelle, tu as une erreur de signe ou d\'angle. Ce test attrape la majorité des fautes de statique.'
+        ],
+        reading: 'Le triangle fermé n\'est pas une figure décorative : c\'est <strong>la traduction graphique exacte</strong> de $\\sum \\vec{F} = \\vec{0}$. Un polygone ouvert signifie qu\'il reste une résultante, donc que le solide accélère.',
+        caption: 'Équilibre d\'une charge suspendue à deux câbles, et le triangle des forces fermé qui traduit $\\sum \\vec{F} = \\vec{0}$.'
+      }
+    ],
+
     recap: [
       'Un vecteur a une direction, un sens et une norme',
       'Norme : $\\|\\vec{u}\\| = \\sqrt{u_x^2 + u_y^2}$',
@@ -145,6 +261,33 @@ Propriétés utiles :<br/>
   quiz: [
     {
       q: 'Un vecteur a pour composantes $(3, 4)$. Sa norme est :',
+      figure: {
+        svg: `
+          <svg viewBox="0 0 300 190" role="img" aria-labelledby="qvect-norme-title qvect-norme-desc">
+            <title id="qvect-norme-title">Vecteur de composantes 3 et 4 dans un repere</title>
+            <desc id="qvect-norme-desc">Un vecteur part de l'origine et rejoint le point de coordonnees 3 en abscisse et 4 en ordonnee. Ses deux composantes forment les cotes d'un triangle rectangle dont le vecteur lui-meme est l'hypotenuse.</desc>
+            <line class="grid-line" x1="40" y1="130" x2="260" y2="130"></line>
+            <line class="grid-line" x1="40" y1="100" x2="260" y2="100"></line>
+            <line class="grid-line" x1="40" y1="70" x2="260" y2="70"></line>
+            <line class="grid-line" x1="40" y1="40" x2="260" y2="40"></line>
+            <line class="grid-line" x1="80" y1="20" x2="80" y2="160"></line>
+            <line class="grid-line" x1="120" y1="20" x2="120" y2="160"></line>
+            <line class="grid-line" x1="160" y1="20" x2="160" y2="160"></line>
+            <line class="axis" x1="40" y1="160" x2="270" y2="160"></line>
+            <line class="axis" x1="40" y1="175" x2="40" y2="20"></line>
+            <line class="graph-line" x1="40" y1="160" x2="160" y2="160" stroke="var(--secondary)"></line>
+            <line class="graph-line" x1="160" y1="160" x2="160" y2="40" stroke="var(--accent)"></line>
+            <line class="curve-main" x1="40" y1="160" x2="160" y2="40"></line>
+            <polygon points="160,40 148,56 164,58" fill="var(--primary)"></polygon>
+            <circle class="plot-point" cx="160" cy="40" r="6"></circle>
+            <text class="annotation-label" x="100" y="178" text-anchor="middle" fill="var(--secondary)">3</text>
+            <text class="annotation-label" x="172" y="104" fill="var(--accent)">4</text>
+            <text class="annotation-label" x="76" y="76">‖u‖ = ?</text>
+            <text class="tick-label" x="170" y="34">(3 ; 4)</text>
+          </svg>
+        `,
+        caption: 'La norme est l\'hypoténuse du triangle formé par les deux composantes.'
+      },
       options: ['7', '5', '√7', '25'],
       answer: 1,
       correction: '||u|| = √(3² + 4²) = √(9+16) = √25 = 5. Triplet pythagoricien classique : 3-4-5.',
@@ -169,6 +312,30 @@ Propriétés utiles :<br/>
     },
     {
       q: 'Quelle est la résultante de $\\vec{F_1} = (200, 0)$ N et $\\vec{F_2} = (0, 150)$ N ?',
+      figure: {
+        svg: `
+          <svg viewBox="0 0 320 190" role="img" aria-labelledby="qvect-result-title qvect-result-desc">
+            <title id="qvect-result-title">Resultante de deux forces perpendiculaires</title>
+            <desc id="qvect-result-desc">Deux forces perpendiculaires partent du meme point : une force horizontale de 200 newtons et une force verticale de 150 newtons. Le parallelogramme qu'elles forment est un rectangle, dont la diagonale est la resultante cherchee.</desc>
+            <line class="axis" x1="50" y1="155" x2="290" y2="155"></line>
+            <line class="axis" x1="50" y1="170" x2="50" y2="25"></line>
+            <line class="guide-line" x1="210" y1="155" x2="210" y2="65"></line>
+            <line class="guide-line" x1="50" y1="65" x2="210" y2="65"></line>
+            <line class="curve-main" x1="50" y1="155" x2="210" y2="155"></line>
+            <polygon points="210,155 196,149 196,161" fill="var(--primary)"></polygon>
+            <line class="curve-main" x1="50" y1="155" x2="50" y2="65" stroke="var(--secondary)"></line>
+            <polygon points="50,65 44,79 56,79" fill="var(--secondary)"></polygon>
+            <line class="curve-main" x1="50" y1="155" x2="210" y2="65" stroke="var(--accent)"></line>
+            <polygon points="210,65 194,68 202,80" fill="var(--accent)"></polygon>
+            <circle class="plot-point-alt" cx="50" cy="155" r="5"></circle>
+            <text class="annotation-label" x="130" y="176" text-anchor="middle">F₁ = 200 N</text>
+            <text class="annotation-label" x="10" y="112" fill="var(--secondary)">F₂</text>
+            <text class="tick-label" x="6" y="128" fill="var(--secondary)">150 N</text>
+            <text class="annotation-label" x="120" y="98" fill="var(--accent)">R = ?</text>
+          </svg>
+        `,
+        caption: 'Forces perpendiculaires : la résultante est la diagonale du rectangle, jamais la somme des normes.'
+      },
       options: ['350 N', '250 N', '√(200²+150²) N', '200 N'],
       answer: 1,
       correction: 'R = (200+0, 0+150) = (200, 150) N. Norme : √(200²+150²) = √(40000+22500) = √62500 = 250 N.',
@@ -181,6 +348,26 @@ Propriétés utiles :<br/>
     },
     {
       q: 'Le travail d\'une force $F = 1000\\;\\text{N}$ perpendiculaire au déplacement $d = 5\\;\\text{m}$ est :',
+      figure: {
+        svg: `
+          <svg viewBox="0 0 340 160" role="img" aria-labelledby="qvect-travail-title qvect-travail-desc">
+            <title id="qvect-travail-title">Force perpendiculaire au deplacement</title>
+            <desc id="qvect-travail-desc">Un objet se deplace horizontalement sur cinq metres tandis qu'une force de mille newtons s'exerce verticalement, donc perpendiculairement au deplacement. Aucune projection de la force ne se trouve dans la direction du mouvement.</desc>
+            <line class="axis" x1="30" y1="120" x2="310" y2="120"></line>
+            <rect x="70" y="92" width="40" height="26" rx="4" fill="color-mix(in srgb, var(--diagram-accent) 18%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 42%, var(--border))"></rect>
+            <line class="curve-main" x1="115" y1="105" x2="255" y2="105" stroke="var(--secondary)"></line>
+            <polygon points="265,105 247,98 247,112" fill="var(--secondary)"></polygon>
+            <text class="annotation-label" x="185" y="98" text-anchor="middle" fill="var(--secondary)">déplacement d = 5 m</text>
+            <line class="curve-main" x1="90" y1="88" x2="90" y2="40"></line>
+            <polygon points="90,30 83,48 97,48" fill="var(--primary)"></polygon>
+            <text class="annotation-label" x="100" y="46">F = 1000 N</text>
+            <path class="axis" fill="none" d="M 104 105 L 104 91 L 118 91"></path>
+            <text class="tick-label" x="118" y="80">90°</text>
+            <text class="annotation-label" x="30" y="150">W = F·d·cos 90° — que vaut cos 90° ?</text>
+          </svg>
+        `,
+        caption: 'Une force perpendiculaire n\'a aucune composante dans la direction du mouvement.'
+      },
       options: ['5000 J', '1000 J', '0 J', '-5000 J'],
       answer: 2,
       correction: 'W = F·d·cos(90°) = 1000 × 5 × 0 = 0 J. Une force perpendiculaire au déplacement ne produit aucun travail (ex: réaction normale sur un plan horizontal).',
@@ -397,19 +584,49 @@ $\\theta = \\arccos(${fr(cosTheta, 3)}) \\approx ${fr(theta, 1)}°$`,
   probleme: {
     context: `Une grue de chantier soulève une pièce d'équipement de masse $m = 2{,}5\\;\\text{t}$ ($m = 2500\\;\\text{kg}$) au moyen de deux câbles faisant respectivement des angles $\\alpha = 40°$ et $\\beta = 55°$ avec la verticale.<br/><br/>
 La pièce est en équilibre statique sous l'action de trois forces : son poids $\\vec{P}$ (vertical vers le bas), la tension $\\vec{T_1}$ dans le câble 1 et la tension $\\vec{T_2}$ dans le câble 2.`,
-    schema: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:8px;padding:16px;font-family:monospace;font-size:0.85rem">
-<pre>
-      T1 ↖      ↗ T2
-      (α=40°)  (β=55°)
-           \\ /
-            ●  ← pièce d'équipement
-            |
-            ↓ P = mg
-</pre>
-<div style="font-family:sans-serif;font-size:0.85rem;color:var(--text-muted);margin-top:8px">
-  Angles mesurés depuis la verticale
-</div>
-</div>`,
+    figure: {
+      svg: `
+        <svg viewBox="0 0 440 250" role="img" aria-labelledby="pb-vecteurs-title pb-vecteurs-desc">
+          <title id="pb-vecteurs-title">Charge de 2,5 tonnes suspendue a deux cables</title>
+          <desc id="pb-vecteurs-desc">Une piece de 2500 kilogrammes est suspendue a deux cables fixes a une poutre. Le cable de gauche fait 40 degres avec la verticale, celui de droite 55 degres. Les deux tensions tirent vers le haut en oblique, tandis que le poids tire verticalement vers le bas. Une verticale en pointilles sert de reference pour les deux angles.</desc>
+
+          <line class="frame-line" x1="40" y1="35" x2="400" y2="35" stroke-width="4"></line>
+          <line class="grid-line" x1="60" y1="35" x2="80" y2="20"></line>
+          <line class="grid-line" x1="110" y1="35" x2="130" y2="20"></line>
+          <line class="grid-line" x1="160" y1="35" x2="180" y2="20"></line>
+          <line class="grid-line" x1="210" y1="35" x2="230" y2="20"></line>
+          <line class="grid-line" x1="260" y1="35" x2="280" y2="20"></line>
+          <line class="grid-line" x1="310" y1="35" x2="330" y2="20"></line>
+
+          <line class="curve-main" x1="120" y1="35" x2="220" y2="155"></line>
+          <line class="curve-main" x1="330" y1="35" x2="220" y2="155"></line>
+          <line class="guide-line" x1="220" y1="35" x2="220" y2="235"></line>
+
+          <line class="graph-line" x1="220" y1="155" x2="160" y2="83" stroke="var(--primary)"></line>
+          <polygon points="160,83 178,88 168,98" fill="var(--primary)"></polygon>
+          <line class="graph-line" x1="220" y1="155" x2="286" y2="83" stroke="var(--primary)"></line>
+          <polygon points="286,83 278,100 268,89" fill="var(--primary)"></polygon>
+          <line class="graph-line" x1="220" y1="155" x2="220" y2="225" stroke="var(--secondary)"></line>
+          <polygon points="220,235 212,217 228,217" fill="var(--secondary)"></polygon>
+
+          <path class="axis" fill="none" d="M 220 105 A 50 50 0 0 0 188 118"></path>
+          <text class="annotation-label" x="180" y="128">α = 40°</text>
+          <path class="axis" fill="none" d="M 220 95 A 60 60 0 0 1 268 118"></path>
+          <text class="annotation-label" x="256" y="130">β = 55°</text>
+
+          <text class="annotation-label" x="130" y="76">T₁</text>
+          <text class="annotation-label" x="296" y="76">T₂</text>
+          <text class="annotation-label" x="232" y="205" fill="var(--secondary)">P = mg</text>
+          <text class="tick-label" x="232" y="222" fill="var(--secondary)">= 2500 × 9,81</text>
+
+          <circle class="plot-point" cx="220" cy="155" r="9"></circle>
+          <text class="tick-label" x="120" y="164" text-anchor="end">pièce m = 2,5 t</text>
+
+          <text class="tick-label" x="40" y="246">Angles mesurés depuis la VERTICALE</text>
+        </svg>
+      `,
+      caption: 'Équilibre statique à trois forces : deux tensions obliques et un poids vertical, angles repérés depuis la verticale.'
+    },
     tasks: [
       'Écrire les conditions d\'équilibre statique en x et en y. (Rappel : à l\'équilibre, $\\sum F_x = 0$ et $\\sum F_y = 0$)',
       'Calculer le poids de la pièce $P = mg$ en N. (Prendre $g = 9{,}81\\;\\text{m/s}^2$)',
@@ -437,24 +654,64 @@ $T_1 = 1{,}274 \\times 15\\,823 \\approx 20\\,158\\;\\text{N} \\approx 20{,}2\\;
     duration: '25 min',
     questions: [
       {
-        q: 'Un robot de soudage exerce une force $\\vec{F} = (350, -200)\\;\\text{N}$ sur une pièce. Calculez la norme de cette force et son angle par rapport à l\'horizontal.',
-        answer: '$\\|\\vec{F}\\| = \\sqrt{350^2 + 200^2} = \\sqrt{122500+40000} = \\sqrt{162500} \\approx 403\\;\\text{N}$<br/>$\\theta = \\arctan(-200/350) = \\arctan(-0{,}571) \\approx -29{,}7°$ (inclinée vers le bas)',
+        statement: 'Un robot de soudage exerce une force $\\vec{F} = (350\\,;\\, -200)\\;\\text{N}$ sur une pièce. Calculer la <strong>norme</strong> de cette force (en N, arrondie à l\'unité).',
+        figure: {
+          svg: `
+            <svg viewBox="0 0 320 180" role="img" aria-labelledby="ev-vect-title ev-vect-desc">
+              <title id="ev-vect-title">Force de composantes 350 et moins 200 newtons</title>
+              <desc id="ev-vect-desc">Un vecteur force part de l'origine, avance de 350 newtons horizontalement et descend de 200 newtons verticalement. Ses deux composantes forment un triangle rectangle dont la norme cherchee est l'hypotenuse.</desc>
+              <line class="axis" x1="40" y1="60" x2="290" y2="60"></line>
+              <line class="axis" x1="55" y1="20" x2="55" y2="160"></line>
+              <line class="graph-line" x1="55" y1="60" x2="235" y2="60" stroke="var(--secondary)"></line>
+              <line class="graph-line" x1="235" y1="60" x2="235" y2="140" stroke="var(--accent)"></line>
+              <line class="curve-main" x1="55" y1="60" x2="235" y2="140"></line>
+              <polygon points="235,140 219,130 227,124" fill="var(--primary)"></polygon>
+              <circle class="plot-point" cx="235" cy="140" r="6"></circle>
+              <text class="annotation-label" x="145" y="52" text-anchor="middle" fill="var(--secondary)">350 N</text>
+              <text class="annotation-label" x="246" y="104" fill="var(--accent)">−200 N</text>
+              <text class="annotation-label" x="110" y="112">‖F‖ = ?</text>
+              <text class="tick-label" x="40" y="172">Le signe donne le sens, pas la longueur.</text>
+            </svg>
+          `,
+          caption: 'Les composantes forment les deux côtés de l\'angle droit ; la norme est l\'hypoténuse.'
+        },
+        type: 'numeric',
+        answer: 403,
+        tolerance: 2,
+        unit: 'N',
         points: 3,
+        correction: '$\\|\\vec{F}\\| = \\sqrt{350^2 + (-200)^2} = \\sqrt{122\\,500 + 40\\,000} = \\sqrt{162\\,500} \\approx 403\\;\\text{N}$.<br/><br/>Son orientation : $\\theta = \\arctan\\left(\\dfrac{-200}{350}\\right) \\approx -29{,}7°$ — la force est inclinée <strong>vers le bas</strong>.',
       },
       {
-        q: 'Trois forces s\'appliquent en un point : $\\vec{F_1} = (400, 0)$ N, $\\vec{F_2} = (-150, 300)$ N, $\\vec{F_3} = (0, -200)$ N. Le système est-il en équilibre ?',
-        answer: '$\\sum F_x = 400 - 150 + 0 = 250\\;\\text{N} \\neq 0$ → le système n\'est pas en équilibre. La résultante vaut $(250, 100)$ N, de norme $\\sqrt{250^2+100^2} \\approx 269\\;\\text{N}$.',
+        statement: 'Trois forces s\'appliquent en un même point : $\\vec{F_1} = (400\\,;\\, 0)$ N, $\\vec{F_2} = (-150\\,;\\, 300)$ N et $\\vec{F_3} = (0\\,;\\, -200)$ N. Le système est-il en équilibre ?',
+        type: 'multiple-choice',
+        options: [
+          'Non : $\\sum \\vec{F} = (250\\,;\\, 100)$ N, de norme $\\approx 269$ N',
+          'Oui : les trois forces se compensent exactement',
+          'Non : $\\sum \\vec{F} = (550\\,;\\, 500)$ N',
+          'Impossible à dire sans connaître les points d\'application',
+        ],
+        answer: 0,
         points: 3,
+        correction: 'On somme composante par composante.<br/><br/>$\\sum F_x = 400 - 150 + 0 = 250\\;\\text{N}$<br/>$\\sum F_y = 0 + 300 - 200 = 100\\;\\text{N}$<br/><br/>La résultante n\'est pas nulle : $\\|\\sum\\vec{F}\\| = \\sqrt{250^2 + 100^2} \\approx 269\\;\\text{N}$. Le système <strong>n\'est pas en équilibre</strong> — il faudrait une quatrième force $(-250\\,;\\, -100)$ N pour l\'équilibrer.',
       },
       {
-        q: 'Un opérateur tire une palette sur 12 m avec une force de 300 N à 25° de l\'horizontale. Calculez le travail effectué.',
-        answer: '$W = F \\times d \\times \\cos\\theta = 300 \\times 12 \\times \\cos 25° = 3600 \\times 0{,}906 \\approx 3263\\;\\text{J} \\approx 3{,}26\\;\\text{kJ}$',
+        statement: 'Un opérateur tire une palette sur $d = 12$ m avec une force de $300$ N inclinée à $25°$ au-dessus de l\'horizontale. Calculer le travail effectué (en J, arrondi à l\'unité).',
+        type: 'numeric',
+        answer: 3263,
+        tolerance: 20,
+        unit: 'J',
         points: 3,
+        correction: 'Seule la composante <strong>parallèle au déplacement</strong> travaille :<br/><br/>$W = F \\times d \\times \\cos\\theta = 300 \\times 12 \\times \\cos 25°$<br/>$W = 3600 \\times 0{,}906 \\approx 3263\\;\\text{J} \\approx 3{,}26\\;\\text{kJ}$.<br/><br/>C\'est exactement le produit scalaire $\\vec{F} \\cdot \\vec{d}$.',
       },
       {
-        q: 'Deux vecteurs tension : $\\vec{T_1} = (0, 800)\\;\\text{N}$ (vers le haut) et $\\vec{T_2} = (600, 0)\\;\\text{N}$ (horizontal). Calculez l\'angle entre ces deux vecteurs.',
-        answer: '$\\vec{T_1}\\cdot\\vec{T_2} = 0\\times600 + 800\\times0 = 0$ → les vecteurs sont perpendiculaires, l\'angle est $90°$.',
+        statement: 'Deux tensions s\'exercent sur un même anneau : $\\vec{T_1} = (0\\,;\\, 800)\\;\\text{N}$ (verticale) et $\\vec{T_2} = (600\\,;\\, 0)\\;\\text{N}$ (horizontale). Calculer l\'angle entre ces deux vecteurs (en degrés).',
+        type: 'numeric',
+        answer: 90,
+        tolerance: 1,
+        unit: '°',
         points: 3,
+        correction: 'Le produit scalaire vaut $\\vec{T_1}\\cdot\\vec{T_2} = 0\\times600 + 800\\times0 = 0$.<br/><br/>Un produit scalaire nul entre deux vecteurs non nuls signifie qu\'ils sont <strong>perpendiculaires</strong> : l\'angle est de $90°$.<br/><br/>C\'est le test le plus rapide pour vérifier une perpendicularité sans tracer quoi que ce soit.',
       },
     ],
   },

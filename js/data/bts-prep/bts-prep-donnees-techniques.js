@@ -119,11 +119,11 @@ Lecture : pour $P_f = 3{,}5\\;\\text{kW}$ et $P_{\\text{élec}} = 0{,}88\\;\\tex
 
           <text class="annotation-label" x="230" y="45">Courbe HMT(Q)</text>
           <text class="annotation-label" x="215" y="65">Point nominal</text>
-          <text class="label-soft" x="215" y="79">Qn≈9 m³/h · Hn≈17 m</text>
+          <text class="label-soft" x="205" y="79">Qn≈9 m³/h · Hn≈17 m</text>
           <text class="label-soft" x="62" y="48">H₀ = 25 m (Q=0)</text>
           <text class="label-soft" x="222" y="178">Qmax≈16 m³/h (H=0)</text>
 
-          <text class="axis-label" x="330" y="189">Q (m³/h)</text>
+          <text class="axis-label" x="352" y="189" text-anchor="end">Q (m³/h)</text>
           <text class="axis-label" x="58" y="24">H (m)</text>
 
           <text class="tick-label" x="52" y="203" text-anchor="middle">0</text>
@@ -209,6 +209,27 @@ Lecture : pour $P_f = 3{,}5\\;\\text{kW}$ et $P_{\\text{élec}} = 0{,}88\\;\\tex
     },
     {
       q: 'Dans un catalogue de pompes centrifuges, la "courbe de réseau" représente :',
+      figure: {
+        svg: `
+          <svg viewBox="0 0 340 190" role="img" aria-labelledby="qdt-reseau-title qdt-reseau-desc">
+            <title id="qdt-reseau-title">Courbe de pompe et courbe de reseau superposees</title>
+            <desc id="qdt-reseau-desc">Dans un meme repere, une courbe decroissante represente ce que la pompe peut fournir et une courbe croissante ce que le circuit reclame en pertes de charge. Leur intersection definit le point de fonctionnement reel de l'installation.</desc>
+            <line class="axis" x1="55" y1="155" x2="310" y2="155"></line>
+            <line class="axis" x1="55" y1="170" x2="55" y2="30"></line>
+            <path class="curve-main" fill="none" d="M 55 45 L 90 48 L 125 55 L 160 67 L 195 84 L 230 106 L 265 133"></path>
+            <path class="curve-main" fill="none" stroke="var(--secondary)" d="M 55 145 L 90 143 L 125 137 L 160 126 L 195 111 L 230 92 L 265 68"></path>
+            <circle class="plot-point" cx="182" cy="99" r="8"></circle>
+            <line class="guide-line" x1="182" y1="155" x2="182" y2="99"></line>
+            <line class="guide-line" x1="55" y1="99" x2="182" y2="99"></line>
+            <text class="annotation-label" x="200" y="146">pompe : l\'offre</text>
+            <text class="annotation-label" x="200" y="52" fill="var(--secondary)">réseau : la demande</text>
+            <text class="tick-label" x="100" y="94">point de fonctionnement</text>
+            <text class="axis-label" x="310" y="172" text-anchor="end">Q</text>
+            <text class="axis-label" x="55" y="24">H</text>
+          </svg>
+        `,
+        caption: 'Deux objets distincts : la pompe est une offre décroissante, le réseau une demande croissante.'
+      },
       options: ['Les performances de la pompe à différents débits', 'Les pertes de charge de l\'installation en fonction du débit', 'La puissance électrique absorbée par le moteur', 'Le NPSH disponible'],
       answer: 1,
       correction: 'La courbe de réseau représente les pertes de charge hydrauliques (tuyauteries, vannes, échangeurs) en fonction du débit. Le point de fonctionnement est à son intersection avec la courbe pompe.',
@@ -221,6 +242,28 @@ Lecture : pour $P_f = 3{,}5\\;\\text{kW}$ et $P_{\\text{élec}} = 0{,}88\\;\\tex
     },
     {
       q: 'Sur une fiche technique de panneau solaire, "Pmax = 400 Wc" signifie :',
+      figure: {
+        svg: `
+          <svg viewBox="0 0 360 170" role="img" aria-labelledby="qdt-wc-title qdt-wc-desc">
+            <title id="qdt-wc-title">Etiquette de panneau photovoltaique en conditions STC</title>
+            <desc id="qdt-wc-desc">Une etiquette de panneau photovoltaique indique une puissance crete de 400 watts-crete, mesuree dans les conditions normalisees STC : un eclairement de 1000 watts par metre carre, une temperature de cellule de 25 degres et un coefficient d'air masse de 1,5. Une mention rappelle que ces conditions ne sont presque jamais reunies en exploitation reelle.</desc>
+            <rect x="25" y="25" width="200" height="120" rx="8" fill="color-mix(in srgb, var(--diagram-accent) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 40%, var(--border))" stroke-width="2"></rect>
+            <text class="annotation-label" x="40" y="48">Plaque signalétique</text>
+            <line class="grid-line" x1="40" y1="58" x2="210" y2="58"></line>
+            <text class="axis-label" x="40" y="80">Pmax = 400 Wc</text>
+            <text class="tick-label" x="40" y="100">conditions STC :</text>
+            <text class="tick-label" x="40" y="116">G = 1000 W/m²  —  25 °C</text>
+            <text class="tick-label" x="40" y="132">AM 1,5</text>
+            <line class="graph-line" x1="235" y1="85" x2="270" y2="85" stroke="var(--secondary)"></line>
+            <polygon points="280,85 262,78 262,92" fill="var(--secondary)"></polygon>
+            <text class="annotation-label" x="290" y="70" text-anchor="middle" fill="var(--secondary)">en vrai</text>
+            <text class="tick-label" x="290" y="90" text-anchor="middle">souvent</text>
+            <text class="tick-label" x="290" y="106" text-anchor="middle">moins</text>
+            <text class="tick-label" x="25" y="162">« c » = conditions d\'essai normalisées</text>
+          </svg>
+        `,
+        caption: 'Le watt-crête est une valeur d\'essai normalisée, pas une puissance délivrée en exploitation.'
+      },
       options: ['La puissance maximale en conditions réelles', 'La puissance crête dans les conditions standard de test (STC)', 'La consommation du panneau', 'La résistance de court-circuit'],
       answer: 1,
       correction: 'Wc (watt-crête) est la puissance mesurée dans les conditions standard de test STC : irradiance 1000 W/m², température de cellule 25°C, AM 1,5. En conditions réelles, la puissance est souvent 10 à 20% inférieure.',
@@ -411,19 +454,48 @@ Le catalogue Grundfos propose les pompes suivantes :<br/><br/>
 | TP 50-120 | 22 | 55 | 4,0 | 62 |
 | TP 50-180 | 26 | 80 | 7,5 | 70 |
 | TP 65-150 | 35 | 65 | 8,5 | 68 |`,
-    schema: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:8px;padding:16px;font-family:monospace;font-size:0.85rem">
-<pre>
-  HMT (m)
-   80 │              TP 50-180
-   65 │                      TP 65-150
-   55 │        TP 50-120
-      │
-   60 ┤   ← H_réseau à Q=20: 0,15×400=60m
-      │
-      └──────────────────────── Q (m³/h)
-        10   20   26   35
-</pre>
-</div>`,
+    figure: {
+      svg: `
+        <svg viewBox="0 0 460 250" role="img" aria-labelledby="pb-donnees-title pb-donnees-desc">
+          <title id="pb-donnees-title">Courbe de reseau et hauteurs maximales des trois pompes du catalogue</title>
+          <desc id="pb-donnees-desc">Un repere avec le debit en metres cubes par heure en abscisse et la hauteur manometrique en metres en ordonnee. Une parabole croissante represente les pertes de charge du reseau, qui atteignent 60 metres au debit requis de 20 metres cubes par heure. Trois traits horizontaux reperent les hauteurs maximales des pompes TP 50-120 a 55 metres, TP 65-150 a 65 metres et TP 50-180 a 80 metres : seules les deux dernieres passent au-dessus du point de fonctionnement.</desc>
+
+          <line class="grid-line" x1="70" y1="180" x2="420" y2="180"></line>
+          <line class="grid-line" x1="70" y1="150" x2="420" y2="150"></line>
+          <line class="grid-line" x1="70" y1="120" x2="420" y2="120"></line>
+          <line class="grid-line" x1="70" y1="90" x2="420" y2="90"></line>
+          <line class="grid-line" x1="70" y1="60" x2="420" y2="60"></line>
+          <line class="axis" x1="70" y1="210" x2="430" y2="210"></line>
+          <line class="axis" x1="70" y1="220" x2="70" y2="40"></line>
+
+          <path class="curve-main" fill="none" d="M 70 210 L 105 208 L 140 202 L 175 192 L 210 178 L 245 160 L 280 138 L 315 112 L 350 82 L 385 48"></path>
+          <text class="annotation-label" x="318" y="72" fill="var(--primary)">Réseau ΔH = 0,15 Q²</text>
+
+          <line class="graph-line" x1="70" y1="120" x2="290" y2="120" stroke="var(--secondary)"></line>
+          <text class="tick-label" x="296" y="124" fill="var(--secondary)">TP 50-120 — Hmax 55 m</text>
+          <line class="graph-line" x1="70" y1="90" x2="360" y2="90" stroke="var(--accent)"></line>
+          <text class="tick-label" x="360" y="94" fill="var(--accent)">TP 65-150 — 65 m</text>
+          <line class="graph-line" x1="70" y1="60" x2="330" y2="60" stroke="color-mix(in srgb, var(--secondary) 50%, var(--accent))"></line>
+          <text class="tick-label" x="336" y="52" fill="color-mix(in srgb, var(--secondary) 50%, var(--accent))">TP 50-180 — 80 m</text>
+
+          <line class="guide-line" x1="210" y1="210" x2="210" y2="108"></line>
+          <line class="guide-line" x1="70" y1="108" x2="210" y2="108"></line>
+          <circle class="plot-point" cx="210" cy="108" r="7"></circle>
+          <text class="annotation-label" x="150" y="102">point requis</text>
+          <text class="annotation-label" x="216" y="230">Q = 20 m³/h → ΔH = 60 m</text>
+
+          <text class="tick-label" x="62" y="184" text-anchor="end">20</text>
+          <text class="tick-label" x="62" y="154" text-anchor="end">40</text>
+          <text class="tick-label" x="62" y="124" text-anchor="end">55</text>
+          <text class="tick-label" x="62" y="94" text-anchor="end">65</text>
+          <text class="tick-label" x="62" y="64" text-anchor="end">80</text>
+          <text class="tick-label" x="70" y="226" text-anchor="middle">0</text>
+          <text class="axis-label" x="430" y="232" text-anchor="end">Q (m³/h)</text>
+          <text class="axis-label" x="70" y="32">HMT (m)</text>
+        </svg>
+      `,
+      caption: 'Le point requis (20 m³/h ; 60 m) élimine d\'emblée la TP 50-120, dont la hauteur maximale plafonne à 55 m.'
+    },
     tasks: [
       'Calculer la perte de charge du réseau $\\Delta H$ pour $Q = 20\\;\\text{m}^3/\\text{h}$. C\'est le point de fonctionnement cible.',
       'Parmi les trois pompes du catalogue, laquelle peut couvrir le point $(Q = 20\\;\\text{m}^3/\\text{h}, H = \\Delta H)$ ? Justifier.',
@@ -444,24 +516,65 @@ Le catalogue Grundfos propose les pompes suivantes :<br/><br/>
     duration: '25 min',
     questions: [
       {
-        q: 'Une fiche technique de pompe indique : $Q_n = 15\\;\\text{m}^3/\\text{h}$, $H_n = 28\\;\\text{m}$, $\\eta_n = 65\\%$. Calculer la puissance absorbée par le moteur.',
-        answer: '$P_{\\text{utile}} = \\rho g Q H = 1000 \\times 9{,}81 \\times (15/3600) \\times 28 = 1000 \\times 9{,}81 \\times 0{,}004167 \\times 28 \\approx 1145\\;\\text{W}$<br/>$P_{\\text{abs}} = P_{\\text{utile}} / \\eta = 1145 / 0{,}65 \\approx 1760\\;\\text{W} = 1{,}76\\;\\text{kW}$',
+        statement: 'Une fiche technique de pompe indique $Q_n = 15\\;\\text{m}^3/\\text{h}$, $H_n = 28\\;\\text{m}$ et $\\eta_n = 65\\;\\%$. Calculer la puissance <strong>absorbée</strong> par le moteur (en W, arrondie à la dizaine).',
+        figure: {
+          svg: `
+            <svg viewBox="0 0 340 160" role="img" aria-labelledby="ev-dt-title ev-dt-desc">
+              <title id="ev-dt-title">Puissance absorbee et puissance hydraulique utile</title>
+              <desc id="ev-dt-desc">Deux bandes de largeurs differentes representent la puissance absorbee par le moteur, la plus large, et la puissance hydraulique utile, plus etroite. Le rendement de 65 pour cent fait le lien entre les deux, et une fleche rappelle que l'on divise par le rendement pour remonter de l'utile a l'absorbe.</desc>
+              <rect x="25" y="35" width="145" height="46" rx="6" fill="color-mix(in srgb, var(--diagram-accent) 22%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 45%, var(--border))"></rect>
+              <text class="annotation-label" x="97" y="56" text-anchor="middle">P absorbée = ?</text>
+              <text class="tick-label" x="97" y="73" text-anchor="middle">au réseau électrique</text>
+              <rect x="25" y="96" width="94" height="34" rx="6" fill="color-mix(in srgb, var(--accent) 24%, var(--bg-card))" stroke="color-mix(in srgb, var(--accent) 46%, var(--border))"></rect>
+              <text class="tick-label" x="72" y="117" text-anchor="middle">P utile = ρgQH</text>
+              <line class="guide-line" x1="170" y1="58" x2="200" y2="58"></line>
+              <line class="guide-line" x1="119" y1="113" x2="200" y2="113"></line>
+              <text class="annotation-label" x="208" y="62">η = 65 %</text>
+              <text class="tick-label" x="208" y="86">P abs = P utile / η</text>
+              <text class="tick-label" x="208" y="106">on DIVISE :</text>
+              <text class="tick-label" x="196" y="122">l\'absorbée est plus grande</text>
+              <text class="tick-label" x="25" y="152">Q en m³/s avant d\'appliquer P utile = ρgQH</text>
+            </svg>
+          `,
+          caption: 'Deux puissances distinctes : l\'utile sort de la pompe, l\'absorbée entre dans le moteur.'
+        },
+        type: 'numeric',
+        answer: 1760,
+        tolerance: 30,
+        unit: 'W',
         points: 4,
+        correction: 'Deux étapes, dans cet ordre.<br/><br/><strong>1. Puissance hydraulique utile</strong> — le débit doit être en m³/s :<br/><br/>$Q = \\dfrac{15}{3600} \\approx 4{,}167 \\times 10^{-3}\\;\\text{m}^3/\\text{s}$<br/>$P_{\\text{utile}} = \\rho g Q H = 1000 \\times 9{,}81 \\times 4{,}167\\times 10^{-3} \\times 28 \\approx 1145\\;\\text{W}$<br/><br/><strong>2. Remonter au moteur</strong> — on <em>divise</em> par le rendement :<br/><br/>$P_{\\text{abs}} = \\dfrac{P_{\\text{utile}}}{\\eta} = \\dfrac{1145}{0{,}65} \\approx \\mathbf{1760\\;\\text{W}} = 1{,}76\\;\\text{kW}$<br/><br/>Le sens de la division est le piège : la puissance absorbée est toujours <strong>supérieure</strong> à la puissance utile.',
       },
       {
-        q: 'Un climatiseur réversible a EER = 3,2 (refroidissement) et COP = 4,0 (chauffage), avec $P_{\\text{élec}} = 3\\;\\text{kW}$. Calculer la puissance fournie dans les deux modes.',
-        answer: 'Mode froid : $P_f = \\text{EER} \\times P_{\\text{élec}} = 3{,}2 \\times 3 = 9{,}6\\;\\text{kW}$<br/>Mode chaud : $P_{\\text{chaud}} = \\text{COP} \\times P_{\\text{élec}} = 4{,}0 \\times 3 = 12\\;\\text{kW}$',
+        statement: 'Un climatiseur réversible affiche EER = 3,2 (mode froid) et COP = 4,0 (mode chaud), pour $P_{\\text{élec}} = 3\\;\\text{kW}$. Calculer la puissance <strong>frigorifique</strong> délivrée (en kW).',
+        type: 'numeric',
+        answer: 9.6,
+        tolerance: 0.1,
+        unit: 'kW',
         points: 3,
+        correction: 'L\'EER et le COP sont des <strong>multiplicateurs</strong> de la puissance électrique consommée :<br/><br/>Mode froid : $P_f = \\text{EER} \\times P_{\\text{élec}} = 3{,}2 \\times 3 = \\mathbf{9{,}6\\;\\text{kW}}$<br/><br/>Mode chaud : $P_{\\text{chaud}} = \\text{COP} \\times P_{\\text{élec}} = 4{,}0 \\times 3 = 12\\;\\text{kW}$<br/><br/>Le COP dépasse le COP froid d\'une unité environ : en mode chauffage, la machine restitue aussi l\'énergie électrique du compresseur, en plus de la chaleur prélevée dehors.',
       },
       {
-        q: 'La fiche d\'un disjoncteur GV3P indique $I_{cu} = 50\\;\\text{kA}$. Expliquer ce paramètre et son importance dans le choix.',
-        answer: '$I_{cu}$ est le pouvoir de coupure ultime : courant de court-circuit maximal que le disjoncteur peut interrompre sans être détruit. Sur un réseau 400 V, si le courant de court-circuit présumé $I_{cc}$ de l\'installation est de 30 kA, on doit choisir un disjoncteur avec $I_{cu} \\geq 30\\;\\text{kA}$. Sous-dimensionner le $I_{cu}$ entraîne la destruction du disjoncteur et un risque d\'incendie.',
+        statement: 'La fiche d\'un disjoncteur GV3P indique $I_{cu} = 50\\;\\text{kA}$. Que signifie ce paramètre et comment le choisir ?',
+        type: 'multiple-choice',
+        options: [
+          'C\'est le pouvoir de coupure ultime : il doit être $\\geq$ au courant de court-circuit présumé de l\'installation',
+          'C\'est le courant nominal du disjoncteur : il doit être égal au courant de service',
+          'C\'est le courant de réglage thermique : il se règle selon la puissance du moteur',
+          'C\'est le courant de fuite maximal admissible avant déclenchement différentiel',
+        ],
+        answer: 0,
         points: 4,
+        correction: '$I_{cu}$ est le <strong>pouvoir de coupure ultime</strong> : le courant de court-circuit maximal que l\'appareil peut interrompre sans être détruit.<br/><br/>Règle de choix : si le courant de court-circuit présumé $I_{cc}$ au point d\'installation vaut 30 kA, il faut un disjoncteur tel que $I_{cu} \\geq 30\\;\\text{kA}$.<br/><br/>Sous-dimensionner $I_{cu}$ signifie que le disjoncteur <strong>explose au lieu de couper</strong> — risque d\'arc, d\'incendie et de non-protection de l\'installation. Ce paramètre n\'a rien à voir avec le courant nominal $I_n$, qui dimensionne l\'usage courant.',
       },
       {
-        q: 'Un panneau solaire de $P_{\\max} = 400\\;\\text{Wc}$ a un rendement de 21%. Calculer sa surface active.',
-        answer: 'Rendement = $P_{\\max} / (G \\times S)$ avec $G = 1000\\;\\text{W/m}^2$ (STC).<br/>$S = P_{\\max} / (G \\times \\eta) = 400 / (1000 \\times 0{,}21) \\approx 1{,}90\\;\\text{m}^2$',
+        statement: 'Un panneau photovoltaïque de $P_{\\max} = 400\\;\\text{Wc}$ affiche un rendement de $21\\;\\%$. Calculer sa surface active (en m², 2 décimales). On prend l\'éclairement STC $G = 1000\\;\\text{W/m}^2$.',
+        type: 'numeric',
+        answer: 1.90,
+        tolerance: 0.05,
+        unit: 'm²',
         points: 3,
+        correction: 'Le rendement est le rapport entre la puissance électrique produite et la puissance solaire reçue :<br/><br/>$\\eta = \\dfrac{P_{\\max}}{G \\times S}$<br/><br/>On isole la surface :<br/><br/>$S = \\dfrac{P_{\\max}}{G \\times \\eta} = \\dfrac{400}{1000 \\times 0{,}21} \\approx \\mathbf{1{,}90\\;\\text{m}^2}$<br/><br/>Ordre de grandeur à retenir : un panneau résidentiel moderne fait environ <strong>2 m² pour 400 Wc</strong>. Si ton résultat s\'écarte beaucoup de ça, c\'est probablement le rendement qui a été multiplié au lieu d\'être divisé.',
       },
     ],
   },

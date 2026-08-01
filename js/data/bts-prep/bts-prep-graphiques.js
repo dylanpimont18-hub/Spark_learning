@@ -118,6 +118,120 @@ Pour $Q = 12\\;\\text{m}^3/\\text{h}$ (entre 10 et 15) :<br/>$$\\text{HMT} = 38 
       caption: 'Interpolation linéaire entre $Q_1 = 10$ et $Q_2 = 15\\;\\text{m}^3/\\text{h}$ : $\\text{HMT}(12) \\approx 33{,}6\\;\\text{m}$.'
     },
 
+    diagrams: [
+      {
+        theme: 'maths',
+        kicker: 'Lecture guidée — abaque de pompe',
+        title: 'Lire une valeur sur une vraie courbe, projection après projection',
+        description: 'Voici l\'exercice réel du technicien : une courbe constructeur graduée, et une question du type « quelle HMT disponible pour un débit de 12 m³/h ? ». La réponse se lit en <strong>deux projections</strong>, sans aucun calcul.',
+        svg: `
+          <svg viewBox="0 0 470 250" role="img" aria-labelledby="btsgraph-abaque-title btsgraph-abaque-desc">
+            <title id="btsgraph-abaque-title">Lecture d'un point sur une courbe de pompe graduee</title>
+            <desc id="btsgraph-abaque-desc">Un repere gradue avec le debit Q en metres cubes par heure en abscisse de 0 a 20 et la hauteur manometrique HMT en metres en ordonnee de 30 a 50. Une courbe decroissante representant la pompe. Depuis la graduation 12 sur l'axe des debits, une ligne verticale en pointilles monte jusqu'a la courbe, puis une ligne horizontale part vers l'axe des hauteurs et donne environ 41 metres.</desc>
+
+            <line class="grid-line" x1="153" y1="45" x2="153" y2="200"></line>
+            <line class="grid-line" x1="235" y1="45" x2="235" y2="200"></line>
+            <line class="grid-line" x1="318" y1="45" x2="318" y2="200"></line>
+            <line class="grid-line" x1="400" y1="45" x2="400" y2="200"></line>
+            <line class="grid-line" x1="70" y1="110" x2="410" y2="110"></line>
+            <line class="grid-line" x1="70" y1="95" x2="410" y2="95"></line>
+            <line class="grid-line" x1="70" y1="80" x2="410" y2="80"></line>
+            <line class="grid-line" x1="70" y1="65" x2="410" y2="65"></line>
+            <line class="grid-line" x1="70" y1="50" x2="410" y2="50"></line>
+
+            <line class="axis" x1="70" y1="200" x2="420" y2="200"></line>
+            <line class="axis" x1="70" y1="210" x2="70" y2="42"></line>
+
+            <path class="curve-main" fill="none" d="M 70 56 L 87 57 L 103 58 L 120 60 L 136 61 L 153 63 L 169 64 L 186 66 L 202 68 L 219 70 L 235 73 L 252 75 L 268 77 L 285 80 L 301 82 L 318 85 L 334 88 L 351 91 L 367 94 L 384 98 L 400 101"></path>
+
+            <line class="guide-line" x1="268" y1="200" x2="268" y2="77" stroke="var(--secondary)"></line>
+            <line class="guide-line" x1="268" y1="77" x2="70" y2="77" stroke="var(--secondary)"></line>
+            <circle class="plot-point" cx="268" cy="77" r="7"></circle>
+            <circle class="plot-point-alt" cx="268" cy="200" r="5"></circle>
+            <circle class="plot-point-alt" cx="70" cy="77" r="5"></circle>
+
+            <text class="annotation-label" x="268" y="222" text-anchor="middle" fill="var(--secondary)">① Q = 12</text>
+            <text class="annotation-label" x="150" y="70" fill="var(--secondary)">② HMT ≈ 41 m</text>
+
+            <text class="tick-label" x="70" y="216" text-anchor="middle">0</text>
+            <text class="tick-label" x="153" y="216" text-anchor="middle">5</text>
+            <text class="tick-label" x="235" y="216" text-anchor="middle">10</text>
+            <text class="tick-label" x="318" y="216" text-anchor="middle">15</text>
+            <text class="tick-label" x="400" y="216" text-anchor="middle">20</text>
+            <text class="tick-label" x="62" y="114" text-anchor="end">30</text>
+            <text class="tick-label" x="62" y="99" text-anchor="end">35</text>
+            <text class="tick-label" x="62" y="84" text-anchor="end">40</text>
+            <text class="tick-label" x="62" y="69" text-anchor="end">45</text>
+            <text class="tick-label" x="62" y="54" text-anchor="end">50</text>
+            <text class="axis-label" x="420" y="222" text-anchor="end">Q (m³/h)</text>
+            <text class="axis-label" x="70" y="34">HMT (m)</text>
+          </svg>
+        `,
+        notes: [
+          '<strong>① Partir de la donnée connue :</strong> on repère $Q = 12$ sur l\'axe horizontal, entre les graduations 10 et 15. On monte <strong>verticalement</strong> jusqu\'à toucher la courbe.',
+          '<strong>② Basculer vers l\'axe cherché :</strong> depuis le point d\'intersection, on part <strong>horizontalement</strong> vers l\'axe des ordonnées. On lit $\\text{HMT} \\approx 41$ m.',
+          '<strong>Annoncer l\'incertitude :</strong> une graduation vaut ici 5 m ; une lecture soignée donne $41 \\pm 1$ m. Écrire « 40,87 m » serait une fausse précision — le graphique ne la contient pas.'
+        ],
+        reading: 'L\'ordre des projections n\'est jamais arbitraire : on part <strong>toujours</strong> de la grandeur imposée par l\'énoncé (ici le débit demandé par l\'installation) vers la grandeur cherchée (la hauteur que la pompe peut fournir).',
+        caption: 'Lecture en deux projections d\'une courbe de pompe graduée : Q = 12 m³/h donne HMT ≈ 41 m.'
+      },
+      {
+        theme: 'maths',
+        kicker: 'Choisir son échelle',
+        title: 'Pourquoi les abaques techniques sont en échelle logarithmique',
+        description: 'Les <strong>mêmes données</strong> tracées de deux façons. À gauche, en échelle linéaire, les petites valeurs sont écrasées contre l\'axe et illisibles. À droite, en semi-logarithmique, la loi devient une <strong>droite</strong> — et toutes les valeurs sont lisibles.',
+        svg: `
+          <svg viewBox="0 0 470 252" role="img" aria-labelledby="btsgraph-echelle-title btsgraph-echelle-desc">
+            <title id="btsgraph-echelle-title">Meme loi exponentielle en echelle lineaire puis semi-logarithmique</title>
+            <desc id="btsgraph-echelle-desc">Deux reperes cote a cote representant la meme loi y egale 2 fois 10 puissance x. A gauche en echelle lineaire, la courbe reste collee a l'axe horizontal puis monte brutalement a la fin. A droite en echelle semi-logarithmique, ou l'axe vertical porte les graduations 2, 20, 200 et 2000 a intervalles egaux, la meme loi devient une droite parfaitement lisible.</desc>
+
+            <text class="axis-label" x="130" y="26" text-anchor="middle">Échelle linéaire</text>
+            <line class="axis" x1="60" y1="190" x2="215" y2="190"></line>
+            <line class="axis" x1="60" y1="200" x2="60" y2="45"></line>
+            <path class="curve-main" fill="none" d="M 60 190 L 68 190 L 75 190 L 83 190 L 91 189 L 98 189 L 106 189 L 114 188 L 121 187 L 129 186 L 137 184 L 144 181 L 152 177 L 160 171 L 167 162 L 175 149 L 183 130 L 190 101 L 198 60"></path>
+            <circle class="plot-point-alt" cx="60" cy="190" r="4"></circle>
+            <circle class="plot-point-alt" cx="106" cy="189" r="4"></circle>
+            <circle class="plot-point-alt" cx="152" cy="177" r="4"></circle>
+            <circle class="plot-point" cx="198" cy="60" r="5"></circle>
+            <text class="tick-label" x="52" y="194" text-anchor="end">0</text>
+            <text class="tick-label" x="52" y="64" text-anchor="end">2000</text>
+            <text class="tick-label" x="66" y="176">2, 20 et 200 sont</text>
+            <text class="tick-label" x="66" y="164">indiscernables ici</text>
+            <text class="tick-label" x="205" y="206" text-anchor="middle">x</text>
+
+            <text class="axis-label" x="340" y="26" text-anchor="middle">Échelle semi-logarithmique</text>
+            <line class="grid-line" x1="260" y1="178" x2="410" y2="178"></line>
+            <line class="grid-line" x1="260" y1="140" x2="410" y2="140"></line>
+            <line class="grid-line" x1="260" y1="102" x2="410" y2="102"></line>
+            <line class="grid-line" x1="260" y1="64" x2="410" y2="64"></line>
+            <line class="axis" x1="260" y1="190" x2="415" y2="190"></line>
+            <line class="axis" x1="260" y1="200" x2="260" y2="45"></line>
+            <line class="curve-main" x1="260" y1="178" x2="398" y2="64"></line>
+            <circle class="plot-point-alt" cx="260" cy="178" r="4"></circle>
+            <circle class="plot-point-alt" cx="306" cy="140" r="4"></circle>
+            <circle class="plot-point-alt" cx="352" cy="102" r="4"></circle>
+            <circle class="plot-point" cx="398" cy="64" r="5"></circle>
+            <text class="tick-label" x="252" y="182" text-anchor="end">2</text>
+            <text class="tick-label" x="252" y="144" text-anchor="end">20</text>
+            <text class="tick-label" x="252" y="106" text-anchor="end">200</text>
+            <text class="tick-label" x="252" y="68" text-anchor="end">2000</text>
+            <text class="tick-label" x="405" y="206" text-anchor="middle">x</text>
+            <text class="annotation-label" x="286" y="86">une droite !</text>
+
+            <text class="tick-label" x="60" y="228">Sur un axe logarithmique, un même écart vertical correspond à une même</text>
+            <text class="tick-label" x="60" y="240">multiplication (ici ×10), et non à une même addition.</text>
+          </svg>
+        `,
+        notes: [
+          '<strong>Le problème de l\'échelle linéaire :</strong> quand les valeurs s\'étalent sur plusieurs décades (de 2 à 2000), les petites sont indiscernables. Impossible de lire quoi que ce soit en dessous de 200.',
+          '<strong>Ce que fait l\'axe logarithmique :</strong> il gradue en <strong>multiplications</strong>. L\'écart entre 2 et 20 y occupe la même hauteur que celui entre 200 et 2000, parce que le rapport est le même (×10).',
+          '<strong>Le signal à reconnaître :</strong> une <strong>droite sur un semi-log</strong> (y log, x linéaire) trahit une loi exponentielle $y = a \\cdot 10^{kx}$. Une droite sur un <strong>log-log</strong> trahit une loi puissance $y = a \\cdot x^n$.'
+        ],
+        reading: 'Quand un catalogue te présente une échelle logarithmique, ce n\'est pas pour compliquer : c\'est parce que la grandeur varie sur plusieurs décades. <strong>Vérifie toujours la nature de l\'axe avant de lire une valeur intermédiaire</strong> — interpoler « au milieu » entre 200 et 2000 ne donne pas 1100 mais environ 630.',
+        caption: 'Une même loi exponentielle tracée en échelle linéaire puis semi-logarithmique : seule la seconde est exploitable.'
+      }
+    ],
+
     recap: [
       'Toujours vérifier les unités et l\'échelle d\'un graphique avant de lire',
       'Interpolation : estimer entre deux points connus → formule $(y_2-y_1)/(x_2-x_1)$',
@@ -136,6 +250,34 @@ Pour $Q = 12\\;\\text{m}^3/\\text{h}$ (entre 10 et 15) :<br/>$$\\text{HMT} = 38 
   quiz: [
     {
       q: 'Sur un graphique de pompe, pour $Q = 8\\;\\text{m}^3/\\text{h}$ on lit HMT = 42 m, et pour $Q = 12\\;\\text{m}^3/\\text{h}$ on lit HMT = 34 m. Par interpolation, HMT pour $Q = 10\\;\\text{m}^3/\\text{h}$ vaut :',
+      figure: {
+        svg: `
+          <svg viewBox="0 0 340 190" role="img" aria-labelledby="qgraph-interp-title qgraph-interp-desc">
+            <title id="qgraph-interp-title">Interpolation entre deux points de mesure</title>
+            <desc id="qgraph-interp-desc">Deux points de mesure connus, le premier a 8 metres cubes par heure pour 42 metres et le second a 12 metres cubes par heure pour 34 metres, sont relies par un segment de droite. Le point recherche a 10 metres cubes par heure se situe exactement a mi-chemin sur ce segment.</desc>
+            <line class="grid-line" x1="80" y1="30" x2="80" y2="150"></line>
+            <line class="grid-line" x1="180" y1="30" x2="180" y2="150"></line>
+            <line class="grid-line" x1="280" y1="30" x2="280" y2="150"></line>
+            <line class="axis" x1="45" y1="150" x2="320" y2="150"></line>
+            <line class="axis" x1="45" y1="165" x2="45" y2="30"></line>
+            <line class="curve-main" x1="80" y1="50" x2="280" y2="130"></line>
+            <circle class="plot-point" cx="80" cy="50" r="7"></circle>
+            <circle class="plot-point" cx="280" cy="130" r="7"></circle>
+            <line class="guide-line" x1="180" y1="150" x2="180" y2="90" stroke="var(--secondary)"></line>
+            <line class="guide-line" x1="45" y1="90" x2="180" y2="90" stroke="var(--secondary)"></line>
+            <circle class="plot-point-alt" cx="180" cy="90" r="7"></circle>
+            <text class="tick-label" x="88" y="44">(8 ; 42)</text>
+            <text class="tick-label" x="240" y="150">(12 ; 34)</text>
+            <text class="annotation-label" x="188" y="84" fill="var(--secondary)">(10 ; ?)</text>
+            <text class="tick-label" x="80" y="168" text-anchor="middle">8</text>
+            <text class="tick-label" x="180" y="168" text-anchor="middle">10</text>
+            <text class="tick-label" x="280" y="168" text-anchor="middle">12</text>
+            <text class="axis-label" x="320" y="182" text-anchor="end">Q (m³/h)</text>
+            <text class="axis-label" x="45" y="24">HMT (m)</text>
+          </svg>
+        `,
+        caption: 'Q = 10 est pile au milieu de 8 et 12 : la HMT interpolée l\'est donc aussi entre 42 et 34.'
+      },
       options: ['38 m', '40 m', '36 m', '39 m'],
       answer: 0,
       correction: 'HMT = 42 + (10-8)/(12-8) × (34-42) = 42 + 0,5 × (-8) = 42 - 4 = 38 m.',
@@ -178,6 +320,31 @@ Pour $Q = 12\\;\\text{m}^3/\\text{h}$ (entre 10 et 15) :<br/>$$\\text{HMT} = 38 
     },
     {
       q: 'Sur un axe logarithmique allant de 1 à 1000, quelle valeur se trouve exactement au milieu visuellement ?',
+      figure: {
+        svg: `
+          <svg viewBox="0 0 380 130" role="img" aria-labelledby="qgraph-log-title qgraph-log-desc">
+            <title id="qgraph-log-title">Axe logarithmique de 1 a 1000</title>
+            <desc id="qgraph-log-desc">Un axe logarithmique gradue de 1 a 1000, avec les reperes 1, 10, 100 et 1000 places a intervalles reguliers. Un repere central materialise le milieu geometrique de l'axe, dont la valeur est a determiner.</desc>
+            <line class="axis" x1="40" y1="70" x2="350" y2="70"></line>
+            <line class="frame-line" x1="40" y1="62" x2="40" y2="78"></line>
+            <line class="frame-line" x1="143" y1="62" x2="143" y2="78"></line>
+            <line class="frame-line" x1="246" y1="62" x2="246" y2="78"></line>
+            <line class="frame-line" x1="349" y1="62" x2="349" y2="78"></line>
+            <text class="annotation-label" x="40" y="54" text-anchor="middle">1</text>
+            <text class="annotation-label" x="143" y="54" text-anchor="middle">10</text>
+            <text class="annotation-label" x="246" y="54" text-anchor="middle">100</text>
+            <text class="annotation-label" x="349" y="54" text-anchor="middle">1000</text>
+            <text class="tick-label" x="91" y="96" text-anchor="middle">×10</text>
+            <text class="tick-label" x="194" y="96" text-anchor="middle">×10</text>
+            <text class="tick-label" x="297" y="96" text-anchor="middle">×10</text>
+            <line class="guide-line" x1="194" y1="30" x2="194" y2="70" stroke="var(--secondary)"></line>
+            <circle class="plot-point" cx="194" cy="70" r="7" fill="var(--secondary)"></circle>
+            <text class="annotation-label" x="194" y="24" text-anchor="middle" fill="var(--secondary)">milieu visuel = ?</text>
+            <text class="tick-label" x="40" y="120">Largeur égale = multiplication par 10</text>
+          </svg>
+        `,
+        caption: 'Sur un axe log, le milieu géométrique n\'est pas la moyenne arithmétique des deux extrémités.'
+      },
       options: ['500', '100', '31,6', '250'],
       answer: 2,
       correction: 'Sur un axe log, le milieu entre 1 et 1000 est √(1×1000) = √1000 ≈ 31,6. L\'échelle est compressée pour les grandes valeurs.',
@@ -421,21 +588,60 @@ Une droite en échelle log-log correspond à une loi puissance $y = a \\cdot x^n
 |------------|---|---|---|---|---|---|
 | HMT (m) | 52 | 50 | 46 | 39 | 29 | 14 |<br/><br/>
 La courbe de réseau (pertes de charge du circuit) suit la loi : $\\Delta H_{\\text{réseau}} = 0{,}3 \\times Q^2 + 5$ (en m, avec Q en m³/h).`,
-    schema: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:8px;padding:16px;font-family:monospace;font-size:0.85rem">
-<pre>
-  HMT
-  52 ●
-  50   ●
-  46     ●         ← courbe pompe
-  39       ●
-  29         ●
-  14           ●
-     ─────────────── Q (m³/h)
-   0  2  4  6  8  10
+    figure: {
+      svg: `
+        <svg viewBox="0 0 460 250" role="img" aria-labelledby="pb-graphiques-title pb-graphiques-desc">
+          <title id="pb-graphiques-title">Points de mesure de la pompe et courbe de reseau</title>
+          <desc id="pb-graphiques-desc">Un repere avec le debit de 0 a 10 metres cubes par heure en abscisse et la hauteur manometrique de 0 a 55 metres en ordonnee. Six points de mesure du catalogue, de 52 metres a debit nul jusqu'a 14 metres a 10 metres cubes par heure, sont relies par une courbe decroissante. Une seconde courbe croissante represente les pertes de charge du reseau, 0,3 Q au carre plus 5. Les deux courbes se croisent entre 6 et 8 metres cubes par heure.</desc>
 
-  Réseau : ΔH = 0,3Q² + 5
-</pre>
-</div>`,
+          <line class="grid-line" x1="128" y1="40" x2="128" y2="200"></line>
+          <line class="grid-line" x1="186" y1="40" x2="186" y2="200"></line>
+          <line class="grid-line" x1="244" y1="40" x2="244" y2="200"></line>
+          <line class="grid-line" x1="302" y1="40" x2="302" y2="200"></line>
+          <line class="grid-line" x1="360" y1="40" x2="360" y2="200"></line>
+          <line class="grid-line" x1="70" y1="171" x2="400" y2="171"></line>
+          <line class="grid-line" x1="70" y1="142" x2="400" y2="142"></line>
+          <line class="grid-line" x1="70" y1="113" x2="400" y2="113"></line>
+          <line class="grid-line" x1="70" y1="84" x2="400" y2="84"></line>
+          <line class="grid-line" x1="70" y1="55" x2="400" y2="55"></line>
+          <line class="axis" x1="70" y1="200" x2="415" y2="200"></line>
+          <line class="axis" x1="70" y1="210" x2="70" y2="35"></line>
+
+          <path class="curve-main" fill="none" d="M 70 49 L 128 55 L 186 66 L 244 87 L 302 116 L 360 159"></path>
+          <circle class="plot-point" cx="70" cy="49" r="6"></circle>
+          <circle class="plot-point" cx="128" cy="55" r="6"></circle>
+          <circle class="plot-point" cx="186" cy="66" r="6"></circle>
+          <circle class="plot-point" cx="244" cy="87" r="6"></circle>
+          <circle class="plot-point" cx="302" cy="116" r="6"></circle>
+          <circle class="plot-point" cx="360" cy="159" r="6"></circle>
+          <text class="annotation-label" x="110" y="42" fill="var(--primary)">points catalogue (pompe)</text>
+
+          <path class="curve-main" fill="none" stroke="var(--secondary)" d="M 70 186 L 128 183 L 186 172 L 244 155 L 302 130 L 360 98"></path>
+          <text class="annotation-label" x="300" y="196" fill="var(--secondary)">réseau : ΔH = 0,3 Q² + 5</text>
+
+          <line class="guide-line" x1="272" y1="200" x2="272" y2="101"></line>
+          <circle class="plot-point-alt" cx="272" cy="101" r="8"></circle>
+          <text class="annotation-label" x="230" y="96">croisement</text>
+
+          <text class="tick-label" x="70" y="216" text-anchor="middle">0</text>
+          <text class="tick-label" x="128" y="216" text-anchor="middle">2</text>
+          <text class="tick-label" x="186" y="216" text-anchor="middle">4</text>
+          <text class="tick-label" x="244" y="216" text-anchor="middle">6</text>
+          <text class="tick-label" x="302" y="216" text-anchor="middle">8</text>
+          <text class="tick-label" x="360" y="216" text-anchor="middle">10</text>
+          <text class="tick-label" x="62" y="175" text-anchor="end">10</text>
+          <text class="tick-label" x="62" y="146" text-anchor="end">20</text>
+          <text class="tick-label" x="62" y="117" text-anchor="end">30</text>
+          <text class="tick-label" x="62" y="88" text-anchor="end">40</text>
+          <text class="tick-label" x="62" y="59" text-anchor="end">50</text>
+          <text class="axis-label" x="415" y="232" text-anchor="end">Q (m³/h)</text>
+          <text class="axis-label" x="70" y="28">HMT (m)</text>
+
+          <text class="tick-label" x="70" y="244">Tableau de mesures : (0 ; 52) (2 ; 50) (4 ; 46) (6 ; 39) (8 ; 29) (10 ; 14)</text>
+        </svg>
+      `,
+      caption: 'Les six points de mesure du catalogue tracés, avec la courbe de réseau : le point de fonctionnement se lit à leur croisement.'
+    },
     tasks: [
       'Calculer la perte de charge réseau pour $Q = 0$, $2$, $4$, $6$, $8$ et $10\\;\\text{m}^3/\\text{h}$.',
       'Trouver par interpolation le point de fonctionnement (intersection courbe pompe et courbe réseau). Identifier le segment où les deux courbes se croisent.',

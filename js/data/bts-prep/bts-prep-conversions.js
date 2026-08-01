@@ -251,6 +251,40 @@ Règle pratique : <strong>1 bar ≈ 10 m de colonne d'eau</strong> (pour la pres
     },
     {
       q: 'La pression de 6 bar correspond à :',
+      figure: {
+        svg: `
+          <svg viewBox="0 0 380 140" role="img" aria-labelledby="qconv-bar-title qconv-bar-desc">
+            <title id="qconv-bar-title">Reglette de correspondance entre bar, pascal et megapascal</title>
+            <desc id="qconv-bar-desc">Une reglette a trois lignes alignees verticalement. La ligne du haut donne la pression en bar, celle du milieu la meme valeur en pascals et celle du bas en megapascals. La graduation 6 bar est mise en evidence.</desc>
+            <line class="axis" x1="45" y1="55" x2="350" y2="55"></line>
+            <line class="frame-line" x1="45" y1="49" x2="45" y2="61"></line>
+            <line class="frame-line" x1="121" y1="49" x2="121" y2="61"></line>
+            <line class="frame-line" x1="197" y1="49" x2="197" y2="61"></line>
+            <line class="frame-line" x1="273" y1="49" x2="273" y2="61"></line>
+            <line class="frame-line" x1="349" y1="49" x2="349" y2="61"></line>
+            <text class="annotation-label" x="45" y="42" text-anchor="middle">0</text>
+            <text class="annotation-label" x="121" y="42" text-anchor="middle">2</text>
+            <text class="annotation-label" x="197" y="42" text-anchor="middle">4</text>
+            <text class="annotation-label" x="273" y="42" text-anchor="middle">6</text>
+            <text class="annotation-label" x="349" y="42" text-anchor="middle">8</text>
+            <text class="tick-label" x="45" y="24">bar</text>
+            <text class="tick-label" x="45" y="76">Pa</text>
+            <text class="tick-label" x="121" y="76" text-anchor="middle">2·10⁵</text>
+            <text class="tick-label" x="197" y="76" text-anchor="middle">4·10⁵</text>
+            <text class="tick-label" x="273" y="76" text-anchor="middle">?</text>
+            <text class="tick-label" x="349" y="76" text-anchor="middle">8·10⁵</text>
+            <text class="tick-label" x="45" y="96">MPa</text>
+            <text class="tick-label" x="121" y="96" text-anchor="middle">0,2</text>
+            <text class="tick-label" x="197" y="96" text-anchor="middle">0,4</text>
+            <text class="tick-label" x="273" y="96" text-anchor="middle">?</text>
+            <text class="tick-label" x="349" y="96" text-anchor="middle">0,8</text>
+            <line class="guide-line" x1="273" y1="30" x2="273" y2="100" stroke="var(--secondary)"></line>
+            <circle class="plot-point" cx="273" cy="55" r="6" fill="var(--secondary)"></circle>
+            <text class="tick-label" x="45" y="126">1 bar = 10⁵ Pa = 0,1 MPa</text>
+          </svg>
+        `,
+        caption: 'Réglette à trois échelles alignées : bar, pascal et mégapascal se lisent sur la même verticale.'
+      },
       options: ['6 Pa', '600 kPa', '60 kPa', '6 MPa'],
       answer: 1,
       correction: '6 bar = 6 × 10⁵ Pa = 600 kPa (soit 0,6 MPa).',
@@ -341,6 +375,43 @@ Règle pratique : <strong>1 bar ≈ 10 m de colonne d'eau</strong> (pour la pres
     },
     {
       q: 'Un manomètre installé sur une canalisation indique une pression relative de 3 bar. La pression absolue est :',
+      figure: {
+        svg: `
+          <svg viewBox="0 0 400 170" role="img" aria-labelledby="qconv-abs-title qconv-abs-desc">
+            <title id="qconv-abs-title">Pression relative et pression absolue</title>
+            <desc id="qconv-abs-desc">Deux echelles superposees. L'echelle absolue part du vide parfait a zero bar et passe par la pression atmospherique a 1 bar. L'echelle relative, celle que lit le manometre, prend son zero a la pression atmospherique. Une pression relative de 3 bar correspond donc a une graduation decalee d'un bar sur l'echelle absolue.</desc>
+            <line class="axis" x1="40" y1="60" x2="370" y2="60"></line>
+            <line class="frame-line" x1="40" y1="52" x2="40" y2="68"></line>
+            <line class="frame-line" x1="106" y1="52" x2="106" y2="68"></line>
+            <line class="frame-line" x1="172" y1="52" x2="172" y2="68"></line>
+            <line class="frame-line" x1="238" y1="52" x2="238" y2="68"></line>
+            <line class="frame-line" x1="304" y1="52" x2="304" y2="68"></line>
+            <text class="tick-label" x="40" y="46" text-anchor="middle">0</text>
+            <text class="tick-label" x="106" y="46" text-anchor="middle">1</text>
+            <text class="tick-label" x="172" y="46" text-anchor="middle">2</text>
+            <text class="tick-label" x="238" y="46" text-anchor="middle">3</text>
+            <text class="tick-label" x="304" y="46" text-anchor="middle">4</text>
+            <text class="annotation-label" x="40" y="28">Échelle ABSOLUE (bar)</text>
+            <text class="tick-label" x="40" y="82">vide</text>
+            <text class="tick-label" x="106" y="82" text-anchor="middle">P atmo</text>
+
+            <line class="axis" x1="106" y1="125" x2="370" y2="125" stroke="var(--secondary)"></line>
+            <line class="frame-line" x1="106" y1="117" x2="106" y2="133" stroke="var(--secondary)"></line>
+            <line class="frame-line" x1="172" y1="117" x2="172" y2="133" stroke="var(--secondary)"></line>
+            <line class="frame-line" x1="238" y1="117" x2="238" y2="133" stroke="var(--secondary)"></line>
+            <line class="frame-line" x1="304" y1="117" x2="304" y2="133" stroke="var(--secondary)"></line>
+            <text class="tick-label" x="106" y="147" text-anchor="middle">0</text>
+            <text class="tick-label" x="172" y="147" text-anchor="middle">1</text>
+            <text class="tick-label" x="238" y="147" text-anchor="middle">2</text>
+            <text class="tick-label" x="304" y="147" text-anchor="middle">3</text>
+            <text class="annotation-label" x="106" y="108" fill="var(--secondary)">Échelle RELATIVE — celle du manomètre</text>
+            <circle class="plot-point" cx="304" cy="125" r="7" fill="var(--secondary)"></circle>
+            <line class="guide-line" x1="304" y1="60" x2="304" y2="125"></line>
+            <text class="annotation-label" x="316" y="96">lecture 3 bar</text>
+          </svg>
+        `,
+        caption: 'Le manomètre a son zéro à la pression atmosphérique : les deux échelles sont décalées d\'exactement 1 bar.'
+      },
       options: ['4,013 bar', '3 bar', '1,987 bar', '3,013 bar'],
       answer: 0,
       correction: 'Pression absolue = pression relative + pression atmosphérique = 3 + 1,013 = 4,013 bar.',
@@ -466,18 +537,46 @@ Règle pratique : <strong>1 bar ≈ 10 m de colonne d'eau</strong> (pour la pres
 • Température d'air soufflé : $T_s = 14°\\text{C}$<br/>
 • Température d'air repris : $T_r = 26°\\text{C}$<br/>
 • Vitesse de rotation du compresseur : $n = 2900\\;\\text{tr/min}$`,
-    schema: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:8px;padding:16px;font-family:monospace;font-size:0.85rem">
-<pre>
-  Air repris (26°C)
-       ↓
-  ┌──────────┐
-  │  Batterie│ ← P_f = 35 kW
-  │  froide  │
-  └──────────┘
-       ↓
-  Air soufflé (14°C)
-</pre>
-</div>`,
+    figure: {
+      svg: `
+        <svg viewBox="0 0 450 210" role="img" aria-labelledby="pb-conv-title pb-conv-desc">
+          <title id="pb-conv-title">Batterie froide d'une centrale de traitement d'air</title>
+          <desc id="pb-conv-desc">Une gaine horizontale traverse une batterie froide. L'air repris entre a 26 degres a gauche, traverse la batterie qui preleve 35 kilowatts, et ressort souffle a 14 degres a droite. Le debit d'air traite est de 5400 metres cubes par heure. Le groupe froid associe consomme de l'electricite avec un COP de 3,8.</desc>
+
+          <line class="frame-line" x1="20" y1="50" x2="430" y2="50"></line>
+          <line class="frame-line" x1="20" y1="130" x2="430" y2="130"></line>
+
+          <rect x="180" y="50" width="90" height="80" fill="color-mix(in srgb, var(--primary) 14%, var(--bg-card))" stroke="color-mix(in srgb, var(--primary) 34%, var(--border))"></rect>
+          <line class="grid-line" x1="196" y1="50" x2="196" y2="130"></line>
+          <line class="grid-line" x1="212" y1="50" x2="212" y2="130"></line>
+          <line class="grid-line" x1="228" y1="50" x2="228" y2="130"></line>
+          <line class="grid-line" x1="244" y1="50" x2="244" y2="130"></line>
+          <line class="grid-line" x1="260" y1="50" x2="260" y2="130"></line>
+          <text class="annotation-label" x="225" y="40" text-anchor="middle">Batterie froide</text>
+
+          <line class="graph-line" x1="40" y1="70" x2="150" y2="70" stroke="var(--secondary)"></line>
+          <line class="graph-line" x1="40" y1="110" x2="150" y2="110" stroke="var(--secondary)"></line>
+          <polygon points="150,64 166,70 150,76" fill="var(--secondary)"></polygon>
+          <polygon points="150,104 166,110 150,116" fill="var(--secondary)"></polygon>
+          <text class="annotation-label" x="90" y="94" text-anchor="middle" fill="var(--secondary)">Air repris</text>
+          <text class="annotation-label" x="90" y="164" text-anchor="middle">Tr = 26 °C</text>
+
+          <line class="graph-line" x1="285" y1="70" x2="395" y2="70" stroke="var(--accent)"></line>
+          <line class="graph-line" x1="285" y1="110" x2="395" y2="110" stroke="var(--accent)"></line>
+          <polygon points="395,64 411,70 395,76" fill="var(--accent)"></polygon>
+          <polygon points="395,104 411,110 395,116" fill="var(--accent)"></polygon>
+          <text class="annotation-label" x="345" y="94" text-anchor="middle" fill="var(--accent)">Air soufflé</text>
+          <text class="annotation-label" x="345" y="164" text-anchor="middle">Ts = 14 °C</text>
+
+          <line class="curve-main" x1="225" y1="180" x2="225" y2="140"></line>
+          <polygon points="219,148 225,134 231,148" fill="var(--primary)"></polygon>
+          <text class="annotation-label" x="225" y="196" text-anchor="middle">Pf = 35 kW extraits</text>
+
+          <text class="tick-label" x="20" y="20">Débit traité Qa = 5400 m³/h   —   COP nominal 3,8   —   compresseur n = 2900 tr/min</text>
+        </svg>
+      `,
+      caption: 'La batterie froide extrait $P_f$ de l\'air qui la traverse : l\'air perd 12 K entre la reprise et le soufflage.'
+    },
     tasks: [
       'Calculer la puissance électrique absorbée par le compresseur $P_{\\text{élec}}$ en kW.',
       'Convertir le débit d\'air en m³/s, puis calculer la puissance thermique extraite de l\'air $P_f = \\dot{m}_a \\times c_{pa} \\times \\Delta T$ (avec $\\rho_{\\text{air}} = 1{,}2\\;\\text{kg/m}^3$, $c_{pa} = 1006\\;\\text{J/(kg·K)}$). Comparer au catalogue.',
@@ -498,24 +597,62 @@ Règle pratique : <strong>1 bar ≈ 10 m de colonne d'eau</strong> (pour la pres
     duration: '20 min',
     questions: [
       {
-        q: 'Un réseau de distribution d\'eau a une pression de 4,5 bar. Exprimer en Pa, kPa et MPa.',
-        answer: '$4{,}5\\;\\text{bar} = 4{,}5 \\times 10^5\\;\\text{Pa} = 450\\;\\text{kPa} = 0{,}45\\;\\text{MPa}$',
+        statement: 'Un réseau de distribution d\'eau est sous une pression de $4{,}5$ bar. Exprimer cette pression <strong>en kPa</strong>.',
+        type: 'numeric',
+        answer: 450,
+        tolerance: 1,
+        unit: 'kPa',
         points: 2,
+        correction: 'On passe par l\'unité SI :<br/><br/>$4{,}5\\;\\text{bar} = 4{,}5 \\times 10^5\\;\\text{Pa} = 450\\,000\\;\\text{Pa}$<br/><br/>Puis $1\\;\\text{kPa} = 10^3\\;\\text{Pa}$ :<br/><br/>$450\\,000\\;\\text{Pa} = \\mathbf{450\\;\\text{kPa}} = 0{,}45\\;\\text{MPa}$.<br/><br/>Repère de terrain : <strong>1 bar ≈ 100 kPa ≈ 10 m de colonne d\'eau</strong>.',
       },
       {
-        q: 'Un ventilateur de CTA (centrale de traitement d\'air) souffle $Q = 8000\\;\\text{m}^3/\\text{h}$. Convertir en m³/s et en l/min.',
-        answer: '$Q = 8000 / 3600 \\approx 2{,}22\\;\\text{m}^3/\\text{s}$<br/>$Q = 8000 \\times 1000/60 \\approx 133\\,333\\;\\text{l/min}$',
+        statement: 'Un ventilateur de CTA souffle un débit $Q = 8000\\;\\text{m}^3/\\text{h}$. Convertir ce débit <strong>en m³/s</strong> (2 décimales).',
+        type: 'numeric',
+        answer: 2.22,
+        tolerance: 0.02,
+        unit: 'm³/s',
         points: 2,
+        correction: 'Une heure vaut 3600 secondes :<br/><br/>$Q = \\dfrac{8000}{3600} \\approx \\mathbf{2{,}22\\;\\text{m}^3/\\text{s}}$<br/><br/>En litres par minute : $Q = 8000 \\times \\dfrac{1000}{60} \\approx 133\\,333\\;\\text{l/min}$.<br/><br/>Le débit en m³/h est l\'unité des catalogues ; le m³/s est l\'unité de calcul (celle qui donne directement une vitesse en m/s quand on divise par une section en m²).',
       },
       {
-        q: 'Un moteur triphasé de $P = 7{,}5\\;\\text{kW}$ tourne à $n = 1450\\;\\text{tr/min}$. Calculer la vitesse angulaire $\\omega$ et le couple sur l\'arbre $C = P/\\omega$.',
-        answer: '$\\omega = 1450 \\times 2\\pi/60 \\approx 151{,}8\\;\\text{rad/s}$<br/>$C = 7500 / 151{,}8 \\approx 49{,}4\\;\\text{N·m}$',
+        statement: 'Un moteur triphasé de $P = 7{,}5\\;\\text{kW}$ tourne à $n = 1450\\;\\text{tr/min}$. Calculer le couple sur l\'arbre $C = P/\\omega$ (en N·m, 1 décimale).',
+        figure: {
+          svg: `
+            <svg viewBox="0 0 340 160" role="img" aria-labelledby="ev-conv-title ev-conv-desc">
+              <title id="ev-conv-title">Du regime en tours par minute a la vitesse angulaire</title>
+              <desc id="ev-conv-desc">Un arbre moteur en rotation est represente par un cercle avec une fleche circulaire. Une chaine de conversion montre le passage des tours par minute aux radians par seconde par multiplication par deux pi puis division par soixante, avant le calcul du couple.</desc>
+              <circle cx="70" cy="72" r="34" fill="color-mix(in srgb, var(--diagram-accent) 14%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 42%, var(--border))" stroke-width="2.5"></circle>
+              <circle class="plot-point" cx="70" cy="72" r="5"></circle>
+              <path class="curve-main" fill="none" d="M 70 34 A 38 38 0 1 1 34 84"></path>
+              <polygon points="30,94 44,80 46,96" fill="var(--primary)"></polygon>
+              <text class="tick-label" x="70" y="128" text-anchor="middle">arbre moteur</text>
+              <text class="annotation-label" x="70" y="20" text-anchor="middle">n = 1450 tr/min</text>
+              <line class="graph-line" x1="112" y1="72" x2="146" y2="72" stroke="var(--secondary)"></line>
+              <polygon points="156,72 138,65 138,79" fill="var(--secondary)"></polygon>
+              <text class="annotation-label" x="170" y="56">ω = n × 2π / 60</text>
+              <text class="tick-label" x="170" y="76">en rad/s</text>
+              <line class="grid-line" x1="170" y1="88" x2="325" y2="88"></line>
+              <text class="annotation-label" x="170" y="110">C = P / ω</text>
+              <text class="tick-label" x="170" y="130">avec P en watts, pas en kW</text>
+            </svg>
+          `,
+          caption: 'Deux conversions avant le calcul : les tr/min en rad/s, et les kW en W.'
+        },
+        type: 'numeric',
+        answer: 49.4,
+        tolerance: 0.5,
+        unit: 'N·m',
         points: 4,
+        correction: 'Il faut d\'abord convertir la vitesse de rotation en <strong>rad/s</strong> :<br/><br/>$\\omega = n \\times \\dfrac{2\\pi}{60} = 1450 \\times \\dfrac{2\\pi}{60} \\approx 151{,}8\\;\\text{rad/s}$<br/><br/>Puis, avec $P$ en watts :<br/><br/>$C = \\dfrac{P}{\\omega} = \\dfrac{7500}{151{,}8} \\approx \\mathbf{49{,}4\\;\\text{N·m}}$<br/><br/>Double piège classique : oublier de passer les kW en W, et diviser par $n$ en tr/min au lieu de $\\omega$ en rad/s.',
       },
       {
-        q: 'Un climatiseur consomme $P_{\\text{élec}} = 2\\;\\text{kW}$ et produit $P_f = 7\\;\\text{kW}$ de froid. Calculer le COP et exprimer $P_f$ en kcal/h.',
-        answer: '$\\text{COP} = 7/2 = 3{,}5$<br/>$P_f = 7\\;\\text{kW} \\times 860 = 6020\\;\\text{kcal/h}$',
+        statement: 'Un climatiseur consomme $P_{\\text{élec}} = 2\\;\\text{kW}$ et produit $P_f = 7\\;\\text{kW}$ de froid. Exprimer la puissance frigorifique <strong>en kcal/h</strong>.',
+        type: 'numeric',
+        answer: 6020,
+        tolerance: 40,
+        unit: 'kcal/h',
         points: 3,
+        correction: 'Le facteur de conversion usuel est $1\\;\\text{kW} \\approx 860\\;\\text{kcal/h}$ :<br/><br/>$P_f = 7 \\times 860 = \\mathbf{6020\\;\\text{kcal/h}}$<br/><br/>Au passage, l\'efficacité frigorifique vaut $\\text{COP} = \\dfrac{P_f}{P_{\\text{élec}}} = \\dfrac{7}{2} = 3{,}5$ : la machine déplace 3,5 fois plus d\'énergie thermique qu\'elle ne consomme d\'électricité — c\'est un transfert, pas une création.',
       },
     ],
   },

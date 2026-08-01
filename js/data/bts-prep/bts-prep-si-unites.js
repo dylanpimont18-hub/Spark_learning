@@ -213,6 +213,25 @@ window.MODULES.push({
     },
     {
       q: 'Convertir $72\\;\\text{km/h}$ en m/s :',
+      figure: {
+        svg: `
+          <svg viewBox="0 0 360 140" role="img" aria-labelledby="qsi-kmh-title qsi-kmh-desc">
+            <title id="qsi-kmh-title">Conversion des kilometres par heure en metres par seconde</title>
+            <desc id="qsi-kmh-desc">Un schema decompose la conversion en deux etapes : les kilometres sont multiplies par mille pour devenir des metres, tandis que les heures sont multipliees par 3600 pour devenir des secondes. Le facteur global est donc mille divise par 3600, soit une division par 3,6.</desc>
+            <rect x="20" y="42" width="90" height="46" rx="8" fill="color-mix(in srgb, var(--diagram-accent) 14%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 40%, var(--border))"></rect>
+            <text class="axis-label" x="65" y="72" text-anchor="middle">km/h</text>
+            <rect x="250" y="42" width="90" height="46" rx="8" fill="color-mix(in srgb, var(--accent) 16%, var(--bg-card))" stroke="color-mix(in srgb, var(--accent) 42%, var(--border))"></rect>
+            <text class="axis-label" x="295" y="72" text-anchor="middle">m/s</text>
+            <line class="curve-main" x1="112" y1="65" x2="240" y2="65"></line>
+            <polygon points="250,65 232,58 232,72" fill="var(--primary)"></polygon>
+            <text class="tick-label" x="176" y="42" text-anchor="middle">km → m : × 1000</text>
+            <text class="tick-label" x="176" y="58" text-anchor="middle">h → s : × 3600</text>
+            <text class="annotation-label" x="176" y="92" text-anchor="middle" fill="var(--secondary)">soit ÷ 3,6</text>
+            <text class="tick-label" x="20" y="124">Contrôle : 3,6 km/h = 1 m/s</text>
+          </svg>
+        `,
+        caption: 'Deux conversions imbriquées : ×1000 au numérateur, ×3600 au dénominateur, soit ÷ 3,6.'
+      },
       options: ['72 m/s', '20 m/s', '25,9 m/s', '259 m/s'],
       answer: 1,
       correction: '72 km/h = 72 × 1000/3600 = 72/3,6 = 20 m/s. Règle pratique : diviser par 3,6.',
@@ -231,6 +250,42 @@ window.MODULES.push({
     },
     {
       q: 'Parmi ces grandeurs, laquelle est une grandeur de BASE du SI (pas dérivée) ?',
+      figure: {
+        svg: `
+          <svg viewBox="0 0 400 175" role="img" aria-labelledby="qsi-base-title qsi-base-desc">
+            <title id="qsi-base-title">Les sept grandeurs de base du systeme international</title>
+            <desc id="qsi-base-desc">Sept pastilles alignees representent les sept grandeurs de base du systeme international : la longueur en metre, la masse en kilogramme, le temps en seconde, le courant electrique en ampere, la temperature en kelvin, la quantite de matiere en mole et l'intensite lumineuse en candela. En dessous, quelques unites derivees comme le newton, le pascal, le watt et le volt sont presentees comme des combinaisons de ces sept-la.</desc>
+            <text class="annotation-label" x="20" y="26">Les 7 grandeurs de BASE</text>
+            <rect x="20" y="38" width="50" height="42" rx="8" fill="color-mix(in srgb, var(--diagram-accent) 16%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 40%, var(--border))"></rect>
+            <text class="tick-label" x="45" y="56" text-anchor="middle">longueur</text>
+            <text class="annotation-label" x="45" y="72" text-anchor="middle">m</text>
+            <rect x="76" y="38" width="50" height="42" rx="8" fill="color-mix(in srgb, var(--diagram-accent) 16%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 40%, var(--border))"></rect>
+            <text class="tick-label" x="101" y="56" text-anchor="middle">masse</text>
+            <text class="annotation-label" x="101" y="72" text-anchor="middle">kg</text>
+            <rect x="132" y="38" width="50" height="42" rx="8" fill="color-mix(in srgb, var(--diagram-accent) 16%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 40%, var(--border))"></rect>
+            <text class="tick-label" x="157" y="56" text-anchor="middle">temps</text>
+            <text class="annotation-label" x="157" y="72" text-anchor="middle">s</text>
+            <rect x="188" y="38" width="50" height="42" rx="8" fill="color-mix(in srgb, var(--diagram-accent) 16%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 40%, var(--border))"></rect>
+            <text class="tick-label" x="213" y="56" text-anchor="middle">courant</text>
+            <text class="annotation-label" x="213" y="72" text-anchor="middle">A</text>
+            <rect x="244" y="38" width="50" height="42" rx="8" fill="color-mix(in srgb, var(--diagram-accent) 16%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 40%, var(--border))"></rect>
+            <text class="tick-label" x="269" y="56" text-anchor="middle">temp.</text>
+            <text class="annotation-label" x="269" y="72" text-anchor="middle">K</text>
+            <rect x="300" y="38" width="46" height="42" rx="8" fill="color-mix(in srgb, var(--diagram-accent) 16%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 40%, var(--border))"></rect>
+            <text class="tick-label" x="323" y="56" text-anchor="middle">matière</text>
+            <text class="annotation-label" x="323" y="72" text-anchor="middle">mol</text>
+            <rect x="352" y="38" width="46" height="42" rx="8" fill="color-mix(in srgb, var(--diagram-accent) 16%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 40%, var(--border))"></rect>
+            <text class="tick-label" x="375" y="56" text-anchor="middle">lumière</text>
+            <text class="annotation-label" x="375" y="72" text-anchor="middle">cd</text>
+
+            <line class="graph-line" x1="200" y1="88" x2="200" y2="104" stroke="var(--secondary)"></line>
+            <polygon points="200,114 193,97 207,97" fill="var(--secondary)"></polygon>
+            <text class="annotation-label" x="20" y="136" fill="var(--secondary)">Unités DÉRIVÉES — des combinaisons des sept ci-dessus</text>
+            <text class="tick-label" x="20" y="156">N = kg·m·s⁻²   Pa = kg·m⁻¹·s⁻²   W = kg·m²·s⁻³</text>
+          </svg>
+        `,
+        caption: 'Sept grandeurs de base seulement ; toutes les autres unités s\'en déduisent par produits et quotients.'
+      },
       options: ['Volt (V)', 'Newton (N)', 'Ampère (A)', 'Watt (W)'],
       answer: 2,
       correction: 'L\'ampère (A) est une des 7 grandeurs de base du SI. Le volt, le newton et le watt sont des unités dérivées.',
@@ -422,17 +477,40 @@ window.MODULES.push({
 • Température intérieure souhaitée : $T_{int} = 18°\\text{C}$<br/>
 • Coefficient de déperdition global : $K = 0{,}5\\;\\text{W/(m}^3\\text{·K)}$ (par m³ de volume)<br/>
 • Durée de fonctionnement annuel : 3000 h/an`,
-    schema: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:8px;padding:16px;font-family:monospace;font-size:0.85rem">
-<pre>
-  Entrepôt  V = 5000 m³
-  ┌─────────────────────┐
-  │  T_int = 18°C       │
-  │                     │  ← pertes → T_ext = -10°C
-  │  K = 0,5 W/(m³·K)  │
-  └─────────────────────┘
-  Générateur de chaleur → P = ?
-</pre>
-</div>`,
+    figure: {
+      svg: `
+        <svg viewBox="0 0 460 220" role="img" aria-labelledby="pb-si-title pb-si-desc">
+          <title id="pb-si-title">Bilan thermique d'un entrepot logistique</title>
+          <desc id="pb-si-desc">Un entrepot de 5000 metres cubes maintenu a 18 degres alors qu'il fait moins 10 degres dehors. Des fleches sortant des parois representent les deperditions thermiques, proportionnelles a l'ecart de temperature de 28 kelvins et au coefficient de deperdition de 0,5 watt par metre cube et par kelvin. Un generateur de chaleur situe a l'interieur doit compenser exactement ces pertes.</desc>
+
+          <rect x="90" y="45" width="230" height="120" rx="6" fill="color-mix(in srgb, var(--primary) 8%, var(--bg-card))" stroke="color-mix(in srgb, var(--primary) 34%, var(--border))" stroke-width="3"></rect>
+          <path class="frame-line" fill="none" d="M 90 45 L 205 15 L 320 45"></path>
+
+          <text class="annotation-label" x="205" y="80" text-anchor="middle">Intérieur : T = 18 °C</text>
+          <text class="tick-label" x="205" y="100" text-anchor="middle">V = 5000 m³</text>
+          <text class="tick-label" x="205" y="118" text-anchor="middle">K = 0,5 W/(m³·K)</text>
+          <rect x="160" y="130" width="90" height="26" rx="6" fill="color-mix(in srgb, var(--accent) 20%, var(--bg-card))" stroke="color-mix(in srgb, var(--accent) 45%, var(--border))"></rect>
+          <text class="tick-label" x="205" y="147" text-anchor="middle">générateur P = ?</text>
+
+          <line class="graph-line" x1="88" y1="70" x2="48" y2="70" stroke="var(--error)"></line>
+          <polygon points="52,64 34,70 52,76" fill="var(--error)"></polygon>
+          <line class="graph-line" x1="88" y1="140" x2="48" y2="140" stroke="var(--error)"></line>
+          <polygon points="52,134 34,140 52,146" fill="var(--error)"></polygon>
+          <line class="graph-line" x1="322" y1="70" x2="362" y2="70" stroke="var(--error)"></line>
+          <polygon points="358,64 376,70 358,76" fill="var(--error)"></polygon>
+          <line class="graph-line" x1="322" y1="140" x2="362" y2="140" stroke="var(--error)"></line>
+          <polygon points="358,134 376,140 358,146" fill="var(--error)"></polygon>
+          <line class="graph-line" x1="205" y1="43" x2="205" y2="30" stroke="var(--error)"></line>
+
+          <text class="annotation-label" x="30" y="108" fill="var(--error)">pertes</text>
+          <text class="annotation-label" x="382" y="108" fill="var(--error)">pertes</text>
+          <text class="annotation-label" x="30" y="192">Extérieur : T = −10 °C</text>
+          <text class="annotation-label" x="440" y="192" text-anchor="end">ΔT = 28 K</text>
+          <text class="tick-label" x="30" y="212">Fonctionnement 3000 h/an — ΔT = 28 K = 28 °C</text>
+        </svg>
+      `,
+      caption: 'Bilan de déperditions : la puissance du générateur doit compenser $K \\times V \\times \\Delta T$ en régime permanent.'
+    },
     tasks: [
       'Calculer l\'écart de température $\\Delta T = T_{int} - T_{ext}$ en kelvin. (Rappel : 1°C d\'écart = 1 K d\'écart)',
       'Calculer la puissance thermique nécessaire $P = K \\times V \\times \\Delta T$ (en kW, arrondi à 0,1 kW). Vérifier la cohérence des unités.',
@@ -453,24 +531,64 @@ window.MODULES.push({
     duration: '20 min',
     questions: [
       {
-        q: 'Convertir $2{,}5\\;\\text{MPa}$ en bar et en Pa.',
-        answer: '$2{,}5\\;\\text{MPa} = 2{,}5 \\times 10^6\\;\\text{Pa} = 25 \\times 10^5\\;\\text{Pa} = 25\\;\\text{bar}$',
+        statement: 'Un manomètre affiche une pression de $2{,}5\\;\\text{MPa}$. Exprimer cette pression <strong>en bar</strong>.',
+        type: 'numeric',
+        answer: 25,
+        tolerance: 0.1,
+        unit: 'bar',
         points: 2,
+        correction: 'On passe d\'abord en unité SI :<br/><br/>$2{,}5\\;\\text{MPa} = 2{,}5 \\times 10^6\\;\\text{Pa}$<br/><br/>Puis on utilise $1\\;\\text{bar} = 10^5\\;\\text{Pa}$ :<br/><br/>$2{,}5 \\times 10^6\\;\\text{Pa} = 25 \\times 10^5\\;\\text{Pa} = \\mathbf{25\\;\\text{bar}}$.<br/><br/>Repère utile : <strong>1 MPa = 10 bar</strong>.',
       },
       {
-        q: 'Un câble résiste à une tension de $15\\;\\text{kN}$. Exprimer cette force en newtons, puis calculer la contrainte de traction si la section du câble est $S = 50\\;\\text{mm}^2$ (réponse en MPa).',
-        answer: '$F = 15\\;\\text{kN} = 15\\,000\\;\\text{N}$<br/>$S = 50\\;\\text{mm}^2 = 50 \\times 10^{-6}\\;\\text{m}^2$<br/>$\\sigma = F/S = 15000 / (50 \\times 10^{-6}) = 3 \\times 10^8\\;\\text{Pa} = 300\\;\\text{MPa}$',
+        statement: 'Un câble supporte une tension de $F = 15\\;\\text{kN}$ sur une section $S = 50\\;\\text{mm}^2$. Calculer la contrainte de traction $\\sigma = F/S$ (en MPa).',
+        figure: {
+          svg: `
+            <svg viewBox="0 0 340 170" role="img" aria-labelledby="ev-si-title ev-si-desc">
+              <title id="ev-si-title">Cable en traction et sa section</title>
+              <desc id="ev-si-desc">Un cable tendu horizontalement subit une force de traction de 15 kilonewtons a chaque extremite. Sa section droite, de 50 millimetres carres, est representee en coupe : c'est sur elle que se repartit la force pour donner la contrainte.</desc>
+              <line class="frame-line" x1="55" y1="65" x2="215" y2="65" stroke-width="5"></line>
+              <line class="curve-main" x1="55" y1="65" x2="25" y2="65" stroke="var(--secondary)"></line>
+              <polygon points="15,65 33,58 33,72" fill="var(--secondary)"></polygon>
+              <line class="curve-main" x1="215" y1="65" x2="245" y2="65" stroke="var(--secondary)"></line>
+              <polygon points="255,65 237,58 237,72" fill="var(--secondary)"></polygon>
+              <text class="annotation-label" x="135" y="46" text-anchor="middle">F = 15 kN</text>
+              <line class="guide-line" x1="135" y1="60" x2="135" y2="110"></line>
+              <circle cx="135" cy="128" r="20" fill="color-mix(in srgb, var(--accent) 20%, var(--bg-card))" stroke="color-mix(in srgb, var(--accent) 46%, var(--border))" stroke-width="2.5"></circle>
+              <text class="tick-label" x="164" y="126">section droite</text>
+              <text class="annotation-label" x="164" y="144">S = 50 mm²</text>
+              <text class="tick-label" x="15" y="160">σ = F / S — attention : 1 mm² = 10⁻⁶ m², pas 10⁻³.</text>
+            </svg>
+          `,
+          caption: 'La contrainte répartit la force sur la section : les deux doivent être en unités SI.'
+        },
+        type: 'numeric',
+        answer: 300,
+        tolerance: 1,
+        unit: 'MPa',
         points: 4,
+        correction: 'Tout ramener en unités SI avant de diviser :<br/><br/>$F = 15\\;\\text{kN} = 15\\,000\\;\\text{N}$<br/>$S = 50\\;\\text{mm}^2 = 50 \\times 10^{-6}\\;\\text{m}^2$<br/><br/>$\\sigma = \\dfrac{F}{S} = \\dfrac{15\\,000}{50 \\times 10^{-6}} = 3 \\times 10^8\\;\\text{Pa} = \\mathbf{300\\;\\text{MPa}}$.<br/><br/>L\'erreur classique consiste à oublier le carré du préfixe : $1\\;\\text{mm}^2 = 10^{-6}\\;\\text{m}^2$, et non $10^{-3}$.',
       },
       {
-        q: 'Vérifier la cohérence dimensionnelle de la loi d\'Ohm $U = R \\times I$, en montrant que $[R \\times I] = \\text{V}$.',
-        answer: '$[R \\times I] = \\Omega \\times \\text{A} = (\\text{kg·m}^2\\text{s}^{-3}\\text{A}^{-2}) \\times \\text{A} = \\text{kg·m}^2\\text{s}^{-3}\\text{A}^{-1} = \\text{V}$ ✓',
+        statement: 'En décomposant l\'ohm et l\'ampère en unités de base, que vaut $[R \\times I]$ dans la loi d\'Ohm $U = R \\times I$ ?',
+        type: 'multiple-choice',
+        options: [
+          '$\\text{kg·m}^2\\text{·s}^{-3}\\text{·A}^{-1}$, soit le volt ✓',
+          '$\\text{kg·m}^2\\text{·s}^{-3}\\text{·A}^{-2}$, soit l\'ohm',
+          '$\\text{kg·m}^2\\text{·s}^{-3}$, soit le watt',
+          '$\\text{kg·m}^2\\text{·s}^{-2}$, soit le joule',
+        ],
+        answer: 0,
         points: 3,
+        correction: 'L\'ohm se décompose en $\\Omega = \\text{kg·m}^2\\text{·s}^{-3}\\text{·A}^{-2}$.<br/><br/>En multipliant par l\'ampère :<br/><br/>$[R \\times I] = (\\text{kg·m}^2\\text{·s}^{-3}\\text{·A}^{-2}) \\times \\text{A} = \\text{kg·m}^2\\text{·s}^{-3}\\text{·A}^{-1}$<br/><br/>C\'est exactement la définition du <strong>volt</strong> ✓. La loi d\'Ohm est donc homogène.',
       },
       {
-        q: 'Un capteur de température mesure $T = 350\\;\\text{K}$. Exprimer cette température en °C.',
-        answer: '$T(°C) = T(K) - 273{,}15 = 350 - 273{,}15 = 76{,}85°\\text{C} \\approx 77°\\text{C}$',
+        statement: 'Un capteur affiche $T = 350\\;\\text{K}$. Exprimer cette température en degrés Celsius (2 décimales).',
+        type: 'numeric',
+        answer: 76.85,
+        tolerance: 0.2,
+        unit: '°C',
         points: 2,
+        correction: 'Le kelvin et le degré Celsius ont le <strong>même pas</strong> ; seule l\'origine change :<br/><br/>$T(°\\text{C}) = T(\\text{K}) - 273{,}15 = 350 - 273{,}15 = \\mathbf{76{,}85\\;°\\text{C}}$.<br/><br/>Attention : un <em>écart</em> de température se convertit à l\'identique ($\\Delta T$ de 10 K = 10 °C), mais pas une température absolue.',
       },
     ],
   },

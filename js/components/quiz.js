@@ -31,6 +31,8 @@ function renderQuizQuestion(mod) {
 
       <p class="quiz-question-text">${q.q}</p>
 
+      ${renderQuestionFigure(q.figure)}
+
       <ul class="quiz-options" id="quiz-options">
         ${q.options.map((opt, i) => `
           <li>

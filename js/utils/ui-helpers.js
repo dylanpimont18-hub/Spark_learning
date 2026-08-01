@@ -68,6 +68,31 @@ function renderLoading() {
   `;
 }
 
+/**
+ * Rend la figure attachée à une question de quiz, un exercice généré ou une
+ * question d'évaluation. Les modules de `js/data/` déclarent `figure:` sous la
+ * forme d'une chaîne (SVG brut) ou d'un objet `{ svg, caption }`.
+ *
+ * Le conteneur interne réutilise volontairement la classe `.cours-diagram-stage`
+ * afin d'hériter du thème SVG partagé (`.curve-main`, `.plot-point`,
+ * `.annotation-label`… définis dans css/styles.css), tandis que `.question-figure`
+ * porte les variables `--diagram-*` normalement fournies par `.cours-diagram`.
+ */
+function renderQuestionFigure(figure) {
+  if (!figure) return '';
+  const svg = typeof figure === 'string' ? figure : (figure.svg || figure.html || '');
+  if (!svg) return '';
+  const caption = (typeof figure === 'object' && figure.caption)
+    ? `<figcaption class="question-figure-caption">${figure.caption}</figcaption>`
+    : '';
+  return `
+    <figure class="question-figure">
+      <div class="cours-diagram-stage">${svg}</div>
+      ${caption}
+    </figure>
+  `;
+}
+
 function renderErreurConseil(piege) {
   const clean = piege.replace(/^Piège\s*(classique)?\s*:\s*/i, '').trim();
 
@@ -174,10 +199,10 @@ function renderFicheCours(mod) {
         </table>
       </section>
 
-      ${c.diagram ? `
+      ${coursDiagramList(c).length ? `
       <section class="print-section print-diagram">
-        <h2>Illustration</h2>
-        ${renderCoursDiagram(c.diagram, mod.subject || 'maths')}
+        <h2>${coursDiagramList(c).length > 1 ? 'Illustrations' : 'Illustration'}</h2>
+        ${coursDiagramList(c).map(d => renderCoursDiagram(d, mod.subject || 'maths')).join('')}
       </section>
       ` : ''}
 
@@ -246,6 +271,7 @@ function renderEvaluationPrintSheet(items, mode) {
           <span class="print-eval-question-pts">${ptsLabel}</span>
         </div>
         <div class="print-eval-question-statement">${q.statement}</div>
+        ${renderQuestionFigure(q.figure)}
         ${answerBlock}
       </div>`;
   }).join('');

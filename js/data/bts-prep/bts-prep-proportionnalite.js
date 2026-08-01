@@ -139,6 +139,27 @@ window.MODULES.push({
       correction: 'Pente = hauteur/longueur = 30/100 = 0,3. $h = 0{,}3 \\times 5 = 1{,}5$ m. Une pente de 30 % est assez forte (environ 17°).'
     },
     {
+      figure: {
+        svg: `
+          <svg viewBox="0 0 360 130" role="img" aria-labelledby="qprop-rend-title qprop-rend-desc">
+            <title id="qprop-rend-title">Rendements en cascade</title>
+            <desc id="qprop-rend-desc">Une bande de puissance traverse successivement un moteur de rendement 0,90 puis une pompe de rendement 0,75. La bande se retrecit a chaque etage, ce qui illustre que les rendements successifs se multiplient au lieu de s'additionner ou de se moyenner.</desc>
+            <rect x="20" y="40" width="90" height="52" rx="5" fill="color-mix(in srgb, var(--diagram-accent) 24%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 45%, var(--border))"></rect>
+            <text class="tick-label" x="65" y="70" text-anchor="middle">100 %</text>
+            <rect x="135" y="45" width="90" height="42" rx="5" fill="color-mix(in srgb, var(--secondary) 24%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 45%, var(--border))"></rect>
+            <text class="tick-label" x="180" y="70" text-anchor="middle">× 0,90</text>
+            <rect x="250" y="52" width="90" height="28" rx="5" fill="color-mix(in srgb, var(--accent) 26%, var(--bg-card))" stroke="color-mix(in srgb, var(--accent) 48%, var(--border))"></rect>
+            <text class="tick-label" x="295" y="71" text-anchor="middle">× 0,75</text>
+            <polygon points="112,60 133,66 112,72" fill="var(--primary)"></polygon>
+            <polygon points="227,60 248,66 227,72" fill="var(--secondary)"></polygon>
+            <text class="annotation-label" x="65" y="30" text-anchor="middle">entrée</text>
+            <text class="annotation-label" x="180" y="30" text-anchor="middle">moteur</text>
+            <text class="annotation-label" x="295" y="30" text-anchor="middle">pompe</text>
+            <text class="annotation-label" x="20" y="118">η global = 0,90 × 0,75</text>
+          </svg>
+        `,
+        caption: 'Des rendements en série se <strong>multiplient</strong> : la bande se rétrécit à chaque étage traversé. Le rendement global n\'est jamais la moyenne des rendements.'
+      },
       q: 'Une pompe de rendement $\\eta_p = 0{,}75$ est entraînée par un moteur de rendement $\\eta_m = 0{,}90$. Le rendement global du groupe moto-pompe est :',
       options: ['$\\eta = 0{,}825$', '$\\eta = 0{,}675$', '$\\eta = 1{,}65$', '$\\eta = 0{,}165$'],
       answer: 1,
@@ -194,6 +215,26 @@ window.MODULES.push({
     },
     {
       q: 'Une rampe d\'accès a une pente réglementaire de 5 %. Pour franchir une dénivellation de 0{,}60 m, la longueur minimale de la rampe est :',
+      figure: {
+        svg: `
+          <svg viewBox="0 0 340 150" role="img" aria-labelledby="qprop-rampe-title qprop-rampe-desc">
+            <title id="qprop-rampe-title">Rampe a 5 pour cent de pente</title>
+            <desc id="qprop-rampe-desc">Une rampe tres peu inclinee franchit une denivellation de 0,60 metre. La pente de 5 pour cent signifie que l'on monte 5 centimetres pour 100 centimetres parcourus horizontalement ; la longueur horizontale necessaire est l'inconnue.</desc>
+            <line class="axis" x1="25" y1="115" x2="315" y2="115"></line>
+            <line class="curve-main" x1="45" y1="115" x2="275" y2="72"></line>
+            <line class="frame-line" x1="275" y1="115" x2="275" y2="72" stroke="var(--accent)"></line>
+            <rect x="272" y="48" width="46" height="24" rx="4" fill="color-mix(in srgb, var(--secondary) 16%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 40%, var(--border))"></rect>
+            <text class="tick-label" x="295" y="64" text-anchor="middle">entrée</text>
+            <text class="annotation-label" x="286" y="100" fill="var(--accent)">0,60 m</text>
+            <line class="grid-line" x1="45" y1="128" x2="275" y2="128"></line>
+            <text class="annotation-label" x="160" y="144" text-anchor="middle">longueur horizontale = ?</text>
+            <text class="tick-label" x="60" y="92">pente 5 % = 5 cm de montée</text>
+            <text class="tick-label" x="60" y="106">pour 100 cm parcourus</text>
+            <circle class="plot-point-alt" cx="45" cy="115" r="5"></circle>
+          </svg>
+        `,
+        caption: 'Une pente en % est une proportion : 5 % veut dire 5 m de montée pour 100 m d\'avancée.'
+      },
       options: ['$L = 12$ m', '$L = 3$ m', '$L = 0{,}03$ m', '$L = 30$ m'],
       answer: 0,
       correction: 'Pente $= h/L \\Rightarrow L = h/\\text{pente} = 0{,}60/0{,}05 = 12$ m. Plus la pente autorisée est faible, plus la rampe doit être longue.'
@@ -363,7 +404,47 @@ window.MODULES.push({
 
   probleme: {
     context: 'Un groupe moto-pompe alimente un réseau de chauffage. Le moteur électrique absorbe $P_{élec} = 550$ W et a un rendement $\\eta_m = 0{,}90$. La pompe hydraulique a un rendement $\\eta_p = 0{,}72$. Le débit volumique est $\\dot{V} = 1{,}8$ m³/h.',
-    schema: 'Schéma de puissance : $P_{élec}$ (moteur) → $P_{arbre}$ (accouplement) → $P_{hydraulique}$ (pompe) → réseau. Les pertes apparaissent à chaque étape.',
+    figure: {
+      svg: `
+        <svg viewBox="0 0 460 220" role="img" aria-labelledby="pb-prop-title pb-prop-desc">
+          <title id="pb-prop-title">Chaine de puissance d'un groupe moto-pompe</title>
+          <desc id="pb-prop-desc">Un diagramme en bandes montre la puissance electrique absorbee de 550 watts qui traverse le moteur puis la pompe. A chaque etage, une fleche descendante materialise les pertes : pertes moteur d'abord, pertes hydrauliques ensuite. La bande utile restante, plus etroite, represente la puissance reellement transmise au reseau.</desc>
+
+          <rect x="30" y="55" width="120" height="60" rx="6" fill="color-mix(in srgb, var(--primary) 22%, var(--bg-card))" stroke="color-mix(in srgb, var(--primary) 45%, var(--border))"></rect>
+          <text class="annotation-label" x="90" y="80" text-anchor="middle">P élec</text>
+          <text class="annotation-label" x="90" y="98" text-anchor="middle">550 W</text>
+
+          <rect x="175" y="62" width="120" height="46" rx="6" fill="color-mix(in srgb, var(--secondary) 22%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 45%, var(--border))"></rect>
+          <text class="annotation-label" x="235" y="82" text-anchor="middle" fill="var(--secondary)">P arbre</text>
+          <text class="tick-label" x="235" y="98" text-anchor="middle">= ηm × P élec</text>
+
+          <rect x="320" y="70" width="115" height="30" rx="6" fill="color-mix(in srgb, var(--accent) 26%, var(--bg-card))" stroke="color-mix(in srgb, var(--accent) 48%, var(--border))"></rect>
+          <text class="annotation-label" x="377" y="90" text-anchor="middle" fill="var(--accent)">P hydraulique</text>
+
+          <polygon points="150,72 175,78 150,84" fill="var(--primary)"></polygon>
+          <polygon points="295,78 320,84 295,90" fill="var(--secondary)"></polygon>
+          <line class="curve-main" x1="435" y1="85" x2="450" y2="85" stroke="var(--accent)"></line>
+
+          <text class="annotation-label" x="90" y="40" text-anchor="middle">Moteur électrique</text>
+          <text class="tick-label" x="90" y="24" text-anchor="middle">ηm = 0,90</text>
+          <text class="annotation-label" x="290" y="40" text-anchor="middle">Pompe</text>
+          <text class="tick-label" x="290" y="24" text-anchor="middle">ηp = 0,72</text>
+
+          <line class="graph-line" x1="162" y1="120" x2="162" y2="160" stroke="var(--error)"></line>
+          <polygon points="156,152 162,168 168,152" fill="var(--error)"></polygon>
+          <text class="tick-label" x="162" y="184" text-anchor="middle" fill="var(--error)">pertes</text>
+          <text class="tick-label" x="162" y="198" text-anchor="middle" fill="var(--error)">moteur</text>
+
+          <line class="graph-line" x1="307" y1="120" x2="307" y2="160" stroke="var(--error)"></line>
+          <polygon points="301,152 307,168 313,152" fill="var(--error)"></polygon>
+          <text class="tick-label" x="307" y="184" text-anchor="middle" fill="var(--error)">pertes</text>
+          <text class="tick-label" x="307" y="198" text-anchor="middle" fill="var(--error)">hydrauliques</text>
+
+          <text class="tick-label" x="30" y="212">Largeur de bande ∝ puissance transportée</text>
+        </svg>
+      `,
+      caption: 'Chaîne de puissance : à chaque étage, la bande se rétrécit d\'exactement le rendement de l\'étage traversé. Le rendement global est le <strong>produit</strong> $\\eta_m \\times \\eta_p$.'
+    },
     tasks: [
       'Calculer la puissance transmise à l\'arbre de la pompe : $P_{arbre} = \\eta_m \\times P_{élec}$.',
       'Calculer la puissance hydraulique utile : $P_{hyd} = \\eta_p \\times P_{arbre}$.',

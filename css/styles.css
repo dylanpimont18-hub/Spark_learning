@@ -1915,6 +1915,33 @@ main { flex: 1; }
   color: var(--text-muted);
   font-size: 0.84rem;
 }
+/* Figure attachée à une question (quiz, exercice généré, évaluation, problème).
+   Réutilise le thème SVG de .cours-diagram-stage, en version compacte : la
+   figure accompagne un énoncé, elle ne doit pas dominer la carte. */
+.question-figure {
+  --diagram-accent: var(--primary);
+  --diagram-soft: color-mix(in srgb, var(--diagram-accent) 10%, var(--bg-card));
+  --diagram-grid: color-mix(in srgb, var(--diagram-accent) 14%, var(--border));
+  margin: 14px 0 18px;
+  max-width: 520px;
+}
+.question-figure .cours-diagram-stage {
+  padding: 12px;
+  background: color-mix(in srgb, var(--diagram-accent) 4%, var(--bg-card));
+  border: 1px solid color-mix(in srgb, var(--diagram-accent) 16%, var(--border));
+  border-radius: calc(var(--radius) - 2px);
+}
+.question-figure-caption {
+  margin-top: 8px;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+.probleme-figure {
+  margin: 14px 0 0;
+  max-width: none;
+}
+
 .cours-diagram-legacy {
   padding: 16px;
 }

@@ -259,7 +259,8 @@ Emplacement publicitaire : placeholder visuel tant qu'`ADS_ENABLED` est à `fals
 
 ## js/components/renderCours.js
 Rendu HTML de l'onglet Cours d'un module (écran, pas impression).
-- `renderCours(mod)` — intro, définitions, méthode, exemple, formules, illustration, piège, récap, application ; bouton "Imprimer la fiche" visible seulement si `AuthGuard.isTeacher()`
+- `renderCours(mod)` — intro, définitions, méthode, exemple, formules, illustration(s), piège, récap, application ; bouton "Imprimer la fiche" visible seulement si `AuthGuard.isTeacher()`
+- `coursDiagramList(c)` — liste normalisée des schémas d'un cours : `cours.diagram` (un seul, format historique) et/ou `cours.diagrams: []` (plusieurs) ; le titre de section bascule en "Illustrations" au pluriel dès qu'il y en a plus d'un ; utilisée aussi par `renderFicheCours()` pour l'impression
 - `renderCoursDiagram(diagram, subjectId)` — rend une illustration au format legacy (string HTML) ou riche (objet `{svg, title, kicker, description, notes, reading, caption, theme}`) ; réutilisée par `renderFicheCours()` (`js/utils/ui-helpers.js`) pour l'impression
 
 ## js/components/moduleTabs.js
@@ -269,16 +270,16 @@ Rendu des onglets d'un module (cours / quiz / exercice / problème / évaluation
 ## js/components/quiz.js
 Rendu HTML du quiz.
 - `renderQuiz(mod)` — rendu question ou résultats selon état
-- `renderQuizQuestion(mod)` — HTML d'une question
+- `renderQuizQuestion(mod)` — HTML d'une question ; rend `q.figure` via `renderQuestionFigure()` (`js/utils/ui-helpers.js`) entre l'énoncé et les options
 - `renderQuizResults(mod)` — écran de résultats
 
 ## js/components/probleme.js
 Rendu HTML d'un problème.
-- `renderProbleme(mod)` — rendu des étapes et boutons révéler
+- `renderProbleme(mod)` — rendu des étapes et boutons révéler ; `probleme.figure` (objet `{svg, caption}`) est rendu dans un `.question-figure.probleme-figure`, l'ancien `probleme.schema` (texte/ASCII) ne sert plus que de repli si `figure` est absent
 
 ## js/components/evaluation.js
 Rendu HTML de l'évaluation.
-- `renderEvaluation(mod)` — rendu des questions numériques
+- `renderEvaluation(mod)` — rendu des questions numériques ou QCM ; les questions DOIVENT suivre le schéma `{statement, type:'numeric'|'multiple-choice', answer, tolerance, unit, points, correction, figure?}` — un ancien format `{q, answer:texte}` fait planter `renderEvaluationQuestion()` sur `q.options.map` (corrigé en août 2026 sur les 5 modules `bts-prep` concernés) ; `q.figure` est rendu sous l'énoncé et dans le bloc de correction
 
 ## js/components/companion.js
 Interface Spark Companion.
@@ -490,6 +491,11 @@ Parcours personnalisés (enseignants) et mode guidé.
 - `renderPlaylist()` — rendu du gestionnaire de playlist
 - `addToPlaylist(moduleId, type)` — ajoute un élément au parcours
 
+## js/data/bts-prep/
+14 modules de remise à niveau BTS (`tag: 'prep'`, `level: 3`). Chaque module : `cours` (+ `diagram` et/ou `diagrams[]`), `quiz`, `exercice.generate()`, `probleme` (avec `figure`), `evaluation`.
+- Les figures sont des SVG inline utilisant EXCLUSIVEMENT les classes du thème (`frame-line`, `axis`, `grid-line`, `curve-main`, `graph-line`, `guide-line`, `plot-point`, `plot-point-alt`, `axis-label`, `annotation-label`, `tick-label`, `label-soft`) et les variables CSS (`var(--primary)`, `var(--secondary)`, `var(--accent)`, `var(--error)`) — jamais de couleur codée en dur, sinon l'illustration casse en thème sombre et à l'impression
+- Gotcha récurrent : un `<text>` trop long déborde du `viewBox` et est **coupé** (pas de retour à la ligne en SVG). Garder les phrases courtes dans le SVG et déporter les explications longues dans `caption`/`notes`, qui sont du HTML et passent à la ligne
+
 ## js/homework.js
 Générateur de devoirs avec export PDF.
 - `initHomeworkState()` — initialise l'état devoir
@@ -507,6 +513,7 @@ Helpers de rendu et utilitaires UI partagés.
 - `convertMarkdownTables(html)` — convertit les tableaux markdown (`| a | b |` + ligne `|---|---|`) présents dans le contenu (`def`, `steps`, `context`...) en vrais `<table>` HTML ; appelé sur le HTML assemblé dans `moduleTabs.js` et `renderFicheCours()`, pas dans `js/data/`
 - `renderLoading()` — squelette de chargement
 - `renderErreurConseil(piege)` — bloc conseil sur l'erreur classique
+- `renderQuestionFigure(figure)` — rend la figure attachée à une question de quiz, un exercice généré ou une question d'évaluation ; accepte une chaîne (SVG brut) ou un objet `{svg, caption}` ; le conteneur interne réutilise la classe `.cours-diagram-stage` pour hériter du thème SVG partagé (`.curve-main`, `.plot-point`, `.annotation-label`…) tandis que `.question-figure` porte les variables `--diagram-*`
 - `renderFicheCours(mod)` — fiche de synthèse imprimable A4 d'un module (intro, définitions, méthode, exemple, formules, illustration, piège, récap) ; consommée par `printFiche()` dans `js/app.js` ; l'illustration utilise `renderCoursDiagram()` (voir `js/components/renderCours.js`), qui gère le format legacy (string) et le format riche (objet `{svg, notes...}`)
 - `renderFichesBatch(modules)` — concatène plusieurs `renderFicheCours()` pour l'impression groupée
 - `_printLevelLabel(mod)` — libellé "Matière · Niveau — Classe" affiché en en-tête de fiche

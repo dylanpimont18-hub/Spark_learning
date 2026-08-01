@@ -119,6 +119,123 @@ Si $a \\cdot e^{bx} = c$ → $e^{bx} = c/a$ → $bx = \\ln(c/a)$ → $x = \\ln(c
       caption: 'Charge d\'un condensateur RC : $u(t) = E\\left(1-e^{-t/\\tau}\\right)$, avec les repères usuels $\\tau$, $2\\tau$ et $5\\tau$.'
     },
 
+    diagrams: [
+      {
+        theme: 'maths',
+        kicker: 'Acoustique & électronique — le décibel',
+        title: 'Pourquoi +3 dB double la puissance',
+        description: 'Le décibel est une <strong>échelle logarithmique</strong> : il ne mesure pas une grandeur, mais un <strong>rapport</strong>. C\'est pour ça qu\'additionner des décibels revient à multiplier des puissances — la propriété $\\log(a \\times b) = \\log a + \\log b$ en action.',
+        svg: `
+          <svg viewBox="0 0 470 240" role="img" aria-labelledby="btslog-db-title btslog-db-desc">
+            <title id="btslog-db-title">Echelle des decibels et rapport de puissance correspondant</title>
+            <desc id="btslog-db-desc">Une reglette horizontale graduee en decibels de 0 a 30. Sous chaque graduation figure le rapport de puissance correspondant : 0 dB pour un rapport 1, 3 dB pour un rapport 2, 10 dB pour un rapport 10, 20 dB pour 100 et 30 dB pour 1000. Une seconde reglette situe des niveaux sonores reels du studio silencieux au marteau piqueur, avec le seuil de risque auditif a 85 decibels.</desc>
+
+            <text class="axis-label" x="35" y="30">Addition en dB = multiplication en puissance</text>
+            <line class="axis" x1="50" y1="72" x2="425" y2="72"></line>
+            <line class="frame-line" x1="50" y1="66" x2="50" y2="78"></line>
+            <line class="frame-line" x1="88" y1="66" x2="88" y2="78"></line>
+            <line class="frame-line" x1="175" y1="66" x2="175" y2="78"></line>
+            <line class="frame-line" x1="300" y1="66" x2="300" y2="78"></line>
+            <line class="frame-line" x1="425" y1="66" x2="425" y2="78"></line>
+            <text class="annotation-label" x="50" y="60" text-anchor="middle">0 dB</text>
+            <text class="annotation-label" x="88" y="60" text-anchor="middle">3 dB</text>
+            <text class="annotation-label" x="175" y="60" text-anchor="middle">10 dB</text>
+            <text class="annotation-label" x="300" y="60" text-anchor="middle">20 dB</text>
+            <text class="annotation-label" x="425" y="60" text-anchor="middle">30 dB</text>
+            <text class="tick-label" x="50" y="92" text-anchor="middle">×1</text>
+            <text class="tick-label" x="88" y="92" text-anchor="middle">×2</text>
+            <text class="tick-label" x="175" y="92" text-anchor="middle">×10</text>
+            <text class="tick-label" x="300" y="92" text-anchor="middle">×100</text>
+            <text class="tick-label" x="425" y="92" text-anchor="middle">×1000</text>
+            <circle class="plot-point" cx="88" cy="72" r="5"></circle>
+            <text class="tick-label label-soft" x="96" y="108">+3 dB, c\'est deux fois plus de puissance</text>
+
+            <text class="axis-label" x="35" y="148">Niveaux sonores réels (dB SPL)</text>
+            <line class="axis" x1="50" y1="182" x2="425" y2="182"></line>
+            <line class="frame-line" x1="50" y1="176" x2="50" y2="188"></line>
+            <line class="frame-line" x1="136" y1="176" x2="136" y2="188"></line>
+            <line class="frame-line" x1="222" y1="176" x2="222" y2="188"></line>
+            <line class="frame-line" x1="294" y1="176" x2="294" y2="188"></line>
+            <line class="frame-line" x1="366" y1="176" x2="366" y2="188"></line>
+            <line class="frame-line" x1="425" y1="176" x2="425" y2="188"></line>
+            <circle class="plot-point" cx="294" cy="182" r="6" fill="var(--secondary)"></circle>
+            <text class="tick-label" x="50" y="172" text-anchor="middle">0</text>
+            <text class="tick-label" x="136" y="172" text-anchor="middle">30</text>
+            <text class="tick-label" x="222" y="172" text-anchor="middle">60</text>
+            <text class="tick-label" x="294" y="172" text-anchor="middle">85</text>
+            <text class="tick-label" x="366" y="172" text-anchor="middle">110</text>
+            <text class="tick-label" x="425" y="172" text-anchor="middle">130</text>
+            <text class="tick-label" x="50" y="200" text-anchor="middle">seuil</text>
+            <text class="tick-label" x="136" y="200" text-anchor="middle">chambre</text>
+            <text class="tick-label" x="222" y="200" text-anchor="middle">bureau</text>
+            <text class="tick-label" x="366" y="200" text-anchor="middle">marteau-p.</text>
+            <text class="tick-label" x="425" y="200" text-anchor="middle">douleur</text>
+            <text class="annotation-label" x="294" y="218" text-anchor="middle" fill="var(--secondary)">85 dB : seuil de</text>
+            <text class="annotation-label" x="294" y="232" text-anchor="middle" fill="var(--secondary)">port obligatoire des EPI</text>
+          </svg>
+        `,
+        notes: [
+          '<strong>La définition :</strong> $L = 10\\log_{10}\\left(\\dfrac{P}{P_0}\\right)$. Le décibel compare toujours une puissance à une <strong>référence</strong> $P_0$ — sans référence, un « niveau en dB » ne veut rien dire.',
+          '<strong>+3 dB = ×2 :</strong> car $10\\log_{10}(2) \\approx 3{,}01$. Deux machines identiques côte à côte font 3 dB de plus qu\'une seule, pas le double de décibels.',
+          '<strong>+10 dB = ×10 :</strong> car $10\\log_{10}(10) = 10$. Passer de 60 à 90 dB, ce n\'est pas « une fois et demie plus fort », c\'est <strong>mille fois</strong> plus de puissance acoustique.',
+          '<strong>Conséquence réglementaire :</strong> le seuil de 85 dB déclenche l\'obligation de protection auditive. Le franchir de 3 dB double l\'énergie reçue par l\'oreille, ce qui divise par deux la durée d\'exposition admissible.'
+        ],
+        reading: 'Chaque fois que tu vois une unité « en dB » (bruit, gain d\'amplificateur, atténuation d\'un câble), traduis-la mentalement en <strong>facteur multiplicatif</strong> : c\'est la seule lecture qui a un sens physique.',
+        caption: 'L\'échelle des décibels : équivalence entre addition de décibels et multiplication de puissances, appliquée aux niveaux sonores industriels.'
+      },
+      {
+        theme: 'maths',
+        kicker: 'Décroissance exponentielle',
+        title: 'La demi-vie : toujours le même temps pour diviser par deux',
+        description: 'Une décroissance exponentielle $N(t) = N_0 \\cdot e^{-t/\\tau}$ a une propriété contre-intuitive : le temps nécessaire pour <strong>diviser la quantité par deux</strong> est constant, quel que soit le point de départ.',
+        svg: `
+          <svg viewBox="0 0 440 250" role="img" aria-labelledby="btslog-demivie-title btslog-demivie-desc">
+            <title id="btslog-demivie-title">Decroissance exponentielle et demi-vie constante</title>
+            <desc id="btslog-demivie-desc">Une courbe decroissante partant de N zero et tendant vers l'axe horizontal sans le toucher. Des lignes en pointilles montrent qu'apres une demi-vie il reste la moitie, apres deux demi-vies le quart, apres trois demi-vies le huitieme, et que ces trois intervalles de temps ont exactement la meme largeur.</desc>
+
+            <line class="grid-line" x1="70" y1="60" x2="400" y2="60"></line>
+            <line class="grid-line" x1="70" y1="125" x2="400" y2="125"></line>
+            <line class="grid-line" x1="70" y1="157" x2="400" y2="157"></line>
+            <line class="grid-line" x1="70" y1="174" x2="400" y2="174"></line>
+            <line class="axis" x1="70" y1="195" x2="410" y2="195"></line>
+            <line class="axis" x1="70" y1="205" x2="70" y2="45"></line>
+
+            <path class="curve-main" fill="none" d="M 70 60 L 80 69 L 91 77 L 101 84 L 111 91 L 122 98 L 132 104 L 142 110 L 153 115 L 163 120 L 173 125 L 184 129 L 194 133 L 204 137 L 215 141 L 225 144 L 235 147 L 246 150 L 256 153 L 266 155 L 277 158 L 287 160 L 297 162 L 308 164 L 318 165 L 328 167 L 339 169 L 349 170 L 359 171 L 370 173 L 380 174"></path>
+
+            <line class="guide-line" x1="173" y1="125" x2="173" y2="195"></line>
+            <line class="guide-line" x1="277" y1="157" x2="277" y2="195"></line>
+            <line class="guide-line" x1="380" y1="174" x2="380" y2="195"></line>
+            <circle class="plot-point" cx="70" cy="60" r="5"></circle>
+            <circle class="plot-point" cx="173" cy="125" r="5"></circle>
+            <circle class="plot-point" cx="277" cy="157" r="5"></circle>
+            <circle class="plot-point" cx="380" cy="174" r="5"></circle>
+
+            <text class="tick-label" x="62" y="64" text-anchor="end">N₀</text>
+            <text class="tick-label" x="62" y="129" text-anchor="end">N₀/2</text>
+            <text class="tick-label" x="62" y="161" text-anchor="end">N₀/4</text>
+            <text class="tick-label" x="62" y="178" text-anchor="end">N₀/8</text>
+            <text class="tick-label" x="173" y="210" text-anchor="middle">t½</text>
+            <text class="tick-label" x="277" y="210" text-anchor="middle">2 t½</text>
+            <text class="tick-label" x="380" y="210" text-anchor="middle">3 t½</text>
+            <text class="axis-label" x="410" y="212" text-anchor="end">t</text>
+
+            <line class="graph-line" x1="70" y1="226" x2="173" y2="226" stroke="var(--secondary)"></line>
+            <line class="graph-line" x1="173" y1="226" x2="277" y2="226" stroke="var(--accent)"></line>
+            <line class="graph-line" x1="277" y1="226" x2="380" y2="226" stroke="var(--secondary)"></line>
+            <text class="annotation-label" x="225" y="240" text-anchor="middle">trois intervalles de même durée — chacun divise par 2</text>
+          </svg>
+        `,
+        notes: [
+          '<strong>La demi-vie se calcule avec un logarithme :</strong> on cherche $t$ tel que $e^{-t/\\tau} = 0{,}5$, d\'où $t_{1/2} = \\tau \\cdot \\ln 2 \\approx 0{,}693\\,\\tau$.',
+          '<strong>Elle ne dépend pas du point de départ :</strong> passer de $N_0$ à $N_0/2$ prend exactement le même temps que passer de $N_0/2$ à $N_0/4$. C\'est la signature d\'une décroissance exponentielle.',
+          '<strong>Zéro n\'est jamais atteint :</strong> mathématiquement la courbe tend vers l\'axe sans le toucher. En pratique, on considère le phénomène terminé après $5\\tau$ (il reste moins de 1 %).',
+          '<strong>Où ça sert en BTS :</strong> décharge d\'un condensateur, refroidissement d\'une pièce, atténuation d\'un signal le long d\'une fibre, dégradation d\'un produit — même équation à chaque fois.'
+        ],
+        reading: 'Le réflexe : si un relevé montre que la grandeur est divisée par le <strong>même facteur</strong> à intervalles de temps égaux, tu tiens une exponentielle — et le logarithme est l\'outil qui la linéarise.',
+        caption: 'Décroissance exponentielle : la demi-vie $t_{1/2} = \\tau \\ln 2$ est constante, quel que soit le niveau de départ.'
+      }
+    ],
+
     recap: [
       '$\\ln$ et $\\exp$ sont inverses l\'une de l\'autre : $e^{\\ln x} = x$',
       'Propriétés : $\\ln(ab) = \\ln a + \\ln b$ — $\\ln(a/b) = \\ln a - \\ln b$ — $\\ln(a^n) = n\\ln a$',
@@ -169,6 +286,32 @@ Si $a \\cdot e^{bx} = c$ → $e^{bx} = c/a$ → $bx = \\ln(c/a)$ → $x = \\ln(c
     },
     {
       q: 'Une machine produit un bruit de 85 dB. Une deuxième machine identique est allumée. Le niveau sonore combiné est :',
+      figure: {
+        svg: `
+          <svg viewBox="0 0 380 160" role="img" aria-labelledby="qlog-db-title qlog-db-desc">
+            <title id="qlog-db-title">Addition de deux sources sonores identiques</title>
+            <desc id="qlog-db-desc">Deux machines identiques emettant chacune 85 decibels. Leurs puissances acoustiques s'additionnent, ce qui double la puissance totale, mais les decibels ne s'additionnent pas : le niveau resultant est a determiner.</desc>
+            <rect x="30" y="45" width="80" height="55" rx="8" fill="color-mix(in srgb, var(--diagram-accent) 14%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 40%, var(--border))"></rect>
+            <text class="annotation-label" x="70" y="70" text-anchor="middle">Machine 1</text>
+            <text class="tick-label" x="70" y="88" text-anchor="middle">85 dB</text>
+            <rect x="30" y="105" width="80" height="45" rx="8" fill="color-mix(in srgb, var(--diagram-accent) 14%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 40%, var(--border))"></rect>
+            <text class="annotation-label" x="70" y="126" text-anchor="middle">Machine 2</text>
+            <text class="tick-label" x="70" y="143" text-anchor="middle">85 dB</text>
+
+            <line class="curve-main" x1="115" y1="72" x2="180" y2="95"></line>
+            <line class="curve-main" x1="115" y1="126" x2="180" y2="103"></line>
+            <polygon points="190,99 172,92 172,106" fill="var(--primary)"></polygon>
+
+            <text class="annotation-label" x="205" y="72">puissance acoustique</text>
+            <text class="annotation-label" x="205" y="92">P + P = 2P  (×2)</text>
+            <line class="grid-line" x1="205" y1="104" x2="355" y2="104"></line>
+            <text class="annotation-label" x="205" y="126" fill="var(--secondary)">niveau résultant = ?</text>
+            <text class="tick-label" x="205" y="146" fill="var(--secondary)">(ce n\'est pas 170 dB)</text>
+            <text class="tick-label" x="30" y="30">Les décibels ne s\'additionnent pas — les puissances, si.</text>
+          </svg>
+        `,
+        caption: 'Deux sources identiques doublent la puissance : c\'est un ×2, donc un ajout fixe en décibels.'
+      },
       options: ['85 dB', '88 dB', '90 dB', '170 dB'],
       answer: 1,
       correction: '88 dB. Deux sources identiques : L_tot = 10·log(2 × 10^(85/10)) = 85 + 10·log(2) = 85 + 3,01 ≈ 88 dB. On n\'additionne jamais les dB directement.',
@@ -223,6 +366,35 @@ Si $a \\cdot e^{bx} = c$ → $e^{bx} = c/a$ → $bx = \\ln(c/a)$ → $x = \\ln(c
     },
     {
       q: 'Dans un circuit RC en charge, à $t = 3\\tau$, la tension atteint environ :',
+      figure: {
+        svg: `
+          <svg viewBox="0 0 340 190" role="img" aria-labelledby="qlog-rc-title qlog-rc-desc">
+            <title id="qlog-rc-title">Charge d'un condensateur et reperes en constantes de temps</title>
+            <desc id="qlog-rc-desc">La courbe de charge d'un condensateur monte rapidement puis s'aplatit vers la tension finale E. Les instants correspondant a une, deux, trois et cinq constantes de temps sont reperes sur l'axe des temps ; le pourcentage atteint a trois constantes de temps est l'inconnue.</desc>
+            <line class="grid-line" x1="108" y1="45" x2="108" y2="170"></line>
+            <line class="grid-line" x1="156" y1="45" x2="156" y2="170"></line>
+            <line class="grid-line" x1="204" y1="45" x2="204" y2="170"></line>
+            <line class="axis" x1="60" y1="170" x2="315" y2="170"></line>
+            <line class="axis" x1="60" y1="180" x2="60" y2="45"></line>
+            <line class="guide-line" x1="60" y1="65" x2="310" y2="65" stroke="var(--secondary)"></line>
+            <text class="tick-label" x="52" y="69" text-anchor="end">E</text>
+            <path class="curve-main" fill="none" d="M 60 170 L 70 151 L 79 135 L 89 123 L 98 112 L 108 104 L 118 97 L 127 91 L 137 86 L 146 82 L 156 79 L 166 77 L 175 75 L 185 73 L 194 71 L 204 70 L 214 69 L 223 69 L 233 68 L 242 67 L 252 67 L 262 67 L 271 66 L 281 66 L 290 66 L 300 66"></path>
+            <circle class="plot-point-alt" cx="108" cy="104" r="5"></circle>
+            <circle class="plot-point-alt" cx="156" cy="79" r="5"></circle>
+            <circle class="plot-point" cx="204" cy="70" r="7"></circle>
+            <line class="guide-line" x1="204" y1="70" x2="60" y2="70"></line>
+            <text class="tick-label" x="108" y="186" text-anchor="middle">τ</text>
+            <text class="tick-label" x="156" y="186" text-anchor="middle">2τ</text>
+            <text class="annotation-label" x="204" y="186" text-anchor="middle">3τ</text>
+            <text class="tick-label" x="116" y="100">63 %</text>
+            <text class="tick-label" x="164" y="76">86 %</text>
+            <text class="annotation-label" x="214" y="60">? %</text>
+            <text class="axis-label" x="315" y="186" text-anchor="end">t</text>
+            <text class="axis-label" x="60" y="38">u(t)</text>
+          </svg>
+        `,
+        caption: 'À chaque constante de temps, il reste $e^{-1} \\approx 37\\;\\%$ de l\'écart qui restait à combler.'
+      },
       options: ['95 %', '86,5 %', '63,2 %', '99,3 %'],
       answer: 0,
       correction: 'u(3τ) = E(1-e⁻³) = E × (1-0,0498) ≈ 0,95E, soit 95 % de la valeur finale.',
@@ -378,18 +550,48 @@ Le four industriel monte de 20°C à 200°C selon la loi :<br/>
 $$T(t) = 200 - 180 \\cdot e^{-t/\\tau}$$<br/>
 avec $\\tau = 8\\;\\text{min}$ (constante de temps thermique).<br/><br/>
 Le four est considéré opérationnel dès que $T \\geq 170°\\text{C}$.`,
-    schema: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:8px;padding:16px;font-family:monospace;font-size:0.85rem">
-<pre>
-  T(°C)
-  200 ─────────────────────────────
-  170 ─────────────────  ← seuil opérationnel
-  145 ────────
+    figure: {
+      svg: `
+        <svg viewBox="0 0 460 250" role="img" aria-labelledby="pb-log-title pb-log-desc">
+          <title id="pb-log-title">Montee en temperature d'un four selon un premier ordre</title>
+          <desc id="pb-log-desc">Un repere avec le temps en minutes en abscisse et la temperature en degres en ordonnee. La courbe part de 20 degres et croit en s'aplatissant vers une asymptote horizontale a 200 degres, sans jamais l'atteindre. Une ligne horizontale marque le seuil operationnel de 170 degres ; la date a laquelle la courbe le franchit est l'inconnue du probleme. Les reperes tau, deux tau et trois tau sont places sur l'axe des temps.</desc>
 
-  20  ●
-      │   8   16  24  32  40 → t (min)
-      │   τ   2τ  3τ  4τ  5τ
-</pre>
-</div>`,
+          <line class="grid-line" x1="70" y1="150" x2="410" y2="150"></line>
+          <line class="grid-line" x1="70" y1="110" x2="410" y2="110"></line>
+          <line class="grid-line" x1="140" y1="45" x2="140" y2="200"></line>
+          <line class="grid-line" x1="210" y1="45" x2="210" y2="200"></line>
+          <line class="grid-line" x1="280" y1="45" x2="280" y2="200"></line>
+          <line class="grid-line" x1="350" y1="45" x2="350" y2="200"></line>
+          <line class="axis" x1="70" y1="200" x2="420" y2="200"></line>
+          <line class="axis" x1="70" y1="210" x2="70" y2="40"></line>
+
+          <line class="guide-line" x1="70" y1="55" x2="410" y2="55" stroke="var(--secondary)"></line>
+          <text class="annotation-label" x="340" y="48" fill="var(--secondary)">asymptote 200 °C</text>
+
+          <path class="curve-main" fill="none" d="M 70 190 L 84 168 L 98 150 L 112 134 L 126 121 L 140 110 L 154 101 L 168 93 L 182 87 L 196 81 L 210 76 L 224 72 L 238 69 L 252 67 L 266 64 L 280 62 L 294 61 L 308 60 L 322 59 L 336 58 L 350 57 L 364 57 L 378 56 L 392 56 L 406 55"></path>
+
+          <line class="graph-line" x1="70" y1="82" x2="410" y2="82" stroke="var(--accent)"></line>
+          <text class="annotation-label" x="356" y="76" fill="var(--accent)">seuil 170 °C</text>
+          <line class="guide-line" x1="203" y1="82" x2="203" y2="200"></line>
+          <circle class="plot-point" cx="203" cy="82" r="7"></circle>
+          <text class="annotation-label" x="212" y="100">t = ?</text>
+
+          <circle class="plot-point-alt" cx="70" cy="190" r="6"></circle>
+          <text class="tick-label" x="62" y="194" text-anchor="end">20</text>
+          <text class="tick-label" x="62" y="114" text-anchor="end">145</text>
+          <text class="tick-label" x="62" y="154" text-anchor="end">100</text>
+          <text class="tick-label" x="140" y="216" text-anchor="middle">8 (τ)</text>
+          <text class="tick-label" x="210" y="216" text-anchor="middle">16 (2τ)</text>
+          <text class="tick-label" x="280" y="216" text-anchor="middle">24 (3τ)</text>
+          <text class="tick-label" x="350" y="216" text-anchor="middle">32 (4τ)</text>
+          <text class="axis-label" x="420" y="232" text-anchor="end">t (min)</text>
+          <text class="axis-label" x="70" y="32">T (°C)</text>
+
+          <text class="tick-label" x="70" y="244">T(t) = 200 − 180·e^(−t/τ)   avec τ = 8 min — isoler t exige un logarithme.</text>
+        </svg>
+      `,
+      caption: 'Montée du four en premier ordre : le franchissement du seuil de 170 °C ne se lit pas, il se calcule avec un $\\ln$.'
+    },
     tasks: [
       'Calculez la température à $t = \\tau = 8\\;\\text{min}$. Vérifiez que le résultat est cohérent avec la définition de la constante de temps.',
       'À quel instant $t^*$ le four atteint-il la température de 170°C ? (Isoler $t$ dans l\'équation $T(t) = 170$)',

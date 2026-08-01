@@ -202,6 +202,23 @@ Exemples : nombre de Reynolds $Re = \\rho v D / \\mu$, rendement $\\eta = P_{\\t
     },
     {
       q: 'Le nombre de Reynolds $Re = \\rho v D / \\mu$ est adimensionnel. Cela signifie que :',
+      figure: {
+        svg: `
+          <svg viewBox="0 0 360 150" role="img" aria-labelledby="qdim-re-title qdim-re-desc">
+            <title id="qdim-re-title">Simplification dimensionnelle du nombre de Reynolds</title>
+            <desc id="qdim-re-desc">Le numerateur du nombre de Reynolds, produit de la masse volumique, de la vitesse et du diametre, se decompose en masse sur longueur multipliee par temps. Le denominateur, la viscosite dynamique, a exactement la meme dimension. Le rapport vaut donc un, sans aucune unite.</desc>
+            <text class="annotation-label" x="30" y="42">[ρ·v·D]</text>
+            <text class="tick-label" x="110" y="42">= (M·L⁻³)(L·T⁻¹)(L) = M·L⁻¹·T⁻¹</text>
+            <line class="axis" x1="30" y1="58" x2="330" y2="58" stroke-width="3"></line>
+            <text class="annotation-label" x="30" y="82">[μ]</text>
+            <text class="tick-label" x="110" y="82">= M·L⁻¹·T⁻¹</text>
+            <line class="graph-line" x1="180" y1="98" x2="180" y2="112" stroke="var(--secondary)"></line>
+            <polygon points="180,122 173,105 187,105" fill="var(--secondary)"></polygon>
+            <text class="axis-label" x="180" y="142" text-anchor="middle" fill="var(--secondary)">[Re] = 1 — aucune unité</text>
+          </svg>
+        `,
+        caption: 'Numérateur et dénominateur ont la même dimension : le rapport est un nombre pur.'
+      },
       options: ['Re n\'a pas d\'unité mais dépend du système', 'Re a la même valeur en SI et en CGS', 'Re s\'exprime en Pa', 'Re est toujours égal à 1'],
       answer: 1,
       correction: 'Un nombre adimensionnel a la même valeur quel que soit le système d\'unités utilisé (SI, CGS, impérial). C\'est l\'intérêt fondamental des nombres adimensionnels.',
@@ -214,6 +231,25 @@ Exemples : nombre de Reynolds $Re = \\rho v D / \\mu$, rendement $\\eta = P_{\\t
     },
     {
       q: 'Peut-on écrire la formule $d = v + t$ (distance = vitesse + temps) ?',
+      figure: {
+        svg: `
+          <svg viewBox="0 0 340 150" role="img" aria-labelledby="qdim-somme-title qdim-somme-desc">
+            <title id="qdim-somme-title">On n'additionne que des grandeurs de meme dimension</title>
+            <desc id="qdim-somme-desc">Deux boites representent une vitesse en longueur sur temps et un temps. Un signe plus entre les deux est barre, car les deux dimensions sont differentes. Une comparaison rappelle qu'on ne peut pas plus additionner des metres par seconde et des secondes que des pommes et des litres.</desc>
+            <rect x="25" y="42" width="100" height="46" rx="8" fill="color-mix(in srgb, var(--diagram-accent) 14%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 40%, var(--border))"></rect>
+            <text class="annotation-label" x="75" y="62" text-anchor="middle">v</text>
+            <text class="tick-label" x="75" y="80" text-anchor="middle">L·T⁻¹  (m/s)</text>
+            <rect x="185" y="42" width="100" height="46" rx="8" fill="color-mix(in srgb, var(--secondary) 14%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 40%, var(--border))"></rect>
+            <text class="annotation-label" x="235" y="62" text-anchor="middle" fill="var(--secondary)">t</text>
+            <text class="tick-label" x="235" y="80" text-anchor="middle">T  (s)</text>
+            <text class="axis-label" x="155" y="70" text-anchor="middle">+</text>
+            <line class="graph-line" x1="140" y1="80" x2="172" y2="52" stroke="var(--error)" stroke-width="4"></line>
+            <text class="annotation-label" x="170" y="118" text-anchor="middle" fill="var(--error)">dimensions différentes → addition impossible</text>
+            <text class="tick-label" x="170" y="138" text-anchor="middle">On ne peut additionner que des grandeurs de MÊME dimension.</text>
+          </svg>
+        `,
+        caption: 'Additionner exige l\'identité des dimensions ; multiplier, non.'
+      },
       options: ['Oui si on utilise des unités cohérentes', 'Non, car [v] ≠ [t]', 'Oui, en choisissant les bonnes unités', 'Non, seulement si d est en mètres'],
       answer: 1,
       correction: 'Non. [v] = L·T⁻¹ et [t] = T. On ne peut pas additionner des grandeurs de dimensions différentes, quelle que soit l\'unité choisie. C\'est une violation du principe d\'homogénéité.',
@@ -416,15 +452,39 @@ Données :<br/>
 • Masse volumique de l'eau : $\\rho = 1000\\;\\text{kg/m}^3$<br/>
 • Viscosité dynamique de l'eau à 20°C : $\\mu = 1{,}002 \\times 10^{-3}\\;\\text{Pa·s}$<br/><br/>
 Rappel : si $Re < 2300$ → laminaire ; si $Re > 4000$ → turbulent.`,
-    schema: `<div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:8px;padding:16px;font-family:monospace;font-size:0.85rem">
-<pre>
-  ρ, μ (eau) →→→→ v = 1,5 m/s →→→→→→→
-            ┌──────────────────┐
-  ══════════│   D = 50 mm      │══════
-            └──────────────────┘
-                 tuyauterie
-</pre>
-</div>`,
+    figure: {
+      svg: `
+        <svg viewBox="0 0 440 190" role="img" aria-labelledby="pb-analysedim-title pb-analysedim-desc">
+          <title id="pb-analysedim-title">Ecoulement d'eau dans une tuyauterie de 50 millimetres</title>
+          <desc id="pb-analysedim-desc">Une conduite horizontale vue en coupe, de diametre interieur 50 millimetres, dans laquelle l'eau s'ecoule de gauche a droite a 1,5 metre par seconde. Les proprietes du fluide, masse volumique 1000 kilogrammes par metre cube et viscosite 1,002 fois 10 puissance moins 3 pascal seconde, sont rappelees a l'entree.</desc>
+
+          <line class="frame-line" x1="90" y1="62" x2="400" y2="62"></line>
+          <line class="frame-line" x1="90" y1="128" x2="400" y2="128"></line>
+          <line class="guide-line" x1="90" y1="95" x2="400" y2="95"></line>
+
+          <line class="graph-line" x1="120" y1="78" x2="220" y2="78" stroke="var(--secondary)"></line>
+          <line class="graph-line" x1="150" y1="95" x2="260" y2="95" stroke="var(--secondary)"></line>
+          <line class="graph-line" x1="120" y1="112" x2="220" y2="112" stroke="var(--secondary)"></line>
+          <polygon class="plot-point" points="220,72 236,78 220,84" fill="var(--secondary)" stroke="none"></polygon>
+          <polygon class="plot-point" points="260,89 276,95 260,101" fill="var(--secondary)" stroke="none"></polygon>
+          <polygon class="plot-point" points="220,106 236,112 220,118" fill="var(--secondary)" stroke="none"></polygon>
+
+          <line class="graph-line" x1="415" y1="62" x2="415" y2="128" stroke="var(--accent)"></line>
+          <line class="frame-line" x1="409" y1="62" x2="421" y2="62"></line>
+          <line class="frame-line" x1="409" y1="128" x2="421" y2="128"></line>
+          <text class="annotation-label" x="428" y="99" fill="var(--accent)">D</text>
+          <text class="annotation-label" x="245" y="52" text-anchor="middle">D = 50 mm</text>
+          <text class="annotation-label" x="245" y="150" text-anchor="middle" fill="var(--secondary)">v = 1,5 m/s</text>
+
+          <text class="annotation-label" x="16" y="80">Eau à 20 °C</text>
+          <text class="tick-label" x="16" y="98">ρ = 1000 kg/m³</text>
+          <text class="tick-label" x="16" y="114">μ = 1,002·10⁻³ Pa·s</text>
+
+          <text class="tick-label" x="90" y="172">Régime laminaire si Re &lt; 2300   —   turbulent si Re &gt; 4000</text>
+        </svg>
+      `,
+      caption: 'Conduite en coupe : le nombre de Reynolds compare l\'inertie du fluide (ρ, v, D) à sa viscosité (μ).'
+    },
     tasks: [
       'Vérifier par analyse dimensionnelle que le nombre de Reynolds est bien adimensionnel. (Rappel : [Pa·s] = M·L⁻¹·T⁻¹)',
       'Convertir le diamètre $D$ en mètres.',
@@ -445,24 +505,75 @@ Rappel : si $Re < 2300$ → laminaire ; si $Re > 4000$ → turbulent.`,
     duration: '25 min',
     questions: [
       {
-        q: 'Vérifier par analyse dimensionnelle que $F = m \\times a$ est homogène (avec [F] = N, [m] = kg, [a] = m·s⁻²).',
-        answer: '$[m \\times a] = \\text{kg} \\times \\text{m·s}^{-2} = \\text{kg·m·s}^{-2} = \\text{N}$ ✓',
+        statement: 'En décomposant en dimensions de base, à quoi est égal $[m \\times a]$ dans la deuxième loi de Newton $F = m \\times a$ ?',
+        type: 'multiple-choice',
+        options: [
+          '$\\text{M·L·T}^{-2}$, soit le newton ✓',
+          '$\\text{M·L}^2\\text{·T}^{-2}$, soit le joule',
+          '$\\text{M·L}^2\\text{·T}^{-3}$, soit le watt',
+          '$\\text{M·L}^{-1}\\text{·T}^{-2}$, soit le pascal',
+        ],
+        answer: 0,
         points: 3,
+        correction: 'On multiplie les dimensions terme à terme :<br/><br/>$[m] = \\text{M}$ et $[a] = \\text{L·T}^{-2}$<br/><br/>$[m \\times a] = \\text{M} \\times \\text{L·T}^{-2} = \\mathbf{\\text{M·L·T}^{-2}}$<br/><br/>C\'est exactement la dimension du <strong>newton</strong> ✓ — la formule est homogène.<br/><br/>Le joule vaut $\\text{M·L}^2\\text{·T}^{-2}$ : il diffère d\'une longueur, car une énergie est une force multipliée par une distance.',
       },
       {
-        q: 'Montrer que la formule $P = U^2 / R$ (puissance électrique) est dimensionnellement cohérente.',
-        answer: '$[U^2/R] = \\text{V}^2/\\Omega$<br/>$[\\text{V}^2] = (\\text{M·L}^2\\text{·T}^{-3}\\text{·I}^{-1})^2 = \\text{M}^2\\text{·L}^4\\text{·T}^{-6}\\text{·I}^{-2}$<br/>$[\\Omega] = \\text{M·L}^2\\text{·T}^{-3}\\text{·I}^{-2}$<br/>$[U^2/R] = \\text{M·L}^2\\text{·T}^{-3} = [\\text{W}]$ ✓',
+        statement: 'La puissance électrique s\'écrit $P = U^2 / R$. Quelle est la dimension de cette expression ?',
+        type: 'multiple-choice',
+        options: [
+          '$\\text{M·L}^2\\text{·T}^{-3}$, soit le watt ✓',
+          '$\\text{M}^2\\text{·L}^4\\text{·T}^{-6}\\text{·I}^{-2}$',
+          '$\\text{M·L}^2\\text{·T}^{-2}$, soit le joule',
+          '$\\text{M·L}^2\\text{·T}^{-3}\\text{·I}^{-2}$, soit l\'ohm',
+        ],
+        answer: 0,
         points: 4,
+        correction: 'On décompose le numérateur et le dénominateur séparément.<br/><br/>$[U] = \\text{M·L}^2\\text{·T}^{-3}\\text{·I}^{-1}$ donc $[U^2] = \\text{M}^2\\text{·L}^4\\text{·T}^{-6}\\text{·I}^{-2}$<br/><br/>$[R] = \\text{M·L}^2\\text{·T}^{-3}\\text{·I}^{-2}$<br/><br/>En divisant, les I s\'éliminent :<br/><br/>$\\left[\\dfrac{U^2}{R}\\right] = \\dfrac{\\text{M}^2\\text{·L}^4\\text{·T}^{-6}\\text{·I}^{-2}}{\\text{M·L}^2\\text{·T}^{-3}\\text{·I}^{-2}} = \\mathbf{\\text{M·L}^2\\text{·T}^{-3}}$<br/><br/>C\'est le <strong>watt</strong> ✓. L\'option B est le piège : c\'est $[U^2]$ seul, sans diviser par $[R]$.',
       },
       {
-        q: 'Un élève écrit : "La fréquence d\'un pendule vaut $f = \\sqrt{g/l}$ avec $g$ en m/s² et $l$ en m." Vérifier si cette formule est homogène.',
-        answer: '$[g/l] = (\\text{m·s}^{-2}) / \\text{m} = \\text{s}^{-2}$<br/>$[\\sqrt{g/l}] = \\text{s}^{-1} = [\\text{Hz}]$ ✓<br/>La formule est dimensionnellement cohérente. (La formule exacte est $f = \\frac{1}{2\\pi}\\sqrt{g/l}$, le facteur $2\\pi$ est adimensionnel.)',
+        statement: 'Un étudiant écrit : « la fréquence d\'un pendule vaut $f = \\sqrt{g/l}$ ». Que peut-on conclure par analyse dimensionnelle ?',
+        type: 'multiple-choice',
+        options: [
+          'La formule est homogène, mais l\'analyse dimensionnelle ne peut pas détecter le facteur $1/2\\pi$ manquant',
+          'La formule n\'est pas homogène : le résultat est en s et non en Hz',
+          'La formule est exacte, il n\'y a rien à corriger',
+          'L\'analyse dimensionnelle est impossible ici car $g$ et $l$ sont de natures différentes',
+        ],
+        answer: 0,
         points: 4,
+        correction: 'Vérifions :<br/><br/>$\\left[\\dfrac{g}{l}\\right] = \\dfrac{\\text{L·T}^{-2}}{\\text{L}} = \\text{T}^{-2}$<br/><br/>$\\left[\\sqrt{g/l}\\right] = \\text{T}^{-1} = [\\text{Hz}]$ ✓<br/><br/>La formule est donc bien <strong>homogène</strong>. Mais la formule exacte est $f = \\dfrac{1}{2\\pi}\\sqrt{g/l}$ : le facteur $\\dfrac{1}{2\\pi}$ étant <strong>adimensionnel</strong>, il est totalement invisible pour l\'analyse dimensionnelle.<br/><br/>À retenir : l\'homogénéité est une condition <em>nécessaire</em>, jamais <em>suffisante</em>.',
       },
       {
-        q: 'La constante de Stefan-Boltzmann $\\sigma = 5{,}67 \\times 10^{-8}\\;\\text{W·m}^{-2}\\text{·K}^{-4}$. Quelle est la dimension de $\\sigma$ ?',
-        answer: '$[\\sigma] = \\text{M·T}^{-3}\\text{·θ}^{-4}$ (avec θ pour la température)<br/>Vérification : la loi de Stefan-Boltzmann $\\Phi = \\sigma T^4 S$ → $[\\sigma T^4 S] = \\text{M·T}^{-3}\\text{·θ}^{-4} \\times \\text{θ}^4 \\times \\text{L}^2 = \\text{M·L}^2\\text{·T}^{-3} = \\text{W}$ ✓',
+        statement: 'La loi de Stefan-Boltzmann donne le flux surfacique rayonné $\\varphi = \\sigma T^4$, avec $\\sigma = 5{,}67 \\times 10^{-8}\\;\\text{W·m}^{-2}\\text{·K}^{-4}$. Calculer $\\varphi$ pour une paroi de four à $T = 500\\;\\text{K}$ (en W/m², arrondi à l\'unité).',
+        figure: {
+          svg: `
+            <svg viewBox="0 0 340 155" role="img" aria-labelledby="ev-dim-title ev-dim-desc">
+              <title id="ev-dim-title">Paroi de four rayonnant vers l'exterieur</title>
+              <desc id="ev-dim-desc">Une paroi de four portee a 500 kelvins emet un rayonnement thermique represente par des fleches sortantes. Le flux surfacique s'exprime en watts par metre carre. Une note rappelle que les kelvins a la puissance quatre s'eliminent avec ceux de la constante de Stefan-Boltzmann.</desc>
+              <rect x="30" y="30" width="46" height="100" fill="color-mix(in srgb, var(--error) 20%, var(--bg-card))" stroke="color-mix(in srgb, var(--error) 42%, var(--border))" stroke-width="2.5"></rect>
+              <text class="tick-label" x="53" y="146" text-anchor="middle">paroi</text>
+              <text class="annotation-label" x="30" y="22">T = 500 K</text>
+              <line class="graph-line" x1="80" y1="48" x2="140" y2="48" stroke="var(--accent)"></line>
+              <polygon points="150,48 132,41 132,55" fill="var(--accent)"></polygon>
+              <line class="graph-line" x1="80" y1="80" x2="140" y2="80" stroke="var(--accent)"></line>
+              <polygon points="150,80 132,73 132,87" fill="var(--accent)"></polygon>
+              <line class="graph-line" x1="80" y1="112" x2="140" y2="112" stroke="var(--accent)"></line>
+              <polygon points="150,112 132,105 132,119" fill="var(--accent)"></polygon>
+              <text class="annotation-label" x="168" y="52">φ = σ T⁴  (W/m²)</text>
+              <line class="grid-line" x1="168" y1="66" x2="330" y2="66"></line>
+              <text class="tick-label" x="168" y="88">[σ] = W·m⁻²·K⁻⁴</text>
+              <text class="tick-label" x="168" y="106">× [T⁴] = K⁴</text>
+              <text class="annotation-label" x="168" y="128">→ les K s\'éliminent ✓</text>
+            </svg>
+          `,
+          caption: 'Contrôle dimensionnel : les $\\text{K}^{-4}$ de σ annulent exactement les $\\text{K}^4$ de $T^4$.'
+        },
+        type: 'numeric',
+        answer: 3544,
+        tolerance: 20,
+        unit: 'W/m²',
         points: 3,
+        correction: 'Attention : $T$ doit impérativement être en <strong>kelvin</strong> (une puissance quatrième d\'une température en °C n\'a aucun sens physique).<br/><br/>$T^4 = 500^4 = 6{,}25 \\times 10^{10}\\;\\text{K}^4$<br/><br/>$\\varphi = 5{,}67 \\times 10^{-8} \\times 6{,}25 \\times 10^{10} \\approx \\mathbf{3544\\;\\text{W/m}^2}$<br/><br/>Contrôle dimensionnel : $\\text{W·m}^{-2}\\text{·K}^{-4} \\times \\text{K}^4 = \\text{W·m}^{-2}$ ✓ — les kelvins s\'éliminent exactement.',
       },
     ],
   },

@@ -140,6 +140,32 @@ window.MODULES.push({
     },
     {
       q: 'Le discriminant de $2x^2 - 5x + 3 = 0$ vaut :',
+      figure: {
+        svg: `
+          <svg viewBox="0 0 360 160" role="img" aria-labelledby="qeq-delta-title qeq-delta-desc">
+            <title id="qeq-delta-title">Ce que le signe du discriminant indique graphiquement</title>
+            <desc id="qeq-delta-desc">Trois petites paraboles cote a cote. La premiere, avec un discriminant positif, coupe l'axe horizontal en deux points. La deuxieme, avec un discriminant nul, effleure l'axe en un seul point. La troisieme, avec un discriminant negatif, reste entierement au-dessus de l'axe sans le toucher.</desc>
+            <line class="axis" x1="15" y1="105" x2="115" y2="105"></line>
+            <path class="curve-main" fill="none" d="M 25 55 L 40 88 L 55 104 L 65 106 L 78 100 L 95 76 L 108 50"></path>
+            <circle class="plot-point" cx="47" cy="102" r="5"></circle>
+            <circle class="plot-point" cx="86" cy="90" r="5"></circle>
+            <text class="annotation-label" x="65" y="130" text-anchor="middle">Δ &gt; 0</text>
+            <text class="tick-label" x="65" y="146" text-anchor="middle">2 solutions</text>
+
+            <line class="axis" x1="130" y1="105" x2="230" y2="105"></line>
+            <path class="curve-main" fill="none" stroke="var(--secondary)" d="M 142 50 L 158 78 L 172 97 L 180 105 L 190 97 L 205 78 L 220 50"></path>
+            <circle class="plot-point" cx="180" cy="105" r="5" fill="var(--secondary)"></circle>
+            <text class="annotation-label" x="180" y="130" text-anchor="middle" fill="var(--secondary)">Δ = 0</text>
+            <text class="tick-label" x="180" y="146" text-anchor="middle">1 solution double</text>
+
+            <line class="axis" x1="245" y1="105" x2="345" y2="105"></line>
+            <path class="curve-main" fill="none" stroke="var(--accent)" d="M 256 45 L 272 68 L 286 82 L 295 86 L 305 82 L 320 68 L 336 45"></path>
+            <text class="annotation-label" x="295" y="130" text-anchor="middle" fill="var(--accent)">Δ &lt; 0</text>
+            <text class="tick-label" x="295" y="146" text-anchor="middle">aucune solution réelle</text>
+          </svg>
+        `,
+        caption: 'Le signe de Δ dit combien de fois la parabole croise l\'axe des abscisses.'
+      },
       options: ['$\\Delta = 1$', '$\\Delta = 49$', '$\\Delta = -19$', '$\\Delta = 25$'],
       answer: 0,
       correction: '$\\Delta = (-5)^2 - 4 \\times 2 \\times 3 = 25 - 24 = 1$. Comme $\\Delta > 0$, il y a deux solutions réelles distinctes.'
@@ -182,6 +208,35 @@ window.MODULES.push({
     },
     {
       q: 'Un système de 2 équations avec 2 inconnues a pour solution unique $(x, y) = (2, 3)$. Graphiquement, cela correspond à :',
+      figure: {
+        svg: `
+          <svg viewBox="0 0 340 190" role="img" aria-labelledby="qeq-systeme-title qeq-systeme-desc">
+            <title id="qeq-systeme-title">Solution unique d'un systeme : deux droites secantes</title>
+            <desc id="qeq-systeme-desc">Deux droites de pentes differentes tracees dans un repere se coupent en un unique point de coordonnees 2 et 3. Chaque droite represente une equation du systeme, et le point commun represente le couple solution.</desc>
+            <line class="grid-line" x1="100" y1="30" x2="100" y2="155"></line>
+            <line class="grid-line" x1="140" y1="30" x2="140" y2="155"></line>
+            <line class="grid-line" x1="180" y1="30" x2="180" y2="155"></line>
+            <line class="grid-line" x1="220" y1="30" x2="220" y2="155"></line>
+            <line class="grid-line" x1="60" y1="130" x2="300" y2="130"></line>
+            <line class="grid-line" x1="60" y1="105" x2="300" y2="105"></line>
+            <line class="grid-line" x1="60" y1="80" x2="300" y2="80"></line>
+            <line class="grid-line" x1="60" y1="55" x2="300" y2="55"></line>
+            <line class="axis" x1="60" y1="155" x2="310" y2="155"></line>
+            <line class="axis" x1="60" y1="170" x2="60" y2="30"></line>
+            <line class="curve-main" x1="60" y1="150" x2="220" y2="42"></line>
+            <line class="curve-main" x1="60" y1="60" x2="280" y2="125" stroke="var(--secondary)"></line>
+            <circle class="plot-point" cx="140" cy="80" r="8"></circle>
+            <line class="guide-line" x1="140" y1="155" x2="140" y2="80"></line>
+            <line class="guide-line" x1="60" y1="80" x2="140" y2="80"></line>
+            <text class="annotation-label" x="150" y="72">(2 ; 3)</text>
+            <text class="tick-label" x="140" y="172" text-anchor="middle">2</text>
+            <text class="tick-label" x="52" y="84" text-anchor="end">3</text>
+            <text class="tick-label" x="226" y="40">équation 1</text>
+            <text class="tick-label" x="240" y="140" fill="var(--secondary)">équation 2</text>
+          </svg>
+        `,
+        caption: 'Chaque équation est une droite ; la solution du système est leur point commun.'
+      },
       options: [
         'Deux droites parallèles',
         'Deux droites confondues',
@@ -391,7 +446,40 @@ window.MODULES.push({
 
   probleme: {
     context: 'Un réseau de distribution d\'eau chaude sanitaire est alimenté par deux pompes en parallèle. La courbe de la pompe principale est $H_p = -Q^2 + 16$ (H en m, Q en m³/h) et la courbe du réseau (perte de charge) est $H_r = Q^2 + 4$.',
-    schema: 'Schéma : pompe principale + pompe de secours (en parallèle) → réseau de distribution. La HMT de fonctionnement est le point d\'intersection des courbes.',
+    figure: {
+      svg: `
+        <svg viewBox="0 0 450 230" role="img" aria-labelledby="pb-equations-title pb-equations-desc">
+          <title id="pb-equations-title">Intersection de la courbe de pompe et de la courbe de reseau</title>
+          <desc id="pb-equations-desc">Un repere avec le debit Q en abscisse et la hauteur H en metres en ordonnee. La courbe de pompe part de 16 metres a debit nul et decroit, tandis que la courbe de reseau part de 4 metres et croit. Les deux se croisent en un point unique, le point de fonctionnement, dont la resolution algebrique fait l'objet du probleme.</desc>
+
+          <line class="grid-line" x1="70" y1="170" x2="400" y2="170"></line>
+          <line class="grid-line" x1="70" y1="130" x2="400" y2="130"></line>
+          <line class="grid-line" x1="70" y1="90" x2="400" y2="90"></line>
+          <line class="grid-line" x1="70" y1="50" x2="400" y2="50"></line>
+          <line class="axis" x1="70" y1="190" x2="410" y2="190"></line>
+          <line class="axis" x1="70" y1="200" x2="70" y2="35"></line>
+
+          <path class="curve-main" fill="none" d="M 70 50 L 103 52 L 136 57 L 169 66 L 202 79 L 235 96 L 268 116 L 301 140 L 334 168"></path>
+          <path class="curve-main" fill="none" stroke="var(--secondary)" d="M 70 170 L 103 168 L 136 163 L 169 154 L 202 141 L 235 124 L 268 104 L 301 80 L 334 52"></path>
+          <text class="annotation-label" x="342" y="176" fill="var(--primary)">Hp = −Q² + 16</text>
+          <text class="annotation-label" x="342" y="48" fill="var(--secondary)">Hr = Q² + 4</text>
+
+          <line class="guide-line" x1="202" y1="190" x2="202" y2="110"></line>
+          <line class="guide-line" x1="70" y1="110" x2="202" y2="110"></line>
+          <circle class="plot-point" cx="202" cy="110" r="8"></circle>
+          <text class="annotation-label" x="212" y="102">point de fonctionnement</text>
+          <text class="tick-label" x="212" y="118">Hp = Hr : une seule solution physique</text>
+
+          <text class="tick-label" x="62" y="54" text-anchor="end">16</text>
+          <text class="tick-label" x="62" y="174" text-anchor="end">4</text>
+          <text class="axis-label" x="410" y="212" text-anchor="end">Q (m³/h)</text>
+          <text class="axis-label" x="70" y="28">H (m)</text>
+
+          <text class="tick-label" x="70" y="222">Le point cherché est la solution de l\'équation −Q² + 16 = Q² + 4.</text>
+        </svg>
+      `,
+      caption: 'Le point de fonctionnement d\'une installation est toujours l\'intersection courbe de pompe / courbe de réseau.'
+    },
     tasks: [
       'Trouver le point de fonctionnement en résolvant $H_p = H_r$, c\'est-à-dire $-Q^2 + 16 = Q^2 + 4$.',
       'Calculer la HMT au point de fonctionnement.',

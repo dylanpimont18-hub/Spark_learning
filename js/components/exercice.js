@@ -15,6 +15,8 @@ function renderExercice(mod) {
     <div class="card-exercise" id="exercice-card">
       <div class="exercice-statement">${ex.statement}</div>
 
+      ${renderQuestionFigure(ex.figure)}
+
       ${!es.solved ? `
         <div class="exercice-input-row">
           <input

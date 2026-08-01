@@ -156,6 +156,7 @@ function _buildHomeworkHTML(withAnswers) {
 
     if (item.type === 'exercice') {
       html += '<p style="line-height:1.7;">' + item.data.statement + '</p>';
+      html += renderQuestionFigure(item.data.figure);
       if (withAnswers) {
         html += '<div style="background:#f0f7f0;padding:12px;border-radius:8px;margin-top:8px;">';
         html += '<strong>R\u00e9ponse :</strong> ' + item.data.answer + (item.data.unit ? ' ' + item.data.unit : '');
@@ -171,6 +172,7 @@ function _buildHomeworkHTML(withAnswers) {
     } else if (item.type === 'evaluation') {
       item.data.questions.forEach((q, qi) => {
         html += '<p style="margin-top:12px;"><strong>' + (qi + 1) + '.</strong> ' + q.statement + ' <em>(' + q.points + ' pt' + (q.points > 1 ? 's' : '') + ')</em></p>';
+        html += renderQuestionFigure(q.figure);
         if (q.type === 'multiple-choice' && q.options) {
           html += '<ul style="list-style:none;padding-left:12px;">';
           q.options.forEach((opt, oi) => {

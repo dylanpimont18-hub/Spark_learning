@@ -174,6 +174,26 @@ window.MODULES.push({
     },
     {
       q: 'La section d\'une conduite circulaire est $A = \\pi d^2 / 4$. En isolant le diamètre $d$ :',
+      figure: {
+        svg: `
+          <svg viewBox="0 0 300 160" role="img" aria-labelledby="qcalc-section-title qcalc-section-desc">
+            <title id="qcalc-section-title">Section circulaire d'une conduite</title>
+            <desc id="qcalc-section-desc">La coupe circulaire d'une conduite, dont le diametre interieur d est trace horizontalement. L'aire hachuree correspond a la section de passage du fluide, egale a pi d au carre divise par quatre.</desc>
+            <circle cx="110" cy="80" r="58" fill="color-mix(in srgb, var(--diagram-accent) 16%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 45%, var(--border))" stroke-width="3"></circle>
+            <line class="graph-line" x1="52" y1="80" x2="168" y2="80" stroke="var(--secondary)"></line>
+            <polygon points="52,80 66,74 66,86" fill="var(--secondary)"></polygon>
+            <polygon points="168,80 154,74 154,86" fill="var(--secondary)"></polygon>
+            <circle class="plot-point" cx="110" cy="80" r="4"></circle>
+            <text class="annotation-label" x="110" y="72" text-anchor="middle" fill="var(--secondary)">d</text>
+            <text class="tick-label" x="110" y="150" text-anchor="middle">section de passage</text>
+            <text class="axis-label" x="192" y="70">A = π d² / 4</text>
+            <text class="tick-label" x="192" y="92">on cherche d</text>
+            <text class="tick-label" x="192" y="108">→ il faut défaire</text>
+            <text class="tick-label" x="192" y="124">le carré</text>
+          </svg>
+        `,
+        caption: 'Le diamètre est au carré : l\'isoler demandera une racine carrée, jamais une simple division.'
+      },
       options: [
         '$d = \\sqrt{\\dfrac{4A}{\\pi}}$',
         '$d = \\dfrac{4A}{\\pi}$',
@@ -220,6 +240,28 @@ window.MODULES.push({
     },
     {
       q: 'Pour une rampe d\'accès PMR, le théorème de Pythagore donne $L^2 = h^2 + d^2$, où $L$ est la longueur de la rampe, $h$ la hauteur à franchir et $d$ la projection horizontale. Pour isoler $h$ :',
+      figure: {
+        svg: `
+          <svg viewBox="0 0 340 170" role="img" aria-labelledby="qcalc-rampe-title qcalc-rampe-desc">
+            <title id="qcalc-rampe-title">Rampe d'acces PMR en triangle rectangle</title>
+            <desc id="qcalc-rampe-desc">Une rampe d'acces forme un triangle rectangle : la longueur L de la rampe est l'hypotenuse, la hauteur h a franchir est le cote vertical et la projection horizontale d est la base. Un fauteuil roulant symbolise l'usage de la rampe.</desc>
+            <line class="axis" x1="30" y1="135" x2="310" y2="135"></line>
+            <polygon points="60,135 260,135 260,60" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></polygon>
+            <line class="curve-main" x1="60" y1="135" x2="260" y2="60"></line>
+            <line class="frame-line" x1="260" y1="135" x2="260" y2="60" stroke="var(--accent)"></line>
+            <line class="grid-line" x1="60" y1="141" x2="260" y2="141"></line>
+            <path class="axis" fill="none" d="M 246 135 L 246 121 L 260 121"></path>
+            <rect x="255" y="35" width="60" height="25" rx="4" fill="color-mix(in srgb, var(--secondary) 16%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 40%, var(--border))"></rect>
+            <text class="tick-label" x="285" y="52" text-anchor="middle">palier</text>
+            <text class="annotation-label" x="150" y="88">L (hypoténuse)</text>
+            <text class="annotation-label" x="272" y="102" fill="var(--accent)">h = ?</text>
+            <text class="annotation-label" x="160" y="158" text-anchor="middle">d (projection)</text>
+            <circle class="plot-point-alt" cx="60" cy="135" r="5"></circle>
+            <circle class="plot-point" cx="260" cy="60" r="5"></circle>
+          </svg>
+        `,
+        caption: 'L est l\'hypoténuse : c\'est donc $L^2$ qui contient les deux autres, et $h^2 = L^2 - d^2$.'
+      },
       options: [
         '$h = \\sqrt{L^2 - d^2}$',
         '$h = L^2 - d^2$',
@@ -388,7 +430,50 @@ window.MODULES.push({
 
   probleme: {
     context: 'Un chauffe-eau solaire alimente un ballon de stockage. Le collecteur solar transfère une puissance $\\dot{Q} = 3{,}5$ kW à un fluide caloporteur (eau glycolée) de débit massique $\\dot{m} = 0{,}12$ kg/s et de capacité calorifique $c_p = 3800$ J/(kg·K). Le fluide entre dans le collecteur à $T_e = 25$ °C.',
-    schema: 'Schéma : collecteur solaire → pompe de circulation → ballon de stockage. Le fluide circule en boucle fermée. $\\dot{Q}$ est absorbé par le collecteur et cédé au ballon via un échangeur.',
+    figure: {
+      svg: `
+        <svg viewBox="0 0 450 220" role="img" aria-labelledby="pb-calcullit-title pb-calcullit-desc">
+          <title id="pb-calcullit-title">Boucle solaire thermique : collecteur, pompe et ballon</title>
+          <desc id="pb-calcullit-desc">Un circuit ferme relie un collecteur solaire, une pompe de circulation et un ballon de stockage. Le fluide entre dans le collecteur a 25 degres, en ressort plus chaud a la temperature Ts cherchee, puis cede sa chaleur au ballon avant de revenir a la pompe. La puissance captee vaut 3,5 kilowatts.</desc>
+
+          <rect x="30" y="40" width="120" height="56" rx="8" fill="color-mix(in srgb, var(--accent) 14%, var(--bg-card))" stroke="color-mix(in srgb, var(--accent) 36%, var(--border))"></rect>
+          <line class="grid-line" x1="45" y1="52" x2="135" y2="52"></line>
+          <line class="grid-line" x1="45" y1="68" x2="135" y2="68"></line>
+          <line class="grid-line" x1="45" y1="84" x2="135" y2="84"></line>
+          <text class="annotation-label" x="90" y="30" text-anchor="middle">Collecteur solaire</text>
+          <line class="graph-line" x1="60" y1="8" x2="72" y2="26" stroke="var(--accent)"></line>
+          <line class="graph-line" x1="90" y1="8" x2="102" y2="26" stroke="var(--accent)"></line>
+          <line class="graph-line" x1="120" y1="8" x2="132" y2="26" stroke="var(--accent)"></line>
+
+          <rect x="300" y="30" width="90" height="120" rx="12" fill="color-mix(in srgb, var(--secondary) 12%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 34%, var(--border))"></rect>
+          <line class="grid-line" x1="300" y1="72" x2="390" y2="72"></line>
+          <text class="annotation-label" x="345" y="22" text-anchor="middle">Ballon</text>
+          <text class="tick-label" x="345" y="60" text-anchor="middle">échangeur</text>
+          <text class="tick-label" x="345" y="106" text-anchor="middle">eau chaude</text>
+          <text class="tick-label" x="345" y="122" text-anchor="middle">sanitaire</text>
+
+          <circle cx="215" cy="180" r="20" class="plot-point-alt"></circle>
+          <text class="annotation-label" x="215" y="185" text-anchor="middle">P</text>
+          <text class="tick-label" x="215" y="216" text-anchor="middle">pompe de circulation</text>
+
+          <line class="curve-main" x1="150" y1="55" x2="300" y2="55"></line>
+          <polygon points="292,49 306,55 292,61" fill="var(--primary)"></polygon>
+          <text class="annotation-label" x="225" y="46" text-anchor="middle">Ts = ?  (sortie chaude)</text>
+
+          <line class="curve-main" x1="330" y1="150" x2="330" y2="180" stroke="var(--secondary)"></line>
+          <line class="curve-main" x1="330" y1="180" x2="235" y2="180" stroke="var(--secondary)"></line>
+          <line class="curve-main" x1="195" y1="180" x2="60" y2="180" stroke="var(--secondary)"></line>
+          <line class="curve-main" x1="60" y1="180" x2="60" y2="96" stroke="var(--secondary)"></line>
+          <polygon points="54,104 60,90 66,104" fill="var(--secondary)"></polygon>
+          <text class="annotation-label" x="130" y="170" text-anchor="middle" fill="var(--secondary)">Te = 25 °C (retour froid)</text>
+
+          <text class="annotation-label" x="90" y="120" text-anchor="middle">Q = 3,5 kW</text>
+          <text class="tick-label" x="90" y="138" text-anchor="middle">ṁ = 0,12 kg/s</text>
+          <text class="tick-label" x="90" y="154" text-anchor="middle">cp = 3800 J/(kg·K)</text>
+        </svg>
+      `,
+      caption: 'Boucle fermée : le fluide capte $\\dot{Q}$ dans le collecteur, cède cette chaleur au ballon, puis revient à $T_e$.'
+    },
     tasks: [
       'Exprimer $T_s$ (température de sortie du collecteur) en isolant $T_s$ depuis $\\dot{Q} = \\dot{m} \\cdot c_p \\cdot (T_s - T_e)$.',
       'Calculer numériquement $T_s$ avec les données de l\'énoncé.',

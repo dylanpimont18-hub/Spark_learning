@@ -70,6 +70,19 @@ function renderCoursDiagram(diagram, subjectId) {
   `;
 }
 
+/**
+ * Liste normalisée des schémas d'un cours.
+ * Un module déclare soit `cours.diagram` (un seul schéma, format historique),
+ * soit `cours.diagrams: []` (plusieurs schémas). Les deux peuvent coexister :
+ * `diagram` est alors rendu en premier.
+ */
+function coursDiagramList(c) {
+  const list = [];
+  if (c.diagram) list.push(c.diagram);
+  if (Array.isArray(c.diagrams)) list.push(...c.diagrams.filter(Boolean));
+  return list;
+}
+
 function renderCours(mod) {
   const c = mod.cours;
   const subjectDef = getSubjectDef(mod.subject || 'maths');
@@ -131,10 +144,10 @@ function renderCours(mod) {
         </div>
       </div>
 
-      ${c.diagram ? `
+      ${coursDiagramList(c).length ? `
       <div class="cours-section">
-        <h2 class="cours-section-title">🎨 Illustration</h2>
-        ${renderCoursDiagram(c.diagram, mod.subject || 'maths')}
+        <h2 class="cours-section-title">🎨 ${coursDiagramList(c).length > 1 ? 'Illustrations' : 'Illustration'}</h2>
+        ${coursDiagramList(c).map(d => renderCoursDiagram(d, mod.subject || 'maths')).join('')}
       </div>
       ` : ''}
 

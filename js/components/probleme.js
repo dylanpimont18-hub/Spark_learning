@@ -13,7 +13,13 @@ function renderProbleme(mod) {
       <div class="probleme-context">
         <div class="probleme-context-label">📚 Mise en contexte</div>
         <div>${p.context}</div>
-        ${p.schema ? `
+        ${p.figure ? `
+          <figure class="question-figure probleme-figure">
+            <div class="cours-diagram-stage">${p.figure.svg || p.figure}</div>
+            ${p.figure.caption ? `<figcaption class="question-figure-caption">${p.figure.caption}</figcaption>` : ''}
+          </figure>
+        ` : ''}
+        ${!p.figure && p.schema ? `
           <div style="margin-top:12px;padding:10px 14px;background:color-mix(in srgb,var(--primary) 8%,var(--bg-card));border-radius:10px;font-size:0.85rem;color:var(--text-muted);font-family:'Inter',monospace;">
             🖼️ ${p.schema}
           </div>

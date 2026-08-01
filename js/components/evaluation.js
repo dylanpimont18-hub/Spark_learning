@@ -53,6 +53,8 @@ function renderEvaluationQuestion(mod) {
 
         <div class="eval-statement">${q.statement}</div>
 
+        ${renderQuestionFigure(q.figure)}
+
         ${q.type === 'numeric' ? `
           <div class="exercice-input-row">
             <input type="number" id="eval-input" class="exercice-input"
@@ -118,6 +120,7 @@ function renderEvaluationResults(mod) {
                 <span class="eval-q-points">${es.answers[i].correct ? q.points : 0}/${q.points} ${pluralize('pt', q.points)}</span>
               </div>
               <div class="eval-q-statement">${q.statement}</div>
+              ${renderQuestionFigure(q.figure)}
               <div class="eval-q-correction">${q.correction}</div>
             </div>
           `).join('')}

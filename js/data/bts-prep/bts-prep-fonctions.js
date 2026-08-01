@@ -120,6 +120,57 @@ window.MODULES.push({
       caption: 'Exemple de lecture d\'un point de fonctionnement sur un graphe de type pompe-reseau.'
     },
 
+    diagrams: [
+      {
+        theme: 'maths',
+        kicker: 'Les quatre allures de base',
+        title: 'Reconnaître une fonction à la forme de sa courbe',
+        description: 'En BTS, on identifie souvent une loi physique <strong>à l\'œil</strong>, avant tout calcul : une droite, une courbe qui s\'emballe, une courbe qui s\'écrase ou une courbe qui plafonne ne racontent pas la même histoire technique.',
+        svg: `
+          <svg viewBox="0 0 400 268" role="img" aria-labelledby="btsfonc-familles-title btsfonc-familles-desc">
+            <title id="btsfonc-familles-title">Les quatre familles de fonctions de base</title>
+            <desc id="btsfonc-familles-desc">Un repere unique portant quatre courbes : une droite affine croissante, une parabole en x au carre qui s'emballe, une hyperbole en un sur x qui decroit vers l'axe, et une racine carree qui monte vite puis s'aplatit. Une legende associe chaque allure a une loi technique typique.</desc>
+
+            <line class="grid-line" x1="122" y1="40" x2="122" y2="200"></line>
+            <line class="grid-line" x1="174" y1="40" x2="174" y2="200"></line>
+            <line class="grid-line" x1="226" y1="40" x2="226" y2="200"></line>
+            <line class="grid-line" x1="278" y1="40" x2="278" y2="200"></line>
+            <line class="grid-line" x1="70" y1="164" x2="300" y2="164"></line>
+            <line class="grid-line" x1="70" y1="128" x2="300" y2="128"></line>
+            <line class="grid-line" x1="70" y1="92" x2="300" y2="92"></line>
+            <line class="grid-line" x1="70" y1="56" x2="300" y2="56"></line>
+
+            <line class="axis" x1="70" y1="200" x2="310" y2="200"></line>
+            <line class="axis" x1="70" y1="210" x2="70" y2="40"></line>
+            <text class="axis-label" x="316" y="204">x</text>
+            <text class="axis-label" x="62" y="38">y</text>
+
+            <path class="curve-main" fill="none" d="M 70 164 L 278 92"></path>
+            <path class="curve-main" fill="none" stroke="var(--secondary)" d="M 70 200 L 80 200 L 91 199 L 101 197 L 112 194 L 122 191 L 132 187 L 143 182 L 153 177 L 164 171 L 174 164 L 184 156 L 195 148 L 205 139 L 216 129 L 226 119 L 236 108 L 247 96 L 257 83 L 268 70 L 278 56"></path>
+            <path class="curve-main" fill="none" stroke="var(--accent)" d="M 99 69 L 107 98 L 115 117 L 123 129 L 131 139 L 139 146 L 148 152 L 156 156 L 164 160 L 172 163 L 180 166 L 188 168 L 196 170 L 205 172 L 213 174 L 221 175 L 229 176 L 237 178 L 245 179 L 254 180 L 262 180 L 270 181 L 278 182"></path>
+            <path class="curve-main" fill="none" stroke="color-mix(in srgb, var(--secondary) 45%, var(--accent))" d="M 70 200 L 80 168 L 91 154 L 101 144 L 112 136 L 122 128 L 132 121 L 143 115 L 153 109 L 164 103 L 174 98 L 184 93 L 195 88 L 205 84 L 216 80 L 226 75 L 236 71 L 247 67 L 257 63 L 268 60 L 278 56"></path>
+
+            <text class="annotation-label" x="284" y="96">y = ax + b</text>
+            <text class="annotation-label" x="284" y="52" fill="var(--secondary)">y = x²</text>
+            <text class="annotation-label" x="284" y="188" fill="var(--accent)">y = k/x</text>
+            <text class="annotation-label" x="196" y="76" fill="color-mix(in srgb, var(--secondary) 45%, var(--accent))">y = √x</text>
+
+            <text class="tick-label" x="70" y="228">Affine : chute de tension ΔU = R·I</text>
+            <text class="tick-label" x="70" y="244">Carré : ΔP ∝ v²  —  Joule : P = R·I²</text>
+            <text class="tick-label" x="70" y="260">Inverse : p·V = cste  —  Racine : Q ∝ √ΔP</text>
+          </svg>
+        `,
+        notes: [
+          '<strong>Droite (affine) :</strong> la variation est <em>constante</em>. Doubler $x$ double l\'écart à l\'ordonnée à l\'origine. C\'est le cas d\'une chute de tension dans un câble.',
+          '<strong>Parabole ($x^2$) :</strong> la variation <em>s\'accélère</em>. Doubler la vitesse dans une conduite <strong>quadruple</strong> les pertes de charge — c\'est pour ça qu\'on surdimensionne les diamètres.',
+          '<strong>Hyperbole ($k/x$) :</strong> le produit reste constant. Doubler la pression divise le volume par deux, sans jamais atteindre zéro.',
+          '<strong>Racine ($\\sqrt{x}$) :</strong> la variation <em>s\'essouffle</em>. Quadrupler la pression différentielle ne double que le débit à travers un orifice.'
+        ],
+        reading: 'Devant un relevé de mesures, commence toujours par regarder <strong>l\'allure</strong> avant de chercher l\'équation : elle te dit déjà si tu as affaire à une loi linéaire, quadratique, inverse ou en racine.',
+        caption: 'Les quatre allures de fonctions les plus fréquentes en BTS technique, avec la loi physique associée à chacune.'
+      }
+    ],
+
     recap: [
       'La pente d\'une droite mesure la vitesse de variation : une grande pente signifie une grande sensibilité.',
       'Deux courbes s\'intersectent en un point de fonctionnement : résoudre algébriquement $f_1(x) = f_2(x)$.',
@@ -145,6 +196,37 @@ window.MODULES.push({
     },
     {
       q: 'Deux droites $y_1 = 3x + 1$ et $y_2 = x + 5$ se croisent en :',
+      figure: {
+        svg: `
+          <svg viewBox="0 0 320 200" role="img" aria-labelledby="qfonc-inter-title qfonc-inter-desc">
+            <title id="qfonc-inter-title">Intersection de deux droites</title>
+            <desc id="qfonc-inter-desc">Deux droites tracees dans un meme repere : la premiere, plus pentue, part de l'ordonnee 1 ; la seconde, moins pentue, part de l'ordonnee 5. Elles se coupent en un unique point dont les coordonnees sont a determiner.</desc>
+            <line class="grid-line" x1="90" y1="25" x2="90" y2="165"></line>
+            <line class="grid-line" x1="130" y1="25" x2="130" y2="165"></line>
+            <line class="grid-line" x1="170" y1="25" x2="170" y2="165"></line>
+            <line class="grid-line" x1="210" y1="25" x2="210" y2="165"></line>
+            <line class="grid-line" x1="50" y1="145" x2="280" y2="145"></line>
+            <line class="grid-line" x1="50" y1="125" x2="280" y2="125"></line>
+            <line class="grid-line" x1="50" y1="105" x2="280" y2="105"></line>
+            <line class="grid-line" x1="50" y1="85" x2="280" y2="85"></line>
+            <line class="grid-line" x1="50" y1="65" x2="280" y2="65"></line>
+            <line class="axis" x1="50" y1="165" x2="290" y2="165"></line>
+            <line class="axis" x1="50" y1="180" x2="50" y2="25"></line>
+            <line class="curve-main" x1="50" y1="155" x2="180" y2="35"></line>
+            <line class="curve-main" x1="50" y1="105" x2="250" y2="65" stroke="var(--secondary)"></line>
+            <circle class="plot-point" cx="130" cy="85" r="7"></circle>
+            <line class="guide-line" x1="130" y1="165" x2="130" y2="85"></line>
+            <line class="guide-line" x1="50" y1="85" x2="130" y2="85"></line>
+            <text class="annotation-label" x="186" y="42">y₁ = 3x + 1</text>
+            <text class="annotation-label" x="252" y="62" fill="var(--secondary)">y₂ = x + 5</text>
+            <text class="tick-label" x="138" y="80">(x ; y) = ?</text>
+            <text class="tick-label" x="42" y="109" text-anchor="end">1</text>
+            <text class="tick-label" x="42" y="169" text-anchor="end">0</text>
+            <text class="tick-label" x="130" y="182" text-anchor="middle">2</text>
+          </svg>
+        `,
+        caption: 'Résoudre $y_1 = y_2$ revient exactement à chercher l\'abscisse du point d\'intersection.'
+      },
       options: ['$(x, y) = (2, 7)$', '$(x, y) = (3, 10)$', '$(x, y) = (1, 4)$', '$(x, y) = (4, 6)$'],
       answer: 0,
       correction: '$3x + 1 = x + 5 \\Rightarrow 2x = 4 \\Rightarrow x = 2$. Puis $y = 2 + 5 = 7$. Point : $(2, 7)$.'
@@ -191,6 +273,31 @@ window.MODULES.push({
     },
     {
       q: 'La fonction $f(x) = -2x^2 + 8x$ (parabole tournée vers le bas) atteint son maximum pour :',
+      figure: {
+        svg: `
+          <svg viewBox="0 0 380 200" role="img" aria-labelledby="qfonc-parab-title qfonc-parab-desc">
+            <title id="qfonc-parab-title">Parabole tournee vers le bas et position de son sommet</title>
+            <desc id="qfonc-parab-desc">Une parabole ouverte vers le bas, qui coupe l'axe horizontal en deux points et atteint son sommet a mi-chemin entre ces deux racines. Une ligne verticale en pointilles marque l'abscisse du sommet.</desc>
+            <line class="grid-line" x1="130" y1="35" x2="130" y2="175"></line>
+            <line class="grid-line" x1="200" y1="35" x2="200" y2="175"></line>
+            <line class="grid-line" x1="270" y1="35" x2="270" y2="175"></line>
+            <line class="axis" x1="45" y1="175" x2="360" y2="175"></line>
+            <line class="axis" x1="60" y1="190" x2="60" y2="35"></line>
+            <path class="curve-main" fill="none" d="M 60 175 L 74 151 L 88 130 L 102 111 L 116 95 L 130 81 L 144 70 L 158 61 L 172 55 L 186 51 L 200 50 L 214 51 L 228 55 L 242 61 L 256 70 L 270 81 L 284 95 L 298 111 L 312 130 L 326 151 L 340 175"></path>
+            <line class="guide-line" x1="200" y1="175" x2="200" y2="50"></line>
+            <circle class="plot-point" cx="200" cy="50" r="7"></circle>
+            <circle class="plot-point-alt" cx="60" cy="175" r="5"></circle>
+            <circle class="plot-point-alt" cx="340" cy="175" r="5"></circle>
+            <text class="annotation-label" x="210" y="46">sommet</text>
+            <text class="tick-label" x="60" y="192" text-anchor="middle">0</text>
+            <text class="tick-label" x="340" y="192" text-anchor="middle">racine</text>
+            <text class="tick-label" x="200" y="192" text-anchor="middle">x = ?</text>
+            <text class="tick-label" x="230" y="150">le sommet est toujours</text>
+            <text class="tick-label" x="230" y="164">au milieu des racines</text>
+          </svg>
+        `,
+        caption: 'Une parabole est symétrique : son sommet se situe exactement à mi-distance de ses deux racines.'
+      },
       options: ['$x = 8$', '$x = -2$', '$x = 2$', '$x = 4$'],
       answer: 2,
       correction: 'Le sommet d\'une parabole $ax^2 + bx + c$ est en $x_s = -b/(2a) = -8/(2 \\times (-2)) = -8/(-4) = 2$. Le maximum est $f(2) = -8 + 16 = 8$.'
@@ -390,7 +497,50 @@ window.MODULES.push({
 
   probleme: {
     context: 'Un réseau de chauffage est alimenté par une pompe dont la caractéristique est $H_p = -0{,}8Q^2 + 20$ (H en m, Q en m³/h). Le réseau comporte deux circuits en parallèle : circuit A avec $H_A = 1{,}2Q_A^2 + 2$ et circuit B avec $H_B = 0{,}6Q_B^2 + 3$.',
-    schema: 'Schéma : pompe → bifurcation en deux circuits A et B → retour. En parallèle : même pression différentielle ($H_A = H_B$), débits qui s\'additionnent ($Q = Q_A + Q_B$).',
+    figure: {
+      svg: `
+        <svg viewBox="0 0 460 220" role="img" aria-labelledby="pb-fonctions-title pb-fonctions-desc">
+          <title id="pb-fonctions-title">Deux circuits en parallele alimentes par une meme pompe</title>
+          <desc id="pb-fonctions-desc">Une pompe alimente une conduite qui se divise en deux branches paralleles, le circuit A et le circuit B, avant de se rejoindre au retour. Les deux branches subissent la meme difference de pression, tandis que leurs debits s'additionnent pour former le debit total de la pompe.</desc>
+
+          <circle cx="55" cy="110" r="24" class="plot-point-alt"></circle>
+          <text class="annotation-label" x="55" y="115" text-anchor="middle">P</text>
+          <text class="tick-label" x="55" y="152" text-anchor="middle">pompe</text>
+
+          <line class="curve-main" x1="79" y1="110" x2="140" y2="110"></line>
+          <line class="curve-main" x1="140" y1="110" x2="140" y2="55"></line>
+          <line class="curve-main" x1="140" y1="110" x2="140" y2="165"></line>
+          <circle class="plot-point" cx="140" cy="110" r="6"></circle>
+          <text class="annotation-label" x="96" y="100">Q</text>
+
+          <line class="curve-main" x1="140" y1="55" x2="200" y2="55"></line>
+          <rect x="200" y="35" width="110" height="40" rx="8" fill="color-mix(in srgb, var(--primary) 12%, var(--bg-card))" stroke="color-mix(in srgb, var(--primary) 32%, var(--border))"></rect>
+          <text class="annotation-label" x="255" y="60" text-anchor="middle">Circuit A</text>
+          <line class="curve-main" x1="310" y1="55" x2="380" y2="55"></line>
+          <text class="tick-label" x="345" y="46" text-anchor="middle">Q_A</text>
+          <text class="tick-label" x="255" y="26" text-anchor="middle">H_A = 1,2 Q_A² + 2</text>
+
+          <line class="curve-main" x1="140" y1="165" x2="200" y2="165" stroke="var(--secondary)"></line>
+          <rect x="200" y="145" width="110" height="40" rx="8" fill="color-mix(in srgb, var(--secondary) 12%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 32%, var(--border))"></rect>
+          <text class="annotation-label" x="255" y="170" text-anchor="middle" fill="var(--secondary)">Circuit B</text>
+          <line class="curve-main" x1="310" y1="165" x2="380" y2="165" stroke="var(--secondary)"></line>
+          <text class="tick-label" x="345" y="156" text-anchor="middle">Q_B</text>
+          <text class="tick-label" x="255" y="204" text-anchor="middle">H_B = 0,6 Q_B² + 3</text>
+
+          <line class="curve-main" x1="380" y1="55" x2="380" y2="165"></line>
+          <circle class="plot-point" cx="380" cy="110" r="6"></circle>
+          <line class="curve-main" x1="380" y1="110" x2="430" y2="110"></line>
+          <line class="curve-main" x1="430" y1="110" x2="430" y2="200"></line>
+          <line class="curve-main" x1="430" y1="200" x2="55" y2="200"></line>
+          <line class="curve-main" x1="55" y1="200" x2="55" y2="134"></line>
+          <polygon points="49,142 55,128 61,142" fill="var(--primary)"></polygon>
+
+          <text class="annotation-label" x="150" y="126">même ΔP :  H_A = H_B</text>
+          <text class="annotation-label" x="150" y="142">débits qui s\'ajoutent :  Q = Q_A + Q_B</text>
+        </svg>
+      `,
+      caption: 'Montage en parallèle : les hauteurs s\'égalisent, les débits s\'additionnent — d\'où le système à résoudre.'
+    },
     tasks: [
       'Trouver les débits $Q_A$ et $Q_B$ sachant que les circuits sont en parallèle (même HMT) et que la HMT commune est $H = 8$ m.',
       'Vérifier que le débit total $Q = Q_A + Q_B$ est compatible avec la courbe pompe $H_p = -0{,}8Q^2 + 20$.',
