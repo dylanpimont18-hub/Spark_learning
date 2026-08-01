@@ -1,0 +1,9 @@
+Vitesse et accélération. Deux mots, une seule idée dans la tête de beaucoup d'élèves de 1re SI : "ça bouge vite."
+
+Pourtant une voiture peut rouler très vite sans accélérer du tout, et accélérer fort à très faible vitesse au démarrage.
+
+Ce qui aide à séparer les deux, dans mon expérience : accélérer, c'est changer de vitesse, pas juste aller vite. Une phrase, mais qui débloque beaucoup de copies une fois répétée assez de fois.
+
+Le module cinématique du site reprend cette distinction avant d'introduire la moindre formule.
+
+Changer de vitesse. Rien de plus.

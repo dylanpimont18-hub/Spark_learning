@@ -1,0 +1,9 @@
+Un relevé de TP à 0,003 au lieu de 3.
+
+Même calcul. Même élève sérieux. Juste un mm oublié quelque part dans la conversion.
+
+Je vois cette erreur depuis que j'enseigne. Ce n'est jamais un problème de logique. C'est un problème d'habitude — savoir que 3 mm et 0,003 m ne se traitent pas pareil dans une formule.
+
+Sur Spark Learning, j'ai un module juste là-dessus : les unités SI, les préfixes, rien d'autre. Pas parce que c'est compliqué. Parce que c'est le genre de chose qu'on n'explique jamais vraiment, on suppose que ça vient tout seul.
+
+Ce genre d'erreur ne dit jamais rien sur le niveau de l'élève. Juste sur ce qu'on n'a pas assez répété.

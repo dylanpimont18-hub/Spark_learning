@@ -1,0 +1,11 @@
+1/2 + 1/3 = 2/5.
+
+Un élève de 6e me l'a écrit hier au tableau, sûr de lui.
+
+Ce qui m'a frappé, ce n'est pas l'erreur. C'est la logique derrière : il additionne ce qu'il voit, en haut et en bas, comme on additionnerait deux paniers de fruits. C'est même assez cohérent, à sa manière.
+
+Le vrai travail, ce n'est pas de dire "faux". C'est de comprendre pourquoi cette logique-là ne marche pas ici, et d'en construire une autre.
+
+J'ai remis ce point au centre du module fractions de 6e sur Spark Learning, avec plus d'étapes intermédiaires.
+
+Sa logique n'était pas bête. Juste incomplète.

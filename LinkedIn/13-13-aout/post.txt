@@ -1,0 +1,9 @@
+Une hypoténuse qu'on cherche à la mauvaise place, ça reste l'erreur la plus fréquente que je vois sur Pythagore, même après plusieurs années.
+
+Le théorème, les élèves le connaissent presque toujours par cœur. Ce qui coince, c'est de repérer quel côté du triangle est réellement l'hypoténuse avant de l'appliquer.
+
+Une astuce simple qui fonctionne bien : c'est toujours le côté en face de l'angle droit, jamais celui qui "a l'air" le plus long sur le dessin.
+
+C'est ce point précis que le module Pythagore de 4e retravaille sur Spark Learning, avec plusieurs triangles dessinés dans des orientations inhabituelles.
+
+Le triangle a beau tourner sur la feuille, l'angle droit reste le seul repère fiable.

@@ -1,0 +1,9 @@
+Un élève m'a dit un jour : "Monsieur, ça n'existe même pas, un nombre imaginaire."
+
+Il n'avait pas tort sur le mot. Le nom est mal choisi, presque exprès pour faire peur.
+
+En électrotechnique, ce même nombre "imaginaire" sert juste à décrire un déphasage. Rien de magique. Une fois qu'on remplace i par "je tourne de 90°", le blocage tombe souvent en quelques minutes.
+
+C'est le genre de déclic que j'essaie de provoquer plus tôt dans le module complexes, sur Spark Learning.
+
+Le nom fait plus peur que le calcul, dans neuf cas sur dix.

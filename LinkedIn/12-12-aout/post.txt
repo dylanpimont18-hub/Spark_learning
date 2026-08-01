@@ -1,0 +1,9 @@
+Une formule qui donne un résultat en mètres alors qu'on cherchait une vitesse. Ça arrive, et c'est souvent le signe le plus fiable qu'il y a une erreur quelque part.
+
+L'analyse dimensionnelle, c'est presque un correcteur orthographique pour les calculs de physique. On ne l'utilise jamais assez, alors qu'elle repère la moitié des erreurs de formule avant même de sortir la calculatrice.
+
+Je le dis souvent à mes étudiants : si les unités ne collent pas, inutile de vérifier le reste, il y a déjà un problème.
+
+C'est le réflexe que travaille le module analyse dimensionnelle du parcours remise à niveau, sur Spark Learning.
+
+Les unités ne mentent jamais. Le calcul, parfois si.

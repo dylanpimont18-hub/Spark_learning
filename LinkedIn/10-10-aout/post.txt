@@ -1,0 +1,9 @@
+Une équation différentielle du second ordre, ça a l'air abstrait jusqu'au moment où on branche un vrai circuit RLC et qu'on regarde l'oscillo.
+
+Là, l'équation devient une photo de ce qui se passe réellement : le régime transitoire, l'amortissement, le dépassement.
+
+Ce que je remarque en classe : les élèves qui décrochent sur ce chapitre sont rarement mauvais en calcul. Ils n'ont juste jamais vu le lien entre la formule et le phénomène physique qu'elle décrit.
+
+J'ai construit le module équations différentielles de Spark Learning à partir de cas concrets — circuit, ressort, avant la résolution pure.
+
+La théorie ne clique jamais autant que devant l'oscillo.

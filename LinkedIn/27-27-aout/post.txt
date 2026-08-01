@@ -1,0 +1,9 @@
+La dérivée, réduite à une formule à appliquer, ça reste une des plus grandes pertes de sens en maths appliquées.
+
+Une dérivée, c'est une vitesse de variation. Rien de plus, rien de moins. La vitesse d'un débit qui change, la vitesse à laquelle une température monte, la vitesse à laquelle un coût évolue.
+
+Une fois qu'on relie systématiquement le calcul à cette idée de "vitesse de quelque chose", les étudiants arrêtent de dériver mécaniquement et commencent à se demander ce que le résultat signifie vraiment.
+
+C'est ce lien que le module dérivation appliquée essaie de garder visible du début à la fin, sur Spark Learning.
+
+Une vitesse de quelque chose. Rien de plus concret, au fond.

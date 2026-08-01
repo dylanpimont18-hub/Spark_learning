@@ -1,0 +1,11 @@
+(a+b)² = a² + b².
+
+Faux, et pourtant cette égalité revient chaque année, dans chaque classe, jusqu'au BTS parfois.
+
+Ce n'est pas de la paresse. C'est que la distributivité, une fois apprise pour l'addition simple, semble "logiquement" devoir s'étendre au carré. Le cerveau généralise, ce qui est plutôt une bonne stratégie, sauf ici.
+
+Ce qui marche le mieux pour casser l'automatisme, dans mon expérience : faire vérifier avec des nombres simples, a=2, b=3, et laisser l'élève découvrir lui-même l'écart.
+
+C'est l'approche du module identités remarquables sur Spark Learning, la vérification numérique avant la démonstration.
+
+Le cerveau généralise. Ici, il a tort.

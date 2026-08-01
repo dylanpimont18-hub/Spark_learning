@@ -1,0 +1,7 @@
+L'aire sous une courbe, ce n'est pas juste un exercice de calcul. C'est une énergie consommée, une distance parcourue, une quantité de chaleur échangée, selon ce que représentent les deux axes.
+
+Beaucoup d'étudiants savent calculer une intégrale bien avant de savoir dire ce qu'elle représente physiquement dans leur propre domaine technique. L'ordre est presque toujours celui-là, et je pense qu'on gagnerait à l'inverser plus souvent.
+
+C'est ce que j'essaie de faire dans le module intégrales appliquées, en partant toujours d'une grandeur physique concrète avant la notation mathématique, sur Spark Learning.
+
+Et vous, calcul d'abord ou sens d'abord ?

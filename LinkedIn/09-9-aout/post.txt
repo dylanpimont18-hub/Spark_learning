@@ -1,0 +1,11 @@
+2 + 3 × 4.
+
+Posez la question autour de vous ce soir. Vous aurez deux réponses : 20 et 14. Et les deux camps seront sûrs d'eux.
+
+C'est en 5e qu'on tranche ça, officiellement. Mais je continue de voir l'erreur en BTS, sous une autre forme, cachée dans une formule plus longue.
+
+La priorité des opérations, ce n'est pas une règle scolaire un peu arbitraire. C'est ce qui permet à deux personnes de lire la même expression et de tomber sur le même résultat.
+
+Le module priorités du site a été pensé pour ça — pas juste apprendre la règle, comprendre pourquoi elle existe.
+
+14 ou 20 ? Vérifiez, ça vaut le coup.

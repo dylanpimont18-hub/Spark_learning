@@ -1,0 +1,9 @@
+Doubler la puissance d'un haut-parleur ne double pas le volume que vous entendez.
+
+Ça surprend presque tout le monde la première fois. L'oreille ne réagit pas de façon linéaire, elle réagit en log. D'où les décibels.
+
+C'est une des rares notions de maths qui a un lien direct et sensible avec le quotidien — on peut littéralement l'entendre. Et pourtant on l'enseigne souvent comme une formule sèche, ln ceci, log cela.
+
+J'ai gardé cette entrée par le son dans le module logarithme du parcours remise à niveau BTS sur Spark Learning.
+
+Il y a sûrement d'autres notions de maths qu'on pourrait "sentir" avant de les calculer.

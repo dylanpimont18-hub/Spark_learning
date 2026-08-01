@@ -1,0 +1,9 @@
+Le terme proportionnel d'un PID, tout le monde le visualise assez vite : plus l'écart est grand, plus on corrige fort.
+
+Le terme intégral, c'est une autre histoire. Il regarde en arrière, il accumule l'erreur dans le temps, et ça, ça ne se voit pas sur un schéma instantané.
+
+Ce qui aide, dans mon expérience : montrer une simulation où on coupe le terme intégral et où le système se stabilise à côté de la consigne, jamais dessus. L'élève voit littéralement à quoi sert ce terme qu'il ne "sentait" pas avant.
+
+C'est cette entrée par la simulation que reprend le module asservissement PID sur Spark Learning.
+
+Ce qu'on ne voit pas sur un schéma finit toujours par se voir en simulation.

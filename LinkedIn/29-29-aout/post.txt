@@ -1,0 +1,9 @@
+Un abaque Grundfos, la première fois qu'on le montre à un étudiant, ça ressemble à un plat de spaghettis de courbes.
+
+Et pourtant c'est exactement ce type de document qu'il devra lire en entreprise, pas un exercice propre avec une seule courbe isolée. Le vrai obstacle n'est pas mathématique, c'est de savoir où regarder dans un document dense fait pour des professionnels, pas pour des élèves.
+
+Ce qui aide le plus : s'entraîner sur de vrais extraits de catalogue, pas des versions simplifiées, dès le départ.
+
+C'est le parti pris du module données techniques du parcours remise à niveau, sur Spark Learning — des abaques réels, pas retouchés pour paraître simples.
+
+Le vrai document, pas la version simplifiée. C'est celui qu'ils liront en entreprise.

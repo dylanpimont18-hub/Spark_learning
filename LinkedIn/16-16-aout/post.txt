@@ -1,0 +1,9 @@
+Un intervalle de confiance à 95%, ce n'est pas "on est sûr à 95% que la vraie valeur est dedans."
+
+C'est l'erreur d'interprétation la plus fréquente que je corrige en BTS, y compris chez des étudiants qui savent parfaitement calculer l'intervalle.
+
+La nuance est fine, presque philosophique : c'est la méthode de construction de l'intervalle qui est fiable à 95%, pas l'intervalle particulier qu'on a sous les yeux. Une fois qu'on l'a compris, la loi normale devient beaucoup moins mystique.
+
+C'est cette nuance que j'ai essayé de rendre explicite dans le module statistiques du site.
+
+La nuance est fine. Elle change pourtant toute la lecture du résultat.

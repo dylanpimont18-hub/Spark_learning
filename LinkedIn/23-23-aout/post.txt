@@ -1,0 +1,9 @@
+Une pièce parfaitement modélisée en 3D, avec de belles couleurs, et strictement aucune cote dessus.
+
+Ça arrive plus souvent qu'on ne croit chez des étudiants qui maîtrisent bien le logiciel. La CAO donne un objet qui a l'air fini visuellement, alors qu'il ne dit encore rien à personne côté fabrication.
+
+La modélisation, c'est la partie qui se voit. La cotation, c'est la partie qui sert vraiment sur un plan qu'un autre humain doit pouvoir lire et fabriquer sans vous poser de question.
+
+C'est ce basculement, du "beau" au "utilisable", que le module CAO sur Spark Learning essaie de faire passer.
+
+Le beau et l'utilisable, ce n'est pas toujours la même étape du travail.

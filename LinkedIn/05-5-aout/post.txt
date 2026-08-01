@@ -1,0 +1,9 @@
+Un élève capable d'écrire un GRAFCET entier sans jamais dire à voix haute ce qu'il fait.
+
+Ça arrive plus souvent qu'on croit. Il suit la structure, les étapes, les transitions, comme une recette. Mais demandez-lui d'expliquer pourquoi telle transition ferme telle étape, et le silence tombe.
+
+Le symbole n'est pas le problème. C'est la traduction entre "ce qui se passe physiquement" et "ce qui s'écrit" qui manque.
+
+J'ai ajouté des questions justement là-dessus dans le module automatique de Spark Learning — expliquer le GRAFCET avant de le coder.
+
+Suivre une méthode et la comprendre, ce n'est pas la même compétence. On l'oublie trop souvent.

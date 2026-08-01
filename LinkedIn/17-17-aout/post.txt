@@ -1,0 +1,7 @@
+Un COP de 4, ça veut dire qu'on récupère 4 kWh de chaleur pour 1 kWh électrique consommé. La plupart des étudiants savent réciter ça.
+
+Beaucoup moins savent expliquer pourquoi ce n'est pas une violation du premier principe de la thermodynamique. Le mot "rendement" à 400% fait tiquer, à raison, tant qu'on n'a pas expliqué que la pompe à chaleur ne crée rien, elle déplace de l'énergie qui était déjà dans l'air extérieur.
+
+C'est ce point précis, souvent glissé trop vite, que reprend le module gestion de l'énergie sur Spark Learning.
+
+Je serais curieux de savoir quel chiffre vos élèves citent sans trop y réfléchir.

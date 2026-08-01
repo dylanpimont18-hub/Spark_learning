@@ -1,0 +1,11 @@
+Un graphique. Une courbe qui descend. Un élève qui me dit : "la dérivée est négative ici, donc la fonction est négative."
+
+Confusion fréquente, presque un rite de passage en 1re.
+
+La dérivée parle de la pente, pas de la hauteur. Une fonction peut être bien au-dessus de zéro et décroître quand même.
+
+Ce qui aide, dans mon expérience : ne jamais montrer une dérivée sans montrer la fonction juste à côté, sur le même repère.
+
+C'est comme ça que le module dérivation est construit sur Spark Learning — deux courbes, jamais une seule.
+
+Deux courbes valent mieux qu'une explication.

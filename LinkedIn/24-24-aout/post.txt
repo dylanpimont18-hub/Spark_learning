@@ -1,0 +1,9 @@
+Un système à deux équations, deux inconnues, mal posé dès la première ligne. Tout le calcul qui suit peut être parfait, le résultat sera quand même faux.
+
+C'est l'erreur la plus frustrante à corriger, parce qu'elle ne se voit pas dans les étapes de résolution. Elle se cache dans la mise en équation, avant même que les maths ne commencent vraiment.
+
+Ce que je demande systématiquement : relire l'énoncé une deuxième fois, phrase par phrase, en associant chaque phrase à une ligne du système. Lent au début. Ça évite beaucoup de copies fausses ensuite.
+
+C'est ce temps de mise en équation que le module systèmes du parcours remise à niveau prend au sérieux, sur Spark Learning.
+
+La moitié des copies fausses se jouent avant la première ligne de calcul.

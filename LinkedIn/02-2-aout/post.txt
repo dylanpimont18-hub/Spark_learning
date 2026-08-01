@@ -1,0 +1,11 @@
+NPSH.
+
+Trois lettres qui vident une salle de BTS FED plus vite qu'une sonnerie.
+
+Pourtant c'est juste une marge de sécurité pour éviter que la pompe cavite. Une fois qu'on a vu la courbe, une fois qu'on a vu ce qui se passe physiquement dans le tuyau, ça devient presque évident.
+
+Le problème n'est jamais la notion elle-même. C'est qu'on la balance sous forme de formule avant d'avoir montré le phénomène.
+
+J'ai repris ce module cette semaine sur Spark Learning, en partant de l'image avant la formule.
+
+Je préfère toujours montrer avant de démontrer.

@@ -1,0 +1,11 @@
+ln(a + b) = ln(a) + ln(b).
+
+Encore faux. Et encore une erreur qui revient au bac, presque chaque session, presque au même endroit d'une copie.
+
+La règle qui existe vraiment, ln(a×b) = ln(a) + ln(b), lui ressemble suffisamment pour que la confusion s'installe durablement.
+
+Ce qui fonctionne pour la déloger : demander de tester avec deux nombres, voir que ça ne colle pas, et surtout laisser un peu de temps entre la découverte de l'erreur et la règle correcte. Corriger trop vite, ça ne laisse pas de trace.
+
+C'est ce tempo que j'ai essayé de respecter dans le module logarithme de Terminale sur Spark Learning.
+
+Deux règles qui se ressemblent trop pour laisser une copie tranquille.

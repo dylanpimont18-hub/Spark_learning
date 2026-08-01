@@ -1,0 +1,9 @@
+Une règle de trois posée à l'envers donne un résultat qui a l'air propre, avec les bonnes unités, et qui est complètement faux.
+
+C'est ce qui la rend dangereuse : rien dans le résultat final ne crie "erreur". Il faut revenir à la logique de départ pour s'en rendre compte.
+
+Ce que je fais depuis quelques années : je demande toujours de reformuler la relation en phrase avant de poser le calcul. "Si X augmente, Y augmente ou diminue ?" Une question bête, qui évite la moitié des erreurs.
+
+C'est la méthode utilisée dans le module proportionnalité du parcours remise à niveau, sur Spark Learning.
+
+Une question bête, posée avant un calcul sérieux. Ça marche à chaque fois.

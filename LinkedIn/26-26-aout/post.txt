@@ -1,0 +1,9 @@
+Demandez à un groupe d'étudiants où se trouve le centre de gravité d'une pièce en forme de L, et vous aurez presque toujours une réponse "au milieu" de la pièce visible.
+
+Sauf que pour un L, le centre de gravité tombe souvent dans le vide, à l'extérieur de la matière. Ça surprend, à chaque fois, même les étudiants sérieux.
+
+L'intuition visuelle, dans ce chapitre, trompe plus souvent qu'elle n'aide. Ce qui marche mieux : décomposer la forme en rectangles simples et calculer, plutôt que deviner à l'œil.
+
+C'est l'approche du module mécanique des solides sur Spark Learning — décomposer avant de faire confiance à l'intuition.
+
+L'intuition, sur ce chapitre-là, se trompe presque plus souvent qu'elle n'aide.

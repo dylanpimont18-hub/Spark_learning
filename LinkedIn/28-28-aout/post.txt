@@ -1,0 +1,9 @@
+Une suite arithmétique, on ajoute toujours la même chose. Une suite géométrique, on multiplie toujours par la même chose.
+
+Sur le papier, la distinction paraît simple. En pratique, face à un tableau de nombres, beaucoup d'élèves de 1re essaient d'abord l'addition, systématiquement, même quand la suite est clairement géométrique.
+
+Ce qui aide à trancher vite : regarder si les écarts entre les termes sont constants, ou si c'est le rapport entre les termes qui l'est. Une vérification de dix secondes qui évite de partir dans la mauvaise direction pour tout l'exercice.
+
+C'est ce réflexe de vérification que travaille le module suites sur Spark Learning, avant même de parler de formule explicite.
+
+Dix secondes de vérification, contre un exercice parti dans la mauvaise direction.

@@ -1,0 +1,9 @@
+Un mauvais rapport dans Thalès, ça donne un résultat qui a l'air raisonnable. C'est ce qui le rend difficile à repérer pour un élève seul face à sa copie.
+
+La configuration se ressemble souvent d'un exercice à l'autre, mais les côtés ne se correspondent pas toujours de la même façon. Un petit changement dans le dessin, et le rapport qu'on utilisait la fois d'avant ne marche plus.
+
+Ce qui aide : toujours refaire le triangle "démonté" à côté, séparé du dessin d'origine, pour voir clairement quel côté correspond à quel côté.
+
+C'est la méthode reprise dans le module Thalès de 3e sur Spark Learning.
+
+Un dessin qui change un peu, et tout le raisonnement avec lui.

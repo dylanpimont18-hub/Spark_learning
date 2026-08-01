@@ -1,0 +1,9 @@
+Un salaire moyen qui ne représente presque personne dans l'entreprise. Un exemple qui marche à tous les coups pour introduire la différence entre moyenne et médiane.
+
+Les étudiants savent calculer les deux depuis longtemps. Ce qui manque souvent, c'est de savoir laquelle choisir, et pourquoi, selon la situation.
+
+Une moyenne se laisse déformer par une valeur extrême. Une médiane, beaucoup moins. Dans un jeu de données technique, avec une mesure aberrante, ça change tout le raisonnement qu'on en tire.
+
+C'est cette question du "laquelle utiliser" que travaille le module statistiques du site, plus que le calcul lui-même.
+
+Le mauvais indicateur donne toujours un résultat qui a l'air sérieux.

@@ -1,0 +1,9 @@
+Le mot "triphasé" fait plus peur que le triphasé lui-même.
+
+C'est une remarque que je fais presque chaque année en début de chapitre. Les élèves arrivent avec une appréhension déjà installée, souvent transmise par d'autres élèves, avant même d'avoir vu la première formule.
+
+Une fois qu'on part de l'image des trois sinusoïdes décalées, plutôt que du vecteur de Fresnel abstrait, la tension redescend d'un cran.
+
+C'est cette entrée-là que j'ai choisie pour le module électrotechnique sur Spark Learning.
+
+Curieux de savoir si vous avez un chapitre qui traîne la même réputation, chez vous.
