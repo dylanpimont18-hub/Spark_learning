@@ -12,7 +12,30 @@
       "Bash(node -c c:/Users/Dylan/Desktop/Creation_site/Spark_learning/js/data/si-2nde.js)",
       "Bash(node -c c:/Users/Dylan/Desktop/Creation_site/Spark_learning/js/data/si-1re.js)",
       "Bash(node -c c:/Users/Dylan/Desktop/Creation_site/Spark_learning/js/data/si-tle.js)",
-      "Bash(node -c c:/Users/Dylan/Desktop/Creation_site/Spark_learning/js/data/si-bts.js)"
+      "Bash(node -c c:/Users/Dylan/Desktop/Creation_site/Spark_learning/js/data/si-bts.js)",
+      "Bash(node \"C:/Users/Dylan/AppData/Local/Temp/claude/c--Users-Dylan-Desktop-Creation-site-Spark-learning/969fdeed-5529-4e47-a467-ce9b3170fe37/scratchpad/audit-parcours.js\")",
+      "Bash(awk '/^  exercice:/,/^  probleme:/' bts-prep-puissances.js)",
+      "Bash(node \"C:/Users/Dylan/AppData/Local/Temp/claude/c--Users-Dylan-Desktop-Creation-site-Spark-learning/969fdeed-5529-4e47-a467-ce9b3170fe37/scratchpad/audit-visuels.js\")",
+      "Bash(node \"C:/Users/Dylan/AppData/Local/Temp/claude/c--Users-Dylan-Desktop-Creation-site-Spark-learning/969fdeed-5529-4e47-a467-ce9b3170fe37/scratchpad/parcours-eleve.js\")",
+      "Bash(awk '/^  evaluation:/,0' bts-prep-vecteurs.js)",
+      "Bash(node \"C:/Users/Dylan/AppData/Local/Temp/claude/c--Users-Dylan-Desktop-Creation-site-Spark-learning/969fdeed-5529-4e47-a467-ce9b3170fe37/scratchpad/test-eval-render.js\")",
+      "Bash(node \"C:/Users/Dylan/AppData/Local/Temp/claude/c--Users-Dylan-Desktop-Creation-site-Spark-learning/969fdeed-5529-4e47-a467-ce9b3170fe37/scratchpad/test-tabs-render.js\")",
+      "Bash(sed -i \"s|for \\(const f of \\\\['renderCours.js'|for \\(const f of ['../utils/ui-helpers.js','../engines/quizEngine.js','renderCours.js'|\" test-tabs-render.js)",
+      "Bash(node test-tabs-render.js)",
+      "Bash(npm ls *)",
+      "Bash(ToolSearchPlaceholder)",
+      "Bash(node parcours-eleve.js)",
+      "Bash(node \"C:/Users/Dylan/AppData/Local/Temp/claude/c--Users-Dylan-Desktop-Creation-site-Spark-learning/969fdeed-5529-4e47-a467-ce9b3170fe37/scratchpad/gen-paths.js\")",
+      "Bash(node \"C:/Users/Dylan/AppData/Local/Temp/claude/c--Users-Dylan-Desktop-Creation-site-Spark-learning/969fdeed-5529-4e47-a467-ce9b3170fe37/scratchpad/gen-paths2.js\")",
+      "Bash(awk '/^    schema:/,/^    tasks:/' bts-prep-vecteurs.js)",
+      "Bash(grep -n 'Une échelle de 5 m\\\\|Une caisse de $m = 150\\\\|Un toit a une pente de 30' bts-prep-trigonometrie.js)",
+      "Bash(awk '/^  quiz:/,/^  exercice:/' bts-prep-vecteurs.js)",
+      "Bash(grep -oE \"q: '[^']{0,100}\")",
+      "Bash(grep -n 'La section d.une conduite circulaire est $A\\\\|Pour une rampe d.accès PMR' bts-prep-calcul-litteral.js)",
+      "Bash(grep -n 'La section $S = 2{,}5$ mm\\\\|Écrire $0{,}000' bts-prep-puissances.js)",
+      "Bash(grep -n 'à $t = 3.tau$, la tension\\\\|Une deuxième machine identique' bts-prep-logarithme.js)",
+      "Bash(grep -n \"S = 2{,}5\\\\|000\\\\\\\\\\\\\\\\,047\" bts-prep-puissances.js)",
+      "Bash(grep -n \"3\\\\\\\\\\\\\\\\tau\\\\|deuxième machine\" bts-prep-logarithme.js)"
     ]
   }
 }

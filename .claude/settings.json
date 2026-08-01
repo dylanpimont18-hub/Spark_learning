@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node \"C:/Users/Dylan/AppData/Local/Temp/claude/c--Users-Dylan-Desktop-Creation-site-Spark-learning/969fdeed-5529-4e47-a467-ce9b3170fe37/scratchpad/shots.js\")",
+      "Bash(python -c ' *)"
+    ]
+  }
+}
