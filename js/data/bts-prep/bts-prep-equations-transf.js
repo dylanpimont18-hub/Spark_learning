@@ -3,6 +3,7 @@ window.MODULES.push({
   level: 3,
   subject: 'maths',
   tag: 'prep',
+  quizShuffle: true,
   icon: '🔄',
   title: 'Équations à Transformations',
   subtitle: 'Isoler avec racine, puissance, ln et exp — aller plus loin',
@@ -191,12 +192,72 @@ window.MODULES.push({
       answer: 0,
       correction: '10 = 10·log(Ps/Pe) ⟹ log(Ps/Pe) = 1 ⟹ Ps/Pe = 10¹ = 10. Une augmentation de 10 dB en puissance = ×10 la puissance.',
     },
+    {
+      q: 'Le pH d\'une solution est défini par $pH = -\\log_{10}[H^+]$. Si $pH = 3$, la concentration $[H^+]$ (en mol/L) vaut :',
+      options: ['$10^{-3}$ mol/L', '$-3$ mol/L', '$3$ mol/L', '$10^{3}$ mol/L'],
+      answer: 0,
+      correction: '$pH = -\\log_{10}[H^+] \\Rightarrow \\log_{10}[H^+] = -pH = -3 \\Rightarrow [H^+] = 10^{-3}$ mol/L.',
+    },
+    {
+      q: 'Une solution a une concentration $[H^+] = 10^{-5}$ mol/L. Son pH vaut :',
+      options: ['$5$', '$-5$', '$10^5$', '$0{,}5$'],
+      answer: 0,
+      correction: '$pH = -\\log_{10}(10^{-5}) = -(-5) = 5$.',
+    },
+    {
+      q: 'Une solution a $[H^+] = 2 \\times 10^{-4}$ mol/L. Son pH (arrondi à 0,1) vaut :',
+      options: ['$3{,}7$', '$4{,}3$', '$2{,}0$', '$0{,}3$'],
+      answer: 0,
+      correction: '$pH = -\\log_{10}(2\\times10^{-4}) = -(\\log_{10}2 - 4) \\approx -(0{,}301-4) = 3{,}7$.',
+    },
+    {
+      q: 'Un ressort de raideur $k = 800$ N/m emmagasine une énergie potentielle $E_p = 4$ J. Sachant que $E_p = \\frac{1}{2}kx^2$, l\'allongement $x$ vaut :',
+      options: ['$0{,}1$ m', '$0{,}01$ m', '$10$ m', '$0{,}316$ m'],
+      answer: 0,
+      correction: '$x^2 = 2E_p/k = 8/800 = 0{,}01 \\Rightarrow x = \\sqrt{0{,}01} = 0{,}1$ m.',
+    },
+    {
+      q: 'Un mur atténue le son de $20$ dB en pression. Le rapport des pressions $p_s/p_e$ vaut :',
+      options: ['$0{,}1$', '$0{,}05$', '$2$', '$20$'],
+      answer: 0,
+      correction: '$-20 = 20\\log_{10}(p_s/p_e) \\Rightarrow \\log_{10}(p_s/p_e) = -1 \\Rightarrow p_s/p_e = 10^{-1} = 0{,}1$.',
+    },
+    {
+      q: 'Un chariot de masse $m = 200$ kg possède une énergie cinétique $E_c = 2{,}5$ kJ. Sa vitesse (en m/s) vaut :',
+      options: ['$5$', '$25$', '$12{,}5$', '$2{,}5$'],
+      answer: 0,
+      correction: '$v = \\sqrt{2E_c/m} = \\sqrt{2\\times2500/200} = \\sqrt{25} = 5$ m/s.',
+    },
+    {
+      q: 'Un circuit a une impédance $Z = 25\\;\\Omega$ et une réactance $X = 15\\;\\Omega$. La résistance $R$ vaut :',
+      options: ['$20\\;\\Omega$', '$10\\;\\Omega$', '$40\\;\\Omega$', '$\\sqrt{625+225}\\;\\Omega$'],
+      answer: 0,
+      correction: '$R = \\sqrt{Z^2-X^2} = \\sqrt{625-225} = \\sqrt{400} = 20\\;\\Omega$.',
+    },
+    {
+      q: 'Un condensateur se charge selon $u_C(t) = 10(1 - e^{-t/2})$ V. Au bout de combien de temps $u_C = 5$ V (arrondi à 0,01 s) ?',
+      options: ['$2\\ln2 \\approx 1{,}39$ s', '$\\ln2 \\approx 0{,}69$ s', '$2$ s', '$\\ln(0{,}5) \\approx -0{,}69$ s'],
+      answer: 0,
+      correction: '$0{,}5 = 1-e^{-t/2} \\Rightarrow e^{-t/2} = 0{,}5 \\Rightarrow -t/2 = \\ln(0{,}5) = -\\ln2 \\Rightarrow t = 2\\ln2 \\approx 1{,}39$ s.',
+    },
+    {
+      q: 'Le niveau de puissance acoustique est $L_W = 10\\log_{10}(W/W_0)$ avec $W_0 = 10^{-12}$ W. Une machine a $L_W = 70$ dB. Sa puissance acoustique $W$ vaut :',
+      options: ['$10^{-5}$ W', '$10^{-7}$ W', '$70\\times10^{-12}$ W', '$7\\times10^{-12}$ W'],
+      answer: 0,
+      correction: '$70 = 10\\log_{10}(W/10^{-12}) \\Rightarrow \\log_{10}(W/10^{-12}) = 7 \\Rightarrow W = 10^{7}\\times10^{-12} = 10^{-5}$ W.',
+    },
+    {
+      q: 'Si $x^3 = 125$, la valeur de $x$ est :',
+      options: ['$5$', '$41{,}67$', '$375$', '$\\sqrt{125}$'],
+      answer: 0,
+      correction: '$x = \\sqrt[3]{125} = 125^{1/3} = 5$ (car $5^3 = 125$).',
+    },
   ],
 
   exercice: {
     type: 'numeric',
     generate() {
-      const type = pick(['impedance_R', 'energie_cinetique_v', 'RC_inverse_t', 'pression_dynamique_v']);
+      const type = pick(['impedance_R', 'energie_cinetique_v', 'RC_inverse_t', 'pression_dynamique_v', 'ph_concentration', 'ressort_allongement']);
 
       if (type === 'impedance_R') {
         const Z = pick([50, 100, 130, 170, 260]);
@@ -211,7 +272,7 @@ D'après $Z = \\sqrt{R^2 + X^2}$, calculez la résistance $R$ en ohms (arrondi �
           tolerance: 0.2,
           unit: 'Ω',
           hint: `Isoler $R$ : $R = \\sqrt{Z^2 - X^2}$.`,
-          solution: `$R = \\sqrt{${Z}^2 - ${X}^2} = \\sqrt{${Z*Z} - ${X*X}} = \\sqrt{${Z*Z - X*X}} \\approx ${String(Rn).replace('.', '{,}')}\\;\\Omega$`,
+          solution: `$R = \\sqrt{${Z}^2 - ${X}^2} = \\sqrt{${Z*Z} - ${X*X}} = \\sqrt{${Z*Z - X*X}} \\approx ${fr(Rn)}\\;\\Omega$`,
         };
       }
 
@@ -228,7 +289,7 @@ Calculez sa vitesse $v$ en m/s (arrondi à 0,1 m/s). ($E_c = \\frac{1}{2}mv^2$)`
           tolerance: 0.1,
           unit: 'm/s',
           hint: `Isoler $v$ : $v = \\sqrt{2E_c/m}$. Attention : convertir $E_c$ en joules.`,
-          solution: `$v = \\sqrt{\\dfrac{2 \\times ${Ec_kJ} \\times 10^3}{${m}}} = \\sqrt{${(2*Ec/m).toFixed(2).replace('.', '{,}')}} \\approx ${v.toFixed(1).replace('.', '{,}')}\\;\\text{m/s}$`,
+          solution: `$v = \\sqrt{\\dfrac{2 \\times ${Ec_kJ} \\times 10^3}{${m}}} = \\sqrt{${fr(2*Ec/m, 2)}} \\approx ${fr(v, 1)}\\;\\text{m/s}$`,
         };
       }
 
@@ -240,13 +301,45 @@ Calculez sa vitesse $v$ en m/s (arrondi à 0,1 m/s). ($E_c = \\frac{1}{2}mv^2$)`
         const t = -tau * Math.log(1 - frac);
         const context = pick(['circuit de temporisation', 'alimentation à découpage', 'système de démarrage progressif']);
         return {
-          statement: `Dans un ${context}, la tension aux bornes du condensateur suit : $u_C(t) = ${E}\\left(1 - e^{-t/${String(tau).replace('.', '{,}')}}\\right)$ V.<br/>
-À quel instant $t$ la tension atteint-elle $u_C = ${uc.toFixed(1).replace('.', '{,}')}\\;\\text{V}$ ? (Arrondir à 0,01 s)`,
+          statement: `Dans un ${context}, la tension aux bornes du condensateur suit : $u_C(t) = ${E}\\left(1 - e^{-t/${fr(tau)}}\\right)$ V.<br/>
+À quel instant $t$ la tension atteint-elle $u_C = ${fr(uc, 1)}\\;\\text{V}$ ? (Arrondir à 0,01 s)`,
           answer: parseFloat(t.toFixed(2)),
           tolerance: 0.02,
           unit: 's',
           hint: `Isoler $e^{-t/\\tau}$, puis prendre $\\ln$ et résoudre pour $t$.`,
-          solution: `$${uc.toFixed(1).replace('.', '{,}')} = ${E}(1 - e^{-t/${String(tau).replace('.', '{,}')}})$<br/>$e^{-t/${String(tau).replace('.', '{,}')}} = 1 - ${String(frac).replace('.', '{,}')} = ${(1-frac).toFixed(2).replace('.', '{,}')}$<br/>$-t/${String(tau).replace('.', '{,}')} = \\ln(${(1-frac).toFixed(2).replace('.', '{,}')}) \\approx ${Math.log(1-frac).toFixed(3).replace('.', '{,}')}$<br/>$t = ${String(tau).replace('.', '{,}')} \\times ${(-Math.log(1-frac)).toFixed(3).replace('.', '{,}')} \\approx ${t.toFixed(2).replace('.', '{,}')}\\;\\text{s}$`,
+          solution: `$${fr(uc, 1)} = ${E}(1 - e^{-t/${fr(tau)}})$<br/>$e^{-t/${fr(tau)}} = 1 - ${fr(frac)} = ${fr(1-frac, 2)}$<br/>$-t/${fr(tau)} = \\ln(${fr(1-frac, 2)}) \\approx ${fr(Math.log(1-frac), 3)}$<br/>$t = ${fr(tau)} \\times ${fr(-Math.log(1-frac), 3)} \\approx ${fr(t, 2)}\\;\\text{s}$`,
+        };
+      }
+
+      if (type === 'ph_concentration') {
+        const pH = pick([2, 3, 4, 5, 6, 8]);
+        const H = Math.pow(10, -pH);
+        const context = pick(['analyse d\'eau de process industriel', 'contrôle qualité d\'un bain de traitement de surface', 'suivi d\'une solution de nettoyage en agroalimentaire']);
+        return {
+          statement: `Dans le cadre d'un(e) ${context}, on mesure un $pH = ${pH}$.<br/>
+Sachant que $pH = -\\log_{10}[H^+]$, calculez la concentration $[H^+]$ en mol/L (notation scientifique).`,
+          answer: H,
+          tolerance: H * 0.05,
+          unit: 'mol/L',
+          hint: `Isoler $[H^+]$ : $[H^+] = 10^{-pH}$.`,
+          solution: `$\\log_{10}[H^+] = -${pH} \\Rightarrow [H^+] = 10^{-${pH}}\\;\\text{mol/L}$`,
+        };
+      }
+
+      if (type === 'ressort_allongement') {
+        const k = pick([200, 400, 500, 800, 1000]);
+        const x_cm = pick([5, 10, 15, 20]);
+        const x = x_cm / 100;
+        const Ep = 0.5 * k * x * x;
+        const context = pick(['amortisseur de machine industrielle', 'suspension d\'un chariot de manutention', 'système ressort-tampon d\'un quai de chargement']);
+        return {
+          statement: `Un ${context} utilise un ressort de raideur $k = ${k}\\;\\text{N/m}$ qui emmagasine une énergie potentielle $E_p = ${fr(Ep, 2)}\\;\\text{J}$.<br/>
+Sachant que $E_p = \\frac{1}{2}kx^2$, calculez l'allongement $x$ en cm (arrondi à 0,1 cm).`,
+          answer: x_cm,
+          tolerance: 0.2,
+          unit: 'cm',
+          hint: `Isoler $x$ : $x = \\sqrt{2E_p/k}$, puis convertir en cm.`,
+          solution: `$x = \\sqrt{\\dfrac{2 \\times ${fr(Ep, 2)}}{${k}}} = \\sqrt{${fr(2 * Ep / k, 4)}} \\approx ${fr(x, 2)}\\;\\text{m} = ${x_cm}\\;\\text{cm}$`,
         };
       }
 
@@ -262,7 +355,7 @@ Calculez la vitesse d'écoulement de l'air $v$ en m/s (arrondi à 0,1 m/s). ($p_
         tolerance: 0.1,
         unit: 'm/s',
         hint: `Isoler $v$ : $v = \\sqrt{2p_d / \\rho}$.`,
-        solution: `$v = \\sqrt{\\dfrac{2 \\times ${pd}}{1{,}2}} = \\sqrt{${(2*pd/rho).toFixed(1).replace('.', '{,}')}} \\approx ${v.toFixed(1).replace('.', '{,}')}\\;\\text{m/s}$`,
+        solution: `$v = \\sqrt{\\dfrac{2 \\times ${pd}}{1{,}2}} = \\sqrt{${fr(2*pd/rho, 1)}} \\approx ${fr(v, 1)}\\;\\text{m/s}$`,
       };
     },
   },

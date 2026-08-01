@@ -12,6 +12,7 @@ window.MODULES.push({
   title: 'Fonctions & Lecture Graphique',
   subtitle: 'Fonctions affine, carré, inverse, racine — lire et exploiter une courbe technique',
   keywords: ['Fonction', 'Graphique', 'Affine', 'Pente', 'Courbe', 'Abaque', 'BTS', 'Prérequis'],
+  quizShuffle: true,
   physics: 'Courbe pompe, caractéristique moteur, réseau hydraulique, diagramme',
 
   cours: {
@@ -183,10 +184,10 @@ window.MODULES.push({
         'La vitesse à vide (couple nul)',
         'La vitesse de synchronisme',
         'Le couple de démarrage',
-        'Le glissement maximal'
+        'Le glissement critique $s_k$'
       ],
       answer: 3,
-      correction: 'Sur la courbe couple/glissement d\'un moteur asynchrone, le maximum du couple (couple de décrochage) correspond au glissement critique $s_k$. En pratique, le point de fonctionnement normal est à faible glissement (à droite du maximum).'
+      correction: 'Sur la courbe couple/glissement d\'un moteur asynchrone, le maximum du couple (couple de décrochage) correspond au glissement critique $s_k$. En pratique, le point de fonctionnement normal est à faible glissement, donc à gauche du maximum de couple (glissement critique $s_k$).'
     },
     {
       q: 'La fonction $f(x) = -2x^2 + 8x$ (parabole tournée vers le bas) atteint son maximum pour :',
@@ -199,13 +200,91 @@ window.MODULES.push({
       options: ['$P_{hyd} = 653$ W', '$P_{hyd} = 6534$ W', '$P_{hyd} = 65{,}3$ W', '$P_{hyd} = 24$ W'],
       answer: 2,
       correction: '$\\dot{V} = 4/3600$ m³/s $\\approx 1{,}11 \\times 10^{-3}$ m³/s. $P_{hyd} = 1000 \\times 9{,}81 \\times 6 \\times 1{,}11 \\times 10^{-3} \\approx 65{,}3$ W.'
+    },
+    {
+      q: 'La droite $y = -3x + 12$ coupe l\'axe des abscisses au point d\'abscisse :',
+      options: ['$x = 4$', '$x = -4$', '$x = 3$', '$x = 12$'],
+      answer: 0,
+      correction: 'On résout $-3x + 12 = 0 \\Rightarrow x = 12/3 = 4$. Le point d\'intersection avec l\'axe des abscisses est $(4, 0)$.'
+    },
+    {
+      q: 'La distance de freinage (en m) d\'un engin de chantier suit $d(v) = 0{,}05v^2$ où $v$ est la vitesse en km/h. Pour $v = 20$ km/h, la distance de freinage est :',
+      options: ['$20$ m', '$10$ m', '$4$ m', '$100$ m'],
+      answer: 0,
+      correction: '$d(20) = 0{,}05 \\times 20^2 = 0{,}05 \\times 400 = 20$ m. La fonction carré amplifie fortement l\'effet de la vitesse sur la distance de freinage.'
+    },
+    {
+      q: 'La caractéristique d\'un aérotherme est $P(T) = -0{,}8T + 40$ (P en kW, T la température extérieure en °C). Pour $T = 5°C$, la puissance appelée est :',
+      options: ['$36$ kW', '$44$ kW', '$35{,}2$ kW', '$4$ kW'],
+      answer: 0,
+      correction: '$P(5) = -0{,}8 \\times 5 + 40 = -4 + 40 = 36$ kW. La pente négative traduit un besoin de chauffage qui diminue quand la température extérieure augmente.'
+    },
+    {
+      q: 'La courbe de rendement $\\eta(Q) = -0{,}01Q^2 + 0{,}8Q$ (Q en m³/h) atteint son maximum pour un débit :',
+      options: ['$Q = 40$ m³/h', '$Q = 80$ m³/h', '$Q = 20$ m³/h', '$Q = 4$ m³/h'],
+      answer: 0,
+      correction: 'Le sommet de la parabole est en $Q_s = -b/(2a) = -0{,}8/(2 \\times (-0{,}01)) = 40$ m³/h.'
+    },
+    {
+      q: 'Un dosage colorimétrique donne l\'absorbance $A = 0{,}15c + 0{,}02$ (c en mg/L). Pour une absorbance mesurée $A = 0{,}62$, la concentration $c$ est :',
+      options: ['$4$ mg/L', '$4{,}27$ mg/L', '$0{,}6$ mg/L', '$40$ mg/L'],
+      answer: 0,
+      correction: 'On résout $0{,}62 = 0{,}15c + 0{,}02 \\Rightarrow 0{,}15c = 0{,}6 \\Rightarrow c = 4$ mg/L. On cherche ici l\'antécédent d\'une fonction affine.'
+    },
+    {
+      q: 'La fonction $f(x) = -5x + 20$ est :',
+      options: ['décroissante', 'croissante', 'constante', 'ni croissante ni décroissante'],
+      answer: 0,
+      correction: 'Le coefficient de $x$ (la pente) vaut $-5 < 0$ : la fonction est décroissante sur tout son domaine.'
+    },
+    {
+      q: 'À température constante, un gaz suit la loi de Boyle-Mariotte $P = k/V$. Pour $k = 12$ bar·L et $V = 3$ L, la pression est :',
+      options: ['$4$ bar', '$36$ bar', '$0{,}25$ bar', '$9$ bar'],
+      answer: 0,
+      correction: '$P = k/V = 12/3 = 4$ bar. C\'est une fonction inverse : le produit $P \\times V$ reste constant, conformément à la loi de Boyle-Mariotte.'
+    },
+    {
+      q: 'La puissance mécanique transmise par une courroie suit $P(N) = -0{,}002N^2 + 0{,}8N$ (N en tr/min). Le maximum est atteint pour :',
+      options: ['$N = 200$ tr/min', '$N = 400$ tr/min', '$N = 100$ tr/min', '$N = 0{,}008$ tr/min'],
+      answer: 0,
+      correction: '$N_s = -b/(2a) = -0{,}8/(2 \\times (-0{,}002)) = 200$ tr/min.'
+    },
+    {
+      q: 'Un réseau a pour caractéristique $H_r = 0{,}5Q^2 + 3$ (H en m, Q en m³/h). Pour $Q = 4$ m³/h, $H_r$ vaut :',
+      options: ['$11$ m', '$8$ m', '$19$ m', '$7$ m'],
+      answer: 0,
+      correction: '$H_r(4) = 0{,}5 \\times 16 + 3 = 8 + 3 = 11$ m.'
+    },
+    {
+      q: 'Sur un graphique, une droite passe par le point $(0, 7)$ et a une pente de $-2$. Sa valeur en $x = 3$ est :',
+      options: ['$1$', '$13$', '$-6$', '$4$'],
+      answer: 0,
+      correction: 'L\'équation de la droite est $y = -2x + 7$ (ordonnée à l\'origine $b = 7$). Pour $x = 3$ : $y = -6 + 7 = 1$.'
+    },
+    {
+      q: 'La fonction $f(x) = 4x - 9$ s\'annule ($f(x) = 0$) pour :',
+      options: ['$x = 2{,}25$', '$x = -2{,}25$', '$x = 4$', '$x = 9$'],
+      answer: 0,
+      correction: '$4x - 9 = 0 \\Rightarrow x = 9/4 = 2{,}25$.'
+    },
+    {
+      q: 'Une droite passe par les points $(0, 4)$ et $(2, 10)$. La valeur de $y$ pour $x = 5$ est :',
+      options: ['$19$', '$15$', '$17$', '$25$'],
+      answer: 0,
+      correction: 'Pente $a = (10-4)/(2-0) = 3$. Comme le premier point est $(0, 4)$, l\'ordonnée à l\'origine est $b = 4$. Donc $y = 3 \\times 5 + 4 = 19$.'
+    },
+    {
+      q: 'Deux droites $y_1 = 4x + 2$ et $y_2 = -2x + 20$ se croisent en :',
+      options: ['$(3, 14)$', '$(2, 10)$', '$(4, 18)$', '$(3, 12)$'],
+      answer: 0,
+      correction: '$4x + 2 = -2x + 20 \\Rightarrow 6x = 18 \\Rightarrow x = 3$. Puis $y = 4 \\times 3 + 2 = 14$. Point : $(3, 14)$.'
     }
   ],
 
   exercice: {
     type: 'numeric',
     generate() {
-      const type = pick(['pente', 'intersection', 'image']);
+      const type = pick(['pente', 'intersection', 'image', 'sommet', 'inverse', 'calibration']);
 
       if (type === 'pente') {
         const a = pick([1, 2, 3, 4, 5]);
@@ -228,12 +307,13 @@ window.MODULES.push({
         const kp = pick([1, 2]);
         const kr = pick([1, 2]);
         const H0r = pick([1, 2, 3]);
+        const contexte = pick(['un réseau hydraulique industriel', 'un réseau de chauffage collectif', 'un circuit HVAC de ventilation']);
         // H0p est dérivée de H0r pour que Hp(Q) = Hr(Q) : Q est ainsi un vrai point de fonctionnement.
         const H0p = Q * Q * (kp + kr) + H0r;
         const Hr_at_Q = kr * Q * Q + H0r;
         const Hp_at_Q = H0p - kp * Q * Q;
         return {
-          statement: `La pompe a pour courbe $H_p = ${H0p} - ${kp}Q^2$ et le réseau $H_r = ${kr}Q^2 + ${H0r}$ (H en m, Q en m³/h). Au point de fonctionnement ($Q = ${Q}$ m³/h), calculer la HMT $H$ (en m).`,
+          statement: `Dans ${contexte}, la pompe a pour courbe $H_p = ${H0p} - ${kp}Q^2$ et le réseau $H_r = ${kr}Q^2 + ${H0r}$ (H en m, Q en m³/h). Au point de fonctionnement ($Q = ${Q}$ m³/h), calculer la HMT $H$ (en m).`,
           answer: Hr_at_Q,
           tolerance: 0.05,
           unit: 'm',
@@ -242,17 +322,68 @@ window.MODULES.push({
         };
       }
 
-      const a = pick([2, 3, 4]);
-      const b = pick([1, 2, 3, 5]);
-      const x = pick([1, 2, 3, 4, 5]);
-      const y = a * x + b;
+      if (type === 'image') {
+        const a = pick([2, 3, 4]);
+        const b = pick([1, 2, 3, 5]);
+        const x = pick([1, 2, 3, 4, 5]);
+        const y = a * x + b;
+        const installation = pick(['un réseau de ventilation', 'un circuit de climatisation (HVAC)', 'un réseau de désenfumage']);
+        return {
+          statement: `La caractéristique d'${installation} est $\\Delta P = ${a} \\cdot \\dot{V} + ${b}$ (Pa, m³/h). Pour un débit $\\dot{V} = ${x}$ m³/h, calculer la perte de charge $\\Delta P$ (en Pa).`,
+          answer: y,
+          tolerance: 0,
+          unit: 'Pa',
+          hint: `Substituer $\\dot{V} = ${x}$ dans la formule : $\\Delta P = ${a} \\times ${x} + ${b}$.`,
+          solution: [`$\\Delta P = ${a} \\times ${x} + ${b} = ${a*x} + ${b} = ${y}$ Pa`]
+        };
+      }
+
+      if (type === 'sommet') {
+        const a = pick([0.5, 1, 1.5, 2]);
+        const b = pick([6, 8, 10, 12, 16]);
+        const xs = Math.round((b / (2 * a)) * 100) / 100;
+        const { grandeur, variable, unite, unitY } = pick([
+          { grandeur: 'la puissance utile d\'une éolienne en fonction de la vitesse du vent', variable: 'v', unite: 'm/s', unitY: 'kW' },
+          { grandeur: 'la portance d\'un profil aérodynamique en fonction de l\'angle d\'incidence', variable: '\\alpha', unite: '°', unitY: 'N' },
+          { grandeur: 'le rendement d\'un moteur en fonction de son taux de charge', variable: 'x', unite: '%', unitY: '%' }
+        ]);
+        return {
+          statement: `Une courbe technique modélise ${grandeur} par $f(${variable}) = -${fr(a)}${variable}^2 + ${fr(b)}${variable}$ (en ${unitY}, ${variable} en ${unite}). Calculer la valeur de $${variable}$ qui maximise $f$ (sommet de la parabole).`,
+          answer: xs,
+          tolerance: 0.05,
+          unit: unite,
+          hint: `Le sommet d'une parabole $ax^2+bx+c$ est en $x_s = -b/(2a)$.`,
+          solution: [`$${variable}_s = \\dfrac{${fr(b)}}{2 \\times ${fr(a)}} = ${fr(xs)}\\;${unite}$`]
+        };
+      }
+
+      if (type === 'inverse') {
+        const k = pick([17, 34, 50, 68]);
+        const S = pick([1, 1.5, 2, 2.5, 4]);
+        const R = Math.round(k / S * 100) / 100;
+        const contexte = pick(['un câble de cuivre', 'un conducteur électrique', 'une barre de terre']);
+        return {
+          statement: `La résistance électrique d'${contexte} suit une loi inverse $R = k/S$ avec $k = ${fr(k)}\\;\\Omega\\cdot\\text{mm}^2$. Calculer $R$ (en $\\Omega$) pour une section $S = ${fr(S)}\\;\\text{mm}^2$.`,
+          answer: R,
+          tolerance: 0.05,
+          unit: 'Ω',
+          hint: `$R = k/S = ${fr(k)}/${fr(S)}$.`,
+          solution: [`$R = \\dfrac{${fr(k)}}{${fr(S)}} = ${fr(R)}\\;\\Omega$`]
+        };
+      }
+
+      const a = pick([0.1, 0.2, 0.25, 0.5, 1]);
+      const P = pick([2, 4, 5, 8, 10]);
+      const U = pick([1, 2, 3]);
+      const b = Math.round((U - a * P) * 100) / 100;
+      const contexte = pick(['un capteur de pression', 'un capteur de température', 'un capteur de niveau']);
       return {
-        statement: `La caractéristique d'un réseau de ventilation est $\\Delta P = ${a} \\cdot \\dot{V} + ${b}$ (Pa, m³/h). Pour un débit $\\dot{V} = ${x}$ m³/h, calculer la perte de charge $\\Delta P$ (en Pa).`,
-        answer: y,
-        tolerance: 0,
-        unit: 'Pa',
-        hint: `Substituer $\\dot{V} = ${x}$ dans la formule : $\\Delta P = ${a} \\times ${x} + ${b}$.`,
-        solution: [`$\\Delta P = ${a} \\times ${x} + ${b} = ${a*x} + ${b} = ${y}$ Pa`]
+        statement: `La caractéristique linéaire d'${contexte} est $U = a \\cdot P + b$ avec une pente $a = ${fr(a)}\\;\\text{V/unité}$. On mesure $U = ${fr(U)}\\;\\text{V}$ pour $P = ${fr(P)}$. Calculer l'ordonnée à l'origine $b$ (en V).`,
+        answer: b,
+        tolerance: 0.05,
+        unit: 'V',
+        hint: `$b = U - a \\times P = ${fr(U)} - ${fr(a)} \\times ${fr(P)}$.`,
+        solution: [`$b = ${fr(U)} - ${fr(a)} \\times ${fr(P)} = ${fr(b)}\\;\\text{V}$`]
       };
     }
   },

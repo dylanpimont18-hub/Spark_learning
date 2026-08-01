@@ -3,10 +3,20 @@
    Moteur de quiz
    ========================================================= */
 
+// Le mélange (mod.quizShuffle: true) ne change que l'ORDRE des questions, jamais leur nombre :
+// mod.quiz.length reste la vérité utilisée partout ailleurs (Storage.trackQuizScore, teacherDashboard...).
+function getQuizPool(mod) {
+  const qs = state.quizState;
+  if (!qs.pool) {
+    qs.pool = mod.quizShuffle ? [...mod.quiz].sort(() => Math.random() - 0.5) : mod.quiz;
+  }
+  return qs.pool;
+}
+
 function submitQuizAnswer(moduleId, questionIndex, optionIndex) {
   const mod = getModule(moduleId);
   if (!mod) return;
-  const q = mod.quiz[questionIndex];
+  const q = getQuizPool(mod)[questionIndex];
   if (state.quizState.answered) return;
 
   state.quizState.answered = true;

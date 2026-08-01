@@ -3,6 +3,7 @@ window.MODULES.push({
   level: 3,
   subject: 'maths',
   tag: 'prep',
+  quizShuffle: true,
   icon: '↗️',
   title: 'Vecteurs & Géométrie',
   subtitle: 'Coordonnées, norme, addition, produit scalaire',
@@ -55,7 +56,7 @@ Propriétés utiles :<br/>
       steps: [
         `<strong>Exemple 1 — Mécanique : résultante de deux câbles</strong><br/><br/>Deux câbles soutiennent une charge. Câble 1 : $F_1 = 800\\;\\text{N}$ à 60° de l'horizontal. Câble 2 : $F_2 = 600\\;\\text{N}$ à 120° de l'horizontal.<br/><br/>Composantes :<br/>$F_{1x} = 800\\cos 60° = 400\\;\\text{N}$ ; $F_{1y} = 800\\sin 60° = 693\\;\\text{N}$<br/>$F_{2x} = 600\\cos 120° = -300\\;\\text{N}$ ; $F_{2y} = 600\\sin 120° = 520\\;\\text{N}$<br/><br/>Résultante :<br/>$R_x = 400 + (-300) = 100\\;\\text{N}$ ; $R_y = 693 + 520 = 1213\\;\\text{N}$<br/>$R = \\sqrt{100^2 + 1213^2} \\approx 1217\\;\\text{N}$ à $\\alpha = \\arctan(1213/100) \\approx 85{,}3°$ de l'horizontal`,
         `<strong>Exemple 2 — Électrotechnique : champ électrique résultant</strong><br/><br/>Deux charges créent des champs $\\vec{E_1} = (300,\\; 0)$ V/m et $\\vec{E_2} = (0,\\; 400)$ V/m en un point P.<br/><br/>Champ résultant : $\\vec{E} = (300,\\; 400)$ V/m<br/>Norme : $E = \\sqrt{300^2 + 400^2} = \\sqrt{250000} = 500\\;\\text{V/m}$`,
-        `<strong>Exemple 3 — Thermique : poussée d'Archimède</strong><br/><br/>Un réservoir est immergé. La poussée d'Archimède $\\vec{\\Pi}$ est verticale vers le haut. Le poids $\\vec{P}$ est vertical vers le bas. Ces deux vecteurs sont colinéaires et opposés.<br/><br/>$\\vec{\\Pi} \\cdot \\vec{P} = \\Pi \\times P \\times \\cos(180°) = -\\Pi \\times P$<br/>Si $\\Pi > P$, le flotteur monte ; si $\\Pi < P$, il coule.`,
+        `<strong>Exemple 3 — Mécanique des fluides : poussée d'Archimède</strong><br/><br/>Un réservoir est immergé. La poussée d'Archimède $\\vec{\\Pi}$ est verticale vers le haut. Le poids $\\vec{P}$ est vertical vers le bas. Ces deux vecteurs sont colinéaires et opposés.<br/><br/>$\\vec{\\Pi} \\cdot \\vec{P} = \\Pi \\times P \\times \\cos(180°) = -\\Pi \\times P$<br/>Si $\\Pi > P$, le flotteur monte ; si $\\Pi < P$, il coule.`,
       ],
       answer: 'Le calcul vectoriel transforme tout problème de forces orientées en additions algébriques de composantes. La clé : décomposer, additionner composante par composante, puis reconstruire norme et angle.',
     },
@@ -202,12 +203,72 @@ Propriétés utiles :<br/>
       answer: 1,
       correction: 'Équilibre : ΣF⃗ = 0⃗ (vecteur nul). Cela implique que chaque composante est nulle : ΣF_x = 0 ET ΣF_y = 0.',
     },
+    {
+      q: 'Un capteur de champ magnétique mesure un champ résultant de composantes $(5,\\;12)$ mT. Quelle est sa norme ?',
+      options: ['17 mT', '13 mT', '√7 mT', '169 mT'],
+      answer: 1,
+      correction: '||u|| = √(5²+12²) = √(25+144) = √169 = 13 mT. Encore un triplet pythagoricien classique (5-12-13), à repérer pour aller plus vite.',
+    },
+    {
+      q: 'Un bras robotisé applique une force $\\vec u = (3, -2)$ N ; un capteur détecte une réaction $\\vec v = (4, 6)$ N. Que peut-on dire de ces deux vecteurs ?',
+      options: ['Colinéaires', 'Perpendiculaires', 'De même norme', 'Antiparallèles'],
+      answer: 1,
+      correction: 'u·v = 3×4 + (-2)×6 = 12 - 12 = 0 → les deux vecteurs sont perpendiculaires, quelle que soit leur norme respective.',
+    },
+    {
+      q: 'Deux convoyeurs orientent leurs vecteurs vitesse selon $\\vec u = (2, 4)$ et $\\vec v = (3, 6)$ (m/s). Ces deux vecteurs sont :',
+      options: ['Perpendiculaires', 'Colinéaires de même sens', 'Colinéaires de sens contraires', 'Sans relation particulière'],
+      answer: 1,
+      correction: 'v = 1,5 × u (chaque composante est multipliée par 1,5) : les vecteurs sont colinéaires et de même sens. On le vérifie aussi par u·v = 6+24 = 30 = ||u||×||v|| ≈ 4,47×6,71.',
+    },
+    {
+      q: 'Une cuve de réacteur chimique est suspendue par trois câbles exerçant $\\vec F_1 = (300, 0)$ N, $\\vec F_2 = (-150, -260)$ N et $\\vec F_3 = (-150, 260)$ N. Le système est-il en équilibre ?',
+      options: ['Oui, ΣF⃗ = 0⃗', 'Non, ΣF_x ≠ 0', 'Non, ΣF_y ≠ 0', 'Impossible à déterminer'],
+      answer: 0,
+      correction: 'ΣF_x = 300 - 150 - 150 = 0 et ΣF_y = 0 - 260 + 260 = 0. Les deux composantes de la résultante sont nulles : le système est bien en équilibre.',
+    },
+    {
+      q: 'Une force de freinage de 400 N s\'oppose totalement (angle de 180°) au déplacement d\'un chariot sur 10 m. Quel est le travail de cette force ?',
+      options: ['4000 J', '-4000 J', '0 J', '-400 J'],
+      answer: 1,
+      correction: 'W = F·d·cos(180°) = 400 × 10 × (-1) = -4000 J. Un travail négatif signifie que la force retire de l\'énergie cinétique au système : c\'est bien le rôle d\'un freinage.',
+    },
+    {
+      q: 'Une force de traction de 250 N, parfaitement alignée avec le déplacement d\'un convoyeur sur 6 m, produit un travail de :',
+      options: ['0 J', '1500 J', '250 J', '1506 J'],
+      answer: 1,
+      correction: 'Quand la force est alignée avec le déplacement, θ = 0° et cos 0° = 1, donc W = F·d = 250 × 6 = 1500 J : le travail est maximal pour une force donnée.',
+    },
+    {
+      q: 'Un écoulement dans une conduite a une vitesse de norme 5 m/s orientée à 200° par rapport à l\'axe horizontal. Quelle est sa composante horizontale (arrondie à 0,1) ?',
+      options: ['4,7 m/s', '-4,7 m/s', '-1,7 m/s', '1,7 m/s'],
+      answer: 1,
+      correction: 'v_x = v·cos(200°) = 5 × (-0,940) ≈ -4,7 m/s. Le signe négatif indique que la composante horizontale est orientée vers l\'arrière (200° est dans le troisième quadrant).',
+    },
+    {
+      q: 'Dans une cellule d\'électrolyse, deux électrodes créent des champs électriques $\\vec E_1 = (150, 0)$ V/m et $\\vec E_2 = (0, 200)$ V/m en un point du bain électrolytique. Quelle est la norme du champ résultant ?',
+      options: ['350 V/m', '250 V/m', '300 V/m', '200 V/m'],
+      answer: 1,
+      correction: 'Le champ résultant est $\\vec E = (150, 200)$ V/m. Norme : √(150²+200²) = √(22500+40000) = √62500 = 250 V/m (triplet 3-4-5 mis à l\'échelle par 50).',
+    },
+    {
+      q: 'Deux poutres d\'une charpente métallique sont modélisées par les vecteurs $\\vec u = (1, 3)$ et $\\vec v = (-3, 1)$. Ces deux poutres sont-elles perpendiculaires ?',
+      options: ['Oui, u·v = 0', 'Non, u·v = 6', 'Non, elles sont colinéaires', 'Impossible à dire sans les normes'],
+      answer: 0,
+      correction: 'u·v = 1×(-3) + 3×1 = -3+3 = 0. Le produit scalaire est nul indépendamment des normes : les deux poutres sont perpendiculaires.',
+    },
+    {
+      q: 'Un vérin amplifie une force représentée par $\\vec u = (2, 3)$ kN d\'un facteur $k = -3$. Quel est le vecteur $k\\vec u$ ?',
+      options: ['$(6, 9)$ kN', '$(-6, -9)$ kN', '$(-6, 9)$ kN', '$(-1, 0)$ kN'],
+      answer: 1,
+      correction: 'k\\vec u = (k u_x,\\; k u_y) = (-3×2,\\; -3×3) = (-6, -9) kN. Le signe négatif de k inverse le sens du vecteur, sa valeur absolue multiplie sa norme.',
+    },
   ],
 
   exercice: {
     type: 'numeric',
     generate() {
-      const type = pick(['resultante', 'travail', 'angle']);
+      const type = pick(['resultante', 'travail', 'angle', 'travail_vectoriel', 'norme_directe', 'composante_manquante']);
 
       if (type === 'resultante') {
         const F1 = pick([500, 600, 800, 1000]);
@@ -231,10 +292,10 @@ Calculez la norme de la résultante $R = \\|\\vec{F_1} + \\vec{F_2}\\|$ en N (ar
           tolerance: 2,
           unit: 'N',
           hint: 'Décomposer chaque force en composantes x et y, additionner, puis calculer la norme.',
-          solution: `$F_{1x} = ${F1}\\cos${theta1}° = ${F1x.toFixed(1).replace('.', '{,}')}\\;\\text{N}$, $F_{1y} = ${F1}\\sin${theta1}° = ${F1y.toFixed(1).replace('.', '{,}')}\\;\\text{N}$<br/>
-$F_{2x} = ${F2}\\cos${theta2}° = ${F2x.toFixed(1).replace('.', '{,}')}\\;\\text{N}$, $F_{2y} = ${F2}\\sin${theta2}° = ${F2y.toFixed(1).replace('.', '{,}')}\\;\\text{N}$<br/>
-$R_x = ${Rx.toFixed(1).replace('.', '{,}')}\\;\\text{N}$, $R_y = ${Ry.toFixed(1).replace('.', '{,}')}\\;\\text{N}$<br/>
-$R = \\sqrt{${Rx.toFixed(1).replace('.', '{,}')}^2 + ${Ry.toFixed(1).replace('.', '{,}')}^2} \\approx ${Math.round(R)}\\;\\text{N}$`,
+          solution: `$F_{1x} = ${F1}\\cos${theta1}° = ${fr(F1x, 1)}\\;\\text{N}$, $F_{1y} = ${F1}\\sin${theta1}° = ${fr(F1y, 1)}\\;\\text{N}$<br/>
+$F_{2x} = ${F2}\\cos${theta2}° = ${fr(F2x, 1)}\\;\\text{N}$, $F_{2y} = ${F2}\\sin${theta2}° = ${fr(F2y, 1)}\\;\\text{N}$<br/>
+$R_x = ${fr(Rx, 1)}\\;\\text{N}$, $R_y = ${fr(Ry, 1)}\\;\\text{N}$<br/>
+$R = \\sqrt{${fr(Rx, 1)}^2 + ${fr(Ry, 1)}^2} \\approx ${Math.round(R)}\\;\\text{N}$`,
         };
       }
 
@@ -251,29 +312,84 @@ Calculez le travail $W$ de cette force (en J, arrondi à l'unité).`,
           tolerance: 2,
           unit: 'J',
           hint: '$W = F \\times d \\times \\cos\\theta$',
-          solution: `$W = ${F} \\times ${d} \\times \\cos${theta}° = ${F} \\times ${d} \\times ${Math.cos(theta * Math.PI/180).toFixed(3).replace('.', '{,}')} \\approx ${Math.round(W)}\\;\\text{J}$`,
+          solution: `$W = ${F} \\times ${d} \\times \\cos${theta}° = ${F} \\times ${d} \\times ${fr(Math.cos(theta * Math.PI/180), 3)} \\approx ${Math.round(W)}\\;\\text{J}$`,
         };
       }
 
-      // angle entre deux vecteurs
-      const u = [pick([1, 2, 3, 4]), pick([1, 2, 3, 4])];
-      const v = [pick([1, 2, 3, 4]), pick([-1, -2, 1, 2])];
-      const dot = u[0] * v[0] + u[1] * v[1];
-      const nu = Math.sqrt(u[0] ** 2 + u[1] ** 2);
-      const nv = Math.sqrt(v[0] ** 2 + v[1] ** 2);
-      const cosTheta = dot / (nu * nv);
-      const theta = Math.acos(Math.max(-1, Math.min(1, cosTheta))) * 180 / Math.PI;
-      return {
-        statement: `Deux vecteurs force sont définis dans un plan : $\\vec{u} = (${u[0]}, ${u[1]})$ kN et $\\vec{v} = (${v[0]}, ${v[1]})$ kN.<br/><br/>
+      if (type === 'angle') {
+        const u = [pick([1, 2, 3, 4]), pick([1, 2, 3, 4])];
+        const v = [pick([1, 2, 3, 4]), pick([-1, -2, 1, 2])];
+        const dot = u[0] * v[0] + u[1] * v[1];
+        const nu = Math.sqrt(u[0] ** 2 + u[1] ** 2);
+        const nv = Math.sqrt(v[0] ** 2 + v[1] ** 2);
+        const cosTheta = dot / (nu * nv);
+        const theta = Math.acos(Math.max(-1, Math.min(1, cosTheta))) * 180 / Math.PI;
+        const habillage = pick(['Deux vérins hydrauliques exercent chacun une force modélisée par un vecteur', 'Deux câbles de traction exercent chacun une force modélisée par un vecteur', 'Deux bras de manutention exercent chacun une force modélisée par un vecteur']);
+        return {
+          statement: `${habillage} dans un plan : $\\vec{u} = (${u[0]}, ${u[1]})$ kN et $\\vec{v} = (${v[0]}, ${v[1]})$ kN.<br/><br/>
 Calculez l'angle $\\theta$ entre ces deux vecteurs (en degrés, arrondi à 0,1°).`,
-        answer: parseFloat(theta.toFixed(1)),
-        tolerance: 0.3,
-        unit: '°',
-        hint: '$\\cos\\theta = \\dfrac{\\vec{u}\\cdot\\vec{v}}{\\|\\vec{u}\\|\\,\\|\\vec{v}\\|}$',
-        solution: `$\\vec{u}\\cdot\\vec{v} = ${u[0]}\\times${v[0]} + ${u[1]}\\times${v[1]} = ${dot}$<br/>
-$\\|\\vec{u}\\| = \\sqrt{${u[0]}^2+${u[1]}^2} = ${nu.toFixed(3).replace('.', '{,}')}$, $\\|\\vec{v}\\| = \\sqrt{${v[0]}^2+${v[1]}^2} = ${nv.toFixed(3).replace('.', '{,}')}$<br/>
-$\\cos\\theta = ${dot} / (${nu.toFixed(3).replace('.', '{,}')} \\times ${nv.toFixed(3).replace('.', '{,}')}) = ${cosTheta.toFixed(3).replace('.', '{,}')}$<br/>
-$\\theta = \\arccos(${cosTheta.toFixed(3).replace('.', '{,}')}) \\approx ${theta.toFixed(1).replace('.', '{,}')}°$`,
+          answer: parseFloat(theta.toFixed(1)),
+          tolerance: 0.3,
+          unit: '°',
+          hint: '$\\cos\\theta = \\dfrac{\\vec{u}\\cdot\\vec{v}}{\\|\\vec{u}\\|\\,\\|\\vec{v}\\|}$',
+          solution: `$\\vec{u}\\cdot\\vec{v} = ${u[0]}\\times${v[0]} + ${u[1]}\\times${v[1]} = ${dot}$<br/>
+$\\|\\vec{u}\\| = \\sqrt{${u[0]}^2+${u[1]}^2} = ${fr(nu, 3)}$, $\\|\\vec{v}\\| = \\sqrt{${v[0]}^2+${v[1]}^2} = ${fr(nv, 3)}$<br/>
+$\\cos\\theta = ${dot} / (${fr(nu, 3)} \\times ${fr(nv, 3)}) = ${fr(cosTheta, 3)}$<br/>
+$\\theta = \\arccos(${fr(cosTheta, 3)}) \\approx ${fr(theta, 1)}°$`,
+        };
+      }
+
+      if (type === 'travail_vectoriel') {
+        const Fx = pick([100, 150, 200, 250, 300]);
+        const Fy = pick([50, 80, 100, 120, 150]);
+        const dx = pick([2, 3, 4, 5]);
+        const dy = pick([1, 2, 3]);
+        const W = Fx * dx + Fy * dy;
+        const context = pick(['treuil de levage', 'chariot de manutention', 'palan électrique']);
+        return {
+          statement: `Un ${context} exerce une force $\\vec F = (${Fx}, ${Fy})\\;\\text{N}$ lors d'un déplacement $\\vec d = (${dx}, ${dy})\\;\\text{m}$.<br/><br/>Calculez le travail $W = \\vec F \\cdot \\vec d$ (en J).`,
+          answer: W,
+          tolerance: 1,
+          unit: 'J',
+          hint: `$\\vec F \\cdot \\vec d = F_x d_x + F_y d_y$`,
+          solution: `$W = ${Fx}\\times${dx} + ${Fy}\\times${dy} = ${Fx * dx} + ${Fy * dy} = ${W}\\;\\text{J}$`,
+        };
+      }
+
+      if (type === 'norme_directe') {
+        const scenarios = [
+          { context: 'champ magnétique résultant d\'un moteur électrique', unit: 'mT' },
+          { context: 'débit vectoriel dans un réseau de tuyauterie industrielle', unit: 'm³/h' },
+          { context: 'vecteur vitesse résultant d\'un mobile sur un tapis roulant', unit: 'm/s' },
+        ];
+        const scenario = pick(scenarios);
+        const ux = pick([30, 40, 60, 80, 90, 120]);
+        const uy = pick([40, 30, 80, 60, 120, 160]);
+        const norme = Math.sqrt(ux * ux + uy * uy);
+        return {
+          statement: `On mesure un ${scenario.context}, de composantes $\\vec u = (${ux}, ${uy})$ ${scenario.unit}.<br/><br/>Calculez la norme $\\|\\vec u\\|$ (arrondie à 0,1).`,
+          answer: parseFloat(norme.toFixed(1)),
+          tolerance: 0.2,
+          unit: scenario.unit,
+          hint: `$\\|\\vec u\\| = \\sqrt{u_x^2+u_y^2}$`,
+          solution: `$\\|\\vec u\\| = \\sqrt{${ux}^2+${uy}^2} = \\sqrt{${ux * ux + uy * uy}} \\approx ${fr(norme, 1)}\\;${scenario.unit}$`,
+        };
+      }
+
+      // composante manquante pour la perpendicularité
+      const a = pick([2, 3, 4, 5, 6]);
+      const b = pick([2, 3, 4, 5]);
+      const m = pick([1, 2, 3, 4]);
+      const c = b * m;
+      const y = -a * m;
+      const context = pick(['support de fixation perpendiculaire à une poutre de charpente', 'bras de levier perpendiculaire à un arbre de transmission', 'renfort perpendiculaire à un tirant de structure métallique']);
+      return {
+        statement: `Pour qu'un ${context} soit correctement positionné, le vecteur $\\vec v = (${c},\\; y)$ doit être perpendiculaire au vecteur de référence $\\vec u = (${a}, ${b})$.<br/><br/>Calculez la valeur de $y$ qui rend $\\vec u \\perp \\vec v$.`,
+        answer: y,
+        tolerance: 0.1,
+        unit: '',
+        hint: `Perpendicularité ⟺ $\\vec u \\cdot \\vec v = 0$, donc $u_x v_x + u_y v_y = 0$.`,
+        solution: `$\\vec u \\cdot \\vec v = ${a}\\times ${c} + ${b}\\times y = 0$<br/>$${a * c} + ${b}y = 0 \\Rightarrow y = -\\dfrac{${a * c}}{${b}} = ${y}$`,
       };
     },
   },

@@ -123,7 +123,7 @@ function getSubjectDef(id) {
 }
 
 /* ── State defaults (factories) ── */
-function defaultQuizState()       { return { current: 0, score: 0, answered: false, complete: false }; }
+function defaultQuizState()       { return { current: 0, score: 0, answered: false, complete: false, pool: null }; }
 function defaultExerciceState()   { return { current: null, attempts: 0, hintShown: false, solved: false, solutionShown: false }; }
 function defaultProblemeState()   { return { revealed: 0 }; }
 function defaultEvaluationState() { return { current: 0, answers: [], complete: false, score: 0, totalPoints: 0, showCorrection: false }; }

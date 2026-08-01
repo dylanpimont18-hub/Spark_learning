@@ -8,6 +8,7 @@ window.MODULES.push({
   level: 3,
   subject: 'maths',
   tag: 'prep',
+  quizShuffle: true,
   icon: '🔧',
   title: 'Calcul Littéral & Isolation de l\'Inconnue',
   subtitle: 'Manipuler une formule technique pour exprimer n\'importe quelle grandeur',
@@ -207,26 +208,26 @@ window.MODULES.push({
       correction: '$Q = 200 \\times 4180 \\times 40 = 33\\,440\\,000$ J $= 33{,}44$ MJ $= 33\\,440$ kJ. La bonne réponse est B : 33,44 MJ. Attention à ne pas confondre les puissances de 10 (33,44 MJ ≠ 836 kJ).',
     },
     {
-      q: 'La tension aux bornes d\'un condensateur en régime permanent est $U_C = U_0 \\cdot (1 - e^{-t/RC})$. Pour isoler $t$ :',
+      q: 'La puissance dissipée par effet Joule dans une résistance est $P = \\dfrac{U^2}{R}$. Pour isoler la tension $U$ (positive) :',
       options: [
-        '$t = -RC \\cdot \\ln\\left(1 - \\dfrac{U_C}{U_0}\\right)$',
-        '$t = RC \\cdot \\ln\\left(1 - \\dfrac{U_C}{U_0}\\right)$',
-        '$t = -RC \\cdot \\left(1 - \\dfrac{U_C}{U_0}\\right)$',
-        '$t = \\dfrac{U_C}{U_0 \\cdot RC}$'
+        '$U = \\sqrt{P \\cdot R}$',
+        '$U = P \\cdot R$',
+        '$U = \\sqrt{P/R}$',
+        '$U = \\dfrac{P}{R}$'
       ],
       answer: 0,
-      correction: 'On divise par $U_0$ : $U_C/U_0 = 1 - e^{-t/RC}$. On soustrait 1 : $U_C/U_0 - 1 = -e^{-t/RC}$. Donc $e^{-t/RC} = 1 - U_C/U_0$. On prend $\\ln$ : $-t/RC = \\ln(1 - U_C/U_0)$. Donc $t = -RC \\cdot \\ln(1 - U_C/U_0)$.'
+      correction: 'On multiplie les deux membres par $R$ : $U^2 = P \\cdot R$. On prend la racine carrée (U ≥ 0) : $U = \\sqrt{P \\cdot R}$. Utile pour dimensionner la tension nécessaire à une résistance chauffante donnée.'
     },
     {
-      q: 'La loi de Poiseuille pour une conduite donne $\\dot{V} = \\dfrac{\\pi D^4 \\Delta P}{128 \\mu L}$. En isolant $D$ :',
+      q: 'Pour une rampe d\'accès PMR, le théorème de Pythagore donne $L^2 = h^2 + d^2$, où $L$ est la longueur de la rampe, $h$ la hauteur à franchir et $d$ la projection horizontale. Pour isoler $h$ :',
       options: [
-        '$D = \\left(\\dfrac{128 \\mu L \\dot{V}}{\\pi \\Delta P}\\right)^{1/4}$',
-        '$D = \\dfrac{128 \\mu L \\dot{V}}{\\pi \\Delta P}$',
-        '$D = \\sqrt{\\dfrac{128 \\mu L \\dot{V}}{\\pi \\Delta P}}$',
-        '$D = \\left(\\dfrac{\\pi \\Delta P}{128 \\mu L \\dot{V}}\\right)^{1/4}$'
+        '$h = \\sqrt{L^2 - d^2}$',
+        '$h = L^2 - d^2$',
+        '$h = \\sqrt{L^2 + d^2}$',
+        '$h = L - d$'
       ],
       answer: 0,
-      correction: 'On multiplie par $128 \\mu L$ et divise par $\\pi \\Delta P$ : $D^4 = \\dfrac{128 \\mu L \\dot{V}}{\\pi \\Delta P}$. On élève à la puissance $1/4$ : $D = \\left(\\dfrac{128 \\mu L \\dot{V}}{\\pi \\Delta P}\\right)^{1/4}$.'
+      correction: 'On soustrait $d^2$ aux deux membres : $L^2 - d^2 = h^2$. On prend la racine carrée (h ≥ 0) : $h = \\sqrt{L^2 - d^2}$. Cette formule permet de vérifier qu\'une rampe respecte la pente réglementaire pour une longueur donnée.'
     },
     {
       q: 'Un étudiant isole $I$ depuis $P = U \\cdot I \\cdot \\cos\\varphi$ et écrit $I = P \\cdot U \\cdot \\cos\\varphi$. Quelle erreur a-t-il commise ?',
@@ -238,6 +239,76 @@ window.MODULES.push({
       ],
       answer: 0,
       correction: 'Pour isoler $I$, on divise les deux membres par $U \\cdot \\cos\\varphi$ (pas on multiplie). La formule correcte est $I = P/(U \\cdot \\cos\\varphi)$. C\'est la formule du courant efficace en régime alternatif monophasé.'
+    },
+    {
+      q: 'La puissance active en triphasé équilibré est $P = \\sqrt{3}\\, U \\cdot I \\cdot \\cos\\varphi$. Pour isoler le courant de ligne $I$, on écrit :',
+      options: [
+        '$I = \\dfrac{P}{\\sqrt{3}\\,U\\cos\\varphi}$',
+        '$I = \\sqrt{3}\\,U\\,P\\cos\\varphi$',
+        '$I = \\dfrac{\\sqrt{3}\\,U\\cos\\varphi}{P}$',
+        '$I = P\\cos\\varphi - \\sqrt{3}U$'
+      ],
+      answer: 0,
+      correction: 'On divise les deux membres par le facteur qui multiplie $I$, à savoir $\\sqrt{3}\\,U\\cos\\varphi$ : $I = P/(\\sqrt{3}\\,U\\cos\\varphi)$. C\'est la formule du courant de ligne en triphasé équilibré.'
+    },
+    {
+      q: 'Le moment d\'une force est $M = F \\cdot d$ (force × bras de levier). Pour isoler le bras de levier $d$ :',
+      options: ['$d = M \\cdot F$', '$d = \\dfrac{M}{F}$', '$d = M - F$', '$d = \\dfrac{F}{M}$'],
+      answer: 1,
+      correction: 'On divise les deux membres par $F$ : $d = M/F$. Unités : N·m / N = m ✓'
+    },
+    {
+      q: 'La force de rappel d\'un ressort suit la loi de Hooke $F = k \\cdot x$. Pour une raideur $k = 250$ N/m et une force $F = 37{,}5$ N, l\'allongement $x$ vaut :',
+      options: ['$x = 0{,}15$ m', '$x = 9375$ m', '$x = 6{,}67$ m', '$x = 212{,}5$ m'],
+      answer: 0,
+      correction: 'On isole $x$ en divisant les deux membres par $k$ : $x = F/k = 37{,}5/250 = 0{,}15$ m.'
+    },
+    {
+      q: 'Le volume de béton d\'une dalle est $V = L \\cdot l \\cdot h$ (longueur × largeur × épaisseur). Pour isoler l\'épaisseur $h$ :',
+      options: ['$h = \\dfrac{V}{L \\cdot l}$', '$h = V \\cdot L \\cdot l$', '$h = \\dfrac{L \\cdot l}{V}$', '$h = V - L \\cdot l$'],
+      answer: 0,
+      correction: 'On divise les deux membres par $L \\cdot l$ (le facteur commun qui multiplie $h$) : $h = V/(L \\cdot l)$. Utile pour retrouver l\'épaisseur d\'une dalle connaissant son volume total.'
+    },
+    {
+      q: 'Un dallage carré a une aire $A = 36$ m². Sachant que $A = c^2$ (avec $c$ le côté du carré), la longueur du côté $c$ vaut :',
+      options: ['$c = 6$ m', '$c = 18$ m', '$c = 1296$ m', '$c = 12$ m'],
+      answer: 0,
+      correction: 'On prend la racine carrée des deux membres (c ≥ 0 car c\'est une longueur) : $c = \\sqrt{A} = \\sqrt{36} = 6$ m.'
+    },
+    {
+      q: 'Le débit d\'une pompe est $\\dot{V} = V/t$ (volume déplacé / temps). Pour isoler le temps de remplissage $t$ d\'une cuve de volume $V$ :',
+      options: ['$t = \\dfrac{V}{\\dot{V}}$', '$t = V \\cdot \\dot{V}$', '$t = \\dfrac{\\dot{V}}{V}$', '$t = V - \\dot{V}$'],
+      answer: 0,
+      correction: '$t$ est au dénominateur : on multiplie d\'abord les deux membres par $t$ : $\\dot{V} \\cdot t = V$. Puis on divise par $\\dot{V}$ : $t = V/\\dot{V}$.'
+    },
+    {
+      q: 'Un radiateur électrique de puissance $P = 1000$ W fonctionne pendant une durée $t$ et consomme une énergie $E = 2500$ Wh (avec $E = P \\cdot t$). La durée de fonctionnement $t$ vaut :',
+      options: ['$t = 2{,}5$ h', '$t = 0{,}4$ h', '$t = 2\\,500\\,000$ h', '$t = 1{,}5$ h'],
+      answer: 0,
+      correction: 'On isole $t$ en divisant les deux membres par $P$ : $t = E/P = 2500/1000 = 2{,}5$ h.'
+    },
+    {
+      q: 'La concentration molaire d\'une solution est $C = n/V$ (quantité de matière / volume). Pour isoler la quantité de matière $n$ :',
+      options: ['$n = C \\cdot V$', '$n = C/V$', '$n = V/C$', '$n = C - V$'],
+      answer: 0,
+      correction: 'On multiplie les deux membres par $V$ : $n = C \\cdot V$. Unités : mol/L × L = mol ✓'
+    },
+    {
+      q: 'La masse volumique est $\\rho = m/V$. Un volume $V = 0{,}25$ L d\'une solution de masse volumique $\\rho = 1{,}2$ kg/L a une masse $m$ qui vaut :',
+      options: ['$m = 0{,}3$ kg', '$m = 4{,}8$ kg', '$m = 1{,}45$ kg', '$m = 0{,}208$ kg'],
+      answer: 0,
+      correction: 'On isole $m$ en multipliant les deux membres par $V$ : $m = \\rho \\cdot V = 1{,}2 \\times 0{,}25 = 0{,}3$ kg.'
+    },
+    {
+      q: 'La relation de dilution s\'écrit $C_1 \\cdot V_1 = C_2 \\cdot V_2$. Pour isoler le volume final $V_2$ de la solution diluée :',
+      options: [
+        '$V_2 = \\dfrac{C_1 \\cdot V_1}{C_2}$',
+        '$V_2 = C_1 \\cdot V_1 \\cdot C_2$',
+        '$V_2 = \\dfrac{C_2}{C_1 \\cdot V_1}$',
+        '$V_2 = C_1 \\cdot V_1 - C_2$'
+      ],
+      answer: 0,
+      correction: 'On divise les deux membres par $C_2$ : $V_2 = C_1 V_1 / C_2$. Comme $C_2 < C_1$ lors d\'une dilution, on trouve bien $V_2 > V_1$ — le volume final est plus grand que le volume prélevé.'
     }
   ],
 
@@ -250,7 +321,7 @@ window.MODULES.push({
           statement: () => {
             const U = pick([12, 24, 48, 120, 230]);
             const I = pick([2, 4, 5, 10]);
-            return { q: `La tension aux bornes d'une résistance est $U = ${U}$ V et le courant qui la traverse est $I = ${I}$ A. Calcule la résistance $R$ (en Ω) à l'aide de $U = R \\cdot I$.`, ans: U / I, unit: 'Ω', hint: `Isole $R$ : $R = U / I = ${U} / ${I}$.`, sol: [`$R = \\dfrac{U}{I} = \\dfrac{${U}}{${I}} = ${String(U/I).replace('.', '{,}')}$ Ω`] };
+            return { q: `La tension aux bornes d'une résistance est $U = ${U}$ V et le courant qui la traverse est $I = ${I}$ A. Calcule la résistance $R$ (en Ω) à l'aide de $U = R \\cdot I$.`, ans: U / I, unit: 'Ω', hint: `Isole $R$ : $R = U / I = ${U} / ${I}$.`, sol: [`$R = \\dfrac{U}{I} = \\dfrac{${U}}{${I}} = ${fr(U/I)}$ Ω`] };
           }
         },
         {
@@ -259,7 +330,7 @@ window.MODULES.push({
             const P = pick([1500, 3000, 5500, 7500, 11000]);
             const v = pick([1, 1.5, 2, 2.5, 3]);
             const F = Math.round(P / v);
-            return { q: `Un moteur de convoyeur développe une puissance $P = ${P}$ W pour une vitesse de déplacement $v = ${String(v).replace('.', '{,}')}$ m/s. Calcule la force de traction $F$ (en N) à l'aide de $P = F \\cdot v$.`, ans: F, unit: 'N', hint: `Isole $F$ : $F = P / v = ${P} / ${String(v).replace('.', '{,}')}$.`, sol: [`$F = \\dfrac{P}{v} = \\dfrac{${P}}{${String(v).replace('.', '{,}')}} = ${F}$ N`] };
+            return { q: `Un moteur de convoyeur développe une puissance $P = ${P}$ W pour une vitesse de déplacement $v = ${fr(v)}$ m/s. Calcule la force de traction $F$ (en N) à l'aide de $P = F \\cdot v$.`, ans: F, unit: 'N', hint: `Isole $F$ : $F = P / v = ${P} / ${fr(v)}$.`, sol: [`$F = \\dfrac{P}{v} = \\dfrac{${P}}{${fr(v)}} = ${F}$ N`] };
           }
         },
         {
@@ -268,7 +339,37 @@ window.MODULES.push({
             const Vdot = pick([0.02, 0.05, 0.08, 0.1]);
             const A = pick([0.01, 0.02, 0.04, 0.05]);
             const v = Math.round((Vdot / A) * 100) / 100;
-            return { q: `Un réseau hydraulique a un débit volumique $\\dot{V} = ${String(Vdot).replace('.', '{,}')}$ m³/s et une section de conduite $A = ${String(A).replace('.', '{,}')}$ m². Calcule la vitesse d'écoulement $v$ (en m/s) à l'aide de $\\dot{V} = v \\cdot A$.`, ans: v, unit: 'm/s', hint: `Isole $v$ : $v = \\dot{V} / A = ${String(Vdot).replace('.', '{,}')} / ${String(A).replace('.', '{,}')}$.`, sol: [`$v = \\dfrac{\\dot{V}}{A} = \\dfrac{${String(Vdot).replace('.', '{,}')}}{${String(A).replace('.', '{,}')}} = ${String(v).replace('.', '{,}')}$ m/s`] };
+            return { q: `Un réseau hydraulique a un débit volumique $\\dot{V} = ${fr(Vdot)}$ m³/s et une section de conduite $A = ${fr(A)}$ m². Calcule la vitesse d'écoulement $v$ (en m/s) à l'aide de $\\dot{V} = v \\cdot A$.`, ans: v, unit: 'm/s', hint: `Isole $v$ : $v = \\dot{V} / A = ${fr(Vdot)} / ${fr(A)}$.`, sol: [`$v = \\dfrac{\\dot{V}}{A} = \\dfrac{${fr(Vdot)}}{${fr(A)}} = ${fr(v)}$ m/s`] };
+          }
+        },
+        {
+          context: pick(['BTP (dalle béton)', 'BTP (fondation)']),
+          statement: () => {
+            const L = pick([4, 5, 6, 8, 10]);
+            const l = pick([2, 2.5, 3, 4]);
+            const h = pick([0.1, 0.15, 0.2, 0.25, 0.3]);
+            const V = Math.round(L * l * h * 1000) / 1000;
+            return { q: `Une dalle béton rectangulaire mesure $L = ${fr(L)}$ m de longueur et $l = ${fr(l)}$ m de largeur. Le volume total de béton coulé est $V = ${fr(V, 3)}$ m³. Calcule l'épaisseur $h$ (en m) à l'aide de $V = L \\cdot l \\cdot h$.`, ans: h, unit: 'm', hint: `Isole $h$ : $h = V/(L \\cdot l) = ${fr(V, 3)} / (${fr(L)} \\times ${fr(l)})$.`, sol: [`$h = \\dfrac{V}{L \\cdot l} = \\dfrac{${fr(V, 3)}}{${fr(L)} \\times ${fr(l)}} = ${fr(h)}$ m`] };
+          }
+        },
+        {
+          context: 'chimie (dilution d\'une solution)',
+          statement: () => {
+            const C1 = pick([0.5, 1, 2, 4, 5]);
+            const V1 = pick([10, 20, 25, 50]);
+            const facteur = pick([2, 4, 5, 10]);
+            const C2 = C1 / facteur;
+            const V2 = V1 * facteur;
+            return { q: `Un chimiste dilue $V_1 = ${V1}$ mL d'une solution mère de concentration $C_1 = ${fr(C1)}$ mol/L pour obtenir une solution fille de concentration $C_2 = ${fr(C2)}$ mol/L. Calcule le volume final $V_2$ (en mL) à l'aide de $C_1 \\cdot V_1 = C_2 \\cdot V_2$.`, ans: V2, unit: 'mL', hint: `Isole $V_2$ : $V_2 = C_1 V_1 / C_2 = ${fr(C1)} \\times ${V1} / ${fr(C2)}$.`, sol: [`$V_2 = \\dfrac{C_1 \\cdot V_1}{C_2} = \\dfrac{${fr(C1)} \\times ${V1}}{${fr(C2)}} = ${fr(V2)}$ mL`] };
+          }
+        },
+        {
+          context: 'génie climatique (radiateur électrique)',
+          statement: () => {
+            const P = pick([500, 750, 1000, 1500, 2000]);
+            const t = pick([0.5, 1, 1.5, 2, 3]);
+            const E = P * t;
+            return { q: `Un radiateur électrique de puissance $P = ${P}$ W fonctionne pendant une durée $t$ et consomme une énergie $E = ${fr(E)}$ Wh. Calcule la durée de fonctionnement $t$ (en h) à l'aide de $E = P \\cdot t$.`, ans: t, unit: 'h', hint: `Isole $t$ : $t = E/P = ${fr(E)}/${P}$.`, sol: [`$t = \\dfrac{E}{P} = \\dfrac{${fr(E)}}{${P}} = ${fr(t)}$ h`] };
           }
         }
       ];

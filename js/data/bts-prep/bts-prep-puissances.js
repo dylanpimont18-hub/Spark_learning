@@ -8,6 +8,7 @@ window.MODULES.push({
   level: 3,
   subject: 'maths',
   tag: 'prep',
+  quizShuffle: true,
   icon: '🔢',
   title: 'Puissances de 10 & Notation Scientifique',
   subtitle: 'Manipuler les très grands et très petits nombres avec les préfixes SI',
@@ -215,13 +216,73 @@ window.MODULES.push({
       options: ['$47 \\times 10^{-6}$', '$4{,}7 \\times 10^{-5}$', '$0{,}47 \\times 10^{-4}$', '$4{,}7 \\times 10^{-4}$'],
       answer: 1,
       correction: '$0{,}000\\,047 = 4{,}7 \\times 10^{-5}$. En notation scientifique, le premier chiffre significatif est entre 1 et 9.'
+    },
+    {
+      q: 'Une mole de gaz contient $N_A = 6{,}02 \\times 10^{23}$ molécules (nombre d\'Avogadro). Combien de molécules y a-t-il dans $0{,}5$ mole ?',
+      options: ['$3{,}01 \\times 10^{23}$', '$1{,}204 \\times 10^{24}$', '$6{,}02 \\times 10^{23}$', '$3{,}01 \\times 10^{22}$'],
+      answer: 0,
+      correction: '$0{,}5 \\times 6{,}02 \\times 10^{23} = 3{,}01 \\times 10^{23}$ molécules.'
+    },
+    {
+      q: 'La masse d\'un atome de carbone est $m = 1{,}99 \\times 10^{-26}$ kg. Exprimée en grammes, cette masse vaut :',
+      options: ['$1{,}99 \\times 10^{-23}$ g', '$1{,}99 \\times 10^{-29}$ g', '$1{,}99 \\times 10^{-26}$ g', '$1{,}99 \\times 10^{-20}$ g'],
+      answer: 0,
+      correction: '$1$ kg $= 10^3$ g, donc $1{,}99 \\times 10^{-26}$ kg $= 1{,}99 \\times 10^{-26} \\times 10^3 = 1{,}99 \\times 10^{-23}$ g.'
+    },
+    {
+      q: 'La fréquence d\'un signal est $f = 2{,}4$ GHz. Exprimée en Hz, elle vaut :',
+      options: ['$2{,}4 \\times 10^9$ Hz', '$2{,}4 \\times 10^6$ Hz', '$2{,}4 \\times 10^{-9}$ Hz', '$2{,}4 \\times 10^{-6}$ Hz'],
+      answer: 0,
+      correction: 'G = $10^9$. Donc $2{,}4$ GHz $= 2{,}4 \\times 10^9$ Hz.'
+    },
+    {
+      q: 'Une force de $F = 2{,}5$ MN (méganewton) exprimée en N vaut :',
+      options: ['$2{,}5 \\times 10^6$ N', '$2{,}5 \\times 10^3$ N', '$2{,}5 \\times 10^{-6}$ N', '$2{,}5 \\times 10^9$ N'],
+      answer: 0,
+      correction: 'M = $10^6$. Donc $2{,}5$ MN $= 2{,}5 \\times 10^6$ N.'
+    },
+    {
+      q: 'Un volume élémentaire mesure $V = 8$ mm³. Exprimé en m³, ce volume vaut :',
+      options: ['$8 \\times 10^{-9}$ m³', '$8 \\times 10^{-3}$ m³', '$8 \\times 10^{-6}$ m³', '$8 \\times 10^{-12}$ m³'],
+      answer: 0,
+      correction: '$1$ mm $= 10^{-3}$ m, donc $1$ mm³ $= (10^{-3})^3 = 10^{-9}$ m³. Ainsi $8$ mm³ $= 8 \\times 10^{-9}$ m³.'
+    },
+    {
+      q: 'Un débit est $\\dot{V} = 250$ L/min. Exprimé en m³/s, il vaut environ :',
+      options: ['$4{,}17 \\times 10^{-3}$ m³/s', '$2{,}5 \\times 10^{-1}$ m³/s', '$4{,}17 \\times 10^{-5}$ m³/s', '$1{,}5 \\times 10^{1}$ m³/s'],
+      answer: 0,
+      correction: '$250$ L/min $= 0{,}25$ m³/min $= 0{,}25/60 \\approx 4{,}17 \\times 10^{-3}$ m³/s.'
+    },
+    {
+      q: 'La puissance d\'une chaudière est $P = 85$ kW. Exprimée en MW, elle vaut :',
+      options: ['$8{,}5 \\times 10^{-2}$ MW', '$8{,}5 \\times 10^{1}$ MW', '$8{,}5 \\times 10^{4}$ MW', '$8{,}5 \\times 10^{-5}$ MW'],
+      answer: 0,
+      correction: '$85$ kW $= 85 \\times 10^3$ W. Comme $1$ MW $= 10^6$ W, on a $85 \\times 10^3/10^6 = 8{,}5 \\times 10^{-2}$ MW.'
+    },
+    {
+      q: '$\\dfrac{5 \\times 10^{8}}{2{,}5 \\times 10^{3}}$ vaut :',
+      options: ['$2 \\times 10^5$', '$2{,}5 \\times 10^5$', '$2 \\times 10^{11}$', '$1{,}25 \\times 10^{5}$'],
+      answer: 0,
+      correction: '$5/2{,}5 = 2$ et $10^8/10^3 = 10^5$. Résultat : $2 \\times 10^5$.'
+    },
+    {
+      q: 'Une eau contient une concentration en nitrates $C = 45$ mg/L. Exprimée en g/L, elle vaut :',
+      options: ['$4{,}5 \\times 10^{-2}$ g/L', '$4{,}5 \\times 10^{2}$ g/L', '$4{,}5 \\times 10^{-5}$ g/L', '$4{,}5 \\times 10^{1}$ g/L'],
+      answer: 0,
+      correction: 'm = $10^{-3}$. Donc $45$ mg $= 45 \\times 10^{-3}$ g $= 4{,}5 \\times 10^{-2}$ g.'
+    },
+    {
+      q: 'Écrire $56\\,300\\,000$ en notation scientifique :',
+      options: ['$5{,}63 \\times 10^7$', '$563 \\times 10^5$', '$56{,}3 \\times 10^6$', '$5{,}63 \\times 10^{-7}$'],
+      answer: 0,
+      correction: '$56\\,300\\,000 = 5{,}63 \\times 10^7$ (coefficient compris entre 1 et 10).'
     }
   ],
 
   exercice: {
     type: 'numeric',
     generate() {
-      const type = pick(['conversion_prefix', 'calcul_R', 'puissance_10']);
+      const type = pick(['conversion_prefix', 'calcul_R', 'puissance_10', 'conversion_carree', 'ecriture_scientifique']);
 
       if (type === 'conversion_prefix') {
         const pairs = [
@@ -233,12 +294,12 @@ window.MODULES.push({
         const p = pick(pairs);
         const ans = p.val * Math.pow(10, p.exp);
         return {
-          statement: `Convertir $${String(p.val).replace('.', '{,}')}$ ${p.from}${p.unit} en ${p.unit} (${p.label}).`,
+          statement: `Convertir $${fr(p.val)}$ ${p.from}${p.unit} en ${p.unit} (${p.label}).`,
           answer: ans,
           tolerance: Math.abs(ans) * 0.001,
           unit: p.unit,
           hint: `Le préfixe ${p.from} correspond à $10^{${p.exp}}$. Multiplier par $10^{${p.exp}}$.`,
-          solution: [`$${String(p.val).replace('.', '{,}')}\\,${p.from}${p.unit} = ${String(p.val).replace('.', '{,}')} \\times 10^{${p.exp}}\\,${p.unit} = ${String(ans).replace('.', '{,}')}\\,${p.unit}$`]
+          solution: [`$${fr(p.val)}\\,${p.from}${p.unit} = ${fr(p.val)} \\times 10^{${p.exp}}\\,${p.unit} = ${fr(ans)}\\,${p.unit}$`]
         };
       }
 
@@ -249,12 +310,53 @@ window.MODULES.push({
         const S_m2 = S_mm2 * 1e-6;
         const R = Math.round(rho * L / S_m2 * 1000) / 1000;
         return {
-          statement: `Calculer la résistance d'un câble de cuivre ($\\rho = 1{,}7 \\times 10^{-8}$ Ω·m) de longueur $L = ${L}$ m et de section $S = ${String(S_mm2).replace('.', '{,}')}$ mm² (en Ω, 3 chiffres significatifs).`,
+          statement: `Calculer la résistance d'un câble de cuivre ($\\rho = 1{,}7 \\times 10^{-8}$ Ω·m) de longueur $L = ${L}$ m et de section $S = ${fr(S_mm2)}$ mm² (en Ω, 3 chiffres significatifs).`,
           answer: R,
           tolerance: 0.005,
           unit: 'Ω',
-          hint: `$S = ${String(S_mm2).replace('.', '{,}')} \\times 10^{-6}$ m². $R = \\rho L / S$.`,
-          solution: [`$S = ${String(S_mm2).replace('.', '{,}')} \\times 10^{-6}$ m²`, `$R = \\dfrac{1{,}7 \\times 10^{-8} \\times ${L}}{${String(S_mm2).replace('.', '{,}')} \\times 10^{-6}} = ${String(R).replace('.', '{,}')}$ Ω`]
+          hint: `$S = ${fr(S_mm2)} \\times 10^{-6}$ m². $R = \\rho L / S$.`,
+          solution: [`$S = ${fr(S_mm2)} \\times 10^{-6}$ m²`, `$R = \\dfrac{1{,}7 \\times 10^{-8} \\times ${L}}{${fr(S_mm2)} \\times 10^{-6}} = ${fr(R)}$ Ω`]
+        };
+      }
+
+      if (type === 'conversion_carree') {
+        const items = [
+          { val: pick([2, 4, 6, 8, 10, 16, 25]), fromUnit: 'mm²', toUnit: 'm²', exp: -6, rule: '1 mm² = 10⁻⁶ m² (1 mm = 10⁻³ m, au carré)' },
+          { val: pick([5, 10, 20, 50]), fromUnit: 'cm²', toUnit: 'm²', exp: -4, rule: '1 cm² = 10⁻⁴ m² (1 cm = 10⁻² m, au carré)' },
+          { val: pick([2, 4, 8, 15]), fromUnit: 'mm³', toUnit: 'm³', exp: -9, rule: '1 mm³ = 10⁻⁹ m³ (1 mm = 10⁻³ m, au cube)' },
+          { val: pick([10, 25, 50, 100]), fromUnit: 'cm³', toUnit: 'm³', exp: -6, rule: '1 cm³ = 10⁻⁶ m³ (1 cm = 10⁻² m, au cube)' }
+        ];
+        const it = pick(items);
+        const ans = it.val * Math.pow(10, it.exp);
+        const context = pick(['section d\'un câble électrique', 'section d\'une conduite hydraulique', 'volume d\'un échantillon prélevé en laboratoire', 'section d\'un profilé métallique en BTP']);
+        return {
+          statement: `Dans le cadre d'un(e) ${context}, une grandeur mesure ${it.val} ${it.fromUnit}. Convertissez-la en ${it.toUnit} (notation scientifique).`,
+          answer: ans,
+          tolerance: Math.abs(ans) * 0.01,
+          unit: it.toUnit,
+          hint: `${it.rule}. Multipliez ${it.val} par $10^{${it.exp}}$.`,
+          solution: [`$${it.val}\\,\\text{${it.fromUnit}} = ${it.val} \\times 10^{${it.exp}}\\,\\text{${it.toUnit}} = ${fr(ans)}\\,\\text{${it.toUnit}}$`]
+        };
+      }
+
+      if (type === 'ecriture_scientifique') {
+        const rawNumbers = [
+          { disp: '47\\,500', coeff: '4{,}75', exp: 4 },
+          { disp: '0{,}000\\,023', coeff: '2{,}3', exp: -5 },
+          { disp: '320\\,000', coeff: '3{,}2', exp: 5 },
+          { disp: '0{,}000\\,009\\,1', coeff: '9{,}1', exp: -6 },
+          { disp: '6\\,700', coeff: '6{,}7', exp: 3 },
+          { disp: '0{,}000\\,48', coeff: '4{,}8', exp: -4 }
+        ];
+        const r = pick(rawNumbers);
+        const context = pick(['mesure de résistivité en électrotechnique', 'grandeur relevée lors d\'un essai en laboratoire de chimie', 'mesure de pression en génie climatique', 'tolérance dimensionnelle en BTP']);
+        return {
+          statement: `Dans le cadre d'un(e) ${context}, une grandeur mesurée vaut $${r.disp}$. Écrivez-la en notation scientifique $a \\times 10^n$ (avec $1 \\leq a < 10$) et donnez la valeur de l'exposant $n$.`,
+          answer: r.exp,
+          tolerance: 0,
+          unit: '',
+          hint: `Déplacez la virgule jusqu'à obtenir un coefficient $a$ compris entre 1 et 10, et comptez le nombre de rangs déplacés : c'est l'exposant $n$.`,
+          solution: [`$${r.disp} = ${r.coeff} \\times 10^{${r.exp}}$`, `L'exposant est $n = ${r.exp}$.`]
         };
       }
 
@@ -262,15 +364,30 @@ window.MODULES.push({
       const n1 = pick([-3, -6, 3, 6]);
       const b = pick([2, 3, 4, 5]);
       const n2 = pick([-3, 3]);
-      const ans = a * b;
-      const nans = n1 + n2;
+      const rawCoeff = a * b;
+      const rawExp = n1 + n2;
+      let coeff = rawCoeff;
+      let exp = rawExp;
+      while (coeff >= 10) {
+        coeff /= 10;
+        exp += 1;
+      }
+      const needsRenorm = coeff !== rawCoeff;
       return {
-        statement: `Calculer $(${a} \\times 10^{${n1}}) \\times (${b} \\times 10^{${n2}})$. Donner l'exposant du résultat.`,
-        answer: nans,
+        statement: `Calculer $(${a} \\times 10^{${n1}}) \\times (${b} \\times 10^{${n2}})$. Donner l'exposant du résultat en écriture scientifique (coefficient compris entre 1 et 10).`,
+        answer: exp,
         tolerance: 0,
         unit: '',
-        hint: `On multiplie les coefficients : $${a} \\times ${b} = ${ans}$. On additionne les exposants : $${n1} + ${n2}$.`,
-        solution: [`$(${a} \\times ${b}) \\times 10^{${n1}+${n2}} = ${ans} \\times 10^{${nans}}$`, `En notation scientifique : $${ans} \\times 10^{${nans}}$`]
+        hint: needsRenorm
+          ? `On multiplie d'abord les coefficients : $${a} \\times ${b} = ${rawCoeff}$, puis on additionne les exposants : $${n1} + ${n2} = ${rawExp}$. Comme $${rawCoeff} \\geq 10$, il faut encore renormaliser pour revenir à un coefficient entre 1 et 10.`
+          : `On multiplie les coefficients : $${a} \\times ${b} = ${rawCoeff}$. On additionne les exposants : $${n1} + ${n2} = ${rawExp}$.`,
+        solution: needsRenorm
+          ? [
+              `$(${a} \\times ${b}) \\times 10^{${n1}+${n2}} = ${rawCoeff} \\times 10^{${rawExp}}$`,
+              `Le coefficient $${rawCoeff}$ n'est pas compris entre 1 et 10 : on écrit $${rawCoeff} = ${fr(coeff)} \\times 10$, donc $${rawCoeff} \\times 10^{${rawExp}} = ${fr(coeff)} \\times 10^{${exp}}$`,
+              `En écriture scientifique : $${fr(coeff)} \\times 10^{${exp}}$ — l'exposant du résultat est ${exp}.`
+            ]
+          : [`$(${a} \\times ${b}) \\times 10^{${n1}+${n2}} = ${rawCoeff} \\times 10^{${rawExp}}$`, `En écriture scientifique : $${rawCoeff} \\times 10^{${exp}}$ — l'exposant du résultat est ${exp}.`]
       };
     }
   },

@@ -8,6 +8,7 @@ window.MODULES.push({
   level: 3,
   subject: 'maths',
   tag: 'prep',
+  quizShuffle: true,
   icon: '⚖️',
   title: 'Équations & Systèmes',
   subtitle: 'Résoudre des équations du 1er et 2nd degré, et des systèmes 2×2',
@@ -203,17 +204,92 @@ window.MODULES.push({
       correction: 'Depuis (2) : $x = 5 - y$. Dans (1) : $3(5-y) + 2y = 11 \\Rightarrow 15 - 3y + 2y = 11 \\Rightarrow 15 - y = 11 \\Rightarrow y = 4$. Puis $x = 5 - 4 = 1$. Vérification : $3\\times1 + 2\\times4 = 3+8=11$ ✓ et $1+4=5$ ✓.'
     },
     {
-      q: 'Pour l\'équation $5x + 15 = 0$, la solution est $x = 3$. Vrai ou faux ?',
-      options: ['Vrai', 'Faux — $x = -3$', 'Faux — $x = 75$', 'Faux — $x = -15$'],
+      q: 'Un élève affirme que la solution de $5x + 15 = 0$ est $x = 3$. Quelle est la valeur correcte de $x$ ?',
+      options: ['$x = 3$', '$x = -3$', '$x = 75$', '$x = -15$'],
       answer: 1,
-      correction: '$5x = -15 \\Rightarrow x = -3$. C\'est faux. Attention au signe lors du passage de membre : $+15$ passe en $-15$.'
+      correction: 'On isole $x$ : $5x = -15$, donc $x = -3$. L\'élève a fait passer $15$ de l\'autre côté sans changer son signe — un piège classique lors du passage de membre : $+15$ devient $-15$, pas $15$ tout court.'
+    },
+    {
+      q: 'Un mur de longueur totale $L = 17$ m doit être divisé en deux tronçons tels que le second soit 3 m plus long que le premier ($L_2 = L_1 + 3$). La longueur $L_1$ du premier tronçon est :',
+      options: ['$L_1 = 7$ m', '$L_1 = 8{,}5$ m', '$L_1 = 10$ m', '$L_1 = 14$ m'],
+      answer: 0,
+      correction: '$L_1 + (L_1+3) = 17 \\Rightarrow 2L_1 + 3 = 17 \\Rightarrow 2L_1 = 14 \\Rightarrow L_1 = 7$ m. On vérifie : $L_2 = 10$ m et $7+10=17$ ✓'
+    },
+    {
+      q: 'Un technicien de laboratoire prépare un mélange de deux solutions dont les volumes vérifient $V_1 + V_2 = 450$ mL, avec $V_2 = 2V_1$ (le second volume est le double du premier). Le volume $V_1$ vaut :',
+      options: ['$V_1 = 150$ mL', '$V_1 = 300$ mL', '$V_1 = 225$ mL', '$V_1 = 100$ mL'],
+      answer: 0,
+      correction: '$V_1 + 2V_1 = 450 \\Rightarrow 3V_1 = 450 \\Rightarrow V_1 = 150$ mL. Alors $V_2 = 300$ mL.'
+    },
+    {
+      q: 'Un réseau de ventilation distribue un débit total $\\dot{V} = 1200$ m³/h entre deux bouches : la bouche B reçoit 3 fois plus d\'air que la bouche A ($\\dot{V}_B = 3\\dot{V}_A$). Le débit $\\dot{V}_A$ de la bouche A vaut :',
+      options: ['$\\dot{V}_A = 300$ m³/h', '$\\dot{V}_A = 400$ m³/h', '$\\dot{V}_A = 900$ m³/h', '$\\dot{V}_A = 1200$ m³/h'],
+      answer: 0,
+      correction: '$\\dot{V}_A + 3\\dot{V}_A = 1200 \\Rightarrow 4\\dot{V}_A = 1200 \\Rightarrow \\dot{V}_A = 300$ m³/h.'
+    },
+    {
+      q: 'Le courant de démarrage d\'un moteur vérifie $I^2 - 9I + 18 = 0$. La plus petite valeur de $I$ qui vérifie cette équation est :',
+      options: ['$I = 3$ A', '$I = 6$ A', '$I = 9$ A', '$I = -3$ A'],
+      answer: 0,
+      correction: '$\\Delta = 81 - 72 = 9$. $I = (9 \\pm 3)/2$. Les deux solutions sont $I_1 = 6$ A et $I_2 = 3$ A ; la plus petite est $3$ A.'
+    },
+    {
+      q: 'La flèche d\'une poutre vérifie $x^2 - 8x + 16 = 0$. Que peut-on dire de ses solutions ?',
+      options: [
+        'Une solution double : $x = 4$',
+        'Deux solutions distinctes : $x = 2$ et $x = 6$',
+        'Aucune solution réelle',
+        'Trois solutions : $x = 0$, $4$ et $8$'
+      ],
+      answer: 0,
+      correction: '$\\Delta = (-8)^2 - 4 \\times 16 = 64 - 64 = 0$. Il y a une unique solution double : $x = 8/(2\\times1) = 4$. On vérifie : $(4-4)^2=0$ ✓'
+    },
+    {
+      q: 'Un modèle simplifié de perte de charge dans une conduite conduit à l\'équation $Q^2 + 2Q + 5 = 0$. Que peut-on en conclure ?',
+      options: [
+        'Aucune solution réelle : le modèle ne prédit pas de débit valide dans ces conditions',
+        'Deux solutions : $Q = 1$ et $Q = 5$',
+        'Une solution double : $Q = -1$',
+        'Deux solutions : $Q = -1$ et $Q = -5$'
+      ],
+      answer: 0,
+      correction: '$\\Delta = 2^2 - 4 \\times 1 \\times 5 = 4 - 20 = -16 < 0$. Il n\'y a pas de solution réelle : ce modèle simplifié ne correspond à aucun point de fonctionnement physique dans ces conditions.'
+    },
+    {
+      q: 'Une étude de poutre conduit à l\'équation $x^2 - 10x + 21 = 0$, où $x$ représente une position (en m) le long de la poutre. Les solutions sont :',
+      options: [
+        '$x_1 = 3$ et $x_2 = 7$',
+        '$x_1 = 10$ et $x_2 = 21$',
+        '$x_1 = -3$ et $x_2 = -7$',
+        'Pas de solution réelle'
+      ],
+      answer: 0,
+      correction: '$\\Delta = 100 - 84 = 16$. $x = (10 \\pm 4)/2$. Les solutions sont $x_1 = 7$ et $x_2 = 3$.'
+    },
+    {
+      q: 'Deux forces opposées vérifient $F_1 - F_2 = 40$ N et $F_1 + F_2 = 160$ N. En additionnant les deux équations, on trouve que $F_1$ vaut :',
+      options: ['$F_1 = 100$ N', '$F_1 = 80$ N', '$F_1 = 120$ N', '$F_1 = 60$ N'],
+      answer: 0,
+      correction: '$(F_1-F_2)+(F_1+F_2) = 40+160 \\Rightarrow 2F_1 = 200 \\Rightarrow F_1 = 100$ N. Puis $F_2 = 160 - 100 = 60$ N.'
+    },
+    {
+      q: 'Un mélange de deux réactifs vérifie $n_A + n_B = 0{,}8$ mol et $n_A - n_B = 0{,}2$ mol. La quantité $n_A$ vaut :',
+      options: ['$n_A = 0{,}5$ mol', '$n_A = 0{,}3$ mol', '$n_A = 0{,}4$ mol', '$n_A = 1$ mol'],
+      answer: 0,
+      correction: 'On additionne les deux équations : $2n_A = 0{,}8+0{,}2 = 1 \\Rightarrow n_A = 0{,}5$ mol. Puis $n_B = 0{,}3$ mol.'
+    },
+    {
+      q: 'Deux débits d\'air vérifient $Q_1 + Q_2 = 1000$ m³/h et $Q_1 = 3Q_2$ (bouche principale / bouche secondaire). La valeur de $Q_2$ est :',
+      options: ['$Q_2 = 250$ m³/h', '$Q_2 = 333$ m³/h', '$Q_2 = 500$ m³/h', '$Q_2 = 750$ m³/h'],
+      answer: 0,
+      correction: '$3Q_2 + Q_2 = 1000 \\Rightarrow 4Q_2 = 1000 \\Rightarrow Q_2 = 250$ m³/h (et $Q_1 = 750$ m³/h).'
     }
   ],
 
   exercice: {
     type: 'numeric',
     generate() {
-      const type = pick(['1er_degre', '2nd_degre_simple', 'systeme']);
+      const type = pick(['1er_degre', '2nd_degre_simple', 'systeme', 'point_fonctionnement', 'systeme_combinaison', '2nd_degre_racine_max']);
 
       if (type === '1er_degre') {
         const a = pick([2, 3, 4, 5]);
@@ -241,6 +317,60 @@ window.MODULES.push({
           unit: '',
           hint: `$\\Delta = b^2 - 4ac = (${b})^2 - 4 \\times 1 \\times ${c}$.`,
           solution: [`$\\Delta = (${b})^2 - 4 \\times ${c} = ${b*b} - ${4*c} = ${delta}$`]
+        };
+      }
+
+      if (type === 'point_fonctionnement') {
+        const combos = [
+          { a: 1, b: 20, c: 1, d: 4 },
+          { a: 0.5, b: 12, c: 0.5, d: 2 },
+          { a: 2, b: 26, c: 1, d: 5 },
+          { a: 1, b: 15, c: 2, d: 3 }
+        ];
+        const combo = pick(combos);
+        const { a, b, c, d } = combo;
+        const Q = (b - d) / (a + c);
+        const context = pick(['réseau hydraulique (pompe / réseau)', 'circuit de ventilation (VMC)', 'réseau de distribution d\'air comprimé']);
+        return {
+          statement: `Le point de fonctionnement d'un ${context} est l'intersection de $H_{pompe} = -${fr(a)}Q + ${fr(b)}$ et $H_{réseau} = ${fr(c)}Q + ${fr(d)}$ (H en m, Q en m³/h). Calcule le débit $Q$ au point de fonctionnement.`,
+          answer: Q,
+          tolerance: 0,
+          unit: 'm³/h',
+          hint: `Égaler les deux expressions : $-${fr(a)}Q + ${fr(b)} = ${fr(c)}Q + ${fr(d)}$, puis isoler $Q$.`,
+          solution: [`$-${fr(a)}Q + ${fr(b)} = ${fr(c)}Q + ${fr(d)}$`, `$${fr(b)} - ${fr(d)} = (${fr(a)}+${fr(c)})Q \\Rightarrow Q = \\dfrac{${fr(b-d)}}{${fr(a+c)}} = ${fr(Q)}$ m³/h`]
+        };
+      }
+
+      if (type === 'systeme_combinaison') {
+        const x0 = pick([2, 3, 4, 5, 6]);
+        const y0 = pick([1, 2, 3, 4]);
+        const M = 3 * x0 + 2 * y0;
+        const N = x0 + y0;
+        const context = pick(['répartition de charge sur deux appuis (mécanique)', 'bilan de deux courants dans un nœud électrique', 'mélange de deux débits (génie climatique)', 'dosage de deux réactifs (chimie)']);
+        return {
+          statement: `Résoudre le système $\\begin{cases} 3x + 2y = ${M} \\\\ x + y = ${N} \\end{cases}$ (${context}). Donner la valeur de $x$.`,
+          answer: x0,
+          tolerance: 0,
+          unit: '',
+          hint: `Multiplier la 2e équation par 2 : $2x + 2y = ${2 * N}$. Soustraire cette équation de la 1re pour éliminer $y$.`,
+          solution: [`$2 \\times (x+y) = 2 \\times ${N} \\Rightarrow 2x + 2y = ${2 * N}$`, `$(3x+2y) - (2x+2y) = ${M} - ${2 * N} \\Rightarrow x = ${M - 2 * N}$`, `Puis $y = ${N} - ${x0} = ${y0}$. Vérification : $3\\times${x0}+2\\times${y0} = ${M}$ ✓`]
+        };
+      }
+
+      if (type === '2nd_degre_racine_max') {
+        const r1 = pick([4, 5, 6, 7]);
+        const r2 = pick([1, 2, 3]);
+        const b = -(r1 + r2);
+        const c = r1 * r2;
+        const delta = b * b - 4 * c;
+        const context = pick(['temps de réponse d\'un système du 2nd ordre (automatique)', 'dimensionnement d\'une poutre (BTP)', 'régime transitoire (électrotechnique)']);
+        return {
+          statement: `Un modèle de ${context} conduit à l'équation $x^2 + (${b})x + ${c} = 0$. Calcule la plus grande solution de cette équation.`,
+          answer: r1,
+          tolerance: 0,
+          unit: '',
+          hint: `Calculer $\\Delta = b^2-4ac$, puis $x = (-b \\pm \\sqrt{\\Delta})/2$.`,
+          solution: [`$\\Delta = (${b})^2 - 4 \\times ${c} = ${delta}$`, `$x = \\dfrac{-(${b}) \\pm \\sqrt{${delta}}}{2} = \\dfrac{${-b} \\pm ${Math.sqrt(delta)}}{2}$`, `Solutions : $x_1 = ${r1}$ et $x_2 = ${r2}$. La plus grande est $${r1}$.`]
         };
       }
 

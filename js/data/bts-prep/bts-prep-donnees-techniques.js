@@ -3,6 +3,7 @@ window.MODULES.push({
   level: 3,
   subject: 'maths',
   tag: 'prep',
+  quizShuffle: true,
   icon: '📋',
   title: 'Données Techniques & Catalogues',
   subtitle: 'Lire une fiche technique, un abaque, un catalogue fabricant',
@@ -10,7 +11,7 @@ window.MODULES.push({
   physics: 'Un BTS technique forme des praticiens capables de dialoguer avec les fournisseurs, de lire les documentations techniques et de sélectionner le bon équipement dans un catalogue. Décrypter une fiche technique est une compétence professionnelle fondamentale.',
 
   cours: {
-    intro: `Les catalogues fabricants et les fiches techniques sont les outils de travail quotidiens du technicien BTS. Ils condensent des dizaines de paramètres sous des formes standardisées (tableaux, abaques, courbes, notes techniques). Ce module enseigne la méthode pour extraire l'information utile sans se noyer dans les données.`,
+    intro: `Les catalogues fabricants et les fiches techniques sont les outils de travail quotidiens du technicien BTS.<br/><br/>Ils condensent des dizaines de paramètres sous des formes standardisées (tableaux, abaques, courbes, notes techniques).<br/><br/>Ce module enseigne la méthode pour extraire l'information utile sans se noyer dans les données.`,
 
     definitions: [
       {
@@ -224,12 +225,72 @@ Lecture : pour $P_f = 3{,}5\\;\\text{kW}$ et $P_{\\text{élec}} = 0{,}88\\;\\tex
       answer: 1,
       correction: 'Wc (watt-crête) est la puissance mesurée dans les conditions standard de test STC : irradiance 1000 W/m², température de cellule 25°C, AM 1,5. En conditions réelles, la puissance est souvent 10 à 20% inférieure.',
     },
+    {
+      q: 'Une pompe de transfert d\'acide sulfurique affiche $\\text{NPSH}_r = 4\\;\\text{m}$ sur sa fiche technique. L\'installation offre un NPSH disponible de 3,2 m. Que se passe-t-il ?',
+      options: ['La pompe fonctionne normalement, la marge est suffisante', 'Risque de cavitation : le NPSH disponible est inférieur au NPSH requis', 'Le débit sera automatiquement divisé par deux', 'Cela ne concerne que les moteurs électriques, pas les pompes'],
+      answer: 1,
+      correction: 'La condition de sécurité est NPSH_dispo ≥ NPSH_r + 0,5 m. Ici 3,2 m < 4 m (et encore plus loin de 4,5 m) : la pompe risque de caviter, ce qui use prématurément la roue et génère du bruit.',
+    },
+    {
+      q: 'Une pompe de transfert d\'une solution de traitement de surface (assimilée à de l\'eau) fonctionne à $Q = 7{,}2\\;\\text{m}^3/\\text{h}$, $H = 25\\;\\text{m}$, avec un rendement $\\eta = 60\\%$. Sa puissance absorbée est environ :',
+      options: ['0,82 kW', '1,23 kW', '0,49 kW', '1,64 kW'],
+      answer: 0,
+      correction: 'Q = 7,2/3600 = 0,002 m³/s. P_utile = 1000 × 9,81 × 0,002 × 25 = 490,5 W. P_abs = 490,5 / 0,6 ≈ 817,5 W ≈ 0,82 kW.',
+    },
+    {
+      q: 'Un groupe froid refroidit un réacteur chimique exothermique. Son COP est de 3,6 et il consomme $P_{\\text{élec}} = 4\\;\\text{kW}$. La puissance frigorifique extraite est :',
+      options: ['14,4 kW', '7,2 kW', '0,9 kW', '10,8 kW'],
+      answer: 0,
+      correction: 'P_f = COP × P_élec = 3,6 × 4 = 14,4 kW.',
+    },
+    {
+      q: 'Un capteur de pH installé en ambiance chimique corrosive doit être indice IP 67. Cela signifie :',
+      options: ['Étanche à la poussière et à l\'immersion temporaire', 'Résiste aux produits chimiques quelle que soit leur nature', 'Tension d\'alimentation de 67 V', 'Fonctionne jusqu\'à 67°C'],
+      answer: 0,
+      correction: 'IP 67 : 6 = totalement étanche aux poussières, 7 = protégé contre les effets de l\'immersion temporaire (jusqu\'à 1 m, 30 min). L\'indice IP ne renseigne pas sur la résistance chimique, qui relève d\'une autre caractéristique (matériau du boîtier).',
+    },
+    {
+      q: 'Un moteur d\'agitateur de cuve de réaction chimique développe $P = 3\\;\\text{kW}$, alimenté en 400 V triphasé, $\\cos\\varphi = 0{,}83$, rendement $\\eta = 87\\%$. Le courant absorbé est environ :',
+      options: ['6,0 A', '5,2 A', '7,2 A', '4,3 A'],
+      answer: 0,
+      correction: 'P_absorbée = P/η = 3000/0,87 ≈ 3448 W. I = P_absorbée/(√3×U×cosφ) = 3448/(1,732×400×0,83) ≈ 6,0 A.',
+    },
+    {
+      q: 'La catégorie AC-1 des contacteurs/disjoncteurs convient pour :',
+      options: ['Les charges résistives ou faiblement inductives (fours, résistances chauffantes)', 'Les moteurs à cage en démarrage direct', 'Les condensateurs de compensation d\'énergie réactive', 'Les moteurs à bagues'],
+      answer: 0,
+      correction: 'AC-1 : charges non inductives ou faiblement inductives (fours électriques, résistances). AC-3, elle, désigne les moteurs asynchrones à cage en démarrage direct.',
+    },
+    {
+      q: 'Un générateur de vapeur de process a un rendement PCI de 88 % et fournit une puissance utile de 150 kW. La puissance calorifique du combustible consommé est environ :',
+      options: ['170,5 kW', '132 kW', '150 kW', '17 kW'],
+      answer: 0,
+      correction: 'P_combustible = P_utile/η = 150/0,88 ≈ 170,5 kW.',
+    },
+    {
+      q: 'Un panneau photovoltaïque de $P_{\\max} = 320\\;\\text{Wc}$ a un rendement de 19 %. Sa surface active est environ :',
+      options: ['1,68 m²', '1,90 m²', '3,20 m²', '0,60 m²'],
+      answer: 0,
+      correction: 'S = P_max/(G × η) avec G = 1000 W/m² (STC) : S = 320/(1000 × 0,19) ≈ 1,68 m².',
+    },
+    {
+      q: 'Un disjoncteur de catégorie C (charges inductives/moteurs) est calibré à $I_n = 20\\;\\text{A}$. Son courant de déclenchement magnétique instantané se situe entre :',
+      options: ['100 A (×5) et 200 A (×10)', '20 A et 40 A', '60 A et 100 A (catégorie B, ×3 à ×5)', '200 A et 400 A'],
+      answer: 0,
+      correction: 'La catégorie C déclenche entre 5×In et 10×In. Pour In = 20 A : entre 100 A et 200 A.',
+    },
+    {
+      q: 'Sur l\'abaque d\'une pompe, le point de fonctionnement demandé $(Q, H)$ se situe AU-DESSUS de la courbe HMT(Q) du modèle envisagé. Que faut-il en conclure ?',
+      options: ['Le modèle ne peut pas fournir cette hauteur à ce débit : il faut choisir un modèle plus puissant', 'Le modèle convient, avec une grande marge de sécurité', 'Il suffit de réduire le débit demandé de moitié', 'Cela n\'a pas d\'importance : le prix est le seul critère de choix'],
+      answer: 0,
+      correction: 'Un point situé au-dessus de la courbe HMT(Q) est hors de la plage que la pompe peut fournir : à ce débit, elle ne délivrera pas la hauteur demandée. Il faut sélectionner un modèle dont la courbe passe au-dessus (ou exactement sur) le point demandé.',
+    },
   ],
 
   exercice: {
     type: 'numeric',
     generate() {
-      const type = pick(['rendement_pompe', 'COP_froid', 'courant_moteur']);
+      const type = pick(['rendement_pompe', 'COP_froid', 'courant_moteur', 'rendement_PCI', 'panneau_solaire_surface', 'NPSH_disponible']);
 
       if (type === 'rendement_pompe') {
         const Q_m3h = pick([5, 8, 10, 12, 15]);
@@ -239,8 +300,8 @@ Lecture : pour $P_f = 3{,}5\\;\\text{kW}$ et $P_{\\text{élec}} = 0{,}88\\;\\tex
         const g = 9.81;
         const P_utile = rho * g * (Q_m3h / 3600) * H;
         const P_abs = P_utile / eta;
-        const eta_str = String(eta).replace('.', '{,}');
-        const Q_over_3600_str = (Q_m3h / 3600).toFixed(5).replace('.', '{,}');
+        const eta_str = fr(eta);
+        const Q_over_3600_str = fr(Q_m3h / 3600, 5);
         const context = pick(['pompe de distribution d\'eau potable', 'groupe hydrophore', 'pompe de circulation chauffage']);
         return {
           statement: `Une ${context} fonctionne au point $Q = ${Q_m3h}\\;\\text{m}^3/\\text{h}$, $H = ${H}\\;\\text{m}$. Son rendement est $\\eta = ${(eta*100).toFixed(0)}\\%$.<br/><br/>Calculez la puissance absorbée $P_{\\text{abs}}$ en W (arrondi à l'unité).<br/>($P_{\\text{utile}} = \\rho g Q H$, $\\rho_{\\text{eau}} = 1000\\;\\text{kg/m}^3$, $g = 9{,}81\\;\\text{m/s}^2$)`,
@@ -256,8 +317,8 @@ Lecture : pour $P_f = 3{,}5\\;\\text{kW}$ et $P_{\\text{élec}} = 0{,}88\\;\\tex
         const COP = pick([3.2, 3.5, 3.8, 4.0, 4.5]);
         const P_elec = pick([2, 3, 4, 5, 6, 8]);
         const P_f = parseFloat((COP * P_elec).toFixed(1));
-        const COP_str = String(COP).replace('.', '{,}');
-        const P_f_str = String(P_f).replace('.', '{,}');
+        const COP_str = fr(COP);
+        const P_f_str = fr(P_f);
         const context = pick(['split mural de bureau', 'groupe froid de production froide', 'pompe à chaleur air-eau']);
         return {
           statement: `Un ${context} a un COP de $${COP_str}$ et consomme $P_{\\text{élec}} = ${P_elec}\\;\\text{kW}$.<br/><br/>Calculez la puissance frigorifique $P_f$ en kW.`,
@@ -269,24 +330,72 @@ Lecture : pour $P_f = 3{,}5\\;\\text{kW}$ et $P_{\\text{élec}} = 0{,}88\\;\\tex
         };
       }
 
-      // courant_moteur
-      const P_kW = pick([1.1, 1.5, 2.2, 3, 4, 5.5, 7.5, 11]);
-      const U = 400;
-      const cosfi = pick([0.82, 0.84, 0.86, 0.88]);
-      const eta_m = pick([0.86, 0.88, 0.90, 0.92]);
-      const I = (P_kW * 1000) / (Math.sqrt(3) * U * cosfi * eta_m);
-      const P_kW_str = String(P_kW).replace('.', '{,}');
-      const cosfi_str = String(cosfi).replace('.', '{,}');
-      const eta_m_str = String(eta_m).replace('.', '{,}');
-      const denom_str = (Math.sqrt(3) * 400 * cosfi * eta_m).toFixed(1).replace('.', '{,}');
-      const context = pick(['pompe centrifuge', 'ventilateur CVC', 'compresseur d\'air']);
+      if (type === 'courant_moteur') {
+        const P_kW = pick([1.1, 1.5, 2.2, 3, 4, 5.5, 7.5, 11]);
+        const U = 400;
+        const cosfi = pick([0.82, 0.84, 0.86, 0.88]);
+        const eta_m = pick([0.86, 0.88, 0.90, 0.92]);
+        const I = (P_kW * 1000) / (Math.sqrt(3) * U * cosfi * eta_m);
+        const P_kW_str = fr(P_kW);
+        const cosfi_str = fr(cosfi);
+        const eta_m_str = fr(eta_m);
+        const denom_str = fr(Math.sqrt(3) * 400 * cosfi * eta_m, 1);
+        const context = pick(['pompe centrifuge', 'ventilateur CVC', 'compresseur d\'air']);
+        return {
+          statement: `Un moteur entraîne un ${context}. Puissance mécanique : $P = ${P_kW_str}\\;\\text{kW}$, tension : $U = 400\\;\\text{V}$ triphasé, $\\cos\\varphi = ${cosfi_str}$, rendement moteur $\\eta = ${(eta_m*100).toFixed(0)}\\%$.<br/><br/>Calculez le courant absorbé $I_n$ en ampères (arrondi à 0,1 A).<br/>($P = \\sqrt{3} \\cdot U \\cdot I \\cdot \\cos\\varphi \\cdot \\eta$)`,
+          answer: parseFloat(I.toFixed(1)),
+          tolerance: 0.2,
+          unit: 'A',
+          hint: `Isoler $I = \\dfrac{P}{\\sqrt{3} \\cdot U \\cdot \\cos\\varphi \\cdot \\eta}$.`,
+          solution: `$I = \\dfrac{${P_kW_str} \\times 10^3}{\\sqrt{3} \\times 400 \\times ${cosfi_str} \\times ${eta_m_str}} = \\dfrac{${P_kW*1000}}{${denom_str}} \\approx ${fr(I, 1)}\\;\\text{A}$`,
+        };
+      }
+
+      if (type === 'rendement_PCI') {
+        const P_utile_kW = pick([50, 80, 100, 120, 150, 200]);
+        const rendement_PCI = pick([0.85, 0.88, 0.90, 0.92]);
+        const P_comb = P_utile_kW / rendement_PCI;
+        const context = pick(['chaudière industrielle au gaz naturel', 'générateur de vapeur de process', 'chaudière biomasse']);
+        return {
+          statement: `Une ${context} a un rendement PCI de $\\eta = ${(rendement_PCI * 100).toFixed(0)}\\%$ et fournit une puissance utile de $P_{\\text{utile}} = ${P_utile_kW}\\;\\text{kW}$.<br/><br/>Calculez la puissance calorifique du combustible consommé $P_{\\text{comb}}$ en kW (arrondi à 0,1 kW).`,
+          answer: parseFloat(P_comb.toFixed(1)),
+          tolerance: 0.5,
+          unit: 'kW',
+          hint: `$\\eta = P_{\\text{utile}}/P_{\\text{comb}}$.`,
+          solution: `$P_{\\text{comb}} = P_{\\text{utile}}/\\eta = ${P_utile_kW}/${fr(rendement_PCI)} \\approx ${fr(P_comb, 1)}\\;\\text{kW}$`,
+        };
+      }
+
+      if (type === 'panneau_solaire_surface') {
+        const P_max_Wc = pick([300, 320, 350, 375, 400, 450]);
+        const rendement_pv = pick([0.18, 0.19, 0.20, 0.21, 0.22]);
+        const G = 1000;
+        const S = P_max_Wc / (G * rendement_pv);
+        const context = pick(['panneau photovoltaïque monocristallin', 'module solaire de toiture', 'panneau photovoltaïque polycristallin']);
+        return {
+          statement: `Un ${context} a une puissance crête $P_{\\max} = ${P_max_Wc}\\;\\text{Wc}$ et un rendement de $${(rendement_pv * 100).toFixed(0)}\\%$.<br/><br/>Calculez la surface active du panneau en m² (conditions STC, $G = 1000\\;\\text{W/m}^2$, arrondi à 0,01 m²).`,
+          answer: parseFloat(S.toFixed(2)),
+          tolerance: 0.02,
+          unit: 'm²',
+          hint: `$\\eta = P_{\\max}/(G \\times S)$.`,
+          solution: `$S = P_{\\max}/(G \\times \\eta) = ${P_max_Wc}/(1000 \\times ${fr(rendement_pv)}) \\approx ${fr(S, 2)}\\;\\text{m}^2$`,
+        };
+      }
+
+      // NPSH_disponible
+      const h_atm = pick([10.0, 10.2, 10.3]);
+      const h_v = pick([0.2, 0.3, 0.4]);
+      const h_s = pick([1, 1.5, 2, 2.5, 3]);
+      const Ja = pick([0.3, 0.5, 0.8, 1]);
+      const NPSH_dispo = h_atm - h_v - h_s - Ja;
+      const context = pick(['pompe de reprise en aspiration', 'pompe de forage peu profond', 'pompe de transfert en aspiration']);
       return {
-        statement: `Un moteur entraîne un ${context}. Puissance mécanique : $P = ${P_kW_str}\\;\\text{kW}$, tension : $U = 400\\;\\text{V}$ triphasé, $\\cos\\varphi = ${cosfi_str}$, rendement moteur $\\eta = ${(eta_m*100).toFixed(0)}\\%$.<br/><br/>Calculez le courant absorbé $I_n$ en ampères (arrondi à 0,1 A).<br/>($P = \\sqrt{3} \\cdot U \\cdot I \\cdot \\cos\\varphi \\cdot \\eta$)`,
-        answer: parseFloat(I.toFixed(1)),
-        tolerance: 0.2,
-        unit: 'A',
-        hint: `Isoler $I = \\dfrac{P}{\\sqrt{3} \\cdot U \\cdot \\cos\\varphi \\cdot \\eta}$.`,
-        solution: `$I = \\dfrac{${P_kW_str} \\times 10^3}{\\sqrt{3} \\times 400 \\times ${cosfi_str} \\times ${eta_m_str}} = \\dfrac{${P_kW*1000}}{${denom_str}} \\approx ${I.toFixed(1).replace('.', '{,}')}\\;\\text{A}$`,
+        statement: `Une ${context} a les caractéristiques suivantes : hauteur atmosphérique $h_{atm} = ${fr(h_atm, 1)}\\;\\text{m}$, perte due à la tension de vapeur $h_v = ${fr(h_v, 1)}\\;\\text{m}$, hauteur d'aspiration $h_s = ${fr(h_s, 1)}\\;\\text{m}$, pertes de charge en aspiration $J_a = ${fr(Ja, 1)}\\;\\text{m}$.<br/><br/>Calculez le NPSH disponible en mètres (arrondi à 0,1 m).<br/>($\\text{NPSH}_{\\text{dispo}} = h_{atm} - h_v - h_s - J_a$)`,
+        answer: parseFloat(NPSH_dispo.toFixed(1)),
+        tolerance: 0.1,
+        unit: 'm',
+        hint: `Additionner/soustraire directement les quatre termes.`,
+        solution: `$\\text{NPSH}_{\\text{dispo}} = ${fr(h_atm, 1)} - ${fr(h_v, 1)} - ${fr(h_s, 1)} - ${fr(Ja, 1)} = ${fr(NPSH_dispo, 1)}\\;\\text{m}$`,
       };
     },
   },
@@ -323,7 +432,7 @@ Le catalogue Grundfos propose les pompes suivantes :<br/><br/>
     ],
     solutions: [
       `$\\Delta H = 0{,}15 \\times 20^2 = 0{,}15 \\times 400 = 60\\;\\text{m}$<br/>Le point de fonctionnement cible est $(Q = 20\\;\\text{m}^3/\\text{h}, H = 60\\;\\text{m})$.`,
-      `• TP 50-120 : $Q_{\\max} = 22\\;\\text{m}^3/\\text{h}$ et $H_{\\max} = 55\\;\\text{m}$. La HMT maximale (55 m) est insuffisante pour les 60 m requis → <strong>inadaptée</strong>.<br/>• TP 50-180 : $Q_{\\max} = 26\\;\\text{m}^3/\\text{h}$ et $H_{\\max} = 80\\;\\text{m}$. Le point (20 m³/h, 60 m) est dans la plage de fonctionnement → <strong>convient</strong>.<br/>• TP 65-150 : $Q_{\\max} = 35\\;\\text{m}^3/\\text{h}$ et $H_{\\max} = 65\\;\\text{m}$. Convient aussi, mais surdimensionnée.`,
+      `Rappel : $H_{\\max}$ (HMT maximale, colonne « H_max » du catalogue) est la hauteur manométrique totale atteignable à débit nul, vanne de refoulement fermée — c'est la valeur la plus haute que peut fournir la pompe ; au-delà, aucun débit n'est possible, donc $H_{\\max}$ agit comme un plafond absolu de la courbe HMT(Q).<br/><br/>• TP 50-120 : $Q_{\\max} = 22\\;\\text{m}^3/\\text{h}$ et $H_{\\max} = 55\\;\\text{m}$. La HMT maximale (55 m) est insuffisante pour les 60 m requis → <strong>inadaptée</strong>.<br/>• TP 50-180 : $Q_{\\max} = 26\\;\\text{m}^3/\\text{h}$ et $H_{\\max} = 80\\;\\text{m}$. Le point (20 m³/h, 60 m) est dans la plage de fonctionnement → <strong>convient</strong>.<br/>• TP 65-150 : $Q_{\\max} = 35\\;\\text{m}^3/\\text{h}$ et $H_{\\max} = 65\\;\\text{m}$. Convient aussi, mais surdimensionnée.`,
       `$P_{\\text{utile}} = \\rho g Q H = 971 \\times 9{,}81 \\times \\dfrac{20}{3600} \\times 60$<br/>$= 971 \\times 9{,}81 \\times 0{,}00556 \\times 60 = 971 \\times 9{,}81 \\times 0{,}333$<br/>$\\approx 3172\\;\\text{W} \\approx 3{,}17\\;\\text{kW}$`,
       `$\\eta_{\\text{global}} = P_{\\text{utile}} / P_{\\text{abs}} = 3172 / 7500 \\approx 0{,}423 = 42{,}3\\%$<br/>Le catalogue annonce $\\eta = 70\\%$ au point nominal. Le rendement de 42% s'explique par le fait que la pompe est utilisée hors de son point nominal (70% à Q=26 m³/h, pas à Q=20 m³/h). En pratique, on lit le rendement réel sur la courbe de performance au point $(20\\;\\text{m}^3/\\text{h}, 60\\;\\text{m})$.`,
     ],

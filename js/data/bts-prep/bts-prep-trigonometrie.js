@@ -3,6 +3,7 @@ window.MODULES.push({
   level: 3,
   subject: 'maths',
   tag: 'prep',
+  quizShuffle: true,
   icon: '📐',
   title: 'Trigonométrie',
   subtitle: 'Sin, cos, tan — du triangle aux phénomènes alternatifs',
@@ -232,12 +233,66 @@ Les fonctions sin et cos sont périodiques de période $2\\pi$ (360°). C'est la
       answer: 1,
       correction: 'tan θ = opposé / adjacent = hauteur / distance horizontale = 8/15. Donc θ = arctan(8/15) ≈ 28,1°. arcsin donnerait le bon résultat seulement si 15 était l\'hypoténuse.',
     },
+    {
+      q: 'Un circuit RC (résistance + condensateur) présente $R = 100\\;\\Omega$ et une réactance capacitive $X_C = 100\\;\\Omega$. L\'angle de déphasage φ vaut :',
+      options: ['0°', '30°', '45°', '90°'],
+      answer: 2,
+      correction: 'tan φ = X_C / R = 100/100 = 1, donc φ = arctan(1) = 45°. Le même raisonnement que pour un circuit RL s\'applique : seul le rôle de la réactance change de nature.',
+    },
+    {
+      q: 'Un moteur asynchrone affiche un facteur de puissance cos φ = 0,8. Quel est l\'angle de déphasage φ (arrondi au degré) ?',
+      options: ['80°', '37°', '53°', '20°'],
+      answer: 1,
+      correction: 'φ = arccos(0,8) ≈ 36,9° ≈ 37°. Le facteur de puissance cos φ est directement lu sur la plaque signalétique du moteur, l\'angle s\'obtient par la fonction réciproque arccos.',
+    },
+    {
+      q: 'Un toit a une pente de 30 %. Quel est l\'angle θ approximatif avec l\'horizontale ?',
+      options: ['30°', '16,7°', '73,3°', '60°'],
+      answer: 1,
+      correction: 'θ = arctan(0,30) ≈ 16,7°. Attention à ne pas confondre le pourcentage de pente avec la valeur de l\'angle en degrés : ce sont deux façons différentes d\'exprimer une inclinaison.',
+    },
+    {
+      q: 'Une caisse de $m = 150\\;\\text{kg}$ repose sur un plan incliné à $\\theta = 20°$. Quelle est la composante du poids perpendiculaire au plan (arrondie à l\'unité) ?',
+      options: ['503 N', '1383 N', '1472 N', '1550 N'],
+      answer: 1,
+      correction: 'P = mg = 150 × 9,81 ≈ 1472 N. La composante perpendiculaire est P⊥ = P cos θ = 1472 × cos 20° ≈ 1383 N (à distinguer de la composante parallèle P sin 20° ≈ 503 N, qui tend à faire glisser la caisse).',
+    },
+    {
+      q: 'Une gaine de ventilation de 6 m de longueur traverse un faux-plafond avec une inclinaison de 10°. Quelle est la dénivellation verticale (arrondie à 0,1 m) ?',
+      options: ['0,6 m', '1,0 m', '3,0 m', '5,9 m'],
+      answer: 1,
+      correction: 'Ici, la longueur de la gaine (6 m) est l\'hypoténuse. La dénivellation est le côté opposé : h = 6 × sin 10° ≈ 1,0 m.',
+    },
+    {
+      q: 'Une conduite forcée de centrale hydroélectrique mesure 500 m de long et forme un angle de 40° avec l\'horizontale. Quelle est la hauteur de chute (arrondie à l\'unité) ?',
+      options: ['500 m', '383 m', '321 m', '420 m'],
+      answer: 2,
+      correction: 'La conduite est l\'hypoténuse : la hauteur de chute est le côté opposé, h = 500 × sin 40° ≈ 321 m.',
+    },
+    {
+      q: 'Une conduite de vidange gravitaire d\'un réacteur chimique a une pente de 3 %. Sur 12 m de longueur horizontale, la dénivellation est :',
+      options: ['3,6 cm', '36 cm', '25 cm', '40 cm'],
+      answer: 1,
+      correction: 'Pour une pente en %, tan θ = pente/100. Ici h = 12 × 0,03 = 0,36 m = 36 cm.',
+    },
+    {
+      q: 'Un tas de poudre chimique dans un silo forme un angle de repos de 35° avec l\'horizontale. Le rayon de sa base est 2 m. Quelle est la hauteur du tas (arrondie à 0,1 m) ?',
+      options: ['0,7 m', '1,4 m', '2,8 m', '1,15 m'],
+      answer: 1,
+      correction: 'h = r × tan θ = 2 × tan 35° ≈ 1,4 m. L\'angle de repos décrit la pente maximale que peut adopter un tas de matière granulaire sans s\'effondrer.',
+    },
+    {
+      q: 'Une échelle de 5 m est appuyée contre un mur, sa base étant à 3 m du pied du mur. Quel angle fait-elle avec le sol (arrondi au degré) ?',
+      options: ['37°', '53°', '30°', '60°'],
+      answer: 1,
+      correction: 'Le sol, le mur et l\'échelle forment un triangle rectangle où l\'échelle est l\'hypoténuse (5 m) et la distance au mur est le côté adjacent à l\'angle au sol (3 m). θ = arccos(3/5) ≈ 53°.',
+    },
   ],
 
   exercice: {
     type: 'numeric',
     generate() {
-      const type = pick(['phase', 'incline', 'composante']);
+      const type = pick(['phase', 'incline', 'composante', 'pente_angle', 'perpendiculaire', 'signal']);
 
       if (type === 'phase') {
         const R = pick([30, 40, 50, 60, 80]);
@@ -251,7 +306,7 @@ Les fonctions sin et cos sont périodiques de période $2\\pi$ (360°). C'est la
           tolerance: 0.2,
           unit: '°',
           hint: `Commencer par $Z = \\sqrt{R^2 + X_L^2}$, puis $\\varphi = \\arctan(X_L / R)$.`,
-          solution: `$Z = \\sqrt{${R}^2 + ${X}^2} = \\sqrt{${R*R + X*X}} = ${Z.toFixed(1).replace('.', '{,}')}\\;\\Omega$<br/>$\\varphi = \\arctan\\left(\\dfrac{${X}}{${R}}\\right) = \\arctan(${(X/R).toFixed(3).replace('.', '{,}')}) \\approx ${phi.toFixed(1).replace('.', '{,}')}°$`,
+          solution: `$Z = \\sqrt{${R}^2 + ${X}^2} = \\sqrt{${R*R + X*X}} = ${fr(Z, 1)}\\;\\Omega$<br/>$\\varphi = \\arctan\\left(\\dfrac{${X}}{${R}}\\right) = \\arctan(${fr(X/R, 3)}) \\approx ${fr(phi, 1)}°$`,
         };
       }
 
@@ -268,26 +323,72 @@ Les fonctions sin et cos sont périodiques de période $2\\pi$ (360°). C'est la
           tolerance: 2,
           unit: 'N',
           hint: `$P = mg$, puis $P_{//} = P \\sin\\theta$.`,
-          solution: `$P = ${mass} \\times 9{,}81 = ${P.toFixed(0)}\\;\\text{N}$<br/>$P_{//} = P\\sin${theta}° = ${P.toFixed(0)} \\times ${Math.sin(theta * Math.PI/180).toFixed(3).replace('.', '{,}')} \\approx ${Math.round(Ppar)}\\;\\text{N}$`,
+          solution: `$P = ${mass} \\times 9{,}81 = ${P.toFixed(0)}\\;\\text{N}$<br/>$P_{//} = P\\sin${theta}° = ${P.toFixed(0)} \\times ${fr(Math.sin(theta * Math.PI/180), 3)} \\approx ${Math.round(Ppar)}\\;\\text{N}$`,
         };
       }
 
-      // composante
-      const F = pick([200, 300, 400, 500, 600, 800]);
-      const theta = pick([20, 25, 30, 35, 40, 45, 60]);
-      const Fx = F * Math.cos(theta * Math.PI / 180);
-      const Fy = F * Math.sin(theta * Math.PI / 180);
-      const context = pick(['câble de levage', 'bielle de compresseur', 'bras de robot industriel']);
-      const comp = pick(['horizontale', 'verticale']);
-      const answer = comp === 'horizontale' ? Fx : Fy;
-      const trig = comp === 'horizontale' ? `\\cos${theta}°` : `\\sin${theta}°`;
+      if (type === 'composante') {
+        const F = pick([200, 300, 400, 500, 600, 800]);
+        const theta = pick([20, 25, 30, 35, 40, 45, 60]);
+        const Fx = F * Math.cos(theta * Math.PI / 180);
+        const Fy = F * Math.sin(theta * Math.PI / 180);
+        const context = pick(['câble de levage', 'bielle de compresseur', 'bras de robot industriel']);
+        const comp = pick(['horizontale', 'verticale']);
+        const answer = comp === 'horizontale' ? Fx : Fy;
+        const trig = comp === 'horizontale' ? `\\cos${theta}°` : `\\sin${theta}°`;
+        return {
+          statement: `Un ${context} exerce une force $F = ${F}\\;\\text{N}$ orientée à $${theta}°$ de l'horizontale.<br/><br/>Calculez la composante <strong>${comp}</strong> de cette force (en N, arrondi à l'unité).`,
+          answer: Math.round(answer),
+          tolerance: 2,
+          unit: 'N',
+          hint: `Composante horizontale = $F\\cos\\theta$, verticale = $F\\sin\\theta$.`,
+          solution: `$F_{${comp === 'horizontale' ? 'x' : 'y'}} = F \\times ${trig} = ${F} \\times ${fr((comp === 'horizontale' ? Math.cos : Math.sin)(theta * Math.PI/180), 3)} \\approx ${Math.round(answer)}\\;\\text{N}$`,
+        };
+      }
+
+      if (type === 'pente_angle') {
+        const distHoriz = pick([10, 15, 20, 25, 30, 50]);
+        const denivele = pick([1, 1.5, 2, 3, 4]);
+        const theta = Math.atan(denivele / distHoriz) * 180 / Math.PI;
+        const context = pick(['conduite de vidange gravitaire d\'un atelier de chimie', 'canalisation d\'évacuation d\'une station de traitement des eaux', 'gaine de câbles d\'une galerie technique']);
+        return {
+          statement: `Une ${context} présente une dénivellation de $${fr(denivele)}\\;\\text{m}$ sur une longueur horizontale de $${distHoriz}\\;\\text{m}$.<br/><br/>Calculez l'angle $\\theta$ de la pente par rapport à l'horizontale (en degrés, arrondi à 0,1°).`,
+          answer: parseFloat(theta.toFixed(1)),
+          tolerance: 0.2,
+          unit: '°',
+          hint: `$\\tan\\theta = \\dfrac{\\text{dénivellation}}{\\text{longueur horizontale}}$, puis $\\theta = \\arctan(...)$.`,
+          solution: `$\\tan\\theta = \\dfrac{${fr(denivele)}}{${distHoriz}} = ${fr(denivele / distHoriz, 3)}$<br/>$\\theta = \\arctan(${fr(denivele / distHoriz, 3)}) \\approx ${fr(theta, 1)}°$`,
+        };
+      }
+
+      if (type === 'perpendiculaire') {
+        const theta = pick([15, 20, 25, 30, 35, 40]);
+        const mass = pick([100, 150, 200, 250, 300]);
+        const P = mass * 9.81;
+        const Pperp = P * Math.cos(theta * Math.PI / 180);
+        const context = pick(['plan incliné de manutention en atelier', 'plan incliné d\'un quai de chargement', 'plan incliné de stockage de cuves industrielles']);
+        return {
+          statement: `Une charge de $m = ${mass}\\;\\text{kg}$ est posée sur un ${context} à $\\theta = ${theta}°$.<br/><br/>Calculez la composante du poids perpendiculaire au plan incliné $P_\\perp$ (en N, arrondi à l'unité).`,
+          answer: Math.round(Pperp),
+          tolerance: 2,
+          unit: 'N',
+          hint: `$P = mg$, puis $P_\\perp = P\\cos\\theta$.`,
+          solution: `$P = ${mass} \\times 9{,}81 = ${P.toFixed(0)}\\;\\text{N}$<br/>$P_\\perp = P\\cos${theta}° = ${P.toFixed(0)} \\times ${fr(Math.cos(theta * Math.PI / 180), 3)} \\approx ${Math.round(Pperp)}\\;\\text{N}$`,
+        };
+      }
+
+      // signal
+      const Umax = pick([230, 325, 400, 566]);
+      const f = pick([50, 60, 400]);
+      const omega = 2 * Math.PI * f;
+      const context = pick(['réseau électrique domestique', 'réseau d\'alimentation d\'un moteur triphasé industriel', 'onduleur d\'un variateur de vitesse']);
       return {
-        statement: `Un ${context} exerce une force $F = ${F}\\;\\text{N}$ orientée à $${theta}°$ de l'horizontale.<br/><br/>Calculez la composante <strong>${comp}</strong> de cette force (en N, arrondi à l'unité).`,
-        answer: Math.round(answer),
+        statement: `Un signal de tension sinusoïdal d'un ${context} s'écrit $u(t) = ${Umax}\\sin(\\omega t)$, avec une fréquence $f = ${f}\\;\\text{Hz}$.<br/><br/>Calculez la pulsation $\\omega$ (en rad/s, arrondie à l'unité).`,
+        answer: Math.round(omega),
         tolerance: 2,
-        unit: 'N',
-        hint: `Composante horizontale = $F\\cos\\theta$, verticale = $F\\sin\\theta$.`,
-        solution: `$F_{${comp === 'horizontale' ? 'x' : 'y'}} = F \\times ${trig} = ${F} \\times ${(comp === 'horizontale' ? Math.cos : Math.sin)(theta * Math.PI/180).toFixed(3).replace('.', '{,}')} \\approx ${Math.round(answer)}\\;\\text{N}$`,
+        unit: 'rad/s',
+        hint: `$\\omega = 2\\pi f$`,
+        solution: `$\\omega = 2\\pi \\times ${f} = ${fr(omega, 1)} \\approx ${Math.round(omega)}\\;\\text{rad/s}$`,
       };
     },
   },

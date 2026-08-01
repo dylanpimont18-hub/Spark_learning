@@ -7,6 +7,7 @@ window.MODULES.push({
   title: 'Logarithmes & Exponentielles',
   subtitle: 'ln, exp, décibels et cinétiques — comprendre les échelles',
   keywords: ['logarithme', 'exponentielle', 'décibel', 'ln', 'exp', 'constante de temps', 'base 10', 'pH', 'cinétique'],
+  quizShuffle: true,
   physics: 'Les fonctions logarithmique et exponentielle apparaissent dès qu\'on mesure des niveaux sonores (décibels), des temps de charge/décharge (RC, RL), des réactions chimiques (ordre 1) ou des échangeurs thermiques. Ce sont des outils fondamentaux en physique appliquée.',
 
   cours: {
@@ -158,7 +159,7 @@ Si $a \\cdot e^{bx} = c$ → $e^{bx} = c/a$ → $bx = \\ln(c/a)$ → $x = \\ln(c
       q: 'Un condensateur de $C = 100\\;\\mu\\text{F}$ est en série avec $R = 10\\;\\text{k}\\Omega$. Quelle est la constante de temps ?',
       options: ['$1\\;\\mu\\text{s}$', '$1\\;\\text{ms}$', '$1\\;\\text{s}$', '$100\\;\\text{s}$'],
       answer: 2,
-      correction: 'τ = RC = 10×10³ × 100×10⁻⁶ = 1 s. Ne pas oublier les conversions d\'unités : kΩ × μF = 10³ × 10⁻⁶ = 10⁻³ = ms... ici R = 10 kΩ = 10⁴ Ω et C = 100 μF = 10⁻⁴ F donc τ = 10⁴ × 10⁻⁴ = 1 s.',
+      correction: 'τ = RC. Astuce dimensionnelle : quand R est exprimé en kΩ et C en μF, leur produit donne directement τ en ms, car kΩ × μF = 10³ × 10⁻⁶ = 10⁻³ = ms. Ici R = 10 kΩ et C = 100 μF, donc τ = 10 × 100 = 1000 ms = 1 s.',
     },
     {
       q: 'Si $e^x = 5$, alors $x$ vaut :',
@@ -196,12 +197,84 @@ Si $a \\cdot e^{bx} = c$ → $e^{bx} = c/a$ → $bx = \\ln(c/a)$ → $x = \\ln(c
       answer: 1,
       correction: '-20 dB = 20 × log(V_s/V_e) ⟹ log(V_s/V_e) = -1 ⟹ V_s/V_e = 10⁻¹ = 0,1. Une atténuation de -20 dB en tension correspond au facteur 1/10.',
     },
+    {
+      q: 'Une solution a $[H^+] = 4 \\times 10^{-3}$ mol/L. Son pH est environ :',
+      options: ['2,4', '3,6', '3', '0,4 × 10⁻³'],
+      answer: 0,
+      correction: 'pH = -log₁₀(4×10⁻³) = 3 - log₁₀(4) ≈ 3 - 0,602 ≈ 2,4.',
+    },
+    {
+      q: 'Une substance a un temps de demi-vie de 20 min. Sa constante de vitesse $k$ est environ :',
+      options: ['0,035 min⁻¹', '0,0693 min⁻¹', '14,43 min⁻¹', '0,5 min⁻¹'],
+      answer: 0,
+      correction: 'k = ln(2)/t₁/₂ = 0,693/20 ≈ 0,035 min⁻¹.',
+    },
+    {
+      q: 'Un signal perd 99 % de sa puissance en traversant un câble. L\'atténuation en dB est :',
+      options: ['20 dB', '10 dB', '100 dB', '1 dB'],
+      answer: 0,
+      correction: 'Il reste 1 % de la puissance, soit un rapport de 0,01. L = 10log₁₀(0,01) = -20 dB, soit une atténuation de 20 dB.',
+    },
+    {
+      q: 'Un échangeur suit $\\varepsilon = 1 - e^{-\\text{NTU}}$. Pour NTU = 2, l\'efficacité est environ :',
+      options: ['86,5 %', '13,5 %', '50 %', '100 %'],
+      answer: 0,
+      correction: 'ε = 1 - e⁻² = 1 - 0,135 ≈ 0,865 = 86,5 %.',
+    },
+    {
+      q: 'Dans un circuit RC en charge, à $t = 3\\tau$, la tension atteint environ :',
+      options: ['95 %', '86,5 %', '63,2 %', '99,3 %'],
+      answer: 0,
+      correction: 'u(3τ) = E(1-e⁻³) = E × (1-0,0498) ≈ 0,95E, soit 95 % de la valeur finale.',
+    },
+    {
+      q: 'Après 3 demi-vies, la concentration restante d\'un réactif par rapport à la concentration initiale est :',
+      options: ['12,5 %', '25 %', '33,3 %', '50 %'],
+      answer: 0,
+      correction: 'Après n demi-vies, il reste (1/2)ⁿ de la quantité initiale. Pour n=3 : (1/2)³ = 1/8 = 12,5 %.',
+    },
+    {
+      q: 'Trois machines identiques produisent chacune 75 dB. Le niveau sonore combiné est environ :',
+      options: ['80 dB', '78 dB', '225 dB', '84 dB'],
+      answer: 0,
+      correction: 'L_tot = 10log₁₀(3×10^(75/10)) = 75 + 10log₁₀(3) ≈ 75 + 4,77 ≈ 80 dB. On n\'additionne jamais les dB directement.',
+    },
+    {
+      q: 'Résoudre $2e^{0{,}5x} = 10$ (x arrondi à 0,01) :',
+      options: ['3,22', '1,61', '0,32', '5'],
+      answer: 0,
+      correction: '$e^{0{,}5x} = 5 \\Rightarrow 0{,}5x = \\ln 5 \\approx 1{,}609 \\Rightarrow x \\approx 3{,}22$.',
+    },
+    {
+      q: 'La température d\'un objet suit $T(t) = 20 + 80e^{-t/15}$ (°C, min). La température initiale (à $t=0$) est :',
+      options: ['100 °C', '20 °C', '80 °C', '15 °C'],
+      answer: 0,
+      correction: '$T(0) = 20 + 80 \\times e^0 = 20 + 80 = 100°C$.',
+    },
+    {
+      q: 'Simplifier $\\ln(e^2 \\times e^3)$ :',
+      options: ['5', '6', '$e^5$', '1'],
+      answer: 0,
+      correction: '$e^2 \\times e^3 = e^5$, donc $\\ln(e^5) = 5$.',
+    },
+    {
+      q: 'Sur une courbe de charge RC, on lit que la tension atteint 63,2 % de sa valeur finale à $t = 4$ s. La constante de temps $\\tau$ est :',
+      options: ['4 s', '2 s', '8 s', '63,2 s'],
+      answer: 0,
+      correction: 'Par définition, à $t = \\tau$, la tension atteint exactement 63,2 % de sa valeur finale. Donc $\\tau = 4$ s.',
+    },
+    {
+      q: 'Un amplificateur multiplie la tension par 10. Son gain en dB est :',
+      options: ['20 dB', '10 dB', '100 dB', '3 dB'],
+      answer: 0,
+      correction: '$G = 20\\log_{10}(10) = 20 \\times 1 = 20$ dB.',
+    },
   ],
 
   exercice: {
     type: 'numeric',
     generate() {
-      const type = pick(['RC_charge', 'dB_gain', 'demi_vie']);
+      const type = pick(['RC_charge', 'dB_gain', 'demi_vie', 'pH', 'resolution_exp', 'somme_dB']);
 
       if (type === 'RC_charge') {
         const R = pick([5, 10, 20, 47]);  // kΩ
@@ -217,7 +290,7 @@ Si $a \\cdot e^{bx} = c$ → $e^{bx} = c/a$ → $bx = \\ln(c/a)$ → $x = \\ln(c
           tolerance: 0.05,
           unit: 'V',
           hint: `Calculer d'abord $\\tau = RC$, puis appliquer $u_C = E(1 - e^{-t/\\tau})$ avec $t = 2{,}5\\tau$.`,
-          solution: `$\\tau = ${R} \\times 10^3 \\times ${C} \\times 10^{-6} = ${tau.toFixed(3).replace('.', '{,}')}\\;\\text{s}$<br/>$u_C = ${E}\\left(1 - e^{-2{,}5}\\right) = ${E} \\times (1 - 0{,}0821) = ${E} \\times 0{,}9179 \\approx ${uc.toFixed(2).replace('.', '{,}')}\\;\\text{V}$`,
+          solution: `$\\tau = ${R} \\times 10^3 \\times ${C} \\times 10^{-6} = ${fr(tau, 3)}\\;\\text{s}$<br/>$u_C = ${E}\\left(1 - e^{-2{,}5}\\right) = ${E} \\times (1 - 0{,}0821) = ${E} \\times 0{,}9179 \\approx ${fr(uc, 2)}\\;\\text{V}$`,
         };
       }
 
@@ -232,21 +305,69 @@ Si $a \\cdot e^{bx} = c$ → $e^{bx} = c/a$ → $bx = \\ln(c/a)$ → $x = \\ln(c
           tolerance: 0.001,
           unit: '',
           hint: `$G_{dB} = 20\\log_{10}(V_s/V_e)$ → $V_s/V_e = 10^{G_{dB}/20}$.`,
-          solution: `$\\dfrac{V_s}{V_e} = 10^{${gain_dB}/20} = 10^{${(gain_dB/20).toFixed(1).replace('.', '{,}')}} = ${factor.toFixed(4).replace('.', '{,}')}$`,
+          solution: `$\\dfrac{V_s}{V_e} = 10^{${gain_dB}/20} = 10^{${fr(gain_dB/20, 1)}} = ${fr(factor, 4)}$`,
         };
       }
 
-      // demi_vie
-      const k = pick([0.02, 0.05, 0.1, 0.2, 0.5]); // min⁻¹
-      const t_half = Math.log(2) / k;
-      const context = pick(['traitement d\'eau potable (chloration)', 'réaction de saponification', 'dépollution d\'effluents industriels', 'désinfection UV de l\'air']);
+      if (type === 'demi_vie') {
+        const k = pick([0.02, 0.05, 0.1, 0.2, 0.5]); // min⁻¹
+        const t_half = Math.log(2) / k;
+        const context = pick(['traitement d\'eau potable (chloration)', 'réaction de saponification', 'dépollution d\'effluents industriels', 'désinfection UV de l\'air']);
+        return {
+          statement: `Une réaction de premier ordre lors d'un ${context} a une constante de vitesse $k = ${fr(k)}\\;\\text{min}^{-1}$.<br/><br/>Calculez le temps de demi-vie $t_{1/2}$ (en min, arrondi à 0,1 min).`,
+          answer: parseFloat(t_half.toFixed(1)),
+          tolerance: 0.1,
+          unit: 'min',
+          hint: `$t_{1/2} = \\ln 2 / k \\approx 0{,}693 / k$.`,
+          solution: `$t_{1/2} = \\dfrac{\\ln 2}{k} = \\dfrac{0{,}6931}{${fr(k)}} \\approx ${fr(t_half, 1)}\\;\\text{min}$`,
+        };
+      }
+
+      if (type === 'pH') {
+        const n = pick([2, 3, 4, 5, 6]);
+        const a = pick([1.5, 2, 3.2, 4.5, 5, 7.9]);
+        const pH = Math.round((n - Math.log10(a)) * 100) / 100;
+        const context = pick(['une eau de process industriel', 'un bain de traitement de surface', 'un effluent avant rejet en station d\'épuration', 'une solution de nettoyage CIP (agroalimentaire)']);
+        return {
+          statement: `On mesure $[H^+] = ${fr(a)} \\times 10^{-${n}}\\;\\text{mol/L}$ dans ${context}.<br/><br/>Calculez le pH (arrondi à 0,01) sachant que $\\text{pH} = -\\log_{10}[H^+]$.`,
+          answer: pH,
+          tolerance: 0.02,
+          unit: '',
+          hint: `$\\text{pH} = ${n} - \\log_{10}(${fr(a)})$.`,
+          solution: `$\\text{pH} = -\\log_{10}(${fr(a)} \\times 10^{-${n}}) = ${n} - \\log_{10}(${fr(a)}) = ${n} - ${fr(Math.log10(a), 3)} = ${fr(pH, 2)}$`,
+        };
+      }
+
+      if (type === 'resolution_exp') {
+        const context = pick([
+          { texte: 'un échangeur thermique à courant croisé', formule: '\\varepsilon = 1 - e^{-\\text{NTU}}', variable: '\\text{NTU}' },
+          { texte: 'un filtre à charbon actif (efficacité d\'adsorption)', formule: '\\eta = 1 - e^{-kt}', variable: 'kt' },
+        ]);
+        const eps = pick([0.7, 0.75, 0.8, 0.85, 0.9, 0.95]);
+        const ntu = Math.round(-Math.log(1 - eps) * 100) / 100;
+        return {
+          statement: `L'efficacité d'${context.texte} suit la loi $${context.formule}$.<br/><br/>Pour une efficacité souhaitée $\\varepsilon = ${fr(eps)}$, calculez $${context.variable}$ (arrondi à 0,01).`,
+          answer: ntu,
+          tolerance: 0.02,
+          unit: '',
+          hint: `$e^{-${context.variable}} = 1-\\varepsilon \\Rightarrow ${context.variable} = -\\ln(1-\\varepsilon)$.`,
+          solution: `$${context.variable} = -\\ln(1 - ${fr(eps)}) = -\\ln(${fr(1 - eps, 2)}) = ${fr(ntu, 2)}$`,
+        };
+      }
+
+      // somme_dB — addition de deux niveaux sonores différents
+      const L1 = pick([70, 75, 80, 85, 90]);
+      const deltaL = pick([2, 3, 5, 8, 10]);
+      const L2 = L1 + deltaL;
+      const Ltot = Math.round(10 * Math.log10(Math.pow(10, L1 / 10) + Math.pow(10, L2 / 10)) * 100) / 100;
+      const context2 = pick(['deux compresseurs fonctionnant simultanément', 'deux ventilateurs de toiture', 'une pompe et son moteur d\'entraînement', 'deux machines-outils voisines']);
       return {
-        statement: `Une réaction de premier ordre lors d'un ${context} a une constante de vitesse $k = ${String(k).replace('.', '{,}')}\\;\\text{min}^{-1}$.<br/><br/>Calculez le temps de demi-vie $t_{1/2}$ (en min, arrondi à 0,1 min).`,
-        answer: parseFloat(t_half.toFixed(1)),
+        statement: `Dans un atelier, ${context2} produisent respectivement $L_1 = ${L1}\\;\\text{dB}$ et $L_2 = ${L2}\\;\\text{dB}$.<br/><br/>Calculez le niveau sonore combiné $L_{tot}$ (en dB, arrondi à 0,1).`,
+        answer: parseFloat(Ltot.toFixed(1)),
         tolerance: 0.1,
-        unit: 'min',
-        hint: `$t_{1/2} = \\ln 2 / k \\approx 0{,}693 / k$.`,
-        solution: `$t_{1/2} = \\dfrac{\\ln 2}{k} = \\dfrac{0{,}6931}{${String(k).replace('.', '{,}')}} \\approx ${t_half.toFixed(1).replace('.', '{,}')}\\;\\text{min}$`,
+        unit: 'dB',
+        hint: `$L_{tot} = 10\\log_{10}\\left(10^{L_1/10} + 10^{L_2/10}\\right)$.`,
+        solution: `$L_{tot} = 10\\log_{10}(10^{${L1}/10} + 10^{${L2}/10}) = ${fr(Ltot, 1)}\\;\\text{dB}$`,
       };
     },
   },

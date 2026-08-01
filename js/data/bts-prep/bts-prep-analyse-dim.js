@@ -3,6 +3,7 @@ window.MODULES.push({
   level: 3,
   subject: 'maths',
   tag: 'prep',
+  quizShuffle: true,
   icon: '🔬',
   title: 'Analyse Dimensionnelle',
   subtitle: 'Homogénéité, vérification et détection d\'erreurs',
@@ -29,6 +30,7 @@ Cette règle permet :<br/>
 | Courant électrique | I |
 | Température | θ (thêta) |
 | Quantité de matière | N |<br/><br/>
+Attention : ce <strong>N</strong> désigne ici la <em>dimension</em> "quantité de matière", à ne pas confondre avec le <strong>N</strong> unité newton (force), utilisé abondamment plus loin dans ce cours.<br/><br/>
 Notation : $[x]$ désigne "la dimension de la grandeur x".<br/><br/>
 Exemples : $[v] = \\text{L·T}^{-1}$ (vitesse), $[F] = \\text{M·L·T}^{-2}$ (force), $[P] = \\text{M·L}^{-1}\\text{·T}^{-2}$ (pression), $[W] = \\text{M·L}^2\\text{·T}^{-2}$ (énergie), $[P_{\\text{élec}}] = \\text{M·L}^2\\text{·T}^{-3}$ (puissance)`
       },
@@ -222,6 +224,72 @@ Exemples : nombre de Reynolds $Re = \\rho v D / \\mu$, rendement $\\eta = P_{\\t
       answer: 0,
       correction: '[R·C] = Ω × F = (V/A) × (A·s/V) = s ✓. La constante de temps RC est bien homogène à un temps.',
     },
+    {
+      q: 'La charge électrique stockée dans une batterie s\'écrit $Q = I \\times t$ (intensité × temps). Quelle est la dimension de $Q$ ?',
+      options: ['$\\text{I·T}$', '$\\text{I·T}^{-1}$', '$\\text{I}^2\\text{·T}$', '$\\text{M·I·T}$'],
+      answer: 0,
+      correction: '[Q] = [I]×[t] = I·T. C\'est cette dimension qui justifie l\'unité pratique de charge : l\'ampère-heure (A·h), utilisée sur les plaques signalétiques de batteries.',
+    },
+    {
+      q: 'La pression hydrostatique s\'écrit $p = \\rho g h$, avec $[\\rho] = \\text{M·L}^{-3}$, $[g] = \\text{L·T}^{-2}$ et $[h] = \\text{L}$. Quelle est la dimension de $p$ ?',
+      options: ['$\\text{M·L}^{-1}\\text{·T}^{-2}$', '$\\text{M·L}^{-2}\\text{·T}^{-2}$', '$\\text{M·L}^{-1}\\text{·T}^{-1}$', '$\\text{M·L}^2\\text{·T}^{-2}$'],
+      answer: 0,
+      correction: '[ρgh] = M·L⁻³ × L·T⁻² × L = M·L^(-3+1+1)·T⁻² = M·L⁻¹·T⁻². C\'est bien la dimension d\'une pression, cohérente avec la formule.',
+    },
+    {
+      q: 'Le débit volumique d\'une pompe s\'écrit $Q = v \\times A$ (vitesse × section). Quelle est sa dimension ?',
+      options: ['$\\text{L}^3\\text{·T}^{-1}$', '$\\text{L}^2\\text{·T}^{-1}$', '$\\text{L}^3\\text{·T}^{-2}$', '$\\text{L·T}^{-3}$'],
+      answer: 0,
+      correction: '[v×A] = (L·T⁻¹) × L² = L³·T⁻¹, cohérent avec l\'unité m³/s. C\'est la dimension d\'un volume par unité de temps.',
+    },
+    {
+      q: 'Dans un virage, la force centripète s\'écrit $F = \\dfrac{mv^2}{r}$. Quelle est sa dimension ?',
+      options: ['$\\text{M·L·T}^{-2}$', '$\\text{M·L}^2\\text{·T}^{-2}$', '$\\text{M·L}^{-1}\\text{·T}^{-2}$', '$\\text{M·L·T}^{-1}$'],
+      answer: 0,
+      correction: '[mv²/r] = M × (L·T⁻¹)² / L = M·L²·T⁻² / L = M·L·T⁻², qui est bien la dimension d\'une force. La formule est donc homogène.',
+    },
+    {
+      q: 'En chimie, la concentration molaire s\'écrit $c = n/V$ (quantité de matière / volume). Quelle est sa dimension ?',
+      options: ['$\\text{N·L}^{-3}$', '$\\text{N}^{-1}\\text{·L}^3$', '$\\text{M·L}^{-3}$', '$\\text{N·L}^3$'],
+      answer: 0,
+      correction: '[c] = [n]/[V] = N/L³ = N·L⁻³ (N étant ici la dimension "quantité de matière", pas l\'unité newton). Ne pas confondre avec la masse volumique M·L⁻³.',
+    },
+    {
+      q: 'La masse molaire d\'un composé s\'écrit $M_{\\text{molaire}} = m/n$ (masse / quantité de matière). Quelle est sa dimension ?',
+      options: ['$\\text{M·N}^{-1}$', '$\\text{N·M}^{-1}$', '$\\text{M·N}$', '$\\text{M·L}^{-3}$'],
+      answer: 0,
+      correction: '[M_molaire] = [m]/[n] = M/N = M·N⁻¹, cohérente avec l\'unité g/mol utilisée en chimie.',
+    },
+    {
+      q: 'Le COP (coefficient de performance) d\'une pompe à chaleur vaut 3,5. Quelle est sa dimension ?',
+      options: ['Adimensionnel (sans dimension)', 'Exprimé en W', 'Exprimé en J', 'Exprimé en W·s⁻¹'],
+      answer: 0,
+      correction: 'Le COP est un rapport de deux puissances (utile/absorbée), donc [COP] = [P]/[P] = 1 : il est adimensionnel, comme le rendement η.',
+    },
+    {
+      q: 'Pour calculer une vitesse à partir d\'une distance $d$ (L) et d\'un temps $t$ (T), quelle formule est dimensionnellement correcte ?',
+      options: ['$v = d/t$', '$v = d/t^2$', '$v = d^2/t$', '$v = d \\times t$'],
+      answer: 0,
+      correction: '[d/t] = L·T⁻¹ = [v] ✓. Les autres formules donnent des dimensions différentes : L·T⁻² (accélération), L²·T⁻¹, ou L·T.',
+    },
+    {
+      q: 'On suppose que la période $T$ d\'un pendule s\'écrit $T = k \\cdot l^a \\cdot g^b$, avec $[l] = \\text{L}$ et $[g] = \\text{L·T}^{-2}$. Sachant que $[T] = \\text{T}$ (un temps), quelles valeurs de $a$ et $b$ rendent la formule homogène ?',
+      options: ['$a = 1/2,\\; b = -1/2$', '$a = -1/2,\\; b = 1/2$', '$a = 1,\\; b = -1$', '$a = 1/2,\\; b = 1/2$'],
+      answer: 0,
+      correction: '$[l^a g^b] = \\text{L}^a\\,(\\text{L·T}^{-2})^b = \\text{L}^{a+b}\\text{·T}^{-2b}$. Il faut $a+b=0$ et $-2b=1$, donc $b=-1/2$ et $a=1/2$ : c\'est exactement la formule connue $T = k\\sqrt{l/g}$.',
+    },
+    {
+      q: 'Pour un système de chauffage, la chaleur échangée s\'écrit $Q_{\\text{th}} = mc\\Delta T$, avec $[Q_{\\text{th}}] = \\text{M·L}^2\\text{·T}^{-2}$ (énergie) et $[\\Delta T] = \\theta$. Quelle est la dimension de la chaleur massique $c$ ?',
+      options: ['$\\text{L}^2\\text{·T}^{-2}\\text{·θ}^{-1}$', '$\\text{M·L}^2\\text{·T}^{-2}\\text{·θ}^{-1}$', '$\\text{L}^2\\text{·T}^{-2}\\text{·θ}$', '$\\text{M·θ}^{-1}$'],
+      answer: 0,
+      correction: '[c] = [Q_th] / ([m]×[ΔT]) = (M·L²·T⁻²) / (M·θ) = L²·T⁻²·θ⁻¹, cohérente avec l\'unité J·kg⁻¹·K⁻¹.',
+    },
+    {
+      q: 'La loi d\'Ohm s\'écrit $U = R \\times I$. Sachant que $[U] = \\text{M·L}^2\\text{·T}^{-3}\\text{·I}^{-1}$ et $[R] = \\text{M·L}^2\\text{·T}^{-3}\\text{·I}^{-2}$, cette formule est-elle homogène ?',
+      options: ['Oui : [R·I] = M·L²·T⁻³·I⁻¹ = [U] ✓', 'Non : [R·I] a une dimension différente de [U]', 'Oui, mais seulement en unités SI', 'Non, R n\'a pas de dimension'],
+      answer: 0,
+      correction: '[R×I] = (M·L²·T⁻³·I⁻²) × I = M·L²·T⁻³·I⁻¹ = [U] ✓. La loi d\'Ohm est bien homogène, comme toute loi physique correctement établie.',
+    },
   ],
 
   exercice: {
@@ -229,23 +297,23 @@ Exemples : nombre de Reynolds $Re = \\rho v D / \\mu$, rendement $\\eta = P_{\\t
     generate() {
       // Exercice de vérification numérique : calculer une puissance à partir d'une force et d'une vitesse
       // puis vérifier l'homogénéité avec une deuxième formule
-      const type = pick(['puissance_fv', 'pression_F_sur_A', 'energie_cinetique']);
+      const type = pick(['puissance_fv', 'pression_F_sur_A', 'energie_cinetique', 'debit_volumique', 'concentration_molaire', 'puissance_thermique']);
 
       if (type === 'puissance_fv') {
         const F = pick([500, 800, 1200, 2000, 3000]);
         const v_kmh = pick([3.6, 7.2, 10.8, 18]);
         const v_ms = v_kmh / 3.6;
         const P = F * v_ms;
-        const context = pick(['chariot élévateur', 'tapis roulant logistique', 'système de convoyage automatisé']);
+        const context = pick(['chariot élévateur', 'tapis roulant logistique', 'système de convoyage automatisé', 'courroie d\'entraînement d\'un ventilateur de centrale de traitement d\'air (CTA)']);
         return {
-          statement: `Un ${context} exerce une force motrice de $F = ${F}\\;\\text{N}$ et avance à $v = ${String(v_kmh).replace('.', '{,}')}\\;\\text{km/h}$.<br/><br/>
+          statement: `Un ${context} exerce une force motrice de $F = ${F}\\;\\text{N}$ et avance à $v = ${fr(v_kmh)}\\;\\text{km/h}$.<br/><br/>
 1. Convertir $v$ en m/s.<br/>
 2. Calculer la puissance mécanique $P = F \\times v$ (en W).`,
           answer: parseFloat(P.toFixed(1)),
           tolerance: 1,
           unit: 'W',
           hint: `Convertir d'abord : $v(\\text{m/s}) = v(\\text{km/h}) / 3{,}6$.`,
-          solution: `$v = ${String(v_kmh).replace('.', '{,}')} / 3{,}6 = ${v_ms.toFixed(2).replace('.', '{,}')}\\;\\text{m/s}$<br/>$P = ${F} \\times ${v_ms.toFixed(2).replace('.', '{,}')} = ${P.toFixed(1).replace('.', '{,}')}\\;\\text{W}$<br/>Vérification : $[F \\times v] = \\text{N·m·s}^{-1} = \\text{W}$ ✓`,
+          solution: `$v = ${fr(v_kmh)} / 3{,}6 = ${fr(v_ms, 2)}\\;\\text{m/s}$<br/>$P = ${F} \\times ${fr(v_ms, 2)} = ${fr(P, 1)}\\;\\text{W}$<br/>Vérification : $[F \\times v] = \\text{N·m·s}^{-1} = \\text{W}$ ✓`,
         };
       }
 
@@ -264,24 +332,77 @@ Calculer la pression $p = F/A$ en MPa (arrondi à 0,01 MPa).`,
           tolerance: 0.01,
           unit: 'MPa',
           hint: `Convertir F en N et A en m², puis $p = F/A$ en Pa, puis en MPa ($\\div 10^6$).`,
-          solution: `$F = ${F_kN} \\times 10^3 = ${F_N}\\;\\text{N}$<br/>$A = ${A_cm2} \\times 10^{-4} = ${String(A_m2).replace('.', '{,}')}\\;\\text{m}^2$<br/>$p = ${F_N} / ${String(A_m2).replace('.', '{,}')} = ${P_Pa.toFixed(0)}\\;\\text{Pa} = ${P_MPa.toFixed(2).replace('.', '{,}')}\\;\\text{MPa}$`,
+          solution: `$F = ${F_kN} \\times 10^3 = ${F_N}\\;\\text{N}$<br/>$A = ${A_cm2} \\times 10^{-4} = ${fr(A_m2)}\\;\\text{m}^2$<br/>$p = ${F_N} / ${fr(A_m2)} = ${P_Pa.toFixed(0)}\\;\\text{Pa} = ${fr(P_MPa, 2)}\\;\\text{MPa}$`,
         };
       }
 
-      const m = pick([500, 800, 1000, 1200, 2000]);
-      const v_kmh = pick([36, 54, 72, 90, 108]);
-      const v_ms = v_kmh / 3.6;
-      const Ec = 0.5 * m * v_ms * v_ms;
-      const Ec_kJ = Ec / 1000;
-      const context = pick(['véhicule de livraison', 'chariot de manutention motorisé', 'nacelle élévatrice en déplacement']);
-      return {
-        statement: `Un ${context} de masse $m = ${m}\\;\\text{kg}$ se déplace à $v = ${v_kmh}\\;\\text{km/h}$.<br/><br/>
+      if (type === 'energie_cinetique') {
+        const m = pick([500, 800, 1000, 1200, 2000]);
+        const v_kmh = pick([36, 54, 72, 90, 108]);
+        const v_ms = v_kmh / 3.6;
+        const Ec = 0.5 * m * v_ms * v_ms;
+        const Ec_kJ = Ec / 1000;
+        const context = pick(['véhicule de livraison', 'chariot de manutention motorisé', 'nacelle élévatrice en déplacement']);
+        return {
+          statement: `Un ${context} de masse $m = ${m}\\;\\text{kg}$ se déplace à $v = ${v_kmh}\\;\\text{km/h}$.<br/><br/>
 Calculer son énergie cinétique $E_c = \\dfrac{1}{2}mv^2$ en kilojoules (kJ, arrondi à 0,1 kJ).`,
-        answer: parseFloat(Ec_kJ.toFixed(1)),
-        tolerance: 0.1,
+          answer: parseFloat(Ec_kJ.toFixed(1)),
+          tolerance: 0.1,
+          unit: 'kJ',
+          hint: `Convertir $v$ en m/s, puis $E_c = \\frac{1}{2}mv^2$, résultat en J divisé par 1000.`,
+          solution: `$v = ${v_kmh}/3{,}6 = ${fr(v_ms, 2)}\\;\\text{m/s}$<br/>$E_c = \\frac{1}{2} \\times ${m} \\times ${fr(v_ms, 2)}^2 = \\frac{1}{2} \\times ${m} \\times ${fr(v_ms * v_ms, 2)} = ${Ec.toFixed(0)}\\;\\text{J} = ${fr(Ec_kJ, 1)}\\;\\text{kJ}$<br/>Vérification : $[\\frac{1}{2}mv^2] = \\text{kg·m}^2\\text{·s}^{-2} = \\text{J}$ ✓`,
+        };
+      }
+
+      if (type === 'debit_volumique') {
+        const v = pick([0.5, 1, 1.5, 2, 2.5, 3]);
+        const A_cm2 = pick([20, 30, 50, 80, 100]);
+        const A_m2 = A_cm2 * 1e-4;
+        const Q_m3s = v * A_m2;
+        const Q_m3h = Q_m3s * 3600;
+        const context = pick(['station de pompage d\'eau potable', 'circuit de refroidissement industriel', 'réseau d\'irrigation agricole']);
+        return {
+          statement: `Dans une installation de type « ${context} », l'eau s'écoule à une vitesse $v = ${fr(v)}\\;\\text{m/s}$ dans une conduite de section $A = ${A_cm2}\\;\\text{cm}^2$.<br/><br/>
+Calculez le débit volumique $Q = v \\times A$ en m³/h (arrondi à 0,1).`,
+          answer: parseFloat(Q_m3h.toFixed(1)),
+          tolerance: 0.2,
+          unit: 'm³/h',
+          hint: `Convertir $A$ en m², calculer $Q = v \\times A$ en m³/s, puis multiplier par 3600 pour obtenir des m³/h.`,
+          solution: `$A = ${A_cm2} \\times 10^{-4} = ${fr(A_m2, 4)}\\;\\text{m}^2$<br/>$Q = ${fr(v)} \\times ${fr(A_m2, 4)} = ${fr(Q_m3s, 5)}\\;\\text{m}^3\\text{/s}$<br/>$Q = ${fr(Q_m3s, 5)} \\times 3600 \\approx ${fr(Q_m3h, 1)}\\;\\text{m}^3\\text{/h}$<br/>Vérification : $[v \\times A] = \\text{L·T}^{-1} \\times \\text{L}^2 = \\text{L}^3\\text{·T}^{-1}$ ✓`,
+        };
+      }
+
+      if (type === 'concentration_molaire') {
+        const n = pick([0.2, 0.5, 1, 1.5, 2]);
+        const V_L = pick([0.5, 1, 2, 5]);
+        const c_mol_L = n / V_L;
+        const context = pick(['préparation d\'une solution de laboratoire', 'opération de dosage d\'un réactif en cuve de traitement', 'dilution d\'un acide en salle de chimie']);
+        return {
+          statement: `Lors d'une ${context}, on dissout $n = ${fr(n)}\\;\\text{mol}$ de soluté dans un volume $V = ${fr(V_L)}\\;\\text{L}$ de solution.<br/><br/>
+Calculez la concentration molaire $c = n/V$ (en mol/L, arrondie à 0,01).`,
+          answer: parseFloat(c_mol_L.toFixed(2)),
+          tolerance: 0.02,
+          unit: 'mol/L',
+          hint: `$c = \\dfrac{n}{V}$, avec $n$ en mol et $V$ en L.`,
+          solution: `$c = \\dfrac{${fr(n)}}{${fr(V_L)}} = ${fr(c_mol_L, 2)}\\;\\text{mol/L}$`,
+        };
+      }
+
+      // puissance_thermique
+      const m = pick([2, 5, 10, 20, 50]);
+      const cMassique = 4185;
+      const deltaT = pick([10, 15, 20, 30, 40]);
+      const Q_J = m * cMassique * deltaT;
+      const Q_kJ = Q_J / 1000;
+      const context = pick(['ballon d\'eau chaude sanitaire', 'circuit de chauffage central', 'échangeur thermique d\'une CTA (centrale de traitement d\'air)']);
+      return {
+        statement: `Un ${context} chauffe $m = ${m}\\;\\text{kg}$ d'eau (chaleur massique $c = 4185\\;\\text{J·kg}^{-1}\\text{·K}^{-1}$) d'une variation de température $\\Delta T = ${deltaT}\\;\\text{K}$.<br/><br/>
+Calculez l'énergie thermique $Q = mc\\Delta T$ nécessaire (en kJ, arrondie à l'unité).`,
+        answer: Math.round(Q_kJ),
+        tolerance: 5,
         unit: 'kJ',
-        hint: `Convertir $v$ en m/s, puis $E_c = \\frac{1}{2}mv^2$, résultat en J divisé par 1000.`,
-        solution: `$v = ${v_kmh}/3{,}6 = ${v_ms.toFixed(2).replace('.', '{,}')}\\;\\text{m/s}$<br/>$E_c = \\frac{1}{2} \\times ${m} \\times ${v_ms.toFixed(2).replace('.', '{,}')}^2 = \\frac{1}{2} \\times ${m} \\times ${(v_ms*v_ms).toFixed(2).replace('.', '{,}')} = ${Ec.toFixed(0)}\\;\\text{J} = ${Ec_kJ.toFixed(1).replace('.', '{,}')}\\;\\text{kJ}$<br/>Vérification : $[\\frac{1}{2}mv^2] = \\text{kg·m}^2\\text{·s}^{-2} = \\text{J}$ ✓`,
+        hint: `$Q = m \\times c \\times \\Delta T$, résultat en J, à diviser par 1000 pour obtenir des kJ.`,
+        solution: `$Q = ${m} \\times 4185 \\times ${deltaT} = ${Q_J}\\;\\text{J} = ${fr(Q_kJ, 1)}\\;\\text{kJ}$<br/>Vérification : $[mc\\Delta T] = \\text{M}\\times(\\text{L}^2\\text{·T}^{-2}\\text{·θ}^{-1})\\times\\text{θ} = \\text{M·L}^2\\text{·T}^{-2} = \\text{J}$ ✓`,
       };
     },
   },

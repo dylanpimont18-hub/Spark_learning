@@ -12,8 +12,9 @@ function renderQuiz(mod) {
 
 function renderQuizQuestion(mod) {
   const qs = state.quizState;
-  const q = mod.quiz[qs.current];
-  const total = mod.quiz.length;
+  const pool = getQuizPool(mod);
+  const q = pool[qs.current];
+  const total = pool.length;
   const letters = ['A', 'B', 'C', 'D'];
 
   const progressPct = Math.round((qs.current / total) * 100);

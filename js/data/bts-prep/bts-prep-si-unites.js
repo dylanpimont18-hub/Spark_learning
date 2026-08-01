@@ -3,6 +3,7 @@ window.MODULES.push({
   level: 3,
   subject: 'maths',
   tag: 'prep',
+  quizShuffle: true,
   icon: '📏',
   title: 'Système International d\'Unités',
   subtitle: '7 grandeurs de base, unités dérivées, préfixes — la langue commune',
@@ -10,7 +11,7 @@ window.MODULES.push({
   physics: 'Le Système International d\'Unités (SI) est le cadre légal et scientifique universel. Maîtriser les unités, c\'est éviter les erreurs de dimensionnement qui peuvent conduire à des catastrophes : la sonde Mars Climate Orbiter a été perdue en 1999 à cause d\'une confusion entre Newton et livre-force.',
 
   cours: {
-    intro: `Les unités ne sont pas une formalité administrative : elles portent la signification physique d'un résultat. Un résultat sans unité est inutilisable, voire dangereux. En BTS, vous travaillerez constamment avec des grandeurs de natures différentes (électrique, mécanique, thermique, chimique), et la cohérence des unités est le premier contrôle de validité de tout calcul.`,
+    intro: `Les unités ne sont pas une formalité administrative : elles portent la signification physique d'un résultat.<br/><br/>Un résultat sans unité est inutilisable, voire dangereux.<br/><br/>En BTS, vous travaillerez constamment avec des grandeurs de natures différentes (électrique, mécanique, thermique, chimique), et la cohérence des unités est le premier contrôle de validité de tout calcul.`,
 
     definitions: [
       {
@@ -252,26 +253,86 @@ window.MODULES.push({
       answer: 1,
       correction: 'T(K) = T(°C) + 273,15. Exemples : 0°C = 273,15 K, 100°C = 373,15 K. Pour les différences de température, ΔT(K) = ΔT(°C).',
     },
+    {
+      q: 'Parmi ces unités, laquelle est une grandeur de BASE du SI ?',
+      options: ['Newton (N)', 'Kelvin (K)', 'Watt (W)', 'Pascal (Pa)'],
+      answer: 1,
+      correction: 'Le kelvin (K) est une des 7 grandeurs de base du SI. Newton, watt et pascal sont des unités dérivées, construites à partir des grandeurs de base.',
+    },
+    {
+      q: 'Un capteur de pression indique $2{,}5\\;\\text{GPa}$. Cela vaut en Pa :',
+      options: ['$2{,}5 \\times 10^6\\;\\text{Pa}$', '$2{,}5 \\times 10^9\\;\\text{Pa}$', '$2{,}5 \\times 10^{12}\\;\\text{Pa}$', '$2{,}5 \\times 10^3\\;\\text{Pa}$'],
+      answer: 1,
+      correction: 'Le préfixe giga (G) vaut $10^9$, donc 2,5 GPa = 2,5 × 10⁹ Pa.',
+    },
+    {
+      q: 'Combien de moles y a-t-il dans 44 g de dioxyde de carbone ($M_{\\text{CO}_2} = 44\\;\\text{g/mol}$) ?',
+      options: ['1 mol', '44 mol', '0,44 mol', '4,4 mol'],
+      answer: 0,
+      correction: 'n = m/M = 44/44 = 1 mol.',
+    },
+    {
+      q: 'Quelle masse de chlorure de sodium ($M_{\\text{NaCl}} = 58{,}5\\;\\text{g/mol}$) faut-il pour obtenir $2\\;\\text{mol}$ ?',
+      options: ['117 g', '58,5 g', '29,25 g', '2 g'],
+      answer: 0,
+      correction: 'm = n × M = 2 × 58,5 = 117 g.',
+    },
+    {
+      q: 'L\'équation $E = mc^2$ relie une énergie $E$ (J), une masse $m$ (kg) et une vitesse $c$ (m/s). Est-elle dimensionnellement cohérente ?',
+      options: ['Oui : $\\text{kg} \\times (\\text{m/s})^2 = \\text{kg·m}^2\\text{s}^{-2} = \\text{J}$', 'Non, il manque un facteur temps', 'Non, il faudrait diviser par $c$', 'Oui, mais uniquement en unités CGS'],
+      answer: 0,
+      correction: '$[m \\times c^2] = \\text{kg} \\times (\\text{m/s})^2 = \\text{kg·m}^2\\text{s}^{-2}$, ce qui correspond bien à la dimension du joule.',
+    },
+    {
+      q: 'Une vitesse de $108\\;\\text{km/h}$ vaut en m/s :',
+      options: ['30 m/s', '18 m/s', '3,6 m/s', '300 m/s'],
+      answer: 0,
+      correction: '108 km/h = 108/3,6 = 30 m/s.',
+    },
+    {
+      q: 'Un courant de $15\\;\\text{mA}$ correspond en ampères à :',
+      options: ['0,015 A', '15 000 A', '1,5 A', '0,15 A'],
+      answer: 0,
+      correction: 'Le préfixe milli (m) vaut $10^{-3}$, donc 15 mA = 15 × 10⁻³ A = 0,015 A.',
+    },
+    {
+      q: 'Une pression de $250\\,000\\;\\text{Pa}$ vaut en bar :',
+      options: ['2,5 bar', '25 bar', '0,25 bar', '250 bar'],
+      answer: 0,
+      correction: '1 bar = 10⁵ Pa, donc 250 000 Pa = 2,5 × 10⁵ Pa = 2,5 bar.',
+    },
+    {
+      q: 'Un moteur consomme $3{,}6\\;\\text{MJ}$. Cette énergie convertie en kWh vaut :',
+      options: ['1 kWh', '3,6 kWh', '0,1 kWh', '36 kWh'],
+      answer: 0,
+      correction: '1 kWh = 3,6 MJ, donc 3,6 MJ = 1 kWh.',
+    },
+    {
+      q: 'Quelle grandeur physique a pour unité SI le mole (mol) ?',
+      options: ['La masse', 'La quantité de matière', 'Le volume', 'La concentration'],
+      answer: 1,
+      correction: 'La mole est l\'unité de la quantité de matière $n$, une des 7 grandeurs de base du SI (elle contient $6{,}022 \\times 10^{23}$ entités).',
+    },
   ],
 
   exercice: {
     type: 'numeric',
     generate() {
-      const type = pick(['energie_kwh', 'pression_bar', 'vitesse_kmh']);
+      const type = pick(['energie_kwh', 'pression_bar', 'vitesse_kmh', 'quantite_matiere', 'prefixe_conversion', 'puissance_mecanique']);
 
       if (type === 'energie_kwh') {
         const P_kW = pick([2.2, 4, 5.5, 7.5, 11, 15]);
         const t_h = pick([4, 6, 8, 10, 12]);
         const W_kWh = P_kW * t_h;
         const W_MJ = W_kWh * 3.6;
-        const context = pick(['moteur de pompe industrielle', 'compresseur d\'air', 'ventilateur de traitement d\'air', 'convoyeur à bande']);
+        const context = pick(['moteur de pompe industrielle', 'compresseur d\'air', 'ventilateur de traitement d\'air', 'convoyeur à bande', 'résistance chauffante d\'un bain de traitement chimique de surface']);
         return {
-          statement: `Un ${context} de puissance nominale $P = ${String(P_kW).replace('.', '{,}')}\\;\\text{kW}$ fonctionne pendant $t = ${t_h}\\;\\text{h}$ à pleine charge.<br/><br/>Calculez l'énergie consommée en mégajoules (MJ, arrondi à 0,1 MJ).`,
+          statement: `Un ${context} de puissance nominale $P = ${fr(P_kW)}\\;\\text{kW}$ fonctionne pendant $t = ${t_h}\\;\\text{h}$ à pleine charge.<br/><br/>Calculez l'énergie consommée en mégajoules (MJ, arrondi à 0,1 MJ).`,
           answer: parseFloat(W_MJ.toFixed(1)),
           tolerance: 0.1,
           unit: 'MJ',
           hint: `$W = P \\times t$ en kWh, puis convertir : $1\\;\\text{kWh} = 3{,}6\\;\\text{MJ}$.`,
-          solution: `$W = ${String(P_kW).replace('.', '{,}')}\\;\\text{kW} \\times ${t_h}\\;\\text{h} = ${W_kWh.toFixed(1).replace('.', '{,}')}\\;\\text{kWh}$<br/>$W = ${W_kWh.toFixed(1).replace('.', '{,}')} \\times 3{,}6 = ${W_MJ.toFixed(1).replace('.', '{,}')}\\;\\text{MJ}$`,
+          solution: `$W = ${fr(P_kW)}\\;\\text{kW} \\times ${t_h}\\;\\text{h} = ${fr(W_kWh, 1)}\\;\\text{kWh}$<br/>$W = ${fr(W_kWh, 1)} \\times 3{,}6 = ${fr(W_MJ, 1)}\\;\\text{MJ}$`,
         };
       }
 
@@ -289,17 +350,67 @@ window.MODULES.push({
         };
       }
 
-      // vitesse km/h vers m/s
-      const v_kmh = pick([36, 54, 72, 90, 108, 120, 144]);
-      const v_ms = v_kmh / 3.6;
-      const context = pick(['vitesse de déplacement d\'un chariot automatisé (AGV)', 'vitesse de rotation d\'un tapis de convoyeur', 'vitesse d\'un véhicule de livraison en zone logistique']);
+      if (type === 'vitesse_kmh') {
+        const v_kmh = pick([36, 54, 72, 90, 108, 120, 144]);
+        const v_ms = v_kmh / 3.6;
+        const context = pick(['vitesse de déplacement d\'un chariot automatisé (AGV)', 'vitesse de rotation d\'un tapis de convoyeur', 'vitesse d\'un véhicule de livraison en zone logistique']);
+        return {
+          statement: `La ${context} est de $${v_kmh}\\;\\text{km/h}$.<br/><br/>Convertir cette vitesse en m/s.`,
+          answer: parseFloat(v_ms.toFixed(2)),
+          tolerance: 0.01,
+          unit: 'm/s',
+          hint: `Diviser par 3,6 (ou multiplier par 1000/3600).`,
+          solution: `$${v_kmh}\\;\\text{km/h} = \\dfrac{${v_kmh}}{3{,}6} = ${fr(v_ms, 2)}\\;\\text{m/s}$`,
+        };
+      }
+
+      if (type === 'quantite_matiere') {
+        const substances = [
+          { name: 'chlorure de sodium (NaCl)', M: 58.5 },
+          { name: 'eau (H₂O)', M: 18 },
+          { name: 'carbonate de calcium (CaCO₃)', M: 100 },
+          { name: 'sulfate de cuivre (CuSO₄)', M: 159.5 },
+          { name: 'glucose (C₆H₁₂O₆)', M: 180 },
+        ];
+        const sub = pick(substances);
+        const m_g = pick([9, 18, 36, 45, 90, 180]);
+        const n = m_g / sub.M;
+        const context = pick(['laboratoire de contrôle qualité', 'atelier de traitement de surface', 'poste de préparation des réactifs']);
+        return {
+          statement: `Dans un ${context}, on pèse $m = ${m_g}\\;\\text{g}$ de ${sub.name} ($M = ${fr(sub.M)}\\;\\text{g/mol}$).<br/><br/>Calculez la quantité de matière $n$ correspondante, en mol (arrondi à 0,01 mol).`,
+          answer: parseFloat(n.toFixed(2)),
+          tolerance: 0.02,
+          unit: 'mol',
+          hint: `$n = m/M$.`,
+          solution: `$n = ${m_g}/${fr(sub.M)} \\approx ${fr(n, 2)}\\;\\text{mol}$`,
+        };
+      }
+
+      if (type === 'prefixe_conversion') {
+        const value_nF = pick([1, 2.2, 4.7, 10, 22, 47, 100]);
+        const value_pF = value_nF * 1000;
+        return {
+          statement: `Un condensateur électronique a une capacité de $C = ${fr(value_nF)}\\;\\text{nF}$.<br/><br/>Exprimer cette capacité en pF.`,
+          answer: parseFloat(value_pF.toFixed(0)),
+          tolerance: 0,
+          unit: 'pF',
+          hint: `1 nF = 1000 pF (facteur 1000 entre préfixes voisins : n → p).`,
+          solution: `$C = ${fr(value_nF)} \\times 1000 = ${value_pF}\\;\\text{pF}$`,
+        };
+      }
+
+      // puissance_mecanique
+      const F_N = pick([200, 350, 500, 750, 1000, 1500]);
+      const v_ms2 = pick([0.5, 1, 1.5, 2, 2.5, 3]);
+      const P_W = F_N * v_ms2;
+      const context = pick(['treuil de levage', 'tapis convoyeur de ligne de production', 'chariot de manutention automatisé']);
       return {
-        statement: `La ${context} est de $${v_kmh}\\;\\text{km/h}$.<br/><br/>Convertir cette vitesse en m/s.`,
-        answer: parseFloat(v_ms.toFixed(2)),
-        tolerance: 0.01,
-        unit: 'm/s',
-        hint: `Diviser par 3,6 (ou multiplier par 1000/3600).`,
-        solution: `$${v_kmh}\\;\\text{km/h} = \\dfrac{${v_kmh}}{3{,}6} = ${v_ms.toFixed(2).replace('.', '{,}')}\\;\\text{m/s}$`,
+        statement: `Un ${context} exerce une force de traction $F = ${F_N}\\;\\text{N}$ à une vitesse constante $v = ${fr(v_ms2)}\\;\\text{m/s}$.<br/><br/>Calculez la puissance mécanique développée $P$ en watts.<br/>($P = F \\times v$)`,
+        answer: P_W,
+        tolerance: 0,
+        unit: 'W',
+        hint: `$P = F \\times v$, cohérence : $[\\text{N}] \\times [\\text{m/s}] = [\\text{W}]$.`,
+        solution: `$P = ${F_N} \\times ${fr(v_ms2)} = ${P_W}\\;\\text{W}$`,
       };
     },
   },

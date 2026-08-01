@@ -3,6 +3,7 @@ window.MODULES.push({
   level: 3,
   subject: 'maths',
   tag: 'prep',
+  quizShuffle: true,
   icon: '⚙️',
   title: 'Conversions d\'Unités Techniques',
   subtitle: 'Pression, débit, énergie, puissance, température — le vocabulaire du terrain',
@@ -10,7 +11,7 @@ window.MODULES.push({
   physics: 'En BTS technique, on jongle constamment entre les unités du fabricant (bar, l/h, °C, kW, tr/min) et les unités SI (Pa, m³/s, K, W, rad/s). Maîtriser ces conversions, c\'est éviter les erreurs de dimensionnement sur le terrain.',
 
   cours: {
-    intro: `Les catalogues fabricants, les fiches techniques et les normes utilisent souvent des unités différentes de celles du cours. Un thermicien travaille en kW et en kcal/h, un hydraulicien en bar et en l/min, un électricien en kWh et en kVA. Ce module rassemble les conversions les plus courantes en BTS, classées par grandeur physique.`,
+    intro: `Les catalogues fabricants, les fiches techniques et les normes utilisent souvent des unités différentes de celles du cours.<br/><br/>Un thermicien travaille en kW et en kcal/h, un hydraulicien en bar et en l/min, un électricien en kWh et en kVA.<br/><br/>Ce module rassemble les conversions les plus courantes en BTS, classées par grandeur physique.`,
 
     definitions: [
       {
@@ -302,12 +303,72 @@ Règle pratique : <strong>1 bar ≈ 10 m de colonne d'eau</strong> (pour la pres
       answer: 1,
       correction: 'Pour une DIFFÉRENCE de température, 1°C = 1 K. Donc ΔT = 15°C = 15 K. (Attention : c\'est différent de la valeur absolue T = 15°C = 288,15 K.)',
     },
+    {
+      q: 'Un réacteur chimique fonctionne sous une pression de $1{,}5\\;\\text{MPa}$. Cela correspond à :',
+      options: ['15 bar', '1,5 bar', '150 bar', '0,15 bar'],
+      answer: 0,
+      correction: '1 MPa = 10 bar (facteur du tableau des pressions), donc 1,5 MPa = 15 bar.',
+    },
+    {
+      q: 'Une pompe doseuse de réactifs délivre $Q = 3\\;\\text{l/min}$. Ce débit vaut en m³/h :',
+      options: ['0,18 m³/h', '1,8 m³/h', '18 m³/h', '0,018 m³/h'],
+      answer: 0,
+      correction: 'Q(m³/h) = Q(l/min) × 0,06 = 3 × 0,06 = 0,18 m³/h.',
+    },
+    {
+      q: 'La résistance chauffante d\'un bain de traitement chimique consomme $2\\;\\text{kWh}$. Exprimée en kcal, cette énergie vaut :',
+      options: ['1720 kcal', '172 kcal', '8,6 kcal', '17 200 kcal'],
+      answer: 0,
+      correction: '1 kWh = 860 kcal, donc 2 kWh = 2 × 860 = 1720 kcal.',
+    },
+    {
+      q: 'La plaque signalétique d\'un compresseur (norme anglo-saxonne) indique $50\\;\\text{ch}$. En kW, cette puissance vaut environ :',
+      options: ['36,8 kW', '50 kW', '68 kW', '3,68 kW'],
+      answer: 0,
+      correction: '1 ch = 736 W, donc 50 ch = 50 × 736 = 36 800 W ≈ 36,8 kW.',
+    },
+    {
+      q: 'L\'azote liquide utilisé pour un essai en chimie est à $-196°\\text{C}$. En kelvin, cette température vaut :',
+      options: ['77,15 K', '196 K', '469,15 K', '-469,15 K'],
+      answer: 0,
+      correction: 'T(K) = -196 + 273,15 = 77,15 K.',
+    },
+    {
+      q: 'L\'agitateur d\'un réacteur chimique tourne à $n = 120\\;\\text{tr/min}$. Sa vitesse angulaire est :',
+      options: ['$4\\pi \\approx 12{,}57\\;\\text{rad/s}$', '$120\\;\\text{rad/s}$', '$4\\;\\text{rad/s}$', '$753{,}6\\;\\text{rad/s}$'],
+      answer: 0,
+      correction: 'ω = 120 × 2π/60 = 4π ≈ 12,57 rad/s.',
+    },
+    {
+      q: 'Un manomètre installé sur une canalisation indique une pression relative de 3 bar. La pression absolue est :',
+      options: ['4,013 bar', '3 bar', '1,987 bar', '3,013 bar'],
+      answer: 0,
+      correction: 'Pression absolue = pression relative + pression atmosphérique = 3 + 1,013 = 4,013 bar.',
+    },
+    {
+      q: 'Un moteur a une puissance apparente $S = 10\\;\\text{kVA}$ avec $\\cos\\varphi = 0{,}8$. Sa puissance active est :',
+      options: ['8 kW', '12,5 kW', '10 kW', '1,25 kW'],
+      answer: 0,
+      correction: 'P(kW) = S(kVA) × cosφ = 10 × 0,8 = 8 kW.',
+    },
+    {
+      q: 'Un débit de $Q = 0{,}05\\;\\text{m}^3/\\text{s}$ vaut en l/s :',
+      options: ['50 l/s', '5 l/s', '0,05 l/s', '500 l/s'],
+      answer: 0,
+      correction: '1 m³/s = 1000 l/s, donc 0,05 m³/s = 0,05 × 1000 = 50 l/s.',
+    },
+    {
+      q: 'Un radiateur électrique importé annonce $10\\,000\\;\\text{BTU}$. En joules, cette énergie vaut :',
+      options: ['10,55 MJ', '1,055 MJ', '105,5 MJ', '10 550 J'],
+      answer: 0,
+      correction: '1 BTU = 1055 J, donc 10 000 BTU = 10 000 × 1055 = 10 550 000 J = 10,55 MJ.',
+    },
   ],
 
   exercice: {
     type: 'numeric',
     generate() {
-      const type = pick(['pression_hmt', 'debit_m3h_lmin', 'vitesse_angulaire', 'puissance_thermique']);
+      const type = pick(['pression_hmt', 'debit_m3h_lmin', 'vitesse_angulaire', 'puissance_thermique', 'temperature_fahrenheit', 'puissance_ch_kw']);
 
       if (type === 'pression_hmt') {
         const h = pick([10, 15, 20, 25, 30, 40, 50]);
@@ -322,7 +383,7 @@ Règle pratique : <strong>1 bar ≈ 10 m de colonne d'eau</strong> (pour la pres
           tolerance: 0.01,
           unit: 'bar',
           hint: `$p = \\rho g h$ en Pa, puis diviser par $10^5$.`,
-          solution: `$p = 1000 \\times 9{,}81 \\times ${h} = ${p_Pa.toFixed(0)}\\;\\text{Pa} = ${p_bar.toFixed(2).replace('.', '{,}')}\\;\\text{bar}$`,
+          solution: `$p = 1000 \\times 9{,}81 \\times ${h} = ${p_Pa.toFixed(0)}\\;\\text{Pa} = ${fr(p_bar, 2)}\\;\\text{bar}$`,
         };
       }
 
@@ -331,12 +392,12 @@ Règle pratique : <strong>1 bar ≈ 10 m de colonne d'eau</strong> (pour la pres
         const Q_lmin = Q_m3h * 1000 / 60;
         const context = pick(['installation sanitaire d\'un hôtel', 'réseau de sprinklers', 'circuit de refroidissement', 'réseau d\'irrigation']);
         return {
-          statement: `Le débit de conception d'un ${context} est de $Q = ${String(Q_m3h).replace('.', '{,}')}\\;\\text{m}^3/\\text{h}$.<br/><br/>Exprimer ce débit en l/min (arrondir à 0,1 l/min).`,
+          statement: `Le débit de conception d'un ${context} est de $Q = ${fr(Q_m3h)}\\;\\text{m}^3/\\text{h}$.<br/><br/>Exprimer ce débit en l/min (arrondir à 0,1 l/min).`,
           answer: parseFloat(Q_lmin.toFixed(1)),
           tolerance: 0.1,
           unit: 'l/min',
           hint: `Multiplier par 1000 (m³→l) et diviser par 60 (h→min).`,
-          solution: `$Q = ${String(Q_m3h).replace('.', '{,}')} \\times \\dfrac{1000}{60} = ${Q_lmin.toFixed(1).replace('.', '{,}')}\\;\\text{l/min}$`,
+          solution: `$Q = ${fr(Q_m3h)} \\times \\dfrac{1000}{60} = ${fr(Q_lmin, 1)}\\;\\text{l/min}$`,
         };
       }
 
@@ -350,21 +411,49 @@ Règle pratique : <strong>1 bar ≈ 10 m de colonne d'eau</strong> (pour la pres
           tolerance: 0.2,
           unit: 'rad/s',
           hint: `$\\omega = n \\times \\dfrac{2\\pi}{60}$`,
-          solution: `$\\omega = ${n} \\times \\dfrac{2\\pi}{60} = ${n} \\times 0{,}1047 = ${omega.toFixed(1).replace('.', '{,}')}\\;\\text{rad/s}$`,
+          solution: `$\\omega = ${n} \\times \\dfrac{2\\pi}{60} = ${n} \\times 0{,}1047 = ${fr(omega, 1)}\\;\\text{rad/s}$`,
         };
       }
 
-      // puissance_thermique
-      const P_kW = pick([10, 15, 20, 25, 30, 40, 50]);
-      const P_kcalh = P_kW * 860;
-      const context = pick(['chaudière murale industrielle', 'centrale de traitement d\'air', 'plancher chauffant basse température']);
+      if (type === 'puissance_thermique') {
+        const P_kW = pick([10, 15, 20, 25, 30, 40, 50]);
+        const P_kcalh = P_kW * 860;
+        const context = pick(['chaudière murale industrielle', 'centrale de traitement d\'air', 'plancher chauffant basse température']);
+        return {
+          statement: `Une ${context} délivre une puissance thermique de $P = ${P_kW}\\;\\text{kW}$.<br/><br/>Exprimer cette puissance en kcal/h.`,
+          answer: P_kcalh,
+          tolerance: 0,
+          unit: 'kcal/h',
+          hint: `$1\\;\\text{kW} = 860\\;\\text{kcal/h}$.`,
+          solution: `$P = ${P_kW} \\times 860 = ${P_kcalh}\\;\\text{kcal/h}$`,
+        };
+      }
+
+      if (type === 'temperature_fahrenheit') {
+        const T_C = pick([20, 25, 30, 40, 50, 60, 80, 100]);
+        const T_F = T_C * 1.8 + 32;
+        const context = pick(['four de traitement thermique', 'étuve de séchage industrielle', 'chambre climatique d\'essais']);
+        return {
+          statement: `Un ${context} affiche une consigne de température de $T = ${T_C}°\\text{C}$.<br/><br/>Convertir cette température en degrés Fahrenheit (°F).`,
+          answer: T_F,
+          tolerance: 0,
+          unit: '°F',
+          hint: `$T(°F) = T(°C) \\times 1{,}8 + 32$`,
+          solution: `$T = ${T_C} \\times 1{,}8 + 32 = ${T_C * 1.8} + 32 = ${T_F}°\\text{F}$`,
+        };
+      }
+
+      // puissance_ch_kw
+      const P_ch = pick([50, 75, 100, 150, 200, 300]);
+      const P_kW_ch = P_ch * 736 / 1000;
+      const context = pick(['moteur diesel de groupe électrogène', 'moteur thermique de compresseur mobile', 'moteur de tractopelle']);
       return {
-        statement: `Une ${context} délivre une puissance thermique de $P = ${P_kW}\\;\\text{kW}$.<br/><br/>Exprimer cette puissance en kcal/h.`,
-        answer: P_kcalh,
-        tolerance: 0,
-        unit: 'kcal/h',
-        hint: `$1\\;\\text{kW} = 860\\;\\text{kcal/h}$.`,
-        solution: `$P = ${P_kW} \\times 860 = ${P_kcalh}\\;\\text{kcal/h}$`,
+        statement: `Un ${context} développe une puissance de $P = ${P_ch}\\;\\text{ch}$ (chevaux-vapeur).<br/><br/>Convertir cette puissance en kW (arrondir à 0,1 kW).`,
+        answer: parseFloat(P_kW_ch.toFixed(1)),
+        tolerance: 0.1,
+        unit: 'kW',
+        hint: `$1\\;\\text{ch} = 736\\;\\text{W}$.`,
+        solution: `$P = ${P_ch} \\times 736 = ${P_ch * 736}\\;\\text{W} = ${fr(P_kW_ch, 1)}\\;\\text{kW}$`,
       };
     },
   },

@@ -7,6 +7,7 @@ window.MODULES.push({
   title: 'Lecture et Exploitation de Graphiques',
   subtitle: 'Axes, échelles, interpolation linéaire, extrapolation',
   keywords: ['graphique', 'courbe', 'interpolation', 'extrapolation', 'pente', 'lecture graphique', 'axes', 'abaque'],
+  quizShuffle: true,
   physics: 'En BTS technique, la lecture graphique est une compétence quotidienne : courbes caractéristiques de pompes, diagrammes enthalpiques, courbes de charge, caractéristiques de composants électroniques. Savoir lire, interpoler et extrapoler rigoureusement est indispensable pour le dimensionnement.',
 
   cours: {
@@ -193,12 +194,84 @@ Pour $Q = 12\\;\\text{m}^3/\\text{h}$ (entre 10 et 15) :<br/>$$\\text{HMT} = 38 
       answer: 1,
       correction: 'Dans le diagramme de Mollier, l\'axe des pressions est en échelle logarithmique. Cela permet de représenter à la fois les basses et hautes pressions sur un même graphique.',
     },
+    {
+      q: 'Une courbe d\'étalonnage en chimie analytique donne l\'absorbance $A = 0{,}12$ pour $c = 2$ mg/L et $A = 0{,}30$ pour $c = 5$ mg/L. Par interpolation linéaire, quelle concentration correspond à $A = 0{,}21$ ?',
+      options: ['3,5 mg/L', '3 mg/L', '4 mg/L', '2,5 mg/L'],
+      answer: 0,
+      correction: 'Fraction parcourue : (0,21-0,12)/(0,30-0,12) = 0,09/0,18 = 0,5. c = 2 + 0,5 × (5-2) = 3,5 mg/L.',
+    },
+    {
+      q: 'Sur une courbe de titrage acido-basique, le volume équivalent est repéré graphiquement à l\'intersection de deux tangentes tracées de part et d\'autre du saut de pH. Cette technique s\'appelle :',
+      options: ['La méthode des tangentes', 'La méthode d\'interpolation linéaire', 'La méthode d\'extrapolation', 'La méthode des moindres carrés'],
+      answer: 0,
+      correction: 'La méthode des tangentes est la construction graphique classique pour repérer le point équivalent sur une courbe de titrage : elle ne nécessite pas de calcul, seulement une lecture graphique précise.',
+    },
+    {
+      q: 'Deux points de mesure sur un graphique linéaire sont $(5, 12)$ et $(15, 32)$. En extrapolant pour $x = 25$, $y$ vaut :',
+      options: ['52', '50', '60', '44'],
+      answer: 0,
+      correction: 'Pente : a = (32-12)/(15-5) = 2. y(25) = 12 + 2 × (25-5) = 12 + 40 = 52. (Extrapolation : à utiliser avec prudence, hors de la plage mesurée.)',
+    },
+    {
+      q: 'Une courbe pompe donne HMT = 44 m pour Q = 6 m³/h et HMT = 32 m pour Q = 9 m³/h. Par interpolation, HMT pour Q = 7 m³/h vaut :',
+      options: ['40 m', '38 m', '36 m', '42 m'],
+      answer: 0,
+      correction: 'HMT = 44 + (7-6)/(9-6) × (32-44) = 44 + (1/3) × (-12) = 44 - 4 = 40 m.',
+    },
+    {
+      q: 'Une caractéristique de transistor donne $I_C = 2$ mA pour $V_{BE} = 0{,}60$ V et $I_C = 8$ mA pour $V_{BE} = 0{,}64$ V. Par interpolation, $I_C$ pour $V_{BE} = 0{,}62$ V vaut :',
+      options: ['5 mA', '4 mA', '6 mA', '3 mA'],
+      answer: 0,
+      correction: 'Fraction : (0,62-0,60)/(0,64-0,60) = 0,5. $I_C = 2 + 0{,}5 \\times (8-2) = 5$ mA.',
+    },
+    {
+      q: 'Sur un axe logarithmique gradué de 1 à 100, quelle valeur se situe exactement au milieu visuel ?',
+      options: ['10', '50', '5,5', '25'],
+      answer: 0,
+      correction: 'Sur un axe log, le milieu entre 1 et 100 est $\\sqrt{1 \\times 100} = \\sqrt{100} = 10$.',
+    },
+    {
+      q: 'La hauteur d\'eau dans une cuve qui se vide passe de 45 cm (à t = 3 min) à 21 cm (à t = 9 min), variation supposée linéaire. La pente de cette droite est :',
+      options: ['-4 cm/min', '4 cm/min', '-24 cm/min', '-0,25 cm/min'],
+      answer: 0,
+      correction: 'a = (21-45)/(9-3) = -24/6 = -4 cm/min. La pente négative traduit la baisse du niveau au cours du temps.',
+    },
+    {
+      q: 'Un axe est gradué de 0 à 40 avec 8 divisions. L\'incertitude de lecture usuelle (±0,5 graduation) est :',
+      options: ['±2,5', '±5', '±0,5', '±10'],
+      answer: 0,
+      correction: 'Une division vaut 40/8 = 5. L\'incertitude usuelle est ±0,5 graduation = ±2,5.',
+    },
+    {
+      q: 'Sur un graphique log-log donnant la vitesse initiale d\'une réaction chimique en fonction de la concentration, la droite passe par $(1, 2)$ et $(10, 200)$. L\'ordre de la réaction (exposant $n$ dans $v = a \\cdot c^n$) est :',
+      options: ['2', '1', '10', '100'],
+      answer: 0,
+      correction: '$n = \\dfrac{\\log(200/2)}{\\log(10/1)} = \\dfrac{\\log 100}{\\log 10} = \\dfrac{2}{1} = 2$. La vitesse est proportionnelle au carré de la concentration.',
+    },
+    {
+      q: 'Sur un graphe semi-logarithmique (abscisse linéaire, ordonnée logarithmique), une droite correspond à une loi :',
+      options: ['Exponentielle $y = a \\cdot e^{bx}$', 'Puissance $y = a \\cdot x^n$', 'Affine $y = ax + b$', 'Parabole $y = ax^2$'],
+      answer: 0,
+      correction: 'Sur un graphe semi-log, $\\ln y = bx + \\ln a$ est une droite en $(x, \\ln y)$, ce qui correspond à une loi exponentielle $y = a \\cdot e^{bx}$.',
+    },
+    {
+      q: 'Une caractéristique linéaire de perte de charge passe par $(2, 8)$ et $(6, 20)$. En extrapolant pour un débit de 10 (hors plage mesurée), la perte de charge vaut :',
+      options: ['32', '26', '38', '24'],
+      answer: 0,
+      correction: 'Pente : a = (20-8)/(6-2) = 3. y(10) = 8 + 3 × (10-2) = 8 + 24 = 32. Extrapolation à confirmer avec prudence si possible.',
+    },
+    {
+      q: 'Une droite de pente 5 passe par le point $(2, 10)$. Sa valeur en $x = 6$ est :',
+      options: ['30', '20', '40', '50'],
+      answer: 0,
+      correction: 'y(6) = 10 + 5 × (6-2) = 10 + 20 = 30.',
+    },
   ],
 
   exercice: {
     type: 'numeric',
     generate() {
-      const type = pick(['interpolation_pompe', 'pente_droite', 'interpolation_rendement']);
+      const type = pick(['interpolation_pompe', 'pente_droite', 'interpolation_rendement', 'extrapolation', 'loi_puissance', 'incertitude']);
 
       if (type === 'interpolation_pompe') {
         // Courbe pompe simplifiée
@@ -214,9 +287,9 @@ Pour $Q = 12\\;\\text{m}^3/\\text{h}$ (entre 10 et 15) :<br/>$$\\text{HMT} = 38 
         const p2 = points[idx + 1];
         const Q_target = parseFloat((p1.Q + (p2.Q - p1.Q) * pick([0.25, 0.4, 0.5, 0.6, 0.75])).toFixed(1));
         const H_target = p1.H + (Q_target - p1.Q) / (p2.Q - p1.Q) * (p2.H - p1.H);
-        const Q_target_str = String(Q_target).replace('.', '{,}');
-        const H_target_str = H_target.toFixed(1).replace('.', '{,}');
-        const ratio_str = ((Q_target - p1.Q) / (p2.Q - p1.Q)).toFixed(2).replace('.', '{,}');
+        const Q_target_str = fr(Q_target);
+        const H_target_str = fr(H_target, 1);
+        const ratio_str = fr((Q_target - p1.Q) / (p2.Q - p1.Q), 2);
         return {
           statement: `Une courbe de pompe donne les deux points suivants :<br/>
 - Point A : $Q_1 = ${p1.Q}\\;\\text{m}^3/\\text{h}$, $\\text{HMT}_1 = ${p1.H}\\;\\text{m}$<br/>
@@ -237,7 +310,7 @@ Par interpolation linéaire, estimer la HMT pour $Q = ${Q_target_str}\\;\\text{m
         const x2 = x1 + pick([5, 10, 15, 20]);
         const y1 = a * x1 + b;
         const y2 = a * x2 + b;
-        const a_str = String(a).replace('.', '{,}');
+        const a_str = fr(a);
         const units = pick([
           { x: 'débit (m³/h)', y: 'pertes de charge (Pa)', yunit: 'Pa/(m³/h)' },
           { x: 'courant (A)', y: 'tension (V)', yunit: 'V/A = Ω' },
@@ -256,25 +329,88 @@ Calculer la pente de la droite passant par ces deux points (en ${units.yunit}, a
         };
       }
 
-      // interpolation_rendement — courbe de rendement moteur
-      const Q1 = pick([20, 30, 40, 50]);
-      const Q2 = Q1 + pick([10, 15, 20]);
-      const eta1 = pick([72, 75, 78, 80, 82]);
-      const eta2 = pick([85, 87, 90, 92, 88]);
-      const Q_t = parseFloat((Q1 + (Q2 - Q1) * pick([0.3, 0.4, 0.5, 0.6, 0.7])).toFixed(0));
-      const eta_t = eta1 + (Q_t - Q1) / (Q2 - Q1) * (eta2 - eta1);
-      const ratio2_str = ((Q_t - Q1) / (Q2 - Q1)).toFixed(2).replace('.', '{,}');
-      const eta_t_str = eta_t.toFixed(1).replace('.', '{,}');
-      return {
-        statement: `La courbe de rendement d'un moteur donne :<br/>
+      if (type === 'interpolation_rendement') {
+        // courbe de rendement (moteur, transformateur, compresseur…)
+        const Q1 = pick([20, 30, 40, 50]);
+        const Q2 = Q1 + pick([10, 15, 20]);
+        const eta1 = pick([72, 75, 78, 80, 82]);
+        const eta2 = pick([85, 87, 90, 92, 88]);
+        const Q_t = parseFloat((Q1 + (Q2 - Q1) * pick([0.3, 0.4, 0.5, 0.6, 0.7])).toFixed(0));
+        const eta_t = eta1 + (Q_t - Q1) / (Q2 - Q1) * (eta2 - eta1);
+        const ratio2_str = fr((Q_t - Q1) / (Q2 - Q1), 2);
+        const eta_t_str = fr(eta_t, 1);
+        const appareil = pick(['un moteur électrique', 'un transformateur', 'un compresseur']);
+        return {
+          statement: `La courbe de rendement d'${appareil} donne :<br/>
 - À $P = ${Q1}\\%$ de charge : $\\eta = ${eta1}\\%$<br/>
 - À $P = ${Q2}\\%$ de charge : $\\eta = ${eta2}\\%$<br/><br/>
 Par interpolation, estimer le rendement à $${Q_t}\\%$ de charge (en %, arrondi à 0,1%).`,
-        answer: parseFloat(eta_t.toFixed(1)),
-        tolerance: 0.3,
-        unit: '%',
-        hint: 'Appliquer la formule d\'interpolation linéaire.',
-        solution: `$\\eta = ${eta1} + \\dfrac{${Q_t} - ${Q1}}{${Q2} - ${Q1}} \\times (${eta2} - ${eta1}) = ${eta1} + ${ratio2_str} \\times ${eta2-eta1} = ${eta_t_str}\\%$`,
+          answer: parseFloat(eta_t.toFixed(1)),
+          tolerance: 0.3,
+          unit: '%',
+          hint: 'Appliquer la formule d\'interpolation linéaire.',
+          solution: `$\\eta = ${eta1} + \\dfrac{${Q_t} - ${Q1}}{${Q2} - ${Q1}} \\times (${eta2} - ${eta1}) = ${eta1} + ${ratio2_str} \\times ${eta2-eta1} = ${eta_t_str}\\%$`,
+        };
+      }
+
+      if (type === 'extrapolation') {
+        const x1 = pick([2, 5, 10]);
+        const a = pick([1.5, 2, 3, 4]);
+        const b = pick([5, 10, 15, 20]);
+        const x2 = x1 + pick([5, 8, 10]);
+        const y1 = Math.round((a * x1 + b) * 100) / 100;
+        const y2 = Math.round((a * x2 + b) * 100) / 100;
+        const xE = x2 + pick([5, 8, 10, 15]);
+        const yE = Math.round((a * xE + b) * 100) / 100;
+        const contexte = pick([
+          { grandeur: 'la température de sortie d\'un échangeur (°C)', variable: 'le débit (m³/h)' },
+          { grandeur: 'la pression en sortie d\'un compresseur (bar)', variable: 'le régime moteur (%)' },
+          { grandeur: 'la puissance consommée par un moteur (kW)', variable: 'la charge (%)' },
+        ]);
+        return {
+          statement: `Sur un graphique donnant ${contexte.grandeur} en fonction de ${contexte.variable}, on relève deux points de mesure $(${x1},\\,${fr(y1, 2)})$ et $(${x2},\\,${fr(y2, 2)})$.<br/><br/>
+En supposant que la tendance reste linéaire, extrapoler la valeur pour $x = ${xE}$ (hors de la plage mesurée).`,
+          answer: yE,
+          tolerance: 0.1,
+          unit: '',
+          hint: `Calculer d'abord la pente $a = (y_2-y_1)/(x_2-x_1)$, puis appliquer $y = y_1 + a(x-x_1)$.`,
+          solution: `$a = \\dfrac{${fr(y2, 2)} - ${fr(y1, 2)}}{${x2} - ${x1}} = ${fr(a)}$<br/>$y(${xE}) = ${fr(y1, 2)} + ${fr(a)} \\times (${xE} - ${x1}) = ${fr(yE, 2)}$<br/><em>Attention : cette valeur est extrapolée, donc à utiliser avec prudence.</em>`,
+        };
+      }
+
+      if (type === 'loi_puissance') {
+        const n = pick([1, 2, 3]);
+        const aCoef = pick([0.5, 1, 2]);
+        const x1 = pick([2, 5, 10]);
+        const ratio = pick([2, 4, 5]);
+        const x2 = x1 * ratio;
+        const y1 = Math.round(aCoef * Math.pow(x1, n) * 100) / 100;
+        const y2 = Math.round(aCoef * Math.pow(x2, n) * 100) / 100;
+        const contexte = pick(['les pertes de charge singulières en fonction du débit', 'la puissance dissipée par effet Joule en fonction du courant', 'l\'usure d\'un roulement en fonction de la vitesse de rotation']);
+        return {
+          statement: `Sur un abaque à double échelle logarithmique représentant ${contexte}, une droite passe par les points $(${x1},\\,${fr(y1, 2)})$ et $(${x2},\\,${fr(y2, 2)})$.<br/><br/>
+Une droite en échelle log-log correspond à une loi puissance $y = a \\cdot x^n$. Calculer l'exposant $n$.`,
+          answer: n,
+          tolerance: 0.05,
+          unit: '',
+          hint: `$n = \\dfrac{\\log(y_2/y_1)}{\\log(x_2/x_1)}$`,
+          solution: `$n = \\dfrac{\\log(${fr(y2, 2)}/${fr(y1, 2)})}{\\log(${x2}/${x1})} = \\dfrac{\\log(${fr(y2 / y1, 2)})}{\\log(${ratio})} = ${n}$`,
+        };
+      }
+
+      // incertitude — incertitude de lecture graphique
+      const range = pick([50, 100, 200, 500]);
+      const divisions = pick([5, 10, 20]);
+      const graduation = Math.round((range / divisions) * 100) / 100;
+      const uncertainty = Math.round(graduation * 0.5 * 100) / 100;
+      const appareil2 = pick(['un débitmètre', 'un manomètre', 'un voltmètre analogique', 'un thermomètre à cadran']);
+      return {
+        statement: `Un ${appareil2} a une échelle graduée de $0$ à $${range}$ avec $${divisions}$ divisions. Quelle est l'incertitude de lecture usuelle (±0,5 graduation), en unité de l'appareil ?`,
+        answer: uncertainty,
+        tolerance: 0.05,
+        unit: '',
+        hint: `Une graduation vaut $${range}/${divisions}$. L'incertitude usuelle est $\\pm 0{,}5$ graduation.`,
+        solution: `Une graduation $= ${range}/${divisions} = ${fr(graduation, 2)}$. Incertitude $= 0{,}5 \\times ${fr(graduation, 2)} = ${fr(uncertainty, 2)}$`,
       };
     },
   },
@@ -329,24 +465,44 @@ Le croisement est entre Q=8 et Q=10 m³/h.`,
     duration: '25 min',
     questions: [
       {
-        q: 'Un graphique de puissance absorbée d\'une pompe donne $P = 1{,}8\\;\\text{kW}$ pour $Q = 5\\;\\text{m}^3/\\text{h}$ et $P = 2{,}6\\;\\text{kW}$ pour $Q = 9\\;\\text{m}^3/\\text{h}$. Par interpolation linéaire, estimer P pour $Q = 7\\;\\text{m}^3/\\text{h}$.',
-        answer: '$P = 1{,}8 + \\dfrac{7-5}{9-5} \\times (2{,}6-1{,}8) = 1{,}8 + 0{,}5 \\times 0{,}8 = 2{,}2\\;\\text{kW}$',
+        statement: 'Un graphique de puissance absorbée d\'une pompe donne $P = 1{,}8\\;\\text{kW}$ pour $Q = 5\\;\\text{m}^3/\\text{h}$ et $P = 2{,}6\\;\\text{kW}$ pour $Q = 9\\;\\text{m}^3/\\text{h}$. Par interpolation linéaire, estimer P pour $Q = 7\\;\\text{m}^3/\\text{h}$ (en kW).',
+        type: 'numeric',
+        answer: 2.2,
+        tolerance: 0.05,
+        unit: 'kW',
         points: 3,
+        correction: '$P = 1{,}8 + \\dfrac{7-5}{9-5} \\times (2{,}6-1{,}8) = 1{,}8 + 0{,}5 \\times 0{,}8 = 2{,}2\\;\\text{kW}$',
       },
       {
-        q: 'Sur un abaque à double échelle logarithmique, une droite passe par les points $(10, 5)$ et $(100, 50)$. Quelle loi représente-t-elle ? Calculer la valeur pour $x = 1000$.',
-        answer: 'La pente en log-log : $n = \\dfrac{\\log 50 - \\log 5}{\\log 100 - \\log 10} = \\dfrac{\\log 10}{\\log 10} = 1$ → loi linéaire $y = 0{,}5 x$.<br/>Pour $x = 1000$ : $y = 0{,}5 \\times 1000 = 500$.',
+        statement: 'Sur un abaque à double échelle logarithmique, une droite passe par les points $(10, 5)$ et $(100, 50)$ : c\'est une loi puissance $y = a x^n$. Calculer la valeur de $y$ pour $x = 1000$.',
+        type: 'numeric',
+        answer: 500,
+        tolerance: 5,
+        unit: '',
         points: 4,
+        correction: 'La pente en log-log : $n = \\dfrac{\\log 50 - \\log 5}{\\log 100 - \\log 10} = \\dfrac{\\log 10}{\\log 10} = 1$ → loi linéaire $y = 0{,}5 x$.<br/>Pour $x = 1000$ : $y = 0{,}5 \\times 1000 = 500$.',
       },
       {
-        q: 'Sur une caractéristique courant-vitesse d\'un moteur à courant continu, la vitesse passe de 1000 tr/min à 800 tr/min quand le courant passe de 2 A à 8 A. Calculer la pente et l\'équation de la droite.',
-        answer: 'Pente : $a = (800-1000)/(8-2) = -200/6 \\approx -33{,}3\\;\\text{tr/min/A}$<br/>Équation : $n = n_1 + a(I-I_1) = 1000 - 33{,}3(I-2) = 1066{,}7 - 33{,}3 I$',
+        statement: 'Sur une caractéristique courant-vitesse d\'un moteur à courant continu, la vitesse passe de 1000 tr/min à 800 tr/min quand le courant passe de 2 A à 8 A. Calculer la pente de cette droite (en tr/min/A, arrondie à 0,1).',
+        type: 'numeric',
+        answer: -33.3,
+        tolerance: 0.2,
+        unit: 'tr/min/A',
         points: 4,
+        correction: 'Pente : $a = (800-1000)/(8-2) = -200/6 \\approx -33{,}3\\;\\text{tr/min/A}$<br/>Équation de la droite : $n = n_1 + a(I-I_1) = 1000 - 33{,}3(I-2) = 1066{,}7 - 33{,}3 I$.',
       },
       {
-        q: 'Un technicien extrapole une courbe de performance d\'une pompe au-delà de $Q = 20\\;\\text{m}^3/\\text{h}$ (limite du catalogue). Quelles précautions doit-il prendre ?',
-        answer: 'Précautions : (1) signaler explicitement qu\'il s\'agit d\'une extrapolation hors plage garantie ; (2) contacter le fabricant pour les données réelles ; (3) ajouter un coefficient de sécurité ; (4) vérifier que la pompe ne cavite pas à ce débit (NPSH). L\'extrapolation peut être très imprécise si la courbe change de comportement (décrochage, cavitation).',
+        statement: 'Un technicien extrapole une courbe de performance d\'une pompe au-delà de $Q = 20\\;\\text{m}^3/\\text{h}$ (limite du catalogue). Quelle précaution est la plus appropriée ?',
+        type: 'multiple-choice',
+        options: [
+          'Aucune précaution particulière : une extrapolation est aussi fiable qu\'une interpolation',
+          'Signaler explicitement l\'extrapolation, contacter le fabricant si possible, et vérifier les limites physiques (ex : cavitation, NPSH)',
+          'Multiplier systématiquement la valeur lue par 2 pour compenser l\'incertitude',
+          'Changer l\'unité de la grandeur pour éviter le problème',
+        ],
+        answer: 1,
         points: 3,
+        correction: 'Une extrapolation sort de la plage garantie par le constructeur : il faut le signaler clairement, si possible vérifier auprès du fabricant, et contrôler que le point de fonctionnement reste physiquement valide (par exemple pas de cavitation, respect du NPSH). Le comportement réel peut changer radicalement hors de la plage mesurée (décrochage, cavitation…).',
       },
     ],
   },
