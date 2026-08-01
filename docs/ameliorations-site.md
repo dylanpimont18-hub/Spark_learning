@@ -18,12 +18,14 @@ Sans création de compte, sans connexion obligatoire. Données utilisateur local
 
 ## 2. Accueil transformé en tableau de bord d'action
 
-- [ ] Lire `js/views/home.js` pour comprendre la structure actuelle avant toute modification
-- [ ] Ajouter un bloc "Continuer" affichant le dernier module consulté (lu depuis `js/storage.js`)
-- [ ] Ajouter un bloc "Prochaine étape recommandée" utilisant `js/recommendations.js`
-- [ ] Ajouter un compteur "X révisions dues aujourd'hui" (alimenté par le module Spaced Repetition, tâche 4)
-- [ ] Masquer ou réduire les statistiques secondaires actuelles pour mettre en avant les blocs d'action
-- [ ] Styliser le tableau de bord avec les variables CSS existantes de `css/styles.css`
+Statut (2026-08-01) : fait. `renderHome()` empile désormais, avant les sections passives, une pile de widgets d'action à une seule priorité affichée à la fois (devoir en cours → révision due → prochaine étape recommandée), pour éviter la paralysie de choix.
+
+- [x] Lire `js/views/home.js` pour comprendre la structure actuelle avant toute modification
+- [x] Ajouter un bloc "Continuer" affichant le dernier module consulté (`renderContinueSection()`, déjà présent)
+- [x] Ajouter un bloc "Prochaine étape recommandée" utilisant `js/recommendations.js` (`renderNextStepWidget()`, ancré sur le dernier module visité ; ne s'affiche que si aucune révision n'est due, pour ne jamais empiler deux CTA concurrents)
+- [x] Ajouter un compteur "X révisions dues aujourd'hui" — déjà alimenté par le moteur de répétition espacée réellement livré (`getDueReviews()` dans `js/engines/companionEngine.js`, granularité module et non question — voir statut du chantier 4 plus bas), affiché via `renderSrsReviewWidget()`
+- [x] Masquer ou réduire les statistiques secondaires actuelles pour mettre en avant les blocs d'action (bloc "Détail par niveau" replié dans un `<details>`, seul le total global reste visible par défaut)
+- [x] Styliser le tableau de bord avec les variables CSS existantes de `css/styles.css`
 
 ---
 
@@ -31,47 +33,57 @@ Sans création de compte, sans connexion obligatoire. Données utilisateur local
 
 Objectif : sortir d'une logique "non complété = lacune" et calculer une priorité de remédiation à partir des erreurs réelles, du temps passé et du niveau d'autonomie.
 
+Statut (2026-08-01) : V1 pragmatique livrée et câblée en production (pas de migration nécessaire — `sparkTracking` était déjà la seule source de suivi, aucun doublon `moduleStats` trouvé). Portée volontairement réduite par rapport à la spec initiale : pas de schéma exhaustif ni de décroissance temporelle, pas d'écran de fin dédié, pas de pilote isolé sur 3 modules — le score pondéré tourne directement sur tout le catalogue via les helpers existants. Le détail de ce qui est fait/reste à faire est précisé sous-section par sous-section.
+
 ### 3.1. Unifier la donnée de suivi
 
-- [ ] Auditer `sparkTracking` existant dans `js/storage.js` et décider d'une source de vérité unique : éviter un doublon entre `sparkTracking` et `moduleStats` si une migration suffit
-- [ ] Définir un schéma cible par module puis par section (`quiz`, `exercice`, `evaluation`) avec : `attempts`, `correct`, `wrong`, `bestScore`, `lastScore`, `avgTimeMs`, `hintCount`, `solutionCount`, `lastAttemptAt`, `questionStats`
-- [ ] Ajouter une migration one-shot au démarrage pour convertir les anciennes données vers le nouveau schéma sans casser l'existant
-- [ ] Exposer des helpers stables dans `js/storage.js` : `getModuleStats(moduleId)`, `recordAttempt(...)`, `recordSessionSummary(...)`, `getWeakQuestions(moduleId)`
+- [x] Auditer `sparkTracking` existant dans `js/storage.js` et décider d'une source de vérité unique — audit fait : `Storage.KEYS` ne contient qu'une seule clé de tracking (`TRACKING: 'sparkTracking'`), aucun `moduleStats` en doublon n'existe dans le code ; rien à migrer
+- [ ] Définir un schéma cible exhaustif par section avec `wrong`, `lastScore`, `avgTimeMs`, `questionStats` — non fait : seuls `hintCount` et `solutionCount` ont été ajoutés au schéma existant (`attempts`, `correct`, `totalTime`, `bestScore`, `lastAttempt`), suffisant pour le score pondéré V1 mais pas pour un futur détail question par question
+- [ ] Migration one-shot au démarrage — non applicable en l'état (pas de doublon à fusionner) ; à revisiter seulement si un schéma plus riche est introduit plus tard
+- [ ] Exposer `getModuleStats(moduleId)`, `recordAttempt(...)`, `recordSessionSummary(...)`, `getWeakQuestions(moduleId)` — non fait sous ces noms ; l'existant (`Storage.getTracking`, `Storage.trackAttempt`, nouveaux `Storage.trackHintUsed`/`trackSolutionRevealed`) couvre le besoin actuel de `detectLacunes()`
 
 ### 3.2. Instrumenter chaque activité
 
-- [ ] Quiz : démarrer un timer à la première question, enregistrer chaque réponse, le score final, le temps moyen par question et la liste des questions ratées
-- [ ] Exercice : enregistrer chaque mauvaise tentative, le temps avant réussite, l'affichage d'indice et l'affichage de solution
-- [ ] Évaluation : enregistrer le score, les questions ratées, le temps total et l'abandon éventuel
-- [ ] Chrono et problème : garder ce périmètre pour une phase 2, après stabilisation de `quiz`, `exercice` et `evaluation`
+- [ ] Quiz : timer par question, temps moyen, liste des questions ratées — non fait (le score de lacune quiz repose sur `bestScore`/`attempts` déjà trackés, pas sur un timing fin)
+- [x] Exercice : chaque tentative (réussie/ratée) trackée avec durée (`js/engines/exerciceEngine.js` → `Storage.trackAttempt(moduleId, 'exercice', isCorrect, durationMs)`, durée mesurée depuis `state.exerciceState.startedAt`), affichage d'indice (`Storage.trackHintUsed`) et affichage de solution (`Storage.trackSolutionRevealed`) désormais enregistrés
+- [ ] Évaluation : score/questions ratées/temps total/abandon — non fait (l'évaluation reste hors périmètre du score de lacune, cohérent avec le choix initial de la spec)
+- [x] Chrono et problème : hors périmètre V1, confirmé
 
 ### 3.3. Calculer un score de lacune pondéré
 
-- [ ] Réécrire `detectLacunes()` dans `js/engines/companionEngine.js` pour utiliser un score pondéré au lieu d'un simple booléen de complétion
-- [ ] Pondération V1 proposée : taux d'erreur `45 %`, faible score `20 %`, usage d'indice `15 %`, solution révélée `10 %`, temps anormalement long `10 %`
-- [ ] Ajouter une décroissance temporelle : une erreur ancienne doit peser moins qu'une erreur récente
-- [ ] Distinguer trois états par module : `jamais vu`, `en cours mais fragile`, `maîtrisé`
-- [ ] Retourner pour chaque module un objet explicable : `score`, `raisons`, `questionsFaibles`, `nextAction`
+- [x] `detectLacunes()` (`js/engines/companionEngine.js`) réécrite : score pondéré par section (quiz/exercice/probleme) à partir de `Storage.getTracking()`, remplace le booléen de complétion
+- [x] Pondération V1 appliquée telle que proposée : taux d'erreur `45 %`, score faible `20 %`, indice `15 %`, solution révélée `10 %`, temps anormalement long `10 %` (constantes `LACUNE_SEVERITY_THRESHOLD` = 0,35 et `LACUNE_SLOW_ATTEMPT_MS` = 60000 ms)
+- [ ] Décroissance temporelle (erreur ancienne pèse moins qu'une erreur récente) — non fait, le score utilise les cumuls bruts de `Storage.getTracking()`
+- [ ] Distinguer explicitement `jamais vu` / `en cours mais fragile` / `maîtrisé` comme état nommé — non fait sous cette forme ; le résultat expose une `severity` continue (0-1) plutôt que 3 états discrets, mais "jamais tenté" reste identifiable via `reasons: ['Pas encore commencé']`
+- [x] Objet explicable par module : `detectLacunes()` retourne `{ section, label, severity, reasons }[]`, consommé par `getRemediationRecommendations()` qui expose `severity`, `reasons`, `weakestSection` par module
 
 ### 3.4. Rendre la remédiation lisible dans l'interface
 
-- [ ] Ajouter dans `js/components/companion.js` un bloc `À retravailler en priorité` avec les 3 modules les plus fragiles
-- [ ] Afficher pour chaque recommandation une raison concrète : `2 quiz ratés`, `indice affiché 3 fois`, `score d'évaluation < 50 %`
-- [ ] Ajouter un CTA par besoin : `Revoir le cours`, `Refaire le quiz`, `Lancer un exercice ciblé`
-- [ ] Ajouter un écran de fin de remédiation avec progression avant/après, points gagnés et prochaine recommandation
+- [x] Bloc `💡 À retravailler en priorité` dans `js/components/companion.js` (`renderCompanionHome()`), top 3 modules triés par sévérité
+- [x] Raison concrète affichée par recommandation (ex: "45% d'erreurs", "indice utilisé 2 fois", "solution révélée") via `rec.reasons`
+- [x] CTA contextuel par section la plus faible (`Revoir le cours` / `Refaire le quiz` / `Lancer un exercice ciblé` / `Revoir le problème`)
+- [ ] Écran de fin de remédiation avec progression avant/après — non fait, reste un vrai gain UX à construire séparément
 
 ### 3.5. Déploiement progressif
 
-- [ ] Piloter la V1 sur 3 modules repères : `4e-pythagore`, `trigonometrie`, `1re-derivation`
-- [ ] Simuler plusieurs profils élèves en local pour vérifier que le tri des priorités reste cohérent
-- [ ] Ajuster les poids de calcul avant généralisation à tout le catalogue
-- [ ] Mettre à jour `contenu.md` si un nouveau moteur ou un nouveau script est ajouté en `js/`
+- [ ] Pilote isolé sur 3 modules repères puis généralisation — non fait, la V1 a été déployée directement sur tout le catalogue (risque accepté : les poids sont un point de départ raisonnable mais pas validés empiriquement sur des profils élèves réels)
+- [ ] Simuler plusieurs profils élèves en local pour vérifier la cohérence du tri — non fait
+- [ ] Ajuster les poids avant généralisation — non applicable puisque déployé directement ; à surveiller en usage réel et ajuster si les recommandations semblent mal calibrées
+- [x] Aucun nouveau moteur/script fichier créé (seulement des fonctions ajoutées à des fichiers existants) → pas de mise à jour de `contenu.md` nécessaire pour ce chantier
 
 ---
 
 ## 4. Mode "Révision espacée" (Spaced Repetition)
 
 Objectif : créer une file de révision quotidienne courte, stable et réellement utile, sans essayer de mettre tout le site en SM-2 dès la V1.
+
+**Statut (2026-08-01) : déjà livré, avec une architecture différente de celle décrite ci-dessous — ne pas reconstruire ce chantier tel quel.** Au moment de cette revue, `js/engines/companionEngine.js` contenait déjà un moteur de répétition espacée fonctionnel et câblé bout en bout :
+- `SRS_LADDER_DAYS = [1, 3, 7, 16, 35]` + `scheduleReview(moduleId, isCorrect)` : réplanifie la prochaine révision d'un **module entier** (pas d'une question individuelle) à chaque tentative, retour à l'échelon 0 en cas d'échec, avance d'un cran en cas de réussite, avec bonus de points Companion si une révision en retard est réussie.
+- Appelé automatiquement depuis `js/engines/quizEngine.js`, `js/engines/exerciceEngine.js` et `js/engines/evaluationEngine.js` à chaque tentative validée.
+- `getDueReviews()` retourne les modules dus/en retard, triés, filtrés sur les modules verrouillés/introuvables.
+- Affiché sur l'accueil via `renderSrsReviewWidget()` (`js/views/home.js`) avec CTA direct vers le module.
+
+Différence assumée avec la spec ci-dessous : granularité **module**, pas **question de quiz/carte flash** (pas de nouveau `js/engines/revisionEngine.js` ni `js/views/revision.js`). C'est un choix produit délibéré de cette session : la version déjà en place couvre le besoin utilisateur ("qu'est-ce que je dois réviser aujourd'hui, en un clic") avec beaucoup moins de complexité qu'un SM-2 par question, donc les sous-tâches 4.1 à 4.4 ci-dessous ne sont **pas** reprises. Seule la 4.5 (intégration au tableau de bord) reste pertinente et est déjà faite.
 
 ### 4.1. Définir un périmètre V1 réaliste
 
@@ -103,10 +115,10 @@ Objectif : créer une file de révision quotidienne courte, stable et réellemen
 
 ### 4.5. Intégrer la révision au tableau de bord
 
-- [ ] Ajouter sur l'accueil un compteur `X révisions dues aujourd'hui`
-- [ ] Ajouter un CTA direct `Lancer mes révisions`
-- [ ] Ajouter un petit historique : `dernière session`, `série en cours`, `prochaine échéance`
-- [ ] Mettre à jour `contenu.md` immédiatement après ajout de `js/engines/revisionEngine.js` ou `js/views/revision.js`
+- [x] Compteur "X révisions dues aujourd'hui" sur l'accueil (`renderSrsReviewWidget()`, avec suffixe `(+N autres)`)
+- [x] CTA direct — clique sur le widget → navigue directement vers le module le plus en retard (pas un écran "lancer mes révisions" générique, mais l'équivalent en un clic)
+- [ ] Petit historique (dernière session / série en cours / prochaine échéance) — non fait
+- [ ] N/A — aucun nouveau moteur/vue créé pour ce chantier, pas de mise à jour `contenu.md` nécessaire
 
 ---
 
@@ -247,9 +259,9 @@ Objectif : fiabiliser et enrichir un partage déjà partiellement présent, sans
 - [x] Créer `js/components/celebration.js` exposant `celebrate(type)` avec les types : `'level-complete'`, `'streak'`, `'badge'`
 - [x] Définir les 3 animations dans `css/styles.css` via `@keyframes` : confetti (particules CSS), message flash (fade + scale), badge pulse
 - [x] Déclarer `js/components/celebration.js` dans `index.html`
-- [ ] Brancher `celebrate('level-complete')` dans la logique de complétion de niveau dans `js/storage.js`
-- [ ] Brancher `celebrate('streak')` après 5 bonnes réponses consécutives dans `js/components/quiz.js`
-- [ ] Brancher `celebrate('badge')` dans `js/engines/companionEngine.js` lors de l'attribution d'un badge
+- [x] Brancher `celebrate('level-complete')` — fait dans `js/engines/shared.js` (`_checkModuleComplete()`, quand tous les modules d'un niveau sont complétés), pas `js/storage.js` qui ne contient pas cette logique
+- [x] Brancher `celebrate('streak')` après 5 bonnes réponses consécutives — fait dans `js/engines/quizEngine.js` (`submitQuizAnswer()`, nouveau compteur `state.quizState.correctStreak`), pas `js/components/quiz.js` qui est un fichier de rendu sans logique de validation
+- [x] Brancher `celebrate('badge')` dans `js/engines/companionEngine.js` (`addBadge()`), déclenché uniquement à l'ajout effectif d'un nouveau badge
 
 ---
 

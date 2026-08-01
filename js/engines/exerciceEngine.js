@@ -34,12 +34,13 @@ function submitExerciceAnswer(moduleId) {
   const isCorrect = Math.abs(userInput - ex.answer) <= tol;
 
   const card = document.getElementById('exercice-card');
+  const durationMs = Date.now() - (state.exerciceState.startedAt || Date.now());
 
   if (isCorrect) {
     state.exerciceState.solved = true;
     saveProgress(moduleId, 'exercice');
     if (typeof Storage !== 'undefined' && Storage.trackAttempt) {
-      Storage.trackAttempt(moduleId, 'exercice', true);
+      Storage.trackAttempt(moduleId, 'exercice', true, durationMs);
       Storage.updateExerciceStreak(state.exerciceState.attempts === 0);
     }
     if (typeof scheduleReview === 'function') {
@@ -56,7 +57,7 @@ function submitExerciceAnswer(moduleId) {
   } else {
     state.exerciceState.attempts++;
     if (typeof Storage !== 'undefined' && Storage.trackAttempt) {
-      Storage.trackAttempt(moduleId, 'exercice', false);
+      Storage.trackAttempt(moduleId, 'exercice', false, durationMs);
     }
     if (typeof scheduleReview === 'function') {
       scheduleReview(moduleId, false);
@@ -79,12 +80,18 @@ function submitExerciceAnswer(moduleId) {
 
 function showHint(moduleId) {
   state.exerciceState.hintShown = true;
+  if (typeof Storage !== 'undefined' && Storage.trackHintUsed) {
+    Storage.trackHintUsed(moduleId, 'exercice');
+  }
   renderTabContent();
   renderMath();
 }
 
 function showSolution(moduleId) {
   state.exerciceState.solutionShown = true;
+  if (typeof Storage !== 'undefined' && Storage.trackSolutionRevealed) {
+    Storage.trackSolutionRevealed(moduleId, 'exercice');
+  }
   renderTabContent();
   renderMath();
 }

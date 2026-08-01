@@ -34,6 +34,7 @@ Système de design complet : variables CSS (`--primary`, `--secondary`, `--accen
 - `@media print` (~L3440+) — mise en page A4 des fiches (`.print-fiche`, `.print-fiche-header`, etc.) ; `body.printing` bascule l'affichage de `#app` vers `#print-container` ; `#print-container` fige les variables CSS couleur (`--primary`, `--text`, `--bg-card`...) sur le thème clair, pour que les illustrations riches (`renderCoursDiagram`) restent lisibles en PDF même si le site est en thème sombre à l'impression
 - `.td-weakpoint-*` / `.td-weakpoints-section` — bloc "Points faibles de la classe" dans TeacherDashboard (bordure `--error` à gauche pour signaler visuellement)
 - `.td-students-toolbar` — sélecteur de tri (nom/score/inactivité) au-dessus de la liste d'élèves d'une classe (TeacherDashboard)
+- `.stats-levels-details` / `.stats-levels-summary` — replie le détail de progression par niveau (accueil, `renderStatsSection()`) dans un `<details>` pour laisser les widgets d'action en haut de page
 
 ## ads.txt
 Fichier de vérification standard IAB pour Google AdSense (`google.com, pub-5320273649803132, DIRECT, ...`).
@@ -60,6 +61,8 @@ Règles de sécurité Firestore.
 - `getModuleThemes(mod)` — retourne les thèmes d'un module
 - `getModuleSearchKeywords(mod)` — mots-clés pour la recherche
 - `state.evalBuilderMode` / `state.selectedEvalQuestions` — mode "composer une évaluation" (grille de modules, enseignant) et sélection courante `{ moduleId: [indexQuestion,...] }`, gérés par `js/print.js`
+- `defaultQuizState()` — inclut `correctStreak` (compteur de bonnes réponses consécutives dans le quiz courant, remis à 0 sur erreur, déclenche `celebrate('streak')` à 5 dans `js/engines/quizEngine.js`)
+- `defaultExerciceState()` — inclut `startedAt: Date.now()` (horodatage de début de tentative, réinitialisé à chaque nouvel exercice) utilisé pour mesurer `durationMs` dans `Storage.trackAttempt()`
 
 ## js/app.js
 Routeur SPA (pushState), init, KaTeX, confetti.
@@ -98,11 +101,15 @@ Lazy loading des fichiers de données par niveau/matière.
 ## js/storage.js
 Centralise toute la persistance localStorage.
 - `Storage.getProgress()` / `saveProgress(moduleId, type)` — lecture/écriture progression
-- `Storage.getStreak()` / `updateStreak()` — suivi des séries journalières
-- `Storage.getFlashcards()` / `saveFlashcard()` — état des flashcards
-- `Storage.getRecent()` / `addRecent(moduleId)` — modules récemment visités
+- `Storage.getTracking(moduleId)` / `trackAttempt(moduleId, section, isCorrect, durationMs)` / `trackQuizScore(...)` / `trackEvaluationScore(...)` — tentatives, temps cumulé, meilleur score par module/section (clé `sparkTracking`) ; consommé par `detectLacunes()` (`js/engines/companionEngine.js`) pour le score de lacune pondéré
+- `Storage.trackHintUsed(moduleId, section)` / `Storage.trackSolutionRevealed(moduleId, section)` — incrémentent `hintCount`/`solutionCount` sur l'entrée de tracking existante (créée si absente) ; appelés depuis `js/engines/exerciceEngine.js` (`showHint`/`showSolution`), alimentent la pondération 15%/10% du score de lacune
+- `Storage.getStreak()` / `updateStreak()` — suivi des séries journalières (streak affichée dès 1 jour, voir `js/views/home.js:renderStreakBadge()`)
+- `Storage.getExerciceStreak()` / `updateExerciceStreak(firstTry)` — série de réussites du premier coup en exercice, toast tous les 3
+- `Storage.getFlashcardState(moduleId)` / `saveFlashcardKnown(moduleId, knownIndices)` — état des flashcards
+- `Storage.getRecent()` / `trackRecent(moduleId)` — modules récemment visités
 - `Storage.getModuleStatuses()` / `setModuleStatus(id, patch)` / `resetModuleStatus(id)` — cache local verrouillage/maintenance par module
 - `Storage.setAllModuleStatuses(all)` — remplace tout le cache local par la carte reçue de Firestore (`config/moduleAccess`)
+- `Storage.getConsent(category)` / `setConsent(category, granted)` — consentement RGPD par catégorie (expire après 6 mois)
 
 ---
 
@@ -201,19 +208,20 @@ Modules Physique-Chimie BTS : mécanique du point, statique/dynamique des fluide
 Utilitaires partagés entre tous les moteurs.
 - `_setEngineTimeout(fn, delay)` — setTimeout tracé pour nettoyage
 - `clearEngineTimers()` — vide tous les timers actifs
-- `_checkModuleComplete(moduleId)` — vérifie et notifie la complétion d'un module
+- `_checkModuleComplete(moduleId)` — vérifie et notifie la complétion d'un module ; déclenche `celebrate('level-complete')` (`js/components/celebration.js`) en plus du toast quand tous les modules d'un niveau sont complétés
 
 ## js/engines/quizEngine.js
 Moteur de quiz.
-- `submitQuizAnswer(moduleId, questionIndex, optionIndex)` — traite une réponse quiz
+- `submitQuizAnswer(moduleId, questionIndex, optionIndex)` — traite une réponse quiz ; incrémente `state.quizState.correctStreak` sur bonne réponse (remis à 0 sur erreur) et déclenche `celebrate('streak')` à la 5e bonne réponse consécutive
 - `nextQuizQuestion(moduleId)` — passe à la question suivante
-- `restartQuiz(moduleId)` — remet à zéro le quiz
+- `resetQuiz(moduleId)` — remet à zéro le quiz
 
 ## js/engines/exerciceEngine.js
 Moteur d'exercice dynamique.
-- `submitExerciceAnswer(moduleId)` — valide la réponse saisie
+- `submitExerciceAnswer(moduleId)` — valide la réponse saisie ; mesure la durée depuis `state.exerciceState.startedAt` et l'envoie à `Storage.trackAttempt(..., durationMs)`, alimente le poids "temps anormal" du score de lacune
 - `getErrorFeedback(mod, attempts)` — génère un message d'erreur adapté
-- `regenerateExercice(moduleId)` — génère un nouvel exercice aléatoire
+- `showHint(moduleId)` / `showSolution(moduleId)` — affichent indice/solution et appellent `Storage.trackHintUsed`/`Storage.trackSolutionRevealed` (voir `js/storage.js`)
+- `generateNewExercice(moduleId)` — génère un nouvel exercice aléatoire, réinitialise `state.exerciceState` (dont `startedAt`)
 
 ## js/engines/problemeEngine.js
 Moteur de problème multi-étapes.
@@ -224,9 +232,14 @@ Moteur d'évaluation (questions numériques).
 - `submitEvaluationAnswer(moduleId)` — valide une réponse d'évaluation
 
 ## js/engines/companionEngine.js
-Moteur Spark Companion : remédiation, rattrapage, CCF.
-- `detectLacunes(moduleId)` — détecte les lacunes de l'élève
-- `generateRemediationPlan(moduleId)` — crée un plan de rattrapage
+Moteur Spark Companion : remédiation, rattrapage, badges, répétition espacée (granularité module).
+- `detectLacunes(moduleId)` — calcule un score de lacune pondéré par section (`quiz`/`exercice`/`probleme`) à partir de `Storage.getTracking()` : taux d'erreur 45%, score faible 20%, indice utilisé 15%, solution révélée 10%, temps anormal 10% (constantes `LACUNE_SEVERITY_THRESHOLD`, `LACUNE_SLOW_ATTEMPT_MS`) ; retourne `{ section, label, severity, reasons }[]`, une section jamais tentée obtenant une sévérité maximale
+- `getRemediationRecommendations(subject, level)` — modules du sujet/niveau ayant au moins une lacune, triés par sévérité décroissante ; expose `severity`, `reasons`, `weakestSection` par module, consommé par `renderCompanionHome()` (`js/components/companion.js`)
+- `generateRemedialExercise(moduleId, topic)` / `validateRemedialAnswer(...)` — génère et valide un exercice de remédiation simplifié pour une session Companion
+- `addBadge(badgeId, label)` — ajoute un badge (dédupliqué par id) et déclenche `celebrate('badge')` uniquement à l'ajout effectif d'un nouveau badge
+- `addCompanionPoints(amount)` / `completeObjective(objectiveId)` / `initRemediationContext(moduleId)` / `trackRemediationAttempt(...)` — points, objectifs CCF, contexte de session Companion
+- `scheduleReview(moduleId, isCorrect)` — réplanifie la révision espacée d'un **module entier** sur l'échelle `SRS_LADDER_DAYS = [1,3,7,16,35]` (retour à l'échelon 0 en cas d'échec, bonus de 15 points Companion si une révision en retard est réussie) ; appelée depuis `quizEngine.js`/`exerciceEngine.js`/`evaluationEngine.js` à chaque tentative validée
+- `getDueReviews()` — modules dus/en retard (triés, hors modules verrouillés/introuvables), consommé par `renderSrsReviewWidget()` (`js/views/home.js`)
 
 ---
 
@@ -283,8 +296,8 @@ Rendu HTML de l'évaluation.
 
 ## js/components/companion.js
 Interface Spark Companion.
-- `renderCompanionHome()` — accueil companion (badges, sélection module)
-- `renderCompanionSession(moduleId)` — session de remédiation active
+- `renderCompanionHome()` — accueil companion (badges, objectifs CCF) ; section "💡 À retravailler en priorité" alimentée par `getRemediationRecommendations()` (`js/engines/companionEngine.js`) : top 3 modules par sévérité, raison concrète affichée (`rec.reasons`), CTA contextuel selon `rec.weakestSection` (Revoir le cours / Refaire le quiz / Lancer un exercice ciblé / Revoir le problème)
+- `renderCompanionSession(moduleId)` — session de remédiation active ; la liste des lacunes (`ctx.lacunes`) est un array d'objets `{ section, label, severity, reasons }` (pas des tuples `[topic, count]`)
 
 ## js/components/contactPanel.js
 Panneau de contact flottant (extrait de `js/app.js`), envoie vers Formspree.
@@ -306,11 +319,14 @@ Modale enseignant "proposer un piège fréquent" sur un module, extrait de `js/a
 ## js/views/home.js
 Vues globales : accueil, liste matières, niveaux, modules, détail module.
 - `renderContinueSection()` — section "Reprendre ton parcours"
-- `renderHome()` — page d'accueil
+- `renderStreakBadge()` — badge streak 🔥 factorisé (utilisé par `renderHome()`, indépendamment de `renderStatsSection()`) ; affiché dès le jour 1 ("Tu démarres ta série aujourd'hui") pour renforcer l'habitude dès la première visite, message différent à partir de 2 jours
+- `renderStatsSection()` — "Mes statistiques" : total global toujours visible, détail par niveau replié dans un `<details class="stats-levels-details">` pour ne pas noyer les blocs d'action au-dessus
+- `renderNextStepWidget()` — widget "Prochaine étape : …" basé sur `getRecommendations()` (`js/recommendations.js`) ancré sur le dernier module visité (`getRecentModules()[0]`) ; ne s'affiche que si aucune révision n'est due (`getDueReviews()`), pour n'exposer qu'une seule action prioritaire à la fois sur l'accueil
+- `renderHome()` — page d'accueil ; empile dans l'ordre `renderStreakBadge()` → `renderSrsReviewWidget()` → `renderNextStepWidget()` → `renderContinueSection()` → `renderStatsSection()`
 - `renderSubjects()` — liste des matières
 - `renderLevels()` — niveaux d'une matière
-- `renderModules()` — grille des modules d'un niveau
-- `renderModule(moduleId)` — page détail d'un module
+- `renderModulesList()` — grille des modules d'un niveau
+- `renderModuleDetail()` — page détail d'un module
 - `renderSubjects()` — filtre les matières à 0 module (plus de badge "Bientôt disponible" public), affiche un court texte éditorial (`.hub-intro-text`) au-dessus de la grille ; plus d'emplacement pub sur cette page (retiré 2026-07-30)
 - `renderLevels()` — affiche `subjectDef.description` en texte éditorial (`.hub-intro-text`) sous le titre
 - `renderModuleDetail()` — inclut un `renderAdSlot('onglet module — bas de contenu', 'moduleTab')` après `.tab-content`, seul emplacement pub restant avec l'accueil
@@ -318,6 +334,7 @@ Vues globales : accueil, liste matières, niveaux, modules, détail module.
 - `renderModulesList()` — les boutons "Imprimer les fiches 🖨️" (`toggleBatchPrintMode()`) et "Composer une évaluation 📝" (`toggleEvalBuilderMode()`, voir `js/print.js`) ne sont rendus que si `AuthGuard.isTeacher()`
 - `renderHome()` — page d'accueil, volontairement sans bloc pub (page à contenu essentiellement promotionnel, retiré suite à un rejet AdSense "contenu à faible valeur informative") ; jamais de pub non plus dans les onglets d'apprentissage actif (`module`)
 - `renderAssignmentWidget()` — async, injecte l'encart "Devoir en cours" pour l'élève connecté à une classe
+- `renderSrsReviewWidget()` — encart "À réviser aujourd'hui" alimenté par `getDueReviews()` (`js/engines/companionEngine.js`), priorité la plus haute des widgets d'action de l'accueil
 
 ## js/views/confidentialite.js
 Politique de confidentialité (RGPD, exigence Google AdSense).

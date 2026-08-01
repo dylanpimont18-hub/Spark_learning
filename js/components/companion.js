@@ -41,22 +41,33 @@ function renderCompanionHome() {
   const level = state.level || 1;
   const recommendations = getRemediationRecommendations(subject, level);
 
+  const remediationCta = (rec) => {
+    if (rec.weakestSection === 'quiz') return 'Refaire le quiz';
+    if (rec.weakestSection === 'exercice') return 'Lancer un exercice ciblé';
+    if (rec.weakestSection === 'probleme') return 'Revoir le problème';
+    return 'Revoir le cours';
+  };
+
   const recommendationsHtml = recommendations.length > 0
     ? recommendations
+        .slice(0, 3)
         .map(
           rec =>
-            `<div class="recommendation-card" onclick="navigate('companion', { moduleId: '${rec.moduleId}' })">
+            `<div class="recommendation-card" onclick="navigate('module', { moduleId: '${rec.moduleId}' })">
               <div class="rec-header">
                 <div class="rec-title"><strong>${rec.title}</strong></div>
-                <div class="rec-status">${rec.lacuneCount > 0 ? `⚠️ ${rec.lacuneCount} lacune(s)` : '✓'}</div>
+                <div class="rec-status">⚠️ ${rec.reasons[0] || 'à travailler'}</div>
               </div>
               <div class="rec-footer" style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-muted);">
-                ${rec.isStarted ? 'En cours...' : '◉ Non commencé'}
+                ${rec.reasons.join(' · ')}
               </div>
+              <button class="btn btn-primary btn-sm" style="margin-top: 0.75rem;" onclick="event.stopPropagation(); navigate('module', { moduleId: '${rec.moduleId}' });">
+                ${remediationCta(rec)} →
+              </button>
             </div>`
         )
         .join('')
-    : '<span style="color: var(--text-muted);">Tous les modules sont à jour !</span>';
+    : '<span style="color: var(--text-muted);">Rien à retravailler en priorité — continue comme ça !</span>';
 
   return `
     <div class="container">
@@ -82,7 +93,7 @@ function renderCompanionHome() {
 
         <!-- Section 2 : Remédiation Recommandée -->
         <section class="companion-section">
-          <h2>💡 Remédiation Recommandée</h2>
+          <h2>💡 À retravailler en priorité</h2>
           <div class="recommendations-list">
             ${recommendationsHtml}
           </div>
@@ -263,7 +274,7 @@ function renderCompanionSession(moduleId) {
     ? `<div class="lacunes-list">
         <h3 style="margin-top: 0;">Les lacunes détectées :</h3>
         <ul style="margin: 0.5rem 0;">
-          ${ctx.lacunes.map(([topic, count]) => `<li><strong>${topic}</strong> : ${count} problème(s)</li>`).join('')}
+          ${ctx.lacunes.map(l => `<li><strong>${l.label}</strong> : ${l.reasons.join(', ')}</li>`).join('')}
         </ul>
       </div>`
     : '<div style="color: var(--success);">✓ Aucune lacune détectée pour ce module !</div>';

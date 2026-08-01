@@ -40,6 +40,18 @@ function renderContinueSection() {
 	`;
 }
 
+function renderStreakBadge() {
+	if (typeof Storage === 'undefined' || !Storage.getStreak) return '';
+	const streak = Storage.getStreak();
+	if (streak.currentStreak === 1) {
+		return '<div style="text-align:center;margin-bottom:var(--space-lg);"><span class="streak-badge"><span class="streak-badge-fire">🔥</span> Tu démarres ta série aujourd\'hui</span></div>';
+	}
+	if (streak.currentStreak >= 2) {
+		return '<div style="text-align:center;margin-bottom:var(--space-lg);"><span class="streak-badge"><span class="streak-badge-fire">🔥</span> ' + streak.currentStreak + ' jours d\'affilée</span></div>';
+	}
+	return '';
+}
+
 function renderStatsSection() {
 	const allModules = window.MODULES || [];
 	const progress = state.progress || {};
@@ -87,15 +99,6 @@ function renderStatsSection() {
 			<div class="container">
 				<h2 class="section-title">Mes statistiques</h2>
 				<p class="section-subtitle">${subtitle}</p>
-				${(() => {
-					if (typeof Storage !== 'undefined' && Storage.getStreak) {
-						const streak = Storage.getStreak();
-						if (streak.currentStreak >= 2) {
-							return '<div style="text-align:center;margin-bottom:var(--space-lg);"><span class="streak-badge"><span class="streak-badge-fire">🔥</span> ' + streak.currentStreak + ' jours d\'affilée</span></div>';
-						}
-					}
-					return '';
-				})()}
 
 				<div class="stats-overview">
 					<div class="stats-global">
@@ -105,19 +108,22 @@ function renderStatsSection() {
 							<div class="progress-fill" style="width:${globalPct}%;"></div>
 						</div>
 					</div>
-					<div class="stats-levels">
-						${levelStats.map(l => `
-							<div class="card-base stats-level-card">
-								<div class="stats-level-header">
-									<span>${l.label}</span>
-									<span class="stats-level-count">${l.done}/${l.total}</span>
+					<details class="stats-levels-details">
+						<summary class="stats-levels-summary">Détail par niveau</summary>
+						<div class="stats-levels">
+							${levelStats.map(l => `
+								<div class="card-base stats-level-card">
+									<div class="stats-level-header">
+										<span>${l.label}</span>
+										<span class="stats-level-count">${l.done}/${l.total}</span>
+									</div>
+									<div class="progress-bar" style="height:6px;">
+										<div class="progress-fill" style="width:${l.pct}%;background:${l.color};"></div>
+									</div>
 								</div>
-								<div class="progress-bar" style="height:6px;">
-									<div class="progress-fill" style="width:${l.pct}%;background:${l.color};"></div>
-								</div>
-							</div>
-						`).join('')}
-					</div>
+							`).join('')}
+						</div>
+					</details>
 				</div>
 			</div>
 		</section>
@@ -216,6 +222,32 @@ function renderSrsReviewWidget() {
 	`;
 }
 
+function renderNextStepWidget() {
+	// N'affiche qu'une seule action prioritaire à la fois : si une révision est déjà due,
+	// c'est elle qui prime (voir renderSrsReviewWidget) plutôt que d'empiler deux cartes concurrentes.
+	const due = (typeof getDueReviews === 'function') ? getDueReviews() : [];
+	if (due.length > 0) return '';
+
+	const recent = getRecentModules();
+	if (recent.length === 0) return '';
+	if (typeof getRecommendations !== 'function') return '';
+
+	const recs = getRecommendations(recent[0].id);
+	if (recs.length === 0) return '';
+	const rec = recs[0];
+	const icon = rec.type === 'prerequisite' ? '⚠️' : '➡️';
+
+	return `
+		<div class="hw-assignment-widget" style="margin-bottom:12px;" onclick="navigate('module', {moduleId: '${rec.module.id}'})" tabindex="0" role="button" aria-label="Prochaine étape : ${rec.module.title}">
+			<div class="hw-assignment-icon">${icon}</div>
+			<div>
+				<div class="hw-assignment-title">Prochaine étape : ${rec.module.title}</div>
+				<div class="hw-assignment-meta">${rec.reason}</div>
+			</div>
+		</div>
+	`;
+}
+
 function renderHome() {
 	const totalModules = window.MODULES ? window.MODULES.length : 0;
 
@@ -273,7 +305,11 @@ function renderHome() {
 		</section>
 
 		<div id="home-assignment-widget" style="padding: 0 var(--space-lg);max-width:900px;margin:0 auto;"></div>
-		<div style="padding: 0 var(--space-lg);max-width:900px;margin:0 auto;">${renderSrsReviewWidget()}</div>
+		<div style="padding: 0 var(--space-lg);max-width:900px;margin:0 auto;">
+			${renderStreakBadge()}
+			${renderSrsReviewWidget()}
+			${renderNextStepWidget()}
+		</div>
 		${renderContinueSection()}
 		${renderStatsSection()}
 

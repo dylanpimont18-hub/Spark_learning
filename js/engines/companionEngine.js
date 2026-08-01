@@ -4,26 +4,75 @@
    ========================================================= */
 
 /**
- * Détecte les lacunes basées sur les scores des exercices/quiz
- * Retourne un array de tuples [topicId, failureCount]
+ * Seuil au-delà duquel une section est considérée comme une lacune à retravailler
+ * (voir detectLacunes ci-dessous pour le détail de la pondération).
+ */
+const LACUNE_SEVERITY_THRESHOLD = 0.35;
+/** Au-delà de ce temps moyen par tentative d'exercice, on considère la résolution anormalement longue. */
+const LACUNE_SLOW_ATTEMPT_MS = 60000;
+
+/**
+ * Détecte les lacunes d'un module à partir d'un score pondéré calculé sur les données
+ * réelles de tracking (js/storage.js : Storage.getTracking), plutôt que sur un simple
+ * booléen "section non complétée". Pondération : taux d'erreur 45 %, score faible 20 %,
+ * usage d'indice 15 %, solution révélée 10 %, temps de résolution anormal 10 %.
+ * Retourne un array d'objets { section, label, severity (0-1), reasons: string[] } —
+ * une section jamais commencée obtient une sévérité maximale avec une raison dédiée.
  */
 function detectLacunes(moduleId) {
   const mod = getModule(moduleId);
   if (!mod) return [];
 
-  const lacunes = [];
   const progress = state.progress[moduleId] || {};
+  const tracking = (typeof Storage !== 'undefined' && Storage.getTracking) ? Storage.getTracking(moduleId) : null;
 
-  // Détection basique : si quiz ou exercice non complétés, c'est une lacune
-  if (!progress.quiz) {
-    lacunes.push(['quiz', 1]);
-  }
-  if (!progress.exercice) {
-    lacunes.push(['exercice', 1]);
-  }
-  if (!progress.probleme) {
-    lacunes.push(['probleme', 1]);
-  }
+  const sections = [
+    { key: 'quiz', label: 'Quiz', total: mod.quiz ? mod.quiz.length : 0 },
+    { key: 'exercice', label: 'Exercice', total: 1 },
+    { key: 'probleme', label: 'Problème', total: 1 }
+  ];
+
+  const lacunes = [];
+  sections.forEach(sec => {
+    const done = !!progress[sec.key];
+    const t = tracking && tracking[sec.key];
+
+    if (!t) {
+      // Jamais tenté : lacune maximale, mais uniquement si la section n'est pas déjà validée
+      // par un autre biais (ex: probleme complété sans passer par Storage.trackAttempt).
+      if (!done) {
+        lacunes.push({ section: sec.key, label: sec.label, severity: 1, reasons: ['Pas encore commencé'] });
+      }
+      return;
+    }
+
+    const attempts = t.attempts || 0;
+    const correct = t.correct || 0;
+    const errorRate = attempts > 0 ? 1 - (correct / attempts) : 0;
+    const bestScorePct = sec.key === 'quiz' && sec.total > 0
+      ? (t.bestScore || 0) / sec.total
+      : (attempts > 0 ? correct / attempts : (done ? 1 : 0));
+    const lowScore = 1 - bestScorePct;
+    const hintRatio = attempts > 0 ? Math.min(1, (t.hintCount || 0) / attempts) : 0;
+    const solutionRatio = attempts > 0 ? Math.min(1, (t.solutionCount || 0) / attempts) : 0;
+    const avgTime = attempts > 0 ? (t.totalTime || 0) / attempts : 0;
+    const slow = avgTime > LACUNE_SLOW_ATTEMPT_MS ? 1 : 0;
+
+    const severity = Math.min(1,
+      errorRate * 0.45 + lowScore * 0.20 + hintRatio * 0.15 + solutionRatio * 0.10 + slow * 0.10
+    );
+
+    if (severity >= LACUNE_SEVERITY_THRESHOLD || !done) {
+      const reasons = [];
+      if (errorRate > 0.3) reasons.push(`${Math.round(errorRate * 100)}% d'erreurs`);
+      if (t.hintCount) reasons.push(`indice utilisé ${t.hintCount} fois`);
+      if (t.solutionCount) reasons.push('solution révélée');
+      if (slow) reasons.push('temps de résolution élevé');
+      if (!done && reasons.length === 0) reasons.push('pas encore validé');
+      if (reasons.length === 0) reasons.push('à consolider');
+      lacunes.push({ section: sec.key, label: sec.label, severity, reasons });
+    }
+  });
 
   return lacunes;
 }
@@ -121,6 +170,7 @@ function addBadge(badgeId, label) {
       label: label,
       earnedAt: new Date().toISOString()
     });
+    if (typeof celebrate === 'function') celebrate('badge');
   }
   localStorage.setItem('sparkCompanionState', JSON.stringify(state.companionState));
 }
@@ -161,23 +211,25 @@ function getRemediationRecommendations(subject, level) {
     (m.subject || 'maths') === subject && m.level === level
   );
 
-  // Trier par priorité de lacune
   return candidates
     .map(mod => {
       const lacunes = detectLacunes(mod.id);
       const progress = state.progress[mod.id] || {};
+      const severity = lacunes.reduce((max, l) => Math.max(max, l.severity), 0);
+      const weakest = lacunes.slice().sort((a, b) => b.severity - a.severity)[0] || null;
       return {
         moduleId: mod.id,
         title: mod.title,
         lacuneCount: lacunes.length,
-        isStarted: progress.quiz || progress.exercice || progress.probleme
+        severity,
+        reasons: weakest ? weakest.reasons : [],
+        weakestSection: weakest ? weakest.section : null,
+        isStarted: !!(progress.quiz || progress.exercice || progress.probleme)
       };
     })
-    .sort((a, b) => {
-      // Priorité: lacunes importantes ET non commencé
-      if (b.lacuneCount !== a.lacuneCount) return b.lacuneCount - a.lacuneCount;
-      return a.isStarted ? 1 : -1;
-    })
+    .filter(r => r.lacuneCount > 0)
+    // Priorité : sévérité la plus forte d'abord, à sévérité égale on privilégie ce qui est déjà entamé
+    .sort((a, b) => (b.severity - a.severity) || (a.isStarted === b.isStarted ? 0 : a.isStarted ? -1 : 1))
     .slice(0, 5); // Top 5 recommandations
 }
 

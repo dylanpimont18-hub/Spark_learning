@@ -21,7 +21,15 @@ function submitQuizAnswer(moduleId, questionIndex, optionIndex) {
 
   state.quizState.answered = true;
   const isCorrect = optionIndex === q.answer;
-  if (isCorrect) state.quizState.score++;
+  if (isCorrect) {
+    state.quizState.score++;
+    state.quizState.correctStreak = (state.quizState.correctStreak || 0) + 1;
+    if (state.quizState.correctStreak === 5 && typeof celebrate === 'function') {
+      celebrate('streak');
+    }
+  } else {
+    state.quizState.correctStreak = 0;
+  }
 
   const buttons = document.querySelectorAll('.quiz-option');
   buttons.forEach((btn, i) => {

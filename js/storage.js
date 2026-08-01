@@ -81,6 +81,26 @@ const Storage = {
     this.updateStreak();
   },
 
+  trackHintUsed(moduleId, section) {
+    const all = this._get(this.KEYS.TRACKING, {});
+    if (!all[moduleId]) all[moduleId] = {};
+    if (!all[moduleId][section]) {
+      all[moduleId][section] = { attempts: 0, correct: 0, totalTime: 0, bestScore: 0, lastAttempt: null };
+    }
+    all[moduleId][section].hintCount = (all[moduleId][section].hintCount || 0) + 1;
+    this._set(this.KEYS.TRACKING, all);
+  },
+
+  trackSolutionRevealed(moduleId, section) {
+    const all = this._get(this.KEYS.TRACKING, {});
+    if (!all[moduleId]) all[moduleId] = {};
+    if (!all[moduleId][section]) {
+      all[moduleId][section] = { attempts: 0, correct: 0, totalTime: 0, bestScore: 0, lastAttempt: null };
+    }
+    all[moduleId][section].solutionCount = (all[moduleId][section].solutionCount || 0) + 1;
+    this._set(this.KEYS.TRACKING, all);
+  },
+
   trackQuizScore(moduleId, score, total) {
     const all = this._get(this.KEYS.TRACKING, {});
     if (!all[moduleId]) all[moduleId] = {};
