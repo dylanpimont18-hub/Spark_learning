@@ -4716,6 +4716,24 @@ main { flex: 1; }
   gap: 1rem;
 }
 
+.td-students-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--text-muted, #9090b0);
+}
+
+.td-students-toolbar select {
+  margin-left: 0.5rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--border, rgba(0,0,0,0.1));
+  background: var(--bg-card);
+  color: var(--text);
+  font-size: 0.85rem;
+}
+
 .td-class-card {
   background: var(--bg-card);
   border: 1px solid var(--border, rgba(0,0,0,0.1));

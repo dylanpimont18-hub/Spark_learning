@@ -28,12 +28,15 @@ var GradingPanel = {
     var tbodyRows = students.map(function(s) {
       var prog = progressMap[s.uid];
       var progData = prog && prog.progress ? prog.progress : {};
+      var tracking = prog && prog.tracking ? prog.tracking : {};
       var cells = moduleIds.map(function(id) {
         var m = progData[id];
         if (!m) return '<td>—</td>';
         if (m.completed) return '<td>✅</td>';
-        var score = m.evaluationScore != null ? m.evaluationScore : (m.score != null ? m.score : null);
-        if (score != null) return '<td>' + score + '%</td>';
+        // Voir TeacherDashboard._moduleScorePct (js/views/teacherDashboard.js) :
+        // le score réel vient de progress.tracking, jamais de progress.progress[id].score.
+        var scorePct = TeacherDashboard._moduleScorePct(getModule(id), tracking[id]);
+        if (scorePct != null) return '<td>' + scorePct + '%</td>';
         return '<td>⏳</td>';
       }).join('');
       return '<tr><td>' + GradingPanel._esc(s.profile.displayName || 'Élève') + '</td>' + cells + '</tr>';
@@ -127,14 +130,16 @@ var GradingPanel = {
     var students = GradingPanel._students;
     var progressMap = GradingPanel._progressMap;
     var draft = GradingPanel._gradeDrafts[moduleId] || {};
+    var mod = getModule(moduleId);
 
     var rows = students.map(function(s) {
       var prog = progressMap[s.uid];
-      var progData = prog && prog.progress ? prog.progress : {};
-      var m = progData[moduleId];
-      var rawScore = m && m.evaluationScore != null ? m.evaluationScore : (m && m.score != null ? m.score : '');
+      var tracking = prog && prog.tracking ? prog.tracking : {};
+      // Voir TeacherDashboard._moduleScorePct : le score réel vient de progress.tracking,
+      // jamais de progress.progress[moduleId].score/.evaluationScore (jamais écrits).
+      var rawScore = TeacherDashboard._moduleScorePct(mod, tracking[moduleId]);
       // Convertir score % en note /20
-      var note20 = rawScore !== '' ? Math.round(rawScore / 100 * 20 * 2) / 2 : '';
+      var note20 = rawScore != null ? Math.round(rawScore / 100 * 20 * 2) / 2 : '';
       var savedDraft = draft[s.uid];
       var noteValue = savedDraft && savedDraft.note !== '' ? savedDraft.note : note20;
       var appreciationValue = savedDraft ? savedDraft.appreciation : '';

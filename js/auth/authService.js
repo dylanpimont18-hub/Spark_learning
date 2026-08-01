@@ -95,17 +95,34 @@ const AuthService = {
   },
 
   async createClass(teacherUid, className) {
-    const code = this._generateClassCode(className);
-    await this._db.collection('classes').doc(code).set({
-      teacherId: teacherUid,
-      name: className,
-      students: [],
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    await this.updateUserProfile(teacherUid, {
-      classes: firebase.firestore.FieldValue.arrayUnion(code)
-    });
-    return code;
+    // Le code (préfixe nom + 4 caractères aléatoires) peut en théorie collisionner
+    // avec une classe existante — sans vérification, .set() écraserait silencieusement
+    // la classe d'un autre enseignant. Transaction check-then-set + retry sur collision.
+    const maxAttempts = 5;
+    for (let i = 0; i < maxAttempts; i++) {
+      const code = this._generateClassCode(className);
+      const ref = this._db.collection('classes').doc(code);
+      try {
+        await this._db.runTransaction(async (tx) => {
+          const snap = await tx.get(ref);
+          if (snap.exists) throw new Error('CODE_TAKEN');
+          tx.set(ref, {
+            teacherId: teacherUid,
+            name: className,
+            students: [],
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        });
+        await this.updateUserProfile(teacherUid, {
+          classes: firebase.firestore.FieldValue.arrayUnion(code)
+        });
+        return code;
+      } catch (e) {
+        if (e.message !== 'CODE_TAKEN') throw e;
+        // sinon, on boucle et on tente un nouveau code
+      }
+    }
+    throw new Error('Impossible de générer un code de classe unique, réessayez.');
   },
 
   _generateClassCode(name) {

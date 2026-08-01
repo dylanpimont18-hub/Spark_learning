@@ -12,7 +12,13 @@ var TeacherDashboard = {
     app.innerHTML = '<div class="td-loading">Chargement...</div>';
     try {
       var uid = AuthService.getCurrentUser().uid;
-      TeacherDashboard._classes = await AuthService.getTeacherClasses(uid);
+      var classesPromise = AuthService.getTeacherClasses(uid);
+      // Un enseignant qui arrive directement sur ce tableau de bord (ex: après connexion)
+      // n'a jamais déclenché ensureLevelData() sur aucune matière : window.MODULES resterait
+      // vide, ce qui viderait le sélecteur "Assigner un devoir" et affichait des IDs bruts
+      // à la place des titres de module (points faibles, devoirs).
+      if (typeof ensureAllData === 'function') await ensureAllData();
+      TeacherDashboard._classes = await classesPromise;
       TeacherDashboard._renderDashboard();
     } catch (e) {
       app.innerHTML = '<div class="td-error">Erreur de chargement.<button class="td-back-btn" onclick="TeacherDashboard.render(\'' + (backCode || '') + '\')">Réessayer</button></div>';
@@ -168,6 +174,115 @@ var TeacherDashboard = {
       .slice(0, 5);
   },
 
+  // Pourcentage de score représentatif d'un module, à partir des données réelles de
+  // tracking (progress.progress[moduleId].score/.evaluationScore ne sont jamais écrits
+  // par les moteurs — voir Storage.saveProgress dans js/storage.js, qui ne pose qu'un
+  // booléen completed). Même priorité évaluation > quiz > exercice que _computeWeakPoints.
+  // Réutilisé par GradingPanel (js/views/gradingPanel.js), chargé après ce fichier.
+  _moduleScorePct: function(mod, t) {
+    if (!t) return null;
+    if (t.evaluation && t.evaluation.bestTotal) {
+      return Math.round((t.evaluation.bestScore / t.evaluation.bestTotal) * 100);
+    }
+    if (t.quiz && t.quiz.bestScore != null && mod && mod.quiz && mod.quiz.length) {
+      return Math.round((t.quiz.bestScore / mod.quiz.length) * 100);
+    }
+    if (t.exercice && t.exercice.attempts > 0) {
+      return Math.round((t.exercice.correct / t.exercice.attempts) * 100);
+    }
+    return null;
+  },
+
+  // Mode de tri courant de la liste d'élèves (persiste tant que le tableau de bord reste ouvert).
+  _sortMode: 'name',
+
+  _studentAvgScorePct: function(prog) {
+    var tracking = (prog && prog.tracking) ? prog.tracking : {};
+    var pcts = [];
+    Object.keys(tracking).forEach(function(moduleId) {
+      var pct = TeacherDashboard._moduleScorePct(getModule(moduleId), tracking[moduleId]);
+      if (pct != null) pcts.push(pct);
+    });
+    if (pcts.length === 0) return null;
+    return pcts.reduce(function(a, b) { return a + b; }, 0) / pcts.length;
+  },
+
+  _studentLastActiveMs: function(prog) {
+    if (prog && prog.tracking && prog.tracking.lastActive) {
+      return prog.tracking.lastActive.toMillis ? prog.tracking.lastActive.toMillis() : Number(prog.tracking.lastActive);
+    }
+    if (prog && prog.streak && prog.streak.lastDate) {
+      return new Date(prog.streak.lastDate).getTime();
+    }
+    return null;
+  },
+
+  _sortStudents: function(students, progressMap) {
+    var mode = TeacherDashboard._sortMode;
+    var sorted = students.slice();
+    if (mode === 'weak') {
+      sorted.sort(function(a, b) {
+        var pa = TeacherDashboard._studentAvgScorePct(progressMap[a.uid]);
+        var pb = TeacherDashboard._studentAvgScorePct(progressMap[b.uid]);
+        // Élève sans donnée de score : en fin de liste (pas "faible", juste pas encore évalué).
+        if (pa == null && pb == null) return 0;
+        if (pa == null) return 1;
+        if (pb == null) return -1;
+        return pa - pb;
+      });
+    } else if (mode === 'inactive') {
+      sorted.sort(function(a, b) {
+        var la = TeacherDashboard._studentLastActiveMs(progressMap[a.uid]) || 0;
+        var lb = TeacherDashboard._studentLastActiveMs(progressMap[b.uid]) || 0;
+        return la - lb; // jamais actif / plus ancien en premier
+      });
+    } else {
+      sorted.sort(function(a, b) {
+        var na = (a.profile.displayName || '').toLowerCase();
+        var nb = (b.profile.displayName || '').toLowerCase();
+        return na < nb ? -1 : na > nb ? 1 : 0;
+      });
+    }
+    return sorted;
+  },
+
+  // Rendu de la liste d'élèves (toolbar de tri + lignes), extrait pour pouvoir être
+  // regénéré seul par _changeSortMode() sans recharger toute la classe depuis Firestore.
+  _renderStudentsSection: function(cls, students, progressMap, classIndex) {
+    var sorted = TeacherDashboard._sortStudents(students, progressMap);
+    var rows = sorted.length === 0
+      ? '<p class="td-empty">Aucun élève dans cette classe.</p>'
+      : sorted.map(function(s) {
+          var safeUid = TeacherDashboard._esc(s.uid);
+          var safeCode = TeacherDashboard._esc(cls.id);
+          var unavailableBadge = s.dataUnavailable
+            ? ' <span class="td-student-unavailable" title="Données indisponibles (erreur réseau ou permissions)">⚠️ données incomplètes</span>'
+            : '';
+          return '<div class="td-student-row">' +
+            '<span class="td-student-name">' + TeacherDashboard._esc(s.profile.displayName || 'Élève') + unavailableBadge + '</span>' +
+            '<button class="td-view-btn" onclick="TeacherDashboard._viewStudent(\'' + safeUid + '\', \'' + safeCode + '\')">Voir progression →</button>' +
+            '<button class="td-remove-btn" onclick="TeacherDashboard._removeStudent(\'' + safeUid + '\', \'' + safeCode + '\', ' + classIndex + ')">Retirer</button>' +
+          '</div>';
+        }).join('');
+    var toolbar = students.length > 1
+      ? '<div class="td-students-toolbar"><label>Trier par ' +
+          '<select id="td-sort-mode" onchange="TeacherDashboard._changeSortMode(this.value, ' + classIndex + ')">' +
+            '<option value="name"' + (TeacherDashboard._sortMode === 'name' ? ' selected' : '') + '>Nom</option>' +
+            '<option value="weak"' + (TeacherDashboard._sortMode === 'weak' ? ' selected' : '') + '>Score le plus faible</option>' +
+            '<option value="inactive"' + (TeacherDashboard._sortMode === 'inactive' ? ' selected' : '') + '>Inactivité</option>' +
+          '</select></label></div>'
+      : '';
+    return toolbar + rows;
+  },
+
+  _changeSortMode: function(mode, classIndex) {
+    TeacherDashboard._sortMode = mode;
+    var section = document.getElementById('td-students-section');
+    var cls = TeacherDashboard._classes[classIndex];
+    if (!section || !cls) return;
+    section.innerHTML = TeacherDashboard._renderStudentsSection(cls, TeacherDashboard._currentStudents, TeacherDashboard._currentProgressMap, classIndex);
+  },
+
   _prefillAssignment: function(classIndex, moduleId) {
     var sel = document.getElementById('td-assign-module');
     if (!sel) return;
@@ -241,22 +356,6 @@ var TeacherDashboard = {
       ) +
     '</div>';
 
-    // ── Liste élèves ──
-    var studentsHtml = students.length === 0
-      ? '<p class="td-empty">Aucun élève dans cette classe.</p>'
-      : students.map(function(s) {
-          var safeUid = TeacherDashboard._esc(s.uid);
-          var safeCode = TeacherDashboard._esc(cls.id);
-          var unavailableBadge = s.dataUnavailable
-            ? ' <span class="td-student-unavailable" title="Données indisponibles (erreur réseau ou permissions)">⚠️ données incomplètes</span>'
-            : '';
-          return '<div class="td-student-row">' +
-            '<span class="td-student-name">' + TeacherDashboard._esc(s.profile.displayName || 'Élève') + unavailableBadge + '</span>' +
-            '<button class="td-view-btn" onclick="TeacherDashboard._viewStudent(\'' + safeUid + '\', \'' + safeCode + '\')">Voir progression →</button>' +
-            '<button class="td-remove-btn" onclick="TeacherDashboard._removeStudent(\'' + safeUid + '\', \'' + safeCode + '\', ' + classIndex + ')">Retirer</button>' +
-          '</div>';
-        }).join('');
-
     // ── Devoirs ──
     var assignments = [];
     var assignmentsLoadFailed = false;
@@ -287,9 +386,13 @@ var TeacherDashboard = {
         }).join('');
 
     // ── Formulaire devoir ──
-    var moduleOptions = (window.MODULES || []).map(function(m) {
-      return '<option value="' + TeacherDashboard._esc(m.id) + '">' + TeacherDashboard._esc(m.title) + '</option>';
-    }).join('');
+    // Exclut les modules verrouillés/en maintenance (js/state.js isModuleUnavailable) :
+    // les élèves n'y ont pas accès, un devoir dessus serait invisible/bloqué pour eux.
+    var moduleOptions = (window.MODULES || [])
+      .filter(function(m) { return typeof isModuleUnavailable !== 'function' || !isModuleUnavailable(m.id); })
+      .map(function(m) {
+        return '<option value="' + TeacherDashboard._esc(m.id) + '">' + TeacherDashboard._esc(m.title) + '</option>';
+      }).join('');
     var assignForm = '<div class="td-assignment-form">' +
       '<label>Module' +
         '<select id="td-assign-module">' + moduleOptions + '</select>' +
@@ -317,7 +420,7 @@ var TeacherDashboard = {
           : '') +
         statsBar +
         weakPointsHtml +
-        '<div class="td-students">' + studentsHtml + '</div>' +
+        '<div class="td-students" id="td-students-section">' + TeacherDashboard._renderStudentsSection(cls, students, progressMap, classIndex) + '</div>' +
         '<div class="td-assignment-section">' +
           '<h3>📋 Devoirs</h3>' +
           assignmentsHtml +
@@ -341,6 +444,7 @@ var TeacherDashboard = {
   _renderStudentProgress: function(studentUid, classId, profile, progress) {
     var name = profile ? profile.displayName || 'Élève' : 'Élève';
     var prog = (progress && progress.progress) ? progress.progress : {};
+    var tracking = (progress && progress.tracking) ? progress.tracking : {};
     var streak = (progress && progress.streak) ? progress.streak : {};
 
     var modules = Object.keys(prog).map(function(key) {
@@ -360,13 +464,10 @@ var TeacherDashboard = {
     var modulesHtml = modules.length === 0
       ? '<p class="td-empty">Aucun module commencé.</p>'
       : modules.map(function(item) {
-          var m = item.data;
-          // Même ordre de priorité que GradingPanel._renderGradeTable() / _renderAll()
-          // (js/views/gradingPanel.js) : sans ça, le même élève peut afficher un
-          // pourcentage différent selon l'écran quand les deux champs sont présents.
-          var score = m && m.evaluationScore != null ? m.evaluationScore + '%' : (m && m.score != null ? m.score + '%' : '—');
-          var done = item.completed ? '✅' : '⏳';
           var modObj = getModule(item.key);
+          var scorePct = TeacherDashboard._moduleScorePct(modObj, tracking[item.key]);
+          var score = scorePct != null ? scorePct + '%' : '—';
+          var done = item.completed ? '✅' : '⏳';
           var modTitle = (modObj && modObj.title) ? modObj.title : item.key;
           var quizIcon = item.hasQuiz ? '✅' : '—';
           var exoIcon = item.hasExo ? '✅' : '—';

@@ -170,8 +170,16 @@ var AuthView = {
     };
     await AuthService.createUserProfile(user.uid, profile);
     if (!isTeacher) {
+      var failedCodes = [];
       for (var i = 0; i < AuthView._joinedClasses.length; i++) {
-        try { await AuthService.joinClass(user.uid, AuthView._joinedClasses[i]); } catch (e) { /* code invalide */ }
+        try { await AuthService.joinClass(user.uid, AuthView._joinedClasses[i]); }
+        catch (e) { failedCodes.push(AuthView._joinedClasses[i]); }
+      }
+      // Le compte est déjà créé à ce stade (on ne peut pas annuler l'inscription pour
+      // un code erroné) — on informe simplement l'élève au lieu d'avaler l'échec en silence,
+      // sinon il se retrouve sans classe sans jamais savoir pourquoi.
+      if (failedCodes.length > 0 && typeof showToast === 'function') {
+        showToast('Compte créé, mais code(s) de classe invalide(s) : ' + failedCodes.join(', ') + '. Demande le bon code à ton enseignant.', 'error');
       }
     }
     // onAuthStateChanged dans app.js gère la redirection
