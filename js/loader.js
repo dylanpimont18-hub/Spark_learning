@@ -166,6 +166,11 @@ const DATA_FILES = {
     'js/data/physique-bts/physique-bts-chimie-solutions.js',
     'js/data/physique-bts/physique-bts-cinetique.js',
     'js/data/physique-bts/physique-bts-electromagnetisme.js'
+  ],
+  'fed-3': [
+    'js/data/fed-bts/fed-bts-a1-1-thermique-tubes.js',
+    'js/data/fed-bts/fed-bts-a1-2-hygrothermie.js',
+    'js/data/fed-bts/fed-bts-a2-1-genie-civil.js'
   ]
 };
 
@@ -239,7 +244,10 @@ const MODULE_INDEX = {
   'physique-bts-dynamique-fluides':'physique-3','physique-bts-thermodynamique':'physique-3',
   'physique-bts-circuits-continu':'physique-3','physique-bts-regime-sinusoidal':'physique-3',
   'physique-bts-optique':'physique-3','physique-bts-chimie-solutions':'physique-3',
-  'physique-bts-cinetique':'physique-3','physique-bts-electromagnetisme':'physique-3'
+  'physique-bts-cinetique':'physique-3','physique-bts-electromagnetisme':'physique-3',
+
+  // BTS FED
+  'fed-bts-a1-1-thermique-tubes':'fed-3','fed-bts-a1-2-hygrothermie':'fed-3','fed-bts-a2-1-genie-civil':'fed-3'
 };
 
 const _loadedGroups = new Set();

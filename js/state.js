@@ -115,6 +115,17 @@ const SUBJECT_DEFS = [
     applicationQuestion: 'Où retrouve-t-on ce principe en ingénierie ?',
     formulasLabel: 'Relations fondamentales',
     formulasIcon: '📏'
+  },
+  {
+    id: 'fed', icon: '🌡️', label: 'BTS FED',
+    color: 'var(--fed)',
+    description: 'Thermique, fluides, systèmes CVC — les savoirs techniques du BTS Fluides Énergies Domotique, option Génie Climatique et Fluidique.',
+    availableLevels: [3],
+    applicationLabel: 'Application chantier',
+    applicationIcon: '🏗️',
+    applicationQuestion: 'Où retrouve-t-on ce principe sur une installation réelle ?',
+    formulasLabel: 'Relations clés',
+    formulasIcon: '🌡️'
   }
 ];
 

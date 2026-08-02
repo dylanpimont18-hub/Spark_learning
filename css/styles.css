@@ -7,6 +7,7 @@
   --primary:     #2C3E50;
   --secondary:   #48C9B0;
   --accent:      #F4D03F;
+  --fed:         #E67E22;
   --success:     #2ECC71;
   --error:       #FF6B6B;
   --bg:          #F8F9FA;
@@ -51,6 +52,7 @@
   --primary:     #8AB4F8;
   --secondary:   #3A8979;
   --accent:      #D4AC0D;
+  --fed:         #F0995F;
   --error:       #D65A5A;
   --bg:          #121212;
   --bg-card:     #1E1E1E;
@@ -1785,6 +1787,9 @@ main { flex: 1; }
 }
 .diagram-theme-si {
   --diagram-accent: color-mix(in srgb, var(--accent) 60%, var(--primary));
+}
+.diagram-theme-fed {
+  --diagram-accent: var(--fed);
 }
 .cours-diagram-rich {
   padding: 22px;
