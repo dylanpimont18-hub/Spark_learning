@@ -45,7 +45,7 @@
 | 1 | B1-1 Production (chauffage) | `fed-bts-b1-1-production-chauffage` | 2-3 | 0-3 | 1-3 | 🔴 |
 | 2 | B1-2 Émission (chauffage) | `fed-bts-b1-2-emission-chauffage` | 3 | 1 | 2-3 | 🔴 |
 | 3 | B2-1 Ventilation | `fed-bts-b2-1-ventilation` | 3 | 3 | 2-3 | 🔴 |
-| 4 | B2-2 Climatisation | `fed-bts-b2-2-climatisation` | 3 | 3 | 2-3 | 🔴 |
+| 4 | B2-2 Climatisation | `fed-bts-b2-2-climatisation` | 3¹ | 3¹ | 2-3 | 🔴 |
 | 5 | B2-3 Désenfumage et sécurité incendie | `fed-bts-b2-3-desenfumage` | 3 | 3 | 2 | 🔴 |
 | 6 | B3-1 Alimentation en EFS | `fed-bts-b3-1-alimentation-efs` | 3 | 0 | 1 | 🔴 |
 | 7 | B3-2 Production et distribution ECS | `fed-bts-b3-2-production-ecs` | 3 | 2 | 2-3 | 🔴 |
@@ -76,3 +76,5 @@
 | 32 | B9 Comptage des énergies | `fed-bts-b9-comptage-energies` | 2 | 2 | 3 | 🔴 |
 | 33 | B10 Stockage de l'énergie | `fed-bts-b10-stockage-energie` | 1-3 | 1 | 1-3 | 🔴 |
 | 34 | B11 Régulation | `fed-bts-b11-regulation` | 3 | 3 | 3 | 🔴 |
+
+¹ *Le référentiel officiel (`docs/referentiel-fed-S8.md:113`) affiche cette cellule sous une forme ambiguë (`3/3` pour GCF, `—` pour FCA) pour la sous-ligne "Systèmes thermodynamiques...". Interprétation retenue ici : GCF = 3, FCA = 3, par cohérence avec la sous-ligne suivante du référentiel (ligne 114 : `3 | 3 | 2`). À confirmer si le référentiel source (PDF) est consulté directement.*
