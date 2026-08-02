@@ -652,7 +652,7 @@ async function setSubjectAccessMode(subjectId, mode) {
 
   Storage.setAllModuleStatuses(nextAccess);
   state.moduleAccess = nextAccess;
-  const subjectLabel = { maths: 'Mathématiques', physique: 'Physique-Chimie', si: 'Sciences de l\'Ingénieur' }[subjectId] || subjectId;
+  const subjectLabel = { maths: 'Mathématiques', physique: 'Physique-Chimie', si: 'Sciences de l\'Ingénieur', fed: 'BTS FED' }[subjectId] || subjectId;
   const modeLabel = { open: 'activée', locked: 'verrouillée', maintenance: 'en maintenance' }[mode] || mode;
   showToast(`Matière « ${subjectLabel} » ${modeLabel} (${modules.length} modules)`, 'info');
   render();

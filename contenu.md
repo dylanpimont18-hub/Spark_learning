@@ -157,6 +157,7 @@ Permet au tuteur d'envoyer un lien à un futur élève pour évaluer son niveau 
 | **si-tle/** | Contenus SI Tle — refactoring terminé |
 | **si-bts/** | Contenus SI BTS — refactoring terminé |
 | **physique-bts/** | Contenus Physique-Chimie BTS — complet (10/10 sous-modules) |
+| **fed-bts/** | Contenus BTS FED (savoir S8) — 3/54 notions (A1-1, A1-2, A2-1) |
 
 ## Documentation (docs/)
 | Fichier | Rôle |

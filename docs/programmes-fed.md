@@ -26,9 +26,9 @@
 
 | # | Notion | id suggéré | GCF | FCA | DBC | Statut |
 |---|--------|------------|:---:|:---:|:---:|:------:|
-| 1 | A1-1 Thermique des tubes | `fed-bts-a1-1-thermique-tubes` | 2 | 2 | 1 | 🔴 |
-| 2 | A1-2 Hygrothermie | `fed-bts-a1-2-hygrothermie` | 3 | 3 | 2 | 🔴 |
-| 3 | A2-1 Génie civil, structure et architecture | `fed-bts-a2-1-genie-civil` | 2 | 2 | 2 | 🔴 |
+| 1 | A1-1 Thermique des tubes | `fed-bts-a1-1-thermique-tubes` | 2 | 2 | 1 | 🟢 |
+| 2 | A1-2 Hygrothermie | `fed-bts-a1-2-hygrothermie` | 3 | 3 | 2 | 🟢 |
+| 3 | A2-1 Génie civil, structure et architecture | `fed-bts-a2-1-genie-civil` | 2 | 2 | 2 | 🟢 |
 | 4 | A2-2 Simulation dynamique thermique (STD) | `fed-bts-a2-2-std` | 2 | 2 | 2 | 🔴 |
 | 5 | A2-3 Bilan thermique | `fed-bts-a2-3-bilan-thermique` | 3 | 2 | 2 | 🔴 |
 | 6 | A2-4 DJU, besoin d'énergie utile | `fed-bts-a2-4-dju` | 3 | 2 | 3 | 🔴 |
@@ -104,8 +104,8 @@
 
 | Section | Notions | Faites | Reste |
 |---------|--------:|-------:|------:|
-| A — Connaissances fondamentales | 11 | 0 | 11 |
+| A — Connaissances fondamentales | 11 | 3 | 8 |
 | B — Systèmes et technologies | 34 | 0 | 34 |
 | C — Énergie électrique | 4 | 0 | 4 |
 | D — Communication | 5 | 0 | 5 |
-| **Total S8** | **54** | **0** | **54** |
+| **Total S8** | **54** | **3** | **51** |
