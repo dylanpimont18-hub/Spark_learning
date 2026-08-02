@@ -57,7 +57,8 @@ Ce fichier est la **source de vérité** pour la structure de fichiers du projet
 | js/components/probleme.js | Interface des problèmes |
 | js/components/evaluation.js | Interface des évaluations |
 | js/components/companion.js | **[PHASE 4]** Interface Spark Companion : accueil, remédiation, suivi CCF |
-| js/components/contactPanel.js | Panneau de contact flottant (signalement erreur/remarque/question) |
+| js/components/contactPanel.js | Panneau de contact flottant (signalement erreur/remarque/question), lien de pont vers la page dédiée /contact |
+| js/views/contact.js | Page de contact dédiée /contact (question, erreur, proposition commerciale, partenariat, presse) |
 | js/components/globalSearch.js | Recherche globale de modules (Ctrl/Cmd+K) |
 | js/components/teacherErrorModal.js | Modale enseignant : proposer un piège fréquent sur un module |
 
