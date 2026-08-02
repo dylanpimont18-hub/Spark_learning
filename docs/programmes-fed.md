@@ -87,3 +87,25 @@
 | 2 | C2-1 Moteurs électriques | `fed-bts-c2-1-moteurs-electriques` | 1 | 2 | 2 | 🔴 |
 | 3 | C2-2 Variation de vitesse | `fed-bts-c2-2-variation-vitesse` | 2 | 2 | 2 | 🔴 |
 | 4 | C3 Gestion de l'énergie électrique | `fed-bts-c3-gestion-energie-electrique` | 1-2 | 1-2 | 1-3 | 🔴 |
+
+### D — Communication
+
+| # | Notion | id suggéré | GCF | FCA | DBC | Statut |
+|---|--------|------------|:---:|:---:|:---:|:------:|
+| 1 | D1-1 Médias de communication | `fed-bts-d1-1-medias-communication` | 1 | 1 | 3 | 🔴 |
+| 2 | D1-2 Standards de communication | `fed-bts-d1-2-standards-communication` | 2 | 2 | 3 | 🔴 |
+| 3 | D2-1 Réseaux informatiques | `fed-bts-d2-1-reseaux-informatiques` | 0-1 | 0-1 | 2-3 | 🔴 |
+| 4 | D2-2 VDI (Voix-Données-Images) | `fed-bts-d2-2-vdi` | 0-1 | 0-1 | 3 | 🔴 |
+| 5 | D2-3 Téléphonie | `fed-bts-d2-3-telephonie` | 0 | 0 | 3 | 🔴 |
+
+---
+
+## Récapitulatif — S8
+
+| Section | Notions | Faites | Reste |
+|---------|--------:|-------:|------:|
+| A — Connaissances fondamentales | 11 | 0 | 11 |
+| B — Systèmes et technologies | 34 | 0 | 34 |
+| C — Énergie électrique | 4 | 0 | 4 |
+| D — Communication | 5 | 0 | 5 |
+| **Total S8** | **54** | **0** | **54** |
