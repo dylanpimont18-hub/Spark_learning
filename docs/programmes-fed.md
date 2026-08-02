@@ -78,3 +78,12 @@
 | 34 | B11 Régulation | `fed-bts-b11-regulation` | 3 | 3 | 3 | 🔴 |
 
 ¹ *Le référentiel officiel (`docs/referentiel-fed-S8.md:113`) affiche cette cellule sous une forme ambiguë (`3/3` pour GCF, `—` pour FCA) pour la sous-ligne "Systèmes thermodynamiques...". Interprétation retenue ici : GCF = 3, FCA = 3, par cohérence avec la sous-ligne suivante du référentiel (ligne 114 : `3 | 3 | 2`). À confirmer si le référentiel source (PDF) est consulté directement.*
+
+### C — Énergie électrique
+
+| # | Notion | id suggéré | GCF | FCA | DBC | Statut |
+|---|--------|------------|:---:|:---:|:---:|:------:|
+| 1 | C1-1 Distribution BT | `fed-bts-c1-1-distribution-bt` | 1-2 | 1-2 | 2-3 | 🔴 |
+| 2 | C2-1 Moteurs électriques | `fed-bts-c2-1-moteurs-electriques` | 1 | 2 | 2 | 🔴 |
+| 3 | C2-2 Variation de vitesse | `fed-bts-c2-2-variation-vitesse` | 2 | 2 | 2 | 🔴 |
+| 4 | C3 Gestion de l'énergie électrique | `fed-bts-c3-gestion-energie-electrique` | 1-2 | 1-2 | 1-3 | 🔴 |
