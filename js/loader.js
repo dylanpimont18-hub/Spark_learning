@@ -170,7 +170,12 @@ const DATA_FILES = {
   'fed-3': [
     'js/data/fed-bts/fed-bts-a1-1-thermique-tubes.js',
     'js/data/fed-bts/fed-bts-a1-2-hygrothermie.js',
-    'js/data/fed-bts/fed-bts-a2-1-genie-civil.js'
+    'js/data/fed-bts/fed-bts-a2-1-genie-civil.js',
+    'js/data/fed-bts/fed-bts-a2-2-std.js',
+    'js/data/fed-bts/fed-bts-a2-3-bilan-thermique.js',
+    'js/data/fed-bts/fed-bts-a2-4-dju.js',
+    'js/data/fed-bts/fed-bts-a3-dynamique-fluides.js',
+    'js/data/fed-bts/fed-bts-a4-traitement-air.js'
   ]
 };
 
@@ -247,7 +252,9 @@ const MODULE_INDEX = {
   'physique-bts-cinetique':'physique-3','physique-bts-electromagnetisme':'physique-3',
 
   // BTS FED
-  'fed-bts-a1-1-thermique-tubes':'fed-3','fed-bts-a1-2-hygrothermie':'fed-3','fed-bts-a2-1-genie-civil':'fed-3'
+  'fed-bts-a1-1-thermique-tubes':'fed-3','fed-bts-a1-2-hygrothermie':'fed-3','fed-bts-a2-1-genie-civil':'fed-3',
+  'fed-bts-a2-2-std':'fed-3','fed-bts-a2-3-bilan-thermique':'fed-3','fed-bts-a2-4-dju':'fed-3',
+  'fed-bts-a3-dynamique-fluides':'fed-3','fed-bts-a4-traitement-air':'fed-3'
 };
 
 const _loadedGroups = new Set();
