@@ -161,7 +161,8 @@ Permet au tuteur d'envoyer un lien à un futur élève pour évaluer son niveau 
 ## Documentation (docs/)
 | Fichier | Rôle |
 |---------|------|
-| programmes-*.md | Référentiels de compétences officiels (Maths, Physique, SI) |
+| programmes-*.md | Référentiels de compétences officiels (Maths, Physique, SI, FED) |
+| referentiel-fed-S8.md | Copie brute du référentiel officiel BTS FED, savoir S8 (source pour programmes-fed.md) |
 
 ---
 

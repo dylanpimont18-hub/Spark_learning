@@ -286,5 +286,5 @@ git commit -m "docs(fed): programme FED S8 — section D (communication) + réca
 ## Suite (hors périmètre de ce plan)
 
 Une fois ce plan exécuté, `docs/programmes-fed.md` et `docs/referentiel-fed-S8.md` existent et sont commités. Les chantiers suivants (non planifiés ici) :
-- Ajouter S4, S5, S9, S10 au même fichier programme (mêmes conventions).
+- Ajouter S4, S5, S6, S7, S9, S10 au même fichier programme (mêmes conventions).
 - Choisir les premières notions S8 à transformer en modules réels (`js/data/`), en respectant le workflow défini dans `CLAUDE.md` (section 3) et les règles de rédaction (section 2 : aération, `fr()`, ton socratique).

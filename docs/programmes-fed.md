@@ -4,7 +4,7 @@
 > 🟢 = module créé | 🔴 = à faire | 🟡 = en cours
 >
 > **Périmètre actuel : uniquement S8 — Études technologiques des systèmes.**
-> S4, S5, S9, S10 seront ajoutés dans des chantiers ultérieurs — ne pas lire
+> S4, S5, S6, S7, S9, S10 seront ajoutés dans des chantiers ultérieurs — ne pas lire
 > ce fichier comme couvrant l'intégralité du diplôme FED.
 >
 > Source : référentiel officiel BTS FED (2014), voir `docs/referentiel-fed-S8.md`.
