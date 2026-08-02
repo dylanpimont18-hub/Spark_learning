@@ -175,7 +175,15 @@ const DATA_FILES = {
     'js/data/fed-bts/fed-bts-a2-3-bilan-thermique.js',
     'js/data/fed-bts/fed-bts-a2-4-dju.js',
     'js/data/fed-bts/fed-bts-a3-dynamique-fluides.js',
-    'js/data/fed-bts/fed-bts-a4-traitement-air.js'
+    'js/data/fed-bts/fed-bts-a4-traitement-air.js',
+    'js/data/fed-bts/fed-bts-a5-thermodynamique-appliquee.js',
+    'js/data/fed-bts/fed-bts-a7-acoustique.js',
+    'js/data/fed-bts/fed-bts-a8-combustion.js',
+    'js/data/fed-bts/fed-bts-b1-1-production-chauffage.js',
+    'js/data/fed-bts/fed-bts-b1-2-emission-chauffage.js',
+    'js/data/fed-bts/fed-bts-b2-1-ventilation.js',
+    'js/data/fed-bts/fed-bts-b2-2-climatisation.js',
+    'js/data/fed-bts/fed-bts-b2-3-desenfumage.js'
   ]
 };
 
@@ -254,7 +262,10 @@ const MODULE_INDEX = {
   // BTS FED
   'fed-bts-a1-1-thermique-tubes':'fed-3','fed-bts-a1-2-hygrothermie':'fed-3','fed-bts-a2-1-genie-civil':'fed-3',
   'fed-bts-a2-2-std':'fed-3','fed-bts-a2-3-bilan-thermique':'fed-3','fed-bts-a2-4-dju':'fed-3',
-  'fed-bts-a3-dynamique-fluides':'fed-3','fed-bts-a4-traitement-air':'fed-3'
+  'fed-bts-a3-dynamique-fluides':'fed-3','fed-bts-a4-traitement-air':'fed-3',
+  'fed-bts-a5-thermodynamique-appliquee':'fed-3','fed-bts-a7-acoustique':'fed-3','fed-bts-a8-combustion':'fed-3',
+  'fed-bts-b1-1-production-chauffage':'fed-3','fed-bts-b1-2-emission-chauffage':'fed-3',
+  'fed-bts-b2-1-ventilation':'fed-3','fed-bts-b2-2-climatisation':'fed-3','fed-bts-b2-3-desenfumage':'fed-3'
 };
 
 const _loadedGroups = new Set();

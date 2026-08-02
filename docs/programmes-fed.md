@@ -34,19 +34,19 @@
 | 6 | A2-4 DJU, besoin d'énergie utile | `fed-bts-a2-4-dju` | 3 | 2 | 3 | 🟢 |
 | 7 | A3 Dynamique des fluides | `fed-bts-a3-dynamique-fluides` | 3 | 3 | 1-2 | 🟢 |
 | 8 | A4 Traitement d'air | `fed-bts-a4-traitement-air` | 3 | 3 | 2-3 | 🟢 |
-| 9 | A5 Thermodynamique appliquée | `fed-bts-a5-thermodynamique-appliquee` | 0-3 | 3 | 0-2 | 🔴 |
-| 10 | A7 Acoustique appliquée | `fed-bts-a7-acoustique` | 3 | 3 | 1 | 🔴 |
-| 11 | A8 Combustion appliquée | `fed-bts-a8-combustion` | 3 | 1 | 1 | 🔴 |
+| 9 | A5 Thermodynamique appliquée | `fed-bts-a5-thermodynamique-appliquee` | 0-3 | 3 | 0-2 | 🟢 |
+| 10 | A7 Acoustique appliquée | `fed-bts-a7-acoustique` | 3 | 3 | 1 | 🟢 |
+| 11 | A8 Combustion appliquée | `fed-bts-a8-combustion` | 3 | 1 | 1 | 🟢 |
 
 ### B — Systèmes et technologies
 
 | # | Notion | id suggéré | GCF | FCA | DBC | Statut |
 |---|--------|------------|:---:|:---:|:---:|:------:|
-| 1 | B1-1 Production (chauffage) | `fed-bts-b1-1-production-chauffage` | 2-3 | 0-3 | 1-3 | 🔴 |
-| 2 | B1-2 Émission (chauffage) | `fed-bts-b1-2-emission-chauffage` | 3 | 1 | 2-3 | 🔴 |
-| 3 | B2-1 Ventilation | `fed-bts-b2-1-ventilation` | 3 | 3 | 2-3 | 🔴 |
-| 4 | B2-2 Climatisation | `fed-bts-b2-2-climatisation` | 3¹ | 3¹ | 2-3 | 🔴 |
-| 5 | B2-3 Désenfumage et sécurité incendie | `fed-bts-b2-3-desenfumage` | 3 | 3 | 2 | 🔴 |
+| 1 | B1-1 Production (chauffage) | `fed-bts-b1-1-production-chauffage` | 2-3 | 0-3 | 1-3 | 🟢 |
+| 2 | B1-2 Émission (chauffage) | `fed-bts-b1-2-emission-chauffage` | 3 | 1 | 2-3 | 🟢 |
+| 3 | B2-1 Ventilation | `fed-bts-b2-1-ventilation` | 3 | 3 | 2-3 | 🟢 |
+| 4 | B2-2 Climatisation | `fed-bts-b2-2-climatisation` | 3¹ | 3¹ | 2-3 | 🟢 |
+| 5 | B2-3 Désenfumage et sécurité incendie | `fed-bts-b2-3-desenfumage` | 3 | 3 | 2 | 🟢 |
 | 6 | B3-1 Alimentation en EFS | `fed-bts-b3-1-alimentation-efs` | 3 | 0 | 1 | 🔴 |
 | 7 | B3-2 Production et distribution ECS | `fed-bts-b3-2-production-ecs` | 3 | 2 | 2-3 | 🔴 |
 | 8 | B3-3 Traitement d'eau sanitaire | `fed-bts-b3-3-traitement-eau-sanitaire` | 3 | 2 | 0 | 🔴 |
@@ -104,8 +104,8 @@
 
 | Section | Notions | Faites | Reste |
 |---------|--------:|-------:|------:|
-| A — Connaissances fondamentales | 11 | 8 | 3 |
-| B — Systèmes et technologies | 34 | 0 | 34 |
+| A — Connaissances fondamentales | 11 | 11 | 0 |
+| B — Systèmes et technologies | 34 | 5 | 29 |
 | C — Énergie électrique | 4 | 0 | 4 |
 | D — Communication | 5 | 0 | 5 |
-| **Total S8** | **54** | **8** | **46** |
+| **Total S8** | **54** | **16** | **38** |
