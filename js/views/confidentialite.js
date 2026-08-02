@@ -35,7 +35,7 @@ function renderConfidentialite() {
 				<p>Ces publicités sont affichées en mode <strong>non personnalisé</strong> : elles sont basées sur le contenu de la page consultée, pas sur ton profil ou ton comportement de navigation. Google peut néanmoins déposer des cookies techniques nécessaires au fonctionnement de la publicité. Tu peux en savoir plus et gérer tes préférences sur <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer">la page dédiée de Google</a>.</p>
 
 				<h2>4. Formulaire de contact</h2>
-				<p>Le formulaire "Nous contacter" (bug, remarque, question) transmet ton message à <strong>Formspree</strong>, un service tiers de traitement de formulaires, uniquement dans le but de te répondre. Aucune donnée n'est conservée au-delà de ce traitement.</p>
+				<p>Les formulaires "Nous contacter" — la bulle flottante accessible depuis n'importe quelle page (bug, remarque, question) et la page dédiée <strong>/contact</strong> (question, erreur, proposition, partenariat, presse) — transmettent ton message à <strong>Formspree</strong>, un service tiers de traitement de formulaires, uniquement dans le but de te répondre. Aucune donnée n'est conservée au-delà de ce traitement.</p>
 
 				<h2>5. Aucune vente de données</h2>
 				<p>Spark Learning ne vend, ne loue et ne partage jamais tes données personnelles à des fins commerciales.</p>
