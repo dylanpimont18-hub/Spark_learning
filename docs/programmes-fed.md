@@ -47,14 +47,14 @@
 | 3 | B2-1 Ventilation | `fed-bts-b2-1-ventilation` | 3 | 3 | 2-3 | 🟢 |
 | 4 | B2-2 Climatisation | `fed-bts-b2-2-climatisation` | 3¹ | 3¹ | 2-3 | 🟢 |
 | 5 | B2-3 Désenfumage et sécurité incendie | `fed-bts-b2-3-desenfumage` | 3 | 3 | 2 | 🟢 |
-| 6 | B3-1 Alimentation en EFS | `fed-bts-b3-1-alimentation-efs` | 3 | 0 | 1 | 🔴 |
-| 7 | B3-2 Production et distribution ECS | `fed-bts-b3-2-production-ecs` | 3 | 2 | 2-3 | 🔴 |
-| 8 | B3-3 Traitement d'eau sanitaire | `fed-bts-b3-3-traitement-eau-sanitaire` | 3 | 2 | 0 | 🔴 |
-| 9 | B3-4 Eaux usées et eaux vannes | `fed-bts-b3-4-eaux-usees` | 3 | 1 | 1 | 🔴 |
-| 10 | B4-1 Réseaux hydrauliques | `fed-bts-b4-1-reseaux-hydrauliques` | 3 | 3 | 1-3 | 🔴 |
-| 11 | B4-2 Réseaux aérauliques | `fed-bts-b4-2-reseaux-aerauliques` | 3 | 3 | 2-3 | 🔴 |
-| 12 | B5-1 Compresseurs volumétriques | `fed-bts-b5-1-compresseurs-volumetriques` | 1 | 3 | 1 | 🔴 |
-| 13 | B5-2 Compresseurs centrifuges | `fed-bts-b5-2-compresseurs-centrifuges` | 0 | 1 | 0 | 🔴 |
+| 6 | B3-1 Alimentation en EFS | `fed-bts-b3-1-alimentation-efs` | 3 | 0 | 1 | 🟢 |
+| 7 | B3-2 Production et distribution ECS | `fed-bts-b3-2-production-ecs` | 3 | 2 | 2-3 | 🟢 |
+| 8 | B3-3 Traitement d'eau sanitaire | `fed-bts-b3-3-traitement-eau-sanitaire` | 3 | 2 | 0 | 🟢 |
+| 9 | B3-4 Eaux usées et eaux vannes | `fed-bts-b3-4-eaux-usees` | 3 | 1 | 1 | 🟢 |
+| 10 | B4-1 Réseaux hydrauliques | `fed-bts-b4-1-reseaux-hydrauliques` | 3 | 3 | 1-3 | 🟢 |
+| 11 | B4-2 Réseaux aérauliques | `fed-bts-b4-2-reseaux-aerauliques` | 3 | 3 | 2-3 | 🟢 |
+| 12 | B5-1 Compresseurs volumétriques | `fed-bts-b5-1-compresseurs-volumetriques` | 1 | 3 | 1 | 🟢 |
+| 13 | B5-2 Compresseurs centrifuges | `fed-bts-b5-2-compresseurs-centrifuges` | 0 | 1 | 0 | 🟢 |
 | 14 | B5-3 Évaporateurs | `fed-bts-b5-3-evaporateurs` | 1 | 3 | 1 | 🔴 |
 | 15 | B5-4 Détendeurs | `fed-bts-b5-4-detendeurs` | 1 | 3 | 1 | 🔴 |
 | 16 | B5-5 Systèmes de rejet de chaleur | `fed-bts-b5-5-rejet-chaleur` | 3 | 3 | 1 | 🔴 |
@@ -105,7 +105,7 @@
 | Section | Notions | Faites | Reste |
 |---------|--------:|-------:|------:|
 | A — Connaissances fondamentales | 11 | 11 | 0 |
-| B — Systèmes et technologies | 34 | 5 | 29 |
+| B — Systèmes et technologies | 34 | 13 | 21 |
 | C — Énergie électrique | 4 | 0 | 4 |
 | D — Communication | 5 | 0 | 5 |
-| **Total S8** | **54** | **16** | **38** |
+| **Total S8** | **54** | **24** | **30** |

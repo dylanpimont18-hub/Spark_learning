@@ -183,7 +183,15 @@ const DATA_FILES = {
     'js/data/fed-bts/fed-bts-b1-2-emission-chauffage.js',
     'js/data/fed-bts/fed-bts-b2-1-ventilation.js',
     'js/data/fed-bts/fed-bts-b2-2-climatisation.js',
-    'js/data/fed-bts/fed-bts-b2-3-desenfumage.js'
+    'js/data/fed-bts/fed-bts-b2-3-desenfumage.js',
+    'js/data/fed-bts/fed-bts-b3-1-alimentation-efs.js',
+    'js/data/fed-bts/fed-bts-b3-2-production-ecs.js',
+    'js/data/fed-bts/fed-bts-b3-3-traitement-eau-sanitaire.js',
+    'js/data/fed-bts/fed-bts-b3-4-eaux-usees.js',
+    'js/data/fed-bts/fed-bts-b4-1-reseaux-hydrauliques.js',
+    'js/data/fed-bts/fed-bts-b4-2-reseaux-aerauliques.js',
+    'js/data/fed-bts/fed-bts-b5-1-compresseurs-volumetriques.js',
+    'js/data/fed-bts/fed-bts-b5-2-compresseurs-centrifuges.js'
   ]
 };
 
@@ -265,7 +273,11 @@ const MODULE_INDEX = {
   'fed-bts-a3-dynamique-fluides':'fed-3','fed-bts-a4-traitement-air':'fed-3',
   'fed-bts-a5-thermodynamique-appliquee':'fed-3','fed-bts-a7-acoustique':'fed-3','fed-bts-a8-combustion':'fed-3',
   'fed-bts-b1-1-production-chauffage':'fed-3','fed-bts-b1-2-emission-chauffage':'fed-3',
-  'fed-bts-b2-1-ventilation':'fed-3','fed-bts-b2-2-climatisation':'fed-3','fed-bts-b2-3-desenfumage':'fed-3'
+  'fed-bts-b2-1-ventilation':'fed-3','fed-bts-b2-2-climatisation':'fed-3','fed-bts-b2-3-desenfumage':'fed-3',
+  'fed-bts-b3-1-alimentation-efs':'fed-3','fed-bts-b3-2-production-ecs':'fed-3',
+  'fed-bts-b3-3-traitement-eau-sanitaire':'fed-3','fed-bts-b3-4-eaux-usees':'fed-3',
+  'fed-bts-b4-1-reseaux-hydrauliques':'fed-3','fed-bts-b4-2-reseaux-aerauliques':'fed-3',
+  'fed-bts-b5-1-compresseurs-volumetriques':'fed-3','fed-bts-b5-2-compresseurs-centrifuges':'fed-3'
 };
 
 const _loadedGroups = new Set();
