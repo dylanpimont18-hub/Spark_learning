@@ -75,7 +75,7 @@
 | 31 | B8-2 Domaines d'applications (GTB, sécurité) | `fed-bts-b8-2-domaines-applications-gtb` | 0-3 | 0-3 | 3 | 🟢 |
 | 32 | B9 Comptage des énergies | `fed-bts-b9-comptage-energies` | 2 | 2 | 3 | 🟢 |
 | 33 | B10 Stockage de l'énergie | `fed-bts-b10-stockage-energie` | 1-3 | 1 | 1-3 | 🟢 |
-| 34 | B11 Régulation | `fed-bts-b11-regulation` | 3 | 3 | 3 | 🔴 |
+| 34 | B11 Régulation | `fed-bts-b11-regulation` | 3 | 3 | 3 | 🟢 |
 
 ¹ *Le référentiel officiel (`docs/referentiel-fed-S8.md:113`) affiche cette cellule sous une forme ambiguë (`3/3` pour GCF, `—` pour FCA) pour la sous-ligne "Systèmes thermodynamiques...". Interprétation retenue ici : GCF = 3, FCA = 3, par cohérence avec la sous-ligne suivante du référentiel (ligne 114 : `3 | 3 | 2`). À confirmer si le référentiel source (PDF) est consulté directement.*
 
@@ -83,20 +83,20 @@
 
 | # | Notion | id suggéré | GCF | FCA | DBC | Statut |
 |---|--------|------------|:---:|:---:|:---:|:------:|
-| 1 | C1-1 Distribution BT | `fed-bts-c1-1-distribution-bt` | 1-2 | 1-2 | 2-3 | 🔴 |
-| 2 | C2-1 Moteurs électriques | `fed-bts-c2-1-moteurs-electriques` | 1 | 2 | 2 | 🔴 |
-| 3 | C2-2 Variation de vitesse | `fed-bts-c2-2-variation-vitesse` | 2 | 2 | 2 | 🔴 |
-| 4 | C3 Gestion de l'énergie électrique | `fed-bts-c3-gestion-energie-electrique` | 1-2 | 1-2 | 1-3 | 🔴 |
+| 1 | C1-1 Distribution BT | `fed-bts-c1-1-distribution-bt` | 1-2 | 1-2 | 2-3 | 🟢 |
+| 2 | C2-1 Moteurs électriques | `fed-bts-c2-1-moteurs-electriques` | 1 | 2 | 2 | 🟢 |
+| 3 | C2-2 Variation de vitesse | `fed-bts-c2-2-variation-vitesse` | 2 | 2 | 2 | 🟢 |
+| 4 | C3 Gestion de l'énergie électrique | `fed-bts-c3-gestion-energie-electrique` | 1-2 | 1-2 | 1-3 | 🟢 |
 
 ### D — Communication
 
 | # | Notion | id suggéré | GCF | FCA | DBC | Statut |
 |---|--------|------------|:---:|:---:|:---:|:------:|
-| 1 | D1-1 Médias de communication | `fed-bts-d1-1-medias-communication` | 1 | 1 | 3 | 🔴 |
-| 2 | D1-2 Standards de communication | `fed-bts-d1-2-standards-communication` | 2 | 2 | 3 | 🔴 |
-| 3 | D2-1 Réseaux informatiques | `fed-bts-d2-1-reseaux-informatiques` | 0-1 | 0-1 | 2-3 | 🔴 |
-| 4 | D2-2 VDI (Voix-Données-Images) | `fed-bts-d2-2-vdi` | 0-1 | 0-1 | 3 | 🔴 |
-| 5 | D2-3 Téléphonie | `fed-bts-d2-3-telephonie` | 0 | 0 | 3 | 🔴 |
+| 1 | D1-1 Médias de communication | `fed-bts-d1-1-medias-communication` | 1 | 1 | 3 | 🟢 |
+| 2 | D1-2 Standards de communication | `fed-bts-d1-2-standards-communication` | 2 | 2 | 3 | 🟢 |
+| 3 | D2-1 Réseaux informatiques | `fed-bts-d2-1-reseaux-informatiques` | 0-1 | 0-1 | 2-3 | 🟢 |
+| 4 | D2-2 VDI (Voix-Données-Images) | `fed-bts-d2-2-vdi` | 0-1 | 0-1 | 3 | 🟢 |
+| 5 | D2-3 Téléphonie | `fed-bts-d2-3-telephonie` | 0 | 0 | 3 | 🟢 |
 
 ---
 
@@ -105,7 +105,9 @@
 | Section | Notions | Faites | Reste |
 |---------|--------:|-------:|------:|
 | A — Connaissances fondamentales | 11 | 11 | 0 |
-| B — Systèmes et technologies | 34 | 33 | 1 |
-| C — Énergie électrique | 4 | 0 | 4 |
-| D — Communication | 5 | 0 | 5 |
-| **Total S8** | **54** | **44** | **10** |
+| B — Systèmes et technologies | 34 | 34 | 0 |
+| C — Énergie électrique | 4 | 4 | 0 |
+| D — Communication | 5 | 5 | 0 |
+| **Total S8** | **54** | **54** | **0** |
+
+**Référentiel S8 terminé à 100 % (54/54 notions).** Les savoirs S4, S5, S6, S7, S9, S10 restent hors périmètre de ce chantier (voir en-tête ci-dessus) : un futur chantier sur l'un de ces savoirs nécessiterait un nouveau référentiel source et un nouveau fichier `docs/programmes-fed-SX.md`.

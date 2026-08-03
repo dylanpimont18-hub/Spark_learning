@@ -211,7 +211,17 @@ const DATA_FILES = {
     'js/data/fed-bts/fed-bts-b8-1-architecture-systemes-centralises.js',
     'js/data/fed-bts/fed-bts-b8-2-domaines-applications-gtb.js',
     'js/data/fed-bts/fed-bts-b9-comptage-energies.js',
-    'js/data/fed-bts/fed-bts-b10-stockage-energie.js'
+    'js/data/fed-bts/fed-bts-b10-stockage-energie.js',
+    'js/data/fed-bts/fed-bts-b11-regulation.js',
+    'js/data/fed-bts/fed-bts-c1-1-distribution-bt.js',
+    'js/data/fed-bts/fed-bts-c2-1-moteurs-electriques.js',
+    'js/data/fed-bts/fed-bts-c2-2-variation-vitesse.js',
+    'js/data/fed-bts/fed-bts-c3-gestion-energie-electrique.js',
+    'js/data/fed-bts/fed-bts-d1-1-medias-communication.js',
+    'js/data/fed-bts/fed-bts-d1-2-standards-communication.js',
+    'js/data/fed-bts/fed-bts-d2-1-reseaux-informatiques.js',
+    'js/data/fed-bts/fed-bts-d2-2-vdi.js',
+    'js/data/fed-bts/fed-bts-d2-3-telephonie.js'
   ]
 };
 
@@ -306,7 +316,12 @@ const MODULE_INDEX = {
   'fed-bts-b6-1-photovoltaique':'fed-3','fed-bts-b6-2-eolien':'fed-3','fed-bts-b6-3-cogeneration':'fed-3',
   'fed-bts-b6-4-pile-combustible':'fed-3','fed-bts-b7-eclairage':'fed-3',
   'fed-bts-b8-1-architecture-systemes-centralises':'fed-3','fed-bts-b8-2-domaines-applications-gtb':'fed-3',
-  'fed-bts-b9-comptage-energies':'fed-3','fed-bts-b10-stockage-energie':'fed-3'
+  'fed-bts-b9-comptage-energies':'fed-3','fed-bts-b10-stockage-energie':'fed-3',
+  'fed-bts-b11-regulation':'fed-3','fed-bts-c1-1-distribution-bt':'fed-3',
+  'fed-bts-c2-1-moteurs-electriques':'fed-3','fed-bts-c2-2-variation-vitesse':'fed-3',
+  'fed-bts-c3-gestion-energie-electrique':'fed-3','fed-bts-d1-1-medias-communication':'fed-3',
+  'fed-bts-d1-2-standards-communication':'fed-3','fed-bts-d2-1-reseaux-informatiques':'fed-3',
+  'fed-bts-d2-2-vdi':'fed-3','fed-bts-d2-3-telephonie':'fed-3'
 };
 
 const _loadedGroups = new Set();
