@@ -55,17 +55,17 @@
 | 11 | B4-2 Réseaux aérauliques | `fed-bts-b4-2-reseaux-aerauliques` | 3 | 3 | 2-3 | 🟢 |
 | 12 | B5-1 Compresseurs volumétriques | `fed-bts-b5-1-compresseurs-volumetriques` | 1 | 3 | 1 | 🟢 |
 | 13 | B5-2 Compresseurs centrifuges | `fed-bts-b5-2-compresseurs-centrifuges` | 0 | 1 | 0 | 🟢 |
-| 14 | B5-3 Évaporateurs | `fed-bts-b5-3-evaporateurs` | 1 | 3 | 1 | 🔴 |
-| 15 | B5-4 Détendeurs | `fed-bts-b5-4-detendeurs` | 1 | 3 | 1 | 🔴 |
-| 16 | B5-5 Systèmes de rejet de chaleur | `fed-bts-b5-5-rejet-chaleur` | 3 | 3 | 1 | 🔴 |
-| 17 | B5-6 Composants annexes des circuits frigorifiques | `fed-bts-b5-6-composants-annexes-froid` | 1 | 3 | 0 | 🔴 |
-| 18 | B5-7 Organes frigorifiques de régulation | `fed-bts-b5-7-organes-regulation-frigorifique` | 0 | 3 | 0 | 🔴 |
-| 19 | B5-8 Système de retour d'huile | `fed-bts-b5-8-retour-huile` | 0 | 3 | 0 | 🔴 |
-| 20 | B5-9 Équipements de sécurité (froid) | `fed-bts-b5-9-securite-froid` | 1 | 3 | 1 | 🔴 |
-| 21 | B5-10 Tuyauteries (froid) | `fed-bts-b5-10-tuyauteries-froid` | 0 | 3 | 0 | 🔴 |
-| 22 | B5-11 Récupération d'énergie sur systèmes frigorifiques | `fed-bts-b5-11-recuperation-energie-froid` | 2 | 3 | 0 | 🔴 |
-| 23 | B5-12 Systèmes frigorifiques (multi-températures, cascade) | `fed-bts-b5-12-systemes-frigorifiques-avances` | 0 | 3 | 0 | 🔴 |
-| 24 | B5-13 Stockage de froid | `fed-bts-b5-13-stockage-froid` | 2 | 3 | 1 | 🔴 |
+| 14 | B5-3 Évaporateurs | `fed-bts-b5-3-evaporateurs` | 1 | 3 | 1 | 🟢 |
+| 15 | B5-4 Détendeurs | `fed-bts-b5-4-detendeurs` | 1 | 3 | 1 | 🟢 |
+| 16 | B5-5 Systèmes de rejet de chaleur | `fed-bts-b5-5-rejet-chaleur` | 3 | 3 | 1 | 🟢 |
+| 17 | B5-6 Composants annexes des circuits frigorifiques | `fed-bts-b5-6-composants-annexes-froid` | 1 | 3 | 0 | 🟢 |
+| 18 | B5-7 Organes frigorifiques de régulation | `fed-bts-b5-7-organes-regulation-frigorifique` | 0 | 3 | 0 | 🟢 |
+| 19 | B5-8 Système de retour d'huile | `fed-bts-b5-8-retour-huile` | 0 | 3 | 0 | 🟢 |
+| 20 | B5-9 Équipements de sécurité (froid) | `fed-bts-b5-9-securite-froid` | 1 | 3 | 1 | 🟢 |
+| 21 | B5-10 Tuyauteries (froid) | `fed-bts-b5-10-tuyauteries-froid` | 0 | 3 | 0 | 🟢 |
+| 22 | B5-11 Récupération d'énergie sur systèmes frigorifiques | `fed-bts-b5-11-recuperation-energie-froid` | 2 | 3 | 0 | 🟢 |
+| 23 | B5-12 Systèmes frigorifiques (multi-températures, cascade) | `fed-bts-b5-12-systemes-frigorifiques-avances` | 0 | 3 | 0 | 🟢 |
+| 24 | B5-13 Stockage de froid | `fed-bts-b5-13-stockage-froid` | 2 | 3 | 1 | 🟢 |
 | 25 | B6-1 Photovoltaïque | `fed-bts-b6-1-photovoltaique` | 2 | 2 | 3 | 🟢 |
 | 26 | B6-2 Éolien | `fed-bts-b6-2-eolien` | 2 | 1 | 3 | 🟢 |
 | 27 | B6-3 Cogénération et micro-cogénération | `fed-bts-b6-3-cogeneration` | 2 | 1 | 2 | 🟢 |
@@ -74,7 +74,7 @@
 | 30 | B8-1 Architecture des systèmes centralisés | `fed-bts-b8-1-architecture-systemes-centralises` | 0-3 | 0-3 | 3 | 🟢 |
 | 31 | B8-2 Domaines d'applications (GTB, sécurité) | `fed-bts-b8-2-domaines-applications-gtb` | 0-3 | 0-3 | 3 | 🟢 |
 | 32 | B9 Comptage des énergies | `fed-bts-b9-comptage-energies` | 2 | 2 | 3 | 🟢 |
-| 33 | B10 Stockage de l'énergie | `fed-bts-b10-stockage-energie` | 1-3 | 1 | 1-3 | 🔴 |
+| 33 | B10 Stockage de l'énergie | `fed-bts-b10-stockage-energie` | 1-3 | 1 | 1-3 | 🟢 |
 | 34 | B11 Régulation | `fed-bts-b11-regulation` | 3 | 3 | 3 | 🔴 |
 
 ¹ *Le référentiel officiel (`docs/referentiel-fed-S8.md:113`) affiche cette cellule sous une forme ambiguë (`3/3` pour GCF, `—` pour FCA) pour la sous-ligne "Systèmes thermodynamiques...". Interprétation retenue ici : GCF = 3, FCA = 3, par cohérence avec la sous-ligne suivante du référentiel (ligne 114 : `3 | 3 | 2`). À confirmer si le référentiel source (PDF) est consulté directement.*
@@ -105,7 +105,7 @@
 | Section | Notions | Faites | Reste |
 |---------|--------:|-------:|------:|
 | A — Connaissances fondamentales | 11 | 11 | 0 |
-| B — Systèmes et technologies | 34 | 21 | 13 |
+| B — Systèmes et technologies | 34 | 33 | 1 |
 | C — Énergie électrique | 4 | 0 | 4 |
 | D — Communication | 5 | 0 | 5 |
-| **Total S8** | **54** | **32** | **22** |
+| **Total S8** | **54** | **44** | **10** |

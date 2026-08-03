@@ -192,6 +192,17 @@ const DATA_FILES = {
     'js/data/fed-bts/fed-bts-b4-2-reseaux-aerauliques.js',
     'js/data/fed-bts/fed-bts-b5-1-compresseurs-volumetriques.js',
     'js/data/fed-bts/fed-bts-b5-2-compresseurs-centrifuges.js',
+    'js/data/fed-bts/fed-bts-b5-3-evaporateurs.js',
+    'js/data/fed-bts/fed-bts-b5-4-detendeurs.js',
+    'js/data/fed-bts/fed-bts-b5-5-rejet-chaleur.js',
+    'js/data/fed-bts/fed-bts-b5-6-composants-annexes-froid.js',
+    'js/data/fed-bts/fed-bts-b5-7-organes-regulation-frigorifique.js',
+    'js/data/fed-bts/fed-bts-b5-8-retour-huile.js',
+    'js/data/fed-bts/fed-bts-b5-9-securite-froid.js',
+    'js/data/fed-bts/fed-bts-b5-10-tuyauteries-froid.js',
+    'js/data/fed-bts/fed-bts-b5-11-recuperation-energie-froid.js',
+    'js/data/fed-bts/fed-bts-b5-12-systemes-frigorifiques-avances.js',
+    'js/data/fed-bts/fed-bts-b5-13-stockage-froid.js',
     'js/data/fed-bts/fed-bts-b6-1-photovoltaique.js',
     'js/data/fed-bts/fed-bts-b6-2-eolien.js',
     'js/data/fed-bts/fed-bts-b6-3-cogeneration.js',
@@ -199,7 +210,8 @@ const DATA_FILES = {
     'js/data/fed-bts/fed-bts-b7-eclairage.js',
     'js/data/fed-bts/fed-bts-b8-1-architecture-systemes-centralises.js',
     'js/data/fed-bts/fed-bts-b8-2-domaines-applications-gtb.js',
-    'js/data/fed-bts/fed-bts-b9-comptage-energies.js'
+    'js/data/fed-bts/fed-bts-b9-comptage-energies.js',
+    'js/data/fed-bts/fed-bts-b10-stockage-energie.js'
   ]
 };
 
@@ -286,10 +298,15 @@ const MODULE_INDEX = {
   'fed-bts-b3-3-traitement-eau-sanitaire':'fed-3','fed-bts-b3-4-eaux-usees':'fed-3',
   'fed-bts-b4-1-reseaux-hydrauliques':'fed-3','fed-bts-b4-2-reseaux-aerauliques':'fed-3',
   'fed-bts-b5-1-compresseurs-volumetriques':'fed-3','fed-bts-b5-2-compresseurs-centrifuges':'fed-3',
+  'fed-bts-b5-3-evaporateurs':'fed-3','fed-bts-b5-4-detendeurs':'fed-3','fed-bts-b5-5-rejet-chaleur':'fed-3',
+  'fed-bts-b5-6-composants-annexes-froid':'fed-3','fed-bts-b5-7-organes-regulation-frigorifique':'fed-3',
+  'fed-bts-b5-8-retour-huile':'fed-3','fed-bts-b5-9-securite-froid':'fed-3','fed-bts-b5-10-tuyauteries-froid':'fed-3',
+  'fed-bts-b5-11-recuperation-energie-froid':'fed-3','fed-bts-b5-12-systemes-frigorifiques-avances':'fed-3',
+  'fed-bts-b5-13-stockage-froid':'fed-3',
   'fed-bts-b6-1-photovoltaique':'fed-3','fed-bts-b6-2-eolien':'fed-3','fed-bts-b6-3-cogeneration':'fed-3',
   'fed-bts-b6-4-pile-combustible':'fed-3','fed-bts-b7-eclairage':'fed-3',
   'fed-bts-b8-1-architecture-systemes-centralises':'fed-3','fed-bts-b8-2-domaines-applications-gtb':'fed-3',
-  'fed-bts-b9-comptage-energies':'fed-3'
+  'fed-bts-b9-comptage-energies':'fed-3','fed-bts-b10-stockage-energie':'fed-3'
 };
 
 const _loadedGroups = new Set();

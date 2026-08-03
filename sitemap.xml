@@ -1129,6 +1129,72 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://sparklearning.fr/module/fed-bts-b5-3-evaporateurs/cours</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sparklearning.fr/module/fed-bts-b5-4-detendeurs/cours</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sparklearning.fr/module/fed-bts-b5-5-rejet-chaleur/cours</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sparklearning.fr/module/fed-bts-b5-6-composants-annexes-froid/cours</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sparklearning.fr/module/fed-bts-b5-7-organes-regulation-frigorifique/cours</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sparklearning.fr/module/fed-bts-b5-8-retour-huile/cours</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sparklearning.fr/module/fed-bts-b5-9-securite-froid/cours</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sparklearning.fr/module/fed-bts-b5-10-tuyauteries-froid/cours</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sparklearning.fr/module/fed-bts-b5-11-recuperation-energie-froid/cours</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sparklearning.fr/module/fed-bts-b5-12-systemes-frigorifiques-avances/cours</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sparklearning.fr/module/fed-bts-b5-13-stockage-froid/cours</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://sparklearning.fr/module/fed-bts-b6-1-photovoltaique/cours</loc>
     <lastmod>2026-08-03</lastmod>
     <changefreq>monthly</changefreq>
@@ -1172,6 +1238,12 @@
   </url>
   <url>
     <loc>https://sparklearning.fr/module/fed-bts-b9-comptage-energies/cours</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sparklearning.fr/module/fed-bts-b10-stockage-energie/cours</loc>
     <lastmod>2026-08-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
