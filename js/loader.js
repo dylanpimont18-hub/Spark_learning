@@ -191,7 +191,15 @@ const DATA_FILES = {
     'js/data/fed-bts/fed-bts-b4-1-reseaux-hydrauliques.js',
     'js/data/fed-bts/fed-bts-b4-2-reseaux-aerauliques.js',
     'js/data/fed-bts/fed-bts-b5-1-compresseurs-volumetriques.js',
-    'js/data/fed-bts/fed-bts-b5-2-compresseurs-centrifuges.js'
+    'js/data/fed-bts/fed-bts-b5-2-compresseurs-centrifuges.js',
+    'js/data/fed-bts/fed-bts-b6-1-photovoltaique.js',
+    'js/data/fed-bts/fed-bts-b6-2-eolien.js',
+    'js/data/fed-bts/fed-bts-b6-3-cogeneration.js',
+    'js/data/fed-bts/fed-bts-b6-4-pile-combustible.js',
+    'js/data/fed-bts/fed-bts-b7-eclairage.js',
+    'js/data/fed-bts/fed-bts-b8-1-architecture-systemes-centralises.js',
+    'js/data/fed-bts/fed-bts-b8-2-domaines-applications-gtb.js',
+    'js/data/fed-bts/fed-bts-b9-comptage-energies.js'
   ]
 };
 
@@ -277,7 +285,11 @@ const MODULE_INDEX = {
   'fed-bts-b3-1-alimentation-efs':'fed-3','fed-bts-b3-2-production-ecs':'fed-3',
   'fed-bts-b3-3-traitement-eau-sanitaire':'fed-3','fed-bts-b3-4-eaux-usees':'fed-3',
   'fed-bts-b4-1-reseaux-hydrauliques':'fed-3','fed-bts-b4-2-reseaux-aerauliques':'fed-3',
-  'fed-bts-b5-1-compresseurs-volumetriques':'fed-3','fed-bts-b5-2-compresseurs-centrifuges':'fed-3'
+  'fed-bts-b5-1-compresseurs-volumetriques':'fed-3','fed-bts-b5-2-compresseurs-centrifuges':'fed-3',
+  'fed-bts-b6-1-photovoltaique':'fed-3','fed-bts-b6-2-eolien':'fed-3','fed-bts-b6-3-cogeneration':'fed-3',
+  'fed-bts-b6-4-pile-combustible':'fed-3','fed-bts-b7-eclairage':'fed-3',
+  'fed-bts-b8-1-architecture-systemes-centralises':'fed-3','fed-bts-b8-2-domaines-applications-gtb':'fed-3',
+  'fed-bts-b9-comptage-energies':'fed-3'
 };
 
 const _loadedGroups = new Set();

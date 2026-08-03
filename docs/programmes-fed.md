@@ -66,14 +66,14 @@
 | 22 | B5-11 Récupération d'énergie sur systèmes frigorifiques | `fed-bts-b5-11-recuperation-energie-froid` | 2 | 3 | 0 | 🔴 |
 | 23 | B5-12 Systèmes frigorifiques (multi-températures, cascade) | `fed-bts-b5-12-systemes-frigorifiques-avances` | 0 | 3 | 0 | 🔴 |
 | 24 | B5-13 Stockage de froid | `fed-bts-b5-13-stockage-froid` | 2 | 3 | 1 | 🔴 |
-| 25 | B6-1 Photovoltaïque | `fed-bts-b6-1-photovoltaique` | 2 | 2 | 3 | 🔴 |
-| 26 | B6-2 Éolien | `fed-bts-b6-2-eolien` | 2 | 1 | 3 | 🔴 |
-| 27 | B6-3 Cogénération et micro-cogénération | `fed-bts-b6-3-cogeneration` | 2 | 1 | 2 | 🔴 |
-| 28 | B6-4 Pile à combustible | `fed-bts-b6-4-pile-combustible` | 1 | 1 | 1 | 🔴 |
-| 29 | B7 Éclairage intérieur et extérieur | `fed-bts-b7-eclairage` | 1 | 0 | 3 | 🔴 |
-| 30 | B8-1 Architecture des systèmes centralisés | `fed-bts-b8-1-architecture-systemes-centralises` | 0-3 | 0-3 | 3 | 🔴 |
-| 31 | B8-2 Domaines d'applications (GTB, sécurité) | `fed-bts-b8-2-domaines-applications-gtb` | 0-3 | 0-3 | 3 | 🔴 |
-| 32 | B9 Comptage des énergies | `fed-bts-b9-comptage-energies` | 2 | 2 | 3 | 🔴 |
+| 25 | B6-1 Photovoltaïque | `fed-bts-b6-1-photovoltaique` | 2 | 2 | 3 | 🟢 |
+| 26 | B6-2 Éolien | `fed-bts-b6-2-eolien` | 2 | 1 | 3 | 🟢 |
+| 27 | B6-3 Cogénération et micro-cogénération | `fed-bts-b6-3-cogeneration` | 2 | 1 | 2 | 🟢 |
+| 28 | B6-4 Pile à combustible | `fed-bts-b6-4-pile-combustible` | 1 | 1 | 1 | 🟢 |
+| 29 | B7 Éclairage intérieur et extérieur | `fed-bts-b7-eclairage` | 1 | 0 | 3 | 🟢 |
+| 30 | B8-1 Architecture des systèmes centralisés | `fed-bts-b8-1-architecture-systemes-centralises` | 0-3 | 0-3 | 3 | 🟢 |
+| 31 | B8-2 Domaines d'applications (GTB, sécurité) | `fed-bts-b8-2-domaines-applications-gtb` | 0-3 | 0-3 | 3 | 🟢 |
+| 32 | B9 Comptage des énergies | `fed-bts-b9-comptage-energies` | 2 | 2 | 3 | 🟢 |
 | 33 | B10 Stockage de l'énergie | `fed-bts-b10-stockage-energie` | 1-3 | 1 | 1-3 | 🔴 |
 | 34 | B11 Régulation | `fed-bts-b11-regulation` | 3 | 3 | 3 | 🔴 |
 
@@ -105,7 +105,7 @@
 | Section | Notions | Faites | Reste |
 |---------|--------:|-------:|------:|
 | A — Connaissances fondamentales | 11 | 11 | 0 |
-| B — Systèmes et technologies | 34 | 13 | 21 |
+| B — Systèmes et technologies | 34 | 21 | 13 |
 | C — Énergie électrique | 4 | 0 | 4 |
 | D — Communication | 5 | 0 | 5 |
-| **Total S8** | **54** | **24** | **30** |
+| **Total S8** | **54** | **32** | **22** |
