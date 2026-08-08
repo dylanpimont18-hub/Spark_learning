@@ -8,6 +8,8 @@
   <meta name="description" content="Plateforme de remédiation scientifique : Mathématiques, Physique-Chimie, Sciences de l'Ingénieur — du Collège au BTS." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://sparklearning.fr/" />
+  <!-- Sans SSR, Firebase sert ce même fichier pour toutes les routes : le canonical statique ci-dessus est faux hors accueil tant que app.js n'a pas tourné (cause des alertes Search Console "Autre page avec balise canonique correcte") -->
+  <script>document.querySelector('link[rel="canonical"]').href = location.origin + location.pathname;</script>
   <link rel="icon" type="image/jpeg" href="images/Logo_noir.jpeg" />
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#2C3E50" />
