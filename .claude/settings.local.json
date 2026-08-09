@@ -35,7 +35,11 @@
       "Bash(grep -n 'La section $S = 2{,}5$ mm\\\\|Écrire $0{,}000' bts-prep-puissances.js)",
       "Bash(grep -n 'à $t = 3.tau$, la tension\\\\|Une deuxième machine identique' bts-prep-logarithme.js)",
       "Bash(grep -n \"S = 2{,}5\\\\|000\\\\\\\\\\\\\\\\,047\" bts-prep-puissances.js)",
-      "Bash(grep -n \"3\\\\\\\\\\\\\\\\tau\\\\|deuxième machine\" bts-prep-logarithme.js)"
+      "Bash(grep -n \"3\\\\\\\\\\\\\\\\tau\\\\|deuxième machine\" bts-prep-logarithme.js)",
+      "Bash(\"C:/Users/Dylan/.claude/plugins/cache/claude-plugins-official/superpowers/6.2.0/skills/subagent-driven-development/scripts/sdd-workspace\" docs/superpowers/plans/2026-08-09-prerendu-seo.md)",
+      "Bash(git checkout *)",
+      "Bash(git add *)",
+      "Bash(git commit -q -m 'chore: plan FED S8 + permission Claude Code *)"
     ]
   }
 }
