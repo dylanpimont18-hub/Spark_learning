@@ -1,0 +1,8 @@
+{
+  "name": "spark-learning-build-tools",
+  "private": true,
+  "description": "Outils de build CI uniquement (pré-rendu SEO). L'application elle-même reste 100% vanilla JS sans build — voir CLAUDE.md.",
+  "devDependencies": {
+    "puppeteer": "^25.0.0"
+  }
+}

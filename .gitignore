@@ -3,3 +3,10 @@ communication/
 .venv/
 *.log
 .firebase/
+node_modules/
+/module/
+/modules/
+/levels/
+/subjects/
+/confidentialite/
+/scripts/fixtures/
