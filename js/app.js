@@ -276,6 +276,7 @@ function navigate(view, data = {}, options = {}) {
         if (view === 'chrono' && typeof initChrono === 'function') initChrono(state.moduleId);
       }
       render();
+      updatePageMeta();
     });
   } else {
     if (loadPromise) loadPromise.catch(() => {});

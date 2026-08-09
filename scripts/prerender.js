@@ -79,12 +79,30 @@ async function renderRoute(page, url) {
   // 'networkidle0' n'atteindrait jamais zéro connexion active et timeout à tous les coups.
   await page.goto(url, { waitUntil: 'domcontentloaded', timeout: NAV_TIMEOUT_MS });
 
+  // Le HTML initialement servi peut déjà contenir du texte non trivial dans #app :
+  // sur un serveur qui retombe sur index.html pour les routes inconnues (SPA fallback),
+  // ce index.html peut lui-même être une page déjà pré-rendue par une exécution
+  // précédente de ce script (ex. la route '/' pré-rendue juste avant dans la même
+  // exécution). Si on se contente de vérifier "il y a plus de 50 caractères", cette
+  // condition est alors vraie dès la première évaluation — avant même que le JS de
+  // la page n'ait commencé à naviguer vers la VRAIE route demandée (qui dépend d'un
+  // aller-retour réseau vers Firebase Auth) — et on capture le contenu périmé d'une
+  // autre page. On exige donc en plus que le texte ait changé par rapport à l'état
+  // initial, pour être sûr d'attendre le rendu réel de CETTE route.
+  const initialAppText = await page.evaluate(() => {
+    const app = document.getElementById('app');
+    return app && app.innerText ? app.innerText.trim() : '';
+  });
+
   await page.waitForFunction(
-    () => {
+    (staleText) => {
       const app = document.getElementById('app');
-      return !!(app && app.innerText && app.innerText.trim().length > 50);
+      if (!app || !app.innerText) return false;
+      const text = app.innerText.trim();
+      return text.length > 50 && text !== staleText;
     },
-    { timeout: CONTENT_WAIT_TIMEOUT_MS }
+    { timeout: CONTENT_WAIT_TIMEOUT_MS },
+    initialAppText
   ).catch(() => { /* on laisse isValidRender trancher sur le contenu obtenu */ });
 
   return page.evaluate(() => ({
