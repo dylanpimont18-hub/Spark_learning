@@ -79,6 +79,16 @@ Pour un vrai visiteur avec JS activé, le SPA boot normalement par-dessus le HTM
 - **Vérification de contenu par page** avant d'accepter le HTML capturé : le `<title>` doit différer du titre générique par défaut ET le texte de `#app` doit dépasser un seuil de longueur minimal. Une page qui échoue ce test est suspecte (chaîne d'init cassée, bug de données du module...).
 - **Échec isolé vs échec systémique** : une poignée de pages en échec → ignorées cette fois-ci (warning loggé), sans bloquer les autres. Si plus de ~20% des pages échouent → le job CI échoue bruyamment (signal d'un problème systémique, ex. régression dans la chaîne d'init de `js/app.js`, Firestore indisponible). C'est le mécanisme anti-récidive central : toute régression future qui viderait le rendu est détectée à **chaque déploiement**, au lieu d'être découverte des semaines plus tard dans Search Console.
 - Si Phase 2 ou 2b échoue pour toute autre raison (erreur réseau, crash Puppeteer), le job échoue mais **le site déployé en Phase 1 reste en place et fonctionnel** — aucun scénario où une erreur de pré-rendu casse ou coupe le site.
+- **Verrou de concurrence** (`concurrency: firebase-hosting-live`, `cancel-in-progress: false`) : le job dure désormais 15-45 min au lieu de ~1 min. Sans ce verrou, deux merges rapprochés se chevauchent et la Phase 2b du job le plus ancien déploie *son* checkout (js/, css/, index.html d'avant) par-dessus la Phase 1 du plus récent — retour en arrière silencieux de la production. Les runs sont donc mis en file d'attente, jamais annulés en vol.
+
+## Conséquence opérationnelle assumée : fenêtre « SPA nu » à chaque déploiement
+
+Une release Firebase Hosting est un **instantané complet** du dossier uploadé : la Phase 1 déploie un checkout propre, qui ne contient aucun dossier de route pré-rendu (ils sont générés en Phase 2 et git-ignorés). Il en découle deux faits, corrects et acceptés :
+
+1. **Entre la fin de la Phase 1 et la fin de la Phase 2b — soit toute la durée du pré-rendu, 15 à 45 min — le site ne sert que le SPA brut**, sans aucun HTML pré-rendu. C'est exactement le comportement d'avant ce chantier : le site est pleinement fonctionnel pour les visiteurs, seuls les robots qui passeraient pendant cette fenêtre reverraient des pages vides.
+2. **Si la Phase 2 (ou 2b) échoue, le site reste dans cet état jusqu'au prochain run réussi.** Il n'y a pas de conservation des fichiers du run précédent : ils ont disparu dès la Phase 1. Un échec de pré-rendu ne dégrade donc jamais la disponibilité, mais il annule le bénéfice SEO jusqu'à la correction — un job rouge sur `main` doit être traité, pas ignoré.
+
+Corollaire technique : le run N ne voit jamais les fichiers du run N-1 quand il crawle la production. Le mécanisme d'attente d'un signal de rendu explicite (`window.__sparkRouteReady`) reste néanmoins le bon critère — non pas à cause de fichiers périmés en production, mais parce qu'un simple seuil de longueur de texte mesure la présence de contenu servi, pas le fait que *cette* route vienne d'être rendue par le JS (faux positif observé en local contre `scripts/tmp-static-server.js`, qui servait les restes d'un run précédent).
 
 ## Fichiers impactés
 
