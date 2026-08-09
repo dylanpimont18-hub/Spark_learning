@@ -1,7 +1,7 @@
 # Spark Learning - AI System Directives
 
 ## 1. Stack & Architecture Globale
-- **Vanilla JS SPA** : Aucun bundler, pas de build, pas de npm. Tout passe par `index.html`.
+- **Vanilla JS SPA** : Aucun bundler, pas de build, pas de npm. Tout passe par `index.html`. **Exception unique et scopée** : `package.json`/`puppeteer` existent pour `scripts/prerender.js` (pré-rendu SEO en CI, voir `scripts/prerender.js` et `.github/workflows/firebase-hosting-merge.yml`) — jamais requis pour développer ou exécuter l'app elle-même.
 - **Ordre de chargement** : `index.html` est la source de vérité pour l'ordre des scripts. `js/loader.js` gère le chargement asynchrone des données via `ensureLevelData(subject, level)`.
 - **Règle de séparation stricte** : 
   - DOM/UI : `js/views/` (vues complètes) et `js/components/` (onglets, quiz, exercices...). `js/render.js` est un stub léger.
@@ -35,7 +35,7 @@ Lors de la création ou modification dans `js/data/` :
 1. Vérifier le programme dans `docs/programmes-{subject}.md` (Ne traiter que les chapitres 🔴).
 2. Ajouter l'objet dans `js/data/{level}/{level}-{topic}.js`. Déclarer le fichier dans `js/data/{level}/index.js` ET dans `index.html` (ordre de chargement). Mettre à jour `contenu.md`.
 3. Passer le statut à 🟢 dans le fichier markdown du programme.
-4. Régénérer `sitemap.xml` avec `node scripts/generate-sitemap.js` (lit directement `js/loader.js`, aucune liste à maintenir à la main).
+4. `sitemap.xml` est régénéré automatiquement à chaque déploiement (voir `.github/workflows/firebase-hosting-merge.yml`) — pas d'action manuelle nécessaire. Pour le régénérer manuellement en local : `node scripts/generate-sitemap.js` (lit directement `js/loader.js`, aucune liste à maintenir à la main).
 
 ## 4. Optimisation du Contexte (INTERDICTIONS)
 - **NE LIS JAMAIS** les fichiers du dossier `js/data/` à moins d'une demande explicite concernant le contenu pédagogique.
