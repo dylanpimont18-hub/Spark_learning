@@ -133,10 +133,29 @@ let _navSequence = 0; // prevents stale async renders
 // Signal de disponibilité pour le pré-rendu Puppeteer (scripts/prerender.js) : un flag
 // window (jamais sérialisé dans le HTML capturé, contrairement à un attribut DOM) mis à
 // true une fois que render() + updatePageMeta() ont produit le contenu réel de LA route
-// courante. Nécessaire car un simple test "il y a du texte dans #app" peut être satisfait
-// instantanément par le contenu déjà présent dans le HTML servi (en production, Firebase
-// Hosting sert le fichier statique déjà pré-rendu d'un run précédent pour cette même route).
+// courante, AVEC les données dont cette route a besoin. Nécessaire car un simple test
+// "il y a du texte dans #app" peut être satisfait par du contenu servi statiquement
+// (fichier déjà pré-rendu, page de secours…) : c'est un seuil de longueur, pas une preuve
+// que CETTE route vient d'être rendue par le JS.
 window.__sparkRouteReady = false;
+
+// Le catalogue (window.MODULES) est peuplé de façon ASYNCHRONE par ensureAllData()
+// (~30 scripts js/data/ chargés à la volée par js/loader.js). Ces trois vues le lisent
+// SYNCHRONEMENT dans leur render() (js/views/home.js) et n'ont pas de loadPromise dans
+// navigate() : leur tout premier rendu est donc structurellement complet mais VIDE
+// (0 carte matière, "0 modules"), avant d'être re-rendu par _setupStudentApp() une fois
+// ensureAllData() résolu. Pour ces vues, on ne lève le signal de disponibilité qu'après
+// ce re-render — sinon le pré-rendu capture le catalogue vide (il gagne la course, il
+// sérialise ~1 aller-retour CDP après le passage du flag à true).
+// Les vues 'modules'/'module'/… n'apparaissent pas ici : elles attendent déjà leur propre
+// loadPromise dans navigate(), donc leur premier rendu contient déjà leurs données.
+const DATA_DEPENDENT_VIEWS = ['home', 'subjects', 'levels'];
+window.__sparkCatalogReady = false;
+
+function _markRouteReady(view) {
+  if (DATA_DEPENDENT_VIEWS.includes(view) && !window.__sparkCatalogReady) return;
+  window.__sparkRouteReady = true;
+}
 
 function navigate(view, data = {}, options = {}) {
   const skipUrlSync = !!options.skipUrlSync;
@@ -286,7 +305,7 @@ function navigate(view, data = {}, options = {}) {
       }
       render();
       updatePageMeta();
-      window.__sparkRouteReady = true;
+      _markRouteReady(view);
     });
   } else {
     if (loadPromise) loadPromise.catch(() => {});
@@ -296,7 +315,7 @@ function navigate(view, data = {}, options = {}) {
     }
     render();
     updatePageMeta();
-    window.__sparkRouteReady = true;
+    _markRouteReady(view);
   }
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -977,9 +996,23 @@ function _setupStudentApp() {
   // Preload all data
   if (typeof ensureAllData === 'function') {
     ensureAllData().then(() => {
+      window.__sparkCatalogReady = true;
       // Re-render les vues listant les modules si elles ont fini de charger entre-temps
       // (subjects/levels/modules lisent window.MODULES synchronement, sans passer par navigate())
       if (['home', 'subjects', 'levels', 'modules'].includes(state.view)) render();
-    }).catch(() => {});
+      // C'est seulement ICI que home/subjects/levels affichent enfin un vrai catalogue :
+      // on lève le signal de disponibilité qui avait été retenu par _markRouteReady()
+      // (voir DATA_DEPENDENT_VIEWS). Si l'utilisateur a navigué ailleurs entre-temps,
+      // c'est cette autre navigation qui gère son propre signal — on n'y touche pas.
+      if (DATA_DEPENDENT_VIEWS.includes(state.view)) _markRouteReady(state.view);
+    }).catch(() => {
+      // Catalogue indisponible : on laisse volontairement __sparkRouteReady à false sur
+      // ces vues — un pré-rendu de la home sans catalogue doit échouer bruyamment, pas
+      // être publié tel quel.
+    });
+  } else {
+    // Pas de loader (contexte de test/embarqué) : rien n'est asynchrone, la route est prête.
+    window.__sparkCatalogReady = true;
+    _markRouteReady(state.view);
   }
 }

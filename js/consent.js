@@ -18,7 +18,18 @@ var Consent = {
   },
 
   init() {
-    if (this.needsPrompt()) this.showBanner();
+    if (this.needsPrompt()) {
+      this.showBanner();
+      return;
+    }
+    // Le choix est déjà fait : on retire une bannière éventuellement DÉJÀ présente dans le
+    // HTML servi. Cas réel : les pages pré-rendues (scripts/prerender.js) sont capturées
+    // depuis un profil navigateur neuf, donc la bannière peut être figée dans le HTML
+    // statique ; sans ce nettoyage, un visiteur ayant déjà accepté/refusé la reverrait à
+    // chaque chargement de page et croirait son choix ignoré. Le pré-rendu assainit déjà
+    // le HTML capturé, mais ce filet protège aussi les pages déjà déployées.
+    const stale = document.getElementById('consent-banner');
+    if (stale) stale.remove();
   },
 
   accept() {

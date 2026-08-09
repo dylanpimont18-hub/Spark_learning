@@ -12,7 +12,8 @@ const {
   parseArgs,
   parseSitemapXml,
   outputFileForRoute,
-  isValidRender
+  isValidRender,
+  routeClass
 } = require('./prerender');
 
 // parseArgs
@@ -24,8 +25,31 @@ const {
   const custom = parseArgs(['--base-url', 'https://preview.example.com/', '--sitemap-file', 'scripts/fixtures/verify-sitemap.xml']);
   assert.strictEqual(custom.baseUrl, 'https://preview.example.com', 'la barre oblique finale doit être retirée');
   assert.strictEqual(custom.sitemapFile, path.resolve('scripts/fixtures/verify-sitemap.xml'));
+
+  assert.throws(
+    () => parseArgs(['--baseurl', 'http://localhost:5177']),
+    /Argument inconnu : --baseurl/,
+    'une faute de frappe sur un flag ne doit pas être ignorée silencieusement (sinon on crawle la prod)'
+  );
+  assert.throws(
+    () => parseArgs(['--base-url']),
+    /Argument inconnu : --base-url/,
+    'un flag connu sans sa valeur est tout aussi ambigu et doit échouer'
+  );
 }
 console.log('OK parseArgs');
+
+// routeClass
+{
+  assert.strictEqual(routeClass('/'), '/');
+  assert.strictEqual(routeClass('/subjects'), '/subjects');
+  assert.strictEqual(routeClass('/confidentialite'), '/confidentialite');
+  assert.strictEqual(routeClass('/levels/maths'), '/levels/*');
+  assert.strictEqual(routeClass('/modules/maths/1'), '/modules/*');
+  assert.strictEqual(routeClass('/module/6e-fractions/cours'), '/module/*');
+  assert.strictEqual(routeClass('/modules/maths/1/'), '/modules/*', 'la barre oblique finale ne change pas la classe');
+}
+console.log('OK routeClass');
 
 // parseSitemapXml
 {
