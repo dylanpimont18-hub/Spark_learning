@@ -4,6 +4,12 @@ communication/
 *.log
 .firebase/
 node_modules/
+# Sorties de scripts/prerender.js : un dossier <route>/index.html par URL du sitemap.
+# Cette liste doit couvrir tous les préfixes de route émis par scripts/generate-sitemap.js
+# (/, /subjects, /confidentialite, /levels/*, /modules/*, /module/*) — en ajouter une
+# nouvelle classe là-bas impose d'ajouter la ligne correspondante ici, sinon le pré-rendu
+# lancé en local laisse des fichiers non ignorés dans le dépôt.
+# ('/' écrit dans index.html, fichier suivi : le script prévient bruyamment.)
 /module/
 /modules/
 /levels/

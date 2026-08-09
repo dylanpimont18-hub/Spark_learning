@@ -5,15 +5,31 @@ on:
     branches:
       - main
 
+# Le job dure désormais 15-45 min (pré-rendu de ~160 routes) au lieu de ~1 min. Sans ce
+# verrou, deux merges rapprochés se chevauchent et la Phase 2b du job le PLUS ANCIEN
+# déploie son propre checkout (js/, css/, index.html d'avant) par-dessus la Phase 1 du
+# plus récent, ce qui ferait revenir la production en arrière sans aucun signal.
+# cancel-in-progress: false — on ne coupe jamais un déploiement live en cours de route,
+# on met en file d'attente.
+concurrency:
+  group: firebase-hosting-live
+  cancel-in-progress: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+
+      # Aucune dépendance npm requise (assert/path seulement) : on échoue vite, avant même
+      # de toucher au déploiement, si les fonctions pures du pré-rendu sont cassées.
+      - name: Tests unitaires du pré-rendu
+        run: node scripts/test-prerender.js
 
       - name: Régénérer sitemap.xml
         run: node scripts/generate-sitemap.js
