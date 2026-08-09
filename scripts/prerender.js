@@ -58,7 +58,13 @@ function readSitemapRoutes(sitemapFile) {
 
 function outputFileForRoute(routePath) {
   const clean = routePath.replace(/^\/+/, '').replace(/\/+$/, '');
-  return clean === '' ? path.join(root, 'index.html') : path.join(root, clean, 'index.html');
+  const candidate = clean === '' ? path.join(root, 'index.html') : path.join(root, clean, 'index.html');
+  const resolved = path.resolve(candidate);
+  const rel = path.relative(root, resolved);
+  if (rel.startsWith('..')) {
+    throw new Error('Impossible de sortir du dossier racine');
+  }
+  return candidate;
 }
 
 function isValidRender(result, routePath) {

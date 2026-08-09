@@ -54,6 +54,11 @@ console.log('OK parseSitemapXml');
     path.join('modules', 'maths', '1', 'index.html'),
     'une barre oblique finale ne doit pas créer de segment de dossier vide'
   );
+  assert.throws(
+    () => outputFileForRoute('/../../outside/x'),
+    /sortir du dossier racine/,
+    'une route traversante doit être rejetée'
+  );
 }
 console.log('OK outputFileForRoute');
 
