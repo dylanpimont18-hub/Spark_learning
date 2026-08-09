@@ -318,6 +318,7 @@ Panneau de contact flottant (extrait de `js/app.js`), envoie vers Formspree.
 - `toggleContactPanel()` / `closeContactPanel()` — ouvre/ferme le panneau
 - `handleContactSubmit(e)` — soumet le formulaire (catégorie erreur/remarque/question) via `fetch` vers Formspree
 - `_restoreContactForm()` — réinjecte le formulaire vierge après un envoi réussi
+- Le panneau inclut un lien de pont (`.contact-panel-bridge-link` dans `index.html`) vers la page dédiée `/contact` (`js/views/contact.js`) pour les demandes pro (proposition/partenariat) ; bouton `#contact-toggle` avec icône SVG (plus de `?` texte)
 
 ## js/components/globalSearch.js
 Recherche globale de modules (Ctrl/Cmd+K), extrait de `js/app.js`.
@@ -352,7 +353,12 @@ Vues globales : accueil, liste matières, niveaux, modules, détail module.
 
 ## js/views/confidentialite.js
 Politique de confidentialité (RGPD, exigence Google AdSense).
-- `renderConfidentialite()` — page statique : localStorage sans compte, données Firebase si compte créé, publicité AdSense non personnalisée, formulaire de contact (Formspree), droits RGPD. Route `#confidentialite`, lien en footer.
+- `renderConfidentialite()` — page statique : localStorage sans compte, données Firebase si compte créé, publicité AdSense non personnalisée, formulaire de contact (Formspree, bulle + page `/contact`), droits RGPD. Route `#confidentialite`, lien en footer.
+
+## js/views/contact.js
+Page de contact dédiée (question, erreur, proposition commerciale, partenariat, presse), complément pro de la bulle flottante (`js/components/contactPanel.js`).
+- `renderContact()` — page statique : formulaire nom/email/catégorie (5 chips)/message. Route `#contact` (`/contact`), lien en footer.
+- `handleContactPageSubmit(e)` — soumet via `fetch` vers le même endpoint Formspree que la bulle (`xnjgyrjd`), inclut `name`/`email` pour activer le reply-to natif Formspree
 
 ## js/auth/authService.js
 Service d'authentification et d'autorisations Firestore.

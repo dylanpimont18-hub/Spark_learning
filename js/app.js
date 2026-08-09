@@ -79,6 +79,7 @@ function buildPath(view, data) {
     case 'playlist':   return '/playlist/' + (data.playlistData || '');
     case 'admin':      return '/admin';
     case 'confidentialite': return '/confidentialite';
+    case 'contact':    return '/contact';
     case 'tutoring':        return '/tutorat';
     case 'tutoringStudent': return `/tutorat/${data.studentId || state.tutoringStudentId}`;
     case 'positioning':      return `/positionnement/${data.token || state.positioningToken || ''}`;
@@ -108,6 +109,7 @@ function _parseRouteParts(parts) {
     case 'homework':    return { view: 'homework' };
     case 'admin':       return { view: 'admin' };
     case 'confidentialite': return { view: 'confidentialite' };
+    case 'contact':     return { view: 'contact' };
     case 'tutorat':
       return parts[1] ? { view: 'tutoringStudent', studentId: parts[1] } : { view: 'tutoring' };
     case 'positionnement':
@@ -442,6 +444,10 @@ function updatePageMeta() {
       title = `Politique de confidentialité — ${base}`;
       description = 'Politique de confidentialité de Spark Learning : données collectées, cookies, contact.';
       break;
+    case 'contact':
+      title = `Nous contacter — ${base}`;
+      description = 'Contactez Spark Learning : question pédagogique, signalement d\'erreur, proposition commerciale, partenariat ou presse.';
+      break;
     default: title = base;
   }
 
@@ -504,6 +510,7 @@ function render() {
     case 'playlist':   app.innerHTML = (typeof renderPlaylistView === 'function') ? renderPlaylistView() : ''; break;
     case 'homework':   app.innerHTML = (typeof renderHomeworkPanel === 'function') ? renderHomeworkPanel() : ''; break;
     case 'confidentialite': app.innerHTML = renderConfidentialite(); break;
+    case 'contact':    app.innerHTML = renderContact(); break;
     default:           app.innerHTML = renderHome();
   }
   renderMath();

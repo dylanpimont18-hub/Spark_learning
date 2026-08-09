@@ -43,6 +43,7 @@ function addUrl(loc, { lastmod = today, changefreq = 'weekly', priority = '0.5' 
 addUrl('/', { changefreq: 'weekly', priority: '1.0' });
 addUrl('/subjects', { priority: '0.8' });
 addUrl('/confidentialite', { changefreq: 'yearly', priority: '0.3' });
+addUrl('/contact', { changefreq: 'yearly', priority: '0.4' });
 
 // Matières/niveaux réellement peuplés (déduits des clés "subject-level" de DATA_FILES)
 const subjectsSeen = new Set();

@@ -57,7 +57,8 @@ Ce fichier est la **source de vérité** pour la structure de fichiers du projet
 | js/components/probleme.js | Interface des problèmes |
 | js/components/evaluation.js | Interface des évaluations |
 | js/components/companion.js | **[PHASE 4]** Interface Spark Companion : accueil, remédiation, suivi CCF |
-| js/components/contactPanel.js | Panneau de contact flottant (signalement erreur/remarque/question) |
+| js/components/contactPanel.js | Panneau de contact flottant (signalement erreur/remarque/question), lien de pont vers la page dédiée /contact |
+| js/views/contact.js | Page de contact dédiée /contact (question, erreur, proposition commerciale, partenariat, presse) |
 | js/components/globalSearch.js | Recherche globale de modules (Ctrl/Cmd+K) |
 | js/components/teacherErrorModal.js | Modale enseignant : proposer un piège fréquent sur un module |
 
@@ -157,11 +158,13 @@ Permet au tuteur d'envoyer un lien à un futur élève pour évaluer son niveau 
 | **si-tle/** | Contenus SI Tle — refactoring terminé |
 | **si-bts/** | Contenus SI BTS — refactoring terminé |
 | **physique-bts/** | Contenus Physique-Chimie BTS — complet (10/10 sous-modules) |
+| **fed-bts/** | Contenus BTS FED (savoir S8) — **54/54 notions — S8 complet** (section A 11/11 ; section B 34/34 : ..., B10, B11 ; section C 4/4 : C1-1, C2-1, C2-2, C3 ; section D 5/5 : D1-1, D1-2, D2-1, D2-2, D2-3) |
 
 ## Documentation (docs/)
 | Fichier | Rôle |
 |---------|------|
-| programmes-*.md | Référentiels de compétences officiels (Maths, Physique, SI) |
+| programmes-*.md | Référentiels de compétences officiels (Maths, Physique, SI, FED) |
+| referentiel-fed-S8.md | Copie brute du référentiel officiel BTS FED, savoir S8 (source pour programmes-fed.md) |
 
 ---
 
