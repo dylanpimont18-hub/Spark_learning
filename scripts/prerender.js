@@ -94,7 +94,16 @@ function isValidRender(result, routePath) {
   return true;
 }
 
-async function renderRoute(page, url) {
+// Zéro tolérance = toute classe de route SAUF '/module/*' (12 routes à forte valeur :
+// '/', '/subjects', '/confidentialite', les 3 '/levels/*', les 6 '/modules/*'). Extrait
+// en fonction nommée pour que renderRoute() (décision : timeout d'attente = échec dur)
+// et main() (filtre `criticalFailures`) partagent exactement la même règle au lieu de
+// dupliquer la comparaison `!== '/module/*'` à deux endroits.
+function isZeroToleranceClass(cls) {
+  return cls !== '/module/*';
+}
+
+async function renderRoute(page, url, routePath) {
   // 'domcontentloaded' plutôt que 'networkidle0' : l'app ouvre une connexion
   // Firestore temps réel (bannière d'annonce) qui ne se ferme jamais, donc
   // 'networkidle0' n'atteindrait jamais zéro connexion active et timeout à tous les coups.
@@ -126,9 +135,23 @@ async function renderRoute(page, url) {
   ).then(() => false).catch(() => true);
 
   if (timedOut) {
-    // On laisse isValidRender trancher sur le contenu obtenu (pas un échec en soi : le
-    // signal peut manquer sans que le contenu capturé soit faux), mais un timeout sur ce
-    // signal doit rester visible plutôt que de disparaître silencieusement dans un .catch().
+    // Pour les routes hors /module/* (zéro tolérance, voir isZeroToleranceClass), un
+    // timeout sur le signal de disponibilité est un échec DUR, pas un simple warning : ce
+    // sont exactement les routes pour lesquelles js/app.js laisse volontairement
+    // __sparkRouteReady à false quand ensureAllData() échoue (voir son .catch() dans
+    // _setupStudentApp()), précisément pour qu'un pré-rendu sans catalogue ne soit jamais
+    // publié tel quel. Sans ce garde-fou côté prerender.js, isValidRender() accepterait
+    // quand même le résultat (home exemptée du test de titre générique, texte au-dessus du
+    // seuil minimal grâce aux zones de page indépendantes du catalogue) et écraserait
+    // index.html avec une home au catalogue vide.
+    // Les pages /module/* gardent le comportement existant : elles attendent leur propre
+    // loadPromise dans navigate() indépendamment de ce signal, sont 149 des 161 routes, et
+    // une règle dure ici serait trop fragile — on laisse isValidRender() trancher sur le
+    // contenu réellement obtenu, comme avant.
+    const cls = routeClass(routePath);
+    if (isZeroToleranceClass(cls)) {
+      throw new Error(`le signal __sparkRouteReady n'est pas arrivé avant ${CONTENT_WAIT_TIMEOUT_MS}ms (route "${cls}", zéro tolérance : échec dur plutôt qu'une publication douteuse)`);
+    }
     console.warn(`[attente] ${url} — le signal __sparkRouteReady n'est pas arrivé avant ${CONTENT_WAIT_TIMEOUT_MS}ms`);
   }
 
@@ -192,7 +215,7 @@ async function main() {
   for (const routePath of routes) {
     const url = baseUrl + (routePath === '/' ? '' : routePath);
     try {
-      const result = await renderRoute(page, url);
+      const result = await renderRoute(page, url, routePath);
       if (!isValidRender(result, routePath)) {
         failedRoutes.push(routePath);
         console.warn(`[skip] ${routePath} — contenu insuffisant (title="${result.title}", appTextLength=${result.appTextLength})`);
@@ -253,14 +276,14 @@ async function main() {
   // Règle stricte, en plus du ratio global : aucune tolérance hors pages module. Ces
   // routes-là se comptent sur les doigts d'une main, et '/' est en prime la page servie
   // par le rewrite `**` pour toute URL absente du sitemap.
-  const criticalFailures = failedRoutes.filter(r => routeClass(r) !== '/module/*');
+  const criticalFailures = failedRoutes.filter(r => isZeroToleranceClass(routeClass(r)));
   if (criticalFailures.length > 0) {
     console.error(`${criticalFailures.length} route(s) hors /module/* en échec — aucune tolérance sur ces pages : ${criticalFailures.join(', ')}`);
     process.exitCode = 1;
   }
 }
 
-module.exports = { root, parseArgs, parseSitemapXml, outputFileForRoute, isValidRender, routeClass };
+module.exports = { root, parseArgs, parseSitemapXml, outputFileForRoute, isValidRender, routeClass, isZeroToleranceClass };
 
 if (require.main === module) {
   main().catch(e => {

@@ -13,7 +13,8 @@ const {
   parseSitemapXml,
   outputFileForRoute,
   isValidRender,
-  routeClass
+  routeClass,
+  isZeroToleranceClass
 } = require('./prerender');
 
 // parseArgs
@@ -50,6 +51,24 @@ console.log('OK parseArgs');
   assert.strictEqual(routeClass('/modules/maths/1/'), '/modules/*', 'la barre oblique finale ne change pas la classe');
 }
 console.log('OK routeClass');
+
+// isZeroToleranceClass — seule '/module/*' tolère un timeout du signal de disponibilité
+// (149 des 161 routes, chacune avec son propre loadPromise) ; toutes les autres classes
+// (les 12 routes à forte valeur, dont '/' qui sert aussi de repli `**`) doivent faire
+// échouer le rendu plutôt que d'être publiées avec un catalogue possiblement vide.
+{
+  assert.strictEqual(isZeroToleranceClass('/'), true);
+  assert.strictEqual(isZeroToleranceClass('/subjects'), true);
+  assert.strictEqual(isZeroToleranceClass('/confidentialite'), true);
+  assert.strictEqual(isZeroToleranceClass('/levels/*'), true);
+  assert.strictEqual(isZeroToleranceClass('/modules/*'), true);
+  assert.strictEqual(
+    isZeroToleranceClass('/module/*'),
+    false,
+    'seule la classe /module/* tolère un rendu dont le signal de disponibilité a expiré'
+  );
+}
+console.log('OK isZeroToleranceClass');
 
 // parseSitemapXml
 {
