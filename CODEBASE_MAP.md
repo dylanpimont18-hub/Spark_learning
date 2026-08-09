@@ -24,6 +24,13 @@ Génère `sitemap.xml` à la racine à partir des manifests réels de `js/loader
 - `extractConst(src, name)` — extrait un objet littéral `const NAME = {...}` d'un fichier source par comptage d'accolades (pas de dépendance `acorn`)
 - Usage : `node scripts/generate-sitemap.js` — à relancer après tout ajout de module (voir `CLAUDE.md` section 3)
 
+## scripts/prerender.js
+Pré-rend en HTML statique chaque URL de `sitemap.xml` via Puppeteer headless, pour que Google indexe le vrai contenu sans exécuter le JS de l'app. Testé unitairement (`scripts/test-prerender.js`) sur les fonctions pures ; `main()` (orchestration Puppeteer) vérifié manuellement contre un serveur local (voir `.superpowers/sdd/2026-08-09-prerendu-seo/task-3-report.md`).
+- `renderRoute(page, url)` — attend que `#app` contienne du texte réel **et que ce texte ait changé** par rapport à l'état initial juste après `domcontentloaded` (pas seulement `length > 50`) : un simple seuil de longueur peut être satisfait instantanément par du contenu périmé déjà présent dans le HTML servi (ex. SPA fallback qui sert un `index.html` déjà pré-rendu par une route précédente de la même exécution), avant même que le JS de la page n'ait démarré son propre routage
+- `isValidRender(result, routePath)` — rejette un rendu si `appTextLength < MIN_APP_TEXT_LENGTH` ou si le `<title>` reste générique ("Spark Learning") sur une route non-home
+- `outputFileForRoute(routePath)` — la route `/` écrit dans `index.html` à la racine (fichier suivi par git) ; les autres routes écrivent dans `chemin/index.html` (dossiers gitignorés, régénérés à chaque run)
+- Usage : `node scripts/prerender.js [--base-url URL] [--sitemap-file PATH]`
+
 ## css/styles.css
 Système de design complet : variables CSS (`--primary`, `--secondary`, `--accent`, `--error`, `--space-*`), thèmes, composants UI.
 - `.ap-*` classes pour AdminPanel (conteneur, header, tabs, search, cartes utilisateurs, boutons actions)
@@ -69,7 +76,7 @@ Routeur SPA (pushState), init, KaTeX, confetti.
 - `buildPath(view, data)` — construit un chemin d'URL réel `/view/data` (pushState)
 - `parsePath(pathname)` / `parseLegacyHash(hash)` — parsent respectivement une URL réelle et un ancien lien `#hash` (rétrocompat), partagent `_parseRouteParts(parts)`
 - Route `/positionnement/:token` (view `positioning`) → `PositioningTest.render(token)` (voir `js/views/positioning/positioningTest.js`) ; page publique, non authentifiée, hors flux `AuthGuard`
-- `navigate(view, data)` — change la vue active via `history.pushState` (plus de hash routing)
+- `navigate(view, data)` — change la vue active via `history.pushState` (plus de hash routing) ; branche à chargement asynchrone (`module`/`modules`/`flashcards`/`chrono`/`companion`/`teacher`/`homework`/`admin`) : appelle `updatePageMeta()` une fois avant le chargement (titre générique) puis **de nouveau après** `render()` une fois `loadPromise` résolu — sans ce second appel (bug corrigé le 2026-08-09), le `<title>`/meta restent génériques sur toute première navigation directe vers une page module malgré un contenu réel déjà affiché
 - `updatePageMeta()` — remplace l'ancien `updatePageTitle()` : en plus du `document.title`, met à jour dynamiquement description, `<link rel="canonical">`, OG/Twitter Card et `meta name="robots"` (`noindex` sur les vues privées listées dans `NOINDEX_VIEWS`) ; `_updateJsonLd(mod)` injecte/retire un bloc `schema.org/LearningResource` sur les pages module
 - `renderMath()` — déclenche KaTeX sur `#app` ; macro `\cdotp` redirigée vers le glyphe unicode ⋅ car le caractère « · » tapé dans le contenu (`\text{M·L}`) plante KaTeX (`\cdotp` indéfini en mode texte)
 - Appelle `initAdSlots()` (voir `js/components/adSlot.js`) et `trackPageView()` (voir `js/analytics.js`) après chaque rendu de vue dans le dispatcher `render()` — sauf branches `admin`/`teacher` (return anticipé, hors suivi)
