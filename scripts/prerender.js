@@ -79,31 +79,33 @@ async function renderRoute(page, url) {
   // 'networkidle0' n'atteindrait jamais zéro connexion active et timeout à tous les coups.
   await page.goto(url, { waitUntil: 'domcontentloaded', timeout: NAV_TIMEOUT_MS });
 
-  // Le HTML initialement servi peut déjà contenir du texte non trivial dans #app :
-  // sur un serveur qui retombe sur index.html pour les routes inconnues (SPA fallback),
-  // ce index.html peut lui-même être une page déjà pré-rendue par une exécution
-  // précédente de ce script (ex. la route '/' pré-rendue juste avant dans la même
-  // exécution). Si on se contente de vérifier "il y a plus de 50 caractères", cette
-  // condition est alors vraie dès la première évaluation — avant même que le JS de
-  // la page n'ait commencé à naviguer vers la VRAIE route demandée (qui dépend d'un
-  // aller-retour réseau vers Firebase Auth) — et on capture le contenu périmé d'une
-  // autre page. On exige donc en plus que le texte ait changé par rapport à l'état
-  // initial, pour être sûr d'attendre le rendu réel de CETTE route.
-  const initialAppText = await page.evaluate(() => {
-    const app = document.getElementById('app');
-    return app && app.innerText ? app.innerText.trim() : '';
-  });
-
-  await page.waitForFunction(
-    (staleText) => {
+  // En production, Firebase Hosting sert pour CHAQUE route le fichier statique déjà
+  // pré-rendu par le run précédent de ce script : dès le chargement de la page, #app
+  // contient donc déjà du texte non trivial — celui de CETTE route, pas d'une autre.
+  // Un test naïf "il y a plus de 50 caractères dans #app" est alors satisfait
+  // instantanément, avant même que le JS de la page n'ait recommencé à naviguer (ce qui
+  // dépend d'un aller-retour réseau vers Firebase Auth), et on capture une page figée
+  // (le rendu précédent) au lieu d'attendre le nouveau rendu.
+  // On attend donc un signal positif explicite plutôt qu'un simple seuil de longueur :
+  // js/app.js met `window.__sparkRouteReady` à true une fois que render()+updatePageMeta()
+  // ont réellement produit le contenu de LA route courante (voir navigate()). Ce flag vit
+  // en mémoire JS — jamais sérialisé dans le HTML capturé, contrairement à un attribut DOM,
+  // qui referait remonter le même faux-positif au run suivant — donc il repart toujours à
+  // false au chargement de chaque nouvelle page.
+  const timedOut = await page.waitForFunction(
+    () => {
       const app = document.getElementById('app');
-      if (!app || !app.innerText) return false;
-      const text = app.innerText.trim();
-      return text.length > 50 && text !== staleText;
+      return !!(window.__sparkRouteReady && app && app.innerText && app.innerText.trim().length > 50);
     },
-    { timeout: CONTENT_WAIT_TIMEOUT_MS },
-    initialAppText
-  ).catch(() => { /* on laisse isValidRender trancher sur le contenu obtenu */ });
+    { timeout: CONTENT_WAIT_TIMEOUT_MS }
+  ).then(() => false).catch(() => true);
+
+  if (timedOut) {
+    // On laisse isValidRender trancher sur le contenu obtenu (pas un échec en soi : le
+    // signal peut manquer sans que le contenu capturé soit faux), mais un timeout sur ce
+    // signal doit rester visible plutôt que de disparaître silencieusement dans un .catch().
+    console.warn(`[attente] ${url} — le signal __sparkRouteReady n'est pas arrivé avant ${CONTENT_WAIT_TIMEOUT_MS}ms`);
+  }
 
   return page.evaluate(() => ({
     html: document.documentElement.outerHTML,

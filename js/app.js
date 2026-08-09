@@ -130,8 +130,17 @@ function parseLegacyHash(hash) {
 /* ── Navigate ── */
 let _navSequence = 0; // prevents stale async renders
 
+// Signal de disponibilité pour le pré-rendu Puppeteer (scripts/prerender.js) : un flag
+// window (jamais sérialisé dans le HTML capturé, contrairement à un attribut DOM) mis à
+// true une fois que render() + updatePageMeta() ont produit le contenu réel de LA route
+// courante. Nécessaire car un simple test "il y a du texte dans #app" peut être satisfait
+// instantanément par le contenu déjà présent dans le HTML servi (en production, Firebase
+// Hosting sert le fichier statique déjà pré-rendu d'un run précédent pour cette même route).
+window.__sparkRouteReady = false;
+
 function navigate(view, data = {}, options = {}) {
   const skipUrlSync = !!options.skipUrlSync;
+  window.__sparkRouteReady = false;
 
   // Cleanup: cancel pending engine timers & remove stale confetti
   clearEngineTimers();
@@ -277,6 +286,7 @@ function navigate(view, data = {}, options = {}) {
       }
       render();
       updatePageMeta();
+      window.__sparkRouteReady = true;
     });
   } else {
     if (loadPromise) loadPromise.catch(() => {});
@@ -286,6 +296,7 @@ function navigate(view, data = {}, options = {}) {
     }
     render();
     updatePageMeta();
+    window.__sparkRouteReady = true;
   }
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
