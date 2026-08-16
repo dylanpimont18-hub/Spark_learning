@@ -50,7 +50,7 @@ window.MODULES.push({
             <desc id="perimaire-diagram-desc">Trois figures cote a cote : rectangle 8 sur 5, triangle de base et hauteur, disque de rayon 5. Le contour represente le perimetre et la teinte interieure represente l'aire.</desc>
             <rect x="20" y="14" width="170" height="30" rx="10" fill="color-mix(in srgb, var(--diagram-accent) 7%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 22%, var(--border))"></rect>
             <line class="frame-line" x1="32" y1="29" x2="56" y2="29"></line>
-            <text class="annotation-label" x="64" y="34">Perimetre (contour)</text>
+            <text class="annotation-label" x="64" y="34">Périmètre (contour)</text>
             <rect x="210" y="14" width="170" height="30" rx="10" fill="color-mix(in srgb, var(--diagram-accent) 7%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 22%, var(--border))"></rect>
             <rect x="222" y="21" width="16" height="16" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)" stroke="none"></rect>
             <text class="annotation-label" x="248" y="34">Aire (surface)</text>

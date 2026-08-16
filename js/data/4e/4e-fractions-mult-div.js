@@ -79,8 +79,8 @@
             <rect x="128" y="112" width="64" height="26" rx="8" fill="var(--bg-card)" fill-opacity="0.9" stroke="var(--diagram-accent)" stroke-width="1"></rect>
             <text class="annotation-label" x="160" y="129" text-anchor="middle">10/21</text>
             <rect x="60" y="274" width="300" height="48" rx="12" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
-            <text class="annotation-label" x="80" y="292" text-anchor="start">3 x 7 = 21 cases au total</text>
-            <text class="annotation-label" x="80" y="310" text-anchor="start">2 x 5 = 10 cases coloriees</text>
+            <text class="annotation-label" x="80" y="292" text-anchor="start">3 × 7 = 21 cases au total</text>
+            <text class="annotation-label" x="80" y="310" text-anchor="start">2 × 5 = 10 cases coloriées</text>
           </svg>
         `,
         notes: [

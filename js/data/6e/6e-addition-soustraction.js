@@ -51,9 +51,9 @@ window.MODULES.push({
             <desc id="add-soustr-desc">Le schema montre la soustraction posee de 15,20 par 6,75 colonne par colonne, avec virgules alignees, emprunts successifs et resultat 8,45.</desc>
             <line class="guide-line" x1="170" y1="52" x2="170" y2="222"></line>
             <rect x="50" y="14" width="260" height="32" rx="12" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
-            <text class="annotation-label" x="64" y="35">Etape cle : aligner les virgules</text>
+            <text class="annotation-label" x="64" y="35">Étape clé : aligner les virgules</text>
             <text class="tick-label" x="100" y="60">Diz.</text>
-            <text class="tick-label" x="140" y="60">Unites</text>
+            <text class="tick-label" x="140" y="60">Unités</text>
             <text class="tick-label" x="188" y="60">Dix.</text>
             <text class="tick-label" x="220" y="60">Cent.</text>
             <text class="annotation-label" x="106" y="95">1</text>

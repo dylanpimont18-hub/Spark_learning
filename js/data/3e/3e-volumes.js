@@ -54,7 +54,7 @@ window.MODULES.push(
             <title id="volumes-graph-title">Deux spheres de rayons r et 2r</title>
             <desc id="volumes-graph-desc">Le schema montre deux spheres, l'une de rayon r = 3 cm et l'autre de rayon double 2r = 6 cm, avec leurs volumes V = 113,04 cm3 et V' = 904,32 cm3, dans un rapport de 8.</desc>
             <rect x="20" y="8" width="340" height="30" rx="12" fill="color-mix(in srgb, var(--diagram-accent) 7%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 22%, var(--border))"></rect>
-            <text class="annotation-label" x="32" y="28">Rayon x 2  -&gt;  Volume x 2^3 = 8</text>
+            <text class="annotation-label" x="32" y="28">Rayon × 2  -&gt;  Volume × 2³ = 8</text>
             <circle cx="110" cy="200" r="36" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></circle>
             <circle class="frame-line" cx="110" cy="200" r="36" fill="none"></circle>
             <circle cx="270" cy="160" r="72" fill="color-mix(in srgb, var(--diagram-accent) 14%, transparent)" stroke="none"></circle>

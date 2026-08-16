@@ -52,7 +52,7 @@ window.MODULES.push({
             <title id="carre-identite-title">Carre de cote (x+4) decompose en 4 aires</title>
             <desc id="carre-identite-desc">Un grand carre de cote x plus 4 est partage par une ligne verticale et une ligne horizontale en 4 rectangles : un carre d'aire x au carre en haut a gauche, deux rectangles egaux d'aire 4x en haut a droite et en bas a gauche, et un petit carre d'aire 16 en bas a droite. La somme des quatre aires redonne x au carre plus 8x plus 16.</desc>
 
-            <text class="label-soft" x="240" y="28" text-anchor="middle">Aire totale = (x + 4)^2</text>
+            <text class="label-soft" x="240" y="28" text-anchor="middle">Aire totale = (x + 4)²</text>
 
             <rect class="frame-line" x="100" y="60" width="200" height="200" fill="color-mix(in srgb, var(--diagram-accent) 10%, transparent)"></rect>
             <rect class="frame-line" x="300" y="60" width="80" height="200" fill="color-mix(in srgb, var(--accent) 14%, transparent)"></rect>
@@ -60,7 +60,7 @@ window.MODULES.push({
             <rect class="frame-line" x="300" y="260" width="80" height="80" fill="color-mix(in srgb, var(--secondary) 14%, transparent)"></rect>
             <rect class="frame-line" x="100" y="60" width="280" height="280" fill="none"></rect>
 
-            <text class="annotation-label" x="200" y="165" text-anchor="middle">x^2</text>
+            <text class="annotation-label" x="200" y="165" text-anchor="middle">x²</text>
             <text class="annotation-label" x="340" y="165" text-anchor="middle">4x</text>
             <text class="annotation-label" x="200" y="304" text-anchor="middle">4x</text>
             <text class="annotation-label" x="340" y="304" text-anchor="middle">16</text>
@@ -71,7 +71,7 @@ window.MODULES.push({
             <text class="axis-label" x="80" y="304" text-anchor="middle">4</text>
 
             <rect x="100" y="350" width="280" height="40" rx="10" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
-            <text class="tick-label" x="240" y="374" text-anchor="middle">x^2 + 4x + 4x + 16 = x^2 + 8x + 16</text>
+            <text class="tick-label" x="240" y="374" text-anchor="middle">x² + 4x + 4x + 16 = x² + 8x + 16</text>
           </svg>
         `,
         notes: [

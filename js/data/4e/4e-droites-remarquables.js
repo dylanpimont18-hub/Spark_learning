@@ -56,7 +56,7 @@
             <desc id="droites-rem-desc">Triangle A(0;0) B(8;0) C(2;6) avec medianes, mediatrices, hauteurs et bissectrices superposees, chacune avec un style de trait different, et leurs quatre points de concours G, O, H et I etiquetes.</desc>
 
             <line x1="10" y1="16" x2="40" y2="16" class="curve-main"></line>
-            <text class="tick-label" x="46" y="20">Mediane -&gt; G</text>
+            <text class="tick-label" x="46" y="20">Médiane -&gt; G</text>
             <line x1="240" y1="16" x2="270" y2="16" class="guide-line"></line>
             <text class="tick-label" x="276" y="20">Mediatrice -&gt; O</text>
             <line x1="10" y1="38" x2="40" y2="38" style="stroke:var(--secondary);stroke-width:2.5"></line>

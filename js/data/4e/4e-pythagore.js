@@ -68,14 +68,14 @@
             <text class="annotation-label" x="44" y="132">a = 4</text>
             <text class="annotation-label" x="142" y="205">b = 3</text>
             <text class="annotation-label" x="164" y="118">c = 5</text>
-            <text class="annotation-label" x="146" y="56">Hypotenuse</text>
+            <text class="annotation-label" x="146" y="56">Hypoténuse</text>
             <line class="guide-line" x1="182" y1="60" x2="188" y2="100"></line>
             <rect x="26" y="18" width="126" height="38" rx="12" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
             <text class="annotation-label" x="40" y="42">Chercher c :</text>
-            <text class="tick-label" x="108" y="42">c^2 = a^2 + b^2</text>
+            <text class="tick-label" x="108" y="42">c² = a² + b²</text>
             <rect x="198" y="18" width="136" height="38" rx="12" fill="color-mix(in srgb, var(--accent) 14%, var(--bg-card))" stroke="color-mix(in srgb, var(--accent) 38%, var(--border))"></rect>
             <text class="annotation-label" x="212" y="42">Chercher a ou b :</text>
-            <text class="tick-label" x="304" y="42">a^2 = c^2 - b^2</text>
+            <text class="tick-label" x="304" y="42">a² = c² - b²</text>
           </svg>
         `,
         notes: [
