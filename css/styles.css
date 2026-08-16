@@ -3534,6 +3534,7 @@ main { flex: 1; }
   /* Hide all screen UI */
   .header, .footer, .scroll-top-btn, .contact-btn, .contact-panel,
   .hero-math-floats, .skip-to-content, .batch-print-toolbar,
+  .consent-banner, #consent-banner,
   #scroll-top, #contact-toggle, #contact-panel { display: none !important; }
 
   /* When printing fiches: hide app, show print container */

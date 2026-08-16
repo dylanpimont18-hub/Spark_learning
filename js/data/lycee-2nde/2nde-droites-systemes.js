@@ -154,7 +154,7 @@ window.MODULES.push({
         const a1 = 1, b1 = 1;
         const total1 = x + y;
         const a2 = rand(2, 5);
-        const b2 = rand(2, 5);
+        let b2 = rand(2, 5);
         while (a2 === b2) { b2 = rand(2, 5); }
         const total2 = a2 * x + b2 * y;
         return {
