@@ -87,11 +87,11 @@ window.MODULES.push(
           </svg>
         `,
         notes: [
-          'Le carre de cote $(a+b)$ se decoupe en 4 rectangles : un carre $a^2$, un carre $b^2$, et deux rectangles identiques d\'aire $ab$.',
-          'Les deux rectangles $ab$ ont la meme aire : c\'est exactement le terme $2ab$ souvent oublie dans $(a+b)^2 = a^2 + 2ab + b^2$.',
-          'Avec $a = 3$ et $b = 2$ : $9 + 6 + 6 + 4 = 25$, ce qui correspond bien a $(3+2)^2 = 5^2 = 25$.'
+          'Le carré de côté $(a+b)$ se découpe en 4 rectangles : un carré $a^2$, un carré $b^2$, et deux rectangles identiques d\'aire $ab$.',
+          'Les deux rectangles $ab$ ont la même aire : c\'est exactement le terme $2ab$ souvent oublié dans $(a+b)^2 = a^2 + 2ab + b^2$.',
+          'Avec $a = 3$ et $b = 2$ : $9 + 6 + 6 + 4 = 25$, ce qui correspond bien à $(3+2)^2 = 5^2 = 25$.'
         ],
-        reading: 'L\'aire totale du grand carre, $(a+b)^2$, est la somme des 4 aires internes : c\'est une preuve visuelle de l\'identite remarquable.',
+        reading: 'L\'aire totale du grand carré, $(a+b)^2$, est la somme des 4 aires internes : c\'est une preuve visuelle de l\'identité remarquable.',
         caption: 'Découpage géométrique de $(a+b)^2 = a^2 + 2ab + b^2$, illustré avec $a = 3$ et $b = 2$ (exemple repris de la méthode).'
       },
       recap: [

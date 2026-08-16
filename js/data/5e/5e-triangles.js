@@ -36,8 +36,8 @@ window.MODULES.push({
       diagram: {
         theme: 'maths',
         kicker: 'Types de triangles',
-        title: 'Isocele, equilateral, rectangle : les marques conventionnelles',
-        description: 'Les tics indiquent une egalite de longueur ; le petit carre indique un angle droit.',
+        title: 'Isocèle, équilatéral, rectangle : les marques conventionnelles',
+        description: 'Les tics indiquent une égalité de longueur ; le petit carré indique un angle droit.',
         svg: `
           <svg viewBox="0 0 560 260" role="img" aria-labelledby="triangles-types-title triangles-types-desc">
             <title id="triangles-types-title">Trois types de triangles : isocele, equilateral, rectangle</title>
@@ -76,11 +76,11 @@ window.MODULES.push({
           </svg>
         `,
         notes: [
-          'Isocele : les deux cotes marques du meme tic sont egaux, donc les deux angles a la base sont egaux.',
-          'Equilateral : les trois cotes portent le meme tic, les trois angles valent 60 degres.',
-          'Rectangle : le petit carre signale l\'angle droit, oppose a l\'hypotenuse (en couleur).'
+          'Isocèle : les deux côtés marqués du même tic sont égaux, donc les deux angles à la base sont égaux.',
+          'Équilatéral : les trois côtés portent le même tic, les trois angles valent 60 degrés.',
+          'Rectangle : le petit carré signale l\'angle droit, opposé à l\'hypoténuse (en couleur).'
         ],
-        reading: 'Les marques sur la figure (tics, carre) remplacent les mesures : elles suffisent a identifier le type de triangle sans mesurer.',
+        reading: 'Les marques sur la figure (tics, carré) remplacent les mesures : elles suffisent à identifier le type de triangle sans mesurer.',
         caption: 'Les trois grandes familles de triangles et leurs marques conventionnelles.'
       },
       method: {

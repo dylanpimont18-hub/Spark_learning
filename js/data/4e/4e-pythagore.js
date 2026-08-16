@@ -79,12 +79,12 @@
           </svg>
         `,
         notes: [
-          'L\'hypotenuse est le seul cote oppose a l\'angle droit. C\'est aussi le plus long cote du triangle.',
-          'Si l\'inconnue est l\'hypotenuse $c$, on additionne les carres des deux autres cotes.',
-          'Si l\'inconnue est un petit cote, on isole son carre puis on soustrait le carre du cote connu a celui de l\'hypotenuse.'
+          'L\'hypoténuse est le seul côté opposé à l\'angle droit. C\'est aussi le plus long côté du triangle.',
+          'Si l\'inconnue est l\'hypoténuse $c$, on additionne les carrés des deux autres côtés.',
+          'Si l\'inconnue est un petit côté, on isole son carré puis on soustrait le carré du côté connu à celui de l\'hypoténuse.'
         ],
-        reading: 'Avant toute formule, trouve l\'angle droit. Le cote en face fixe le role de l\'hypotenuse.',
-        caption: 'Schema de reference pour distinguer rapidement addition et soustraction dans un calcul de Pythagore.'
+        reading: 'Avant toute formule, trouve l\'angle droit. Le côté en face fixe le rôle de l\'hypoténuse.',
+        caption: 'Schéma de référence pour distinguer rapidement addition et soustraction dans un calcul de Pythagore.'
       },
       recap: [
         '$c^2 = a^2 + b^2$ ne fonctionne QUE dans un triangle rectangle',

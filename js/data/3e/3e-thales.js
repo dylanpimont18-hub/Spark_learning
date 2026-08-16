@@ -51,8 +51,8 @@ window.MODULES.push(
       diagram: {
         theme: 'maths',
         kicker: 'Triangles semblables',
-        title: 'Voir les longueurs correspondantes dans une configuration de Thales',
-        description: 'Les deux segments relies en parallele creent deux triangles semblables : on compare toujours des longueurs placees dans le meme sens.',
+        title: 'Voir les longueurs correspondantes dans une configuration de Thalès',
+        description: 'Les deux segments reliés en parallèle créent deux triangles semblables : on compare toujours des longueurs placées dans le même sens.',
         svg: `
           <svg viewBox="0 0 360 240" role="img" aria-labelledby="thales-graph-title thales-graph-desc">
             <title id="thales-graph-title">Configuration de Thales</title>
@@ -85,12 +85,12 @@ window.MODULES.push(
           </svg>
         `,
         notes: [
-          'Le theoreme direct commence toujours par la parallelite : ici les segments $AB$ et $A\'B\'$ sont paralleles.',
-          'On compare des longueurs correspondantes dans le meme sens : grand sur grand ou petit sur petit, jamais un melange des deux.',
-          'La reciproque renverse la logique : si les rapports sont egaux et les points du meme cote de $O$, on peut conclure au parallelisme.'
+          'Le théorème direct commence toujours par le parallélisme : ici les segments $AB$ et $A\'B\'$ sont parallèles.',
+          'On compare des longueurs correspondantes dans le même sens : grand sur grand ou petit sur petit, jamais un mélange des deux.',
+          'La réciproque renverse la logique : si les rapports sont égaux et les points du même côté de $O$, on peut conclure au parallélisme.'
         ],
-        reading: 'Le plus sur est de suivre chaque secante depuis $O$ : on lit d\'abord la petite longueur, puis la grande qui lui correspond.',
-        caption: 'Configuration de Thales avec deux secantes, un segment intermediaire et un segment parallele plus eloigne.'
+        reading: 'Le plus sûr est de suivre chaque sécante depuis $O$ : on lit d\'abord la petite longueur, puis la grande qui lui correspond.',
+        caption: 'Configuration de Thalès avec deux sécantes, un segment intermédiaire et un segment parallèle plus éloigné.'
       },
       recap: [
         '<strong>Rapports cohérents</strong> : toujours écrire les rapports dans le même sens (grand sur petit ou petit sur grand), jamais mélangés.',

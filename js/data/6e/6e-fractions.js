@@ -87,12 +87,12 @@ window.MODULES.push({
           </svg>
         `,
         notes: [
-          'Le disque est coupe en $2$ parts egales, la bande en $6$ parts egales, la grille en $100$ cases egales : dans chaque figure, on colorie exactement la moitie de la surface.',
-          'On passe de $\\dfrac{1}{2}$ a $\\dfrac{3}{6}$ en multipliant numerateur et denominateur par $3$, et de $\\dfrac{1}{2}$ a $\\dfrac{50}{100}$ en multipliant par $50$ : c\'est la propriete $\\dfrac{a}{b} = \\dfrac{a \\times n}{b \\times n}$.',
-          'Pour retrouver la forme la plus simple $\\dfrac{1}{2}$ a partir de $\\dfrac{50}{100}$, on divise les deux termes par leur PGCD, ici $50$.'
+          'Le disque est coupé en $2$ parts égales, la bande en $6$ parts égales, la grille en $100$ cases égales : dans chaque figure, on colorie exactement la moitié de la surface.',
+          'On passe de $\\dfrac{1}{2}$ à $\\dfrac{3}{6}$ en multipliant numérateur et dénominateur par $3$, et de $\\dfrac{1}{2}$ à $\\dfrac{50}{100}$ en multipliant par $50$ : c\'est la propriété $\\dfrac{a}{b} = \\dfrac{a \\times n}{b \\times n}$.',
+          'Pour retrouver la forme la plus simple $\\dfrac{1}{2}$ à partir de $\\dfrac{50}{100}$, on divise les deux termes par leur PGCD, ici $50$.'
         ],
-        reading: 'Compte les parts coloriees et le nombre total de parts dans chaque figure : le rapport colorie/total reste toujours $1$ sur $2$.',
-        caption: 'Trois representations visuelles de la meme fraction : $\\dfrac{1}{2} = \\dfrac{3}{6} = \\dfrac{50}{100}$.'
+        reading: 'Compte les parts coloriées et le nombre total de parts dans chaque figure : le rapport colorié/total reste toujours $1$ sur $2$.',
+        caption: 'Trois représentations visuelles de la même fraction : $\\dfrac{1}{2} = \\dfrac{3}{6} = \\dfrac{50}{100}$.'
       },
       formulas: [
         '$\\dfrac{a}{b} = \\dfrac{a \\div k}{b \\div k}$ (simplification par $k$)',

@@ -90,12 +90,12 @@ window.MODULES.push(
           </svg>
         `,
         notes: [
-          'Peu importe la paire de facteurs choisie au depart (ici 4 et 45) : on retombe toujours sur la meme decomposition finale. C\'est le theoreme fondamental de l\'arithmetique.',
-          'Les cercles bordes (180, 4, 45, 9) sont des nombres composes : on continue a les decomposer. Les cercles pleins (2, 2, 3, 3, 5) sont des nombres premiers : la branche s\'arrete.',
+          'Peu importe la paire de facteurs choisie au départ (ici 4 et 45) : on retombe toujours sur la même décomposition finale. C\'est le théorème fondamental de l\'arithmétique.',
+          'Les cercles bordés (180, 4, 45, 9) sont des nombres composés : on continue à les décomposer. Les cercles pleins (2, 2, 3, 3, 5) sont des nombres premiers : la branche s\'arrête.',
           'On regroupe ensuite les facteurs identiques avec des exposants : $180 = 2^2 \\times 3^2 \\times 5$.'
         ],
-        reading: 'Un arbre de decomposition se lit de haut en bas : a chaque noeud compose, on choisit deux facteurs dont le produit redonne le nombre, jusqu\'a n\'obtenir que des nombres premiers.',
-        caption: 'Decomposition de $180$ en produit de facteurs premiers : $180 = 2^2 \\times 3^2 \\times 5$.'
+        reading: 'Un arbre de décomposition se lit de haut en bas : à chaque nœud composé, on choisit deux facteurs dont le produit redonne le nombre, jusqu\'à n\'obtenir que des nombres premiers.',
+        caption: 'Décomposition de $180$ en produit de facteurs premiers : $180 = 2^2 \\times 3^2 \\times 5$.'
       },
       recap: [
         '<strong>Théorème fondamental</strong> : tout entier $\\geq 2$ se décompose de manière <strong>unique</strong> en produit de nombres premiers.',

@@ -117,10 +117,10 @@
           </svg>
         `,
         notes: [
-          'Medianes (trait plein epais) : chaque sommet relie au milieu du cote oppose. Les trois se coupent au centre de gravite G, aux 2/3 de chaque sommet.',
-          'Mediatrices (tirets longs) : perpendiculaires a chaque cote en son milieu, elles ne passent pas forcement par un sommet. Elles se coupent au centre du cercle circonscrit O, equidistant de A, B et C.',
-          'Hauteurs (trait plein colore) : perpendiculaires issues de chaque sommet sur le cote oppose. Elles se coupent a l\'orthocentre H.',
-          'Bissectrices (tirets courts) : partagent chaque angle en deux. Elles se coupent au centre du cercle inscrit I, equidistant des trois cotes.'
+          'Médianes (trait plein épais) : chaque sommet relié au milieu du côté opposé. Les trois se coupent au centre de gravité G, aux 2/3 de chaque sommet.',
+          'Médiatrices (tirets longs) : perpendiculaires à chaque côté en son milieu, elles ne passent pas forcément par un sommet. Elles se coupent au centre du cercle circonscrit O, équidistant de A, B et C.',
+          'Hauteurs (trait plein coloré) : perpendiculaires issues de chaque sommet sur le côté opposé. Elles se coupent à l\'orthocentre H.',
+          'Bissectrices (tirets courts) : partagent chaque angle en deux. Elles se coupent au centre du cercle inscrit I, équidistant des trois côtés.'
         ],
         reading: 'Suis une seule couleur/style a la fois : les quatre familles se croisent près du centre du triangle, mais chacune a son propre point de concours, distinct des trois autres.',
         caption: 'Triangle $ABC$ avec ses médianes (→ $G$), médiatrices (→ $O$), hauteurs (→ $H$) et bissectrices (→ $I$). Ce triangle étant acutangle, les quatre points restent à l\'intérieur du triangle.'
