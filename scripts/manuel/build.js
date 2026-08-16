@@ -17,7 +17,7 @@ const fs = require('fs');
 const path = require('path');
 const cp = require('child_process');
 const { chargerModule, RACINE } = require('./extract.js');
-const { rendreFigures, figureUtilisable } = require('./figures.js');
+const { preparerFigures, figureUtilisable } = require('./figures.js');
 const { composerChapitre } = require('./chapitre.js');
 const O = require('./ouvrage.js');
 const { nonMappes, definirOrigine } = require('./latex.js');
@@ -36,16 +36,16 @@ const NIVEAUX = {
 
 const OUVRAGES = {
   'college-maths': { titre: 'Mathématiques', sousTitre: 'Collège', collection: 'Collection Mathématiques',
-    dossiers: ['6e', '5e', '4e', '3e'], niveaux: 'Sixième \\textbullet{} Cinquième \\textbullet{} Quatrième \\textbullet{} Troisième',
+    dossiers: ['6e', '5e', '4e', '3e'], niveaux: 'Sixième • Cinquième • Quatrième • Troisième',
     accroche: 'Tout le programme de la sixième à la troisième.' },
   'lycee-maths': { titre: 'Mathématiques', sousTitre: 'Lycée', collection: 'Collection Mathématiques',
-    dossiers: ['lycee-2nde', 'lycee-1re', 'lycee-tle'], niveaux: 'Seconde \\textbullet{} Première \\textbullet{} Terminale',
+    dossiers: ['lycee-2nde', 'lycee-1re', 'lycee-tle'], niveaux: 'Seconde • Première • Terminale',
     accroche: 'Tout le programme de la seconde à la terminale.' },
   'lycee-si': { titre: 'Sciences de l\'ingénieur', sousTitre: 'Lycée', collection: 'Collection Sciences de l\'ingénieur',
-    dossiers: ['si-2nde', 'si-1re', 'si-tle'], niveaux: 'Seconde \\textbullet{} Première \\textbullet{} Terminale',
+    dossiers: ['si-2nde', 'si-1re', 'si-tle'], niveaux: 'Seconde • Première • Terminale',
     accroche: 'Le programme de sciences de l\'ingénieur au lycée.' },
   'bts-maths': { titre: 'Mathématiques', sousTitre: 'BTS', collection: 'Collection Mathématiques',
-    dossiers: ['bts-prep', 'bts'], niveaux: 'Remise à niveau \\textbullet{} Programme BTS',
+    dossiers: ['bts-prep', 'bts'], niveaux: 'Remise à niveau • Programme BTS',
     accroche: 'De la remise à niveau au programme complet de BTS.' },
   'bts-physique': { titre: 'Physique-Chimie', sousTitre: 'BTS', collection: 'Collection Physique-Chimie',
     dossiers: ['physique-bts'], niveaux: 'Programme BTS',
@@ -92,6 +92,17 @@ function modulesDeLOuvrage(cle) {
   return retenus;
 }
 
+/* Le logo n'entre dans la maquette que s'il existe en PNG detoure. Les deux
+   JPEG du depot (images/Logo_blanc.jpeg, images/Logo_noir.jpeg) portent un
+   fond opaque — blanc pour l'un, noir pour l'autre — et poseraient une tache
+   rectangulaire sur l'aplat ardoise de la couverture. Deposer le PNG suffit
+   a le faire apparaitre : aucune retouche de maquette a prevoir.
+   Le chemin est relatif au dossier de compilation, « Manuel scolaire/<cle>/ ». */
+function logoDisponible() {
+  return fs.existsSync(path.join(RACINE, 'images/logo-spark.png'))
+    ? '../../images/logo-spark.png' : null;
+}
+
 function compter(pdf) {
   if (!fs.existsSync(pdf)) return 0;
   const s = fs.readFileSync(pdf, 'latin1');
@@ -130,8 +141,7 @@ async function construire(cle, options) {
     return { mod: r.module, exercices: r.exercices, dossier: e.dossier };
   });
 
-  console.log('  rendu des figures...');
-  const figures = await rendreFigures(charges.map(c => c.mod), dossier);
+  const figures = preparerFigures(charges.map(c => c.mod));
   const bloquees = Object.entries(figures).filter(([, v]) => !figureUtilisable(v));
   console.log('  ' + (Object.keys(figures).length - bloquees.length) + ' figures retenues, ' +
               bloquees.length + ' bloquees');
@@ -166,6 +176,7 @@ async function construire(cle, options) {
     professeur: prof, nbChapitres: charges.length, annee: new Date().getFullYear(),
     mention: 'Cours, méthodes, exercices et évaluations',
     illustration: opts.illustration || 'couverture.png',
+    logo: opts.logo !== undefined ? opts.logo : logoDisponible(),
     avantPropos: AVANT_PROPOS.replace('{N}', charges.length),
     exercicesVisibles: 3
   });

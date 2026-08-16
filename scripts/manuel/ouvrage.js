@@ -27,6 +27,13 @@ function largeurDosMm(pages) {
 
 const LARGEUR_MM = 170, HAUTEUR_MM = 244;
 
+/* L'auteur, ecrit une fois. Il apparait a quatre endroits — page de titre
+   interieure, couverture imprimeur, page de copyright, quatrieme de
+   couverture — et un livre qui se contredit sur son auteur n'est pas
+   vendable. `---` est le tiret cadratin de LaTeX. */
+const AUTEUR = 'Dylan Pimont';
+const AUTEUR_LIGNE = AUTEUR + ' --- enseignant, formateur et ingénieur';
+
 function preambule(config) {
   const gouttiere = config.gouttiere || 20;
   return `\\documentclass[11pt,openany]{book}
@@ -59,6 +66,8 @@ function preambule(config) {
 \\definecolor{grenat}{HTML}{B03A2E}
 \\definecolor{gris}{HTML}{5C6873}
 \\definecolor{papier}{HTML}{F7F5F0}
+\\definecolor{olive}{HTML}{6B7F3A}
+\\definecolor{ambre}{HTML}{B4661C}
 
 \\newtcolorbox{spdef}[1]{enhanced,breakable,colback=ardoise!4,colframe=ardoise,
   boxrule=0.9pt,arc=2pt,left=8pt,right=8pt,top=6pt,bottom=6pt,
@@ -112,23 +121,41 @@ function preambule(config) {
 `;
 }
 
-function couverture(config) {
+/* Le plat 1, compose UNE fois pour DEUX usages : la page de titre interieure
+   et la couverture imprimeur qui part chez KDP. Les laisser diverger, c'est
+   imprimer un livre dont la couverture ne dit pas ce que dit sa page de titre.
+   Seules les deux ancres changent : la page de titre se cale sur la page
+   entiere, la couverture imprimeur sur son demi-plat de droite.
+
+   Le logo n'est pose que si `config.logo` est fourni. Les deux JPEG du depot
+   portent un fond opaque (blanc pour Logo_blanc, noir pour Logo_noir) : sur
+   l'aplat ardoise ils feraient une tache rectangulaire. Le jour ou un PNG
+   detoure existe, il suffit de le deposer pour qu'il apparaisse ici. */
+function blocTitre(config, ancreNord, ancreSud) {
   const prof = config.professeur;
+  const logo = config.logo
+    ? `\\includegraphics[width=20mm]{${config.logo}}\\\\[3mm]\n    `
+    : '';
+  return `  \\node[anchor=north,text width=15.4cm,align=center] at (${ancreNord}) {
+    ${logo}{\\fontsize{13}{15}\\selectfont\\color{ormat}\\bfseries\\MakeUppercase{Spark Learning}}\\\\[2mm]
+    {\\fontsize{9}{11}\\selectfont\\color{white}\\MakeUppercase{${L(config.collection)}}}
+  };
+  \\node[anchor=south,text width=15.4cm,align=center] at (${ancreSud}) {
+    {\\fontsize{34}{38}\\selectfont\\color{white}\\bfseries ${L(config.titre)}}\\\\[3mm]
+    {\\fontsize{20}{24}\\selectfont\\color{ormat}\\bfseries ${L(config.sousTitre)}}\\\\[6mm]
+    {\\fontsize{10.5}{13}\\selectfont\\color{white}\\mbox{${L(config.niveaux)}}}\\\\[4mm]
+    {\\fontsize{10}{13}\\selectfont\\color{white}\\itshape ${L(config.mention)}${prof ? ' --- édition du professeur' : ''}}\\\\[3.5mm]
+    {\\fontsize{10.5}{13}\\selectfont\\color{ormat}\\mbox{${AUTEUR_LIGNE}}}
+  };`;
+}
+
+function couverture(config) {
   return `\\begin{titlepage}
 \\thispagestyle{empty}
 \\begin{tikzpicture}[remember picture,overlay]
   \\node[inner sep=0pt] at (current page.center)
     {\\includegraphics[width=\\paperwidth,height=\\paperheight]{${config.illustration}}};
-  \\node[anchor=north,text width=15.4cm,align=center] at ([yshift=-2.1cm]current page.north) {
-    {\\fontsize{13}{15}\\selectfont\\color{ormat}\\bfseries\\MakeUppercase{Spark Learning}}\\\\[2mm]
-    {\\fontsize{9}{11}\\selectfont\\color{white}\\MakeUppercase{${L(config.collection)}}}
-  };
-  \\node[anchor=south,text width=15.4cm,align=center] at ([yshift=2.4cm]current page.south) {
-    {\\fontsize{34}{38}\\selectfont\\color{white}\\bfseries ${L(config.titre)}}\\\\[3mm]
-    {\\fontsize{20}{24}\\selectfont\\color{ormat}\\bfseries ${L(config.sousTitre)}}\\\\[6mm]
-    {\\fontsize{10.5}{13}\\selectfont\\color{white}\\mbox{${L(config.niveaux)}}}\\\\[4mm]
-    {\\fontsize{10}{13}\\selectfont\\color{white}\\itshape ${L(config.mention)}${prof ? ' --- édition du professeur' : ''}}
-  };
+${blocTitre(config, '[yshift=-2.1cm]current page.north', '[yshift=2.4cm]current page.south')}
 \\end{tikzpicture}
 \\end{titlepage}
 `;
@@ -142,6 +169,7 @@ function liminaires(config) {
 \\vspace*{6cm}
 \\begin{center}
 {\\Large\\color{ardoise}\\bfseries ${L(config.titre)} --- ${L(config.sousTitre)}}\\\\[4mm]
+{\\color{ardoise}\\large ${AUTEUR_LIGNE}}\\\\[6mm]
 {\\color{gris}\\itshape ${L(config.mention)}}
 \\end{center}
 \\cleardoublepage
@@ -152,10 +180,12 @@ function liminaires(config) {
 \\textbf{${L(config.titre)} --- ${L(config.sousTitre)}}${prof ? ' --- Édition du professeur' : ''}\\\\[2mm]
 ${L(config.collection)}, Spark Learning.\\\\[2mm]
 ${n} chapitres couvrant l'intégralité du programme.\\\\[4mm]
+Auteur : \\textbf{${AUTEUR}}, enseignant, formateur et ingénieur.\\\\[2mm]
 Première édition --- ${config.annee}.\\\\
 ISBN : \\textit{à attribuer}\\\\
 Dépôt légal : ${config.annee}.\\\\[4mm]
-Tous droits de reproduction, de traduction et d'adaptation réservés pour tous pays.
+\\textcopyright{} ${config.annee} ${AUTEUR}. Tous droits de reproduction, de traduction et
+d'adaptation réservés pour tous pays.
 Les schémas et les énoncés d'exercices sont originaux.\\\\[4mm]
 Composé en Latin Modern. Figures vectorielles.
 }
@@ -273,6 +303,7 @@ function finOuvrage(chapitres, config) {
     "    de synthèse et une évaluation notée avec son barème.}\\\\[5mm]",
     "    {\\color{white}\\small Un formulaire complet, les réponses aux exercices et un index des",
     "    notions figurent en fin d'ouvrage.}\\\\[9mm]",
+    `    {\\color{white}\\small\\mbox{${AUTEUR_LIGNE}}}\\\\[5mm]`,
     `    {\\color{ormat}\\small\\itshape Spark Learning --- ${L(config.collection)}}`,
     '  };',
     '\\end{tikzpicture}');
@@ -306,16 +337,31 @@ function couvertureSeparee(config) {
     at ([shift={(1.7cm,-3cm)}]current page.north west) {
     {\\color{ormat}\\bfseries\\large ${L(config.titre)} --- ${L(config.sousTitre)}}\\\\[5mm]
     {\\color{white}\\normalsize ${L(config.accroche)}}\\\\[7mm]
-    {\\color{white}\\small Cours, méthodes, exercices corrigés, quiz et évaluations notées.}
+    {\\color{white}\\small Cours, méthodes, exercices corrigés, quiz et évaluations notées.}\\\\[7mm]
+    {\\color{ormat}\\small\\mbox{${AUTEUR_LIGNE}}}
   };
-  % Dos : ${dos} mm pour ${config.pages} pages
+  \\node[anchor=south west,text width=13.6cm,align=left]
+    at ([shift={(1.7cm,2.2cm)}]current page.south west) {
+    {\\color{white}\\footnotesize\\bfseries\\MakeUppercase{Spark Learning}}\\\\[1.5mm]
+    {\\color{white!70}\\scriptsize ${L(config.collection)}}
+  };
+  % Dos : ${dos} mm pour ${config.pages} pages. Le titre au centre, la marque
+  % au pied — disposition habituelle en librairie, ou le dos est ce qu'on voit.
   \\node[rotate=-90,anchor=center]
     at ([xshift=${(LARGEUR_MM + dos / 2).toFixed(1)}mm]current page.west)
     {\\color{white}\\small ${L(config.titre)} --- ${L(config.sousTitre)}};
-  % Plat 1 (droite)
+  \\node[rotate=-90,anchor=center]
+    at ([shift={(${(LARGEUR_MM + dos / 2).toFixed(1)}mm,-9.2cm)}]current page.west)
+    {\\color{ormat}\\scriptsize\\bfseries\\MakeUppercase{Spark Learning}};
+  % Plat 1 (droite) : l'illustration, puis le MEME bloc de titre que la page
+  % de titre interieure. Sans lui, le livre partait a l'impression avec un
+  % premier plat entierement muet.
   \\node[anchor=north east,inner sep=0pt]
     at (current page.north east)
     {\\includegraphics[width=${LARGEUR_MM}mm,height=${HAUTEUR_MM}mm]{${config.illustration}}};
+${blocTitre(config,
+  '[shift={(-' + (LARGEUR_MM / 2) + 'mm,-2.1cm)}]current page.north east',
+  '[shift={(-' + (LARGEUR_MM / 2) + 'mm,2.4cm)}]current page.south east')}
 \\end{tikzpicture}
 \\end{document}
 `;

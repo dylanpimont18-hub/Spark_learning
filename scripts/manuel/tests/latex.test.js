@@ -47,3 +47,36 @@ test('un symbole Unicode en texte est traduit', () => {
 test('les entites HTML sont decodees', () => {
   assert.match(versLatex('a&nbsp;b'), /a(~|\\textasciitilde\{\})b/);
 });
+
+/* Troisieme famille du meme piege, trouvee le 2026-08-16 sur la couverture :
+   « Sixième • Cinquième » s'imprimait « Sixième \{}textbullet{} Cinquième ».
+
+   Les symboles de la table MATH traversent `emettre`, donc ressortent en
+   jeton et echappent a l'echappement LaTeX de l'etape 4. Ceux de la table
+   TEXTE etaient ajoutes BRUTS : leur antislash devenait \textbackslash{} et
+   leurs accolades \{\}. La commande s'imprimait au lieu de s'executer.
+
+   Concerne •, €, №, ℃ et les chiffres cercles ①..⑨ — donc le corps de texte
+   du corpus, pas seulement les figures. Zero erreur de compilation. */
+test('une commande de la table TEXTE survit a l echappement LaTeX', () => {
+  const { versLatex } = require('../latex.js');
+  assert.strictEqual(versLatex('a • b'), 'a \\textbullet{} b');
+  assert.strictEqual(versLatex('prix : 12 €'), 'prix : 12 \\texteuro{}');
+  assert.strictEqual(versLatex('25 ℃'), '25 \\textcelsius{}');
+  assert.strictEqual(versLatex('① premier'), '\\textcircled{1} premier');
+});
+
+/* Les symboles de la table MATH passaient deja : le test les verrouille pour
+   que la correction de la table TEXTE ne les emporte pas. */
+test('les commandes de la table MATH restent protegees', () => {
+  const { versLatex } = require('../latex.js');
+  assert.strictEqual(versLatex('x ✓ ok'), 'x \\ensuremath{\\checkmark} ok');
+  assert.strictEqual(versLatex('θ vaut 5'), '\\ensuremath{\\theta} vaut 5');
+});
+
+/* En mode math, une commande de texte est aussi invalide qu'un accent :
+   \textbullet n'existe pas plus que \` entre deux dollars. */
+test('une commande de texte rencontree en mode math passe par text', () => {
+  const { enMath } = require('../unicode.js');
+  assert.strictEqual(enMath('a • b', 'test'), 'a \\text{\\textbullet{}} b');
+});

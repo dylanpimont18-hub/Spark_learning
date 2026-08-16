@@ -15,7 +15,7 @@ Ce fichier est la **source de vérité** pour la structure de fichiers du projet
 | manifest.json | Manifeste PWA minimal (nom, icône, couleur de thème) |
 | scripts/generate-sitemap.js | Génère `sitemap.xml` à partir de `js/loader.js` — à relancer après ajout de module |
 | scripts/check-decimal-notation.js | Détecte les régressions de notation décimale française dans `js/data/` — à relancer après modification d'un `exercice.generate()` |
-| scripts/manuel/ | Socle d'export des modules vers LaTeX : schéma, extraction ensemencée, table Unicode, conversion, vérification du corpus. Tests : `node --test scripts/manuel/tests/*.test.js`. Voir `docs/superpowers/specs/2026-08-16-manuels-spark-design.md` |
+| scripts/manuel/ | Chaîne complète `js/data` → LaTeX → PDF des sept manuels : schéma, extraction ensemencée, table Unicode, conversion, figures SVG→TikZ (`svg2tikz.js`), maquette du livre, planche de contrôle des figures (`planche.js`), orchestration (`build.js`). Tests : `node --test scripts/manuel/tests/*.test.js`. Voir `docs/superpowers/specs/2026-08-16-manuels-spark-design.md` |
 
 ## Interface & Style
 | Dossier/Fichier | Rôle |

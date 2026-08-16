@@ -152,7 +152,12 @@ Charge un module hors navigateur (contexte `vm`) avec un tirage d'exercices repr
 Traduit en commandes LaTeX les 245 caractères hors couverture pdfTeX/T1 du corpus, et signale les inconnus.
 - `enMath(texte, ou)` — commandes math via `\ensuremath` (survit aux `\text{}` imbriqués)
 - `enTexte(texte, ou, emettre)` — symboles rencontrés en mode texte
+- `symbole(caractere)` — accès brut à la table, pour les étiquettes qui composent leur propre mode
 - `nonMappes` — registre des caractères non traduits, jamais avalés silencieusement
+- Trois familles se composent faux **sans provoquer d'erreur** : les dix symboles Latin-1
+  (`° × ÷ ² ³ ¹ ± ¬ µ ·`, faux en mode math), les lettres accentuées (`ACCENTUEES`, enveloppées
+  dans `\text{}`), et les commandes de la table `TEXTE` (`• € ℃ ①`), qui doivent traverser
+  `envelopperTexte` sous peine d'être ré-échappées et imprimées littéralement.
 
 ## scripts/manuel/latex.js
 Convertit le HTML et le KaTeX des modules en LaTeX. L'ordre des étapes est critique (voir commentaire en tête).
@@ -167,9 +172,23 @@ Passe le socle sur les 203 modules réels : filet anti-régression de la convers
 - Usage : `node scripts/manuel/verifier-corpus.js` ; tests : `node --test scripts/manuel/tests/*.test.js`
 
 ## scripts/manuel/figures.js
-Rend les schémas des modules en PDF vectoriel pour l'impression, avec provenance obligatoire.
-- `rendreFigures(modules, dossier)` — une seule session de navigateur pour toutes les figures
+Trie et prépare les schémas des modules en TikZ inséré en ligne, avec provenance obligatoire.
+- `preparerFigures(modules)` — synchrone, sans navigateur : `{ id: { tikz, provenance, empreinte, elements } }`
 - `figureUtilisable(entree)` — garde-fou : pas de provenance, pas d'insertion
+- `LARGEUR_FIGURE_MM` — largeur utile du bloc de texte du livre
+
+## scripts/manuel/svg2tikz.js
+Convertit un SVG du corpus en TikZ. Aucune coordonnée n'est recalculée — seule l'ordonnée
+est niée, l'axe y du SVG descendant — d'où la provenance `svg-exact` et son empreinte SHA1.
+- `etiquette(source, origine)` — typographie d'un libellé : îlots math, indices, unités, réserve blanche
+- `versTikz(svg, ...)` — géométrie : traits, aplats, arcs et Béziers
+- Les deux moitiés sont séparées : la typographie et la géométrie changent pour des raisons différentes
+
+## scripts/manuel/planche.js
+Planche de contrôle : toutes les figures d'un ouvrage, une par page, à la taille du livre.
+- `construire(cle, filtre)` — préambule identique à celui de l'ouvrage, sinon la planche ne prouve rien
+- Usage : `node scripts/manuel/planche.js college-maths [module...]`, puis rastériser et REGARDER
+- Raison d'être : « 0 erreur LaTeX » ne prouve pas qu'une figure est juste
 
 ## scripts/manuel/chapitre.js
 Compose un module en chapitre LaTeX, édition élève ou professeur.
@@ -180,11 +199,14 @@ Compose un module en chapitre LaTeX, édition élève ou professeur.
 Maquette du livre : préambule, couverture, liminaires, fin d'ouvrage, couverture imprimeur.
 - `gouttierePourPages(n)` — marge intérieure exigée selon l'épaisseur
 - `largeurDosMm(n)` — largeur de dos pour la couverture séparée
+- `blocTitre(config, ancreNord, ancreSud)` — plat 1 composé une fois, servi à la page de titre ET à la couverture imprimeur
+- `AUTEUR` / `AUTEUR_LIGNE` — signature écrite une fois, reprise aux quatre endroits qui la portent
 - `preambule/couverture/liminaires/ouverturePartie/finOuvrage/couvertureSeparee`
 
 ## scripts/manuel/build.js
 Orchestration : extraction, figures, chapitres, deux passes de gouttière, garde-fous.
-- `construire(cle, {professeur, graine})` — produit le PDF et `etat-*.json`
+- `construire(cle, {professeur, graine, logo})` — produit le PDF et `etat-*.json`
+- `logoDisponible()` — le logo n'entre dans la maquette que si `images/logo-spark.png` existe (PNG détouré)
 - `OUVRAGES` — les sept ouvrages niveau × matière
 - Usage : `node scripts/manuel/build.js college-maths [--prof]` ; `--liste` pour les clés
 

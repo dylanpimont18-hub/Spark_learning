@@ -174,7 +174,7 @@ function composerChapitre(mod, exercices, options) {
     o.push('\\section{Schéma}');
     if (c.diagram.description) o.push('\\noindent ' + L(c.diagram.description), '');
     o.push('\\begin{figure}[h!]\\centering',
-      `\\includegraphics[width=0.92\\textwidth]{${fig.fichier}}`,
+      fig.tikz,
       `\\caption{${L(c.diagram.caption || c.diagram.title || mod.title)}}`,
       '\\end{figure}');
     if (c.diagram.notes) o.push(liste(c.diagram.notes), '');
