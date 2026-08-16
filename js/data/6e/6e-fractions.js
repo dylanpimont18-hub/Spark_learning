@@ -133,11 +133,14 @@ window.MODULES.push({
       type: 'numeric',
       generate() {
         const pgcd = (a, b) => b === 0 ? a : pgcd(b, a % b);
+        // Chaque contexte doit se terminer par un imperatif : la suite du gabarit
+        // enchaine sur « et donne sa valeur decimale », qui ne peut pas suivre
+        // une proposition declarative sans rendre la phrase bancale.
         const context = pick([
           'Simplifie la fraction',
-          'Un chimiste mesure la proportion',
-          'En cuisine, on utilise la fraction',
-          'Un cartographe exprime l\'échelle'
+          'Un chimiste note une proportion : simplifie la fraction',
+          'En cuisine, une recette impose une proportion : simplifie la fraction',
+          'Un cartographe relève une échelle : simplifie la fraction'
         ]);
         const k = rand(2, 6);
         let a = rand(2, 9), b = rand(2, 9);
