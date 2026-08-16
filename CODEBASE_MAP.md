@@ -138,6 +138,34 @@ Initialise `window.MODULES = []`, utilitaires aléatoires.
 Détecte les régressions du bug de notation décimale française dans `js/data/` (accolade `{,` manquante, `.toFixed(n)` interpolé sans `fr()`).
 - Usage : `node scripts/check-decimal-notation.js` — à lancer après toute modification d'un `exercice.generate()` (voir `CLAUDE.md` section 2)
 
+## scripts/manuel/schema.js
+Valide la forme d'un module de `js/data/` avant conversion vers LaTeX.
+- `validerModule(mod)` — contrôle les champs obligatoires, renvoie erreurs et avertissements
+- `normaliserExercice(ex)` — `solution` toujours en tableau, données ramenées dans le realm hôte
+
+## scripts/manuel/extract.js
+Charge un module hors navigateur (contexte `vm`) avec un tirage d'exercices reproductible.
+- `chargerModule(chemin, {graine, tirages})` — `Math.random` ensemencé, donc même graine = même livre
+- `RACINE` — chemin absolu du dépôt
+
+## scripts/manuel/unicode.js
+Traduit en commandes LaTeX les 245 caractères hors couverture pdfTeX/T1 du corpus, et signale les inconnus.
+- `enMath(texte, ou)` — commandes math via `\ensuremath` (survit aux `\text{}` imbriqués)
+- `enTexte(texte, ou, emettre)` — symboles rencontrés en mode texte
+- `nonMappes` — registre des caractères non traduits, jamais avalés silencieusement
+
+## scripts/manuel/latex.js
+Convertit le HTML et le KaTeX des modules en LaTeX. L'ordre des étapes est critique (voir commentaire en tête).
+- `versLatex(valeur)` — conversion complète d'une chaîne de contenu
+- `nombreFr(valeur)` — virgule française pour les champs numériques bruts (`answer`)
+- `definirOrigine(id)` — localise un caractère inconnu dans les rapports
+
+## scripts/manuel/verifier-corpus.js
+Passe le socle sur les 203 modules réels : filet anti-régression de la conversion.
+- `listerModules()` — chemins de tous les modules de `js/data/`
+- `verifierCorpus({graine, tirages})` — rapport { total, valides, echecs, symbolesInconnus }
+- Usage : `node scripts/manuel/verifier-corpus.js` ; tests : `node --test scripts/manuel/tests/*.test.js`
+
 ## js/data/6e/index.js
 Manifest 6e — liste et ordre des modules (chargés via `<script>` dans index.html).
 
