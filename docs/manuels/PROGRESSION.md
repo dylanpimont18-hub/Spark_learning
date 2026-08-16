@@ -7,7 +7,7 @@
 
 ## college-maths — Mathématiques, Collège   [48 / 48]
 
-Graine : `20260816` · 419 pages · gouttière 15.9 mm · dos 25 mm · dernière compilation 2026-08-16
+Graine : `20260816` · 433 pages · gouttière 15.9 mm · dos 25.8 mm · dernière compilation 2026-08-16
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|

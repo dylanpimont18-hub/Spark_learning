@@ -44,6 +44,7 @@ function preambule(config) {
 \\usepackage{titlesec}
 \\usepackage{makeidx}
 \\usepackage{tikz}
+\\usetikzlibrary{arrows.meta}
 \\usepackage{multicol}
 \\usepackage{microtype}
 \\usepackage[paperwidth=${LARGEUR_MM}mm,paperheight=${HAUTEUR_MM}mm,%
@@ -94,6 +95,12 @@ function preambule(config) {
 
 \\setlist{itemsep=2pt,parsep=2pt,topsep=4pt}
 \\widowpenalty=10000 \\clubpenalty=10000
+
+% Un manuel comporte des figures et des espaces de reponse : mieux vaut un bas de
+% page inegal qu'un etirement des blancs entre les blocs.
+\\raggedbottom
+% Filet de securite pour les rares lignes qui ne peuvent pas se couper proprement.
+\\emergencystretch=3em
 
 % Les versos laisses blancs ne doivent porter ni filet ni numero.
 \\makeatletter
@@ -195,8 +202,31 @@ récapitulatif et un index des notions.
 `;
 }
 
-function ouverturePartie(titre) {
-  return `\\part{${L(titre)}}\n`;
+/* Page d'ouverture de partie : le titre du niveau et la liste numerotee de ses
+   chapitres, pour que l'eleve voie d'emblee le chemin qu'il va parcourir. */
+function ouverturePartie(titre, chapitres) {
+  const liste = (chapitres || []).map(c =>
+    `\\noindent\\makebox[1.1cm][l]{\\color{ormat}\\bfseries ${c.numero}.}${L(c.titre)}\\par\\vspace{2.2mm}`
+  ).join('\n');
+  // \part composerait sa propre page et renverrait la liste sur la suivante :
+  // on fabrique la page nous-memes pour tout tenir ensemble.
+  return `\\cleardoublepage
+\\thispagestyle{empty}
+\\refstepcounter{part}
+\\addcontentsline{toc}{part}{\\thepart\\hspace{1em}${L(titre)}}
+\\markboth{${L(titre)}}{${L(titre)}}
+\\vspace*{3.2cm}
+\\begin{center}
+  {\\color{gris}\\small\\MakeUppercase{Partie \\thepart}}\\par\\vspace{4mm}
+  {\\color{ardoise}\\fontsize{30}{34}\\selectfont\\bfseries ${L(titre)}}\\par\\vspace{7mm}
+  \\begin{tikzpicture}\\draw[ormat, line width=1pt] (0,0) -- (5.4,0);\\end{tikzpicture}
+\\end{center}
+\\vspace{9mm}
+\\noindent{\\color{gris}\\small Cette partie compte ${(chapitres || []).length} chapitres.}
+\\par\\vspace{6mm}
+${liste}
+\\cleardoublepage
+`;
 }
 
 function finOuvrage(chapitres, config) {

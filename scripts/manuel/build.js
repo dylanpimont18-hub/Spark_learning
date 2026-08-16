@@ -24,7 +24,7 @@ const { nonMappes, definirOrigine } = require('./latex.js');
 
 const PDFLATEX = process.env.PDFLATEX || 'C:/Program Files/MiKTeX/miktex/bin/x64/pdflatex.exe';
 const MAKEINDEX = process.env.MAKEINDEX || 'C:/Program Files/MiKTeX/miktex/bin/x64/makeindex.exe';
-const SORTIE = path.join(RACINE, 'manuels');
+const SORTIE = path.join(RACINE, 'Manuel scolaire');
 
 const NIVEAUX = {
   '6e': 'Sixième', '5e': 'Cinquième', '4e': 'Quatrième', '3e': 'Troisième',
@@ -136,19 +136,30 @@ async function construire(cle, options) {
   console.log('  ' + (Object.keys(figures).length - bloquees.length) + ' figures retenues, ' +
               bloquees.length + ' bloquees');
 
+  // Numeroter d'abord : la page d'ouverture d'une partie annonce ses chapitres,
+  // elle a donc besoin de connaitre leurs numeros avant d'etre composee.
+  charges.forEach((item, i) => { item.numero = i + 1; });
+  const parties = [];
+  for (const item of charges) {
+    let p = parties[parties.length - 1];
+    if (!p || p.dossier !== item.dossier) {
+      p = { dossier: item.dossier, items: [] };
+      parties.push(p);
+    }
+    p.items.push(item);
+  }
+
   const corps = [];
   const chapitres = [];
-  let dossierCourant = null, numero = 0;
-  for (const item of charges) {
-    if (item.dossier !== dossierCourant) {
-      dossierCourant = item.dossier;
-      corps.push(O.ouverturePartie(NIVEAUX[dossierCourant] || dossierCourant));
+  for (const partie of parties) {
+    corps.push(O.ouverturePartie(NIVEAUX[partie.dossier] || partie.dossier,
+      partie.items.map(i => ({ numero: i.numero, titre: i.mod.title }))));
+    for (const item of partie.items) {
+      definirOrigine(item.mod.id);
+      corps.push(composerChapitre(item.mod, item.exercices,
+        { professeur: prof, figure: figures[item.mod.id], exercicesVisibles: 3 }));
+      chapitres.push({ mod: item.mod, numero: item.numero, exercices: item.exercices });
     }
-    numero++;
-    definirOrigine(item.mod.id);
-    corps.push(composerChapitre(item.mod, item.exercices,
-      { professeur: prof, figure: figures[item.mod.id], exercicesVisibles: 3 }));
-    chapitres.push({ mod: item.mod, numero, exercices: item.exercices });
   }
 
   const config = Object.assign({}, conf, {

@@ -8,6 +8,75 @@
 const { versLatex: L, nombreFr, definirOrigine } = require('./latex.js');
 const { figureUtilisable } = require('./figures.js');
 
+/* Espace de reponse pour l'edition eleve. Le \par est indispensable : sans lui,
+   le filet pleine largeur reste dans le paragraphe precedent et le fait deborder
+   de plusieurs centaines de points dans la marge. */
+function espaceReponse(hauteurCm) {
+  return `\\par\\vspace{${hauteurCm}cm}\\noindent\\rule{\\textwidth}{0.3pt}\\par\\vspace{3mm}`;
+}
+
+/* --- Visuels generes depuis les donnees du module ----------------------
+   Ils sont justes par construction : rien n'est invente, on ne fait que
+   donner une forme graphique a ce que le chapitre contient deja. */
+
+/* Libelle court d'une etape : le premier segment en gras, sinon le texte
+   avant le premier deux-points. Renvoie null si rien d'assez court. */
+function libelleEtape(etape) {
+  const gras = /<strong>([^<]{2,32})<\/strong>/.exec(String(etape));
+  if (gras) return gras[1].replace(/\s*:\s*$/, '').trim();
+  const nu = String(etape).replace(/<[^>]*>/g, '').replace(/\$[^$]*\$/g, '');
+  const tete = nu.split(/[:.]/)[0].trim();
+  return tete.length >= 2 && tete.length <= 32 ? tete : null;
+}
+
+/* Frise de la methode : chaine d'etapes numerotees, 3 par ligne. */
+function friseMethode(mod) {
+  const steps = (mod.cours.method && mod.cours.method.steps) || [];
+  const labels = steps.map(libelleEtape).filter(Boolean);
+  if (labels.length < 2) return '';
+
+  const PAR_LIGNE = 3, DX = 4.5, DY = 1.9;
+  const noeuds = [], fleches = [];
+  labels.forEach((lab, i) => {
+    const col = i % PAR_LIGNE, lig = Math.floor(i / PAR_LIGNE);
+    noeuds.push(`\\node[etape] (e${i}) at (${(col * DX).toFixed(2)},${(-lig * DY).toFixed(2)}) ` +
+      `{\\textbf{${i + 1}.} ${L(lab)}};`);
+    if (i > 0 && col !== 0) fleches.push(`\\draw[fleche] (e${i - 1}) -- (e${i});`);
+    else if (i > 0) fleches.push(`\\draw[fleche] (e${i - 1}.south) |- ++(0,-0.45) -| (e${i}.north);`);
+  });
+
+  return ['\\begin{center}',
+    '\\begin{tikzpicture}[',
+    '  etape/.style={draw=ardoise!55, fill=ardoise!7, rounded corners=2pt,',
+    '    text width=3.1cm, align=center, font=\\scriptsize, minimum height=1.05cm, inner sep=3pt},',
+    '  fleche/.style={-{Latex[length=1.8mm]}, ardoise!55, semithick}]',
+    ...noeuds, ...fleches,
+    '\\end{tikzpicture}',
+    '\\end{center}'].join('\n');
+}
+
+/* Bareme de l'evaluation : barre horizontale proportionnelle aux points. */
+function baremeVisuel(evaluation) {
+  const qs = evaluation.questions || [];
+  const total = qs.reduce((s, q) => s + (q.points || 0), 0);
+  if (!total || qs.length < 2) return '';
+  const LARGEUR = 12;
+  let x = 0;
+  const blocs = qs.map((q, i) => {
+    const w = (q.points || 0) / total * LARGEUR;
+    const bloc = `\\fill[ardoise!${25 + (i % 3) * 22}] (${x.toFixed(2)},0) rectangle ` +
+      `(${(x + w).toFixed(2)},0.52);\n` +
+      `\\node[font=\\tiny, white] at (${(x + w / 2).toFixed(2)},0.26) {Q${i + 1}};`;
+    x += w;
+    return bloc;
+  });
+  return ['\\begin{center}', '\\begin{tikzpicture}', ...blocs,
+    `\\draw[ardoise!60] (0,0) rectangle (${LARGEUR},0.52);`,
+    `\\node[font=\\tiny\\itshape, gris, anchor=west] at (0,-0.32) ` +
+    `{Répartition des ${total} points sur les ${qs.length} questions};`,
+    '\\end{tikzpicture}', '\\end{center}'].join('\n');
+}
+
 function liste(valeurs, env = 'itemize') {
   const a = Array.isArray(valeurs) ? valeurs : (valeurs == null ? [] : [valeurs]);
   if (!a.length) return '';
@@ -83,7 +152,10 @@ function composerChapitre(mod, exercices, options) {
   }
 
   if (c.method) {
-    o.push('\\section{Méthode}', '\\begin{spmethode}',
+    o.push('\\section{Méthode}', '');
+    const frise = friseMethode(mod);
+    if (frise) o.push(frise, '');
+    o.push('\\begin{spmethode}',
       `\\textbf{${L(c.method.title || 'Marche à suivre')}}\\par\\vspace{2mm}`,
       liste(c.method.steps, 'enumerate'), '\\end{spmethode}', '');
   }
@@ -129,7 +201,7 @@ function composerChapitre(mod, exercices, options) {
         `\\medskip\\noindent\\textbf{Réponse :} $${nombreFr(ex.answer)}$ ${L(ex.unit || '')}`,
         '\\end{spexemple}', '');
     } else {
-      o.push('\\vspace{2.6cm}\\noindent\\rule{\\textwidth}{0.3pt}\\vspace{3mm}', '');
+      o.push(espaceReponse(2.6), '');
     }
   });
 
@@ -172,14 +244,16 @@ function composerChapitre(mod, exercices, options) {
     const ev = mod.evaluation;
     const total = ev.questions.reduce((s, q) => s + (q.points || 0), 0);
     o.push('\\section{Évaluation}',
-      `\\noindent{\\small\\color{gris}\\textbf{Durée :} ${L(ev.duration)} \\hfill \\textbf{Barème :} ${total} points}\\par\\vspace{3mm}`);
+      `\\noindent{\\small\\color{gris}\\textbf{Durée :} ${L(ev.duration)} \\hfill \\textbf{Barème :} ${total} points}\\par\\vspace{3mm}`, '');
+    const bareme = baremeVisuel(ev);
+    if (bareme) o.push(bareme, '');
     ev.questions.forEach((q, i) => {
       o.push(`\\subsection*{Question ${i + 1} \\hfill \\normalfont\\small ${q.points} pts}`, L(q.statement), '');
       if (q.type === 'multiple-choice' && q.options) {
         o.push('\\begin{enumerate}[label=\\Alph*.]');
         q.options.forEach(op => o.push('  \\item ' + L(op)));
         o.push('\\end{enumerate}');
-      } else if (!prof) o.push('\\vspace{2cm}\\noindent\\rule{\\textwidth}{0.3pt}\\vspace{3mm}');
+      } else if (!prof) o.push('', espaceReponse(2));
       if (prof) {
         const rep = q.type === 'multiple-choice'
           ? String.fromCharCode(65 + q.answer) + '.'
@@ -189,7 +263,9 @@ function composerChapitre(mod, exercices, options) {
     });
   }
 
-  return o.filter(x => x !== '').join('\n');
+  // Les chaines vides sont des SEPARATIONS DE PARAGRAPHE LaTeX : ne jamais les
+  // filtrer, sinon le contenu suivant se colle au paragraphe precedent.
+  return o.join('\n');
 }
 
 module.exports = { composerChapitre, objectifs, prerequis };
