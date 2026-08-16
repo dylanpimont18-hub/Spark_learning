@@ -166,6 +166,32 @@ Passe le socle sur les 203 modules réels : filet anti-régression de la convers
 - `verifierCorpus({graine, tirages})` — rapport { total, valides, echecs, symbolesInconnus }
 - Usage : `node scripts/manuel/verifier-corpus.js` ; tests : `node --test scripts/manuel/tests/*.test.js`
 
+## scripts/manuel/figures.js
+Rend les schémas des modules en PDF vectoriel pour l'impression, avec provenance obligatoire.
+- `rendreFigures(modules, dossier)` — une seule session de navigateur pour toutes les figures
+- `figureUtilisable(entree)` — garde-fou : pas de provenance, pas d'insertion
+
+## scripts/manuel/chapitre.js
+Compose un module en chapitre LaTeX, édition élève ou professeur.
+- `composerChapitre(mod, exercices, {professeur, figure})` — structure complète du chapitre
+- `objectifs(mod)` / `prerequis(mod)` — couche professeur, déduite du contenu réel
+
+## scripts/manuel/ouvrage.js
+Maquette du livre : préambule, couverture, liminaires, fin d'ouvrage, couverture imprimeur.
+- `gouttierePourPages(n)` — marge intérieure exigée selon l'épaisseur
+- `largeurDosMm(n)` — largeur de dos pour la couverture séparée
+- `preambule/couverture/liminaires/ouverturePartie/finOuvrage/couvertureSeparee`
+
+## scripts/manuel/build.js
+Orchestration : extraction, figures, chapitres, deux passes de gouttière, garde-fous.
+- `construire(cle, {professeur, graine})` — produit le PDF et `etat-*.json`
+- `OUVRAGES` — les sept ouvrages niveau × matière
+- Usage : `node scripts/manuel/build.js college-maths [--prof]` ; `--liste` pour les clés
+
+## scripts/manuel/progression.js
+Régénère `docs/manuels/PROGRESSION.md` par scan (jamais édité à la main).
+- `construireTableau()` — compare les modules de `js/data/` aux chapitres déjà intégrés
+
 ## js/data/6e/index.js
 Manifest 6e — liste et ordre des modules (chargés via `<script>` dans index.html).
 

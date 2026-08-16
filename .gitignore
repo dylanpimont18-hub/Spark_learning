@@ -17,3 +17,9 @@ node_modules/
 /contact/
 /confidentialite/
 /scripts/fixtures/
+
+# Manuels generes : PDF volumineux et figures intermediaires.
+# Seule l illustration de couverture est versionnee (c est une entree du build).
+manuels/**
+!manuels/*/
+!manuels/*/couverture.png
