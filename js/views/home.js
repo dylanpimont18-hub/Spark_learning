@@ -375,6 +375,20 @@ function renderHome() {
 				</div>
 			</div>
 		</section>
+
+		<section class="section" style="background: var(--bg-card); border-top: 1px solid var(--border);">
+			<div class="container">
+				<div class="card-base" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;padding:28px;">
+					<div>
+						<h2 class="section-title" style="text-align:left;margin-bottom:6px;">📘 Nos cahiers de révision</h2>
+						<p class="section-subtitle" style="text-align:left;margin:0;">Le cours complet en version imprimable, à retrouver sur notre boutique.</p>
+					</div>
+					<a class="btn btn-primary" href="https://f1niwf-wr.myshopify.com" target="_blank" rel="noopener">
+						Voir la boutique 🛒
+					</a>
+				</div>
+			</div>
+		</section>
 	`;
 }
 
