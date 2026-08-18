@@ -217,6 +217,12 @@ Manifest Physique-Chimie BTS (vide, chargement direct via `DATA_FILES` dans `js/
 ## js/data/physique-bts/physique-bts-*.js *(10 modules, complet)*
 Modules Physique-Chimie BTS : mécanique du point, statique/dynamique des fluides, thermodynamique, circuits en régime continu/sinusoïdal, optique géométrique, chimie des solutions (pH/tampons/titrages), cinétique chimique, électromagnétisme (champs, induction).
 
+## js/data/physique-4e/*.js + physique-3e/*.js *(12 modules, complet)*
+Modules Physique-Chimie collège (`level: 1`), dossiers séparés des dossiers maths `4e/`/`3e/` de même grade. 4e : atomes/molécules, transformations chimiques, vitesse, intensité/tension, lois des circuits, lumière. 3e : structure de l'atome/ions, réactions chimiques, énergie cinétique/potentielle, résistance/loi d'Ohm, puissance électrique, gravitation.
+
+## js/data/physique-2nde/*.js + physique-1re/*.js + physique-tle/*.js *(32 modules, complet)*
+Modules Physique-Chimie lycée (`level: 2`), dossiers séparés des dossiers maths `lycee-2nde/`/`lycee-1re/`/`lycee-tle/`. Seconde (10) : mouvement, forces, inertie, corps purs/mélanges, solutions, transformations, modèle de l'atome, signaux/capteurs, son, lumière. Première spé (11) : champ gravitationnel, champ électrostatique, cinématique, lois de Newton, travail/énergie, avancement de réaction, titrage, Lewis, ondes mécaniques, lumière ondulatoire, Kirchhoff. Terminale spé (11) : mouvement en champ uniforme, satellites/planètes, dynamique newtonienne, énergie mécanique, thermodynamique, évolution chimique, acides/bases, oxydoréduction, ondes/signaux, physique quantique, radioactivité. Généré le 2026-08-19 via 8 agents parallèles (un par grade, deux lots pour 2nde/1re/Tle) ; intégré dans `js/loader.js` (`DATA_FILES['physique-1']`/`['physique-2']`, `MODULE_INDEX`) depuis un worktree isolé pour ne pas perturber une session concurrente active sur `manuels-spark`.
+
 ---
 
 ## js/engines/shared.js
