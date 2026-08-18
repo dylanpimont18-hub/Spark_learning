@@ -383,7 +383,7 @@ function renderHome() {
 						<h2 class="section-title" style="text-align:left;margin-bottom:6px;">📘 Nos cahiers de révision</h2>
 						<p class="section-subtitle" style="text-align:left;margin:0;">Le cours complet en version imprimable, à retrouver sur notre boutique.</p>
 					</div>
-					<a class="btn btn-primary" href="https://f1niwf-wr.myshopify.com" target="_blank" rel="noopener">
+					<a class="btn btn-primary" href="https://boutique.sparklearning.fr" target="_blank" rel="noopener">
 						Voir la boutique 🛒
 					</a>
 				</div>

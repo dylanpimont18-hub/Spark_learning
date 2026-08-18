@@ -72,7 +72,7 @@ window.MODULES.push({
             <text class="tick-label" x="25" y="272">12 élèves</text>
             <text class="tick-label" x="25" y="286">ni basket ni natation</text>
             <rect x="105" y="8" width="230" height="30" rx="10" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
-            <text class="tick-label" x="117" y="28">Zone ombree = B inter N = 4 eleves</text>
+            <text class="tick-label" x="117" y="28">Zone ombrée = B ∩ N = 4 élèves</text>
             <line class="guide-line" x1="230" y1="38" x2="230" y2="160"></line>
           </svg>
         `,
@@ -124,8 +124,8 @@ window.MODULES.push({
           unit: '',
           hint: `$P(A \\cup B) = P(A) + P(B) - P(A \\cap B) = \\frac{${nA}}{${n}} + \\frac{${nB}}{${n}} - \\frac{${nAB}}{${n}}$. Puis $P(\\overline{A \\cup B}) = 1 - P(A \\cup B)$.`,
           solution: [
-            `$P(A \\cup B) = \\frac{${nA} + ${nB} - ${nAB}}{${n}} = \\frac{${nAuB}}{${n}} \\approx ${pAuB}$`,
-            `$P(\\overline{A \\cup B}) = 1 - ${pAuB} = ${pNi}$`,
+            `$P(A \\cup B) = \\frac{${nA} + ${nB} - ${nAB}}{${n}} = \\frac{${nAuB}}{${n}} \\approx ${fr(pAuB)}$`,
+            `$P(\\overline{A \\cup B}) = 1 - ${fr(pAuB)} = ${fr(pNi)}$`,
             `Il y a environ $${fr(pNi * 100, 1)}\\%$ de chances que l'élève ne fasse aucune des deux activités.`
           ]
         };

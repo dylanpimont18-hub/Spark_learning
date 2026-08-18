@@ -189,8 +189,8 @@ window.MODULES.push({
             hint: `Pour que $\\sqrt{\\ldots}$ existe, il faut que l'expression sous la racine soit $\\geq 0$ : ${ctx.cond}.`,
             solution: [
               `Condition : ${ctx.cond}`,
-              `${ctx.sol}$${b % a === 0 ? ` = ${b/a}` : ` \\approx ${borne}`}$`,
-              `Domaine : $${ctx.borneType === 'inf' ? `[${borneExact};+\\infty[` : `]-\\infty;${borneExact}]`}$`
+              `${ctx.sol}$${b % a === 0 ? ` = ${b / a}` : ` \\approx ${fr(borne)}`}$`,
+              `Domaine : $${ctx.borneType === 'inf' ? `[${fr(borneExact)};+\\infty[` : `]-\\infty;${fr(borneExact)}]`}$`
             ]
           };
         } else if (type === 'comparaison') {

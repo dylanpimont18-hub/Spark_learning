@@ -183,7 +183,7 @@ window.MODULES.push({
           solution: [
             `Composante horizontale : $F_x = F\\cos(\\theta) = ${F} \\times \\cos(${angle}°) = ${F} \\times ${fr(cosVals[angle], 3)} \\approx ${fr(Fx)}$ N`,
             `Composante verticale : $F_y = F\\sin(\\theta) = ${F} \\times \\sin(${angle}°) = ${F} \\times ${fr(sinVals[angle], 3)} \\approx ${fr(Fy)}$ N`,
-            `Vérification par la norme : $\\sqrt{${Fx}^2 + ${Fy}^2} = \\sqrt{${fr(Fx*Fx, 1)} + ${fr(Fy*Fy, 1)}} \\approx ${fr(norm)}$ N $\\approx ${F}$ N ✓`
+            `Vérification par la norme : $\\sqrt{${fr(Fx)}^2 + ${fr(Fy)}^2} = \\sqrt{${fr(Fx * Fx, 1)} + ${fr(Fy * Fy, 1)}} \\approx ${fr(norm)}$ N $\\approx ${F}$ N ✓`
           ]
         };
       }

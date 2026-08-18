@@ -124,13 +124,10 @@ window.MODULES.push({
         const ctx = pick(contexts);
         const a = rand(2, 8);
         const b = rand(5, 30);
-        const negCoeff = -rand(2, 5);
         const c = rand(b + 5, b + 40);
         const sol = (c - b) / a;
         if (!Number.isInteger(sol) || sol < 1) {
           const a2 = rand(2, 6), b2 = rand(3, 15), ans2 = rand(2, 8);
-          const rhs = negCoeff * ans2 + c;
-          const lhs_a = a2;
           const total = a2 * ans2 + b2;
           return {
             statement: `Résoudre l'inéquation $${a2}x + ${b2} > ${total}$ et donner l'ensemble solution sous forme d'intervalle.<br/><br/>Quelle est la borne de l'intervalle solution ?`,

@@ -14,7 +14,7 @@ window.MODULES.push({
 
     cours: {
       intro: 'Un <strong>angle</strong> mesure l\'écartement entre deux demi-droites issues d\'un même sommet. Il ne dépend pas de la longueur des côtés — un angle de $60°$ reste $60°$ que les segments mesurent $1$ cm ou $1$ km.<br/><br/>' +
-        'On mesure les angles en <strong>degrés</strong> (°) avec un rapporteur. En maths avancées, on utilise aussi les radians : $180° = \\pi$ rad.<br/><br/>' +
+        'On mesure les angles en <strong>degrés</strong> (°) avec un rapporteur. Les repères à connaître : un tour complet fait $360°$, un demi-tour $180°$, un quart de tour $90°$.<br/><br/>' +
         'En physique, les angles sont partout : angle d\'incidence en optique, angle du plan incliné en mécanique, déphasage en électricité. Les propriétés des <strong>angles complémentaires</strong> (somme $= 90°$) et <strong>supplémentaires</strong> (somme $= 180°$) permettent de résoudre de nombreux problèmes.',
       definitions: [
         { term: 'Angle aigu', def: 'Angle dont la mesure est comprise entre $0°$ et $90°$ (exclu).' },
@@ -118,7 +118,7 @@ window.MODULES.push({
         '$\\alpha + \\beta = 90°$ (angles complémentaires)',
         '$\\alpha + \\beta = 180°$ (angles supplémentaires)',
         '$\\hat{A} + \\hat{B} + \\hat{C} = 180°$ (triangle)',
-        '$\\pi\\,\\text{rad} = 180°$, donc $1° = \\dfrac{\\pi}{180}\\,\\text{rad}$'
+        'Un tour complet mesure $360°$, un demi-tour $180°$, un quart de tour $90°$'
       ],
       recap: [
         'Un angle mesure l\'écartement entre deux demi-droites, indépendamment de leur longueur.',
