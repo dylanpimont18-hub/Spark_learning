@@ -53,7 +53,10 @@ Système de design complet : variables CSS (`--primary`, `--secondary`, `--accen
 Fichier de vérification standard IAB pour Google AdSense (`google.com, pub-5320273649803132, DIRECT, ...`).
 
 ## images/modules/{niveau}/{slug}.jpg
-Nouveau dossier d'assets (2026-07-21) : photos réelles utilisées en complément d'un schéma SVG dans `cours.diagram` (jamais en remplacement), référencées via `<img src="images/modules/...">` dans le champ `diagram.svg`/`html`. Uniquement des images sous licence libre (domaine public, CC) car le site est public — contrairement aux fiches BTS FED internes, aucune tolérance "tous droits réservés" ici. Premier exemple : `si-bts/verin-hydraulique-coupe.jpg` (domaine public, Hotdogcartman/Hyco, Wikimedia Commons).
+Photos réelles utilisées en complément d'un schéma SVG dans `cours.diagram` (jamais en remplacement), référencées via `<img src="images/modules/...">` dans le champ `diagram.svg`/`html`. Uniquement des images sous licence libre (domaine public, CC) car le site est public — contrairement aux fiches BTS FED internes, aucune tolérance "tous droits réservés" ici. Premier exemple : `si-bts/verin-hydraulique-coupe.jpg` (domaine public, Hotdogcartman/Hyco, Wikimedia Commons). Téléchargées par le skill `generer-image` (étape de repli, licence libre uniquement) — jamais par génération IA.
+
+## images/modules/sources.json
+Registre de provenance des images de repli téléchargées par le skill `generer-image` (module, fichier, url_source, auteur, licence, date_ajout). Les diagrammes construits par code n'y figurent pas — leur provenance est le calcul/gabarit lui-même.
 
 ## firestore.rules
 Règles de sécurité Firestore.
