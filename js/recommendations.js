@@ -101,13 +101,13 @@ function renderRecommendationCards(moduleId) {
   return `
     <div class="recommendations-section" style="margin-top:var(--space-lg);">
       ${display.map(r => `
-        <div class="recommendation-card" onclick="navigate('module', {moduleId: '${r.module.id}'})" tabindex="0" role="button" aria-label="${r.reason}">
+        <a class="recommendation-card" href="${buildPath('module', {moduleId: r.module.id})}" onclick="navigate('module', {moduleId: '${r.module.id}'}); return false;" aria-label="${r.reason}">
           <div class="recommendation-icon">${r.type === 'prerequisite' ? '\u26A0\uFE0F' : '\u27A1\uFE0F'}</div>
           <div class="recommendation-text">
             <div class="recommendation-title">${r.module.icon} ${r.module.title}</div>
             <div class="recommendation-reason">${r.reason}</div>
           </div>
-        </div>
+        </a>
       `).join('')}
     </div>
   `;

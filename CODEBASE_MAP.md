@@ -334,6 +334,7 @@ Modale enseignant "proposer un piège fréquent" sur un module, extrait de `js/a
 
 ## js/views/home.js
 Vues globales : accueil, liste matières, niveaux, modules, détail module.
+- Cartes de navigation (matière/niveau/module/reprise/breadcrumb/prev-next) rendues en `<a href="${buildPath(...)}">` (pas des `<div onclick>`) — 2026-08-18, fix indexation Search Console : Google ne trouvait aucun lien interne crawlable, seulement 3/220 pages indexées
 - `renderContinueSection()` — section "Reprendre ton parcours"
 - `renderStreakBadge()` — badge streak 🔥 factorisé (utilisé par `renderHome()`, indépendamment de `renderStatsSection()`) ; affiché dès le jour 1 ("Tu démarres ta série aujourd'hui") pour renforcer l'habitude dès la première visite, message différent à partir de 2 jours
 - `renderStatsSection()` — "Mes statistiques" : total global toujours visible, détail par niveau replié dans un `<details class="stats-levels-details">` pour ne pas noyer les blocs d'action au-dessus

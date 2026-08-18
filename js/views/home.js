@@ -16,7 +16,7 @@ function renderContinueSection() {
 					${recent.map(m => {
 						const prog = getModuleProgress(m.id);
 						return `
-							<div class="continue-card" onclick="navigate('module', {moduleId: '${m.id}'})" tabindex="0" role="button" aria-label="Reprendre ${m.title}">
+							<a class="continue-card" href="${buildPath('module', {moduleId: m.id})}" onclick="navigate('module', {moduleId: '${m.id}'}); return false;" aria-label="Reprendre ${m.title}">
 								<div class="continue-card-top">
 									<span class="continue-card-icon">${m.icon}</span>
 									<div>
@@ -31,7 +31,7 @@ function renderContinueSection() {
 									<span>${prog.done}/${prog.total} complété</span>
 									<span>Reprendre →</span>
 								</div>
-							</div>
+							</a>
 						`;
 					}).join('')}
 				</div>
@@ -152,10 +152,11 @@ function renderSubjects() {
 					}).length;
 					const pct = count > 0 ? Math.round((done / count) * 100) : 0;
 					const isEmpty = count === 0;
+					const tag = isEmpty ? 'div' : 'a';
 					return `
-						<div class="subject-card ${isEmpty ? 'subject-card-empty' : ''}"
+						<${tag} class="subject-card ${isEmpty ? 'subject-card-empty' : ''}"
 								 style="--subject-color: ${s.color};"
-								 ${isEmpty ? '' : `onclick="navigate('levels', {subject: '${s.id}'})" tabindex="0" role="button" aria-label="Matière ${s.label}"`}>
+								 ${isEmpty ? '' : `href="${buildPath('levels', {subject: s.id})}" onclick="navigate('levels', {subject: '${s.id}'}); return false;" aria-label="Matière ${s.label}"`}>
 							<div class="subject-card-icon">${s.icon}</div>
 							<div class="subject-card-title">${s.label}</div>
 							<p class="subject-card-desc">${s.description}</p>
@@ -170,7 +171,7 @@ function renderSubjects() {
 									</div>
 								</div>
 							`}
-						</div>
+						</${tag}>
 					`;
 				}).join('')}
 			</div>
@@ -193,13 +194,13 @@ async function renderAssignmentWidget() {
     var safeTitle = String(title).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     var safeDue = String(due).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     var safeModuleId = String(a.moduleId).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,'&#39;');
-    widgetEl.innerHTML = '<div class="hw-assignment-widget" onclick="navigate(\'module\', {moduleId: \'' + safeModuleId + '\'})" tabindex="0" role="button" aria-label="Aller au devoir">' +
+    widgetEl.innerHTML = '<a class="hw-assignment-widget" href="' + buildPath('module', {moduleId: a.moduleId}) + '" onclick="navigate(\'module\', {moduleId: \'' + safeModuleId + '\'}); return false;" aria-label="Aller au devoir">' +
       '<div class="hw-assignment-icon">📋</div>' +
       '<div>' +
         '<div class="hw-assignment-title">Devoir en cours : ' + safeTitle + '</div>' +
         '<div class="hw-assignment-meta">À rendre avant le ' + safeDue + '</div>' +
       '</div>' +
-    '</div>';
+    '</a>';
   } catch(e) { /* silencieux */ }
 }
 
@@ -212,13 +213,13 @@ function renderSrsReviewWidget() {
 	const suffix = extra > 0 ? ` (+${extra} autre${extra > 1 ? 's' : ''})` : '';
 
 	return `
-		<div class="hw-assignment-widget" style="margin-bottom:12px;" onclick="navigate('module', {moduleId: '${first.moduleId}'})" tabindex="0" role="button" aria-label="Réviser ${first.title}">
+		<a class="hw-assignment-widget" style="margin-bottom:12px;" href="${buildPath('module', {moduleId: first.moduleId})}" onclick="navigate('module', {moduleId: '${first.moduleId}'}); return false;" aria-label="Réviser ${first.title}">
 			<div class="hw-assignment-icon">🔁</div>
 			<div>
 				<div class="hw-assignment-title">À réviser aujourd'hui : ${first.title}${suffix}</div>
 				<div class="hw-assignment-meta">La répétition espacée t'aide à ne pas ré-oublier ce que tu as déjà appris</div>
 			</div>
-		</div>
+		</a>
 	`;
 }
 
@@ -238,13 +239,13 @@ function renderNextStepWidget() {
 	const icon = rec.type === 'prerequisite' ? '⚠️' : '➡️';
 
 	return `
-		<div class="hw-assignment-widget" style="margin-bottom:12px;" onclick="navigate('module', {moduleId: '${rec.module.id}'})" tabindex="0" role="button" aria-label="Prochaine étape : ${rec.module.title}">
+		<a class="hw-assignment-widget" style="margin-bottom:12px;" href="${buildPath('module', {moduleId: rec.module.id})}" onclick="navigate('module', {moduleId: '${rec.module.id}'}); return false;" aria-label="Prochaine étape : ${rec.module.title}">
 			<div class="hw-assignment-icon">${icon}</div>
 			<div>
 				<div class="hw-assignment-title">Prochaine étape : ${rec.module.title}</div>
 				<div class="hw-assignment-meta">${rec.reason}</div>
 			</div>
-		</div>
+		</a>
 	`;
 }
 
@@ -449,7 +450,7 @@ function renderLevels() {
 						}).length;
 						const pct = count > 0 ? Math.round((done / count) * 100) : 0;
 						return `
-							<div class="level-card" style="--level-color: ${l.color};" onclick="navigate('modules', {level: ${l.id}, subject: '${subjectDef.id}'})" tabindex="0" role="button" aria-label="Niveau ${l.title}">
+							<a class="level-card" style="--level-color: ${l.color};" href="${buildPath('modules', {level: l.id, subject: subjectDef.id})}" onclick="navigate('modules', {level: ${l.id}, subject: '${subjectDef.id}'}); return false;" aria-label="Niveau ${l.title}">
 								<div class="level-card-icon">${l.icon}</div>
 								<div class="level-card-title">${l.title}</div>
 								<div class="level-card-subtitle">${l.subtitle}</div>
@@ -460,7 +461,7 @@ function renderLevels() {
 										<div class="level-card-progress-fill" style="width: ${pct}%;"></div>
 									</div>
 								</div>
-							</div>
+							</a>
 						`;
 					}).join('')}
 				</div>
@@ -579,10 +580,11 @@ function renderModulesList() {
 						: access.maintenance
 							? '<span class="badge badge-admin-maintenance">🛠️ Maintenance</span>'
 							: '';
+					const tag = unavailable ? 'div' : 'a';
 					return `
-						<div class="card-base module-card ${unavailable ? 'module-card-unavailable' : ''}"
-								 ${unavailable ? '' : `onclick="navigate('module', {moduleId: '${m.id}'})"`}
-								 tabindex="0" role="button"
+						<${tag} class="card-base module-card ${unavailable ? 'module-card-unavailable' : ''}"
+								 ${unavailable ? '' : `href="${buildPath('module', {moduleId: m.id})}" onclick="navigate('module', {moduleId: '${m.id}'}); return false;"`}
+								 ${unavailable ? 'tabindex="0" role="button"' : ''}
 								 aria-label="Module ${m.title}"
 								 aria-disabled="${unavailable}"
 								 data-title="${m.title.toLowerCase().replace(/"/g, '&quot;')}"
@@ -611,7 +613,7 @@ function renderModulesList() {
 									<div class="progress-fill" style="width: ${prog.pct}%;"></div>
 								</div>
 							</div>
-						</div>
+						</${tag}>
 					`;
 				};
 
@@ -690,11 +692,11 @@ function renderModuleDetail() {
 		<div class="container module-detail">
 			<div class="module-detail-header">
 				<div class="module-breadcrumb">
-					<button class="breadcrumb-link" onclick="navigate('subjects')">Matières</button>
+					<a class="breadcrumb-link" href="${buildPath('subjects')}" onclick="navigate('subjects'); return false;">Matières</a>
 					<span class="breadcrumb-sep">›</span>
-					<button class="breadcrumb-link" onclick="navigate('levels', {subject: '${modSubject}'})">${subjectDef.icon} ${subjectDef.label}</button>
+					<a class="breadcrumb-link" href="${buildPath('levels', {subject: modSubject})}" onclick="navigate('levels', {subject: '${modSubject}'}); return false;">${subjectDef.icon} ${subjectDef.label}</a>
 					<span class="breadcrumb-sep">›</span>
-					<button class="breadcrumb-link" onclick="navigate('modules', {level: ${mod.level}, subject: '${modSubject}'})">${LEVEL_NAMES[mod.level]}</button>
+					<a class="breadcrumb-link" href="${buildPath('modules', {level: mod.level, subject: modSubject})}" onclick="navigate('modules', {level: ${mod.level}, subject: '${modSubject}'}); return false;">${LEVEL_NAMES[mod.level]}</a>
 					<span class="breadcrumb-sep">›</span>
 					<span aria-current="page">${mod.title}</span>
 				</div>
@@ -726,11 +728,11 @@ function renderModuleDetail() {
 
 			<div class="module-nav-arrows">
 				${prevMod
-					? `<button class="btn btn-secondary btn-nav" onclick="navigate('module', {moduleId: '${prevMod.id}'})">← ${prevMod.title}</button>`
+					? `<a class="btn btn-secondary btn-nav" href="${buildPath('module', {moduleId: prevMod.id})}" onclick="navigate('module', {moduleId: '${prevMod.id}'}); return false;">← ${prevMod.title}</a>`
 					: '<span></span>'}
 				<span class="module-nav-counter">${currentIdx + 1} / ${levelModules.length}</span>
 				${nextMod
-					? `<button class="btn btn-secondary btn-nav" onclick="navigate('module', {moduleId: '${nextMod.id}'})">→ ${nextMod.title}</button>`
+					? `<a class="btn btn-secondary btn-nav" href="${buildPath('module', {moduleId: nextMod.id})}" onclick="navigate('module', {moduleId: '${nextMod.id}'}); return false;">→ ${nextMod.title}</a>`
 					: '<span></span>'}
 			</div>
 		</div>

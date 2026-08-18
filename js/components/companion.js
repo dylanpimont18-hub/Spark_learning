@@ -53,7 +53,7 @@ function renderCompanionHome() {
         .slice(0, 3)
         .map(
           rec =>
-            `<div class="recommendation-card" onclick="navigate('module', { moduleId: '${rec.moduleId}' })">
+            `<a class="recommendation-card" href="${buildPath('module', { moduleId: rec.moduleId })}" onclick="navigate('module', { moduleId: '${rec.moduleId}' }); return false;">
               <div class="rec-header">
                 <div class="rec-title"><strong>${rec.title}</strong></div>
                 <div class="rec-status">⚠️ ${rec.reasons[0] || 'à travailler'}</div>
@@ -61,10 +61,10 @@ function renderCompanionHome() {
               <div class="rec-footer" style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-muted);">
                 ${rec.reasons.join(' · ')}
               </div>
-              <button class="btn btn-primary btn-sm" style="margin-top: 0.75rem;" onclick="event.stopPropagation(); navigate('module', { moduleId: '${rec.moduleId}' });">
+              <span class="btn btn-primary btn-sm" style="margin-top: 0.75rem;">
                 ${remediationCta(rec)} →
-              </button>
-            </div>`
+              </span>
+            </a>`
         )
         .join('')
     : '<span style="color: var(--text-muted);">Rien à retravailler en priorité — continue comme ça !</span>';
