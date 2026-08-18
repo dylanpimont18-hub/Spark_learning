@@ -19,7 +19,13 @@ node_modules/
 /scripts/fixtures/
 
 # Manuels generes : PDF volumineux et figures intermediaires.
-# Seule l illustration de couverture est versionnee (c est une entree du build).
+# Couverture 100% TikZ (ouvrage.js) : aucune image a versionner.
 Manuel scolaire/**
 !Manuel scolaire/*/
-!Manuel scolaire/*/couverture.png
+
+# Theme Shopify de la boutique (Liquid) : pull local via Shopify CLI, projet
+# distinct du site vanilla JS, ne doit jamais etre commite dans ce depot.
+Shopify/
+
+# Sortie du skill /graphify (graphe de connaissances local, regenerable).
+graphify-out/
