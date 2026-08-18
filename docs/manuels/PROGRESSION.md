@@ -3,11 +3,11 @@
 > Fichier **régénéré par scan** (`node scripts/manuel/progression.js`).
 > Ne pas éditer à la main : toute modification sera écrasée.
 
-**Total : 48 / 203 chapitres intégrés.**
+**Total : 98 / 253 chapitres intégrés.**
 
-## college-maths — Mathématiques, Collège   [48 / 48]
+## college-maths — Mathématiques, Collège   [49 / 49]
 
-Graine : `20260816` · 433 pages · gouttière 15.9 mm · dos 25.8 mm · dernière compilation 2026-08-16
+Graine : `20260816` · 439 pages · gouttière 15.9 mm · dos 26.2 mm · dernière compilation 2026-08-18
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -54,6 +54,84 @@ Graine : `20260816` · 433 pages · gouttière 15.9 mm · dos 25.8 mm · derniè
 | 3e-identites-remarquables | ✓ | SVG exact |
 | 3e-equations-inequations | ✓ | SVG exact |
 | 3e-fonctions | ✓ | SVG exact |
+| 3e-fonctions-affines | ✓ | SVG exact |
+| 3e-homotheties | ✓ | SVG exact |
+| 3e-sections-solides | ✓ | SVG exact |
+| 3e-volumes | ✓ | SVG exact |
+| 3e-stats-probas | ✓ | SVG exact |
+| 3e-algorithmique | ✓ | SVG exact |
+
+## college-maths-6e — Mathématiques, Sixième   [10 / 10]
+
+Graine : `20260816` · 99 pages · gouttière 9.5 mm · dos 5.9 mm · dernière compilation 2026-08-18
+
+| Module | Chapitre | Figure |
+|--------|:--------:|:------:|
+| 6e-fractions | ✓ | SVG exact |
+| 6e-volumes | ✓ | SVG exact |
+| 6e-angles | ✓ | SVG exact |
+| 6e-nombres-decimaux | ✓ | SVG exact |
+| 6e-addition-soustraction | ✓ | SVG exact |
+| 6e-multiplication | ✓ | SVG exact |
+| 6e-division | ✓ | SVG exact |
+| 6e-figures-geometriques | ✓ | SVG exact |
+| 6e-symetrie-axiale | ✓ | SVG exact |
+| 6e-perimetres-aires | ✓ | SVG exact |
+
+## college-maths-5e — Mathématiques, Cinquième   [14 / 14]
+
+Graine : `20260816` · 133 pages · gouttière 9.5 mm · dos 7.9 mm · dernière compilation 2026-08-18
+
+| Module | Chapitre | Figure |
+|--------|:--------:|:------:|
+| reperage-graphique | ✓ | SVG exact |
+| 5e-nombres-relatifs | ✓ | SVG exact |
+| 5e-priorites-operations | ✓ | SVG exact |
+| 5e-fractions-operations | ✓ | SVG exact |
+| 5e-proportionnalite | ✓ | SVG exact |
+| 5e-expressions-litterales | ✓ | SVG exact |
+| 5e-symetrie-centrale | ✓ | SVG exact |
+| 5e-triangles | ✓ | SVG exact |
+| 5e-parallelogrammes | ✓ | SVG exact |
+| 5e-angles-parallelisme | ✓ | SVG exact |
+| 5e-aires-perimetres | ✓ | SVG exact |
+| 5e-volumes | ✓ | SVG exact |
+| 5e-statistiques | ✓ | SVG exact |
+| 5e-probabilites | ✓ | SVG exact |
+
+## college-maths-4e — Mathématiques, Quatrième   [12 / 12]
+
+Graine : `20260816` · 119 pages · gouttière 9.5 mm · dos 7.1 mm · dernière compilation 2026-08-18
+
+| Module | Chapitre | Figure |
+|--------|:--------:|:------:|
+| puissances | ✓ | SVG exact |
+| calcul-algebrique | ✓ | SVG exact |
+| 4e-pythagore | ✓ | SVG exact |
+| 4e-fractions-mult-div | ✓ | SVG exact |
+| 4e-relatifs-mult-div | ✓ | SVG exact |
+| 4e-triangle-rectangle-cercle | ✓ | SVG exact |
+| 4e-translations | ✓ | SVG exact |
+| 4e-droites-remarquables | ✓ | SVG exact |
+| 4e-cosinus | ✓ | SVG exact |
+| 4e-volumes | ✓ | SVG exact |
+| 4e-statistiques | ✓ | SVG exact |
+| 4e-probabilites | ✓ | SVG exact |
+
+## college-maths-3e — Mathématiques, Troisième   [13 / 13]
+
+Graine : `20260816` · 125 pages · gouttière 9.5 mm · dos 7.5 mm · dernière compilation 2026-08-18
+
+| Module | Chapitre | Figure |
+|--------|:--------:|:------:|
+| trigonometrie | ✓ | SVG exact |
+| 3e-systemes | ✓ | SVG exact |
+| 3e-thales | ✓ | SVG exact |
+| 3e-arithmetique | ✓ | SVG exact |
+| 3e-identites-remarquables | ✓ | SVG exact |
+| 3e-equations-inequations | ✓ | SVG exact |
+| 3e-fonctions | ✓ | SVG exact |
+| 3e-fonctions-affines | ✓ | SVG exact |
 | 3e-homotheties | ✓ | SVG exact |
 | 3e-sections-solides | ✓ | SVG exact |
 | 3e-volumes | ✓ | SVG exact |

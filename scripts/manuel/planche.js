@@ -20,6 +20,7 @@ const { chargerModule, RACINE } = require('./extract.js');
 const { preparerFigures, figureUtilisable, LARGEUR_FIGURE_MM } = require('./figures.js');
 const { modulesDeLOuvrage, OUVRAGES, SORTIE } = require('./build.js');
 const { versLatex: L, definirOrigine } = require('./latex.js');
+const { COULEURS_CHARTE } = require('./ouvrage.js');
 
 const PDFLATEX = process.env.PDFLATEX || 'C:/Program Files/MiKTeX/miktex/bin/x64/pdflatex.exe';
 
@@ -37,16 +38,7 @@ function preambule() {
 \\usepackage{tikz}
 \\usetikzlibrary{arrows.meta}
 \\usepackage[paperwidth=170mm,paperheight=244mm,margin=14mm]{geometry}
-\\definecolor{encre}{HTML}{16202A}
-\\definecolor{ardoise}{HTML}{2C3E50}
-\\definecolor{ormat}{HTML}{C9A227}
-\\definecolor{turquoise}{HTML}{18806F}
-\\definecolor{grenat}{HTML}{B03A2E}
-\\definecolor{gris}{HTML}{5C6873}
-\\definecolor{papier}{HTML}{F7F5F0}
-\\definecolor{olive}{HTML}{6B7F3A}
-\\definecolor{ambre}{HTML}{B4661C}
-\\pagestyle{empty}
+${COULEURS_CHARTE}\\pagestyle{empty}
 \\begin{document}
 `;
 }
@@ -70,7 +62,7 @@ function construire(cle, filtre) {
     const titre = `\\noindent{\\small\\bfseries\\color{ardoise}${L(mod.id)}}\\par` +
       `{\\scriptsize\\color{gris}${L(mod.title)}}\\par\\vspace{4mm}`;
     if (!figureUtilisable(f)) {
-      pages.push(titre + `\\noindent{\\color{grenat}\\bfseries FIGURE BLOQUEE} --- ${L(f.raison || 'sans provenance')}`);
+      pages.push(titre + `\\noindent{\\color{erreur}\\bfseries FIGURE BLOQUEE} --- ${L(f.raison || 'sans provenance')}`);
       continue;
     }
     retenues++;

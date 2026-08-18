@@ -106,7 +106,7 @@ Permet au tuteur d'envoyer un lien à un futur élève pour évaluer son niveau 
 | 4e/4e-statistiques.js | Statistiques |
 | 4e/4e-probabilites.js | Probabilités |
 | 4e/index.js | Manifest d'ordre de chargement |
-| **3e/** | Contenus Collège 3e — **refactoring TERMINÉ** (12 sous-modules) |
+| **3e/** | Contenus Collège 3e — **refactoring TERMINÉ** (13 sous-modules) |
 | 3e/trigonometrie.js | Trigonométrie dans le Triangle Rectangle |
 | 3e/3e-systemes.js | Systèmes d'équations |
 | 3e/3e-thales.js | Théorème de Thalès |
@@ -114,6 +114,7 @@ Permet au tuteur d'envoyer un lien à un futur élève pour évaluer son niveau 
 | 3e/3e-identites-remarquables.js | Identités remarquables |
 | 3e/3e-equations-inequations.js | Équations et inéquations |
 | 3e/3e-fonctions.js | Fonctions (généralités) |
+| 3e/3e-fonctions-affines.js | Fonctions affines et linéaires (coefficient directeur, ordonnée à l'origine) |
 | 3e/3e-homotheties.js | Homothéties |
 | 3e/3e-sections-solides.js | Sections de solides |
 | 3e/3e-volumes.js | Volumes de solides |

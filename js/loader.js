@@ -48,6 +48,7 @@ const DATA_FILES = {
     'js/data/3e/3e-identites-remarquables.js',
     'js/data/3e/3e-equations-inequations.js',
     'js/data/3e/3e-fonctions.js',
+    'js/data/3e/3e-fonctions-affines.js',
     'js/data/3e/3e-homotheties.js',
     'js/data/3e/3e-sections-solides.js',
     'js/data/3e/3e-volumes.js',
@@ -245,6 +246,7 @@ const MODULE_INDEX = {
   // 3e
   'trigonometrie':'maths-1','3e-systemes':'maths-1','3e-thales':'maths-1','3e-arithmetique':'maths-1',
   '3e-identites-remarquables':'maths-1','3e-equations-inequations':'maths-1','3e-fonctions':'maths-1',
+  '3e-fonctions-affines':'maths-1',
   '3e-homotheties':'maths-1','3e-sections-solides':'maths-1','3e-volumes':'maths-1',
   '3e-stats-probas':'maths-1','3e-algorithmique':'maths-1',
   // 2nde

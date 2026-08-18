@@ -10,9 +10,17 @@ const { figureUtilisable } = require('./figures.js');
 
 /* Espace de reponse pour l'edition eleve. Le \par est indispensable : sans lui,
    le filet pleine largeur reste dans le paragraphe precedent et le fait deborder
-   de plusieurs centaines de points dans la marge. */
+   de plusieurs centaines de points dans la marge.
+
+   L'espace est BORNE et ANNONCE. Un simple \vspace suivi d'un filet se lit comme
+   un defaut de composition (« pourquoi ce trou au milieu de la page ? ») et non
+   comme une invitation a ecrire : releve de l'audit du 2026-08-16, ou un tiers
+   de page vide entre deux exercices passait pour un bug de mise en page. */
 function espaceReponse(hauteurCm) {
-  return `\\par\\vspace{${hauteurCm}cm}\\noindent\\rule{\\textwidth}{0.3pt}\\par\\vspace{3mm}`;
+  return `\\par\\vspace{2mm}\\noindent{\\footnotesize\\color{gris}\\itshape Ta réponse :}` +
+    `\\par\\vspace{1mm}\\noindent\\textcolor{gris!45}{\\rule{\\textwidth}{0.4pt}}` +
+    `\\par\\vspace{${hauteurCm}cm}` +
+    `\\noindent\\textcolor{gris!45}{\\rule{\\textwidth}{0.4pt}}\\par\\vspace{4mm}`;
 }
 
 /* --- Visuels generes depuis les donnees du module ----------------------
@@ -55,7 +63,12 @@ function friseMethode(mod) {
     '\\end{center}'].join('\n');
 }
 
-/* Bareme de l'evaluation : barre horizontale proportionnelle aux points. */
+/* Bareme de l'evaluation : barre horizontale proportionnelle aux points.
+
+   Une seule teinte, claire, et un texte en encre. La version precedente faisait
+   tourner trois gris (25/47/69) et ecrivait en BLANC dessus : sur ardoise!25 le
+   libelle passait sous 1,5:1 de contraste, et le degrade laissait croire a un
+   codage (« Q3 compte plus ») alors que seule la LARGEUR porte l'information. */
 function baremeVisuel(evaluation) {
   const qs = evaluation.questions || [];
   const total = qs.reduce((s, q) => s + (q.points || 0), 0);
@@ -64,9 +77,11 @@ function baremeVisuel(evaluation) {
   let x = 0;
   const blocs = qs.map((q, i) => {
     const w = (q.points || 0) / total * LARGEUR;
-    const bloc = `\\fill[ardoise!${25 + (i % 3) * 22}] (${x.toFixed(2)},0) rectangle ` +
+    const bloc = `\\fill[ardoise!18] (${x.toFixed(2)},0) rectangle ` +
       `(${(x + w).toFixed(2)},0.52);\n` +
-      `\\node[font=\\tiny, white] at (${(x + w / 2).toFixed(2)},0.26) {Q${i + 1}};`;
+      `\\draw[ardoise!45, line width=0.3pt] (${x.toFixed(2)},0) rectangle ` +
+      `(${(x + w).toFixed(2)},0.52);\n` +
+      `\\node[font=\\tiny, encre] at (${(x + w / 2).toFixed(2)},0.26) {Q${i + 1}};`;
     x += w;
     return bloc;
   });
@@ -83,10 +98,25 @@ function liste(valeurs, env = 'itemize') {
   return `\\begin{${env}}\n` + a.map(x => '  \\item ' + L(x)).join('\n') + `\n\\end{${env}}`;
 }
 
+/* Valeur + unite, sans espace fantome quand l'unite est absente. Concatener
+   « $3$ » et une unite vide laissait « $3$ », espace comprise, et le corrige
+   des evaluations s'imprimait « Corrigé (3 ) » — 83 fois dans college-maths. */
+function reponseInline(valeur, unite) {
+  return [`$${nombreFr(valeur)}$`, L(unite || '')].filter(Boolean).join(' ');
+}
+
 /* --- Couche professeur -------------------------------------------------
    Objectifs et prerequis ne figurent pas dans les donnees : ils sont
    deduits du contenu reel du chapitre (definitions, methode, prerequis
-   implicites du niveau), jamais inventes hors de ce que le module traite. */
+   implicites du niveau), jamais inventes hors de ce que le module traite.
+
+   CES DEUX FONCTIONS RENVOIENT DU TEXTE BRUT, JAMAIS DU LATEX. C'est
+   `liste()` qui convertit, une fois et une seule. Les avoir fait convertir
+   elles aussi produisait une DOUBLE conversion : le `\ensuremath{\to}` du
+   premier passage repassait a l'echappement du second, ou `\` devient
+   `\textbackslash{}` puis ou les accolades de ce `{}` sont a leur tour
+   echappees — le livre imprimait « \{}ensuremath{\{}to} » en clair
+   (chapitres 2 et 26 de college-maths, audit du 2026-08-16). */
 
 function objectifs(mod) {
   const c = mod.cours;
@@ -94,9 +124,14 @@ function objectifs(mod) {
   if (c.method && Array.isArray(c.method.steps) && c.method.steps.length) {
     buts.push('Appliquer la méthode en ' + c.method.steps.length + ' étapes présentée dans le chapitre.');
   }
+  // Un objectif par definition donnait autant de puces quasi identiques
+  // (« Definir et employer correctement : Fraction. » trois fois de suite).
+  // Le verbe est le meme pour toutes : c'est la liste qui varie.
   if (Array.isArray(c.definitions)) {
-    for (const d of c.definitions.slice(0, 3)) {
-      buts.push('Définir et employer correctement : ' + L(d.term) + '.');
+    const termes = c.definitions.slice(0, 4).map(d => d && d.term).filter(Boolean);
+    if (termes.length) {
+      buts.push('Définir et employer correctement le vocabulaire du chapitre : ' +
+        termes.join(', ') + '.');
     }
   }
   if (Array.isArray(c.formulas) && c.formulas.length) {
@@ -109,9 +144,9 @@ function objectifs(mod) {
 function prerequis(mod) {
   const listes = [];
   if (mod.keywords && mod.keywords.length) {
-    listes.push('Vocabulaire déjà rencontré : ' + mod.keywords.map(L).join(', ') + '.');
+    listes.push('Vocabulaire déjà rencontré : ' + mod.keywords.join(', ') + '.');
   }
-  if (mod.physics) listes.push('Prolongement possible : ' + L(mod.physics) + '.');
+  if (mod.physics) listes.push('Prolongement possible : ' + mod.physics + '.');
   listes.push('Aisance avec le calcul numérique du niveau précédent.');
   return listes;
 }
@@ -198,7 +233,7 @@ function composerChapitre(mod, exercices, options) {
     o.push(`\\noindent{\\small\\color{gris}\\textbf{Coup de pouce.} ${L(ex.hint)}}\\par\\vspace{2mm}`);
     if (prof) {
       o.push('\\begin{spexemple}', liste(ex.solution, 'enumerate'),
-        `\\medskip\\noindent\\textbf{Réponse :} $${nombreFr(ex.answer)}$ ${L(ex.unit || '')}`,
+        `\\medskip\\noindent\\textbf{Réponse :} ${reponseInline(ex.answer, ex.unit)}`,
         '\\end{spexemple}', '');
     } else {
       o.push(espaceReponse(2.6), '');
@@ -212,7 +247,7 @@ function composerChapitre(mod, exercices, options) {
     banque.forEach((ex, i) => {
       o.push(`\\noindent\\textbf{Supplément \\thechapter.${i + 1}} --- ` + L(ex.statement), '');
       o.push('\\begin{spexemple}', liste(ex.solution, 'enumerate'),
-        `\\medskip\\noindent\\textbf{Réponse :} $${nombreFr(ex.answer)}$ ${L(ex.unit || '')}`,
+        `\\medskip\\noindent\\textbf{Réponse :} ${reponseInline(ex.answer, ex.unit)}`,
         '\\end{spexemple}', '');
     });
   }
@@ -257,7 +292,7 @@ function composerChapitre(mod, exercices, options) {
       if (prof) {
         const rep = q.type === 'multiple-choice'
           ? String.fromCharCode(65 + q.answer) + '.'
-          : `$${nombreFr(q.answer)}$ ${L(q.unit || '')}`;
+          : reponseInline(q.answer, q.unit);
         o.push(`\\noindent\\textbf{Corrigé (${rep})} ${L(q.correction)}\\par\\vspace{3mm}`, '');
       } else o.push('');
     });

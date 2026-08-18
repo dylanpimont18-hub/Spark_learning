@@ -2,6 +2,10 @@
 
 > Source de vérité pour la génération des modules.
 > 🟢 = module créé | 🔴 = à faire | 🟡 = en cours
+>
+> **Vérifié par croisement le 2026-08-16** (programme × `js/data` × chapitres composés).
+> Quatre lignes étaient 🟢 sans qu'aucun module n'existe : ne jamais passer un statut
+> à 🟢 sans avoir vérifié la présence réelle du fichier dans `js/data`.
 
 ---
 
@@ -15,7 +19,7 @@
 | 3 | Multiplication des entiers et décimaux | `6e-multiplication` | 🟢 |
 | 4 | Division euclidienne et décimale | `6e-division` | 🟢 |
 | 5 | Fractions simples (nommer, comparer, placer sur une droite) | `6e-fractions` | 🟢 |
-| 6 | Proportionnalité (tableaux, coefficients) | `6e-proportionnalite` | 🟢 |
+| 6 | Proportionnalité (tableaux, coefficients) | `6e-proportionnalite` | 🔴 — aucun module ; la notion n'est abordée qu'au 5e (`5e-proportionnalite`) |
 | 7 | Figures géométriques de base (droites, segments, cercles) | `6e-figures-geometriques` | 🟢 |
 | 8 | Symétrie axiale | `6e-symetrie-axiale` | 🟢 |
 | 9 | Périmètres et aires (rectangle, triangle, disque) | `6e-perimetres-aires` | 🟢 |
@@ -47,8 +51,8 @@
 | 2 | Fractions (multiplication, division) | `4e-fractions-mult-div` | 🟢 |
 | 3 | Puissances (exposants entiers) | `4e-puissances` | 🟢 |
 | 4 | Calcul littéral (développer, factoriser, simple/double distributivité) | `4e-calcul-litteral` | 🟢 |
-| 5 | Équations du premier degré | `4e-equations` | 🟢 |
-| 6 | Proportionnalité (4e proportionnelle, graphique) | `4e-proportionnalite` | 🟢 |
+| 5 | Équations du premier degré | `calcul-algebrique` | 🟢 (id réel différent du suggéré) |
+| 6 | Proportionnalité (4e proportionnelle, graphique) | `4e-proportionnalite` | 🔴 — aucun module |
 | 7 | Théorème de Pythagore | `4e-pythagore` | 🟢 |
 | 8 | Triangle rectangle et cercle circonscrit | `4e-triangle-rectangle-cercle` | 🟢 |
 | 9 | Translations et rotations | `4e-translations` | 🟢 |
@@ -155,12 +159,12 @@
 
 | Niveau | Nb chapitres | 🟢 Faits | 🔴 Restants |
 |--------|-------------|----------|-------------|
-| 6e | 12 | 12 | 0 |
+| 6e | 12 | 11 | 1 |
 | 5e | 13 | 13 | 0 |
-| 4e | 14 | 14 | 0 |
+| 4e | 14 | 13 | 1 |
 | 3e | 13 | 13 | 0 |
 | 2nde | 13 | 13 | 0 |
 | 1re | 12 | 12 | 0 |
 | Tle | 11 | 11 | 0 |
 | BTS | 14 | 14 | 0 |
-| **TOTAL** | **102** | **102** | **0** |
+| **TOTAL** | **102** | **100** | **2** |

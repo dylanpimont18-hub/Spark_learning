@@ -180,3 +180,30 @@ test('un SVG sans aucune forme exploitable est refuse', () => {
   const r = versTikz(SVG('<title>rien</title>'), { largeurMm: 120 });
   assert.strictEqual(r.provenance, null);
 });
+
+/* --- Les declarations ne se dessinent pas ------------------------------- */
+
+test('le contenu d un <defs> n est jamais recopie comme une forme', () => {
+  /* Un <marker> declare sa pointe de fleche dans SON repere (viewBox 0 0 10 10).
+     Recopiee telle quelle, elle se posait en forme autonome au coin superieur
+     gauche de la figure : le petit triangle parasite en tete des figures
+     3e-systemes, 3e-equations-inequations et 3e-algorithmique. */
+  const t = tikz(
+    '<defs><marker id="fl" viewBox="0 0 10 10" refX="8" refY="5">' +
+    '<path d="M0 0 L10 5 L0 10 z"></path></marker></defs>' +
+    '<line class="axis" x1="10" y1="20" x2="30" y2="20" marker-end="url(#fl)"></line>');
+  // Le \useasboundingbox porte legitimement (0,0) : on ne regarde donc que les
+  // instructions de trace.
+  const traces = t.split('\n').filter(l => /^\\(draw|fill|path|node)/.test(l));
+  assert.strictEqual(traces.length, 1, 'une forme de trop : ' + traces.join(' | '));
+  assert.ok(!/\(10,-5\)/.test(traces[0]), 'le chemin du marqueur a ete converti');
+  // La pointe reste rendue, mais par TikZ, a partir de l attribut marker-end.
+  assert.match(t, /-\{Latex/);
+});
+
+test('le viewBox lu est celui du <svg>, pas celui d un marqueur', () => {
+  const t = tikz(
+    '<defs><marker viewBox="0 0 10 10"><path d="M0 0 L10 5 z"></path></marker></defs>' +
+    '<line class="axis" x1="0" y1="0" x2="1" y2="0"></line>');
+  assert.match(t, /x=0\.3333mm/);
+});

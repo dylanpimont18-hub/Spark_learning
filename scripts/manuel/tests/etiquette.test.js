@@ -203,7 +203,18 @@ test('une suite d indices ne fait qu un seul indice', () => {
 test('une fraction seule se compose en fraction, pas en quotient oblique', () => {
   // 6e-fractions legende ses trois representations « 1/2 », « 3/6 », « 50/100 » :
   // dans un chapitre sur les fractions, elles doivent en avoir la forme.
+  // \frac et non \dfrac : \dfrac doublerait la hauteur de l'etiquette et
+  // recouvrirait les bandes des diagrammes de fractions. La lisibilite se
+  // regle a la source, par l'attribut font-size du <text>.
   assert.strictEqual(etiquette('1/2'), '$\\frac{1}{2}$');
+});
+
+test('la virgule KaTeX d une etiquette SVG ne s imprime jamais telle quelle', () => {
+  // Un <text> SVG n'execute pas KaTeX : « 2{,}5 » ecrit dans les donnees
+  // s'imprimait avec ses accolades (module reperage-graphique). Le tokeniseur
+  // reprotege lui-meme la virgule quand il compose en mode math.
+  assert.strictEqual(etiquette('(2{,}5 ; 6)'), '$(2{,}5\\,;\\,6)$');
+  assert.ok(!etiquette('Interpolation : (2{,}5 ; 6)').includes('\\{'));
 });
 
 test('un quotient au milieu d une formule reste oblique', () => {
@@ -248,8 +259,12 @@ test('un indice ASCII se pose aussi sur une lettre grecque', () => {
   assert.match(isolee, /_\{\\mathrm\{confort\}\}/);
   assert.ok(!isolee.includes('\\_'), 'le souligne ne doit pas etre echappe : ' + isolee);
 
+  // « 28 °C » garde son espace : en typographie francaise le symbole d'unite
+  // est separe du nombre, °C compris (l'angle « 45° », lui, n'en prend pas —
+  // il n'y en a pas non plus dans la source). Le mode math avalait cette
+  // espace, comme il avalait celle de « 8/12 (= 2/3) ».
   assert.strictEqual(etiquette('θ_confort = 28 °C', 'test'),
-    '$\\theta_{\\mathrm{confort}} = 28 ^\\circ\\mathrm{C}$');
+    '$\\theta_{\\mathrm{confort}} = 28\\ ^\\circ\\mathrm{C}$');
 });
 
 /* Les soulignes de __init__ ne sont pas des indices : ils appartiennent au

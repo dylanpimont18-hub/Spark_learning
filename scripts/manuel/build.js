@@ -25,6 +25,25 @@ const { nonMappes, definirOrigine } = require('./latex.js');
 const PDFLATEX = process.env.PDFLATEX || 'C:/Program Files/MiKTeX/miktex/bin/x64/pdflatex.exe';
 const MAKEINDEX = process.env.MAKEINDEX || 'C:/Program Files/MiKTeX/miktex/bin/x64/makeindex.exe';
 const SORTIE = path.join(RACINE, 'Manuel scolaire');
+// Dossier plat, un PDF par ligne (eleve + prof), sans les .tex/.log/.aux/figures
+// de travail qui polluent chaque sous-dossier d'ouvrage. Sert a retrouver le
+// livrable a envoyer a l'imprimeur ou a mettre en ligne sans fouiller.
+const LIVRABLES = path.join(SORTIE, 'PDF');
+
+/* Chemin absolu, barres obliques normalisees (pdflatex les accepte sous
+   Windows, pas les antislashs). null si le fichier n'existe pas encore —
+   un ouvrage sans illustration retombe sur l'aplat ardoise de platUn(). */
+function imagePath(relatif) {
+  const p = path.join(RACINE, relatif);
+  return fs.existsSync(p) ? p.replace(/\\/g, '/') : null;
+}
+const LOGO_ICONE = imagePath('images/manuels/logo-icone.png');
+const QR_CODE = imagePath('images/manuels/qr-sparklearning.png');
+// Meme illustration pour les cinq ouvrages "college" (le livre complet et ses
+// quatre variantes par niveau) : c'est la meme matiere et la meme collection,
+// seul le sous-titre les distingue. Decision utilisateur du 2026-08-17 —
+// voir docs/manuels/cahier-des-charges-college.md.
+const IMAGE_COLLEGE_MATHS = imagePath('images/manuels/fond-college-maths.jpg');
 
 const NIVEAUX = {
   '6e': 'Sixième', '5e': 'Cinquième', '4e': 'Quatrième', '3e': 'Troisième',
@@ -37,7 +56,26 @@ const NIVEAUX = {
 const OUVRAGES = {
   'college-maths': { titre: 'Mathématiques', sousTitre: 'Collège', collection: 'Collection Mathématiques',
     dossiers: ['6e', '5e', '4e', '3e'], niveaux: 'Sixième • Cinquième • Quatrième • Troisième',
-    accroche: 'Tout le programme de la sixième à la troisième.' },
+    // « Tout le programme » : meme allegation que la page de copyright, meme
+    // correction — il manque « Fonctions affines et lineaires » (3e).
+    accroche: 'Cours, méthodes et exercices, de la sixième à la troisième.',
+    imageCouverture: IMAGE_COLLEGE_MATHS },
+  'college-maths-6e': { titre: 'Mathématiques', sousTitre: 'Sixième', collection: 'Collection Mathématiques',
+    dossiers: ['6e'], niveaux: 'Sixième',
+    accroche: 'Cours, méthodes et exercices de sixième.',
+    imageCouverture: IMAGE_COLLEGE_MATHS },
+  'college-maths-5e': { titre: 'Mathématiques', sousTitre: 'Cinquième', collection: 'Collection Mathématiques',
+    dossiers: ['5e'], niveaux: 'Cinquième',
+    accroche: 'Cours, méthodes et exercices de cinquième.',
+    imageCouverture: IMAGE_COLLEGE_MATHS },
+  'college-maths-4e': { titre: 'Mathématiques', sousTitre: 'Quatrième', collection: 'Collection Mathématiques',
+    dossiers: ['4e'], niveaux: 'Quatrième',
+    accroche: 'Cours, méthodes et exercices de quatrième.',
+    imageCouverture: IMAGE_COLLEGE_MATHS },
+  'college-maths-3e': { titre: 'Mathématiques', sousTitre: 'Troisième', collection: 'Collection Mathématiques',
+    dossiers: ['3e'], niveaux: 'Troisième',
+    accroche: 'Cours, méthodes et exercices de troisième.',
+    imageCouverture: IMAGE_COLLEGE_MATHS },
   'lycee-maths': { titre: 'Mathématiques', sousTitre: 'Lycée', collection: 'Collection Mathématiques',
     dossiers: ['lycee-2nde', 'lycee-1re', 'lycee-tle'], niveaux: 'Seconde • Première • Terminale',
     accroche: 'Tout le programme de la seconde à la terminale.' },
@@ -90,17 +128,6 @@ function modulesDeLOuvrage(cle) {
     }
   }
   return retenus;
-}
-
-/* Le logo n'entre dans la maquette que s'il existe en PNG detoure. Les deux
-   JPEG du depot (images/Logo_blanc.jpeg, images/Logo_noir.jpeg) portent un
-   fond opaque — blanc pour l'un, noir pour l'autre — et poseraient une tache
-   rectangulaire sur l'aplat ardoise de la couverture. Deposer le PNG suffit
-   a le faire apparaitre : aucune retouche de maquette a prevoir.
-   Le chemin est relatif au dossier de compilation, « Manuel scolaire/<cle>/ ». */
-function logoDisponible() {
-  return fs.existsSync(path.join(RACINE, 'images/logo-spark.png'))
-    ? '../../images/logo-spark.png' : null;
 }
 
 function compter(pdf) {
@@ -175,10 +202,8 @@ async function construire(cle, options) {
   const config = Object.assign({}, conf, {
     professeur: prof, nbChapitres: charges.length, annee: new Date().getFullYear(),
     mention: 'Cours, méthodes, exercices et évaluations',
-    illustration: opts.illustration || 'couverture.png',
-    logo: opts.logo !== undefined ? opts.logo : logoDisponible(),
     avantPropos: AVANT_PROPOS.replace('{N}', charges.length),
-    exercicesVisibles: 3
+    exercicesVisibles: 3, logoIcone: LOGO_ICONE, qrCode: QR_CODE
   });
 
   const nom = cle + (prof ? '-prof' : '-eleve');
@@ -234,6 +259,12 @@ async function construire(cle, options) {
     blocages.forEach(b => console.log('    - ' + b));
   } else {
     console.log('  OK ' + path.join(dossier, nom + '.pdf'));
+    // Un livrable bloque n'est jamais copie : le dossier "PDF" ne doit
+    // contenir que des editions publiables, jamais un brouillon en cours.
+    fs.mkdirSync(LIVRABLES, { recursive: true });
+    const libelle = config.titre + ' ' + config.sousTitre +
+      (prof ? ' - Édition professeur' : ' - Édition élève');
+    fs.copyFileSync(path.join(dossier, nom + '.pdf'), path.join(LIVRABLES, libelle + '.pdf'));
   }
   return etat;
 }

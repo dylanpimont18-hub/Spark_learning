@@ -231,7 +231,10 @@ function jetonner(source, origine) {
     }
 
     if (reste.startsWith('//')) {
-      pousser({ classe: 'OP', math: '\\parallel', texte: null }); avaler(2); continue;
+      // `binaire` : \parallel est une RELATION, elle porte son propre espacement.
+      // Sans ce drapeau, « AB // A'B' » recevait deux espaces explicites en plus.
+      pousser({ classe: 'OP', math: '\\parallel', texte: null, binaire: true });
+      avaler(2); continue;
     }
 
     // Exposant tape en ASCII : plusieurs modules ecrivent « c^2 » et non « c² ».
@@ -371,13 +374,31 @@ function marquerFormules(jetons) {
   return dansFormule;
 }
 
+/* `2{,}5` est la syntaxe KaTeX de la virgule decimale francaise. Dans un <text>
+   SVG, KaTeX ne s'execute jamais : les accolades s'impriment telles quelles, a
+   l'ecran comme sur le papier (figure « Interpolation : (2{,}5 ; 6) », module
+   reperage-graphique). On rend donc la virgule nue au tokeniseur, qui la
+   reprotegera lui-meme en `{,}` s'il compose ce nombre en mode math.
+   Le defaut est signale a la source par scripts/check-decimal-notation.js. */
+const VIRGULE_KATEX = /\{,\}/g;
+
 function etiquette(texte, origine) {
-  const source = decoderEntites(texte == null ? '' : String(texte)).replace(/\s+/g, ' ').trim();
+  const source = decoderEntites(texte == null ? '' : String(texte))
+    .replace(VIRGULE_KATEX, ',')
+    .replace(/\s+/g, ' ').trim();
   if (!source) return '';
 
   /* Une etiquette qui n'est QU'une fraction se compose en fraction. Le cas est
      limite a l'etiquette entiere : au milieu d'une formule, une barre oblique
-     reste oblique, sous peine de faire enfler la ligne. */
+     reste oblique, sous peine de faire enfler la ligne.
+
+     \frac et non \dfrac : \dfrac compose numerateur et denominateur en
+     textstyle, donc plus gros — tentant pour la lisibilite, mais il DOUBLE la
+     hauteur de l'etiquette. Les diagrammes a bandes posent leurs libelles a
+     six unites au-dessus du trace : la fraction empilee y recouvre la bande.
+     Une etiquette trop petite se corrige a la source, par l'attribut
+     `font-size` du <text>, qui a la priorite sur la taille de sa classe (voir
+     `explicite` dans versTikz) — c'est ce que fait 6e-fractions. */
   const fraction = /^(\d+)\s*\/\s*(\d+)$/.exec(source);
   if (fraction) return '$\\frac{' + fraction[1] + '}{' + fraction[2] + '}$';
 
@@ -398,13 +419,17 @@ function etiquette(texte, origine) {
       if (formule === null) formule = [];
       if (j.classe === 'ESPACE') {
         // En mode math l'espace source est ignore : il faut le redemander
-        // explicitement entre deux atomes (« 12 cm »), et le laisser a TeX
-        // autour des operateurs, qui savent mieux l'espacer. Un voisin qui
-        // porte deja son propre espacement (\, du point-virgule) n'en veut pas.
+        // explicitement, et ne le laisser a TeX qu'autour des operateurs
+        // BINAIRES (=, +, ×...), qui portent leur propre espacement. Un
+        // delimiteur n'en porte aucun : « 8/12 (= 2/3) » s'imprimait
+        // « 8/12(= 2/3) », l'espace source avale par le mode math.
+        // Un voisin qui porte deja son espacement (\, du point-virgule) n'en
+        // veut pas.
         const g = jetons[i - 1], d = jetons[i + 1];
         const porteDejaUneEspace = (t) => t && /^\\,|\\,$/.test(t.math || '');
         if (porteDejaUneEspace(g) || porteDejaUneEspace(d)) continue;
-        formule.push((g && d && g.classe === 'ATOME' && d.classe === 'ATOME') ? '\\ ' : ' ');
+        const binaire = (t) => !!(t && t.classe === 'OP' && t.binaire);
+        formule.push((binaire(g) || binaire(d)) ? ' ' : '\\ ');
       } else formule.push(j.math);
     } else {
       fermer();
@@ -679,11 +704,30 @@ function cheminVersTikz(d) {
 
 /* --- Assemblage de la figure ------------------------------------------- */
 
-const ACCENTS = { maths: 'ardoise', physique: 'turquoise', si: 'olive', fed: 'ambre' };
+/* Une couleur d'accent par matiere. Les quatre sont declarees par
+   COULEURS_CHARTE dans ouvrage.js — ne pas mettre ici un nom qui n'y existe
+   pas : `olive` et `ambre` y ont vecu jusqu'au passage a la charte, et une
+   couleur inconnue fait echouer la compilation de l'ouvrage entier. */
+const ACCENTS = {
+  maths: 'accentmaths', physique: 'accentphysique',
+  si: 'accentsi', fed: 'accentfed'
+};
+
+/* Un <defs> ne se dessine pas : il DECLARE des formes que le SVG instancie
+   ensuite par reference (marker-end, url(#...)). Les recopier telles quelles
+   posait la pointe de fleche du <marker> comme une forme autonome, au coin
+   superieur gauche de la figure, dans son repere a elle (viewBox 0 0 10 10) —
+   d'ou le petit triangle parasite en tete des figures 3e-systemes,
+   3e-equations-inequations et 3e-algorithmique (audit du 2026-08-16).
+   Les pointes elles-memes sont deja rendues par TikZ a partir des attributs
+   marker-start / marker-end, plus bas : rien n'est perdu. */
+function retirerDefs(svg) {
+  return svg.replace(/<defs\b[\s\S]*?<\/defs>/gi, '');
+}
 
 function versTikz(svg, options) {
   const opts = options || {};
-  const source = String(svg == null ? '' : svg);
+  const source = retirerDefs(String(svg == null ? '' : svg));
   const origine = opts.origine || '(figure)';
   const accent = ACCENTS[opts.matiere] || ACCENTS.maths;
 
@@ -797,4 +841,6 @@ function versTikz(svg, options) {
   };
 }
 
-module.exports = { etiquette, versTikz, cheminVersTikz };
+// ACCENTS est exporte pour que les tests puissent verifier que chacune de ses
+// couleurs est bien declaree par COULEURS_CHARTE.
+module.exports = { etiquette, versTikz, cheminVersTikz, ACCENTS };

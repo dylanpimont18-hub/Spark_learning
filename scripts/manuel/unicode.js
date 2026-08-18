@@ -24,6 +24,9 @@ const MATH = {
   '≈':'\\approx','≠':'\\neq','≤':'\\leq','≥':'\\geq','≡':'\\equiv','∝':'\\propto',
   '⊂':'\\subset','⊃':'\\supset','∈':'\\in','∉':'\\notin','⊥':'\\perp','∥':'\\parallel',
   '≃':'\\simeq','≅':'\\cong','∼':'\\sim',
+  // Intersection et union : les diagrammes de Venn du corpus ecrivaient le mot
+  // « inter » en toutes lettres faute de les trouver ici.
+  '∩':'\\cap','∪':'\\cup','∖':'\\setminus',
 
   '−':'-','×':'\\times','÷':'\\div','±':'\\pm','∓':'\\mp','⋅':'\\cdot','∘':'\\circ',
   '√':'\\surd','∞':'\\infty','♾':'\\infty','∑':'\\sum','∏':'\\prod','∫':'\\int',

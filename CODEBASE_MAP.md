@@ -135,12 +135,16 @@ Centralise toute la persistance localStorage.
 Initialise `window.MODULES = []`, utilitaires aléatoires.
 - `rand(min, max)` — entier aléatoire
 - `randFloat(min, max, d)` — flottant aléatoire
-- `pick(arr)` — élément aléatoire dans un tableau
+- `pick(arr)` — tirage **sans remise** : sert chaque liste par tournées mélangées (tous les éléments sortent une fois avant qu'aucun ne revienne, et une tournée ne redémarre jamais sur l'élément qui vient d'être servi). Mémoire `_tournees` indexée par le *contenu* de la liste, car un `generate()` reconstruit son tableau littéral à chaque appel. Reste déterministe sous `Math.random` ensemencé (`scripts/manuel/extract.js`). Avant (tirage uniforme), 25 paires d'exercices consécutifs partageaient leur contexte narratif dans 19 chapitres sur 48 de college-maths
 - `fr(value, decimals)` — formate un nombre en notation décimale française pour LaTeX (`fr(1.5)` → `"1{,}5"`) ; à utiliser dans tout `exercice.generate()` au lieu de `.replace('.', '{,}')` à la main
 
 ## scripts/check-decimal-notation.js
-Détecte les régressions du bug de notation décimale française dans `js/data/` (accolade `{,` manquante, `.toFixed(n)` interpolé sans `fr()`).
+Détecte les régressions du bug de notation décimale française dans `js/data/`. Trois familles :
+- **statique** — accolade `{,` sans `}` (casse KaTeX) ; `.toFixed(n)` interpolé sans `fr()` (avertissement)
+- **statique** — `{,}` dans une étiquette `<text>` d'un SVG : KaTeX ne s'y exécute pas, les accolades s'impriment
+- **dynamique** — exécute chaque `exercice.generate()` sur 3 graines × 40 tirages (via `manuel/extract.js` + `manuel/verifier-corpus.js:listerModules`) et cherche `\d+\.\d+` dans `statement`/`hint`/`unit`/`solution`/`correction`, balisage retiré. **C'est la seule famille qui attrape le vrai bug récurrent** : un `${aire}` interpolé nu ne vaut `31.5` que si le tirage tombe sur un demi-entier — invisible dans le source, il faut exécuter. `answer` est volontairement exclu (Number, toujours passé par `fr()`/`nombreFr()`)
 - Usage : `node scripts/check-decimal-notation.js` — à lancer après toute modification d'un `exercice.generate()` (voir `CLAUDE.md` section 2)
+- **État au 2026-08-16** : 0 faute dans college-maths ; **23 modules restent fautifs hors de cet ouvrage** (lycée 2nde/1re/Tle, SI, FED) — non corrigés, hors périmètre du chantier manuel
 
 ## scripts/manuel/schema.js
 Valide la forme d'un module de `js/data/` avant conversion vers LaTeX.
@@ -162,6 +166,8 @@ Traduit en commandes LaTeX les 245 caractères hors couverture pdfTeX/T1 du corp
   (`° × ÷ ² ³ ¹ ± ¬ µ ·`, faux en mode math), les lettres accentuées (`ACCENTUEES`, enveloppées
   dans `\text{}`), et les commandes de la table `TEXTE` (`• € ℃ ①`), qui doivent traverser
   `envelopperTexte` sous peine d'être ré-échappées et imprimées littéralement.
+- `∩ ∪ ∖` ajoutés le 2026-08-16 : faute de les trouver ici, les diagrammes de Venn du corpus
+  écrivaient « inter » en toutes lettres dans leurs étiquettes.
 
 ## scripts/manuel/latex.js
 Convertit le HTML et le KaTeX des modules en LaTeX. L'ordre des étapes est critique (voir commentaire en tête).
@@ -184,8 +190,11 @@ Trie et prépare les schémas des modules en TikZ inséré en ligne, avec proven
 ## scripts/manuel/svg2tikz.js
 Convertit un SVG du corpus en TikZ. Aucune coordonnée n'est recalculée — seule l'ordonnée
 est niée, l'axe y du SVG descendant — d'où la provenance `svg-exact` et son empreinte SHA1.
-- `etiquette(source, origine)` — typographie d'un libellé : îlots math, indices, unités, réserve blanche
+- `etiquette(source, origine)` — typographie d'un libellé : îlots math, indices, unités, réserve blanche. Normalise `{,}` (virgule KaTeX) en virgule nue : KaTeX ne s'exécute jamais dans un `<text>` SVG, les accolades s'imprimaient telles quelles à l'écran comme sur le papier. Une étiquette qui n'est QU'une fraction reste en `\frac` (jamais `\dfrac` : deux lignes de haut, elle recouvrirait les bandes des diagrammes de fractions) — une étiquette trop petite se corrige à la source, par l'attribut `font-size` du `<text>`, prioritaire sur la taille de sa classe
+- `retirerDefs(svg)` — un `<defs>` **déclare** des formes (marqueurs de flèche), il ne se dessine pas. Les recopier posait la pointe du `<marker>` en forme autonome au coin supérieur gauche, dans son repère à elle : petit triangle parasite en tête de 3 figures de college-maths. Les pointes restent rendues par TikZ via `marker-start`/`marker-end`
 - `versTikz(svg, ...)` — géométrie : traits, aplats, arcs et Béziers
+- `ACCENTS` — couleur d'accent par matière ; chaque nom doit exister dans `COULEURS_CHARTE`, sinon l'ouvrage entier échoue
+- L'espace source entre deux jetons n'est rendu implicitement que si l'un des voisins est un opérateur **binaire** (`=`, `+`, `×`… qui portent leur propre espacement) ; sinon elle est demandée explicitement (`\ `). Un délimiteur n'en porte aucune : « 8/12 (= 2/3) » s'imprimait « 8/12(= 2/3) », l'espace avalée par le mode math
 - Les deux moitiés sont séparées : la typographie et la géométrie changent pour des raisons différentes
 
 ## scripts/manuel/planche.js
@@ -195,24 +204,48 @@ Planche de contrôle : toutes les figures d'un ouvrage, une par page, à la tail
 - Raison d'être : « 0 erreur LaTeX » ne prouve pas qu'une figure est juste
 
 ## scripts/manuel/chapitre.js
-Compose un module en chapitre LaTeX, édition élève ou professeur.
+Compose un module en chapitre LaTeX, édition élève ou professeur. Tests : `tests/chapitre.test.js`.
 - `composerChapitre(mod, exercices, {professeur, figure})` — structure complète du chapitre
-- `objectifs(mod)` / `prerequis(mod)` — couche professeur, déduite du contenu réel
+- `objectifs(mod)` / `prerequis(mod)` — couche professeur, déduite du contenu réel. **Renvoient du texte BRUT, jamais du LaTeX** : c'est `liste()` qui convertit, une fois. Les faire convertir aussi produisait une double conversion — le `\ensuremath{\to}` du 1er passage repassait à l'échappement du 2e (`\` → `\textbackslash{}`, puis ses accolades ré-échappées) et le livre imprimait `\{}ensuremath{\{}to}` en clair
+- `reponseInline(valeur, unite)` — valeur + unité sans espace fantôme quand l'unité est vide ; sans lui les corrigés d'évaluation sortaient « Corrigé (3 ) », 83 fois dans college-maths
+- `espaceReponse(hauteurCm)` — espace de rédaction élève **borné et annoncé** (« Ta réponse : » + deux filets) : un `\vspace` nu se lisait comme un trou de composition
+- `baremeVisuel(evaluation)` — une seule teinte claire, libellés en `encre`. La version à trois gris tournants écrivait en blanc sur `ardoise!25` (contraste < 1,5:1) et son dégradé laissait croire à un codage, alors que seule la largeur porte l'information
 
 ## scripts/manuel/ouvrage.js
 Maquette du livre : préambule, couverture, liminaires, fin d'ouvrage, couverture imprimeur.
 - `gouttierePourPages(n)` — marge intérieure exigée selon l'épaisseur
 - `largeurDosMm(n)` — largeur de dos pour la couverture séparée
-- `blocTitre(config, ancreNord, ancreSud)` — plat 1 composé une fois, servi à la page de titre ET à la couverture imprimeur
+- `platUn(config, coinSO, coinNE)` — plat 1 composé une fois, servi à la page de titre ET à la couverture imprimeur. Fond = `config.imageCouverture` (illustration générée, ratio 170:244 exact, pas de `\clip`) si présent sinon aplat `ardoise` ; icône = `config.logoIcone` (vrai logo, PNG transparent) si présent sinon `\sparkcycle`/`\sparkeclair` dessinés à la main ; bandeau clair avec trame légère `turquoise!25` en fond et trait bicolore sous le sous-titre
+- `traitBicolore(largeurCm)` — le petit trait turquoise/jaune, motif répété sur couverture, page de titre, copyright, ouverture de partie : une seule définition
+- `COULEURS_CHARTE` — LA palette du livre, couverture et intérieur, reprise de `css/styles.css` ; exportée pour `planche.js`
+- `MACROS_MARQUE` — logo TikZ de secours (cycle + éclair), utilisé seulement si `config.logoIcone` est absent
+- `corpsTitre(titre)` — réduit le corps par paliers, un titre long ne doit pas se couper
+- `niveauxUtiles(config)` — supprime la ligne de niveaux quand elle répète le sous-titre
+- `ligneNiveaux(n)` — la puce pleine devient un point médian aéré
 - `AUTEUR` / `AUTEUR_LIGNE` — signature écrite une fois, reprise aux quatre endroits qui la portent
 - `preambule/couverture/liminaires/ouverturePartie/finOuvrage/couvertureSeparee`
+- `preambule()` charge `hyperref` en dernier avec `[hidelinks]` (couleur des liens gérée à la main via `\color`, pas par hyperref)
+- `liminaires()` — la page de copyright se cale **en pied** (un seul `\vspace*{\fill}`, avant le pavé) ; en avoir un de chaque côté la centrait verticalement au milieu d'une page par ailleurs vide. Table des matières limitée aux chapitres (`\setcounter{tocdepth}{0}`) : les 9 sous-parties par chapitre (identiques d'un chapitre à l'autre) faisaient passer la table de 3 à 13 pages
+- Page « Comment utiliser ce manuel » : les couleurs citées (turquoise/gris ardoise/jaune/rouge) doivent correspondre EXACTEMENT au `colframe` des tcolorbox `spdef/spexemple/spretenir/sppiege` du préambule — les quatre étaient fausses jusqu'au 2026-08-17 (bleu/vert/rouge/jaune annoncés, turquoise/ardoise/jaune/rouge réels)
+- `finOuvrage()` : quatrième de couverture avec trame sombre (`turquoise!15!ardoise`, jamais `turquoise!12` seul qui se mélange au BLANC par défaut), QR code (`config.qrCode`) + lien cliquable vers sparklearning.fr, logo en colophon
+- **Ligne ISBN supprimée** (2026-08-16) : le placeholder « à attribuer » s'imprimait dans le livre. Non requis pour un PDF vendu en direct ; à réintroduire seulement le jour d'une distribution en librairie
+- La page de copyright et l'`accroche` de `build.js` ne portent **plus de revendication de couverture** (« intégralité du programme », « Tout le programme ») : le croisement du 2026-08-16 avec `docs/programmes-maths.md` a montré qu'il manque « Fonctions affines et linéaires » (3e). Ne remonter la formule qu'une fois le chapitre écrit
+- `Dépôt légal : {annee}` **affirme** un dépôt fait : vérifier avant diffusion, sinon retirer la ligne
 
 ## scripts/manuel/build.js
 Orchestration : extraction, figures, chapitres, deux passes de gouttière, garde-fous.
-- `construire(cle, {professeur, graine, logo})` — produit le PDF et `etat-*.json`
-- `logoDisponible()` — le logo n'entre dans la maquette que si `images/logo-spark.png` existe (PNG détouré)
-- `OUVRAGES` — les sept ouvrages niveau × matière
+- `construire(cle, {professeur, graine})` — produit le PDF et `etat-*.json`
+- `OUVRAGES` — les sept ouvrages niveau × matière ; `IMAGE_COLLEGE_MATHS` (même fichier) est branché sur les cinq ouvrages collège (`college-maths` + les variantes `-6e/-5e/-4e/-3e` — décision utilisateur du 2026-08-17, une seule illustration pour toute la collection) ; les six ouvrages lycée/BTS n'en ont pas encore (retombent sur l'aplat `ardoise` dans `platUn()`)
+- `imagePath(relatif)` — chemin absolu barres obliques normalisées vers `images/manuels/`, `null` si le fichier n'existe pas (dégradation silencieuse dans `ouvrage.js`)
+- `LOGO_ICONE` / `QR_CODE` — logo réel et QR vers sparklearning.fr, injectés dans `config` pour tous les ouvrages (pas seulement college-maths)
+- `LIVRABLES` (`Manuel scolaire/PDF/`) — dossier plat, un PDF par édition (« Mathématiques Sixième - Édition élève.pdf »...), sans les `.tex`/`.log`/figures de travail. Rempli uniquement quand `blocages` est vide : jamais de brouillon bloqué copié dedans
 - Usage : `node scripts/manuel/build.js college-maths [--prof]` ; `--liste` pour les clés
+
+## images/manuels/
+Assets des manuels, hors pipeline TikZ habituel (seule exception raster de tout l'ouvrage).
+- `logo-icone.png` — logo Spark Learning recadré (icône seule, sans le mot-symbole), fond noir rendu transparent par seuillage, découpé depuis `images/Logo_noir.jpeg`
+- `fond-college-maths.jpg` — illustration de couverture générée (skill `generer-image`), cadrée au ratio exact 170:244mm, 49 Ko
+- `qr-sparklearning.png` — QR vers sparklearning.fr, généré via le module Python `qrcode`, coloré `ardoise` sur `papier` (pas noir pur) pour rester dans la charte
 
 ## scripts/manuel/progression.js
 Régénère `docs/manuels/PROGRESSION.md` par scan (jamais édité à la main).
@@ -239,8 +272,9 @@ Modules Maths 4e : puissances, calcul algébrique, pythagore, cosinus, translati
 ## js/data/3e/index.js
 Manifest 3e.
 
-## js/data/3e/*.js *(10 modules)*
-Modules Maths 3e : trigonométrie, systèmes, Thalès, arithmétique, identités remarquables, homotéthies, sections solides, volumes, stats-probas, algorithmique.
+## js/data/3e/*.js *(13 modules)*
+Modules Maths 3e : trigonométrie, systèmes, Thalès, arithmétique, identités remarquables, équations-inéquations, fonctions, **fonctions affines et linéaires**, homothéties, sections solides, volumes, stats-probas, algorithmique.
+- `3e-fonctions-affines.js` — écrit le 2026-08-16. Le croisement programme × `js/data` × chapitres composés avait montré que la notion (centrale au brevet : coefficient directeur, ordonnée à l'origine, droite, lien avec la proportionnalité) n'existait **nulle part** dans le corpus, alors que `docs/programmes-maths.md` la donnait pour faite. Déclaré dans `js/data/3e/index.js`, `js/loader.js` (`DATA_FILES` + `MODULE_INDEX`), `contenu.md`.
 
 ## js/data/lycee-2nde/index.js
 Manifest Lycée 2nde.
