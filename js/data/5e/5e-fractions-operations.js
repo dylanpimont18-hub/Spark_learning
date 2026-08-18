@@ -9,24 +9,24 @@ window.MODULES.push({
     icon: '½',
     title: 'Opérations sur les fractions',
     subtitle: 'Addition, soustraction, comparaison',
-    keywords: ['Fraction', 'Dénominateur commun', 'PPCM', 'Comparer', 'Réduire'],
+    keywords: ['Fraction', 'Dénominateur commun', 'Multiple commun', 'Comparer', 'Réduire'],
     physics: false,
 
     cours: {
       intro: 'Additionner des fractions nécessite un <strong>dénominateur commun</strong> pour la même raison qu\'on ne peut pas additionner des pommes et des oranges directement : $\\dfrac{1}{3} + \\dfrac{1}{4}$ ne vaut pas $\\dfrac{2}{7}$ !<br/><br/>' +
-        'On cherche le <strong>PPCM</strong> des dénominateurs (le plus petit multiple commun), puis on amplifie chaque fraction pour les amener à ce dénominateur. Le PPCM garde les nombres aussi petits que possible et évite les simplifications ultérieures.<br/><br/>' +
+        'On cherche un <strong>multiple commun</strong> aux deux dénominateurs, puis on amplifie chaque fraction pour l’amener à ce dénominateur. Multiplier les deux dénominateurs entre eux marche toujours ; en listant leurs multiples on trouve souvent plus petit, ce qui évite d’avoir à simplifier à la fin.<br/><br/>' +
         'Pour la <strong>multiplication</strong>, c\'est plus simple : on multiplie directement numérateurs entre eux et dénominateurs entre eux, sans chercher de dénominateur commun. Pour la <strong>division</strong>, on multiplie par l\'inverse du diviseur.<br/><br/>' +
-        'Ces opérations sont fondamentales pour manipuler les fractions molaires, les rapports stœchiométriques et les probabilités.',
+        'Partager une recette, cumuler des durées, additionner des parts de budget : dès qu’on réunit deux grandeurs découpées différemment, il faut savoir les ramener au même dénominateur.',
       definitions: [
         { term: 'Fraction', def: 'Nombre de la forme $\\dfrac{a}{b}$ avec $b \\neq 0$. $a$ est le numérateur, $b$ le dénominateur.' },
-        { term: 'PPCM', def: 'Plus Petit Commun Multiple de deux nombres. PPCM(3, 4) = 12. C\'est le plus petit dénominateur commun.' },
+        { term: 'Multiple commun', def: 'Nombre qui figure dans les tables des deux dénominateurs. Multiples de $3$ : $3, 6, 9, 12\\ldots$ ; multiples de $4$ : $4, 8, 12\\ldots$ — $12$ est leur plus petit multiple commun, donc le plus petit dénominateur commun.' },
         { term: 'Fractions équivalentes', def: 'Fractions représentant le même nombre : $\\dfrac{2}{3} = \\dfrac{4}{6} = \\dfrac{6}{9}$. On multiplie numérateur et dénominateur par le même facteur.' },
         { term: 'Fraction irréductible', def: 'Fraction dont le numérateur et le dénominateur n\'ont aucun diviseur commun (sauf 1). Ex : $\\dfrac{7}{12}$.' }
       ],
       example: {
         statement: 'Calculer $\\dfrac{2}{3} + \\dfrac{3}{4}$.',
         steps: [
-          'PPCM(3, 4) = 12.',
+          'Multiples de $3$ : $3$, $6$, $9$, <strong>$12$</strong>. Multiples de $4$ : $4$, $8$, <strong>$12$</strong>. Le plus petit multiple commun est $12$.',
           'Conversion : $\\dfrac{2}{3} = \\dfrac{8}{12}$ et $\\dfrac{3}{4} = \\dfrac{9}{12}$.',
           'Addition des numérateurs : $\\dfrac{8 + 9}{12} = \\dfrac{17}{12}$.'
         ],
@@ -36,90 +36,88 @@ window.MODULES.push({
         theme: 'maths',
         kicker: 'Addition de fractions',
         title: 'De 2/3 + 3/4 aux douzièmes : visualiser 17/12',
-        description: 'L\'exemple du cours : $\\dfrac{2}{3} + \\dfrac{3}{4}$. Ramenées au dénominateur commun $12$ (PPCM de $3$ et $4$), les deux fractions deviennent $\\dfrac{8}{12}$ et $\\dfrac{9}{12}$, dont la somme $\\dfrac{17}{12}$ dépasse un entier.',
+        description: 'L\'exemple du cours : $\\dfrac{2}{3} + \\dfrac{3}{4}$. Ramenées au dénominateur commun $12$ (plus petit multiple commun de $3$ et $4$), les deux fractions deviennent $\\dfrac{8}{12}$ et $\\dfrac{9}{12}$, dont la somme $\\dfrac{17}{12}$ dépasse un entier.',
         svg: `
-          <svg viewBox="0 0 460 310" role="img" aria-labelledby="frac-op-title frac-op-desc">
+          <!-- viewBox resserree de 460 a 330 unites : a largeur de page
+               constante (120 mm), chaque unite vaut 0,36 mm au lieu de 0,26,
+               et les etiquettes passent de 5,2 pt a 8,3 pt. La figure etait
+               juste mais illisible a la taille du livre. -->
+          <svg viewBox="0 0 330 300" role="img" aria-labelledby="frac-op-title frac-op-desc">
             <title id="frac-op-title">Addition de fractions par bandes</title>
-            <desc id="frac-op-desc">Bandes representant deux tiers, trois quarts, leur conversion en douziemes huit sur douze et neuf sur douze, puis la somme dix-sept douziemes decomposee en un entier plus cinq douziemes.</desc>
-            <text class="annotation-label" x="90" y="18">2/3</text>
-            <rect class="frame-line" x="90" y="24" width="240" height="24" fill="none"></rect>
-            <rect x="90" y="24" width="160" height="24" fill="var(--diagram-accent)"></rect>
+            <desc id="frac-op-desc">Cinq bandes de meme largeur : deux tiers, trois quarts, leur conversion en douziemes huit sur douze et neuf sur douze, puis la somme dix-sept douziemes montree comme une bande pleine plus cinq douziemes d'une seconde bande.</desc>
+            <text class="annotation-label" x="50" y="18">2/3 (en tiers)</text>
+            <rect class="frame-line" x="50" y="24" width="180" height="24" fill="none"></rect>
+            <rect x="50" y="24" width="120" height="24" fill="var(--diagram-accent)"></rect>
+            <line class="grid-line" x1="110" y1="24" x2="110" y2="48"></line>
             <line class="grid-line" x1="170" y1="24" x2="170" y2="48"></line>
-            <line class="grid-line" x1="250" y1="24" x2="250" y2="48"></line>
-            <text class="tick-label" x="84" y="58">0</text>
-            <text class="tick-label" x="322" y="58">1</text>
-
-            <text class="annotation-label" x="90" y="64">3/4</text>
-            <rect class="frame-line" x="90" y="70" width="240" height="24" fill="none"></rect>
-            <rect x="90" y="70" width="180" height="24" fill="var(--diagram-accent)"></rect>
-            <line class="grid-line" x1="150" y1="70" x2="150" y2="94"></line>
-            <line class="grid-line" x1="210" y1="70" x2="210" y2="94"></line>
-            <line class="grid-line" x1="270" y1="70" x2="270" y2="94"></line>
-            <text class="tick-label" x="84" y="104">0</text>
-            <text class="tick-label" x="322" y="104">1</text>
-
-            <text class="label-soft" x="90" y="118">Dénominateur commun : douzièmes (PPCM(3,4) = 12)</text>
-
-            <text class="annotation-label" x="90" y="132">8/12 (= 2/3 converti)</text>
-            <rect class="frame-line" x="90" y="138" width="240" height="24" fill="none"></rect>
-            <rect x="90" y="138" width="160" height="24" fill="var(--diagram-accent)"></rect>
+            <text class="tick-label" x="44" y="58">0</text>
+            <text class="tick-label" x="234" y="58">1</text>
+            <text class="annotation-label" x="50" y="64">3/4 (en quarts)</text>
+            <rect class="frame-line" x="50" y="70" width="180" height="24" fill="none"></rect>
+            <rect x="50" y="70" width="135" height="24" fill="var(--diagram-accent)"></rect>
+            <line class="grid-line" x1="95" y1="70" x2="95" y2="94"></line>
+            <line class="grid-line" x1="140" y1="70" x2="140" y2="94"></line>
+            <line class="grid-line" x1="185" y1="70" x2="185" y2="94"></line>
+            <text class="tick-label" x="44" y="104">0</text>
+            <text class="tick-label" x="234" y="104">1</text>
+            <text class="label-soft" x="50" y="118">Dénominateur commun : les douzièmes (3 × 4 = 12)</text>
+            <text class="annotation-label" x="50" y="132">8/12 (= 2/3 converti)</text>
+            <rect class="frame-line" x="50" y="138" width="180" height="24" fill="none"></rect>
+            <rect x="50" y="138" width="120" height="24" fill="var(--diagram-accent)"></rect>
+            <line class="grid-line" x1="65" y1="138" x2="65" y2="162"></line>
+            <line class="grid-line" x1="80" y1="138" x2="80" y2="162"></line>
+            <line class="grid-line" x1="95" y1="138" x2="95" y2="162"></line>
             <line class="grid-line" x1="110" y1="138" x2="110" y2="162"></line>
-            <line class="grid-line" x1="130" y1="138" x2="130" y2="162"></line>
-            <line class="grid-line" x1="150" y1="138" x2="150" y2="162"></line>
+            <line class="grid-line" x1="125" y1="138" x2="125" y2="162"></line>
+            <line class="grid-line" x1="140" y1="138" x2="140" y2="162"></line>
+            <line class="grid-line" x1="155" y1="138" x2="155" y2="162"></line>
             <line class="grid-line" x1="170" y1="138" x2="170" y2="162"></line>
-            <line class="grid-line" x1="190" y1="138" x2="190" y2="162"></line>
-            <line class="grid-line" x1="210" y1="138" x2="210" y2="162"></line>
-            <line class="grid-line" x1="230" y1="138" x2="230" y2="162"></line>
-            <line class="grid-line" x1="250" y1="138" x2="250" y2="162"></line>
-            <line class="grid-line" x1="270" y1="138" x2="270" y2="162"></line>
-            <line class="grid-line" x1="290" y1="138" x2="290" y2="162"></line>
-            <line class="grid-line" x1="310" y1="138" x2="310" y2="162"></line>
-            <text class="tick-label" x="84" y="172">0</text>
-            <text class="tick-label" x="322" y="172">1</text>
-
-            <text class="annotation-label" x="90" y="178">9/12 (= 3/4 converti)</text>
-            <rect class="frame-line" x="90" y="184" width="240" height="24" fill="none"></rect>
-            <rect x="90" y="184" width="180" height="24" fill="var(--diagram-accent)"></rect>
+            <line class="grid-line" x1="185" y1="138" x2="185" y2="162"></line>
+            <line class="grid-line" x1="200" y1="138" x2="200" y2="162"></line>
+            <line class="grid-line" x1="215" y1="138" x2="215" y2="162"></line>
+            <text class="tick-label" x="44" y="172">0</text>
+            <text class="tick-label" x="234" y="172">1</text>
+            <text class="annotation-label" x="50" y="178">9/12 (= 3/4 converti)</text>
+            <rect class="frame-line" x="50" y="184" width="180" height="24" fill="none"></rect>
+            <rect x="50" y="184" width="135" height="24" fill="var(--diagram-accent)"></rect>
+            <line class="grid-line" x1="65" y1="184" x2="65" y2="208"></line>
+            <line class="grid-line" x1="80" y1="184" x2="80" y2="208"></line>
+            <line class="grid-line" x1="95" y1="184" x2="95" y2="208"></line>
             <line class="grid-line" x1="110" y1="184" x2="110" y2="208"></line>
-            <line class="grid-line" x1="130" y1="184" x2="130" y2="208"></line>
-            <line class="grid-line" x1="150" y1="184" x2="150" y2="208"></line>
+            <line class="grid-line" x1="125" y1="184" x2="125" y2="208"></line>
+            <line class="grid-line" x1="140" y1="184" x2="140" y2="208"></line>
+            <line class="grid-line" x1="155" y1="184" x2="155" y2="208"></line>
             <line class="grid-line" x1="170" y1="184" x2="170" y2="208"></line>
-            <line class="grid-line" x1="190" y1="184" x2="190" y2="208"></line>
-            <line class="grid-line" x1="210" y1="184" x2="210" y2="208"></line>
-            <line class="grid-line" x1="230" y1="184" x2="230" y2="208"></line>
-            <line class="grid-line" x1="250" y1="184" x2="250" y2="208"></line>
-            <line class="grid-line" x1="270" y1="184" x2="270" y2="208"></line>
-            <line class="grid-line" x1="290" y1="184" x2="290" y2="208"></line>
-            <line class="grid-line" x1="310" y1="184" x2="310" y2="208"></line>
-            <text class="tick-label" x="84" y="218">0</text>
-            <text class="tick-label" x="322" y="218">1</text>
-
-            <text class="label-soft" x="90" y="232">Somme : 8/12 + 9/12 = 17/12</text>
-
-            <text class="annotation-label" x="90" y="246">17/12 = 1 entier + 5/12</text>
-            <line class="guide-line" x1="330" y1="20" x2="330" y2="280"></line>
-            <rect class="frame-line" x="90" y="252" width="240" height="24" fill="none"></rect>
-            <rect x="90" y="252" width="240" height="24" fill="var(--diagram-accent)"></rect>
+            <line class="grid-line" x1="185" y1="184" x2="185" y2="208"></line>
+            <line class="grid-line" x1="200" y1="184" x2="200" y2="208"></line>
+            <line class="grid-line" x1="215" y1="184" x2="215" y2="208"></line>
+            <text class="tick-label" x="44" y="218">0</text>
+            <text class="tick-label" x="234" y="218">1</text>
+            <text class="label-soft" x="50" y="232">Somme : 8/12 + 9/12 = 17/12</text>
+            <text class="annotation-label" x="50" y="246">17/12 = 1 + 5/12</text>
+            <line class="guide-line" x1="230" y1="20" x2="230" y2="280"></line>
+            <rect class="frame-line" x="50" y="252" width="180" height="24" fill="none"></rect>
+            <rect x="50" y="252" width="180" height="24" fill="var(--diagram-accent)"></rect>
+            <line class="grid-line" x1="65" y1="252" x2="65" y2="276"></line>
+            <line class="grid-line" x1="80" y1="252" x2="80" y2="276"></line>
+            <line class="grid-line" x1="95" y1="252" x2="95" y2="276"></line>
             <line class="grid-line" x1="110" y1="252" x2="110" y2="276"></line>
-            <line class="grid-line" x1="130" y1="252" x2="130" y2="276"></line>
-            <line class="grid-line" x1="150" y1="252" x2="150" y2="276"></line>
+            <line class="grid-line" x1="125" y1="252" x2="125" y2="276"></line>
+            <line class="grid-line" x1="140" y1="252" x2="140" y2="276"></line>
+            <line class="grid-line" x1="155" y1="252" x2="155" y2="276"></line>
             <line class="grid-line" x1="170" y1="252" x2="170" y2="276"></line>
-            <line class="grid-line" x1="190" y1="252" x2="190" y2="276"></line>
-            <line class="grid-line" x1="210" y1="252" x2="210" y2="276"></line>
-            <line class="grid-line" x1="230" y1="252" x2="230" y2="276"></line>
-            <line class="grid-line" x1="250" y1="252" x2="250" y2="276"></line>
-            <line class="grid-line" x1="270" y1="252" x2="270" y2="276"></line>
-            <line class="grid-line" x1="290" y1="252" x2="290" y2="276"></line>
-            <line class="grid-line" x1="310" y1="252" x2="310" y2="276"></line>
-            <text class="annotation-label" x="326" y="270">+</text>
-            <rect class="frame-line" x="340" y="252" width="100" height="24" fill="none"></rect>
-            <rect x="340" y="252" width="100" height="24" fill="color-mix(in srgb, var(--diagram-accent) 55%, white)"></rect>
-            <line class="grid-line" x1="360" y1="252" x2="360" y2="276"></line>
-            <line class="grid-line" x1="380" y1="252" x2="380" y2="276"></line>
-            <line class="grid-line" x1="400" y1="252" x2="400" y2="276"></line>
-            <line class="grid-line" x1="420" y1="252" x2="420" y2="276"></line>
-            <text class="tick-label" x="196" y="292">1 entier (12/12)</text>
-            <text class="tick-label" x="374" y="292">5/12</text>
+            <line class="grid-line" x1="185" y1="252" x2="185" y2="276"></line>
+            <line class="grid-line" x1="200" y1="252" x2="200" y2="276"></line>
+            <line class="grid-line" x1="215" y1="252" x2="215" y2="276"></line>
+            <text class="annotation-label" x="234" y="270">+</text>
+            <rect class="frame-line" x="246" y="252" width="75" height="24" fill="none"></rect>
+            <rect x="246" y="252" width="75" height="24" fill="color-mix(in srgb, var(--diagram-accent) 55%, white)"></rect>
+            <line class="grid-line" x1="261" y1="252" x2="261" y2="276"></line>
+            <line class="grid-line" x1="276" y1="252" x2="276" y2="276"></line>
+            <line class="grid-line" x1="291" y1="252" x2="291" y2="276"></line>
+            <line class="grid-line" x1="306" y1="252" x2="306" y2="276"></line>
+            <text class="tick-label" x="86" y="292">1 entier (12/12)</text>
+            <text class="tick-label" x="268" y="292">5/12</text>
           </svg>
         `,
         notes: [
@@ -133,10 +131,10 @@ window.MODULES.push({
       method: {
         title: 'Méthode en 4 étapes',
         steps: [
-          '<strong>Trouver le PPCM</strong> des deux dénominateurs (le plus petit multiple commun).',
+          '<strong>Trouver un multiple commun</strong> aux deux dénominateurs, le plus petit possible.',
           '<strong>Convertir</strong> chaque fraction au dénominateur commun en multipliant numérateur et dénominateur par le même facteur.',
           '<strong>Additionner/Soustraire</strong> les numérateurs ; conserver le dénominateur commun.',
-          '<strong>Simplifier</strong> la fraction obtenue si possible (diviser numérateur et dénominateur par leur PGCD).'
+          '<strong>Simplifier</strong> la fraction obtenue si possible : diviser numérateur et dénominateur par un même diviseur commun, autant de fois que possible.'
         ]
       },
       formulas: [
@@ -175,7 +173,7 @@ window.MODULES.push({
           'La bonne réponse est $\\dfrac{1}{3} + \\dfrac{1}{4} = \\dfrac{2}{12} = \\dfrac{1}{6}$.'
         ],
         answer: 1,
-        correction: 'L\'erreur classique ! On ne peut pas additionner numérateurs et dénominateurs séparément — les dénominateurs représentent des unités différentes (tiers ≠ quarts). Le bon calcul : PPCM(3, 4) = 12, donc $\\dfrac{1}{3} = \\dfrac{4}{12}$ et $\\dfrac{1}{4} = \\dfrac{3}{12}$, et la somme est $\\dfrac{7}{12}$.'
+        correction: 'L\'erreur classique ! On ne peut pas additionner numérateurs et dénominateurs séparément — les dénominateurs représentent des unités différentes (tiers ≠ quarts). Le bon calcul : $12$ est multiple de $3$ et de $4$, donc $\\dfrac{1}{3} = \\dfrac{4}{12}$ et $\\dfrac{1}{4} = \\dfrac{3}{12}$, et la somme est $\\dfrac{7}{12}$.'
       }
     ],
 
@@ -201,7 +199,7 @@ window.MODULES.push({
           },
           {
             intro: `Un terrain est partagé : $\\dfrac{${a}}{${b}}$ est un jardin et $\\dfrac{${c}}{${d}}$ est une terrasse.<br/>Quelle <strong>fraction totale</strong> du terrain ces deux espaces occupent-ils ?`,
-            hint: `Pour additionner les fractions, il faut le même dénominateur. Le PPCM de $${b}$ et $${d}$ est $${lcm}$.`
+            hint: `Pour additionner les fractions, il faut le même dénominateur. Le plus petit multiple commun à $${b}$ et $${d}$ est $${lcm}$.`
           },
           {
             intro: `Noa a couru pendant $\\dfrac{${a}}{${b}}$ d'heure le matin et $\\dfrac{${c}}{${d}}$ d'heure l'après-midi.<br/>Pendant combien de temps a-t-il couru <strong>au total</strong> ?`,
@@ -209,7 +207,7 @@ window.MODULES.push({
           },
           {
             intro: `Sur un trajet, Léa a parcouru $\\dfrac{${a}}{${b}}$ du chemin à pied et $\\dfrac{${c}}{${d}}$ du chemin à vélo.<br/>Quelle <strong>fraction du trajet</strong> a-t-elle déjà parcourue ?`,
-            hint: `Même dénominateur nécessaire ! Le PPCM de $${b}$ et $${d}$ est $${lcm}$.`
+            hint: `Même dénominateur nécessaire ! Le plus petit multiple commun à $${b}$ et $${d}$ est $${lcm}$.`
           },
           {
             intro: `Pour un projet d'arts plastiques, Emma utilise $\\dfrac{${a}}{${b}}$ d'un tube de peinture bleue et $\\dfrac{${c}}{${d}}$ d'un tube de peinture jaune.<br/>Quelle <strong>quantité totale</strong> de peinture a-t-elle utilisée (en tubes) ?`,
@@ -226,7 +224,7 @@ window.MODULES.push({
           solution: [
             `Dénominateur commun : $${lcm}$.`,
             `$\\dfrac{${a}}{${b}} = \\dfrac{${a * (lcm / b)}}{${lcm}}$ et $\\dfrac{${c}}{${d}} = \\dfrac{${c * (lcm / d)}}{${lcm}}$.`,
-            `Somme : $\\dfrac{${num}}{${lcm}}${g > 1 ? ` = \\dfrac{${answerNum}}{${answerDen}}` : ''} \\approx ${parseFloat(answer.toFixed(2)).toString().replace('.', '{,}')}$.`
+            `Somme : $\\dfrac{${num}}{${lcm}}${g > 1 ? ` = \\dfrac{${answerNum}}{${answerDen}}` : ''} \\approx ${fr(answer, 2)}$.`
           ]
         };
       }

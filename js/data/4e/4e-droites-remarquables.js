@@ -48,72 +48,87 @@
       diagram: {
         theme: 'maths',
         kicker: 'Triangle et droites remarquables',
-        title: 'Superposer les quatre familles de droites et leurs points de concours',
+        title: 'Quatre familles de droites, quatre points de concours',
         description: 'Sur le triangle $ABC$ de l\'exemple ($A(0;0)$, $B(8;0)$, $C(2;6)$) : les médianes se coupent au centre de gravité $G$, les médiatrices au centre du cercle circonscrit $O$, les hauteurs à l\'orthocentre $H$, et les bissectrices au centre du cercle inscrit $I$.',
         svg: `
-          <svg viewBox="0 0 500 330" role="img" aria-labelledby="droites-rem-title droites-rem-desc">
-            <title id="droites-rem-title">Triangle ABC avec ses quatre droites remarquables</title>
-            <desc id="droites-rem-desc">Triangle A(0;0) B(8;0) C(2;6) avec medianes, mediatrices, hauteurs et bissectrices superposees, chacune avec un style de trait different, et leurs quatre points de concours G, O, H et I etiquetes.</desc>
+          <!-- QUATRE VIGNETTES, une par famille, plutot qu'une seule figure.
+               La version precedente superposait 12 droites dans un triangle de
+               10 cm, distinguees par des nuances de gris et une legende : sur le
+               papier, plus rien n'etait suivable (audit du 2026-08-16). Chaque
+               panneau montre le MEME triangle A(0;0) B(8;0) C(2;6) a la meme
+               echelle (13 px par unite) : c'est la comparaison entre panneaux
+               qui fait voir que les quatre points de concours sont distincts.
+               Les sommets ne sont nommes que sur le premier panneau. -->
+          <svg viewBox="0 0 500 344" role="img" aria-labelledby="droites-rem-title droites-rem-desc">
+            <title id="droites-rem-title">Les quatre droites remarquables du triangle, une par vignette</title>
+            <desc id="droites-rem-desc">Quatre vignettes du meme triangle A(0;0) B(8;0) C(2;6) : les medianes et leur point de concours G, les mediatrices et O, les hauteurs et H, les bissectrices et I. Les quatre points sont a des positions differentes a l'interieur du triangle.</desc>
 
-            <line x1="10" y1="16" x2="40" y2="16" class="curve-main"></line>
-            <text class="tick-label" x="46" y="20">Médiane -&gt; G</text>
-            <line x1="240" y1="16" x2="270" y2="16" class="guide-line"></line>
-            <text class="tick-label" x="276" y="20">Mediatrice -&gt; O</text>
-            <line x1="10" y1="38" x2="40" y2="38" style="stroke:var(--secondary);stroke-width:2.5"></line>
-            <text class="tick-label" x="46" y="42">Hauteur -&gt; H</text>
-            <line x1="240" y1="38" x2="270" y2="38" style="stroke:var(--accent);stroke-width:2;stroke-dasharray:3 3"></line>
-            <text class="tick-label" x="276" y="42">Bissectrice -&gt; I</text>
+            <!-- 1. Medianes -> G(10/3 ; 2) -->
+            <text class="axis-label" x="40" y="24">1. Médianes → G</text>
+            <polygon points="40,150 144,150 66,72" fill="color-mix(in srgb, var(--diagram-accent) 6%, transparent)" stroke="none"></polygon>
+            <line class="frame-line" x1="40" y1="150" x2="144" y2="150"></line>
+            <line class="frame-line" x1="144" y1="150" x2="66" y2="72"></line>
+            <line class="frame-line" x1="66" y1="72" x2="40" y2="150"></line>
+            <line class="curve-main" x1="40" y1="150" x2="105" y2="111"></line>
+            <line class="curve-main" x1="144" y1="150" x2="53" y2="111"></line>
+            <line class="curve-main" x1="66" y1="72" x2="92" y2="150"></line>
+            <circle class="plot-point-alt" cx="40" cy="150" r="4"></circle>
+            <circle class="plot-point-alt" cx="144" cy="150" r="4"></circle>
+            <circle class="plot-point-alt" cx="66" cy="72" r="4"></circle>
+            <text class="tick-label" x="26" y="166">A</text>
+            <text class="tick-label" x="148" y="166">B</text>
+            <text class="tick-label" x="72" y="66">C</text>
+            <circle class="plot-point" cx="83" cy="124" r="5"></circle>
+            <text class="annotation-label" x="90" y="132">G</text>
+            <text class="tick-label" x="40" y="180">centre de gravité</text>
 
-            <polygon points="50,260 322,260 118,56" fill="color-mix(in srgb, var(--diagram-accent) 6%, transparent)" stroke="none"></polygon>
-            <line class="frame-line" x1="50" y1="260" x2="322" y2="260"></line>
-            <line class="frame-line" x1="322" y1="260" x2="118" y2="56"></line>
-            <line class="frame-line" x1="118" y1="56" x2="50" y2="260"></line>
+            <!-- 2. Mediatrices -> O(4 ; 2) -->
+            <text class="axis-label" x="290" y="24">2. Médiatrices → O</text>
+            <polygon points="290,150 394,150 316,72" fill="color-mix(in srgb, var(--diagram-accent) 6%, transparent)" stroke="none"></polygon>
+            <line class="frame-line" x1="290" y1="150" x2="394" y2="150"></line>
+            <line class="frame-line" x1="394" y1="150" x2="316" y2="72"></line>
+            <line class="frame-line" x1="316" y1="72" x2="290" y2="150"></line>
+            <line class="curve-main" x1="342" y1="162" x2="342" y2="108"></line>
+            <line class="curve-main" x1="291" y1="107" x2="358" y2="129"></line>
+            <line class="curve-main" x1="365" y1="101" x2="326" y2="140"></line>
+            <circle class="plot-point-alt" cx="290" cy="150" r="4"></circle>
+            <circle class="plot-point-alt" cx="394" cy="150" r="4"></circle>
+            <circle class="plot-point-alt" cx="316" cy="72" r="4"></circle>
+            <circle class="plot-point" cx="342" cy="124" r="5"></circle>
+            <text class="annotation-label" x="350" y="140">O</text>
+            <text class="tick-label" x="290" y="180">centre du cercle circonscrit</text>
 
-            <line class="curve-main" x1="50" y1="260" x2="220" y2="158"></line>
-            <line class="curve-main" x1="322" y1="260" x2="84" y2="158"></line>
-            <line class="curve-main" x1="118" y1="56" x2="186" y2="260"></line>
+            <!-- 3. Hauteurs -> H(2 ; 2) -->
+            <text class="axis-label" x="40" y="204">3. Hauteurs → H</text>
+            <polygon points="40,310 144,310 66,232" fill="color-mix(in srgb, var(--diagram-accent) 6%, transparent)" stroke="none"></polygon>
+            <line class="frame-line" x1="40" y1="310" x2="144" y2="310"></line>
+            <line class="frame-line" x1="144" y1="310" x2="66" y2="232"></line>
+            <line class="frame-line" x1="66" y1="232" x2="40" y2="310"></line>
+            <line class="curve-main" x1="66" y1="232" x2="66" y2="310"></line>
+            <line class="curve-main" x1="40" y1="310" x2="92" y2="258"></line>
+            <line class="curve-main" x1="144" y1="310" x2="50" y2="279"></line>
+            <circle class="plot-point-alt" cx="40" cy="310" r="4"></circle>
+            <circle class="plot-point-alt" cx="144" cy="310" r="4"></circle>
+            <circle class="plot-point-alt" cx="66" cy="232" r="4"></circle>
+            <circle class="plot-point" cx="66" cy="284" r="5"></circle>
+            <text class="annotation-label" x="73" y="292">H</text>
+            <text class="tick-label" x="40" y="340">orthocentre</text>
 
-            <line class="guide-line" x1="186" y1="260" x2="186" y2="160"></line>
-            <line class="guide-line" x1="13" y1="134" x2="268" y2="219"></line>
-            <line class="guide-line" x1="145" y1="233" x2="261" y2="117"></line>
-
-            <line x1="118" y1="56" x2="118" y2="260" style="stroke:var(--secondary);stroke-width:2.5;stroke-linecap:round"></line>
-            <line x1="322" y1="260" x2="77" y2="178" style="stroke:var(--secondary);stroke-width:2.5;stroke-linecap:round"></line>
-            <line x1="50" y1="260" x2="186" y2="124" style="stroke:var(--secondary);stroke-width:2.5;stroke-linecap:round"></line>
-
-            <line x1="50" y1="260" x2="208" y2="146" style="stroke:var(--accent);stroke-width:2;stroke-dasharray:3 3;stroke-linecap:round"></line>
-            <line x1="322" y1="260" x2="83" y2="161" style="stroke:var(--accent);stroke-width:2;stroke-dasharray:3 3;stroke-linecap:round"></line>
-            <line x1="118" y1="56" x2="166" y2="260" style="stroke:var(--accent);stroke-width:2;stroke-dasharray:3 3;stroke-linecap:round"></line>
-
-            <circle class="plot-point-alt" cx="50" cy="260" r="5"></circle>
-            <circle class="plot-point-alt" cx="322" cy="260" r="5"></circle>
-            <circle class="plot-point-alt" cx="118" cy="56" r="5"></circle>
-            <text class="annotation-label" x="30" y="282">A</text>
-            <text class="annotation-label" x="330" y="282">B</text>
-            <text class="annotation-label" x="128" y="46">C</text>
-
-            <circle class="plot-point" cx="163" cy="192" r="6"></circle>
-            <circle cx="186" cy="192" r="6" fill="none" stroke="var(--diagram-accent)" stroke-width="2" stroke-dasharray="3 2"></circle>
-            <rect x="113" y="187" width="10" height="10" fill="var(--secondary)" stroke="var(--bg-card)" stroke-width="2"></rect>
-            <rect x="144" y="183" width="10" height="10" transform="rotate(45 149 188)" fill="var(--bg-card)" stroke="var(--accent)" stroke-width="2.5"></rect>
-
-            <line x1="163" y1="192" x2="345" y2="100" style="stroke:var(--border);stroke-width:1;stroke-dasharray:2 2"></line>
-            <line x1="186" y1="192" x2="345" y2="140" style="stroke:var(--border);stroke-width:1;stroke-dasharray:2 2"></line>
-            <line x1="118" y1="192" x2="345" y2="180" style="stroke:var(--border);stroke-width:1;stroke-dasharray:2 2"></line>
-            <line x1="149" y1="188" x2="345" y2="220" style="stroke:var(--border);stroke-width:1;stroke-dasharray:2 2"></line>
-
-            <circle class="plot-point" cx="345" cy="100" r="4"></circle>
-            <text class="annotation-label" x="356" y="105">G</text>
-            <text class="tick-label" x="368" y="105">centre de gravité</text>
-            <circle cx="345" cy="140" r="4" fill="none" stroke="var(--diagram-accent)" stroke-width="2" stroke-dasharray="3 2"></circle>
-            <text class="annotation-label" x="356" y="145">O</text>
-            <text class="tick-label" x="368" y="145">cercle circonscrit</text>
-            <rect x="341" y="176" width="8" height="8" fill="var(--secondary)" stroke="var(--bg-card)" stroke-width="1.5"></rect>
-            <text class="annotation-label" x="356" y="185">H</text>
-            <text class="tick-label" x="368" y="185">orthocentre</text>
-            <rect x="341" y="216" width="8" height="8" transform="rotate(45 345 220)" fill="var(--bg-card)" stroke="var(--accent)" stroke-width="2"></rect>
-            <text class="annotation-label" x="356" y="225">I</text>
-            <text class="tick-label" x="368" y="225">cercle inscrit</text>
+            <!-- 4. Bissectrices -> I(2,92 ; 2,10) -->
+            <text class="axis-label" x="290" y="204">4. Bissectrices → I</text>
+            <polygon points="290,310 394,310 316,232" fill="color-mix(in srgb, var(--diagram-accent) 6%, transparent)" stroke="none"></polygon>
+            <line class="frame-line" x1="290" y1="310" x2="394" y2="310"></line>
+            <line class="frame-line" x1="394" y1="310" x2="316" y2="232"></line>
+            <line class="frame-line" x1="316" y1="232" x2="290" y2="310"></line>
+            <line class="curve-main" x1="290" y1="310" x2="350" y2="266"></line>
+            <line class="curve-main" x1="394" y1="310" x2="303" y2="272"></line>
+            <line class="curve-main" x1="316" y1="232" x2="334" y2="310"></line>
+            <circle class="plot-point-alt" cx="290" cy="310" r="4"></circle>
+            <circle class="plot-point-alt" cx="394" cy="310" r="4"></circle>
+            <circle class="plot-point-alt" cx="316" cy="232" r="4"></circle>
+            <circle class="plot-point" cx="328" cy="283" r="5"></circle>
+            <text class="annotation-label" x="335" y="291">I</text>
+            <text class="tick-label" x="290" y="340">centre du cercle inscrit</text>
           </svg>
         `,
         notes: [
@@ -122,8 +137,8 @@
           'Hauteurs (trait plein coloré) : perpendiculaires issues de chaque sommet sur le côté opposé. Elles se coupent à l\'orthocentre H.',
           'Bissectrices (tirets courts) : partagent chaque angle en deux. Elles se coupent au centre du cercle inscrit I, équidistant des trois côtés.'
         ],
-        reading: 'Suis une seule couleur/style a la fois : les quatre familles se croisent près du centre du triangle, mais chacune a son propre point de concours, distinct des trois autres.',
-        caption: 'Triangle $ABC$ avec ses médianes (→ $G$), médiatrices (→ $O$), hauteurs (→ $H$) et bissectrices (→ $I$). Ce triangle étant acutangle, les quatre points restent à l\'intérieur du triangle.'
+        reading: 'Les quatre vignettes montrent le même triangle à la même échelle : seule change la famille de droites tracée. Compare la position du point noir d\'une vignette à l\'autre — les quatre points de concours ne sont pas au même endroit.',
+        caption: 'Le même triangle $ABC$ vu quatre fois : médianes (→ $G$), médiatrices (→ $O$), hauteurs (→ $H$), bissectrices (→ $I$). Ce triangle étant acutangle, les quatre points restent à l\'intérieur du triangle.'
       },
       recap: [
         'Quatre familles de droites : médiatrices, bissectrices, médianes, hauteurs — chacune a un point de concours.',
@@ -175,7 +190,7 @@
           tolerance: 0.1,
           unit: 'cm',
           hint: `$AG = \\dfrac{2}{3} \\times AM = \\dfrac{2}{3} \\times ${am}$.`,
-          solution: [`$AG = \\dfrac{2}{3} \\times ${am} = \\dfrac{${2*am}}{3} = ${ag.toString().replace('.', '{,}')}$ cm.`]
+          solution: [`$AG = \\dfrac{2}{3} \\times ${am} = \\dfrac{${2*am}}{3} = ${fr(ag)}$ cm.`]
         };
       }
     },

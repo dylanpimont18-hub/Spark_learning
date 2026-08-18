@@ -8,29 +8,29 @@ window.MODULES.push({
     level: 1, subject: 'maths',
     icon: '📏',
     title: 'Angles et parallélisme',
-    subtitle: 'Alternes-internes, correspondants, coalternes',
+    subtitle: 'Alternes-internes, correspondants, internes de même côté',
     keywords: ['Angle', 'Parallèles', 'Sécante', 'Alternes-internes', 'Correspondants'],
     physics: false,
 
     cours: {
       intro: 'Quand une <strong>sécante</strong> coupe deux droites parallèles, elle crée des paires d\'angles avec des relations précises.<br/><br/>' +
-        'Les <strong>alternes-internes</strong> (configuration en Z) sont <strong>égaux</strong>. Les <strong>correspondants</strong> (configuration en F) sont <strong>égaux</strong>. Les <strong>coalternes-internes</strong> (configuration en U) sont <strong>supplémentaires</strong> (somme = $180°$).<br/><br/>' +
+        'Les <strong>alternes-internes</strong> (configuration en Z) sont <strong>égaux</strong>. Les <strong>correspondants</strong> (configuration en F) sont <strong>égaux</strong>. Les <strong>angles internes du même côté</strong> de la sécante (configuration en U) sont <strong>supplémentaires</strong> (somme = $180°$).<br/><br/>' +
         '<strong>Point clé :</strong> ces propriétés ne valent que si les droites sont parallèles — et réciproquement, si ces propriétés sont vérifiées, alors les droites sont forcément parallèles. C\'est une façon de <em>démontrer</em> le parallélisme.<br/><br/>' +
         'En optique, les rayons parallèles incidents sur un miroir vérifient ces propriétés angulaires, ce qui explique la construction des images dans les miroirs plans.',
       definitions: [
         { term: 'Sécante', def: 'Droite qui coupe deux autres droites. Elle crée des angles à chaque point d\'intersection.' },
         { term: 'Angles alternes-internes', def: 'Paire d\'angles situés de part et d\'autre de la sécante, entre les deux droites (configuration en Z). Égaux si les droites sont parallèles.' },
         { term: 'Angles correspondants', def: 'Paire d\'angles situés du même côté de la sécante, l\'un entre les droites et l\'autre à l\'extérieur (configuration en F). Égaux si parallèles.' },
-        { term: 'Angles supplémentaires', def: 'Deux angles dont la somme vaut $180°$. Les coalternes-internes sont supplémentaires si les droites sont parallèles.' }
+        { term: 'Angles supplémentaires', def: 'Deux angles dont la somme vaut $180°$. Les angles internes du même côté de la sécante sont supplémentaires si les droites sont parallèles.' }
       ],
       example: {
-        statement: 'Deux droites parallèles sont coupées par une sécante. Un angle mesure $72°$. Trouver les angles alternes-internes et coalternes.',
+        statement: 'Deux droites parallèles sont coupées par une sécante. Un angle mesure $72°$. Trouver l\'angle alterne-interne, l\'angle interne du même côté et l\'angle correspondant.',
         steps: [
           'Angle alterne-interne : même mesure → $72°$ (car droites parallèles, configuration en Z).',
-          'Angle coalterne-interne : supplémentaire → $180° - 72° = 108°$ (configuration en U).',
+          'Angle interne du même côté : supplémentaire → $180° - 72° = 108°$ (configuration en U).',
           'Angle correspondant : même mesure → $72°$ (configuration en F).'
         ],
-        answer: 'Alterne-interne : $72°$, coalterne : $108°$, correspondant : $72°$'
+        answer: 'Alterne-interne : $72°$, interne (même côté) : $108°$, correspondant : $72°$'
       },
       diagram: {
         theme: 'maths',
@@ -72,7 +72,7 @@ window.MODULES.push({
         notes: [
           'Les angles <strong>3</strong> et <strong>7</strong> sont <strong>correspondants</strong> (même position par rapport à la sécante, arcs pleins) : ils sont égaux.',
           'Les angles <strong>3</strong> et <strong>5</strong> sont <strong>alternes-internes</strong> (configuration en Z : entre les deux parallèles, de part et d’autre de la sécante) : ils sont égaux.',
-          'Les angles <strong>3</strong> et <strong>6</strong> sont <strong>coalternes-internes</strong> (configuration en U : entre les deux parallèles, du même côté de la sécante, arc plus sombre) : leur somme vaut $180°$, ils sont supplémentaires.',
+          'Les angles <strong>3</strong> et <strong>6</strong> sont <strong>internes du même côté</strong> de la sécante (configuration en U : entre les deux parallèles, arc plus sombre) : leur somme vaut $180°$, ils sont supplémentaires.',
           'Les angles 1, 2, 4 et 8 ferment la figure : chacun est soit vertical (égal à l’angle opposé par le sommet), soit supplémentaire à ses voisins immédiats.'
         ],
         reading: 'Repère d’abord la sécante (la droite oblique), puis regarde si les deux angles à comparer sont entre les deux parallèles (internes) ou à l’extérieur, et s’ils sont du même côté ou de part et d’autre de la sécante.',
@@ -82,19 +82,19 @@ window.MODULES.push({
         title: 'Méthode en 3 étapes',
         steps: [
           '<strong>Identifier la sécante</strong> (droite qui coupe les deux parallèles) et les deux parallèles.',
-          '<strong>Repérer la configuration</strong> : alternes-internes (en Z), correspondants (en F), ou coalternes (en U).',
-          '<strong>Appliquer la propriété</strong> : alternes-internes → égaux ; correspondants → égaux ; coalternes → supplémentaires.'
+          '<strong>Repérer la configuration</strong> : alternes-internes (en Z), correspondants (en F), ou internes de même côté (en U).',
+          '<strong>Appliquer la propriété</strong> : alternes-internes → égaux ; correspondants → égaux ; internes de même côté → supplémentaires.'
         ]
       },
       formulas: [
         'Alternes-internes : $\\hat{a} = \\hat{b}$ (configuration en Z)',
         'Correspondants : $\\hat{a} = \\hat{c}$ (configuration en F)',
-        'Coalternes-internes : $\\hat{a} + \\hat{d} = 180°$ (configuration en U)',
+        'Internes de même côté : $\\hat{a} + \\hat{d} = 180°$ (configuration en U)',
         'Angles supplémentaires : $\\hat{a} + \\hat{b} = 180°$'
       ],
       recap: [
         'Alternes-internes (Z) et correspondants (F) sont ÉGAUX si les droites sont parallèles.',
-        'Coalternes (U) sont SUPPLÉMENTAIRES ($+ = 180°$) si les droites sont parallèles.',
+        'Internes de même côté (U) sont SUPPLÉMENTAIRES ($+ = 180°$) si les droites sont parallèles.',
         'La réciproque est vraie : si ces relations sont vérifiées, les droites sont parallèles.',
         'Si les angles ne vérifient pas ces relations, les droites ne sont PAS parallèles.'
       ],
@@ -109,10 +109,10 @@ window.MODULES.push({
         correction: 'Les angles alternes-internes sont égaux quand les droites sont parallèles. L\'autre angle vaut donc $65°$.'
       },
       {
-        q: 'Un angle coalterne-interne mesure $110°$. Quel est son angle coalterne-interne associé ?',
+        q: 'Deux angles internes sont situés du même côté d\'une sécante qui coupe deux droites parallèles. L\'un mesure $110°$. Quel est l\'autre ?',
         options: ['$110°$', '$80°$', '$70°$', '$55°$'],
         answer: 2,
-        correction: 'Les coalternes-internes sont supplémentaires : $180° - 110° = 70°$.'
+        correction: 'Deux angles internes du même côté de la sécante sont supplémentaires : $180° - 110° = 70°$.'
       },
       {
         q: 'Une sécante coupe deux droites. Les angles alternes-internes valent $70°$ et $75°$. Que peut-on conclure ?',
@@ -131,7 +131,7 @@ window.MODULES.push({
       type: 'numeric',
       generate() {
         const type = pick([
-          { name: 'coalterne-interne', relation: 'supplémentaire', calc: (a) => 180 - a },
+          { name: 'interne (même côté)', relation: 'supplémentaire', calc: (a) => 180 - a },
           { name: 'correspondant', relation: 'égal', calc: (a) => a },
           { name: 'alterne-interne', relation: 'égal', calc: (a) => a }
         ]);
@@ -154,11 +154,11 @@ window.MODULES.push({
           tolerance: 0,
           unit: '°',
           hint: type.relation === 'supplémentaire'
-            ? 'Les angles coalternes-internes sont supplémentaires : leur somme vaut $180°$.'
+            ? 'Les angles internes du même côté de la sécante sont supplémentaires : leur somme vaut $180°$.'
             : `Les angles ${type.name}s sont égaux quand les droites sont parallèles.`,
           solution: [
             type.relation === 'supplémentaire'
-              ? `Angles coalternes supplémentaires : $180 - ${a} = ${answer}°$.`
+              ? `Angles internes du même côté, supplémentaires : $180 - ${a} = ${answer}°$.`
               : `Angles ${type.name}s égaux (droites parallèles) : $${answer}°$.`
           ]
         };
@@ -169,12 +169,12 @@ window.MODULES.push({
       context: 'Un menuisier pose des lattes de parquet parallèles. Une règle posée en travers forme un angle de $52°$ avec la première latte.',
       tasks: [
         'Quel angle la règle fait-elle avec la deuxième latte (angle correspondant) ?',
-        'Quel est l\'angle coalterne-interne associé à $52°$ ?',
+        'Quel est l\'angle interne du même côté, associé à $52°$ ?',
         'Le menuisier veut poser une troisième latte perpendiculaire aux premières. Quel angle fait-elle avec la règle ?'
       ],
       solutions: [
         'Angle correspondant = $52°$ (droites parallèles).',
-        'Coalterne : $180 - 52 = 128°$.',
+        'Interne (même côté) : $180 - 52 = 128°$.',
         'Perpendiculaire → angle de $90°$ avec les lattes. Avec la règle : $90 - 52 = 38°$.'
       ],
       finalAnswer: 'La troisième latte fait $38°$ avec la règle.'
@@ -194,13 +194,13 @@ window.MODULES.push({
           correction: 'Les angles alternes-internes formés par deux droites parallèles coupées par une sécante sont égaux. L\'autre angle vaut donc $74°$.'
         },
         {
-          statement: 'Un angle coalterne-interne mesure $125°$. Quel est l\'angle coalterne-interne associé (en degrés) ?',
+          statement: 'Deux angles internes sont situés du même côté d\'une sécante qui coupe deux droites parallèles. L\'un mesure $125°$. Quel est l\'autre (en degrés) ?',
           type: 'numeric',
           answer: 55,
           tolerance: 0,
           unit: '°',
           points: 2,
-          correction: 'Les angles coalternes-internes sont supplémentaires : $180° - 125° = 55°$.'
+          correction: 'Deux angles internes du même côté de la sécante sont supplémentaires : $180° - 125° = 55°$.'
         },
         {
           statement: 'Une sécante coupe deux droites. Les angles correspondants mesurent $62°$ et $62°$. Que peut-on en conclure ?',

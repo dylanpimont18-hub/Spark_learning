@@ -40,7 +40,7 @@ window.MODULES.push({
         svg: `
           <svg viewBox="0 0 540 240" role="img" aria-labelledby="proba5e-title proba5e-desc">
             <title id="proba5e-title">Echelle des probabilites de 0 a 1</title>
-            <desc id="proba5e-desc">Regle graduee horizontale de 0 (impossible) a 1 (certain), avec cinq reperes qualitatifs : impossible, peu probable, equiprobable, probable, certain, places respectivement a 0, 0,25, 0,5, 0,75 et 1.</desc>
+            <desc id="proba5e-desc">Regle graduee horizontale de 0 (impossible) a 1 (certain), avec cinq reperes qualitatifs : impossible, peu probable, une chance sur deux, probable, certain, places respectivement a 0, 0,25, 0,5, 0,75 et 1.</desc>
             <line class="axis" x1="40" y1="150" x2="520" y2="150"></line>
             <line class="axis" x1="60" y1="150" x2="60" y2="158"></line>
             <line class="axis" x1="170" y1="150" x2="170" y2="158"></line>
@@ -59,7 +59,7 @@ window.MODULES.push({
             <line class="guide-line" x1="500" y1="72" x2="500" y2="144"></line>
             <text class="annotation-label" x="60" y="60" text-anchor="middle">impossible</text>
             <text class="annotation-label" x="170" y="60" text-anchor="middle">peu probable</text>
-            <text class="annotation-label" x="280" y="60" text-anchor="middle">équiprobable</text>
+            <text class="annotation-label" x="280" y="60" text-anchor="middle">une chance sur deux</text>
             <text class="annotation-label" x="390" y="60" text-anchor="middle">probable</text>
             <text class="annotation-label" x="500" y="60" text-anchor="middle">certain</text>
             <circle class="plot-point" cx="60" cy="150" r="6"></circle>
@@ -87,7 +87,7 @@ window.MODULES.push({
           '<strong>Certain</strong> ($P=1$) : obtenir un nombre $\\leq 6$ avec un dé à $6$ faces, comme dans le tableau du cours — cet événement se produit à chaque lancer.'
         ],
         reading: 'Les repères « peu probable » et « probable » n\'ont pas de seuil chiffré officiel — ce sont des mots du langage courant. Un calcul de $P(A)$ doit toujours donner une fraction ou un nombre exact entre $0$ et $1$, jamais une simple impression.',
-        caption: 'Échelle qualitative superposée aux trois repères numériques du cours : $0$ (impossible), $0{,}5$ (équiprobable), $1$ (certain).'
+        caption: 'Échelle qualitative superposée aux trois repères numériques du cours : $0$ (impossible), $0{,}5$ (une chance sur deux), $1$ (certain).'
       },
       method: {
         title: 'Méthode en 3 étapes',
@@ -157,7 +157,7 @@ window.MODULES.push({
           tolerance: 0.01,
           unit: '',
           hint: `$P = \\dfrac{\\text{cas favorables}}{\\text{cas possibles}} = \\dfrac{${fav}}{${total}}$.`,
-          solution: [`$P = \\dfrac{${fav}}{${total}} = ${p.toString().replace('.', '{,}')}$.`]
+          solution: [`$P = \\dfrac{${fav}}{${total}} = ${fr(p)}$.`]
         };
       }
     },

@@ -25,13 +25,12 @@ window.MODULES.push({
         { term: 'Carré', def: 'Quadrilatère qui est à la fois rectangle ET losange : 4 angles droits et 4 côtés égaux.' }
       ],
       example: {
-        statement: 'Un losange a des diagonales de $8$ cm et $6$ cm. Calcule son aire et le demi-côté.',
+        statement: 'Un losange a des diagonales de $8$ cm et $6$ cm, et un côté de $5$ cm. Calcule son aire.',
         steps: [
           'Aire : $\\mathcal{A} = \\dfrac{d_1 \\times d_2}{2} = \\dfrac{8 \\times 6}{2} = 24$ cm².',
-          'Les diagonales se coupent perpendiculairement en leur milieu → demi-diagonales : $4$ et $3$ cm.',
-          'Par Pythagore : côté $= \\sqrt{4^2 + 3^2} = \\sqrt{25} = 5$ cm.'
+          'Les diagonales se coupent perpendiculairement en leur milieu → demi-diagonales : $4$ et $3$ cm.'
         ],
-        answer: 'Aire = $24$ cm², côté = $5$ cm'
+        answer: 'Aire = $24$ cm²'
       },
       diagram: {
         theme: 'maths',
@@ -140,7 +139,7 @@ window.MODULES.push({
         notes: [
           'Dans les $4$ figures, les diagonales se coupent en leur milieu : c\'est justement la propriété qui définit un parallélogramme — les tics sur chaque moitié de diagonale montrent l\'égalité des deux moitiés.',
           'Le rectangle ajoute $4$ angles droits (petits carrés) ET des diagonales de même longueur : toutes les demi-diagonales portent le même tic.',
-          'Le losange ajoute $4$ côtés égaux (même tic sur les $4$ côtés) ET des diagonales perpendiculaires (petit carré au centre). Avec des diagonales de $8$ cm et $6$ cm, les demi-diagonales mesurent $4$ cm et $3$ cm : par Pythagore, le côté vaut $\\sqrt{4^2 + 3^2} = 5$ cm — exactement l\'exemple du cours.',
+          'Le losange ajoute $4$ côtés égaux (même tic sur les $4$ côtés) ET des diagonales perpendiculaires (petit carré au centre). Avec des diagonales de $8$ cm et $6$ cm, les demi-diagonales mesurent $4$ cm et $3$ cm, pour un côté de $5$ cm — exactement l\'exemple du cours.',
           'Le carré cumule tout : $4$ angles droits, $4$ côtés égaux, diagonales égales ET perpendiculaires.'
         ],
         reading: 'Pour identifier une figure, une seule propriété codée ne suffit pas si elle n\'est pas vraie partout : il faut que la propriété (angle droit, longueur égale...) se vérifie sur les $4$ côtés ou les $4$ demi-diagonales, pas sur un seul.',
@@ -221,7 +220,7 @@ window.MODULES.push({
           hint: `Aire d'un losange : $\\mathcal{A} = \\dfrac{d_1 \\times d_2}{2} = \\dfrac{${d1} \\times ${d2}}{2}$.`,
           solution: [
             `Formule : $\\mathcal{A} = \\dfrac{d_1 \\times d_2}{2}$`,
-            `$\\mathcal{A} = \\dfrac{${d1} \\times ${d2}}{2} = \\dfrac{${d1 * d2}}{2} = ${aire}$ cm²`
+            `$\\mathcal{A} = \\dfrac{${d1} \\times ${d2}}{2} = \\dfrac{${d1 * d2}}{2} = ${fr(aire)}$ cm²`
           ]
         };
       }

@@ -155,8 +155,8 @@ window.MODULES.push({
           unit: '€',
           hint: `Calcule d'abord la réduction : $${taux}\\%$ de $${prix}$, puis soustrait du prix initial.`,
           solution: [
-            `Réduction : $\\dfrac{${taux}}{100} \\times ${prix} = ${reduction.toString().replace('.', '{,}')}$ €.`,
-            `Nouveau prix : $${prix} - ${reduction.toString().replace('.', '{,}')} = ${newPrix.toString().replace('.', '{,}')}$ €.`
+            `Réduction : $\\dfrac{${taux}}{100} \\times ${prix} = ${fr(reduction)}$ €.`,
+            `Nouveau prix : $${prix} - ${fr(reduction)} = ${fr(newPrix)}$ €.`
           ]
         };
       }

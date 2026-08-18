@@ -125,8 +125,8 @@ window.MODULES.push({
           a = randFloat(1, 9, 1);
           b = randFloat(1, 9, 1);
           prod = parseFloat((a * b).toFixed(2));
-          const aStr = a.toString().replace('.', '{,}');
-          const bStr = b.toString().replace('.', '{,}');
+          const aStr = fr(a);
+          const bStr = fr(b);
           statement = scenario.aLabel
             ? `${scenario.emoji} ${scenario.intro} $${aStr}$ ${scenario.aLabel} $${bStr}$ ${scenario.bLabel}`
             : `${scenario.emoji} ${scenario.intro} $${aStr} \\times ${bStr}$.`;
@@ -149,7 +149,7 @@ window.MODULES.push({
             : [
                 `On ignore les virgules : $${intA} \\times ${intB} = ${intA * intB}$.`,
                 `Total de décimales : $1 + 1 = 2$.`,
-                `Résultat : $${prod.toString().replace('.', '{,}')}$${scenario.unit ? ' ' + scenario.unit : ''}`
+                `Résultat : $${fr(prod)}$${scenario.unit ? ' ' + scenario.unit : ''}`
               ]
         };
       }

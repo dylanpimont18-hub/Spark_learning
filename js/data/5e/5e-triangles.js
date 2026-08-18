@@ -28,8 +28,7 @@ window.MODULES.push({
         statement: 'Peut-on construire un triangle avec des côtés de $5$ cm, $7$ cm et $10$ cm ? Si oui, quelle est la nature du triangle ?',
         steps: [
           'Plus grand côté : $10$. Somme des deux autres : $5 + 7 = 12$. $10 < 12$ ✓ → triangle possible.',
-          'Vérifier si rectangle : $5^2 + 7^2 = 25 + 49 = 74$. $10^2 = 100$. $74 \\neq 100$ → pas rectangle.',
-          'Tous les côtés différents → triangle scalène (quelconque).'
+          'Tous les côtés sont différents → triangle scalène (quelconque).'
         ],
         answer: 'Triangle scalène (quelconque)'
       },
@@ -50,7 +49,7 @@ window.MODULES.push({
             <line class="frame-line" x1="40" y1="200" x2="140" y2="200"></line>
             <line class="axis" x1="59.5" y1="137.7" x2="70.5" y2="142.3"></line>
             <line class="axis" x1="109.5" y1="142.3" x2="120.5" y2="137.7"></line>
-            <text class="annotation-label" x="90" y="228" text-anchor="middle">Isocele</text>
+            <text class="annotation-label" x="90" y="228" text-anchor="middle">Isocèle</text>
 
             <polygon points="220,200 270,113.4 320,200" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></polygon>
             <line class="frame-line" x1="220" y1="200" x2="270" y2="113.4"></line>
@@ -59,7 +58,7 @@ window.MODULES.push({
             <line class="axis" x1="239.8" y1="153.7" x2="250.2" y2="159.7"></line>
             <line class="axis" x1="289.8" y1="159.7" x2="300.2" y2="153.7"></line>
             <line class="axis" x1="270" y1="194" x2="270" y2="206"></line>
-            <text class="annotation-label" x="270" y="228" text-anchor="middle">Equilateral</text>
+            <text class="annotation-label" x="270" y="228" text-anchor="middle">Équilatéral</text>
 
             <polygon points="400,200 400,110 500,200" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></polygon>
             <line class="frame-line" x1="400" y1="200" x2="400" y2="110"></line>
@@ -87,7 +86,7 @@ window.MODULES.push({
         title: 'Méthode en 3 étapes',
         steps: [
           '<strong>Vérifier l\'inégalité triangulaire</strong> : le plus grand côté < somme des deux autres.',
-          '<strong>Identifier le type</strong> : isocèle (2 côtés égaux), équilatéral (3 côtés égaux), rectangle (angle droit vérifié par Pythagore).',
+          '<strong>Identifier le type</strong> : isocèle (2 côtés égaux), équilatéral (3 côtés égaux), rectangle (angle droit, repéré au rapporteur ou à l\'équerre).',
           '<strong>Calculer un angle manquant</strong> : angle inconnu = $180° - $ (somme des deux autres angles).'
         ]
       },
@@ -162,15 +161,15 @@ window.MODULES.push({
       context: 'Un architecte dessine une charpente triangulaire avec trois poutres mesurant $5$ m, $8$ m et $11$ m.',
       tasks: [
         'Vérifier que ces trois longueurs forment bien un triangle (inégalité triangulaire).',
-        'Ce triangle est-il rectangle ? (Vérifier avec le théorème de Pythagore : $5^2 + 8^2$ et $11^2$.)',
+        'Quelle est la nature de ce triangle (isocèle, équilatéral ou scalène) au vu des longueurs des trois côtés ?',
         'Si l\'un des angles de la charpente mesure $40°$ et un autre $65°$, quel est le troisième angle ?'
       ],
       solutions: [
         '$11 < 5 + 8 = 13$ ✓. L\'inégalité est vérifiée, le triangle existe.',
-        '$5^2 + 8^2 = 25 + 64 = 89 \\neq 121 = 11^2$. Ce triangle n\'est pas rectangle.',
+        'Les trois côtés ($5$, $8$ et $11$ m) sont tous différents : c\'est un triangle scalène (quelconque).',
         '$180 - 40 - 65 = 75°$.'
       ],
-      finalAnswer: 'La charpente forme un triangle (non rectangle) ; le troisième angle de la charpente est $75°$.'
+      finalAnswer: 'La charpente forme un triangle scalène ; le troisième angle de la charpente est $75°$.'
     },
 
     evaluation: {

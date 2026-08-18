@@ -10,12 +10,12 @@ window.MODULES.push({
     title: 'Volumes',
     subtitle: 'Cube, pavé droit, unités (L, mL, m³)',
     keywords: ['Volume', 'Pavé droit', 'Cube', 'Litre', 'Conversion'],
-    physics: 'ρ = m/V, volume d\'une solution, gaz parfait',
+    physics: 'Contenance et débit en technologie ; masse volumique au cycle 4',
 
     cours: {
       intro: 'Le <strong>volume</strong> mesure l\'espace occupé par un objet en trois dimensions. Un cube de $1$ cm de côté a un volume de $1$ cm³ — c\'est l\'unité de base.<br/><br/>' +
         '<strong>Pourquoi plusieurs unités ?</strong> Les ordres de grandeur varient énormément : une goutte fait $0{,}05$ mL, une piscine olympique $2500$ m³. Le lien fondamental : $1$ cm³ $= 1$ mL exactement.<br/><br/>' +
-        'En physique-chimie, le volume intervient partout : densité $\\rho = \\dfrac{m}{V}$, concentration $c = \\dfrac{n}{V}$, loi des gaz parfaits $PV = nRT$. Maîtriser les conversions entre m³, L et mL est indispensable.',
+        'Le volume est partout dans la vie courante : la contenance d\'une bouteille, le béton d\'une dalle, l\'eau d\'un aquarium, le carburant d\'un réservoir. Suivant le métier on l\'exprime en litres, en m³ ou en mL — <strong>maîtriser les conversions</strong> entre ces unités, c\'est pouvoir passer d\'un énoncé à l\'autre sans se tromper d\'un facteur $1000$.',
       definitions: [
         { term: 'Volume', def: 'Mesure de l\'espace occupé par un objet en 3D. Unité SI : le mètre cube (m³).' },
         { term: 'Pavé droit', def: 'Solide à 6 faces rectangulaires. Volume : $V = L \\times l \\times h$.' },
@@ -108,10 +108,10 @@ window.MODULES.push({
         correction: 'Il faut cuber le facteur de conversion ! $1\\,\\text{cm} = 10^{-2}\\,\\text{m}$ → $1\\,\\text{cm}^3 = (10^{-2})^3\\,\\text{m}^3 = 10^{-6}\\,\\text{m}^3$.'
       },
       {
-        q: 'Un liquide de densité $\\rho = 0{,}8\\,\\text{g/cm}^3$ a une masse de $400\\,\\text{g}$. Quel est son volume ?',
-        options: ['$320\\,\\text{cm}^3$', '$500\\,\\text{cm}^3$', '$0{,}5\\,\\text{cm}^3$', '$32\\,\\text{cm}^3$'],
+        q: 'Une boîte a la forme d\'un pavé droit de $4\\,\\text{cm} \\times 3\\,\\text{cm} \\times 2\\,\\text{cm}$. Combien de cubes de $1\\,\\text{cm}^3$ faut-il pour la remplir complètement ?',
+        options: ['$9$ cubes', '$24$ cubes', '$18$ cubes', '$12$ cubes'],
         answer: 1,
-        correction: '$V = \\dfrac{m}{\\rho} = \\dfrac{400}{0{,}8} = 500\\,\\text{cm}^3$. On isole $V$ dans $\\rho = \\dfrac{m}{V}$.'
+        correction: 'Le volume de la boîte est $V = 4 \\times 3 \\times 2 = 24\\,\\text{cm}^3$. Comme chaque cube fait $1\\,\\text{cm}^3$, il faut exactement $24$ cubes pour la remplir complètement.'
       }
     ],
 
@@ -140,26 +140,26 @@ window.MODULES.push({
             `Calcul du volume : $V = ${L} \\times ${l} \\times ${h}$`,
             `$V = ${L * l} \\times ${h} = ${vcm3}\\,\\text{cm}^3$`,
             `Conversion cm³ → L : on divise par 1000 car $1\\,\\text{L} = 1000\\,\\text{cm}^3$`,
-            `$V = \\dfrac{${vcm3}}{1000} = ${vL.toString().replace('.', '{,}')}\\,\\text{L}$`
+            `$V = \\dfrac{${vcm3}}{1000} = ${fr(vL)}\\,\\text{L}$`
           ]
         };
       }
     },
 
     probleme: {
-      context: 'Un flacon de solution saline a la forme d\'un pavé droit de dimensions $6\\,\\text{cm} \\times 4\\,\\text{cm} \\times 12\\,\\text{cm}$. La solution a une densité $\\rho = 1{,}05\\,\\text{g/mL}$.',
+      context: 'Un flacon a la forme d\'un pavé droit de dimensions $6\\,\\text{cm} \\times 4\\,\\text{cm} \\times 12\\,\\text{cm}$.',
       schema: null,
       tasks: [
-        'Calculer le volume du flacon en cm³, puis en mL et en L.',
-        'Calculer la masse totale de solution contenue dans le flacon.',
-        'Si la concentration en NaCl est $9\\,\\text{g/L}$, quelle est la masse de NaCl dans le flacon ?'
+        'Calculer le volume du flacon en cm³, puis le convertir en mL et en L.',
+        'Le flacon est rempli aux trois quarts. Quel volume de liquide (en mL) contient-il ?',
+        'Combien de flacons identiques, entièrement remplis, faut-il pour obtenir au moins $1$ L de liquide ?'
       ],
       solutions: [
         '$V = 6 \\times 4 \\times 12 = 288\\,\\text{cm}^3 = 288\\,\\text{mL} = 0{,}288\\,\\text{L}$.',
-        '$m = \\rho \\times V = 1{,}05 \\times 288 = 302{,}4\\,\\text{g}$.',
-        '$m_{\\text{NaCl}} = 9 \\times 0{,}288 = 2{,}592\\,\\text{g} \\approx 2{,}6\\,\\text{g}$.'
+        'Trois quarts de $288$ mL : $\\dfrac{3}{4} \\times 288 = 216\\,\\text{mL}$.',
+        'Avec $3$ flacons pleins : $3 \\times 288 = 864$ mL, ce qui ne suffit pas. Avec $4$ flacons : $4 \\times 288 = 1152$ mL $> 1$ L. Il faut donc $4$ flacons.'
       ],
-      finalAnswer: '$V = 288\\,\\text{mL}$, $m_{\\text{solution}} = 302{,}4\\,\\text{g}$, $m_{\\text{NaCl}} \\approx 2{,}6\\,\\text{g}$'
+      finalAnswer: '$V = 288\\,\\text{mL}$ par flacon plein, $216\\,\\text{mL}$ rempli aux trois quarts, et $4$ flacons suffisent pour dépasser $1$ L.'
     },
 
     evaluation: {

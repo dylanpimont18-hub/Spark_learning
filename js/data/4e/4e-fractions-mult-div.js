@@ -150,7 +150,7 @@
           hint: `Multiplier numérateurs ensemble et dénominateurs ensemble : $\\dfrac{${a} \\times ${c}}{${b} \\times ${d}}$.`,
           solution: [
             `$\\dfrac{${a}}{${b}} \\times \\dfrac{${c}}{${d}} = \\dfrac{${num}}{${den}} = \\dfrac{${num/g}}{${den/g}}$`,
-            `Valeur décimale : $${answer.toString().replace('.', '{,}')}$`
+            `Valeur décimale : $${fr(answer)}$`
           ]
         };
       }

@@ -14,13 +14,13 @@ window.MODULES.push({
 
     cours: {
       intro: 'Un <strong>nombre décimal</strong> s\'écrit avec une partie entière (à gauche de la virgule) et une partie décimale (à droite). Par exemple, $3{,}75$ = 3 unités + 7 dixièmes + 5 centièmes.<br/><br/>' +
-        '<strong>L\'erreur la plus fréquente</strong> : croire que $1{,}12 > 1{,}9$ parce que « $12 > 9$ ». C\'est faux ! On compare position par position en partant de la gauche. Les dixièmes ($1$ vs $9$) donnent déjà la réponse : $1{,}9 > 1{,}12$.<br/><br/>' +
+        '<strong>L\'erreur la plus fréquente</strong> : croire que $1{,}12 > 1{,}9$ parce que « $12 > 9$ ». Ce raisonnement ne marche pas avec les décimaux : il faut comparer position par position en partant de la gauche. Les dixièmes ($1$ vs $9$) donnent déjà la réponse : $1{,}9 > 1{,}12$.<br/><br/>' +
         'Ce concept de <strong>valeur positionnelle</strong> est fondamental : chaque chiffre a une valeur qui dépend de sa position (unités, dixièmes, centièmes…). Plus de chiffres ne veut pas dire plus grand.',
       definitions: [
         { term: 'Partie entière', def: 'Les chiffres à gauche de la virgule. Pour $47{,}35$, la partie entière est $47$.' },
         { term: 'Partie décimale', def: 'Les chiffres à droite de la virgule. Pour $47{,}35$, la partie décimale est $35$ (3 dixièmes et 5 centièmes).' },
         { term: 'Valeur positionnelle', def: 'La valeur d\'un chiffre dépend de sa position : dixièmes ($\\times \\frac{1}{10}$), centièmes ($\\times \\frac{1}{100}$), millièmes ($\\times \\frac{1}{1000}$).' },
-        { term: 'Encadrement', def: 'Placer un nombre entre deux entiers consécutifs : $\\lfloor x \\rfloor \\leq x < \\lfloor x \\rfloor + 1$.' }
+        { term: 'Encadrement', def: 'Placer un nombre entre les deux entiers consécutifs qui l\'entourent : $7 < 7{,}83 < 8$. On dit que $7$ et $8$ encadrent $7{,}83$ à l\'unité près.' }
       ],
       method: {
         title: 'Méthode en 4 étapes',
@@ -94,7 +94,7 @@ window.MODULES.push({
       formulas: [
         '$3{,}75 = 3 + \\dfrac{7}{10} + \\dfrac{5}{100} = 3 + 0{,}7 + 0{,}05$',
         'Comparer : $a{,}bc < a{,}bd$ si $c < d$ (à partie entière égale)',
-        'Encadrement entier : $\\lfloor x \\rfloor \\leq x < \\lfloor x \\rfloor + 1$'
+        'Encadrement entier : tout décimal est compris entre deux entiers consécutifs, par exemple $7 < 7{,}83 < 8$'
       ],
       recap: [
         'Un nombre décimal a une partie entière et une partie décimale séparées par une virgule.',
@@ -102,7 +102,7 @@ window.MODULES.push({
         'Plus de chiffres après la virgule ne signifie pas « plus grand » ($2{,}9 > 2{,}50$).',
         'Ajouter des zéros à droite ne change pas la valeur : $2{,}5 = 2{,}50 = 2{,}500$.'
       ],
-      piege: 'Piège classique : affirmer que $1{,}12 > 1{,}9$ parce que $12 > 9$. C\'est FAUX ! On compare les dixièmes d\'abord : $9 > 1$, donc $1{,}9 > 1{,}12$.'
+      piege: 'Piège classique : affirmer que $1{,}12 > 1{,}9$ parce que $12 > 9$. Ce raisonnement ne fonctionne pas pour les décimaux : il faut comparer les dixièmes d\'abord : $9 > 1$, donc $1{,}9 > 1{,}12$.'
     },
 
     quiz: [
@@ -127,7 +127,6 @@ window.MODULES.push({
         const nums = [a, b, c, d];
         nums.sort((x, y) => x - y);
         const minVal = nums[0];
-        const fr = n => n.toString().replace('.', '{,}');
         return {
           statement: `${context} $${fr(a)}$ ; $${fr(b)}$ ; $${fr(c)}$ ; $${fr(d)}$. Lequel est le plus petit ?`,
           answer: minVal,

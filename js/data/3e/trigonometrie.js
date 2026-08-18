@@ -69,24 +69,30 @@ window.MODULES.push(
             <text class="annotation-label" x="262" y="27">TOA</text>
             <text class="tick-label" x="262" y="43">tan θ = opp / adj</text>
 
-            <polygon points="100,230 300,230 100,90" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></polygon>
-            <line class="frame-line" x1="100" y1="230" x2="100" y2="90"></line>
-            <line class="frame-line" x1="100" y1="230" x2="300" y2="230"></line>
-            <line class="curve-main" x1="300" y1="230" x2="100" y2="90"></line>
+            <!-- Trace A L'ECHELLE de l'exemple du cours : 1 cm = 15 px, θ = 30°.
+                 hypotenuse 13 cm = 195 px, oppose 6,5 cm = 98 px, adjacent
+                 11,26 cm = 169 px. L'ancien trace valait 35° et etait, au pixel
+                 pres, LE MEME que celui du chapitre « Cosinus » qui, lui,
+                 annonce 60° : un gabarit generique presente comme l'exemple
+                 chiffre du chapitre (audit du 2026-08-16). -->
+            <polygon points="100,230 269,230 100,132" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></polygon>
+            <line class="frame-line" x1="100" y1="230" x2="100" y2="132"></line>
+            <line class="frame-line" x1="100" y1="230" x2="269" y2="230"></line>
+            <line class="curve-main" x1="269" y1="230" x2="100" y2="132"></line>
 
             <path class="axis" d="M100 216 L114 216 L114 230"></path>
 
-            <line class="guide-line" x1="274" y1="230" x2="279" y2="215"></line>
-            <text class="annotation-label" x="256" y="221">θ</text>
+            <path class="guide-line" d="M247 230 A22 22 0 0 1 250 219" fill="none"></path>
+            <text class="annotation-label" x="234" y="222">θ</text>
 
             <circle class="plot-point-alt" cx="100" cy="230" r="5"></circle>
-            <circle class="plot-point-alt" cx="100" cy="90" r="5"></circle>
-            <circle class="plot-point" cx="300" cy="230" r="5"></circle>
+            <circle class="plot-point-alt" cx="100" cy="132" r="5"></circle>
+            <circle class="plot-point" cx="269" cy="230" r="5"></circle>
 
-            <text class="annotation-label" x="172" y="246">adjacent</text>
-            <text class="annotation-label" x="30" y="164">opposé</text>
-            <text class="annotation-label" x="190" y="130">hypoténuse</text>
-            <line class="guide-line" x1="195" y1="133" x2="179" y2="145"></line>
+            <text class="annotation-label" x="152" y="248">adjacent</text>
+            <text class="annotation-label" x="34" y="186">opposé</text>
+            <text class="annotation-label" x="212" y="166">hypoténuse</text>
+            <line class="guide-line" x1="216" y1="170" x2="190" y2="179"></line>
 
             <rect x="16" y="258" width="348" height="50" rx="10" fill="color-mix(in srgb, var(--diagram-accent) 6%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 20%, var(--border))"></rect>
             <text class="tick-label" x="26" y="272">Exemple du cours : hyp = 13 cm, θ = 30°</text>
@@ -146,8 +152,8 @@ window.MODULES.push(
         const angle = angles[idx];
         const hyp = rand(8, 20);
         const adj = parseFloat((hyp * cosVals[idx]).toFixed(2));
-        const cosStr = cosVals[idx].toFixed(3).replace('.', '{,}');
-        const adjStr = String(adj).replace('.', '{,}');
+        const cosStr = fr(cosVals[idx], 3);
+        const adjStr = fr(adj);
 
         const ctx = pick([
           { build: () => `Une <strong>échelle</strong> de $${hyp}$ m est appuyée contre un mur et forme un angle $\\theta = ${angle}°$ avec le sol.<br/><br/>Calcule la <strong>distance</strong> entre le pied de l'échelle et le mur (arrondie au centième).` },

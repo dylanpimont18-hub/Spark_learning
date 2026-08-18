@@ -164,7 +164,10 @@ window.MODULES.push(
         const x = rand(2, 8), y = rand(1, 7);
         const a = rand(1, 3), b = rand(1, 3);
         const c = a * x + b * y;
-        const d = rand(1, 3), e = rand(1, 3);
+        let d, e;
+        do {
+          d = rand(1, 3); e = rand(1, 3);
+        } while (a * e === b * d);
         const f = d * x + e * y;
 
         const system = `$\\begin{cases} ${a}x + ${b}y = ${c} \\\\ ${d}x + ${e}y = ${f} \\end{cases}$`;

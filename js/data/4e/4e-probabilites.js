@@ -63,7 +63,7 @@
             <circle class="axis" cx="170" cy="195" r="90" fill="color-mix(in srgb, var(--diagram-accent) 10%, transparent)"></circle>
             <circle class="axis" cx="290" cy="195" r="90" fill="color-mix(in srgb, var(--diagram-accent) 10%, transparent)"></circle>
             <circle cx="170" cy="195" r="90" clip-path="url(#probaVennClip)" fill="color-mix(in srgb, var(--diagram-accent) 34%, transparent)" stroke="none"></circle>
-            <text class="annotation-label" x="170" y="96" text-anchor="middle">A : Coeur</text>
+            <text class="annotation-label" x="170" y="96" text-anchor="middle">A : Cœur</text>
             <text class="tick-label" x="170" y="112" text-anchor="middle">8 cartes</text>
             <text class="annotation-label" x="290" y="96" text-anchor="middle">B : Roi</text>
             <text class="tick-label" x="290" y="112" text-anchor="middle">4 cartes</text>
@@ -71,9 +71,9 @@
             <text class="annotation-label" x="230" y="200" text-anchor="middle">1</text>
             <text class="annotation-label" x="325" y="200" text-anchor="middle">3</text>
             <text class="tick-label" x="25" y="272">21 cartes</text>
-            <text class="tick-label" x="25" y="286">ni coeur ni roi</text>
+            <text class="tick-label" x="25" y="286">ni cœur ni roi</text>
             <rect x="105" y="8" width="230" height="30" rx="10" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
-            <text class="tick-label" x="117" y="28">Zone ombree = A inter B = roi de coeur</text>
+            <text class="tick-label" x="117" y="28">Zone ombrée = A ∩ B = roi de cœur</text>
             <line class="guide-line" x1="230" y1="38" x2="230" y2="160"></line>
           </svg>
         `,
@@ -126,10 +126,10 @@
         const pb = pick([0.2, 0.3, 0.4]);
         const pab = parseFloat((Math.min(pa, pb) * 0.5).toFixed(1));
         const punion = parseFloat((pa + pb - pab).toFixed(1));
-        const paStr = pa.toString().replace('.', '{,}');
-        const pbStr = pb.toString().replace('.', '{,}');
-        const pabStr = pab.toString().replace('.', '{,}');
-        const punionStr = punion.toString().replace('.', '{,}');
+        const paStr = fr(pa);
+        const pbStr = fr(pb);
+        const pabStr = fr(pab);
+        const punionStr = fr(punion);
         return {
           statement: `$P(A) = ${paStr}$, $P(B) = ${pbStr}$, $P(A \\cap B) = ${pabStr}$. Calculer $P(A \\cup B)$.`,
           answer: punion,

@@ -162,7 +162,7 @@
         const mantisse = 3;
         const decimals = resultExp < 0 ? -resultExp : 0;
         const fullAnswer = parseFloat((mantisse * Math.pow(10, resultExp)).toFixed(decimals));
-        const fullAnswerDisplay = fullAnswer.toFixed(decimals).replace('.', '{,}');
+        const fullAnswerDisplay = fr(fullAnswer, decimals);
         return {
           statement: `${ctx.emoji} ${ctx.intro} de l'ordre de $3 \\times 10^{${n1}}$. On multiplie cette valeur par $10^{${n2}}$. Calcule $3 \\times 10^{${n1}} \\times 10^{${n2}}$. Donne le résultat sous forme décimale standard.`,
           answer: fullAnswer,
@@ -222,7 +222,7 @@
           tolerance: 1,
           unit: 'nm',
           points: 2,
-          correction: '$1\\,\\text{nm} = 10^{-9}\\,\\text{m}$. Donc $5{,}3 \\times 10^{-6}\\,\\text{m} = \\dfrac{5{,}3 \\times 10^{-6}}{10^{-9}}\\,\\text{nm} = 5{,}3 \\times 10^{3}\\,\\text{nm} = 5300\\,\\text{nm}$.'
+          correction: '$1\\,\\text{nm} = 10^{-9}\\,\\text{m}$. Donc $5{,}3 \\times 10^{-6}\\,\\text{m} = \\dfrac{5{,}3 \\times 10^{-6}}{10^{-9}}\\,\\text{nm} = 5{,}3 \\times 10^{3}\\,\\text{nm} = 5\\,300\\,\\text{nm}$.'
         },
         {
           statement: 'Calculer $(4 \\times 10^{3})^2$. Donner le résultat en notation scientifique.',

@@ -163,13 +163,14 @@ window.MODULES.push(
           { build: () => `Un décorateur conçoit un <strong>présentoir de vitrine</strong> pyramidal de côté $${base}$ cm et de hauteur $${h}$ cm. Une étagère est fixée à $${hprime}$ cm du sommet, parallèlement à la base.<br/><br/>Quel est le <strong>côté</strong> de cette étagère (en cm) ?` }
         ]);
 
+        const cprimeStr = fr(cprime);
         return {
           statement: ctx.build(),
           answer: cprime,
           tolerance: 0.1,
           unit: 'cm',
           hint: `Rapport de similitude : $\\dfrac{${hprime}}{${h}}$.<br/><br/>Côté section $= ${base} \\times \\dfrac{${hprime}}{${h}}$.`,
-          solution: [`$c' = ${base} \\times \\dfrac{${hprime}}{${h}} = \\dfrac{${base*hprime}}{${h}} = ${String(cprime).replace('.', '{,}')}$ cm.`]
+          solution: [`$c' = ${base} \\times \\dfrac{${hprime}}{${h}} = \\dfrac{${base*hprime}}{${h}} = ${cprimeStr}$ cm.`]
         };
       }
     },

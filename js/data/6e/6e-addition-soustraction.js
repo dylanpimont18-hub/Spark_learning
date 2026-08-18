@@ -122,9 +122,9 @@ window.MODULES.push({
         const a = randFloat(1, 20, 1);
         const b = randFloat(1, 10, 2);
         const sum = parseFloat((a + b).toFixed(2));
-        const aStr = a.toString().replace('.', '{,}');
-        const bStr = b.toString().replace('.', '{,}');
-        const sumStr = sum.toString().replace('.', '{,}');
+        const aStr = fr(a);
+        const bStr = fr(b);
+        const sumStr = fr(sum);
         const statement = scenario.twoPart
           ? `${scenario.emoji} ${scenario.intro} $${aStr}$ ${scenario.suffix} $${bStr}$ ${scenario.unit}. Quel est le total ?`
           : `${scenario.emoji} ${scenario.intro} $${aStr} + ${bStr}$.`;
@@ -133,9 +133,9 @@ window.MODULES.push({
           answer: sum,
           tolerance: 0.01,
           unit: scenario.unit,
-          hint: `Aligne les virgules : écris $${aStr}$ comme $${a.toFixed(2).replace('.', '{,}')}$, puis additionne colonne par colonne.`,
+          hint: `Aligne les virgules : écris $${aStr}$ comme $${fr(a, 2)}$, puis additionne colonne par colonne.`,
           solution: [
-            `Aligner les virgules : $${a.toFixed(2).replace('.', '{,}')} + ${b.toFixed(2).replace('.', '{,}')}$`,
+            `Aligner les virgules : $${fr(a, 2)} + ${fr(b, 2)}$`,
             `Additionner chiffre par chiffre de droite à gauche.`,
             `Résultat : $${sumStr}$${scenario.unit ? ' ' + scenario.unit : ''}`
           ]
