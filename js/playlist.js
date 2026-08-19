@@ -9,20 +9,6 @@ const TAB_LABELS = {
 };
 
 /* ══════════════════════════════════════
-   PLAYLIST STATE
-══════════════════════════════════════ */
-function initPlaylistState() {
-  if (!state.playlistState) {
-    state.playlistState = {
-      active: false,
-      title: '',
-      steps: [],
-      currentStep: 0
-    };
-  }
-}
-
-/* ══════════════════════════════════════
    ENCODER / DECODER
 ══════════════════════════════════════ */
 function encodePlaylist(title, steps) {
