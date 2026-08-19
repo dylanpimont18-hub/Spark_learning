@@ -231,6 +231,7 @@ Utilitaires partagés entre tous les moteurs.
 - `_setEngineTimeout(fn, delay)` — setTimeout tracé pour nettoyage
 - `clearEngineTimers()` — vide tous les timers actifs
 - `_checkModuleComplete(moduleId)` — vérifie et notifie la complétion d'un module ; déclenche `celebrate('level-complete')` (`js/components/celebration.js`) en plus du toast quand tous les modules d'un niveau sont complétés
+- `_readNumericInput(inputEl)` — parse la saisie, applique le style d'erreur (bordure + placeholder) et retourne `null` si invalide ; factorisé depuis `exerciceEngine.js`/`evaluationEngine.js` (audit 2026-08-19, code dupliqué identique dans les deux)
 
 ## js/engines/quizEngine.js
 Moteur de quiz.
@@ -240,7 +241,7 @@ Moteur de quiz.
 
 ## js/engines/exerciceEngine.js
 Moteur d'exercice dynamique.
-- `submitExerciceAnswer(moduleId)` — valide la réponse saisie ; mesure la durée depuis `state.exerciceState.startedAt` et l'envoie à `Storage.trackAttempt(..., durationMs)`, alimente le poids "temps anormal" du score de lacune
+- `submitExerciceAnswer(moduleId)` — valide la réponse saisie (via `_readNumericInput`, `js/engines/shared.js`) ; mesure la durée depuis `state.exerciceState.startedAt` et l'envoie à `Storage.trackAttempt(..., durationMs)`, alimente le poids "temps anormal" du score de lacune
 - `getErrorFeedback(mod, attempts)` — génère un message d'erreur adapté
 - `showHint(moduleId)` / `showSolution(moduleId)` — affichent indice/solution et appellent `Storage.trackHintUsed`/`Storage.trackSolutionRevealed` (voir `js/storage.js`)
 - `generateNewExercice(moduleId)` — génère un nouvel exercice aléatoire, réinitialise `state.exerciceState` (dont `startedAt`)
@@ -251,15 +252,17 @@ Moteur de problème multi-étapes.
 
 ## js/engines/evaluationEngine.js
 Moteur d'évaluation (questions numériques).
-- `submitEvaluationAnswer(moduleId)` — valide une réponse d'évaluation
+- `submitEvaluationAnswer(moduleId)` — valide une réponse d'évaluation (via `_readNumericInput`, `js/engines/shared.js`)
 
 ## js/engines/companionEngine.js
 Moteur Spark Companion : remédiation, rattrapage, badges, répétition espacée (granularité module).
 - `detectLacunes(moduleId)` — calcule un score de lacune pondéré par section (`quiz`/`exercice`/`probleme`) à partir de `Storage.getTracking()` : taux d'erreur 45%, score faible 20%, indice utilisé 15%, solution révélée 10%, temps anormal 10% (constantes `LACUNE_SEVERITY_THRESHOLD`, `LACUNE_SLOW_ATTEMPT_MS`) ; retourne `{ section, label, severity, reasons }[]`, une section jamais tentée obtenant une sévérité maximale
 - `getRemediationRecommendations(subject, level)` — modules du sujet/niveau ayant au moins une lacune, triés par sévérité décroissante ; expose `severity`, `reasons`, `weakestSection` par module, consommé par `renderCompanionHome()` (`js/components/companion.js`)
-- `generateRemedialExercise(moduleId, topic)` / `validateRemedialAnswer(...)` — génère et valide un exercice de remédiation simplifié pour une session Companion
-- `addBadge(badgeId, label)` — ajoute un badge (dédupliqué par id) et déclenche `celebrate('badge')` uniquement à l'ajout effectif d'un nouveau badge
-- `addCompanionPoints(amount)` / `completeObjective(objectiveId)` / `initRemediationContext(moduleId)` / `trackRemediationAttempt(...)` — points, objectifs CCF, contexte de session Companion
+- `generateRemedialExercise(moduleId, topic)` — génère un exercice de remédiation (quiz/exercice/problème) pour une session Companion
+- `validateRemedialAnswer(moduleId, exerciseType, answer, expectedAnswer)` — valide une réponse (égalité stricte après `parseFloat`, pas de tolérance) ; appelée par `submitCompanionQuiz`/`submitCompanionExercise` (`js/components/companion.js`) qui retrouvent l'exercice via `state.companionState.remediation.currentExercises` (corrigé le 2026-08-19 : ces deux fonctions ignoraient la vraie réponse et validaient sur un raccourci codé en dur — cf. commentaires "Simplifié" retirés)
+- `addBadge(badgeId, label)` — ajoute un badge (dédupliqué par id) et déclenche `celebrate('badge')` uniquement à l'ajout effectif d'un nouveau badge. **Jamais appelée nulle part** (audit 2026-08-19) : `cs.badges` reste donc toujours vide dans `renderCompanionHome()`, aucun déclencheur n'a été câblé
+- `addCompanionPoints(amount)` / `initRemediationContext(moduleId)` / `trackRemediationAttempt(...)` — points, contexte de session Companion
+- `completeObjective(objectiveId)` — déplace un objectif CCF de `inProgress` vers `completed`. **Jamais appelée nulle part** (audit 2026-08-19) : les objectifs CCF affichés par `renderCompanionHome()` ne peuvent donc jamais passer à l'état complété via l'UI actuelle
 - `scheduleReview(moduleId, isCorrect)` — réplanifie la révision espacée d'un **module entier** sur l'échelle `SRS_LADDER_DAYS = [1,3,7,16,35]` (retour à l'échelon 0 en cas d'échec, bonus de 15 points Companion si une révision en retard est réussie) ; appelée depuis `quizEngine.js`/`exerciceEngine.js`/`evaluationEngine.js` à chaque tentative validée
 - `getDueReviews()` — modules dus/en retard (triés, hors modules verrouillés/introuvables), consommé par `renderSrsReviewWidget()` (`js/views/home.js`)
 
@@ -319,7 +322,8 @@ Rendu HTML de l'évaluation.
 ## js/components/companion.js
 Interface Spark Companion.
 - `renderCompanionHome()` — accueil companion (badges, objectifs CCF) ; section "💡 À retravailler en priorité" alimentée par `getRemediationRecommendations()` (`js/engines/companionEngine.js`) : top 3 modules par sévérité, raison concrète affichée (`rec.reasons`), CTA contextuel selon `rec.weakestSection` (Revoir le cours / Refaire le quiz / Lancer un exercice ciblé / Revoir le problème)
-- `renderCompanionSession(moduleId)` — session de remédiation active ; la liste des lacunes (`ctx.lacunes`) est un array d'objets `{ section, label, severity, reasons }` (pas des tuples `[topic, count]`)
+- `renderCompanionSession(moduleId)` — session de remédiation active ; la liste des lacunes (`ctx.lacunes`) est un array d'objets `{ section, label, severity, reasons }` (pas des tuples `[topic, count]`) ; persiste les 3 exercices générés dans `state.companionState.remediation.currentExercises` pour que `submitCompanionQuiz`/`submitCompanionExercise` (ci-dessous) puissent retrouver la vraie réponse attendue
+- `submitCompanionQuiz(moduleId, exerciseId, optionIndex)` / `submitCompanionExercise(moduleId, exerciseId)` — retrouvent l'exercice dans `currentExercises` et appellent `validateRemedialAnswer()` (`js/engines/companionEngine.js`)
 
 ## js/components/contactPanel.js
 Panneau de contact flottant (extrait de `js/app.js`), envoie vers Formspree.
@@ -532,10 +536,10 @@ Défi Chrono : exercices en 3 minutes.
 - `submitChronoAnswer(moduleId)` — valide la réponse en mode chrono
 
 ## js/playlist.js
-Parcours personnalisés (enseignants) et mode guidé.
-- `initPlaylistState()` — initialise l'état playlist
-- `renderPlaylist()` — rendu du gestionnaire de playlist
-- `addToPlaylist(moduleId, type)` — ajoute un élément au parcours
+Parcours personnalisés (enseignants) et mode guidé (entrée mise à jour le 2026-08-19, l'ancienne décrivait des fonctions qui n'existent plus).
+- `encodePlaylist`/`decodePlaylist` — sérialisation base64 du parcours (titre + étapes) dans l'URL `/playlist/{data}`
+- `loadPlaylist(encoded)` / `renderPlaylistView()` / `playlistNext()` / `playlistPrev()` / `exitPlaylist()` — côté élève, consommation d'un lien de parcours ; route câblée dans `js/app.js` (`case 'playlist'`)
+- `initPlaylistBuilder()` / `addPlaylistStep(...)` / `removePlaylistStep(...)` / `movePlaylistStep(...)` / `generatePlaylistLink()` / `copyPlaylistLink()` / `togglePlaylistPicker()` / `renderTeacherBuilder()` — côté enseignant, création complète et fonctionnelle d'un parcours. **`renderTeacherBuilder()` n'est appelée par aucune route ni bouton nulle part dans l'app** (audit 2026-08-19) : la fonctionnalité de création est donc inaccessible depuis l'UI actuelle, alors que la consommation élève fonctionne
 
 ## js/data/bts-prep/
 14 modules de remise à niveau BTS (`tag: 'prep'`, `level: 3`). Chaque module : `cours` (+ `diagram` et/ou `diagrams[]`), `quiz`, `exercice.generate()`, `probleme` (avec `figure`), `evaluation`.
