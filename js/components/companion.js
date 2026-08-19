@@ -285,6 +285,9 @@ function renderCompanionSession(moduleId) {
     const ex = generateRemedialExercise(moduleId, 'general');
     if (ex) exercises.push({ id: `ex-${i}`, ...ex });
   }
+  // Conservés pour la validation réelle au clic (submitCompanionQuiz/submitCompanionExercise
+  // ne reçoivent que l'id de l'exercice, pas sa réponse attendue)
+  state.companionState.remediation.currentExercises = exercises;
 
   const exercisesHtml = exercises.length > 0
     ? exercises
@@ -520,15 +523,15 @@ function submitCompanionQuiz(moduleId, exerciseId, optionIndex) {
   const mod = getModule(moduleId);
   if (!mod) return;
 
-  // Générer à nouveau l'exercice pour validation (simplifié)
-  const input = document.querySelector(`#companion-exercise-${exerciseId}`);
-  if (!input) return;
+  const exercises = (state.companionState.remediation && state.companionState.remediation.currentExercises) || [];
+  const ex = exercises.find(e => e.id === exerciseId);
+  if (!ex) return;
 
-  trackRemediationAttempt(exerciseId, optionIndex === 0); // Simplifié, vérifier dans la vraie logique
-  addCompanionPoints(5);
+  const result = validateRemedialAnswer(moduleId, 'quiz', optionIndex, ex.answer);
+  trackRemediationAttempt(exerciseId, result.isCorrect);
+  if (result.points) addCompanionPoints(result.points);
 
-  const feedback = `✓ Réponse enregistrée ! Vous gagnez 5 points.`;
-  showToast(feedback, 'success');
+  showToast(result.feedback + (result.points ? ` +${result.points} points` : ''), result.isCorrect ? 'success' : 'warning');
 }
 
 function submitCompanionExercise(moduleId, exerciseId) {
@@ -538,10 +541,15 @@ function submitCompanionExercise(moduleId, exerciseId) {
     return;
   }
 
-  const answer = input.value.trim();
-  trackRemediationAttempt(exerciseId, true); // Simplifié
-  addCompanionPoints(10);
+  const exercises = (state.companionState.remediation && state.companionState.remediation.currentExercises) || [];
+  const ex = exercises.find(e => e.id === exerciseId);
+  if (!ex) return;
 
-  showToast('✓ Excellent ! +10 points', 'success');
+  const answer = input.value.trim();
+  const result = validateRemedialAnswer(moduleId, 'exercice', answer, ex.answer);
+  trackRemediationAttempt(exerciseId, result.isCorrect);
+  if (result.points) addCompanionPoints(result.points);
+
+  showToast(result.feedback + (result.points ? ` +${result.points} points` : ''), result.isCorrect ? 'success' : 'warning');
   input.disabled = true;
 }
