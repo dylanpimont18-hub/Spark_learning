@@ -390,6 +390,7 @@ function renderHome() {
 				</div>
 			</div>
 		</section>
+		${renderAdSlot('accueil — bas de page', 'home')}
 	`;
 }
 
