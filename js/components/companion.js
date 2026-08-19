@@ -517,6 +517,21 @@ function renderCompanionSession(moduleId) {
 }
 
 /**
+ * Badge "Rattrapage Complet" : décerné la première fois qu'une session de
+ * remédiation est menée jusqu'au bout (tous les exercices générés tentés
+ * au moins une fois), quel que soit le score.
+ */
+function _checkRemediationSessionComplete() {
+  const rem = state.companionState.remediation;
+  const exercises = (rem && rem.currentExercises) || [];
+  if (exercises.length === 0) return;
+  const allAttempted = exercises.every(ex => rem.attempts[ex.id] && rem.attempts[ex.id].attempts > 0);
+  if (allAttempted && typeof addBadge === 'function') {
+    addBadge('rattrapage-complet', 'Rattrapage Complet');
+  }
+}
+
+/**
  * Handlers pour les exercices de remédiation
  */
 function submitCompanionQuiz(moduleId, exerciseId, optionIndex) {
@@ -532,6 +547,7 @@ function submitCompanionQuiz(moduleId, exerciseId, optionIndex) {
   if (result.points) addCompanionPoints(result.points);
 
   showToast(result.feedback + (result.points ? ` +${result.points} points` : ''), result.isCorrect ? 'success' : 'warning');
+  _checkRemediationSessionComplete();
 }
 
 function submitCompanionExercise(moduleId, exerciseId) {
@@ -552,4 +568,5 @@ function submitCompanionExercise(moduleId, exerciseId) {
 
   showToast(result.feedback + (result.points ? ` +${result.points} points` : ''), result.isCorrect ? 'success' : 'warning');
   input.disabled = true;
+  _checkRemediationSessionComplete();
 }

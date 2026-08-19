@@ -43,6 +43,10 @@ function _checkModuleComplete(moduleId) {
       if (allDone) {
         _setEngineTimeout(() => showToast(`Niveau ${LEVEL_NAMES[mod.level]} complété ! 🎉`, 'achievement'), 1500);
         _setEngineTimeout(() => { if (typeof celebrate === 'function') celebrate('level-complete'); }, 1500);
+        if (typeof addBadge === 'function') {
+          const subjectKey = mod.subject || 'maths';
+          addBadge(`niveau-complete-${subjectKey}-${mod.level}`, `Niveau ${LEVEL_NAMES[mod.level]} complété`);
+        }
       }
     }
   }
