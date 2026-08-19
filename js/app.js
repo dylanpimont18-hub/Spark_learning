@@ -1000,8 +1000,16 @@ function _setupStudentApp() {
   }
   navigate(route.view, route, { skipUrlSync: true });
 
-  // Preload all data
-  if (typeof ensureAllData === 'function') {
+  // Preload all data — sur home/subjects/levels le catalogue complet est nécessaire au
+  // rendu lui-même (stats globales, cartes par matière) et le pré-rendu SEO attend
+  // __sparkRouteReady sur ces vues (voir DATA_DEPENDENT_VIEWS) : on le charge immédiatement.
+  // Sur les autres routes (lien direct vers un module, tutorat, espace enseignant…), la route
+  // courante a déjà tout ce dont elle a besoin via ensureModuleData()/ensureLevelData()
+  // ci-dessus ; le catalogue complet n'y sert qu'à des features non bloquantes (recherche
+  // globale, recommandations) et concurrençait inutilement le téléchargement des données de
+  // la route courante (mesuré : 248 fichiers / ~4,85 Mio téléchargés même sur un lien direct
+  // vers un seul module). On le diffère à l'idle du navigateur dans ce cas.
+  const _preloadAllData = () => {
     ensureAllData().then(() => {
       window.__sparkCatalogReady = true;
       // Re-render les vues listant les modules si elles ont fini de charger entre-temps
@@ -1017,6 +1025,15 @@ function _setupStudentApp() {
       // ces vues — un pré-rendu de la home sans catalogue doit échouer bruyamment, pas
       // être publié tel quel.
     });
+  };
+  if (typeof ensureAllData === 'function') {
+    if (DATA_DEPENDENT_VIEWS.includes(route.view)) {
+      _preloadAllData();
+    } else if (typeof requestIdleCallback === 'function') {
+      requestIdleCallback(_preloadAllData, { timeout: 3000 });
+    } else {
+      setTimeout(_preloadAllData, 200);
+    }
   } else {
     // Pas de loader (contexte de test/embarqué) : rien n'est asynchrone, la route est prête.
     window.__sparkCatalogReady = true;
