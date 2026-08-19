@@ -292,7 +292,7 @@ function renderTeacherBuilder() {
   return `
     <div class="container playlist-builder">
       <div class="page-header">
-        <button class="btn btn-secondary btn-sm" onclick="navigate('home')" style="margin-bottom:var(--space-sm);">\u2190 Accueil</button>
+        <button class="btn btn-secondary btn-sm" onclick="navigate('teacher')" style="margin-bottom:var(--space-sm);">\u2190 Espace enseignant</button>
         <h1 class="page-title">Cr\u00e9er une Playlist</h1>
         <p class="page-subtitle">S\u00e9lectionne des modules et onglets pour cr\u00e9er un parcours guid\u00e9 pour tes \u00e9l\u00e8ves.</p>
       </div>

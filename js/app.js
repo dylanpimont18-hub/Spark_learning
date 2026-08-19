@@ -77,6 +77,7 @@ function buildPath(view, data) {
     case 'teacher':    return '/teacher';
     case 'homework':   return '/homework';
     case 'playlist':   return '/playlist/' + (data.playlistData || '');
+    case 'playlistBuilder': return '/creer-parcours';
     case 'admin':      return '/admin';
     case 'confidentialite': return '/confidentialite';
     case 'contact':    return '/contact';
@@ -101,6 +102,7 @@ function _parseRouteParts(parts) {
     case 'flashcards':  return { view: 'flashcards', moduleId: parts[1] };
     case 'chrono':      return { view: 'chrono', moduleId: parts[1] };
     case 'teacher':     return { view: 'teacher' };
+    case 'creer-parcours': return { view: 'playlistBuilder' };
     case 'playlist': {
       // slice(1).join('/') reconstruit fidèlement les données base64 même si elles contiennent '/'
       const encoded = parts.slice(1).join('/');
@@ -199,7 +201,7 @@ function navigate(view, data = {}, options = {}) {
   }
 
   // Vues réservées aux comptes (classe/prof) : inaccessibles en mode invité, même par hash direct
-  if ((view === 'teacher' || view === 'homework' || view === 'admin' || view === 'tutoring' || view === 'tutoringStudent') &&
+  if ((view === 'teacher' || view === 'homework' || view === 'admin' || view === 'tutoring' || view === 'tutoringStudent' || view === 'playlistBuilder') &&
       typeof AuthGuard !== 'undefined' && !AuthGuard.isAuthenticated()) {
     view = 'home';
   }
@@ -328,7 +330,7 @@ const SITE_BASE_URL = 'https://sparklearning.fr';
 const SITE_DEFAULT_DESCRIPTION = 'Plateforme de rémédiation scientifique : Mathématiques, Physique-Chimie, Sciences de l’Ingénieur — du Collège au BTS.';
 const SITE_DEFAULT_OG_IMAGE = SITE_BASE_URL + '/images/Logo_noir.jpeg';
 // Vues privées/éphémères sans intérêt pour l'indexation (comptes ou liens à usage unique)
-const NOINDEX_VIEWS = ['teacher', 'homework', 'admin', 'tutoring', 'tutoringStudent', 'positioning', 'playlist'];
+const NOINDEX_VIEWS = ['teacher', 'homework', 'admin', 'tutoring', 'tutoringStudent', 'positioning', 'playlist', 'playlistBuilder'];
 
 function _setMetaTag(attr, key, content) {
   let el = document.head.querySelector(`meta[${attr}="${key}"]`);
@@ -434,6 +436,7 @@ function updatePageMeta() {
     case 'admin':    title = `Administration — ${base}`; break;
     case 'teacher':  title = `Espace Enseignant — ${base}`; break;
     case 'playlist': title = `Playlist — ${base}`; break;
+    case 'playlistBuilder': title = `Créer un parcours — ${base}`; break;
     case 'tutoring':        title = `Tutorat — ${base}`; break;
     case 'tutoringStudent': {
       const s = TutoringStudent._student;
@@ -508,6 +511,7 @@ function render() {
     case 'positioning':      PositioningTest.render(state.positioningToken); return;
     case 'teacher':    TeacherDashboard.render(); return;
     case 'playlist':   app.innerHTML = (typeof renderPlaylistView === 'function') ? renderPlaylistView() : ''; break;
+    case 'playlistBuilder': app.innerHTML = (typeof renderTeacherBuilder === 'function') ? renderTeacherBuilder() : ''; break;
     case 'homework':   app.innerHTML = (typeof renderHomeworkPanel === 'function') ? renderHomeworkPanel() : ''; break;
     case 'confidentialite': app.innerHTML = renderConfidentialite(); break;
     case 'contact':    app.innerHTML = renderContact(); break;

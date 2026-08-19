@@ -51,6 +51,7 @@ var TeacherDashboard = {
           backBtn +
           '<h1 class="td-title">Tableau de bord</h1>' +
           '<button class="td-create-btn" onclick="TeacherDashboard._createClass()">+ Créer une classe</button>' +
+          '<button class="td-create-btn" onclick="navigate(\'playlistBuilder\')">+ Créer un parcours</button>' +
         '</div>' +
         '<div class="td-classes">' + classesHtml + '</div>' +
       '</div>';
