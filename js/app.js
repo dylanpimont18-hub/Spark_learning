@@ -210,6 +210,17 @@ function navigate(view, data = {}, options = {}) {
     view = 'home';
   }
 
+  // Admin/enseignant réservés au rôle correspondant (même défense en profondeur que le
+  // tutorat ci-dessus) : sans ce garde, un élève accédant directement à /admin ou /teacher
+  // recevait la coquille complète du panneau (onglets, boutons) avec juste les données qui
+  // échouaient ("Missing or insufficient permissions"), au lieu d'être renvoyé vers l'accueil.
+  if (view === 'admin' && typeof AuthGuard !== 'undefined' && !AuthGuard.isAdmin()) {
+    view = 'home';
+  }
+  if (view === 'teacher' && typeof AuthGuard !== 'undefined' && !AuthGuard.isTeacher()) {
+    view = 'home';
+  }
+
   state.view = view;
   if (data.subject !== undefined) state.subject = data.subject;
   if (data.level !== undefined) state.level = data.level;
@@ -891,7 +902,7 @@ function _setupCommonListeners() {
   // Visibilité nav selon le statut invité/connecté (recalculée à chaque appel)
   var isGuest = !AuthGuard.isAuthenticated();
   var teacherNav = document.getElementById('nav-teacher');
-  if (teacherNav) teacherNav.style.display = isGuest ? 'none' : '';
+  if (teacherNav) teacherNav.style.display = (!isGuest && typeof AuthGuard !== 'undefined' && AuthGuard.isTeacher()) ? '' : 'none';
   var homeworkNav = document.getElementById('nav-homework');
   if (homeworkNav) homeworkNav.style.display = isGuest ? 'none' : '';
   var signOutBtn = document.getElementById('nav-signout');
