@@ -289,12 +289,12 @@ Chargement différé de gtag.js (GA4) et suivi des pages vues (SPA pushState, pa
 Point unique de contrôle des emplacements publicitaires AdSense.
 - `ADS_ENABLED` — tant qu'à `false`, tous les emplacements restent en placeholder visuel (aucun ad unit réel créé côté AdSense)
 - `ADSENSE_CLIENT` — identifiant éditeur (`ca-pub-...`)
-- `AD_SLOTS` — map `{ home, moduleTab } → data-ad-slot`, à renseigner quand les ad units seront créés dans le dashboard AdSense (emplacements `subjects`/`modules` retirés le 2026-07-30, refus AdSense "pages sans contenu d'éditeur")
+- `AD_SLOTS` — map `{ home, moduleTab } → data-ad-slot`, à renseigner quand les ad units seront créés dans le dashboard AdSense (emplacements `subjects`/`modules` retirés le 2026-07-30, refus AdSense "pages sans contenu d'éditeur"). `home` n'avait aucun point d'appel réel malgré la config (bug trouvé et corrigé le 2026-08-19 : audit adsense-readiness, `renderHome()` n'appelait jamais `renderAdSlot(..., 'home')`)
 
 ## js/components/adSlot.js
 Emplacement publicitaire : placeholder visuel tant qu'`ADS_ENABLED` est à `false`, sinon vrai bloc `<ins class="adsbygoogle">`.
-- `renderAdSlot(placement, slotKey)` — rend le placeholder ou l'ad unit réel selon `js/adsConfig.js` ; un seul emplacement `moduleTab` en bas de contenu des onglets de module, plus l'emplacement accueil — jamais sur une page de navigation pure, jamais dans un onglet d'apprentissage en cours d'interaction
-- `initAdSlots()` — pousse les nouveaux `<ins class="adsbygoogle">` injectés dans le DOM vers `adsbygoogle.push({})` ; appelée depuis `js/app.js` après chaque rendu de vue ; sans effet tant qu'`ADS_ENABLED` est à `false`
+- `renderAdSlot(placement, slotKey)` — rend le placeholder ou l'ad unit réel selon `js/adsConfig.js` ; emplacement `moduleTab` couvre les 6 onglets d'un module (cours/quiz/exercice/probleme/evaluation/companion, décision actée le 2026-07-24 suite à 2 refus AdSense — voir `docs/superpowers/specs/2026-07-24-adsense-conformite-contenu-design.md`, ne pas restreindre à `cours` seul sans revalider avec l'utilisateur), plus l'emplacement `home` en bas de l'accueil (câblé le 2026-08-19, manquait jusque-là)
+- `initAdSlots()` — pousse les nouveaux `<ins class="adsbygoogle">` injectés dans le DOM vers `adsbygoogle.push({})` ; appelée depuis `js/app.js` après chaque rendu de vue ; sans effet tant qu'`ADS_ENABLED` est à `false`. Pose aussi `window.adsbygoogle.requestNonPersonalizedAds = 1` avant tout push (ajouté le 2026-08-19 : la politique de confidentialité promet des pubs non personnalisées, rien ne l'appliquait techniquement avant)
 
 ## js/components/renderCours.js
 Rendu HTML de l'onglet Cours d'un module (écran, pas impression).
