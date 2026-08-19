@@ -31,7 +31,7 @@ function renderConfidentialite() {
 				<p>La connexion par téléphone utilise l'envoi d'un code par SMS via Firebase (Google), protégé par <strong>Google reCAPTCHA</strong>, qui peut déposer ses propres cookies techniques.</p>
 
 				<h2>3. Publicité</h2>
-				<p>Pour financer l'hébergement et le développement de Spark Learning tout en gardant le contenu pédagogique 100&nbsp;% gratuit, le site peut afficher des publicités fournies par <strong>Google AdSense</strong>, uniquement sur les pages de navigation (accueil, liste des matières, liste des modules) — <strong>jamais</strong> pendant une session de cours, quiz, exercice ou évaluation.</p>
+				<p>Pour financer l'hébergement et le développement de Spark Learning tout en gardant le contenu pédagogique 100&nbsp;% gratuit, le site peut afficher des publicités fournies par <strong>Google AdSense</strong>, sur la page d'accueil et en bas de chaque onglet de module (cours, quiz, exercice, problème, évaluation, remédiation) — toujours après le contenu, <strong>jamais</strong> insérée au milieu d'un exercice, d'un quiz ou d'une évaluation en cours.</p>
 				<p>Ces publicités sont affichées en mode <strong>non personnalisé</strong> : elles sont basées sur le contenu de la page consultée, pas sur ton profil ou ton comportement de navigation. Google peut néanmoins déposer des cookies techniques nécessaires au fonctionnement de la publicité. Tu peux en savoir plus et gérer tes préférences sur <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer">la page dédiée de Google</a>.</p>
 
 				<h2>4. Formulaire de contact</h2>
