@@ -11,12 +11,8 @@ function submitEvaluationAnswer(moduleId) {
 
   const inputEl = document.getElementById('eval-input');
   if (!inputEl) return;
-  const userInput = parseFloat(inputEl.value);
-  if (isNaN(userInput)) {
-    inputEl.style.borderColor = 'var(--error)';
-    inputEl.placeholder = 'Entre un nombre…';
-    return;
-  }
+  const userInput = _readNumericInput(inputEl);
+  if (userInput === null) return;
 
   const tol = q.tolerance !== undefined ? q.tolerance : 0.01;
   const isCorrect = Math.abs(userInput - q.answer) <= tol;

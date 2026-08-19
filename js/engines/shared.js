@@ -3,6 +3,17 @@
    Utilitaires partagés entre les moteurs
    ========================================================= */
 
+/* ── Saisie numérique (exercice + évaluation) ── */
+function _readNumericInput(inputEl) {
+  const value = parseFloat(inputEl.value);
+  if (isNaN(value)) {
+    inputEl.style.borderColor = 'var(--error)';
+    inputEl.placeholder = 'Entre un nombre…';
+    return null;
+  }
+  return value;
+}
+
 /* ── Timer registry (cleared on navigate) ── */
 const _engineTimers = [];
 function _setEngineTimeout(fn, delay) {

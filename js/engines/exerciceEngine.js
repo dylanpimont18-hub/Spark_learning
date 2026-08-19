@@ -22,12 +22,8 @@ function submitExerciceAnswer(moduleId) {
   const inputEl = document.getElementById('exercice-input');
   if (!inputEl) return;
 
-  const userInput = parseFloat(inputEl.value);
-  if (isNaN(userInput)) {
-    inputEl.style.borderColor = 'var(--error)';
-    inputEl.placeholder = 'Entre un nombre…';
-    return;
-  }
+  const userInput = _readNumericInput(inputEl);
+  if (userInput === null) return;
 
   const ex = state.exerciceState.current;
   const tol = ex.tolerance !== undefined ? ex.tolerance : 0.001;
