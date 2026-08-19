@@ -668,6 +668,16 @@ main { flex: 1; }
   padding: var(--space-sm);
 }
 
+/* Même réservation d'espace que le placeholder ci-dessus, appliquée cette fois
+   à la vraie balise <ins class="adsbygoogle"> une fois ADS_ENABLED=true : sans
+   ça, l'emplacement démarre à hauteur nulle jusqu'au chargement de l'annonce
+   et provoque un décalage de mise en page (CLS) au moment où elle apparaît. */
+ins.adsbygoogle {
+  min-height: 90px;
+  margin: var(--space-lg) auto;
+  max-width: 900px;
+}
+
 /* ── Continue section ── */
 .continue-section {
   background: color-mix(in srgb, var(--primary) 4%, var(--bg));
