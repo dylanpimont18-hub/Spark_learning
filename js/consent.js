@@ -29,7 +29,10 @@ var Consent = {
     // chaque chargement de page et croirait son choix ignoré. Le pré-rendu assainit déjà
     // le HTML capturé, mais ce filet protège aussi les pages déjà déployées.
     const stale = document.getElementById('consent-banner');
-    if (stale) stale.remove();
+    if (stale) {
+      stale.remove();
+      document.documentElement.style.setProperty('--consent-banner-h', '0px');
+    }
   },
 
   accept() {
@@ -66,13 +69,17 @@ var Consent = {
       </div>
     `;
     document.body.appendChild(el);
-    requestAnimationFrame(() => el.classList.add('consent-banner-visible'));
+    requestAnimationFrame(() => {
+      el.classList.add('consent-banner-visible');
+      document.documentElement.style.setProperty('--consent-banner-h', el.offsetHeight + 'px');
+    });
   },
 
   hideBanner() {
     const el = document.getElementById('consent-banner');
     if (!el) return;
     el.classList.remove('consent-banner-visible');
+    document.documentElement.style.setProperty('--consent-banner-h', '0px');
     setTimeout(() => el.remove(), 300);
   }
 };
