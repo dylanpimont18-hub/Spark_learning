@@ -80,7 +80,7 @@ window.MODULES.push({
         caption: 'Molécule d\'ammoniac $NH_3$ : $3$ doublets liants et $1$ doublet non liant autour de l\'azote donnent une géométrie <strong>pyramidale</strong> (modèle VSEPR).'
       },
       example: {
-        statement: 'Le schéma ci-dessus détaille la méthode sur l\'ammoniac $NH_3$, de géométrie <strong>pyramidale</strong> ; appliquons maintenant exactement la même démarche à une autre molécule, l\'eau $H_2O$, dont la géométrie s\'avère différente.<br/><br/>La molécule d\'eau $H_2O$ est constituée d\'un atome d\'oxygène ($6$ électrons de valence) et de deux atomes d\'hydrogène.<br/><br/>Combien de doublets liants et de doublets non liants entourent l\'atome d\'oxygène ? En déduire la géométrie de la molécule.',
+        statement: 'Le schéma ci-dessous détaille la méthode sur l\'ammoniac $NH_3$, de géométrie <strong>pyramidale</strong> ; appliquons maintenant exactement la même démarche à une autre molécule, l\'eau $H_2O$, dont la géométrie s\'avère différente.<br/><br/>La molécule d\'eau $H_2O$ est constituée d\'un atome d\'oxygène ($6$ électrons de valence) et de deux atomes d\'hydrogène.<br/><br/>Combien de doublets liants et de doublets non liants entourent l\'atome d\'oxygène ? En déduire la géométrie de la molécule.',
         steps: [
           'L\'oxygène possède $6$ électrons de valence. Chaque atome d\'hydrogène forme une liaison covalente (un doublet liant) avec l\'oxygène : cela utilise $2$ électrons de l\'oxygène (un par liaison), donc $2$ doublets liants au total.',
           'Il reste $6-2=4$ électrons de valence sur l\'oxygène, soit $2$ doublets non liants (paires libres).',
