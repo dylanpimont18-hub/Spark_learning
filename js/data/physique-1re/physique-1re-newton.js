@@ -8,189 +8,285 @@ window.MODULES.push({
     icon: '🍎',
     title: 'Lois de Newton',
     subtitle: 'Principe d\'inertie, principe fondamental de la dynamique, principe des actions réciproques',
-    keywords: ['Newton', 'Inertie', 'PFD', 'Actions réciproques', 'Bilan des forces'],
-    physics: 'Les lois de Newton expliquent le fonctionnement des airbags et des ceintures de sécurité (inertie), permettent de dimensionner la force de traction d\'un véhicule ou d\'un convoyeur (PFD), et justifient la propulsion d\'une fusée (actions réciproques).',
+    keywords: ['Newton', 'Inertie', 'PFD', 'Actions réciproques', 'Dynamique'],
+    physics: 'Les lois de Newton expliquent pourquoi un passager est projeté vers l\'avant lors d\'un freinage brusque, permettent de calculer la force de traction nécessaire pour déplacer une charge à vitesse constante, justifient le port de la ceinture de sécurité, et sont à la base du dimensionnement de tous les systèmes mécaniques en mouvement (convoyeurs, ascenseurs, véhicules).',
 
     cours: {
-      intro: 'Isaac Newton a formulé trois lois qui relient les forces subies par un système à son mouvement. Elles forment le socle de toute la mécanique classique.<br/><br/>Le <strong>principe d\'inertie</strong> (1ʳᵉ loi) affirme que, dans un référentiel galiléen, un système soumis à des forces qui se compensent ($\\sum \\vec{F} = \\vec{0}$) est soit immobile, soit en mouvement rectiligne uniforme.<br/><br/>Le <strong>principe fondamental de la dynamique</strong>, ou PFD (2ᵉ loi), relie la résultante des forces à l\'accélération du système : $\\sum \\vec{F} = m\\vec{a}$. Il généralise le principe d\'inertie au cas où les forces ne se compensent pas.<br/><br/>Le <strong>principe des actions réciproques</strong> (3ᵉ loi) affirme que si un système A exerce une force sur un système B, alors B exerce sur A une force de <strong>même norme</strong>, de <strong>même direction</strong>, mais de <strong>sens opposé</strong> : $\\vec{F}_{A/B} = -\\vec{F}_{B/A}$.',
+      intro: 'Isaac Newton a fondé la mécanique classique sur <strong>trois lois</strong>, valables dans un <strong>référentiel galiléen</strong> (un référentiel dans lequel elles s\'appliquent sans correction ; le référentiel terrestre en est une très bonne approximation pour la plupart des mouvements étudiés au lycée).<br/><br/>La <strong>première loi</strong>, ou <strong>principe d\'inertie</strong>, énonce que, dans un référentiel galiléen, un système soumis à des forces qui se compensent exactement ($\\sum \\vec{F} = \\vec{0}$) est soit au repos, soit animé d\'un <strong>mouvement rectiligne uniforme</strong> — et réciproquement. La <strong>deuxième loi</strong>, ou <strong>principe fondamental de la dynamique</strong> (PFD), prend le relais dès que les forces ne se compensent plus : $\\sum \\vec{F} = m\\vec{a}$.<br/><br/>La <strong>troisième loi</strong>, ou <strong>principe des actions réciproques</strong>, s\'applique à toute interaction, qu\'elle s\'exerce à distance (gravitation, électrique) ou par contact : si un système A exerce une force $\\vec{F}(A\\to B)$ sur un système B, alors B exerce sur A une force $\\vec{F}(B\\to A) = -\\vec{F}(A\\to B)$, de même norme et de sens opposé.',
       definitions: [
-        { term: 'Référentiel galiléen', def: 'Référentiel dans lequel les lois de Newton s\'appliquent directement. Le référentiel terrestre est considéré galiléen pour la plupart des mouvements étudiés au lycée.' },
-        { term: 'Principe d\'inertie (1ʳᵉ loi)', def: 'Dans un référentiel galiléen, un système est au repos ou en mouvement rectiligne uniforme <strong>si et seulement si</strong> la somme vectorielle des forces qu\'il subit est nulle : $\\sum \\vec{F} = \\vec{0}$.' },
-        { term: 'Principe fondamental de la dynamique, PFD (2ᵉ loi)', def: 'Dans un référentiel galiléen, la somme des forces extérieures appliquées à un système de masse $m$ est égale au produit de sa masse par son vecteur accélération : $\\sum \\vec{F} = m\\vec{a}$.' },
-        { term: 'Principe des actions réciproques (3ᵉ loi)', def: 'Si un système A exerce sur un système B une force $\\vec{F}_{A/B}$, alors B exerce sur A une force $\\vec{F}_{B/A}$ telle que $\\vec{F}_{A/B} = -\\vec{F}_{B/A}$ : même norme, même direction, sens opposé. Ces deux forces s\'exercent sur deux systèmes <strong>différents</strong>, elles ne peuvent donc jamais se compenser l\'une l\'autre.' }
+        { term: 'Référentiel galiléen', def: 'Référentiel dans lequel les lois de Newton s\'appliquent telles quelles. Le référentiel terrestre constitue une très bonne approximation d\'un référentiel galiléen pour la majorité des mouvements étudiés en 1ère.' },
+        { term: 'Principe d\'inertie (1ère loi)', def: 'Dans un référentiel galiléen, un système soumis à des forces qui se compensent ($\\sum \\vec{F} = \\vec{0}$) est soit au repos, soit en <strong>mouvement rectiligne uniforme</strong> — et réciproquement, si son mouvement est rectiligne uniforme (ou s\'il est au repos), alors les forces se compensent.' },
+        { term: 'Principe fondamental de la dynamique (2ème loi, PFD)', def: 'Dans un référentiel galiléen, la résultante des forces appliquées à un système de masse $m$ est égale au produit de cette masse par son vecteur accélération : $\\sum \\vec{F} = m\\vec{a}$.' },
+        { term: 'Principe des actions réciproques (3ème loi)', def: 'Si un système A exerce une force $\\vec{F}(A\\to B)$ sur un système B, alors B exerce sur A une force $\\vec{F}(B\\to A) = -\\vec{F}(A\\to B)$ : même norme, même direction, sens opposé — quelles que soient les masses de A et B.' }
       ],
       method: {
-        title: 'Appliquer les lois de Newton en 3 étapes',
+        title: 'Analyser une situation mécanique avec les lois de Newton en 3 étapes',
         steps: [
-          '<strong>Faire le bilan des forces</strong> extérieures qui s\'exercent sur le système étudié (poids, réaction du support, force appliquée, frottements…), en précisant leur point d\'application, leur direction et leur sens.',
-          '<strong>Choisir la loi adaptée</strong> : si le système est au repos ou en MRU, appliquer le <strong>principe d\'inertie</strong> ($\\sum \\vec{F} = \\vec{0}$) pour trouver une force inconnue par équilibre ; sinon, appliquer le <strong>PFD</strong> ($\\sum \\vec{F} = m\\vec{a}$) pour relier la résultante des forces à l\'accélération.',
-          '<strong>Projeter</strong> la relation vectorielle sur les axes pertinents (souvent horizontal et vertical) pour obtenir des équations scalaires, puis résoudre.'
+          '<strong>Vérifier que le référentiel est galiléen</strong> (le référentiel terrestre, sauf mention contraire) et faire le <strong>bilan des forces</strong> qui s\'exercent sur le système étudié (poids, réaction du support, force motrice, frottements...).',
+          '<strong>Comparer la résultante des forces à zéro</strong> : si les forces se compensent ($\\sum \\vec{F} = \\vec{0}$), le mouvement est rectiligne uniforme ou le système est au repos (principe d\'inertie). Sinon, appliquer le <strong>PFD</strong> $\\sum \\vec{F} = m\\vec{a}$, projeté sur un axe, pour calculer l\'accélération.',
+          '<strong>Ne pas oublier le principe des actions réciproques</strong> : chaque force du bilan appartient à une paire — la force qu\'exerce le support sur l\'objet a pour réaction la force que l\'objet exerce sur le support, mais ces deux forces d\'une même paire ne s\'appliquent <strong>jamais</strong> sur le même système.'
         ]
       },
       diagram: {
         theme: 'physique',
-        kicker: 'Bilan des forces sur un solide en mouvement',
-        title: 'Principe d\'inertie (équilibre vertical) et PFD (résultante horizontale)',
-        description: 'Une caisse tractée horizontalement subit quatre forces : le poids $\\vec{P}$, la réaction normale $\\vec{N}$, la force de traction $\\vec{F}$ et le frottement $\\vec{f}$. L\'équilibre vertical ($N=P$) et la résultante horizontale (qui donne $\\vec{a}$) illustrent respectivement le principe d\'inertie et le PFD.',
+        kicker: 'Principe d\'inertie (bilan des forces)',
+        title: 'Caisse tractée à vitesse constante : les forces se compensent',
+        description: 'Une caisse se déplace en <strong>mouvement rectiligne uniforme</strong> sur un sol horizontal. D\'après le principe d\'inertie, la résultante des forces qui s\'exercent sur elle est nulle : le poids $\\vec{P}$ compense la réaction normale $\\vec{N}$, et la force motrice $\\vec{F}$ compense le frottement $\\vec{f}$.',
         svg: `
-          <svg viewBox="0 0 560 320" role="img" aria-labelledby="newton-title newton-desc">
-            <title id="newton-title">Bilan des forces sur une caisse tractee horizontalement sur le sol</title>
-            <desc id="newton-desc">Une caisse rectangulaire posee sur une ligne horizontale representant le sol est soumise a quatre forces partant de son centre. Une fleche vers le bas represente le poids. Une fleche vers le haut, de meme longueur que le poids, represente la reaction normale du sol, illustrant leur egalite a l'equilibre vertical. Une fleche vers la droite, plus longue, represente la force de traction. Une fleche vers la gauche, plus courte, represente le frottement qui s'oppose au mouvement. En dessous du schema, une fleche plus courte et separee represente le vecteur acceleration resultant, oriente vers la droite comme la somme des forces horizontales.</desc>
+          <svg viewBox="0 0 560 300" role="img" aria-labelledby="newton-title newton-desc">
+            <title id="newton-title">Bilan des forces sur une caisse tractee a vitesse constante</title>
+            <desc id="newton-desc">Une caisse rectangulaire posee sur un sol horizontal est representee avec quatre forces issues de son centre : le poids P vertical vers le bas, la reaction normale N vertical vers le haut et de meme longueur que P, la force motrice F horizontale vers la droite, et le frottement f horizontal vers la gauche et de meme longueur que F. Les deux paires de forces, verticale et horizontale, s'equilibrent exactement, illustrant le principe d'inertie pour un mouvement rectiligne uniforme.</desc>
 
             <defs>
-              <marker id="arrow-phys1re-newton" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+              <marker id="arrow-phy1re-newton" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
                 <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
               </marker>
             </defs>
 
             <!-- sol -->
-            <line class="frame-line" x1="40" y1="230" x2="520" y2="230"></line>
+            <line class="frame-line" x1="80" y1="175" x2="480" y2="175"></line>
 
             <!-- caisse -->
-            <rect class="frame-line" x="200" y="160" width="100" height="70" fill="none"></rect>
-            <circle class="plot-point" cx="250" cy="195" r="4"></circle>
+            <rect class="frame-line" x="240" y="125" width="80" height="50" fill="none"></rect>
+            <circle class="plot-point" cx="280" cy="150" r="3"></circle>
 
-            <!-- N (haut) -->
-            <line class="curve-main" x1="250" y1="195" x2="250" y2="160" marker-end="url(#arrow-phys1re-newton)"></line>
-            <text class="annotation-label" x="264" y="150" text-anchor="start">N</text>
+            <!-- poids P (vers le bas) -->
+            <line class="curve-main" x1="280" y1="150" x2="280" y2="210" marker-end="url(#arrow-phy1re-newton)"></line>
+            <text class="annotation-label" x="280" y="228" text-anchor="middle">P</text>
 
-            <!-- P (bas) -->
-            <line class="curve-main" x1="250" y1="195" x2="250" y2="230" marker-end="url(#arrow-phys1re-newton)"></line>
-            <text class="annotation-label" x="264" y="245" text-anchor="start">P</text>
+            <!-- reaction normale N (vers le haut) -->
+            <line class="curve-main" x1="280" y1="150" x2="280" y2="90" marker-end="url(#arrow-phy1re-newton)"></line>
+            <text class="annotation-label" x="280" y="76" text-anchor="middle">N</text>
 
-            <!-- F (droite) -->
-            <line class="curve-main" x1="250" y1="195" x2="340" y2="195" marker-end="url(#arrow-phys1re-newton)"></line>
-            <text class="annotation-label" x="345" y="190" text-anchor="start">F</text>
+            <!-- force motrice F (vers la droite) -->
+            <line class="curve-main" x1="280" y1="150" x2="360" y2="150" marker-end="url(#arrow-phy1re-newton)"></line>
+            <text class="annotation-label" x="368" y="154" text-anchor="start">F</text>
 
-            <!-- f (gauche) -->
-            <line class="curve-main" x1="250" y1="195" x2="190" y2="195" marker-end="url(#arrow-phys1re-newton)"></line>
-            <text class="annotation-label" x="150" y="190" text-anchor="start">f</text>
-
-            <!-- vecteur acceleration resultant, sous le sol -->
-            <line class="curve-main" x1="235" y1="280" x2="265" y2="280" marker-end="url(#arrow-phys1re-newton)"></line>
-            <text class="annotation-label" x="270" y="285" text-anchor="start">a</text>
-            <text class="label-soft" x="250" y="300" text-anchor="middle">résultante horizontale ÷ m</text>
+            <!-- frottement f (vers la gauche) -->
+            <line class="curve-main" x1="280" y1="150" x2="200" y2="150" marker-end="url(#arrow-phy1re-newton)"></line>
+            <text class="annotation-label" x="192" y="154" text-anchor="end">f</text>
           </svg>
         `,
         notes: [
-          'Sur l\'axe vertical, la caisse ne décolle pas du sol et ne s\'y enfonce pas : $\\vec{N}$ et $\\vec{P}$ se compensent exactement ($N = P$), une application directe du <strong>principe d\'inertie</strong> selon cet axe.',
-          'Sur l\'axe horizontal, $\\vec{F}$ (traction) est plus grande que $\\vec{f}$ (frottement) : la résultante n\'est pas nulle, ce qui produit une accélération $\\vec{a}$, orientée dans le <strong>même sens</strong> que cette résultante — c\'est le <strong>PFD</strong>.',
-          'Toutes les forces sont représentées à partir du même point, le centre du solide assimilé à un point matériel, conformément au modèle vu en cinématique.'
+          'Les forces verticales $\\vec{P}$ (poids) et $\\vec{N}$ (réaction normale du sol) ont la <strong>même norme</strong> et des sens opposés : elles se compensent exactement.',
+          'Les forces horizontales $\\vec{F}$ (force motrice) et $\\vec{f}$ (frottement) ont également la <strong>même norme</strong> et des sens opposés.',
+          'La résultante des quatre forces est donc <strong>nulle</strong> : d\'après le principe d\'inertie, la caisse est nécessairement soit au repos, soit en mouvement rectiligne uniforme — jamais accélérée tant que cet équilibre persiste.'
         ],
-        reading: 'Repère d\'abord les deux forces verticales ($N$ et $P$, de même longueur), puis les deux forces horizontales ($F$ plus longue que $f$), et enfin le vecteur $\\vec{a}$ en dessous, orienté comme la résultante horizontale.',
-        caption: 'Bilan des forces sur une caisse tractée horizontalement : équilibre vertical ($N=P$, principe d\'inertie) et résultante horizontale non nulle, à l\'origine de l\'accélération $\\vec{a}$ (PFD).'
+        reading: 'Repère les quatre flèches issues du centre de la caisse : la paire verticale $\\vec{P}$/$\\vec{N}$ et la paire horizontale $\\vec{F}$/$\\vec{f}$ ont chacune la même longueur, signe que ces forces se compensent deux à deux.',
+        caption: 'Bilan des forces sur une caisse en mouvement rectiligne uniforme : le poids $\\vec{P}$ compense la réaction $\\vec{N}$, la force motrice $\\vec{F}$ compense le frottement $\\vec{f}$ — la résultante est nulle (principe d\'inertie).'
       },
+      diagrams: [
+        {
+          theme: 'physique',
+          kicker: 'Principe fondamental de la dynamique (résultante non nulle)',
+          title: 'Caisse accélérée : la force motrice l\'emporte sur le frottement',
+          description: 'La même caisse est reprise, mais avec $F = 200$ N $>$ $f = 150$ N (les valeurs de <strong>l\'exemple résolu</strong> ci-dessous) : la résultante horizontale n\'est plus nulle. D\'après le <strong>PFD</strong>, la caisse accélère dans le sens de $\\vec{F}$, avec $a = 1{,}25$ m/s².',
+          svg: `
+            <svg viewBox="0 0 560 300" role="img" aria-labelledby="newton-pfd-title newton-pfd-desc">
+              <title id="newton-pfd-title">Bilan des forces sur une caisse acceleree, force motrice superieure au frottement</title>
+              <desc id="newton-pfd-desc">La meme caisse que precedemment est representee avec quatre forces issues de son centre : le poids P vertical vers le bas et la reaction normale N vertical vers le haut, de meme longueur l'une que l'autre. Horizontalement, la force motrice F, plus longue, pointe vers la droite, et le frottement f, plus court, pointe vers la gauche : les deux longueurs sont dans un rapport de quatre pour trois, comme les valeurs de deux cents newtons et cent cinquante newtons qu'elles representent. Sous la caisse, un vecteur en pointilles designe l'acceleration a, dans le meme sens que la force motrice qui l'emporte.</desc>
+
+              <defs>
+                <marker id="arrow-phy1re-newton-pfd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+                </marker>
+              </defs>
+
+              <!-- sol -->
+              <line class="frame-line" x1="80" y1="175" x2="480" y2="175"></line>
+
+              <!-- caisse -->
+              <rect class="frame-line" x="240" y="125" width="80" height="50" fill="none"></rect>
+              <circle class="plot-point" cx="280" cy="150" r="3"></circle>
+
+              <!-- poids P (vers le bas) -->
+              <line class="curve-main" x1="280" y1="150" x2="280" y2="210" marker-end="url(#arrow-phy1re-newton-pfd)"></line>
+              <text class="annotation-label" x="280" y="228" text-anchor="middle">P</text>
+
+              <!-- reaction normale N (vers le haut) -->
+              <line class="curve-main" x1="280" y1="150" x2="280" y2="90" marker-end="url(#arrow-phy1re-newton-pfd)"></line>
+              <text class="annotation-label" x="280" y="76" text-anchor="middle">N</text>
+
+              <!-- force motrice F = 200 N (80 px vers la droite) -->
+              <line class="curve-main" x1="280" y1="150" x2="360" y2="150" marker-end="url(#arrow-phy1re-newton-pfd)"></line>
+              <text class="annotation-label" x="368" y="154" text-anchor="start">F</text>
+
+              <!-- frottement f = 150 N (60 px vers la gauche) -->
+              <line class="curve-main" x1="280" y1="150" x2="220" y2="150" marker-end="url(#arrow-phy1re-newton-pfd)"></line>
+              <text class="annotation-label" x="212" y="154" text-anchor="end">f</text>
+
+              <!-- acceleration a (resultante, non a l'echelle des forces) -->
+              <line class="guide-line" x1="280" y1="200" x2="325" y2="200" marker-end="url(#arrow-phy1re-newton-pfd)"></line>
+              <text class="annotation-label" x="333" y="204" text-anchor="start">a</text>
+
+              <text class="label-soft" x="280" y="288" text-anchor="middle">PFD : résultante horizontale non nulle</text>
+            </svg>
+          `,
+          notes: [
+            'Verticalement, $\\vec{P}$ et $\\vec{N}$ restent égales et opposées : l\'équilibre vertical n\'est pas remis en cause, seul l\'axe horizontal change.',
+            'Horizontalement, $F = 200$ N l\'emporte désormais sur $f = 150$ N : la résultante $\\sum\\vec{F} = \\vec{F}+\\vec{f}$ vaut $200-150=50$ N dans le sens de $\\vec{F}$, elle n\'est plus nulle.',
+            'D\'après le <strong>PFD</strong>, $\\vec{a}$ (en pointillés) est colinéaire à cette résultante : $a = \\dfrac{F-f}{m} = \\dfrac{50}{40} = 1{,}25$ m/s². Ce vecteur n\'est pas à la même échelle que les forces, il indique uniquement le sens de l\'accélération.'
+          ],
+          reading: 'Compare les longueurs de $\\vec{F}$ et $\\vec{f}$ : contrairement au premier schéma où elles étaient égales, $\\vec{F}$ est ici plus longue — cette différence de longueur signale une résultante non nulle, donc une accélération $\\vec{a}$ dans le sens de $\\vec{F}$.',
+          caption: 'Dès que $F$ dépasse $f$ ($200$ N contre $150$ N), le principe fondamental de la dynamique s\'applique : $\\sum\\vec{F} = m\\vec{a}$, avec $a = 1{,}25$ m/s² dans le sens du mouvement.'
+        },
+        {
+          theme: 'physique',
+          kicker: 'Principe des actions réciproques (3ème loi de Newton)',
+          title: 'Deux systèmes distincts : la caisse et le sol',
+          description: 'Contrairement aux bilans précédents, où <strong>quatre</strong> forces s\'exerçaient sur la <strong>seule</strong> caisse, le principe des actions réciproques met en jeu <strong>deux systèmes distincts</strong> : ici, la caisse et le sol, qui échangent une paire de forces à leur point de contact.',
+          svg: `
+            <svg viewBox="0 0 560 300" role="img" aria-labelledby="newton-reaction-title newton-reaction-desc">
+              <title id="newton-reaction-title">Paire action reaction entre la caisse et le sol au point de contact</title>
+              <desc id="newton-reaction-desc">Deux systemes distincts sont representes l'un au-dessus de l'autre : un rectangle etroit figurant la caisse en haut, et un rectangle large figurant le sol en bas, se touchant en un point de contact commun. Depuis ce point, une fleche pointe vers le haut, dans la caisse, representant la force exercee par le sol sur la caisse, et une fleche de meme longueur pointe vers le bas, dans le sol, representant la force exercee par la caisse sur le sol : les deux fleches ont une longueur strictement egale mais des sens opposes.</desc>
+
+              <defs>
+                <marker id="arrow-phy1re-newton-reaction" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+                </marker>
+              </defs>
+
+              <!-- systeme 1 : la caisse -->
+              <rect class="frame-line" x="230" y="70" width="100" height="70" fill="none"></rect>
+              <text class="label-soft" x="345" y="108" text-anchor="start">Caisse</text>
+
+              <!-- systeme 2 : le sol -->
+              <rect class="frame-line" x="140" y="140" width="280" height="90" fill="none"></rect>
+              <text class="label-soft" x="345" y="188" text-anchor="start">Sol</text>
+
+              <!-- point de contact -->
+              <!-- F(sol -> caisse), appliquee a la caisse -->
+              <line class="curve-main" x1="280" y1="140" x2="280" y2="60" marker-end="url(#arrow-phy1re-newton-reaction)"></line>
+              <text class="annotation-label" x="280" y="46" text-anchor="middle">F(sol→caisse)</text>
+
+              <!-- F(caisse -> sol), appliquee au sol -->
+              <line class="curve-main" x1="280" y1="140" x2="280" y2="220" marker-end="url(#arrow-phy1re-newton-reaction)"></line>
+              <text class="annotation-label" x="280" y="236" text-anchor="middle">F(caisse→sol)</text>
+
+              <!-- point de contact (dessine apres les fleches pour rester visible au-dessus) -->
+              <circle class="plot-point" cx="280" cy="140" r="4"></circle>
+
+              <text class="label-soft" x="280" y="288" text-anchor="middle">Actions réciproques : deux systèmes distincts</text>
+            </svg>
+          `,
+          notes: [
+            'Contrairement aux bilans précédents (toutes les forces réunies sur la <strong>seule</strong> caisse), ce schéma sépare volontairement <strong>deux systèmes</strong> : la caisse et le sol, en contact l\'un avec l\'autre.',
+            'La caisse exerce sur le sol la force $\\vec{F}(caisse\\to sol)$ ; en retour, le sol exerce sur la caisse la force $\\vec{F}(sol\\to caisse)$ — même norme, même direction, sens opposé : c\'est le <strong>principe des actions réciproques</strong>.',
+            'Piège classique : $\\vec{N} = \\vec{F}(sol\\to caisse)$ n\'est <strong>pas</strong> la réaction de $\\vec{P}$ (le poids) — $\\vec{P}$ est exercé par la Terre à distance, tandis que $\\vec{N}$ est exercé par le sol au contact. Ce sont deux interactions différentes ; la vraie réaction de $\\vec{N}$ est $\\vec{F}(caisse\\to sol)$, dessinée ici.'
+          ],
+          reading: 'Repère le point de contact entre la caisse et le sol : les deux flèches qui en partent, de même longueur mais de sens opposés, relient deux systèmes différents — contrairement aux 4 forces d\'un même bilan dans les schémas précédents.',
+          caption: 'La caisse et le sol échangent une paire de forces $\\vec{F}(caisse\\to sol)$ et $\\vec{F}(sol\\to caisse)$, de même norme et de sens opposés (principe des actions réciproques), appliquées à deux systèmes distincts.'
+        }
+      ],
       example: {
-        statement: 'Un traîneau de masse $m = 25$ kg glisse sur une piste horizontale enneigée. Il est tiré par une force horizontale $F = 150$ N, tandis que les frottements exercent une force horizontale $f = 30$ N, opposée au mouvement.<br/><br/>Calculer l\'accélération du traîneau.',
+        statement: 'Une caisse de masse $m = 40$ kg est tirée par une force horizontale $F$ le long d\'un sol horizontal, avec une force de frottement $f = 150$ N qui s\'oppose au mouvement. Dans un premier temps, la caisse se déplace à <strong>vitesse constante</strong>.<br/><br/>D\'après le principe d\'inertie, déterminer la valeur de $F$. Puis, si $F$ passe soudainement à $200$ N (le frottement restant $f = 150$ N), calculer la nouvelle accélération $a$ de la caisse.',
         steps: [
-          'Système : le traîneau, assimilé à un point matériel. Référentiel terrestre, supposé galiléen.',
-          'Bilan des forces : le poids $\\vec{P}$, la réaction normale $\\vec{N}$ (verticales), la force de traction $\\vec{F}$ et le frottement $\\vec{f}$ (horizontales).',
-          'Sur l\'axe vertical, le traîneau reste sur la piste sans s\'enfoncer : d\'après le principe d\'inertie appliqué à cet axe, $N = P$ (ces deux forces se compensent, elles n\'interviennent donc pas dans le mouvement horizontal).',
-          'Sur l\'axe horizontal, on applique le PFD projeté : $F - f = m \\times a$, donc $a = \\dfrac{F - f}{m} = \\dfrac{150 - 30}{25} = \\dfrac{120}{25}$.',
-          'Résultat : $a = 4{,}8$ m/s².'
+          'Vitesse constante ⟹ système pseudo-isolé (le poids et la réaction normale se compensent verticalement) : d\'après le <strong>principe d\'inertie</strong>, la résultante des forces horizontales est nulle, donc $F = f = 150$ N.',
+          'Lorsque $F$ passe à $200$ N, les forces horizontales ne se compensent plus : $F - f = 200 - 150 = 50$ N (résultante non nulle).',
+          'Le principe fondamental de la dynamique, projeté sur l\'axe horizontal, donne $F - f = m \\times a$, donc $a = \\dfrac{F-f}{m} = \\dfrac{50}{40}$.',
+          'Résultat : $a = 1{,}25$ m/s² : la caisse accélère désormais dans le sens du mouvement.'
         ],
-        answer: '$a = 4{,}8$ m/s², dans le sens du mouvement (car $F > f$). Seules les forces qui ne se compensent pas contribuent à l\'accélération : ici, $\\vec{N}$ et $\\vec{P}$ s\'annulent, seule la différence $F - f$ agit horizontalement.'
+        answer: 'Tant que la caisse roule à vitesse constante, $F = f = 150$ N (principe d\'inertie). Dès que $F$ dépasse $f$, la caisse accélère avec $a = 1{,}25$ m/s² (principe fondamental de la dynamique).'
       },
       formulas: [
-        'Principe d\'inertie (1ʳᵉ loi) : $\\sum \\vec{F} = \\vec{0} \\iff$ repos ou mouvement rectiligne uniforme',
-        'Principe fondamental de la dynamique, PFD (2ᵉ loi) : $\\sum \\vec{F} = m\\vec{a}$',
-        'Principe des actions réciproques (3ᵉ loi) : $\\vec{F}_{A/B} = -\\vec{F}_{B/A}$',
-        'PFD projeté sur un axe (cas 1D) : $a = \\dfrac{\\sum F}{m}$'
+        'Principe d\'inertie (référentiel galiléen) : $\\sum \\vec{F} = \\vec{0} \\Leftrightarrow$ repos ou mouvement rectiligne uniforme',
+        'Principe fondamental de la dynamique : $\\sum \\vec{F} = m\\vec{a}$',
+        'Principe des actions réciproques : $\\vec{F}(A\\to B) = -\\vec{F}(B\\to A)$',
+        'Cas particulier utile : à vitesse constante, les forces motrices et résistantes se compensent exactement'
       ],
       recap: [
-        'Le principe d\'inertie et le PFD sont en réalité une seule et même loi : le premier est le cas particulier du second lorsque $\\vec{a} = \\vec{0}$.',
-        'Le PFD est une relation <strong>vectorielle</strong> : il doit être projeté sur des axes bien choisis avant tout calcul numérique.',
-        'Le principe des actions réciproques relie deux forces qui s\'exercent sur <strong>deux systèmes différents</strong> : elles ne peuvent donc jamais apparaître ensemble dans le bilan des forces d\'un seul système, et ne peuvent jamais se compenser.',
-        'Seule la <strong>résultante</strong> des forces détermine l\'accélération : des forces individuellement grandes peuvent produire une accélération nulle si elles se compensent exactement.'
+        'Le principe d\'inertie s\'applique aussi bien à un objet <strong>au repos</strong> qu\'à un objet en <strong>mouvement rectiligne uniforme</strong> : dans les deux cas, $\\sum\\vec{F}=\\vec{0}$.',
+        'Réciproquement, si $\\sum\\vec{F}=\\vec{0}$, le mouvement est nécessairement rectiligne uniforme (ou le système reste au repos) — jamais accéléré.',
+        'Si les forces ne se compensent pas, le PFD $\\sum\\vec{F}=m\\vec{a}$ permet de calculer l\'accélération résultante.',
+        'Chaque force d\'un bilan appartient à une <strong>paire d\'actions réciproques</strong> : la Terre exerce le poids sur un objet, l\'objet exerce en retour une force égale et opposée sur la Terre.'
       ],
-      piege: 'Une confusion très fréquente consiste à croire que la réaction normale $\\vec{N}$ du sol est la force réciproque du poids $\\vec{P}$, puisqu\'elles ont la même norme et des sens opposés sur le schéma. Attention, $\\vec{P}$ est exercée par la Terre sur l\'objet, tandis que $\\vec{N}$ est exercée par le sol sur l\'objet : ce sont deux forces différentes qui s\'exercent sur le <strong>même</strong> système, pas une paire action-réciproque (celle-ci relierait plutôt l\'objet et la Terre elle-même).'
+      piege: 'Une erreur fréquente est de croire qu\'un objet en mouvement est nécessairement soumis à une résultante des forces non nulle, comme si tout mouvement exigeait une force motrice active pour se maintenir. Attention : un mouvement <strong>rectiligne uniforme</strong> correspond au contraire à des forces qui se compensent exactement ($\\sum\\vec{F}=\\vec{0}$) ; seule une variation de la vitesse (accélération, décélération, changement de direction) révèle une résultante non nulle.'
     },
 
     quiz: [
       {
-        q: 'Un objet posé sur une table est immobile. D\'après le principe d\'inertie, que peut-on dire des forces qu\'il subit ?',
+        q: 'Un traîneau glisse à vitesse constante sur une piste horizontale légèrement rugueuse, tiré par une force horizontale $F$. Que peut-on dire de la résultante des forces qui s\'exercent sur lui ?',
         options: [
-          'Elles sont toutes nulles',
-          'Leur somme vectorielle est nulle',
-          'Elles sont toutes égales entre elles',
-          'On ne peut rien dire sans connaître la masse de l\'objet'
+          'Elle est nulle, d\'après le principe d\'inertie',
+          'Elle est égale à $F$ seule',
+          'Elle est nécessairement dirigée vers l\'avant',
+          'Elle augmente avec la vitesse'
         ],
-        answer: 1,
-        correction: 'Le principe d\'inertie relie le repos (ou le MRU) à une résultante des forces <strong>nulle</strong> ($\\sum \\vec{F} = \\vec{0}$), pas à des forces individuellement nulles : le poids et la réaction du support existent bien, mais elles se compensent exactement.'
+        answer: 0,
+        correction: 'Vitesse constante signifie mouvement rectiligne uniforme, ce qui équivaut, d\'après le principe d\'inertie, à une résultante des forces nulle — même si le traîneau est bel et bien en mouvement.'
       },
       {
-        q: 'Un chariot de masse $m = 20$ kg subit une résultante des forces de norme $F = 60$ N. D\'après le PFD, quelle est son accélération ?',
+        q: 'D\'après le principe fondamental de la dynamique, un objet de masse $m = 8$ kg soumis à une résultante des forces $\\sum F = 24$ N a pour accélération :',
         options: [
-          '$a = 1\\,200$ m/s²',
           '$a = 3$ m/s²',
+          '$a = 192$ m/s²',
           '$a = 0{,}33$ m/s²',
-          '$a = 80$ m/s²'
+          '$a = 16$ m/s²'
         ],
-        answer: 1,
-        correction: '$\\sum \\vec{F} = m\\vec{a}$, donc $a = \\dfrac{F}{m} = \\dfrac{60}{20} = 3$ m/s².'
+        answer: 0,
+        correction: '$a = \\dfrac{\\sum F}{m} = \\dfrac{24}{8} = 3$ m/s². Attention à ne pas inverser la division (option $0{,}33$) ni à multiplier ou additionner $F$ et $m$.'
       },
       {
-        q: 'Une fusée éjecte des gaz vers le bas pour être propulsée vers le haut. Quelle loi de Newton explique ce phénomène ?',
+        q: 'Un patineur A pousse un patineur B, initialement immobile sur la glace (frottements négligés). D\'après le principe des actions réciproques, la force qu\'exerce A sur B est :',
         options: [
-          'Le principe d\'inertie',
-          'Le principe fondamental de la dynamique',
-          'Le principe des actions réciproques',
-          'Aucune de ces lois, c\'est un phénomène chimique uniquement'
+          'De même norme et de sens opposé à la force exercée par B sur A',
+          'Plus grande si A est plus lourd que B',
+          'Nulle si B ne pousse pas activement en retour',
+          'Dépendante de la vitesse initiale de A'
         ],
-        answer: 2,
-        correction: 'La fusée exerce une force sur les gaz éjectés (vers le bas) ; d\'après le principe des actions réciproques, les gaz exercent en retour une force de même norme sur la fusée, mais de sens opposé (vers le haut) : c\'est cette force qui la propulse.'
+        answer: 0,
+        correction: 'Le principe des actions réciproques garantit l\'égalité des normes et l\'opposition des sens, quelles que soient les masses respectives de A et B : B exerce toujours une force en retour sur A, même s\'il ne « pousse » pas activement — c\'est une conséquence du contact, pas d\'une action volontaire.'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
-        var typeExo = pick(['pfd', 'equilibre']);
+        var typeExo = pick(['inertie', 'pfd']);
 
-        if (typeExo === 'pfd') {
-          var m = rand(5, 80);
-          var F = rand(20, 400);
-          var f = rand(5, Math.floor(F * 0.7));
-          var a = parseFloat(((F - f) / m).toFixed(2));
-          var systeme = pick([
-            'une remorque tractée par un quad',
-            'un chariot de manutention poussé à la main',
-            'une luge tirée sur la neige',
-            'un diable de déménageur chargé de cartons',
-            'un traîneau utilitaire sur une piste verglacée'
+        if (typeExo === 'inertie') {
+          var f = pick([50, 80, 100, 120, 150, 180, 200, 250, 300]);
+          var contexte = pick([
+            'une caisse tirée sur un quai de chargement',
+            'un traîneau tracté sur la neige',
+            'un chariot poussé dans un entrepôt',
+            'une remorque tractée sur un parking',
+            'un container déplacé au sol'
           ]);
           return {
-            statement: 'Sur ' + systeme + ' de masse $m = ' + m + '$ kg, une force de traction horizontale $F = ' + F + '$ N s\'exerce, tandis que le frottement s\'oppose au mouvement avec une force $f = ' + f + '$ N.<br/><br/>D\'après le PFD, calcule l\'accélération du système (en m/s², arrondie au centième).',
-            answer: a,
-            tolerance: Math.max(0.05, Math.abs(a) * 0.05),
-            unit: 'm/s²',
-            hint: 'Sur l\'axe horizontal, le PFD donne $F - f = m \\times a$, donc $a = \\dfrac{F-f}{m}$.',
+            statement: 'Dans le cas de ' + contexte + ', une force horizontale $F$ compense exactement une force de frottement $f = ' + f + '$ N : le système se déplace à <strong>vitesse constante</strong>.<br/><br/>D\'après le principe d\'inertie, détermine la valeur de la force $F$ (en N).',
+            answer: f,
+            tolerance: 1,
+            unit: 'N',
+            hint: 'Vitesse constante entraîne une résultante des forces nulle (principe d\'inertie) : les forces horizontales se compensent exactement.',
             solution: [
-              'PFD projeté sur l\'axe horizontal : $F - f = m \\times a$.',
-              'On isole $a$ : $a = \\dfrac{F-f}{m} = \\dfrac{' + F + ' - ' + f + '}{' + m + '} = \\dfrac{' + (F - f) + '}{' + m + '}$.',
-              'Résultat : $a \\approx ' + fr(a, 2) + '$ m/s².'
+              'Vitesse constante ⟹ mouvement rectiligne uniforme ⟹ $\\sum F = 0$ (principe d\'inertie).',
+              'Les seules forces horizontales sont $F$ (motrice) et $f$ (frottement, opposée) : $F - f = 0$.',
+              'Résultat : $F = f = ' + f + '$ N.'
             ]
           };
         } else {
-          var mass = rand(10, 200);
-          var g = 9.81;
-          var P = parseFloat((mass * g).toFixed(1));
-          var objet = pick([
-            'une caisse de matériel posée sur un quai',
-            'un moteur suspendu à un palan',
-            'une armoire électrique installée sur un support',
-            'un bloc en équilibre sur un support rigide'
+          var m2 = pick([20, 30, 40, 50, 60, 80, 100, 150]);
+          var F2 = pick([100, 150, 200, 250, 300, 400, 500]);
+          var f2 = pick([50, 80, 100, 120, 150, 180, 200]);
+          var a2 = parseFloat(((F2 - f2) / m2).toFixed(2));
+          var tol2 = parseFloat(Math.max(0.05, Math.abs(a2) * 0.05).toFixed(2));
+          var contexte2 = pick([
+            'un chariot de manutention motorisé',
+            'une voiturette électrique de site industriel',
+            'un traîneau tracté par un moteur',
+            'un wagonnet sur rail'
           ]);
           return {
-            statement: 'Une ' + objet + ', de masse $m = ' + mass + '$ kg, est immobile, posée sur un support horizontal (on prend $g = 9{,}81$ m/s²).<br/><br/>D\'après le principe d\'inertie, calcule la norme de la force $N$ exercée par le support sur l\'objet (en N, arrondie au dixième).',
-            answer: P,
-            tolerance: Math.max(1, P * 0.02),
-            unit: 'N',
-            hint: 'Le système est immobile : la résultante des forces est nulle, donc $N = P = mg$.',
+            statement: 'Dans le cas de ' + contexte2 + ', de masse $m = ' + m2 + '$ kg, une force motrice $F = ' + F2 + '$ N s\'exerce dans le sens du mouvement, avec un frottement $f = ' + f2 + '$ N qui s\'y oppose.<br/><br/>D\'après le principe fondamental de la dynamique, calcule l\'accélération $a$ du système (en m/s², arrondie au centième).',
+            answer: a2,
+            tolerance: tol2,
+            unit: 'm/s²',
+            hint: 'Projette le PFD sur l\'axe du mouvement : $F - f = m \\times a$.',
             solution: [
-              'Le système est à l\'équilibre : $\\sum \\vec{F} = \\vec{0}$, donc $N = P$.',
-              'Poids : $P = m \\times g = ' + mass + ' \\times 9{,}81$.',
-              'Résultat : $N = P \\approx ' + fr(P, 1) + '$ N.'
+              'Principe fondamental de la dynamique, projeté sur l\'axe du mouvement : $F - f = m \\times a$.',
+              'On isole $a$ : $a = \\dfrac{F-f}{m} = \\dfrac{' + F2 + '-' + f2 + '}{' + m2 + '}$.',
+              'Résultat : $a \\approx ' + fr(a2, 2) + '$ m/s².'
             ]
           };
         }
@@ -198,18 +294,18 @@ window.MODULES.push({
     },
 
     probleme: {
-      context: 'Un skieur de masse $m = 70$ kg descend une piste. On étudie d\'abord son démarrage sur une portion horizontale, où il est poussé par une force $F = 210$ N, avec un frottement des skis sur la neige $f = 42$ N (on prend $g = 9{,}81$ m/s²).',
+      context: 'Un traîneau de masse $m = 25$ kg, tiré par une corde horizontale, se déplace d\'abord à <strong>vitesse constante</strong> $v_0 = 2{,}0$ m/s sur la neige, la tension de la corde valant alors $F_1 = 60$ N. Le frottement de la neige sur le traîneau reste constant tout au long du mouvement. À un instant choisi comme origine des temps, la tension de la corde passe soudainement à $F_2 = 100$ N.',
       tasks: [
-        'Faire le bilan des forces verticales et déterminer la norme de la réaction normale $N$ exercée par la neige.',
-        'Appliquer le PFD sur l\'axe horizontal pour calculer l\'accélération du skieur.',
-        'Sachant qu\'il part de $v_0 = 0$, calculer sa vitesse après $t = 4$ s de poussée (en m/s, puis en km/h).'
+        'D\'après le principe d\'inertie, déterminer la valeur de la force de frottement $f$ exercée par la neige sur le traîneau pendant la phase à vitesse constante.',
+        'Calculer la nouvelle accélération $a$ du traîneau une fois que la tension est passée à $F_2 = 100$ N (le frottement $f$ restant inchangé).',
+        'En supposant cette accélération constante, calculer la vitesse $v$ du traîneau $4{,}0$ s après le changement de tension.'
       ],
       solutions: [
-        'Sur l\'axe vertical, le skieur ne s\'enfonce pas dans la neige et ne décolle pas : $N = P = m \\times g = 70 \\times 9{,}81 \\approx 686{,}7$ N.',
-        'Sur l\'axe horizontal, $\\sum F = F - f = m \\times a$, donc $a = \\dfrac{F-f}{m} = \\dfrac{210-42}{70} = \\dfrac{168}{70} = 2{,}4$ m/s².',
-        '$v(t) = v_0 + a \\times t = 0 + 2{,}4 \\times 4 = 9{,}6$ m/s. En km/h : $v = 9{,}6 \\times 3{,}6 = 34{,}56$ km/h.'
+        'Vitesse constante ⟹ $\\sum F = 0$ (principe d\'inertie) : $F_1 - f = 0$, donc $f = F_1 = 60$ N.',
+        'PFD projeté sur l\'axe du mouvement : $F_2 - f = m\\times a$, donc $a = \\dfrac{F_2-f}{m} = \\dfrac{100-60}{25} = \\dfrac{40}{25} = 1{,}6$ m/s².',
+        'Loi horaire de la vitesse (mouvement rectiligne uniformément varié) : $v = v_0 + a\\times t = 2{,}0 + 1{,}6\\times4{,}0 = 2{,}0+6{,}4 = 8{,}4$ m/s.'
       ],
-      finalAnswer: '$N \\approx 686{,}7$ N, $a = 2{,}4$ m/s², $v \\approx 9{,}6$ m/s soit environ $34{,}6$ km/h après $4$ s. La réaction normale $N$ n\'intervient à aucun moment dans le calcul de l\'accélération horizontale : seules les forces horizontales ($F$ et $f$) sont responsables du mouvement étudié ici.'
+      finalAnswer: '$f = 60$ N, $a = 1{,}6$ m/s², $v = 8{,}4$ m/s après $4{,}0$ s. Cet exemple illustre l\'articulation des trois lois de Newton : le principe d\'inertie permet de déterminer une force inconnue (le frottement) à partir d\'un mouvement uniforme, puis le PFD permet de calculer l\'accélération dès que l\'équilibre est rompu.'
     },
 
     evaluation: {
@@ -217,61 +313,57 @@ window.MODULES.push({
       duration: '30 min',
       questions: [
         {
-          statement: 'Le principe fondamental de la dynamique s\'écrit :',
+          statement: 'Un système est en mouvement rectiligne uniforme dans un référentiel galiléen. D\'après le principe d\'inertie, on peut affirmer que :',
           type: 'multiple-choice',
           options: [
-            '$\\sum \\vec{F} = m \\vec{v}$',
-            '$\\sum \\vec{F} = m \\vec{a}$',
-            '$\\sum \\vec{F} = \\vec{a}/m$',
-            '$\\sum \\vec{F} = m + a$'
+            'La résultante des forces qui s\'exercent sur lui est nulle',
+            'Il n\'est soumis à aucune force',
+            'Une force motrice unique agit sur lui',
+            'Son accélération est constante et non nulle'
           ],
-          answer: 1,
+          answer: 0,
           points: 2,
-          correction: 'Le PFD relie la résultante des forces à l\'accélération : $\\sum \\vec{F} = m\\vec{a}$.'
+          correction: 'Mouvement rectiligne uniforme équivaut à $\\sum\\vec{F}=\\vec{0}$ : les forces peuvent être plusieurs et se compenser exactement, ce n\'est pas nécessairement une absence totale de force.'
         },
         {
-          statement: 'Un objet de masse $m = 15$ kg est soumis à une résultante des forces $F = 45$ N selon son axe de déplacement. Calculer son accélération (en m/s²).',
+          statement: 'Un objet de masse $m = 15$ kg est soumis à une résultante des forces $\\sum F = 45$ N. Calculer son accélération $a$ (en m/s²).',
           type: 'numeric',
           answer: 3,
           tolerance: 0.1,
           unit: 'm/s²',
           points: 2,
-          correction: '$a = \\dfrac{F}{m} = \\dfrac{45}{15} = 3$ m/s².'
+          correction: '$a = \\dfrac{\\sum F}{m} = \\dfrac{45}{15} = 3$ m/s².'
         },
         {
-          statement: 'D\'après le principe des actions réciproques, si un nageur pousse l\'eau vers l\'arrière avec ses bras, l\'eau exerce en retour sur le nageur une force :',
-          type: 'multiple-choice',
-          options: [
-            'De même norme, vers l\'avant',
-            'De norme plus faible, vers l\'avant',
-            'Nulle, l\'eau ne peut pas exercer de force en retour',
-            'De même norme, dans le même sens (vers l\'arrière)'
-          ],
-          answer: 0,
-          points: 2,
-          correction: 'D\'après le principe des actions réciproques, la force exercée par l\'eau sur le nageur a la même norme que celle exercée par le nageur sur l\'eau, mais un sens opposé : elle le propulse donc vers l\'avant.'
-        },
-        {
-          statement: 'Un solide de masse $m = 8$ kg, posé sur un plan horizontal, est immobile (on prend $g = 9{,}81$ m/s²). Calculer la norme de la réaction normale $N$ du support (en N, arrondie au dixième).',
+          statement: 'Une caisse se déplace à vitesse constante, tirée par une force horizontale $F$, avec un frottement $f = 90$ N. D\'après le principe d\'inertie, calculer $F$ (en N).',
           type: 'numeric',
-          answer: 78.5,
+          answer: 90,
           tolerance: 1,
           unit: 'N',
           points: 2,
-          correction: 'À l\'équilibre, $N = P = m \\times g = 8 \\times 9{,}81 \\approx 78{,}5$ N.'
+          correction: 'Vitesse constante ⟹ $\\sum F = 0$ ⟹ $F = f = 90$ N.'
         },
         {
-          statement: 'Une force $\\vec{F}_{A/B}$ exercée par un système A sur un système B et la force réciproque $\\vec{F}_{B/A}$ ont :',
+          statement: 'Deux véhicules entrent en collision. D\'après le principe des actions réciproques, la force exercée par le véhicule A sur le véhicule B pendant le choc :',
           type: 'multiple-choice',
           options: [
-            'La même norme et le même sens',
-            'Des normes différentes et des sens opposés',
-            'La même norme et des sens opposés',
-            'Toujours une norme nulle pour l\'une des deux'
+            'A la même norme que la force exercée par B sur A, quelles que soient leurs masses respectives',
+            'Est plus grande si A est plus lourd que B',
+            'Est nulle si B était à l\'arrêt',
+            'Dépend uniquement de la vitesse de A'
           ],
-          answer: 2,
-          points: 1,
-          correction: 'Le principe des actions réciproques impose $\\vec{F}_{A/B} = -\\vec{F}_{B/A}$ : même norme, même direction, mais sens opposés.'
+          answer: 0,
+          points: 2,
+          correction: 'Le principe des actions réciproques garantit l\'égalité des normes indépendamment des masses ou des vitesses ; en revanche, les effets (accélérations, dégâts) diffèrent bien selon la masse de chaque véhicule, via $a = F/m$.'
+        },
+        {
+          statement: 'Un chariot de masse $m = 60$ kg, soumis à une force motrice $F$ et à un frottement $f = 80$ N, accélère à $a = 0{,}5$ m/s². Calculer la valeur de $F$ (en N).',
+          type: 'numeric',
+          answer: 110,
+          tolerance: 2,
+          unit: 'N',
+          points: 2,
+          correction: 'PFD : $F - f = m\\times a$, donc $F = m\\times a + f = 60\\times0{,}5+80 = 30+80 = 110$ N.'
         }
       ]
     }

@@ -7,136 +7,185 @@ window.MODULES.push({
     level: 2, subject: 'physique',
     icon: '⚡',
     title: 'Champ électrostatique',
-    subtitle: 'Loi de Coulomb, champ électrostatique créé par une charge ponctuelle, force électrique',
-    keywords: ['Coulomb', 'Champ électrostatique', 'Charge ponctuelle', 'Force électrique'],
-    physics: 'Le champ électrostatique explique le fonctionnement du paratonnerre, des imprimantes laser, des filtres à particules électrostatiques, ainsi que l\'attraction entre objets chargés observée après un frottement (règle en plastique frottée qui attire de petits morceaux de papier).',
+    subtitle: 'Loi de Coulomb, vecteur champ électrique, champ uniforme entre deux plaques, force électrique',
+    keywords: ['Coulomb', 'Champ électrique', 'Charge', 'Force électrique', 'Condensateur plan'],
+    physics: 'Le champ électrique explique le fonctionnement des tubes cathodiques et des imprimantes à jet d\'encre (déviation d\'un faisceau de charges), le principe des capteurs capacitifs utilisés en domotique, la déviation des particules chargées dans un spectromètre de masse, et l\'expérience historique de Millikan qui a permis de mesurer la charge élémentaire.',
 
     cours: {
-      intro: 'Deux objets porteurs de charges électriques exercent l\'un sur l\'autre une force à distance : c\'est l\'<strong>interaction électrostatique</strong>. Contrairement à l\'interaction gravitationnelle, toujours attractive, l\'interaction électrostatique peut être <strong>attractive</strong> (charges de signes opposés) ou <strong>répulsive</strong> (charges de même signe).<br/><br/>Cette interaction obéit à la <strong>loi de Coulomb</strong>, dont la structure mathématique ressemble beaucoup à celle de la gravitation : la force dépend du produit des charges et décroît avec le <strong>carré</strong> de la distance.<br/><br/>Comme pour la gravitation, on introduit un <strong>champ électrostatique</strong> $\\vec{E}$ pour décrire l\'effet d\'une charge en un point de l\'espace, indépendamment de toute charge test qu\'on y placerait. C\'est ce champ qui, appliqué à une charge $q$, produit la force électrique $\\vec{F} = q\\vec{E}$.',
+      intro: 'Deux corps portant des <strong>charges électriques</strong> $q_1$ et $q_2$ interagissent selon la <strong>loi de Coulomb</strong>, dont la forme rappelle la loi de gravitation universelle — mais avec deux différences essentielles : l\'interaction électrique peut être <strong>attractive ou répulsive</strong> selon les signes des charges, et sa constante $k$ est immensément plus grande que $G$, ce qui la rend dominante à l\'échelle atomique.<br/><br/>La force électrique entre deux charges ponctuelles a pour norme $F = k\\dfrac{|q_1 q_2|}{r^2}$, avec $k \\approx 9{,}0\\times10^9$ N·m²·C⁻². Comme pour la gravitation, on peut définir un <strong>vecteur champ électrostatique</strong> $\\vec{E}$, créé par une charge $q$ en tout point de l\'espace, d\'intensité $E = k\\dfrac{|q|}{r^2}$.<br/><br/>Un cas particulier essentiel est celui du <strong>champ électrique uniforme</strong>, créé entre deux plaques planes parallèles chargées (un condensateur plan) séparées d\'une distance $d$ et soumises à une tension $U$ : ce champ, de même intensité et de même direction en tout point entre les plaques, vaut $E = \\dfrac{U}{d}$. Une charge $q$ placée dans un champ $\\vec{E}$ subit alors la force électrique $\\vec{F} = q\\vec{E}$.',
       definitions: [
-        { term: 'Charge électrique $q$', def: 'Grandeur scalaire, positive ou négative, exprimée en coulombs (C). Deux charges de même signe se repoussent, deux charges de signes opposés s\'attirent.' },
-        { term: 'Loi de Coulomb', def: 'Deux charges ponctuelles $q_1$ et $q_2$, séparées d\'une distance $d$, exercent l\'une sur l\'autre une force de norme $F = k\\dfrac{|q_1 \\, q_2|}{d^2}$, avec $k \\approx 8{,}99\\times10^9$ N·m²/C² (constante de Coulomb). Cette force est dirigée le long de la droite joignant les deux charges : attractive si $q_1$ et $q_2$ sont de signes opposés, répulsive s\'ils sont de même signe.' },
-        { term: 'Champ électrostatique $\\vec{E}$', def: 'Grandeur vectorielle définie en tout point par $\\vec{E}(M) = \\dfrac{\\vec{F}}{q}$, en V/m (ou N/C). Le champ créé par une charge ponctuelle $Q$ à distance $r$ a pour norme $E(r) = k\\dfrac{|Q|}{r^2}$, dirigé <strong>en s\'éloignant</strong> de $Q$ si $Q>0$, et <strong>vers</strong> $Q$ si $Q<0$.' },
-        { term: 'Force électrique subie par une charge test', def: 'Une charge $q$ placée dans un champ $\\vec{E}$ subit une force $\\vec{F} = q\\vec{E}$. Si $q>0$, $\\vec{F}$ est dans le <strong>même sens</strong> que $\\vec{E}$ ; si $q<0$, $\\vec{F}$ est de <strong>sens opposé</strong> à $\\vec{E}$.' }
+        { term: 'Charge électrique ($q$)', def: 'Grandeur scalaire, positive ou négative, mesurée en coulombs (C). La charge élémentaire vaut $e \\approx 1{,}6\\times10^{-19}$ C : toute charge électrique est un multiple entier de $e$ (elle est <strong>quantifiée</strong>).' },
+        { term: 'Loi de Coulomb', def: 'Deux charges ponctuelles $q_1$ et $q_2$ séparées par une distance $r$ interagissent avec une force de norme $F = k\\dfrac{|q_1 q_2|}{r^2}$, avec $k \\approx 9{,}0\\times10^9$ N·m²·C⁻². Attractive si les charges sont de signes opposés, répulsive si elles sont de même signe.' },
+        { term: 'Vecteur champ électrostatique ($\\vec{E}$)', def: 'Grandeur vectorielle (en V/m) créée par une charge en tout point de l\'espace. Entre deux plaques planes parallèles distantes de $d$ et soumises à une tension $U$, le champ est <strong>uniforme</strong> : $E = \\dfrac{U}{d}$, dirigé de la plaque positive vers la plaque négative.' },
+        { term: 'Force électrique ($\\vec{F} = q\\vec{E}$)', def: 'Force subie par une charge $q$ placée dans un champ $\\vec{E}$. Dirigée dans le <strong>même sens</strong> que $\\vec{E}$ si $q > 0$, dans le sens <strong>opposé</strong> si $q < 0$.' }
       ],
       method: {
-        title: 'Déterminer une force ou un champ électrostatique en 3 étapes',
+        title: 'Calculer une force ou un champ électrique en 3 étapes',
         steps: [
-          '<strong>Identifier</strong> les charges en présence (signe et valeur) ainsi que la distance $d$ qui les sépare.',
-          '<strong>Appliquer la loi de Coulomb</strong> pour calculer la norme de la force : $F = k\\dfrac{|q_1 q_2|}{d^2}$, puis déterminer le sens (attractif si signes opposés, répulsif si même signe) à partir des signes des charges — jamais à partir de la seule formule numérique.',
-          'Si besoin, <strong>déduire le champ</strong> créé en un point ($E = F/q$) ou la <strong>force subie</strong> par une charge test placée dans un champ connu ($F = qE$), en faisant bien attention au signe de la charge test pour orienter le vecteur force.'
+          '<strong>Identifier la situation</strong> : deux charges ponctuelles séparées par une distance $r$ (loi de Coulomb), ou un champ uniforme entre deux plaques séparées par $d$ et soumises à une tension $U$.',
+          '<strong>Appliquer la formule adaptée</strong> — $F = k\\dfrac{|q_1 q_2|}{r^2}$ pour une force entre deux charges, ou $E = \\dfrac{U}{d}$ pour un champ uniforme — en veillant à convertir toutes les grandeurs en unités du Système international (mètres, coulombs, volts).',
+          '<strong>Si une charge $q$ est placée dans un champ $\\vec{E}$</strong>, en déduire la force électrique $\\vec{F} = q\\vec{E}$ : sa norme vaut $|q| \\times E$, et son sens dépend du <strong>signe</strong> de $q$ — c\'est le point à ne jamais négliger.'
         ]
       },
       diagram: {
         theme: 'physique',
-        kicker: 'Champ électrostatique créé par une charge ponctuelle positive',
-        title: 'Décroissance du champ $\\vec{E}$ avec la distance (loi en $1/r^2$)',
-        description: 'Le champ électrostatique $\\vec{E}$ créé par une charge positive $+Q$ pointe radialement <strong>vers l\'extérieur</strong>, et sa norme diminue très vite avec la distance : à $2r$, le champ vaut le quart de sa valeur à $r$ ; à $3r$, il n\'en vaut plus qu\'un neuvième.',
+        kicker: 'Champ électrique uniforme (condensateur plan)',
+        title: 'Lignes de champ entre deux plaques planes parallèles',
+        description: 'Entre deux plaques planes parallèles chargées, le champ électrique $\\vec{E}$ est <strong>uniforme</strong> : les lignes de champ sont parallèles, équidistantes, et orientées de la plaque positive vers la plaque négative. Une charge test $+q$ y subit une force $\\vec{F} = q\\vec{E}$, dans le même sens que $\\vec{E}$.',
         svg: `
-          <svg viewBox="0 0 420 220" role="img" aria-labelledby="champe-title champe-desc">
-            <title id="champe-title">Champ electrostatique cree par une charge ponctuelle positive, decroissant avec la distance</title>
-            <desc id="champe-desc">Une charge positive notee Q est placee a gauche du schema, sur un axe horizontal en pointilles. Trois points sont places sur cet axe a des distances respectives r, 2r et 3r de la charge. En chacun de ces points, une fleche horizontale pointe vers la droite, dans le sens qui s'eloigne de la charge. La fleche la plus proche de la charge, a la distance r, est la plus longue. Celle a la distance 2r est nettement plus courte, environ le quart de la premiere. Celle a la distance 3r est encore plus courte, environ le neuvieme de la premiere, illustrant la decroissance du champ avec le carre de la distance.</desc>
+          <svg viewBox="0 0 560 300" role="img" aria-labelledby="champe-title champe-desc">
+            <title id="champe-title">Champ electrique uniforme entre deux plaques planes paralleles</title>
+            <desc id="champe-desc">Deux plaques verticales paralleles, l'une chargee positivement a gauche et l'autre negativement a droite, delimitent une zone ou regnent quatre lignes de champ horizontales, paralleles et equidistantes, orientees de la plaque positive vers la plaque negative. Une charge test positive, representee par un petit cercle au centre de la zone, est associee a une fleche courte representant la force electrique qu'elle subit, orientee dans le meme sens que les lignes de champ.</desc>
 
             <defs>
-              <marker id="arrow-phys1re-champe" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+              <marker id="arrow-phy1re-champe" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
                 <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
               </marker>
             </defs>
 
-            <!-- axe radial -->
-            <line class="guide-line" x1="60" y1="170" x2="380" y2="170"></line>
+            <!-- plaque positive (gauche) -->
+            <line class="frame-line" x1="120" y1="55" x2="120" y2="245"></line>
+            <line class="frame-line" x1="120" y1="75" x2="108" y2="75"></line>
+            <line class="frame-line" x1="120" y1="125" x2="108" y2="125"></line>
+            <line class="frame-line" x1="120" y1="175" x2="108" y2="175"></line>
+            <line class="frame-line" x1="120" y1="225" x2="108" y2="225"></line>
+            <text class="annotation-label" x="120" y="42" text-anchor="middle">+</text>
 
-            <!-- charge Q -->
-            <circle class="plot-point" cx="60" cy="170" r="9"></circle>
-            <text class="annotation-label" x="60" y="145" text-anchor="middle">+Q</text>
+            <!-- plaque negative (droite) -->
+            <line class="frame-line" x1="440" y1="55" x2="440" y2="245"></line>
+            <line class="frame-line" x1="440" y1="75" x2="452" y2="75"></line>
+            <line class="frame-line" x1="440" y1="125" x2="452" y2="125"></line>
+            <line class="frame-line" x1="440" y1="175" x2="452" y2="175"></line>
+            <line class="frame-line" x1="440" y1="225" x2="452" y2="225"></line>
+            <text class="annotation-label" x="440" y="42" text-anchor="middle">−</text>
 
-            <!-- point a r, vecteur E1 (le plus long) -->
-            <circle class="plot-point-alt" cx="140" cy="170" r="4"></circle>
-            <line class="curve-main" x1="140" y1="170" x2="210" y2="170" marker-end="url(#arrow-phys1re-champe)"></line>
-            <text class="tick-label" x="140" y="192" text-anchor="middle">r</text>
-            <text class="annotation-label" x="178" y="155" text-anchor="middle">E₁</text>
+            <!-- lignes de champ (paralleles, equidistantes) -->
+            <line class="guide-line" x1="145" y1="90" x2="415" y2="90" marker-end="url(#arrow-phy1re-champe)"></line>
+            <line class="guide-line" x1="145" y1="130" x2="415" y2="130" marker-end="url(#arrow-phy1re-champe)"></line>
+            <line class="guide-line" x1="145" y1="170" x2="415" y2="170" marker-end="url(#arrow-phy1re-champe)"></line>
+            <line class="guide-line" x1="145" y1="210" x2="415" y2="210" marker-end="url(#arrow-phy1re-champe)"></line>
+            <text class="label-soft" x="280" y="76" text-anchor="middle">champ E</text>
 
-            <!-- point a 2r, vecteur E2 = E1/4 -->
-            <circle class="plot-point-alt" cx="220" cy="170" r="4"></circle>
-            <line class="curve-main" x1="220" y1="170" x2="237.5" y2="170" marker-end="url(#arrow-phys1re-champe)"></line>
-            <text class="tick-label" x="220" y="192" text-anchor="middle">2r</text>
-            <text class="annotation-label" x="245" y="160" text-anchor="start">E₂</text>
-
-            <!-- point a 3r, vecteur E3 = E1/9 -->
-            <circle class="plot-point-alt" cx="300" cy="170" r="4"></circle>
-            <line class="curve-main" x1="300" y1="170" x2="307.8" y2="170" marker-end="url(#arrow-phys1re-champe)"></line>
-            <text class="tick-label" x="300" y="192" text-anchor="middle">3r</text>
-            <text class="annotation-label" x="315" y="160" text-anchor="start">E₃</text>
+            <!-- charge test +q et force F = qE -->
+            <circle class="plot-point-alt" cx="280" cy="150" r="14"></circle>
+            <text class="annotation-label" x="280" y="154" text-anchor="middle">+q</text>
+            <line class="curve-main" x1="298" y1="150" x2="345" y2="150" marker-end="url(#arrow-phy1re-champe)"></line>
+            <text class="annotation-label" x="321" y="138" text-anchor="middle">F = qE</text>
           </svg>
         `,
         notes: [
-          'Les trois points sont alignés sur le même axe radial issu de la charge $+Q$, à des distances $r$, $2r$ et $3r$ : le champ $\\vec{E}$ pointe partout <strong>en s\'éloignant</strong> de la charge, car $Q$ est positive.',
-          'La norme du champ suit une loi en $1/r^2$ : en doublant la distance ($2r$), le champ est divisé par $2^2 = 4$ ; en la triplant ($3r$), il est divisé par $3^2 = 9$. C\'est exactement la même décroissance que pour le champ gravitationnel.',
-          'Si la charge $Q$ était <strong>négative</strong>, les trois vecteurs $\\vec{E}$ pointeraient tous dans l\'autre sens, <strong>vers</strong> la charge, mais leur norme suivrait la même loi de décroissance.'
+          'Les lignes de champ sont <strong>parallèles et équidistantes</strong> : c\'est la signature d\'un champ <strong>uniforme</strong>, de même intensité $E = \\dfrac{U}{d}$ en tout point situé entre les plaques.',
+          'Les lignes de champ vont toujours de la plaque <strong>positive</strong> vers la plaque <strong>négative</strong> : c\'est le sens conventionnel du vecteur champ électrique $\\vec{E}$.',
+          'La charge test étant <strong>positive</strong> ici, la force $\\vec{F} = q\\vec{E}$ qu\'elle subit est dans le <strong>même sens</strong> que $\\vec{E}$. Pour une charge négative, cette force serait dirigée en sens opposé.'
         ],
-        reading: 'Repère la charge $+Q$ à gauche, puis compare la longueur des trois flèches en t\'éloignant vers la droite : elle diminue très rapidement, bien plus vite que la distance elle-même.',
-        caption: 'Champ électrostatique radial créé par une charge ponctuelle positive : sa norme décroît en $1/r^2$, ici illustrée à $r$, $2r$ et $3r$ (rapports $1$, $1/4$ et $1/9$).'
+        reading: 'Repère les quatre lignes de champ parallèles entre les deux plaques, puis la charge test $+q$ au centre et la flèche courte qui représente la force électrique qu\'elle subit, dans le même sens que le champ.',
+        caption: 'Champ électrique uniforme entre deux plaques planes parallèles : lignes de champ parallèles et équidistantes, de la plaque positive vers la plaque négative. La force $\\vec{F} = q\\vec{E}$ sur une charge test positive est dans le même sens que $\\vec{E}$.'
       },
+      diagrams: [
+        {
+          theme: 'physique',
+          kicker: 'Loi de Coulomb (interaction entre deux charges ponctuelles)',
+          title: 'Deux charges de même signe : une répulsion à distance',
+          description: 'Le schéma ci-dessus montre le champ <strong>déjà établi</strong> entre deux plaques ; la loi de Coulomb, elle, décrit la force <strong>directement entre deux charges ponctuelles</strong> $q_1$ et $q_2$ séparées d\'une distance $r$ — sans plaques ni condensateur. Ici, les deux charges sont de <strong>même signe</strong> : elles se <strong>repoussent</strong>.',
+          svg: `
+            <svg viewBox="0 0 560 300" role="img" aria-labelledby="champe-coulomb-title champe-coulomb-desc">
+              <title id="champe-coulomb-title">Force de Coulomb entre deux charges ponctuelles de meme signe</title>
+              <desc id="champe-coulomb-desc">Deux charges ponctuelles positives, representees par deux petits cercles identiques distants de r, se repoussent : une fleche part de chaque charge et pointe vers l'exterieur, en s'eloignant de l'autre charge. Les deux fleches ont une longueur strictement egale, illustrant le principe des actions reciproques applique a la loi de Coulomb.</desc>
+
+              <defs>
+                <marker id="arrow-phy1re-coulomb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+                </marker>
+              </defs>
+
+              <!-- charges ponctuelles -->
+              <circle class="frame-line" cx="150" cy="150" r="18" fill="none"></circle>
+              <text class="annotation-label" x="150" y="155" text-anchor="middle">q₁</text>
+              <circle class="frame-line" cx="410" cy="150" r="18" fill="none"></circle>
+              <text class="annotation-label" x="410" y="155" text-anchor="middle">q₂</text>
+
+              <!-- cotation distance r (entre les centres) -->
+              <line class="frame-line" x1="150" y1="245" x2="150" y2="255"></line>
+              <line class="frame-line" x1="410" y1="245" x2="410" y2="255"></line>
+              <line class="guide-line" x1="150" y1="250" x2="410" y2="250"></line>
+              <text class="tick-label" x="280" y="270" text-anchor="middle">r</text>
+
+              <!-- F(2->1), sur q1, s'eloigne de q2 (repulsion) -->
+              <line class="curve-main" x1="132" y1="150" x2="70" y2="150" marker-end="url(#arrow-phy1re-coulomb)"></line>
+              <text class="annotation-label" x="101" y="136" text-anchor="middle">F(2→1)</text>
+
+              <!-- F(1->2), sur q2, s'eloigne de q1 (repulsion) -->
+              <line class="curve-main" x1="428" y1="150" x2="490" y2="150" marker-end="url(#arrow-phy1re-coulomb)"></line>
+              <text class="annotation-label" x="459" y="136" text-anchor="middle">F(1→2)</text>
+            </svg>
+          `,
+          notes: [
+            'Les charges $q_1$ et $q_2$ étant de <strong>même signe</strong>, les forces pointent vers l\'<strong>extérieur</strong> (répulsion). Si elles étaient de signes opposés, les deux flèches pointeraient au contraire l\'une vers l\'autre (attraction) — seul le sens change, pas la méthode.',
+            'Comme pour l\'interaction gravitationnelle, la distance $r$ se mesure entre les <strong>centres</strong> des deux charges, et les deux forces $\\vec{F}(2\\to1)$ et $\\vec{F}(1\\to2)$ ont exactement la <strong>même norme</strong> : le principe des actions réciproques s\'applique aussi à l\'interaction électrique.',
+            'Norme commune des deux forces : $F = k\\dfrac{|q_1q_2|}{r^2}$, avec $k\\approx9{,}0\\times10^9$ N·m²·C⁻² — cette loi ne s\'applique qu\'à des charges <strong>ponctuelles</strong>, contrairement au champ uniforme du schéma précédent.'
+          ],
+          reading: 'Repère les deux flèches de même longueur qui partent de chaque charge en s\'éloignant de l\'autre : cette symétrie traduit le principe des actions réciproques, ici appliqué à une répulsion entre charges de même signe.',
+          caption: 'Deux charges ponctuelles $q_1$ et $q_2$ de même signe séparées par une distance $r$ se repoussent avec des forces de même norme $F=k\\dfrac{|q_1q_2|}{r^2}$ et de sens opposés.'
+        }
+      ],
       example: {
-        statement: 'Deux petites sphères chargées sont séparées d\'une distance $d = 15$ cm dans l\'air. La première porte une charge $q_1 = +4{,}0\\times10^{-6}$ C, la seconde $q_2 = -2{,}0\\times10^{-6}$ C. On donne $k \\approx 8{,}99\\times10^9$ N·m²/C².<br/><br/>Calculer la norme de la force électrostatique entre les deux sphères, et préciser si elle est attractive ou répulsive.',
+        statement: 'Un condensateur plan est formé de deux plaques parallèles distantes de $d = 2{,}0$ cm, soumises à une tension $U = 400$ V.<br/><br/>Calculer l\'intensité $E$ du champ électrique uniforme entre les plaques, puis la force électrique $F$ subie par un électron (charge $q_e = -1{,}6\\times10^{-19}$ C) placé dans ce champ.',
         steps: [
-          'Conversion de la distance en mètres : $d = 15$ cm $= 0{,}15$ m.',
-          'Loi de Coulomb : $F = k\\dfrac{|q_1 \\, q_2|}{d^2} = 8{,}99\\times10^9 \\times \\dfrac{|4{,}0\\times10^{-6} \\times (-2{,}0\\times10^{-6})|}{0{,}15^2}$.',
-          'Produit des charges (en valeur absolue) : $|q_1 q_2| = 4{,}0\\times10^{-6} \\times 2{,}0\\times10^{-6} = 8{,}0\\times10^{-12}$. Carré de la distance : $0{,}15^2 = 0{,}0225$ m².',
-          '$F = 8{,}99\\times10^9 \\times \\dfrac{8{,}0\\times10^{-12}}{0{,}0225} = 8{,}99\\times10^9 \\times 3{,}56\\times10^{-10} \\approx 3{,}2$ N.',
-          'Les charges $q_1$ et $q_2$ sont de <strong>signes opposés</strong> ($q_1 > 0$ et $q_2 < 0$) : la force est donc <strong>attractive</strong>.'
+          'Conversion de la distance : $d = 2{,}0$ cm $= 2{,}0\\times10^{-2}$ m.',
+          'Champ électrique uniforme entre deux plaques : $E = \\dfrac{U}{d} = \\dfrac{400}{2{,}0\\times10^{-2}} = 2{,}0\\times10^4$ V/m.',
+          'Force électrique subie par l\'électron (en norme) : $F = |q_e| \\times E = 1{,}6\\times10^{-19} \\times 2{,}0\\times10^4$.',
+          'Résultat : $F \\approx 3{,}2\\times10^{-15}$ N — une force extrêmement faible en valeur absolue, mais suffisante pour dévier fortement un électron, dont la masse est elle-même infime.'
         ],
-        answer: '$F \\approx 3{,}2$ N, force attractive. Le signe des charges ne modifie jamais la formule numérique de Coulomb (on prend toujours la valeur absolue du produit), mais il détermine entièrement le <strong>sens</strong> de la force : c\'est une étape à part entière du raisonnement, pas un détail accessoire.'
+        answer: '$E = 2{,}0\\times10^4$ V/m et $F \\approx 3{,}2\\times10^{-15}$ N. Comme la charge de l\'électron est négative, la force $\\vec{F} = q_e\\vec{E}$ est dirigée en sens <strong>opposé</strong> au champ $\\vec{E}$, donc de la plaque négative vers la plaque positive.'
       },
       formulas: [
-        'Loi de Coulomb : $F = k\\dfrac{|q_1 \\, q_2|}{d^2}$, avec $k \\approx 8{,}99\\times10^9$ N·m²/C²',
-        'Champ électrostatique : $\\vec{E}(M) = \\dfrac{\\vec{F}}{q}$ (en V/m ou N/C)',
-        'Champ créé par une charge ponctuelle $Q$ à distance $r$ : $E(r) = k\\dfrac{|Q|}{r^2}$',
-        'Force électrique subie par une charge test : $\\vec{F} = q\\vec{E}$',
-        'Charge élémentaire : $e \\approx 1{,}6\\times10^{-19}$ C'
+        'Loi de Coulomb : $F = k\\dfrac{|q_1 q_2|}{r^2}$, avec $k \\approx 9{,}0\\times10^9$ N·m²·C⁻²',
+        'Champ électrique créé par une charge ponctuelle $q$ : $E = k\\dfrac{|q|}{r^2}$',
+        'Champ électrique uniforme (condensateur plan) : $E = \\dfrac{U}{d}$',
+        'Force électrique sur une charge $q$ : $\\vec{F} = q\\vec{E}$'
       ],
       recap: [
-        'L\'interaction électrostatique peut être <strong>attractive</strong> (charges de signes opposés) ou <strong>répulsive</strong> (charges de même signe), contrairement à la gravitation, toujours attractive.',
-        'La loi de Coulomb a la même structure que la loi de gravitation universelle : elle décroît avec le <strong>carré</strong> de la distance ($1/d^2$).',
-        'Le champ électrostatique $\\vec{E}$ créé par une charge positive pointe en s\'<strong>éloignant</strong> d\'elle ; celui créé par une charge négative pointe <strong>vers</strong> elle.',
-        'La force subie par une charge test $q$ placée dans un champ $\\vec{E}$ vaut $\\vec{F} = q\\vec{E}$ : son sens dépend du <strong>signe</strong> de $q$, pas seulement de celui du champ.'
+        'La loi de Coulomb $F = k\\dfrac{|q_1q_2|}{r^2}$ décroît comme la loi de gravitation, mais l\'interaction électrique peut être <strong>attractive ou répulsive</strong> selon les signes des charges.',
+        'La constante $k \\approx 9{,}0\\times10^9$ N·m²·C⁻² est immensément plus grande que $G$ : l\'interaction électrique domine très largement à l\'échelle atomique.',
+        'Entre deux plaques planes parallèles, le champ $E = \\dfrac{U}{d}$ est <strong>uniforme</strong> : lignes de champ parallèles, équidistantes, de la plaque positive vers la négative.',
+        'Le sens de la force $\\vec{F} = q\\vec{E}$ dépend du <strong>signe</strong> de la charge : même sens que $\\vec{E}$ si $q>0$, sens opposé si $q<0$.'
       ],
-      piege: 'Une erreur fréquente est d\'oublier de tenir compte du signe des charges pour déterminer le sens de la force, en ne calculant que sa norme avec la formule de Coulomb. Attention, la formule $F = k\\dfrac{|q_1 q_2|}{d^2}$ ne donne que la <strong>norme</strong> de la force (toujours positive) : c\'est en comparant les signes de $q_1$ et $q_2$, séparément, qu\'on détermine si l\'interaction est attractive ou répulsive.'
+      piege: 'Une erreur fréquente est de tracer systématiquement la force électrique $\\vec{F} = q\\vec{E}$ dans le même sens que le champ $\\vec{E}$, quel que soit le signe de la charge $q$. Attention : cette force n\'a le même sens que $\\vec{E}$ que si $q$ est positive ; pour une charge négative comme l\'électron, $\\vec{F}$ pointe au contraire en sens strictement opposé à $\\vec{E}$.'
     },
 
     quiz: [
       {
-        q: 'Deux charges électriques $q_1 = +3\\,\\mu C$ et $q_2 = +5\\,\\mu C$ sont placées à proximité l\'une de l\'autre. Quelle est la nature de la force électrostatique entre elles ?',
+        q: 'Deux charges ponctuelles de même signe sont séparées par une distance $r$. Si on triple cette distance (charges inchangées), la force électrique entre elles devient :',
         options: [
-          'Attractive, car les deux charges sont positives',
-          'Répulsive, car les deux charges sont de même signe',
-          'Nulle, car les deux charges sont positives',
-          'On ne peut pas savoir sans connaître la distance'
+          'Divisée par 9',
+          'Divisée par 3',
+          'Multipliée par 3',
+          'Inchangée'
         ],
-        answer: 1,
-        correction: 'Deux charges de <strong>même signe</strong> (ici, toutes deux positives) se repoussent : la force est répulsive, quelle que soit la distance qui les sépare (seule la norme de la force dépend de la distance, pas sa nature attractive ou répulsive).'
+        answer: 0,
+        correction: 'La loi de Coulomb donne $F = k\\dfrac{|q_1 q_2|}{r^2}$ : la force est inversement proportionnelle au carré de la distance. Tripler $r$ multiplie $r^2$ par 9, donc $F$ est divisée par 9.'
       },
       {
-        q: 'Le champ électrostatique créé par une charge ponctuelle $Q$ à une distance $r$ de celle-ci vaut $E$. Si on double la distance (on se place à $2r$), que devient le champ ?',
+        q: 'Deux charges électriques de signes opposés sont placées à une distance $r$ l\'une de l\'autre. L\'interaction électrique entre elles est :',
         options: [
-          'Il double',
-          'Il est divisé par 2',
-          'Il est divisé par 4',
-          'Il reste identique'
+          'Attractive',
+          'Répulsive',
+          'Nulle',
+          'Alternativement attractive puis répulsive'
         ],
-        answer: 2,
-        correction: 'Le champ électrostatique suit une loi en $1/r^2$ : $E(2r) = k\\dfrac{|Q|}{(2r)^2} = k\\dfrac{|Q|}{4r^2} = \\dfrac{E(r)}{4}$. En doublant la distance, le champ est bien divisé par $4$, pas par $2$.'
+        answer: 0,
+        correction: 'Deux charges de signes opposés s\'attirent, deux charges de même signe se repoussent : contrairement à l\'interaction gravitationnelle, toujours attractive, l\'interaction électrique peut être attractive <strong>ou</strong> répulsive selon les signes des charges en présence.'
       },
       {
-        q: 'Une charge test $q = -2\\,\\mu C$ (négative) est placée dans un champ électrostatique $\\vec{E}$ orienté vers la droite. Quel est le sens de la force électrique $\\vec{F} = q\\vec{E}$ subie par cette charge ?',
+        q: 'Un ion négatif est placé dans un champ électrique uniforme $\\vec{E}$, dirigé de la gauche vers la droite. Dans quel sens est dirigée la force électrique qu\'il subit ?',
         options: [
-          'Vers la droite, comme $\\vec{E}$',
-          'Vers la gauche, opposé à $\\vec{E}$, car $q$ est négative',
-          'La force est nulle, car $q$ est négative',
-          'On ne peut pas déterminer le sens sans connaître la norme de $\\vec{E}$'
+          'De la droite vers la gauche (sens opposé à $\\vec{E}$)',
+          'De la gauche vers la droite (même sens que $\\vec{E}$)',
+          'Perpendiculairement à $\\vec{E}$',
+          'Aucune force ne s\'exerce sur cet ion'
         ],
-        answer: 1,
-        correction: 'Comme $q<0$, le vecteur $\\vec{F} = q\\vec{E}$ est de <strong>sens opposé</strong> à $\\vec{E}$ : la force pointe donc vers la gauche, même si le champ lui-même pointe vers la droite. Le signe de la charge test inverse toujours le sens de la force par rapport au champ.'
+        answer: 0,
+        correction: 'La force électrique vaut $\\vec{F} = q\\vec{E}$. Comme la charge $q$ de l\'ion négatif est négative, $\\vec{F}$ est dirigée en sens <strong>opposé</strong> à $\\vec{E}$, donc de la droite vers la gauche.'
       }
     ],
 
@@ -144,62 +193,58 @@ window.MODULES.push({
       type: 'numeric',
       generate() {
         var typeExo = pick(['coulomb', 'champ']);
-        var k = 8.99e9;
 
         if (typeExo === 'coulomb') {
-          var q1mant = randFloat(1, 9, 1);
-          var q2mant = randFloat(1, 9, 1);
-          var d = randFloat(0.05, 0.5, 2);
-          var q1 = q1mant * 1e-6;
-          var q2 = q2mant * 1e-6;
-          var F = k * q1 * q2 / (d * d);
-          var expF = Math.floor(Math.log10(F));
-          var mantF = parseFloat((F / Math.pow(10, expF)).toFixed(2));
-          if (mantF >= 10) { mantF = parseFloat((mantF / 10).toFixed(2)); expF += 1; }
-          var Fdisplay = fr(mantF, 2) + ' \\times 10^{' + expF + '}';
+          var q1uC = pick([1, 2, 3, 4, 5, 6, 8, 10]);
+          var q2uC = pick([1, 2, 3, 4, 5, 6, 8, 10]);
+          var r = pick([0.2, 0.3, 0.5, 0.8, 1, 1.5, 2]);
+          var k = 9e9;
+          var F = k * (q1uC * 1e-6) * (q2uC * 1e-6) / (r * r);
+          var decimals = F >= 1 ? 2 : 4;
+          var Fround = parseFloat(F.toFixed(decimals));
+          var tol = parseFloat(Math.max(F >= 1 ? 0.05 : 0.0005, Fround * 0.05).toFixed(decimals));
           var contexte = pick([
-            'un générateur électrostatique de laboratoire',
-            'deux sphères conductrices d\'une expérience de Coulomb',
-            'un dispositif de démonstration en salle de physique',
-            'un capteur électrostatique de contrôle industriel'
+            'deux sphères chargées d\'un électroscope',
+            'deux billes électrisées par frottement',
+            'deux petites sphères conductrices de laboratoire',
+            'deux gouttelettes chargées',
+            'deux charges ponctuelles d\'un dispositif expérimental'
           ]);
           return {
-            statement: 'Sur ' + contexte + ', deux charges ponctuelles $q_1 = ' + fr(q1mant, 1) + '\\times10^{-6}$ C et $q_2 = ' + fr(q2mant, 1) + '\\times10^{-6}$ C sont séparées d\'une distance $d = ' + fr(d, 2) + '$ m.<br/><br/>Avec $k \\approx 8{,}99\\times10^9$ N·m²/C², calcule la norme $F$ de la force électrostatique entre elles (en N, en notation scientifique, arrondie à deux chiffres significatifs).',
-            answer: F,
-            tolerance: F * 0.05,
+            statement: 'Dans le cas de ' + contexte + ', deux charges ponctuelles $q_1 = ' + q1uC + '$ µC et $q_2 = ' + q2uC + '$ µC sont séparées par une distance $r = ' + fr(r, 1) + '$ m.<br/><br/>Calcule l\'intensité $F$ de la force électrique entre ces deux charges (en N), avec $k \\approx 9{,}0\\times10^9$ N·m²·C⁻².',
+            answer: Fround,
+            tolerance: tol,
             unit: 'N',
-            hint: 'Loi de Coulomb : $F = k\\dfrac{|q_1 q_2|}{d^2}$. N\'oublie pas d\'élever $d$ au carré avant de diviser.',
+            hint: 'Convertis les charges en coulombs ($1$ µC $=10^{-6}$ C) puis applique la loi de Coulomb $F = k\\dfrac{|q_1 q_2|}{r^2}$.',
             solution: [
-              'Loi de Coulomb : $F = k\\dfrac{|q_1 \\, q_2|}{d^2}$.',
-              'Produit des charges : $' + fr(q1mant, 1) + '\\times10^{-6} \\times ' + fr(q2mant, 1) + '\\times10^{-6}$. Carré de la distance : $d^2 = ' + fr(parseFloat((d * d).toFixed(4)), 4) + '$ m².',
-              'Résultat : $F \\approx ' + Fdisplay + '$ N.'
+              'Conversion : $q_1 = ' + q1uC + '\\times10^{-6}$ C et $q_2 = ' + q2uC + '\\times10^{-6}$ C.',
+              'Loi de Coulomb : $F = k\\dfrac{|q_1 q_2|}{r^2} = 9{,}0\\times10^9 \\times \\dfrac{' + q1uC + '\\times10^{-6} \\times ' + q2uC + '\\times10^{-6}}{' + fr(r, 1) + '^2}$.',
+              'Résultat : $F \\approx ' + fr(Fround, decimals) + '$ N.'
             ]
           };
         } else {
-          var Qmant = randFloat(1, 9, 1);
-          var Q = Qmant * 1e-6;
-          var r = randFloat(0.1, 1, 2);
-          var E = k * Q / (r * r);
-          var expE = Math.floor(Math.log10(E));
-          var mantE = parseFloat((E / Math.pow(10, expE)).toFixed(2));
-          if (mantE >= 10) { mantE = parseFloat((mantE / 10).toFixed(2)); expE += 1; }
-          var Edisplay = fr(mantE, 2) + ' \\times 10^{' + expE + '}';
-          var appareil = pick([
-            'un capteur de champ électrostatique',
-            'une électrode d\'un dispositif de dépoussiérage industriel',
-            'un paratonnerre en cours de modélisation',
-            'un module de mesure en salle de travaux pratiques'
+          var dCm = pick([0.5, 1, 1.5, 2, 3, 4, 5]);
+          var U = pick([100, 150, 200, 250, 300, 400, 500, 600]);
+          var dM = dCm / 100;
+          var E = U / dM;
+          var Eround = parseFloat(E.toFixed(1));
+          var tol2 = parseFloat(Math.max(5, Eround * 0.03).toFixed(1));
+          var contexte2 = pick([
+            'un condensateur plan de laboratoire',
+            'un dispositif de déviation d\'un tube cathodique',
+            'un capteur capacitif industriel',
+            'un montage expérimental de champ uniforme'
           ]);
           return {
-            statement: 'Sur ' + appareil + ', une charge ponctuelle $Q = ' + fr(Qmant, 1) + '\\times10^{-6}$ C crée un champ électrostatique à une distance $r = ' + fr(r, 2) + '$ m.<br/><br/>Avec $k \\approx 8{,}99\\times10^9$ N·m²/C², calcule la norme $E$ de ce champ (en V/m, en notation scientifique, arrondie à deux chiffres significatifs).',
-            answer: E,
-            tolerance: E * 0.05,
+            statement: 'Dans ' + contexte2 + ', deux plaques parallèles distantes de $d = ' + fr(dCm, 1) + '$ cm sont soumises à une tension $U = ' + U + '$ V.<br/><br/>Calcule l\'intensité $E$ du champ électrique uniforme entre les plaques (en V/m, arrondie au dixième).',
+            answer: Eround,
+            tolerance: tol2,
             unit: 'V/m',
-            hint: 'Utilise $E(r) = k\\dfrac{|Q|}{r^2}$, la formule du champ créé par une charge ponctuelle.',
+            hint: 'Convertis $d$ en mètres puis utilise $E = \\dfrac{U}{d}$.',
             solution: [
-              'Formule du champ électrostatique : $E(r) = k\\dfrac{|Q|}{r^2}$.',
-              'On élève d\'abord $r$ au carré, puis on multiplie $k$ par $|Q|$ avant de diviser.',
-              'Résultat : $E \\approx ' + Edisplay + '$ V/m.'
+              'Conversion : $d = ' + fr(dCm, 1) + '$ cm $= ' + fr(dM, 3) + '$ m.',
+              'Champ uniforme : $E = \\dfrac{U}{d} = \\dfrac{' + U + '}{' + fr(dM, 3) + '}$.',
+              'Résultat : $E \\approx ' + fr(Eround, 1) + '$ V/m.'
             ]
           };
         }
@@ -207,18 +252,18 @@ window.MODULES.push({
     },
 
     probleme: {
-      context: 'Dans un dispositif de dépoussiérage électrostatique, une électrode porte une charge $Q = +2{,}5\\times10^{-5}$ C. Une petite particule de poussière porte une charge $q = -8{,}0\\times10^{-9}$ C et se trouve à une distance $r = 0{,}20$ m de l\'électrode. On donne $k \\approx 8{,}99\\times10^9$ N·m²/C².',
+      context: 'Dans une expérience inspirée de celle de Millikan, une gouttelette d\'huile chargée, de masse $m = 1{,}0\\times10^{-14}$ kg, reste immobile entre deux plaques horizontales distantes de $d = 1{,}0$ cm, soumises à une tension $U = 500$ V. Le poids de la gouttelette est exactement compensé par la force électrique exercée par le champ uniforme entre les plaques (on prendra $g = 9{,}81$ m/s² et $e \\approx 1{,}6\\times10^{-19}$ C).',
       tasks: [
-        'Calculer la norme du champ électrostatique $E$ créé par l\'électrode à la distance $r$.',
-        'En déduire la norme de la force électrique $F$ subie par la particule de poussière.',
-        'Préciser le sens de cette force (attirance ou répulsion de la particule vers l\'électrode), en justifiant à partir des signes des charges.'
+        'Calculer le poids $P$ de la gouttelette.',
+        'Calculer l\'intensité $E$ du champ électrique uniforme entre les plaques.',
+        'Sachant qu\'à l\'équilibre la force électrique compense exactement le poids ($F = P$), en déduire la charge $q$ portée par la gouttelette, puis le nombre $n$ de charges élémentaires qu\'elle porte (charge élémentaire $e$).'
       ],
       solutions: [
-        '$E = k\\dfrac{|Q|}{r^2} = 8{,}99\\times10^9 \\times \\dfrac{2{,}5\\times10^{-5}}{0{,}20^2} = 8{,}99\\times10^9 \\times \\dfrac{2{,}5\\times10^{-5}}{0{,}04} \\approx 5{,}62\\times10^6$ V/m.',
-        '$F = |q| \\times E = 8{,}0\\times10^{-9} \\times 5{,}62\\times10^6 \\approx 4{,}5\\times10^{-2}$ N, soit environ $45$ mN.',
-        'L\'électrode porte une charge <strong>positive</strong> ($Q>0$) et la particule une charge <strong>négative</strong> ($q<0$) : les deux charges sont de signes opposés, donc la force est <strong>attractive</strong>. La particule de poussière est attirée vers l\'électrode, ce qui permet de la capturer.'
+        '$P = m \\times g = 1{,}0\\times10^{-14} \\times 9{,}81 \\approx 9{,}81\\times10^{-14}$ N.',
+        '$E = \\dfrac{U}{d} = \\dfrac{500}{1{,}0\\times10^{-2}} = 5{,}0\\times10^4$ V/m.',
+        'À l\'équilibre, $F = qE = P$, donc $q = \\dfrac{P}{E} = \\dfrac{9{,}81\\times10^{-14}}{5{,}0\\times10^4} \\approx 1{,}96\\times10^{-18}$ C. Nombre de charges élémentaires : $n = \\dfrac{q}{e} = \\dfrac{1{,}96\\times10^{-18}}{1{,}6\\times10^{-19}} \\approx 12{,}3$, arrondi à $n = 12$ (la charge d\'une gouttelette est nécessairement un <strong>multiple entier</strong> de $e$).'
       ],
-      finalAnswer: '$E \\approx 5{,}62\\times10^6$ V/m et $F \\approx 4{,}5\\times10^{-2}$ N, force attractive. C\'est exactement ce principe d\'attraction électrostatique qui est exploité dans les filtres à particules industriels pour capter les poussières chargées.'
+      finalAnswer: '$P \\approx 9{,}81\\times10^{-14}$ N, $E = 5{,}0\\times10^4$ V/m, $q \\approx 1{,}96\\times10^{-18}$ C, soit environ $n = 12$ charges élémentaires. C\'est précisément ce type d\'expérience qui a permis à Millikan de démontrer que la charge électrique est <strong>quantifiée</strong> : elle ne peut prendre que des valeurs multiples entiers de la charge élémentaire $e$.'
     },
 
     evaluation: {
@@ -226,57 +271,57 @@ window.MODULES.push({
       duration: '30 min',
       questions: [
         {
-          statement: 'Deux charges $q_1 = +2\\,\\mu C$ et $q_2 = +6\\,\\mu C$ sont séparées de $d = 0{,}10$ m. Calculer la norme de la force électrostatique entre elles (en N, avec $k \\approx 8{,}99\\times10^9$ N·m²/C²).',
+          statement: 'Deux charges ponctuelles $q_1 = 4$ µC et $q_2 = 6$ µC sont séparées par $r = 0{,}3$ m. Calculer la force électrique $F$ entre elles (en N, arrondie au dixième), avec $k \\approx 9{,}0\\times10^9$ N·m²·C⁻².',
           type: 'numeric',
-          answer: 10.788,
-          tolerance: 0.3,
+          answer: 2.4,
+          tolerance: 0.1,
           unit: 'N',
           points: 2,
-          correction: '$F = k\\dfrac{q_1 q_2}{d^2} = 8{,}99\\times10^9 \\times \\dfrac{2\\times10^{-6}\\times6\\times10^{-6}}{0{,}10^2} = 8{,}99\\times10^9 \\times \\dfrac{1{,}2\\times10^{-11}}{0{,}01} \\approx 10{,}8$ N.'
+          correction: '$F = k\\dfrac{q_1 q_2}{r^2} = 9{,}0\\times10^9\\times\\dfrac{4\\times10^{-6}\\times6\\times10^{-6}}{0{,}3^2} = 2{,}4$ N.'
         },
         {
-          statement: 'Le champ électrostatique créé par une charge ponctuelle négative est orienté :',
+          statement: 'Deux charges ponctuelles de même signe, initialement séparées d\'une distance $r$, sont rapprochées : leur distance est divisée par deux. Comment évolue la force électrique entre elles ?',
           type: 'multiple-choice',
           options: [
-            'En s\'éloignant de la charge',
-            'Vers la charge',
-            'Toujours vers le haut',
-            'De façon aléatoire, selon l\'observateur'
+            'Elle est multipliée par 4',
+            'Elle est multipliée par 2',
+            'Elle est divisée par 2',
+            'Elle est divisée par 4'
           ],
-          answer: 1,
+          answer: 0,
           points: 2,
-          correction: 'Une charge négative crée un champ électrostatique orienté <strong>vers elle</strong> (contrairement à une charge positive, dont le champ pointe en s\'en éloignant).'
+          correction: 'Comme $F \\propto \\dfrac{1}{r^2}$, diviser $r$ par 2 revient à diviser $r^2$ par 4, donc à multiplier $F$ par 4.'
         },
         {
-          statement: 'Une charge ponctuelle $Q = 5{,}0\\times10^{-6}$ C crée un champ à une distance $r = 0{,}5$ m. Calculer la norme de ce champ (en V/m, avec $k \\approx 8{,}99\\times10^9$ N·m²/C²).',
+          statement: 'Deux plaques parallèles distantes de $d = 4{,}0$ cm sont soumises à une tension $U = 800$ V. Calculer l\'intensité $E$ du champ électrique uniforme entre les plaques (en V/m).',
           type: 'numeric',
-          answer: 179800,
-          tolerance: 5000,
+          answer: 20000,
+          tolerance: 500,
           unit: 'V/m',
-          points: 3,
-          correction: '$E = k\\dfrac{|Q|}{r^2} = 8{,}99\\times10^9 \\times \\dfrac{5{,}0\\times10^{-6}}{0{,}5^2} = 8{,}99\\times10^9 \\times \\dfrac{5{,}0\\times10^{-6}}{0{,}25} \\approx 1{,}798\\times10^5$ V/m.'
-        },
-        {
-          statement: 'Une charge test $q = +4\\,\\mu C$ placée dans un champ $E = 2\\,000$ V/m subit une force électrique de norme (en N) :',
-          type: 'numeric',
-          answer: 0.008,
-          tolerance: 0.0005,
-          unit: 'N',
           points: 2,
-          correction: '$F = q \\times E = 4\\times10^{-6} \\times 2\\,000 = 8\\times10^{-3}$ N $= 0{,}008$ N.'
+          correction: '$E = \\dfrac{U}{d} = \\dfrac{800}{4{,}0\\times10^{-2}} = 2{,}0\\times10^4$ V/m.'
         },
         {
-          statement: 'Si on triple la distance $r$ entre une charge ponctuelle et un point de mesure, le champ électrostatique en ce point est :',
+          statement: 'Un proton (charge $q = +1{,}6\\times10^{-19}$ C) est placé dans un champ électrique uniforme d\'intensité $E = 3{,}0\\times10^4$ V/m. Calculer la force électrique $F$ qu\'il subit, exprimée en unité de $10^{-15}$ N (donne uniquement le coefficient, arrondi au dixième).',
+          type: 'numeric',
+          answer: 4.8,
+          tolerance: 0.2,
+          unit: '× 10⁻¹⁵ N',
+          points: 2,
+          correction: '$F = |q|\\times E = 1{,}6\\times10^{-19}\\times3{,}0\\times10^4 = 4{,}8\\times10^{-15}$ N, soit un coefficient de $4{,}8$.'
+        },
+        {
+          statement: 'Un électron (charge négative) est placé dans un champ électrique uniforme $\\vec{E}$ dirigé vers la droite. Dans quel sens est dirigée la force électrique qu\'il subit ?',
           type: 'multiple-choice',
           options: [
-            'Divisé par 3',
-            'Divisé par 9',
-            'Multiplié par 3',
-            'Inchangé'
+            'Vers la gauche (sens opposé à $\\vec{E}$)',
+            'Vers la droite (même sens que $\\vec{E}$)',
+            'Perpendiculairement à $\\vec{E}$',
+            'Aucune force ne s\'exerce sur l\'électron'
           ],
-          answer: 1,
-          points: 1,
-          correction: 'Le champ suit une loi en $1/r^2$ : en triplant $r$, il est divisé par $3^2 = 9$.'
+          answer: 0,
+          points: 2,
+          correction: '$\\vec{F}=q\\vec{E}$ avec $q<0$ pour un électron : la force est donc dirigée en sens opposé au champ $\\vec{E}$, soit vers la gauche.'
         }
       ]
     }

@@ -86,6 +86,88 @@ window.MODULES.push({
         reading: 'Repère le générateur $U$ à gauche, puis suis le courant $I$ à travers $R_1$ en haut et $R_2$ à droite : la tension $U_2$ se mesure directement aux bornes de $R_2$.',
         caption: 'Circuit série avec deux résistances : diviseur de tension permettant d\'obtenir $U_2 = U \\times \\dfrac{R_2}{R_1+R_2}$ à partir de la tension source $U$.'
       },
+      diagrams: [
+        {
+          theme: 'physique',
+          kicker: 'Résistances en parallèle',
+          title: 'Deux résistances en parallèle : la loi des nœuds en action',
+          description: 'Le même générateur $U$ alimente maintenant $R_1$ et $R_2$ placées en <strong>parallèle</strong> entre deux nœuds : les deux résistances reçoivent la <strong>même tension</strong> $U$, mais se partagent le courant total $I$ selon la <strong>loi des nœuds</strong>.',
+          svg: `
+            <svg viewBox="0 0 560 300" role="img" aria-labelledby="circuit-parallel-title circuit-parallel-desc">
+              <title id="circuit-parallel-title">Schema d'un circuit avec generateur et deux resistances en parallele</title>
+              <desc id="circuit-parallel-desc">Un circuit ferme comporte un generateur de tension U sur le cote gauche. Le fil superieur relie le generateur a un premier noeud, marque par un point, ou le courant total I se divise en deux branches verticales paralleles : R1 a gauche et R2 a droite. Les deux branches rejoignent un second noeud sur le fil inferieur, ou les courants I1 et I2 se recombinent en I avant de retourner vers le generateur. Une cotation verticale a droite indique que la meme tension U est presente aux bornes de R1 et de R2.</desc>
+
+              <defs>
+                <marker id="arrow-physbts-parallel" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+                </marker>
+              </defs>
+
+              <!-- fil gauche : generateur -->
+              <line class="frame-line" x1="60" y1="80" x2="60" y2="140"></line>
+              <line class="frame-line" x1="60" y1="160" x2="60" y2="240"></line>
+
+              <!-- rails horizontaux -->
+              <line class="frame-line" x1="60" y1="80" x2="420" y2="80"></line>
+              <line class="frame-line" x1="420" y1="240" x2="60" y2="240"></line>
+
+              <!-- symbole du generateur (deux plaques) -->
+              <line class="frame-line" x1="40" y1="140" x2="80" y2="140"></line>
+              <line class="curve-main" x1="48" y1="160" x2="72" y2="160"></line>
+
+              <!-- branche 1 : R1 -->
+              <line class="frame-line" x1="210" y1="80" x2="210" y2="110"></line>
+              <rect class="frame-line" x="200" y="110" width="20" height="100" fill="none"></rect>
+              <line class="frame-line" x1="210" y1="210" x2="210" y2="240"></line>
+
+              <!-- branche 2 : R2 -->
+              <line class="frame-line" x1="420" y1="80" x2="420" y2="110"></line>
+              <rect class="frame-line" x="410" y="110" width="20" height="100" fill="none"></rect>
+              <line class="frame-line" x1="420" y1="210" x2="420" y2="240"></line>
+
+              <!-- noeuds -->
+              <circle class="plot-point" cx="210" cy="80" r="4"></circle>
+              <circle class="plot-point" cx="210" cy="240" r="4"></circle>
+
+              <!-- courant total I : depart du generateur vers le premier noeud -->
+              <line class="curve-main" x1="110" y1="80" x2="170" y2="80" marker-end="url(#arrow-physbts-parallel)"></line>
+              <text class="annotation-label" x="140" y="68" text-anchor="middle">I</text>
+
+              <!-- courant total I : retour du second noeud vers le generateur -->
+              <line class="curve-main" x1="170" y1="240" x2="110" y2="240" marker-end="url(#arrow-physbts-parallel)"></line>
+              <text class="annotation-label" x="140" y="258" text-anchor="middle">I</text>
+
+              <!-- courant I1 dans R1 -->
+              <line class="curve-main" x1="210" y1="86" x2="210" y2="104" marker-end="url(#arrow-physbts-parallel)"></line>
+              <text class="annotation-label" x="195" y="98" text-anchor="end">I₁</text>
+
+              <!-- courant I2 dans R2 -->
+              <line class="curve-main" x1="420" y1="86" x2="420" y2="104" marker-end="url(#arrow-physbts-parallel)"></line>
+              <text class="annotation-label" x="435" y="98" text-anchor="start">I₂</text>
+
+              <!-- etiquettes des resistances -->
+              <text class="tick-label" x="190" y="165" text-anchor="end">R₁</text>
+              <text class="tick-label" x="440" y="165" text-anchor="start">R₂</text>
+
+              <!-- etiquette de la source -->
+              <text class="annotation-label" x="32" y="145" text-anchor="end">U</text>
+
+              <!-- cotation : meme tension U aux bornes de R1 et R2 -->
+              <line class="guide-line" x1="470" y1="80" x2="470" y2="240"></line>
+              <line class="guide-line" x1="465" y1="80" x2="470" y2="80"></line>
+              <line class="guide-line" x1="465" y1="240" x2="470" y2="240"></line>
+              <text class="annotation-label" x="485" y="165" text-anchor="start">U</text>
+            </svg>
+          `,
+          notes: [
+            'Au premier nœud (en haut), le courant total $I$ issu du générateur se divise en $I_1$ dans $R_1$ et $I_2$ dans $R_2$ : c\'est la <strong>loi des nœuds</strong>, $I = I_1 + I_2$.',
+            '$R_1$ et $R_2$ étant branchées entre les <strong>deux mêmes nœuds</strong>, elles ont exactement la <strong>même tension</strong> $U$ à leurs bornes — à la différence du montage série, où c\'était le courant qui était commun.',
+            'Au second nœud (en bas), $I_1$ et $I_2$ se recombinent pour reformer le courant total $I$ qui retourne vers le générateur : la loi des nœuds s\'applique à nouveau.'
+          ],
+          reading: 'Repère les deux points noirs : ce sont les <strong>nœuds</strong> du circuit. Au premier, le courant $I$ se sépare en $I_1$ et $I_2$ ; au second, ils se recombinent. La tension $U$, elle, reste identique aux bornes de $R_1$ et de $R_2$.',
+          caption: 'Deux résistances en parallèle entre les deux mêmes nœuds : même tension $U$ à leurs bornes, mais courants $I_1$ et $I_2$ liés par la loi des nœuds $I = I_1 + I_2$.'
+        }
+      ],
       example: {
         statement: 'Un générateur de tension $U = 12$ V alimente deux résistances en série : $R_1 = 470$ Ω et $R_2 = 330$ Ω.<br/><br/>Calculer le courant $I$ dans le circuit, puis la tension $U_2$ aux bornes de $R_2$.',
         steps: [

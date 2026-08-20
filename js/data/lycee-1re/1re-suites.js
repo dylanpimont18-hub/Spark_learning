@@ -79,7 +79,7 @@ window.MODULES.push({
             <text class="tick-label" x="174" y="248" text-anchor="middle">4</text>
             <text class="tick-label" x="205" y="248" text-anchor="middle">5</text>
 
-            <text class="annotation-label" x="127" y="14" text-anchor="middle">Arithmetique : u(n) = 2 + 3n</text>
+            <text class="annotation-label" x="127" y="14" text-anchor="middle">Arithmétique : u(n) = 2 + 3n</text>
             <text class="axis-label" x="127" y="264" text-anchor="middle">n</text>
             <text class="label-soft" x="15" y="125" text-anchor="middle" transform="rotate(-90 15 125)">u(n)</text>
             <text class="annotation-label" x="55" y="200">u0 = 2</text>
@@ -115,7 +115,7 @@ window.MODULES.push({
             <text class="tick-label" x="414" y="248" text-anchor="middle">4</text>
             <text class="tick-label" x="445" y="248" text-anchor="middle">5</text>
 
-            <text class="annotation-label" x="367" y="14" text-anchor="middle">Geometrique : u(n) = 2 x 3^n</text>
+            <text class="annotation-label" x="367" y="14" text-anchor="middle">Géométrique : u(n) = 2 × 3ⁿ</text>
             <text class="axis-label" x="367" y="264" text-anchor="middle">n</text>
             <text class="label-soft" x="255" y="125" text-anchor="middle" transform="rotate(-90 255 125)">u(n)</text>
             <text class="annotation-label" x="295" y="222">u0 = 2</text>

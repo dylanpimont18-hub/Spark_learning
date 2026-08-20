@@ -5,321 +5,247 @@
 window.MODULES.push({
     id: 'physique-1re-lewis',
     level: 2, subject: 'physique',
-    icon: '🔗',
-    title: 'Structure des entités chimiques : Lewis et géométrie VSEPR',
-    subtitle: 'Doublets liants et non liants, règle de l\'octet et du duet, prévision de la géométrie moléculaire (modèle VSEPR)',
-    keywords: ['Lewis', 'VSEPR', 'Doublets', 'Géométrie moléculaire', 'Octet'],
-    physics: 'La géométrie d\'une molécule, prévue par le modèle VSEPR à partir de sa formule de Lewis, conditionne directement ses propriétés physiques : polarité, solubilité, odeur, point d\'ébullition. C\'est ce raisonnement qui explique pourquoi l\'eau est un solvant polaire, pourquoi certains gaz sont inodores, ou comment sont conçues les molécules de nombreux médicaments et matériaux.',
+    icon: '⚛️',
+    title: 'Structure des entités chimiques',
+    subtitle: 'Représentation de Lewis, règles du duet et de l\'octet, géométrie des molécules (modèle VSEPR)',
+    keywords: ['Lewis', 'Octet', 'Duet', 'Géométrie moléculaire', 'VSEPR'],
+    physics: 'La représentation de Lewis et la géométrie moléculaire expliquent pourquoi l\'eau est une molécule polaire (géométrie coudée) essentielle au vivant, pourquoi certains gaz comme le CO2 sont linéaires et donc non polaires malgré des liaisons polarisées, et permettent de prévoir la réactivité chimique d\'une molécule à partir de la disposition de ses doublets non liants.',
 
     cours: {
-      intro: 'La <strong>formule de Lewis</strong> d\'une molécule représente la façon dont les atomes partagent leurs électrons de valence pour former des liaisons. Chaque atome cherche à saturer sa couche externe : <strong>règle du duet</strong> (2 électrons, pour l\'hydrogène) ou <strong>règle de l\'octet</strong> (8 électrons, pour la plupart des autres atomes).<br/><br/>Les électrons de valence se répartissent en <strong>doublets liants</strong> (partagés entre deux atomes, représentés par un trait entre eux) et en <strong>doublets non liants</strong> (propres à un seul atome, représentés par un trait sur cet atome).<br/><br/>Une fois la formule de Lewis établie, le <strong>modèle VSEPR</strong> (répulsion des doublets de la couche de valence) permet de prévoir la géométrie 3D de la molécule : les doublets (liants ou non liants) autour de l\'atome central se repoussent et s\'orientent pour être aussi éloignés que possible les uns des autres.',
+      intro: 'Les atomes évoluent chimiquement pour <strong>saturer leur couche électronique externe</strong> : c\'est la <strong>règle du duet</strong> (2 électrons, pour l\'hydrogène et l\'hélium) et la <strong>règle de l\'octet</strong> (8 électrons, pour la plupart des autres éléments légers). Pour cela, ils forment des <strong>liaisons covalentes</strong> (mise en commun d\'un doublet d\'électrons entre deux atomes) ou deviennent des ions.<br/><br/>Le <strong>schéma de Lewis</strong> d\'une molécule représente tous les électrons de valence sous forme de doublets : les <strong>doublets liants</strong> (partagés entre deux atomes, représentés par un trait) forment les liaisons covalentes, et les <strong>doublets non liants</strong> (propres à un seul atome, aussi appelés paires libres) complètent son octet ou son duet.<br/><br/>La répartition de ces doublets autour d\'un atome central détermine la <strong>géométrie de la molécule</strong> (modèle VSEPR) : tous les doublets, liants <strong>et</strong> non liants, se répartissent dans l\'espace pour minimiser leur répulsion mutuelle — ce qui donne des géométries caractéristiques (tétraédrique, pyramidale, coudée, linéaire...).',
       definitions: [
-        { term: 'Doublet liant', def: 'Paire d\'électrons partagée entre deux atomes, formant une liaison covalente. Représenté par un trait entre les deux atomes liés dans la formule de Lewis.' },
-        { term: 'Doublet non liant', def: 'Paire d\'électrons de valence propre à un seul atome, non engagée dans une liaison. Représenté par un trait porté par cet atome seul.' },
-        { term: 'Règle de l\'octet / du duet', def: 'Chaque atome (sauf l\'hydrogène) tend à s\'entourer de $8$ électrons (octet) dans ses liaisons et doublets non liants ; l\'hydrogène se limite à $2$ électrons (duet).' },
-        { term: 'Modèle VSEPR (formule $AX_nE_m$)', def: 'Modèle prévoyant la géométrie 3D d\'une molécule à partir du nombre $n$ de doublets liants et $m$ de doublets non liants portés par l\'atome central $A$. Une liaison double ou triple compte pour <strong>une seule direction</strong> $X$, au même titre qu\'une liaison simple.' }
+        { term: 'Règle du duet', def: 'Les atomes d\'hydrogène (H) et d\'hélium (He) tendent à s\'entourer de $2$ électrons (couche K saturée), le plus souvent en formant une seule liaison covalente.' },
+        { term: 'Règle de l\'octet', def: 'Les atomes des éléments légers proches du néon ou de l\'argon (C, N, O, F, Cl...) tendent à s\'entourer de $8$ électrons sur leur couche de valence.' },
+        { term: 'Doublet liant / doublet non liant', def: 'Un <strong>doublet liant</strong> (2 électrons partagés) forme une liaison covalente entre deux atomes, représenté par un trait. Un <strong>doublet non liant</strong> (2 électrons propres à un seul atome, ou « paire libre ») n\'est pas partagé.' },
+        { term: 'Modèle VSEPR (géométrie moléculaire)', def: 'Les doublets — liants <strong>et</strong> non liants — autour d\'un atome central se répartissent dans l\'espace pour minimiser leur répulsion mutuelle, ce qui détermine la géométrie de la molécule (tétraédrique, pyramidale, coudée...).' }
       ],
       method: {
-        title: 'Prévoir la géométrie d\'une molécule en 3 étapes',
+        title: 'Construire un schéma de Lewis et en déduire la géométrie en 3 étapes',
         steps: [
-          '<strong>Compter les électrons de valence</strong> de la molécule : additionner le nombre d\'électrons de valence de chaque atome (en tenant compte d\'une éventuelle charge), puis diviser par $2$ pour obtenir le nombre total de doublets.',
-          '<strong>Construire la formule de Lewis</strong> : répartir les doublets en doublets liants (une liaison entre chaque atome périphérique et l\'atome central) et doublets non liants, en respectant la règle de l\'octet ou du duet sur chaque atome.',
-          '<strong>Appliquer le modèle VSEPR</strong> : compter le nombre $n$ de directions liantes et $m$ de doublets non liants portés par l\'atome central (une liaison multiple ne compte que pour une seule direction), identifier la formule $AX_nE_m$, puis lire la géométrie et l\'angle associés dans le tableau de référence.'
+          '<strong>Compter les électrons de valence</strong> de chaque atome (donné par son groupe dans la classification, ou déduit de sa configuration électronique), et en déduire le nombre total de doublets à placer.',
+          '<strong>Placer les doublets liants</strong> (une liaison covalente entre chaque paire d\'atomes liés), puis <strong>compléter chaque atome</strong> par des doublets non liants jusqu\'à satisfaire la règle du duet (pour H) ou de l\'octet (pour les autres).',
+          '<strong>Dénombrer tous les doublets</strong> (liants + non liants) autour de l\'atome central pour en déduire la géométrie — ne jamais compter uniquement les liaisons visibles, les doublets non liants comptent tout autant dans la répulsion géométrique.'
         ]
       },
       diagram: {
         theme: 'physique',
-        kicker: 'Modèle VSEPR — géométries de référence',
-        title: 'Des doublets à la géométrie moléculaire : quatre cas de référence',
-        description: 'Représentation en perspective (traits pleins dans le plan, triangle plein vers l\'avant, hachures vers l\'arrière) des quatre géométries les plus courantes prévues par le modèle VSEPR, selon le nombre de doublets liants ($X$) et non liants ($E$) portés par l\'atome central $A$.',
+        kicker: 'Molécule d\'ammoniac NH₃ (schéma de Lewis et géométrie)',
+        title: 'De la représentation de Lewis à la géométrie pyramidale',
+        description: 'Autour de l\'azote : $3$ doublets liants (les $3$ liaisons N–H) et $1$ doublet non liant. Ces $4$ doublets se répartissent selon une géométrie tétraédrique, mais seules les $3$ liaisons sont « visibles » : la molécule $NH_3$ a donc une géométrie <strong>pyramidale</strong>.',
         svg: `
-          <svg viewBox="0 0 600 300" role="img" aria-labelledby="lewis1re-title lewis1re-desc">
-            <title id="lewis1re-title">Quatre geometries moleculaires de reference du modele VSEPR</title>
-            <desc id="lewis1re-desc">Quatre schemas presentent, de gauche a droite, les geometries lineaire, trigonale plane, tetraedrique et pyramidale d'une molecule autour d'un atome central A. Le premier schema montre deux liaisons opposees formant un angle de 180 degres. Le deuxieme montre trois liaisons dans un plan formant des angles de 120 degres entre elles. Le troisieme montre quatre liaisons dont deux traits pleins vers le haut, un triangle plein vers le bas-gauche representant une liaison vers l'avant, et une liaison hachuree vers le bas-droite representant une liaison vers l'arriere, formant un angle caracteristique de 109,5 degres. Le quatrieme schema est similaire au troisieme mais une des quatre directions est remplacee par un doublet non liant represente par deux points au-dessus de l'atome central, donnant une geometrie pyramidale d'angle voisin de 107 degres.</desc>
+          <svg viewBox="0 0 560 300" role="img" aria-labelledby="lewis-title lewis-desc">
+            <title id="lewis-title">Schema de Lewis et geometrie de la molecule d'ammoniac NH3</title>
+            <desc id="lewis-desc">Deux panneaux cote a cote. A gauche, le schema de Lewis de l'ammoniac : un atome d'azote central relie a trois atomes d'hydrogene par un trait chacun, representant trois doublets liants, avec deux points au-dessus de l'azote representant son doublet non liant. A droite, la representation geometrique en trois dimensions de la meme molecule : une liaison en trait plein vers le bas dans le plan de la feuille, une liaison en triangle plein vers l'avant en haut a droite, une liaison en trait pointille vers l'arriere en haut a gauche, et deux points au-dessus de l'azote representant le doublet non liant, formant une geometrie pyramidale.</desc>
 
-            <!-- separateurs -->
-            <line class="grid-line" x1="170" y1="20" x2="170" y2="260"></line>
-            <line class="grid-line" x1="310" y1="20" x2="310" y2="260"></line>
-            <line class="grid-line" x1="450" y1="20" x2="450" y2="260"></line>
+            <defs>
+              <marker id="arrow-phy1re-lewis" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
 
-            <!-- ===== Panel 1 : lineaire AX2 ===== -->
-            <text class="annotation-label" x="100" y="34" text-anchor="middle">AX₂</text>
-            <line class="frame-line" x1="60" y1="110" x2="140" y2="110"></line>
-            <circle class="plot-point-alt" cx="60" cy="110" r="5"></circle>
-            <circle class="plot-point" cx="100" cy="110" r="5"></circle>
-            <circle class="plot-point-alt" cx="140" cy="110" r="5"></circle>
-            <text class="tick-label" x="60" y="128" text-anchor="middle">X</text>
-            <text class="tick-label" x="140" y="128" text-anchor="middle">X</text>
-            <text class="label-soft" x="100" y="94" text-anchor="middle">A</text>
-            <text class="tick-label" x="100" y="186" text-anchor="middle">Linéaire</text>
-            <text class="annotation-label" x="100" y="206" text-anchor="middle">180°</text>
-            <text class="label-soft" x="100" y="224" text-anchor="middle">ex. CO₂</text>
+            <!-- separateur -->
+            <line class="guide-line" x1="290" y1="50" x2="290" y2="270"></line>
 
-            <!-- ===== Panel 2 : trigonale plane AX3 ===== -->
-            <text class="annotation-label" x="240" y="34" text-anchor="middle">AX₃</text>
-            <line class="frame-line" x1="240" y1="110" x2="240" y2="72"></line>
-            <line class="frame-line" x1="240" y1="110" x2="207.1" y2="129"></line>
-            <line class="frame-line" x1="240" y1="110" x2="272.9" y2="129"></line>
-            <circle class="plot-point" cx="240" cy="110" r="5"></circle>
-            <circle class="plot-point-alt" cx="240" cy="72" r="5"></circle>
-            <circle class="plot-point-alt" cx="207.1" cy="129" r="5"></circle>
-            <circle class="plot-point-alt" cx="272.9" cy="129" r="5"></circle>
-            <text class="tick-label" x="240" y="60" text-anchor="middle">X</text>
-            <text class="tick-label" x="195" y="140" text-anchor="middle">X</text>
-            <text class="tick-label" x="285" y="140" text-anchor="middle">X</text>
-            <text class="label-soft" x="252" y="105" text-anchor="middle">A</text>
-            <text class="tick-label" x="240" y="186" text-anchor="middle">Trigonale plane</text>
-            <text class="annotation-label" x="240" y="206" text-anchor="middle">120°</text>
-            <text class="label-soft" x="240" y="224" text-anchor="middle">ex. BF₃</text>
+            <!-- PANNEAU GAUCHE : schema de Lewis -->
+            <line class="frame-line" x1="150" y1="160" x2="90" y2="95"></line>
+            <line class="frame-line" x1="150" y1="160" x2="210" y2="95"></line>
+            <line class="frame-line" x1="150" y1="160" x2="150" y2="235"></line>
+            <text class="annotation-label" x="150" y="166" text-anchor="middle">N</text>
+            <text class="annotation-label" x="80" y="86" text-anchor="middle">H</text>
+            <text class="annotation-label" x="220" y="86" text-anchor="middle">H</text>
+            <text class="annotation-label" x="150" y="256" text-anchor="middle">H</text>
+            <circle class="plot-point" cx="144" cy="72" r="2.5"></circle>
+            <circle class="plot-point" cx="156" cy="72" r="2.5"></circle>
+            <text class="label-soft" x="150" y="288" text-anchor="middle">Représentation de Lewis</text>
 
-            <!-- ===== Panel 3 : tetraedrique AX4 ===== -->
-            <text class="annotation-label" x="380" y="34" text-anchor="middle">AX₄</text>
-            <line class="frame-line" x1="380" y1="110" x2="350" y2="85"></line>
-            <line class="frame-line" x1="380" y1="110" x2="410" y2="85"></line>
-            <path class="curve-main" fill="var(--diagram-accent)" stroke="none" d="M380,110 L359.9,150.6 L369.3,154.0 Z"></path>
-            <path class="frame-line" fill="none" d="M383.0,125.7 L387.8,123.9 M385.5,134.3 L391.4,132.2 M388.0,143.0 L395.1,140.4 M390.5,151.7 L398.7,148.7"></path>
-            <line class="guide-line" x1="380" y1="110" x2="395.4" y2="152.3" stroke-width="1.2"></line>
-            <circle class="plot-point" cx="380" cy="110" r="5"></circle>
-            <circle class="plot-point-alt" cx="350" cy="85" r="5"></circle>
-            <circle class="plot-point-alt" cx="410" cy="85" r="5"></circle>
-            <circle class="plot-point-alt" cx="364.6" cy="152.3" r="5"></circle>
-            <circle class="plot-point-alt" cx="395.4" cy="152.3" r="5"></circle>
-            <text class="tick-label" x="345" y="76" text-anchor="middle">X</text>
-            <text class="tick-label" x="415" y="76" text-anchor="middle">X</text>
-            <text class="tick-label" x="356" y="168" text-anchor="middle">X</text>
-            <text class="tick-label" x="404" y="168" text-anchor="middle">X</text>
-            <text class="label-soft" x="392" y="105" text-anchor="middle">A</text>
-            <text class="tick-label" x="380" y="186" text-anchor="middle">Tétraédrique</text>
-            <text class="annotation-label" x="380" y="206" text-anchor="middle">109,5°</text>
-            <text class="label-soft" x="380" y="224" text-anchor="middle">ex. CH₄</text>
-
-            <!-- ===== Panel 4 : pyramidale AX3E ===== -->
-            <text class="annotation-label" x="520" y="34" text-anchor="middle">AX₃E</text>
-            <line class="frame-line" x1="520" y1="110" x2="490" y2="80"></line>
-            <line class="frame-line" x1="520" y1="110" x2="550" y2="80"></line>
-            <path class="curve-main" fill="var(--diagram-accent)" stroke="none" d="M520,110 L515,155 L525,155 Z"></path>
-            <circle class="label-soft" cx="514" cy="95" r="2.6"></circle>
-            <circle class="label-soft" cx="526" cy="95" r="2.6"></circle>
-            <circle class="plot-point" cx="520" cy="110" r="5"></circle>
-            <circle class="plot-point-alt" cx="490" cy="80" r="5"></circle>
-            <circle class="plot-point-alt" cx="550" cy="80" r="5"></circle>
-            <circle class="plot-point-alt" cx="520" cy="155" r="5"></circle>
-            <text class="label-soft" x="532" y="116" text-anchor="start">A</text>
-            <text class="tick-label" x="484" y="72" text-anchor="middle">X</text>
-            <text class="tick-label" x="556" y="72" text-anchor="middle">X</text>
-            <text class="tick-label" x="520" y="172" text-anchor="middle">X</text>
-            <text class="tick-label" x="530" y="95" text-anchor="start">E</text>
-            <text class="tick-label" x="520" y="186" text-anchor="middle">Pyramidale</text>
-            <text class="annotation-label" x="520" y="206" text-anchor="middle">≈ 107°</text>
-            <text class="label-soft" x="520" y="224" text-anchor="middle">ex. NH₃</text>
-
-            <text class="label-soft" x="300" y="252" text-anchor="middle">A : atome central — X : direction liante — E : doublet non liant — triangle plein : vers l'avant — hachures : vers l'arrière</text>
+            <!-- PANNEAU DROIT : geometrie pyramidale -->
+            <line class="frame-line" x1="430" y1="160" x2="430" y2="235"></line>
+            <polygon points="430,160 493.5,103.5 486.5,96.5" style="fill:var(--diagram-accent);stroke:none;"></polygon>
+            <line class="guide-line" x1="430" y1="160" x2="370" y2="100"></line>
+            <text class="annotation-label" x="430" y="166" text-anchor="middle">N</text>
+            <text class="annotation-label" x="358" y="92" text-anchor="middle">H</text>
+            <text class="annotation-label" x="502" y="92" text-anchor="middle">H</text>
+            <text class="annotation-label" x="430" y="256" text-anchor="middle">H</text>
+            <circle class="plot-point" cx="424" cy="82" r="2.5"></circle>
+            <circle class="plot-point" cx="436" cy="82" r="2.5"></circle>
+            <text class="label-soft" x="430" y="288" text-anchor="middle">Géométrie (modèle VSEPR)</text>
           </svg>
         `,
         notes: [
-          'Chaque <strong>doublet liant</strong> (une liaison, simple ou multiple) et chaque <strong>doublet non liant</strong> compte pour une direction dans le décompte VSEPR : c\'est leur nombre total autour de l\'atome central qui fixe la géométrie.',
-          'Passer de $AX_4$ (tétraédrique) à $AX_3E$ (pyramidale) revient à remplacer une direction liante par un doublet non liant : la géométrie se déforme légèrement, l\'angle diminuant de $109{,}5°$ à environ $107°$ car un doublet non liant repousse davantage les autres doublets qu\'une liaison.',
-          'Le triangle plein représente une liaison qui sort du plan vers l\'avant (vers l\'observateur), les hachures une liaison qui recule vers l\'arrière : c\'est la convention de représentation en perspective (représentation de Cram).'
+          'Dans le schéma de Lewis (à gauche), chaque trait N–H représente un <strong>doublet liant</strong> ; les deux points au-dessus de l\'azote représentent son unique <strong>doublet non liant</strong>.',
+          'Autour de l\'azote : $3$ doublets liants $+$ $1$ doublet non liant $=4$ doublets $=8$ électrons — la règle de l\'<strong>octet</strong> est satisfaite. Chaque hydrogène, avec $1$ doublet liant, satisfait la règle du <strong>duet</strong>.',
+          'Dans la représentation géométrique (à droite), le trait plein figure une liaison dans le plan, le triangle plein une liaison <strong>vers l\'avant</strong>, et le trait en pointillés une liaison <strong>vers l\'arrière</strong> : le doublet non liant occupe la quatrième direction, ce qui incurve la molécule en pyramide.'
         ],
-        reading: 'Compare les quatre schémas de gauche à droite : plus l\'atome central porte de directions (liantes ou non liantes), plus la géométrie s\'éloigne d\'un simple alignement, jusqu\'à l\'arrangement tétraédrique à $4$ directions.',
-        caption: 'Les quatre géométries moléculaires de référence prévues par le modèle VSEPR, selon le nombre de doublets liants ($X$) et non liants ($E$) autour de l\'atome central $A$.'
+        reading: 'Compare les deux panneaux : à gauche, le schéma de Lewis « à plat » avec ses doublets ; à droite, la même molécule en perspective, où le doublet non liant (invisible dans le contour de la molécule) explique pourquoi elle n\'est pas plane.',
+        caption: 'Molécule d\'ammoniac $NH_3$ : $3$ doublets liants et $1$ doublet non liant autour de l\'azote donnent une géométrie <strong>pyramidale</strong> (modèle VSEPR).'
       },
       example: {
-        statement: 'Déterminer la géométrie de la molécule d\'eau $\\text{H}_2\\text{O}$ à partir de sa formule de Lewis (numéro atomique de l\'oxygène $Z=8$, électrons de valence de l\'oxygène : $6$, de l\'hydrogène : $1$).',
+        statement: 'Le schéma ci-dessous détaille la méthode sur l\'ammoniac $NH_3$, de géométrie <strong>pyramidale</strong> ; appliquons maintenant exactement la même démarche à une autre molécule, l\'eau $H_2O$, dont la géométrie s\'avère différente.<br/><br/>La molécule d\'eau $H_2O$ est constituée d\'un atome d\'oxygène ($6$ électrons de valence) et de deux atomes d\'hydrogène.<br/><br/>Combien de doublets liants et de doublets non liants entourent l\'atome d\'oxygène ? En déduire la géométrie de la molécule.',
         steps: [
-          'Nombre total d\'électrons de valence de la molécule : $6$ (oxygène) $+ 2 \\times 1$ (deux hydrogènes) $= 8$ électrons, soit $4$ doublets.',
-          'Construction de la formule de Lewis : l\'oxygène forme $2$ liaisons O–H (donc $2$ doublets liants), et conserve les $4$ électrons restants sous forme de $2$ doublets non liants. L\'octet de l\'oxygène est ainsi respecté ($2$ liants $\\times 2 + 2$ non liants $\\times 2 = 8$ électrons).',
-          'Application du modèle VSEPR : l\'atome central (oxygène) porte $n = 2$ directions liantes et $m = 2$ doublets non liants, soit une formule $AX_2E_2$.',
-          'D\'après le tableau de référence, $AX_2E_2$ correspond à une géométrie <strong>coudée</strong> (angle $\\hat{\\text{HOH}} \\approx 104{,}5°$, légèrement inférieur à l\'angle tétraédrique $109{,}5°$ car les deux doublets non liants repoussent davantage les liaisons O–H).'
+          'L\'oxygène possède $6$ électrons de valence. Chaque atome d\'hydrogène forme une liaison covalente (un doublet liant) avec l\'oxygène : cela utilise $2$ électrons de l\'oxygène (un par liaison), donc $2$ doublets liants au total.',
+          'Il reste $6-2=4$ électrons de valence sur l\'oxygène, soit $2$ doublets non liants (paires libres).',
+          'Vérification de l\'octet : autour de l\'oxygène, $2$ doublets liants $+$ $2$ doublets non liants $=4$ doublets $=8$ électrons. L\'octet est bien satisfait ; chaque hydrogène, avec son unique doublet liant, satisfait la règle du duet.',
+          'Géométrie : $4$ doublets au total autour de l\'atome central se répartissent selon une géométrie tétraédrique ; comme $2$ de ces doublets sont non liants (invisibles dans le contour de la molécule), $H_2O$ a une géométrie <strong>coudée</strong> (en V).'
         ],
-        answer: 'La molécule d\'eau adopte une géométrie <strong>coudée</strong>, avec un angle $\\hat{\\text{HOH}} \\approx 104{,}5°$. C\'est cette géométrie non alignée, combinée à la différence d\'électronégativité entre O et H, qui rend la molécule d\'eau polaire.'
+        answer: 'Autour de l\'oxygène : $2$ doublets liants et $2$ doublets non liants (octet satisfait). La molécule $H_2O$ a une géométrie <strong>coudée</strong> : les deux doublets non liants « repoussent » les deux liaisons O–H, qui ne sont donc pas alignées.'
       },
       formulas: [
-        'Nombre total de doublets autour de l\'atome central : $n + m$ (doublets liants $+$ doublets non liants)',
-        '$AX_2$ : géométrie linéaire, angle $180°$',
-        '$AX_3$ : géométrie trigonale plane, angle $120°$',
-        '$AX_4$ : géométrie tétraédrique, angle $109{,}5°$',
-        '$AX_3E$ : géométrie pyramidale, angle $\\approx 107°$',
-        '$AX_2E_2$ : géométrie coudée, angle $\\approx 104{,}5°$'
+        'Règle du duet : $H$, $He$ → $2$ électrons (couche K saturée)',
+        'Règle de l\'octet : la plupart des autres éléments légers → $8$ électrons sur la couche de valence',
+        'Doublets non liants d\'un atome $= \\dfrac{\\text{électrons de valence} - \\text{nombre de liaisons}}{2}$',
+        'Géométrie VSEPR (4 doublets) : tétraédrique (0 non liant), pyramidale (1 non liant), coudée (2 non liants)'
       ],
       recap: [
-        'La formule de Lewis répartit les électrons de valence en doublets <strong>liants</strong> (partagés) et <strong>non liants</strong> (propres à un atome), en respectant la règle de l\'octet (ou du duet pour l\'hydrogène).',
-        'Le modèle VSEPR prévoit la géométrie 3D à partir du nombre $n$ de directions liantes et $m$ de doublets non liants portés par l\'atome central : formule $AX_nE_m$.',
-        'Une liaison double ou triple ne compte que pour <strong>une seule direction</strong> dans le décompte VSEPR, au même titre qu\'une liaison simple.',
-        'Un doublet non liant occupe plus de place qu\'un doublet liant : sa présence <strong>referme légèrement</strong> les angles entre les liaisons voisines (ex. $109{,}5°$ pour $AX_4$ contre $\\approx 107°$ pour $AX_3E$).'
+        'Un <strong>doublet liant</strong> (un trait) est partagé entre deux atomes et forme une liaison covalente ; un <strong>doublet non liant</strong> (une paire libre) appartient à un seul atome.',
+        'La règle du <strong>duet</strong> concerne $H$ et $He$ ($2$ électrons) ; la règle de l\'<strong>octet</strong> concerne la plupart des autres éléments légers ($8$ électrons).',
+        'Le nombre de doublets non liants se calcule par différence entre les électrons de valence et ceux engagés dans les liaisons, divisée par $2$.',
+        'La géométrie d\'une molécule dépend du nombre <strong>total</strong> de doublets (liants + non liants) autour de l\'atome central, jamais des seules liaisons visibles.'
       ],
-      piege: 'Une erreur fréquente consiste à compter une liaison double ou triple comme deux ou trois directions distinctes dans le modèle VSEPR, par exemple à considérer que le dioxyde de carbone $\\text{CO}_2$ est de type $AX_4$. Attention, dans le modèle VSEPR une liaison multiple ne compte que pour <strong>une seule direction</strong> $X$ : $\\text{CO}_2$ est bien de type $AX_2$ (deux doubles liaisons C=O), d\'où sa géométrie linéaire à $180°$.'
+      piege: 'Une erreur fréquente est de ne prendre en compte, pour déterminer la géométrie d\'une molécule, que les doublets liants (les liaisons visibles), en oubliant les doublets non liants. Attention : un doublet non liant occupe lui aussi une direction de l\'espace et repousse les autres doublets, ce qui explique pourquoi $NH_3$ est pyramidale et non plane, contrairement à ce que l\'on pourrait croire en ne comptant que ses $3$ liaisons N–H.'
     },
 
     quiz: [
       {
-        q: 'Dans la molécule d\'ammoniac $\\text{NH}_3$, l\'atome d\'azote porte $3$ doublets liants et $1$ doublet non liant. Quelle est sa formule VSEPR et sa géométrie ?',
+        q: 'Un atome d\'hydrogène, engagé dans une seule liaison covalente, est entouré de :',
         options: [
-          '$AX_4$, géométrie tétraédrique',
-          '$AX_3E$, géométrie pyramidale',
-          '$AX_3$, géométrie trigonale plane',
-          '$AX_2E_2$, géométrie coudée'
-        ],
-        answer: 1,
-        correction: 'Avec $3$ directions liantes ($n=3$) et $1$ doublet non liant ($m=1$), la formule est $AX_3E$, ce qui correspond à une géométrie <strong>pyramidale</strong> (angle $\\approx 107°$).'
-      },
-      {
-        q: 'Combien de directions représente une liaison double (par exemple $\\text{C}=\\text{O}$) dans le décompte du modèle VSEPR ?',
-        options: [
-          'Une seule direction',
-          'Deux directions distinctes',
-          'Cela dépend de la molécule',
-          'Aucune, une liaison double n\'est jamais comptée'
+          '2 électrons (règle du duet)',
+          '8 électrons (règle de l\'octet)',
+          '4 électrons',
+          '1 électron seulement'
         ],
         answer: 0,
-        correction: 'Dans le modèle VSEPR, une liaison multiple (double ou triple) ne compte que pour <strong>une seule direction</strong> $X$, exactement comme une liaison simple. C\'est le nombre de directions, pas le nombre de doublets, qui détermine la géométrie.'
+        correction: 'L\'hydrogène suit la règle du duet : engagé dans une liaison covalente (un doublet liant, soit $2$ électrons partagés), il est entouré de $2$ électrons au total, ce qui sature sa couche K.'
       },
       {
-        q: 'La molécule de méthane $\\text{CH}_4$ (formule $AX_4$) a une géométrie tétraédrique avec un angle $\\hat{\\text{HCH}} \\approx 109{,}5°$. Pourquoi cet angle diminue-t-il à environ $107°$ dans l\'ammoniac $\\text{NH}_3$ (formule $AX_3E$) ?',
+        q: 'Dans la molécule d\'ammoniac $NH_3$, l\'atome d\'azote est entouré de $3$ doublets liants et $1$ doublet non liant. Quelle est la géométrie de cette molécule ?',
         options: [
-          'Parce que l\'azote est plus petit que le carbone',
-          'Parce qu\'un doublet non liant occupe plus de place et repousse davantage les liaisons voisines',
-          'Parce que l\'ammoniac contient moins d\'électrons de valence',
-          'Il n\'y a en réalité aucune différence d\'angle'
+          'Pyramidale',
+          'Plane (trigonale)',
+          'Linéaire',
+          'Tétraédrique parfaite (comme le méthane)'
         ],
-        answer: 1,
-        correction: 'Un doublet non liant, moins localisé qu\'un doublet liant, exerce une répulsion plus forte sur les doublets voisins. Il \"referme\" donc légèrement l\'angle entre les liaisons restantes par rapport à la géométrie tétraédrique idéale.'
+        answer: 0,
+        correction: '$4$ doublets au total ($3$ liants $+1$ non liant) se répartissent selon une géométrie tétraédrique, mais seuls les $3$ doublets liants sont « visibles » dans la forme de la molécule : la géométrie observée est donc pyramidale, le doublet non liant occupant la quatrième direction.'
+      },
+      {
+        q: 'Combien de doublets non liants possède un atome de chlore (7 électrons de valence) engagé dans une seule liaison covalente (comme dans $HCl$) ?',
+        options: [
+          '3 doublets non liants',
+          '1 doublet non liant',
+          '4 doublets non liants',
+          '0 doublet non liant'
+        ],
+        answer: 0,
+        correction: 'Le chlore a $7$ électrons de valence ; $1$ est engagé dans la liaison covalente avec H, il en reste $6$, soit $3$ doublets non liants — ce qui satisfait bien la règle de l\'octet ($1$ doublet liant $+3$ non liants $=4$ doublets $=8$ électrons).'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
-        var typeExo = pick(['doublets', 'angle']);
+        var atomes = [
+          { nom: 'carbone (C)', valence: 4, liaisons: 4, exemple: 'le méthane $CH_4$' },
+          { nom: 'azote (N)', valence: 5, liaisons: 3, exemple: 'l\'ammoniac $NH_3$' },
+          { nom: 'oxygène (O)', valence: 6, liaisons: 2, exemple: 'la molécule d\'eau $H_2O$' },
+          { nom: 'fluor (F)', valence: 7, liaisons: 1, exemple: 'le fluorure d\'hydrogène $HF$' },
+          { nom: 'chlore (Cl)', valence: 7, liaisons: 1, exemple: 'le chlorure d\'hydrogène $HCl$' },
+          { nom: 'soufre (S)', valence: 6, liaisons: 2, exemple: 'le sulfure d\'hydrogène $H_2S$' },
+          { nom: 'phosphore (P)', valence: 5, liaisons: 3, exemple: 'la phosphine $PH_3$' }
+        ];
+        var atome = pick(atomes);
+        var restants = atome.valence - atome.liaisons;
+        var doublets = restants / 2;
 
-        if (typeExo === 'doublets') {
-          var molecules = [
-            { nom: 'eau', formule: '\\text{H}_2\\text{O}', total: 8 },
-            { nom: 'ammoniac', formule: '\\text{NH}_3', total: 8 },
-            { nom: 'méthane', formule: '\\text{CH}_4', total: 8 },
-            { nom: 'sulfure d\'hydrogène', formule: '\\text{H}_2\\text{S}', total: 8 },
-            { nom: 'dioxyde de carbone', formule: '\\text{CO}_2', total: 16 },
-            { nom: 'trifluorure de bore', formule: '\\text{BF}_3', total: 24 },
-            { nom: 'trichlorure de phosphore', formule: '\\text{PCl}_3', total: 26 }
-          ];
-          var mol = pick(molecules);
-          var doublets = mol.total / 2;
-          var contexte = pick([
-            'un exercice de construction de formule de Lewis',
-            'une fiche de révision de chimie',
-            'un contrôle de première spécialité',
-            'une séance de travaux pratiques'
-          ]);
-          return {
-            statement: 'Dans le cadre de ' + contexte + ', la molécule de ' + mol.nom + ' ($' + mol.formule + '$) possède un total de $' + mol.total + '$ électrons de valence à répartir dans sa formule de Lewis.<br/><br/>Calcule le nombre total de doublets (liants et non liants) que compte cette molécule.',
-            answer: doublets,
-            tolerance: 0,
-            unit: '',
-            hint: 'Chaque doublet regroupe $2$ électrons : le nombre de doublets s\'obtient en divisant le nombre total d\'électrons de valence par $2$.',
-            solution: [
-              'Un doublet (liant ou non liant) regroupe toujours $2$ électrons.',
-              'Nombre de doublets $= \\dfrac{' + mol.total + '}{2}$.',
-              'Résultat : ' + doublets + ' doublets au total dans la molécule.'
-            ]
-          };
-        } else {
-          var cas = [
-            { formule: 'AX_2', nom: 'linéaire', angle: 180, exemple: 'dioxyde de carbone $\\text{CO}_2$' },
-            { formule: 'AX_3', nom: 'trigonale plane', angle: 120, exemple: 'trifluorure de bore $\\text{BF}_3$' },
-            { formule: 'AX_4', nom: 'tétraédrique', angle: 109.5, exemple: 'méthane $\\text{CH}_4$' }
-          ];
-          var c = pick(cas);
-          var contexte2 = pick([
-            'un tableau de géométries VSEPR à compléter',
-            'une fiche de synthèse de chimie',
-            'un exercice d\'application directe du cours'
-          ]);
-          return {
-            statement: 'Dans ' + contexte2 + ', on considère une molécule de type $' + c.formule + '$ (géométrie ' + c.nom + '), comme la molécule de ' + c.exemple + '.<br/><br/>Indique la valeur de l\'angle caractéristique de cette géométrie (en degrés).',
-            answer: c.angle,
-            tolerance: 0.3,
-            unit: '°',
-            hint: 'Chaque géométrie VSEPR de référence ($AX_2$, $AX_3$, $AX_4$…) est associée à un angle caractéristique fixe, à connaître par cœur.',
-            solution: [
-              'La géométrie ' + c.nom + ' (formule $' + c.formule + '$) est une géométrie de référence du modèle VSEPR.',
-              'Son angle caractéristique vaut $' + fr(c.angle, c.angle % 1 === 0 ? 0 : 1) + '°$.'
-            ]
-          };
-        }
+        return {
+          statement: 'Dans ' + atome.exemple + ', un atome de ' + atome.nom + ' possède ' + atome.valence + ' électrons de valence et forme ' + atome.liaisons + ' liaison(s) covalente(s) (doublet(s) liant(s)) avec d\'autres atomes.<br/><br/>Calcule le nombre de doublets non liants (paires libres) que porte cet atome, en supposant qu\'il respecte la règle de l\'octet (ou du duet).',
+          answer: doublets,
+          tolerance: 0.1,
+          unit: '',
+          hint: 'Calcule d\'abord le nombre d\'électrons de valence qui ne sont pas engagés dans une liaison : $\\text{électrons de valence} - \\text{nombre de liaisons}$ (chaque liaison n\'utilise qu\'1 électron de cet atome), puis divise par 2.',
+          solution: [
+            'Électrons engagés dans les liaisons : ' + atome.liaisons + ' liaison(s) $\\times$ 1 électron $=$ ' + atome.liaisons + ' électron(s).',
+            'Électrons restants (non engagés dans une liaison) : ' + atome.valence + ' $-$ ' + atome.liaisons + ' $=$ ' + restants + ' électron(s).',
+            'Nombre de doublets non liants : ' + restants + ' $\\div$ 2 $=$ ' + doublets + '.'
+          ]
+        };
       }
     },
 
     probleme: {
-      context: 'On souhaite déterminer la géométrie de la molécule d\'ammoniac $\\text{NH}_3$, très utilisée dans l\'industrie (engrais, réfrigération). Données : électrons de valence de l\'azote $\\text{N}$ : $5$ ; électrons de valence de l\'hydrogène $\\text{H}$ : $1$.',
+      context: 'La molécule de dioxyde de carbone $CO_2$ est linéaire, de formule développée $O=C=O$ : l\'atome de carbone central est relié à chacun des deux atomes d\'oxygène par une <strong>double liaison</strong> (2 doublets liants par liaison). Le carbone possède $4$ électrons de valence, chaque atome d\'oxygène en possède $6$.',
       tasks: [
-        'Calculer le nombre total d\'électrons de valence de la molécule $\\text{NH}_3$, puis le nombre total de doublets.',
-        'Construire la formule de Lewis de $\\text{NH}_3$ : préciser le nombre de doublets liants et de doublets non liants portés par l\'atome d\'azote, en vérifiant la règle de l\'octet.',
-        'En déduire la formule VSEPR $AX_nE_m$ de la molécule, sa géométrie, et la valeur approchée de son angle $\\hat{\\text{HNH}}$.'
+        'Calculer le nombre d\'électrons de valence que l\'atome de carbone engage dans ses liaisons avec les deux atomes d\'oxygène, et vérifier que la règle de l\'octet est satisfaite pour le carbone.',
+        'Pour un atome d\'oxygène, calculer le nombre d\'électrons qu\'il engage dans sa double liaison avec le carbone, puis le nombre de doublets non liants qu\'il porte.',
+        'Vérifier que la règle de l\'octet est également satisfaite pour chaque atome d\'oxygène.'
       ],
       solutions: [
-        'Électrons de valence : $5$ (azote) $+ 3 \\times 1$ (trois hydrogènes) $= 8$ électrons, soit $\\dfrac{8}{2} = 4$ doublets.',
-        'L\'azote forme $3$ liaisons N–H (donc $3$ doublets liants), ce qui utilise $3$ doublets sur les $4$ disponibles. Il lui reste $1$ doublet non liant. Vérification de l\'octet de l\'azote : $3$ doublets liants $+ 1$ doublet non liant $= 4$ doublets, soit $8$ électrons : l\'octet est respecté.',
-        'L\'atome central (azote) porte $n = 3$ directions liantes et $m = 1$ doublet non liant : formule $AX_3E$. D\'après le tableau de référence, cette formule correspond à une géométrie <strong>pyramidale</strong>, d\'angle $\\hat{\\text{HNH}} \\approx 107°$.'
+        'Chaque double liaison correspond à $2$ doublets partagés, soit $2$ électrons apportés par le carbone par double liaison. Avec $2$ doubles liaisons, le carbone engage $2\\times2=4$ électrons, soit la totalité de ses $4$ électrons de valence. Autour du carbone : $2$ doubles liaisons $=4$ doublets liants $=8$ électrons : l\'octet est satisfait, sans aucun doublet non liant sur le carbone.',
+        'Dans sa double liaison avec le carbone, un atome d\'oxygène engage $2$ électrons (comme le carbone, pour former les $2$ doublets partagés). Il lui reste $6-2=4$ électrons de valence, soit $4\\div2=2$ doublets non liants.',
+        'Autour de chaque oxygène : $1$ double liaison ($2$ doublets liants) $+$ $2$ doublets non liants $=4$ doublets $=8$ électrons : l\'octet est bien satisfait pour chaque atome d\'oxygène.'
       ],
-      finalAnswer: 'La molécule $\\text{NH}_3$ a une géométrie <strong>pyramidale</strong> ($AX_3E$), d\'angle $\\hat{\\text{HNH}} \\approx 107°$, légèrement inférieur à l\'angle tétraédrique idéal $109{,}5°$ à cause de la répulsion plus forte exercée par le doublet non liant de l\'azote.'
+      finalAnswer: 'Le carbone ne porte aucun doublet non liant (ses $4$ électrons de valence sont tous engagés dans les $2$ doubles liaisons) ; chaque oxygène porte $2$ doublets non liants. L\'octet est satisfait pour les trois atomes de la molécule $CO_2$, dont la géométrie est <strong>linéaire</strong> : seuls $2$ doublets liants entourent le carbone (aucun doublet non liant pour l\'écarter de l\'alignement).'
     },
 
     evaluation: {
-      title: 'Évaluation — Structure des entités chimiques (Lewis, VSEPR)',
+      title: 'Évaluation — Structure des entités chimiques',
       duration: '30 min',
       questions: [
         {
-          statement: 'La molécule de méthane $\\text{CH}_4$ compte $8$ électrons de valence. Calculer le nombre total de doublets de cette molécule.',
+          statement: 'Un atome de soufre (S), $6$ électrons de valence, forme $2$ liaisons covalentes (comme dans $H_2S$). Calculer son nombre de doublets non liants.',
           type: 'numeric',
-          answer: 4,
-          tolerance: 0,
+          answer: 2,
+          tolerance: 0.1,
           unit: '',
           points: 2,
-          correction: 'Nombre de doublets $= \\dfrac{8}{2} = 4$ doublets (ici, $4$ doublets liants : les $4$ liaisons C–H).'
+          correction: '$6-2=4$ électrons restants, soit $4\\div2=2$ doublets non liants.'
         },
         {
-          statement: 'Un doublet non liant est :',
+          statement: 'La règle de l\'octet s\'applique à un atome qui tend à s\'entourer de :',
           type: 'multiple-choice',
           options: [
-            'Une paire d\'électrons partagée entre deux atomes',
-            'Une paire d\'électrons propre à un seul atome, non engagée dans une liaison',
-            'Un électron célibataire',
-            'Une liaison double'
+            '8 électrons sur sa couche de valence',
+            '2 électrons uniquement',
+            '6 électrons',
+            'Un nombre d\'électrons égal à son numéro atomique'
           ],
-          answer: 1,
+          answer: 0,
           points: 2,
-          correction: 'Un doublet non liant regroupe $2$ électrons de valence appartenant à un seul atome, qui ne participent à aucune liaison. Il occupe une direction dans le décompte VSEPR, comme un doublet liant.'
+          correction: 'La règle de l\'octet correspond à une couche de valence saturée à $8$ électrons, caractéristique de la structure électronique des gaz nobles voisins (néon, argon).'
         },
         {
-          statement: 'Une molécule de formule $AX_4$ a une géométrie tétraédrique. Quelle est la valeur de son angle caractéristique (en degrés, arrondie au dixième) ?',
-          type: 'numeric',
-          answer: 109.5,
-          tolerance: 0.2,
-          unit: '°',
-          points: 2,
-          correction: 'La géométrie tétraédrique ($AX_4$) a un angle caractéristique de $109{,}5°$, à connaître comme valeur de référence.'
-        },
-        {
-          statement: 'Dans le modèle VSEPR, une liaison triple (par exemple dans $\\text{N}_2$) compte pour :',
+          statement: 'Un atome central est entouré de $4$ doublets, dont $2$ doublets liants et $2$ doublets non liants. Quelle est la géométrie de la molécule ?',
           type: 'multiple-choice',
           options: [
-            'Trois directions distinctes',
-            'Une seule direction, comme une liaison simple',
-            'Deux directions',
-            'Aucune direction'
+            'Coudée (en V)',
+            'Tétraédrique',
+            'Linéaire',
+            'Pyramidale'
           ],
-          answer: 1,
+          answer: 0,
           points: 2,
-          correction: 'Qu\'elle soit simple, double ou triple, une liaison ne compte toujours que pour <strong>une seule direction</strong> dans le décompte VSEPR, car les doublets qui la composent occupent la même région de l\'espace.'
+          correction: '$2$ doublets liants $+2$ non liants (comme dans $H_2O$) donnent une géométrie coudée : la répartition tétraédrique concerne la disposition spatiale des $4$ doublets, mais la géométrie « visible » de la molécule (définie par les seules liaisons) est coudée.'
         },
         {
-          statement: 'Une molécule de formule $AX_3E$ (géométrie pyramidale, comme $\\text{NH}_3$) a un angle caractéristique voisin de (en degrés, arrondi à l\'unité) :',
+          statement: 'Un atome de fluor (F), $7$ électrons de valence, forme $1$ liaison covalente (comme dans $HF$). Calculer son nombre de doublets non liants.',
           type: 'numeric',
-          answer: 107,
-          tolerance: 1,
-          unit: '°',
+          answer: 3,
+          tolerance: 0.1,
+          unit: '',
           points: 2,
-          correction: 'La géométrie pyramidale ($AX_3E$) a un angle caractéristique voisin de $107°$, inférieur à l\'angle tétraédrique $109{,}5°$ à cause de la répulsion plus forte exercée par le doublet non liant.'
+          correction: '$7-1=6$ électrons restants, soit $6\\div2=3$ doublets non liants.'
+        },
+        {
+          statement: 'Pourquoi la molécule $NH_3$ (azote entouré de $3$ doublets liants et $1$ doublet non liant) est-elle pyramidale plutôt que plane ?',
+          type: 'multiple-choice',
+          options: [
+            'Parce que le doublet non liant occupe une direction de l\'espace et repousse les 3 liaisons N–H',
+            'Parce que l\'azote est plus lourd que l\'hydrogène',
+            'Parce que les liaisons N–H sont des doubles liaisons',
+            'La molécule NH3 est en réalité plane, contrairement à ce qu\'indique le modèle VSEPR'
+          ],
+          answer: 0,
+          points: 2,
+          correction: 'Le doublet non liant, bien qu\'invisible dans le contour de la molécule, occupe une direction de l\'espace et repousse les $3$ liaisons N–H, ce qui incurve la molécule en pyramide plutôt qu\'un plan.'
         }
       ]
     }

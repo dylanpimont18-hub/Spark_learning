@@ -128,7 +128,7 @@
           'On vérifie : $2 \\times 2 = 4$, puis $4 - 6 = -2$, et $-2 = 10$ ✓.'
         ],
         answer: 0,
-        correction: 'Vérification : $2 \\times 2 - 6 = 4 - 6 = -2 \\neq 10$. Faux ! La bonne résolution : $2x - 6 = 10 \\Rightarrow 2x = 10 + 6 = 16 \\Rightarrow x = 8$. Vérification : $2 \\times 8 - 6 = 16 - 6 = 10$ ✓. L\'élève a sûrement divisé par 2 en premier ($10 / 2 = 5$, puis $5 - 6 + ?$)  — il faut toujours isoler le terme en $x$ avant de diviser.'
+        correction: 'Vérification : $2 \\times 2 - 6 = 4 - 6 = -2 \\neq 10$, ce qui ne correspond pas à l\'équation de départ : l\'élève s\'est trompé dans l\'ordre des étapes. La bonne résolution : $2x - 6 = 10 \\Rightarrow 2x = 10 + 6 = 16 \\Rightarrow x = 8$. Vérification : $2 \\times 8 - 6 = 16 - 6 = 10$ ✓. Il faut toujours isoler le terme en $x$ avant de diviser.'
       }
     ],
 

@@ -7,191 +7,191 @@ window.MODULES.push({
     level: 1, subject: 'physique',
     icon: '🔥',
     title: 'Les transformations chimiques',
-    subtitle: 'Réactifs, produits, conservation de la masse et des atomes lors d\'une réaction chimique',
-    keywords: ['Réaction chimique', 'Réactifs', 'Produits', 'Conservation de la masse', 'Combustion'],
-    physics: 'Les transformations chimiques sont partout : la combustion du bois dans une cheminée, la formation de la rouille sur une pièce métallique, la cuisson d\'un aliment ou la respiration. Comprendre la conservation de la masse permet, par exemple, de calculer la quantité de dioxyde de carbone rejetée par une combustion.',
+    subtitle: 'Réactifs, produits, combustions, loi de conservation de la masse, tests d\'identification de gaz',
+    keywords: ['Transformation chimique', 'Combustion', 'Conservation de la masse', 'Lavoisier', 'Test caractéristique'],
+    physics: 'Comprendre la combustion permet d\'expliquer le fonctionnement d\'une chaudière à gaz, d\'une bougie ou d\'un barbecue, mais aussi les précautions de sécurité liées aux flammes dans une pièce mal ventilée (renouvellement du dioxygène, évacuation du dioxyde de carbone).',
 
     cours: {
-      intro: 'Une <strong>transformation chimique</strong> est une transformation au cours de laquelle des espèces chimiques de départ, appelées <strong>réactifs</strong>, disparaissent pour laisser place à de nouvelles espèces chimiques, appelées <strong>produits</strong>. C\'est le cas, par exemple, lorsqu\'une bougie brûle : la cire et le dioxygène de l\'air (réactifs) se transforment en dioxyde de carbone et en eau (produits).<br/><br/>À l\'échelle microscopique, aucun atome n\'est créé ni détruit pendant une transformation chimique : les atomes des réactifs se <strong>réorganisent</strong> simplement pour former les molécules des produits. C\'est ce principe, énoncé par le chimiste Antoine Lavoisier, qui garantit la <strong>conservation de la masse</strong> au cours de la réaction.<br/><br/>Une transformation particulièrement fréquente est la <strong>combustion</strong> : la réaction entre un combustible (bois, gaz, essence…) et un comburant, le plus souvent le dioxygène de l\'air, qui libère de la chaleur et souvent de la lumière.',
+      intro: 'Une <strong>transformation chimique</strong> est un phénomène au cours duquel des espèces chimiques de départ, les <strong>réactifs</strong>, disparaissent pour laisser place à de nouvelles espèces chimiques, les <strong>produits</strong>. Contrairement à une transformation physique (comme la fusion de la glace), la nature même de la matière change : on ne retrouve plus les mêmes molécules qu\'au départ.<br/><br/>La <strong>combustion</strong> est l\'exemple de transformation chimique le plus courant : un combustible (bois, gaz, cire…) réagit avec un comburant, le plus souvent le <strong>dioxygène</strong> de l\'air, en dégageant de la chaleur et souvent de la lumière.<br/><br/>Aussi spectaculaire soit-elle, une transformation chimique ne fait <strong>ni apparaître ni disparaître de matière</strong> : les atomes présents avant la réaction se retrouvent tous après, simplement réorganisés autrement. C\'est la <strong>loi de conservation de la masse</strong>, énoncée par le chimiste français Antoine Lavoisier à la fin du XVIIIe siècle.',
       definitions: [
-        { term: 'Transformation chimique', def: 'Transformation au cours de laquelle des <strong>réactifs</strong> disparaissent pour former de nouveaux <strong>produits</strong>, différents chimiquement. Les atomes présents dans les réactifs se retrouvent tous dans les produits, simplement réarrangés.' },
-        { term: 'Réactif / Produit', def: 'Un <strong>réactif</strong> est une espèce chimique présente avant la réaction et consommée pendant celle-ci. Un <strong>produit</strong> est une espèce chimique absente avant la réaction et formée pendant celle-ci.' },
-        { term: 'Conservation de la masse (loi de Lavoisier)', def: '« Rien ne se perd, rien ne se crée, tout se transforme. » La masse totale des produits formés est toujours égale à la masse totale des réactifs consommés : $m_{réactifs} = m_{produits}$.' },
-        { term: 'Combustion', def: 'Transformation chimique entre un <strong>combustible</strong> et un <strong>comburant</strong> (souvent le dioxygène de l\'air), qui produit de l\'énergie sous forme de chaleur et parfois de lumière (flamme).' }
+        { term: 'Transformation chimique', def: 'Processus au cours duquel des réactifs disparaissent pour former de nouveaux produits, aux propriétés chimiques différentes. À distinguer d\'une transformation physique (changement d\'état, dissolution), où la nature des espèces chimiques ne change pas.' },
+        { term: 'Réactif', def: 'Espèce chimique présente <strong>avant</strong> la transformation chimique, et qui est consommée au cours de celle-ci.' },
+        { term: 'Produit', def: 'Nouvelle espèce chimique formée <strong>pendant</strong> la transformation chimique, absente avant celle-ci.' },
+        { term: 'Combustion', def: 'Réaction chimique, souvent vive et lumineuse, entre un <strong>combustible</strong> (ce qui brûle) et un <strong>comburant</strong> (le plus souvent le dioxygène de l\'air), dégageant de la chaleur.' },
+        { term: 'Loi de conservation de la masse', def: 'Énoncée par Lavoisier : dans un système fermé, la masse totale ne change pas au cours d\'une transformation chimique. « Rien ne se perd, rien ne se crée, tout se transforme. »' }
       ],
       method: {
-        title: 'Exploiter la conservation de la masse en 3 étapes',
+        title: 'Étudier une transformation chimique en 3 étapes',
         steps: [
-          '<strong>Identifier les réactifs et le produit</strong> de la transformation chimique étudiée, à partir de l\'énoncé ou d\'un schéma de la réaction.',
-          '<strong>Repérer les masses connues</strong> parmi les réactifs consommés et les produits formés (attention : un réactif ou un produit gazeux possède aussi une masse, même s\'il est invisible).',
-          '<strong>Appliquer la conservation de la masse</strong> : la masse totale des réactifs consommés est égale à la masse totale des produits formés. Une simple addition ou soustraction permet alors de trouver la masse manquante.'
+          '<strong>Identifier réactifs et produits</strong> : lister les espèces chimiques présentes avant la transformation (réactifs) et celles présentes après (produits).<br/>Exemple : dans la combustion du carbone, les réactifs sont le carbone et le dioxygène ; le produit est le dioxyde de carbone.',
+          '<strong>Écrire l\'équation de la réaction</strong> avec les formules chimiques, réactifs à gauche et produits à droite d\'une flèche, en vérifiant qu\'il y a bien <strong>autant d\'atomes de chaque élément</strong> de part et d\'autre.<br/>Exemple : $\\text{C} + \\text{O}_2 \\rightarrow \\text{CO}_2$ : on retrouve $1$ atome de carbone et $2$ atomes d\'oxygène de chaque côté.',
+          '<strong>Appliquer la loi de conservation de la masse</strong> pour un calcul : dans un système fermé, la somme des masses des réactifs consommés est égale à la somme des masses des produits formés.'
         ]
       },
       diagram: {
         theme: 'physique',
-        kicker: 'Transformation chimique',
-        title: 'Conservation de la masse lors de la combustion du carbone',
-        description: 'Avant la réaction, le carbone et le dioxygène (réactifs) sont séparés ; après la réaction, ils forment le dioxyde de carbone (produit). Les mêmes atomes se retrouvent des deux côtés, et la masse totale ne change pas.',
+        kicker: 'Conservation de la masse',
+        title: 'Combustion du carbone : les atomes se réorganisent, la masse se conserve',
+        description: 'Avant et après la transformation chimique, on retrouve exactement les mêmes atomes, uniquement réorganisés autrement. La balance reste à l\'équilibre : la masse totale ne change pas.',
         svg: `
-          <svg viewBox="0 0 560 250" role="img" aria-labelledby="transf-title transf-desc">
-            <title id="transf-title">Conservation de la masse lors d'une reaction de combustion</title>
-            <desc id="transf-desc">A gauche, avant la reaction, un atome de carbone isole et une molecule de dioxygene composee de deux atomes d'oxygene lies. Une fleche horizontale symbolise la reaction chimique. A droite, apres la reaction, une molecule de dioxyde de carbone lineaire formee d'un atome de carbone entoure de deux atomes d'oxygene. En dessous, une balance a deux plateaux parfaitement horizontale illustre l'egalite entre la masse totale des reactifs et la masse totale des produits.</desc>
+          <svg viewBox="0 0 560 360" role="img" aria-labelledby="transfo-chim-title transfo-chim-desc">
+            <title id="transfo-chim-title">Combustion du carbone et conservation de la masse</title>
+            <desc id="transfo-chim-desc">En haut, un atome de carbone isole et une molecule de dioxygene, avant la transformation, sont relies par une fleche a une molecule de dioxyde de carbone apres la transformation : on y retrouve exactement le meme atome de carbone et les deux memes atomes d'oxygene, seulement reorganises. En bas, une balance a deux plateaux illustre la conservation de la masse : le plateau gauche porte le carbone et le dioxygene consommes, pour une masse totale de quarante-quatre grammes, le plateau droit porte le dioxyde de carbone forme, egalement quarante-quatre grammes, et le fleau de la balance reste parfaitement horizontal, signe d'equilibre.</desc>
 
             <defs>
-              <marker id="arrow-phys4e-transf" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+              <marker id="arrow-phys4e-transfo" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
                 <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
               </marker>
             </defs>
 
-            <!-- Panneau A : avant la reaction -->
-            <text class="annotation-label" x="140" y="30" text-anchor="middle">Avant la réaction (réactifs)</text>
+            <!-- AVANT : C isole + O2 -->
+            <text class="label-soft" x="119" y="42" text-anchor="middle">AVANT (réactifs)</text>
+            <circle class="plot-point" cx="70" cy="110" r="13"></circle>
+            <text class="label" x="70" y="115" text-anchor="middle">C</text>
+            <text class="annotation-label" x="108" y="116" text-anchor="middle">+</text>
+            <line class="frame-line" x1="140" y1="110" x2="168" y2="110"></line>
+            <circle class="plot-point-alt" cx="140" cy="110" r="13"></circle>
+            <circle class="plot-point-alt" cx="168" cy="110" r="13"></circle>
+            <text class="label" x="140" y="115" text-anchor="middle">O</text>
+            <text class="label" x="168" y="115" text-anchor="middle">O</text>
+            <text class="label-soft" x="119" y="146" text-anchor="middle">carbone + dioxygène</text>
 
-            <line class="frame-line" x1="170" y1="90" x2="170" y2="130"></line>
-            <circle class="plot-point-alt" cx="90" cy="110" r="14"></circle>
-            <text class="tick-label" x="90" y="114" text-anchor="middle">C</text>
-            <circle class="plot-point-alt" cx="170" cy="90" r="12"></circle>
-            <text class="tick-label" x="170" y="94" text-anchor="middle">O</text>
-            <circle class="plot-point-alt" cx="170" cy="130" r="12"></circle>
-            <text class="tick-label" x="170" y="134" text-anchor="middle">O</text>
+            <!-- fleche de transformation -->
+            <line class="curve-main" x1="205" y1="110" x2="268" y2="110" marker-end="url(#arrow-phys4e-transfo)"></line>
 
-            <!-- Fleche de reaction -->
-            <line class="curve-main" x1="230" y1="110" x2="330" y2="110" marker-end="url(#arrow-phys4e-transf)"></line>
-            <text class="annotation-label" x="280" y="95" text-anchor="middle">réaction chimique</text>
-            <text class="label-soft" x="280" y="128" text-anchor="middle">(combustion)</text>
+            <!-- APRES : CO2 lineaire -->
+            <text class="label-soft" x="345" y="42" text-anchor="middle">APRÈS (produit)</text>
+            <line class="frame-line" x1="310" y1="110" x2="345" y2="110"></line>
+            <line class="frame-line" x1="345" y1="110" x2="380" y2="110"></line>
+            <circle class="plot-point-alt" cx="310" cy="110" r="13"></circle>
+            <circle class="plot-point" cx="345" cy="110" r="13"></circle>
+            <circle class="plot-point-alt" cx="380" cy="110" r="13"></circle>
+            <text class="label" x="310" y="115" text-anchor="middle">O</text>
+            <text class="label" x="345" y="115" text-anchor="middle">C</text>
+            <text class="label" x="380" y="115" text-anchor="middle">O</text>
+            <text class="label-soft" x="345" y="146" text-anchor="middle">dioxyde de carbone</text>
 
-            <!-- Panneau B : apres la reaction -->
-            <text class="annotation-label" x="420" y="30" text-anchor="middle">Après la réaction (produit)</text>
-
-            <line class="frame-line" x1="370" y1="110" x2="470" y2="110"></line>
-            <circle class="plot-point-alt" cx="370" cy="110" r="12"></circle>
-            <text class="tick-label" x="370" y="114" text-anchor="middle">O</text>
-            <circle class="plot-point-alt" cx="420" cy="110" r="14"></circle>
-            <text class="tick-label" x="420" y="114" text-anchor="middle">C</text>
-            <circle class="plot-point-alt" cx="470" cy="110" r="12"></circle>
-            <text class="tick-label" x="470" y="114" text-anchor="middle">O</text>
-
-            <!-- Balance en equilibre -->
-            <text class="label-soft" x="280" y="155" text-anchor="middle">balance en équilibre : conservation de la masse</text>
-            <line class="frame-line" x1="170" y1="165" x2="390" y2="165"></line>
-            <polygon class="frame-line" fill="none" points="280,165 265,195 295,195"></polygon>
-            <line class="frame-line" x1="170" y1="165" x2="170" y2="205"></line>
-            <line class="frame-line" x1="150" y1="205" x2="190" y2="205"></line>
-            <line class="frame-line" x1="390" y1="165" x2="390" y2="205"></line>
-            <line class="frame-line" x1="370" y1="205" x2="410" y2="205"></line>
-            <text class="tick-label" x="170" y="222" text-anchor="middle">m(réactifs)</text>
-            <text class="tick-label" x="390" y="222" text-anchor="middle">m(produits)</text>
+            <!-- balance -->
+            <text class="annotation-label" x="280" y="196" text-anchor="middle">m(réactifs) = m(produits)</text>
+            <line class="frame-line" x1="120" y1="210" x2="440" y2="210"></line>
+            <polygon class="frame-line" points="280,210 260,250 300,250" fill="none"></polygon>
+            <line class="frame-line" x1="120" y1="210" x2="120" y2="280"></line>
+            <line class="frame-line" x1="440" y1="210" x2="440" y2="280"></line>
+            <line class="frame-line" x1="80" y1="280" x2="160" y2="280"></line>
+            <line class="frame-line" x1="400" y1="280" x2="480" y2="280"></line>
+            <text class="label-soft" x="120" y="302" text-anchor="middle">carbone + dioxygène</text>
+            <text class="annotation-label" x="120" y="322" text-anchor="middle">12 g + 32 g</text>
+            <text class="label-soft" x="440" y="302" text-anchor="middle">dioxyde de carbone</text>
+            <text class="annotation-label" x="440" y="322" text-anchor="middle">44 g</text>
           </svg>
         `,
         notes: [
-          'Lors d\'une <strong>transformation chimique</strong>, les réactifs (ici le carbone $C$ et le dioxygène $O_2$) disparaissent et de nouveaux produits apparaissent (ici le dioxyde de carbone $CO_2$) : les atomes se réorganisent, mais aucun atome n\'est créé ni détruit.',
-          'On retrouve exactement les mêmes atomes avant et après la réaction : 1 atome de carbone et 2 atomes d\'oxygène, simplement réarrangés autrement. C\'est ce qu\'on appelle la <strong>conservation des atomes</strong>.',
-          'La balance en équilibre traduit la <strong>loi de conservation de la masse</strong> énoncée par Lavoisier : la masse totale des produits formés est toujours égale à la masse totale des réactifs consommés.'
+          'Lors d\'une transformation chimique, les atomes des réactifs (ici $1$ atome de carbone et $2$ atomes d\'oxygène, apportés par une molécule de $\\text{O}_2$) se retrouvent <strong>tous</strong> dans les produits, simplement réorganisés autrement : ici en une seule molécule de dioxyde de carbone $\\text{CO}_2$.',
+          'Aucun atome n\'apparaît ni ne disparaît pendant une transformation chimique : c\'est ce qui explique la <strong>loi de conservation de la masse</strong> énoncée par Lavoisier.',
+          'La balance en équilibre symbolise cette loi : dans un système fermé, la masse totale des réactifs consommés (ici $12\\,\\text{g}$ de carbone $+$ $32\\,\\text{g}$ de dioxygène) est <strong>strictement égale</strong> à la masse totale des produits formés (ici $44\\,\\text{g}$ de dioxyde de carbone).'
         ],
-        reading: 'Suis la flèche de gauche à droite : les réactifs (carbone et dioxygène) se transforment en produit (dioxyde de carbone) ; en dessous, la balance en équilibre montre que la masse totale ne change pas au cours de la réaction.',
-        caption: 'Combustion du carbone dans le dioxygène : les atomes présents avant la réaction se retrouvent tous après, et la masse totale des réactifs est égale à la masse totale des produits.'
+        reading: 'Suis d\'abord la réorganisation des atomes en haut (même nombre de chaque côté de la flèche), puis vérifie que la balance en bas reste bien à l\'équilibre : les masses totales sont égales.',
+        caption: 'Combustion du carbone : $\\text{C} + \\text{O}_2 \\rightarrow \\text{CO}_2$. Les atomes se réorganisent sans disparaître ($1$ carbone $+$ $2$ oxygènes des deux côtés de la flèche), et la masse totale se conserve ($12\\,\\text{g} + 32\\,\\text{g} = 44\\,\\text{g}$).'
       },
       example: {
-        statement: 'On brûle une masse $m_C = 12$ g de carbone dans du dioxygène. La réaction consomme une masse $m_{O_2} = 32$ g de dioxygène et forme uniquement du dioxyde de carbone.<br/><br/>Calcule la masse $m_{CO_2}$ de dioxyde de carbone formée.',
+        statement: 'Dans un récipient fermé, on fait brûler $12\\,\\text{g}$ de carbone avec $32\\,\\text{g}$ de dioxygène. La réaction produit uniquement du dioxyde de carbone, selon l\'équation $\\text{C} + \\text{O}_2 \\rightarrow \\text{CO}_2$.<br/><br/>Calcule la masse de dioxyde de carbone formée.',
         steps: [
-          'Réactifs de cette transformation : le carbone (masse $m_C$) et le dioxygène (masse $m_{O_2}$). Produit : le dioxyde de carbone (masse $m_{CO_2}$).',
-          'D\'après la loi de conservation de la masse, la masse totale des réactifs consommés est égale à la masse totale du produit formé : $m_C + m_{O_2} = m_{CO_2}$.',
-          'Application numérique : $m_{CO_2} = 12 + 32$.'
+          'Le système étant fermé, aucun gaz ne peut entrer ni sortir : la loi de conservation de la masse s\'applique directement.',
+          'La masse totale des réactifs consommés est $m(\\text{réactifs}) = 12 + 32 = 44\\,\\text{g}$.',
+          'D\'après la loi de conservation de la masse, la masse des produits formés est égale à la masse des réactifs consommés : $m(\\text{CO}_2) = 44\\,\\text{g}$.'
         ],
-        answer: '$m_{CO_2} = 44$ g. Même si le dioxygène consommé est un gaz invisible, sa masse compte pleinement dans le bilan : c\'est bien la somme des deux masses de réactifs qui donne la masse du produit formé.'
+        answer: '$m(\\text{CO}_2) = 44\\,\\text{g}$. Cette égalité ne serait plus vérifiable par simple pesée si le récipient était ouvert : une partie du dioxyde de carbone gazeux s\'échapperait alors dans l\'air.'
       },
       formulas: [
-        'Conservation de la masse (loi de Lavoisier) : $m_{réactifs} = m_{produits}$',
-        'Masse totale des réactifs consommés : $m_{réactifs} = m_1 + m_2 + \\dots$ (somme des masses de chaque réactif)'
+        'Conservation de la masse (système fermé) : $m(\\text{réactifs}) = m(\\text{produits})$',
+        'Combustion du carbone : $\\text{C} + \\text{O}_2 \\rightarrow \\text{CO}_2$',
+        'Combustion du méthane : $\\text{CH}_4 + 2\\,\\text{O}_2 \\rightarrow \\text{CO}_2 + 2\\,\\text{H}_2\\text{O}$',
+        'Test du dioxyde de carbone $\\text{CO}_2$ : trouble l\'eau de chaux',
+        'Test du dioxygène $\\text{O}_2$ : ravive une bûchette incandescente'
       ],
       recap: [
-        'Une transformation chimique fait disparaître des <strong>réactifs</strong> et apparaître de nouveaux <strong>produits</strong>, différents chimiquement.',
-        'Aucun atome n\'est créé ni détruit pendant une transformation chimique : les atomes se <strong>réorganisent</strong> seulement.',
-        'La loi de Lavoisier garantit que la <strong>masse totale</strong> est conservée : $m_{réactifs} = m_{produits}$.',
-        'La <strong>combustion</strong> est une transformation chimique entre un combustible et un comburant (souvent le dioxygène), qui libère chaleur et parfois lumière.'
+        'Une <strong>transformation chimique</strong> fait disparaître des <strong>réactifs</strong> et apparaître de nouveaux <strong>produits</strong>, chimiquement différents.',
+        'Une <strong>combustion</strong> est la réaction d\'un combustible avec un comburant (souvent le dioxygène de l\'air), avec dégagement de chaleur.',
+        'La <strong>loi de conservation de la masse</strong> (Lavoisier) : dans un système fermé, $m(\\text{réactifs}) = m(\\text{produits})$ — les atomes se réorganisent, ils ne disparaissent jamais.',
+        'Des tests caractéristiques permettent d\'identifier certains gaz produits : eau de chaux troublée pour $\\text{CO}_2$, bûchette incandescente ravivée pour $\\text{O}_2$.'
       ],
-      piege: 'Une erreur fréquente est d\'oublier de comptabiliser la masse d\'un réactif ou d\'un produit gazeux, comme le dioxygène $O_2$ ou le dioxyde de carbone $CO_2$, sous prétexte qu\'un gaz semble « ne rien peser ». Attention, un gaz possède bel et bien une masse : il doit toujours être inclus dans le bilan de conservation de la masse, au même titre qu\'un solide ou qu\'un liquide.'
+      piege: 'Une erreur fréquente est de croire que la masse « disparaît » lorsqu\'on pèse seulement les cendres ou le résidu solide après une combustion à l\'air libre : on oublie que le dioxygène consommé (invisible, gazeux) et les produits gazeux échappés (comme la vapeur d\'eau ou le dioxyde de carbone) font partie du bilan. Attention à ne vérifier la conservation de la masse que dans un <strong>système fermé</strong> (récipient hermétique) où rien ne peut entrer ni sortir : c\'est la seule situation où « masse des réactifs = masse des produits » peut réellement se vérifier par pesée.'
     },
 
     quiz: [
       {
-        q: 'Que devient un réactif au cours d\'une transformation chimique ?',
-        options: [
-          'Il reste inchangé',
-          'Il est consommé et disparaît, remplacé par de nouveaux produits',
-          'Il se transforme en un autre réactif',
-          'Sa masse devient nulle'
-        ],
-        answer: 1,
-        correction: 'Un réactif est présent avant la réaction et disparaît progressivement au cours de celle-ci, tandis que de nouvelles espèces chimiques, les produits, apparaissent.'
+        q: 'Lors de la combustion complète du carbone ($\\text{C} + \\text{O}_2 \\rightarrow \\text{CO}_2$), on fait réagir $6\\,\\text{g}$ de carbone avec $16\\,\\text{g}$ de dioxygène, dans un récipient fermé. Quelle est la masse de dioxyde de carbone formée ?',
+        options: ['10 g', '16 g', '22 g', '96 g'],
+        answer: 2,
+        correction: 'D\'après la loi de conservation de la masse (système fermé) : $m(\\text{CO}_2) = m(\\text{C}) + m(\\text{O}_2) = 6 + 16 = 22\\,\\text{g}$.'
       },
       {
-        q: 'D\'après la loi de conservation de la masse énoncée par Lavoisier :',
+        q: 'Comment reconnaît-on la présence de dioxyde de carbone $\\text{CO}_2$ lors d\'une expérience ?',
         options: [
-          'La masse des produits est toujours inférieure à celle des réactifs',
-          'La masse totale des réactifs consommés est égale à la masse totale des produits formés',
-          'La masse ne peut se conserver que pour les solides',
-          'La masse double systématiquement pendant une combustion'
+          'Il ravive une bûchette incandescente',
+          'Il trouble l\'eau de chaux',
+          'Il produit une légère détonation à l\'approche d\'une flamme',
+          'Il n\'a aucun test caractéristique connu'
         ],
         answer: 1,
-        correction: '« Rien ne se perd, rien ne se crée, tout se transforme » : la masse totale des réactifs consommés est exactement égale à la masse totale des produits formés.'
+        correction: 'Le test caractéristique du dioxyde de carbone est le trouble de l\'eau de chaux, qui devient laiteuse à son contact. Raviver une bûchette incandescente est le test du dioxygène ; la détonation est le test du dihydrogène.'
       },
       {
-        q: 'Lors de la combustion du carbone ($C + O_2 \\rightarrow CO_2$), que peut-on dire des atomes présents ?',
+        q: 'Un élève affirme : « Après avoir brûlé une bougie à l\'air libre, la bougie pèse moins qu\'avant : la masse n\'est donc pas conservée. » Que penser de cette affirmation ?',
         options: [
-          'De nouveaux atomes d\'oxygène apparaissent pendant la réaction',
-          'On retrouve exactement les mêmes atomes avant et après, simplement réarrangés',
-          'Les atomes de carbone disparaissent complètement',
-          'Le nombre total d\'atomes diminue pendant la réaction'
+          'Elle est correcte : la combustion fait toujours disparaître de la masse',
+          'Elle est incorrecte : la loi de conservation de la masse ne s\'applique que dans un système fermé, or ici des gaz (dioxygène consommé, vapeur d\'eau et dioxyde de carbone formés) entrent et sortent librement dans l\'air',
+          'Elle est incorrecte : une bougie ne subit jamais de transformation chimique',
+          'Elle est correcte, car la cire se transforme en lumière et en chaleur, qui n\'ont pas de masse'
         ],
         answer: 1,
-        correction: 'Aucun atome n\'est créé ni détruit au cours d\'une transformation chimique : les 1 atome de carbone et 2 atomes d\'oxygène présents avant la réaction se retrouvent tous, réorganisés, dans la molécule de dioxyde de carbone.'
+        correction: 'La loi de conservation de la masse ne s\'applique que dans un <strong>système fermé</strong>. À l\'air libre, le dioxygène consommé et les produits gazeux formés (vapeur d\'eau, dioxyde de carbone) s\'échangent librement avec l\'air ambiant : la pesée du seul résidu solide ne peut donc pas vérifier la conservation de la masse.'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
-        var typeExo = pick(['produit', 'reactif']);
         var contextes = [
-          'un feu de camp où du bois brûle au contact du dioxygène de l\'air',
-          'la combustion du gaz dans une gazinière',
-          'la formation de rouille sur une pièce métallique exposée à l\'air humide',
-          'une réaction entre un comprimé effervescent et de l\'eau',
-          'la combustion d\'une bougie'
+          { combustible: 'une bougie de paraffine', comburant: 'le dioxygène de l\'air' },
+          { combustible: 'un morceau de charbon de bois', comburant: 'le dioxygène de l\'air' },
+          { combustible: 'du gaz butane', comburant: 'le dioxygène de l\'air' },
+          { combustible: 'une allumette', comburant: 'le dioxygène de l\'air' },
+          { combustible: 'un ruban de magnésium', comburant: 'le dioxygène de l\'air' }
         ];
+        var ctx = pick(contextes);
+        var mode = pick(['produit', 'reactif']);
 
-        if (typeExo === 'produit') {
-          var m1 = randFloat(1, 50, 1);
-          var m2 = randFloat(1, 50, 1);
+        if (mode === 'produit') {
+          var m1 = randFloat(4, 40, 1);
+          var m2 = randFloat(4, 40, 1);
           var mProduits = parseFloat((m1 + m2).toFixed(1));
-          var contexte = pick(contextes);
           return {
-            statement: 'Lors de ' + contexte + ', une masse $m_1 = ' + fr(m1, 1) + '$ g d\'un premier réactif réagit entièrement avec une masse $m_2 = ' + fr(m2, 1) + '$ g d\'un second réactif.<br/><br/>D\'après la loi de conservation de la masse, calcule la masse totale $m_{produits}$ des produits formés (en g).',
+            statement: 'Dans un récipient fermé, on fait brûler ' + ctx.combustible + ' (masse $' + fr(m1, 1) + '\\,\\text{g}$) avec ' + ctx.comburant + ' (masse $' + fr(m2, 1) + '\\,\\text{g}$).<br/><br/>D\'après la loi de conservation de la masse, calcule la masse totale des produits formés (en g).',
             answer: mProduits,
-            tolerance: 0.2,
+            tolerance: 0.1,
             unit: 'g',
-            hint: 'La masse totale des produits formés est égale à la somme des masses des réactifs consommés (conservation de la masse) : $m_{produits} = m_1 + m_2$.',
+            hint: 'Dans un système fermé, la masse totale des produits est égale à la masse totale des réactifs consommés : additionne simplement les deux masses.',
             solution: [
-              'Conservation de la masse : $m_{produits} = m_1 + m_2$.',
-              'Application numérique : $m_{produits} = ' + fr(m1, 1) + ' + ' + fr(m2, 1) + '$.',
-              'Résultat : $m_{produits} = ' + fr(mProduits, 1) + '$ g.'
+              'Système fermé → loi de conservation de la masse : $m(\\text{produits}) = m(\\text{réactifs})$.',
+              'Masse des réactifs : $' + fr(m1, 1) + ' + ' + fr(m2, 1) + '$.',
+              'Résultat : $m(\\text{produits}) = ' + fr(mProduits, 1) + '$ g.'
             ]
           };
         } else {
-          var mTotal = randFloat(10, 80, 1);
-          var mConnu = randFloat(1, parseFloat((mTotal - 1).toFixed(1)), 1);
-          var mInconnu = parseFloat((mTotal - mConnu).toFixed(1));
-          var contexte2 = pick(contextes);
+          var mReactif1 = randFloat(4, 40, 1);
+          var mProduitsTotal = randFloat(mReactif1 + 3, mReactif1 + 40, 1);
+          var mReactif2 = parseFloat((mProduitsTotal - mReactif1).toFixed(1));
           return {
-            statement: 'Lors de ' + contexte2 + ', la réaction entre deux réactifs forme une masse totale $m_{produits} = ' + fr(mTotal, 1) + '$ g de produits. On sait que la masse du premier réactif consommé est $m_1 = ' + fr(mConnu, 1) + '$ g.<br/><br/>Calcule la masse $m_2$ du second réactif consommé (en g).',
-            answer: mInconnu,
-            tolerance: 0.2,
+            statement: 'Dans un récipient fermé, on fait brûler ' + ctx.combustible + ' (masse $' + fr(mReactif1, 1) + '\\,\\text{g}$) avec une masse inconnue de ' + ctx.comburant + '. Cette transformation chimique produit une masse totale de $' + fr(mProduitsTotal, 1) + '\\,\\text{g}$ de produits.<br/><br/>D\'après la loi de conservation de la masse, calcule la masse de ' + ctx.comburant + ' qui a été consommée (en g).',
+            answer: mReactif2,
+            tolerance: 0.1,
             unit: 'g',
-            hint: 'La conservation de la masse donne $m_1 + m_2 = m_{produits}$, donc $m_2 = m_{produits} - m_1$.',
+            hint: 'La masse totale des réactifs est égale à la masse totale des produits. Tu connais déjà la masse d\'un réactif : soustrais-la à la masse totale des produits.',
             solution: [
-              'Conservation de la masse : $m_1 + m_2 = m_{produits}$, donc $m_2 = m_{produits} - m_1$.',
-              'Application numérique : $m_2 = ' + fr(mTotal, 1) + ' - ' + fr(mConnu, 1) + '$.',
-              'Résultat : $m_2 = ' + fr(mInconnu, 1) + '$ g.'
+              'Système fermé → loi de conservation de la masse : $m(\\text{réactifs}) = m(\\text{produits}) = ' + fr(mProduitsTotal, 1) + '$ g.',
+              'Masse du premier réactif déjà connue : $' + fr(mReactif1, 1) + '$ g.',
+              'Masse du second réactif : $' + fr(mProduitsTotal, 1) + ' - ' + fr(mReactif1, 1) + ' = ' + fr(mReactif2, 1) + '$ g.'
             ]
           };
         }
@@ -199,76 +199,80 @@ window.MODULES.push({
     },
 
     probleme: {
-      context: 'Une pièce métallique en fer, de masse initiale $m_{Fe} = 42$ g, rouille progressivement au contact du dioxygène de l\'air : toute la pièce se transforme en oxyde de fer (rouille). La masse de dioxygène ayant réagi au cours de cette transformation est $m_{O_2} = 18$ g.',
+      context: 'On réalise la combustion complète du méthane $\\text{CH}_4$ (le gaz naturel utilisé pour la cuisson) dans un récipient fermé, en présence d\'une quantité suffisante de dioxygène. L\'équation de la réaction est $\\text{CH}_4 + 2\\,\\text{O}_2 \\rightarrow \\text{CO}_2 + 2\\,\\text{H}_2\\text{O}$. On fait réagir $16\\,\\text{g}$ de méthane avec $64\\,\\text{g}$ de dioxygène ; la réaction produit $44\\,\\text{g}$ de dioxyde de carbone et une certaine masse de vapeur d\'eau.',
       tasks: [
-        'Identifier les réactifs et le produit de cette transformation chimique.',
-        'D\'après la loi de conservation de la masse, calculer la masse $m_{rouille}$ de rouille formée.',
-        'Calculer le pourcentage que représente la masse de dioxygène $m_{O_2}$ par rapport à la masse totale de rouille formée (arrondi à l\'unité).'
+        'Calculer la masse totale des réactifs consommés.',
+        'En déduire, grâce à la loi de conservation de la masse, la masse totale des produits formés, puis la masse de vapeur d\'eau produite (sachant que $44\\,\\text{g}$ de dioxyde de carbone sont formés).',
+        'Le récipient est maintenant ouvert à l\'air libre pendant la combustion. Expliquer si l\'on peut encore vérifier la conservation de la masse en pesant simplement le contenu du récipient avant et après.'
       ],
       solutions: [
-        'Les réactifs sont le fer ($Fe$) et le dioxygène ($O_2$) de l\'air ; le produit formé est la rouille (oxyde de fer).',
-        'Conservation de la masse : $m_{rouille} = m_{Fe} + m_{O_2} = 42 + 18 = 60$ g.',
-        'Pourcentage de dioxygène : $\\dfrac{m_{O_2}}{m_{rouille}} \\times 100 = \\dfrac{18}{60} \\times 100 = 30$%.'
+        'Masse totale des réactifs : $m(\\text{CH}_4) + m(\\text{O}_2) = 16 + 64 = 80\\,\\text{g}$.',
+        'D\'après la loi de conservation de la masse (système fermé), la masse totale des produits est égale à celle des réactifs : $m(\\text{produits}) = 80\\,\\text{g}$. Comme $44\\,\\text{g}$ de dioxyde de carbone sont formés, la masse de vapeur d\'eau est $m(\\text{H}_2\\text{O}) = 80 - 44 = 36\\,\\text{g}$.',
+        'Non : dans un récipient ouvert, le dioxygène consommé peut être renouvelé depuis l\'air ambiant et les produits gazeux (vapeur d\'eau, dioxyde de carbone) peuvent s\'échapper librement. Une simple pesée du contenu du récipient ne suffit donc plus à vérifier la loi, qui n\'est garantie que dans un <strong>système fermé</strong>.'
       ],
-      finalAnswer: '$m_{rouille} = 60$ g, dont $30$% proviennent du dioxygène capté dans l\'air. Cette prise de masse explique pourquoi une pièce rouillée pèse toujours plus lourd que la pièce de fer d\'origine : la rouille n\'est pas simplement de la « poussière », c\'est une nouvelle espèce chimique qui incorpore les atomes d\'oxygène de l\'air.'
+      finalAnswer: 'Réactifs : $80\\,\\text{g}$ au total ; produits : $44\\,\\text{g}$ de $\\text{CO}_2$ et $36\\,\\text{g}$ de $\\text{H}_2\\text{O}$ (soit $80\\,\\text{g}$ au total, la masse est bien conservée). En système ouvert, cette vérification par simple pesée n\'est plus possible : c\'est pourquoi les expériences de vérification de la loi de Lavoisier se font toujours en récipient fermé.'
     },
 
     evaluation: {
       title: 'Évaluation — Les transformations chimiques',
-      duration: '25 min',
+      duration: '20 min',
       questions: [
         {
-          statement: 'Une réaction chimique consomme $m_1 = 15$ g d\'un réactif et $m_2 = 25$ g d\'un second réactif. Calculer la masse totale de produits formés (en g).',
+          statement: 'On fait brûler, dans un récipient fermé, $8\\,\\text{g}$ d\'un combustible avec $20\\,\\text{g}$ de dioxygène. Calculer la masse totale des produits formés (en g).',
           type: 'numeric',
-          answer: 40,
+          answer: 28,
           tolerance: 0.5,
           unit: 'g',
           points: 2,
-          correction: '$m_{produits} = m_1 + m_2 = 15 + 25 = 40$ g.'
+          correction: '$m(\\text{produits}) = m(\\text{réactifs}) = 8 + 20 = 28$ g, d\'après la loi de conservation de la masse.'
         },
         {
-          statement: 'Pendant une transformation chimique, les atomes des réactifs :',
+          statement: 'Une transformation chimique se distingue d\'une transformation physique (comme la fusion de la glace) par le fait que :',
           type: 'multiple-choice',
           options: [
-            'Disparaissent complètement',
-            'Se réorganisent pour former les produits, sans être créés ni détruits',
-            'Se dédoublent pour former deux fois plus de matière',
-            'Ne participent pas à la réaction'
+            'De nouvelles espèces chimiques apparaissent',
+            'La masse totale change',
+            'La température varie forcément',
+            'Elle ne peut se produire qu\'avec du dioxygène'
           ],
-          answer: 1,
+          answer: 0,
           points: 2,
-          correction: 'Les atomes ne sont jamais créés ni détruits pendant une transformation chimique : ils se réorganisent pour former de nouvelles molécules, celles des produits.'
+          correction: 'Dans une transformation chimique, des réactifs disparaissent et de nouvelles espèces chimiques (produits) apparaissent. Dans une transformation physique comme la fusion, l\'eau reste de l\'eau : aucune nouvelle espèce chimique n\'apparaît.'
         },
         {
-          statement: 'Une réaction chimique forme une masse totale de produits $m_{produits} = 70$ g. La masse du premier réactif consommé est $m_1 = 20$ g. Calculer la masse $m_2$ du second réactif (en g).',
+          statement: 'Dans un récipient fermé, une transformation chimique consomme $15\\,\\text{g}$ d\'un premier réactif et produit au total $52\\,\\text{g}$ de produits. Calculer la masse du second réactif consommé (en g).',
           type: 'numeric',
-          answer: 50,
+          answer: 37,
           tolerance: 0.5,
           unit: 'g',
-          points: 2,
-          correction: '$m_2 = m_{produits} - m_1 = 70 - 20 = 50$ g.'
+          points: 3,
+          correction: '$m(\\text{réactifs}) = m(\\text{produits}) = 52$ g. Comme le premier réactif apporte $15$ g, le second en apporte $52 - 15 = 37$ g.'
         },
         {
-          statement: 'La loi de conservation de la masse, énoncée par Lavoisier, peut se résumer par la phrase :',
+          statement: 'Quel test permet d\'identifier la présence de dioxygène $\\text{O}_2$ ?',
           type: 'multiple-choice',
           options: [
-            '« Plus il y a de réactifs, plus la masse augmente »',
-            '« Rien ne se perd, rien ne se crée, tout se transforme »',
-            '« La masse des gaz ne compte pas dans le bilan »',
-            '« Chaque réaction double la masse initiale »'
+            'Le trouble de l\'eau de chaux',
+            'Une bûchette incandescente qui se ravive',
+            'Une légère détonation à l\'approche d\'une flamme',
+            'Un changement de couleur d\'un indicateur coloré'
           ],
           answer: 1,
-          points: 2,
-          correction: 'Cette célèbre formule de Lavoisier traduit exactement la conservation de la masse : la matière change de forme chimique, mais sa masse totale reste inchangée.'
-        },
-        {
-          statement: 'La combustion complète d\'un morceau de bois de masse $m_1 = 5$ g avec $m_2 = 15$ g de dioxygène forme uniquement des produits gazeux. Calculer la masse totale de ces produits (en g).',
-          type: 'numeric',
-          answer: 20,
-          tolerance: 0.5,
-          unit: 'g',
           points: 1,
-          correction: '$m_{produits} = m_1 + m_2 = 5 + 15 = 20$ g, même si les produits formés (dioxyde de carbone, vapeur d\'eau) sont invisibles.'
+          correction: 'Le dioxygène ravive une bûchette incandescente. Le trouble de l\'eau de chaux teste le dioxyde de carbone ; la détonation teste le dihydrogène.'
+        },
+        {
+          statement: 'La combustion du carbone s\'écrit $\\text{C} + \\text{O}_2 \\rightarrow \\text{CO}_2$. Que représente la flèche dans cette écriture ?',
+          type: 'multiple-choice',
+          options: [
+            'Une addition mathématique',
+            'La transformation des réactifs (à gauche) en produits (à droite)',
+            'Une égalité entre deux nombres',
+            'Un signe de conservation de l\'énergie uniquement'
+          ],
+          answer: 1,
+          points: 2,
+          correction: 'La flèche symbolise le sens de la transformation chimique : les réactifs, à gauche, se transforment en produits, à droite.'
         }
       ]
     }

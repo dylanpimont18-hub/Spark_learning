@@ -51,9 +51,9 @@ window.MODULES.push({
             <desc id="add-soustr-desc">Le schema montre la soustraction posee de 15,20 par 6,75 colonne par colonne, avec virgules alignees, emprunts successifs et resultat 8,45.</desc>
             <line class="guide-line" x1="170" y1="52" x2="170" y2="222"></line>
             <rect x="50" y="14" width="260" height="32" rx="12" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
-            <text class="annotation-label" x="64" y="35">Etape cle : aligner les virgules</text>
+            <text class="annotation-label" x="64" y="35">Étape clé : aligner les virgules</text>
             <text class="tick-label" x="100" y="60">Diz.</text>
-            <text class="tick-label" x="140" y="60">Unites</text>
+            <text class="tick-label" x="140" y="60">Unités</text>
             <text class="tick-label" x="188" y="60">Dix.</text>
             <text class="tick-label" x="220" y="60">Cent.</text>
             <text class="annotation-label" x="106" y="95">1</text>
@@ -122,9 +122,9 @@ window.MODULES.push({
         const a = randFloat(1, 20, 1);
         const b = randFloat(1, 10, 2);
         const sum = parseFloat((a + b).toFixed(2));
-        const aStr = a.toString().replace('.', '{,}');
-        const bStr = b.toString().replace('.', '{,}');
-        const sumStr = sum.toString().replace('.', '{,}');
+        const aStr = fr(a);
+        const bStr = fr(b);
+        const sumStr = fr(sum);
         const statement = scenario.twoPart
           ? `${scenario.emoji} ${scenario.intro} $${aStr}$ ${scenario.suffix} $${bStr}$ ${scenario.unit}. Quel est le total ?`
           : `${scenario.emoji} ${scenario.intro} $${aStr} + ${bStr}$.`;
@@ -133,9 +133,9 @@ window.MODULES.push({
           answer: sum,
           tolerance: 0.01,
           unit: scenario.unit,
-          hint: `Aligne les virgules : écris $${aStr}$ comme $${a.toFixed(2).replace('.', '{,}')}$, puis additionne colonne par colonne.`,
+          hint: `Aligne les virgules : écris $${aStr}$ comme $${fr(a, 2)}$, puis additionne colonne par colonne.`,
           solution: [
-            `Aligner les virgules : $${a.toFixed(2).replace('.', '{,}')} + ${b.toFixed(2).replace('.', '{,}')}$`,
+            `Aligner les virgules : $${fr(a, 2)} + ${fr(b, 2)}$`,
             `Additionner chiffre par chiffre de droite à gauche.`,
             `Résultat : $${sumStr}$${scenario.unit ? ' ' + scenario.unit : ''}`
           ]

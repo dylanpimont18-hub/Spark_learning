@@ -54,7 +54,7 @@ window.MODULES.push(
             <title id="volumes-graph-title">Deux spheres de rayons r et 2r</title>
             <desc id="volumes-graph-desc">Le schema montre deux spheres, l'une de rayon r = 3 cm et l'autre de rayon double 2r = 6 cm, avec leurs volumes V = 113,04 cm3 et V' = 904,32 cm3, dans un rapport de 8.</desc>
             <rect x="20" y="8" width="340" height="30" rx="12" fill="color-mix(in srgb, var(--diagram-accent) 7%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 22%, var(--border))"></rect>
-            <text class="annotation-label" x="32" y="28">Rayon x 2  -&gt;  Volume x 2^3 = 8</text>
+            <text class="annotation-label" x="32" y="28">Rayon × 2 → Volume × 2³ = 8</text>
             <circle cx="110" cy="200" r="36" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></circle>
             <circle class="frame-line" cx="110" cy="200" r="36" fill="none"></circle>
             <circle cx="270" cy="160" r="72" fill="color-mix(in srgb, var(--diagram-accent) 14%, transparent)" stroke="none"></circle>
@@ -114,8 +114,8 @@ window.MODULES.push(
       generate() {
         const r = rand(2, 8);
         const v = parseFloat((4/3 * 3.14 * r * r * r).toFixed(1));
-        const vStr = String(v).replace('.', '{,}');
-        const numStr = String(parseFloat((4*3.14*r*r*r).toFixed(2))).replace('.', '{,}');
+        const vStr = fr(v);
+        const numStr = fr(4 * 3.14 * r * r * r, 2);
 
         const ctx = pick([
           { build: () => `Un <strong>ballon de basket</strong> a un rayon de $${r}$ cm.<br/><br/>Calcule le <strong>volume d'air</strong> qu'il contient. Utilise $\\pi \\approx 3{,}14$, arrondi à $0{,}1$ cm³.` },
@@ -162,7 +162,7 @@ window.MODULES.push(
           tolerance: 1,
           unit: 'cm³',
           points: 2,
-          correction: '$V = \\dfrac{4}{3} \\times 3{,}14 \\times 5^3 = \\dfrac{4}{3} \\times 3{,}14 \\times 125 = \\dfrac{1570}{3} \\approx 523{,}33$ cm³.'
+          correction: '$V = \\dfrac{4}{3} \\times 3{,}14 \\times 5^3 = \\dfrac{4}{3} \\times 3{,}14 \\times 125 = \\dfrac{1\\,570}{3} \\approx 523{,}33$ cm³.'
         },
         {
           statement: 'Une balle de tennis a un diamètre de $6{,}8$ cm. Quel est son volume ? ($\\pi \\approx 3{,}14$, arrondi à $0{,}1$ cm³)',
@@ -196,7 +196,7 @@ window.MODULES.push(
           options: ['$4\\,186{,}67$ cm³', '$2\\,093{,}33$ cm³', '$1\\,046{,}67$ cm³', '$523{,}33$ cm³'],
           answer: 1,
           points: 2,
-          correction: 'Rayon $r = 10$ cm. Volume total : $V = \\dfrac{4}{3} \\times 3{,}14 \\times 10^3 = \\dfrac{4}{3} \\times 3140 \\approx 4\\,186{,}67$ cm³. Moitié : $\\dfrac{4\\,186{,}67}{2} \\approx 2\\,093{,}33$ cm³.'
+          correction: 'Rayon $r = 10$ cm. Volume total : $V = \\dfrac{4}{3} \\times 3{,}14 \\times 10^3 = \\dfrac{4}{3} \\times 3\\,140 \\approx 4\\,186{,}67$ cm³. Moitié : $\\dfrac{4\\,186{,}67}{2} \\approx 2\\,093{,}33$ cm³.'
         }
       ]
     }

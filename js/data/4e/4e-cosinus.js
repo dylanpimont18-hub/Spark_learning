@@ -49,37 +49,43 @@
         title: 'Le cosinus : adjacent sur hypoténuse',
         description: 'À ce niveau, seul le cosinus est au programme : on ne nomme que le côté adjacent et l\'hypoténuse — le troisième côté n\'a pas besoin de nom pour l\'instant.',
         svg: `
-          <svg viewBox="0 0 380 300" role="img" aria-labelledby="cosinus-graph-title cosinus-graph-desc">
+          <!-- Trace A L'ECHELLE de l'exemple du cours : 1 m = 40 px, angle A = 60°.
+               adjacent CA = 2,5 m = 100 px, oppose CB = 4,33 m = 173 px,
+               hypotenuse AB = 5 m = 200 px. L'ancien trace donnait un angle de
+               35° alors que la legende annoncait 60° : cos 35° = 0,82, la figure
+               contredisait le calcul qu'elle est censee illustrer. -->
+          <svg viewBox="0 0 380 320" role="img" aria-labelledby="cosinus-graph-title cosinus-graph-desc">
             <title id="cosinus-graph-title">Triangle rectangle ABC et cosinus de l'angle A</title>
-            <desc id="cosinus-graph-desc">Triangle rectangle ABC, angle droit en C, angle aigu marque en A. Le cote AC, adjacent a l'angle A, et l'hypotenuse AB sont identifies avec la formule cosinus de A egale adjacent sur hypotenuse. Exemple chiffre du cours avec une echelle de 5 metres et un angle de 60 degres.</desc>
+            <desc id="cosinus-graph-desc">Triangle rectangle ABC trace a l'echelle, angle droit en C, angle de 60 degres marque en A. Le cote AC, adjacent a l'angle A, mesure 2,5 metres et l'hypotenuse AB mesure 5 metres, conformement a l'exemple chiffre du cours.</desc>
 
-            <rect x="130" y="12" width="120" height="38" rx="10" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
-            <text class="annotation-label" x="140" y="27">COS</text>
-            <text class="tick-label" x="140" y="43">cos Â = adj / hyp</text>
+            <rect x="150" y="10" width="140" height="40" rx="10" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
+            <text class="annotation-label" x="160" y="26">COS</text>
+            <text class="tick-label" x="160" y="43">cos Â = adj / hyp</text>
 
-            <polygon points="100,230 300,230 100,90" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></polygon>
-            <line class="frame-line" x1="100" y1="230" x2="100" y2="90"></line>
-            <line class="frame-line" x1="100" y1="230" x2="300" y2="230"></line>
-            <line class="curve-main" x1="300" y1="230" x2="100" y2="90"></line>
+            <polygon points="120,250 220,250 120,77" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></polygon>
+            <line class="frame-line" x1="120" y1="250" x2="120" y2="77"></line>
+            <line class="frame-line" x1="120" y1="250" x2="220" y2="250"></line>
+            <line class="curve-main" x1="220" y1="250" x2="120" y2="77"></line>
 
-            <path class="axis" d="M100 216 L114 216 L114 230"></path>
+            <path class="axis" d="M120 236 L134 236 L134 250"></path>
 
-            <line class="guide-line" x1="274" y1="230" x2="279" y2="215"></line>
-            <text class="annotation-label" x="256" y="221">Â</text>
+            <path class="guide-line" d="M200 250 A20 20 0 0 1 210 233" fill="none"></path>
+            <text class="annotation-label" x="188" y="242">Â</text>
 
-            <circle class="plot-point-alt" cx="100" cy="230" r="5"></circle>
-            <circle class="plot-point-alt" cx="100" cy="90" r="5"></circle>
-            <circle class="plot-point" cx="300" cy="230" r="5"></circle>
-            <text class="annotation-label" x="80" y="250">C</text>
-            <text class="annotation-label" x="84" y="82">B</text>
-            <text class="annotation-label" x="306" y="250">A</text>
+            <circle class="plot-point-alt" cx="120" cy="250" r="5"></circle>
+            <circle class="plot-point-alt" cx="120" cy="77" r="5"></circle>
+            <circle class="plot-point" cx="220" cy="250" r="5"></circle>
+            <text class="annotation-label" x="100" y="270">C</text>
+            <text class="annotation-label" x="100" y="71">B</text>
+            <text class="annotation-label" x="228" y="270">A</text>
 
-            <text class="annotation-label" x="155" y="246">AC = adjacent</text>
-            <text class="annotation-label" x="178" y="130">AB = hypoténuse</text>
+            <text class="annotation-label" x="128" y="268">AC = adjacent</text>
+            <text class="annotation-label" x="240" y="150">AB = hypoténuse</text>
+            <line class="guide-line" x1="236" y1="156" x2="178" y2="157"></line>
 
-            <rect x="16" y="256" width="348" height="36" rx="10" fill="color-mix(in srgb, var(--diagram-accent) 6%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 20%, var(--border))"></rect>
-            <text class="tick-label" x="26" y="270">Exemple du cours : échelle de 5 m, angle 60° au sol</text>
-            <text class="tick-label" x="26" y="286">distance au mur = 5 × cos 60° = 5 × 0,5 = 2,5 m</text>
+            <rect x="16" y="276" width="348" height="36" rx="10" fill="color-mix(in srgb, var(--diagram-accent) 6%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 20%, var(--border))"></rect>
+            <text class="tick-label" x="26" y="290">Exemple du cours : échelle de 5 m, angle 60° au sol</text>
+            <text class="tick-label" x="26" y="306">distance au mur = 5 × cos 60° = 5 × 0,5 = 2,5 m</text>
           </svg>
         `,
         notes: [
@@ -143,24 +149,22 @@
           answer: adj,
           tolerance: 0.2,
           unit: scenario.emoji === '📐' ? 'cm' : 'm',
-          hint: `$\\text{côté adjacent} = \\text{hypoténuse} \\times \\cos(${a}°) = ${hyp} \\times ${cos.toString().replace('.', '{,}')}$.`,
-          solution: [`$\\text{adj} = ${hyp} \\times \\cos(${a}°) = ${hyp} \\times ${cos.toString().replace('.', '{,}')} = ${adj.toString().replace('.', '{,}')}$ ${scenario.emoji === '📐' ? 'cm' : 'm'}.`]
+          hint: `$\\text{côté adjacent} = \\text{hypoténuse} \\times \\cos(${a}°) = ${hyp} \\times ${fr(cos)}$.`,
+          solution: [`$\\text{adj} = ${hyp} \\times \\cos(${a}°) = ${hyp} \\times ${fr(cos)} = ${fr(adj)}$ ${scenario.emoji === '📐' ? 'cm' : 'm'}.`]
         };
       }
     },
     probleme: {
-      context: 'Une rampe d\'accès pour personnes à mobilité réduite forme un angle de $5°$ avec le sol horizontal. La longueur de la rampe est $4$ m ($\\cos 5° \\approx 0{,}996$).',
+      context: 'Une rampe d\'accès pour personnes à mobilité réduite forme un angle de $5°$ avec le sol horizontal. La longueur de la rampe est $4$ m ($\\cos 5° \\approx 0{,}9962$).',
       tasks: [
-        'Calculer la longueur horizontale couverte par la rampe.',
-        'La hauteur de la marche surmontée est $h$. Sachant que $\\sin 5° \\approx 0{,}087$, calculer $h$.',
-        'La norme impose un angle $\\leq 5°$ pour $h = 18$ cm. Quelle longueur minimale de rampe faut-il ?'
+        'Calculer la longueur horizontale couverte par la rampe (arrondir à $0{,}01$ m).',
+        'La hauteur de la marche surmontée est $h$. En utilisant le théorème de Pythagore avec la longueur de la rampe (hypoténuse $= 4$ m) et la distance horizontale trouvée à la question précédente, calculer $h$ (arrondie au centimètre).'
       ],
       solutions: [
-        '$\\text{adj} = 4 \\times \\cos(5°) \\approx 4 \\times 0{,}996 = 3{,}98$ m.',
-        '$h = 4 \\times \\sin(5°) \\approx 4 \\times 0{,}087 = 0{,}35$ m $= 35$ cm.',
-        '$\\sin(5°) = \\frac{0{,}18}{L} \\Rightarrow L = \\frac{0{,}18}{0{,}087} \\approx 2{,}07$ m.'
+        '$\\text{adj} = 4 \\times \\cos(5°) \\approx 4 \\times 0{,}9962 = 3{,}98$ m (arrondi au centimètre).',
+        '$h = \\sqrt{4^2 - 3{,}9848^2} \\approx \\sqrt{16 - 15{,}88} \\approx \\sqrt{0{,}12} \\approx 0{,}35$ m $= 35$ cm (on garde plus de décimales pour l\'adjacent dans ce calcul, sinon l\'arrondi fausse le résultat).'
       ],
-      finalAnswer: 'La rampe couvre $\\approx 3{,}98$ m horizontalement ; pour $18$ cm de hauteur il faut au moins $\\approx 2{,}07$ m de rampe.'
+      finalAnswer: 'La rampe couvre $\\approx 3{,}98$ m horizontalement, pour une marche d\'environ $35$ cm de hauteur.'
     },
 
     evaluation: {

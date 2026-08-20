@@ -159,7 +159,7 @@ window.MODULES.push({
           { intro: 'La durée de dégradation d\'un polluant chimique', k: rand(3, 9) / 10 },
           { intro: 'Le temps de refroidissement d\'un alliage en métallurgie', k: rand(2, 7) / 10 }
         ]);
-        const kStr = ctx.k.toFixed(1).replace('.', '{,}');
+        const kStr = fr(ctx.k, 1);
         const answer = parseFloat((Math.log(2) / ctx.k).toFixed(2));
         return {
           statement: `${ctx.intro} suit le modèle $N(t) = N_0 e^{${kStr}t}$. Calculer le temps de doublement $t_d$ tel que $N(t_d) = 2N_0$. Arrondir à $0{,}01$.`,
@@ -170,7 +170,7 @@ window.MODULES.push({
           solution: [
             `$N(t_d) = 2N_0 \\Rightarrow N_0 e^{${kStr}t_d} = 2N_0 \\Rightarrow e^{${kStr}t_d} = 2$`,
             `$${kStr}t_d = \\ln 2 \\approx 0{,}693$`,
-            `$t_d = \\dfrac{0{,}693}{${kStr}} \\approx ${answer}$`
+            `$t_d = \\dfrac{0{,}693}{${kStr}} \\approx ${fr(answer, 2)}$`
           ]
         };
       }

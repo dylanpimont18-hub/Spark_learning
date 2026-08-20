@@ -2699,7 +2699,7 @@ ins.adsbygoogle {
 /* ── Toast notifications ── */
 .toast {
   position: fixed;
-  bottom: 28px;
+  bottom: calc(28px + var(--consent-banner-h, 0px));
   left: 50%;
   transform: translateX(-50%) translateY(20px);
   z-index: var(--z-toast);
@@ -3323,7 +3323,7 @@ ins.adsbygoogle {
   .contact-panel { left: 12px; bottom: 72px; width: calc(100vw - 24px); max-width: calc(100vw - 24px); }
 
   /* Toast */
-  .toast { bottom: 72px; padding: 12px 20px; font-size: 0.85rem; }
+  .toast { bottom: calc(72px + var(--consent-banner-h, 0px)); padding: 12px 20px; font-size: 0.85rem; }
 }
 
 /* ── Small mobile (≤ 400px) ── */
@@ -3492,6 +3492,7 @@ ins.adsbygoogle {
   /* Hide all screen UI */
   .header, .footer, .scroll-top-btn, .contact-btn, .contact-panel,
   .hero-math-floats, .skip-to-content, .batch-print-toolbar,
+  .consent-banner, #consent-banner,
   #scroll-top, #contact-toggle, #contact-panel { display: none !important; }
 
   /* When printing fiches: hide app, show print container */

@@ -6,192 +6,205 @@ window.MODULES.push({
     id: 'physique-tle-ondes-signaux',
     level: 2, subject: 'physique',
     icon: '🌊',
-    title: 'Ondes et signaux (interférences, diffraction)',
-    subtitle: 'Diffraction de la lumière, interférences à deux ondes, interfrange',
-    keywords: ['Diffraction', 'Interférences', 'Interfrange', 'Longueur d\'onde', 'Young'],
-    physics: 'Les phénomènes d\'interférences et de diffraction sont exploités dans les capteurs optiques de précision, les hologrammes, les revêtements anti-reflets, les réseaux de diffraction des spectromètres, et permettent de mesurer très précisément des longueurs d\'onde ou de petites distances.',
+    title: 'Ondes et signaux : diffraction et interférences',
+    subtitle: 'Diffraction d\'une onde, interférences lumineuses (fentes de Young), interfrange, ondes cohérentes',
+    keywords: ['Diffraction', 'Interférences', 'Fentes de Young', 'Interfrange', 'Onde lumineuse'],
+    physics: 'Ces phénomènes ondulatoires expliquent le pouvoir de résolution des instruments d\'optique (télescopes, microscopes), guident la conception des réseaux de diffraction utilisés en spectroscopie, et sont exploités dans les capteurs interférométriques de haute précision (mesure de distances, détection d\'ondes gravitationnelles).',
 
     cours: {
-      intro: 'Lorsqu\'une onde lumineuse rencontre une ouverture de très petite taille (fente, orifice), elle ne se propage plus en ligne droite : elle s\'étale de part et d\'autre de la direction initiale. Ce phénomène, appelé <strong>diffraction</strong>, est d\'autant plus marqué que la taille de l\'ouverture $a$ se rapproche de la longueur d\'onde $\\lambda$.<br/><br/>Quand une onde traverse <strong>deux</strong> fentes très rapprochées (expérience des fentes de Young), les deux ondes diffractées se superposent sur un écran : selon les points de l\'écran, elles s\'additionnent (frange <strong>brillante</strong>) ou s\'annulent (frange <strong>sombre</strong>). Ce phénomène est appelé <strong>interférences</strong>, et il ne peut se produire que si les deux ondes sont <strong>cohérentes</strong> (même fréquence, déphasage constant).<br/><br/>La distance qui sépare deux franges brillantes consécutives sur l\'écran, appelée <strong>interfrange</strong> $i$, se calcule directement à partir de la longueur d\'onde $\\lambda$, de la distance $a$ entre les fentes, et de la distance $D$ entre les fentes et l\'écran : $i = \\dfrac{\\lambda D}{a}$.',
+      intro: 'Une onde qui rencontre une ouverture ou un obstacle de dimension comparable à sa longueur d\'onde $\\lambda$ ne se propage plus en ligne droite : elle s\'étale au-delà de l\'obstacle. C\'est le phénomène de <strong>diffraction</strong>, caractérisé, pour une ouverture de largeur $a\\gg\\lambda$, par un écart angulaire $\\theta\\approx\\dfrac{\\lambda}{a}$ (en radians).<br/><br/>Lorsque deux ondes <strong>cohérentes</strong> (même fréquence, déphasage constant), issues par exemple de deux fentes fines et proches (fentes de Young), se superposent, elles produisent une figure d\'<strong>interférences</strong> : une alternance de zones où les ondes s\'additionnent (franges brillantes) et de zones où elles s\'annulent (franges sombres).<br/><br/>L\'écart entre deux franges brillantes consécutives, l\'<strong>interfrange</strong> $i$, dépend de la longueur d\'onde $\\lambda$, de la distance $a$ entre les deux fentes et de la distance $D$ à l\'écran d\'observation : $i=\\dfrac{\\lambda D}{a}$.',
       definitions: [
-        { term: 'Diffraction', def: 'Étalement d\'une onde lorsqu\'elle traverse une ouverture ou contourne un obstacle de dimension $a$ comparable à sa longueur d\'onde $\\lambda$. L\'écart angulaire de diffraction vaut approximativement $\\theta \\approx \\dfrac{\\lambda}{a}$ (en radians).' },
-        { term: 'Interférences', def: 'Superposition de deux ondes cohérentes (même fréquence, déphasage constant) qui produit une figure de franges alternativement brillantes et sombres, selon que les ondes arrivent en phase ou en opposition de phase.' },
-        { term: 'Interfrange $i$', def: 'Distance séparant deux franges brillantes (ou deux franges sombres) consécutives sur l\'écran d\'observation : $i = \\dfrac{\\lambda D}{a}$, en mètres si $\\lambda$, $D$ et $a$ sont en mètres.' },
-        { term: 'Sources cohérentes', def: 'Deux sources d\'ondes qui émettent avec un déphasage constant dans le temps. En optique, elles sont en général obtenues en divisant un même faisceau initial (comme aux fentes de Young), car deux sources indépendantes ne sont jamais rigoureusement cohérentes.' }
+        { term: 'Diffraction', def: 'Déviation d\'une onde franchissant une ouverture de largeur $a$, ou contournant un obstacle, de dimension comparable à sa longueur d\'onde $\\lambda$. Pour $a\\gg\\lambda$, l\'écart angulaire du faisceau diffracté vaut $\\theta\\approx\\dfrac{\\lambda}{a}$ (en radians).' },
+        { term: 'Ondes cohérentes', def: 'Deux ondes sont dites cohérentes si elles ont la <strong>même fréquence</strong> et un <strong>déphasage constant</strong> au cours du temps : c\'est la condition nécessaire pour observer une figure d\'interférences stable.' },
+        { term: 'Interférences', def: 'Superposition de deux ondes cohérentes, produisant une alternance de zones de renforcement (franges brillantes, ondes en phase) et de zones d\'annulation (franges sombres, ondes en opposition de phase).' },
+        { term: 'Interfrange ($i$)', def: 'Distance séparant deux franges brillantes (ou deux franges sombres) consécutives sur l\'écran d\'observation : $i=\\dfrac{\\lambda D}{a}$, où $a$ est la distance entre les deux fentes et $D$ la distance fentes-écran.' }
       ],
       method: {
-        title: 'Calculer un interfrange en 3 étapes',
+        title: 'Résoudre un problème de diffraction ou d\'interférences en 3 étapes',
         steps: [
-          '<strong>Identifier les trois grandeurs</strong> de l\'expérience : la longueur d\'onde $\\lambda$ de la lumière utilisée, la distance $a$ entre les deux fentes (ou sources), et la distance $D$ entre les fentes et l\'écran d\'observation.',
-          '<strong>Convertir toutes les longueurs dans la même unité</strong> (le mètre est le plus sûr), car $\\lambda$ est souvent donnée en nanomètres alors que $a$ et $D$ sont en millimètres ou en mètres.',
-          '<strong>Appliquer la formule</strong> $i = \\dfrac{\\lambda D}{a}$, puis convertir le résultat en une unité lisible (mm) si besoin, sachant que l\'interfrange est presque toujours une distance submillimétrique.'
+          '<strong>Identifier</strong> le phénomène étudié : diffraction par une ouverture unique (calcul d\'un écart angulaire $\\theta$), ou interférences entre deux fentes (calcul d\'un interfrange $i$) ?',
+          '<strong>Repérer</strong> les grandeurs données et leurs unités : longueur d\'onde $\\lambda$ (m, souvent donnée en nm à convertir), largeur de fente ou distance entre fentes $a$ (m), distance à l\'écran $D$ (m).',
+          '<strong>Appliquer</strong> la formule adaptée — $\\theta\\approx\\dfrac{\\lambda}{a}$ pour la diffraction, $i=\\dfrac{\\lambda D}{a}$ pour l\'interfrange — en veillant à l\'homogénéité des unités (tout convertir en mètres).'
         ]
       },
       diagram: {
         theme: 'physique',
-        kicker: 'Figure d\'interférences (fentes de Young)',
-        title: 'Intensité lumineuse sur l\'écran : franges brillantes et sombres',
-        description: 'L\'intensité lumineuse observée sur l\'écran varie périodiquement avec la position $x$ : elle est maximale au niveau des franges brillantes, nulle au niveau des franges sombres. La distance entre deux franges brillantes consécutives est l\'interfrange $i$.',
+        kicker: 'Interférences lumineuses (fentes de Young)',
+        title: 'Dispositif des fentes de Young et figure d\'interférences',
+        description: 'Deux fentes fines, distantes de $a$, sont éclairées par une source cohérente. Sur un écran situé à une distance $D$, on observe une alternance de franges brillantes et sombres, espacées de l\'interfrange $i=\\dfrac{\\lambda D}{a}$.',
         svg: `
-          <svg viewBox="0 0 560 300" role="img" aria-labelledby="interf-title interf-desc">
-            <title id="interf-title">Courbe d'intensite lumineuse en fonction de la position sur l'ecran</title>
-            <desc id="interf-desc">Un graphique represente l'intensite lumineuse en ordonnee en fonction de la position sur l'ecran en abscisse. La courbe oscille de maniere periodique entre une valeur nulle et une valeur maximale, formant des bosses regulierement espacees. Trois sommets sont mis en evidence par des points, correspondant aux franges brillantes d'ordre moins un, zero et un. La distance horizontale entre le sommet central et le sommet suivant est notee i, l'interfrange.</desc>
+          <svg viewBox="0 0 560 300" role="img" aria-labelledby="young-title young-desc">
+            <title id="young-title">Dispositif des fentes de Young</title>
+            <desc id="young-desc">Un laser a gauche emet un faisceau vers une barriere opaque percee de deux fentes fines et proches, distantes d'une longueur notee a. Des faisceaux divergents partent de chaque fente en direction d'un ecran place a droite, a une distance notee D de la barriere. Sur l'ecran apparait une serie de petites marques regulierement espacees representant les franges brillantes d'interference, avec une cotation indiquant l'interfrange note i entre deux franges consecutives.</desc>
 
             <defs>
-              <marker id="arrow-tle-onde" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+              <marker id="arrow-tle-young" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
                 <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
               </marker>
             </defs>
 
-            <!-- axes -->
-            <line class="frame-line" x1="40" y1="260" x2="520" y2="260" marker-end="url(#arrow-tle-onde)"></line>
-            <line class="frame-line" x1="60" y1="270" x2="60" y2="50" marker-end="url(#arrow-tle-onde)"></line>
-            <text class="tick-label" x="60" y="32" text-anchor="middle">I</text>
-            <text class="tick-label" x="518" y="276" text-anchor="end">x (position sur l'écran)</text>
+            <!-- laser -->
+            <rect class="frame-line" x="60" y="142" width="35" height="16" fill="var(--diagram-soft)"></rect>
+            <text class="label-soft" x="77" y="172" text-anchor="middle">Laser</text>
+            <line class="curve-main" x1="95" y1="150" x2="195" y2="150" marker-end="url(#arrow-tle-young)"></line>
 
-            <!-- courbe d'intensite (cos^2, calculee) -->
-            <path class="curve-main" fill="none" d="M60.0,260.0 L67.3,255.4 L74.7,241.9 L82.0,220.8 L89.3,194.4 L96.7,165.0 L104.0,135.6 L111.3,109.2 L118.7,88.1 L126.0,74.6 L133.3,70.0 L140.7,74.6 L148.0,88.1 L155.3,109.2 L162.7,135.6 L170.0,165.0 L177.3,194.4 L184.7,220.8 L192.0,241.9 L199.3,255.4 L206.7,260.0 L214.0,255.4 L221.3,241.9 L228.7,220.8 L236.0,194.4 L243.3,165.0 L250.7,135.6 L258.0,109.2 L265.3,88.1 L272.7,74.6 L280.0,70.0 L287.3,74.6 L294.7,88.1 L302.0,109.2 L309.3,135.6 L316.7,165.0 L324.0,194.4 L331.3,220.8 L338.7,241.9 L346.0,255.4 L353.3,260.0 L360.7,255.4 L368.0,241.9 L375.3,220.8 L382.7,194.4 L390.0,165.0 L397.3,135.6 L404.7,109.2 L412.0,88.1 L419.3,74.6 L423.0,71.2 L426.7,70.0 L434.0,74.6 L441.3,88.1 L448.7,109.2 L456.0,135.6 L463.3,165.0 L470.7,194.4 L478.0,220.8 L485.3,241.9 L492.7,255.4 L500.0,260.0"></path>
+            <!-- barriere avec deux fentes -->
+            <rect class="frame-line" x="198" y="60" width="4" height="65" fill="var(--diagram-accent)"></rect>
+            <rect class="frame-line" x="198" y="135" width="4" height="30" fill="var(--diagram-accent)"></rect>
+            <rect class="frame-line" x="198" y="175" width="4" height="65" fill="var(--diagram-accent)"></rect>
 
-            <!-- franges brillantes (maxima) -->
-            <circle class="plot-point" cx="133.3" cy="70" r="4"></circle>
-            <circle class="plot-point" cx="280.0" cy="70" r="4"></circle>
-            <circle class="plot-point" cx="426.7" cy="70" r="4"></circle>
-            <text class="tick-label" x="133.3" y="285" text-anchor="middle">k=-1</text>
-            <text class="tick-label" x="280.0" y="285" text-anchor="middle">k=0</text>
-            <text class="tick-label" x="426.7" y="285" text-anchor="middle">k=1</text>
+            <!-- cotation a -->
+            <line class="guide-line" x1="188" y1="130" x2="198" y2="130"></line>
+            <line class="guide-line" x1="188" y1="170" x2="198" y2="170"></line>
+            <line class="guide-line" x1="188" y1="130" x2="188" y2="170"></line>
+            <text class="tick-label" x="180" y="154" text-anchor="end">a</text>
 
-            <!-- cotation interfrange entre k=0 et k=1 -->
-            <line class="guide-line" x1="280.0" y1="46" x2="280.0" y2="60"></line>
-            <line class="guide-line" x1="426.7" y1="46" x2="426.7" y2="60"></line>
-            <line class="guide-line" x1="280.0" y1="52" x2="426.7" y2="52"></line>
-            <text class="annotation-label" x="353.3" y="42" text-anchor="middle">i (interfrange)</text>
+            <!-- faisceaux divergents vers l'ecran -->
+            <line class="guide-line" x1="202" y1="130" x2="480" y2="70"></line>
+            <line class="guide-line" x1="202" y1="130" x2="480" y2="270"></line>
+            <line class="guide-line" x1="202" y1="170" x2="480" y2="70"></line>
+            <line class="guide-line" x1="202" y1="170" x2="480" y2="270"></line>
+
+            <!-- ecran -->
+            <line class="frame-line" x1="480" y1="60" x2="480" y2="280"></line>
+            <text class="label-soft" x="480" y="294" text-anchor="middle">Écran</text>
+
+            <!-- franges brillantes -->
+            <rect x="476" y="77" width="8" height="6" fill="var(--diagram-accent)"></rect>
+            <rect x="476" y="107" width="8" height="6" fill="var(--diagram-accent)"></rect>
+            <rect x="476" y="137" width="8" height="6" fill="var(--diagram-accent)"></rect>
+            <rect x="476" y="167" width="8" height="6" fill="var(--diagram-accent)"></rect>
+            <rect x="476" y="197" width="8" height="6" fill="var(--diagram-accent)"></rect>
+            <rect x="476" y="227" width="8" height="6" fill="var(--diagram-accent)"></rect>
+            <rect x="476" y="257" width="8" height="6" fill="var(--diagram-accent)"></rect>
+
+            <!-- cotation interfrange i -->
+            <line class="guide-line" x1="484" y1="170" x2="500" y2="170"></line>
+            <line class="guide-line" x1="484" y1="200" x2="500" y2="200"></line>
+            <line class="guide-line" x1="500" y1="170" x2="500" y2="200"></line>
+            <text class="tick-label" x="506" y="189" text-anchor="start">i</text>
+
+            <!-- cotation D -->
+            <line class="guide-line" x1="200" y1="45" x2="480" y2="45"></line>
+            <line class="guide-line" x1="200" y1="45" x2="200" y2="55"></line>
+            <line class="guide-line" x1="480" y1="45" x2="480" y2="55"></line>
+            <text class="tick-label" x="340" y="38" text-anchor="middle">D</text>
           </svg>
         `,
         notes: [
-          'Les <strong>franges brillantes</strong> (maxima d\'intensité) correspondent aux points de l\'écran où les deux ondes arrivent <strong>en phase</strong> et s\'additionnent.',
-          'Entre deux franges brillantes, l\'intensité s\'annule au niveau d\'une <strong>frange sombre</strong>, où les deux ondes arrivent en <strong>opposition de phase</strong> et s\'annulent.',
-          'La distance entre deux franges brillantes consécutives, l\'<strong>interfrange</strong> $i$, est constante sur tout l\'écran et se calcule par $i = \\dfrac{\\lambda D}{a}$.'
+          'Les deux fentes, distantes de $a$, se comportent comme deux sources <strong>cohérentes</strong> : elles émettent des ondes de même fréquence, en phase.',
+          'Sur l\'écran, à la distance $D$ des fentes, les ondes issues des deux fentes se superposent : selon le point considéré, elles s\'additionnent (frange brillante) ou s\'annulent (frange sombre).',
+          'L\'interfrange $i$, distance entre deux franges brillantes consécutives, augmente avec $\\lambda$ et $D$, mais diminue si les fentes sont plus <strong>écartées</strong> (grand $a$).'
         ],
-        reading: 'Repère la frange centrale (k=0), puis la frange brillante suivante (k=1) : la distance horizontale qui les sépare est l\'interfrange $i$.',
-        caption: 'Figure d\'interférences obtenue avec deux fentes de Young : l\'intensité lumineuse oscille périodiquement, avec un interfrange $i$ constant sur l\'écran.'
+        reading: 'Suis le trajet de la lumière depuis la source, à travers les deux fentes distantes de $a$, jusqu\'à l\'écran situé à la distance $D$ : la figure obtenue montre des franges régulièrement espacées de l\'interfrange $i$.',
+        caption: 'Dispositif des fentes de Young : deux fentes cohérentes, distantes de $a$, produisent sur un écran à la distance $D$ une figure d\'interférences de franges espacées de $i=\\dfrac{\\lambda D}{a}$.'
       },
       example: {
-        statement: 'Dans une expérience de fentes de Young, on utilise un laser de longueur d\'onde $\\lambda = 632{,}8$ nm. Les deux fentes sont séparées de $a = 0{,}25$ mm et l\'écran est placé à $D = 2{,}0$ m des fentes.<br/><br/>Calculer l\'interfrange $i$ observé sur l\'écran, en millimètres.',
+        statement: 'Des fentes de Young distantes de $a=0{,}50$ mm sont éclairées par un laser de longueur d\'onde $\\lambda=500$ nm. L\'écran d\'observation est situé à $D=2{,}0$ m.<br/><br/>Calculer l\'interfrange $i$ observé sur l\'écran.',
         steps: [
-          'On convertit toutes les longueurs en mètres : $\\lambda = 632{,}8 \\times 10^{-9}$ m, $a = 0{,}25 \\times 10^{-3}$ m, $D = 2{,}0$ m.',
-          'Formule de l\'interfrange : $i = \\dfrac{\\lambda D}{a}$.',
-          'Application numérique : $i = \\dfrac{632{,}8\\times10^{-9} \\times 2{,}0}{0{,}25\\times10^{-3}} = \\dfrac{1{,}266\\times10^{-6}}{2{,}5\\times10^{-4}}$.',
-          'Résultat : $i \\approx 5{,}06\\times10^{-3}$ m, soit $i \\approx 5{,}1$ mm.'
+          'Conversion des données en mètres : $\\lambda=500$ nm $=500\\times10^{-9}$ m $=5{,}0\\times10^{-7}$ m ; $a=0{,}50$ mm $=5{,}0\\times10^{-4}$ m.',
+          'Formule de l\'interfrange : $i=\\dfrac{\\lambda D}{a}$.',
+          'Application numérique : $i=\\dfrac{5{,}0\\times10^{-7}\\times2{,}0}{5{,}0\\times10^{-4}}=\\dfrac{1{,}0\\times10^{-6}}{5{,}0\\times10^{-4}}=2{,}0\\times10^{-3}$ m.'
         ],
-        answer: '$i \\approx 5{,}1$ mm. Cette valeur, largement supérieure au dixième de millimètre, explique pourquoi la figure d\'interférences est directement observable à l\'œil nu sur un écran placé à quelques mètres.'
+        answer: '$i=2{,}0\\times10^{-3}$ m $=2{,}0$ mm. Cet interfrange, de l\'ordre du millimètre, est facilement observable et mesurable à l\'œil nu ou avec un simple capteur, ce qui rend l\'expérience des fentes de Young accessible en travaux pratiques.'
       },
       formulas: [
-        'Écart angulaire de diffraction : $\\theta \\approx \\dfrac{\\lambda}{a}$ (radians)',
-        'Interfrange (fentes de Young) : $i = \\dfrac{\\lambda D}{a}$',
-        'Relation fréquence/longueur d\'onde dans le vide : $\\lambda = \\dfrac{c}{\\nu}$, avec $c \\approx 3{,}00\\times10^8$ m/s',
-        'Condition de frange brillante (interférence constructive) : différence de marche $\\delta = k\\lambda$, $k \\in \\mathbb{Z}$'
+        'Diffraction (ouverture de largeur $a\\gg\\lambda$) : $\\theta\\approx\\dfrac{\\lambda}{a}$ (en radians)',
+        'Interfrange (fentes de Young) : $i=\\dfrac{\\lambda D}{a}$',
+        'Interférence constructive (frange brillante) : différence de marche $\\delta=k\\lambda$ ($k$ entier)',
+        'Interférence destructive (frange sombre) : $\\delta=\\left(k+\\dfrac12\\right)\\lambda$',
+        'Conversion usuelle : $1$ nm $=10^{-9}$ m'
       ],
       recap: [
-        'La <strong>diffraction</strong> s\'observe quand une onde traverse une ouverture de taille comparable à sa longueur d\'onde ; elle s\'étale d\'autant plus que l\'ouverture est petite.',
-        'Les <strong>interférences</strong> exigent deux ondes <strong>cohérentes</strong> ; elles produisent une alternance de franges brillantes et sombres.',
-        'L\'<strong>interfrange</strong> $i = \\dfrac{\\lambda D}{a}$ est <strong>constant</strong> sur tout l\'écran : c\'est la distance entre deux franges brillantes consécutives.',
-        'Toutes les longueurs de la formule de l\'interfrange doivent être exprimées dans la <strong>même unité</strong> avant tout calcul.'
+        'La diffraction et les interférences sont deux manifestations du caractère <strong>ondulatoire</strong> de la lumière : elles ne s\'expliquent pas par un modèle purement géométrique (rayons rectilignes).',
+        'Plus l\'ouverture ou l\'écart entre les fentes est <strong>petit</strong>, plus les effets de diffraction et d\'interférences sont <strong>marqués</strong> (angle $\\theta$ ou interfrange $i$ plus grands).',
+        'L\'interfrange $i=\\dfrac{\\lambda D}{a}$ augmente avec la longueur d\'onde $\\lambda$ et la distance à l\'écran $D$, mais diminue si les fentes sont plus écartées.',
+        'Deux ondes ne produisent une figure d\'interférences stable que si elles sont <strong>cohérentes</strong> : même fréquence, déphasage constant.'
       ],
-      piege: 'Une erreur très fréquente est d\'oublier de convertir $\\lambda$ (souvent donnée en nanomètres) dans la même unité que $a$ et $D$ avant d\'appliquer $i = \\dfrac{\\lambda D}{a}$ : mélanger nanomètres et mètres directement dans le calcul fausse le résultat d\'un facteur $10^9$. Attention aussi à ne pas confondre la <strong>diffraction</strong> (une seule ouverture, un seul faisceau qui s\'étale) avec les <strong>interférences</strong> (deux ondes qui se superposent) : ce sont deux phénomènes liés mais distincts.'
+      piege: 'Une erreur fréquente est de confondre la largeur d\'une fente unique $a$ (utilisée pour la diffraction, $\\theta\\approx\\lambda/a$) avec la distance entre deux fentes $a$ (utilisée pour l\'interfrange, $i=\\lambda D/a$) : ce sont deux grandeurs physiquement différentes qui portent la même notation par convention. Attention également à toujours convertir la longueur d\'onde (souvent donnée en nanomètres) en mètres avant tout calcul, sous peine d\'obtenir un résultat erroné d\'un facteur $10^9$.'
     },
 
     quiz: [
       {
-        q: 'Dans une expérience de fentes de Young, $\\lambda = 500$ nm, $a = 0{,}20$ mm et $D = 1{,}5$ m. Quel est l\'interfrange $i$ ?',
+        q: 'Pour observer un effet de diffraction nettement marqué en traversant une ouverture de largeur $a$, il faut que :',
         options: [
-          '$i \\approx 3{,}75$ mm',
-          '$i \\approx 0{,}375$ mm',
-          '$i \\approx 37{,}5$ mm',
-          '$i \\approx 0{,}0375$ mm'
+          '$a$ soit du même ordre de grandeur que $\\lambda$ (pas beaucoup plus grand)',
+          '$a$ soit très supérieur à $\\lambda$',
+          '$a$ soit nul',
+          'Cela ne dépend pas de la taille de l\'ouverture'
         ],
         answer: 0,
-        correction: 'En mètres : $\\lambda = 500\\times10^{-9}$ m, $a=0{,}20\\times10^{-3}$ m, $D=1{,}5$ m. $i = \\dfrac{\\lambda D}{a} = \\dfrac{500\\times10^{-9}\\times1{,}5}{0{,}20\\times10^{-3}} \\approx 3{,}75\\times10^{-3}$ m $= 3{,}75$ mm.'
+        correction: 'La diffraction est d\'autant plus marquée que la taille de l\'ouverture se rapproche de la longueur d\'onde. Si $a\\gg\\lambda$, l\'écart angulaire $\\theta\\approx\\lambda/a$ devient négligeable et la propagation redevient quasi rectiligne.'
       },
       {
-        q: 'Que faut-il pour observer une figure d\'interférences stable entre deux ondes lumineuses ?',
+        q: 'Deux ondes sont dites cohérentes si :',
         options: [
-          'Que les deux ondes proviennent de sources totalement indépendantes',
-          'Que les deux ondes soient cohérentes (même fréquence, déphasage constant)',
-          'Que les deux ondes aient des fréquences différentes',
-          'Que les deux ondes soient de couleurs différentes'
+          'Elles ont la même fréquence et un déphasage constant',
+          'Elles ont nécessairement la même amplitude',
+          'Elles se propagent dans des directions opposées',
+          'Elles ont des fréquences différentes'
         ],
-        answer: 1,
-        correction: 'Seules deux ondes <strong>cohérentes</strong> (même fréquence et déphasage constant dans le temps) produisent une figure d\'interférences stable. Deux sources indépendantes ne sont, en pratique, jamais rigoureusement cohérentes.'
+        answer: 0,
+        correction: 'La cohérence exige une fréquence identique et un déphasage constant au cours du temps : c\'est cette condition qui permet une figure d\'interférences stable, observable dans le temps.'
       },
       {
-        q: 'Sur une figure d\'interférences, que représente l\'interfrange $i$ ?',
+        q: 'Des fentes de Young distantes de $a=0{,}50$ mm sont éclairées par un laser de longueur d\'onde $\\lambda=500$ nm. L\'écran est à $D=2{,}0$ m. Calculer l\'interfrange $i$.',
         options: [
-          'La distance entre les deux fentes',
-          'La distance entre les fentes et l\'écran',
-          'La distance entre deux franges brillantes consécutives',
-          'La longueur d\'onde de la lumière utilisée'
+          '$i=2{,}0$ mm',
+          '$i=0{,}2$ mm',
+          '$i=20$ mm',
+          '$i=0{,}5$ mm'
         ],
-        answer: 2,
-        correction: 'L\'interfrange $i$ est la distance, mesurée sur l\'écran, séparant deux franges brillantes (ou deux franges sombres) consécutives : $i = \\dfrac{\\lambda D}{a}$.'
+        answer: 0,
+        correction: '$i=\\dfrac{\\lambda D}{a}=\\dfrac{500\\times10^{-9}\\times2{,}0}{0{,}50\\times10^{-3}}=2{,}0\\times10^{-3}$ m $=2{,}0$ mm.'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
-        var typeExo = pick(['interfrange', 'longueurOnde']);
-        var lambdas = [450, 500, 532, 589, 633, 650, 700];
+        var typeExo = pick(['diffraction', 'interference']);
+        var lambdaNm = pick([450, 500, 650, 780]);
+        var lambda = lambdaNm * 1e-9;
+        var contexte = pick([
+          'un pointeur laser de démonstration',
+          'une diode laser de laboratoire',
+          'un banc d\'optique de travaux pratiques',
+          'un dispositif de contrôle qualité optique',
+          'une expérience d\'optique ondulatoire au lycée'
+        ]);
 
-        if (typeExo === 'interfrange') {
-          var lambdaNm = pick(lambdas);
-          var aMm = randFloat(0.1, 0.5, 2);
-          var Dm = randFloat(1, 3, 1);
-          var lambdaM = lambdaNm * 1e-9;
-          var aM = aMm * 1e-3;
-          var iM = (lambdaM * Dm) / aM;
-          var iMm = parseFloat((iM * 1000).toFixed(2));
-          var contexte = pick([
-            'un laser de TP dirigé vers deux fentes fines',
-            'une expérience de fentes de Young en salle de physique',
-            'un dispositif de diffraction éclairé par une source monochromatique',
-            'un banc optique utilisé pour mesurer une longueur d\'onde'
-          ]);
+        if (typeExo === 'diffraction') {
+          var aMm1 = pick([0.05, 0.08, 0.10, 0.15]);
+          var a1 = aMm1 * 1e-3;
+          var thetaMrad = parseFloat(((lambda / a1) * 1000).toFixed(3));
           return {
-            statement: 'Dans ' + contexte + ', on utilise une source monochromatique de longueur d\'onde $\\lambda = ' + lambdaNm + '$ nm. La distance entre les deux fentes est $a = ' + fr(aMm, 2) + '$ mm, et l\'écran est placé à $D = ' + fr(Dm, 1) + '$ m des fentes.<br/><br/>Calcule l\'interfrange $i$ observé sur l\'écran (en mm, arrondi au centième).',
-            answer: iMm,
-            tolerance: Math.max(0.02, parseFloat((iMm * 0.03).toFixed(2))),
-            unit: 'mm',
-            hint: 'Convertis toutes les longueurs en mètres, puis utilise $i = \\dfrac{\\lambda D}{a}$. N\'oublie pas de reconvertir le résultat en mm.',
+            statement: 'Dans ' + contexte + ', un faisceau de longueur d\'onde $\\lambda=' + lambdaNm + '$ nm traverse une fente de largeur $a=' + fr(aMm1, 2) + '$ mm.<br/><br/>Calcule l\'écart angulaire de diffraction $\\theta$ (en mrad, arrondi au millième).',
+            answer: thetaMrad,
+            tolerance: Math.max(0.05, parseFloat((thetaMrad * 0.03).toFixed(3))),
+            unit: 'mrad',
+            hint: 'Convertis $\\lambda$ et $a$ en mètres, puis utilise $\\theta\\approx\\dfrac{\\lambda}{a}$.',
             solution: [
-              'Conversion en mètres : $\\lambda = ' + lambdaNm + '\\times10^{-9}$ m, $a = ' + fr(aMm, 2) + '\\times10^{-3}$ m, $D = ' + fr(Dm, 1) + '$ m.',
-              'Formule : $i = \\dfrac{\\lambda D}{a}$.',
-              'Résultat en mètres, converti en millimètres : $i \\approx ' + fr(iMm, 2) + '$ mm.'
+              'Conversion : $\\lambda=' + lambdaNm + '\\times10^{-9}$ m ; $a=' + fr(aMm1, 2) + '\\times10^{-3}$ m.',
+              'Formule de diffraction : $\\theta\\approx\\dfrac{\\lambda}{a}$.',
+              'Résultat : $\\theta\\approx' + fr(thetaMrad, 3) + '$ mrad.'
             ]
           };
         } else {
-          var aMm2 = randFloat(0.1, 0.5, 2);
-          var Dm2 = randFloat(1, 3, 1);
-          var iMm2 = randFloat(1, 8, 2);
-          var iM2 = iMm2 / 1000;
-          var aM2 = aMm2 / 1000;
-          var lambdaM2 = (iM2 * aM2) / Dm2;
-          var lambdaNm2 = parseFloat((lambdaM2 * 1e9).toFixed(1));
-          var contexte2 = pick([
-            'un TP de détermination de longueur d\'onde',
-            'un contrôle qualité d\'une source lumineuse',
-            'une expérience de spectroscopie simplifiée',
-            'un dispositif d\'étalonnage optique'
-          ]);
+          var aMm2 = pick([0.1, 0.15, 0.2, 0.3, 0.5]);
+          var Dm = pick([1.0, 1.5, 2.0, 3.0]);
+          var a2 = aMm2 * 1e-3;
+          var iMm = parseFloat(((lambda * Dm / a2) * 1000).toFixed(3));
           return {
-            statement: 'Dans ' + contexte2 + ', une figure d\'interférences est obtenue avec deux fentes séparées de $a = ' + fr(aMm2, 2) + '$ mm, un écran situé à $D = ' + fr(Dm2, 1) + '$ m, et un interfrange mesuré $i = ' + fr(iMm2, 2) + '$ mm.<br/><br/>Calcule la longueur d\'onde $\\lambda$ de la source utilisée (en nm, arrondie au dixième).',
-            answer: lambdaNm2,
-            tolerance: Math.max(2, parseFloat((lambdaNm2 * 0.03).toFixed(1))),
-            unit: 'nm',
-            hint: 'Isole $\\lambda$ dans $i = \\dfrac{\\lambda D}{a}$, soit $\\lambda = \\dfrac{i \\times a}{D}$, en travaillant en mètres.',
+            statement: 'Dans ' + contexte + ', des fentes de Young distantes de $a=' + fr(aMm2, 2) + '$ mm sont éclairées par une lumière de longueur d\'onde $\\lambda=' + lambdaNm + '$ nm. L\'écran est situé à $D=' + fr(Dm, 1) + '$ m.<br/><br/>Calcule l\'interfrange $i$ (en mm, arrondi au centième).',
+            answer: iMm,
+            tolerance: Math.max(0.05, parseFloat((iMm * 0.03).toFixed(2))),
+            unit: 'mm',
+            hint: 'Convertis $\\lambda$ et $a$ en mètres, puis utilise $i=\\dfrac{\\lambda D}{a}$.',
             solution: [
-              'On isole $\\lambda$ dans la formule de l\'interfrange : $\\lambda = \\dfrac{i \\times a}{D}$.',
-              'Conversion en mètres : $i = ' + fr(iMm2, 2) + '\\times10^{-3}$ m, $a = ' + fr(aMm2, 2) + '\\times10^{-3}$ m.',
-              'Résultat, reconverti en nanomètres : $\\lambda \\approx ' + fr(lambdaNm2, 1) + '$ nm.'
+              'Conversion : $\\lambda=' + lambdaNm + '\\times10^{-9}$ m ; $a=' + fr(aMm2, 2) + '\\times10^{-3}$ m.',
+              'Formule de l\'interfrange : $i=\\dfrac{\\lambda D}{a}=\\dfrac{' + lambdaNm + '\\times10^{-9}\\times' + fr(Dm, 1) + '}{' + fr(aMm2, 2) + '\\times10^{-3}}$.',
+              'Résultat : $i\\approx' + fr(iMm, 2) + '$ mm.'
             ]
           };
         }
@@ -199,80 +212,80 @@ window.MODULES.push({
     },
 
     probleme: {
-      context: 'On réalise l\'expérience des fentes de Young avec un laser rouge de longueur d\'onde $\\lambda = 650$ nm. Les fentes sont séparées de $a = 0{,}30$ mm. On observe sur un écran, placé à $D = 2{,}5$ m des fentes, des franges dont l\'interfrange mesuré est comparé à une valeur théorique attendue.',
+      context: 'On réalise l\'expérience des fentes de Young avec un laser hélium-néon de longueur d\'onde $\\lambda=632{,}8$ nm et deux fentes séparées de $a=0{,}40$ mm. L\'écran d\'observation est placé à $D=2{,}50$ m des fentes. L\'interfrange mesuré expérimentalement sur l\'écran est $i_{exp}=3{,}9$ mm.',
       tasks: [
-        'Calculer la valeur théorique de l\'interfrange $i$ attendue, en millimètres.',
-        'On rapproche l\'écran des fentes, à $D\' = 1{,}0$ m. Calculer le nouvel interfrange $i\'$, et comparer à $i$.',
-        'Expliquer qualitativement ce qui se passerait sur la figure d\'interférences si l\'on remplaçait le laser rouge par un laser vert ($\\lambda\' < \\lambda$), sans changer $a$ ni $D$.'
+        'Calculer la valeur théorique de l\'interfrange $i_{théo}$, et la comparer à la valeur mesurée $i_{exp}$.',
+        'On éloigne l\'écran à une nouvelle distance $D\'=1{,}5\\times D$. Calculer le nouvel interfrange $i\'$.',
+        'On revient à la distance initiale $D$, mais on remplace les fentes par une paire deux fois plus rapprochées ($a\'\'=a/2$). Calculer le nouvel interfrange $i\'\'$, et comparer les effets d\'un changement de $D$ et d\'un changement de $a$ sur l\'interfrange.'
       ],
       solutions: [
-        'En mètres : $\\lambda = 650\\times10^{-9}$ m, $a = 0{,}30\\times10^{-3}$ m, $D = 2{,}5$ m. $i = \\dfrac{\\lambda D}{a} = \\dfrac{650\\times10^{-9}\\times2{,}5}{0{,}30\\times10^{-3}} \\approx 5{,}42\\times10^{-3}$ m, soit $i \\approx 5{,}42$ mm.',
-        'Avec $D\' = 1{,}0$ m : $i\' = \\dfrac{650\\times10^{-9}\\times1{,}0}{0{,}30\\times10^{-3}} \\approx 2{,}17\\times10^{-3}$ m, soit $i\' \\approx 2{,}17$ mm. L\'interfrange a <strong>diminué</strong> : rapprocher l\'écran resserre les franges, ce qui est cohérent avec la proportionnalité $i \\propto D$.',
-        'Comme $i = \\dfrac{\\lambda D}{a}$ est <strong>proportionnel</strong> à $\\lambda$, utiliser un laser vert (longueur d\'onde plus courte que le rouge) donnerait un interfrange <strong>plus petit</strong> : les franges seraient plus resserrées sur l\'écran, sans changer ni leur nombre visible ni la géométrie du montage.'
+        '$i_{théo}=\\dfrac{\\lambda D}{a}=\\dfrac{632{,}8\\times10^{-9}\\times2{,}50}{0{,}40\\times10^{-3}}\\approx3{,}96\\times10^{-3}$ m $=3{,}96$ mm. Cette valeur théorique est très proche de la valeur mesurée $i_{exp}=3{,}9$ mm (écart inférieur à $2\\,\\%$), ce qui valide le modèle.',
+        '$i\'=\\dfrac{\\lambda D\'}{a}=\\dfrac{\\lambda\\times1{,}5D}{a}=1{,}5\\times i_{théo}\\approx1{,}5\\times3{,}96\\approx5{,}93$ mm.',
+        '$i\'\'=\\dfrac{\\lambda D}{a/2}=2\\times\\dfrac{\\lambda D}{a}=2\\times i_{théo}\\approx2\\times3{,}96\\approx7{,}91$ mm. Rapprocher les fentes (diviser $a$ par $2$) a donc un effet <strong>deux fois plus important</strong> sur l\'interfrange qu\'éloigner l\'écran du même facteur ($D\'=1{,}5D$ ne multiplie $i$ que par $1{,}5$, alors que $a\'\'=a/2$ le multiplie par $2$).'
       ],
-      finalAnswer: '$i \\approx 5{,}42$ mm à $D = 2{,}5$ m, contre $i\' \\approx 2{,}17$ mm à $D\' = 1{,}0$ m : l\'interfrange est directement proportionnel à la distance écran-fentes $D$, et à la longueur d\'onde $\\lambda$ utilisée. C\'est cette proportionnalité qui permet, en pratique, de déterminer $\\lambda$ à partir d\'une mesure d\'interfrange.'
+      finalAnswer: '$i_{théo}\\approx3{,}96$ mm (cohérent avec la mesure), $i\'\\approx5{,}93$ mm et $i\'\'\\approx7{,}91$ mm. Cette expérience illustre la sensibilité de l\'interfrange aux paramètres géométriques du montage : c\'est un principe exploité dans les capteurs interférométriques pour mesurer de très petites variations de distance avec une grande précision.'
     },
 
     evaluation: {
-      title: 'Évaluation — Ondes et signaux (interférences, diffraction)',
+      title: 'Évaluation — Ondes et signaux : diffraction et interférences',
       duration: '30 min',
       questions: [
         {
-          statement: 'La diffraction d\'une onde est d\'autant plus marquée que :',
+          statement: 'Un faisceau de longueur d\'onde $\\lambda=400$ nm traverse une fente de largeur $a=0{,}05$ mm. Calculer l\'écart angulaire de diffraction $\\theta$ (en mrad).',
+          type: 'numeric',
+          answer: 8,
+          tolerance: 0.3,
+          unit: 'mrad',
+          points: 3,
+          correction: '$\\theta\\approx\\dfrac{\\lambda}{a}=\\dfrac{400\\times10^{-9}}{0{,}05\\times10^{-3}}=8\\times10^{-3}$ rad $=8$ mrad.'
+        },
+        {
+          statement: 'Des fentes de Young distantes de $a=0{,}25$ mm sont éclairées par une lumière de $\\lambda=600$ nm. L\'écran est à $D=1{,}8$ m. Calculer l\'interfrange $i$ (en mm).',
+          type: 'numeric',
+          answer: 4.32,
+          tolerance: 0.2,
+          unit: 'mm',
+          points: 3,
+          correction: '$i=\\dfrac{\\lambda D}{a}=\\dfrac{600\\times10^{-9}\\times1{,}8}{0{,}25\\times10^{-3}}\\approx4{,}32\\times10^{-3}$ m $=4{,}32$ mm.'
+        },
+        {
+          statement: 'Sur une figure d\'interférences, une frange sombre correspond à une différence de marche $\\delta$ telle que :',
           type: 'multiple-choice',
           options: [
-            'La taille de l\'ouverture est grande devant la longueur d\'onde',
-            'La taille de l\'ouverture est comparable ou petite devant la longueur d\'onde',
-            'La fréquence de l\'onde est très élevée',
-            'L\'onde ne rencontre aucun obstacle'
+            '$\\delta=k\\lambda$ ($k$ entier)',
+            '$\\delta=\\left(k+\\dfrac12\\right)\\lambda$ ($k$ entier)',
+            '$\\delta=0$ obligatoirement',
+            '$\\delta=\\lambda^2$'
           ],
           answer: 1,
           points: 2,
-          correction: 'La diffraction est d\'autant plus marquée que la taille de l\'ouverture $a$ se rapproche de la longueur d\'onde $\\lambda$, voire devient plus petite qu\'elle.'
+          correction: 'Une frange sombre correspond à une interférence destructive : les deux ondes arrivent en opposition de phase, ce qui correspond à une différence de marche $\\delta=\\left(k+\\dfrac12\\right)\\lambda$.'
         },
         {
-          statement: 'Avec $\\lambda = 550$ nm, $a = 0{,}25$ mm et $D = 2{,}0$ m, calculer l\'interfrange $i$ (en mm, arrondi au centième).',
-          type: 'numeric',
-          answer: 4.4,
-          tolerance: 0.15,
-          unit: 'mm',
-          points: 3,
-          correction: '$i = \\dfrac{\\lambda D}{a} = \\dfrac{550\\times10^{-9}\\times2{,}0}{0{,}25\\times10^{-3}} \\approx 4{,}4\\times10^{-3}$ m $= 4{,}4$ mm.'
-        },
-        {
-          statement: 'Deux ondes lumineuses interfèrent de façon constructive (frange brillante) lorsque leur différence de marche $\\delta$ vaut :',
+          statement: 'Si l\'on rapproche les deux fentes de Young (diminution de $a$), sans changer $\\lambda$ ni $D$, l\'interfrange $i$ :',
           type: 'multiple-choice',
           options: [
-            'Un multiple entier de la longueur d\'onde, $\\delta = k\\lambda$',
-            'Un multiple demi-entier de la longueur d\'onde uniquement',
-            'Zéro dans tous les cas',
-            'Une valeur aléatoire, cela ne dépend pas de $\\delta$'
+            'Augmente',
+            'Diminue',
+            'Reste inchangé',
+            'Devient nul'
           ],
           answer: 0,
           points: 2,
-          correction: 'Une frange brillante (interférence constructive) apparaît lorsque la différence de marche est un multiple entier de $\\lambda$ : $\\delta = k\\lambda$, $k \\in \\mathbb{Z}$.'
+          correction: '$i=\\dfrac{\\lambda D}{a}$ : $i$ est inversement proportionnel à $a$. Rapprocher les fentes (diminuer $a$) augmente donc l\'interfrange.'
         },
         {
-          statement: 'Si l\'on double la distance $D$ entre les fentes et l\'écran (sans changer $\\lambda$ ni $a$), l\'interfrange $i$ :',
+          statement: 'La diffraction et les interférences sont des phénomènes caractéristiques :',
           type: 'multiple-choice',
           options: [
-            'Est divisé par deux',
-            'Reste inchangé',
-            'Est doublé',
-            'Est multiplié par quatre'
+            'Du comportement corpusculaire de la lumière uniquement',
+            'Du comportement ondulatoire de la lumière',
+            'Uniquement des ondes sonores, jamais de la lumière',
+            'Des rayons lumineux rectilignes'
           ],
-          answer: 2,
+          answer: 1,
           points: 2,
-          correction: 'Comme $i = \\dfrac{\\lambda D}{a}$ est proportionnel à $D$, doubler $D$ double l\'interfrange $i$.'
-        },
-        {
-          statement: 'Un interfrange $i = 3{,}0$ mm est mesuré avec $a = 0{,}20$ mm et $D = 1{,}5$ m. Calculer la longueur d\'onde $\\lambda$ utilisée (en nm, arrondie à l\'unité).',
-          type: 'numeric',
-          answer: 400,
-          tolerance: 15,
-          unit: 'nm',
-          points: 3,
-          correction: '$\\lambda = \\dfrac{i \\times a}{D} = \\dfrac{3{,}0\\times10^{-3}\\times0{,}20\\times10^{-3}}{1{,}5} = 4{,}0\\times10^{-7}$ m $= 400$ nm.'
+          correction: 'La diffraction et les interférences ne s\'expliquent que par le modèle ondulatoire : elles sont impossibles à décrire avec un modèle purement géométrique de rayons rectilignes.'
         }
       ]
     }

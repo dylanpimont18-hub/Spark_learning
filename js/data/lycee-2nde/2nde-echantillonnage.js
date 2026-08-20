@@ -133,12 +133,12 @@ window.MODULES.push({
           answer: parseFloat(bSup.toFixed(2)),
           tolerance: 0.02,
           unit: '',
-          hint: `$f = \\frac{${fav}}{${n}} = ${fActual}$. Puis $e = \\frac{1}{\\sqrt{${n}}} = \\frac{1}{${sqrtN}} = ${e}$.`,
+          hint: `$f = \\frac{${fav}}{${n}} = ${fr(fActual)}$. Puis $e = \\frac{1}{\\sqrt{${n}}} = \\frac{1}{${sqrtN}} = ${fr(e)}$.`,
           solution: [
-            `$f = \\frac{${fav}}{${n}} = ${fActual}$`,
-            `$e = \\frac{1}{\\sqrt{${n}}} = \\frac{1}{${sqrtN}} = ${e}$`,
-            `IC = $[${fActual} - ${e} ; ${fActual} + ${e}] = [${bInf} ; ${bSup}]$`,
-            `On est sûr à $95\\%$ que la vraie proportion est entre $${fr(bInf*100, 1)}\\%$ et $${fr(bSup*100, 1)}\\%$.`
+            `$f = \\frac{${fav}}{${n}} = ${fr(fActual)}$`,
+            `$e = \\frac{1}{\\sqrt{${n}}} = \\frac{1}{${sqrtN}} = ${fr(e)}$`,
+            `IC = $[${fr(fActual)} - ${fr(e)} ; ${fr(fActual)} + ${fr(e)}] = [${fr(bInf)} ; ${fr(bSup)}]$`,
+            `On est sûr à $95\\%$ que la vraie proportion est entre $${fr(bInf * 100, 1)}\\%$ et $${fr(bSup * 100, 1)}\\%$.`
           ]
         };
       }

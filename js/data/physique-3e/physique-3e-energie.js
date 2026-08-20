@@ -7,190 +7,193 @@ window.MODULES.push({
     level: 1, subject: 'physique',
     icon: '🎢',
     title: 'L\'énergie cinétique et potentielle',
-    subtitle: 'Énergie de mouvement, énergie de position, conservation de l\'énergie mécanique',
-    keywords: ['Énergie cinétique', 'Énergie potentielle', 'Énergie mécanique', 'Conservation de l\'énergie', 'Chute'],
-    physics: 'La transformation entre énergie potentielle et énergie cinétique explique le fonctionnement des montagnes russes, des barrages hydroélectriques (l\'eau stockée en hauteur actionne des turbines en tombant) et permet de calculer la distance de freinage d\'un véhicule ou l\'énergie libérée par un objet qui chute.',
+    subtitle: 'Énergie cinétique, énergie potentielle de pesanteur, énergie mécanique et sa conservation',
+    keywords: ['Énergie cinétique', 'Énergie potentielle', 'Énergie mécanique', 'Conservation de l\'énergie'],
+    physics: 'Les notions d\'énergie cinétique et potentielle permettent de comprendre le fonctionnement des montagnes russes, le freinage d\'un véhicule, le dimensionnement d\'un barrage hydroélectrique, ou encore pourquoi une chute de plus haut est plus dangereuse : à chaque fois, c\'est un transfert entre énergie de position et énergie de mouvement qui est en jeu.',
 
     cours: {
-      intro: 'Un objet en mouvement ou situé en hauteur possède de l\'<strong>énergie</strong>, une grandeur qui se mesure en <strong>joules (J)</strong> et qui peut se transformer d\'une forme à une autre.<br/><br/>L\'<strong>énergie cinétique</strong> $E_c$ est l\'énergie que possède un objet du fait de son <strong>mouvement</strong> : plus il va vite, plus son énergie cinétique est grande. Un objet immobile a une énergie cinétique nulle.<br/><br/>L\'<strong>énergie potentielle de pesanteur</strong> $E_{pp}$ est l\'énergie que possède un objet du fait de sa <strong>position en hauteur</strong> par rapport à un niveau de référence (souvent le sol). Plus il est haut, plus cette énergie est grande.<br/><br/>Quand un objet tombe <strong>sans frottement</strong>, ces deux énergies se transforment l\'une en l\'autre, mais leur somme, l\'<strong>énergie mécanique</strong> $E_m = E_c + E_{pp}$, reste <strong>constante</strong> : c\'est la <strong>conservation de l\'énergie mécanique</strong>.',
+      intro: 'Un système en mouvement possède de l\'<strong>énergie cinétique</strong> $E_c$, qui dépend de sa masse et de sa vitesse. Un système situé en hauteur, dans le champ de pesanteur terrestre, possède de l\'<strong>énergie potentielle de pesanteur</strong> $E_{pp}$, qui dépend de sa masse et de son altitude.<br/><br/>La somme de ces deux formes d\'énergie constitue l\'<strong>énergie mécanique</strong> $E_m = E_c + E_{pp}$ du système. Lorsqu\'un objet tombe ou glisse le long d\'une pente <strong>sans frottement</strong>, son énergie mécanique reste constante : elle se transforme continuellement entre énergie potentielle et énergie cinétique, sans jamais se perdre.<br/><br/>En présence de frottements (air, contact), une partie de cette énergie mécanique est <strong>dissipée</strong> sous forme de chaleur : l\'énergie mécanique du système diminue alors progressivement.',
       definitions: [
-        { term: 'Énergie cinétique ($E_c$)', def: 'Énergie liée au mouvement d\'un objet de masse $m$ (en kg) se déplaçant à la vitesse $v$ (en m/s) : $E_c = \\dfrac{1}{2} m v^2$, exprimée en joules (J).' },
-        { term: 'Énergie potentielle de pesanteur ($E_{pp}$)', def: 'Énergie liée à la position en hauteur $h$ (en m) d\'un objet de masse $m$ (en kg) par rapport à un niveau de référence : $E_{pp} = m \\times g \\times h$, en joules (J), avec $g$ le champ de pesanteur (on prend $g \\approx 10$ N/kg au collège).' },
-        { term: 'Énergie mécanique ($E_m$)', def: 'Somme de l\'énergie cinétique et de l\'énergie potentielle de pesanteur : $E_m = E_c + E_{pp}$. En l\'absence de frottement, elle se <strong>conserve</strong> au cours du mouvement.' },
-        { term: 'Frottement', def: 'Force qui s\'oppose au mouvement (air, surface de contact…). En présence de frottements, une partie de l\'énergie mécanique se transforme en chaleur : l\'énergie mécanique <strong>diminue</strong> alors au cours du mouvement.' }
+        { term: 'Énergie cinétique ($E_c$)', def: 'Énergie que possède un système du fait de son mouvement : $E_c = \\dfrac{1}{2} m v^2$, avec $m$ en kg, $v$ en m/s et $E_c$ en joules (J). Elle augmente avec le carré de la vitesse : doubler la vitesse quadruple l\'énergie cinétique.' },
+        { term: 'Énergie potentielle de pesanteur ($E_{pp}$)', def: 'Énergie que possède un système du fait de son altitude $h$ dans le champ de pesanteur : $E_{pp} = m \\times g \\times h$, avec $g \\approx 9{,}8$ N/kg à la surface de la Terre. Elle se compte par rapport à une altitude de référence choisie (souvent $E_{pp}=0$ au niveau du sol).' },
+        { term: 'Énergie mécanique ($E_m$)', def: 'Somme de l\'énergie cinétique et de l\'énergie potentielle de pesanteur : $E_m = E_c + E_{pp}$. Elle se conserve en l\'absence de frottement.' },
+        { term: 'Frottement', def: 'Force qui s\'oppose au mouvement (air, contact entre surfaces) et convertit une partie de l\'énergie mécanique en chaleur : en sa présence, l\'énergie mécanique du système <strong>diminue</strong> au cours du mouvement.' }
       ],
       method: {
-        title: 'Étudier une transformation d\'énergie en 3 étapes',
+        title: 'Étudier un transfert d\'énergie mécanique en 3 étapes',
         steps: [
-          '<strong>Identifier la situation</strong> : l\'objet monte, descend, ou se déplace à hauteur constante ? Les frottements sont-ils négligés (énoncé qui le précise, souvent implicitement) ?',
-          '<strong>Calculer les énergies</strong> aux instants demandés avec les formules $E_c = \\dfrac{1}{2} m v^2$ et $E_{pp} = m g h$, en veillant à utiliser des unités cohérentes (kg, m/s, m).',
-          'Si les frottements sont négligeables, <strong>utiliser la conservation de l\'énergie mécanique</strong> ($E_m$ constante) pour calculer une grandeur manquante (souvent une vitesse à partir d\'une hauteur, ou l\'inverse).'
+          '<strong>Identifier le système et les deux instants à comparer</strong> (par exemple le sommet et le bas d\'une pente), et calculer l\'énergie cinétique et l\'énergie potentielle à chacun de ces instants.<br/>Exemple : au sommet d\'un toboggan, un enfant est immobile ($v=0$, donc $E_c=0$) à une hauteur $h$ ($E_{pp}=mgh$).',
+          '<strong>Déterminer si le mouvement se fait sans frottement</strong> : si c\'est le cas, l\'énergie mécanique se conserve entre les deux instants, donc $E_{m,1} = E_{m,2}$.<br/>Exemple : en bas du toboggan (sans frottement), $E_{pp}=0$ (référence au sol) et toute l\'énergie s\'est transformée en énergie cinétique.',
+          '<strong>Écrire l\'égalité des énergies mécaniques</strong> et en déduire la grandeur cherchée (souvent une vitesse).<br/>Exemple : $E_{c,bas} = E_{pp,haut}$ donne $\\dfrac{1}{2}mv^2 = mgh$, soit $v = \\sqrt{2gh}$ — la masse se simplifie, la vitesse ne dépend que de la hauteur de chute.'
         ]
       },
       diagram: {
         theme: 'physique',
         kicker: 'Conservation de l\'énergie mécanique',
-        title: 'Transformation de l\'énergie potentielle en énergie cinétique lors d\'une chute',
-        description: 'Une balle de masse $m = 2$ kg tombe sans frottement depuis $h_0 = 5$ m. À chaque instant, l\'énergie potentielle perdue se retrouve intégralement en énergie cinétique : la somme $E_c + E_{pp}$ reste constante, égale à $100$ J.',
+        title: 'Transformation de l\'énergie potentielle en énergie cinétique le long d\'une pente sans frottement',
+        description: 'Un objet glisse sans frottement d\'un point A en hauteur (immobile, uniquement de l\'énergie potentielle) vers un point B au sol (uniquement de l\'énergie cinétique). Les diagrammes en barres montrent que la somme $E_c+E_{pp}$ reste constante entre les deux états.',
         svg: `
-          <svg viewBox="0 0 560 310" role="img" aria-labelledby="energie-title energie-desc">
-            <title id="energie-title">Conservation de l'energie mecanique lors d'une chute</title>
-            <desc id="energie-desc">A gauche, une trajectoire verticale montre une balle a trois hauteurs : 5 metres avec une vitesse nulle, 2,5 metres avec une vitesse d'environ 7,1 metres par seconde, et 0 metre (juste avant le sol) avec une vitesse de 10 metres par seconde. A droite, pour chacune de ces trois positions, une barre horizontale de longueur totale constante se divise en une portion d'energie potentielle et une portion d'energie cinetique : au depart la barre est entierement d'energie potentielle (100 joules), a mi-hauteur elle est partagee moitie-moitie (50 joules chacune), et juste avant le sol elle est entierement d'energie cinetique (100 joules). La longueur totale des barres ne change jamais, illustrant la conservation de l'energie mecanique.</desc>
+          <svg viewBox="0 0 600 340" role="img" aria-labelledby="energie-title energie-desc">
+            <title id="energie-title">Conservation de l'energie mecanique le long d'une pente</title>
+            <desc id="energie-desc">Une courbe descend d'un point A en hauteur, ou l'objet est immobile, jusqu'a un point B au niveau du sol, ou sa vitesse est maximale. A droite, deux paires de barres verticales de meme hauteur totale representent la repartition de l'energie entre potentielle et cinetique a chacun des deux points : au point A la barre d'energie potentielle est pleine et celle d'energie cinetique est vide, tandis qu'au point B c'est l'inverse, illustrant la conservation de l'energie mecanique.</desc>
 
-            <text class="annotation-label" x="310" y="18" text-anchor="middle">Énergie mécanique totale : Em = Ep + Ec = 100 J (constante)</text>
+            <defs>
+              <marker id="arrow-phys3e-energie" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
 
-            <!-- trajectoire verticale -->
-            <line class="guide-line" x1="90" y1="60" x2="90" y2="260"></line>
-            <line class="frame-line" x1="60" y1="260" x2="140" y2="260"></line>
+            <!-- sol -->
+            <line class="frame-line" x1="40" y1="300" x2="570" y2="300"></line>
+            <line class="grid-line" x1="55" y1="300" x2="45" y2="312"></line>
+            <line class="grid-line" x1="80" y1="300" x2="70" y2="312"></line>
+            <line class="grid-line" x1="105" y1="300" x2="95" y2="312"></line>
+            <line class="grid-line" x1="130" y1="300" x2="120" y2="312"></line>
+            <line class="grid-line" x1="155" y1="300" x2="145" y2="312"></line>
 
-            <circle class="plot-point" cx="90" cy="60" r="7"></circle>
-            <text class="tick-label" x="78" y="50" text-anchor="end">h = 5 m</text>
-            <text class="label-soft" x="78" y="76" text-anchor="end">v = 0</text>
+            <!-- pente (toboggan) -->
+            <path class="curve-main" d="M100,100 Q100,300 300,300" fill="none"></path>
 
-            <circle class="plot-point" cx="90" cy="160" r="7"></circle>
-            <text class="tick-label" x="78" y="150" text-anchor="end">h = 2,5 m</text>
-            <text class="label-soft" x="78" y="176" text-anchor="end">v ≈ 7,1 m/s</text>
+            <!-- point A (sommet) -->
+            <circle class="plot-point" cx="100" cy="100" r="5"></circle>
+            <text class="label-soft" x="100" y="86" text-anchor="middle">A (v = 0)</text>
 
-            <circle class="plot-point" cx="90" cy="260" r="7"></circle>
-            <text class="tick-label" x="78" y="250" text-anchor="end">h = 0 m</text>
-            <text class="label-soft" x="78" y="282" text-anchor="end">v = 10 m/s</text>
+            <!-- point B (bas) -->
+            <circle class="plot-point-alt" cx="300" cy="300" r="5"></circle>
+            <text class="label-soft" x="300" y="322" text-anchor="middle">B (sol)</text>
+            <line class="curve-main" x1="300" y1="300" x2="335" y2="300" marker-end="url(#arrow-phys3e-energie)"></line>
+            <text class="tick-label" x="350" y="292" text-anchor="start">v_max</text>
 
-            <!-- barres d'energie : rangee du haut (Ep=100J, Ec=0J) -->
-            <rect x="200" y="47" width="220" height="26" fill="var(--diagram-accent)"></rect>
-            <text class="annotation-label" x="310" y="40" text-anchor="middle">Ep = 100 J   Ec = 0 J</text>
+            <!-- cotation hauteur h -->
+            <line class="frame-line" x1="55" y1="100" x2="41" y2="100"></line>
+            <line class="frame-line" x1="55" y1="300" x2="41" y2="300"></line>
+            <line class="guide-line" x1="48" y1="100" x2="48" y2="300"></line>
+            <text class="tick-label" x="30" y="200" text-anchor="middle" transform="rotate(-90 30 200)">h</text>
 
-            <!-- rangee du milieu (Ep=50J, Ec=50J) -->
-            <rect x="200" y="147" width="110" height="26" fill="var(--diagram-accent)"></rect>
-            <rect x="310" y="147" width="110" height="26" fill="color-mix(in srgb, var(--diagram-accent) 35%, var(--bg-card))" stroke="var(--diagram-accent)" stroke-width="1.5"></rect>
-            <text class="annotation-label" x="310" y="140" text-anchor="middle">Ep = 50 J   Ec = 50 J</text>
+            <!-- diagrammes en barres : etat en A -->
+            <text class="annotation-label" x="430" y="130" text-anchor="middle">A</text>
+            <rect x="395" y="140" width="30" height="160" fill="var(--diagram-accent)"></rect>
+            <rect class="frame-line" x="435" y="294" width="30" height="6" fill="none"></rect>
+            <text class="tick-label" x="410" y="314" text-anchor="middle">Epp</text>
+            <text class="tick-label" x="450" y="314" text-anchor="middle">Ec</text>
 
-            <!-- rangee du bas (Ep=0J, Ec=100J) -->
-            <rect x="200" y="247" width="220" height="26" fill="color-mix(in srgb, var(--diagram-accent) 35%, var(--bg-card))" stroke="var(--diagram-accent)" stroke-width="1.5"></rect>
-            <text class="annotation-label" x="310" y="240" text-anchor="middle">Ep = 0 J   Ec = 100 J</text>
+            <!-- diagrammes en barres : etat en B -->
+            <text class="annotation-label" x="525" y="130" text-anchor="middle">B</text>
+            <rect class="frame-line" x="490" y="294" width="30" height="6" fill="none"></rect>
+            <rect x="530" y="140" width="30" height="160" fill="var(--diagram-accent)"></rect>
+            <text class="tick-label" x="505" y="314" text-anchor="middle">Epp</text>
+            <text class="tick-label" x="545" y="314" text-anchor="middle">Ec</text>
 
-            <!-- legende -->
-            <rect x="200" y="284" width="14" height="14" fill="var(--diagram-accent)"></rect>
-            <text class="label-soft" x="218" y="295" text-anchor="start">Énergie potentielle (Ep)</text>
-            <rect x="380" y="284" width="14" height="14" fill="color-mix(in srgb, var(--diagram-accent) 35%, var(--bg-card))" stroke="var(--diagram-accent)" stroke-width="1.5"></rect>
-            <text class="label-soft" x="398" y="295" text-anchor="start">Énergie cinétique (Ec)</text>
+            <!-- ligne pointillee Em constante -->
+            <line class="guide-line" x1="390" y1="140" x2="565" y2="140"></line>
+            <text class="annotation-label" x="388" y="133" text-anchor="end">Em constante</text>
           </svg>
         `,
         notes: [
-          'Au départ ($h=5$ m), la balle est immobile ($v=0$) : toute l\'énergie mécanique est de l\'énergie potentielle, $E_{pp} = m g h = 2 \\times 10 \\times 5 = 100$ J et $E_c = 0$ J.',
-          'À mi-hauteur ($h=2{,}5$ m), la moitié de l\'énergie potentielle initiale s\'est transformée en énergie cinétique : $E_{pp} = 50$ J et $E_c = 50$ J, la somme restant égale à $100$ J.',
-          'Juste avant le sol ($h=0$ m), toute l\'énergie potentielle initiale s\'est transformée en énergie cinétique : $E_c = 100$ J, ce qui correspond à une vitesse $v = \\sqrt{2gh_0} = \\sqrt{2\\times10\\times5} = 10$ m/s.'
+          'Au point A (sommet), l\'objet est immobile : toute l\'énergie mécanique est de l\'énergie potentielle de pesanteur ($E_c=0$).',
+          'Au point B (sol, référence d\'altitude choisie), l\'énergie potentielle est nulle : toute l\'énergie mécanique s\'est transformée en énergie cinétique.',
+          'Les deux diagrammes en barres ont la <strong>même hauteur totale</strong> : c\'est la traduction visuelle de la conservation de l\'énergie mécanique $E_m=E_c+E_{pp}$ en l\'absence de frottement.'
         ],
-        reading: 'Suis la balle de haut en bas sur la trajectoire de gauche, puis regarde comment la barre d\'énergie correspondante à droite bascule progressivement de l\'énergie potentielle (foncée) vers l\'énergie cinétique (claire), sans jamais changer de longueur totale.',
-        caption: 'Conservation de l\'énergie mécanique lors d\'une chute libre : l\'énergie potentielle se transforme intégralement en énergie cinétique, la somme $E_c + E_{pp}$ restant constante.'
+        reading: 'Suis la trajectoire du point A (en haut) au point B (en bas), puis compare les deux paires de barres à droite : la partie pleine « bascule » de l\'énergie potentielle vers l\'énergie cinétique, mais leur somme ne change pas.',
+        caption: 'Conservation de l\'énergie mécanique le long d\'une pente sans frottement : l\'énergie potentielle de pesanteur au point A se retrouve intégralement transformée en énergie cinétique au point B.'
       },
       example: {
-        statement: 'Une balle de masse $m = 2$ kg est lâchée sans vitesse initiale depuis une hauteur $h_0 = 5$ m. On néglige les frottements de l\'air et on prend $g \\approx 10$ N/kg.<br/><br/>Calcule l\'énergie mécanique de la balle au départ, puis sa vitesse juste avant qu\'elle touche le sol.',
+        statement: 'Un skieur de masse $m=60$ kg part sans vitesse initiale du sommet d\'une piste située à $h=20$ m d\'altitude par rapport au bas de la piste. On néglige tous les frottements (neige très glissante, air négligé) et on prend $g=9{,}8$ N/kg.<br/><br/>Calcule l\'énergie mécanique du skieur au sommet, puis sa vitesse en bas de la piste.',
         steps: [
-          'Au départ, la balle est immobile : $v_0 = 0$, donc $E_c = \\dfrac{1}{2} \\times 2 \\times 0^2 = 0$ J.',
-          'Énergie potentielle au départ : $E_{pp} = m \\times g \\times h_0 = 2 \\times 10 \\times 5 = 100$ J.',
-          'Énergie mécanique au départ : $E_m = E_c + E_{pp} = 0 + 100 = 100$ J.',
-          'Sans frottement, l\'énergie mécanique se conserve : juste avant le sol ($h=0$), toute l\'énergie mécanique est devenue cinétique, donc $E_c = E_m = 100$ J.',
-          'On en déduit la vitesse : $E_c = \\dfrac{1}{2} m v^2 \\Rightarrow v = \\sqrt{\\dfrac{2 E_c}{m}} = \\sqrt{\\dfrac{2 \\times 100}{2}} = \\sqrt{100} = 10$ m/s.'
+          'Au sommet, le skieur est immobile : $v=0$, donc $E_c=0$ J. Son énergie potentielle de pesanteur (référence au bas de la piste) est $E_{pp}=mgh=60\\times9{,}8\\times20=11\\,760$ J.',
+          'L\'énergie mécanique au sommet est donc $E_m = E_c+E_{pp} = 0+11\\,760 = 11\\,760$ J.',
+          'Sans frottement, l\'énergie mécanique se conserve : elle vaut encore $11\\,760$ J en bas de la piste. Or en bas, $h=0$ (référence), donc $E_{pp}=0$ : toute l\'énergie mécanique est devenue énergie cinétique, $E_c = 11\\,760$ J.',
+          'On isole $v$ dans $E_c=\\dfrac{1}{2}mv^2$ : $v=\\sqrt{\\dfrac{2E_c}{m}}=\\sqrt{\\dfrac{2\\times11\\,760}{60}}=\\sqrt{392}\\approx19{,}8$ m/s.'
         ],
-        answer: 'Énergie mécanique $E_m = 100$ J (constante), vitesse au sol $v = 10$ m/s.'
+        answer: 'L\'énergie mécanique du skieur, constante tout au long de la descente sans frottement, vaut $E_m=11\\,760$ J. Il arrive en bas de piste avec une vitesse $v\\approx19{,}8$ m/s (plus de $70$ km/h), entièrement due à la conversion de l\'énergie potentielle initiale en énergie cinétique.'
       },
       formulas: [
-        'Énergie cinétique : $E_c = \\dfrac{1}{2} m v^2$ ($m$ en kg, $v$ en m/s, $E_c$ en J)',
-        'Énergie potentielle de pesanteur : $E_{pp} = m \\times g \\times h$ ($h$ en m, $g \\approx 10$ N/kg au collège)',
-        'Énergie mécanique : $E_m = E_c + E_{pp}$',
-        'Sans frottement : $E_m$ = constante au cours du mouvement'
+        '$E_c = \\dfrac{1}{2} m v^2$ (énergie cinétique, en J)',
+        '$E_{pp} = m \\times g \\times h$ (énergie potentielle de pesanteur, en J)',
+        '$E_m = E_c + E_{pp}$ (énergie mécanique)',
+        'Sans frottement : $E_m$ constante, donc $E_{m,1}=E_{m,2}$',
+        'Glissement/chute sans frottement, départ immobile : $v = \\sqrt{2gh}$'
       ],
       recap: [
-        'L\'énergie cinétique dépend du <strong>mouvement</strong> ($E_c = \\frac{1}{2}mv^2$), l\'énergie potentielle de pesanteur dépend de la <strong>hauteur</strong> ($E_{pp} = mgh$).',
-        'Sans frottement, l\'énergie mécanique $E_m = E_c + E_{pp}$ reste <strong>constante</strong> : ce qui est perdu par l\'une des deux énergies est intégralement gagné par l\'autre.',
-        'Avec frottement, l\'énergie mécanique <strong>diminue</strong> : une partie se transforme en chaleur.',
-        'La vitesse intervient au <strong>carré</strong> dans $E_c$ : doubler la vitesse quadruple l\'énergie cinétique.'
+        'L\'énergie cinétique $E_c=\\frac12mv^2$ dépend du carré de la vitesse : doubler la vitesse quadruple l\'énergie cinétique.',
+        'L\'énergie potentielle de pesanteur $E_{pp}=mgh$ dépend de la masse, de l\'altitude, et de la référence choisie pour $h$.',
+        'En l\'absence de frottement, l\'énergie mécanique $E_m=E_c+E_{pp}$ se <strong>conserve</strong> : elle se transforme entre les deux formes sans se perdre.',
+        'En présence de frottements, une partie de l\'énergie mécanique est dissipée sous forme de chaleur : $E_m$ diminue au cours du mouvement.'
       ],
-      piege: 'Une erreur fréquente est d\'oublier le facteur $\\dfrac{1}{2}$ dans la formule de l\'énergie cinétique, ou d\'oublier d\'élever la vitesse au carré. Attention à toujours vérifier : $E_c = \\dfrac{1}{2} \\times m \\times v \\times v$, jamais $E_c = \\dfrac{1}{2} \\times m \\times v$ ni $E_c = m \\times v^2$.'
+      piege: 'Une erreur fréquente est d\'oublier le carré dans la formule de l\'énergie cinétique, en calculant $\\frac12 m v$ au lieu de $\\frac12 m v^2$, ou de croire que l\'énergie mécanique se conserve même en présence de frottements. Attention : le carré de la vitesse ne doit jamais être omis, et la conservation de $E_m$ ne s\'applique que si les frottements sont négligeables.'
     },
 
     quiz: [
       {
-        q: 'Une voiture roule deux fois plus vite qu\'une seconde voiture identique. Comment se compare leur énergie cinétique ?',
-        options: [
-          'Elle est deux fois plus grande',
-          'Elle est quatre fois plus grande',
-          'Elle est identique',
-          'Elle est deux fois plus petite'
-        ],
-        answer: 1,
-        correction: 'La vitesse intervient au carré dans $E_c = \\frac{1}{2}mv^2$ : si $v$ est multipliée par $2$, alors $E_c$ est multipliée par $2^2 = 4$.'
+        q: 'Un objet de masse $m=2$ kg se déplace à une vitesse $v=3$ m/s. Quelle est son énergie cinétique ?',
+        options: ['$E_c=9$ J', '$E_c=18$ J', '$E_c=6$ J', '$E_c=36$ J'],
+        answer: 0,
+        correction: '$E_c=\\dfrac12mv^2=\\dfrac12\\times2\\times3^2=\\dfrac12\\times2\\times9=9$ J. Attention à bien élever la vitesse au carré avant de multiplier.'
       },
       {
-        q: 'Un objet est posé au sol, immobile. Que peut-on dire de son énergie potentielle de pesanteur, en prenant le sol comme référence ?',
-        options: ['Elle est maximale', 'Elle est nulle', 'Elle est négative', 'On ne peut pas savoir'],
+        q: 'Doubler la vitesse d\'un objet, à masse constante, multiplie son énergie cinétique par :',
+        options: ['2', '4', '8', 'Elle ne change pas'],
         answer: 1,
-        correction: 'L\'énergie potentielle de pesanteur $E_{pp} = mgh$ dépend de la hauteur $h$ par rapport à la référence choisie. Si l\'objet est au niveau du sol (référence), $h=0$, donc $E_{pp}=0$.'
+        correction: 'Comme $E_c=\\frac12mv^2$ dépend du <strong>carré</strong> de la vitesse, doubler $v$ multiplie $E_c$ par $2^2=4$, pas par 2.'
       },
       {
-        q: 'Lors d\'une chute sans frottement, l\'énergie potentielle diminue. Que devient cette énergie « perdue » ?',
+        q: 'Un pendule oscille sans frottement. Au point le plus bas de sa trajectoire, sa vitesse est maximale. Que peut-on dire de son énergie potentielle de pesanteur à cet instant ?',
         options: [
-          'Elle disparaît complètement',
-          'Elle se transforme intégralement en énergie cinétique',
-          'Elle se transforme en chaleur',
-          'Elle se transforme en énergie potentielle négative'
+          'Elle est minimale, car l\'énergie mécanique se conserve et l\'énergie cinétique est maximale',
+          'Elle est maximale également',
+          'Elle est nulle en permanence, quel que soit l\'instant',
+          'Elle est toujours égale à l\'énergie cinétique'
         ],
-        answer: 1,
-        correction: 'Sans frottement, l\'énergie mécanique $E_m = E_c + E_{pp}$ se conserve : toute l\'énergie potentielle perdue se retrouve exactement en énergie cinétique gagnée.'
+        answer: 0,
+        correction: 'Sans frottement, $E_m=E_c+E_{pp}$ est constante. Quand $E_c$ est maximale (vitesse maximale, point bas), $E_{pp}$ est donc minimale : c\'est un transfert continu entre les deux formes d\'énergie.'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
-        var typeExo = pick(['cinetique', 'potentielle']);
+        var typeExo = pick(['cinetique', 'conservation']);
 
         if (typeExo === 'cinetique') {
-          var m = pick([0.5, 1, 1.5, 2, 4, 5, 8, 10]);
-          var v = rand(2, 20);
-          var Ec = parseFloat((0.5 * m * v * v).toFixed(2));
+          var m = randFloat(2, 90, 1);
+          var v = rand(2, 25);
+          var Ec = parseFloat((0.5 * m * v * v).toFixed(1));
           var contexte = pick([
-            'un skieur',
-            'un vélo lancé en descente',
-            'une voiturette de golf',
-            'un ballon de bowling',
-            'un patineur sur glace'
+            'un cycliste et son vélo', 'un skateboard avec son utilisateur',
+            'un ballon de bowling lancé sur la piste', 'un chariot de manutention',
+            'une luge avec son occupant'
           ]);
           return {
-            statement: 'On assimile ' + contexte + ' à un objet de masse $m = ' + fr(m, 1) + '$ kg se déplaçant à la vitesse $v = ' + v + '$ m/s.<br/><br/>Calcule son énergie cinétique $E_c$ (en J).',
+            statement: 'Sur une piste, ' + contexte + ', de masse totale $m=' + fr(m, 1) + '$ kg, se déplace à une vitesse $v=' + v + '$ m/s.<br/><br/>Calcule son énergie cinétique $E_c$ (en J, arrondie au dixième).',
             answer: Ec,
-            tolerance: Math.max(0.5, parseFloat((Ec * 0.02).toFixed(2))),
+            tolerance: Math.max(0.5, parseFloat((Ec * 0.03).toFixed(1))),
             unit: 'J',
-            hint: 'Utilise $E_c = \\dfrac{1}{2} m v^2$ : n\'oublie pas d\'élever la vitesse au carré avant de multiplier.',
+            hint: '$E_c=\\dfrac12mv^2$ : élève d\'abord la vitesse au carré, multiplie ensuite par la masse et par $0{,}5$.',
             solution: [
-              'Formule de l\'énergie cinétique : $E_c = \\dfrac{1}{2} m v^2$.',
-              'Application numérique : $E_c = \\dfrac{1}{2} \\times ' + fr(m, 1) + ' \\times ' + v + '^2$.',
+              'Formule : $E_c=\\dfrac12 m v^2 = \\dfrac12\\times' + fr(m, 1) + '\\times' + v + '^2$.',
               'Carré de la vitesse : $' + v + '^2 = ' + (v * v) + '$.',
-              'Résultat : $E_c = \\dfrac{1}{2} \\times ' + fr(m, 1) + ' \\times ' + (v * v) + ' = ' + fr(Ec, 2) + '$ J.'
+              'Résultat : $E_c = 0{,}5\\times' + fr(m, 1) + '\\times' + (v * v) + ' \\approx ' + fr(Ec, 1) + '$ J.'
             ]
           };
         } else {
-          var m2 = pick([0.5, 1, 2, 3, 5, 10, 20]);
-          var h = rand(2, 30);
-          var g = 10;
-          var Epp = m2 * g * h;
+          var h = randFloat(2, 50, 1);
+          var g = 9.8;
+          var vBas = parseFloat(Math.sqrt(2 * g * h).toFixed(1));
           var contexte2 = pick([
-            'un pot de fleurs posé sur un balcon',
-            'un grimpeur sur une paroi',
-            'un colis stocké en haut d\'une étagère',
-            'une benne suspendue sur un chantier',
-            'un plongeur sur un plongeoir'
+            'un toboggan aquatique', 'une piste de VTT en descente',
+            'un plan incliné de laboratoire', 'une tyrolienne', 'un module de montagnes russes'
           ]);
           return {
-            statement: 'On assimile ' + contexte2 + ' à un objet de masse $m = ' + fr(m2, 1) + '$ kg situé à une hauteur $h = ' + h + '$ m par rapport au sol. On prend $g \\approx 10$ N/kg.<br/><br/>Calcule son énergie potentielle de pesanteur $E_{pp}$ (en J).',
-            answer: Epp,
-            tolerance: 0,
-            unit: 'J',
-            hint: 'Utilise $E_{pp} = m \\times g \\times h$.',
+            statement: 'On modélise ' + contexte2 + ' de hauteur $h=' + fr(h, 1) + '$ m, en négligeant tous les frottements. Un objet part sans vitesse initiale du sommet.<br/><br/>Calcule la vitesse $v$ atteinte en bas (en m/s, arrondie au dixième), avec $g=9{,}8$ N/kg.',
+            answer: vBas,
+            tolerance: 0.3,
+            unit: 'm/s',
+            hint: 'Sans frottement, l\'énergie mécanique se conserve : $E_{pp,haut}=E_{c,bas}$, ce qui donne $v=\\sqrt{2gh}$.',
             solution: [
-              'Formule de l\'énergie potentielle de pesanteur : $E_{pp} = m \\times g \\times h$.',
-              'Application numérique : $E_{pp} = ' + fr(m2, 1) + ' \\times 10 \\times ' + h + '$.',
-              'Résultat : $E_{pp} = ' + Epp + '$ J.'
+              'Conservation de l\'énergie mécanique : $E_{pp,haut} = E_{c,bas}$, soit $mgh=\\dfrac12mv^2$ (la masse se simplifie).',
+              'On isole $v$ : $v=\\sqrt{2gh}=\\sqrt{2\\times9{,}8\\times' + fr(h, 1) + '}$.',
+              'Calcul sous la racine : $2\\times9{,}8\\times' + fr(h, 1) + ' \\approx ' + fr(parseFloat((2 * g * h).toFixed(1)), 1) + '$.',
+              'Résultat : $v \\approx ' + fr(vBas, 1) + '$ m/s.'
             ]
           };
         }
@@ -198,76 +201,65 @@ window.MODULES.push({
     },
 
     probleme: {
-      context: 'Un skieur de masse $m = 60$ kg part sans vitesse initiale du sommet d\'une piste situé à $h_0 = 20$ m au-dessus de l\'arrivée. On néglige les frottements (piste très glissante) et on prend $g \\approx 10$ N/kg.',
+      context: 'Dans une attraction de type montagnes russes, un wagon de masse $m=800$ kg (passagers compris) part sans vitesse initiale du point le plus haut du circuit, situé à $h=45$ m au-dessus du point le plus bas. On néglige les frottements et la résistance de l\'air, et on prend $g=9{,}8$ N/kg.',
       tasks: [
-        'Calcule l\'énergie mécanique du skieur au sommet de la piste.',
-        'En déduire l\'énergie cinétique du skieur à l\'arrivée (au bas de la piste, $h=0$).',
-        'Calcule la vitesse du skieur à l\'arrivée.'
+        'Calculer l\'énergie potentielle de pesanteur du wagon au point le plus haut (référence au point le plus bas).',
+        'En déduire l\'énergie mécanique du wagon, puis sa vitesse au point le plus bas du circuit.',
+        'En réalité, des frottements existent (rails, air), et la vitesse mesurée au point le plus bas est légèrement inférieure à la valeur calculée. Expliquer, en termes d\'énergie, où « passe » l\'énergie mécanique manquante.'
       ],
       solutions: [
-        'Au sommet, le skieur est immobile : $E_c = 0$ J. Énergie potentielle : $E_{pp} = m g h_0 = 60 \\times 10 \\times 20 = 12\\,000$ J. Donc $E_m = E_c + E_{pp} = 0 + 12\\,000 = 12\\,000$ J.',
-        'Sans frottement, l\'énergie mécanique se conserve : $E_m$ reste égale à $12\\,000$ J tout au long de la descente. À l\'arrivée ($h=0$), $E_{pp} = 0$ J, donc toute l\'énergie mécanique est devenue cinétique : $E_c = 12\\,000$ J.',
-        '$E_c = \\dfrac{1}{2} m v^2 \\Rightarrow v = \\sqrt{\\dfrac{2 E_c}{m}} = \\sqrt{\\dfrac{2 \\times 12\\,000}{60}} = \\sqrt{400} = 20$ m/s.'
+        '$E_{pp}=mgh=800\\times9{,}8\\times45=352\\,800$ J.',
+        'Au sommet, $v=0$ donc $E_c=0$ : $E_m=E_c+E_{pp}=0+352\\,800=352\\,800$ J. Sans frottement, cette énergie mécanique se conserve. Au point le plus bas, $h=0$ donc $E_{pp}=0$ : $E_c=E_m=352\\,800$ J. On isole $v$ : $v=\\sqrt{\\dfrac{2E_c}{m}}=\\sqrt{\\dfrac{2\\times352\\,800}{800}}=\\sqrt{882}\\approx29{,}7$ m/s.',
+        'Avec des frottements réels, une partie de l\'énergie mécanique initiale est convertie en <strong>chaleur</strong> (par frottement entre les roues et le rail, et par résistance de l\'air) plutôt qu\'intégralement en énergie cinétique. L\'énergie mécanique totale du wagon diminue donc légèrement au cours de la descente, ce qui explique une vitesse finale un peu plus faible que la valeur théorique calculée sans frottement.'
       ],
-      finalAnswer: 'Le skieur arrive à $v = 20$ m/s, soit environ $72$ km/h. En réalité, les frottements de l\'air et du ski sur la neige dissipent une partie de l\'énergie mécanique en chaleur : la vitesse réelle à l\'arrivée est toujours <strong>inférieure</strong> à cette valeur théorique.'
+      finalAnswer: 'Avec le modèle sans frottement, le wagon atteindrait $v\\approx29{,}7$ m/s (environ $107$ km/h) au point le plus bas, pour une énergie mécanique constante de $352\\,800$ J. Dans la réalité, les frottements dissipent une partie de cette énergie en chaleur, donc la vitesse réellement atteinte est un peu inférieure à cette valeur théorique.'
     },
 
     evaluation: {
-      title: 'Évaluation — Énergie cinétique et potentielle',
-      duration: '25 min',
+      title: 'Évaluation — L\'énergie cinétique et potentielle',
+      duration: '30 min',
       questions: [
         {
-          statement: 'Calculer l\'énergie cinétique d\'un objet de masse $m = 4$ kg se déplaçant à la vitesse $v = 5$ m/s (en J).',
+          statement: 'Un objet de masse $m=5$ kg se déplace à $v=4$ m/s. Calculer son énergie cinétique (en J).',
           type: 'numeric',
-          answer: 50,
+          answer: 40,
           tolerance: 1,
           unit: 'J',
           points: 2,
-          correction: '$E_c = \\dfrac{1}{2} m v^2 = \\dfrac{1}{2} \\times 4 \\times 5^2 = \\dfrac{1}{2} \\times 4 \\times 25 = 50$ J.'
+          correction: '$E_c=\\dfrac12mv^2=\\dfrac12\\times5\\times4^2=\\dfrac12\\times5\\times16=40$ J.'
         },
         {
-          statement: 'Calculer l\'énergie potentielle de pesanteur d\'un objet de masse $m = 3$ kg situé à $h = 8$ m au-dessus du sol (en J, $g \\approx 10$ N/kg).',
-          type: 'numeric',
-          answer: 240,
-          tolerance: 1,
-          unit: 'J',
-          points: 2,
-          correction: '$E_{pp} = m g h = 3 \\times 10 \\times 8 = 240$ J.'
-        },
-        {
-          statement: 'Sans frottement, l\'énergie mécanique d\'un objet en mouvement :',
+          statement: 'L\'énergie potentielle de pesanteur d\'un système de masse $m$, à l\'altitude $h$, s\'écrit :',
           type: 'multiple-choice',
-          options: [
-            'Augmente toujours',
-            'Diminue toujours',
-            'Reste constante',
-            'Devient nulle'
-          ],
-          answer: 2,
+          options: ['$E_{pp}=mgh$', '$E_{pp}=\\dfrac{mg}{h}$', '$E_{pp}=\\dfrac12mv^2$', '$E_{pp}=m+g+h$'],
+          answer: 0,
           points: 2,
-          correction: 'En l\'absence de frottement, l\'énergie mécanique $E_m = E_c + E_{pp}$ se conserve : elle reste constante tout au long du mouvement.'
+          correction: 'L\'énergie potentielle de pesanteur est $E_{pp}=m\\times g\\times h$ : un produit des trois grandeurs, pas une somme ni une division.'
         },
         {
-          statement: 'Un objet de masse $m = 1$ kg est lâché sans vitesse initiale d\'une hauteur $h_0 = 5$ m ($g \\approx 10$ N/kg, frottements négligés). Calculer sa vitesse juste avant de toucher le sol (en m/s).',
+          statement: 'Un objet part sans vitesse initiale du sommet d\'une pente de hauteur $h=10$ m, sans frottement ($g=9{,}8$ N/kg). Calculer sa vitesse en bas (en m/s).',
           type: 'numeric',
-          answer: 10,
-          tolerance: 0.5,
+          answer: 14,
+          tolerance: 0.3,
           unit: 'm/s',
           points: 3,
-          correction: 'Énergie mécanique au départ : $E_m = E_{pp} = mgh_0 = 1\\times10\\times5 = 50$ J. À l\'arrivée, $E_c = E_m = 50$ J, donc $v = \\sqrt{\\dfrac{2E_c}{m}} = \\sqrt{\\dfrac{2\\times50}{1}} = \\sqrt{100} = 10$ m/s.'
+          correction: '$v=\\sqrt{2gh}=\\sqrt{2\\times9{,}8\\times10}=\\sqrt{196}=14$ m/s.'
         },
         {
-          statement: 'Une bille roule sur une table horizontale à vitesse constante. Que peut-on dire de son énergie potentielle de pesanteur au cours du mouvement (référence : la table) ?',
+          statement: 'En l\'absence de frottement, au cours du mouvement d\'un système, ce qui reste constant est :',
           type: 'multiple-choice',
-          options: [
-            'Elle augmente',
-            'Elle diminue',
-            'Elle reste constante et nulle, car la hauteur ne change pas',
-            'Elle devient négative'
-          ],
+          options: ['L\'énergie cinétique seule', 'L\'énergie potentielle seule', 'L\'énergie mécanique $E_m=E_c+E_{pp}$', 'Rien ne reste constant'],
+          answer: 2,
+          points: 2,
+          correction: 'Ni $E_c$ ni $E_{pp}$ ne sont constantes séparément (elles varient en sens opposé) : c\'est leur somme, l\'énergie mécanique $E_m$, qui se conserve sans frottement.'
+        },
+        {
+          statement: 'Lorsqu\'un système glisse avec des frottements non négligeables, son énergie mécanique :',
+          type: 'multiple-choice',
+          options: ['Augmente progressivement', 'Reste rigoureusement constante', 'Diminue progressivement, convertie en chaleur', 'Devient immédiatement nulle'],
           answer: 2,
           points: 1,
-          correction: 'La hauteur $h$ par rapport à la table (référence) ne change pas : $E_{pp} = mgh$ reste constante, et nulle si la référence est prise au niveau de la table.'
+          correction: 'Les frottements convertissent une partie de l\'énergie mécanique en chaleur : celle-ci diminue donc progressivement au cours du mouvement, contrairement au cas idéal sans frottement.'
         }
       ]
     }

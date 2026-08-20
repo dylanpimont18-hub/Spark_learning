@@ -211,7 +211,7 @@ window.MODULES.push({
           <text class="tick-label" x="332.5" y="167" text-anchor="middle">10⁶</text>
           <text class="tick-label" x="378.8" y="167" text-anchor="middle">10⁹</text>
           <text class="tick-label" x="425.0" y="167" text-anchor="middle">10¹²</text>
-          <text class="axis-label" x="440" y="190" text-anchor="end">Echelle log — facteur 1000 entre prefixes voisins</text>
+          <text class="axis-label" x="440" y="190" text-anchor="end">Échelle log — facteur 1000 entre préfixes voisins</text>
           <line class="guide-line" x1="101.3" y1="64" x2="101.3" y2="130"></line>
           <line class="guide-line" x1="116.7" y1="86" x2="116.7" y2="130"></line>
           <line class="guide-line" x1="147.5" y1="64" x2="147.5" y2="130"></line>

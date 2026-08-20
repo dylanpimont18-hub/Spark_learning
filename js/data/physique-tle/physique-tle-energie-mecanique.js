@@ -7,193 +7,244 @@ window.MODULES.push({
     level: 2, subject: 'physique',
     icon: '🎢',
     title: 'Énergie mécanique et conservation',
-    subtitle: 'Énergie cinétique, énergie potentielle de pesanteur, énergie mécanique, conservation et non-conservation (frottements)',
+    subtitle: 'Énergie cinétique, énergie potentielle de pesanteur, énergie mécanique, conservation et non-conservation (frottements), théorème de l\'énergie cinétique',
     keywords: ['Énergie cinétique', 'Énergie potentielle', 'Énergie mécanique', 'Conservation', 'Frottements'],
-    physics: 'Le raisonnement énergétique permet de calculer la vitesse maximale d\'une chute libre ou d\'un grand huit sans reconstruire toute la loi horaire, de dimensionner un système de freinage par récupération d\'énergie, ou d\'estimer l\'énergie dissipée par les frottements dans un mécanisme (perte de rendement).',
+    physics: 'La conservation de l\'énergie mécanique permet de calculer la vitesse d\'un skieur ou d\'un cycliste en descente, de dimensionner les montagnes russes et les toboggans aquatiques, et d\'estimer les pertes énergétiques par frottement dans les systèmes mécaniques industriels.',
 
     cours: {
-      intro: 'Un système en mouvement possède une <strong>énergie cinétique</strong> $E_c = \\dfrac{1}{2}mv^2$ (en joules), liée à sa vitesse. S\'il est soumis à la pesanteur, il possède aussi une <strong>énergie potentielle de pesanteur</strong> $E_{pp} = mgz$ (en prenant une origine des altitudes $z=0$ choisie librement), liée à sa position.<br/><br/>La somme de ces deux énergies constitue l\'<strong>énergie mécanique</strong> $E_m = E_c + E_{pp}$. Lorsque seules des forces <strong>conservatives</strong> (comme le poids) travaillent — c\'est-à-dire en l\'<strong>absence de frottement</strong> — l\'énergie mécanique se <strong>conserve</strong> : elle reste constante au cours du mouvement, même si $E_c$ et $E_{pp}$ varient chacune séparément (l\'une se transforme en l\'autre).<br/><br/>En présence de <strong>frottements</strong>, une partie de l\'énergie mécanique est dissipée sous forme de chaleur : l\'énergie mécanique <strong>diminue</strong> au cours du temps. La variation d\'énergie mécanique est alors égale au travail des forces de frottement (négatif) : $\\Delta E_m = W(\\vec{f})$.',
+      intro: 'Un système en mouvement possède une <strong>énergie cinétique</strong> $E_c=\\dfrac12 mv^2$, liée à sa vitesse. S\'il est soumis à la pesanteur, il possède aussi une <strong>énergie potentielle de pesanteur</strong> $E_{pp}=mgz$, liée à son altitude $z$ par rapport à une référence choisie.<br/><br/>La somme de ces deux énergies forme l\'<strong>énergie mécanique</strong> $E_m=E_c+E_{pp}$. Lorsque seules des forces <strong>conservatives</strong> travaillent (le poids, essentiellement) — c\'est-à-dire en l\'absence de frottement ou de force motrice —, cette énergie mécanique se <strong>conserve</strong> : elle ne fait que se transformer, d\'énergie cinétique en énergie potentielle et réciproquement.<br/><br/>Dès qu\'une force non conservative travaille (frottements, résistance de l\'air, force motrice), l\'énergie mécanique <strong>varie</strong> : le théorème de l\'énergie mécanique relie cette variation au travail de ces forces, $\\Delta E_m=\\sum W(\\vec F_{nc})$.',
       definitions: [
-        { term: 'Énergie cinétique ($E_c$)', def: '$E_c = \\dfrac{1}{2}mv^2$, en joules (J), avec $m$ en kg et $v$ en m/s. Elle traduit l\'énergie liée au mouvement d\'un système.' },
-        { term: 'Énergie potentielle de pesanteur ($E_{pp}$)', def: '$E_{pp} = mgz$, avec $z$ l\'altitude comptée depuis une <strong>origine choisie</strong> (souvent le point le plus bas de la trajectoire). Elle traduit l\'énergie liée à la position du système dans le champ de pesanteur.' },
-        { term: 'Énergie mécanique ($E_m$)', def: '$E_m = E_c + E_{pp}$ (éventuellement additionnée d\'une énergie potentielle élastique si un ressort intervient). C\'est l\'énergie totale associée au mouvement et à la position du système.' },
-        { term: 'Conservation de l\'énergie mécanique', def: 'En l\'absence de frottement (seules des forces conservatives travaillent), $E_m$ reste <strong>constante</strong> tout au long du mouvement : $E_c$ et $E_{pp}$ se transforment l\'une en l\'autre sans perte.' },
-        { term: 'Non-conservation (frottements)', def: 'En présence de frottements, $E_m$ <strong>diminue</strong> : $\\Delta E_m = E_{m,f} - E_{m,i} = W(\\vec{f}) < 0$, l\'énergie perdue étant dissipée sous forme de chaleur.' }
+        { term: 'Énergie cinétique ($E_c$)', def: 'Énergie associée au mouvement d\'un système de masse $m$ et de vitesse $v$ : $E_c=\\dfrac12 mv^2$ (en joules, J). Elle est toujours positive ou nulle.' },
+        { term: 'Énergie potentielle de pesanteur ($E_{pp}$)', def: 'Énergie associée à l\'altitude $z$ d\'un système dans le champ de pesanteur : $E_{pp}=mgz+\\text{cste}$. Seule sa <strong>variation</strong> a un sens physique : on choisit librement une origine ($E_{pp}=0$ à une altitude de référence).' },
+        { term: 'Énergie mécanique ($E_m$)', def: 'Somme de l\'énergie cinétique et de l\'énergie potentielle : $E_m=E_c+E_{pp}$. Elle se conserve si seules des forces conservatives (le poids) travaillent.' },
+        { term: 'Théorème de l\'énergie cinétique', def: 'Entre deux instants, la variation d\'énergie cinétique d\'un système est égale à la somme des travaux de <strong>toutes</strong> les forces qui s\'exercent sur lui : $\\Delta E_c=\\sum W(\\vec F)$.' }
       ],
       method: {
-        title: 'Utiliser la conservation de l\'énergie mécanique en 3 étapes',
+        title: 'Étudier une conservation (ou non) d\'énergie mécanique en 3 étapes',
         steps: [
-          '<strong>Vérifier l\'hypothèse</strong> : le mouvement se fait-il sans frottement (ou avec des frottements négligés) ? Si oui, $E_m$ se conserve ; sinon, il faudra tenir compte du travail des frottements dans le bilan.',
-          '<strong>Écrire l\'égalité des énergies mécaniques</strong> entre un état initial et un état final : $E_{c,i} + E_{pp,i} = E_{c,f} + E_{pp,f}$ (avec la même origine des altitudes des deux côtés).',
-          '<strong>Isoler la grandeur recherchée</strong> (souvent une vitesse) : cette méthode évite de reconstruire toute la loi horaire du mouvement, et fonctionne même pour des trajectoires complexes (grand huit, pendule…) où le PFD serait plus difficile à intégrer directement.'
+          '<strong>Choisir</strong> un système, un référentiel galiléen, une origine des altitudes (souvent le point le plus bas de la trajectoire étudiée), et faire le bilan des forces.',
+          '<strong>Identifier</strong> si toutes les forces qui travaillent sont conservatives : le poids l\'est, mais la réaction normale et la tension d\'un fil ne travaillent <strong>jamais</strong> (perpendiculaires au déplacement). Si oui, $E_m$ se conserve ($E_{m,A}=E_{m,B}$) ; sinon, appliquer $\\Delta E_m=W(\\vec F_{nc})$.',
+          '<strong>Exprimer</strong> $E_c$ et $E_{pp}$ aux points étudiés, puis résoudre l\'équation obtenue pour la grandeur cherchée (le plus souvent une vitesse ou une énergie dissipée).'
         ]
       },
       diagram: {
         theme: 'physique',
         kicker: 'Conservation de l\'énergie mécanique',
-        title: 'Énergie cinétique, potentielle et mécanique en fonction de la hauteur',
-        description: 'Pour un système en chute libre (ou lancé verticalement) sans frottement, l\'énergie potentielle $E_{pp}$ augmente linéairement avec la hauteur $h$ tandis que l\'énergie cinétique $E_c$ diminue d\'autant : leur somme, l\'énergie mécanique $E_m$, reste constante.',
+        title: 'Transformation entre énergie potentielle et énergie cinétique le long d\'une descente',
+        description: 'Le long de la descente, sans frottement, l\'énergie mécanique $E_m=E_c+E_{pp}$ reste constante : l\'énergie potentielle se transforme progressivement en énergie cinétique.',
         svg: `
-          <svg viewBox="0 0 560 320" role="img" aria-labelledby="emeca-title emeca-desc">
-            <title id="emeca-title">Graphique de l'energie cinetique, potentielle et mecanique en fonction de la hauteur</title>
-            <desc id="emeca-desc">Un graphique represente l'energie en ordonnee en fonction de la hauteur h en abscisse. Une droite montante representant l'energie potentielle part de l'origine et atteint son maximum a la hauteur maximale. Une droite descendante representant l'energie cinetique part de ce meme maximum a hauteur nulle et rejoint zero a la hauteur maximale. Une droite horizontale en pointilles, representant l'energie mecanique totale, reste a la valeur maximale constante sur toute la plage de hauteur, confirmant que la somme des deux premieres energies reste invariante. Une ligne verticale pointillee a une hauteur intermediaire relie un point sur chaque droite oblique, illustrant que leur somme correspond toujours a la valeur constante de l'energie mecanique.</desc>
+          <svg viewBox="0 0 560 300" role="img" aria-labelledby="em-title em-desc">
+            <title id="em-title">Conservation de l'energie mecanique le long d'une descente</title>
+            <desc id="em-desc">En haut du schema, trois diagrammes en barres empilees, tous de la meme hauteur totale, representent l'energie mecanique aux points A, C et B d'une descente. Au point A, la barre est entierement composee d'energie potentielle. Au point C, a mi-parcours, la barre se compose d'une part d'energie potentielle en haut et d'une part d'energie cinetique en bas, de tailles comparables. Au point B, en bas de la descente, la barre est entierement composee d'energie cinetique. En dessous, une courbe descendante relie les points A, C et B, representant le profil physique de la piste, chaque point etant relie a sa barre par un trait pointille vertical. Une ligne pointillee horizontale au sommet des trois barres marque le niveau constant de l'energie mecanique totale.</desc>
 
             <defs>
-              <marker id="arrow-phystle-emeca" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+              <marker id="arrow-tle-em" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
                 <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
               </marker>
             </defs>
 
-            <!-- axes -->
-            <line class="frame-line" x1="70" y1="260" x2="520" y2="260" marker-end="url(#arrow-phystle-emeca)"></line>
-            <line class="frame-line" x1="70" y1="260" x2="70" y2="50" marker-end="url(#arrow-phystle-emeca)"></line>
-            <text class="tick-label" x="70" y="35" text-anchor="middle">E (J)</text>
-            <text class="tick-label" x="518" y="278" text-anchor="end">h (m)</text>
+            <!-- niveau Em constant -->
+            <line class="guide-line" x1="65" y1="50" x2="335" y2="50"></line>
+            <text class="tick-label" x="340" y="54" text-anchor="start">Eₘ constante</text>
 
-            <!-- Em constante (pointilles) -->
-            <line class="guide-line" x1="70" y1="90" x2="470" y2="90"></line>
-            <text class="annotation-label" x="90" y="80" text-anchor="start">E_m (constante)</text>
+            <!-- socle des barres -->
+            <line class="frame-line" x1="65" y1="150" x2="335" y2="150"></line>
 
-            <!-- Ep croissante -->
-            <line class="curve-main" x1="70" y1="260" x2="470" y2="90"></line>
-            <text class="annotation-label" x="400" y="130" text-anchor="start">E_pp</text>
+            <!-- Barre A : 100% Ep -->
+            <rect x="73" y="50" width="34" height="100" fill="var(--diagram-accent)" opacity="0.35"></rect>
 
-            <!-- Ec decroissante -->
-            <line class="curve-main" x1="70" y1="90" x2="470" y2="260" style="stroke: var(--secondary);"></line>
-            <text class="annotation-label" x="400" y="220" text-anchor="start">E_c</text>
+            <!-- Barre C : Ep (haut) + Ec (bas) -->
+            <rect x="128" y="50" width="34" height="40" fill="var(--diagram-accent)" opacity="0.35"></rect>
+            <rect x="128" y="90" width="34" height="60" fill="var(--diagram-accent)"></rect>
+            <text class="tick-label" x="168" y="68" text-anchor="start">Ep</text>
+            <text class="tick-label" x="168" y="122" text-anchor="start">Ec</text>
 
-            <!-- guide vertical illustrant Ec+Ep=Em -->
-            <line class="guide-line" x1="190" y1="260" x2="190" y2="90"></line>
-            <circle class="plot-point" cx="190" cy="209" r="5"></circle>
-            <circle class="plot-point-alt" cx="190" cy="141" r="5"></circle>
-            <text class="label-soft" x="200" y="175" text-anchor="start">E_c + E_pp = E_m</text>
+            <!-- Barre B : 100% Ec -->
+            <rect x="293" y="50" width="34" height="100" fill="var(--diagram-accent)"></rect>
 
-            <!-- points remarquables -->
-            <circle class="plot-point" cx="70" cy="260" r="5"></circle>
-            <text class="label-soft" x="70" y="280" text-anchor="middle">h = 0</text>
-            <circle class="plot-point" cx="470" cy="90" r="5"></circle>
-            <text class="label-soft" x="470" y="278" text-anchor="middle">h_max</text>
+            <!-- guides verticaux vers la piste -->
+            <line class="guide-line" x1="90" y1="150" x2="90" y2="170"></line>
+            <line class="guide-line" x1="145" y1="150" x2="145" y2="252"></line>
+            <line class="guide-line" x1="310" y1="150" x2="310" y2="280"></line>
+
+            <!-- profil de la piste -->
+            <path class="curve-main" fill="none" d="M90,170 Q90,280 310,280"></path>
+
+            <!-- points A, C, B -->
+            <circle class="plot-point" cx="90" cy="170" r="4"></circle>
+            <circle class="plot-point" cx="145" cy="252" r="4"></circle>
+            <circle class="plot-point" cx="310" cy="280" r="4"></circle>
+            <text class="tick-label" x="74" y="174" text-anchor="end">A</text>
+            <text class="tick-label" x="158" y="256" text-anchor="start">C</text>
+            <text class="tick-label" x="326" y="284" text-anchor="start">B</text>
           </svg>
         `,
         notes: [
-          'L\'énergie potentielle $E_{pp}$ (courbe montante, en bleu) augmente <strong>linéairement</strong> avec la hauteur $h$, tandis que l\'énergie cinétique $E_c$ (courbe descendante) diminue d\'autant, sans jamais devenir négative.',
-          'La droite horizontale en pointillés représente l\'énergie mécanique $E_m$ : elle reste <strong>constante</strong>, quelle que soit la hauteur $h$, tant qu\'aucun frottement ne dissipe d\'énergie.',
-          'À toute hauteur intermédiaire, la somme des deux points (sur la droite $E_c$ et sur la droite $E_{pp}$) redonne exactement $E_m$ : c\'est la traduction graphique directe de la conservation de l\'énergie mécanique.'
+          'Au point $A$ (départ, vitesse nulle), toute l\'énergie mécanique est <strong>potentielle</strong> : la barre est entièrement claire.',
+          'Au point $C$, à mi-descente, l\'énergie s\'est en partie transformée : une part est devenue <strong>cinétique</strong> (barre foncée), le reste est encore potentielle.',
+          'Au point $B$ (bas de la piste, altitude de référence), toute l\'énergie mécanique est devenue <strong>cinétique</strong> : la barre est entièrement foncée — mais sa hauteur totale, comme celle des trois barres, reste identique.'
         ],
-        reading: 'Repère d\'abord la droite horizontale en pointillés ($E_m$, constante), puis observe que les deux droites obliques ($E_c$ qui descend, $E_{pp}$ qui monte) se croisent exactement à mi-hauteur, et que leur somme reste toujours égale à $E_m$.',
-        caption: 'Conservation de l\'énergie mécanique : l\'énergie potentielle croît linéairement avec la hauteur pendant que l\'énergie cinétique décroît d\'autant, leur somme (énergie mécanique) restant constante en l\'absence de frottement.'
+        reading: 'Compare la hauteur totale des trois barres (identique partout : c\'est $E_m$ qui se conserve), puis observe comment la part claire (Ep) diminue au profit de la part foncée (Ec) à mesure que le point descend le long de la piste.',
+        caption: 'Conservation de l\'énergie mécanique le long d\'une descente sans frottement : l\'énergie potentielle $E_{pp}$ se transforme progressivement en énergie cinétique $E_c$, la somme $E_m=E_c+E_{pp}$ restant constante.'
       },
+      diagrams: [
+        {
+          theme: 'physique',
+          kicker: 'Non-conservation avec frottement',
+          title: 'Énergie mécanique dissipée par les frottements',
+          description: 'Lorsque des frottements travaillent, l\'énergie mécanique ne se conserve plus : une partie de l\'énergie initiale est <strong>dissipée</strong> sous forme de chaleur, et manque à l\'arrivée.',
+          svg: `
+            <svg viewBox="0 0 560 300" role="img" aria-labelledby="em2-title em2-desc">
+              <title id="em2-title">Non-conservation de l'energie mecanique avec frottement</title>
+              <desc id="em2-desc">Deux barres comparent l'energie mecanique au depart et a l'arrivee d'une descente avec frottement. Au depart, une barre pleine represente l'energie mecanique initiale, entierement potentielle. Une ligne pointillee horizontale prolonge le sommet de cette barre vers la droite, au-dessus de la seconde barre, marquant le niveau qu'atteindrait l'energie mecanique a l'arrivee en l'absence de frottement. A l'arrivee, la barre reellement observee est plus courte : elle est surmontee d'un rectangle en pointilles, non rempli, qui comble l'ecart jusqu'a la ligne de reference. Ce rectangle en pointilles represente l'energie mecanique dissipee par les frottements sous forme de chaleur, tandis que la partie pleine represente l'energie cinetique restante.</desc>
+
+              <!-- niveau de reference Em(depart) -->
+              <line class="guide-line" x1="170" y1="50" x2="440" y2="50"></line>
+              <text class="tick-label" x="446" y="54" text-anchor="start">Eₘ(départ)</text>
+
+              <!-- socle -->
+              <line class="frame-line" x1="170" y1="150" x2="440" y2="150"></line>
+
+              <!-- barre depart : 100% Ep -->
+              <rect x="170" y="50" width="50" height="100" fill="var(--diagram-accent)" opacity="0.35"></rect>
+              <text class="tick-label" x="228" y="104" text-anchor="start">Ep</text>
+              <text class="tick-label" x="195" y="168" text-anchor="middle">Départ</text>
+
+              <!-- barre arrivee : Ec restante (pleine) + Q dissipee (pointilles, non rempli) -->
+              <rect x="390" y="95" width="50" height="55" fill="var(--diagram-accent)"></rect>
+              <text class="tick-label" x="448" y="126" text-anchor="start">Ec</text>
+              <rect class="guide-line" x="390" y="50" width="50" height="45" fill="none"></rect>
+              <text class="tick-label" x="448" y="76" text-anchor="start">Q</text>
+              <text class="tick-label" x="415" y="168" text-anchor="middle">Arrivée</text>
+            </svg>
+          `,
+          notes: [
+            'Au <strong>départ</strong>, l\'énergie mécanique est entièrement potentielle : la barre pleine atteint le niveau de référence $E_{m,départ}$.',
+            'À l\'<strong>arrivée</strong>, en présence de frottements, l\'énergie mécanique restante (barre pleine, uniquement cinétique puisque l\'altitude y est nulle) n\'atteint plus ce niveau : l\'écart, représenté par le rectangle en pointillés, est l\'énergie $Q$ <strong>dissipée</strong> par les frottements sous forme de chaleur.',
+            'Contrairement au cas sans frottement (diagramme précédent), la hauteur totale utile diminue entre le départ et l\'arrivée : c\'est la signature visuelle d\'une <strong>non-conservation</strong> de l\'énergie mécanique.'
+          ],
+          reading: 'Compare la hauteur de la barre « Arrivée » à la ligne pointillée de référence $E_{m,départ}$ : l\'écart entre les deux, matérialisé par le rectangle en pointillés, correspond exactement à l\'énergie dissipée par les frottements.',
+          caption: 'Non-conservation de l\'énergie mécanique en présence de frottements : l\'énergie disponible à l\'arrivée (uniquement cinétique) est inférieure à l\'énergie mécanique de départ, l\'écart $Q$ étant dissipé sous forme de chaleur.'
+        }
+      ],
       example: {
-        statement: 'Une bille de masse $m = 0{,}200$ kg est lâchée sans vitesse initiale depuis une hauteur $h = 5{,}0$ m au-dessus du sol. On néglige les frottements de l\'air et on prend $g = 9{,}81$ m/s². On choisit l\'origine des altitudes au niveau du sol.<br/><br/>Calculer, par conservation de l\'énergie mécanique, la vitesse de la bille juste avant qu\'elle touche le sol.',
+        statement: 'Un skieur de masse $m=70$ kg part sans vitesse initiale du sommet d\'une piste située à une hauteur $h=45$ m au-dessus de l\'arrivée. On néglige les frottements et la résistance de l\'air, et on prend $g=9{,}81$ m/s².<br/><br/>Calculer la vitesse du skieur à l\'arrivée.',
         steps: [
-          'État initial (lâcher) : $v_i = 0$, donc $E_{c,i} = 0$. Altitude $z_i = h = 5{,}0$ m, donc $E_{pp,i} = mgh$.',
-          'État final (juste avant le sol) : $z_f = 0$, donc $E_{pp,f} = 0$. On cherche $v_f$, avec $E_{c,f} = \\dfrac{1}{2}mv_f^2$.',
-          'Conservation de l\'énergie mécanique (pas de frottement) : $E_{c,i}+E_{pp,i} = E_{c,f}+E_{pp,f}$, soit $0 + mgh = \\dfrac{1}{2}mv_f^2 + 0$.',
-          'La masse $m$ se simplifie des deux côtés : $gh = \\dfrac{1}{2}v_f^2$, donc $v_f = \\sqrt{2gh} = \\sqrt{2 \\times 9{,}81 \\times 5{,}0} = \\sqrt{98{,}1} \\approx 9{,}90$ m/s.'
+          'Système : le skieur. Forces : le poids (conservatif) et la réaction de la piste (perpendiculaire au déplacement, ne travaille pas). L\'énergie mécanique se conserve donc entre le sommet (A) et l\'arrivée (B).',
+          'On choisit l\'arrivée comme origine des altitudes ($z_B=0$). Au sommet, $E_{m,A}=E_{c,A}+E_{pp,A}=0+mgh$ (vitesse nulle au départ). À l\'arrivée, $E_{m,B}=E_{c,B}+E_{pp,B}=\\dfrac12 mv_B^2+0$.',
+          'Conservation de l\'énergie mécanique : $E_{m,A}=E_{m,B}$, soit $mgh=\\dfrac12 mv_B^2$. La masse $m$ se simplifie : $v_B=\\sqrt{2gh}$.',
+          'Application numérique : $v_B=\\sqrt{2\\times9{,}81\\times45}=\\sqrt{882{,}9}\\approx29{,}7$ m/s.'
         ],
-        answer: '$v_f \\approx 9{,}90$ m/s. Remarque : la masse de la bille se simplifie entièrement dans le calcul — la vitesse finale ne dépend que de la hauteur de chute, pas de la masse (ce résultat retrouve d\'ailleurs celui obtenu par la cinématique de la chute libre).'
+        answer: '$v_B\\approx29{,}7$ m/s, soit environ $107$ km/h. Remarque : cette vitesse ne dépend pas de la masse du skieur — deux skieurs de masses différentes, sans frottement, arriveraient exactement à la même vitesse.'
       },
       formulas: [
-        'Énergie cinétique : $E_c = \\dfrac{1}{2}mv^2$',
-        'Énergie potentielle de pesanteur : $E_{pp} = mgz$',
-        'Énergie mécanique : $E_m = E_c + E_{pp}$',
-        'Conservation (sans frottement) : $E_{m,i} = E_{m,f}$, soit $E_{c,i}+E_{pp,i} = E_{c,f}+E_{pp,f}$',
-        'Non-conservation (avec frottements) : $\\Delta E_m = W(\\vec{f}) < 0$ (énergie dissipée sous forme de chaleur)'
+        '$E_c=\\dfrac12 mv^2$ (énergie cinétique, en J)',
+        '$E_{pp}=mgz+\\text{cste}$ (énergie potentielle de pesanteur)',
+        '$E_m=E_c+E_{pp}$ (énergie mécanique)',
+        'Conservation (forces conservatives uniquement) : $E_{m,A}=E_{m,B}$',
+        'Théorème de l\'énergie mécanique : $\\Delta E_m=\\sum W(\\vec F_{nc})$ (forces non conservatives)',
+        'Théorème de l\'énergie cinétique : $\\Delta E_c=\\sum W(\\vec F)$ (toutes les forces, toujours valable)'
       ],
       recap: [
-        'L\'énergie mécanique $E_m=E_c+E_{pp}$ se conserve uniquement en l\'<strong>absence de frottement</strong> : c\'est une hypothèse à vérifier avant tout calcul.',
-        'Lorsqu\'elle se conserve, $E_c$ et $E_{pp}$ varient en sens opposé : ce qui est perdu par l\'une est intégralement gagné par l\'autre.',
-        'La méthode énergétique permet de calculer une vitesse (ou une hauteur) sans reconstruire toute la loi horaire du mouvement — un net avantage pour des trajectoires complexes.',
-        'En présence de frottements, l\'énergie mécanique <strong>diminue</strong> ($\\Delta E_m < 0$) : l\'énergie perdue est dissipée sous forme de chaleur, ce qui correspond à une perte de rendement mécanique.'
+        'L\'énergie mécanique $E_m=E_c+E_{pp}$ se <strong>conserve</strong> si seules des forces conservatives (le poids) travaillent : elle se transforme alors, d\'énergie potentielle en énergie cinétique ou réciproquement.',
+        'Une force perpendiculaire au déplacement (réaction normale, tension d\'un fil dans un mouvement circulaire) ne travaille <strong>jamais</strong> : elle ne modifie pas l\'énergie mécanique.',
+        'En présence de frottements, l\'énergie mécanique <strong>diminue</strong> : $\\Delta E_m=W(\\vec F_{frottements}) &lt; 0$, l\'énergie perdue étant dissipée sous forme de chaleur.',
+        'Le théorème de l\'énergie cinétique ($\\Delta E_c=\\sum W(\\vec F)$) reste valable dans <strong>tous les cas</strong>, avec ou sans frottement : c\'est l\'outil le plus général.'
       ],
-      piege: 'Une erreur fréquente est d\'oublier de fixer une <strong>origine commune</strong> des altitudes pour calculer $E_{pp,i}$ et $E_{pp,f}$, ce qui fausse tout le bilan énergétique. Attention également à ne pas appliquer la conservation de l\'énergie mécanique lorsque des frottements sont mentionnés dans l\'énoncé : il faut alors utiliser $\\Delta E_m = W(\\vec{f})$, et non l\'égalité $E_{m,i}=E_{m,f}$.'
+      piege: 'Une erreur fréquente est d\'oublier qu\'une force perpendiculaire à la vitesse, comme la réaction normale d\'un support ou la tension d\'un fil dans un mouvement circulaire, ne travaille jamais et ne peut donc jamais faire varier l\'énergie mécanique, même si elle est intense. Attention à toujours identifier la nature de chaque force (conservative, non conservative, ou à travail nul) avant de décider si l\'énergie mécanique se conserve ou non.'
     },
 
     quiz: [
       {
-        q: 'En l\'absence de frottement, lorsqu\'un objet lancé verticalement vers le haut monte, que devient son énergie mécanique $E_m$ ?',
+        q: 'Un pendule oscille librement dans l\'air (frottements de l\'air négligés) : seuls son poids et la tension du fil s\'exercent sur la masse. Que peut-on dire de son énergie mécanique au cours de l\'oscillation ?',
         options: [
-          'Elle augmente avec la hauteur',
-          'Elle diminue avec la hauteur',
-          'Elle reste constante',
-          'Elle devient nulle au sommet de la trajectoire'
+          'Elle se conserve, car le poids est conservatif et la tension du fil ne travaille jamais (toujours perpendiculaire à la vitesse)',
+          'Elle augmente à chaque oscillation',
+          'Elle diminue progressivement à cause de la tension du fil',
+          'Elle est nulle en permanence'
         ],
-        answer: 2,
-        correction: 'En l\'absence de frottement, l\'énergie mécanique $E_m = E_c + E_{pp}$ se <strong>conserve</strong> : elle reste constante tout au long du mouvement, même si $E_c$ diminue (l\'objet ralentit) tandis que $E_{pp}$ augmente (il s\'élève).'
+        answer: 0,
+        correction: 'Le poids est une force conservative, et la tension du fil, toujours perpendiculaire à la vitesse dans ce mouvement de rotation autour du point d\'attache, ne travaille jamais. L\'énergie mécanique se conserve donc : seule sa répartition entre énergie cinétique et énergie potentielle change au cours de l\'oscillation.'
       },
       {
-        q: 'Une bille de masse $m=0{,}5$ kg est lâchée sans vitesse initiale d\'une hauteur $h=2$ m ($g=9{,}81$ m/s²). Quelle est sa vitesse juste avant de toucher le sol (sans frottement) ?',
+        q: 'Un objet de masse $m=2$ kg tombe en chute libre sans vitesse initiale depuis une hauteur $h=10$ m (frottements négligés, $g=9{,}81$ m/s²). Quelle est sa vitesse juste avant l\'impact au sol ?',
         options: [
-          '$v \\approx 3{,}1$ m/s',
-          '$v \\approx 6{,}3$ m/s',
-          '$v \\approx 9{,}8$ m/s',
-          '$v \\approx 19{,}6$ m/s'
+          '$v\\approx14{,}0$ m/s',
+          '$v\\approx19{,}6$ m/s',
+          '$v\\approx9{,}81$ m/s',
+          '$v\\approx196$ m/s'
         ],
-        answer: 1,
-        correction: 'Par conservation de l\'énergie mécanique, $mgh = \\frac{1}{2}mv^2$, donc $v = \\sqrt{2gh} = \\sqrt{2 \\times 9{,}81 \\times 2} = \\sqrt{39{,}24} \\approx 6{,}3$ m/s.'
+        answer: 0,
+        correction: 'Conservation de l\'énergie mécanique : $mgh=\\dfrac12 mv^2$, donc $v=\\sqrt{2gh}=\\sqrt{2\\times9{,}81\\times10}=\\sqrt{196{,}2}\\approx14{,}0$ m/s. La masse ne change rien au résultat.'
       },
       {
-        q: 'Un skieur descend une piste avec des frottements non négligeables. Comment évolue son énergie mécanique entre le haut et le bas de la piste ?',
+        q: 'Un skieur descend une piste réelle, avec frottements. Comment évolue son énergie mécanique entre le sommet et l\'arrivée ?',
         options: [
+          'Elle diminue, car les frottements dissipent de l\'énergie sous forme de chaleur',
           'Elle reste constante, comme sans frottement',
-          'Elle augmente, car il descend',
-          'Elle diminue, l\'énergie perdue étant dissipée sous forme de chaleur',
-          'Elle devient négative'
+          'Elle augmente progressivement',
+          'Elle est toujours nulle'
         ],
-        answer: 2,
-        correction: 'En présence de frottements, une partie de l\'énergie mécanique est dissipée sous forme de chaleur : $\\Delta E_m = W(\\vec{f}) < 0$. L\'énergie mécanique du skieur <strong>diminue</strong> par rapport à ce qu\'elle serait sans frottement.'
+        answer: 0,
+        correction: 'Les frottements sont une force non conservative dont le travail est négatif (ils s\'opposent toujours au mouvement) : $\\Delta E_m=W(\\vec F_{frottements}) &lt; 0$. L\'énergie mécanique diminue, l\'énergie perdue étant dissipée sous forme de chaleur.'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
-        var typeExo = pick(['vitesse-finale', 'hauteur-max']);
         var g = 9.81;
+        var typeExo = pick(['sansFrottement', 'avecFrottement']);
 
-        if (typeExo === 'vitesse-finale') {
-          var h = rand(2, 25);
+        if (typeExo === 'sansFrottement') {
+          var m = pick([50, 60, 65, 70, 75, 80, 90]);
+          var h = pick([15, 20, 25, 30, 35, 40]);
           var v = parseFloat(Math.sqrt(2 * g * h).toFixed(2));
           var contexte = pick([
-            'une bille lâchée du haut d\'un immeuble',
-            'un plongeur qui saute d\'un plongeoir',
-            'une goutte de pluie tombant sans vitesse initiale',
-            'un colis largué depuis un balcon',
-            'un fruit qui tombe d\'une branche'
+            'un skieur qui descend une piste damée',
+            'un cycliste lancé dans une descente',
+            'une luge sur une piste enneigée',
+            'une bille lâchée sur un rail incurvé',
+            'un chariot sur un toboggan de parc d\'attractions'
           ]);
           return {
-            statement: 'On modélise ' + contexte + ', lâché(e) sans vitesse initiale depuis une hauteur $h = ' + h + '$ m. On néglige les frottements de l\'air et on prend $g = 9{,}81$ m/s².<br/><br/>Par conservation de l\'énergie mécanique, calcule la vitesse $v$ juste avant l\'impact au sol (en m/s, arrondie au centième).',
+            statement: 'Dans le cas de ' + contexte + ', de masse $m=' + m + '$ kg, partant sans vitesse initiale d\'une hauteur $h=' + h + '$ m au-dessus de l\'arrivée. On néglige tout frottement ($g=9{,}81$ m/s²).<br/><br/>Calcule la vitesse à l\'arrivée (en m/s, arrondie au centième).',
             answer: v,
             tolerance: Math.max(0.1, parseFloat((v * 0.03).toFixed(2))),
             unit: 'm/s',
-            hint: 'Conservation de l\'énergie mécanique : $mgh = \\frac{1}{2}mv^2$, la masse se simplifie.',
+            hint: 'Conservation de l\'énergie mécanique : $mgh=\\dfrac12 mv^2$, donc $v=\\sqrt{2gh}$ (la masse se simplifie).',
             solution: [
-              'État initial : $E_{c,i}=0$ (vitesse nulle), $E_{pp,i}=mgh$.',
-              'État final (sol) : $E_{pp,f}=0$, $E_{c,f}=\\frac{1}{2}mv^2$.',
-              'Conservation : $mgh = \\frac{1}{2}mv^2$, donc $v = \\sqrt{2gh} = \\sqrt{2 \\times 9{,}81 \\times ' + h + '}$.',
-              'Résultat : $v \\approx ' + fr(v, 2) + '$ m/s.'
+              'Conservation de l\'énergie mécanique (poids seul travaille) : $mgh=\\dfrac12 mv^2$, donc $v=\\sqrt{2gh}$.',
+              'Application numérique : $v=\\sqrt{2\\times9{,}81\\times' + h + '}$.',
+              'Résultat : $v\\approx' + fr(v, 2) + '$ m/s.'
             ]
           };
         } else {
-          var v0 = rand(5, 25);
-          var hmax = parseFloat(((v0 * v0) / (2 * g)).toFixed(2));
+          var m2 = pick([50, 60, 70, 80, 90]);
+          var h2 = pick([15, 18, 20, 25, 30]);
+          var frac = randFloat(0.7, 0.95, 2);
+          var vIdeal = Math.sqrt(2 * g * h2);
+          var vReel = parseFloat((vIdeal * frac).toFixed(2));
+          var EmTop = m2 * g * h2;
+          var EmBottom = 0.5 * m2 * vReel * vReel;
+          var Q = parseFloat((EmTop - EmBottom).toFixed(0));
           var contexte2 = pick([
-            'un ballon de basket lancé verticalement',
-            'une balle envoyée à la verticale lors d\'un lancer',
-            'un projectile de démonstration en cours de physique',
-            'une fusée à eau lancée à la verticale'
+            'un skieur freinant légèrement sur une piste damée',
+            'un chariot de manutention descendant un plan incliné',
+            'une luge freinée par la neige fraîche',
+            'un traîneau tracté descendant une pente enneigée',
+            'un wagonnet de mine descendant une galerie inclinée'
           ]);
           return {
-            statement: 'On lance verticalement vers le haut ' + contexte2 + ' avec une vitesse initiale $v_0 = ' + v0 + '$ m/s. On néglige les frottements de l\'air et on prend $g = 9{,}81$ m/s².<br/><br/>Par conservation de l\'énergie mécanique, calcule la hauteur maximale $h_{max}$ atteinte (en m, arrondie au centième).',
-            answer: hmax,
-            tolerance: Math.max(0.1, parseFloat((hmax * 0.03).toFixed(2))),
-            unit: 'm',
-            hint: 'Au sommet, la vitesse est nulle : $\\frac{1}{2}mv_0^2 = mgh_{max}$.',
+            statement: 'Dans le cas de ' + contexte2 + ', de masse $m=' + m2 + '$ kg, partant sans vitesse initiale d\'une hauteur $h=' + h2 + '$ m au-dessus de l\'arrivée ($g=9{,}81$ m/s²). En raison des frottements, la vitesse mesurée à l\'arrivée n\'est que $v=' + fr(vReel, 2) + '$ m/s (au lieu de la valeur idéale sans frottement).<br/><br/>Calcule l\'énergie mécanique dissipée par les frottements entre le départ et l\'arrivée (en J, arrondie à l\'unité).',
+            answer: Q,
+            tolerance: Math.max(20, parseFloat((Q * 0.05).toFixed(0))),
+            unit: 'J',
+            hint: 'Calcule $E_{m,départ}=mgh$ et $E_{m,arrivée}=\\dfrac12 mv^2$ (arrivée = origine des altitudes) : l\'énergie dissipée est leur différence.',
             solution: [
-              'État initial (lancer) : $E_{c,i}=\\frac{1}{2}mv_0^2$, $E_{pp,i}=0$.',
-              'État final (sommet) : $E_{c,f}=0$ (vitesse nulle au sommet), $E_{pp,f}=mgh_{max}$.',
-              'Conservation : $\\frac{1}{2}mv_0^2 = mgh_{max}$, donc $h_{max} = \\dfrac{v_0^2}{2g} = \\dfrac{' + v0 + '^2}{2\\times9{,}81}$.',
-              'Résultat : $h_{max} \\approx ' + fr(hmax, 2) + '$ m.'
+              'Énergie mécanique au départ (vitesse nulle) : $E_{m,départ}=mgh=' + m2 + '\\times9{,}81\\times' + h2 + '\\approx' + fr(Math.round(EmTop)) + '$ J.',
+              'Énergie mécanique à l\'arrivée (altitude nulle) : $E_{m,arrivée}=\\dfrac12 mv^2=0{,}5\\times' + m2 + '\\times' + fr(vReel, 2) + '^2\\approx' + fr(Math.round(EmBottom)) + '$ J.',
+              'Énergie dissipée par les frottements : $Q=E_{m,départ}-E_{m,arrivée}\\approx' + fr(Q) + '$ J.'
             ]
           };
         }
@@ -201,18 +252,18 @@ window.MODULES.push({
     },
 
     probleme: {
-      context: 'Un wagonnet de montagnes russes, de masse totale $m = 800$ kg (passagers compris), part sans vitesse initiale du sommet d\'une bosse à $h_1 = 30$ m de hauteur. On néglige les frottements et la résistance de l\'air. On prend $g = 9{,}81$ m/s² et on choisit l\'origine des altitudes au point le plus bas du circuit.',
+      context: 'Un chariot de manutention de masse $m=150$ kg part sans vitesse initiale du sommet d\'un plan incliné, à une hauteur $h=4{,}0$ m au-dessus du sol horizontal. Il parcourt une distance totale $d=12$ m le long du plan incliné jusqu\'en bas, où sa vitesse est mesurée à $v=6{,}5$ m/s. On prend $g=9{,}81$ m/s².',
       tasks: [
-        'Calculer l\'énergie mécanique du wagonnet au sommet de la bosse (en J).',
-        'En déduire, par conservation de l\'énergie mécanique, la vitesse du wagonnet au point le plus bas du circuit ($h=0$).',
-        'Le circuit comporte ensuite une seconde bosse de hauteur $h_2 = 18$ m. Calculer la vitesse du wagonnet au sommet de cette seconde bosse.'
+        'Calculer la vitesse qu\'aurait le chariot en bas du plan incliné en l\'absence de tout frottement, et la comparer à la vitesse réellement mesurée.',
+        'Calculer l\'énergie mécanique perdue $|\\Delta E_m|$ entre le sommet et le bas du plan incliné.',
+        'En déduire la norme de la force de frottement moyenne $f$ (supposée constante et opposée au mouvement) subie par le chariot le long du plan incliné.'
       ],
       solutions: [
-        'Au sommet de la première bosse, $v=0$ donc $E_c=0$. $E_m = E_{pp} = mgh_1 = 800 \\times 9{,}81 \\times 30 = 235\\,440$ J.',
-        'Au point le plus bas ($h=0$), $E_{pp}=0$, donc toute l\'énergie mécanique est cinétique : $E_m = \\dfrac{1}{2}mv^2$, donc $v = \\sqrt{\\dfrac{2E_m}{m}} = \\sqrt{\\dfrac{2\\times235\\,440}{800}} = \\sqrt{588{,}6} \\approx 24{,}3$ m/s.',
-        'L\'énergie mécanique se conserve tout au long du circuit (pas de frottement) : au sommet de la seconde bosse, $E_{pp}=mgh_2=800\\times9{,}81\\times18=141\\,264$ J, donc $E_c=E_m-E_{pp}=235\\,440-141\\,264=94\\,176$ J. $v=\\sqrt{\\dfrac{2\\times94\\,176}{800}}=\\sqrt{235{,}44}\\approx15{,}3$ m/s.'
+        'Sans frottement, $v_{idéal}=\\sqrt{2gh}=\\sqrt{2\\times9{,}81\\times4{,}0}=\\sqrt{78{,}48}\\approx8{,}86$ m/s. La vitesse réellement mesurée ($6{,}5$ m/s) est nettement inférieure : les frottements ont dissipé une partie de l\'énergie mécanique.',
+        'Avec le bas du plan incliné comme origine des altitudes : $E_{m,haut}=mgh=150\\times9{,}81\\times4{,}0=5\\,886$ J et $E_{m,bas}=\\dfrac12 mv^2=0{,}5\\times150\\times6{,}5^2=3\\,168{,}75$ J. L\'énergie perdue est $|\\Delta E_m|=5\\,886-3\\,168{,}75\\approx2\\,717$ J.',
+        'Le travail de la force de frottement, constante et opposée au déplacement sur la distance $d$, vaut $W(\\vec f)=-fd=\\Delta E_m$, donc $f=\\dfrac{|\\Delta E_m|}{d}=\\dfrac{2\\,717}{12}\\approx226$ N.'
       ],
-      finalAnswer: 'Le wagonnet atteint $v \\approx 24{,}3$ m/s au point le plus bas, puis $v \\approx 15{,}3$ m/s au sommet de la seconde bosse (moins haute que la première, il lui reste donc de la vitesse). En pratique, les frottements et la résistance de l\'air dissipent une partie de cette énergie, ce qui impose de concevoir chaque bosse suivante <strong>moins haute</strong> que la précédente pour garantir que le wagonnet ait toujours assez d\'énergie mécanique pour la franchir.'
+      finalAnswer: '$f\\approx226$ N. Cette force de frottement moyenne, à elle seule, dissipe près de $46\\,\\%$ de l\'énergie mécanique initiale du chariot ($2\\,717$ J sur $5\\,886$ J) : un ordre de grandeur qui illustre l\'importance de limiter les frottements dans les systèmes de manutention pour préserver l\'énergie disponible en fin de course.'
     },
 
     evaluation: {
@@ -220,61 +271,61 @@ window.MODULES.push({
       duration: '30 min',
       questions: [
         {
-          statement: 'L\'énergie mécanique d\'un système est définie comme :',
+          statement: 'Un objet de masse $m=3$ kg tombe en chute libre sans vitesse initiale depuis une hauteur $h=20$ m (frottements négligés, $g=9{,}81$ m/s²). Calculer sa vitesse juste avant l\'impact (en m/s, arrondie au dixième).',
+          type: 'numeric',
+          answer: 19.8,
+          tolerance: 0.3,
+          unit: 'm/s',
+          points: 2,
+          correction: '$v=\\sqrt{2gh}=\\sqrt{2\\times9{,}81\\times20}=\\sqrt{392{,}4}\\approx19{,}8$ m/s.'
+        },
+        {
+          statement: 'Laquelle de ces forces ne travaille jamais, quel que soit le mouvement, car elle est toujours perpendiculaire au déplacement ?',
           type: 'multiple-choice',
           options: [
-            '$E_m = E_c \\times E_{pp}$',
-            '$E_m = E_c + E_{pp}$',
-            '$E_m = E_c - E_{pp}$',
-            '$E_m = \\dfrac{E_c}{E_{pp}}$'
+            'Le poids',
+            'Une force de frottement',
+            'La réaction normale d\'un support',
+            'Une force motrice'
+          ],
+          answer: 2,
+          points: 2,
+          correction: 'La réaction normale d\'un support est, par définition, perpendiculaire à la surface de contact et donc au déplacement le long de cette surface : son travail est nul, quel que soit le mouvement.'
+        },
+        {
+          statement: 'Un objet de masse $m=100$ kg part sans vitesse initiale d\'une hauteur $h=5$ m ($g=9{,}81$ m/s²). Sa vitesse mesurée à l\'arrivée n\'est que $v=8$ m/s à cause des frottements. Calculer l\'énergie mécanique dissipée (en J).',
+          type: 'numeric',
+          answer: 1705,
+          tolerance: 50,
+          unit: 'J',
+          points: 3,
+          correction: '$E_{m,départ}=mgh=100\\times9{,}81\\times5=4\\,905$ J. $E_{m,arrivée}=\\dfrac12 mv^2=0{,}5\\times100\\times8^2=3\\,200$ J. Énergie dissipée : $4\\,905-3\\,200=1\\,705$ J.'
+        },
+        {
+          statement: 'L\'énergie mécanique d\'un système se définit comme :',
+          type: 'multiple-choice',
+          options: [
+            '$E_m=E_c\\times E_{pp}$',
+            '$E_m=E_c+E_{pp}$',
+            '$E_m=E_c-E_{pp}$',
+            '$E_m=\\sqrt{E_c\\times E_{pp}}$'
           ],
           answer: 1,
           points: 2,
-          correction: 'L\'énergie mécanique est la <strong>somme</strong> de l\'énergie cinétique et de l\'énergie potentielle (de pesanteur ou élastique) : $E_m = E_c + E_{pp}$.'
+          correction: 'L\'énergie mécanique est la <strong>somme</strong> de l\'énergie cinétique et de l\'énergie potentielle : $E_m=E_c+E_{pp}$.'
         },
         {
-          statement: 'Une bille de masse $m=0{,}3$ kg est lâchée sans vitesse initiale d\'une hauteur $h=8$ m ($g=9{,}81$ m/s², sans frottement). Calculer sa vitesse à l\'arrivée au sol (en m/s, arrondie au dixième).',
-          type: 'numeric',
-          answer: 12.5,
-          tolerance: 0.3,
-          unit: 'm/s',
-          points: 3,
-          correction: '$v=\\sqrt{2gh}=\\sqrt{2\\times9{,}81\\times8}=\\sqrt{156{,}96}\\approx12{,}5$ m/s (la masse ne joue aucun rôle dans le résultat).'
-        },
-        {
-          statement: 'En présence de frottements non négligeables, l\'énergie mécanique d\'un système en mouvement :',
+          statement: 'Le théorème de l\'énergie cinétique ($\\Delta E_c=\\sum W(\\vec F)$) est valable :',
           type: 'multiple-choice',
           options: [
-            'Reste constante',
-            'Augmente systématiquement',
-            'Diminue, l\'énergie perdue étant dissipée en chaleur',
-            'Devient immédiatement nulle'
+            'Uniquement en l\'absence de frottement',
+            'Uniquement si toutes les forces sont conservatives',
+            'Dans tous les cas, avec ou sans frottement',
+            'Uniquement pour un mouvement rectiligne'
           ],
           answer: 2,
           points: 2,
-          correction: 'Les frottements dissipent une partie de l\'énergie mécanique sous forme de chaleur : $\\Delta E_m = W(\\vec f) < 0$, donc $E_m$ diminue au cours du mouvement.'
-        },
-        {
-          statement: 'Un objet est lancé verticalement vers le haut avec $v_0=14$ m/s ($g=9{,}81$ m/s², sans frottement). Calculer la hauteur maximale atteinte (en m, arrondie au dixième).',
-          type: 'numeric',
-          answer: 10.0,
-          tolerance: 0.3,
-          unit: 'm',
-          points: 3,
-          correction: '$h_{max}=\\dfrac{v_0^2}{2g}=\\dfrac{14^2}{2\\times9{,}81}=\\dfrac{196}{19{,}62}\\approx10{,}0$ m.'
-        },
-        {
-          statement: 'Sur un graphique représentant $E_c$, $E_{pp}$ et $E_m$ en fonction de la hauteur $h$ (sans frottement), la courbe de $E_m$ est :',
-          type: 'multiple-choice',
-          options: [
-            'Une droite croissante',
-            'Une droite décroissante',
-            'Une droite horizontale (constante)',
-            'Une parabole'
-          ],
-          answer: 2,
-          points: 1,
-          correction: '$E_m$ est conservée : sa représentation en fonction de $h$ est une droite horizontale, à la valeur constante $E_m$, quelle que soit la répartition entre $E_c$ et $E_{pp}$.'
+          correction: 'Contrairement à la conservation de l\'énergie mécanique (valable seulement sans force non conservative), le théorème de l\'énergie cinétique prend en compte le travail de <strong>toutes</strong> les forces : il reste donc valable dans tous les cas, y compris avec frottement.'
         }
       ]
     }

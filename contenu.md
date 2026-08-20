@@ -105,7 +105,7 @@ Permet au tuteur d'envoyer un lien à un futur élève pour évaluer son niveau 
 | 4e/4e-statistiques.js | Statistiques |
 | 4e/4e-probabilites.js | Probabilités |
 | 4e/index.js | Manifest d'ordre de chargement |
-| **3e/** | Contenus Collège 3e — **refactoring TERMINÉ** (12 sous-modules) |
+| **3e/** | Contenus Collège 3e — **refactoring TERMINÉ** (13 sous-modules) |
 | 3e/trigonometrie.js | Trigonométrie dans le Triangle Rectangle |
 | 3e/3e-systemes.js | Systèmes d'équations |
 | 3e/3e-thales.js | Théorème de Thalès |
@@ -113,6 +113,7 @@ Permet au tuteur d'envoyer un lien à un futur élève pour évaluer son niveau 
 | 3e/3e-identites-remarquables.js | Identités remarquables |
 | 3e/3e-equations-inequations.js | Équations et inéquations |
 | 3e/3e-fonctions.js | Fonctions (généralités) |
+| 3e/3e-fonctions-affines.js | Fonctions affines et linéaires (coefficient directeur, ordonnée à l'origine) |
 | 3e/3e-homotheties.js | Homothéties |
 | 3e/3e-sections-solides.js | Sections de solides |
 | 3e/3e-volumes.js | Volumes de solides |
@@ -157,6 +158,11 @@ Permet au tuteur d'envoyer un lien à un futur élève pour évaluer son niveau 
 | **si-1re/** | Contenus SI 1re — refactoring terminé |
 | **si-tle/** | Contenus SI Tle — refactoring terminé |
 | **si-bts/** | Contenus SI BTS — refactoring terminé |
+| **physique-4e/** | Contenus Physique-Chimie 4e — complet (6/6 sous-modules) |
+| **physique-3e/** | Contenus Physique-Chimie 3e — complet (6/6 sous-modules) |
+| **physique-2nde/** | Contenus Physique-Chimie 2nde — complet (10/10 sous-modules) |
+| **physique-1re/** | Contenus Physique-Chimie 1re — complet (11/11 sous-modules) |
+| **physique-tle/** | Contenus Physique-Chimie Tle — complet (11/11 sous-modules) |
 | **physique-bts/** | Contenus Physique-Chimie BTS — complet (10/10 sous-modules) |
 | **physique-4e/** | Contenus Physique-Chimie 4e — complet (6/6 sous-modules) |
 | **physique-3e/** | Contenus Physique-Chimie 3e — complet (6/6 sous-modules) |

@@ -158,7 +158,7 @@ window.MODULES.push({
           hint: `Additionne toutes les valeurs, puis divise par $${n}$.`,
           solution: [
             `Somme : $${vals.join(' + ')} = ${sum}$.`,
-            `Moyenne : $${sum} \\div ${n} = ${mean.toString().replace('.', '{,}')}$.`
+            `Moyenne : $${sum} \\div ${n} = ${fr(mean)}$.`
           ]
         };
       }

@@ -188,9 +188,9 @@ window.MODULES.push({
           unit: 'V',
           hint: `D'abord, rappelle-toi qu'à $t = \\tau$, $U_C(\\tau) = E(1 - e^{-1}) \\approx 0{,}632 \\times E$. Ici $E = ${E}$ V.`,
           solution: [
-            `$\\tau = RC = ${ctx.R} \\times 10^3 \\times ${ctx.C} \\times 10^{-6} = ${tau_s}$ s`,
+            `$\\tau = RC = ${ctx.R} \\times 10^3 \\times ${ctx.C} \\times 10^{-6} = ${fr(tau_s)}$ s`,
             `$U_C(\\tau) = E(1 - e^{-1}) = ${E} \\times 0{,}6321$`,
-            `$U_C(\\tau) \\approx ${UC_tau}$ V`
+            `$U_C(\\tau) \\approx ${fr(UC_tau)}$ V`
           ]
         };
       }

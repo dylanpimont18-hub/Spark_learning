@@ -141,7 +141,7 @@ window.MODULES.push(
           tolerance: 0.01,
           unit: '',
           hint: `$\\mathcal{L}\\{e^{${a}t}\\}=\\frac{1}{p-${a}}$. Évaluer en $p=${p}$.`,
-          solution: [`$F(p)=\\frac{1}{p-${a}}$. En $p=${p}$ : $F(${p})=\\frac{1}{${p}-${a}}=\\frac{1}{${delta}}=${val.toString().replace('.', '{,}')}$`]
+          solution: [`$F(p)=\\frac{1}{p-${a}}$. En $p=${p}$ : $F(${p})=\\frac{1}{${p}-${a}}=\\frac{1}{${delta}}=${fr(val)}$`]
         };
       }
     },

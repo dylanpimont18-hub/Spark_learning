@@ -60,7 +60,7 @@ window.MODULES.push(
             <circle class="axis" cx="295" cy="175" r="85" fill="color-mix(in srgb, var(--diagram-accent) 14%, transparent)"></circle>
             <text class="label" x="195" y="65" text-anchor="middle">Sportifs</text>
             <text class="label" x="295" y="65" text-anchor="middle">Musiciens</text>
-            <text class="tick-label" x="60" y="60" text-anchor="start">N = 200 eleves</text>
+            <text class="tick-label" x="60" y="60" text-anchor="start">N = 200 élèves</text>
             <text class="annotation-label" x="150" y="180" text-anchor="middle">55</text>
             <text class="annotation-label" x="245" y="180" text-anchor="middle">25</text>
             <text class="annotation-label" x="340" y="180" text-anchor="middle">35</text>
@@ -113,7 +113,7 @@ window.MODULES.push(
         const pAB = pick([0.2, 0.3, 0.4]);
         const nAB = Math.round(nA * pAB);
         const fcond = parseFloat((nAB / nA).toFixed(2));
-        const fcondStr = String(fcond).replace('.', '{,}');
+        const fcondStr = fr(fcond);
         const pctStr = Math.round(fcond * 100);
 
         const ctx = pick([

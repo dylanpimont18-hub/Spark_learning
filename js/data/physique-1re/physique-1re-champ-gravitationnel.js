@@ -7,138 +7,134 @@ window.MODULES.push({
     level: 2, subject: 'physique',
     icon: '🪐',
     title: 'Interactions fondamentales et champ gravitationnel',
-    subtitle: 'Loi de gravitation universelle, champ gravitationnel, poids et masse',
-    keywords: ['Gravitation', 'Champ gravitationnel', 'Poids', 'Interaction à distance', 'Newton'],
-    physics: 'La gravitation universelle régit le mouvement des satellites et de la Lune, détermine le poids d\'un objet selon la planète où il se trouve, et explique les marées océaniques provoquées par l\'attraction de la Lune et du Soleil sur les océans terrestres.',
+    subtitle: 'Loi de gravitation universelle, principe des actions réciproques, vecteur champ de gravitation',
+    keywords: ['Gravitation', 'Newton', 'Champ', 'Actions réciproques', 'Poids'],
+    physics: 'Le champ de gravitation explique pourquoi tous les objets en chute libre sur Terre subissent la même accélération, permet de calculer le poids d\'un astronaute sur la Lune ou sur Mars, justifie le maintien des satellites en orbite autour de la Terre, et est à l\'origine des marées océaniques dues à l\'attraction combinée de la Lune et du Soleil.',
 
     cours: {
-      intro: 'Deux objets qui possèdent une masse s\'attirent mutuellement : c\'est l\'<strong>interaction gravitationnelle</strong>, l\'une des interactions fondamentales de la nature. Cette interaction agit à distance, sans contact, et explique aussi bien la chute d\'un objet que le maintien de la Lune en orbite autour de la Terre.<br/><br/>Isaac Newton a montré que cette interaction obéit à une loi précise, la <strong>loi de gravitation universelle</strong> : la force d\'attraction entre deux masses est d\'autant plus grande que les masses sont importantes, et d\'autant plus faible que la distance qui les sépare est grande (elle décroît avec le <strong>carré</strong> de la distance).<br/><br/>Pour décrire l\'effet de cette interaction en un point de l\'espace, sans avoir à préciser quelle masse test on y placerait, on introduit la notion de <strong>champ gravitationnel</strong> $\\vec{g}$. C\'est ce champ, appliqué à la masse d\'un objet, qui donne naissance à son <strong>poids</strong>.',
+      intro: 'Toute la matière de l\'univers est soumise à quatre <strong>interactions fondamentales</strong>. Parmi elles, l\'<strong>interaction gravitationnelle</strong> est la plus faible à l\'échelle de deux objets du quotidien, mais elle devient dominante à l\'échelle astronomique : elle est toujours attractive (contrairement à l\'interaction électrique, qui peut être répulsive) et sa portée est infinie.<br/><br/>Isaac Newton a formalisé cette interaction par la <strong>loi de gravitation universelle</strong> : deux corps ponctuels de masses $m_1$ et $m_2$, séparés par une distance $r$, s\'attirent mutuellement avec une force de norme $F = G\\dfrac{m_1 m_2}{r^2}$, où $G \\approx 6{,}67\\times10^{-11}$ N·m²·kg⁻² est la <strong>constante de gravitation universelle</strong>.<br/><br/>Pour décrire l\'effet d\'une masse $M$ sur l\'espace qui l\'entoure, sans se référer à un second objet précis, on introduit le <strong>vecteur champ de gravitation</strong> $\\vec{g}$ : en tout point situé à une distance $r$ de $M$, ce champ est dirigé <strong>vers $M$</strong> et son intensité vaut $g = G\\dfrac{M}{r^2}$. Le poids d\'un objet de masse $m$ n\'est alors rien d\'autre que la force $\\vec{P} = m\\vec{g}$ exercée par ce champ local.',
       definitions: [
-        { term: 'Interaction gravitationnelle', def: 'Interaction attractive qui s\'exerce entre deux corps possédant une masse, quelle que soit la distance qui les sépare. C\'est l\'une des quatre interactions fondamentales décrites par la physique.' },
-        { term: 'Loi de gravitation universelle', def: 'Deux masses ponctuelles $m_A$ et $m_B$, séparées d\'une distance $d$, exercent l\'une sur l\'autre une force attractive de norme $F = G\\dfrac{m_A \\, m_B}{d^2}$, avec $G \\approx 6{,}67\\times10^{-11}$ N·m²/kg² (constante de gravitation universelle). Ces deux forces, $\\vec{F}_{A/B}$ et $\\vec{F}_{B/A}$, sont dirigées le long de la droite $(AB)$, chacune vers l\'autre masse.' },
-        { term: 'Champ gravitationnel $\\vec{g}$', def: 'Grandeur vectorielle définie en tout point de l\'espace par $\\vec{g}(M) = \\dfrac{\\vec{F}}{m}$, en N/kg, indépendante de la masse test $m$ qui la subirait. Pour la Terre (masse $M_T$), à une distance $r$ de son centre : $g(r) = G\\dfrac{M_T}{r^2}$.' },
-        { term: 'Poids $\\vec{P}$', def: 'Force exercée par le champ de pesanteur sur un objet de masse $m$ : $\\vec{P} = m\\vec{g}$, en newtons. À distinguer de la <strong>masse</strong> $m$ (grandeur scalaire, en kg, invariante quel que soit le lieu) : le poids, lui, varie avec la valeur locale de $g$.' }
+        { term: 'Interaction gravitationnelle', def: 'Interaction attractive s\'exerçant entre deux corps massifs quelconques, quelle que soit la distance qui les sépare. Extrêmement faible à l\'échelle de deux objets du quotidien, elle devient prépondérante à l\'échelle des astres en raison de sa portée infinie.' },
+        { term: 'Loi de gravitation universelle', def: 'Deux masses ponctuelles $m_1$ et $m_2$ séparées par une distance $r$ s\'attirent avec une force de norme $F = G\\dfrac{m_1 m_2}{r^2}$, où $G \\approx 6{,}67\\times10^{-11}$ N·m²·kg⁻².' },
+        { term: 'Principe des actions réciproques', def: 'Troisième loi de Newton : si un corps A exerce une force $\\vec{F}(A\\to B)$ sur un corps B, alors B exerce sur A une force $\\vec{F}(B\\to A)$ de même norme et de même direction, mais de sens opposé — quelles que soient les masses respectives de A et B.' },
+        { term: 'Vecteur champ de gravitation ($\\vec{g}$)', def: 'Grandeur vectorielle créée par une masse $M$ en tout point de l\'espace, dirigée vers $M$, d\'intensité $g = G\\dfrac{M}{r^2}$ (en m/s² ou N/kg). Le poids d\'une masse $m$ placée dans ce champ vaut $\\vec{P} = m\\vec{g}$.' }
       ],
       method: {
-        title: 'Étudier une interaction gravitationnelle en 3 étapes',
+        title: 'Calculer une force ou un champ de gravitation en 3 étapes',
         steps: [
-          '<strong>Identifier</strong> les deux masses en interaction (assimilées à des points matériels) et la distance $d$ qui sépare leurs <strong>centres</strong> (et non leurs surfaces).<br/>Exemple : pour un satellite en orbite, $d$ est la distance entre le centre de la Terre et le satellite, donc $d = R_T + h$ si $h$ est l\'altitude.',
-          '<strong>Appliquer la loi de gravitation universelle</strong> pour calculer la norme de la force : $F = G\\dfrac{m_A \\, m_B}{d^2}$. Cette force est toujours <strong>attractive</strong>, dirigée le long de la droite joignant les deux masses.',
-          'Si besoin, <strong>déduire le champ gravitationnel</strong> créé en ce point ($g = F/m$) ou le <strong>poids</strong> d\'un objet placé dans ce champ ($P = mg$), en veillant à ne jamais confondre la masse (invariante) avec le poids (qui dépend du lieu).'
+          '<strong>Identifier les deux masses</strong> en présence ($m_1$, $m_2$, ou $M$ et $m$) et la distance $r$ qui sépare leurs centres — $r$ se mesure toujours entre les <strong>centres</strong> des corps, jamais entre leurs surfaces.<br/>Exemple : pour un satellite en orbite, $r$ est la distance entre le centre de la Terre et le satellite, pas l\'altitude par rapport au sol.',
+          '<strong>Appliquer la loi de gravitation universelle</strong> $F = G\\dfrac{m_1 m_2}{r^2}$ pour calculer la norme de la force d\'attraction entre deux masses, ou $g = G\\dfrac{M}{r^2}$ pour calculer directement l\'intensité du champ créé par une seule masse $M$.',
+          '<strong>Si nécessaire, en déduire le poids</strong> $P = mg$ d\'un objet de masse $m$ placé dans ce champ, en gardant à l\'esprit que $g$ dépend du lieu (planète, altitude) alors que $m$ reste invariable.'
         ]
       },
       diagram: {
         theme: 'physique',
-        kicker: 'Interaction gravitationnelle entre deux masses',
-        title: 'Principe des actions réciproques appliqué à la gravitation',
-        description: 'Les forces $\\vec{F}_{A/B}$ (exercée par A sur B) et $\\vec{F}_{B/A}$ (exercée par B sur A) sont attractives, dirigées vers l\'autre masse, et ont la <strong>même norme</strong> — quelle que soit la différence entre $m_A$ et $m_B$.',
+        kicker: 'Interaction gravitationnelle (principe des actions réciproques)',
+        title: 'Force d\'attraction mutuelle entre deux masses M et m',
+        description: 'Les forces $\\vec{F}(M\\to m)$ et $\\vec{F}(m\\to M)$ ont la <strong>même norme</strong> et des sens opposés, quelle que soit la différence entre les masses $M$ et $m$. Le vecteur champ $\\vec{g}$, créé par $M$ au niveau de $m$, est colinéaire à la force qu\'il y exerce.',
         svg: `
-          <svg viewBox="0 0 560 300" role="img" aria-labelledby="champgrav-title champgrav-desc">
-            <title id="champgrav-title">Interaction gravitationnelle entre deux masses A et B</title>
-            <desc id="champgrav-desc">Deux corps de masses differentes, A a gauche plus volumineux et B a droite plus petit, sont relies par une ligne pointillee representant la distance d qui separe leurs centres. Une fleche part du centre de A vers la droite, en direction de B, representant la force exercee par B sur A. Une fleche part du centre de B vers la gauche, en direction de A, representant la force exercee par A sur B. Les deux fleches ont exactement la meme longueur, illustrant l'egalite des normes des deux forces malgre la difference de masse entre A et B.</desc>
+          <svg viewBox="0 0 560 300" role="img" aria-labelledby="gravit-title gravit-desc">
+            <title id="gravit-title">Interaction gravitationnelle entre deux masses</title>
+            <desc id="gravit-desc">Une masse M, representee par un grand cercle a gauche, et une masse m, representee par un petit cercle a droite, sont separees par une distance r. Deux fleches de meme longueur partent de chaque masse et pointent l'une vers l'autre : la force exercee par M sur m, et la force exercee par m sur M, illustrant le principe des actions reciproques. Une fleche en pointilles, sous la fleche de force exercee sur m, represente le vecteur champ de gravitation g cree par M au niveau de m, oriente dans la meme direction.</desc>
 
             <defs>
-              <marker id="arrow-phys1re-grav" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+              <marker id="arrow-phy1re-gravit" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
                 <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
               </marker>
             </defs>
 
-            <!-- ligne des centres (distance d) -->
-            <line class="guide-line" x1="150" y1="150" x2="430" y2="150"></line>
+            <!-- masses -->
+            <circle class="frame-line" cx="130" cy="150" r="45" fill="none"></circle>
+            <text class="annotation-label" x="130" y="156" text-anchor="middle">M</text>
+            <circle class="frame-line" cx="430" cy="150" r="12" fill="none"></circle>
+            <text class="annotation-label" x="430" y="177" text-anchor="middle">m</text>
 
-            <!-- masse A (grande) -->
-            <circle class="frame-line" cx="150" cy="150" r="45" fill="none"></circle>
-            <circle class="plot-point" cx="150" cy="150" r="4"></circle>
-            <text class="label-soft" x="150" y="215" text-anchor="middle">A (masse m_A)</text>
+            <!-- cotation distance r -->
+            <line class="frame-line" x1="130" y1="245" x2="130" y2="255"></line>
+            <line class="frame-line" x1="430" y1="245" x2="430" y2="255"></line>
+            <line class="guide-line" x1="130" y1="250" x2="430" y2="250"></line>
+            <text class="tick-label" x="280" y="270" text-anchor="middle">r</text>
 
-            <!-- masse B (petite) -->
-            <circle class="frame-line" cx="430" cy="150" r="20" fill="none"></circle>
-            <circle class="plot-point" cx="430" cy="150" r="4"></circle>
-            <text class="label-soft" x="430" y="190" text-anchor="middle">B (masse m_B)</text>
+            <!-- force sur m (due a M), pointant vers M -->
+            <line class="curve-main" x1="418" y1="150" x2="330" y2="150" marker-end="url(#arrow-phy1re-gravit)"></line>
+            <text class="annotation-label" x="374" y="136" text-anchor="middle">F(M→m)</text>
 
-            <!-- vecteur F(B sur A), part de A vers la droite -->
-            <line class="curve-main" x1="205" y1="150" x2="295" y2="150" marker-end="url(#arrow-phys1re-grav)"></line>
-            <text class="annotation-label" x="250" y="135" text-anchor="middle">F(B→A)</text>
+            <!-- force sur M (due a m), pointant vers m -->
+            <line class="curve-main" x1="175" y1="150" x2="263" y2="150" marker-end="url(#arrow-phy1re-gravit)"></line>
+            <text class="annotation-label" x="219" y="136" text-anchor="middle">F(m→M)</text>
 
-            <!-- vecteur F(A sur B), part de B vers la gauche -->
-            <line class="curve-main" x1="400" y1="150" x2="310" y2="150" marker-end="url(#arrow-phys1re-grav)"></line>
-            <text class="annotation-label" x="355" y="135" text-anchor="middle">F(A→B)</text>
-
-            <!-- cotation distance d -->
-            <line class="frame-line" x1="150" y1="230" x2="150" y2="245"></line>
-            <line class="frame-line" x1="430" y1="230" x2="430" y2="245"></line>
-            <line class="guide-line" x1="150" y1="238" x2="430" y2="238"></line>
-            <text class="tick-label" x="290" y="260" text-anchor="middle">distance d (entre les centres)</text>
+            <!-- vecteur champ g cree par M au niveau de m -->
+            <line class="guide-line" x1="418" y1="195" x2="330" y2="195" marker-end="url(#arrow-phy1re-gravit)"></line>
+            <text class="label-soft" x="374" y="212" text-anchor="middle">g</text>
           </svg>
         `,
         notes: [
-          'Les deux forces sont <strong>colinéaires</strong> à la droite $(AB)$ qui joint les centres des deux masses, et chacune est dirigée <strong>vers l\'autre masse</strong> : l\'interaction gravitationnelle est toujours attractive.',
-          'Les deux flèches ont volontairement la <strong>même longueur</strong> : d\'après le principe des actions réciproques (3ᵉ loi de Newton), $\\vec{F}_{A/B}$ et $\\vec{F}_{B/A}$ ont la même norme $F = G\\dfrac{m_A m_B}{d^2}$, même si $m_A \\neq m_B$.',
-          'Seul l\'<strong>effet</strong> de cette force diffère selon l\'objet : l\'accélération $a = F/m$ qu\'elle produit est plus grande sur l\'objet de masse plus petite (B), à force égale.'
+          'Bien que $M$ soit très supérieure à $m$, les deux forces $\\vec{F}(M\\to m)$ et $\\vec{F}(m\\to M)$ ont exactement la <strong>même norme</strong> : c\'est le principe des actions réciproques, valable quelles que soient les masses en présence.',
+          'Les deux forces sont dirigées <strong>l\'une vers l\'autre</strong>, le long de la droite qui joint les centres des deux masses : l\'interaction gravitationnelle est toujours attractive, jamais répulsive.',
+          'Le vecteur champ de gravitation $\\vec{g}$, créé par $M$ seule au niveau de $m$, est colinéaire et de même sens que $\\vec{F}(M\\to m)$ : c\'est de ce champ que dérive la force subie par $m$, via $\\vec{F}(M\\to m) = m\\vec{g}$.'
         ],
-        reading: 'Repère d\'abord les deux masses A et B reliées par la distance $d$, puis observe que les deux vecteurs force, bien que partant de masses très différentes, ont la même longueur.',
-        caption: 'Interaction gravitationnelle entre deux masses A et B : les forces $\\vec{F}_{A/B}$ et $\\vec{F}_{B/A}$ sont attractives, colinéaires à $(AB)$, et de même norme quelle que soit la différence de masse.'
+        reading: 'Repère les deux flèches pleines de même longueur qui pointent l\'une vers l\'autre : ce sont les deux forces du principe des actions réciproques. La flèche en pointillés en dessous représente le champ $g$ créé par $M$ au niveau de $m$.',
+        caption: 'Deux masses $M$ et $m$ séparées par une distance $r$ s\'attirent avec des forces de même norme et de sens opposés (principe des actions réciproques). Le vecteur champ de gravitation $\\vec{g}$, créé par $M$, est colinéaire à cette force.'
       },
       example: {
-        statement: 'Un satellite de masse $m = 800$ kg orbite à l\'altitude $h = 700$ km au-dessus de la surface terrestre. On donne le rayon terrestre $R_T = 6\\,380$ km, la masse de la Terre $M_T = 5{,}98\\times10^{24}$ kg et $G \\approx 6{,}67\\times10^{-11}$ N·m²/kg².<br/><br/>Calculer la force de gravitation exercée par la Terre sur le satellite, puis le champ gravitationnel $g$ à cette altitude. Comparer à $g_0 \\approx 9{,}81$ N/kg au niveau du sol.',
+        statement: 'Un satellite de masse $m = 800$ kg est en orbite autour de la Terre (masse $M_{Terre} \\approx 5{,}97\\times10^{24}$ kg), à une distance $r = 7{,}0\\times10^6$ m de son centre.<br/><br/>Calculer la force gravitationnelle $F$ exercée par la Terre sur le satellite, puis en déduire l\'intensité $g$ du champ de gravitation terrestre à cette distance.',
         steps: [
-          'La distance entre le centre de la Terre et le satellite est $r = R_T + h = 6\\,380 + 700 = 7\\,080$ km $= 7{,}08\\times10^6$ m (on travaille toujours avec la distance entre les <strong>centres</strong>, pas l\'altitude seule).',
-          'Loi de gravitation universelle : $F = G\\dfrac{M_T \\, m}{r^2} = \\dfrac{6{,}67\\times10^{-11} \\times 5{,}98\\times10^{24} \\times 800}{(7{,}08\\times10^6)^2}$.',
-          'Calcul du numérateur : $6{,}67\\times10^{-11} \\times 5{,}98\\times10^{24} \\times 800 \\approx 3{,}19\\times10^{17}$. Calcul du dénominateur : $(7{,}08\\times10^6)^2 \\approx 5{,}01\\times10^{13}$.',
-          'On obtient $F \\approx \\dfrac{3{,}19\\times10^{17}}{5{,}01\\times10^{13}} \\approx 6{,}36\\times10^3$ N, soit environ $6\\,365$ N.',
-          'Champ gravitationnel à cette altitude : $g = \\dfrac{F}{m} = \\dfrac{6\\,365}{800} \\approx 7{,}96$ N/kg. C\'est bien inférieur à $g_0 \\approx 9{,}81$ N/kg au sol, car le satellite est plus éloigné du centre de la Terre.'
+          'Système : le satellite, assimilé à un point matériel de masse $m = 800$ kg, soumis à l\'attraction gravitationnelle de la Terre (masse $M_{Terre} \\approx 5{,}97\\times10^{24}$ kg) à une distance $r = 7{,}0\\times10^6$ m de son centre.',
+          'Loi de gravitation universelle : $F = G\\dfrac{M_{Terre} \\times m}{r^2} = 6{,}67\\times10^{-11} \\times \\dfrac{5{,}97\\times10^{24} \\times 800}{(7{,}0\\times10^6)^2}$.',
+          'Calcul du numérateur : $6{,}67\\times10^{-11} \\times 5{,}97\\times10^{24} \\times 800 \\approx 3{,}19\\times10^{17}$. Calcul du dénominateur : $(7{,}0\\times10^6)^2 = 4{,}9\\times10^{13}$.',
+          'Résultat : $F \\approx \\dfrac{3{,}19\\times10^{17}}{4{,}9\\times10^{13}} \\approx 6{,}50\\times10^3$ N, soit environ $6\\,501$ N.',
+          'Le champ de gravitation à cette distance vaut $g = \\dfrac{F}{m} = \\dfrac{6\\,501}{800} \\approx 8{,}13$ m/s².'
         ],
-        answer: '$F \\approx 6\\,365$ N et $g \\approx 7{,}96$ N/kg à $700$ km d\'altitude, contre $9{,}81$ N/kg au sol. Le champ gravitationnel <strong>diminue avec l\'altitude</strong>, ce qui explique pourquoi les astronautes en orbite basse ne sont pas en apesanteur totale : ils subissent encore l\'essentiel de la pesanteur terrestre, mais sont en <strong>chute libre permanente</strong> autour de la Terre.'
+        answer: '$F \\approx 6{,}50\\times10^3$ N et $g \\approx 8{,}13$ m/s². Ce champ est plus faible qu\'à la surface de la Terre ($9{,}81$ m/s²), car le satellite en est plus éloigné : le champ de gravitation décroît avec le carré de la distance.'
       },
       formulas: [
-        'Loi de gravitation universelle : $F = G\\dfrac{m_A \\, m_B}{d^2}$, avec $G \\approx 6{,}67\\times10^{-11}$ N·m²/kg²',
-        'Champ gravitationnel : $\\vec{g}(M) = \\dfrac{\\vec{F}}{m}$ (en N/kg)',
-        'Champ créé par une masse $M$ à distance $r$ de son centre : $g(r) = G\\dfrac{M}{r^2}$',
-        'Poids : $\\vec{P} = m\\vec{g}$ (en N)',
-        'Champ de pesanteur terrestre standard : $g_0 \\approx 9{,}81$ N/kg (au niveau de la mer)'
+        '$F = G\\dfrac{m_1 m_2}{r^2}$ (loi de gravitation universelle), avec $G \\approx 6{,}67\\times10^{-11}$ N·m²·kg⁻²',
+        'Principe des actions réciproques : $\\vec{F}(A\\to B) = -\\vec{F}(B\\to A)$ (même norme, sens opposé)',
+        'Champ de gravitation créé par une masse $M$ : $g = G\\dfrac{M}{r^2}$',
+        'Poids : $\\vec{P} = m\\vec{g}$, soit $P = mg$'
       ],
       recap: [
-        'L\'interaction gravitationnelle est toujours <strong>attractive</strong>, proportionnelle au produit des masses et inversement proportionnelle au <strong>carré</strong> de la distance qui les sépare.',
-        'Le champ gravitationnel $\\vec{g}$ est une grandeur vectorielle définie en tout point de l\'espace, <strong>indépendante</strong> de la masse test qui viendrait le subir.',
-        'La masse (en kg) est une propriété <strong>intrinsèque</strong> et invariante de l\'objet ; le poids (en N), lui, dépend du champ $\\vec{g}$ local et varie donc selon le lieu.',
-        'D\'après le principe des actions réciproques, $\\vec{F}_{A/B}$ et $\\vec{F}_{B/A}$ ont toujours la <strong>même norme</strong>, quelle que soit la différence entre $m_A$ et $m_B$.'
+        'L\'interaction gravitationnelle est <strong>toujours attractive</strong> et de <strong>portée infinie</strong> : négligeable à l\'échelle du quotidien, elle domine à l\'échelle astronomique.',
+        'D\'après le <strong>principe des actions réciproques</strong>, la force qu\'exerce A sur B a exactement la même norme que celle qu\'exerce B sur A, même si leurs masses sont très différentes.',
+        'Le champ de gravitation $g = G\\dfrac{M}{r^2}$ décroît avec le <strong>carré de la distance</strong> et ne dépend que de la masse $M$ qui le crée, jamais de la masse de l\'objet qui le subit.',
+        'Le poids $P = mg$ n\'est pas une propriété intrinsèque de l\'objet : il varie avec le lieu, contrairement à la masse $m$, qui reste invariable.'
       ],
-      piege: 'Une confusion fréquente consiste à croire que la Terre, bien plus massive, exerce une force plus grande sur un objet que celle que cet objet exerce en retour sur la Terre. Attention, le principe des actions réciproques impose que ces deux forces aient exactement la <strong>même norme</strong>, quelle que soit la différence de masse entre les deux objets — seul leur effet diffère, car l\'accélération produite ($a = F/m$) dépend, elle, de la masse de chaque objet.'
+      piege: 'Une erreur fréquente est de confondre la masse $m$ d\'un objet, propriété intrinsèque exprimée en kilogrammes, avec son poids $P=mg$, une force exprimée en newtons qui dépend du champ de gravitation local. Attention à ne jamais confondre les deux dans un calcul : la masse d\'un astronaute reste rigoureusement la même sur la Lune, alors que son poids y devient environ six fois plus faible que sur Terre.'
     },
 
     quiz: [
       {
-        q: 'La Terre (masse $M_T \\approx 5{,}98\\times10^{24}$ kg) et la Lune (masse $M_L \\approx 7{,}35\\times10^{22}$ kg) s\'attirent mutuellement. Comment se comparent la force exercée par la Terre sur la Lune et celle exercée par la Lune sur la Terre ?',
+        q: 'Deux masses ponctuelles s\'attirent avec une force gravitationnelle de norme $F$. Si la distance $r$ qui les sépare est doublée (les masses restant inchangées), que devient cette force ?',
         options: [
-          'La force de la Terre sur la Lune est bien plus grande, car la Terre est bien plus massive',
-          'Les deux forces ont exactement la même norme, d\'après le principe des actions réciproques',
-          'La force de la Lune sur la Terre est plus grande, car la Lune est plus proche',
-          'On ne peut pas comparer ces deux forces sans connaître la distance Terre-Lune'
-        ],
-        answer: 1,
-        correction: 'D\'après le principe des actions réciproques (3ᵉ loi de Newton), $\\vec{F}_{Terre/Lune}$ et $\\vec{F}_{Lune/Terre}$ ont toujours la <strong>même norme</strong>, quelle que soit la différence de masse entre les deux astres. Seule l\'accélération produite diffère : la Lune, moins massive, subit une accélération bien plus grande que la Terre pour une même force.'
-      },
-      {
-        q: 'Deux masses ponctuelles $m_A = 50$ kg et $m_B = 2$ kg sont séparées d\'une distance $d = 1$ m. Avec $G \\approx 6{,}67\\times10^{-11}$ N·m²/kg², quelle est la norme de la force d\'attraction entre elles ?',
-        options: [
-          '$F \\approx 6{,}67\\times10^{-9}$ N',
-          '$F \\approx 6{,}67\\times10^{-11}$ N',
-          '$F \\approx 3{,}34\\times10^{-9}$ N',
-          '$F \\approx 100$ N'
+          'Elle est divisée par 4',
+          'Elle est divisée par 2',
+          'Elle est multipliée par 2',
+          'Elle reste inchangée'
         ],
         answer: 0,
-        correction: '$F = G\\dfrac{m_A m_B}{d^2} = 6{,}67\\times10^{-11} \\times \\dfrac{50 \\times 2}{1^2} = 6{,}67\\times10^{-11} \\times 100 = 6{,}67\\times10^{-9}$ N. Cette force est extrêmement faible pour des objets courants : la gravitation n\'est perceptible qu\'avec des masses considérables, comme celle d\'une planète.'
+        correction: 'La loi de gravitation universelle donne $F = G\\dfrac{m_1 m_2}{r^2}$ : la force est inversement proportionnelle au <strong>carré</strong> de la distance. En doublant $r$, on multiplie $r^2$ par 4, donc $F$ est divisée par 4.'
       },
       {
-        q: 'Un astronaute en orbite autour de la Terre semble « flotter » dans sa station spatiale. Quelle affirmation est correcte ?',
+        q: 'Un satellite de masse $m = 500$ kg est attiré par la Terre (masse $M$, avec $M \\gg m$) avec une force de norme $F$. Quelle est la norme de la force exercée par le satellite sur la Terre ?',
         options: [
-          'Il n\'y a plus aucune gravité à cette altitude',
-          'Le champ gravitationnel y est quasiment nul',
-          'Le champ gravitationnel y est encore proche de sa valeur au sol ; l\'astronaute est en chute libre permanente avec la station',
-          'La Terre n\'exerce plus d\'attraction au-delà de son atmosphère'
+          '$F$, exactement la même norme',
+          'Une force quasiment nulle, car la Terre est bien plus massive',
+          '$\\dfrac{F}{1000}$, proportionnellement au rapport des masses',
+          'Une force qui dépend de la vitesse du satellite'
         ],
-        answer: 2,
-        correction: 'À l\'altitude typique de la Station spatiale internationale (environ 400 km), le champ gravitationnel terrestre reste proche de $90\\%$ de sa valeur au sol. L\'impression d\'apesanteur vient du fait que la station et tout ce qu\'elle contient sont en <strong>chute libre permanente</strong> autour de la Terre, pas de l\'absence de gravité.'
+        answer: 0,
+        correction: 'D\'après le <strong>principe des actions réciproques</strong>, les deux forces d\'un couple d\'interaction ont toujours la même norme, quelle que soit la différence de masse entre les deux corps. La Terre attire le satellite exactement avec la même intensité que le satellite attire la Terre — seule l\'accélération qui en résulte diffère, car elle dépend de la masse de chaque corps ($a = F/m$).'
+      },
+      {
+        q: 'Deux petites sphères de masses $m_1 = 2\\,000$ kg et $m_2 = 1\\,000$ kg, séparées par une distance $r = 10$ m, s\'attirent gravitationnellement. Quel est l\'ordre de grandeur de la force $F$ (avec $G \\approx 6{,}67\\times10^{-11}$ N·m²·kg⁻²) ?',
+        options: [
+          '$F \\approx 1{,}33\\times10^{-6}$ N',
+          '$F \\approx 1{,}33\\times10^{-2}$ N',
+          '$F \\approx 13{,}3$ N',
+          '$F \\approx 1{,}33\\times10^{6}$ N'
+        ],
+        answer: 0,
+        correction: '$F = G\\dfrac{m_1 m_2}{r^2} = 6{,}67\\times10^{-11}\\times\\dfrac{2\\,000\\times1\\,000}{10^2} \\approx 1{,}33\\times10^{-6}$ N. Cette force est totalement imperceptible : c\'est pour cela que l\'on ne ressent jamais l\'attraction gravitationnelle entre des objets du quotidien, seule celle des astres, bien plus massifs, est perceptible.'
       }
     ],
 
@@ -148,60 +144,57 @@ window.MODULES.push({
         var typeExo = pick(['force', 'champ']);
 
         if (typeExo === 'force') {
-          var mA = rand(20, 90) * 10;
-          var mB = rand(1, 20);
-          var d = randFloat(0.5, 3, 1);
+          var rKm = pick([6700, 7000, 8000, 10000, 15000, 20000, 30000, 42000]);
+          var rM = rKm * 1000;
+          var mSat = pick([250, 400, 600, 800, 1200, 1500, 2000]);
+          var Mt = 5.97e24;
           var G = 6.67e-11;
-          var F = G * mA * mB / (d * d);
-          var expF = Math.floor(Math.log10(F));
-          var mantF = parseFloat((F / Math.pow(10, expF)).toFixed(2));
-          if (mantF >= 10) { mantF = parseFloat((mantF / 10).toFixed(2)); expF += 1; }
-          var Fdisplay = fr(mantF, 2) + ' \\times 10^{' + expF + '}';
+          var F = G * Mt * mSat / (rM * rM);
+          var Fround = parseFloat(F.toFixed(1));
+          var tol = parseFloat(Math.max(1, Fround * 0.05).toFixed(1));
           var contexte = pick([
-            'deux masses posées sur un banc d\'essai de laboratoire',
-            'deux sphères métalliques utilisées dans une expérience de gravitation',
-            'un bloc de béton et un objet test suspendu à proximité',
-            'deux masses étalons dans une salle de mesure de précision'
+            'un satellite de télécommunication',
+            'un satellite météorologique',
+            'un satellite d\'observation de la Terre',
+            'un satellite GPS',
+            'une capsule en orbite'
           ]);
           return {
-            statement: 'Dans ' + contexte + ', deux masses ponctuelles $m_A = ' + mA + '$ kg et $m_B = ' + mB + '$ kg sont séparées d\'une distance $d = ' + fr(d, 1) + '$ m.<br/><br/>Avec $G \\approx 6{,}67\\times10^{-11}$ N·m²/kg², calcule la norme $F$ de la force d\'attraction gravitationnelle entre ces deux masses (en N, en notation scientifique, arrondie à deux chiffres significatifs).',
-            answer: F,
-            tolerance: F * 0.05,
+            statement: 'Dans le cas de ' + contexte + ', assimilé à un point matériel de masse $m = ' + mSat + '$ kg, en orbite à une distance $r = ' + rKm + '\\,000$ m du centre de la Terre (masse $M_{Terre} \\approx 5{,}97\\times10^{24}$ kg).<br/><br/>Calcule la force gravitationnelle $F$ exercée par la Terre sur ce satellite (en N, arrondie au dixième), avec $G \\approx 6{,}67\\times10^{-11}$ N·m²·kg⁻².',
+            answer: Fround,
+            tolerance: tol,
             unit: 'N',
-            hint: 'Utilise la loi de gravitation universelle $F = G\\dfrac{m_A m_B}{d^2}$, en veillant à bien élever $d$ au carré.',
+            hint: 'Utilise la loi de gravitation universelle $F = G\\dfrac{M_{Terre} \\times m}{r^2}$.',
             solution: [
-              'Loi de gravitation universelle : $F = G\\dfrac{m_A \\, m_B}{d^2}$.',
-              'Application numérique : $F = 6{,}67\\times10^{-11} \\times \\dfrac{' + mA + ' \\times ' + mB + '}{' + fr(d, 1) + '^2}$.',
-              'Produit des masses : $' + mA + ' \\times ' + mB + ' = ' + (mA * mB) + '$. Carré de la distance : $' + fr(d, 1) + '^2 = ' + fr(parseFloat((d * d).toFixed(2)), 2) + '$.',
-              'Résultat : $F \\approx ' + Fdisplay + '$ N, une force extrêmement faible à l\'échelle de ces masses.'
+              'Loi de gravitation universelle : $F = G\\dfrac{M_{Terre} \\times m}{r^2}$, avec $G \\approx 6{,}67\\times10^{-11}$ N·m²·kg⁻² et $M_{Terre} \\approx 5{,}97\\times10^{24}$ kg.',
+              'Distance en mètres : $r = ' + rKm + '\\,000 = ' + rM + '$ m (mesurée depuis le centre de la Terre, pas depuis le sol).',
+              'Application numérique : $F = 6{,}67\\times10^{-11} \\times \\dfrac{5{,}97\\times10^{24} \\times ' + mSat + '}{' + rM + '^2}$.',
+              'Résultat : $F \\approx ' + fr(Fround, 1) + '$ N.'
             ]
           };
         } else {
-          var Mmant = randFloat(3, 8, 2);
-          var M = Mmant * 1e24;
-          var rMant = randFloat(6, 8, 2);
-          var r = rMant * 1e6;
+          var astres = [
+            { nom: 'la Lune', Mm: 7.35, Me: 22, M: 7.35e22, Rm: 1.74, Re: 6, R: 1.74e6 },
+            { nom: 'Mars', Mm: 6.42, Me: 23, M: 6.42e23, Rm: 3.39, Re: 6, R: 3.39e6 },
+            { nom: 'Vénus', Mm: 4.87, Me: 24, M: 4.87e24, Rm: 6.05, Re: 6, R: 6.05e6 },
+            { nom: 'Mercure', Mm: 3.30, Me: 23, M: 3.30e23, Rm: 2.44, Re: 6, R: 2.44e6 },
+            { nom: 'Titan (lune de Saturne)', Mm: 1.35, Me: 23, M: 1.35e23, Rm: 2.57, Re: 6, R: 2.57e6 }
+          ];
+          var astre = pick(astres);
           var G2 = 6.67e-11;
-          var g = G2 * M / (r * r);
-          var gRounded = parseFloat(g.toFixed(2));
-          var Mdisplay = fr(Mmant, 2) + ' \\times 10^{24}';
-          var rDisplay = fr(rMant, 2) + ' \\times 10^{6}';
-          var astre = pick([
-            'une planète en cours d\'étude par une sonde spatiale',
-            'un astre observé lors d\'une mission d\'exploration',
-            'une exoplanète modélisée en cours de physique',
-            'un corps céleste étudié pour une future mission habitée'
-          ]);
+          var g = G2 * astre.M / (astre.R * astre.R);
+          var gRound = parseFloat(g.toFixed(2));
+          var tol2 = parseFloat(Math.max(0.05, gRound * 0.05).toFixed(2));
           return {
-            statement: 'Pour ' + astre + ' de masse $M = ' + Mdisplay + '$ kg, on souhaite calculer le champ gravitationnel à une distance $r = ' + rDisplay + '$ m de son centre.<br/><br/>Avec $G \\approx 6{,}67\\times10^{-11}$ N·m²/kg², calcule la valeur du champ gravitationnel $g$ à cette distance (en N/kg, arrondie au centième).',
-            answer: gRounded,
-            tolerance: Math.max(0.05, gRounded * 0.03),
-            unit: 'N/kg',
-            hint: 'Utilise $g(r) = G\\dfrac{M}{r^2}$, la formule du champ créé par une masse $M$ à distance $r$ de son centre.',
+            statement: 'À la surface de ' + astre.nom + ', assimilée à une sphère homogène de rayon $R = ' + fr(astre.Rm, 2) + '\\times10^{' + astre.Re + '}$ m et de masse $M = ' + fr(astre.Mm, 2) + '\\times10^{' + astre.Me + '}$ kg.<br/><br/>Calcule l\'intensité $g$ du champ de gravitation à la surface de cet astre (en m/s², arrondie au centième), à l\'aide de $G \\approx 6{,}67\\times10^{-11}$ N·m²·kg⁻².',
+            answer: gRound,
+            tolerance: tol2,
+            unit: 'm/s²',
+            hint: 'Le champ de gravitation créé par un astre à sa surface vaut $g = G\\dfrac{M}{R^2}$.',
             solution: [
-              'Formule du champ gravitationnel : $g(r) = G\\dfrac{M}{r^2}$.',
-              'On élève d\'abord $r$ au carré, puis on multiplie $G$ par $M$ avant de diviser par $r^2$.',
-              'Résultat : $g \\approx ' + fr(gRounded, 2) + '$ N/kg.'
+              'Champ de gravitation créé par un astre à sa surface : $g = G\\dfrac{M}{R^2}$.',
+              'Application numérique : $g = 6{,}67\\times10^{-11} \\times \\dfrac{' + fr(astre.Mm, 2) + '\\times10^{' + astre.Me + '}}{(' + fr(astre.Rm, 2) + '\\times10^{' + astre.Re + '})^2}$.',
+              'Résultat : $g \\approx ' + fr(gRound, 2) + '$ m/s², à comparer à $g_{Terre} \\approx 9{,}81$ m/s².'
             ]
           };
         }
@@ -209,18 +202,18 @@ window.MODULES.push({
     },
 
     probleme: {
-      context: 'On souhaite comparer le poids d\'un astronaute de masse $m = 75$ kg à la surface de la Terre et à la surface de la Lune. On donne : $G \\approx 6{,}67\\times10^{-11}$ N·m²/kg², masse de la Terre $M_T = 5{,}98\\times10^{24}$ kg et rayon terrestre $R_T = 6{,}38\\times10^6$ m ; masse de la Lune $M_L = 7{,}35\\times10^{22}$ kg et rayon lunaire $R_L = 1{,}74\\times10^6$ m.',
+      context: 'Un astronaute de masse $m = 75$ kg s\'entraîne avant une mission lunaire. Sur Terre, le champ de gravitation vaut $g_{Terre} = 9{,}81$ m/s². Sur la Lune, assimilée à une sphère homogène de masse $M_L = 7{,}35\\times10^{22}$ kg et de rayon $R_L = 1{,}74\\times10^6$ m, le champ de gravitation $g_L$ est nettement plus faible (avec $G \\approx 6{,}67\\times10^{-11}$ N·m²·kg⁻²).',
       tasks: [
-        'Calculer le champ gravitationnel $g_T$ à la surface de la Terre, à partir de $M_T$ et $R_T$.',
-        'Calculer le champ gravitationnel $g_L$ à la surface de la Lune, à partir de $M_L$ et $R_L$.',
-        'En déduire le poids de l\'astronaute sur Terre puis sur la Lune, et comparer sa masse dans les deux cas.'
+        'Calculer le poids $P_{Terre}$ de l\'astronaute sur Terre.',
+        'Calculer le champ de gravitation $g_L$ à la surface de la Lune à partir de $M_L$ et $R_L$.',
+        'En déduire le poids $P_L$ de l\'astronaute sur la Lune, puis comparer $P_{Terre}$ et $P_L$ (calculer le rapport $P_{Terre}/P_L$).'
       ],
       solutions: [
-        '$g_T = G\\dfrac{M_T}{R_T^2} = \\dfrac{6{,}67\\times10^{-11} \\times 5{,}98\\times10^{24}}{(6{,}38\\times10^6)^2} = \\dfrac{3{,}99\\times10^{14}}{4{,}07\\times10^{13}} \\approx 9{,}80$ N/kg, très proche de la valeur standard $g_0 \\approx 9{,}81$ N/kg.',
-        '$g_L = G\\dfrac{M_L}{R_L^2} = \\dfrac{6{,}67\\times10^{-11} \\times 7{,}35\\times10^{22}}{(1{,}74\\times10^6)^2} = \\dfrac{4{,}90\\times10^{12}}{3{,}03\\times10^{12}} \\approx 1{,}62$ N/kg.',
-        'Poids sur Terre : $P_T = m \\times g_T = 75 \\times 9{,}80 \\approx 735$ N. Poids sur la Lune : $P_L = m \\times g_L = 75 \\times 1{,}62 \\approx 121{,}5$ N. La <strong>masse</strong> de l\'astronaute, elle, reste $m = 75$ kg dans les deux cas : elle ne dépend pas du lieu, contrairement au poids.'
+        '$P_{Terre} = m \\times g_{Terre} = 75 \\times 9{,}81 = 735{,}75$ N.',
+        '$g_L = G\\dfrac{M_L}{R_L^2} = 6{,}67\\times10^{-11}\\times\\dfrac{7{,}35\\times10^{22}}{(1{,}74\\times10^6)^2} \\approx 1{,}62$ m/s².',
+        '$P_L = m \\times g_L \\approx 75 \\times 1{,}62 \\approx 121{,}5$ N. Rapport $\\dfrac{P_{Terre}}{P_L} \\approx \\dfrac{735{,}75}{121{,}5} \\approx 6{,}06$ : le poids de l\'astronaute est environ <strong>6 fois plus faible</strong> sur la Lune que sur Terre.'
       ],
-      finalAnswer: '$g_L \\approx 1{,}62$ N/kg, environ $6$ fois plus faible que $g_T \\approx 9{,}80$ N/kg. Le poids de l\'astronaute passe donc d\'environ $735$ N sur Terre à environ $121{,}5$ N sur la Lune, alors que sa masse reste rigoureusement identique ($75$ kg) : c\'est ce qui permet aux astronautes d\'effectuer de grands bonds sur la Lune.'
+      finalAnswer: '$P_{Terre} \\approx 735{,}75$ N, $g_L \\approx 1{,}62$ m/s², $P_L \\approx 121{,}5$ N : le poids de l\'astronaute sur la Lune est environ 6 fois plus faible que sur Terre, alors que sa masse (75 kg) reste rigoureusement identique — seul le champ de gravitation local a changé.'
     },
 
     evaluation: {
@@ -228,57 +221,57 @@ window.MODULES.push({
       duration: '30 min',
       questions: [
         {
-          statement: 'Deux masses ponctuelles $m_A = 10$ kg et $m_B = 5$ kg sont séparées d\'une distance $d = 2$ m. Calculer la norme de la force de gravitation entre elles (en N, notation scientifique, avec $G \\approx 6{,}67\\times10^{-11}$ N·m²/kg²).',
+          statement: 'Un satellite de masse $m = 1\\,000$ kg orbite à une distance $r = 8{,}0\\times10^6$ m du centre de la Terre ($M_{Terre} \\approx 5{,}97\\times10^{24}$ kg). Calculer la force gravitationnelle $F$ exercée par la Terre sur ce satellite (en N, arrondie à l\'unité).',
           type: 'numeric',
-          answer: 8.34e-10,
-          tolerance: 1e-10,
+          answer: 6222,
+          tolerance: 100,
           unit: 'N',
           points: 2,
-          correction: '$F = G\\dfrac{m_A m_B}{d^2} = 6{,}67\\times10^{-11} \\times \\dfrac{10 \\times 5}{2^2} = 6{,}67\\times10^{-11} \\times 12{,}5 \\approx 8{,}34\\times10^{-10}$ N.'
+          correction: '$F = G\\dfrac{M_{Terre}\\times m}{r^2} = 6{,}67\\times10^{-11}\\times\\dfrac{5{,}97\\times10^{24}\\times1\\,000}{(8{,}0\\times10^6)^2} \\approx 6\\,222$ N.'
         },
         {
-          statement: 'Le champ gravitationnel $\\vec{g}$ en un point de l\'espace est défini par :',
+          statement: 'Le principe des actions réciproques appliqué à l\'attraction gravitationnelle entre la Terre et la Lune affirme que :',
           type: 'multiple-choice',
           options: [
-            '$\\vec{g} = m \\vec{F}$',
-            '$\\vec{g} = \\dfrac{\\vec{F}}{m}$',
-            '$\\vec{g} = \\vec{F} + m$',
-            '$\\vec{g} = G \\times m$'
+            'La force exercée par la Terre sur la Lune a la même norme que celle exercée par la Lune sur la Terre',
+            'La Terre attire la Lune, mais la Lune n\'attire pas la Terre',
+            'La force dépend uniquement de la masse de la Terre',
+            'Les deux forces ont la même direction mais des normes différentes, proportionnelles aux masses'
           ],
-          answer: 1,
+          answer: 0,
           points: 2,
-          correction: 'Le champ gravitationnel est défini comme le rapport de la force gravitationnelle subie par la masse test : $\\vec{g} = \\dfrac{\\vec{F}}{m}$. C\'est une grandeur vectorielle indépendante de la masse test elle-même.'
+          correction: 'Le principe des actions réciproques (3e loi de Newton) impose que les deux forces d\'un couple d\'interaction aient toujours la <strong>même norme</strong>, quelles que soient les masses en présence.'
         },
         {
-          statement: 'Une planète a une masse $M = 4{,}0\\times10^{23}$ kg et un rayon $R = 3{,}0\\times10^6$ m. Calculer le champ gravitationnel à sa surface (en N/kg, arrondi au centième).',
+          statement: 'La distance $r$ entre la Terre et un satellite est multipliée par $1{,}5$, sans changement des masses en présence. Par quel facteur est alors multipliée la force gravitationnelle entre les deux ?',
+          type: 'multiple-choice',
+          options: [
+            'Par un facteur $\\dfrac{1}{1{,}5^2} \\approx 0{,}44$ (elle diminue)',
+            'Par un facteur $1{,}5$ (elle augmente)',
+            'Par un facteur $\\dfrac{1}{1{,}5} \\approx 0{,}67$',
+            'Elle ne change pas, car les masses sont inchangées'
+          ],
+          answer: 0,
+          points: 2,
+          correction: 'Comme $F \\propto \\dfrac{1}{r^2}$, multiplier $r$ par $1{,}5$ revient à diviser $F$ par $1{,}5^2 = 2{,}25$, soit à la multiplier par $\\dfrac{1}{2{,}25} \\approx 0{,}44$ : la force diminue, alors que les masses n\'ont pourtant pas changé.'
+        },
+        {
+          statement: 'Mars peut être assimilée à une sphère homogène de masse $M = 6{,}42\\times10^{23}$ kg et de rayon $R = 3{,}39\\times10^6$ m. Calculer l\'intensité du champ de gravitation $g_{Mars}$ à sa surface (en m/s², arrondie au centième).',
           type: 'numeric',
-          answer: 2.96,
+          answer: 3.73,
           tolerance: 0.1,
-          unit: 'N/kg',
-          points: 3,
-          correction: '$g = G\\dfrac{M}{R^2} = \\dfrac{6{,}67\\times10^{-11} \\times 4{,}0\\times10^{23}}{(3{,}0\\times10^6)^2} = \\dfrac{2{,}668\\times10^{13}}{9{,}0\\times10^{12}} \\approx 2{,}96$ N/kg.'
+          unit: 'm/s²',
+          points: 2,
+          correction: '$g_{Mars} = G\\dfrac{M}{R^2} = 6{,}67\\times10^{-11}\\times\\dfrac{6{,}42\\times10^{23}}{(3{,}39\\times10^6)^2} \\approx 3{,}73$ m/s².'
         },
         {
-          statement: 'Un objet de masse $m = 60$ kg se trouve dans un lieu où le champ gravitationnel vaut $g = 3{,}7$ N/kg (surface de Mars). Calculer son poids à cet endroit (en N).',
+          statement: 'Sur la Lune, où $g_L \\approx 1{,}62$ m/s², calculer le poids $P$ d\'un objet de masse $m = 60$ kg (en N, arrondi au dixième).',
           type: 'numeric',
-          answer: 222,
-          tolerance: 2,
+          answer: 97.2,
+          tolerance: 3,
           unit: 'N',
           points: 2,
-          correction: '$P = m \\times g = 60 \\times 3{,}7 = 222$ N. Attention à ne pas confondre ce résultat avec la masse de l\'objet, qui reste $60$ kg quel que soit le lieu.'
-        },
-        {
-          statement: 'D\'après le principe des actions réciproques, si un camion et une voiture entrent en collision, la force exercée par le camion sur la voiture, comparée à celle exercée par la voiture sur le camion, est :',
-          type: 'multiple-choice',
-          options: [
-            'Beaucoup plus grande, car le camion est plus massif',
-            'Beaucoup plus faible, car le camion est plus rigide',
-            'De même norme, mais de sens opposé',
-            'Nulle, car seul le camion agit sur la voiture'
-          ],
-          answer: 2,
-          points: 1,
-          correction: 'Le principe des actions réciproques s\'applique à toute interaction entre deux corps, pas seulement à la gravitation : les deux forces ont toujours la <strong>même norme</strong> et des sens opposés, quelles que soient les masses en jeu.'
+          correction: '$P = m \\times g_L = 60 \\times 1{,}62 = 97{,}2$ N — un poids bien plus faible que sur Terre ($60\\times9{,}81\\approx588{,}6$ N), bien que la masse de l\'objet n\'ait pas changé.'
         }
       ]
     }

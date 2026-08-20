@@ -50,41 +50,46 @@
         title: 'Repérer visuellement l\'hypoténuse et choisir la bonne formule',
         description: 'Le côté opposé à l\'angle droit décide toute la suite : si c\'est lui qu\'on cherche, on additionne ; sinon on soustrait.',
         svg: `
-          <svg viewBox="0 0 360 240" role="img" aria-labelledby="pythagore-graph-title pythagore-graph-desc">
+          <!-- Triangle A(86,224) B(86,80) C(194,224) : 1 unite = 36 px, donc
+               AB = 144 px = 4, AC = 108 px = 3, BC = 180 px = 5. Le trace suit
+               desormais ses propres etiquettes. La version precedente dessinait
+               le cote « b = 3 » 1,57 fois PLUS LONG que le cote « a = 4 » : un
+               eleve qui mesurait a la regle lisait l'inverse de l'enonce. -->
+          <svg viewBox="0 0 360 262" role="img" aria-labelledby="pythagore-graph-title pythagore-graph-desc">
             <title id="pythagore-graph-title">Triangle rectangle pour le theoreme de Pythagore</title>
-            <desc id="pythagore-graph-desc">Le schema montre un triangle rectangle 3 4 5 avec l'hypotenuse en evidence et les deux formules utiles selon l'inconnue.</desc>
-            <line class="grid-line" x1="34" y1="190" x2="330" y2="190"></line>
-            <polygon points="78,182 78,74 248,182" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></polygon>
-            <line class="frame-line" x1="78" y1="182" x2="78" y2="74"></line>
-            <line class="frame-line" x1="78" y1="182" x2="248" y2="182"></line>
-            <line class="curve-main" x1="78" y1="74" x2="248" y2="182"></line>
-            <path class="axis" d="M78 168 L92 168 L92 182"></path>
-            <circle class="plot-point-alt" cx="78" cy="182" r="5"></circle>
-            <circle class="plot-point-alt" cx="78" cy="74" r="5"></circle>
-            <circle class="plot-point" cx="248" cy="182" r="5"></circle>
-            <text class="annotation-label" x="64" y="198">A</text>
-            <text class="annotation-label" x="64" y="68">B</text>
-            <text class="annotation-label" x="254" y="198">C</text>
-            <text class="annotation-label" x="44" y="132">a = 4</text>
-            <text class="annotation-label" x="142" y="205">b = 3</text>
-            <text class="annotation-label" x="164" y="118">c = 5</text>
-            <text class="annotation-label" x="146" y="56">Hypotenuse</text>
-            <line class="guide-line" x1="182" y1="60" x2="188" y2="100"></line>
-            <rect x="26" y="18" width="126" height="38" rx="12" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
-            <text class="annotation-label" x="40" y="42">Chercher c :</text>
-            <text class="tick-label" x="108" y="42">c^2 = a^2 + b^2</text>
-            <rect x="198" y="18" width="136" height="38" rx="12" fill="color-mix(in srgb, var(--accent) 14%, var(--bg-card))" stroke="color-mix(in srgb, var(--accent) 38%, var(--border))"></rect>
-            <text class="annotation-label" x="212" y="42">Chercher a ou b :</text>
-            <text class="tick-label" x="304" y="42">a^2 = c^2 - b^2</text>
+            <desc id="pythagore-graph-desc">Le schema montre un triangle rectangle 3 4 5 trace a l'echelle, angle droit en A, avec l'hypotenuse en evidence et les deux formules utiles selon l'inconnue.</desc>
+            <line class="grid-line" x1="40" y1="232" x2="330" y2="232"></line>
+            <polygon points="86,224 86,80 194,224" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></polygon>
+            <line class="frame-line" x1="86" y1="224" x2="86" y2="80"></line>
+            <line class="frame-line" x1="86" y1="224" x2="194" y2="224"></line>
+            <line class="curve-main" x1="86" y1="80" x2="194" y2="224"></line>
+            <path class="axis" d="M86 210 L100 210 L100 224"></path>
+            <circle class="plot-point-alt" cx="86" cy="224" r="5"></circle>
+            <circle class="plot-point-alt" cx="86" cy="80" r="5"></circle>
+            <circle class="plot-point" cx="194" cy="224" r="5"></circle>
+            <text class="annotation-label" x="70" y="242">A</text>
+            <text class="annotation-label" x="70" y="74">B</text>
+            <text class="annotation-label" x="202" y="242">C</text>
+            <text class="annotation-label" x="40" y="158">a = 4</text>
+            <text class="annotation-label" x="118" y="248">b = 3</text>
+            <text class="annotation-label" x="150" y="142">c = 5</text>
+            <text class="annotation-label" x="232" y="126">Hypoténuse</text>
+            <line class="guide-line" x1="228" y1="132" x2="150" y2="156"></line>
+            <rect x="20" y="10" width="150" height="46" rx="12" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
+            <text class="annotation-label" x="32" y="30">Chercher c :</text>
+            <text class="tick-label" x="32" y="47">c² = a² + b²</text>
+            <rect x="190" y="10" width="156" height="46" rx="12" fill="color-mix(in srgb, var(--accent) 14%, var(--bg-card))" stroke="color-mix(in srgb, var(--accent) 38%, var(--border))"></rect>
+            <text class="annotation-label" x="202" y="30">Chercher a ou b :</text>
+            <text class="tick-label" x="202" y="47">a² = c² − b²</text>
           </svg>
         `,
         notes: [
-          'L\'hypotenuse est le seul cote oppose a l\'angle droit. C\'est aussi le plus long cote du triangle.',
-          'Si l\'inconnue est l\'hypotenuse $c$, on additionne les carres des deux autres cotes.',
-          'Si l\'inconnue est un petit cote, on isole son carre puis on soustrait le carre du cote connu a celui de l\'hypotenuse.'
+          'L\'hypoténuse est le seul côté opposé à l\'angle droit. C\'est aussi le plus long côté du triangle.',
+          'Si l\'inconnue est l\'hypoténuse $c$, on additionne les carrés des deux autres côtés.',
+          'Si l\'inconnue est un petit côté, on isole son carré puis on soustrait le carré du côté connu à celui de l\'hypoténuse.'
         ],
-        reading: 'Avant toute formule, trouve l\'angle droit. Le cote en face fixe le role de l\'hypotenuse.',
-        caption: 'Schema de reference pour distinguer rapidement addition et soustraction dans un calcul de Pythagore.'
+        reading: 'Avant toute formule, trouve l\'angle droit. Le côté en face fixe le rôle de l\'hypoténuse.',
+        caption: 'Schéma de référence pour distinguer rapidement addition et soustraction dans un calcul de Pythagore.'
       },
       recap: [
         '$c^2 = a^2 + b^2$ ne fonctionne QUE dans un triangle rectangle',

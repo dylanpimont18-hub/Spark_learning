@@ -196,7 +196,7 @@ window.MODULES.push({
           solution: [
             `Primitive de $${a}${ctx.varName}^2$ : $F(${ctx.varName}) = \\dfrac{${a}}{3}${ctx.varName}^3$`,
             `$\\int_0^{${borneSup}} ${a}${ctx.varName}^2\\,d${ctx.varName} = \\left[\\dfrac{${a}}{3}${ctx.varName}^3\\right]_0^{${borneSup}} = \\dfrac{${a}}{3} \\times ${Math.pow(borneSup, 3)} - 0$`,
-            `$= \\dfrac{${a * Math.pow(borneSup, 3)}}{3} = ${result}$ ${ctx.bLabel}`
+            `$= \\dfrac{${a * Math.pow(borneSup, 3)}}{3} = ${fr(result)}$ ${ctx.bLabel}`
           ]
         };
       }

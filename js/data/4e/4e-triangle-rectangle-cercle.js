@@ -47,7 +47,7 @@
         theme: 'maths',
         kicker: 'Cercle circonscrit',
         title: 'Angle inscrit dans un demi-cercle : pourquoi l\'angle en A est droit',
-        description: 'Le point A est n\'importe ou sur le cercle (hors B et C) : l\'angle en A reste toujours droit tant que BC est un diametre.',
+        description: 'Le point A est n\'importe où sur le cercle (hors B et C) : l\'angle en A reste toujours droit tant que BC est un diamètre.',
         svg: `
           <svg viewBox="0 0 400 300" role="img" aria-labelledby="cercle-circonscrit-title cercle-circonscrit-desc">
             <title id="cercle-circonscrit-title">Triangle rectangle inscrit dans un demi-cercle</title>
@@ -71,12 +71,12 @@
           </svg>
         `,
         notes: [
-          'O est le centre du cercle et le milieu du diametre BC : donc OA = OB = OC = R.',
-          'Ou que se trouve A sur le cercle, l\'angle en A reste droit : ce n\'est pas une coincidence liee a la position choisie ici.',
-          'Ici A n\'est pas au sommet du demi-cercle, pour bien montrer que le theoreme est general et ne depend pas de cette position particuliere.'
+          'O est le centre du cercle et le milieu du diamètre BC : donc OA = OB = OC = R.',
+          'Où que se trouve A sur le cercle, l\'angle en A reste droit : ce n\'est pas une coïncidence liée à la position choisie ici.',
+          'Ici A n\'est pas au sommet du demi-cercle, pour bien montrer que le théorème est général et ne dépend pas de cette position particulière.'
         ],
-        reading: 'Repere d\'abord le diametre BC : si A est sur le cercle, l\'angle oppose a ce diametre est automatiquement droit, quelle que soit la position de A.',
-        caption: 'Theoreme de l\'angle inscrit dans un demi-cercle : BC diametre et A sur le cercle donc l\'angle en A vaut 90 degres.'
+        reading: 'Repère d\'abord le diamètre BC : si A est sur le cercle, l\'angle opposé à ce diamètre est automatiquement droit, quelle que soit la position de A.',
+        caption: 'Théorème de l\'angle inscrit dans un demi-cercle : BC diamètre et A sur le cercle donc l\'angle en A vaut 90 degrés.'
       },
       recap: [
         'Si un côté d\'un triangle inscrit est un diamètre, l\'angle opposé vaut $90°$.',
@@ -122,7 +122,7 @@
           tolerance: 0,
           unit: 'cm',
           hint: `Le rayon est la moitié du diamètre : $R = \\dfrac{${diam}}{2}$.`,
-          solution: [`$R = \\dfrac{${diam}}{2} = ${(diam / 2).toString().replace('.', '{,}')}$ cm.`]
+          solution: [`$R = \\dfrac{${diam}}{2} = ${fr(diam / 2)}$ cm.`]
         };
       }
     },

@@ -24,23 +24,22 @@ window.MODULES.push({
         { term: 'Extrapolation', def: 'Prolongation de la tendance au-delà des mesures. Moins fiable — nécessite une justification physique.' }
       ],
       example: {
-        statement: 'Une droite passe par $A(1 ; 3)$ et $B(4 ; 9)$. Calcule sa pente et son équation.',
+        statement: 'Une droite passe par $A(1 ; 3)$ et $B(4 ; 9)$. Calcule sa pente, puis estime par interpolation l\'ordonnée du point de la droite dont l\'abscisse est $x = 2{,}5$.',
         steps: [
-          'Pente : $a = \\dfrac{9 - 3}{4 - 1} = \\dfrac{6}{3} = 2$.',
-          'Ordonnée à l\'origine : $b = y_A - a \\cdot x_A = 3 - 2 \\times 1 = 1$.',
-          'Équation : $y = 2x + 1$.'
+          'Pente : $a = \\dfrac{9 - 3}{4 - 1} = \\dfrac{6}{3} = 2$ : à chaque unité d\'abscisse, $y$ augmente de $2$.',
+          '$x = 2{,}5$ est à mi-chemin entre $x_A = 1$ et $x_B = 4$. Par interpolation, $y$ est alors à mi-chemin entre $y_A = 3$ et $y_B = 9$, soit $y \\approx 6$.'
         ],
-        answer: '$y = 2x + 1$'
+        answer: 'Pente $a = 2$ ; à $x = 2{,}5$, $y \\approx 6$ par interpolation.'
       },
       diagram: {
         theme: 'maths',
         kicker: 'Repère cartésien',
         title: 'Lire un point, interpoler et reconnaître une pente',
-        description: 'La droite $y = 2x + 1$ passe par $A(1 ; 3)$ et $B(4 ; 9)$. On voit comment lire un point et estimer une valeur intermédiaire sur une tendance régulière.',
+        description: 'La droite passe par $A(1 ; 3)$ et $B(4 ; 9)$. On voit comment lire un point et estimer une valeur intermédiaire sur une tendance régulière.',
         svg: `
           <svg viewBox="0 0 360 240" role="img" aria-labelledby="reperage-graph-title reperage-graph-desc">
             <title id="reperage-graph-title">Droite de lecture graphique dans un repère</title>
-            <desc id="reperage-graph-desc">La droite représente y égale à 2x plus 1, avec deux points connus et une lecture intermédiaire par interpolation.</desc>
+            <desc id="reperage-graph-desc">La droite relie deux points connus, avec une lecture intermédiaire par interpolation.</desc>
             <line class="grid-line" x1="50" y1="30" x2="310" y2="30"></line>
             <line class="grid-line" x1="50" y1="62" x2="310" y2="62"></line>
             <line class="grid-line" x1="50" y1="94" x2="310" y2="94"></line>
@@ -62,7 +61,7 @@ window.MODULES.push({
             <circle class="plot-point-alt" cx="258" cy="46" r="6"></circle>
             <circle class="plot-point" cx="180" cy="94" r="6"></circle>
             <text class="annotation-label" x="112" y="134">A(1 ; 3)</text>
-            <text class="annotation-label" x="196" y="86">Interpolation : (2{,}5 ; 6)</text>
+            <text class="annotation-label" x="196" y="86">Interpolation : (2,5 ; 6)</text>
             <text class="annotation-label" x="224" y="38">B(4 ; 9)</text>
             <text class="axis-label" x="322" y="194">x</text>
             <text class="axis-label" x="56" y="24">y</text>
@@ -86,7 +85,7 @@ window.MODULES.push({
           'Comme la droite monte régulièrement, la pente est positive : quand $x$ augmente d’une unité, $y$ augmente de $2$.'
         ],
         reading: 'Toujours lire l’abscisse sur l’axe horizontal puis l’ordonnée sur l’axe vertical. Le couple s’écrit dans cet ordre : $(x ; y)$.',
-        caption: 'Repère cartésien avec lecture d’un point connu, d’un second point et d’une valeur interpolée sur la droite $y = 2x + 1$.'
+        caption: 'Repère cartésien avec lecture d’un point connu, d’un second point et d’une valeur interpolée sur la droite reliant $A$ et $B$.'
       },
       method: {
         title: 'Méthode en 3 étapes',
@@ -97,9 +96,7 @@ window.MODULES.push({
         ]
       },
       formulas: [
-        'Pente d\'une droite : $a = \\dfrac{y_2 - y_1}{x_2 - x_1}$',
-        'Équation d\'une droite : $y = ax + b$',
-        'Ordonnée à l\'origine : $b = y_1 - a \\cdot x_1$'
+        'Pente d\'une droite : $a = \\dfrac{\\Delta y}{\\Delta x} = \\dfrac{y_2 - y_1}{x_2 - x_1}$'
       ],
       recap: [
         'Un point se repère par un couple $(x ; y)$ : abscisse d\'abord, ordonnée ensuite.',
@@ -211,13 +208,13 @@ window.MODULES.push({
           correction: '$a = \\dfrac{y_B - y_A}{x_B - x_A} = \\dfrac{11 - 3}{5 - 1} = \\dfrac{8}{4} = 2$.'
         },
         {
-          statement: 'La droite $d$ a pour équation $y = 3x + 1$. Quelle est l\'ordonnée du point de $d$ dont l\'abscisse est $x = 4$ ?',
+          statement: 'Une droite passe par $A(2 ; 7)$ et $B(6 ; 15)$. Par interpolation, quelle est l\'ordonnée du point de cette droite dont l\'abscisse est $x = 4$ (à mi-chemin entre $A$ et $B$) ?',
           type: 'numeric',
-          answer: 13,
+          answer: 11,
           tolerance: 0,
           unit: '',
           points: 2,
-          correction: 'On remplace $x$ par $4$ : $y = 3 \\times 4 + 1 = 12 + 1 = 13$.'
+          correction: 'La pente est $a = \\dfrac{15 - 7}{6 - 2} = 2$. Comme $x = 4$ est à mi-chemin entre $x_A = 2$ et $x_B = 6$, $y$ est à mi-chemin entre $y_A = 7$ et $y_B = 15$, soit $y = 11$.'
         },
         {
           statement: 'Qu\'appelle-t-on « interpoler » sur un graphique ?',

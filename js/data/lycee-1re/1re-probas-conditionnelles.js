@@ -138,19 +138,19 @@ window.MODULES.push({
         const pBbar = parseFloat((1 - pB).toFixed(1));
         const pA = parseFloat((pAgivenB * pB + pAgivenBbar * pBbar).toFixed(4));
         const ctx = pick([
-          { B: 'pluie', Bbar: 'beau temps', A: 'retard au lycée', phrB: `La météo annonce $${pB * 100}\\%$ de jours de pluie`, phrAB: `Les jours de pluie, la probabilité d'être en retard est $${pAgivenB}$`, phrABbar: `Les jours de beau temps, elle est de $${pAgivenBbar}$` },
-          { B: 'embouteillage', Bbar: 'circulation fluide', A: 'arriver en retard', phrB: `La probabilité d'embouteillage est $${pB}$`, phrAB: `En cas d'embouteillage, la probabilité d'arriver en retard est $${pAgivenB}$`, phrABbar: `Sinon, elle est de $${pAgivenBbar}$` },
-          { B: 'grippe', Bbar: 'bonne santé', A: 'avoir de la fièvre', phrB: `En hiver, $${pB * 100}\\%$ de la population a la grippe`, phrAB: `Si on a la grippe, la probabilité d'avoir de la fièvre est $${pAgivenB}$`, phrABbar: `Sinon, elle est de $${pAgivenBbar}$` }
+          { B: 'pluie', Bbar: 'beau temps', A: 'retard au lycée', phrB: `La météo annonce $${fr(pB * 100)}\\%$ de jours de pluie`, phrAB: `Les jours de pluie, la probabilité d'être en retard est $${fr(pAgivenB)}$`, phrABbar: `Les jours de beau temps, elle est de $${fr(pAgivenBbar)}$` },
+          { B: 'embouteillage', Bbar: 'circulation fluide', A: 'arriver en retard', phrB: `La probabilité d'embouteillage est $${fr(pB)}$`, phrAB: `En cas d'embouteillage, la probabilité d'arriver en retard est $${fr(pAgivenB)}$`, phrABbar: `Sinon, elle est de $${fr(pAgivenBbar)}$` },
+          { B: 'grippe', Bbar: 'bonne santé', A: 'avoir de la fièvre', phrB: `En hiver, $${fr(pB * 100)}\\%$ de la population a la grippe`, phrAB: `Si on a la grippe, la probabilité d'avoir de la fièvre est $${fr(pAgivenB)}$`, phrABbar: `Sinon, elle est de $${fr(pAgivenBbar)}$` }
         ]);
         return {
           statement: `${ctx.phrB}. ${ctx.phrAB}. ${ctx.phrABbar}.<br/><br/>1) Construire l'arbre de probabilité.<br/>2) Calculer $P(A)$ par la formule des probabilités totales.<br/><br/>Donner $P(A)$ (arrondir à $0{,}001$).`,
           answer: pA,
           tolerance: 0.005,
           unit: '',
-          hint: `$P(A) = P(A|B) \\times P(B) + P(A|\\bar{B}) \\times P(\\bar{B}) = ${pAgivenB} \\times ${pB} + ${pAgivenBbar} \\times ${pBbar}$.`,
+          hint: `$P(A) = P(A|B) \\times P(B) + P(A|\\bar{B}) \\times P(\\bar{B}) = ${fr(pAgivenB)} \\times ${fr(pB)} + ${fr(pAgivenBbar)} \\times ${fr(pBbar)}$.`,
           solution: [
             `$P(A) = P(A|B) \\times P(B) + P(A|\\bar{B}) \\times P(\\bar{B})$`,
-            `$= ${pAgivenB} \\times ${pB} + ${pAgivenBbar} \\times ${pBbar}$`,
+            `$= ${fr(pAgivenB)} \\times ${fr(pB)} + ${fr(pAgivenBbar)} \\times ${fr(pBbar)}$`,
             `$= ${fr(pAgivenB * pB, 4)} + ${fr(pAgivenBbar * pBbar, 4)} = ${fr(pA)}$`
           ]
         };

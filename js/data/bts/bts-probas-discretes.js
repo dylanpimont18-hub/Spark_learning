@@ -127,7 +127,6 @@ window.MODULES.push(
     exercice: {
       type: 'numeric',
       generate() {
-        const fr = x => String(x).replace('.', '{,}');
         const lambda = pick([2, 3, 4, 5]);
         const ans = parseFloat((Math.exp(-lambda)).toFixed(3));
 

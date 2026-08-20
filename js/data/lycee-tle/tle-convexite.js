@@ -150,8 +150,8 @@ window.MODULES.push({
           solution: [
             `$f'(${ctx.varName}) = ${3*a}${ctx.varName}^2 - ${2*b}${ctx.varName}$`,
             `$f''(${ctx.varName}) = ${6*a}${ctx.varName} - ${2*b}$`,
-            `$f'' = 0 \\Leftrightarrow ${ctx.varName} = \\dfrac{${2*b}}{${6*a}} = ${inflX}$`,
-            `$f''$ passe de négatif à positif en $${ctx.varName} = ${inflX}$ : c'est bien un point d'inflexion.`
+            `$f'' = 0 \\Leftrightarrow ${ctx.varName} = \\dfrac{${2*b}}{${6*a}} = ${fr(inflX)}$`,
+            `$f''$ passe de négatif à positif en $${ctx.varName} = ${fr(inflX)}$ : c'est bien un point d'inflexion.`
           ]
         };
       }

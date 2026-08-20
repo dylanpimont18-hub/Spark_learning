@@ -6,195 +6,184 @@ window.MODULES.push({
     id: 'physique-2nde-lumiere',
     level: 2, subject: 'physique',
     icon: '🌈',
-    title: 'La lumière',
-    subtitle: 'Propagation rectiligne, réfraction (loi de Snell-Descartes), indice de réfraction, décomposition de la lumière blanche, spectres',
-    keywords: ['Lumière', 'Réfraction', 'Indice de réfraction', 'Spectre', 'Snell-Descartes', 'Dispersion'],
-    physics: 'La réfraction de la lumière explique la correction de la vue par des lunettes ou des lentilles de contact, le guidage de la lumière dans les fibres optiques, la formation de l\'arc-en-ciel, et permet aux astrophysiciens d\'identifier la composition chimique d\'une étoile grâce à l\'analyse de son spectre lumineux.',
+    title: 'La lumière (réfraction, spectre)',
+    subtitle: 'Propagation de la lumière, indice de réfraction, lois de Snell-Descartes, dispersion',
+    keywords: ['Réfraction', 'Indice de réfraction', 'Snell-Descartes', 'Dispersion', 'Lumière'],
+    physics: 'La réfraction de la lumière permet de comprendre la formation d\'un arc-en-ciel, de concevoir les lentilles de lunettes ou d\'appareil photo, et explique le principe de transmission de données par fibre optique grâce à la réflexion totale.',
 
     cours: {
-      intro: 'Dans un milieu <strong>homogène et transparent</strong> (air, verre, eau…), la lumière se propage en <strong>ligne droite</strong> : c\'est le principe de propagation rectiligne. Sa vitesse est très grande mais reste <strong>finie</strong> : $c \\approx 3\\times10^8$ m/s dans le vide, une valeur légèrement supérieure à sa vitesse dans tout autre milieu matériel.<br/><br/>Chaque milieu transparent est caractérisé par son <strong>indice de réfraction</strong> $n = \\dfrac{c}{v}$, un nombre sans unité toujours supérieur ou égal à $1$ (puisque $v \\leq c$). Plus un milieu est <strong>réfringent</strong> (indice $n$ élevé), plus la lumière y ralentit.<br/><br/>Lorsqu\'un rayon lumineux traverse la frontière entre deux milieux d\'indices différents (un <strong>dioptre</strong>), sa direction change : c\'est la <strong>réfraction</strong>, décrite par la loi de <strong>Snell-Descartes</strong> : $n_1 \\sin i_1 = n_2 \\sin i_2$, les angles étant toujours mesurés par rapport à la <strong>normale</strong> au dioptre (la perpendiculaire à la surface), jamais par rapport à la surface elle-même.',
+      intro: 'Un bâton à moitié plongé dans l\'eau semble « brisé » à l\'interface : c\'est l\'une des manifestations les plus visibles de la <strong>réfraction</strong>, le changement de direction d\'un rayon lumineux lorsqu\'il change de milieu de propagation.<br/><br/>Ce phénomène n\'a rien d\'un caprice de la lumière : il obéit à une loi précise, énoncée au XVIIe siècle par Snell et Descartes, qui relie les angles observés aux <strong>indices de réfraction</strong> des deux milieux traversés. C\'est cette même loi, appliquée à un prisme, qui explique pourquoi la lumière blanche se décompose en un spectre de couleurs.',
       definitions: [
-        { term: 'Indice de réfraction ($n$)', def: 'Grandeur sans unité caractérisant un milieu transparent : $n = \\dfrac{c}{v}$, où $v$ est la vitesse de la lumière dans ce milieu et $c \\approx 3\\times10^8$ m/s sa vitesse dans le vide. Toujours $n \\geq 1$.' },
-        { term: 'Réfraction', def: 'Changement de direction d\'un rayon lumineux lorsqu\'il traverse la frontière (dioptre) entre deux milieux transparents d\'indices différents.' },
-        { term: 'Loi de Snell-Descartes (réfraction)', def: '$n_1 \\sin i_1 = n_2 \\sin i_2$, où $i_1$ est l\'angle d\'incidence et $i_2$ l\'angle de réfraction, tous deux mesurés par rapport à la <strong>normale</strong> au dioptre.' },
-        { term: 'Spectre de la lumière blanche', def: 'La lumière blanche (celle du Soleil, par exemple) est en réalité un <strong>mélange de toutes les couleurs</strong> visibles. Un prisme (ou des gouttelettes d\'eau) peut la décomposer en un spectre continu, car l\'indice de réfraction d\'un milieu dépend très légèrement de la couleur : c\'est le phénomène de <strong>dispersion</strong>.' }
+        { term: 'Réfraction', def: 'Changement de direction d\'un rayon lumineux lors de la traversée de la surface séparant deux milieux transparents différents, dû au changement de vitesse de propagation de la lumière.' },
+        { term: 'Indice de réfraction $n$', def: 'Grandeur sans unité caractérisant un milieu transparent : $n = \\dfrac{c}{v}$, où $c \\approx 3{,}00 \\times 10^8$ m/s est la vitesse de la lumière dans le vide et $v$ sa vitesse dans le milieu. Toujours $n \\geqslant 1$.' },
+        { term: 'Lois de Snell-Descartes (réfraction)', def: '$n_1 \\sin(i_1) = n_2 \\sin(i_2)$, où $i_1$ et $i_2$ sont les angles d\'incidence et de réfraction, mesurés par rapport à la <strong>normale</strong> à la surface au point d\'incidence.' },
+        { term: 'Dispersion de la lumière', def: 'Décomposition de la lumière blanche en un spectre de couleurs (par un prisme, par exemple), due à la légère variation de l\'indice $n$ d\'un milieu selon la couleur de la lumière.' }
       ],
       method: {
-        title: 'Étudier la réfraction d\'un rayon lumineux en 3 étapes',
+        title: 'Appliquer les lois de Snell-Descartes en 3 étapes',
         steps: [
-          '<strong>Identifier les deux milieux</strong> traversés et leurs indices de réfraction $n_1$ (milieu d\'incidence) et $n_2$ (milieu de réfraction).',
-          '<strong>Repérer l\'angle d\'incidence</strong> $i_1$, toujours mesuré par rapport à la <strong>normale</strong> au dioptre (jamais par rapport à la surface), puis appliquer la loi de Snell-Descartes $n_1 \\sin i_1 = n_2 \\sin i_2$ pour isoler et calculer $i_2$.',
-          '<strong>Comparer $i_1$ et $i_2$</strong> pour vérifier la cohérence : si $n_2 > n_1$ (le rayon entre dans un milieu plus réfringent), le rayon se rapproche de la normale ($i_2 < i_1$) ; si $n_2 < n_1$, il s\'en écarte ($i_2 > i_1$).'
+          '<strong>Identifier</strong> les deux milieux traversés et leurs indices de réfraction $n_1$ (milieu incident) et $n_2$ (milieu de réfraction), ainsi que l\'angle d\'incidence $i_1$ (mesuré par rapport à la normale).',
+          '<strong>Écrire la loi de Snell-Descartes</strong> : $n_1 \\sin(i_1) = n_2 \\sin(i_2)$, puis isoler $\\sin(i_2) = \\dfrac{n_1 \\sin(i_1)}{n_2}$.',
+          '<strong>Calculer</strong> $i_2 = \\arcsin\\left(\\dfrac{n_1 \\sin(i_1)}{n_2}\\right)$ à la calculatrice (fonction $\\sin^{-1}$ ou $\\arcsin$).'
         ]
       },
       diagram: {
         theme: 'physique',
-        kicker: 'Réfraction de la lumière (loi de Snell-Descartes)',
-        title: 'Réfraction d\'un rayon lumineux à la surface air-eau',
-        description: 'Un rayon lumineux passant de l\'air ($n_1=1$) vers l\'eau ($n_2=1{,}33$) avec un angle d\'incidence $i_1 = 50°$ est réfracté avec un angle $i_2 \\approx 35{,}2°$ : il se rapproche de la normale, car il pénètre dans un milieu plus réfringent.',
+        kicker: 'Réfraction de la lumière (optique géométrique)',
+        title: 'Passage air → eau : rayon incident et rayon réfracté',
+        description: 'Un rayon lumineux passe de l\'air ($n_1 = 1{,}00$) vers l\'eau ($n_2 = 1{,}33$) avec un angle d\'incidence $i_1 = 40°$. En entrant dans un milieu plus réfringent, le rayon se rapproche de la normale : $i_2 \\approx 28{,}9° < i_1$.',
         svg: `
-          <svg viewBox="0 0 560 300" role="img" aria-labelledby="refraction-title refraction-desc">
-            <title id="refraction-title">Refraction d'un rayon lumineux a la surface air-eau</title>
-            <desc id="refraction-desc">Un schema represente une surface horizontale separant deux milieux, l'air au-dessus et l'eau en dessous. Une ligne pointillee verticale, la normale, traverse le point d'incidence. Un rayon incident arrive du coin superieur gauche et forme un angle i1 de cinquante degres avec la normale, du cote de l'air. Apres avoir traverse la surface, le rayon se poursuit dans l'eau sous la forme d'un rayon refracte, plus proche de la normale, formant un angle i2 d'environ trente-cinq degres, illustrant que le rayon se rapproche de la normale en penetrant dans le milieu le plus refringent.</desc>
+          <svg viewBox="0 0 560 320" role="img" aria-labelledby="lumiere2nde-title lumiere2nde-desc">
+            <title id="lumiere2nde-title">Refraction d'un rayon lumineux passant de l'air vers l'eau</title>
+            <desc id="lumiere2nde-desc">Une ligne horizontale separe deux milieux, l'air au-dessus et l'eau en dessous. Une normale en pointilles est tracee verticalement au point d'incidence. Un rayon incident arrive de la partie superieure gauche et frappe ce point avec un angle de quarante degres par rapport a la normale. Un rayon refracte repart vers la partie inferieure droite, dans l'eau, avec un angle plus petit, environ vingt-neuf degres par rapport a la meme normale : il s'est rapproche de la normale en changeant de milieu.</desc>
 
             <defs>
-              <marker id="arrow-phys2nde-refraction" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+              <marker id="arrow-phys2-lumiere" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
                 <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
               </marker>
             </defs>
 
-            <!-- dioptre (surface air-eau) -->
-            <line class="frame-line" x1="60" y1="150" x2="500" y2="150"></line>
-            <text class="label-soft" x="80" y="80" text-anchor="middle">Air (n₁ = 1)</text>
-            <text class="label-soft" x="80" y="225" text-anchor="middle">Eau (n₂ = 1,33)</text>
+            <!-- interface air / eau -->
+            <line class="frame-line" x1="80" y1="150" x2="480" y2="150"></line>
+            <text class="label-soft" x="100" y="130" text-anchor="start">Air (n₁ = 1,00)</text>
+            <text class="label-soft" x="100" y="175" text-anchor="start">Eau (n₂ = 1,33)</text>
 
-            <!-- normale (pointilles verticaux) -->
-            <line class="guide-line" x1="280" y1="60" x2="280" y2="240"></line>
-            <text class="tick-label" x="286" y="66" text-anchor="start">normale</text>
+            <!-- normale -->
+            <line class="guide-line" x1="280" y1="35" x2="280" y2="285"></line>
+            <text class="tick-label" x="280" y="26" text-anchor="middle">normale</text>
 
-            <!-- rayon incident -->
-            <line class="curve-main" x1="188.1" y1="72.9" x2="280" y2="150" marker-end="url(#arrow-phys2nde-refraction)"></line>
-            <text class="annotation-label" x="180" y="95" text-anchor="end">Rayon incident</text>
-
-            <!-- rayon refracte -->
-            <line class="curve-main" x1="280" y1="150" x2="349.1" y2="248.1" marker-end="url(#arrow-phys2nde-refraction)"></line>
-            <text class="annotation-label" x="358" y="245" text-anchor="start">Rayon réfracté</text>
-
-            <!-- point d'incidence -->
+            <!-- rayon incident et rayon refracte -->
+            <line class="curve-main" x1="190" y1="43" x2="280" y2="150" marker-end="url(#arrow-phys2-lumiere)"></line>
+            <line class="curve-main" x1="280" y1="150" x2="348" y2="273" marker-end="url(#arrow-phys2-lumiere)"></line>
             <circle class="plot-point" cx="280" cy="150" r="4"></circle>
 
-            <!-- angle i1 (arc precisement calcule, r=26, pas de 5 degres) -->
-            <path class="guide-line" fill="none" d="M280.0,124.0 L277.7,124.1 L275.5,124.4 L273.3,124.9 L271.1,125.6 L269.0,126.4 L267.0,127.5 L265.1,128.7 L263.3,130.1 L261.6,131.6 L260.1,133.3"></path>
-            <text class="tick-label" x="262" y="112" text-anchor="middle">i₁ = 50°</text>
+            <text class="label-soft" x="168" y="55" text-anchor="end">rayon incident</text>
+            <text class="label-soft" x="358" y="252" text-anchor="start">rayon réfracté</text>
 
-            <!-- angle i2 (arc precisement calcule, r=26, pas de 3,5 degres) -->
-            <path class="guide-line" fill="none" d="M280.0,176.0 L281.6,176.0 L283.2,175.8 L284.8,175.6 L286.3,175.2 L287.9,174.8 L289.4,174.3 L290.8,173.6 L292.3,172.9 L293.6,172.1 L295.0,171.3"></path>
-            <text class="tick-label" x="310" y="192" text-anchor="start">i₂ ≈ 35,2°</text>
+            <!-- arcs des angles -->
+            <path class="guide-line" fill="none" d="M280,115 A35,35 0 0,0 257.5,123.2"></path>
+            <path class="guide-line" fill="none" d="M280,185 A35,35 0 0,1 296.9,180.6"></path>
+            <text class="annotation-label" x="252" y="103" text-anchor="middle">i₁ = 40°</text>
+            <text class="annotation-label" x="304" y="200" text-anchor="middle">i₂ ≈ 28,9°</text>
           </svg>
         `,
         notes: [
-          'L\'angle d\'incidence $i_1$ et l\'angle de réfraction $i_2$ sont <strong>toujours mesurés par rapport à la normale</strong> (la pointillée verticale), jamais par rapport à la surface du dioptre.',
-          'La loi de Snell-Descartes donne $\\sin i_2 = \\dfrac{n_1}{n_2}\\sin i_1 = \\dfrac{1}{1{,}33}\\times\\sin 50° \\approx 0{,}576$, soit $i_2 \\approx 35{,}2°$.',
-          'Comme l\'eau est plus réfringente que l\'air ($n_2 > n_1$), le rayon réfracté se <strong>rapproche de la normale</strong> : $i_2 < i_1$.'
+          'Les angles $i_1$ et $i_2$ sont <strong>toujours</strong> mesurés par rapport à la normale (perpendiculaire à la surface), jamais par rapport à la surface elle-même.',
+          'Loi de Snell-Descartes : $n_1 \\sin(i_1) = n_2 \\sin(i_2)$, soit $1{,}00 \\times \\sin(40°) = 1{,}33 \\times \\sin(i_2)$, d\'où $\\sin(i_2) = \\dfrac{\\sin(40°)}{1{,}33} \\approx 0{,}483$, et $i_2 \\approx 28{,}9°$.',
+          'L\'eau étant <strong>plus réfringente</strong> que l\'air ($n_2 > n_1$), le rayon réfracté se rapproche de la normale ($i_2 < i_1$) : c\'est toujours le cas lorsqu\'on entre dans un milieu d\'indice plus élevé.'
         ],
-        reading: 'Repère la normale en pointillés, puis compare l\'angle du rayon incident (dans l\'air) et celui du rayon réfracté (dans l\'eau) : le second est plus petit, plus proche de la normale.',
-        caption: 'Réfraction d\'un rayon lumineux passant de l\'air ($n_1=1$) vers l\'eau ($n_2=1{,}33$) : conformément à la loi de Snell-Descartes, le rayon se rapproche de la normale en entrant dans le milieu le plus réfringent.'
+        reading: 'Repère d\'abord le point d\'incidence sur la surface, puis la normale en pointillés ; compare ensuite l\'angle $i_1$ (rayon incident, dans l\'air) à l\'angle $i_2$ (rayon réfracté, dans l\'eau, plus petit).',
+        caption: 'Réfraction d\'un rayon lumineux passant de l\'air vers l\'eau : $i_1 = 40°$ devient $i_2 \\approx 28{,}9°$, le rayon se rapprochant de la normale en entrant dans le milieu le plus réfringent.'
       },
       example: {
-        statement: 'Un rayon lumineux se propageant dans l\'air ($n_1 = 1$) atteint la surface d\'un bloc de verre ($n_2 = 1{,}5$) avec un angle d\'incidence $i_1 = 35°$.<br/><br/>Calculer l\'angle de réfraction $i_2$.',
+        statement: 'Un rayon lumineux passe de l\'air ($n_1 = 1{,}00$) vers un verre d\'indice $n_2 = 1{,}50$, avec un angle d\'incidence $i_1 = 35°$.<br/><br/>Calcule l\'angle de réfraction $i_2$.',
         steps: [
-          'Loi de Snell-Descartes : $n_1 \\sin i_1 = n_2 \\sin i_2$.',
-          'On isole $\\sin i_2$ : $\\sin i_2 = \\dfrac{n_1}{n_2}\\sin i_1 = \\dfrac{1}{1{,}5}\\times \\sin 35°$.',
-          'Calcul intermédiaire : $\\sin 35° \\approx 0{,}574$, donc $\\sin i_2 \\approx \\dfrac{0{,}574}{1{,}5} \\approx 0{,}382$.',
-          'On en déduit $i_2 = \\arcsin(0{,}382) \\approx 22{,}5°$.'
+          'Loi de Snell-Descartes : $n_1 \\sin(i_1) = n_2 \\sin(i_2)$.',
+          'On isole $\\sin(i_2)$ : $\\sin(i_2) = \\dfrac{n_1 \\sin(i_1)}{n_2} = \\dfrac{1{,}00 \\times \\sin(35°)}{1{,}50} = \\dfrac{0{,}574}{1{,}50} \\approx 0{,}383$.',
+          'On calcule $i_2$ avec la fonction $\\arcsin$ (ou $\\sin^{-1}$) de la calculatrice : $i_2 = \\arcsin(0{,}383) \\approx 22{,}5°$.'
         ],
-        answer: '$i_2 \\approx 22{,}5°$. Le rayon se rapproche bien de la normale ($i_2 < i_1$), conformément à ce qu\'on attend en entrant dans un milieu plus réfringent que l\'air ($n_2 > n_1$).'
+        answer: '$i_2 \\approx 22{,}5°$. Comme attendu, le rayon se rapproche fortement de la normale : le verre ($n_2 = 1{,}50$) est nettement plus réfringent que l\'air.'
       },
       formulas: [
-        'Indice de réfraction : $n = \\dfrac{c}{v}$ (sans unité, $n \\geq 1$)',
-        'Vitesse de la lumière dans le vide : $c \\approx 3\\times10^8$ m/s',
-        'Loi de Snell-Descartes (réfraction) : $n_1 \\sin i_1 = n_2 \\sin i_2$'
+        '$n = \\dfrac{c}{v}$ (indice de réfraction, avec $c \\approx 3{,}00 \\times 10^8$ m/s)',
+        'Snell-Descartes (réfraction) : $n_1 \\sin(i_1) = n_2 \\sin(i_2)$',
+        '$n \\geqslant 1$ toujours ; plus $n$ est grand, plus le milieu est réfringent (il ralentit fortement la lumière)',
+        'Les angles $i_1$, $i_2$ sont toujours mesurés par rapport à la <strong>normale</strong>, jamais par rapport à la surface'
       ],
       recap: [
-        'Dans un milieu homogène et transparent, la lumière se propage en <strong>ligne droite</strong>, à une vitesse finie ($c \\approx 3\\times10^8$ m/s dans le vide).',
-        'L\'indice de réfraction $n = \\dfrac{c}{v} \\geq 1$ caractérise chaque milieu : plus $n$ est grand, plus la lumière y ralentit.',
-        'La loi de Snell-Descartes $n_1 \\sin i_1 = n_2 \\sin i_2$ décrit la réfraction : les angles se mesurent toujours par rapport à la <strong>normale</strong> au dioptre.',
-        'La lumière blanche est un mélange de toutes les couleurs ; sa décomposition en spectre (par un prisme, des gouttelettes d\'eau…) résulte de la <strong>dispersion</strong> : l\'indice de réfraction dépend très légèrement de la couleur.'
+        'La <strong>réfraction</strong> est le changement de direction d\'un rayon lumineux passant d\'un milieu transparent à un autre.',
+        'L\'<strong>indice de réfraction</strong> $n = \\dfrac{c}{v} \\geqslant 1$ caractérise chaque milieu transparent.',
+        'La loi de <strong>Snell-Descartes</strong> $n_1 \\sin(i_1) = n_2 \\sin(i_2)$ relie les angles d\'incidence et de réfraction aux indices des deux milieux.',
+        'La <strong>dispersion</strong> de la lumière blanche par un prisme (spectre de couleurs) vient de la légère dépendance de $n$ à la couleur de la lumière.'
       ],
-      piege: 'Une erreur très fréquente consiste à mesurer les angles d\'incidence et de réfraction par rapport à la <strong>surface</strong> du dioptre plutôt que par rapport à la normale. Attention : dans la loi de Snell-Descartes, $i_1$ et $i_2$ sont toujours définis par rapport à la <strong>normale</strong> (la perpendiculaire à la surface au point d\'incidence), jamais par rapport au plan de la surface elle-même.'
+      piege: 'Une erreur très fréquente est de mesurer les angles d\'incidence et de réfraction par rapport à la <strong>surface</strong> de séparation des milieux, au lieu de les mesurer par rapport à la <strong>normale</strong> (la droite perpendiculaire à la surface au point d\'incidence). Attention : dans la loi de Snell-Descartes $n_1 \\sin(i_1) = n_2 \\sin(i_2)$, $i_1$ et $i_2$ sont <strong>toujours</strong> définis par rapport à cette normale, jamais par rapport à la surface elle-même.'
     },
 
     quiz: [
       {
-        q: 'L\'indice de réfraction d\'un milieu transparent est défini par :',
+        q: 'Dans la loi de Snell-Descartes, les angles d\'incidence et de réfraction sont mesurés par rapport à :',
         options: [
-          '$n = \\dfrac{c}{v}$, où $v$ est la vitesse de la lumière dans ce milieu',
-          '$n = c \\times v$',
-          '$n = v - c$',
-          '$n$ dépend uniquement de la couleur de l\'objet observé'
-        ],
-        answer: 0,
-        correction: 'L\'indice de réfraction est défini par $n = \\dfrac{c}{v}$, où $c$ est la vitesse de la lumière dans le vide et $v$ sa vitesse dans le milieu considéré. Comme $v \\leq c$ toujours, on a toujours $n \\geq 1$.'
-      },
-      {
-        q: 'Un rayon lumineux passe d\'un milieu d\'indice $n_1 = 1$ (air) vers un milieu d\'indice $n_2 = 2$ (plus réfringent). Que devient sa direction après réfraction ?',
-        options: [
-          'Le rayon s\'éloigne de la normale',
-          'Le rayon se rapproche de la normale',
-          'Le rayon ne change pas de direction',
-          'Le rayon est totalement réfléchi'
+          'La surface de séparation des deux milieux',
+          'La normale à la surface, au point d\'incidence',
+          'L\'horizontale, quel que soit le dispositif',
+          'Le rayon incident lui-même'
         ],
         answer: 1,
-        correction: 'Lorsque le rayon pénètre dans un milieu <strong>plus réfringent</strong> ($n_2 > n_1$), il se rapproche de la normale : $\\sin i_2 = \\dfrac{n_1}{n_2}\\sin i_1 < \\sin i_1$, donc $i_2 < i_1$.'
+        correction: 'Les angles $i_1$ et $i_2$ se mesurent toujours par rapport à la <strong>normale</strong> (perpendiculaire à la surface au point d\'incidence), jamais par rapport à la surface elle-même.'
       },
       {
-        q: 'La décomposition de la lumière blanche par un prisme en un spectre de couleurs s\'explique par :',
+        q: 'Un rayon lumineux passe de l\'air ($n_1 = 1{,}00$) vers du verre ($n_2 = 1{,}50$) avec un angle d\'incidence $i_1 = 30°$. L\'angle de réfraction $i_2$ est-il plus grand ou plus petit que $i_1$ ?',
         options: [
-          'Le fait que la lumière blanche ne contient qu\'une seule couleur',
-          'La dispersion : l\'indice de réfraction du prisme dépend légèrement de la couleur',
-          'Une absorption totale de la lumière par le prisme',
-          'Le fait que le prisme change la vitesse du son'
+          'Plus grand, car le verre est plus réfringent',
+          'Plus petit, car le verre est plus réfringent',
+          'Exactement égal à $i_1$',
+          'Impossible à savoir sans calculatrice'
         ],
         answer: 1,
-        correction: 'La lumière blanche est un mélange de toutes les couleurs, chacune ayant une longueur d\'onde différente. Comme l\'indice de réfraction du prisme varie très légèrement selon la couleur (dispersion), chaque couleur est déviée différemment, ce qui sépare le spectre.'
+        correction: 'Comme $n_2 > n_1$, la loi $n_1 \\sin(i_1) = n_2 \\sin(i_2)$ impose $\\sin(i_2) < \\sin(i_1)$, donc $i_2 < i_1$ : le rayon se <strong>rapproche</strong> de la normale en entrant dans un milieu plus réfringent, sans même avoir besoin de calculer la valeur exacte.'
+      },
+      {
+        q: 'Quel phénomène explique la décomposition de la lumière blanche en couleurs par un prisme ?',
+        options: [
+          'La réflexion totale',
+          'La dispersion : l\'indice de réfraction dépend légèrement de la couleur',
+          'L\'absorption sélective du verre',
+          'La diffraction du prisme uniquement'
+        ],
+        answer: 1,
+        correction: 'C\'est la <strong>dispersion</strong> : l\'indice de réfraction $n$ du prisme varie légèrement selon la couleur (longueur d\'onde) de la lumière, donc chaque couleur est déviée différemment.'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
-        var typeExo = pick(['refraction', 'indice']);
+        var typeExo = pick(['angle_refraction', 'indice']);
 
-        if (typeExo === 'refraction') {
-          var milieux = [
-            { nom: 'eau', n: 1.33 },
-            { nom: 'verre', n: 1.5 },
-            { nom: 'plexiglas', n: 1.49 },
-            { nom: 'quartz', n: 1.46 },
-            { nom: 'glycérol', n: 1.47 }
-          ];
-          var milieu = pick(milieux);
-          var i1 = pick([20, 25, 30, 35, 40, 45, 50, 55, 60]);
-          var i1rad = i1 * Math.PI / 180;
-          var sinI2 = Math.sin(i1rad) / milieu.n;
+        if (typeExo === 'angle_refraction') {
+          var n1 = 1.00;
+          var n2 = pick([1.33, 1.36, 1.50, 1.52, 1.63]);
+          var i1 = rand(10, 70);
+          var i1Rad = i1 * Math.PI / 180;
+          var sinI2 = (n1 * Math.sin(i1Rad)) / n2;
           var i2 = parseFloat((Math.asin(sinI2) * 180 / Math.PI).toFixed(1));
           var contexte = pick([
             'un aquarium de laboratoire',
-            'une piscine vue depuis le bord',
-            'une vitre de protection incurvée',
-            'un prisme de travaux pratiques',
-            'un bloc transparent posé sur la paillasse'
+            'une vitre d\'observation scientifique',
+            'un prisme d\'optique en salle de travaux pratiques',
+            'une lentille en cours de fabrication',
+            'un bassin d\'expérimentation optique'
           ]);
           return {
-            statement: 'Un rayon lumineux se propageant dans l\'air ($n_1=1$) atteint la surface de ' + contexte + ', rempli de ' + milieu.nom + ' ($n_2=' + fr(milieu.n, 2) + '$), avec un angle d\'incidence $i_1=' + i1 + '°$.<br/><br/>D\'après la loi de Descartes pour la réfraction, calcule l\'angle de réfraction $i_2$ (en degrés, arrondi au dixième).',
+            statement: 'Pour ' + contexte + ', un rayon lumineux passe de l\'air ($n_1 = 1{,}00$) vers un milieu transparent d\'indice $n_2 = ' + fr(n2, 2) + '$, avec un angle d\'incidence $i_1 = ' + i1 + '°$.<br/><br/>Calcule l\'angle de réfraction $i_2$ (en degrés, arrondi au dixième).',
             answer: i2,
-            tolerance: 1,
+            tolerance: 0.5,
             unit: '°',
-            hint: 'Utilise $n_1 \\sin i_1 = n_2 \\sin i_2$, donc $\\sin i_2 = \\dfrac{n_1}{n_2}\\sin i_1$.',
+            hint: 'Utilise $\\sin(i_2) = \\dfrac{n_1 \\sin(i_1)}{n_2}$, puis la fonction $\\arcsin$ de la calculatrice.',
             solution: [
-              'Loi de Descartes : $n_1 \\sin i_1 = n_2 \\sin i_2$.',
-              'On isole : $\\sin i_2 = \\dfrac{n_1}{n_2}\\sin i_1 = \\dfrac{1}{' + fr(milieu.n, 2) + '}\\times\\sin ' + i1 + '°$.',
-              'Résultat : $i_2 \\approx ' + fr(i2, 1) + '°$, un angle plus petit que $i_1$ car le rayon se rapproche de la normale en entrant dans le milieu le plus réfringent.'
+              'Loi de Snell-Descartes : $n_1 \\sin(i_1) = n_2 \\sin(i_2)$, donc $\\sin(i_2) = \\dfrac{n_1 \\sin(i_1)}{n_2} = \\dfrac{\\sin(' + i1 + '°)}{' + fr(n2, 2) + '}$.',
+              'Valeur de $\\sin(i_2)$ : $\\approx ' + fr(parseFloat(sinI2.toFixed(3)), 3) + '$.',
+              'Résultat : $i_2 = \\arcsin(' + fr(parseFloat(sinI2.toFixed(3)), 3) + ') \\approx ' + fr(i2, 1) + '°$.'
             ]
           };
         } else {
-          var vCentiemes = rand(120, 290); // v en centiemes de 10^8 m/s, entre 1,20 et 2,90
-          var v = vCentiemes / 100;
-          var n = parseFloat((3 / v).toFixed(2));
+          var v = randFloat(1.7, 2.3, 2);
+          var n = parseFloat((3.00 / v).toFixed(2));
           var contexte2 = pick([
-            'un matériau transparent testé en laboratoire optique',
-            'une fibre optique de nouvelle génération',
-            'un verre de lunettes en cours de fabrication',
-            'un cristal utilisé en instrumentation scientifique'
+            'un matériau transparent inconnu analysé en laboratoire',
+            'un nouveau verre optique testé en contrôle qualité',
+            'un plastique transparent utilisé en optique',
+            'un échantillon de minéral transparent'
           ]);
           return {
-            statement: 'Dans ' + contexte2 + ', la lumière se propage à une vitesse $v = ' + fr(v, 2) + ' \\times 10^8$ m/s (on prend $c = 3\\times10^8$ m/s dans le vide).<br/><br/>Calcule l\'indice de réfraction $n$ de ce matériau (arrondi au centième).',
+            statement: 'Dans ' + contexte2 + ', on mesure que la lumière s\'y propage à la vitesse $v = ' + fr(v, 2) + ' \\times 10^8$ m/s. On donne $c \\approx 3{,}00 \\times 10^8$ m/s.<br/><br/>Calcule l\'indice de réfraction $n$ de ce milieu (arrondi au centième).',
             answer: n,
-            tolerance: 0.03,
+            tolerance: 0.02,
             unit: '',
-            hint: 'Utilise $n = \\dfrac{c}{v}$.',
+            hint: 'Utilise $n = \\dfrac{c}{v}$ (avec $c$ et $v$ exprimées dans la même unité).',
             solution: [
-              'Formule : $n = \\dfrac{c}{v} = \\dfrac{3\\times10^8}{' + fr(v, 2) + '\\times10^8}$.',
+              'Formule de l\'indice de réfraction : $n = \\dfrac{c}{v}$.',
+              'Application numérique : $n = \\dfrac{3{,}00}{' + fr(v, 2) + '}$ (les deux vitesses étant en $10^8$ m/s, le facteur se simplifie).',
               'Résultat : $n \\approx ' + fr(n, 2) + '$.'
             ]
           };
@@ -203,81 +192,82 @@ window.MODULES.push({
     },
 
     probleme: {
-      context: 'Un rayon de lumière blanche, provenant du Soleil, pénètre dans une goutte d\'eau sphérique avec un angle d\'incidence $i_1 = 40°$ (mesuré par rapport à la normale). L\'indice de réfraction de l\'eau dépend très légèrement de la couleur : $n_{rouge} = 1{,}331$ pour la lumière rouge, et $n_{violet} = 1{,}343$ pour la lumière violette.',
+      context: 'Une fibre optique est constituée d\'un cœur en verre d\'indice $n_1 = 1{,}50$, entouré d\'air ($n_2 = 1{,}00$). Un rayon lumineux se propage à l\'intérieur du cœur et atteint la paroi avec un angle d\'incidence $i_1$ (mesuré par rapport à la normale à la paroi).',
       tasks: [
-        'Calculer l\'angle de réfraction $i_2$ pour le rayon rouge, à l\'entrée dans la goutte d\'eau.',
-        'Calculer l\'angle de réfraction $i_2$ pour le rayon violet, dans les mêmes conditions, et comparer avec le résultat précédent.',
-        'Expliquer, à partir de ce résultat, l\'origine physique de la séparation des couleurs observée dans un arc-en-ciel.'
+        'Écrire la loi de Snell-Descartes pour ce passage verre → air, et exprimer $\\sin(i_2)$ en fonction de $i_1$.',
+        'Calculer l\'angle limite $i_{lim}$ au-delà duquel il n\'y a plus de rayon réfracté (cas où $i_2 = 90°$).',
+        'Expliquer pourquoi, pour un angle d\'incidence $i_1 > i_{lim}$, toute la lumière reste confinée dans le cœur de la fibre.'
       ],
       solutions: [
-        'Pour le rouge : $\\sin i_2 = \\dfrac{n_1}{n_{rouge}}\\sin i_1 = \\dfrac{1}{1{,}331}\\times\\sin 40° \\approx \\dfrac{0{,}643}{1{,}331} \\approx 0{,}483$, donc $i_2 \\approx 28{,}9°$.',
-        'Pour le violet : $\\sin i_2 = \\dfrac{1}{1{,}343}\\times\\sin 40° \\approx \\dfrac{0{,}643}{1{,}343} \\approx 0{,}479$, donc $i_2 \\approx 28{,}6°$. L\'angle de réfraction du violet est très légèrement <strong>plus petit</strong> que celui du rouge : les deux couleurs ne prennent pas exactement le même chemin dans la goutte d\'eau.',
-        'Cette différence, certes minime à l\'entrée de la goutte, provient uniquement du fait que l\'indice de réfraction de l\'eau varie très légèrement selon la couleur (phénomène de <strong>dispersion</strong>). À l\'intérieur de la goutte, le rayon subit ensuite une réflexion puis ressort en se réfractant une seconde fois, ce qui amplifie l\'écart angulaire entre les couleurs. Répété sur des milliards de gouttelettes en suspension dans l\'air, cet effet cumulé sépare visiblement les couleurs de la lumière blanche : c\'est l\'origine de l\'arc-en-ciel.'
+        '$n_1 \\sin(i_1) = n_2 \\sin(i_2)$, donc $\\sin(i_2) = \\dfrac{n_1}{n_2}\\sin(i_1) = 1{,}50 \\times \\sin(i_1)$.',
+        'Angle limite : pour $i_2 = 90°$, $\\sin(90°) = 1$, donc $\\sin(i_{lim}) = \\dfrac{n_2}{n_1} = \\dfrac{1{,}00}{1{,}50} \\approx 0{,}667$, soit $i_{lim} = \\arcsin(0{,}667) \\approx 41{,}8°$.',
+        'Au-delà de $i_{lim}$, l\'équation de Snell-Descartes n\'a plus de solution réelle pour $i_2$ (car $\\sin(i_2)$ dépasserait $1$, ce qui est impossible) : il n\'existe alors plus de rayon réfracté, toute la lumière est réfléchie à l\'intérieur du cœur. C\'est ce phénomène, la <strong>réflexion totale</strong>, qui confine la lumière dans la fibre.'
       ],
-      finalAnswer: '$i_2 \\approx 28{,}9°$ pour le rouge, $i_2 \\approx 28{,}6°$ pour le violet : un écart faible mais réel dès l\'entrée dans la goutte, dû à la dispersion (l\'indice de réfraction dépend de la couleur). Cet écart, amplifié par la réflexion interne dans chaque goutte et cumulé sur un grand nombre de gouttelettes, explique la séparation des couleurs de l\'arc-en-ciel.'
+      finalAnswer: '$i_{lim} \\approx 41{,}8°$. Au-delà de cet angle, la réflexion totale confine la lumière dans le cœur de la fibre : c\'est le principe physique qui rend possibles les télécommunications par fibre optique sur de très longues distances, sans perte de signal par fuite de lumière.'
     },
 
     evaluation: {
       title: 'Évaluation — La lumière (réfraction, spectre)',
-      duration: '25 min',
+      duration: '30 min',
       questions: [
         {
-          statement: 'Dans un milieu homogène et transparent, la lumière se propage :',
+          statement: 'Les angles d\'incidence et de réfraction d\'un rayon lumineux se mesurent par rapport à :',
           type: 'multiple-choice',
           options: [
-            'En ligne courbe',
-            'En ligne droite',
-            'De façon aléatoire',
-            'Uniquement dans le vide'
+            'La surface de séparation des milieux',
+            'La normale à la surface',
+            'Le rayon réfléchi',
+            'L\'axe optique de l\'instrument'
           ],
           answer: 1,
           points: 2,
-          correction: 'Dans un milieu homogène et transparent, la lumière se propage en <strong>ligne droite</strong> : c\'est le principe de propagation rectiligne.'
+          correction: 'Les angles se mesurent toujours par rapport à la <strong>normale</strong>, la droite perpendiculaire à la surface au point d\'incidence.'
         },
         {
-          statement: 'Un rayon lumineux passe de l\'air ($n_1=1$) au verre ($n_2=1{,}5$) avec un angle d\'incidence $i_1=30°$. Calculer l\'angle de réfraction $i_2$ (en degrés, arrondi au dixième).',
+          statement: 'Un rayon passe de l\'air ($n_1 = 1{,}00$) vers l\'eau ($n_2 = 1{,}33$) avec un angle d\'incidence $i_1 = 50°$. Calculer l\'angle de réfraction $i_2$ (en degrés).',
           type: 'numeric',
-          answer: 19.5,
+          answer: 35.2,
           tolerance: 1,
           unit: '°',
-          points: 2,
-          correction: '$\\sin i_2 = \\dfrac{n_1}{n_2}\\sin i_1 = \\dfrac{1}{1{,}5}\\times\\sin 30° = \\dfrac{0{,}5}{1{,}5} \\approx 0{,}333$, donc $i_2 \\approx 19{,}5°$.'
+          points: 3,
+          correction: '$\\sin(i_2) = \\dfrac{\\sin(50°)}{1{,}33} \\approx \\dfrac{0{,}766}{1{,}33} \\approx 0{,}576$, donc $i_2 = \\arcsin(0{,}576) \\approx 35{,}2°$.'
         },
         {
-          statement: 'Dans la loi de Snell-Descartes, les angles $i_1$ et $i_2$ sont mesurés par rapport à :',
+          statement: 'L\'indice de réfraction $n$ d\'un milieu transparent vérifie toujours :',
           type: 'multiple-choice',
           options: [
-            'La surface du dioptre',
-            'La normale au dioptre',
-            'L\'horizontale',
-            'Le rayon réfléchi'
+            '$n \\leqslant 1$',
+            '$n \\geqslant 1$',
+            '$n = 1$ dans tous les milieux',
+            '$n$ peut être négatif'
           ],
           answer: 1,
           points: 2,
-          correction: 'Les angles d\'incidence et de réfraction sont toujours mesurés par rapport à la <strong>normale</strong> (perpendiculaire à la surface au point d\'incidence), jamais par rapport à la surface elle-même.'
+          correction: 'L\'indice de réfraction vérifie toujours $n \\geqslant 1$, car la vitesse de la lumière dans un milieu matériel ($v$) est toujours inférieure ou égale à sa vitesse dans le vide ($c$), et $n = \\dfrac{c}{v}$.'
         },
         {
-          statement: 'Dans un matériau, la lumière se propage à $v = 2\\times10^8$ m/s. Calculer son indice de réfraction $n$ (avec $c=3\\times10^8$ m/s).',
+          statement: 'La lumière se propage à la vitesse $v = 2{,}00 \\times 10^8$ m/s dans un milieu transparent. Calculer son indice de réfraction $n$ (on donne $c \\approx 3{,}00 \\times 10^8$ m/s).',
           type: 'numeric',
           answer: 1.5,
           tolerance: 0.05,
           unit: '',
-          points: 3,
-          correction: '$n = \\dfrac{c}{v} = \\dfrac{3\\times10^8}{2\\times10^8} = 1{,}5$.'
+          points: 2,
+          correction: '$n = \\dfrac{c}{v} = \\dfrac{3{,}00}{2{,}00} = 1{,}50$.'
         },
         {
-          statement: 'La dispersion de la lumière blanche par un prisme s\'explique par le fait que :',
+          statement: 'La décomposition de la lumière blanche par un prisme s\'explique par :',
           type: 'multiple-choice',
           options: [
-            'Le prisme absorbe certaines couleurs',
-            'L\'indice de réfraction du prisme dépend légèrement de la couleur',
-            'La lumière blanche ne contient qu\'une seule longueur d\'onde',
-            'Le prisme réfléchit toute la lumière incidente'
+            'La réflexion totale à l\'intérieur du prisme',
+            'La dispersion : l\'indice de réfraction dépend de la couleur',
+            'L\'absorption du prisme',
+            'La diffraction du prisme uniquement'
           ],
           answer: 1,
           points: 1,
-          correction: 'Chaque couleur de la lumière blanche est déviée différemment car l\'indice de réfraction du prisme varie très légèrement selon la couleur (la longueur d\'onde) : c\'est le phénomène de dispersion, à l\'origine du spectre observé.'
+          correction: 'C\'est la <strong>dispersion</strong> : l\'indice de réfraction du verre du prisme varie légèrement selon la couleur de la lumière, chaque couleur étant donc déviée différemment.'
         }
       ]
     }
   });
+

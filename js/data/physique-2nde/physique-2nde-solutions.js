@@ -5,211 +5,185 @@
 window.MODULES.push({
     id: 'physique-2nde-solutions',
     level: 2, subject: 'physique',
-    icon: '🧪',
-    title: `Solutions aqueuses (concentration)`,
-    subtitle: `Concentration molaire, concentration massique, dilution`,
-    keywords: ['Solution aqueuse', 'Concentration molaire', 'Concentration massique', 'Dilution', `Soluté`],
-    physics: `La notion de concentration permet de doser le sel dans un sérum physiologique, de préparer une solution désinfectante à la bonne dilution, de vérifier la conformité d'une eau minérale, ou de comprendre les étiquettes indiquant la teneur en principe actif d'un médicament en solution.`,
+    icon: '💧',
+    title: 'Solutions aqueuses (concentration)',
+    subtitle: 'Concentration massique et molaire, dilution, facteur de dilution, verrerie de précision',
+    keywords: ['Solution aqueuse', 'Concentration', 'Dilution', 'Soluté', 'Solvant'],
+    physics: 'Maîtriser les concentrations et les dilutions permet de préparer un médicament au bon dosage, de contrôler la teneur en chlore d\'une eau de piscine, ou de doser un engrais agricole sans risquer de brûler les cultures.',
 
     cours: {
-      intro: `Une <strong>solution aqueuse</strong> est obtenue en dissolvant une espèce chimique, le <strong>soluté</strong>, dans un grand volume d'eau, le <strong>solvant</strong>. La quantité de soluté dissoute dans un volume donné de solution définit sa <strong>concentration</strong>.<br/><br/>On distingue deux façons d'exprimer cette concentration. La <strong>concentration molaire</strong> $C = \\dfrac{n}{V}$ (en mol/L) utilise la quantité de matière $n$ (en mol) de soluté dissoute dans le volume $V$ (en L) de solution. La <strong>concentration massique</strong> $C_m = \\dfrac{m}{V}$ (en g/L) utilise directement la masse $m$ (en g) de soluté dissoute. Les deux sont reliées par la masse molaire $M$ du soluté : $C_m = C \\times M$.<br/><br/>Lorsqu'on ajoute du solvant à une solution existante, on effectue une <strong>dilution</strong> : le volume augmente, mais la quantité de matière de soluté prélevée reste inchangée. La concentration diminue donc, selon la relation $C_1 V_1 = C_2 V_2$.`,
+      intro: 'Un sirop pour la toux, une solution de sérum physiologique, l\'eau chlorée d\'une piscine : dans tous ces cas, une espèce chimique a été dissoute dans l\'eau. Cette espèce dissoute s\'appelle le <strong>soluté</strong>, l\'eau qui la dissout est le <strong>solvant</strong>, et l\'ensemble forme une <strong>solution aqueuse</strong>.<br/><br/>Pour qu\'un médicament soit efficace sans être dangereux, ou qu\'un traitement de piscine soit assez concentré sans irriter la peau, il faut savoir quantifier précisément la quantité de soluté dissoute : c\'est le rôle de la <strong>concentration</strong>. Ce chapitre présente aussi une opération très courante en laboratoire : la <strong>dilution</strong>, qui permet de préparer une solution moins concentrée à partir d\'une solution mère.',
       definitions: [
-        { term: `Solution aqueuse`, def: `Mélange homogène obtenu en dissolvant une espèce chimique, le <strong>soluté</strong>, dans l'eau, le <strong>solvant</strong>.` },
-        { term: `Concentration molaire`, def: `Quantité de matière $n$ (en mol) de soluté dissoute par litre de solution : $C = \\dfrac{n}{V}$, en mol/L.` },
-        { term: `Concentration massique`, def: `Masse $m$ (en g) de soluté dissoute par litre de solution : $C_m = \\dfrac{m}{V}$, en g/L. Reliée à la concentration molaire par $C_m = C \\times M$, où $M$ est la masse molaire du soluté (en g/mol).` },
-        { term: `Dilution`, def: `Opération consistant à ajouter du solvant à une solution pour diminuer sa concentration, sans changer la quantité de matière de soluté prélevée : $C_1 V_1 = C_2 V_2$ (indices 1 pour la solution mère, 2 pour la solution diluée).` },
-        { term: `Facteur de dilution`, def: `Nombre $F = \\dfrac{C_1}{C_2} = \\dfrac{V_2}{V_1}$ qui indique combien de fois la concentration a été divisée lors de la dilution (par exemple $F = 10$ pour une dilution au dixième).` }
+        { term: 'Solution aqueuse', def: 'Mélange liquide homogène obtenu en dissolvant une espèce chimique, le <strong>soluté</strong>, dans un solvant, ici l\'<strong>eau</strong>.' },
+        { term: 'Concentration massique $c_m$', def: 'Masse de soluté dissoute par litre de solution : $c_m = \\dfrac{m}{V}$, en g/L (avec $m$ en g et $V$ en L).' },
+        { term: 'Concentration molaire $c$', def: 'Quantité de matière de soluté dissoute par litre de solution : $c = \\dfrac{n}{V}$, en mol/L, avec $n = \\dfrac{m}{M}$ ($M$ = masse molaire du soluté, en g/mol).' },
+        { term: 'Dilution', def: 'Opération qui consiste à diminuer la concentration d\'une solution en y ajoutant du solvant. La quantité de matière de soluté est conservée : $C_{mère} \\times V_{prélevé} = C_{fille} \\times V_{fille}$.' }
       ],
       method: {
-        title: `Réaliser et calculer une dilution, en 3 étapes`,
+        title: 'Réaliser (ou exploiter) une dilution en 3 étapes',
         steps: [
-          `<strong>Prélever un volume $V_1$</strong> de solution mère (de concentration $C_1$ connue) à l'aide d'une pipette jaugée.`,
-          `<strong>Introduire ce volume dans une fiole jaugée</strong> de volume final $V_2 > V_1$, puis compléter avec de l'eau distillée jusqu'au <strong>trait de jauge</strong> (repère précis gravé sur le col de la fiole).`,
-          `<strong>Calculer la nouvelle concentration</strong> $C_2$ grâce à la relation de conservation de la quantité de matière de soluté : $C_1 V_1 = C_2 V_2$, donc $C_2 = \\dfrac{C_1 V_1}{V_2}$.`
+          '<strong>Identifier</strong> la solution mère (concentration $C_{mère}$ connue) et la solution fille souhaitée (volume $V_{fille}$ et concentration $C_{fille}$ visés).',
+          '<strong>Calculer le volume à prélever</strong> grâce à la conservation de la quantité de matière de soluté : $C_{mère} \\times V_{prélevé} = C_{fille} \\times V_{fille}$, donc $V_{prélevé} = \\dfrac{C_{fille} \\times V_{fille}}{C_{mère}}$.',
+          '<strong>Réaliser la dilution</strong> : prélever $V_{prélevé}$ à la pipette jaugée, le verser dans une fiole jaugée de volume $V_{fille}$, puis compléter avec de l\'eau distillée jusqu\'au trait de jauge (en homogénéisant par retournements).'
         ]
       },
       diagram: {
         theme: 'physique',
-        kicker: `Dilution d'une solution`,
-        title: `Conservation de la quantité de matière de soluté lors d'une dilution`,
-        description: `Le même nombre de particules de soluté prélevées dans la solution mère ($C_1, V_1$) se retrouve dans un volume plus grand après ajout de solvant jusqu'au trait de jauge, donnant la solution fille diluée ($C_2, V_2$).`,
+        kicker: 'Préparation d\'une solution par dilution',
+        title: 'De la solution mère à la solution fille',
+        description: 'On prélève un volume $V_{prélevé} = 10$ mL d\'une solution mère à $C_m = 1{,}0$ mol/L, puis on complète avec de l\'eau distillée jusqu\'au trait de jauge d\'une fiole jaugée de $V_{fille} = 100$ mL.',
         svg: `
-          <svg viewBox="0 0 560 330" role="img" aria-labelledby="solutions-2nde-title solutions-2nde-desc">
-            <title id="solutions-2nde-title">Schema d'une dilution entre une solution mere et une solution fille</title>
-            <desc id="solutions-2nde-desc">Deux flacons en forme de ballon a col sont representes cote a cote. Le flacon de gauche, la solution mere, contient douze points representant des particules de solute, denses dans un petit volume. Une fleche horizontale relie ce flacon a celui de droite, une fiole jaugee munie d'un trait de jauge sur son col. Le flacon de droite contient exactement le meme nombre de douze points, mais repartis dans un volume plus grand incluant le col, jusqu'au trait de jauge, traduisant une concentration plus faible pour la meme quantite de matiere.</desc>
+          <svg viewBox="0 0 560 300" role="img" aria-labelledby="solutions2nde-title solutions2nde-desc">
+            <title id="solutions2nde-title">Schema de preparation d'une solution fille par dilution</title>
+            <desc id="solutions2nde-desc">A gauche, un flacon represente la solution mere concentree. Une fleche horizontale relie ce flacon a une fiole jaugee dessinee a droite, en forme de poire avec un long col etroit portant un trait de jauge horizontal. La fleche est annotee en deux etapes : prelevement d'un petit volume de solution mere, puis complement avec de l'eau distillee jusqu'au trait de jauge. La fiole jaugee, beaucoup plus diluee, represente la solution fille obtenue.</desc>
 
             <defs>
-              <marker id="arrow-phys2nde-solutions" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+              <marker id="arrow-phys2-solutions" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
                 <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
               </marker>
             </defs>
 
-            <!-- flacon de gauche : solution mere -->
-            <ellipse class="frame-line" cx="140" cy="220" rx="70" ry="55" fill="none"></ellipse>
-            <rect class="frame-line" x="120" y="110" width="40" height="55" fill="none"></rect>
+            <!-- flacon : solution mere -->
+            <text class="label-soft" x="120" y="95" text-anchor="middle">Solution mère</text>
+            <rect class="frame-line" x="110" y="110" width="20" height="30" fill="none"></rect>
+            <rect class="frame-line" x="85" y="140" width="70" height="90" fill="none"></rect>
+            <line class="guide-line" x1="85" y1="172" x2="155" y2="172"></line>
+            <text class="tick-label" x="120" y="192" text-anchor="middle">Cm = 1,0 mol/L</text>
 
-            <g>
-              <circle class="plot-point" cx="110" cy="200" r="4"></circle>
-              <circle class="plot-point" cx="140" cy="195" r="4"></circle>
-              <circle class="plot-point" cx="170" cy="200" r="4"></circle>
-              <circle class="plot-point" cx="120" cy="220" r="4"></circle>
-              <circle class="plot-point" cx="150" cy="215" r="4"></circle>
-              <circle class="plot-point" cx="180" cy="222" r="4"></circle>
-              <circle class="plot-point" cx="105" cy="240" r="4"></circle>
-              <circle class="plot-point" cx="135" cy="245" r="4"></circle>
-              <circle class="plot-point" cx="165" cy="242" r="4"></circle>
-              <circle class="plot-point" cx="190" cy="235" r="4"></circle>
-              <circle class="plot-point" cx="125" cy="205" r="4"></circle>
-              <circle class="plot-point" cx="155" cy="235" r="4"></circle>
-            </g>
+            <!-- fleche de transfert -->
+            <line class="curve-main" x1="170" y1="175" x2="385" y2="175" marker-end="url(#arrow-phys2-solutions)"></line>
+            <text class="annotation-label" x="277" y="158" text-anchor="middle">1. Prélever Vprélevé = 10 mL</text>
+            <text class="annotation-label" x="277" y="196" text-anchor="middle">2. Compléter à l'eau distillée</text>
 
-            <text class="label-soft" x="140" y="298" text-anchor="middle">Solution mère (C₁, V₁)</text>
+            <!-- fiole jaugee : solution fille -->
+            <text class="label-soft" x="430" y="75" text-anchor="middle">Solution fille</text>
+            <path class="frame-line" fill="none" d="M395,230 L465,230 L440,170 L440,90 L420,90 L420,170 Z"></path>
+            <line class="curve-main" x1="416" y1="110" x2="444" y2="110"></line>
+            <text class="tick-label" x="452" y="113" text-anchor="start">trait de jauge</text>
+            <text class="tick-label" x="430" y="248" text-anchor="middle">Cf = 0,10 mol/L</text>
+            <text class="tick-label" x="430" y="264" text-anchor="middle">Vfille = 100 mL</text>
 
-            <!-- fleche de dilution -->
-            <line class="curve-main" x1="228" y1="195" x2="382" y2="195" marker-end="url(#arrow-phys2nde-solutions)"></line>
-            <text class="tick-label" x="305" y="180" text-anchor="middle">+ solvant, jusqu'au trait de jauge</text>
-
-            <!-- flacon de droite : fiole jaugee, solution fille -->
-            <ellipse class="frame-line" cx="420" cy="220" rx="70" ry="55" fill="none"></ellipse>
-            <rect class="frame-line" x="400" y="90" width="40" height="75" fill="none"></rect>
-            <line class="frame-line" x1="394" y1="140" x2="446" y2="140"></line>
-            <text class="tick-label" x="452" y="144" text-anchor="start">Trait de jauge</text>
-
-            <g>
-              <circle class="plot-point" cx="390" cy="205" r="4"></circle>
-              <circle class="plot-point" cx="420" cy="195" r="4"></circle>
-              <circle class="plot-point" cx="450" cy="205" r="4"></circle>
-              <circle class="plot-point" cx="400" cy="225" r="4"></circle>
-              <circle class="plot-point" cx="430" cy="220" r="4"></circle>
-              <circle class="plot-point" cx="455" cy="230" r="4"></circle>
-              <circle class="plot-point" cx="385" cy="245" r="4"></circle>
-              <circle class="plot-point" cx="415" cy="250" r="4"></circle>
-              <circle class="plot-point" cx="445" cy="242" r="4"></circle>
-              <circle class="plot-point" cx="465" cy="235" r="4"></circle>
-              <circle class="plot-point" cx="405" cy="150" r="4"></circle>
-              <circle class="plot-point" cx="435" cy="150" r="4"></circle>
-            </g>
-
-            <text class="label-soft" x="420" y="298" text-anchor="middle">Solution fille (C₂, V₂)</text>
+            <text class="label-soft" x="280" y="278" text-anchor="middle">Facteur de dilution : F = Cm / Cf = 10</text>
           </svg>
         `,
         notes: [
-          `La solution mère contient une certaine quantité de matière de soluté $n$ dissoute dans un volume $V_1$ : c'est le rapport $\\dfrac{n}{V_1}$ qui définit sa concentration molaire $C_1$.`,
-          `Lors d'une <strong>dilution</strong>, on prélève un volume $V_1$ de solution mère que l'on introduit dans une fiole jaugée, puis on complète avec du solvant jusqu'au <strong>trait de jauge</strong> pour atteindre un volume final $V_2 > V_1$.`,
-          `La quantité de matière de soluté prélevée ne change pas pendant la dilution (même nombre de points sur le schéma) : seul le volume augmente, donc la concentration diminue. C'est ce que traduit la relation $C_1 V_1 = C_2 V_2$.`
+          'La quantité de matière de soluté prélevée est <strong>conservée</strong> lors de la dilution : $C_m \\times V_{prélevé} = C_f \\times V_{fille}$, soit $1{,}0 \\times 10 = 0{,}10 \\times 100$ (en mL et mol/L) — les deux produits valent bien $10$.',
+          'La fiole jaugée est complétée avec de l\'eau distillée exactement jusqu\'au <strong>trait de jauge</strong> : c\'est ce repère qui garantit un volume final $V_{fille}$ précis, condition indispensable pour une concentration fiable.',
+          'Le facteur de dilution $F = \\dfrac{C_m}{C_f} = \\dfrac{1{,}0}{0{,}10} = 10$ indique que la solution fille est $10$ fois moins concentrée que la solution mère.'
         ],
-        reading: `Compare le nombre de particules de soluté (points) dans les deux flacons : il est identique, mais réparti dans un volume plus grand à droite — c'est pour cela que la solution est plus diluée.`,
-        caption: `Schéma d'une dilution : le même nombre de particules de soluté prélevées dans la solution mère ($C_1, V_1$) se retrouve dans un plus grand volume de solvant, jusqu'au trait de jauge, donnant la solution fille diluée ($C_2, V_2$).`
+        reading: 'Repère d\'abord le flacon de solution mère à gauche, suis la flèche en deux étapes (prélèvement puis ajout d\'eau), puis observe la fiole jaugée de droite et son trait de jauge, qui fixe le volume final.',
+        caption: 'Préparation d\'une solution fille par dilution : prélèvement de $10$ mL de solution mère à $1{,}0$ mol/L, complété à l\'eau distillée jusqu\'au trait de jauge d\'une fiole de $100$ mL (facteur de dilution $F = 10$).'
       },
       example: {
-        statement: `On dissout $n = 0{,}2$ mol de chlorure de sodium (sel) dans une fiole jaugée que l'on complète avec de l'eau distillée jusqu'à un volume final $V = 500$ mL.<br/><br/>Calculer la concentration molaire $C$ de la solution obtenue.`,
+        statement: 'On dissout $m = 4{,}0$ g d\'hydroxyde de sodium (soude, $M = 40$ g/mol) dans de l\'eau distillée, puis on complète jusqu\'à un volume $V = 500$ mL de solution.<br/><br/>Calcule la concentration molaire $c$ de cette solution.',
         steps: [
-          `Convertir le volume en litres : $V = 500$ mL $= 0{,}5$ L.`,
-          `Appliquer la formule de la concentration molaire : $C = \\dfrac{n}{V} = \\dfrac{0{,}2}{0{,}5}$.`,
-          `Résultat : $C = 0{,}4$ mol/L.`
+          'Quantité de matière de soluté dissoute : $n = \\dfrac{m}{M} = \\dfrac{4{,}0}{40} = 0{,}10$ mol.',
+          'Volume de solution (attention à l\'unité, en litres) : $V = 500$ mL $= 0{,}500$ L.',
+          'Concentration molaire : $c = \\dfrac{n}{V} = \\dfrac{0{,}10}{0{,}500} = 0{,}20$ mol/L.'
         ],
-        answer: `$C = 0{,}4$ mol/L. Cette concentration ne dépend que de la quantité de matière dissoute et du volume final de la solution — peu importe l'ordre dans lequel le soluté et le solvant ont été ajoutés.`
+        answer: '$c = 0{,}20$ mol/L. La conversion du volume en litres est une étape à ne jamais oublier : oublier de diviser par $1\\,000$ pour passer des mL aux L est une des erreurs les plus fréquentes sur ce type de calcul.'
       },
       formulas: [
-        `Concentration molaire : $C = \\dfrac{n}{V}$, en mol/L`,
-        `Concentration massique : $C_m = \\dfrac{m}{V}$, en g/L`,
-        `Relation entre les deux : $C_m = C \\times M$`,
-        `Dilution : $C_1 V_1 = C_2 V_2$`,
-        `Facteur de dilution : $F = \\dfrac{C_1}{C_2} = \\dfrac{V_2}{V_1}$`
+        'Concentration massique : $c_m = \\dfrac{m}{V}$ (en g/L, avec $m$ en g et $V$ en L)',
+        'Concentration molaire : $c = \\dfrac{n}{V}$ (en mol/L), avec $n = \\dfrac{m}{M}$',
+        'Dilution (conservation de la quantité de matière de soluté) : $C_{mère} \\times V_{prélevé} = C_{fille} \\times V_{fille}$',
+        'Facteur de dilution : $F = \\dfrac{C_{mère}}{C_{fille}} = \\dfrac{V_{fille}}{V_{prélevé}}$'
       ],
       recap: [
-        `La <strong>concentration molaire</strong> ($C = n/V$, en mol/L) et la <strong>concentration massique</strong> ($C_m = m/V$, en g/L) décrivent toutes deux la quantité de soluté dissoute dans un volume de solution, reliées par $C_m = C \\times M$.`,
-        `Une <strong>dilution</strong> ajoute du solvant sans changer la quantité de matière de soluté : le volume augmente, la concentration diminue.`,
-        `La relation $C_1 V_1 = C_2 V_2$ traduit cette conservation de la quantité de matière lors d'une dilution.`,
-        `Le <strong>trait de jauge</strong> d'une fiole jaugée garantit un volume final précis, indispensable pour calculer une concentration fiable.`
+        'Une <strong>solution aqueuse</strong> résulte de la dissolution d\'un soluté dans l\'eau (solvant).',
+        'Concentration massique $c_m = \\dfrac{m}{V}$ (g/L) et concentration molaire $c = \\dfrac{n}{V}$ (mol/L) décrivent la même idée dans des unités différentes.',
+        'Une <strong>dilution</strong> conserve la quantité de matière de soluté : $C_{mère} \\times V_{prélevé} = C_{fille} \\times V_{fille}$.',
+        'Le facteur de dilution $F = \\dfrac{C_{mère}}{C_{fille}}$ indique combien de fois la concentration a été divisée.'
       ],
-      piege: `Une confusion fréquente consiste à croire qu'une dilution modifie la quantité de matière de soluté prélevée. Attention, c'est faux : diluer ne fait qu'ajouter du solvant, la quantité de matière de soluté reste rigoureusement la même avant et après — c'est justement parce que cette quantité est répartie dans un plus grand volume que la concentration diminue.`
+      piege: 'Une erreur fréquente est d\'inverser les volumes dans la relation de dilution, en associant $C_{mère}$ au grand volume final et $C_{fille}$ au petit volume prélevé. Attention : c\'est toujours le <strong>petit volume prélevé</strong> dans la solution la plus concentrée qui se combine à $C_{mère}$, et le <strong>grand volume final</strong> $V_{fille}$ qui se combine à $C_{fille}$, la concentration la plus faible.'
     },
 
     quiz: [
       {
-        q: `La concentration molaire d'une solution se calcule par :`,
+        q: 'On dissout $m = 5{,}0$ g de sel dans de l\'eau pour obtenir $V = 250$ mL de solution. Quelle est sa concentration massique $c_m$ ?',
         options: [
-          `$C = n \\times V$`,
-          `$C = \\dfrac{n}{V}$`,
-          `$C = \\dfrac{V}{n}$`,
-          `$C = n + V$`
+          '$c_m = 20$ g/L',
+          '$c_m = 0{,}05$ g/L',
+          '$c_m = 1\\,250$ g/L',
+          '$c_m = 0{,}02$ g/L'
         ],
-        answer: 1,
-        correction: `La concentration molaire est le rapport de la quantité de matière de soluté sur le volume de solution : $C = \\dfrac{n}{V}$, en mol/L.`
+        answer: 0,
+        correction: '$c_m = \\dfrac{m}{V} = \\dfrac{5{,}0}{0{,}250} = 20$ g/L (attention à bien convertir $250$ mL en $0{,}250$ L avant de diviser).'
       },
       {
-        q: `Lors d'une dilution, la quantité de matière de soluté prélevée :`,
+        q: 'On prélève $20$ mL d\'une solution mère à $2{,}0$ mol/L, puis on complète jusqu\'à $200$ mL avec de l\'eau distillée. Quelle est la concentration de la solution fille ?',
         options: [
-          `Augmente`,
-          `Diminue`,
-          `Reste inchangée`,
-          `Devient nulle`
+          '$C_f = 0{,}20$ mol/L',
+          '$C_f = 20$ mol/L',
+          '$C_f = 2{,}0$ mol/L',
+          '$C_f = 0{,}02$ mol/L'
+        ],
+        answer: 0,
+        correction: '$C_f = \\dfrac{C_m \\times V_{prélevé}}{V_{fille}} = \\dfrac{2{,}0 \\times 20}{200} = 0{,}20$ mol/L.'
+      },
+      {
+        q: 'Lorsqu\'on dilue une solution mère pour obtenir une solution fille, quelle quantité reste inchangée ?',
+        options: [
+          'Le volume de la solution',
+          'La concentration de la solution',
+          'La quantité de matière de soluté dissoute',
+          'La masse volumique du solvant'
         ],
         answer: 2,
-        correction: `Diluer consiste uniquement à ajouter du solvant : la quantité de matière de soluté prélevée dans la solution mère <strong>reste inchangée</strong>. C'est la répartition de cette même quantité dans un plus grand volume qui fait diminuer la concentration.`
-      },
-      {
-        q: `On prélève $V_1 = 10$ mL d'une solution mère de concentration $C_1 = 0{,}5$ mol/L, que l'on dilue jusqu'à un volume final $V_2 = 100$ mL. Quelle est la concentration $C_2$ de la solution diluée ?`,
-        options: [
-          `$C_2 = 5$ mol/L`,
-          `$C_2 = 0{,}05$ mol/L`,
-          `$C_2 = 0{,}5$ mol/L`,
-          `$C_2 = 50$ mol/L`
-        ],
-        answer: 1,
-        correction: `$C_2 = \\dfrac{C_1 V_1}{V_2} = \\dfrac{0{,}5 \\times 10}{100} = \\dfrac{5}{100} = 0{,}05$ mol/L.`
+        correction: 'La dilution ajoute du solvant, ce qui augmente le volume et diminue la concentration — mais la <strong>quantité de matière de soluté</strong> prélevée, elle, ne change pas : c\'est ce principe de conservation qui permet d\'établir $C_{mère}V_{prélevé} = C_{fille}V_{fille}$.'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
-        var typeExo = pick(['concentration_molaire', 'dilution']);
+        var typeExo = pick(['concentration_massique', 'dilution']);
 
-        if (typeExo === 'concentration_molaire') {
-          var n = randFloat(0.05, 2, 2);
-          var V = randFloat(0.1, 2, 2);
-          var C = parseFloat((n / V).toFixed(3));
+        if (typeExo === 'concentration_massique') {
+          var m = randFloat(1, 50, 1);
+          var Vml = pick([100, 150, 200, 250, 500, 1000]);
+          var Vl = Vml / 1000;
+          var cm = parseFloat((m / Vl).toFixed(1));
           var contexte = pick([
-            `une solution préparée en laboratoire`,
-            `un flacon de sérum physiologique reconstitué`,
-            `une solution utilisée pour un contrôle qualité`,
-            `un bain de traitement de surface`
+            'un sérum physiologique préparé en pharmacie',
+            'une solution de nettoyage pour piscine',
+            'un engrais liquide dilué pour l\'arrosage',
+            'une solution saline utilisée en travaux pratiques',
+            'un produit de traitement d\'eau potable'
           ]);
           return {
-            statement: 'On dissout une quantité de matière $n = ' + fr(n, 2) + '$ mol de soluté dans ' + contexte + ', pour obtenir un volume final $V = ' + fr(V, 2) + '$ L.<br/><br/>Calcule la concentration molaire $C$ de cette solution (en mol/L, arrondie au millième).',
-            answer: C,
-            tolerance: Math.max(0.005, parseFloat((C * 0.03).toFixed(3))),
-            unit: 'mol/L',
-            hint: 'La concentration molaire se calcule par $C = \\dfrac{n}{V}$.',
+            statement: 'Pour préparer ' + contexte + ', on dissout une masse $m = ' + fr(m, 1) + '$ g de soluté dans de l\'eau, puis on complète jusqu\'à un volume $V = ' + Vml + '$ mL de solution.<br/><br/>Calcule la concentration massique $c_m$ de cette solution (en g/L, arrondie au dixième).',
+            answer: cm,
+            tolerance: Math.max(0.3, parseFloat((cm * 0.03).toFixed(1))),
+            unit: 'g/L',
+            hint: 'Convertis d\'abord le volume en litres, puis utilise $c_m = \\dfrac{m}{V}$.',
             solution: [
-              'Formule : $C = \\dfrac{n}{V}$.',
-              'Application numérique : $C = \\dfrac{' + fr(n, 2) + '}{' + fr(V, 2) + '}$.',
-              'Résultat : $C \\approx ' + fr(C, 3) + '$ mol/L.'
+              'Conversion du volume : $V = ' + Vml + '$ mL $= ' + fr(Vl, 3) + '$ L.',
+              'Formule de la concentration massique : $c_m = \\dfrac{m}{V} = \\dfrac{' + fr(m, 1) + '}{' + fr(Vl, 3) + '}$.',
+              'Résultat : $c_m \\approx ' + fr(cm, 1) + '$ g/L.'
             ]
           };
         } else {
-          var C1 = pick([0.1, 0.2, 0.5, 1, 2]);
-          var V1 = pick([5, 10, 15, 20, 25]);
-          var V2 = pick([50, 100, 200, 250, 500]);
-          var C2 = parseFloat((C1 * V1 / V2).toFixed(4));
+          var Cm = pick([0.5, 1.0, 1.5, 2.0, 2.5, 3.0]);
+          var Vprel = pick([5, 10, 15, 20, 25, 50]);
+          var Vfille = pick([100, 200, 250, 500]);
+          var Cf = parseFloat((Cm * Vprel / Vfille).toFixed(3));
           var contexte2 = pick([
-            `un protocole de dilution en travaux pratiques`,
-            `la préparation d'une solution diluée pour un titrage`,
-            `un contrôle qualité en laboratoire d'analyses`,
-            `la préparation d'un désinfectant de surface`
+            'un laboratoire de contrôle qualité',
+            'une préparation pharmaceutique',
+            'un protocole de travaux pratiques',
+            'un service d\'analyse environnementale'
           ]);
           return {
-            statement: 'Dans le cadre de ' + contexte2 + ', on prélève un volume $V_1 = ' + V1 + '$ mL d\'une solution mère de concentration $C_1 = ' + fr(C1, 1) + '$ mol/L, que l\'on dilue jusqu\'à un volume final $V_2 = ' + V2 + '$ mL.<br/><br/>Calcule la concentration $C_2$ de la solution diluée (en mol/L, arrondie au dix-millième).',
-            answer: C2,
-            tolerance: Math.max(0.0005, parseFloat((C2 * 0.03).toFixed(4))),
+            statement: 'Dans ' + contexte2 + ', on prélève $V_{prélevé} = ' + Vprel + '$ mL d\'une solution mère à $C_m = ' + fr(Cm, 1) + '$ mol/L, puis on complète avec de l\'eau distillée jusqu\'à un volume $V_{fille} = ' + Vfille + '$ mL.<br/><br/>Calcule la concentration $C_f$ de la solution fille obtenue (en mol/L, arrondie au millième).',
+            answer: Cf,
+            tolerance: Math.max(0.005, parseFloat((Cf * 0.03).toFixed(3))),
             unit: 'mol/L',
-            hint: 'Utilise la relation de dilution $C_1 V_1 = C_2 V_2$, donc $C_2 = \\dfrac{C_1 V_1}{V_2}$.',
+            hint: 'La quantité de matière de soluté est conservée : $C_m \\times V_{prélevé} = C_f \\times V_{fille}$.',
             solution: [
-              'Relation de dilution : $C_1 V_1 = C_2 V_2$, donc $C_2 = \\dfrac{C_1 V_1}{V_2}$.',
-              'Application numérique : $C_2 = \\dfrac{' + fr(C1, 1) + ' \\times ' + V1 + '}{' + V2 + '}$.',
-              'Résultat : $C_2 \\approx ' + fr(C2, 4) + '$ mol/L.'
+              'Conservation de la quantité de matière : $C_m \\times V_{prélevé} = C_f \\times V_{fille}$.',
+              'On isole $C_f$ : $C_f = \\dfrac{C_m \\times V_{prélevé}}{V_{fille}} = \\dfrac{' + fr(Cm, 1) + ' \\times ' + Vprel + '}{' + Vfille + '}$.',
+              'Résultat : $C_f \\approx ' + fr(Cf, 3) + '$ mol/L.'
             ]
           };
         }
@@ -217,77 +191,78 @@ window.MODULES.push({
     },
 
     probleme: {
-      context: `Un laboratoire dispose d'une solution mère de sulfate de cuivre de concentration $C_1 = 1$ mol/L. On souhaite préparer un volume $V_2 = 250$ mL d'une solution diluée de concentration $C_2 = 0{,}1$ mol/L.`,
+      context: 'Une solution mère d\'antiseptique a une concentration $C_m = 5{,}0$ mol/L. Un protocole médical impose une concentration finale $C_f = 0{,}25$ mol/L pour une solution fille de volume $V_{fille} = 500$ mL.',
       tasks: [
-        `Calculer le volume $V_1$ de solution mère à prélever pour réaliser cette dilution.`,
-        `Décrire le protocole expérimental (verrerie utilisée, étapes) permettant de réaliser cette dilution au laboratoire.`,
-        `Calculer le facteur de dilution $F$ appliqué, et vérifier sa cohérence par un second calcul.`
+        'Calculer le facteur de dilution $F$ à appliquer.',
+        'En déduire le volume $V_{prélevé}$ de solution mère à prélever.',
+        'Décrire le matériel de verrerie et le protocole à suivre pour réaliser cette dilution.'
       ],
       solutions: [
-        `D'après $C_1 V_1 = C_2 V_2$ : $V_1 = \\dfrac{C_2 V_2}{C_1} = \\dfrac{0{,}1 \\times 250}{1} = 25$ mL.`,
-        `On prélève $V_1 = 25$ mL de solution mère à l'aide d'une <strong>pipette jaugée</strong>, on l'introduit dans une <strong>fiole jaugée</strong> de $250$ mL, puis on complète avec de l'eau distillée jusqu'au <strong>trait de jauge</strong>. On homogénéise enfin la solution en retournant la fiole plusieurs fois, bouchon fermé.`,
-        `Facteur de dilution : $F = \\dfrac{C_1}{C_2} = \\dfrac{1}{0{,}1} = 10$. Vérification par les volumes : $F = \\dfrac{V_2}{V_1} = \\dfrac{250}{25} = 10$ — les deux calculs sont cohérents, la dilution est bien « au dixième ».`
+        'Facteur de dilution : $F = \\dfrac{C_m}{C_f} = \\dfrac{5{,}0}{0{,}25} = 20$.',
+        'Comme $F = \\dfrac{V_{fille}}{V_{prélevé}}$, on a $V_{prélevé} = \\dfrac{V_{fille}}{F} = \\dfrac{500}{20} = 25$ mL (on retrouve le même résultat avec $V_{prélevé} = \\dfrac{C_f \\times V_{fille}}{C_m} = \\dfrac{0{,}25 \\times 500}{5{,}0} = 25$ mL).',
+        'Il faut prélever $25$ mL de solution mère à l\'aide d\'une <strong>pipette jaugée</strong> de $25$ mL, les verser dans une <strong>fiole jaugée</strong> de $500$ mL, puis compléter avec de l\'eau distillée jusqu\'au trait de jauge, en homogénéisant par retournements successifs.'
       ],
-      finalAnswer: `Il faut prélever $V_1 = 25$ mL de solution mère et compléter jusqu'à $250$ mL, ce qui correspond à un facteur de dilution $F = 10$, confirmé par les deux méthodes de calcul.`
+      finalAnswer: '$F = 20$ et $V_{prélevé} = 25$ mL. Ce facteur $20$ signifie qu\'il faudra prélever un volume $20$ fois plus petit que le volume final visé — un contrôle de cohérence rapide avant même de faire le calcul détaillé.'
     },
 
     evaluation: {
-      title: `Évaluation — Solutions aqueuses (concentration)`,
-      duration: '25 min',
+      title: 'Évaluation — Solutions aqueuses (concentration)',
+      duration: '30 min',
       questions: [
         {
-          statement: `On dissout $n = 0{,}3$ mol de soluté dans une solution de volume $V = 0{,}6$ L. Calculer la concentration molaire $C$ (en mol/L).`,
+          statement: 'On dissout $m = 12$ g de soluté dans de l\'eau pour obtenir $V = 400$ mL de solution. Calculer la concentration massique $c_m$ (en g/L).',
           type: 'numeric',
-          answer: 0.5,
-          tolerance: 0.02,
-          unit: 'mol/L',
-          points: 2,
-          correction: `$C = \\dfrac{n}{V} = \\dfrac{0{,}3}{0{,}6} = 0{,}5$ mol/L.`
-        },
-        {
-          statement: `Dans une solution aqueuse, le solvant est :`,
-          type: 'multiple-choice',
-          options: [
-            `L'espèce chimique dissoute`,
-            `L'eau`,
-            `Le récipient utilisé pour la dissolution`,
-            `Le trait de jauge de la fiole`
-          ],
-          answer: 1,
-          points: 2,
-          correction: `Dans une solution <strong>aqueuse</strong>, le solvant est toujours l'<strong>eau</strong> : c'est le liquide dans lequel le soluté (l'espèce chimique dissoute) est dispersé.`
-        },
-        {
-          statement: `On dilue $V_1 = 20$ mL d'une solution mère de concentration $C_1 = 0{,}8$ mol/L jusqu'à un volume final $V_2 = 200$ mL. Calculer la concentration $C_2$ obtenue (en mol/L).`,
-          type: 'numeric',
-          answer: 0.08,
-          tolerance: 0.005,
-          unit: 'mol/L',
-          points: 2,
-          correction: `$C_2 = \\dfrac{C_1 V_1}{V_2} = \\dfrac{0{,}8 \\times 20}{200} = \\dfrac{16}{200} = 0{,}08$ mol/L.`
-        },
-        {
-          statement: `Lors d'une dilution, le volume de la solution :`,
-          type: 'multiple-choice',
-          options: [
-            `Diminue`,
-            `Augmente`,
-            `Reste constant`,
-            `Devient nul`
-          ],
-          answer: 1,
-          points: 2,
-          correction: `Diluer consiste à ajouter du solvant : le volume de la solution <strong>augmente</strong>, alors que la quantité de matière de soluté reste la même — d'où la diminution de la concentration.`
-        },
-        {
-          statement: `On dissout une masse $m = 5$ g de soluté dans une solution de volume $V = 250$ mL. Calculer la concentration massique $C_m$ (en g/L).`,
-          type: 'numeric',
-          answer: 20,
+          answer: 30,
           tolerance: 1,
           unit: 'g/L',
           points: 2,
-          correction: `$V = 250$ mL $= 0{,}25$ L. $C_m = \\dfrac{m}{V} = \\dfrac{5}{0{,}25} = 20$ g/L.`
+          correction: '$c_m = \\dfrac{m}{V} = \\dfrac{12}{0{,}400} = 30$ g/L.'
+        },
+        {
+          statement: 'Lors d\'une dilution, quelle grandeur reste rigoureusement conservée entre le prélèvement et la solution fille ?',
+          type: 'multiple-choice',
+          options: [
+            'Le volume',
+            'La concentration',
+            'La quantité de matière de soluté',
+            'La couleur de la solution'
+          ],
+          answer: 2,
+          points: 2,
+          correction: 'C\'est la <strong>quantité de matière de soluté</strong> qui est conservée lors d\'une dilution : on ajoute seulement du solvant, jamais de soluté supplémentaire.'
+        },
+        {
+          statement: 'On prélève $V_{prélevé} = 50$ mL d\'une solution mère à $C_m = 0{,}50$ mol/L, puis on complète jusqu\'à $V_{fille} = 250$ mL. Calculer $C_f$ (en mol/L).',
+          type: 'numeric',
+          answer: 0.1,
+          tolerance: 0.01,
+          unit: 'mol/L',
+          points: 3,
+          correction: '$C_f = \\dfrac{C_m \\times V_{prélevé}}{V_{fille}} = \\dfrac{0{,}50 \\times 50}{250} = 0{,}10$ mol/L.'
+        },
+        {
+          statement: 'Une quantité de matière $n = 0{,}30$ mol de soluté est dissoute dans $V = 1{,}5$ L de solution. Calculer la concentration molaire $c$ (en mol/L).',
+          type: 'numeric',
+          answer: 0.2,
+          tolerance: 0.01,
+          unit: 'mol/L',
+          points: 2,
+          correction: '$c = \\dfrac{n}{V} = \\dfrac{0{,}30}{1{,}5} = 0{,}20$ mol/L.'
+        },
+        {
+          statement: 'Pour prélever avec précision un volume donné de solution mère lors d\'une dilution, on utilise :',
+          type: 'multiple-choice',
+          options: [
+            'Une éprouvette graduée',
+            'Une pipette jaugée',
+            'Un bécher',
+            'Une balance'
+          ],
+          answer: 1,
+          points: 1,
+          correction: 'La <strong>pipette jaugée</strong> est l\'instrument de précision utilisé pour prélever un volume exact de solution mère. L\'éprouvette graduée est moins précise, et le bécher n\'est pas un instrument de mesure précis.'
         }
       ]
     }
   });
+

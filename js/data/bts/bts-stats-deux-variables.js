@@ -124,7 +124,6 @@ window.MODULES.push(
     exercice: {
       type: 'numeric',
       generate() {
-        const fr = x => String(x).replace('.', '{,}');
         const xbar = rand(2, 5), ybar = rand(3, 8), cov = rand(1, 4), vx = rand(1, 3);
         const a = parseFloat((cov/vx).toFixed(2));
 

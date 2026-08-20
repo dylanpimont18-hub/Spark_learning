@@ -7,186 +7,188 @@ window.MODULES.push({
     level: 2, subject: 'physique',
     icon: '⚗️',
     title: 'Évolution spontanée d\'un système chimique',
-    subtitle: 'Quotient de réaction Qr, constante d\'équilibre K, critère d\'évolution spontanée, sens direct et sens indirect',
-    keywords: ['Quotient de réaction', 'Constante d\'équilibre', 'Sens d\'évolution', 'Qr et K', 'État d\'équilibre'],
-    physics: 'Comparer le quotient de réaction $Q_r$ à la constante d\'équilibre $K$ permet de prévoir si une réaction chimique va effectivement se produire dans un procédé industriel, de comprendre pourquoi certaines réactions s\'arrêtent avant la disparition totale des réactifs, ou d\'anticiper l\'évolution d\'un système lorsqu\'on modifie les quantités initiales (ajout d\'un réactif, dilution…).',
+    subtitle: 'Quotient de réaction, constante d\'équilibre, critère d\'évolution spontanée, sens d\'évolution d\'un système chimique',
+    keywords: ['Quotient de réaction', 'Constante d\'équilibre', 'Critère d\'évolution', 'Système chimique', 'Équilibre chimique'],
+    physics: 'Le critère d\'évolution spontanée permet de prévoir le rendement d\'une synthèse chimique industrielle (estérification pour parfums et biocarburants), d\'anticiper le sens d\'une réaction de précipitation en traitement des eaux, et d\'orienter le choix des conditions opératoires pour favoriser un produit recherché.',
 
     cours: {
-      intro: 'Pour une transformation chimique modélisée par une réaction d\'équation $aA + bB \\rightleftharpoons cC + dD$, on définit à chaque instant le <strong>quotient de réaction</strong> $Q_r$, construit à partir des concentrations (ou pressions partielles) des espèces présentes dans le système, dans l\'état où il se trouve à cet instant.<br/><br/>Cette même réaction possède, à une température donnée, une <strong>constante d\'équilibre</strong> $K$ : une valeur fixe qui ne dépend que de la température, et que le quotient de réaction atteint <strong>exactement</strong> lorsque le système est à l\'équilibre chimique ($Q_{r,eq} = K$).<br/><br/>Comparer la valeur de $Q_r$ dans l\'état initial du système à la valeur de $K$ permet de prévoir le <strong>sens spontané d\'évolution</strong> de la transformation : le système évolue toujours de façon à rapprocher $Q_r$ de $K$, jamais à l\'en éloigner.',
+      intro: 'Une transformation chimique n\'est pas toujours totale : de nombreuses réactions atteignent un <strong>état d\'équilibre</strong>, où les quantités de réactifs et de produits n\'évoluent plus macroscopiquement, sans que les réactifs aient totalement disparu.<br/><br/>Pour prévoir <strong>dans quel sens</strong> un système chimique va évoluer spontanément, on compare deux grandeurs : le <strong>quotient de réaction</strong> $Q_r$, calculé à partir de la composition du système à un instant donné, et la <strong>constante d\'équilibre</strong> $K$, qui ne dépend que de la température et caractérise l\'état d\'équilibre de la réaction.<br/><br/>Cette comparaison constitue le <strong>critère d\'évolution spontanée</strong> : un système hors équilibre évolue toujours de façon à rapprocher $Q_r$ de $K$, jamais dans le sens qui l\'en éloignerait.',
       definitions: [
-        { term: 'Quotient de réaction ($Q_r$)', def: 'Pour $aA+bB\\rightleftharpoons cC+dD$ (espèces dissoutes) : $Q_r = \\dfrac{[C]^c[D]^d}{[A]^a[B]^b}$ (les solides et solvants purs n\'apparaissent pas dans l\'expression). Sa valeur peut être calculée à <strong>n\'importe quel instant</strong> de l\'évolution du système, pas seulement à l\'équilibre.' },
-        { term: 'Constante d\'équilibre ($K$)', def: 'Valeur particulière de $Q_r$ lorsque le système chimique est à l\'<strong>équilibre</strong> : $K = Q_{r,eq}$. $K$ ne dépend que de la <strong>température</strong>, pas des quantités initiales de matière introduites.' },
-        { term: 'Critère d\'évolution spontanée', def: 'Si $Q_{r,i} < K$, le système évolue dans le <strong>sens direct</strong> (formation des produits $C$ et $D$). Si $Q_{r,i} > K$, il évolue dans le <strong>sens indirect</strong> (reformation des réactifs $A$ et $B$). Si $Q_{r,i} = K$, le système est déjà à l\'équilibre : il n\'évolue pas.' },
-        { term: 'État d\'équilibre chimique', def: 'État macroscopiquement stable atteint lorsque $Q_r = K$ : les concentrations des espèces n\'évoluent alors plus au cours du temps (à l\'échelle macroscopique), même si la réaction se poursuit microscopiquement dans les deux sens à vitesses égales.' }
+        { term: 'Quotient de réaction ($Q_r$)', def: 'Grandeur sans dimension calculée, à un instant donné, à partir des concentrations des espèces dissoutes intervenant dans la réaction $aA+bB\\rightleftharpoons cC+dD$ : $Q_r=\\dfrac{[C]^c[D]^d}{[A]^a[B]^b}$ (les solides purs, le solvant et les liquides purs n\'apparaissent pas dans cette expression).' },
+        { term: 'Constante d\'équilibre ($K$)', def: 'Valeur particulière que prend $Q_r$ lorsque le système chimique est <strong>à l\'équilibre</strong> ($Q_{r,éq}=K$). Elle ne dépend que de la température et caractérise entièrement l\'équilibre associé à une réaction donnée.' },
+        { term: 'Système à l\'équilibre', def: 'État d\'un système chimique dans lequel les quantités de matière de chaque espèce n\'évoluent plus macroscopiquement au cours du temps, sans que la réaction ait été totale : $Q_{r,éq}=K$.' },
+        { term: 'Critère d\'évolution spontanée', def: 'Règle qui prévoit le sens d\'évolution d\'un système chimique hors équilibre, par comparaison entre $Q_{r,i}$ (état initial) et $K$ : le système évolue toujours de façon à rapprocher $Q_r$ de $K$.' }
       ],
       method: {
         title: 'Prévoir le sens d\'évolution d\'un système chimique en 3 étapes',
         steps: [
-          '<strong>Écrire l\'expression du quotient de réaction</strong> $Q_r$ à partir de l\'équation de la réaction (produits au numérateur, réactifs au dénominateur, chaque concentration à la puissance de son coefficient stœchiométrique).',
-          '<strong>Calculer $Q_{r,i}$</strong> à partir des concentrations (ou quantités de matière et volume) de l\'état initial du système considéré.',
-          '<strong>Comparer $Q_{r,i}$ à $K$</strong> (donnée à la température de l\'expérience) : si $Q_{r,i} < K$, le système évolue dans le sens direct ; si $Q_{r,i} > K$, dans le sens indirect ; si $Q_{r,i}=K$, le système est déjà à l\'équilibre et n\'évolue pas.'
+          '<strong>Écrire</strong> l\'équation de la réaction étudiée, puis exprimer le quotient de réaction $Q_r$ à partir des concentrations (ou, pour certaines réactions équilibrées en moles, des quantités de matière) des espèces dissoutes.',
+          '<strong>Calculer</strong> la valeur numérique de $Q_{r,i}$ dans l\'état initial du système, et la comparer à la constante d\'équilibre $K$ (donnée ou calculée à partir d\'un état d\'équilibre connu).',
+          '<strong>Appliquer le critère d\'évolution</strong> : si $Q_{r,i} &lt; K$, le système évolue dans le sens direct (1) ; si $Q_{r,i} &gt; K$, il évolue dans le sens indirect (2) ; si $Q_{r,i}=K$, le système est déjà à l\'équilibre, il n\'évolue pas.'
         ]
       },
       diagram: {
         theme: 'physique',
-        kicker: 'Critère d\'évolution spontanée d\'un système chimique',
-        title: 'Comparaison de Qr à K : sens direct ou sens indirect',
-        description: 'Sur un axe gradué en valeurs de $Q_r$, la position de $K$ partage l\'axe en deux zones. Un système situé à gauche de $K$ ($Q_r < K$) évolue vers la droite (sens direct) ; un système situé à droite ($Q_r > K$) évolue vers la gauche (sens indirect) : dans les deux cas, le système évolue pour rapprocher $Q_r$ de $K$.',
+        kicker: 'Critère d\'évolution spontanée',
+        title: 'Comparaison du quotient de réaction Qr à la constante d\'équilibre K',
+        description: 'Un système chimique hors équilibre évolue toujours de façon à rapprocher son quotient de réaction $Q_r$ de la constante d\'équilibre $K$ : vers la droite si $Q_{r,i} &lt; K$ (sens direct), vers la gauche si $Q_{r,i} &gt; K$ (sens indirect).',
         svg: `
-          <svg viewBox="0 0 560 260" role="img" aria-labelledby="qrk-title qrk-desc">
-            <title id="qrk-title">Axe de comparaison du quotient de reaction Qr a la constante d'equilibre K</title>
-            <desc id="qrk-desc">Un axe horizontal gradue represente les valeurs possibles du quotient de reaction Qr. Un point au centre de l'axe est marque K, la constante d'equilibre. A gauche de ce point, un premier systeme note Qr1 est place, avec une fleche qui pointe vers la droite en direction de K, illustrant une evolution dans le sens direct. A droite du point K, un second systeme note Qr2 est place, avec une fleche qui pointe vers la gauche en direction de K, illustrant une evolution dans le sens indirect. Les deux fleches convergent vers le point K, montrant que le systeme evolue toujours pour rapprocher Qr de K, jamais pour s'en eloigner.</desc>
+          <svg viewBox="0 0 560 300" role="img" aria-labelledby="evochim-title evochim-desc">
+            <title id="evochim-title">Critere d'evolution spontanee : comparaison de Qr a K</title>
+            <desc id="evochim-desc">Un axe gradue horizontal represente les valeurs possibles du quotient de reaction Qr, de 0 vers la droite. Un point marque au milieu de l'axe represente la constante d'equilibre K. A gauche de K, un point represente un etat initial ou Qr,i est inferieur a K ; une fleche courbe au-dessus de l'axe part de ce point et se dirige vers K, etiquetee sens direct. A droite de K, un autre point represente un etat initial ou Qr,i prime est superieur a K ; une fleche courbe part de ce point et se dirige egalement vers K mais en venant de la droite, etiquetee sens indirect. Dans les deux cas, les fleches convergent vers le point K, illustrant que le systeme evolue toujours pour rapprocher Qr de K.</desc>
 
             <defs>
-              <marker id="arrow-phystle-qrk" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+              <marker id="arrow-tle-evochim" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
                 <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
               </marker>
             </defs>
 
-            <!-- axe des Qr -->
-            <line class="frame-line" x1="50" y1="150" x2="510" y2="150" marker-end="url(#arrow-phystle-qrk)"></line>
-            <text class="tick-label" x="518" y="154" text-anchor="start">Qr</text>
+            <!-- axe Qr -->
+            <line class="frame-line" x1="60" y1="170" x2="500" y2="170" marker-end="url(#arrow-tle-evochim)"></line>
+            <text class="tick-label" x="60" y="188" text-anchor="middle">0</text>
+            <text class="tick-label" x="515" y="174" text-anchor="start">Qr</text>
 
             <!-- point K -->
-            <circle class="plot-point" cx="280" cy="150" r="6"></circle>
-            <text class="annotation-label" x="280" y="178" text-anchor="middle">K</text>
+            <line class="frame-line" x1="280" y1="162" x2="280" y2="178"></line>
+            <circle class="plot-point-alt" cx="280" cy="170" r="5"></circle>
+            <text class="annotation-label" x="280" y="196" text-anchor="middle">K</text>
 
-            <!-- Qr1 (a gauche, evolution sens direct) -->
-            <circle class="plot-point-alt" cx="140" cy="150" r="5"></circle>
-            <text class="tick-label" x="140" y="178" text-anchor="middle">Qr₁</text>
-            <line class="curve-main" x1="140" y1="110" x2="265" y2="110" marker-end="url(#arrow-phystle-qrk)"></line>
-            <text class="label-soft" x="200" y="96" text-anchor="middle">sens direct (→)</text>
+            <!-- point Qr,i (sens direct) -->
+            <circle class="plot-point" cx="150" cy="170" r="4"></circle>
+            <text class="tick-label" x="150" y="192" text-anchor="middle">Qr,i</text>
 
-            <!-- Qr2 (a droite, evolution sens indirect) -->
-            <circle class="plot-point-alt" cx="420" cy="150" r="5"></circle>
-            <text class="tick-label" x="420" y="178" text-anchor="middle">Qr₂</text>
-            <line class="curve-main" x1="420" y1="110" x2="295" y2="110" marker-end="url(#arrow-phystle-qrk)"></line>
-            <text class="label-soft" x="360" y="96" text-anchor="middle">sens indirect (←)</text>
+            <!-- point Qr,i' (sens indirect) -->
+            <circle class="plot-point" cx="400" cy="170" r="4"></circle>
+            <text class="tick-label" x="400" y="192" text-anchor="middle">Qr,i'</text>
 
-            <!-- zones -->
-            <text class="label-soft" x="140" y="205" text-anchor="middle">Qr₁ &lt; K</text>
-            <text class="label-soft" x="420" y="205" text-anchor="middle">Qr₂ &gt; K</text>
-            <text class="label-soft" x="280" y="230" text-anchor="middle">Le système évolue toujours pour rapprocher Qr de K</text>
+            <!-- fleche sens direct -->
+            <path class="curve-main" fill="none" d="M150,164 Q210,125 268,164" marker-end="url(#arrow-tle-evochim)"></path>
+            <text class="tick-label" x="207" y="112" text-anchor="middle">sens direct (1)</text>
+
+            <!-- fleche sens indirect -->
+            <path class="curve-main" fill="none" d="M400,164 Q340,125 292,164" marker-end="url(#arrow-tle-evochim)"></path>
+            <text class="tick-label" x="347" y="112" text-anchor="middle">sens indirect (2)</text>
           </svg>
         `,
         notes: [
-          'Le point $K$ (constante d\'équilibre, fixée par la température) partage l\'axe des valeurs possibles de $Q_r$ en deux zones : à gauche ($Q_r < K$), à droite ($Q_r > K$).',
-          'Un système dont l\'état initial correspond à $Q_{r,1} < K$ évolue dans le <strong>sens direct</strong> (vers la droite sur l\'axe, formation des produits), pour que $Q_r$ se rapproche de $K$.',
-          'Un système dont l\'état initial correspond à $Q_{r,2}>K$ évolue dans le <strong>sens indirect</strong> (vers la gauche, reformation des réactifs), pour la même raison : rapprocher $Q_r$ de $K$.'
+          'Si $Q_{r,i} &lt; K$ (à gauche de $K$ sur l\'axe), le système évolue dans le <strong>sens direct</strong> (1) : les réactifs sont consommés, les produits se forment, jusqu\'à ce que $Q_r$ atteigne $K$.',
+          'Si $Q_{r,i} &gt; K$ (à droite de $K$), le système évolue dans le <strong>sens indirect</strong> (2) : les produits sont consommés, les réactifs se reforment.',
+          'Dans les deux cas, l\'évolution s\'arrête dès que $Q_r=K$ : le système a alors atteint son état d\'équilibre, et n\'évolue plus macroscopiquement.'
         ],
-        reading: 'Repère d\'abord le point $K$ au centre de l\'axe, puis observe les deux flèches : celle partant de $Q_{r,1}$ (à gauche) pointe vers $K$ (sens direct), celle partant de $Q_{r,2}$ (à droite) pointe aussi vers $K$ (sens indirect) — les deux convergent toujours vers $K$.',
-        caption: 'Critère d\'évolution spontanée : quelle que soit sa position initiale par rapport à $K$, un système chimique évolue toujours de façon à rapprocher $Q_r$ de $K$.'
+        reading: 'Repère la position de $K$ sur l\'axe, puis celle de $Q_{r,i}$ : la flèche indique toujours le sens vers lequel le système évolue spontanément, en direction de $K$.',
+        caption: 'Critère d\'évolution spontanée d\'un système chimique : quel que soit l\'état initial ($Q_{r,i} &lt; K$ ou $Q_{r,i} &gt; K$), le système évolue toujours vers $Q_r=K$.'
       },
       example: {
-        statement: 'On considère la réaction d\'estérification-hydrolyse $CH_3COOH + C_2H_5OH \\rightleftharpoons CH_3COOC_2H_5 + H_2O$, de constante d\'équilibre $K = 4{,}0$ à la température de l\'expérience. On mélange initialement des concentrations $[CH_3COOH]_i = 1{,}0$ mol/L, $[C_2H_5OH]_i = 1{,}0$ mol/L, $[CH_3COOC_2H_5]_i = 0{,}50$ mol/L et $[H_2O]_i = 0{,}50$ mol/L.<br/><br/>Déterminer le sens spontané d\'évolution de ce système.',
+        statement: 'On étudie la réaction (limitée, non totale) d\'estérification entre l\'acide éthanoïque et l\'éthanol : $CH_3COOH+C_2H_5OH\\rightleftharpoons CH_3COOC_2H_5+H_2O$, de constante d\'équilibre $K=4{,}0$ à la température de l\'expérience. Pour cette réaction, où les 2 réactifs et les 2 produits ont des coefficients stœchiométriques égaux à 1, le volume se simplifie et on peut exprimer $Q_r$ directement à partir des quantités de matière (en mol).<br/><br/>On mélange $n_{acide}=0{,}50$ mol d\'acide, $n_{alcool}=0{,}50$ mol d\'alcool, en présence de $n_{ester}=0{,}30$ mol d\'ester et $n_{eau}=0{,}30$ mol d\'eau déjà formés. Déterminer le sens d\'évolution spontanée de ce système.',
         steps: [
-          'Expression du quotient de réaction : $Q_r = \\dfrac{[CH_3COOC_2H_5][H_2O]}{[CH_3COOH][C_2H_5OH]}$.',
-          'Calcul de $Q_{r,i}$ avec les concentrations initiales : $Q_{r,i} = \\dfrac{0{,}50 \\times 0{,}50}{1{,}0 \\times 1{,}0} = \\dfrac{0{,}25}{1{,}0} = 0{,}25$.',
-          'Comparaison à $K$ : $Q_{r,i} = 0{,}25 < K = 4{,}0$.'
+          'Expression du quotient de réaction pour cette réaction équilibrée en moles : $Q_r=\\dfrac{n_{ester}\\times n_{eau}}{n_{acide}\\times n_{alcool}}$.',
+          'Calcul de $Q_{r,i}$ : $Q_{r,i}=\\dfrac{0{,}30\\times0{,}30}{0{,}50\\times0{,}50}=\\dfrac{0{,}09}{0{,}25}=0{,}36$.',
+          'Comparaison à la constante d\'équilibre : $Q_{r,i}=0{,}36 &lt; K=4{,}0$.'
         ],
-        answer: 'Comme $Q_{r,i} < K$, le système évolue dans le <strong>sens direct</strong> : la réaction d\'estérification se poursuit (formation d\'ester et d\'eau), jusqu\'à ce que $Q_r$ atteigne la valeur $K=4{,}0$, où le système atteindra son état d\'équilibre.'
+        answer: '$Q_{r,i}=0{,}36 &lt; K=4{,}0$ : le système évolue dans le <strong>sens direct</strong> (estérification), les quantités d\'ester et d\'eau vont continuer à augmenter jusqu\'à ce que $Q_r$ atteigne $4{,}0$.'
       },
       formulas: [
-        'Quotient de réaction ($aA+bB\\rightleftharpoons cC+dD$) : $Q_r = \\dfrac{[C]^c[D]^d}{[A]^a[B]^b}$',
-        'À l\'équilibre : $Q_{r,eq} = K$ (constante d\'équilibre, ne dépend que de $T$)',
-        'Si $Q_{r,i} < K$ → évolution dans le sens direct (formation des produits)',
-        'Si $Q_{r,i} > K$ → évolution dans le sens indirect (reformation des réactifs)',
-        'Si $Q_{r,i} = K$ → le système est déjà à l\'équilibre, aucune évolution macroscopique'
+        '$Q_r=\\dfrac{[C]^c[D]^d}{[A]^a[B]^b}$ (quotient de réaction, pour $aA+bB\\rightleftharpoons cC+dD$)',
+        'À l\'équilibre : $Q_{r,éq}=K$',
+        'Critère d\'évolution : $Q_{r,i} &lt; K \\Rightarrow$ évolution en sens direct (1)',
+        'Critère d\'évolution : $Q_{r,i} &gt; K \\Rightarrow$ évolution en sens indirect (2)',
+        'Estérification/hydrolyse (réaction équilibrée en moles) : $Q_r=\\dfrac{n_{ester}\\times n_{eau}}{n_{acide}\\times n_{alcool}}$'
       ],
       recap: [
-        'Le quotient de réaction $Q_r$ peut être calculé à <strong>n\'importe quel instant</strong> ; la constante d\'équilibre $K$ est une valeur particulière, atteinte uniquement à l\'équilibre.',
-        'Le sens d\'évolution d\'un système se prévoit en comparant $Q_{r,i}$ (à l\'état initial) à $K$ : le système évolue toujours pour <strong>rapprocher</strong> $Q_r$ de $K$, jamais pour l\'en éloigner.',
-        '$K$ ne dépend que de la <strong>température</strong> — ni des quantités de matière initiales, ni du volume du système, contrairement à $Q_r$.',
-        'Seules les espèces <strong>dissoutes ou gazeuses</strong> apparaissent dans l\'expression de $Q_r$ : un solide ou un solvant pur n\'y figurent pas (leur activité vaut $1$).'
+        'Le quotient de réaction $Q_r$ se calcule à <strong>tout instant</strong>, contrairement à $K$ qui ne caractérise que l\'état d\'équilibre.',
+        'Le critère d\'évolution spontanée compare $Q_{r,i}$ à $K$ : le système évolue toujours de façon à <strong>rapprocher</strong> $Q_r$ de $K$, jamais à l\'en éloigner.',
+        'Les solides purs, le solvant et les liquides purs <strong>n\'apparaissent jamais</strong> dans l\'expression de $Q_r$ : seules les espèces dissoutes y figurent.',
+        'Lorsque $Q_{r,i}=K$, le système est déjà à l\'équilibre : il n\'évolue pas, quelles que soient les quantités de réactifs ou de produits présentes.'
       ],
-      piege: 'Une confusion fréquente consiste à croire que le sens d\'évolution dépend du signe de $Q_r-K$ associé à une règle absolue toujours identique, sans revenir à l\'équation de la réaction telle qu\'elle est écrite : le sens direct correspond toujours à la formation des produits <strong>tels qu\'écrits à droite</strong> de la double flèche $\\rightleftharpoons$. Attention aussi à ne jamais inclure un solide ou un solvant pur dans l\'expression de $Q_r$ : seules les espèces dissoutes (ou gazeuses) y figurent.'
+      piege: 'Une erreur fréquente est de croire que le sens d\'évolution dépend de la quantité de réactifs ou de produits présents en valeur absolue : ce n\'est pas le cas, seule la comparaison du quotient de réaction $Q_{r,i}$ à la constante d\'équilibre $K$ permet de prévoir le sens d\'évolution, quelles que soient les quantités en présence. Attention également à ne jamais inclure un solide pur, un liquide pur ou le solvant dans l\'expression de $Q_r$, contrairement aux espèces dissoutes.'
     },
 
     quiz: [
       {
-        q: 'Que représente la constante d\'équilibre $K$ d\'une réaction chimique ?',
+        q: 'Pour une réaction $aA+bB\\rightleftharpoons cC+dD$ en solution aqueuse, à un instant où $Q_{r,i} &gt; K$, dans quel sens le système évolue-t-il spontanément ?',
         options: [
-          'La valeur de $Q_r$ à l\'état initial du système',
-          'La valeur de $Q_r$ lorsque le système est à l\'équilibre chimique',
-          'La concentration totale des réactifs',
-          'Le volume du système à l\'équilibre'
-        ],
-        answer: 1,
-        correction: '$K$ est la valeur particulière que prend le quotient de réaction $Q_r$ lorsque le système chimique atteint son état d\'équilibre : $K = Q_{r,eq}$. Elle ne dépend que de la température.'
-      },
-      {
-        q: 'Pour un système tel que $Q_{r,i} > K$, quel est son sens spontané d\'évolution ?',
-        options: [
-          'Sens direct (formation des produits)',
-          'Sens indirect (reformation des réactifs)',
-          'Le système est déjà à l\'équilibre',
-          'On ne peut pas savoir sans connaître le volume'
-        ],
-        answer: 1,
-        correction: 'Si $Q_{r,i}>K$, le système doit faire diminuer $Q_r$ pour le rapprocher de $K$ : cela correspond à une consommation des produits et une reformation des réactifs, c\'est-à-dire une évolution dans le <strong>sens indirect</strong>.'
-      },
-      {
-        q: 'Pour la réaction $A \\rightleftharpoons B$ avec $K=2{,}0$, un système présente $[A]=0{,}80$ mol/L et $[B]=0{,}40$ mol/L. Quel est son sens d\'évolution ?',
-        options: [
-          'Sens direct, car $Q_r = 0{,}5 < K$',
-          'Sens indirect, car $Q_r = 2 = K$',
-          'Le système est à l\'équilibre',
-          'Sens direct, car $Q_r = 2 > K$'
+          'Dans le sens indirect (2) : les produits sont consommés, les réactifs se reforment',
+          'Dans le sens direct (1) : les réactifs sont consommés, les produits se forment',
+          'Il n\'évolue pas, quelle que soit la valeur de $Q_{r,i}$',
+          'Cela dépend uniquement du volume du système'
         ],
         answer: 0,
-        correction: '$Q_r = \\dfrac{[B]}{[A]} = \\dfrac{0{,}40}{0{,}80} = 0{,}5$. Comme $Q_r=0{,}5 < K=2{,}0$, le système évolue dans le sens direct (formation de $B$).'
+        correction: 'Si $Q_{r,i} &gt; K$, le système doit diminuer $Q_r$ pour se rapprocher de $K$ : il évolue donc dans le sens indirect (2), qui consomme les produits et reforme les réactifs.'
+      },
+      {
+        q: 'Laquelle de ces espèces n\'apparaît jamais dans l\'expression du quotient de réaction $Q_r$ ?',
+        options: [
+          'Le solvant (l\'eau, par exemple)',
+          'Un ion dissous dans la solution',
+          'Une molécule dissoute dans la solution',
+          'Un gaz participant à la réaction'
+        ],
+        answer: 0,
+        correction: 'Le solvant, tout comme les solides purs et les liquides purs, n\'apparaît jamais dans l\'expression de $Q_r$ : seules les espèces dissoutes (et les gaz, via leur pression) y figurent, car leur "concentration" reste conventionnellement constante et n\'a pas d\'influence sur l\'évolution du système.'
+      },
+      {
+        q: 'Pour la réaction $A+B\\rightleftharpoons C+D$, un système contient $[A]=0{,}20$ mol/L, $[B]=0{,}10$ mol/L, $[C]=0{,}30$ mol/L et $[D]=0{,}40$ mol/L. Sachant que $K=4{,}0$ pour cette réaction à cette température, quel est le sens d\'évolution spontanée du système ?',
+        options: [
+          'Sens indirect, car $Q_{r,i}=6{,}0 &gt; K=4{,}0$',
+          'Sens direct, car $Q_{r,i}=6{,}0 &gt; K=4{,}0$',
+          'Le système est déjà à l\'équilibre',
+          'Impossible à déterminer sans connaître le volume de la solution'
+        ],
+        answer: 0,
+        correction: '$Q_{r,i}=\\dfrac{[C][D]}{[A][B]}=\\dfrac{0{,}30\\times0{,}40}{0{,}20\\times0{,}10}=\\dfrac{0{,}12}{0{,}02}=6{,}0$. Comme $Q_{r,i}=6{,}0 &gt; K=4{,}0$, le système évolue dans le sens indirect, pour faire diminuer $Q_r$ vers $K$.'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
-        var typeExo = pick(['qr-simple', 'comparaison']);
+        var typeExo = pick(['esterification', 'concentrations']);
 
-        if (typeExo === 'qr-simple') {
-          var cB = randFloat(0.1, 2, 2);
-          var cA = randFloat(0.1, 2, 2);
-          var Qr = parseFloat((cB / cA).toFixed(3));
+        if (typeExo === 'esterification') {
+          var nAcide = pick([0.2, 0.3, 0.4, 0.5, 0.6]);
+          var nAlcool = pick([0.2, 0.3, 0.4, 0.5, 0.6]);
+          var nEster = pick([0.2, 0.4, 0.6, 0.8, 1.0]);
+          var nEau = pick([0.2, 0.4, 0.6, 0.8, 1.0]);
+          var Qr = parseFloat(((nEster * nEau) / (nAcide * nAlcool)).toFixed(3));
           var contexte = pick([
-            'un réacteur de laboratoire de chimie organique',
-            'un système d\'isomérisation étudié en TP',
-            'une cuve de réaction industrielle',
-            'un mélange réactionnel de contrôle qualité'
+            'un ballon de synthèse en travaux pratiques',
+            'un réacteur d\'estérification pilote',
+            'un flacon de contrôle qualité en laboratoire',
+            'un montage de chimie organique au lycée',
+            'une cuve de production de biocarburant'
           ]);
           return {
-            statement: 'Dans ' + contexte + ', on étudie la réaction $A \\rightleftharpoons B$. À un instant donné, les concentrations sont $[A] = ' + fr(cA, 2) + '$ mol/L et $[B] = ' + fr(cB, 2) + '$ mol/L.<br/><br/>Calcule la valeur du quotient de réaction $Q_r$ à cet instant (arrondie au millième).',
+            statement: 'Dans ' + contexte + ', on étudie la réaction équilibrée $CH_3COOH+C_2H_5OH\\rightleftharpoons CH_3COOC_2H_5+H_2O$ (estérification, $K=4{,}0$ à cette température). Le système contient $n_{acide}=' + fr(nAcide, 1) + '$ mol, $n_{alcool}=' + fr(nAlcool, 1) + '$ mol, $n_{ester}=' + fr(nEster, 1) + '$ mol et $n_{eau}=' + fr(nEau, 1) + '$ mol.<br/><br/>Calcule la valeur du quotient de réaction $Q_{r,i}$ de ce système (sans unité, arrondie au millième).',
             answer: Qr,
-            tolerance: Math.max(0.005, parseFloat((Qr * 0.02).toFixed(3))),
+            tolerance: Math.max(0.01, parseFloat((Qr * 0.03).toFixed(3))),
             unit: '',
-            hint: 'Pour $A\\rightleftharpoons B$, le quotient de réaction s\'écrit $Q_r = \\dfrac{[B]}{[A]}$.',
+            hint: 'Pour cette réaction équilibrée en moles (2 réactifs, 2 produits, coefficients 1), $Q_r=\\dfrac{n_{ester}\\times n_{eau}}{n_{acide}\\times n_{alcool}}$.',
             solution: [
-              'Expression du quotient de réaction : $Q_r = \\dfrac{[B]}{[A]}$.',
-              'Application numérique : $Q_r = \\dfrac{' + fr(cB, 2) + '}{' + fr(cA, 2) + '}$.',
-              'Résultat : $Q_r \\approx ' + fr(Qr, 3) + '$.'
+              'Expression du quotient de réaction : $Q_r=\\dfrac{n_{ester}\\times n_{eau}}{n_{acide}\\times n_{alcool}}=\\dfrac{' + fr(nEster, 1) + '\\times' + fr(nEau, 1) + '}{' + fr(nAcide, 1) + '\\times' + fr(nAlcool, 1) + '}$.',
+              'Résultat : $Q_{r,i}\\approx' + fr(Qr, 3) + '$.'
             ]
           };
         } else {
-          var K = randFloat(0.5, 5, 2);
-          var cB2 = randFloat(0.1, 2, 2);
-          var cA2 = randFloat(0.1, 2, 2);
-          var QrComp = parseFloat((cB2 / cA2).toFixed(3));
-          var sens = QrComp < K ? 'direct' : (QrComp > K ? 'indirect' : 'équilibre (aucune évolution)');
+          var A = pick([0.1, 0.2, 0.3, 0.4, 0.5]);
+          var B = pick([0.1, 0.2, 0.3, 0.4, 0.5]);
+          var C = pick([0.05, 0.1, 0.15, 0.2, 0.3]);
+          var D = pick([0.05, 0.1, 0.15, 0.2, 0.3]);
+          var Qr2 = parseFloat(((C * D) / (A * B)).toFixed(3));
           var contexte2 = pick([
-            'un système en cours d\'analyse en laboratoire',
-            'un mélange réactionnel prélevé en cours de synthèse',
-            'un réacteur pilote de chimie de procédés',
-            'un échantillon de contrôle en chimie analytique'
+            'une réaction de précipitation contrôlée en laboratoire',
+            'un équilibre de complexation étudié en chimie analytique',
+            'un procédé industriel de synthèse en réacteur fermé',
+            'un équilibre chimique modélisé en travaux pratiques'
           ]);
           return {
-            statement: 'Dans ' + contexte2 + ', on étudie la réaction $A \\rightleftharpoons B$, de constante d\'équilibre $K = ' + fr(K, 2) + '$ à la température de l\'expérience. À l\'état initial, les concentrations sont $[A]_i = ' + fr(cA2, 2) + '$ mol/L et $[B]_i = ' + fr(cB2, 2) + '$ mol/L.<br/><br/>Calcule le quotient de réaction $Q_{r,i}$ (arrondi au millième), puis compare-le à $K$ pour indiquer le sens d\'évolution (saisis uniquement la valeur de $Q_{r,i}$).',
-            answer: QrComp,
-            tolerance: Math.max(0.005, parseFloat((QrComp * 0.02).toFixed(3))),
+            statement: 'Dans le cas de ' + contexte2 + ', pour la réaction $A+B\\rightleftharpoons C+D$, un système contient $[A]=' + fr(A, 2) + '$ mol/L, $[B]=' + fr(B, 2) + '$ mol/L, $[C]=' + fr(C, 2) + '$ mol/L et $[D]=' + fr(D, 2) + '$ mol/L.<br/><br/>Calcule la valeur du quotient de réaction $Q_{r,i}$ de ce système (sans unité, arrondie au millième).',
+            answer: Qr2,
+            tolerance: Math.max(0.01, parseFloat((Qr2 * 0.03).toFixed(3))),
             unit: '',
-            hint: 'Calcule $Q_{r,i} = \\dfrac{[B]_i}{[A]_i}$, puis compare-le à $K$.',
+            hint: '$Q_r=\\dfrac{[C][D]}{[A][B]}$.',
             solution: [
-              'Quotient de réaction : $Q_{r,i} = \\dfrac{[B]_i}{[A]_i} = \\dfrac{' + fr(cB2, 2) + '}{' + fr(cA2, 2) + '} \\approx ' + fr(QrComp, 3) + '$.',
-              'Comparaison à $K = ' + fr(K, 2) + '$ : ' + (QrComp < K ? '$Q_{r,i} < K$' : (QrComp > K ? '$Q_{r,i} > K$' : '$Q_{r,i} = K$')) + '.',
-              'Le système évolue donc dans le sens <strong>' + sens + '</strong>.'
+              'Expression du quotient de réaction : $Q_r=\\dfrac{[C][D]}{[A][B]}=\\dfrac{' + fr(C, 2) + '\\times' + fr(D, 2) + '}{' + fr(A, 2) + '\\times' + fr(B, 2) + '}$.',
+              'Résultat : $Q_{r,i}\\approx' + fr(Qr2, 3) + '$.'
             ]
           };
         }
@@ -194,84 +196,80 @@ window.MODULES.push({
     },
 
     probleme: {
-      context: 'On étudie la réaction de dimérisation du dioxyde d\'azote $2\\,NO_2 \\rightleftharpoons N_2O_4$, de constante d\'équilibre $K = 8{,}0$ à la température de l\'étude. Dans une enceinte fermée, on introduit initialement $[NO_2]_i = 0{,}60$ mol/L et $[N_2O_4]_i = 0{,}20$ mol/L.',
+      context: 'On étudie la réaction (limitée) $CH_3COOH+C_2H_5OH\\rightleftharpoons CH_3COOC_2H_5+H_2O$, de constante d\'équilibre $K=4{,}0$. Deux flacons contiennent des mélanges différents de ces quatre espèces (en mol) : Flacon 1 : $n_{acide}=0{,}80$ mol, $n_{alcool}=0{,}80$ mol, $n_{ester}=0{,}20$ mol, $n_{eau}=0{,}20$ mol. Flacon 2 : $n_{acide}=0{,}20$ mol, $n_{alcool}=0{,}20$ mol, $n_{ester}=0{,}90$ mol, $n_{eau}=0{,}90$ mol.',
       tasks: [
-        'Écrire l\'expression du quotient de réaction $Q_r$ associé à cette réaction.',
-        'Calculer la valeur de $Q_{r,i}$ à l\'état initial du système.',
-        'Comparer $Q_{r,i}$ à $K$ et en déduire le sens spontané d\'évolution du système. Préciser si la quantité de $NO_2$ va augmenter ou diminuer.'
+        'Calculer le quotient de réaction $Q_{r,1}$ du flacon 1, et déterminer son sens d\'évolution spontanée.',
+        'Calculer le quotient de réaction $Q_{r,2}$ du flacon 2, et déterminer son sens d\'évolution spontanée.',
+        'Expliquer pourquoi, malgré des compositions très différentes, les deux systèmes évoluent vers le même type d\'état final.'
       ],
       solutions: [
-        'Pour $2\\,NO_2 \\rightleftharpoons N_2O_4$, le quotient de réaction s\'écrit (le coefficient $2$ de $NO_2$ devient un exposant) : $Q_r = \\dfrac{[N_2O_4]}{[NO_2]^2}$.',
-        '$Q_{r,i} = \\dfrac{0{,}20}{(0{,}60)^2} = \\dfrac{0{,}20}{0{,}36} \\approx 0{,}56$.',
-        '$Q_{r,i} \\approx 0{,}56 < K = 8{,}0$ : le système évolue dans le <strong>sens direct</strong>, c\'est-à-dire dans le sens de formation de $N_2O_4$ à partir de $NO_2$. La quantité de $NO_2$ va donc <strong>diminuer</strong> (il est consommé), tandis que celle de $N_2O_4$ va augmenter, jusqu\'à ce que $Q_r$ atteigne $K=8{,}0$.'
+        '$Q_{r,1}=\\dfrac{n_{ester}\\times n_{eau}}{n_{acide}\\times n_{alcool}}=\\dfrac{0{,}20\\times0{,}20}{0{,}80\\times0{,}80}=\\dfrac{0{,}04}{0{,}64}=0{,}0625$. Comme $Q_{r,1}=0{,}0625 &lt; K=4{,}0$, le flacon 1 évolue dans le sens direct (l\'estérification se poursuit).',
+        '$Q_{r,2}=\\dfrac{0{,}90\\times0{,}90}{0{,}20\\times0{,}20}=\\dfrac{0{,}81}{0{,}04}=20{,}25$. Comme $Q_{r,2}=20{,}25 &gt; K=4{,}0$, le flacon 2 évolue dans le sens indirect (l\'hydrolyse de l\'ester prédomine).',
+        'Dans les deux cas, le système évolue spontanément de façon à rapprocher $Q_r$ de $K=4{,}0$ : le flacon 1 voit $Q_r$ augmenter (sens direct), le flacon 2 voit $Q_r$ diminuer (sens indirect). Quel que soit le point de départ, tout système contenant ces quatre espèces finit par atteindre le <strong>même état d\'équilibre</strong>, caractérisé par $Q_{r,éq}=K=4{,}0$, à condition que la température reste la même.'
       ],
-      finalAnswer: 'Avec $Q_{r,i}\\approx0{,}56$ très inférieur à $K=8{,}0$, le système est encore loin de l\'équilibre : il va évoluer massivement dans le sens direct, consommant le $NO_2$ pour former du $N_2O_4$, jusqu\'à ce que le quotient de réaction atteigne la valeur $K$.'
+      finalAnswer: '$Q_{r,1}\\approx0{,}063$ (sens direct) et $Q_{r,2}=20{,}25$ (sens indirect) : deux évolutions opposées, mais qui convergent toutes deux vers le même équilibre chimique ($Q_r=K=4{,}0$). C\'est cette convergence vers un état d\'équilibre unique, indépendant du chemin suivi, qui caractérise une constante d\'équilibre.'
     },
 
     evaluation: {
-      title: 'Évolution spontanée d\'un système chimique',
+      title: 'Évaluation — Évolution spontanée d\'un système chimique',
       duration: '30 min',
       questions: [
         {
-          statement: 'Le quotient de réaction $Q_r$ d\'un système chimique peut être calculé :',
-          type: 'multiple-choice',
-          options: [
-            'Uniquement à l\'équilibre',
-            'À n\'importe quel instant de l\'évolution du système',
-            'Uniquement à l\'état initial',
-            'Uniquement si la réaction est totale'
-          ],
-          answer: 1,
-          points: 2,
-          correction: '$Q_r$ peut être calculé à tout instant, à partir des concentrations présentes dans le système à cet instant précis — contrairement à $K$, qui n\'est atteint qu\'à l\'équilibre.'
-        },
-        {
-          statement: 'Pour $A\\rightleftharpoons B$ avec $K=1{,}5$, un système a $[A]=0{,}50$ mol/L et $[B]=1{,}20$ mol/L. Calculer $Q_{r,i}$ (arrondi au centième).',
+          statement: 'Pour la réaction $A+B\\rightleftharpoons C+D$, un système contient $[A]=0{,}50$ mol/L, $[B]=0{,}20$ mol/L, $[C]=0{,}10$ mol/L et $[D]=0{,}20$ mol/L. Calculer le quotient de réaction $Q_{r,i}$ (sans unité, arrondi au centième).',
           type: 'numeric',
-          answer: 2.4,
-          tolerance: 0.1,
+          answer: 0.2,
+          tolerance: 0.02,
           unit: '',
           points: 2,
-          correction: '$Q_{r,i} = \\dfrac{[B]}{[A]} = \\dfrac{1{,}20}{0{,}50} = 2{,}4$.'
+          correction: '$Q_{r,i}=\\dfrac{[C][D]}{[A][B]}=\\dfrac{0{,}10\\times0{,}20}{0{,}50\\times0{,}20}=\\dfrac{0{,}02}{0{,}10}=0{,}20$.'
         },
         {
-          statement: 'Avec les données de la question précédente ($Q_{r,i}=2{,}4$ et $K=1{,}5$), dans quel sens le système évolue-t-il ?',
+          statement: 'Un système chimique évolue dans le sens direct (1) lorsque :',
           type: 'multiple-choice',
           options: [
-            'Sens direct (formation de B)',
-            'Sens indirect (reformation de A)',
-            'Le système est à l\'équilibre',
-            'Il est impossible de le savoir'
+            '$Q_{r,i} &lt; K$',
+            '$Q_{r,i} &gt; K$',
+            '$Q_{r,i}=K$',
+            '$Q_{r,i}=0$ obligatoirement'
           ],
-          answer: 1,
+          answer: 0,
           points: 2,
-          correction: '$Q_{r,i}=2{,}4 > K=1{,}5$ : le système évolue dans le sens indirect, consommant $B$ pour reformer $A$, jusqu\'à ce que $Q_r$ redescende à $K=1{,}5$.'
+          correction: 'Si $Q_{r,i} &lt; K$, le système doit augmenter $Q_r$ pour rejoindre $K$ : il évolue dans le sens direct, qui forme davantage de produits.'
+        },
+        {
+          statement: 'Pour l\'estérification $CH_3COOH+C_2H_5OH\\rightleftharpoons CH_3COOC_2H_5+H_2O$ ($K=4{,}0$), un système contient $n_{acide}=0{,}40$ mol, $n_{alcool}=0{,}60$ mol, $n_{ester}=0{,}50$ mol et $n_{eau}=0{,}40$ mol. Calculer $Q_{r,i}$ (sans unité, arrondi au centième).',
+          type: 'numeric',
+          answer: 0.83,
+          tolerance: 0.03,
+          unit: '',
+          points: 3,
+          correction: '$Q_{r,i}=\\dfrac{n_{ester}\\times n_{eau}}{n_{acide}\\times n_{alcool}}=\\dfrac{0{,}50\\times0{,}40}{0{,}40\\times0{,}60}=\\dfrac{0{,}20}{0{,}24}\\approx0{,}83$.'
         },
         {
           statement: 'La constante d\'équilibre $K$ d\'une réaction chimique dépend :',
           type: 'multiple-choice',
           options: [
-            'Des quantités de matière initiales introduites',
-            'Du volume du système',
+            'Des quantités initiales de réactifs et de produits',
             'Uniquement de la température',
-            'De la vitesse de la réaction'
+            'Du volume du système',
+            'Du sens dans lequel la réaction a été écrite, mais pas de la température'
+          ],
+          answer: 1,
+          points: 2,
+          correction: 'La constante d\'équilibre $K$ est une caractéristique de la réaction à une température donnée : elle ne dépend ni des quantités initiales, ni du volume du système, seulement de la température.'
+        },
+        {
+          statement: 'Dans l\'expression du quotient de réaction $Q_r$, on omet toujours :',
+          type: 'multiple-choice',
+          options: [
+            'Les ions dissous',
+            'Les molécules dissoutes',
+            'Les solides purs et le solvant',
+            'Les gaz'
           ],
           answer: 2,
           points: 2,
-          correction: '$K$ ne dépend que de la température : à température fixée, elle a toujours la même valeur, quelles que soient les quantités initiales de matière introduites dans le système.'
-        },
-        {
-          statement: 'Pour $2\\,NO_2 \\rightleftharpoons N_2O_4$, l\'expression correcte du quotient de réaction est :',
-          type: 'multiple-choice',
-          options: [
-            '$Q_r = \\dfrac{[N_2O_4]}{[NO_2]^2}$',
-            '$Q_r = \\dfrac{[N_2O_4]}{2[NO_2]}$',
-            '$Q_r = \\dfrac{[NO_2]^2}{[N_2O_4]}$',
-            '$Q_r = [N_2O_4]\\times[NO_2]^2$'
-          ],
-          answer: 0,
-          points: 2,
-          correction: 'Le produit ($N_2O_4$) est au numérateur, le réactif ($NO_2$) au dénominateur, chacun affecté de son coefficient stœchiométrique comme exposant : $Q_r = \\dfrac{[N_2O_4]}{[NO_2]^2}$.'
+          correction: 'Les solides purs, les liquides purs et le solvant n\'apparaissent jamais dans l\'expression de $Q_r$ : seules les espèces dissoutes et les gaz (via leur pression) y figurent.'
         }
       ]
     }

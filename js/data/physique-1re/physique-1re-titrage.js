@@ -6,193 +6,182 @@ window.MODULES.push({
     id: 'physique-1re-titrage',
     level: 2, subject: 'physique',
     icon: '🧪',
-    title: 'Titrage (dosage) par réaction acido-basique',
-    subtitle: 'Réaction support de titrage, équivalence, suivi pH-métrique, exploitation d\'une courbe pH = f(V)',
-    keywords: ['Titrage', 'Équivalence', 'pH-métrie', 'Dosage', 'Concentration'],
-    physics: 'Le titrage est la méthode de référence pour contrôler une concentration inconnue : acidité d\'un vinaigre ou d\'un jus de fruit, taux de chlore d\'une eau de piscine, teneur en principe actif d\'un médicament, conformité d\'un effluent avant rejet. C\'est un geste de laboratoire incontournable, aussi bien en contrôle qualité industriel qu\'en analyse médicale.',
+    title: 'Titrage',
+    subtitle: 'Titrage par suivi conductimétrique, équivalence, dosage d\'une espèce en solution',
+    keywords: ['Titrage', 'Équivalence', 'Dosage', 'Conductimétrie', 'Réaction support'],
+    physics: 'Le titrage permet de contrôler la concentration en acide d\'un vinaigre commercial, de doser le taux d\'alcool ou de sucre dans une boisson, de vérifier la conformité d\'un rejet industriel avant évacuation, et de déterminer la concentration d\'un médicament en solution lors d\'un contrôle qualité pharmaceutique.',
 
     cours: {
-      intro: 'Un <strong>titrage</strong> (ou dosage) est une méthode expérimentale qui permet de déterminer la concentration inconnue d\'une espèce chimique présente dans une solution, appelée <strong>solution titrée</strong>.<br/><br/>Le principe consiste à faire réagir cette espèce avec une solution de concentration parfaitement connue, appelée <strong>solution titrante</strong>, versée progressivement à l\'aide d\'une burette graduée. La réaction mise en jeu, appelée <strong>réaction support de titrage</strong>, peut être une réaction <strong>acido-basique</strong> (échange de protons $\\text{H}^+$) ou une réaction d\'<strong>oxydoréduction</strong> (échange d\'électrons) : dans les deux cas, le principe d\'exploitation reste le même.<br/><br/>Pour être utilisable, cette réaction doit être <strong>rapide</strong> (le résultat est immédiat après chaque ajout), <strong>totale</strong> (les réactifs sont intégralement consommés) et <strong>unique</strong> (aucune réaction parasite ne vient fausser le résultat).',
+      intro: 'Un <strong>titrage</strong> (ou dosage) permet de déterminer la concentration <strong>inconnue</strong> d\'une espèce en solution, appelée réactif titré, en la faisant réagir avec une solution de concentration <strong>connue</strong>, le réactif titrant, versée progressivement à l\'aide d\'une burette. La <strong>réaction support</strong> du titrage doit être rapide, totale, et unique (spécifique de l\'espèce titrée).<br/><br/>Au cours de l\'ajout, on suit l\'évolution d\'une grandeur physique caractéristique du système : la <strong>conductivité</strong> $\\sigma$ de la solution (suivi conductimétrique), son pH (suivi pH-métrique), ou sa couleur (suivi colorimétrique). Le point d\'<strong>équivalence</strong>, où les réactifs ont été mélangés en proportions stœchiométriques exactes, se repère alors graphiquement.<br/><br/>Pour un suivi conductimétrique, la courbe $\\sigma = f(V)$ présente typiquement une <strong>rupture de pente</strong> à l\'équivalence : deux segments de droite de pentes différentes, car la nature des ions en solution change brutalement une fois l\'espèce titrée entièrement consommée. Le volume équivalent $V_{eq}$, repéré à leur intersection, permet de calculer la concentration inconnue.',
       definitions: [
-        { term: 'Réaction support de titrage', def: 'Réaction chimique utilisée pour le titrage. Elle doit être rapide, totale et unique pour que le volume versé à l\'équivalence traduise fidèlement la quantité de matière initiale à déterminer.' },
-        { term: 'Équivalence', def: 'Instant du titrage où les réactifs ont été mélangés dans les proportions <strong>stœchiométriques</strong> exactes de l\'équation de la réaction support. Pour une réaction $aA + bB \\rightarrow \\dots$, l\'équivalence est atteinte quand $\\dfrac{n_i(A)}{a} = \\dfrac{n_{versé}(B)}{b}$.' },
-        { term: 'Suivi pH-métrique', def: 'Méthode de repérage de l\'équivalence par mesure continue du pH de la solution titrée à l\'aide d\'une sonde pH-métrique, ce qui permet de tracer la courbe $pH = f(V)$.' },
-        { term: 'Indicateur coloré', def: 'Espèce chimique changeant de couleur selon le pH, ajoutée en petite quantité pour repérer visuellement l\'équivalence (sa zone de virage doit encadrer le pH à l\'équivalence).' }
+        { term: 'Titrage (dosage)', def: 'Technique permettant de déterminer la concentration inconnue d\'une espèce (réactif titré) en solution, par réaction avec un réactif titrant de concentration connue, versé progressivement.' },
+        { term: 'Réaction support de titrage', def: 'Réaction chimique utilisée pour le titrage, qui doit être rapide, totale, et unique (elle ne doit faire réagir que l\'espèce que l\'on cherche à doser).' },
+        { term: 'Équivalence', def: 'Point du titrage où les réactifs ont été introduits dans les proportions <strong>stœchiométriques</strong> exactes : ni le réactif titré, ni le réactif titrant, ne sont alors en excès.' },
+        { term: 'Suivi conductimétrique', def: 'Méthode de titrage où l\'on mesure la conductivité $\\sigma$ de la solution après chaque ajout de solution titrante. L\'équivalence se repère à la <strong>rupture de pente</strong> (intersection de deux segments de droite) de la courbe $\\sigma = f(V)$.' }
       ],
       method: {
-        title: 'Exploiter une courbe de titrage pH = f(V) en 3 étapes',
+        title: 'Exploiter un titrage conductimétrique en 3 étapes',
         steps: [
-          '<strong>Repérer le point d\'équivalence</strong> par la <strong>méthode des tangentes</strong> : tracer deux tangentes parallèles à la courbe, de part et d\'autre du saut de pH, puis tracer la droite parallèle à égale distance des deux. Le point d\'intersection de cette droite avec la courbe est le point d\'équivalence.<br/>À défaut, on peut repérer directement le <strong>point d\'inflexion</strong> (le saut de pH le plus rapide), visuellement équivalent pour une lecture rapide.',
-          '<strong>Lire le volume équivalent</strong> $V_{eq}$ en projetant ce point sur l\'axe des volumes versés.',
-          '<strong>Calculer la concentration inconnue</strong> grâce à la relation d\'équivalence $\\dfrac{C_A V_A}{a} = \\dfrac{C_B V_{eq}}{b}$, en identifiant bien les coefficients stœchiométriques $a$ et $b$ de l\'équation de la réaction support.'
+          '<strong>Vérifier que la réaction support</strong> est rapide, totale et unique, puis réaliser le titrage en mesurant la conductivité $\\sigma$ de la solution après chaque ajout de solution titrante.',
+          '<strong>Tracer la courbe</strong> $\\sigma = f(V)$ et repérer le volume équivalent $V_{eq}$ à la <strong>rupture de pente</strong>, c\'est-à-dire à l\'intersection des deux segments de droite.',
+          '<strong>Appliquer la relation d\'équivalence</strong> adaptée à la stœchiométrie de la réaction support — $C_A V_A = C_B V_{eq}$ pour une réaction $1{:}1$, à adapter sinon — pour calculer la concentration inconnue.'
         ]
       },
       diagram: {
         theme: 'physique',
-        kicker: 'Titrage pH-métrique d\'un acide fort par une base forte',
-        title: 'Courbe de titrage pH = f(V) et repérage de l\'équivalence',
-        description: 'Titrage d\'un volume $V_A = 20$ mL d\'acide chlorhydrique de concentration $C_A = 0{,}1$ mol/L par une solution d\'hydroxyde de sodium de concentration $C_B = 0{,}1$ mol/L. Le pH évolue lentement, puis subit un <strong>saut brutal</strong> au voisinage de l\'équivalence ($V_{eq} = 20$ mL).',
+        kicker: 'Titrage acido-basique (méthode conductimétrique)',
+        title: 'Courbe de conductivité σ = f(V) et rupture de pente à l\'équivalence',
+        description: 'Lors du titrage d\'un acide fort par une base forte, la conductivité <strong>diminue</strong> d\'abord (les ions $H_3O^+$, très mobiles, sont remplacés par des ions $Na^+$ moins mobiles), puis <strong>augmente</strong> après l\'équivalence (accumulation d\'ions en excès). Le volume équivalent $V_{eq}$ se repère à la rupture de pente.',
         svg: `
           <svg viewBox="0 0 560 300" role="img" aria-labelledby="titrage1re-title titrage1re-desc">
-            <title id="titrage1re-title">Courbe de titrage pH en fonction du volume de soude verse</title>
-            <desc id="titrage1re-desc">Un graphique represente le pH en ordonnee (de 0 a 14) en fonction du volume de solution titrante verse en abscisse (de 0 a 40 millilitres). La courbe part d'un pH proche de 1, augmente tres lentement jusqu'a environ 18 millilitres, puis subit un saut quasi vertical autour de 20 millilitres ou le pH passe d'environ 3 a environ 11, avant de se stabiliser lentement vers un pH d'environ 12,5. Des lignes pointillees relient le point d'equivalence, situe au milieu du saut a pH 7, aux deux axes, indiquant un volume equivalent de 20 millilitres.</desc>
+            <title id="titrage1re-title">Courbe de conductivite en fonction du volume verse lors d'un titrage conductimetrique</title>
+            <desc id="titrage1re-desc">Un graphique represente la conductivite sur l'axe vertical en fonction du volume de solution titrante verse sur l'axe horizontal. La courbe decroit lineairement depuis l'origine jusqu'a un minimum, puis croit lineairement avec une pente differente jusqu'a la fin du graphique. Le point de rupture de pente, correspondant au minimum de la courbe, est relie par des lignes en pointilles aux deux axes, indiquant le volume equivalent. Une etiquette pres du segment decroissant indique que les ions oxonium sont consommes, et une etiquette pres du segment croissant indique un exces d'ions hydroxyde.</desc>
 
             <defs>
-              <marker id="arrow-phys1re-titrage" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+              <marker id="arrow-phy1re-titrage" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
                 <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
               </marker>
             </defs>
 
             <!-- axes -->
-            <line class="frame-line" x1="60" y1="260" x2="530" y2="260" marker-end="url(#arrow-phys1re-titrage)"></line>
-            <line class="frame-line" x1="60" y1="260" x2="60" y2="45" marker-end="url(#arrow-phys1re-titrage)"></line>
-            <text class="tick-label" x="60" y="30" text-anchor="middle">pH</text>
-            <text class="tick-label" x="528" y="278" text-anchor="end">V (mL)</text>
+            <line class="frame-line" x1="70" y1="270" x2="70" y2="45" marker-end="url(#arrow-phy1re-titrage)"></line>
+            <line class="frame-line" x1="55" y1="260" x2="520" y2="260" marker-end="url(#arrow-phy1re-titrage)"></line>
+            <text class="tick-label" x="70" y="36" text-anchor="middle">σ</text>
+            <text class="tick-label" x="515" y="246" text-anchor="end">V (mL)</text>
 
-            <!-- graduations V -->
-            <line class="grid-line" x1="175" y1="260" x2="175" y2="266"></line>
-            <text class="tick-label" x="175" y="280" text-anchor="middle">10</text>
-            <line class="grid-line" x1="290" y1="260" x2="290" y2="266"></line>
-            <line class="grid-line" x1="405" y1="260" x2="405" y2="266"></line>
-            <text class="tick-label" x="405" y="280" text-anchor="middle">30</text>
-            <line class="grid-line" x1="520" y1="260" x2="520" y2="266"></line>
-            <text class="tick-label" x="520" y="280" text-anchor="middle">40</text>
+            <!-- courbe : segment decroissant puis croissant -->
+            <line class="curve-main" x1="70" y1="90" x2="328" y2="220" marker-end="url(#arrow-phy1re-titrage)"></line>
+            <line class="curve-main" x1="328" y1="220" x2="500" y2="140"></line>
 
-            <!-- courbe de titrage (calculee : bilan de charge H+/OH- pour un titrage fort/fort) -->
-            <path class="curve-main" fill="none" d="M60,245.0 L83,243.7 L106,242.4 L129,241.0 L152,239.5 L175,237.8 L198,236.0 L221,233.7 L244,230.7 L255.5,228.6 L267,225.8 L272.8,223.9 L278.5,221.1 L282,218.8 L285.4,215.1 L287.7,210.5 L288.9,206.0 L290,155.0 L291.1,104.0 L292.3,99.5 L294.6,95.1 L298,91.5 L301.5,89.2 L307.2,86.6 L313,84.8 L324.5,82.3 L347.5,79.3 L382,76.7 L416.5,75.0 L451,73.8 L485.5,72.9 L520,72.2"></path>
+            <!-- point d'equivalence + guides -->
+            <circle class="plot-point" cx="328" cy="220" r="4"></circle>
+            <line class="guide-line" x1="328" y1="220" x2="328" y2="260"></line>
+            <line class="guide-line" x1="70" y1="220" x2="328" y2="220"></line>
+            <text class="tick-label" x="328" y="278" text-anchor="middle">V_eq</text>
 
-            <!-- point d'equivalence -->
-            <circle class="plot-point" cx="290" cy="155" r="4.5"></circle>
-            <line class="guide-line" x1="290" y1="155" x2="290" y2="260"></line>
-            <line class="guide-line" x1="60" y1="155" x2="290" y2="155"></line>
-            <text class="tick-label" x="290" y="278" text-anchor="middle">V_eq = 20</text>
-            <text class="tick-label" x="50" y="159" text-anchor="end">7</text>
-
-            <!-- reperes debut / fin -->
-            <text class="label-soft" x="110" y="228" text-anchor="middle">Acide seul (pH ≈ 1)</text>
-            <text class="label-soft" x="430" y="60" text-anchor="middle">Excès de soude (pH ≈ 12,5)</text>
-            <text class="annotation-label" x="320" y="130" text-anchor="start">Saut de pH</text>
+            <!-- annotations chimiques -->
+            <text class="label-soft" x="130" y="112" text-anchor="start">H₃O⁺ consommé</text>
+            <text class="label-soft" x="420" y="168" text-anchor="middle">excès de HO⁻</text>
           </svg>
         `,
         notes: [
-          'Loin de l\'équivalence, chaque ajout de solution titrante ne fait varier le pH que <strong>lentement</strong> : la solution est peu sensible aux petites erreurs de versement.',
-          'Au voisinage de l\'équivalence, un ajout minime de solution titrante provoque un <strong>saut de pH</strong> quasi vertical : c\'est la zone la plus sensible, et c\'est elle qui permet un repérage précis.',
-          'Ici, l\'acide et la base sont tous deux <strong>forts</strong> : le pH à l\'équivalence vaut $7$. Ce ne serait plus le cas avec un acide ou une base faible.'
+          'Avant l\'équivalence, les ions $H_3O^+$ (très mobiles) sont progressivement <strong>remplacés</strong> par des ions $Na^+$ (moins mobiles) : la conductivité <strong>diminue</strong>.',
+          'Après l\'équivalence, il n\'y a plus de $H_3O^+$ à consommer : les ions $Na^+$ et $HO^-$ versés en excès <strong>s\'accumulent</strong> dans la solution, et la conductivité <strong>augmente</strong> à nouveau.',
+          'Le volume équivalent $V_{eq}$ se repère à la <strong>rupture de pente</strong> : l\'intersection des deux segments de droite, sans avoir besoin d\'indicateur coloré.'
         ],
-        reading: 'Suis la courbe de gauche à droite : repère la zone plate initiale, puis le saut quasi vertical vers $V = 20$ mL, et enfin le nouveau plateau à droite. Le point d\'équivalence se situe au milieu du saut.',
-        caption: 'Courbe de titrage pH-métrique d\'un acide fort par une base forte : le saut de pH, centré sur le point d\'équivalence, permet de lire le volume équivalent $V_{eq}$.'
+        reading: 'Suis la courbe qui descend jusqu\'à un minimum, puis remonte avec une pente différente : ce point anguleux, repéré par les pointillés, donne le volume équivalent $V_{eq}$.',
+        caption: 'Titrage conductimétrique d\'un acide fort par une base forte : la conductivité décroît puis croît, la rupture de pente donnant le volume équivalent $V_{eq}$.'
       },
       example: {
-        statement: 'On souhaite déterminer l\'acidité d\'un vinaigre. On prélève $V_A = 10$ mL de ce vinaigre (contenant de l\'acide éthanoïque $\\text{CH}_3\\text{COOH}$), que l\'on dose par une solution d\'hydroxyde de sodium de concentration $C_B = 0{,}5$ mol/L. La réaction support de titrage est $\\text{CH}_3\\text{COOH} + \\text{HO}^- \\rightarrow \\text{CH}_3\\text{COO}^- + \\text{H}_2\\text{O}$. L\'équivalence est repérée pour un volume versé $V_{eq} = 14{,}2$ mL.<br/><br/>Calculer la concentration $C_A$ en acide éthanoïque du vinaigre.',
+        statement: 'On titre un volume $V_A = 10$ mL d\'une solution d\'acide chlorhydrique de concentration inconnue $C_A$ par une solution d\'hydroxyde de sodium de concentration $C_B = 0{,}1$ mol/L, en suivant l\'évolution de la conductivité de la solution. La rupture de pente est repérée pour un volume versé $V_{eq} = 8{,}0$ mL.<br/><br/>Calculer la concentration $C_A$ de la solution d\'acide chlorhydrique.',
         steps: [
-          'La réaction support de titrage a des coefficients stœchiométriques $a = 1$ (pour l\'acide) et $b = 1$ (pour la base) : c\'est une réaction $1{:}1$.',
-          'Relation d\'équivalence : $\\dfrac{C_A V_A}{1} = \\dfrac{C_B V_{eq}}{1}$, soit $C_A V_A = C_B V_{eq}$.',
-          'On isole $C_A$ : $C_A = \\dfrac{C_B \\times V_{eq}}{V_A} = \\dfrac{0{,}5 \\times 14{,}2}{10} = \\dfrac{7{,}1}{10} = 0{,}71$ mol/L.'
+          'La réaction support du titrage, $H_3O^+ + HO^- \\rightarrow 2\\,H_2O$, est une réaction acide-base $1{:}1$ : à l\'équivalence, les quantités de matière d\'acide et de base versée sont égales.',
+          'Relation d\'équivalence : $C_A V_A = C_B V_{eq}$.',
+          'On isole $C_A$ : $C_A = \\dfrac{C_B \\times V_{eq}}{V_A} = \\dfrac{0{,}1 \\times 8{,}0}{10} = \\dfrac{0{,}8}{10} = 0{,}08$ mol/L.'
         ],
-        answer: '$C_A = 0{,}71$ mol/L. Cette valeur permettrait ensuite de calculer le degré d\'acidité du vinaigre (masse d\'acide éthanoïque pour 100 g de solution), grandeur affichée sur l\'étiquette du produit.'
+        answer: '$C_A = 0{,}08$ mol/L. Le suivi conductimétrique permet de repérer l\'équivalence sans indicateur coloré : il suffit de tracer les deux segments de droite et de repérer leur intersection.'
       },
       formulas: [
-        'Relation d\'équivalence générale : $\\dfrac{C_A V_A}{a} = \\dfrac{C_B V_{eq}}{b}$ (avec $a$, $b$ les coefficients stœchiométriques de la réaction support)',
-        'Cas particulier d\'une réaction $1{:}1$ : $C_A V_A = C_B V_{eq}$',
-        '$pH = -\\log[\\text{H}_3\\text{O}^+]$',
-        'Concentration massique à partir de la concentration molaire : $t = C \\times M$ (avec $M$ la masse molaire de l\'espèce dosée)'
+        'Relation d\'équivalence (réaction $1{:}1$) : $C_A V_A = C_B V_{eq}$',
+        'Réaction $aA+bB\\rightarrow\\dots$ : $\\dfrac{C_A V_A}{a} = \\dfrac{C_B V_{eq}}{b}$',
+        'Suivi conductimétrique : rupture de pente à l\'équivalence sur $\\sigma = f(V)$',
+        'Suivi pH-métrique : point d\'inflexion à l\'équivalence sur $pH = f(V)$'
       ],
       recap: [
-        'Une réaction support de titrage doit être <strong>rapide, totale et unique</strong> pour que le volume à l\'équivalence soit exploitable.',
-        'À l\'<strong>équivalence</strong>, les réactifs ont été mélangés dans les proportions stœchiométriques exactes de l\'équation de réaction.',
-        'La méthode des <strong>tangentes parallèles</strong> permet de repérer précisément l\'équivalence sur une courbe $pH = f(V)$, sans supposer que le pH y vaut $7$.',
-        'La relation générale d\'équivalence $\\dfrac{C_A V_A}{a} = \\dfrac{C_B V_{eq}}{b}$ fait intervenir les coefficients stœchiométriques : ne pas oublier de les identifier avant de calculer.'
+        'Un titrage détermine une concentration inconnue à partir d\'une réaction support <strong>rapide, totale et unique</strong> avec un réactif titrant de concentration connue.',
+        'L\'équivalence correspond aux proportions <strong>stœchiométriques exactes</strong>, repérée graphiquement (rupture de pente en conductimétrie, inflexion en pH-métrie).',
+        'La relation d\'équivalence $C_A V_A = C_B V_{eq}$ (réaction $1{:}1$) permet de calculer la concentration inconnue à partir du volume équivalent.',
+        'Pour une réaction dont les coefficients stœchiométriques diffèrent de $1$, il faut adapter la relation d\'équivalence à la stœchiométrie exacte de la réaction support.'
       ],
-      piege: 'Beaucoup d\'élèves pensent que le pH à l\'équivalence vaut toujours $7$, quel que soit le titrage. Attention, ce n\'est vrai <strong>que</strong> pour le titrage d\'un acide fort par une base forte : avec un acide ou une base faible, le pH à l\'équivalence est différent de $7$, et l\'équivalence doit toujours être repérée graphiquement (méthode des tangentes ou point d\'inflexion), jamais en cherchant simplement $pH = 7$.'
+      piege: 'Une erreur fréquente est d\'appliquer systématiquement la relation $C_A V_A = C_B V_{eq}$, y compris lorsque la réaction support du titrage n\'est pas une réaction $1{:}1$. Attention : il faut toujours vérifier les nombres stœchiométriques de la réaction support et adapter la relation d\'équivalence en conséquence, par exemple $\\dfrac{C_A V_A}{a} = \\dfrac{C_B V_{eq}}{b}$ pour une réaction $aA+bB\\rightarrow\\dots$'
     },
 
     quiz: [
       {
-        q: 'Pour être exploitable, une réaction support de titrage doit impérativement être :',
+        q: 'Lors d\'un titrage, l\'équivalence correspond au moment où :',
         options: [
-          'Lente, totale et unique',
-          'Rapide, totale et unique',
-          'Rapide, partielle et unique',
-          'Rapide, totale et réversible'
-        ],
-        answer: 1,
-        correction: 'Une réaction support de titrage doit être <strong>rapide</strong> (résultat immédiat après chaque ajout), <strong>totale</strong> (réactifs intégralement consommés) et <strong>unique</strong> (aucune réaction parasite). Ces trois conditions garantissent que le volume à l\'équivalence traduit fidèlement la quantité de matière initiale.'
-      },
-      {
-        q: 'On titre un volume $V_A = 20$ mL d\'une solution d\'acide de concentration $C_A$ inconnue par une base de concentration $C_B = 0{,}2$ mol/L (réaction $1{:}1$). L\'équivalence est repérée pour $V_{eq} = 15$ mL. Quelle est la concentration $C_A$ ?',
-        options: [
-          '$C_A = 0{,}15$ mol/L',
-          '$C_A = 0{,}267$ mol/L',
-          '$C_A = 0{,}15$ mol/L (en divisant $C_B$ par $V_{eq}$)',
-          '$C_A = 6$ mol/L'
+          'Les réactifs ont été mélangés dans les proportions stœchiométriques exactes',
+          'Tout le réactif titrant a été versé',
+          'Le volume versé est maximal',
+          'La couleur de la solution ne change plus jamais'
         ],
         answer: 0,
-        correction: 'Relation d\'équivalence : $C_A V_A = C_B V_{eq}$, donc $C_A = \\dfrac{C_B \\times V_{eq}}{V_A} = \\dfrac{0{,}2 \\times 15}{20} = \\dfrac{3}{20} = 0{,}15$ mol/L.'
+        correction: 'L\'équivalence est le point du titrage où le réactif titré et le réactif titrant ont été mélangés exactement dans les proportions imposées par la stœchiométrie de la réaction support.'
       },
       {
-        q: 'Sur une courbe de titrage $pH = f(V)$, le point d\'équivalence correspond graphiquement :',
+        q: 'Pour un suivi conductimétrique, comment repère-t-on le volume équivalent sur la courbe $\\sigma = f(V)$ ?',
         options: [
-          'Au point où $pH = 7$, dans tous les cas',
-          'Au point d\'inflexion de la courbe (saut de pH le plus rapide)',
-          'Au minimum de la courbe',
-          'Au point de départ, pour $V = 0$'
+          'À la rupture de pente (intersection des deux segments de droite)',
+          'Au maximum de la courbe',
+          'À mi-hauteur de la conductivité initiale',
+          'À l\'origine du graphique ($V=0$)'
         ],
-        answer: 1,
-        correction: 'L\'équivalence correspond toujours au point d\'<strong>inflexion</strong> de la courbe, là où la pente est maximale, quel que soit le titrage effectué. Ce n\'est qu\'un cas particulier (acide fort/base forte) que ce point coïncide en plus avec $pH = 7$.'
+        answer: 0,
+        correction: 'Le volume équivalent se repère à l\'intersection des deux segments de droite (rupture de pente) — cette méthode reste valable quelle que soit la forme exacte de la courbe (décroissante puis croissante, ou deux pentes de signes différents).'
+      },
+      {
+        q: 'Pourquoi la réaction support d\'un titrage doit-elle être totale ?',
+        options: [
+          'Pour que tout le réactif titré soit consommé à l\'équivalence, rendant le calcul de concentration exact',
+          'Pour que la réaction soit la plus lente possible',
+          'Pour éviter d\'utiliser une burette',
+          'Pour changer la couleur de la solution'
+        ],
+        answer: 0,
+        correction: 'Si la réaction n\'était pas totale, une partie du réactif titré resterait non consommée à l\'équivalence apparente, ce qui fausserait le calcul de la concentration inconnue.'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
-        var typeExo = pick(['equivalence11', 'equivalenceGeneral']);
+        var typeExo = pick(['simple', 'diacide']);
 
-        if (typeExo === 'equivalence11') {
-          var VA = pick([10, 15, 20, 25]);
-          var CB = pick([0.05, 0.1, 0.2, 0.5]);
+        if (typeExo === 'simple') {
+          var VA = pick([10, 15, 20, 25, 30]);
+          var CB = pick([0.05, 0.1, 0.15, 0.2]);
           var Veq = randFloat(5, VA * 1.4, 1);
           var CA = parseFloat((CB * Veq / VA).toFixed(4));
           var contexte = pick([
-            'un contrôle qualité de vinaigre en agroalimentaire',
-            'un dosage de détergent avant rejet',
-            'une analyse d\'eau minérale en laboratoire',
-            'un contrôle de conformité d\'un produit d\'entretien',
-            'un dosage réalisé en travaux pratiques de chimie'
+            'un contrôle qualité d\'eau adoucie',
+            'un dosage d\'acide dans un produit d\'entretien',
+            'une analyse de laboratoire de chimie appliquée',
+            'un contrôle de conformité avant rejet',
+            'un titrage conductimétrique de travaux pratiques'
           ]);
           return {
-            statement: 'Dans le cadre de ' + contexte + ', on titre un volume $V_A = ' + VA + '$ mL d\'une solution acide de concentration inconnue $C_A$ par une solution basique de concentration $C_B = ' + fr(CB, 2) + '$ mol/L (réaction support $1{:}1$). L\'équivalence est repérée pour un volume versé $V_{eq} = ' + fr(Veq, 1) + '$ mL.<br/><br/>Calcule la concentration $C_A$ (en mol/L, arrondie au millième).',
+            statement: 'Dans le cas de ' + contexte + ', on titre un volume $V_A = ' + VA + '$ mL d\'une solution d\'acide fort de concentration inconnue $C_A$ par une solution basique de concentration $C_B = ' + fr(CB, 2) + '$ mol/L (réaction support $1{:}1$). La rupture de pente est repérée pour un volume versé $V_{eq} = ' + fr(Veq, 1) + '$ mL.<br/><br/>Calcule la concentration $C_A$ (en mol/L, arrondie au millième).',
             answer: CA,
             tolerance: Math.max(0.001, parseFloat((CA * 0.05).toFixed(4))),
             unit: 'mol/L',
-            hint: 'Pour une réaction support $1{:}1$, la relation d\'équivalence s\'écrit $C_A V_A = C_B V_{eq}$.',
+            hint: 'Réaction $1{:}1$ : utilise la relation d\'équivalence $C_A V_A = C_B V_{eq}$.',
             solution: [
               'Relation d\'équivalence (réaction $1{:}1$) : $C_A V_A = C_B V_{eq}$.',
-              'On isole $C_A$ : $C_A = \\dfrac{C_B \\times V_{eq}}{V_A} = \\dfrac{' + fr(CB, 2) + ' \\times ' + fr(Veq, 1) + '}{' + VA + '}$.',
+              'On isole $C_A$ : $C_A = \\dfrac{C_B \\times V_{eq}}{V_A} = \\dfrac{' + fr(CB, 2) + '\\times' + fr(Veq, 1) + '}{' + VA + '}$.',
               'Résultat : $C_A \\approx ' + fr(CA, 3) + '$ mol/L.'
             ]
           };
         } else {
-          var VA2 = pick([10, 20, 25]);
-          var CB2 = pick([0.1, 0.2, 0.25]);
-          var Veq2 = randFloat(6, VA2 * 1.3, 1);
-          var b = pick([2, 3]);
-          // reaction a A + b B -> ... avec a = 1 (l'espece titree)
-          var CA2 = parseFloat((CB2 * Veq2 / (b * VA2)).toFixed(4));
+          var VA2 = pick([10, 15, 20, 25]);
+          var CB2 = pick([0.05, 0.1, 0.15, 0.2]);
+          var Veq2 = randFloat(5, VA2 * 1.5, 1);
+          var CA2 = parseFloat((CB2 * Veq2 / (2 * VA2)).toFixed(4));
           var contexte2 = pick([
-            'un dosage d\'un diacide en laboratoire de chimie',
-            'un contrôle de teneur en acide dans un procédé industriel',
-            'une analyse de conformité d\'un effluent'
+            'un laboratoire de contrôle alimentaire',
+            'une séance de travaux pratiques de chimie',
+            'un contrôle de la teneur en diacide d\'un produit',
+            'une analyse de conformité industrielle'
           ]);
           return {
-            statement: 'Dans le cadre de ' + contexte2 + ', on titre un volume $V_A = ' + VA2 + '$ mL d\'une solution d\'un acide $A$ de concentration inconnue $C_A$ par une solution basique $B$ de concentration $C_B = ' + fr(CB2, 2) + '$ mol/L. La réaction support de titrage a pour coefficients stœchiométriques $a = 1$ (pour $A$) et $b = ' + b + '$ (pour $B$). L\'équivalence est repérée pour $V_{eq} = ' + fr(Veq2, 1) + '$ mL.<br/><br/>Calcule la concentration $C_A$ (en mol/L, arrondie au millième), en utilisant la relation d\'équivalence générale $\\dfrac{C_A V_A}{a} = \\dfrac{C_B V_{eq}}{b}$.',
+            statement: 'Dans ' + contexte2 + ', on titre un diacide (noté $AH_2$) selon la réaction support $AH_2 + 2\\,HO^- \\rightarrow A^{2-} + 2\\,H_2O$. Un volume $V_A = ' + VA2 + '$ mL d\'une solution de cet acide, de concentration inconnue $C_A$, est titré par une solution d\'hydroxyde de sodium de concentration $C_B = ' + fr(CB2, 2) + '$ mol/L. L\'équivalence est repérée pour $V_{eq} = ' + fr(Veq2, 1) + '$ mL.<br/><br/>Calcule la concentration $C_A$ (en mol/L, arrondie au millième).',
             answer: CA2,
             tolerance: Math.max(0.001, parseFloat((CA2 * 0.05).toFixed(4))),
             unit: 'mol/L',
-            hint: 'Avec $a = 1$, la relation devient $C_A V_A = \\dfrac{C_B V_{eq}}{b}$, donc $C_A = \\dfrac{C_B V_{eq}}{b \\times V_A}$.',
+            hint: 'La réaction support n\'est pas $1{:}1$ : adapte la relation d\'équivalence à la stœchiométrie, $\\dfrac{C_A V_A}{1} = \\dfrac{C_B V_{eq}}{2}$.',
             solution: [
-              'Relation d\'équivalence générale : $\\dfrac{C_A V_A}{a} = \\dfrac{C_B V_{eq}}{b}$, avec $a = 1$.',
-              'On isole $C_A$ : $C_A = \\dfrac{C_B \\times V_{eq}}{b \\times V_A} = \\dfrac{' + fr(CB2, 2) + ' \\times ' + fr(Veq2, 1) + '}{' + b + ' \\times ' + VA2 + '}$.',
-              'Résultat : $C_A \\approx ' + fr(CA2, 3) + '$ mol/L. Ne pas oublier le facteur $' + b + '$ au dénominateur : c\'est le coefficient stœchiométrique de la base dans l\'équation de réaction.'
+              'Relation d\'équivalence adaptée à la stœchiométrie ($1$ mol de $AH_2$ pour $2$ mol de $HO^-$) : $\\dfrac{C_A V_A}{1} = \\dfrac{C_B V_{eq}}{2}$.',
+              'On isole $C_A$ : $C_A = \\dfrac{C_B \\times V_{eq}}{2\\times V_A} = \\dfrac{' + fr(CB2, 2) + '\\times' + fr(Veq2, 1) + '}{2\\times' + VA2 + '}$.',
+              'Résultat : $C_A \\approx ' + fr(CA2, 3) + '$ mol/L.'
             ]
           };
         }
@@ -200,80 +189,76 @@ window.MODULES.push({
     },
 
     probleme: {
-      context: 'Un laboratoire de contrôle qualité doit vérifier la teneur en acide citrique d\'un jus de citron industriel avant conditionnement. On prélève $V_A = 10$ mL de jus, dilué puis titré par une solution d\'hydroxyde de sodium de concentration $C_B = 0{,}25$ mol/L. La réaction support de titrage, entre l\'acide citrique $\\text{H}_3\\text{Cit}$ (triacide, noté ici $A$) et les ions hydroxyde, a pour coefficients stœchiométriques $a = 1$ (pour $A$) et $b = 3$ (pour $\\text{HO}^-$). Le suivi pH-métrique donne un volume équivalent $V_{eq} = 12{,}0$ mL.',
+      context: 'On souhaite déterminer la concentration en acide éthanoïque $CH_3COOH$ (masse molaire $M=60$ g/mol) d\'un vinaigre commercial. On prélève $V_A=10$ mL de ce vinaigre, que l\'on dilue $10$ fois, puis on titre la solution diluée par une solution d\'hydroxyde de sodium de concentration $C_B=0{,}10$ mol/L (réaction support $1{:}1$ : $CH_3COOH + HO^- \\rightarrow CH_3COO^- + H_2O$). L\'équivalence est repérée par suivi conductimétrique pour un volume versé $V_{eq}=8{,}0$ mL.',
       tasks: [
-        'Rappeler la relation d\'équivalence générale liant $C_A$, $V_A$, $C_B$, $V_{eq}$, $a$ et $b$.',
-        'Calculer la concentration $C_A$ en acide citrique du jus dilué.',
-        'La masse molaire de l\'acide citrique est $M = 192$ g/mol. Calculer la concentration massique $t$ (en g/L) correspondante.'
+        'La réaction support étant $1{:}1$, écrire la relation d\'équivalence, puis calculer la concentration $C_{dil}$ de la solution diluée de vinaigre.',
+        'En tenant compte du facteur de dilution ($10$), calculer la concentration $C_A$ du vinaigre commercial.',
+        'Calculer la concentration massique $t$ du vinaigre commercial (en g/L), puis son degré d\'acidité approximatif (en %, en assimilant $1$ mL de vinaigre à $1$ g).'
       ],
       solutions: [
-        'La relation d\'équivalence générale s\'écrit $\\dfrac{C_A V_A}{a} = \\dfrac{C_B V_{eq}}{b}$, où $a$ et $b$ sont les coefficients stœchiométriques de $A$ et de la base dans l\'équation de la réaction support.',
-        'Avec $a = 1$ et $b = 3$ : $C_A V_A = \\dfrac{C_B V_{eq}}{3}$, donc $C_A = \\dfrac{C_B \\times V_{eq}}{3 \\times V_A} = \\dfrac{0{,}25 \\times 12{,}0}{3 \\times 10} = \\dfrac{3{,}0}{30} = 0{,}1$ mol/L.',
-        'Concentration massique : $t = C_A \\times M = 0{,}1 \\times 192 = 19{,}2$ g/L.'
+        'Réaction $1{:}1$ : $C_{dil} \\times V_A = C_B \\times V_{eq}$, donc $C_{dil} = \\dfrac{C_B \\times V_{eq}}{V_A} = \\dfrac{0{,}10\\times8{,}0}{10} = 0{,}08$ mol/L.',
+        'La dilution d\'un facteur $10$ signifie que la solution mère (vinaigre commercial) était $10$ fois plus concentrée : $C_A = 10\\times C_{dil} = 10\\times0{,}08 = 0{,}8$ mol/L.',
+        'Concentration massique : $t=C_A\\times M=0{,}8\\times60=48$ g/L. En assimilant $1$ mL de vinaigre à $1$ g, $1$ L de vinaigre pèse environ $1\\,000$ g : le degré d\'acidité est $\\dfrac{48}{1\\,000}\\times100 \\approx 4{,}8$ %.'
       ],
-      finalAnswer: '$C_A = 0{,}1$ mol/L, soit une concentration massique $t = 19{,}2$ g/L en acide citrique dans le jus dilué. Ce résultat obtenu sur l\'échantillon dilué permettrait ensuite, en tenant compte du facteur de dilution, de remonter à la teneur réelle du jus de citron industriel.'
+      finalAnswer: '$C_{dil}=0{,}08$ mol/L, $C_A=0{,}8$ mol/L (vinaigre commercial), $t=48$ g/L, soit un degré d\'acidité d\'environ $4{,}8$ % — cohérent avec les vinaigres alimentaires courants (typiquement entre $5$ % et $8$ %). Oublier le facteur de dilution est l\'erreur la plus fréquente dans ce type de titrage indirect.'
     },
 
     evaluation: {
-      title: 'Évaluation — Titrage par réaction acido-basique',
+      title: 'Évaluation — Titrage',
       duration: '30 min',
       questions: [
         {
-          statement: 'Citer les trois conditions que doit vérifier une réaction support de titrage pour être exploitable.',
+          statement: 'On titre $V_A=15$ mL d\'un acide par une base de concentration $C_B=0{,}2$ mol/L (réaction $1{:}1$). L\'équivalence est obtenue pour $V_{eq}=12$ mL. Calculer $C_A$ (en mol/L, arrondie au millième).',
+          type: 'numeric',
+          answer: 0.16,
+          tolerance: 0.01,
+          unit: 'mol/L',
+          points: 2,
+          correction: '$C_A = \\dfrac{C_B \\times V_{eq}}{V_A} = \\dfrac{0{,}2\\times12}{15} = 0{,}16$ mol/L.'
+        },
+        {
+          statement: 'Le point d\'équivalence d\'un titrage correspond au moment où :',
           type: 'multiple-choice',
           options: [
-            'Rapide, totale, unique',
-            'Lente, partielle, réversible',
-            'Rapide, réversible, unique',
-            'Totale, colorée, lente'
+            'Les réactifs ont été introduits dans les proportions stœchiométriques exactes',
+            'La totalité du réactif titré a disparu, indépendamment du réactif titrant',
+            'Le volume versé est égal au volume initial',
+            'La solution devient incolore'
           ],
           answer: 0,
           points: 2,
-          correction: 'Une réaction support de titrage doit être rapide, totale et unique, afin que le volume versé à l\'équivalence traduise exactement la quantité de matière initiale à déterminer.'
+          correction: 'L\'équivalence correspond aux proportions stœchiométriques exactes entre réactif titré et réactif titrant, telles que fixées par l\'équation de la réaction support.'
         },
         {
-          statement: 'On titre $V_A = 15$ mL d\'un acide de concentration inconnue $C_A$ par une base de concentration $C_B = 0{,}3$ mol/L (réaction $1{:}1$). L\'équivalence est obtenue pour $V_{eq} = 9$ mL. Calculer $C_A$ (en mol/L, arrondie au centième).',
+          statement: 'On titre un diacide $AH_2$ ($AH_2+2\\,HO^-\\rightarrow A^{2-}+2\\,H_2O$) : $V_A=20$ mL, $C_B=0{,}1$ mol/L, $V_{eq}=10$ mL. Calculer $C_A$ (en mol/L, arrondie au millième).',
           type: 'numeric',
-          answer: 0.18,
+          answer: 0.025,
+          tolerance: 0.002,
+          unit: 'mol/L',
+          points: 2,
+          correction: 'Relation adaptée à la stœchiométrie : $C_A V_A = \\dfrac{C_B V_{eq}}{2}$, donc $C_A = \\dfrac{0{,}1\\times10}{2\\times20} = \\dfrac{1}{40} = 0{,}025$ mol/L.'
+        },
+        {
+          statement: 'Pour un suivi conductimétrique, le volume équivalent est repéré :',
+          type: 'multiple-choice',
+          options: [
+            'À l\'intersection des deux segments de droite (rupture de pente)',
+            'Au point où $pH=7$',
+            'À la moitié du volume total versé',
+            'Lorsque la solution change de couleur'
+          ],
+          answer: 0,
+          points: 2,
+          correction: 'Le suivi conductimétrique repère l\'équivalence à la rupture de pente de la courbe $\\sigma=f(V)$, sans aucun besoin de mesurer le pH ni d\'utiliser d\'indicateur coloré.'
+        },
+        {
+          statement: 'Une solution mère est diluée $5$ fois avant d\'être titrée ; le titrage de la solution diluée donne $C_{dil}=0{,}04$ mol/L. Calculer la concentration $C_A$ de la solution mère (en mol/L).',
+          type: 'numeric',
+          answer: 0.2,
           tolerance: 0.01,
           unit: 'mol/L',
           points: 2,
-          correction: '$C_A = \\dfrac{C_B \\times V_{eq}}{V_A} = \\dfrac{0{,}3 \\times 9}{15} = \\dfrac{2{,}7}{15} = 0{,}18$ mol/L.'
-        },
-        {
-          statement: 'Sur une courbe $pH = f(V)$, le point d\'équivalence est repéré graphiquement :',
-          type: 'multiple-choice',
-          options: [
-            'Au point où le pH est minimal',
-            'Au point d\'inflexion (saut de pH maximal)',
-            'Toujours exactement à $pH = 7$',
-            'Au point de départ du titrage'
-          ],
-          answer: 1,
-          points: 2,
-          correction: 'Le point d\'équivalence correspond au point d\'inflexion de la courbe, quelle que soit la force de l\'acide ou de la base titrés.'
-        },
-        {
-          statement: 'Une réaction support de titrage entre un acide $A$ (coefficient $a = 1$) et une base $B$ (coefficient $b = 2$) est utilisée pour titrer $V_A = 20$ mL de $A$ par une base de concentration $C_B = 0{,}2$ mol/L. L\'équivalence est obtenue pour $V_{eq} = 10$ mL. Calculer $C_A$ (en mol/L, arrondie au centième).',
-          type: 'numeric',
-          answer: 0.05,
-          tolerance: 0.01,
-          unit: 'mol/L',
-          points: 3,
-          correction: '$\\dfrac{C_A V_A}{1} = \\dfrac{C_B V_{eq}}{2}$, donc $C_A = \\dfrac{C_B \\times V_{eq}}{2 \\times V_A} = \\dfrac{0{,}2 \\times 10}{40} = \\dfrac{2}{40} = 0{,}05$ mol/L. Le coefficient $b = 2$ au dénominateur est essentiel : l\'oublier double la valeur trouvée.'
-        },
-        {
-          statement: 'Le pH à l\'équivalence d\'un titrage vaut exactement $7$ :',
-          type: 'multiple-choice',
-          options: [
-            'Dans tous les cas, quels que soient l\'acide et la base',
-            'Uniquement dans le cas d\'un titrage acide fort / base forte',
-            'Uniquement si l\'indicateur coloré est bien choisi',
-            'Jamais, le pH à l\'équivalence est toujours différent de 7'
-          ],
-          answer: 1,
-          points: 1,
-          correction: 'Le pH à l\'équivalence ne vaut $7$ que dans le cas particulier d\'un titrage entre un acide fort et une base forte. Avec un acide ou une base faible, ce pH s\'écarte de $7$.'
+          correction: 'Dilution d\'un facteur $5$ ⟹ $C_A = 5\\times C_{dil} = 5\\times0{,}04 = 0{,}2$ mol/L.'
         }
       ]
     }

@@ -51,8 +51,8 @@ window.MODULES.push(
       diagram: {
         theme: 'maths',
         kicker: 'Triangles semblables',
-        title: 'Voir les longueurs correspondantes dans une configuration de Thales',
-        description: 'Les deux segments relies en parallele creent deux triangles semblables : on compare toujours des longueurs placees dans le meme sens.',
+        title: 'Voir les longueurs correspondantes dans une configuration de Thalès',
+        description: 'Les deux segments reliés en parallèle créent deux triangles semblables : on compare toujours des longueurs placées dans le même sens.',
         svg: `
           <svg viewBox="0 0 360 240" role="img" aria-labelledby="thales-graph-title thales-graph-desc">
             <title id="thales-graph-title">Configuration de Thales</title>
@@ -85,12 +85,12 @@ window.MODULES.push(
           </svg>
         `,
         notes: [
-          'Le theoreme direct commence toujours par la parallelite : ici les segments $AB$ et $A\'B\'$ sont paralleles.',
-          'On compare des longueurs correspondantes dans le meme sens : grand sur grand ou petit sur petit, jamais un melange des deux.',
-          'La reciproque renverse la logique : si les rapports sont egaux et les points du meme cote de $O$, on peut conclure au parallelisme.'
+          'Le théorème direct commence toujours par le parallélisme : ici les segments $AB$ et $A\'B\'$ sont parallèles.',
+          'On compare des longueurs correspondantes dans le même sens : grand sur grand ou petit sur petit, jamais un mélange des deux.',
+          'La réciproque renverse la logique : si les rapports sont égaux et les points du même côté de $O$, on peut conclure au parallélisme.'
         ],
-        reading: 'Le plus sur est de suivre chaque secante depuis $O$ : on lit d\'abord la petite longueur, puis la grande qui lui correspond.',
-        caption: 'Configuration de Thales avec deux secantes, un segment intermediaire et un segment parallele plus eloigne.'
+        reading: 'Le plus sûr est de suivre chaque sécante depuis $O$ : on lit d\'abord la petite longueur, puis la grande qui lui correspond.',
+        caption: 'Configuration de Thalès avec deux sécantes, un segment intermédiaire et un segment parallèle plus éloigné.'
       },
       recap: [
         '<strong>Rapports cohérents</strong> : toujours écrire les rapports dans le même sens (grand sur petit ou petit sur grand), jamais mélangés.',
@@ -134,9 +134,9 @@ window.MODULES.push(
         const oaP = oa * ratio;
         const ab = rand(2, 8);
         const abP = parseFloat((ab * ratio).toFixed(2));
-        const oaPStr = String(oaP).replace('.', '{,}');
-        const ratioStr = String(ratio).replace('.', '{,}');
-        const abPStr = String(abP).replace('.', '{,}');
+        const oaPStr = fr(oaP);
+        const ratioStr = fr(ratio);
+        const abPStr = fr(abP);
         const data = `$OA = ${oa}$ cm, $OA' = ${oaPStr}$ cm, $AB = ${ab}$ cm`;
 
         const ctx = pick([
@@ -163,19 +163,19 @@ window.MODULES.push(
     },
 
     probleme: {
-      context: 'Une lentille convergente de distance focale $f\' = 10$ cm forme l\'image d\'un objet $AB$ de taille $AB = 3$ cm placé à $OA = -30$ cm (signe algébrique : objet réel à gauche).',
+      context: 'Une lentille convergente forme l\'image $A\'B\'$ d\'un objet $AB = 3$ cm. L\'objet est placé à $OA = 12$ cm de la lentille, et son image se forme à $OA\' = 36$ cm.',
       schema: null,
       tasks: [
-        'Appliquer la relation de conjugaison : $\\dfrac{1}{\\overline{OA\'}} - \\dfrac{1}{\\overline{OA}} = \\dfrac{1}{f\'}$ pour trouver $\\overline{OA\'}$.',
-        'Calculer le grandissement algébrique $\\gamma = \\dfrac{\\overline{OA\'}}{\\overline{OA}}$.',
-        'En déduire la taille de l\'image $A\'B\'$ et indiquer si elle est droite ou renversée.'
+        'Calculer le grandissement $|\\gamma| = \\dfrac{|OA\'|}{|OA|}$.',
+        'En déduire la taille de l\'image $|A\'B\'|$.',
+        'L\'image est-elle plus grande ou plus petite que l\'objet ? Justifier avec la valeur de $|\\gamma|$.'
       ],
       solutions: [
-        '$\\dfrac{1}{\\overline{OA\'}} = \\dfrac{1}{f\'} + \\dfrac{1}{\\overline{OA}} = \\dfrac{1}{10} + \\dfrac{1}{-30} = \\dfrac{3}{30} - \\dfrac{1}{30} = \\dfrac{2}{30} = \\dfrac{1}{15}$. Donc $\\overline{OA\'} = +15$ cm.',
-        '$\\gamma = \\dfrac{\\overline{OA\'}}{\\overline{OA}} = \\dfrac{+15}{-30} = -0{,}5$.',
-        '$A\'B\' = \\gamma \\times AB = -0{,}5 \\times 3 = -1{,}5$ cm. L\'image est renversée (signe $-$) et deux fois plus petite.'
+        '$|\\gamma| = \\dfrac{|OA\'|}{|OA|} = \\dfrac{36}{12} = 3$.',
+        '$|A\'B\'| = |\\gamma| \\times AB = 3 \\times 3 = 9$ cm.',
+        'Comme $|\\gamma| = 3 > 1$, l\'image est $3$ fois plus grande que l\'objet : elle est agrandie.'
       ],
-      finalAnswer: '$\\overline{OA\'} = 15$ cm, $\\gamma = -0{,}5$, $A\'B\' = -1{,}5$ cm (image renversée, réduite)'
+      finalAnswer: '$|\\gamma| = 3$, $|A\'B\'| = 9$ cm : l\'image est agrandie par rapport à l\'objet.'
     },
 
     evaluation: {

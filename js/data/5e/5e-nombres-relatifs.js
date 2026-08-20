@@ -105,7 +105,7 @@ window.MODULES.push({
         'La valeur absolue donne la distance à zéro (toujours positive).',
         '$-(a - b) = -a + b$ : le signe $-$ change TOUS les signes dans la parenthèse.'
       ],
-      piege: 'Le signe $-$ devant une parenthèse change TOUS les signes à l\'intérieur : $-(a - b) = -a + b$. Erreur classique : $-(3 - 5) = -3 - 5$ (FAUX). La bonne réponse est $-3 + 5 = 2$.'
+      piege: 'Le signe $-$ devant une parenthèse change TOUS les signes à l\'intérieur : $-(a - b) = -a + b$. Piège fréquent : écrire $-(3 - 5) = -3 - 5$ en oubliant de changer le second signe. La bonne méthode donne $-3 + 5 = 2$.'
     },
 
     quiz: [

@@ -64,9 +64,9 @@ window.MODULES.push({
             <text class="axis-label" x="36" y="108">7</text>
             <text class="axis-label" x="118" y="50">5</text>
             <text class="axis-label" x="193" y="46">0,2</text>
-            <text class="annotation-label" x="90" y="112">7 x 5 = 35</text>
+            <text class="annotation-label" x="90" y="112">7 × 5 = 35</text>
             <line class="guide-line" x1="220" y1="105" x2="248" y2="90"></line>
-            <text class="annotation-label" x="224" y="86">7 x 0,2 = 1,4</text>
+            <text class="annotation-label" x="224" y="86">7 × 0,2 = 1,4</text>
             <rect x="50" y="200" width="270" height="34" rx="12" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
             <text class="annotation-label" x="64" y="222">Total : 35 + 1,4 = 36,4</text>
           </svg>
@@ -125,8 +125,8 @@ window.MODULES.push({
           a = randFloat(1, 9, 1);
           b = randFloat(1, 9, 1);
           prod = parseFloat((a * b).toFixed(2));
-          const aStr = a.toString().replace('.', '{,}');
-          const bStr = b.toString().replace('.', '{,}');
+          const aStr = fr(a);
+          const bStr = fr(b);
           statement = scenario.aLabel
             ? `${scenario.emoji} ${scenario.intro} $${aStr}$ ${scenario.aLabel} $${bStr}$ ${scenario.bLabel}`
             : `${scenario.emoji} ${scenario.intro} $${aStr} \\times ${bStr}$.`;
@@ -149,7 +149,7 @@ window.MODULES.push({
             : [
                 `On ignore les virgules : $${intA} \\times ${intB} = ${intA * intB}$.`,
                 `Total de décimales : $1 + 1 = 2$.`,
-                `Résultat : $${prod.toString().replace('.', '{,}')}$${scenario.unit ? ' ' + scenario.unit : ''}`
+                `Résultat : $${fr(prod)}$${scenario.unit ? ' ' + scenario.unit : ''}`
               ]
         };
       }

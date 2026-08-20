@@ -125,9 +125,9 @@ window.MODULES.push(
       generate() {
         const k = pick([2, 3, 0.5]);
         const ab = rand(3, 12);
-        const kStr = String(k).replace('.', '{,}');
-        const absKStr = String(Math.abs(k)).replace('.', '{,}');
-        const resultStr = String(Math.abs(k) * ab).replace('.', '{,}');
+        const kStr = fr(k);
+        const absKStr = fr(Math.abs(k));
+        const resultStr = fr(Math.abs(k) * ab);
 
         const ctx = pick([
           { build: () => `Une <strong>photocopieuse</strong> applique un rapport $k = ${kStr}$ à un document. Un segment y mesure $${ab}$ cm.<br/><br/>Quelle est la longueur de son <strong>image</strong> sur la copie (en cm) ?` },

@@ -17,3 +17,10 @@ node_modules/
 /contact/
 /confidentialite/
 /scripts/fixtures/
+
+# Theme Shopify de la boutique (Liquid) : pull local via Shopify CLI, projet
+# distinct du site vanilla JS, ne doit jamais etre commite dans ce depot.
+Shopify/
+
+# Sortie du skill /graphify (graphe de connaissances local, regenerable).
+graphify-out/

@@ -5,130 +5,157 @@
 window.MODULES.push({
     id: 'physique-3e-reactions-chimiques',
     level: 1, subject: 'physique',
-    icon: '⚗️',
+    icon: '🧪',
     title: 'Les réactions chimiques (équilibrage)',
-    subtitle: 'Réactifs, produits, conservation de la masse, équilibrage des équations-bilans',
-    keywords: ['Réaction chimique', 'Équation-bilan', 'Conservation de la masse', 'Lavoisier', 'Équilibrage'],
-    physics: 'L\'équilibrage des équations chimiques permet de calculer les quantités exactes de réactifs nécessaires et de produits obtenus dans l\'industrie (combustion, synthèse de médicaments, production d\'engrais), et d\'évaluer la quantité de dioxyde de carbone rejetée par une combustion.',
+    subtitle: 'Réactifs et produits, loi de conservation de la masse, équation de réaction, équilibrage des coefficients stœchiométriques',
+    keywords: ['Réaction chimique', 'Lavoisier', 'Équation', 'Coefficient', 'Conservation de la masse'],
+    physics: 'Équilibrer une équation de réaction n\'est pas qu\'un exercice scolaire : c\'est ce qui permet de calculer les quantités de gaz produites par une combustion (chaudière, moteur), de doser les réactifs d\'un procédé industriel, ou de comprendre pourquoi une combustion incomplète dans un appareil mal réglé peut produire du monoxyde de carbone, gaz toxique.',
 
     cours: {
-      intro: 'Quand tu fais brûler du gaz, quand un clou rouille ou quand un aliment cuit, tu observes une <strong>réaction chimique</strong> : des substances de départ, les <strong>réactifs</strong>, se transforment en de nouvelles substances, les <strong>produits</strong>.<br/><br/>Cette transformation obéit à une loi fondamentale découverte par le chimiste français Antoine Lavoisier : la <strong>loi de conservation de la masse</strong>. « Rien ne se perd, rien ne se crée, tout se transforme » — autrement dit, les <strong>atomes ne disparaissent jamais</strong> et ne sont jamais créés lors d\'une réaction chimique : ils se réarrangent simplement pour former de nouvelles molécules.<br/><br/>Une <strong>équation-bilan</strong> décrit cette transformation avec des symboles chimiques. Pour qu\'elle respecte la conservation des atomes, il faut souvent l\'<strong>équilibrer</strong> : ajuster des <strong>nombres stœchiométriques</strong> devant les formules, sans jamais modifier les formules elles-mêmes.',
+      intro: 'Une <strong>réaction chimique</strong> est une transformation au cours de laquelle des espèces chimiques de départ, appelées <strong>réactifs</strong>, disparaissent pour former de nouvelles espèces, appelées <strong>produits</strong>.<br/><br/>Cette transformation ne fait ni apparaître ni disparaître le moindre atome : les atomes présents dans les réactifs sont exactement les mêmes que ceux retrouvés dans les produits, simplement <strong>réorganisés</strong> différemment. C\'est le chimiste français Antoine Lavoisier qui a formulé ce principe à la fin du XVIIIe siècle : « Rien ne se perd, rien ne se crée, tout se transforme ».<br/><br/>On représente une réaction chimique par une <strong>équation de réaction</strong> : réactifs à gauche, produits à droite, séparés par une flèche. Pour respecter la conservation des atomes, cette équation doit être <strong>équilibrée</strong> à l\'aide de nombres appelés coefficients stœchiométriques.',
       definitions: [
-        { term: 'Réactifs', def: 'Les substances présentes <strong>avant</strong> la réaction chimique, qui sont consommées au cours de la transformation. Elles sont écrites à gauche de la flèche dans l\'équation-bilan.' },
-        { term: 'Produits', def: 'Les substances obtenues <strong>après</strong> la réaction chimique. Elles sont écrites à droite de la flèche.' },
-        { term: 'Équation-bilan', def: 'Écriture symbolique d\'une réaction chimique, du type $\\text{réactifs} \\rightarrow \\text{produits}$, où chaque espèce chimique est précédée d\'un <strong>nombre stœchiométrique</strong> assurant la conservation des atomes.' },
-        { term: 'Loi de conservation de la masse', def: 'Énoncée par Lavoisier : au cours d\'une réaction chimique, la masse totale des réactifs est égale à la masse totale des produits. Elle se traduit, au niveau microscopique, par la conservation du <strong>nombre d\'atomes de chaque élément</strong> entre réactifs et produits.' }
+        { term: 'Réactifs / produits', def: 'Les <strong>réactifs</strong> sont les espèces chimiques consommées au cours de la réaction ; les <strong>produits</strong> sont les espèces chimiques formées. Ils apparaissent respectivement à gauche et à droite de la flèche dans l\'équation de réaction.' },
+        { term: 'Équation de réaction', def: 'Écriture symbolique d\'une réaction chimique : réactifs $\\rightarrow$ produits, chaque espèce étant précédée d\'un <strong>coefficient stœchiométrique</strong> assurant la conservation du nombre d\'atomes de chaque élément.' },
+        { term: 'Loi de conservation de la masse (Lavoisier)', def: 'Au cours d\'une réaction chimique, la masse totale des réactifs consommés est égale à la masse totale des produits formés : $m_{réactifs} = m_{produits}$.' },
+        { term: 'Coefficient stœchiométrique', def: 'Nombre entier placé devant la formule d\'une espèce chimique dans l\'équation, indiquant combien de molécules (ou d\'entités) de cette espèce interviennent. C\'est le <strong>seul</strong> élément que l\'on peut modifier pour équilibrer une équation.' }
       ],
       method: {
-        title: 'Équilibrer une équation-bilan en 3 étapes',
+        title: 'Équilibrer une équation de réaction en 3 étapes',
         steps: [
-          '<strong>Compter les atomes</strong> de chaque élément chimique présents dans les réactifs, puis dans les produits, à partir des formules chimiques (indices en bas des symboles).',
-          '<strong>Ajuster les nombres stœchiométriques</strong> (les grands nombres placés devant les formules) pour égaliser le nombre d\'atomes de chaque élément de part et d\'autre de la flèche, en commençant par l\'élément le moins « partagé » entre plusieurs molécules.<br/>Attention : on ne modifie <strong>jamais</strong> les indices à l\'intérieur d\'une formule (par exemple $\\text{CO}_2$ reste $\\text{CO}_2$), sous peine de changer la nature même de la substance.',
-          '<strong>Vérifier</strong>, élément par élément, que le nombre total d\'atomes est bien identique des deux côtés de la flèche.'
+          '<strong>Compter les atomes de chaque élément</strong> de part et d\'autre de la flèche, avec les coefficients actuels (souvent tous égaux à 1 au départ), et repérer les éléments en déséquilibre.<br/>Exemple : dans $CH_4 + O_2 \\rightarrow CO_2 + H_2O$, on compte à gauche C:1, H:4, O:2 et à droite C:1, H:2, O:3 — l\'hydrogène et l\'oxygène ne sont pas équilibrés.',
+          '<strong>Ajuster les coefficients un élément à la fois</strong>, en commençant par celui qui apparaît dans une seule espèce de chaque côté, jusqu\'à obtenir le même nombre d\'atomes des deux côtés. Ne jamais toucher aux indices des formules chimiques : cela changerait la nature même de la substance.<br/>Exemple (suite) : pour équilibrer l\'hydrogène (4 à gauche), on place un coefficient 2 devant $H_2O$ : $CH_4 + O_2 \\rightarrow CO_2 + 2\\,H_2O$.',
+          '<strong>Vérifier en recomptant</strong> tous les atomes des deux côtés une fois les coefficients ajustés.<br/>Exemple (suite) : à droite, l\'oxygène total devient $2 + 2\\times1 = 4$ ; il faut donc aussi 4 atomes d\'oxygène à gauche, soit un coefficient 2 devant $O_2$ : $CH_4 + 2\\,O_2 \\rightarrow CO_2 + 2\\,H_2O$, désormais équilibrée.'
         ]
       },
       diagram: {
         theme: 'physique',
-        kicker: 'Loi de conservation de la masse (Lavoisier)',
-        title: 'Comptage des atomes avant et après la combustion du méthane',
-        description: 'Pour l\'équation équilibrée $\\text{CH}_4 + 2\\,\\text{O}_2 \\rightarrow \\text{CO}_2 + 2\\,\\text{H}_2\\text{O}$, on compare le nombre d\'atomes de chaque élément côté réactifs et côté produits : les barres ont exactement la même hauteur.',
+        kicker: 'Équilibrage d\'une équation chimique',
+        title: 'Conservation des atomes lors de la synthèse de l\'eau : $2\\,H_2 + O_2 \\rightarrow 2\\,H_2O$',
+        description: 'La synthèse de l\'eau à partir de dihydrogène et de dioxygène illustre la conservation des atomes lors d\'une réaction chimique : les atomes d\'hydrogène (petites sphères claires) et d\'oxygène (grandes sphères colorées) présents dans les réactifs se retrouvent, en même nombre, dans les produits.',
         svg: `
-          <svg viewBox="0 0 520 300" role="img" aria-labelledby="reaction-title reaction-desc">
-            <title id="reaction-title">Conservation des atomes lors de la combustion du methane</title>
-            <desc id="reaction-desc">Diagramme en barres comparant, pour chaque element chimique (carbone, hydrogene, oxygene), le nombre total d'atomes du cote des reactifs et du cote des produits dans l'equation equilibree CH4 + 2 O2 -&gt; CO2 + 2 H2O. Pour chaque element, la barre des reactifs et la barre des produits ont exactement la meme hauteur : 1 atome de carbone, 4 atomes d'hydrogene et 4 atomes d'oxygene de chaque cote, ce qui illustre la loi de conservation de la masse.</desc>
+          <svg viewBox="0 0 620 300" role="img" aria-labelledby="reaction-title reaction-desc">
+            <title id="reaction-title">Conservation des atomes lors de la synthese de l'eau</title>
+            <desc id="reaction-desc">A gauche, deux molecules de dihydrogene et une molecule de dioxygene, representees par des spheres reliees par des traits. Une fleche mene vers la droite, ou l'on trouve deux molecules d'eau, chacune formee d'un atome d'oxygene relie a deux atomes d'hydrogene. Un tableau sous le schema recapitule le nombre d'atomes d'hydrogene et d'oxygene avant et apres la reaction, montrant qu'ils sont identiques des deux cotes.</desc>
 
-            <!-- axes -->
-            <line class="frame-line" x1="60" y1="40" x2="60" y2="260"></line>
-            <line class="frame-line" x1="60" y1="260" x2="480" y2="260"></line>
+            <defs>
+              <marker id="arrow-phys3e-reactions" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
 
-            <!-- groupe Carbone (1 et 1) -->
-            <rect x="95" y="225" width="30" height="35" fill="var(--diagram-accent)"></rect>
-            <rect x="135" y="225" width="30" height="35" fill="color-mix(in srgb, var(--diagram-accent) 35%, var(--bg-card))" stroke="var(--diagram-accent)" stroke-width="1.5"></rect>
-            <text class="annotation-label" x="110" y="218" text-anchor="middle">1</text>
-            <text class="annotation-label" x="150" y="218" text-anchor="middle">1</text>
-            <text class="tick-label" x="130" y="278" text-anchor="middle">Carbone (C)</text>
+            <text class="annotation-label" x="150" y="40" text-anchor="middle">Réactifs</text>
+            <text class="annotation-label" x="470" y="40" text-anchor="middle">Produits</text>
 
-            <!-- groupe Hydrogene (4 et 4) -->
-            <rect x="235" y="120" width="30" height="140" fill="var(--diagram-accent)"></rect>
-            <rect x="275" y="120" width="30" height="140" fill="color-mix(in srgb, var(--diagram-accent) 35%, var(--bg-card))" stroke="var(--diagram-accent)" stroke-width="1.5"></rect>
-            <text class="annotation-label" x="250" y="113" text-anchor="middle">4</text>
-            <text class="annotation-label" x="290" y="113" text-anchor="middle">4</text>
-            <text class="tick-label" x="270" y="278" text-anchor="middle">Hydrogène (H)</text>
+            <!-- reactifs : 2 molecules H2 -->
+            <line class="frame-line" x1="70" y1="100" x2="110" y2="100"></line>
+            <circle cx="70" cy="100" r="14" fill="var(--bg-card)" stroke="var(--text)" stroke-width="2"></circle>
+            <circle cx="110" cy="100" r="14" fill="var(--bg-card)" stroke="var(--text)" stroke-width="2"></circle>
+            <text class="label-soft" x="90" y="130" text-anchor="middle">H₂</text>
 
-            <!-- groupe Oxygene (4 et 4) -->
-            <rect x="375" y="120" width="30" height="140" fill="var(--diagram-accent)"></rect>
-            <rect x="415" y="120" width="30" height="140" fill="color-mix(in srgb, var(--diagram-accent) 35%, var(--bg-card))" stroke="var(--diagram-accent)" stroke-width="1.5"></rect>
-            <text class="annotation-label" x="390" y="113" text-anchor="middle">4</text>
-            <text class="annotation-label" x="430" y="113" text-anchor="middle">4</text>
-            <text class="tick-label" x="410" y="278" text-anchor="middle">Oxygène (O)</text>
+            <line class="frame-line" x1="70" y1="170" x2="110" y2="170"></line>
+            <circle cx="70" cy="170" r="14" fill="var(--bg-card)" stroke="var(--text)" stroke-width="2"></circle>
+            <circle cx="110" cy="170" r="14" fill="var(--bg-card)" stroke="var(--text)" stroke-width="2"></circle>
+            <text class="label-soft" x="90" y="200" text-anchor="middle">H₂</text>
 
-            <!-- legende -->
-            <rect x="330" y="46" width="14" height="14" fill="var(--diagram-accent)"></rect>
-            <text class="label-soft" x="348" y="57" text-anchor="start">Réactifs</text>
-            <rect x="330" y="66" width="14" height="14" fill="color-mix(in srgb, var(--diagram-accent) 35%, var(--bg-card))" stroke="var(--diagram-accent)" stroke-width="1.5"></rect>
-            <text class="label-soft" x="348" y="77" text-anchor="start">Produits</text>
+            <text class="annotation-label" x="150" y="140" text-anchor="middle">+</text>
+
+            <!-- reactifs : 1 molecule O2 -->
+            <line class="frame-line" x1="190" y1="135" x2="230" y2="135"></line>
+            <circle cx="190" cy="135" r="18" fill="var(--diagram-accent)"></circle>
+            <circle cx="230" cy="135" r="18" fill="var(--diagram-accent)"></circle>
+            <text class="label-soft" x="210" y="170" text-anchor="middle">O₂</text>
+
+            <!-- fleche de reaction -->
+            <line class="curve-main" x1="270" y1="135" x2="340" y2="135" marker-end="url(#arrow-phys3e-reactions)"></line>
+
+            <!-- produits : 2 molecules H2O -->
+            <line class="frame-line" x1="410" y1="123" x2="378" y2="147"></line>
+            <line class="frame-line" x1="410" y1="123" x2="442" y2="147"></line>
+            <circle cx="410" cy="123" r="18" fill="var(--diagram-accent)"></circle>
+            <circle cx="378" cy="147" r="14" fill="var(--bg-card)" stroke="var(--text)" stroke-width="2"></circle>
+            <circle cx="442" cy="147" r="14" fill="var(--bg-card)" stroke="var(--text)" stroke-width="2"></circle>
+            <text class="label-soft" x="410" y="178" text-anchor="middle">H₂O</text>
+
+            <text class="annotation-label" x="470" y="140" text-anchor="middle">+</text>
+
+            <line class="frame-line" x1="530" y1="123" x2="498" y2="147"></line>
+            <line class="frame-line" x1="530" y1="123" x2="562" y2="147"></line>
+            <circle cx="530" cy="123" r="18" fill="var(--diagram-accent)"></circle>
+            <circle cx="498" cy="147" r="14" fill="var(--bg-card)" stroke="var(--text)" stroke-width="2"></circle>
+            <circle cx="562" cy="147" r="14" fill="var(--bg-card)" stroke="var(--text)" stroke-width="2"></circle>
+            <text class="label-soft" x="530" y="178" text-anchor="middle">H₂O</text>
+
+            <!-- tableau de bilan -->
+            <line class="grid-line" x1="60" y1="200" x2="590" y2="200"></line>
+            <text class="annotation-label" x="130" y="222" text-anchor="middle">Élément</text>
+            <text class="annotation-label" x="340" y="222" text-anchor="middle">Avant (réactifs)</text>
+            <text class="annotation-label" x="530" y="222" text-anchor="middle">Après (produits)</text>
+            <line class="grid-line" x1="60" y1="232" x2="590" y2="232"></line>
+            <text class="tick-label" x="130" y="250" text-anchor="middle">H</text>
+            <text class="tick-label" x="340" y="250" text-anchor="middle">2 × H₂ = 4</text>
+            <text class="tick-label" x="530" y="250" text-anchor="middle">2 × H₂O = 4</text>
+            <text class="tick-label" x="130" y="272" text-anchor="middle">O</text>
+            <text class="tick-label" x="340" y="272" text-anchor="middle">O₂ = 2</text>
+            <text class="tick-label" x="530" y="272" text-anchor="middle">2 × H₂O = 2</text>
           </svg>
         `,
         notes: [
-          'Équation équilibrée : $\\text{CH}_4 + 2\\,\\text{O}_2 \\rightarrow \\text{CO}_2 + 2\\,\\text{H}_2\\text{O}$.',
-          'Côté réactifs : $1$ atome de carbone (dans $\\text{CH}_4$), $4$ atomes d\'hydrogène (dans $\\text{CH}_4$) et $2\\times2=4$ atomes d\'oxygène (dans $2\\,\\text{O}_2$).',
-          'Côté produits : $1$ atome de carbone (dans $\\text{CO}_2$), $2\\times2=4$ atomes d\'hydrogène (dans $2\\,\\text{H}_2\\text{O}$) et $2 + 2\\times1 = 4$ atomes d\'oxygène (dans $\\text{CO}_2$ et $2\\,\\text{H}_2\\text{O}$) : les trois barres coïncident exactement.'
+          'Avant la réaction (à gauche), on compte 4 atomes d\'hydrogène (2 molécules $H_2$) et 2 atomes d\'oxygène (1 molécule $O_2$) : 6 atomes au total.',
+          'Après la réaction (à droite), ces mêmes atomes se retrouvent réorganisés en 2 molécules d\'eau $H_2O$ : toujours 4 atomes d\'hydrogène et 2 atomes d\'oxygène — aucun atome n\'a été créé ni perdu.',
+          'C\'est cette conservation du nombre d\'atomes de chaque élément qui impose les <strong>coefficients stœchiométriques</strong> (les « 2 » devant $H_2$ et $H_2O$) : c\'est le principe même de l\'équilibrage d\'une équation.'
         ],
-        reading: 'Compare, pour chaque élément, la hauteur de la barre foncée (réactifs) et de la barre claire (produits) : une équation bien équilibrée donne toujours deux barres de même hauteur.',
-        caption: 'Comptage des atomes de la combustion du méthane : autant d\'atomes de chaque élément côté réactifs que côté produits, conformément à la loi de Lavoisier.'
+        reading: 'Compte les atomes de chaque type à gauche de la flèche, puis les mêmes atomes à droite : le tableau en bas confirme que les totaux sont identiques pour l\'hydrogène et pour l\'oxygène.',
+        caption: 'Équation de la synthèse de l\'eau $2\\,H_2 + O_2 \\rightarrow 2\\,H_2O$ : les 4 atomes d\'hydrogène et 2 atomes d\'oxygène des réactifs se retrouvent, réorganisés, dans les produits.'
       },
       example: {
-        statement: 'Équilibre l\'équation de combustion du méthane : $\\text{CH}_4 + \\text{O}_2 \\rightarrow \\text{CO}_2 + \\text{H}_2\\text{O}$.',
+        statement: 'On réalise la combustion complète du méthane ($CH_4$) dans le dioxygène. L\'équation, incomplète, est : $CH_4 + O_2 \\rightarrow CO_2 + H_2O$.<br/><br/>Ajuste les coefficients stœchiométriques pour équilibrer cette équation.',
         steps: [
-          'Comptage initial (équation non équilibrée) : à gauche, $1$ carbone, $4$ hydrogènes, $2$ oxygènes ; à droite, $1$ carbone, $2$ hydrogènes, $3$ oxygènes. Les hydrogènes et les oxygènes ne sont pas encore équilibrés.',
-          'On équilibre d\'abord l\'hydrogène en plaçant un coefficient $2$ devant $\\text{H}_2\\text{O}$ : $\\text{CH}_4 + \\text{O}_2 \\rightarrow \\text{CO}_2 + 2\\,\\text{H}_2\\text{O}$. À droite, il y a désormais $2\\times2=4$ hydrogènes, ce qui équilibre les $4$ hydrogènes du méthane.',
-          'On compte à nouveau les oxygènes à droite : $2$ (dans $\\text{CO}_2$) $+ 2\\times1 = 2$ (dans $2\\,\\text{H}_2\\text{O}$), soit $4$ oxygènes au total. Il faut donc $4$ oxygènes à gauche, soit un coefficient $2$ devant $\\text{O}_2$ : $\\text{CH}_4 + 2\\,\\text{O}_2 \\rightarrow \\text{CO}_2 + 2\\,\\text{H}_2\\text{O}$.',
-          'Vérification finale : à gauche $1$ C, $4$ H, $4$ O ; à droite $1$ C, $4$ H, $4$ O. L\'équation est équilibrée.'
+          'On compte les atomes de chaque côté avec les coefficients actuels (tous égaux à 1) : à gauche C:1, H:4, O:2 ; à droite C:1, H:2, O:3. Le carbone est déjà équilibré, mais pas l\'hydrogène ni l\'oxygène.',
+          'On équilibre d\'abord l\'hydrogène : il en faut 4 à droite comme à gauche, donc on place un coefficient 2 devant $H_2O$ : $CH_4 + O_2 \\rightarrow CO_2 + 2\\,H_2O$.',
+          'On recompte l\'oxygène à droite : $CO_2$ apporte 2 atomes, $2\\,H_2O$ en apporte $2\\times1=2$, soit $2+2=4$ atomes d\'oxygène au total.',
+          'Il faut donc aussi 4 atomes d\'oxygène à gauche : on place un coefficient 2 devant $O_2$ ($2\\times2=4$), ce qui donne l\'équation équilibrée $CH_4 + 2\\,O_2 \\rightarrow CO_2 + 2\\,H_2O$.'
         ],
-        answer: 'Équation équilibrée : $\\text{CH}_4 + 2\\,\\text{O}_2 \\rightarrow \\text{CO}_2 + 2\\,\\text{H}_2\\text{O}$.'
+        answer: 'L\'équation équilibrée est $CH_4 + 2\\,O_2 \\rightarrow CO_2 + 2\\,H_2O$. On ne modifie jamais les indices des formules chimiques (ce qui définirait une autre substance) : seuls les coefficients placés devant peuvent être ajustés.'
       },
       formulas: [
-        'Équation-bilan générale : $a\\,A + b\\,B \\rightarrow c\\,C + d\\,D$ (avec $a,b,c,d$ les nombres stœchiométriques)',
-        'Conservation de la masse : $m_{\\text{réactifs}} = m_{\\text{produits}}$',
-        'Conservation des atomes : pour chaque élément, le nombre d\'atomes à gauche est égal au nombre d\'atomes à droite'
+        'Loi de Lavoisier : $m_{réactifs} = m_{produits}$',
+        'Équation de réaction : réactifs $\\rightarrow$ produits, avec coefficients stœchiométriques équilibrés',
+        'Synthèse de l\'eau : $2\\,H_2 + O_2 \\rightarrow 2\\,H_2O$',
+        'Combustion du méthane : $CH_4 + 2\\,O_2 \\rightarrow CO_2 + 2\\,H_2O$',
+        'Règle absolue : seuls les <strong>coefficients</strong> se modifient pour équilibrer — jamais les <strong>indices</strong> d\'une formule chimique'
       ],
       recap: [
-        'Une réaction chimique transforme des réactifs en produits, mais ne crée ni ne détruit aucun atome : c\'est la loi de conservation de la masse de Lavoisier.',
-        'Équilibrer une équation, c\'est ajuster les <strong>nombres stœchiométriques</strong> devant les formules, jamais les indices à l\'intérieur des formules.',
-        'La méthode la plus sûre consiste à équilibrer les éléments un par un, puis à vérifier l\'ensemble avec un comptage final.',
-        'Un nombre stœchiométrique égal à $1$ ne s\'écrit jamais explicitement devant une formule.'
+        'Une réaction chimique réorganise les atomes des réactifs pour former les produits : aucun atome n\'est créé, aucun n\'est détruit.',
+        'La masse totale se conserve au cours d\'une réaction chimique (loi de Lavoisier) : $m_{réactifs} = m_{produits}$.',
+        'Équilibrer une équation, c\'est ajuster les coefficients stœchiométriques pour que chaque élément soit présent en quantité identique de part et d\'autre de la flèche.',
+        'On ne modifie <strong>jamais</strong> les indices d\'une formule chimique : cela reviendrait à décrire une substance différente.'
       ],
-      piege: 'Une erreur très fréquente est de vouloir équilibrer une équation en modifiant les <strong>indices</strong> à l\'intérieur d\'une formule (par exemple transformer $\\text{H}_2\\text{O}$ en $\\text{H}_2\\text{O}_2$) plutôt que le nombre stœchiométrique placé devant. Attention : modifier un indice change la nature chimique de la substance elle-même — seuls les nombres stœchiométriques placés <strong>devant</strong> les formules peuvent être ajustés.'
+      piege: 'Une erreur très fréquente consiste à équilibrer une équation en modifiant les indices d\'une formule, par exemple écrire $H_2O_2$ au lieu d\'ajouter un coefficient 2 devant $H_2O$. Attention : seuls les coefficients placés devant les formules peuvent être ajustés — modifier un indice transforme la substance en une espèce chimique totalement différente.'
     },
 
     quiz: [
       {
-        q: 'Dans l\'équation $2\\,\\text{H}_2 + \\text{O}_2 \\rightarrow 2\\,\\text{H}_2\\text{O}$, combien d\'atomes d\'oxygène y a-t-il du côté des produits ?',
-        options: ['$1$', '$2$', '$3$', '$4$'],
-        answer: 1,
-        correction: 'Le coefficient $2$ devant $\\text{H}_2\\text{O}$ signifie deux molécules d\'eau, chacune contenant un atome d\'oxygène : $2 \\times 1 = 2$ atomes d\'oxygène.'
+        q: 'L\'équation $Fe + O_2 \\rightarrow Fe_2O_3$ (formation de la rouille) n\'est pas équilibrée. Quelle est la version équilibrée ?',
+        options: ['$4\\,Fe + 3\\,O_2 \\rightarrow 2\\,Fe_2O_3$', '$2\\,Fe + O_2 \\rightarrow Fe_2O_3$', '$Fe + O_2 \\rightarrow Fe_2O_3$ (déjà équilibrée)', '$2\\,Fe + 3\\,O_2 \\rightarrow 2\\,Fe_2O_3$'],
+        answer: 0,
+        correction: 'Avec $4\\,Fe + 3\\,O_2 \\rightarrow 2\\,Fe_2O_3$ : fer $4=2\\times2$, oxygène $3\\times2=6=2\\times3$. Les deux éléments sont bien équilibrés. La troisième option a le bon nombre d\'oxygène mais un fer déséquilibré ($2$ à gauche contre $4$ à droite).'
       },
       {
-        q: 'Que peut-on dire de la masse totale des réactifs et de la masse totale des produits au cours d\'une réaction chimique ?',
+        q: 'Que signifie la loi de conservation de la masse énoncée par Lavoisier ?',
         options: [
-          'Elles sont égales (loi de Lavoisier)',
-          'La masse des produits est toujours plus grande',
-          'La masse des réactifs est toujours plus grande',
-          'On ne peut rien dire sans connaître la réaction'
+          'La masse totale des réactifs consommés est égale à la masse totale des produits formés',
+          'La masse des produits est toujours supérieure à celle des réactifs',
+          'La masse totale diminue car des atomes disparaissent pendant la réaction',
+          'La masse ne se conserve que pour les réactions sans dégagement gazeux'
         ],
         answer: 0,
-        correction: 'D\'après la loi de conservation de la masse énoncée par Lavoisier, la masse totale se conserve au cours d\'une réaction chimique : $m_{\\text{réactifs}} = m_{\\text{produits}}$.'
+        correction: '« Rien ne se perd, rien ne se crée, tout se transforme » : les atomes se réorganisent sans disparaître ni apparaître, donc la masse totale du système reste rigoureusement la même avant et après la réaction.'
       },
       {
-        q: 'Pour équilibrer une équation-bilan, on peut modifier :',
-        options: [
-          'Les indices à l\'intérieur des formules chimiques',
-          'Les nombres stœchiométriques placés devant les formules',
-          'Le sens de la flèche de réaction',
-          'Les symboles chimiques des éléments'
-        ],
-        answer: 1,
-        correction: 'Seuls les nombres stœchiométriques (les coefficients devant les formules) peuvent être ajustés. Modifier un indice changerait la nature chimique de la substance.'
+        q: 'Pour équilibrer l\'équation $H_2 + Cl_2 \\rightarrow HCl$, que doit-on faire ?',
+        options: ['Ajouter un coefficient 2 devant $HCl$', 'Changer $HCl$ en $H_2Cl_2$', 'Ajouter un coefficient 2 devant $H_2$', 'Laisser l\'équation ainsi, elle est déjà équilibrée'],
+        answer: 0,
+        correction: 'Avec $H_2 + Cl_2 \\rightarrow 2\\,HCl$ : hydrogène $2=2\\times1$, chlore $2=2\\times1$. Changer $HCl$ en $H_2Cl_2$ créerait une autre substance chimique, ce qui est interdit.'
       }
     ],
 
@@ -136,127 +163,124 @@ window.MODULES.push({
       type: 'numeric',
       generate() {
         var reactions = [
-          { left: [[2, '\\text{H}_2'], [1, '\\text{O}_2']], right: [[2, '\\text{H}_2\\text{O}']], nom: 'la synthèse de l\'eau' },
-          { left: [[1, '\\text{N}_2'], [3, '\\text{H}_2']], right: [[2, '\\text{NH}_3']], nom: 'la synthèse de l\'ammoniac' },
-          { left: [[1, '\\text{C}_3\\text{H}_8'], [5, '\\text{O}_2']], right: [[3, '\\text{CO}_2'], [4, '\\text{H}_2\\text{O}']], nom: 'la combustion du propane' },
-          { left: [[4, '\\text{Fe}'], [3, '\\text{O}_2']], right: [[2, '\\text{Fe}_2\\text{O}_3']], nom: 'la formation de la rouille' },
-          { left: [[2, '\\text{H}_2\\text{O}_2']], right: [[2, '\\text{H}_2\\text{O}'], [1, '\\text{O}_2']], nom: 'la décomposition de l\'eau oxygénée' }
+          { nom: 'la combustion complète du carbone', eq: 'C + O_2 \\rightarrow CO_2', compte: { carbone: 1, oxygène: 2 } },
+          { nom: 'la synthèse de l\'eau', eq: '2\\,H_2 + O_2 \\rightarrow 2\\,H_2O', compte: { hydrogène: 4, oxygène: 2 } },
+          { nom: 'la combustion complète du méthane', eq: 'CH_4 + 2\\,O_2 \\rightarrow CO_2 + 2\\,H_2O', compte: { carbone: 1, hydrogène: 4, oxygène: 4 } },
+          { nom: 'la formation de l\'ammoniac', eq: 'N_2 + 3\\,H_2 \\rightarrow 2\\,NH_3', compte: { azote: 2, hydrogène: 6 } },
+          { nom: 'l\'oxydation du fer (formation de la rouille)', eq: '4\\,Fe + 3\\,O_2 \\rightarrow 2\\,Fe_2O_3', compte: { fer: 4, oxygène: 6 } }
         ];
-        var contexte = pick([
-          'un exercice de chimie',
-          'un contrôle de sciences',
-          'une fiche de révision',
-          'un compte-rendu de laboratoire'
-        ]);
-        var reaction = pick(reactions);
+        var coeffCas = [
+          { nomReaction: 'la combustion du méthane', eqAvecX: 'CH_4 + x\\,O_2 \\rightarrow CO_2 + 2\\,H_2O', element: 'oxygène', compteConnu: 4, compteParMolecule: 2, x: 2, detailConnu: 'CO_2\\ (2\\ O) + 2\\,H_2O\\ (2\\times1=2\\ O) = 4' },
+          { nomReaction: 'la formation de l\'ammoniac', eqAvecX: 'N_2 + x\\,H_2 \\rightarrow 2\\,NH_3', element: 'hydrogène', compteConnu: 6, compteParMolecule: 2, x: 3, detailConnu: '2\\,NH_3 = 2\\times3 = 6' },
+          { nomReaction: 'l\'oxydation du fer (rouille)', eqAvecX: '4\\,Fe + x\\,O_2 \\rightarrow 2\\,Fe_2O_3', element: 'oxygène', compteConnu: 6, compteParMolecule: 2, x: 3, detailConnu: '2\\,Fe_2O_3 = 2\\times3 = 6' },
+          { nomReaction: 'la combustion du propane', eqAvecX: 'C_3H_8 + x\\,O_2 \\rightarrow 3\\,CO_2 + 4\\,H_2O', element: 'oxygène', compteConnu: 10, compteParMolecule: 2, x: 5, detailConnu: '3\\,CO_2\\ (6\\ O) + 4\\,H_2O\\ (4\\ O) = 10' }
+        ];
+        var typeExo = pick(['compter', 'coefficient']);
 
-        // Termes avec coefficient > 1 uniquement : un coefficient 1 ne s'écrit jamais, on ne peut pas le "cacher"
-        var candidats = [];
-        reaction.left.forEach(function(t, i) { if (t[0] > 1) candidats.push({ side: 'left', i: i }); });
-        reaction.right.forEach(function(t, i) { if (t[0] > 1) candidats.push({ side: 'right', i: i }); });
-        var blank = pick(candidats);
-
-        function formatSide(terms, blankSide) {
-          return terms.map(function(t, i) {
-            var isBlank = (blankSide === 'left' ? blank.side === 'left' && blank.i === i : blank.side === 'right' && blank.i === i);
-            var coefStr = isBlank ? '\\,?\\,' : (t[0] > 1 ? t[0] + '\\,' : '');
-            return coefStr + t[1];
-          }).join(' + ');
+        if (typeExo === 'compter') {
+          var reaction = pick(reactions);
+          var elementsDispo = Object.keys(reaction.compte);
+          var elementNom = pick(elementsDispo);
+          var n = reaction.compte[elementNom];
+          var contexte = pick([
+            'Lors d\'un TP de chimie,', 'Dans un exercice sur les équations de réaction,',
+            'Sur une fiche de révision du brevet,', 'En classe, le professeur écrit au tableau'
+          ]);
+          return {
+            statement: contexte + ' on étudie ' + reaction.nom + ', dont l\'équation équilibrée est : $' + reaction.eq + '$.<br/><br/>Combien d\'atomes d\'' + elementNom + ' sont présents du côté des produits (à droite de la flèche) ?',
+            answer: n,
+            tolerance: 0,
+            unit: 'atomes',
+            hint: 'L\'équation étant équilibrée, le nombre d\'atomes de chaque élément est le même des deux côtés de la flèche : compte-les du côté le plus simple à lire.',
+            solution: [
+              'L\'équation $' + reaction.eq + '$ est équilibrée : chaque élément est présent en même quantité côté réactifs et côté produits.',
+              'En comptant du côté des produits, on trouve ' + n + ' atome' + (n > 1 ? 's' : '') + ' d\'' + elementNom + '.'
+            ]
+          };
+        } else {
+          var cas = pick(coeffCas);
+          return {
+            statement: 'Dans ' + cas.nomReaction + ', l\'équation de réaction n\'est pas complètement écrite : $' + cas.eqAvecX + '$.<br/><br/>Détermine la valeur du coefficient $x$ qui équilibre cette équation (conservation des atomes d\'' + cas.element + ').',
+            answer: cas.x,
+            tolerance: 0,
+            unit: '',
+            hint: 'Compte le nombre d\'atomes d\'' + cas.element + ' du côté où tous les coefficients sont connus, puis déduis-en $x$.',
+            solution: [
+              'Du côté où tous les coefficients sont connus, le nombre d\'atomes d\'' + cas.element + ' est : $' + cas.detailConnu + '$.',
+              'De l\'autre côté, chaque molécule apporte ' + cas.compteParMolecule + ' atome' + (cas.compteParMolecule > 1 ? 's' : '') + ' d\'' + cas.element + ', donc $x \\times ' + cas.compteParMolecule + ' = ' + cas.compteConnu + '$.',
+              'On isole $x$ : $x = \\dfrac{' + cas.compteConnu + '}{' + cas.compteParMolecule + '} = ' + cas.x + '$.'
+            ]
+          };
         }
-        function formatSideFull(terms) {
-          return terms.map(function(t) { return (t[0] > 1 ? t[0] + '\\,' : '') + t[1]; }).join(' + ');
-        }
-
-        var eqBlank = formatSide(reaction.left, 'left') + ' \\rightarrow ' + formatSide(reaction.right, 'right');
-        var eqFull = formatSideFull(reaction.left) + ' \\rightarrow ' + formatSideFull(reaction.right);
-        var answer = blank.side === 'left' ? reaction.left[blank.i][0] : reaction.right[blank.i][0];
-
-        return {
-          statement: 'Dans ' + contexte + ', l\'équation traduisant ' + reaction.nom + ' comporte un nombre stœchiométrique remplacé par un point d\'interrogation :<br/><br/>$$' + eqBlank + '$$<br/><br/>Détermine la valeur de ce nombre stœchiométrique pour que l\'équation soit équilibrée.',
-          answer: answer,
-          tolerance: 0,
-          unit: '',
-          hint: 'Compte les atomes de l\'élément concerné de chaque côté de la flèche : ils doivent être en nombre égal à gauche et à droite (conservation de la masse).',
-          solution: [
-            'L\'équation complète, une fois équilibrée, est : $' + eqFull + '$.',
-            'Le nombre stœchiométrique manquant est donc $' + answer + '$.',
-            'Vérification : en comptant les atomes de chaque élément, on retrouve bien le même total de part et d\'autre de la flèche.'
-          ]
-        };
       }
     },
 
     probleme: {
-      context: 'On réalise la combustion complète du propane, utilisé notamment dans les barbecues et certains chauffe-eau : $\\text{C}_3\\text{H}_8 + \\text{O}_2 \\rightarrow \\text{CO}_2 + \\text{H}_2\\text{O}$ (équation non équilibrée). On fait réagir $m_1 = 22$ g de propane avec du dioxygène, produisant $m_2 = 66$ g de dioxyde de carbone et $m_3 = 36$ g d\'eau.',
+      context: 'Une chaudière à gaz brûle du méthane ($CH_4$) provenant du réseau de gaz de ville, selon la réaction de combustion complète $CH_4 + 2\\,O_2 \\rightarrow CO_2 + 2\\,H_2O$. Lors d\'une expérience de laboratoire reproduisant cette combustion, on fait réagir une masse $m(CH_4) = 8$ g de méthane avec une masse $m(O_2) = 32$ g de dioxygène ; la réaction produit une masse $m(CO_2) = 22$ g de dioxyde de carbone.',
       tasks: [
-        'Équilibre l\'équation de la combustion du propane.',
-        'D\'après la loi de conservation de la masse, calcule la masse $m_{O_2}$ de dioxygène consommée au cours de cette réaction.',
-        'Vérifie ta réponse en additionnant les masses des produits obtenus.'
+        'Vérifier que l\'équation $CH_4 + 2\\,O_2 \\rightarrow CO_2 + 2\\,H_2O$ est bien équilibrée, en comptant les atomes de carbone, d\'hydrogène et d\'oxygène de chaque côté.',
+        'En utilisant la loi de conservation de la masse énoncée par Lavoisier, calculer la masse d\'eau $m(H_2O)$ formée au cours de cette combustion.',
+        'Expliquer pourquoi, bien que la masse totale du système se conserve, sa composition chimique est totalement différente avant et après la réaction.'
       ],
       solutions: [
-        'On équilibre d\'abord le carbone ($3\\,\\text{CO}_2$ pour les $3$ atomes de C de $\\text{C}_3\\text{H}_8$), puis l\'hydrogène ($4\\,\\text{H}_2\\text{O}$ pour les $8$ atomes de H), puis l\'oxygène ($3\\times2 + 4\\times1 = 10$ atomes d\'O à droite, donc $5\\,\\text{O}_2$ à gauche) : $\\text{C}_3\\text{H}_8 + 5\\,\\text{O}_2 \\rightarrow 3\\,\\text{CO}_2 + 4\\,\\text{H}_2\\text{O}$.',
-        'Loi de conservation de la masse : $m_{\\text{réactifs}} = m_{\\text{produits}}$, soit $m_1 + m_{O_2} = m_2 + m_3$. On isole $m_{O_2} = m_2 + m_3 - m_1 = 66 + 36 - 22 = 80$ g.',
-        'Vérification : masse totale des réactifs $= 22 + 80 = 102$ g ; masse totale des produits $= 66 + 36 = 102$ g. Les deux masses sont bien égales : la loi de Lavoisier est vérifiée.'
+        'Côté réactifs : C = 1 (dans $CH_4$), H = 4 (dans $CH_4$), O $=2\\times2=4$ (dans $2\\,O_2$). Côté produits : C = 1 (dans $CO_2$), H $=2\\times2=4$ (dans $2\\,H_2O$), O $=2$ (dans $CO_2$) $+\\,2\\times1=2$ (dans $2\\,H_2O$), soit $4$. Les trois éléments sont bien en quantités égales des deux côtés : l\'équation est équilibrée.',
+        'Loi de Lavoisier : $m_{réactifs} = m_{produits}$, soit $m(CH_4) + m(O_2) = m(CO_2) + m(H_2O)$. On isole $m(H_2O)$ : $m(H_2O) = m(CH_4) + m(O_2) - m(CO_2) = 8 + 32 - 22 = 18$ g.',
+        'Les atomes présents (carbone, hydrogène, oxygène) sont exactement les mêmes avant et après la réaction : seule leur <strong>organisation</strong> change, passant des molécules de méthane et de dioxygène à des molécules de dioxyde de carbone et d\'eau. C\'est cette réorganisation, sans création ni perte d\'atomes, qui explique à la fois la conservation de la masse totale et le changement complet de composition chimique.'
       ],
-      finalAnswer: '$m_{O_2} = 80$ g de dioxygène ont été consommés. Comme dans toute réaction chimique, la masse totale s\'est conservée : $102$ g de réactifs ont donné $102$ g de produits, seule leur nature chimique a changé.'
+      finalAnswer: 'L\'équation est bien équilibrée, et la masse d\'eau formée est $m(H_2O) = 18$ g. Cette expérience illustre concrètement la loi de Lavoisier : la masse totale ($8+32=40$ g de réactifs, $22+18=40$ g de produits) se conserve exactement, même si les substances chimiques présentes sont entièrement différentes avant et après la combustion.'
     },
 
     evaluation: {
       title: 'Évaluation — Les réactions chimiques (équilibrage)',
-      duration: '25 min',
+      duration: '30 min',
       questions: [
         {
-          statement: 'Dans l\'équation équilibrée $\\text{N}_2 + 3\\,\\text{H}_2 \\rightarrow 2\\,\\text{NH}_3$, combien d\'atomes d\'hydrogène y a-t-il du côté des réactifs ?',
+          statement: 'Dans l\'équation équilibrée $N_2 + 3\\,H_2 \\rightarrow 2\\,NH_3$, combien d\'atomes d\'hydrogène sont présents côté réactifs ?',
           type: 'numeric',
           answer: 6,
           tolerance: 0,
-          unit: '',
+          unit: 'atomes',
           points: 2,
-          correction: 'Les $3$ molécules de $\\text{H}_2$ contiennent chacune $2$ atomes d\'hydrogène : $3 \\times 2 = 6$ atomes.'
+          correction: '$3\\,H_2$ apporte $3\\times2=6$ atomes d\'hydrogène, à retrouver côté produits dans $2\\,NH_3$ ($2\\times3=6$).'
         },
         {
-          statement: 'La loi de conservation de la masse énoncée par Lavoisier affirme que :',
+          statement: 'La loi de conservation de la masse énoncée par Lavoisier signifie que :',
           type: 'multiple-choice',
           options: [
-            'La masse totale se conserve au cours d\'une réaction chimique',
-            'Le volume total se conserve au cours d\'une réaction chimique',
-            'Le nombre de molécules se conserve au cours d\'une réaction chimique',
-            'La température reste constante au cours d\'une réaction chimique'
+            'La masse totale des réactifs est égale à la masse totale des produits',
+            'Le nombre de molécules se conserve toujours',
+            'La masse des gaz n\'est jamais prise en compte',
+            'La masse augmente si la réaction dégage de la chaleur'
           ],
           answer: 0,
           points: 2,
-          correction: 'Lavoisier a établi que la masse totale des réactifs est égale à la masse totale des produits : rien ne se perd, rien ne se crée, tout se transforme.'
+          correction: '« Rien ne se perd, rien ne se crée » : la masse totale du système reste identique avant et après la réaction, car les atomes se réorganisent sans disparaître ni apparaître.'
         },
         {
-          statement: 'On fait réagir $m_1 = 8$ g de dihydrogène avec du dioxygène pour former de l\'eau. Si la masse de dioxygène consommée est $m_2 = 64$ g, quelle est la masse d\'eau produite (en g) ?',
+          statement: 'Pour équilibrer $C_3H_8 + x\\,O_2 \\rightarrow 3\\,CO_2 + 4\\,H_2O$ (combustion du propane), calculer la valeur du coefficient $x$.',
           type: 'numeric',
-          answer: 72,
-          tolerance: 0,
-          unit: 'g',
-          points: 2,
-          correction: 'Conservation de la masse : $m_{\\text{eau}} = m_1 + m_2 = 8 + 64 = 72$ g.'
-        },
-        {
-          statement: 'Pour équilibrer une équation-bilan, on ajuste :',
-          type: 'multiple-choice',
-          options: [
-            'Les indices à l\'intérieur des formules',
-            'Les nombres stœchiométriques devant les formules',
-            'Les états physiques des espèces chimiques',
-            'Le nom des éléments chimiques'
-          ],
-          answer: 1,
-          points: 1,
-          correction: 'Seuls les nombres stœchiométriques (les coefficients placés devant les formules) peuvent être modifiés pour équilibrer une équation.'
-        },
-        {
-          statement: 'Dans l\'équation $\\text{C}_3\\text{H}_8 + 5\\,\\text{O}_2 \\rightarrow 3\\,\\text{CO}_2 + 4\\,\\text{H}_2\\text{O}$, combien d\'atomes d\'oxygène au total y a-t-il du côté des produits ?',
-          type: 'numeric',
-          answer: 10,
+          answer: 5,
           tolerance: 0,
           unit: '',
           points: 3,
-          correction: 'Les $3$ molécules de $\\text{CO}_2$ apportent $3\\times2=6$ atomes d\'oxygène, et les $4$ molécules de $\\text{H}_2\\text{O}$ en apportent $4\\times1=4$ : au total $6+4=10$ atomes d\'oxygène.'
+          correction: 'Côté produits, l\'oxygène total est $3\\,CO_2$ (6 O) $+\\,4\\,H_2O$ (4 O) $=10$. Comme chaque $O_2$ apporte 2 atomes d\'oxygène, $x\\times2=10$, donc $x=5$.'
+        },
+        {
+          statement: 'Pour équilibrer une équation chimique, on a le droit de modifier :',
+          type: 'multiple-choice',
+          options: ['Les coefficients stœchiométriques uniquement', 'Les indices dans les formules chimiques', 'À la fois les indices et les coefficients', 'Le sens de la flèche de réaction'],
+          answer: 0,
+          points: 2,
+          correction: 'Seuls les coefficients placés devant les formules peuvent être ajustés. Modifier un indice changerait la nature même de la substance chimique décrite.'
+        },
+        {
+          statement: 'Lors d\'une réaction chimique, la masse totale des réactifs est $m_r = 15$ g. Elle forme deux produits, de masses $m_1 = 9$ g et $m_2$. Calculer $m_2$ (en g).',
+          type: 'numeric',
+          answer: 6,
+          tolerance: 0,
+          unit: 'g',
+          points: 1,
+          correction: 'Conservation de la masse : $m_r = m_1 + m_2$, donc $m_2 = m_r - m_1 = 15 - 9 = 6$ g.'
         }
       ]
     }

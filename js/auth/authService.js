@@ -74,8 +74,11 @@ const AuthService = {
   },
 
   async joinClass(uid, classCode) {
-    const cls = await this.getClass(classCode);
-    if (!cls) throw new Error('Code de classe invalide.');
+    // Pas de lecture de classes/{classCode} avant le join : la règle Firestore ne
+    // l'autorise qu'à l'admin, au prof propriétaire, ou à un élève déjà membre — un élève
+    // qui rejoint pour la première fois n'a encore aucun de ces droits (chien-qui-se-mord-
+    // la-queue). Le batch.update ci-dessous vérifie déjà l'existence du code (échoue sur
+    // un doc inexistant) et est explicitement autorisé pour l'auto-ajout d'un élève.
     const batch = this._db.batch();
     batch.update(this._db.collection('users').doc(uid), {
       classes: firebase.firestore.FieldValue.arrayUnion(classCode)
@@ -83,11 +86,17 @@ const AuthService = {
     batch.update(this._db.collection('classes').doc(classCode), {
       students: firebase.firestore.FieldValue.arrayUnion(uid)
     });
-    await batch.commit();
+    try {
+      await batch.commit();
+    } catch (e) {
+      throw new Error('Code de classe invalide.');
+    }
 
-    // Dénormalise le prof propriétaire sur le doc progress de l'élève,
-    // nécessaire aux règles Firestore pour autoriser la lecture de sa progression.
-    if (cls.teacherId) {
+    // Dénormalise le prof propriétaire sur le doc progress de l'élève, nécessaire aux
+    // règles Firestore pour autoriser la lecture de sa progression. Lu APRÈS le join
+    // (pas avant) : l'élève est désormais membre, donc autorisé à lire ce document.
+    const cls = await this.getClass(classCode);
+    if (cls && cls.teacherId) {
       await this._db.collection('progress').doc(uid).set({
         teacherIds: firebase.firestore.FieldValue.arrayUnion(cls.teacherId)
       }, { merge: true });

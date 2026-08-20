@@ -5,203 +5,198 @@
 window.MODULES.push({
     id: 'physique-tle-dynamique',
     level: 2, subject: 'physique',
-    icon: '🍏',
+    icon: '🎱',
     title: 'Dynamique newtonienne',
-    subtitle: 'Référentiel galiléen, les trois lois de Newton, bilan des forces, projection du PFD sur des axes adaptés (plan incliné, frottements)',
-    keywords: ['Newton', 'PFD', 'Référentiel galiléen', 'Actions réciproques', 'Plan incliné'],
-    physics: 'La dynamique newtonienne permet de dimensionner le freinage d\'un véhicule, de calculer la tension d\'un câble de remontée mécanique, de comprendre pourquoi une fusée avance en éjectant des gaz vers l\'arrière (troisième loi), ou de déterminer si une charge glissera ou non sur un plan incliné en fonction des frottements.',
+    subtitle: 'Quantité de mouvement, lois de Newton (inertie, principe fondamental, actions réciproques), conservation dans un système isolé',
+    keywords: ['Quantité de mouvement', 'Lois de Newton', 'Action-réaction', 'Système isolé', 'Conservation'],
+    physics: 'La dynamique newtonienne explique le recul d\'une arme à feu ou d\'un canon, le principe de propulsion des fusées et des moteurs à réaction, le fonctionnement des airbags et zones de déformation automobiles, ainsi que les manœuvres de séparation des étages de lanceurs spatiaux.',
 
     cours: {
-      intro: 'La dynamique newtonienne repose sur <strong>trois lois</strong> énoncées par Newton, valables dans un <strong>référentiel galiléen</strong> (un référentiel dans lequel le principe d\'inertie est vérifié ; le référentiel terrestre est considéré comme galiléen pour la plupart des mouvements étudiés au lycée).<br/><br/>La <strong>première loi</strong> (principe d\'inertie) énonce que, dans un référentiel galiléen, un système isolé ou pseudo-isolé (soumis à des forces qui se compensent) est soit au repos, soit en mouvement rectiligne uniforme. La <strong>deuxième loi</strong> (principe fondamental de la dynamique, PFD) relie la résultante des forces à l\'accélération : $\\sum \\vec{F} = m\\vec{a}$. La <strong>troisième loi</strong> (principe des actions réciproques) énonce que si un système A exerce une force $\\vec{F}_{A\\rightarrow B}$ sur un système B, alors B exerce sur A une force <strong>opposée</strong> : $\\vec{F}_{B\\rightarrow A} = -\\vec{F}_{A\\rightarrow B}$.<br/><br/>Résoudre un problème de dynamique nécessite de faire un <strong>bilan des forces</strong> rigoureux (poids, réaction du support, tension, frottements…), puis de projeter le PFD sur des <strong>axes bien choisis</strong> — le plus souvent un axe parallèle au mouvement et un axe perpendiculaire.',
+      intro: 'Le principe fondamental de la dynamique, sous sa forme $\\sum\\vec F=m\\vec a$, ne raconte qu\'une partie de l\'histoire : Newton l\'a en réalité énoncé à l\'aide d\'une grandeur plus générale, la <strong>quantité de mouvement</strong> $\\vec p=m\\vec v$, qui reste valable même lorsque la masse du système varie (une fusée qui éjecte du gaz, par exemple).<br/><br/>Cette approche s\'appuie sur <strong>trois lois</strong> : le principe d\'inertie (un système livré à lui-même garde sa vitesse), le principe fondamental généralisé (les forces font varier la quantité de mouvement), et le principe des actions réciproques (toute force a une force « jumelle » opposée, exercée sur l\'autre système).<br/><br/>Ensemble, ces lois permettent d\'analyser des situations où <strong>plusieurs parties d\'un système interagissent</strong> — recul d\'une arme, propulsion, collision — sans avoir besoin de connaître le détail des forces internes mises en jeu : il suffit que le système global soit isolé ou pseudo-isolé.',
       definitions: [
-        { term: 'Référentiel galiléen', def: 'Référentiel dans lequel le principe d\'inertie est vérifié : un système isolé y est immobile ou en mouvement rectiligne uniforme. Le référentiel terrestre est galiléen en première approximation pour la plupart des mouvements étudiés en Terminale.' },
-        { term: '1ère loi de Newton (principe d\'inertie)', def: 'Dans un référentiel galiléen, si la résultante des forces sur un système est nulle ($\\sum\\vec{F}=\\vec{0}$), alors son vecteur vitesse $\\vec{v}$ est constant (système au repos ou en mouvement rectiligne uniforme).' },
-        { term: '2ème loi de Newton (PFD)', def: 'Dans un référentiel galiléen, $\\sum \\vec{F} = m\\vec{a}$ : la résultante des forces appliquées à un système est égale au produit de sa masse par son accélération.' },
-        { term: '3ème loi de Newton (actions réciproques)', def: 'Si un système A exerce une force $\\vec{F}_{A\\rightarrow B}$ sur un système B, alors B exerce simultanément sur A une force $\\vec{F}_{B\\rightarrow A} = -\\vec{F}_{A\\rightarrow B}$ : même droite d\'action, même norme, sens opposé.' },
-        { term: 'Réaction normale et frottement', def: 'Le contact entre un système et un support se décompose en une composante <strong>normale</strong> $\\vec{N}$ (perpendiculaire au support, qui empêche l\'enfoncement) et une composante <strong>tangentielle</strong> $\\vec{f}$ (le frottement, qui s\'oppose au glissement relatif).' }
+        { term: 'Quantité de mouvement ($\\vec p$)', def: 'Grandeur vectorielle associée à un point matériel de masse $m$ et de vitesse $\\vec v$ : $\\vec p=m\\vec v$ (en kg·m/s). Elle combine en une seule grandeur l\'inertie (la masse) et le mouvement (la vitesse).' },
+        { term: 'Première loi de Newton (principe d\'inertie)', def: 'Dans un référentiel galiléen, un système <strong>isolé</strong> (aucune force extérieure) ou <strong>pseudo-isolé</strong> (résultante des forces extérieures nulle) est soit au repos, soit en mouvement rectiligne uniforme.' },
+        { term: 'Deuxième loi de Newton (PFD)', def: 'Dans un référentiel galiléen, la somme des forces extérieures appliquées à un système est égale à la dérivée de sa quantité de mouvement : $\\sum\\vec F=\\dfrac{d\\vec p}{dt}$. Si la masse est constante, cette loi se réduit à $\\sum\\vec F=m\\vec a$.' },
+        { term: 'Troisième loi de Newton (actions réciproques)', def: 'Si un système $A$ exerce une force $\\vec F_{A\\to B}$ sur un système $B$, alors $B$ exerce sur $A$ une force $\\vec F_{B\\to A}$ de même droite d\'action et de même norme, mais de sens opposé : $\\vec F_{B\\to A}=-\\vec F_{A\\to B}$.' }
       ],
       method: {
-        title: 'Résoudre un problème de dynamique newtonienne en 3 étapes',
+        title: 'Appliquer la conservation de la quantité de mouvement en 3 étapes',
         steps: [
-          '<strong>Définir le système</strong>, le référentiel (galiléen) et faire l\'<strong>inventaire complet des forces</strong> extérieures qui s\'exercent sur lui (poids, réaction normale, frottements, tension d\'un fil, force de traction…), en représentant chacune par un vecteur à son point d\'application.',
-          '<strong>Choisir des axes adaptés</strong> à la situation — le plus souvent un axe parallèle au mouvement (ou au support) et un axe perpendiculaire — puis <strong>projeter le PFD</strong> sur chacun de ces axes pour obtenir un système d\'équations scalaires.<br/>Sur un plan incliné d\'angle $\\alpha$, le poids $\\vec{P}$ se décompose en une composante $P\\sin\\alpha$ le long du plan et $P\\cos\\alpha$ perpendiculaire au plan.',
-          '<strong>Résoudre le système d\'équations</strong> pour obtenir l\'accélération, puis les grandeurs cinématiques recherchées (vitesse, distance parcourue…) par intégration si besoin. Si le système est à l\'équilibre ou en mouvement rectiligne uniforme, utiliser directement le principe d\'inertie ($\\sum\\vec{F}=\\vec{0}$) plutôt que le PFD complet.'
+          '<strong>Définir le système</strong> (une ou plusieurs parties) et vérifier qu\'il est isolé ou pseudo-isolé : la résultante des forces extérieures doit être nulle (ou ces forces négligeables devant les interactions internes, très brèves et intenses, comme lors d\'une explosion).',
+          'Si le système, initialement solidaire, se sépare en plusieurs parties, <strong>appliquer la conservation de la quantité de mouvement</strong> : $\\vec p_{avant}=\\vec p_{après}$, en sommant les quantités de mouvement de chaque partie après séparation.',
+          '<strong>Projeter</strong> cette égalité vectorielle sur un axe orienté, puis résoudre pour la grandeur cherchée. Attention aux signes : deux parties qui s\'éloignent en sens opposés ont des vitesses de signes opposés sur l\'axe choisi.'
         ]
       },
       diagram: {
         theme: 'physique',
-        kicker: 'Bilan des forces sur un plan incliné',
-        title: 'Décomposition du poids sur un plan incliné (PFD projeté sur deux axes)',
-        description: 'Un solide posé sur un plan incliné d\'angle $\\alpha = 30°$ est soumis à trois forces : le poids $\\vec{P}$, la réaction normale $\\vec{N}$ et le frottement $\\vec{f}$. Le poids se décompose selon les axes du plan incliné en une composante $P\\sin\\alpha$ (le long du plan) et $P\\cos\\alpha$ (perpendiculaire au plan).',
+        kicker: 'Action-réaction et conservation de la quantité de mouvement',
+        title: 'Deux patineurs initialement immobiles se repoussent',
+        description: 'Pendant la poussée, les forces $\\vec F_{2\\to1}$ et $\\vec F_{1\\to2}$ sont opposées (troisième loi de Newton). Une fois séparés, les deux patineurs s\'éloignent avec des quantités de mouvement opposées : le plus léger (1) va plus vite que le plus lourd (2).',
         svg: `
-          <svg viewBox="0 0 560 320" role="img" aria-labelledby="dyn-title dyn-desc">
-            <title id="dyn-title">Bilan des forces sur un solide pose sur un plan incline</title>
-            <desc id="dyn-desc">Un plan incline forme un angle de 30 degres avec l'horizontale. Un solide represente par un petit carre est pose sur ce plan. Trois vecteurs partent du solide : le poids P vertical vers le bas, la reaction normale N perpendiculaire au plan vers l'exterieur, et le frottement f le long du plan vers le haut, s'opposant a la tendance de glissement. Des lignes pointillees decomposent le vecteur poids en deux composantes : une le long du plan incline de norme P fois sinus alpha, et une perpendiculaire au plan de norme P fois cosinus alpha, formant un petit parallelogramme avec la pointe du vecteur poids.</desc>
+          <svg viewBox="0 0 560 300" role="img" aria-labelledby="dyn-title dyn-desc">
+            <title id="dyn-title">Deux patineurs se repoussant : action-reaction puis conservation de la quantite de mouvement</title>
+            <desc id="dyn-desc">Le schema comporte deux scenes. A gauche, deux patineurs numerotes 1 et 2 sont en contact, immobiles ; deux fleches opposees partant de la zone de contact representent les forces de la troisieme loi de Newton, F de 2 vers 1 dirigee vers la gauche et F de 1 vers 2 dirigee vers la droite, de meme longueur. A droite, apres la separation, les deux patineurs se sont eloignes l'un de l'autre ; le patineur 1, plus petit donc moins massif, porte une fleche de vitesse v1 plus longue dirigee vers la gauche, tandis que le patineur 2, plus grand donc plus massif, porte une fleche de vitesse v2 plus courte dirigee vers la droite, illustrant la conservation de la quantite de mouvement totale, nulle avant comme apres.</desc>
 
             <defs>
-              <marker id="arrow-phystle-dyn" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+              <marker id="arrow-tle-dyn" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
                 <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
               </marker>
             </defs>
 
-            <!-- sol horizontal de reference -->
-            <line class="guide-line" x1="30" y1="270" x2="220" y2="270"></line>
-            <!-- plan incline -->
-            <line class="frame-line" x1="80" y1="270" x2="443.7" y2="60"></line>
-            <!-- angle alpha -->
-            <path class="guide-line" d="M140,270 A60,60 0 0,0 132,213" fill="none"></path>
-            <text class="tick-label" x="150" y="248" text-anchor="start">α</text>
+            <!-- sol -->
+            <line class="frame-line" x1="20" y1="185" x2="540" y2="185"></line>
 
-            <!-- solide -->
-            <rect class="frame-line" x="266" y="140.5" width="28" height="28" transform="rotate(-30 280 154.5)" fill="var(--diagram-soft)"></rect>
+            <!-- separateur entre les deux scenes -->
+            <line class="guide-line" x1="270" y1="65" x2="270" y2="210"></line>
 
-            <!-- poids P -->
-            <line class="curve-main" x1="280" y1="154.5" x2="280" y2="264.5" marker-end="url(#arrow-phystle-dyn)"></line>
-            <text class="annotation-label" x="292" y="235">P</text>
+            <!-- titres des scenes -->
+            <text class="label-soft" x="145" y="55" text-anchor="middle">Pendant la poussée</text>
+            <text class="label-soft" x="410" y="55" text-anchor="middle">Après la séparation</text>
 
-            <!-- reaction normale N -->
-            <line class="curve-main" x1="280" y1="154.5" x2="235" y2="76.6" marker-end="url(#arrow-phystle-dyn)"></line>
-            <text class="annotation-label" x="212" y="70">N</text>
+            <!-- SCENE 1 : contact -->
+            <circle class="frame-line" cx="108" cy="150" r="18" fill="var(--diagram-soft)"></circle>
+            <circle class="frame-line" cx="148" cy="150" r="22" fill="var(--diagram-soft)"></circle>
+            <text class="annotation-label" x="108" y="155" text-anchor="middle">1</text>
+            <text class="annotation-label" x="148" y="155" text-anchor="middle">2</text>
 
-            <!-- frottement f -->
-            <line class="curve-main" x1="280" y1="154.5" x2="340.6" y2="119.5" marker-end="url(#arrow-phystle-dyn)"></line>
-            <text class="annotation-label" x="352" y="112">f</text>
+            <line class="curve-main" x1="120" y1="102" x2="90" y2="102" marker-end="url(#arrow-tle-dyn)"></line>
+            <line class="curve-main" x1="136" y1="102" x2="166" y2="102" marker-end="url(#arrow-tle-dyn)"></line>
+            <text class="tick-label" x="105" y="90" text-anchor="middle">F(2→1)</text>
+            <text class="tick-label" x="151" y="90" text-anchor="middle">F(1→2)</text>
 
-            <!-- decomposition du poids (pointilles) -->
-            <line class="guide-line" x1="280" y1="264.5" x2="232.4" y2="182.0"></line>
-            <line class="guide-line" x1="280" y1="264.5" x2="327.7" y2="237.0"></line>
-            <line class="curve-main" x1="280" y1="154.5" x2="232.4" y2="182.0" marker-end="url(#arrow-phystle-dyn)" style="stroke: var(--secondary);"></line>
-            <text class="label-soft" x="205" y="185" text-anchor="end">P sin α</text>
-            <line class="curve-main" x1="280" y1="154.5" x2="327.7" y2="237.0" marker-end="url(#arrow-phystle-dyn)" style="stroke: var(--secondary);"></line>
-            <text class="label-soft" x="337" y="255" text-anchor="start">P cos α</text>
+            <!-- SCENE 2 : apres separation -->
+            <circle class="frame-line" cx="340" cy="150" r="18" fill="var(--diagram-soft)"></circle>
+            <circle class="frame-line" cx="480" cy="150" r="22" fill="var(--diagram-soft)"></circle>
+            <text class="annotation-label" x="340" y="155" text-anchor="middle">1</text>
+            <text class="annotation-label" x="480" y="155" text-anchor="middle">2</text>
 
-            <text class="label-soft" x="450" y="45" text-anchor="middle">Sens du glissement tendanciel</text>
-            <line class="guide-line" x1="380" y1="55" x2="440" y2="20" marker-end="url(#arrow-phystle-dyn)"></line>
+            <line class="curve-main" x1="322" y1="150" x2="288" y2="150" marker-end="url(#arrow-tle-dyn)"></line>
+            <line class="curve-main" x1="502" y1="150" x2="527" y2="150" marker-end="url(#arrow-tle-dyn)"></line>
+            <text class="tick-label" x="282" y="145" text-anchor="end">v₁</text>
+            <text class="tick-label" x="533" y="145" text-anchor="start">v₂</text>
           </svg>
         `,
         notes: [
-          'Trois forces s\'exercent sur le solide : le poids $\\vec{P}$ (vertical, vers le bas), la réaction normale $\\vec{N}$ (perpendiculaire au plan) et le frottement $\\vec{f}$ (le long du plan, opposé à la tendance de glissement).',
-          'Le poids se décompose selon les <strong>deux axes du plan incliné</strong> : une composante $P\\sin\\alpha$ le long du plan (qui tend à faire glisser le solide) et une composante $P\\cos\\alpha$ perpendiculaire au plan (qui « enfonce » le solide dans le support, compensée par $N$).',
-          'Cette décomposition permet de projeter le PFD sur deux axes indépendants : selon le plan ($P\\sin\\alpha - f = ma$) et perpendiculairement au plan ($N - P\\cos\\alpha = 0$ si le solide ne décolle pas du plan).'
+          'Pendant la poussée, les forces $\\vec F_{2\\to1}$ et $\\vec F_{1\\to2}$ ont la <strong>même norme</strong> et des sens <strong>opposés</strong> (troisième loi de Newton), mais elles s\'appliquent à deux systèmes différents : elles ne s\'annulent jamais entre elles.',
+          'Le système {1+2}, initialement au repos, est <strong>pseudo-isolé</strong> horizontalement (poids compensé par la réaction du sol) : sa quantité de mouvement totale reste nulle après la séparation.',
+          'Comme $m_1\\vec v_1=-m_2\\vec v_2$, le patineur le <strong>plus léger</strong> (1) s\'éloigne avec la vitesse la plus <strong>grande</strong> : les flèches ne sont pas de même longueur.'
         ],
-        reading: 'Repère d\'abord les trois forces qui partent du solide (poids vertical, normale perpendiculaire au plan, frottement le long du plan), puis suis les pointillés qui décomposent le poids en ses deux composantes $P\\sin\\alpha$ et $P\\cos\\alpha$.',
-        caption: 'Bilan des forces et décomposition du poids sur un plan incliné : projeter le PFD sur les axes du plan (parallèle et perpendiculaire) simplifie la résolution.'
+        reading: 'Compare les deux scènes de gauche à droite : pendant la poussée, les deux forces opposées agissent sur des systèmes différents ; après la séparation, les deux vitesses sont opposées mais de normes différentes.',
+        caption: 'Deux patineurs initialement immobiles se repoussent : couple action-réaction pendant la poussée, puis conservation de la quantité de mouvement (nulle avant et après) une fois séparés.'
       },
       example: {
-        statement: 'Une caisse de masse $m = 25$ kg est posée sur un plan incliné d\'angle $\\alpha = 20°$ par rapport à l\'horizontale. Le coefficient de frottement conduit à une force de frottement de norme $f = 60$ N, opposée au glissement. On prend $g = 9{,}81$ m/s². La caisse glisse vers le bas du plan.<br/><br/>Calculer l\'accélération de la caisse le long du plan.',
+        statement: 'Deux patineurs sur glace, de masses $m_1=50$ kg et $m_2=75$ kg, sont initialement immobiles, face à face. Ils se repoussent mutuellement des mains. Après la poussée, le patineur 1 recule à une vitesse de norme $v_1=3{,}0$ m/s. On néglige les frottements sur la glace.<br/><br/>Calculer la norme de la vitesse $v_2$ du patineur 2 après la poussée.',
         steps: [
-          'Bilan des forces : le poids $\\vec{P}$ (norme $P=mg$), la réaction normale $\\vec{N}$ et le frottement $\\vec{f}$ (dirigé vers le haut du plan, car la caisse glisse vers le bas).',
-          'Axe choisi : le long du plan, orienté <strong>vers le bas</strong> (sens du mouvement). Projection du PFD sur cet axe : $P\\sin\\alpha - f = ma$.',
-          'Calcul du poids : $P = mg = 25 \\times 9{,}81 = 245{,}25$ N. Composante utile : $P\\sin\\alpha = 245{,}25 \\times \\sin(20°) = 245{,}25 \\times 0{,}342 \\approx 83{,}9$ N.',
-          'On isole $a$ : $a = \\dfrac{P\\sin\\alpha - f}{m} = \\dfrac{83{,}9 - 60}{25} = \\dfrac{23{,}9}{25} \\approx 0{,}96$ m/s².'
+          'Système : {patineur 1 + patineur 2}. Horizontalement, ce système est pseudo-isolé (poids de chacun compensé par la réaction de la glace, frottements négligés).',
+          'Avant la poussée, les deux patineurs sont immobiles : la quantité de mouvement totale du système est nulle, $\\vec p_{avant}=\\vec 0$.',
+          'Par conservation de la quantité de mouvement, $\\vec p_{après}=\\vec 0$ également : $m_1\\vec v_1+m_2\\vec v_2=\\vec 0$. En projetant sur un axe orienté dans le sens du mouvement du patineur 2, $-m_1v_1+m_2v_2=0$, donc $v_2=\\dfrac{m_1v_1}{m_2}$.',
+          'Application numérique : $v_2=\\dfrac{50\\times3{,}0}{75}=\\dfrac{150}{75}=2{,}0$ m/s.'
         ],
-        answer: '$a \\approx 0{,}96$ m/s², dirigée vers le bas du plan : la caisse accélère en glissant, car la composante motrice du poids ($P\\sin\\alpha$) l\'emporte sur le frottement qui s\'y oppose.'
+        answer: '$v_2=2{,}0$ m/s. Le patineur le plus léger (1) recule plus vite ($3{,}0$ m/s) que le patineur le plus lourd (2), qui recule moins vite ($2{,}0$ m/s) : leurs quantités de mouvement, $m_1v_1=150$ kg·m/s et $m_2v_2=150$ kg·m/s, restent bien opposées et de même norme.'
       },
       formulas: [
-        'Principe d\'inertie (1ère loi) : $\\sum\\vec{F}=\\vec{0} \\Leftrightarrow \\vec{v}$ constant',
-        'Principe fondamental de la dynamique (2ème loi, PFD) : $\\sum\\vec{F} = m\\vec{a}$',
-        'Principe des actions réciproques (3ème loi) : $\\vec{F}_{B\\rightarrow A} = -\\vec{F}_{A\\rightarrow B}$',
-        'Sur un plan incliné d\'angle $\\alpha$ : composante motrice du poids $P\\sin\\alpha$, composante perpendiculaire $P\\cos\\alpha$',
-        'PFD projeté le long du plan (avec frottement $f$ opposé au mouvement) : $ma = P\\sin\\alpha - f$'
+        '$\\vec p=m\\vec v$ (quantité de mouvement)',
+        'PFD généralisé : $\\sum\\vec F=\\dfrac{d\\vec p}{dt}$ (se réduit à $\\sum\\vec F=m\\vec a$ si $m$ est constante)',
+        'Principe des actions réciproques : $\\vec F_{B\\to A}=-\\vec F_{A\\to B}$',
+        'Système isolé ou pseudo-isolé : $\\sum\\vec F_{ext}=\\vec 0 \\Rightarrow \\vec p=\\text{constante}$',
+        'Séparation d\'un système au repos en 2 parties : $m_1\\vec v_1+m_2\\vec v_2=\\vec 0$'
       ],
       recap: [
-        'Les trois lois de Newton ne s\'appliquent que dans un référentiel <strong>galiléen</strong> : c\'est une hypothèse à vérifier avant tout calcul, même si elle est souvent implicite au lycée (référentiel terrestre).',
-        'Le principe d\'inertie n\'est pas un cas particulier du PFD à traiter à part : c\'est le cas $\\sum\\vec{F}=\\vec{0}$, qui donne directement $\\vec{a}=\\vec{0}$ donc $\\vec{v}$ constant.',
-        'La troisième loi relie <strong>deux forces qui s\'exercent sur deux systèmes différents</strong> (jamais sur le même système) : $\\vec{F}_{A\\rightarrow B}$ agit sur B, $\\vec{F}_{B\\rightarrow A}$ agit sur A, elles ne se compensent donc jamais dans un bilan de forces sur un seul système.',
-        'Sur un plan incliné, bien choisir les axes (parallèle et perpendiculaire au plan, plutôt qu\'horizontal-vertical) simplifie considérablement la projection du PFD.'
+        'La quantité de mouvement $\\vec p=m\\vec v$ généralise le PFD : $\\sum\\vec F=\\dfrac{d\\vec p}{dt}$, valable même si la masse du système varie (fusée qui éjecte du gaz).',
+        'Les deux forces d\'un couple action-réaction s\'appliquent à <strong>deux systèmes différents</strong> : elles ne peuvent jamais s\'annuler dans l\'étude du mouvement de l\'un ou l\'autre.',
+        'Pour un système <strong>isolé ou pseudo-isolé</strong>, la quantité de mouvement totale se conserve : c\'est ce qui permet de calculer une vitesse de recul sans connaître le détail des forces internes.',
+        'Un système initialement au repos qui se sépare en plusieurs parties conserve une quantité de mouvement totale <strong>nulle</strong> : les parties s\'éloignent de sorte que leurs quantités de mouvement se compensent exactement.'
       ],
-      piege: 'Une confusion très fréquente consiste à additionner les deux forces d\'un couple action-réaction $\\vec{F}_{A\\rightarrow B}$ et $\\vec{F}_{B\\rightarrow A}$ dans le bilan des forces d\'un même système, en croyant qu\'elles se compensent : c\'est faux, car elles s\'appliquent sur <strong>deux systèmes différents</strong> et n\'apparaissent jamais toutes les deux dans le même bilan. Attention aussi à toujours vérifier le sens du frottement $\\vec{f}$, qui s\'oppose au <strong>mouvement relatif réel (ou tendanciel)</strong> et non à une direction supposée a priori.'
+      piege: 'Une confusion fréquente consiste à croire que les deux forces d\'un couple action-réaction s\'annulent et n\'ont donc aucun effet : en réalité, elles s\'appliquent chacune à un système <strong>différent</strong> et ne s\'annulent jamais dans l\'équation du mouvement de l\'un ou l\'autre système. Attention à toujours préciser sur quel système s\'applique chaque force avant d\'écrire le principe fondamental de la dynamique ou la conservation de la quantité de mouvement.'
     },
 
     quiz: [
       {
-        q: 'D\'après le principe d\'inertie, un système soumis à des forces dont la résultante est nulle est, dans un référentiel galiléen :',
+        q: 'Un système isolé, initialement au repos, se sépare spontanément en deux parties sous l\'effet de forces internes (explosion, ressort, réaction chimique...). Que peut-on dire de la quantité de mouvement totale du système juste après la séparation ?',
         options: [
-          'Nécessairement immobile',
-          'Nécessairement en accélération constante',
-          'Soit immobile, soit en mouvement rectiligne uniforme',
-          'Toujours en mouvement circulaire'
+          'Elle reste nulle, comme avant la séparation',
+          'Elle devient égale à la somme des masses multipliée par une vitesse commune',
+          'Elle double par rapport à sa valeur initiale',
+          'Elle dépend uniquement de l\'énergie libérée par la séparation'
         ],
-        answer: 2,
-        correction: 'Le principe d\'inertie énonce que si $\\sum\\vec{F}=\\vec{0}$, alors le vecteur vitesse $\\vec{v}$ est constant : le système est soit immobile ($v=0$), soit en mouvement rectiligne uniforme ($v$ constante non nulle).'
+        answer: 0,
+        correction: 'Le système étant isolé (ou pseudo-isolé), sa quantité de mouvement totale se conserve. Comme elle était nulle avant la séparation (système au repos), elle reste nulle après : les deux parties s\'éloignent avec des quantités de mouvement opposées, $m_1\\vec v_1=-m_2\\vec v_2$.'
       },
       {
-        q: 'Une personne pousse un mur avec une force $\\vec{F}_{personne \\rightarrow mur}$. D\'après la troisième loi de Newton, le mur exerce sur la personne une force :',
+        q: 'Un patineur 1 pousse un patineur 2. Quelle affirmation décrit correctement le couple de forces mis en jeu ?',
         options: [
-          'Nulle, car le mur ne bouge pas',
-          'De même sens et même norme que $\\vec{F}_{personne \\rightarrow mur}$',
-          'De norme opposée mais de sens identique',
-          'De même norme, même droite d\'action, mais de sens opposé'
+          '$\\vec F_{1\\to2}$ et $\\vec F_{2\\to1}$ ont la même norme et des sens opposés, mais s\'appliquent à des systèmes différents',
+          'Les deux forces s\'annulent, donc aucun des deux patineurs ne bouge',
+          'Seul le patineur 2 subit une force, le patineur 1 n\'en subit aucune',
+          'La force sur 2 est plus grande si 2 est plus léger que 1'
         ],
-        answer: 3,
-        correction: 'D\'après le principe des actions réciproques, $\\vec{F}_{mur\\rightarrow personne} = -\\vec{F}_{personne\\rightarrow mur}$ : même droite d\'action, même norme, mais un <strong>sens opposé</strong>. C\'est cette force qui repousse effectivement la personne.'
+        answer: 0,
+        correction: 'D\'après la troisième loi de Newton, les deux forces ont même norme et des sens opposés, mais elles s\'appliquent à des systèmes différents (1 et 2) : elles ne s\'annulent donc jamais entre elles, et chaque patineur accélère sous l\'effet de la force qu\'il subit.'
       },
       {
-        q: 'Un solide de masse $m=10$ kg est posé sur un plan incliné d\'angle $\\alpha=30°$, sans frottement. Quelle est la composante du poids le long du plan (avec $g=9{,}81$ m/s²) ?',
+        q: 'Deux wagonnets initialement immobiles et accrochés se séparent sous l\'effet d\'un ressort comprimé (système pseudo-isolé horizontalement). Le premier, de masse $m_1=30$ kg, s\'éloigne à $v_1=2{,}0$ m/s. Le second a une masse $m_2=20$ kg. Quelle est la norme de sa vitesse $v_2$ ?',
         options: [
-          '$98{,}1$ N',
-          '$84{,}9$ N',
-          '$49{,}05$ N',
-          '$56{,}7$ N'
+          '$v_2=3{,}0$ m/s',
+          '$v_2=1{,}33$ m/s',
+          '$v_2=6{,}0$ m/s',
+          '$v_2=0{,}67$ m/s'
         ],
-        answer: 2,
-        correction: 'La composante du poids le long du plan est $P\\sin\\alpha = mg\\sin\\alpha = 10 \\times 9{,}81 \\times \\sin(30°) = 98{,}1 \\times 0{,}5 = 49{,}05$ N.'
+        answer: 0,
+        correction: 'Conservation de la quantité de mouvement (système initialement au repos) : $m_1v_1=m_2v_2$, donc $v_2=\\dfrac{m_1v_1}{m_2}=\\dfrac{30\\times2{,}0}{20}=3{,}0$ m/s.'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
-        var typeExo = pick(['plan-incline', 'reciproques']);
-        var g = 9.81;
+        var typeExo = pick(['patineurs', 'recul']);
 
-        if (typeExo === 'plan-incline') {
-          var m = rand(5, 60);
-          var alphaDeg = pick([15, 20, 25, 30, 35]);
-          var alphaRad = alphaDeg * Math.PI / 180;
-          var fFrott = randFloat(5, 40, 1);
-          var P = m * g;
-          var compo = P * Math.sin(alphaRad);
-          var a = parseFloat(((compo - fFrott) / m).toFixed(2));
+        if (typeExo === 'patineurs') {
+          var m1 = pick([40, 45, 50, 55, 60, 65, 70]);
+          var m2 = pick([60, 65, 70, 75, 80, 85, 90]);
+          var v1 = randFloat(1.5, 4, 1);
+          var v2 = parseFloat((m1 * v1 / m2).toFixed(2));
           var contexte = pick([
-            'une caisse tirée sur un plan incliné d\'entrepôt',
-            'un chariot de manutention sur une rampe',
-            'une luge sur une pente instrumentée',
-            'un colis sur un tapis incliné de tri postal',
-            'un traîneau sur une piste enneigée en pente'
+            'deux patineurs sur une patinoire',
+            'deux skateurs immobiles qui se repoussent',
+            'deux nageurs qui se repoussent au bord d\'une piscine',
+            'deux astronautes en apesanteur qui se repoussent',
+            'deux joueurs de curling au moment d\'une poussée mutuelle'
           ]);
           return {
-            statement: 'Dans une modélisation de ' + contexte + ', un solide de masse $m = ' + m + '$ kg glisse vers le bas d\'un plan incliné d\'angle $\\alpha = ' + alphaDeg + '°$. La force de frottement, opposée au glissement, a pour norme $f = ' + fr(fFrott, 1) + '$ N. On prend $g = 9{,}81$ m/s².<br/><br/>Calcule l\'accélération $a$ du solide le long du plan (en m/s², arrondie au centième). Une valeur négative signifierait que le solide décélère.',
-            answer: a,
-            tolerance: Math.max(0.05, parseFloat((Math.abs(a) * 0.05).toFixed(2))),
-            unit: 'm/s²',
-            hint: 'Projette le PFD le long du plan, orienté vers le bas : $ma = P\\sin\\alpha - f$, avec $P = mg$.',
+            statement: 'Dans le cas de ' + contexte + ', deux personnes de masses $m_1=' + m1 + '$ kg et $m_2=' + m2 + '$ kg, initialement immobiles, se repoussent mutuellement. On néglige tout frottement. Après la poussée, la personne 1 s\'éloigne à une vitesse de norme $v_1=' + fr(v1, 1) + '$ m/s.<br/><br/>Calcule la norme de la vitesse $v_2$ de la personne 2 après la poussée (en m/s, arrondie au centième).',
+            answer: v2,
+            tolerance: Math.max(0.05, parseFloat((v2 * 0.03).toFixed(2))),
+            unit: 'm/s',
+            hint: 'Le système {1+2}, initialement au repos, est pseudo-isolé : $m_1v_1=m_2v_2$.',
             solution: [
-              'Poids : $P = mg = ' + m + ' \\times 9{,}81 = ' + fr(parseFloat(P.toFixed(2)), 2) + '$ N.',
-              'Composante motrice le long du plan : $P\\sin\\alpha = ' + fr(parseFloat(P.toFixed(2)), 2) + ' \\times \\sin(' + alphaDeg + '°) \\approx ' + fr(parseFloat(compo.toFixed(2)), 2) + '$ N.',
-              'PFD le long du plan : $ma = P\\sin\\alpha - f = ' + fr(parseFloat(compo.toFixed(2)), 2) + ' - ' + fr(fFrott, 1) + '$.',
-              'Résultat : $a \\approx ' + fr(a, 2) + '$ m/s².'
+              'Système initialement au repos, pseudo-isolé : $m_1v_1=m_2v_2$.',
+              'On isole $v_2$ : $v_2=\\dfrac{m_1v_1}{m_2}=\\dfrac{' + m1 + '\\times' + fr(v1, 1) + '}{' + m2 + '}$.',
+              'Résultat : $v_2\\approx' + fr(v2, 2) + '$ m/s.'
             ]
           };
         } else {
-          var Fval = rand(50, 500);
-          var syst = pick([
-            { a: 'un remorqueur', b: 'une péniche' },
-            { a: 'une locomotive', b: 'un wagon' },
-            { a: 'un grutier', b: 'une charge suspendue' },
-            { a: 'un nageur', b: 'l\'eau du bassin' },
-            { a: 'une fusée', b: 'les gaz éjectés' }
+          var M = pick([500, 600, 700, 800, 900, 1000]);
+          var mProj = pick([4, 6, 8, 10, 12]);
+          var vProj = pick([300, 350, 400, 450, 500]);
+          var vRecul = parseFloat((mProj * vProj / M).toFixed(2));
+          var contexte2 = pick([
+            'un canon qui tire un obus',
+            'un extincteur qui propulse violemment son gaz',
+            'une carabine qui tire une balle',
+            'un petit lanceur-fusée testé en laboratoire',
+            'un système de propulsion par éjection de masse'
           ]);
           return {
-            statement: syst.a.charAt(0).toUpperCase() + syst.a.slice(1) + ' exerce sur ' + syst.b + ' une force de norme $F_{' + '1\\rightarrow2}' + ' = ' + Fval + '$ N.<br/><br/>D\'après le principe des actions réciproques, quelle est la norme de la force exercée par ' + syst.b + ' sur ' + syst.a + ' (en N) ?',
-            answer: Fval,
-            tolerance: 0.5,
-            unit: 'N',
-            hint: 'Le principe des actions réciproques impose $\\vec{F}_{2\\rightarrow1} = -\\vec{F}_{1\\rightarrow2}$ : même norme, sens opposé.',
+            statement: 'Dans le cas de ' + contexte2 + ', de masse totale (avant tir) $M=' + M + '$ kg, initialement immobile, éjecte une masse $m=' + mProj + '$ kg à une vitesse $v=' + vProj + '$ m/s par rapport au sol. On néglige tout frottement externe pendant l\'éjection.<br/><br/>Calcule la norme de la vitesse de recul $V$ du système restant (en m/s, arrondie au centième).',
+            answer: vRecul,
+            tolerance: Math.max(0.05, parseFloat((vRecul * 0.03).toFixed(2))),
+            unit: 'm/s',
+            hint: 'Système {support + masse éjectée}, initialement au repos, pseudo-isolé : $M_{restant}V=mv$ (avec $M_{restant}\\approx M$).',
             solution: [
-              'D\'après la troisième loi de Newton, $\\vec{F}_{2\\rightarrow1} = -\\vec{F}_{1\\rightarrow2}$.',
-              'Les deux forces ont donc la <strong>même norme</strong>, quelle que soit la différence de masse entre les deux systèmes.',
-              'Résultat : $F_{2\\rightarrow1} = ' + Fval + '$ N (sens opposé à $F_{1\\rightarrow2}$).'
+              'Système initialement au repos, pseudo-isolé : $MV\\approx mv$ (la masse éjectée étant petite devant $M$).',
+              'On isole $V$ : $V=\\dfrac{mv}{M}=\\dfrac{' + mProj + '\\times' + vProj + '}{' + M + '}$.',
+              'Résultat : $V\\approx' + fr(vRecul, 2) + '$ m/s, dans le sens opposé à l\'éjection.'
             ]
           };
         }
@@ -209,18 +204,18 @@ window.MODULES.push({
     },
 
     probleme: {
-      context: 'Un skieur de masse $m = 70$ kg (équipement compris) descend une piste rectiligne inclinée d\'un angle $\\alpha = 15°$ par rapport à l\'horizontale, en partant sans vitesse initiale. La force de frottement exercée par la neige sur les skis a pour norme $f = 90$ N, opposée au mouvement. On prend $g = 9{,}81$ m/s² et on néglige les frottements de l\'air.',
+      context: 'Un module spatial de masse totale $M=2\\,000$ kg est immobile dans l\'espace, loin de toute planète (système isolé). Il se sépare en deux parties : un compartiment de service de masse $m_1=1\\,200$ kg et une capsule de masse $m_2=800$ kg, éjectés par un mécanisme pyrotechnique. Après séparation, la capsule s\'éloigne à une vitesse de norme $v_2=3{,}0$ m/s (mesurée dans le référentiel initial du module).',
       tasks: [
-        'Faire le bilan des forces exercées sur le skieur et les représenter qualitativement.',
-        'Projeter le PFD le long de la piste (axe orienté dans le sens de la descente) et calculer l\'accélération $a$ du skieur.',
-        'En déduire la vitesse du skieur après avoir parcouru une distance $d = 150$ m sur la piste (on utilisera $v^2 = v_0^2 + 2ad$).'
+        'Justifier que le système {compartiment + capsule} peut être considéré comme isolé, et donner la valeur de sa quantité de mouvement totale avant la séparation.',
+        'En appliquant la conservation de la quantité de mouvement, calculer la norme de la vitesse $v_1$ du compartiment de service après la séparation.',
+        'Comparer les quantités de mouvement des deux parties après séparation, et expliquer pourquoi le compartiment (plus massif) s\'éloigne moins vite que la capsule.'
       ],
       solutions: [
-        'Trois forces s\'exercent sur le skieur : le poids $\\vec{P}$ (vertical, vers le bas), la réaction normale de la piste $\\vec{N}$ (perpendiculaire à la piste) et le frottement $\\vec{f}$ (le long de la piste, opposé au mouvement, donc dirigé vers le haut de la pente).',
-        'PFD projeté le long de la piste (axe orienté vers le bas de la pente) : $ma = P\\sin\\alpha - f$. Poids : $P = mg = 70 \\times 9{,}81 = 686{,}7$ N. Composante motrice : $P\\sin\\alpha = 686{,}7 \\times \\sin(15°) \\approx 686{,}7 \\times 0{,}259 \\approx 177{,}8$ N. Accélération : $a = \\dfrac{177{,}8 - 90}{70} = \\dfrac{87{,}8}{70} \\approx 1{,}25$ m/s².',
-        'Avec $v_0=0$ : $v^2 = 2ad = 2 \\times 1{,}25 \\times 150 = 375$, donc $v = \\sqrt{375} \\approx 19{,}4$ m/s.'
+        'Loin de toute planète, aucune force gravitationnelle notable ne s\'exerce sur le module : le système est isolé. Avant la séparation, le module est immobile : sa quantité de mouvement totale est $\\vec p_{avant}=\\vec 0$.',
+        'Conservation de la quantité de mouvement : $\\vec p_{après}=\\vec 0$, donc $m_1\\vec v_1+m_2\\vec v_2=\\vec 0$. En norme, $m_1v_1=m_2v_2$, donc $v_1=\\dfrac{m_2v_2}{m_1}=\\dfrac{800\\times3{,}0}{1\\,200}=\\dfrac{2\\,400}{1\\,200}=2{,}0$ m/s.',
+        'Quantités de mouvement : $m_1v_1=1\\,200\\times2{,}0=2\\,400$ kg·m/s et $m_2v_2=800\\times3{,}0=2\\,400$ kg·m/s : elles sont bien égales en norme (et de sens opposés). Le compartiment, plus massif, doit donc avoir une vitesse plus faible pour que le produit $m\\times v$ reste le même que celui de la capsule, plus légère.'
       ],
-      finalAnswer: 'L\'accélération du skieur vaut $a \\approx 1{,}25$ m/s² et sa vitesse après $150$ m vaut $v \\approx 19{,}4$ m/s, soit environ $70$ km/h. Ce résultat illustre pourquoi les pistes de ski les plus raides permettent d\'atteindre des vitesses élevées sur une distance de descente relativement courte : la composante motrice du poids augmente avec l\'angle $\\alpha$.'
+      finalAnswer: '$v_1=2{,}0$ m/s, avec $m_1v_1=m_2v_2=2\\,400$ kg·m/s de part et d\'autre. C\'est exactement ce principe — conservation de la quantité de mouvement d\'un système isolé — qui est utilisé pour calculer les vitesses de séparation des étages de fusées ou la vitesse d\'éjection des capsules de secours.'
     },
 
     evaluation: {
@@ -228,61 +223,61 @@ window.MODULES.push({
       duration: '30 min',
       questions: [
         {
-          statement: 'Le principe fondamental de la dynamique s\'écrit, dans un référentiel galiléen :',
-          type: 'multiple-choice',
-          options: [
-            '$\\sum\\vec{F} = m\\vec{v}$',
-            '$\\sum\\vec{F} = m\\vec{a}$',
-            '$\\vec{F}_{A\\rightarrow B} = -\\vec{F}_{B\\rightarrow A}$',
-            '$\\sum\\vec{F} = \\vec{0}$'
-          ],
-          answer: 1,
-          points: 2,
-          correction: 'Le PFD (deuxième loi de Newton) relie la résultante des forces à l\'accélération : $\\sum\\vec{F} = m\\vec{a}$.'
-        },
-        {
-          statement: 'Un solide de masse $m=15$ kg est sur un plan incliné à $\\alpha=25°$, sans frottement. Calculer la composante du poids le long du plan (en N, arrondie à l\'unité, $g=9{,}81$ m/s²).',
+          statement: 'Deux personnes de masses $m_1=40$ kg et $m_2=50$ kg, initialement immobiles, se repoussent mutuellement (frottements négligés). La personne 1 s\'éloigne à $v_1=2{,}5$ m/s. Calculer la norme de la vitesse $v_2$ de la personne 2 (en m/s).',
           type: 'numeric',
-          answer: 62,
-          tolerance: 2,
-          unit: 'N',
-          points: 3,
-          correction: '$P\\sin\\alpha = mg\\sin\\alpha = 15 \\times 9{,}81 \\times \\sin(25°) \\approx 147{,}15 \\times 0{,}423 \\approx 62$ N.'
-        },
-        {
-          statement: 'Le principe des actions réciproques relie deux forces qui s\'exercent :',
-          type: 'multiple-choice',
-          options: [
-            'Sur le même système, et qui se compensent toujours',
-            'Sur deux systèmes différents, chacune agissant sur l\'autre système',
-            'Uniquement entre un système et son support',
-            'Uniquement dans le cas d\'un système à l\'équilibre'
-          ],
-          answer: 1,
+          answer: 2,
+          tolerance: 0.1,
+          unit: 'm/s',
           points: 2,
-          correction: '$\\vec{F}_{A\\rightarrow B}$ s\'exerce sur B et $\\vec{F}_{B\\rightarrow A}$ s\'exerce sur A : ce sont deux forces sur deux systèmes différents, qui n\'apparaissent donc jamais ensemble dans le bilan des forces d\'un seul système.'
+          correction: '$m_1v_1=m_2v_2$, donc $v_2=\\dfrac{m_1v_1}{m_2}=\\dfrac{40\\times2{,}5}{50}=\\dfrac{100}{50}=2{,}0$ m/s.'
         },
         {
-          statement: 'Un système soumis à des forces qui se compensent exactement ($\\sum\\vec{F}=\\vec{0}$) est nécessairement :',
+          statement: 'D\'après le principe d\'inertie, dans un référentiel galiléen, un système pseudo-isolé (résultante des forces extérieures nulle) est :',
           type: 'multiple-choice',
           options: [
-            'Immobile',
-            'En mouvement accéléré',
-            'Immobile ou en mouvement rectiligne uniforme',
-            'En mouvement circulaire uniforme'
+            'Toujours immobile',
+            'Toujours en mouvement circulaire',
+            'Soit au repos, soit en mouvement rectiligne uniforme',
+            'Nécessairement soumis à une accélération constante'
           ],
           answer: 2,
           points: 2,
-          correction: 'D\'après le principe d\'inertie, $\\sum\\vec{F}=\\vec{0}$ implique $\\vec{v}$ constant : le système peut être immobile ($v=0$) ou en mouvement rectiligne uniforme ($v$ constante non nulle), pas nécessairement immobile.'
+          correction: 'Le principe d\'inertie (première loi de Newton) énonce qu\'un système isolé ou pseudo-isolé conserve un mouvement rectiligne uniforme (ou reste au repos, cas particulier de vitesse nulle) : sa quantité de mouvement, donc sa vitesse, reste constante.'
         },
         {
-          statement: 'Une caisse de masse $m=40$ kg glisse sur un plan incliné à $\\alpha=20°$, avec un frottement $f=50$ N opposé au mouvement. Calculer son accélération le long du plan (en m/s², arrondie au centième, $g=9{,}81$ m/s²).',
+          statement: 'Un canon de masse totale $M=750$ kg, initialement immobile, tire un obus de masse $m=5$ kg à une vitesse $v=450$ m/s par rapport au sol. Calculer la norme de la vitesse de recul $V$ du canon (en m/s).',
           type: 'numeric',
-          answer: 2.11,
-          tolerance: 0.15,
-          unit: 'm/s²',
+          answer: 3,
+          tolerance: 0.2,
+          unit: 'm/s',
           points: 3,
-          correction: '$P=mg=40\\times9{,}81=392{,}4$ N. $P\\sin\\alpha=392{,}4\\times\\sin(20°)\\approx134{,}2$ N. $a=\\dfrac{134{,}2-50}{40}=\\dfrac{84{,}2}{40}\\approx2{,}11$ m/s².'
+          correction: '$MV\\approx mv$ (masse de l\'obus petite devant celle du canon), donc $V=\\dfrac{mv}{M}=\\dfrac{5\\times450}{750}=\\dfrac{2\\,250}{750}=3{,}0$ m/s.'
+        },
+        {
+          statement: 'La quantité de mouvement $\\vec p$ d\'un point matériel de masse $m$ et de vitesse $\\vec v$ s\'exprime :',
+          type: 'multiple-choice',
+          options: [
+            '$\\vec p=\\dfrac{m}{\\vec v}$',
+            '$\\vec p=m\\vec v$',
+            '$\\vec p=m\\vec a$',
+            '$\\vec p=\\dfrac{1}{2}m\\vec v^2$'
+          ],
+          answer: 1,
+          points: 2,
+          correction: 'La quantité de mouvement est définie par $\\vec p=m\\vec v$ : c\'est un vecteur, colinéaire et de même sens que la vitesse.'
+        },
+        {
+          statement: 'Un patineur léger et un patineur lourd, tous deux immobiles, se repoussent mutuellement avec la même paire de forces (action-réaction). Comment se comparent les forces qu\'ils subissent chacun ?',
+          type: 'multiple-choice',
+          options: [
+            'Le patineur lourd subit une force plus grande, car il est plus massif',
+            'Le patineur léger subit une force plus grande, car il accélère plus',
+            'Les deux forces ont exactement la même norme, quelle que soit la masse de chacun',
+            'La force dépend de la vitesse finale de chaque patineur'
+          ],
+          answer: 2,
+          points: 2,
+          correction: 'D\'après la troisième loi de Newton, les deux forces d\'un couple action-réaction ont toujours la même norme, indépendamment des masses des deux systèmes : seule leur <strong>accélération</strong> diffère ensuite ($a=F/m$), ce qui explique pourquoi le patineur le plus léger prend plus de vitesse.'
         }
       ]
     }

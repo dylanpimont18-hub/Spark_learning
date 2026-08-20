@@ -1,0 +1,14 @@
+{
+  "_schema": "Registre de provenance des images de repli (étape 4 du skill generer-image : Wikimedia Commons, Openverse, Unsplash). Une entrée par fichier sous images/modules/. Les diagrammes construits par code (étape 2 du skill) n'ont pas d'entrée ici — leur provenance est le calcul ou le gabarit lui-même, garanti par la vérification de l'étape 3, pas par ce registre.",
+  "_champs": "module (id du module js/data concerné), fichier (chemin relatif à images/modules/), url_source, auteur, licence (mention exacte trouvée sur la page source), date_ajout (AAAA-MM-JJ)",
+  "images": [
+    {
+      "module": "si-bts-hydraulique",
+      "fichier": "si-bts/verin-hydraulique-coupe.jpg",
+      "url_source": "https://commons.wikimedia.org/",
+      "auteur": "Hotdogcartman/Hyco",
+      "licence": "domaine public",
+      "date_ajout": "2026-07-21"
+    }
+  ]
+}

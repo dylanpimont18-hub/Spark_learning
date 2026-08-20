@@ -5,182 +5,265 @@
 window.MODULES.push({
     id: 'physique-2nde-corps-purs',
     level: 2, subject: 'physique',
-    icon: '⚗️',
-    title: `Corps purs et mélanges`,
-    subtitle: `Identification d'un corps pur, mélanges homogènes et hétérogènes, techniques de séparation`,
-    keywords: ['Corps pur', 'Mélange', 'Grandeur caractéristique', `Changement d'état`, `Séparation`],
-    physics: `Distinguer un corps pur d'un mélange permet de contrôler la qualité d'une eau minérale, de vérifier la pureté d'un métal précieux, de choisir la bonne technique pour séparer le pétrole brut en ses différents constituants (distillation), ou de comprendre pourquoi l'eau de mer ne bout pas exactement à la même température que l'eau pure.`,
+    icon: '🧊',
+    title: 'Corps purs et mélanges',
+    subtitle: 'Espèce chimique, corps pur, mélange homogène/hétérogène, identification (Tfus, CCM, masse volumique)',
+    keywords: ['Corps pur', 'Mélange', 'Chromatographie', 'Température de fusion', 'Espèce chimique'],
+    physics: 'Distinguer un corps pur d\'un mélange permet de contrôler la pureté d\'un médicament, de détecter une fraude alimentaire (dilution d\'une huile essentielle), d\'authentifier des pigments en analyse d\'œuvres d\'art, ou d\'identifier un carburant lors d\'une expertise après incendie.',
 
     cours: {
-      intro: `Toute matière qui nous entoure est soit un <strong>corps pur</strong> (une seule espèce chimique), soit un <strong>mélange</strong> (plusieurs espèces chimiques réunies). Un mélange est dit <strong>homogène</strong> lorsqu'on ne distingue aucun de ses constituants à l'œil nu, même après un temps de repos (l'eau salée, l'air) ; il est dit <strong>hétérogène</strong> lorsque plusieurs phases restent visibles (l'eau et l'huile, l'eau boueuse).<br/><br/>Comment savoir, sans microscope ni analyse chimique complexe, si un liquide est un corps pur ou un mélange ? On mesure une <strong>grandeur physique caractéristique</strong> : une propriété qui prend une valeur fixe et connue pour un corps pur donné, dans des conditions de pression fixées (par exemple sa température de fusion, sa température d'ébullition, sa masse volumique, ou son indice de réfraction). Si la valeur mesurée correspond à une valeur tabulée de référence, le corps est probablement pur ; sinon, il s'agit vraisemblablement d'un mélange.<br/><br/>Le suivi de la <strong>température au cours d'un changement d'état</strong> est une méthode particulièrement efficace : un corps pur change d'état à température constante (un <strong>palier</strong> apparaît sur la courbe temps-température), alors qu'un mélange change d'état de façon plus progressive, sans palier net.`,
+      intro: 'Un verre d\'eau du robinet et un verre d\'eau distillée se ressemblent en tout point à l\'œil nu : transparents, incolores, liquides. Pourtant, l\'un est un <strong>mélange</strong> (eau, sels dissous, traces de chlore...) et l\'autre se rapproche d\'un <strong>corps pur</strong> (une seule espèce chimique, $H_2O$). L\'apparence ne suffit donc jamais à conclure : il faut des <strong>critères physiques mesurables</strong>.<br/><br/>Ce chapitre présente ces critères : la température de changement d\'état, la masse volumique, et une technique de séparation et d\'identification très utilisée en laboratoire, la <strong>chromatographie sur couche mince</strong>.',
       definitions: [
-        { term: `Corps pur`, def: `Échantillon de matière ne contenant qu'une seule espèce chimique, à l'échelle macroscopique comme microscopique (par exemple l'eau distillée, le dioxygène pur, ou l'or à 24 carats).` },
-        { term: `Mélange homogène`, def: `Association de plusieurs espèces chimiques dont on ne distingue aucun constituant à l'œil nu, même après un temps de repos : une seule phase est visible (l'eau salée, l'air, un jus de fruit filtré).` },
-        { term: `Mélange hétérogène`, def: `Association de plusieurs espèces chimiques dont on distingue au moins deux phases à l'œil nu (l'eau et l'huile, l'eau boueuse, le sable dans l'eau).` },
-        { term: `Grandeur physique caractéristique`, def: `Propriété physique (température de fusion, température d'ébullition, masse volumique, indice de réfraction...) qui prend une valeur fixe et connue pour un corps pur donné, à une pression fixée. Comparer une valeur mesurée à une valeur tabulée permet d'identifier un corps pur.` },
-        { term: `Palier de changement d'état`, def: `Portion horizontale d'une courbe température-temps, pendant laquelle la température reste constante alors que la matière change d'état (fusion, ébullition...). Ce palier est net pour un corps pur, mais absent ou peu marqué pour un mélange.` }
+        { term: 'Espèce chimique', def: 'Ensemble d\'entités (atomes, molécules ou ions) identiques, caractérisées par une formule chimique précise (ex : le dioxygène $O_2$, l\'eau $H_2O$, l\'ion chlorure $Cl^-$).' },
+        { term: 'Corps pur', def: 'Échantillon de matière ne contenant qu\'<strong>une seule</strong> espèce chimique. Il est caractérisé par des grandeurs physiques constantes (température de fusion $T_{fus}$, température d\'ébullition $T_{eb}$, masse volumique $\\rho$), comparables à des valeurs de référence tabulées.' },
+        { term: 'Mélange', def: 'Échantillon contenant <strong>plusieurs</strong> espèces chimiques. <strong>Homogène</strong> si on ne distingue qu\'une seule phase à l\'œil nu (ex : eau salée) ; <strong>hétérogène</strong> si plusieurs phases sont visibles (ex : eau et huile).' },
+        { term: 'Chromatographie sur couche mince (CCM)', def: 'Technique séparant les espèces chimiques d\'un mélange par migration différentielle sur une plaque, sous l\'effet d\'un éluant. Chaque espèce migre avec un rapport frontal $R_f$ caractéristique, comparable à des références déposées côte à côte.' }
       ],
       method: {
-        title: `Déterminer si une substance est un corps pur, en 3 étapes`,
+        title: 'Identifier un corps pur (ou repérer un mélange) en 3 étapes',
         steps: [
-          `<strong>Choisir une grandeur physique caractéristique</strong> facile à mesurer dans les conditions du laboratoire : le plus souvent, la température de changement d'état (fusion ou ébullition), à pression atmosphérique normale.`,
-          `<strong>Mesurer cette grandeur expérimentalement</strong>, par exemple en suivant l'évolution de la température au cours du temps à l'aide d'un thermomètre ou d'une sonde, pendant le changement d'état.`,
-          `<strong>Comparer le résultat à une valeur de référence tabulée</strong> ET vérifier la présence d'un palier net sur la courbe température-temps : si les deux critères sont satisfaits, la substance est très probablement un corps pur ; sinon, c'est un mélange.`
+          '<strong>Relever une grandeur physique caractéristique</strong> de l\'échantillon : température de changement d\'état par un suivi $\\theta = f(t)$ lors d\'un chauffage, masse volumique $\\rho = \\dfrac{m}{V}$, ou rapport frontal $R_f$ en chromatographie.',
+          '<strong>Comparer</strong> l\'allure de la courbe (ou la valeur mesurée) à une référence tabulée : un <strong>palier net</strong> (température rigoureusement constante) et une valeur conforme à la table signent un corps pur.',
+          '<strong>Conclure</strong> : en l\'absence de palier net (la température continue de varier), ou si la valeur mesurée diffère nettement de la référence, ou si plusieurs taches apparaissent en CCM, l\'échantillon est un <strong>mélange</strong> (ou contient des impuretés).'
         ]
       },
       diagram: {
         theme: 'physique',
-        kicker: `Identification d'un corps pur`,
-        title: `Courbe température-temps : palier net pour un corps pur, absence de palier pour un mélange`,
-        description: `Lors d'un changement d'état, la température d'un <strong>corps pur</strong> reste constante (palier net), alors que celle d'un <strong>mélange</strong> continue d'évoluer sans plateau marqué.`,
+        kicker: 'Identifier un corps pur par sa température de fusion',
+        title: 'Courbe de chauffage θ = f(t) : palier net ou pas de palier ?',
+        description: 'On chauffe régulièrement deux échantillons partant de $-10°C$ : de la <strong>glace pure</strong> (courbe pleine) et un <strong>mélange eau + sel</strong> (courbe en pointillés). Seul le corps pur présente un <strong>palier net</strong> à température constante pendant le changement d\'état.',
         svg: `
-          <svg viewBox="0 0 560 320" role="img" aria-labelledby="corpspur-2nde-title corpspur-2nde-desc">
-            <title id="corpspur-2nde-title">Courbes temperature-temps lors d'un changement d'etat</title>
-            <desc id="corpspur-2nde-desc">Un graphique represente la temperature en ordonnee en fonction du temps en abscisse, avec deux courbes superposees. La courbe en trait plein, representant un corps pur, monte puis presente un long palier parfaitement horizontal a temperature constante pendant tout le changement d'etat, avant de remonter. La courbe en pointilles, representant un melange, monte de maniere continue sur toute la duree, sans jamais former de palier horizontal net.</desc>
+          <svg viewBox="0 0 560 310" role="img" aria-labelledby="corpspurs2nde-title corpspurs2nde-desc">
+            <title id="corpspurs2nde-title">Courbes de chauffage comparant un corps pur et un melange</title>
+            <desc id="corpspurs2nde-desc">Un graphique represente la temperature en ordonnee, de moins dix a quinze degres Celsius, en fonction du temps de chauffage en abscisse, de zero a dix minutes. Deux courbes partent du meme point a moins dix degres. La courbe pleine, representant de la glace pure, monte puis forme un palier parfaitement horizontal a zero degre pendant plusieurs minutes avant de remonter : c'est la signature d'un corps pur. La courbe en pointilles, representant un melange eau et sel, monte de facon continue sans jamais former de palier horizontal, meme si sa pente se reduit temporairement autour de zero degre.</desc>
 
             <defs>
-              <marker id="arrow-phys2nde-corpspur" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+              <marker id="arrow-phys2-corpspurs" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
                 <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
               </marker>
             </defs>
 
             <!-- axes -->
-            <line class="frame-line" x1="70" y1="280" x2="520" y2="280" marker-end="url(#arrow-phys2nde-corpspur)"></line>
-            <line class="frame-line" x1="70" y1="280" x2="70" y2="40" marker-end="url(#arrow-phys2nde-corpspur)"></line>
-            <text class="tick-label" x="70" y="26" text-anchor="middle">T (°C)</text>
-            <text class="tick-label" x="518" y="298" text-anchor="end">t (min)</text>
+            <line class="frame-line" x1="50" y1="270" x2="500" y2="270" marker-end="url(#arrow-phys2-corpspurs)"></line>
+            <line class="frame-line" x1="55" y1="270" x2="55" y2="25" marker-end="url(#arrow-phys2-corpspurs)"></line>
+            <text class="tick-label" x="55" y="18" text-anchor="middle">θ (°C)</text>
+            <text class="tick-label" x="512" y="274" text-anchor="start">t (min)</text>
 
-            <!-- repere du palier sur l'axe des temperatures -->
-            <line class="guide-line" x1="70" y1="150" x2="210" y2="150"></line>
-            <text class="tick-label" x="58" y="154" text-anchor="end">T_fus</text>
+            <!-- graduations verticales (temperature) -->
+            <line class="frame-line" x1="50" y1="250" x2="55" y2="250"></line>
+            <text class="tick-label" x="44" y="254" text-anchor="end">−10</text>
+            <line class="frame-line" x1="50" y1="210" x2="55" y2="210"></line>
+            <text class="tick-label" x="44" y="214" text-anchor="end">−5</text>
+            <line class="frame-line" x1="50" y1="170" x2="55" y2="170"></line>
+            <text class="tick-label" x="44" y="174" text-anchor="end">0</text>
+            <line class="frame-line" x1="50" y1="130" x2="55" y2="130"></line>
+            <text class="tick-label" x="44" y="134" text-anchor="end">5</text>
+            <line class="frame-line" x1="50" y1="90" x2="55" y2="90"></line>
+            <text class="tick-label" x="44" y="94" text-anchor="end">10</text>
+            <line class="frame-line" x1="50" y1="50" x2="55" y2="50"></line>
+            <text class="tick-label" x="44" y="54" text-anchor="end">15</text>
 
-            <!-- courbe du corps pur (trait plein, avec palier) -->
-            <path class="curve-main" fill="none" d="M90,260 L210,150 L350,150 L480,80"></path>
-            <circle class="plot-point" cx="210" cy="150" r="4"></circle>
-            <circle class="plot-point" cx="350" cy="150" r="4"></circle>
-            <text class="annotation-label" x="280" y="135" text-anchor="middle">Palier (T constante)</text>
-            <text class="label-soft" x="480" y="65" text-anchor="middle">Corps pur</text>
+            <!-- graduations horizontales (temps) -->
+            <line class="frame-line" x1="70" y1="270" x2="70" y2="275"></line>
+            <text class="tick-label" x="70" y="286" text-anchor="middle">0</text>
+            <line class="frame-line" x1="152" y1="270" x2="152" y2="275"></line>
+            <text class="tick-label" x="152" y="286" text-anchor="middle">2</text>
+            <line class="frame-line" x1="234" y1="270" x2="234" y2="275"></line>
+            <text class="tick-label" x="234" y="286" text-anchor="middle">4</text>
+            <line class="frame-line" x1="316" y1="270" x2="316" y2="275"></line>
+            <text class="tick-label" x="316" y="286" text-anchor="middle">6</text>
+            <line class="frame-line" x1="398" y1="270" x2="398" y2="275"></line>
+            <text class="tick-label" x="398" y="286" text-anchor="middle">8</text>
+            <line class="frame-line" x1="480" y1="270" x2="480" y2="275"></line>
+            <text class="tick-label" x="480" y="286" text-anchor="middle">10</text>
 
-            <!-- courbe du melange (pointilles, sans palier) -->
-            <path class="guide-line" fill="none" d="M90,260 L170,205 L260,168 L350,145 L480,80"></path>
-            <text class="label-soft" x="255" y="196" text-anchor="middle">Mélange (pas de palier net)</text>
+            <!-- legende -->
+            <line class="curve-main" fill="none" x1="75" y1="45" x2="105" y2="45"></line>
+            <text class="tick-label" x="112" y="49" text-anchor="start">Corps pur (glace)</text>
+            <line class="guide-line" fill="none" x1="75" y1="64" x2="105" y2="64"></line>
+            <text class="tick-label" x="112" y="68" text-anchor="start">Mélange (eau + sel)</text>
+
+            <!-- courbe corps pur (avec palier net a 0 degre) -->
+            <path class="curve-main" fill="none" d="M70,250 L111,218 L152,186 L168,170 L300,170 L337,138 L398,98 L480,50"></path>
+            <circle class="plot-point" cx="168" cy="170" r="4"></circle>
+            <circle class="plot-point" cx="300" cy="170" r="4"></circle>
+
+            <!-- courbe melange (pas de palier net, reste distincte de la courbe corps pur sur toute sa longueur) -->
+            <path class="guide-line" fill="none" d="M70,250 L111,222 L152,198 L193,190 L234,186 L275,184 L316,176 L357,158 L398,134 L439,114 L480,94"></path>
+
+            <!-- annotation palier net -->
+            <line class="guide-line" x1="250" y1="170" x2="250" y2="143"></line>
+            <text class="annotation-label" x="250" y="131" text-anchor="middle">Palier net à 0°C</text>
+
+            <!-- annotation melange -->
+            <line class="guide-line" x1="193" y1="190" x2="193" y2="212"></line>
+            <text class="annotation-label" x="200" y="226" text-anchor="start">Pas de palier net</text>
           </svg>
         `,
         notes: [
-          `Pour le <strong>corps pur</strong>, la température reste rigoureusement constante pendant tout le changement d'état : c'est le <strong>palier</strong>, une signature caractéristique qu'aucun mélange ne reproduit exactement.`,
-          `Pour le <strong>mélange</strong>, la température continue de varier tout au long du changement d'état, sans plateau net : c'est un critère simple pour distinguer un mélange d'un corps pur, sans avoir besoin d'analyse chimique.`,
-          `La température du palier ($T_{fus}$ ici) peut être comparée à une valeur tabulée de référence : si elle correspond, cela renforce l'hypothèse d'un corps pur.`
+          'La glace pure fond à <strong>température constante</strong> ($0°C$) : tant que les deux phases (solide + liquide) coexistent, toute l\'énergie apportée sert au changement d\'état, pas à élever la température. C\'est le <strong>palier de fusion</strong>, signature d\'un corps pur.',
+          'Le mélange eau + sel n\'a pas ce palier net : sa fusion commence à une température plus basse (dépression du point de fusion) et la température continue de varier progressivement pendant tout le changement d\'état.',
+          'Cette différence de comportement est un <strong>critère d\'identification</strong> à part entière : observer un palier net et comparer sa valeur à une table de référence permet de confirmer qu\'un échantillon est un corps pur.'
         ],
-        reading: `Suis d'abord la courbe en trait plein (corps pur) : repère la portion parfaitement horizontale, le palier. Compare-la ensuite à la courbe en pointillés (mélange), qui continue de monter sans jamais former de plateau net.`,
-        caption: `Courbes température-temps lors d'un changement d'état : un corps pur présente un palier net à température constante, alors qu'un mélange voit sa température évoluer en continu, sans plateau marqué.`
+        reading: 'Suis d\'abord la courbe pleine (corps pur) : repère la portion parfaitement horizontale autour de $0°C$. Compare-la ensuite à la courbe en pointillés (mélange), qui continue de monter sans jamais former de palier.',
+        caption: 'Courbes de chauffage $\\theta = f(t)$ : la glace pure (corps pur) présente un palier net à $0°C$ pendant sa fusion, contrairement au mélange eau + sel dont la température continue de varier.'
       },
-      example: {
-        statement: `On chauffe un échantillon liquide inconnu et on suit sa température au cours du temps pendant son ébullition. Le suivi expérimental montre que la température reste rigoureusement constante à $99{,}8$ °C pendant toute la durée de l'ébullition, à pression atmosphérique normale.<br/><br/>Sachant qu'une table de référence indique que l'eau pure bout à $100$ °C à pression atmosphérique normale, conclure sur la nature de cet échantillon.`,
-        steps: [
-          `Le fait que la température reste <strong>constante</strong> pendant tout le changement d'état (palier net) est le premier indice caractéristique d'un corps pur.`,
-          `La valeur mesurée, $99{,}8$ °C, est très proche de la valeur tabulée pour l'eau pure ($100$ °C à pression atmosphérique normale) : l'écart, $|99{,}8 - 100| = 0{,}2$ °C, est faible et s'explique par les incertitudes de mesure (thermomètre, pression atmosphérique du jour légèrement différente).`,
-          `Les deux critères — palier net et valeur proche de la référence tabulée — sont satisfaits.`
+      diagrams: [{
+        theme: 'physique',
+        kicker: 'Identifier un corps pur par chromatographie (CCM)',
+        title: 'Lecture d\'un rapport frontal $R_f$ en CCM',
+        description: 'Une tache de référence et un échantillon (le sirop de menthe de l\'exemple ci-dessous) sont déposés côte à côte sur la même plaque, puis élués simultanément : le front du solvant parcourt $d_{front} = 8{,}0$ cm. Comparer la hauteur de chaque tache à celle de la référence permet de calculer un rapport frontal $R_f$ et d\'identifier les espèces présentes.',
+        svg: `
+          <svg viewBox="0 0 460 300" role="img" aria-labelledby="corpspurs2nde-ccm-title corpspurs2nde-ccm-desc">
+            <title id="corpspurs2nde-ccm-title">Plaque de chromatographie sur couche mince comparant une reference et un echantillon</title>
+            <desc id="corpspurs2nde-ccm-desc">Une plaque rectangulaire verticale porte deux lignes horizontales en pointilles : la ligne de depot en bas et le front du solvant huit centimetres plus haut. Deux colonnes de depot sont representees : a gauche la reference, avec une seule tache situee a cinq virgule deux centimetres au-dessus de la ligne de depot ; a droite l'echantillon, avec deux taches, l'une exactement a la meme hauteur que la reference, l'autre nettement plus basse, a deux virgule quatre centimetres seulement. Une ligne pointillee horizontale relie la tache de reference a la tache de l'echantillon situee a la meme hauteur, pour montrer qu'elles partagent le meme rapport frontal.</desc>
+
+            <!-- en-tetes de colonnes -->
+            <text class="label-soft" x="170" y="34" text-anchor="middle">Référence</text>
+            <text class="label-soft" x="270" y="34" text-anchor="middle">Échantillon</text>
+
+            <!-- plaque CCM -->
+            <rect class="frame-line" x="110" y="45" width="220" height="205" fill="none"></rect>
+
+            <!-- front du solvant (8,0 cm au-dessus du depot) -->
+            <line class="guide-line" x1="110" y1="70" x2="330" y2="70"></line>
+            <text class="annotation-label" x="336" y="74" text-anchor="start">Front (8,0 cm)</text>
+
+            <!-- ligne de depot (origine) -->
+            <line class="guide-line" x1="110" y1="230" x2="330" y2="230"></line>
+            <text class="tick-label" x="336" y="234" text-anchor="start">Dépôt (0 cm)</text>
+
+            <!-- tache de reference : 5,2 cm -> Rf = 0,65 -->
+            <circle class="plot-point" cx="170" cy="126" r="6"></circle>
+
+            <!-- tache 1 de l'echantillon : meme hauteur que la reference -->
+            <circle class="plot-point" cx="270" cy="126" r="6"></circle>
+            <line class="guide-line" x1="170" y1="126" x2="270" y2="126"></line>
+            <text class="annotation-label" x="220" y="116" text-anchor="middle">Rf = 0,65 (identique)</text>
+
+            <!-- tache 2 de l'echantillon : 2,4 cm -> Rf = 0,30, aucune correspondance -->
+            <circle class="plot-point-alt" cx="270" cy="182" r="6"></circle>
+            <text class="annotation-label" x="286" y="186" text-anchor="start">Rf = 0,30</text>
+          </svg>
+        `,
+        notes: [
+          'Le rapport frontal se calcule par $R_f = \\dfrac{\\text{distance parcourue par la tache}}{\\text{distance parcourue par l\'éluant}}$. Ici, le front du solvant a parcouru $d_{front} = 8{,}0$ cm.',
+          'La tache de <strong>référence</strong> a parcouru $5{,}2$ cm, soit $R_f = \\dfrac{5{,}2}{8{,}0} = 0{,}65$. Dans l\'échantillon, la <strong>tache 1</strong> est exactement à la même hauteur : même $R_f = 0{,}65$, donc probablement la même espèce chimique que la référence.',
+          'La <strong>tache 2</strong> de l\'échantillon n\'a parcouru que $2{,}4$ cm, soit $R_f = \\dfrac{2{,}4}{8{,}0} = 0{,}30$ : aucune tache de référence ne correspond à cette valeur. L\'échantillon contient donc <strong>au moins deux espèces chimiques</strong> : ce n\'est pas un corps pur.'
         ],
-        answer: `L'échantillon est très probablement de l'<strong>eau pure</strong> (ou très proche de la pureté) : la présence d'un palier net à une température voisine de la valeur de référence tabulée pour l'eau ($100$ °C) confirme qu'il s'agit d'un corps pur, et non d'un mélange.`
+        reading: 'Repère d\'abord la ligne de dépôt (bas) et le front du solvant (haut), puis compare la hauteur de chaque tache de l\'échantillon à celle de la référence : une même hauteur signale un même $R_f$, donc probablement la même espèce chimique.',
+        caption: 'Chromatographie sur couche mince (CCM) : la tache 1 de l\'échantillon migre à la même hauteur que la référence ($R_f = 0{,}65$), mais la tache 2 ($R_f = 0{,}30$) ne correspond à aucune référence — l\'échantillon est un mélange d\'au moins deux espèces chimiques (mêmes valeurs que l\'exemple résolu ci-dessous).'
+      }],
+      example: {
+        statement: 'Un chimiste réalise une chromatographie sur couche mince (CCM) pour vérifier la pureté d\'un sirop de menthe colorée. Il dépose l\'échantillon à côté d\'un dépôt de référence (colorant alimentaire pur). Après élution, le front du solvant a parcouru $d_{front} = 8{,}0$ cm. La tache de référence a parcouru $d_{ref} = 5{,}2$ cm. L\'échantillon présente deux taches, ayant parcouru respectivement $5{,}2$ cm et $2{,}4$ cm.<br/><br/>Calcule les rapports frontaux $R_f$ et conclus sur la pureté du sirop.',
+        steps: [
+          'Formule du rapport frontal : $R_f = \\dfrac{\\text{distance parcourue par la tache}}{\\text{distance parcourue par l\'éluant}}$.',
+          'Référence : $R_f = \\dfrac{5{,}2}{8{,}0} = 0{,}65$.',
+          'Échantillon, tache 1 : $R_f = \\dfrac{5{,}2}{8{,}0} = 0{,}65$ (identique à la référence). Tache 2 : $R_f = \\dfrac{2{,}4}{8{,}0} = 0{,}30$ (aucune tache de référence ne correspond).',
+          'L\'échantillon présente <strong>deux</strong> taches distinctes, donc au moins deux espèces chimiques : ce n\'est pas un corps pur.'
+        ],
+        answer: 'Le sirop contient au moins deux espèces chimiques différentes (mélange) : le colorant de référence ($R_f = 0{,}65$) et une seconde espèce non identifiée par cette référence ($R_f = 0{,}30$).'
       },
       formulas: [
-        `Masse volumique (grandeur caractéristique) : $\\rho = \\dfrac{m}{V}$, en g/mL (ou kg/m³)`,
-        `Densité par rapport à l'eau : $d = \\dfrac{\\rho_{substance}}{\\rho_{eau}}$ (sans unité)`,
-        `Critère d'identification d'un corps pur : palier net à température constante <strong>et</strong> valeur mesurée proche d'une valeur tabulée de référence`
+        '$R_f = \\dfrac{\\text{distance parcourue par la tache}}{\\text{distance parcourue par l\'éluant}}$ (chromatographie sur couche mince)',
+        'Masse volumique : $\\rho = \\dfrac{m}{V}$ (grandeur caractéristique d\'un corps pur, en g/cm³ ou kg/m³)',
+        'Corps pur : température de changement d\'état <strong>constante</strong> (palier net) à pression donnée, valeur conforme à une table de référence',
+        'Mélange homogène : une seule phase visible ; mélange hétérogène : plusieurs phases visibles'
       ],
       recap: [
-        `Un <strong>corps pur</strong> ne contient qu'une seule espèce chimique ; un <strong>mélange</strong> en contient plusieurs, réparties de façon homogène ou hétérogène.`,
-        `Une <strong>grandeur physique caractéristique</strong> (température de changement d'état, masse volumique...) permet d'identifier un corps pur en comparant la valeur mesurée à une valeur tabulée.`,
-        `Le <strong>palier</strong> observé sur une courbe température-temps pendant un changement d'état est net pour un corps pur, et absent ou flou pour un mélange.`,
-        `Séparer les constituants d'un mélange fait appel à des techniques adaptées : <strong>filtration</strong> et <strong>décantation</strong> pour un mélange hétérogène, <strong>distillation</strong> ou <strong>chromatographie</strong> pour un mélange homogène.`
+        'Un <strong>corps pur</strong> ne contient qu\'une seule espèce chimique ; un <strong>mélange</strong> en contient plusieurs (homogène ou hétérogène).',
+        'Un corps pur présente une température de changement d\'état <strong>constante</strong> (palier net) ; un mélange n\'a généralement pas de palier net.',
+        'La <strong>chromatographie sur couche mince</strong> (CCM) sépare et identifie les espèces d\'un mélange en comparant leurs $R_f$ à des références.',
+        'Identifier un corps pur, c\'est comparer une grandeur physique caractéristique mesurée (température, masse volumique, $R_f$) à une valeur de référence tabulée.'
       ],
-      piege: `Beaucoup d'élèves pensent qu'un mélange homogène, parce qu'on n'en distingue pas les constituants à l'œil nu, se comporte comme un corps pur lors d'un changement d'état. Attention, ce n'est pas le cas : même parfaitement homogène, un mélange (comme l'eau salée) change d'état sur toute une plage de température, sans palier net, contrairement à un corps pur.`
+      piege: 'Une confusion fréquente est de croire qu\'un mélange homogène (une seule phase visible, comme l\'eau salée limpide) est forcément un corps pur, simplement parce qu\'on n\'y distingue rien à l\'œil nu. Attention : l\'homogénéité ne concerne que l\'aspect visuel (une seule phase), alors que la pureté concerne le nombre d\'espèces chimiques présentes — un mélange parfaitement homogène, comme l\'eau salée, reste un <strong>mélange</strong> (au moins deux espèces chimiques), pas un corps pur.'
     },
 
     quiz: [
       {
-        q: `Un mélange dans lequel on distingue au moins deux phases à l'œil nu est un mélange :`,
+        q: 'Un échantillon d\'eau salée est parfaitement limpide : on n\'y distingue qu\'une seule phase. Peut-on affirmer qu\'il s\'agit d\'un corps pur ?',
         options: [
-          `Homogène`,
-          `Hétérogène`,
-          `Un corps pur`,
-          `Impossible à observer`
+          'Oui, puisqu\'il est homogène',
+          'Non, c\'est un mélange homogène : il contient au moins deux espèces chimiques (eau et sel)',
+          'Oui, tant qu\'on n\'observe aucun dépôt au fond du récipient',
+          'Impossible à savoir sans microscope'
         ],
         answer: 1,
-        correction: `Dès qu'au moins deux phases restent visibles à l'œil nu (comme l'eau et l'huile), le mélange est dit <strong>hétérogène</strong>. Un mélange homogène, au contraire, ne présente qu'une seule phase visible.`
+        correction: 'L\'homogénéité (une seule phase visible) ne dit rien sur la pureté (une seule espèce chimique). L\'eau salée est un <strong>mélange homogène</strong> : elle contient au moins deux espèces chimiques, l\'eau et le sel dissous.'
       },
       {
-        q: `Lors du suivi de la température pendant un changement d'état, la présence d'un palier net (température constante) est caractéristique :`,
+        q: 'Lors du chauffage d\'un échantillon, la température reste rigoureusement constante pendant tout le changement d\'état. Que peut-on en conclure ?',
         options: [
-          `D'un mélange hétérogène uniquement`,
-          `D'un corps pur`,
-          `De n'importe quel type de matière`,
-          `D'une erreur de mesure`
+          'L\'échantillon est probablement un mélange',
+          'L\'échantillon est probablement un corps pur',
+          'L\'échantillon est nécessairement de l\'eau',
+          'On ne peut rien conclure sur sa composition'
         ],
         answer: 1,
-        correction: `Un palier net à température constante pendant tout le changement d'état est la signature caractéristique d'un <strong>corps pur</strong>. Un mélange, même homogène, change d'état de façon progressive, sans palier net.`
+        correction: 'Un palier net (température constante) pendant un changement d\'état est la signature caractéristique d\'un <strong>corps pur</strong>. Un mélange présente généralement une température qui continue de varier.'
       },
       {
-        q: `Pour séparer un mélange hétérogène comme de l'eau boueuse (eau et particules solides en suspension), la technique la plus adaptée est :`,
+        q: 'En chromatographie sur couche mince, une tache migre de $3{,}0$ cm alors que l\'éluant a parcouru $6{,}0$ cm. Quel est le rapport frontal $R_f$ de cette tache ?',
         options: [
-          `La distillation`,
-          `La chromatographie`,
-          `La filtration ou la décantation`,
-          `Aucune technique n'existe pour ce mélange`
+          '$R_f = 2{,}0$',
+          '$R_f = 0{,}50$',
+          '$R_f = 3{,}0$',
+          '$R_f = 18$'
         ],
-        answer: 2,
-        correction: `La filtration (à l'aide d'un filtre) ou la décantation (en laissant les particules solides se déposer) sont les techniques adaptées pour séparer les phases d'un mélange <strong>hétérogène</strong> solide-liquide, comme l'eau boueuse.`
+        answer: 1,
+        correction: '$R_f = \\dfrac{\\text{distance de la tache}}{\\text{distance de l\'éluant}} = \\dfrac{3{,}0}{6{,}0} = 0{,}50$. Le rapport frontal est toujours compris entre $0$ et $1$, jamais supérieur.'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
-        var typeExo = pick(['masse_volumique', 'ecart_temperature']);
+        var typeExo = pick(['rf', 'masse_volumique']);
 
-        if (typeExo === 'masse_volumique') {
-          var m = randFloat(10, 500, 1);
-          var V = randFloat(5, 60, 1);
-          var rho = parseFloat((m / V).toFixed(2));
+        if (typeExo === 'rf') {
+          var dEluant = randFloat(4, 10, 1);
+          var rfCible = pick([0.2, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8]);
+          var dTache = parseFloat((rfCible * dEluant).toFixed(2));
+          var rf = parseFloat((dTache / dEluant).toFixed(2));
           var contexte = pick([
-            `un échantillon de métal inconnu`,
-            `un liquide prélevé en laboratoire`,
-            `un minerai à analyser`,
-            `une pièce métallique issue d'une fonderie`
+            'un sirop de fruits rouges analysé en laboratoire agroalimentaire',
+            'une encre noire examinée dans le cadre d\'une expertise',
+            'un extrait de plante médicinale',
+            'un colorant alimentaire testé en contrôle qualité',
+            'un résidu de peinture prélevé sur une scène d\'enquête'
           ]);
           return {
-            statement: 'On mesure la masse $m = ' + fr(m, 1) + '$ g et le volume $V = ' + fr(V, 1) + '$ mL de ' + contexte + '.<br/><br/>Calcule sa masse volumique $\\rho$ (en g/mL, arrondie au centième), une grandeur physique caractéristique utile pour identifier la substance.',
-            answer: rho,
-            tolerance: Math.max(0.05, parseFloat((rho * 0.03).toFixed(2))),
-            unit: 'g/mL',
-            hint: 'La masse volumique se calcule par $\\rho = \\dfrac{m}{V}$.',
+            statement: 'Pour ' + contexte + ', une chromatographie sur couche mince est réalisée. Une tache migre de $' + fr(dTache, 2) + '$ cm, tandis que l\'éluant a parcouru $' + fr(dEluant, 1) + '$ cm.<br/><br/>Calcule le rapport frontal $R_f$ de cette tache (arrondi au centième).',
+            answer: rf,
+            tolerance: 0.02,
+            unit: '',
+            hint: 'Utilise $R_f = \\dfrac{\\text{distance parcourue par la tache}}{\\text{distance parcourue par l\'éluant}}$.',
             solution: [
-              'Formule : $\\rho = \\dfrac{m}{V}$.',
-              'Application numérique : $\\rho = \\dfrac{' + fr(m, 1) + '}{' + fr(V, 1) + '}$.',
-              'Résultat : $\\rho \\approx ' + fr(rho, 2) + '$ g/mL.'
+              'Formule du rapport frontal : $R_f = \\dfrac{\\text{distance de la tache}}{\\text{distance de l\'éluant}}$.',
+              'Application numérique : $R_f = \\dfrac{' + fr(dTache, 2) + '}{' + fr(dEluant, 1) + '}$.',
+              'Résultat : $R_f \\approx ' + fr(rf, 2) + '$.'
             ]
           };
         } else {
-          var pairs = [
-            { name: `de l'eau, relevée lors de son ébullition`, Tref: 100 },
-            { name: `de la glace, relevée lors de sa fusion`, Tref: 0 },
-            { name: `de l'éthanol, relevée lors de son ébullition`, Tref: 78 }
-          ];
-          var pair = pick(pairs);
-          var ecartVal = randFloat(0.1, 3, 1);
-          var sign = pick([1, -1]);
-          var Tmeasured = parseFloat((pair.Tref + sign * ecartVal).toFixed(1));
-          var ecart = parseFloat(Math.abs(Tmeasured - pair.Tref).toFixed(1));
+          var m = randFloat(5, 500, 1);
+          var V = randFloat(2, 200, 1);
+          var rho = parseFloat((m / V).toFixed(2));
+          var contexte2 = pick([
+            'un bijou soupçonné d\'être un alliage plutôt qu\'un métal pur',
+            'un échantillon de liquide inconnu retrouvé en laboratoire',
+            'une bille métallique utilisée en contrôle qualité industriel',
+            'un fragment minéral analysé par un géologue'
+          ]);
           return {
-            statement: 'Lors d\'un suivi expérimental de la température ' + pair.name + ', on mesure une température de changement d\'état $T_{mesurée} = ' + fr(Tmeasured, 1) + '$ °C, alors que la table de référence indique $T_{réf} = ' + pair.Tref + '$ °C à pression atmosphérique normale.<br/><br/>Calcule l\'écart, en valeur absolue, entre la température mesurée et la valeur tabulée (en °C, arrondi au dixième).',
-            answer: ecart,
-            tolerance: 0.05,
-            unit: '°C',
-            hint: `L'écart est la différence, en valeur absolue, entre la valeur mesurée et la valeur de référence tabulée : $|T_{mesurée} - T_{réf}|$.`,
+            statement: 'Pour identifier ' + contexte2 + ', on mesure sa masse $m = ' + fr(m, 1) + '$ g pour un volume $V = ' + fr(V, 1) + '$ cm³.<br/><br/>Calcule la masse volumique $\\rho$ de cet échantillon (en g/cm³, arrondie au centième).',
+            answer: rho,
+            tolerance: Math.max(0.02, parseFloat((rho * 0.03).toFixed(2))),
+            unit: 'g/cm³',
+            hint: 'Utilise $\\rho = \\dfrac{m}{V}$.',
             solution: [
-              'Écart en valeur absolue : $|T_{mesurée} - T_{réf}|$.',
-              'Application numérique : $|' + fr(Tmeasured, 1) + ' - ' + pair.Tref + '|$.',
-              'Résultat : écart $\\approx ' + fr(ecart, 1) + '$ °C — un écart faible est cohérent avec un corps pur, aux incertitudes de mesure près.'
+              'Formule de la masse volumique : $\\rho = \\dfrac{m}{V}$.',
+              'Application numérique : $\\rho = \\dfrac{' + fr(m, 1) + '}{' + fr(V, 1) + '}$.',
+              'Résultat : $\\rho \\approx ' + fr(rho, 2) + '$ g/cm³, valeur à comparer à une table de référence pour identifier le matériau.'
             ]
           };
         }
@@ -188,81 +271,82 @@ window.MODULES.push({
     },
 
     probleme: {
-      context: `On souhaite vérifier si un flacon étiqueté « eau distillée » contient réellement de l'eau pure, ou si elle a été contaminée. Le liquide observé est parfaitement limpide, sans aucune trace de dépôt ni de deuxième phase visible.`,
+      context: 'Un technicien de laboratoire agroalimentaire vérifie si un lot d\'huile essentielle est pur ou dilué frauduleusement. La table de référence indique une température d\'ébullition $T_{eb} = 176°C$ pour cette huile essentielle pure.',
       tasks: [
-        `À partir de son aspect visuel (liquide limpide, une seule phase visible), peut-on affirmer avec certitude qu'il s'agit d'un corps pur ? Justifier.`,
-        `On suit sa température pendant l'ébullition : un palier net apparaît à $99{,}6$ °C, à pression atmosphérique normale. Comparer cette valeur à la valeur tabulée pour l'eau pure ($100$ °C) et calculer l'écart.`,
-        `Conclure sur la nature probable de cet échantillon, en tenant compte à la fois du palier observé et de l'écart calculé.`
+        'Le suivi de température lors du chauffage du lot n°1 montre un palier net à $\\theta = 176°C$. Qu\'est-ce que cela indique sur cet échantillon ?',
+        'Le lot n°2 présente un palier, mais à $\\theta = 168°C$, sensiblement inférieur à la référence, et ce palier est légèrement moins net (la température varie d\'environ $\\pm 1°C$ pendant le changement d\'état). Que peut-on en déduire ?',
+        'Proposer une méthode complémentaire (autre que la température d\'ébullition) pour confirmer cette conclusion.'
       ],
       solutions: [
-        `Non : un liquide limpide et à une seule phase visible peut aussi bien être un <strong>corps pur</strong> qu'un <strong>mélange homogène</strong> (comme de l'eau très légèrement salée, elle aussi limpide). L'aspect visuel seul ne permet pas de trancher : il faut mesurer une grandeur physique caractéristique.`,
-        `Écart $= |99{,}6 - 100| = 0{,}4$ °C : un écart faible, du même ordre de grandeur que les incertitudes de mesure habituelles (thermomètre, pression atmosphérique du jour).`,
-        `Le palier net (température constante pendant tout le changement d'état) et l'écart faible avec la valeur tabulée sont deux indices cohérents avec un <strong>corps pur</strong> : l'échantillon est très probablement de l'eau pure, sans contamination significative.`
+        'Le palier net à $176°C$, exactement conforme à la valeur de référence tabulée, indique que le lot n°1 est très probablement un <strong>corps pur</strong> : l\'huile essentielle n\'est pas diluée.',
+        'Une température d\'ébullition sensiblement différente de la référence ($168°C$ au lieu de $176°C$), associée à un palier moins net, indique que le lot n°2 n\'est <strong>pas pur</strong> : il s\'agit probablement d\'un mélange (huile essentielle diluée dans un solvant ou une autre huile), une fraude possible.',
+        'Une <strong>chromatographie sur couche mince</strong> permettrait de comparer les taches obtenues à celles d\'une huile essentielle de référence : plusieurs taches confirmeraient un mélange, une seule tache au même $R_f$ confirmerait la pureté. Une mesure de masse volumique $\\rho = \\dfrac{m}{V}$ serait une autre alternative possible.'
       ],
-      finalAnswer: `L'aspect visuel seul ne suffit pas à conclure. Le palier net à $99{,}6$ °C, avec un écart de seulement $0{,}4$ °C par rapport à la valeur tabulée de $100$ °C, confirme que l'échantillon est très probablement de l'eau pure.`
+      finalAnswer: 'Lot n°1 (palier net à $176°C$, conforme à la référence) : corps pur probable. Lot n°2 ($168°C$, palier moins net) : mélange probable, fraude possible par dilution. La CCM ou la masse volumique permettraient de confirmer par une seconde méthode indépendante — un recoupement essentiel en contrôle qualité.'
     },
 
     evaluation: {
-      title: `Évaluation — Corps purs et mélanges`,
-      duration: '25 min',
+      title: 'Évaluation — Corps purs et mélanges',
+      duration: '30 min',
       questions: [
         {
-          statement: `Un mélange dont on ne distingue aucun constituant à l'œil nu, même après un temps de repos, est qualifié de :`,
+          statement: 'Un échantillon qui ne contient qu\'une seule espèce chimique est appelé :',
           type: 'multiple-choice',
           options: [
-            `Hétérogène`,
-            `Homogène`,
-            `Corps pur`,
-            `Instable`
+            'Un mélange homogène',
+            'Un corps pur',
+            'Une solution',
+            'Un mélange hétérogène'
           ],
           answer: 1,
           points: 2,
-          correction: `Un mélange dont on ne distingue aucun constituant à l'œil nu, même après un temps de repos, est un mélange <strong>homogène</strong> (une seule phase visible).`
+          correction: 'Un <strong>corps pur</strong> ne contient qu\'une seule espèce chimique. Un mélange, homogène ou hétérogène, en contient toujours au moins deux.'
         },
         {
-          statement: `On mesure la masse $m = 270$ g et le volume $V = 30$ mL d'un échantillon métallique. Calculer sa masse volumique $\\rho$ (en g/mL).`,
+          statement: 'En chromatographie, une tache migre de $4{,}5$ cm alors que l\'éluant a parcouru $9{,}0$ cm. Calculer le rapport frontal $R_f$.',
+          type: 'numeric',
+          answer: 0.5,
+          tolerance: 0.02,
+          unit: '',
+          points: 2,
+          correction: '$R_f = \\dfrac{4{,}5}{9{,}0} = 0{,}50$.'
+        },
+        {
+          statement: 'Un sirop de fruits est limpide et ne présente qu\'une seule phase visible. Peut-on affirmer qu\'il s\'agit d\'un corps pur ?',
+          type: 'multiple-choice',
+          options: [
+            'Oui, puisqu\'il est homogène',
+            'Non : l\'homogénéité ne garantit pas la pureté, c\'est probablement un mélange homogène',
+            'Oui, tous les liquides limpides sont des corps purs',
+            'Impossible à savoir sans le goûter'
+          ],
+          answer: 1,
+          points: 2,
+          correction: 'Un sirop contient de l\'eau, du sucre, des arômes... : c\'est un <strong>mélange homogène</strong>, même s\'il ne présente qu\'une seule phase visible. L\'homogénéité et la pureté sont deux notions différentes.'
+        },
+        {
+          statement: 'Un échantillon a une masse $m = 270$ g pour un volume $V = 30$ cm³. Calculer sa masse volumique $\\rho$ (en g/cm³).',
           type: 'numeric',
           answer: 9,
           tolerance: 0.3,
-          unit: 'g/mL',
+          unit: 'g/cm³',
           points: 2,
-          correction: `$\\rho = \\dfrac{m}{V} = \\dfrac{270}{30} = 9$ g/mL.`
+          correction: '$\\rho = \\dfrac{m}{V} = \\dfrac{270}{30} = 9$ g/cm³.'
         },
         {
-          statement: `Pour séparer l'huile et l'eau (mélange hétérogène de deux liquides non miscibles), on utilise plutôt :`,
+          statement: 'Lors du chauffage d\'un échantillon, la température continue d\'augmenter tout au long de la fusion, sans jamais former de palier net. Cet échantillon est probablement :',
           type: 'multiple-choice',
           options: [
-            `La distillation`,
-            `La décantation`,
-            `La chromatographie`,
-            `Aucune séparation n'est possible`
+            'Un corps pur',
+            'Un mélange',
+            'De l\'eau pure',
+            'Impossible à déterminer'
           ],
           answer: 1,
-          points: 2,
-          correction: `L'huile et l'eau, non miscibles, se séparent naturellement en deux phases superposées : la <strong>décantation</strong> (laisser reposer, puis séparer les deux couches) est la technique adaptée à ce mélange hétérogène liquide-liquide.`
-        },
-        {
-          statement: `Lors du suivi de la température d'un échantillon pendant son ébullition, on mesure un palier à $T_{mesurée} = 101{,}5$ °C, alors que la table de référence indique $T_{réf} = 100$ °C. Calculer l'écart en valeur absolue (en °C).`,
-          type: 'numeric',
-          answer: 1.5,
-          tolerance: 0.05,
-          unit: '°C',
-          points: 2,
-          correction: `Écart $= |T_{mesurée} - T_{réf}| = |101{,}5 - 100| = 1{,}5$ °C.`
-        },
-        {
-          statement: `Un palier de température observé lors d'un changement d'état est un argument en faveur de :`,
-          type: 'multiple-choice',
-          options: [
-            `Un mélange hétérogène`,
-            `Un corps pur`,
-            `Un mélange homogène uniquement`,
-            `Aucune conclusion n'est possible`
-          ],
-          answer: 1,
-          points: 2,
-          correction: `Un palier net (température constante pendant tout le changement d'état) est la signature caractéristique d'un <strong>corps pur</strong> : c'est l'un des deux critères, avec la comparaison à une valeur tabulée, permettant de l'identifier.`
+          points: 1,
+          correction: 'L\'absence de palier net (température qui continue de varier pendant le changement d\'état) est caractéristique d\'un <strong>mélange</strong>, contrairement au corps pur qui présente une température constante.'
         }
       ]
     }
   });
+

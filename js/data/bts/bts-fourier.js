@@ -106,40 +106,80 @@ window.MODULES.push(
     exercice: {
       type: 'numeric',
       generate() {
-        const T = pick([1, 2, 4]);
-        const A = rand(2, 5);
+        const branch = pick(['a0', 'bn']);
 
-        const ctx = pick([
+        if (branch === 'a0') {
+          const T = pick([1, 2, 4]);
+          const A = rand(2, 5);
+
+          const ctx = pick([
+            {
+              build: () => `Le <strong>courant de sortie d'un variateur de vitesse</strong> est un signal créneau qui vaut $+${A}$ A sur $[0;T/2]$ et $-${A}$ A sur $[T/2;T]$ (période $T=${T}$ s).<br/><br/>Calcule $a_0$, la <strong>valeur moyenne</strong> de ce courant.`
+            },
+            {
+              build: () => `La <strong>tension de sortie d'un onduleur</strong> est un signal créneau qui vaut $+${A}$ V sur $[0;T/2]$ et $-${A}$ V sur $[T/2;T]$ (période $T=${T}$ s).<br/><br/>Calcule $a_0$, la <strong>valeur moyenne</strong> de cette tension.`
+            },
+            {
+              build: () => `Un <strong>signal audio carré</strong> émis par un synthétiseur vaut $+${A}$ V sur $[0;T/2]$ et $-${A}$ V sur $[T/2;T]$ (période $T=${T}$ s).<br/><br/>Calcule $a_0$, la <strong>valeur moyenne</strong> de ce signal.`
+            },
+            {
+              build: () => `Un <strong>signal de commande PWM</strong> piloté par un microcontrôleur vaut $+${A}$ V sur $[0;T/2]$ et $-${A}$ V sur $[T/2;T]$ (période $T=${T}$ s).<br/><br/>Calcule $a_0$, la <strong>valeur moyenne</strong> de ce signal de commande.`
+            },
+            {
+              build: () => `Un capteur mesure une <strong>vibration mécanique</strong> alternée qui vaut $+${A}$ mm/s² sur $[0;T/2]$ et $-${A}$ mm/s² sur $[T/2;T]$ (période $T=${T}$ s).<br/><br/>Calcule $a_0$, la <strong>valeur moyenne</strong> de cette vibration.`
+            },
+            {
+              build: () => `La <strong>pression dans un vérin pneumatique</strong> à cycle alterné vaut $+${A}$ bar sur $[0;T/2]$ et $-${A}$ bar (dépression) sur $[T/2;T]$ (période $T=${T}$ s).<br/><br/>Calcule $a_0$, la <strong>valeur moyenne</strong> de cette pression.`
+            }
+          ]);
+
+          return {
+            statement: ctx.build(),
+            answer: 0,
+            tolerance: 0,
+            unit: '',
+            hint: `$a_0=\\frac{1}{T}\\left(\\int_0^{T/2}${A}\\,dt+\\int_{T/2}^T(-${A})\\,dt\\right)$`,
+            solution: [
+              `$a_0=\\frac{1}{${T}}\\left(${A}\\times\\frac{${T}}{2}+(-${A})\\times\\frac{${T}}{2}\\right)=\\frac{1}{${T}}\\times0=0$`,
+              'Signal alternatif symétrique : valeur moyenne nulle.'
+            ]
+          };
+        }
+
+        // branch === 'bn' : amplitude d'une harmonique impaire d'un créneau symétrique
+        // (prolonge le calcul de a0 vers le cœur de la méthode : les coefficients b_n)
+        const A = rand(4, 10);
+        const n = pick([1, 3, 5, 7]);
+        const bn = parseFloat((4 * A / (n * Math.PI)).toFixed(2));
+
+        const ctxBn = pick([
           {
-            build: () => `Le <strong>courant de sortie d'un variateur de vitesse</strong> est un signal créneau qui vaut $+${A}$ A sur $[0;T/2]$ et $-${A}$ A sur $[T/2;T]$ (période $T=${T}$ s).<br/><br/>Calcule $a_0$, la <strong>valeur moyenne</strong> de ce courant.`
+            build: () => `Le <strong>courant de sortie d'un variateur de vitesse</strong> est un signal créneau symétrique d'amplitude $${A}$ A.<br/><br/>Calcule l'amplitude $b_{${n}}$ de l'harmonique de rang $${n}$, sachant que $b_n=\\dfrac{4A}{n\\pi}$ pour $n$ impair. (Arrondir à $0{,}01$.)`
           },
           {
-            build: () => `La <strong>tension de sortie d'un onduleur</strong> est un signal créneau qui vaut $+${A}$ V sur $[0;T/2]$ et $-${A}$ V sur $[T/2;T]$ (période $T=${T}$ s).<br/><br/>Calcule $a_0$, la <strong>valeur moyenne</strong> de cette tension.`
+            build: () => `La <strong>tension de sortie d'un onduleur</strong> est un signal créneau symétrique d'amplitude $${A}$ V.<br/><br/>Calcule l'amplitude $b_{${n}}$ de l'harmonique de rang $${n}$, sachant que $b_n=\\dfrac{4A}{n\\pi}$ pour $n$ impair. (Arrondir à $0{,}01$.)`
           },
           {
-            build: () => `Un <strong>signal audio carré</strong> émis par un synthétiseur vaut $+${A}$ V sur $[0;T/2]$ et $-${A}$ V sur $[T/2;T]$ (période $T=${T}$ s).<br/><br/>Calcule $a_0$, la <strong>valeur moyenne</strong> de ce signal.`
+            build: () => `Un <strong>signal de commande PWM</strong> piloté par un microcontrôleur est un créneau symétrique d'amplitude $${A}$ V.<br/><br/>Calcule l'amplitude $b_{${n}}$ de l'harmonique de rang $${n}$, sachant que $b_n=\\dfrac{4A}{n\\pi}$ pour $n$ impair. (Arrondir à $0{,}01$.)`
           },
           {
-            build: () => `Un <strong>signal de commande PWM</strong> piloté par un microcontrôleur vaut $+${A}$ V sur $[0;T/2]$ et $-${A}$ V sur $[T/2;T]$ (période $T=${T}$ s).<br/><br/>Calcule $a_0$, la <strong>valeur moyenne</strong> de ce signal de commande.`
+            build: () => `Le courant absorbé par un <strong>redresseur</strong> alimentant une charge non linéaire est modélisé par un créneau symétrique d'amplitude $${A}$ A.<br/><br/>Calcule l'amplitude $b_{${n}}$ de l'harmonique de rang $${n}$, sachant que $b_n=\\dfrac{4A}{n\\pi}$ pour $n$ impair. (Arrondir à $0{,}01$.)`
           },
           {
-            build: () => `Un capteur mesure une <strong>vibration mécanique</strong> alternée qui vaut $+${A}$ mm/s² sur $[0;T/2]$ et $-${A}$ mm/s² sur $[T/2;T]$ (période $T=${T}$ s).<br/><br/>Calcule $a_0$, la <strong>valeur moyenne</strong> de cette vibration.`
+            build: () => `Un <strong>signal audio carré</strong> émis par un synthétiseur a une amplitude de $${A}$ V.<br/><br/>Calcule l'amplitude $b_{${n}}$ de l'harmonique de rang $${n}$, sachant que $b_n=\\dfrac{4A}{n\\pi}$ pour $n$ impair. (Arrondir à $0{,}01$.)`
           },
           {
-            build: () => `La <strong>pression dans un vérin pneumatique</strong> à cycle alterné vaut $+${A}$ bar sur $[0;T/2]$ et $-${A}$ bar (dépression) sur $[T/2;T]$ (période $T=${T}$ s).<br/><br/>Calcule $a_0$, la <strong>valeur moyenne</strong> de cette pression.`
+            build: () => `Un <strong>relais statique</strong> commute une charge industrielle en créneau symétrique d'amplitude $${A}$ A.<br/><br/>Calcule l'amplitude $b_{${n}}$ de l'harmonique de rang $${n}$, sachant que $b_n=\\dfrac{4A}{n\\pi}$ pour $n$ impair. (Arrondir à $0{,}01$.)`
           }
         ]);
 
         return {
-          statement: ctx.build(),
-          answer: 0,
-          tolerance: 0,
+          statement: ctxBn.build(),
+          answer: bn,
+          tolerance: 0.02,
           unit: '',
-          hint: `$a_0=\\frac{1}{T}\\left(\\int_0^{T/2}${A}\\,dt+\\int_{T/2}^T(-${A})\\,dt\\right)$`,
-          solution: [
-            `$a_0=\\frac{1}{${T}}\\left(${A}\\times\\frac{${T}}{2}+(-${A})\\times\\frac{${T}}{2}\\right)=\\frac{1}{${T}}\\times0=0$`,
-            'Signal alternatif symétrique : valeur moyenne nulle.'
-          ]
+          hint: `$b_{${n}}=\\dfrac{4\\times${A}}{${n}\\pi}$.`,
+          solution: [`$b_{${n}}=\\dfrac{4\\times${A}}{${n}\\times\\pi}=\\dfrac{${4 * A}}{${n}\\pi}\\approx${fr(bn)}$`]
         };
       }
     },

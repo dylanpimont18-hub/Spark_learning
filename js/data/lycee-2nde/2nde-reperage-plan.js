@@ -147,8 +147,8 @@ window.MODULES.push({
           hint: `$AB = \\sqrt{(${x2}-${x1 < 0 ? '('+x1+')' : x1})^2+(${y2}-${y1 < 0 ? '('+y1+')' : y1})^2}$. Attention aux signes !`,
           solution: [
             `$AB = \\sqrt{(${x2}-(${x1}))^2+(${y2}-(${y1}))^2} = \\sqrt{${t[0]}^2+${t[1]}^2} = \\sqrt{${t[0]*t[0]}+${t[1]*t[1]}} = \\sqrt{${t[2]*t[2]}} = ${t[2]}$`,
-            `Milieu $M\\left(\\frac{${x1}+${x2}}{2};\\frac{${y1}+${y2}}{2}\\right) = M(${mx};${my})$`,
-            `Vérification : $MA = ${t[2]/2}$ et $MB = ${t[2]/2}$ ✓`
+            `Milieu $M\\left(\\frac{${x1}+${x2}}{2};\\frac{${y1}+${y2}}{2}\\right) = M(${fr(mx)};${fr(my)})$`,
+            `Vérification : $MA = ${fr(t[2] / 2)}$ et $MB = ${fr(t[2] / 2)}$ ✓`
           ]
         };
       }

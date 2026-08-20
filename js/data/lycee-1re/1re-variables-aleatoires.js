@@ -127,21 +127,21 @@ window.MODULES.push({
         const esperance = n * p;
         const variance = parseFloat((n * p * (1 - p)).toFixed(2));
         const ctx = pick([
-          { intro: `Un archer touche la cible avec une probabilité de $${p}$ à chaque tir. Il effectue $${n}$ tirs indépendants.`, varName: 'le nombre de tirs réussis' },
-          { intro: `Un vaccin a une efficacité de $${p * 100}\\%$. On vaccine $${n}$ patients.`, varName: 'le nombre de patients protégés' },
-          { intro: `Une machine produit $${p * 100}\\%$ de pièces défectueuses. On prélève $${n}$ pièces.`, varName: 'le nombre de pièces défectueuses' },
-          { intro: `Un joueur de basket a $${p * 100}\\%$ de réussite aux lancers francs. Il tire $${n}$ lancers.`, varName: 'le nombre de lancers réussis' }
+          { intro: `Un archer touche la cible avec une probabilité de $${fr(p)}$ à chaque tir. Il effectue $${n}$ tirs indépendants.`, varName: 'le nombre de tirs réussis' },
+          { intro: `Un vaccin a une efficacité de $${fr(p * 100)}\\%$. On vaccine $${n}$ patients.`, varName: 'le nombre de patients protégés' },
+          { intro: `Une machine produit $${fr(p * 100)}\\%$ de pièces défectueuses. On prélève $${n}$ pièces.`, varName: 'le nombre de pièces défectueuses' },
+          { intro: `Un joueur de basket a $${fr(p * 100)}\\%$ de réussite aux lancers francs. Il tire $${n}$ lancers.`, varName: 'le nombre de lancers réussis' }
         ]);
         return {
           statement: `${ctx.intro} Soit $X$ ${ctx.varName}.<br/><br/>1) Identifier la loi de $X$.<br/>2) Calculer $E(X)$ et $V(X)$.<br/>3) Calculer $P(X = ${k})$.<br/><br/>Donner $P(X = ${k})$ (arrondir à $0{,}001$).`,
           answer: proba,
           tolerance: 0.005,
           unit: '',
-          hint: `$X \\sim \\mathcal{B}(${n}\\,;\\,${p})$. $P(X = ${k}) = \\binom{${n}}{${k}} \\times ${p}^{${k}} \\times ${1-p}^{${n-k}}$.`,
+          hint: `$X \\sim \\mathcal{B}(${n}\\,;\\,${fr(p)})$. $P(X = ${k}) = \\binom{${n}}{${k}} \\times ${fr(p)}^{${k}} \\times ${fr(1 - p)}^{${n-k}}$.`,
           solution: [
-            `$X \\sim \\mathcal{B}(${n}\\,;\\,${p})$. $E(X) = ${n} \\times ${p} = ${esperance}$. $V(X) = ${n} \\times ${p} \\times ${1-p} = ${variance}$.`,
+            `$X \\sim \\mathcal{B}(${n}\\,;\\,${fr(p)})$. $E(X) = ${n} \\times ${fr(p)} = ${fr(esperance)}$. $V(X) = ${n} \\times ${fr(p)} \\times ${fr(1 - p)} = ${fr(variance)}$.`,
             `$\\binom{${n}}{${k}} = ${binom}$.`,
-            `$P(X = ${k}) = ${binom} \\times ${p}^{${k}} \\times ${1-p}^{${n-k}} \\approx ${proba}$.`
+            `$P(X = ${k}) = ${binom} \\times ${fr(p)}^{${k}} \\times ${fr(1 - p)}^{${n-k}} \\approx ${fr(proba)}$.`
           ]
         };
       }

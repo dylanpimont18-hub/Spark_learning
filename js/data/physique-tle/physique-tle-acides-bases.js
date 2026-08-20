@@ -5,205 +5,173 @@
 window.MODULES.push({
     id: 'physique-tle-acides-bases',
     level: 2, subject: 'physique',
-    icon: '⚗️',
-    title: 'Acides et bases (pH, Ka)',
-    subtitle: 'Couple acide/base, constante d\'acidité Ka et pKa, diagramme de prédominance',
-    keywords: ['pH', 'Ka', 'pKa', 'Acide-base', 'Prédominance', 'Henderson-Hasselbalch'],
-    physics: 'La chimie des couples acide/base permet de comprendre le contrôle du pH d\'une piscine, d\'un sol agricole ou du sang (pH régulé autour de 7,4 grâce à des couples tampons), et de prévoir quelle espèce chimique domine dans un milieu donné selon son acidité.',
+    icon: '🧪',
+    title: 'Acides et bases : pH et constante d\'acidité',
+    subtitle: 'Couple acide/base, constante d\'acidité Ka, pKa, diagramme de prédominance, pH de solutions acido-basiques',
+    keywords: ['Couple acide/base', 'Constante d\'acidité', 'pKa', 'Diagramme de prédominance', 'pH'],
+    physics: 'Le diagramme de prédominance permet de contrôler le pH des eaux de piscine ou d\'effluents, de comprendre la régulation du pH sanguin (couple CO2/HCO3-), et de choisir un indicateur coloré adapté à un titrage en fonction du pKa des espèces en présence.',
 
     cours: {
-      intro: 'Une réaction acide-base est un <strong>transfert de proton</strong> $H^+$ entre un acide et une base. Un couple acide/base $AH/A^-$ est caractérisé par un équilibre : $AH + H_2O \\rightleftharpoons A^- + H_3O^+$.<br/><br/>Cet équilibre ne se déplace jamais totalement dans un sens pour un acide <strong>faible</strong> : à tout instant, les deux espèces $AH$ et $A^-$ coexistent en solution, dans des proportions qui dépendent du pH. La grandeur qui quantifie cet équilibre est la <strong>constante d\'acidité</strong> $K_a$, et son opposé décimal logarithmique, le <strong>$pK_a$</strong>.<br/><br/>Savoir si c\'est la forme acide $AH$ ou la forme basique $A^-$ qui <strong>domine</strong> dans une solution est essentiel : cela se lit directement en comparant le pH de la solution au $pK_a$ du couple, à l\'aide d\'un <strong>diagramme de prédominance</strong>.',
+      intro: 'Un <strong>couple acide/base</strong> de Brønsted est formé de deux espèces, l\'acide $AH$ et sa base conjuguée $A^-$, reliées par l\'échange d\'un ion $H^+$ : en solution aqueuse, $AH+H_2O\\rightleftharpoons A^-+H_3O^+$.<br/><br/>La <strong>constante d\'acidité</strong> $K_a$ de ce couple caractérise la position de cet équilibre : $K_a=\\dfrac{[A^-][H_3O^+]}{[AH]}$. On lui associe le $pK_a=-\\log K_a$, une grandeur bien plus pratique à manipuler que $K_a$ lui-même.<br/><br/>En combinant cette expression avec la définition du pH, on obtient une relation qui permet de savoir, à un pH donné, quelle est l\'espèce <strong>prédominante</strong> du couple : c\'est le principe du <strong>diagramme de prédominance</strong>.',
       definitions: [
-        { term: 'Couple acide/base', def: 'Deux espèces $AH$ (forme acide) et $A^-$ (forme basique conjuguée) reliées par l\'échange d\'un unique proton $H^+$ : $AH \\rightleftharpoons A^- + H^+$.' },
-        { term: 'Constante d\'acidité $K_a$', def: 'Constante d\'équilibre associée à la réaction $AH + H_2O \\rightleftharpoons A^- + H_3O^+$ : $K_a = \\dfrac{[A^-]_{eq}[H_3O^+]_{eq}}{[AH]_{eq}}$, sans unité (concentrations exprimées en mol/L).' },
-        { term: '$pK_a$', def: 'Opposé du logarithme décimal de $K_a$ : $pK_a = -\\log(K_a)$. Plus $pK_a$ est petit, plus l\'acide $AH$ est fort (plus il cède facilement son proton).' },
-        { term: 'Diagramme de prédominance', def: 'Représentation graphique sur un axe de pH indiquant, de part et d\'autre de $pH = pK_a$, quelle forme du couple ($AH$ ou $A^-$) est <strong>majoritaire</strong>.' }
+        { term: 'Couple acide/base ($AH/A^-$)', def: 'Deux espèces reliées par l\'échange d\'un ion $H^+$ : $AH\\rightleftharpoons A^-+H^+$. $AH$ est l\'acide (donneur de $H^+$), $A^-$ sa base conjuguée (accepteur de $H^+$).' },
+        { term: 'Constante d\'acidité ($K_a$)', def: 'Constante d\'équilibre associée à la réaction $AH+H_2O\\rightleftharpoons A^-+H_3O^+$ : $K_a=\\dfrac{[A^-][H_3O^+]}{[AH]}$. Elle ne dépend que de la température.' },
+        { term: '$pK_a$', def: 'Grandeur définie par $pK_a=-\\log K_a$, sans unité, généralement comprise entre 0 et 14 pour les couples usuels. Plus $pK_a$ est petit, plus l\'acide $AH$ est fort (dissocié).' },
+        { term: 'Diagramme de prédominance', def: 'Représentation graphique, sur un axe de pH, des zones où $AH$ ou $A^-$ est majoritaire : $AH$ prédomine si $pH \\lt pK_a$, $A^-$ prédomine si $pH \\gt pK_a$, les deux espèces sont en quantités égales si $pH=pK_a$.' }
       ],
       method: {
-        title: 'Déterminer l\'espèce prédominante d\'un couple acide/base en 3 étapes',
+        title: 'Exploiter un diagramme de prédominance en 3 étapes',
         steps: [
-          '<strong>Identifier le couple</strong> $AH/A^-$ concerné et relever son $pK_a$ (donné ou calculé à partir de $K_a$ via $pK_a = -\\log(K_a)$).',
-          '<strong>Comparer le pH de la solution</strong> au $pK_a$ du couple : c\'est cette comparaison, et elle seule, qui détermine quelle forme domine.',
-          '<strong>Conclure</strong> : si $pH < pK_a$, la forme acide $AH$ est majoritaire ; si $pH > pK_a$, la forme basique $A^-$ est majoritaire ; si $pH = pK_a$, les deux formes sont à égalité, $[AH] = [A^-]$.'
+          '<strong>Identifier</strong> le couple acide/base $AH/A^-$ concerné et sa constante $pK_a$ (donnée ou calculée à partir d\'un état d\'équilibre connu).',
+          '<strong>Comparer</strong> le pH de la solution à $pK_a$ : si $pH \\lt pK_a$, $AH$ prédomine ; si $pH \\gt pK_a$, $A^-$ prédomine.',
+          '<strong>Quantifier</strong>, si besoin, la proportion des deux espèces avec $pH=pK_a+\\log\\dfrac{[A^-]}{[AH]}$ : cette relation donne le rapport $\\dfrac{[A^-]}{[AH]}=10^{(pH-pK_a)}$ à partir du pH, ou inversement le pH à partir du rapport.'
         ]
       },
       diagram: {
         theme: 'physique',
-        kicker: 'Diagramme de prédominance acide/base',
-        title: 'Prédominance de AH ou de A⁻ selon le pH, pour un couple de pKa = 4,8',
-        description: 'Sur un axe de pH gradué de $0$ à $14$, le point $pH = pK_a$ sépare le domaine où la forme acide $AH$ domine du domaine où la forme basique $A^-$ domine.',
+        kicker: 'Diagramme de prédominance acido-basique',
+        title: 'Zones de prédominance de AH et A⁻ selon le pH',
+        description: 'Sur l\'axe du pH, la position de $pK_a$ sépare deux zones : $AH$ prédomine pour $pH \\lt pK_a$, $A^-$ prédomine pour $pH \\gt pK_a$.',
         svg: `
-          <svg viewBox="0 0 560 240" role="img" aria-labelledby="predom-title predom-desc">
-            <title id="predom-title">Diagramme de predominance acide/base en fonction du pH</title>
-            <desc id="predom-desc">Un axe horizontal gradue de 0 a 14 represente le pH. Un point est place sur cet axe a pH egal au pKa du couple, ici 4,8. A gauche de ce point, un premier segment est etiquete AH majoritaire, forme acide. A droite de ce point, un second segment est etiquete A moins majoritaire, forme basique. Au niveau du point, une etiquette indique l'egalite des concentrations AH et A moins.</desc>
+          <svg viewBox="0 0 560 300" role="img" aria-labelledby="predom-title predom-desc">
+            <title id="predom-title">Diagramme de predominance d'un couple acide-base</title>
+            <desc id="predom-desc">Un axe gradue horizontal represente le pH, de 0 a 14. Une zone claire a gauche d'une frontiere marquee pKa est etiquetee AH predominant, et une zone plus foncee a droite de cette frontiere est etiquetee A moins predominant. Un repere vertical marque la position exacte de pKa sur l'axe, avec sa valeur numerique indiquee en dessous.</desc>
 
-            <defs>
-              <marker id="arrow-tle-acidebase" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
-                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
-              </marker>
-            </defs>
+            <!-- zone AH predominant -->
+            <rect x="60" y="90" width="151" height="60" fill="var(--diagram-accent)" opacity="0.15"></rect>
+            <!-- zone A- predominant -->
+            <rect x="211" y="90" width="289" height="60" fill="var(--diagram-accent)" opacity="0.35"></rect>
 
-            <!-- axe de pH -->
-            <line class="frame-line" x1="40" y1="100" x2="520" y2="100" marker-end="url(#arrow-tle-acidebase)"></line>
+            <text class="tick-label" x="135" y="125" text-anchor="middle">AH</text>
+            <text class="tick-label" x="135" y="140" text-anchor="middle">prédominant</text>
+            <text class="tick-label" x="355" y="125" text-anchor="middle">A⁻</text>
+            <text class="tick-label" x="355" y="140" text-anchor="middle">prédominant</text>
 
-            <!-- graduations 0 / 7 / 14 -->
-            <line class="grid-line" x1="60" y1="94" x2="60" y2="106"></line>
-            <line class="grid-line" x1="280" y1="94" x2="280" y2="106"></line>
-            <line class="grid-line" x1="500" y1="94" x2="500" y2="106"></line>
-            <text class="tick-label" x="60" y="122" text-anchor="middle">0</text>
-            <text class="tick-label" x="280" y="122" text-anchor="middle">7</text>
-            <text class="tick-label" x="500" y="122" text-anchor="middle">14</text>
-            <text class="tick-label" x="535" y="104" text-anchor="start">pH</text>
+            <!-- axe pH -->
+            <line class="frame-line" x1="60" y1="170" x2="500" y2="170"></line>
+            <text class="tick-label" x="60" y="188" text-anchor="middle">0</text>
+            <text class="tick-label" x="280" y="188" text-anchor="middle">7</text>
+            <text class="tick-label" x="500" y="188" text-anchor="middle">14</text>
+            <text class="tick-label" x="515" y="174" text-anchor="start">pH</text>
 
-            <!-- point pKa -->
-            <circle class="plot-point" cx="210.9" cy="100" r="5"></circle>
-            <line class="guide-line" x1="210.9" y1="100" x2="210.9" y2="60"></line>
-            <text class="annotation-label" x="210.9" y="48" text-anchor="middle">pKa = 4,8</text>
-            <text class="tick-label" x="210.9" y="140" text-anchor="middle">[AH] = [A⁻]</text>
-
-            <!-- bracket AH majoritaire (gauche) -->
-            <line class="frame-line" x1="60" y1="185" x2="200" y2="185"></line>
-            <line class="frame-line" x1="60" y1="180" x2="60" y2="190"></line>
-            <line class="frame-line" x1="200" y1="180" x2="200" y2="190"></line>
-            <text class="label-soft" x="130" y="205" text-anchor="middle">AH majoritaire (forme acide)</text>
-
-            <!-- bracket A- majoritaire (droite) -->
-            <line class="frame-line" x1="222" y1="185" x2="500" y2="185"></line>
-            <line class="frame-line" x1="222" y1="180" x2="222" y2="190"></line>
-            <line class="frame-line" x1="500" y1="180" x2="500" y2="190"></line>
-            <text class="label-soft" x="361" y="205" text-anchor="middle">A⁻ majoritaire (forme basique)</text>
+            <!-- frontiere pKa -->
+            <line class="frame-line" x1="211" y1="150" x2="211" y2="178"></line>
+            <circle class="plot-point-alt" cx="211" cy="170" r="5"></circle>
+            <text class="annotation-label" x="211" y="198" text-anchor="middle">pKa</text>
           </svg>
         `,
         notes: [
-          'Le point $pH = pK_a$ est le point d\'<strong>égalité</strong> entre les deux formes du couple : $[AH] = [A^-]$.',
-          'À gauche de ce point ($pH < pK_a$), le milieu est plus acide : la forme $AH$ (acide) est <strong>majoritaire</strong>.',
-          'À droite de ce point ($pH > pK_a$), le milieu est moins acide : la forme $A^-$ (base conjuguée) est <strong>majoritaire</strong>.'
+          'À gauche de $pK_a$ ($pH \\lt pK_a$, milieu plus acide), c\'est la forme <strong>acide</strong> $AH$ qui prédomine.',
+          'À droite de $pK_a$ ($pH \\gt pK_a$, milieu plus basique), c\'est la forme <strong>basique</strong> $A^-$ qui prédomine.',
+          'Exactement en $pH=pK_a$, les deux espèces sont présentes en <strong>quantités égales</strong> : $[AH]=[A^-]$.'
         ],
-        reading: 'Repère le point $pK_a$ sur l\'axe gradué, puis regarde de quel côté se trouve le pH de la solution étudiée : à gauche, $AH$ domine ; à droite, $A^-$ domine.',
-        caption: 'Diagramme de prédominance d\'un couple acide/base de $pK_a = 4{,}8$ : la comparaison entre le pH de la solution et le $pK_a$ suffit à déterminer l\'espèce majoritaire.'
+        reading: 'Repère la position de $pK_a$ sur l\'axe du pH, puis regarde de quel côté se situe le pH de la solution étudiée : la zone correspondante indique l\'espèce prédominante.',
+        caption: 'Diagramme de prédominance du couple $AH/A^-$ : la position de $pK_a$ sur l\'axe du pH sépare la zone où $AH$ prédomine de celle où $A^-$ prédomine.'
       },
       example: {
-        statement: 'On dissout de l\'acide méthanoïque $HCOOH$ pour obtenir une solution de concentration apportée $C = 1{,}0\\times10^{-2}$ mol/L. La mesure du pH de cette solution donne $pH = 2{,}9$.<br/><br/>Calculer la concentration en ions oxonium à l\'équilibre, puis en déduire $K_a$ et $pK_a$ du couple $HCOOH/HCOO^-$.',
+        statement: 'Le couple acide éthanoïque / ion éthanoate a pour constante $pK_a=4{,}8$. Une solution de ce couple a un pH mesuré de $5{,}2$.<br/><br/>Déterminer l\'espèce prédominante, puis calculer le rapport $\\dfrac{[A^-]}{[AH]}$.',
         steps: [
-          'Concentration en ions oxonium à l\'équilibre : $[H_3O^+]_{eq} = 10^{-pH} = 10^{-2{,}9} \\approx 1{,}26\\times10^{-3}$ mol/L.',
-          'D\'après la stœchiométrie de la réaction $HCOOH + H_2O \\rightleftharpoons HCOO^- + H_3O^+$, on a $[HCOO^-]_{eq} = [H_3O^+]_{eq}$ (l\'eau seule ne fournit pratiquement pas d\'ions $H_3O^+$).',
-          'Conservation de la matière : $[HCOOH]_{eq} = C - [H_3O^+]_{eq} = 1{,}0\\times10^{-2} - 1{,}26\\times10^{-3} \\approx 8{,}74\\times10^{-3}$ mol/L.',
-          'Constante d\'acidité : $K_a = \\dfrac{[HCOO^-]_{eq}[H_3O^+]_{eq}}{[HCOOH]_{eq}} = \\dfrac{(1{,}26\\times10^{-3})^2}{8{,}74\\times10^{-3}} \\approx 1{,}81\\times10^{-4}$.',
-          'Puis $pK_a = -\\log(K_a) = -\\log(1{,}81\\times10^{-4}) \\approx 3{,}74$.'
+          'Comparaison du pH à $pK_a$ : $pH=5{,}2 \\gt pK_a=4{,}8$. C\'est donc la base conjuguée $A^-$ (l\'ion éthanoate) qui prédomine.',
+          'Relation entre pH et rapport des concentrations : $pH=pK_a+\\log\\dfrac{[A^-]}{[AH]}$, donc $\\dfrac{[A^-]}{[AH]}=10^{(pH-pK_a)}$.',
+          'Application numérique : $\\dfrac{[A^-]}{[AH]}=10^{(5{,}2-4{,}8)}=10^{0{,}4}\\approx2{,}51$.'
         ],
-        answer: '$K_a \\approx 1{,}8\\times10^{-4}$ et $pK_a \\approx 3{,}74$ (valeur très proche de la valeur tabulée de l\'acide méthanoïque, $pK_a = 3{,}75$). Comme $pH < pK_a$ dans cette solution, la forme acide $HCOOH$ y est <strong>majoritaire</strong>, ce que confirme le calcul.'
+        answer: 'L\'ion éthanoate $A^-$ prédomine, avec $\\dfrac{[A^-]}{[AH]}\\approx2{,}51$ : il y a environ $2{,}5$ fois plus d\'ions éthanoate que de molécules d\'acide éthanoïque non dissociées dans cette solution.'
       },
       formulas: [
-        '$pH = -\\log[H_3O^+]$ et $[H_3O^+] = 10^{-pH}$',
-        'Constante d\'acidité : $K_a = \\dfrac{[A^-]_{eq}[H_3O^+]_{eq}}{[AH]_{eq}}$',
-        '$pK_a = -\\log(K_a)$, donc $K_a = 10^{-pK_a}$',
-        'Relation d\'Henderson-Hasselbalch : $pH = pK_a + \\log\\dfrac{[A^-]}{[AH]}$',
-        'Ratio des formes : $\\dfrac{[A^-]}{[AH]} = 10^{(pH - pK_a)}$'
+        '$K_a=\\dfrac{[A^-][H_3O^+]}{[AH]}$ (constante d\'acidité)',
+        '$pK_a=-\\log K_a$',
+        'Relation pH / rapport des concentrations : $pH=pK_a+\\log\\dfrac{[A^-]}{[AH]}$',
+        'Rapport des concentrations à partir du pH : $\\dfrac{[A^-]}{[AH]}=10^{(pH-pK_a)}$',
+        'Critère de prédominance : $pH \\lt pK_a \\Rightarrow AH$ prédomine ; $pH \\gt pK_a \\Rightarrow A^-$ prédomine'
       ],
       recap: [
-        'Un couple acide/base $AH/A^-$ échange <strong>un seul proton</strong> ; les deux formes coexistent toujours en solution pour un acide faible.',
-        'Le $pK_a$ caractérise le couple : plus il est petit, plus l\'acide $AH$ est fort.',
-        'La comparaison $pH$ vs $pK_a$ suffit à déterminer l\'espèce prédominante, sans calcul supplémentaire : $pH < pK_a \\Rightarrow AH$ majoritaire, $pH > pK_a \\Rightarrow A^-$ majoritaire.',
-        'La relation d\'Henderson-Hasselbalch $pH = pK_a + \\log\\dfrac{[A^-]}{[AH]}$ permet de quantifier précisément le rapport entre les deux formes.'
+        'Le $pK_a$ d\'un couple acide/base est la valeur de pH pour laquelle $[AH]=[A^-]$ : c\'est la <strong>frontière</strong> du diagramme de prédominance.',
+        'Plus le pH s\'éloigne de $pK_a$, plus le rapport $\\dfrac{[A^-]}{[AH]}=10^{(pH-pK_a)}$ s\'éloigne de 1 : l\'espèce prédominante devient largement majoritaire.',
+        'Un écart d\'une seule unité de pH par rapport à $pK_a$ multiplie (ou divise) le rapport $\\dfrac{[A^-]}{[AH]}$ par <strong>10</strong> : conséquence directe de l\'échelle logarithmique du pH.',
+        'Le diagramme de prédominance ne dépend que du $pK_a$ du couple, jamais des concentrations absolues des espèces en solution.'
       ],
-      piege: 'Une erreur fréquente est de confondre le $pK_a$ d\'un couple avec le pH d\'une solution : ce sont deux grandeurs différentes, l\'une caractérise le couple chimique, l\'autre l\'état de la solution à un instant donné. Attention également à ne jamais dire qu\'un acide faible est « totalement dissocié » : par définition, $AH$ et $A^-$ coexistent toujours à l\'équilibre, dans des proportions que seul le pH permet de déterminer.'
+      piege: 'Une erreur fréquente est de croire qu\'un $pK_a$ élevé signifie un acide fort : c\'est l\'inverse, plus $pK_a$ est petit, plus l\'acide $AH$ est dissocié (fort), car cela correspond à un $K_a$ grand. Attention également à ne pas inverser le sens du critère de prédominance : c\'est bien la forme acide $AH$ qui prédomine à pH bas (milieu acide), pas l\'inverse.'
     },
 
     quiz: [
       {
-        q: 'Un couple acide/base a un $pK_a = 5{,}2$. Une solution de ce couple a un $pH = 3{,}0$. Quelle forme est majoritaire ?',
+        q: 'Pour le couple $NH_4^+/NH_3$, $pK_a=9{,}2$. Dans une solution de $pH=7{,}0$, quelle espèce prédomine ?',
         options: [
-          'La forme acide $AH$, car $pH < pK_a$',
-          'La forme basique $A^-$, car $pH < pK_a$',
-          'Les deux formes sont à égalité',
-          'On ne peut pas savoir sans connaître les concentrations'
+          '$NH_4^+$ (l\'acide), car $pH \\lt pK_a$',
+          '$NH_3$ (la base), car $pH \\lt pK_a$',
+          'Les deux espèces sont en quantités égales',
+          'Impossible à déterminer sans connaître les concentrations'
         ],
         answer: 0,
-        correction: 'Quand $pH < pK_a$, le milieu est relativement acide : la forme acide $AH$ est majoritaire. Ici $3{,}0 < 5{,}2$, donc $AH$ domine largement sur $A^-$.'
+        correction: '$pH=7{,}0 \\lt pK_a=9{,}2$ : c\'est donc la forme acide, $NH_4^+$, qui prédomine.'
       },
       {
-        q: 'Que représente la constante d\'acidité $K_a$ d\'un couple $AH/A^-$ ?',
+        q: 'Parmi deux acides $AH_1$ ($pK_{a1}=2{,}0$) et $AH_2$ ($pK_{a2}=8{,}0$), lequel est le plus fort (le plus dissocié) ?',
         options: [
-          'La concentration initiale de l\'acide $AH$',
-          'La constante d\'équilibre de la réaction $AH + H_2O \\rightleftharpoons A^- + H_3O^+$',
-          'Le pH de la solution à l\'équilibre',
-          'La masse molaire de l\'acide'
+          '$AH_1$, car son $pK_a$ est plus petit',
+          '$AH_2$, car son $pK_a$ est plus grand',
+          'Les deux acides sont également forts',
+          'Impossible à dire sans connaître les concentrations'
         ],
-        answer: 1,
-        correction: '$K_a$ est la constante d\'équilibre associée à la réaction entre l\'acide $AH$ et l\'eau, définie par $K_a = \\dfrac{[A^-]_{eq}[H_3O^+]_{eq}}{[AH]_{eq}}$. Elle ne dépend que du couple et de la température, pas des concentrations initiales.'
+        answer: 0,
+        correction: 'Un $pK_a$ petit correspond à un $K_a$ grand, donc à un équilibre de dissociation davantage déplacé vers $A^-$ : l\'acide est plus fort. $AH_1$ ($pK_{a1}=2{,}0$) est donc plus fort que $AH_2$ ($pK_{a2}=8{,}0$).'
       },
       {
-        q: 'Deux acides ont pour $pK_a$ respectifs $3{,}2$ et $4{,}8$. Lequel est l\'acide le plus fort ?',
+        q: 'Pour un couple de $pK_a=4{,}8$, une solution a un $pH=3{,}8$. Calculer le rapport $\\dfrac{[A^-]}{[AH]}$.',
         options: [
-          'Celui de $pK_a = 4{,}8$, car sa valeur est plus grande',
-          'Celui de $pK_a = 3{,}2$, car un $pK_a$ plus petit traduit un acide plus fort',
-          'Les deux acides ont la même force, le $pK_a$ n\'a pas d\'influence',
-          'Impossible à dire sans connaître le pH des solutions'
+          '$0{,}1$',
+          '$10$',
+          '$1$',
+          '$-1$'
         ],
-        answer: 1,
-        correction: 'Plus le $pK_a$ d\'un couple est petit, plus l\'acide $AH$ correspondant cède facilement son proton, donc plus il est fort. Ici l\'acide de $pK_a = 3{,}2$ est le plus fort des deux.'
+        answer: 0,
+        correction: '$\\dfrac{[A^-]}{[AH]}=10^{(pH-pK_a)}=10^{(3{,}8-4{,}8)}=10^{-1}=0{,}1$.'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
-        var typeExo = pick(['Ka', 'ratio']);
+        var pKaValues = [3.2, 3.8, 4.2, 4.8, 5.0, 7.2, 9.2];
+        var typeExo = pick(['ratio', 'pH']);
+        var contexte = pick([
+          'une solution tampon de laboratoire',
+          'un milieu biologique régulé (sang, sol agricole)',
+          'une solution de contrôle qualité en chimie analytique',
+          'un bain de traitement en agroalimentaire',
+          'une solution utilisée en travaux pratiques de chimie'
+        ]);
 
-        if (typeExo === 'Ka') {
-          var Cvals = [0.001, 0.002, 0.005, 0.01, 0.02, 0.05];
-          var C = pick(Cvals);
-          var pHmin = -Math.log10(C) + 0.3;
-          var pHmax = -Math.log10(C) + 1.8;
-          var pH = randFloat(pHmin, pHmax, 2);
-          var H3O = Math.pow(10, -pH);
-          var AH = C - H3O;
-          var KaRaw = (H3O * H3O) / AH;
-          var pKa = parseFloat((-Math.log10(KaRaw)).toFixed(2));
-          var expH = Math.floor(Math.log10(H3O));
-          var mantH = parseFloat((H3O / Math.pow(10, expH)).toFixed(2));
-          var expKa = Math.floor(Math.log10(KaRaw));
-          var mantKa = parseFloat((KaRaw / Math.pow(10, expKa)).toFixed(2));
-          var contexte = pick([
-            'un acide organique dilué en laboratoire',
-            'une solution d\'entretien ménager acide',
-            'un échantillon d\'eau minérale analysé en classe',
-            'une solution préparée pour un contrôle qualité',
-            'un acide faible étudié lors d\'un TP de chimie'
-          ]);
+        if (typeExo === 'ratio') {
+          var pKa1 = pick(pKaValues);
+          var offset = randFloat(-2, 2, 1);
+          var pH1 = parseFloat((pKa1 + offset).toFixed(1));
+          var ratio1 = parseFloat(Math.pow(10, offset).toFixed(3));
           return {
-            statement: 'Une solution d\'acide faible $AH$ correspondant à ' + contexte + ' a une concentration apportée $C = ' + fr(C, 3) + '$ mol/L. La mesure de son pH donne $pH = ' + fr(pH, 2) + '$.<br/><br/>Calcule le $pK_a$ du couple $AH/A^-$ (arrondi au centième).',
-            answer: pKa,
-            tolerance: 0.1,
+            statement: 'Dans ' + contexte + ', un couple acide/base a pour constante $pK_a=' + fr(pKa1, 1) + '$. La solution étudiée a un $pH=' + fr(pH1, 1) + '$.<br/><br/>Calcule le rapport $\\dfrac{[A^-]}{[AH]}$ de cette solution (sans unité, arrondi au millième).',
+            answer: ratio1,
+            tolerance: Math.max(0.005, parseFloat((ratio1 * 0.03).toFixed(3))),
             unit: '',
-            hint: 'Calcule d\'abord $[H_3O^+]_{eq} = 10^{-pH}$, puis $[AH]_{eq} = C - [H_3O^+]_{eq}$, puis $K_a = \\dfrac{[H_3O^+]_{eq}^2}{[AH]_{eq}}$ et enfin $pK_a = -\\log(K_a)$.',
+            hint: '$\\dfrac{[A^-]}{[AH]}=10^{(pH-pK_a)}$.',
             solution: [
-              '$[H_3O^+]_{eq} = 10^{-pH} = 10^{-' + fr(pH, 2) + '} \\approx ' + fr(mantH, 2) + ' \\times 10^{' + expH + '}$ mol/L.',
-              '$[AH]_{eq} = C - [H_3O^+]_{eq} \\approx ' + fr(C, 3) + ' - ' + fr(parseFloat(H3O.toFixed(5)), 5) + ' \\approx ' + fr(parseFloat(AH.toFixed(5)), 5) + '$ mol/L.',
-              '$K_a = \\dfrac{[H_3O^+]_{eq}^2}{[AH]_{eq}} \\approx ' + fr(mantKa, 2) + ' \\times 10^{' + expKa + '}$.',
-              'Résultat : $pK_a = -\\log(K_a) \\approx ' + fr(pKa, 2) + '$.'
+              'Relation : $\\dfrac{[A^-]}{[AH]}=10^{(pH-pK_a)}=10^{(' + fr(pH1, 1) + '-' + fr(pKa1, 1) + ')}$.',
+              'Exposant : $' + fr(pH1, 1) + '-' + fr(pKa1, 1) + '=' + fr(offset, 1) + '$.',
+              'Résultat : $\\dfrac{[A^-]}{[AH]}\\approx' + fr(ratio1, 3) + '$.'
             ]
           };
         } else {
-          var pKaR = randFloat(3.0, 6.0, 1);
-          var pHR = randFloat(pKaR - 2, pKaR + 2, 1);
-          var ratio = parseFloat(Math.pow(10, pHR - pKaR).toFixed(2));
-          var contexte2 = pick([
-            'une solution tampon utilisée en laboratoire',
-            'un milieu biologique modélisé en cours',
-            'une solution de contrôle en chimie analytique',
-            'un couple acide/base étudié en TP'
-          ]);
+          var pKa2 = pick(pKaValues);
+          var ratio2 = pick([0.1, 0.2, 0.5, 1, 2, 5, 10, 20]);
+          var pH2 = parseFloat((pKa2 + Math.log10(ratio2)).toFixed(2));
           return {
-            statement: 'Dans ' + contexte2 + ', un couple acide/base $AH/A^-$ a pour constante $pK_a = ' + fr(pKaR, 1) + '$. La solution étudiée a un $pH = ' + fr(pHR, 1) + '$.<br/><br/>Calcule le rapport $\\dfrac{[A^-]}{[AH]}$ dans cette solution (arrondi au centième).',
-            answer: ratio,
-            tolerance: Math.max(0.02, parseFloat((ratio * 0.03).toFixed(2))),
+            statement: 'Dans ' + contexte + ', un couple acide/base a pour constante $pK_a=' + fr(pKa2, 1) + '$. On y mesure un rapport $\\dfrac{[A^-]}{[AH]}=' + fr(ratio2, 1) + '$.<br/><br/>Calcule le pH de cette solution (arrondi au centième).',
+            answer: pH2,
+            tolerance: 0.05,
             unit: '',
-            hint: 'Utilise la relation d\'Henderson-Hasselbalch sous sa forme $\\dfrac{[A^-]}{[AH]} = 10^{(pH - pK_a)}$.',
+            hint: '$pH=pK_a+\\log\\dfrac{[A^-]}{[AH]}$.',
             solution: [
-              'Relation d\'Henderson-Hasselbalch : $pH = pK_a + \\log\\dfrac{[A^-]}{[AH]}$, donc $\\dfrac{[A^-]}{[AH]} = 10^{(pH - pK_a)}$.',
-              'Exposant : $pH - pK_a = ' + fr(pHR, 1) + ' - ' + fr(pKaR, 1) + ' = ' + fr(parseFloat((pHR - pKaR).toFixed(2)), 2) + '$.',
-              'Résultat : $\\dfrac{[A^-]}{[AH]} = 10^{' + fr(parseFloat((pHR - pKaR).toFixed(2)), 2) + '} \\approx ' + fr(ratio, 2) + '$.'
+              'Relation : $pH=pK_a+\\log\\dfrac{[A^-]}{[AH]}=' + fr(pKa2, 1) + '+\\log(' + fr(ratio2, 1) + ')$.',
+              'Résultat : $pH\\approx' + fr(pH2, 2) + '$.'
             ]
           };
         }
@@ -211,76 +179,80 @@ window.MODULES.push({
     },
 
     probleme: {
-      context: 'On compare deux couples acide/base : l\'acide benzoïque ($C_6H_5COOH/C_6H_5COO^-$, $pK_{a1} = 4{,}2$) et l\'acide éthanoïque ($CH_3COOH/CH_3COO^-$, $pK_{a2} = 4{,}8$). On prépare une solution où ces deux couples sont présents, à un pH mesuré de $5{,}0$.',
+      context: 'Le couple ion ammonium / ammoniac ($NH_4^+/NH_3$) a pour constante $pK_a=9{,}2$. Une solution de ce couple a un pH mesuré de $8{,}5$.',
       tasks: [
-        'Comparer la force des deux acides à partir de leurs $pK_a$.',
-        'Calculer le rapport $\\dfrac{[A^-]}{[AH]}$ pour chacun des deux couples à $pH = 5{,}0$.',
-        'Déterminer, pour chaque couple, la forme prédominante à ce pH.'
+        'Déterminer l\'espèce prédominante dans cette solution.',
+        'Calculer le rapport $\\dfrac{[NH_3]}{[NH_4^+]}$ de cette solution.',
+        'Calculer le pH auquel il faudrait amener cette solution pour que $NH_3$ devienne $10$ fois plus concentré que $NH_4^+$.'
       ],
       solutions: [
-        'L\'acide benzoïque a le $pK_a$ le plus petit ($4{,}2 < 4{,}8$) : c\'est donc l\'acide le <strong>plus fort</strong> des deux, il cède plus facilement son proton que l\'acide éthanoïque.',
-        'Pour l\'acide benzoïque : $\\dfrac{[A^-]}{[AH]} = 10^{(5{,}0 - 4{,}2)} = 10^{0{,}8} \\approx 6{,}31$. Pour l\'acide éthanoïque : $\\dfrac{[A^-]}{[AH]} = 10^{(5{,}0 - 4{,}8)} = 10^{0{,}2} \\approx 1{,}58$.',
-        'Dans les deux cas, $pH > pK_a$ : la forme basique $A^-$ est prédominante pour les deux couples à ce pH, mais nettement plus marquée pour le couple benzoïque (rapport $\\approx 6{,}3$) que pour le couple éthanoïque (rapport $\\approx 1{,}6$, les deux formes restant plus proches en proportion).'
+        '$pH=8{,}5 \\lt pK_a=9{,}2$ : c\'est donc la forme acide, $NH_4^+$, qui prédomine dans cette solution.',
+        '$\\dfrac{[NH_3]}{[NH_4^+]}=10^{(pH-pK_a)}=10^{(8{,}5-9{,}2)}=10^{-0{,}7}\\approx0{,}20$.',
+        'On veut $\\dfrac{[NH_3]}{[NH_4^+]}=10$ : $pH=pK_a+\\log(10)=9{,}2+1=10{,}2$.'
       ],
-      finalAnswer: 'À $pH = 5{,}0$, les formes basiques $C_6H_5COO^-$ et $CH_3COO^-$ sont toutes deux majoritaires, mais dans des proportions différentes selon le $pK_a$ de chaque couple. Cela illustre que la prédominance ne dépend que de l\'écart entre le pH du milieu et le $pK_a$ propre à chaque couple, jamais d\'une comparaison directe entre couples différents.'
+      finalAnswer: 'À $pH=8{,}5$, $NH_4^+$ prédomine largement ($\\dfrac{[NH_3]}{[NH_4^+]}\\approx0{,}20$, soit environ $5$ fois moins de $NH_3$ que de $NH_4^+$). Il faudrait élever le pH jusqu\'à $10{,}2$ (soit $1$ unité au-dessus du $pK_a$) pour inverser complètement la situation et obtenir $10$ fois plus de $NH_3$ que de $NH_4^+$ : c\'est ce type de calcul qui guide, par exemple, le choix du pH pour éliminer l\'azote ammoniacal d\'un effluent par stripping.'
     },
 
     evaluation: {
-      title: 'Évaluation — Acides et bases (pH, Ka)',
+      title: 'Évaluation — Acides et bases : pH et constante d\'acidité',
       duration: '30 min',
       questions: [
         {
-          statement: 'Un couple acide/base a $pK_a = 4{,}5$. Une solution de ce couple a $pH = 6{,}0$. Quelle forme est majoritaire ?',
+          statement: 'Pour un couple $AH/A^-$ de $pK_a=6{,}0$, une solution a un $pH=6{,}0$. Que peut-on affirmer ?',
           type: 'multiple-choice',
           options: [
-            'La forme acide $AH$',
-            'La forme basique $A^-$',
-            'Les deux formes sont rigoureusement égales',
-            'On ne peut pas conclure'
+            '$AH$ prédomine largement',
+            '$A^-$ prédomine largement',
+            '$[AH]=[A^-]$',
+            'Le pH n\'a pas de sens à cette valeur'
+          ],
+          answer: 2,
+          points: 2,
+          correction: 'Lorsque $pH=pK_a$, les deux espèces du couple sont présentes en quantités égales : $[AH]=[A^-]$, par définition même du $pK_a$.'
+        },
+        {
+          statement: 'Un couple acide/base a $pK_a=5{,}0$. Une solution a un $pH=6{,}0$. Calculer le rapport $\\dfrac{[A^-]}{[AH]}$.',
+          type: 'numeric',
+          answer: 10,
+          tolerance: 0.5,
+          unit: '',
+          points: 3,
+          correction: '$\\dfrac{[A^-]}{[AH]}=10^{(pH-pK_a)}=10^{(6{,}0-5{,}0)}=10^1=10$.'
+        },
+        {
+          statement: 'Un acide $AH$ est d\'autant plus fort (plus dissocié) que :',
+          type: 'multiple-choice',
+          options: [
+            'Son $pK_a$ est grand',
+            'Son $pK_a$ est petit',
+            'Sa concentration est grande',
+            'Le volume de solution est grand'
           ],
           answer: 1,
           points: 2,
-          correction: 'Comme $pH > pK_a$ ($6{,}0 > 4{,}5$), la forme basique $A^-$ est majoritaire.'
+          correction: 'Un $pK_a$ petit correspond à un $K_a$ grand ($K_a=10^{-pK_a}$), donc à un équilibre plus déplacé vers la forme dissociée $A^-$ : l\'acide est plus fort.'
         },
         {
-          statement: 'Une solution a $[H_3O^+]_{eq} = 2{,}0\\times10^{-4}$ mol/L. Calculer son pH (arrondi au dixième).',
+          statement: 'Un couple acide/base a $pK_a=4{,}0$. On y mesure un rapport $\\dfrac{[A^-]}{[AH]}=100$. Calculer le pH de la solution.',
           type: 'numeric',
-          answer: 3.7,
+          answer: 6,
           tolerance: 0.1,
           unit: '',
-          points: 2,
-          correction: '$pH = -\\log(2{,}0\\times10^{-4}) \\approx 3{,}7$.'
+          points: 3,
+          correction: '$pH=pK_a+\\log\\left(\\dfrac{[A^-]}{[AH]}\\right)=4{,}0+\\log(100)=4{,}0+2=6{,}0$.'
         },
         {
-          statement: 'Un couple a $K_a = 6{,}3\\times10^{-5}$. Calculer son $pK_a$ (arrondi au dixième).',
-          type: 'numeric',
-          answer: 4.2,
-          tolerance: 0.1,
-          unit: '',
-          points: 2,
-          correction: '$pK_a = -\\log(6{,}3\\times10^{-5}) \\approx 4{,}2$.'
-        },
-        {
-          statement: 'Un couple $AH/A^-$ a $pK_a = 5{,}0$, dans une solution de $pH = 5{,}0$. Calculer le rapport $\\dfrac{[A^-]}{[AH]}$.',
-          type: 'numeric',
-          answer: 1,
-          tolerance: 0.05,
-          unit: '',
-          points: 2,
-          correction: 'Quand $pH = pK_a$, $\\dfrac{[A^-]}{[AH]} = 10^{0} = 1$ : les deux formes sont exactement à égalité.'
-        },
-        {
-          statement: 'Sur un diagramme de prédominance, plus le $pK_a$ d\'un couple est petit :',
+          statement: 'Sur un diagramme de prédominance, la zone où $A^-$ prédomine se situe :',
           type: 'multiple-choice',
           options: [
-            'Plus l\'acide $AH$ associé est fort',
-            'Plus l\'acide $AH$ associé est faible',
-            'Plus le pH de toute solution de ce couple est élevé',
-            'Cela n\'a aucun rapport avec la force de l\'acide'
+            'À gauche de $pK_a$ (pH plus faible)',
+            'À droite de $pK_a$ (pH plus élevé)',
+            'Toujours entre $pH=0$ et $pH=7$',
+            'Toujours entre $pH=7$ et $pH=14$'
           ],
-          answer: 0,
+          answer: 1,
           points: 2,
-          correction: 'Un $pK_a$ petit signifie que l\'équilibre $AH + H_2O \\rightleftharpoons A^- + H_3O^+$ est plus déplacé vers la formation de $H_3O^+$ : l\'acide $AH$ est donc plus fort.'
+          correction: 'La base conjuguée $A^-$ prédomine lorsque $pH \\gt pK_a$, c\'est-à-dire dans la zone à droite de $pK_a$ sur l\'axe du pH — quelle que soit la valeur exacte de $pK_a$.'
         }
       ]
     }

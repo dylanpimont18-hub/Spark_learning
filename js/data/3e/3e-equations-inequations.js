@@ -140,7 +140,7 @@ window.MODULES.push(
       generate() {
         const a = rand(2, 6), b = rand(1, 10), diff = rand(3, 20), c = b + diff;
         const sol = parseFloat((diff / a).toFixed(2));
-        const solStr = String(sol).replace('.', '{,}');
+        const solStr = fr(sol, 2);
 
         const ctx = pick([
           { build: () => `Une compagnie de <strong>taxi</strong> facture $${b}$ € de forfait de prise en charge, plus $${a}$ € par km parcouru. Une course coûte $${c}$ € au total.<br/><br/>Combien de <strong>km</strong> ($x$) ont été parcourus ? On pose $${a}x + ${b} = ${c}$.` },

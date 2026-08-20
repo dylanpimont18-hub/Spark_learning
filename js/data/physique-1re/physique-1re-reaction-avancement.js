@@ -5,133 +5,157 @@
 window.MODULES.push({
     id: 'physique-1re-reaction-avancement',
     level: 2, subject: 'physique',
-    icon: '🧪',
+    icon: '⚗️',
     title: 'La réaction chimique : avancement et stœchiométrie',
     subtitle: 'Équation de réaction, tableau d\'avancement, réactif limitant, avancement maximal',
-    keywords: ['Avancement', 'Tableau d\'avancement', 'Réactif limitant', 'Stœchiométrie'],
-    physics: 'Le tableau d\'avancement permet de dimensionner les quantités de réactifs dans un procédé industriel, de prévoir le volume de gaz dégagé lors d\'une réaction (dosage, effervescence contrôlée), et d\'optimiser un dosage pour éviter le gaspillage d\'un réactif coûteux.',
+    keywords: ['Avancement', 'Stœchiométrie', 'Réactif limitant', 'Tableau d\'avancement', 'Équation de réaction'],
+    physics: 'Le tableau d\'avancement permet de dimensionner les proportions de réactifs dans un procédé industriel (combustion, synthèse chimique), d\'éviter le gaspillage d\'un réactif coûteux en identifiant le réactif limitant, et de prévoir la quantité de produit qu\'une réaction peut former au maximum, une donnée essentielle en chimie de synthèse et en génie des procédés.',
 
     cours: {
-      intro: 'Une transformation chimique se décrit par une <strong>équation de réaction</strong> équilibrée, de la forme $aA + bB \\rightarrow cC + dD$, où $a$, $b$, $c$, $d$ sont les <strong>coefficients stœchiométriques</strong>. Ces coefficients traduisent les proportions dans lesquelles les réactifs sont consommés et les produits formés.<br/><br/>Pour suivre l\'évolution des quantités de matière au cours de la réaction, on introduit l\'<strong>avancement</strong> $x$, une grandeur en mol qui vaut $0$ à l\'état initial et augmente au fur et à mesure que la réaction progresse. On organise ces quantités dans un <strong>tableau d\'avancement</strong>.<br/><br/>La réaction s\'arrête lorsque l\'un des réactifs est entièrement consommé : c\'est le <strong>réactif limitant</strong>. L\'avancement à ce moment-là, noté $x_{max}$, est l\'<strong>avancement maximal</strong> de la réaction.',
+      intro: 'Une réaction chimique transforme des <strong>réactifs</strong> en <strong>produits</strong>, décrite par une <strong>équation de réaction</strong> équilibrée : les mêmes éléments chimiques (et la même charge électrique totale) se retrouvent de part et d\'autre de la flèche, dans des proportions fixées par les <strong>nombres stœchiométriques</strong>.<br/><br/>Pour suivre l\'évolution des quantités de matière au cours de la transformation, on construit un <strong>tableau d\'avancement</strong> : chaque quantité de matière s\'exprime en fonction d\'une unique variable, l\'<strong>avancement</strong> $x$ (en mol), qui progresse de $0$ (état initial) jusqu\'à sa valeur finale.<br/><br/>La réaction s\'arrête dès qu\'un réactif est entièrement consommé : ce <strong>réactif limitant</strong> impose l\'<strong>avancement maximal</strong> $x_{max}$ de la transformation. Les autres réactifs, dits <strong>en excès</strong>, ne sont que partiellement consommés.',
       definitions: [
-        { term: 'Équation de réaction', def: 'Écriture symbolique équilibrée d\'une transformation chimique : $aA + bB \\rightarrow cC + dD$, où $a,b,c,d$ sont les coefficients stœchiométriques (le nombre d\'entités de chaque espèce qui réagissent ou se forment, dans les mêmes proportions).' },
-        { term: 'Avancement $x$', def: 'Grandeur en mol qui mesure la progression de la réaction : $x=0$ à l\'état initial, et $x$ augmente au fur et à mesure que les réactifs sont consommés et les produits formés.' },
-        { term: 'Tableau d\'avancement', def: 'Tableau organisant les quantités de matière de chaque espèce, en fonction de $x$, à l\'état initial ($x=0$), à un état intermédiaire (avancement $x$) et à l\'état final (avancement $x_{max}$).' },
-        { term: 'Réactif limitant', def: 'Réactif entièrement consommé le premier, qui arrête la réaction. Il correspond au réactif pour lequel le rapport $\\dfrac{n_0}{\\text{coefficient}}$ est le <strong>plus petit</strong>.' },
-        { term: 'Avancement maximal $x_{max}$', def: 'Valeur de $x$ à l\'état final, égale au plus petit des rapports $\\dfrac{n_0}{\\text{coefficient}}$ calculés pour chaque réactif : $x_{max} = \\min\\left(\\dfrac{n_0(A)}{a}, \\dfrac{n_0(B)}{b}\\right)$.' }
+        { term: 'Équation de réaction', def: 'Écriture symbolique équilibrée d\'une transformation chimique, avec des nombres stœchiométriques devant chaque espèce, assurant la conservation des éléments chimiques et de la charge électrique.' },
+        { term: 'Tableau d\'avancement', def: 'Tableau organisant les quantités de matière de chaque espèce à l\'état initial, en cours de transformation (en fonction de $x$), et à l\'état final, pour une équation de réaction donnée.' },
+        { term: 'Avancement ($x$)', def: 'Grandeur, en mol, qui mesure la progression de la réaction : $x=0$ à l\'état initial, et $x$ augmente au fur et à mesure que les réactifs se transforment en produits.' },
+        { term: 'Réactif limitant et avancement maximal ($x_{max}$)', def: 'Le réactif limitant est le premier réactif dont la quantité de matière s\'annule. Il impose $x_{max} = \\min\\left(\\dfrac{n_i(\\text{réactif})}{\\text{coefficient stœchiométrique}}\\right)$, calculé sur l\'ensemble des réactifs.' }
       ],
       method: {
-        title: 'Construire et exploiter un tableau d\'avancement en 3 étapes',
+        title: 'Déterminer le réactif limitant et l\'avancement maximal en 3 étapes',
         steps: [
-          '<strong>Écrire l\'équation de réaction équilibrée</strong> et relever les quantités de matière initiales $n_0$ de chaque réactif.',
-          '<strong>Construire le tableau d\'avancement</strong> : pour chaque réactif, $n(x) = n_0 - \\text{coeff} \\times x$ ; pour chaque produit (initialement absent), $n(x) = \\text{coeff} \\times x$.',
-          '<strong>Déterminer $x_{max}$</strong> en calculant, pour <strong>chaque</strong> réactif, le rapport $\\dfrac{n_0}{\\text{coefficient}}$ : le réactif limitant est celui qui donne le plus petit rapport — attention, ce n\'est <strong>pas forcément</strong> celui dont la quantité initiale $n_0$ est la plus petite.'
+          '<strong>Écrire et équilibrer l\'équation de réaction</strong> (mêmes éléments chimiques de chaque côté de la flèche), et identifier les nombres stœchiométriques de chaque réactif.',
+          '<strong>Construire le tableau d\'avancement</strong> : pour chaque réactif, exprimer sa quantité de matière en cours de réaction sous la forme $n_i - (\\text{coefficient})\\times x$ ; pour chaque produit, sous la forme $0 + (\\text{coefficient})\\times x$.',
+          '<strong>Calculer, pour chaque réactif, le rapport</strong> $\\dfrac{n_i}{\\text{coefficient stœchiométrique}}$ : le plus <strong>petit</strong> rapport donne $x_{max}$ et désigne le réactif limitant — jamais celui dont $n_i$ est le plus petit en valeur absolue.'
         ]
       },
       diagram: {
         theme: 'physique',
-        kicker: 'Évolution des quantités de matière avec l\'avancement',
-        title: 'Réaction $\\text{Mg} + 2\\,\\text{HCl} \\rightarrow \\text{MgCl}_2 + \\text{H}_2$ : identification du réactif limitant',
-        description: 'Avec $n_0(\\text{Mg}) = 5{,}0\\times10^{-3}$ mol et $n_0(\\text{HCl}) = 0{,}020$ mol, la droite du magnésium atteint zéro <strong>la première</strong> : c\'est le réactif limitant, à $x_{max} = 5{,}0\\times10^{-3}$ mol.',
+        kicker: 'Tableau d\'avancement (représentation graphique)',
+        title: 'Quantités de matière en fonction de l\'avancement x',
+        description: 'Pour la combustion du méthane $CH_4 + 2\\,O_2 \\rightarrow CO_2 + 2\\,H_2O$ (avec $n(CH_4)_i=2$ mol et $n(O_2)_i=3$ mol), les droites représentant les réactifs diminuent, celles des produits augmentent. Le dioxygène $O_2$ atteint zéro le premier : c\'est le <strong>réactif limitant</strong>, qui impose $x_{max}=1{,}5$ mol.',
         svg: `
-          <svg viewBox="0 0 500 300" role="img" aria-labelledby="avancement-title avancement-desc">
-            <title id="avancement-title">Graphique des quantites de matiere en fonction de l'avancement x</title>
-            <desc id="avancement-desc">Un graphique represente la quantite de matiere en mol en ordonnee, en fonction de l'avancement x en abscisse. Trois droites partent du bord gauche. La droite du dichlorure d'hydrogene HCl part d'une valeur elevee et descend. La droite du magnesium part d'une valeur plus basse et descend avec une pente plus faible, atteignant zero avant la droite de HCl. La droite du dihydrogene part de zero et monte. Une ligne verticale en pointilles marque l'endroit ou la droite du magnesium atteint zero, cet endroit correspondant a l'avancement maximal. Au-dela de cette ligne verticale, les trois droites deviennent horizontales en pointilles, indiquant que les quantites de matiere restent constantes une fois la reaction terminee.</desc>
+          <svg viewBox="0 0 560 300" role="img" aria-labelledby="avancement-title avancement-desc">
+            <title id="avancement-title">Quantites de matiere des reactifs et produits en fonction de l'avancement x</title>
+            <desc id="avancement-desc">Un graphique represente la quantite de matiere en mol sur l'axe vertical et l'avancement x en mol sur l'axe horizontal. Deux droites decroissantes representent les reactifs CH4 et O2, deux droites croissantes representent les produits CO2 et H2O. La droite du dioxygene O2 atteint zero la premiere, en trait plein, a l'avancement x egal a 1,5 mol, materialise par une ligne verticale en pointilles : c'est le reactif limitant. La droite du methane CH4 continue au-dela de ce point en trait pointille, jusqu'a ce qu'elle atteindrait zero si elle n'etait pas arretee par l'epuisement du dioxygene, ce qui montre qu'elle n'est pas le reactif limitant.</desc>
+
+            <defs>
+              <marker id="arrow-phy1re-avancement" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
 
             <!-- axes -->
-            <line class="frame-line" x1="60" y1="250" x2="470" y2="250"></line>
-            <line class="frame-line" x1="60" y1="250" x2="60" y2="40"></line>
-            <text class="tick-label" x="60" y="28" text-anchor="middle">n (mol)</text>
-            <text class="tick-label" x="470" y="270" text-anchor="end">x (mol)</text>
+            <line class="frame-line" x1="70" y1="260" x2="70" y2="30" marker-end="url(#arrow-phy1re-avancement)"></line>
+            <line class="frame-line" x1="60" y1="250" x2="515" y2="250" marker-end="url(#arrow-phy1re-avancement)"></line>
+            <text class="tick-label" x="70" y="22" text-anchor="middle">n (mol)</text>
+            <text class="tick-label" x="510" y="238" text-anchor="end">x (mol)</text>
+
+            <!-- graduations axe n -->
+            <line class="grid-line" x1="66" y1="180" x2="74" y2="180"></line>
+            <text class="tick-label" x="58" y="184" text-anchor="end">1</text>
+            <line class="grid-line" x1="66" y1="110" x2="74" y2="110"></line>
+            <text class="tick-label" x="58" y="114" text-anchor="end">2</text>
+            <line class="grid-line" x1="66" y1="40" x2="74" y2="40"></line>
+            <text class="tick-label" x="58" y="44" text-anchor="end">3</text>
+
+            <!-- graduations axe x -->
+            <line class="grid-line" x1="285" y1="246" x2="285" y2="254"></line>
+            <text class="tick-label" x="285" y="266" text-anchor="middle">1</text>
+            <line class="grid-line" x1="500" y1="246" x2="500" y2="254"></line>
+            <text class="tick-label" x="500" y="266" text-anchor="middle">2</text>
 
             <!-- ligne verticale x_max -->
-            <line class="guide-line" x1="260" y1="250" x2="260" y2="50"></line>
-            <text class="tick-label" x="260" y="270" text-anchor="middle">x_max</text>
+            <line class="guide-line" x1="392.5" y1="250" x2="392.5" y2="35"></line>
+            <text class="tick-label" x="392.5" y="266" text-anchor="middle">x_max</text>
 
-            <!-- droite HCl : (60,50) solide vers (260,150), pointille vers (460,250) -->
-            <line class="curve-main" x1="60" y1="50" x2="260" y2="150"></line>
-            <line class="guide-line" x1="260" y1="150" x2="460" y2="250"></line>
-            <text class="annotation-label" x="90" y="42" text-anchor="start">HCl</text>
+            <!-- O2 : reactif limitant, decroit jusqu'a 0 exactement en x_max -->
+            <line class="curve-main" x1="70" y1="40" x2="392.5" y2="250" marker-end="url(#arrow-phy1re-avancement)"></line>
+            <circle class="plot-point" cx="70" cy="40" r="4"></circle>
+            <text class="annotation-label" x="115" y="70" text-anchor="start">O₂</text>
 
-            <!-- droite Mg : (60,200) solide vers (260,250), pointille plat vers (460,250) -->
-            <line class="curve-main" x1="60" y1="200" x2="260" y2="250"></line>
-            <line class="guide-line" x1="260" y1="250" x2="460" y2="250"></line>
-            <text class="annotation-label" x="90" y="192" text-anchor="start">Mg</text>
+            <!-- CH4 : reactif en exces, continue au-dela de x_max en pointilles -->
+            <line class="curve-main" x1="70" y1="110" x2="392.5" y2="215"></line>
+            <line class="guide-line" x1="392.5" y1="215" x2="500" y2="250"></line>
+            <circle class="plot-point" cx="70" cy="110" r="4"></circle>
+            <circle class="plot-point-alt" cx="392.5" cy="215" r="4"></circle>
+            <text class="annotation-label" x="115" y="132" text-anchor="start">CH₄</text>
 
-            <!-- droite H2 : (60,250) solide vers (260,200), pointille plat vers (460,200) -->
-            <line class="curve-main" x1="60" y1="250" x2="260" y2="200"></line>
-            <line class="guide-line" x1="260" y1="200" x2="460" y2="200"></line>
-            <text class="annotation-label" x="270" y="190" text-anchor="start">H₂</text>
+            <!-- CO2 : produit -->
+            <line class="frame-line" x1="70" y1="250" x2="392.5" y2="145" marker-end="url(#arrow-phy1re-avancement)"></line>
+            <circle class="plot-point" cx="392.5" cy="145" r="4"></circle>
+            <text class="annotation-label" x="340" y="168" text-anchor="middle">CO₂</text>
+
+            <!-- H2O : produit -->
+            <line class="frame-line" x1="70" y1="250" x2="392.5" y2="40" marker-end="url(#arrow-phy1re-avancement)"></line>
+            <circle class="plot-point" cx="392.5" cy="40" r="4"></circle>
+            <text class="annotation-label" x="330" y="70" text-anchor="middle">H₂O</text>
           </svg>
         `,
         notes: [
-          'La droite du <strong>magnésium</strong> est celle qui atteint <strong>zéro en premier</strong> (à $x = x_{max}$) : c\'est le réactif limitant, même si sa quantité initiale ($5{,}0\\times10^{-3}$ mol) est bien plus petite que celle de HCl ($0{,}020$ mol) — c\'est précisément le rapport $n_0/\\text{coefficient}$ qui détermine le réactif limitant, pas $n_0$ seul.',
-          'Au-delà de $x_{max}$, les droites deviennent horizontales (en pointillés) : la réaction s\'est <strong>arrêtée</strong>, les quantités de matière restent constantes car le réactif limitant a disparu.',
-          'La droite du <strong>HCl</strong> ne descend pas jusqu\'à zéro : il en reste en excès à la fin de la réaction, une quantité qu\'on peut lire directement sur le graphique à $x=x_{max}$.'
+          'La droite de $O_2$ (accent plein) atteint <strong>exactement zéro</strong> à $x_{max}=1{,}5$ mol : c\'est le <strong>réactif limitant</strong>, la réaction ne peut pas aller plus loin.',
+          'La droite de $CH_4$ n\'atteindrait zéro qu\'à $x=2$ mol (portion en pointillés, purement théorique) : à $x_{max}=1{,}5$ mol, il reste encore $0{,}5$ mol de $CH_4$ <strong>en excès</strong>.',
+          'Les droites des produits $CO_2$ et $H_2O$ augmentent depuis $0$ : leurs valeurs à $x_{max}$ donnent directement les quantités de matière formées à l\'état final.'
         ],
-        reading: 'Repère la ligne verticale $x_{max}$ : c\'est là où la première droite décroissante (Mg) touche l\'axe horizontal. Au-delà, toutes les droites deviennent plates.',
-        caption: 'Évolution des quantités de matière avec l\'avancement $x$ : le magnésium, réactif limitant, détermine $x_{max}$, au-delà duquel toutes les quantités restent constantes.'
+        reading: 'Repère la ligne verticale en pointillés à $x_{max}=1{,}5$ mol : c\'est là que la droite de $O_2$ touche l\'axe horizontal (réactif limitant), alors que la droite de $CH_4$ n\'a pas encore atteint zéro (réactif en excès).',
+        caption: 'Quantités de matière en fonction de l\'avancement $x$ pour $CH_4+2\\,O_2\\rightarrow CO_2+2\\,H_2O$ : $O_2$, dont la droite atteint zéro la première, est le réactif limitant ($x_{max}=1{,}5$ mol).'
       },
       example: {
-        statement: 'On fait réagir un morceau de magnésium de quantité de matière $n_0(\\text{Mg}) = 5{,}0\\times10^{-3}$ mol avec un volume d\'acide chlorhydrique apportant $n_0(\\text{HCl}) = 0{,}020$ mol, selon l\'équation $\\text{Mg} + 2\\,\\text{HCl} \\rightarrow \\text{MgCl}_2 + \\text{H}_2$.<br/><br/>Déterminer le réactif limitant, l\'avancement maximal $x_{max}$, puis le volume de dihydrogène formé (on prend un volume molaire $V_m = 24$ L/mol).',
+        statement: 'On réalise la synthèse de l\'ammoniac selon l\'équation $N_2 + 3\\,H_2 \\rightarrow 2\\,NH_3$, à partir de $n(N_2)_i = 1$ mol de diazote et $n(H_2)_i = 4$ mol de dihydrogène.<br/><br/>Déterminer le réactif limitant et l\'avancement maximal $x_{max}$ de cette réaction.',
         steps: [
-          'Tableau d\'avancement : à l\'avancement $x$, $n(\\text{Mg}) = n_0(\\text{Mg}) - x$ et $n(\\text{HCl}) = n_0(\\text{HCl}) - 2x$ (coefficient $2$ devant HCl).',
-          'Pour le magnésium : $\\dfrac{n_0(\\text{Mg})}{1} = \\dfrac{5{,}0\\times10^{-3}}{1} = 5{,}0\\times10^{-3}$ mol. Pour l\'acide chlorhydrique : $\\dfrac{n_0(\\text{HCl})}{2} = \\dfrac{0{,}020}{2} = 0{,}010$ mol.',
-          'Le plus petit rapport est celui du magnésium ($5{,}0\\times10^{-3} < 0{,}010$) : le <strong>magnésium est le réactif limitant</strong>, donc $x_{max} = 5{,}0\\times10^{-3}$ mol.',
-          'Quantité de dihydrogène formé (coefficient $1$) : $n(\\text{H}_2) = x_{max} = 5{,}0\\times10^{-3}$ mol.',
-          'Volume de dihydrogène : $V(\\text{H}_2) = n(\\text{H}_2) \\times V_m = 5{,}0\\times10^{-3} \\times 24 = 0{,}12$ L, soit $120$ mL.'
+          'Si $N_2$ était limitant : $x_{max} = \\dfrac{n(N_2)_i}{1} = \\dfrac{1}{1} = 1$ mol.',
+          'Si $H_2$ était limitant : $x_{max} = \\dfrac{n(H_2)_i}{3} = \\dfrac{4}{3} \\approx 1{,}33$ mol.',
+          'Le réactif limitant est celui qui donne la plus <strong>petite</strong> valeur de $x_{max}$ : c\'est donc $N_2$, avec $x_{max} = 1$ mol.',
+          'Vérification à l\'état final : $n(N_2)_f = 1-1 = 0$ mol (épuisé), $n(H_2)_f = 4-3\\times1 = 1$ mol (en excès), $n(NH_3)_f = 2\\times1 = 2$ mol formé.'
         ],
-        answer: 'Le magnésium est le réactif limitant, $x_{max} = 5{,}0\\times10^{-3}$ mol, et $V(\\text{H}_2) = 120$ mL. Il reste de l\'acide chlorhydrique en excès à la fin de la réaction : $n(\\text{HCl})_{restant} = 0{,}020 - 2\\times5{,}0\\times10^{-3} = 0{,}010$ mol.'
+        answer: 'Le réactif limitant est $N_2$ (diazote), avec $x_{max} = 1$ mol. À l\'état final, il reste $1$ mol de $H_2$ en excès, et $2$ mol de $NH_3$ ont été formées.'
       },
       formulas: [
-        'Équation de réaction équilibrée : $aA + bB \\rightarrow cC + dD$',
-        'Quantité de matière d\'un réactif à l\'avancement $x$ : $n(x) = n_0 - \\text{coeff} \\times x$',
-        'Quantité de matière d\'un produit à l\'avancement $x$ : $n(x) = \\text{coeff} \\times x$',
-        'Avancement maximal : $x_{max} = \\min\\left(\\dfrac{n_0(A)}{a}, \\dfrac{n_0(B)}{b}\\right)$',
-        'Volume d\'un gaz à partir de sa quantité de matière : $V = n \\times V_m$'
+        'Avancement $x$ (mol) : progresse de $0$ (état initial) à $x_{max}$ (état final)',
+        'Quantité de matière en cours de réaction : $n(\\text{espèce}) = n_i \\pm (\\text{coefficient})\\times x$',
+        'Avancement maximal : $x_{max} = \\min\\left(\\dfrac{n_i(\\text{réactif})}{\\text{coefficient stœchiométrique}}\\right)$',
+        'Réactif limitant : celui qui donne la plus petite valeur de $x_{max}$ (épuisé le premier)'
       ],
       recap: [
-        'L\'avancement $x$ (en mol) mesure la progression de la réaction : il vaut $0$ à l\'état initial et $x_{max}$ à l\'état final.',
-        'Le réactif limitant est celui dont le rapport $n_0/\\text{coefficient}$ est le <strong>plus petit</strong> — pas nécessairement celui dont $n_0$ est le plus petit.',
-        'Une fois $x_{max}$ atteint, la réaction s\'arrête : toutes les quantités de matière restent <strong>constantes</strong>, même s\'il reste un réactif en excès.',
-        'Le tableau d\'avancement permet de calculer directement, à l\'état final, la quantité de chaque produit formé et de chaque réactif restant (y compris le réactif en excès).'
+        'L\'équation de réaction doit toujours être <strong>équilibrée</strong> avant de construire le tableau d\'avancement (mêmes éléments de chaque côté).',
+        'Dans le tableau d\'avancement, chaque quantité de matière s\'exprime en fonction d\'une seule variable, l\'avancement $x$.',
+        'Le <strong>réactif limitant</strong> est celui pour lequel le rapport $n_i/\\text{coefficient}$ est le plus petit : il impose $x_{max}$ et disparaît en premier.',
+        'Au-delà de $x_{max}$, un réactif limitant donnerait une quantité de matière <strong>négative</strong> — physiquement impossible, ce qui borne la réaction.'
       ],
-      piege: 'Une erreur très fréquente consiste à croire que le réactif limitant est automatiquement celui dont la quantité de matière initiale $n_0$ est la plus petite, sans tenir compte des coefficients stœchiométriques. Attention, il faut toujours comparer les rapports $n_0/\\text{coefficient}$ pour chaque réactif : c\'est ce rapport, et lui seul, qui désigne le réactif limitant.'
+      piege: 'Une erreur fréquente est de désigner le réactif limitant en comparant directement les quantités de matière initiales $n_i$ des réactifs, sans tenir compte de leurs nombres stœchiométriques. Attention : il faut toujours comparer le rapport $\\dfrac{n_i}{\\text{coefficient stœchiométrique}}$ pour chaque réactif — un réactif introduit en plus grande quantité peut malgré tout être le réactif limitant si son coefficient stœchiométrique est élevé.'
     },
 
     quiz: [
       {
-        q: 'Dans une réaction $A + 2B \\rightarrow C$, on a $n_0(A) = 0{,}10$ mol et $n_0(B) = 0{,}30$ mol. Quel est le réactif limitant ?',
+        q: 'Dans un tableau d\'avancement, l\'avancement maximal $x_{max}$ correspond à :',
         options: [
-          'A, car $\\dfrac{0{,}10}{1} = 0{,}10 < \\dfrac{0{,}30}{2} = 0{,}15$',
-          'B, car $0{,}30 > 0{,}10$',
-          'Les deux réactifs sont limitants en même temps',
-          'On ne peut pas le savoir sans connaître les masses molaires'
+          'La valeur de $x$ pour laquelle un réactif est entièrement consommé',
+          'La somme des quantités de matière initiales',
+          'La quantité de matière du produit majoritaire',
+          'Toujours la moitié de la quantité initiale du premier réactif'
         ],
         answer: 0,
-        correction: 'Il faut comparer $\\dfrac{n_0(A)}{1} = 0{,}10$ mol et $\\dfrac{n_0(B)}{2} = 0{,}15$ mol : le plus petit rapport est celui de A, qui est donc le réactif limitant, même si sa quantité de matière initiale est plus petite que celle de B (ce qui n\'est pas la bonne façon de conclure).'
+        correction: '$x_{max}$ est atteint dès qu\'un réactif (le réactif limitant) voit sa quantité de matière s\'annuler ; la réaction s\'arrête alors, même s\'il reste d\'autres réactifs en excès.'
       },
       {
-        q: 'Une fois l\'avancement maximal $x_{max}$ atteint, que se passe-t-il si on attend plus longtemps ?',
+        q: 'Pour la réaction $2\\,A + B \\rightarrow C$, on introduit $n(A)_i=6$ mol et $n(B)_i=2$ mol. Quel est le réactif limitant ?',
         options: [
-          'Les quantités de matière continuent d\'évoluer indéfiniment',
-          'La réaction s\'arrête, toutes les quantités de matière restent constantes',
-          'Le réactif en excès se transforme spontanément en produit',
-          'L\'avancement redevient nul'
+          'B, car $\\dfrac{n(B)_i}{1}=2$ est inférieur à $\\dfrac{n(A)_i}{2}=3$',
+          'A, car il est introduit en plus grande quantité',
+          'B, car sa quantité initiale est la plus petite',
+          'Aucun, les deux sont consommés simultanément'
         ],
-        answer: 1,
-        correction: 'Le réactif limitant a disparu à $x_{max}$ : la réaction ne peut plus progresser, et toutes les quantités de matière (y compris celle du réactif en excès) restent constantes au-delà de cet instant.'
+        answer: 0,
+        correction: 'Il faut comparer les rapports $n_i/\\text{coefficient}$ : pour A, $6/2=3$ ; pour B, $2/1=2$. Le plus petit rapport ($2$, pour B) désigne le réactif limitant. Comparer directement les quantités initiales (une autre option) donnerait ici accidentellement la même conclusion, mais ce raisonnement est <strong>faux en général</strong>.'
       },
       {
-        q: 'Dans un tableau d\'avancement, la quantité de matière d\'un produit initialement absent, à l\'avancement $x$, s\'exprime :',
+        q: 'À l\'état final d\'une transformation chimique totale, la quantité de matière du réactif limitant vaut :',
         options: [
-          '$n(x) = n_0 - \\text{coeff} \\times x$',
-          '$n(x) = \\text{coeff} \\times x$',
-          '$n(x) = n_0 + x$',
-          '$n(x) = n_0 \\times x$'
+          '0 mol',
+          'La moitié de sa quantité initiale',
+          'Sa quantité initiale',
+          'Cela dépend du produit formé'
         ],
-        answer: 1,
-        correction: 'Un produit, absent à l\'état initial ($n_0 = 0$), voit sa quantité de matière augmenter avec l\'avancement : $n(x) = \\text{coeff} \\times x$, sans terme de soustraction (contrairement aux réactifs).'
+        answer: 0,
+        correction: 'Par définition, le réactif limitant est entièrement consommé à l\'état final d\'une transformation totale : sa quantité de matière finale est nulle.'
       }
     ],
 
@@ -139,64 +163,55 @@ window.MODULES.push({
       type: 'numeric',
       generate() {
         var reactions = [
-          { texA: '\\text{Mg}', coefA: 1, texB: '\\text{HCl}', coefB: 2, texC: '\\text{H}_2', coefC: 1, texEq: '\\text{Mg} + 2\\,\\text{HCl} \\rightarrow \\text{MgCl}_2 + \\text{H}_2' },
-          { texA: '\\text{Zn}', coefA: 1, texB: '\\text{HCl}', coefB: 2, texC: '\\text{H}_2', coefC: 1, texEq: '\\text{Zn} + 2\\,\\text{HCl} \\rightarrow \\text{ZnCl}_2 + \\text{H}_2' },
-          { texA: '\\text{Na}', coefA: 2, texB: '\\text{Cl}_2', coefB: 1, texC: '\\text{NaCl}', coefC: 2, texEq: '2\\,\\text{Na} + \\text{Cl}_2 \\rightarrow 2\\,\\text{NaCl}' },
-          { texA: '\\text{N}_2', coefA: 1, texB: '\\text{H}_2', coefB: 3, texC: '\\text{NH}_3', coefC: 2, texEq: '\\text{N}_2 + 3\\,\\text{H}_2 \\rightarrow 2\\,\\text{NH}_3' }
+          { eq: 'CH_4 + 2\\,O_2 \\rightarrow CO_2 + 2\\,H_2O', coefA: 1, nomA: 'CH_4', coefB: 2, nomB: 'O_2' },
+          { eq: 'N_2 + 3\\,H_2 \\rightarrow 2\\,NH_3', coefA: 1, nomA: 'N_2', coefB: 3, nomB: 'H_2' },
+          { eq: '2\\,Al + 3\\,Cl_2 \\rightarrow 2\\,AlCl_3', coefA: 2, nomA: 'Al', coefB: 3, nomB: 'Cl_2' },
+          { eq: '2\\,H_2 + O_2 \\rightarrow 2\\,H_2O', coefA: 2, nomA: 'H_2', coefB: 1, nomB: 'O_2' },
+          { eq: 'Zn + 2\\,H_3O^+ \\rightarrow Zn^{2+} + H_2 + 2\\,H_2O', coefA: 1, nomA: 'Zn', coefB: 2, nomB: 'H_3O^+' }
         ];
-        var r = pick(reactions);
-        var typeExo = pick(['xmax', 'produit']);
-        var n0A = randFloat(0.05, 0.50, 2);
-        var n0B = randFloat(0.05, 0.50, 2);
-        var xA = parseFloat((n0A / r.coefA).toFixed(4));
-        var xB = parseFloat((n0B / r.coefB).toFixed(4));
-        var xmax = Math.min(xA, xB);
-        var limitantTex = xA <= xB ? r.texA : r.texB;
-
-        if (typeExo === 'xmax') {
-          return {
-            statement: 'On réalise la réaction d\'équation $' + r.texEq + '$ à partir de $n_0(' + r.texA + ') = ' + fr(n0A, 2) + '$ mol et $n_0(' + r.texB + ') = ' + fr(n0B, 2) + '$ mol.<br/><br/>Détermine le réactif limitant, puis calcule l\'avancement maximal $x_{max}$ de la réaction (en mol, arrondi au millième).',
-            answer: xmax,
-            tolerance: Math.max(0.001, xmax * 0.05),
-            unit: 'mol',
-            hint: 'Calcule séparément $\\dfrac{n_0(' + r.texA + ')}{' + r.coefA + '}$ et $\\dfrac{n_0(' + r.texB + ')}{' + r.coefB + '}$ : le réactif limitant est celui qui donne le plus petit résultat, c\'est ce résultat qui est $x_{max}$.',
-            solution: [
-              'Pour ' + r.texA + ' : $\\dfrac{n_0(' + r.texA + ')}{' + r.coefA + '} = \\dfrac{' + fr(n0A, 2) + '}{' + r.coefA + '} \\approx ' + fr(xA, 3) + '$ mol.',
-              'Pour ' + r.texB + ' : $\\dfrac{n_0(' + r.texB + ')}{' + r.coefB + '} = \\dfrac{' + fr(n0B, 2) + '}{' + r.coefB + '} \\approx ' + fr(xB, 3) + '$ mol.',
-              'Le réactif limitant est celui qui donne le plus petit rapport (' + limitantTex + '), donc $x_{max} \\approx ' + fr(xmax, 3) + '$ mol.'
-            ]
-          };
-        } else {
-          var nC = parseFloat((r.coefC * xmax).toFixed(4));
-          return {
-            statement: 'On réalise la réaction d\'équation $' + r.texEq + '$ à partir de $n_0(' + r.texA + ') = ' + fr(n0A, 2) + '$ mol et $n_0(' + r.texB + ') = ' + fr(n0B, 2) + '$ mol.<br/><br/>Calcule la quantité de matière de ' + r.texC + ' formée à l\'état final (en mol, arrondie au millième).',
-            answer: nC,
-            tolerance: Math.max(0.001, nC * 0.05),
-            unit: 'mol',
-            hint: 'Détermine d\'abord $x_{max}$ (le plus petit des rapports $n_0/\\text{coefficient}$), puis utilise $n(' + r.texC + ') = ' + r.coefC + ' \\times x_{max}$.',
-            solution: [
-              'Rapports : $\\dfrac{n_0(' + r.texA + ')}{' + r.coefA + '} \\approx ' + fr(xA, 3) + '$ mol et $\\dfrac{n_0(' + r.texB + ')}{' + r.coefB + '} \\approx ' + fr(xB, 3) + '$ mol, donc $x_{max} \\approx ' + fr(xmax, 3) + '$ mol.',
-              'Quantité de ' + r.texC + ' formée : $n(' + r.texC + ') = ' + r.coefC + ' \\times x_{max} = ' + r.coefC + ' \\times ' + fr(xmax, 3) + '$.',
-              'Résultat : $n(' + r.texC + ') \\approx ' + fr(nC, 3) + '$ mol.'
-            ]
-          };
-        }
+        var reaction = pick(reactions);
+        var nA = randFloat(1, 6, 1);
+        var nB = randFloat(1, 8, 1);
+        var xmaxA = parseFloat((nA / reaction.coefA).toFixed(3));
+        var xmaxB = parseFloat((nB / reaction.coefB).toFixed(3));
+        var xmax = Math.min(xmaxA, xmaxB);
+        var xmaxRound = parseFloat(xmax.toFixed(2));
+        var limitant = xmaxA < xmaxB ? reaction.nomA : (xmaxB < xmaxA ? reaction.nomB : (reaction.nomA + ' et ' + reaction.nomB + ' simultanément'));
+        var tol = parseFloat(Math.max(0.02, xmaxRound * 0.04).toFixed(2));
+        var contexte = pick([
+          'en laboratoire de chimie',
+          'dans un réacteur industriel',
+          'lors d\'une séance de travaux pratiques',
+          'dans un dispositif de synthèse contrôlée'
+        ]);
+        return {
+          statement: 'On réalise ' + contexte + ' la réaction d\'équation $' + reaction.eq + '$, à partir de $n(' + reaction.nomA + ')_i = ' + fr(nA, 1) + '$ mol et $n(' + reaction.nomB + ')_i = ' + fr(nB, 1) + '$ mol.<br/><br/>Calcule l\'avancement maximal $x_{max}$ de cette réaction (en mol, arrondi au centième).',
+          answer: xmaxRound,
+          tolerance: tol,
+          unit: 'mol',
+          hint: 'Calcule le rapport $n_i/\\text{coefficient}$ pour chaque réactif : le plus petit rapport donne $x_{max}$.',
+          solution: [
+            'Rapport pour $' + reaction.nomA + '$ : $\\dfrac{n(' + reaction.nomA + ')_i}{' + reaction.coefA + '} = \\dfrac{' + fr(nA, 1) + '}{' + reaction.coefA + '} \\approx ' + fr(xmaxA, 2) + '$ mol.',
+            'Rapport pour $' + reaction.nomB + '$ : $\\dfrac{n(' + reaction.nomB + ')_i}{' + reaction.coefB + '} = \\dfrac{' + fr(nB, 1) + '}{' + reaction.coefB + '} \\approx ' + fr(xmaxB, 2) + '$ mol.',
+            'Le plus petit rapport correspond au réactif limitant (' + limitant + ') : $x_{max} \\approx ' + fr(xmaxRound, 2) + '$ mol.'
+          ]
+        };
       }
     },
 
     probleme: {
-      context: 'On brûle un ruban de magnésium dans le dioxygène, selon l\'équation $2\\,\\text{Mg} + \\text{O}_2 \\rightarrow 2\\,\\text{MgO}$. On dispose de $n_0(\\text{Mg}) = 0{,}40$ mol de magnésium et de $n_0(\\text{O}_2) = 0{,}30$ mol de dioxygène.',
+      context: 'On étudie la combustion du propane, selon l\'équation $C_3H_8 + 5\\,O_2 \\rightarrow 3\\,CO_2 + 4\\,H_2O$. On introduit initialement $n(C_3H_8)_i = 0{,}40$ mol de propane et $n(O_2)_i = 2{,}5$ mol de dioxygène.',
       tasks: [
-        'Construire le tableau d\'avancement littéral de cette réaction (états initial, intermédiaire à l\'avancement $x$, final).',
-        'Déterminer le réactif limitant et l\'avancement maximal $x_{max}$.',
-        'Calculer les quantités de matière de chaque espèce à l\'état final.'
+        'Calculer le rapport $n_i/\\text{coefficient}$ pour chacun des deux réactifs, et en déduire le réactif limitant.',
+        'En déduire l\'avancement maximal $x_{max}$ de la réaction.',
+        'Calculer les quantités de matière de tous les réactifs et produits à l\'état final (transformation supposée totale).'
       ],
       solutions: [
-        'Tableau d\'avancement : à l\'avancement $x$, $n(\\text{Mg}) = 0{,}40 - 2x$ (coefficient $2$), $n(\\text{O}_2) = 0{,}30 - x$ (coefficient $1$), et $n(\\text{MgO}) = 2x$ (initialement nul, coefficient $2$).',
-        'Rapports : $\\dfrac{n_0(\\text{Mg})}{2} = \\dfrac{0{,}40}{2} = 0{,}20$ mol, et $\\dfrac{n_0(\\text{O}_2)}{1} = \\dfrac{0{,}30}{1} = 0{,}30$ mol. Le plus petit rapport est celui du magnésium : c\'est le <strong>réactif limitant</strong>, donc $x_{max} = 0{,}20$ mol.',
-        'À l\'état final : $n(\\text{Mg}) = 0{,}40 - 2\\times0{,}20 = 0$ mol (entièrement consommé) ; $n(\\text{O}_2) = 0{,}30 - 0{,}20 = 0{,}10$ mol (excès restant) ; $n(\\text{MgO}) = 2\\times0{,}20 = 0{,}40$ mol (produit formé).'
+        'Rapport pour $C_3H_8$ : $\\dfrac{0{,}40}{1}=0{,}40$ mol. Rapport pour $O_2$ : $\\dfrac{2{,}5}{5}=0{,}50$ mol. Le plus petit rapport ($0{,}40 < 0{,}50$) désigne $C_3H_8$ comme réactif limitant.',
+        '$x_{max}=0{,}40$ mol, imposé par le réactif limitant $C_3H_8$.',
+        'État final : $n(C_3H_8)_f=0{,}40-0{,}40=0$ mol (épuisé) ; $n(O_2)_f=2{,}5-5\\times0{,}40=2{,}5-2{,}0=0{,}5$ mol (en excès) ; $n(CO_2)_f=3\\times0{,}40=1{,}2$ mol ; $n(H_2O)_f=4\\times0{,}40=1{,}6$ mol.'
       ],
-      finalAnswer: 'Le magnésium est le réactif limitant, $x_{max} = 0{,}20$ mol, avec $0{,}10$ mol de dioxygène restant en excès et $0{,}40$ mol d\'oxyde de magnésium formé. Vérification : la masse totale se conserve, et le réactif limitant (Mg) est bien totalement consommé, comme l\'exige sa définition.'
+      finalAnswer: 'Réactif limitant : $C_3H_8$, $x_{max}=0{,}40$ mol. À l\'état final : $0$ mol de propane, $0{,}5$ mol de dioxygène restant (en excès), $1{,}2$ mol de $CO_2$ et $1{,}6$ mol de $H_2O$ formées. Le dioxygène en excès est une pratique courante en combustion, afin de garantir une combustion complète du carburant.'
     },
 
     evaluation: {
@@ -204,61 +219,57 @@ window.MODULES.push({
       duration: '30 min',
       questions: [
         {
-          statement: 'Dans une équation de réaction $aA + bB \\rightarrow cC$, les coefficients $a$, $b$, $c$ sont appelés :',
+          statement: 'Pour la réaction $2\\,H_2+O_2\\rightarrow2\\,H_2O$, avec $n(H_2)_i=5$ mol et $n(O_2)_i=2$ mol, calculer l\'avancement maximal $x_{max}$ (en mol).',
+          type: 'numeric',
+          answer: 2,
+          tolerance: 0.05,
+          unit: 'mol',
+          points: 2,
+          correction: 'Rapport pour $H_2$ : $5/2=2{,}5$. Rapport pour $O_2$ : $2/1=2$. Le plus petit ($2$) donne $x_{max}=2$ mol : $O_2$ est le réactif limitant.'
+        },
+        {
+          statement: 'Le réactif limitant d\'une transformation chimique est :',
           type: 'multiple-choice',
           options: [
-            'Coefficients stœchiométriques',
-            'Coefficients directeurs',
-            'Coefficients de proportionnalité inverse',
-            'Constantes d\'équilibre'
+            'Celui qui est entièrement consommé le premier, et qui impose l\'avancement maximal',
+            'Celui dont la quantité de matière initiale est la plus grande',
+            'Celui qui a le plus petit nombre stœchiométrique',
+            'Celui qui ne réagit pas'
           ],
           answer: 0,
-          points: 1,
-          correction: 'Les coefficients $a$, $b$, $c$ devant chaque espèce sont les coefficients stœchiométriques : ils traduisent les proportions dans lesquelles les espèces réagissent ou se forment.'
+          points: 2,
+          correction: 'Par définition, le réactif limitant est celui qui est totalement consommé en premier, ce qui fixe $x_{max}$ ; ce n\'est pas nécessairement celui dont $n_i$ est le plus grand ou le plus petit, tout dépend aussi des coefficients stœchiométriques.'
         },
         {
-          statement: 'Pour une réaction $A + 3B \\rightarrow 2C$, avec $n_0(A) = 0{,}12$ mol et $n_0(B) = 0{,}30$ mol, déterminer l\'avancement maximal $x_{max}$ (en mol, arrondi au millième).',
+          statement: 'Pour la réaction précédente ($2\\,H_2+O_2\\rightarrow2\\,H_2O$, $x_{max}=2$ mol), calculer la quantité de matière d\'eau $n(H_2O)_f$ formée à l\'état final (en mol).',
           type: 'numeric',
-          answer: 0.10,
-          tolerance: 0.005,
+          answer: 4,
+          tolerance: 0.1,
           unit: 'mol',
-          points: 3,
-          correction: '$\\dfrac{n_0(A)}{1} = 0{,}12$ mol, $\\dfrac{n_0(B)}{3} = \\dfrac{0{,}30}{3} = 0{,}10$ mol. Le plus petit rapport est celui de B : $x_{max} = 0{,}10$ mol (B est le réactif limitant).'
+          points: 2,
+          correction: '$n(H_2O)_f=2\\times x_{max}=2\\times2=4$ mol.'
         },
         {
-          statement: 'Le réactif limitant d\'une réaction est :',
+          statement: 'Pour déterminer le réactif limitant d\'une réaction dont les réactifs ont des nombres stœchiométriques différents, il faut comparer :',
           type: 'multiple-choice',
           options: [
-            'Celui dont la quantité de matière initiale est la plus petite',
-            'Celui dont le rapport $n_0/\\text{coefficient}$ est le plus petit',
-            'Celui qui a la plus grande masse molaire',
-            'Celui qui est en excès à la fin de la réaction'
+            'Le rapport $n_i/\\text{coefficient stœchiométrique}$ de chaque réactif',
+            'Directement les quantités de matière initiales $n_i$',
+            'Les masses molaires des réactifs',
+            'Les volumes des solutions utilisées, uniquement'
           ],
+          answer: 0,
+          points: 2,
+          correction: 'Comparer directement les $n_i$ sans tenir compte des coefficients stœchiométriques est une erreur fréquente : le rapport $n_i/\\text{coefficient}$ est la seule comparaison valide pour identifier le réactif limitant.'
+        },
+        {
+          statement: 'Pour la réaction $2\\,H_2+O_2\\rightarrow2\\,H_2O$ ($n(H_2)_i=5$ mol, $x_{max}=2$ mol), calculer la quantité de matière de dihydrogène restant $n(H_2)_f$ à l\'état final (en mol).',
+          type: 'numeric',
           answer: 1,
-          points: 2,
-          correction: 'Le réactif limitant est déterminé par le plus petit rapport $n_0/\\text{coefficient}$, pas par la plus petite quantité de matière initiale seule.'
-        },
-        {
-          statement: 'Pour la réaction $2\\,\\text{Mg} + \\text{O}_2 \\rightarrow 2\\,\\text{MgO}$, avec un avancement maximal $x_{max} = 0{,}15$ mol, calculer la quantité de matière de MgO formée à l\'état final (en mol).',
-          type: 'numeric',
-          answer: 0.30,
-          tolerance: 0.01,
+          tolerance: 0.05,
           unit: 'mol',
           points: 2,
-          correction: '$n(\\text{MgO}) = 2 \\times x_{max} = 2 \\times 0{,}15 = 0{,}30$ mol (coefficient $2$ devant MgO).'
-        },
-        {
-          statement: 'Une fois l\'avancement maximal atteint, les quantités de matière de toutes les espèces :',
-          type: 'multiple-choice',
-          options: [
-            'Continuent à évoluer',
-            'Redeviennent nulles',
-            'Restent constantes',
-            'Oscillent périodiquement'
-          ],
-          answer: 2,
-          points: 1,
-          correction: 'À $x_{max}$, le réactif limitant a disparu et la réaction s\'arrête : toutes les quantités de matière restent constantes au-delà de cet instant.'
+          correction: '$n(H_2)_f=n(H_2)_i-2\\times x_{max}=5-2\\times2=5-4=1$ mol (en excès, car $H_2$ n\'est pas le réactif limitant).'
         }
       ]
     }

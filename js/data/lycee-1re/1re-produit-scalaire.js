@@ -196,7 +196,7 @@ window.MODULES.push({
             solution: [
               `$W = ${F} \\times ${d} \\times \\cos(${angleDeg}°)$`,
               `$= ${F} \\times ${d} \\times ${fr(cosVal, 4)}$`,
-              `$= ${answer}\\,\\text{J}$`
+              `$= ${fr(answer)}\\,\\text{J}$`
             ]
           };
         }

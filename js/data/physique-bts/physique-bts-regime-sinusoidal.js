@@ -51,7 +51,7 @@ window.MODULES.push({
 
             <!-- vecteur U (reference des phases) -->
             <line class="curve-main" x1="110" y1="160" x2="350" y2="160" marker-end="url(#arrow-physbts-fresnel)"></line>
-            <text class="annotation-label" x="365" y="164">U</text>
+            <text class="annotation-label" x="360" y="147">U</text>
 
             <!-- vecteur I (en retard de phase, circuit inductif) -->
             <line class="curve-main" x1="110" y1="160" x2="280" y2="266" marker-end="url(#arrow-physbts-fresnel)"></line>

@@ -50,7 +50,7 @@ window.MODULES.push({
             <desc id="perimaire-diagram-desc">Trois figures cote a cote : rectangle 8 sur 5, triangle de base et hauteur, disque de rayon 5. Le contour represente le perimetre et la teinte interieure represente l'aire.</desc>
             <rect x="20" y="14" width="170" height="30" rx="10" fill="color-mix(in srgb, var(--diagram-accent) 7%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 22%, var(--border))"></rect>
             <line class="frame-line" x1="32" y1="29" x2="56" y2="29"></line>
-            <text class="annotation-label" x="64" y="34">Perimetre (contour)</text>
+            <text class="annotation-label" x="64" y="34">Périmètre (contour)</text>
             <rect x="210" y="14" width="170" height="30" rx="10" fill="color-mix(in srgb, var(--diagram-accent) 7%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 22%, var(--border))"></rect>
             <rect x="222" y="21" width="16" height="16" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)" stroke="none"></rect>
             <text class="annotation-label" x="248" y="34">Aire (surface)</text>
@@ -75,11 +75,11 @@ window.MODULES.push({
         `,
         notes: [
           'Le rectangle reprend l\'exemple du cours : $L = 8$ cm, $l = 5$ cm, donc $\\mathcal{P} = 2(8+5) = 26$ cm et $\\mathcal{A} = 8 \\times 5 = 40$ cm².',
-          'Le triangle n\'a pas de valeurs chiffrees dans le cours : seules les formules $\\mathcal{P} = a+b+c$ et $\\mathcal{A} = \\dfrac{\\text{base} \\times h}{2}$ sont rappelees, sur une figure generique.',
+          'Le triangle n\'a pas de valeurs chiffrées dans le cours : seules les formules $\\mathcal{P} = a+b+c$ et $\\mathcal{A} = \\dfrac{\\text{base} \\times h}{2}$ sont rappelées, sur une figure générique.',
           'Le disque reprend l\'exemple du cours : $r = 5$ cm, donc $\\mathcal{P} = 2\\pi \\times 5 \\approx 31{,}4$ cm et $\\mathcal{A} = \\pi \\times 5^2 \\approx 78{,}5$ cm² (avec $\\pi \\approx 3{,}14$).'
         ],
-        reading: 'Suis le trait epais du doigt : c\'est le perimetre. La zone coloree a l\'interieur, c\'est l\'aire. Les deux se calculent avec des formules differentes et ne s\'expriment jamais dans la meme unite.',
-        caption: 'Perimetre (contour, en cm) et aire (surface teintee, en cm²) sur un rectangle, un triangle et un disque.'
+        reading: 'Suis le trait épais du doigt : c\'est le périmètre. La zone colorée à l\'intérieur, c\'est l\'aire. Les deux se calculent avec des formules différentes et ne s\'expriment jamais dans la même unité.',
+        caption: 'Périmètre (contour, en cm) et aire (surface teintée, en cm²) sur un rectangle, un triangle et un disque.'
       },
       formulas: [
         'Rectangle : $\\mathcal{P} = 2(L + l)$ et $\\mathcal{A} = L \\times l$',
@@ -141,7 +141,7 @@ window.MODULES.push({
             tolerance: 0.1,
             unit: 'cm²',
             hint: `$\\mathcal{A} = \\dfrac{b \\times h}{2}$.`,
-            solution: [`$\\mathcal{A} = \\dfrac{${b} \\times ${h}}{2} = \\dfrac{${b * h}}{2} = ${aire.toString().replace('.', '{,}')}$ cm²`]
+            solution: [`$\\mathcal{A} = \\dfrac{${b} \\times ${h}}{2} = \\dfrac{${b * h}}{2} = ${fr(aire)}$ cm²`]
           };
         }
         const r = rand(2, 10);
@@ -160,7 +160,7 @@ window.MODULES.push({
           tolerance: 0.5,
           unit: 'cm²',
           hint: `$\\mathcal{A} = \\pi r^2 = 3{,}14 \\times ${r}^2$.`,
-          solution: [`$\\mathcal{A} = 3{,}14 \\times ${r * r} = ${aire.toString().replace('.', '{,}')}$ cm²`]
+          solution: [`$\\mathcal{A} = 3{,}14 \\times ${r * r} = ${fr(aire)}$ cm²`]
         };
       }
     },

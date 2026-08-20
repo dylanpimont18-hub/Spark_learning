@@ -7,201 +7,184 @@ window.MODULES.push({
     level: 2, subject: 'physique',
     icon: '⚛️',
     title: 'Le modèle de l\'atome',
-    subtitle: 'Structure de l\'atome (noyau, électrons), numéro atomique, nombre de masse, isotopes, répartition électronique en couches K, L, M',
-    keywords: ['Atome', 'Noyau', 'Électron', 'Numéro atomique', 'Isotope', 'Couches électroniques'],
-    physics: 'Le modèle de l\'atome permet de comprendre la datation au carbone 14 (basée sur les isotopes), le fonctionnement des capteurs et composants électroniques à base de semi-conducteurs, ou encore l\'identification des éléments chimiques présents dans une étoile grâce à la spectroscopie.',
+    subtitle: 'Structure de l\'atome, numéro atomique Z, nombre de masse A, répartition électronique, ions',
+    keywords: ['Atome', 'Numéro atomique', 'Électron', 'Ion', 'Isotope'],
+    physics: 'Comprendre la structure de l\'atome permet d\'expliquer la datation au carbone 14 en archéologie, le fonctionnement d\'un scanner médical utilisant des isotopes radioactifs, ou pourquoi le sodium métallique réagit violemment avec l\'eau en formant l\'ion $Na^+$.',
 
     cours: {
-      intro: 'Un <strong>atome</strong> est constitué d\'un <strong>noyau</strong>, minuscule et très dense, entouré d\'<strong>électrons</strong> en mouvement autour de lui. Le noyau contient des <strong>protons</strong> (charge électrique positive) et des <strong>neutrons</strong> (électriquement neutres), appelés collectivement <strong>nucléons</strong>.<br/><br/>Les dimensions sont extrêmes : le diamètre du noyau est de l\'ordre de $10^{-15}$ m, alors que celui de l\'atome entier est de l\'ordre de $10^{-10}$ m, soit environ $100\\,000$ fois plus grand. Si le noyau avait la taille d\'une bille de $1$ cm, l\'atome entier aurait la taille d\'un stade de football : l\'atome est donc presque entièrement constitué de <strong>vide</strong>.<br/><br/>Un atome est électriquement <strong>neutre</strong> : il possède autant d\'électrons (charge négative) que de protons (charge positive). Les électrons se répartissent autour du noyau en <strong>couches successives</strong>, notées $K$, $L$, $M$… La couche la plus externe, dite <strong>couche de valence</strong>, joue un rôle central : c\'est elle qui détermine la réactivité chimique de l\'atome et sa position dans le tableau périodique.',
+      intro: 'Toute la matière qui nous entoure, de l\'air que l\'on respire au métal d\'une pièce de monnaie, est constituée d\'<strong>atomes</strong>. Un atome est pourtant essentiellement... du vide : un minuscule <strong>noyau</strong>, extraordinairement dense, concentre presque toute sa masse, tandis qu\'un nuage d\'<strong>électrons</strong>, bien plus léger, occupe presque tout son volume.<br/><br/>Ce modèle simple permet pourtant d\'expliquer énormément de choses : pourquoi deux atomes appartiennent au même élément chimique, pourquoi certains atomes se transforment en ions, ou pourquoi deux isotopes d\'un même élément se comportent chimiquement de façon presque identique.',
       definitions: [
-        { term: 'Numéro atomique ($Z$)', def: 'Nombre de protons contenus dans le noyau. Pour un atome neutre, $Z$ est aussi le nombre d\'électrons. Il caractérise un élément chimique et détermine sa position dans le tableau périodique.' },
-        { term: 'Nombre de masse ($A$)', def: 'Nombre total de nucléons (protons + neutrons) : $A = Z + N$, où $N$ est le nombre de neutrons. La masse de l\'atome est presque entièrement portée par le noyau.' },
-        { term: 'Isotopes', def: 'Atomes d\'un même élément chimique (même $Z$, donc mêmes propriétés chimiques) mais possédant un nombre de neutrons $N$ différent, donc un nombre de masse $A$ différent. Exemple : le carbone 12 et le carbone 14.' },
-        { term: 'Couche électronique de valence', def: 'Couche électronique la plus externe d\'un atome. Le nombre d\'électrons qu\'elle contient détermine la réactivité chimique de l\'atome : c\'est lui qui gouverne les liaisons que l\'atome peut former avec d\'autres atomes.' }
+        { term: 'Numéro atomique $Z$', def: 'Nombre de protons contenus dans le noyau d\'un atome. Il caractérise l\'<strong>élément chimique</strong> : deux atomes de même $Z$ appartiennent au même élément.' },
+        { term: 'Nombre de masse $A$', def: 'Nombre total de <strong>nucléons</strong> (protons + neutrons) dans le noyau : $A = Z + N$, où $N$ est le nombre de neutrons. Symbole complet de l\'atome : $^A_Z X$.' },
+        { term: 'Électroneutralité', def: 'Un atome est électriquement neutre : il possède <strong>autant d\'électrons que de protons</strong>, soit $Z$ électrons pour $Z$ protons.' },
+        { term: 'Ion', def: 'Espèce chimique obtenue quand un atome (ou groupe d\'atomes) gagne ou perd un ou plusieurs électrons, sans que son noyau change. <strong>Cation</strong> (perte d\'électrons, charge positive) ou <strong>anion</strong> (gain d\'électrons, charge négative).' }
       ],
       method: {
         title: 'Établir la structure électronique d\'un atome en 3 étapes',
         steps: [
-          '<strong>Déterminer le numéro atomique</strong> $Z$ de l\'atome neutre étudié (donné par le tableau périodique) : c\'est aussi son nombre d\'électrons à répartir.<br/>Exemple : pour l\'aluminium, $Z = 13$, donc $13$ électrons à placer.',
-          '<strong>Répartir les électrons</strong> en couches successives, en respectant les capacités maximales admises au lycée : la couche $K$ accueille au maximum $2$ électrons, la couche $L$ au maximum $8$, la couche $M$ au maximum $8$. On remplit toujours la couche la plus proche du noyau en premier.<br/>Exemple : pour $Z=13$, on remplit $K$ (2 électrons), puis $L$ (8 électrons), puis les $13-2-8=3$ électrons restants vont sur $M$.',
-          '<strong>Identifier la couche de valence</strong> (la dernière couche occupée, même partiellement) et compter son nombre d\'électrons : c\'est lui qui explique la réactivité chimique de l\'atome et sa colonne dans le tableau périodique.'
+          '<strong>Identifier le numéro atomique</strong> $Z$ (nombre de protons) : l\'atome neutre possède alors exactement $Z$ électrons.',
+          '<strong>Répartir ces $Z$ électrons</strong> dans les couches électroniques en respectant l\'ordre de remplissage et leur capacité maximale : couche K ($2$ électrons maximum), puis couche L ($8$ électrons maximum), puis couche M.',
+          '<strong>Vérifier</strong> que la somme des électrons de chaque couche est bien égale à $Z$, et que chaque couche interne est saturée avant de commencer à remplir la suivante.'
         ]
       },
       diagram: {
         theme: 'physique',
-        kicker: 'Modèle de l\'atome (modèle en couches)',
-        title: 'Structure de l\'atome de sodium ($Z=11$)',
-        description: 'Le noyau, au centre, contient $11$ protons et $12$ neutrons. Les $11$ électrons se répartissent en trois couches : $K$ (2 électrons), $L$ (8 électrons) et $M$ (1 électron, sur la couche de valence).',
+        kicker: 'Modèle en couches de l\'atome',
+        title: 'Structure électronique de l\'atome de sodium',
+        description: 'L\'atome de sodium $^{23}_{11}\\text{Na}$ possède $11$ protons, $12$ neutrons, et donc $11$ électrons répartis en trois couches : K ($2$ électrons), L ($8$ électrons), M ($1$ électron). <em>Le noyau est représenté bien plus gros que sa taille réelle, pour rester visible.</em>',
         svg: `
-          <svg viewBox="0 0 560 300" role="img" aria-labelledby="atome-title atome-desc">
-            <title id="atome-title">Modele en couches de l'atome de sodium</title>
-            <desc id="atome-desc">Un schema represente un noyau atomique central entoure de trois cercles concentriques representant les couches electroniques K, L et M. Le noyau, au centre, porte l'etiquette Z egal onze. Deux electrons sont repartis sur la couche K la plus proche du noyau, huit electrons sont repartis regulierement sur la couche L intermediaire, et un seul electron, dessine avec un contour distinct pour signaler qu'il s'agit de l'electron de valence, se trouve sur la couche M la plus externe.</desc>
+          <svg viewBox="0 0 560 320" role="img" aria-labelledby="atome2nde-title atome2nde-desc">
+            <title id="atome2nde-title">Modele en couches de l'atome de sodium</title>
+            <desc id="atome2nde-desc">Un noyau central porte l'etiquette Z egale onze. Autour de lui, trois cercles concentriques representent les couches electroniques K, L et M. Deux electrons sont places sur la couche K la plus proche du noyau, huit electrons regulierement espaces sur la couche L intermediaire, et un seul electron sur la couche M la plus exterieure. Une legende en bas indique la capacite de chaque couche : K deux electrons maximum, L huit electrons maximum, M ici un seul electron.</desc>
 
-            <!-- couches electroniques (cercles concentriques) -->
-            <circle class="guide-line" cx="280" cy="150" r="35" fill="none"></circle>
-            <circle class="guide-line" cx="280" cy="150" r="70" fill="none"></circle>
-            <circle class="guide-line" cx="280" cy="150" r="105" fill="none"></circle>
+            <!-- couches electroniques (cercles de reference) -->
+            <circle class="guide-line" fill="none" cx="280" cy="140" r="40"></circle>
+            <circle class="guide-line" fill="none" cx="280" cy="140" r="75"></circle>
+            <circle class="guide-line" fill="none" cx="280" cy="140" r="110"></circle>
 
             <!-- noyau -->
-            <circle class="frame-line" cx="280" cy="150" r="18" fill="var(--diagram-soft)"></circle>
-            <text class="annotation-label" x="280" y="154" text-anchor="middle">Z=11</text>
+            <circle class="plot-point-alt" cx="280" cy="140" r="22"></circle>
+            <text class="annotation-label" x="280" y="144" text-anchor="middle">Z = 11</text>
 
             <!-- electrons couche K (2) -->
-            <circle class="plot-point" cx="273.9" cy="115.5" r="5"></circle>
-            <circle class="plot-point" cx="286.1" cy="184.5" r="5"></circle>
+            <circle class="plot-point" cx="280" cy="100" r="6"></circle>
+            <circle class="plot-point" cx="280" cy="180" r="6"></circle>
 
-            <!-- electrons couche L (8) -->
-            <circle class="plot-point" cx="267.8" cy="81.1" r="5"></circle>
-            <circle class="plot-point" cx="320.2" cy="92.7" r="5"></circle>
-            <circle class="plot-point" cx="348.9" cy="137.8" r="5"></circle>
-            <circle class="plot-point" cx="337.3" cy="190.2" r="5"></circle>
-            <circle class="plot-point" cx="292.2" cy="218.9" r="5"></circle>
-            <circle class="plot-point" cx="239.8" cy="207.3" r="5"></circle>
-            <circle class="plot-point" cx="211.1" cy="162.2" r="5"></circle>
-            <circle class="plot-point" cx="222.7" cy="109.8" r="5"></circle>
+            <!-- electrons couche L (8, tous les 45 degres) -->
+            <circle class="plot-point" cx="355" cy="140" r="6"></circle>
+            <circle class="plot-point" cx="333" cy="193" r="6"></circle>
+            <circle class="plot-point" cx="280" cy="215" r="6"></circle>
+            <circle class="plot-point" cx="227" cy="193" r="6"></circle>
+            <circle class="plot-point" cx="205" cy="140" r="6"></circle>
+            <circle class="plot-point" cx="227" cy="87" r="6"></circle>
+            <circle class="plot-point" cx="280" cy="65" r="6"></circle>
+            <circle class="plot-point" cx="333" cy="87" r="6"></circle>
 
-            <!-- electron couche M (1, electron de valence, style distinct) -->
-            <circle class="plot-point-alt" cx="261.8" cy="46.6" r="6"></circle>
+            <!-- electron couche M (1) -->
+            <circle class="plot-point" cx="383" cy="178" r="6"></circle>
 
-            <!-- etiquettes des couches -->
-            <text class="tick-label" x="327" y="146" text-anchor="middle">K</text>
-            <text class="tick-label" x="362" y="146" text-anchor="middle">L</text>
-            <text class="tick-label" x="397" y="146" text-anchor="middle">M</text>
-            <text class="label-soft" x="280" y="285" text-anchor="middle">Couche de valence M : 1 électron (cercle évidé)</text>
+            <!-- legende -->
+            <text class="tick-label" x="150" y="280" text-anchor="middle">K : 2 e⁻ max</text>
+            <text class="tick-label" x="280" y="280" text-anchor="middle">L : 8 e⁻ max</text>
+            <text class="tick-label" x="410" y="280" text-anchor="middle">M : ici 1 e⁻</text>
           </svg>
         `,
         notes: [
-          'Le noyau (au centre) concentre presque toute la masse de l\'atome dans un volume extrêmement petit : il contient $11$ protons et $12$ neutrons, soit un nombre de masse $A = 11+12 = 23$.',
-          'Les couches $K$ et $L$ sont <strong>complètes</strong> (2 puis 8 électrons) : elles ne participent pas aux réactions chimiques.',
-          'La couche $M$, la couche de <strong>valence</strong>, ne contient qu\'un seul électron (représenté par un cercle évidé) : c\'est cet électron externe qui détermine la grande réactivité chimique du sodium.'
+          'Le noyau contient $11$ protons ($Z = 11$) et $12$ neutrons ($N = A - Z = 23 - 11 = 12$), soit $23$ nucléons au total ($A = 23$).',
+          'L\'atome étant neutre, il possède exactement $11$ électrons, répartis couche par couche en respectant l\'ordre de remplissage : $2$ sur K (saturée), $8$ sur L (saturée), puis $1$ seul sur M — soit $2 + 8 + 1 = 11$ électrons au total.',
+          'La couche M n\'est pas saturée ($1$ électron sur $8$ possibles) : c\'est cet unique électron externe, facile à perdre, qui explique pourquoi le sodium forme si facilement l\'ion $Na^+$ (cation).'
         ],
-        reading: 'Pars du noyau central, puis compte les électrons couche par couche en t\'éloignant : $2$ sur $K$, $8$ sur $L$, et $1$ seul sur $M$, la couche de valence.',
-        caption: 'Modèle en couches de l\'atome de sodium ($Z=11$) : répartition électronique $K(2)$–$L(8)$–$M(1)$, avec un unique électron de valence sur la couche externe.'
+        reading: 'Repère le noyau au centre (Z = 11), puis compte les électrons sur chaque couche en partant de la plus proche (K), jusqu\'à la plus éloignée (M) : $2$, puis $8$, puis $1$.',
+        caption: 'Modèle en couches de l\'atome de sodium $^{23}_{11}\\text{Na}$ : structure électronique K(2) L(8) M(1), soit $11$ électrons au total.'
       },
       example: {
-        statement: 'L\'aluminium a pour numéro atomique $Z = 13$ et pour nombre de masse $A = 27$.<br/><br/>Déterminer la composition du noyau (protons et neutrons), puis établir la répartition électronique de cet atome et identifier sa couche de valence.',
+        statement: 'L\'aluminium a pour numéro atomique $Z = 13$.<br/><br/>Détermine sa structure électronique, c\'est-à-dire la répartition de ses $13$ électrons dans les couches K, L, M.',
         steps: [
-          'Nombre de protons : $Z = 13$. Nombre de neutrons : $N = A - Z = 27 - 13 = 14$.',
-          'Atome neutre : nombre d\'électrons = nombre de protons = $13$.',
-          'Répartition : couche $K$ se remplit en premier avec $2$ électrons (maximum) ; il reste $13 - 2 = 11$ électrons à placer.',
-          'Couche $L$ se remplit ensuite avec $8$ électrons (maximum) ; il reste $11 - 8 = 3$ électrons à placer.',
-          'Ces $3$ électrons restants se placent sur la couche $M$ (qui accepte jusqu\'à $8$ électrons) : la répartition est donc $K(2)$–$L(8)$–$M(3)$.'
+          'L\'atome d\'aluminium étant neutre, il possède exactement $Z = 13$ électrons.',
+          'Remplissage de la couche K (maximum $2$ électrons) : $2$ électrons y sont placés. Il en reste $13 - 2 = 11$.',
+          'Remplissage de la couche L (maximum $8$ électrons) : $8$ électrons y sont placés. Il en reste $11 - 8 = 3$.',
+          'Les $3$ électrons restants occupent la couche M (non saturée, mais c\'est la dernière couche occupée).'
         ],
-        answer: 'Noyau : $13$ protons et $14$ neutrons. Répartition électronique : $K(2)$–$L(8)$–$M(3)$. La couche de valence est $M$, avec $3$ électrons.'
+        answer: 'Structure électronique de l\'aluminium : K(2) L(8) M(3). Vérification : $2 + 8 + 3 = 13 = Z$. ✓'
       },
       formulas: [
-        'Atome neutre : nombre d\'électrons $=$ numéro atomique $Z$ (= nombre de protons)',
-        'Nombre de masse : $A = Z + N$ (protons + neutrons)',
-        'Capacités maximales des couches (niveau lycée) : $K \\leq 2$ électrons, $L \\leq 8$ électrons, $M \\leq 8$ électrons',
-        'Isotopes : même $Z$, $A$ différent (donc $N$ différent)'
+        '$A = Z + N$ (nombre de masse = numéro atomique + nombre de neutrons)',
+        'Symbole de l\'atome : $^A_Z X$',
+        'Atome neutre : nombre d\'électrons $= Z$ = nombre de protons',
+        'Répartition en couches : K ($2$ électrons max), puis L ($8$ électrons max), puis M'
       ],
       recap: [
-        'L\'atome est presque entièrement vide : le noyau ($\\approx 10^{-15}$ m) est environ $100\\,000$ fois plus petit que l\'atome entier ($\\approx 10^{-10}$ m).',
-        'Le numéro atomique $Z$ (nombre de protons) définit l\'élément chimique ; le nombre de masse $A = Z+N$ définit l\'isotope précis.',
-        'Les électrons se répartissent en couches $K$, $L$, $M$ (maximum $2$, $8$, $8$ au niveau lycée), en remplissant toujours la couche la plus proche du noyau en premier.',
-        'La couche de <strong>valence</strong> (la couche externe) détermine la réactivité chimique de l\'atome et sa position dans le tableau périodique.'
+        'L\'atome est formé d\'un <strong>noyau</strong> (protons + neutrons = nucléons) entouré d\'un nuage d\'<strong>électrons</strong>.',
+        'Le numéro atomique <strong>Z</strong> (nombre de protons) caractérise l\'élément chimique ; le nombre de masse <strong>A</strong> compte tous les nucléons.',
+        'Un atome neutre possède autant d\'<strong>électrons</strong> que de <strong>protons</strong> ($Z$).',
+        'Les électrons se répartissent en couches K ($2$ max), L ($8$ max), puis M, dans cet ordre de remplissage.'
       ],
-      piege: 'Une confusion fréquente consiste à mélanger le numéro atomique $Z$ (nombre de protons, qui définit l\'élément chimique) et le nombre de masse $A$ (protons + neutrons). Attention : deux isotopes d\'un même élément ont toujours le <strong>même $Z$</strong> (donc les mêmes propriétés chimiques) mais un $A$ différent, car seul leur nombre de neutrons varie.'
+      piege: 'Une confusion très fréquente consiste à inverser les rôles de $Z$ et $A$ dans le symbole $^A_Z X$, ou à oublier que le nombre de neutrons se calcule par $N = A - Z$ et non l\'inverse. Attention : $Z$ (en bas) est le numéro atomique, le nombre de <strong>protons</strong>, qui définit l\'élément chimique ; $A$ (en haut) est le nombre de masse, le nombre <strong>total</strong> de nucléons (protons + neutrons), toujours supérieur ou égal à $Z$.'
     },
 
     quiz: [
       {
-        q: 'Un atome neutre possède $17$ protons. Combien d\'électrons possède-t-il ?',
+        q: 'Un atome a pour numéro atomique $Z = 8$ et nombre de masse $A = 16$. Combien de neutrons contient son noyau ?',
         options: [
-          '$8$ électrons',
-          '$17$ électrons',
-          '$34$ électrons',
-          'Cela dépend du nombre de neutrons'
+          '$N = 8$',
+          '$N = 16$',
+          '$N = 24$',
+          '$N = 2$'
+        ],
+        answer: 0,
+        correction: '$N = A - Z = 16 - 8 = 8$ neutrons.'
+      },
+      {
+        q: 'Un atome neutre possède $15$ protons. Combien d\'électrons possède-t-il ?',
+        options: [
+          '$15$ électrons',
+          '$0$ électron',
+          '$30$ électrons',
+          '$7{,}5$ électrons'
+        ],
+        answer: 0,
+        correction: 'Un atome <strong>neutre</strong> possède exactement autant d\'électrons que de protons (électroneutralité) : $15$ électrons.'
+      },
+      {
+        q: 'Quelle est la répartition électronique correcte d\'un atome ayant $Z = 9$ électrons, dans les couches K puis L ?',
+        options: [
+          'K(9)',
+          'K(2) L(7)',
+          'K(8) L(1)',
+          'K(2) L(8), et $-1$ électron sur M'
         ],
         answer: 1,
-        correction: 'Un atome <strong>neutre</strong> possède toujours autant d\'électrons que de protons : $17$ protons impliquent $17$ électrons, quel que soit le nombre de neutrons (qui n\'a aucune influence sur la charge électrique).'
-      },
-      {
-        q: 'Le carbone 12 et le carbone 14 sont deux isotopes du carbone ($Z=6$). Que peut-on affirmer ?',
-        options: [
-          'Ils ont un nombre de protons différent',
-          'Ils ont le même nombre de neutrons',
-          'Ils ont le même nombre de protons mais un nombre de neutrons différent',
-          'Ce sont deux éléments chimiques différents'
-        ],
-        answer: 2,
-        correction: 'Des isotopes ont toujours le <strong>même numéro atomique</strong> $Z$ (même élément chimique), mais un nombre de neutrons différent : le carbone 12 a $6$ neutrons ($N=12-6$), le carbone 14 en a $8$ ($N=14-6$).'
-      },
-      {
-        q: 'Un atome possède $15$ électrons. En suivant la règle de répartition $K \\leq 2$, $L \\leq 8$, $M \\leq 8$, quelle est sa couche de valence ?',
-        options: [
-          'La couche $K$, avec $2$ électrons',
-          'La couche $L$, avec $8$ électrons',
-          'La couche $M$, avec $5$ électrons',
-          'La couche $M$, avec $8$ électrons'
-        ],
-        answer: 2,
-        correction: 'On remplit $K$ (2 électrons), puis $L$ (8 électrons) : $2+8=10$. Il reste $15-10=5$ électrons, qui se placent sur la couche $M$ : c\'est donc la couche de valence, avec $5$ électrons.'
+        correction: 'La couche K se sature à $2$ électrons maximum (pas $8$ ou $9$) : on place donc $2$ électrons sur K, puis les $9 - 2 = 7$ restants sur L, qui peut en accueillir jusqu\'à $8$ : K(2) L(7). Total : $2 + 7 = 9 = Z$. ✓'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
-        var elements = [
-          { nom: 'lithium', symbole: 'Li', Z: 3, A: 7 },
-          { nom: 'béryllium', symbole: 'Be', Z: 4, A: 9 },
-          { nom: 'carbone', symbole: 'C', Z: 6, A: 12 },
-          { nom: 'azote', symbole: 'N', Z: 7, A: 14 },
-          { nom: 'oxygène', symbole: 'O', Z: 8, A: 16 },
-          { nom: 'fluor', symbole: 'F', Z: 9, A: 19 },
-          { nom: 'sodium', symbole: 'Na', Z: 11, A: 23 },
-          { nom: 'magnésium', symbole: 'Mg', Z: 12, A: 24 },
-          { nom: 'aluminium', symbole: 'Al', Z: 13, A: 27 },
-          { nom: 'silicium', symbole: 'Si', Z: 14, A: 28 },
-          { nom: 'phosphore', symbole: 'P', Z: 15, A: 31 },
-          { nom: 'soufre', symbole: 'S', Z: 16, A: 32 },
-          { nom: 'chlore', symbole: 'Cl', Z: 17, A: 35 }
-        ];
-        var typeExo = pick(['neutrons', 'valence']);
-        var element = pick(elements);
+        var typeExo = pick(['neutrons', 'electrons_M']);
 
         if (typeExo === 'neutrons') {
-          var N = element.A - element.Z;
+          var Z = rand(3, 30);
+          var N0 = rand(0, 20);
+          var A = Z + N0;
           var contexte = pick([
-            'un capteur à semi-conducteurs',
-            'une analyse de spectroscopie stellaire',
-            'un exercice de datation isotopique',
-            'un contrôle qualité en laboratoire de chimie'
+            'lors d\'une séance de travaux pratiques de chimie',
+            'sur une fiche de classification périodique',
+            'lors d\'une analyse isotopique en laboratoire',
+            'dans un exercice de datation radioactive',
+            'lors de l\'étude d\'un noyau atomique en cours'
           ]);
           return {
-            statement: 'Dans le cadre de ' + contexte + ', on étudie un atome de ' + element.nom + ' (symbole ' + element.symbole + '), de numéro atomique $Z = ' + element.Z + '$ et de nombre de masse $A = ' + element.A + '$.<br/><br/>Calcule le nombre de neutrons $N$ contenus dans le noyau de cet atome.',
-            answer: N,
+            statement: 'Dans le cadre de ' + contexte + ', un noyau atomique a pour numéro atomique $Z = ' + Z + '$ et nombre de masse $A = ' + A + '$.<br/><br/>Calcule le nombre de neutrons $N$ de ce noyau.',
+            answer: N0,
             tolerance: 0,
             unit: '',
-            hint: 'Utilise la relation $A = Z + N$, donc $N = A - Z$.',
+            hint: 'Utilise $A = Z + N$, donc $N = A - Z$.',
             solution: [
-              'Relation entre nombre de masse, numéro atomique et nombre de neutrons : $A = Z + N$.',
-              'On isole $N$ : $N = A - Z = ' + element.A + ' - ' + element.Z + '$.',
-              'Résultat : $N = ' + N + '$ neutrons.'
+              'Relation entre $A$, $Z$ et $N$ : $A = Z + N$, donc $N = A - Z$.',
+              'Application numérique : $N = ' + A + ' - ' + Z + '$.',
+              'Résultat : $N = ' + N0 + '$ neutrons.'
             ]
           };
         } else {
-          // Restreindre aux elements Z=11 a 17 pour rester dans la regle simplifiee K<=2, L<=8, M<=8
-          var elementsValence = elements.filter(function (e) { return e.Z >= 11 && e.Z <= 17; });
-          var el = pick(elementsValence);
-          var Mcount = el.Z - 10; // K=2, L=8 rempli, reste sur M
+          var Zm = rand(11, 18);
+          var electronsM = Zm - 10;
           var contexte2 = pick([
-            'un exercice sur le tableau périodique',
-            'une étude de la réactivité chimique',
-            'un contrôle de structure électronique',
-            'une analyse de composition atomique'
+            'un atome étudié en classification périodique',
+            'un élément analysé lors d\'un exercice de structure atomique',
+            'un noyau présenté dans un exercice de cours',
+            'un atome dont on établit la structure électronique'
           ]);
           return {
-            statement: 'Dans ' + contexte2 + ', on étudie un atome de ' + el.nom + ' (symbole ' + el.symbole + '), de numéro atomique $Z = ' + el.Z + '$.<br/><br/>Sachant que les couches $K$ et $L$ sont totalement remplies (respectivement $2$ et $8$ électrons), calcule le nombre d\'électrons présents sur la couche de valence $M$.',
-            answer: Mcount,
+            statement: 'Pour ' + contexte2 + ', on considère un atome neutre de numéro atomique $Z = ' + Zm + '$. Ses électrons se répartissent en couches K, L, puis M (K et L étant saturées).<br/><br/>Calcule le nombre d\'électrons présents sur la couche M.',
+            answer: electronsM,
             tolerance: 0,
             unit: '',
-            hint: 'La couche K contient 2 électrons, la couche L en contient 8 : le reste des Z électrons se trouve sur la couche M.',
+            hint: 'La couche K contient $2$ électrons, la couche L en contient $8$ (saturées) : le reste va sur M.',
             solution: [
-              'Nombre total d\'électrons (atome neutre) : $Z = ' + el.Z + '$.',
-              'Couches internes déjà remplies : $K(2) + L(8) = 10$ électrons.',
-              'Électrons restants sur la couche de valence $M$ : $' + el.Z + ' - 10 = ' + Mcount + '$.'
+              'Électrons sur K (saturée) : $2$. Électrons sur L (saturée) : $8$. Total sur K et L : $2 + 8 = 10$.',
+              'Électrons restants sur M : $Z - 10 = ' + Zm + ' - 10$.',
+              'Résultat : $' + electronsM + '$ électron(s) sur la couche M.'
             ]
           };
         }
@@ -209,81 +192,82 @@ window.MODULES.push({
     },
 
     probleme: {
-      context: 'Le chlore naturel est un mélange de deux isotopes principaux : le chlore 35 (le plus abondant) et le chlore 37. Le numéro atomique du chlore est $Z = 17$.',
+      context: 'Le chlore naturel est un mélange de deux isotopes : le chlore 35 ($^{35}_{17}\\text{Cl}$) et le chlore 37 ($^{37}_{17}\\text{Cl}$).',
       tasks: [
-        'Donner la composition du noyau de l\'atome de chlore 35 (nombre de protons et de neutrons), ainsi que son nombre d\'électrons.',
-        'Donner la composition du noyau de l\'atome de chlore 37, et comparer avec celle du chlore 35.',
-        'Expliquer pourquoi ces deux atomes sont considérés comme un seul et même élément chimique, bien qu\'ils n\'aient pas la même masse.'
+        'Justifier que ces deux noyaux appartiennent au même élément chimique.',
+        'Calculer le nombre de neutrons de chacun de ces deux isotopes.',
+        'Un atome de chlore neutre, quel que soit l\'isotope considéré, possède combien d\'électrons ? Justifier.'
       ],
       solutions: [
-        'Pour le chlore 35 ($A=35$) : $Z=17$ protons, $N = A - Z = 35 - 17 = 18$ neutrons. Atome neutre : $17$ électrons.',
-        'Pour le chlore 37 ($A=37$) : $Z=17$ protons (identique), $N = 37 - 17 = 20$ neutrons, $17$ électrons (identique). Comparaison : les deux isotopes ont le <strong>même nombre de protons et d\'électrons</strong>, mais le chlore 37 possède $2$ neutrons de plus que le chlore 35.',
-        'Le numéro atomique $Z$ (donc le nombre de protons <strong>et</strong> d\'électrons pour un atome neutre) est identique dans les deux cas : c\'est lui qui définit l\'élément chimique « chlore » et sa répartition électronique, donc son comportement chimique. Le nombre de neutrons, qui ne modifie ni la charge ni la structure électronique, n\'a quasiment aucune influence sur les propriétés chimiques : c\'est pourquoi deux isotopes restent le même élément.'
+        'Les deux noyaux ont le même numéro atomique $Z = 17$ (même nombre de protons) : par définition, ils appartiennent au même <strong>élément chimique</strong>, le chlore. Seul leur nombre de masse $A$ diffère ($35$ et $37$), donc leur nombre de neutrons : ce sont des <strong>isotopes</strong>.',
+        'Chlore 35 : $N = A - Z = 35 - 17 = 18$ neutrons. Chlore 37 : $N = 37 - 17 = 20$ neutrons.',
+        'Un atome neutre possède autant d\'électrons que de protons, soit $Z = 17$ électrons, <strong>quel que soit l\'isotope</strong> : le nombre de neutrons n\'influence pas le nombre d\'électrons.'
       ],
-      finalAnswer: 'Chlore 35 : $17$ protons, $18$ neutrons, $17$ électrons. Chlore 37 : $17$ protons, $20$ neutrons, $17$ électrons. Les deux isotopes partagent le même numéro atomique $Z=17$ (même structure électronique, donc même comportement chimique) mais diffèrent par leur nombre de neutrons et donc par leur nombre de masse $A$.'
+      finalAnswer: '$N(\\text{Cl-35}) = 18$ et $N(\\text{Cl-37}) = 20$ neutrons ; $17$ électrons dans les deux cas. Les isotopes d\'un même élément ont des propriétés chimiques quasiment identiques (déterminées par le nombre d\'électrons), mais des masses légèrement différentes.'
     },
 
     evaluation: {
       title: 'Évaluation — Le modèle de l\'atome',
-      duration: '25 min',
+      duration: '30 min',
       questions: [
         {
-          statement: 'Le noyau d\'un atome est constitué de :',
-          type: 'multiple-choice',
-          options: [
-            'Protons et électrons',
-            'Protons et neutrons',
-            'Électrons et neutrons',
-            'Uniquement de protons'
-          ],
-          answer: 1,
-          points: 2,
-          correction: 'Le noyau contient les <strong>protons</strong> et les <strong>neutrons</strong> (les nucléons) ; les électrons se trouvent autour du noyau, dans les couches électroniques.'
-        },
-        {
-          statement: 'Un atome de magnésium a pour numéro atomique $Z=12$ et pour nombre de masse $A=24$. Calculer son nombre de neutrons.',
+          statement: 'Un noyau atomique a pour numéro atomique $Z = 6$ et nombre de masse $A = 13$. Calculer son nombre de neutrons $N$.',
           type: 'numeric',
-          answer: 12,
+          answer: 7,
           tolerance: 0,
           unit: '',
           points: 2,
-          correction: '$N = A - Z = 24 - 12 = 12$ neutrons.'
+          correction: '$N = A - Z = 13 - 6 = 7$ neutrons.'
         },
         {
-          statement: 'Deux atomes isotopes d\'un même élément ont toujours :',
+          statement: 'Le numéro atomique $Z$ d\'un atome représente :',
           type: 'multiple-choice',
           options: [
-            'Le même nombre de neutrons',
-            'Le même nombre de protons, mais un nombre de neutrons différent',
-            'Un nombre de protons différent',
-            'Le même nombre de masse $A$'
+            'Le nombre de neutrons de son noyau',
+            'Le nombre de protons de son noyau',
+            'Le nombre total de nucléons',
+            'Le nombre de couches électroniques'
           ],
           answer: 1,
           points: 2,
-          correction: 'Des isotopes ont le même numéro atomique $Z$ (même nombre de protons), donc les mêmes propriétés chimiques, mais un nombre de neutrons différent, donc un nombre de masse $A$ différent.'
+          correction: 'Le numéro atomique $Z$ est le nombre de <strong>protons</strong> du noyau. C\'est lui qui définit l\'élément chimique.'
         },
         {
-          statement: 'Un atome possède $Z=16$ électrons. En appliquant la règle $K \\leq 2$, $L \\leq 8$, $M \\leq 8$, combien d\'électrons se trouvent sur sa couche de valence $M$ ?',
+          statement: 'Un atome neutre a pour numéro atomique $Z = 17$. Combien d\'électrons possède-t-il ?',
           type: 'numeric',
-          answer: 6,
+          answer: 17,
           tolerance: 0,
           unit: '',
+          points: 2,
+          correction: 'Par électroneutralité, un atome neutre possède autant d\'électrons que de protons : $17$ électrons.'
+        },
+        {
+          statement: 'Quelle est la répartition électronique correcte d\'un atome de numéro atomique $Z = 12$ ?',
+          type: 'multiple-choice',
+          options: [
+            'K(2) L(8) M(2)',
+            'K(2) L(10)',
+            'K(4) L(8)',
+            'K(2) L(8) M(0) L(2)'
+          ],
+          answer: 0,
           points: 3,
-          correction: 'Couches internes : $K(2)+L(8)=10$. Électrons restants sur $M$ : $16-10=6$.'
+          correction: 'La couche K se sature à $2$, la couche L à $8$ : il reste $12 - 2 - 8 = 2$ électrons pour la couche M, soit K(2) L(8) M(2). Les autres propositions dépassent la capacité maximale d\'une couche (L ne peut pas dépasser $8$, K ne peut pas dépasser $2$).'
         },
         {
-          statement: 'Le noyau d\'un atome est environ $100\\,000$ fois plus petit que l\'atome entier. On peut en conclure que l\'atome est :',
+          statement: 'Un atome qui perd un électron devient :',
           type: 'multiple-choice',
           options: [
-            'Presque entièrement rempli de matière',
-            'Presque entièrement vide',
-            'De la même taille que son noyau',
-            'Plus petit que son noyau'
+            'Un anion (charge négative)',
+            'Un cation (charge positive)',
+            'Un isotope',
+            'Un nucléon'
           ],
           answer: 1,
           points: 1,
-          correction: 'Le noyau n\'occupe qu\'une fraction infime du volume de l\'atome : l\'atome est donc presque entièrement constitué de <strong>vide</strong>, les électrons ne représentant eux-mêmes qu\'une masse négligeable.'
+          correction: 'En perdant un électron (chargé négativement), l\'atome devient globalement chargé positivement : c\'est un <strong>cation</strong>.'
         }
       ]
     }
   });
+

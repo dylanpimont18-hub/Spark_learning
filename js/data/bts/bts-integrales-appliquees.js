@@ -148,7 +148,6 @@ window.MODULES.push(
     exercice: {
       type: 'numeric',
       generate() {
-        const fr = x => String(x).replace('.', '{,}');
         const a = rand(1, 4), b = rand(a+1, a+4), n = rand(1, 3);
         const Fb = Math.pow(b, n+1)/(n+1), Fa = Math.pow(a, n+1)/(n+1);
         const ans = parseFloat((Fb - Fa).toFixed(2));

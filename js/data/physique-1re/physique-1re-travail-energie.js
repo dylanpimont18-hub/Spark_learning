@@ -5,193 +5,270 @@
 window.MODULES.push({
     id: 'physique-1re-travail-energie',
     level: 2, subject: 'physique',
-    icon: '🔋',
+    icon: '🎢',
     title: 'Travail d\'une force et énergie',
-    subtitle: 'Travail d\'une force constante, théorème de l\'énergie cinétique, énergie potentielle de pesanteur',
-    keywords: ['Travail', 'Énergie cinétique', 'Énergie potentielle', 'Théorème de l\'énergie cinétique'],
-    physics: 'Le travail et l\'énergie permettent de dimensionner un moteur de treuil, d\'évaluer le rendement d\'une pompe, de calculer la distance de freinage d\'un véhicule, ou de comprendre l\'échange d\'énergie entre vitesse et altitude sur des montagnes russes.',
+    subtitle: 'Travail moteur/résistant, énergie cinétique, énergie potentielle de pesanteur, conservation de l\'énergie mécanique',
+    keywords: ['Travail', 'Énergie cinétique', 'Énergie potentielle', 'Énergie mécanique', 'Théorème de l\'énergie cinétique'],
+    physics: 'Ces notions permettent de calculer la vitesse d\'un skieur au bas d\'une piste, de dimensionner le freinage d\'une montagne russe, d\'évaluer l\'énergie dissipée par les frottements dans un mécanisme, et de comprendre pourquoi un satellite en orbite circulaire conserve une vitesse constante malgré l\'attraction terrestre permanente.',
 
     cours: {
-      intro: 'Quand une force s\'exerce sur un système qui se déplace, elle peut lui transmettre de l\'énergie : c\'est le <strong>travail</strong> de cette force. Le travail d\'une force constante $\\vec{F}$, entre deux points $A$ et $B$, se calcule par un produit scalaire : $W_{AB}(\\vec{F}) = \\vec{F} \\cdot \\vec{AB} = F \\times d \\times \\cos\\alpha$, où $\\alpha$ est l\'angle entre $\\vec{F}$ et le déplacement $\\vec{AB}$, et $d$ la distance parcourue. Il s\'exprime en joules (J).<br/><br/>Seule la composante de $\\vec{F}$ <strong>parallèle au déplacement</strong> produit un travail : une force perpendiculaire au déplacement, comme la réaction normale d\'un sol horizontal, ne travaille jamais.<br/><br/>Le <strong>théorème de l\'énergie cinétique</strong> relie ce travail à la vitesse du système : la variation de son <strong>énergie cinétique</strong> $E_c = \\dfrac{1}{2}mv^2$ est égale à la somme des travaux de toutes les forces extérieures qu\'il subit.',
+      intro: 'Le <strong>travail</strong> d\'une force constante $\\vec{F}$ lors d\'un déplacement $\\vec{d}$ mesure l\'énergie qu\'elle transfère au système : $W(\\vec F) = \\vec F \\cdot \\vec d = F \\times d \\times \\cos\\theta$, où $\\theta$ est l\'angle entre la force et le déplacement. Ce travail est <strong>moteur</strong> ($W>0$) si la force favorise le mouvement, <strong>résistant</strong> ($W<0$) si elle s\'y oppose, et <strong>nul</strong> si elle lui est perpendiculaire.<br/><br/>Le poids a un travail particulièrement simple : $W(\\vec P) = \\pm mgh$, où $h$ est la différence de hauteur — <strong>indépendant du chemin parcouru</strong>. Le <strong>théorème de l\'énergie cinétique</strong> relie le travail des forces à la variation de vitesse : $\\Delta E_c = \\sum W(\\vec F)$, avec $E_c = \\dfrac{1}{2}mv^2$.<br/><br/>Lorsqu\'aucun frottement n\'agit, seul le poids travaille : l\'<strong>énergie mécanique</strong> $E_m = E_c + E_p$ (avec $E_p = mgz$ l\'énergie potentielle de pesanteur) se <strong>conserve</strong> tout au long du mouvement — toute perte d\'énergie potentielle se retrouve intégralement en énergie cinétique, et réciproquement.',
       definitions: [
-        { term: 'Travail d\'une force constante', def: 'Pour un déplacement de $A$ à $B$, $W_{AB}(\\vec{F}) = \\vec{F} \\cdot \\vec{AB} = F \\times d \\times \\cos\\alpha$, en joules (J), où $\\alpha$ est l\'angle entre $\\vec{F}$ et $\\vec{AB}$.' },
-        { term: 'Signe du travail', def: 'Le travail est <strong>moteur</strong> ($W>0$) si $0 \\leq \\alpha < 90°$ (la force accélère le mouvement), <strong>résistant</strong> ($W<0$) si $90° < \\alpha \\leq 180°$ (elle le freine), et <strong>nul</strong> si $\\alpha = 90°$ (force perpendiculaire au déplacement).' },
-        { term: 'Énergie cinétique $E_c$', def: '$E_c = \\dfrac{1}{2}mv^2$, en joules, énergie associée au mouvement d\'un système de masse $m$ et de vitesse $v$.' },
-        { term: 'Théorème de l\'énergie cinétique (TEC)', def: 'Entre deux instants, la variation d\'énergie cinétique d\'un système est égale à la somme des travaux des forces extérieures qu\'il subit : $\\Delta E_c = E_{c,B} - E_{c,A} = \\sum W_{AB}(\\vec{F}_{ext})$.' },
-        { term: 'Énergie potentielle de pesanteur $E_{pp}$', def: '$E_{pp} = m g h$, où $h$ est l\'altitude par rapport à une origine choisie arbitrairement. Cette origine est libre, mais la <strong>variation</strong> $\\Delta E_{pp}$ entre deux points ne dépend pas de ce choix.' }
+        { term: 'Travail d\'une force constante ($W$)', def: '$W(\\vec F) = F\\times d\\times\\cos\\theta$, en joules (J), où $\\theta$ est l\'angle entre la force $\\vec F$ et le déplacement $\\vec d$. Moteur si $W>0$, résistant si $W<0$, nul si la force est perpendiculaire au déplacement.' },
+        { term: 'Énergie cinétique ($E_c$)', def: '$E_c = \\dfrac{1}{2}mv^2$, en joules (J) : énergie associée au mouvement d\'un système de masse $m$ et de vitesse $v$.' },
+        { term: 'Théorème de l\'énergie cinétique', def: 'Entre deux instants, la variation d\'énergie cinétique d\'un système est égale à la somme des travaux des forces qui s\'exercent sur lui : $\\Delta E_c = E_{c,f} - E_{c,i} = \\sum W(\\vec F)$.' },
+        { term: 'Énergie potentielle de pesanteur et énergie mécanique', def: '$E_p = mgz$ (altitude $z$). L\'énergie mécanique $E_m = E_c + E_p$ se <strong>conserve</strong> en l\'absence de frottement (seul le poids travaille).' }
       ],
       method: {
-        title: 'Calculer un travail et appliquer le TEC en 3 étapes',
+        title: 'Résoudre un problème de travail et d\'énergie en 3 étapes',
         steps: [
-          '<strong>Identifier</strong> la force $\\vec{F}$ étudiée, sa norme, et l\'angle $\\alpha$ qu\'elle fait avec le déplacement $\\vec{AB}$ (attention : un angle de $90°$ donne toujours un travail nul, quelle que soit l\'intensité de la force).',
-          '<strong>Calculer le travail</strong> : $W_{AB}(\\vec{F}) = F \\times d \\times \\cos\\alpha$, puis vérifier la cohérence du signe obtenu (moteur si $\\alpha<90°$, résistant si $\\alpha>90°$).',
-          'Si la question porte sur la vitesse, <strong>appliquer le théorème de l\'énergie cinétique</strong> : faire la somme des travaux de <strong>toutes</strong> les forces extérieures (y compris celles dont le travail est nul), puis en déduire $E_{c,B}$ et donc $v_B$.'
+          '<strong>Identifier les forces</strong> qui s\'exercent sur le système et calculer leur travail individuel $W(\\vec F) = F\\times d\\times\\cos\\theta$ — en faisant particulièrement attention au signe (moteur, résistant ou nul selon l\'angle avec le déplacement).',
+          '<strong>Appliquer le théorème de l\'énergie cinétique</strong> $\\Delta E_c = \\sum W(\\vec F)$ pour relier les vitesses initiale et finale aux travaux, <strong>ou</strong> utiliser la <strong>conservation de l\'énergie mécanique</strong> $E_m = \\text{constante}$ si aucun frottement n\'agit (plus rapide, mais valable seulement sans frottement).',
+          '<strong>Isoler la grandeur cherchée</strong> (vitesse, hauteur, distance...) à partir de la relation obtenue, en n\'oubliant pas que $E_c = \\dfrac{1}{2}mv^2$ nécessite souvent une racine carrée pour retrouver $v$.'
         ]
       },
       diagram: {
         theme: 'physique',
-        kicker: 'Travail d\'une force constante lors d\'un déplacement',
-        title: 'Projection de $\\vec{F}$ sur la direction du déplacement $\\vec{AB}$',
-        description: 'Seule la composante de $\\vec{F}$ parallèle à $\\vec{AB}$ (soit $F\\cos\\alpha$) contribue au travail moteur ; la composante perpendiculaire ne travaille pas.',
+        kicker: 'Conservation de l\'énergie mécanique (plan incliné sans frottement)',
+        title: 'Énergie cinétique, potentielle et mécanique en fonction de la position',
+        description: 'Un solide glisse sans frottement le long d\'un plan incliné. L\'énergie potentielle $E_p$ diminue exactement de ce que l\'énergie cinétique $E_c$ augmente : leur somme, l\'énergie mécanique $E_m$, reste <strong>constante</strong> tout au long de la descente.',
         svg: `
-          <svg viewBox="0 0 480 260" role="img" aria-labelledby="travail-title travail-desc">
-            <title id="travail-title">Travail d'une force constante inclinee lors d'un deplacement rectiligne</title>
-            <desc id="travail-desc">Un point A est relie a un point B par une ligne horizontale representant le deplacement. Depuis A, une fleche inclinee vers le haut represente la force F appliquee, formant un angle alpha avec la ligne AB. Une ligne pointillee verticale part de l'extremite de la fleche F et rejoint la ligne horizontale, marquant la projection de F sur la direction du deplacement. Un segment plus epais sur la ligne horizontale, entre A et ce point de projection, represente la longueur F fois cosinus alpha, la seule composante qui produit un travail.</desc>
+          <svg viewBox="0 0 560 300" role="img" aria-labelledby="energie-title energie-desc">
+            <title id="energie-title">Evolution des energies cinetique, potentielle et mecanique le long d'un plan incline sans frottement</title>
+            <desc id="energie-desc">Un graphique represente l'energie en joules sur l'axe vertical et la position sur le plan incline en metres sur l'axe horizontal. La courbe de l'energie potentielle Ep decroit lineairement de 100 joules a 0 joule. La courbe de l'energie cinetique Ec croit lineairement de 0 a 100 joules, croisant la courbe Ep exactement a mi-parcours ou les deux valent 50 joules chacune. Une droite horizontale representant l'energie mecanique Em reste constante a 100 joules sur toute la largeur du graphique, confirmant que la somme Ec plus Ep est invariante.</desc>
 
             <defs>
-              <marker id="arrow-phys1re-travail" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+              <marker id="arrow-phy1re-energie" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
                 <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
               </marker>
             </defs>
 
-            <!-- deplacement AB -->
-            <line class="frame-line" x1="80" y1="220" x2="420" y2="220" marker-end="url(#arrow-phys1re-travail)"></line>
-            <circle class="plot-point" cx="80" cy="220" r="4"></circle>
-            <text class="label-soft" x="80" y="240" text-anchor="middle">A</text>
-            <circle class="plot-point" cx="420" cy="220" r="4"></circle>
-            <text class="label-soft" x="420" y="240" text-anchor="middle">B</text>
-            <text class="tick-label" x="250" y="252" text-anchor="middle">d</text>
+            <!-- axes -->
+            <line class="frame-line" x1="70" y1="260" x2="70" y2="35" marker-end="url(#arrow-phy1re-energie)"></line>
+            <line class="frame-line" x1="60" y1="250" x2="515" y2="250" marker-end="url(#arrow-phy1re-energie)"></line>
+            <text class="tick-label" x="70" y="26" text-anchor="middle">E (J)</text>
+            <text class="tick-label" x="510" y="238" text-anchor="end">s (m)</text>
 
-            <!-- vecteur F -->
-            <line class="curve-main" x1="80" y1="220" x2="243.8" y2="105.3" marker-end="url(#arrow-phys1re-travail)"></line>
-            <text class="annotation-label" x="250" y="95" text-anchor="start">F</text>
+            <!-- graduations axe E -->
+            <line class="grid-line" x1="66" y1="150" x2="74" y2="150"></line>
+            <text class="tick-label" x="58" y="154" text-anchor="end">50</text>
+            <line class="grid-line" x1="66" y1="50" x2="74" y2="50"></line>
+            <text class="tick-label" x="58" y="54" text-anchor="end">100</text>
 
-            <!-- arc d'angle alpha -->
-            <path class="guide-line" d="M120,220 A40,40 0 0 0 112.8,187.1" fill="none"></path>
-            <text class="tick-label" x="130" y="200" text-anchor="middle">α</text>
+            <!-- graduations axe s -->
+            <line class="grid-line" x1="285" y1="246" x2="285" y2="254"></line>
+            <text class="tick-label" x="285" y="266" text-anchor="middle">5</text>
+            <line class="grid-line" x1="500" y1="246" x2="500" y2="254"></line>
+            <text class="tick-label" x="500" y="266" text-anchor="middle">10</text>
 
-            <!-- projection de F sur AB -->
-            <line class="guide-line" x1="243.8" y1="105.3" x2="243.8" y2="220"></line>
-            <line class="curve-main" x1="80" y1="228" x2="243.8" y2="228"></line>
-            <text class="tick-label" x="160" y="245" text-anchor="middle">F·cos α</text>
+            <!-- Em : droite horizontale constante -->
+            <line class="frame-line" x1="70" y1="50" x2="500" y2="50"></line>
+            <text class="annotation-label" x="230" y="40" text-anchor="middle">Em</text>
+
+            <!-- Ep : decroissante -->
+            <path class="curve-main" fill="none" d="M70,50 L177.5,100 L285,150 L392.5,200 L500,250"></path>
+            <circle class="plot-point" cx="70" cy="50" r="4"></circle>
+            <circle class="plot-point" cx="177.5" cy="100" r="4"></circle>
+            <circle class="plot-point" cx="285" cy="150" r="4"></circle>
+            <circle class="plot-point" cx="392.5" cy="200" r="4"></circle>
+            <circle class="plot-point" cx="500" cy="250" r="4"></circle>
+            <text class="annotation-label" x="145" y="88" text-anchor="middle">Ep</text>
+
+            <!-- Ec : croissante -->
+            <path class="guide-line" fill="none" d="M70,250 L177.5,200 L285,150 L392.5,100 L500,50"></path>
+            <circle class="plot-point-alt" cx="70" cy="250" r="4"></circle>
+            <circle class="plot-point-alt" cx="177.5" cy="200" r="4"></circle>
+            <circle class="plot-point-alt" cx="285" cy="150" r="4"></circle>
+            <circle class="plot-point-alt" cx="392.5" cy="100" r="4"></circle>
+            <circle class="plot-point-alt" cx="500" cy="50" r="4"></circle>
+            <text class="annotation-label" x="405" y="88" text-anchor="middle">Ec</text>
           </svg>
         `,
         notes: [
-          'Le segment épais sous l\'axe, de longueur $F\\cos\\alpha$, représente la <strong>seule composante</strong> de $\\vec{F}$ qui contribue au travail : c\'est elle qui apparaît dans la formule $W = F \\times d \\times \\cos\\alpha$.',
-          'La composante de $\\vec{F}$ perpendiculaire au déplacement (verticale ici) ne produit <strong>aucun travail</strong>, quelle que soit son intensité : elle ne fait que « pousser » sans faire avancer le système le long de $\\vec{AB}$.',
-          'Plus l\'angle $\\alpha$ est grand, plus $\\cos\\alpha$ diminue, et plus le travail moteur de $\\vec{F}$ est faible pour une même force appliquée.'
+          'La droite $E_m$ (énergie mécanique) reste <strong>horizontale</strong> : elle ne varie pas, car aucun frottement ne dissipe d\'énergie.',
+          'À mi-parcours, les deux courbes $E_p$ et $E_c$ se <strong>croisent exactement</strong> : à cet instant, l\'énergie potentielle et l\'énergie cinétique sont égales, chacune valant la moitié de $E_m$.',
+          'À chaque position, $E_p + E_c = E_m$ : ce que perd l\'énergie potentielle est intégralement transféré à l\'énergie cinétique — c\'est la signature d\'un mouvement <strong>sans frottement</strong>.'
         ],
-        reading: 'Repère le déplacement $A \\to B$ en bas, puis le vecteur $\\vec{F}$ incliné d\'un angle $\\alpha$, et enfin sa projection sur l\'axe horizontal, matérialisée par le segment épais.',
-        caption: 'Seule la composante de $\\vec{F}$ parallèle au déplacement ($F\\cos\\alpha$) produit un travail : c\'est le principe géométrique de la formule $W_{AB}(\\vec{F}) = F \\times d \\times \\cos\\alpha$.'
+        reading: 'Suis la droite $E_p$ qui descend de $100$ à $0$ J, et la droite $E_c$ qui monte de $0$ à $100$ J : leur somme, représentée par la droite horizontale $E_m$, reste constante à $100$ J sur tout le parcours.',
+        caption: 'Le long d\'un plan incliné sans frottement, l\'énergie potentielle $E_p$ se transforme intégralement en énergie cinétique $E_c$ : leur somme, l\'énergie mécanique $E_m$, reste constante.'
       },
+      diagrams: [
+        {
+          theme: 'physique',
+          kicker: 'Travail d\'une force : moteur, nul ou résistant selon l\'angle θ',
+          title: 'Trois cas de figure pour W(F) = F × d × cos θ',
+          description: 'Le schéma ci-dessus illustre la <strong>conservation de l\'énergie</strong>, mais pas le <strong>travail</strong> lui-même — la toute première notion du chapitre. Le travail d\'une force constante dépend uniquement de l\'angle $\\theta$ entre $\\vec{F}$ et le déplacement $\\vec{d}$ : <strong>moteur</strong> si $\\theta=0°$, <strong>nul</strong> si $\\theta=90°$, <strong>résistant</strong> si $\\theta=180°$.',
+          svg: `
+            <svg viewBox="0 0 560 300" role="img" aria-labelledby="energie-travail-title energie-travail-desc">
+              <title id="energie-travail-title">Travail d'une force selon l'angle entre la force et le deplacement</title>
+              <desc id="energie-travail-desc">Trois situations cote a cote, separees par des pointilles verticaux. Dans chacune, un petit carre figure un objet, avec une fleche de deplacement d horizontale vers la droite en dessous. A gauche, la force F est horizontale et pointe dans le meme sens que le deplacement : le travail est moteur. Au centre, la force F est verticale, perpendiculaire au deplacement, avec un petit angle droit code a leur intersection : le travail est nul. A droite, la force F est horizontale mais pointe en sens oppose au deplacement : le travail est resistant.</desc>
+
+              <defs>
+                <marker id="arrow-phy1re-travail" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+                </marker>
+              </defs>
+
+              <!-- separateurs -->
+              <line class="guide-line" x1="187" y1="40" x2="187" y2="270"></line>
+              <line class="guide-line" x1="373" y1="40" x2="373" y2="270"></line>
+
+              <!-- PANNEAU 1 : moteur (theta = 0 deg) -->
+              <rect class="frame-line" x="82" y="155" width="30" height="30" fill="none"></rect>
+              <circle class="plot-point" cx="97" cy="170" r="3"></circle>
+              <line class="frame-line" x1="67" y1="230" x2="127" y2="230" marker-end="url(#arrow-phy1re-travail)"></line>
+              <text class="tick-label" x="97" y="248" text-anchor="middle">d</text>
+              <line class="curve-main" x1="97" y1="170" x2="157" y2="170" marker-end="url(#arrow-phy1re-travail)"></line>
+              <text class="annotation-label" x="167" y="166" text-anchor="start">F</text>
+              <text class="label-soft" x="97" y="266" text-anchor="middle">moteur (θ = 0°)</text>
+
+              <!-- PANNEAU 2 : nul (theta = 90 deg) -->
+              <rect class="frame-line" x="265" y="155" width="30" height="30" fill="none"></rect>
+              <circle class="plot-point" cx="280" cy="170" r="3"></circle>
+              <line class="frame-line" x1="250" y1="230" x2="310" y2="230" marker-end="url(#arrow-phy1re-travail)"></line>
+              <text class="tick-label" x="280" y="248" text-anchor="middle">d</text>
+              <line class="guide-line" x1="280" y1="170" x2="320" y2="170"></line>
+              <polyline points="290,170 290,160 280,160" class="frame-line" fill="none"></polyline>
+              <line class="curve-main" x1="280" y1="170" x2="280" y2="110" marker-end="url(#arrow-phy1re-travail)"></line>
+              <text class="annotation-label" x="280" y="90" text-anchor="middle">F</text>
+              <text class="label-soft" x="280" y="266" text-anchor="middle">nul (θ = 90°)</text>
+
+              <!-- PANNEAU 3 : resistant (theta = 180 deg) -->
+              <rect class="frame-line" x="448" y="155" width="30" height="30" fill="none"></rect>
+              <circle class="plot-point" cx="463" cy="170" r="3"></circle>
+              <line class="frame-line" x1="433" y1="230" x2="493" y2="230" marker-end="url(#arrow-phy1re-travail)"></line>
+              <text class="tick-label" x="463" y="248" text-anchor="middle">d</text>
+              <line class="curve-main" x1="463" y1="170" x2="403" y2="170" marker-end="url(#arrow-phy1re-travail)"></line>
+              <text class="annotation-label" x="393" y="166" text-anchor="end">F</text>
+              <text class="label-soft" x="463" y="266" text-anchor="middle">résistant (θ = 180°)</text>
+            </svg>
+          `,
+          notes: [
+            'Panneau de gauche ($\\theta=0°$) : $\\vec{F}$ et $\\vec{d}$ pointent dans le <strong>même sens</strong> : $\\cos\\theta=\\cos(0°)=1$, donc $W=F\\times d>0$ — le travail est <strong>moteur</strong>.',
+            'Panneau du centre ($\\theta=90°$, angle droit codé) : $\\vec{F}$ est <strong>perpendiculaire</strong> à $\\vec{d}$ : $\\cos\\theta=\\cos(90°)=0$, donc $W=0$ quelle que soit l\'intensité de $F$ — c\'est le piège classique à éviter.',
+            'Panneau de droite ($\\theta=180°$) : $\\vec{F}$ pointe en <strong>sens opposé</strong> à $\\vec{d}$ : $\\cos\\theta=\\cos(180°)=-1$, donc $W=-F\\times d<0$ — le travail est <strong>résistant</strong>.'
+          ],
+          reading: 'Dans les trois panneaux, le déplacement $\\vec{d}$ (flèche du bas) pointe toujours vers la droite : seul l\'angle de $\\vec{F}$ change d\'un panneau à l\'autre, ce qui suffit à faire basculer le travail de moteur à nul puis à résistant.',
+          caption: 'Le signe du travail $W(\\vec{F})=F\\times d\\times\\cos\\theta$ dépend uniquement de l\'angle $\\theta$ entre la force et le déplacement : moteur ($\\theta=0°$), nul ($\\theta=90°$), résistant ($\\theta=180°$).'
+        }
+      ],
       example: {
-        statement: 'Une caisse de masse $m = 50$ kg, initialement immobile, est tirée sur un sol horizontal parfaitement lisse (sans frottement) par une force $\\vec{F}$ de norme $F = 120$ N, inclinée d\'un angle $\\alpha = 30°$ par rapport au sol, sur une distance $d = 8$ m.<br/><br/>Calculer le travail de $\\vec{F}$, puis la vitesse de la caisse à la fin du déplacement.',
+        statement: 'Un solide de masse $m = 2$ kg part sans vitesse initiale du sommet d\'un plan incliné sans frottement, à une hauteur $h_0 = 5$ m. On prend $g = 10$ m/s².<br/><br/>En utilisant la conservation de l\'énergie mécanique, calculer la vitesse $v$ du solide au bas du plan incliné.',
         steps: [
-          'Travail de $\\vec{F}$ : $W(\\vec{F}) = F \\times d \\times \\cos\\alpha = 120 \\times 8 \\times \\cos(30°) = 960 \\times 0{,}866 \\approx 831{,}4$ J.',
-          'Bilan des autres forces : le poids $\\vec{P}$ et la réaction normale $\\vec{N}$ sont verticales, perpendiculaires au déplacement horizontal : leur travail est <strong>nul</strong>. Sans frottement, aucune autre force ne travaille.',
-          'Théorème de l\'énergie cinétique : $\\Delta E_c = \\sum W(\\vec{F}_{ext}) = W(\\vec{F}) + W(\\vec{P}) + W(\\vec{N}) = 831{,}4 + 0 + 0 = 831{,}4$ J.',
-          'La caisse partant du repos, $E_{c,A} = 0$, donc $E_{c,B} = \\Delta E_c = 831{,}4$ J.',
-          'On isole $v$ dans $E_{c,B} = \\dfrac{1}{2}mv^2$ : $v = \\sqrt{\\dfrac{2 E_{c,B}}{m}} = \\sqrt{\\dfrac{2 \\times 831{,}4}{50}} = \\sqrt{33{,}26} \\approx 5{,}77$ m/s.'
+          'Aucun frottement ⟹ seul le poids travaille ⟹ l\'énergie mécanique $E_m = E_c + E_p$ se <strong>conserve</strong> tout au long de la descente.',
+          'État initial (sommet, vitesse nulle) : $E_{c,i} = 0$ et $E_{p,i} = mgh_0 = 2\\times10\\times5 = 100$ J, donc $E_m = 100$ J.',
+          'État final (bas du plan, altitude nulle) : $E_{p,f} = 0$, donc $E_{c,f} = E_m = 100$ J : toute l\'énergie potentielle s\'est transformée en énergie cinétique.',
+          'Or $E_{c,f} = \\dfrac{1}{2}mv^2$, donc $v = \\sqrt{\\dfrac{2E_{c,f}}{m}} = \\sqrt{\\dfrac{2\\times100}{2}} = \\sqrt{100} = 10$ m/s.'
         ],
-        answer: '$W(\\vec{F}) \\approx 831{,}4$ J et $v \\approx 5{,}77$ m/s. Le poids et la réaction normale, bien que présents, n\'interviennent pas dans le calcul car ils sont <strong>perpendiculaires</strong> au déplacement : c\'est un réflexe essentiel à vérifier avant de sommer les travaux.'
+        answer: '$v = 10$ m/s au bas du plan incliné. Ce résultat ne dépend ni de la longueur du plan incliné, ni de son angle : seule la hauteur de chute $h_0$ compte, tant qu\'il n\'y a pas de frottement.'
       },
       formulas: [
-        'Travail d\'une force constante : $W_{AB}(\\vec{F}) = F \\times d \\times \\cos\\alpha$',
-        'Énergie cinétique : $E_c = \\dfrac{1}{2}mv^2$',
-        'Théorème de l\'énergie cinétique : $\\Delta E_c = \\sum W_{AB}(\\vec{F}_{ext})$',
-        'Énergie potentielle de pesanteur : $E_{pp} = mgh$',
-        'Travail du poids lors d\'une chute de hauteur $h$ : $W(\\vec{P}) = mgh$ (moteur si l\'objet descend)'
+        'Travail d\'une force constante : $W(\\vec F) = \\vec F \\cdot \\vec d = F \\times d \\times \\cos\\theta$',
+        'Travail du poids : $W(\\vec P) = \\pm mgh$ (indépendant du chemin suivi)',
+        'Théorème de l\'énergie cinétique : $\\Delta E_c = \\sum W(\\vec F)$',
+        'Énergie cinétique : $E_c = \\dfrac{1}{2}mv^2$ ; Énergie potentielle de pesanteur : $E_p = mgz$',
+        'Énergie mécanique : $E_m = E_c+E_p$, conservée en l\'absence de frottement'
       ],
       recap: [
-        'Le travail d\'une force dépend de l\'angle $\\alpha$ entre cette force et le déplacement : seule la composante <strong>parallèle</strong> au déplacement produit un travail.',
-        'Une force perpendiculaire au déplacement (comme $\\vec{N}$ sur un sol horizontal) a toujours un travail <strong>nul</strong>, quelle que soit son intensité.',
-        'Le théorème de l\'énergie cinétique permet de calculer une vitesse à partir des travaux des forces, sans devoir résoudre les équations horaires du mouvement.',
-        'L\'énergie potentielle de pesanteur dépend d\'un choix arbitraire d\'origine des altitudes, mais sa <strong>variation</strong> entre deux points, elle, ne dépend jamais de ce choix.'
+        'Le travail d\'une force est <strong>moteur</strong> si elle accompagne le mouvement, <strong>résistant</strong> si elle s\'y oppose, et <strong>nul</strong> si elle est perpendiculaire au déplacement.',
+        'Le travail du poids ne dépend que de la différence de hauteur, jamais du chemin parcouru : $W(\\vec P) = \\pm mgh$.',
+        'Le théorème de l\'énergie cinétique $\\Delta E_c = \\sum W(\\vec F)$ relie le travail des forces à la variation de vitesse.',
+        'En l\'absence de frottement, l\'énergie mécanique $E_m = E_c+E_p$ se conserve : toute perte d\'énergie potentielle se retrouve intégralement en énergie cinétique.'
       ],
-      piege: 'Une erreur fréquente consiste à calculer le travail d\'une force comme si elle était toujours parallèle au déplacement, en oubliant le facteur $\\cos\\alpha$. Attention, seule la composante de la force projetée sur la direction du déplacement produit un travail : une force perpendiculaire au déplacement, comme la réaction normale sur un sol horizontal, a toujours un travail nul, quelle que soit son intensité.'
+      piege: 'Une erreur fréquente est de croire qu\'une force très intense fournit forcément un travail important, en oubliant le facteur $\\cos\\theta$ dans $W(\\vec F) = F\\times d\\times\\cos\\theta$. Attention : une force <strong>perpendiculaire</strong> au déplacement, comme la réaction normale d\'un support ou la tension centripète d\'une trajectoire circulaire, a un travail rigoureusement <strong>nul</strong>, quelle que soit son intensité.'
     },
 
     quiz: [
       {
-        q: 'Une force $\\vec{F}$ de norme $80$ N fait un angle de $90°$ avec le déplacement $\\vec{AB}$ de norme $d=5$ m. Quel est le travail de cette force ?',
+        q: 'Un objet glisse le long d\'un plan incliné, du haut vers le bas. Le travail du poids pendant cette descente est :',
         options: [
-          '$W = 400$ J',
-          '$W = 0$ J',
-          '$W = -400$ J',
-          '$W = 40$ J'
+          'Moteur, car le poids favorise le déplacement vers le bas',
+          'Résistant, car le poids s\'oppose toujours au mouvement',
+          'Nul, car le poids est vertical alors que le plan est incliné',
+          'Impossible à déterminer sans connaître l\'angle du plan'
         ],
-        answer: 1,
-        correction: '$W = F \\times d \\times \\cos(90°) = F \\times d \\times 0 = 0$ J. Une force perpendiculaire au déplacement ne travaille jamais, quelle que soit son intensité.'
+        answer: 0,
+        correction: 'Lors d\'une descente, le déplacement a une composante dans le sens du poids : le travail $W(\\vec P) = +mgh$ est donc <strong>moteur</strong>, quel que soit l\'angle précis du plan (seule l\'intensité du travail dépend de la hauteur $h$, pas son signe).'
       },
       {
-        q: 'Un objet de masse $m = 4$ kg se déplace à une vitesse $v = 3$ m/s. Quelle est son énergie cinétique ?',
+        q: 'Une force $F = 20$ N s\'exerce perpendiculairement à un déplacement $d = 5$ m. Quel est le travail de cette force ?',
         options: [
-          '$E_c = 12$ J',
-          '$E_c = 18$ J',
-          '$E_c = 36$ J',
-          '$E_c = 24$ J'
+          '0 J',
+          '100 J',
+          '4 J',
+          '25 J'
         ],
-        answer: 1,
-        correction: '$E_c = \\dfrac{1}{2}mv^2 = \\dfrac{1}{2} \\times 4 \\times 3^2 = \\dfrac{1}{2} \\times 4 \\times 9 = 18$ J. Attention à bien élever la vitesse au carré <strong>avant</strong> de multiplier par la masse.'
+        answer: 0,
+        correction: '$W = F\\times d\\times\\cos(90°) = F\\times d\\times 0 = 0$ J : une force perpendiculaire au déplacement a toujours un travail nul, indépendamment de son intensité.'
       },
       {
-        q: 'D\'après le théorème de l\'énergie cinétique, si la somme des travaux des forces extérieures appliquées à un système est négative entre deux points, alors :',
+        q: 'Un objet initialement au repos est soumis à des forces dont le travail total vaut $W = 50$ J entre deux instants. D\'après le théorème de l\'énergie cinétique, son énergie cinétique finale est :',
         options: [
-          'La vitesse du système augmente',
-          'La vitesse du système diminue',
-          'La vitesse du système reste constante',
-          'On ne peut rien dire sur la vitesse'
+          '50 J',
+          '25 J',
+          '100 J',
+          'Impossible à déterminer sans connaître la masse'
         ],
-        answer: 1,
-        correction: 'Si $\\sum W < 0$, alors $\\Delta E_c < 0$ : l\'énergie cinétique diminue, donc la vitesse du système diminue également (les forces sont globalement résistantes).'
+        answer: 0,
+        correction: '$\\Delta E_c = \\sum W = 50$ J. Comme $E_{c,i}=0$ (objet initialement au repos), $E_{c,f} = E_{c,i}+\\Delta E_c = 0+50 = 50$ J — pas besoin de connaître la masse séparément puisque la question porte directement sur l\'énergie.'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
-        var typeExo = pick(['travail', 'tec']);
+        var typeExo = pick(['travail', 'energie']);
 
         if (typeExo === 'travail') {
-          var F = rand(30, 300);
-          var d = rand(2, 20);
-          var alpha = pick([0, 20, 30, 45, 60, 90, 120]);
-          var alphaRad = alpha * Math.PI / 180;
-          var W = parseFloat((F * d * Math.cos(alphaRad)).toFixed(1));
+          var F = pick([10, 15, 20, 25, 30, 40, 50, 80, 100]);
+          var d = pick([2, 3, 4, 5, 6, 8, 10]);
+          var theta = pick([0, 30, 45, 60, 90, 120, 150, 180]);
+          var W = F * d * Math.cos(theta * Math.PI / 180);
+          var Wround = parseFloat(W.toFixed(1));
+          var tol = parseFloat(Math.max(0.5, Math.abs(Wround) * 0.05).toFixed(1));
           var contexte = pick([
-            'un traîneau tiré sur une piste enneigée',
-            'une caisse tractée dans un entrepôt',
-            'une remorque déplacée sur un chantier',
-            'un chariot poussé le long d\'un couloir'
+            'une valise tirée par une poignée inclinée',
+            'un traîneau tracté par une corde oblique',
+            'une caisse poussée sur un quai',
+            'un chariot tiré en biais',
+            'une luge tractée sur la neige'
           ]);
+          var nature = Wround > 0.05 ? 'un travail moteur (positif)' : (Wround < -0.05 ? 'un travail résistant (négatif)' : 'un travail nul (force perpendiculaire au déplacement)');
           return {
-            statement: 'Sur ' + contexte + ', une force $F = ' + F + '$ N, inclinée d\'un angle $\\alpha = ' + alpha + '°$ par rapport au déplacement, s\'exerce sur une distance $d = ' + d + '$ m.<br/><br/>Calcule le travail $W$ de cette force (en J, arrondi au dixième), et précise s\'il est moteur, résistant ou nul.',
-            answer: W,
-            tolerance: Math.max(1, Math.abs(W) * 0.03),
+            statement: 'Dans le cas de ' + contexte + ', une force constante $F = ' + F + '$ N fait un angle $\\theta = ' + theta + '°$ avec un déplacement $d = ' + d + '$ m.<br/><br/>Calcule le travail $W(\\vec F)$ de cette force (en J, arrondi au dixième).',
+            answer: Wround,
+            tolerance: tol,
             unit: 'J',
-            hint: 'Utilise $W = F \\times d \\times \\cos\\alpha$, en convertissant l\'angle en radians si besoin pour le calcul du cosinus.',
+            hint: 'Utilise $W(\\vec F) = F\\times d\\times\\cos\\theta$, avec $\\theta$ l\'angle entre la force et le déplacement.',
             solution: [
-              'Formule : $W = F \\times d \\times \\cos\\alpha = ' + F + ' \\times ' + d + ' \\times \\cos(' + alpha + '°)$.',
-              'Produit $F \\times d = ' + (F * d) + '$ J, à multiplier par $\\cos(' + alpha + '°) \\approx ' + fr(parseFloat(Math.cos(alphaRad).toFixed(3)), 3) + '$.',
-              'Résultat : $W \\approx ' + fr(W, 1) + '$ J, travail ' + (W > 0.01 ? 'moteur' : (W < -0.01 ? 'résistant' : 'nul')) + '.'
+              'Formule du travail d\'une force constante : $W(\\vec F) = F\\times d\\times\\cos\\theta$.',
+              'Application numérique : $W = ' + F + '\\times' + d + '\\times\\cos(' + theta + '°)$.',
+              'Résultat : $W \\approx ' + fr(Wround, 1) + '$ J, soit ' + nature + '.'
             ]
           };
         } else {
-          var m = rand(5, 100);
-          var F2 = rand(30, 250);
-          var d2 = rand(3, 15);
-          var W2 = parseFloat((F2 * d2).toFixed(1));
-          var v0 = pick([0, 0, 0, 1, 2]);
-          var Ec0 = parseFloat((0.5 * m * v0 * v0).toFixed(1));
-          var EcB = parseFloat((Ec0 + W2).toFixed(1));
-          var vB = parseFloat(Math.sqrt(2 * EcB / m).toFixed(2));
-          var mobile = pick([
-            'un skieur',
-            'un cycliste',
-            'un chariot de golf électrique',
-            'un patineur sur glace'
+          var m = pick([0.5, 1, 1.5, 2, 3, 4, 5, 8, 10]);
+          var h0 = pick([1, 1.5, 2, 3, 4, 5, 6, 8, 10]);
+          var g = 10;
+          var v = Math.sqrt(2 * g * h0);
+          var vround = parseFloat(v.toFixed(2));
+          var tol2 = parseFloat(Math.max(0.05, vround * 0.03).toFixed(2));
+          var contexte2 = pick([
+            'un skieur au sommet d\'une piste sans frottement (modèle idéalisé)',
+            'une bille lâchée en haut d\'une rampe',
+            'un chariot de montagnes russes en haut d\'une descente',
+            'un solide sur un plan incliné lisse de laboratoire'
           ]);
           return {
-            statement: 'Un ' + mobile + ' de masse $m = ' + m + '$ kg, initialement à la vitesse $v_0 = ' + v0 + '$ m/s, est poussé par une force parallèle au déplacement de norme $F = ' + F2 + '$ N sur une distance $d = ' + d2 + '$ m (sol horizontal sans frottement).<br/><br/>D\'après le théorème de l\'énergie cinétique, calcule sa vitesse finale $v_B$ (en m/s, arrondie au centième).',
-            answer: vB,
-            tolerance: Math.max(0.05, vB * 0.03),
+            statement: 'Dans le cas simplifié (sans frottement) de ' + contexte2 + ', un système de masse $m = ' + fr(m, 1) + '$ kg part sans vitesse initiale d\'une hauteur $h_0 = ' + fr(h0, 1) + '$ m (on prend $g = 10$ m/s²).<br/><br/>En utilisant la conservation de l\'énergie mécanique, calcule la vitesse $v$ atteinte en bas (en m/s, arrondie au centième).',
+            answer: vround,
+            tolerance: tol2,
             unit: 'm/s',
-            hint: 'Calcule d\'abord $W(\\vec F) = F \\times d$ (force parallèle au déplacement), puis utilise $E_{c,B} = E_{c,A} + \\Delta E_c$ et enfin $v_B = \\sqrt{2E_{c,B}/m}$.',
+            hint: 'Sans frottement, $E_m$ se conserve : $mgh_0 = \\dfrac{1}{2}mv^2$, donc $v=\\sqrt{2gh_0}$ (la masse se simplifie).',
             solution: [
-              'Travail de la force (parallèle au déplacement, $\\alpha=0°$) : $W(\\vec F) = F \\times d = ' + F2 + ' \\times ' + d2 + ' = ' + fr(W2, 1) + '$ J.',
-              'Énergie cinétique initiale : $E_{c,A} = \\dfrac{1}{2} \\times ' + m + ' \\times ' + v0 + '^2 = ' + fr(Ec0, 1) + '$ J.',
-              'TEC : $E_{c,B} = E_{c,A} + W(\\vec F) = ' + fr(Ec0, 1) + ' + ' + fr(W2, 1) + ' = ' + fr(EcB, 1) + '$ J.',
-              'On isole $v_B$ : $v_B = \\sqrt{\\dfrac{2 E_{c,B}}{m}} \\approx ' + fr(vB, 2) + '$ m/s.'
+              'Conservation de l\'énergie mécanique (pas de frottement) : $E_{p,i} = E_{c,f}$, soit $mgh_0 = \\dfrac{1}{2}mv^2$.',
+              'La masse $m$ se simplifie des deux côtés : $v = \\sqrt{2gh_0} = \\sqrt{2\\times10\\times' + fr(h0, 1) + '}$.',
+              'Résultat : $v \\approx ' + fr(vround, 2) + '$ m/s.'
             ]
           };
         }
@@ -199,18 +276,18 @@ window.MODULES.push({
     },
 
     probleme: {
-      context: 'Une bille de masse $m = 0{,}2$ kg est lâchée sans vitesse initiale depuis une hauteur $h = 5$ m au-dessus du sol, en chute libre (frottements de l\'air négligés). On prend $g = 9{,}81$ m/s². On choisit l\'origine des altitudes au niveau du sol.',
+      context: 'Un solide de masse $m = 5$ kg est lancé vers le haut d\'un plan incliné rugueux avec une vitesse initiale $v_0 = 8$ m/s. Le long de son parcours, il s\'élève d\'une hauteur $h = 2{,}0$ m avant de s\'arrêter. Une force de frottement, de travail $W(f) = -60$ J, s\'oppose au mouvement pendant toute la montée (on prend $g = 10$ m/s²).',
       tasks: [
-        'Calculer l\'énergie potentielle de pesanteur $E_{pp}$ de la bille à sa position initiale.',
-        'Calculer le travail du poids lors de la chute jusqu\'au sol.',
-        'En appliquant le théorème de l\'énergie cinétique, calculer la vitesse de la bille juste avant l\'impact.'
+        'Calculer l\'énergie cinétique initiale $E_{c,i}$ du solide.',
+        'Calculer le travail du poids $W(\\vec P)$ pendant la montée.',
+        'À l\'aide du théorème de l\'énergie cinétique, calculer l\'énergie cinétique finale $E_{c,f}$ du solide, et vérifier qu\'il s\'arrête bien au sommet de sa montée.'
       ],
       solutions: [
-        '$E_{pp} = m \\times g \\times h = 0{,}2 \\times 9{,}81 \\times 5 \\approx 9{,}81$ J.',
-        'Le poids est une force verticale vers le bas, dans le même sens que le déplacement (la bille descend) : $W(\\vec{P}) = m \\times g \\times h = 0{,}2 \\times 9{,}81 \\times 5 \\approx 9{,}81$ J (travail moteur).',
-        'La bille part du repos, $E_{c,A} = 0$. Seul le poids travaille (frottements négligés) : $E_{c,B} = E_{c,A} + W(\\vec{P}) = 0 + 9{,}81 = 9{,}81$ J. On isole $v$ : $v = \\sqrt{\\dfrac{2 \\times 9{,}81}{0{,}2}} = \\sqrt{98{,}1} \\approx 9{,}90$ m/s.'
+        '$E_{c,i} = \\dfrac{1}{2}mv_0^2 = \\dfrac{1}{2}\\times5\\times8^2 = \\dfrac{1}{2}\\times5\\times64 = 160$ J.',
+        '$W(\\vec P) = -mgh = -5\\times10\\times2{,}0 = -100$ J (travail résistant, car le solide s\'élève).',
+        'Théorème de l\'énergie cinétique : $\\Delta E_c = W(\\vec P) + W(f) = -100 + (-60) = -160$ J. Donc $E_{c,f} = E_{c,i} + \\Delta E_c = 160 - 160 = 0$ J : le solide atteint bien une vitesse nulle exactement au sommet de sa montée.'
       ],
-      finalAnswer: '$v \\approx 9{,}90$ m/s juste avant l\'impact. On remarque que le travail du poids ($\\approx 9{,}81$ J) est exactement égal à l\'énergie potentielle initiale : en l\'absence de frottement, toute l\'énergie potentielle se convertit en énergie cinétique, ce qui traduit la <strong>conservation de l\'énergie mécanique</strong>.'
+      finalAnswer: '$E_{c,i} = 160$ J, $W(\\vec P) = -100$ J, $E_{c,f} = 0$ J : le solide s\'immobilise exactement au sommet de sa trajectoire ascendante. Contrairement au cas sans frottement (où toute l\'énergie cinétique initiale se retrouverait intégralement en énergie potentielle), une partie de l\'énergie ($60$ J) a été dissipée par les frottements : l\'énergie mécanique n\'est plus conservée.'
     },
 
     evaluation: {
@@ -218,57 +295,57 @@ window.MODULES.push({
       duration: '30 min',
       questions: [
         {
-          statement: 'Une force $F = 50$ N, parallèle au déplacement ($\\alpha = 0°$), agit sur une distance $d = 6$ m. Calculer son travail (en J).',
+          statement: 'Une force $F = 40$ N fait un angle $\\theta = 60°$ avec un déplacement $d = 5$ m. Calculer le travail $W(\\vec F)$ de cette force (en J, arrondi au dixième).',
           type: 'numeric',
-          answer: 300,
-          tolerance: 5,
+          answer: 100,
+          tolerance: 2,
           unit: 'J',
           points: 2,
-          correction: '$W = F \\times d \\times \\cos(0°) = 50 \\times 6 \\times 1 = 300$ J.'
+          correction: '$W = F\\times d\\times\\cos\\theta = 40\\times5\\times\\cos(60°) = 200\\times0{,}5 = 100$ J.'
         },
         {
-          statement: 'Un objet de masse $m = 10$ kg a une vitesse $v = 4$ m/s. Calculer son énergie cinétique (en J).',
+          statement: 'Un satellite en orbite circulaire autour de la Terre est soumis à la force gravitationnelle, en permanence perpendiculaire à sa vitesse. Le travail de cette force au cours d\'un tour complet est :',
+          type: 'multiple-choice',
+          options: [
+            'Nul',
+            'Maximal',
+            'Négatif',
+            'Positif et croissant'
+          ],
+          answer: 0,
+          points: 2,
+          correction: 'Une force perpendiculaire au déplacement à chaque instant a un travail nul : c\'est d\'ailleurs pourquoi la vitesse d\'un satellite en orbite circulaire reste constante en norme (théorème de l\'énergie cinétique : $\\Delta E_c=0$).'
+        },
+        {
+          statement: 'Un objet de masse $m = 3$ kg se déplace à une vitesse $v = 6$ m/s. Calculer son énergie cinétique $E_c$ (en J).',
           type: 'numeric',
-          answer: 80,
+          answer: 54,
           tolerance: 1,
           unit: 'J',
           points: 2,
-          correction: '$E_c = \\dfrac{1}{2}mv^2 = \\dfrac{1}{2}\\times10\\times4^2 = \\dfrac{1}{2}\\times10\\times16 = 80$ J.'
+          correction: '$E_c = \\dfrac{1}{2}mv^2 = 0{,}5\\times3\\times6^2 = 0{,}5\\times3\\times36 = 54$ J.'
         },
         {
-          statement: 'Une force perpendiculaire au déplacement a un travail :',
-          type: 'multiple-choice',
-          options: [
-            'Toujours positif',
-            'Toujours négatif',
-            'Toujours nul',
-            'Cela dépend de sa norme'
-          ],
-          answer: 2,
-          points: 2,
-          correction: '$\\cos(90°) = 0$, donc le travail d\'une force perpendiculaire au déplacement est toujours nul, quelle que soit son intensité.'
-        },
-        {
-          statement: 'Un système de masse $m = 2$ kg, partant du repos, subit un travail total des forces extérieures $W = 25$ J. Calculer sa vitesse finale (en m/s, arrondie au centième).',
+          statement: 'Un solide de masse $m = 4$ kg part sans vitesse initiale d\'une hauteur $h_0 = 3{,}0$ m sur un plan incliné sans frottement ($g = 10$ m/s²). Calculer sa vitesse $v$ au bas du plan (en m/s, arrondie au centième).',
           type: 'numeric',
-          answer: 5,
-          tolerance: 0.2,
+          answer: 7.75,
+          tolerance: 0.1,
           unit: 'm/s',
-          points: 3,
-          correction: 'TEC : $E_{c,B} = 0 + W = 25$ J. $v = \\sqrt{\\dfrac{2\\times25}{2}} = \\sqrt{25} = 5$ m/s.'
+          points: 2,
+          correction: 'Conservation de $E_m$ : $v = \\sqrt{2gh_0} = \\sqrt{2\\times10\\times3{,}0} = \\sqrt{60} \\approx 7{,}75$ m/s.'
         },
         {
-          statement: 'L\'énergie potentielle de pesanteur $E_{pp} = mgh$ dépend :',
+          statement: 'D\'après le théorème de l\'énergie cinétique, si la somme des travaux des forces appliquées à un système est négative entre deux instants, alors :',
           type: 'multiple-choice',
           options: [
-            'Uniquement de la masse',
-            'D\'un choix arbitraire d\'origine des altitudes',
-            'Uniquement de la vitesse du système',
-            'Elle ne dépend d\'aucun paramètre'
+            'Son énergie cinétique diminue (il ralentit)',
+            'Son énergie cinétique augmente',
+            'Sa vitesse reste constante',
+            'Sa masse diminue'
           ],
-          answer: 1,
-          points: 1,
-          correction: 'L\'énergie potentielle de pesanteur dépend du choix de l\'origine des altitudes ($h=0$), qui est arbitraire. Seule sa <strong>variation</strong> entre deux points est indépendante de ce choix.'
+          answer: 0,
+          points: 2,
+          correction: '$\\Delta E_c = \\sum W(\\vec F)$ ; si $\\sum W < 0$, alors $\\Delta E_c < 0$ : l\'énergie cinétique, donc la vitesse en valeur absolue, diminue.'
         }
       ]
     }

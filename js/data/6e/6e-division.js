@@ -74,7 +74,7 @@ window.MODULES.push({
             <rect x="88" y="204" width="32" height="28" rx="8" fill="color-mix(in srgb, var(--accent) 16%, var(--bg-card))" stroke="color-mix(in srgb, var(--accent) 36%, var(--border))"></rect>
             <text class="annotation-label" x="98" y="224">1</text>
             <rect x="30" y="244" width="300" height="28" rx="10" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
-            <text class="annotation-label" x="42" y="263">Verification : 12 x 13 + 1 = 157</text>
+            <text class="annotation-label" x="42" y="263">Vérification : 12 × 13 + 1 = 157</text>
           </svg>
         `,
         notes: [

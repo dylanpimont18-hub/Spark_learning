@@ -5,193 +5,182 @@
 window.MODULES.push({
     id: 'physique-3e-puissance-electrique',
     level: 1, subject: 'physique',
-    icon: '💡',
+    icon: '⚡',
     title: 'Puissance et énergie électrique',
-    subtitle: 'Puissance électrique P = UI, énergie électrique E = Pt, kilowattheure et facture d\'électricité',
-    keywords: ['Puissance électrique', 'Énergie électrique', 'Watt', 'kWh', 'Effet Joule'],
-    physics: 'Le calcul de la puissance et de l\'énergie électrique permet de choisir le bon disjoncteur pour une installation, d\'estimer la consommation et le coût d\'un appareil électroménager sur une facture d\'électricité, et d\'expliquer l\'échauffement d\'une résistance chauffante (effet Joule) dans un grille-pain ou un radiateur.',
+    subtitle: 'Puissance électrique $P=UI$, énergie électrique $E=P\\times t$, kilowattheure, facture d\'électricité',
+    keywords: ['Puissance électrique', 'Énergie électrique', 'kWh', 'Effet Joule', 'Facture électrique'],
+    physics: 'Comprendre la puissance et l\'énergie électrique permet de choisir un disjoncteur adapté, de comparer la consommation de différents appareils électroménagers, d\'estimer le coût d\'utilisation d\'un appareil, ou de dimensionner une installation photovoltaïque domestique.',
 
     cours: {
-      intro: 'Chaque appareil électrique — une ampoule, un radiateur, un ordinateur — <strong>consomme de l\'énergie électrique</strong> pour fonctionner, à un rythme plus ou moins rapide selon sa <strong>puissance</strong>.<br/><br/>La <strong>puissance électrique</strong> $P$, exprimée en <strong>watts (W)</strong>, indique la quantité d\'énergie consommée <strong>par seconde</strong> : $P = U \\times I$, où $U$ est la tension (en volts) et $I$ l\'intensité du courant (en ampères).<br/><br/>Plus un appareil fonctionne <strong>longtemps</strong>, plus il consomme d\'<strong>énergie électrique</strong> $E$, exprimée en <strong>joules (J)</strong> si le temps est en secondes : $E = P \\times t$. Pour les appareils domestiques, on préfère souvent exprimer cette énergie en <strong>kilowattheures (kWh)</strong>, l\'unité utilisée sur les factures d\'électricité (avec $P$ en kW et $t$ en heures).<br/><br/>Une partie de cette énergie électrique se transforme en <strong>chaleur</strong> par <strong>effet Joule</strong> dans les résistances des appareils chauffants (radiateur, grille-pain, fer à repasser).',
+      intro: 'Chaque appareil électrique est caractérisé par sa <strong>puissance électrique</strong> $P$, indiquée en watts (W) sur son étiquette : elle mesure la quantité d\'énergie électrique qu\'il consomme (ou transforme) chaque seconde. Elle se calcule par $P = U \\times I$, produit de la tension et de l\'intensité.<br/><br/>Faire fonctionner un appareil pendant une certaine durée consomme de l\'<strong>énergie électrique</strong> $E$, d\'autant plus grande que la puissance est élevée et que la durée est longue : $E = P \\times t$. C\'est cette énergie, exprimée en kilowattheures (kWh) sur la facture, que le fournisseur d\'électricité facture au client.<br/><br/>Lorsqu\'un appareil résistif (radiateur, plaque de cuisson, fer à repasser) est parcouru par un courant électrique, il s\'échauffe : c\'est l\'<strong>effet Joule</strong>, la transformation de l\'énergie électrique en chaleur.',
       definitions: [
-        { term: 'Puissance électrique ($P$)', def: 'Énergie consommée par un appareil <strong>par unité de temps</strong> : $P = U \\times I$, exprimée en <strong>watts (W)</strong>, avec $U$ en volts et $I$ en ampères.' },
-        { term: 'Énergie électrique ($E$)', def: 'Quantité totale d\'énergie consommée par un appareil pendant une durée $t$ : $E = P \\times t$, exprimée en <strong>joules (J)</strong> si $t$ est en secondes, ou en <strong>wattheures/kilowattheures (Wh/kWh)</strong> si $t$ est en heures.' },
-        { term: 'Kilowattheure (kWh)', def: 'Unité d\'énergie utilisée sur les factures d\'électricité : $1$ kWh correspond à l\'énergie consommée par un appareil de puissance $1$ kW fonctionnant pendant $1$ heure.' },
-        { term: 'Effet Joule', def: 'Échauffement d\'un conducteur traversé par un courant électrique, dû à sa résistance. C\'est le principe de fonctionnement des appareils chauffants, mais aussi une cause de pertes d\'énergie (échauffement indésirable d\'un fil ou d\'un composant).' }
+        { term: 'Puissance électrique ($P$)', def: 'Énergie électrique consommée (ou transformée) par un appareil chaque seconde : $P = U \\times I$, avec $U$ en volts, $I$ en ampères et $P$ en watts (W). Indiquée sur la plupart des appareils (puissance nominale).' },
+        { term: 'Énergie électrique ($E$)', def: 'Quantité d\'énergie électrique consommée pendant une durée $t$ de fonctionnement : $E = P \\times t$. En unités du système international, $E$ est en joules (J) si $P$ est en W et $t$ en secondes.' },
+        { term: 'Kilowattheure (kWh)', def: 'Unité pratique d\'énergie utilisée pour la facturation de l\'électricité : $1$ kWh correspond à l\'énergie consommée par un appareil de $1$ kW de puissance fonctionnant pendant $1$ heure. $E(\\text{kWh}) = P(\\text{kW}) \\times t(\\text{h})$.' },
+        { term: 'Effet Joule', def: 'Échauffement d\'un conducteur parcouru par un courant électrique, dû à sa résistance : une partie (ou la totalité, pour un appareil de chauffage) de l\'énergie électrique reçue est transformée en chaleur.' }
       ],
       method: {
-        title: 'Calculer une puissance ou une énergie électrique en 3 étapes',
+        title: 'Calculer une énergie électrique et son coût en 3 étapes',
         steps: [
-          '<strong>Identifier les grandeurs connues</strong> (tension $U$, intensité $I$, durée $t$) et repérer si le résultat est demandé en joules, en wattheures ou en kilowattheures.',
-          '<strong>Calculer la puissance</strong> si elle n\'est pas donnée : $P = U \\times I$, en watts.',
-          '<strong>Calculer l\'énergie</strong> avec $E = P \\times t$, en veillant à la cohérence des unités : secondes avec joules, heures avec wattheures ou kilowattheures.'
+          '<strong>Déterminer la puissance</strong> $P$ de l\'appareil (lue sur l\'étiquette, ou calculée par $P=U\\times I$) et la convertir si besoin en kilowatts (kW).<br/>Exemple : un radiateur de $P=1500$ W $=1{,}5$ kW.',
+          '<strong>Calculer l\'énergie consommée</strong> $E=P\\times t$, en veillant à exprimer la durée $t$ dans l\'unité cohérente (heures si $P$ est en kW, pour obtenir directement $E$ en kWh).<br/>Exemple : ce radiateur, utilisé $t=4$ h, consomme $E=1{,}5\\times4=6$ kWh.',
+          '<strong>Multiplier par le prix unitaire</strong> du kWh (donné par le fournisseur d\'électricité) pour obtenir le coût de cette consommation.<br/>Exemple : à $0{,}25$ €/kWh, ce radiateur a coûté $6\\times0{,}25=1{,}50$ €.'
         ]
       },
       diagram: {
         theme: 'physique',
-        kicker: 'Énergie électrique consommée au cours du temps',
-        title: 'Droite $E = f(t)$ et détermination de la puissance par le coefficient directeur',
-        description: 'Pour un appareil de puissance constante, l\'énergie consommée $E = f(t)$ est une droite passant par l\'origine, dont la pente donne directement la puissance $P$ de l\'appareil.',
+        kicker: 'Énergie = aire sous la courbe de puissance',
+        title: 'Énergie électrique consommée par un appareil à puissance constante',
+        description: 'Un radiateur de puissance $P=1$ kW fonctionne pendant $t=3$ h : l\'énergie électrique consommée $E=P\\times t=3$ kWh correspond exactement à l\'aire du rectangle situé sous la courbe $P=f(t)$.',
         svg: `
-          <svg viewBox="0 0 510 320" role="img" aria-labelledby="energie-elec-title energie-elec-desc">
-            <title id="energie-elec-title">Energie electrique consommee en fonction du temps</title>
-            <desc id="energie-elec-desc">Un graphique represente l'energie electrique consommee en kilowattheures en fonction du temps de fonctionnement en heures, pour un radiateur de puissance constante. Les points sont alignes sur une droite passant par l'origine, allant de 0 heure/0 kilowattheure a 4 heures/6 kilowattheures. Un triangle de pente est trace entre deux points de la droite, situes a 1 heure/1,5 kilowattheure et 3 heures/4,5 kilowattheures, avec un cote horizontal representant une variation de 2 heures et un cote vertical representant une variation de 3 kilowattheures. Le rapport de ces deux variations donne la puissance P egale a 1,5 kilowatt.</desc>
+          <svg viewBox="0 0 560 320" role="img" aria-labelledby="puissance-title puissance-desc">
+            <title id="puissance-title">Energie electrique comme aire sous la courbe de puissance</title>
+            <desc id="puissance-desc">Un graphique represente la puissance P en ordonnee en fonction du temps t en abscisse. Une ligne pleine horizontale indique une puissance constante de 1 kilowatt entre l'instant zero et l'instant trois heures, ou l'appareil s'arrete. A cet instant, une ligne verticale en pointilles relie ce niveau de puissance a l'axe des temps, materialisant la chute immediate de la puissance jusqu'a zero ; une ligne horizontale en pointilles se poursuit par ailleurs au meme niveau au-dela de trois heures, a titre de repere, pour comparer avec le niveau qu'aurait garde la puissance si l'appareil etait reste allume. La zone rectangulaire comprise sous la ligne pleine, entre zero et trois heures, est hachuree pour representer l'energie consommee, egale au produit de la puissance par la duree.</desc>
 
             <defs>
-              <marker id="arrow-3e-elec" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
-                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
-              </marker>
+              <pattern id="phys3e-power-hatch" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
+                <rect width="8" height="8" fill="color-mix(in srgb, var(--diagram-accent) 18%, var(--bg-card))"></rect>
+                <line x1="0" y1="0" x2="0" y2="8" stroke="var(--diagram-accent)" stroke-width="1.6" opacity="0.6"></line>
+              </pattern>
             </defs>
 
+            <!-- aire = energie (hachures, pour rester bien visible dans les deux themes) -->
+            <rect x="60" y="130" width="330" height="120" fill="url(#phys3e-power-hatch)" stroke="none"></rect>
+
             <!-- axes -->
-            <line class="frame-line" x1="60" y1="260" x2="460" y2="260" marker-end="url(#arrow-3e-elec)"></line>
-            <line class="frame-line" x1="60" y1="260" x2="60" y2="30" marker-end="url(#arrow-3e-elec)"></line>
-            <text class="tick-label" x="60" y="20" text-anchor="middle">E (kWh)</text>
-            <text class="tick-label" x="465" y="254" text-anchor="start">t (h)</text>
-            <text class="tick-label" x="46" y="264" text-anchor="end">0</text>
+            <line class="frame-line" x1="60" y1="250" x2="520" y2="250"></line>
+            <line class="frame-line" x1="60" y1="250" x2="60" y2="50"></line>
+            <text class="tick-label" x="60" y="38" text-anchor="middle">P (kW)</text>
+            <text class="tick-label" x="546" y="268" text-anchor="end">t (h)</text>
 
-            <!-- droite E=f(t) -->
-            <line class="curve-main" x1="60" y1="260" x2="440" y2="40"></line>
+            <!-- graduations -->
+            <line class="grid-line" x1="170" y1="250" x2="170" y2="256"></line>
+            <text class="tick-label" x="170" y="266" text-anchor="middle">1</text>
+            <line class="grid-line" x1="280" y1="250" x2="280" y2="256"></line>
+            <text class="tick-label" x="280" y="266" text-anchor="middle">2</text>
+            <line class="grid-line" x1="390" y1="250" x2="390" y2="256"></line>
+            <text class="tick-label" x="390" y="266" text-anchor="middle">3</text>
+            <line class="grid-line" x1="500" y1="250" x2="500" y2="256"></line>
+            <text class="tick-label" x="500" y="266" text-anchor="middle">4</text>
+            <line class="grid-line" x1="54" y1="130" x2="60" y2="130"></line>
+            <text class="tick-label" x="44" y="134" text-anchor="end">1</text>
 
-            <!-- triangle de pente -->
-            <line class="guide-line" x1="155" y1="205" x2="345" y2="205"></line>
-            <line class="guide-line" x1="345" y1="205" x2="345" y2="95"></line>
-            <text class="tick-label" x="250" y="223" text-anchor="middle">Δt = 2 h</text>
-            <text class="tick-label" x="357" y="152" text-anchor="start">ΔE = 3 kWh</text>
+            <!-- courbe P(t) : constante puis arret -->
+            <line class="curve-main" x1="60" y1="130" x2="390" y2="130"></line>
+            <line class="guide-line" x1="390" y1="130" x2="500" y2="130"></line>
+            <line class="guide-line" x1="390" y1="130" x2="390" y2="250"></line>
 
-            <!-- points -->
-            <circle class="plot-point" cx="155" cy="205" r="5"></circle>
-            <text class="label-soft" x="140" y="193" text-anchor="end">(1 h ; 1,5 kWh)</text>
-            <circle class="plot-point" cx="345" cy="95" r="5"></circle>
-            <text class="label-soft" x="357" y="87" text-anchor="start">(3 h ; 4,5 kWh)</text>
+            <!-- cotation duree t (decalee sous la rangee de graduations pour ne pas chevaucher le "3") -->
+            <line class="frame-line" x1="60" y1="274" x2="60" y2="284"></line>
+            <line class="frame-line" x1="390" y1="274" x2="390" y2="284"></line>
+            <line class="guide-line" x1="60" y1="279" x2="390" y2="279"></line>
+            <text class="tick-label" x="225" y="300" text-anchor="middle">t = 3 h</text>
 
-            <!-- graduations axe t -->
-            <text class="tick-label" x="155" y="278" text-anchor="middle">1</text>
-            <text class="tick-label" x="345" y="278" text-anchor="middle">3</text>
-            <text class="tick-label" x="440" y="278" text-anchor="middle">4</text>
-
-            <!-- graduations axe E -->
-            <text class="tick-label" x="46" y="209" text-anchor="end">1,5</text>
-            <text class="tick-label" x="46" y="99" text-anchor="end">4,5</text>
-            <text class="tick-label" x="46" y="44" text-anchor="end">6</text>
+            <text class="annotation-label" x="225" y="195" text-anchor="middle">E = P × t</text>
           </svg>
         `,
         notes: [
-          'La droite $E=f(t)$ passe par l\'origine : $E$ et $t$ sont proportionnelles, ce qui traduit une puissance $P$ constante au cours du temps.',
-          'Entre les deux points repérés, $\\Delta t = 3 - 1 = 2$ h et $\\Delta E = 4{,}5 - 1{,}5 = 3$ kWh.',
-          'Le coefficient directeur (la puissance) vaut $P = \\dfrac{\\Delta E}{\\Delta t} = \\dfrac{3}{2} = 1{,}5$ kW, soit environ $1\\,500$ W — la puissance typique d\'un radiateur électrique.'
+          'La puissance de l\'appareil reste constante pendant son fonctionnement : la courbe $P=f(t)$ est une droite horizontale, à la hauteur $P=1$ kW.',
+          'L\'aire hachurée du rectangle, comprise entre $t=0$ et $t=3$ h, vaut base × hauteur $=3\\times1=3$ : c\'est exactement l\'énergie $E=P\\times t=3$ kWh consommée.',
+          'Après l\'arrêt de l\'appareil ($t>3$ h, en pointillés), la puissance retombe à zéro : l\'énergie consommée n\'augmente plus.'
         ],
-        reading: 'Repère deux points bien espacés sur la droite, lis la variation d\'énergie $\\Delta E$ et la variation de temps $\\Delta t$ correspondante, puis divise-les pour obtenir la puissance $P$.',
-        caption: 'Droite $E=f(t)$ d\'un appareil de puissance $1{,}5$ kW : la pente de la droite, calculée entre deux points, donne directement la puissance de l\'appareil.'
+        reading: 'Repère la hauteur du rectangle (la puissance $P$) et sa largeur (la durée $t$) : leur produit, visualisé par l\'aire hachurée, donne directement l\'énergie électrique consommée $E$.',
+        caption: 'Énergie électrique $E=P\\times t$ représentée comme l\'aire d\'un rectangle : ici $P=1$ kW pendant $t=3$ h, soit $E=3$ kWh.'
       },
       example: {
-        statement: 'Un radiateur électrique fonctionne sous une tension $U = 230$ V avec une intensité $I \\approx 6{,}5$ A.<br/><br/>Calcule sa puissance électrique $P$, puis l\'énergie électrique $E$ qu\'il consomme en $3$ heures de fonctionnement (en kWh).',
+        statement: 'Un radiateur électrique, dont l\'étiquette indique $P=1000$ W, fonctionne pendant $t=3$ h dans une chambre.<br/><br/>Calcule l\'énergie électrique consommée, en kWh, puis en joules.',
         steps: [
-          'Puissance électrique : $P = U \\times I = 230 \\times 6{,}5 \\approx 1\\,495$ W, soit environ $1{,}5$ kW.',
-          'Énergie consommée en $3$ heures : $E = P \\times t = 1{,}5 \\times 3$.',
-          'Résultat : $E \\approx 4{,}5$ kWh.'
+          'On convertit la puissance en kilowatts : $P=1000$ W $=1$ kW.',
+          'Énergie en kWh : $E=P\\times t=1\\times3=3$ kWh.',
+          'Pour convertir en joules, on utilise les unités du système international : $P=1000$ W et $t=3$ h $=3\\times3600=10\\,800$ s.',
+          'Énergie en joules : $E=P\\times t=1000\\times10\\,800=10\\,800\\,000$ J, soit environ $1{,}08\\times10^{7}$ J.'
         ],
-        answer: 'Puissance $P \\approx 1{,}5$ kW, énergie consommée en $3$ h : $E \\approx 4{,}5$ kWh.'
+        answer: 'Ce radiateur consomme $E=3$ kWh (unité pratique de facturation), soit $E=10\\,800\\,000$ J (unité du système international). Le kWh est simplement plus commode pour des durées exprimées en heures, comme c\'est le cas au quotidien.'
       },
       formulas: [
-        'Puissance électrique : $P = U \\times I$ ($U$ en V, $I$ en A, $P$ en W)',
-        'Énergie électrique : $E = P \\times t$ ($t$ en s pour $E$ en J ; $t$ en h et $P$ en kW pour $E$ en kWh)',
-        'Conversion : $1$ kWh $= 3\\,600\\,000$ J'
+        '$P = U \\times I$ (puissance électrique, en W)',
+        '$E = P \\times t$ (énergie électrique)',
+        '$E(\\text{kWh}) = P(\\text{kW}) \\times t(\\text{h})$ (unité de facturation)',
+        '$1$ kWh $= 1000 \\times 3600 = 3\\,600\\,000$ J',
+        'Coût $=E(\\text{kWh}) \\times$ prix unitaire (€/kWh)'
       ],
       recap: [
-        'La puissance $P = U \\times I$ mesure l\'énergie consommée par seconde ; l\'énergie $E = P \\times t$ mesure l\'énergie totale consommée sur une durée donnée.',
-        'Sur une droite $E = f(t)$, la pente donne directement la puissance $P$ de l\'appareil.',
-        'Le kilowattheure (kWh), utilisé sur les factures, correspond à l\'énergie consommée par un appareil de $1$ kW pendant $1$ heure.',
-        'Une partie de l\'énergie électrique se transforme en chaleur par effet Joule, utile dans les appareils chauffants mais source de pertes ailleurs.'
+        'La puissance électrique $P=U\\times I$ (en W) indique l\'énergie consommée chaque seconde par un appareil.',
+        'L\'énergie électrique consommée sur une durée $t$ est $E=P\\times t$ : elle augmente avec la puissance <strong>et</strong> avec la durée d\'utilisation.',
+        'Le kilowattheure (kWh) est l\'unité utilisée pour la facturation : $E(\\text{kWh})=P(\\text{kW})\\times t(\\text{h})$.',
+        'Sur un graphique $P=f(t)$ à puissance constante, l\'énergie consommée correspond à l\'<strong>aire</strong> du rectangle sous la courbe.'
       ],
-      piege: 'Une erreur fréquente est de confondre <strong>puissance</strong> (en watts, ce que l\'appareil consomme par seconde) et <strong>énergie</strong> (en joules ou en kWh, ce qu\'il a consommé au total sur une durée). Attention à ne jamais oublier de multiplier par le temps $t$ pour obtenir une énergie : un appareil plus puissant utilisé brièvement peut consommer moins d\'énergie qu\'un appareil moins puissant utilisé plus longtemps.'
+      piege: 'Une erreur fréquente est de calculer une énergie en kWh sans convertir la durée en heures (en gardant des minutes ou des secondes), ou de confondre puissance (en W) et énergie (en J ou kWh). Attention : la puissance est instantanée et ne dépend pas de la durée, tandis que l\'énergie dépend à la fois de la puissance <strong>et</strong> du temps de fonctionnement.'
     },
 
     quiz: [
       {
-        q: 'Une ampoule fonctionne sous $U = 230$ V avec une intensité $I = 0{,}2$ A. Quelle est sa puissance $P$ ?',
-        options: ['$46$ W', '$230{,}2$ W', '$1\\,150$ W', '$0{,}00087$ W'],
+        q: 'Un four à micro-ondes de puissance $P=900$ W fonctionne pendant $t=0{,}25$ h (15 minutes). Quelle énergie consomme-t-il, en Wh ?',
+        options: ['$225$ Wh', '$3600$ Wh', '$900{,}25$ Wh', '$3{,}6$ Wh'],
         answer: 0,
-        correction: 'Puissance électrique : $P = U \\times I = 230 \\times 0{,}2 = 46$ W.'
+        correction: '$E=P\\times t=900\\times0{,}25=225$ Wh, soit $0{,}225$ kWh.'
       },
       {
-        q: 'Un appareil de puissance $P = 2$ kW fonctionne pendant $t = 2$ h. Quelle énergie a-t-il consommée ?',
-        options: ['$1$ kWh', '$4$ kWh', '$4$ Wh', '$0{,}5$ kWh'],
-        answer: 1,
-        correction: 'Énergie : $E = P \\times t = 2 \\times 2 = 4$ kWh.'
-      },
-      {
-        q: 'Un appareil de faible puissance utilisé longtemps et un appareil de forte puissance utilisé brièvement peuvent consommer :',
+        q: 'Pourquoi utilise-t-on le kilowattheure (kWh) plutôt que le joule pour facturer l\'électricité domestique ?',
         options: [
-          'Toujours la même énergie, quelle que soit la durée',
-          'La même énergie, si le produit puissance × durée est identique',
-          'Toujours plus d\'énergie pour l\'appareil le plus puissant',
-          'Toujours moins d\'énergie pour l\'appareil le plus puissant'
+          'Parce que c\'est une unité plus grande, plus pratique pour des consommations mesurées en heures',
+          'Parce que le joule ne peut pas mesurer l\'énergie électrique',
+          'Parce que le kWh est la seule unité légale d\'énergie électrique',
+          'Parce que la puissance des appareils domestiques est trop faible pour le joule'
         ],
-        answer: 1,
-        correction: 'L\'énergie consommée est $E = P \\times t$ : deux appareils différents peuvent consommer la même énergie si leur produit puissance × durée est égal.'
+        answer: 0,
+        correction: 'Le joule reste une unité d\'énergie valide, mais donnerait des nombres énormes pour une consommation domestique (des millions de joules) : le kWh, mieux adapté aux durées en heures, est simplement plus pratique à lire et à facturer.'
+      },
+      {
+        q: 'Sur un graphique représentant la puissance $P$ (constante) en fonction du temps $t$, l\'énergie consommée $E$ correspond à :',
+        options: ['L\'aire du rectangle sous la courbe (base × hauteur)', 'La pente de la droite', 'La valeur maximale de $P$', 'L\'ordonnée à l\'origine'],
+        answer: 0,
+        correction: 'Puisque $E=P\\times t$, et que $P$ (hauteur) et $t$ (largeur) définissent un rectangle sous la courbe, l\'énergie consommée est exactement l\'aire de ce rectangle.'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
-        var typeExo = pick(['puissance', 'energieJ', 'energieKWh']);
-        var contexte = pick([
-          'un sèche-cheveux',
-          'une bouilloire électrique',
-          'un four à micro-ondes',
-          'une console de jeux',
-          'un chargeur de vélo électrique',
-          'un aspirateur'
-        ]);
+        var typeExo = pick(['energie', 'intensite']);
 
-        if (typeExo === 'puissance') {
-          var U = pick([12, 24, 110, 230]);
-          var I = randFloat(0.5, 10, 2);
-          var P = parseFloat((U * I).toFixed(2));
+        if (typeExo === 'energie') {
+          var Ppuiss = pick([500, 750, 900, 1000, 1200, 1500, 1800, 2000, 2500]);
+          var tHeures = randFloat(0.5, 8, 1);
+          var Ekwh = parseFloat(((Ppuiss / 1000) * tHeures).toFixed(2));
+          var contexte = pick([
+            'un radiateur électrique d\'appoint', 'un four électrique', 'un lave-linge',
+            'un chauffe-eau', 'un sèche-cheveux', 'une bouilloire électrique'
+          ]);
           return {
-            statement: 'On assimile ' + contexte + ' à un appareil fonctionnant sous une tension $U = ' + U + '$ V avec une intensité $I = ' + fr(I, 2) + '$ A.<br/><br/>Calcule sa puissance électrique $P$ (en W, arrondie au centième).',
-            answer: P,
-            tolerance: Math.max(0.5, parseFloat((P * 0.02).toFixed(2))),
-            unit: 'W',
-            hint: 'Utilise $P = U \\times I$.',
+            statement: 'Sur l\'étiquette de ' + contexte + ', on lit une puissance $P=' + Ppuiss + '$ W. Cet appareil fonctionne pendant $t=' + fr(tHeures, 1) + '$ h.<br/><br/>Calcule l\'énergie électrique $E$ consommée (en kWh, arrondie au centième).',
+            answer: Ekwh,
+            tolerance: Math.max(0.05, parseFloat((Ekwh * 0.03).toFixed(2))),
+            unit: 'kWh',
+            hint: 'Convertis d\'abord la puissance en kW ($P(\\text{kW})=P(\\text{W})/1000$), puis utilise $E=P\\times t$.',
             solution: [
-              'Formule de la puissance électrique : $P = U \\times I$.',
-              'Application numérique : $P = ' + U + ' \\times ' + fr(I, 2) + '$.',
-              'Résultat : $P \\approx ' + fr(P, 2) + '$ W.'
-            ]
-          };
-        } else if (typeExo === 'energieJ') {
-          var Pw = rand(50, 2000);
-          var t = rand(10, 600);
-          var E = Pw * t;
-          return {
-            statement: 'On assimile ' + contexte + ' à un appareil de puissance $P = ' + Pw + '$ W, fonctionnant pendant $t = ' + t + '$ s.<br/><br/>Calcule l\'énergie électrique $E$ consommée (en J).',
-            answer: E,
-            tolerance: Math.max(10, Math.round(E * 0.02)),
-            unit: 'J',
-            hint: 'Utilise $E = P \\times t$, avec $t$ en secondes pour obtenir $E$ en joules.',
-            solution: [
-              'Formule de l\'énergie électrique : $E = P \\times t$.',
-              'Application numérique : $E = ' + Pw + ' \\times ' + t + '$.',
-              'Résultat : $E = ' + E + '$ J.'
+              'Puissance en kilowatts : $P = ' + Ppuiss + '$ W $= ' + fr(Ppuiss / 1000, 2) + '$ kW.',
+              'Énergie : $E = P \\times t = ' + fr(Ppuiss / 1000, 2) + ' \\times ' + fr(tHeures, 1) + '$.',
+              'Résultat : $E \\approx ' + fr(Ekwh, 2) + '$ kWh.'
             ]
           };
         } else {
-          var Pk = randFloat(0.2, 3, 2);
-          var th = pick([0.5, 1, 1.5, 2, 3, 4, 6, 8]);
-          var Ek = parseFloat((Pk * th).toFixed(2));
+          var Ppuiss2 = rand(200, 3000);
+          var Udomestique = 230;
+          var Inominal = parseFloat((Ppuiss2 / Udomestique).toFixed(2));
+          var contexte2 = pick([
+            'un four électrique', 'un radiateur soufflant', 'une plaque de cuisson',
+            'un lave-vaisselle', 'un aspirateur'
+          ]);
           return {
-            statement: 'On assimile ' + contexte + ' à un appareil de puissance $P = ' + fr(Pk, 2) + '$ kW, fonctionnant pendant $t = ' + fr(th, 1) + '$ h.<br/><br/>Calcule l\'énergie électrique $E$ consommée (en kWh, arrondie au centième).',
-            answer: Ek,
-            tolerance: Math.max(0.05, parseFloat((Ek * 0.03).toFixed(2))),
-            unit: 'kWh',
-            hint: 'Utilise $E = P \\times t$, avec $P$ en kW et $t$ en heures pour obtenir $E$ en kWh.',
+            statement: contexte2.charAt(0).toUpperCase() + contexte2.slice(1) + ' a une puissance nominale $P=' + Ppuiss2 + '$ W et se branche sous la tension domestique $U=230$ V.<br/><br/>Calcule l\'intensité nominale $I$ appelée par cet appareil (en A, arrondie au centième).',
+            answer: Inominal,
+            tolerance: Math.max(0.05, parseFloat((Inominal * 0.03).toFixed(2))),
+            unit: 'A',
+            hint: 'La puissance électrique est $P=U\\times I$, donc $I=\\dfrac{P}{U}$.',
             solution: [
-              'Formule de l\'énergie électrique : $E = P \\times t$.',
-              'Application numérique : $E = ' + fr(Pk, 2) + ' \\times ' + fr(th, 1) + '$.',
-              'Résultat : $E \\approx ' + fr(Ek, 2) + '$ kWh.'
+              'À partir de $P=U\\times I$, on isole $I$ : $I=\\dfrac{P}{U}=\\dfrac{' + Ppuiss2 + '}{230}$.',
+              'Résultat : $I \\approx ' + fr(Inominal, 2) + '$ A.'
             ]
           };
         }
@@ -199,71 +188,66 @@ window.MODULES.push({
     },
 
     probleme: {
-      context: 'Un lave-linge de puissance $P_1 = 2\\,000$ W fonctionne en moyenne $t_1 = 1$ h par jour. Un réfrigérateur de puissance $P_2 = 150$ W fonctionne en continu ($t_2 = 24$ h par jour). Le prix du kilowattheure est de $0{,}20$ €.',
+      context: 'Une famille possède un chauffe-eau électrique de puissance $P=2200$ W, qui fonctionne en moyenne $t=3$ h par jour. Le prix facturé par leur fournisseur d\'électricité est de $0{,}20$ €/kWh.',
       tasks: [
-        'Calcule l\'énergie quotidienne consommée par le lave-linge, en kWh.',
-        'Calcule l\'énergie quotidienne consommée par le réfrigérateur, en kWh.',
-        'En déduire le coût total de l\'électricité consommée par ces deux appareils sur une journée.'
+        'Calculer l\'énergie électrique $E$ consommée par ce chauffe-eau en une journée (en kWh).',
+        'En déduire le coût quotidien de fonctionnement de cet appareil, puis son coût sur un mois de 30 jours.',
+        'La famille envisage de remplacer ce chauffe-eau par un modèle plus performant, de puissance $P\'=1800$ W, pour le même usage quotidien de 3 h. Calculer l\'économie réalisée sur un mois.'
       ],
       solutions: [
-        'Lave-linge : $P_1 = 2\\,000$ W $= 2$ kW. Énergie quotidienne : $E_1 = P_1 \\times t_1 = 2 \\times 1 = 2$ kWh.',
-        'Réfrigérateur : $P_2 = 150$ W $= 0{,}15$ kW, fonctionnement $t_2 = 24$ h. Énergie quotidienne : $E_2 = P_2 \\times t_2 = 0{,}15 \\times 24 = 3{,}6$ kWh.',
-        'Énergie totale : $E = E_1 + E_2 = 2 + 3{,}6 = 5{,}6$ kWh. Coût : $5{,}6 \\times 0{,}20 = 1{,}12$ €.'
+        'Puissance en kW : $P=2200$ W $=2{,}2$ kW. Énergie quotidienne : $E=P\\times t=2{,}2\\times3=6{,}6$ kWh.',
+        'Coût quotidien : $6{,}6\\times0{,}20=1{,}32$ €. Coût mensuel (30 jours) : $1{,}32\\times30=39{,}60$ €.',
+        'Nouvelle puissance : $P\'=1800$ W $=1{,}8$ kW, soit une énergie quotidienne $E\'=1{,}8\\times3=5{,}4$ kWh, un coût quotidien de $5{,}4\\times0{,}20=1{,}08$ €, et un coût mensuel de $1{,}08\\times30=32{,}40$ €. L\'économie mensuelle est $39{,}60-32{,}40=7{,}20$ €.'
       ],
-      finalAnswer: 'Coût total $\\approx 1{,}12$ € par jour pour ces deux appareils, soit environ $34$ € sur un mois de $30$ jours. Le réfrigérateur, bien moins puissant que le lave-linge, consomme presque deux fois plus d\'énergie car il fonctionne <strong>en continu</strong> : la durée d\'utilisation compte autant que la puissance.'
+      finalAnswer: 'Le chauffe-eau actuel coûte environ $39{,}60$ €/mois, contre $32{,}40$ €/mois pour le modèle plus performant : une économie de $7{,}20$ € par mois, soit environ $86{,}40$ € par an, simplement en réduisant la puissance de l\'appareil à usage égal.'
     },
 
     evaluation: {
       title: 'Évaluation — Puissance et énergie électrique',
-      duration: '25 min',
+      duration: '30 min',
       questions: [
         {
-          statement: 'Un appareil fonctionne sous $U = 230$ V avec $I = 4$ A. Calculer sa puissance $P$ (en W).',
+          statement: 'Un appareil de puissance $P=1500$ W fonctionne pendant $t=2$ h. Calculer l\'énergie consommée (en kWh).',
           type: 'numeric',
-          answer: 920,
-          tolerance: 5,
-          unit: 'W',
-          points: 2,
-          correction: '$P = U \\times I = 230 \\times 4 = 920$ W.'
-        },
-        {
-          statement: 'L\'unité de la puissance électrique est :',
-          type: 'multiple-choice',
-          options: ['Le joule', 'Le watt', 'L\'ampère', 'Le volt'],
-          answer: 1,
-          points: 1,
-          correction: 'La puissance électrique se mesure en watts (W). Le joule mesure l\'énergie, l\'ampère l\'intensité, et le volt la tension.'
-        },
-        {
-          statement: 'Un appareil de puissance $P = 1{,}2$ kW fonctionne pendant $t = 5$ h. Calculer l\'énergie consommée (en kWh).',
-          type: 'numeric',
-          answer: 6,
+          answer: 3,
           tolerance: 0.1,
           unit: 'kWh',
           points: 2,
-          correction: '$E = P \\times t = 1{,}2 \\times 5 = 6$ kWh.'
+          correction: '$P=1500$ W $=1{,}5$ kW. $E=P\\times t=1{,}5\\times2=3$ kWh.'
         },
         {
-          statement: 'Un radiateur de puissance $P = 1\\,000$ W fonctionne pendant $t = 1\\,800$ s. Calculer l\'énergie consommée (en J).',
-          type: 'numeric',
-          answer: 1800000,
-          tolerance: 10000,
-          unit: 'J',
-          points: 3,
-          correction: '$E = P \\times t = 1\\,000 \\times 1\\,800 = 1\\,800\\,000$ J.'
-        },
-        {
-          statement: 'Un appareil de faible puissance utilisé très longtemps peut consommer :',
+          statement: 'L\'énergie électrique consommée par un appareil de puissance $P$ pendant une durée $t$ s\'écrit :',
           type: 'multiple-choice',
-          options: [
-            'Toujours moins d\'énergie qu\'un appareil puissant utilisé peu de temps',
-            'Autant, voire plus d\'énergie, selon la durée d\'utilisation',
-            'Toujours plus d\'énergie, quelle que soit la durée',
-            'Une énergie qui ne dépend pas du temps'
-          ],
-          answer: 1,
+          options: ['$E = P \\times t$', '$E = \\dfrac{P}{t}$', '$E = P + t$', '$E = \\dfrac{t}{P}$'],
+          answer: 0,
           points: 2,
-          correction: 'L\'énergie consommée dépend du produit $P \\times t$ : un appareil peu puissant utilisé très longtemps peut consommer autant, voire plus, qu\'un appareil puissant utilisé brièvement.'
+          correction: 'L\'énergie est le produit de la puissance par la durée : $E=P\\times t$. Plus un appareil fonctionne longtemps ou avec une puissance élevée, plus il consomme d\'énergie.'
+        },
+        {
+          statement: 'Un appareil de puissance nominale $P=1150$ W est branché sous $U=230$ V. Calculer l\'intensité nominale $I$ (en A).',
+          type: 'numeric',
+          answer: 5,
+          tolerance: 0.2,
+          unit: 'A',
+          points: 3,
+          correction: '$I=\\dfrac{P}{U}=\\dfrac{1150}{230}=5$ A.'
+        },
+        {
+          statement: 'Sur un graphique $P=f(t)$ à puissance constante, l\'énergie consommée entre deux instants correspond à :',
+          type: 'multiple-choice',
+          options: ['L\'aire sous la courbe entre ces deux instants', 'La distance entre les deux instants sur l\'axe des temps', 'La valeur de $P$ au premier instant', 'La différence entre les deux valeurs de $P$'],
+          answer: 0,
+          points: 2,
+          correction: 'Puisque $E=P\\times t$, l\'énergie correspond à l\'aire du rectangle (puissance × durée) délimité sous la courbe entre les deux instants considérés.'
+        },
+        {
+          statement: 'Un foyer a consommé $E=10$ kWh sur une journée, facturés à $0{,}18$ €/kWh. Calculer le coût de cette consommation (en €).',
+          type: 'numeric',
+          answer: 1.8,
+          tolerance: 0.05,
+          unit: '€',
+          points: 1,
+          correction: 'Coût $=E\\times\\text{prix unitaire}=10\\times0{,}18=1{,}80$ €.'
         }
       ]
     }
