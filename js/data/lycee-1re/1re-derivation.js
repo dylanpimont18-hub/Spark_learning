@@ -25,7 +25,9 @@ window.MODULES.push({
         steps: [
           '<strong>Fonction constante</strong> : si $f(x) = k$ alors $f\'(x) = 0$.',
           '<strong>Fonction puissance</strong> : si $f(x) = x^n$ alors $f\'(x) = n \\cdot x^{n-1}$. Exemple : $(x^3)\' = 3x^2$.',
-          '<strong>Combinaisons linéaires</strong> : $(af + bg)\' = af\' + bg\'$ (linéarité). Exemple : $f(x) = 3x^2 + 5x - 2 \\Rightarrow f\'(x) = 6x + 5$.'
+          '<strong>Combinaisons linéaires</strong> : $(af + bg)\' = af\' + bg\'$ (linéarité). Exemple : $f(x) = 3x^2 + 5x - 2 \\Rightarrow f\'(x) = 6x + 5$.',
+          '<strong>Produit de deux fonctions</strong> : $(uv)\' = u\'v + uv\'$. Exemple : pour $g(x) = x^2 e^x$, on pose $u = x^2$ ($u\' = 2x$) et $v = e^x$ ($v\' = e^x$), donc $g\'(x) = 2x\\,e^x + x^2 e^x = (2x + x^2)e^x$.',
+          '<strong>Composée avec l\'exponentielle</strong> : si $u$ est une fonction dérivable, $(e^{u})\' = u\' \\cdot e^{u}$. Exemple : pour $u(x) = 2x$ ($u\' = 2$), $(e^{2x})\' = 2e^{2x}$.'
         ]
       },
       example: {
@@ -42,7 +44,9 @@ window.MODULES.push({
         '$(ax^n)\' = a \\cdot n \\cdot x^{n-1}$',
         '$(e^x)\' = e^x$',
         '$(\\ln x)\' = \\dfrac{1}{x}$',
-        '$(\\sin x)\' = \\cos x$, $(\\cos x)\' = -\\sin x$'
+        '$(\\sin x)\' = \\cos x$, $(\\cos x)\' = -\\sin x$',
+        '$(uv)\' = u\'v + uv\'$ (produit)',
+        '$(e^{u})\' = u\' \\cdot e^u$ (composée avec l\'exponentielle)'
       ],
       diagram: {
         theme: 'maths',

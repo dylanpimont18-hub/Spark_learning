@@ -135,7 +135,7 @@ window.MODULES.push({
           hint: `En $+\\infty$, on ne garde que les termes de plus haut degré. Ici, numérateur $\\sim ${a}x^${p}$ et dénominateur $\\sim ${c}x^${p}$.`,
           solution: [
             `Termes dominants : $\\dfrac{${a}x^${p}}{${c}x^${p}} = \\dfrac{${a}}{${c}}$`,
-            `$\\lim_{x \\to +\\infty} f(x) = \\dfrac{${a}}{${c}} = ${answer}$`
+            `$\\lim_{x \\to +\\infty} f(x) = \\dfrac{${a}}{${c}} = ${fr(answer)}$`
           ]
         };
       }

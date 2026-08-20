@@ -116,7 +116,6 @@ window.MODULES.push(
     exercice: {
       type: 'numeric',
       generate() {
-        const fr = x => String(x).replace('.', '{,}');
         const C0 = rand(1, 5) * 1000, t = pick([0.02, 0.03, 0.04, 0.05]), n = rand(2, 4);
         const Cn = parseFloat((C0 * Math.pow(1+t, n)).toFixed(2));
 
@@ -147,7 +146,7 @@ window.MODULES.push(
           tolerance: 1,
           unit: '€',
           hint: `$C_${n}=${C0}\\times(1+${fr(t)})^{${n}}$`,
-          solution: [`$C_{${n}}=${C0}\\times${fr((1+t).toFixed(2))}^{${n}}\\approx${fr(Cn)}$ €`]
+          solution: [`$C_{${n}}=${C0}\\times${fr(1+t, 2)}^{${n}}\\approx${fr(Cn)}$ €`]
         };
       }
     },
@@ -159,11 +158,11 @@ window.MODULES.push(
         'Calculer la part d\'intérêts dans la première annuité.'
       ],
       solutions: [
-        '$a=50000\\times\\frac{0{,}03}{1-1{,}03^{-10}}=50000\\times\\frac{0{,}03}{1-0{,}7441}=50000\\times\\frac{0{,}03}{0{,}2559}\\approx5863$ €.',
-        'Coût total $=10\\times5863=58630$ €. Coût du crédit $=58630-50000=8630$ €.',
-        'Intérêts 1re année $=50000\\times0{,}03=1500$ €. Remboursement capital $=5863-1500=4363$ €.'
+        '$a=50000\\times\\frac{0{,}03}{1-1{,}03^{-10}}=50000\\times\\frac{0{,}03}{1-0{,}7441}=50000\\times\\frac{0{,}03}{0{,}2559}\\approx5862$ €.',
+        'Coût total $=10\\times5862=58620$ €. Coût du crédit $=58620-50000=8620$ €.',
+        'Intérêts 1re année $=50000\\times0{,}03=1500$ €. Remboursement capital $=5862-1500=4362$ €.'
       ],
-      finalAnswer: 'Annuité $\\approx5863$ €. Coût du crédit $\\approx8630$ €. 1re annuité : $1500$ € d\'intérêts.'
+      finalAnswer: 'Annuité $\\approx5862$ €. Coût du crédit $\\approx8620$ €. 1re annuité : $1500$ € d\'intérêts.'
     },
 
     evaluation: {
@@ -173,7 +172,7 @@ window.MODULES.push(
         {
           statement: 'Un capital de $8\\,000$ € est placé à $4\\%$ par an en intérêts composés. Calculer sa valeur après $3$ ans (arrondir à l\'euro).',
           type: 'numeric',
-          answer: 8998,
+          answer: 8999,
           tolerance: 1,
           unit: '€',
           points: 2,

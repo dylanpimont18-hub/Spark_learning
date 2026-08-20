@@ -139,7 +139,6 @@ window.MODULES.push(
     exercice: {
       type: 'numeric',
       generate() {
-        const fr = x => String(x).replace('.', '{,}');
         const mu = rand(50, 200), sigma = rand(5, 20);
         const k = pick([1, 2, 3]);
         const pcts = [68.27, 95.45, 99.73];

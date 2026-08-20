@@ -200,7 +200,7 @@ window.MODULES.push({
           solution: [
             `Nombre de demi-vies : $k = \\dfrac{${t}}{${ctx.t12}} = ${k}$`,
             `Masse restante : $m = ${ctx.m0} \\times \\left(\\dfrac{1}{2}\\right)^{${k}} = ${ctx.m0} \\times \\dfrac{1}{${Math.pow(2, k)}}$`,
-            `$m = ${mFinal}$ mg`
+            `$m = ${fr(mFinal)}$ mg`
           ]
         };
       }

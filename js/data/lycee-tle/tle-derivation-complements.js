@@ -127,7 +127,7 @@ window.MODULES.push({
             solution: [
               `$u = ${a}x+${b}$, $u' = ${a}$, $v = e^x$, $v' = e^x$`,
               `$f'(x) = ${a}e^x + (${a}x+${b})e^x = (${a}x+${a+b})e^x$`,
-              `$f'(${x0}) = (${a*x0+a+b}) \\times e^{${x0}} \\approx ${answer}$`
+              `$f'(${x0}) = (${a*x0+a+b}) \\times e^{${x0}} \\approx ${fr(answer)}$`
             ]
           };
         } else {

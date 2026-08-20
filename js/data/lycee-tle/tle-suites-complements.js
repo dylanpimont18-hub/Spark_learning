@@ -144,7 +144,7 @@ window.MODULES.push({
           solution: [
             `$\\ell = \\dfrac{\\ell}{${a}} + ${b}$`,
             `$\\ell - \\dfrac{\\ell}{${a}} = ${b} \\Rightarrow \\dfrac{${a-1}\\ell}{${a}} = ${b}$`,
-            `$\\ell = \\dfrac{${a} \\times ${b}}{${a-1}} = ${l}$`
+            `$\\ell = \\dfrac{${a} \\times ${b}}{${a-1}} = ${fr(l)}$`
           ]
         };
       }

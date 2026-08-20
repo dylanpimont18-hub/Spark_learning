@@ -142,7 +142,6 @@ window.MODULES.push(
     exercice: {
       type: 'numeric',
       generate() {
-        const fr = x => String(x).replace('.', '{,}');
         const vals = [rand(5,15), rand(5,15), rand(5,15), rand(5,15)];
         const sum = vals.reduce((a,b) => a+b, 0);
         const mean = parseFloat((sum / 4).toFixed(2));

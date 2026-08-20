@@ -24,6 +24,7 @@ window.MODULES.push({
         steps: [
           '<strong>Conversion</strong> : $\\text{rad} = \\text{degrés} \\times \\dfrac{\\pi}{180}$.',
           '<strong>Valeurs remarquables</strong> : $0, \\frac{\\pi}{6}, \\frac{\\pi}{4}, \\frac{\\pi}{3}, \\frac{\\pi}{2}$.',
+          '<strong>Symétries</strong> (pour un angle en dehors du premier quadrant) : on le ramène à un angle remarquable $\\alpha$ en le décomposant sous la forme $\\pi-\\alpha$, $\\pi+\\alpha$ ou $2\\pi-\\alpha$, puis on applique $\\cos(\\pi-\\alpha)=-\\cos\\alpha$, $\\sin(\\pi-\\alpha)=\\sin\\alpha$ (formules analogues pour $\\pi+\\alpha$ et $2\\pi-\\alpha$, seul le signe change selon le quadrant). <strong>Exemple :</strong> $\\dfrac{2\\pi}{3} = \\pi - \\dfrac{\\pi}{3}$, donc $\\cos\\dfrac{2\\pi}{3} = -\\cos\\dfrac{\\pi}{3} = -\\dfrac{1}{2}$.',
           '<strong>Périodicité</strong> : $\\cos(\\theta+2\\pi)=\\cos\\theta$, $\\sin(\\theta+2\\pi)=\\sin\\theta$.',
           '<strong>Parité</strong> : $\\cos(-\\theta)=\\cos\\theta$ (pair) ; $\\sin(-\\theta)=-\\sin\\theta$ (impair).'
         ]
@@ -41,7 +42,8 @@ window.MODULES.push({
         '$\\cos^2\\theta+\\sin^2\\theta=1$',
         '$\\cos\\frac{\\pi}{3}=\\frac{1}{2}$, $\\sin\\frac{\\pi}{3}=\\frac{\\sqrt{3}}{2}$',
         '$\\cos\\frac{\\pi}{4}=\\sin\\frac{\\pi}{4}=\\frac{\\sqrt{2}}{2}$',
-        '$\\cos\\frac{\\pi}{6}=\\frac{\\sqrt{3}}{2}$, $\\sin\\frac{\\pi}{6}=\\frac{1}{2}$'
+        '$\\cos\\frac{\\pi}{6}=\\frac{\\sqrt{3}}{2}$, $\\sin\\frac{\\pi}{6}=\\frac{1}{2}$',
+        '$\\cos(\\pi-\\alpha)=-\\cos\\alpha$, $\\sin(\\pi-\\alpha)=\\sin\\alpha$'
       ],
       diagram: {
         theme: 'maths',
@@ -143,7 +145,7 @@ window.MODULES.push({
           hint: `Décompose : $${a.rad} = ${a.decomp}$. Puis utilise les formules de symétrie avec l'angle de base $${a.base}$.`,
           solution: [
             `$${a.rad} = ${a.decomp}$.`,
-            `En utilisant les formules de symétrie : $\\${func}(${a.rad}) \\approx ${answer}$.`
+            `En utilisant les formules de symétrie : $\\${func}(${a.rad}) \\approx ${fr(answer)}$.`
           ]
         };
       }
