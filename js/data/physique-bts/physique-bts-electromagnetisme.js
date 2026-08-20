@@ -80,6 +80,69 @@ window.MODULES.push({
         reading: 'Suis le déplacement de l\'aimant vers la bobine : ce mouvement fait varier le flux magnétique à travers les spires, ce qui provoque l\'apparition d\'une tension mesurée par le voltmètre.',
         caption: 'Principe de l\'induction électromagnétique : le déplacement de l\'aimant fait varier le flux magnétique à travers la bobine, ce qui induit une tension $e$ à ses bornes.'
       },
+      diagrams: [
+        {
+          theme: 'physique',
+          kicker: 'Force de Laplace',
+          title: 'Comment trouver le sens de la force de Laplace ?',
+          description: 'Un conducteur rectiligne parcouru par un courant $I$ et placé perpendiculairement à un champ magnétique $\\vec{B}$ subit une <strong>force de Laplace</strong> $\\vec{F}$, perpendiculaire à la fois à $I$ et à $B$.<br/><br/>Ce schéma reprend exactement les valeurs de l\'exemple du cours : $\\ell = 0{,}20$ m, $I = 3$ A, $B = 0{,}5$ T, donc $F = B \\times I \\times \\ell = 0{,}3$ N.',
+          svg: `
+            <svg viewBox="0 0 560 370" role="img" aria-labelledby="laplace-diagram-title laplace-diagram-desc">
+              <title id="laplace-diagram-title">Schema de la force de Laplace sur un conducteur rectiligne</title>
+              <desc id="laplace-diagram-desc">Un conducteur rectiligne horizontal est parcouru par un courant I vers la droite. Un champ magnetique B, vertical et perpendiculaire au conducteur, traverse le fil ; deux fleches paralleles plus fines rappellent qu'il s'agit d'un champ uniforme. Une fleche de force F part du meme point que I et B et pointe en oblique vers le bas-gauche, hors du plan de la figure, vers le lecteur : elle est perpendiculaire aux deux autres vecteurs dans l'espace, meme si son angle sur le dessin n'est pas de 90 degres avec eux, du fait de la perspective. Un petit repere d'angle droit indique la perpendicularite entre I et B au point d'origine commun. Une cote sous le conducteur indique sa longueur, 0,20 metre. Un texte en bas rappelle la regle de la main droite : pouce vers I, index vers B, majeur vers F.</desc>
+
+              <defs>
+                <marker id="em-laplace-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+                </marker>
+              </defs>
+
+              <!-- conducteur rectiligne -->
+              <line class="frame-line" x1="140" y1="190" x2="400" y2="190"></line>
+              <line class="frame-line" x1="140" y1="182" x2="140" y2="198"></line>
+              <line class="frame-line" x1="400" y1="182" x2="400" y2="198"></line>
+
+              <!-- champ B : lignes de champ secondaires (uniformite) -->
+              <line class="guide-line" x1="180" y1="190" x2="180" y2="110" marker-end="url(#em-laplace-arrow)"></line>
+              <line class="guide-line" x1="360" y1="190" x2="360" y2="110" marker-end="url(#em-laplace-arrow)"></line>
+
+              <!-- vecteur I (courant), le long du conducteur -->
+              <line class="curve-main" x1="270" y1="190" x2="380" y2="190" marker-end="url(#em-laplace-arrow)"></line>
+              <text class="annotation-label" x="325" y="176" text-anchor="middle">I = 3 A</text>
+
+              <!-- vecteur B (champ), perpendiculaire a I dans le plan de la figure -->
+              <line class="curve-main" x1="270" y1="190" x2="270" y2="80" marker-end="url(#em-laplace-arrow)"></line>
+              <text class="annotation-label" x="284" y="76" text-anchor="start">B = 0,5 T</text>
+
+              <!-- vecteur F (force), perpendiculaire a I et B : sort du plan vers le lecteur -->
+              <line class="curve-main" x1="270" y1="190" x2="202.8" y2="257.2" marker-end="url(#em-laplace-arrow)"></line>
+              <text class="annotation-label" x="150" y="274" text-anchor="middle">F = 0,3 N</text>
+
+              <!-- repere d'angle droit entre I et B -->
+              <polyline points="286,190 286,174 270,174" class="frame-line" fill="none"></polyline>
+
+              <!-- origine commune des 3 vecteurs -->
+              <circle class="plot-point-alt" cx="270" cy="190" r="4"></circle>
+
+              <!-- cote de longueur du conducteur -->
+              <line class="guide-line" x1="140" y1="285" x2="400" y2="285" marker-start="url(#em-laplace-arrow)" marker-end="url(#em-laplace-arrow)"></line>
+              <text class="tick-label" x="270" y="304" text-anchor="middle">ℓ = 0,20 m</text>
+
+              <!-- rappel de la regle de la main droite -->
+              <text class="tick-label" x="270" y="332" text-anchor="middle">Règle de la main droite (trois doigts) :</text>
+              <text class="tick-label" x="270" y="349" text-anchor="middle">pouce → I, index → B, majeur (⊥ aux deux) → F</text>
+            </svg>
+          `,
+          notes: [
+            'Le courant $I$ et le champ $\\vec{B}$ sont <strong>tous les deux dans le plan de la figure</strong>, et réellement perpendiculaires entre eux — conforme à l\'énoncé : le conducteur est placé perpendiculairement au champ.',
+            'La force $\\vec{F}$ est perpendiculaire à la fois à $I$ et à $\\vec{B}$ : elle <strong>sort du plan de la figure</strong>, vers toi. Sur le dessin, son angle avec $I$ et $B$ n\'est pas de 90° — c\'est un simple effet de perspective (le schéma représente les 3 dimensions de l\'espace sur une feuille plane) : dans la réalité, les trois vecteurs restent bien mutuellement perpendiculaires.',
+            'La <strong>règle de la main droite</strong> (règle des trois doigts) donne le sens de $\\vec{F}$ à partir de $I$ et $\\vec{B}$ : pouce → $I$, index → $\\vec{B}$, majeur (perpendiculaire aux deux autres doigts) → $\\vec{F}$.',
+            'Application numérique, avec les valeurs de l\'exemple du cours : $F = B \\times I \\times \\ell = 0{,}5 \\times 3 \\times 0{,}20 = 0{,}3$ N.'
+          ],
+          reading: 'Repère d\'abord le conducteur (le trait horizontal épais) et le sens du courant $I$. Cherche ensuite la direction du champ $\\vec{B}$, perpendiculaire au conducteur dans le plan de la figure. La force $\\vec{F}$ est alors donnée par la règle de la main droite : perpendiculaire aux deux, elle sort du plan de la figure vers toi sur ce schéma.',
+          caption: 'Force de Laplace $\\vec{F} = I\\vec{\\ell} \\times \\vec{B}$ sur le conducteur de l\'exemple du cours ($\\ell = 0{,}20$ m, $I = 3$ A, $B = 0{,}5$ T perpendiculaire) : $F = 0{,}3$ N, orientée selon la règle de la main droite.'
+        }
+      ],
       example: {
         statement: 'Un conducteur rectiligne de longueur $\\ell = 0{,}20$ m, parcouru par un courant $I = 3$ A, est placé perpendiculairement à un champ magnétique uniforme $B = 0{,}5$ T.<br/><br/>Calculer l\'intensité de la force de Laplace $F$ subie par ce conducteur.',
         steps: [

@@ -29,6 +29,96 @@ window.MODULES.push({
       },
       diagram: {
         theme: 'physique',
+        kicker: 'Principe fondamental de la statique des fluides (PFSF)',
+        title: 'La pression augmente linéairement avec la profondeur : $P = P_0 + \\rho g h$',
+        description: 'Colonne d\'eau ouverte à l\'air libre ($\\rho = 1\\,000$ kg/m³) : à gauche, la profondeur $h$ et la pression associée en trois points repères ; à droite, le profil $P(h)$ correspondant. Les trois points sont alignés sur une droite, car $P$ est une <strong>fonction affine</strong> de $h$. Les valeurs reprennent celles de l\'exemple résolu ci-dessous (piscine de profondeur $2{,}5$ m).',
+        svg: `
+          <svg viewBox="0 0 680 325" role="img" aria-labelledby="pfsf-diagram-title pfsf-diagram-desc">
+            <title id="pfsf-diagram-title">Profil de pression hydrostatique P(h) dans une colonne d'eau</title>
+            <desc id="pfsf-diagram-desc">A gauche, une colonne d'eau ouverte a l'air libre avec trois profondeurs reperees : h=0 a la surface (pression P0), h=1,25 m (pression intermediaire) et h=2,5 m au fond, chacune associee a une fleche horizontale dont la longueur augmente avec la profondeur. A droite, le profil de pression P(h) correspondant : un graphique dont l'axe vertical represente la profondeur h croissant vers le bas et l'axe horizontal la pression P, sur lequel les trois points sont exactement alignes sur une droite, de P0 = 101325 Pa en surface jusqu'a 125850 Pa au fond, ce qui illustre que la pression est une fonction affine croissante de la profondeur.</desc>
+
+            <defs>
+              <marker id="arrow-physbts-pfsf" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+              </marker>
+            </defs>
+
+            <!-- ===== Panel gauche : colonne de fluide ===== -->
+            <text class="annotation-label" x="150" y="18" text-anchor="middle">Colonne de fluide (eau)</text>
+            <text class="label-soft" x="150" y="34" text-anchor="middle">Air, P₀</text>
+
+            <!-- corps du fluide -->
+            <rect x="100" y="50" width="100" height="220" fill="var(--diagram-accent)" fill-opacity="0.10"></rect>
+
+            <!-- parois et surface libre -->
+            <line class="frame-line" x1="100" y1="50" x2="100" y2="270"></line>
+            <line class="frame-line" x1="200" y1="50" x2="200" y2="270"></line>
+            <line class="frame-line" x1="100" y1="270" x2="200" y2="270"></line>
+            <line class="frame-line" x1="100" y1="50" x2="200" y2="50"></line>
+
+            <!-- reperes de profondeur -->
+            <line class="guide-line" x1="94" y1="50" x2="100" y2="50"></line>
+            <line class="guide-line" x1="94" y1="160" x2="100" y2="160"></line>
+            <line class="guide-line" x1="94" y1="270" x2="100" y2="270"></line>
+            <text class="tick-label" x="90" y="54" text-anchor="end">h = 0</text>
+            <text class="tick-label" x="90" y="164" text-anchor="end">h = 1,25 m</text>
+            <text class="tick-label" x="90" y="274" text-anchor="end">h = 2,5 m</text>
+
+            <!-- points repere sur la paroi droite -->
+            <circle class="plot-point" cx="200" cy="50" r="5"></circle>
+            <circle class="plot-point-alt" cx="200" cy="160" r="4"></circle>
+            <circle class="plot-point" cx="200" cy="270" r="5.5"></circle>
+
+            <!-- fleches de pression (longueur croissante avec la profondeur) -->
+            <line class="curve-main" x1="200" y1="50" x2="214" y2="50" marker-end="url(#arrow-physbts-pfsf)"></line>
+            <line class="curve-main" x1="200" y1="160" x2="234" y2="160" marker-end="url(#arrow-physbts-pfsf)"></line>
+            <line class="curve-main" x1="200" y1="270" x2="254" y2="270" marker-end="url(#arrow-physbts-pfsf)"></line>
+            <text class="annotation-label" x="218" y="44">P₀</text>
+            <text class="annotation-label" x="238" y="154">P₁</text>
+            <text class="annotation-label" x="258" y="264">P₂</text>
+
+            <!-- ===== Panel droit : profil P(h) ===== -->
+            <text class="annotation-label" x="470" y="18" text-anchor="middle">Profil de pression P(h)</text>
+
+            <!-- grille de lecture -->
+            <line class="grid-line" x1="345" y1="160" x2="612" y2="160"></line>
+            <line class="grid-line" x1="470" y1="40" x2="470" y2="295"></line>
+
+            <!-- axes -->
+            <line class="axis" x1="345" y1="50" x2="612" y2="50" marker-end="url(#arrow-physbts-pfsf)"></line>
+            <line class="axis" x1="360" y1="40" x2="360" y2="297" marker-end="url(#arrow-physbts-pfsf)"></line>
+            <text class="axis-label" x="620" y="54" text-anchor="start">P (Pa)</text>
+            <text class="axis-label" x="360" y="312" text-anchor="middle">h (m)</text>
+
+            <!-- graduations profondeur (alignees avec le panel gauche) ; "0" omis : trop
+                 proche du croisement des axes P/h, deja lisible via "h = 0" a gauche -->
+            <text class="tick-label" x="352" y="164" text-anchor="end">1,25</text>
+            <text class="tick-label" x="352" y="274" text-anchor="end">2,5</text>
+
+            <!-- graduations pression (x=360 omis : l'axe h et le point P0 marquent deja cette origine) -->
+            <line class="guide-line" x1="470" y1="42" x2="470" y2="50"></line>
+            <line class="guide-line" x1="580" y1="42" x2="580" y2="50"></line>
+            <text class="tick-label" x="360" y="34" text-anchor="middle">101 325</text>
+            <text class="tick-label" x="470" y="34" text-anchor="middle">≈113 588</text>
+            <text class="tick-label" x="580" y="34" text-anchor="middle">125 850</text>
+
+            <!-- profil P(h) : trois points alignes -->
+            <polyline class="curve-main" points="360,50 470,160 580,270" fill="none"></polyline>
+            <circle class="plot-point" cx="360" cy="50" r="5"></circle>
+            <circle class="plot-point-alt" cx="470" cy="160" r="4"></circle>
+            <circle class="plot-point" cx="580" cy="270" r="5.5"></circle>
+          </svg>
+        `,
+        notes: [
+          'La pression $P_0 = 101\\,325$ Pa (pression atmosphérique) existe déjà à profondeur nulle, à la surface : ce n\'est jamais zéro.',
+          'Chaque mètre de profondeur ajoute $\\rho g \\approx 9\\,810$ Pa. Sur $h = 2{,}5$ m d\'eau, le terme hydrostatique $\\rho g h$ vaut $24\\,525$ Pa.',
+          'Le profil $P(h)$ est une <strong>droite</strong> : les trois points $P_0$, $P_1$ et $P_2$ sont alignés, car $P$ est une fonction affine de $h$ — c\'est la signature du PFSF.'
+        ],
+        reading: 'Suis les trois profondeurs repères ($h=0$, $h=1{,}25$ m, $h=2{,}5$ m) sur la colonne de gauche, puis retrouve la pression correspondante sur le profil $P(h)$ à droite.',
+        caption: 'Profil de pression hydrostatique dans une colonne d\'eau : la pression croît linéairement avec la profondeur, de $P_0 = 101\\,325$ Pa en surface à $125\\,850$ Pa à $h = 2{,}5$ m (valeurs de l\'exemple résolu).'
+      },
+      diagrams: [{
+        theme: 'physique',
         kicker: 'Presse hydraulique (principe de Pascal)',
         title: 'Transmission intégrale de la pression dans un fluide au repos',
         description: 'Deux pistons de sections $S_1$ et $S_2$ reliés par un même fluide incompressible : la pression se transmet intégralement, d\'où $\\dfrac{F_1}{S_1} = \\dfrac{F_2}{S_2}$.',
@@ -94,7 +184,7 @@ window.MODULES.push({
         ],
         reading: 'Repère les deux cylindres reliés par le même fluide au même niveau, puis compare les sections $S_1$ (petite, à gauche) et $S_2$ (grande, à droite).',
         caption: 'Presse hydraulique : principe de Pascal appliqué à deux pistons de sections différentes reliés par un même fluide incompressible.'
-      },
+      }],
       example: {
         statement: 'Une piscine est remplie d\'eau ($\\rho = 1\\,000$ kg/m³) jusqu\'à une profondeur $h = 2{,}5$ m. On prend $P_0 = 101\\,325$ Pa (pression atmosphérique à la surface) et $g = 9{,}81$ m/s².<br/><br/>Calculer la pression totale au fond de la piscine.',
         steps: [

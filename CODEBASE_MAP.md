@@ -324,6 +324,36 @@ Manifest SI BTS.
 ## js/data/si-bts/si-bts-*.js *(1 module)*
 Modules SI BTS : automatique.
 
+## js/data/physique-4e/index.js
+Manifest Physique-Chimie 4e (vide, chargement direct via `DATA_FILES` dans `js/loader.js`).
+
+## js/data/physique-4e/physique-4e-*.js *(6 modules, complet)*
+Modules Physique-Chimie 4e : atomes et molécules, transformations chimiques, vitesse (distance/temps/mouvement), intensité et tension électrique, lois des circuits (série/dérivation), lumière (propagation, couleur).
+
+## js/data/physique-3e/index.js
+Manifest Physique-Chimie 3e (vide, chargement direct via `DATA_FILES` dans `js/loader.js`).
+
+## js/data/physique-3e/physique-3e-*.js *(6 modules, complet)*
+Modules Physique-Chimie 3e : structure de l'atome et ions, réactions chimiques (équilibrage), énergie cinétique et potentielle, résistance électrique et loi d'Ohm, puissance et énergie électrique, gravitation universelle.
+
+## js/data/physique-2nde/index.js
+Manifest Physique-Chimie 2nde (vide, chargement direct via `DATA_FILES` dans `js/loader.js`).
+
+## js/data/physique-2nde/physique-2nde-*.js *(10 modules, complet)*
+Modules Physique-Chimie 2nde : description d'un mouvement, forces (action mécanique), principe d'inertie, corps purs et mélanges, solutions aqueuses (concentration), transformation physique/chimique, modèle de l'atome, signaux et capteurs, émission/perception du son, lumière (réfraction, spectre).
+
+## js/data/physique-1re/index.js
+Manifest Physique-Chimie 1re (vide, chargement direct via `DATA_FILES` dans `js/loader.js`).
+
+## js/data/physique-1re/physique-1re-*.js *(11 modules, complet)*
+Modules Physique-Chimie 1re : champ gravitationnel, champ électrostatique, cinématique, lois de Newton, travail d'une force et énergie, réaction chimique (avancement/stœchiométrie), titrage, structure des entités chimiques (Lewis), ondes mécaniques, lumière (modèle ondulatoire), circuits électriques (lois de Kirchhoff).
+
+## js/data/physique-tle/index.js
+Manifest Physique-Chimie Terminale (vide, chargement direct via `DATA_FILES` dans `js/loader.js`).
+
+## js/data/physique-tle/physique-tle-*.js *(11 modules, complet)*
+Modules Physique-Chimie Tle : mouvement dans un champ uniforme, satellites et planètes, dynamique newtonienne, énergie mécanique et conservation, thermodynamique (1er principe), évolution spontanée d'un système chimique, acides et bases (pH, Ka), oxydoréduction et piles, ondes et signaux (interférences/diffraction), physique quantique (dualité, niveaux d'énergie), radioactivité et réactions nucléaires.
+
 ## js/data/physique-bts/index.js
 Manifest Physique-Chimie BTS (vide, chargement direct via `DATA_FILES` dans `js/loader.js`).
 

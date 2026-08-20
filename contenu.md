@@ -159,6 +159,11 @@ Permet au tuteur d'envoyer un lien à un futur élève pour évaluer son niveau 
 | **si-1re/** | Contenus SI 1re — refactoring terminé |
 | **si-tle/** | Contenus SI Tle — refactoring terminé |
 | **si-bts/** | Contenus SI BTS — refactoring terminé |
+| **physique-4e/** | Contenus Physique-Chimie 4e — complet (6/6 sous-modules) |
+| **physique-3e/** | Contenus Physique-Chimie 3e — complet (6/6 sous-modules) |
+| **physique-2nde/** | Contenus Physique-Chimie 2nde — complet (10/10 sous-modules) |
+| **physique-1re/** | Contenus Physique-Chimie 1re — complet (11/11 sous-modules) |
+| **physique-tle/** | Contenus Physique-Chimie Tle — complet (11/11 sous-modules) |
 | **physique-bts/** | Contenus Physique-Chimie BTS — complet (10/10 sous-modules) |
 | **fed-bts/** | Contenus BTS FED (savoir S8) — **54/54 notions — S8 complet** (section A 11/11 ; section B 34/34 : ..., B10, B11 ; section C 4/4 : C1-1, C2-1, C2-2, C3 ; section D 5/5 : D1-1, D1-2, D2-1, D2-2, D2-3) |
 

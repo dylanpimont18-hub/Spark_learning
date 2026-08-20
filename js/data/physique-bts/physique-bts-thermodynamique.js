@@ -73,6 +73,45 @@ window.MODULES.push({
         reading: 'Repère la zone chaude à gauche ($T_1$) et la zone froide à droite ($T_2$), puis suis les flèches qui traversent la paroi d\'épaisseur $e$ : le flux thermique va toujours du chaud vers le froid.',
         caption: 'Conduction thermique à travers une paroi plane : le flux thermique $\\varphi$ dépend de la conductivité $\\lambda$, de la surface $S$, de l\'écart de température $\\Delta T$ et de l\'épaisseur $e$.'
       },
+      diagrams: [
+        {
+          theme: 'physique',
+          kicker: 'Chaleur sensible et chaleur latente',
+          title: 'Température en fonction de l\'énergie apportée : la courbe de chauffe',
+          description: 'Ce graphique représente la température d\'un corps en fonction de l\'énergie thermique qui lui est apportée : une portion en pente traduit une <strong>chaleur sensible</strong> ($Q = mc\\Delta T$), un palier horizontal traduit une <strong>chaleur latente</strong> lors d\'un changement d\'état ($Q = mL$).',
+          svg: `
+            <svg viewBox="0 0 420 210" role="img" aria-labelledby="thermo-chauffe-title thermo-chauffe-desc">
+              <title id="thermo-chauffe-title">Courbe de chauffe : temperature en fonction de l'energie apportee</title>
+              <desc id="thermo-chauffe-desc">Un graphique represente la temperature d'un corps en fonction de l'energie thermique qui lui est apportee. La courbe commence par une pente montante ou la temperature augmente avec l'energie recue (chaleur sensible), se prolonge par un palier horizontal ou la temperature reste constante pendant un changement d'etat (chaleur latente), puis reprend une pente montante pour une nouvelle phase, de nouveau en chaleur sensible. Deux points marquent le debut et la fin du palier.</desc>
+
+              <line class="axis" x1="60" y1="190" x2="392" y2="190"></line>
+              <line class="axis" x1="60" y1="190" x2="60" y2="22"></line>
+              <text class="axis-label" x="398" y="195">Q</text>
+              <text class="axis-label" x="52" y="18">T</text>
+
+              <path class="curve-main" fill="none" d="M 60 175 L 165 95 L 265 95 L 365 35"></path>
+
+              <line class="guide-line" x1="165" y1="190" x2="165" y2="95"></line>
+              <line class="guide-line" x1="60" y1="95" x2="165" y2="95"></line>
+              <line class="guide-line" x1="265" y1="190" x2="265" y2="95"></line>
+
+              <circle class="plot-point" cx="165" cy="95" r="6"></circle>
+              <circle class="plot-point" cx="265" cy="95" r="6"></circle>
+
+              <text class="annotation-label" x="70" y="55">chaleur sensible</text>
+              <text class="annotation-label" x="215" y="80" text-anchor="middle">changement d'état</text>
+              <text class="annotation-label" x="274" y="115">chaleur sensible</text>
+            </svg>
+          `,
+          notes: [
+            'Sur les portions <strong>en pente</strong>, la température varie proportionnellement à l\'énergie apportée : c\'est la <strong>chaleur sensible</strong>, $Q = mc\\Delta T$.',
+            'Sur le <strong>palier horizontal</strong>, toute l\'énergie apportée sert à changer l\'état de la matière (fusion, vaporisation…) sans faire varier la température : c\'est la <strong>chaleur latente</strong>, $Q = mL$.',
+            'Une transformation complète (par exemple chauffer de l\'eau puis la vaporiser) enchaîne plusieurs étapes : on additionne alors les quantités de chaleur $Q$ de chaque étape pour obtenir l\'énergie totale.'
+          ],
+          reading: 'Repère les portions en pente (la température varie : chaleur sensible) et le palier horizontal, entre les deux points (la température ne varie pas : chaleur latente).',
+          caption: 'Courbe de chauffe : la température d\'un corps varie pendant la chaleur sensible, mais reste constante pendant la chaleur latente d\'un changement d\'état.'
+        }
+      ],
       example: {
         statement: 'Une paroi de mur extérieur a une surface $S = 12$ m², une épaisseur $e = 20$ cm et une conductivité thermique $\\lambda = 0{,}04$ W/(m·K) (isolant classique). La température intérieure est $T_1 = 20°C$ et la température extérieure $T_2 = 2°C$.<br/><br/>Calculer le flux thermique $\\varphi$ (la puissance perdue) à travers cette paroi.',
         steps: [
