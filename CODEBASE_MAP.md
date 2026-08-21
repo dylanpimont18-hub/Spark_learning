@@ -12,6 +12,21 @@ Point d'entrée unique. Déclare l'ordre de chargement de tous les scripts.
 - `#nav-shop` — lien nav (pas un `<button>`) vers la boutique Shopify (`f1niwf-wr.myshopify.com`), `target="_blank"`, à côté des autres boutons de nav
 - `<head>` — meta SEO statiques par défaut (description, canonical, robots, OG, Twitter Card, `manifest.json`) ; réécrites dynamiquement par vue via `updatePageMeta()` (`js/app.js`)
 
+## js/hero3d.js
+Couche 3D décorative de l'accueil. Aucun impact fonctionnel : si le fichier ne charge pas, la page reste identique en tout point.
+- `initHero3D()` (exposé sur `window`) — seul point d'entrée, appelé par `render()` dans `js/app.js` après chaque rendu de vue. **Doit rester ré-exécutable** : la SPA recrée le DOM à chaque navigation, donc la fonction coupe le timer précédent et les écouteurs globaux ne sont posés qu'une fois (ils ne font rien tant qu'on n'est pas sur l'accueil)
+- Bannière rotative (`#promoDrum`, markup dans `renderHome()`) — prisme à 3 faces, rotation toutes les 4 s ; se met en pause au survol, au focus clavier et quand l'onglet passe en arrière-plan
+- Profondeur des `.math-float` du hero — parallaxe souris (5° max) et scroll, lissée en `requestAnimationFrame`
+- Inclinaison des `.feature-card` au survol — la classe `.is-tilting` coupe la transition de `.card-base` pendant le geste, sinon l'inclinaison traîne de 250 ms
+- Neutralisé sous `prefers-reduced-motion` et sur pointeur grossier (`pointer: coarse`) ; styles associés en fin de `css/styles.css` (section « COUCHE 3D DE L'ACCUEIL »)
+
+## docs/charte-graphique.md
+Charte graphique du site, extraite du code le 2026-08-21 (elle n'existait pas avant). Décrit l'existant — `css/styles.css` reste la source de vérité.
+- Couleurs (clair + `[data-theme="dark"]`), rôle réel de chaque token (`--accent` = couleur d'action, `--primary` = autorité, `--secondary` = accent ponctuel)
+- Typo (Poppins/Inter), formes (`--radius`, ombres douces), composants de référence (`.card-base`, `.btn-primary`)
+- Signature du hero (halo à 8 %, 6 formules flottantes à `opacity: .07`, 4 stats)
+- À consulter avant toute évolution visuelle, pour ne pas partir d'une tendance externe
+
 ## robots.txt
 Autorise l'indexation complète sauf les vues privées/éphémères (teacher, homework, admin, tutorat, positionnement, playlist) ; référence `sitemap.xml`.
 
