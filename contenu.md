@@ -41,6 +41,7 @@ Ce fichier est la **source de vérité** pour la structure de fichiers du projet
 | js/playlist.js | Création et lecture de parcours de révision |
 | js/recommendations.js | Algorithme de suggestion de contenus selon le profil |
 | js/homework.js | Interface de suivi des devoirs et tâches |
+| js/hero3d.js | Couche 3D de l'accueil : bannière rotative, profondeur des formules du hero, inclinaison des cartes |
 
 ## Moteurs (js/engines/)
 | Fichier | Rôle |

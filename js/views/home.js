@@ -283,6 +283,54 @@ function renderHome() {
 						Voir les matières
 					</button>
 				</div>
+
+				<!-- Bannière rotative : trois faces d'un prisme qui pivote.
+				     Mise en mouvement par initHero3D() (js/hero3d.js). -->
+				<div class="promo" id="promo" role="region" aria-roledescription="carrousel" aria-label="Le site et les manuels">
+					<div class="promo-stage">
+						<div class="promo-drum" id="promoDrum">
+
+							<article class="promo-face is-active" style="--tone: var(--accent);" aria-roledescription="diapositive" aria-label="1 sur 3">
+								<div class="promo-badge">✨</div>
+								<div class="promo-body">
+									<div class="promo-title">Tout le cours en ligne, gratuitement.</div>
+									<p class="promo-desc">Cours, quiz et exercices régénérés à chaque tentative — sans compte, sans abonnement.</p>
+								</div>
+								<div class="promo-sample" aria-hidden="true">
+									<div class="promo-sample-label">Terminale · Suites</div>
+									<div class="promo-sample-formula">uₙ = u₀ + n × r</div>
+								</div>
+								<a class="promo-link" href="#subjects" onclick="event.preventDefault();navigate('subjects')">Ouvrir un module →</a>
+							</article>
+
+							<article class="promo-face" style="--tone: var(--primary);" aria-roledescription="diapositive" aria-label="2 sur 3">
+								<div class="promo-badge">🎓</div>
+								<div class="promo-body">
+									<div class="promo-title">L'Édition du professeur : les corrigés inclus.</div>
+									<p class="promo-desc">Le manuel en PDF, avec la réponse détaillée de chaque exercice — à projeter ou à photocopier.</p>
+								</div>
+								<a class="promo-link" href="https://boutique.sparklearning.fr" target="_blank" rel="noopener">Voir l'édition professeur →</a>
+							</article>
+
+							<article class="promo-face" style="--tone: var(--secondary);" aria-roledescription="diapositive" aria-label="3 sur 3">
+								<div class="promo-badge">📘</div>
+								<div class="promo-body">
+									<div class="promo-title">Le manuel élève, pour réviser loin de l'écran.</div>
+									<p class="promo-desc">Le cours et les exercices en version imprimable, à annoter et à emporter partout.</p>
+								</div>
+								<a class="promo-link" href="https://boutique.sparklearning.fr" target="_blank" rel="noopener">Voir les manuels élève →</a>
+							</article>
+
+						</div>
+					</div>
+					<div class="promo-controls">
+						<button class="promo-dot" aria-selected="true"  aria-label="Message 1 : le site est gratuit"></button>
+						<button class="promo-dot" aria-selected="false" aria-label="Message 2 : édition du professeur"></button>
+						<button class="promo-dot" aria-selected="false" aria-label="Message 3 : manuel élève"></button>
+						<button class="promo-pause" id="promoPause" aria-label="Mettre le défilement en pause">⏸</button>
+					</div>
+				</div>
+
 				<div class="hero-stats">
 					<div class="hero-stat">
 						<div class="hero-stat-number">${totalModules}</div>

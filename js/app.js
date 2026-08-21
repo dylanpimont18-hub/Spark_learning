@@ -527,6 +527,7 @@ function render() {
   renderMath();
   if (typeof initAdSlots === 'function') initAdSlots();
   if (typeof trackPageView === 'function') trackPageView();
+  if (typeof initHero3D === 'function') initHero3D();
   updateNavActive();
   if (state.view === 'modules') _applyModuleFilters();
 }

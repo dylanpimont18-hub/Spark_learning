@@ -5991,3 +5991,181 @@ main { flex: 1; }
   transition: background 0.15s ease;
 }
 .pt-module-link:hover { background: color-mix(in srgb, var(--primary) 18%, transparent); }
+
+/* ═══════════════════════════════════════════════════════════════
+   COUCHE 3D DE L'ACCUEIL
+   Ajout pur : aucune règle ci-dessus n'est modifiée.
+   Comportement piloté par js/hero3d.js (initHero3D), appelé
+   depuis render() dans js/app.js.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 1 · Profondeur des formules du hero ───────────────────────
+   Le mouvement existant (translateY -12px, rotate ±3deg, 6s) est
+   conservé au pixel près : on ne fait qu'ajouter un axe Z. */
+.hero { perspective: 900px; perspective-origin: 50% 42%; }
+
+.hero-math-floats {
+  transform-style: preserve-3d;
+  will-change: transform;
+  animation: heroFloatsIn 1.1s ease-out both;
+}
+@keyframes heroFloatsIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Six profondeurs distinctes. Les plans lointains sont plus pâles et
+   légèrement flous : sans cela, la distance ne se lit pas. */
+.math-float:nth-child(5) { --z: -340px; opacity: .11;  filter: blur(.7px); }
+.math-float:nth-child(1) { --z: -250px; opacity: .10;  filter: blur(.5px); }
+.math-float:nth-child(2) { --z: -130px; opacity: .085; }
+.math-float:nth-child(4) { --z:  -60px; opacity: .075; }
+.math-float:nth-child(6) { --z:   30px; opacity: .06; }
+.math-float:nth-child(3) { --z:   70px; opacity: .055; }
+
+/* mêmes valeurs qu'avant, plus le Z */
+@keyframes float {
+  0%, 100% { transform: translate3d(0, 0px,   var(--z, 0px)) rotate(-3deg); }
+  50%      { transform: translate3d(0, -12px, var(--z, 0px)) rotate(3deg); }
+}
+
+/* Le contenu du hero est posé en avant du décor : les plans se
+   séparent nettement, sans que le texte bouge d'un pixel. */
+.hero > .container { transform: translateZ(60px); }
+
+/* ── 2 · Inclinaison des cartes ────────────────────────────────
+   .card-base a déjà `transition: transform` : on la neutralise
+   pendant le geste (sinon l'inclinaison traîne de 250 ms), et on
+   la laisse assurer le retour au repos. */
+.features-grid { perspective: 900px; }
+.feature-card { transform-style: preserve-3d; position: relative; }
+.feature-card.is-tilting { transition: box-shadow var(--transition); }
+
+.feature-card .feature-icon  { transform: translateZ(34px); }
+.feature-card .feature-title { transform: translateZ(20px); }
+.feature-card .feature-desc  { transform: translateZ(10px); }
+
+/* Reflet discret qui suit le curseur — renforce le volume.
+   Pas d'overflow:hidden ici : cela aplatirait le contexte 3D. */
+.feature-card::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  border-radius: var(--radius);
+  background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%),
+              color-mix(in srgb, var(--primary) 9%, transparent), transparent 62%);
+  opacity: 0; transition: opacity var(--transition);
+}
+.feature-card:hover::after { opacity: 1; }
+
+/* ── 3 · Bannière rotative du hero ─────────────────────────────
+   Trois messages portés par les trois faces d'un prisme qui pivote.
+   Rayon = h / (2·tan 60°) ≈ h × 0,2887 : c'est ce qui fait que les
+   faces se rejoignent exactement, sans interstice. */
+.promo { max-width: 760px; margin: 0 auto 44px; }
+
+.promo-stage {
+  --h: 150px;
+  height: var(--h);
+  perspective: 1400px;
+}
+.promo-drum {
+  position: relative; width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform .7s cubic-bezier(.45, .05, .25, 1);
+}
+.promo-face {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; gap: 18px;
+  padding: 20px 24px; text-align: left;
+  background: var(--bg-card);
+  border: var(--border-width) solid var(--border);
+  border-left: 4px solid var(--tone, var(--primary));
+  border-radius: var(--radius);
+  backface-visibility: hidden;
+  transition: box-shadow var(--transition);
+}
+.promo-face.is-active { box-shadow: var(--shadow); }
+.promo-face:nth-child(1) { transform: rotateX(0deg)   translateZ(calc(var(--h) * .2887)); }
+.promo-face:nth-child(2) { transform: rotateX(120deg) translateZ(calc(var(--h) * .2887)); }
+.promo-face:nth-child(3) { transform: rotateX(240deg) translateZ(calc(var(--h) * .2887)); }
+
+.promo-badge {
+  flex-shrink: 0; width: 52px; height: 52px; border-radius: 12px;
+  display: grid; place-items: center; font-size: 1.5rem;
+  background: color-mix(in srgb, var(--tone) 15%, transparent);
+}
+.promo-body { flex: 1 1 auto; min-width: 0; }
+.promo-title {
+  font-family: 'Poppins', sans-serif; font-weight: 700;
+  font-size: 1.08rem; line-height: 1.25; margin-bottom: 5px;
+}
+.promo-desc { font-size: .88rem; color: var(--text-muted); line-height: 1.45; }
+.promo-link {
+  flex-shrink: 0; font-size: .88rem; font-weight: 600;
+  color: var(--tone); text-decoration: none; white-space: nowrap;
+  border-bottom: 1px solid transparent; transition: border-color var(--transition);
+}
+.promo-link:hover { border-bottom-color: var(--tone); }
+.promo-link:focus-visible { outline: 2px solid var(--tone); outline-offset: 3px; border-radius: 3px; }
+
+/* l'extrait de cours de la première face */
+.promo-sample {
+  flex-shrink: 0; padding: 10px 14px; border-radius: 10px;
+  background: color-mix(in srgb, var(--primary) 6%, transparent);
+  border: 1px solid var(--border);
+}
+.promo-sample-label {
+  font-size: .68rem; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--text-muted);
+}
+.promo-sample-formula {
+  font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1rem;
+  color: var(--primary); margin-top: 3px; white-space: nowrap;
+}
+
+.promo-controls {
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; margin-top: 16px;
+}
+.promo-dot {
+  width: 28px; height: 4px; border-radius: 100px; border: none; padding: 0;
+  cursor: pointer; background: var(--border);
+  transition: background var(--transition);
+}
+.promo-dot[aria-selected="true"] { background: var(--primary); }
+.promo-dot:focus-visible,
+.promo-pause:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+.promo-pause {
+  background: none; border: none; cursor: pointer; padding: 2px 6px;
+  font-size: .8rem; color: var(--text-muted); line-height: 1;
+}
+
+@media (max-width: 720px) {
+  .promo-stage { --h: 210px; }
+  .promo-face {
+    flex-direction: column; align-items: flex-start; justify-content: center;
+    gap: 12px; padding: 18px 20px;
+  }
+  .promo-sample { display: none; }
+}
+
+/* ── 4 · Garde-fous ────────────────────────────────────────────
+   Au doigt : ni relief ni reflet, comme les autres effets de survol
+   que le site neutralise déjà plus haut. */
+@media (hover: none) {
+  .feature-card .feature-icon,
+  .feature-card .feature-title,
+  .feature-card .feature-desc { transform: none; }
+  .feature-card::after { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-math-floats { transform: none !important; animation: none; }
+  .math-float { animation: none; transform: translate3d(0, 0, var(--z, 0px)); }
+  .feature-card { transition: none; }
+  .feature-card::after { transition: none; }
+
+  /* la bannière ne tourne plus : les trois messages sont empilés */
+  .promo-stage { height: auto; perspective: none; }
+  .promo-drum {
+    transform: none !important; transition: none;
+    display: flex; flex-direction: column; gap: 12px; height: auto;
+  }
+  .promo-face { position: static; transform: none !important; backface-visibility: visible; }
+  .promo-controls { display: none; }
+}
