@@ -73,6 +73,35 @@ Photos réelles utilisées en complément d'un schéma SVG dans `cours.diagram` 
 ## images/modules/sources.json
 Registre de provenance des images de repli téléchargées par le skill `generer-image` (module, fichier, url_source, auteur, licence, date_ajout). Les diagrammes construits par code n'y figurent pas — leur provenance est le calcul/gabarit lui-même.
 
+## images/mascotte/
+Mascotte de marque **Sparky** (renard a lunettes et echarpe aqua), validee le 2026-08-25, renommee de Fixou vers Sparky le 2026-08-27. Le second narrateur, le loup **Lumen**, vit dans `tiktok/assets/sparky/adulte/` et non ici. Generee par le skill `generer-image` via Mammouth `gemini-2.5-flash-image`, palette calquee sur `images/Logo_blanc.jpeg` (orange #F0A83C, jaune #F0D860, aqua #6CE4D8, bleu ciel #48C0D8), contour navy. **Aucun code ne consomme encore ces fichiers** : le site sert toujours `images/Logo_noir.jpeg` en favicon (`index.html` ligne 13) et le `companionEngine` n'affiche pas d'avatar.
+
+Toutes les PNG sont detourees (fond transparent, sans halo blanc sur fond sombre) et partagent le meme canevas 1024x1024, ce qui preserve l'echelle relative entre les poses — les redimensionner uniformement suffit.
+
+**Couleurs harmonisees** : les generations successives derivaient (fourrure entre #F08840 et #F09848 selon la pose). Les 4 poses d'expression ont ete recalees en TSV sur `sparky.png`, seule reference calee sur le logo — fourrure #F0A840 (teinte 34,7 deg / sat 0,733) et echarpe aqua (teinte 167 deg / sat 0,376) identiques sur les 5 fichiers. Regenerer une pose isolement reintroduit la derive : la reharmoniser sur `sparky.png` avant de l'integrer.
+- `sparky.png` — pose principale, tient un livre "Spark Learning" (bicolore : "Spark" orange, "Learning" bleu ciel) surmontant un eclair dore
+- `sparky-encourage.png` — pouce leve, clin d'oeil (avant un exercice)
+- `sparky-felicite.png` — bras leves, etincelles dorees (bonne reponse)
+- `sparky-reflechit.png` — patte sous le menton (chargement, indice)
+- `sparky-console.png` — patte tendue, sourire doux (apres une erreur ; ton non punitif)
+- `sparky-tete.png` — tete seule 512x512 transparente, source des icones
+
+## tiktok/assets/sparky/adulte/
+Sprites du loup **Lumen**, second narrateur (persona `adulte` de `tiktok/config.py`), ajoutes le 2026-08-27. Il porte les videos BTS et la ligne « maths x vie reelle » ; Sparky garde college et lycee.
+
+Genere en **une seule planche 2x2** par Gamma, puis decoupe : un rendu unique est ce qui garantit le meme animal sur les quatre poses, la generation pose par pose derivant systematiquement (meme piege que pour Sparky). Script de post-traitement conserve dans `tiktok/.travail/lumen/decouper.py` — detourage par remplissage depuis les bords (un seuillage global mangerait le poitrail creme), reharmonisation TSV sur la palette Sparky (orange #F0A840 teinte 34,7 deg / sat 0,733, contour #202040), recadrage a hauteur 780 px et appui bas 120 px sur 1024x1024.
+
+Design : pelage ardoise, creme au museau, poitrail, oreilles et bout de queue, lunettes rectangulaires et echarpe cotelee orange — l'inverse de Sparky, meme univers, aucune confusion possible a l'ecran. Les noms de fichiers restent ceux du jeu Sparky : `config.POSES` mappe un moment du script vers un nom de fichier, commun a tous les jeux.
+- `sparky.png` — de face, tient un livre (vierge, sans le titre du jeu Sparky)
+- `sparky-reflechit.png` — patte sous le menton
+- `sparky-console.png` — patte tendue, geste rassurant
+- `sparky-felicite.png` — bras leves, etincelles dorees
+
+## images/mascotte/favicon/
+Jeu d'icones derive de `sparky-tete.png`. Non reference dans `index.html` ni `manifest.json` pour l'instant.
+- `favicon.ico` (16/32/48), `favicon-16.png`, `favicon-32.png`, `favicon-48.png` — transparents. Le 16px reste confus : un renard dessine ne tient pas a cette taille, les navigateurs recents servent surtout le 32
+- `apple-touch-icon.png` (180), `icon-192.png`, `icon-512.png` — fond creme #FDFBF5 opaque, Apple et les PWA ignorant la transparence
+
 ## firestore.rules
 Règles de sécurité Firestore.
 - `config/{doc}` — lecture publique (invités inclus, pour lire `maintenanceMode`/annonce), écriture réservée admin
@@ -230,7 +259,10 @@ Compose un module en chapitre LaTeX, édition élève ou professeur. Tests : `te
 Maquette du livre : préambule, couverture, liminaires, fin d'ouvrage, couverture imprimeur.
 - `gouttierePourPages(n)` — marge intérieure exigée selon l'épaisseur
 - `largeurDosMm(n)` — largeur de dos pour la couverture séparée
-- `platUn(config, coinSO, coinNE)` — plat 1 composé une fois, servi à la page de titre ET à la couverture imprimeur. Fond = `config.imageCouverture` (illustration générée, ratio 170:244 exact, pas de `\clip`) si présent sinon aplat `ardoise` ; icône = `config.logoIcone` (vrai logo, PNG transparent) si présent sinon `\sparkcycle`/`\sparkeclair` dessinés à la main ; bandeau clair avec trame légère `turquoise!25` en fond et trait bicolore sous le sous-titre
+- `platUn(config, coinSO, coinNE)` — plat 1 composé une fois, servi à la page de titre ET à la couverture imprimeur. **Couverture v3 (validée 2026-08-28) : une couleur par année.** Bandeau de tête de 20 mm portant la ou les teintes des années couvertes (segmenté à parts égales sur un volume de cycle) ; zone sombre avec motif TikZ vectoriel par matière ; bandeau clair de 92 mm avec titre, niveau dans la teinte de l'année, échelle de pastilles du cursus, promesses, auteur et QR
+- `ANNEE_DE_DOSSIER` / `CURSUS` / `anneesDe()` / `familleDe()` — dérivent l'année et le cursus depuis `config.dossiers` ; toute nouvelle clé de dossier doit être ajoutée à la table
+- `motifDiscipline(collection, c)` — motif vectoriel par matière : géométrie (maths), onde/lentille/circuit (physique-chimie), chaîne d'énergie (SI et FED)
+- `mascotteDe(config, famille)` — Sparky sur les maths, Lumen sur la physique-chimie ; 76 mm au collège, 46 mm au lycée, 28 mm en BTS ; passe à gauche sur l'édition professeur pour ne pas être recouverte par l'onglet
 - `traitBicolore(largeurCm)` — le petit trait turquoise/jaune, motif répété sur couverture, page de titre, copyright, ouverture de partie : une seule définition
 - `COULEURS_CHARTE` — LA palette du livre, couverture et intérieur, reprise de `css/styles.css` ; exportée pour `planche.js`
 - `MACROS_MARQUE` — logo TikZ de secours (cycle + éclair), utilisé seulement si `config.logoIcone` est absent
@@ -265,6 +297,15 @@ Assets des manuels, hors pipeline TikZ habituel (seule exception raster de tout 
 ## scripts/manuel/progression.js
 Régénère `docs/manuels/PROGRESSION.md` par scan (jamais édité à la main).
 - `construireTableau()` — compare les modules de `js/data/` aux chapitres déjà intégrés
+
+## scripts/manuel/couverture-v3.js
+Générateur autonome de couvertures « proposition v3 » (une couleur par année) — n'écrit rien dans le pipeline de production, sort dans `Manuel scolaire/couvertures-propositions/`.
+- `ANNEE` / `CURSUS` — 9 teintes d'année (toutes ≥ 4,5:1) et cursus par matière
+- `plat(ouvrage)` — compose le LaTeX d'une couverture 170×244 mm
+- `motifMaths()` / `motifPhysique()` — motifs TikZ vectoriels, un par matière
+- `volumetrie(cle)` — lit chapitres et pages dans `etat-eleve.json`
+- `compiler(cle)` — deux passes pdflatex + garde-fou anti-PDF-vide (< 40 ko)
+- `planche(cles)` / `lisezMoi(cles)` — planche de contact et note de lecture
 
 ## js/data/6e/index.js
 Manifest 6e — liste et ordre des modules (chargés via `<script>` dans index.html).
@@ -714,3 +755,210 @@ Helpers de rendu et utilitaires UI partagés.
 - `renderFichesBatch(modules)` — concatène plusieurs `renderFicheCours()` pour l'impression groupée
 - `_printLevelLabel(mod)` — libellé "Matière · Niveau — Classe" affiché en en-tête de fiche
 - `renderEvaluationPrintSheet(items, mode)` — sujet imprimable (`mode:'subject'`, réponses vierges) ou corrigé (`mode:'correction'`, réponses + barème) à partir d'une liste `{moduleTitle, question}` où `question` suit le schéma `evaluation.questions` (`statement`, `type:'numeric'|'multiple-choice'`, `answer`, `unit`, `points`, `correction`) ; consommée par `printEvaluationSubject()`/`printEvaluationCorrection()` (voir `js/print.js`)
+
+---
+
+## Shopify/ (boutique — hors git, `.gitignore`)
+Copie de travail du thème **Horizon** de `boutique.sparklearning.fr` (thème live `188654780796`).
+Synchronisation par la CLI Shopify : `shopify theme pull|push --theme <id>` depuis ce dossier.
+- `templates/index.json` — accueil : hero (H1) → réassurance 4 cartes → 6 rayons → packs → 3 étapes → à propos → FAQ accordéon
+- `templates/product.json` — fiche produit : galerie en grille 1 colonne (couverture + sommaire + page de méthode), description AVANT le bouton d'achat, réassurance, accordéon 4 rubriques ; pas de sélecteur de variante ni de quantité
+- `templates/cart.json` — panier FR, récapitulatif sur fond neutre, rebond sur la collection `packs`
+- `sections/header-group.json` — barre d'annonce + menu `main-menu` (Mathématiques / Physique-Chimie à sous-menus, Packs, Comment ça marche, Contact)
+- `sections/footer-group.json` — 3 colonnes : marque + contact, menu `footer`, newsletter + moyens de paiement ; « Propulsé par Shopify » désactivé
+- `blocks/buy-buttons.liquid` — **modifié** : réglage `show_quantity` ajouté (masque le sélecteur de quantité sur les produits numériques)
+- `snippets/product-media.liquid` — **modifié** : la première image passe en `loading="eager"` (elle porte déjà `fetchpriority="high"`)
+- `assets/base.css` — **modifié** : blocs ajoutés en fin de fichier — titre de menu du pied de page, `-webkit-line-clamp: 3` sur les titres de carte produit (sinon « Édition élève / professeur » saute sur mobile), et hiérarchie du menu mobile (matières en intertitre 12px, niveaux à 16px, tiroir pleine largeur via `--drawer-width`)
+- `snippets/cart-products.liquid` — **modifié** : le sélecteur de quantité n'est rendu que si `item.requires_shipping` (un PDF ne s'achète qu'une fois)
+- `sections/prototype-a-papier.liquid` — **prototype, non installé** : accueil « Papier », hero typographique sans image, fond crème `#FAF8F4`, serif, cartes sans ombre. CSS autonome dans son bloc `stylesheet`, liseuse `<dialog>` native en 24 lignes de JS
+- `sections/prototype-b-laboratoire.liquid` — **prototype, non installé** : accueil « Laboratoire », split-screen sur `#F9FAFB`, planche de 3 couvertures, repère millimétré en `linear-gradient` (zéro image), 3 chiffres de preuve. Même liseuse que le prototype A
+- `templates/page.prototype-a.json` / `page.prototype-b.json` — instancient les deux prototypes en pages séparées, sans toucher à `index.json`
+- **Thème d'essai `#188938748284` « Mascottes — Sparky & Lumen (essai) »**, non publié : porte les sections mascottes et les 2 prototypes. Live inchangé (`#188654780796`). Pages d'essai : `/pages/essai-accueil-mascottes`, `/pages/essai-prototype-a`, `/pages/essai-prototype-b`
+- **Piège Horizon** : la classe `page-width` n'existe pas (les utilitaires sont `page-width-normal|wide|narrow`, qui ne posent que des variables) — une section qui s'y fie se colle au bord gauche. Utiliser son propre conteneur.
+- **Piège Horizon** : `html` est en `height:100dvh; overflow:hidden` au-dessus de 990 px, le défilement étant délégué à `.page-wrapper`. Conséquence : les images en `loading="lazy"` ne se déclenchent jamais, et `fullPage` de Puppeteer s'arrête à la hauteur de l'écran.
+- `snippets/mascotte.liquid` — affiche Sparky (renard) ou Lumen (loup) avec une bulle. `loading="eager"` obligatoire (voir le piège ci-dessus). **Répartition canonique, ne pas inverser** : Sparky = collège et lycée, Lumen = BTS et adulte (suit les personas `jeune`/`adulte` de `tiktok/config.py`). Les mascottes **tutoient**, le reste de la boutique **vouvoie** : écart délibéré, elles sont des voix et non la marque
+- `sections/hero-mascottes.liquid` — **prototype, non installé** : hero avec les deux mascottes, aucune image de fond, aucune hauteur imposée, transitions à 160 ms
+- `sections/rayons-guides.liquid` — **prototype, non installé** : « Choisissez votre rayon » en 2 groupes, chaque mascotte guidant ses niveaux ; lit les vrais `all_products_count` des collections
+- `templates/page.accueil-mascottes.json` — instancie les deux sections avec les handles réels (`mathematiques-college`, `mathematiques-bts`…), sans toucher à `index.json`
+- `assets/{sparky,lumen}-{salue,presente}.webp` + `-reflechit-sm.webp` — 6 sprites détourés sur la boîte alpha, 292 ko au total (contre ~2 Mo en PNG source)
+- `locales/fr.json` — **modifié** : `shipping_policy*` et `taxes_included*` réécrits pour un produit numérique (« Prix TTC. Aucun frais de livraison… »)
+
+Les fichiers marqués **modifié** sortent du thème d'origine : à reporter en cas de mise à jour d'Horizon.
+
+## Manuel scolaire/PDF/
+Les 38 PDF livrés à la boutique, nommés exactement comme les titres produits (aux parenthèses de cycle près :
+le produit « Mathématiques Collège (6e-3e) » correspond au fichier « Mathématiques Collège »).
+Servent de source aux aperçus intérieurs des fiches produit (extraction par `pdftotext` + `pdftoppm`, MiKTeX).
+---
+
+## tiktok/ — pipeline de vidéos TikTok
+
+Projet Python autonome (venv local, `requirements.txt`). **Trois lignes éditoriales** qui ne partagent que le moteur de rendu (voix → capture → montage) :
+- `main.py` — part d'un module de `js/data/` et en tire 3 vidéos, une par angle. Narrateur Sparky, mémoire `production.json`, sortie `output/`.
+- `culture.py` — part d'un sujet d'ado et remonte vers une notion, 1 vidéo. Narrateur Lumen, mémoire `sujets.json`, sortie `output-culture/`.
+- `interview.py` — vidéos de présentation, Sparky interroge Lumen. **Seule ligne en paysage 1920×1080**, seule ligne dont les textes sont écrits à la main, seule ligne sans mémoire ni dépôt Drive. Sortie `output-interview/`.
+
+Sorties gitignorées. Voir `tiktok/README.md`.
+
+## tiktok/config.py
+Tous les réglages : identité, personas, géométrie du cadre, chemins. Aucun secret (ils viennent de `.env`).
+- `PERSONAS` — voix + traitement de formants + jeu de sprites ; le facteur `formants` est le seul curseur pour l'âge de la voix (1,00 = brute, 1,25 = chipmunk). Défaut retenu le 2026-08-26 après écoute comparée : `naturelle`, sans traitement
+- `PERSONA_PAR_TRANCHE` — `naturelle` partout dans le périmètre actuel ; l'entrée `bts` → `adulte` est inutilisée
+- `TRANCHES_ACTIVES` — périmètre éditorial (`college`, `lycee`). Le BTS est exclu du tirage ET de la recherche par libellé depuis le 2026-08-26 ; y revenir = ajouter `"bts"`, rien d'autre
+- `persona_pour(tranche, forcee)` — résout la persona d'un module
+- `sprite(moment, jeu)` — chemin du visuel de la mascotte, repli sur `images/mascotte/` si `assets/sparky/<jeu>/` n'existe pas
+- `TEL_*`, `ECHELLE_CAPTURE` — géométrie partagée capture/montage : le site est filmé à la taille exacte du mockup, donc aucune trame n'est redimensionnée au montage
+- `SEUIL_RATTACHEMENT` — score minimal pour rattacher un module à une vidéo « vie réelle ». Relevé de calibration du 2026-08-27 **écrit en commentaire au-dessus** : `_score` n'a pas d'échelle théorique, et c'est ce relevé qui a montré que la requête devait être la notion seule
+- `MEMOIRE_SUJETS`, `SORTIE_CULTURE`, `DOSSIER_DRIVE_CIBLE_CULTURE` — la ligne « vie réelle » a sa propre mémoire, sa propre sortie et son propre dossier Drive, pour qu'aucune des deux lignes ne marche sur l'autre
+- `VOIX_INTERVIEW` / `JEU_SPRITES` / `COULEUR_LOCUTEUR` / `NOM_LOCUTEUR` — le couple voix + sprites + couleur de chaque mascotte en interview. Sans lip-sync, c'est ce qui rend le dialogue lisible : trois signaux redondants désignent qui parle (la voix, la couleur du mot en cours, la seule mascotte qui bouge)
+- `persona_locuteur(locuteur)` — voix d'une mascotte en interview, pendant de `persona_pour()`
+- `INTERVIEW_VIEWPORT`, `ECRAN_*`, `NAVIGATEUR_*`, `MASCOTTE_*`, `INTERVIEW_SOUS_TITRE_*` — géométrie du format paysage. **Ces valeurs sont liées** : la largeur de l'écran est bornée par les mascottes (~350 px dans chaque coin bas) et le bandeau de sous-titres passe sous le cadre et entre elles. En changer une isolément fait se chevaucher les couches — vérifier sur une trame fixe avant de rendre
+- `SILENCE_REPLIQUE` — blanc entre deux répliques. Sous ~0,2 s les voix se marchent dessus, au-delà de ~0,4 s l'interview traîne
+
+## tiktok/main.py
+Orchestrateur CLI. Ordre imposé : IA → voix → capture → montage (la capture doit durer exactement la longueur de l'audio).
+- `main(argv)` — `--module`/`--aleatoire`/`--tranche`/`--matiere`, `--angles`, `--persona`, `--scripts-seuls`, `--lot N` (production de nuit), `--refaire`, `--etat`, `--sans-verification`
+- `_traiter(module, ...)` — un module : scripts vérifiés, puis vidéos, puis mémoire enregistrée angle par angle
+- `_afficher_etat(...)` — avancement sans rien produire
+- `rafraichir_catalogue(force)` — réexporte `catalogue.json` si `js/loader.js` est plus récent
+- `produire(module, angle, script, persona, ...)` — chaîne complète d'une vidéo + son JSON de métadonnées
+
+## tiktok/tools/export-modules.js
+Exporte les 248 modules de `js/data/` en JSON pour Python. Réutilise `chargerModule` de `scripts/manuel/extract.js` au lieu de refaire un bac à sable `vm`.
+- `catalogue()` — liste des modules avec `url`, `tranche` (college/lycee/bts) et le contenu pédagogique nettoyé de `cours.diagram` (SVG inutile ici)
+- `tranche(dossier)` — déduit la tranche du dossier ; c'est elle qui pilote le choix de la voix
+
+## tiktok/tools/screencast.js
+Capture animée du site avec Puppeteer. Pilote lui-même le défilement et prend une capture par trame — `Page.startScreencast` livre des trames à cadence irrégulière, inutilisable pour un montage.
+- `capturer({url, url2, duree, fps, echelle, bascule, plan, bureau, vw, vh})` — scrolle le cours puis bascule sur l'onglet exercices ; la capture est mise en pause pendant la navigation, donc aucune trame blanche
+- `capturerPlan(page, plan, ...)` — mode interview : N segments datés, une URL chacun, le défilement repart de zéro à chaque segment (un segment est un plan, pas la suite du précédent). Le découpage est calculé côté Python (`capture.plan_segments`) pour être testable sans navigateur
+- `--bureau` / `--vw` / `--vh` — viewport bureau au lieu du viewport mobile ; sert au format paysage, où montrer la version mobile du site n'aurait aucun sens
+- `A_SUPPRIMER` — chrome d'UI éphémère retiré avant capture : bannière RGPD, toasts, confettis (comme `scripts/prerender.js`), **les emplacements publicitaires** (`.ad-slot-placeholder`, `ins.adsbygoogle`) et **le bandeau cookies de Shopify** (`#shopify-pc__banner`, `#shopify-pc__prefs`) — les quatre ajoutés le 2026-08-27. Le placeholder « Emplacement publicitaire (exemple) » apparaissait en clair dans les captures, et une vraie annonce n'y a pas davantage sa place : on ne fait pas la promotion du site en filmant la publicité de quelqu'un d'autre
+- `preparer(page, url)` — pose **une règle CSS** `display:none` en plus du retrait des nœuds. Le retrait ne vaut que pour ce qui existe déjà : le bandeau Shopify est injecté par l'API Customer Privacy **une à deux secondes après** le chargement, donc en plein milieu du plan. Il masquait le centre de la page produit dans le premier rendu de l'interview boutique
+
+## tiktok/pipeline/texte.py
+Rend le contenu des modules prononçable, et vérifie que la réponse du modèle l'est.
+- `html_vers_texte(source)` — retire le balisage ; le double `<br/>` du projet devient un vrai saut de paragraphe
+- `math_vers_parle(source)` — KaTeX en français dit à voix haute (`\dfrac{1}{2}` → « un demi », `x^2` → « x au carré »)
+- `symboles_interdits(texte)` — garde-fou : `$`, `\`, balise, accolade, décimale anglaise
+
+## tiktok/pipeline/scripts.py
+Écriture des scripts par le modèle (API Mammouth, SDK OpenAI).
+- `ANGLES` — les trois angles éditoriaux et leur consigne
+- `generer(module, client, modele, angles)` — un appel produit les 3 scripts ; une réponse invalide est renvoyée au modèle avec la liste des reproches
+- `assembler(script)` — **recompose** `full_text` depuis hook/body/cta au lieu de faire confiance au modèle
+- `valider(script)` / `duree_estimee(texte)` / `extraire_json(reponse)` — garde-fous
+- `construire_brief(module)` — matière première envoyée au modèle, dont `cours.piege`
+
+## tiktok/pipeline/voix.py
+Voix off gratuite et timings mot à mot.
+- `dire(texte, persona, destination)` — MP3 + mots datés + durée exacte
+- `_synthetiser(...)` — **`boundary="WordBoundary"` obligatoire** : edge-tts ne rend que des frontières de phrase par défaut
+- `_decaler_formants(source, destination, facteur)` — rajeunit la voix en préservant la durée (donc les sous-titres restent synchronisés)
+- `dire_dialogue(repliques, destination, silence)` — bande son d'une interview. edge-tts ne rend **qu'une voix par appel** : chaque réplique est synthétisée à part puis recollée, et `dialogue.fusionner()` recale les timings. Mesuré sur l'interview « pourquoi » : 0,05 s de dérive sur 75 s
+- `_coller(morceaux, silence, destination)` — concat ffmpeg. L'`aformat` sur chaque entrée n'est pas décoratif : le filtre `concat` exige le même format partout, or edge-tts ne le garantit pas d'une voix à l'autre. Les silences sont des entrées `lavfi` (une entrée de filtre ne se consomme qu'une fois, il en faut une par intervalle)
+
+## tiktok/pipeline/soustitres.py
+Sous-titres calés sur la voix, sans transcription.
+- `depuis_edge_tts(evenements)` — offsets en 100 ns → secondes
+- `grouper(mots, max_mots, max_duree, silence_max)` — pavés de 2-3 mots, coupés sur la ponctuation et les respirations
+- `bornes_sections(script, mots)` — date hook/body/cta ; pilote le changement de pose de la mascotte
+
+## tiktok/pipeline/catalogue.py
+- `dans_perimetre(modules, tranches)` — même filtre que `choisir()`, exposé pour que l'affichage d'avancement compte exactement ce que le tirage peut sortir
+- `charger(chemin)` / `choisir(modules, identifiant, tranche, matiere, graine, tranches)` — `identifiant` accepte la clé exacte ou un libellé approximatif sans accents ; une demande à moitié satisfaite est refusée (« calcul quantique » ne doit pas tomber sur « calcul algébrique »), et un module hors périmètre est refusé **en le disant** plutôt que remplacé en silence
+
+## tiktok/pipeline/memoire.py
+Ce qui a déjà été fabriqué. Le catalogue dit ce qui est possible, cette mémoire dit ce qui est fait.
+- `charger(chemin)` / `sauver(memoire, chemin)` — JSON indenté et trié, corrigeable à la main : retirer une entrée force la régénération de cet angle
+- `reste_a_faire(modules, memoire, angles)` — juge sur les angles DEMANDÉS, pas sur les trois (on doit pouvoir parcourir le catalogue sur le seul angle « erreur »)
+- `enregistrer(memoire, module_id, angle, fichier)` — appelé après CHAQUE angle, pour qu'un plantage au troisième ne fasse pas refaire les deux premiers
+- Un fichier corrompu renvoie une mémoire vide plutôt que de bloquer la production
+
+## tiktok/pipeline/verification.py
+Vérification arithmétique par un second appel au modèle (température 0). Ne rejuge pas le contenu des modules, déjà relu : contrôle uniquement les exemples chiffrés que le modèle invente.
+- `verifier(script, module, client, modele)` — liste vide = calculs exacts ; une panne du vérificateur remonte comme un problème, jamais comme un succès
+- `construire_demande(script, module)` — le module fait autorité, la vidéo est ce qu'on juge
+- `interpreter(reponse)` — lève sur réponse illisible : un vérificateur muet ne doit pas valoir « rien à signaler »
+- Motivé par un cas réel : « six plus trois sur neuf plus trois donne dix sur douze » (c'est 9/12), produit deux fois de suite sur le module Fractions
+
+## tiktok/pipeline/capture.py
+- `filmer(url, duree, sortie, url2, bascule, fps)` — lance `screencast.js` ; la durée vient de l'audio déjà synthétisé
+- `filmer_plan(etapes, duree, sortie, fps)` — tournage multi-segments en viewport bureau, pour les interviews
+- `plan_segments(etapes, duree)` — convertit des bornes en **fraction** de la vidéo en segments datés. Les fractions plutôt que des secondes parce que le plan de tournage est écrit avant que la voix off existe. Refuse les bornes qui reculent ou sortent de ]0, 1] ; tolère au contraire un `jusqu_a` en trop sur la dernière étape (coquille fréquente, et la refuser coûterait un rendu de plusieurs minutes)
+
+## tiktok/pipeline/montage.py
+Composition 1080×1920 avec MoviePy 2.x.
+- `monter(trames, fps_capture, audio, mots, bornes, destination, jeu_sprites)` — assemble et exporte
+- `_fond_complet()` — dégradé + halos + pastille aplatis en UNE image : composer trois couches transparentes plein cadre à chaque trame était le premier poste de coût
+- `_cadre_telephone()` — coque percée posée par-dessus la capture : fabrique les coins arrondis sans retoucher les trames une par une
+- `_image_sous_titre(groupe, index_actif)` — rendu PIL mot par mot (un `TextClip` ne sait pas colorer un seul mot d'une ligne)
+- `_lignes(mots, police, largeur_max, rendu)` — retour à la ligne. **`rendu` doit être la même transformation que celle appliquée au dessin** : les sous-titres sont dessinés en CAPITALES, plus larges que les minuscules en ExtraBold, et mesurer la minuscule fait déborder le pavé hors du cadre (constaté le 2026-08-27 en paysage). Le format vertical appelle encore sans `rendu` — il a donc le même débordement latent, non corrigé pour ne pas changer la mise en page des vidéos déjà produites
+- `_enveloppe(audio, duree)` — énergie de la voix ; la mascotte rebondit sur ce qui est dit, pas sur une horloge
+
+## tiktok/pipeline/dialogue.py
+Recollage des répliques d'une interview en une seule frise temporelle. Ne touche pas à l'audio (c'est `voix._coller`) : toute la logique de synchronisation est ainsi testable sans synthétiser une seconde de son.
+- `fusionner(pistes, silence)` — décale les offsets, attache un locuteur à chaque mot, rend la frise des répliques. Le silence est intercalé **entre** les répliques, jamais après la dernière
+- `locuteur_a(repliques, instant)` — qui parle. Un silence appartient à celui qui **va** parler, pas à celui qui vient de finir : la mascotte se tourne vers son interlocuteur avant qu'il ouvre la bouche
+- `grouper_repliques(mots, **reglages)` — pavés de sous-titres qui ne mélangent jamais deux locuteurs. `soustitres.grouper()` ne connaît que le rythme de la voix ; sans cette coupure, la fin de la question et le début de la réponse tomberaient dans le même pavé, affiché d'une seule couleur
+
+## tiktok/pipeline/montage_interview.py
+Composition paysage 1920×1080. Réutilise les briques de `montage.py` (dégradé, halo, sprite, enveloppe, police) plutôt que de les dupliquer.
+- `monter(trames, fps_capture, audio, mots, repliques, destination, domaine, poses)` — assemble et exporte
+- `_cadre_navigateur(domaine)` — coque de navigateur percée, même principe que `_cadre_telephone` ; la barre d'adresse affiche le domaine filmé
+- `_clips_mascottes(repliques, enveloppe, duree, poses)` — les deux mascottes sur toute la durée : celle qui parle rebondit, celle qui écoute est estompée et immobile
+- `_estompe(image)` — version en retrait de celle qui écoute. Sans lip-sync c'est le seul moyen de désigner le locuteur ; on assombrit sans effacer, les deux restent dans le champ comme sur un plateau
+- `_plaque_nom(locuteur, actif)` — étiquette de plateau TV, **affichée en permanence** : un spectateur qui arrive en cours de vidéo sait qui est qui
+- `_image_sous_titre(groupe, index_actif)` — le mot en cours prend la couleur du locuteur (`config.COULEUR_LOCUTEUR`)
+- `taille_ajustee(mots, taille)` — plus grande taille à laquelle le pavé tient dans la bande. Le retour à la ligne ne suffit pas toujours : `boutique.sparklearning.fr` est **un seul mot** de 1009 px pour une bande utile de 968. On ne peut ni le couper ni le laisser sortir du cadre, donc on réduit ce pavé-là et lui seul. Plancher à `TAILLE_SOUS_TITRE_MINI` — un pavé illisible est pire qu'un pavé qui déborde un peu
+
+## tiktok/pipeline/sujets.py
+Choix du sujet du jour et mémoire des sujets déjà sortis. Le risque n'est pas la qualité d'un sujet isolé, c'est l'effondrement de la diversité : le pipeline impose donc la **famille**, le modèle n'invente qu'à l'intérieur.
+- `FAMILLES` — les 8 familles de sujets (jeu-video, sport, argent, musique, reseaux, nourriture, transport, mode)
+- `famille_du_jour(jour)` — rotation déterministe sur le calendrier ; le calendrier fait foi plutôt qu'un compteur, pour qu'une mémoire effacée retombe sur la même famille
+- `famille_suivante(famille)` — famille d'après en bouclant ; sert quand une famille est épuisée et quand un lot dépasse 8 vidéos
+- `identifiant(sujet)` — slug sans accent ni apostrophe ; sans lui la liste d'exclusion laisserait passer un doublon à une apostrophe près
+- `charger(chemin)` / `sauver(memoire, chemin)` — `sujets.json`, calqué sur `memoire.py`
+- `noter(memoire, sujet, notion, famille, module, brule, reproches)` — écrit dans la mémoire **reçue** (et non une copie) : la marque « brûlé » est posée par un `produire()` qui rend `None`, elle ne peut pas voyager par le retour. `reproches` conserve ce qui a fait tomber le sujet — sans cette trace, un lot de nuit rend un calendrier troué sans aucune piste sur la cause
+- `deja_sortis(memoire, limite)` — les N derniers sujets, brûlés compris : un sujet qui a résisté aux vérificateurs échouerait pareil au tour suivant
+- `choisir(client, modele, famille, exclusions, tentatives, sujet_impose)` — un appel ; un sujet re-proposé malgré l'exclusion est rejeté et l'appel refait. Lève `LookupError` à l'épuisement, pour que l'appelant change de famille au lieu de perdre le lot
+
+## tiktok/pipeline/culture.py
+Rédaction et contrôles de la ligne « maths × vie réelle ». **Doublé de `verification.py`, pas adapté** : là-bas le module fait autorité, ici tout est inventé, et tordre ce postulat le rendrait faux pour son usage d'origine. Ne réutilise que `extraire_json()` et `interpreter()`.
+- `SYSTEME_REDACTION` — reprend les contraintes de prononçabilité de `scripts.SYSTEME` et y ajoute l'**interdiction des données périssables** (prix, statistiques, abonnés, classements). Un second appel au même modèle ne peut pas trancher « est-ce encore vrai ? » — il partage la même date de coupure : on interdit donc en amont plutôt que de contrôler en aval
+- `SYSTEME_FAITS` / `verifier_faits(script, client, modele)` — affirmations sur le monde réel : indéfendables ou périssables. Ne juge ni style ni pédagogie, ne recalcule rien
+- `SYSTEME_CALCULS` / `verifier_calculs(script, client, modele)` — arithmétique. Ne nomme aucun module : lui parler d'une référence qui n'existe pas l'inciterait à s'y fier
+- `ecrire(client, modele, sujet, notion, mascotte, reproches)` — un appel, validé par `scripts.valider()`. Sans état : les reproches repartent dans la consigne, pas dans un historique
+- `rattacher_module(modules, sujet, notion, seuil)` — la requête est la **notion**, pas le sujet : `_score` exige que plus de la moitié des mots tombent dans le titre, ce qu'un sujet de 4-6 mots ne peut jamais atteindre. `None` est un cas normal, pas une erreur
+- `produire(client, modele, famille, memoire, modules, ...)` — choix → rédaction → les DEUX contrôles → reprise. Les deux contrôles passent toujours, même si le premier a trouvé : corriger un reproche pour découvrir l'autre coûterait une tentative entière. Rend `None` et marque le sujet brûlé après 2 échecs
+
+## tiktok/culture.py
+CLI de la ligne « maths × vie réelle », à côté de `publier.py`. Le pipeline ne date rien : il fabrique un stock, n8n en publie une par jour.
+- `main(argv)` — `--lot N`, `--sujet`, `--famille`, `--sans-verification`, `--etat`. La production passe par `_produire_le_lot()`, appelée **sous verrou**
+- `verrou(chemin)` — interdit deux lots simultanés. Vécu le 2026-08-27 : une relance de ce qu'on croyait être un lot mort a fait tourner deux processus, qui ont écrasé mutuellement `sujets.json` et se sont disputé les fichiers temporaires de MoviePy — deux dossiers se sont retrouvés avec un MP4 mais sans métadonnées, invisibles jusqu'à la publication. C'est un verrou de **fichier**, pas un fichier-témoin : le système le relâche à la mort du processus, donc un plantage ne laisse jamais de verrou fantôme. Deux pièges Windows encodés dans le code : le mode `a+` ignore `seek()` à l'écriture, et la zone verrouillée est **illisible** aux autres handles — d'où le PID stocké à l'octet 1, hors du verrou, en binaire. `--etat` reste consultable pendant qu'un lot tourne
+- `metadonnees(resultat, duree, persona, url_base)` — fiche JSON. **`legende`, `hashtags` et `url` sont le contrat avec n8n** : les renommer casserait la publication sans qu'aucun test ne bronche. `url` n'est jamais vide — sans module rattaché elle tombe sur l'accueil
+- `rendre(resultat, persona, travail, sortie, url_base)` — voix → capture → montage, calqué sur `main.py::produire` qui ne peut pas être appelé ici (il attend un module, or cette ligne n'en a pas forcément)
+- `_plan_de_capture(...)` — avec module on filme son cours puis ses exercices ; sans module l'accueil seul, une bascule n'aurait aucun sens
+- `_ecrire_un_sujet(...)` — fait le tour des familles avant d'abandonner ; un sujet qui échoue n'emporte jamais le lot
+
+## tiktok/interviews.py
+Les deux dialogues et leurs plans de tournage, **écrits à la main**. Un modèle produirait une histoire plausible plutôt que la vraie — et ça s'entend : ces vidéos racontent pourquoi le site existe.
+- `INTERVIEWS["pourquoi"]` — le fondateur enseignait, ses étudiants voulaient devenir techniciens, et les sciences les ralentissaient ; tout ce qui existait était payant. La thèse tombe à la 4e réplique. La dernière (« et ça le reste ») est la **charnière** avec l'interview boutique, qui répond à « alors pourquoi vendre ? »
+- `INTERVIEWS["boutique"]` — s'ouvre sur la question gênante (le site est gratuit, pourquoi vendre ?) parce que le spectateur se la pose de toute façon. Le pivot n'est pas le prix mais l'**édition professeur**
+- Contraintes d'écriture : aucun symbole imprononçable, et les **prix en toutes lettres** — edge-tts lit « 9,99 € » de façon irrégulière selon le contexte
+- Le segment « tout était payant » ne filme ni ne nomme aucun concurrent : on reste sur le site
+- `poses(interview)` — la pose de sprite de chaque réplique (`hook` = réfléchit, `body` = console, `cta` = félicite)
+
+## tiktok/interview.py
+CLI de la ligne interviews, à côté de `main.py` et `culture.py`.
+- `main(argv)` — `--sujet pourquoi|boutique`, `--tous`, `--voix-seule` (synthétise la bande son et s'arrête : permet d'écouter un dialogue sans payer les ~10 min de capture + montage), `--sortie`
+- `produire(nom, sortie, travail, voix_seule)` — voix → capture → montage, même ordre imposé qu'ailleurs
+- Ni mémoire de production ni dépôt Drive, **volontairement** : on refait une vidéo de présentation quand elle a changé, pas quand elle manque
+
+## tiktok/n8n/vie-reelle-publication-quotidienne.json
+Workflow n8n de publication de la ligne « vie réelle », versionné ici parce qu'il n'existait jusque-là qu'à un seul endroit — l'instance n8n. **Créé le 2026-08-27 sous l'id `kly59keEBizbGhRg`** (fuseau Europe/Paris, workflow d'erreur `xESU9wNV8sMwSyIz`). Déclencheur quotidien 09:15, programme **une** vidéo à 22:00 (heure de Paris) sur TikTok, YouTube Shorts et la **page entreprise LinkedIn**, en un seul `POST /public/v1/posts`.
+- `Resoudre les reseaux` — lit les identifiants d'intégration Postiz **à l'exécution** au lieu de les figer : reconnecter un compte change son id, et un id périmé échoue en silence. Résout aussi le piège `linkedin` (profil) / `linkedin-page` (page entreprise) — un `__type` qui ne correspond pas retombe sur des réglages vides **sans lever d'erreur**, donc le type vient de l'API, jamais d'une valeur devinée
+- `Choisir le sujet du jour` — trie par `createdTime`, pas par nom : le pipeline fait tourner 8 familles de sujets, un tri alphabétique regrouperait les sujets par première lettre et détruirait l'alternance
+- `Preparer la publication` — créneau 22:00, choisi pour ne pas marcher sur les 12:30 / 18:00 / 20:30 de la ligne des modules
+- `Construire les posts` — un texte par réseau. TikTok : accroche + hashtags (le lien n'y est pas cliquable). YouTube : + lien + `#Shorts`. LinkedIn page : accroche + phrase de cadrage adressée à des adultes + lien en clair + hashtags sobres — la vidéo tutoie un ado, le public de la page ne l'est pas. Corrige aussi le `.mp4s` renvoyé par l'upload Postiz
+- Créneau 22:00 et dossiers Drive `1Ko-Wvt…` (source) / `1VUBsOVSUmcfztpSvDKyHfcXW4YRd1VpE` (Publiés)

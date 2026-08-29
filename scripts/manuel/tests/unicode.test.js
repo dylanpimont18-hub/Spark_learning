@@ -44,6 +44,16 @@ test('la coche est traitee comme une commande math, pas texte', () => {
   assert.match(enTexte('acquis ✓', 'test', brut), /\\ensuremath\{\\checkmark\}/);
 });
 
+/* Trouve le 2026-08-20 en compilant college-physique pour la premiere fois :
+   « ✕ Court-circuit interdit » (physique-4e-intensite-tension.js, ajoute en
+   Phase 2) bloquait la publication — seuls ✗/✘ etaient couverts, pas cette
+   troisieme variante visuelle de croix. ✖ (heavy multiplication x, utilisee
+   dans 4e-fractions-mult-div.js/6e-multiplication.js) partage le meme risque. */
+test('les autres croix Unicode (✕ ✖) sont aussi traitees comme \\times', () => {
+  assert.match(enTexte('✕ interdit', 'test', brut), /\\ensuremath\{\\times\}/);
+  assert.match(enTexte('3 ✖ 4', 'test', brut), /\\ensuremath\{\\times\}/);
+});
+
 test('la fleche vectorielle combinante porte sur le symbole precedent', () => {
   assert.match(enMath('AB⃗', 'test'), /\\vec\{AB\}/);
 });

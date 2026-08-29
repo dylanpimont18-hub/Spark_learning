@@ -56,10 +56,21 @@ const GRANDEURS = new Set([
   'angle', 'apothème', 'apotheme', 'diagonale', 'circonference', 'circonférence'
 ]);
 
+/* Les exposants ALPHABETIQUES autant que les chiffres : « 10ᵃ⁺ᵇ » (regle des
+   puissances, bts-prep-puissances) sortait en 10^a^{+}^b — trois exposants
+   consecutifs que TeX refuse (« Double superscript »), parce que 'ᵃ' et 'ᵇ'
+   manquaient a la table et cassaient la suite en trois morceaux.
+   Toute lettre ajoutee ici doit l'etre aussi dans la classe de caracteres de
+   la regex de suite, plus bas : les deux se lisent ensemble. */
 const EXPOSANTS = { '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4', '⁵': '5',
-  '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9', '⁺': '+', '⁻': '-', 'ⁿ': 'n' };
+  '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9', '⁺': '+', '⁻': '-', 'ⁿ': 'n',
+  'ᵃ': 'a', 'ᵇ': 'b', 'ᶜ': 'c', 'ᵈ': 'd', 'ᵉ': 'e', 'ᶠ': 'f', 'ᵍ': 'g',
+  'ʰ': 'h', 'ⁱ': 'i', 'ʲ': 'j', 'ᵏ': 'k', 'ˡ': 'l', 'ᵐ': 'm', 'ᵒ': 'o',
+  'ᵖ': 'p', 'ʳ': 'r', 'ˢ': 's', 'ᵗ': 't', 'ᵘ': 'u', 'ᵛ': 'v', 'ʷ': 'w',
+  'ˣ': 'x', 'ʸ': 'y', 'ᶻ': 'z' };
 const INDICES = { '₀': '0', '₁': '1', '₂': '2', '₃': '3', '₄': '4', '₅': '5',
-  '₆': '6', '₇': '7', '₈': '8', '₉': '9', 'ₙ': 'n' };
+  '₆': '6', '₇': '7', '₈': '8', '₉': '9', '₊': '+', '₋': '-', 'ₙ': 'n',
+  'ₓ': 'x', 'ₘ': 'm', 'ₗ': 'l' };
 
 /* Operateurs ecrits en ASCII dans les SVG. `binaire` distingue ce qui relie
    deux quantites (=, ×, /) de ce qui ne fait qu'entourer ou decorer ((, ^) :
@@ -122,6 +133,11 @@ function echapperTexte(s) {
     .replace(/\^/g, '\\textasciicircum{}')
     .replace(/~/g, '\\textasciitilde{}')
     .replace(/</g, '\\textless{}').replace(/>/g, '\\textgreater{}')
+    // Signe moins Unicode (U+2212) : deja traduit en '-' cote prose par
+    // unicode.js, mais une etiquette isolee ("−" seul, ex. ligne de signe
+    // d'un tableau) atterrit ici en mode texte sans jamais passer par cette
+    // table, et pdflatex refuse le codepoint brut.
+    .replace(/−/g, '-')
     .replace(/'/g, '’');
 }
 
@@ -215,6 +231,20 @@ function jetonner(source, origine) {
       avaler(m[0].length); continue;
     }
 
+    // Moyenne statistique : x̄, ȳ. U+0304 (macron combinant) porte sur la
+    // lettre qui precede, exactement comme U+20D7 (fleche combinante) pour
+    // \vec dans unicode.js — ce n'est jamais un caractere autonome. Sans
+    // cette regle prioritaire, la regle « minuscule isolee » ci-dessous
+    // consommait la lettre seule ($x$) et laissait le macron orphelin hors
+    // formule, ou aucune table ne le traduit : pdflatex refuse alors le
+    // caractere brut (U+0304 not set up for use with LaTeX).
+    if ((m = new RegExp("^([a-z])̄(\\d+)?([''′]*)(?![" + LETTRE + '0-9])').exec(reste))) {
+      pousser({ classe: 'ATOME', type: 'ident',
+        math: '\\bar{' + m[1] + '}' + (m[2] ? '_{' + m[2] + '}' : '') + (m[3] || '').replace(/[''′]/g, "'"),
+        texte: m[0] });
+      avaler(m[0].length); continue;
+    }
+
     // Minuscule isolee, avec indice chiffre eventuel : d, x, d1, u2.
     if ((m = new RegExp("^([a-z])(\\d+)?([''′]*)(?![" + LETTRE + '0-9])').exec(reste))) {
       pousser({ classe: 'ATOME', type: 'ident',
@@ -252,13 +282,13 @@ function jetonner(source, origine) {
     // Une SUITE d'exposants, pas un exposant par caractere : « 10⁻¹² » compose
     // caractere par caractere donne 10^{-}^{1}^{2}, que TeX refuse.
     if (EXPOSANTS[c]) {
-      const run = /^[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻ⁿ]+/.exec(reste)[0];
+      const run = /^[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻ⁿᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐᵒᵖʳˢᵗᵘᵛʷˣʸᶻ]+/.exec(reste)[0];
       pousser({ classe: 'OP', binaire: false, texte: null,
         math: '^{' + [...run].map(ch => EXPOSANTS[ch]).join('') + '}' });
       avaler(run.length); continue;
     }
     if (INDICES[c]) {
-      const run = /^[₀₁₂₃₄₅₆₇₈₉ₙ]+/.exec(reste)[0];
+      const run = /^[₀₁₂₃₄₅₆₇₈₉₊₋ₙₓₘₗ]+/.exec(reste)[0];
       pousser({ classe: 'OP', binaire: false, texte: null,
         math: '_{' + [...run].map(ch => INDICES[ch]).join('') + '}' });
       avaler(run.length); continue;
@@ -531,9 +561,24 @@ function traitDe(attrs, echelle) {
 }
 
 /* Options TikZ d'un trace. */
+/* Un aplat hachure (fill="url(#...)" vers un <pattern> de <defs>, retire par
+   retirerDefs() avant qu'on arrive ici) suivait le meme chemin que n'importe
+   quelle couleur : couleur() ne reconnait ni color-mix() ni var() dans
+   « url(#id) », retombait sur le gris!12 par defaut, et « aire hachuree »
+   devenait un aplat gris uni a l'impression (audit Phase 4 du 2026-08-20,
+   3e-puissance-electrique). Comme pour marker-end plus bas, on ne relit pas
+   la geometrie du <pattern> — le seul motif du corpus est un hachurage
+   diagonal — on reconnait juste la reference et on pose le hachurage TikZ
+   equivalent (bibliotheque `patterns`, chargee dans ouvrage.js) dans la
+   couleur d'accent de la matiere, comme le fait deja le SVG source. */
+function estMotifHachure(fond) {
+  return !!fond && /^url\(#/i.test(String(fond));
+}
+
 function optionsTrace(attrs, trait, fond, opts) {
   const o = [];
-  if (fond) o.push('fill=' + couleur(fond, opts, 'gris!12'));
+  if (estMotifHachure(fond)) o.push('pattern=north east lines', 'pattern color=' + opts.accent);
+  else if (fond) o.push('fill=' + couleur(fond, opts, 'gris!12'));
   if (trait) {
     if (trait.remplissage) o.push('fill=' + (trait.remplissage === 'accent' ? opts.accent : trait.remplissage));
     o.push('draw=' + (trait.trait === 'accent' ? opts.accent

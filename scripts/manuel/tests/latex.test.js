@@ -74,6 +74,34 @@ test('les commandes de la table MATH restent protegees', () => {
   assert.strictEqual(versLatex('θ vaut 5'), '\\ensuremath{\\theta} vaut 5');
 });
 
+/* Trouve le 2026-08-20 en compilant lycee-physique (premier ouvrage a
+   exercer massivement les inegalites Terminale). $Q &lt; K$ — trigraphe
+   present tel quel dans le JS source, ecrit ainsi pour survivre a
+   innerHTML() cote site — est un ilot mathematique : garder() l'extrait et
+   l'envoie a enMath() AVANT l'etape 3 (decodage des entites), qui ne
+   s'applique donc jamais a l'interieur d'un ilot. Le & de « &lt; » restait
+   brut jusqu'a la sortie LaTeX : « Misplaced alignment tab character & ».
+   Deux formes testees : l'entite HTML (cas reel du corpus) et le caractere
+   deja decode (verifie que la resolution passe bien AVANT enMath, pas
+   seulement qu'un decodage tardif rattrape le coup). */
+test('les entites HTML a l interieur d un ilot mathematique sont decodees', () => {
+  const { versLatex } = require('../latex.js');
+  assert.strictEqual(versLatex('$Q &lt; K$'), '$Q < K$');
+  assert.strictEqual(versLatex('$Q &gt; K$'), '$Q > K$');
+  assert.ok(!versLatex('$Q_{r,i} &lt; K$').includes('&'), 'le & brut ne doit jamais atteindre la sortie');
+});
+
+/* Trouve le meme jour, meme ouvrage : \lt et \gt sont des alias KaTeX pour
+   < et > (KaTeX les definit, amsmath non) — valides cote site,
+   « Undefined control sequence » a la compilation. physique-tle-acides-
+   bases.js les utilise 15 fois ($pH \lt pK_a$). */
+test('les alias KaTeX lt et gt deviennent de vrais < et >', () => {
+  const { versLatex } = require('../latex.js');
+  assert.strictEqual(versLatex('$pH \\lt pK_a$'), '$pH < pK_a$');
+  assert.strictEqual(versLatex('$pH \\gt pK_a$'), '$pH > pK_a$');
+  assert.ok(!versLatex('$pH \\lt pK_a$').includes('\\lt'), 'la sequence KaTeX ne doit pas fuir telle quelle');
+});
+
 /* En mode math, une commande de texte est aussi invalide qu'un accent :
    \textbullet n'existe pas plus que \` entre deux dollars. */
 test('une commande de texte rencontree en mode math passe par text', () => {

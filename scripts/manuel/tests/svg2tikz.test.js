@@ -144,6 +144,24 @@ test('une forme sans classe mais avec un aplat est remplie sans contour', () => 
   assert.ok(!/draw=/.test(t), 'aucun contour ne doit etre ajoute');
 });
 
+/* Trouve en Phase 4 (2026-08-20, 3e-puissance-electrique) : un aplat hachure
+   (fill="url(#id)" vers un <pattern> de <defs>) tombait dans couleur(), qui
+   ne reconnait ni color-mix() ni var() dans une reference url() et retombait
+   sur gris!12 par defaut — « aire hachuree » sortait en aplat gris uni. Le
+   <pattern> lui-meme est retire par retirerDefs() avant la conversion (comme
+   les <marker>) : on ne relit pas sa geometrie, on reconnait juste que fill
+   reference un id et on pose le hachurage TikZ equivalent. */
+test('un aplat hachure (fill vers un pattern) devient un vrai hachurage TikZ, pas un gris par defaut', () => {
+  const t = tikz(
+    '<defs><pattern id="hachures" patternUnits="userSpaceOnUse" width="8" height="8">' +
+    '<line x1="0" y1="0" x2="0" y2="8" stroke="var(--diagram-accent)"></line></pattern></defs>' +
+    '<rect x="0" y="0" width="10" height="10" fill="url(#hachures)"></rect>',
+    null, { matiere: 'physique' });
+  assert.match(t, /pattern=north east lines/, 'le hachurage TikZ doit etre pose');
+  assert.match(t, /pattern color=accentphysique/, 'la couleur d accent de la matiere doit etre reprise');
+  assert.ok(!/fill=gris!12/.test(t), 'ne doit plus retomber sur le gris par defaut');
+});
+
 /* --- Lisibilite des etiquettes ----------------------------------------- */
 
 test('une etiquette posee sur un trait porte un fond blanc', () => {

@@ -45,10 +45,30 @@ const QR_CODE = imagePath('images/manuels/qr-sparklearning.png');
 // voir docs/manuels/cahier-des-charges-college.md.
 const IMAGE_COLLEGE_MATHS = imagePath('images/manuels/fond-college-maths.jpg');
 
+/* Les deux mascottes, une par collection : Sparky le renard sur les
+   mathematiques, Lumen le loup sur la physique-chimie. Les deux jeux
+   partagent la meme grille (1024x1024, appui bas a ~120 px), ce qui permet a
+   platUn() de les caler avec une seule formule. Les poses sont nommees a
+   l'identique de part et d'autre — « encourage » n'existe que chez Sparky et
+   n'est donc pas utilise en couverture. */
+function jeuMascotte(base) {
+  const poses = ['sparky.png', 'sparky-reflechit.png', 'sparky-felicite.png'];
+  const jeu = {};
+  for (const p of poses) {
+    const f = imagePath(base + p);
+    if (f) jeu[p] = f;
+  }
+  return Object.keys(jeu).length ? jeu : null;
+}
+const MASCOTTE_SPARKY = jeuMascotte('images/mascotte/');
+const MASCOTTE_LUMEN = jeuMascotte('tiktok/.travail/lumen/sprites/');
+
 const NIVEAUX = {
   '6e': 'Sixième', '5e': 'Cinquième', '4e': 'Quatrième', '3e': 'Troisième',
   'lycee-2nde': 'Seconde', 'lycee-1re': 'Première', 'lycee-tle': 'Terminale',
   'si-2nde': 'Seconde', 'si-1re': 'Première', 'si-tle': 'Terminale',
+  'physique-4e': 'Quatrième', 'physique-3e': 'Troisième',
+  'physique-2nde': 'Seconde', 'physique-1re': 'Première', 'physique-tle': 'Terminale',
   'bts-prep': 'Remise à niveau', 'bts': 'BTS', 'physique-bts': 'BTS',
   'si-bts': 'BTS', 'fed-bts': 'BTS FED'
 };
@@ -79,12 +99,45 @@ const OUVRAGES = {
   'lycee-maths': { titre: 'Mathématiques', sousTitre: 'Lycée', collection: 'Collection Mathématiques',
     dossiers: ['lycee-2nde', 'lycee-1re', 'lycee-tle'], niveaux: 'Seconde • Première • Terminale',
     accroche: 'Tout le programme de la seconde à la terminale.' },
+  'lycee-maths-2nde': { titre: 'Mathématiques', sousTitre: 'Seconde', collection: 'Collection Mathématiques',
+    dossiers: ['lycee-2nde'], niveaux: 'Seconde',
+    accroche: 'Cours, méthodes et exercices de seconde.' },
+  'lycee-maths-1re': { titre: 'Mathématiques', sousTitre: 'Première', collection: 'Collection Mathématiques',
+    dossiers: ['lycee-1re'], niveaux: 'Première',
+    accroche: 'Cours, méthodes et exercices de première.' },
+  'lycee-maths-tle': { titre: 'Mathématiques', sousTitre: 'Terminale', collection: 'Collection Mathématiques',
+    dossiers: ['lycee-tle'], niveaux: 'Terminale',
+    accroche: 'Cours, méthodes et exercices de terminale.' },
   'lycee-si': { titre: 'Sciences de l\'ingénieur', sousTitre: 'Lycée', collection: 'Collection Sciences de l\'ingénieur',
     dossiers: ['si-2nde', 'si-1re', 'si-tle'], niveaux: 'Seconde • Première • Terminale',
     accroche: 'Le programme de sciences de l\'ingénieur au lycée.' },
   'bts-maths': { titre: 'Mathématiques', sousTitre: 'BTS', collection: 'Collection Mathématiques',
     dossiers: ['bts-prep', 'bts'], niveaux: 'Remise à niveau • Programme BTS',
     accroche: 'De la remise à niveau au programme complet de BTS.' },
+  'bts-maths-prep': { titre: 'Mathématiques', sousTitre: 'Remise à niveau', collection: 'Collection Mathématiques',
+    dossiers: ['bts-prep'], niveaux: 'Remise à niveau',
+    accroche: 'Cours, méthodes et exercices de remise à niveau.' },
+  'college-physique': { titre: 'Physique-Chimie', sousTitre: 'Collège', collection: 'Collection Physique-Chimie',
+    dossiers: ['physique-4e', 'physique-3e'], niveaux: 'Quatrième • Troisième',
+    accroche: 'Cours, méthodes et exercices de quatrième et troisième.' },
+  'college-physique-4e': { titre: 'Physique-Chimie', sousTitre: 'Quatrième', collection: 'Collection Physique-Chimie',
+    dossiers: ['physique-4e'], niveaux: 'Quatrième',
+    accroche: 'Cours, méthodes et exercices de quatrième.' },
+  'college-physique-3e': { titre: 'Physique-Chimie', sousTitre: 'Troisième', collection: 'Collection Physique-Chimie',
+    dossiers: ['physique-3e'], niveaux: 'Troisième',
+    accroche: 'Cours, méthodes et exercices de troisième.' },
+  'lycee-physique': { titre: 'Physique-Chimie', sousTitre: 'Lycée', collection: 'Collection Physique-Chimie',
+    dossiers: ['physique-2nde', 'physique-1re', 'physique-tle'], niveaux: 'Seconde • Première • Terminale',
+    accroche: 'Tout le programme de physique-chimie de la seconde à la terminale.' },
+  'lycee-physique-2nde': { titre: 'Physique-Chimie', sousTitre: 'Seconde', collection: 'Collection Physique-Chimie',
+    dossiers: ['physique-2nde'], niveaux: 'Seconde',
+    accroche: 'Cours, méthodes et exercices de seconde.' },
+  'lycee-physique-1re': { titre: 'Physique-Chimie', sousTitre: 'Première', collection: 'Collection Physique-Chimie',
+    dossiers: ['physique-1re'], niveaux: 'Première',
+    accroche: 'Cours, méthodes et exercices de première.' },
+  'lycee-physique-tle': { titre: 'Physique-Chimie', sousTitre: 'Terminale', collection: 'Collection Physique-Chimie',
+    dossiers: ['physique-tle'], niveaux: 'Terminale',
+    accroche: 'Cours, méthodes et exercices de terminale.' },
   'bts-physique': { titre: 'Physique-Chimie', sousTitre: 'BTS', collection: 'Collection Physique-Chimie',
     dossiers: ['physique-bts'], niveaux: 'Programme BTS',
     accroche: 'Le programme de physique-chimie en BTS.' },
@@ -170,8 +223,17 @@ async function construire(cle, options) {
 
   const figures = preparerFigures(charges.map(c => c.mod));
   const bloquees = Object.entries(figures).filter(([, v]) => !figureUtilisable(v));
+  let secTotal = 0, secBloquees = 0;
+  for (const v of Object.values(figures)) {
+    for (const s of (v.secondaires || [])) {
+      secTotal++;
+      if (!figureUtilisable(s)) secBloquees++;
+    }
+  }
   console.log('  ' + (Object.keys(figures).length - bloquees.length) + ' figures retenues, ' +
-              bloquees.length + ' bloquees');
+              bloquees.length + ' bloquees' +
+              (secTotal ? ' (+ ' + (secTotal - secBloquees) + ' schemas secondaires retenus, ' +
+               secBloquees + ' bloques — hors garde-fou de publication)' : ''));
 
   // Numeroter d'abord : la page d'ouverture d'une partie annonce ses chapitres,
   // elle a donc besoin de connaitre leurs numeros avant d'etre composee.
@@ -203,7 +265,8 @@ async function construire(cle, options) {
     professeur: prof, nbChapitres: charges.length, annee: new Date().getFullYear(),
     mention: 'Cours, méthodes, exercices et évaluations',
     avantPropos: AVANT_PROPOS.replace('{N}', charges.length),
-    exercicesVisibles: 3, logoIcone: LOGO_ICONE, qrCode: QR_CODE
+    exercicesVisibles: 3, logoIcone: LOGO_ICONE, qrCode: QR_CODE,
+    mascotteSparky: MASCOTTE_SPARKY, mascotteLumen: MASCOTTE_LUMEN
   });
 
   const nom = cle + (prof ? '-prof' : '-eleve');
@@ -229,7 +292,22 @@ async function construire(cle, options) {
   if (!prof) {
     fs.writeFileSync(path.join(dossier, 'couverture-imprimeur.tex'),
       O.couvertureSeparee(Object.assign({}, config, { pages: r.pages })), 'utf8');
-    compiler(dossier, 'couverture-imprimeur', 1);
+    // DEUX passes, non negociable : « remember picture » ne resout les ancres
+    // « current page » qu'au second passage. Avec une seule passe, le plat
+    // s'effondrait a l'origine et sortait une page quasi blanche — neuf
+    // jaquettes sur dix-neuf etaient dans cet etat (audit du 2026-08-28), les
+    // autres n'etant correctes que parce qu'un .aux d'une execution
+    // precedente trainait dans le dossier. Le build n'etait pas deterministe.
+    const rCouv = compiler(dossier, 'couverture-imprimeur', 2);
+    // Un PDF vide pese moins de 40 ko : garde-fou, parce qu'une couverture
+    // blanche ne provoque aucune erreur LaTeX et passait donc inapercue.
+    const pCouv = path.join(dossier, 'couverture-imprimeur.pdf');
+    if (rCouv.erreurs.length) {
+      console.log('  ATTENTION couverture imprimeur : ' + rCouv.erreurs[0]);
+    } else if (fs.existsSync(pCouv) && fs.statSync(pCouv).size < 40000) {
+      console.log('  ATTENTION couverture imprimeur : PDF suspect ('
+        + Math.round(fs.statSync(pCouv).size / 1024) + ' ko), page probablement vide');
+    }
     console.log('  couverture imprimeur : dos ' + O.largeurDosMm(r.pages) + ' mm');
   }
 
@@ -247,7 +325,9 @@ async function construire(cle, options) {
     chapitres: chapitres.map(c => ({
       id: c.mod.id, titre: c.mod.title, numero: c.numero,
       figure: figures[c.mod.id] && figures[c.mod.id].provenance
-        ? figures[c.mod.id].provenance : 'a retracer'
+        ? figures[c.mod.id].provenance : 'a retracer',
+      figuresSecondaires: ((figures[c.mod.id] && figures[c.mod.id].secondaires) || [])
+        .map(s => s.provenance || 'a retracer')
     })),
     blocages, date: new Date().toISOString().slice(0, 10)
   };

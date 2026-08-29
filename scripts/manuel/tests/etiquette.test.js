@@ -200,6 +200,28 @@ test('une suite d indices ne fait qu un seul indice', () => {
   assert.strictEqual(etiquette('u₁₂'), '$u_{12}$');
 });
 
+/* Trouve le 2026-08-20 en compilant bts-physique pour la premiere fois :
+   « vₓ₀ » (x et 0 en indice Unicode, physique-bts-mecanique-point.js) sortait
+   $v_x_{0}$ — deux indices juxtaposes sur la meme base, que LaTeX refuse
+   (« Double subscript »). ₓ/ₘ/ₗ manquaient a la fois de la table de secours
+   (unicode.js) et, plus important, de la regle de fusion en SUITE d'indices
+   (INDICES dans svg2tikz.js) qui evite deja ce piege pour ₀-₉/₊/₋/ₙ. */
+test('une suite d indices Unicode lettres+chiffres ne fait qu un seul indice', () => {
+  assert.strictEqual(etiquette('vₓ₀'), '$v_{x0}$');
+  assert.strictEqual(etiquette('Eₘ'), '$E_{m}$');
+  assert.strictEqual(etiquette('Fₗ'), '$F_{l}$');
+});
+
+/* Trouve le meme jour en compilant college-physique : une croix Unicode seule
+   dans une etiquette de schema (« ✕ Court-circuit interdit ») tombe dans le
+   meme chemin de repli que les symboles MATH generiques (symbole() dans
+   svg2tikz.js), qui n'a pas de filtre emoji contrairement au texte de prose —
+   un caractere inconnu y est un vrai symbole a traduire, jamais un decor a
+   retirer en silence. */
+test('une croix Unicode seule dans une etiquette devient \\times, pas un blocage', () => {
+  assert.match(etiquette('✕ interdit'), /\\ensuremath\{\\times\}/);
+});
+
 test('une fraction seule se compose en fraction, pas en quotient oblique', () => {
   // 6e-fractions legende ses trois representations « 1/2 », « 3/6 », « 50/100 » :
   // dans un chapitre sur les fractions, elles doivent en avoir la forme.
@@ -286,4 +308,28 @@ test('le degre suivi d une unite ne fuit pas hors du mode math', () => {
   const sortie = etiquette('θ (°C)', 'test');
   const horsMath = sortie.replace(/\$[^$]*\$/g, '').replace(/\\ensuremath\{[\s\S]*?\}(?=\)|$|\s)/g, '');
   assert.ok(!/\^/.test(horsMath), 'le ^ du degre doit rester en mode math : ' + sortie);
+});
+
+/* --- Exposants Unicode : chiffres ET lettres -------------------------- */
+
+test('une suite d exposants forme UN seul groupe, jamais plusieurs', () => {
+  // « 10ᵃ⁺ᵇ » (bts-prep-puissances) sortait en 10^a^{+}^b : trois exposants
+  // consecutifs, que TeX refuse avec « ! Double superscript ». Le manuel BTS
+  // du professeur ne compilait plus, et rien dans le SVG source ne le laissait
+  // deviner — le texte y est parfaitement legitime.
+  assert.strictEqual(etiquette('10ᵃ⁺ᵇ'), '$10^{a+b}$');
+  assert.strictEqual(etiquette('10ᵃ⁻ᵇ'), '$10^{a-b}$');
+  assert.strictEqual(etiquette('10⁻¹²'), '$10^{-12}$');
+  for (const s of ['10ᵃ⁺ᵇ', '10ᵃ⁻ᵇ', '(10ᵃ)ᵇ', '10⁻¹²']) {
+    assert.ok(!/\^[^{]/.test(etiquette(s)),
+      'exposant sans accolade, TeX le refusera : ' + etiquette(s));
+  }
+});
+
+test('les exposants alphabetiques sont connus de la table', () => {
+  // Toute lettre de la regex de suite doit avoir sa traduction, sinon la
+  // suite se coupe en morceaux au premier caractere inconnu.
+  assert.strictEqual(etiquette('xⁿ'), '$x^{n}$');
+  assert.strictEqual(etiquette('eˣ'), '$e^{x}$');
+  assert.strictEqual(etiquette('10ᵏ'), '$10^{k}$');
 });

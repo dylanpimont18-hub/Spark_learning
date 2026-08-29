@@ -60,6 +60,24 @@ const COULEURS_CHARTE = `\\definecolor{ardoise}{HTML}{2C3E50}    % --primary
 \\colorlet{accentphysique}{turquoise!75!black}
 \\colorlet{accentsi}{orfonce}
 \\colorlet{accentfed}{orange!85!black}
+% Une teinte par annee du cursus (couverture v3, validee le 2026-08-28). Le
+% plat porte la couleur de son annee, et un volume de cycle porte en bandeau
+% de tete toutes les couleurs des annees qu'il contient.
+%
+% Chaque teinte est assombrie jusqu'a passer 4,5:1 (WCAG AA) A LA FOIS en
+% texte blanc sur l'aplat et en texte de couleur sur le papier #F8F9FA : la
+% couleur d'annee sert aux deux usages. C'est cette double contrainte qui
+% exclut ici les jaunes et les verts clairs, et qui interdit d'eclaircir la
+% teinte « prepa » pour la detacher de l'ardoise — on change de teinte.
+\\definecolor{an6e}{HTML}{C0392B}
+\\definecolor{an5e}{HTML}{96600B}
+\\definecolor{an4e}{HTML}{2E7D32}
+\\definecolor{an3e}{HTML}{10796B}
+\\definecolor{an2de}{HTML}{1F6FB2}
+\\definecolor{an1re}{HTML}{3F4A9E}
+\\definecolor{antle}{HTML}{7B2D8E}
+\\definecolor{anprepa}{HTML}{7A4E2A}
+\\definecolor{anbts}{HTML}{8C6D1F}
 `;
 
 /* Le logo reduit a ses deux signes memorables : la boucle d'apprentissage
@@ -83,8 +101,14 @@ const MACROS_MARQUE = `\\newcommand{\\sparkcycle}[4]{%
 \\newcommand{\\sparksep}{\\hspace{2.4mm}\\textperiodcentered\\hspace{2.4mm}}
 `;
 
-/* Hauteur du bandeau clair qui porte le titre, mesuree depuis le pied du plat. */
-const BANDEAU_MM = 84;
+/* Hauteur du bandeau clair qui porte le titre, mesuree depuis le pied du plat.
+   92 et non 84 depuis la v3 : le bandeau accueille desormais l'echelle de
+   pastilles et le QR, qui ne tenaient pas dans 84 mm. */
+const BANDEAU_MM = 92;
+
+/* Bandeau de couleur en tete de plat : c'est lui qui porte la ou les teintes
+   d'annee, et la marque en reserve blanche. */
+const TETE_MM = 20;
 
 function preambule(config) {
   const gouttiere = config.gouttiere || 20;
@@ -108,7 +132,7 @@ function preambule(config) {
 \\usepackage{titlesec}
 \\usepackage{makeidx}
 \\usepackage{tikz}
-\\usetikzlibrary{arrows.meta,calc}
+\\usetikzlibrary{arrows.meta,calc,patterns}
 \\usepackage{multicol}
 \\usepackage[letterspace=200]{microtype}
 \\usepackage[paperwidth=${LARGEUR_MM}mm,paperheight=${HAUTEUR_MM}mm,%
@@ -225,82 +249,242 @@ function traitBicolore(largeurCm) {
     `\\draw[jaune,line width=1.1pt](${m},0)--(${largeurCm},0);\\end{tikzpicture}`;
 }
 
+/* Chaque cle de `dossiers` (build.js) porte l'annee du cursus qu'elle couvre.
+   La couverture v3 en tire la couleur du plat, donc cette table doit rester
+   exhaustive : un dossier absent d'ici ferait tomber le plat sur la teinte de
+   secours au lieu de planter, d'ou le controle explicite dans anneesDe(). */
+const ANNEE_DE_DOSSIER = {
+  '6e': '6e', '5e': '5e', '4e': '4e', '3e': '3e',
+  'lycee-2nde': '2de', 'lycee-1re': '1re', 'lycee-tle': 'tle',
+  'si-2nde': '2de', 'si-1re': '1re', 'si-tle': 'tle',
+  'physique-4e': '4e', 'physique-3e': '3e',
+  'physique-2nde': '2de', 'physique-1re': '1re', 'physique-tle': 'tle',
+  'bts-prep': 'prepa', 'bts': 'bts', 'physique-bts': 'bts',
+  'si-bts': 'bts', 'fed-bts': 'bts'
+};
+
+/* Le cursus complet de la matiere, pour l'echelle de pastilles : elle montre
+   TOUTES les annees de la collection et remplit celles que le volume couvre.
+   C'est ce qui fait lire une serie comme une serie plutot que comme un lot de
+   volumes independants. La cle est celle de la collection, pas de l'ouvrage. */
+const CURSUS = {
+  'college': ['6e', '5e', '4e', '3e'],
+  'lycee': ['2de', '1re', 'tle'],
+  'bts': ['prepa', 'bts']
+};
+
+/* Le cursus depend AUSSI de la matiere, pas seulement de la famille : la
+   physique-chimie ne commence qu'en quatrieme et n'a pas de remise a niveau
+   post-bac. Sans cette correction, « Physique-Chimie BTS » affichait une
+   pastille PRÉPA en contour, promettant un volume qui n'existe pas, et
+   « Physique-Chimie College » proposait une sixieme et une cinquieme. */
+const CURSUS_MATIERE = {
+  'Physique': { 'college': ['4e', '3e'], 'bts': ['bts'] }
+};
+
+function cursusDe(collection, famille) {
+  for (const [motif, table] of Object.entries(CURSUS_MATIERE)) {
+    if (new RegExp(motif, 'i').test(String(collection || '')) && table[famille]) {
+      return table[famille];
+    }
+  }
+  return CURSUS[famille];
+}
+
+function anneesDe(config) {
+  const d = config.dossiers || [];
+  const a = d.map(x => ANNEE_DE_DOSSIER[x]).filter(Boolean);
+  // Doublons possibles : deux dossiers d'une meme annee (jamais aujourd'hui,
+  // mais un futur « 3e-approfondissement » les produirait).
+  return a.filter((x, i) => a.indexOf(x) === i);
+}
+
+/* La famille de cursus se deduit des annees couvertes, pas du nom de la cle :
+   un ouvrage « bts-maths » couvre prepa+bts, un « college-physique » 4e+3e. */
+function familleDe(annees) {
+  if (annees.some(a => ['prepa', 'bts'].includes(a))) return 'bts';
+  if (annees.some(a => ['2de', '1re', 'tle'].includes(a))) return 'lycee';
+  return 'college';
+}
+
+/* Le motif de discipline, tout en TikZ. Il remplace l'illustration matricielle
+   de la v2 (657x943 px pour 170x244 mm, soit 98 dpi) : un plat imprime ne
+   merite pas un raster, et le vectoriel supprime la question de la resolution.
+   Un motif par MATIERE et non par niveau — c'est la couleur qui distingue les
+   annees, le motif qui distingue les collections. */
+function motifDiscipline(collection, c) {
+  const m = String(collection || '');
+  if (/Physique/i.test(m)) {
+    return `    \\draw[turquoise!45!ardoise,line width=1.2pt,domain=8:162,smooth,samples=190,variable=\\x]
+      plot ({\\x},{206+13*sin((\\x-8)*4.2)});
+    \\draw[turquoise!25!ardoise,line width=0.5pt,dashed] (8,206)--(162,206);
+    \\draw[jaune!48!ardoise,line width=1.2pt] (40,158) ellipse (6.5 and 24);
+    \\draw[jaune!32!ardoise,line width=0.5pt,dashed] (8,158)--(120,158);
+    \\foreach \\d in {-15,0,15}
+      \\draw[${c}!62!ardoise,line width=0.8pt,-{Stealth[length=2.4mm]}]
+        (8,{158+\\d}) -- (40,{158+\\d}) -- (92,158);
+    \\fill[${c}!62!ardoise] (92,158) circle (1.2);
+    \\draw[turquoise!45!ardoise,line width=1.1pt] (16,124) rectangle (66,100);
+    \\fill[ardoise] (30,118) rectangle (50,130);
+    \\draw[jaune!48!ardoise,line width=1.4pt] (37,124)--(37,134);
+    \\draw[jaune!48!ardoise,line width=1.4pt] (45,118)--(45,130);
+    \\fill[ardoise] (60,106) rectangle (72,118);
+    \\draw[jaune!48!ardoise,line width=1.2pt] (60,106) rectangle (72,118);`;
+  }
+  if (/ingénieur|Génie|Domotique|Fluides/i.test(m)) {
+    // SI et FED : une chaine d'energie plutot que des figures de geometrie.
+    return `    \\foreach \\i/\\lab in {0/, 1/, 2/}
+      \\draw[turquoise!45!ardoise,line width=1.1pt]
+        ({18+\\i*50},150) rectangle ({58+\\i*50},178);
+    \\foreach \\i in {0,1}
+      \\draw[${c}!62!ardoise,line width=1pt,-{Stealth[length=2.6mm]}]
+        ({58+\\i*50},164) -- ({68+\\i*50},164);
+    \\draw[jaune!45!ardoise,line width=1pt,-{Stealth[length=2.6mm]}] (8,164)--(18,164);
+    \\draw[jaune!45!ardoise,line width=1pt,-{Stealth[length=2.6mm]}] (158,164)--(168,164);
+    \\draw[${c}!55!ardoise,line width=0.9pt] (88,206) circle (18);
+    \\foreach \\a in {0,60,...,300}
+      \\draw[${c}!55!ardoise,line width=0.9pt] ({88+18*cos(\\a)},{206+18*sin(\\a)})
+        -- ({88+25*cos(\\a)},{206+25*sin(\\a)});
+    \\draw[turquoise!42!ardoise,line width=1.1pt] (16,104)--(154,104);
+    \\foreach \\i in {0,1,2,3}
+      \\draw[turquoise!42!ardoise,line width=0.9pt] ({26+\\i*36},104)--({26+\\i*36},116);`;
+  }
+  return `    \\draw[${c}!55!ardoise,line width=0.9pt] (44,182) circle (26);
+    \\fill[${c}!55!ardoise] (44,182) circle (1.1);
+    \\draw[${c}!55!ardoise,line width=0.7pt,dashed] (44,182)--(62.4,200.4);
+    \\node[text=${c}!55!ardoise,font=\\fontsize{9}{11}\\selectfont] at (56,188) {$r$};
+    \\draw[turquoise!42!ardoise,line width=1.1pt,domain=8:162,smooth,samples=130,variable=\\x]
+      plot ({\\x},{146+24*exp(-((\\x-110)/32)^2)});
+    \\draw[jaune!45!ardoise,line width=1.1pt] (16,102)--(60,102)--(60,140)--cycle;
+    \\draw[jaune!45!ardoise,line width=0.8pt] (54,102)--(54,108)--(60,108);
+    \\node[text=jaune!38!ardoise,font=\\fontsize{19}{21}\\selectfont] at (130,210) {$\\pi$};
+    \\node[text=${c}!45!ardoise,font=\\fontsize{16}{18}\\selectfont] at (16,212) {$\\sqrt{\\ }$};
+    \\node[text=turquoise!38!ardoise,font=\\fontsize{14}{16}\\selectfont] at (98,212) {$\\times$};`;
+}
+
+/* La mascotte decroit avec le niveau : 76 mm au college, 46 mm au lycee,
+   28 mm en BTS. Un manuel post-bac avec un renard en pleine page perd sa
+   credibilite aupres d'un public adulte — c'est le seul argument qui compte
+   ici, et il tranche la question du dosage.
+   Sparky (renard) tient les mathematiques, Lumen (loup) la physique-chimie ;
+   les deux jeux partagent la meme grille 1024x1024 avec un appui bas a
+   ~120 px, d'ou le decalage de 0,117*hauteur qui pose les pieds sur le filet. */
+const TAILLE_MASCOTTE = { college: 76, lycee: 46, bts: 28 };
+const POSE_MASCOTTE = { college: 'sparky-felicite.png', lycee: 'sparky-reflechit.png', bts: 'sparky.png' };
+
+function mascotteDe(config, famille) {
+  const jeu = /Physique/i.test(String(config.collection || ''))
+    ? config.mascotteLumen : config.mascotteSparky;
+  if (!jeu) return null;
+  const f = jeu[POSE_MASCOTTE[famille]];
+  return f ? { fichier: f, hauteur: TAILLE_MASCOTTE[famille] } : null;
+}
+
 /* Le plat 1, compose UNE fois pour DEUX usages : la page de titre interieure
    et la couverture imprimeur qui part chez l'imprimeur. Les laisser diverger,
    c'est imprimer un livre dont la couverture ne dit pas ce que dit sa page de
    titre. Seuls les deux coins changent : la page de titre occupe la page
    entiere, la couverture imprimeur son plat de droite.
 
-   Cinq lignes, contre sept auparavant. Les deux disparues — le nom de la
-   collection et « Cours, methodes, exercices et evaluations » — repetaient
-   respectivement le titre pose juste en dessous et la quatrieme de couverture.
-   L'illustration pleine page a disparu avec elles : le texte etait pose
-   dessus, et cette collision faisait l'essentiel de la lourdeur. */
+   Systeme v3 (valide le 2026-08-28) : une couleur par annee. Le bandeau de
+   tete porte la teinte de l'annee, segmentee a parts egales quand le volume
+   couvre plusieurs annees. La couleur etant prise par l'annee, la MATIERE se
+   lit ailleurs : au motif, au libelle de collection et a la mascotte. */
 function platUn(config, coinSO, coinNE) {
-  const niv = niveauxUtiles(config);
+  const annees = anneesDe(config);
+  const famille = familleDe(annees);
+  const cursus = cursusDe(config.collection, famille);
+  const solo = annees.length === 1;
   const [ct, ci] = corpsTitre(config.titre);
-  // Le petit trait bicolore reprend exactement le motif d'ouverturePartie() :
-  // meme grammaire visuelle que le reste du livre, pas une nouvelle idee.
-  const bloc = [
-    `    {\\sffamily\\fontsize{${ct}}{${ci}}\\selectfont\\bfseries\\color{ardoise} ${L(config.titre)}}`,
-    '    \\\\[4mm]',
-    // orange est la couleur de la matiere FED (accentfed) : la poser sur un
-    // sous-titre "College" empruntait la teinte d'une autre matiere. Un
-    // turquoise assombri reste dans la famille de la couverture (turquoise
-    // domine l'illustration et le trait ci-dessous) sans le probleme de
-    // contraste du turquoise clair pose tel quel sur blanc.
-    `    {\\sffamily\\fontsize{15}{18}\\selectfont\\color{turquoise!55!black} ${L(config.sousTitre)}}`,
-    '    \\\\[5mm]',
-    '    ' + traitBicolore(2.6)
-  ];
-  if (niv) bloc.push('    \\\\[5mm]',
-    `    {\\sffamily\\fontsize{9}{12}\\selectfont\\color{gris} ${ligneNiveaux(niv)}}`);
+  const motifC = 'an' + (annees[annees.length - 1] || 'bts');
+  // Sur un volume de cycle, aucune annee ne peut revendiquer le titre : le
+  // niveau se compose en ardoise et ce sont le bandeau segmente et les
+  // pastilles qui portent « toutes les couleurs ».
+  const cNiveau = solo ? 'an' + annees[0] : 'ardoise';
+  const masc = mascotteDe(config, famille);
+
+  // Bandeau de tete : une bande par annee couverte, a parts egales.
+  const pas = LARGEUR_MM / Math.max(annees.length, 1);
+  const tete = annees.map((a, i) =>
+    `  \\fill[an${a}] ([shift={(${(i * pas).toFixed(2)}mm,${HAUTEUR_MM - TETE_MM}mm)}]psw) rectangle ` +
+    `([shift={(${((i + 1) * pas).toFixed(2)}mm,${HAUTEUR_MM}mm)}]psw);`).join('\n');
+
+  // Echelle de niveaux : tout le cursus, les annees couvertes pleines.
+  let x = 14;
+  const pastilles = cursus.map(a => {
+    const l = a === 'prepa' ? 24 : 17, x0 = x, cx = (x + l / 2).toFixed(1);
+    x += l + 3;
+    const lab = { '6e': '6\\textsuperscript{e}', '5e': '5\\textsuperscript{e}',
+      '4e': '4\\textsuperscript{e}', '3e': '3\\textsuperscript{e}',
+      '2de': '2\\textsuperscript{de}', '1re': '1\\textsuperscript{re}',
+      'tle': 'T\\textsuperscript{le}', 'prepa': 'PRÉPA', 'bts': 'BTS' }[a];
+    return annees.includes(a)
+      ? `  \\fill[an${a},rounded corners=1.2mm] ([shift={(${x0}mm,43mm)}]psw) rectangle ([shift={(${x0 + l}mm,50mm)}]psw);
+  \\node[anchor=center,text=white,font=\\bfseries\\fontsize{7.5}{9}\\selectfont] at ([shift={(${cx}mm,46.5mm)}]psw) {${lab}};`
+      : `  \\draw[gris!45,rounded corners=1.2mm,line width=0.4pt] ([shift={(${x0}mm,43mm)}]psw) rectangle ([shift={(${x0 + l}mm,50mm)}]psw);
+  \\node[anchor=center,text=gris,font=\\fontsize{7.5}{9}\\selectfont] at ([shift={(${cx}mm,46.5mm)}]psw) {${lab}};`;
+  }).join('\n');
+
   // Sans ce marqueur, les PDF eleve et professeur porteraient le meme plat.
-  if (config.professeur) bloc.push('    \\\\[6mm]',
-    '    {\\sffamily\\fontsize{9}{12}\\selectfont\\bfseries\\color{orange} Édition du professeur}');
+  // Onglet plein plutot que ligne coloree : l'orange #E67E22 sur le papier
+  // #F8F9FA ne donne que 2,7:1, sous le seuil AA meme pour du texte large.
+  // En reserve blanche sur aplat orange on remonte a 5,2:1, et un aplat reste
+  // identifiable a la taille d'une vignette la ou un mot colore disparait.
+  const onglet = config.professeur
+    ? `  \\fill[orange] ([shift={(106mm,${BANDEAU_MM}mm)}]psw) rectangle ([shift={(${LARGEUR_MM}mm,${BANDEAU_MM + 15}mm)}]psw);
+  \\node[anchor=center,text=white,font=\\bfseries\\fontsize{8}{10}\\selectfont]
+    at ([shift={(138mm,${BANDEAU_MM + 7.5}mm)}]psw) {\\textls{ÉDITION DU PROFESSEUR}};`
+    : '';
 
   return `  \\coordinate (psw) at (${coinSO});
   \\coordinate (pne) at (${coinNE});
   \\coordinate (pse) at (pne |- psw);
   \\coordinate (pnw) at (psw |- pne);
-  \\coordinate (pc)  at ($(psw)!0.5!(pne)$);
-  \\coordinate (pn)  at ($(pnw)!0.5!(pne)$);
-  \\coordinate (ps)  at ($(psw)!0.5!(pse)$);
-  % \\sparkcycle et \\sparkeclair calent leurs points via [shift={...}], qui
-  % exige un NOM de coordonnee : leur passer « ([yshift=2cm]pc) » echoue.
-  \\coordinate (pmotif) at ([yshift=2.0cm]pc);
-  % Aplat de secours : visible seulement si l'illustration manque. La photo
-  % elle-meme est cadree en amont au ratio exact 170:244, donc width/height
-  % fixes ne l'etirent pas — pas besoin de \\clip.
-  \\fill[ardoise] (psw) rectangle (pne);
-${config.imageCouverture ? `  \\node[anchor=south west,inner sep=0pt] at (psw)
-    {\\includegraphics[width=${LARGEUR_MM}mm,height=${HAUTEUR_MM}mm]{${config.imageCouverture}}};
-` : ''}${config.logoIcone
-    ? `  \\node[anchor=center] at (pmotif) {\\includegraphics[width=6cm]{${config.logoIcone}}};`
-    : `  \\sparkcycle{pmotif}{4.2cm}{turquoise}{jaune}\n  \\sparkeclair{pmotif}{1.8cm}{jaune}`}
-  \\fill[papier] (psw) rectangle ([yshift=${BANDEAU_MM}mm]pse);
-  % Trame tres pale qui reprend la grille de l'illustration : sans elle, le
-  % bandeau clair tombe a plat en dessous d'un plat tres dense (audit du
-  % 2026-08-17). Les traits passent sous le texte, opaque au-dessus.
   \\begin{scope}
-    \\clip (psw) rectangle ([yshift=${BANDEAU_MM}mm]pse);
+    \\clip (psw) rectangle (pne);
+    \\fill[ardoise] (psw) rectangle (pne);
+    \\begin{scope}[shift={(psw)},x=1mm,y=1mm]
     \\foreach \\g in {0,10,...,${LARGEUR_MM}}
-      \\draw[turquoise!25,line width=0.3pt]
-        ([xshift=\\g mm]psw) -- ([xshift=\\g mm,yshift=${BANDEAU_MM}mm]psw);
-    \\foreach \\g in {0,10,...,${BANDEAU_MM}}
-      \\draw[turquoise!25,line width=0.3pt] ([yshift=\\g mm]psw) -- ([yshift=\\g mm]pse);
+      \\draw[${motifC}!20!ardoise,line width=0.3pt] (\\g,${BANDEAU_MM})--(\\g,${HAUTEUR_MM - TETE_MM});
+    \\foreach \\g in {90,100,...,${HAUTEUR_MM - TETE_MM}}
+      \\draw[${motifC}!20!ardoise,line width=0.3pt] (0,\\g)--(${LARGEUR_MM},\\g);
+${motifDiscipline(config.collection, motifC)}
+${masc ? `    % L'onglet du professeur occupe le coin bas-droit : la mascotte s'y
+    % faisait recouvrir jusqu'au sommet du crane. Sur l'edition professeur
+    % elle passe donc a gauche, ou le motif est le plus calme.
+    \\node[anchor=south ${config.professeur ? 'west] at (10' : 'east] at (163'},${(BANDEAU_MM - 0.117 * masc.hauteur).toFixed(1)})
+      {\\includegraphics[height=${masc.hauteur}mm]{${masc.fichier}}};` : ''}
+    \\end{scope}
   \\end{scope}
-  \\draw[turquoise,line width=1.4pt]
-    ([yshift=${BANDEAU_MM}mm]psw) -- ([yshift=${BANDEAU_MM}mm]ps);
-  \\draw[jaune,line width=1.4pt]
-    ([yshift=${BANDEAU_MM}mm]ps) -- ([yshift=${BANDEAU_MM}mm]pse);
-  \\node[anchor=north] at ([yshift=-23mm]pn) {\\sparkmarque};
-  \\node[anchor=center,text width=14cm,align=center] at ([yshift=52mm]ps) {
-    \\hyphenpenalty=10000\\exhyphenpenalty=10000
-${bloc.join('\n')}
-  };
-  \\node[anchor=south] at ([yshift=14mm]ps) {
-    {\\sffamily\\fontsize{8.5}{11}\\selectfont\\color{gris} ${AUTEUR}}};`;
+${tete}
+  \\node[anchor=west,inner sep=0pt] at ([shift={(14mm,${HAUTEUR_MM - TETE_MM / 2}mm)}]psw)
+    {{\\sffamily\\fontsize{8}{10}\\selectfont\\bfseries\\textls{\\textcolor{white}{SPARK}\\hspace{0.9mm}\\textcolor{white}{LEARNING}}}};
+  \\node[anchor=east,text=white,font=\\sffamily\\fontsize{6.5}{8}\\selectfont,inner sep=0pt]
+    at ([shift={(156mm,${HAUTEUR_MM - TETE_MM / 2}mm)}]psw) {\\textls{${L(String(config.collection || '').toUpperCase())}}};
+  \\fill[papier] (psw) rectangle ([yshift=${BANDEAU_MM}mm]pse);
+  \\draw[turquoise,line width=1.6pt]
+    ([yshift=${BANDEAU_MM - 0.8}mm]psw) -- ([shift={(85mm,${BANDEAU_MM - 0.8}mm)}]psw);
+  \\draw[jaune,line width=1.6pt]
+    ([shift={(85mm,${BANDEAU_MM - 0.8}mm)}]psw) -- ([yshift=${BANDEAU_MM - 0.8}mm]pse);
+${onglet}
+  % text width + hyphenpenalty : « Fluides, Énergies, Domotique » sortait en
+  % « Éner-gies » a 30 pt. On borne la largeur utile et on interdit la cesure.
+  \\node[anchor=north west,text=ardoise,text width=142mm,align=left,
+    font=\\sffamily\\bfseries\\fontsize{${ct}}{${ci}}\\selectfont,inner sep=0pt]
+    at ([shift={(14mm,80mm)}]psw) {\\hyphenpenalty=10000\\exhyphenpenalty=10000 ${L(config.titre)}};
+  \\node[anchor=north west,text=${cNiveau},font=\\sffamily\\bfseries\\fontsize{25}{28}\\selectfont,inner sep=0pt]
+    at ([shift={(14mm,62mm)}]psw) {${L(config.sousTitre)}};
+${pastilles}
+  \\draw[gris!35,line width=0.4pt] ([shift={(14mm,37mm)}]psw) -- ([shift={(156mm,37mm)}]psw);
+  \\node[anchor=north west,text=ardoise,font=\\sffamily\\fontsize{8.5}{12}\\selectfont,text width=104mm,inner sep=0pt]
+    at ([shift={(14mm,33mm)}]psw) {${L(config.mention)}.${config.nbChapitres
+      ? ` ${config.nbChapitres} chapitres.` : ''}};
+  \\node[anchor=south west,text=gris,font=\\sffamily\\fontsize{8}{10}\\selectfont,inner sep=0pt]
+    at ([shift={(14mm,12mm)}]psw) {${AUTEUR_LIGNE}};
+${config.qrCode ? `  \\node[anchor=south east,inner sep=0pt] at ([shift={(156mm,10mm)}]psw)
+    {\\includegraphics[width=15mm]{${config.qrCode}}};
+  \\node[anchor=south east,text=gris,font=\\sffamily\\fontsize{6.8}{8.5}\\selectfont,align=right,inner sep=0pt]
+    at ([shift={(136mm,13mm)}]psw) {Tout le cours en ligne,\\\\gratuit --- sparklearning.fr};` : ''}`;
 }
 
 function couverture(config) {
@@ -344,7 +528,17 @@ ${L(config.collection)}, Spark Learning.\\\\[2mm]
 % montre que « Fonctions affines et lineaires » (3e) n'est traite nulle part.
 % La ligne enonce desormais un fait verifiable. A ne remonter en revendication
 % de couverture qu'une fois le chapitre manquant ecrit.
-${n} chapitres, de la sixième à la troisième.\\\\[4mm]
+%
+% « de la sixieme a la troisieme » etait fige ici depuis l'epoque ou
+% college-maths etait le seul ouvrage teste : chaque config OUVRAGES porte
+% deja son propre champ niveaux (« Seconde », « Programme BTS »...), jamais
+% relu a cet endroit precis. Trouve independamment le 2026-08-20 par deux
+% agents de relecture Phase 4 differents (lycee-physique-tle, lycee-physique-
+% 2nde) sur la page de copyright d'un livre Terminale/Seconde qui affirmait
+% « de la sixieme a la troisieme » — faux, contredit la 4e de couverture et
+% le sommaire du meme livre. Vraisemblablement present sur tout le catalogue
+% hors college depuis l'extension du pipeline au lycee/BTS.
+${n} chapitres --- ${L(config.niveaux || '')}.\\\\[4mm]
 Auteur : \\textbf{${AUTEUR}}, enseignant, formateur et ingénieur.\\\\[2mm]
 Première édition --- ${config.annee}.\\\\
 Dépôt légal : ${config.annee}.\\\\[4mm]
@@ -533,7 +727,7 @@ function couvertureSeparee(config) {
 \\usepackage[dvipsnames]{xcolor}
 \\usepackage{tikz}
 \\usepackage{graphicx}
-\\usetikzlibrary{arrows.meta,calc}
+\\usetikzlibrary{arrows.meta,calc,patterns}
 \\usepackage[letterspace=200]{microtype}
 \\usepackage[paperwidth=${largeur}mm,paperheight=${HAUTEUR_MM}mm,margin=0pt]{geometry}
 ${COULEURS_CHARTE}${MACROS_MARQUE}\\pagestyle{empty}

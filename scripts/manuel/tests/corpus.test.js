@@ -4,9 +4,11 @@ const { listerModules, verifierCorpus } = require('../verifier-corpus.js');
 
 /* Le compte est un garde-fou contre la DISPARITION silencieuse d'un module
    (fichier renomme, dossier oublie dans un manifeste). A mettre a jour a chaque
-   ajout deliberе : 203 -> 204 le 2026-08-16, ajout de 3e-fonctions-affines. */
-test('le corpus contient les 204 modules attendus', () => {
-  assert.strictEqual(listerModules().length, 204);
+   ajout deliberе : 203 -> 204 le 2026-08-16, ajout de 3e-fonctions-affines ;
+   204 -> 248 le 2026-08-20, ajout des 44 modules physique-chimie college/lycee
+   (physique-4e, physique-3e, physique-2nde, physique-1re, physique-tle). */
+test('le corpus contient les 248 modules attendus', () => {
+  assert.strictEqual(listerModules().length, 248);
 });
 
 test('tous les modules se chargent et se convertissent', () => {

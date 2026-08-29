@@ -22,18 +22,46 @@ const MARQUE_JETON = '\u0001';
 let origine = '(inconnu)';
 function definirOrigine(id) { origine = id || '(inconnu)'; }
 
+/* Entites HTML -> caracteres. Partagee entre le texte (etape 3 ci-dessous)
+   et l'interieur des ilots mathematiques (etape 1) : un ilot est extrait et
+   traduit par enMath() AVANT l'etape 3, donc « $Q &lt; K$ » — trigraphe
+   present dans le JS source pour survivre a innerHTML() cote site — ne
+   passait jamais par le decodage. Le & residuel, jamais echappe puisque
+   l'ilot est restitue tel quel a l'etape 6, sortait brut dans le LaTeX :
+   « Misplaced alignment tab character & ». Trouve le 2026-08-20 en
+   compilant lycee-physique, premier ouvrage a exercer massivement les
+   inegalites Terminale ($Q_{r,i} &lt; K$, physique-tle-evolution-chimique
+   et consorts). */
+function decoderEntitesHtml(s) {
+  return s.replace(/&nbsp;/g, '~').replace(/&amp;/g, '&').replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>').replace(/&times;/g, '×').replace(/&deg;/g, '°')
+    .replace(/&hellip;/g, '…').replace(/&#39;/g, "'").replace(/&quot;/g, '"');
+}
+
+/* \lt et \gt sont des alias KaTeX pour < et > (KaTeX les definit, LaTeX/
+   amsmath non) : valides cote site, « Undefined control sequence » a la
+   compilation. Trouve le 2026-08-20 dans physique-tle-acides-bases.js
+   ($pH \lt pK_a$ etc., 15 occurrences). Uniquement a l'interieur d'un ilot
+   mathematique — hors de $...$ ces sequences n'ont aucun sens KaTeX. */
+function decoderAliasKatex(s) {
+  return s.replace(/\\lt(?![a-zA-Z])/g, '<').replace(/\\gt(?![a-zA-Z])/g, '>');
+}
+
 function versLatex(valeur) {
   if (valeur == null) return '';
   let s = String(valeur);
 
   // 1. Mettre les maths a l'abri, en y traduisant les symboles Unicode
+  //    (entites HTML decodees d'abord : un ilot restitue tel quel a l'etape 6
+  //    ne repasse jamais par le decodage de l'etape 3).
   const maths = [];
   const garder = (latex) => {
     maths.push(latex);
     return MARQUE_MATH + (maths.length - 1) + MARQUE_MATH;
   };
-  s = s.replace(/\$\$([\s\S]*?)\$\$/g, (_, m) => garder('\\[' + enMath(m, origine) + '\\]'));
-  s = s.replace(/\$([^$]*?)\$/g, (_, m) => garder('$' + enMath(m, origine) + '$'));
+  const preparerMath = (m) => decoderAliasKatex(decoderEntitesHtml(m));
+  s = s.replace(/\$\$([\s\S]*?)\$\$/g, (_, m) => garder('\\[' + enMath(preparerMath(m), origine) + '\\]'));
+  s = s.replace(/\$([^$]*?)\$/g, (_, m) => garder('$' + enMath(preparerMath(m), origine) + '$'));
 
   // 2. Balises HTML -> jetons
   const jetons = [];
@@ -54,9 +82,7 @@ function versLatex(valeur) {
   s = enTexte(s, origine, jeton);
 
   // 3. Entites HTML
-  s = s.replace(/&nbsp;/g, '~').replace(/&amp;/g, '&').replace(/&lt;/g, '<')
-       .replace(/&gt;/g, '>').replace(/&times;/g, '×').replace(/&deg;/g, '°')
-       .replace(/&hellip;/g, '…').replace(/&#39;/g, "'").replace(/&quot;/g, '"');
+  s = decoderEntitesHtml(s);
 
   // 4. Echappement LaTeX
   s = s.replace(/\\/g, '\\textbackslash{}')

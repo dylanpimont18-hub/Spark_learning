@@ -44,7 +44,7 @@ const MATH = {
 
   // \checkmark et \times sont des commandes MATH : les classer en texte
   // provoque "Missing $ inserted". Bug rencontre a l'audit du 2026-08-15.
-  '✓':'\\checkmark','✔':'\\checkmark','☑':'\\checkmark','✗':'\\times','✘':'\\times',
+  '✓':'\\checkmark','✔':'\\checkmark','☑':'\\checkmark','✗':'\\times','✘':'\\times','✕':'\\times','✖':'\\times',
 
   '₀':'_0','₁':'_1','₂':'_2','₃':'_3','₄':'_4','₅':'_5','₆':'_6','₇':'_7','₈':'_8','₉':'_9',
   '₊':'_+','₋':'_-','ₑ':'_e','ₙ':'_n','ₛ':'_s','ₚ':'_p','ₜ':'_t','ₐ':'_a','ᵢ':'_i',

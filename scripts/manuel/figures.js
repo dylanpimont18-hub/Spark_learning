@@ -32,27 +32,45 @@ function matiereDe(mod) {
   return 'maths';
 }
 
+/* Convertit un seul schema (mod.cours.diagram ou une entree de
+   mod.cours.diagrams[]) en TikZ. suffixeOrigine distingue les schemas d'un
+   meme module dans les messages d'erreur (« caractere inconnu dans X#2 »). */
+function convertirUneFigure(mod, diagram, opts, suffixeOrigine) {
+  const svg = diagram && diagram.svg;
+  if (!svg) return { provenance: null, raison: 'aucun schema' };
+  try {
+    return versTikz(svg, {
+      largeurMm: opts.largeurMm || LARGEUR_FIGURE_MM,
+      matiere: matiereDe(mod),
+      origine: mod.id + (suffixeOrigine || '')
+    });
+  } catch (e) {
+    return { provenance: null, raison: 'conversion impossible : ' + e.message };
+  }
+}
+
 /* Convertit les schemas d'une liste de modules. Purement synchrone : rien
-   n'est ecrit sur le disque, le TikZ part directement dans le .tex du chapitre. */
+   n'est ecrit sur le disque, le TikZ part directement dans le .tex du chapitre.
+
+   Un module peut porter un schema principal (cours.diagram) et, depuis que
+   plusieurs modules BTS/physique en ont besoin pour couvrir tout un chapitre,
+   des schemas secondaires (cours.diagrams[], meme mecanisme d'affichage que
+   coursDiagramList() cote site). resultats[mod.id] garde EXACTEMENT la forme
+   historique (provenance/tikz/raison) pour le schema principal — rien ne
+   casse cote appelant existant — et gagne un champ .secondaires (tableau,
+   meme forme, un element par entree de cours.diagrams[]) quand il y en a. */
 function preparerFigures(modules, options) {
   const opts = options || {};
   const resultats = {};
 
   for (const mod of modules) {
-    const svg = mod.cours && mod.cours.diagram && mod.cours.diagram.svg;
-    if (!svg) { resultats[mod.id] = { provenance: null, raison: 'aucun schema' }; continue; }
+    resultats[mod.id] = convertirUneFigure(mod, mod.cours && mod.cours.diagram, opts);
 
-    let r;
-    try {
-      r = versTikz(svg, {
-        largeurMm: opts.largeurMm || LARGEUR_FIGURE_MM,
-        matiere: matiereDe(mod),
-        origine: mod.id
-      });
-    } catch (e) {
-      r = { provenance: null, raison: 'conversion impossible : ' + e.message };
+    const diagrammes = (mod.cours && Array.isArray(mod.cours.diagrams)) ? mod.cours.diagrams : [];
+    if (diagrammes.length) {
+      resultats[mod.id].secondaires = diagrammes.map((d, i) =>
+        convertirUneFigure(mod, d, opts, '#' + (i + 2)));
     }
-    resultats[mod.id] = r;
   }
   return resultats;
 }

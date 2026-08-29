@@ -3,7 +3,7 @@
 > Fichier **régénéré par scan** (`node scripts/manuel/progression.js`).
 > Ne pas éditer à la main : toute modification sera écrasée.
 
-**Total : 98 / 253 chapitres intégrés.**
+**Total : 309 / 391 chapitres intégrés.**
 
 ## college-maths — Mathématiques, Collège   [49 / 49]
 
@@ -138,48 +138,105 @@ Graine : `20260816` · 125 pages · gouttière 9.5 mm · dos 7.5 mm · dernière
 | 3e-stats-probas | ✓ | SVG exact |
 | 3e-algorithmique | ✓ | SVG exact |
 
-## lycee-maths — Mathématiques, Lycée   [0 / 36]
+## lycee-maths — Mathématiques, Lycée   [36 / 36]
 
-_Jamais compilé._
+Graine : `20260816` · 337 pages · gouttière 15.9 mm · dos 20.1 mm · dernière compilation 2026-08-18
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
-| vecteurs | — | — |
-| fonctions-affines | — | — |
-| 2nde-ensembles-nombres | — | — |
-| 2nde-calcul-algebrique | — | — |
-| 2nde-equations-inequations | — | — |
-| 2nde-fonctions-generalites | — | — |
-| 2nde-fonctions-reference | — | — |
-| 2nde-reperage-plan | — | — |
-| 2nde-droites-systemes | — | — |
-| 2nde-geometrie-plane | — | — |
-| 2nde-statistiques | — | — |
-| 2nde-probabilites | — | — |
-| 2nde-echantillonnage | — | — |
-| 2nde-algorithmique | — | — |
-| 1re-derivation | — | — |
-| 1re-suites | — | — |
-| 1re-produit-scalaire | — | — |
-| 1re-second-degre | — | — |
-| 1re-polynomes-signe | — | — |
-| 1re-trigonometrie | — | — |
-| 1re-geometrie-reperee | — | — |
-| 1re-probas-conditionnelles | — | — |
-| 1re-variables-aleatoires | — | — |
-| 1re-information-chiffree | — | — |
-| tle-exponentielle-logarithme | — | — |
-| tle-primitives-integrales | — | — |
-| tle-equations-differentielles | — | — |
-| tle-limites-continuite | — | — |
-| tle-derivation-complements | — | — |
-| tle-logarithme | — | — |
-| tle-convexite | — | — |
-| tle-suites-complements | — | — |
-| tle-denombrement | — | — |
-| tle-lois-continues | — | — |
-| tle-geometrie-espace | — | — |
-| tle-orthogonalite-espace | — | — |
+| vecteurs | ✓ | SVG exact |
+| fonctions-affines | ✓ | SVG exact |
+| 2nde-ensembles-nombres | ✓ | SVG exact |
+| 2nde-calcul-algebrique | ✓ | SVG exact |
+| 2nde-equations-inequations | ✓ | SVG exact |
+| 2nde-fonctions-generalites | ✓ | SVG exact |
+| 2nde-fonctions-reference | ✓ | SVG exact |
+| 2nde-reperage-plan | ✓ | SVG exact |
+| 2nde-droites-systemes | ✓ | SVG exact |
+| 2nde-geometrie-plane | ✓ | SVG exact |
+| 2nde-statistiques | ✓ | SVG exact |
+| 2nde-probabilites | ✓ | SVG exact |
+| 2nde-echantillonnage | ✓ | SVG exact |
+| 2nde-algorithmique | ✓ | SVG exact |
+| 1re-derivation | ✓ | SVG exact |
+| 1re-suites | ✓ | SVG exact |
+| 1re-produit-scalaire | ✓ | SVG exact |
+| 1re-second-degre | ✓ | SVG exact |
+| 1re-polynomes-signe | ✓ | SVG exact |
+| 1re-trigonometrie | ✓ | SVG exact |
+| 1re-geometrie-reperee | ✓ | SVG exact |
+| 1re-probas-conditionnelles | ✓ | SVG exact |
+| 1re-variables-aleatoires | ✓ | SVG exact |
+| 1re-information-chiffree | ✓ | SVG exact |
+| tle-exponentielle-logarithme | ✓ | SVG exact |
+| tle-primitives-integrales | ✓ | SVG exact |
+| tle-equations-differentielles | ✓ | SVG exact |
+| tle-limites-continuite | ✓ | SVG exact |
+| tle-derivation-complements | ✓ | SVG exact |
+| tle-logarithme | ✓ | SVG exact |
+| tle-convexite | ✓ | SVG exact |
+| tle-suites-complements | ✓ | SVG exact |
+| tle-denombrement | ✓ | SVG exact |
+| tle-lois-continues | ✓ | SVG exact |
+| tle-geometrie-espace | ✓ | SVG exact |
+| tle-orthogonalite-espace | ✓ | SVG exact |
+
+## lycee-maths-2nde — Mathématiques, Seconde   [14 / 14]
+
+Graine : `20260816` · 139 pages · gouttière 9.5 mm · dos 8.3 mm · dernière compilation 2026-08-18
+
+| Module | Chapitre | Figure |
+|--------|:--------:|:------:|
+| vecteurs | ✓ | SVG exact |
+| fonctions-affines | ✓ | SVG exact |
+| 2nde-ensembles-nombres | ✓ | SVG exact |
+| 2nde-calcul-algebrique | ✓ | SVG exact |
+| 2nde-equations-inequations | ✓ | SVG exact |
+| 2nde-fonctions-generalites | ✓ | SVG exact |
+| 2nde-fonctions-reference | ✓ | SVG exact |
+| 2nde-reperage-plan | ✓ | SVG exact |
+| 2nde-droites-systemes | ✓ | SVG exact |
+| 2nde-geometrie-plane | ✓ | SVG exact |
+| 2nde-statistiques | ✓ | SVG exact |
+| 2nde-probabilites | ✓ | SVG exact |
+| 2nde-echantillonnage | ✓ | SVG exact |
+| 2nde-algorithmique | ✓ | SVG exact |
+
+## lycee-maths-1re — Mathématiques, Première   [10 / 10]
+
+Graine : `20260816` · 105 pages · gouttière 9.5 mm · dos 6.3 mm · dernière compilation 2026-08-18
+
+| Module | Chapitre | Figure |
+|--------|:--------:|:------:|
+| 1re-derivation | ✓ | SVG exact |
+| 1re-suites | ✓ | SVG exact |
+| 1re-produit-scalaire | ✓ | SVG exact |
+| 1re-second-degre | ✓ | SVG exact |
+| 1re-polynomes-signe | ✓ | SVG exact |
+| 1re-trigonometrie | ✓ | SVG exact |
+| 1re-geometrie-reperee | ✓ | SVG exact |
+| 1re-probas-conditionnelles | ✓ | SVG exact |
+| 1re-variables-aleatoires | ✓ | SVG exact |
+| 1re-information-chiffree | ✓ | SVG exact |
+
+## lycee-maths-tle — Mathématiques, Terminale   [12 / 12]
+
+Graine : `20260816` · 119 pages · gouttière 9.5 mm · dos 7.1 mm · dernière compilation 2026-08-18
+
+| Module | Chapitre | Figure |
+|--------|:--------:|:------:|
+| tle-exponentielle-logarithme | ✓ | SVG exact |
+| tle-primitives-integrales | ✓ | SVG exact |
+| tle-equations-differentielles | ✓ | SVG exact |
+| tle-limites-continuite | ✓ | SVG exact |
+| tle-derivation-complements | ✓ | SVG exact |
+| tle-logarithme | ✓ | SVG exact |
+| tle-convexite | ✓ | SVG exact |
+| tle-suites-complements | ✓ | SVG exact |
+| tle-denombrement | ✓ | SVG exact |
+| tle-lois-continues | ✓ | SVG exact |
+| tle-geometrie-espace | ✓ | SVG exact |
+| tle-orthogonalite-espace | ✓ | SVG exact |
 
 ## lycee-si — Sciences de l'ingénieur, Lycée   [0 / 20]
 
@@ -208,56 +265,214 @@ _Jamais compilé._
 | si-tle-bode | — | — |
 | si-tle-reseaux | — | — |
 
-## bts-maths — Mathématiques, BTS   [0 / 27]
+## bts-maths — Mathématiques, BTS   [27 / 27]
 
-_Jamais compilé._
-
-| Module | Chapitre | Figure |
-|--------|:--------:|:------:|
-| bts-prep-calcul-litteral | — | — |
-| bts-prep-equations | — | — |
-| bts-prep-proportionnalite | — | — |
-| bts-prep-puissances | — | — |
-| bts-prep-fonctions | — | — |
-| bts-prep-trigonometrie | — | — |
-| bts-prep-logarithme | — | — |
-| bts-prep-vecteurs | — | — |
-| bts-prep-si-unites | — | — |
-| bts-prep-analyse-dim | — | — |
-| bts-prep-conversions | — | — |
-| bts-prep-equations-transf | — | — |
-| bts-prep-graphiques | — | — |
-| bts-prep-donnees-techniques | — | — |
-| complexes | — | — |
-| eq-diff-2 | — | — |
-| statistiques | — | — |
-| bts-loi-normale | — | — |
-| bts-fonctions-reelles | — | — |
-| bts-derivation-appliquee | — | — |
-| bts-integrales-appliquees | — | — |
-| bts-stats-deux-variables | — | — |
-| bts-probas-discretes | — | — |
-| bts-suites-appliquees | — | — |
-| bts-matrices | — | — |
-| bts-fourier | — | — |
-| bts-laplace | — | — |
-
-## bts-physique — Physique-Chimie, BTS   [0 / 10]
-
-_Jamais compilé._
+Graine : `20260816` · 325 pages · gouttière 15.9 mm · dos 19.4 mm · dernière compilation 2026-08-18
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
-| physique-bts-mecanique-point | — | — |
-| physique-bts-statique-fluides | — | — |
-| physique-bts-dynamique-fluides | — | — |
-| physique-bts-thermodynamique | — | — |
-| physique-bts-circuits-continu | — | — |
-| physique-bts-regime-sinusoidal | — | — |
-| physique-bts-optique | — | — |
-| physique-bts-chimie-solutions | — | — |
-| physique-bts-cinetique | — | — |
-| physique-bts-electromagnetisme | — | — |
+| bts-prep-calcul-litteral | ✓ | SVG exact |
+| bts-prep-equations | ✓ | SVG exact |
+| bts-prep-proportionnalite | ✓ | SVG exact |
+| bts-prep-puissances | ✓ | SVG exact |
+| bts-prep-fonctions | ✓ | SVG exact |
+| bts-prep-trigonometrie | ✓ | SVG exact |
+| bts-prep-logarithme | ✓ | SVG exact |
+| bts-prep-vecteurs | ✓ | SVG exact |
+| bts-prep-si-unites | ✓ | SVG exact |
+| bts-prep-analyse-dim | ✓ | SVG exact |
+| bts-prep-conversions | ✓ | SVG exact |
+| bts-prep-equations-transf | ✓ | SVG exact |
+| bts-prep-graphiques | ✓ | SVG exact |
+| bts-prep-donnees-techniques | ✓ | SVG exact |
+| complexes | ✓ | SVG exact |
+| eq-diff-2 | ✓ | SVG exact |
+| statistiques | ✓ | SVG exact |
+| bts-loi-normale | ✓ | SVG exact |
+| bts-fonctions-reelles | ✓ | SVG exact |
+| bts-derivation-appliquee | ✓ | SVG exact |
+| bts-integrales-appliquees | ✓ | SVG exact |
+| bts-stats-deux-variables | ✓ | SVG exact |
+| bts-probas-discretes | ✓ | SVG exact |
+| bts-suites-appliquees | ✓ | SVG exact |
+| bts-matrices | ✓ | SVG exact |
+| bts-fourier | ✓ | SVG exact |
+| bts-laplace | ✓ | SVG exact |
+
+## bts-maths-prep — Mathématiques, Remise à niveau   [14 / 14]
+
+Graine : `20260816` · 209 pages · gouttière 12.7 mm · dos 12.5 mm · dernière compilation 2026-08-18
+
+| Module | Chapitre | Figure |
+|--------|:--------:|:------:|
+| bts-prep-calcul-litteral | ✓ | SVG exact |
+| bts-prep-equations | ✓ | SVG exact |
+| bts-prep-proportionnalite | ✓ | SVG exact |
+| bts-prep-puissances | ✓ | SVG exact |
+| bts-prep-fonctions | ✓ | SVG exact |
+| bts-prep-trigonometrie | ✓ | SVG exact |
+| bts-prep-logarithme | ✓ | SVG exact |
+| bts-prep-vecteurs | ✓ | SVG exact |
+| bts-prep-si-unites | ✓ | SVG exact |
+| bts-prep-analyse-dim | ✓ | SVG exact |
+| bts-prep-conversions | ✓ | SVG exact |
+| bts-prep-equations-transf | ✓ | SVG exact |
+| bts-prep-graphiques | ✓ | SVG exact |
+| bts-prep-donnees-techniques | ✓ | SVG exact |
+
+## college-physique — Physique-Chimie, Collège   [12 / 12]
+
+Graine : `20260816` · 131 pages · gouttière 9.5 mm · dos 7.8 mm · dernière compilation 2026-08-20
+
+| Module | Chapitre | Figure |
+|--------|:--------:|:------:|
+| physique-4e-atomes-molecules | ✓ | SVG exact |
+| physique-4e-transformations-chimiques | ✓ | SVG exact |
+| physique-4e-vitesse | ✓ | SVG exact |
+| physique-4e-intensite-tension | ✓ | SVG exact |
+| physique-4e-lois-circuits | ✓ | SVG exact |
+| physique-4e-lumiere | ✓ | SVG exact |
+| physique-3e-structure-atome | ✓ | SVG exact |
+| physique-3e-reactions-chimiques | ✓ | SVG exact |
+| physique-3e-energie | ✓ | SVG exact |
+| physique-3e-resistance-ohm | ✓ | SVG exact |
+| physique-3e-puissance-electrique | ✓ | SVG exact |
+| physique-3e-gravitation | ✓ | SVG exact |
+
+## college-physique-4e — Physique-Chimie, Quatrième   [6 / 6]
+
+Graine : `20260816` · 75 pages · gouttière 9.5 mm · dos 4.5 mm · dernière compilation 2026-08-20
+
+| Module | Chapitre | Figure |
+|--------|:--------:|:------:|
+| physique-4e-atomes-molecules | ✓ | SVG exact |
+| physique-4e-transformations-chimiques | ✓ | SVG exact |
+| physique-4e-vitesse | ✓ | SVG exact |
+| physique-4e-intensite-tension | ✓ | SVG exact |
+| physique-4e-lois-circuits | ✓ | SVG exact |
+| physique-4e-lumiere | ✓ | SVG exact |
+
+## college-physique-3e — Physique-Chimie, Troisième   [6 / 6]
+
+Graine : `20260816` · 71 pages · gouttière 9.5 mm · dos 4.2 mm · dernière compilation 2026-08-20
+
+| Module | Chapitre | Figure |
+|--------|:--------:|:------:|
+| physique-3e-structure-atome | ✓ | SVG exact |
+| physique-3e-reactions-chimiques | ✓ | SVG exact |
+| physique-3e-energie | ✓ | SVG exact |
+| physique-3e-resistance-ohm | ✓ | SVG exact |
+| physique-3e-puissance-electrique | ✓ | SVG exact |
+| physique-3e-gravitation | ✓ | SVG exact |
+
+## lycee-physique — Physique-Chimie, Lycée   [32 / 32]
+
+Graine : `20260816` · 323 pages · gouttière 15.9 mm · dos 19.3 mm · dernière compilation 2026-08-20
+
+| Module | Chapitre | Figure |
+|--------|:--------:|:------:|
+| physique-2nde-mouvement | ✓ | SVG exact |
+| physique-2nde-forces | ✓ | SVG exact |
+| physique-2nde-inertie | ✓ | SVG exact |
+| physique-2nde-corps-purs | ✓ | SVG exact |
+| physique-2nde-solutions | ✓ | SVG exact |
+| physique-2nde-transformations | ✓ | SVG exact |
+| physique-2nde-modele-atome | ✓ | SVG exact |
+| physique-2nde-signaux | ✓ | SVG exact |
+| physique-2nde-son | ✓ | SVG exact |
+| physique-2nde-lumiere | ✓ | SVG exact |
+| physique-1re-champ-gravitationnel | ✓ | SVG exact |
+| physique-1re-champ-electrique | ✓ | SVG exact |
+| physique-1re-cinematique | ✓ | SVG exact |
+| physique-1re-newton | ✓ | SVG exact |
+| physique-1re-travail-energie | ✓ | SVG exact |
+| physique-1re-reaction-avancement | ✓ | SVG exact |
+| physique-1re-titrage | ✓ | SVG exact |
+| physique-1re-lewis | ✓ | SVG exact |
+| physique-1re-ondes-mecaniques | ✓ | SVG exact |
+| physique-1re-lumiere-ondes | ✓ | SVG exact |
+| physique-1re-kirchhoff | ✓ | SVG exact |
+| physique-tle-mouvement-champ | ✓ | SVG exact |
+| physique-tle-satellites | ✓ | SVG exact |
+| physique-tle-dynamique | ✓ | SVG exact |
+| physique-tle-energie-mecanique | ✓ | SVG exact |
+| physique-tle-thermodynamique | ✓ | SVG exact |
+| physique-tle-evolution-chimique | ✓ | SVG exact |
+| physique-tle-acides-bases | ✓ | SVG exact |
+| physique-tle-oxydoreduction | ✓ | SVG exact |
+| physique-tle-ondes-signaux | ✓ | SVG exact |
+| physique-tle-quantique | ✓ | SVG exact |
+| physique-tle-radioactivite | ✓ | SVG exact |
+
+## lycee-physique-2nde — Physique-Chimie, Seconde   [10 / 10]
+
+Graine : `20260816` · 103 pages · gouttière 9.5 mm · dos 6.1 mm · dernière compilation 2026-08-20
+
+| Module | Chapitre | Figure |
+|--------|:--------:|:------:|
+| physique-2nde-mouvement | ✓ | SVG exact |
+| physique-2nde-forces | ✓ | SVG exact |
+| physique-2nde-inertie | ✓ | SVG exact |
+| physique-2nde-corps-purs | ✓ | SVG exact |
+| physique-2nde-solutions | ✓ | SVG exact |
+| physique-2nde-transformations | ✓ | SVG exact |
+| physique-2nde-modele-atome | ✓ | SVG exact |
+| physique-2nde-signaux | ✓ | SVG exact |
+| physique-2nde-son | ✓ | SVG exact |
+| physique-2nde-lumiere | ✓ | SVG exact |
+
+## lycee-physique-1re — Physique-Chimie, Première   [11 / 11]
+
+Graine : `20260816` · 121 pages · gouttière 9.5 mm · dos 7.2 mm · dernière compilation 2026-08-20
+
+| Module | Chapitre | Figure |
+|--------|:--------:|:------:|
+| physique-1re-champ-gravitationnel | ✓ | SVG exact |
+| physique-1re-champ-electrique | ✓ | SVG exact |
+| physique-1re-cinematique | ✓ | SVG exact |
+| physique-1re-newton | ✓ | SVG exact |
+| physique-1re-travail-energie | ✓ | SVG exact |
+| physique-1re-reaction-avancement | ✓ | SVG exact |
+| physique-1re-titrage | ✓ | SVG exact |
+| physique-1re-lewis | ✓ | SVG exact |
+| physique-1re-ondes-mecaniques | ✓ | SVG exact |
+| physique-1re-lumiere-ondes | ✓ | SVG exact |
+| physique-1re-kirchhoff | ✓ | SVG exact |
+
+## lycee-physique-tle — Physique-Chimie, Terminale   [11 / 11]
+
+Graine : `20260816` · 123 pages · gouttière 9.5 mm · dos 7.3 mm · dernière compilation 2026-08-20
+
+| Module | Chapitre | Figure |
+|--------|:--------:|:------:|
+| physique-tle-mouvement-champ | ✓ | SVG exact |
+| physique-tle-satellites | ✓ | SVG exact |
+| physique-tle-dynamique | ✓ | SVG exact |
+| physique-tle-energie-mecanique | ✓ | SVG exact |
+| physique-tle-thermodynamique | ✓ | SVG exact |
+| physique-tle-evolution-chimique | ✓ | SVG exact |
+| physique-tle-acides-bases | ✓ | SVG exact |
+| physique-tle-oxydoreduction | ✓ | SVG exact |
+| physique-tle-ondes-signaux | ✓ | SVG exact |
+| physique-tle-quantique | ✓ | SVG exact |
+| physique-tle-radioactivite | ✓ | SVG exact |
+
+## bts-physique — Physique-Chimie, BTS   [10 / 10]
+
+Graine : `20260816` · 115 pages · gouttière 9.5 mm · dos 6.9 mm · dernière compilation 2026-08-20
+
+| Module | Chapitre | Figure |
+|--------|:--------:|:------:|
+| physique-bts-mecanique-point | ✓ | SVG exact |
+| physique-bts-statique-fluides | ✓ | SVG exact |
+| physique-bts-dynamique-fluides | ✓ | SVG exact |
+| physique-bts-thermodynamique | ✓ | SVG exact |
+| physique-bts-circuits-continu | ✓ | SVG exact |
+| physique-bts-regime-sinusoidal | ✓ | SVG exact |
+| physique-bts-optique | ✓ | SVG exact |
+| physique-bts-chimie-solutions | ✓ | SVG exact |
+| physique-bts-cinetique | ✓ | SVG exact |
+| physique-bts-electromagnetisme | ✓ | SVG exact |
 
 ## bts-si — Sciences de l'ingénieur, BTS   [0 / 8]
 

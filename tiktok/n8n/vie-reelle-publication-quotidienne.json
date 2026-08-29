@@ -1,0 +1,619 @@
+{
+  "name": "Vie réelle — Publication quotidienne (Postiz)",
+  "nodes": [
+    {
+      "name": "Chaque jour 09:15",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "daysInterval": 1,
+              "triggerAtHour": 9,
+              "triggerAtMinute": 15
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Lister les integrations Postiz",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        224,
+        0
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Zr1RTDD4CdSWG3Nn",
+          "name": "Header Auth account"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000,
+      "parameters": {
+        "url": "https://api.postiz.com/public/v1/integrations",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 30000
+        }
+      }
+    },
+    {
+      "name": "Resoudre les reseaux",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ],
+      "parameters": {
+        "jsCode": "// Postiz renvoie la liste des comptes connectes. On lit les identifiants\n// A L EXECUTION plutot que de les figer dans le code : reconnecter un\n// compte dans Postiz change son id, et un id perime echoue en silence.\nconst integrations = $input.all().map(i => i.json).filter(j => j && j.id);\n\nconst typeDe = (j) => String(j.identifier || j.providerIdentifier || j.provider || '');\nconst chercher = (motif) => integrations.find(j => typeDe(j).toLowerCase().indexOf(motif) !== -1);\n\nconst tiktok = chercher('tiktok');\nconst youtube = chercher('youtube');\n\n// Postiz distingue 'linkedin' (profil personnel) et 'linkedin-page'\n// (page entreprise) : deux discriminateurs differents, et un __type qui\n// ne correspond pas retombe sur des reglages VIDES sans lever d erreur.\n// On prefere donc la page si les deux sont connectees, et on renvoie le\n// type declare par l API, jamais une valeur devinee.\nconst linkedin = integrations.find(j => typeDe(j).toLowerCase() === 'linkedin-page')\n              || chercher('linkedin');\n\nif (!linkedin) {\n  throw new Error('Aucune integration LinkedIn dans Postiz. Comptes vus : '\n    + integrations.map(j => typeDe(j) + ' / ' + j.name).join(', '));\n}\n\nreturn [{ json: {\n  tiktokId: tiktok ? tiktok.id : null,\n  tiktokType: tiktok ? typeDe(tiktok) : null,\n  youtubeId: youtube ? youtube.id : null,\n  linkedinId: linkedin.id,\n  linkedinType: typeDe(linkedin),\n  linkedinNom: linkedin.name\n} }];"
+      }
+    },
+    {
+      "name": "Lister les sujets en attente",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        672,
+        0
+      ],
+      "retryOnFail": true,
+      "maxTries": 4,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "I0Ak2eb4O7mrCv7e",
+          "name": "Google Drive account"
+        }
+      },
+      "parameters": {
+        "resource": "fileFolder",
+        "operation": "search",
+        "returnAll": true,
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "mode": "list",
+            "value": "1Ko-WvtoVt6evoT-gLwrfz77o2C_kb9vI",
+            "cachedResultName": "TikTok Spark Learning - Vie reelle"
+          },
+          "whatToSearch": "folders"
+        },
+        "options": {
+          "fields": [
+            "*"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Choisir le sujet du jour",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        0
+      ],
+      "parameters": {
+        "jsCode": "const dossiers = $input.all().filter(i => i.json && i.json.id);\nif (dossiers.length === 0) {\n  return [{ json: { hasContent: false } }];\n}\n\n// Ordre de PRODUCTION, pas alphabetique. Le pipeline fait tourner les\n// huit familles de sujets ; trier par nom regrouperait les sujets par\n// premiere lettre et detruirait cette alternance a la publication.\ndossiers.sort((a, b) => {\n  const da = String(a.json.createdTime || '');\n  const db = String(b.json.createdTime || '');\n  if (da && db && da !== db) { return da.localeCompare(db); }\n  return String(a.json.name).localeCompare(String(b.json.name), undefined, { numeric: true });\n});\n\nconst d = dossiers[0].json;\nreturn [{ json: { hasContent: true, folderId: d.id, folderName: d.name } }];"
+      }
+    },
+    {
+      "name": "Un sujet en attente",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1120,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a-du-contenu",
+              "leftValue": "={{ $json.hasContent }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "name": "Lister les fichiers du sujet",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1344,
+        -96
+      ],
+      "retryOnFail": true,
+      "maxTries": 4,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "I0Ak2eb4O7mrCv7e",
+          "name": "Google Drive account"
+        }
+      },
+      "parameters": {
+        "resource": "fileFolder",
+        "operation": "search",
+        "returnAll": true,
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "mode": "id",
+            "value": "={{ $json.folderId }}"
+          },
+          "whatToSearch": "files"
+        },
+        "options": {
+          "fields": [
+            "id",
+            "name"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Preparer la publication",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1568,
+        -96
+      ],
+      "parameters": {
+        "jsCode": "// 22:00 Paris : cette ligne ne doit pas marcher sur les creneaux de la\n// ligne des modules (12:30 / 18:00 / 20:30), sinon les deux se font\n// concurrence sur le meme fil le meme jour.\nconst HEURE = 22;\nconst MINUTE = 0;\n\nconst fichiers = $input.all();\nconst src = $('Choisir le sujet du jour').first().json;\nconst reseaux = $('Resoudre les reseaux').first().json;\n\nconst trouver = (nom) => {\n  const f = fichiers.find(x => String(x.json.name) === nom);\n  return f ? f.json.id : null;\n};\n\nconst videoId = trouver('video.mp4');\nconst metaId = trouver('video.json');\nif (!videoId || !metaId) {\n  throw new Error('video.mp4 ou video.json manquant dans ' + src.folderName);\n}\n\nconst maintenant = $now.setZone('Europe/Paris');\nconst vise = maintenant.set({ hour: HEURE, minute: MINUTE, second: 0, millisecond: 0 });\nconst quand = vise <= maintenant ? vise.plus({ days: 1 }) : vise;\n\nreturn [{ json: Object.assign({}, reseaux, {\n  videoId: videoId,\n  metaId: metaId,\n  quandUtc: quand.toUTC().toISO(),\n  quandParis: quand.toFormat('dd/MM/yyyy HH:mm'),\n  folderId: src.folderId,\n  folderName: src.folderName\n}) }];"
+      }
+    },
+    {
+      "name": "Telecharger les metadonnees",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1792,
+        -96
+      ],
+      "retryOnFail": true,
+      "maxTries": 4,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "I0Ak2eb4O7mrCv7e",
+          "name": "Google Drive account"
+        }
+      },
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $json.metaId }}"
+        },
+        "options": {
+          "binaryPropertyName": "data"
+        }
+      }
+    },
+    {
+      "name": "Lire les metadonnees",
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        2016,
+        -96
+      ],
+      "parameters": {
+        "operation": "fromJson",
+        "destinationKey": "meta",
+        "options": {}
+      }
+    },
+    {
+      "name": "Telecharger la video",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2240,
+        -96
+      ],
+      "retryOnFail": true,
+      "maxTries": 4,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "I0Ak2eb4O7mrCv7e",
+          "name": "Google Drive account"
+        }
+      },
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $('Preparer la publication').first().json.videoId }}"
+        },
+        "options": {
+          "binaryPropertyName": "data"
+        }
+      }
+    },
+    {
+      "name": "Envoyer la video a Postiz",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        2464,
+        -96
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Zr1RTDD4CdSWG3Nn",
+          "name": "Header Auth account"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000,
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.postiz.com/public/v1/upload",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 120000
+        }
+      }
+    },
+    {
+      "name": "Construire les posts",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2688,
+        -96
+      ],
+      "parameters": {
+        "jsCode": "const ligne = $('Preparer la publication').first().json;\nconst upload = $('Envoyer la video a Postiz').first().json;\nconst meta = $('Lire les metadonnees').first().json.meta;\n\nif (!upload || !upload.id || !upload.path) {\n  throw new Error(\"Reponse inattendue de Postiz a l upload : \" + JSON.stringify(upload));\n}\n\n// Bug amont : l upload renvoie parfois un chemin en .mp4s, que la\n// creation de post refuse ensuite.\nconst brut = String(upload.path);\nconst chemin = brut.slice(-5) === '.mp4s' ? brut.slice(0, -1) : brut;\nconst media = { id: upload.id, path: chemin };\n\nconst SAUT = String.fromCharCode(10);\nconst accroche = String(meta.legende || '').trim();\nconst sujet = String(meta.sujet || '').trim();\nconst notion = String(meta.notion || '').trim();\nconst url = String(meta.url || '').trim();\nconst aUnModule = Boolean(meta.module);\n\nconst tags = (meta.hashtags || []).map(t => {\n  const s = String(t).trim();\n  return s.charAt(0) === '#' ? s : '#' + s;\n});\n\n// TikTok : un lien n y est pas cliquable, inutile d en mettre un.\nconst legendeTikTok = [accroche, tags.join(' ')]\n  .filter(m => m.length > 0).join(SAUT + SAUT).slice(0, 2200);\n\n// YouTube : le lien EST cliquable.\nconst descriptionYouTube = [\n  accroche,\n  url ? \"Le cours complet, gratuitement :\" + SAUT + url : '',\n  (tags.join(' ') + ' #Shorts').trim()\n].filter(m => m.length > 0).join(SAUT + SAUT).slice(0, 4900);\n\n// LinkedIn page entreprise : le public n est PAS celui de TikTok. La\n// video tutoie un ado ; ici on s adresse a des parents et des\n// enseignants. On garde l accroche mais on explique la demarche autour,\n// et on met le lien en clair — c est le seul des trois reseaux ou il\n// ramene vraiment du trafic.\n// Un sujet est souvent formule en question et porte deja son « ? » :\n// y coller un point donnerait « ... plus a manger ?. » dans le texte\n// publie sur la page.\nconst ponctuer = (s) => (/[.!?…]$/.test(s) ? s : s + '.');\n\nconst cadrage = \"Chaque jour, une notion de mathématiques vue depuis ce qui occupe vraiment les adolescents.\"\n  + (sujet ? \" Aujourd'hui : \" + ponctuer(sujet) : '')\n  + (notion ? \" La notion qui se cache derrière : \" + ponctuer(notion) : '');\n\nconst lien = aUnModule\n  ? \"Le module complet, gratuit et sans inscription :\" + SAUT + url\n  : \"Tous les cours, gratuits et sans inscription :\" + SAUT + url;\n\nconst texteLinkedIn = [accroche, cadrage, lien,\n  \"#Mathématiques #Éducation #Pédagogie #SparkLearning\"]\n  .filter(m => m.length > 0).join(SAUT + SAUT).slice(0, 2900);\n\nconst posts = [];\n\nif (ligne.tiktokId) {\n  posts.push({\n    integration: { id: ligne.tiktokId },\n    value: [{ content: legendeTikTok, image: [media] }],\n    settings: {\n      __type: ligne.tiktokType,\n      title: accroche.slice(0, 90),\n      privacy_level: 'PUBLIC_TO_EVERYONE',\n      duet: true,\n      stitch: true,\n      comment: true,\n      autoAddMusic: 'no',\n      brand_content_toggle: false,\n      brand_organic_toggle: false,\n      video_made_with_ai: true,\n      content_posting_method: 'DIRECT_POST'\n    }\n  });\n}\n\nif (ligne.youtubeId) {\n  // YouTube exige un titre de 2 a 100 caracteres : repli si vide.\n  posts.push({\n    integration: { id: ligne.youtubeId },\n    value: [{ content: descriptionYouTube, image: [media] }],\n    settings: {\n      __type: 'youtube',\n      title: accroche.slice(0, 100) || 'Spark Learning',\n      type: 'public',\n      selfDeclaredMadeForKids: 'no'\n    }\n  });\n}\n\nposts.push({\n  integration: { id: ligne.linkedinId },\n  value: [{ content: texteLinkedIn, image: [media] }],\n  settings: { __type: ligne.linkedinType }\n});\n\nreturn [{ json: {\n  body: { type: 'schedule', date: ligne.quandUtc, shortLink: false, tags: [], posts: posts },\n  reseaux: posts.length,\n  quandParis: ligne.quandParis,\n  linkedinNom: ligne.linkedinNom,\n  linkedinType: ligne.linkedinType,\n  texteLinkedIn: texteLinkedIn\n} }];"
+      }
+    },
+    {
+      "name": "Programmer les reseaux",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        2912,
+        -96
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Zr1RTDD4CdSWG3Nn",
+          "name": "Header Auth account"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 10000,
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.postiz.com/public/v1/posts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.body) }}",
+        "options": {
+          "timeout": 60000
+        }
+      }
+    },
+    {
+      "name": "Archiver le sujet",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        3136,
+        -96
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "I0Ak2eb4O7mrCv7e",
+          "name": "Google Drive account"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 4,
+      "waitBetweenTries": 5000,
+      "parameters": {
+        "operation": "move",
+        "fileId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $('Preparer la publication').first().json.folderId }}"
+        },
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive",
+          "cachedResultName": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "1VUBsOVSUmcfztpSvDKyHfcXW4YRd1VpE",
+          "cachedResultName": "TikTok Spark Learning - Vie reelle - Publiés"
+        }
+      }
+    },
+    {
+      "name": "Prevenir sujet programme",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        3360,
+        -96
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "MlAIsrSGWClogUEj",
+          "name": "Gmail account"
+        }
+      },
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "sendTo": "dylan.pimont18@gmail.com",
+        "subject": "=Vie réelle programmée : {{ $('Preparer la publication').first().json.folderName }}",
+        "emailType": "text",
+        "message": "=La vidéo « vie réelle » est programmée sur {{ $('Construire les posts').first().json.reseaux }} réseau(x) pour le {{ $('Construire les posts').first().json.quandParis }} (heure de Paris).\n\nLinkedIn : {{ $('Construire les posts').first().json.linkedinNom }} (type {{ $('Construire les posts').first().json.linkedinType }})\n\n--- Texte LinkedIn publié ---\n\n{{ $('Construire les posts').first().json.texteLinkedIn }}\n\nLe dossier a été déplacé dans « TikTok Spark Learning - Vie reelle - Publiés ».",
+        "options": {
+          "appendAttribution": false
+        }
+      }
+    },
+    {
+      "name": "Prevenir plus de contenu",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1344,
+        128
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "MlAIsrSGWClogUEj",
+          "name": "Gmail account"
+        }
+      },
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "sendTo": "dylan.pimont18@gmail.com",
+        "subject": "Vie réelle : plus de vidéos en attente",
+        "emailType": "text",
+        "message": "Le dossier Drive « TikTok Spark Learning - Vie reelle » est vide.\n\nRelancer une production locale :\n\n    cd tiktok && .venv/Scripts/python.exe culture.py --lot 30",
+        "options": {
+          "appendAttribution": false
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Chaque jour 09:15": {
+      "main": [
+        [
+          {
+            "node": "Lister les integrations Postiz",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lister les integrations Postiz": {
+      "main": [
+        [
+          {
+            "node": "Resoudre les reseaux",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resoudre les reseaux": {
+      "main": [
+        [
+          {
+            "node": "Lister les sujets en attente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lister les sujets en attente": {
+      "main": [
+        [
+          {
+            "node": "Choisir le sujet du jour",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Choisir le sujet du jour": {
+      "main": [
+        [
+          {
+            "node": "Un sujet en attente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Un sujet en attente": {
+      "main": [
+        [
+          {
+            "node": "Lister les fichiers du sujet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prevenir plus de contenu",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lister les fichiers du sujet": {
+      "main": [
+        [
+          {
+            "node": "Preparer la publication",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparer la publication": {
+      "main": [
+        [
+          {
+            "node": "Telecharger les metadonnees",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telecharger les metadonnees": {
+      "main": [
+        [
+          {
+            "node": "Lire les metadonnees",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lire les metadonnees": {
+      "main": [
+        [
+          {
+            "node": "Telecharger la video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telecharger la video": {
+      "main": [
+        [
+          {
+            "node": "Envoyer la video a Postiz",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envoyer la video a Postiz": {
+      "main": [
+        [
+          {
+            "node": "Construire les posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Construire les posts": {
+      "main": [
+        [
+          {
+            "node": "Programmer les reseaux",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Programmer les reseaux": {
+      "main": [
+        [
+          {
+            "node": "Archiver le sujet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Archiver le sujet": {
+      "main": [
+        [
+          {
+            "node": "Prevenir sujet programme",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Paris",
+    "errorWorkflow": "xESU9wNV8sMwSyIz",
+    "saveDataErrorExecution": "all",
+    "binaryMode": "separate",
+    "availableInMCP": true
+  }
+}

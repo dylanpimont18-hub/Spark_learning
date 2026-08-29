@@ -1,0 +1,19 @@
+# Pipeline TikTok Spark Learning — Python 3.11+
+#
+# Aucune dependance GPU, aucun modele a telecharger : la voix passe par
+# le service gratuit d'Edge, le montage par MoviePy, et ffmpeg arrive
+# avec imageio-ffmpeg (pas besoin de l'installer sur le systeme).
+#
+# Puppeteer, utilise pour la capture du site, vient du package.json du
+# depot (npm install a la racine), pas d'ici.
+
+openai>=1.60.0          # SDK compatible avec l'API Mammouth AI
+edge-tts>=7.0.0         # synthese vocale gratuite + timings mot a mot
+moviepy>=2.1.2          # montage video (API 2.x : with_position, resized...)
+imageio-ffmpeg>=0.5.1   # binaire ffmpeg embarque
+Pillow>=10.4            # rendu des sous-titres et des habillages
+numpy>=1.26
+httpx>=0.27           # appels a l'API de publication
+tzdata                # Windows n'a pas de base de fuseaux : zoneinfo en depend
+python-dotenv>=1.0.1
+pytest>=8.0             # tests unitaires

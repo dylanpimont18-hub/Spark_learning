@@ -29,3 +29,24 @@ Shopify/
 
 # Sortie du skill /graphify (graphe de connaissances local, regenerable).
 graphify-out/
+
+# Pipeline TikTok (tiktok/) : le code est versionne, ses sorties non.
+# - catalogue.json est un derive de js/data/, regenerable par
+#   `node tiktok/tools/export-modules.js` (1,9 Mo qui changeraient a
+#   chaque ajout de module).
+# - .travail/ contient les trames de capture et l'audio intermediaire.
+tiktok/output/
+tiktok/output-culture/
+# Videos de presentation rendues : regenerables par interview.py, et 10 Mo
+# dans l'historique Git ne se desallouent jamais.
+tiktok/output-interview/
+tiktok/.travail/
+tiktok/catalogue.json
+# Memoire de production : etat local de la machine qui rend. La perdre
+# ne casse rien, mais oblige a refabriquer les videos deja faites.
+tiktok/production.json
+tiktok/sujets.json
+tiktok/envois.json
+tiktok/.env
+__pycache__/
+*.pyc
