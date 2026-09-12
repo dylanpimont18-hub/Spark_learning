@@ -13,9 +13,18 @@ window.MODULES.push({
     physics: false,
 
     cours: {
-      intro: 'Le <strong>périmètre</strong> est la longueur du contour d\'une figure — on « fait le tour ». L\'<strong>aire</strong> mesure la surface intérieure.<br/><br/>' +
-        'Ces deux notions sont <strong>indépendantes</strong> : un rectangle de $1$ cm × $10$ cm et un carré de $\\approx 3{,}16$ cm de côté ont la même aire ($10$ cm²) mais des périmètres très différents.<br/><br/>' +
-        'La constante $\\pi \\approx 3{,}14159\\ldots$ est le rapport constant entre la circonférence et le diamètre de tout cercle. En physique, l\'aire intervient dans la pression ($P = F/S$) et le périmètre dans les calculs de longueur de câbles ou de clôtures.',
+      /* « Decouvrir » reecrit le 2026-09-13. Entree retenue : le grillage et le
+         gazon d'un meme jardin, deux commandes differentes pour un seul
+         terrain. La confusion perimetre/aire est mise en scene AVANT d'etre
+         nommee. Le contre-exemple numerique de l'ancienne intro (meme aire,
+         perimetres tres differents) est conserve : c'est le meilleur argument
+         du chapitre. */
+      intro: 'Un jardin rectangulaire à aménager. Pour le clôturer, le vendeur demande combien de mètres de grillage il te faut. Pour le gazon, il demande combien de mètres carrés. Deux questions sur le même jardin, et deux nombres différents — pourquoi ne suffit-il pas de dire « il est grand » ?<br/><br/>' +
+        'Parce que le grillage se déroule le long du <strong>contour</strong>, tandis que le gazon recouvre la <strong>surface</strong>. Ce ne sont pas les mêmes mesures, et elles ne s\'expriment même pas dans les mêmes unités : des mètres d\'un côté, des mètres carrés de l\'autre.<br/><br/>' +
+        'On appelle <strong>périmètre</strong> la longueur du contour — on « fait le tour » — et <strong>aire</strong> la mesure de la surface intérieure.<br/><br/>' +
+        'Ces deux grandeurs sont si <strong>indépendantes</strong> qu\'on peut en changer une sans toucher à l\'autre. Un rectangle de $1$ cm sur $10$ cm et un carré d\'environ $3{,}16$ cm de côté ont exactement la même aire ($10$ cm²), mais des périmètres très différents. Commander le grillage d\'après l\'aire, c\'est se tromper de livraison.<br/><br/>' +
+        'Pour les figures rondes intervient une constante célèbre, $\\pi \\approx 3{,}14159\\ldots$, qui est le rapport entre la circonférence et le diamètre de <strong>tout</strong> cercle, quelle que soit sa taille. On retrouvera l\'aire en physique dans la pression ($P = F/S$), et le périmètre dans les longueurs de câbles ou de clôtures.',
+
       definitions: [
         { term: 'Périmètre', def: 'Longueur totale du contour d\'une figure. Unité : cm ou m (longueur).' },
         { term: 'Aire', def: 'Mesure de la surface intérieure. Unité : cm² ou m² (surface).' },

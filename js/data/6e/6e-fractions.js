@@ -19,9 +19,19 @@ window.MODULES.push({
     physics: 'La proportionnalité en cinquième : un tableau de proportionnalité n\'est rien d\'autre qu\'une suite de fractions égales, et le coefficient joue le rôle du facteur d\'amplification. Les pourcentages et les échelles de carte en découlent directement.',
 
     cours: {
-      intro: 'Une <strong>fraction</strong> $\\dfrac{a}{b}$ représente $a$ parts d\'un tout divisé en $b$ parts égales. C\'est aussi un rapport, une division, et une façon de mesurer n\'importe quelle proportion.<br/><br/>' +
-        'Quand $a > b$, la fraction est <strong>supérieure à $1$</strong> ($\\dfrac{7}{3} > 1$) : elle représente plus d\'un entier. Deux fractions peuvent être égales avec des chiffres différents : $\\dfrac{1}{2} = \\dfrac{3}{6} = \\dfrac{50}{100}$, car $\\dfrac{k \\times a}{k \\times b} = \\dfrac{a}{b}$.<br/><br/>' +
-        'Une <strong>part de gâteau</strong>, une <strong>remise de $\\dfrac{1}{4}$</strong> sur un prix, une <strong>échelle de carte</strong> : dès qu\'on partage ou qu\'on compare deux grandeurs, on écrit une fraction. Savoir la simplifier et la comparer, c\'est pouvoir lire toutes ces situations avec les mêmes outils.',
+      /* « Decouvrir » reecrit le 2026-09-13. L'ancienne version posait la
+         notation a/b des sa premiere phrase : c'etait le pire cas du corpus.
+         Entree retenue : le partage qui NE TOMBE PAS JUSTE (3 gateaux pour 4).
+         Aucun entier ne repond, donc la fraction n'est pas un objet qu'on
+         presente mais le seul moyen d'ecrire la reponse. Regle generalisable
+         aux autres manuels : si l'on peut repondre a la question d'entree sans
+         la notion du chapitre, la question est mal choisie. */
+      intro: 'Quatre amis veulent se partager trois gâteaux identiques, sans rien jeter et sans que personne soit lésé. Chacun aura moins d\'un gâteau entier, c\'est certain — mais combien, exactement ?<br/><br/>' +
+        'Essaie de répondre avec les nombres que tu connais déjà : $0$ est trop peu, $1$ est trop. Aucun nombre entier ne convient. Le partage ne « tombe pas juste », et pourtant la part de chacun existe bel et bien : on peut la découper, la poser sur une assiette, la comparer à celle du voisin.<br/><br/>' +
+        'Il faut donc un nouveau type de nombre pour écrire ce résultat. Coupons chaque gâteau en quatre parts égales : cela fait $12$ parts, que l\'on distribue une à une. Chacun repart avec <strong>trois parts sur les quatre</strong> d\'un gâteau.<br/><br/>' +
+        'C\'est exactement ce qu\'écrit une <strong>fraction</strong> : $\\dfrac{3}{4}$ se lit « trois quarts », soit $3$ parts d\'un tout découpé en $4$. Le nombre du bas dit en combien de parts on a coupé, celui du haut combien on en prend. Une seule écriture, et le partage impossible devient un résultat exact.<br/><br/>' +
+        'Ce petit outil sert bien au-delà des gâteaux : une <strong>remise de $\\dfrac{1}{4}$</strong> sur un prix, une <strong>échelle de carte</strong>, la part d\'un terrain. Dès que l\'on partage ou que l\'on compare deux grandeurs, la fraction est là.',
+
       definitions: [
         { term: 'Fraction', def: 'Écriture $\\dfrac{a}{b}$ où $a$ est le numérateur et $b$ le dénominateur ($b \\neq 0$). Elle représente $a$ parts sur $b$.' },
         { term: 'Fraction irréductible', def: 'Fraction dont le numérateur et le dénominateur n\'ont aucun diviseur commun autre que $1$ : on ne peut plus la simplifier.' },

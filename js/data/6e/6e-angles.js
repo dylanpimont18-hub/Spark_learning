@@ -18,9 +18,18 @@ window.MODULES.push({
     physics: 'Au cycle 4, ces mesures servent à démontrer : deux droites coupées par une sécante forment des angles alternes-internes et correspondants, dont l\'égalité prouve le parallélisme. La somme des angles du triangle, vue ici, s\'étend alors à tous les polygones.',
 
     cours: {
-      intro: 'Un <strong>angle</strong> mesure l\'écartement entre deux demi-droites issues d\'un même sommet. Il ne dépend pas de la longueur des côtés — un angle de $60°$ reste $60°$ que les segments mesurent $1$ cm ou $1$ km.<br/><br/>' +
-        'On mesure les angles en <strong>degrés</strong> (°) avec un rapporteur. Les repères à connaître : un tour complet fait $360°$, un demi-tour $180°$, un quart de tour $90°$.<br/><br/>' +
-        'En physique, les angles sont partout : angle d\'incidence en optique, angle du plan incliné en mécanique, déphasage en électricité. Les propriétés des <strong>angles complémentaires</strong> (somme $= 90°$) et <strong>supplémentaires</strong> (somme $= 180°$) permettent de résoudre de nombreux problèmes.',
+      /* « Decouvrir » reecrit le 2026-09-13. L'ancienne version ouvrait sur la
+         definition (« un angle mesure l'ecartement… »). Entree retenue : la
+         porte entrouverte, dont AUCUNE longueur ne decrit l'ouverture — ni sa
+         largeur, ni l'ecart au mur qui varie selon l'endroit mesure. C'est
+         l'echec des longueurs qui cree le besoin d'une grandeur d'un autre
+         type, donc du degre. */
+      intro: 'Poussez une porte : elle s\'entrouvre à peine, puis à moitié, puis complètement. Comment dire à quelqu\'un, au téléphone, de quelle « quantité » exactement la porte est ouverte ?<br/><br/>' +
+        'Donner sa largeur ne sert à rien : la porte a toujours la même largeur, ouverte ou fermée. Mesurer l\'écart entre son bord et le mur ne marche pas mieux, car cet écart change selon qu\'on le mesure en haut de la porte ou près des gonds. Aucune longueur ne répond à la question.<br/><br/>' +
+        'C\'est qu\'il s\'agit d\'une grandeur d\'une autre nature : un <strong>angle</strong>, c\'est-à-dire l\'écartement entre deux demi-droites parties d\'un même sommet. Sa grande propriété est justement de ne pas dépendre de la longueur des côtés : un angle de $60°$ reste un angle de $60°$ que les côtés mesurent $1$ cm ou $1$ km.<br/><br/>' +
+        'On le mesure en <strong>degrés</strong> (°) avec un rapporteur, en se raccrochant à trois repères familiers : un tour complet fait $360°$, un demi-tour $180°$, un quart de tour $90°$.<br/><br/>' +
+        'Une fois cette mesure en main, on peut raisonner sans rien tracer : deux angles <strong>complémentaires</strong> ont pour somme $90°$, deux angles <strong>supplémentaires</strong> $180°$. On retrouvera ces angles partout, jusqu\'en physique — angle d\'incidence en optique, inclinaison d\'un plan en mécanique.',
+
       definitions: [
         { term: 'Angle aigu', def: 'Angle dont la mesure est comprise entre $0°$ et $90°$ (exclu).' },
         { term: 'Angle droit', def: 'Angle mesurant exactement $90°$. Symbolisé par un petit carré.' },

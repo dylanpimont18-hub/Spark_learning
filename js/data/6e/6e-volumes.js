@@ -13,9 +13,18 @@ window.MODULES.push({
     physics: 'Contenance et débit en technologie ; masse volumique au cycle 4',
 
     cours: {
-      intro: 'Le <strong>volume</strong> mesure l\'espace occupé par un objet en trois dimensions. Un cube de $1$ cm de côté a un volume de $1$ cm³ — c\'est l\'unité de base.<br/><br/>' +
-        '<strong>Pourquoi plusieurs unités ?</strong> Les ordres de grandeur varient énormément : une goutte fait $0{,}05$ mL, une piscine olympique $2500$ m³. Le lien fondamental : $1$ cm³ $= 1$ mL exactement.<br/><br/>' +
-        'Le volume est partout dans la vie courante : la contenance d\'une bouteille, le béton d\'une dalle, l\'eau d\'un aquarium, le carburant d\'un réservoir. Suivant le métier on l\'exprime en litres, en m³ ou en mL — <strong>maîtriser les conversions</strong> entre ces unités, c\'est pouvoir passer d\'un énoncé à l\'autre sans se tromper d\'un facteur $1000$.',
+      /* « Decouvrir » reecrit le 2026-09-13. Entree retenue : deux recipients
+         de FORMES differentes, dont l'oeil ne sait pas dire lequel contient le
+         plus. Le volume apparait comme le nombre qui rend comparables deux
+         objets sans rapport — c'est sa fonction reelle. La question des unites
+         multiples, qui ouvrait l'ancienne intro, est conservee mais passe en
+         consequence et non en preambule. */
+      intro: 'Devant deux récipients, l\'un haut et étroit, l\'autre large et plat, laquelle des deux contient le plus d\'eau ? L\'œil ne suffit pas : le plus haut n\'est pas forcément le plus rempli, et beaucoup de gens se trompent en le jugeant du regard.<br/><br/>' +
+        'Le seul moyen d\'être sûr serait de verser le contenu de l\'un dans l\'autre. Mais si les deux récipients sont pleins, ou s\'ils sont trop loin l\'un de l\'autre, comment faire ? Il faudrait pouvoir attribuer à chacun un <strong>nombre</strong>, puis comparer les deux nombres.<br/><br/>' +
+        'C\'est le rôle du <strong>volume</strong> : il mesure l\'espace occupé, quelle que soit la forme. On choisit un cube témoin de $1$ cm de côté — son volume vaut $1$ cm³ — et l\'on compte combien de fois il rentre dans le récipient. Deux objets qui n\'ont rien à voir deviennent alors comparables.<br/><br/>' +
+        'Reste une difficulté bien réelle : les ordres de grandeur sont énormes. Une goutte fait $0{,}05$ mL, une piscine olympique $2500$ m³. D\'où plusieurs unités selon la situation — litres, m³, mL — reliées par un pont à retenir : $1$ cm³ $= 1$ mL exactement.<br/><br/>' +
+        '<strong>Maîtriser les conversions</strong> entre ces unités, c\'est pouvoir passer de la bouteille à la dalle de béton sans se tromper d\'un facteur $1000$.',
+
       definitions: [
         { term: 'Volume', def: 'Mesure de l\'espace occupé par un objet en 3D. Unité SI : le mètre cube (m³).' },
         { term: 'Pavé droit', def: 'Solide à 6 faces rectangulaires. Volume : $V = L \\times l \\times h$.' },

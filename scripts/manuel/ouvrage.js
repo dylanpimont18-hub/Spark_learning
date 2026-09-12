@@ -133,17 +133,25 @@ const TETE_MM = 20;
    tend un fil entre deux piquets pour tracer un mur droit.
 
    Une promesse que le livre ne tient pas se retourne contre lui des la
-   premiere page. On enonce donc ce que le livre FAIT reellement — dire a quoi
-   la notion sert avant de la faire travailler — sans promettre un ordre
-   d'exposition qu'il ne respecte pas encore. A remonter en promesse le jour ou
-   les « Decouvrir » seront reecrits : la correction de fond appartient aux
-   donnees (js/data/), pas a la maquette. */
+   premiere page. On avait donc enonce ce que le livre FAISAIT reellement —
+   dire a quoi la notion sert avant de la faire travailler — sans promettre un
+   ordre d'exposition qu'il ne respectait pas.
+
+   2026-09-13 : LES NEUF « DECOUVRIR » ONT ETE REECRITS dans js/data/6e/, sur
+   le patron du chapitre « Figures geometriques ». Chacun part desormais d'une
+   situation ou la notion est la SEULE reponse possible : trois gateaux pour
+   quatre personnes (aucun entier ne convient), une porte entrouverte (aucune
+   longueur ne decrit l'ouverture), dix-sept billes pour cinq joueurs (que
+   fait-on des deux qui restent ?). La promesse est donc remontee ici : elle
+   est verifiable chapitre par chapitre. Si un « Decouvrir » devait un jour
+   redevenir une definition, c'est CE paragraphe qu'il faudrait redescendre —
+   pas l'inverse. */
 const AVANT_PROPOS_ELEVE = `Ce manuel rassemble l'ensemble du programme en {N} chapitres indépendants.\\\\[2mm]
 
 Il a été conçu autour d'une idée simple : on ne comprend pas une notion parce qu'on l'a
 lue, mais parce qu'on a vu \\emph{d'où elle vient} et \\emph{à quoi elle sert}. Chaque
-chapitre commence donc par dire de quoi la notion parle et à quoi elle sert, puis
-décompose chaque méthode en étapes que l'on peut suivre une par une.\\\\[2mm]
+chapitre s'ouvre donc sur une question concrète, posée en langage courant avant le moindre
+symbole, puis décompose chaque méthode en étapes que l'on peut suivre une par une.\\\\[2mm]
 
 Les exercices ne sont pas des applications mécaniques. Ils replacent chaque notion dans
 une situation réelle --- un chantier, un plan à l'échelle, une mesure impossible à faire
@@ -160,10 +168,10 @@ où l'on risque de trébucher vaut souvent mieux qu'une règle de plus.\\\\[4mm]
 const AVANT_PROPOS_PROF = `Cette édition reprend l'intégralité du manuel de l'élève --- {N} chapitres
 indépendants --- et y ajoute ce qui ne figure pas dans l'édition élève.\\\\[2mm]
 
-Chaque chapitre commence par dire de quoi la notion parle et à quoi elle sert, puis
-décompose chaque méthode en étapes projetables telles quelles. Les exercices replacent la
-notion dans une situation réelle --- un chantier, un plan à l'échelle, une mesure
-impossible à faire directement.\\\\[2mm]
+Chaque chapitre s'ouvre sur une question concrète, posée en langage courant avant le moindre
+symbole et utilisable telle quelle en accroche de séance, puis décompose chaque méthode en
+étapes projetables. Les exercices replacent la notion dans une situation réelle --- un
+chantier, un plan à l'échelle, une mesure impossible à faire directement.\\\\[2mm]
 
 S'y ajoutent, pour vous : les objectifs et la place de chaque chapitre dans le programme,
 une page d'erreurs fréquentes dont chaque remédiation renvoie à un exercice précis du

@@ -225,3 +225,44 @@ test('le viewBox lu est celui du <svg>, pas celui d un marqueur', () => {
     '<line class="axis" x1="0" y1="0" x2="1" y2="0"></line>');
   assert.match(t, /x=0\.3333mm/);
 });
+
+/* Defaut releve par l'audit et corrige le 2026-09-13 : zonesRemplies n'etait
+   alimente que par les <rect>. L'etiquette « h » de la hauteur d'un triangle,
+   posee A L'INTERIEUR du triangle, gardait donc son fill=white et deposait une
+   petite tache claire sur l'aplat teinte. */
+test('une etiquette posee dans un polygone teinte ne porte pas de fond blanc', () => {
+  const t = tikz('<polygon points="0,0 200,0 100,150" fill="#eef"></polygon>' +
+    '<text class="annotation-label" x="100" y="100">h</text>');
+  assert.ok(!/fill=white/.test(t), 'pas de reserve dans un polygone rempli');
+});
+
+test('une etiquette hors du polygone garde sa reserve blanche', () => {
+  /* Le point (10, 140) est DANS la boite englobante du triangle mais DEHORS du
+     triangle lui-meme. Un test de bornes l'aurait prive de reserve : c'est
+     precisement pourquoi la zone est stockee avec ses sommets et testee par
+     lancer de rayon. */
+  const t = tikz('<polygon points="0,0 200,0 100,150" fill="#eef"></polygon>' +
+    '<text class="annotation-label" x="10" y="140">B</text>');
+  assert.match(t, /fill=white/, 'hors du triangle, la reserve reste necessaire');
+});
+
+test('un polygone SANS aplat ne prive personne de reserve blanche', () => {
+  const t = tikz('<polygon class="frame-line" points="0,0 200,0 100,150"></polygon>' +
+    '<text class="annotation-label" x="100" y="100">h</text>');
+  assert.match(t, /fill=white/, 'un contour seul n est pas un aplat');
+});
+
+test('une polyline remplie n est pas traitee comme une surface', () => {
+  // Une ligne brisee n'est pas un aplat, meme quand le SVG lui laisse un fill.
+  const t = tikz('<polyline points="0,0 200,0 100,150" fill="#eef"></polyline>' +
+    '<text class="annotation-label" x="100" y="100">h</text>');
+  assert.match(t, /fill=white/);
+});
+
+test('l ordre du SVG est respecte : un aplat pose APRES l etiquette ne la prive de rien', () => {
+  // Dans un SVG, ce qui vient apres recouvre : l'etiquette serait cachee de
+  // toute facon, et lui retirer sa reserve n'y changerait rien.
+  const t = tikz('<text class="annotation-label" x="100" y="100">h</text>' +
+    '<polygon points="0,0 200,0 100,150" fill="#eef"></polygon>');
+  assert.match(t, /fill=white/);
+});

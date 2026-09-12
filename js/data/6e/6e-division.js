@@ -13,9 +13,18 @@ window.MODULES.push({
     physics: false,
 
     cours: {
-      intro: 'La division répond à la question : « Combien de fois $b$ tient-il dans $a$ ? » La <strong>division euclidienne</strong> donne un quotient entier et un reste.<br/><br/>' +
-        'La formule fondamentale : $a = b \\times q + r$ avec $0 \\leq r < b$. <strong>Exemple :</strong> $17 = 5 \\times 3 + 2$ — on fait $3$ groupes de $5$ et il reste $2$.<br/><br/>' +
-        'La <strong>division décimale</strong> prolonge le calcul en ajoutant des zéros au reste pour obtenir des décimales. Attention : la division n\'est <strong>pas commutative</strong> ! $12 \\div 4 \\neq 4 \\div 12$.',
+      /* « Decouvrir » reecrit le 2026-09-13. L'ancienne intro posait deja une
+         question, mais une question de cours. Entree retenue : le partage a
+         reste (17 billes entre 5 joueurs). Le reste n'est pas un detail
+         technique, c'est le probleme concret — que fait-on de ce qui reste ?
+         Il appelle la division euclidienne, puis la division decimale quand on
+         remplace les billes par un liquide, qui lui se partage. */
+      intro: 'Dix-sept billes à partager équitablement entre cinq joueurs. Chacun en reçoit trois, et il en reste deux sur la table. Que fait-on de ces deux billes ?<br/><br/>' +
+        'On ne peut pas les couper : une demi-bille ne se joue pas. Le partage s\'arrête donc là, et le résultat honnête comporte deux nombres, pas un seul — trois billes chacun, et deux qui restent.<br/><br/>' +
+        'C\'est ce que dit la <strong>division euclidienne</strong>, qui répond à la question « combien de fois $5$ tient-il dans $17$ ? » en donnant un quotient entier et un reste. On l\'écrit $17 = 5 \\times 3 + 2$, et plus généralement $a = b \\times q + r$ avec $0 \\leq r < b$. Le reste est toujours plus petit que le diviseur : sinon, on pourrait encore distribuer un tour.<br/><br/>' +
+        'Reprenez maintenant la même situation avec $17$ litres de jus au lieu des billes. Le jus, lui, se partage : rien n\'oblige à s\'arrêter à un reste. En prolongeant le calcul au-delà de la virgule, la <strong>division décimale</strong> donne $3{,}4$ litres par personne, sans rien laisser sur la table.<br/><br/>' +
+        '<strong>Une mise en garde pour finir :</strong> contrairement à l\'addition, la division n\'est <strong>pas commutative</strong>. Partager $12$ entre $4$ n\'a rien à voir avec partager $4$ entre $12$ : $12 \\div 4 \\neq 4 \\div 12$.',
+
       definitions: [
         { term: 'Dividende', def: 'Le nombre que l\'on divise. Dans $a \\div b$, $a$ est le dividende.' },
         { term: 'Diviseur', def: 'Le nombre par lequel on divise. Dans $a \\div b$, $b$ est le diviseur.' },

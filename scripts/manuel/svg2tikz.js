@@ -770,6 +770,32 @@ function retirerDefs(svg) {
   return svg.replace(/<defs\b[\s\S]*?<\/defs>/gi, '');
 }
 
+/* Un point tombe-t-il dans un aplat deja pose ? Deux formes de zone :
+   - un rectangle, decrit par ses bornes (x0, y0, x1, y1) ;
+   - un polygone, decrit par ses sommets — teste par lancer de rayon.
+   Ajoute le 2026-09-13 en meme temps que la prise en compte des <polygon> :
+   jusque-la, seuls les rectangles alimentaient zonesRemplies et un simple test
+   de bornes suffisait. */
+function dansLaZone(zone, x, y) {
+  if (!zone.sommets) {
+    return x >= zone.x0 && x <= zone.x1 && y >= zone.y0 && y <= zone.y1;
+  }
+  /* Lancer de rayon (« even-odd ») : on compte les aretes que traverse la
+     demi-droite horizontale partant du point vers la droite. Nombre impair =
+     dedans. Algorithme standard, choisi parce qu'il n'exige ni convexite ni
+     sens de parcours — les triangles rectangles des figures de sixieme sont
+     decrits tantot dans un sens, tantot dans l'autre. */
+  const s = zone.sommets;
+  let dedans = false;
+  for (let i = 0, j = s.length - 1; i < s.length; j = i++) {
+    const [xi, yi] = s[i], [xj, yj] = s[j];
+    if ((yi > y) !== (yj > y) && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) {
+      dedans = !dedans;
+    }
+  }
+  return dedans;
+}
+
 function versTikz(svg, options) {
   const opts = options || {};
   const source = retirerDefs(String(svg == null ? '' : svg));
@@ -819,7 +845,7 @@ function versTikz(svg, options) {
          annotations SUR les traits : sans reserve, le trait barre les chiffres.
          Sur du blanc la reserve ne se voit pas ; dans un aplat elle dessinerait
          un rectangle clair, on l'y supprime donc. */
-      if (!zonesRemplies.some(z => x >= z.x0 && x <= z.x1 && y >= z.y0 && y <= z.y1)) {
+      if (!zonesRemplies.some(z => dansLaZone(z, x, y))) {
         o.push('fill=white');
       }
 
@@ -861,6 +887,24 @@ function versTikz(svg, options) {
       for (let k = 0; k + 1 < n.length; k += 2) sommets.push(pt(n[k], n[k + 1]));
       corps.push('\\draw[' + o + '] ' + sommets.join(' -- ') +
         (nom === 'polygon' ? ' -- cycle' : '') + ';');
+      /* Meme regle que pour <rect>, etendue aux polygones le 2026-09-13 : un
+         polygone teinte est un aplat, les etiquettes qui tombent DEDANS doivent
+         renoncer a leur reserve blanche.
+         Defaut releve par l'audit : l'etiquette « h » de la hauteur d'un
+         triangle est posee a l'interieur du triangle ; elle gardait son
+         fill=white et deposait une petite tache claire sur l'aplat.
+         Seul le <polygon> est retenu, jamais le <polyline> : une ligne brisee
+         n'est pas une surface, meme quand le SVG lui laisse un attribut fill.
+         La zone est stockee avec ses SOMMETS, pas avec sa boite englobante :
+         celle d'un triangle deborde tres largement la surface teintee, et s'en
+         servir priverait de reserve blanche des etiquettes posees a cote du
+         triangle, sur du blanc — on aurait echange une tache contre des
+         chiffres barres par les traits, ce que la reserve existe pour eviter. */
+      if (nom === 'polygon' && fond) {
+        const pts = [];
+        for (let k = 0; k + 1 < n.length; k += 2) pts.push([n[k], n[k + 1]]);
+        zonesRemplies.push({ sommets: pts });
+      }
     } else if (nom === 'path') {
       const trace = cheminVersTikz(a.d || '');
       if (trace) corps.push('\\draw[' + o + '] ' + trace + ';');

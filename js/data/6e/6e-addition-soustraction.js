@@ -13,9 +13,20 @@ window.MODULES.push({
     physics: false,
 
     cours: {
-      intro: 'Additionner et soustraire des décimaux repose sur une règle unique : <strong>aligner les virgules</strong>. Cela garantit que l\'on additionne des grandeurs de même rang.<br/><br/>' +
-        'Si les nombres n\'ont pas le même nombre de décimales, on complète avec des zéros : $8{,}7$ devient $8{,}70$. On calcule ensuite colonne par colonne de droite à gauche.<br/><br/>' +
-        'Pour l\'<strong>addition</strong>, une retenue se propage quand une somme dépasse $9$. Pour la <strong>soustraction</strong>, un emprunt se propage quand le chiffre du haut est plus petit.',
+      /* « Decouvrir » reecrit le 2026-09-13. Le chapitre le plus ingrat du lot :
+         la vraie question n'est pas « comment additionner » mais « pourquoi
+         aligner les virgules et non les bords ». Entree retenue : un calcul de
+         caisse ou le mauvais alignement donne 50 € au lieu de 16,25 € — un
+         resultat visiblement absurde, et surtout REELLEMENT obtenu par la
+         faute decrite (125 + 375), pas invente pour les besoins du recit.
+         L'eleve constate l'erreur AVANT d'apprendre la regle, si bien que la
+         regle arrive comme sa reparation et non comme une consigne. */
+      intro: 'À la caisse, deux articles : $12{,}5$ € et $3{,}75$ €. Tu poses l\'addition en colonnes, comme avec les entiers, en alignant sagement les chiffres sur la droite.<br/><br/>' +
+        'Le chiffre $5$ des dixièmes se retrouve alors sous le $5$ des centièmes : on additionne $125$ et $375$, et l’on annonce $50$ €. Or $12$ € plus $3$ €, cela fait forcément un peu plus de $15$ € — jamais $50$. Pourquoi la méthode qui marchait si bien avec les entiers se met-elle soudain à trahir ?<br/><br/>' +
+        'Parce qu\'en alignant sur la droite, on a additionné des dixièmes avec des centièmes — des grandeurs qui ne sont pas du même rang, comme si l\'on ajoutait des euros à des centimes. Un chiffre ne vaut que par sa position, et l\'addition en colonnes suppose que chaque colonne parle de la même chose.<br/><br/>' +
+        'D\'où la règle unique de ce chapitre : <strong>aligner les virgules</strong>, et non les bords. Les unités se retrouvent alors sous les unités, les dixièmes sous les dixièmes, et le calcul redevient fiable.<br/><br/>' +
+        'Si les nombres n\'ont pas le même nombre de décimales, on complète avec des zéros : $8{,}7$ devient $8{,}70$. On calcule ensuite colonne par colonne, de droite à gauche. Pour l\'<strong>addition</strong>, une retenue se propage quand une somme dépasse $9$ ; pour la <strong>soustraction</strong>, un emprunt se propage quand le chiffre du haut est plus petit.',
+
       definitions: [
         { term: 'Retenue', def: 'Quand la somme d\'une colonne dépasse $9$, on « retient » la dizaine pour la colonne suivante.' },
         { term: 'Emprunt', def: 'En soustraction, quand le chiffre du haut est plus petit, on emprunte $10$ à la colonne de gauche.' },

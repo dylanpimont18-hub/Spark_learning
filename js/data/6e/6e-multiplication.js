@@ -13,9 +13,18 @@ window.MODULES.push({
     physics: false,
 
     cours: {
-      intro: 'Multiplier des décimaux revient à <strong>multiplier des entiers</strong> puis à replacer la virgule au bon endroit.<br/><br/>' +
-        '<strong>Pourquoi ça marche ?</strong> $2{,}3 \\times 1{,}4 = \\dfrac{23}{10} \\times \\dfrac{14}{10} = \\dfrac{23 \\times 14}{100} = \\dfrac{322}{100} = 3{,}22$. Le nombre de décimales du produit est la <strong>somme</strong> des décimales des deux facteurs.<br/><br/>' +
-        '<strong>Estimation rapide</strong> : toujours vérifier l\'ordre de grandeur. $2{,}3 \\times 1{,}4 \\approx 2 \\times 1 = 2$ — le résultat doit être proche de $2$, pas de $0{,}2$ ni de $20$.',
+      /* « Decouvrir » reecrit le 2026-09-13. Entree retenue : le placement de la
+         virgule, seul endroit ou l'eleve se trompe vraiment — et ou l'erreur
+         vaut un facteur 10 ou 100, donc se voit. L'ordre de grandeur denonce
+         l'absurdite (32 € de pommes) avant que la regle ne l'explique. La
+         demonstration par les fractions de l'ancienne intro est conservee :
+         elle etait bonne, elle justifie la regle au lieu de l'asserter. */
+      intro: 'Au marché, $2{,}3$ kg de pommes à $1{,}4$ € le kilo. La caissière annonce $32{,}2$ €. Faut-il payer ?<br/><br/>' +
+        'Sûrement pas. Un rapide coup d\'œil suffit : un peu plus de $2$ kg à un peu plus de $1$ € le kilo, cela doit faire environ $2$ € — pas $32$. Quelqu\'un a bien multiplié $23$ par $14$, mais a oublié de replacer la virgule. Le résultat juste est $3{,}22$ €.<br/><br/>' +
+        'Voilà toute la difficulté de ce chapitre. Multiplier des décimaux revient à <strong>multiplier des entiers</strong>, ce que tu sais déjà faire — puis à replacer la virgule au bon endroit. Et c\'est cette dernière étape, en apparence anodine, qui fait la différence entre $3$ € et $32$ €.<br/><br/>' +
+        '<strong>Pourquoi la virgule tombe-t-elle là ?</strong> Parce que $2{,}3 \\times 1{,}4 = \\dfrac{23}{10} \\times \\dfrac{14}{10} = \\dfrac{23 \\times 14}{100} = \\dfrac{322}{100} = 3{,}22$. Les deux dénominateurs se multiplient, d\'où la règle : le nombre de décimales du produit est la <strong>somme</strong> des décimales des deux facteurs.<br/><br/>' +
+        'Gardez donc le réflexe de la caissière démasquée : <strong>estimer avant de conclure</strong>. Ici $2{,}3 \\times 1{,}4 \\approx 2 \\times 1 = 2$, le résultat doit être proche de $2$ — ni $0{,}2$, ni $20$.',
+
       definitions: [
         { term: 'Produit', def: 'Résultat d\'une multiplication. Le produit de $a$ et $b$ est $a \\times b$.' },
         { term: 'Commutativité', def: '$a \\times b = b \\times a$ : l\'ordre des facteurs n\'a pas d\'importance.' },

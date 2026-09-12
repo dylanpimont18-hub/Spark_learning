@@ -13,9 +13,19 @@ window.MODULES.push({
     physics: false,
 
     cours: {
-      intro: 'Une figure est <strong>symétrique</strong> par rapport à un axe si, en la pliant le long de cet axe, les deux parties se superposent exactement.<br/><br/>' +
-        'La symétrie axiale est une <strong>isométrie</strong> : elle conserve les distances, les angles et les aires. Les figures sont identiques, juste retournées.<br/><br/>' +
-        'Pour construire le symétrique d\'un point $A$ par rapport à un axe $d$, on cherche $A\'$ tel que l\'axe soit la <strong>médiatrice</strong> de $[AA\']$ : l\'axe coupe $[AA\']$ en son milieu et perpendiculairement. Pour un axe vertical $x = k$ : $x_{A\'} = 2k - x_A$ (l\'ordonnée ne change pas). Pour un axe horizontal $y = k$ : $y_{A\'} = 2k - y_A$ (l\'abscisse ne change pas). Cas particuliers : par rapport à l\'axe des ordonnées ($x = 0$), $x_{A\'} = -x_A$ ; par rapport à l\'axe des abscisses ($y = 0$), $y_{A\'} = -y_A$.',
+      /* « Decouvrir » reecrit le 2026-09-13. L'ancienne intro donnait deja le
+         pliage, mais comme DEFINITION. Ici le pliage devient une tache (le
+         pochoir decoupe), et le besoin nait de son impossibilite : sur un
+         cahier on ne plie pas, il faut donc construire. C'est ce manque qui
+         rend la mediatrice utile. Les formules de coordonnees, tres denses,
+         quittent l'intro — elles restent dans Definitions et dans la methode,
+         aucun trou pedagogique n'est cree. */
+      intro: 'Plie une feuille en deux, découpe une forme quelconque le long du pli, puis déplie : tu obtiens un motif dont les deux moitiés se correspondent exactement. C\'est ainsi que l\'on découpe un cœur, un sapin ou un papillon sans avoir à dessiner deux fois la même chose.<br/><br/>' +
+        'Une figure est <strong>symétrique</strong> par rapport à un axe lorsque, pliée le long de cet axe, ses deux parties se superposent. Le pli est l\'axe, et le pliage fait tout le travail.<br/><br/>' +
+        'Seulement voilà : on ne peut pas toujours plier. Sur un cahier, sur un plan, sur un écran, la feuille reste à plat — et il faut pourtant savoir où atterrit chaque point. Comment placer le symétrique d\'un point sans jamais replier la feuille ?<br/><br/>' +
+        'Il suffit d\'observer ce que le pli fait à un point $A$. Son image $A\'$ se retrouve juste en face, de l\'autre côté, à la même distance de l\'axe, et le segment $[AA\']$ traverse l\'axe perpendiculairement. Autrement dit, l\'axe est la <strong>médiatrice</strong> de $[AA\']$ : il le coupe en son milieu et à angle droit.<br/><br/>' +
+        'Cette seule propriété remplace le pliage et permet de tout construire à la règle et à l\'équerre. Et comme le pliage ne déforme rien, la symétrie axiale conserve les longueurs, les angles et les aires : les figures sont identiques, simplement retournées.',
+
       definitions: [
         { term: 'Axe de symétrie', def: 'Droite $d$ telle que la réflexion de la figure par rapport à $d$ donne la même figure.' },
         { term: 'Isométrie', def: 'Transformation qui conserve les distances. La symétrie axiale en est une.' },

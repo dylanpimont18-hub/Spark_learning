@@ -348,18 +348,33 @@ test("l'edition de l'eleve garde son tutoiement", () => {
   assert.ok(/\btu\b/i.test(eleve), "l'edition eleve ne tutoie plus");
 });
 
-test("l'avant-propos ne promet plus une question concrete en ouverture de chapitre", () => {
-  /* Promesse non tenue, relevee le 2026-09-12 : sur les dix chapitres de
-     sixieme, NEUF ouvrent leur « Decouvrir » sur une definition, et le
-     chapitre 1 pose la notation litterale a/b des sa premiere phrase. La
-     promesse figurait a la fois dans l'avant-propos et sur la quatrieme de
-     couverture. A retablir quand les « Decouvrir » seront reecrits. */
-  const tout = O.liminaires(config()) + O.liminaires(config({ professeur: true })) +
-    O.finOuvrage([], config()) + O.couvertureSeparee(config());
-  assert.ok(!/question concr[eè]te/i.test(tout),
-    'la promesse « question concrète » est encore imprimee');
-  assert.ok(!/avant d'introduire le moindre symbole/i.test(tout),
-    'la promesse « avant le moindre symbole » est encore imprimee');
+test("l'avant-propos promet une question concrete en ouverture, dans les deux editions", () => {
+  /* Ce test a d'abord verifie l'INVERSE. La promesse « chaque chapitre s'ouvre
+     sur une question concrete avant d'introduire le moindre symbole » etait
+     fausse au 2026-09-12 : neuf « Decouvrir » sur dix ouvraient sur une
+     definition. Elle avait donc ete retiree du livre, et ce test montait la
+     garde pour qu'elle n'y revienne pas par inadvertance.
+
+     Les neuf « Decouvrir » ont ete reecrits le 2026-09-13 (js/data/6e/), la
+     promesse est donc remontee et le test s'inverse : il verifie desormais
+     qu'elle est bien ENONCEE. Le garde-fou change de sens, il ne disparait
+     pas — un avant-propos qui n'annonce plus ce que le livre fait de mieux
+     serait une regression silencieuse.
+
+     Ce que ce test ne peut PAS verifier : que les « Decouvrir » tiennent
+     effectivement la promesse. Cela vit dans les donnees, pas dans la
+     maquette. Si l'un d'eux redevenait une definition, c'est ici qu'il
+     faudrait redescendre le paragraphe. */
+  for (const [nom, texte] of [['élève', O.liminaires(config())],
+    ['professeur', O.liminaires(config({ professeur: true }))]]) {
+    assert.ok(/question concr[eè]te/i.test(texte),
+      'avant-propos ' + nom + ' : la promesse « question concrète » a disparu');
+    // \s+ et non un espace : le texte source est justifie a la main sur ~95
+    // colonnes, et la coupure tombe entre « moindre » et « symbole ». Un test
+    // qui exige l'espace exact casserait au prochain reflux de paragraphe.
+    assert.ok(/avant le moindre\s+symbole/i.test(texte),
+      'avant-propos ' + nom + ' : « avant le moindre symbole » a disparu');
+  }
 });
 
 test("le mode d'emploi du professeur decrit l'usage en classe, celui de l'eleve son travail", () => {

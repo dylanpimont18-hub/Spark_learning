@@ -13,9 +13,19 @@ window.MODULES.push({
     physics: false,
 
     cours: {
-      intro: 'Un <strong>nombre décimal</strong> s\'écrit avec une partie entière (à gauche de la virgule) et une partie décimale (à droite). Par exemple, $3{,}75$ = 3 unités + 7 dixièmes + 5 centièmes.<br/><br/>' +
-        '<strong>L\'erreur la plus fréquente</strong> : croire que $1{,}12 > 1{,}9$ parce que « $12 > 9$ ». Ce raisonnement ne marche pas avec les décimaux : il faut comparer position par position en partant de la gauche. Les dixièmes ($1$ vs $9$) donnent déjà la réponse : $1{,}9 > 1{,}12$.<br/><br/>' +
-        'Ce concept de <strong>valeur positionnelle</strong> est fondamental : chaque chiffre a une valeur qui dépend de sa position (unités, dixièmes, centièmes…). Plus de chiffres ne veut pas dire plus grand.',
+      /* « Decouvrir » reecrit le 2026-09-13. Chapitre technique : pas d'anecdote
+         plaquee. Entree retenue = la difficulte REELLE qui a fait inventer les
+         decimaux, mesurer entre deux graduations. Le double decimetre est dans
+         la trousse de l'eleve, la question se pose donc vraiment, et aucun
+         entier n'y repond. L'erreur 1,12 > 1,9, qui etait le point fort de
+         l'ancienne intro, est conservee telle quelle. */
+      intro: 'Mesure la longueur de ta trousse avec une règle graduée. Il y a de fortes chances qu\'elle ne tombe pas pile sur une graduation : elle fait plus de $18$ cm, moins de $19$ cm. Que répondre alors ?<br/><br/>' +
+        'Dire « environ $18$ » est insuffisant dès qu\'il faut découper une planche ou commander une pièce. C\'est le problème qu\'ont rencontré, pendant des siècles, tous ceux qui mesuraient : les entiers ne suffisent pas, parce que le monde ne se laisse pas mesurer en nombres ronds.<br/><br/>' +
+        'La solution trouvée est d\'une simplicité redoutable : on continue de couper en dix. Chaque centimètre est partagé en $10$ millimètres, et l\'on écrit ce qui dépasse à droite d\'une virgule. Votre trousse mesure $18{,}4$ cm — c\'est-à-dire $18$ centimètres et $4$ dixièmes.<br/><br/>' +
+        'Un <strong>nombre décimal</strong> a donc une partie entière (à gauche de la virgule) et une partie décimale (à droite). Ainsi $3{,}75$, c\'est $3$ unités $+$ $7$ dixièmes $+$ $5$ centièmes.<br/><br/>' +
+        '<strong>Une vigilance s\'impose aussitôt</strong> : on croit souvent que $1{,}12 > 1{,}9$ parce que « $12 > 9$ ». Ce raisonnement d\'entier ne fonctionne plus ici. Il faut comparer position par position en partant de la gauche : les dixièmes ($1$ contre $9$) tranchent déjà, et $1{,}9 > 1{,}12$.<br/><br/>' +
+        'Tout repose sur la <strong>valeur positionnelle</strong> : la valeur d\'un chiffre dépend de sa place. Avoir plus de chiffres ne veut pas dire être plus grand.',
+
       definitions: [
         { term: 'Partie entière', def: 'Les chiffres à gauche de la virgule. Pour $47{,}35$, la partie entière est $47$.' },
         { term: 'Partie décimale', def: 'Les chiffres à droite de la virgule. Pour $47{,}35$, la partie décimale est $35$ (3 dixièmes et 5 centièmes).' },

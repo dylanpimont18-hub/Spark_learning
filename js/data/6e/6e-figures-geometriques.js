@@ -13,6 +13,14 @@ window.MODULES.push({
     physics: false,
 
     cours: {
+      /* « Decouvrir » NON reecrit le 2026-09-13, volontairement : c'est le seul
+         chapitre du manuel qui tenait deja la promesse de l'avant-propos, et il a
+         servi de modele aux neuf autres. Ce qui le fait fonctionner : il ne decrit
+         pas une situation, il nomme un GESTE que quelqu'un accomplit reellement (le
+         macon qui tend un fil, la pointe du compas qu'on plante) puis identifie ce
+         geste a l'objet mathematique dans la meme phrase — « c'est l'image concrete
+         d'une droite ». Pas de « imagine que… » : l'abstraction est presentee comme
+         la forme epuree d'un acte concret. A ne pas modifier sans raison forte. */
       intro: 'Pour tracer le mur d\'une maison bien droit, un maçon tend un fil entre deux piquets : c\'est l\'image concrète d\'une <strong>droite</strong>. Pour dessiner une roue de vélo, on plante la pointe d\'un compas en un point fixe et on trace tous les points à la même distance : c\'est un <strong>cercle</strong>.<br/><br/>' +
         'En géométrie, tout repose sur quelques objets de base : le <strong>point</strong> (position sans dimension), le <strong>segment</strong> (longueur finie entre deux points), la <strong>droite</strong> (infinie dans les deux sens) et le <strong>cercle</strong> (ensemble de points à égale distance d\'un centre).<br/><br/>' +
         '<strong>Distinction importante :</strong> le segment $[AB]$ a une longueur mesurable ; la droite $(AB)$ est infinie et on la dessine avec des flèches aux extrémités. La demi-droite $[AB)$ est infinie dans un seul sens.<br/><br/>' +

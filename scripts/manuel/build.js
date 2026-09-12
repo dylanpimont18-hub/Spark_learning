@@ -203,16 +203,47 @@ async function construire(cle, options) {
   const prototype = opts.prototype || null;
   const prof = !!opts.professeur || !!prototype;
   const graine = opts.graine || 20260816;
-  /* 18 tirages dans LES DEUX editions depuis le 2026-09-12. L'eleve en recoit
-     desormais EXERCICES_VISIBLES (12) au lieu de 3 : a 3, celui qui travaille
-     seul etait a sec apres trois questions. Le professeur recoit les memes 12,
-     corriges, plus les 6 derniers en banque supplementaire — sa reserve pour
-     les devoirs, la remediation et les groupes avances.
-     18 reste le plafond ou TOUS les modules du college tirent encore des
-     enonces distincts, deduplication comprise (extract.js). Tirer moins cote
-     eleve rendrait les deux editions non superposables : l'exercice 7 du livre
-     de l'eleve ne serait plus l'exercice 7 du livre du professeur. */
-  const tirages = 18;
+  /* TIRAGES — dimensionnement de la banque du professeur (revu le 2026-09-13).
+
+     L'eleve recoit toujours les EXERCICES_VISIBLES (12) premiers tirages,
+     corriges chez le professeur ; TOUT le reste part dans la « Banque
+     d'exercices supplementaires », reservee au professeur. Le partage etait
+     12/6 depuis le 2026-09-12 : un compromis pour ne pas alourdir l'edition
+     eleve, qui n'a plus lieu d'etre depuis que l'edition PROFESSEUR est la
+     cible du travail. L'ordre du tirage est inchange, donc les deux editions
+     restent superposables : l'exercice 7 de l'eleve est l'exercice 7 du
+     professeur.
+
+     Le nombre retenu n'est PAS une constante devinee : c'est un plafond haut
+     (42) que la combinatoire reelle du generateur rabote chapitre par chapitre.
+     extract.js interdit qu'un meme MOULE d'enonce (le texte, nombres masques)
+     ressorte plus de `repetitionsMax` fois ; un chapitre pauvre s'arrete donc
+     de lui-meme bien avant 42.
+
+     Mesure du 2026-09-13, dix chapitres de sixieme, graine du livre :
+       chapitre                 moules  enonces  banque prof
+       perimetres-aires             18       42           30
+       division                     16       42           30
+       figures-geometriques         16       42           30
+       volumes                      14       42           30
+       addition-soustraction        13       39           27
+       fractions                    12       36           24
+       nombres-decimaux             12       36           24
+       symetrie-axiale              12       36           24
+       multiplication               10       30           18
+       angles                        9       27           15
+     Soit 252 enonces de banque pour l'ouvrage, 25,2 par chapitre en moyenne.
+
+     Pourquoi 42 et pas 60 : au-dela, seuls les quatre chapitres les plus
+     riches progressent encore, et uniquement en repetant des moules deja vus
+     trois fois. Pourquoi mesurer les moules et pas les doublons exacts : la
+     deduplication par enonce exact ne sature JAMAIS (les valeurs numeriques
+     sont quasi infiniment combinables) — a 60 tirages, angles rendait 60
+     enonces tous distincts, tires de 9 moules seulement, soit le meme exercice
+     imprime sept fois avec d'autres nombres. C'est cette repetition-la que voit
+     l'enseignant qui feuillette, et c'est elle qu'on plafonne. */
+  const tirages = 42;
+  const repetitionsMax = 3;
 
   const dossier = path.join(SORTIE, cle);
   fs.mkdirSync(dossier, { recursive: true });
@@ -222,7 +253,7 @@ async function construire(cle, options) {
 
   nonMappes.clear();
   const charges = entrees.map((e, rang) => {
-    const r = chargerModule(e.fichier, { graine: graine + rang, tirages });
+    const r = chargerModule(e.fichier, { graine: graine + rang, tirages, repetitionsMax });
     if (!r.validation.ok) throw new Error(e.fichier + ' : ' + r.validation.erreurs.join(' | '));
     return { mod: r.module, exercices: r.exercices, dossier: e.dossier };
   });
