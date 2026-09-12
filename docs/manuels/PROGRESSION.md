@@ -3,11 +3,11 @@
 > Fichier **régénéré par scan** (`node scripts/manuel/progression.js`).
 > Ne pas éditer à la main : toute modification sera écrasée.
 
-**Total : 309 / 391 chapitres intégrés.**
+**Total : 317 / 391 chapitres intégrés.**
 
 ## college-maths — Mathématiques, Collège   [49 / 49]
 
-Graine : `20260816` · 439 pages · gouttière 15.9 mm · dos 26.2 mm · dernière compilation 2026-08-18
+Graine : `20260816` · 439 pages · gouttière 15.9 mm · dos 26.2 mm · dernière compilation 2026-08-28
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -63,7 +63,7 @@ Graine : `20260816` · 439 pages · gouttière 15.9 mm · dos 26.2 mm · derniè
 
 ## college-maths-6e — Mathématiques, Sixième   [10 / 10]
 
-Graine : `20260816` · 99 pages · gouttière 9.5 mm · dos 5.9 mm · dernière compilation 2026-08-18
+Graine : `20260816` · 84 pages · gouttière 9.5 mm · dos 5 mm · dernière compilation 2026-09-11
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -80,7 +80,7 @@ Graine : `20260816` · 99 pages · gouttière 9.5 mm · dos 5.9 mm · dernière 
 
 ## college-maths-5e — Mathématiques, Cinquième   [14 / 14]
 
-Graine : `20260816` · 133 pages · gouttière 9.5 mm · dos 7.9 mm · dernière compilation 2026-08-18
+Graine : `20260816` · 133 pages · gouttière 9.5 mm · dos 7.9 mm · dernière compilation 2026-08-28
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -101,7 +101,7 @@ Graine : `20260816` · 133 pages · gouttière 9.5 mm · dos 7.9 mm · dernière
 
 ## college-maths-4e — Mathématiques, Quatrième   [12 / 12]
 
-Graine : `20260816` · 119 pages · gouttière 9.5 mm · dos 7.1 mm · dernière compilation 2026-08-18
+Graine : `20260816` · 119 pages · gouttière 9.5 mm · dos 7.1 mm · dernière compilation 2026-08-28
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -120,7 +120,7 @@ Graine : `20260816` · 119 pages · gouttière 9.5 mm · dos 7.1 mm · dernière
 
 ## college-maths-3e — Mathématiques, Troisième   [13 / 13]
 
-Graine : `20260816` · 125 pages · gouttière 9.5 mm · dos 7.5 mm · dernière compilation 2026-08-18
+Graine : `20260816` · 125 pages · gouttière 9.5 mm · dos 7.5 mm · dernière compilation 2026-08-28
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -140,7 +140,7 @@ Graine : `20260816` · 125 pages · gouttière 9.5 mm · dos 7.5 mm · dernière
 
 ## lycee-maths — Mathématiques, Lycée   [36 / 36]
 
-Graine : `20260816` · 337 pages · gouttière 15.9 mm · dos 20.1 mm · dernière compilation 2026-08-18
+Graine : `20260816` · 337 pages · gouttière 15.9 mm · dos 20.1 mm · dernière compilation 2026-08-28
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -183,7 +183,7 @@ Graine : `20260816` · 337 pages · gouttière 15.9 mm · dos 20.1 mm · derniè
 
 ## lycee-maths-2nde — Mathématiques, Seconde   [14 / 14]
 
-Graine : `20260816` · 139 pages · gouttière 9.5 mm · dos 8.3 mm · dernière compilation 2026-08-18
+Graine : `20260816` · 139 pages · gouttière 9.5 mm · dos 8.3 mm · dernière compilation 2026-08-28
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -204,7 +204,7 @@ Graine : `20260816` · 139 pages · gouttière 9.5 mm · dos 8.3 mm · dernière
 
 ## lycee-maths-1re — Mathématiques, Première   [10 / 10]
 
-Graine : `20260816` · 105 pages · gouttière 9.5 mm · dos 6.3 mm · dernière compilation 2026-08-18
+Graine : `20260816` · 105 pages · gouttière 9.5 mm · dos 6.3 mm · dernière compilation 2026-08-28
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -221,7 +221,7 @@ Graine : `20260816` · 105 pages · gouttière 9.5 mm · dos 6.3 mm · dernière
 
 ## lycee-maths-tle — Mathématiques, Terminale   [12 / 12]
 
-Graine : `20260816` · 119 pages · gouttière 9.5 mm · dos 7.1 mm · dernière compilation 2026-08-18
+Graine : `20260816` · 119 pages · gouttière 9.5 mm · dos 7.1 mm · dernière compilation 2026-08-28
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -267,7 +267,7 @@ _Jamais compilé._
 
 ## bts-maths — Mathématiques, BTS   [27 / 27]
 
-Graine : `20260816` · 325 pages · gouttière 15.9 mm · dos 19.4 mm · dernière compilation 2026-08-18
+Graine : `20260816` · 335 pages · gouttière 15.9 mm · dos 20 mm · dernière compilation 2026-08-28
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -301,7 +301,7 @@ Graine : `20260816` · 325 pages · gouttière 15.9 mm · dos 19.4 mm · derniè
 
 ## bts-maths-prep — Mathématiques, Remise à niveau   [14 / 14]
 
-Graine : `20260816` · 209 pages · gouttière 12.7 mm · dos 12.5 mm · dernière compilation 2026-08-18
+Graine : `20260816` · 219 pages · gouttière 12.7 mm · dos 13.1 mm · dernière compilation 2026-08-28
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -322,7 +322,7 @@ Graine : `20260816` · 209 pages · gouttière 12.7 mm · dos 12.5 mm · derniè
 
 ## college-physique — Physique-Chimie, Collège   [12 / 12]
 
-Graine : `20260816` · 131 pages · gouttière 9.5 mm · dos 7.8 mm · dernière compilation 2026-08-20
+Graine : `20260816` · 131 pages · gouttière 9.5 mm · dos 7.8 mm · dernière compilation 2026-08-28
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -341,7 +341,7 @@ Graine : `20260816` · 131 pages · gouttière 9.5 mm · dos 7.8 mm · dernière
 
 ## college-physique-4e — Physique-Chimie, Quatrième   [6 / 6]
 
-Graine : `20260816` · 75 pages · gouttière 9.5 mm · dos 4.5 mm · dernière compilation 2026-08-20
+Graine : `20260816` · 75 pages · gouttière 9.5 mm · dos 4.5 mm · dernière compilation 2026-08-28
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -354,7 +354,7 @@ Graine : `20260816` · 75 pages · gouttière 9.5 mm · dos 4.5 mm · dernière 
 
 ## college-physique-3e — Physique-Chimie, Troisième   [6 / 6]
 
-Graine : `20260816` · 71 pages · gouttière 9.5 mm · dos 4.2 mm · dernière compilation 2026-08-20
+Graine : `20260816` · 71 pages · gouttière 9.5 mm · dos 4.2 mm · dernière compilation 2026-08-28
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -367,7 +367,7 @@ Graine : `20260816` · 71 pages · gouttière 9.5 mm · dos 4.2 mm · dernière 
 
 ## lycee-physique — Physique-Chimie, Lycée   [32 / 32]
 
-Graine : `20260816` · 323 pages · gouttière 15.9 mm · dos 19.3 mm · dernière compilation 2026-08-20
+Graine : `20260816` · 323 pages · gouttière 15.9 mm · dos 19.3 mm · dernière compilation 2026-08-28
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -406,7 +406,7 @@ Graine : `20260816` · 323 pages · gouttière 15.9 mm · dos 19.3 mm · derniè
 
 ## lycee-physique-2nde — Physique-Chimie, Seconde   [10 / 10]
 
-Graine : `20260816` · 103 pages · gouttière 9.5 mm · dos 6.1 mm · dernière compilation 2026-08-20
+Graine : `20260816` · 103 pages · gouttière 9.5 mm · dos 6.1 mm · dernière compilation 2026-08-28
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -423,7 +423,7 @@ Graine : `20260816` · 103 pages · gouttière 9.5 mm · dos 6.1 mm · dernière
 
 ## lycee-physique-1re — Physique-Chimie, Première   [11 / 11]
 
-Graine : `20260816` · 121 pages · gouttière 9.5 mm · dos 7.2 mm · dernière compilation 2026-08-20
+Graine : `20260816` · 121 pages · gouttière 9.5 mm · dos 7.2 mm · dernière compilation 2026-08-28
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -441,7 +441,7 @@ Graine : `20260816` · 121 pages · gouttière 9.5 mm · dos 7.2 mm · dernière
 
 ## lycee-physique-tle — Physique-Chimie, Terminale   [11 / 11]
 
-Graine : `20260816` · 123 pages · gouttière 9.5 mm · dos 7.3 mm · dernière compilation 2026-08-20
+Graine : `20260816` · 123 pages · gouttière 9.5 mm · dos 7.3 mm · dernière compilation 2026-08-28
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -459,7 +459,7 @@ Graine : `20260816` · 123 pages · gouttière 9.5 mm · dos 7.3 mm · dernière
 
 ## bts-physique — Physique-Chimie, BTS   [10 / 10]
 
-Graine : `20260816` · 115 pages · gouttière 9.5 mm · dos 6.9 mm · dernière compilation 2026-08-20
+Graine : `20260816` · 115 pages · gouttière 9.5 mm · dos 6.9 mm · dernière compilation 2026-08-28
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -474,20 +474,20 @@ Graine : `20260816` · 115 pages · gouttière 9.5 mm · dos 6.9 mm · dernière
 | physique-bts-cinetique | ✓ | SVG exact |
 | physique-bts-electromagnetisme | ✓ | SVG exact |
 
-## bts-si — Sciences de l'ingénieur, BTS   [0 / 8]
+## bts-si — Sciences de l'ingénieur, BTS   [8 / 8]
 
-_Jamais compilé._
+Graine : `20260816` · 85 pages · gouttière 9.5 mm · dos 5.1 mm · dernière compilation 2026-08-30
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
-| si-bts-mecanique-solides | — | — |
-| si-bts-rdm-avancee | — | — |
-| si-bts-hydraulique | — | — |
-| si-bts-electrotechnique | — | — |
-| si-bts-automatique | — | — |
-| si-bts-capteurs-industriels | — | — |
-| si-bts-cao | — | — |
-| si-bts-gestion-energie | — | — |
+| si-bts-mecanique-solides | ✓ | SVG exact |
+| si-bts-rdm-avancee | ✓ | SVG exact |
+| si-bts-hydraulique | ✓ | SVG exact |
+| si-bts-electrotechnique | ✓ | SVG exact |
+| si-bts-automatique | ✓ | SVG exact |
+| si-bts-capteurs-industriels | ✓ | SVG exact |
+| si-bts-cao | ✓ | SVG exact |
+| si-bts-gestion-energie | ✓ | SVG exact |
 
 ## bts-fed — Fluides, Énergies, Domotique, BTS FED   [0 / 54]
 

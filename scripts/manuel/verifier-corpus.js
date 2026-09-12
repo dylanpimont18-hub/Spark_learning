@@ -17,8 +17,18 @@ function listerModules() {
   (function parcourir(dossier) {
     for (const e of fs.readdirSync(dossier, { withFileTypes: true })) {
       const complet = path.join(dossier, e.name);
-      if (e.isDirectory()) parcourir(complet);
-      else if (e.name.endsWith('.js') && e.name !== 'index.js' && e.name !== 'helpers.js') {
+      // js/data/prof/ n'est pas du corpus : ce sont les fiches professeur
+      // (couche v2), qui declarent window.SPARK_PROF et ne poussent aucun
+      // module — chargerModule() y echouait sur « Aucun module pousse par… ».
+      if (e.isDirectory()) { if (e.name !== 'prof') parcourir(complet); }
+      // figures-exercices.js n'est pas du corpus non plus (2026-09-12) : c'est
+      // une BIBLIOTHEQUE, chargee par extract.js dans le meme contexte que
+      // helpers.js pour que les exercice.generate() puissent y appeler
+      // figureRectangle(), figureTriangle()... Le charger comme un module
+      // echouait sur « FIG_L has already been declared », puisque extract.js
+      // l'avait deja evalue dans le contexte.
+      else if (e.name.endsWith('.js') && e.name !== 'index.js' &&
+               e.name !== 'helpers.js' && e.name !== 'figures-exercices.js') {
         trouves.push(path.relative(RACINE, complet).split(path.sep).join('/'));
       }
     }

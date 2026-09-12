@@ -105,9 +105,13 @@ const SOUS_TITRE_CYCLE = { college: 'Collège', lycee: 'Lycée', bts: 'BTS' };
 
 /* Volumetrie reelle, lue dans l'etat du build de production. Un chiffre faux
    sur une couverture coute plus cher que pas de chiffre du tout : quand
-   l'etat manque, la ligne se compose sans volumetrie. */
-function volumetrie(cle) {
-  const p = path.join(SOURCE, cle, 'etat-eleve.json');
+   l'etat manque, la ligne se compose sans volumetrie.
+
+   L'edition lit SON etat (2026-09-12) : la couverture professeur annoncait
+   « 121 pages », la pagination de l'edition eleve, pour un volume qui en fait
+   166. C'est exactement le chiffre faux que cette fonction devait empecher. */
+function volumetrie(cle, prof) {
+  const p = path.join(SOURCE, cle, prof ? 'etat-prof.json' : 'etat-eleve.json');
   if (!fs.existsSync(p)) return null;
   try {
     const j = JSON.parse(fs.readFileSync(p, 'utf8'));
@@ -163,9 +167,28 @@ function plat(o) {
   // niveau se compose en ardoise et ce sont le bandeau segmente et les
   // pastilles qui portent « toutes les couleurs ».
   const couleurNiveau = solo ? 'a' + annees[0].replace(/[^a-z0-9]/g, '') : 'ardoise';
-  const vol = volumetrie(o.cle);
-  const mascotte = MASCOTTE[o.mat](POSE[o.fam]);
+  const vol = volumetrie(o.cle, o.prof);
   const h = TAILLE[o.fam];
+  // Edition du professeur (2026-09-12) : les deux PDF partageaient titre et
+  // maquette, si bien qu'un acheteur ne pouvait pas dire lequel il avait
+  // recu. Le marqueur est repris a l'identique de platUn() dans ouvrage.js —
+  // deux couvertures qui signalent la meme chose de deux facons differentes,
+  // c'est deja deux collections aux yeux du client.
+  //
+  // Onglet plein et non ligne coloree : l'orange #E67E22 sur le papier
+  // #F8F9FA ne donne que 2,7:1, sous le seuil AA meme pour du texte large ;
+  // en reserve blanche sur aplat orange on remonte a 5,2:1, et un aplat reste
+  // identifiable a la taille d'une vignette la ou un mot colore disparait.
+  const onglet = o.prof
+    ? `  \\fill[orange] (106,${BANDEAU_MM}) rectangle (${LARGEUR_MM},${BANDEAU_MM + 15});
+  \\node[anchor=center,text=white,font=\\bfseries\\fontsize{8}{10}\\selectfont]
+    at (138,${BANDEAU_MM + 7.5}) {\\textls{ÉDITION DU PROFESSEUR}};`
+    : '';
+  // L'onglet occupe le coin bas-droit du bandeau sombre : la mascotte s'y
+  // faisait recouvrir jusqu'au sommet du crane. Sur l'edition professeur elle
+  // passe donc a gauche, ou le motif est le plus calme.
+  const mascotte = MASCOTTE[o.mat](POSE[o.fam]);
+  const ancreMascotte = o.prof ? 'south west] at (10' : 'south east] at (163';
 
   const defs = Object.entries(ANNEE)
     .map(([k, v]) => `\\definecolor{a${k.replace(/[^a-z0-9]/g, '')}}{HTML}{${v.hex}}`).join('\n');
@@ -213,6 +236,7 @@ function plat(o) {
 \\definecolor{ardoise}{HTML}{2C3E50}
 \\definecolor{turquoise}{HTML}{48C9B0}
 \\definecolor{jaune}{HTML}{F4D03F}
+\\definecolor{orange}{HTML}{E67E22}
 \\definecolor{papier}{HTML}{F8F9FA}
 \\definecolor{gris}{HTML}{6C757D}
 ${defs}
@@ -229,7 +253,7 @@ ${defs}
     \\foreach \\g in {90,100,...,${HAUTEUR_MM - TETE_MM}}
       \\draw[${teinteMotif}!20!ardoise,line width=0.3pt] (0,\\g)--(${LARGEUR_MM},\\g);
 ${motif}
-${mascotte ? `    \\node[anchor=south east,inner sep=0pt] at (163,${(BANDEAU_MM - 0.117 * h).toFixed(1)})
+${mascotte ? `    \\node[anchor=${ancreMascotte},${(BANDEAU_MM - 0.117 * h).toFixed(1)})
       {\\includegraphics[height=${h}mm]{${mascotte}}};` : ''}
   \\end{scope}
 ${tete}
@@ -240,6 +264,7 @@ ${tete}
   \\fill[papier] (0,0) rectangle (${LARGEUR_MM},${BANDEAU_MM});
   \\draw[turquoise,line width=1.6pt] (0,${BANDEAU_MM - 0.8})--(85,${BANDEAU_MM - 0.8});
   \\draw[jaune,line width=1.6pt] (85,${BANDEAU_MM - 0.8})--(${LARGEUR_MM},${BANDEAU_MM - 0.8});
+${onglet}
   \\node[anchor=north west,text=ardoise,font=\\bfseries\\fontsize{${CORPS_TITRE[o.mat]}}{${CORPS_TITRE[o.mat] + 3}}\\selectfont,inner sep=0pt]
     at (14,80) {${TITRE[o.mat]}};
   \\node[anchor=north west,text=${couleurNiveau},font=\\bfseries\\fontsize{25}{28}\\selectfont,inner sep=0pt]
@@ -369,13 +394,27 @@ ouvrages réellement compilés, pas des valeurs de maquette.
 }
 
 function main() {
-  const filtre = process.argv.slice(2);
-  const liste = filtre.length ? OUVRAGES.filter(o => filtre.includes(o.cle)) : OUVRAGES;
+  const args = process.argv.slice(2);
+  // --prof : les memes plats, en edition du professeur. Un drapeau plutot que
+  // dix-neuf entrees de plus dans OUVRAGES — la seule difference est l'onglet
+  // et la position de la mascotte, et deux listes a maintenir en parallele
+  // finissent toujours par diverger (2026-09-12).
+  const prof = args.includes('--prof');
+  const filtre = args.filter(a => !a.startsWith('--'));
+  const base = filtre.length ? OUVRAGES.filter(o => filtre.includes(o.cle)) : OUVRAGES;
+  // La cle de sortie porte le suffixe : sans lui, la couverture professeur
+  // ecraserait la couverture eleve du meme ouvrage.
+  const liste = prof
+    ? base.map(o => Object.assign({}, o, { prof: true, cle: o.cle + '-prof' }))
+    : base;
   fs.mkdirSync(SORTIE, { recursive: true });
 
   const ok = [], ko = [];
   for (const o of liste) {
-    fs.writeFileSync(path.join(SORTIE, o.cle + '.tex'), plat(o), 'utf8');
+    // La volumetrie se lit sur l'ouvrage, pas sur la variante d'edition :
+    // « college-maths-6e-prof » n'a pas de dossier d'etat a lui.
+    fs.writeFileSync(path.join(SORTIE, o.cle + '.tex'),
+      plat(Object.assign({}, o, { cle: o.cle.replace(/-prof$/, '') , prof: o.prof })), 'utf8');
     const r = compiler(o.cle);
     if (r.ok) { ok.push(o.cle); console.log('  OK   ' + o.cle + '  (' + Math.round(r.taille / 1024) + ' ko)'); }
     else { ko.push(o.cle); console.log('  ECHEC ' + o.cle + ' : ' + r.motif); }

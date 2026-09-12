@@ -75,13 +75,32 @@ function normaliserExercice(ex) {
   const solution = Array.isArray(ex.solution)
     ? Array.from(ex.solution, (x) => String(x))
     : (ex.solution == null || ex.solution === '' ? [] : [String(ex.solution)]);
+  /* La figure d'exercice (2026-09-12). Ce normaliseur reconstruit l'objet champ
+     par champ : tout champ non recopie ici est SILENCIEUSEMENT PERDU entre le
+     generate() du module et le chapitre LaTeX. C'est ce qui serait arrive a la
+     figure — aucune erreur, juste une figure absente du livre.
+
+     Deux formes acceptees, comme cote site (renderQuestionFigure) : une chaine
+     de SVG brut, ou un objet {svg, caption}. On normalise vers l'objet, pour
+     que chapitre.js n'ait qu'un seul cas a traiter. */
+  let figure = null;
+  if (ex.figure) {
+    const svg = typeof ex.figure === 'string' ? ex.figure : String(ex.figure.svg || '');
+    if (svg) {
+      figure = { svg };
+      const legende = typeof ex.figure === 'object' && ex.figure.caption;
+      if (legende) figure.caption = String(legende);
+    }
+  }
+
   return {
     statement: String(ex.statement || ''),
     answer: ex.answer,
     hint: String(ex.hint || ''),
     solution,
     unit: String(ex.unit || ''),
-    tolerance: typeof ex.tolerance === 'number' ? ex.tolerance : 0
+    tolerance: typeof ex.tolerance === 'number' ? ex.tolerance : 0,
+    figure
   };
 }
 

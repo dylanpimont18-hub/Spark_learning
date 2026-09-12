@@ -10,6 +10,7 @@
    Usage :
      node scripts/manuel/build.js college-maths
      node scripts/manuel/build.js college-maths --prof
+     node scripts/manuel/build.js college-maths --prototype 6e-fractions
      node scripts/manuel/build.js --liste
    ========================================================= */
 
@@ -18,8 +19,9 @@ const path = require('path');
 const cp = require('child_process');
 const { chargerModule, RACINE } = require('./extract.js');
 const { preparerFigures, figureUtilisable } = require('./figures.js');
-const { composerChapitre } = require('./chapitre.js');
+const { composerChapitre, EXERCICES_VISIBLES } = require('./chapitre.js');
 const O = require('./ouvrage.js');
+const P = require('./prof.js');
 const { nonMappes, definirOrigine } = require('./latex.js');
 
 const PDFLATEX = process.env.PDFLATEX || 'C:/Program Files/MiKTeX/miktex/bin/x64/pdflatex.exe';
@@ -149,21 +151,11 @@ const OUVRAGES = {
     accroche: 'Le référentiel BTS Fluides, Énergies, Domotique.' }
 };
 
-const AVANT_PROPOS = `Ce manuel rassemble l'ensemble du programme en {N} chapitres indépendants.\\\\[2mm]
-
-Il a été conçu autour d'une idée simple : on ne comprend pas une notion parce qu'on l'a
-lue, mais parce qu'on a vu \\emph{d'où elle vient} et \\emph{à quoi elle sert}. Chaque
-chapitre s'ouvre donc sur une question concrète avant d'introduire le moindre symbole,
-et chaque méthode est décomposée en étapes que l'on peut suivre une par une.\\\\[2mm]
-
-Les exercices ne sont pas des applications mécaniques. Ils replacent chaque notion dans
-une situation réelle --- un chantier, un plan à l'échelle, une mesure impossible à faire
-directement --- parce que c'est là que les mathématiques prennent leur sens.\\\\[2mm]
-
-Enfin, chaque chapitre signale l'erreur que les élèves commettent le plus souvent. Savoir
-où l'on risque de trébucher vaut souvent mieux qu'une règle de plus.\\\\[4mm]
-
-\\noindent\\textit{Bon travail.}`;
+// L'avant-propos vivait ici ; il est passe dans ouvrage.js le 2026-09-12,
+// avec le reste du texte editorial du livre, pour se decliner par edition.
+// Il y promettait au passage que « chaque chapitre s'ouvre sur une question
+// concrete avant d'introduire le moindre symbole » — ce que le corpus ne tient
+// pas : neuf « Decouvrir » de sixieme sur dix ouvrent sur une definition.
 
 /* Ordre canonique des modules : celui de js/loader.js, pas l'ordre alphabetique. */
 function modulesDeLOuvrage(cle) {
@@ -204,9 +196,23 @@ async function construire(cle, options) {
   const opts = options || {};
   const conf = OUVRAGES[cle];
   if (!conf) throw new Error('Ouvrage inconnu : ' + cle);
-  const prof = !!opts.professeur;
+  // --prototype <module> : l'edition professeur reduite a UN chapitre, avec
+  // le front-matter complet (dont la progression de tout l'ouvrage) et les
+  // annexes, en une seule passe et sans couverture. Sert a valider la
+  // maquette professeur v2 sur PDF avant de rediger les 48 fiches.
+  const prototype = opts.prototype || null;
+  const prof = !!opts.professeur || !!prototype;
   const graine = opts.graine || 20260816;
-  const tirages = prof ? 6 : 3;         // le prof recoit une banque supplementaire
+  /* 18 tirages dans LES DEUX editions depuis le 2026-09-12. L'eleve en recoit
+     desormais EXERCICES_VISIBLES (12) au lieu de 3 : a 3, celui qui travaille
+     seul etait a sec apres trois questions. Le professeur recoit les memes 12,
+     corriges, plus les 6 derniers en banque supplementaire — sa reserve pour
+     les devoirs, la remediation et les groupes avances.
+     18 reste le plafond ou TOUS les modules du college tirent encore des
+     enonces distincts, deduplication comprise (extract.js). Tirer moins cote
+     eleve rendrait les deux editions non superposables : l'exercice 7 du livre
+     de l'eleve ne serait plus l'exercice 7 du livre du professeur. */
+  const tirages = 18;
 
   const dossier = path.join(SORTIE, cle);
   fs.mkdirSync(dossier, { recursive: true });
@@ -221,6 +227,28 @@ async function construire(cle, options) {
     return { mod: r.module, exercices: r.exercices, dossier: e.dossier };
   });
 
+  // Couche professeur v2 : la fiche de chaque module, quand elle existe,
+  // validee contre le module reel et le referentiel de la matiere.
+  const referentiel = P.referentielDe(conf.collection);
+  /* La fiche est chargee dans LES DEUX editions depuis le 2026-09-12 : elle
+     porte les PREREQUIS, qui sont un fait de progression et non un contenu
+     reserve a l'enseignant — le renvoi « ce chapitre s'appuie sur le chapitre
+     6 » s'imprime aussi dans le livre de l'eleve (chapitre.js, defaut 19).
+     Seul le RESTE de la fiche (erreurs frequentes, competences, place dans le
+     programme) demeure reserve a l'edition professeur, qui est la seule a le
+     composer, et la seule a valider la fiche entiere. */
+  for (const item of charges) {
+    item.prof = P.chargerProf(item.mod.id, item.dossier);
+  }
+  if (prof) {
+    const reproches = [];
+    for (const item of charges) {
+      if (item.prof) reproches.push(...P.validerProf(item.prof, item.mod, referentiel, item.exercices));
+    }
+    if (reproches.length) throw new Error('Fiches professeur refusées :\n  - ' + reproches.join('\n  - '));
+    console.log('  ' + charges.filter(c => c.prof).length + ' fiche(s) professeur sur ' + charges.length);
+  }
+
   const figures = preparerFigures(charges.map(c => c.mod));
   const bloquees = Object.entries(figures).filter(([, v]) => !figureUtilisable(v));
   let secTotal = 0, secBloquees = 0;
@@ -233,11 +261,28 @@ async function construire(cle, options) {
   console.log('  ' + (Object.keys(figures).length - bloquees.length) + ' figures retenues, ' +
               bloquees.length + ' bloquees' +
               (secTotal ? ' (+ ' + (secTotal - secBloquees) + ' schemas secondaires retenus, ' +
-               secBloquees + ' bloques — hors garde-fou de publication)' : ''));
+               secBloquees + ' bloques)' : ''));
 
   // Numeroter d'abord : la page d'ouverture d'une partie annonce ses chapitres,
   // elle a donc besoin de connaitre leurs numeros avant d'etre composee.
   charges.forEach((item, i) => { item.numero = i + 1; });
+
+  /* Les prerequis renvoient a d'AUTRES chapitres : ils ne se valident donc
+     qu'ici, une fois les numeros connus. Valides dans les deux editions
+     depuis le 2026-09-12, puisque le renvoi d'ouverture s'imprime desormais
+     aussi pour l'eleve : un renvoi vers un chapitre absent serait pire dans
+     son livre que dans celui du professeur, qui saurait le corriger. */
+  const pb = P.validerPrerequis(charges);
+  if (pb.length) throw new Error('Prérequis refusés :\n  - ' + pb.join('\n  - '));
+
+  // Renvoi d'ouverture de chapitre : les numeros de la fiche, habilles du
+  // titre reel du chapitre vise. La mise en forme appartient a chapitre.js.
+  const titres = new Map(charges.map(it => [it.numero, it.mod.title]));
+  for (const item of charges) {
+    const nums = item.prof && Array.isArray(item.prof.prerequis) ? item.prof.prerequis : [];
+    item.prerequis = nums.map(n => ({ numero: n, titre: titres.get(n) || '' }));
+  }
+
   const parties = [];
   for (const item of charges) {
     let p = parties[parties.length - 1];
@@ -251,25 +296,55 @@ async function construire(cle, options) {
   const corps = [];
   const chapitres = [];
   for (const partie of parties) {
+    const items = prototype ? partie.items.filter(i => i.mod.id === prototype) : partie.items;
+    if (!items.length) continue;
     corps.push(O.ouverturePartie(NIVEAUX[partie.dossier] || partie.dossier,
-      partie.items.map(i => ({ numero: i.numero, titre: i.mod.title }))));
-    for (const item of partie.items) {
+      items.map(i => ({ numero: i.numero, titre: i.mod.title }))));
+    for (const item of items) {
       definirOrigine(item.mod.id);
       corps.push(composerChapitre(item.mod, item.exercices,
-        { professeur: prof, figure: figures[item.mod.id], exercicesVisibles: 3 }));
+        { professeur: prof, figure: figures[item.mod.id],
+          exercicesVisibles: EXERCICES_VISIBLES,
+          // Renvoi d'ouverture : imprime dans les deux editions.
+          prerequis: item.prerequis,
+          // La fiche complete ne sert qu'a l'edition professeur.
+          prof: prof ? (item.prof || null) : null, referentiel }));
       chapitres.push({ mod: item.mod, numero: item.numero, exercices: item.exercices });
     }
   }
+  if (prototype && !chapitres.length) throw new Error('Module inconnu dans cet ouvrage : ' + prototype);
+
+  // Les lignes de progression, calculees une seule fois : la page de
+  // progression et la grille de suivi des notions les partagent (2026-09-12).
+  const lignesProgression = prof ? P.ordonner(charges) : [];
 
   const config = Object.assign({}, conf, {
     professeur: prof, nbChapitres: charges.length, annee: new Date().getFullYear(),
     mention: 'Cours, méthodes, exercices et évaluations',
-    avantPropos: AVANT_PROPOS.replace('{N}', charges.length),
-    exercicesVisibles: 3, logoIcone: LOGO_ICONE, qrCode: QR_CODE,
-    mascotteSparky: MASCOTTE_SPARKY, mascotteLumen: MASCOTTE_LUMEN
+    // Pas d'`avantPropos` ici : le texte est passe dans ouvrage.js le
+    // 2026-09-12, avec le reste du texte editorial (mode d'emploi, back-matter,
+    // quatrieme de couverture), parce qu'il doit se decliner par edition —
+    // l'edition du professeur ne s'adresse pas a l'eleve. Le champ reste
+    // accepte par ouvrage.js : un ouvrage qui voudrait son propre avant-propos
+    // le pose ici et il l'emporte.
+    // Meme valeur qu'au chapitre : la page « Réponses aux exercices »
+    // (ouvrage.js) doit lister exactement les exercices imprimes, pas trois.
+    exercicesVisibles: EXERCICES_VISIBLES, logoIcone: LOGO_ICONE, qrCode: QR_CODE,
+    mascotteSparky: MASCOTTE_SPARKY, mascotteLumen: MASCOTTE_LUMEN,
+    /* Couche professeur v2 : progression de TOUT l'ouvrage (meme en
+       prototype, c'est elle qu'on veut juger), suivi des notions, et grille
+       de suivi de classe en annexe.
+       `ordonner` est appele UNE fois : la progression et le suivi des notions
+       lisent les memes lignes, dans le meme ordre conseille. Deux appels
+       auraient pu diverger le jour ou l'un des deux filtre ses lignes. */
+    progression: prof ? P.progressionLatex(lignesProgression, NIVEAUX) : '',
+    // Le suivi des notions suit immediatement la progression : meme ordre,
+    // meme paysage, l'un pilote l'annee et l'autre la coche (2026-09-12).
+    suiviNotions: prof ? P.suiviNotionsLatex(lignesProgression, NIVEAUX) : '',
+    annexeProf: prof ? P.grilleSuiviClasse(referentiel) : ''
   });
 
-  const nom = cle + (prof ? '-prof' : '-eleve');
+  const nom = cle + (prof ? '-prof' : '-eleve') + (prototype ? '-prototype' : '');
   const ecrire = (gouttiere) => {
     config.gouttiere = gouttiere;
     fs.writeFileSync(path.join(dossier, nom + '.tex'),
@@ -282,6 +357,17 @@ async function construire(cle, options) {
   let r = compiler(dossier, nom, 2);
   const gouttiere = O.gouttierePourPages(r.pages);
   console.log('  passe 1 : ' + r.pages + ' pages -> gouttiere ' + gouttiere + ' mm');
+
+  if (prototype) {
+    // Un prototype se juge a l'ecran : ni gouttiere definitive, ni
+    // couverture, ni copie dans les livrables.
+    console.log('  prototype : ' + r.pages + ' pages, ' + r.erreurs.length + ' erreur(s) LaTeX' +
+      (r.erreurs.length ? ' — ' + r.erreurs[0] : ''));
+    console.log('  ' + path.join(dossier, nom + '.pdf'));
+    return { ouvrage: cle, edition: 'prof-prototype', prototype, pages: r.pages,
+      blocages: r.erreurs.length ? [r.erreurs.length + ' erreur(s) LaTeX : ' + r.erreurs[0]] : [],
+      pdf: path.join(dossier, nom + '.pdf') };
+  }
 
   // Passe 2 : gouttiere definitive
   ecrire(gouttiere);
@@ -316,6 +402,15 @@ async function construire(cle, options) {
   if (nonMappes.size) blocages.push('caracteres Unicode non traduits : ' + [...nonMappes.keys()].join(' '));
   if (bloquees.length) blocages.push(bloquees.length + ' figure(s) sans provenance : ' +
     bloquees.map(([id]) => id).join(', '));
+  // Les schemas SECONDAIRES entrent au garde-fou le 2026-09-12. Ils en etaient
+  // sortis tant qu'ils n'existaient que chez quelques modules BTS ; depuis que
+  // les 10 chapitres de sixieme en portent 3 chacun, ils sont TROIS FOIS plus
+  // nombreux que les figures principales. Un secondaire sans provenance serait
+  // donc l'angle mort le plus probable du controle — et il passait en silence,
+  // la ligne de log le disait elle-meme (« hors garde-fou de publication »).
+  // Meme exigence pour tous : une figure entre dans un livre vendu avec sa
+  // provenance, ou elle n'y entre pas.
+  if (secBloquees) blocages.push(secBloquees + ' schema(s) secondaire(s) sans provenance');
   if (r.erreurs.length) blocages.push(r.erreurs.length + ' erreur(s) LaTeX : ' + r.erreurs[0]);
   if (!r.pages) blocages.push('aucun PDF produit');
 
@@ -359,7 +454,9 @@ if (require.main === module) {
     process.exit(0);
   }
   const cle = args[0];
-  construire(cle, { professeur: args.includes('--prof') })
+  const iProto = args.indexOf('--prototype');
+  construire(cle, { professeur: args.includes('--prof'),
+    prototype: iProto >= 0 ? args[iProto + 1] : null })
     .then(e => process.exit(e.blocages.length ? 1 : 0))
     .catch(e => { console.error('ECHEC : ' + e.message); process.exit(1); });
 }

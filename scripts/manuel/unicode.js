@@ -23,6 +23,10 @@ const MATH = {
 
   '≈':'\\approx','≠':'\\neq','≤':'\\leq','≥':'\\geq','≡':'\\equiv','∝':'\\propto',
   '⊂':'\\subset','⊃':'\\supset','∈':'\\in','∉':'\\notin','⊥':'\\perp','∥':'\\parallel',
+  // U+27C2 « perpendicular » : jumeau visuel de U+22A5 « up tack » ci-dessus, que les
+  // editeurs inserent indifferemment. Sans cette entree le manuel bloque sur un
+  // caractere que rien ne distingue a l'oeil de celui qui passe.
+  '⟂':'\\perp',
   '≃':'\\simeq','≅':'\\cong','∼':'\\sim',
   // Intersection et union : les diagrammes de Venn du corpus ecrivaient le mot
   // « inter » en toutes lettres faute de les trouver ici.

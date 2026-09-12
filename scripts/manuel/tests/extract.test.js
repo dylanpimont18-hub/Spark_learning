@@ -32,6 +32,37 @@ test('les exercices sont normalises : solution toujours en tableau', () => {
   assert.ok(Array.isArray(r.exercices[0].solution));
 });
 
+test('une banque large ne contient aucun enonce en double', () => {
+  // La banque du professeur tire 18 exercices par chapitre. Sans
+  // deduplication, les modules les moins varies en repetaient jusqu'a deux.
+  for (const f of ['js/data/6e/6e-symetrie-axiale.js', 'js/data/6e/6e-volumes.js',
+                   'js/data/6e/6e-figures-geometriques.js', THALES]) {
+    const r = chargerModule(f, { graine: 20260816, tirages: 18 });
+    const enonces = r.exercices.map(e => String(e.statement).trim());
+    assert.strictEqual(new Set(enonces).size, enonces.length,
+      f + ' : ' + (enonces.length - new Set(enonces).size) + ' doublon(s)');
+  }
+});
+
+test('la deduplication ne casse pas le determinisme', () => {
+  const a = chargerModule('js/data/6e/6e-symetrie-axiale.js', { graine: 5, tirages: 18 });
+  const b = chargerModule('js/data/6e/6e-symetrie-axiale.js', { graine: 5, tirages: 18 });
+  assert.deepStrictEqual(a.exercices, b.exercices);
+});
+
+test('le budget borne le tirage au lieu de boucler, et ne rend jamais de doublon', () => {
+  // Le contrat n'est pas « rendre moins » : c'est « terminer, sans doublon ».
+  // Un generateur riche atteint le nombre demande ; un generateur pauvre rend
+  // une banque plus courte. Les deux sont acceptables, une boucle ne l'est pas.
+  for (const f of ['js/data/6e/6e-symetrie-axiale.js', 'js/data/6e/6e-angles.js']) {
+    const r = chargerModule(f, { graine: 1, tirages: 200 });
+    const enonces = r.exercices.map(e => String(e.statement).trim());
+    assert.strictEqual(new Set(enonces).size, enonces.length, f + ' : doublon');
+    assert.ok(r.exercices.length <= 200);
+    assert.ok(r.exercices.length > 20, f + ' : banque trop courte');
+  }
+});
+
 test('un chemin inexistant leve une erreur explicite', () => {
   assert.throws(() => chargerModule('js/data/nexiste-pas.js', { graine: 1, tirages: 1 }),
     /nexiste-pas/);

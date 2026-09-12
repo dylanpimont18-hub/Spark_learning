@@ -56,7 +56,16 @@ const COULEURS_CHARTE = `\\definecolor{ardoise}{HTML}{2C3E50}    % --primary
 % traits de 1,1 pt et des points de 1,7 mm sur du papier blanc : les teintes
 % claires de la charte y disparaissent, on les assombrit sans changer de
 % teinte. La matiere garde ainsi sa couleur de marque, en restant lisible.
-\\colorlet{accentmaths}{ardoise}
+% Maths : bleu franc, et non ardoise comme jusqu'au 2026-09-08. La couleur
+% ardoise est celle du TEXTE (--primary) : a 55 % de teinte, un aplat de figure
+% en sortait gris (#8B959F), si bien que le schema « parts coloriees » du
+% chapitre Fractions n'avait aucune part coloree (audit maquette du
+% 2026-09-08). Les trois autres matieres portaient deja une vraie teinte.
+% Bleu et non turquoise assombri (le premier essai) : turquoise!78!black
+% donne #389D89, indistinguable de accentphysique (#369784) — les deux
+% collections se seraient ressemblees.
+\\definecolor{bleumaths}{HTML}{1F6FB2}
+\\colorlet{accentmaths}{bleumaths}
 \\colorlet{accentphysique}{turquoise!75!black}
 \\colorlet{accentsi}{orfonce}
 \\colorlet{accentfed}{orange!85!black}
@@ -109,6 +118,70 @@ const BANDEAU_MM = 92;
 /* Bandeau de couleur en tete de plat : c'est lui qui porte la ou les teintes
    d'annee, et la marque en reserve blanche. */
 const TETE_MM = 20;
+
+/* L'avant-propos, ecrit ICI et non dans build.js : c'est du texte editorial,
+   il appartient a la maquette du livre au meme titre que le mode d'emploi et
+   la quatrieme de couverture, et il doit se decliner par edition — l'edition
+   du professeur ne s'adresse pas a l'eleve (relecture du 2026-09-12).
+
+   Le texte precedent promettait : « chaque chapitre s'ouvre sur une question
+   concrete avant d'introduire le moindre symbole ». C'etait FAUX, et
+   verifiable : sur les dix chapitres de sixieme, NEUF ouvrent leur
+   « Decouvrir » sur une definition, et le chapitre 1 (Fractions) pose la
+   notation litterale a/b des sa premiere phrase. Un seul chapitre
+   (« Figures geometriques ») part reellement d'une situation — le macon qui
+   tend un fil entre deux piquets pour tracer un mur droit.
+
+   Une promesse que le livre ne tient pas se retourne contre lui des la
+   premiere page. On enonce donc ce que le livre FAIT reellement — dire a quoi
+   la notion sert avant de la faire travailler — sans promettre un ordre
+   d'exposition qu'il ne respecte pas encore. A remonter en promesse le jour ou
+   les « Decouvrir » seront reecrits : la correction de fond appartient aux
+   donnees (js/data/), pas a la maquette. */
+const AVANT_PROPOS_ELEVE = `Ce manuel rassemble l'ensemble du programme en {N} chapitres indépendants.\\\\[2mm]
+
+Il a été conçu autour d'une idée simple : on ne comprend pas une notion parce qu'on l'a
+lue, mais parce qu'on a vu \\emph{d'où elle vient} et \\emph{à quoi elle sert}. Chaque
+chapitre commence donc par dire de quoi la notion parle et à quoi elle sert, puis
+décompose chaque méthode en étapes que l'on peut suivre une par une.\\\\[2mm]
+
+Les exercices ne sont pas des applications mécaniques. Ils replacent chaque notion dans
+une situation réelle --- un chantier, un plan à l'échelle, une mesure impossible à faire
+directement --- parce que c'est là que les mathématiques prennent leur sens.\\\\[2mm]
+
+Enfin, chaque chapitre signale l'erreur que les élèves commettent le plus souvent. Savoir
+où l'on risque de trébucher vaut souvent mieux qu'une règle de plus.\\\\[4mm]
+
+\\noindent\\textit{Bon travail.}`;
+
+/* L'edition du professeur : meme livre, autre lecteur. On lui dit ce qu'il a
+   entre les mains et ce que ce volume ajoute a l'edition eleve — c'est la
+   question qu'il se pose en l'ouvrant — plutot que de l'encourager au travail. */
+const AVANT_PROPOS_PROF = `Cette édition reprend l'intégralité du manuel de l'élève --- {N} chapitres
+indépendants --- et y ajoute ce qui ne figure pas dans l'édition élève.\\\\[2mm]
+
+Chaque chapitre commence par dire de quoi la notion parle et à quoi elle sert, puis
+décompose chaque méthode en étapes projetables telles quelles. Les exercices replacent la
+notion dans une situation réelle --- un chantier, un plan à l'échelle, une mesure
+impossible à faire directement.\\\\[2mm]
+
+S'y ajoutent, pour vous : les objectifs et la place de chaque chapitre dans le programme,
+une page d'erreurs fréquentes dont chaque remédiation renvoie à un exercice précis du
+livre, le corrigé de tous les exercices en regard de leur énoncé, une banque d'énoncés
+supplémentaires absente de l'édition élève, la compétence portée par chaque question
+d'évaluation, la progression annuelle en tête d'ouvrage et une grille de suivi de classe
+à photocopier en fin d'ouvrage.\\\\[2mm]
+
+Rien n'y est prescriptif : l'ordre des chapitres, le découpage en séances et le choix des
+exercices restent les vôtres.`;
+
+/* Le texte de l'edition demandee, avec {N} resolu. `config.avantPropos` reste
+   prioritaire : un ouvrage peut vouloir son propre texte. */
+function avantPropos(config) {
+  if (config.avantPropos) return config.avantPropos;
+  const t = config.professeur ? AVANT_PROPOS_PROF : AVANT_PROPOS_ELEVE;
+  return t.replace('{N}', config.nbChapitres);
+}
 
 function preambule(config) {
   const gouttiere = config.gouttiere || 20;
@@ -166,6 +239,13 @@ ${COULEURS_CHARTE}${MACROS_MARQUE}
 \\newtcolorbox{spexemple}{enhanced,breakable,colback=ardoise!5,colframe=ardoise,
   coltitle=white,boxrule=0.8pt,arc=3pt,left=8pt,right=8pt,
   fonttitle=\\bfseries\\small,title={Exemple résolu}}
+% Meme maquette que spexemple, autre titre. Dans l'edition du professeur, la
+% resolution qui suit un exercice n'est pas un « exemple » : c'est le corrige
+% de cet exercice. Un enseignant qui cherche la reponse au numero 1.4 doit lire
+% « Corrige » au-dessus, pas « Exemple resolu » (relecture du 2026-09-12).
+\\newtcolorbox{spcorrige}{enhanced,breakable,colback=ardoise!5,colframe=ardoise,
+  coltitle=white,boxrule=0.8pt,arc=3pt,left=8pt,right=8pt,
+  fonttitle=\\bfseries\\small,title={Corrigé}}
 \\newtcolorbox{sppiege}{enhanced,breakable,colback=erreur!10,colframe=erreur,
   coltitle=encre,boxrule=0.9pt,arc=3pt,left=8pt,right=8pt,
   fonttitle=\\bfseries\\small,title={Attention — l'erreur classique}}
@@ -175,6 +255,39 @@ ${COULEURS_CHARTE}${MACROS_MARQUE}
 \\newtcolorbox{spprof}[1]{enhanced,breakable,colback=ardoise!7,colframe=ardoise!70,
   coltitle=white,boxrule=0.7pt,arc=3pt,left=8pt,right=8pt,
   fonttitle=\\bfseries\\small,title={#1}}
+% Erreur frequente (edition professeur v2) : la meme teinte que le piege,
+% assombrie pour porter un titre blanc lisible (erreur!75!black passe 4,5:1).
+\\newtcolorbox{sperreur}[1]{enhanced,breakable,colback=erreur!6,colframe=erreur!75!black,
+  coltitle=white,boxrule=0.7pt,arc=3pt,left=8pt,right=8pt,top=5pt,bottom=5pt,
+  fonttitle=\\bfseries\\small,title={#1}}
+\\usepackage{array}
+% needspace : garder un titre avec ce qu'il annonce. Employe par le tableau de
+% progression de l'edition professeur, dont le titre de niveau restait seul en
+% bas de page (edition 6e du 2026-09-12).
+\\usepackage{needspace}
+% longtable : le tableau de progression fait DEUX pages a lui seul (dix
+% chapitres dont les attendus officiels tiennent chacun sept a dix lignes). Un
+% tabular est une boite insecable : LaTeX ne pouvait donc jamais le commencer
+% en cours de page, et le renvoyait entier a la page suivante en laissant
+% derriere lui une page vi quasi vide, titre de niveau compris. \\needspace n'y
+% pouvait rien — il reserve de la place, il ne rend pas une boite secable.
+% longtable coupe le tableau entre deux lignes et rejoue son en-tete en haut de
+% chaque page, ce qui est exactement ce qu'on veut d'un tableau de reference
+% qu'on consulte (edition 6e du 2026-09-12).
+\\usepackage{longtable}
+% pdflscape : la progression annuelle et la grille de suivi des notions de
+% l'edition professeur passent en PAYSAGE (2026-09-12). La page fait
+% 170 x 244 mm ; tournee, elle offre 244 mm de large au lieu de 170, soit
+% ~216 mm utiles contre ~143. Un tableau de pilotage annuel a dix chapitres,
+% deux ordres de lecture, deux colonnes de renvoi et des cases a cocher ne
+% tient pas en portrait : c'est ce qui obligeait la version precedente a
+% comprimer ses colonnes jusqu'a faire deborder ses propres en-tetes.
+% lscape (sans le pdf-) tournerait le contenu SANS poser /Rotate dans le PDF :
+% le lecteur devrait tourner la tete. pdflscape ajoute la rotation de page,
+% donc les deux pages s'affichent droites a l'ecran — decisif pour un manuel
+% diffuse en numerique uniquement (decision du 2026-08-17).
+% Charge APRES geometry, dont il reprend les dimensions de page.
+\\usepackage{pdflscape}
 
 \\titleformat{\\chapter}[display]
   {\\normalfont\\huge\\bfseries\\color{ardoise}}
@@ -187,7 +300,20 @@ ${COULEURS_CHARTE}${MACROS_MARQUE}
 \\fancyhead[LE]{\\small\\color{gris}\\leftmark}
 \\fancyhead[RO]{\\small\\color{gris}\\rightmark}
 \\fancyfoot[C]{\\small\\color{gris}\\thepage}
-\\renewcommand{\\headrulewidth}{0.4pt}
+${config.professeur ? `% Marqueur d'edition en pied de page (2026-09-12). Les deux PDF partagent
+% titre et maquette : un acheteur qui recoit un fichier ne voyait, une fois la
+% couverture passee, plus AUCUN signe de l'edition qu'il a sous les yeux — ni
+% en feuilletant, ni sur une page imprimee isolement, ni sur une photocopie
+% distribuee en classe. Le libelle est donc en pied, sur toutes les pages.
+%
+% Cote exterieur (LE/RO) et non a cote du folio central : le pied central est
+% deja pris, et l'exterieur est le seul emplacement qui reste lisible sur une
+% page rognee. \\footnotesize gris : le marqueur doit se trouver quand on le
+% cherche, pas concurrencer le texte. Gris #6C757D sur papier #F8F9FA donne
+% 4,7:1, au-dessus du seuil AA que le reste du livre respecte — c'est aussi
+% pourquoi ce n'est pas \\scriptsize.
+\\fancyfoot[LE,RO]{\\footnotesize\\color{gris}Édition du professeur}
+` : ''}\\renewcommand{\\headrulewidth}{0.4pt}
 \\renewcommand{\\chaptermark}[1]{\\markboth{#1}{}}
 \\renewcommand{\\sectionmark}[1]{\\markright{#1}}
 
@@ -200,11 +326,13 @@ ${COULEURS_CHARTE}${MACROS_MARQUE}
 % Filet de securite pour les rares lignes qui ne peuvent pas se couper proprement.
 \\emergencystretch=3em
 
-% Les versos laisses blancs ne doivent porter ni filet ni numero.
-\\makeatletter
-\\def\\cleardoublepage{\\clearpage\\if@twoside\\ifodd\\c@page\\else
-  \\hbox{}\\thispagestyle{empty}\\newpage\\if@twocolumn\\hbox{}\\newpage\\fi\\fi\\fi}
-\\makeatother
+% Pas de verso blanc : \\cleardoublepage vaut \\clearpage (2026-09-08). La
+% version precedente inserait une page vide pour faire demarrer chaque section
+% sur une belle page (recto), convention du livre imprime — elle produisait
+% 11 pages blanches sur 111 en sixieme. Les manuels sont diffuses en format
+% numerique uniquement (decision du 2026-08-17) : personne ne tourne un verso.
+% A retablir tel quel si un tirage papier recto-verso est un jour commande.
+\\let\\cleardoublepage\\clearpage
 
 \\begin{document}
 `;
@@ -497,6 +625,106 @@ ${platUn(config, 'current page.south west', 'current page.north east')}
 `;
 }
 
+/* La page « Comment utiliser ce manuel », en DEUX versions.
+
+   Jusqu'au 2026-09-12, l'edition du professeur imprimait la page de l'eleve —
+   tutoiement du debut a la fin (« si tu bloques », « Ce sont les mots qu'il
+   faut employer ») — puis y collait un paragraphe professeur en appendice. Un
+   enseignant lisait donc une page qui ne s'adressait pas a lui, et apprenait
+   ce que SON edition contient a la toute derniere ligne.
+
+   Les deux versions decrivent la MEME structure de chapitre : l'eleve y lit ce
+   qu'il doit en faire, l'enseignant a quoi chaque section lui sert en classe —
+   ce qui se projette, ce qui se donne a la maison, ce qui se ramasse. Les
+   specificites de l'edition professeur sont fondues dans le corps de la liste,
+   a leur place dans le deroule du chapitre, et non en post-scriptum.
+
+   Les couleurs citees doivent correspondre EXACTEMENT au colframe des
+   tcolorbox du preambule (spdef, spexemple, spretenir, sppiege) : ce texte
+   etait fausse jusqu'au 2026-08-17 (bleu/vert/rouge/jaune annonces,
+   turquoise/ardoise/jaune/rouge reels) — un eleve cherchant « l'encadre
+   rouge » pour les formules serait tombe sur le piege. Le mot est colore dans
+   la teinte reelle de la boite ; les accents clairs (turquoise, jaune) sont
+   assombris pour rester lisibles en texte, meme regle que sur la couverture
+   (l'accent jaune brut est illisible en texte, cf. styles.css:3982). */
+function modeDEmploi(prof) {
+  if (!prof) {
+    return `Chaque chapitre suit toujours la même organisation. Une fois que tu l'as comprise, tu
+peux naviguer dans n'importe quel chapitre sans hésiter.\\\\[3mm]
+
+\\begin{description}[leftmargin=0pt,style=nextline,itemsep=5pt]
+  \\item[Découvrir] De quoi parle la notion et à quoi elle sert. À lire avant tout le reste.
+  \\item[Définitions] Les termes exacts, encadrés en \\textcolor{turquoise!55!black}{turquoise}.
+    Ce sont les mots qu'il faut employer.
+  \\item[Méthode] La marche à suivre, décomposée en étapes numérotées.
+  \\item[Exemple résolu] Un cas traité entièrement, encadré en \\textcolor{ardoise}{gris ardoise},
+    avec le détail des calculs.
+  \\item[À retenir] Les formules du chapitre, encadrées en \\textcolor{orfonce}{jaune}.
+    C'est le minimum à mémoriser.
+  \\item[Schéma] La figure du chapitre, accompagnée de sa lecture pas à pas.
+  \\item[Points clés] Le résumé, à relire juste avant un contrôle.
+  \\item[Attention] L'erreur la plus fréquente sur cette notion, encadrée en
+    \\textcolor{erreur!65!black}{rouge}.
+  \\item[Exercices] Des exercices d'application, chacun avec un coup de pouce si tu bloques.
+  \\item[Quiz] Des questions à choix multiples pour vérifier que la notion est comprise.
+  \\item[Problème de synthèse] Un exercice plus long, qui combine plusieurs idées.
+  \\item[Évaluation] Un devoir noté, avec son barème et sa durée.
+\\end{description}
+
+\\vspace{4mm}
+\\noindent Les réponses aux exercices figurent en fin d'ouvrage, ainsi qu'un formulaire
+récapitulatif et un index des notions.`;
+  }
+  return `Tous les chapitres ont la même structure : une fois qu'elle est connue, une séance se
+prépare en feuilletant. Ce qui suit indique à quoi chaque section sert en classe, ce qui
+se projette tel quel et ce qui se donne à faire.\\\\[3mm]
+
+\\begin{description}[leftmargin=0pt,style=nextline,itemsep=5pt]
+  \\item[Objectifs du chapitre] En ouverture, un encadré \\textcolor{ardoise}{gris ardoise}
+    propre à cette édition : les objectifs, les prérequis et la place du chapitre dans le
+    programme de l'année. À lire en préparation, pas en classe.
+  \\item[Découvrir] De quoi parle la notion et à quoi elle sert. Sert d'accroche orale en
+    début de séance, ou de lecture préalable à donner la veille.
+  \\item[Définitions] Les termes exacts, encadrés en \\textcolor{turquoise!55!black}{turquoise} :
+    ce sont ceux du programme. C'est la trace écrite minimale à faire copier.
+  \\item[Méthode] La marche à suivre en étapes numérotées. Projetable telle quelle, et conçue
+    pour être déroulée une étape à la fois au tableau.
+  \\item[Exemple résolu] Un cas traité entièrement, encadré en \\textcolor{ardoise}{gris ardoise} :
+    le calcul modèle à faire devant la classe.
+  \\item[À retenir] Les formules du chapitre, encadrées en \\textcolor{orfonce}{jaune} ---
+    l'encadré à photocopier pour une fiche de révision ou un mémo autorisé en contrôle.
+  \\item[Schéma] La figure du chapitre et sa lecture pas à pas. Vectorielle : elle supporte
+    l'agrandissement au vidéoprojecteur.
+  \\item[Points clés] Le résumé du chapitre, utile en reprise après une absence ou en
+    révision avant l'évaluation.
+  \\item[Attention] L'erreur la plus fréquente sur la notion, encadrée en
+    \\textcolor{erreur!65!black}{rouge}.
+  \\item[Erreurs fréquentes et remédiation] Propre à cette édition, juste après le piège :
+    ce que les élèves écrivent, d'où cela vient, par quoi y répondre, et l'exercice du
+    livre qui sert de remédiation.
+  \\item[Exercices] Les exercices d'application avec leur coup de pouce, chacun corrigé en
+    regard de son énoncé dans un encadré \\textcolor{ardoise}{Corrigé}. Les numéros sont ceux
+    de l'édition élève : un renvoi donné en classe reste valable de part et d'autre.
+  \\item[Énoncés supplémentaires] Une banque d'énoncés absente de l'édition élève, pour les
+    devoirs à la maison, la remédiation et les groupes avancés.
+  \\item[Quiz] Des questions à choix multiples, à faire à main levée en fin de séance ou à
+    donner en auto-évaluation.
+  \\item[Problème de synthèse] Un exercice long combinant plusieurs idées, calibré pour un
+    travail en groupe ou un devoir maison.
+  \\item[Évaluation] Un devoir noté, avec son barème et sa durée. Chaque question porte la
+    compétence du référentiel qu'elle mobilise, totalisée dans une grille sous le sujet.
+\\end{description}
+
+\\vspace{4mm}
+\\noindent La \\textbf{progression annuelle} ouvre l'ouvrage : l'ordre des chapitres, ce sur
+quoi chacun s'appuie et les attendus de fin d'année. La \\textbf{grille de suivi de classe},
+à photocopier, ouvre les annexes, suivie du formulaire, du récapitulatif des réponses et
+de l'index des notions.\\\\[2mm]
+
+\\noindent Rien de tout cela n'est prescriptif : l'ordre des chapitres, le découpage en
+séances et le choix des exercices restent les vôtres.`;
+}
+
 function liminaires(config) {
   const n = config.nbChapitres;
   const prof = config.professeur;
@@ -553,47 +781,16 @@ Composé en Latin Modern. Figures vectorielles.
 \\addcontentsline{toc}{chapter}{Avant-propos}
 \\markboth{Avant-propos}{Avant-propos}
 
-${config.avantPropos}
+${avantPropos(config)}
 \\cleardoublepage
 
 \\chapter*{Comment utiliser ce manuel}
 \\addcontentsline{toc}{chapter}{Comment utiliser ce manuel}
 \\markboth{Comment utiliser ce manuel}{Comment utiliser ce manuel}
 
-Chaque chapitre suit toujours la même organisation. Une fois que tu l'as comprise, tu
-peux naviguer dans n'importe quel chapitre sans hésiter.\\\\[3mm]
-
-% Les quatre couleurs citees doivent correspondre EXACTEMENT au colframe des
-% quatre tcolorbox du preambule (spdef, spexemple, spretenir, sppiege) : ce
-% texte etait fausse jusqu'au 2026-08-17 (bleu/vert/rouge/jaune annonces,
-% turquoise/ardoise/jaune/rouge reels) — un eleve cherchant "l'encadre rouge"
-% pour les formules serait tombe sur le piege a la place. Le mot est colore
-% dans la teinte reelle de la boite ; les accents clairs (turquoise, jaune)
-% sont assombris pour rester lisibles en texte, meme regle que sur la
-% couverture (l'accent jaune brut est illisible en texte, cf. styles.css:3982).
-\\begin{description}[leftmargin=0pt,style=nextline,itemsep=5pt]
-  \\item[Découvrir] La question de départ, en langage courant. À lire avant tout le reste.
-  \\item[Définitions] Les termes exacts, encadrés en \\textcolor{turquoise!55!black}{turquoise}.
-    Ce sont les mots qu'il faut employer.
-  \\item[Méthode] La marche à suivre, décomposée en étapes numérotées.
-  \\item[Exemple résolu] Un cas traité entièrement, encadré en \\textcolor{ardoise}{gris ardoise},
-    avec le détail des calculs.
-  \\item[À retenir] Les formules du chapitre, encadrées en \\textcolor{orfonce}{jaune}.
-    C'est le minimum à mémoriser.
-  \\item[Schéma] La figure du chapitre, accompagnée de sa lecture pas à pas.
-  \\item[Points clés] Le résumé, à relire juste avant un contrôle.
-  \\item[Attention] L'erreur la plus fréquente sur cette notion, encadrée en
-    \\textcolor{erreur!65!black}{rouge}.
-  \\item[Exercices] Trois exercices d'application, chacun avec un coup de pouce si tu bloques.
-  \\item[Quiz] Des questions à choix multiples pour vérifier que la notion est comprise.
-  \\item[Problème de synthèse] Un exercice plus long, qui combine plusieurs idées.
-  \\item[Évaluation] Un devoir noté, avec son barème et sa durée.
-\\end{description}
-
-\\vspace{4mm}
-\\noindent Les réponses aux exercices figurent en fin d'ouvrage, ainsi qu'un formulaire
-récapitulatif et un index des notions.
+${modeDEmploi(prof)}
 \\cleardoublepage
+${config.progression || ''}${config.suiviNotions || ''}
 
 % Chapitre seul : les 9 sous-parties (Decouvrir, Definitions, Methode...) sont
 % identiques d'un chapitre a l'autre et deja detaillees juste au-dessus. Les
@@ -631,11 +828,83 @@ ${liste}
 `;
 }
 
+/* L'argumentaire de quatrieme de couverture, ecrit UNE fois pour les deux
+   endroits qui le portent : la derniere page de l'ouvrage (finOuvrage) et le
+   plat 4 de la couverture imprimeur (couvertureSeparee). Les laisser diverger,
+   c'est vendre deux livres differents selon la face qu'on regarde.
+
+   Deux versions, comme le mode d'emploi et l'avant-propos. Jusqu'au
+   2026-09-12 l'edition du professeur imprimait mot pour mot l'argumentaire de
+   l'eleve : la page qui sert d'argumentaire dans tout livre ne mentionnait
+   AUCUN des contenus qui justifient cette edition (relevé commercial du
+   2026-09-12).
+
+   Deux regles de redaction, l'une et l'autre contre-intuitives.
+
+   1. AUCUN CHIFFRE EN DUR sur le differentiel d'exercices. Le nombre
+      d'enonces de chaque edition est un parametre de build (`tirages` dans
+      build.js, EXERCICES_VISIBLES dans chapitre.js) et il a deja bouge deux
+      fois en une journee — 3 puis 12 exercices en edition eleve le
+      2026-09-12. Un chiffre fige ici serait faux au prochain build, sur la
+      page meme qui sert d'argument de vente. On decrit donc ce qui EXISTE
+      (« une banque d'enonces supplementaires ») sans dire combien. Les
+      chiffres ont leur place sur la fiche produit, qui se recompte a chaque
+      publication (docs/manuels/argumentaire-edition-professeur.md, §7).
+
+   2. AUCUNE REVENDICATION DE SUPERIORITE PEDAGOGIQUE. Le livre du professeur
+      est GRATUIT en numerique chez Lelivrescolaire, Bordas, Hatier, Magnard
+      et Hachette, sur adresse academique. Pretendre faire mieux qu'eux serait
+      faux et se demonterait en une phrase devant un titulaire. Le
+      positionnement est celui de l'ACCES : ce volume s'adresse a qui n'a pas
+      d'adresse academique — contractuels, enseignants de soutien, professeurs
+      particuliers, instruction en famille. D'ou le ton : on enumere ce que le
+      livre contient, sans un superlatif. */
+function quatriemeDeCouverture(config, couleurTexte, couleurTitre) {
+  const t = couleurTexte, a = couleurTitre;
+  if (!config.professeur) {
+    return [
+      `    {\\color{${t}}\\small Chaque chapitre dit d'abord à quoi la notion sert, décompose la`,
+      "    méthode en étapes, traite un exemple en entier, puis propose des exercices, un quiz, un",
+      "    problème de synthèse et une évaluation notée avec son barème.}\\\\[5mm]",
+      `    {\\color{${t}}\\small Un formulaire complet, les réponses aux exercices et un index des`,
+      "    notions figurent en fin d'ouvrage.}"
+    ];
+  }
+  return [
+    `    {\\color{${a}}\\small\\bfseries L'édition du professeur.}\\\\[2mm]`,
+    `    {\\color{${t}}\\small Elle reprend l'intégralité du manuel de l'élève et y ajoute`,
+    "    l'appareil de préparation : une progression annuelle en tête d'ouvrage --- l'ordre des",
+    "    chapitres, ce sur quoi chacun s'appuie, les attendus officiels de fin d'année, sans",
+    "    calendrier ; une banque d'énoncés supplémentaires absente de l'édition élève ; tous les",
+    "    exercices corrigés en étapes sous leur énoncé ; une fiche d'erreurs fréquentes par",
+    "    chapitre, chacune renvoyant à l'exercice qui sert de remédiation ; une compétence du",
+    "    référentiel officiel sur chaque question d'évaluation, totalisée en grille ; et une grille",
+    `    de suivi de classe à photocopier.}\\\\[5mm]`,
+    // La cible, dite en clair. Un titulaire obtient le livre du professeur de
+    // son editeur gratuitement : lui vendre celui-ci serait lui vendre ce
+    // qu'il a deja, et c'est le profil le plus prompt a demander un
+    // remboursement. On nomme donc les lecteurs pour qui l'offre gratuite du
+    // marche est fermee — c'est une information utile a l'acheteur, pas une
+    // formule.
+    `    {\\color{${t}}\\small Conçue pour qui n'a pas accès aux ressources enseignant des éditeurs :`,
+    "    enseignants contractuels ou débutants, professeurs de soutien et particuliers,",
+    "    instruction en famille.}"
+  ];
+}
+
 function finOuvrage(chapitres, config) {
   const o = ['\\backmatter'];
+  // Edition professeur v2 : la grille de suivi de classe ouvre les annexes.
+  if (config.annexeProf) o.push(config.annexeProf);
 
+  /* Formulaire : meme tableau, autre usage. L'eleve y revise, l'enseignant y
+     puise le memo a autoriser en controle — le dire evite qu'il le reconstruise
+     a la main (relecture du 2026-09-12). */
   o.push('\\chapter{Formulaire}', '\\markboth{Formulaire}{Formulaire}',
-    '\\noindent Toutes les formules du manuel, chapitre par chapitre.\\par\\vspace{4mm}');
+    config.professeur
+      ? '\\noindent Toutes les formules du manuel, chapitre par chapitre. Photocopiable tel quel ' +
+        'comme mémo de révision ou aide autorisée en évaluation.\\par\\vspace{4mm}'
+      : '\\noindent Toutes les formules du manuel, chapitre par chapitre.\\par\\vspace{4mm}');
   for (const { mod, numero } of chapitres) {
     const f = mod.cours && mod.cours.formulas;
     if (!f || !f.length) continue;
@@ -644,10 +913,32 @@ function finOuvrage(chapitres, config) {
       '\\vspace{2mm}');
   }
 
-  o.push('\\chapter{Réponses aux exercices}',
-    '\\markboth{Réponses aux exercices}{Réponses aux exercices}',
-    "\\noindent Vérifie ton résultat ici. Si tu ne trouves pas la même chose, reprends le",
-    "coup de pouce de l'exercice avant de regarder la méthode du chapitre.\\par\\vspace{4mm}",
+  /* La page « Reponses aux exercices », en deux versions (relecture du
+     2026-09-12).
+
+     Elle tutoyait l'eleve dans les deux editions (« Verifie ton resultat ici.
+     Si tu ne trouves pas la meme chose... »), et en edition professeur elle
+     faisait de surcroit doublon : tous les exercices y sont deja corriges en
+     place, dans un encadre « Corrige » sous chaque enonce.
+
+     On la GARDE en edition professeur plutot que de la supprimer, mais on
+     change ce qu'elle est. Supprimer aurait coute la seule vue d'ensemble du
+     livre : les corriges sont dispersés chapitre par chapitre, et corriger
+     trois exercices au tableau en revenant d'une seance sur deux oblige a
+     feuilleter. Un recapitulatif compact, une page, sert exactement la ou le
+     corrige detaille ne sert pas — au tableau, en fin de seance. Le cout est
+     nul : le tableau est le meme, seule l'introduction change de destinataire
+     et de fonction. */
+  const titreReponses = config.professeur
+    ? 'Récapitulatif des réponses' : 'Réponses aux exercices';
+  o.push('\\chapter{' + titreReponses + '}',
+    `\\markboth{${titreReponses}}{${titreReponses}}`,
+    config.professeur
+      ? "\\noindent Tous les résultats du livre en un coup d'\\oe{}il, pour corriger au tableau sans " +
+        "feuilleter. Le détail de chaque résolution reste en regard de l'énoncé, dans l'encadré " +
+        '\\textcolor{ardoise}{Corrigé} du chapitre.\\par\\vspace{4mm}'
+      : "\\noindent Vérifie ton résultat ici. Si tu ne trouves pas la même chose, reprends le " +
+        "coup de pouce de l'exercice avant de regarder la méthode du chapitre.\\par\\vspace{4mm}",
     '\\begin{multicols}{2}\\small');
   for (const { mod, numero, exercices } of chapitres) {
     const visibles = exercices.slice(0, config.exercicesVisibles || 3);
@@ -687,11 +978,11 @@ function finOuvrage(chapitres, config) {
     '  \\node[anchor=north,text width=12.4cm,align=left] at ([yshift=-3cm]current page.north) {\\sffamily',
     `    {\\color{jaune}\\bfseries\\large ${L(config.titre)} --- ${L(config.sousTitre)}}\\\\[5mm]`,
     `    {\\color{white}\\normalsize ${L(config.accroche)}}\\\\[7mm]`,
-    "    {\\color{white}\\small Chaque chapitre part d'une question concrète, décompose la méthode",
-    "    en étapes, traite un exemple en entier, puis propose des exercices, un quiz, un problème",
-    "    de synthèse et une évaluation notée avec son barème.}\\\\[5mm]",
-    "    {\\color{white}\\small Un formulaire complet, les réponses aux exercices et un index des",
-    "    notions figurent en fin d'ouvrage.}\\\\[9mm]",
+    // L'argumentaire est ecrit UNE fois, dans quatriemeDeCouverture(), et
+    // sert ici comme sur le plat 4 de la couverture imprimeur. Il se decline
+    // par edition depuis le 2026-09-12 : l'edition du professeur imprimait
+    // jusque-la, mot pour mot, l'argumentaire de l'eleve.
+    ...quatriemeDeCouverture(config, 'white', 'jaune'), '\\\\[9mm]',
     `    {\\color{white}\\small\\mbox{${AUTEUR_LIGNE}}}\\\\[5mm]`,
     `    {\\color{jaune}\\small\\itshape Spark Learning --- ${L(config.collection)}}`,
     '  };',
@@ -740,19 +1031,21 @@ ${COULEURS_CHARTE}${MACROS_MARQUE}\\pagestyle{empty}
     at ([shift={(1.7cm,-3cm)}]current page.north west) {\\sffamily
     {\\color{jaune}\\bfseries\\large ${L(config.titre)} --- ${L(config.sousTitre)}}\\\\[5mm]
     {\\color{white}\\normalsize ${L(config.accroche)}}\\\\[7mm]
-    {\\color{white}\\small Cours, méthodes, exercices corrigés, quiz et évaluations notées.}\\\\[7mm]
+${quatriemeDeCouverture(config, 'white', 'jaune').join('\n')}\\\\[7mm]
     {\\color{jaune}\\small\\mbox{${AUTEUR_LIGNE}}}
   };
   \\node[anchor=south west,text width=13.6cm,align=left]
     at ([shift={(1.7cm,2.2cm)}]current page.south west) {
     \\sparkmarque\\\\[1.5mm]
-    {\\sffamily\\color{white!70}\\scriptsize ${L(config.collection)}}
+    {\\sffamily\\color{white!70}\\scriptsize ${L(config.collection)}}${config.professeur
+      ? ` \\\\\\\\[1.5mm]{\\\\sffamily\\\\color{orange}\\\\scriptsize\\\\bfseries Édition du professeur}` : ''}
   };
   % Dos : ${dos} mm pour ${config.pages} pages. Le titre au centre, la marque
   % au pied — disposition habituelle en librairie, ou le dos est ce qu'on voit.
   \\node[rotate=-90,anchor=center]
     at ([xshift=${(LARGEUR_MM + dos / 2).toFixed(1)}mm]current page.west)
-    {\\sffamily\\color{white}\\small ${L(config.titre)} --- ${L(config.sousTitre)}};
+    {\\sffamily\\color{white}\\small ${L(config.titre)} --- ${L(config.sousTitre)}${config.professeur
+      ? ' \\\\textperiodcentered{} \\\\textcolor{orange}{\\\\bfseries Éd. professeur}' : ''}};
   \\node[rotate=-90,anchor=center]
     at ([shift={(${(LARGEUR_MM + dos / 2).toFixed(1)}mm,-9.2cm)}]current page.west)
     {\\sparkmarque};
