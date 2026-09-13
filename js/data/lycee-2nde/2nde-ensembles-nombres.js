@@ -113,6 +113,147 @@ window.MODULES.push({
         reading: 'Chaque nombre est placé dans l\'anneau le plus intérieur possible : c\'est cet anneau qui donne son ensemble de référence le plus précis.',
         caption: 'Reprend exactement l\'exemple du cours : $7$, $-3$, $\\dfrac{2}{5}$, $\\sqrt{5}$, chacun classé dans $\\mathbb{N}$, $\\mathbb{Z}$, $\\mathbb{Q}$ ou $\\mathbb{R}$ (irrationnel).'
       },
+
+      /* SCHÉMAS SECONDAIRES — ajoutés le 2026-09-13. Ils sont DEUX, et c'est
+         un choix assumé, comme pour le calcul algébrique.
+
+         La fiche professeur liste trois erreurs. Deux se voient :
+           — le crochet ouvert et le crochet fermé, qui ne diffèrent que par
+             UN nombre, invisible dans la notation mais décisif ;
+           — l'intersection et la réunion, qu'un dessin sépare mieux qu'une
+             définition.
+         La troisième — croire qu'un nombre à virgule ne peut pas être
+         rationnel — ne se dessine pas : elle se tranche par un calcul, celui
+         qui transforme $1{,}\overline{3}$ en $\dfrac{4}{3}$. Une figure y
+         serait décorative, et le cahier des charges (section 10) avertit
+         qu'une mise en situation décorative est pire qu'une définition.
+
+         Les coordonnées sont CALCULÉES et vérifiées par
+         scripts/manuel/tests/diagrams-2nde.test.js. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Un seul nombre de différence',
+          title: 'Le crochet se retourne pour un point',
+          description: 'Les deux intervalles ci-dessous occupent la <strong>même</strong> portion de droite. Ils ne diffèrent que par leurs deux extrémités : incluses en haut, exclues en bas.<br/><br/>C\'est peu, et c\'est tout. Le rond plein dit « ce nombre en fait partie », le rond vide dit « il s\'arrête juste avant ».',
+          svg: `
+            <svg viewBox="0 0 460 210" role="img" aria-labelledby="ens-crochets-title ens-crochets-desc">
+              <title id="ens-crochets-title">Un intervalle ferme compare au meme intervalle ouvert</title>
+              <desc id="ens-crochets-desc">Deux droites graduees de zero a huit, de meme echelle et de meme origine. Sur celle du haut, un segment epais joint deux et cinq, et ses deux extremites portent un rond plein : les bornes font partie de l'intervalle, qui se note crochet fermant deux point-virgule cinq crochet fermant. Sur celle du bas, le segment occupe exactement la meme portion, mais ses extremites portent un rond vide : les bornes sont exclues, et l'intervalle se note crochet ouvrant deux point-virgule cinq crochet ouvrant. La seule difference entre les deux dessins est le remplissage des deux ronds.</desc>
+
+              <!-- Echelle COMMUNE : x = 0 a l'abscisse 60, 45 unites de
+                   viewBox par unite. Les deux droites sont rigoureusement
+                   superposables — patron « comparaison » : la seule
+                   difference visible doit etre celle qu'on demontre, ici le
+                   remplissage des ronds. -->
+
+              <!-- DROITE DU HAUT : intervalle FERME. -->
+              <text class="annotation-label" x="60" y="32" text-anchor="start">bornes incluses</text>
+              <line class="axis" x1="50" y1="66" x2="440" y2="66"></line>
+              <line class="grid-line" x1="60" y1="61" x2="60" y2="71"></line>
+              <line class="grid-line" x1="150" y1="61" x2="150" y2="71"></line>
+              <line class="grid-line" x1="240" y1="61" x2="240" y2="71"></line>
+              <line class="grid-line" x1="285" y1="61" x2="285" y2="71"></line>
+              <line class="grid-line" x1="330" y1="61" x2="330" y2="71"></line>
+              <line class="grid-line" x1="420" y1="61" x2="420" y2="71"></line>
+              <text class="tick-label" x="60" y="84" text-anchor="middle">0</text>
+              <text class="annotation-label" x="150" y="84" text-anchor="middle">2</text>
+              <text class="annotation-label" x="285" y="84" text-anchor="middle">5</text>
+              <text class="tick-label" x="420" y="84" text-anchor="middle">8</text>
+              <line class="curve-main" x1="150" y1="66" x2="285" y2="66"></line>
+              <circle class="plot-point" cx="150" cy="66" r="6"></circle>
+              <circle class="plot-point" cx="285" cy="66" r="6"></circle>
+              <text class="annotation-label" x="310" y="60" text-anchor="start">[2 ; 5]</text>
+
+              <!-- DROITE DU BAS : intervalle OUVERT. Memes abscisses. -->
+              <text class="label-soft" x="60" y="132" text-anchor="start">bornes exclues</text>
+              <line class="axis" x1="50" y1="166" x2="440" y2="166"></line>
+              <line class="grid-line" x1="60" y1="161" x2="60" y2="171"></line>
+              <line class="grid-line" x1="150" y1="161" x2="150" y2="171"></line>
+              <line class="grid-line" x1="240" y1="161" x2="240" y2="171"></line>
+              <line class="grid-line" x1="285" y1="161" x2="285" y2="171"></line>
+              <line class="grid-line" x1="330" y1="161" x2="330" y2="171"></line>
+              <line class="grid-line" x1="420" y1="161" x2="420" y2="171"></line>
+              <text class="tick-label" x="60" y="184" text-anchor="middle">0</text>
+              <text class="annotation-label" x="150" y="184" text-anchor="middle">2</text>
+              <text class="annotation-label" x="285" y="184" text-anchor="middle">5</text>
+              <text class="tick-label" x="420" y="184" text-anchor="middle">8</text>
+              <line class="curve-main" x1="150" y1="166" x2="285" y2="166"></line>
+              <circle class="plot-point-alt" cx="150" cy="166" r="6"></circle>
+              <circle class="plot-point-alt" cx="285" cy="166" r="6"></circle>
+              <text class="label-soft" x="310" y="160" text-anchor="start">]2 ; 5[</text>
+            </svg>
+          `,
+          notes: [
+            'Le nombre $2$ appartient à $[2\\,;\\,5]$, mais pas à $]2\\,;\\,5[$. C\'est la seule différence entre les deux intervalles, avec celle qui porte sur $5$.',
+            'Retiens le crochet par son orientation : tourné <strong>vers l\'intérieur</strong>, il retient la borne ; tourné vers l\'extérieur, il la laisse dehors.',
+            'Du côté de $+\\infty$ ou de $-\\infty$, le crochet est <strong>toujours</strong> ouvert. L\'infini n\'est pas un nombre : il n\'y a rien à inclure. On n\'écrit donc jamais $[2\\,;\\,+\\infty]$.'
+          ],
+          reading: 'Demande-toi chaque fois : « le nombre écrit au bord fait-il partie de l\'ensemble ? »<br/><br/>Si oui, le rond est plein et le crochet se ferme. Si non, le rond est vide et le crochet s\'ouvre. Un énoncé qui dit « strictement supérieur à $2$ » exclut $2$ : rond vide. « Au moins $2$ » l\'inclut : rond plein.',
+          caption: 'Les intervalles $[2\\,;\\,5]$ et $]2\\,;\\,5[$ couvrent la même portion de droite et ne diffèrent que par leurs deux bornes.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Deux opérations, deux résultats',
+          title: 'Ce qui est commun, ce qui est réuni',
+          description: 'Avec $I = [1\\,;\\,6]$ et $J = [4\\,;\\,9]$, deux questions différentes se posent.<br/><br/>« Dans les <strong>deux</strong> à la fois ? » donne l\'<strong>intersection</strong>, qui est plus petite que chacun. « Dans <strong>l\'un ou l\'autre</strong> ? » donne la <strong>réunion</strong>, qui est plus grande que chacun.',
+          svg: `
+            <svg viewBox="0 0 470 280" role="img" aria-labelledby="ens-inter-title ens-inter-desc">
+              <title id="ens-inter-title">Intersection et reunion de deux intervalles</title>
+              <desc id="ens-inter-desc">Quatre droites graduees de zero a dix, toutes de meme echelle et de meme origine. La premiere porte l'intervalle allant de un a six. La deuxieme porte l'intervalle allant de quatre a neuf. La troisieme porte leur intersection, qui va de quatre a six : c'est la portion ou les deux premiers se chevauchent, et elle est plus courte que chacun d'eux. La quatrieme porte leur reunion, qui va de un a neuf, et elle est plus longue que chacun d'eux.</desc>
+
+              <!-- Echelle COMMUNE aux quatre droites : x = 0 a l'abscisse 60,
+                   38 unites par unite. Sans cette echelle commune, comparer
+                   les longueurs n'aurait aucun sens, et c'est precisement ce
+                   que la figure demande de faire. -->
+
+              <text class="label-soft" x="30" y="42" text-anchor="start">I</text>
+              <line class="axis" x1="52" y1="46" x2="450" y2="46"></line>
+              <line class="curve-main" x1="98" y1="46" x2="288" y2="46"></line>
+              <circle class="plot-point" cx="98" cy="46" r="5"></circle>
+              <circle class="plot-point" cx="288" cy="46" r="5"></circle>
+              <text class="tick-label" x="98" y="36" text-anchor="middle">1</text>
+              <text class="tick-label" x="288" y="36" text-anchor="middle">6</text>
+
+              <text class="label-soft" x="30" y="102" text-anchor="start">J</text>
+              <line class="axis" x1="52" y1="106" x2="450" y2="106"></line>
+              <line class="curve-main" x1="212" y1="106" x2="402" y2="106"></line>
+              <circle class="plot-point" cx="212" cy="106" r="5"></circle>
+              <circle class="plot-point" cx="402" cy="106" r="5"></circle>
+              <text class="tick-label" x="212" y="96" text-anchor="middle">4</text>
+              <text class="tick-label" x="402" y="96" text-anchor="middle">9</text>
+
+              <!-- Les deux verticales de lecture : elles montrent OU commence
+                   et OU finit la zone commune, sans qu'on ait a la calculer. -->
+              <line class="guide-line" x1="212" y1="40" x2="212" y2="172"></line>
+              <line class="guide-line" x1="288" y1="40" x2="288" y2="172"></line>
+
+              <text class="annotation-label" x="30" y="166" text-anchor="start">I ∩ J</text>
+              <line class="axis" x1="52" y1="170" x2="450" y2="170"></line>
+              <line class="curve-main" x1="212" y1="170" x2="288" y2="170"></line>
+              <circle class="plot-point" cx="212" cy="170" r="5"></circle>
+              <circle class="plot-point" cx="288" cy="170" r="5"></circle>
+              <text class="annotation-label" x="250" y="192" text-anchor="middle">[4 ; 6]</text>
+              <text class="label-soft" x="310" y="192" text-anchor="start">dans les deux</text>
+
+              <text class="annotation-label" x="30" y="234" text-anchor="start">I ∪ J</text>
+              <line class="axis" x1="52" y1="238" x2="450" y2="238"></line>
+              <line class="curve-main" x1="98" y1="238" x2="402" y2="238"></line>
+              <circle class="plot-point" cx="98" cy="238" r="5"></circle>
+              <circle class="plot-point" cx="402" cy="238" r="5"></circle>
+              <text class="annotation-label" x="250" y="260" text-anchor="middle">[1 ; 9]</text>
+              <text class="label-soft" x="310" y="260" text-anchor="start">dans l'un ou l'autre</text>
+            </svg>
+          `,
+          notes: [
+            'L\'intersection $I \\cap J = [4\\,;\\,6]$ se lit sur les bornes : elle commence au <strong>plus grand</strong> des deux débuts ($\\max(1\\,;\\,4) = 4$) et finit au <strong>plus petit</strong> des deux fins ($\\min(6\\,;\\,9) = 6$).',
+            'La réunion $I \\cup J = [1\\,;\\,9]$ fait l\'inverse : elle commence au plus petit début et finit à la plus grande fin. Elle ne se simplifie ainsi que parce que les deux intervalles se <strong>chevauchent</strong>.',
+            'Attention : si les intervalles étaient disjoints, comme $[2\\,;\\,6]$ et $[8\\,;\\,10]$, leur réunion ne serait pas un intervalle et devrait s\'écrire avec le symbole $\\cup$ tel quel, sans simplification.'
+          ],
+          reading: 'Un moyen de ne plus les confondre : compare les <strong>longueurs</strong>.<br/><br/>L\'intersection est toujours plus courte que chacun des deux intervalles, puisqu\'elle exige les deux conditions en même temps. La réunion est toujours plus longue, puisqu\'il suffit d\'une seule. Sur le dessin, le troisième trait est le plus court et le quatrième le plus long : si tu obtiens l\'inverse, tu as échangé les deux symboles.',
+          caption: 'Avec $I = [1\\,;\\,6]$ et $J = [4\\,;\\,9]$ : $I \\cap J = [4\\,;\\,6]$ et $I \\cup J = [1\\,;\\,9]$.'
+        }
+      ],
       recap: [
         'Les ensembles s\'emboîtent : $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$.',
         'Un décimal périodique est toujours rationnel ; un irrationnel a une écriture décimale infinie non périodique.',

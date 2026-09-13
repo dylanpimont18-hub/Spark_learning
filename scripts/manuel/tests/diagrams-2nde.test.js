@@ -353,6 +353,100 @@ test('equations, schema 2 : la borne et l ensemble partent du MEME nombre', () =
 });
 
 /* ---------------------------------------------------------------------------
+   2nde-ensembles-nombres — deux schemas ajoutes le 2026-09-13.
+   --------------------------------------------------------------------------- */
+
+const ENS = schemas('2nde-ensembles-nombres');
+
+test('ensembles de nombres : DEUX schemas, et c est un choix assume', () => {
+  /* La troisieme erreur de la fiche — croire qu'un nombre a virgule ne peut
+     pas etre rationnel — se tranche par un CALCUL (1,333... = 4/3) et non par
+     un dessin. Une figure y serait decorative, ce que la section 10 du cahier
+     des charges signale comme pire qu'une definition. */
+  assert.strictEqual(ENS.length, 2, 'deux schemas secondaires, volontairement');
+});
+
+test('ensembles, schema 1 : les deux intervalles couvrent la MEME portion', () => {
+  /* Toute la demonstration tient la : [2;5] et ]2;5[ occupent exactement la
+     meme place, et ne different QUE par le remplissage des ronds. Si les deux
+     segments n'avaient pas les memes abscisses, la figure suggererait une
+     difference de longueur qui n'existe pas. */
+  const svg = ENS[0].svg;
+  const O = 60, S = 45;
+  const segments = balises(svg, 'line').filter((t) => t.includes('curve-main'));
+  assert.strictEqual(segments.length, 2, 'deux segments traces');
+  assert.strictEqual(attr(segments[0], 'x1'), attr(segments[1], 'x1'), 'meme debut');
+  assert.strictEqual(attr(segments[0], 'x2'), attr(segments[1], 'x2'), 'meme fin');
+
+  /* Et ces abscisses sont bien celles de 2 et 5 a l'echelle declaree. */
+  assert.strictEqual((attr(segments[0], 'x1') - O) / S, 2, 'le segment commence a 2');
+  assert.strictEqual((attr(segments[0], 'x2') - O) / S, 5, 'et finit a 5');
+
+  /* Les bornes du HAUT sont pleines (plot-point), celles du BAS vides
+     (plot-point-alt) : c'est la seule difference, et elle doit etre la
+     bonne. Les inverser dirait exactement le contraire de la legende. */
+  const pleins = balises(svg, 'circle').filter((t) => t.includes('class="plot-point"'));
+  const vides = balises(svg, 'circle').filter((t) => t.includes('plot-point-alt'));
+  assert.strictEqual(pleins.length, 2, 'deux bornes incluses en haut');
+  assert.strictEqual(vides.length, 2, 'deux bornes exclues en bas');
+  const yHaut = attr(segments[0], 'y1'), yBas = attr(segments[1], 'y1');
+  for (const t of pleins) assert.strictEqual(attr(t, 'cy'), yHaut, 'les ronds pleins sont en haut');
+  for (const t of vides) assert.strictEqual(attr(t, 'cy'), yBas, 'les ronds vides sont en bas');
+
+  /* Chaque borne est POSEE sur son extremite de segment, pas a cote. */
+  for (const t of [...pleins, ...vides]) {
+    const cx = attr(t, 'cx');
+    assert.ok(cx === attr(segments[0], 'x1') || cx === attr(segments[0], 'x2'),
+      'la borne tombe sur une extremite du segment');
+  }
+});
+
+test('ensembles, schema 2 : intersection plus COURTE, reunion plus LONGUE', () => {
+  /* C'est le moyen mnemotechnique que la lecture propose a l'eleve. Si les
+     longueurs dessinees ne le verifiaient pas, la figure contredirait son
+     propre texte. */
+  const svg = ENS[1].svg;
+  const O = 60, S = 38;
+  const seg = balises(svg, 'line').filter((t) => t.includes('curve-main'))
+    .map((t) => [(attr(t, 'x1') - O) / S, (attr(t, 'x2') - O) / S]);
+  assert.strictEqual(seg.length, 4, 'I, J, I inter J et I union J');
+
+  const [I, J, inter, union] = seg;
+  assert.deepStrictEqual(I, [1, 6], 'I = [1 ; 6]');
+  assert.deepStrictEqual(J, [4, 9], 'J = [4 ; 9]');
+
+  /* Les bornes de l'intersection et de la reunion ne sont pas posees a
+     l'oeil : elles se RECALCULENT a partir de I et J. */
+  assert.deepStrictEqual(inter, [Math.max(I[0], J[0]), Math.min(I[1], J[1])],
+    'l intersection va du plus grand debut au plus petit fin');
+  assert.deepStrictEqual(union, [Math.min(I[0], J[0]), Math.max(I[1], J[1])],
+    'la reunion va du plus petit debut a la plus grande fin');
+
+  const lg = (s) => s[1] - s[0];
+  assert.ok(lg(inter) < lg(I) && lg(inter) < lg(J),
+    'l intersection est plus courte que chacun des deux intervalles');
+  assert.ok(lg(union) > lg(I) && lg(union) > lg(J),
+    'la reunion est plus longue que chacun des deux intervalles');
+
+  /* Les quatre droites partagent la meme echelle et la meme origine : sans
+     cela, comparer des longueurs n'aurait aucun sens. */
+  const axes = balises(svg, 'line').filter((t) => t.includes('class="axis"'));
+  assert.strictEqual(axes.length, 4, 'quatre droites graduees');
+  for (const a of axes) {
+    assert.strictEqual(attr(a, 'x1'), attr(axes[0], 'x1'), 'meme origine');
+    assert.strictEqual(attr(a, 'x2'), attr(axes[0], 'x2'), 'meme etendue');
+  }
+
+  /* Les deux verticales de lecture tombent sur les bornes de
+     l'intersection, sinon elles designeraient autre chose que ce qu'elles
+     pretendent montrer. */
+  const traits = balises(svg, 'line').filter((t) => t.includes('guide-line'));
+  assert.strictEqual(traits.length, 2, 'deux verticales de lecture');
+  const vx = traits.map((t) => (attr(t, 'x1') - O) / S).sort((a, b) => a - b);
+  assert.deepStrictEqual(vx, inter, 'les verticales encadrent l intersection');
+});
+
+/* ---------------------------------------------------------------------------
    2nde-calcul-algebrique — deux schemas ajoutes le 2026-09-13.
    --------------------------------------------------------------------------- */
 
