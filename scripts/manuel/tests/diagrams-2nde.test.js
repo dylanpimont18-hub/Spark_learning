@@ -352,6 +352,139 @@ test('equations, schema 2 : la borne et l ensemble partent du MEME nombre', () =
   assert.ok(exemples.includes(350), '7 est marque a son abscisse exacte');
 });
 
+/* ---------------------------------------------------------------------------
+   2nde-calcul-algebrique — deux schemas ajoutes le 2026-09-13.
+   --------------------------------------------------------------------------- */
+
+const ALG = schemas('2nde-calcul-algebrique');
+
+test('calcul algebrique : DEUX schemas, et c est un choix assume', () => {
+  /* Ce chapitre porte deliberement deux schemas la ou d'autres en portent
+     trois : sa troisieme erreur (oublier le double produit) est deja traitee
+     par la figure PRINCIPALE du chapitre, le carre de cote (x+4) decoupe en
+     quatre aires. Une troisieme figure illustrerait une formule et non un
+     malentendu, ce que la section 9 du cahier des charges proscrit.
+
+     Ce test fige ce choix pour qu'il ne soit pas pris pour un travail
+     interrompu par la vague suivante. */
+  assert.strictEqual(ALG.length, 2, 'deux schemas secondaires, volontairement');
+});
+
+test('calcul algebrique, schema 1 : les deux paraboles sont EXACTES', () => {
+  const svg = ALG[0].svg;
+  const OX = 170, OY = 210, SX = 26, SY = 7;
+  const x = (X) => (X - OX) / SX;
+  const y = (Y) => (OY - Y) / SY;
+
+  const courbes = balises(svg, 'polyline').map((t) => {
+    const pts = (t.match(/\bpoints="([^"]*)"/) || [])[1];
+    return pts.trim().split(/\s+/).map((p) => p.split(',').map(Number));
+  });
+  assert.strictEqual(courbes.length, 2, 'les deux paraboles sont tracees');
+
+  /* Chaque point doit verifier sa definition. Une parabole tracee a l'oeil
+     rate son sommet sans que personne ne le voie ; c'est exactement le
+     defaut que le calcul doit attraper. */
+  for (const [k, f] of [[0, (v) => v * v + 9], [1, (v) => v * v - 9]]) {
+    let pire = 0;
+    for (const [X, Y] of courbes[k]) {
+      pire = Math.max(pire, Math.abs(y(Y) - f(x(X))));
+    }
+    assert.ok(pire < 0.005, 'courbe ' + (k + 1) + ' : ecart max ' + pire + ' unite a sa definition');
+  }
+
+  /* Les deux courbes occupent les MEMES abscisses : sans cela, la
+     comparaison de leurs positions par rapport a l'axe n'aurait pas de sens. */
+  assert.strictEqual(courbes[0].length, courbes[1].length, 'meme nombre de points');
+  for (let i = 0; i < courbes[0].length; i++) {
+    assert.strictEqual(courbes[0][i][0], courbes[1][i][0], 'memes abscisses');
+  }
+});
+
+test('calcul algebrique, schema 1 : une courbe touche l axe, l autre jamais', () => {
+  /* C'est la seule chose que la figure pretend demontrer. Si la somme de
+     carres frolait l'axe, ou si la difference ne le coupait pas exactement en
+     -3 et 3, le dessin contredirait sa propre legende. */
+  const svg = ALG[0].svg;
+  const OY = 210, SY = 7, OX = 170, SX = 26;
+  const courbes = balises(svg, 'polyline').map((t) => {
+    const pts = (t.match(/\bpoints="([^"]*)"/) || [])[1];
+    return pts.trim().split(/\s+/).map((p) => p.split(',').map(Number));
+  });
+
+  /* x^2 + 9 : toutes ses ordonnees sont STRICTEMENT au-dessus de l'axe
+     (donc d'ordonnee de viewBox strictement inferieure a 210). */
+  for (const [, Y] of courbes[0]) {
+    assert.ok(Y < OY, 'la somme de carres ne descend jamais jusqu a l axe');
+  }
+  /* Et son minimum vaut exactement 9, sur la graduation correspondante. */
+  const minSomme = Math.max(...courbes[0].map((p) => p[1]));
+  assert.strictEqual((OY - minSomme) / SY, 9, 'le minimum de x^2+9 vaut 9');
+
+  /* x^2 - 9 : elle traverse, donc elle a des points de part et d'autre. */
+  assert.ok(courbes[1].some((p) => p[1] < OY), 'la difference passe au-dessus de l axe');
+  assert.ok(courbes[1].some((p) => p[1] > OY), 'et au-dessous');
+
+  /* Les deux racines marquees tombent exactement sur -3 et 3, ET sur l'axe. */
+  const racines = balises(svg, 'circle')
+    .filter((t) => t.includes('plot-point-alt'))
+    .map((t) => [attr(t, 'cx'), attr(t, 'cy')]);
+  assert.strictEqual(racines.length, 2, 'deux racines marquees');
+  const abscisses = racines.map((p) => (p[0] - OX) / SX).sort((a, b) => a - b);
+  assert.deepStrictEqual(abscisses, [-3, 3], 'les racines valent -3 et 3');
+  for (const [, cy] of racines) {
+    assert.strictEqual(cy, OY, 'une racine est POSEE sur l axe, pas a cote');
+  }
+  /* Et ce sont bien des racines de x^2 - 9. */
+  for (const a of abscisses) assert.strictEqual(a * a - 9, 0, 'racine verifiee par le calcul');
+});
+
+test('calcul algebrique, schema 2 : les deux chemins sont symetriques', () => {
+  /* Patron « comparaison » : les deux colonnes doivent avoir la meme largeur
+     de boites et les memes hauteurs, sans quoi le dessin suggererait qu'un
+     chemin est plus long que l'autre AVANT qu'on les ait lus. */
+  const svg = ALG[1].svg;
+  const cadres = balises(svg, 'rect').filter((t) => t.includes('frame-line'));
+  const depart = cadres.filter((t) => attr(t, 'y') === 20);
+  assert.strictEqual(depart.length, 1, 'un seul point de depart, commun');
+
+  const gauche = cadres.filter((t) => attr(t, 'x') === 30);
+  const droite = cadres.filter((t) => attr(t, 'x') === 250);
+  assert.strictEqual(gauche.length, 2, 'deux etapes a gauche');
+  assert.strictEqual(droite.length, 2, 'deux etapes a droite');
+
+  for (let i = 0; i < 2; i++) {
+    assert.strictEqual(attr(gauche[i], 'width'), attr(droite[i], 'width'),
+      'les boites de meme rang ont la meme largeur');
+    assert.strictEqual(attr(gauche[i], 'y'), attr(droite[i], 'y'),
+      'les boites de meme rang sont a la meme hauteur');
+  }
+
+  /* Les deux colonnes sont centrees symetriquement autour du depart. */
+  const xDepart = attr(depart[0], 'x') + attr(depart[0], 'width') / 2;
+  const cg = attr(gauche[0], 'x') + attr(gauche[0], 'width') / 2;
+  const cd = attr(droite[0], 'x') + attr(droite[0], 'width') / 2;
+  assert.strictEqual(xDepart - cg, cd - xDepart, 'les deux chemins sont symetriques');
+});
+
+test('calcul algebrique, schema 2 : les solutions annoncees sont VRAIES', () => {
+  /* Une figure qui affiche une solution fausse est pire qu'une figure
+     absente. On revient donc a l'equation. */
+  const racines = [1.5, -5];
+  for (const r of racines) {
+    /* On teste la NULLITE, pas l'identite avec +0 : (2*(-5)-3)*(-5+5) vaut
+       -0 en virgule flottante, et strictEqual(-0, 0) echoue. Le produit est
+       pourtant bien nul, ce que === 0 constate correctement. */
+    assert.ok((2 * r - 3) * (r + 5) === 0, r + ' annule bien le produit');
+  }
+  /* Et la forme developpee affichee doit etre la bonne : (2x-3)(x+5)
+     developpe donne 2x^2 + 7x - 15. */
+  for (const v of [-3, -1, 0, 2, 4.5]) {
+    assert.strictEqual((2 * v - 3) * (v + 5), 2 * v * v + 7 * v - 15,
+      'le developpement affiche est exact en x = ' + v);
+  }
+});
+
 test('equations, schema 3 : les barres sont proportionnelles aux euros', () => {
   /* La figure compare deux depenses a un budget. Si les longueurs n'etaient
      pas exactement proportionnelles aux montants, le depassement dessine

@@ -111,6 +111,150 @@ window.MODULES.push({
         reading: 'Repère les deux rectangles du milieu (aire $4x$ chacun) : ensemble, ils forment le terme croisé $2ab = 8x$ de la formule.',
         caption: 'Décomposition géométrique de $(x+4)^2$ reprenant l\'exemple du cours (méthode, étape 2) : $x^2 + 8x + 16$.'
       },
+
+      /* SCHÉMAS SECONDAIRES — ajoutés le 2026-09-13. Ils sont DEUX, et non
+         trois, et c'est un choix assumé.
+
+         Le cahier des charges (section 9) pose « une figure par malentendu,
+         pas une figure par formule », et le cadrage de la vague signale ce
+         chapitre comme l'un des moins demandeurs en figures. La fiche
+         professeur y liste trois erreurs :
+           1. oublier le double produit — DÉJÀ traitée, et mieux qu'un schéma
+              secondaire ne le ferait, par la figure principale du chapitre :
+              le carré de côté (x+4) découpé en quatre aires montre le terme
+              croisé comme une surface qu'on peut compter ;
+           2. factoriser une somme de deux carrés — traitée ci-dessous, par la
+              raison de fond : une somme de carrés ne s'annule jamais ;
+           3. développer quand il fallait garder la forme factorisée — traitée
+              ci-dessous, par les deux chemins mis côte à côte.
+
+         Ajouter une troisième figure obligerait donc à illustrer une formule
+         plutôt qu'un malentendu, ce que le cahier des charges proscrit
+         explicitement. Deux figures suffisent ici, et il vaut mieux le dire
+         que de faire du chiffre.
+
+         Les coordonnées sont CALCULÉES et vérifiées par
+         scripts/manuel/tests/diagrams-2nde.test.js. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Pourquoi le signe moins compte',
+          title: 'Une somme de carrés ne touche jamais l\'axe',
+          description: 'L\'identité $a^2 - b^2 = (a+b)(a-b)$ n\'a pas de jumelle pour la somme, et ce n\'est pas un oubli du programme.<br/><br/>Factoriser en deux facteurs du premier degré, c\'est exhiber deux valeurs qui annulent l\'expression. Regarde les deux courbes : celle de $x^2 - 9$ coupe l\'axe en $-3$ et $3$ — ses deux racines. Celle de $x^2 + 9$ ne le touche <strong>nulle part</strong>.',
+          svg: `
+            <svg viewBox="0 0 340 300" role="img" aria-labelledby="alg-somme-title alg-somme-desc">
+              <title id="alg-somme-title">Une somme de carres comparee a une difference de carres</title>
+              <desc id="alg-somme-desc">Dans un meme repere, deux paraboles de meme forme sont tracees l'une au-dessus de l'autre. Celle du bas represente x au carre moins neuf : elle traverse l'axe horizontal en deux points, d'abscisses moins trois et trois, et son point le plus bas se situe a l'ordonnee moins neuf. Celle du haut represente x au carre plus neuf : elle reste entierement au-dessus de l'axe horizontal, son point le plus bas se situant a l'ordonnee neuf, et elle ne rencontre donc l'axe en aucun point.</desc>
+
+              <!-- Repere : x = 0 a l'abscisse 170, y = 0 a l'ordonnee 210.
+                   26 unites de viewBox par unite d'abscisse, 7 par unite
+                   d'ordonnee. Les deux courbes partagent RIGOUREUSEMENT ce
+                   repere : c'est le patron « comparaison », ou la seule
+                   difference visible doit etre celle qu'on demontre. -->
+              <line class="grid-line" x1="92" y1="30" x2="92" y2="285"></line>
+              <line class="grid-line" x1="248" y1="30" x2="248" y2="285"></line>
+              <line class="grid-line" x1="60" y1="147" x2="285" y2="147"></line>
+              <line class="grid-line" x1="60" y1="273" x2="285" y2="273"></line>
+
+              <line class="axis" x1="56" y1="210" x2="290" y2="210"></line>
+              <line class="axis" x1="170" y1="288" x2="170" y2="26"></line>
+              <text class="axis-label" x="294" y="214">x</text>
+              <text class="axis-label" x="175" y="24">y</text>
+
+              <text class="tick-label" x="92" y="224" text-anchor="middle">-3</text>
+              <text class="tick-label" x="248" y="224" text-anchor="middle">3</text>
+              <text class="tick-label" x="164" y="151" text-anchor="end">9</text>
+              <text class="tick-label" x="164" y="277" text-anchor="end">-9</text>
+
+              <!-- Courbe du HAUT : y = x carre + 9, de -4 a 4 par pas de 0,25.
+                   Calculee point par point, jamais tracee a la main. -->
+              <polyline class="curve-main" fill="none" points="66.00,35.00 72.50,48.56 79.00,61.25 85.50,73.06 92.00,84.00 98.50,94.06 105.00,103.25 111.50,111.56 118.00,119.00 124.50,125.56 131.00,131.25 137.50,136.06 144.00,140.00 150.50,143.06 157.00,145.25 163.50,146.56 170.00,147.00 176.50,146.56 183.00,145.25 189.50,143.06 196.00,140.00 202.50,136.06 209.00,131.25 215.50,125.56 222.00,119.00 228.50,111.56 235.00,103.25 241.50,94.06 248.00,84.00 254.50,73.06 261.00,61.25 267.50,48.56 274.00,35.00"></polyline>
+              <circle class="plot-point" cx="170" cy="147" r="4"></circle>
+              <text class="annotation-label" x="180" y="140" text-anchor="start">x² + 9</text>
+
+              <!-- Courbe du BAS : y = x carre - 9, memes abscisses. -->
+              <polyline class="curve-main" fill="none" points="66.00,161.00 72.50,174.56 79.00,187.25 85.50,199.06 92.00,210.00 98.50,220.06 105.00,229.25 111.50,237.56 118.00,245.00 124.50,251.56 131.00,257.25 137.50,262.06 144.00,266.00 150.50,269.06 157.00,271.25 163.50,272.56 170.00,273.00 176.50,272.56 183.00,271.25 189.50,269.06 196.00,266.00 202.50,262.06 209.00,257.25 215.50,251.56 222.00,245.00 228.50,237.56 235.00,229.25 241.50,220.06 248.00,210.00 254.50,199.06 261.00,187.25 267.50,174.56 274.00,161.00"></polyline>
+              <circle class="plot-point-alt" cx="92" cy="210" r="5"></circle>
+              <circle class="plot-point-alt" cx="248" cy="210" r="5"></circle>
+              <text class="annotation-label" x="180" y="290" text-anchor="start">x² - 9</text>
+
+              <text class="label-soft" x="60" y="120" text-anchor="start">jamais nulle</text>
+              <text class="label-soft" x="60" y="250" text-anchor="start">nulle deux fois</text>
+            </svg>
+          `,
+          notes: [
+            '$x^2 - 9$ s\'annule pour $x = -3$ et $x = 3$. Ces deux racines sont exactement ce que la factorisation $(x+3)(x-3)$ met en évidence : un produit est nul quand l\'un de ses facteurs l\'est.',
+            '$x^2 + 9$ est une somme de deux quantités positives ou nulles, dont l\'une vaut toujours $9$. Elle est donc toujours supérieure ou égale à $9$, et ne s\'annule jamais.',
+            'Si elle se factorisait en $(x+3)(x-3)$, elle s\'annulerait en $3$. Or $3^2 + 9 = 18$, et non $0$. La factorisation proposée est donc fausse, et le contre-exemple tient en une ligne de calcul.'
+          ],
+          reading: 'Le réflexe à prendre tient en un geste : après toute factorisation, redéveloppe. $(x+3)(x-3)$ redonne $x^2 - 9$, pas $x^2 + 9$. Ce chapitre est le seul de l\'année où tu peux vérifier toi-même l\'intégralité de ton travail, sans attendre la correction — ce serait dommage de t\'en priver.',
+          caption: '$x^2 - 9$ s\'annule en $-3$ et $3$ ; $x^2 + 9$ reste toujours supérieure à $9$ et ne se factorise pas.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Choisir sa route avant de partir',
+          title: 'Développer, ici, mène à une impasse',
+          description: 'Pour résoudre $(2x-3)(x+5) = 0$, deux chemins s\'offrent à toi. Ils partent du même endroit et n\'arrivent pas au même.<br/><br/>La forme factorisée est déjà la réponse : il ne reste qu\'à la lire. La développer, c\'est détruire l\'information dont tu as besoin.',
+          svg: `
+            <svg viewBox="0 0 460 250" role="img" aria-labelledby="alg-chemin-title alg-chemin-desc">
+              <title id="alg-chemin-title">Deux chemins pour resoudre la meme equation</title>
+              <desc id="alg-chemin-desc">Un meme point de depart, l'equation produit de deux facteurs egale zero, se separe en deux chemins traces vers le bas. Le chemin de gauche garde la forme factorisee, applique la regle du produit nul, et aboutit en trois etapes aux deux solutions trois demis et moins cinq. Le chemin de droite developpe l'expression et aboutit a une equation du second degre, signalee comme une impasse au niveau de la seconde.</desc>
+              <defs>
+                <marker id="fl-alg-chemin" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+                </marker>
+              </defs>
+
+              <!-- Point de depart commun, centre. Les deux colonnes sont
+                   SYMETRIQUES par rapport a l'abscisse 230 : le dessin ne
+                   doit pas suggerer qu'un chemin est plus long que l'autre
+                   avant qu'on les ait lus. -->
+              <rect x="150" y="20" width="160" height="34" rx="8" fill="color-mix(in srgb, var(--diagram-accent) 16%, transparent)" stroke="none"></rect>
+              <rect class="frame-line" x="150" y="20" width="160" height="34" rx="8" fill="none"></rect>
+              <text class="annotation-label" x="230" y="42" text-anchor="middle">(2x - 3)(x + 5) = 0</text>
+
+              <line class="curve-main" x1="230" y1="54" x2="120" y2="82" marker-end="url(#fl-alg-chemin)"></line>
+              <line class="guide-line" x1="230" y1="54" x2="340" y2="82" marker-end="url(#fl-alg-chemin)"></line>
+
+              <!-- COLONNE GAUCHE : on garde la forme factorisee. -->
+              <text class="annotation-label" x="120" y="106" text-anchor="middle">on garde</text>
+              <rect x="30" y="118" width="180" height="30" rx="6" fill="color-mix(in srgb, var(--diagram-accent) 10%, transparent)" stroke="none"></rect>
+              <rect class="frame-line" x="30" y="118" width="180" height="30" rx="6" fill="none"></rect>
+              <text class="tick-label" x="120" y="138" text-anchor="middle">un produit nul : un facteur est nul</text>
+
+              <line class="curve-main" x1="120" y1="148" x2="120" y2="172" marker-end="url(#fl-alg-chemin)"></line>
+
+              <rect x="30" y="180" width="180" height="30" rx="6" fill="color-mix(in srgb, var(--diagram-accent) 10%, transparent)" stroke="none"></rect>
+              <rect class="frame-line" x="30" y="180" width="180" height="30" rx="6" fill="none"></rect>
+              <text class="tick-label" x="120" y="200" text-anchor="middle">2x - 3 = 0 ou x + 5 = 0</text>
+
+              <text class="annotation-label" x="120" y="232" text-anchor="middle">x = 1,5 ou x = -5</text>
+
+              <!-- COLONNE DROITE : on developpe. Memes largeurs de boites,
+                   meme hauteur de depart : seule l'issue differe. -->
+              <text class="label-soft" x="340" y="106" text-anchor="middle">on développe</text>
+              <rect x="250" y="118" width="180" height="30" rx="6" fill="color-mix(in srgb, var(--secondary) 10%, transparent)" stroke="none"></rect>
+              <rect class="frame-line" x="250" y="118" width="180" height="30" rx="6" fill="none"></rect>
+              <text class="tick-label" x="340" y="138" text-anchor="middle">2x² + 7x - 15 = 0</text>
+
+              <line class="guide-line" x1="340" y1="148" x2="340" y2="172" marker-end="url(#fl-alg-chemin)"></line>
+
+              <rect x="250" y="180" width="180" height="30" rx="6" fill="color-mix(in srgb, var(--secondary) 10%, transparent)" stroke="none"></rect>
+              <rect class="frame-line" x="250" y="180" width="180" height="30" rx="6" fill="none"></rect>
+              <text class="tick-label" x="340" y="200" text-anchor="middle">plus aucun facteur à annuler</text>
+
+              <text class="label-soft" x="340" y="232" text-anchor="middle">impasse en seconde</text>
+            </svg>
+          `,
+          notes: [
+            'Les deux écritures $(2x-3)(x+5)$ et $2x^2 + 7x - 15$ désignent le <strong>même</strong> nombre pour chaque valeur de $x$. Aucune des deux n\'est fausse.',
+            'Elles ne rendent pourtant pas le même service. La forme factorisée affiche les racines ; la forme développée affiche les coefficients. Tu choisis celle qui répond à ta question.',
+            'Vérifie : $2 \\times 1{,}5 - 3 = 0$, donc $x = 1{,}5$ annule bien le premier facteur. Et $-5 + 5 = 0$, donc $x = -5$ annule le second. Les deux solutions se lisent sans aucun calcul.'
+          ],
+          reading: 'Avant de développer quoi que ce soit, pose-toi la question : <strong>qu\'est-ce que je cherche ?</strong><br/><br/>Une racine ? La forme factorisée y répond directement. Une valeur en un point, un coefficient, une comparaison ? Développe. On ne développe jamais pour développer, mais pour répondre à une question précise — et ici, développer efface justement la réponse.',
+          caption: 'La même équation par deux voies : factorisée, elle se résout en trois lignes ; développée, elle sort du programme de seconde.'
+        }
+      ],
       recap: [
         'Développer = supprimer les parenthèses (produit → somme) ; factoriser = créer des parenthèses (somme → produit).',
         'Les trois identités remarquables sont les outils centraux : les reconnaître dans les deux sens.',
