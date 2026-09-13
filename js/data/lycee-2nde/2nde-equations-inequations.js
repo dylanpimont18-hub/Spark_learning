@@ -121,6 +121,201 @@ window.MODULES.push({
         reading: 'Repère le cercle rempli en $-3$ : il signale une borne incluse. La zone hachurée à sa gauche représente toutes les valeurs solutions.',
         caption: 'Ensemble solution de l\'inéquation $-5x + 3 \\geq 18$ résolue dans l\'exemple du cours, soit $x \\in\\, ]-\\infty\\,;\\,-3]$.'
       },
+
+      /* SCHÉMAS SECONDAIRES — ajoutés le 2026-09-13.
+         Principe du cahier des charges (section 9) : une figure par
+         MALENTENDU, pas une figure par formule. Ce chapitre en compte trois
+         qui coûtent des points toute l'année, et la fiche professeur les
+         nomme :
+           1. on divise par un négatif et on oublie d'inverser le sens ;
+           2. on confond la BORNE (un nombre) et l'ENSEMBLE (une infinité) ;
+           3. « au plus » et « au moins » reçoivent le mauvais symbole.
+
+         La quatrième erreur de la fiche — changer un terme de membre sans
+         changer son signe — reste SANS figure, délibérément : c'est une
+         faute de geste, qui se corrige en refaisant le calcul ligne à ligne,
+         et un dessin n'y ajouterait rien. Une figure par malentendu ne
+         signifie pas une figure par erreur listée.
+
+         TOUTES les coordonnées sortent d'un calcul, jamais de l'œil, et sont
+         vérifiées par scripts/manuel/tests/diagrams-2nde.test.js. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Le piège du chapitre',
+          title: 'Diviser par un négatif retourne l\'inégalité',
+          description: 'Les deux droites ci-dessous sont <strong>identiques</strong> : même échelle, même origine, mêmes graduations. Seul change le côté colorié.<br/><br/>En haut, les nombres qui vérifient $-2x < 6$. En bas, ce que l\'on obtient en divisant par $-2$ <strong>sans</strong> retourner le symbole. Les deux zones n\'ont aucun point commun : l\'une est exactement le contraire de l\'autre.',
+          svg: `
+            <svg viewBox="0 0 320 210" role="img" aria-labelledby="ineq-inv-title ineq-inv-desc">
+              <title id="ineq-inv-title">Deux droites graduees identiques, deux zones opposees</title>
+              <desc id="ineq-inv-desc">Deux droites graduees sont superposees, avec la meme echelle et la meme origine, graduees de moins cinq a deux. Sur la droite du haut, la zone coloriee part de moins trois et s'etend vers la droite : ce sont les solutions de moins deux x inferieur a six, c'est-a-dire x superieur a moins trois. Sur la droite du bas, la zone coloriee part de moins trois et s'etend vers la gauche : c'est le resultat que l'on obtient en divisant par moins deux sans retourner le symbole. Les deux zones n'ont aucun point commun et sont exactement complementaires l'une de l'autre.</desc>
+              <defs>
+                <marker id="fl-ineq-inv" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+                </marker>
+              </defs>
+
+              <!-- Echelle COMMUNE aux deux droites : x = 0 a l'abscisse 200,
+                   30 unites de viewBox par unite. C'est le patron
+                   « comparaison » : l'echelle ne doit jamais faire partie des
+                   differences visibles, sans quoi l'oeil la lit comme un
+                   argument. -->
+
+              <!-- DROITE DU HAUT : la bonne reponse, x > -3. -->
+              <text class="annotation-label" x="50" y="36" text-anchor="start">le bon calcul</text>
+              <line class="axis" x1="40" y1="70" x2="285" y2="70" marker-end="url(#fl-ineq-inv)"></line>
+              <line class="grid-line" x1="50" y1="65" x2="50" y2="75"></line>
+              <line class="grid-line" x1="80" y1="65" x2="80" y2="75"></line>
+              <line class="grid-line" x1="110" y1="65" x2="110" y2="75"></line>
+              <line class="grid-line" x1="140" y1="65" x2="140" y2="75"></line>
+              <line class="grid-line" x1="170" y1="65" x2="170" y2="75"></line>
+              <line class="grid-line" x1="200" y1="65" x2="200" y2="75"></line>
+              <line class="grid-line" x1="230" y1="65" x2="230" y2="75"></line>
+              <line class="grid-line" x1="260" y1="65" x2="260" y2="75"></line>
+              <text class="tick-label" x="50" y="88" text-anchor="middle">-5</text>
+              <text class="annotation-label" x="110" y="88" text-anchor="middle">-3</text>
+              <text class="tick-label" x="200" y="88" text-anchor="middle">0</text>
+              <text class="tick-label" x="260" y="88" text-anchor="middle">2</text>
+              <line class="curve-main" x1="110" y1="70" x2="272" y2="70" marker-end="url(#fl-ineq-inv)"></line>
+              <circle class="plot-point-alt" cx="110" cy="70" r="5"></circle>
+              <text class="annotation-label" x="150" y="58" text-anchor="start">x &gt; -3</text>
+
+              <!-- DROITE DU BAS : l'erreur, x < -3. Meme origine, meme pas. -->
+              <text class="label-soft" x="50" y="136" text-anchor="start">si on oublie de retourner le symbole</text>
+              <line class="axis" x1="40" y1="170" x2="285" y2="170" marker-end="url(#fl-ineq-inv)"></line>
+              <line class="grid-line" x1="50" y1="165" x2="50" y2="175"></line>
+              <line class="grid-line" x1="80" y1="165" x2="80" y2="175"></line>
+              <line class="grid-line" x1="110" y1="165" x2="110" y2="175"></line>
+              <line class="grid-line" x1="140" y1="165" x2="140" y2="175"></line>
+              <line class="grid-line" x1="170" y1="165" x2="170" y2="175"></line>
+              <line class="grid-line" x1="200" y1="165" x2="200" y2="175"></line>
+              <line class="grid-line" x1="230" y1="165" x2="230" y2="175"></line>
+              <line class="grid-line" x1="260" y1="165" x2="260" y2="175"></line>
+              <text class="tick-label" x="50" y="188" text-anchor="middle">-5</text>
+              <text class="annotation-label" x="110" y="188" text-anchor="middle">-3</text>
+              <text class="tick-label" x="200" y="188" text-anchor="middle">0</text>
+              <text class="tick-label" x="260" y="188" text-anchor="middle">2</text>
+              <line class="guide-line" x1="110" y1="170" x2="45" y2="170" marker-end="url(#fl-ineq-inv)"></line>
+              <circle class="plot-point-alt" cx="110" cy="170" r="5"></circle>
+              <text class="label-soft" x="122" y="158" text-anchor="start">x &lt; -3</text>
+            </svg>
+          `,
+          notes: [
+            'Teste $x = 0$ dans $-2x < 6$ : on obtient $0 < 6$, qui est vrai. Donc $0$ est bien une solution — et $0$ se trouve dans la zone du haut, pas dans celle du bas.',
+            'Ce test d\'une seule valeur suffit à trancher entre les deux dessins, sans refaire le calcul. Prends l\'habitude de le faire : il coûte trois secondes.',
+            'La règle, une fois pour toutes : multiplier ou diviser les deux membres par un nombre <strong>négatif</strong> retourne le symbole. Additionner ou soustraire ne le retourne jamais.'
+          ],
+          reading: 'Pose ton doigt sur $0$ et regarde les deux droites. En haut, $0$ est dans la zone coloriée ; en bas, il n\'y est pas. Comme $x = 0$ vérifie bien l\'inéquation de départ, c\'est le dessin du haut qui dit vrai. Tu viens de vérifier ton résultat sans rien recalculer.',
+          caption: 'L\'inéquation $-2x < 6$ a pour solutions $x > -3$ : diviser par $-2$ retourne le symbole.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Deux objets, pas un',
+          title: 'La borne est un nombre, la solution est un intervalle',
+          description: 'Beaucoup de copies s\'arrêtent à « $x = 4$ » et perdent tous les points de la question.<br/><br/>Or $4$ n\'est pas la réponse : c\'est l\'endroit où la réponse <strong>commence</strong>. La solution, elle, contient $4$, mais aussi $4{,}1$, $7$, $250$ — une infinité de nombres.',
+          svg: `
+            <svg viewBox="0 0 400 190" role="img" aria-labelledby="ineq-borne-title ineq-borne-desc">
+              <title id="ineq-borne-title">Une borne isolee comparee a un intervalle entier</title>
+              <desc id="ineq-borne-desc">Deux droites graduees de zero a sept, de meme echelle et de meme origine. Sur la droite du haut, un seul point est marque, a l'abscisse quatre : c'est la borne. Sur la droite du bas, un trait epais part du meme point quatre et s'etend vers la droite jusqu'au bord du dessin, avec une fleche : c'est l'ensemble des solutions. Trois valeurs d'exemple, quatre virgule un, cinq et sept, sont marquees sur ce trait pour montrer qu'elles en font toutes partie.</desc>
+              <defs>
+                <marker id="fl-ineq-borne" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+                </marker>
+              </defs>
+
+              <!-- Echelle commune : x = 0 a l'abscisse 70, 40 unites par
+                   unite. Les deux droites sont rigoureusement superposables :
+                   seul l'objet dessine dessus change. -->
+
+              <!-- HAUT : la borne, un point unique. -->
+              <text class="label-soft" x="70" y="32" text-anchor="start">la borne : un seul nombre</text>
+              <line class="axis" x1="60" y1="66" x2="375" y2="66" marker-end="url(#fl-ineq-borne)"></line>
+              <line class="grid-line" x1="70" y1="61" x2="70" y2="71"></line>
+              <line class="grid-line" x1="150" y1="61" x2="150" y2="71"></line>
+              <line class="grid-line" x1="230" y1="61" x2="230" y2="71"></line>
+              <line class="grid-line" x1="310" y1="61" x2="310" y2="71"></line>
+              <text class="tick-label" x="70" y="84" text-anchor="middle">0</text>
+              <text class="tick-label" x="150" y="84" text-anchor="middle">2</text>
+              <text class="annotation-label" x="230" y="84" text-anchor="middle">4</text>
+              <text class="tick-label" x="310" y="84" text-anchor="middle">6</text>
+              <circle class="plot-point" cx="230" cy="66" r="5"></circle>
+
+              <!-- BAS : l'ensemble, une demi-droite. Meme origine, meme pas. -->
+              <text class="annotation-label" x="70" y="130" text-anchor="start">la solution : tous ces nombres</text>
+              <line class="axis" x1="60" y1="164" x2="375" y2="164" marker-end="url(#fl-ineq-borne)"></line>
+              <line class="grid-line" x1="70" y1="159" x2="70" y2="169"></line>
+              <line class="grid-line" x1="150" y1="159" x2="150" y2="169"></line>
+              <line class="grid-line" x1="230" y1="159" x2="230" y2="169"></line>
+              <line class="grid-line" x1="310" y1="159" x2="310" y2="169"></line>
+              <text class="tick-label" x="70" y="182" text-anchor="middle">0</text>
+              <text class="tick-label" x="150" y="182" text-anchor="middle">2</text>
+              <text class="annotation-label" x="230" y="182" text-anchor="middle">4</text>
+              <text class="tick-label" x="310" y="182" text-anchor="middle">6</text>
+              <line class="curve-main" x1="230" y1="164" x2="368" y2="164" marker-end="url(#fl-ineq-borne)"></line>
+              <circle class="plot-point" cx="230" cy="164" r="5"></circle>
+              <circle class="plot-point-alt" cx="234" cy="164" r="3"></circle>
+              <circle class="plot-point-alt" cx="270" cy="164" r="3"></circle>
+              <circle class="plot-point-alt" cx="350" cy="164" r="3"></circle>
+              <text class="tick-label" x="280" y="152" text-anchor="middle">4,1 ; 5 ; 7 ...</text>
+            </svg>
+          `,
+          notes: [
+            'La borne se trouve en résolvant $x - 4 = 0$. C\'est une étape du travail, pas sa conclusion.',
+            'L\'ensemble solution s\'écrit $S = [4\\,;\\,+\\infty[$. Le crochet tourné vers l\'intérieur en $4$ dit que la borne est <strong>incluse</strong> ; celui du côté de $+\\infty$ est toujours tourné vers l\'extérieur, car l\'infini n\'est pas un nombre qu\'on pourrait inclure.',
+            'Une bonne habitude de relecture : si ta réponse à une inéquation tient en un seul nombre, elle est incomplète.'
+          ],
+          reading: 'Compte les points marqués sur chaque droite. En haut, il y en a un. En bas, il y en a trois visibles — et le trait continue au-delà du bord de la figure, car les solutions ne s\'arrêtent jamais. C\'est cette différence de nature que la notation $[4\\,;\\,+\\infty[$ enregistre.',
+          caption: 'Pour $x - 4 \\geq 0$, la borne vaut $4$ et l\'ensemble solution est $[4\\,;\\,+\\infty[$.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Traduire un énoncé',
+          title: '« Au plus » se lit sur un budget, pas dans une règle',
+          description: 'Un club demande $22$ € d\'inscription, puis $7$ € par séance. Tu disposes de $90$ €.<br/><br/>La dépense s\'écrit $C = 7s + 22$, et « ne pas dépasser le budget » se traduit par $7s + 22 \\leqslant 90$. Le dessin montre pourquoi c\'est bien ce symbole-là.',
+          svg: `
+            <svg viewBox="0 0 480 200" role="img" aria-labelledby="ineq-budget-title ineq-budget-desc">
+              <title id="ineq-budget-title">Deux depenses comparees a un meme budget</title>
+              <desc id="ineq-budget-desc">Deux barres horizontales partent de la meme origine et sont tracees a la meme echelle, ou chaque euro occupe la meme longueur. Chaque barre commence par une portion sombre representant les vingt-deux euros d'inscription, suivie de portions claires representant les seances a sept euros. La barre du haut compte neuf seances et s'arrete a quatre-vingt-cinq euros, avant le trait vertical du budget place a quatre-vingt-dix euros. La barre du bas compte dix seances et atteint quatre-vingt-douze euros : elle depasse le trait du budget de deux euros.</desc>
+
+              <!-- Echelle : 1 EUR = 4 unites de viewBox, origine x = 60.
+                   Verifie par le calcul : inscription 22 EUR -> 88 unites ;
+                   une seance 7 EUR -> 28 unites. Neuf seances coutent
+                   22 + 63 = 85 EUR, la barre finit donc a 60 + 340 = 400 ;
+                   dix seances coutent 92 EUR et finissent a 428, soit 8
+                   unites APRES le trait de budget place a 60 + 360 = 420.
+                   Le depassement dessine vaut donc exactement 2 EUR. -->
+
+              <!-- Le budget : une seule verticale, commune aux deux barres. -->
+              <line class="curve-main" x1="420" y1="26" x2="420" y2="176"></line>
+              <text class="annotation-label" x="420" y="18" text-anchor="middle">budget : 90 €</text>
+
+              <text class="label-soft" x="60" y="46" text-anchor="start">9 séances : 85 €</text>
+              <rect x="60" y="54" width="88" height="30" fill="color-mix(in srgb, var(--diagram-accent) 28%, transparent)" stroke="none"></rect>
+              <rect class="frame-line" x="60" y="54" width="88" height="30" fill="none"></rect>
+              <text class="tick-label" x="104" y="74" text-anchor="middle">22 €</text>
+              <rect x="148" y="54" width="252" height="30" fill="color-mix(in srgb, var(--diagram-accent) 12%, transparent)" stroke="none"></rect>
+              <rect class="frame-line" x="148" y="54" width="252" height="30" fill="none"></rect>
+              <text class="tick-label" x="274" y="74" text-anchor="middle">9 × 7 = 63 €</text>
+
+              <text class="label-soft" x="60" y="126" text-anchor="start">10 séances : 92 €</text>
+              <rect x="60" y="134" width="88" height="30" fill="color-mix(in srgb, var(--diagram-accent) 28%, transparent)" stroke="none"></rect>
+              <rect class="frame-line" x="60" y="134" width="88" height="30" fill="none"></rect>
+              <text class="tick-label" x="104" y="154" text-anchor="middle">22 €</text>
+              <rect x="148" y="134" width="280" height="30" fill="color-mix(in srgb, var(--diagram-accent) 12%, transparent)" stroke="none"></rect>
+              <rect class="frame-line" x="148" y="134" width="280" height="30" fill="none"></rect>
+              <text class="tick-label" x="288" y="154" text-anchor="middle">10 × 7 = 70 €</text>
+              <text class="label-soft" x="432" y="154" text-anchor="start">+2 €</text>
+            </svg>
+          `,
+          notes: [
+            '« Au plus $90$ € » signifie « $90$ € ou moins », donc $7s + 22 \\leqslant 90$. Le symbole $\\leqslant$ autorise l\'égalité : dépenser exactement $90$ € resterait permis.',
+            'La résolution donne $s \\leqslant \\dfrac{68}{7}$, c\'est-à-dire $s \\leqslant 9{,}71$ environ. Mais une séance ne se découpe pas : la réponse est $9$ séances, et non $9{,}71$.',
+            'C\'est pour cela qu\'on revient toujours à l\'énoncé après le calcul. Ici, $9$ séances coûtent $85$ € et passent ; $10$ séances coûtent $92$ € et ne passent pas. Le dessin le confirme sans aucune formule.'
+          ],
+          reading: 'Regarde où chaque barre s\'arrête par rapport au trait vertical. Celle du haut reste en deçà : le budget tient. Celle du bas le franchit de deux euros à peine — et deux euros suffisent à rendre la dépense impossible. C\'est exactement ce que dit le symbole $\\leqslant$, et c\'est pourquoi « au plus » ne se traduit jamais par $\\geqslant$.',
+          caption: 'Inscription de $22$ € et séances à $7$ € : avec $90$ €, on peut suivre au plus $9$ séances.'
+        }
+      ],
       recap: [
         'Équation du 1er degré : isoler $x$ par opérations réversibles ; une unique solution.',
         'Inéquation : même méthode, mais inverser le sens si on multiplie/divise par un négatif.',

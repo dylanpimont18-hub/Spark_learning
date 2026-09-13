@@ -140,60 +140,255 @@ test('vecteurs, schema 3 : la relation de Chasles est EXACTE sur le dessin', () 
   assert.notStrictEqual(croix, 0, 'A, B et C ne sont pas alignes');
 });
 
-test('vecteurs : aucun element ne sort du viewBox declare', () => {
+/* ---------------------------------------------------------------------------
+   GARDES GENERIQUES, etendues a TOUS les chapitres le 2026-09-13.
+
+   Ces trois controles ne dependent d'aucune propriete mathematique : ils
+   valent pour n'importe quelle figure. Ils ne tournaient pourtant que sur
+   « vecteurs », le chapitre pilote, et les 29 schemas des dix autres
+   chapitres n'etaient donc gardes par rien — y compris les huit chapitres
+   commites en urgence le 2026-09-13 (e0b0c09), qui n'avaient ete ni passes
+   au build ni relus.
+   --------------------------------------------------------------------------- */
+
+const MODULES_2NDE = [
+  'vecteurs', 'fonctions-affines', '2nde-ensembles-nombres', '2nde-calcul-algebrique',
+  '2nde-equations-inequations', '2nde-fonctions-generalites', '2nde-fonctions-reference',
+  '2nde-reperage-plan', '2nde-droites-systemes', '2nde-geometrie-plane',
+  '2nde-statistiques', '2nde-probabilites', '2nde-echantillonnage', '2nde-algorithmique'
+];
+
+/* Chargement unique : chargerModule execute le fichier de donnees entier, ce
+   qui coute cher repete quatorze fois par test. */
+const TOUS = MODULES_2NDE.map((id) => [id, schemas(id)]);
+
+test('aucun element ne sort du viewBox declare, sur les quatorze chapitres', () => {
   /* Un debordement s'imprime PAR-DESSUS le texte voisin et ne produit aucun
      avertissement : svg2tikz fige la boite TikZ sur le viewBox entier, donc
      LaTeX ne voit rien. C'est le defaut qui a touche douze figures sur
      quatre-vingt-neuf en sixieme, jusqu'a 3,9 mm. */
-  for (const [i, d] of DIAGRAMMES.entries()) {
-    const svg = d.svg;
-    const vb = viewBox(svg);
-    const dans = (x, y, quoi) => {
-      assert.ok(x >= vb.x - 0.01 && x <= vb.x + vb.w + 0.01,
-        'schema ' + (i + 1) + ' : ' + quoi + ' a l abscisse ' + x + ' sort du viewBox');
-      assert.ok(y >= vb.y - 0.01 && y <= vb.y + vb.h + 0.01,
-        'schema ' + (i + 1) + ' : ' + quoi + ' a l ordonnee ' + y + ' sort du viewBox');
-    };
-    for (const t of balises(svg, 'line')) {
-      dans(attr(t, 'x1'), attr(t, 'y1'), 'un trait');
-      dans(attr(t, 'x2'), attr(t, 'y2'), 'un trait');
-    }
-    for (const t of balises(svg, 'circle')) {
-      dans(attr(t, 'cx'), attr(t, 'cy'), 'un point');
-    }
-    /* Les etiquettes ne sont bornees que sur leur point d'ancrage : leur
-       largeur reelle depend de la fonte. On verifie au moins que l'ancre est
-       dans le cadre, ce qui attrape les fautes grossieres. */
-    for (const t of balises(svg, 'text')) {
-      dans(attr(t, 'x'), attr(t, 'y'), 'une etiquette');
+  for (const [id, liste] of TOUS) {
+    for (const [i, d] of liste.entries()) {
+      const svg = d.svg;
+      const vb = viewBox(svg);
+      const ou = id + ' schema ' + (i + 1) + ' : ';
+      const dans = (x, y, quoi) => {
+        if (x === null || y === null || Number.isNaN(x) || Number.isNaN(y)) return;
+        assert.ok(x >= vb.x - 0.01 && x <= vb.x + vb.w + 0.01,
+          ou + quoi + ' a l abscisse ' + x + ' sort du viewBox large de ' + vb.w);
+        assert.ok(y >= vb.y - 0.01 && y <= vb.y + vb.h + 0.01,
+          ou + quoi + ' a l ordonnee ' + y + ' sort du viewBox haut de ' + vb.h);
+      };
+      for (const t of balises(svg, 'line')) {
+        dans(attr(t, 'x1'), attr(t, 'y1'), 'un trait');
+        dans(attr(t, 'x2'), attr(t, 'y2'), 'un trait');
+      }
+      /* Un point est un DISQUE : c'est son bord qui deborde, pas son centre.
+         Le rayon doit donc entrer dans le test, sans quoi un point pose sur
+         le bord passerait alors qu'il mord dessus. */
+      for (const t of balises(svg, 'circle')) {
+        const cx = attr(t, 'cx'), cy = attr(t, 'cy'), r = attr(t, 'r') || 0;
+        dans(cx - r, cy - r, 'un point');
+        dans(cx + r, cy + r, 'un point');
+      }
+      for (const t of balises(svg, 'rect')) {
+        const x = attr(t, 'x'), y = attr(t, 'y');
+        dans(x, y, 'un rectangle');
+        dans(x + (attr(t, 'width') || 0), y + (attr(t, 'height') || 0), 'un rectangle');
+      }
+      /* Les etiquettes ne sont bornees que sur leur point d'ancrage : leur
+         largeur reelle depend de la fonte. On verifie au moins que l'ancre est
+         dans le cadre, ce qui attrape les fautes grossieres. */
+      for (const t of balises(svg, 'text')) {
+        dans(attr(t, 'x'), attr(t, 'y'), 'une etiquette');
+      }
+      for (const t of balises(svg, 'polyline')) {
+        const pts = (t.match(/\bpoints="([^"]*)"/) || [])[1];
+        if (!pts) continue;
+        for (const p of pts.trim().split(/\s+/)) {
+          const [x, y] = p.split(',').map(Number);
+          dans(x, y, 'un point de courbe');
+        }
+      }
     }
   }
 });
 
-test('vecteurs : les etiquettes respectent les contraintes du convertisseur', () => {
+test('les etiquettes respectent les contraintes du convertisseur, partout', () => {
   /* Contraintes du cahier des charges (section 9), imposees par svg2tikz :
      pas d etiquette tout en capitales, qui se fracture a la conversion. Les
      noms de points (A, B, C) et de vecteurs sont des cas legitimes d une
      seule ou deux lettres, on ne les compte pas. */
-  for (const [i, d] of DIAGRAMMES.entries()) {
-    const textes = balises(d.svg, 'text').map(t => {
-      const m = d.svg.slice(d.svg.indexOf(t) + t.length).match(/^([^<]*)/);
-      return m ? m[1].trim() : '';
-    });
-    for (const txt of textes) {
-      if (txt.length <= 2) continue;               // noms de points
-      if (!/[A-Za-z]/.test(txt)) continue;         // purement chiffre
-      assert.ok(txt !== txt.toUpperCase() || !/[A-Z]{3,}/.test(txt),
-        'schema ' + (i + 1) + ' : etiquette en capitales « ' + txt + ' »');
+  for (const [id, liste] of TOUS) {
+    for (const [i, d] of liste.entries()) {
+      const textes = [];
+      for (const m of d.svg.matchAll(/<text\b[^>]*>([^<]*)</g)) textes.push(m[1].trim());
+      for (const txt of textes) {
+        if (txt.length <= 2) continue;               // noms de points
+        if (!/[A-Za-z]/.test(txt)) continue;         // purement chiffre
+        assert.ok(txt !== txt.toUpperCase() || !/[A-Z]{3,}/.test(txt),
+          id + ' schema ' + (i + 1) + ' : etiquette en capitales « ' + txt + ' »');
+      }
     }
   }
 });
 
-test('vecteurs : une seule pointe de fleche par trait', () => {
-  for (const [i, d] of DIAGRAMMES.entries()) {
-    for (const t of balises(d.svg, 'line')) {
-      const nb = (t.match(/marker-(start|end|mid)=/g) || []).length;
-      assert.ok(nb <= 1, 'schema ' + (i + 1) + ' : un trait porte ' + nb + ' pointes');
+test('une seule pointe de fleche par trait, partout', () => {
+  for (const [id, liste] of TOUS) {
+    for (const [i, d] of liste.entries()) {
+      for (const t of [...balises(d.svg, 'line'), ...balises(d.svg, 'path'),
+                       ...balises(d.svg, 'polyline')]) {
+        const nb = (t.match(/marker-(start|end|mid)=/g) || []).length;
+        assert.ok(nb <= 1, id + ' schema ' + (i + 1) + ' : un trait porte ' + nb + ' pointes');
+      }
     }
   }
+});
+
+test('chaque schema secondaire porte source, legende et notes', () => {
+  for (const [id, liste] of TOUS) {
+    for (const [i, d] of liste.entries()) {
+      const ou = id + ' schema ' + (i + 1) + ' : ';
+      assert.ok(d.svg && d.svg.includes('<svg'), ou + 'source SVG manquante');
+      assert.ok(d.caption && d.caption.trim(), ou + 'legende manquante');
+      assert.ok(d.notes && d.notes.length >= 2, ou + 'au moins deux notes');
+      assert.ok(d.title && d.title.trim(), ou + 'titre manquant');
+      /* Le lecteur d'ecran, et le fichier LaTeX, reprennent le <desc> : une
+         figure sans description est inaccessible et muette a l'impression. */
+      assert.ok(/<desc\b[^>]*>[^<]{40,}/.test(d.svg), ou + 'description trop courte ou absente');
+    }
+  }
+});
+
+/* ---------------------------------------------------------------------------
+   2nde-equations-inequations — trois schemas ajoutes le 2026-09-13.
+   --------------------------------------------------------------------------- */
+
+const INEQ = schemas('2nde-equations-inequations');
+
+test('equations : le chapitre porte ses trois schemas secondaires', () => {
+  assert.strictEqual(INEQ.length, 3);
+});
+
+test('equations, schema 1 : les deux droites partagent EXACTEMENT l echelle', () => {
+  /* Patron « comparaison » : la seule difference visible doit etre le cote
+     colorie. Si les deux droites n'avaient pas la meme echelle ni la meme
+     origine, l'oeil lirait cette difference comme un argument. */
+  const svg = INEQ[0].svg;
+  const grad = balises(svg, 'line').filter(t => t.includes('grid-line'));
+  const haut = grad.filter(t => attr(t, 'y1') === 65).map(t => attr(t, 'x1'));
+  const bas = grad.filter(t => attr(t, 'y1') === 165).map(t => attr(t, 'x1'));
+  assert.strictEqual(haut.length, 8, 'huit graduations en haut');
+  assert.deepStrictEqual(bas, haut, 'les graduations du bas sont aux MEMES abscisses');
+
+  /* Le pas est constant : une droite graduee dont le pas varierait mentirait
+     sur les distances entre les nombres. */
+  const pas = haut.slice(1).map((x, k) => x - haut[k]);
+  for (const p of pas) assert.strictEqual(p, 30, 'pas constant de 30 unites');
+
+  /* La borne -3 tombe sur la meme abscisse dans les deux droites, et c'est
+     bien la graduation calculee : x = 0 en 200, 30 unites par unite. */
+  const O = 200, S = 30;
+  assert.strictEqual(O + S * (-3), 110, '-3 tombe a l abscisse 110');
+  const ronds = balises(svg, 'circle');
+  assert.strictEqual(ronds.length, 2, 'une borne dessinee sur chaque droite');
+  for (const r of ronds) assert.strictEqual(attr(r, 'cx'), 110, 'la borne est a -3');
+});
+
+test('equations, schema 1 : les deux zones sont OPPOSEES, sans recouvrement', () => {
+  /* C'est tout ce que la figure pretend montrer : la bonne reponse et
+     l'erreur n'ont aucun nombre en commun. Si les deux fleches pointaient du
+     meme cote, le schema serait faux sans que cela se voie. */
+  const svg = INEQ[0].svg;
+  const bonne = balises(svg, 'line').find(t => t.includes('curve-main') && t.includes('marker-end'));
+  const fausse = balises(svg, 'line').find(t => t.includes('guide-line') && t.includes('marker-end'));
+  assert.ok(bonne && fausse, 'les deux demi-droites sont tracees');
+
+  const sens = (t) => Math.sign(attr(t, 'x2') - attr(t, 'x1'));
+  assert.strictEqual(sens(bonne), 1, 'x > -3 part vers la DROITE');
+  assert.strictEqual(sens(fausse), -1, 'x < -3 part vers la GAUCHE');
+
+  /* Les deux partent bien du meme point : la borne ne bouge pas, seul le
+     sens change. C'est exactement ce que fait la division par un negatif. */
+  assert.strictEqual(attr(bonne, 'x1'), 110, 'la bonne zone part de -3');
+  assert.strictEqual(attr(fausse, 'x1'), 110, 'la zone fausse part de -3 aussi');
+
+  /* Et la valeur test des notes, x = 0, doit reellement tomber dans la zone
+     du haut et hors de celle du bas — sans quoi la note mentirait. */
+  const xZero = 200;
+  assert.ok(xZero > attr(bonne, 'x1') && xZero <= attr(bonne, 'x2'),
+    '0 appartient a la zone du haut, comme l affirment les notes');
+  assert.ok(xZero > attr(fausse, 'x1'), '0 est hors de la zone du bas');
+});
+
+test('equations, schema 2 : la borne et l ensemble partent du MEME nombre', () => {
+  const svg = INEQ[1].svg;
+  const O = 70, S = 40;                 // x = 0 en 70, 40 unites par unite
+  assert.strictEqual(O + S * 4, 230, '4 tombe a l abscisse 230');
+
+  const ronds = balises(svg, 'circle');
+  const pleins = ronds.filter(t => t.includes('class="plot-point"'));
+  assert.strictEqual(pleins.length, 2, 'la borne est marquee sur les deux droites');
+  for (const r of pleins) assert.strictEqual(attr(r, 'cx'), 230, 'la borne vaut 4 partout');
+
+  /* La demi-droite part de la borne et va vers la DROITE, car la solution de
+     x - 4 >= 0 est [4 ; +infini[. Une fleche vers la gauche dirait le
+     contraire de la legende. */
+  const demi = balises(svg, 'line').find(t => t.includes('curve-main'));
+  assert.strictEqual(attr(demi, 'x1'), 230, 'la solution commence a la borne');
+  assert.ok(attr(demi, 'x2') > attr(demi, 'x1'), 'elle s etend vers les grands nombres');
+
+  /* Les trois valeurs d exemple annoncees (4,1 ; 5 ; 7) doivent toutes se
+     trouver DANS la demi-droite, sinon les notes seraient fausses. */
+  const exemples = ronds.filter(t => t.includes('plot-point-alt')).map(t => attr(t, 'cx'));
+  assert.strictEqual(exemples.length, 3, 'trois valeurs d exemple');
+  for (const x of exemples) {
+    assert.ok(x >= attr(demi, 'x1') && x <= attr(demi, 'x2'),
+      'la valeur ' + ((x - O) / S) + ' doit appartenir a la solution');
+  }
+  /* 5 et 7 tombent exactement sur leur graduation ; 4,1 est volontairement
+     tres proche de la borne, ce que le dessin doit refleter. */
+  assert.ok(exemples.includes(270), '5 est marque a son abscisse exacte');
+  assert.ok(exemples.includes(350), '7 est marque a son abscisse exacte');
+});
+
+test('equations, schema 3 : les barres sont proportionnelles aux euros', () => {
+  /* La figure compare deux depenses a un budget. Si les longueurs n'etaient
+     pas exactement proportionnelles aux montants, le depassement dessine
+     mentirait — et c'est precisement ce que la figure demande de lire. */
+  const svg = INEQ[2].svg;
+  const X0 = 60, S = 4;                 // 1 EUR = 4 unites, origine x = 60
+  const euros = (x) => (x - X0) / S;
+
+  const rect = balises(svg, 'rect').filter(t => t.includes('fill="color-mix'));
+  assert.strictEqual(rect.length, 4, 'deux barres de deux portions');
+
+  /* Barre du haut : inscription 22 EUR puis 9 seances a 7 EUR. */
+  assert.strictEqual(attr(rect[0], 'width') / S, 22, 'inscription de 22 euros');
+  assert.strictEqual(attr(rect[1], 'width') / S, 63, '9 seances a 7 euros');
+  const finHaut = euros(attr(rect[1], 'x') + attr(rect[1], 'width'));
+  assert.strictEqual(finHaut, 85, '9 seances coutent 85 euros');
+
+  /* Barre du bas : meme inscription, dix seances. */
+  assert.strictEqual(attr(rect[2], 'width') / S, 22, 'meme inscription en bas');
+  assert.strictEqual(attr(rect[3], 'width') / S, 70, '10 seances a 7 euros');
+  const finBas = euros(attr(rect[2], 'x') + attr(rect[2], 'width') + attr(rect[3], 'width'));
+  assert.strictEqual(finBas, 92, '10 seances coutent 92 euros');
+
+  /* Les deux barres partent de la MEME origine : sans cela, la comparaison
+     des longueurs n'aurait aucun sens. */
+  assert.strictEqual(attr(rect[0], 'x'), attr(rect[2], 'x'), 'meme ligne de depart');
+
+  /* Le trait de budget tombe exactement sur 90 EUR, et il separe bien les
+     deux barres : l'une en deca, l'autre au-dela. C'est la seule chose que
+     la figure doit prouver. */
+  const budget = balises(svg, 'line').find(t => t.includes('curve-main'));
+  assert.strictEqual(euros(attr(budget, 'x1')), 90, 'le budget est trace a 90 euros');
+  assert.ok(finHaut < 90, '9 seances tiennent dans le budget');
+  assert.ok(finBas > 90, '10 seances le depassent');
+  assert.strictEqual(finBas - 90, 2, 'le depassement dessine vaut exactement 2 euros');
+
+  /* Coherence avec l enonce : 7s + 22 <= 90 donne s <= 68/7, soit 9 seances
+     une fois ramene a un entier. Le dessin doit montrer ce 9-la. */
+  assert.strictEqual(Math.floor((90 - 22) / 7), 9, 'la solution entiere vaut bien 9');
 });

@@ -263,7 +263,14 @@ window.MODULES.push({
           title: 'Incompatibles ou indépendants, ce n\'est pas la même chose',
           description: 'Ces deux mots se ressemblent et désignent pourtant des situations sans aucun rapport.<br/><br/>À gauche, un seul lancer de dé. À droite, deux lancers successifs, dont les $36$ issues sont représentées par une case chacune.',
           svg: `
-            <svg viewBox="0 0 480 290" role="img" aria-labelledby="proba-incomp-title proba-incomp-desc">
+            <!-- viewBox porte de 290 a 315 de haut le 2026-09-13 : l'etiquette
+                 « une case commune sur 36 » est ancree a l'ordonnee 300, sous
+                 une grille qui descend deja jusqu'a 280. Elle sortait donc du
+                 cadre de dix unites, ce qui s'imprime PAR-DESSUS le texte
+                 voisin sans que LaTeX n'emette le moindre avertissement :
+                 svg2tikz fige la boite TikZ sur le viewBox declare. Defaut
+                 introduit par le commit e0b0c09, jamais passe au build. -->
+            <svg viewBox="0 0 480 315" role="img" aria-labelledby="proba-incomp-title proba-incomp-desc">
               <title id="proba-incomp-title">Evenements incompatibles contre evenements independants</title>
               <desc id="proba-incomp-desc">A gauche, les six issues d'un lancer de de sont alignees. L'evenement obtenir six et l'evenement obtenir trois occupent deux cases separees, sans aucune case commune : ils sont incompatibles, ils ne peuvent pas se produire ensemble. A droite, les trente-six issues de deux lancers successifs forment un carre de six cases sur six. L'evenement six au premier lancer occupe une ligne entiere, l'evenement six au second lancer occupe une colonne entiere, et ces deux zones se croisent en exactement une case. Ces deux evenements peuvent donc se produire ensemble : ils ne sont pas incompatibles, ils sont independants.</desc>
 
