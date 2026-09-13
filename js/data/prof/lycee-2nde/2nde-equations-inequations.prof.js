@@ -116,9 +116,9 @@ window.SPARK_PROF["2nde-equations-inequations"] = {
          coefficient NÉGATIF » a été ajoutée au générateur ce jour. Avant
          cela, la banque ne tirait que des inéquations du type $ax + b > c$
          avec $a > 0$ — c'est-à-dire qu'aucun exercice du chapitre ne
-         travaillait l'erreur la plus fréquente du chapitre. L'exercice 2 du
+         travaillait l'erreur la plus fréquente du chapitre. L'exercice 6 du
          tirage courant est désormais de ce type. */
-      exercice: { type: "exercice", n: 2 }
+      exercice: { type: "exercice", n: 6 }
     },
     {
       titre: "Confondre la borne et l'ensemble solution",
@@ -140,12 +140,12 @@ window.SPARK_PROF["2nde-equations-inequations"] = {
               "Faire hachurer la zone sur une droite graduée, comme le fait le schéma du cours. " +
               "Une infinité de solutions se voit sur un dessin ; elle ne se voit pas dans un " +
               "nombre isolé.",
-      /* Vérifié contre le tirage réel (2026-09-13) : l'exercice 3 résout une
+      /* Vérifié contre le tirage réel (2026-09-13) : l'exercice 1 résout une
          inéquation et demande explicitement la BORNE de l'intervalle solution.
          L'énoncé nomme donc la distinction — la borne est un nombre,
          l'ensemble n'en est pas un — à l'endroit exact où l'élève les
          confond. */
-      exercice: { type: "exercice", n: 3 }
+      exercice: { type: "exercice", n: 1 }
     },
     {
       titre: "Traduire « au plus » et « au moins » par le mauvais symbole",
@@ -172,13 +172,14 @@ window.SPARK_PROF["2nde-equations-inequations"] = {
               "Construire enfin, avec la classe, un petit répertoire des formulations " +
               "rencontrées. La liste est courte — une dizaine d'expressions couvrent tous les " +
               "énoncés de l'année — et elle sert jusqu'en terminale.",
-      /* Vérifié contre le tirage réel (2026-09-13) : l'exercice 1 est un
+      /* Vérifié contre le tirage réel (2026-09-13) : l'exercice 2 est un
          problème de budget (« un client dispose d'un budget maximal de... »)
          dont la mise en inéquation est exactement cette traduction. La tâche
          est présente dans la banque sous plusieurs habillages (plombier,
          forfait téléphonique, artisan), ce qui permet de la faire répéter
-         sans que l'élève reconnaisse un exercice déjà fait. */
-      exercice: { type: "exercice", n: 1 }
+         sans que l'élève reconnaisse un exercice déjà fait. L'exercice 3 isole la même difficulté de langue sans
+         aucun calcul, et l'exercice 4 la remet en situation. */
+      exercice: { type: "exercice", n: 2 }
     },
     {
       titre: "Changer un terme de membre sans changer son signe",
@@ -201,18 +202,18 @@ window.SPARK_PROF["2nde-equations-inequations"] = {
               "solution dans l'équation de départ. Avec $x = 4$, le membre de gauche vaut $-3$ " +
               "et celui de droite $27$ : l'élève voit que sa réponse est fausse sans que " +
               "personne ait à le lui dire, ce qui est exactement le ton qu'on cherche.<br/><br/>" +
-              "Aucun exercice de la banque ne travaille spécifiquement cette erreur : les " +
-              "générateurs produisent des équations à inconnue dans un seul membre, ou des " +
-              "inéquations, mais pas d'équation à inconnue des deux côtés. La remédiation " +
-              "demande donc quelques équations écrites à la main, du type $a - bx = cx + d$ " +
-              "avec une solution négative.",
-      /* Volontairement SANS renvoi. Un renvoi faux est pire qu'un renvoi
-         absent : pointer une inéquation ou une équation à inconnue unique
-         n'aiderait pas un élève qui bute sur la transposition entre deux
-         membres. Le remède le dit explicitement et indique quoi écrire à la
-         place, comme le font déjà six remédiations de la sixième, une de la
-         quatrième et une des vecteurs. */
-      exercice: null
+              "La banque tire désormais une tâche dédiée, où l'inconnue figure dans les " +
+              "<strong>deux membres</strong> : c'est le seul cas qui oblige réellement à " +
+              "transposer un terme en $x$, et son corrigé nomme chaque opération au lieu de " +
+              "« faire passer ». Faire traiter ces énoncés en exigeant la ligne intermédiaire.",
+      /* Ce renvoi était VIDE à la première rédaction, faute d'exercice
+         travaillant la transposition entre deux membres. La tâche
+         « équation à inconnue dans les deux membres » a été ajoutée au
+         générateur le même jour, ce qui comble le trou : vérifié contre le
+         tirage réel, l'exercice 5 est exactement de ce type et son corrigé
+         écrit « je retire $cx$ aux deux membres » plutôt que « je fais
+         passer ». */
+      exercice: { type: "exercice", n: 5 }
     }
   ],
 

@@ -169,8 +169,126 @@ window.MODULES.push({
     exercice: {
       type: 'numeric',
       generate() {
-        const types = ['domaine', 'comparaison', 'composition'];
+        /* BANQUE ÉLARGIE le 2026-09-13 (vague « manuel de référence »).
+
+           MESURE DE DÉPART : 4 tâches pour 13 exercices retenus, alors que
+           le chapitre porte sur TROIS fonctions de référence (carré, inverse,
+           racine). Concrètement, la fonction inverse n'apparaissait que comme
+           un terme accessoire dans la tâche « composition », et aucune tâche
+           ne portait sur ses variations ni sur son signe. Un élève pouvait
+           traiter toute la banque sans jamais raisonner sur $1/x$.
+
+           DÉFAUT DE FOND CORRIGÉ ICI : la banque n'exerçait aucune lecture
+           d'image sur les trois courbes, alors que c'est l'attendu central
+           du chapitre (« connaître l'allure »). On ajoute quatre tâches, dont
+           trois portent sur ce que ces fonctions FONT, et non sur des
+           domaines de définition — qui relèvent plutôt du chapitre
+           précédent. */
+        const types = ['domaine', 'comparaison', 'composition',
+                       'imageReference', 'variationsInverse', 'signeInverse', 'carreAntecedents'];
         const type = pick(types);
+
+        /* Tâche AJOUTÉE — image par l'une des trois fonctions de référence.
+           Les valeurs sont choisies pour tomber juste, afin que la question
+           porte sur la FONCTION et non sur l'arrondi. */
+        if (type === 'imageReference') {
+          const familles = [
+            { nom: 'carré', expr: 'x^2', calc: (x) => x * x, xs: [-6, -5, -4, -3, -2, 2, 3, 4, 5, 6, 7],
+              ligne: (x) => `$f(${x < 0 ? '(' + x + ')' : x}) = ${x < 0 ? '(' + x + ')' : x}^2 = ${x * x}$` },
+            { nom: 'inverse', expr: '\\dfrac{1}{x}', calc: (x) => 1 / x, xs: [-5, -4, -2, 2, 4, 5, 8, 10],
+              ligne: (x) => `$f(${x}) = \\dfrac{1}{${x}} = ${fr(1 / x, 4).replace(/0+$/, '').replace(/\{,\}$/, '')}$` },
+            { nom: 'racine carrée', expr: '\\sqrt{x}', calc: (x) => Math.sqrt(x), xs: [1, 4, 9, 16, 25, 36, 49, 64, 81, 100],
+              ligne: (x) => `$f(${x}) = \\sqrt{${x}} = ${Math.sqrt(x)}$` }
+          ];
+          const f = pick(familles);
+          const x = pick(f.xs);
+          const y = f.calc(x);
+          return {
+            statement: `Soit $f$ la fonction <strong>${f.nom}</strong>, définie par $f(x) = ${f.expr}$.<br/><br/>Calcule $f(${x})$.`,
+            answer: parseFloat(y.toFixed(4)),
+            tolerance: 0.001,
+            unit: '',
+            hint: f.nom === 'carré'
+              ? `Pense à parenthéser le nombre substitué : $(${x})^2$ et non $-${Math.abs(x)}^2$ si le nombre est négatif.`
+              : `Applique directement la définition de la fonction ${f.nom} à $${x}$.`,
+            solution: [
+              `Image par la fonction ${f.nom} : on applique la définition à $${x}$`,
+              f.ligne(x),
+              f.nom === 'carré' && x < 0
+                ? `Le carré d'un nombre négatif est <strong>positif</strong> : c'est pour cela que la parenthèse est indispensable.`
+                : (f.nom === 'inverse' && x < 0
+                   ? `L'inverse d'un nombre négatif est <strong>négatif</strong> : la fonction inverse ne change jamais le signe.`
+                   : `La fonction ${f.nom} ne donne jamais de résultat négatif ici.`)
+            ]
+          };
+        }
+
+        /* Tâche AJOUTÉE — variations de la fonction inverse, sans calcul.
+           C'est la propriété la plus contre-intuitive du chapitre : la
+           fonction est décroissante sur CHACUN des deux intervalles, mais
+           pas sur leur réunion. */
+        if (type === 'variationsInverse') {
+          const cas = pick([
+            { a: 2, b: 5 }, { a: 3, b: 8 }, { a: 1, b: 4 },
+            { a: -5, b: -2 }, { a: -8, b: -3 }, { a: -4, b: -1 }
+          ]);
+          const ia = 1 / cas.a, ib = 1 / cas.b;
+          const plusGrand = ia > ib ? cas.a : cas.b;
+          return {
+            statement: `On considère la fonction <strong>inverse</strong> $f(x) = \\dfrac{1}{x}$, et les deux nombres $${cas.a}$ et $${cas.b}$.<br/><br/>Sans utiliser de calculatrice, et en t'appuyant sur les <strong>variations</strong> de la fonction inverse, dis lequel des deux a la plus grande image.<br/><br/>Donne ce nombre (celui dont l'image est la plus grande).`,
+            answer: plusGrand,
+            tolerance: 0,
+            unit: '',
+            hint: `Les deux nombres sont ${cas.a < 0 ? 'négatifs' : 'positifs'}, donc ils sont du <strong>même côté</strong> de zéro. Sur cet intervalle, la fonction inverse est décroissante : le plus petit nombre a la plus grande image.`,
+            solution: [
+              `Variations de la fonction inverse : $${cas.a} < ${cas.b}$, et les deux sont ${cas.a < 0 ? 'négatifs' : 'positifs'}`,
+              `La fonction inverse est <strong>décroissante</strong> sur $${cas.a < 0 ? ']-\\infty\\,;\\,0[' : ']0\\,;\\,+\\infty['}$ : quand $x$ augmente, $\\dfrac{1}{x}$ diminue.`,
+              `Donc $\\dfrac{1}{${cas.a}} > \\dfrac{1}{${cas.b}}$, et le nombre dont l'image est la plus grande est $${plusGrand}$.`,
+              `Attention : ce raisonnement n'est valable que parce que les deux nombres sont du même côté de zéro. La fonction inverse n'est <strong>pas</strong> décroissante sur $\\mathbb{R}^*$ tout entier.`
+            ]
+          };
+        }
+
+        /* Tâche AJOUTÉE — signe de l'inverse, et le piège de la comparaison
+           à travers zéro, qui est l'erreur la plus fréquente du chapitre. */
+        if (type === 'signeInverse') {
+          const neg = pick([-1, -2, -3, -4, -5, -8]);
+          const pos = pick([2, 3, 4, 5, 6, 10]);
+          return {
+            statement: `On compare $\\dfrac{1}{${neg}}$ et $\\dfrac{1}{${pos}}$.<br/><br/>Un élève écrit : « $${neg} < ${pos}$, et la fonction inverse est décroissante, donc $\\dfrac{1}{${neg}} > \\dfrac{1}{${pos}}$ ».<br/><br/>Son raisonnement est-il correct ?<br/><br/>Réponds par $1$ pour oui, $0$ pour non.`,
+            answer: 0,
+            tolerance: 0,
+            unit: '',
+            hint: `Regarde le <strong>signe</strong> des deux quotients avant tout raisonnement sur les variations. Les deux nombres de départ sont-ils du même côté de zéro ?`,
+            solution: [
+              `Signe de l'inverse : le raisonnement est <strong>incorrect</strong>`,
+              `$\\dfrac{1}{${neg}}$ est <strong>négatif</strong> et $\\dfrac{1}{${pos}}$ est <strong>positif</strong>, donc $\\dfrac{1}{${neg}} < \\dfrac{1}{${pos}}$ : c'est l'inverse de ce que l'élève annonce.`,
+              `L'erreur vient de la décroissance, qui n'est valable que sur $]-\\infty\\,;\\,0[$ et sur $]0\\,;\\,+\\infty[$ <strong>séparément</strong>. Ici les deux nombres encadrent zéro, donc la propriété ne s'applique pas.`,
+              `Règle de sécurité : avant de comparer deux inverses, vérifie toujours qu'ils sont du même côté de zéro.`
+            ]
+          };
+        }
+
+        /* Tâche AJOUTÉE — les DEUX antécédents par la fonction carré, qui
+           est la dissymétrie image / antécédent revue sur un cas précis. */
+        if (type === 'carreAntecedents') {
+          const r = pick([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+          const k = r * r;
+          return {
+            statement: `On cherche les <strong>antécédents</strong> de $${k}$ par la fonction carré, c'est-à-dire les nombres $x$ tels que $x^2 = ${k}$.<br/><br/><strong>1.</strong> Combien y en a-t-il ?<br/><strong>2.</strong> Quels sont-ils ?<br/><br/>Donne le plus grand des deux.`,
+            answer: r,
+            tolerance: 0,
+            unit: '',
+            hint: `Un carré vaut $${k}$ : cherche d'abord un nombre positif qui convient, puis demande-toi si un nombre négatif pourrait convenir aussi.`,
+            solution: [
+              `Antécédents par la fonction carré : je résous $x^2 = ${k}$`,
+              `$${r}^2 = ${k}$, donc $${r}$ convient. Mais $(-${r})^2 = ${k}$ également, car le carré d'un nombre négatif est positif.`,
+              `Il y a donc <strong>deux</strong> antécédents : $-${r}$ et $${r}$. Le plus grand est $${r}$.`,
+              `C'est la dissymétrie entre image et antécédent : $${k}$ n'a qu'une image par la fonction carré, mais il a deux antécédents. Un nombre <strong>négatif</strong> n'en aurait aucun.`
+            ]
+          };
+        }
+
         if (type === 'domaine') {
           const a = rand(2, 8);
           const b = rand(1, 5);
