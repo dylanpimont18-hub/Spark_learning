@@ -140,36 +140,122 @@ window.MODULES.push({
       { q: 'Un système $\\begin{cases} 2x + y = 7 \\\\ 4x + 2y = 14 \\end{cases}$ admet :', options: ['Une infinité de solutions (les deux équations sont proportionnelles : la 2e est le double de la 1re)', 'Aucune solution', 'Exactement une solution : $(2;3)$', 'Exactement deux solutions'], answer: 0, correction: 'La 2e équation est $2 \\times$ la 1re : $4x + 2y = 2(2x + y) = 14$. Les deux droites sont confondues. Tout couple $(x;y)$ vérifiant $2x + y = 7$ est solution : il y en a une infinité. C\'est un cas particulier à distinguer du cas « parallèles strictes » (aucune solution).' },
       { q: 'La droite $d$ passe par $A(1;5)$ et $B(3;5)$. Son équation est :', options: ['$y = 5$ (droite horizontale, pente nulle)', '$x = 5$', '$y = 5x$', '$y = x + 4$'], answer: 0, correction: 'Les ordonnées sont identiques ($y_A = y_B = 5$) : la droite est horizontale. La pente est $m = \\frac{5-5}{3-1} = 0$, donc $y = 0 \\cdot x + 5 = 5$. Ne pas confondre avec une droite verticale ($x = k$).' }
     ],
+    /* GÉNÉRATEUR ÉLARGI le 2026-09-13.
+       Mesure AVANT : 9 énoncés tirés, 3 moules, **1 seule tâche distincte** —
+       un problème de système « deux articles, deux prix », habillé trois fois
+       (un cinéma, un magasin, un traiteur). Tout le reste du chapitre (pente,
+       parallélisme, ordonnée à l'origine, intersection de deux droites) n'était
+       travaillé par AUCUN exercice de la banque.
+
+       Cinq tâches maintenant, qui couvrent enfin le chapitre. */
     exercice: {
       type: 'numeric',
       generate() {
-        const contexts = [
-          { intro: 'Un cinéma vend des places adultes à', prixA: 'prix adulte', prixB: 'prix enfant', unit: '€', objA: 'adultes', objB: 'enfants' },
-          { intro: 'Un magasin vend des stylos à', prixA: 'prix stylo', prixB: 'prix cahier', unit: '€', objA: 'stylos', objB: 'cahiers' },
-          { intro: 'Un traiteur propose des sandwichs à', prixA: 'prix sandwich', prixB: 'prix boisson', unit: '€', objA: 'sandwichs', objB: 'boissons' }
-        ];
-        const ctx = pick(contexts);
-        const x = rand(2, 6);
-        const y = rand(1, 5);
-        const a1 = 1, b1 = 1;
-        const total1 = x + y;
-        const a2 = rand(2, 5);
-        let b2 = rand(2, 5);
-        while (a2 === b2) { b2 = rand(2, 5); }
-        const total2 = a2 * x + b2 * y;
+        const tache = pick(['systeme', 'pente', 'ordonnee', 'intersection', 'position']);
+
+        /* Tâche 1 — le système issu d'une situation (la tâche historique). */
+        if (tache === 'systeme') {
+          const ctx = pick([
+            { intro: 'Un cinéma vend des places adultes à', objA: 'adultes', objB: 'enfants' },
+            { intro: 'Un magasin vend des stylos à', objA: 'stylos', objB: 'cahiers' },
+            { intro: 'Un traiteur propose des sandwichs à', objA: 'sandwichs', objB: 'boissons' }
+          ]);
+          const x = rand(2, 6), y = rand(1, 5);
+          const total1 = x + y;
+          const a2 = rand(2, 5);
+          let b2 = rand(2, 5);
+          while (a2 === b2) { b2 = rand(2, 5); }
+          const total2 = a2 * x + b2 * y;
+          return {
+            statement: `${ctx.intro} $${a2}$ € l'un et des ${ctx.objB} à $${b2}$ € l'un. Un client achète $${total1}$ articles au total, pour $${total2}$ €.<br/><br/>Pose et résous le système donnant le nombre de ${ctx.objA} ($x$) et de ${ctx.objB} ($y$).<br/><br/>Donne le nombre de <strong>${ctx.objA}</strong>.`,
+            answer: x, tolerance: 0, unit: '',
+            hint: `Deux informations, donc deux équations : le nombre total d'articles, puis le prix total. Système : $\\begin{cases} x + y = ${total1} \\\\ ${a2}x + ${b2}y = ${total2} \\end{cases}$`,
+            solution: [
+              `Le système à résoudre est $\\begin{cases} x + y = ${total1} \\\\ ${a2}x + ${b2}y = ${total2} \\end{cases}$`,
+              `De la première équation : $y = ${total1} - x$.`,
+              `En substituant dans la seconde : $${a2}x + ${b2}(${total1} - x) = ${total2}$, soit $${a2 - b2}x = ${total2 - b2 * total1}$.`,
+              `D'où $x = ${x}$, puis $y = ${y}$.`
+            ]
+          };
+        }
+
+        /* Tâche 2 — pente à partir de deux points. */
+        if (tache === 'pente') {
+          const xa = rand(-4, 3);
+          const xb = xa + rand(2, 5);
+          const m = pick([-3, -2, -1, 2, 3, 4]);
+          const p = rand(-5, 5);
+          const ya = m * xa + p, yb = m * xb + p;
+          return {
+            statement: `La droite $d$ passe par les points $A(${xa} ; ${ya})$ et $B(${xb} ; ${yb})$.<br/><br/>Calcule sa pente $m$.`,
+            answer: m, tolerance: 0, unit: '',
+            hint: `La pente se lit comme un rapport d'accroissements : $m = \\dfrac{y_B - y_A}{x_B - x_A}$. Attention à l'ordre : le même point doit être « premier » en haut et en bas.`,
+            solution: [
+              `$m = \\dfrac{y_B - y_A}{x_B - x_A} = \\dfrac{${yb} - (${ya})}{${xb} - (${xa})}$`,
+              `$m = \\dfrac{${yb - ya}}{${xb - xa}} = ${m}$`,
+              `La droite ${m > 0 ? 'monte' : 'descend'} : quand $x$ augmente de $1$, $y$ ${m > 0 ? 'augmente' : 'diminue'} de $${Math.abs(m)}$.`
+            ]
+          };
+        }
+
+        /* Tâche 3 — ordonnée à l'origine, connaissant un point et la pente. */
+        if (tache === 'ordonnee') {
+          const m = pick([-4, -3, -2, 2, 3, 5]);
+          const xa = rand(1, 6);
+          const p = rand(-8, 8);
+          const ya = m * xa + p;
+          return {
+            statement: `La droite $d$ a pour pente $m = ${m}$ et passe par le point $A(${xa} ; ${ya})$.<br/><br/>Calcule son ordonnée à l'origine $p$.`,
+            answer: p, tolerance: 0, unit: '',
+            hint: `L'équation de la droite est $y = ${m}x + p$. Comme $A$ est SUR la droite, ses coordonnées vérifient cette équation : remplace $x$ et $y$ par celles de $A$.`,
+            solution: [
+              `L'équation est de la forme $y = ${m}x + p$, et le point $A$ appartient à la droite.`,
+              `Ses coordonnées vérifient donc l'équation : $${ya} = ${m} \\times ${xa} + p$, soit $${ya} = ${m * xa} + p$.`,
+              `D'où $p = ${ya} - (${m * xa}) = ${p}$. La droite coupe l'axe des ordonnées en $${p}$.`
+            ]
+          };
+        }
+
+        /* Tâche 4 — intersection de deux droites données par leur équation. */
+        if (tache === 'intersection') {
+          const xi = rand(-3, 5);
+          const m1 = pick([2, 3, -2, 4]);
+          let m2 = pick([-3, -1, 1, 5]);
+          while (m2 === m1) { m2 = pick([-3, -1, 1, 5]); }
+          const p1 = rand(-6, 6);
+          const yi = m1 * xi + p1;
+          const p2 = yi - m2 * xi;
+          return {
+            statement: `On considère les droites d'équations $y = ${m1}x + ${p1}$ et $y = ${m2}x + ${p2}$.<br/><br/>Calcule l'abscisse $x$ de leur point d'intersection.`,
+            answer: xi, tolerance: 0, unit: '',
+            hint: `Au point d'intersection, les deux droites ont la MÊME ordonnée pour la même abscisse. Il suffit donc d'égaler les deux expressions de $y$.`,
+            solution: [
+              `Au point d'intersection, les deux expressions de $y$ sont égales : $${m1}x + ${p1} = ${m2}x + ${p2}$.`,
+              `On regroupe les $x$ d'un côté : $${m1 - m2}x = ${p2 - p1}$.`,
+              `D'où $x = ${xi}$ (et l'ordonnée correspondante vaut $y = ${yi}$).`
+            ]
+          };
+        }
+
+        /* Tâche 5 — position relative. Réponse codée : 1 parallèles,
+           0 sécantes. C'est une lecture de coefficients, sans calcul. */
+        const m1 = pick([-3, -2, 2, 3, 4]);
+        const paralleles = pick([true, false]);
+        let m2 = m1;
+        if (!paralleles) { while (m2 === m1) { m2 = pick([-3, -2, 1, 2, 3, 5]); } }
+        const p1 = rand(-5, 5);
+        let p2 = rand(-5, 5);
+        while (paralleles && p2 === p1) { p2 = rand(-5, 5); }
         return {
-          statement: `${ctx.intro} $${a2}$ € l'un et des ${ctx.objB} à $${b2}$ € l'un. Un client achète $${total1}$ articles au total pour $${total2}$ €.<br/><br/>Poser et résoudre le système pour trouver le nombre de ${ctx.objA} ($x$) et de ${ctx.objB} ($y$).<br/><br/>Donne le nombre de <strong>${ctx.objA}</strong>.`,
-          answer: x,
-          tolerance: 0,
-          unit: '',
-          hint: `Système : $\\begin{cases} x + y = ${total1} \\\\ ${a2}x + ${b2}y = ${total2} \\end{cases}$. De la 1re : $y = ${total1} - x$. Substituer dans la 2e.`,
+          statement: `Les droites d'équations $y = ${m1}x + ${p1}$ et $y = ${m2}x + ${p2}$ sont-elles parallèles ?<br/><br/>Réponds par $1$ pour oui, $0$ pour non.`,
+          answer: paralleles ? 1 : 0, tolerance: 0, unit: '',
+          hint: `Deux droites non verticales sont parallèles si et seulement si elles ont la MÊME pente. L'ordonnée à l'origine ne joue aucun rôle ici : elle dit seulement où chaque droite coupe l'axe vertical.`,
           solution: [
-            `$\\begin{cases} x + y = ${total1} \\\\ ${a2}x + ${b2}y = ${total2} \\end{cases}$`,
-            `De (1) : $y = ${total1} - x$`,
-            `Dans (2) : $${a2}x + ${b2}(${total1} - x) = ${total2}$`,
-            `$${a2}x + ${b2*total1} - ${b2}x = ${total2}$`,
-            `$${a2-b2}x = ${total2 - b2*total1}$`,
-            `$x = ${x}$ et $y = ${y}$`
+            `On compare les pentes : celle de la première vaut $${m1}$, celle de la seconde $${m2}$.`,
+            paralleles
+              ? `Les deux pentes sont égales, donc les droites ont la même inclinaison : elles sont parallèles. Comme $${p1} \\neq ${p2}$, elles sont distinctes et n'ont aucun point commun.`
+              : `Les deux pentes diffèrent, donc les droites n'ont pas la même inclinaison : elles se coupent en un unique point. Elles sont sécantes.`,
+            `Réponse : $${paralleles ? 1 : 0}$.`
           ]
         };
       }

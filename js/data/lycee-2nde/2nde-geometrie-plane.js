@@ -102,30 +102,117 @@ window.MODULES.push({
       { q: 'Le rapport de réduction entre deux triangles en configuration de Thalès est $k = \\frac{1}{3}$. Le rapport de leurs aires est :', options: ['$\\frac{1}{3}$', '$\\frac{1}{9}$', '$\\frac{1}{6}$', '$\\frac{2}{3}$'], answer: 1, correction: 'Le rapport des aires est le carré du rapport de réduction : $k^2 = \\left(\\frac{1}{3}\\right)^2 = \\frac{1}{9}$. L\'aire varie comme le carré des longueurs — une erreur fréquente est de confondre rapport de longueurs et rapport d\'aires.' },
       { q: 'Un triangle a des angles de $90°$, $45°$ et $45°$. Quels types de droites remarquables sont confondues pour le côté face à l\'angle de $90°$ ?', options: ['Médiane et hauteur issues de l\'angle droit sont confondues car le triangle est isocèle rectangle', 'Toutes les droites remarquables sont distinctes', 'Médiatrice et bissectrice sont confondues', 'Hauteur et médiatrice sont confondues'], answer: 0, correction: 'Dans un triangle isocèle rectangle, la médiane issue de l\'angle droit rejoint le milieu de l\'hypoténuse ET est perpendiculaire à l\'hypoténuse (c\'est aussi la hauteur). Les deux droites sont confondues. C\'est un cas particulier — en général, médiane et hauteur sont distinctes.' }
     ],
+    /* GÉNÉRATEUR ÉLARGI le 2026-09-13.
+       Mesure AVANT : 9 énoncés tirés, 3 moules, **1 seule tâche distincte** —
+       un calcul de longueur par Thalès, habillé trois fois (un géomètre, un
+       architecte, un cartographe). Les droites remarquables du triangle, la
+       somme des angles et le rapport des aires, tous au programme du chapitre,
+       n'étaient travaillés par aucun exercice.
+
+       Cinq tâches maintenant. Les figures paramétriques sont posées sur les
+       tâches qui le méritent (Thalès, aire du triangle) : un chapitre de
+       géométrie est exactement le cas où une figure vaut un paragraphe. */
     exercice: {
       type: 'numeric',
       generate() {
-        const contexts = [
-          { intro: 'Un géomètre mesure un terrain triangulaire. Il trace une parallèle à la base', obj: 'la longueur de la clôture parallèle' },
-          { intro: 'Un architecte réduit un plan triangulaire. La droite de coupe est parallèle à la base', obj: 'la longueur du segment réduit' },
-          { intro: 'Un cartographe étudie deux routes parallèles coupées par deux sentiers', obj: 'la distance entre les intersections sur la route secondaire' }
-        ];
-        const ctx = pick(contexts);
-        const am = rand(2, 6);
-        const ratio = rand(2, 4);
-        const ab = am * ratio;
-        const bc = rand(3, 8) * ratio;
-        const mn = bc / ratio;
+        const tache = pick(['thales', 'angles', 'aire', 'aires-rapport', 'droites']);
+
+        /* Tâche 1 — Thalès, calcul d'une longueur (la tâche historique). */
+        if (tache === 'thales') {
+          const ctx = pick([
+            'Un géomètre mesure un terrain triangulaire et trace une clôture parallèle à la base',
+            'Un architecte réduit un plan triangulaire par une coupe parallèle à la base',
+            'Un cartographe étudie deux routes parallèles coupées par deux sentiers'
+          ]);
+          const am = rand(2, 6);
+          const ratio = rand(2, 4);
+          const ab = am * ratio;
+          const bc = rand(3, 8) * ratio;
+          const mn = bc / ratio;
+          return {
+            statement: `${ctx}, dans un triangle $ABC$. On sait que $(MN) \\parallel (BC)$, avec $AM = ${am}$, $AB = ${ab}$ et $BC = ${bc}$.<br/><br/>Calcule la longueur $MN$.`,
+            answer: mn, tolerance: 0, unit: '',
+            hint: `Commence par le rapport de réduction $k = \\dfrac{AM}{AB}$. Le théorème de Thalès dit que TOUTES les longueurs du petit triangle sont dans ce même rapport, donc $\\dfrac{MN}{BC} = k$.`,
+            solution: [
+              `Le rapport de réduction vaut $k = \\dfrac{AM}{AB} = \\dfrac{${am}}{${ab}} = \\dfrac{1}{${ratio}}$.`,
+              `Par le théorème de Thalès, $MN = k \\times BC = \\dfrac{1}{${ratio}} \\times ${bc} = ${mn}$.`,
+              `Contrôle de bon sens : $MN$ doit être plus petit que $BC$, puisque le triangle $AMN$ est une réduction de $ABC$.`
+            ],
+            figure: figureThales(am, ab, bc)
+          };
+        }
+
+        /* Tâche 2 — somme des angles d'un triangle. */
+        if (tache === 'angles') {
+          const a1 = rand(25, 80);
+          const a2 = rand(25, Math.max(26, 175 - a1 - 20));
+          const a3 = 180 - a1 - a2;
+          return {
+            statement: `Dans un triangle, deux angles mesurent $${a1}°$ et $${a2}°$.<br/><br/>Calcule la mesure du troisième angle, en degrés.`,
+            answer: a3, tolerance: 0, unit: '°',
+            hint: `Dans n'importe quel triangle, la somme des trois angles vaut toujours $180°$.`,
+            solution: [
+              `La somme des angles d'un triangle vaut $180°$.`,
+              `Le troisième angle mesure donc $180 - ${a1} - ${a2} = ${a3}°$.`,
+              `Vérification : $${a1} + ${a2} + ${a3} = 180$. Le triangle est ${a3 === 90 || a1 === 90 || a2 === 90 ? 'rectangle' : (a1 > 90 || a2 > 90 || a3 > 90 ? 'obtusangle' : 'acutangle')}.`
+            ],
+            figure: figureTriangleAngles(a1, a2)
+          };
+        }
+
+        /* Tâche 3 — aire d'un triangle. */
+        if (tache === 'aire') {
+          const b = rand(4, 14);
+          const h = rand(3, 12);
+          const aire = (b * h) / 2;
+          return {
+            statement: `Un triangle a pour base $b = ${b}$ cm et pour hauteur relative à cette base $h = ${h}$ cm.<br/><br/>Calcule son aire, en cm².`,
+            answer: aire, tolerance: 0, unit: 'cm²',
+            hint: `L'aire d'un triangle vaut $\\dfrac{b \\times h}{2}$. La division par deux vient de ce qu'un triangle est la moitié d'un rectangle de mêmes base et hauteur.`,
+            solution: [
+              `L'aire d'un triangle se calcule par $\\mathcal{A} = \\dfrac{b \\times h}{2}$.`,
+              `$\\mathcal{A} = \\dfrac{${b} \\times ${h}}{2} = \\dfrac{${b * h}}{2} = ${fr(aire)}$ cm².`,
+              `N'oublie pas la division par $2$ : sans elle, tu calculerais l'aire du rectangle entier.`
+            ],
+            figure: figureTriangle(b, h, { unite: 'cm' })
+          };
+        }
+
+        /* Tâche 4 — le rapport des AIRES, qui est le carré du rapport des
+           longueurs. C'est le piège du chapitre, et aucun exercice ne le
+           travaillait avant ce jour. */
+        if (tache === 'aires-rapport') {
+          const k = pick([2, 3, 4, 5]);
+          const aireGrande = rand(4, 20) * k * k;
+          const airePetite = aireGrande / (k * k);
+          return {
+            statement: `Deux triangles sont en configuration de Thalès. Le petit est une réduction du grand dans le rapport $k = \\dfrac{1}{${k}}$.<br/><br/>L'aire du grand triangle vaut $${aireGrande}$ cm².<br/><br/>Calcule l'aire du petit, en cm².`,
+            answer: airePetite, tolerance: 0, unit: 'cm²',
+            hint: `Attention : les aires ne sont PAS dans le rapport $k$, mais dans le rapport $k^2$. Une réduction de moitié divise les longueurs par $2$, mais l'aire par $4$.`,
+            solution: [
+              `Les longueurs sont dans le rapport $k = \\dfrac{1}{${k}}$, mais une aire fait intervenir DEUX longueurs.`,
+              `Le rapport des aires vaut donc $k^2 = \\dfrac{1}{${k * k}}$.`,
+              `L'aire du petit triangle vaut $${aireGrande} \\times \\dfrac{1}{${k * k}} = ${airePetite}$ cm².`
+            ]
+          };
+        }
+
+        /* Tâche 5 — reconnaître une droite remarquable du triangle.
+           Réponse codée par un numéro, pour rester en type numeric. */
+        const cas = pick([
+          { def: 'joint un sommet au milieu du côté opposé', nom: 'la médiane', n: 1 },
+          { def: 'passe par un sommet et est perpendiculaire au côté opposé', nom: 'la hauteur', n: 2 },
+          { def: 'coupe un côté perpendiculairement en son milieu', nom: 'la médiatrice', n: 3 },
+          { def: 'partage un angle du triangle en deux angles égaux', nom: 'la bissectrice', n: 4 }
+        ]);
         return {
-          statement: `${ctx.intro} dans un triangle $ABC$. On sait que $(MN) \\parallel (BC)$, $AM = ${am}$, $AB = ${ab}$ et $BC = ${bc}$.<br/><br/><strong>1.</strong> Calculer le rapport de réduction $k = \\frac{AM}{AB}$.<br/><strong>2.</strong> En déduire $MN$ par le théorème de Thalès.<br/><strong>3.</strong> Quel est le rapport des aires des triangles $AMN$ et $ABC$ ?<br/><br/>Donne la valeur de $MN$.`,
-          answer: mn,
-          tolerance: 0,
-          unit: '',
-          hint: `Rapport $k = \\frac{${am}}{${ab}} = \\frac{1}{${ratio}}$. Par Thalès : $\\frac{MN}{BC} = k$.`,
+          statement: `Dans un triangle, quelle droite remarquable ${cas.def} ?<br/><br/>Réponds par son numéro : $1$ la médiane, $2$ la hauteur, $3$ la médiatrice, $4$ la bissectrice.`,
+          answer: cas.n, tolerance: 0, unit: '',
+          hint: `Reviens à ce que chaque nom dit : « médiane » et « médiatrice » parlent d'un MILIEU, « hauteur » d'une perpendiculaire issue d'un sommet, « bissectrice » d'un angle coupé en deux.`,
           solution: [
-            `$k = \\frac{AM}{AB} = \\frac{${am}}{${ab}} = \\frac{1}{${ratio}}$`,
-            `Par Thalès : $MN = k \\times BC = \\frac{1}{${ratio}} \\times ${bc} = ${mn}$`,
-            `Rapport des aires : $k^2 = \\frac{1}{${ratio*ratio}}$`
+            `La droite qui ${cas.def} est <strong>${cas.nom}</strong>.`,
+            `Le piège classique est de confondre médiane et médiatrice : la médiane part d'un SOMMET et vise le milieu, la médiatrice ne passe par aucun sommet mais coupe un côté à angle droit en son milieu.`,
+            `Réponse : $${cas.n}$.`
           ]
         };
       }

@@ -99,6 +99,17 @@ window.MODULES.push({
       { q: 'Le nombre $\\sqrt{49}$ appartient-il à $\\mathbb{Q}$ ?', options: ['Oui, car $\\sqrt{49} = 7 \\in \\mathbb{N} \\subset \\mathbb{Q}$', 'Non, car toute racine carrée est irrationnelle', 'Oui, car $49$ est pair', 'Non, car $\\sqrt{49}$ ne s\'écrit pas $p/q$'], answer: 0, correction: '$\\sqrt{49} = 7$, qui est un entier naturel. Attention : $\\sqrt{n}$ n\'est irrationnel que si $n$ n\'est pas un carré parfait. $49 = 7^2$, donc $\\sqrt{49}$ est parfaitement rationnel. Ne pas confondre « racine carrée » et « irrationnel ».' },
       { q: 'Que vaut $[2;6] \\cup [8;10]$ ? Peut-on simplifier ?', options: ['$[2;10]$', '$[2;6] \\cup [8;10]$ (non simplifiable, intervalles disjoints)', '$[8;10]$', '$\\varnothing$ (ensemble vide)'], answer: 1, correction: 'Les intervalles $[2;6]$ et $[8;10]$ ne se chevauchent pas (aucune valeur entre $6$ et $8$ n\'est dans les deux). L\'union ne peut pas se simplifier en un seul intervalle. On écrit $[2;6] \\cup [8;10]$.' }
     ],
+    /* GÉNÉRATEUR ÉLARGI le 2026-09-13.
+       Mesure AVANT : 12 énoncés tirés, 4 moules, **1 seule tâche distincte**.
+       Les quatre moules ne différaient que par le décor (un médicament, une
+       plante, un capteur, un poisson) et posaient tous la même question : la
+       longueur d'une intersection. Un enseignant qui feuilletait la banque y
+       voyait douze fois le même exercice.
+
+       Cinq tâches maintenant, distinguées par ce qu'on DEMANDE : intersection,
+       réunion (avec le cas où elle ne se simplifie pas), appartenance d'un
+       nombre à un intervalle, traduction d'une phrase en intervalle, et
+       nature d'un nombre. */
     exercice: {
       type: 'numeric',
       generate() {
@@ -108,23 +119,108 @@ window.MODULES.push({
           { intro: 'Un capteur fonctionne correctement pour des pressions dans', unit: 'hPa' },
           { intro: 'Un poisson survit dans des températures d\'eau comprises dans', unit: '°C' }
         ];
-        const ctx = pick(contexts);
-        const a1 = rand(1, 5);
-        const b1 = a1 + rand(4, 8);
-        const a2 = a1 + rand(2, 4);
-        const b2 = b1 + rand(1, 4);
-        const interLeft = Math.max(a1, a2);
-        const interRight = Math.min(b1, b2);
-        const interLength = interRight - interLeft;
+        const tache = pick(['intersection', 'reunion', 'appartenance', 'traduction', 'nature']);
+
+        /* Tâche 1 — longueur de l'intersection (la tâche historique). */
+        if (tache === 'intersection') {
+          const ctx = pick(contexts);
+          const a1 = rand(1, 5);
+          const b1 = a1 + rand(4, 8);
+          const a2 = a1 + rand(2, 4);
+          const b2 = b1 + rand(1, 4);
+          const g = Math.max(a1, a2), d = Math.min(b1, b2);
+          return {
+            statement: `${ctx.intro} l'intervalle $I_1 = [${a1};${b1}]$ ${ctx.unit}, et un second phénomène se produit dans $I_2 = [${a2};${b2}]$ ${ctx.unit}.<br/><br/>Détermine $I_1 \\cap I_2$, puis donne la <strong>longueur</strong> de cette intersection.`,
+            answer: d - g, tolerance: 0, unit: ctx.unit,
+            hint: `L'intersection garde ce qui est dans les DEUX intervalles : $[a_1;b_1] \\cap [a_2;b_2] = [\\max(a_1,a_2)\\,;\\,\\min(b_1,b_2)]$.`,
+            solution: [
+              `$I_1 \\cap I_2 = [\\max(${a1},${a2})\\,;\\,\\min(${b1},${b2})] = [${g};${d}]$`,
+              `Sa longueur vaut $${d} - ${g} = ${d - g}$ ${ctx.unit}.`
+            ]
+          };
+        }
+
+        /* Tâche 2 — la réunion, avec le cas DISJOINT.
+           Une fois sur deux les deux intervalles ne se touchent pas : la
+           réunion ne se simplifie alors pas en un seul intervalle, ce qui est
+           précisément le point que l'évaluation interroge. */
+        if (tache === 'reunion') {
+          const disjoint = pick([true, false]);
+          const a1 = rand(1, 4), b1 = a1 + rand(2, 4);
+          const a2 = disjoint ? b1 + rand(2, 4) : b1 - rand(0, 2);
+          const b2 = a2 + rand(2, 5);
+          return {
+            statement: `On considère $I_1 = [${a1};${b1}]$ et $I_2 = [${a2};${b2}]$.<br/><br/>La réunion $I_1 \\cup I_2$ peut-elle s'écrire comme un <strong>seul</strong> intervalle ?<br/><br/>Réponds par $1$ pour oui, $0$ pour non.`,
+            answer: disjoint ? 0 : 1, tolerance: 0, unit: '',
+            hint: `Place les deux intervalles sur une droite graduée. S'ils se touchent ou se chevauchent, leur réunion est d'un seul tenant. S'il reste un « trou » entre eux, elle ne peut pas s'écrire en un seul intervalle.`,
+            solution: disjoint ? [
+              `Sur une droite graduée, $I_1$ s'arrête à $${b1}$ et $I_2$ ne commence qu'à $${a2}$.`,
+              `Entre les deux, les nombres de $]${b1};${a2}[$ n'appartiennent à aucun des deux intervalles : il y a un trou.`,
+              `La réunion ne se simplifie donc pas : on doit l'écrire $[${a1};${b1}] \\cup [${a2};${b2}]$. Réponse : $0$.`
+            ] : [
+              `Sur une droite graduée, $I_2$ commence à $${a2}$, avant la fin de $I_1$ qui est $${b1}$ : les deux intervalles se chevauchent.`,
+              `La réunion est donc d'un seul tenant : $I_1 \\cup I_2 = [${Math.min(a1, a2)};${Math.max(b1, b2)}]$.`,
+              `Réponse : $1$.`
+            ]
+          };
+        }
+
+        /* Tâche 3 — appartenance, et le rôle du crochet ouvert. */
+        if (tache === 'appartenance') {
+          const a = rand(2, 6), b = a + rand(3, 6);
+          const ferme = pick([true, false]);
+          const teste = pick([a, b, rand(a + 1, b - 1)]);
+          const dedans = (teste > a && teste < b) || (ferme && (teste === a || teste === b));
+          const notation = ferme ? `[${a};${b}]` : `]${a};${b}[`;
+          return {
+            statement: `Le nombre $${teste}$ appartient-il à l'intervalle $I = ${notation}$ ?<br/><br/>Réponds par $1$ pour oui, $0$ pour non.`,
+            answer: dedans ? 1 : 0, tolerance: 0, unit: '',
+            hint: `Un crochet ${ferme ? 'fermé inclut' : 'ouvert exclut'} la borne qu'il touche. Regarde d'abord si le nombre testé est justement une borne.`,
+            solution: [
+              `L'intervalle $${notation}$ contient les nombres compris entre $${a}$ et $${b}$, bornes ${ferme ? 'INCLUSES' : 'EXCLUES'}.`,
+              teste === a || teste === b
+                ? `Or $${teste}$ est précisément une borne, et le crochet est ${ferme ? 'fermé : elle appartient donc à l\'intervalle' : 'ouvert : elle n\'appartient donc PAS à l\'intervalle'}.`
+                : `Or $${a} < ${teste} < ${b}$, donc $${teste}$ est strictement à l'intérieur.`,
+              `Réponse : $${dedans ? 1 : 0}$.`
+            ]
+          };
+        }
+
+        /* Tâche 4 — traduire une phrase en intervalle, puis en donner une
+           borne. Le sens du crochet est l'enjeu, pas le calcul. */
+        if (tache === 'traduction') {
+          const a = rand(-6, 4), b = a + rand(3, 8);
+          const strictG = pick([true, false]);
+          return {
+            statement: `Traduis en notation d'intervalle : « $x$ est ${strictG ? 'strictement supérieur' : 'supérieur ou égal'} à $${a}$ et strictement inférieur à $${b}$ ».<br/><br/>Donne la <strong>borne de gauche</strong> de cet intervalle.`,
+            answer: a, tolerance: 0, unit: '',
+            hint: `« Strictement » se traduit par un crochet OUVERT, « ou égal » par un crochet FERMÉ. Du côté droit, « strictement inférieur à $${b}$ » donne toujours un crochet ouvert.`,
+            solution: [
+              `« ${strictG ? 'Strictement supérieur' : 'Supérieur ou égal'} à $${a}$ » donne un crochet ${strictG ? 'ouvert' : 'fermé'} à gauche.`,
+              `« Strictement inférieur à $${b}$ » donne un crochet ouvert à droite.`,
+              `L'intervalle s'écrit donc $${strictG ? ']' : '['}${a};${b}[$, et sa borne de gauche est $${a}$.`
+            ]
+          };
+        }
+
+        /* Tâche 5 — nature d'un nombre. Réponse codée : 1 rationnel,
+           0 irrationnel. C'est la classification, sans aucun calcul. */
+        const cas = pick([
+          { ecrit: `\\dfrac{${rand(2, 9)}}{${rand(2, 9)}}`, rationnel: true, pourquoi: 'c\'est un quotient de deux entiers, donc un rationnel par définition' },
+          { ecrit: `${rand(1, 9)}{,}${rand(10, 99)}`, rationnel: true, pourquoi: 'un nombre décimal s\'écrit toujours comme une fraction de dénominateur une puissance de dix' },
+          { ecrit: '\\sqrt{2}', rationnel: false, pourquoi: 'sa racine n\'est pas exacte : son écriture décimale est infinie et sans période' },
+          { ecrit: '\\sqrt{3}', rationnel: false, pourquoi: 'sa racine n\'est pas exacte : son écriture décimale est infinie et sans période' },
+          { ecrit: '\\pi', rationnel: false, pourquoi: 'c\'est l\'exemple historique d\'irrationnel : aucune fraction ne le donne exactement' },
+          { ecrit: '\\sqrt{16}', rationnel: true, pourquoi: 'la racine tombe juste : $\\sqrt{16} = 4$, qui est même un entier' }
+        ]);
         return {
-          statement: `${ctx.intro} l'intervalle $I_1 = [${a1};${b1}]$ ${ctx.unit} et un second phénomène se produit dans $I_2 = [${a2};${b2}]$ ${ctx.unit}.<br/><br/><strong>1.</strong> Déterminer $I_1 \\cap I_2$ (valeurs communes).<br/><strong>2.</strong> Calculer la longueur de cette intersection.<br/><br/>Donne la <strong>longueur</strong> de $I_1 \\cap I_2$.`,
-          answer: interLength,
-          tolerance: 0,
-          unit: ctx.unit,
-          hint: `L'intersection $[a_1;b_1] \\cap [a_2;b_2] = [\\max(a_1,a_2);\\min(b_1,b_2)]$. Ici : $[\\max(${a1},${a2});\\min(${b1},${b2})] = [${interLeft};${interRight}]$.`,
+          statement: `Le nombre $${cas.ecrit}$ est-il rationnel ?<br/><br/>Réponds par $1$ pour oui, $0$ pour non.`,
+          answer: cas.rationnel ? 1 : 0, tolerance: 0, unit: '',
+          hint: `Un nombre est rationnel s'il PEUT s'écrire comme un quotient de deux entiers — peu importe la façon dont il est écrit dans l'énoncé. Attention aux racines carrées : certaines tombent juste.`,
           solution: [
-            `$I_1 \\cap I_2 = [\\max(${a1},${a2});\\min(${b1},${b2})] = [${interLeft};${interRight}]$`,
-            `Longueur $= ${interRight} - ${interLeft} = ${interLength}$ ${ctx.unit}`
+            `On ne juge pas sur l'écriture, mais sur la possibilité d'écrire le nombre comme un quotient de deux entiers.`,
+            `Ici, ${cas.pourquoi}.`,
+            `$${cas.ecrit}$ est donc ${cas.rationnel ? 'rationnel' : 'irrationnel'}. Réponse : $${cas.rationnel ? 1 : 0}$.`
           ]
         };
       }
