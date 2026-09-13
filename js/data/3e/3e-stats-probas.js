@@ -118,32 +118,285 @@ window.MODULES.push(
     ],
     exercice: {
       type: 'numeric',
+      /* BANQUE ÉLARGIE le 2026-09-13.
+
+         AVANT : un seul moule de tâche — « on donne $n(A)$ et $n(A \cap B)$,
+         calcule $n(A \cap B) / n(A)$ » — habillé de six décors tirés par pick()
+         (entreprise, hôpital, festival, élevage, lycée, bibliothèque). Mesure à
+         60 tirages : 6 moules d'énoncé, mais **1 seule tâche distincte**. Le
+         professeur qui imprimait la banque obtenait dix-sept fois la même
+         division sous six habillages.
+
+         Le défaut était d'autant plus gênant ici que l'introduction du chapitre
+         est tout entière bâtie sur la CONFUSION entre deux fréquences — « parmi
+         les malades » contre « parmi les testés positifs » — et que l'effectif
+         total, donné dans chaque énoncé, ne servait JAMAIS : la banque
+         entraînait donc à ignorer précisément la donnée dont l'erreur du
+         chapitre dépend. L'évaluation, elle, exige la fréquence globale, la
+         probabilité d'une réunion et le décompte d'un tableau croisé — trois
+         tâches que la banque ne préparait pas.
+
+         APRÈS : sept familles de tâches, dont deux volontairement posées sur la
+         MÊME situation chiffrée pour rendre le contraste visible.
+           - 'conditionnelle' : la tâche d'origine, conservée ;
+           - 'globale'        : la même situation, mais rapportée au total. Les
+                                deux énoncés sont presque identiques, seul le
+                                mot « parmi » change — c'est le cœur du
+                                chapitre ;
+           - 'manquante'      : compléter un tableau croisé par les marges, ce
+                                que l'évaluation demande et que rien ne
+                                travaillait ;
+           - 'proba'          : probabilité simple d'un tirage équiprobable ;
+           - 'reunion'        : $P(A \cup B) = P(A) + P(B) - P(A \cap B)$, la
+                                formule dont l'oubli du terme d'intersection est
+                                l'erreur la plus fréquente ;
+           - 'contraire'      : $P(\bar{A}) = 1 - P(A)$, le raccourci qui évite
+                                un long décompte ;
+           - 'dependance'     : comparer deux fréquences conditionnelles pour
+                                décider s'il y a lien, réponse codée 1/0. C'est
+                                la seule tâche qui demande de CONCLURE et non de
+                                calculer.
+
+         LES EFFECTIFS SONT CONSTRUITS À PARTIR DE LA RÉPONSE : on tire d'abord
+         la fréquence voulue sous forme de fraction simple, puis on en déduit
+         les effectifs entiers. L'ancienne version faisait l'inverse
+         (`Math.round(nA * pAB)`), si bien que la fréquence annoncée n'était pas
+         tout à fait le quotient affiché — un écart caché par la tolérance, mais
+         qui rendait le corrigé faux au centième près. */
       generate() {
-        const total = rand(100, 300);
-        const pA = pick([0.4, 0.5, 0.6]);
-        const nA = Math.round(total * pA);
-        const pAB = pick([0.2, 0.3, 0.4]);
-        const nAB = Math.round(nA * pAB);
-        const fcond = parseFloat((nAB / nA).toFixed(2));
-        const fcondStr = fr(fcond);
-        const pctStr = Math.round(fcond * 100);
+        const tache = pick(['conditionnelle', 'globale', 'manquante', 'proba',
+                            'reunion', 'contraire', 'dependance']);
 
-        const ctx = pick([
-          { build: () => `Dans une <strong>entreprise</strong> de $${total}$ employés, $${nA}$ pratiquent le <strong>télétravail</strong> $(A)$, dont $${nAB}$ viennent aussi au bureau à <strong>vélo</strong> $(B)$ les autres jours.<br/><br/>Quelle est la <strong>fréquence conditionnelle</strong> de $B$ parmi les télétravailleurs ?` },
-          { build: () => `Dans un <strong>hôpital</strong>, sur $${total}$ patients suivis, $${nA}$ ont été <strong>vaccinés</strong> $(A)$, dont $${nAB}$ ont déclaré une <strong>allergie</strong> connue $(B)$.<br/><br/>Quelle est la <strong>fréquence conditionnelle</strong> de $B$ parmi les patients vaccinés ?` },
-          { build: () => `Lors d'un <strong>festival</strong> de $${total}$ spectateurs, $${nA}$ ont un <strong>pass VIP</strong> $(A)$, dont $${nAB}$ publient des photos sur les <strong>réseaux sociaux</strong> $(B)$.<br/><br/>Quelle est la <strong>fréquence conditionnelle</strong> de $B$ parmi les détenteurs du pass VIP ?` },
-          { build: () => `Dans un <strong>élevage</strong> de $${total}$ animaux, $${nA}$ ont été <strong>vaccinés</strong> $(A)$, dont $${nAB}$ portent aussi une <strong>puce électronique</strong> $(B)$.<br/><br/>Quelle est la <strong>fréquence conditionnelle</strong> de $B$ parmi les animaux vaccinés ?` },
-          { build: () => `Dans un lycée, sur $${total}$ élèves, $${nA}$ sont inscrits au <strong>club théâtre</strong> $(A)$, dont $${nAB}$ pratiquent aussi la <strong>danse</strong> $(B)$.<br/><br/>Quelle est la <strong>fréquence conditionnelle</strong> de $B$ parmi les membres du club théâtre ?` },
-          { build: () => `Dans une <strong>bibliothèque</strong> de $${total}$ adhérents, $${nA}$ empruntent régulièrement des <strong>bandes dessinées</strong> $(A)$, dont $${nAB}$ empruntent aussi des <strong>romans</strong> $(B)$.<br/><br/>Quelle est la <strong>fréquence conditionnelle</strong> de $B$ parmi les emprunteurs de BD ?` }
+        /* Situations partagées par 'conditionnelle' et 'globale'. Chaque
+           contexte porte son nom de population ET ses formes fléchies :
+           `groupeA` avec l'article défini (« les télétravailleurs ») pour la
+           question, `desA` avec l'article contracté (« des télétravailleurs »)
+           pour la tournure « $50\%$ des … ». Une première version ne stockait
+           que la forme en « les » et écrivait « $50\%$ de les membres du club
+           théâtre » : l'élision ne se devine pas depuis le mot, elle se
+           transporte avec lui. */
+        const SITUATIONS = [
+          { lieu: 'Dans une <strong>entreprise</strong>', pop: 'employés', a: 'pratiquent le <strong>télétravail</strong>', groupeA: 'les télétravailleurs', desA: 'des télétravailleurs', b: 'viennent aussi au bureau à <strong>vélo</strong>' },
+          { lieu: 'Dans un <strong>lycée</strong>', pop: 'élèves', a: 'sont inscrits au <strong>club théâtre</strong>', groupeA: 'les membres du club théâtre', desA: 'des membres du club théâtre', b: 'pratiquent aussi la <strong>danse</strong>' },
+          { lieu: 'Dans une <strong>bibliothèque</strong>', pop: 'adhérents', a: 'empruntent des <strong>bandes dessinées</strong>', groupeA: 'les emprunteurs de bandes dessinées', desA: 'des emprunteurs de bandes dessinées', b: 'empruntent aussi des <strong>romans</strong>' },
+          { lieu: 'Lors d\'un <strong>festival</strong>', pop: 'spectateurs', a: 'ont un <strong>pass VIP</strong>', groupeA: 'les détenteurs du pass VIP', desA: 'des détenteurs du pass VIP', b: 'assistent aussi aux <strong>ateliers</strong>' }
+        ];
+
+        /* Fractions qui tombent juste au centième, écrites sous forme réduite :
+           la réponse est donc décidée AVANT les effectifs. */
+        const FRACTIONS = [
+          { num: 1, den: 4, val: 0.25 }, { num: 1, den: 2, val: 0.5 },
+          { num: 3, den: 4, val: 0.75 }, { num: 2, den: 5, val: 0.4 },
+          { num: 3, den: 5, val: 0.6 },  { num: 1, den: 5, val: 0.2 }
+        ];
+
+        if (tache === 'conditionnelle') {
+          const s = pick(SITUATIONS), f = pick(FRACTIONS);
+          const k = rand(8, 20);
+          const nA = f.den * k, nAB = f.num * k;
+          const total = nA + rand(4, 12) * 10;          // total > nA, sans lien avec f
+          return {
+            statement: `${s.lieu} de $${total}$ ${s.pop}, $${nA}$ ${s.a} $(A)$, dont $${nAB}$ ${s.b} $(B)$.<br/><br/>` +
+              `Quelle est la <strong>fréquence conditionnelle</strong> de $B$ <strong>parmi</strong> ${s.groupeA} ?<br/><br/>` +
+              `Donne le résultat sous forme décimale.`,
+            answer: f.val, tolerance: 0.01, unit: '',
+            hint: `Le mot <strong>parmi</strong> fixe la référence : ici on ne compare pas au total, mais au seul groupe $A$.<br/><br/>$f_{B|A} = \\dfrac{n(A \\cap B)}{n(A)}$.`,
+            solution: [
+              `Le mot « <strong>parmi</strong> » désigne la population de référence. Ici c'est le groupe $A$, et non l'ensemble des $${total}$ ${s.pop} : le total ne sert donc pas dans ce calcul.`,
+              `$f_{B|A} = \\dfrac{n(A \\cap B)}{n(A)} = \\dfrac{${nAB}}{${nA}} = ${fr(f.val)}$.`,
+              `Autrement dit, $${Math.round(f.val * 100)}\\%$ ${s.desA} sont aussi dans $B$.<br/><br/>Contrôle : une fréquence conditionnelle est toujours comprise entre $0$ et $1$, puisque $n(A \\cap B)$ ne peut pas dépasser $n(A)$.`
+            ]
+          };
+        }
+
+        if (tache === 'globale') {
+          /* LA MÊME SITUATION que 'conditionnelle', volontairement : seul le
+             mot « parmi » disparaît de la question, et la référence bascule du
+             groupe au total. C'est exactement l'inversion que l'introduction du
+             chapitre met en scène avec le test de dépistage. */
+          /* nA doit tenir STRICTEMENT entre nAB et total : un groupe $A$ plus
+             nombreux que la population entière rendrait l'énoncé absurde. On
+             prend donc la marge disponible et on en tire une fraction, au lieu
+             d'ajouter un incrément arbitraire qui pouvait la dépasser. */
+          const s = pick(SITUATIONS), f = pick(FRACTIONS);
+          const k = rand(5, 15);
+          const total = f.den * k * 2;                  // total multiple de den
+          const nAB = f.num * k * 2;
+          const marge = total - nAB;
+          const nA = nAB + rand(Math.max(1, Math.floor(marge * 0.2)), Math.max(2, Math.floor(marge * 0.7)));
+          return {
+            statement: `${s.lieu} de $${total}$ ${s.pop}, $${nA}$ ${s.a} $(A)$, dont $${nAB}$ ${s.b} $(B)$.<br/><br/>` +
+              `Quelle est la <strong>fréquence globale</strong> des ${s.pop} qui sont <strong>à la fois</strong> dans $A$ et dans $B$ ?<br/><br/>` +
+              `Donne le résultat sous forme décimale.`,
+            answer: f.val, tolerance: 0.01, unit: '',
+            hint: `Cette fois, aucune sous-population n'est désignée : la question porte sur <strong>l'ensemble</strong> des ${s.pop}.<br/><br/>$f = \\dfrac{n(A \\cap B)}{N}$, où $N$ est l'effectif total.`,
+            solution: [
+              `Aucun « parmi » dans la question : la référence est l'effectif <strong>total</strong>, $${total}$ ${s.pop}. C'est ce qui distingue une fréquence globale d'une fréquence conditionnelle, dont la référence serait $${nA}$.`,
+              `$f = \\dfrac{n(A \\cap B)}{N} = \\dfrac{${nAB}}{${total}} = ${fr(f.val)}$.`,
+              `Donc $${Math.round(f.val * 100)}\\%$ de l'ensemble des ${s.pop} sont dans les deux groupes.<br/><br/>Contrôle : la fréquence globale est toujours <strong>plus petite</strong> que la fréquence conditionnelle correspondante, car son dénominateur est plus grand. Ici $\\dfrac{${nAB}}{${total}}$ contre $\\dfrac{${nAB}}{${nA}}$.`
+            ]
+          };
+        }
+
+        if (tache === 'manquante') {
+          /* COMPLÉTER UN TABLEAU CROISÉ par les marges. L'évaluation ouvre
+             là-dessus et rien ne l'entraînait. Les quatre cases sont tirées en
+             premier, les marges en découlent : aucune incohérence possible. */
+          const aa = rand(12, 40), ab = rand(10, 35);
+          const ba = rand(8, 30), bb = rand(14, 45);
+          const totalLigne1 = aa + ab, totalLigne2 = ba + bb;
+          const totalCol1 = aa + ba, total = totalLigne1 + totalLigne2;
+          /* `l2Combien` porte la forme élidée de la seconde ligne (« d'externes »
+             et non « de externes ») : l'élision appartient au mot, elle n'est
+             pas déductible de sa première lettre par une règle qu'on écrirait
+             ici. */
+          const ctx = pick([
+            { pop: 'élèves', l1: 'demi-pensionnaires', l2: 'externes', l2Combien: 'd\'externes' , c1: 'pratiquent un sport en club' },
+            { pop: 'salariés', l1: 'salariés à temps plein', l2: 'salariés à temps partiel', l2Combien: 'de salariés à temps partiel', c1: 'utilisent les transports en commun' },
+            { pop: 'visiteurs', l1: 'visiteurs venus seuls', l2: 'visiteurs venus en groupe', l2Combien: 'de visiteurs venus en groupe', c1: 'ont acheté le catalogue' }
+          ]);
+          return {
+            statement: `Une enquête porte sur $${total}$ ${ctx.pop}. Un tableau croisé en résume les résultats, mais une case a été effacée.<br/><br/>` +
+              `Les ${ctx.l1} sont au nombre de $${totalLigne1}$, dont $${aa}$ ${ctx.c1}.<br/><br/>` +
+              `Au total, $${totalCol1}$ ${ctx.pop} ${ctx.c1}.<br/><br/>` +
+              `Combien ${ctx.l2Combien} ${ctx.c1} ?`,
+            answer: ba, tolerance: 0, unit: '',
+            hint: `Dans un tableau croisé, chaque <strong>marge</strong> est la somme de sa ligne ou de sa colonne.<br/><br/>La colonne « ${ctx.c1} » se partage entre les ${ctx.l1} et les ${ctx.l2} : sa marge vaut $${totalCol1}$, et tu en connais déjà une part.`,
+            solution: [
+              `Une case manquante d'un tableau croisé se retrouve toujours par une <strong>marge</strong> : la somme d'une colonne ou d'une ligne est connue, il suffit de soustraire ce qu'on a déjà.`,
+              `La colonne « ${ctx.c1} » totalise $${totalCol1}$ ${ctx.pop}, dont $${aa}$ sont ${ctx.l1}. Les ${ctx.l2} concernés sont donc $${totalCol1} - ${aa} = ${ba}$.`,
+              `La case cherchée vaut <strong>$${ba}$</strong>.<br/><br/>Contrôle : la donnée « $${totalLigne1}$ ${ctx.l1} » n'a pas servi ici — elle est fournie pour reconstituer le tableau entier, pas pour cette case. Repérer les données inutiles fait partie du travail.`
+            ]
+          };
+        }
+
+        if (tache === 'proba') {
+          /* PROBABILITÉ SIMPLE d'un tirage équiprobable. La banque n'en
+             proposait aucune, alors que le mot « probabilité » est dans le
+             titre du chapitre. La réponse est une fraction exacte. */
+          /* `indiscernables` porte son accord (« toutes » pour les boules,
+             « tous » pour les jetons et les stylos) et `autres` nomme ce qui
+             distingue les catégories (couleur, forme). Une première version
+             écrivait « toutes indiscernables » pour des jetons et parlait des
+             « autres couleurs » pour des formes : l'accord et le mot juste se
+             transportent avec le contexte, ils ne se déduisent pas. */
+          const cas = pick([
+            { d: 'Une urne contient', objets: [{ n: rand(3, 8), nom: 'boules rouges' }, { n: rand(4, 9), nom: 'boules vertes' }, { n: rand(2, 6), nom: 'boules bleues' }], indiscernables: 'toutes indiscernables au toucher', tire: 'On tire une boule au hasard.', cible: 0, q: 'boule rouge', autres: 'les boules des autres couleurs' },
+            { d: 'Un sac contient', objets: [{ n: rand(5, 12), nom: 'jetons carrés' }, { n: rand(3, 8), nom: 'jetons ronds' }, { n: rand(2, 7), nom: 'jetons triangulaires' }], indiscernables: 'tous indiscernables au toucher', tire: 'On tire un jeton au hasard.', cible: 1, q: 'jeton rond', autres: 'les jetons des autres formes' },
+            { d: 'Une boîte contient', objets: [{ n: rand(4, 10), nom: 'stylos bleus' }, { n: rand(3, 9), nom: 'stylos noirs' }, { n: rand(2, 6), nom: 'stylos verts' }], indiscernables: 'tous identiques au toucher', tire: 'On tire un stylo au hasard.', cible: 2, q: 'stylo vert', autres: 'les stylos des autres couleurs' }
+          ]);
+          const totalP = cas.objets.reduce((s, o) => s + o.n, 0);
+          const fav = cas.objets[cas.cible].n;
+          const p = parseFloat((fav / totalP).toFixed(3));
+          return {
+            statement: `${cas.d} ${cas.objets.map(o => `$${o.n}$ ${o.nom}`).join(', ')}, ${cas.indiscernables}.<br/><br/>` +
+              `${cas.tire}<br/><br/>` +
+              `Quelle est la <strong>probabilité</strong> d'obtenir un ${cas.q} ? Donne le résultat arrondi au millième.`,
+            answer: p, tolerance: 0.002, unit: '',
+            hint: `Dans une situation d'<strong>équiprobabilité</strong>, chaque objet a la même chance d'être tiré.<br/><br/>$P = \\dfrac{\\text{nombre de cas favorables}}{\\text{nombre de cas possibles}}$ : commence par compter le total.`,
+            solution: [
+              `Tous les objets étant indiscernables, chacun a la même chance d'être tiré : on est en situation d'<strong>équiprobabilité</strong>, et la probabilité se lit comme un simple quotient d'effectifs.`,
+              `Cas possibles : $${cas.objets.map(o => o.n).join(' + ')} = ${totalP}$. Cas favorables : $${fav}$.`,
+              `$P = \\dfrac{${fav}}{${totalP}} \\approx ${fr(p, 3)}$.<br/><br/>Contrôle : une probabilité tient toujours entre $0$ et $1$, et celle-ci est d'autant plus petite que ${cas.autres} sont nombreux.`
+            ]
+          };
+        }
+
+        if (tache === 'reunion') {
+          /* LA RÉUNION. L'erreur classique — additionner sans retrancher
+             l'intersection — est ici rendue visible : la solution donne le
+             résultat faux à côté du bon, et dit pourquoi il est faux. */
+          const total = pick([100, 200, 50]);
+          const nInter = rand(5, 15);
+          const nA = nInter + rand(10, 25);
+          const nB = nInter + rand(8, 20);
+          const nUnion = nA + nB - nInter;
+          const p = parseFloat((nUnion / total).toFixed(3));
+          /* `q` porte le VERBE complet de la question, pas seulement son
+             complément : « ait acheté un livre », « fasse de l'allemand ». Une
+             première version collait un « qu'il ait » unique devant des
+             compléments hétérogènes et produisait « qu'il ait de l'allemand ».
+             Le verbe appartient au contexte. */
+          const ctx = pick([
+            { pop: 'clients', a: 'ont acheté un <strong>livre</strong>', b: 'ont acheté un <strong>disque</strong>', deux: 'ont acheté les deux', q: 'ait acheté un livre <strong>ou</strong> un disque' },
+            { pop: 'élèves', a: 'font de l\'<strong>allemand</strong>', b: 'font de l\'<strong>espagnol</strong>', deux: 'font les deux langues', q: 'fasse de l\'allemand <strong>ou</strong> de l\'espagnol' },
+            { pop: 'spectateurs', a: 'ont vu le <strong>premier film</strong>', b: 'ont vu le <strong>second film</strong>', deux: 'ont vu les deux', q: 'ait vu au moins un des deux films' }
+          ]);
+          return {
+            statement: `Sur $${total}$ ${ctx.pop} interrogés, $${nA}$ ${ctx.a} $(A)$ et $${nB}$ ${ctx.b} $(B)$. Parmi eux, $${nInter}$ ${ctx.deux}.<br/><br/>` +
+              `On en choisit un au hasard. Quelle est la <strong>probabilité</strong> qu'il ${ctx.q} ?<br/><br/>` +
+              `Donne le résultat arrondi au millième.`,
+            answer: p, tolerance: 0.002, unit: '',
+            hint: `Additionner $${nA}$ et $${nB}$ compte <strong>deux fois</strong> ceux qui sont dans les deux groupes.<br/><br/>$P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$ : le dernier terme corrige ce double comptage.`,
+            solution: [
+              `Compter $${nA} + ${nB}$ reviendrait à compter <strong>deux fois</strong> les $${nInter}$ ${ctx.pop} présents dans les deux groupes : une fois dans $A$, une fois dans $B$. Il faut donc les retrancher une fois.`,
+              `$n(A \\cup B) = ${nA} + ${nB} - ${nInter} = ${nUnion}$, puis $P(A \\cup B) = \\dfrac{${nUnion}}{${total}} \\approx ${fr(p, 3)}$.`,
+              `Contrôle : sans la soustraction on aurait trouvé $${nA + nB}$, soit plus que la réalité. Le nombre cherché doit rester inférieur au total de $${total}$ ${ctx.pop}, et il doit dépasser le plus grand des deux groupes, $${Math.max(nA, nB)}$.`
+            ]
+          };
+        }
+
+        if (tache === 'contraire') {
+          /* L'ÉVÉNEMENT CONTRAIRE. C'est le raccourci qui évite un long
+             décompte : on tire ici des situations où compter directement les
+             cas favorables serait fastidieux. */
+          const cas = pick([
+            { d: 'On lance un <strong>dé équilibré</strong> à $6$ faces.', ev: 'obtenir un $6$', contraire: 'ne pas obtenir de $6$', fav: 1, tot: 6 },
+            { d: 'On tire une carte au hasard dans un jeu de $32$ cartes.', ev: 'obtenir un <strong>as</strong>', contraire: 'ne pas obtenir d\'as', fav: 4, tot: 32 },
+            { d: 'On tire une boule dans une urne contenant $20$ boules numérotées de $1$ à $20$.', ev: 'obtenir un multiple de $5$', contraire: 'ne pas obtenir de multiple de $5$', fav: 4, tot: 20 },
+            { d: 'On lance deux fois une <strong>pièce équilibrée</strong>.', ev: 'obtenir deux fois pile', contraire: 'ne pas obtenir deux fois pile', fav: 1, tot: 4 }
+          ]);
+          const p = parseFloat(((cas.tot - cas.fav) / cas.tot).toFixed(3));
+          return {
+            statement: `${cas.d}<br/><br/>` +
+              `On note $E$ l'événement « ${cas.ev} ».<br/><br/>` +
+              `Quelle est la <strong>probabilité de l'événement contraire</strong> $\\bar{E}$, c'est-à-dire « ${cas.contraire} » ? Donne le résultat arrondi au millième.`,
+            answer: p, tolerance: 0.002, unit: '',
+            hint: `Inutile de dénombrer tous les cas où l'événement ne se produit pas.<br/><br/>Un événement et son contraire couvrent <strong>toutes</strong> les possibilités, sans recouvrement : $P(E) + P(\\bar{E}) = 1$.`,
+            solution: [
+              `Plutôt que de dénombrer les cas défavorables un par un, on part de ce qui est certain : l'événement $E$ et son contraire $\\bar{E}$ couvrent à eux deux <strong>toutes</strong> les issues, et ne se chevauchent jamais. Leurs probabilités s'ajoutent donc à $1$.`,
+              `$P(E) = \\dfrac{${cas.fav}}{${cas.tot}}$, donc $P(\\bar{E}) = 1 - \\dfrac{${cas.fav}}{${cas.tot}} = \\dfrac{${cas.tot - cas.fav}}{${cas.tot}} \\approx ${fr(p, 3)}$.`,
+              `Contrôle : l'événement contraire est ici bien plus probable que $E$, ce qui est cohérent puisqu'il regroupe $${cas.tot - cas.fav}$ issues sur $${cas.tot}$.`
+            ]
+          };
+        }
+
+        /* tache === 'dependance' : comparer deux fréquences conditionnelles
+           pour décider s'il y a lien. C'est la seule tâche du chapitre qui
+           demande de CONCLURE et non de calculer, et c'est exactement ce que le
+           « problème » du chapitre fait déjà. On construit les deux fréquences
+           d'abord, à partir de fractions exactes, puis les effectifs : sans
+           quoi l'égalité « fréquences identiques » ne tomberait jamais juste. */
+        const kA = rand(4, 12), kB = rand(4, 12);
+        const fA = pick(FRACTIONS);
+        const identiques = pick([true, false]);
+        const fB = identiques ? fA : pick(FRACTIONS.filter(f => f.val !== fA.val));
+        const nG1 = fA.den * kA, nG1S = fA.num * kA;
+        const nG2 = fB.den * kB, nG2S = fB.num * kB;
+        /* `deLien` porte l'article contracté du facteur étudié : « du sexe »,
+           « du statut », « de l'abonnement ». Une première version concaténait
+           « dépend de » avec un nom déjà articulé et produisait « dépend de le
+           sexe ». La contraction se transporte avec le nom. */
+        const ctxD = pick([
+          { g1: 'les filles', g2: 'les garçons', crit: 'choisissent l\'option théâtre', sujet: 'le choix de l\'option théâtre', deLien: 'du sexe' },
+          { g1: 'les internes', g2: 'les externes', crit: 'déjeunent au self', sujet: 'le fait de déjeuner au self', deLien: 'du statut d\'hébergement' },
+          { g1: 'les abonnés', g2: 'les non-abonnés', crit: 'ont assisté au concert', sujet: 'la venue au concert', deLien: 'de l\'abonnement' }
         ]);
-
         return {
-          statement: ctx.build(),
-          answer: fcond,
-          tolerance: 0.01,
-          unit: '',
-          hint: `$f_{B|A} = \\dfrac{n(A \\cap B)}{n(A)} = \\dfrac{${nAB}}{${nA}}$.`,
-          solution: [`$f_{B|A} = \\dfrac{${nAB}}{${nA}} = ${fcondStr}$ soit $${pctStr}\\%$ du groupe $A$.`]
+          statement: `Une enquête compare deux groupes.<br/><br/>` +
+            `Sur $${nG1}$ personnes parmi ${ctxD.g1}, $${nG1S}$ ${ctxD.crit}.<br/><br/>` +
+            `Sur $${nG2}$ personnes parmi ${ctxD.g2}, $${nG2S}$ ${ctxD.crit}.<br/><br/>` +
+            `Peut-on dire que ${ctxD.sujet} <strong>dépend</strong> ${ctxD.deLien} ?<br/><br/>` +
+            `Réponds par $1$ si <strong>oui</strong>, par $0$ si <strong>non</strong>.`,
+          answer: identiques ? 0 : 1, tolerance: 0, unit: '',
+          hint: `Comparer les <strong>effectifs</strong> bruts ne dit rien, car les deux groupes n'ont pas la même taille.<br/><br/>Calcule la fréquence conditionnelle dans chaque groupe, puis compare ces deux fréquences.`,
+          solution: [
+            `Comparer $${nG1S}$ à $${nG2S}$ ne mène à rien : les deux groupes ne comptent pas le même nombre de personnes. Il faut ramener chaque groupe à une <strong>proportion</strong>, c'est-à-dire calculer une fréquence conditionnelle dans chacun.`,
+            `Parmi ${ctxD.g1} : $\\dfrac{${nG1S}}{${nG1}} = ${fr(fA.val)}$, soit $${Math.round(fA.val * 100)}\\%$. Parmi ${ctxD.g2} : $\\dfrac{${nG2S}}{${nG2}} = ${fr(fB.val)}$, soit $${Math.round(fB.val * 100)}\\%$.`,
+            identiques
+              ? `Les deux proportions sont <strong>égales</strong> : connaître le groupe ne change rien à la proportion. Il n'y a donc pas de dépendance. Réponse : $0$.<br/><br/>Remarque : les effectifs, eux, sont différents — c'est bien la proportion qui tranche, pas le décompte.`
+              : `Les deux proportions <strong>diffèrent</strong> ($${Math.round(fA.val * 100)}\\%$ contre $${Math.round(fB.val * 100)}\\%$) : savoir à quel groupe appartient une personne change la proportion attendue. Il y a donc dépendance. Réponse : $1$.`
+          ]
         };
       }
     },
