@@ -150,7 +150,7 @@
               <text class="tick-label" x="288" y="114" text-anchor="middle">+ 3</text>
               <text class="annotation-label" x="344" y="130" text-anchor="middle">27</text>
 
-              <text class="tick-label" x="200" y="166" text-anchor="middle">les flèches du bas vont dans l autre sens</text>
+              <text class="tick-label" x="200" y="166" text-anchor="middle">les flèches du bas vont en sens inverse</text>
             </svg>
           `,
           notes: [

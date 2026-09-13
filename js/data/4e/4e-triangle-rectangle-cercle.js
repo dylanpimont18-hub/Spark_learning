@@ -225,10 +225,16 @@
               <text class="annotation-label" x="266" y="64" text-anchor="start">A</text>
               <text class="annotation-label" x="200" y="122" text-anchor="middle">M</text>
 
-              <text class="tick-label" x="165" y="98" text-anchor="middle">rayon</text>
-              <text class="tick-label" x="235" y="98" text-anchor="middle">rayon</text>
-              <text class="tick-label" x="238" y="76" text-anchor="middle">rayon</text>
-              <text class="tick-label" x="200" y="166" text-anchor="middle">M milieu de l hypoténuse : MA = MB = MC</text>
+              <!-- Etiquettes posees HORS des traits qu'elles nomment (les deux
+                   premieres tombaient sur l'hypotenuse, la troisieme sur le
+                   segment MA), constate sur l'epreuve du 2026-09-13. -->
+              <text class="tick-label" x="165" y="124" text-anchor="middle">rayon</text>
+              <text class="tick-label" x="235" y="124" text-anchor="middle">rayon</text>
+              <text class="tick-label" x="216" y="76" text-anchor="middle">rayon</text>
+              <!-- « l hypoténuse » : l'article elide seul devient une lettre
+                   isolee, que le convertisseur passe en italique. On reformule
+                   pour supprimer l'elision. -->
+              <text class="tick-label" x="200" y="166" text-anchor="middle">M est le milieu de BC : MA = MB = MC</text>
             </svg>
           `,
           notes: [

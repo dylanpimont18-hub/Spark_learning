@@ -125,7 +125,7 @@
               <text class="annotation-label" x="104" y="168" text-anchor="middle">8</text>
               <text class="annotation-label" x="48" y="118" text-anchor="end">6</text>
               <text class="annotation-label" x="112" y="106" text-anchor="start">?</text>
-              <text class="tick-label" x="104" y="192" text-anchor="middle">on cherche l hypoténuse</text>
+              <text class="tick-label" x="104" y="192" text-anchor="middle">on cherche l’hypoténuse</text>
               <text class="label-soft" x="104" y="34" text-anchor="middle">36 + 64 = 100</text>
               <text class="tick-label" x="104" y="52" text-anchor="middle">racine de 100 = 10</text>
 

@@ -229,15 +229,15 @@
               <desc id="rel-carre-desc">A gauche, l'ecriture avec parentheses : l'exposant porte sur le nombre negatif tout entier, ce qui revient a multiplier moins cinq par moins cinq et donne plus vingt-cinq. A droite, l'ecriture sans parentheses : l'exposant ne porte que sur le cinq, le signe moins reste en dehors, ce qui donne l'oppose de vingt-cinq, soit moins vingt-cinq. Les deux resultats sont opposes.</desc>
 
               <text class="annotation-label" x="100" y="46" text-anchor="middle">(−5)²</text>
-              <text class="tick-label" x="100" y="76" text-anchor="middle">l exposant porte sur −5</text>
+              <text class="tick-label" x="100" y="76" text-anchor="middle">exposant porté par −5 entier</text>
               <text class="tick-label" x="100" y="98" text-anchor="middle">(−5) × (−5)</text>
               <text class="annotation-label" x="100" y="126" text-anchor="middle">= +25</text>
 
               <line class="grid-line" x1="200" y1="30" x2="200" y2="140"></line>
 
               <text class="annotation-label" x="300" y="46" text-anchor="middle">−5²</text>
-              <text class="tick-label" x="300" y="76" text-anchor="middle">l exposant porte sur 5 seul</text>
-              <text class="tick-label" x="300" y="98" text-anchor="middle">l opposé de 5 × 5</text>
+              <text class="tick-label" x="300" y="76" text-anchor="middle">exposant porté par le 5 seul</text>
+              <text class="tick-label" x="300" y="98" text-anchor="middle">opposé de 5 × 5</text>
               <text class="annotation-label" x="300" y="126" text-anchor="middle">= −25</text>
 
               <text class="tick-label" x="200" y="162" text-anchor="middle">deux écritures voisines, deux résultats opposés</text>
@@ -275,7 +275,7 @@
               <text class="tick-label" x="110" y="134" text-anchor="middle">(−3) × (+5) = −15</text>
               <text class="tick-label" x="290" y="134" text-anchor="middle">(−15) ÷ (+3) = −5</text>
 
-              <text class="tick-label" x="200" y="166" text-anchor="middle">mêmes signes de départ, mêmes signes d arrivée</text>
+              <text class="tick-label" x="200" y="166" text-anchor="middle">mêmes signes au départ, mêmes signes à la fin</text>
             </svg>
           `,
           notes: [

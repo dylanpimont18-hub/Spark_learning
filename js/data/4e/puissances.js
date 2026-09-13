@@ -234,7 +234,7 @@
               <text class="tick-label" x="291" y="44" text-anchor="middle">× 10</text>
 
               <path class="guide-line" fill="none" d="M52 108 L52 126 L244 126 L244 108"></path>
-              <text class="tick-label" x="148" y="146" text-anchor="middle">deux exposants d écart : facteur 1000 divisé par 10, soit 100</text>
+              <text class="tick-label" x="148" y="146" text-anchor="middle">deux exposants d’écart : facteur 100</text>
             </svg>
           `,
           notes: [

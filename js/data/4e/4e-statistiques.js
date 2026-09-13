@@ -247,7 +247,7 @@
               <text class="tick-label" x="258" y="44" text-anchor="middle">15</text>
               <text class="tick-label" x="294" y="44" text-anchor="middle">9</text>
               <line class="guide-line" x1="140" y1="52" x2="306" y2="52"></line>
-              <text class="label-soft" x="222" y="70" text-anchor="middle">valeur du milieu : 4, mais ce n est pas la médiane</text>
+              <text class="label-soft" x="222" y="70" text-anchor="middle">valeur du milieu : 4, mais ce nombre n’est pas la médiane</text>
 
               <text class="annotation-label" x="24" y="114" text-anchor="start">rangée</text>
               <text class="tick-label" x="150" y="114" text-anchor="middle">3</text>
