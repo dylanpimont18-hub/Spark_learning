@@ -115,6 +115,167 @@ window.MODULES.push(
         reading: 'Pour lire $b$, regarde où la droite coupe l\'axe vertical. Pour lire $a$, avance de $1$ vers la droite et compte de combien tu montes (ou descends).',
         caption: 'Deux droites de même coefficient directeur $a = 2$ : la linéaire $g(x) = 2x$ et l\'affine $f(x) = 2x + 3$, avec la lecture de $a$ en escalier.'
       },
+      /* SCHÉMAS SECONDAIRES, ajoutés le 2026-09-13.
+         Principe du cahier des charges, section 9 : une figure par MALENTENDU,
+         pas une figure par formule. La figure principale de ce chapitre traite
+         déjà « affine contre linéaire » et la lecture de $b$ ; les deux
+         malentendus qui restent, et qui coûtent des points au brevet, sont :
+
+           1. « la droite qui descend est moins pentue » — l'élève confond le
+              SIGNE de $a$ (le sens) et sa VALEUR ABSOLUE (la raideur), et
+              classe $-3x$ comme « moins raide » que $0{,}5x$ ;
+           2. « j'ai divisé, donc c'est bon » — le coefficient directeur se
+              calcule $\Delta y / \Delta x$, et l'élève inverse le quotient ou
+              croit que le résultat change quand on lit la droite de droite à
+              gauche.
+
+         TOUTES LES COORDONNÉES SONT CALCULÉES. Le pas est IDENTIQUE en x et en
+         y dans les deux schémas — sans quoi la pente vue à l'écran ne serait
+         pas la vraie pente, ce qui ruinerait précisément le schéma 1. Vérifié
+         par le calcul dans scripts/manuel/tests/diagrams-3e.test.js : la pente
+         mesurée en pixels vaut exactement 3, -3 et 0,5 sur le premier schéma,
+         et 1,5 sur les deux vignettes du second. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Le signe et la raideur',
+          title: 'Le signe de a donne le sens, sa valeur absolue donne la raideur',
+          description: 'Trois droites, un seul repère. Le <strong>signe</strong> de $a$ dit si la droite monte ou descend. Sa <strong>valeur absolue</strong> dit à quel point elle est raide. Ce sont deux questions différentes, et $-3$ est bien plus raide que $0{,}5$.',
+          svg: `
+            <svg viewBox="0 0 232 244" role="img" aria-labelledby="affine-pente-title affine-pente-desc">
+              <title id="affine-pente-title">Trois droites de coefficients directeurs differents</title>
+              <desc id="affine-pente-desc">Dans un repere gradue de moins quatre a quatre sur les deux axes, avec le meme pas horizontal et vertical, trois droites passent toutes par l'origine. La premiere, de coefficient directeur trois, monte tres fortement vers la droite. La deuxieme, de coefficient directeur moins trois, descend tout aussi fortement vers la droite : elle est l'image de la premiere par un retournement. La troisieme, de coefficient directeur zero virgule cinq, monte tres doucement et reste presque horizontale. Les deux droites de coefficient trois et moins trois sont exactement aussi raides l'une que l'autre, alors que leurs signes sont opposes ; la droite de coefficient zero virgule cinq est de loin la moins raide des trois, bien qu'elle monte.</desc>
+
+              <line class="grid-line" x1="28" y1="28" x2="28" y2="204"></line>
+              <line class="grid-line" x1="50" y1="28" x2="50" y2="204"></line>
+              <line class="grid-line" x1="72" y1="28" x2="72" y2="204"></line>
+              <line class="grid-line" x1="94" y1="28" x2="94" y2="204"></line>
+              <line class="grid-line" x1="138" y1="28" x2="138" y2="204"></line>
+              <line class="grid-line" x1="160" y1="28" x2="160" y2="204"></line>
+              <line class="grid-line" x1="182" y1="28" x2="182" y2="204"></line>
+              <line class="grid-line" x1="204" y1="28" x2="204" y2="204"></line>
+              <line class="grid-line" x1="28" y1="204" x2="204" y2="204"></line>
+              <line class="grid-line" x1="28" y1="182" x2="204" y2="182"></line>
+              <line class="grid-line" x1="28" y1="160" x2="204" y2="160"></line>
+              <line class="grid-line" x1="28" y1="138" x2="204" y2="138"></line>
+              <line class="grid-line" x1="28" y1="94" x2="204" y2="94"></line>
+              <line class="grid-line" x1="28" y1="72" x2="204" y2="72"></line>
+              <line class="grid-line" x1="28" y1="50" x2="204" y2="50"></line>
+              <line class="grid-line" x1="28" y1="28" x2="204" y2="28"></line>
+
+              <line class="axis" x1="28" y1="116" x2="214" y2="116"></line>
+              <line class="axis" x1="116" y1="204" x2="116" y2="18"></line>
+
+              <line class="curve-main" x1="88.5" y1="198.5" x2="143.5" y2="33.5"></line>
+              <line class="curve-main" x1="88.5" y1="33.5" x2="143.5" y2="198.5"></line>
+              <line class="graph-line" x1="28" y1="160" x2="204" y2="72"></line>
+
+              <circle class="plot-point" cx="116" cy="116" r="4"></circle>
+
+              <text class="tick-label" x="112" y="128" text-anchor="end">0</text>
+              <text class="tick-label" x="160" y="128" text-anchor="middle">2</text>
+              <text class="tick-label" x="72" y="128" text-anchor="middle">-2</text>
+              <text class="tick-label" x="112" y="76" text-anchor="end">2</text>
+              <text class="tick-label" x="112" y="164" text-anchor="end">-2</text>
+              <text class="axis-label" x="218" y="120" text-anchor="start">x</text>
+              <text class="axis-label" x="122" y="16" text-anchor="start">y</text>
+
+              <text class="annotation-label" x="148" y="44" text-anchor="start">a = 3</text>
+              <text class="annotation-label" x="148" y="196" text-anchor="start">a = -3</text>
+              <text class="annotation-label" x="204" y="62" text-anchor="end">a = 0,5</text>
+
+              <text class="label-soft" x="116" y="226" text-anchor="middle">meme raideur pour 3 et pour -3</text>
+              <text class="label-soft" x="116" y="240" text-anchor="middle">la plus douce est celle de 0,5</text>
+            </svg>
+          `,
+          notes: [
+            'Les droites $a = 3$ et $a = -3$ sont <strong>exactement aussi raides</strong> l\'une que l\'autre : elles se déduisent l\'une de l\'autre par un retournement. Seul leur <strong>sens</strong> diffère.',
+            'La droite $a = 0{,}5$ monte, comme celle de $a = 3$ — mais elle est de loin la plus <strong>douce</strong> des trois, parce que $0{,}5$ est le plus petit des trois en valeur absolue.',
+            'Retiens donc deux questions séparées : <strong>le signe de $a$</strong> répond à « ça monte ou ça descend ? », et <strong>$|a|$</strong> répond à « c\'est raide ou c\'est doux ? ».',
+            'Une conséquence utile : entre $-3$ et $0{,}5$, la plus raide est celle de $-3$, bien qu\'elle soit la plus <strong>petite</strong> des deux comme nombre.'
+          ],
+          reading: 'Pour comparer deux raideurs, oublie un instant les signes et ne compare que les nombres sans leur signe. Pour dire qui monte et qui descend, ne regarde que les signes.',
+          caption: 'Trois droites passant par l\'origine, de coefficients directeurs $3$, $-3$ et $0{,}5$, dans un repère au même pas horizontal et vertical.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Piège',
+          title: 'Le coefficient directeur ne dépend pas du sens de lecture',
+          description: 'La <strong>même</strong> droite, lue deux fois. À gauche on part de $A$ vers $B$, à droite on part de $B$ vers $A$. Les deux écarts changent de signe <strong>en même temps</strong>, donc leur quotient, lui, ne bouge pas : $a = 1{,}5$ dans les deux cas.',
+          svg: `
+            <svg viewBox="0 0 372 232" role="img" aria-labelledby="affine-quotient-title affine-quotient-desc">
+              <title id="affine-quotient-title">La meme droite lue dans les deux sens</title>
+              <desc id="affine-quotient-desc">Deux reperes identiques, cote a cote, portent la meme droite passant par le point A d'abscisse moins deux et d'ordonnee moins un et par le point B d'abscisse deux et d'ordonnee cinq. Dans le repere de gauche, un trait horizontal part de A vers la droite sur quatre unites, puis un trait vertical monte sur six unites jusqu'a B : l'ecart horizontal vaut quatre et l'ecart vertical vaut six, donc le quotient vaut un virgule cinq. Dans le repere de droite, le parcours est fait dans l'autre sens, de B vers A : l'ecart horizontal vaut moins quatre et l'ecart vertical moins six, et le quotient de moins six par moins quatre vaut encore un virgule cinq. Le coefficient directeur est le meme dans les deux lectures.</desc>
+
+              <line class="grid-line" x1="30" y1="12" x2="30" y2="192"></line>
+              <line class="grid-line" x1="50" y1="12" x2="50" y2="192"></line>
+              <line class="grid-line" x1="70" y1="12" x2="70" y2="192"></line>
+              <line class="grid-line" x1="110" y1="12" x2="110" y2="192"></line>
+              <line class="grid-line" x1="130" y1="12" x2="130" y2="192"></line>
+              <line class="grid-line" x1="150" y1="12" x2="150" y2="192"></line>
+              <line class="grid-line" x1="30" y1="192" x2="150" y2="192"></line>
+              <line class="grid-line" x1="30" y1="172" x2="150" y2="172"></line>
+              <line class="grid-line" x1="30" y1="152" x2="150" y2="152"></line>
+              <line class="grid-line" x1="30" y1="112" x2="150" y2="112"></line>
+              <line class="grid-line" x1="30" y1="92" x2="150" y2="92"></line>
+              <line class="grid-line" x1="30" y1="72" x2="150" y2="72"></line>
+              <line class="grid-line" x1="30" y1="52" x2="150" y2="52"></line>
+              <line class="grid-line" x1="30" y1="32" x2="150" y2="32"></line>
+              <line class="grid-line" x1="30" y1="12" x2="150" y2="12"></line>
+              <line class="axis" x1="30" y1="132" x2="160" y2="132"></line>
+              <line class="axis" x1="90" y1="192" x2="90" y2="2"></line>
+              <line class="curve-main" x1="30" y1="182" x2="143.33" y2="12"></line>
+              <line class="guide-line" x1="50" y1="152" x2="130" y2="152"></line>
+              <line class="guide-line" x1="130" y1="152" x2="130" y2="32"></line>
+              <circle class="plot-point-alt" cx="50" cy="152" r="5"></circle>
+              <circle class="plot-point" cx="130" cy="32" r="5"></circle>
+              <text class="tick-label" x="44" y="166" text-anchor="end">A</text>
+              <text class="tick-label" x="136" y="28" text-anchor="start">B</text>
+              <text class="tick-label" x="90" y="168" text-anchor="middle">+4</text>
+              <text class="tick-label" x="136" y="96" text-anchor="start">+6</text>
+              <text class="annotation-label" x="90" y="212" text-anchor="middle">de A vers B</text>
+              <text class="label-soft" x="90" y="226" text-anchor="middle">6 divise par 4 donne 1,5</text>
+
+              <line class="grid-line" x1="222" y1="12" x2="222" y2="192"></line>
+              <line class="grid-line" x1="242" y1="12" x2="242" y2="192"></line>
+              <line class="grid-line" x1="262" y1="12" x2="262" y2="192"></line>
+              <line class="grid-line" x1="302" y1="12" x2="302" y2="192"></line>
+              <line class="grid-line" x1="322" y1="12" x2="322" y2="192"></line>
+              <line class="grid-line" x1="342" y1="12" x2="342" y2="192"></line>
+              <line class="grid-line" x1="222" y1="192" x2="342" y2="192"></line>
+              <line class="grid-line" x1="222" y1="172" x2="342" y2="172"></line>
+              <line class="grid-line" x1="222" y1="152" x2="342" y2="152"></line>
+              <line class="grid-line" x1="222" y1="112" x2="342" y2="112"></line>
+              <line class="grid-line" x1="222" y1="92" x2="342" y2="92"></line>
+              <line class="grid-line" x1="222" y1="72" x2="342" y2="72"></line>
+              <line class="grid-line" x1="222" y1="52" x2="342" y2="52"></line>
+              <line class="grid-line" x1="222" y1="32" x2="342" y2="32"></line>
+              <line class="grid-line" x1="222" y1="12" x2="342" y2="12"></line>
+              <line class="axis" x1="222" y1="132" x2="352" y2="132"></line>
+              <line class="axis" x1="282" y1="192" x2="282" y2="2"></line>
+              <line class="curve-main" x1="222" y1="182" x2="335.33" y2="12"></line>
+              <line class="guide-line" x1="322" y1="32" x2="322" y2="152"></line>
+              <line class="guide-line" x1="322" y1="152" x2="242" y2="152"></line>
+              <circle class="plot-point-alt" cx="242" cy="152" r="5"></circle>
+              <circle class="plot-point" cx="322" cy="32" r="5"></circle>
+              <text class="tick-label" x="236" y="166" text-anchor="end">A</text>
+              <text class="tick-label" x="328" y="28" text-anchor="start">B</text>
+              <text class="tick-label" x="282" y="168" text-anchor="middle">-4</text>
+              <text class="tick-label" x="328" y="96" text-anchor="start">-6</text>
+              <text class="annotation-label" x="282" y="212" text-anchor="middle">de B vers A</text>
+              <text class="label-soft" x="282" y="226" text-anchor="middle">moins 6 divise par moins 4 donne 1,5</text>
+            </svg>
+          `,
+          notes: [
+            'Le coefficient directeur est le quotient $a = \\dfrac{\\Delta y}{\\Delta x}$, c\'est-à-dire <strong>l\'écart vertical divisé par l\'écart horizontal</strong>. Ici $\\dfrac{6}{4} = 1{,}5$.',
+            'À droite, on a lu la même droite <strong>dans l\'autre sens</strong>. Les deux écarts sont devenus négatifs <strong>ensemble</strong> : $\\dfrac{-6}{-4} = 1{,}5$. Le quotient est inchangé, et c\'est heureux — une droite n\'a qu\'un seul coefficient directeur.',
+            'L\'erreur la plus fréquente est d\'inverser le quotient et d\'écrire $\\dfrac{\\Delta x}{\\Delta y} = \\dfrac{4}{6}$, soit environ $0{,}67$. Le contrôle immédiat : une droite qui monte de plus de $1$ quand on avance de $1$ a forcément $a > 1$.',
+            'Le moyen le plus sûr de ne pas te tromper : lis toujours ton triangle <strong>dans le même ordre</strong> que la fraction — le haut de la fraction est le déplacement <strong>vertical</strong>, le bas le déplacement <strong>horizontal</strong>.'
+          ],
+          reading: 'Les deux triangles sont le même triangle, parcouru dans deux sens opposés. Quand tu changes de sens, les deux écarts changent de signe en même temps, donc leur quotient ne change pas.',
+          caption: 'La droite passant par $A(-2\\,;\\,-1)$ et $B(2\\,;\\,5)$, lue de $A$ vers $B$ puis de $B$ vers $A$ : le coefficient directeur vaut $1{,}5$ dans les deux cas.'
+        }
+      ],
       recap: [
         'Une fonction <strong>affine</strong> s\'écrit $f(x) = ax + b$ et se représente par une <strong>droite</strong>.',
         'Une fonction <strong>linéaire</strong> est une affine avec $b = 0$ : sa droite passe par l\'<strong>origine</strong>, et elle traduit une proportionnalité.',

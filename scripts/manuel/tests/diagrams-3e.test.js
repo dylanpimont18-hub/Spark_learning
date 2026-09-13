@@ -538,3 +538,94 @@ test('aucun saut de ligne brut dans le texte typographie de la troisieme', () =>
   assert.deepStrictEqual(fautes, [],
     'saut(s) de ligne brut(s) — employer <br/> :\n  ' + fautes.join('\n  '));
 });
+
+/* =====================================================================
+   SCHÉMAS SECONDAIRES DES CINQ DERNIERS CHAPITRES, ajoutés le 2026-09-13.
+
+   Les huit chapitres traités avant ceux-ci sont couverts plus haut. Les tests
+   qui suivent tiennent les cinq derniers : fonctions affines, statistiques et
+   probabilités, équations et inéquations, arithmétique, algorithmique.
+
+   POURQUOI CHACUN. Une figure de repère ment de deux façons, et aucune des
+   deux ne se voit à la relecture : le pas peut différer entre les deux axes
+   (et alors la pente DESSINÉE n'est plus la pente ANNONCÉE), ou un point
+   annoncé sur une droite peut être posé à côté. Les deux sont testées ici en
+   repartant des coordonnées écrites dans le SVG, jamais des valeurs annoncées
+   dans le texte.
+   ===================================================================== */
+
+const TOL_PX = 1e-6;   // les coordonnees sont ecrites au centieme, on compare a l'identique
+
+/* Les <line> d'un SVG SANS exiger l'ordre des attributs ni la presence d'une
+   classe : les schemas ci-dessous ecrivent toujours class puis x1 y1 x2 y2,
+   mais on ne veut pas qu'un futur reformatage rende le test faussement vert. */
+function lignesToutes(svg) {
+  return [...svg.matchAll(/<line\b[^>]*>/g)].map(m => {
+    const t = m[0];
+    const at = n => { const r = new RegExp(n + '="([-\\d.]+)"').exec(t); return r ? +r[1] : null; };
+    const c = /class="([^"]+)"/.exec(t);
+    return { cls: c ? c[1] : '', x1: at('x1'), y1: at('y1'), x2: at('x2'), y2: at('y2') };
+  });
+}
+// Pente en pixels, comptee dans le sens mathematique (y de l'ecran vers le bas).
+const penteEcran = l => (l.y1 - l.y2) / (l.x2 - l.x1);
+
+test('fonctions affines : les trois droites ont la pente annoncee, au pixel pres', () => {
+  /* CE QUE CE TEST ATTRAPE. Le schema affirme que -3 est aussi raide que 3 et
+     que 0,5 est la plus douce. Cette affirmation n'est vraie a l'ecran QUE si
+     le pas horizontal egale le pas vertical. Un repere a pas inegaux — le
+     defaut le plus banal d'une figure de fonction — rendrait le schema faux
+     tout en restant parfaitement lisible. On mesure donc la pente REELLE des
+     traits, en pixels, et on la compare a 3, -3 et 0,5. */
+  const d = parTitre('3e-fonctions-affines.js', 'valeur absolue donne la raideur');
+  const traits = lignesToutes(d.svg).filter(l => l.cls === 'curve-main' || l.cls === 'graph-line');
+  assert.strictEqual(traits.length, 3, 'trois droites attendues dans le schema des raideurs');
+  const pentes = traits.map(penteEcran).sort((a, b) => a - b);
+  assert.ok(Math.abs(pentes[0] - (-3)) < TOL_PX, 'pente la plus negative = ' + pentes[0] + ', attendu -3');
+  assert.ok(Math.abs(pentes[1] - 0.5) < TOL_PX, 'pente mediane = ' + pentes[1] + ', attendu 0,5');
+  assert.ok(Math.abs(pentes[2] - 3) < TOL_PX, 'pente la plus positive = ' + pentes[2] + ', attendu 3');
+  // Et le point de concours : les trois droites passent par l'origine dessinee.
+  const o = cercles(d.svg)[0];
+  for (const t of traits) {
+    const num = Math.abs((t.x2 - t.x1) * (t.y1 - o[1]) - (t.y2 - t.y1) * (t.x1 - o[0]));
+    const dist = num / Math.hypot(t.x2 - t.x1, t.y2 - t.y1);
+    assert.ok(dist < 0.02, 'une droite ne passe pas par l\'origine dessinee : ecart ' + dist + ' px');
+  }
+});
+
+test('fonctions affines : les deux lectures du quotient portent la meme droite', () => {
+  /* CE QUE CE TEST ATTRAPE. Le schema affirme que la droite lue de A vers B et
+     celle lue de B vers A sont LA MEME, de coefficient 1,5. Si les deux
+     vignettes n'etaient pas des copies exactes a une translation pres, le
+     schema demontrerait le contraire de ce qu'il annonce. On verifie donc
+     trois choses : que chaque vignette a bien la pente 1,5 ; que les deux
+     points marques sont EXACTEMENT sur la droite tracee ; et que le triangle
+     des ecarts a bien 4 unites en horizontal pour 6 en vertical. */
+  const d = parTitre('3e-fonctions-affines.js', 'sens de lecture');
+  const droites = lignesToutes(d.svg).filter(l => l.cls === 'curve-main');
+  assert.strictEqual(droites.length, 2, 'une droite par vignette');
+  for (const t of droites) {
+    assert.ok(Math.abs(penteEcran(t) - 1.5) < 1e-3, 'pente = ' + penteEcran(t) + ', attendu 1,5');
+  }
+  // Les quatre points marques : deux par vignette, chacun sur sa droite.
+  const pts = cercles(d.svg);
+  assert.strictEqual(pts.length, 4, 'deux points marques par vignette');
+  for (const p of pts) {
+    const surUne = droites.some(t => {
+      const num = Math.abs((t.x2 - t.x1) * (t.y1 - p[1]) - (t.y2 - t.y1) * (t.x1 - p[0]));
+      return num / Math.hypot(t.x2 - t.x1, t.y2 - t.y1) < 0.02;
+    });
+    assert.ok(surUne, 'le point (' + p + ') n\'est sur aucune des deux droites');
+  }
+  // Le triangle des ecarts : 4 unites horizontales pour 6 verticales, soit un
+  // rapport de 1,5 EN PIXELS puisque le pas est le meme sur les deux axes.
+  const guides = lignesToutes(d.svg).filter(l => l.cls === 'guide-line');
+  assert.strictEqual(guides.length, 4, 'deux traits de guidage par vignette');
+  const hor = guides.filter(l => Math.abs(l.y1 - l.y2) < TOL_PX).map(l => Math.abs(l.x2 - l.x1));
+  const ver = guides.filter(l => Math.abs(l.x1 - l.x2) < TOL_PX).map(l => Math.abs(l.y2 - l.y1));
+  assert.strictEqual(hor.length, 2); assert.strictEqual(ver.length, 2);
+  for (let i = 0; i < 2; i++) {
+    assert.ok(Math.abs(ver[i] / hor[i] - 1.5) < TOL_PX,
+      'triangle ' + i + ' : vertical/horizontal = ' + (ver[i] / hor[i]) + ', attendu 1,5');
+  }
+});
