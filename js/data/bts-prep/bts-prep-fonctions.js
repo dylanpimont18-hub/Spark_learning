@@ -452,7 +452,16 @@ window.MODULES.push({
         const { grandeur, variable, unite, unitY } = pick([
           { grandeur: 'la puissance utile d\'une éolienne en fonction de la vitesse du vent', variable: 'v', unite: 'm/s', unitY: 'kW' },
           { grandeur: 'la portance d\'un profil aérodynamique en fonction de l\'angle d\'incidence', variable: '\\alpha', unite: '°', unitY: 'N' },
-          { grandeur: 'le rendement d\'un moteur en fonction de son taux de charge', variable: 'x', unite: '%', unitY: '%' }
+          // 2026-09-13 : `unite` valait '%'. Interpole tel quel dans la
+          // `solution`, qui est du mode mathematique, le pourcentage ouvrait un
+          // COMMENTAIRE LaTeX : il avalait le $ fermant et la fin de ligne, et
+          // la compilation echouait sur « \end{enumerate} invalid in math
+          // mode ». Le defaut ne sortait que dans la banque du professeur, donc
+          // il est reste invisible tant que le tirage etait court — c'est
+          // l'elargissement de la banque (6 -> 42 tirages) qui l'a revele.
+          // `\%` est correct en mode math comme en mode texte, les deux usages
+          // sont donc couverts.
+          { grandeur: 'le rendement d\'un moteur en fonction de son taux de charge', variable: 'x', unite: '\\%', unitY: '\\%' }
         ]);
         return {
           statement: `Une courbe technique modélise ${grandeur} par $f(${variable}) = -${fr(a)}${variable}^2 + ${fr(b)}${variable}$ (en ${unitY}, ${variable} en ${unite}). Calculer la valeur de $${variable}$ qui maximise $f$ (sommet de la parabole).`,
