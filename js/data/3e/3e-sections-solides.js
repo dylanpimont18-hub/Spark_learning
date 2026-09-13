@@ -140,6 +140,231 @@ window.MODULES.push(
         reading: 'Repère d\'abord le sommet $S$ et l\'axe pointillé sommet-base : la section (à gauche) est la figure semblable à la base, réduite selon le même rapport $k$ que sur la vue de profil (à droite).',
         caption: 'Pyramide à base carrée (côté $8$ cm, hauteur $12$ cm) coupée à $4$ cm du sommet, parallèlement à la base — exemple du cours, avec vérification du rapport $k = 1/3$ sur les longueurs et $k^2 = 1/9$ sur les aires.'
       },
+      /* SCHÉMAS SECONDAIRES, ajoutés le 2026-09-13.
+
+         Principe du cahier des charges, section 9 : une figure par MALENTENDU,
+         pas une figure par formule. Les trois malentendus retenus sont ceux
+         qui font effectivement perdre des points au brevet :
+
+           1. « la section, c'est la face qu'on voit » — l'élève rabat une face
+              ou dessine l'ombre du solide au lieu de la trace du couteau ;
+           2. « couper, ça rétrécit » — il applique au cylindre la réduction
+              qui ne vaut que pour le cône, et invente un disque plus petit ;
+           3. « l'aire est réduite du même facteur que les longueurs » —
+              il multiplie l'aire par k au lieu de k².
+
+         TOUTES LES COORDONNÉES SONT CALCULÉES, jamais posées à vue :
+
+         Schéma 1 : la section oblique du pavé est construite comme l'image de
+         deux points d'arêtes par la translation de fuite (34 ; -24). Vérifié :
+         les vecteurs P1P2 et P4P3 sont égaux à l'unité près, ainsi que P1P4 et
+         P2P3 — c'est donc un vrai parallélogramme, et pas un quadrilatère posé
+         à vue qui ressemblerait à l'un.
+
+         Schéma 2 : cylindre et cône ont la MÊME base (rayon dessiné 44) et la
+         MÊME hauteur (108), coupés à la MÊME hauteur (mi-hauteur, y = 152).
+         Vérifié : le rayon de la section du cône vaut 44 × 0,5 = 22, et le
+         point d'abscisse 228 (soit 250 - 22) tombe EXACTEMENT sur l'arête du
+         cône, écart 0. La figure ne peut donc pas mentir sur la réduction.
+
+         Schéma 3 : k = 1/2 sur une pyramide de base carrée de côté 8 cm, à
+         12 unités de viewBox par centimètre. Base 96 × 96, section 48 × 48 ;
+         le pavage compte (96/48)² = 4 cases exactement, et le rapport des
+         aires dessinées vaut 2 304 / 9 216 = 0,25 = k². L'élève COMPTE les
+         cases, il ne croit pas la formule sur parole. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Piège',
+          title: 'Une section est la trace du couteau, pas une face rabattue',
+          description: 'Le même pavé, deux fois. À gauche, ce que l\'élève dessine souvent : il <strong>rabat une face</strong> du solide, ou il en trace l\'ombre. À droite, la vraie section : le plan traverse le pavé <strong>de part en part</strong>, et la figure obtenue est un <strong>parallélogramme penché</strong> qui n\'est aucune des six faces.',
+          svg: `
+            <svg viewBox="0 0 400 232" role="img" aria-labelledby="sect-trace-title sect-trace-desc">
+              <title id="sect-trace-title">Face rabattue et vraie section d'un pave</title>
+              <desc id="sect-trace-desc">A gauche, un pave droit dessine en perspective, dont la face avant, un rectangle bien droit, est mise en valeur : c'est la face du solide, et non une section. A droite, le meme pave traverse par un plan de coupe oblique ; la figure obtenue est un parallelogramme penche qui entre par l'arete verticale de gauche a un tiers de hauteur et ressort par l'arete verticale de droite aux deux tiers de hauteur, en passant a l'interieur du solide. Ce parallelogramme ne coincide avec aucune des six faces du pave et ne peut donc pas etre obtenu en rabattant une face.</desc>
+
+              <!-- GAUCHE : LE PAVE ET SA FACE AVANT. Face avant (40,70) a
+                   (130,140) ; vecteur de fuite (34 ; -24) pour la perspective
+                   cavaliere, appliqué a chaque sommet. -->
+              <text class="annotation-label" x="102" y="20" text-anchor="middle">ce que ce n'est pas</text>
+              <line class="guide-line" x1="74" y1="46" x2="164" y2="46"></line>
+              <line class="guide-line" x1="74" y1="46" x2="74" y2="116"></line>
+              <line class="guide-line" x1="74" y1="116" x2="164" y2="116"></line>
+              <line class="guide-line" x1="164" y1="46" x2="164" y2="116"></line>
+              <line class="guide-line" x1="40" y1="70" x2="74" y2="46"></line>
+              <line class="guide-line" x1="130" y1="70" x2="164" y2="46"></line>
+              <line class="guide-line" x1="130" y1="140" x2="164" y2="116"></line>
+              <line class="guide-line" x1="40" y1="140" x2="74" y2="116"></line>
+              <polygon class="curve-main" points="40,70 130,70 130,140 40,140"
+                       fill="color-mix(in srgb, var(--text-muted) 12%, transparent)"></polygon>
+              <text class="label-soft" x="85" y="110" text-anchor="middle">face avant</text>
+              <text class="label-soft" x="102" y="176" text-anchor="middle">rectangle bien droit</text>
+              <text class="label-soft" x="102" y="196" text-anchor="middle">déjà dans le solide</text>
+              <text class="annotation-label" x="102" y="218" text-anchor="middle">ce n'est pas une section</text>
+
+              <!-- DROITE : LA VRAIE SECTION. Meme pave translaté de 200 vers la
+                   droite. Le plan entre en (240 ; 91), soit a 30 pour cent de
+                   l'arete verticale gauche avant, et sort en (330 ; 119), soit
+                   a 70 pour cent de l'arete droite avant. Les deux autres
+                   sommets sont les images par la fuite (34 ; -24).
+                   VERIFIE : P1P2 = (90 ; 28) = P4P3 et P1P4 = (34 ; -24) =
+                   P2P3, donc parallelogramme exact. -->
+              <text class="annotation-label" x="302" y="20" text-anchor="middle">la vraie section</text>
+              <line class="guide-line" x1="274" y1="46" x2="364" y2="46"></line>
+              <line class="guide-line" x1="274" y1="46" x2="274" y2="116"></line>
+              <line class="guide-line" x1="274" y1="116" x2="364" y2="116"></line>
+              <line class="guide-line" x1="364" y1="46" x2="364" y2="116"></line>
+              <line class="frame-line" x1="240" y1="70" x2="330" y2="70"></line>
+              <line class="frame-line" x1="240" y1="70" x2="240" y2="140"></line>
+              <line class="frame-line" x1="240" y1="140" x2="330" y2="140"></line>
+              <line class="frame-line" x1="330" y1="70" x2="330" y2="140"></line>
+              <line class="guide-line" x1="240" y1="70" x2="274" y2="46"></line>
+              <line class="guide-line" x1="330" y1="70" x2="364" y2="46"></line>
+              <line class="guide-line" x1="330" y1="140" x2="364" y2="116"></line>
+              <line class="guide-line" x1="240" y1="140" x2="274" y2="116"></line>
+              <polygon class="curve-main" points="240,91 330,119 364,95 274,67"
+                       fill="color-mix(in srgb, var(--diagram-accent) 18%, transparent)"></polygon>
+              <circle class="plot-point" cx="240" cy="91" r="4"></circle>
+              <circle class="plot-point" cx="330" cy="119" r="4"></circle>
+              <text class="annotation-label" x="302" y="176" text-anchor="middle">parallélogramme penché</text>
+              <text class="label-soft" x="302" y="196" text-anchor="middle">figure nouvelle</text>
+              <text class="annotation-label" x="302" y="218" text-anchor="middle">voilà une section</text>
+            </svg>
+          `,
+          notes: [
+            'À gauche, le rectangle mis en valeur <strong>existait déjà</strong> : c\'est une face du pavé. Aucun couteau n\'est passé, donc ce n\'est pas une section.',
+            'À droite, le plan entre par une arête verticale et ressort par l\'autre, <strong>à une hauteur différente</strong>. C\'est ce décalage qui penche la figure.',
+            'Le parallélogramme obtenu ne coïncide avec aucune des six faces : on ne peut donc pas l\'obtenir en rabattant quoi que ce soit.',
+            '<strong>Le test qui tranche</strong> : une section n\'apparaît que si le plan <strong>traverse l\'intérieur</strong> du solide. Si ton dessin longe une face sans entrer dedans, tu as dessiné la face, pas la coupe.'
+          ],
+          reading: 'Pose ton doigt sur le point marqué à gauche du pavé de droite, puis suis le bord épais : tu passes à l\'intérieur du solide avant de ressortir plus bas de l\'autre côté. C\'est ce trajet-là qui est la section.',
+          caption: 'Le même pavé : à gauche une face mise en valeur, à droite la vraie section par un plan oblique, un parallélogramme qui n\'est aucune des faces.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Piège',
+          title: 'Le cylindre ne rétrécit pas, le cône si',
+          description: 'Même rayon de base, même hauteur, <strong>même hauteur de coupe</strong> : et pourtant les deux disques obtenus n\'ont rien à voir. Le cylindre donne un disque de <strong>rayon identique</strong> à sa base, le cône un disque <strong>réduit de moitié</strong>. La différence ne vient pas de la coupe, elle vient du solide.',
+          svg: `
+            <svg viewBox="0 0 400 264" role="img" aria-labelledby="sect-cylcone-title sect-cylcone-desc">
+              <title id="sect-cylcone-title">Coupe parallele a la base d'un cylindre et d'un cone</title>
+              <desc id="sect-cylcone-desc">A gauche, un cylindre coupe a mi-hauteur par un plan parallele a ses bases : le disque obtenu a exactement le meme rayon que la base du cylindre, et il touche les deux cotes verticaux du solide. A droite, un cone de meme rayon de base et de meme hauteur, coupe a la meme hauteur : le disque obtenu n'a plus que la moitie du rayon de la base, car les aretes du cone se rapprochent en montant vers le sommet. Les deux coupes sont faites au meme endroit, mais elles ne donnent pas la meme figure.</desc>
+
+              <!-- Base commune : rayon dessine 44, hauteur 108, base basse a
+                   y = 206, sommet ou couvercle a y = 98. Coupe a mi-hauteur,
+                   y = 152 : le rapport vaut h'/h = 54/108 = 0,5. -->
+
+              <!-- GAUCHE : CYLINDRE, axe x = 76. La section a le rayon 44,
+                   IDENTIQUE a celui de la base. -->
+              <text class="annotation-label" x="76" y="22" text-anchor="middle">cylindre</text>
+              <line class="frame-line" x1="32" y1="98" x2="32" y2="206"></line>
+              <line class="frame-line" x1="120" y1="98" x2="120" y2="206"></line>
+              <ellipse class="frame-line" cx="76" cy="98" rx="44" ry="14" fill="none"></ellipse>
+              <ellipse class="frame-line" cx="76" cy="206" rx="44" ry="14" fill="none"></ellipse>
+              <ellipse class="curve-main" cx="76" cy="152" rx="44" ry="14"
+                       fill="color-mix(in srgb, var(--diagram-accent) 18%, transparent)"></ellipse>
+              <line class="guide-line" x1="76" y1="152" x2="120" y2="152"></line>
+              <circle class="plot-point" cx="76" cy="152" r="4"></circle>
+              <text class="annotation-label" x="76" y="240" text-anchor="middle">rayon inchangé</text>
+              <text class="label-soft" x="76" y="258" text-anchor="middle">le disque touche les bords</text>
+
+              <!-- DROITE : CONE, axe x = 250, meme rayon de base 44, meme
+                   hauteur, sommet en (250 ; 98). Section a y = 152 : rayon
+                   44 × 0,5 = 22. VERIFIE : l'arete gauche du cone, tracee de
+                   (250 ; 98) a (206 ; 206), passe par l'abscisse 228 a la
+                   hauteur 152, et 250 - 22 = 228. Ecart 0. -->
+              <text class="annotation-label" x="250" y="22" text-anchor="middle">cône</text>
+              <line class="frame-line" x1="250" y1="98" x2="206" y2="206"></line>
+              <line class="frame-line" x1="250" y1="98" x2="294" y2="206"></line>
+              <ellipse class="frame-line" cx="250" cy="206" rx="44" ry="14" fill="none"></ellipse>
+              <ellipse class="curve-main" cx="250" cy="152" rx="22" ry="7"
+                       fill="color-mix(in srgb, var(--diagram-accent) 18%, transparent)"></ellipse>
+              <line class="guide-line" x1="250" y1="152" x2="272" y2="152"></line>
+              <circle class="plot-point" cx="250" cy="152" r="4"></circle>
+              <circle class="plot-point-alt" cx="250" cy="98" r="4"></circle>
+              <text class="annotation-label" x="250" y="240" text-anchor="middle">rayon divisé par deux</text>
+              <text class="label-soft" x="250" y="258" text-anchor="middle">les arêtes se rapprochent</text>
+
+              <!-- Le trait de coupe COMMUN, qui montre que la hauteur est la
+                   meme des deux cotes : c'est tout l'argument du schema. -->
+              <line class="grid-line" x1="20" y1="152" x2="380" y2="152"></line>
+              <text class="tick-label" x="380" y="146" text-anchor="end">même hauteur de coupe</text>
+              <text class="label-soft" x="163" y="112" text-anchor="middle">même base</text>
+              <text class="label-soft" x="163" y="212" text-anchor="middle">même hauteur</text>
+            </svg>
+          `,
+          notes: [
+            'Le cylindre a des côtés <strong>verticaux</strong> : à n\'importe quelle hauteur, le disque obtenu garde le rayon de la base. Couper un cylindre parallèlement aux bases ne réduit rien.',
+            'Le cône a des arêtes qui <strong>convergent vers le sommet</strong> : plus on coupe haut, plus le disque est petit. Ici la coupe est à mi-hauteur, donc le rayon est divisé par $2$.',
+            'Le rapport de réduction vaut $k = \\dfrac{h\'}{h}$ pour le cône, et $k = 1$ pour le cylindre à toute hauteur.',
+            '<strong>Le réflexe utile</strong> : avant de réduire quoi que ce soit, regarde si les côtés du solide sont parallèles ou s\'ils se rejoignent. Ce sont eux qui décident, pas le plan de coupe.'
+          ],
+          reading: 'Suis la ligne de coupe horizontale d\'un solide à l\'autre : elle est à la même hauteur des deux côtés. Compare ensuite la largeur des deux disques colorés, puis celle des deux bases.',
+          caption: 'Un cylindre et un cône de même base et de même hauteur, coupés à la même hauteur : disque de même rayon à gauche, disque de rayon moitié à droite.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Longueurs et aires',
+          title: 'Les longueurs sont divisées par deux, mais l\'aire par quatre',
+          description: 'Une pyramide de base carrée coupée à <strong>mi-hauteur</strong> : $k = \\dfrac{1}{2}$. Le côté de la section passe bien de $8$ cm à $4$ cm. Mais le carré de la base se pave <strong>exactement</strong> par quatre copies de la section, et pas par deux : les aires suivent $k^2$.',
+          svg: `
+            <svg viewBox="0 0 400 216" role="img" aria-labelledby="sect-aire-title sect-aire-desc">
+              <title id="sect-aire-title">Section a mi-hauteur d'une pyramide et comparaison des aires</title>
+              <desc id="sect-aire-desc">A gauche, la coupe de profil d'une pyramide a base carree : le plan de coupe est a mi-hauteur du sommet, le rapport de reduction vaut donc un demi. A droite, les deux carres vus de dessus, superposes par un coin : le carre de la base mesure huit centimetres de cote, le carre de la section quatre centimetres. Le grand carre est partage par un trait vertical et un trait horizontal en quatre cases identiques, chacune ayant exactement la taille du carre de la section. Le lecteur compte donc quatre sections dans la base, alors que les cotes n'ont ete divises que par deux.</desc>
+
+              <!-- GAUCHE : coupe de profil. Sommet (72 ; 34), base de (26 ; 178)
+                   a (118 ; 178). La coupe est a mi-hauteur : y = (34+178)/2 =
+                   106, et la demi-largeur y vaut 46 × 0,5 = 23, donc de
+                   (49 ; 106) a (95 ; 106). VERIFIE : l'arete gauche, de
+                   (72 ; 34) a (26 ; 178), passe par l'abscisse 49 a la hauteur
+                   106 ; ecart 0. -->
+              <line class="frame-line" x1="72" y1="34" x2="26" y2="178"></line>
+              <line class="frame-line" x1="72" y1="34" x2="118" y2="178"></line>
+              <line class="frame-line" x1="26" y1="178" x2="118" y2="178"></line>
+              <line class="guide-line" x1="72" y1="34" x2="72" y2="178"></line>
+              <line class="curve-main" x1="49" y1="106" x2="95" y2="106"></line>
+              <circle class="plot-point-alt" cx="72" cy="34" r="4"></circle>
+              <text class="tick-label" x="72" y="26" text-anchor="middle">S</text>
+              <text class="label-soft" x="104" y="100" text-anchor="start">k = 1/2</text>
+              <text class="tick-label" x="72" y="196" text-anchor="middle">côté 8 cm</text>
+              <text class="tick-label" x="72" y="210" text-anchor="middle">coupe à mi-hauteur</text>
+
+              <!-- DROITE : les deux carres vus de dessus, a 12 unites de
+                   viewBox par centimetre. Base 8 cm = 96 ; section 4 cm = 48.
+                   VERIFIE : (96/48)² = 4 cases exactement, et les aires
+                   dessinees valent 9 216 et 2 304, de rapport 0,25 = k². -->
+              <rect class="frame-line" x="200" y="52" width="96" height="96"
+                    fill="color-mix(in srgb, var(--diagram-accent) 7%, transparent)"></rect>
+              <line class="grid-line" x1="248" y1="52" x2="248" y2="148"></line>
+              <line class="grid-line" x1="200" y1="100" x2="296" y2="100"></line>
+              <rect class="curve-main" x="200" y="52" width="48" height="48"
+                    fill="color-mix(in srgb, var(--diagram-accent) 22%, transparent)"></rect>
+              <text class="tick-label" x="224" y="82" text-anchor="middle">1</text>
+              <text class="tick-label" x="272" y="82" text-anchor="middle">2</text>
+              <text class="tick-label" x="224" y="130" text-anchor="middle">3</text>
+              <text class="tick-label" x="272" y="130" text-anchor="middle">4</text>
+              <text class="tick-label" x="248" y="166" text-anchor="middle">base : 8 cm de côté</text>
+              <text class="annotation-label" x="248" y="184" text-anchor="middle">aire 64 cm carrés</text>
+
+              <text class="annotation-label" x="352" y="76" text-anchor="middle">section</text>
+              <text class="tick-label" x="352" y="94" text-anchor="middle">4 cm de côté</text>
+              <text class="annotation-label" x="352" y="114" text-anchor="middle">aire 16</text>
+              <text class="tick-label" x="352" y="132" text-anchor="middle">cm carrés</text>
+              <text class="label-soft" x="352" y="160" text-anchor="middle">quatre fois</text>
+              <text class="label-soft" x="352" y="176" text-anchor="middle">moins, pas deux</text>
+            </svg>
+          `,
+          notes: [
+            'La coupe est à mi-hauteur, donc $k = \\dfrac{h\'}{h} = \\dfrac{1}{2}$ : le côté passe de $8$ cm à $8 \\times \\dfrac{1}{2} = 4$ cm.',
+            'L\'aire, elle, passe de $8^2 = 64$ cm² à $4^2 = 16$ cm². Le rapport vaut $\\dfrac{16}{64} = \\dfrac{1}{4} = k^2$, pas $k$.',
+            'Le grand carré contient <strong>quatre</strong> cases de la taille de la section : on peut les compter, il n\'y a rien à croire sur parole.',
+            'Avec $k = \\dfrac{1}{3}$, le pavage compterait $9$ cases ; avec $k = \\dfrac{1}{4}$, il en compterait $16$. Le nombre de cases vaut toujours $\\dfrac{1}{k^2}$.',
+            '<strong>Le réflexe utile</strong> : dès qu\'un énoncé parle d\'aire, de surface ou de peinture, le facteur est $k^2$. Pour un volume, ce serait $k^3$.'
+          ],
+          reading: 'Compte les cases du grand carré à droite : il y en a quatre, et la case colorée en haut à gauche a exactement la taille de la section. Reviens ensuite au profil de gauche pour voir que la coupe est bien à mi-hauteur.',
+          caption: 'Pyramide coupée à mi-hauteur : le côté est divisé par deux, mais la base se pave par quatre copies de la section.'
+        }
+      ],
       recap: [
         'Une coupe <strong>parallèle à la base</strong> donne toujours une figure <strong>semblable</strong> à la base (même forme, dimensions réduites).',
         'Le <strong>rapport de réduction</strong> est $k = \\dfrac{h\'}{h}$ — les longueurs sont multipliées par $k$, les aires par $k^2$.',

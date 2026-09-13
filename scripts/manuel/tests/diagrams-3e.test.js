@@ -488,3 +488,53 @@ test('aucun signe pourcent non echappe dans le texte typographie de la troisieme
   assert.deepStrictEqual(fautes, [],
     'signe(s) pourcent non echappe(s) — ecrire \\% dans la chaine JS :\n  ' + fautes.join('\n  '));
 });
+
+/* --- Les sauts de ligne, qui rendaient un devoir note illisible --------- */
+test('aucun saut de ligne brut dans le texte typographie de la troisieme', () => {
+  /* LaTeX traite un saut de ligne isole comme une simple ESPACE. Un algorithme
+     ecrit sur cinq lignes s'imprime alors bout a bout, sur une seule ligne —
+     ce qui est arrive aux cinq questions d'evaluation de 3e-algorithmique,
+     dans le devoir NOTE, jusqu'au 2026-09-13. La convention du projet est
+     <br/>.
+
+     Le defaut est invisible partout ailleurs : le texte est valide, le corpus
+     le valide, la compilation reussit sans le moindre avertissement. Seule
+     une page rendue en image le montrait — et ce test, desormais. */
+  const fs = require('fs');
+  const path = require('path');
+  const { RACINE } = require('../extract.js');
+  const dossier = path.join(RACINE, 'js/data/3e');
+  const fautes = [];
+
+  for (const f of fs.readdirSync(dossier).filter(x => x !== 'index.js' && x.endsWith('.js'))) {
+    const { module: mod, exercices } = chargerModule('js/data/3e/' + f, { tirages: 6 });
+    const champs = [];
+    const add = (ou, t) => champs.push([ou, String(t || '')]);
+    add('intro', mod.cours.intro);
+    add('piege', mod.cours.piege);
+    (mod.cours.definitions || []).forEach((d, i) => add('definition ' + (i + 1), d.def));
+    (mod.cours.recap || []).forEach((r, i) => add('recap ' + (i + 1), r));
+    if (mod.cours.example) {
+      add('exemple', mod.cours.example.statement);
+      (mod.cours.example.steps || []).forEach((s, i) => add('exemple etape ' + (i + 1), s));
+    }
+    ((mod.cours.method && mod.cours.method.steps) || []).forEach((s, i) => add('methode ' + (i + 1), s));
+    ((mod.evaluation && mod.evaluation.questions) || []).forEach((q, i) => {
+      add('evaluation Q' + (i + 1), q.statement);
+      add('evaluation Q' + (i + 1) + ' corrige', q.correction);
+    });
+    (mod.quiz || []).forEach((q, i) => {
+      add('quiz ' + (i + 1), q.q);
+      add('quiz ' + (i + 1) + ' corrige', q.correction);
+    });
+    exercices.forEach((e, i) => {
+      add('exercice ' + (i + 1), e.statement);
+      (e.solution || []).forEach((s, j) => add('exercice ' + (i + 1) + ' solution ' + (j + 1), s));
+    });
+    for (const [ou, t] of champs) {
+      if (t.includes('\n')) fautes.push(mod.id + ' / ' + ou);
+    }
+  }
+  assert.deepStrictEqual(fautes, [],
+    'saut(s) de ligne brut(s) — employer <br/> :\n  ' + fautes.join('\n  '));
+});
