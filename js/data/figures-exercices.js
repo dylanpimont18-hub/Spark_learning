@@ -862,3 +862,343 @@ function figureTriangleTroisCotes(a, b, c, options) {
     '<text class="tick-label" x="' + nb2(C[0]) + '" y="' + nb2(C[1] - 8) + '" text-anchor="middle">' + noms.C + '</text>'
   ].join(''));
 }
+
+/* =========================================================
+   HELPERS AJOUTES POUR LA TROISIEME (2026-09-13)
+
+   INSERES A LA FIN DU FICHIER, ET NULLE PART AILLEURS. Deux sessions de la
+   vague precedente ont ajoute leurs helpers au MEME endroit du fichier, au
+   milieu, et ont produit un conflit au merge que personne n'avait vu venir.
+   Toute vague suivante ajoute donc son bloc en queue, sous un titre qui la
+   nomme : deux blocs ajoutes en queue se juxtaposent, ils ne se chevauchent
+   jamais.
+
+   CE QUE LA TROISIEME DEMANDE DE PLUS. La quatrieme calculait une longueur
+   dans UN triangle. La troisieme met deux figures en correspondance : Thales
+   compare deux triangles emboites (ou croises), l'homothetie transforme une
+   figure en une autre. La propriete a dessiner n'est plus « cet angle est
+   droit » mais « ces deux droites sont PARALLELES » et « ce rapport vaut
+   exactement k ».
+
+   REGLE DE FIDELITE, la plus stricte des trois vagues. Un parallelisme
+   approximatif est indetectable a l'oeil et faux au produit vectoriel : c'est
+   exactement le type de defaut que les vingt et une erreurs de figures des
+   ouvrages precedents ont illustre. Les helpers ci-dessous garantissent donc
+   le parallelisme PAR CONSTRUCTION — les points de la seconde parallele sont
+   obtenus en multipliant les vecteurs de la premiere par le meme scalaire k,
+   jamais en les posant a vue. Les tests de
+   scripts/manuel/tests/figures-exercices.test.js le verifient au produit
+   vectoriel, et le rapport mesure sur le dessin est compare au rapport
+   annonce.
+   ========================================================= */
+
+/* --- Configuration de Thales ------------------------------------------
+   Deux secantes issues de O, coupees par deux paralleles (AB) et (A'B').
+
+   `croisee` a false : configuration en TRIANGLE EMBOITE, le petit triangle
+   OAB est a l'interieur du grand. C'est la configuration la plus frequente et
+   la plus lisible.
+
+   `croisee` a true : configuration en PAPILLON, O est ENTRE les deux
+   paralleles. C'est la source d'erreur numero un du chapitre : l'eleve croit
+   la configuration inapplicable parce qu'elle ne ressemble pas au dessin du
+   cours. La figure la montre donc telle quelle, sans la redresser.
+
+   `inconnu` dit lequel des quatre segments cotables porte le point
+   d'interrogation : 'OA', 'OAp', 'AB' ou 'ABp'. Les autres portent leur
+   valeur. La figure pose la question de l'enonce, et une seule.
+
+   Le rapport k = OAp / OA est le SEUL parametre de forme : les deux paralleles
+   en decoulent. C'est ce qui rend le parallelisme exact et le rapport dessine
+   egal au rapport annonce. */
+function figureThales(OA, OAp, AB, options) {
+  const o = options || {};
+  const unite = o.unite === undefined ? 'cm' : o.unite;
+  const croisee = !!o.croisee;
+  const inconnu = o.inconnu === undefined ? 'ABp' : o.inconnu;
+  const noms = o.noms || { O: 'O', A: 'A', B: 'B', Ap: 'M', Bp: 'N' };
+  if (!(OA > 0) || !(OAp > 0) || !(AB > 0)) return '';
+  const k = OAp / OA;
+
+  /* Directions des deux secantes, en unites abstraites. Elles sont FIXES :
+     l'enonce ne donne jamais l'angle en O, donc le dessin en choisit un,
+     lisible, et n'affirme rien a son sujet. Aucune cote d'angle n'est posee.
+     Seules les longueurs portees par les secantes sont cotees. */
+  const u = [1, -0.62];            // secante portant A puis A'
+  const v = [1, 0.30];             // secante portant B puis B'
+  const nU = Math.hypot(u[0], u[1]), nV = Math.hypot(v[0], v[1]);
+  const eU = [u[0] / nU, u[1] / nU], eV = [v[0] / nV, v[1] / nV];
+
+  /* Longueur portee sur la seconde secante. L'enonce ne donne pas toujours OB :
+     on en choisit une valeur de DESSIN proportionnee a OA, et OB' s'en deduit
+     par le meme k — c'est ce qui garantit (AB) // (A'B') au produit vectoriel,
+     quelle que soit la valeur choisie. */
+  const OB = OA * 0.86;
+
+  // Signe du cote : en papillon, la seconde parallele part de l'autre cote de O.
+  const s = croisee ? -1 : 1;
+
+  // Points en unites abstraites, O a l'origine.
+  const pO = [0, 0];
+  const pA = [eU[0] * OA, eU[1] * OA];
+  const pB = [eV[0] * OB, eV[1] * OB];
+  const pAp = [eU[0] * OAp * s, eU[1] * OAp * s];
+  const pBp = [eV[0] * OB * k * s, eV[1] * OB * k * s];
+
+  // Cadrage : on mesure l'etendue reelle des cinq points, puis on met a l'echelle.
+  const xs = [pO[0], pA[0], pB[0], pAp[0], pBp[0]];
+  const ys = [pO[1], pA[1], pB[1], pAp[1], pBp[1]];
+  const xMin = Math.min.apply(null, xs), xMax = Math.max.apply(null, xs);
+  const yMin = Math.min.apply(null, ys), yMax = Math.max.apply(null, ys);
+  const e = echelleFigure(xMax - xMin || 1, yMax - yMin || 1, FIG_MARGE + 16, FIG_MARGE + 16);
+  const w = (xMax - xMin) * e, h = (yMax - yMin) * e;
+  const ox = (FIG_L - w) / 2 - xMin * e;
+  const oy = (FIG_H - h) / 2 - yMin * e;
+  const T = (p) => [ox + p[0] * e, oy + p[1] * e];
+  const O = T(pO), A = T(pA), B = T(pB), Ap = T(pAp), Bp = T(pBp);
+
+  const cote = (cle, valeur) => (inconnu === cle ? '?' : coteFig(valeur, unite));
+  // Milieu decale vers l'exterieur du segment, pour que l'etiquette ne tombe
+  // jamais sur le trait qu'elle designe (regle de section 9).
+  const mi = (X, Y, dx, dy) => [(X[0] + Y[0]) / 2 + dx, (X[1] + Y[1]) / 2 + dy];
+  const mOA = mi(O, A, -4, -8), mOAp = mi(A, Ap, -4, -8);
+  const mAB = mi(A, B, 10, 4), mApBp = mi(Ap, Bp, 12, 4);
+
+  // Segment complet d'une secante, de son extremite la plus a gauche a la plus
+  // a droite : les deux points en sont les extremites reelles, donc le trait
+  // passe exactement par O sans qu'on ait a l'y forcer.
+  const secante = (X, Y) =>
+    '<line class="frame-line" x1="' + nb2(X[0]) + '" y1="' + nb2(X[1]) +
+    '" x2="' + nb2(Y[0]) + '" y2="' + nb2(Y[1]) + '"></line>';
+
+  return svgFigure('Configuration de Thales', [
+    secante(A, Ap), secante(B, Bp),
+    // Les deux paralleles, en trait fort : ce sont elles qui autorisent Thales.
+    '<line class="curve-main" x1="' + nb2(A[0]) + '" y1="' + nb2(A[1]) + '" x2="' + nb2(B[0]) + '" y2="' + nb2(B[1]) + '"></line>',
+    '<line class="curve-main" x1="' + nb2(Ap[0]) + '" y1="' + nb2(Ap[1]) + '" x2="' + nb2(Bp[0]) + '" y2="' + nb2(Bp[1]) + '"></line>',
+    '<circle class="plot-point-alt" cx="' + nb2(O[0]) + '" cy="' + nb2(O[1]) + '" r="4"></circle>',
+    '<circle class="plot-point-alt" cx="' + nb2(A[0]) + '" cy="' + nb2(A[1]) + '" r="4"></circle>',
+    '<circle class="plot-point-alt" cx="' + nb2(B[0]) + '" cy="' + nb2(B[1]) + '" r="4"></circle>',
+    '<circle class="plot-point" cx="' + nb2(Ap[0]) + '" cy="' + nb2(Ap[1]) + '" r="4"></circle>',
+    '<circle class="plot-point" cx="' + nb2(Bp[0]) + '" cy="' + nb2(Bp[1]) + '" r="4"></circle>',
+    '<text class="tick-label" x="' + nb2(O[0] - 10) + '" y="' + nb2(O[1] + 4) + '" text-anchor="end">' + noms.O + '</text>',
+    '<text class="tick-label" x="' + nb2(A[0] - 5) + '" y="' + nb2(A[1] - 9) + '" text-anchor="end">' + noms.A + '</text>',
+    '<text class="tick-label" x="' + nb2(B[0] - 5) + '" y="' + nb2(B[1] + 15) + '" text-anchor="end">' + noms.B + '</text>',
+    '<text class="tick-label" x="' + nb2(Ap[0] + 7) + '" y="' + nb2(Ap[1] - 6) + '" text-anchor="start">' + noms.Ap + '</text>',
+    '<text class="tick-label" x="' + nb2(Bp[0] + 7) + '" y="' + nb2(Bp[1] + 13) + '" text-anchor="start">' + noms.Bp + '</text>',
+    '<text class="annotation-label" x="' + nb2(mOA[0]) + '" y="' + nb2(mOA[1]) + '" text-anchor="end">' + cote('OA', OA) + '</text>',
+    '<text class="annotation-label" x="' + nb2(mOAp[0]) + '" y="' + nb2(mOAp[1]) + '" text-anchor="end">' + cote('OAp', OAp) + '</text>',
+    '<text class="annotation-label" x="' + nb2(mAB[0]) + '" y="' + nb2(mAB[1]) + '" text-anchor="start">' + cote('AB', AB) + '</text>',
+    '<text class="annotation-label" x="' + nb2(mApBp[0]) + '" y="' + nb2(mApBp[1]) + '" text-anchor="start">' + cote('ABp', AB * k) + '</text>'
+  ].join(''));
+}
+
+/* --- Homothetie --------------------------------------------------------
+   Un triangle et son image par l'homothetie de centre O et de rapport k.
+
+   POURQUOI UN HELPER DEDIE plutot que deux triangles poses cote a cote : le
+   rapport NEGATIF est la difficulte du chapitre, et elle ne se comprend que si
+   l'image est reellement de l'autre cote du centre. Un dessin qui poserait
+   l'image « en face, un peu plus loin » ne montrerait pas le demi-tour. Ici
+   l'image est calculee, point par point, par M' = O + k * (M - O) : le signe
+   fait son travail tout seul, et le dessin ne peut pas mentir sur k.
+
+   Les rayons issus de O sont traces en trait de construction : ce sont eux qui
+   rendent le centre visible comme centre, et non comme un point pose la. */
+function figureHomothetie(k, options) {
+  const o = options || {};
+  const noms = o.noms || { O: 'O', A: 'A', B: 'B', C: 'C' };
+  if (!k || !isFinite(k)) return '';
+
+  /* Triangle de depart, en unites abstraites, choisi franchement scalene pour
+     qu'un demi-tour se VOIE : un triangle presque isocele tournerait sans
+     qu'on s'en apercoive, et la figure raterait exactement ce qu'elle doit
+     montrer. */
+  const src = [[1.6, -0.5], [3.2, -0.1], [2.2, 1.25]];
+  const img = src.map(p => [p[0] * k, p[1] * k]);
+  const pts = [[0, 0]].concat(src, img);
+
+  const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
+  const xMin = Math.min.apply(null, xs), xMax = Math.max.apply(null, xs);
+  const yMin = Math.min.apply(null, ys), yMax = Math.max.apply(null, ys);
+  const e = echelleFigure(xMax - xMin || 1, yMax - yMin || 1, FIG_MARGE + 10, FIG_MARGE + 10);
+  const w = (xMax - xMin) * e, h = (yMax - yMin) * e;
+  const ox = (FIG_L - w) / 2 - xMin * e;
+  const oy = (FIG_H - h) / 2 - yMin * e;
+  const T = (p) => [ox + p[0] * e, oy + p[1] * e];
+  const S = src.map(T), I = img.map(T), O = T([0, 0]);
+  const P = (q) => nb2(q[0]) + ',' + nb2(q[1]);
+
+  const rayons = S.map((p, i) =>
+    '<line class="guide-line" x1="' + nb2(O[0]) + '" y1="' + nb2(O[1]) +
+    '" x2="' + nb2(I[i][0]) + '" y2="' + nb2(I[i][1]) + '"></line>').join('');
+
+  return svgFigure('Triangle et son image par une homothetie de rapport ' + fr(k), [
+    rayons,
+    // L'ANTECEDENT en aplat discret, l'IMAGE en trait fort : l'oeil doit savoir
+    // lequel des deux est le resultat (hierarchie par l'intensite, section 9).
+    '<polygon class="frame-line" points="' + S.map(P).join(' ') + '" fill="' + APLAT + '"></polygon>',
+    '<polygon class="curve-main" points="' + I.map(P).join(' ') + '" fill="none"></polygon>',
+    '<circle class="plot-point-alt" cx="' + nb2(O[0]) + '" cy="' + nb2(O[1]) + '" r="4"></circle>',
+    '<text class="tick-label" x="' + nb2(O[0] - 8) + '" y="' + nb2(O[1] + 14) + '" text-anchor="end">' + noms.O + '</text>',
+    '<text class="tick-label" x="' + nb2(S[0][0] - 8) + '" y="' + nb2(S[0][1]) + '" text-anchor="end">' + noms.A + '</text>',
+    '<text class="tick-label" x="' + nb2(S[1][0] + 8) + '" y="' + nb2(S[1][1]) + '" text-anchor="start">' + noms.B + '</text>',
+    '<text class="tick-label" x="' + nb2(S[2][0]) + '" y="' + nb2(S[2][1] - 8) + '" text-anchor="middle">' + noms.C + '</text>',
+    '<text class="annotation-label" x="' + nb2(FIG_L / 2) + '" y="' + nb2(FIG_H - 6) + '" text-anchor="middle">rapport ' + fr(k) + '</text>'
+  ].join(''));
+}
+
+/* --- Triangle rectangle pour la trigonometrie --------------------------
+   Le triangle rectangle de reference, avec l'angle aigu MARQUE et les trois
+   cotes nommes par leur ROLE relatif a cet angle (adjacent, oppose,
+   hypotenuse). C'est cette nomenclature relative, et elle seule, qui distingue
+   la trigonometrie de Pythagore : le meme cote est adjacent pour un angle et
+   oppose pour l'autre.
+
+   Le triangle est construit a partir de l'ANGLE : le cote horizontal vaut
+   hypotenuse * cos(angle) et le vertical hypotenuse * sin(angle). L'angle
+   dessine est donc exactement l'angle annonce, verifiable au produit scalaire
+   — c'est la propriete que les tests controlent. */
+function figureTrigo(angleDeg, hypotenuse, options) {
+  const o = options || {};
+  const unite = o.unite === undefined ? 'cm' : o.unite;
+  const inconnu = o.inconnu === undefined ? 'vertical' : o.inconnu;
+  const roles = o.roles !== false;
+  if (!(angleDeg > 0) || !(angleDeg < 90) || !(hypotenuse > 0)) return '';
+
+  const rad = angleDeg * Math.PI / 180;
+  const horiz = hypotenuse * Math.cos(rad);
+  const vert = hypotenuse * Math.sin(rad);
+
+  const e = echelleFigure(horiz, vert, FIG_MARGE + 34, FIG_MARGE + 34);
+  const w = horiz * e, h = vert * e;
+  const x0 = (FIG_L - w) / 2, yBas = (FIG_H + h) / 2 - 14;
+
+  /* L'angle aigu est place au sommet GAUCHE de la base, l'angle droit au
+     sommet droit. Ainsi l'hypotenuse monte de gauche a droite, comme dans tous
+     les manuels, et l'arc d'angle se pose dans un coin degage. */
+  const S = [x0, yBas];                 // sommet de l'angle aigu
+  const D = [x0 + w, yBas];             // sommet de l'angle droit
+  const H = [x0 + w, yBas - h];         // sommet oppose
+  const P = (q) => nb2(q[0]) + ',' + nb2(q[1]);
+
+  // Arc de l'angle aigu, rayon fixe, et etiquette posee SUR LA BISSECTRICE
+  // (regle de section 9).
+  const r = 24;
+  const arc = '<path class="guide-line" fill="none" d="M' + nb2(S[0] + r) + ' ' + nb2(S[1]) +
+    ' A' + r + ' ' + r + ' 0 0 1 ' + nb2(S[0] + r * Math.cos(rad)) + ' ' + nb2(S[1] - r * Math.sin(rad)) + '"></path>';
+  const bis = rad / 2;
+  const lblA = [S[0] + (r + 14) * Math.cos(bis), S[1] - (r + 14) * Math.sin(bis) + 4];
+
+  const k = 9;
+  const droit = '<path class="grid-line" fill="none" d="M' + nb2(D[0] - k) + ' ' + nb2(D[1]) +
+    ' L' + nb2(D[0] - k) + ' ' + nb2(D[1] - k) + ' L' + nb2(D[0]) + ' ' + nb2(D[1] - k) + '"></path>';
+
+  const eA = inconnu === 'angle' ? '?' : fr(angleDeg) + '°';
+  const eV = inconnu === 'vertical' ? '?' : coteFig(Math.round(vert * 10) / 10, unite);
+  const eH = inconnu === 'horizontal' ? '?' : coteFig(Math.round(horiz * 10) / 10, unite);
+  const eHyp = inconnu === 'hypotenuse' ? '?' : coteFig(hypotenuse, unite);
+
+  return svgFigure('Triangle rectangle avec un angle aigu marque', [
+    '<polygon class="frame-line" points="' + P(S) + ' ' + P(D) + ' ' + P(H) + '" fill="' + APLAT + '"></polygon>',
+    droit, arc,
+    '<text class="annotation-label" x="' + nb2(lblA[0]) + '" y="' + nb2(lblA[1]) + '" text-anchor="start">' + eA + '</text>',
+    '<text class="annotation-label" x="' + nb2(x0 + w / 2) + '" y="' + nb2(yBas + 20) + '" text-anchor="middle">' + eH + '</text>',
+    '<text class="annotation-label" x="' + nb2(D[0] + 10) + '" y="' + nb2(yBas - h / 2 + 4) + '" text-anchor="start">' + eV + '</text>',
+    '<text class="annotation-label" x="' + nb2((S[0] + H[0]) / 2 - 8) + '" y="' + nb2((S[1] + H[1]) / 2 - 8) + '" text-anchor="end">' + eHyp + '</text>',
+    /* Les ROLES, poses sous les cotes concernes. Ecrits en minuscules et sans
+       article elide : « adjacent », jamais « l adjacent » ni « ADJACENT »
+       (contrainte du convertisseur, section 9). */
+    roles ? '<text class="tick-label" x="' + nb2(x0 + w / 2) + '" y="' + nb2(yBas + 36) + '" text-anchor="middle">adjacent</text>' : '',
+    roles ? '<text class="tick-label" x="' + nb2(D[0] + 10) + '" y="' + nb2(yBas - h / 2 + 18) + '" text-anchor="start">oppose</text>' : '',
+    roles ? '<text class="tick-label" x="' + nb2((S[0] + H[0]) / 2 - 8) + '" y="' + nb2((S[1] + H[1]) / 2 - 24) + '" text-anchor="end">hypotenuse</text>' : ''
+  ].join(''));
+}
+
+/* --- Section plane d'un solide -----------------------------------------
+   Un pave ou un cylindre coupe par un plan, avec la SECTION hachuree en place
+   dans le solide, et non posee a cote.
+
+   POURQUOI c'est le bon dessin : l'erreur du chapitre est de confondre la
+   section avec une projection ou avec une face. Un dessin qui montrerait le
+   solide d'un cote et un rectangle de l'autre laisserait l'eleve libre de
+   croire qu'on a « rabattu » une face. Ici la section est DANS le solide, sur
+   le plan de coupe, et ses deux dimensions sont cotees a partir des dimensions
+   du solide qui les produisent.
+
+   `type` vaut 'pave-vertical', 'pave-horizontal' ou 'cylindre-horizontal'. */
+function figureSection(type, a, b, c, options) {
+  const o = options || {};
+  const unite = o.unite === undefined ? 'cm' : o.unite;
+  const P = (q) => nb2(q[0]) + ',' + nb2(q[1]);
+  const HACHURE = 'color-mix(in srgb, var(--diagram-accent) 30%, transparent)';
+
+  if (type === 'cylindre-horizontal') {
+    // Cylindre debout de rayon a et de hauteur b, coupe par un plan parallele
+    // a la base : la section est un DISQUE de meme rayon que la base.
+    const e = echelleFigure(2 * a, b, FIG_MARGE + 20, FIG_MARGE + 20);
+    const rx = a * e, hy = b * e;
+    const ry = rx * 0.32;               // ouverture de l'ellipse, en perspective
+    const cx = FIG_L / 2, yBas = (FIG_H + hy) / 2 - 10, yHaut = yBas - hy;
+    const yCoupe = yHaut + hy * 0.45;
+    return svgFigure('Cylindre coupe par un plan parallele a la base', [
+      '<line class="frame-line" x1="' + nb2(cx - rx) + '" y1="' + nb2(yHaut) + '" x2="' + nb2(cx - rx) + '" y2="' + nb2(yBas) + '"></line>',
+      '<line class="frame-line" x1="' + nb2(cx + rx) + '" y1="' + nb2(yHaut) + '" x2="' + nb2(cx + rx) + '" y2="' + nb2(yBas) + '"></line>',
+      '<ellipse class="frame-line" cx="' + nb2(cx) + '" cy="' + nb2(yBas) + '" rx="' + nb2(rx) + '" ry="' + nb2(ry) + '" fill="' + APLAT + '"></ellipse>',
+      '<ellipse class="frame-line" cx="' + nb2(cx) + '" cy="' + nb2(yHaut) + '" rx="' + nb2(rx) + '" ry="' + nb2(ry) + '" fill="' + APLAT + '"></ellipse>',
+      '<ellipse class="curve-main" cx="' + nb2(cx) + '" cy="' + nb2(yCoupe) + '" rx="' + nb2(rx) + '" ry="' + nb2(ry) + '" fill="' + HACHURE + '"></ellipse>',
+      '<text class="annotation-label" x="' + nb2(cx) + '" y="' + nb2(yCoupe - ry - 8) + '" text-anchor="middle">section</text>',
+      '<text class="annotation-label" x="' + nb2(cx - rx - 8) + '" y="' + nb2((yHaut + yBas) / 2) + '" text-anchor="end">' + coteFig(b, unite) + '</text>',
+      '<text class="annotation-label" x="' + nb2(cx) + '" y="' + nb2(yBas + ry + 22) + '" text-anchor="middle">rayon ' + coteFig(a, unite) + '</text>'
+    ].join(''));
+  }
+
+  /* Pave a x b x c en perspective cavaliere. La coupe est VERTICALE (plan
+     parallele a une face laterale) ou HORIZONTALE (plan parallele a la base).
+     Dans les deux cas la section est un rectangle dont les deux dimensions
+     sont DEUX DES TROIS aretes du pave : c'est ce que la figure doit rendre
+     evident, et c'est pourquoi ces deux aretes-la sont les seules cotees. */
+  const vertical = type !== 'pave-horizontal';
+  const e = echelleFigure(a + c * 0.45, b + c * 0.45, FIG_MARGE + 18, FIG_MARGE + 18);
+  const w = a * e, h = b * e, p = c * e * 0.45;
+  const x0 = (FIG_L - w - p) / 2, y0 = (FIG_H - h - p) / 2 + p;
+
+  const AV = [[x0, y0], [x0 + w, y0], [x0 + w, y0 + h], [x0, y0 + h]];     // face avant
+  const dec = [p, -p];
+  const AR = AV.map(q => [q[0] + dec[0], q[1] + dec[1]]);                   // face arriere
+
+  const aretes = [
+    '<polygon class="frame-line" points="' + AV.map(P).join(' ') + '" fill="' + APLAT + '"></polygon>',
+    '<polygon class="grid-line" points="' + AR.map(P).join(' ') + '" fill="none"></polygon>'
+  ].concat([0, 1, 2, 3].map(i =>
+    '<line class="grid-line" x1="' + nb2(AV[i][0]) + '" y1="' + nb2(AV[i][1]) +
+    '" x2="' + nb2(AR[i][0]) + '" y2="' + nb2(AR[i][1]) + '"></line>'));
+
+  let section, etiq, cotes;
+  if (vertical) {
+    // Plan vertical a 55 % de la largeur : la section est un rectangle b x c.
+    const xs = x0 + w * 0.55;
+    section = [[xs, y0], [xs + p, y0 - p], [xs + p, y0 - p + h], [xs, y0 + h]];
+    etiq = [xs + p / 2, y0 - p - 8];
+    cotes = [
+      '<text class="annotation-label" x="' + nb2(x0 - 8) + '" y="' + nb2(y0 + h / 2) + '" text-anchor="end">' + coteFig(b, unite) + '</text>',
+      '<text class="annotation-label" x="' + nb2(x0 + w / 2) + '" y="' + nb2(y0 + h + 20) + '" text-anchor="middle">' + coteFig(a, unite) + '</text>',
+      '<text class="annotation-label" x="' + nb2(x0 + w + p / 2 + 12) + '" y="' + nb2(y0 + h - p / 2 + 8) + '" text-anchor="start">' + coteFig(c, unite) + '</text>'
+    ];
+  } else {
+    // Plan horizontal a mi-hauteur : la section est un rectangle a x c.
+    const ys = y0 + h * 0.5;
+    section = [[x0, ys], [x0 + w, ys], [x0 + w + p, ys - p], [x0 + p, ys - p]];
+    etiq = [x0 + w / 2 + p / 2, ys - p - 8];
+    cotes = [
+      '<text class="annotation-label" x="' + nb2(x0 - 8) + '" y="' + nb2(y0 + h / 2) + '" text-anchor="end">' + coteFig(b, unite) + '</text>',
+      '<text class="annotation-label" x="' + nb2(x0 + w / 2) + '" y="' + nb2(y0 + h + 20) + '" text-anchor="middle">' + coteFig(a, unite) + '</text>',
+      '<text class="annotation-label" x="' + nb2(x0 + w + p / 2 + 12) + '" y="' + nb2(y0 + h - p / 2 + 8) + '" text-anchor="start">' + coteFig(c, unite) + '</text>'
+    ];
+  }
+
+  return svgFigure('Pave coupe par un plan', aretes.concat([
+    '<polygon class="curve-main" points="' + section.map(P).join(' ') + '" fill="' + HACHURE + '"></polygon>',
+    '<text class="annotation-label" x="' + nb2(etiq[0]) + '" y="' + nb2(etiq[1]) + '" text-anchor="middle">section</text>'
+  ], cotes).join(''));
+}
