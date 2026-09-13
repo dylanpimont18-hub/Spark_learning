@@ -234,3 +234,182 @@ test('les schémas de troisième portent un titre et une description accessibles
   }
   assert.ok(total >= 3, 'au moins les trois schémas du chapitre pilote attendus, ' + total + ' trouvé(s)');
 });
+
+/* =========================================================
+   SCHÉMAS COMMITÉS PENDANT LA COUPURE RÉSEAU DU 2026-09-13.
+
+   Les neuf schémas de `3e-fonctions`, `3e-homotheties` et
+   `3e-identites-remarquables` ont été écrits et commités en urgence, sans
+   passer au build ni au contrôle par le calcul. Les tests ci-dessous ont été
+   écrits APRÈS COUP pour vérifier ce qu'ils affirment, et ils l'ont tous
+   confirmé — mais ils restent ici parce que la propriété qu'ils contrôlent
+   n'est vraie que tant que personne ne retouche une coordonnée.
+
+   UN PIÈGE DE MÉTHODE, rencontré en écrivant ces tests et consigné parce
+   qu'il coûterait le même temps à la vague suivante. En vérifiant la parabole
+   de `3e-fonctions`, une première lecture a conclu à une figure fausse d'un
+   facteur 4 : l'échelle horizontale avait été déduite des LIGNES DE GRILLE,
+   espacées de 18 unités, alors que les graduations réelles sont portées par
+   les ÉTIQUETTES, espacées de 36. La figure était exacte au millième.
+
+   La leçon n'est pas « la figure était bonne » : c'est qu'un contrôle par le
+   calcul doit prendre son repère sur ce que la figure DÉCLARE — ses
+   étiquettes, ses points marqués, ses axes — et jamais sur un élément de
+   décor. Un test calé sur le mauvais repère produit une fausse alerte, qui
+   coûte aussi cher qu'un défaut manqué.
+   ========================================================= */
+
+/* --- Fonctions : « Une image se lit vers le haut... » ------------------ */
+test('Fonctions, lecture graphique : la courbe est exactement la parabole annoncée', () => {
+  const d = parTitre('3e-fonctions.js', 'Une image se lit vers le haut');
+  const poly = d.svg.match(/<polyline[^>]*points="([^"]+)"/);
+  assert.ok(poly, 'polyline de la courbe introuvable');
+  const pts = poly[1].trim().split(/\s+/).map(p => p.split(',').map(Number));
+
+  /* Repère lu sur les ÉTIQUETTES, seul repère que la figure déclare :
+     « -2 » sous x = 98, « 0 » sous x = 170, « 2 » sous x = 242 donnent
+     36 unités de viewBox par unité d'abscisse ; « 0 » sur l'axe à y = 176 et
+     « 3 » à y = 131 donnent 15 unités par unité d'ordonnée. */
+  const X0 = 170, ux = 36, Y0 = 176, uy = 15;
+  let ecartMax = 0;
+  for (const [px, py] of pts) {
+    const x = (px - X0) / ux, y = (Y0 - py) / uy;
+    ecartMax = Math.max(ecartMax, Math.abs(y - (x * x - 1)));
+  }
+  assert.ok(ecartMax < 1e-3,
+    'la courbe s écarte de f(x) = x² - 1 de ' + ecartMax.toFixed(5) + ' unité');
+});
+
+test('Fonctions, lecture graphique : les points marqués sont bien (-2 ; 3) et (2 ; 3)', () => {
+  const d = parTitre('3e-fonctions.js', 'Une image se lit vers le haut');
+  const X0 = 170, ux = 36, Y0 = 176, uy = 15;
+  const marques = cercles(d.svg).map(([px, py]) => [(px - X0) / ux, (Y0 - py) / uy]);
+  for (const attendu of [[-2, 3], [2, 3]]) {
+    assert.ok(marques.some(m => Math.abs(m[0] - attendu[0]) < 1e-6 && Math.abs(m[1] - attendu[1]) < 1e-6),
+      'point (' + attendu + ') absent des points marqués : ' + JSON.stringify(marques));
+  }
+  // Et ces points sont réellement sur la courbe : f(±2) = 3.
+  for (const x of [-2, 2]) assert.strictEqual(x * x - 1, 3);
+});
+
+/* --- Homothéties : les trois schémas ---------------------------------- */
+/* Rapport mesuré point par point sur le dessin, comparé au rapport ANNONCÉ
+   dans le titre du schéma. C'est la vérification que le brief réclame
+   explicitement pour ce niveau : « les rapports d'homothétie mesurés sur la
+   figure valent le rapport annoncé ». */
+test('Homothéties, schéma du signe : les rapports dessinés valent +1,6 et -1,6', () => {
+  const d = parTitre('3e-homotheties.js', 'rapport négatif fait basculer');
+  const polys = [...d.svg.matchAll(/<polygon[^>]*points="([^"]+)"/g)]
+    .map(m => m[1].trim().split(/\s+/).map(p => p.split(',').map(Number)));
+  assert.strictEqual(polys.length, 4, 'quatre polygones attendus (deux par moitié)');
+
+  const cas = [{ O: [66, 100], src: polys[0], img: polys[1], k: 1.6, cote: 'gauche' },
+               { O: [300, 100], src: polys[2], img: polys[3], k: -1.6, cote: 'droite' }];
+  for (const c of cas) {
+    c.src.forEach((M, j) => {
+      const u = vect(c.O, M), v = vect(c.O, c.img[j]);
+      const kx = v[0] / u[0], ky = v[1] / u[1];
+      assert.ok(Math.abs(kx - c.k) < TOL_RAPPORT,
+        c.cote + ' : rapport mesuré ' + kx.toFixed(5) + ', ' + c.k + ' annoncé');
+      assert.ok(Math.abs(ky - c.k) < TOL_RAPPORT,
+        c.cote + ' : rapport vertical ' + ky.toFixed(5) + ', ' + c.k + ' annoncé');
+      assert.ok(ecartParallele(u, v) < TOL_PARALLELE,
+        c.cote + ' : le sommet, son image et le centre ne sont pas alignés');
+    });
+  }
+});
+
+test('Homothéties, schéma du signe : le rapport négatif place bien l image de l AUTRE côté', () => {
+  const d = parTitre('3e-homotheties.js', 'rapport négatif fait basculer');
+  const polys = [...d.svg.matchAll(/<polygon[^>]*points="([^"]+)"/g)]
+    .map(m => m[1].trim().split(/\s+/).map(p => p.split(',').map(Number)));
+  /* Le SIGNE se lit au produit scalaire, pas à l'œil : positif, le centre est
+     en dehors du segment [M M'] ; négatif, il est entre les deux, et c'est
+     tout ce que le schéma prétend montrer. */
+  const cas = [{ O: [66, 100], s: polys[0], i: polys[1], signe: 1 },
+               { O: [300, 100], s: polys[2], i: polys[3], signe: -1 }];
+  for (const c of cas) {
+    c.s.forEach((M, j) => {
+      const ps = scal(vect(c.O, M), vect(c.O, c.i[j]));
+      assert.strictEqual(Math.sign(ps), c.signe,
+        'le côté de l image ne correspond pas au signe du rapport annoncé');
+    });
+  }
+});
+
+test('Homothéties, schéma des aires : quatre copies du petit carré pavent exactement le grand', () => {
+  const d = parTitre('3e-homotheties.js', 'surface est multipliée par quatre');
+  const rects = [...d.svg.matchAll(/<rect[^>]*x="([\d.]+)"[^>]*y="([\d.]+)"[^>]*width="([\d.]+)"[^>]*height="([\d.]+)"/g)]
+    .map(m => ({ x: +m[1], y: +m[2], w: +m[3], h: +m[4] }));
+  assert.strictEqual(rects.length, 2, 'deux carrés attendus : le petit et son image');
+  const [petit, grand] = rects.slice().sort((a, b) => a.w - b.w);
+  assert.strictEqual(petit.w, petit.h, 'le petit n est pas un carré');
+  assert.strictEqual(grand.w, grand.h, 'le grand n est pas un carré');
+  assert.ok(Math.abs(grand.w / petit.w - 2) < 1e-9,
+    'rapport des côtés ' + (grand.w / petit.w) + ', 2 attendu');
+  assert.ok(Math.abs((grand.w * grand.h) / (petit.w * petit.h) - 4) < 1e-9,
+    'rapport des aires ' + ((grand.w * grand.h) / (petit.w * petit.h)) + ', 4 attendu');
+  // Le pavage annoncé : quatre cases du petit remplissent le grand, sans reste.
+  assert.strictEqual(4 * petit.w * petit.h, grand.w * grand.h);
+});
+
+test('Homothéties, schéma de la symétrie centrale : O est le milieu de chaque segment', () => {
+  const d = parTitre('3e-homotheties.js', 'moins un est exactement la symétrie centrale');
+  const polys = [...d.svg.matchAll(/<polygon[^>]*points="([^"]+)"/g)]
+    .map(m => m[1].trim().split(/\s+/).map(p => p.split(',').map(Number)));
+  assert.strictEqual(polys.length, 2, 'le triangle et son image attendus');
+  const [src, img] = polys;
+  // Le centre est le seul cercle de rayon 5 du schéma (les sommets font 3).
+  const centre = [...d.svg.matchAll(/<circle[^>]*cx="([\d.]+)"[^>]*cy="([\d.]+)"[^>]*r="5"/g)]
+    .map(m => [+m[1], +m[2]])[0];
+  assert.ok(centre, 'centre O introuvable');
+  src.forEach((M, j) => {
+    const milieu = [(M[0] + img[j][0]) / 2, (M[1] + img[j][1]) / 2];
+    assert.ok(Math.hypot(milieu[0] - centre[0], milieu[1] - centre[1]) < 1e-6,
+      'O n est pas le milieu du segment pour le sommet ' + j);
+  });
+  // Et les longueurs sont conservées : |k| = 1, ce que « même taille » affirme.
+  for (let j = 0; j < 3; j++) {
+    const a = Math.hypot(src[(j + 1) % 3][0] - src[j][0], src[(j + 1) % 3][1] - src[j][1]);
+    const b = Math.hypot(img[(j + 1) % 3][0] - img[j][0], img[(j + 1) % 3][1] - img[j][1]);
+    assert.ok(Math.abs(a - b) < 1e-6,
+      'côté ' + j + ' : ' + a.toFixed(4) + ' devient ' + b.toFixed(4) + ', longueur non conservée');
+  }
+});
+
+/* --- Identités remarquables : le découpage du carré -------------------- */
+test('Identités, double produit : les quatre morceaux pavent le carré sans trou ni recouvrement', () => {
+  const d = parTitre('3e-identites-remarquables.js', 'double produit oublié');
+  /* a = 6 et b = 4, à 17 unités de viewBox par unité de longueur : le carré
+     a² mesure 102, le carré b² mesure 68, et le tout 170. On vérifie que les
+     aires DESSINÉES valent les aires ANNONCÉES par les étiquettes — 36, 16,
+     24 et 24 — et que leur somme est exactement le carré de côté a + b. */
+  const u = 17;
+  const rects = [...d.svg.matchAll(/<rect[^>]*x="([\d.]+)"[^>]*y="([\d.]+)"[^>]*width="([\d.]+)"[^>]*height="([\d.]+)"/g)]
+    .map(m => ({ x: +m[1], y: +m[2], w: +m[3], h: +m[4] }));
+  // Moitié gauche seulement : le carré complet et ses quatre morceaux.
+  const morceaux = rects.filter(r => r.x < 200 && !(r.w === 170 && r.h === 170));
+  assert.strictEqual(morceaux.length, 4, 'quatre morceaux attendus à gauche');
+  const aires = morceaux.map(r => (r.w / u) * (r.h / u)).sort((p, q) => p - q);
+  assert.deepStrictEqual(aires.map(a => Math.round(a * 1e6) / 1e6), [16, 24, 24, 36],
+    'aires dessinées ' + JSON.stringify(aires) + ', [16, 24, 24, 36] attendues');
+  assert.strictEqual(aires.reduce((s, a) => s + a, 0), 100,
+    'la somme des quatre morceaux doit valoir (a+b)² = 100');
+  // Le pavage est exact en unités de viewBox : aucun trou, aucun recouvrement.
+  assert.strictEqual(morceaux.reduce((s, r) => s + r.w * r.h, 0), 170 * 170);
+});
+
+test('Identités, double produit : ce que a² + b² oublie vaut bien 2ab', () => {
+  const d = parTitre('3e-identites-remarquables.js', 'double produit oublié');
+  const a = 6, b = 4;
+  assert.strictEqual((a + b) * (a + b), 100);
+  assert.strictEqual(a * a + b * b, 52);
+  assert.strictEqual(2 * a * b, 48);
+  assert.strictEqual(a * a + b * b + 2 * a * b, (a + b) * (a + b));
+  // Les totaux sont écrits en toutes lettres dans le schéma : ils doivent y
+  // figurer, sans quoi le texte et le dessin divergeraient.
+  for (const total of ['100', '52', '36', '16']) {
+    assert.ok(d.svg.includes('>' + total + '<') || d.svg.includes('total ' + total),
+      'le total ' + total + ' n apparaît pas dans le schéma');
+  }
+});
