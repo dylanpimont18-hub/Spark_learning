@@ -182,13 +182,19 @@ window.MODULES.push({
           correction: '$AB = \\sqrt{(4-1)^2 + (7-3)^2} = \\sqrt{9 + 16} = \\sqrt{25} = 5$.'
         },
         {
-          statement: 'Calculer les coordonnées du milieu $M$ de $[AB]$ avec $A(2 ; 6)$ et $B(8 ; 4)$. Donner l\'abscisse de $M$.',
+          /* Q2 RÉÉCRITE le 2026-09-13. L'ancienne appliquait la formule du
+             milieu et demandait un nombre : « calculer », déjà porté par Q1 et
+             Q5 du même devoir. La nouvelle demande de LIRE une configuration
+             sur un repère et d'y reconnaître une propriété géométrique, sans
+             changer ni les points ni la réponse ($x_M = 5$) : c'est
+             « représenter ». */
+          statement: 'Dans un repère, on place $A(2 ; 6)$ et $B(8 ; 4)$, puis le point $M$ qui est le <strong>centre de symétrie</strong> du segment $[AB]$.<br/><br/>Donne l\'abscisse de $M$.',
           type: 'numeric',
           answer: 5,
           tolerance: 0,
           unit: '',
           points: 2,
-          correction: '$x_M = \\dfrac{x_A + x_B}{2} = \\dfrac{2 + 8}{2} = 5$. (Et $y_M = \\dfrac{6+4}{2} = 5$, donc $M(5 ; 5)$.)'
+          correction: 'Le centre de symétrie d\'un segment est son <strong>milieu</strong> : c\'est le seul point qui échange $A$ et $B$ par symétrie centrale.<br/><br/>Ses coordonnées sont donc les moyennes de celles des extrémités : $x_M = \\dfrac{x_A + x_B}{2} = \\dfrac{2 + 8}{2} = 5$.<br/><br/>De même $y_M = \\dfrac{6+4}{2} = 5$, donc $M(5 ; 5)$. Si tu places les trois points, tu vois que $M$ est bien à égale distance de $A$ et de $B$, sur le segment.'
         },
         {
           statement: 'Si $M(3 ; 4)$ est le milieu de $[AB]$ et $A(-1 ; 2)$, calculer l\'ordonnée de $B$.',

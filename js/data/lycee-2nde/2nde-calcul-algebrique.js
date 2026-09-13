@@ -189,13 +189,20 @@ window.MODULES.push({
           points: 2,
           correction: '$(3x+5)^2 = (3x)^2 + 2 \\times 3x \\times 5 + 5^2 = 9x^2 + 30x + 25$. Le coefficient de $x^2$ est $9$.'
         },
+        /* Q2 RÉÉCRITE le 2026-09-13. L'ancienne version demandait « Factoriser
+           $x^2 - 49$ », c'est-à-dire d'appliquer une identité remarquable :
+           c'était « calculer », et la compétence était déjà largement servie
+           par Q1 et Q3 du même devoir. La nouvelle version demande de
+           RECONNAÎTRE une même quantité sous deux écritures, sans rien
+           calculer de nouveau — la définition même de « représenter ».
+           L'étiquette suit l'énoncé, jamais l'inverse. */
         {
-          statement: 'Factoriser $x^2 - 49$.',
+          statement: 'Un rectangle a pour longueur $x + 7$ et pour largeur $x - 7$.<br/><br/>Parmi les écritures suivantes, laquelle désigne <strong>la même aire</strong> que le produit $(x+7)(x-7)$ ?',
           type: 'multiple-choice',
-          options: ['$(x-7)^2$', '$(x+7)(x-7)$', '$(x-49)(x+1)$', '$(x+7)^2$'],
-          answer: 1,
+          options: ['$x^2 - 49$', '$x^2 + 49$', '$x^2 - 14x + 49$', '$2x$'],
+          answer: 0,
           points: 2,
-          correction: '$x^2 - 49 = x^2 - 7^2$. C\'est une différence de deux carrés : $a^2 - b^2 = (a+b)(a-b)$. Donc $x^2 - 49 = (x+7)(x-7)$.'
+          correction: 'Les deux écritures désignent la <strong>même</strong> aire, vue de deux façons : $(x+7)(x-7)$ la décrit comme un produit de deux côtés, $x^2 - 49$ la décrit comme un carré de côté $x$ auquel il manque $49$.<br/><br/>C\'est la différence de deux carrés : $a^2 - b^2 = (a+b)(a-b)$, ici avec $a = x$ et $b = 7$.<br/><br/>Tu peux le vérifier sur un nombre : pour $x = 10$, le produit vaut $17 \\times 3 = 51$, et $x^2 - 49 = 100 - 49 = 51$ également.'
         },
         {
           statement: 'Développer et réduire $(2x - 3)(2x + 3)$. Donner le terme constant.',
@@ -206,14 +213,24 @@ window.MODULES.push({
           points: 2,
           correction: '$(2x-3)(2x+3) = (2x)^2 - 3^2 = 4x^2 - 9$. Le terme constant est $-9$.'
         },
+        /* Q4 RÉÉCRITE le 2026-09-13. L'ancienne demandait de développer
+           $(x-4)^2$ et de donner un coefficient : du calcul, pour la troisième
+           fois du même devoir. La nouvelle demande de JUGER un raisonnement
+           faux et de dire POURQUOI il échoue — produire une explication, non
+           un nombre. C'est « communiquer », la compétence la moins évaluée de
+           l'ouvrage avant cette révision. */
         {
-          statement: 'Développer et réduire $(x-4)^2$. Donner le coefficient du terme en $x$.',
-          type: 'numeric',
-          answer: -8,
-          tolerance: 0,
-          unit: '',
+          statement: 'Pour développer $(x - 4)^2$, un élève écrit : « $(x-4)^2 = x^2 - 16$, puisqu\'on élève chaque terme au carré ».<br/><br/>Son résultat est faux. Quelle explication rend le mieux compte de son erreur ?',
+          type: 'multiple-choice',
+          options: [
+            'Il a oublié le double produit $-2 \\times x \\times 4 = -8x$ : le carré d\'une somme n\'est pas la somme des carrés.',
+            'Il s\'est trompé de signe : la bonne réponse est $x^2 + 16$.',
+            'Il fallait écrire $(x-4)^2 = x^2 - 4^2 = x^2 - 16$, son calcul est juste.',
+            'Il aurait dû factoriser au lieu de développer.'
+          ],
+          answer: 0,
           points: 2,
-          correction: '$(x-4)^2 = x^2 - 2 \\times x \\times 4 + 4^2 = x^2 - 8x + 16$. Le coefficient de $x$ est $-8$.'
+          correction: 'Le développement correct est $(x-4)^2 = x^2 - 2 \\times x \\times 4 + 4^2 = x^2 - 8x + 16$.<br/><br/>L\'élève a traité le carré comme s\'il se distribuait sur chaque terme. C\'est le <strong>double produit</strong> $-8x$ qui manque, et c\'est l\'erreur la plus fréquente du chapitre.<br/><br/>Un contre-exemple numérique suffit à la trancher : pour $x = 10$, $(10-4)^2 = 6^2 = 36$, alors que $x^2 - 16 = 84$. Les deux nombres diffèrent, donc l\'égalité de l\'élève est fausse.'
         },
         {
           statement: 'Quelle identité remarquable permet de factoriser $4x^2 + 12x + 9$ ?',

@@ -198,13 +198,19 @@ window.MODULES.push({
           correction: '$V = \\dfrac{(4-6)^2 + (6-6)^2 + (6-6)^2 + (8-6)^2}{4} = \\dfrac{4 + 0 + 0 + 4}{4} = 2$.'
         },
         {
-          statement: 'Si la variance d\'une série est $V = 16$, quel est son écart-type $\\sigma$ ?',
+          /* Q3 RÉÉCRITE le 2026-09-13. L'ancienne, « si $V = 16$, que vaut
+             $\sigma$ ? », était une racine carrée à extraire : « calculer »,
+             déjà porté par Q1 et Q2 du même devoir. La nouvelle porte sur ce
+             que l'écart-type REPRÉSENTE — son unité, donc son interprétation
+             sur les données elles-mêmes — sans changer les nombres ni la
+             réponse ($4$). C'est « représenter ». */
+          statement: 'Une série de <strong>tailles d\'élèves</strong>, mesurées en centimètres, a pour variance $V = 16$.<br/><br/>Son écart-type $\\sigma$ s\'exprime, lui, directement en centimètres : c\'est ce qui le rend lisible sur les données.<br/><br/>Combien vaut $\\sigma$ ?',
           type: 'numeric',
           answer: 4,
           tolerance: 0,
-          unit: '',
+          unit: 'cm',
           points: 2,
-          correction: '$\\sigma = \\sqrt{V} = \\sqrt{16} = 4$.'
+          correction: '$\\sigma = \\sqrt{V} = \\sqrt{16} = 4$ cm.<br/><br/>La variance, elle, valait $16$ <strong>cm²</strong> : en élevant les écarts au carré, on a aussi élevé l\'unité au carré, et des « centimètres carrés » ne veulent rien dire pour une taille.<br/><br/>C\'est précisément pour cela qu\'on prend la racine : $\\sigma$ retrouve l\'unité des données et se lit directement sur la série. Ici, les tailles s\'écartent en moyenne d\'environ $4$ cm de la taille moyenne.'
         },
         {
           statement: 'Deux séries ont la même moyenne. La série A a un écart-type de $2$ et la série B un écart-type de $8$. Quelle affirmation est correcte ?',

@@ -195,13 +195,20 @@ window.MODULES.push({
           correction: '$-3x + 9 > 0 \\Rightarrow -3x > -9 \\Rightarrow x < 3$ (on divise par $-3$, on inverse le sens de l\'inégalité). Ensemble solution : $]-\\infty ; 3[$.'
         },
         {
-          statement: 'Résoudre $\\dfrac{2x+1}{3} = 5$. Donner la valeur de $x$.',
+          /* Q3 RÉÉCRITE le 2026-09-13. L'ancienne version, « Résoudre
+             $\dfrac{2x+1}{3} = 5$ », donnait l'équation toute faite : il ne
+             restait qu'à dérouler, soit « calculer », déjà porté par Q1 et Q5
+             du même devoir. La nouvelle version donne une SITUATION et laisse
+             l'élève écrire l'équation lui-même : c'est la mise en équation qui
+             est évaluée, donc « modéliser ». Le calcul final reste le même, et
+             la réponse aussi ($x = 7$), pour ne pas changer la difficulté. */
+          statement: 'Un club de sport propose un abonnement : on paie $1$ € à l\'inscription, puis $2$ € par séance. À la fin de l\'année, le total dépensé, partagé entre les $3$ membres d\'une famille, revient à $5$ € par personne.<br/><br/>Écris l\'équation qui traduit cette situation, puis résous-la pour trouver le nombre $x$ de séances.',
           type: 'numeric',
           answer: 7,
           tolerance: 0,
           unit: '',
           points: 2,
-          correction: '$\\dfrac{2x+1}{3} = 5 \\Rightarrow 2x + 1 = 15 \\Rightarrow 2x = 14 \\Rightarrow x = 7$.'
+          correction: 'Le total dépensé pour $x$ séances vaut $2x + 1$ euros. Partagé entre $3$ personnes, cela donne $\\dfrac{2x+1}{3}$ euros par personne.<br/><br/>L\'équation à résoudre est donc $\\dfrac{2x+1}{3} = 5$.<br/><br/>On multiplie les deux membres par $3$ : $2x + 1 = 15$, puis $2x = 14$, donc $x = 7$.<br/><br/>Vérification : $7$ séances coûtent $2 \\times 7 + 1 = 15$ €, soit $15 \\div 3 = 5$ € par personne. C\'est bien ce qu\'annonce l\'énoncé.'
         },
         {
           statement: 'L\'ensemble solution de $4x - 2 \\geq 10$ est :',

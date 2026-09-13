@@ -160,13 +160,21 @@ window.MODULES.push({
           correction: 'Les issues paires sont $\\{2 ; 4 ; 6\\}$, soit $3$ issues sur $6$. $P = \\dfrac{3}{6} = 0{,}5$.'
         },
         {
-          statement: 'Si $P(A) = 0{,}35$, combien vaut $P(\\bar{A})$ ?',
+          /* Q2 RÉÉCRITE le 2026-09-13. L'ancienne, « si $P(A) = 0{,}35$, que
+             vaut $P(\bar{A})$ ? », était l'application immédiate de
+             $1 - P(A)$ : « calculer », déjà porté par Q1 et Q4 du même devoir.
+             La nouvelle ne donne PAS la probabilité de l'événement contraire
+             en clair : l'élève doit d'abord comprendre que « au moins une
+             fois » a pour contraire « aucune fois », ce que rien ne lui
+             signale. C'est « chercher » — trouver la porte d'entrée du
+             problème, le calcul ne venant qu'ensuite. */
+          statement: 'On tire au hasard une carte dans un jeu de $20$ cartes, on la remet, puis on en tire une seconde.<br/><br/>La probabilité de n\'obtenir <strong>aucun as</strong> sur les deux tirages vaut $0{,}64$.<br/><br/>Quelle est la probabilité d\'obtenir <strong>au moins un as</strong> ?',
           type: 'numeric',
-          answer: 0.65,
+          answer: 0.36,
           tolerance: 0.01,
           unit: '',
           points: 2,
-          correction: '$P(\\bar{A}) = 1 - P(A) = 1 - 0{,}35 = 0{,}65$.'
+          correction: 'La difficulté n\'est pas le calcul, c\'est de <strong>trouver par où entrer</strong>.<br/><br/>Dénombrer directement « au moins un as » obligerait à distinguer plusieurs cas : un as au premier tirage, un as au second, ou un as aux deux. C\'est long et on en oublie facilement.<br/><br/>L\'événement contraire de « au moins un as » est « <strong>aucun as</strong> » — et sa probabilité est justement donnée.<br/><br/>D\'où $P(\\text{au moins un as}) = 1 - P(\\text{aucun as}) = 1 - 0{,}64 = 0{,}36$.<br/><br/>Retiens ce réflexe : dès qu\'un énoncé dit « au moins », regarde d\'abord son contraire.'
         },
         {
           statement: 'On lance une pièce équilibrée $20$ fois et on obtient $20$ fois « pile ». La probabilité d\'obtenir « face » au $21^e$ lancer est :',
