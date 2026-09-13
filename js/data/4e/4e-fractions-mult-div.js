@@ -129,33 +129,105 @@
 
     exercice: {
       type: 'numeric',
+      /* ELARGI LE 2026-09-13. Le chapitre s'intitule « Multiplication ET
+         division » et le generateur ne tirait QUE des multiplications :
+         5 moules, 15 enonces, 3 de banque, et la division — la moitie du titre,
+         et la vraie difficulte du chapitre puisqu'elle demande de passer par
+         l'inverse — jamais exercee. L'evaluation la pose pourtant deux fois.
+
+         Quatre taches : multiplication, division, inverse d'une fraction, et
+         fraction d'une quantite (le « des deux tiers de » du langage courant,
+         qui est la traduction que les eleves ratent). */
       generate() {
+        const tache = pick(['produit', 'quotient', 'inverse', 'fraction-de']);
         const ctx = pick([
-          {intro:'En cuisine, on prépare', emoji:'🍳'},
-          {intro:'En pharmacie, on dose', emoji:'💊'},
-          {intro:'En bricolage, on mesure', emoji:'🔨'},
-          {intro:'En couture, on coupe', emoji:'✂️'},
-          {intro:'En jardinage, on mélange', emoji:'🌱'}
+          { intro: 'En cuisine, on prepare', emoji: '🍳' },
+          { intro: 'En pharmacie, on dose', emoji: '💊' },
+          { intro: 'En bricolage, on mesure', emoji: '🔨' },
+          { intro: 'En couture, on coupe', emoji: '✂️' },
+          { intro: 'En jardinage, on melange', emoji: '🌱' }
         ]);
-        const a = rand(2, 7), b = rand(2, 8), c = rand(2, 6), d = rand(2, 7);
-        const num = a * c, den = b * d;
         const pgcd = (x, y) => y === 0 ? x : pgcd(y, x % y);
-        const g = pgcd(num, den);
-        const answer = parseFloat((num / den).toFixed(4));
+
+        if (tache === 'produit') {
+          const a = rand(2, 7), b = rand(2, 8), c = rand(2, 6), d = rand(2, 7);
+          const num = a * c, den = b * d, g = pgcd(num, den);
+          const rep = parseFloat((num / den).toFixed(4));
+          return {
+            statement: ctx.emoji + ' ' + ctx.intro + ' une quantite qui vaut $\\dfrac{' + a + '}{' + b + '}$ d\'un lot de $\\dfrac{' + c + '}{' + d + '}$. ' +
+              'Calcule $\\dfrac{' + a + '}{' + b + '} \\times \\dfrac{' + c + '}{' + d + '}$ et donne le resultat decimal.',
+            answer: rep,
+            tolerance: 0.001,
+            unit: '',
+            hint: 'Pour multiplier deux fractions, on multiplie les numerateurs entre eux et les denominateurs entre eux. Aucun denominateur commun n\'est necessaire.',
+            solution: [
+              '$\\dfrac{' + a + '}{' + b + '} \\times \\dfrac{' + c + '}{' + d + '} = \\dfrac{' + a + ' \\times ' + c + '}{' + b + ' \\times ' + d + '} = \\dfrac{' + num + '}{' + den + '} = \\dfrac{' + (num / g) + '}{' + (den / g) + '}$.',
+              'Valeur decimale : $' + fr(rep) + '$.'
+            ]
+          };
+        }
+
+        if (tache === 'quotient') {
+          const a = rand(2, 8), b = rand(2, 7), c = rand(2, 7), d = rand(2, 8);
+          const num = a * d, den = b * c, g = pgcd(num, den);
+          const rep = parseFloat((num / den).toFixed(4));
+          return {
+            statement: ctx.emoji + ' Calcule $\\dfrac{' + a + '}{' + b + '} \\div \\dfrac{' + c + '}{' + d + '}$ et donne le resultat decimal.',
+            answer: rep,
+            tolerance: 0.001,
+            unit: '',
+            hint: 'Diviser par une fraction, c\'est multiplier par son inverse : l\'inverse de $\\dfrac{' + c + '}{' + d + '}$ est $\\dfrac{' + d + '}{' + c + '}$.',
+            solution: [
+              'Diviser par une fraction revient a multiplier par son inverse : $\\dfrac{' + a + '}{' + b + '} \\div \\dfrac{' + c + '}{' + d + '} = \\dfrac{' + a + '}{' + b + '} \\times \\dfrac{' + d + '}{' + c + '}$.',
+              '$= \\dfrac{' + a + ' \\times ' + d + '}{' + b + ' \\times ' + c + '} = \\dfrac{' + num + '}{' + den + '} = \\dfrac{' + (num / g) + '}{' + (den / g) + '}$.',
+              'Valeur decimale : $' + fr(rep) + '$. Piege : on retourne la SECONDE fraction, jamais la premiere.'
+            ]
+          };
+        }
+
+        if (tache === 'inverse') {
+          const a = rand(2, 9), b = rand(2, 9);
+          const rep = parseFloat((b / a).toFixed(4));
+          return {
+            statement: 'Quel est l\'inverse de $\\dfrac{' + a + '}{' + b + '}$ ? Donne le resultat decimal.',
+            answer: rep,
+            tolerance: 0.001,
+            unit: '',
+            hint: 'L\'inverse d\'une fraction s\'obtient en echangeant son numerateur et son denominateur. Verification : le produit des deux doit valoir $1$.',
+            solution: [
+              'L\'inverse de $\\dfrac{' + a + '}{' + b + '}$ est $\\dfrac{' + b + '}{' + a + '}$, obtenu en echangeant les deux termes.',
+              'Valeur decimale : $' + fr(rep) + '$.',
+              'Verification : $\\dfrac{' + a + '}{' + b + '} \\times \\dfrac{' + b + '}{' + a + '} = \\dfrac{' + (a * b) + '}{' + (a * b) + '} = 1$. C\'est la definition de l\'inverse — a ne pas confondre avec l\'oppose, dont la somme fait $0$.'
+            ]
+          };
+        }
+
+        // tache === 'fraction-de' : traduire « les deux tiers de » en produit.
+        const b = pick([2, 3, 4, 5, 6, 8]);
+        const a = rand(1, b - 1) || 1;
+        const total = b * rand(2, 9);
+        const rep = a * total / b;
+        const objet = pick([
+          { q: 'litres de sirop', s: 'On en utilise' },
+          { q: 'metres de tissu', s: 'On en coupe' },
+          { q: 'grammes de farine', s: 'On en verse' },
+          { q: 'centilitres de solution', s: 'On en preleve' }
+        ]);
         return {
-          statement: `${ctx.emoji} ${ctx.intro} une quantité qui vaut $\\dfrac{${a}}{${b}}$ d'un lot de $\\dfrac{${c}}{${d}}$. Calculer $\\dfrac{${a}}{${b}} \\times \\dfrac{${c}}{${d}}$. Donner le résultat décimal.`,
-          answer,
+          statement: ctx.emoji + ' Un recipient contient $' + total + '$ ' + objet.q + '. ' + objet.s + ' les $\\dfrac{' + a + '}{' + b + '}$. ' +
+            'Quelle quantite cela represente-t-il ?',
+          answer: rep,
           tolerance: 0.001,
           unit: '',
-          hint: `Multiplier numérateurs ensemble et dénominateurs ensemble : $\\dfrac{${a} \\times ${c}}{${b} \\times ${d}}$.`,
+          hint: 'Prendre les $\\dfrac{' + a + '}{' + b + '}$ d\'une quantite, c\'est la MULTIPLIER par $\\dfrac{' + a + '}{' + b + '}$.',
           solution: [
-            `$\\dfrac{${a}}{${b}} \\times \\dfrac{${c}}{${d}} = \\dfrac{${num}}{${den}} = \\dfrac{${num/g}}{${den/g}}$`,
-            `Valeur décimale : $${fr(answer)}$`
+            'Le mot « des » se traduit ici par une multiplication : $\\dfrac{' + a + '}{' + b + '} \\times ' + total + '$.',
+            'On peut diviser d\'abord : $' + total + ' \\div ' + b + ' = ' + (total / b) + '$, puis multiplier par $' + a + '$ : $' + rep + '$.',
+            'Controle de bon sens : $\\dfrac{' + a + '}{' + b + '}$ est plus petit que $1$, donc le resultat doit etre plus petit que $' + total + '$.'
           ]
         };
       }
     },
-
     probleme: {
       context: 'Un laboratoire prépare $\\dfrac{3}{4}$ de litre d\'une solution à partir d\'une solution mère de concentration $C_0 = \\dfrac{2}{5}\\,\\text{mol/L}$. La relation de dilution est $C_1 V_1 = C_0 V_0$.',
       schema: null,

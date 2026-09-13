@@ -113,24 +113,111 @@
     ],
     exercice: {
       type: 'numeric',
+      /* ELARGI LE 2026-09-13. Le chapitre s'intitule « Volumes des pyramides et
+         cones » et le generateur ne tirait QUE des pyramides a base carree :
+         5 moules, 15 enonces, 3 de banque, et le cone jamais exerce alors qu'il
+         occupe la moitie du titre, la moitie du cours et deux questions de
+         l'evaluation.
+
+         Quatre taches : pyramide a base carree, cone, pyramide a base
+         quelconque (aire donnee, ce qui separe la formule du calcul d'aire), et
+         la tache INVERSE — retrouver la hauteur a partir du volume — qui est
+         celle ou l'oubli du facteur un tiers se voit le mieux. */
       generate() {
+        const tache = pick(['pyramide-carree', 'cone', 'base-donnee', 'hauteur-inverse']);
+
+        if (tache === 'pyramide-carree') {
+          const ctx = pick([
+            { intro: 'Un toit en forme de pyramide a une base carree de cote', emoji: '🏠' },
+            { intro: 'Un monument en forme de pyramide a une base carree de cote', emoji: '🏛️' },
+            { intro: 'Un emballage decoratif en forme de pyramide a une base carree de cote', emoji: '🎁' },
+            { intro: 'Un cristal en forme de pyramide a une base carree de cote', emoji: '💎' },
+            { intro: 'Un silo a grain en forme de pyramide a une base carree de cote', emoji: '🌾' }
+          ]);
+          const a = rand(3, 10), h = rand(3, 12);
+          const v = parseFloat(((a * a * h) / 3).toFixed(1));
+          return {
+            statement: ctx.emoji + ' ' + ctx.intro + ' $' + a + '$ cm et une hauteur de $' + h + '$ cm. Calcule son volume en cm³.',
+            answer: v,
+            tolerance: 0.2,
+            unit: 'cm³',
+            hint: 'L\'aire de la base carree vaut $' + a + '^2 = ' + (a * a) + '$ cm², puis $V = \\dfrac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$.',
+            solution: [
+              'Aire de la base : $' + a + '^2 = ' + (a * a) + '$ cm².',
+              '$V = \\dfrac{' + (a * a) + ' \\times ' + h + '}{3} = \\dfrac{' + (a * a * h) + '}{3} = ' + fr(v) + '$ cm³.',
+              'Controle : ce volume est bien le tiers de celui du prisme de meme base et meme hauteur, qui vaudrait $' + fr(a * a * h) + '$ cm³.'
+            ]
+          };
+        }
+
+        if (tache === 'cone') {
+          const ctx = pick([
+            { intro: 'Un cornet de glace en forme de cone a un rayon de base de', emoji: '🍦' },
+            { intro: 'Un chapeau de fete en forme de cone a un rayon de base de', emoji: '🎉' },
+            { intro: 'Un tas de sable en forme de cone a un rayon de base de', emoji: '⛱️' },
+            { intro: 'Un entonnoir conique a un rayon de base de', emoji: '🔻' }
+          ]);
+          const r = rand(2, 9), h = rand(4, 15);
+          const v = parseFloat(((3.14 * r * r * h) / 3).toFixed(1));
+          return {
+            statement: ctx.emoji + ' ' + ctx.intro + ' $' + r + '$ cm et une hauteur de $' + h + '$ cm. Calcule son volume en cm³ (prendre $\\pi \\approx 3{,}14$).',
+            answer: v,
+            tolerance: 1,
+            unit: 'cm³',
+            hint: 'La base est un disque : son aire vaut $\\pi r^2$. Ensuite, comme pour toute pyramide, on prend le tiers.',
+            solution: [
+              'Aire de la base (un disque) : $\\pi \\times ' + r + '^2 \\approx 3{,}14 \\times ' + (r * r) + ' = ' + fr(parseFloat((3.14 * r * r).toFixed(2))) + '$ cm².',
+              '$V = \\dfrac{1}{3} \\times ' + fr(parseFloat((3.14 * r * r).toFixed(2))) + ' \\times ' + h + ' \\approx ' + fr(v) + '$ cm³.',
+              'Attention : dans $\\pi r^2$, c\'est le rayon qui est au carre, jamais $\\pi r$ tout entier.'
+            ]
+          };
+        }
+
+        if (tache === 'base-donnee') {
+          // L'aire de base est DONNEE : la tache isole la formule du volume et
+          // ne teste plus, au passage, le calcul d'une aire.
+          const ctx = pick([
+            'Une pyramide a base triangulaire',
+            'Une pyramide a base hexagonale',
+            'Une pyramide a base pentagonale',
+            'Un solide en forme de pyramide dont la base est un polygone quelconque'
+          ]);
+          const base = pick([12, 15, 18, 20, 24, 30, 36]);
+          const h = rand(4, 15);
+          const v = parseFloat(((base * h) / 3).toFixed(1));
+          return {
+            statement: ctx + ' a une base d\'aire $' + base + '$ cm² et une hauteur de $' + h + '$ cm. Calcule son volume en cm³.',
+            answer: v,
+            tolerance: 0.2,
+            unit: 'cm³',
+            hint: 'La forme de la base ne change rien : $V = \\dfrac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$ vaut pour toute pyramide.',
+            solution: [
+              'La formule ne depend pas de la forme de la base, seulement de son AIRE.',
+              '$V = \\dfrac{' + base + ' \\times ' + h + '}{3} = \\dfrac{' + (base * h) + '}{3} = ' + fr(v) + '$ cm³.'
+            ]
+          };
+        }
+
+        // tache === 'hauteur-inverse' : on remonte du volume a la hauteur.
+        const base = pick([12, 15, 18, 24, 27, 36]);
+        const h = rand(4, 12);
+        const v = parseFloat(((base * h) / 3).toFixed(1));
         const ctx = pick([
-          {intro:'Un toit en forme de pyramide a une base carrée de côté', emoji:'🏠'},
-          {intro:'Un monument historique en forme de pyramide a une base carrée de côté', emoji:'🏛️'},
-          {intro:'Un emballage décoratif en forme de pyramide a une base carrée de côté', emoji:'🎁'},
-          {intro:'Un cristal en forme de pyramide a une base carrée de côté', emoji:'💎'},
-          {intro:'Un silo à grain en forme de pyramide a une base carrée de côté', emoji:'🌾'}
+          'Un vase en forme de pyramide contient $' + fr(v) + '$ cm³ quand il est plein.',
+          'Un moule a gateau en forme de pyramide a un volume de $' + fr(v) + '$ cm³.',
+          'Une piece usinee en forme de pyramide occupe $' + fr(v) + '$ cm³.'
         ]);
-        const a = rand(3, 10);
-        const h = rand(3, 12);
-        const v = parseFloat(((a * a * h) / 3).toFixed(1));
         return {
-          statement: `${ctx.emoji} ${ctx.intro} $${a}$ cm et une hauteur de $${h}$ cm. Calcule son volume en cm³.`,
-          answer: v,
+          statement: ctx + ' Son aire de base vaut $' + base + '$ cm². Quelle est sa hauteur en cm ?',
+          answer: h,
           tolerance: 0.2,
-          unit: 'cm³',
-          hint: `$V = \\dfrac{1}{3} \\times ${a}^2 \\times ${h} = \\dfrac{1}{3} \\times ${a*a} \\times ${h}$.`,
-          solution: [`$V = \\dfrac{${a*a} \\times ${h}}{3} = \\dfrac{${a*a*h}}{3} = ${fr(v)}$ cm³.`]
+          unit: 'cm',
+          hint: 'Repars de $V = \\dfrac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$ et isole $h$ : multiplie d\'abord les deux membres par $3$.',
+          solution: [
+            'On part de $V = \\dfrac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$, soit $' + fr(v) + ' = \\dfrac{' + base + ' \\times h}{3}$.',
+            'On multiplie les deux membres par $3$ : $' + fr(parseFloat((3 * v).toFixed(1))) + ' = ' + base + ' \\times h$.',
+            'On divise par $' + base + '$ : $h = ' + h + '$ cm. Oublier le facteur $3$ donnerait une hauteur trois fois trop petite.'
+          ]
         };
       }
     },

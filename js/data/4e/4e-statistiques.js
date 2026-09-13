@@ -151,19 +151,105 @@
     ],
     exercice: {
       type: 'numeric',
+      /* ELARGI LE 2026-09-13. Mesure d'avant : 3 moules, 9 enonces, AUCUNE
+         banque pour le professeur.
+
+         Surtout, un DEFAUT DE COUVERTURE que la mesure a fait apparaitre : le
+         generateur tirait n dans [5, 7, 9], donc UNIQUEMENT des series de
+         longueur impaire. Or la mediane d'une serie de longueur PAIRE — la
+         demi-somme des deux valeurs centrales — est precisement la difficulte
+         du chapitre, et l'evaluation la pose (question 2). Le chapitre evaluait
+         donc une technique que ses exercices ne faisaient jamais travailler.
+
+         Quatre taches maintenant : mediane impaire, mediane paire, premier ou
+         troisieme quartile, et etendue. */
       generate() {
-        const n = pick([5, 7, 9]);
-        const vals = Array.from({length: n}, () => rand(1, 20)).sort((a,b) => a-b);
-        const med = vals[Math.floor(n / 2)];
+        const tache = pick(['mediane-impaire', 'mediane-paire', 'quartile', 'etendue']);
+        const ctx = pick([
+          { quoi: 'les notes obtenues a un controle', u: '' },
+          { quoi: 'les temperatures relevees a midi, en degres', u: '' },
+          { quoi: 'les temps de trajet des eleves, en minutes', u: '' },
+          { quoi: 'les nombres de livres empruntes en une semaine', u: '' },
+          { quoi: 'les tailles relevees dans un groupe, en centimetres', u: '' }
+        ]);
+
+        if (tache === 'mediane-impaire') {
+          const n = pick([5, 7, 9, 11]);
+          const vals = Array.from({ length: n }, () => rand(1, 20)).sort((a, b) => a - b);
+          const rang = Math.floor(n / 2) + 1;
+          const med = vals[rang - 1];
+          return {
+            statement: 'Voici ' + ctx.quoi + ', deja rangees dans l\'ordre croissant : $' + vals.join(', ') + '$. Calcule la mediane de cette serie.',
+            answer: med,
+            tolerance: 0,
+            unit: '',
+            hint: 'La serie compte $' + n + '$ valeurs, un nombre impair : la mediane est la valeur qui occupe la position centrale.',
+            solution: [
+              'La serie compte $' + n + '$ valeurs, et $' + n + '$ est impair : il y a donc une valeur exactement au milieu.',
+              'Cette position est la $' + rang + '^e$ : autant de valeurs avant qu\'apres.',
+              'La mediane vaut donc $' + med + '$.'
+            ]
+          };
+        }
+
+        if (tache === 'mediane-paire') {
+          const n = pick([6, 8, 10]);
+          const vals = Array.from({ length: n }, () => rand(1, 20)).sort((a, b) => a - b);
+          const g = vals[n / 2 - 1], d = vals[n / 2];
+          const med = (g + d) / 2;
+          return {
+            statement: 'Voici ' + ctx.quoi + ', deja rangees dans l\'ordre croissant : $' + vals.join(', ') + '$. Calcule la mediane de cette serie.',
+            answer: med,
+            tolerance: 0.001,
+            unit: '',
+            hint: 'La serie compte $' + n + '$ valeurs, un nombre pair : aucune valeur n\'est seule au milieu, il y en a deux.',
+            solution: [
+              'La serie compte $' + n + '$ valeurs, et $' + n + '$ est pair : aucune valeur n\'occupe seule le centre.',
+              'Les deux valeurs centrales sont la $' + (n / 2) + '^e$ et la $' + (n / 2 + 1) + '^e$, soit $' + g + '$ et $' + d + '$.',
+              'La mediane est leur demi-somme : $\\dfrac{' + g + ' + ' + d + '}{2} = ' + fr(med) + '$. Elle peut ne pas figurer dans la serie, et ce n\'est pas une erreur.'
+            ]
+          };
+        }
+
+        if (tache === 'quartile') {
+          // Serie de taille multiple de 4 : les quartiles tombent alors sur des
+          // valeurs de la serie, ce qui evite d'ajouter la difficulte de
+          // l'interpolation a celle de la definition.
+          const n = pick([8, 12]);
+          const vals = Array.from({ length: n }, () => rand(1, 25)).sort((a, b) => a - b);
+          const lequel = pick([1, 3]);
+          const moitie = lequel === 1 ? vals.slice(0, n / 2) : vals.slice(n / 2);
+          const m = moitie.length;
+          const q = m % 2 ? moitie[(m - 1) / 2] : (moitie[m / 2 - 1] + moitie[m / 2]) / 2;
+          return {
+            statement: 'Voici ' + ctx.quoi + ', rangees dans l\'ordre croissant : $' + vals.join(', ') + '$. ' +
+              'Calcule le ' + (lequel === 1 ? 'premier quartile $Q_1$, mediane de la moitie inferieure' : 'troisieme quartile $Q_3$, mediane de la moitie superieure') + '.',
+            answer: q,
+            tolerance: 0.001,
+            unit: '',
+            hint: 'Coupe d\'abord la serie en deux moities de meme effectif, puis cherche la mediane de la moitie ' + (lequel === 1 ? 'inferieure' : 'superieure') + '.',
+            solution: [
+              'La serie compte $' + n + '$ valeurs : chaque moitie en contient donc $' + (n / 2) + '$.',
+              'Moitie ' + (lequel === 1 ? 'inferieure' : 'superieure') + ' : $' + moitie.join(', ') + '$.',
+              'Sa mediane est $' + fr(q) + '$, donc $Q_' + lequel + ' = ' + fr(q) + '$.'
+            ]
+          };
+        }
+
+        // tache === 'etendue'
+        const n = pick([6, 7, 8, 9]);
+        const vals = Array.from({ length: n }, () => rand(1, 30)).sort((a, b) => a - b);
+        const e = vals[n - 1] - vals[0];
         return {
-          statement: `Calcule la médiane de la série ordonnée : $${vals.join(', ')}$.`,
-          answer: med,
+          statement: 'Voici ' + ctx.quoi + ' : $' + vals.join(', ') + '$. Calcule l\'etendue de cette serie.',
+          answer: e,
           tolerance: 0,
           unit: '',
-          hint: `La série a $${n}$ valeurs (impair). La médiane est la valeur à la position $${Math.floor(n/2)+1}$.`,
+          hint: 'L\'etendue mesure la dispersion : c\'est l\'ecart entre la plus grande et la plus petite valeur.',
           solution: [
-            `Série ordonnée : $${vals.join(', ')}$.`,
-            `$n = ${n}$ impair → médiane = $${Math.floor(n/2)+1}^e$ valeur = $${med}$.`
+            'La plus grande valeur est $' + vals[n - 1] + '$, la plus petite est $' + vals[0] + '$.',
+            'L\'etendue vaut $' + vals[n - 1] + ' - ' + vals[0] + ' = ' + e + '$.',
+            'Attention : l\'etendue dit comment les valeurs sont <strong>dispersees</strong>, pas ou elles se situent. Deux series de meme etendue peuvent avoir des medianes tres differentes.'
           ]
         };
       }

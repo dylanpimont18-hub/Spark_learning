@@ -121,22 +121,145 @@
     ],
     exercice: {
       type: 'numeric',
+      /* ELARGI LE 2026-09-13. Mesure d'avant : UN SEUL moule (« P(A), P(B),
+         P(A inter B), calculer P(A union B) »), soit 3 enonces distincts pour
+         tout le chapitre et AUCUNE banque pour le professeur. Le generateur ne
+         variait que trois decimales.
+
+         Cinq taches maintenant, qui couvrent ce que le programme de quatrieme
+         demande reellement : la reunion, l'evenement contraire, l'equiprobabilite
+         sur un tirage concret, les evenements incompatibles, et la lecture d'un
+         effectif en probabilite. Les contextes sont tires par pick(), comme la
+         regle du projet le demande. */
       generate() {
-        const pa = pick([0.3, 0.4, 0.5, 0.6]);
-        const pb = pick([0.2, 0.3, 0.4]);
-        const pab = parseFloat((Math.min(pa, pb) * 0.5).toFixed(1));
-        const punion = parseFloat((pa + pb - pab).toFixed(1));
-        const paStr = fr(pa);
-        const pbStr = fr(pb);
-        const pabStr = fr(pab);
-        const punionStr = fr(punion);
+        const tache = pick(['union', 'contraire', 'tirage', 'incompatibles', 'effectif']);
+
+        if (tache === 'union') {
+          const pa = pick([0.3, 0.4, 0.5, 0.6]);
+          const pb = pick([0.2, 0.3, 0.4]);
+          const pab = parseFloat((Math.min(pa, pb) * 0.5).toFixed(1));
+          const punion = parseFloat((pa + pb - pab).toFixed(1));
+          const ctx = pick([
+            { a: 'aimer le sport', b: 'aimer la musique' },
+            { a: 'porter des lunettes', b: 'etre gaucher' },
+            { a: 'prendre le bus', b: 'dejeuner a la cantine' },
+            { a: 'jouer d un instrument', b: 'faire partie d un club' }
+          ]);
+          return {
+            statement: 'Dans une classe, on note $A$ l\'evenement « ' + ctx.a + ' » et $B$ l\'evenement « ' + ctx.b + ' ». ' +
+              'On sait que $P(A) = ' + fr(pa) + '$, $P(B) = ' + fr(pb) + '$ et $P(A \\cap B) = ' + fr(pab) + '$. Calcule $P(A \\cup B)$.',
+            answer: punion,
+            tolerance: 0.01,
+            unit: '',
+            hint: 'Additionner $P(A)$ et $P(B)$ compterait deux fois les eleves qui verifient les deux conditions : il faut retrancher $P(A \\cap B)$.',
+            solution: [
+              'Les eleves qui verifient les DEUX conditions sont comptes une fois dans $P(A)$ et une fois dans $P(B)$ : on les compte donc deux fois si on additionne simplement.',
+              '$P(A \\cup B) = P(A) + P(B) - P(A \\cap B) = ' + fr(pa) + ' + ' + fr(pb) + ' - ' + fr(pab) + ' = ' + fr(punion) + '$.'
+            ]
+          };
+        }
+
+        if (tache === 'contraire') {
+          const p = pick([0.15, 0.25, 0.35, 0.45, 0.6, 0.72, 0.8]);
+          const q = parseFloat((1 - p).toFixed(2));
+          const ctx = pick([
+            { e: 'qu il pleuve demain', c: 'qu il ne pleuve pas' },
+            { e: 'que le train soit a l heure', c: 'qu il soit en retard' },
+            { e: 'de gagner une partie', c: 'de ne pas la gagner' },
+            { e: 'que la piece tombee soit defectueuse', c: 'qu elle ne le soit pas' }
+          ]);
+          return {
+            statement: 'La probabilite ' + ctx.e + ' vaut $' + fr(p) + '$. Quelle est la probabilite ' + ctx.c + ' ?',
+            answer: q,
+            tolerance: 0.001,
+            unit: '',
+            hint: 'Un evenement et son contraire couvrent toutes les possibilites : leurs probabilites font $1$ a elles deux.',
+            solution: [
+              'L\'evenement et son contraire forment l\'ensemble de tous les cas possibles, donc leurs probabilites ont pour somme $1$.',
+              '$P(\\bar{A}) = 1 - P(A) = 1 - ' + fr(p) + ' = ' + fr(q) + '$.'
+            ]
+          };
+        }
+
+        if (tache === 'tirage') {
+          // Tirage dans un sac : la probabilite est un quotient d'effectifs, ce
+          // qui est la definition meme de l'equiprobabilite.
+          const a = rand(2, 7), b = rand(2, 7), c = rand(1, 5);
+          const total = a + b + c;
+          const ctx = pick([
+            { objet: 'billes', c1: 'rouges', c2: 'bleues', c3: 'vertes' },
+            { objet: 'jetons', c1: 'jaunes', c2: 'noirs', c3: 'blancs' },
+            { objet: 'bonbons', c1: 'a la fraise', c2: 'au citron', c3: 'a la menthe' },
+            { objet: 'cartes', c1: 'de coeur', c2: 'de pique', c3: 'de trefle' }
+          ]);
+          const quoi = pick(['premiere', 'contraire']);
+          const rep = quoi === 'premiere'
+            ? parseFloat((a / total).toFixed(4))
+            : parseFloat(((total - c) / total).toFixed(4));
+          return {
+            statement: 'Un sac contient $' + a + '$ ' + ctx.objet + ' ' + ctx.c1 + ', $' + b + '$ ' + ctx.c2 +
+              ' et $' + c + '$ ' + ctx.c3 + '. On en tire un au hasard. ' +
+              (quoi === 'premiere'
+                ? 'Quelle est la probabilite d\'obtenir ' + (ctx.objet === 'cartes' ? 'une carte ' : 'un objet ') + ctx.c1 + ' ?'
+                : 'Quelle est la probabilite de ne PAS obtenir ' + (ctx.objet === 'cartes' ? 'une carte ' : 'un objet ') + ctx.c3 + ' ?'),
+            answer: rep,
+            tolerance: 0.001,
+            unit: '',
+            hint: 'Tous les tirages ont la meme chance : la probabilite est le nombre de cas favorables divise par le nombre total.',
+            solution: [
+              'Le sac contient $' + a + ' + ' + b + ' + ' + c + ' = ' + total + '$ objets, et chacun a la meme chance d\'etre tire.',
+              quoi === 'premiere'
+                ? 'Cas favorables : $' + a + '$. Donc $P = \\dfrac{' + a + '}{' + total + '} \\approx ' + fr(rep) + '$.'
+                : 'Il est plus rapide de passer par le contraire : $P = 1 - \\dfrac{' + c + '}{' + total + '} = \\dfrac{' + (total - c) + '}{' + total + '} \\approx ' + fr(rep) + '$.'
+            ]
+          };
+        }
+
+        if (tache === 'incompatibles') {
+          const pa = pick([0.2, 0.25, 0.3, 0.35]);
+          const pb = pick([0.15, 0.2, 0.4]);
+          const punion = parseFloat((pa + pb).toFixed(2));
+          const ctx = pick([
+            { a: 'tirer un roi', b: 'tirer une dame' },
+            { a: 'obtenir un $6$', b: 'obtenir un $1$' },
+            { a: 'arriver premier', b: 'arriver dernier' },
+            { a: 'reussir du premier coup', b: 'echouer trois fois' }
+          ]);
+          return {
+            statement: 'Les evenements $A$ (« ' + ctx.a + ' ») et $B$ (« ' + ctx.b + ' ») ne peuvent pas se produire en meme temps. ' +
+              'On donne $P(A) = ' + fr(pa) + '$ et $P(B) = ' + fr(pb) + '$. Calcule $P(A \\cup B)$.',
+            answer: punion,
+            tolerance: 0.001,
+            unit: '',
+            hint: 'Deux evenements qui ne peuvent pas se produire ensemble sont dits incompatibles : leur intersection est vide.',
+            solution: [
+              'Les deux evenements sont <strong>incompatibles</strong>, donc $P(A \\cap B) = 0$ : aucun cas ne verifie les deux a la fois.',
+              'La formule generale se simplifie : $P(A \\cup B) = P(A) + P(B) - 0 = ' + fr(pa) + ' + ' + fr(pb) + ' = ' + fr(punion) + '$.'
+            ]
+          };
+        }
+
+        // tache === 'effectif' : passer d'un effectif a une probabilite, puis
+        // revenir a un effectif attendu. C'est le va-et-vient que le programme
+        // demande entre frequence et probabilite.
+        const total = pick([20, 25, 40, 50]);
+        const fav = rand(3, Math.floor(total / 2));
+        const p = parseFloat((fav / total).toFixed(4));
+        const ctx = pick([
+          { s: 'Dans un groupe de ' + total + ' eleves, ' + fav + ' sont inscrits au club de theatre.', q: 'On interroge un eleve au hasard. Quelle est la probabilite qu il soit inscrit au club de theatre ?' },
+          { s: 'Sur ' + total + ' pieces sorties d une machine, ' + fav + ' presentent un defaut.', q: 'On prend une piece au hasard. Quelle est la probabilite qu elle presente un defaut ?' },
+          { s: 'Une urne contient ' + total + ' tickets, dont ' + fav + ' sont gagnants.', q: 'On tire un ticket au hasard. Quelle est la probabilite de gagner ?' }
+        ]);
         return {
-          statement: `$P(A) = ${paStr}$, $P(B) = ${pbStr}$, $P(A \\cap B) = ${pabStr}$. Calculer $P(A \\cup B)$.`,
-          answer: punion,
-          tolerance: 0.01,
+          statement: ctx.s + ' ' + ctx.q,
+          answer: p,
+          tolerance: 0.001,
           unit: '',
-          hint: `$P(A \\cup B) = P(A) + P(B) - P(A \\cap B) = ${paStr} + ${pbStr} - ${pabStr}$.`,
-          solution: [`$P(A \\cup B) = ${paStr} + ${pbStr} - ${pabStr} = ${punionStr}$.`]
+          hint: 'La probabilite est le quotient du nombre de cas favorables par le nombre total de cas, tous etant equiprobables.',
+          solution: [
+            'Chaque tirage a la meme chance, donc la probabilite est un quotient d\'effectifs.',
+            '$P = \\dfrac{' + fav + '}{' + total + '} \\approx ' + fr(p) + '$.'
+          ]
         };
       }
     },

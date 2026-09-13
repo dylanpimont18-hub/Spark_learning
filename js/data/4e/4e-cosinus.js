@@ -131,26 +131,106 @@
     ],
     exercice: {
       type: 'numeric',
+      /* ELARGI LE 2026-09-13. Le generateur ne posait qu'une tache — « connais
+         l'angle et l'hypotenuse, trouve le cote adjacent » — sous six habillages
+         differents : 6 moules, 18 enonces, 6 de banque. Les deux autres usages
+         du cosinus, calculer le cosinus a partir de deux longueurs et remonter a
+         l'hypotenuse, n'etaient jamais exerces alors que l'evaluation les pose.
+
+         Quatre taches. Les angles restent 30, 45 et 60 degres, dont le cosinus
+         est donne dans l'enonce : la calculatrice trigonometrique n'est pas un
+         prerequis de ce chapitre.
+
+         Les taches 'cosinus' et 'hypotenuse' portent une FIGURE construite sur
+         le tirage, ou le cote cherche porte un point d'interrogation. La tache
+         'adjacent' n'en porte pas : elle donne un ANGLE, or
+         figureTriangleRectangle cote des longueurs et ne sait pas dessiner un
+         angle, si bien que la figure serait muette sur la donnee essentielle. */
       generate() {
-        const angles = [{a:30, cos:0.866},{a:45, cos:0.707},{a:60, cos:0.5}];
-        const {a, cos} = pick(angles);
+        const tache = pick(['adjacent', 'adjacent', 'cosinus', 'hypotenuse']);
+
+        if (tache === 'cosinus') {
+          /* On part d'un triplet pythagoricien : les trois longueurs sont
+             entieres, donc la figure est exacte ET le cosinus se calcule sans
+             arrondi intermediaire. */
+          const [adj, opp, hyp] = pick([[3, 4, 5], [6, 8, 10], [5, 12, 13], [8, 15, 17], [9, 12, 15], [12, 16, 20], [7, 24, 25]]);
+          const rep = parseFloat((adj / hyp).toFixed(3));
+          const ctx = pick([
+            'Dans un triangle rectangle $ABC$ rectangle en $C$',
+            'Un triangle rectangle est dessine sur un plan et il est rectangle en $C$',
+            'Une equerre a la forme d\'un triangle rectangle en $C$'
+          ]);
+          return {
+            statement: '📐 ' + ctx + ', on mesure $AC = ' + adj + '$ cm (cote adjacent a l\'angle $\\widehat{A}$) et $AB = ' + hyp + '$ cm (hypotenuse). ' +
+              'Calcule $\\cos(\\widehat{A})$, arrondi au millieme.',
+            answer: rep,
+            tolerance: 0.002,
+            unit: '',
+            /* Le cote oppose est MASQUE : l'enonce ne le donne pas, et le coter
+               permettrait de repondre sans passer par le cosinus. L'inconnue
+               etant le cosinus et non une longueur, aucun cote ne porte de
+               point d'interrogation (inconnu vise un cote deja masque). */
+            figure: figureTriangleRectangle(adj, opp, hyp, { unite: 'cm', inconnu: 'vertical', masquer: ['vertical'], noms: { droit: 'C', horizontal: 'A', vertical: 'B' } }),
+            hint: 'Le cosinus est le quotient du cote ADJACENT par l\'HYPOTENUSE, dans cet ordre.',
+            solution: [
+              '$\\cos(\\widehat{A}) = \\dfrac{\\text{cote adjacent}}{\\text{hypotenuse}} = \\dfrac{AC}{AB} = \\dfrac{' + adj + '}{' + hyp + '}$.',
+              'Soit $\\cos(\\widehat{A}) \\approx ' + fr(rep) + '$.',
+              'Controle : un cosinus est toujours compris entre $0$ et $1$, parce que le cote adjacent est toujours plus court que l\'hypotenuse.'
+            ]
+          };
+        }
+
+        if (tache === 'hypotenuse') {
+          const [adj, opp, hyp] = pick([[3, 4, 5], [6, 8, 10], [5, 12, 13], [8, 15, 17], [9, 12, 15], [12, 16, 20]]);
+          const cos = parseFloat((adj / hyp).toFixed(3));
+          const ctx = pick([
+            { d: 'Une rampe d\'acces', u: 'm' },
+            { d: 'Un cable tendu', u: 'm' },
+            { d: 'Un pan de toit', u: 'm' },
+            { d: 'Une piste inclinee', u: 'm' }
+          ]);
+          return {
+            statement: '📏 ' + ctx.d + ' fait un angle $\\widehat{A}$ avec l\'horizontale, et l\'on sait que $\\cos(\\widehat{A}) = ' + fr(cos) + '$. ' +
+              'La longueur horizontale couverte (le cote adjacent) vaut $' + adj + '$ ' + ctx.u + '. Quelle est la longueur de l\'hypotenuse, en ' + ctx.u + ' ?',
+            answer: hyp,
+            tolerance: 0.1,
+            unit: ctx.u,
+            // Meme raison : l'enonce donne le cosinus et l'adjacent. Coter
+            // l'oppose laisserait conclure par Pythagore, sans cosinus.
+            figure: figureTriangleRectangle(adj, opp, hyp, { unite: ctx.u, inconnu: 'hypotenuse', masquer: ['vertical'] }),
+            hint: 'Repars de $\\cos(\\widehat{A}) = \\dfrac{\\text{adjacent}}{\\text{hypotenuse}}$ et isole l\'hypotenuse : elle passe au numerateur, le cosinus au denominateur.',
+            solution: [
+              'On part de $\\cos(\\widehat{A}) = \\dfrac{\\text{adjacent}}{\\text{hypotenuse}}$, soit $' + fr(cos) + ' = \\dfrac{' + adj + '}{\\text{hypotenuse}}$.',
+              'L\'hypotenuse s\'isole en divisant : $\\text{hypotenuse} = \\dfrac{' + adj + '}{' + fr(cos) + '} = ' + hyp + '$ ' + ctx.u + '.',
+              'Controle : l\'hypotenuse doit etre PLUS GRANDE que le cote adjacent, et $' + hyp + ' > ' + adj + '$.'
+            ]
+          };
+        }
+
+        // tache === 'adjacent' : le cas direct, sous six habillages.
+        const angles = [{ a: 30, cos: 0.866 }, { a: 45, cos: 0.707 }, { a: 60, cos: 0.5 }];
+        const { a, cos } = pick(angles);
         const hyp = rand(5, 20);
         const adj = parseFloat((hyp * cos).toFixed(1));
         const scenario = pick([
-          { emoji: '📐', statement: `Dans un triangle rectangle, un angle mesure $${a}°$ et l'hypoténuse vaut $${hyp}$ cm. Calcule le côté adjacent (en cm, arrondi à $0{,}1$).` },
-          { emoji: '🪜', statement: `Une échelle de $${hyp}$ m est appuyée contre un mur et forme un angle de $${a}°$ avec le sol. À quelle distance du mur se trouve le pied de l'échelle (en m, arrondi à $0{,}1$) ? <br/><em>Indication : le côté adjacent = hypoténuse $\\times \\cos(${a}°)$.</em>` },
-          { emoji: '⛷️', statement: `Une piste de ski mesure $${hyp}$ m de long et fait un angle de $${a}°$ avec l'horizontale. Quelle est la distance horizontale parcourue (en m, arrondi à $0{,}1$) ?` },
-          { emoji: '🏠', statement: `Le toit d'une maison a une pente qui forme un angle de $${a}°$ avec l'horizontale. La longueur du pan de toit est $${hyp}$ m. Quelle est la largeur horizontale couverte (en m, arrondi à $0{,}1$) ?` },
-          { emoji: '🔌', statement: `Un câble tendu de $${hyp}$ m relie un poteau au sol en formant un angle de $${a}°$ avec le sol. À quelle distance horizontale du poteau est fixé le câble (en m, arrondi à $0{,}1$) ?` },
-          { emoji: '♿', statement: `Une rampe d'accès mesure $${hyp}$ m de long et forme un angle de $${a}°$ avec le sol. Quelle longueur horizontale la rampe couvre-t-elle (en m, arrondi à $0{,}1$) ?` }
+          { emoji: '📐', s: 'Dans un triangle rectangle, un angle mesure $' + a + '°$ et l\'hypotenuse vaut $' + hyp + '$ cm. Calcule le cote adjacent (en cm, arrondi a $0{,}1$).', u: 'cm' },
+          { emoji: '🪜', s: 'Une echelle de $' + hyp + '$ m est appuyee contre un mur et forme un angle de $' + a + '°$ avec le sol. A quelle distance du mur se trouve son pied (en m, arrondi a $0{,}1$) ?', u: 'm' },
+          { emoji: '⛷️', s: 'Une piste de ski mesure $' + hyp + '$ m de long et fait un angle de $' + a + '°$ avec l\'horizontale. Quelle est la distance horizontale parcourue (en m, arrondi a $0{,}1$) ?', u: 'm' },
+          { emoji: '🏠', s: 'Le pan de toit d\'une maison mesure $' + hyp + '$ m et forme un angle de $' + a + '°$ avec l\'horizontale. Quelle largeur horizontale couvre-t-il (en m, arrondi a $0{,}1$) ?', u: 'm' },
+          { emoji: '🔌', s: 'Un cable tendu de $' + hyp + '$ m relie un poteau au sol en formant un angle de $' + a + '°$ avec le sol. A quelle distance horizontale du poteau est-il fixe (en m, arrondi a $0{,}1$) ?', u: 'm' },
+          { emoji: '♿', s: 'Une rampe d\'acces mesure $' + hyp + '$ m de long et forme un angle de $' + a + '°$ avec le sol. Quelle longueur horizontale couvre-t-elle (en m, arrondi a $0{,}1$) ?', u: 'm' }
         ]);
         return {
-          statement: `${scenario.emoji} ${scenario.statement}`,
+          statement: scenario.emoji + ' ' + scenario.s + ' <br/><em>On donne $\\cos(' + a + '°) \\approx ' + fr(cos) + '$.</em>',
           answer: adj,
           tolerance: 0.2,
-          unit: scenario.emoji === '📐' ? 'cm' : 'm',
-          hint: `$\\text{côté adjacent} = \\text{hypoténuse} \\times \\cos(${a}°) = ${hyp} \\times ${fr(cos)}$.`,
-          solution: [`$\\text{adj} = ${hyp} \\times \\cos(${a}°) = ${hyp} \\times ${fr(cos)} = ${fr(adj)}$ ${scenario.emoji === '📐' ? 'cm' : 'm'}.`]
+          unit: scenario.u,
+          hint: 'Le cote adjacent vaut l\'hypotenuse multipliee par le cosinus de l\'angle : $' + hyp + ' \\times ' + fr(cos) + '$.',
+          solution: [
+            'De $\\cos(' + a + '°) = \\dfrac{\\text{adjacent}}{\\text{hypotenuse}}$, on tire $\\text{adjacent} = \\text{hypotenuse} \\times \\cos(' + a + '°)$.',
+            '$\\text{adjacent} = ' + hyp + ' \\times ' + fr(cos) + ' \\approx ' + fr(adj) + '$ ' + scenario.u + '.',
+            'Controle : le resultat est plus petit que $' + hyp + '$, ce qui est normal puisque le cosinus est inferieur a $1$.'
+          ]
         };
       }
     },

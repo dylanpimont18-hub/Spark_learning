@@ -108,21 +108,102 @@
     ],
     exercice: {
       type: 'numeric',
+      /* ELARGI LE 2026-09-13. Le generateur ne posait qu'une tache : « le
+         diametre vaut d, quel est le rayon ? ». C'est une division par deux.
+         Elle n'emploie ni le theoreme de l'angle inscrit dans un demi-cercle,
+         ni sa reciproque, ni Pythagore — c'est-a-dire rien de ce chapitre. Un
+         eleve pouvait faire les douze exercices sans avoir compris pourquoi le
+         triangle est rectangle.
+
+         Quatre taches maintenant, et chacune mobilise le theoreme :
+           - 'rayon-median' : la mediane issue de l'angle droit vaut la moitie de
+             l'hypotenuse, ce qui EST le theoreme, pas une division ;
+           - 'troisieme-cote' : Pythagore dans un triangle inscrit, ou
+             l'hypotenuse doit d'abord etre reconnue comme le diametre ;
+           - 'angle-inscrit' : reconnaitre l'angle droit sans calcul ;
+           - 'diametre-inverse' : remonter du rayon au plus long cote. */
       generate() {
-        const ctx = pick([
-          {intro:'Un vitrail circulaire contient un triangle rectangle inscrit.', emoji:'🎨'},
-          {intro:'Un pont en arc forme un demi-cercle avec un triangle inscrit.', emoji:'🌉'},
-          {intro:'Sur un terrain de sport, un cercle contient un triangle rectangle.', emoji:'🏟️'},
-          {intro:'En optique, un miroir circulaire encadre un triangle rectangle.', emoji:'🔭'}
+        const tache = pick(['rayon-median', 'troisieme-cote', 'angle-inscrit', 'diametre-inverse']);
+        const lieu = pick([
+          { intro: 'Un vitrail circulaire contient un triangle rectangle inscrit', emoji: '🎨' },
+          { intro: 'Un pont en arc forme un demi-cercle avec un triangle inscrit', emoji: '🌉' },
+          { intro: 'Sur un terrain de sport, un cercle contient un triangle rectangle', emoji: '🏟️' },
+          { intro: 'En optique, un miroir circulaire encadre un triangle rectangle', emoji: '🔭' }
         ]);
-        const diam = rand(6, 20);
+
+        if (tache === 'rayon-median') {
+          /* La MEDIANE issue de l'angle droit, et non le rayon : c'est la meme
+             longueur, mais la formuler ainsi oblige a passer par le theoreme
+             (le milieu de l'hypotenuse est le centre du cercle circonscrit)
+             plutot que par une division par deux. */
+          const hyp = pick([6, 8, 10, 12, 13, 14, 16, 18, 20]);
+          const rep = hyp / 2;
+          return {
+            statement: lieu.emoji + ' Un triangle $ABC$ est rectangle en $A$ et son hypotenuse mesure $BC = ' + hyp + '$ cm. ' +
+              'Soit $M$ le milieu de $[BC]$. Quelle est la longueur $AM$, en cm ?',
+            answer: rep,
+            tolerance: 0.01,
+            unit: 'cm',
+            hint: 'Le milieu de l\'hypotenuse est le centre du cercle circonscrit, et les trois sommets sont sur ce cercle : $MA$, $MB$ et $MC$ sont donc trois rayons.',
+            solution: [
+              'Le triangle est rectangle en $A$, donc $[BC]$ est un diametre du cercle circonscrit et son milieu $M$ en est le centre.',
+              'Les trois sommets sont sur le cercle, donc $MA = MB = MC = R$ : la mediane issue de l\'angle droit est un rayon.',
+              '$AM = \\dfrac{BC}{2} = \\dfrac{' + hyp + '}{2} = ' + fr(rep) + '$ cm.'
+            ]
+          };
+        }
+
+        if (tache === 'troisieme-cote') {
+          // Triplets pythagoriciens : la reponse reste entiere.
+          const [a, b, c] = pick([[3, 4, 5], [6, 8, 10], [5, 12, 13], [8, 15, 17], [9, 12, 15], [7, 24, 25]]);
+          const connu = pick([a, b]);
+          const autre = connu === a ? b : a;
+          return {
+            statement: lieu.emoji + ' ' + lieu.intro + '. Le triangle $ABC$ est inscrit dans un cercle de rayon $' + fr(c / 2) + '$ cm, ' +
+              'et $[BC]$ est un diametre. On mesure $AB = ' + connu + '$ cm. Calcule $AC$, en cm.',
+            answer: autre,
+            tolerance: 0.01,
+            unit: 'cm',
+            hint: 'Commence par ce que le diametre t\'apprend : le triangle est rectangle en $A$. Son hypotenuse $BC$ vaut deux fois le rayon.',
+            solution: [
+              '$[BC]$ est un diametre et $A$ est sur le cercle, donc le triangle est rectangle en $A$ (angle inscrit dans un demi-cercle).',
+              'L\'hypoténuse vaut $BC = 2 \\times ' + fr(c / 2) + ' = ' + c + '$ cm.',
+              '$AC^2 = BC^2 - AB^2 = ' + c + '^2 - ' + connu + '^2 = ' + (c * c) + ' - ' + (connu * connu) + ' = ' + (autre * autre) + '$, donc $AC = ' + autre + '$ cm.'
+            ]
+          };
+        }
+
+        if (tache === 'angle-inscrit') {
+          const pos = pick(['sur le cercle', 'sur le cercle']);
+          return {
+            statement: lieu.emoji + ' Un cercle a pour diametre $[BC]$. Un point $A$ est place ' + pos + ', distinct de $B$ et de $C$. ' +
+              'Combien vaut l\'angle $\\widehat{BAC}$, en degres ?',
+            answer: 90,
+            tolerance: 0,
+            unit: '°',
+            hint: 'Ce resultat ne demande aucun calcul : il ne depend pas de l\'endroit ou se trouve $A$ sur le cercle.',
+            solution: [
+              'Tout point du cercle, autre que $B$ et $C$, voit le diametre $[BC]$ sous un angle droit.',
+              'C\'est le theoreme de l\'angle inscrit dans un demi-cercle : $\\widehat{BAC} = 90°$.',
+              'La position exacte de $A$ ne change rien, et c\'est ce qui rend ce theoreme si utile.'
+            ]
+          };
+        }
+
+        // tache === 'diametre-inverse' : du rayon vers l'hypotenuse.
+        const r = pick([2.5, 3, 3.5, 4, 4.5, 5, 6, 6.5, 7.5]);
+        const d = parseFloat((2 * r).toFixed(1));
         return {
-          statement: `${ctx.emoji} ${ctx.intro} L'hypoténuse (diamètre) mesure $${diam}$ cm. Quel est le rayon du cercle (en cm) ?`,
-          answer: diam / 2,
-          tolerance: 0,
+          statement: lieu.emoji + ' ' + lieu.intro + '. Le cercle circonscrit a ce triangle rectangle a un rayon de $' + fr(r) + '$ cm. ' +
+            'Quelle est la longueur de l\'hypotenuse, en cm ?',
+          answer: d,
+          tolerance: 0.01,
           unit: 'cm',
-          hint: `Le rayon est la moitié du diamètre : $R = \\dfrac{${diam}}{2}$.`,
-          solution: [`$R = \\dfrac{${diam}}{2} = ${fr(diam / 2)}$ cm.`]
+          hint: 'Dans un triangle rectangle, l\'hypotenuse est un diametre du cercle circonscrit.',
+          solution: [
+            'Le centre du cercle circonscrit a un triangle rectangle est le milieu de son hypotenuse : l\'hypotenuse est donc un diametre.',
+            '$\\text{hypotenuse} = 2R = 2 \\times ' + fr(r) + ' = ' + fr(d) + '$ cm.'
+          ]
         };
       }
     },

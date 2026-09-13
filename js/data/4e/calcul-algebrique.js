@@ -134,33 +134,140 @@
 
     exercice: {
       type: 'numeric',
+      /* ELARGI LE 2026-09-13. Le generateur ne tirait qu'une forme d'equation,
+         $ax + b = c$ avec a, b et c POSITIFS : 5 moules, 15 enonces, 3 de
+         banque. Le chapitre s'intitule pourtant « isoler une inconnue », et
+         l'evaluation interroge la soustraction d'un coefficient negatif, la
+         division par une fraction et l'isolation d'une variable dans une
+         formule — trois formes que les exercices ne presentaient jamais.
+
+         Cinq taches maintenant. Elles suivent l'ordre de difficulte reel :
+         addition seule, coefficient negatif (ou la division par un negatif
+         renverse le raisonnement), inconnue des deux cotes, quotient, et
+         isolation dans une formule de physique. */
       generate() {
+        const tache = pick(['simple', 'negatif', 'deux-cotes', 'quotient', 'formule']);
         const ctx = pick([
-          {intro:'En mécanique, la relation entre force, masse et accélération donne l\'équation', emoji:'🔧'},
-          {intro:'Pour calculer la tension électrique dans un circuit, on résout', emoji:'⚡'},
-          {intro:'En chimie, l\'équilibre des masses donne l\'équation', emoji:'⚗️'},
-          {intro:'Pour déterminer la vitesse d\'un mobile, on résout', emoji:'🚀'},
-          {intro:'En économie, le calcul du prix de revient conduit à l\'équation', emoji:'💰'}
+          { intro: 'En mecanique, la relation entre force, masse et acceleration donne l\'equation', emoji: '🔧' },
+          { intro: 'Pour calculer la tension electrique dans un circuit, on resout', emoji: '⚡' },
+          { intro: 'En chimie, l\'equilibre des masses donne l\'equation', emoji: '⚗️' },
+          { intro: 'Pour determiner la vitesse d\'un mobile, on resout', emoji: '🚀' },
+          { intro: 'En economie, le calcul du prix de revient conduit a l\'equation', emoji: '💰' }
         ]);
-        const a = rand(2, 9);
-        const x = rand(2, 12);
-        const b = rand(1, 20);
-        const c = a * x + b;
+
+        if (tache === 'simple') {
+          const a = rand(2, 9), x = rand(2, 12), b = rand(1, 20);
+          const c = a * x + b;
+          return {
+            statement: ctx.emoji + ' ' + ctx.intro + ' : $' + a + 'x + ' + b + ' = ' + c + '$. Quelle est la valeur de $x$ ?',
+            answer: x,
+            tolerance: 0.001,
+            unit: '',
+            hint: 'Retire d\'abord $' + b + '$ aux deux membres pour isoler $' + a + 'x$, puis divise par $' + a + '$.',
+            solution: [
+              'Equation de depart : $' + a + 'x + ' + b + ' = ' + c + '$.',
+              'On retire $' + b + '$ aux DEUX membres : $' + a + 'x = ' + c + ' - ' + b + ' = ' + (c - b) + '$.',
+              'On divise les deux membres par $' + a + '$ : $x = \\dfrac{' + (c - b) + '}{' + a + '} = ' + x + '$.'
+            ]
+          };
+        }
+
+        if (tache === 'negatif') {
+          // Coefficient NEGATIF : c'est la forme ou le signe se perd le plus
+          // souvent, et elle etait totalement absente du generateur.
+          const a = rand(2, 8), x = rand(2, 10), b = rand(5, 30);
+          const c = -a * x + b;
+          return {
+            statement: ctx.emoji + ' ' + ctx.intro + ' : $-' + a + 'x + ' + b + ' = ' + c + '$. Quelle est la valeur de $x$ ?',
+            answer: x,
+            tolerance: 0.001,
+            unit: '',
+            hint: 'Isole d\'abord $-' + a + 'x$, puis divise par $-' + a + '$. Diviser par un nombre negatif change le signe du resultat.',
+            solution: [
+              'Equation de depart : $-' + a + 'x + ' + b + ' = ' + c + '$.',
+              'On retire $' + b + '$ aux deux membres : $-' + a + 'x = ' + c + ' - ' + b + ' = ' + (c - b) + '$.',
+              'On divise par $-' + a + '$ : $x = \\dfrac{' + (c - b) + '}{-' + a + '} = ' + x + '$. Deux nombres negatifs se divisent en un resultat positif.'
+            ]
+          };
+        }
+
+        if (tache === 'deux-cotes') {
+          // Inconnue des DEUX cotes : le vrai saut de la quatrieme.
+          const x = rand(2, 10);
+          const a = rand(4, 9), b = rand(2, 3);
+          const p = rand(1, 12);
+          // a*x + p = b*x + q  =>  q = (a-b)*x + p
+          const q = (a - b) * x + p;
+          return {
+            statement: ctx.emoji + ' ' + ctx.intro + ' : $' + a + 'x + ' + p + ' = ' + b + 'x + ' + q + '$. Quelle est la valeur de $x$ ?',
+            answer: x,
+            tolerance: 0.001,
+            unit: '',
+            hint: 'Commence par rassembler les $x$ d\'un seul cote : retire $' + b + 'x$ aux deux membres.',
+            solution: [
+              'Equation de depart : $' + a + 'x + ' + p + ' = ' + b + 'x + ' + q + '$.',
+              'On retire $' + b + 'x$ aux deux membres : $' + (a - b) + 'x + ' + p + ' = ' + q + '$.',
+              'On retire $' + p + '$ : $' + (a - b) + 'x = ' + (q - p) + '$, puis on divise par $' + (a - b) + '$ : $x = ' + x + '$.'
+            ]
+          };
+        }
+
+        if (tache === 'quotient') {
+          const d = rand(2, 8), x = rand(2, 12), b = rand(1, 15);
+          const c = x / d + b;
+          const cAff = Number.isInteger(c) ? String(c) : fr(parseFloat(c.toFixed(3)));
+          return {
+            statement: ctx.emoji + ' ' + ctx.intro + ' : $\\dfrac{x}{' + d + '} + ' + b + ' = ' + cAff + '$. Quelle est la valeur de $x$ ?',
+            answer: x,
+            tolerance: 0.001,
+            unit: '',
+            hint: 'Isole d\'abord la fraction, puis multiplie les deux membres par $' + d + '$ : multiplier annule la division.',
+            solution: [
+              'On retire $' + b + '$ aux deux membres : $\\dfrac{x}{' + d + '} = ' + fr(parseFloat((c - b).toFixed(3))) + '$.',
+              'On multiplie les deux membres par $' + d + '$ : $x = ' + fr(parseFloat((c - b).toFixed(3))) + ' \\times ' + d + ' = ' + x + '$.',
+              'Erreur frequente : diviser par $' + d + '$ au lieu de multiplier. Pour defaire une division, on multiplie.'
+            ]
+          };
+        }
+
+        // tache === 'formule' : isoler une lettre dans une formule de physique,
+        // ce que l'evaluation demande et que rien n'exercait.
+        const cas = pick([
+          { f: 'v = \\dfrac{d}{t}', cherche: 'd', don: 'v = ' + rand(2, 9) + '$ et $t = ' + rand(2, 9), calc: null },
+          { f: 'P = U \\times I', cherche: 'U', don: null, calc: null }
+        ]);
+        if (cas.cherche === 'd') {
+          const v = rand(2, 9), t = rand(2, 9);
+          return {
+            statement: '🚀 La vitesse d\'un mobile verifie $v = \\dfrac{d}{t}$, ou $d$ est la distance et $t$ la duree. ' +
+              'On mesure $v = ' + v + '$ et $t = ' + t + '$. Quelle est la valeur de $d$ ?',
+            answer: v * t,
+            tolerance: 0.001,
+            unit: '',
+            hint: 'Isole $d$ dans la formule AVANT de remplacer par les nombres : multiplie les deux membres par $t$.',
+            solution: [
+              'On part de $v = \\dfrac{d}{t}$ et on multiplie les deux membres par $t$ : $d = v \\times t$.',
+              'On remplace seulement maintenant : $d = ' + v + ' \\times ' + t + ' = ' + (v * t) + '$.',
+              'Isoler d\'abord, remplacer ensuite : c\'est plus sur, et la formule obtenue resservira.'
+            ]
+          };
+        }
+        const P = rand(2, 12) * rand(2, 9), I = pick([2, 3, 4, 6]);
+        const U = P / I;
+        const Puse = U * I;
         return {
-          statement: `${ctx.emoji} ${ctx.intro} : $${a}x + ${b} = ${c}$. Quelle est la valeur de $x$ ?`,
-          answer: x,
+          statement: '⚡ La puissance electrique verifie $P = U \\times I$. On mesure $P = ' + Puse + '$ et $I = ' + I + '$. Quelle est la valeur de $U$ ?',
+          answer: U,
           tolerance: 0.001,
           unit: '',
-          hint: `Commence par soustraire $${b}$ des deux côtés de l'égalité pour obtenir $${a}x$ seul à gauche. Ensuite, divise par $${a}$.`,
+          hint: 'Isole $U$ : divise les deux membres par $I$.',
           solution: [
-            `Équation de départ : $${a}x + ${b} = ${c}$`,
-            `Soustraction de $${b}$ des deux membres : $${a}x = ${c} - ${b} = ${c - b}$`,
-            `Division par $${a}$ : $x = \\dfrac{${c - b}}{${a}} = ${x}$`
+            'On part de $P = U \\times I$ et on divise les deux membres par $I$ : $U = \\dfrac{P}{I}$.',
+            'On remplace : $U = \\dfrac{' + Puse + '}{' + I + '} = ' + fr(U) + '$.'
           ]
         };
       }
     },
-
     probleme: {
       context: 'La masse volumique (densité) d\'une substance est définie par la relation $\\rho = \\dfrac{m}{V}$ où $\\rho$ est en kg/m³, $m$ est la masse en kg et $V$ est le volume en m³. L\'aluminium a une masse volumique $\\rho = 2700$ kg/m³. On souhaite fabriquer une pièce en aluminium de volume $V = 5 \\times 10^{-4}$ m³.',
       schema: null,

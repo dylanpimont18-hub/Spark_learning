@@ -175,22 +175,118 @@
     ],
     exercice: {
       type: 'numeric',
+      /* ELARGI LE 2026-09-13. Le chapitre s'intitule « Droites remarquables du
+         triangle » et le generateur ne tirait qu'une seule tache, la position du
+         centre de gravite sur une mediane : 4 moules, 12 enonces, aucune banque.
+         Les mediatrices, les bissectrices et les hauteurs — trois des quatre
+         familles au programme — n'etaient jamais exercees, alors que
+         l'evaluation les interroge.
+
+         Cinq taches maintenant, une par famille de droite plus la tache
+         inverse du centre de gravite. Les trois taches d'identification sont
+         posees en numerique (un code de reponse) parce que le generateur du
+         chapitre est de type 'numeric' : les transformer en questions a choix
+         demanderait de changer le type du module, ce qui toucherait le site. */
       generate() {
-        const ctx = pick([
-          {intro:'En architecture, on localise le centre de gravité d\'une pièce triangulaire.', emoji:'🏗️'},
-          {intro:'En physique, on détermine le point d\'équilibre d\'une plaque triangulaire.', emoji:'⚖️'},
-          {intro:'En cartographie, on cherche le centroïde d\'une zone triangulaire.', emoji:'🗺️'},
-          {intro:'En robotique, on calcule la position du barycentre d\'un châssis triangulaire.', emoji:'🤖'}
+        const tache = pick(['centre-gravite', 'centre-gravite', 'gm-inverse', 'mediatrice', 'bissectrice', 'hauteur']);
+        const metier = pick([
+          { intro: 'En architecture, on localise le centre de gravite d\'une piece triangulaire', emoji: '🏗️' },
+          { intro: 'En physique, on determine le point d\'equilibre d\'une plaque triangulaire', emoji: '⚖️' },
+          { intro: 'En cartographie, on cherche le centroide d\'une zone triangulaire', emoji: '🗺️' },
+          { intro: 'En robotique, on calcule la position du barycentre d\'un chassis triangulaire', emoji: '🤖' }
         ]);
-        const am = rand(6, 18);
-        const ag = parseFloat((2 * am / 3).toFixed(1));
+
+        if (tache === 'centre-gravite') {
+          // On tire des medianes MULTIPLES DE 3 : AG tombe alors juste, et
+          // l'eleve n'a pas a arrondir une fraction en plus du raisonnement.
+          const am = pick([6, 9, 12, 15, 18, 21, 24]);
+          const ag = 2 * am / 3;
+          return {
+            statement: metier.emoji + ' ' + metier.intro + '. La mediane issue de $A$ mesure $' + am + '$ cm. ' +
+              'Le centre de gravite $G$ est situe aux deux tiers de cette mediane en partant de $A$. Quelle est la longueur $AG$, en cm ?',
+            answer: ag,
+            tolerance: 0.1,
+            unit: 'cm',
+            hint: '$AG = \\dfrac{2}{3} \\times AM$, avec $AM = ' + am + '$ cm.',
+            solution: [
+              '$AG = \\dfrac{2}{3} \\times ' + am + ' = \\dfrac{' + (2 * am) + '}{3} = ' + fr(ag) + '$ cm.',
+              'Controle : le tiers restant, $GM = ' + fr(am - ag) + '$ cm, est bien la moitie de $AG$.'
+            ]
+          };
+        }
+
+        if (tache === 'gm-inverse') {
+          // Tache inverse : on donne GM, on demande la mediane entiere. C'est la
+          // ou le rapport 2/3 est le plus souvent inverse.
+          const gm = pick([2, 3, 4, 5, 6, 7, 8]);
+          const am = 3 * gm;
+          return {
+            statement: metier.emoji + ' Dans un triangle, $M$ est le milieu de $[BC]$ et $G$ le centre de gravite. On mesure $GM = ' + gm + '$ cm. ' +
+              'Quelle est la longueur de la mediane $AM$, en cm ?',
+            answer: am,
+            tolerance: 0.1,
+            unit: 'cm',
+            hint: 'Le centre de gravite coupe la mediane en deux morceaux : $AG$ vaut les deux tiers, $GM$ le tiers restant.',
+            solution: [
+              '$G$ est aux deux tiers de la mediane en partant de $A$, donc $GM$ represente le TIERS de la mediane.',
+              '$AM = 3 \\times GM = 3 \\times ' + gm + ' = ' + am + '$ cm.',
+              'Piege frequent : multiplier par $\\dfrac{3}{2}$ au lieu de $3$, en confondant $GM$ avec $AG$.'
+            ]
+          };
+        }
+
+        if (tache === 'mediatrice') {
+          const R = pick([5, 6, 7, 8, 9, 10, 12]);
+          return {
+            statement: metier.emoji + ' Les trois mediatrices d\'un triangle $ABC$ se coupent en un point $O$, et l\'on mesure $OA = ' + R + '$ cm. ' +
+              'Quelle est la longueur $OC$, en cm ?',
+            answer: R,
+            tolerance: 0.01,
+            unit: 'cm',
+            hint: 'Une mediatrice est l\'ensemble des points situes a egale distance des deux extremites d\'un segment. Que vaut alors leur point commun ?',
+            solution: [
+              'Le point de concours des trois mediatrices est le <strong>centre du cercle circonscrit</strong>.',
+              'Il est donc a la meme distance des trois sommets : $OA = OB = OC = R$.',
+              '$OC = ' + R + '$ cm, sans aucun calcul a poser.'
+            ]
+          };
+        }
+
+        if (tache === 'bissectrice') {
+          const ang = pick([40, 50, 56, 64, 70, 74, 80]);
+          const moitie = ang / 2;
+          return {
+            statement: metier.emoji + ' Dans un triangle $ABC$, l\'angle $\\widehat{A}$ mesure $' + ang + '°$ et l\'on trace sa bissectrice. ' +
+              'Quelle est la mesure, en degres, de chacun des deux angles ainsi formes en $A$ ?',
+            answer: moitie,
+            tolerance: 0.01,
+            unit: '°',
+            hint: 'Une bissectrice partage un angle en deux angles de meme mesure.',
+            solution: [
+              'La bissectrice d\'un angle le partage en deux angles <strong>egaux</strong>.',
+              'Chaque moitie mesure donc $\\dfrac{' + ang + '}{2} = ' + fr(moitie) + '°$.',
+              'Le point de concours des trois bissectrices est le centre du cercle inscrit, a egale distance des trois cotes — a ne pas confondre avec le centre du cercle circonscrit, qui vient des mediatrices.'
+            ]
+          };
+        }
+
+        // tache === 'hauteur' : aire du triangle a partir d'une hauteur, ce qui
+        // rappelle qu'une hauteur est une distance a un cote, pas une mediane.
+        const base = pick([6, 8, 10, 12, 14, 16]);
+        const h = pick([3, 5, 7, 9, 11]);
+        const aire = base * h / 2;
         return {
-          statement: `${ctx.emoji} ${ctx.intro} La médiane issue de $A$ mesure $${am}$ cm. Le centroïde $G$ se trouve à $\\frac{2}{3}$ de $A$. Quelle est la longueur $AG$ en cm ?`,
-          answer: ag,
-          tolerance: 0.1,
-          unit: 'cm',
-          hint: `$AG = \\dfrac{2}{3} \\times AM = \\dfrac{2}{3} \\times ${am}$.`,
-          solution: [`$AG = \\dfrac{2}{3} \\times ${am} = \\dfrac{${2*am}}{3} = ${fr(ag)}$ cm.`]
+          statement: metier.emoji + ' Dans un triangle $ABC$, le cote $[BC]$ mesure $' + base + '$ cm et la hauteur issue de $A$ mesure $' + h + '$ cm. ' +
+            'Quelle est l\'aire du triangle, en cm² ?',
+          answer: aire,
+          tolerance: 0.01,
+          unit: 'cm²',
+          hint: 'La hauteur issue de $A$ est la distance de $A$ a la droite $(BC)$ : c\'est exactement ce qu\'il faut pour l\'aire.',
+          solution: [
+            'La hauteur issue de $A$ est perpendiculaire a $(BC)$ : c\'est la hauteur relative au cote $[BC]$.',
+            '$\\mathcal{A} = \\dfrac{' + base + ' \\times ' + h + '}{2} = ' + fr(aire) + '$ cm².',
+            'Attention a ne pas prendre la mediane a la place de la hauteur : la mediane joint $A$ au MILIEU de $[BC]$, la hauteur y arrive perpendiculairement. Elles ne coincident que dans un triangle isocele.'
+          ]
         };
       }
     },

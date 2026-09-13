@@ -487,3 +487,164 @@ function figureSymetrie(valeurA, valeurAxe, options) {
 
   return svgFigure(`Point A et axe de symetrie ${nomVar} = ${valeurAxe}`, traits.join(''));
 }
+
+
+/* =========================================================
+   HELPERS AJOUTES POUR LA QUATRIEME (2026-09-13)
+
+   POURQUOI UNE NOUVELLE SERIE : la bibliotheque du 2026-09-12 a ete ecrite
+   pour la sixieme, ou la geometrie se MESURE (perimetres, aires, volumes,
+   symetrie). La quatrieme change de nature : on n'y mesure plus, on y CALCULE
+   une longueur inconnue a partir des autres (Pythagore, cosinus), et on y
+   construit (translations, droites remarquables). Les figures doivent donc
+   faire deux choses que les helpers de sixieme ne savaient pas faire :
+
+     1. MARQUER L'ANGLE DROIT. C'est la donnee qui autorise Pythagore, et un
+        eleve qui ne la voit pas ne sait pas quel theoreme appliquer.
+        Convention du cahier des charges (section 9) : un carre, jamais un arc.
+
+     2. CACHER L'INCONNUE. En sixieme la figure cotait tout, parce que tout
+        etait donne. Ici le cote cherche porte un point d'interrogation et
+        jamais sa valeur : sinon la figure resout l'exercice au lieu de le
+        poser.
+
+   REGLE DE FIDELITE, plus exigeante qu'en sixieme. Un triangle annonce
+   rectangle doit l'etre REELLEMENT dans le dessin, au produit scalaire, et un
+   cosinus annonce doit correspondre au rapport des longueurs tracees. Ce n'est
+   pas une precaution de style : un eleve de quatrieme verifie a l'equerre, et
+   une hypotenuse dessinee plus courte qu'un cote de l'angle droit detruirait
+   la seule intuition que le chapitre cherche a installer. Les tests de
+   scripts/manuel/tests/figures-exercices.test.js verifient ces proprietes par
+   le CALCUL, jamais a l'oeil.
+   ========================================================= */
+
+/* --- Triangle rectangle cote ------------------------------------------
+   Triangle rectangle dont l'angle droit est en bas a gauche. Les deux cotes de
+   l'angle droit sont dessines HORIZONTAL et VERTICAL : c'est la position
+   canonique des manuels, et surtout l'angle droit y est exact PAR
+   CONSTRUCTION, sans dependre de la precision d'un trace oblique.
+
+   `inconnu` dit lequel des trois cotes est cherche : 'hypotenuse', 'vertical'
+   ou 'horizontal'. Celui-la porte le point d'interrogation, les deux autres
+   leur valeur. La figure pose donc exactement la question de l'enonce, et une
+   seule.
+
+   Les trois longueurs passees doivent verifier Pythagore : c'est l'appelant qui
+   en repond (les generateurs tirent dans une liste de triplets). On ne corrige
+   pas en silence une donnee fausse, la figure serait alors fidele a autre chose
+   qu'a l'enonce. */
+function figureTriangleRectangle(horizontal, vertical, hypotenuse, options) {
+  const o = options || {};
+  const unite = o.unite === undefined ? 'cm' : o.unite;
+  const inconnu = o.inconnu === undefined ? 'hypotenuse' : o.inconnu;
+  const noms = o.noms || { droit: 'A', horizontal: 'C', vertical: 'B' };
+
+  const d = borner(horizontal, vertical);
+  /* Les cotes s'ecrivent a l'EXTERIEUR du triangle (le vertical a gauche,
+     l'horizontal sous la base) : une etiquette posee dans l'aplat perd sa
+     reserve blanche a la conversion TikZ et se fait barrer par le trait. On
+     reserve donc la largeur reelle de l'etiquette de gauche, comme le fait
+     figureRectangle depuis le 2026-09-12. */
+  /* `masquer` : cotes a dessiner SANS etiquette (correctif du 2026-09-13).
+     Une figure ne doit montrer que les donnees de l'enonce. Sur le chapitre
+     cosinus, l'enonce donne le cosinus et le cote adjacent ; coter en plus le
+     cote oppose, que l'enonce ne fournit pas, permettait de repondre par
+     Pythagore SANS employer le cosinus — l'exercice etait contourne par sa
+     propre figure. Le cote masque reste trace, puisqu'il existe, mais il se
+     tait. */
+  const masquer = Array.isArray(o.masquer) ? o.masquer : [];
+  const muet = (cote) => masquer.indexOf(cote) >= 0;
+  const etiqV = muet('vertical') ? '' : (inconnu === 'vertical' ? '?' : coteFig(vertical, unite));
+  const etiqH = muet('horizontal') ? '' : (inconnu === 'horizontal' ? '?' : coteFig(horizontal, unite));
+  const etiqHyp = muet('hypotenuse') ? '' : (inconnu === 'hypotenuse' ? '?' : coteFig(hypotenuse, unite));
+  const reserveG = etiqV ? largeurEtiquette(etiqV) + 16 : FIG_MARGE;
+  const reserveD = etiqHyp ? largeurEtiquette(etiqHyp) + 18 : FIG_MARGE;
+  const e = echelleFigure(d.a, d.b, reserveG, reserveD);
+  const w = d.a * e, h = d.b * e;
+  const gauche = Math.max(FIG_MARGE, reserveG), droite = Math.max(FIG_MARGE, reserveD);
+  const x0 = gauche + (FIG_L - gauche - droite - w) / 2;
+  const yBas = (FIG_H + h) / 2 - 10;
+
+  const D = [x0, yBas];                 // sommet de l'angle droit
+  const H = [x0 + w, yBas];             // extremite du cote horizontal
+  const V = [x0, yBas - h];             // extremite du cote vertical
+  const P = (q) => nb2(q[0]) + ',' + nb2(q[1]);
+
+  // Codage de l'angle droit : un carre pose dans le coin, en path ouvert.
+  const k = 9;
+  const traits = [
+    '<polygon class="frame-line" points="' + P(D) + ' ' + P(H) + ' ' + P(V) + '" fill="' + APLAT + '"></polygon>',
+    '<path class="grid-line" fill="none" d="M' + nb2(x0 + k) + ' ' + nb2(yBas) +
+      ' L' + nb2(x0 + k) + ' ' + nb2(yBas - k) + ' L' + nb2(x0) + ' ' + nb2(yBas - k) + '"></path>',
+    // Une etiquette vide n'est pas ecrite du tout : un noeud TikZ sans contenu
+    // poserait quand meme sa reserve blanche et effacerait le trait dessous.
+    etiqH ? '<text class="annotation-label" x="' + nb2(x0 + w / 2) + '" y="' + nb2(yBas + 22) + '" text-anchor="middle">' + etiqH + '</text>' : '',
+    etiqV ? '<text class="annotation-label" x="' + nb2(x0 - 10) + '" y="' + nb2(yBas - h / 2 + 4) + '" text-anchor="end">' + etiqV + '</text>' : '',
+    /* L'hypotenuse se cote le long de son trait, decalee vers l'exterieur du
+       triangle (a droite et vers le haut), jamais dans l'aplat. */
+    etiqHyp ? '<text class="annotation-label" x="' + nb2((H[0] + V[0]) / 2 + 12) + '" y="' + nb2((H[1] + V[1]) / 2 - 4) + '" text-anchor="start">' + etiqHyp + '</text>' : '',
+    // Noms des sommets, poses hors du triangle.
+    '<text class="tick-label" x="' + nb2(x0 - 8) + '" y="' + nb2(yBas + 16) + '" text-anchor="end">' + noms.droit + '</text>',
+    '<text class="tick-label" x="' + nb2(H[0] + 8) + '" y="' + nb2(yBas + 16) + '" text-anchor="start">' + noms.horizontal + '</text>',
+    '<text class="tick-label" x="' + nb2(x0 - 8) + '" y="' + nb2(V[1] - 6) + '" text-anchor="end">' + noms.vertical + '</text>',
+    d.comprime ? figureHorsEchelle(FIG_L / 2, FIG_H - 4) : ''
+  ];
+  return svgFigure('Triangle rectangle de cotes ' + coteFig(horizontal, unite) + ' et ' + coteFig(vertical, unite), traits.join(''));
+}
+
+/* --- Triangle quelconque, a tester par la reciproque -------------------
+   Les TROIS cotes sont donnes et la question est « ce triangle est-il
+   rectangle ? ». La figure doit donc se garder de repondre : aucun angle droit
+   n'y est code, meme quand le triplet en est un. C'est l'application directe de
+   la regle « une figure ne divulgue pas ce qu'elle demande de trouver »
+   (cahier des charges, section 9).
+
+   Le dessin est construit par INTERSECTION DE DEUX CERCLES, la construction au
+   compas : les trois longueurs imposent la forme entiere, donc le triangle
+   dessine a exactement les proportions de l'enonce. Un eleve qui pose son
+   equerre sur le sommet voit le vrai resultat, ce qui est precisement l'enjeu
+   de la reciproque. */
+function figureTriangleTroisCotes(a, b, c, options) {
+  const o = options || {};
+  const unite = o.unite === undefined ? '' : o.unite;
+  const noms = o.noms || { A: 'A', B: 'B', C: 'C' };
+
+  /* On pose le plus GRAND cote en base : c'est ce qui donne le triangle le plus
+     large et le mieux cadre, et cela ecarte le cas ou le sommet sortirait
+     lateralement du viewBox. Les trois cotes restent ceux de l'enonce, seule
+     leur place dans le dessin change. */
+  const tri = [a, b, c].slice().sort((x, y) => y - x);
+  const base = tri[0], cg = tri[1], cd = tri[2];
+
+  /* Sommet C : a la distance cg de A(0,0) et cd de B(base,0). Abscisse par la
+     relation d'Al-Kashi ramenee aux coordonnees, ordonnee par Pythagore. */
+  const xc = (base * base + cg * cg - cd * cd) / (2 * base);
+  const yc2 = cg * cg - xc * xc;
+  /* Un triplet qui ne ferme aucun triangle (inegalite triangulaire violee) n'a
+     pas de figure. On rend la chaine vide : schema.js traite une figure vide
+     comme une figure absente, ce qui vaut infiniment mieux qu'un dessin
+     invente. */
+  if (!(yc2 > 0)) return '';
+  const yc = Math.sqrt(yc2);
+
+  const largeurU = Math.max(base, xc) - Math.min(0, xc);
+  const e = echelleFigure(largeurU, yc, FIG_MARGE + 16, FIG_MARGE + 16);
+  const hx = xc * e, hy = yc * e, w = base * e;
+
+  const xMin = Math.min(0, hx), xMax = Math.max(w, hx);
+  const x0 = (FIG_L - (xMax - xMin)) / 2 - xMin;
+  const yBas = (FIG_H + hy) / 2 - 10;
+
+  const A = [x0, yBas], B = [x0 + w, yBas], C = [x0 + hx, yBas - hy];
+  const P = (q) => nb2(q[0]) + ',' + nb2(q[1]);
+
+  return svgFigure('Triangle de cotes ' + a + ', ' + b + ' et ' + c, [
+    '<polygon class="frame-line" points="' + P(A) + ' ' + P(B) + ' ' + P(C) + '" fill="' + APLAT + '"></polygon>',
+    '<text class="annotation-label" x="' + nb2(x0 + w / 2) + '" y="' + nb2(yBas + 22) + '" text-anchor="middle">' + coteFig(base, unite) + '</text>',
+    '<text class="annotation-label" x="' + nb2((A[0] + C[0]) / 2 - 12) + '" y="' + nb2((A[1] + C[1]) / 2) + '" text-anchor="end">' + coteFig(cg, unite) + '</text>',
+    '<text class="annotation-label" x="' + nb2((B[0] + C[0]) / 2 + 12) + '" y="' + nb2((B[1] + C[1]) / 2) + '" text-anchor="start">' + coteFig(cd, unite) + '</text>',
+    '<text class="tick-label" x="' + nb2(A[0] - 8) + '" y="' + nb2(yBas + 16) + '" text-anchor="end">' + noms.A + '</text>',
+    '<text class="tick-label" x="' + nb2(B[0] + 8) + '" y="' + nb2(yBas + 16) + '" text-anchor="start">' + noms.B + '</text>',
+    '<text class="tick-label" x="' + nb2(C[0]) + '" y="' + nb2(C[1] - 8) + '" text-anchor="middle">' + noms.C + '</text>'
+  ].join(''));
+}
