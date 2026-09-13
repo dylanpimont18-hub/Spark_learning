@@ -316,14 +316,38 @@ window.MODULES.push(
       title: 'Évaluation — Volumes : sphère et solides composés',
       duration: '30 min',
       questions: [
+        /* Q1 RÉÉCRITE le 2026-09-13. Elle demandait le volume d'une boule de
+           rayon 5 cm, soit l'application nue de la formule — et la Q2 demandait
+           exactement la même chose sur une balle de tennis, à ceci près qu'elle
+           donnait le diamètre. Deux questions pour une seule tâche, en ouverture
+           d'évaluation.
+
+           Elle demande maintenant d'EXPLIQUER l'erreur d'un élève qui a cubé le
+           diamètre : produire un argument, non un nombre. C'est « communiquer »,
+           la compétence la moins évaluée de l'ouvrage. L'erreur soumise au
+           jugement est celle que la fiche professeur de ce chapitre traite en
+           premier, et le facteur 8 qu'elle produit est un contrôle de
+           vraisemblance que l'élève peut réutiliser partout.
+
+           La Q2 conserve le calcul direct : la tâche calculatoire reste évaluée
+           une fois, ce qui suffit. */
         {
-          statement: 'Calculer le volume d\'une boule de rayon $5$ cm. On prendra $\\pi \\approx 3{,}14$. Arrondir au centième.',
-          type: 'numeric',
-          answer: 523.33,
-          tolerance: 1,
-          unit: 'cm³',
+          statement: 'Une boule a un <strong>diamètre</strong> de $10$ cm. Pour calculer son volume, Léa écrit :<br/><br/>' +
+            '« $V = \\dfrac{4}{3} \\times 3{,}14 \\times 10^3 = 4\\,186{,}67$ cm³ ».<br/><br/>' +
+            'Son résultat est faux. Quelle affirmation explique le mieux pourquoi, et quel est le bon ordre de grandeur ?',
+          type: 'multiple-choice',
+          options: [
+            'Elle a utilisé le <strong>diamètre</strong> là où la formule demande le <strong>rayon</strong>. Comme le rayon est deux fois plus petit et qu\'il est élevé au cube, son résultat est $2^3 = 8$ fois trop grand : le volume réel vaut environ $523$ cm³.',
+            'Elle a oublié de diviser par $3$ : il fallait écrire $\\dfrac{4}{3}$ et non $4$, et le volume réel vaut environ $1\\,396$ cm³.',
+            'Elle a confondu le volume et l\'aire : la formule correcte est $4\\pi r^2$, et le résultat vaut environ $314$ cm³.',
+            'Son calcul est juste, mais elle a oublié d\'arrondir : le volume vaut exactement $4\\,186$ cm³.'
+          ],
+          answer: 0,
           points: 2,
-          correction: '$V = \\dfrac{4}{3} \\times 3{,}14 \\times 5^3 = \\dfrac{4}{3} \\times 3{,}14 \\times 125 = \\dfrac{1\\,570}{3} \\approx 523{,}33$ cm³.'
+          correction: 'La formule $V = \\dfrac{4}{3}\\pi r^3$ fait intervenir le <strong>rayon</strong>, et l\'énoncé donne le <strong>diamètre</strong>. Il fallait donc commencer par $r = \\dfrac{10}{2} = 5$ cm.<br/><br/>' +
+            'Le calcul correct est $V = \\dfrac{4}{3} \\times 3{,}14 \\times 5^3 = \\dfrac{4}{3} \\times 3{,}14 \\times 125 \\approx 523{,}33$ cm³.<br/><br/>' +
+            '<strong>Pourquoi exactement $8$ fois trop grand</strong> : le rayon est élevé au cube. Utiliser $10$ au lieu de $5$, c\'est doubler le nombre qu\'on cube, donc multiplier le résultat par $2^3 = 8$. Et l\'on vérifie : $523{,}33 \\times 8 = 4\\,186{,}67$, le résultat de Léa.<br/><br/>' +
+            '<strong>Le contrôle qui sauve</strong> : un volume huit fois trop grand vient presque toujours d\'un diamètre pris pour un rayon. Devant tout énoncé, demande-toi d\'abord laquelle des deux longueurs on te donne.'
         },
         {
           statement: 'Une balle de tennis a un diamètre de $6{,}8$ cm. Quel est son volume ? ($\\pi \\approx 3{,}14$, arrondi à $0{,}1$ cm³)',

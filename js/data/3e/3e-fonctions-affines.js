@@ -227,23 +227,68 @@ window.MODULES.push(
           points: 2,
           correction: 'On remplace $x$ par $5$ : $f(5) = 3 \\times 5 - 7 = 15 - 7 = 8$.'
         },
+        /* Q2 RÉÉCRITE le 2026-09-13. Elle demandait « quelle est l'ordonnée à
+           l'origine de $g(x) = -2x + 11$ ? », c'est-à-dire de recopier le
+           terme constant : la troisième application numérique d'affilée de
+           l'évaluation, et la plus mécanique des trois.
+
+           Elle demande maintenant de relier une ÉCRITURE à un DESSIN sans rien
+           calculer : quatre droites sont décrites par leur allure et leur point
+           de départ, et l'élève doit reconnaître laquelle correspond à
+           $g(x) = -2x + 11$. Le signe de $a$ donne le sens de variation, le
+           terme $b$ donne le point de départ — c'est « représenter », et
+           c'était la compétence la plus rare de l'ouvrage (4 occurrences sur
+           65 questions avant cette réécriture).
+
+           Pourquoi une description verbale plutôt qu'une figure : l'évaluation
+           est composée sans planche graphique, et une figure y serait la seule
+           du livre à porter une question notée. La description nomme ce que
+           l'élève doit lire sur un graphique — sens de variation et ordonnée à
+           l'origine — sans exiger d'appareil supplémentaire. */
         {
-          statement: 'Quelle est l\'ordonnée à l\'origine de la fonction $g(x) = -2x + 11$ ?',
-          type: 'numeric',
-          answer: 11,
-          tolerance: 0,
-          unit: '',
+          statement: 'On a tracé quatre droites dans un même repère. Laquelle représente la fonction $g(x) = -2x + 11$ ?',
+          type: 'multiple-choice',
+          options: [
+            'Une droite qui <strong>descend</strong> et qui coupe l\'axe vertical au-dessus de zéro, à la hauteur $11$.',
+            'Une droite qui <strong>monte</strong> et qui coupe l\'axe vertical à la hauteur $11$.',
+            'Une droite qui <strong>descend</strong> et qui passe par l\'origine du repère.',
+            'Une droite qui <strong>monte</strong> et qui coupe l\'axe vertical à la hauteur $-2$.'
+          ],
+          answer: 0,
           points: 2,
-          correction: 'L\'ordonnée à l\'origine est $g(0) = -2 \\times 0 + 11 = 11$. C\'est le terme constant de l\'écriture, et c\'est là que la droite coupe l\'axe vertical.'
+          correction: 'Deux informations se lisent directement dans l\'écriture $g(x) = ax + b$, et aucune ne demande de calcul.<br/><br/>' +
+            'Le <strong>coefficient directeur</strong> $a = -2$ est <strong>négatif</strong> : la droite <strong>descend</strong> quand on va vers la droite. Cela élimine déjà les deux propositions où elle monte.<br/><br/>' +
+            'L\'<strong>ordonnée à l\'origine</strong> $b = 11$ est la hauteur à laquelle la droite coupe l\'axe vertical : elle le coupe donc à $11$, et non à $-2$ ni à l\'origine.<br/><br/>' +
+            '<strong>L\'erreur à éviter</strong> : prendre $-2$ pour la hauteur de départ. Le nombre collé au $x$ donne l\'<strong>inclinaison</strong>, celui qui est seul donne le <strong>départ</strong>.'
         },
+        /* Q3 RÉÉCRITE le 2026-09-13. Elle demandait de calculer un coefficient
+           directeur à partir de deux points, soit l'application d'une formule —
+           la quatrième question calculatoire de l'évaluation.
+
+           Elle demande maintenant de JUGER un raisonnement et d'expliquer
+           pourquoi il échoue, donc de produire une explication et non un
+           nombre : c'est « communiquer », la compétence la moins évaluée de
+           l'ouvrage (3 occurrences sur 65 avant cette réécriture). L'erreur
+           soumise au jugement — confondre accroissement et valeur — est celle
+           que la fiche professeur de ce chapitre traite, ce qui referme la
+           boucle entre le diagnostic et l'évaluation. */
         {
-          statement: 'Une fonction affine $h$ vérifie $h(1) = 4$ et $h(6) = 24$. Calcule son coefficient directeur.',
-          type: 'numeric',
-          answer: 4,
-          tolerance: 0,
-          unit: '',
+          statement: 'Une fonction affine $h$ vérifie $h(1) = 4$ et $h(6) = 24$.<br/><br/>' +
+            'Pour trouver le coefficient directeur, Malo écrit : « $a = \\dfrac{24}{6} = 4$ ».<br/><br/>' +
+            'Il trouve la bonne valeur, et pourtant son raisonnement est faux. Quelle affirmation l\'explique le mieux ?',
+          type: 'multiple-choice',
+          options: [
+            'Il a divisé une valeur par une abscisse au lieu de diviser un <strong>accroissement</strong> par un accroissement : il fallait écrire $\\dfrac{24 - 4}{6 - 1}$. Sa méthode ne marcherait plus si $h(1)$ valait autre chose.',
+            'Il aurait dû écrire $\\dfrac{6}{24}$ : le coefficient directeur est l\'inverse de ce qu\'il a calculé.',
+            'Son erreur est de ne pas avoir arrondi : le coefficient directeur vaut en réalité $4{,}5$.',
+            'On ne peut pas calculer un coefficient directeur à partir de deux points, il faut connaître l\'ordonnée à l\'origine.'
+          ],
+          answer: 0,
           points: 2,
-          correction: '$a = \\dfrac{h(6) - h(1)}{6 - 1} = \\dfrac{24 - 4}{5} = \\dfrac{20}{5} = 4$.'
+          correction: 'Le coefficient directeur mesure de combien $h$ <strong>varie</strong> quand $x$ augmente : c\'est un rapport de deux <strong>écarts</strong>, pas un rapport de deux valeurs.<br/><br/>' +
+            'La formule est $a = \\dfrac{h(6) - h(1)}{6 - 1} = \\dfrac{24 - 4}{5} = \\dfrac{20}{5} = 4$.<br/><br/>' +
+            'Malo a écrit $\\dfrac{24}{6}$, c\'est-à-dire une valeur divisée par une abscisse. Il tombe sur $4$ par coïncidence, parce que $\\dfrac{20}{5}$ et $\\dfrac{24}{6}$ valent tous deux $4$.<br/><br/>' +
+            '<strong>Le contre-exemple qui tranche</strong> : si l\'énoncé avait donné $h(1) = 9$ au lieu de $4$, la vraie réponse serait $\\dfrac{24 - 9}{5} = 3$, alors que la méthode de Malo donnerait encore $4$. Un résultat juste ne prouve pas qu\'une méthode l\'est.'
         },
         {
           statement: 'Parmi ces fonctions, laquelle traduit une situation de <strong>proportionnalité</strong> ?',

@@ -401,14 +401,32 @@ window.MODULES.push(
           points: 2,
           correction: '$\\sin(\\theta) = \\dfrac{\\text{opposé}}{\\text{hypoténuse}} = \\dfrac{5}{13} \\approx 0{,}38$.'
         },
+        /* Q2 RÉÉCRITE le 2026-09-13. Elle donnait $\cos(\theta)$ et
+           l'hypoténuse et demandait l'adjacent : une multiplication, et la
+           deuxième application directe d'affilée de l'évaluation.
+
+           Elle demande maintenant de CHOISIR le rapport avant tout calcul,
+           dans une situation où les deux longueurs en jeu ne sont pas celles
+           qu'on attend — ni l'énoncé ni la figure ne disent lequel des trois
+           rapports convient. C'est « chercher », et c'est la difficulté réelle
+           du chapitre : l'élève sait calculer, mais choisit mal. */
         {
-          statement: 'Dans un triangle rectangle, $\\cos(\\theta) = 0{,}6$ et l\'hypoténuse mesure $10$ cm. Quelle est la longueur du côté adjacent à $\\theta$ ?',
-          type: 'numeric',
-          answer: 6,
-          tolerance: 0,
-          unit: 'cm',
+          statement: 'Un randonneur veut connaître l\'angle d\'une pente. Il mesure qu\'en avançant de $80$ m à l\'horizontale, il s\'élève de $34$ m à la verticale.<br/><br/>' +
+            'Il ne connaît pas la longueur du chemin parcouru en pente.<br/><br/>' +
+            'Quel rapport doit-il utiliser pour trouver l\'angle de la pente ?',
+          type: 'multiple-choice',
+          options: [
+            'La <strong>tangente</strong>, car les deux longueurs connues sont les deux côtés de l\'angle droit et l\'hypoténuse n\'intervient pas.',
+            'Le <strong>sinus</strong>, car il s\'élève verticalement et le sinus concerne toujours la hauteur.',
+            'Le <strong>cosinus</strong>, car il avance horizontalement et le cosinus concerne toujours l\'horizontale.',
+            'Aucun des trois : il faut d\'abord calculer la longueur du chemin par le théorème de Pythagore, sans quoi rien n\'est possible.'
+          ],
+          answer: 0,
           points: 2,
-          correction: '$\\cos(\\theta) = \\dfrac{\\text{adj}}{\\text{hyp}} \\Rightarrow \\text{adj} = \\cos(\\theta) \\times \\text{hyp} = 0{,}6 \\times 10 = 6$ cm.'
+          correction: 'Le choix du rapport ne dépend jamais du décor : il dépend des <strong>deux longueurs en jeu</strong>, celles qu\'on connaît et celle qu\'on cherche.<br/><br/>' +
+            'Ici, les $80$ m horizontaux sont le côté <strong>adjacent</strong> à l\'angle, les $34$ m verticaux le côté <strong>opposé</strong>. Ce sont les deux côtés de l\'angle droit, et l\'hypoténuse n\'apparaît ni dans les données ni dans la question.<br/><br/>' +
+            'Le seul rapport qui relie l\'opposé et l\'adjacent est la <strong>tangente</strong> : $\\tan(\\theta) = \\dfrac{34}{80} = 0{,}425$, d\'où $\\theta \\approx 23°$.<br/><br/>' +
+            '<strong>Pourquoi la dernière proposition est fausse</strong> : calculer l\'hypoténuse par Pythagore est possible, mais inutile — c\'est un détour qui rallonge le travail sans rien apporter. Reconnaître qu\'une donnée manquante n\'est pas nécessaire fait partie du raisonnement.'
         },
         {
           statement: 'Une échelle de $5$ m est posée contre un mur. Elle forme un angle de $60°$ avec le sol. À quelle hauteur atteint-elle le mur ? (arrondir à $0{,}01$ m)',
@@ -432,14 +450,35 @@ window.MODULES.push(
           points: 2,
           correction: 'La relation fondamentale de la trigonométrie est $\\sin^2(\\theta) + \\cos^2(\\theta) = 1$. Elle découle directement du théorème de Pythagore appliqué au triangle rectangle : $\\left(\\dfrac{\\text{opp}}{\\text{hyp}}\\right)^2 + \\left(\\dfrac{\\text{adj}}{\\text{hyp}}\\right)^2 = \\dfrac{\\text{opp}^2 + \\text{adj}^2}{\\text{hyp}^2} = 1$.'
         },
+        /* Q5 RÉÉCRITE le 2026-09-13. Elle demandait $\tan(\theta)$ pour un
+           opposé et un adjacent tous deux égaux à 7 : une division dont le
+           résultat était visible sans calcul, et la troisième application
+           directe de l'évaluation.
+
+           Elle demande maintenant d'EXPLIQUER pourquoi un résultat est
+           impossible, donc de produire un argument et non un nombre. C'est
+           « communiquer », la compétence la moins évaluée de l'ouvrage, et le
+           brevet la sollicite explicitement. L'argument attendu — un sinus
+           d'angle aigu ne peut pas dépasser 1, parce que l'opposé est toujours
+           plus court que l'hypoténuse — est un contrôle de vraisemblance que
+           l'élève peut appliquer à tous ses calculs du chapitre. */
         {
-          statement: 'Dans un triangle rectangle, le côté opposé mesure $7$ cm et le côté adjacent mesure $7$ cm. Quelle est la valeur de $\\tan(\\theta)$ ?',
-          type: 'numeric',
-          answer: 1,
-          tolerance: 0,
-          unit: '',
+          statement: 'Dans un triangle rectangle, Sarah cherche l\'angle $\\theta$. Elle calcule et annonce : « $\\sin(\\theta) = 1{,}25$ ».<br/><br/>' +
+            'Sans refaire son calcul, comment peut-on être certain qu\'elle s\'est trompée ?',
+          type: 'multiple-choice',
+          options: [
+            'Le sinus d\'un angle aigu est le quotient de l\'<strong>opposé</strong> par l\'<strong>hypoténuse</strong>. Or l\'hypoténuse est toujours le plus long côté : ce quotient est donc toujours <strong>inférieur à $1$</strong>.',
+            'Le sinus doit toujours être un nombre <strong>entier</strong>, jamais un nombre décimal.',
+            'Elle s\'est trompée parce que $1{,}25$ est supérieur à $1$, et aucune longueur ne peut dépasser $1$ cm.',
+            'On ne peut pas en être certain : un sinus peut valoir $1{,}25$ si l\'angle dépasse $90°$.'
+          ],
+          answer: 0,
           points: 2,
-          correction: '$\\tan(\\theta) = \\dfrac{\\text{opposé}}{\\text{adjacent}} = \\dfrac{7}{7} = 1$. Cela signifie que $\\theta = 45°$, car $\\tan(45°) = 1$.'
+          correction: 'Dans un triangle rectangle, l\'<strong>hypoténuse</strong> est le côté opposé à l\'angle droit, et c\'est toujours le <strong>plus long</strong> des trois.<br/><br/>' +
+            'Comme $\\sin(\\theta) = \\dfrac{\\text{opposé}}{\\text{hypoténuse}}$ est un quotient dont le numérateur est plus petit que le dénominateur, il est nécessairement compris entre $0$ et $1$. Un sinus de $1{,}25$ est donc impossible, quel que soit le triangle.<br/><br/>' +
+            'Il en va de même pour le cosinus. La <strong>tangente</strong>, en revanche, peut dépasser $1$ : elle compare deux côtés de l\'angle droit, dont aucun n\'est nécessairement le plus grand.<br/><br/>' +
+            '<strong>Pourquoi la dernière proposition est fausse</strong> : dans un triangle rectangle, les deux autres angles sont forcément aigus, puisque la somme des angles vaut $180°$. Il ne peut donc pas y avoir d\'angle dépassant $90°$.<br/><br/>' +
+            '<strong>Le réflexe à garder</strong> : après chaque calcul de sinus ou de cosinus, vérifie que le résultat tient entre $0$ et $1$. C\'est un contrôle gratuit qui repère la plupart des erreurs de rapport inversé.'
         }
       ]
     }

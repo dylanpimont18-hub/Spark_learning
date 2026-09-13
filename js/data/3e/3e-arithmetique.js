@@ -195,14 +195,33 @@ window.MODULES.push(
           points: 2,
           correction: '$180 = 2 \\times 90 = 2 \\times 2 \\times 45 = 2^2 \\times 9 \\times 5 = 2^2 \\times 3^2 \\times 5$. La réponse d) n\'est pas valide car $4$ et $9$ ne sont pas des nombres premiers.'
         },
+        /* Q3 RÉÉCRITE le 2026-09-13. Elle demandait de rendre $\frac{48}{72}$
+           irréductible, c'est-à-dire de calculer un PGCD et de diviser : la
+           deuxième application directe de l'algorithme d'Euclide dans la même
+           évaluation, après la Q1 qui le demandait explicitement.
+
+           Elle demande maintenant de RECONNAÎTRE qu'une situation concrète est
+           un problème de PGCD, ce que rien dans l'énoncé ne nomme : ni le mot
+           « PGCD », ni le mot « diviseur » n'y figurent. L'élève doit
+           comprendre que « des parts identiques, sans reste, et le plus grand
+           nombre possible par part » est exactement la définition du plus
+           grand diviseur commun. C'est « modéliser », et c'est la compétence
+           qui manquait à ce chapitre — dont les quatre autres questions sont
+           purement techniques. */
         {
-          statement: 'Rendre la fraction $\\dfrac{48}{72}$ irréductible. Le dénominateur de la fraction irréductible est :',
+          statement: 'Un fleuriste dispose de $48$ roses et de $72$ tulipes.<br/><br/>' +
+            'Il veut composer des bouquets <strong>tous identiques</strong>, en utilisant <strong>toutes</strong> les fleurs, sans qu\'il en reste aucune.<br/><br/>' +
+            'Quel est le <strong>plus grand nombre de bouquets</strong> qu\'il peut composer ?',
           type: 'numeric',
-          answer: 3,
+          answer: 24,
           tolerance: 0,
           unit: '',
           points: 2,
-          correction: '$\\text{PGCD}(48, 72) = 24$. $\\dfrac{48}{72} = \\dfrac{48 \\div 24}{72 \\div 24} = \\dfrac{2}{3}$. Le dénominateur est $3$.'
+          correction: 'Rien dans l\'énoncé ne prononce le mot « PGCD » : c\'est à toi de reconnaître la situation.<br/><br/>' +
+            'Chaque bouquet doit contenir le même nombre de roses et le même nombre de tulipes, et aucune fleur ne doit rester. Le nombre de bouquets doit donc <strong>diviser $48$</strong> et <strong>diviser $72$</strong> : c\'est un diviseur commun. Comme on en veut le plus grand nombre possible, c\'est le <strong>PGCD</strong>.<br/><br/>' +
+            '$\\text{PGCD}(48\\,;\\,72) = 24$, par l\'algorithme d\'Euclide : $72 = 1 \\times 48 + 24$, puis $48 = 2 \\times 24 + 0$. Le dernier reste non nul est $24$.<br/><br/>' +
+            'Il peut donc composer <strong>$24$ bouquets</strong>, contenant chacun $48 \\div 24 = 2$ roses et $72 \\div 24 = 3$ tulipes.<br/><br/>' +
+            '<strong>Le piège à éviter</strong> : répondre $2$ ou $3$, c\'est-à-dire le contenu d\'un bouquet au lieu du nombre de bouquets. Relis toujours ce que la question demande exactement.'
         },
         {
           statement: 'Quel est le PPCM de $12$ et $18$ ?',
