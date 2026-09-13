@@ -309,7 +309,117 @@ window.MODULES.push({
 
     exercice: {
       type: 'numeric',
+      /* BANQUE ELARGIE LE 2026-09-13.
+
+         C'etait le chapitre le plus pauvre de l'ouvrage : quatre contextes,
+         UNE tache (calculer une pente), et une banque du professeur
+         litteralement VIDE — le tirage s'arretait a 12 enonces, soit le nombre
+         exact d'exercices de l'edition eleve, donc zero supplement. Les
+         remediations de la fiche n'avaient nulle part ou renvoyer.
+
+         Trois taches ajoutees, prises dans ce que le chapitre annonce et
+         n'entrainait pas :
+           - INTERPOLER une valeur intermediaire, qui est le titre meme du
+             chapitre et n'apparaissait que dans le probleme ;
+           - LIRE une coordonnee, l'attendu le plus elementaire, absent ;
+           - DECIDER si une estimation releve de l'interpolation ou de
+             l'extrapolation, qui est la seule difficulte conceptuelle du
+             chapitre et le sujet de sa question d'evaluation reecrite.
+         Mesure avant/apres : 1 tache pour 12 enonces -> 4 taches, 42 enonces. */
       generate() {
+        const tache = pick(['pente', 'pente', 'interpoler', 'lire', 'decider']);
+
+        /* TACHE 2 — interpoler a mi-chemin. On impose une abscisse au MILIEU
+           des deux mesures : l'ordonnee cherchee est alors la moyenne des deux,
+           donc entiere ou a une decimale, sans division penible. */
+        if (tache === 'interpoler') {
+          const ctx = pick([
+            { nom: 'la température d\'un four', unitX: 'min', unitY: '°C' },
+            { nom: 'le niveau d\'eau d\'une citerne', unitX: 'h', unitY: 'cm' },
+            { nom: 'la distance parcourue par un train', unitX: 'h', unitY: 'km' },
+            { nom: 'la masse de compost accumulée', unitX: 'semaines', unitY: 'kg' }
+          ]);
+          const x1 = rand(1, 4);
+          const ecart = 2 * rand(1, 3);          // pair : le milieu tombe juste
+          const x2 = x1 + ecart;
+          const y1 = rand(5, 40);
+          const y2 = y1 + 2 * rand(2, 12);       // pair : la moyenne est entiere
+          const xm = (x1 + x2) / 2, ym = (y1 + y2) / 2;
+          return {
+            statement: `On relève ${ctx.nom} à deux instants : $${y1}$ ${ctx.unitY} à $${x1}$ ${ctx.unitX}, puis $${y2}$ ${ctx.unitY} à $${x2}$ ${ctx.unitX}. Entre les deux, l'évolution est régulière.<br/><br/>Par <strong>interpolation</strong>, estime la valeur à $${xm}$ ${ctx.unitX}, en ${ctx.unitY}.`,
+            answer: ym,
+            tolerance: 0.02,
+            unit: ctx.unitY,
+            hint: `$${xm}$ est exactement au <strong>milieu</strong> de $${x1}$ et $${x2}$.<br/><br/>Si l'évolution est régulière, la valeur cherchée est donc au milieu de $${y1}$ et $${y2}$ : c'est leur moyenne.`,
+            solution: [
+              `Interpoler à mi-chemin revient à prendre la moyenne des deux mesures qui encadrent.`,
+              `L'abscisse $${xm}$ est au milieu de $${x1}$ et $${x2}$.`,
+              `L'évolution étant régulière, l'ordonnée est au milieu de $${y1}$ et $${y2}$ : $\\dfrac{${y1} + ${y2}}{2} = ${fr(ym)}$ ${ctx.unitY}.`,
+              `L'estimation est ici fiable, car $${xm}$ se situe <strong>entre</strong> les deux mesures.`
+            ]
+          };
+        }
+
+        /* TACHE 3 — lire une coordonnee. L'attendu le plus elementaire du
+           chapitre, et le seul que la banque n'exercait pas du tout. Le piege
+           vise est l'inversion abscisse/ordonnee, erreur numero un du chapitre
+           d'apres la fiche professeur. */
+        if (tache === 'lire') {
+          const px = rand(-6, 8), py = rand(-6, 8);
+          const quoi = pick([
+            { mot: 'abscisse', val: px, rang: 'premier' },
+            { mot: 'ordonnée', val: py, rang: 'second' }
+          ]);
+          const ctx = pick([
+            { nom: 'une balise de randonnée', lettre: 'B' },
+            { nom: 'un trésor sur une carte', lettre: 'T' },
+            { nom: 'une station de métro sur un plan', lettre: 'S' },
+            { nom: 'un pion sur un damier', lettre: 'P' }
+          ]);
+          return {
+            statement: `Dans un repère, ${ctx.nom} occupe le point $${ctx.lettre}(${px} ; ${py})$.<br/><br/>Quelle est son <strong>${quoi.mot}</strong> ?`,
+            answer: quoi.val,
+            tolerance: 0,
+            unit: '',
+            hint: `Dans un couple $(x ; y)$, l'abscisse vient <strong>toujours en premier</strong> et l'ordonnée en second.<br/><br/>L'abscisse se lit sur l'axe horizontal, l'ordonnée sur l'axe vertical.`,
+            solution: [
+              `Dans un couple de coordonnées, l'abscisse s'écrit toujours avant l'ordonnée.`,
+              `Le point s'écrit $${ctx.lettre}(${px} ; ${py})$ : son abscisse vaut $${px}$ et son ordonnée $${py}$.`,
+              `L'${quoi.mot} est donc $${quoi.val}$, c'est le ${quoi.rang} des deux nombres.`
+            ]
+          };
+        }
+
+        /* TACHE 4 — interpolation ou extrapolation. C'est le cœur conceptuel du
+           chapitre, celui que l'evaluation teste depuis sa reecriture, et qu'un
+           eleve peut manquer tout en calculant parfaitement des pentes.
+           Reponse 1 / 0, format du projet pour une question a trancher. */
+        if (tache === 'decider') {
+          const ctx = pick([
+            { nom: 'la croissance d\'un plant', unitX: 'semaines', limite: 'une plante finit par ralentir' },
+            { nom: 'la charge d\'une batterie', unitX: 'min', limite: 'une batterie sature une fois pleine' },
+            { nom: 'le remplissage d\'un réservoir', unitX: 'min', limite: 'un réservoir déborde une fois plein' },
+            { nom: 'la fonte d\'un glaçon', unitX: 'min', limite: 'la fonte s\'arrête quand tout est fondu' }
+          ]);
+          const x1 = rand(1, 4), x2 = x1 + rand(3, 6);
+          const dedans = pick([true, false]);
+          const xq = dedans ? x1 + Math.max(1, Math.floor((x2 - x1) / 2)) : x2 + rand(4, 15);
+          return {
+            statement: `On a mesuré ${ctx.nom} à $${x1}$ ${ctx.unitX} puis à $${x2}$ ${ctx.unitX}, et l'évolution entre ces deux relevés est régulière.<br/><br/>On veut maintenant estimer la valeur à $${xq}$ ${ctx.unitX}. Cette estimation est-elle une <strong>interpolation</strong>, donc fiable ? Réponds par $1$ pour oui, $0$ pour non.`,
+            answer: dedans ? 1 : 0,
+            tolerance: 0,
+            unit: '',
+            hint: `Regarde d'abord où se situe $${xq}$ par rapport aux deux mesures, $${x1}$ et $${x2}$.<br/><br/>Entre les deux, on interpole et l'estimation est fiable. Au-delà, on extrapole et plus rien ne la garantit.`,
+            solution: [
+              `Une estimation est fiable si elle tombe entre les mesures, risquée si elle les dépasse.`,
+              `Les mesures encadrent l'intervalle de $${x1}$ à $${x2}$ ${ctx.unitX}.`,
+              dedans
+                ? `La valeur $${xq}$ est <strong>dans</strong> cet intervalle : c'est bien une interpolation, et l'estimation est fiable.`
+                : `La valeur $${xq}$ est <strong>au-delà</strong> de la dernière mesure : c'est une extrapolation, et rien ne la garantit — ${ctx.limite}.`
+            ]
+          };
+        }
+
         const ctx = pick([
           { name: 'la distance parcourue par un cycliste', unitX: 'h', unitY: 'km' },
           { name: 'le prix total à payer', unitX: 'L', unitY: '€' },

@@ -179,7 +179,125 @@ window.MODULES.push({
 
     exercice: {
       type: 'numeric',
+      /* BANQUE ELARGIE LE 2026-09-13.
+
+         Cinq contextes, une seule tache : additionner deux fractions apres
+         reduction au meme denominateur. La banque n'imprimait que 15 enonces,
+         et tous posaient la meme question — c'est le chapitre le plus pauvre de
+         l'ouvrage apres le reperage.
+
+         Trois taches ajoutees, prises dans le titre meme du chapitre
+         (« Operations sur les fractions »), dont deux operations que le cours
+         traite et que la banque ignorait completement :
+           - la SOUSTRACTION, ou l'ordre compte et ou l'eleve doit garder le
+             signe du plus grand ;
+           - la MULTIPLICATION, dont le piege est justement qu'elle ne demande
+             AUCUN denominateur commun, contrairement a l'addition ;
+           - la comparaison de deux fractions, qui est l'usage le plus frequent
+             du denominateur commun hors calcul.
+         Mesure avant/apres : 1 tache pour 15 enonces -> 4 taches. */
       generate() {
+        const tache = pick(['somme', 'somme', 'difference', 'produit', 'comparer']);
+        function pgcd(x, y) { return y === 0 ? x : pgcd(y, x % y); }
+
+        /* TACHE 2 — soustraction. On impose la premiere fraction PLUS GRANDE
+           pour rester dans les positifs : le chapitre porte sur les fractions,
+           pas sur les relatifs. */
+        if (tache === 'difference') {
+          const [b, d] = pick([[2, 3], [3, 4], [4, 5], [2, 5], [3, 5], [5, 6], [4, 6], [3, 8]]);
+          const ppcm = (b * d) / pgcd(b, d);
+          const a = rand(1, b - 1), c = rand(1, d - 1);
+          const na = a * (ppcm / b), nc = c * (ppcm / d);
+          /* Resultat strictement positif exige : le chapitre porte sur les
+             fractions, les relatifs sont vus au chapitre 2. Plutot que
+             d'echanger les deux fractions — ce qui rendrait l'enonce incoherent
+             avec son contexte (on ne verse pas plus que le bidon ne contient) —
+             on retire simplement ce tirage et on en fait un autre. */
+          if (na <= nc) { return this.generate(); }
+          const num = na - nc;
+          const g = pgcd(num, ppcm);
+          const val = num / ppcm;
+          const ctx = pick([
+            { intro: `Un bidon contenait $\\dfrac{${a}}{${b}}$ de litre de sirop. On en verse $\\dfrac{${c}}{${d}}$ de litre dans une carafe.`, quoi: 'la quantité restante, en litres' },
+            { intro: `Une réserve d'eau est remplie aux $\\dfrac{${a}}{${b}}$. L'arrosage du potager en consomme $\\dfrac{${c}}{${d}}$.`, quoi: 'la fraction restante de la réserve' },
+            { intro: `Un rouleau de tissu mesure $\\dfrac{${a}}{${b}}$ de mètre. On en coupe $\\dfrac{${c}}{${d}}$ de mètre.`, quoi: 'la longueur restante, en mètres' }
+          ]);
+          return {
+            statement: `${ctx.intro}<br/><br/>Calcule $\\dfrac{${a}}{${b}} - \\dfrac{${c}}{${d}}$ pour obtenir ${ctx.quoi}. Donne le résultat sous forme décimale arrondie à $0{,}01$.`,
+            answer: parseFloat(val.toFixed(2)),
+            tolerance: 0.01,
+            unit: '',
+            hint: `Comme pour l'addition, une soustraction de fractions exige d'abord le <strong>même dénominateur</strong>.<br/><br/>Le plus petit multiple commun à $${b}$ et $${d}$ est $${ppcm}$. Attention à respecter l'ordre : on retire la seconde à la première.`,
+            solution: [
+              `Une soustraction de fractions demande le même dénominateur, exactement comme une addition.`,
+              `Dénominateur commun : $${ppcm}$, donc $\\dfrac{${a}}{${b}} = \\dfrac{${na}}{${ppcm}}$ et $\\dfrac{${c}}{${d}} = \\dfrac{${nc}}{${ppcm}}$.`,
+              `Différence : $\\dfrac{${na}}{${ppcm}} - \\dfrac{${nc}}{${ppcm}} = \\dfrac{${num}}{${ppcm}}${g > 1 ? ` = \\dfrac{${num / g}}{${ppcm / g}}` : ''} \\approx ${fr(val, 2)}$.`,
+              `Seuls les numérateurs se soustraient : le dénominateur commun, lui, ne bouge pas.`
+            ]
+          };
+        }
+
+        /* TACHE 3 — multiplication. Son interet pedagogique est precisement
+           qu'elle ne demande PAS de denominateur commun : l'eleve qui applique
+           la procedure de l'addition par reflexe se trompe. */
+        if (tache === 'produit') {
+          const b = rand(2, 6), d = rand(2, 6);
+          const a = rand(1, b - 1), c = rand(1, d - 1);
+          const num = a * c, den = b * d;
+          const g = pgcd(num, den);
+          const val = num / den;
+          const ctx = pick([
+            { intro: `Les $\\dfrac{${a}}{${b}}$ d'un jardin sont cultivés, et $\\dfrac{${c}}{${d}}$ de cette partie cultivée sont plantés de fraises.`, quoi: 'la fraction du jardin entier plantée de fraises' },
+            { intro: `Les $\\dfrac{${a}}{${b}}$ d'une plaquette de chocolat sont posés sur la table. Tu en manges $\\dfrac{${c}}{${d}}$.`, quoi: 'la fraction de la plaquette entière que tu as mangée' },
+            { intro: `Un bidon est rempli aux $\\dfrac{${a}}{${b}}$. On transvase $\\dfrac{${c}}{${d}}$ de son contenu.`, quoi: 'la fraction du bidon transvasée' }
+          ]);
+          return {
+            statement: `${ctx.intro}<br/><br/>Calcule $\\dfrac{${a}}{${b}} \\times \\dfrac{${c}}{${d}}$ pour obtenir ${ctx.quoi}. Donne le résultat sous forme décimale arrondie à $0{,}01$.`,
+            answer: parseFloat(val.toFixed(2)),
+            tolerance: 0.01,
+            unit: '',
+            hint: `Piège classique : la multiplication ne demande <strong>aucun</strong> dénominateur commun.<br/><br/>On multiplie les numérateurs entre eux, et les dénominateurs entre eux. C'est tout.`,
+            solution: [
+              `Une multiplication de fractions ne demande aucun dénominateur commun, contrairement à une addition.`,
+              `Numérateurs : $${a} \\times ${c} = ${num}$. Dénominateurs : $${b} \\times ${d} = ${den}$.`,
+              `Produit : $\\dfrac{${num}}{${den}}${g > 1 ? ` = \\dfrac{${num / g}}{${den / g}}` : ''} \\approx ${fr(val, 2)}$.`,
+              `Le résultat est plus petit que chacune des deux fractions : prendre une part d'une part donne toujours moins que la part de départ.`
+            ]
+          };
+        }
+
+        /* TACHE 4 — comparer. Le denominateur commun sert ici a DECIDER, pas a
+           calculer : c'est son usage le plus courant, et il n'etait exerce
+           nulle part. Reponse 1 ou 0, format du projet pour une question a
+           trancher. */
+        if (tache === 'comparer') {
+          const [b, d] = pick([[3, 4], [4, 5], [5, 6], [3, 5], [2, 7], [5, 8], [3, 8], [4, 7]]);
+          const a = rand(1, b - 1), c = rand(1, d - 1);
+          if (a / b === c / d) { return this.generate(); }
+          const ppcm = (b * d) / pgcd(b, d);
+          const na = a * (ppcm / b), nc = c * (ppcm / d);
+          const ctx = pick([
+            { qui: 'deux coureuses', un: 'Alix', deux: 'Bina', quoi: 'du parcours' },
+            { qui: 'deux peintres', un: 'Chloé', deux: 'Diego', quoi: 'du mur' },
+            { qui: 'deux lecteurs', un: 'Elias', deux: 'Fatou', quoi: 'du livre' }
+          ]);
+          return {
+            statement: `On compare l'avancement de ${ctx.qui} : ${ctx.un} a fait $\\dfrac{${a}}{${b}}$ ${ctx.quoi} et ${ctx.deux} en a fait $\\dfrac{${c}}{${d}}$.<br/><br/>Est-ce que $\\dfrac{${a}}{${b}}$ est plus grande que $\\dfrac{${c}}{${d}}$ ? Réponds par $1$ pour oui, $0$ pour non.`,
+            answer: a / b > c / d ? 1 : 0,
+            tolerance: 0,
+            unit: '',
+            hint: `Comparer les numérateurs seuls ne veut rien dire : des parts en $${b}$ et des parts en $${d}$ n'ont pas la même taille.<br/><br/>Mets les deux fractions au dénominateur commun $${ppcm}$, puis compare les numérateurs.`,
+            solution: [
+              `Deux fractions ne se comparent qu'une fois ramenées au même dénominateur.`,
+              `Dénominateur commun $${ppcm}$ : $\\dfrac{${a}}{${b}} = \\dfrac{${na}}{${ppcm}}$ et $\\dfrac{${c}}{${d}} = \\dfrac{${nc}}{${ppcm}}$.`,
+              `Les parts ont maintenant la même taille, on compare donc les numérateurs : $${na}$ et $${nc}$.`,
+              na > nc
+                ? `$${na} > ${nc}$, donc $\\dfrac{${a}}{${b}}$ est bien la plus grande.`
+                : `$${na} < ${nc}$, donc $\\dfrac{${a}}{${b}}$ n'est pas la plus grande — c'est $\\dfrac{${c}}{${d}}$ qui l'emporte.`
+            ]
+          };
+        }
+
         const denomPairs = [[2,3],[3,4],[4,5],[2,5],[3,5],[4,3],[2,7],[3,7],[5,6]];
         const [b, d] = pick(denomPairs);
         const a = rand(1, b - 1);
@@ -222,6 +340,10 @@ window.MODULES.push({
           unit: '',
           hint: ctx.hint,
           solution: [
+            // Premiere ligne = intertitre de la banque professeur (nombres et
+            // formules retires) : elle doit nommer la METHODE, jamais porter
+            // une valeur. Voir le commit 6e94e89.
+            `Une addition de fractions demande d'abord un dénominateur commun.`,
             `Dénominateur commun : $${lcm}$.`,
             `$\\dfrac{${a}}{${b}} = \\dfrac{${a * (lcm / b)}}{${lcm}}$ et $\\dfrac{${c}}{${d}} = \\dfrac{${c * (lcm / d)}}{${lcm}}$.`,
             `Somme : $\\dfrac{${num}}{${lcm}}${g > 1 ? ` = \\dfrac{${answerNum}}{${answerDen}}` : ''} \\approx ${fr(answer, 2)}$.`

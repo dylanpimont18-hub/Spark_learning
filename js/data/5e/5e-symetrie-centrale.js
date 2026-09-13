@@ -300,11 +300,120 @@ window.MODULES.push({
 
     exercice: {
       type: 'numeric',
+      /* BANQUE ELARGIE LE 2026-09-13.
+
+         Le generateur ne produisait qu'UNE tache : appliquer $2 x_O - x_A$.
+         Les cinq contextes et les deux coordonnees ne faisaient varier que le
+         DECOR, si bien que la banque du professeur imprimait 42 enonces tires
+         d'une seule et meme question. C'est exactement la repetition que le
+         plafond par moule est cense empecher : il ne la voyait pas, parce que
+         le moule est le TEXTE et que le texte, lui, changeait.
+
+         La mesure qui compte n'est donc pas le nombre de moules mais le nombre
+         de TACHES, qu'on lit sur la premiere ligne du corrige (elle nomme la
+         methode depuis le commit 6e94e89). Mesure du jour, avant/apres :
+         1 tache pour 42 enonces -> 4 taches.
+
+         Les trois taches ajoutees ne sont pas des variantes d'habillage : elles
+         prennent la symetrie par ses autres entrees, celles que l'evaluation
+         mobilise et que rien n'entrainait.
+           - retrouver le CENTRE a partir de A et A' (la relation lue a
+             l'envers, qui est le vrai test de « O est le milieu ») ;
+           - retrouver l'ANTECEDENT A a partir de A' et O (meme relation, autre
+             inconnue) ;
+           - lire une LONGUEUR conservee, la symetrie centrale etant une
+             isometrie — propriete enoncee par le cours et jamais exercee. */
       generate() {
+        const tache = pick(['image', 'image', 'centre', 'antecedent', 'longueur']);
         const coordType = pick([
           { ask: 'abscisse', coord: 'x' },
           { ask: 'ordonnée', coord: 'y' }
         ]);
+
+        /* TACHE 2 — retrouver le centre. On part du centre voulu pour garantir
+           des coordonnees entieres : O est le milieu, donc A' = 2O - A. */
+        if (tache === 'centre') {
+          const ox = rand(-2, 6), oy = rand(-2, 6);
+          const ax = rand(-4, 7), ay = rand(-4, 7);
+          const apx = 2 * ox - ax, apy = 2 * oy - ay;
+          const ctx = pick([
+            { lieu: 'deux bornes de randonnée', nomA: 'la première borne', nomB: 'la seconde borne', nomO: 'le refuge à mi-chemin' },
+            { lieu: 'deux antennes relais', nomA: 'la première antenne', nomB: 'la seconde antenne', nomO: 'le central téléphonique' },
+            { lieu: 'deux bouées d\'un plan d\'eau', nomA: 'la première bouée', nomB: 'la seconde bouée', nomO: 'la plateforme centrale' }
+          ]);
+          return {
+            statement: `Sur une carte quadrillée figurent ${ctx.lieu} : ${ctx.nomA} $A(${ax} ; ${ay})$ et ${ctx.nomB} $A'(${apx} ; ${apy})$.<br/>On sait que ${ctx.nomO} $O$ est le <strong>centre de symétrie</strong> qui échange les deux.<br/>Quelle est l'<strong>${coordType.ask}</strong> de $O$ ?`,
+            answer: coordType.coord === 'x' ? ox : oy,
+            tolerance: 0,
+            unit: '',
+            hint: `Le centre est le <strong>milieu</strong> de $[AA']$ : chacune de ses coordonnées est la <strong>moyenne</strong> des deux coordonnées correspondantes.<br/><br/>Pour l'abscisse : $x_O = \\dfrac{${ax} + ${apx}}{2}$.`,
+            solution: [
+              `Le centre étant le milieu, ses coordonnées sont les moyennes de celles des deux points.`,
+              `$x_O = \\dfrac{${ax} + ${apx}}{2} = \\dfrac{${ax + apx}}{2} = ${ox}$`,
+              `$y_O = \\dfrac{${ay} + ${apy}}{2} = \\dfrac{${ay + apy}}{2} = ${oy}$`,
+              `Le centre est $O(${ox} ; ${oy})$. Contrôle : $2 \\times ${ox} - ${ax} = ${apx}$, on retombe bien sur $A'$.`
+            ]
+          };
+        }
+
+        /* TACHE 3 — remonter a l'antecedent. Meme relation que la tache 1, mais
+           l'inconnue change de place : l'eleve qui applique la formule par
+           reflexe, sans la comprendre, se trompe de sens. */
+        if (tache === 'antecedent') {
+          const ox = rand(-2, 6), oy = rand(-2, 6);
+          const apx = rand(-4, 7), apy = rand(-4, 7);
+          const ax = 2 * ox - apx, ay = 2 * oy - apy;
+          const ctx = pick([
+            { objet: 'le reflet d\'un phare dans un lac', dep: 'le reflet', arr: 'le phare' },
+            { objet: 'l\'ombre portée d\'une lampe', dep: 'l\'ombre', arr: 'l\'objet' },
+            { objet: 'la pièce jumelle d\'un mécanisme', dep: 'la pièce visible', arr: 'la pièce jumelle' }
+          ]);
+          return {
+            statement: `On étudie ${ctx.objet} sur un plan quadrillé.<br/>${ctx.dep.charAt(0).toUpperCase() + ctx.dep.slice(1)} occupe le point $A'(${apx} ; ${apy})$, et le centre de symétrie est $O(${ox} ; ${oy})$.<br/>Quelle est l'<strong>${coordType.ask}</strong> de ${ctx.arr}, c'est-à-dire du point $A$ dont $A'$ est le symétrique ?`,
+            answer: coordType.coord === 'x' ? ax : ay,
+            tolerance: 0,
+            unit: '',
+            hint: `La relation est <strong>symétrique</strong> : si $A'$ est le symétrique de $A$, alors $A$ est le symétrique de $A'$.<br/><br/>La même formule s'applique donc, en partant cette fois de $A'$.`,
+            solution: [
+              `La relation joue dans les deux sens : on repart du point connu vers le point cherché.`,
+              `$x_A = 2 \\times ${ox} - ${apx} = ${2 * ox} - ${apx} = ${ax}$`,
+              `$y_A = 2 \\times ${oy} - ${apy} = ${2 * oy} - ${apy} = ${ay}$`,
+              `Le point cherché est $A(${ax} ; ${ay})$, et $O$ est bien le milieu de $[AA']$.`
+            ]
+          };
+        }
+
+        /* TACHE 4 — la symetrie centrale CONSERVE les longueurs. Le cours le
+           dit (« isometrie »), rien ne le faisait travailler. On evite le
+           calcul de racine carree, hors programme de cinquieme : le segment est
+           horizontal ou vertical, sa longueur est donc une difference. */
+        if (tache === 'longueur') {
+          const horizontal = pick([true, false]);
+          const ox = rand(0, 5), oy = rand(0, 5);
+          const ax = rand(-3, 4), ay = rand(-3, 4);
+          const d = rand(2, 7);
+          const bx = horizontal ? ax + d : ax;
+          const by = horizontal ? ay : ay + d;
+          const ctx = pick([
+            { objet: 'une passerelle', unite: 'unités' },
+            { objet: 'un tronçon de rail', unite: 'unités' },
+            { objet: 'une barre de charpente', unite: 'unités' }
+          ]);
+          return {
+            statement: `Sur un plan quadrillé, ${ctx.objet} est représentée par le segment $[AB]$ avec $A(${ax} ; ${ay})$ et $B(${bx} ; ${by})$.<br/>On construit son symétrique $[A'B']$ par rapport au centre $O(${ox} ; ${oy})$.<br/>Quelle est la longueur de $[A'B']$, en ${ctx.unite} ?`,
+            answer: d,
+            tolerance: 0,
+            unit: '',
+            hint: `La symétrie centrale est une <strong>isométrie</strong> : elle déplace la figure sans jamais la déformer.<br/><br/>Nul besoin de calculer les coordonnées de $A'$ et $B'$ : mesure simplement $[AB]$.`,
+            solution: [
+              `La symétrie centrale conserve les longueurs, donc le segment image a la même longueur.`,
+              horizontal
+                ? `Le segment $[AB]$ est horizontal : sa longueur vaut $${bx} - ${ax} = ${d}$.`
+                : `Le segment $[AB]$ est vertical : sa longueur vaut $${by} - ${ay} = ${d}$.`,
+              `L'image $[A'B']$ mesure donc elle aussi $${d}$ : la figure a tourné d'un demi-tour, elle n'a ni grandi ni rétréci.`
+            ]
+          };
+        }
         const ox = rand(0, 5);
         const oy = rand(0, 5);
         const ax = rand(-3, 8);
