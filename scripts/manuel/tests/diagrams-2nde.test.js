@@ -353,6 +353,66 @@ test('equations, schema 2 : la borne et l ensemble partent du MEME nombre', () =
 });
 
 /* ---------------------------------------------------------------------------
+   2nde-fonctions-reference — troisieme schema ajoute le 2026-09-13.
+   --------------------------------------------------------------------------- */
+
+const REF = schemas('2nde-fonctions-reference');
+
+test('fonctions de reference : le chapitre porte bien TROIS schemas', () => {
+  /* Il n'en portait que deux, les deux premieres erreurs de la fiche etant
+     seules illustrees. La quatrieme — chercher le domaine seulement quand on
+     y pense — meritait pourtant une figure plus que les autres : c'est la
+     seule ou l'eleve produit un nombre qui n'existe pas sans qu'aucun signal
+     ne l'arrete. */
+  assert.strictEqual(REF.length, 3);
+});
+
+test('fonctions de reference, schema 3 : la courbe DEMARRE a la borne exacte', () => {
+  const svg = REF[2].svg;
+  const OX = 60, SX = 34, OY = 220, SY = 26;
+  const x = (X) => (X - OX) / SX;
+  const y = (Y) => (OY - Y) / SY;
+
+  const pts = (svg.match(/<polyline[^>]*points="([^"]*)"/) || [])[1]
+    .trim().split(/\s+/).map((p) => p.split(',').map(Number));
+
+  /* La borne du domaine se RECALCULE : 3x - 12 >= 0 donne x >= 4. */
+  const borne = 12 / 3;
+  assert.strictEqual(borne, 4, 'la borne du domaine vaut 4');
+
+  /* Le premier point de la courbe tombe exactement sur (4 ; 0), c'est-a-dire
+     SUR l'axe. Une courbe qui demarrerait un peu avant ou un peu au-dessus
+     dementirait la legende, et personne ne le verrait. */
+  assert.strictEqual(x(pts[0][0]), borne, 'la courbe commence a l abscisse 4');
+  assert.strictEqual(y(pts[0][1]), 0, 'et exactement sur l axe des abscisses');
+
+  /* Aucun point de courbe a gauche de la borne : c'est tout le propos. */
+  for (const [X] of pts) {
+    assert.ok(x(X) >= borne - 1e-9, 'aucun point de courbe hors du domaine');
+  }
+
+  /* Chaque point verifie la definition de la fonction. */
+  let pire = 0;
+  for (const [X, Y] of pts) pire = Math.max(pire, Math.abs(y(Y) - Math.sqrt(3 * x(X) - 12)));
+  assert.ok(pire < 0.005, 'ecart max a racine(3x-12) : ' + pire + ' unite');
+
+  /* Le point remarquable annonce, f(7) = 3, tombe sur ses deux graduations. */
+  const marques = balises(svg, 'circle').map((t) => [x(attr(t, 'cx')), y(attr(t, 'cy'))]);
+  assert.ok(marques.some((p) => p[0] === 7 && p[1] === 3), 'le point (7 ; 3) est marque');
+  assert.strictEqual(Math.sqrt(3 * 7 - 12), 3, 'et f(7) vaut bien 3');
+  assert.ok(marques.some((p) => p[0] === 4 && p[1] === 0), 'la borne est marquee sur l axe');
+
+  /* La verticale en tirets marque la frontiere, pas autre chose. */
+  const frontiere = balises(svg, 'line').find((t) => t.includes('guide-line'));
+  assert.ok(frontiere, 'la frontiere du domaine est tracee');
+  assert.strictEqual(x(attr(frontiere, 'x1')), borne, 'elle tombe sur la borne');
+  assert.strictEqual(attr(frontiere, 'x1'), attr(frontiere, 'x2'), 'et elle est verticale');
+
+  /* La valeur citee comme impossible l'est reellement. */
+  assert.ok(3 * 1 - 12 < 0, 'f(1) est bien hors du domaine, comme l affirme la figure');
+});
+
+/* ---------------------------------------------------------------------------
    2nde-algorithmique — trois schemas ajoutes le 2026-09-13.
 
    Particularite de ce chapitre : ses figures n'affirment pas des proprietes

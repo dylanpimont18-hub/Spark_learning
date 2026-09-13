@@ -319,6 +319,78 @@ window.MODULES.push({
           ],
           reading: 'Fais glisser l\'horizontale vers le haut : les deux points s\'écartent, mais ils restent deux. Fais-la glisser sous l\'axe : elle ne rencontre plus rien, et c\'est normal, aucun carré n\'est négatif. Chaque fois que tu résous $x^2 = k$ avec $k$ positif, attends-toi donc à <strong>deux</strong> réponses opposées.',
           caption: 'Fonction carré : l\'horizontale $y = 4$ coupe la parabole en $x = -2$ et $x = 2$, les deux antécédents de $4$.'
+        },
+        {
+          /* TROISIÈME schéma, ajouté le 2026-09-13 pour porter ce chapitre au
+             même niveau que les autres. Les deux premiers traitaient les
+             erreurs 1 à 3 de la fiche ; la quatrième — chercher le domaine
+             seulement quand on y pense — n'était illustrée par rien.
+
+             Elle le mérite pourtant plus que les autres : c'est la seule des
+             quatre où l'élève produit un nombre qui n'existe pas, sans qu'aucun
+             signal ne l'arrête. Le dessin fournit ce signal, et il le fournit
+             par l'ABSENCE : à gauche de 4, il n'y a rien à lire, donc rien à
+             calculer. Un texte ne peut pas montrer un vide ; une figure, si. */
+          theme: 'maths',
+          kicker: 'Avant de calculer, regarde où la courbe existe',
+          title: 'À gauche de la borne, il n\'y a rien à lire',
+          description: 'Soit $f(x) = \\sqrt{3x - 12}$. Beaucoup calculent $f(1)$ sans hésiter et annoncent $-3$ ou $3$.<br/><br/>Or regarde le dessin : au-dessus de $x = 1$, <strong>aucune courbe</strong>. Il n\'y a pas de valeur à lire, parce qu\'il n\'y en a pas. $f(1)$ n\'existe tout simplement pas.',
+          svg: `
+            <svg viewBox="0 0 440 270" role="img" aria-labelledby="fr3-domaine-title fr3-domaine-desc">
+              <title id="fr3-domaine-title">Une courbe qui ne commence qu a partir de sa borne</title>
+              <desc id="fr3-domaine-desc">Un repere porte la courbe de la fonction racine de trois x moins douze. La courbe ne commence qu'a l'abscisse quatre, ou elle touche l'axe horizontal, puis elle monte lentement vers la droite. A gauche de l'abscisse quatre, la zone est vide : aucune courbe n'y est tracee. Une verticale en tirets marque cette frontiere, et une mention indique que la fonction n'existe pas dans cette region. Un point remarquable est marque a l'abscisse sept et a l'ordonnee trois.</desc>
+
+              <!-- Repere : x = 0 a l'abscisse 60, 34 unites par unite ;
+                   y = 0 a l'ordonnee 220, 26 unites par unite.
+                   La borne du domaine tombe a x = 4, soit l'abscisse 196,
+                   calculee et non posee : 3x - 12 >= 0 equivaut a x >= 4. -->
+              <line class="grid-line" x1="128" y1="100" x2="128" y2="232"></line>
+              <line class="grid-line" x1="196" y1="100" x2="196" y2="232"></line>
+              <line class="grid-line" x1="264" y1="100" x2="264" y2="232"></line>
+              <line class="grid-line" x1="332" y1="100" x2="332" y2="232"></line>
+              <line class="grid-line" x1="400" y1="100" x2="400" y2="232"></line>
+              <line class="grid-line" x1="56" y1="194" x2="415" y2="194"></line>
+              <line class="grid-line" x1="56" y1="142" x2="415" y2="142"></line>
+
+              <line class="axis" x1="52" y1="220" x2="420" y2="220"></line>
+              <line class="axis" x1="60" y1="240" x2="60" y2="96"></line>
+              <text class="axis-label" x="424" y="224">x</text>
+              <text class="axis-label" x="65" y="94">y</text>
+
+              <text class="tick-label" x="94" y="234" text-anchor="middle">1</text>
+              <text class="annotation-label" x="196" y="234" text-anchor="middle">4</text>
+              <text class="tick-label" x="298" y="234" text-anchor="middle">7</text>
+              <text class="tick-label" x="400" y="234" text-anchor="middle">10</text>
+              <text class="tick-label" x="54" y="198" text-anchor="end">1</text>
+              <text class="tick-label" x="54" y="146" text-anchor="end">3</text>
+
+              <!-- La frontiere du domaine, en tirets : elle separe le vide de
+                   la courbe. C'est le seul trait vertical fort du dessin. -->
+              <line class="guide-line" x1="196" y1="96" x2="196" y2="240"></line>
+
+              <!-- COURBE y = racine(3x - 12), de x = 4 a x = 10 par pas de
+                   0,25, calculee point par point. Elle DEMARRE exactement sur
+                   l'axe, en (4 ; 0), et passe exactement par (7 ; 3). -->
+              <polyline class="curve-main" fill="none" points="196.00,220.00 204.50,197.48 213.00,188.16 221.50,181.00 230.00,174.97 238.50,169.65 247.00,164.85 255.50,160.43 264.00,156.31 272.50,152.45 281.00,148.80 289.50,145.32 298.00,142.00 306.50,138.82 315.00,135.75 323.50,132.79 332.00,129.93 340.50,127.16 349.00,124.47 357.50,121.85 366.00,119.30 374.50,116.82 383.00,114.39 391.50,112.01 400.00,109.69"></polyline>
+
+              <circle class="plot-point" cx="196" cy="220" r="5"></circle>
+              <circle class="plot-point" cx="298" cy="142" r="4"></circle>
+              <text class="tick-label" x="306" y="136" text-anchor="start">f(7) = 3</text>
+
+              <!-- La zone vide, nommee. Un vide qu'on ne nomme pas se lit
+                   comme un oubli de dessin. -->
+              <text class="label-soft" x="126" y="130" text-anchor="middle">aucune courbe ici</text>
+              <text class="label-soft" x="126" y="150" text-anchor="middle">f(1) n'existe pas</text>
+              <text class="annotation-label" x="206" y="258" text-anchor="start">domaine : x ≥ 4</text>
+            </svg>
+          `,
+          notes: [
+            'La condition d\'existence s\'écrit $3x - 12 \\geq 0$, c\'est-à-dire $x \\geq 4$. Le domaine de définition est donc $[4\\,;\\,+\\infty[$, et la courbe commence exactement à la borne.',
+            'Pour $x = 1$, on aurait $3 \\times 1 - 12 = -9$. Or aucun nombre élevé au carré ne donne $-9$ : $3^2 = 9$ et $(-3)^2 = 9$ également. La racine d\'un nombre négatif n\'existe pas — ce n\'est pas une interdiction, c\'est une impossibilité.',
+            'En seconde, deux situations seulement imposent de chercher un domaine : une <strong>racine</strong>, dont le contenu doit être positif ou nul, et un <strong>dénominateur</strong>, qui ne doit pas s\'annuler. Deux cas, donc une vérification rapide.'
+          ],
+          reading: 'Prends l\'habitude d\'écrire le domaine <strong>avant</strong> la première image demandée, même quand l\'énoncé ne le réclame pas.<br/><br/>Cela coûte une ligne, et cela t\'évite l\'erreur la plus coûteuse du chapitre : produire un nombre pour une valeur où la fonction n\'existe pas. Le dessin te le rappelle mieux qu\'une règle — là où il n\'y a pas de trait, il n\'y a pas de résultat.',
+          caption: 'La courbe de $f(x) = \\sqrt{3x - 12}$ ne commence qu\'en $x = 4$ : à gauche de cette borne, la fonction n\'est pas définie.'
         }
       ],
       formulas: [
