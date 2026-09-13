@@ -319,7 +319,77 @@ window.MODULES.push({
           que la correction, ce qui est la premiere chose a garantir. */
     exercice: {
       type: 'numeric',
+      /* BANQUE ELARGIE LE 2026-09-13.
+
+         Le generateur ne portait que DEUX taches (ajouter, soustraire) pour
+         cinq decors, si bien que la banque du professeur imprimait la meme
+         question 21 fois de suite sous des habillages differents. Mesure du
+         jour, avant/apres : 2 taches -> 4, la repetition maximale par tache
+         tombant de 21 a 12.
+
+         Les deux taches ajoutees prennent le chapitre par des entrees que
+         l'evaluation mobilise et que rien n'entrainait :
+           - COMPARER deux relatifs, ou l'ordre s'inverse chez les negatifs
+             (l'erreur numero un du chapitre, et l'objet d'un des schemas) ;
+           - lire une DISTANCE A ZERO, qui fonde la notion d'ecart et que le
+             cours enonce sans la faire travailler. */
       generate() {
+        const tache = pick(['calcul', 'calcul', 'calcul', 'comparer', 'distance']);
+
+        /* TACHE 3 — comparer. Reponse 1 / 0, format du projet pour une question
+           a trancher. On evite l'egalite, qui ne trancherait rien. */
+        if (tache === 'comparer') {
+          let p = rand(-25, 25), q = rand(-25, 25);
+          if (p === q) q = p + pick([-1, 1]) * rand(1, 9);
+          const ctx = pick([
+            { intro: `Deux villes relèvent leur température du matin : $${p}$ °C à Oslo et $${q}$ °C à Helsinki.`, quoi: `Fait-il plus chaud à Oslo` },
+            { intro: `Deux plongeurs sont aux altitudes $${p}$ m et $${q}$ m.`, quoi: `Le premier est-il plus haut que le second` },
+            { intro: `Deux comptes affichent $${p}$ € et $${q}$ €.`, quoi: `Le premier est-il mieux garni que le second` }
+          ]);
+          return {
+            statement: `${ctx.intro}<br/><br/>${ctx.quoi} ? Réponds par $1$ pour oui, $0$ pour non.`,
+            answer: p > q ? 1 : 0,
+            tolerance: 0,
+            unit: '',
+            hint: `Ne compare pas les nombres sans leur signe : chez les négatifs, l'ordre s'inverse.<br/><br/>Place-les mentalement sur une droite graduée — le plus grand est celui qui se trouve <strong>le plus à droite</strong>.`,
+            solution: [
+              `Sur une droite graduée, le plus grand est toujours celui qui est le plus à droite.`,
+              `On place $${p}$ et $${q}$ : ${p > q ? `$${p}$ est à droite de $${q}$` : `$${p}$ est à gauche de $${q}$`}.`,
+              p > q
+                ? `Donc $${p} > ${q}$ : la réponse est oui.`
+                : `Donc $${p} < ${q}$ : la réponse est non.`,
+              `Attention au réflexe des entiers positifs : $-25$ est plus petit que $-3$, bien que $25$ soit plus grand que $3$.`
+            ]
+          };
+        }
+
+        /* TACHE 4 — distance a zero. Le cours la definit, aucun exercice ne la
+           demandait. On la formule comme un ECART a un repere, qui est son
+           usage reel, plutot que comme une notation a appliquer. */
+        if (tache === 'distance') {
+          const v = pick([-1, 1]) * rand(2, 30);
+          const ctx = pick([
+            { intro: `Un thermomètre indique $${v}$ °C.`, quoi: `De combien de degrés cette température s'écarte-t-elle de $0$ °C` },
+            { intro: `Un point se trouve à l'altitude $${v}$ m.`, quoi: `À quelle distance du niveau de la mer se trouve-t-il, en mètres` },
+            { intro: `Un compte affiche un solde de $${v}$ €.`, quoi: `De combien d'euros ce solde s'écarte-t-il de l'équilibre, c'est-à-dire de $0$ €` }
+          ]);
+          return {
+            statement: `${ctx.intro}<br/><br/>${ctx.quoi} ?`,
+            answer: Math.abs(v),
+            tolerance: 0,
+            unit: '',
+            hint: `Une distance ne peut pas être négative : c'est une longueur, et elle se lit sur la droite graduée entre le nombre et zéro.<br/><br/>Un nombre et son opposé sont donc à la même distance de zéro.`,
+            solution: [
+              `La distance à zéro est une longueur : elle ne porte jamais de signe.`,
+              v < 0
+                ? `Le nombre $${v}$ est à gauche de zéro, à $${Math.abs(v)}$ unités de lui.`
+                : `Le nombre $${v}$ est à droite de zéro, à $${Math.abs(v)}$ unités de lui.`,
+              `L'écart cherché vaut donc $${Math.abs(v)}$.`,
+              `Le nombre opposé, $${-v}$, est exactement à la même distance de zéro — c'est ce qui distingue la distance de la comparaison.`
+            ]
+          };
+        }
+
         /* `a` reste libre sur tout l'intervalle ; `b` ne peut plus etre nul
            (defaut 1). Pour les situations de variation, `b` est le deplacement,
            et un deplacement nul ne constitue pas un exercice. */
