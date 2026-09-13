@@ -137,29 +137,203 @@ window.MODULES.push(
     ],
     exercice: {
       type: 'numeric',
+      /* BANQUE ÉLARGIE le 2026-09-13.
+
+         AVANT : un seul moule de tâche — « on pose $ax + b = c$, trouve $x$ »
+         — habillé de six contextes tirés par pick(). Mesure à 60 tirages :
+         6 moules d'énoncé, mais **1 seule tâche distincte**.
+
+         Le manque est le même qu'en volumes, et aussi visible : le chapitre
+         s'appelle « équations ET INÉQUATIONS », et aucune inéquation n'était
+         jamais tirée. La moitié du titre n'était pas entraînée — et c'est la
+         moitié difficile, celle où multiplier par un nombre négatif renverse
+         le sens de l'inégalité.
+
+         Pire, l'énoncé DONNAIT l'équation à résoudre (« On pose $3x + 5 =
+         20$ »), ce qui supprimait le travail de mise en équation : la tâche se
+         réduisait à deux lignes de calcul. Le seul exercice du chapitre ne
+         demandait donc jamais de MODÉLISER.
+
+         APRÈS : sept familles de tâches, toutes au programme de troisième.
+           - 'miseEnEquation' : la situation est donnée, l'équation NON — c'est
+                           à l'élève de la poser ;
+           - 'equationNue' : résoudre pour résoudre, avec l'inconnue des DEUX
+                           côtés, ce que l'ancienne banque ne produisait pas ;
+           - 'quotient'  : une équation à dénominateur, résolue par produit en
+                           croix ;
+           - 'inequation' : la moitié manquante du chapitre ;
+           - 'inequationNegative' : le cas où le sens de l'inégalité s'inverse,
+                           qui est LA difficulté du chapitre ;
+           - 'verifier'  : tester si une valeur est solution, sans rien
+                           résoudre — ce qui installe la définition ;
+           - 'comparer'  : le seuil à partir duquel une offre devient plus
+                           avantageuse, tâche typique du brevet.
+
+         Aucune figure : ce chapitre est du calcul pur, et le cahier des
+         charges (section 9) est explicite — on n'ajoute pas de figure pour
+         faire du chiffre. */
       generate() {
-        const a = rand(2, 6), b = rand(1, 10), diff = rand(3, 20), c = b + diff;
-        const sol = parseFloat((diff / a).toFixed(2));
-        const solStr = fr(sol, 2);
+        const tache = pick(['miseEnEquation', 'equationNue', 'quotient', 'inequation',
+                            'inequationNegative', 'verifier', 'comparer']);
 
+        if (tache === 'miseEnEquation') {
+          /* L'ÉQUATION N'EST PLUS DONNÉE : c'est à l'élève de la poser. C'est
+             la compétence « modéliser », que l'ancienne banque court-circuitait
+             en écrivant l'équation dans l'énoncé. */
+          const a = rand(2, 9), x = rand(3, 15), b = rand(5, 40);
+          const c = a * x + b;
+          /* L'ÉLISION est portée par le contexte (« de » ou « d' »), jamais
+             déduite de la première lettre du mot : « Combien de heures » est
+             sorti d'une première version qui écrivait « de » en dur. Une
+             élision se transporte avec son nom, elle ne se devine pas — même
+             remarque que pour l'accord du pronom dans le chapitre de
+             trigonométrie, corrigé le même jour. */
+          const ctx = pick([
+            { d: `Une compagnie de <strong>taxi</strong> facture $${b}$ € de prise en charge, puis $${a}$ € par kilomètre.`, e: 'de', q: 'kilomètres ont été parcourus', t: 'La course a coûté' , u: '€' },
+            { d: `Un loueur de <strong>vélos</strong> demande $${b}$ € de caution, puis $${a}$ € par heure.`, e: 'd\'', q: 'heures le vélo a-t-il été loué', t: 'La facture s\'élève à', u: '€' },
+            { d: `Un <strong>réservoir</strong> contient déjà $${b}$ litres et se remplit de $${a}$ litres par minute.`, e: 'de', q: 'minutes se sont écoulées', t: 'Il contient maintenant', u: 'litres' },
+            { d: `Un <strong>randonneur</strong> part de $${b}$ m d'altitude et grimpe de $${a}$ m par heure.`, e: 'd\'', q: 'heures a duré son ascension', t: 'Il se trouve maintenant à', u: 'm' }
+          ]);
+          return {
+            statement: ctx.d + `<br/><br/>${ctx.t} $${c}$ ${ctx.u}.<br/><br/>Combien ${ctx.e}<strong>${ctx.q}</strong> ?<br/><br/><em>Pose d'abord l'équation, puis résous-la.</em>`,
+            answer: x, tolerance: 0.01, unit: '',
+            hint: `Appelle $x$ la quantité cherchée, puis traduis la phrase en équation.<br/><br/>Ce qui ne dépend pas de $x$ s'ajoute une seule fois ; ce qui se répète se multiplie par $x$.`,
+            solution: [
+              `On appelle $x$ la quantité cherchée. La partie fixe vaut $${b}$, et la partie qui se répète vaut $${a}$ par unité : l'équation est $${a}x + ${b} = ${c}$.`,
+              `$${a}x = ${c} - ${b} = ${a * x}$`,
+              `$x = \\dfrac{${a * x}}{${a}} = ${x}$.<br/><br/>Contrôle : $${a} \\times ${x} + ${b} = ${c}$, on retrouve bien l'énoncé.`
+            ]
+          };
+        }
+
+        if (tache === 'equationNue') {
+          /* L'INCONNUE DES DEUX CÔTÉS, que l'ancienne banque ne produisait
+             jamais : c'est pourtant la forme que prend toute équation issue
+             d'une comparaison. */
+          const x = rand(2, 12), a = rand(3, 9), b = rand(1, 4);
+          const c = rand(2, 15), d = (a - b) * x + c;
+          return {
+            statement: `Résous l'équation suivante :<br/><br/>$$${a}x + ${c} = ${b}x + ${d}$$<br/>Donne la valeur de $x$.`,
+            answer: x, tolerance: 0.01, unit: '',
+            hint: `L'inconnue est présente des <strong>deux</strong> côtés : commence par rassembler les $x$ d'un seul côté.<br/><br/>Retire $${b}x$ aux deux membres.`,
+            solution: [
+              `On rassemble les termes en $x$ d'un côté et les nombres de l'autre. En retirant $${b}x$ aux deux membres : $${a - b}x + ${c} = ${d}$.`,
+              `En retirant $${c}$ aux deux membres : $${a - b}x = ${d - c}$.`,
+              `$x = \\dfrac{${d - c}}{${a - b}} = ${x}$.<br/><br/>Contrôle : à gauche $${a} \\times ${x} + ${c} = ${a * x + c}$, à droite $${b} \\times ${x} + ${d} = ${b * x + d}$. Les deux membres sont égaux.`
+            ]
+          };
+        }
+
+        if (tache === 'quotient') {
+          /* LE MEMBRE DE DROITE EST TIRÉ ENTIER, et $x$ en est DÉDUIT — jamais
+             l'inverse. Une première version tirait $x$ puis calculait le
+             quotient, qui sortait décimal et devait être arrondi : l'équation
+             imprimée n'était alors plus exacte (« $\frac{x+4}{3} = 3{,}333$ »
+             n'a pas 6 pour solution). Une équation dont l'énoncé est arrondi
+             est une équation fausse, et l'élève qui vérifie le constate. */
+          const d = pick([2, 3, 4, 5]);
+          const res = rand(2, 9);          // membre de droite, entier
+          const b = rand(1, 9);
+          const x = d * res - b;           // exact par construction
+          return {
+            statement: `Résous l'équation suivante :<br/><br/>$$\\dfrac{x + ${b}}{${d}} = ${res}$$<br/>Donne la valeur de $x$.`,
+            answer: x, tolerance: 0.01, unit: '',
+            hint: `Pour faire disparaître le dénominateur, multiplie les <strong>deux</strong> membres par $${d}$.<br/><br/>Tu obtiendras $x + ${b} = ${d} \\times ${res}$.`,
+            solution: [
+              `On multiplie les deux membres par $${d}$ pour supprimer le dénominateur : $x + ${b} = ${d} \\times ${res} = ${d * res}$.`,
+              `On retire ensuite $${b}$ aux deux membres.`,
+              `$x = ${d * res} - ${b} = ${x}$.<br/><br/>Contrôle : $\\dfrac{${x} + ${b}}{${d}} = \\dfrac{${d * res}}{${d}} = ${res}$, on retrouve bien le membre de droite.`
+            ]
+          };
+        }
+
+        if (tache === 'inequation') {
+          /* LA MOITIÉ MANQUANTE DU CHAPITRE. Coefficient POSITIF ici : le sens
+             ne change pas, et c'est le cas de référence auquel comparer. */
+          const a = rand(2, 8), x = rand(2, 12), b = rand(1, 20);
+          const c = a * x + b;
+          const sens = pick(['\\leq', '\\geq']);
+          return {
+            statement: `Résous l'inéquation suivante :<br/><br/>$$${a}x + ${b} ${sens} ${c}$$<br/>` +
+              `Quelle est la valeur <strong>limite</strong> de $x$, c'est-à-dire la borne de l'ensemble solution ?`,
+            answer: x, tolerance: 0.01, unit: '',
+            hint: `Une inéquation se résout comme une équation, avec une seule précaution : le sens ne change que si l'on multiplie ou divise par un nombre <strong>négatif</strong>.<br/><br/>Ici le coefficient $${a}$ est positif, donc le sens est conservé.`,
+            solution: [
+              `On isole $x$ exactement comme dans une équation : $${a}x ${sens} ${c} - ${b}$, soit $${a}x ${sens} ${a * x}$.`,
+              `On divise par $${a}$, qui est <strong>positif</strong> : le sens de l'inégalité est donc <strong>conservé</strong>.`,
+              `$x ${sens} ${x}$. La borne de l'ensemble solution est $${x}$, et elle en fait partie puisque l'inégalité est large.`
+            ]
+          };
+        }
+
+        if (tache === 'inequationNegative') {
+          /* LA DIFFICULTÉ DU CHAPITRE : diviser par un négatif RENVERSE le
+             sens. La solution l'explique par un exemple numérique, parce que la
+             règle apprise par coeur est celle qu'on oublie le jour de
+             l'épreuve. */
+          const a = rand(2, 7), x = rand(2, 10), b = rand(5, 30);
+          const c = -a * x + b;
+          const sensDepart = pick(['<', '>']);
+          const sensArrivee = sensDepart === '<' ? '>' : '<';
+          return {
+            statement: `Résous l'inéquation suivante :<br/><br/>$$-${a}x + ${b} ${sensDepart} ${c}$$<br/>` +
+              `Quelle est la valeur <strong>limite</strong> de $x$ ?`,
+            answer: x, tolerance: 0.01, unit: '',
+            hint: `Isole $-${a}x$, puis divise par $-${a}$.<br/><br/>Attention : diviser par un nombre <strong>négatif</strong> renverse le sens de l'inégalité.`,
+            solution: [
+              `On isole d'abord le terme en $x$ : $-${a}x ${sensDepart} ${c} - ${b}$, soit $-${a}x ${sensDepart} ${-a * x}$.`,
+              `On divise maintenant par $-${a}$, qui est <strong>négatif</strong> : le sens de l'inégalité s'<strong>inverse</strong>.`,
+              `$x ${sensArrivee} ${x}$.<br/><br/>Pourquoi le sens change : $2 < 5$ est vrai, mais en multipliant par $-1$ on obtient $-2$ et $-5$, et $-2 > -5$. Multiplier par un négatif retourne l'ordre des nombres, donc retourne l'inégalité.`
+            ]
+          };
+        }
+
+        if (tache === 'verifier') {
+          /* TESTER UNE VALEUR sans rien résoudre. C'est ce qui installe la
+             DÉFINITION d'une solution, et rien ne le travaillait. */
+          const a = rand(2, 7), b = rand(1, 12), x = rand(2, 9);
+          const c = a * x + b;
+          const estSolution = Math.random() > 0.5;
+          const test = estSolution ? x : x + pick([-2, -1, 1, 2]);
+          return {
+            statement: `On considère l'équation $${a}x + ${b} = ${c}$.<br/><br/>` +
+              `Le nombre $${test}$ est-il <strong>solution</strong> de cette équation ?<br/><br/>Réponds par $1$ pour oui, $0$ pour non.`,
+            answer: (a * test + b === c) ? 1 : 0, tolerance: 0.01, unit: '',
+            hint: `Pour savoir si un nombre est solution, il n'y a rien à résoudre : il suffit de le <strong>remplacer</strong> dans l'équation et de regarder si l'égalité est vraie.<br/><br/>Calcule $${a} \\times ${test} + ${b}$ et compare à $${c}$.`,
+            solution: [
+              `Un nombre est solution d'une équation lorsqu'il la rend <strong>vraie</strong>. On le remplace donc dans le membre de gauche, sans rien résoudre.`,
+              `$${a} \\times ${test} + ${b} = ${a * test} + ${b} = ${a * test + b}$`,
+              (a * test + b === c)
+                ? `On obtient $${c}$, c'est-à-dire exactement le membre de droite : l'égalité est vraie, donc $${test}$ <strong>est</strong> solution. Réponse : $1$.`
+                : `On obtient $${a * test + b}$, alors que le membre de droite vaut $${c}$ : l'égalité est fausse, donc $${test}$ <strong>n'est pas</strong> solution. Réponse : $0$.`
+            ]
+          };
+        }
+
+        /* tache === 'comparer' : le seuil à partir duquel une offre devient
+           plus avantageuse. C'est la tâche que le brevet pose le plus souvent,
+           et elle demande une INÉQUATION issue d'une situation. */
+        const fixeA = 0, parUniteA = rand(6, 12);
+        const fixeB = rand(15, 40);
+        const parUniteB = rand(2, parUniteA - 2);
+        const seuil = fixeB / (parUniteA - parUniteB);
+        const seuilEntier = Math.ceil(seuil);
         const ctx = pick([
-          { build: () => `Une compagnie de <strong>taxi</strong> facture $${b}$ € de forfait de prise en charge, plus $${a}$ € par km parcouru. Une course coûte $${c}$ € au total.<br/><br/>Combien de <strong>km</strong> ($x$) ont été parcourus ? On pose $${a}x + ${b} = ${c}$.` },
-          { build: () => `Un loueur de <strong>vélos</strong> demande une caution de $${b}$ €, puis facture $${a}$ € par heure de location. La facture finale s'élève à $${c}$ €.<br/><br/>Combien d'<strong>heures</strong> ($x$) le vélo a-t-il été loué ? On pose $${a}x + ${b} = ${c}$.` },
-          { build: () => `Un <strong>réservoir</strong> contient $${b}$ L d'eau au départ. Un robinet le remplit à un débit de $${a}$ L par minute, jusqu'à atteindre $${c}$ L.<br/><br/>Après combien de <strong>minutes</strong> ($x$) le réservoir atteint-il ce niveau ? On pose $${a}x + ${b} = ${c}$.` },
-          { build: () => `Un <strong>randonneur</strong> part d'une altitude de $${b}$ m et grimpe à un rythme régulier de $${a}$ m par heure, jusqu'à atteindre $${c}$ m d'altitude.<br/><br/>Combien d'<strong>heures</strong> ($x$) a duré son ascension ? On pose $${a}x + ${b} = ${c}$.` },
-          { build: () => `Pour une <strong>recette</strong>, un pâtissier utilise $${b}$ g de farine de base, puis ajoute $${a}$ g par part supplémentaire, jusqu'à un total de $${c}$ g.<br/><br/>Combien de <strong>parts</strong> ($x$) prépare-t-il ? On pose $${a}x + ${b} = ${c}$.` },
-          { build: () => `Un objet se déplace sur un axe : il part de la position $${b}$ m et avance à une vitesse constante de $${a}$ m par seconde, jusqu'à atteindre la position $${c}$ m.<br/><br/>Combien de <strong>secondes</strong> ($x$) se sont écoulées ? On pose $${a}x + ${b} = ${c}$.` }
+          { o: 'films', a: 'payer chaque film à l\'unité', b: 'prendre un abonnement' },
+          { o: 'séances', a: 'payer chaque séance à l\'unité', b: 'prendre une carte' },
+          { o: 'trajets', a: 'payer chaque trajet au prix plein', b: 'acheter un abonnement' }
         ]);
-
         return {
-          statement: ctx.build(),
-          answer: sol,
-          tolerance: 0.01,
-          unit: '',
-          hint: `Soustraire $${b}$ des deux membres, puis diviser par $${a}$.`,
+          statement: `Deux formules sont proposées.<br/><br/>` +
+            `<strong>Formule A</strong> : ${ctx.a}, $${parUniteA}$ € par ${ctx.o.replace(/s$/, '')}.<br/><br/>` +
+            `<strong>Formule B</strong> : ${ctx.b} à $${fixeB}$ €, puis $${parUniteB}$ € par ${ctx.o.replace(/s$/, '')}.<br/><br/>` +
+            `À partir de combien de <strong>${ctx.o}</strong> la formule B devient-elle <strong>strictement</strong> plus avantageuse ?`,
+          answer: seuilEntier, tolerance: 0.01, unit: '',
+          hint: `Appelle $x$ le nombre de ${ctx.o} et écris le prix de chaque formule en fonction de $x$.<br/><br/>« B plus avantageuse » se traduit par une <strong>inéquation</strong> : prix de B $<$ prix de A.`,
           solution: [
-            `$${a}x = ${c} - ${b} = ${diff}$`,
-            `$x = \\dfrac{${diff}}{${a}} = ${solStr}$`
+            `On note $x$ le nombre de ${ctx.o}. Formule A : $${parUniteA}x$. Formule B : $${fixeB} + ${parUniteB}x$.`,
+            `« B strictement plus avantageuse » s'écrit $${fixeB} + ${parUniteB}x < ${parUniteA}x$, soit $${fixeB} < ${parUniteA - parUniteB}x$, donc $x > \\dfrac{${fixeB}}{${parUniteA - parUniteB}} \\approx ${fr(parseFloat(seuil.toFixed(2)))}$.`,
+            `Un nombre de ${ctx.o} est un <strong>entier</strong> : la formule B devient donc plus avantageuse à partir de $${seuilEntier}$ ${ctx.o}.<br/><br/>C'est le dernier pas qui compte : la résolution donne un nombre décimal, mais la situation impose de revenir à un entier.`
           ]
         };
       }

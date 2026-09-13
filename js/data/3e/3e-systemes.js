@@ -160,37 +160,221 @@ window.MODULES.push(
 
     exercice: {
       type: 'numeric',
+      /* BANQUE ÉLARGIE le 2026-09-13.
+
+         AVANT : un seul moule de tâche — un système d'achats à deux articles,
+         dont on demande toujours $x$ — habillé de six contextes tirés par
+         pick(). Mesure à 60 tirages : 6 moules d'énoncé, mais **1 seule tâche
+         distincte**.
+
+         Deux défauts au-delà de la répétition. D'abord l'énoncé DONNAIT le
+         système tout écrit (« Le système correspondant est ... »), ce qui
+         supprimait la mise en équation : la seule vraie difficulté du chapitre
+         au brevet. Ensuite la « solution » ne résolvait rien — elle annonçait
+         $x$ et $y$ puis vérifiait, ce qui est un contrôle, pas une méthode. Un
+         élève bloqué n'y trouvait aucune aide : le corrigé supposait connue la
+         réponse qu'il cherchait.
+
+         APRÈS : sept familles de tâches, toutes au programme de troisième.
+           - 'combinaison' : le système est donné, résolu par combinaison, avec
+                           la méthode RÉELLEMENT déroulée dans le corrigé ;
+           - 'substitution' : un coefficient vaut 1, la substitution s'impose ;
+           - 'miseEnEquation' : la situation seule, le système à écrire ;
+           - 'secondeInconnue' : on demande $y$ et non $x$, pour que la réponse
+                           attendue ne soit pas toujours la première inconnue ;
+           - 'choisirMethode' : nommer la méthode la plus rapide, sans résoudre ;
+           - 'verifier'  : tester si un couple est solution, ce qui installe la
+                           définition — un couple doit vérifier les DEUX
+                           équations, et l'élève n'en teste qu'une ;
+           - 'somme'     : le classique « somme et différence », où le système
+                           se devine avant de se résoudre.
+
+         Aucune figure : chapitre de calcul pur (section 9). */
       generate() {
-        const x = rand(2, 8), y = rand(1, 7);
-        const a = rand(1, 3), b = rand(1, 3);
-        const c = a * x + b * y;
-        let d, e;
-        do {
-          d = rand(1, 3); e = rand(1, 3);
-        } while (a * e === b * d);
-        const f = d * x + e * y;
+        const tache = pick(['combinaison', 'substitution', 'miseEnEquation',
+                            'secondeInconnue', 'choisirMethode', 'verifier', 'somme']);
 
-        const system = `$\\begin{cases} ${a}x + ${b}y = ${c} \\\\ ${d}x + ${e}y = ${f} \\end{cases}$`;
+        /* Fabrique un système à solution ENTIÈRE, de déterminant non nul. On
+           part toujours de la solution et on en déduit les seconds membres :
+           aucun tirage ne peut donner un système impossible ou indéterminé. */
+        function systeme(maxCoef) {
+          const x = rand(2, 8), y = rand(1, 7);
+          const a = rand(1, maxCoef), b = rand(1, maxCoef);
+          let d, e;
+          do { d = rand(1, maxCoef); e = rand(1, maxCoef); } while (a * e === b * d);
+          return { x, y, a, b, d, e, c: a * x + b * y, f: d * x + e * y };
+        }
+        /* Un coefficient 1 ne s'écrit PAS devant l'inconnue : « 1x + 1y = 9 »
+           est sorti d'une première version qui interpolait le coefficient tel
+           quel. C'est une faute d'écriture mathématique, pas une coquette :
+           aucun manuel n'écrit 1x, et l'élève qui la voit imprimée la
+           reproduit. */
+        const coef = (n, lettre) => (n === 1 ? lettre : n + lettre);
+        const ecrire = (s) => `$\\begin{cases} ${coef(s.a, 'x')} + ${coef(s.b, 'y')} = ${s.c} \\\\ ${coef(s.d, 'x')} + ${coef(s.e, 'y')} = ${s.f} \\end{cases}$`;
 
+        if (tache === 'combinaison') {
+          const s = systeme(4);
+          /* On élimine y en multipliant chaque ligne par le coefficient de y de
+             l'autre. Le corrigé DÉROULE ce calcul au lieu d'annoncer la
+             réponse : c'est ce qui manquait à l'ancienne version. */
+          const m1 = s.e, m2 = s.b;
+          const coefX = s.a * m1 - s.d * m2, membre = s.c * m1 - s.f * m2;
+          return {
+            statement: `Résous le système suivant par la méthode de <strong>combinaison</strong> :<br/><br/>${ecrire(s)}<br/><br/>Donne la valeur de $x$.`,
+            answer: s.x, tolerance: 0.01, unit: '',
+            hint: `Pour éliminer $y$, multiplie la première ligne par $${m1}$ et la seconde par $${m2}$ : les coefficients de $y$ deviendront égaux.<br/><br/>Il ne restera qu'à soustraire les deux lignes.`,
+            solution: [
+              `On multiplie la première ligne par $${m1}$ et la seconde par $${m2}$, pour que $y$ ait le même coefficient dans les deux : $${s.a * m1}x + ${s.b * m1}y = ${s.c * m1}$ et $${s.d * m2}x + ${s.e * m2}y = ${s.f * m2}$.`,
+              `On soustrait la seconde de la première : les termes en $y$ disparaissent, et il reste $${coefX}x = ${membre}$.`,
+              `$x = \\dfrac{${membre}}{${coefX}} = ${s.x}$.<br/><br/>En reportant dans la première équation de départ, on obtiendrait $y = ${s.y}$. Contrôle : $${s.a} \\times ${s.x} + ${s.b} \\times ${s.y} = ${s.c}$.`
+            ]
+          };
+        }
+
+        if (tache === 'substitution') {
+          /* UN COEFFICIENT VAUT 1 : la substitution est alors la méthode
+             rapide, et c'est ce qu'il faut apprendre à repérer. */
+          const x = rand(2, 8), y = rand(1, 7);
+          const b = rand(2, 4), d = rand(2, 4), e = rand(1, 4);
+          const c = x + b * y, f = d * x + e * y;
+          return {
+            /* Le système est écrit ici à la main (le coefficient de x vaut 1
+               par construction), donc il passe AUSSI par coef() : sans cela il
+               imprimait « 3x + 1y », le helper ne couvrant que ecrire(). */
+            statement: `Résous le système suivant par la méthode de <strong>substitution</strong> :<br/><br/>` +
+              `$\\begin{cases} x + ${coef(b, 'y')} = ${c} \\\\ ${coef(d, 'x')} + ${coef(e, 'y')} = ${f} \\end{cases}$<br/><br/>Donne la valeur de $y$.`,
+            answer: y, tolerance: 0.01, unit: '',
+            hint: `Dans la première équation, $x$ est déjà presque seul : son coefficient vaut $1$.<br/><br/>Isole-le — $x = ${c} - ${b}y$ — puis remplace $x$ par cette expression dans la seconde équation.`,
+            solution: [
+              `Le coefficient de $x$ vaut $1$ dans la première équation : on l'isole sans aucun calcul, $x = ${c} - ${b}y$.`,
+              `On remplace $x$ par cette expression dans la seconde : $${d}(${c} - ${b}y) + ${e}y = ${f}$, soit $${d * c} - ${d * b}y + ${e}y = ${f}$, donc $${e - d * b < 0 ? '-' : ''}${Math.abs(e - d * b)}y = ${f - d * c}$.`,
+              `$y = ${y}$, puis $x = ${c} - ${b} \\times ${y} = ${x}$.<br/><br/>La substitution est la bonne méthode ici précisément parce qu'un coefficient valait $1$ : sans cela, isoler aurait introduit des fractions.`
+            ]
+          };
+        }
+
+        if (tache === 'miseEnEquation') {
+          /* LE SYSTÈME N'EST PLUS DONNÉ. C'est la vraie difficulté du brevet,
+             et l'ancienne banque l'écrivait dans l'énoncé. */
+          const s = systeme(3);
+          /* GENRE ET PLURIEL PORTÉS PAR LE CONTEXTE, jamais déduits du mot.
+             Une première version écrivait « un » en dur et ajoutait « s » à
+             l'aveugle : elle a produit « un vis », « un baguette » et surtout
+             « 2 viss », le mot se terminant déjà par un s. Troisième défaut du
+             même genre attrapé ce jour-là, après l'accord du pronom en
+             trigonométrie et l'élision en équations — tous invisibles tant que
+             le générateur ne tirait qu'un seul contexte. */
+          const ctx = pick([
+            { p1: 'cahier', pl1: 'cahiers', a1: 'un', p2: 'stylo', pl2: 'stylos', a2: 'un', l: 'Dans une papeterie', v: 'commande', av: 'Une première', bv: 'Une seconde' },
+            { p1: 'baguette', pl1: 'baguettes', a1: 'une', p2: 'croissant', pl2: 'croissants', a2: 'un', l: 'Dans une boulangerie', v: 'achat', av: 'Un premier', bv: 'Un second' },
+            { p1: 'rosier', pl1: 'rosiers', a1: 'un', p2: 'bulbe', pl2: 'bulbes', a2: 'un', l: 'Dans une jardinerie', v: 'achat', av: 'Un premier', bv: 'Un second' },
+            { p1: 'vis', pl1: 'vis', a1: 'une', p2: 'boulon', pl2: 'boulons', a2: 'un', l: 'Dans une quincaillerie', v: 'achat', av: 'Un premier', bv: 'Un second' }
+          ]);
+          const n1 = (n) => `$${n}$ ` + (n > 1 ? ctx.pl1 : ctx.p1);
+          const n2 = (n) => `$${n}$ ` + (n > 1 ? ctx.pl2 : ctx.p2);
+          return {
+            statement: `${ctx.l}, ${ctx.a1} <strong>${ctx.p1}</strong> coûte $x$ € et ${ctx.a2} <strong>${ctx.p2}</strong> coûte $y$ €.<br/><br/>` +
+              `${ctx.av} ${ctx.v} : ${n1(s.a)} et ${n2(s.b)} pour $${s.c}$ €.<br/><br/>` +
+              `${ctx.bv} ${ctx.v} : ${n1(s.d)} et ${n2(s.e)} pour $${s.f}$ €.<br/><br/>` +
+              `Quel est le <strong>prix ${ctx.a1 === 'une' ? "d'une" : "d'un"} ${ctx.p1}</strong>, en euros ?<br/><br/><em>Écris d'abord le système, puis résous-le.</em>`,
+            answer: s.x, tolerance: 0.01, unit: '',
+            hint: `Chaque ${ctx.v} donne une équation : le nombre de ${ctx.pl1} multiplié par son prix $x$, plus le nombre de ${ctx.pl2} multiplié par son prix $y$, égale le total payé.<br/><br/>Deux ${ctx.v}s, donc deux équations.`,
+            solution: [
+              `Chaque ${ctx.v} se traduit par une équation. Le système est ${ecrire(s)}.`,
+              `On le résout par combinaison ou par substitution.`,
+              `On trouve $x = ${s.x}$ et $y = ${s.y}$ : un ${ctx.p1} coûte $${s.x}$ €.<br/><br/>Contrôle sur le second ${ctx.v} : $${s.d} \\times ${s.x} + ${s.e} \\times ${s.y} = ${s.f}$ €, ce qui correspond bien à l'énoncé.`
+            ]
+          };
+        }
+
+        if (tache === 'secondeInconnue') {
+          /* ON DEMANDE y. L'ancienne banque demandait TOUJOURS x : un élève
+             pouvait finir par répondre sans lire la question. */
+          const s = systeme(4);
+          return {
+            statement: `Résous le système suivant :<br/><br/>${ecrire(s)}<br/><br/>Donne la valeur de <strong>$y$</strong>.`,
+            answer: s.y, tolerance: 0.01, unit: '',
+            hint: `Lis bien ce qu'on te demande : c'est $y$, et non $x$.<br/><br/>Tu peux éliminer $x$ directement, en multipliant la première ligne par $${s.d}$ et la seconde par $${s.a}$.`,
+            solution: [
+              `On choisit d'éliminer $x$, puisque c'est $y$ que l'on cherche : on multiplie la première ligne par $${s.d}$ et la seconde par $${s.a}$.`,
+              `Les termes en $x$ deviennent identiques et disparaissent par soustraction ; il reste une équation à la seule inconnue $y$.`,
+              `On obtient $y = ${s.y}$ (et $x = ${s.x}$).<br/><br/>Contrôle : $${s.a} \\times ${s.x} + ${s.b} \\times ${s.y} = ${s.c}$.`
+            ]
+          };
+        }
+
+        if (tache === 'choisirMethode') {
+          /* NOMMER LA MÉTHODE, sans résoudre. Le choix de méthode est ce qui
+             sépare un élève rapide d'un élève qui s'enlise, et rien ne le
+             travaillait. */
+          const cas = pick([
+            { s: '$\\begin{cases} x + 3y = 11 \\\\ 2x - y = 1 \\end{cases}$', bon: 1, nom: 'la substitution',
+              pourquoi: 'le coefficient de $x$ vaut $1$ dans la première équation : on l\'isole sans introduire la moindre fraction' },
+            { s: '$\\begin{cases} 3x + 2y = 16 \\\\ 5x - 2y = 8 \\end{cases}$', bon: 2, nom: 'la combinaison',
+              pourquoi: 'les coefficients de $y$ sont opposés, $+2$ et $-2$ : il suffit d\'additionner les deux lignes pour que $y$ disparaisse, sans aucune multiplication préalable' },
+            { s: '$\\begin{cases} 4x + 3y = 27 \\\\ 4x - y = 11 \\end{cases}$', bon: 2, nom: 'la combinaison',
+              pourquoi: 'les coefficients de $x$ sont déjà égaux : une simple soustraction élimine $x$' },
+            { s: '$\\begin{cases} y = 2x - 1 \\\\ 3x + 2y = 12 \\end{cases}$', bon: 1, nom: 'la substitution',
+              pourquoi: '$y$ est déjà exprimé en fonction de $x$ : il n\'y a plus qu\'à le remplacer dans la seconde équation' }
+          ]);
+          return {
+            statement: `On considère le système suivant :<br/><br/>${cas.s}<br/><br/>` +
+              `Quelle méthode est la plus <strong>rapide</strong> pour le résoudre ?<br/><br/>` +
+              `Réponds par $1$ pour la <strong>substitution</strong>, $2$ pour la <strong>combinaison</strong>.`,
+            answer: cas.bon, tolerance: 0.01, unit: '',
+            hint: `Regarde les coefficients avant de te lancer.<br/><br/>Un coefficient égal à $1$ appelle la substitution ; des coefficients égaux ou opposés appellent la combinaison.`,
+            solution: [
+              `Les deux méthodes aboutissent toujours : la question n'est pas laquelle marche, mais laquelle évite les fractions et les calculs inutiles.`,
+              `Ici, ${cas.pourquoi}.`,
+              `La méthode la plus rapide est donc <strong>${cas.nom}</strong>. Réponse : $${cas.bon}$.`
+            ]
+          };
+        }
+
+        if (tache === 'verifier') {
+          /* UN COUPLE DOIT VÉRIFIER LES DEUX ÉQUATIONS. L'élève n'en teste
+             souvent qu'une, et le tirage propose justement, une fois sur deux,
+             un couple qui vérifie la première et pas la seconde. */
+          const s = systeme(3);
+          const juste = Math.random() > 0.5;
+          const xt = juste ? s.x : s.x + pick([-1, 1]);
+          const yt = juste ? s.y : parseFloat(((s.c - s.a * xt) / s.b).toFixed(2));
+          const v1 = Math.abs(s.a * xt + s.b * yt - s.c) < 0.005;
+          const v2 = Math.abs(s.d * xt + s.e * yt - s.f) < 0.005;
+          return {
+            statement: `On considère le système ${ecrire(s)}<br/><br/>` +
+              `Le couple $(x\\,;\\,y) = (${fr(xt)}\\,;\\,${fr(yt)})$ est-il <strong>solution</strong> de ce système ?<br/><br/>` +
+              `Réponds par $1$ pour oui, $0$ pour non.`,
+            answer: (v1 && v2) ? 1 : 0, tolerance: 0.01, unit: '',
+            hint: `Un couple est solution du système seulement s'il vérifie les <strong>deux</strong> équations.<br/><br/>Teste-les l'une après l'autre : vérifier la première ne suffit pas.`,
+            solution: [
+              `Première équation : $${s.a} \\times ${fr(xt)} + ${s.b} \\times ${fr(yt)} = ${fr(parseFloat((s.a * xt + s.b * yt).toFixed(2)))}$, à comparer à $${s.c}$ — ${v1 ? 'elle est vérifiée' : 'elle n\'est pas vérifiée'}.`,
+              `Seconde équation : $${s.d} \\times ${fr(xt)} + ${s.e} \\times ${fr(yt)} = ${fr(parseFloat((s.d * xt + s.e * yt).toFixed(2)))}$, à comparer à $${s.f}$ — ${v2 ? 'elle est vérifiée' : 'elle n\'est pas vérifiée'}.`,
+              (v1 && v2)
+                ? `Les <strong>deux</strong> équations sont vérifiées : le couple est bien solution. Réponse : $1$.`
+                : `Une équation au moins n'est pas vérifiée : le couple n'est <strong>pas</strong> solution. Réponse : $0$.<br/><br/>C'est le piège du chapitre : un couple peut vérifier une équation et pas l'autre. Il faut toujours tester les deux.`
+            ]
+          };
+        }
+
+        /* tache === 'somme' : le classique « somme et différence ». Le système
+           est si simple qu'on peut le deviner, ce qui permet de travailler la
+           MISE EN ÉQUATION sans que la résolution fasse écran. */
+        const grand = rand(8, 25), petit = rand(2, grand - 2);
+        const somme = grand + petit, diff = grand - petit;
         const ctx = pick([
-          { build: () => `Un marchand vend des pommes à $x$ €/kg et des poires à $y$ €/kg.<br/><br/>Un premier client achète $${a}\\,\\text{kg}$ de pommes et $${b}\\,\\text{kg}$ de poires pour $${c}$ €. Un second achète $${d}\\,\\text{kg}$ de pommes et $${e}\\,\\text{kg}$ de poires pour $${f}$ €.<br/><br/>Traduis la situation par un <strong>système</strong> ${system} et donne le <strong>prix d'un kg de pommes</strong> ($x$).` },
-          { build: () => `Dans une papeterie, un cahier coûte $x$ € et un stylo coûte $y$ €.<br/><br/>Une première commande contient $${a}$ cahiers et $${b}$ stylos pour $${c}$ €. Une seconde commande contient $${d}$ cahiers et $${e}$ stylos pour $${f}$ €.<br/><br/>Le système correspondant est ${system}. Quel est le <strong>prix d'un cahier</strong> ($x$) ?` },
-          { build: () => `Dans une boulangerie, une baguette coûte $x$ € et un croissant coûte $y$ €.<br/><br/>Un client achète $${a}$ baguettes et $${b}$ croissants pour $${c}$ €. Un autre achète $${d}$ baguettes et $${e}$ croissants pour $${f}$ €.<br/><br/>Ceci se traduit par le système ${system}. Détermine le <strong>prix d'une baguette</strong> ($x$).` },
-          { build: () => `Une jardinerie vend des rosiers à $x$ € pièce et des bulbes de tulipes à $y$ € pièce.<br/><br/>Un client achète $${a}$ rosiers et $${b}$ bulbes pour $${c}$ €. Un autre achète $${d}$ rosiers et $${e}$ bulbes pour $${f}$ €.<br/><br/>D'où le système ${system}. Quel est le <strong>prix d'un rosier</strong> ($x$) ?` },
-          { build: () => `Dans une quincaillerie, une vis coûte $x$ € et un boulon coûte $y$ €.<br/><br/>Un artisan achète $${a}$ vis et $${b}$ boulons pour $${c}$ €. Un autre en achète $${d}$ et $${e}$ pour $${f}$ €.<br/><br/>Ce qui donne le système ${system}. Quel est le <strong>prix d'une vis</strong> ($x$) ?` },
-          { build: () => `Une fromagerie vend du comté à $x$ €/kg et du brie à $y$ €/kg.<br/><br/>Un client prend $${a}\\,\\text{kg}$ de comté et $${b}\\,\\text{kg}$ de brie pour $${c}$ €. Un autre prend $${d}\\,\\text{kg}$ de comté et $${e}\\,\\text{kg}$ de brie pour $${f}$ €.<br/><br/>Le système associé est ${system}. Détermine le <strong>prix du kg de comté</strong> ($x$).` }
+          { d: 'Deux nombres', a: 'Leur somme', b: 'leur différence', q: 'le plus grand des deux' },
+          { d: 'Deux entiers', a: 'Leur somme', b: 'leur différence', q: 'le plus grand des deux' }
         ]);
-
         return {
-          statement: ctx.build(),
-          answer: x,
-          tolerance: 0,
-          unit: '',
-          hint: `Essaie la méthode de <strong>combinaison</strong> : multiplie la première équation par $${d}$ et la seconde par $${a}$ pour éliminer $x$...<br/><br/>Ou utilise la <strong>substitution</strong>.`,
+          statement: `${ctx.d} sont tels que :<br/><br/>${ctx.a} vaut $${somme}$, et ${ctx.b} vaut $${diff}$.<br/><br/>` +
+            `Quel est <strong>${ctx.q}</strong> ?<br/><br/><em>Pose un système, puis résous-le.</em>`,
+          answer: grand, tolerance: 0.01, unit: '',
+          hint: `Appelle $x$ le plus grand et $y$ le plus petit.<br/><br/>Tu obtiens $x + y = ${somme}$ et $x - y = ${diff}$ : en <strong>additionnant</strong> ces deux lignes, $y$ disparaît tout seul.`,
           solution: [
-            `On cherche $x = ${x}$ et $y = ${y}$.`,
-            `Vérif éq 1 : $${a} \\times ${x} + ${b} \\times ${y} = ${a*x} + ${b*y} = ${c}$ ✓`,
-            `Vérif éq 2 : $${d} \\times ${x} + ${e} \\times ${y} = ${d*x} + ${e*y} = ${f}$ ✓`
+            `On note $x$ le plus grand et $y$ le plus petit : $\\begin{cases} x + y = ${somme} \\\\ x - y = ${diff} \\end{cases}$`,
+            `Les coefficients de $y$ sont opposés : en additionnant les deux lignes, $y$ disparaît et il reste $2x = ${somme} + ${diff} = ${somme + diff}$.`,
+            `$x = ${grand}$, puis $y = ${somme} - ${grand} = ${petit}$.<br/><br/>Contrôle : $${grand} + ${petit} = ${somme}$ et $${grand} - ${petit} = ${diff}$.`
           ]
         };
       }
