@@ -126,8 +126,118 @@ window.MODULES.push({
     exercice: {
       type: 'numeric',
       generate() {
-        const types = ['produit', 'while_compteur', 'condition'];
+        /* BANQUE ÉLARGIE le 2026-09-13 (vague « manuel de référence »).
+
+           MESURE DE DÉPART : 3 tâches pour 9 exercices retenus, la plus
+           maigre banque de l'ouvrage.
+
+           DÉFAUT DE FOND : l'évaluation consacre DEUX questions sur cinq
+           (Q1 et Q4) aux valeurs prises par `range`, qui est le point de
+           bascule du chapitre — et aucune tâche de la banque ne travaillait
+           cela. Le devoir évaluait donc une compétence que la banque
+           n'entraînait pas. On ajoute quatre tâches, dont deux sur `range`
+           et une sur le test conditionnel, absent lui aussi alors que le
+           cours le traite. */
+        const types = ['produit', 'while_compteur', 'condition',
+                       'rangeValeurs', 'rangeCompte', 'siAlors', 'sommeConditionnelle'];
         const type = pick(types);
+
+        /* Tâche AJOUTÉE — les valeurs prises par range(a, b). C'est LE point
+           de bascule : la borne de droite est exclue, et l'élève l'oublie. */
+        if (type === 'rangeValeurs') {
+          const a = rand(0, 6);
+          const b = a + rand(3, 7);
+          const valeurs = [];
+          for (let k = a; k < b; k++) valeurs.push(k);
+          const quoi = pick(['derniere', 'premiere', 'nombre']);
+          const reponse = quoi === 'derniere' ? b - 1 : (quoi === 'premiere' ? a : b - a);
+          const question = quoi === 'derniere'
+            ? 'Quelle est la <strong>dernière</strong> valeur prise par $\\texttt{i}$ ?'
+            : (quoi === 'premiere'
+               ? 'Quelle est la <strong>première</strong> valeur prise par $\\texttt{i}$ ?'
+               : 'Combien de valeurs $\\texttt{i}$ prend-elle au total ?');
+          return {
+            statement: `En Python, on écrit la boucle $\\texttt{for i in range(${a}, ${b}):}$.<br/><br/>${question}`,
+            answer: reponse,
+            tolerance: 0,
+            unit: '',
+            hint: `$\\texttt{range(a, b)}$ commence à $\\texttt{a}$ et s'arrête <strong>avant</strong> $\\texttt{b}$ : la borne de droite est exclue. Écris la liste complète si tu hésites.`,
+            solution: [
+              `Valeurs prises par range : $\\texttt{range(${a}, ${b})}$ produit $${valeurs.join(' ; ')}$`,
+              `La borne de gauche est <strong>incluse</strong>, celle de droite est <strong>exclue</strong> : on s'arrête à $${b - 1}$ et non à $${b}$.`,
+              `Il y a donc $${b} - ${a} = ${b - a}$ valeurs, la première est $${a}$ et la dernière $${b - 1}$.`
+            ]
+          };
+        }
+
+        /* Tâche AJOUTÉE — range à un seul argument, qui commence à ZÉRO.
+           C'est l'autre moitié du malentendu, et l'évaluation la pose (Q4). */
+        if (type === 'rangeCompte') {
+          const n = rand(3, 9);
+          const quoi = pick(['derniere', 'somme']);
+          let somme = 0;
+          for (let k = 0; k < n; k++) somme += k;
+          const valeurs = [];
+          for (let k = 0; k < n; k++) valeurs.push(k);
+          return {
+            statement: `On veut répéter une action $${n}$ fois et l'on écrit $\\texttt{for i in range(${n}):}$.<br/><br/>${quoi === 'derniere' ? 'Quelle est la <strong>dernière</strong> valeur prise par $\\texttt{i}$ ?' : 'Quelle est la <strong>somme</strong> de toutes les valeurs prises par $\\texttt{i}$ ?'}`,
+            answer: quoi === 'derniere' ? n - 1 : somme,
+            tolerance: 0,
+            unit: '',
+            hint: `Avec un seul argument, $\\texttt{range(n)}$ commence à $\\texttt{0}$, pas à $\\texttt{1}$. La boucle tourne bien $${n}$ fois, mais les valeurs vont de $0$ à $${n - 1}$.`,
+            solution: [
+              `Valeurs prises par range : $\\texttt{range(${n})}$ produit $${valeurs.join(' ; ')}$`,
+              `La boucle tourne bien $${n}$ fois, mais $\\texttt{i}$ commence à $0$ : la dernière valeur est $${n - 1}$, et non $${n}$.`,
+              quoi === 'derniere'
+                ? `Réponse : $${n - 1}$.`
+                : `Somme : $0 + 1 + \\ldots + ${n - 1} = ${somme}$.`
+            ]
+          };
+        }
+
+        /* Tâche AJOUTÉE — test conditionnel. Le cours traite le `if`, la
+           banque ne le travaillait pas. */
+        if (type === 'siAlors') {
+          const seuil = rand(8, 25);
+          const x = rand(3, 35);
+          const siVrai = rand(2, 9);
+          const siFaux = rand(2, 9);
+          const prend = x > seuil ? siVrai : siFaux;
+          return {
+            statement: `On exécute le code suivant :<br/><br/>$\\texttt{x = ${x}}$<br/>$\\texttt{if x > ${seuil}:}$<br/>$\\quad\\texttt{y = ${siVrai}}$<br/>$\\texttt{else:}$<br/>$\\quad\\texttt{y = ${siFaux}}$<br/><br/>Quelle est la valeur finale de $\\texttt{y}$ ?`,
+            answer: prend,
+            tolerance: 0,
+            unit: '',
+            hint: `Commence par évaluer la condition $\\texttt{x > ${seuil}}$ avec $\\texttt{x = ${x}}$ : est-elle vraie ou fausse ? Une seule des deux branches est exécutée.`,
+            solution: [
+              `Test conditionnel : j'évalue la condition $\\texttt{${x} > ${seuil}}$`,
+              `Elle est <strong>${x > seuil ? 'vraie' : 'fausse'}</strong>, donc c'est la branche $\\texttt{${x > seuil ? 'if' : 'else'}}$ qui s'exécute.`,
+              `La valeur finale est $\\texttt{y} = ${prend}$. L'autre branche n'est <strong>jamais</strong> exécutée : ce n'est pas la dernière ligne écrite qui gagne, c'est la condition qui choisit.`
+            ]
+          };
+        }
+
+        /* Tâche AJOUTÉE — boucle ET condition combinées : compter dans une
+           boucle, ce qui est l'usage réel de l'algorithmique en seconde. */
+        if (type === 'sommeConditionnelle') {
+          const n = rand(6, 14);
+          const seuil = rand(3, Math.max(4, n - 2));
+          let compte = 0;
+          for (let k = 1; k <= n; k++) if (k > seuil) compte++;
+          return {
+            statement: `On exécute le code suivant :<br/><br/>$\\texttt{c = 0}$<br/>$\\texttt{for i in range(1, ${n + 1}):}$<br/>$\\quad\\texttt{if i > ${seuil}:}$<br/>$\\quad\\quad\\texttt{c = c + 1}$<br/><br/>Quelle est la valeur finale de $\\texttt{c}$ ?`,
+            answer: compte,
+            tolerance: 0,
+            unit: '',
+            hint: `La boucle parcourt $\\texttt{i}$ de $1$ à $${n}$. Le compteur n'augmente que pour les valeurs qui vérifient la condition : lesquelles ?`,
+            solution: [
+              `Comptage sous condition : $\\texttt{i}$ parcourt $1\\,;\\,2\\,;\\,\\ldots\\,;\\,${n}$`,
+              `Le compteur n'augmente que si $\\texttt{i} > ${seuil}$, c'est-à-dire pour $\\texttt{i}$ allant de $${seuil + 1}$ à $${n}$.`,
+              `Cela fait $${n} - ${seuil} = ${compte}$ valeurs, donc $\\texttt{c} = ${compte}$.`
+            ]
+          };
+        }
+
         if (type === 'produit') {
           const base = rand(2, 4);
           const n = rand(3, 6);
@@ -218,13 +328,21 @@ window.MODULES.push({
           correction: '$i$ prend les valeurs $1, 2, 3, 4, 5$. La somme $s = 1 + 2 + 3 + 4 + 5 = 15$.'
         },
         {
-          statement: 'On exécute le code :\n$\\texttt{x = 3}$\n$\\texttt{for i in range(4):}$\n$\\quad\\texttt{x = x * 2}$\nQuelle est la valeur finale de $x$ ?',
+          /* Q3 RÉÉCRITE le 2026-09-13. L'ancienne demandait la valeur
+             finale après exécution, exactement comme la Q2 du même devoir :
+             deux fois le même geste, dans un devoir où « calculer » était
+             déjà sur-représenté. La nouvelle demande d'abord de DIRE ce que
+             la boucle fait — combien de doublements, donc quel exposant —
+             avant d'en donner la valeur. L'élève doit formuler le rôle de la
+             boucle, pas seulement la dérouler. « communiquer ».
+             La réponse reste $48$. */
+          statement: 'On exécute le code :\n$\\texttt{x = 3}$\n$\\texttt{for i in range(4):}$\n$\\quad\\texttt{x = x * 2}$\nCe programme calcule $3 \\times 2^{k}$ pour un certain entier $k$.\nExplique ce que représente $k$, puis donne la valeur finale de $\\texttt{x}$.',
           type: 'numeric',
           answer: 48,
           tolerance: 0,
           unit: '',
           points: 2,
-          correction: 'La boucle s\'exécute $4$ fois ($i = 0, 1, 2, 3$). À chaque passage, $x$ est doublé : $3 \\to 6 \\to 12 \\to 24 \\to 48$.'
+          correction: 'L\'entier $k$ est le <strong>nombre de passages</strong> dans la boucle, c\'est-à-dire le nombre de doublements subis par $\\texttt{x}$.<br/><br/>Ici $\\texttt{range(4)}$ fait tourner la boucle $4$ fois ($i = 0, 1, 2, 3$), donc $k = 4$.<br/><br/>À chaque passage, $x$ est doublé : $3 \\to 6 \\to 12 \\to 24 \\to 48$. On retrouve bien $3 \\times 2^4 = 3 \\times 16 = 48$.'
         },
         {
           statement: 'Un élève écrit $\\texttt{for i in range(5)}$ pour répéter une action $5$ fois. Quelles valeurs prend $i$ ?',

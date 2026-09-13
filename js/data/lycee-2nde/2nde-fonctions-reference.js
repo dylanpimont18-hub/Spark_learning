@@ -195,8 +195,29 @@ window.MODULES.push({
           const familles = [
             { nom: 'carré', expr: 'x^2', calc: (x) => x * x, xs: [-6, -5, -4, -3, -2, 2, 3, 4, 5, 6, 7],
               ligne: (x) => `$f(${x < 0 ? '(' + x + ')' : x}) = ${x < 0 ? '(' + x + ')' : x}^2 = ${x * x}$` },
-            { nom: 'inverse', expr: '\\dfrac{1}{x}', calc: (x) => 1 / x, xs: [-5, -4, -2, 2, 4, 5, 8, 10],
-              ligne: (x) => `$f(${x}) = \\dfrac{1}{${x}} = ${fr(1 / x, 4).replace(/0+$/, '').replace(/\{,\}$/, '')}$` },
+            /* Les antécédents de la fonction inverse sont choisis pour que
+               1/x soit DÉCIMAL EXACT et court : les diviseurs de 10 et de
+               100 uniquement. On peut alors écrire fr() avec un nombre de
+               décimales fixe, sans aucun nettoyage de zéros.
+
+               Défaut corrigé le 2026-09-13, signalé par
+               scripts/check-decimal-notation.js : la version précédente
+               faisait `fr(1/x, 4).replace(/0+$/, '')`, et ce rabotage des
+               zéros pouvait manger l'accolade fermante du séparateur
+               décimal, ce qui casse le rendu KaTeX. Mes propres tirages de
+               contrôle n'avaient pas atteint le cas ; l'outil du projet, si.
+               Leçon : ne jamais retoucher à la main la sortie de fr().
+
+               (Le commentaire ne reproduit volontairement pas la séquence
+               fautive : le vérificateur lit le FICHIER, pas seulement les
+               chaînes produites, et la citer ici rouvrirait l'alerte.) */
+            { nom: 'inverse', expr: '\\dfrac{1}{x}', calc: (x) => 1 / x, xs: [-5, -4, -2, 2, 4, 5, 10],
+              /* Nombre de décimales exact pour chaque antécédent, en table
+                 plutôt qu'en calcul : 1/2 = 0,5 (une décimale), 1/4 = 0,25
+                 (deux), 1/5 = 0,2 (une), 1/10 = 0,1 (une). fr() reçoit donc
+                 toujours le bon nombre et sa sortie n'est jamais retouchée. */
+              decimales: { 2: 1, 4: 2, 5: 1, 10: 1 },
+              ligne: function (x) { return `$f(${x}) = \\dfrac{1}{${x}} = ${fr(1 / x, this.decimales[Math.abs(x)])}$`; } },
             { nom: 'racine carrée', expr: '\\sqrt{x}', calc: (x) => Math.sqrt(x), xs: [1, 4, 9, 16, 25, 36, 49, 64, 81, 100],
               ligne: (x) => `$f(${x}) = \\sqrt{${x}} = ${Math.sqrt(x)}$` }
           ];
@@ -401,13 +422,19 @@ window.MODULES.push({
           correction: 'La fonction carré est décroissante sur $]-\\infty ; 0]$ et croissante sur $[0 ; +\\infty[$. Son minimum est $0$, atteint en $x = 0$.'
         },
         {
-          statement: 'Calculer $\\sqrt{4 \\times 25}$.',
+          /* Q3 RÉÉCRITE le 2026-09-13. L'ancienne, « Calculer
+             $\sqrt{4 \times 25}$ », était une application directe de plus,
+             dans un devoir qui en comptait déjà trois. La nouvelle donne le
+             résultat et demande de JUSTIFIER une égalité remarquée, ce qui
+             mobilise le langage mathématique sans changer la réponse ($10$).
+             Passage de « calculer » à « communiquer ». */
+          statement: 'Amine remarque que $\\sqrt{4 \\times 25}$ et $\\sqrt{4} \\times \\sqrt{25}$ donnent le même résultat.<br/><br/>Vérifie-le en calculant les deux expressions, puis donne leur valeur commune.',
           type: 'numeric',
           answer: 10,
           tolerance: 0,
           unit: '',
           points: 2,
-          correction: '$\\sqrt{4 \\times 25} = \\sqrt{4} \\times \\sqrt{25} = 2 \\times 5 = 10$. On peut aussi calculer directement : $\\sqrt{100} = 10$.'
+          correction: 'Les deux expressions valent bien la même chose : $\\sqrt{4 \\times 25} = \\sqrt{100} = 10$, et $\\sqrt{4} \\times \\sqrt{25} = 2 \\times 5 = 10$.<br/><br/>Amine a donc raison, et ce n\'est pas un hasard : pour deux nombres positifs, $\\sqrt{a \\times b} = \\sqrt{a} \\times \\sqrt{b}$. La racine carrée « traverse » une multiplication.<br/><br/><strong>Attention cependant</strong> : cela ne marche <strong>pas</strong> avec une addition. $\\sqrt{9 + 16} = \\sqrt{25} = 5$, alors que $\\sqrt{9} + \\sqrt{16} = 3 + 4 = 7$.'
         },
         {
           statement: 'Quel est le domaine de définition de $f(x) = \\dfrac{1}{x-2}$ ?',

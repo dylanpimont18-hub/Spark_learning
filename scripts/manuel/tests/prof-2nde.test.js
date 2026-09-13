@@ -139,6 +139,35 @@ const ATTENDUS = {
     'Oublier qu’un nombre positif a deux antécédents par la fonction carré': ['antécédent'],
     'Chercher le domaine de définition seulement quand on y pense': ['condition']
   },
+  '2nde-probabilites': {
+    'Croire que le hasard se corrige de lui-même': ['indépendant'],
+    "Additionner les probabilités sans retirer l'intersection": ['cup'],
+    'Chercher directement une probabilité de « au moins un »': ['contraire'],
+    'Confondre « incompatibles » et « indépendants »': ['incompatible']
+  },
+  '2nde-statistiques': {
+    'Croire que la moyenne suffit à décrire une série': ['moyenne', 'homogène'],
+    'Prendre la valeur du milieu de la liste pour la médiane': ['médiane', 'ordre croissant'],
+    "Confondre la variance et l'écart-type, et se tromper d'unité": ['variance', 'écart-type'],
+    'Additionner les écarts au lieu de leurs carrés': ['moyenne']
+  },
+  '2nde-algorithmique': {
+    'Croire que range(n) va de 1 à n': ['range'],
+    'Ne pas exécuter le code pas à pas et deviner le résultat': ['pas à pas', 'passage'],
+    "Croire que les deux branches d'un test s'exécutent": ['branche', 'condition'],
+    "Écrire une boucle while qui ne s'arrête jamais": ['while', 'successives']
+  },
+  '2nde-echantillonnage': {
+    "Croire que l'intervalle de confiance est une garantie certaine": ['confiance', 'IC'],
+    'Croire que doubler l’échantillon divise la marge d’erreur par deux': ['multiplié', 'divisée'],
+    'Confondre la fréquence observée et la proportion cherchée': ['fréquence', 'proportion']
+  },
+  '2nde-geometrie-plane': {
+    'Appliquer le rapport de réduction aux aires comme aux longueurs': ['rapport', 'aire'],
+    'Confondre les quatre droites remarquables du triangle': ['médiane', 'hauteur', 'médiatrice'],
+    'Appliquer Thalès sans vérifier le parallélisme': ['parallel'],
+    'Prendre n’importe quel côté pour base sans changer la hauteur': ['hauteur', 'aire']
+  },
   '2nde-reperage-plan': {
     'Se tromper de signe en soustrayant deux coordonnées négatives': ['distance'],
     'Diviser au lieu de multiplier pour retrouver une extrémité': ['symétrique', 'milieu'],

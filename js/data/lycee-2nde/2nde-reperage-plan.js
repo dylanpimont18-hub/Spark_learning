@@ -433,13 +433,19 @@ window.MODULES.push({
           correction: '$AB = 6$. $AC = \\sqrt{9 + 16} = 5$. $BC = \\sqrt{9 + 16} = 5$. Comme $AC = BC = 5$, le triangle est isocèle en $C$.'
         },
         {
-          statement: 'Calculer la distance entre $P(-2 ; 5)$ et $Q(3 ; -7)$.',
+          /* Q5 RÉÉCRITE le 2026-09-13. L'ancienne, « Calculer la
+             distance entre P(-2;5) et Q(3;-7) », doublait la Q1 du même
+             devoir : deux fois la même formule sur deux couples de points.
+             La nouvelle pose une situation concrète que l'élève doit
+             traduire en coordonnées avant de pouvoir calculer, ce qui est
+             « modéliser ». La réponse reste $13$. */
+          statement: 'Une ville est quadrillée par des rues perpendiculaires, et l\'on repère chaque lieu par ses coordonnées (une unité vaut $100$ m).<br/><br/>La poste est en $P(-2 ; 5)$ et la gare en $Q(3 ; -7)$.<br/><br/>Un drone relie les deux en ligne droite. Quelle distance parcourt-il, en unités ?',
           type: 'numeric',
           answer: 13,
           tolerance: 0.01,
           unit: '',
           points: 2,
-          correction: '$PQ = \\sqrt{(3-(-2))^2 + (-7-5)^2} = \\sqrt{5^2 + (-12)^2} = \\sqrt{25 + 144} = \\sqrt{169} = 13$.'
+          correction: 'La situation se traduit directement par un calcul de distance entre deux points du repère.<br/><br/>$PQ = \\sqrt{(3-(-2))^2 + (-7-5)^2} = \\sqrt{5^2 + (-12)^2} = \\sqrt{25 + 144} = \\sqrt{169} = 13$.<br/><br/>Le drone parcourt donc $13$ unités, soit $1\\,300$ m. Un piéton, lui, devrait suivre les rues : il marcherait $5 + 12 = 17$ unités. C\'est tout l\'écart entre la ligne droite et le trajet à angle droit.'
         }
       ]
     }

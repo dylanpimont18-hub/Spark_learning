@@ -212,9 +212,12 @@ window.SPARK_PROF["2nde-fonctions-reference"] = {
      Q2 intervalle de croissance de $x \mapsto x^2$, à choisir parmi quatre :
         l'élève doit se représenter l'allure de la parabole et y localiser la
         branche montante. Aucun calcul. « représenter ».
-     Q3 calculer $\sqrt{4 \times 25}$ : application, avec l'occasion de voir
-        que la racine d'un produit est le produit des racines.
-        « calculer ».
+     Q3 RÉÉCRITE le 2026-09-13 : l'ancienne demandait de calculer
+        $\sqrt{4 \times 25}$, troisième application directe du même devoir.
+        La nouvelle donne l'égalité $\sqrt{4 \times 25} = \sqrt{4} \times \sqrt{25}$
+        comme une remarque d'élève et demande de la vérifier puis de conclure.
+        Il s'agit d'énoncer une propriété et de la valider, pas d'appliquer
+        une formule : « communiquer ». La réponse reste $10$.
      Q4 domaine de $f(x) = \dfrac{1}{x-2}$ parmi quatre écritures : l'élève
         doit conclure de la condition « dénominateur non nul » à l'écriture
         $\mathbb{R} \setminus \{2\}$, en écartant notamment
@@ -230,6 +233,6 @@ window.SPARK_PROF["2nde-fonctions-reference"] = {
      technique, et l'étiquette suit l'énoncé, jamais l'inverse. Les trois
      compétences sont portées par d'autres chapitres du niveau. */
   competences: {
-    evaluation: ["calculer", "représenter", "calculer", "raisonner", "calculer"]
+    evaluation: ["calculer", "représenter", "communiquer", "raisonner", "calculer"]
   }
 };

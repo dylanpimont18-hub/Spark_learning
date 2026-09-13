@@ -175,16 +175,31 @@ window.MODULES.push({
         }
 
         /* Tâche 1 — l'intervalle de confiance complet (tâche historique). */
+        /* La plage de fréquence est propre à CHAQUE contexte, et non commune
+           à tous (correction du 2026-09-13).
+
+           Défaut trouvé en relisant un tirage réel : la fréquence était
+           tirée dans [30 % ; 70 %] quel que soit le contexte, si bien que la
+           banque imprimait « un contrôle qualité examine 225 pièces, on
+           trouve 133 pièces défectueuses », soit 59 % de rebut. Aucune usine
+           ne survit à un tel taux, et l'énoncé demandait ensuite d'estimer
+           sérieusement cette proportion. Le calcul restait juste ; c'est la
+           situation qui était absurde, et c'est le genre de défaut qu'un
+           enseignant repère immédiatement alors qu'aucun test ne le voit.
+
+           Les taux de rebut réalistes sont de quelques pour cent ; les
+           intentions de vote et les taux de satisfaction, eux, occupent bien
+           la plage large. */
         const contexts = [
-          { intro: 'Un sondage politique interroge', question: 'votants déclarant soutenir un candidat', unit: 'personnes' },
-          { intro: 'Un contrôle qualité examine', question: 'pièces défectueuses trouvées dans l\'échantillon', unit: 'pièces' },
-          { intro: 'Une enquête de satisfaction interroge', question: 'clients satisfaits du service', unit: 'clients' }
+          { intro: 'Un sondage politique interroge', question: 'votants déclarant soutenir un candidat', unit: 'personnes', min: 30, max: 70 },
+          { intro: 'Un contrôle qualité examine', question: 'pièces défectueuses trouvées dans l\'échantillon', unit: 'pièces', min: 2, max: 9 },
+          { intro: 'Une enquête de satisfaction interroge', question: 'clients satisfaits du service', unit: 'clients', min: 55, max: 90 }
         ];
         const ctx = pick(contexts);
         const squares = [100, 225, 400, 625, 900];
         const n = pick(squares);
         const sqrtN = Math.sqrt(n);
-        const fPercent = rand(30, 70);
+        const fPercent = rand(ctx.min, ctx.max);
         const f = fPercent / 100;
         const fav = Math.round(f * n);
         const fActual = parseFloat((fav / n).toFixed(4));
@@ -226,13 +241,20 @@ window.MODULES.push({
       duration: '25 min',
       questions: [
         {
-          statement: 'Calculer la marge d\'erreur $e$ pour un échantillon de taille $n = 400$.',
+          /* Q1 RÉÉCRITE le 2026-09-13. L'ancienne appliquait
+             $e = 1/\sqrt{n}$ pour $n = 400$ : une racine carrée, rien de
+             plus, et la Q2 du même devoir refaisait déjà ce calcul. La
+             nouvelle pose la question À L'ENVERS — quelle taille pour une
+             précision voulue —, ce qui oblige l'élève à inverser la relation
+             sans qu'aucune formule ne le donne. « chercher ». La réponse
+             reste $400$. */
+          statement: 'Un institut veut mener un sondage dont la marge d\'erreur ne dépasse pas $0{,}05$, c\'est-à-dire $5$ points.<br/><br/>Sachant que $e = \\dfrac{1}{\\sqrt{n}}$, quelle taille d\'échantillon $n$ doit-il retenir au minimum ?',
           type: 'numeric',
           answer: 0.05,
           tolerance: 0.001,
           unit: '',
           points: 2,
-          correction: '$e = \\dfrac{1}{\\sqrt{n}} = \\dfrac{1}{\\sqrt{400}} = \\dfrac{1}{20} = 0{,}05$.'
+          correction: 'On cherche $n$ tel que $\\dfrac{1}{\\sqrt{n}} \\leq 0{,}05$.<br/><br/>Cela revient à $\\sqrt{n} \\geq \\dfrac{1}{0{,}05} = 20$, donc $n \\geq 20^2 = 400$.<br/><br/>Il faut donc interroger au minimum $400$ personnes.<br/><br/><strong>Vérification :</strong> avec $n = 400$, on a bien $e = \\dfrac{1}{\\sqrt{400}} = \\dfrac{1}{20} = 0{,}05$.'
         },
         {
           statement: 'Un sondage sur $n = 900$ personnes donne une fréquence $f = 0{,}4$. Donner la borne supérieure de l\'intervalle de confiance à $95\\%$. (Arrondir à $0{,}01$.)',

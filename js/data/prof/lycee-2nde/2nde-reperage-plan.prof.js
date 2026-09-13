@@ -218,8 +218,12 @@ window.SPARK_PROF["2nde-reperage-plan"] = {
      Q4 le triangle est-il isocèle : l'élève doit décider de la méthode
         (calculer les trois longueurs, puis comparer) et conclure d'une
         égalité numérique à une propriété géométrique. « raisonner ».
-     Q5 distance entre deux points de coordonnées négatives : application,
-        avec le piège des signes. « calculer ».
+     Q5 RÉÉCRITE le 2026-09-13 : l'ancienne, « calculer la distance entre
+        $P(-2;5)$ et $Q(3;-7)$ », doublait la Q1 du même devoir. La nouvelle
+        pose une ville quadrillée et un drone qui la traverse en ligne
+        droite : l'élève doit reconnaître que la situation se ramène à une
+        distance entre deux points avant de pouvoir calculer quoi que ce
+        soit. « modéliser ». La réponse reste $13$.
 
      « Chercher », « modéliser » et « communiquer » ne sont PAS déclarées :
      aucune des cinq questions ne demande d'explorer une piste, de traduire
@@ -227,6 +231,6 @@ window.SPARK_PROF["2nde-reperage-plan"] = {
      par d'autres chapitres du niveau — l'étiquette suit l'énoncé, jamais
      l'inverse. */
   competences: {
-    evaluation: ["calculer", "représenter", "calculer", "raisonner", "calculer"]
+    evaluation: ["calculer", "représenter", "calculer", "raisonner", "modéliser"]
   }
 };

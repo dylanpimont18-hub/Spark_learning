@@ -281,13 +281,19 @@ window.MODULES.push({
       duration: '30 min',
       questions: [
         {
-          statement: 'Calculer la moyenne de la série $\\{3 ; 7 ; 8 ; 10 ; 12\\}$.',
+          /* Q1 RÉÉCRITE le 2026-09-13. L'ancienne demandait la moyenne
+             de cinq nombres : l'application la plus directe du devoir, et la
+             Q2 mobilisait déjà la même série. La nouvelle donne la moyenne
+             VISÉE et cache une valeur, ce qui oblige à remonter de la
+             moyenne aux données au lieu de descendre. « chercher ». La
+             réponse est $12$, et la moyenne de la série complète reste $8$. */
+          statement: 'Une série de cinq notes est $\\{3 ; 7 ; 8 ; 10 ; x\\}$, où la dernière note a été effacée.<br/><br/>On sait que la moyenne de la série vaut $8$.<br/><br/>Retrouve la note effacée $x$.',
           type: 'numeric',
           answer: 8,
           tolerance: 0,
           unit: '',
           points: 2,
-          correction: '$\\bar{x} = \\dfrac{3 + 7 + 8 + 10 + 12}{5} = \\dfrac{40}{5} = 8$.'
+          correction: 'Si la moyenne des cinq notes vaut $8$, c\'est que leur <strong>somme</strong> vaut $5 \\times 8 = 40$.<br/><br/>Or les quatre notes connues totalisent $3 + 7 + 8 + 10 = 28$.<br/><br/>La note effacée vaut donc $x = 40 - 28 = 12$.<br/><br/><strong>Vérification :</strong> $\\dfrac{3+7+8+10+12}{5} = \\dfrac{40}{5} = 8$ ✓'
         },
         {
           statement: 'La série $\\{4 ; 6 ; 6 ; 8\\}$ a pour moyenne $6$. Calculer sa variance.',
