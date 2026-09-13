@@ -8,7 +8,17 @@
     keywords: ['Probabilité', 'Événement', 'Union', 'Intersection', 'Complémentaire', 'Incompatibles'],
     physics: false,
     cours: {
-      intro: 'La probabilité mesure la fréquence à long terme d\'un événement dans une expérience aléatoire. En 4e, on apprend à combiner des événements : la réunion $A \\cup B$ (« au moins l\'un des deux se réalise ») et l\'intersection $A \\cap B$ (« les deux se réalisent simultanément »).' +
+      /* DECOUVRIR reecrit le 2026-09-13. L'intro definissait la probabilite,
+         notion deja vue en cinquieme, puis annoncait reunion et intersection.
+         Le vrai obstacle du chapitre est ailleurs : l'eleve ADDITIONNE deux
+         pourcentages et depasse 100 %. On ouvre donc sur ce total impossible,
+         qu'aucun calcul de cinquieme ne permet de corriger — il faut la notion
+         d'intersection, c'est-a-dire le chapitre. La meme erreur est reprise en
+         question 5 de l'evaluation, ou l'eleve doit la juger. */
+      intro: 'Dans une classe, $60\\,\\%$ des élèves font du sport et $50\\,\\%$ jouent d\'un instrument. Combien font l\'un ou l\'autre ?<br/><br/>' +
+        'En additionnant, on trouve $110\\,\\%$ — plus que la classe entière. Le calcul est pourtant simple, et le résultat est impossible.<br/><br/>' +
+        'L\'erreur n\'est pas dans l\'addition : elle est dans le fait que certains élèves font <strong>les deux</strong>, et qu\'on les a comptés deux fois. Tant qu\'on ne sait pas nommer ni mesurer ce recouvrement, on ne peut pas répondre.<br/><br/>' +
+        'La probabilité mesure la fréquence à long terme d\'un événement dans une expérience aléatoire. En 4e, on apprend à combiner des événements : la réunion $A \\cup B$ (« au moins l\'un des deux se réalise ») et l\'intersection $A \\cap B$ (« les deux se réalisent simultanément »).' +
         '<br/><br/>' +
         'La formule $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$ évite de compter deux fois les résultats favorables aux deux événements à la fois. Deux événements sont <strong>incompatibles</strong> si $A \\cap B = \\emptyset$ : ils ne peuvent jamais se produire ensemble, et la formule se simplifie en $P(A \\cup B) = P(A) + P(B)$.' +
         '<br/><br/>' +

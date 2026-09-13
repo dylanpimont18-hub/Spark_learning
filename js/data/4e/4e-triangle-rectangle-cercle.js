@@ -8,7 +8,15 @@
     keywords: ['Triangle rectangle', 'Cercle circonscrit', 'Angle inscrit', 'Diamètre', 'Hypoténuse'],
     physics: false,
     cours: {
-      intro: 'Le théorème de l\'angle inscrit dans un demi-cercle est un résultat élégant : si un triangle $ABC$ est inscrit dans un cercle et que $[BC]$ est un diamètre, alors l\'angle $\\hat{A}$ est nécessairement droit — et ce quel que soit l\'emplacement de $A$ sur le cercle (tant qu\'il n\'est pas sur le diamètre).' +
+      /* DECOUVRIR reecrit le 2026-09-13. L'intro ENONCAIT le theoreme et le
+         qualifiait d'elegant : il ne restait plus rien a decouvrir. On ouvre
+         sur un probleme d'atelier — tracer un angle droit sans equerre — dont
+         la solution est precisement le theoreme. L'eleve peut essayer, il ne
+         trouvera pas avec ses outils de cinquieme. */
+      intro: 'Dans un atelier, il faut tracer un angle parfaitement droit sur une grande plaque. Pas d\'équerre assez grande, pas de rapporteur. On dispose seulement d\'une ficelle et d\'un crayon.<br/><br/>' +
+        'Un menuisier trace alors un demi-cercle, place un point n\'importe où sur l\'arc, et le relie aux deux extrémités du diamètre. Il affirme que l\'angle obtenu est droit — <strong>à coup sûr</strong>, quel que soit le point choisi.<br/><br/>' +
+        'Cela paraît trop beau : pourquoi un point pris au hasard donnerait-il toujours exactement $90°$ ? Ce chapitre montre pourquoi, et pourquoi il n\'y a aucune exception.<br/><br/>' +
+        'Le théorème de l\'angle inscrit dans un demi-cercle est un résultat élégant : si un triangle $ABC$ est inscrit dans un cercle et que $[BC]$ est un diamètre, alors l\'angle $\\hat{A}$ est nécessairement droit — et ce quel que soit l\'emplacement de $A$ sur le cercle (tant qu\'il n\'est pas sur le diamètre).' +
         '<br/><br/>' +
         '<strong>Intuition géométrique :</strong> le centre $O$ du cercle est le milieu de $[BC]$, et $OA = OB = OC = R$ (rayons). Le triangle $OAB$ et $OAC$ sont isocèles. En additionnant les angles on obtient $\\hat{A} = 90°$.' +
         '<br/><br/>' +

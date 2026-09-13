@@ -8,7 +8,15 @@
     keywords: ['Pyramide', 'Cône', 'Volume', 'Base', 'Hauteur', 'Tiers'],
     physics: 'Calcul du volume d\'un silo conique, d\'une pyramide, d\'un tas de sable en génie civil',
     cours: {
-      intro: 'La pyramide et le cône ont un volume égal au tiers du prisme ou cylindre qui les contient : $V = \\frac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$.' +
+      /* DECOUVRIR reecrit le 2026-09-13. L'intro donnait la formule, donc le
+         resultat, des la premiere phrase. On ouvre sur l'experience du
+         transvasement : l'eleve peut PREDIRE (la plupart repondent « deux
+         fois ») puis se tromper. Le tiers cesse d'etre un coefficient a retenir
+         pour devenir un fait constate, que le chapitre explique ensuite. */
+      intro: 'Prends un cône et un cylindre qui ont exactement la même base et la même hauteur. Tu remplis le cône d\'eau et tu le verses dans le cylindre. Combien de cônes faut-il pour le remplir ?<br/><br/>' +
+        'Réponds avant de lire la suite. La plupart des élèves disent « deux », parce que le cône paraît occuper à peu près la moitié du cylindre.<br/><br/>' +
+        'Il en faut <strong>trois</strong>, exactement trois, et jamais un peu plus ou un peu moins. Ce nombre n\'a rien d\'un hasard de fabrication, et c\'est ce que ce chapitre explique.<br/><br/>' +
+        'La pyramide et le cône ont un volume égal au tiers du prisme ou cylindre qui les contient : $V = \\frac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$.' +
         '<br/><br/>' +
         '<strong>Intuition :</strong> en versant un cône rempli de sable dans le cylindre de même base et même hauteur, il faut exactement 3 remplissages — vérifiable expérimentalement ! Cette formule s\'applique à toute pyramide quelle que soit la forme de sà base (carrée, triangulaire, hexagonale…).' +
         '<br/><br/>' +

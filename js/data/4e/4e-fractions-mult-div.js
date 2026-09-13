@@ -9,7 +9,16 @@
     physics: 'Formules enchaînées : $v = \\frac{d}{t}$, $\\rho = \\frac{m}{V}$, changements d\'unités',
 
     cours: {
-      intro: 'Multiplier des fractions est plus simple que de les additionner : pas besoin de dénominateur commun — on multiplie numérateurs entre eux et dénominateurs entre eux.' +
+      /* DECOUVRIR reecrit le 2026-09-13. L'intro annoncait la regle de calcul
+         avant toute question. Ici le « des trois quarts d'une demi-plaque »
+         resiste : l'eleve de quatrieme sait multiplier des entiers et sait
+         qu'une multiplication AGRANDIT — or le resultat est plus petit que
+         chacun des deux facteurs. C'est ce heurt, et non la regle, qui ouvre
+         le chapitre. */
+      intro: 'Tu as une demi-plaque de chocolat, et tu en manges les trois quarts. Quelle part de la plaque entière as-tu mangée ?<br/><br/>' +
+        'Tu sens que c\'est une multiplication : « les trois quarts <strong>de</strong> la moitié ». Mais quelque chose cloche. Depuis l\'école primaire, multiplier veut dire agrandir — et ici tu obtiens $\\dfrac{3}{8}$, c\'est-à-dire <strong>moins que la moitié</strong> dont tu es parti, et moins que les trois quarts aussi.<br/><br/>' +
+        'Ce chapitre explique pourquoi multiplier peut réduire, et comment calculer ces parts de parts.<br/><br/>' +
+        'Multiplier des fractions est plus simple que de les additionner : pas besoin de dénominateur commun — on multiplie numérateurs entre eux et dénominateurs entre eux.' +
         '<br/><br/>' +
         'La <strong>simplification croisée</strong> évite les grands nombres : avant de multiplier, simplifier en diagonale ($\\frac{3}{4} \\times \\frac{8}{9}$ → simplifier $3$ et $9$ par $3$, $4$ et $8$ par $4$ → $\\frac{1}{1} \\times \\frac{2}{3} = \\frac{2}{3}$).' +
         '<br/><br/>' +

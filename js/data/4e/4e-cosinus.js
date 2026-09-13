@@ -8,7 +8,16 @@
     keywords: ['Cosinus', 'Angle aigu', 'Triangle rectangle', 'Adjacent', 'Hypoténuse'],
     physics: 'Décomposition de forces, travail d\'une force ($W = F \\cdot d \\cdot \\cos\\theta$), loi de Snell-Descartes en optique',
     cours: {
-      intro: 'Dans un triangle rectangle, le cosinus d\'un angle aigu mesure à quel point cet angle est « ouvert » : $\\cos(\\hat{A}) = \\dfrac{\\text{côté adjacent}}{\\text{hypoténuse}}$.' +
+      /* DECOUVRIR reecrit le 2026-09-13. L'intro ouvrait sur la definition du
+         cosinus, donc sur la notion qu'elle devait faire desirer. Le test du
+         cahier des charges : on doit avoir BESOIN du chapitre pour repondre.
+         Une echelle contre un mur ne donne que deux longueurs et aucun angle —
+         Pythagore, vu au chapitre 5, ne sait pas conclure. Il faut un outil qui
+         relie une longueur a un ANGLE : c'est exactement ce que le chapitre
+         apporte. */
+      intro: 'Une échelle de $4$ m est posée contre un mur, son pied à $1{,}20$ m du mur. Est-elle sûre ? Les pompiers disent qu\'une échelle tient bien quand elle fait environ $75°$ avec le sol.<br/><br/>' +
+        'Le problème : tu connais deux <strong>longueurs</strong>, et on te pose une question sur un <strong>angle</strong>. Pythagore ne sait pas répondre à ça — il ne parle que de longueurs. Il te manque un outil qui fasse le pont entre les deux.<br/><br/>' +
+        'Dans un triangle rectangle, le cosinus d\'un angle aigu mesure à quel point cet angle est « ouvert » : $\\cos(\\hat{A}) = \\dfrac{\\text{côté adjacent}}{\\text{hypoténuse}}$.' +
         '<br/><br/>' +
       'L\'idée clé est que tous les triangles rectangles ayant le même angle $\\hat{A}$ sont semblables, donc le rapport adj/hyp est toujours identique, quelle que soit la taille du triangle. Ce rapport vaut toujours entre $0$ et $1$ : $\\cos(0°) = 1$ (triangle complètement « plat ») et $\\cos(90°) = 0$ (angle droit).' +
         '<br/><br/>' +

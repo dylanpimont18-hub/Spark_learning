@@ -8,7 +8,16 @@
     keywords: ['Translation', 'Rotation', 'Vecteur', 'Image', 'Isométrie'],
     physics: false,
     cours: {
-      intro: 'Une translation déplace tous les points du plan du <strong>même vecteur</strong> $\\vec{v}$ — même direction, même sens, même longueur. Ce n\'est pas une rotation ni une symétrie : l\'orientation reste identique, les figures ne sont pas retournées.' +
+      /* DECOUVRIR reecrit le 2026-09-13. L'intro definissait la translation et
+         disait ce qu'elle n'est pas. On ouvre sur un besoin d'ECRITURE : deux
+         deplacements decrits en mots (« trois cases a droite, deux en haut »)
+         que rien, dans les outils de cinquieme, ne permet d'additionner. Le
+         vecteur apparait comme la notation qui manque, pas comme un objet
+         tombe du cours. */
+      intro: 'Un robot d\'entrepôt reçoit deux consignes : « avance de $5$ cases vers la droite et de $1$ case vers le bas », puis « avance de $2$ cases vers la gauche et de $3$ cases vers le haut ». Où arrive-t-il ?<br/><br/>' +
+        'Tu peux le suivre case par case sur un quadrillage, et tu trouveras. Mais s\'il reçoit trente consignes, ou si tu dois programmer la machine, dessiner ne suffit plus : il faut pouvoir <strong>calculer</strong> le déplacement total.<br/><br/>' +
+        'Pour cela, il faut d\'abord une façon d\'écrire un déplacement comme un objet unique, qu\'on puisse additionner à un autre. C\'est ce que ce chapitre introduit.<br/><br/>' +
+        'Une translation déplace tous les points du plan du <strong>même vecteur</strong> $\\vec{v}$ — même direction, même sens, même longueur. Ce n\'est pas une rotation ni une symétrie : l\'orientation reste identique, les figures ne sont pas retournées.' +
         '<br/><br/>' +
         'Une rotation de centre $O$ et d\'angle $\\theta$ tourne chaque point autour de $O$, en conservant la distance $OA$. Ces deux transformations sont des <strong>isométries directes</strong> : elles conservent distances, angles, aires, et l\'orientation (sens des sommets).' +
         '<br/><br/>' +

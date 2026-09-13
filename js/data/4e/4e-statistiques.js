@@ -8,7 +8,15 @@
     keywords: ['Médiane', 'Quartile', 'Étendue', 'Boîte à moustaches', 'Série ordonnée'],
     physics: false,
     cours: {
-      intro: 'La médiane est la valeur qui partage une série ordonnée en deux groupes d\'effectif égal : autant de valeurs en dessous qu\'au-dessus. Contrairement à la moyenne, elle n\'est pas perturbée par les valeurs extrêmes (salaires de PDG, erreurs de mesure…).' +
+      /* DECOUVRIR reecrit le 2026-09-13. L'intro definissait la mediane et
+         annoncait sa qualite. On ouvre desormais sur une moyenne VRAIE mais
+         trompeuse : l'eleve sait deja calculer une moyenne, il constate qu'elle
+         ne decrit personne, et c'est ce constat qui rend la mediane necessaire.
+         La question ne peut pas se resoudre avec les outils de cinquieme. */
+      intro: 'Dans une petite entreprise de $9$ salariés, le salaire moyen est de $2\\,250$ € par mois. Pourtant, huit des neuf salariés gagnent moins de $1\\,800$ €.<br/><br/>' +
+        'La moyenne n\'est pas fausse : elle est correctement calculée. Le patron se paie $7\\,400$ € et tire à lui tout seul le résultat vers le haut.<br/><br/>' +
+        'Alors comment donner un salaire « typique » de cette entreprise, un nombre qui décrive vraiment la situation des salariés ? La moyenne ne sait pas le faire. Il faut un autre indicateur.<br/><br/>' +
+        'La médiane est la valeur qui partage une série ordonnée en deux groupes d\'effectif égal : autant de valeurs en dessous qu\'au-dessus. Contrairement à la moyenne, elle n\'est pas perturbée par les valeurs extrêmes (salaires de PDG, erreurs de mesure…).' +
         '<br/><br/>' +
         'Les quartiles $Q_1$ et $Q_3$ affinent cette idée : $25\\%$ des valeurs sont inférieures à $Q_1$ et $75\\%$ sont inférieures à $Q_3$. L\'écart interquartile $IQR = Q_3 - Q_1$ mesure la dispersion de la moitié centrale des données, sans être biaisé par les extrêmes.' +
         '<br/><br/>' +

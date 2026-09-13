@@ -9,7 +9,17 @@
     physics: 'Transformer toute formule physique : $\\rho = m/V$ → trouver $m$',
 
     cours: {
-      intro: 'Isoler une inconnue, c\'est comme défaire un nœud : on défait les opérations dans l\'ordre inverse. <strong>Principe fondamental :</strong> l\'égalité est une balance — toute opération effectuée d\'un côté doit l\'être de l\'autre.' +
+      /* DECOUVRIR reecrit le 2026-09-13. L'intro posait d'emblee la methode et
+         l'image de la balance. On ouvre sur un probleme que l'eleve sait
+         resoudre PAR TATONNEMENT avec des nombres ronds, puis on change les
+         nombres pour que le tatonnement devienne impraticable : l'equation
+         n'est plus une formalite imposee, c'est ce qui reste quand essayer ne
+         marche plus. */
+      intro: 'Un rectangle a un périmètre de $46$ cm et sa longueur dépasse sa largeur de $7$ cm. Quelle est sa largeur ?<br/><br/>' +
+        'Tu peux essayer : $10$ et $17$ ? Le périmètre fait $54$, trop grand. $8$ et $15$ ? On tombe sur $46$. Trouvé.<br/><br/>' +
+        'Maintenant, même problème avec un périmètre de $47{,}8$ cm et un écart de $6{,}3$ cm. Le tâtonnement ne mène plus nulle part, et pourtant le problème est exactement le même.<br/><br/>' +
+        'Il te faut une méthode qui donne la réponse <strong>sans deviner</strong>, quels que soient les nombres. C\'est tout l\'objet de ce chapitre.<br/><br/>' +
+        'Isoler une inconnue, c\'est comme défaire un nœud : on défait les opérations dans l\'ordre inverse. <strong>Principe fondamental :</strong> l\'égalité est une balance — toute opération effectuée d\'un côté doit l\'être de l\'autre.' +
         '<br/><br/>' +
         'En physique, la même formule sert dans les deux sens : $\\rho = \\dfrac{m}{V}$ permet de calculer $m$ (si on connaît $\\rho$ et $V$), ou $V$ (si on connaît $m$ et $\\rho$). Il n\'y a pas de "nouvelle formule" — juste de l\'algèbre.' +
         '<br/><br/>' +

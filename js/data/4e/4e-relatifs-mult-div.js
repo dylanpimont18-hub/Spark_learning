@@ -8,7 +8,16 @@
     keywords: ['Nombres relatifs', 'Règle des signes', 'Produit', 'Quotient', 'Négatif'],
     physics: 'Calcul de variations de température, produit de charges électriques de signes opposés',
     cours: {
-      intro: 'La règle des signes pour la multiplication est intuitive si on pense aux opposés : multiplier par $-1$ inverse le signe. Donc $(-1) \\times (-1) = 1$ car « l\'opposé de l\'opposé ». Règle générale : pair de $-$ → $+$, impair de $-$ → $-$.' +
+      /* DECOUVRIR reecrit le 2026-09-13. L'intro donnait la regle des signes
+         puis la justifiait : l'eleve n'avait plus rien a chercher. On ouvre sur
+         la dette, ou le resultat se DEDUIT du sens (retirer trois dettes de
+         50 euros enrichit de 150 euros) alors qu'aucune regle de sixieme ne le
+         donne. « Moins par moins fait plus » cesse d'etre arbitraire : c'est ce
+         que la situation impose. */
+      intro: 'Tu dois $50$ € à trois personnes : ta situation vaut $3 \\times (-50) = -150$ €. Maintenant, ces trois dettes sont annulées. Que devient ta situation ?<br/><br/>' +
+        'Tu retires trois fois une dette de $50$ €, ce qui s\'écrit $(-3) \\times (-50)$. Et sans faire aucun calcul, tu sais déjà que tu es <strong>plus riche de $150$ €</strong> qu\'avant : la situation impose que le résultat soit positif.<br/><br/>' +
+        'C\'est la seule justification honnête de « moins par moins fait plus » : ce n\'est pas une convention à retenir, c\'est ce que la réalité oblige à écrire.<br/><br/>' +
+        'La règle des signes pour la multiplication est intuitive si on pense aux opposés : multiplier par $-1$ inverse le signe. Donc $(-1) \\times (-1) = 1$ car « l\'opposé de l\'opposé ». Règle générale : pair de $-$ → $+$, impair de $-$ → $-$.' +
         '<br/><br/>' +
         '<strong>Piège classique avec les exposants :</strong> $(-3)^2 = (-3) \\times (-3) = +9$ (le $-$ est dans là base), mais $-3^2 = -(3 \\times 3) = -9$ (l\'exposant s\'applique uniquement au $3$). Les parenthèses sont essentielles.' +
         '<br/><br/>' +
