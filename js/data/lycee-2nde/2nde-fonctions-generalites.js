@@ -12,7 +12,31 @@ window.MODULES.push({
     keywords: ['Fonction', 'Image', 'Antécédent', 'Variations', 'Extremum'],
     physics: false,
     cours: {
-      intro: 'Une <strong>fonction</strong> est une règle qui associe à chaque $x$ de son domaine de définition une <strong>image unique</strong> $f(x)$. Son graphe est la courbe des points $(x ; f(x))$ dans le plan — la courbe ne peut pas se « dédoubler » verticalement.<br/><br/>La notion de <strong>variation</strong> décrit l\'évolution de $f(x)$ quand $x$ augmente : croissante (graphe monte), décroissante (graphe descend). Un <strong>extremum</strong> est un point où la fonction change de sens.<br/><br/>Lire un graphe nécessite de distinguer clairement abscisse ($x$, entrée) et ordonnée ($f(x)$, sortie) : image → lecture verticale, antécédent → lecture horizontale.',
+      /* « Découvrir » RÉÉCRIT le 2026-09-13.
+
+         L'ancienne version ouvrait sur « Une fonction est une règle qui
+         associe à chaque x... » : c'est la DÉFINITION, donc exactement ce
+         que le cahier des charges proscrit en ouverture. Le test appliqué :
+         « peut-on répondre à la question d'ouverture sans la notion du
+         chapitre ? » — ici il n'y avait pas de question du tout.
+
+         La situation retenue rend visible, SANS AUCUN VOCABULAIRE, la
+         dissymétrie entre image et antécédent : un objet lancé passe DEUX
+         FOIS par la même hauteur, une fois en montant, une fois en
+         redescendant. L'élève constate qu'une question a une réponse unique
+         et l'autre deux, avant qu'on ait nommé quoi que ce soit. C'est
+         exactement l'asymétrie que tout le chapitre exploite, et la source
+         de l'erreur la plus tenace du niveau (échanger les deux mots).
+
+         Entrée non décorative : la difficulté est réelle, et le ballon n'est
+         qu'un support de lecture, pas une anecdote plaquée. */
+      intro: 'Tu lances un ballon en l\'air. Il monte, il ralentit, puis il retombe.<br/><br/>' +
+        'Pose-toi maintenant deux questions qui se ressemblent beaucoup.<br/><br/>' +
+        '<strong>Première question :</strong> deux secondes après le lancer, à quelle hauteur se trouve le ballon ? Il n\'y a qu\'une seule réponse possible. À un instant donné, le ballon est quelque part, et il n\'est qu\'à un seul endroit.<br/><br/>' +
+        '<strong>Deuxième question :</strong> à quel instant le ballon se trouve-t-il à $5$ mètres de haut ? Cette fois il y a <strong>deux</strong> réponses — une fois en montant, une fois en redescendant. Et si tu demandes $50$ mètres, il n\'y en a sans doute <strong>aucune</strong>.<br/><br/>' +
+        'Les deux questions portent pourtant sur le même lancer, avec les mêmes nombres. Ce qui change, c\'est le <strong>sens de lecture</strong> : de l\'instant vers la hauteur, ou de la hauteur vers l\'instant.<br/><br/>' +
+        'C\'est toute l\'affaire de ce chapitre. Une <strong>fonction</strong> associe à chaque nombre de départ une valeur d\'arrivée et une seule, qu\'on appelle son <strong>image</strong>. Mais si tu remontes le courant, en partant de l\'arrivée pour retrouver les départs possibles — ce qu\'on appelle les <strong>antécédents</strong> —, tu peux en trouver deux, dix, ou pas un seul.<br/><br/>' +
+        'Cette dissymétrie déroute au début, et c\'est précisément elle qui oblige à disposer de deux mots différents. Le reste du chapitre — domaine de définition, sens de variation, maximum — sert à décrire proprement ce que fait une fonction, et te servira sans interruption jusqu\'en terminale.',
       definitions: [
         { term: 'Fonction', def: 'Règle qui associe à chaque valeur $x$ de son domaine de définition une unique image $f(x)$.' },
         { term: 'Image', def: 'La valeur $f(x)$ obtenue en appliquant la fonction à $x$. Se lit verticalement sur le graphe.' },

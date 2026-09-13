@@ -13,7 +13,29 @@ window.MODULES.push({
     physics: 'Loi de Beer-Lambert, gaz parfaits, étalonnage',
 
     cours: {
-      intro: 'Une <strong>fonction affine</strong> $f(x) = ax + b$ est représentée par une droite dans le plan.<br/><br/>Le coefficient $a$, appelé <strong>pente</strong> (ou coefficient directeur), indique de combien $f(x)$ varie quand $x$ augmente de $1$.<br/><br/>Le terme $b$, l\'<strong>ordonnée à l\'origine</strong>, est la valeur de $f(0)$ — c\'est-à-dire l\'ordonnée du point où la droite coupe l\'axe vertical.<br/><br/>Cas particulier : si $b = 0$, la droite passe par l\'origine. On parle alors de <strong>fonction linéaire</strong> : la relation entre $x$ et $y$ est une proportionnalité directe.<br/><br/>En sciences, les lois affines et linéaires sont omniprésentes : loi de Beer-Lambert ($A = \\varepsilon l c$), loi d\'Ohm ($U = RI$), courbes d\'étalonnage...<br/><br/>Dans ces contextes, la pente porte toujours des <strong>unités physiques</strong> (le rapport $\\Delta y / \\Delta x$) qu\'il faut savoir interpréter, pas seulement calculer.',
+      /* « Découvrir » RÉÉCRIT le 2026-09-13.
+
+         L'ancienne version ouvrait sur « Une fonction affine f(x) = ax + b
+         est représentée par une droite » : une définition, donc l'entrée que
+         le cahier des charges proscrit.
+
+         PROBLÈME PROPRE À CE CHAPITRE : la fonction affine est connue depuis
+         la troisième, donc presque toute situation concrète se traite SANS
+         la notion — ce qui ferait échouer le test d'ouverture. On n'ouvre
+         donc pas sur « à quoi ça sert » mais sur une COMPARAISON que l'élève
+         ne sait pas trancher : deux tarifs dont aucun n'est meilleur que
+         l'autre dans l'absolu. La question « lequel choisir ? » n'a pas de
+         réponse tant qu'on n'a pas compris que c'est la PENTE qui décide au
+         loin et l'ORDONNÉE À L'ORIGINE près de zéro.
+
+         C'est aussi le glissement de regard que la seconde exige : on cesse
+         de tracer des droites pour comparer des fonctions. */
+      intro: 'Deux salles d\'escalade dans ta ville. La première demande $9$ € par séance, sans rien d\'autre. La seconde fait payer $60$ € d\'adhésion à l\'année, puis $3$ € seulement par séance.<br/><br/>' +
+        'Laquelle choisir ?<br/><br/>' +
+        'La question n\'a pas de réponse tant qu\'on ne sait pas combien de fois tu comptes y aller. Pour <strong>trois</strong> séances, la première revient à $27$ € et la seconde à $69$ € : la première gagne largement. Pour <strong>trente</strong> séances, la première demande $270$ € et la seconde $150$ € : le classement s\'est inversé.<br/><br/>' +
+        'Il existe donc un nombre de séances où les deux se valent exactement, et c\'est lui qui décide. Le trouver de tête est pénible ; le trouver une fois pour toutes, en écrivant chaque tarif comme une <strong>fonction affine</strong> $f(x) = ax + b$, prend deux lignes.<br/><br/>' +
+        'Dans cette écriture, chacun des deux nombres a un rôle que tu peux lire directement. Le coefficient $a$, la <strong>pente</strong>, dit de combien la dépense monte à chaque séance supplémentaire : c\'est lui qui l\'emporte quand $x$ devient grand. Le nombre $b$, l\'<strong>ordonnée à l\'origine</strong>, dit ce que tu paies avant même la première séance : c\'est lui qui pèse au début.<br/><br/>' +
+        'Tu connais déjà ces droites depuis la troisième. Ce que la seconde ajoute, c\'est qu\'on cesse de les tracer pour les <strong>comparer</strong> : savoir laquelle finira par passer devant l\'autre, et à partir de quand.',
       definitions: [
         { term: 'Fonction affine', def: 'Fonction de la forme $f(x) = ax + b$ dont la représentation graphique est une droite.' },
         { term: 'Coefficient directeur', def: 'Le nombre $a$ dans $y = ax + b$. Il mesure la variation de $y$ quand $x$ augmente de $1$ : $a = \\dfrac{\\Delta y}{\\Delta x}$.' },
@@ -224,7 +246,11 @@ window.MODULES.push({
            tirage réel et non le code. Les appelants doivent donc tolérer un
            terme constant absent, ce qui est le cas partout ici. */
         const par = (n) => (n < 0 ? '(' + n + ')' : String(n));
-        const signe = (n) => (n === 0 ? '' : (n < 0 ? '- ' + Math.abs(n) : '+ ' + n));
+        /* Le signe est precede de son propre espace, et rien n'est emis pour
+           zero : les appelants ecrivent donc `${a}x${signe(b)}` SANS espace
+           avant, sinon un terme nul laisse « $-4x $ » avec une espace
+           parasite avant le dollar fermant. */
+        const signe = (n) => (n === 0 ? '' : (n < 0 ? ' - ' + Math.abs(n) : ' + ' + n));
 
         const tache = pick(['ordonneeOrigine', 'pente', 'image', 'antecedent',
                             'appartenance', 'sensVariation', 'comparaison']);
@@ -252,7 +278,7 @@ window.MODULES.push({
             solution: [
               `Ordonnée à l'origine à partir de deux mesures : $a = \\dfrac{${y2} - ${par(y1)}}{${x2} - ${x1}} = \\dfrac{${y2 - y1}}{${x2 - x1}} = ${a}$ ${ctx.yUnit}/${ctx.xUnit}`,
               `$b = ${ctx.yName}_1 - a \\cdot ${ctx.xName}_1 = ${y1} - ${par(a)} \\times ${x1} = ${b}$ ${ctx.yUnit}`,
-              `Équation : $${ctx.yName} = ${a}${ctx.xName} ${signe(b)}$`
+              `Équation : $${ctx.yName} = ${a}${ctx.xName}${signe(b)}$`
             ]
           };
         }
@@ -286,14 +312,14 @@ window.MODULES.push({
           const b = rand(-9, 12);
           const x = rand(-6, 7);
           return {
-            statement: `Soit la fonction affine $f(x) = ${a}x ${signe(b)}$.<br/><br/>Calcule $f(${x})$.`,
+            statement: `Soit la fonction affine $f(x) = ${a}x${signe(b)}$.<br/><br/>Calcule $f(${x})$.`,
             answer: a * x + b,
             tolerance: 0,
             unit: '',
             hint: `Remplace $x$ par $${par(x)}$ dans l'expression, en gardant les parenthèses si le nombre est négatif.`,
             solution: [
-              `Image par une fonction affine : $f(${x}) = ${a} \\times ${par(x)} ${signe(b)}$`,
-              `$f(${x}) = ${a * x} ${signe(b)} = ${a * x + b}$`
+              `Image par une fonction affine : $f(${x}) = ${a} \\times ${par(x)}${signe(b)}$`,
+              `$f(${x}) = ${a * x}${signe(b)} = ${a * x + b}$`
             ]
           };
         }
@@ -306,16 +332,16 @@ window.MODULES.push({
           const x = rand(-6, 7);
           const k = a * x + b;
           return {
-            statement: `Soit la fonction affine $f(x) = ${a}x ${signe(b)}$.<br/><br/>Détermine l'<strong>antécédent</strong> de $${k}$ par $f$, c'est-à-dire résous $f(x) = ${k}$.`,
+            statement: `Soit la fonction affine $f(x) = ${a}x${signe(b)}$.<br/><br/>Détermine l'<strong>antécédent</strong> de $${k}$ par $f$, c'est-à-dire résous $f(x) = ${k}$.`,
             answer: x,
             tolerance: 0,
             unit: '',
-            hint: `Écris l'équation $${a}x ${signe(b)} = ${k}$, puis isole $x$ comme pour toute équation du premier degré.`,
+            hint: `Écris l'équation $${a}x${signe(b)} = ${k}$, puis isole $x$ comme pour toute équation du premier degré.`,
             solution: [
-              `Antécédent : je résous $${a}x ${signe(b)} = ${k}$`,
+              `Antécédent : je résous $${a}x${signe(b)} = ${k}$`,
               `${b < 0 ? 'J\'ajoute $' + Math.abs(b) + '$' : 'Je retire $' + b + '$'} aux deux membres : $${a}x = ${k - b}$`,
               `Je divise par $${a}$ : $x = ${x}$`,
-              `Vérification : $f(${x}) = ${a} \\times ${par(x)} ${signe(b)} = ${k}$ ✓`
+              `Vérification : $f(${x}) = ${a} \\times ${par(x)}${signe(b)} = ${k}$ ✓`
             ]
           };
         }
@@ -331,14 +357,14 @@ window.MODULES.push({
           const appartient = pick([true, false]);
           const y = appartient ? vrai : vrai + pick([-3, -2, -1, 1, 2, 3]);
           return {
-            statement: `On considère la droite d'équation $y = ${a}x ${signe(b)}$ et le point $P(${x}\\,;\\,${y})$.<br/><br/>Le point $P$ appartient-il à cette droite ?<br/><br/>Réponds par $1$ pour oui, $0$ pour non.`,
+            statement: `On considère la droite d'équation $y = ${a}x${signe(b)}$ et le point $P(${x}\\,;\\,${y})$.<br/><br/>Le point $P$ appartient-il à cette droite ?<br/><br/>Réponds par $1$ pour oui, $0$ pour non.`,
             answer: appartient ? 1 : 0,
             tolerance: 0,
             unit: '',
             hint: `Calcule l'ordonnée que la droite donne pour $x = ${par(x)}$, puis compare-la à $${y}$. Un point est sur la droite si et seulement si ses deux coordonnées vérifient l'équation.`,
             solution: [
               `Appartenance d'un point à une droite : je calcule l'ordonnée pour $x = ${par(x)}$`,
-              `$${a} \\times ${par(x)} ${signe(b)} = ${vrai}$`,
+              `$${a} \\times ${par(x)}${signe(b)} = ${vrai}$`,
               appartient
                 ? `On trouve $${vrai}$, qui est bien l'ordonnée de $P$ : le point <strong>appartient</strong> à la droite.`
                 : `On trouve $${vrai}$, alors que l'ordonnée de $P$ vaut $${y}$ : le point <strong>n'appartient pas</strong> à la droite.`

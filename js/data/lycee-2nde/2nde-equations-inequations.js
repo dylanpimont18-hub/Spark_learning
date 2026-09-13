@@ -12,7 +12,30 @@ window.MODULES.push({
     keywords: ['Équation', 'Inéquation', 'Intervalle solution', 'Premier degré'],
     physics: false,
     cours: {
-      intro: 'Une <strong>équation du premier degré</strong> établit une condition d\'égalité sur une inconnue $x$ : on cherche la valeur qui la rend vraie.<br/><br/>Une <strong>inéquation</strong> remplace l\'égalité par une relation d\'ordre ($<$, $>$, $\\leq$, $\\geq$) — sa solution est généralement un intervalle infini, pas une valeur unique.<br/><br/>Les deux se résolvent par les mêmes opérations élémentaires (ajouter, soustraire, multiplier, diviser des deux côtés). Il existe une seule <strong>règle d\'or</strong> propre aux inéquations : toute multiplication ou division par un nombre négatif inverse le sens de l\'inégalité.<br/><br/>En physique et en économie, les inéquations décrivent naturellement des contraintes concrètes : une distance qui doit rester positive, un seuil de rentabilité à atteindre, une condition de validité à respecter.<br/><br/>Exprimer les solutions sous forme d\'<strong>intervalle</strong> ($]-\\infty ; 2[$, $[3;+\\infty[$…) permet une lecture immédiate de l\'ensemble solution.',
+      /* « Découvrir » RÉÉCRIT le 2026-09-13.
+
+         L'ancienne version ouvrait sur « Une équation du premier degré
+         établit une condition d'égalité sur une inconnue x » : définition
+         pure, entrée proscrite par le cahier des charges.
+
+         DIFFICULTÉ PROPRE AU CHAPITRE : l'équation est connue depuis la
+         quatrième, donc toute situation d'équation se résout SANS rien
+         apprendre de neuf. L'ouverture porte donc sur ce qui est réellement
+         nouveau cette année, l'INÉQUATION, et sur le fait qu'elle change la
+         NATURE de la réponse : on ne cherche plus un nombre, on cherche un
+         ensemble. La question posée — « quel est le plus grand nombre de
+         personnes ? » — a une réponse unique, mais la question complète
+         (« lesquels conviennent ? ») en a une infinité, et c'est ce saut que
+         l'élève n'a jamais fait.
+
+         Entrée non décorative : l'ascenseur est un vrai cas de contrainte,
+         et la surcharge est précisément ce que l'inéquation décrit. */
+      intro: 'Dans un ascenseur, une plaque annonce une charge maximale de $525$ kg. Chaque personne pèse en moyenne $75$ kg.<br/><br/>' +
+        'Combien de personnes peuvent monter ?<br/><br/>' +
+        'Tu trouves sept sans difficulté, parce que $7 \\times 75 = 525$. Mais regarde ce que tu viens vraiment de répondre : <strong>sept personnes ou moins</strong>. Six conviennent aussi, et cinq, et quatre. La plaque n\'annonce pas un nombre à atteindre, elle annonce une limite à ne pas dépasser.<br/><br/>' +
+        'C\'est là que ce chapitre se sépare de tout ce que tu as fait jusqu\'ici. Une <strong>équation</strong> demande quel nombre rend une égalité vraie, et elle a en général une seule réponse. Une <strong>inéquation</strong> demande quels nombres respectent une contrainte, et elle en a presque toujours une <strong>infinité</strong>.<br/><br/>' +
+        'La réponse change alors de nature : ce n\'est plus un nombre, c\'est un <strong>ensemble</strong> de nombres. Il faut donc une écriture capable de désigner d\'un seul coup tous les nombres inférieurs ou égaux à sept — c\'est ce que fait la notation en <strong>intervalle</strong>.<br/><br/>' +
+        'Tu sais déjà résoudre une équation depuis la quatrième, et les techniques sont les mêmes ici. Une seule règle est nouvelle, et elle surprend tout le monde la première fois : multiplier ou diviser par un nombre <strong>négatif</strong> retourne le sens de l\'inégalité. Tu verras d\'où cela vient, et pourquoi ce n\'est pas une bizarrerie.',
       definitions: [
         { term: 'Équation du 1er degré', def: 'Relation $ax + b = 0$ où $a \\neq 0$. Elle admet une unique solution : $x = -b/a$.' },
         { term: 'Inéquation', def: 'Relation d\'ordre portant sur une inconnue ($ax + b < 0$, $\\geq$, etc.). L\'ensemble des solutions est un intervalle.' },
