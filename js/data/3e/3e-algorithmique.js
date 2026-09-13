@@ -121,7 +121,7 @@ window.MODULES.push(
     },
     quiz: [
       {
-        q: 'Quelle est la valeur de $S$ à la fin de cet algorithme ?\n$S \\leftarrow 0$\n$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; 4\\; \\mathtt{faire}$\n$\\quad S \\leftarrow S + i$',
+        q: 'Quelle est la valeur de $S$ à la fin de cet algorithme ?<br/>$S \\leftarrow 0$<br/>$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; 4\\; \\mathtt{faire}$<br/>$\\quad S \\leftarrow S + i$',
         options: ['$4$', '$6$', '$10$', '$16$'],
         answer: 2,
         correction: '$S = 0 + 1 + 2 + 3 + 4 = 10$. La boucle additionne tous les entiers de $1$ à $4$.'
@@ -146,31 +146,266 @@ window.MODULES.push(
     ],
     exercice: {
       type: 'numeric',
+      /* BANQUE ÉLARGIE le 2026-09-13.
+
+         AVANT : un seul moule de tâche — « exécute une boucle pour qui
+         accumule $S \leftarrow S + i$, donne $S$ » — habillé de six décors
+         tirés par pick() (Léa en Python, le professeur, le robot, Tom, une
+         application, un jeu vidéo). Mesure à 60 tirages : 6 moules d'énoncé,
+         mais **1 seule tâche distincte**. Pire, l'unique corrigé ne traçait
+         rien : il appliquait $\dfrac{n(n+1)}{2}$, c'est-à-dire une formule
+         extérieure au chapitre, si bien que l'élève pouvait résoudre tous les
+         exercices de la banque SANS JAMAIS exécuter un algorithme.
+
+         Or exécuter est précisément ce que le chapitre demande, et l'affectation
+         qui écrase — le $x \leftarrow x + 1$ sur lequel l'introduction tout
+         entière est bâtie — n'apparaissait dans aucun exercice. Ni la
+         condition, ni la boucle « tant que », ni la lecture du rôle d'un
+         algorithme, que l'évaluation exige pourtant toutes les trois.
+
+         DÉFAUT ADJACENT CORRIGÉ AU PASSAGE : l'énoncé annonçait « avec
+         $n = 5$ » alors que le pseudo-code portait déjà la borne en dur
+         ($\mathtt{pour}\; i\; \mathtt{de}\; 1\; \mathtt{à}\; 5$). La variable
+         $n$ n'existait donc nulle part dans l'algorithme montré : une donnée
+         fantôme, contredite par le code sous les yeux de l'élève.
+
+         APRÈS : sept familles de tâches.
+           - 'echange'   : deux affectations qui s'écrasent ($x \leftarrow x+y$
+                           puis $y \leftarrow x-y$). C'est LE piège du chapitre,
+                           et le corrigé trace ligne par ligne ;
+           - 'somme'     : la tâche d'origine, conservée, mais le corrigé
+                           déroule maintenant les tours de boucle avant de
+                           mentionner la formule, et la borne du code est
+                           celle de l'énoncé ;
+           - 'condition' : une boucle qui n'accumule que sous condition ;
+           - 'tantque'   : une boucle non bornée avec compteur — on divise par
+                           $2$ jusqu'à $1$ — dont le nombre de tours ne se
+                           devine pas ;
+           - 'produit'   : un produit accumulé (puissance ou factorielle), où
+                           l'initialisation à $1$ et non à $0$ est décisive ;
+           - 'tours'     : compter les tours d'une boucle $\mathtt{pour}$ de $a$
+                           à $b$ — la fameuse erreur du « décalage de un » ;
+           - 'role'      : identifier ce que CALCULE un algorithme, réponse
+                           codée 1/2/3. Lire un programme, pas l'exécuter.
+
+         TOUTES LES RÉPONSES SONT CALCULÉES PAR EXÉCUTION RÉELLE en JavaScript,
+         jamais par une formule fermée recopiée à la main : le corrigé et la
+         réponse ne peuvent donc pas diverger. */
       generate() {
-        const n = rand(3, 8);
-        let s = 0;
-        for (let i = 1; i <= n; i++) s += i;
+        const tache = pick(['echange', 'somme', 'condition', 'tantque',
+                            'produit', 'tours', 'role']);
 
-        const algoCode = `$S \\leftarrow 0$<br/>$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; ${n}\\; \\mathtt{faire}$<br/>$\\quad S \\leftarrow S + i$`;
-        const question = `Quelle est la <strong>valeur finale</strong> de $S$ à la fin de cet algorithme ?`;
+        /* Décors neutres : ils habillent l'énoncé sans jamais porter de donnée
+           chiffrée, pour qu'aucun contexte ne puisse contredire le pseudo-code
+           (c'est exactement ce qui produisait le « $n = 5$ » fantôme). */
+        const DECORS = [
+          'Ton professeur d\'informatique te demande de <strong>tracer l\'exécution</strong> de ce programme.',
+          'Léa débute en <strong>programmation</strong> et veut prévoir le résultat de son script <strong>avant</strong> de le lancer.',
+          'Un <strong>robot programmable</strong> exécute ce script au démarrage de sa mission.',
+          'Sur sa calculatrice, Tom saisit cet <strong>algorithme</strong> et veut anticiper ce qu\'il affichera.'
+        ];
 
-        const ctx = pick([
-          { build: () => `Léa débute en <strong>programmation Python</strong> et teste cet algorithme avec $n = ${n}$ :<br/><br/>${algoCode}<br/><br/>${question}` },
-          { build: () => `Ton professeur d'informatique te demande de <strong>tracer l'exécution</strong> de ce programme avec $n = ${n}$ :<br/><br/>${algoCode}<br/><br/>${question}` },
-          { build: () => `Un <strong>robot programmable</strong> exécute ce script pour calculer un score de mission, avec $n = ${n}$ :<br/><br/>${algoCode}<br/><br/>${question}` },
-          { build: () => `Sur sa calculatrice, Tom <strong>programme</strong> cet algorithme avec $n = ${n}$ :<br/><br/>${algoCode}<br/><br/>${question}` },
-          { build: () => `Une application mobile exécute ce code en <strong>arrière-plan</strong>, avec $n = ${n}$ :<br/><br/>${algoCode}<br/><br/>${question}` },
-          { build: () => `Dans un jeu vidéo, ce script calcule des <strong>points d'expérience</strong> à partir de $n = ${n}$ :<br/><br/>${algoCode}<br/><br/>${question}` }
-        ]);
+        if (tache === 'echange') {
+          /* LE PIÈGE DU CHAPITRE : une affectation écrase l'ancienne valeur, si
+             bien que la deuxième ligne ne travaille PAS sur le $x$ de départ.
+             L'introduction du cours est construite là-dessus et aucun exercice
+             ne l'atteignait. */
+          /* x0 et y0 doivent être DIFFÉRENTS : à valeurs égales, l'échange est
+             invisible (les deux variables finissent sur leur propre valeur) et
+             la ligne de contrôle « les deux variables ont échangé » ne prouve
+             plus rien. Défaut vu seulement à la relecture des tirages. */
+          const x0 = rand(2, 12);
+          let y0 = rand(3, 15);
+          if (y0 === x0) y0 = x0 + 3;
+          const x1 = x0 + y0;
+          const y1 = x1 - y0;                  // vaut x0 : c'est le point
+          const x2 = x1 - y1;                  // vaut y0
+          const quelle = pick(['x', 'y']);
+          const rep = quelle === 'x' ? x2 : y1;
+          const code = `$x \\leftarrow ${x0}$<br/>$y \\leftarrow ${y0}$<br/>$x \\leftarrow x + y$<br/>$y \\leftarrow x - y$<br/>$x \\leftarrow x - y$`;
+          return {
+            statement: `${pick(DECORS)}<br/><br/>${code}<br/><br/>` +
+              `Quelle est la <strong>valeur finale</strong> de $${quelle}$ ?`,
+            answer: rep, tolerance: 0, unit: '',
+            hint: `La flèche $\\leftarrow$ ne signifie pas « est égal à » mais « <strong>reçoit</strong> ».<br/><br/>Dresse un tableau à deux colonnes, $x$ et $y$, et remplis une ligne par instruction : dès la troisième ligne, $x$ ne vaut plus $${x0}$.`,
+            solution: [
+              `On trace ligne par ligne, en n'utilisant à chaque fois que les valeurs <strong>courantes</strong> — jamais celles du départ, qui ont pu être écrasées.`,
+              `Après $x \\leftarrow ${x0}$ et $y \\leftarrow ${y0}$ : $x = ${x0}$, $y = ${y0}$.<br/><br/>` +
+              `$x \\leftarrow x + y$ donne $x = ${x0} + ${y0} = ${x1}$ (et $y$ ne bouge pas).<br/><br/>` +
+              `$y \\leftarrow x - y$ utilise le <strong>nouveau</strong> $x$ : $y = ${x1} - ${y0} = ${y1}$.<br/><br/>` +
+              `$x \\leftarrow x - y$ donne $x = ${x1} - ${y1} = ${x2}$.`,
+              `La valeur finale de $${quelle}$ est donc <strong>$${rep}$</strong>.<br/><br/>Contrôle : les deux variables ont <strong>échangé</strong> leurs valeurs de départ, sans passer par une troisième variable. C'est tout l'intérêt de ces trois lignes.`
+            ]
+          };
+        }
 
+        if (tache === 'somme') {
+          /* LA TÂCHE D'ORIGINE, conservée — mais le corrigé déroule désormais
+             les tours avant de citer la formule, et la borne affichée dans le
+             code est bien celle de l'énoncé. */
+          const n = rand(4, 9);
+          let s = 0; const tours = [];
+          for (let i = 1; i <= n; i++) { const av = s; s += i; tours.push(`tour $i = ${i}$ : $S = ${av} + ${i} = ${s}$`); }
+          const code = `$S \\leftarrow 0$<br/>$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; ${n}\\; \\mathtt{faire}$<br/>$\\quad S \\leftarrow S + i$<br/>$\\mathtt{fin\\ pour}$`;
+          return {
+            statement: `${pick(DECORS)}<br/><br/>${code}<br/><br/>` +
+              `Quelle est la <strong>valeur finale</strong> de $S$ ?`,
+            answer: s, tolerance: 0, unit: '',
+            hint: `À chaque tour, $S$ <strong>s'augmente</strong> de la valeur courante de $i$, qui va de $1$ à $${n}$.<br/><br/>Écris les $${n}$ valeurs successives de $S$ : la dernière est la réponse.`,
+            solution: [
+              `La variable $S$ sert d'<strong>accumulateur</strong> : elle part de $0$ et se voit ajouter, à chaque tour, la valeur courante de $i$. On déroule donc les $${n}$ tours.`,
+              `${tours.slice(0, 4).join(' ; ')}${n > 4 ? ' ; … et ainsi de suite jusqu\'au dernier tour' : ''}.`,
+              `À la sortie de la boucle, $S = 1 + 2 + \\ldots + ${n} = ${s}$.<br/><br/>Contrôle rapide : la somme des entiers de $1$ à $${n}$ vaut aussi $\\dfrac{${n} \\times ${n + 1}}{2} = ${s}$ — même résultat, ce qui confirme la trace.`
+            ]
+          };
+        }
+
+        if (tache === 'condition') {
+          /* UNE CONDITION DANS LA BOUCLE : tous les tours ne contribuent pas.
+             L'élève qui somme sans filtrer se trahit immédiatement. */
+          const n = rand(6, 12);
+          const cas = pick([
+            { test: '$i$ est <strong>pair</strong>', garde: (i) => i % 2 === 0, dit: 'pairs' },
+            { test: '$i$ est <strong>impair</strong>', garde: (i) => i % 2 === 1, dit: 'impairs' },
+            { test: '$i$ est un <strong>multiple de $3$</strong>', garde: (i) => i % 3 === 0, dit: 'multiples de $3$' }
+          ]);
+          let s = 0; const retenus = [];
+          for (let i = 1; i <= n; i++) if (cas.garde(i)) { s += i; retenus.push(i); }
+          const code = `$S \\leftarrow 0$<br/>$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; ${n}\\; \\mathtt{faire}$<br/>$\\quad \\mathtt{si}\\;$ ${cas.test} $\\mathtt{alors}$<br/>$\\quad\\quad S \\leftarrow S + i$<br/>$\\quad \\mathtt{fin\\ si}$<br/>$\\mathtt{fin\\ pour}$`;
+          return {
+            statement: `${pick(DECORS)}<br/><br/>${code}<br/><br/>` +
+              `Quelle est la <strong>valeur finale</strong> de $S$ ?`,
+            answer: s, tolerance: 0, unit: '',
+            hint: `La boucle fait bien $${n}$ tours, mais l'instruction $S \\leftarrow S + i$ ne s'exécute <strong>que</strong> lorsque le test est vrai.<br/><br/>Commence par lister les valeurs de $i$ qui passent le test.`,
+            solution: [
+              `Une condition à l'intérieur d'une boucle ne change pas le <strong>nombre de tours</strong> — il y en a toujours $${n}$ — mais elle filtre ceux qui font quelque chose. On liste donc d'abord les valeurs retenues.`,
+              `Parmi $1$ à $${n}$, les ${cas.dit} sont $${retenus.join('$, $')}$.`,
+              `Il ne reste qu'à les additionner : $S = ${retenus.join(' + ')} = ${s}$.<br/><br/>Contrôle : seuls $${retenus.length}$ tours sur $${n}$ ont modifié $S$ ; les autres ont bien tourné à vide.`
+            ]
+          };
+        }
+
+        if (tache === 'tantque') {
+          /* LA BOUCLE NON BORNÉE : le nombre de tours n'est pas écrit dans le
+             code, il se découvre en exécutant. L'évaluation pose exactement
+             cette question et aucun exercice ne l'entraînait. */
+          const depart = pick([40, 60, 80, 100, 120, 200]);
+          let v = depart, c = 0; const trace = [depart];
+          while (v > 1) { v = Math.floor(v / 2); c += 1; trace.push(v); }
+          const code = `$c \\leftarrow 0$<br/>$n \\leftarrow ${depart}$<br/>$\\mathtt{tant\\ que}\\; n > 1\\; \\mathtt{faire}$<br/>$\\quad n \\leftarrow n \\div 2$ (division entière)<br/>$\\quad c \\leftarrow c + 1$<br/>$\\mathtt{fin\\ tant\\ que}$`;
+          return {
+            statement: `${pick(DECORS)}<br/><br/>${code}<br/><br/>` +
+              `Ici, le nombre de tours n'est <strong>pas écrit</strong> dans le programme : il dépend de la valeur de $n$.<br/><br/>` +
+              `Quelle est la <strong>valeur finale</strong> de $c$ ?`,
+            answer: c, tolerance: 0, unit: '',
+            hint: `Écris la suite des valeurs prises par $n$ : $${depart}$, puis sa moitié, puis la moitié de celle-ci…<br/><br/>La division est <strong>entière</strong> : $25 \\div 2$ donne $12$, pas $12{,}5$. Le compteur $c$ augmente d'un à chaque passage.`,
+            solution: [
+              `Une boucle « tant que » ne dit pas combien de tours elle fera : il faut la dérouler jusqu'à ce que la condition $n > 1$ devienne fausse. On écrit donc la suite des valeurs de $n$.`,
+              `$${trace.join(' \\to ')}$. La division étant entière, les décimales sont abandonnées à chaque étape.`,
+              `On s'arrête dès que $n \\leq 1$. Le compteur a été augmenté une fois par passage, soit <strong>$${c}$</strong> fois.<br/><br/>Contrôle : il y a bien $${trace.length}$ valeurs dans la suite, dont la première n'est pas issue d'un tour — d'où $${trace.length} - 1 = ${c}$ tours.`
+            ]
+          };
+        }
+
+        if (tache === 'produit') {
+          /* PRODUIT ACCUMULÉ : l'initialisation à $1$ et non à $0$ est
+             décisive, et c'est l'erreur que fait tout élève venant de la somme.
+             La solution le dit explicitement. */
+          const cas = pick([
+            { n: rand(3, 6), mult: 2, nom: 'puissance de $2$' },
+            { n: rand(3, 5), mult: 3, nom: 'puissance de $3$' },
+            { n: rand(3, 5), mult: 0, nom: 'factorielle' }   // mult 0 => multiplie par i
+          ]);
+          let p = 1; const tours = [];
+          for (let i = 1; i <= cas.n; i++) {
+            const av = p, f = cas.mult === 0 ? i : cas.mult;
+            p *= f; tours.push(`$${av} \\times ${f} = ${p}$`);
+          }
+          const ligne = cas.mult === 0 ? '$\\quad P \\leftarrow P \\times i$' : `$\\quad P \\leftarrow P \\times ${cas.mult}$`;
+          const code = `$P \\leftarrow 1$<br/>$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; ${cas.n}\\; \\mathtt{faire}$<br/>${ligne}<br/>$\\mathtt{fin\\ pour}$`;
+          return {
+            statement: `${pick(DECORS)}<br/><br/>${code}<br/><br/>` +
+              `Quelle est la <strong>valeur finale</strong> de $P$ ?`,
+            answer: p, tolerance: 0, unit: '',
+            hint: `Remarque que $P$ part de $1$, et non de $0$ : dans un produit accumulé, partir de $0$ laisserait $P$ à $0$ pour toujours.<br/><br/>Écris les $${cas.n}$ valeurs successives de $P$.`,
+            solution: [
+              `Ici $P$ accumule un <strong>produit</strong>, et non une somme : c'est pourquoi il part de $1$. Partir de $0$ le condamnerait à rester nul, puisque $0$ multiplié par quoi que ce soit vaut $0$.`,
+              `On déroule les tours : ${tours.join(', puis ')}.`,
+              /* Pour une factorielle de 3 ou 4, on écrit le produit EN ENTIER :
+                 « $1 \times 2 \times \ldots \times 3$ » était absurde, les
+                 points de suspension ne sautant aucun facteur. */
+              `La valeur finale est $P = ${p}$.<br/><br/>Contrôle : l'algorithme calcule ${cas.mult === 0 ? `$${Array.from({ length: cas.n }, (_, j) => j + 1).join(' \\times ')}$, la <strong>factorielle</strong> de $${cas.n}$` : `$${cas.mult}^{${cas.n}}$, une <strong>${cas.nom}</strong>`}, et $${p}$ est bien ce nombre.`
+            ]
+          };
+        }
+
+        if (tache === 'tours') {
+          /* COMPTER LES TOURS d'une boucle pour de a à b. L'erreur du
+             « décalage de un » — répondre b - a — est la plus répandue du
+             chapitre, et le corrigé la prend de front sur un petit exemple
+             vérifiable à la main. */
+          const a = rand(1, 9), b = a + rand(3, 14);
+          const nb = b - a + 1;
+          const code = `$c \\leftarrow 0$<br/>$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; ${a}\\; \\mathtt{à}\\; ${b}\\; \\mathtt{faire}$<br/>$\\quad c \\leftarrow c + 1$<br/>$\\mathtt{fin\\ pour}$`;
+          return {
+            statement: `${pick(DECORS)}<br/><br/>${code}<br/><br/>` +
+              `Le compteur $c$ augmente de $1$ à chaque tour de boucle.<br/><br/>` +
+              `Quelle est la <strong>valeur finale</strong> de $c$, autrement dit combien de tours la boucle effectue-t-elle ?`,
+            answer: nb, tolerance: 0, unit: '',
+            hint: `Attention : la boucle exécute un tour pour $i = ${a}$ <strong>et</strong> un tour pour $i = ${b}$ — les deux bornes sont incluses.<br/><br/>Vérifie ta méthode sur un cas minuscule : de $3$ à $5$, il y a $3$ tours et non $2$.`,
+            solution: [
+              `Dans une boucle $\\mathtt{pour}\\; i\\; \\mathtt{de}\\; a\\; \\mathtt{à}\\; b$, les <strong>deux bornes sont incluses</strong> : $i$ prend la valeur $a$, puis toutes les suivantes, jusqu'à $b$ compris.`,
+              `Le nombre de tours vaut donc $b - a + 1$, et non $b - a$. Ici : $${b} - ${a} + 1 = ${nb}$.`,
+              `La valeur finale de $c$ est <strong>$${nb}$</strong>.<br/><br/>Contrôle sur un cas minuscule : de $3$ à $5$, la formule donne $5 - 3 + 1 = 3$, et on compte bien trois tours ($i = 3$, $i = 4$, $i = 5$). Le « $+1$ » oublié est l'erreur la plus fréquente du chapitre.`
+            ]
+          };
+        }
+
+        /* tache === 'role' : LIRE un algorithme au lieu de l'exécuter. On ne
+           demande aucun nombre à calculer, mais ce que le programme CALCULE en
+           général. Réponse codée 1, 2 ou 3 pour rester une question numérique.
+           L'évaluation pose cette question et rien ne l'entraînait. */
+        const enigmes = [
+          {
+            code: `$P \\leftarrow 1$<br/>$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; n\\; \\mathtt{faire}$<br/>$\\quad P \\leftarrow P \\times 2$<br/>$\\mathtt{fin\\ pour}$`,
+            props: ['$2 \\times n$', '$2^n$', '$n^2$'],
+            bon: 2,
+            pourquoi: 'à chaque tour $P$ est multiplié par $2$, et il y a $n$ tours : on multiplie donc $n$ fois par $2$',
+            essai: 'Avec $n = 3$ : $P$ passe de $1$ à $2$, puis $4$, puis $8$. Or $2 \\times 3 = 6$ et $3^2 = 9$, tandis que $2^3 = 8$'
+          },
+          {
+            code: `$S \\leftarrow 0$<br/>$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; n\\; \\mathtt{faire}$<br/>$\\quad S \\leftarrow S + 2$<br/>$\\mathtt{fin\\ pour}$`,
+            props: ['$2 \\times n$', '$2^n$', '$n + 2$'],
+            bon: 1,
+            pourquoi: 'à chaque tour on <strong>ajoute</strong> $2$, et il y a $n$ tours : on ajoute donc $n$ fois le nombre $2$',
+            essai: 'Avec $n = 4$ : $S$ passe de $0$ à $2$, $4$, $6$, $8$. Or $2^4 = 16$ et $4 + 2 = 6$, tandis que $2 \\times 4 = 8$'
+          },
+          {
+            code: `$P \\leftarrow 1$<br/>$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; n\\; \\mathtt{faire}$<br/>$\\quad P \\leftarrow P \\times i$<br/>$\\mathtt{fin\\ pour}$`,
+            props: ['$n \\times n$', '$1 + 2 + \\ldots + n$', '$1 \\times 2 \\times \\ldots \\times n$'],
+            bon: 3,
+            pourquoi: 'le facteur n\'est pas fixe : c\'est $i$, qui change à chaque tour et prend toutes les valeurs de $1$ à $n$',
+            essai: 'Avec $n = 4$ : $P$ passe de $1$ à $1$, $2$, $6$, $24$. Or $4 \\times 4 = 16$ et $1 + 2 + 3 + 4 = 10$, tandis que $1 \\times 2 \\times 3 \\times 4 = 24$'
+          },
+          {
+            code: `$S \\leftarrow 0$<br/>$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; n\\; \\mathtt{faire}$<br/>$\\quad S \\leftarrow S + i$<br/>$\\mathtt{fin\\ pour}$`,
+            props: ['$1 \\times 2 \\times \\ldots \\times n$', '$n \\times n$', '$1 + 2 + \\ldots + n$'],
+            bon: 3,
+            pourquoi: 'on <strong>ajoute</strong> la valeur courante de $i$, qui prend successivement toutes les valeurs de $1$ à $n$',
+            essai: 'Avec $n = 4$ : $S$ passe de $0$ à $1$, $3$, $6$, $10$. Or $1 \\times 2 \\times 3 \\times 4 = 24$ et $4 \\times 4 = 16$, tandis que $1 + 2 + 3 + 4 = 10$'
+          }
+        ];
+        const e = pick(enigmes);
         return {
-          statement: ctx.build(),
-          answer: s,
-          tolerance: 0,
-          unit: '',
-          hint: `La boucle calcule $1 + 2 + 3 + \\ldots + ${n}$.<br/><br/>Formule : $S = \\dfrac{${n} \\times ${n+1}}{2}$.`,
+          statement: `Cet algorithme ne porte aucune valeur chiffrée : il travaille sur un entier $n$ quelconque.<br/><br/>${e.code}<br/><br/>` +
+            `Que <strong>calcule</strong>-t-il ?<br/><br/>` +
+            `Réponds par $1$ pour ${e.props[0]}, $2$ pour ${e.props[1]}, $3$ pour ${e.props[2]}.`,
+          answer: e.bon, tolerance: 0, unit: '',
+          hint: `Impossible d'exécuter le programme tel quel, puisque $n$ n'a pas de valeur : c'est voulu.<br/><br/>La bonne méthode est de <strong>l'essayer sur un petit nombre</strong>, $n = 3$ ou $n = 4$, puis de regarder laquelle des trois propositions donne ce résultat.`,
           solution: [
-            `$S = 1 + 2 + \\ldots + ${n} = \\dfrac{${n} \\times ${n+1}}{2} = ${s}$.`
+            `Quand un algorithme travaille sur un $n$ quelconque, on ne l'exécute pas : on le <strong>lit</strong>, puis on vérifie sur une petite valeur. Ici, ${e.pourquoi}.`,
+            `${e.essai}. Une seule proposition survit à l'essai.`,
+            `L'algorithme calcule donc ${e.props[e.bon - 1]}. Réponse : $${e.bon}$.<br/><br/>Contrôle : reprends l'essai avec une autre valeur de $n$ — si la proposition retenue est la bonne, elle doit encore convenir.`
           ]
         };
       }
@@ -195,7 +430,14 @@ window.MODULES.push(
       duration: '30 min',
       questions: [
         {
-          statement: 'On exécute l\'algorithme suivant :\n$x \\leftarrow 3$\n$y \\leftarrow 5$\n$x \\leftarrow x + y$\n$y \\leftarrow x - y$\nQuelle est la valeur de $y$ à la fin ?',
+          /* SAUTS DE LIGNE EN `<br/>` ET NON EN `\n` (2026-09-13). Defaut
+             PREEXISTANT, vu seulement a l'epreuve : LaTeX traite un `\n` isole
+             comme une simple espace, si bien que les cinq lignes de cet
+             algorithme s'imprimaient bout a bout sur une seule — « x <- 3
+             y <- 5 x <- x + y ... » — c'est-a-dire illisibles, dans le devoir
+             NOTE. Les exercices du meme chapitre employaient deja `<br/>` :
+             seule l'evaluation etait touchee, sur ses cinq questions. */
+          statement: 'On exécute l\'algorithme suivant :<br/>$x \\leftarrow 3$<br/>$y \\leftarrow 5$<br/>$x \\leftarrow x + y$<br/>$y \\leftarrow x - y$<br/>Quelle est la valeur de $y$ à la fin ?',
           type: 'numeric',
           answer: 3,
           tolerance: 0,
@@ -204,7 +446,7 @@ window.MODULES.push(
           correction: 'Ligne par ligne : $x = 3$, $y = 5$. Puis $x \\leftarrow 3 + 5 = 8$. Puis $y \\leftarrow 8 - 5 = 3$. La valeur finale de $y$ est $3$. En fait, cet algorithme échange les valeurs de $x$ et $y$ (sans variable intermédiaire pour $y$).'
         },
         {
-          statement: 'Quel est le rôle de cet algorithme ?\n$S \\leftarrow 1$\n$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; n\\; \\mathtt{faire}$\n$\\quad S \\leftarrow S \\times 2$',
+          statement: 'Quel est le rôle de cet algorithme ?<br/>$S \\leftarrow 1$<br/>$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; n\\; \\mathtt{faire}$<br/>$\\quad S \\leftarrow S \\times 2$',
           type: 'multiple-choice',
           options: ['Il calcule $2n$', 'Il calcule $2^n$', 'Il calcule $n!$', 'Il calcule $n^2$'],
           answer: 1,
@@ -212,7 +454,7 @@ window.MODULES.push(
           correction: 'À chaque passage dans la boucle, $S$ est multiplié par $2$. Après $n$ passages : $S = 1 \\times 2^n = 2^n$. Par exemple pour $n = 3$ : $S = 1 \\to 2 \\to 4 \\to 8 = 2^3$.'
         },
         {
-          statement: 'On exécute :\n$S \\leftarrow 0$\n$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; 5\\; \\mathtt{faire}$\n$\\quad \\mathtt{si}\\; i\\; \\mathtt{est\\; pair}\\; \\mathtt{alors}$\n$\\quad\\quad S \\leftarrow S + i$\nQuelle est la valeur finale de $S$ ?',
+          statement: 'On exécute :<br/>$S \\leftarrow 0$<br/>$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; 5\\; \\mathtt{faire}$<br/>$\\quad \\mathtt{si}\\; i\\; \\mathtt{est\\; pair}\\; \\mathtt{alors}$<br/>$\\quad\\quad S \\leftarrow S + i$<br/>Quelle est la valeur finale de $S$ ?',
           type: 'numeric',
           answer: 6,
           tolerance: 0,
@@ -221,7 +463,7 @@ window.MODULES.push(
           correction: 'Les entiers de $1$ à $5$ sont : $1, 2, 3, 4, 5$. Les pairs sont $2$ et $4$. Donc $S = 0 + 2 + 4 = 6$.'
         },
         {
-          statement: 'Un algorithme contient la boucle :\n$c \\leftarrow 0$\n$n \\leftarrow 100$\n$\\mathtt{tant\\; que}\\; n > 1\\; \\mathtt{faire}$\n$\\quad n \\leftarrow n \\div 2$ (division entière)\n$\\quad c \\leftarrow c + 1$\nQuelle est la valeur finale de $c$ ?',
+          statement: 'Un algorithme contient la boucle :<br/>$c \\leftarrow 0$<br/>$n \\leftarrow 100$<br/>$\\mathtt{tant\\; que}\\; n > 1\\; \\mathtt{faire}$<br/>$\\quad n \\leftarrow n \\div 2$ (division entière)<br/>$\\quad c \\leftarrow c + 1$<br/>Quelle est la valeur finale de $c$ ?',
           type: 'multiple-choice',
           options: ['$5$', '$6$', '$7$', '$50$'],
           answer: 1,
@@ -229,7 +471,7 @@ window.MODULES.push(
           correction: 'On divise $n$ par $2$ (division entière) successivement : $100 \\to 50 \\to 25 \\to 12 \\to 6 \\to 3 \\to 1$. On s\'arrête quand $n \\leq 1$. Le compteur $c$ a été incrémenté $6$ fois (une par passage dans la boucle).'
         },
         {
-          statement: 'On exécute l\'algorithme suivant avec $n = 6$ :\n$S \\leftarrow 0$\n$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; n\\; \\mathtt{faire}$\n$\\quad S \\leftarrow S + i \\times i$\nQuelle est la valeur finale de $S$ ?',
+          statement: 'On exécute l\'algorithme suivant avec $n = 6$ :<br/>$S \\leftarrow 0$<br/>$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; n\\; \\mathtt{faire}$<br/>$\\quad S \\leftarrow S + i \\times i$<br/>Quelle est la valeur finale de $S$ ?',
           type: 'numeric',
           answer: 91,
           tolerance: 0,
