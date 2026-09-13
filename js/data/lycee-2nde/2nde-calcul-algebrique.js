@@ -100,8 +100,67 @@ window.MODULES.push({
     exercice: {
       type: 'numeric',
       generate() {
-        const types = ['factoriser_diff', 'factoriser_carre', 'resoudre'];
+        /* GÉNÉRATEUR ÉLARGI le 2026-09-13 : 3 tâches avant, 6 après.
+           Le chapitre s'intitule « Calcul algébrique » mais ne proposait que
+           de la FACTORISATION. Développer, réduire et choisir la bonne forme
+           — c'est-à-dire l'autre moitié du chapitre, et ce que l'évaluation
+           interroge — n'étaient travaillés par aucun exercice. */
+        const types = ['factoriser_diff', 'factoriser_carre', 'resoudre',
+                       'developper_carre', 'developper_produit', 'valeur'];
         const type = pick(types);
+
+        /* Tâche 4 — développer un carré. Le double produit est l'erreur
+           reine du chapitre : on la fait travailler de face. */
+        if (type === 'developper_carre') {
+          const a = rand(2, 7), b = rand(2, 9);
+          const signe = pick([1, -1]);
+          const dbl = 2 * a * b * signe;
+          return {
+            statement: `Développe et réduis $(${a}x ${signe > 0 ? '+' : '-'} ${b})^2$.<br/><br/>Donne le <strong>coefficient du terme en $x$</strong>.`,
+            answer: dbl, tolerance: 0, unit: '',
+            hint: `Utilise l'identité $(u ${signe > 0 ? '+' : '-'} v)^2 = u^2 ${signe > 0 ? '+' : '-'} 2uv + v^2$, avec $u = ${a}x$ et $v = ${b}$. N'oublie surtout pas le double produit $2uv$.`,
+            solution: [
+              `On applique l'identité remarquable avec $u = ${a}x$ et $v = ${b}$.`,
+              `$(${a}x ${signe > 0 ? '+' : '-'} ${b})^2 = ${a * a}x^2 ${dbl >= 0 ? '+' : '-'} ${Math.abs(dbl)}x + ${b * b}$.`,
+              `Le coefficient du terme en $x$ est donc $${dbl}$ : c'est le double produit, la partie qu'on oublie le plus souvent.`
+            ]
+          };
+        }
+
+        /* Tâche 5 — développer un produit de deux binômes quelconques. */
+        if (type === 'developper_produit') {
+          const a = rand(2, 5), b = rand(1, 8), c = rand(2, 5), d = rand(1, 8);
+          const cst = b * d;
+          return {
+            statement: `Développe et réduis $(${a}x + ${b})(${c}x + ${d})$.<br/><br/>Donne le <strong>terme constant</strong> du résultat.`,
+            answer: cst, tolerance: 0, unit: '',
+            hint: `Multiplie chaque terme de la première parenthèse par chaque terme de la seconde : cela fait quatre produits. Le terme constant est celui qui ne contient aucun $x$.`,
+            solution: [
+              `On développe les quatre produits : $${a * c}x^2 + ${a * d}x + ${b * c}x + ${cst}$.`,
+              `En réduisant : $${a * c}x^2 + ${a * d + b * c}x + ${cst}$.`,
+              `Le terme constant est $${cst}$, c'est-à-dire le produit des deux constantes $${b} \\times ${d}$.`
+            ]
+          };
+        }
+
+        /* Tâche 6 — évaluer une expression en un nombre. Sert de contrôle :
+           deux écritures équivalentes donnent la MÊME valeur, ce qui est la
+           façon la plus sûre de vérifier une factorisation. */
+        if (type === 'valeur') {
+          const a = rand(2, 6), b = rand(1, 7);
+          const x = rand(-4, 5);
+          const val = (a * x + b) * (a * x - b);
+          return {
+            statement: `On pose $A = (${a}x + ${b})(${a}x - ${b})$.<br/><br/>Calcule la valeur de $A$ pour $x = ${x}$.`,
+            answer: val, tolerance: 0, unit: '',
+            hint: `Deux méthodes donnent le même résultat : remplacer $x$ directement dans la forme factorisée, ou développer d'abord en $${a * a}x^2 - ${b * b}$. Choisis la plus courte.`,
+            solution: [
+              `La forme factorisée est la plus rapide ici : $A = (${a} \\times ${x} + ${b})(${a} \\times ${x} - ${b})$.`,
+              `$A = (${a * x + b}) \\times (${a * x - b}) = ${val}$.`,
+              `Contrôle par la forme développée, $A = ${a * a}x^2 - ${b * b}$ : $${a * a} \\times ${x * x} - ${b * b} = ${val}$ ✓. Deux écritures d'une même expression donnent toujours la même valeur.`
+            ]
+          };
+        }
         if (type === 'factoriser_diff') {
           const a = rand(2, 6);
           const b = rand(1, 9);

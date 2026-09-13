@@ -142,9 +142,93 @@ window.MODULES.push({
       { q: 'Soit $f(x) = x^2 - 4x + 3$. On calcule $f(1) = 0$ et $f(3) = 0$. Peut-on dire que $f$ est constante (nulle) sur $[1;3]$ ?', options: ['Non : $f(1) = f(3) = 0$ ne signifie pas que $f$ est nulle entre les deux. Par exemple $f(2) = -1 \\neq 0$', 'Oui : si $f(1) = f(3) = 0$, alors $f$ vaut $0$ partout entre $1$ et $3$', 'Non : $f$ n\'est pas définie entre $1$ et $3$', 'Oui : c\'est le théorème des valeurs intermédiaires'], answer: 0, correction: 'Deux images égales ne signifient pas que la fonction est constante entre les deux. Ici $f(2) = 4 - 8 + 3 = -1 \\neq 0$. La fonction descend puis remonte. On ne peut rien déduire entre deux points sans information supplémentaire sur les variations.' },
       { q: 'Une fonction $f$ est décroissante sur $[0;5]$ avec $f(0) = 10$ et $f(5) = 2$. L\'équation $f(x) = 7$ admet-elle une solution sur $[0;5]$ ?', options: ['Oui : $2 \\leq 7 \\leq 10$ et $f$ est continue et décroissante, donc $f$ prend exactement une fois la valeur $7$', 'Non : on ne connaît pas l\'expression de $f$', 'Oui : il y a plusieurs solutions', 'Non : $f$ est décroissante donc elle ne peut pas valoir $7$'], answer: 0, correction: 'f est décroissante sur [0;5] avec f(0) = 10 ≥ 7 ≥ 2 = f(5). Comme f décroît continûment de 10 à 2, elle prend toutes les valeurs intermédiaires : il existe donc une unique valeur c telle que f(c) = 7.' }
     ],
+    /* GÉNÉRATEUR ÉLARGI le 2026-09-13.
+       Mesure AVANT : 18 énoncés tirés, 6 moules, mais **2 tâches distinctes**
+       seulement — toutes les variantes calculaient trois images d'un même
+       trinôme. L'antécédent (résoudre $f(x) = k$), le domaine de définition et
+       la lecture d'un tableau de variations, tous au programme du chapitre,
+       n'étaient travaillés par aucun exercice.
+
+       Cinq tâches maintenant. */
     exercice: {
       type: 'numeric',
       generate() {
+        const tache = pick(['images', 'antecedent', 'image-simple', 'variations', 'domaine']);
+
+        /* Tâche 2 — l'ANTÉCÉDENT, c'est-à-dire le chemin inverse. C'est la
+           confusion majeure du chapitre et aucun exercice ne la travaillait. */
+        if (tache === 'antecedent') {
+          const a = pick([-3, -2, 2, 3, 4]);
+          const b = rand(-8, 8);
+          const x = rand(-5, 6);
+          const k = a * x + b;
+          return {
+            statement: `Soit la fonction $g$ définie par $g(x) = ${a}x ${b >= 0 ? '+ ' + b : '- ' + Math.abs(b)}$.<br/><br/>Calcule l'<strong>antécédent</strong> de $${k}$ par $g$, c'est-à-dire résous $g(x) = ${k}$.`,
+            answer: x, tolerance: 0, unit: '',
+            hint: `Chercher un antécédent, c'est faire le chemin INVERSE d'une image : on connaît le résultat $${k}$ et on cherche le nombre de départ. Écris l'équation $${a}x ${b >= 0 ? '+ ' + b : '- ' + Math.abs(b)} = ${k}$ et résous-la.`,
+            solution: [
+              `Un antécédent de $${k}$ est un nombre $x$ dont l'image vaut $${k}$ : on résout donc $g(x) = ${k}$.`,
+              `$${a}x ${b >= 0 ? '+ ' + b : '- ' + Math.abs(b)} = ${k}$, donc $${a}x = ${k - b}$.`,
+              `D'où $x = ${x}$. Vérification : $g(${x}) = ${a} \\times ${x} ${b >= 0 ? '+ ' + b : '- ' + Math.abs(b)} = ${k}$ ✓`
+            ]
+          };
+        }
+
+        /* Tâche 3 — une image simple, pour installer la notation f(x). */
+        if (tache === 'image-simple') {
+          const a = pick([2, 3, -2, -1]);
+          const c = rand(-6, 6);
+          const x = rand(-4, 5);
+          const y = a * x * x + c;
+          return {
+            statement: `Soit $f(x) = ${a === -1 ? '-' : a}x^2 ${c >= 0 ? '+ ' + c : '- ' + Math.abs(c)}$.<br/><br/>Calcule $f(${x})$.`,
+            answer: y, tolerance: 0, unit: '',
+            hint: `Remplace chaque $x$ par $${x}$, <strong>parenthèses comprises</strong> si le nombre est négatif : $(${x})^2$ et non $-${Math.abs(x)}^2$.`,
+            solution: [
+              `On remplace $x$ par $${x}$ : $f(${x}) = ${a === -1 ? '-' : a} \\times (${x})^2 ${c >= 0 ? '+ ' + c : '- ' + Math.abs(c)}$.`,
+              `$(${x})^2 = ${x * x}$, donc $f(${x}) = ${a * x * x} ${c >= 0 ? '+ ' + c : '- ' + Math.abs(c)} = ${y}$.`,
+              x < 0 ? `Attention aux parenthèses : $(${x})^2 = ${x * x}$ est POSITIF, alors que $-${Math.abs(x)}^2$ vaudrait $${-(x * x)}$.` : `Pense à toujours parenthéser le nombre substitué : cela évite les erreurs de signe quand il est négatif.`
+            ]
+          };
+        }
+
+        /* Tâche 4 — lire un sens de variation, sans calculer d'image.
+           Réponse codée : 1 croissante, 0 décroissante. */
+        if (tache === 'variations') {
+          const croissante = pick([true, false]);
+          const a = rand(1, 5);
+          const xd = rand(-4, 2), xf = xd + rand(2, 5);
+          const fd = rand(2, 10);
+          const ff = croissante ? fd + a * (xf - xd) : fd - a * (xf - xd);
+          return {
+            statement: `Une fonction $f$ vérifie $f(${xd}) = ${fd}$ et $f(${xf}) = ${ff}$, et elle est monotone sur l'intervalle $[${xd} ; ${xf}]$.<br/><br/>Est-elle croissante sur cet intervalle ?<br/><br/>Réponds par $1$ pour oui, $0$ pour non.`,
+            answer: croissante ? 1 : 0, tolerance: 0, unit: '',
+            hint: `Une fonction est croissante quand $f(x)$ augmente en même temps que $x$. Compare les deux images en respectant l'ordre des deux abscisses.`,
+            solution: [
+              `Quand $x$ passe de $${xd}$ à $${xf}$, il augmente.`,
+              `Dans le même temps, $f(x)$ passe de $${fd}$ à $${ff}$ : il ${croissante ? 'augmente' : 'diminue'} aussi.`,
+              `La fonction est donc ${croissante ? 'croissante' : 'décroissante'} sur $[${xd} ; ${xf}]$. Réponse : $${croissante ? 1 : 0}$.`
+            ]
+          };
+        }
+
+        /* Tâche 5 — domaine de définition d'un quotient. */
+        if (tache === 'domaine') {
+          const k = rand(-6, 6);
+          return {
+            statement: `Soit $f(x) = \\dfrac{1}{x ${k >= 0 ? '- ' + k : '+ ' + Math.abs(k)}}$.<br/><br/>Quelle est la <strong>seule</strong> valeur interdite, c'est-à-dire le nombre que $x$ ne peut pas prendre ?`,
+            answer: k, tolerance: 0, unit: '',
+            hint: `Une division par zéro n'a pas de sens. Cherche donc la valeur de $x$ qui annulerait le dénominateur.`,
+            solution: [
+              `Le dénominateur ne doit jamais être nul : on résout $x ${k >= 0 ? '- ' + k : '+ ' + Math.abs(k)} = 0$.`,
+              `On trouve $x = ${k}$ : c'est la valeur interdite.`,
+              `Le domaine de définition est donc $\\mathbb{R}$ privé de $${k}$, ce qui s'écrit $]-\\infty ; ${k}[ \\cup ]${k} ; +\\infty[$.`
+            ]
+          };
+        }
+
+        /* Tâche 1 — trois images d'un trinôme et sens de variation (tâche
+           historique). */
         const contexts = [
           { intro: 'La hauteur d\'un ballon lancé en l\'air est modélisée par', unit: 'm', xName: 't', xUnit: 's' },
           { intro: 'Le bénéfice d\'une entreprise en fonction du nombre de produits vendus est', unit: '€', xName: 'x', xUnit: 'produits' },

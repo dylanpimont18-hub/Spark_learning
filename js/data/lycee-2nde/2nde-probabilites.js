@@ -100,9 +100,96 @@ window.MODULES.push({
       { q: '$P(A) = 0{,}6$, $P(B) = 0{,}5$ et $P(A \\cap B) = 0{,}3$. Calculer $P(A \\cup B)$ :', options: ['$0{,}8$', '$1{,}1$', '$0{,}3$', '$0{,}5$'], answer: 0, correction: '$P(A \\cup B) = P(A) + P(B) - P(A \\cap B) = 0{,}6 + 0{,}5 - 0{,}3 = 0{,}8$. Sans soustraire $P(A \\cap B)$, on obtiendrait $1{,}1 > 1$, ce qui est impossible pour une probabilité. La soustraction de l\'intersection corrige le double comptage.' },
       { q: 'On lance un dé à $6$ faces. Calculer la probabilité de NE PAS obtenir un $6$. Quelle méthode est la plus efficace ?', options: ['$P(\\bar{A}) = 1 - P(A) = 1 - \\frac{1}{6} = \\frac{5}{6}$ — le complémentaire est plus rapide que de compter les $5$ issues favorables', '$P = \\frac{5}{6}$ en comptant $\\{1;2;3;4;5\\}$, c\'est la seule méthode', '$P = \\frac{1}{6}$ car il y a $1$ chance sur $6$', '$P = \\frac{6}{5}$'], answer: 0, correction: 'Les deux méthodes donnent le même résultat, mais le passage par le complémentaire ($1 - P(A)$) est souvent plus rapide, surtout quand l\'événement contraire est plus simple à dénombrer que l\'événement lui-même. Ici $P(A) = P(\\{6\\}) = 1/6$, donc $P(\\bar{A}) = 5/6$.' }
     ],
+    /* GÉNÉRATEUR ÉLARGI le 2026-09-13.
+       Mesure AVANT : 9 énoncés tirés, 3 moules, **1 seule tâche distincte** —
+       une réunion de deux événements, habillée trois fois (une classe, un
+       club, une option). L'équiprobabilité, l'événement contraire et
+       l'indépendance des tirages successifs — c'est-à-dire l'essentiel du
+       chapitre, et le sophisme du joueur que l'évaluation interroge —
+       n'étaient travaillés par aucun exercice.
+
+       Cinq tâches maintenant. */
     exercice: {
       type: 'numeric',
       generate() {
+        const tache = pick(['reunion', 'equiprobable', 'contraire', 'independance', 'incompatible']);
+
+        /* Tâche 2 — l'équiprobabilité, le modèle de base. */
+        if (tache === 'equiprobable') {
+          const cas = pick([
+            { obj: 'un dé équilibré à $6$ faces', tot: 6, evt: 'un nombre pair', fav: 3, detail: '$\\{2 ; 4 ; 6\\}$' },
+            { obj: 'un dé équilibré à $6$ faces', tot: 6, evt: 'un nombre strictement supérieur à $4$', fav: 2, detail: '$\\{5 ; 6\\}$' },
+            { obj: 'une urne contenant $10$ boules numérotées de $1$ à $10$', tot: 10, evt: 'un multiple de $3$', fav: 3, detail: '$\\{3 ; 6 ; 9\\}$' },
+            { obj: 'un jeu de $32$ cartes', tot: 32, evt: 'un cœur', fav: 8, detail: 'les $8$ cartes de la couleur cœur' }
+          ]);
+          const p = parseFloat((cas.fav / cas.tot).toFixed(4));
+          return {
+            statement: `On tire au hasard dans ${cas.obj}. Toutes les issues ont la même probabilité.<br/><br/>Calcule la probabilité d'obtenir ${cas.evt} (sous forme décimale, arrondie à $0{,}01$).`,
+            answer: parseFloat(p.toFixed(2)), tolerance: 0.02, unit: '',
+            hint: `En situation d'équiprobabilité, $P = \\dfrac{\\text{nombre d'issues favorables}}{\\text{nombre total d'issues}}$. Compte d'abord les issues favorables.`,
+            solution: [
+              `Les issues favorables sont ${cas.detail}, soit $${cas.fav}$ issues.`,
+              `Le nombre total d'issues est $${cas.tot}$, et toutes ont la même probabilité.`,
+              `$P = \\dfrac{${cas.fav}}{${cas.tot}} = ${fr(parseFloat(p.toFixed(2)))}$.`
+            ]
+          };
+        }
+
+        /* Tâche 3 — l'événement contraire, et le réflexe « au moins ». */
+        if (tache === 'contraire') {
+          const p = parseFloat((rand(15, 85) / 100).toFixed(2));
+          const q = parseFloat((1 - p).toFixed(2));
+          return {
+            statement: `Un événement $A$ a pour probabilité $P(A) = ${fr(p)}$.<br/><br/>Calcule la probabilité de l'événement contraire $\\overline{A}$.`,
+            answer: q, tolerance: 0.01, unit: '',
+            hint: `Un événement et son contraire couvrent à eux deux toutes les issues possibles, sans se chevaucher : leurs probabilités ont donc pour somme $1$.`,
+            solution: [
+              `L'événement $A$ et son contraire $\\overline{A}$ se partagent la totalité des issues.`,
+              `Leurs probabilités ont donc pour somme $1$ : $P(\\overline{A}) = 1 - P(A)$.`,
+              `$P(\\overline{A}) = 1 - ${fr(p)} = ${fr(q)}$.`
+            ]
+          };
+        }
+
+        /* Tâche 4 — l'indépendance des tirages successifs.
+           C'est le sophisme du joueur, que l'évaluation interroge et qu'aucun
+           exercice ne préparait. Réponse : la probabilité, inchangée. */
+        if (tache === 'independance') {
+          const n = rand(5, 20);
+          const cas = pick([
+            { obj: 'une pièce équilibrée', res: 'pile', suite: 'face', p: 0.5 },
+            { obj: 'un dé équilibré à $6$ faces', res: 'le $6$', suite: 'un $6$', p: parseFloat((1 / 6).toFixed(4)) }
+          ]);
+          return {
+            statement: `On lance ${cas.obj} $${n}$ fois de suite, et on obtient $${n}$ fois ${cas.res}.<br/><br/>Quelle est la probabilité d'obtenir ${cas.suite} au lancer suivant ? (Arrondis à $0{,}01$.)`,
+            answer: parseFloat(cas.p.toFixed(2)), tolerance: 0.02, unit: '',
+            hint: `L'objet lancé n'a pas de mémoire : chaque lancer est indépendant des précédents. Ce qui s'est produit avant ne change rien à ce qui vient.`,
+            solution: [
+              `Les lancers successifs sont <strong>indépendants</strong> : le résultat d'un lancer n'influence pas le suivant.`,
+              `La probabilité reste donc la même qu'au premier lancer : $${fr(parseFloat(cas.p.toFixed(2)))}$.`,
+              `Croire qu'un résultat est « en retard » après une longue série est le <strong>sophisme du joueur</strong>. La série passée est déjà réalisée ; elle ne pèse d'aucun poids sur le lancer à venir.`
+            ]
+          };
+        }
+
+        /* Tâche 5 — événements incompatibles, où la formule se simplifie. */
+        if (tache === 'incompatible') {
+          const pA = parseFloat((rand(15, 40) / 100).toFixed(2));
+          const pB = parseFloat((rand(15, 40) / 100).toFixed(2));
+          const pU = parseFloat((pA + pB).toFixed(2));
+          return {
+            statement: `Deux événements $A$ et $B$ sont <strong>incompatibles</strong> : ils ne peuvent pas se produire en même temps.<br/><br/>On donne $P(A) = ${fr(pA)}$ et $P(B) = ${fr(pB)}$.<br/><br/>Calcule $P(A \\cup B)$.`,
+            answer: pU, tolerance: 0.01, unit: '',
+            hint: `La formule générale est $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$. Que vaut $P(A \\cap B)$ quand les deux événements ne peuvent pas se produire ensemble ?`,
+            solution: [
+              `Deux événements incompatibles ne se produisent jamais ensemble : $A \\cap B$ est impossible, donc $P(A \\cap B) = 0$.`,
+              `La formule générale $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$ se simplifie donc en une simple addition.`,
+              `$P(A \\cup B) = ${fr(pA)} + ${fr(pB)} = ${fr(pU)}$.`
+            ]
+          };
+        }
+
+        /* Tâche 1 — la réunion de deux événements (la tâche historique). */
         const contexts = [
           { intro: 'Dans une classe de', total: rand(25, 35), traitA: 'pratiquent un sport', traitB: 'jouent d\'un instrument', both: 'les deux' },
           { intro: 'Dans un club de', total: rand(40, 60), traitA: 'participent au cours de peinture', traitB: 'participent au cours de musique', both: 'les deux activités' },

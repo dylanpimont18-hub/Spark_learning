@@ -126,9 +126,110 @@ window.MODULES.push({
       { q: 'On ajoute $5$ à chaque valeur d\'une série. Que deviennent la moyenne et l\'écart-type ?', options: ['La moyenne augmente de $5$, l\'écart-type ne change pas', 'La moyenne et l\'écart-type augmentent de $5$', 'La moyenne ne change pas, l\'écart-type augmente de $5$', 'Aucun des deux ne change'], answer: 0, correction: 'Ajouter une constante $c$ à toutes les valeurs translate la série : $\\bar{x}\' = \\bar{x} + c$ (la moyenne augmente de $c$). Mais les écarts à la moyenne ne changent pas ($x_i + c - (\\bar{x} + c) = x_i - \\bar{x}$), donc $\\sigma$ reste identique. La dispersion n\'est pas affectée par une translation.' },
       { q: 'La variance d\'une série est $V = 9$. Si on multiplie toutes les valeurs par $2$, la nouvelle variance est :', options: ['$18$', '$36$', '$9$', '$81$'], answer: 1, correction: 'Multiplier toutes les valeurs par $k$ multiplie la moyenne par $k$ et les écarts par $k$, donc la variance par $k^2$. Ici $V\' = 2^2 \\times 9 = 36$. L\'écart-type, lui, est multiplié par $|k|$ : $\\sigma\' = 2 \\times 3 = 6$.' }
     ],
+    /* GÉNÉRATEUR ÉLARGI le 2026-09-13.
+       Mesure AVANT : 12 énoncés tirés, 4 moules, **1 seule tâche distincte** —
+       un calcul d'écart-type, habillé quatre fois (des notes, des trajets, des
+       températures, des prix). La moyenne seule, la médiane, l'effet d'une
+       valeur extrême et la comparaison de deux séries n'étaient travaillés par
+       aucun exercice, alors que ce sont les attendus du chapitre.
+
+       Cinq tâches maintenant. */
     exercice: {
       type: 'numeric',
       generate() {
+        const tache = pick(['ecart-type', 'moyenne', 'mediane', 'extreme', 'comparer']);
+
+        /* Tâche 2 — la moyenne seule, sans dispersion. C'est la base, et
+           aucun exercice ne la travaillait isolément. */
+        if (tache === 'moyenne') {
+          const ctx = pick([
+            { intro: 'Les notes d\'un élève sur $6$ contrôles sont', unit: 'points' },
+            { intro: 'Les durées (en min) de $6$ trajets sont', unit: 'min' },
+            { intro: 'Les masses (en kg) de $6$ colis sont', unit: 'kg' }
+          ]);
+          const n = 6;
+          const moy = rand(6, 15);
+          const ecarts = [-3, -1, 0, 1, 2, 1];
+          const vals = ecarts.map(e => moy + e);
+          const somme = vals.reduce((s, v) => s + v, 0);
+          const moyenne = parseFloat((somme / n).toFixed(2));
+          return {
+            statement: `${ctx.intro} : $\\{${vals.join(' ; ')}\\}$.<br/><br/>Calcule la moyenne de cette série (arrondie au centième).`,
+            answer: moyenne, tolerance: 0.01, unit: ctx.unit,
+            hint: `La moyenne est la somme de toutes les valeurs, divisée par leur nombre. Ici il y a $${n}$ valeurs.`,
+            solution: [
+              `On additionne les $${n}$ valeurs : $${vals.join(' + ')} = ${somme}$.`,
+              `On divise par l'effectif : $\\bar{x} = \\dfrac{${somme}}{${n}} = ${fr(moyenne)}$ ${ctx.unit}.`,
+              `Contrôle : la moyenne doit toujours tomber entre la plus petite valeur ($${Math.min(...vals)}$) et la plus grande ($${Math.max(...vals)}$).`
+            ]
+          };
+        }
+
+        /* Tâche 3 — la médiane, et le fait qu'elle diffère de la moyenne. */
+        if (tache === 'mediane') {
+          const base = rand(5, 12);
+          const vals = [base, base + 1, base + 2, base + 4, base + 25].slice();
+          const tri = vals.slice().sort((a, b) => a - b);
+          const mediane = tri[2];
+          const moyenne = parseFloat((vals.reduce((s, v) => s + v, 0) / 5).toFixed(2));
+          return {
+            statement: `On relève les salaires mensuels (en centaines d'euros) de $5$ personnes : $\\{${vals.join(' ; ')}\\}$.<br/><br/>Calcule la <strong>médiane</strong> de cette série.`,
+            answer: mediane, tolerance: 0, unit: '',
+            hint: `La médiane partage la série ordonnée en deux moitiés de même effectif. Range d'abord les valeurs dans l'ordre croissant, puis prends celle du milieu.`,
+            solution: [
+              `On range les valeurs dans l'ordre croissant : $${tri.join(' ; ')}$.`,
+              `Il y a $5$ valeurs, donc la médiane est la $3^e$ : $${mediane}$.`,
+              `Remarque : la moyenne de cette série vaut $${fr(moyenne)}$, nettement PLUS que la médiane. C'est la valeur extrême $${Math.max(...vals)}$ qui tire la moyenne vers le haut, alors que la médiane, elle, n'en est pas affectée.`
+            ]
+          };
+        }
+
+        /* Tâche 4 — l'effet d'une valeur extrême, mesuré. C'est le point que
+           l'évaluation interroge et qu'aucun exercice ne préparait. */
+        if (tache === 'extreme') {
+          const vals = [10, 12, 11, 13, 14];
+          const extreme = rand(60, 90);
+          const avant = vals.reduce((s, v) => s + v, 0) / vals.length;
+          const apres = (vals.reduce((s, v) => s + v, 0) + extreme) / (vals.length + 1);
+          const ecart = parseFloat((apres - avant).toFixed(2));
+          return {
+            statement: `Une série de $5$ valeurs est $\\{${vals.join(' ; ')}\\}$, de moyenne $${fr(avant)}$.<br/><br/>On ajoute une sixième valeur, très éloignée des autres : $${extreme}$.<br/><br/>De combien la moyenne augmente-t-elle ? (Arrondis au centième.)`,
+            answer: ecart, tolerance: 0.02, unit: '',
+            hint: `Calcule la nouvelle moyenne sur les $6$ valeurs, puis compare-la à l'ancienne. Attention : l'effectif change aussi, il passe de $5$ à $6$.`,
+            solution: [
+              `Somme initiale : $${vals.reduce((s, v) => s + v, 0)}$, pour $5$ valeurs, soit une moyenne de $${fr(avant)}$.`,
+              `Nouvelle somme : $${vals.reduce((s, v) => s + v, 0)} + ${extreme} = ${vals.reduce((s, v) => s + v, 0) + extreme}$, pour $6$ valeurs, soit $\\bar{x} = ${fr(parseFloat(apres.toFixed(2)))}$.`,
+              `La moyenne augmente donc de $${fr(ecart)}$. Une seule valeur a suffi : c'est la fragilité de la moyenne face aux valeurs extrêmes, et la raison pour laquelle on lui adjoint souvent la médiane.`
+            ]
+          };
+        }
+
+        /* Tâche 5 — comparer la dispersion de deux séries de même moyenne.
+           Réponse codée : 1 la série A est plus homogène, 2 la série B. */
+        if (tache === 'comparer') {
+          const moy = rand(8, 14);
+          const serreA = pick([true, false]);
+          const ecA = serreA ? [-1, 0, 1, 0] : [-5, -2, 3, 4];
+          const ecB = serreA ? [-6, -1, 2, 5] : [-1, 1, -1, 1];
+          const A = ecA.map(e => moy + e), B = ecB.map(e => moy + e);
+          const sigma = (t) => {
+            const m = t.reduce((s, v) => s + v, 0) / t.length;
+            return Math.sqrt(t.reduce((s, v) => s + (v - m) ** 2, 0) / t.length);
+          };
+          const sA = parseFloat(sigma(A).toFixed(2)), sB = parseFloat(sigma(B).toFixed(2));
+          return {
+            statement: `Deux séries ont la <strong>même moyenne</strong> :<br/><br/>série A : $\\{${A.join(' ; ')}\\}$<br/>série B : $\\{${B.join(' ; ')}\\}$<br/><br/>Laquelle est la plus <strong>homogène</strong> (valeurs les plus regroupées) ?<br/><br/>Réponds par $1$ pour A, $2$ pour B.`,
+            answer: sA < sB ? 1 : 2, tolerance: 0, unit: '',
+            hint: `La moyenne ne dit rien de la dispersion : deux séries de même moyenne peuvent être très différentes. C'est l'écart-type qui tranche — plus il est petit, plus les valeurs sont regroupées.`,
+            solution: [
+              `Les deux séries ont bien la même moyenne, $${moy}$ : la moyenne ne permet donc pas de les distinguer.`,
+              `Écart-type de A : $\\sigma_A \\approx ${fr(sA)}$. Écart-type de B : $\\sigma_B \\approx ${fr(sB)}$.`,
+              `C'est la série ${sA < sB ? 'A' : 'B'} qui a le plus petit écart-type : ses valeurs sont les plus regroupées autour de la moyenne. Réponse : $${sA < sB ? 1 : 2}$.`
+            ]
+          };
+        }
+
+        /* Tâche 1 — l'écart-type complet (la tâche historique). */
         const contexts = [
           { intro: 'Les notes d\'un élève sur $5$ contrôles de maths sont', unit: 'points' },
           { intro: 'Les durées (en min) de $5$ trajets quotidiens sont', unit: 'min' },

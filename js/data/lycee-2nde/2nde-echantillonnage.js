@@ -109,9 +109,72 @@ window.MODULES.push({
       { q: 'Un sondage donne $f = 0{,}52$ avec $n = 2500$. Peut-on affirmer que la vraie proportion $p$ est supérieure à $0{,}5$ (avec $95\\%$ de confiance) ?', options: ['Oui : l\'IC est $[0{,}50 ; 0{,}54]$, entièrement $\\geq 0{,}5$', 'Non : l\'IC contient des valeurs inférieures à $0{,}5$', 'Oui : $0{,}52 > 0{,}5$ suffit', 'Non : il faudrait $n > 10\\,000$'], answer: 0, correction: '$e = 1/\\sqrt{2500} = 0{,}02$. L\'IC est $[0{,}52 - 0{,}02 ; 0{,}52 + 0{,}02] = [0{,}50 ; 0{,}54]$. La borne inférieure est exactement $0{,}50$, donc on peut tout juste affirmer que $p \\geq 0{,}50$ à $95\\%$ de confiance. En pratique, c\'est à la limite — un échantillon plus grand serait recommandé.' },
       { q: 'Deux sondages donnent $f_1 = 0{,}48$ ($n_1 = 100$) et $f_2 = 0{,}52$ ($n_2 = 100$). Peut-on conclure que les deux populations sont différentes ?', options: ['Non : les IC se chevauchent largement ($[0{,}38;0{,}58]$ et $[0{,}42;0{,}62]$), donc on ne peut pas distinguer les proportions', 'Oui : $0{,}52 > 0{,}48$', 'Non : les deux intervalles sont identiques', 'Oui : les fréquences sont différentes'], answer: 0, correction: '$e = 1/\\sqrt{100} = 0{,}1$. IC$_1 = [0{,}38;0{,}58]$ et IC$_2 = [0{,}42;0{,}62]$. Les intervalles se chevauchent : on ne peut pas conclure que les vraies proportions sont différentes. Il faudrait un échantillon bien plus grand pour distinguer deux proportions aussi proches.' }
     ],
+    /* GÉNÉRATEUR ÉLARGI le 2026-09-13.
+       Mesure AVANT : 9 énoncés tirés, 3 moules, **1 seule tâche distincte** —
+       la borne supérieure d'un intervalle de confiance, habillée trois fois
+       (un sondage, un contrôle qualité, une enquête). L'effet de la taille de
+       l'échantillon sur la marge d'erreur — c'est-à-dire la seule idée
+       vraiment neuve du chapitre, et celle que l'évaluation interroge deux
+       fois — n'était travaillé par aucun exercice.
+
+       Quatre tâches maintenant. */
     exercice: {
       type: 'numeric',
       generate() {
+        const tache = pick(['intervalle', 'marge', 'effet-taille', 'taille-requise']);
+
+        /* Tâche 2 — la marge d'erreur seule. */
+        if (tache === 'marge') {
+          const n = pick([100, 225, 400, 625, 900, 2500]);
+          const e = parseFloat((1 / Math.sqrt(n)).toFixed(4));
+          return {
+            statement: `Un sondage porte sur un échantillon de taille $n = ${n}$.<br/><br/>Calcule la marge d'erreur $e = \\dfrac{1}{\\sqrt{n}}$ (arrondie à $0{,}001$).`,
+            answer: parseFloat(e.toFixed(3)), tolerance: 0.002, unit: '',
+            hint: `Commence par la racine carrée de $${n}$, puis prends l'inverse du résultat.`,
+            solution: [
+              `$\\sqrt{${n}} = ${Math.sqrt(n)}$.`,
+              `$e = \\dfrac{1}{${Math.sqrt(n)}} = ${fr(parseFloat(e.toFixed(3)), 3)}$.`,
+              `Autrement dit, la fréquence observée est connue à environ $${fr(parseFloat((e * 100).toFixed(1)), 1)}$ point de pourcentage près.`
+            ]
+          };
+        }
+
+        /* Tâche 3 — l'effet d'une multiplication de la taille sur la marge.
+           C'est le point contre-intuitif du chapitre : quadrupler n ne divise
+           la marge que par 2, parce qu'une racine carrée s'interpose. */
+        if (tache === 'effet-taille') {
+          const facteur = pick([4, 9, 16, 25]);
+          const diviseur = Math.sqrt(facteur);
+          return {
+            statement: `On multiplie la taille d'un échantillon par $${facteur}$.<br/><br/>Par combien la marge d'erreur $e = \\dfrac{1}{\\sqrt{n}}$ est-elle divisée ?`,
+            answer: diviseur, tolerance: 0, unit: '',
+            hint: `La marge dépend de $\\sqrt{n}$, pas de $n$. Si $n$ est multiplié par $${facteur}$, que devient $\\sqrt{n}$ ?`,
+            solution: [
+              `Si $n$ est multiplié par $${facteur}$, alors $\\sqrt{n}$ est multiplié par $\\sqrt{${facteur}} = ${diviseur}$.`,
+              `Comme $e = \\dfrac{1}{\\sqrt{n}}$, la marge d'erreur est donc divisée par $${diviseur}$.`,
+              `C'est le point le plus contre-intuitif du chapitre : interroger $${facteur}$ fois plus de personnes ne rend PAS le sondage $${facteur}$ fois plus précis, mais seulement $${diviseur}$ fois. La précision coûte de plus en plus cher.`
+            ]
+          };
+        }
+
+        /* Tâche 4 — le raisonnement inverse : quelle taille pour telle
+           précision. C'est la question que se pose un institut de sondage. */
+        if (tache === 'taille-requise') {
+          const diviseur = pick([2, 3, 4, 5]);
+          const facteur = diviseur * diviseur;
+          return {
+            statement: `Un institut veut diviser sa marge d'erreur par $${diviseur}$.<br/><br/>Par combien doit-il multiplier la taille de son échantillon ?`,
+            answer: facteur, tolerance: 0, unit: '',
+            hint: `La marge vaut $\\dfrac{1}{\\sqrt{n}}$ : pour la diviser par $${diviseur}$, il faut que $\\sqrt{n}$ soit multiplié par $${diviseur}$.`,
+            solution: [
+              `Pour que $e = \\dfrac{1}{\\sqrt{n}}$ soit divisée par $${diviseur}$, il faut que $\\sqrt{n}$ soit multiplié par $${diviseur}$.`,
+              `Or si $\\sqrt{n}$ est multiplié par $${diviseur}$, alors $n$ est multiplié par $${diviseur}^2 = ${facteur}$.`,
+              `Il faut donc un échantillon $${facteur}$ fois plus grand. C'est pourquoi les sondages publiés se contentent presque tous d'environ mille personnes : au-delà, le gain de précision ne justifie plus le coût.`
+            ]
+          };
+        }
+
+        /* Tâche 1 — l'intervalle de confiance complet (tâche historique). */
         const contexts = [
           { intro: 'Un sondage politique interroge', question: 'votants déclarant soutenir un candidat', unit: 'personnes' },
           { intro: 'Un contrôle qualité examine', question: 'pièces défectueuses trouvées dans l\'échantillon', unit: 'pièces' },
