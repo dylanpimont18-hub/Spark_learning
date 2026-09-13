@@ -145,35 +145,228 @@ window.MODULES.push(
 
     exercice: {
       type: 'numeric',
+      /* BANQUE ÉLARGIE le 2026-09-13.
+
+         AVANT : un seul moule de tâche — « on donne l'hypoténuse et l'angle,
+         calcule le côté adjacent », c'est-à-dire UNE multiplication par un
+         cosinus — habillé de six contextes tirés par pick(). Mesure à 60
+         tirages : 6 moules d'énoncé, mais **1 seule tâche distincte**. Le
+         professeur qui imprimait la banque obtenait donc dix-sept fois la même
+         question sous six décors, et l'élève ne rencontrait JAMAIS ni le sinus,
+         ni la tangente, ni le calcul d'un angle — c'est-à-dire les deux tiers
+         du chapitre.
+
+         C'est exactement le défaut que le cahier des charges (section 11)
+         demande de mesurer sur la TÂCHE et non sur le moule : varier le décor
+         n'est pas varier l'exercice.
+
+         APRÈS : sept familles de tâches, toutes au programme de troisième.
+           - 'adjacent'  : la tâche d'origine, conservée (CAH) ;
+           - 'oppose'    : le sinus, que l'ancienne banque n'atteignait jamais ;
+           - 'tangente'  : la tangente à partir des deux côtés de l'angle droit,
+                           seul cas où l'hypoténuse ne sert à rien ;
+           - 'angle'     : remonter à l'angle depuis deux longueurs, ce que la
+                           calculatrice fait par la touche inverse — c'est la
+                           tâche que le brevet pose le plus souvent ;
+           - 'hypotenuse': retrouver l'hypoténuse, où le rapport est INVERSE et
+                           où l'élève multiplie au lieu de diviser ;
+           - 'choisir'   : aucune longueur à trouver, seulement NOMMER le
+                           rapport à utiliser. C'est la difficulté réelle du
+                           chapitre, et rien ne la travaillait ;
+           - 'remarquable': les valeurs exactes de 30°, 45° et 60°, exigibles.
+
+         LES FIGURES suivent le tirage, jamais l'inverse : figureTrigo reçoit
+         l'angle et l'hypoténuse réellement tirés, et l'option `inconnu` place
+         le point d'interrogation sur la grandeur cherchée — la figure pose la
+         question, elle ne la résout pas. La tâche 'choisir' reçoit une figure
+         SANS les rôles (roles: false) : les afficher donnerait la réponse,
+         puisque c'est précisément le rôle des côtés qu'elle demande
+         d'identifier. */
       generate() {
-        const angles = [30, 45, 60];
-        const cosVals = [Math.sqrt(3)/2, Math.sqrt(2)/2, 0.5];
-        const idx = rand(0, 2);
-        const angle = angles[idx];
-        const hyp = rand(8, 20);
-        const adj = parseFloat((hyp * cosVals[idx]).toFixed(2));
-        const cosStr = fr(cosVals[idx], 3);
-        const adjStr = fr(adj);
+        const tache = pick(['adjacent', 'oppose', 'tangente', 'angle',
+                            'hypotenuse', 'choisir', 'remarquable']);
 
-        const ctx = pick([
-          { build: () => `Une <strong>échelle</strong> de $${hyp}$ m est appuyée contre un mur et forme un angle $\\theta = ${angle}°$ avec le sol.<br/><br/>Calcule la <strong>distance</strong> entre le pied de l'échelle et le mur (arrondie au centième).` },
-          { build: () => `Une <strong>rampe d'accès</strong> pour fauteuil roulant mesure $${hyp}$ m et forme un angle $\\theta = ${angle}°$ avec le sol.<br/><br/>Calcule la <strong>distance horizontale</strong> qu'elle couvre (arrondie au centième).` },
-          { build: () => `Un <strong>toboggan de piscine</strong> mesure $${hyp}$ m et forme un angle $\\theta = ${angle}°$ avec le sol.<br/><br/>Calcule la <strong>distance horizontale</strong> entre le sommet et le point d'arrivée dans l'eau (arrondie au centième).` },
-          { build: () => `Un <strong>câble de tyrolienne</strong> tendu entre deux arbres mesure $${hyp}$ m et forme un angle $\\theta = ${angle}°$ avec l'horizontale.<br/><br/>Calcule la <strong>distance horizontale</strong> entre les deux points d'ancrage (arrondie au centième).` },
-          { build: () => `Un randonneur parcourt un <strong>chemin en pente</strong> de $${hyp}$ m, incliné d'un angle $\\theta = ${angle}°$ par rapport à l'horizontale.<br/><br/>Calcule la <strong>distance horizontale</strong> réellement parcourue (arrondie au centième).` },
-          { build: () => `Une <strong>antenne</strong> est maintenue par un hauban de $${hyp}$ m formant un angle $\\theta = ${angle}°$ avec le sol.<br/><br/>Calcule la <strong>distance</strong> entre le point d'ancrage du hauban et le pied de l'antenne (arrondie au centième).` }
+        /* Angles à valeurs remarquables : la réponse reste vérifiable sans
+           calculatrice, et l'élève se concentre sur le CHOIX du rapport plutôt
+           que sur la saisie machine. */
+        const REMARQ = [
+          { a: 30, cos: Math.sqrt(3) / 2, sin: 0.5, tan: 1 / Math.sqrt(3) },
+          { a: 45, cos: Math.sqrt(2) / 2, sin: Math.sqrt(2) / 2, tan: 1 },
+          { a: 60, cos: 0.5, sin: Math.sqrt(3) / 2, tan: Math.sqrt(3) }
+        ];
+
+        if (tache === 'adjacent') {
+          const r = pick(REMARQ), hyp = rand(8, 20);
+          const adj = parseFloat((hyp * r.cos).toFixed(2));
+          const ctx = pick([
+            'Une <strong>échelle</strong> est appuyée contre un mur et forme un angle avec le sol.',
+            'Une <strong>rampe d\'accès</strong> pour fauteuil roulant est inclinée sur le sol.',
+            'Un <strong>câble de tyrolienne</strong> est tendu entre deux arbres.',
+            'Un <strong>hauban</strong> maintient une antenne depuis son point d\'ancrage au sol.'
+          ]);
+          return {
+            statement: ctx + `<br/><br/>Sa longueur est de $${hyp}$ m et elle fait un angle $\\theta = ${r.a}°$ avec l'horizontale.<br/><br/>Calcule la <strong>distance horizontale</strong> couverte, arrondie au centième.`,
+            answer: adj, tolerance: 0.05, unit: 'm',
+            figure: figureTrigo(r.a, hyp, { inconnu: 'horizontal', unite: 'm' }),
+            hint: `Le côté cherché <strong>touche</strong> l'angle sans être la longueur inclinée : c'est le côté <strong>adjacent</strong>.<br/><br/>CAH : $\\cos(\\theta) = \\dfrac{\\text{adjacent}}{\\text{hypoténuse}}$.`,
+            solution: [
+              `Le côté horizontal touche l'angle $\\theta$ et n'est pas la longueur inclinée : c'est l'<strong>adjacent</strong>. La longueur inclinée, face à l'angle droit, est l'<strong>hypoténuse</strong>.`,
+              `CAH donne $\\cos(${r.a}°) = \\dfrac{\\text{adjacent}}{${hyp}}$, donc adjacent $= ${hyp} \\times \\cos(${r.a}°) = ${hyp} \\times ${fr(parseFloat(r.cos.toFixed(3)))}$.`,
+              `La distance horizontale vaut $${fr(adj)}$ m.<br/><br/>Contrôle : elle est plus petite que les $${hyp}$ m inclinés, ce qui est toujours vrai pour un côté de l'angle droit.`
+            ]
+          };
+        }
+
+        if (tache === 'oppose') {
+          /* LE SINUS, que l'ancienne banque n'atteignait jamais. La hauteur
+             atteinte est la grandeur la plus parlante du chapitre. */
+          const r = pick(REMARQ), hyp = rand(6, 18);
+          const opp = parseFloat((hyp * r.sin).toFixed(2));
+          const ctx = pick([
+            { d: 'Une <strong>échelle</strong> de pompier est déployée depuis le camion.', q: 'la <strong>hauteur</strong> atteinte sur la façade' },
+            { d: 'Un <strong>téléphérique</strong> monte en ligne droite vers la station.', q: 'le <strong>dénivelé</strong> gagné' },
+            { d: 'Un <strong>cerf-volant</strong> est retenu par une ficelle tendue.', q: 'la <strong>hauteur</strong> du cerf-volant au-dessus de la main' },
+            { d: 'Un <strong>toboggan</strong> descend depuis sa plateforme.', q: 'la <strong>hauteur</strong> de la plateforme' }
+          ]);
+          return {
+            statement: ctx.d + `<br/><br/>La longueur inclinée mesure $${hyp}$ m et fait un angle $\\theta = ${r.a}°$ avec l'horizontale.<br/><br/>Calcule ${ctx.q}, arrondie au centième.`,
+            answer: opp, tolerance: 0.05, unit: 'm',
+            figure: figureTrigo(r.a, hyp, { inconnu: 'vertical', unite: 'm' }),
+            hint: `La hauteur ne <strong>touche pas</strong> l'angle $\\theta$ : elle lui est <strong>opposée</strong>.<br/><br/>SOH : $\\sin(\\theta) = \\dfrac{\\text{opposé}}{\\text{hypoténuse}}$.`,
+            solution: [
+              `La hauteur est le côté <strong>opposé</strong> à l'angle $\\theta$ : il ne le touche pas. C'est donc le sinus qui intervient, et non le cosinus.`,
+              `SOH donne $\\sin(${r.a}°) = \\dfrac{\\text{opposé}}{${hyp}}$, donc opposé $= ${hyp} \\times \\sin(${r.a}°) = ${hyp} \\times ${fr(parseFloat(r.sin.toFixed(3)))}$.`,
+              `La hauteur vaut $${fr(opp)}$ m.`
+            ]
+          };
+        }
+
+        if (tache === 'tangente') {
+          /* LE SEUL CAS où l'hypoténuse ne sert à rien : les deux côtés de
+             l'angle droit suffisent. L'élève qui cherche l'hypoténuse à tout
+             prix se trahit ici. */
+          const adj = rand(4, 15), opp = rand(3, 14);
+          const t = parseFloat((opp / adj).toFixed(3));
+          const ctx = pick([
+            { d: 'Depuis un point du sol, on observe le sommet d\'un <strong>arbre</strong>.', a: 'la distance au pied de l\'arbre', b: 'la hauteur de l\'arbre' },
+            { d: 'Depuis un point du sol, on observe le haut d\'un <strong>pylône</strong>.', a: 'la distance au pied du pylône', b: 'la hauteur du pylône' },
+            { d: 'Depuis le bord d\'un terrain, on vise le haut d\'un <strong>mât</strong>.', a: 'la distance au pied du mât', b: 'la hauteur du mât' }
+          ]);
+          return {
+            statement: ctx.d + `<br/><br/>On mesure ${ctx.a} : $${adj}$ m. On connaît ${ctx.b} : $${opp}$ m.<br/><br/>Calcule la <strong>tangente</strong> de l'angle sous lequel on voit le sommet, arrondie au millième.`,
+            answer: t, tolerance: 0.002, unit: '',
+            figure: figureTrigo(Math.round(Math.atan(opp / adj) * 180 / Math.PI), parseFloat(Math.hypot(adj, opp).toFixed(2)), { inconnu: 'angle', unite: 'm' }),
+            hint: `Ici on ne connaît ni ne cherche l'hypoténuse : seulement les deux côtés de l'angle droit.<br/><br/>TOA : $\\tan(\\theta) = \\dfrac{\\text{opposé}}{\\text{adjacent}}$.`,
+            solution: [
+              `Les deux longueurs données sont les deux côtés de l'angle droit : la hauteur est <strong>opposée</strong> à l'angle, la distance au sol lui est <strong>adjacente</strong>. L'hypoténuse n'intervient pas.`,
+              `TOA donne $\\tan(\\theta) = \\dfrac{\\text{opposé}}{\\text{adjacent}} = \\dfrac{${opp}}{${adj}}$.`,
+              `Donc $\\tan(\\theta) \\approx ${fr(t, 3)}$.<br/><br/>Contrôle : la tangente dépasse $1$ quand la hauteur dépasse la distance, et ici ${opp > adj ? 'c\'est bien le cas' : 'ce n\'est pas le cas'}.`
+            ]
+          };
+        }
+
+        if (tache === 'angle') {
+          /* REMONTER À L'ANGLE. C'est la tâche que le brevet pose le plus
+             souvent, et l'ancienne banque ne la posait jamais. On tire des
+             longueurs qui donnent un angle rond, pour que la réponse reste
+             contrôlable. */
+          const r = pick(REMARQ), hyp = rand(8, 20);
+          const adj = parseFloat((hyp * r.cos).toFixed(2));
+          /* Le pronom de reprise est porté par le CONTEXTE, jamais déduit du
+             nom par un test sur la chaîne : « la rampe fait-il » est sorti
+             d'une première version qui comparait le nom à « l'échelle ». Un
+             accord se transporte avec son nom, il ne se devine pas. */
+          const ctx = pick([
+            { d: 'Une <strong>rampe d\'accès</strong> couvre une distance horizontale donnée.', n: 'la rampe', p: 'elle' },
+            { d: 'Une <strong>échelle</strong> est posée à une certaine distance du mur.', n: 'l\'échelle', p: 'elle' },
+            { d: 'Un <strong>plan incliné</strong> de déchargement est posé sur le sol.', n: 'le plan', p: 'il' }
+          ]);
+          return {
+            statement: ctx.d + `<br/><br/>Sa longueur inclinée mesure $${hyp}$ m et la distance horizontale couverte est de $${fr(adj)}$ m.<br/><br/>Quel <strong>angle</strong>, en degrés, ${ctx.n} fait-${ctx.p} avec l'horizontale ?`,
+            answer: r.a, tolerance: 0.6, unit: '°',
+            figure: figureTrigo(r.a, hyp, { inconnu: 'angle', unite: 'm' }),
+            hint: `Tu connais l'adjacent et l'hypoténuse : c'est donc le <strong>cosinus</strong> de l'angle que tu peux calculer.<br/><br/>Pour remonter de $\\cos(\\theta)$ à $\\theta$, utilise la touche $\\cos^{-1}$ de la calculatrice.`,
+            solution: [
+              `Les deux longueurs connues sont l'<strong>adjacent</strong> et l'<strong>hypoténuse</strong> : c'est le cosinus qui les relie.`,
+              `$\\cos(\\theta) = \\dfrac{${fr(adj)}}{${hyp}} \\approx ${fr(parseFloat(r.cos.toFixed(3)))}$`,
+              `On remonte à l'angle avec la touche $\\cos^{-1}$ : $\\theta \\approx ${r.a}°$.<br/><br/>Contrôle : le cosinus d'un angle aigu est toujours compris entre $0$ et $1$, et plus l'angle est grand, plus son cosinus est petit.`
+            ]
+          };
+        }
+
+        if (tache === 'hypotenuse') {
+          /* LE RAPPORT INVERSE. L'inconnue est au DÉNOMINATEUR : l'élève qui
+             applique « longueur x cosinus » par automatisme trouve un résultat
+             plus PETIT que la longueur connue, ce qui est impossible pour une
+             hypoténuse. Le contrôle de grandeur est écrit dans la solution. */
+          const r = pick(REMARQ), adj = rand(5, 14);
+          const hyp = parseFloat((adj / r.cos).toFixed(2));
+          const ctx = pick([
+            { d: 'Un <strong>câble</strong> doit relier le sommet d\'un poteau à un point du sol.', q: 'la longueur de câble nécessaire' },
+            { d: 'Une <strong>planche</strong> doit servir de rampe entre le sol et une plateforme.', q: 'la longueur de planche nécessaire' },
+            { d: 'Un <strong>tuyau</strong> doit relier en ligne droite deux points d\'un chantier.', q: 'la longueur de tuyau nécessaire' }
+          ]);
+          return {
+            statement: ctx.d + `<br/><br/>La distance horizontale au sol est de $${adj}$ m et l'installation doit faire un angle de $${r.a}°$ avec l'horizontale.<br/><br/>Calcule ${ctx.q}, arrondie au centième.`,
+            answer: hyp, tolerance: 0.05, unit: 'm',
+            figure: figureTrigo(r.a, hyp, { inconnu: 'hypotenuse', unite: 'm' }),
+            hint: `Attention au sens : ici l'inconnue est l'<strong>hypoténuse</strong>, donc elle se trouve au dénominateur du cosinus.<br/><br/>De $\\cos(\\theta) = \\dfrac{\\text{adj}}{\\text{hyp}}$ on tire $\\text{hyp} = \\dfrac{\\text{adj}}{\\cos(\\theta)}$ : on <strong>divise</strong>.`,
+            solution: [
+              `Avant tout calcul : l'hypoténuse est le plus <strong>long</strong> côté d'un triangle rectangle. Le résultat devra donc dépasser $${adj}$ m — tout résultat plus petit serait à reprendre.`,
+              `$\\cos(${r.a}°) = \\dfrac{${adj}}{\\text{hyp}}$, donc $\\text{hyp} = \\dfrac{${adj}}{\\cos(${r.a}°)} = \\dfrac{${adj}}{${fr(parseFloat(r.cos.toFixed(3)))}}$.`,
+              `La longueur vaut $${fr(hyp)}$ m, bien plus que $${adj}$ m comme annoncé.`
+            ]
+          };
+        }
+
+        if (tache === 'choisir') {
+          /* AUCUNE LONGUEUR À TROUVER : seulement NOMMER le rapport. C'est la
+             difficulté réelle du chapitre — l'élève sait calculer, mais choisit
+             mal — et rien ne la travaillait. La réponse est codée 1, 2 ou 3
+             pour rester une question numérique. */
+          const cas = pick([
+            { connu: 'l\'hypoténuse et l\'angle', cherche: 'le côté opposé à l\'angle', bon: 1, nom: 'le sinus',
+              pourquoi: 'le côté cherché ne touche pas l\'angle, et la longueur connue est l\'hypoténuse' },
+            { connu: 'l\'hypoténuse et l\'angle', cherche: 'le côté adjacent à l\'angle', bon: 2, nom: 'le cosinus',
+              pourquoi: 'le côté cherché touche l\'angle, et la longueur connue est l\'hypoténuse' },
+            { connu: 'les deux côtés de l\'angle droit', cherche: 'l\'angle', bon: 3, nom: 'la tangente',
+              pourquoi: 'l\'hypoténuse n\'est ni connue ni cherchée : seuls l\'opposé et l\'adjacent interviennent' },
+            { connu: 'le côté opposé et l\'angle', cherche: 'l\'hypoténuse', bon: 1, nom: 'le sinus',
+              pourquoi: 'les deux longueurs en jeu sont l\'opposé et l\'hypoténuse, que seul le sinus relie' }
+          ]);
+          return {
+            statement: `Dans un triangle rectangle, on connaît <strong>${cas.connu}</strong> et on cherche <strong>${cas.cherche}</strong>.<br/><br/>` +
+              `Quel rapport faut-il utiliser ?<br/><br/>Réponds par $1$ pour le <strong>sinus</strong>, $2$ pour le <strong>cosinus</strong>, $3$ pour la <strong>tangente</strong>.`,
+            answer: cas.bon, tolerance: 0.01, unit: '',
+            hint: `Écris les deux longueurs qui interviennent — celle que tu connais et celle que tu cherches — puis demande-toi quel rapport de SOH-CAH-TOA contient exactement ces deux-là.<br/><br/>Le rapport à utiliser est celui qui ne fait intervenir <strong>aucune</strong> longueur inconnue en plus.`,
+            solution: [
+              `La méthode ne dépend jamais du dessin : elle dépend des deux longueurs en jeu, celle qu'on connaît et celle qu'on cherche.`,
+              `Ici ${cas.pourquoi}.`,
+              `Le rapport à utiliser est donc <strong>${cas.nom}</strong>. Réponse : $${cas.bon}$.`
+            ]
+          };
+        }
+
+        /* tache === 'remarquable' : les valeurs exactes de 30°, 45° et 60°,
+           exigibles au brevet. On demande la valeur décimale arrondie, mais la
+           solution donne la forme exacte avec le radical : c'est elle qui
+           s'apprend, la valeur décimale n'en est que la lecture. */
+        const r = pick(REMARQ);
+        const quoi = pick([
+          { f: 'sin', v: r.sin, exact: r.a === 30 ? '\\dfrac{1}{2}' : (r.a === 45 ? '\\dfrac{\\sqrt{2}}{2}' : '\\dfrac{\\sqrt{3}}{2}') },
+          { f: 'cos', v: r.cos, exact: r.a === 30 ? '\\dfrac{\\sqrt{3}}{2}' : (r.a === 45 ? '\\dfrac{\\sqrt{2}}{2}' : '\\dfrac{1}{2}') },
+          { f: 'tan', v: r.tan, exact: r.a === 30 ? '\\dfrac{\\sqrt{3}}{3}' : (r.a === 45 ? '1' : '\\sqrt{3}') }
         ]);
-
+        const val = parseFloat(quoi.v.toFixed(3));
         return {
-          statement: ctx.build(),
-          answer: adj,
-          tolerance: 0.05,
-          unit: 'm',
-          hint: `La formule CAH donne : $\\cos(${angle}°) = \\dfrac{\\text{adj}}{\\text{hyp}}$. Donc $\\text{adj} = \\text{hyp} \\times \\cos(${angle}°)$.<br/><br/>La valeur exacte est $\\cos(${angle}°) \\approx ${cosStr}$.`,
+          statement: `Les valeurs trigonométriques des angles de $30°$, $45°$ et $60°$ se retrouvent dans le carré et le triangle équilatéral : elles sont <strong>exactes</strong>, et exigibles sans calculatrice.<br/><br/>` +
+            `Donne la valeur de $\\${quoi.f}(${r.a}°)$, arrondie au millième.`,
+          answer: val, tolerance: 0.002, unit: '',
+          hint: `Ces trois angles ont des valeurs exactes qui s'écrivent avec $\\sqrt{2}$, $\\sqrt{3}$ ou des demis.<br/><br/>Retiens que $\\sqrt{2} \\approx 1{,}414$ et $\\sqrt{3} \\approx 1{,}732$.`,
           solution: [
-            `Formule : $\\cos(${angle}°) = \\dfrac{\\text{adj}}{\\text{hyp}}$`,
-            `Donc : $\\text{adj} = \\text{hyp} \\times \\cos(${angle}°) = ${hyp} \\times ${cosStr}$`,
-            `Résultat : $\\text{adj} = ${adjStr}$ m`
+            `La valeur <strong>exacte</strong> est $\\${quoi.f}(${r.a}°) = ${quoi.exact}$. C'est cette écriture qu'il faut connaître : elle ne dépend d'aucune calculatrice.`,
+            `Sa valeur décimale approchée vaut $${fr(val, 3)}$.`,
+            `Contrôle utile : un sinus et un cosinus d'angle aigu sont toujours entre $0$ et $1$, alors qu'une tangente peut dépasser $1$ — elle vaut exactement $1$ à $45°$.`
           ]
         };
       }
