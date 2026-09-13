@@ -137,33 +137,132 @@ window.MODULES.push({
       }
     ],
 
+    /* ELARGISSEMENT ET CORRECTIONS DU 2026-09-13.
+
+       DEFAUT DE VRAISEMBLANCE, corrige d'abord : les quatre themes partageaient
+       le meme intervalle de tirage, rand(5, 18). Des notes sur 20 et des scores
+       de match y sont plausibles, mais le theme « tailles des eleves (en cm) »
+       produisait des enonces du genre « calcule la moyenne de ces tailles :
+       13, 13, 5, 11 » — des collegiens de 5 a 18 CENTIMETRES. Chaque theme
+       porte desormais son propre intervalle, coherent avec la grandeur qu'il
+       mesure.
+
+       ETAT DE DEPART : le generateur ne rendait QU'UNE tache, la moyenne simple
+       — 12 moules, 24 enonces de banque (le chapitre etait donc l'un des mieux
+       pourvus de l'ouvrage en VOLUME, mais sur une seule competence).
+       L'evaluation teste pourtant l'etendue (Q2), la moyenne ponderee (Q3) et la
+       frequence en pourcentage (Q4) : trois questions sur cinq sans exercice
+       d'entrainement, et deux remediations sans renvoi possible.
+
+       On ajoute ces trois taches, chacune adossee a une erreur frequente. */
     exercice: {
       type: 'numeric',
       generate() {
-        const ctx = pick([
-          { theme: 'notes d\'un contrôle de maths', emoji: '📝' },
-          { theme: 'températures de la semaine', emoji: '🌡️' },
-          { theme: 'scores au dernier match', emoji: '⚽' },
-          { theme: 'tailles des élèves (en cm)', emoji: '📏' }
-        ]);
+        const tache = pick(['moyenne', 'etendue', 'ponderee', 'frequence']);
+
+        /* Chaque theme avec SON intervalle : c'est la correction du defaut de
+           vraisemblance. La grandeur mesuree impose l'ordre de grandeur. */
+        const themes = [
+          { theme: 'notes d\'un contrôle de maths', emoji: '📝', min: 5, max: 18, unite: '' },
+          { theme: 'températures de la semaine (en °C)', emoji: '🌡️', min: 2, max: 28, unite: '°C' },
+          { theme: 'scores au dernier match', emoji: '⚽', min: 0, max: 6, unite: '' },
+          { theme: 'tailles des élèves (en cm)', emoji: '📏', min: 140, max: 180, unite: 'cm' }
+        ];
+
+        if (tache === 'etendue') {
+          const ctx = pick(themes);
+          const n = rand(5, 7);
+          const vals = Array.from({ length: n }, () => rand(ctx.min, ctx.max));
+          const mini = Math.min.apply(null, vals);
+          const maxi = Math.max.apply(null, vals);
+          return {
+            statement: `${ctx.emoji} Voici des ${ctx.theme} : $${vals.join(', ')}$.<br/>Quelle est l'<strong>étendue</strong> de cette série ?`,
+            answer: maxi - mini,
+            tolerance: 0,
+            unit: ctx.unite,
+            hint: `L'étendue mesure de combien la série « s'étend » : c'est une <strong>soustraction</strong>, du plus grand au plus petit.<br/><br/>Repère d'abord le minimum et le maximum ; les autres valeurs ne servent pas.`,
+            solution: [
+              `Plus petite valeur : $${mini}$. Plus grande valeur : $${maxi}$.`,
+              `Étendue : $${maxi} - ${mini} = ${maxi - mini}$.`,
+              `Contrairement à la moyenne, l'étendue n'utilise que ces deux valeurs : elle ne dit rien de ce qui se passe entre les deux.`
+            ]
+          };
+        }
+
+        if (tache === 'ponderee') {
+          /* Moyenne PONDEREE par des effectifs : c'est la tache ou l'eleve fait
+             la moyenne des deux notes en ignorant les effectifs. Les valeurs
+             sont choisies pour que la moyenne tombe a une decimale au plus, et
+             les deux effectifs sont DIFFERENTS — sans quoi l'erreur donnerait
+             par hasard le bon resultat. */
+          const n1 = rand(2, 9);
+          let n2 = rand(2, 9);
+          if (n2 === n1) n2 = n1 + 1;
+          const v1 = rand(5, 12);
+          const v2 = rand(13, 19);
+          const moy = parseFloat(((n1 * v1 + n2 * v2) / (n1 + n2)).toFixed(2));
+          return {
+            statement: `📊 Dans un groupe, $${n1}$ élèves ont obtenu $${v1}$/20 et $${n2}$ élèves ont obtenu $${v2}$/20.<br/>Quelle est la moyenne du groupe ? Arrondis à $0{,}01$.`,
+            answer: moy,
+            tolerance: 0.01,
+            unit: '',
+            hint: `Attention : la moyenne du groupe n'est pas la moyenne des deux notes.<br/><br/>Chaque note compte autant de fois qu'il y a d'élèves qui l'ont obtenue.`,
+            solution: [
+              `Total des points : $${n1} \\times ${v1} + ${n2} \\times ${v2} = ${n1 * v1} + ${n2 * v2} = ${n1 * v1 + n2 * v2}$.`,
+              `Nombre d'élèves : $${n1} + ${n2} = ${n1 + n2}$.`,
+              `Moyenne : $${n1 * v1 + n2 * v2} \\div ${n1 + n2} = ${fr(moy)}$.`,
+              `Contrôle : la moyenne se rapproche de la note du groupe le plus nombreux, ici $${n2 > n1 ? v2 : v1}$.`
+            ]
+          };
+        }
+
+        if (tache === 'frequence') {
+          /* Frequence en POURCENTAGE : le lien explicite avec le chapitre de
+             proportionnalite. Le pourcentage est ENTIER PAR CONSTRUCTION : on
+             tire d'abord le pourcentage, puis on en deduit l'effectif, plutot
+             que l'inverse. C'est ce qui evite tout arrondi — le chapitre porte
+             sur la frequence, pas sur l'arrondi. */
+          const total = pick([20, 25, 40, 50]);
+          // Les multiples de 100/total donnent un pourcentage entier.
+          const pasPourcent = 100 / total;          // 5, 4, 2,5 ou 2
+          const k = rand(1, total - 1);             // effectif, strictement entre 0 et total
+          const part = k;
+          const freq = parseFloat((part * pasPourcent).toFixed(2));
+          const choix = pick(['le football', 'la natation', 'le basket', 'la danse', 'le judo']);
+          return {
+            statement: `📊 Sur $${total}$ élèves interrogés, $${part}$ ont choisi ${choix}.<br/>Quelle est la fréquence de ce choix, en pourcentage ?`,
+            answer: freq,
+            tolerance: 0.01,
+            unit: '%',
+            hint: `Une fréquence est la part d'un effectif dans le total.<br/><br/>Divise l'effectif par le total, puis multiplie par $100$ pour l'exprimer en pourcentage.`,
+            solution: [
+              `Fréquence : $\\dfrac{${part}}{${total}} = ${fr(part / total)}$.`,
+              `En pourcentage : $${fr(part / total)} \\times 100 = ${fr(freq)}\\%$.`,
+              `Contrôle : la fréquence est toujours comprise entre $0\\%$ et $100\\%$.`
+            ]
+          };
+        }
+
+        // Tache d'origine, avec l'intervalle propre a chaque theme.
+        const ctx = pick(themes);
         const n = rand(4, 6);
-        const vals = Array.from({length: n}, () => rand(5, 18));
+        const vals = Array.from({ length: n }, () => rand(ctx.min, ctx.max));
         const sum = vals.reduce((a, b) => a + b, 0);
         const mean = parseFloat((sum / n).toFixed(1));
         return {
           statement: `${ctx.emoji} Calcule la moyenne de ces ${ctx.theme} : $${vals.join(', ')}$.`,
           answer: mean,
           tolerance: 0.1,
-          unit: '',
-          hint: `Additionne toutes les valeurs, puis divise par $${n}$.`,
+          unit: ctx.unite,
+          hint: `Additionne toutes les valeurs, puis divise par le nombre de valeurs.<br/><br/>Ici il y a $${n}$ valeurs : compte-les bien, une valeur répétée compte plusieurs fois.`,
           solution: [
             `Somme : $${vals.join(' + ')} = ${sum}$.`,
+            `Il y a $${n}$ valeurs.`,
             `Moyenne : $${sum} \\div ${n} = ${fr(mean)}$.`
           ]
         };
       }
     },
-
     probleme: {
       context: 'Un professeur relève les scores (sur 20) de sa classe lors d\'un contrôle. Résultats : $7, 9, 12, 14, 14, 15, 16, 8, 11, 10$.',
       tasks: [

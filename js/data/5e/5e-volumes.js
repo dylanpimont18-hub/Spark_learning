@@ -138,28 +138,132 @@ window.MODULES.push({
       }
     ],
 
+    /* ELARGISSEMENT ET CORRECTION DU 2026-09-13.
+
+       DEFAUT D'ACCORD, corrige d'abord : l'enonce ecrivait « un(e) valise »,
+       « un(e) aquarium », parenthese de complaisance qui s'IMPRIME telle quelle
+       dans le livre. Chaque contexte porte desormais son article.
+
+       ETAT DE DEPART : le generateur ne rendait QU'UNE tache, le volume d'un
+       pave droit — 5 moules, 3 enonces de banque. L'evaluation teste pourtant le
+       cylindre (Q2), la contenance en litres (Q3) et une conversion (Q4) : trois
+       questions sur cinq sans aucun exercice d'entrainement, et deux
+       remediations de la fiche professeur sans renvoi possible.
+
+       On ajoute les trois taches manquantes, chacune adossee a une erreur
+       frequente reelle :
+         - le cylindre a partir du DIAMETRE, ou l'eleve oublie de prendre la
+           moitie et quadruple son resultat ;
+         - la conversion de volume, ou il multiplie par 10 au lieu de 1 000 ;
+         - la contenance en litres, qui relie le volume geometrique au liquide. */
     exercice: {
       type: 'numeric',
       generate() {
+        const tache = pick(['pave', 'cylindre', 'conversion', 'contenance']);
+
+        if (tache === 'cylindre') {
+          /* On donne le DIAMETRE, jamais le rayon : c'est la confusion du
+             chapitre, et elle quadruple le resultat puisque le rayon est au
+             carre. Diametre PAIR pour que le rayon reste entier. */
+          const ctx = pick([
+            { obj: 'une boîte de conserve', emoji: '🥫' },
+            { obj: 'un verre cylindrique', emoji: '🥛' },
+            { obj: 'un tuyau bouché', emoji: '🔧' },
+            { obj: 'un pot de peinture', emoji: '🪣' }
+          ]);
+          const d = 2 * rand(2, 8);
+          const h = rand(5, 20);
+          const v = parseFloat((3.14 * (d / 2) * (d / 2) * h).toFixed(1));
+          return {
+            statement: `${ctx.emoji} Calcule le volume d'${ctx.obj} de <strong>diamètre</strong> $${d}$ cm et de hauteur $${h}$ cm.<br/>Utilise $\\pi \\approx 3{,}14$ et arrondis à $0{,}1$ cm³.`,
+            answer: v,
+            tolerance: 0.5,
+            unit: 'cm³',
+            hint: `$V = \\pi r^2 h$ utilise le <strong>rayon</strong>, pas le diamètre.<br/><br/>Commence par $r = ${d} \\div 2$, sinon ton résultat sera quatre fois trop grand.`,
+            solution: [
+              `Rayon : $r = ${d} \\div 2 = ${d / 2}$ cm.`,
+              `Aire de la base : $3{,}14 \\times ${d / 2}^2 = ${fr(parseFloat((3.14 * (d / 2) * (d / 2)).toFixed(2)))}$ cm².`,
+              `Volume : $${fr(parseFloat((3.14 * (d / 2) * (d / 2)).toFixed(2)))} \\times ${h} = ${fr(v, 1)}$ cm³.`,
+              `Contrôle : le cylindre tient dans une boîte de $${d} \\times ${d} \\times ${h} = ${fr(d * d * h)}$ cm³, et ${fr(v, 1)} est bien plus petit.`
+            ]
+          };
+        }
+
+        if (tache === 'conversion') {
+          /* Conversion de volume : le facteur de conversion des longueurs
+             s'eleve au CUBE. Les couples sont ceux du programme. */
+          const cas = pick([
+            { de: 'dm³', vers: 'cm³', facteur: 1000, lon: '1 dm = 10 cm', base: 10 },
+            { de: 'm³', vers: 'dm³', facteur: 1000, lon: '1 m = 10 dm', base: 10 },
+            { de: 'cm³', vers: 'mm³', facteur: 1000, lon: '1 cm = 10 mm', base: 10 },
+            { de: 'm³', vers: 'cm³', facteur: 1000000, lon: '1 m = 100 cm', base: 100 }
+          ]);
+          const val = pick([2, 2.5, 3, 4, 7.5]);
+          const res = val * cas.facteur;
+          return {
+            statement: `📐 Convertis $${fr(val)}$ ${cas.de} en ${cas.vers}.<br/>Attention : pour un <strong>volume</strong>, le facteur de conversion s'élève au cube.`,
+            answer: res,
+            tolerance: 0,
+            unit: cas.vers,
+            hint: `Pour les longueurs, $${cas.lon}$.<br/><br/>Pour les volumes, le facteur est donc $${cas.base}^3$, et non $${cas.base}$.`,
+            solution: [
+              `Longueurs : $${cas.lon}$.`,
+              `Volumes : $1$ ${cas.de} $= ${cas.base}^3$ ${cas.vers} $= ${fr(cas.facteur)}$ ${cas.vers}.`,
+              `Donc $${fr(val)}$ ${cas.de} $= ${fr(val)} \\times ${fr(cas.facteur)} = ${fr(res)}$ ${cas.vers}.`
+            ]
+          };
+        }
+
+        if (tache === 'contenance') {
+          /* Contenance : on relie le volume geometrique (cm³) au liquide
+             (litres), via 1 L = 1 dm³ = 1 000 cm³. Arete MULTIPLE DE 10 pour
+             que la contenance tombe juste. */
+          const ctx = pick([
+            { obj: 'un aquarium cubique', emoji: '🐠' },
+            { obj: 'une cuve cubique', emoji: '🛢️' },
+            { obj: 'un bac cubique', emoji: '🪣' },
+            { obj: 'un réservoir cubique', emoji: '💧' }
+          ]);
+          const a = 10 * rand(2, 6);
+          const litres = (a * a * a) / 1000;
+          return {
+            statement: `${ctx.emoji} ${ctx.obj.charAt(0).toUpperCase() + ctx.obj.slice(1)} a une arête de $${a}$ cm.<br/>Quelle est sa contenance, en litres ?`,
+            answer: litres,
+            tolerance: 0,
+            unit: 'L',
+            hint: `Calcule d'abord le volume en cm³.<br/><br/>Puis souviens-toi que $1$ L $= 1$ dm³ $= 1\\,000$ cm³.`,
+            solution: [
+              `Volume : $${a} \\times ${a} \\times ${a} = ${fr(a * a * a)}$ cm³.`,
+              `Conversion : $1$ L $= 1\\,000$ cm³, donc $${fr(a * a * a)} \\div 1\\,000 = ${fr(litres)}$ L.`
+            ]
+          };
+        }
+
+        // Tache d'origine, accord corrige.
         const ctx = pick([
-          { obj: 'boîte à chaussures', emoji: '👟' },
-          { obj: 'aquarium', emoji: '🐠' },
-          { obj: 'coffre', emoji: '📦' },
-          { obj: 'brique', emoji: '🧱' },
-          { obj: 'valise', emoji: '🧳' }
+          { obj: 'une boîte à chaussures', emoji: '👟' },
+          { obj: 'un aquarium', emoji: '🐠' },
+          { obj: 'une valise', emoji: '🧳' },
+          { obj: 'un coffre', emoji: '📦' },
+          { obj: 'une brique', emoji: '🧱' }
         ]);
-        const L = rand(3, 15), l = rand(2, 10), h = rand(2, 10);
+        const L = rand(3, 15), l = rand(3, 10), h = rand(2, 10);
         return {
-          statement: `${ctx.emoji} Calcule le volume d'un(e) ${ctx.obj} (pavé droit) de dimensions $${L}$ cm × $${l}$ cm × $${h}$ cm.`,
+          statement: `${ctx.emoji} Calcule le volume d'${ctx.obj} (pavé droit) de dimensions $${L}$ cm × $${l}$ cm × $${h}$ cm.`,
+          /* Perspective cavaliere : la fuyante reduite de moitie est la
+             convention du college, et voir les TROIS dimensions sur un dessin
+             est ce qui rend la formule lisible. */
+          figure: figurePave(L, l, h),
           answer: L * l * h,
           tolerance: 0,
           unit: 'cm³',
-          hint: `$V = L \\times l \\times h = ${L} \\times ${l} \\times ${h}$.`,
-          solution: [`$V = ${L} \\times ${l} \\times ${h} = ${L * l * h}$ cm³.`]
+          hint: `Pour un pavé droit, le volume est le produit des trois dimensions : $${L} \\times ${l} \\times ${h}$.`,
+          solution: [
+            `$V = ${L} \\times ${l} \\times ${h} = ${fr(L * l * h)}$ cm³.`
+          ]
         };
       }
     },
-
     probleme: {
       context: 'Une citerne cylindrique de rayon $0{,}8$ m et de hauteur $2{,}5$ m est utilisée pour stocker de l\'eau de pluie.',
       tasks: [
@@ -180,13 +284,30 @@ window.MODULES.push({
       duration: '25 min',
       questions: [
         {
-          statement: 'Calculer le volume d\'un pavé droit de dimensions $8$ cm $\\times$ $5$ cm $\\times$ $3$ cm.',
+        /* QUESTION REECRITE LE 2026-09-13.
+
+           Elle demandait le volume d'un pave droit dont les trois dimensions
+           etaient donnees, soit l'application la plus directe possible de la
+           formule, et un DEUXIEME « calculer » sur cinq questions dans un
+           ouvrage ou cette competence pesait 45,7 % du total.
+
+           La nouvelle question est un PROBLEME INVERSE : le volume est donne,
+           c'est une dimension qui manque. Il n'y a pas de formule a reciter —
+           il faut comprendre que la hauteur s'obtient en divisant le volume par
+           l'aire de la base, ce qui suppose d'avoir compris la formule plutot
+           que de l'avoir apprise. C'est « chercher ». Les valeurs sont choisies
+           pour que la reponse soit entiere. */
+          statement: 'Un pavé droit a une base de $8$ cm sur $5$ cm et un volume de $120$ cm³. Quelle est sa hauteur, en cm ?',
           type: 'numeric',
-          answer: 120,
+          answer: 3,
           tolerance: 0,
-          unit: 'cm³',
+          unit: 'cm',
           points: 2,
-          correction: '$V = L \\times l \\times h = 8 \\times 5 \\times 3 = 120$ cm³.'
+          correction: 'Le volume d\'un pavé droit vaut $V = \\mathcal{A}_{\\text{base}} \\times h$. ' +
+            'Ici l\'aire de la base est $8 \\times 5 = 40$ cm². ' +
+            'La hauteur s\'obtient donc en <strong>divisant</strong> : $h = \\dfrac{120}{40} = 3$ cm. ' +
+            'Vérification : $8 \\times 5 \\times 3 = 120$ cm³ ✓. ' +
+            'Autrement dit, on empile $3$ couches de $40$ cm³ chacune pour atteindre $120$ cm³.'
         },
         {
           statement: 'Un cylindre a un rayon de $4$ cm et une hauteur de $10$ cm. Quel est son volume ? (Utiliser $\\pi \\approx 3{,}14$, arrondir à $0{,}1$ cm³.)',

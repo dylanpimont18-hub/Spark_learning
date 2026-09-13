@@ -289,14 +289,37 @@ window.MODULES.push({
           points: 2,
           correction: 'Dénominateur commun $40$ : $\\dfrac{3}{5} = \\dfrac{24}{40}$ et $\\dfrac{5}{8} = \\dfrac{25}{40}$. Comme $25 > 24$, $\\dfrac{5}{8} > \\dfrac{3}{5}$. Valeur décimale : $\\dfrac{5}{8} = 0{,}625 \\approx 0{,}63$.'
         },
+        /* QUESTION REECRITE LE 2026-09-13.
+
+           Elle demandait « Calculer $\dfrac{3}{4} + \dfrac{1}{4} - \dfrac{1}{2}$ »,
+           soit un TROISIEME calcul de fractions sur cinq questions. Sur
+           l'ouvrage entier, « calculer » pesait 45,7 % des soixante-dix
+           questions, bien au-dela du plafond de 35 %.
+
+           La nouvelle question demande d'ENCADRER une somme sans la calculer
+           exactement, par estimation de chaque terme. C'est « raisonner » : la
+           reponse s'obtient par comparaison a des reperes ($\dfrac{1}{2}$, $1$)
+           et non par une suite d'operations. Cette competence d'estimation est
+           explicitement au programme du cycle 4, et c'est elle qui permet a un
+           eleve de detecter seul un resultat absurde. */
         {
-          statement: 'Calculer $\\dfrac{3}{4} + \\dfrac{1}{4} - \\dfrac{1}{2}$. Donner le résultat sous forme décimale.',
-          type: 'numeric',
-          answer: 0.5,
-          tolerance: 0.01,
-          unit: '',
+          statement: 'Sans faire le calcul exact, entre quels nombres entiers se trouve $\\dfrac{7}{8} + \\dfrac{9}{10}$ ?',
+          type: 'multiple-choice',
+          options: [
+            'Entre $0$ et $1$',
+            'Entre $1$ et $2$',
+            'Entre $2$ et $3$',
+            'Entre $16$ et $18$'
+          ],
+          answer: 1,
           points: 2,
-          correction: '$\\dfrac{3}{4} + \\dfrac{1}{4} = \\dfrac{4}{4} = 1$. Puis $1 - \\dfrac{1}{2} = \\dfrac{1}{2} = 0{,}5$.'
+          correction: 'Chacune des deux fractions est <strong>un peu plus petite que $1$</strong> : ' +
+            '$\\dfrac{7}{8}$ car $7 < 8$, et $\\dfrac{9}{10}$ car $9 < 10$. ' +
+            'Leur somme est donc un peu plus petite que $2$, et clairement plus grande que $1$ : elle est entre $1$ et $2$. ' +
+            '(Le calcul exact donnerait $\\dfrac{35}{40} + \\dfrac{36}{40} = \\dfrac{71}{40} \\approx 1{,}78$, ' +
+            'ce qui confirme l\'encadrement.) ' +
+            'La réponse 4 est celle de l\'élève qui additionne les numérateurs et les dénominateurs séparément : ' +
+            'cette estimation rapide permet justement de repérer une telle erreur sans refaire le calcul.'
         }
       ]
     }

@@ -240,14 +240,43 @@ window.MODULES.push({
           points: 2,
           correction: '$2 \\times 3^2 + 3 \\times 3 - 1 = 2 \\times 9 + 9 - 1 = 18 + 9 - 1 = 26$.'
         },
+        /* QUESTION REECRITE LE 2026-09-13, pour deux raisons cumulees.
+
+           1. PROGRAMME. Elle demandait la valeur de $5(x + 2) - 3x$, dont la
+              lecture naturelle passe par la distributivite — au programme de
+              QUATRIEME. Un eleve de cinquieme ne s'en sort qu'en substituant
+              d'abord, ce que l'enonce n'indiquait pas : la question etait donc
+              plus difficile qu'elle n'en avait l'air, et pour une raison hors
+              programme.
+
+           2. COMPETENCES. C'etait la TROISIEME substitution des cinq questions,
+              alors que le premier attendu du chapitre — « produire une
+              expression litterale » — n'etait evalue nulle part, et que la
+              grille de suivi imprime une colonne « modeliser » qui serait
+              restee vide toute l'annee.
+
+           La question demande desormais d'ECRIRE l'expression qui traduit une
+           situation, sans la calculer. Les quatre propositions sont les quatre
+           lectures possibles de l'enonce, dont trois confondent ce qui est fixe
+           et ce qui varie — l'erreur reelle des eleves sur ce type de tache. */
         {
-          statement: 'Calculer la valeur de $5(x + 2) - 3x$ pour $x = 4$.',
-          type: 'numeric',
-          answer: 18,
-          tolerance: 0,
-          unit: '',
+          statement: 'Un abonnement de salle de sport coûte $20$ € à l\'inscription, puis $15$ € par mois. On note $m$ le nombre de mois. Quelle expression donne le montant total payé ?',
+          type: 'multiple-choice',
+          options: [
+            '$20m + 15$',
+            '$15m + 20$',
+            '$35m$',
+            '$20 + 15 + m$'
+          ],
+          answer: 1,
           points: 2,
-          correction: '$5(4 + 2) - 3 \\times 4 = 5 \\times 6 - 12 = 30 - 12 = 18$.'
+          correction: 'Les $15$ € se répètent à chaque mois : ils se multiplient donc par $m$, ce qui donne $15m$. ' +
+            'Les $20$ € d\'inscription ne sont payés qu\'une seule fois : ils s\'ajoutent sans être multipliés. ' +
+            'L\'expression est donc $15m + 20$. ' +
+            'La proposition 1 inverse les deux rôles (elle ferait payer $20$ € par mois). ' +
+            'La proposition 3 additionne d\'abord $20$ et $15$, comme si l\'inscription se répétait elle aussi chaque mois. ' +
+            'La proposition 4 ajoute le nombre de mois au lieu de le multiplier par le tarif mensuel. ' +
+            'Contrôle : pour $m = 2$ mois, on doit payer $20 + 15 + 15 = 50$ €, et $15 \\times 2 + 20 = 50$ ✓'
         }
       ]
     }

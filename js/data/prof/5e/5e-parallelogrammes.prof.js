@@ -169,7 +169,7 @@ window.SPARK_PROF["5e-parallelogrammes"] = {
      communiquer).
 
      Q1 losange par ses diagonales          -> calculer
-     Q2 parallélogramme par base x hauteur  -> calculer
+     Q2 hauteur manquante, donnee inutile   -> chercher
      Q3 propriété des diagonales            -> raisonner
      Q4 hiérarchie des quadrilatères        -> raisonner
      Q5 juger l'explication d'un élève      -> communiquer
@@ -185,6 +185,6 @@ window.SPARK_PROF["5e-parallelogrammes"] = {
      « communiquer » aurait rempli la colonne de la grille sans que l'élève ait
      eu une seule fois à expliquer quoi que ce soit. */
   competences: {
-    evaluation: ["calculer", "calculer", "raisonner", "raisonner", "communiquer"]
+    evaluation: ["calculer", "chercher", "raisonner", "raisonner", "communiquer"]
   }
 };

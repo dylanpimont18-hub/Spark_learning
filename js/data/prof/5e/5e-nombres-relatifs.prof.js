@@ -101,7 +101,7 @@ window.SPARK_PROF["5e-nombres-relatifs"] = {
 
   /* Q1 somme de deux relatifs      -> calculer
      Q2 soustraction d'un négatif   -> calculer
-     Q3 expression à trois termes   -> calculer
+     Q3 trouver le nombre manquant    -> chercher
      Q4 distance sur une droite     -> représenter
      Q5 juger l'effet du signe      -> communiquer
 
@@ -118,6 +118,6 @@ window.SPARK_PROF["5e-nombres-relatifs"] = {
      d'un négatif, enchaînement). Le plafond de 35 % s'apprécie sur l'ouvrage
      entier, où il est respecté. */
   competences: {
-    evaluation: ["calculer", "calculer", "calculer", "représenter", "communiquer"]
+    evaluation: ["calculer", "calculer", "chercher", "représenter", "communiquer"]
   }
 };

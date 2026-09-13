@@ -223,13 +223,30 @@ window.MODULES.push({
           correction: '$x_{A\'} = 2 \\times x_O - x_A = 2 \\times 2 - 5 = 4 - 5 = -1$.'
         },
         {
-          statement: 'Le symétrique du point $B(1 ; -4)$ par rapport au point $O(3 ; 2)$ a pour ordonnée :',
+        /* QUESTION REECRITE LE 2026-09-13.
+
+           Elle demandait l'ordonnee du symetrique, exactement comme la question
+           1 demandait son abscisse : deux fois la meme tache, et un DEUXIEME
+           « calculer » sur cinq questions dans un ouvrage ou cette competence
+           pesait 45,7 % du total, loin au-dela du plafond de 35 %.
+
+           La nouvelle question est un PROBLEME INVERSE : on donne le point et
+           son symetrique, on cherche le CENTRE. Aucune formule directe n'est
+           disponible au niveau cinquieme — il faut comprendre que le centre est
+           le MILIEU du segment, donc revenir a la definition plutot qu'a une
+           regle de calcul. C'est « chercher », la competence que l'ouvrage
+           n'evaluait presque nulle part. */
+          statement: 'Le symétrique du point $A(1 ; 2)$ est le point $A\'(7 ; 10)$. Quelle est l\'abscisse du centre de symétrie $O$ ?',
           type: 'numeric',
-          answer: 8,
+          answer: 4,
           tolerance: 0,
           unit: '',
           points: 2,
-          correction: '$y_{B\'} = 2 \\times y_O - y_B = 2 \\times 2 - (-4) = 4 + 4 = 8$.'
+          correction: 'Par définition, le centre $O$ est le <strong>milieu</strong> du segment $[AA\']$. ' +
+            'Son abscisse est donc au milieu de $1$ et $7$ : $x_O = \\dfrac{1 + 7}{2} = 4$. ' +
+            'Vérification : de $A$ à $O$ on avance de $3$ ($1 \\to 4$), et de $O$ à $A\'$ on avance encore de $3$ ' +
+            '($4 \\to 7$) — les deux écarts sont bien égaux, ce qui confirme que $O$ est au milieu. ' +
+            '(Son ordonnée vaudrait de même $\\dfrac{2 + 10}{2} = 6$.)'
         },
         {
           statement: 'Si $O$ est le centre de symétrie d\'une figure et $A$ est un point de cette figure, alors :',

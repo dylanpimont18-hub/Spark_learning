@@ -344,14 +344,38 @@ window.MODULES.push({
           points: 2,
           correction: 'La puissance est prioritaire sur la multiplication. On calcule d\'abord $3^2 = 9$, puis $2 \\times 9 = 18$.'
         },
+        /* QUESTION REECRITE LE 2026-09-13.
+
+           Elle demandait « Calculer $4 + 2 \times (8 - 3) - 1$ », soit un
+           TROISIEME calcul direct sur cinq questions. Sur l'ouvrage entier,
+           « calculer » pesait alors 45,7 % des soixante-dix questions, tres
+           au-dela du plafond de 35 %, tandis que « chercher » n'etait evaluee
+           que deux fois sur soixante-dix — une colonne de la grille de suivi
+           quasiment vide toute l'annee.
+
+           La nouvelle question est un PROBLEME INVERSE : on donne le resultat
+           et l'on cherche ou placer les parentheses. Il n'y a pas de formule a
+           appliquer, il faut essayer et verifier — c'est « chercher ». La tache
+           reste elementaire (quatre possibilites a tester, tous les calculs
+           mentaux) mais elle mobilise les priorites dans l'autre sens, ce qui
+           est un excellent revelateur de leur comprehension. */
         {
-          statement: 'Calculer $4 + 2 \\times (8 - 3) - 1$.',
-          type: 'numeric',
-          answer: 13,
-          tolerance: 0,
-          unit: '',
+          statement: 'On veut que le calcul $3 + 5 \\times 2$ donne $16$ au lieu de $13$. Où faut-il placer des parenthèses ?',
+          type: 'multiple-choice',
+          options: [
+            '$3 + (5 \\times 2)$',
+            '$(3 + 5) \\times 2$',
+            '$3 + 5 \\times (2)$',
+            'C\'est impossible : $3 + 5 \\times 2$ vaut toujours $13$.'
+          ],
+          answer: 1,
           points: 2,
-          correction: 'Parenthèses : $8 - 3 = 5$. Multiplication : $2 \\times 5 = 10$. Puis : $4 + 10 - 1 = 13$.'
+          correction: 'Sans parenthèses, la multiplication est prioritaire : $3 + 5 \\times 2 = 3 + 10 = 13$. ' +
+            'Pour obtenir $16$, il faut forcer l\'addition à se faire d\'abord : $(3 + 5) \\times 2 = 8 \\times 2 = 16$. ' +
+            'La proposition 1 ne change rien, puisqu\'elle ne fait qu\'écrire la priorité qui s\'applique déjà. ' +
+            'La proposition 3 non plus : une parenthèse autour d\'un seul nombre ne regroupe rien. ' +
+            'Les parenthèses ne servent donc qu\'à <strong>modifier</strong> l\'ordre naturel des priorités — ' +
+            'quand elles le confirment, elles sont inutiles.'
         }
       ]
     }

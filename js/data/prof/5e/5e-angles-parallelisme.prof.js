@@ -108,7 +108,7 @@ window.SPARK_PROF["5e-angles-parallelisme"] = {
   ],
 
   /* Q1 alterne-interne, mesure directe        -> calculer
-     Q2 internes de même côté, supplémentaires -> calculer
+     Q2 nommer la configuration                -> représenter
      Q3 conclure au parallélisme (réciproque)  -> raisonner
      Q4 mise en équation de x et 3x            -> modéliser
      Q5 conclure au NON-parallélisme           -> raisonner
@@ -121,6 +121,6 @@ window.SPARK_PROF["5e-angles-parallelisme"] = {
      qu'elles ne le sont PAS, et les élèves réussissent très inégalement les
      deux sens. */
   competences: {
-    evaluation: ["calculer", "calculer", "raisonner", "modéliser", "raisonner"]
+    evaluation: ["calculer", "représenter", "raisonner", "modéliser", "raisonner"]
   }
 };

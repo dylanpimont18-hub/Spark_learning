@@ -134,26 +134,117 @@ window.MODULES.push({
       }
     ],
 
+    /* ELARGISSEMENT ET CORRECTION DU 2026-09-13.
+
+       DEFAUT D'ACCORD, corrige d'abord : l'enonce etait fige au feminin
+       (« Une {item} ... Elle est soldee ») alors que la liste des contextes
+       contient « velo », masculin. Un tirage sur cinq imprimait donc
+       « Une velo coute 120 €. Elle est soldee... ». Chaque contexte porte
+       desormais son genre, et l'article comme le pronom en decoulent.
+
+       ETAT DE DEPART : le generateur ne rendait QU'UNE tache, le prix solde,
+       soit 5 moules et 3 enonces de banque. L'evaluation teste pourtant quatre
+       choses distinctes — prix solde, echelle cartographique, vitesse moyenne
+       et taux de reduction a retrouver — dont trois sans aucun exercice
+       d'entrainement. On ajoute donc ces trois taches, chacune adossee a une
+       erreur frequente de la fiche professeur :
+         - l'echelle, ou l'eleve oublie la conversion des centimetres en metres ;
+         - la vitesse, ou il multiplie au lieu de diviser (ou l'inverse) ;
+         - le taux a retrouver, le probleme INVERSE, que rien ne travaillait. */
     exercice: {
       type: 'numeric',
       generate() {
+        const tache = pick(['solde', 'echelle', 'vitesse', 'tauxInverse']);
+
+        /* Separateur de milliers a la francaise (espace fine insecable), que
+           fr() ne pose pas : fr(25000) rend « 25000 » alors que le cours du
+           chapitre ecrit « 25\,000 ». On garde donc la convention du livre. */
+        const milliers = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\\,');
+
+        if (tache === 'echelle') {
+          /* Echelles usuelles des cartes, et distances choisies pour que le
+             resultat tombe juste en metres : l'objet du chapitre est la
+             proportionnalite, pas l'arrondi. */
+          const echelle = pick([10000, 25000, 50000]);
+          const cm = rand(2, 9);
+          // distance reelle en cm, puis en metres
+          const metres = cm * echelle / 100;
+          return {
+            statement: `🗺️ Sur une carte à l'échelle $\\dfrac{1}{${milliers(echelle)}}$, deux villages sont distants de $${cm}$ cm.<br/>Quelle est la distance réelle, en mètres ?`,
+            answer: metres,
+            tolerance: 0,
+            unit: 'm',
+            hint: `$1$ cm sur la carte représente $${milliers(echelle)}$ cm en réalité.<br/><br/>Calcule d'abord la distance réelle en centimètres, puis convertis en mètres ($1$ m $= 100$ cm).`,
+            solution: [
+              `Distance réelle en centimètres : $${cm} \\times ${milliers(echelle)} = ${milliers(cm * echelle)}$ cm.`,
+              `Conversion en mètres : $${milliers(cm * echelle)} \\div 100 = ${milliers(metres)}$ m.`,
+              `L'échelle $\\dfrac{1}{${milliers(echelle)}}$ signifie que la réalité est $${milliers(echelle)}$ fois plus grande que la carte.`
+            ]
+          };
+        }
+
+        if (tache === 'vitesse') {
+          /* Vitesse et duree choisies pour que la distance reste entiere ou a
+             une decimale : l'eleve doit reconnaitre qu'il faut MULTIPLIER,
+             ce qui est le point de l'exercice. */
+          const v = pick([12, 15, 18, 20, 24, 30]);
+          const t = pick([2, 3, 0.5, 1.5, 2.5]);
+          const d = v * t;
+          return {
+            statement: `🚴 Un cycliste roule à la vitesse constante de $${v}$ km/h pendant $${fr(t)}$ heure(s).<br/>Quelle distance parcourt-il, en kilomètres ?`,
+            answer: d,
+            tolerance: 0,
+            unit: 'km',
+            hint: `La vitesse est une distance PAR heure.<br/><br/>En $${fr(t)}$ heure(s), on parcourt donc $${fr(t)}$ fois cette distance.`,
+            solution: [
+              `$d = v \\times t = ${v} \\times ${fr(t)} = ${fr(d)}$ km.`,
+              `Contrôle de vraisemblance : en $1$ heure on ferait $${v}$ km, donc en $${fr(t)}$ heure(s) le résultat doit être ${t < 1 ? 'plus petit' : 'plus grand'}.`
+            ]
+          };
+        }
+
+        if (tache === 'tauxInverse') {
+          /* PROBLEME INVERSE : on donne les deux prix et on cherche le TAUX.
+             Aucun exercice ne le travaillait, alors que la question 4 de
+             l'evaluation le demande. Les valeurs sont choisies pour que le taux
+             soit entier. */
+          const taux = pick([10, 15, 20, 25, 30, 40]);
+          const prix = pick([80, 120, 160, 200, 240, 400]);
+          const nouveau = prix * (100 - taux) / 100;
+          return {
+            statement: `🏷️ Le prix d'un article passe de $${prix}$ € à $${fr(nouveau)}$ €.<br/>Quel est le pourcentage de réduction ?`,
+            answer: taux,
+            tolerance: 0,
+            unit: '%',
+            hint: `Calcule d'abord la baisse en euros.<br/><br/>Puis compare-la au prix de DÉPART, jamais au prix d'arrivée.`,
+            solution: [
+              `Baisse : $${prix} - ${fr(nouveau)} = ${fr(prix - nouveau)}$ €.`,
+              `Pourcentage : $\\dfrac{${fr(prix - nouveau)}}{${prix}} \\times 100 = ${fr(taux)}\\%$.`,
+              `Le dénominateur est le prix de DÉPART : une baisse se rapporte toujours à ce qu'on avait avant.`
+            ]
+          };
+        }
+
+        // Tache d'origine, avec l'accord de genre corrige.
         const ctx = pick([
-          { item: 'veste', emoji: '🧥' },
-          { item: 'paire de baskets', emoji: '👟' },
-          { item: 'console de jeux', emoji: '🎮' },
-          { item: 'vélo', emoji: '🚲' },
-          { item: 'montre', emoji: '⌚' }
+          { item: 'veste', emoji: '🧥', genre: 'f' },
+          { item: 'paire de baskets', emoji: '👟', genre: 'f' },
+          { item: 'console de jeux', emoji: '🎮', genre: 'f' },
+          { item: 'vélo', emoji: '🚲', genre: 'm' },
+          { item: 'montre', emoji: '⌚', genre: 'f' }
         ]);
+        const article = ctx.genre === 'f' ? 'Une' : 'Un';
+        const pronom = ctx.genre === 'f' ? 'Elle est soldée' : 'Il est soldé';
         const prix = pick([50, 80, 120, 200, 250]);
         const taux = pick([10, 20, 25, 30, 40]);
         const reduction = prix * taux / 100;
         const newPrix = prix - reduction;
         return {
-          statement: `${ctx.emoji} Une ${ctx.item} coûte $${prix}$ €. Elle est soldée à $-${taux}\\%$. Quel est son nouveau prix en euros ?`,
+          statement: `${ctx.emoji} ${article} ${ctx.item} coûte $${prix}$ €. ${pronom} à $-${taux}\\%$.<br/>Quel est son nouveau prix en euros ?`,
           answer: newPrix,
           tolerance: 0,
           unit: '€',
-          hint: `Calcule d'abord la réduction : $${taux}\\%$ de $${prix}$, puis soustrait du prix initial.`,
+          hint: `Calcule d'abord la réduction : $${taux}\\%$ de $${prix}$, puis soustrais-la du prix initial.`,
           solution: [
             `Réduction : $\\dfrac{${taux}}{100} \\times ${prix} = ${fr(reduction)}$ €.`,
             `Nouveau prix : $${prix} - ${fr(reduction)} = ${fr(newPrix)}$ €.`
@@ -161,7 +252,6 @@ window.MODULES.push({
         };
       }
     },
-
     probleme: {
       context: 'Un cycliste effectue un trajet de $60$ km. Il roule d\'abord $1{,}5$ h à $30$ km/h, puis s\'arrête $15$ min, puis continue à $20$ km/h.',
       tasks: [

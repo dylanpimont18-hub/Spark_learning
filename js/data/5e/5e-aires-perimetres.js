@@ -117,28 +117,139 @@ window.MODULES.push({
       }
     ],
 
+    /* ELARGISSEMENT ET CORRECTIONS DU 2026-09-13.
+
+       DEFAUT D'ACCORD, corrige d'abord : l'enonce ecrivait « un(e) pizza »,
+       « un(e) horloge », une parenthese de complaisance qui s'IMPRIME telle
+       quelle dans le livre. Chaque contexte porte desormais son article.
+
+       ETAT DE DEPART : le generateur ne rendait QU'UNE tache, l'aire d'un disque
+       connaissant le rayon — 5 moules, 3 enonces de banque. L'evaluation teste
+       pourtant cinq choses : aire du disque, conversion m² vers cm², perimetre a
+       partir du DIAMETRE, figure composee par difference, et conversion cm² vers
+       mm². Quatre questions sur cinq n'avaient donc aucun exercice
+       d'entrainement, et trois remediations de la fiche professeur n'avaient
+       nulle part ou renvoyer.
+
+       On ajoute trois taches, chacune adossee a une erreur frequente reelle :
+         - le perimetre a partir du diametre, ou l'eleve confond r et d ;
+         - la conversion d'aire, ou il multiplie par 100 au lieu de 10 000 ;
+         - la figure composee, ou il additionne au lieu de soustraire. */
     exercice: {
       type: 'numeric',
       generate() {
+        const tache = pick(['aireDisque', 'perimetreDiametre', 'conversion', 'composee']);
+
+        if (tache === 'perimetreDiametre') {
+          /* On donne le DIAMETRE, jamais le rayon : c'est la confusion du
+             chapitre. Diametre PAIR pour que le rayon reste entier. */
+          const ctx = pick([
+            { obj: 'une roue de vélo', emoji: '🚲' },
+            { obj: 'un couvercle de casserole', emoji: '🍳' },
+            { obj: 'une bouche d\'égout', emoji: '🕳️' },
+            { obj: 'un cerceau de gymnastique', emoji: '⭕' }
+          ]);
+          const d = 2 * rand(3, 15);
+          const p = parseFloat((3.14 * d).toFixed(1));
+          return {
+            statement: `${ctx.emoji} Calcule le périmètre d'${ctx.obj} de <strong>diamètre</strong> $${d}$ cm.<br/>Utilise $\\pi \\approx 3{,}14$ et arrondis à $0{,}1$ cm.`,
+            /* La figure trace le DIAMETRE d'un bord a l'autre en passant par le
+               centre : voir le trait traverser tout le disque est ce qui rend
+               evident que le rayon n'en est que la moitie. */
+            figure: figureDisque(d / 2, { diametre: true }),
+            answer: p,
+            tolerance: 0.2,
+            unit: 'cm',
+            hint: `Le périmètre d'un cercle vaut $2\\pi r$, où $r$ est le <strong>rayon</strong>.<br/><br/>On te donne le diamètre : commence par en prendre la moitié. Ou utilise directement $\\pi d$, qui est la même formule.`,
+            solution: [
+              `Rayon : $r = ${d} \\div 2 = ${d / 2}$ cm.`,
+              `Périmètre : $\\mathcal{P} = 2 \\times 3{,}14 \\times ${d / 2} = ${fr(p, 1)}$ cm.`,
+              `Contrôle : $\\pi d = 3{,}14 \\times ${d} = ${fr(p, 1)}$ cm, le même résultat — $2\\pi r$ et $\\pi d$ sont deux écritures de la même formule.`
+            ]
+          };
+        }
+
+        if (tache === 'conversion') {
+          /* Conversion d'aire, dans les deux sens, avec le facteur au CARRE.
+             Les couples d'unites sont ceux du programme, et le facteur est
+             toujours une puissance de 10 au carre. */
+          const cas = pick([
+            { de: 'm²', vers: 'cm²', facteur: 10000, lon: '1 m = 100 cm', base: 100 },
+            { de: 'cm²', vers: 'mm²', facteur: 100, lon: '1 cm = 10 mm', base: 10 },
+            { de: 'dm²', vers: 'cm²', facteur: 100, lon: '1 dm = 10 cm', base: 10 },
+            { de: 'km²', vers: 'm²', facteur: 1000000, lon: '1 km = 1 000 m', base: 1000 }
+          ]);
+          const val = pick([2, 2.5, 3, 4, 5, 7.5]);
+          const res = val * cas.facteur;
+          return {
+            statement: `📐 Convertis $${fr(val)}$ ${cas.de} en ${cas.vers}.<br/>Attention : pour une <strong>aire</strong>, le facteur de conversion s'élève au carré.`,
+            answer: res,
+            tolerance: 0,
+            unit: cas.vers,
+            hint: `Pour les longueurs, $${cas.lon}$.<br/><br/>Pour les aires, le facteur est donc $${cas.base}^2$, et non $${cas.base}$.`,
+            solution: [
+              `Longueurs : $${cas.lon}$.`,
+              `Aires : $1$ ${cas.de} $= ${cas.base}^2$ ${cas.vers} $= ${fr(cas.facteur)}$ ${cas.vers}.`,
+              `Donc $${fr(val)}$ ${cas.de} $= ${fr(val)} \\times ${fr(cas.facteur)} = ${fr(res)}$ ${cas.vers}.`
+            ]
+          };
+        }
+
+        if (tache === 'composee') {
+          /* Figure composee par DIFFERENCE : un rectangle dont on retire un
+             disque. L'eleve doit decider de SOUSTRAIRE, ce qui est la tache, et
+             non simplement calculer deux aires. Le rayon est borne pour que le
+             disque tienne dans le rectangle — sans quoi l'enonce serait
+             geometriquement impossible. */
+          const ctx = pick([
+            { obj: 'un terrain', trou: 'une piscine circulaire', emoji: '🏡' },
+            { obj: 'une plaque de métal', trou: 'un trou circulaire', emoji: '🔧' },
+            { obj: 'une pelouse', trou: 'un massif circulaire', emoji: '🌿' },
+            { obj: 'un plateau de table', trou: 'une découpe circulaire', emoji: '🪵' }
+          ]);
+          const L = rand(20, 40);
+          const l = rand(10, 20);
+          const r = rand(2, Math.floor(Math.min(L, l) / 2) - 1);
+          const aire = parseFloat((L * l - 3.14 * r * r).toFixed(1));
+          return {
+            statement: `${ctx.emoji} ${ctx.obj.charAt(0).toUpperCase() + ctx.obj.slice(1)} rectangulaire mesure $${L}$ m sur $${l}$ m. On y aménage ${ctx.trou} de rayon $${r}$ m.<br/>Quelle est l'aire restante, en m² ? Utilise $\\pi \\approx 3{,}14$ et arrondis à $0{,}1$.`,
+            answer: aire,
+            tolerance: 0.3,
+            unit: 'm²',
+            hint: `La partie circulaire est <strong>retirée</strong> du rectangle : il faut donc une soustraction.<br/><br/>Calcule les deux aires séparément, puis retire la plus petite.`,
+            solution: [
+              `Aire du rectangle : $${L} \\times ${l} = ${fr(L * l)}$ m².`,
+              `Aire du disque : $3{,}14 \\times ${r}^2 = ${fr(parseFloat((3.14 * r * r).toFixed(1)), 1)}$ m².`,
+              `Aire restante : $${fr(L * l)} - ${fr(parseFloat((3.14 * r * r).toFixed(1)), 1)} = ${fr(aire, 1)}$ m².`,
+              `Contrôle : le résultat doit être plus PETIT que l'aire du rectangle, puisqu'on a retiré quelque chose.`
+            ]
+          };
+        }
+
+        // Tache d'origine, avec l'accord corrige : « un(e) pizza » s'imprimait
+        // tel quel dans le livre.
         const ctx = pick([
-          { obj: 'pizza', emoji: '🍕' },
-          { obj: 'horloge', emoji: '🕐' },
-          { obj: 'frisbee', emoji: '🥏' },
-          { obj: 'assiette', emoji: '🍽️' },
-          { obj: 'piscine ronde', emoji: '🏊' }
+          { obj: 'une pizza', emoji: '🍕' },
+          { obj: 'une horloge', emoji: '🕐' },
+          { obj: 'un frisbee', emoji: '🥏' },
+          { obj: 'une assiette', emoji: '🍽️' },
+          { obj: 'une piscine ronde', emoji: '🏊' }
         ]);
         const r = rand(2, 10);
         return {
-          statement: `${ctx.emoji} Calcule l'aire d'un(e) ${ctx.obj} circulaire de rayon $${r}$ cm. Utilise $\\pi \\approx 3{,}14$ et arrondis à $0{,}1$ cm².`,
+          statement: `${ctx.emoji} Calcule l'aire d'${ctx.obj} circulaire de <strong>rayon</strong> $${r}$ cm.<br/>Utilise $\\pi \\approx 3{,}14$ et arrondis à $0{,}1$ cm².`,
+          figure: figureDisque(r),
           answer: parseFloat((3.14 * r * r).toFixed(1)),
           tolerance: 0.2,
           unit: 'cm²',
-          hint: `$\\mathcal{A} = \\pi r^2 = 3{,}14 \\times ${r}^2 = 3{,}14 \\times ${r * r}$.`,
-          solution: [`$\\mathcal{A} = 3{,}14 \\times ${r}^2 = 3{,}14 \\times ${r * r} = ${fr(3.14 * r * r, 1)}$ cm².`]
+          hint: `$\\mathcal{A} = \\pi r^2$ : c'est le <strong>rayon seul</strong> qui est au carré, jamais le produit $\\pi r$.<br/><br/>Commence par $${r}^2$.`,
+          solution: [
+            `Rayon au carré : $${r}^2 = ${r * r}$.`,
+            `$\\mathcal{A} = 3{,}14 \\times ${r * r} = ${fr(3.14 * r * r, 1)}$ cm².`
+          ]
         };
       }
     },
-
     probleme: {
       context: 'Un stade a une piste d\'athlétisme composée de deux lignes droites de $100$ m chacune et de deux demi-cercles de rayon $36$ m.',
       tasks: [

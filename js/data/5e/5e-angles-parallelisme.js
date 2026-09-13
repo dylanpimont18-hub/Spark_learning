@@ -344,14 +344,37 @@ window.MODULES.push({
           points: 2,
           correction: 'Les angles alternes-internes formés par deux droites parallèles coupées par une sécante sont égaux. L\'autre angle vaut donc $74°$.'
         },
+        /* QUESTION REECRITE LE 2026-09-13.
+
+           Elle demandait le supplementaire d'un angle donne, soit la meme
+           mecanique que la question 1 (lire une relation dans une configuration
+           nommee, puis appliquer) et un DEUXIEME « calculer » sur cinq questions
+           — dans un ouvrage ou cette competence pesait 38,6 % du total, au-dela
+           du plafond de 35 %. Le quiz du chapitre pose d'ailleurs deja exactement
+           cette question, avec d'autres nombres.
+
+           La nouvelle question demande a l'eleve de NOMMER la configuration
+           avant toute relation, ce qui est la difficulte reelle du chapitre : les
+           trois configurations se ressemblent, et l'erreur vient presque toujours
+           de l'identification, jamais de la soustraction. C'est « representer » —
+           lire une figure et la rattacher a un cas connu. */
         {
-          statement: 'Deux angles internes sont situés du même côté d\'une sécante qui coupe deux droites parallèles. L\'un mesure $125°$. Quel est l\'autre (en degrés) ?',
-          type: 'numeric',
-          answer: 55,
-          tolerance: 0,
-          unit: '°',
+          statement: 'Deux droites parallèles sont coupées par une sécante. Deux angles mesurent chacun $68°$ et se trouvent <strong>de part et d\'autre</strong> de la sécante, entre les deux parallèles. De quels angles s\'agit-il ?',
+          type: 'multiple-choice',
+          options: [
+            'Des angles internes du même côté de la sécante.',
+            'Des angles alternes-internes.',
+            'Des angles correspondants.',
+            'Des angles opposés par le sommet.'
+          ],
+          answer: 1,
           points: 2,
-          correction: 'Deux angles internes du même côté de la sécante sont supplémentaires : $180° - 125° = 55°$.'
+          correction: 'Deux angles situés <strong>entre</strong> les parallèles (donc « internes ») et ' +
+            '<strong>de part et d\'autre</strong> de la sécante (donc « alternes ») sont des angles ' +
+            '<strong>alternes-internes</strong> : ils sont égaux, ce que confirment les deux mesures de $68°$. ' +
+            'Les angles internes du même côté seraient, eux, supplémentaires — ils ne pourraient pas être égaux à $68°$ tous les deux. ' +
+            'Les angles correspondants ne sont pas tous les deux entre les parallèles : l\'un est au-dessus, l\'autre en dessous. ' +
+            'Les angles opposés par le sommet partagent un même point d\'intersection, ce qui n\'est pas le cas ici.'
         },
         {
           statement: 'Une sécante coupe deux droites. Les angles correspondants mesurent $62°$ et $62°$. Que peut-on en conclure ?',

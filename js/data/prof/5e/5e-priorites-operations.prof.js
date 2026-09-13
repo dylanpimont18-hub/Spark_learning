@@ -105,7 +105,7 @@ window.SPARK_PROF["5e-priorites-operations"] = {
      Q2 parenthèses et puissance        -> calculer
      Q3 barre de fraction              -> représenter
      Q4 juger une valeur et sa raison  -> communiquer
-     Q5 expression complète            -> calculer
+     Q5 où placer les parenthèses pour obtenir 16 -> chercher
 
      Q3 relève de « représenter » : ce qui est évalué n'est pas la division mais
      la lecture d'une ÉCRITURE, la barre de fraction, et la capacité à la
@@ -114,6 +114,6 @@ window.SPARK_PROF["5e-priorites-operations"] = {
      résultats : c'est bien « communiquer », et l'énoncé n'a donc pas eu besoin
      d'être réécrit — contrairement à d'autres chapitres de l'ouvrage. */
   competences: {
-    evaluation: ["calculer", "calculer", "représenter", "communiquer", "calculer"]
+    evaluation: ["calculer", "calculer", "représenter", "communiquer", "chercher"]
   }
 };

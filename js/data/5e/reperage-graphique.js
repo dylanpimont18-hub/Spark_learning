@@ -207,14 +207,37 @@ window.MODULES.push({
           points: 2,
           correction: '$a = \\dfrac{y_B - y_A}{x_B - x_A} = \\dfrac{11 - 3}{5 - 1} = \\dfrac{8}{4} = 2$.'
         },
+        /* QUESTION REECRITE LE 2026-09-13.
+
+           Elle demandait une interpolation a mi-chemin, c'est-a-dire un calcul
+           de pente suivi d'une moyenne — soit la MEME mecanique que la question
+           2, qui demande deja la pente. Deux questions pour une competence, et un
+           TROISIEME « calculer » sur cinq dans un ouvrage ou cette competence
+           pesait 38,6 % du total, au-dela du plafond de 35 %.
+
+           La nouvelle question porte sur la distinction INTERPOLER / EXTRAPOLER
+           appliquee a un cas concret, qui est le cœur du chapitre et sa seule
+           vraie difficulte conceptuelle. Aucun calcul n'est demande : il faut
+           juger la FIABILITE d'une estimation, ce qui est « raisonner ». La
+           reponse 2 est le piege de l'eleve qui prolonge une regularite sans
+           voir qu'elle sort du domaine mesure. */
         {
-          statement: 'Une droite passe par $A(2 ; 7)$ et $B(6 ; 15)$. Par interpolation, quelle est l\'ordonnée du point de cette droite dont l\'abscisse est $x = 4$ (à mi-chemin entre $A$ et $B$) ?',
-          type: 'numeric',
-          answer: 11,
-          tolerance: 0,
-          unit: '',
+          statement: 'Un plant mesuré chaque semaine atteint $12$ cm à $2$ semaines et $28$ cm à $6$ semaines, avec une croissance régulière. Pour laquelle de ces estimations peut-on se fier à cette régularité ?',
+          type: 'multiple-choice',
+          options: [
+            'Sa hauteur à $50$ semaines, en prolongeant la droite.',
+            'Sa hauteur à $4$ semaines, qui est entre les deux mesures.',
+            'Les deux : la droite est valable partout.',
+            'Aucune des deux : on ne peut rien estimer sans mesurer.'
+          ],
+          answer: 1,
           points: 2,
-          correction: 'La pente est $a = \\dfrac{15 - 7}{6 - 2} = 2$. Comme $x = 4$ est à mi-chemin entre $x_A = 2$ et $x_B = 6$, $y$ est à mi-chemin entre $y_A = 7$ et $y_B = 15$, soit $y = 11$.'
+          correction: 'À $4$ semaines, on est ENTRE les deux mesures : c\'est une <strong>interpolation</strong>, ' +
+            'et elle est fiable puisque la régularité a été observée sur cet intervalle (on trouverait $20$ cm). ' +
+            'À $50$ semaines, on sort largement du domaine mesuré : c\'est une <strong>extrapolation</strong>, ' +
+            'et elle suppose que la croissance reste régulière indéfiniment — or un plant finit par cesser de grandir. ' +
+            'La droite donnerait $204$ cm, ce qui est absurde pour ce plant. ' +
+            'La limite n\'est donc pas mathématique mais physique : c\'est ce qui distingue les deux estimations.'
         },
         {
           statement: 'Qu\'appelle-t-on « interpoler » sur un graphique ?',

@@ -275,13 +275,29 @@ window.MODULES.push({
           correction: '$(-6) - (-11) = (-6) + (+11) = +5$. Soustraire un nombre négatif revient à additionner son opposé.'
         },
         {
-          statement: 'Calculer $(-3) + (-8) - (-2)$.',
+        /* QUESTION REECRITE LE 2026-09-13.
+
+           Elle demandait « Calculer $(-3) + (-8) - (-2)$ », soit un TROISIEME
+           calcul de signes sur cinq questions. Sur l'ouvrage entier, « calculer »
+           pesait 45,7 % des questions, bien au-dela du plafond de 35 %.
+
+           La nouvelle question est un PROBLEME INVERSE : on donne le resultat et
+           l'on cherche le nombre manquant. Aucune formule ne s'applique, il faut
+           essayer puis verifier — c'est « chercher ». Elle est en outre un bon
+           revelateur : un eleve qui maitrise « soustraire revient a ajouter
+           l'oppose » trouve vite, un eleve qui recite la regle sans la comprendre
+           reste bloque. */
+          statement: 'Trouver le nombre manquant : $(-5) + \\ldots = -2$.',
           type: 'numeric',
-          answer: -9,
+          answer: 3,
           tolerance: 0,
           unit: '',
           points: 2,
-          correction: '$(-3) + (-8) - (-2) = (-3) + (-8) + (+2) = -11 + 2 = -9$.'
+          correction: 'On part de $-5$ et on veut arriver à $-2$ : sur la droite graduée, il faut donc ' +
+            'se déplacer vers la DROITE (vers les plus grands nombres), de $3$ unités. Le nombre manquant est $+3$. ' +
+            'Vérification : $(-5) + (+3) = -2$ ✓. ' +
+            'Piège à éviter : le résultat $-2$ est négatif, ce qui laisse croire que le nombre ajouté ' +
+            'l\'est aussi — or ajouter un nombre négatif à $-5$ l\'éloignerait encore de zéro.'
         },
         {
           statement: 'Quelle est la distance entre les points $A(-4)$ et $B(+7)$ sur une droite graduée ?',

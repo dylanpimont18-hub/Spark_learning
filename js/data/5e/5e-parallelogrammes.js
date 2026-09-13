@@ -508,14 +508,35 @@ window.MODULES.push({
           points: 2,
           correction: '$\\mathcal{A} = \\dfrac{d_1 \\times d_2}{2} = \\dfrac{10 \\times 14}{2} = \\dfrac{140}{2} = 70$ cm².'
         },
+        /* QUESTION REECRITE LE 2026-09-13.
+
+           Elle demandait l'aire d'un parallelogramme dont la base et la hauteur
+           etaient toutes deux donnees : l'application la plus directe possible
+           de la formule, et un DEUXIEME calcul d'aire sur cinq questions apres
+           celui du losange en Q1. Sur l'ouvrage entier, « calculer » pesait
+           38,6 % des soixante-dix questions, au-dela du plafond de 35 %.
+
+           Surtout, cette question ne testait PAS l'erreur du chapitre : en
+           donnant explicitement la hauteur, elle escamotait le choix entre
+           hauteur et cote oblique, qui est toute la difficulte.
+
+           La nouvelle question est un PROBLEME INVERSE : l'aire est donnee, la
+           hauteur est cherchee. Elle exige de comprendre la formule plutot que
+           de l'appliquer, et le cote oblique y figure comme donnee inutile —
+           l'eleve doit donc trier ce qui sert. C'est « chercher ». */
         {
-          statement: 'Un parallélogramme $ABCD$ a une base $AB = 9$ cm et une hauteur $h = 6$ cm. Quelle est son aire en cm² ?',
+          statement: 'Un parallélogramme a une base de $9$ cm, un côté oblique de $7$ cm et une aire de $54$ cm². Quelle est sa hauteur, en cm ?',
           type: 'numeric',
-          answer: 54,
+          answer: 6,
           tolerance: 0,
-          unit: 'cm²',
+          unit: 'cm',
           points: 2,
-          correction: '$\\mathcal{A} = b \\times h = 9 \\times 6 = 54$ cm².'
+          correction: 'L\'aire d\'un parallélogramme vaut $\\mathcal{A} = b \\times h$. ' +
+            'On connaît l\'aire et la base, donc la hauteur s\'obtient en <strong>divisant</strong> : ' +
+            '$h = \\dfrac{54}{9} = 6$ cm. ' +
+            'Le côté oblique de $7$ cm ne sert à rien ici : c\'est une donnée inutile, placée là exprès. ' +
+            'Remarque utile pour vérifier : la hauteur trouvée ($6$ cm) est bien plus petite que le côté ' +
+            'oblique ($7$ cm), comme elle doit toujours l\'être.'
         },
         {
           statement: 'Les diagonales d\'un parallélogramme :',

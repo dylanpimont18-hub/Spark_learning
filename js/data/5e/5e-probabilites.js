@@ -139,29 +139,137 @@ window.MODULES.push({
       }
     ],
 
+    /* ELARGISSEMENT ET CORRECTION DU 2026-09-13.
+
+       DEFAUT D'ACCORD, corrige d'abord : l'enonce ecrivait « Un(e) roue de
+       loterie », parenthese de complaisance qui s'IMPRIME telle quelle dans le
+       livre. Chaque contexte porte desormais son article.
+
+       ETAT DE DEPART : le generateur ne rendait QU'UNE tache, un tirage
+       equiprobable parmi des elements numerotes — 4 moules, aucune banque pour
+       le professeur. L'evaluation teste pourtant l'urne a plusieurs couleurs
+       (Q2, ou le total n'est PAS donne), l'evenement contraire (Q3) et
+       l'evenement impossible (Q4) : trois questions sur cinq sans exercice
+       d'entrainement, et une remediation sans renvoi possible.
+
+       On ajoute ces trois taches, chacune adossee a une erreur frequente :
+         - l'urne melangee, ou l'eleve doit CONSTRUIRE le total des cas ;
+         - l'evenement contraire, ou il soustrait a 100 au lieu de 1 ;
+         - l'evenement impossible ou certain, qui fixe les bornes 0 et 1. */
     exercice: {
       type: 'numeric',
       generate() {
+        const tache = pick(['tirage', 'urne', 'contraire', 'borne']);
+
+        if (tache === 'urne') {
+          /* Le total n'est PAS donne : l'eleve doit l'additionner lui-meme.
+             C'est la difficulte de la question 2 de l'evaluation, et aucun
+             exercice ne la travaillait. Effectifs choisis pour que la
+             probabilite tombe a deux decimales. */
+          const couleurs = pick([
+            { a: 'rouges', b: 'bleues', c: 'vertes' },
+            { a: 'jaunes', b: 'noires', c: 'blanches' },
+            { a: 'rouges', b: 'vertes', c: 'oranges' }
+          ]);
+          const n1 = rand(2, 8), n2 = rand(2, 8), n3 = rand(2, 8);
+          const total = n1 + n2 + n3;
+          const cible = pick([
+            { nom: couleurs.a, eff: n1 },
+            { nom: couleurs.b, eff: n2 },
+            { nom: couleurs.c, eff: n3 }
+          ]);
+          const p = parseFloat((cible.eff / total).toFixed(2));
+          return {
+            statement: `🎱 Un sac contient $${n1}$ billes ${couleurs.a}, $${n2}$ ${couleurs.b} et $${n3}$ ${couleurs.c}. On en tire une au hasard.<br/>Quelle est la probabilité de tirer une bille ${cible.nom} ? Arrondis à $0{,}01$.`,
+            answer: p,
+            tolerance: 0.01,
+            unit: '',
+            hint: `Le nombre total de billes n'est pas donné : commence par l'additionner.<br/><br/>Puis compare l'effectif de la couleur cherchée à ce total.`,
+            solution: [
+              `Total des billes : $${n1} + ${n2} + ${n3} = ${total}$.`,
+              `Billes ${cible.nom} : $${cible.eff}$.`,
+              `$P = \\dfrac{${cible.eff}}{${total}} = ${fr(p)}$.`,
+              `Contrôle : une probabilité est toujours comprise entre $0$ et $1$.`
+            ]
+          };
+        }
+
+        if (tache === 'contraire') {
+          /* Evenement CONTRAIRE : l'eleve doit soustraire a 1, pas a 100.
+             La probabilite de depart est un multiple de 0,05 pour que le
+             complement tombe juste. */
+          const jeu = pick(['un jeu de fléchettes', 'une tombola', 'un jeu vidéo', 'un concours de tir']);
+          const p = rand(1, 19) * 5 / 100;           // de 0,05 a 0,95
+          const q = parseFloat((1 - p).toFixed(2));
+          return {
+            statement: `🎯 À ${jeu}, la probabilité de gagner est $${fr(p)}$.<br/>Quelle est la probabilité de <strong>perdre</strong> ?`,
+            answer: q,
+            tolerance: 0.01,
+            unit: '',
+            hint: `Gagner ou perdre : l'un des deux arrive forcément.<br/><br/>Les deux probabilités réunies valent donc la <strong>certitude</strong>, c'est-à-dire $1$ — et non $100$.`,
+            solution: [
+              `L'événement contraire de « gagner » est « perdre ».`,
+              `$P(\\text{perdre}) = 1 - ${fr(p)} = ${fr(q)}$.`,
+              `Contrôle : $${fr(p)} + ${fr(q)} = 1$ ✓ — la somme d'un événement et de son contraire vaut toujours $1$.`
+            ]
+          };
+        }
+
+        if (tache === 'borne') {
+          /* Evenement IMPOSSIBLE ou CERTAIN : la reponse est 0 ou 1, et c'est
+             ce qui fixe les bornes de l'echelle des probabilites. Les deux cas
+             se presentent, sans quoi l'eleve repondrait toujours pareil. */
+          const faces = pick([6, 8, 10, 12]);
+          const impossible = rand(0, 1) === 1;
+          const valeur = impossible ? faces + rand(1, 4) : faces;
+          return {
+            statement: impossible
+              ? `🎲 On lance un dé à $${faces}$ faces, numérotées de $1$ à $${faces}$.<br/>Quelle est la probabilité d'obtenir $${valeur}$ ?`
+              : `🎲 On lance un dé à $${faces}$ faces, numérotées de $1$ à $${faces}$.<br/>Quelle est la probabilité d'obtenir un nombre inférieur ou égal à $${faces}$ ?`,
+            answer: impossible ? 0 : 1,
+            tolerance: 0,
+            unit: '',
+            hint: impossible
+              ? `Le nombre $${valeur}$ figure-t-il sur ce dé ?<br/><br/>Un événement qui ne peut pas se produire a une probabilité de $0$.`
+              : `Combien de faces vérifient cette condition ?<br/><br/>Un événement qui se produit à coup sûr a une probabilité de $1$.`,
+            solution: impossible
+              ? [
+                  `Le dé ne porte que les numéros de $1$ à $${faces}$ : le nombre $${valeur}$ n'y figure pas.`,
+                  `Aucun cas favorable, donc $P = \\dfrac{0}{${faces}} = 0$.`,
+                  `C'est un événement <strong>impossible</strong> : sa probabilité est nulle.`
+                ]
+              : [
+                  `Toutes les faces portent un numéro inférieur ou égal à $${faces}$.`,
+                  `Les $${faces}$ cas sont favorables, donc $P = \\dfrac{${faces}}{${faces}} = 1$.`,
+                  `C'est un événement <strong>certain</strong> : sa probabilité vaut $1$.`
+                ]
+          };
+        }
+
+        // Tache d'origine, avec l'accord corrige.
         const ctx = pick([
-          { obj: 'roue de loterie', emoji: '🎡' },
-          { obj: 'urne avec des boules numérotées', emoji: '🎱' },
-          { obj: 'jeu de cartes numérotées', emoji: '🃏' },
-          { obj: 'tirage au sort', emoji: '🎲' }
+          { obj: 'une roue de loterie', emoji: '🎡' },
+          { obj: 'une urne de boules numérotées', emoji: '🎱' },
+          { obj: 'un jeu de cartes numérotées', emoji: '🃏' },
+          { obj: 'un tirage au sort', emoji: '🎲' }
         ]);
         const total = pick([6, 8, 10, 12]);
         const fav = rand(1, total - 1);
         const p = parseFloat((fav / total).toFixed(2));
         return {
-          statement: `${ctx.emoji} Un(e) ${ctx.obj} comporte $${total}$ éléments numérotés de $1$ à $${total}$, tous équiprobables. On gagne si le numéro tiré est $\\leq ${fav}$. Quelle est la probabilité de gagner (arrondie à $0{,}01$) ?`,
+          statement: `${ctx.emoji} ${ctx.obj.charAt(0).toUpperCase() + ctx.obj.slice(1)} comporte $${total}$ éléments numérotés de $1$ à $${total}$, tous équiprobables. On gagne si le numéro tiré est $\\leq ${fav}$.<br/>Quelle est la probabilité de gagner ? Arrondis à $0{,}01$.`,
           answer: p,
           tolerance: 0.01,
           unit: '',
-          hint: `$P = \\dfrac{\\text{cas favorables}}{\\text{cas possibles}} = \\dfrac{${fav}}{${total}}$.`,
-          solution: [`$P = \\dfrac{${fav}}{${total}} = ${fr(p)}$.`]
+          hint: `Compte les numéros qui font gagner : ce sont ceux de $1$ à $${fav}$, donc $${fav}$ numéros.<br/><br/>$P = \\dfrac{\\text{cas favorables}}{\\text{cas possibles}}$.`,
+          solution: [
+            `Cas favorables : les numéros de $1$ à $${fav}$, soit $${fav}$ cas.`,
+            `Cas possibles : $${total}$.`,
+            `$P = \\dfrac{${fav}}{${total}} = ${fr(p)}$.`
+          ]
         };
       }
     },
-
     probleme: {
       context: 'Une classe de $30$ élèves tire au sort un délégué. Il y a $13$ filles et $17$ garçons.',
       tasks: [

@@ -105,7 +105,7 @@ window.SPARK_PROF["5e-symetrie-centrale"] = {
   ],
 
   /* Q1 abscisse du symétrique          -> calculer
-     Q2 ordonnée du symétrique          -> calculer
+     Q2 retrouver le centre de symétrie -> chercher
      Q3 propriété du milieu             -> raisonner
      Q4 abscisse du milieu d'un segment -> représenter
      Q5 centre de symétrie d'un parallélogramme -> raisonner
@@ -117,6 +117,6 @@ window.SPARK_PROF["5e-symetrie-centrale"] = {
      propriété caractéristique (le milieu), l'autre sur l'existence d'un centre
      pour une figure donnée, qui est le point le plus souvent manqué. */
   competences: {
-    evaluation: ["calculer", "calculer", "raisonner", "représenter", "raisonner"]
+    evaluation: ["calculer", "chercher", "raisonner", "représenter", "raisonner"]
   }
 };
