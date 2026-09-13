@@ -120,6 +120,159 @@
         reading: 'Le trajet en escalier (pointillés) montre séparément l\'effet de $a$ puis de $b$ ; la flèche pleine montre le vecteur réel $\\vec{v}$ qui va directement de $A$ à $A\'$.',
         caption: 'Translation du point $A(3\\,;\\,1)$ par le vecteur $\\vec{v}(2\\,;\\,-4)$, donnant l\'image $A\'(5\\,;\\,-3)$ — exemple repris de la méthode du cours.'
       },
+
+      /* SCHEMAS SECONDAIRES (2026-09-13). Une figure par MALENTENDU :
+         1. un vecteur n'est pas un point : le meme vecteur se dessine
+            n'importe ou, ce qui deroute l'eleve habitue aux coordonnees ;
+         2. enchainer deux translations revient a UNE seule, dont le vecteur
+            s'obtient en ajoutant les coordonnees (repond a l'intro) ;
+         3. une translation conserve les longueurs, les angles et l'aire :
+            ce n'est ni une rotation ni un agrandissement.
+         Coordonnees verifiees : u(5;-1) puis v(-2;3) donne bien (3;2), et
+         A(-2;3) arrive en (1;5) par les deux chemins (scratchpad geo-all.js). */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Un vecteur n\'est pas un point',
+          title: 'Le même vecteur peut se dessiner n\'importe où',
+          description: 'Un point a une place unique sur le quadrillage. Un vecteur, lui, ne dit qu\'une chose : <strong>de combien on se déplace</strong>. Les trois flèches ci-dessous sont donc <strong>le même vecteur</strong>, malgré des positions différentes.',
+          svg: `
+            <svg viewBox="0 0 400 200" role="img" aria-labelledby="trans-vect-title trans-vect-desc">
+              <title id="trans-vect-title">Trois representations du meme vecteur sur un quadrillage</title>
+              <desc id="trans-vect-desc">Sur un quadrillage, trois fleches sont tracees a des endroits differents. Chacune avance de trois carreaux vers la droite et monte de deux carreaux. Comme elles ont la meme direction, le meme sens et la meme longueur, elles representent toutes le meme vecteur, meme si leurs points de depart et d'arrivee sont differents.</desc>
+
+              <!-- Quadrillage au pas de 24. Les trois fleches ont TOUTES le
+                   meme deplacement (+3 ; -2 en coordonnees ecran, soit 3
+                   carreaux a droite et 2 vers le haut) : c'est verifiable a la
+                   regle sur la figure imprimee. -->
+              <line class="grid-line" x1="28" y1="40" x2="364" y2="40"></line>
+              <line class="grid-line" x1="28" y1="64" x2="364" y2="64"></line>
+              <line class="grid-line" x1="28" y1="88" x2="364" y2="88"></line>
+              <line class="grid-line" x1="28" y1="112" x2="364" y2="112"></line>
+              <line class="grid-line" x1="28" y1="136" x2="364" y2="136"></line>
+              <line class="grid-line" x1="28" y1="160" x2="364" y2="160"></line>
+              <line class="grid-line" x1="52" y1="34" x2="52" y2="166"></line>
+              <line class="grid-line" x1="100" y1="34" x2="100" y2="166"></line>
+              <line class="grid-line" x1="148" y1="34" x2="148" y2="166"></line>
+              <line class="grid-line" x1="196" y1="34" x2="196" y2="166"></line>
+              <line class="grid-line" x1="244" y1="34" x2="244" y2="166"></line>
+              <line class="grid-line" x1="292" y1="34" x2="292" y2="166"></line>
+              <line class="grid-line" x1="340" y1="34" x2="340" y2="166"></line>
+
+              <line class="curve-main" x1="52" y1="160" x2="124" y2="112"></line>
+              <polygon class="plot-point" points="124,112 113,114 118,121"></polygon>
+
+              <line class="curve-main" x1="148" y1="136" x2="220" y2="88"></line>
+              <polygon class="plot-point" points="220,88 209,90 214,97"></polygon>
+
+              <line class="curve-main" x1="244" y1="112" x2="316" y2="64"></line>
+              <polygon class="plot-point" points="316,64 305,66 310,73"></polygon>
+
+              <text class="tick-label" x="200" y="188" text-anchor="middle">trois flèches, un seul vecteur : 3 carreaux à droite, 2 vers le haut</text>
+            </svg>
+          `,
+          notes: [
+            'Ce qui définit un vecteur, ce sont trois choses : sa <strong>direction</strong>, son <strong>sens</strong> et sa <strong>longueur</strong>. Jamais sa position.',
+            'Les trois flèches ont les mêmes coordonnées, ici $(3\\,;\\,2)$ en carreaux : elles sont donc égales, au sens des vecteurs.',
+            'C\'est ce qui rend la translation utile : un seul vecteur suffit à déplacer <strong>tous</strong> les points de la figure d\'un coup.'
+          ],
+          reading: 'Compte les carreaux pour chaque flèche : trois à droite, deux vers le haut, à chaque fois. Le point de départ n\'entre pas dans la définition.',
+          caption: 'Trois flèches de même direction, même sens et même longueur : c\'est un seul et même vecteur.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'La réponse à la question d\'ouverture',
+          title: 'Deux translations enchaînées en font une seule',
+          description: 'Le robot de l\'introduction reçoit deux consignes. Plutôt que de le suivre case par case, on peut <strong>additionner les deux vecteurs</strong> : le résultat est un unique vecteur qui mène directement à l\'arrivée.',
+          svg: `
+            <svg viewBox="0 0 400 196" role="img" aria-labelledby="trans-somme-title trans-somme-desc">
+              <title id="trans-somme-title">Somme de deux vecteurs par la relation de Chasles</title>
+              <desc id="trans-somme-desc">Un point de depart A est relie a un point intermediaire par un premier vecteur qui avance de cinq carreaux vers la droite et descend d'un carreau. Depuis ce point intermediaire, un second vecteur recule de deux carreaux et monte de trois carreaux, menant au point d'arrivee. Une troisieme fleche, tracee en trait plein, relie directement A au point d'arrivee : elle avance de trois carreaux et monte de deux, ce qui correspond a la somme des coordonnees des deux premiers vecteurs.</desc>
+
+              <!-- Pas de 24. A = (64,140). u(5;-1) -> ecran (+120 ; +24) donne
+                   (184,164)... trop bas : on prend u(5;-1) avec l'axe des y
+                   MATHEMATIQUE (vers le haut), donc ecran = (+120 ; -(-24)).
+                   A' = (184, 164) serait sous le cadre : on translate tout le
+                   dessin vers le haut. A = (64,116), A' = (184,140),
+                   A'' = (136,68). Verifie : u+v = (3;2) et A'' - A en carreaux
+                   = ((136-64)/24 ; (116-68)/24) = (3 ; 2). -->
+              <line class="grid-line" x1="40" y1="44" x2="376" y2="44"></line>
+              <line class="grid-line" x1="40" y1="68" x2="376" y2="68"></line>
+              <line class="grid-line" x1="40" y1="92" x2="376" y2="92"></line>
+              <line class="grid-line" x1="40" y1="116" x2="376" y2="116"></line>
+              <line class="grid-line" x1="40" y1="140" x2="376" y2="140"></line>
+              <line class="grid-line" x1="64" y1="38" x2="64" y2="146"></line>
+              <line class="grid-line" x1="88" y1="38" x2="88" y2="146"></line>
+              <line class="grid-line" x1="112" y1="38" x2="112" y2="146"></line>
+              <line class="grid-line" x1="136" y1="38" x2="136" y2="146"></line>
+              <line class="grid-line" x1="160" y1="38" x2="160" y2="146"></line>
+              <line class="grid-line" x1="184" y1="38" x2="184" y2="146"></line>
+
+              <line class="guide-line" x1="64" y1="116" x2="184" y2="140"></line>
+              <polygon class="plot-point-alt" points="184,140 173,137 175,145"></polygon>
+              <text class="tick-label" x="124" y="158" text-anchor="middle">1re consigne</text>
+
+              <line class="guide-line" x1="184" y1="140" x2="136" y2="68"></line>
+              <polygon class="plot-point-alt" points="136,68 139,79 146,74"></polygon>
+              <text class="tick-label" x="196" y="100" text-anchor="start">2e consigne</text>
+
+              <line class="curve-main" x1="64" y1="116" x2="136" y2="68"></line>
+              <polygon class="plot-point" points="136,68 125,70 130,77"></polygon>
+              <text class="annotation-label" x="72" y="86" text-anchor="start">tout droit</text>
+
+              <circle class="plot-point" cx="64" cy="116" r="4"></circle>
+              <circle class="plot-point" cx="136" cy="68" r="4"></circle>
+              <text class="annotation-label" x="56" y="128" text-anchor="end">départ</text>
+              <text class="annotation-label" x="130" y="60" text-anchor="end">arrivée</text>
+              <text class="tick-label" x="200" y="186" text-anchor="middle">le trait plein remplace les deux pointillés</text>
+            </svg>
+          `,
+          notes: [
+            'Première consigne $\\vec{u}(5\\,;\\,-1)$, seconde $\\vec{v}(-2\\,;\\,3)$ : on additionne <strong>abscisse avec abscisse</strong> et <strong>ordonnée avec ordonnée</strong>.',
+            '$\\vec{u} + \\vec{v} = (5 + (-2)\\,;\\,-1 + 3) = (3\\,;\\,2)$ : c\'est exactement la flèche en trait plein.',
+            'Peu importe le chemin suivi : seul compte le point d\'arrivée. Trente consignes se résument encore à une seule addition.'
+          ],
+          reading: 'Suis d\'abord les deux pointillés, puis le trait plein. Ils aboutissent au même endroit — mais le trait plein s\'obtient par un calcul, sans rien dessiner.',
+          caption: 'Deux translations enchaînées équivalent à une seule, de vecteur la somme des deux.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Ce qui ne change pas',
+          title: 'La figure glisse sans se déformer',
+          description: 'Une translation <strong>ne change ni les longueurs, ni les angles, ni l\'aire</strong>. La figure ne tourne pas, ne se retourne pas et ne grandit pas : elle glisse, c\'est tout.',
+          svg: `
+            <svg viewBox="0 0 400 180" role="img" aria-labelledby="trans-conserve-title trans-conserve-desc">
+              <title id="trans-conserve-title">Un triangle et son image par translation</title>
+              <desc id="trans-conserve-desc">Un triangle est dessine a gauche et son image par translation a droite. Les deux triangles sont rigoureusement identiques : memes longueurs de cotes, memes angles, meme aire, et meme orientation. Trois fleches paralleles de meme longueur relient chaque sommet a son image, ce qui montre que tous les points ont subi exactement le meme deplacement.</desc>
+
+              <!-- Le triangle image est le triangle de depart translate de
+                   (+160 ; -20) EXACTEMENT sur les trois sommets : c'est ce qui
+                   fait qu'il est superposable, et les trois fleches de liaison
+                   sont donc rigoureusement paralleles et de meme longueur. -->
+              <polygon class="frame-line" points="40,140 128,140 76,72" fill="color-mix(in srgb, var(--diagram-accent) 12%, transparent)"></polygon>
+              <polygon class="frame-line" points="200,120 288,120 236,52" fill="color-mix(in srgb, var(--diagram-accent) 12%, transparent)"></polygon>
+
+              <line class="guide-line" x1="40" y1="140" x2="200" y2="120"></line>
+              <line class="guide-line" x1="128" y1="140" x2="288" y2="120"></line>
+              <line class="guide-line" x1="76" y1="72" x2="236" y2="52"></line>
+              <polygon class="plot-point-alt" points="200,120 189,119 191,126"></polygon>
+              <polygon class="plot-point-alt" points="288,120 277,119 279,126"></polygon>
+              <polygon class="plot-point-alt" points="236,52 225,51 227,58"></polygon>
+
+              <text class="tick-label" x="84" y="164" text-anchor="middle">figure de départ</text>
+              <text class="tick-label" x="244" y="164" text-anchor="middle">son image</text>
+              <text class="tick-label" x="200" y="26" text-anchor="middle">les trois flèches sont parallèles et de même longueur</text>
+            </svg>
+          `,
+          notes: [
+            'Les deux triangles sont <strong>superposables</strong> : on passe de l\'un à l\'autre en glissant, sans tourner ni retourner.',
+            'Les trois flèches de liaison sont parallèles et de même longueur — c\'est la signature d\'une translation, et ce qui la distingue d\'une rotation.',
+            'Conséquence directe : si la figure de départ a une aire de $24$ cm², son image a <strong>exactement</strong> la même aire.'
+          ],
+          reading: 'Vérifie sur la figure que les trois flèches sont parallèles. Si l\'une d\'elles penchait autrement, il ne s\'agirait plus d\'une translation.',
+          caption: 'Une translation conserve les longueurs, les angles et l\'aire : la figure glisse sans se déformer.'
+        }
+      ],
       recap: [
         'Translation : chaque point se déplace du même vecteur $\\vec{v}(a ; b)$ → on ajoute $a$ à l\'abscisse et $b$ à l\'ordonnée.',
         'Rotation : chaque point tourne autour d\'un centre $O$ en conservant sa distance à $O$.',

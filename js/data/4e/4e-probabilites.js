@@ -96,6 +96,118 @@
         reading: 'La zone ombrée n\'est comptée qu\'une seule fois : $P(A \\cup B) = P(A) + P(B) - P(A \\cap B) = \\dfrac{8+4-1}{32} = \\dfrac{11}{32} \\approx 0{,}34$.',
         caption: 'Diagramme de Venn pour le tirage d\'une carte dans un jeu de $32$ cartes : $A$ = cœur, $B$ = roi, intersection ombrée = roi de cœur.'
       },
+
+      /* SCHEMAS SECONDAIRES (2026-09-13). Une figure par MALENTENDU :
+         1. pourquoi on RETRANCHE l'intersection — la zone commune est comptee
+            deux fois, c'est la reponse au 110 % de l'intro ;
+         2. « incompatibles » n'est pas « independants » : deux mots que les
+            eleves echangent, alors qu'ils ne parlent pas de la meme chose ;
+         3. l'evenement contraire se lit comme le RESTE du rectangle, ce qui
+            rend evident que la somme fait 1.
+         Effectifs verifies : 60 % + 50 % avec 10 % des deux donne bien 100 %
+         de reunion, et non 110. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'La réponse au 110 %',
+          title: 'Ceux qui font les deux sont comptés deux fois',
+          description: 'En additionnant les deux pourcentages, les élèves qui font du sport <strong>et</strong> de la musique entrent dans les deux paquets. Ils sont donc comptés deux fois, et c\'est exactement l\'excédent qu\'il faut retrancher.',
+          svg: `
+            <svg viewBox="0 0 400 188" role="img" aria-labelledby="prob-inter-title prob-inter-desc">
+              <title id="prob-inter-title">Deux groupes qui se recouvrent partiellement</title>
+              <desc id="prob-inter-desc">Deux disques se chevauchent. Celui de gauche represente les 60 pour cent d'eleves qui font du sport, celui de droite les 50 pour cent qui jouent d'un instrument. La zone commune, ombree plus fortement, represente les 10 pour cent qui font les deux. En additionnant 60 et 50 on compte cette zone commune deux fois, ce qui explique le total impossible de 110 pour cent. En retranchant une fois les 10 pour cent communs, on retrouve 100 pour cent.</desc>
+
+              <circle class="frame-line" cx="160" cy="92" r="64" fill="color-mix(in srgb, var(--diagram-accent) 14%, transparent)"></circle>
+              <circle class="frame-line" cx="240" cy="92" r="64" fill="color-mix(in srgb, var(--diagram-accent) 14%, transparent)"></circle>
+
+              <text class="annotation-label" x="112" y="96" text-anchor="middle">sport</text>
+              <text class="tick-label" x="112" y="114" text-anchor="middle">60 %</text>
+              <text class="annotation-label" x="288" y="96" text-anchor="middle">musique</text>
+              <text class="tick-label" x="288" y="114" text-anchor="middle">50 %</text>
+
+              <text class="annotation-label" x="200" y="88" text-anchor="middle">10 %</text>
+              <text class="tick-label" x="200" y="106" text-anchor="middle">les deux</text>
+              <line class="guide-line" x1="200" y1="30" x2="200" y2="42"></line>
+              <text class="tick-label" x="200" y="24" text-anchor="middle">zone comptée deux fois</text>
+
+              <text class="tick-label" x="200" y="176" text-anchor="middle">60 + 50 - 10 = 100</text>
+            </svg>
+          `,
+          notes: [
+            'La zone commune appartient <strong>aux deux disques</strong> : elle est donc incluse une fois dans les $60\\,\\%$ et une fois dans les $50\\,\\%$.',
+            'D\'où la formule : $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$. Le signe moins ne corrige pas une erreur, il enlève un doublon.',
+            'Ici $60 + 50 - 10 = 100$ : le compte tombe juste, et plus aucun total impossible.'
+          ],
+          reading: 'Pose ton doigt sur la zone du milieu et demande-toi combien de fois tu l\'as comptée en additionnant. Deux fois — donc il faut l\'enlever une fois.',
+          caption: 'La zone commune est comptée deux fois dans la somme : on la retranche une fois pour obtenir la réunion.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Deux mots qu\'on échange',
+          title: 'Incompatibles ne veut pas dire indépendants',
+          description: 'Deux événements <strong>incompatibles</strong> ne peuvent pas se produire ensemble : leurs zones ne se touchent pas. Deux événements <strong>indépendants</strong> peuvent très bien se produire ensemble ; c\'est simplement que l\'un ne renseigne pas sur l\'autre.',
+          svg: `
+            <svg viewBox="0 0 400 180" role="img" aria-labelledby="prob-incomp-title prob-incomp-desc">
+              <title id="prob-incomp-title">Evenements incompatibles et evenements qui se recouvrent</title>
+              <desc id="prob-incomp-desc">A gauche, deux disques totalement separes representent des evenements incompatibles : obtenir un nombre pair et obtenir trois avec un de ne peuvent pas arriver en meme temps, leur intersection est vide. A droite, deux disques qui se recouvrent representent des evenements compatibles : tirer un coeur et tirer un roi peuvent arriver ensemble, puisque le roi de coeur appartient aux deux.</desc>
+
+              <circle class="frame-line" cx="70" cy="86" r="42" fill="color-mix(in srgb, var(--diagram-accent) 12%, transparent)"></circle>
+              <circle class="frame-line" cx="162" cy="86" r="42" fill="color-mix(in srgb, var(--diagram-accent) 12%, transparent)"></circle>
+              <text class="tick-label" x="70" y="90" text-anchor="middle">pair</text>
+              <text class="tick-label" x="162" y="90" text-anchor="middle">égal à 3</text>
+              <text class="annotation-label" x="116" y="34" text-anchor="middle">incompatibles</text>
+              <text class="tick-label" x="116" y="152" text-anchor="middle">aucune zone commune</text>
+              <text class="tick-label" x="116" y="168" text-anchor="middle">un dé ne peut pas faire les deux</text>
+
+              <circle class="frame-line" cx="272" cy="86" r="42" fill="color-mix(in srgb, var(--diagram-accent) 12%, transparent)"></circle>
+              <circle class="frame-line" cx="330" cy="86" r="42" fill="color-mix(in srgb, var(--diagram-accent) 12%, transparent)"></circle>
+              <text class="tick-label" x="250" y="90" text-anchor="middle">cœur</text>
+              <text class="tick-label" x="352" y="90" text-anchor="middle">roi</text>
+              <text class="annotation-label" x="301" y="34" text-anchor="middle">compatibles</text>
+              <text class="tick-label" x="301" y="152" text-anchor="middle">une zone commune</text>
+              <text class="tick-label" x="301" y="168" text-anchor="middle">le roi de cœur est dans les deux</text>
+            </svg>
+          `,
+          notes: [
+            'Incompatibles signifie $P(A \\cap B) = 0$ : la formule de la réunion se simplifie alors en $P(A) + P(B)$.',
+            'À droite, tirer un cœur et tirer un roi sont <strong>compatibles</strong> : le roi de cœur réalise les deux à la fois.',
+            'Ne confonds pas avec l\'indépendance, qui dit tout autre chose : savoir que $A$ s\'est produit ne change pas la probabilité de $B$.'
+          ],
+          reading: 'Demande-toi simplement : « les deux peuvent-ils arriver en même temps ? » Si la réponse est non, les événements sont incompatibles et les disques ne se touchent pas.',
+          caption: 'Événements incompatibles (aucune zone commune) et événements compatibles (une zone commune).'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Le complément',
+          title: 'L\'événement contraire, c\'est tout le reste',
+          description: 'L\'événement contraire de $A$ occupe <strong>tout ce qui n\'est pas $A$</strong> dans le rectangle des possibles. Comme les deux se partagent la totalité sans se chevaucher, leurs probabilités s\'ajoutent forcément à $1$.',
+          svg: `
+            <svg viewBox="0 0 400 172" role="img" aria-labelledby="prob-contraire-title prob-contraire-desc">
+              <title id="prob-contraire-title">Un evenement et son contraire dans l'univers des possibles</title>
+              <desc id="prob-contraire-desc">Un rectangle represente l'ensemble de tous les resultats possibles. A l'interieur, un disque ombre represente l'evenement A, dont la probabilite vaut 0,75. Toute la partie du rectangle situee en dehors du disque represente l'evenement contraire, dont la probabilite vaut 0,25. Les deux zones se completent exactement et couvrent tout le rectangle, si bien que la somme de leurs probabilites vaut 1.</desc>
+
+              <rect class="frame-line" x="60" y="34" width="280" height="98" fill="color-mix(in srgb, var(--diagram-accent) 6%, transparent)"></rect>
+              <text class="tick-label" x="68" y="50" text-anchor="start">tous les résultats possibles</text>
+
+              <circle class="frame-line" cx="150" cy="88" r="38" fill="color-mix(in srgb, var(--diagram-accent) 26%, transparent)"></circle>
+              <text class="annotation-label" x="150" y="86" text-anchor="middle">A</text>
+              <text class="tick-label" x="150" y="104" text-anchor="middle">0,75</text>
+
+              <text class="annotation-label" x="276" y="86" text-anchor="middle">contraire</text>
+              <text class="tick-label" x="276" y="104" text-anchor="middle">0,25</text>
+
+              <text class="tick-label" x="200" y="158" text-anchor="middle">0,75 plus 0,25 = 1 : les deux zones remplissent tout</text>
+            </svg>
+          `,
+          notes: [
+            'Les deux zones ne se chevauchent jamais et ne laissent aucun trou : c\'est ce qui garantit $P(A) + P(\\bar{A}) = 1$.',
+            'D\'où la formule pratique : $P(\\bar{A}) = 1 - P(A)$. Ici $1 - 0{,}75 = 0{,}25$.',
+            'Utile quand le contraire est plus simple à compter : « au moins un » se calcule souvent par $1 - P(\\text{aucun})$.'
+          ],
+          reading: 'Regarde le rectangle entier comme valant $1$. Le disque en occupe les trois quarts, il reste donc un quart — sans aucun calcul à poser.',
+          caption: 'Un événement et son contraire se partagent tout l\'univers : leurs probabilités s\'ajoutent à $1$.'
+        }
+      ],
       recap: [
         '$P(A) = \\dfrac{\\text{nombre de cas favorables}}{\\text{nombre de cas possibles}}$ (équiprobabilité).',
         'Union : $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$ — ne pas oublier de soustraire l\'intersection.',

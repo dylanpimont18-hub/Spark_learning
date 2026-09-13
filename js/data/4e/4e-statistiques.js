@@ -124,6 +124,150 @@
         reading: 'La largeur de la boîte, $IQR = Q_3 - Q_1 = 13{,}1 - 11{,}65 = 1{,}45$ s, mesure la dispersion des temps centraux sans être influencée par le coureur le plus lent.',
         caption: 'Boîte à moustaches construite à partir des 8 temps réels de l\'exemple du cours.'
       },
+
+      /* SCHEMAS SECONDAIRES (2026-09-13). Une figure par MALENTENDU :
+         1. la moyenne suit la valeur extreme, la mediane ne bouge pas — c'est
+            la reponse a la question d'ouverture, en une image ;
+         2. la mediane d'un effectif PAIR n'est pas une valeur de la serie,
+            erreur systematique ;
+         3. il faut ORDONNER avant de chercher la mediane, oubli le plus
+            frequent en devoir.
+         Serie de l'intro verifiee : moyenne 2250 exactement, mediane 1650
+         (scratchpad geo-all.js). */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'La réponse à la question d\'ouverture',
+          title: 'Une seule valeur extrême déplace la moyenne, pas la médiane',
+          description: 'Les neuf salaires de l\'introduction sont posés sur un axe. La <strong>médiane</strong> reste au milieu du groupe ; la <strong>moyenne</strong>, elle, est tirée vers le salaire du patron, loin de tous les autres.',
+          svg: `
+            <svg viewBox="0 0 400 172" role="img" aria-labelledby="stat-extreme-title stat-extreme-desc">
+              <title id="stat-extreme-title">Position de la moyenne et de la mediane sur une serie de salaires</title>
+              <desc id="stat-extreme-desc">Neuf salaires sont places sur un axe horizontal gradue de 1000 a 7500 euros. Huit d'entre eux sont serres entre 1450 et 1750 euros, le neuvieme vaut 7400 euros et se trouve tres a droite, isole. La mediane, marquee a 1650 euros, tombe au milieu du groupe serre. La moyenne, marquee a 2250 euros, se trouve nettement a droite du groupe, tiree par le salaire isole, alors qu'aucun salarie ne gagne cette somme.</desc>
+
+              <!-- Axe 1000..7500 euros sur 40..372 unites de viewBox :
+                   echelle = 332 / 6500 = 0,05108 unite par euro.
+                   x(v) = 40 + (v - 1000) * 0,05108. Positions calculees :
+                   1450 -> 63,0   1500 -> 65,5   1600 -> 70,6   1650 -> 73,2
+                   1700 -> 75,8   1750 -> 78,3   2250 -> 103,9  7400 -> 367,0 -->
+              <line class="axis" x1="40" y1="112" x2="372" y2="112"></line>
+              <line class="grid-line" x1="40" y1="106" x2="40" y2="118"></line>
+              <line class="grid-line" x1="372" y1="106" x2="372" y2="118"></line>
+              <text class="tick-label" x="40" y="132" text-anchor="middle">1000</text>
+              <text class="tick-label" x="372" y="132" text-anchor="middle">7500</text>
+              <text class="tick-label" x="200" y="152" text-anchor="middle">salaires en euros</text>
+
+              <circle class="plot-point" cx="63" cy="112" r="4"></circle>
+              <circle class="plot-point" cx="65.5" cy="112" r="4"></circle>
+              <circle class="plot-point" cx="65.5" cy="112" r="4"></circle>
+              <circle class="plot-point" cx="70.6" cy="112" r="4"></circle>
+              <circle class="plot-point" cx="73.2" cy="112" r="4"></circle>
+              <circle class="plot-point" cx="75.8" cy="112" r="4"></circle>
+              <circle class="plot-point" cx="75.8" cy="112" r="4"></circle>
+              <circle class="plot-point" cx="78.3" cy="112" r="4"></circle>
+              <circle class="plot-point" cx="367" cy="112" r="4"></circle>
+
+              <line class="curve-main" x1="73.2" y1="112" x2="73.2" y2="72"></line>
+              <text class="annotation-label" x="73.2" y="64" text-anchor="middle">médiane</text>
+              <text class="tick-label" x="73.2" y="48" text-anchor="middle">1650</text>
+
+              <line class="guide-line" x1="103.9" y1="112" x2="103.9" y2="88"></line>
+              <text class="annotation-label" x="140" y="82" text-anchor="start">moyenne 2250</text>
+
+              <text class="tick-label" x="340" y="96" text-anchor="middle">le patron</text>
+            </svg>
+          `,
+          notes: [
+            'Huit salaires sont serrés entre $1\\,450$ et $1\\,750$ € : c\'est là que vit réellement l\'entreprise, et c\'est là que tombe la médiane.',
+            'La moyenne vaut $2\\,250$ €, une somme que <strong>personne ne gagne</strong> : elle est tirée par le seul salaire de $7\\,400$ €.',
+            'Retire le patron de la liste et la moyenne s\'effondre, alors que la médiane bouge à peine. C\'est ce qu\'on appelle la <strong>sensibilité aux valeurs extrêmes</strong>.'
+          ],
+          reading: 'Regarde où se trouvent les points. La médiane est au milieu du paquet, la moyenne est déjà sortie du paquet. C\'est pourquoi on préfère la médiane pour décrire un salaire « typique ».',
+          caption: 'Neuf salaires : la médiane reste dans le groupe, la moyenne est tirée par la valeur extrême.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Effectif pair',
+          title: 'La médiane n\'est pas toujours une valeur de la série',
+          description: 'Avec un nombre <strong>impair</strong> de valeurs, la médiane est celle du milieu. Avec un nombre <strong>pair</strong>, il n\'y a pas de valeur centrale : la médiane est la moyenne des deux du milieu, et elle peut ne figurer nulle part dans la liste.',
+          svg: `
+            <svg viewBox="0 0 400 180" role="img" aria-labelledby="stat-pair-title stat-pair-desc">
+              <title id="stat-pair-title">Mediane d'une serie impaire puis d'une serie paire</title>
+              <desc id="stat-pair-desc">En haut, une serie de sept valeurs ordonnees : la valeur du milieu, la quatrieme, est entouree et constitue la mediane. En bas, une serie de six valeurs ordonnees : il n'y a pas de valeur du milieu, les deux valeurs centrales, la troisieme et la quatrieme, sont entourees ensemble et leur moyenne donne la mediane, un nombre qui ne figure pas dans la serie.</desc>
+
+              <text class="tick-label" x="24" y="46" text-anchor="start">7 valeurs</text>
+              <text class="tick-label" x="140" y="46" text-anchor="middle">4</text>
+              <text class="tick-label" x="176" y="46" text-anchor="middle">7</text>
+              <text class="tick-label" x="212" y="46" text-anchor="middle">9</text>
+              <text class="annotation-label" x="248" y="46" text-anchor="middle">12</text>
+              <text class="tick-label" x="284" y="46" text-anchor="middle">15</text>
+              <text class="tick-label" x="320" y="46" text-anchor="middle">18</text>
+              <text class="tick-label" x="356" y="46" text-anchor="middle">21</text>
+              <circle class="plot-point-alt" cx="248" cy="41" r="13"></circle>
+              <text class="tick-label" x="248" y="76" text-anchor="middle">médiane = 12, une valeur de la série</text>
+
+              <text class="tick-label" x="24" y="126" text-anchor="start">6 valeurs</text>
+              <text class="tick-label" x="158" y="126" text-anchor="middle">3</text>
+              <text class="tick-label" x="194" y="126" text-anchor="middle">5</text>
+              <text class="annotation-label" x="230" y="126" text-anchor="middle">8</text>
+              <text class="annotation-label" x="266" y="126" text-anchor="middle">11</text>
+              <text class="tick-label" x="302" y="126" text-anchor="middle">14</text>
+              <text class="tick-label" x="338" y="126" text-anchor="middle">20</text>
+              <path class="guide-line" fill="none" d="M214 134 L214 142 L282 142 L282 134"></path>
+              <text class="tick-label" x="248" y="160" text-anchor="middle">médiane = moitié de 8 plus 11, soit 9,5 : absente de la série</text>
+            </svg>
+          `,
+          notes: [
+            'Sept valeurs : la médiane est la <strong>quatrième</strong>, car il y en a trois avant et trois après.',
+            'Six valeurs : les deux du milieu sont $8$ et $11$, donc la médiane vaut $\\dfrac{8 + 11}{2} = 9{,}5$.',
+            'Ce $9{,}5$ ne figure pas dans la série, et c\'est <strong>normal</strong> : la médiane est une position, pas forcément une valeur observée.'
+          ],
+          reading: 'Compte d\'abord combien tu as de valeurs. Nombre impair : tu cherches une valeur. Nombre pair : tu en cherches deux, et tu calcules leur moyenne.',
+          caption: 'Effectif impair : la médiane est une valeur de la série. Effectif pair : c\'est la moyenne des deux valeurs centrales.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'L\'oubli qui fausse tout',
+          title: 'Ordonner d\'abord, chercher la médiane ensuite',
+          description: 'La médiane se lit sur une série <strong>rangée dans l\'ordre croissant</strong>. Prendre la valeur du milieu d\'une liste en désordre donne un résultat qui n\'a aucun sens — et l\'erreur ne se voit pas sur la copie.',
+          svg: `
+            <svg viewBox="0 0 400 168" role="img" aria-labelledby="stat-ordre-title stat-ordre-desc">
+              <title id="stat-ordre-title">Effet de l'oubli du rangement sur le calcul de la mediane</title>
+              <desc id="stat-ordre-desc">En haut, une serie donnee en desordre : en prenant la valeur du milieu telle quelle on obtient 4, ce qui est faux. En dessous, la meme serie rangee dans l'ordre croissant : la valeur du milieu est cette fois 9, la vraie mediane. Les deux resultats different alors que les nombres sont exactement les memes, seule leur disposition a change.</desc>
+
+              <!-- PATRON « PIEGE » inverse ici : l'erreur est en HAUT parce que
+                   c'est l'ordre chronologique du geste de l'eleve (il lit la
+                   serie telle qu'on la lui donne), et la correction dessous. Le
+                   trait tirete et la teinte faible marquent malgre tout la
+                   ligne fausse. -->
+              <text class="label-soft" x="24" y="44" text-anchor="start">en désordre</text>
+              <text class="tick-label" x="150" y="44" text-anchor="middle">12</text>
+              <text class="tick-label" x="186" y="44" text-anchor="middle">3</text>
+              <text class="label-soft" x="222" y="44" text-anchor="middle">4</text>
+              <text class="tick-label" x="258" y="44" text-anchor="middle">15</text>
+              <text class="tick-label" x="294" y="44" text-anchor="middle">9</text>
+              <line class="guide-line" x1="140" y1="52" x2="306" y2="52"></line>
+              <text class="label-soft" x="222" y="70" text-anchor="middle">valeur du milieu : 4, mais ce n est pas la médiane</text>
+
+              <text class="annotation-label" x="24" y="114" text-anchor="start">rangée</text>
+              <text class="tick-label" x="150" y="114" text-anchor="middle">3</text>
+              <text class="tick-label" x="186" y="114" text-anchor="middle">4</text>
+              <text class="annotation-label" x="222" y="114" text-anchor="middle">9</text>
+              <text class="tick-label" x="258" y="114" text-anchor="middle">12</text>
+              <text class="tick-label" x="294" y="114" text-anchor="middle">15</text>
+              <circle class="plot-point-alt" cx="222" cy="109" r="13"></circle>
+              <text class="tick-label" x="222" y="146" text-anchor="middle">valeur du milieu : 9, la vraie médiane</text>
+            </svg>
+          `,
+          notes: [
+            'Les deux lignes contiennent <strong>exactement les mêmes nombres</strong> : $3$, $4$, $9$, $12$ et $15$. Seul leur ordre change.',
+            'En désordre, la troisième position tombe sur $4$ ; une fois rangée, elle tombe sur $9$. La médiane est bien $9$.',
+            'Le rangement n\'est pas une politesse de présentation : c\'est <strong>la définition même</strong> de la médiane.'
+          ],
+          reading: 'Prends l\'habitude de réécrire la série dans l\'ordre avant tout calcul, même si elle paraît déjà rangée. C\'est la seule protection contre cette erreur.',
+          caption: 'La même série en désordre puis rangée : la valeur du milieu passe de $4$ à $9$.'
+        }
+      ],
       recap: [
         'Toujours ordonner la série avant de calculer médiane et quartiles.',
         '$n$ impair → la médiane est la valeur centrale ; $n$ pair → c\'est la moyenne des deux valeurs centrales.',
