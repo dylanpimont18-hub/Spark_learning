@@ -713,3 +713,182 @@ test('statistiques : l arbre est coherent, chaque paire de branches redonne sa m
       'une sous-branche part de la hauteur ' + f.y1 + ', qui n est celle d aucune branche mere');
   }
 });
+
+test('inequations : le retournement est une symetrie EXACTE autour de zero', () => {
+  /* CE QUE CE TEST ATTRAPE. Le schema n'illustre pas la regle, il la DEMONTRE :
+     il affirme que multiplier par -1 envoie chaque nombre de l'autre cote de
+     zero, a la meme distance. Cette demonstration ne tient que si le dessin est
+     une symetrie exacte. Un point pose a vue — -5 un peu trop pres du zero, par
+     exemple — et le schema ne prouve plus rien, tout en restant parfaitement
+     lisible. On mesure donc les distances au zero DESSINE.
+
+     On verifie aussi que l'ordre est reellement echange : c'est la conclusion
+     du schema, et elle doit se lire sur les abscisses, pas seulement dans le
+     texte. */
+  const d = parTitre('3e-equations-inequations.js', 'retourne la droite graduée');
+  const pts = cercles(d.svg);
+  assert.strictEqual(pts.length, 4, 'quatre points attendus : 2 et 5 en haut, -2 et -5 en bas');
+
+  // Les deux zeros dessines : les traits de graduation verticaux du milieu.
+  const zeros = lignesToutes(d.svg).filter(l => l.cls === 'grid-line' && l.x1 === l.x2);
+  assert.strictEqual(zeros.length, 2, 'un trait de zero par droite graduee');
+  assert.strictEqual(zeros[0].x1, zeros[1].x1,
+    'les deux zeros doivent etre a la MEME abscisse, sans quoi les deux droites ne se comparent pas');
+  const zx = zeros[0].x1;
+
+  // Haut et bas, tries par ordonnee.
+  const parY = [...pts].sort((a, b) => a[1] - b[1]);
+  const haut = parY.slice(0, 2).sort((a, b) => a[0] - b[0]);   // gauche a droite
+  const bas = parY.slice(2).sort((a, b) => a[0] - b[0]);
+  assert.ok(haut[0][1] === haut[1][1], 'les deux points du haut doivent etre sur la meme ligne');
+  assert.ok(bas[0][1] === bas[1][1], 'les deux points du bas doivent etre sur la meme ligne');
+
+  // En haut, les deux points sont A DROITE du zero (2 et 5 sont positifs).
+  assert.ok(haut[0][0] > zx && haut[1][0] > zx, '2 et 5 doivent etre a droite du zero');
+  // En bas, les deux sont A GAUCHE (-2 et -5 sont negatifs).
+  assert.ok(bas[0][0] < zx && bas[1][0] < zx, '-2 et -5 doivent etre a gauche du zero');
+
+  // LA symetrie : le plus proche du zero en haut correspond au plus proche en
+  // bas, a la meme distance. En haut l'ordre gauche-droite est 2 puis 5 ; en
+  // bas c'est -5 puis -2, donc l'appariement croise les deux listes.
+  const dHaut = haut.map(p => Math.abs(p[0] - zx)).sort((a, b) => a - b);
+  const dBas = bas.map(p => Math.abs(p[0] - zx)).sort((a, b) => a - b);
+  for (let i = 0; i < 2; i++) {
+    assert.strictEqual(dHaut[i], dBas[i],
+      'la distance au zero doit etre IDENTIQUE avant et apres : ' +
+      dHaut[i] + ' px en haut contre ' + dBas[i] + ' px en bas');
+  }
+  // Et le rapport des deux distances vaut bien 5 sur 2, comme les nombres.
+  assert.ok(Math.abs(dHaut[1] / dHaut[0] - 5 / 2) < 1e-9,
+    'le rapport des distances vaut ' + (dHaut[1] / dHaut[0]) + ', attendu 2,5 (soit 5 divise par 2)');
+
+  /* L'ORDRE EST ECHANGE. En haut, le point le plus a droite est le PLUS GRAND
+     (c'est 5). En bas, le point le plus a droite doit etre celui qui etait le
+     plus PETIT (c'est -2, image de 2). On le verifie par les distances : le
+     point de droite en bas doit etre le MOINS eloigne du zero. */
+  const droiteHaut = Math.abs(haut[1][0] - zx);
+  const droiteBas = Math.abs(bas[1][0] - zx);
+  assert.strictEqual(droiteHaut, Math.max(...dHaut),
+    'en haut, le point de droite doit etre le plus eloigne du zero (c est 5)');
+  assert.strictEqual(droiteBas, Math.min(...dBas),
+    'en bas, le point de droite doit etre le MOINS eloigne du zero (c est -2) : ' +
+    'c est precisement cet echange qui inverse le sens de l inegalite');
+});
+
+test('inequations : les deux bornes sont a la meme abscisse, seul le cercle differe', () => {
+  /* CE QUE CE TEST ATTRAPE. Tout le schema tient sur une phrase : « la borne
+     est la MEME, seul le cercle change ». Si les deux droites graduees etaient
+     decalees d'un pixel, ou si les deux traits epais ne partaient pas du meme
+     endroit, le schema montrerait deux ensembles differents pour deux raisons
+     differentes, et l'eleve n'aurait aucun moyen de savoir laquelle compte.
+
+     On verifie donc : meme abscisse de borne, meme longueur de trait vers la
+     droite, et deux cercles de nature DIFFERENTE (l'un rempli, l'autre non). */
+  const d = parTitre('3e-equations-inequations.js', 'borne fait partie');
+
+  // Les deux traits epais (l'ensemble solution).
+  const traits = lignesToutes(d.svg).filter(l => l.cls === 'curve-main');
+  assert.strictEqual(traits.length, 2, 'un trait epais par droite graduee');
+  assert.strictEqual(traits[0].x2, traits[1].x2,
+    'les deux traits doivent s arreter a la meme abscisse');
+
+  // Les deux graduations « 3 », reperees par leur etiquette d'accent.
+  const bornes = [...d.svg.matchAll(/<text class="annotation-label" x="([-\d.]+)" y="([-\d.]+)" text-anchor="middle">3<\/text>/g)]
+    .map(m => +m[1]);
+  assert.strictEqual(bornes.length, 2, 'la borne 3 doit etre etiquetee sur les deux droites');
+  assert.strictEqual(bornes[0], bornes[1],
+    'les deux bornes doivent etre a la MEME abscisse : ' + bornes[0] + ' contre ' + bornes[1]);
+
+  // Les deux cercles sont sur cette borne, et ils sont de nature differente.
+  const pts = cercles(d.svg);
+  assert.strictEqual(pts.length, 2, 'un cercle par droite graduee');
+  for (const p of pts) {
+    assert.strictEqual(p[0], bornes[0], 'un cercle n est pas pose sur la borne 3');
+  }
+  /* LE CERCLE OUVERT DOIT PASSER PAR LA CLASSE DU PROJET, jamais par un fill
+     ecrit en dur. Releve a l'image le 2026-09-13 : un `fill="var(--bg-card)"`
+     inline ne traverse pas le convertisseur, qui retombe sur un aplat gris —
+     et le cercle « vide » s'imprimait comme une pastille pleine, detruisant la
+     SEULE chose que ce schema enseigne. Le defaut etait invisible dans le SVG,
+     invisible dans le .tex, et visible uniquement sur la page rendue.
+     `plot-point-alt` est la classe qui porte le remplissage blanc. */
+  const classes = [...d.svg.matchAll(/<circle\b[^>]*>/g)].map(m => m[0]);
+  const vide = classes.some(c => /class="plot-point-alt"/.test(c) && /cy="56"/.test(c));
+  const plein = classes.some(c => /class="plot-point"/.test(c) && /cy="144"/.test(c));
+  assert.ok(vide, 'le cercle du haut doit etre VIDE, via la classe plot-point-alt');
+  assert.ok(plein, 'le cercle du bas doit etre PLEIN, via la classe plot-point');
+  for (const c of classes) {
+    assert.ok(!/fill="/.test(c),
+      'un cercle porte un remplissage en dur (' + c + ') : le convertisseur ' +
+      'l ignore et le cercle s imprime en aplat gris. Employer une classe.');
+  }
+
+  /* La difference de depart du trait. Le trait du haut part legerement APRES
+     la borne (elle est exclue), celui du bas part DE la borne. C'est la seule
+     autre difference autorisee entre les deux dessins. */
+  const parY = [...traits].sort((a, b) => a.y1 - b.y1);
+  assert.ok(parY[0].x1 > bornes[0],
+    'le trait du haut doit partir apres la borne exclue');
+  assert.strictEqual(parY[1].x1, bornes[0],
+    'le trait du bas doit partir exactement de la borne incluse');
+});
+
+test('aucun cercle de schema de troisieme ne porte de remplissage en dur', () => {
+  /* GARDE-FOU GENERAL, ajoute le 2026-09-13 apres un defaut releve a l'image
+     sur le schema des crochets de 3e-equations-inequations.
+
+     LE PIEGE. Un `<circle fill="var(--bg-card)">` est parfaitement correct en
+     SVG et s'affiche comme un cercle ouvert sur le site. Mais le convertisseur
+     du manuel ne lit PAS les remplissages inline : il travaille par classes
+     (voir STYLES dans svg2tikz.js, ou `plot-point` est plein et
+     `plot-point-alt` ouvert). Un fill en dur est donc silencieusement ignore,
+     et le cercle s'imprime en aplat gris.
+
+     POURQUOI CE DEFAUT EST GRAVE ET INVISIBLE. Sur une droite graduee, le
+     cercle ouvert code la borne EXCLUE et le cercle plein la borne INCLUSE.
+     Les confondre, c'est imprimer le contraire de ce que le texte affirme. Or
+     rien ne le signale : le SVG est valide, le corpus le valide, la
+     compilation ne dit rien, le .tex a l'air normal. Seule la page rendue le
+     montrait. Ce test le rend detectable sans rendre d'image.
+
+     PORTEE. Tous les schemas du niveau, pas seulement celui qui a revele le
+     probleme : c'est exactement le genre d'erreur qu'on recommet.
+
+     CE QUE LE TEST NE VISE PAS, et pourquoi. Un grand cercle translucide —
+     les patates d'un diagramme de Venn, la base d'un cylindre — porte
+     legitimement un `fill` en dur : il dessine une ZONE, et le convertisseur
+     sait lire un aplat de zone. Le defaut ne concerne que les MARQUEURS DE
+     POINT, ou le remplissage n'est pas un decor mais une INFORMATION (borne
+     incluse ou exclue). On les distingue par le rayon : un marqueur de point
+     de ce corpus vaut 4 a 6 unites de viewBox, une zone en vaut plusieurs
+     dizaines. Le seuil est pose a 12, largement au-dessus des marqueurs et
+     largement en dessous des zones existantes (la plus petite fait 36). */
+  const RAYON_MARQUEUR = 12;
+  const fs = require('fs');
+  const path = require('path');
+  const { RACINE } = require('../extract.js');
+  const dossier = path.join(RACINE, 'js/data/3e');
+  const fautes = [];
+
+  for (const f of fs.readdirSync(dossier).filter(x => x !== 'index.js' && x.endsWith('.js'))) {
+    const { module: mod } = chargerModule('js/data/3e/' + f, { tirages: 1 });
+    const tous = [];
+    if (mod.cours && mod.cours.diagram) tous.push(['figure principale', mod.cours.diagram]);
+    ((mod.cours && mod.cours.diagrams) || []).forEach((d, i) =>
+      tous.push(['schema ' + (i + 1) + ' (' + d.title + ')', d]));
+
+    for (const [ou, d] of tous) {
+      for (const m of String(d.svg || '').matchAll(/<circle\b[^>]*>/g)) {
+        const r = /\br="([\d.]+)"/.exec(m[0]);
+        const rayon = r ? +r[1] : 0;
+        if (rayon > RAYON_MARQUEUR) continue;          // c'est une zone, pas un marqueur
+        if (/fill="/.test(m[0]) && !/fill="none"/.test(m[0])) {
+          fautes.push(mod.id + ' / ' + ou + ' : ' + m[0].replace(/\s+/g, ' ').slice(0, 110));
+        }
+      }
+    }
+  }
+  assert.deepStrictEqual(fautes, [],
+    'cercle(s) a remplissage en dur — employer les classes plot-point (plein) ' +
+    'ou plot-point-alt (ouvert), seules lues par le convertisseur :\n  ' + fautes.join('\n  '));
+});

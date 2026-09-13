@@ -108,6 +108,123 @@ window.MODULES.push(
         reading: 'Repère le cercle non rempli en $7$ : il signale une borne exclue. La zone hachurée à sa droite représente toutes les valeurs solutions.',
         caption: 'Ensemble solution de l\'inéquation $3(x-2) > 2x+1$ résolue dans l\'exemple du cours, soit $x \\in\\, ]7\\,;\\,+\\infty[$.'
       },
+      /* SCHÉMAS SECONDAIRES, ajoutés le 2026-09-13.
+         Principe du cahier des charges, section 9 : une figure par MALENTENDU,
+         pas une figure par formule. La figure principale montre DÉJÀ un
+         ensemble solution sur une droite graduée ; inutile d'en redessiner un.
+         Les deux malentendus qui restent sont les deux qui coûtent réellement
+         des points, et ils sont de nature différente :
+
+           1. « pourquoi le sens s'inverse » — l'élève apprend la règle par
+              cœur, l'applique une fois sur deux, et ne peut pas la retrouver
+              quand il l'a oubliée parce que rien ne la lui EXPLIQUE. Or elle
+              s'explique en une image : multiplier par un nombre négatif, c'est
+              retourner la droite graduée autour de zéro, et un retournement
+              échange forcément le plus grand et le plus petit ;
+           2. « le crochet, c'est au hasard » — l'élève sait qu'il y a deux
+              écritures et choisit celle qui lui vient. Le schéma les met côte
+              à côte sur la MÊME borne, pour que la seule différence visible
+              soit celle qui compte.
+
+         Le patron employé pour le premier est celui de la « comparaison » du
+         cahier des charges : même ligne de base, même échelle, une seule
+         chose qui change. Les positions sont CALCULÉES par symétrie exacte
+         autour de zéro — c'est l'objet du schéma, et c'est vérifié par le
+         calcul dans scripts/manuel/tests/diagrams-3e.test.js. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Pourquoi le sens s\'inverse',
+          title: 'Multiplier par un nombre négatif retourne la droite graduée',
+          description: 'La règle n\'est pas un caprice : elle se voit. En haut, $2$ est à gauche de $5$, donc $2 < 5$. En bas, on a multiplié les deux par $-1$ — et les deux nombres ont <strong>changé de côté</strong>. Celui qui était le plus petit est maintenant le plus grand.',
+          svg: `
+            <svg viewBox="0 0 400 214" role="img" aria-labelledby="ineq-renv-title ineq-renv-desc">
+              <title id="ineq-renv-title">Deux nombres avant et apres multiplication par moins un</title>
+              <desc id="ineq-renv-desc">Deux droites graduees identiques sont tracees l'une au-dessus de l'autre, avec le zero au meme endroit et le meme pas. Sur celle du haut sont marques les nombres deux et cinq, tous deux a droite du zero, deux etant le plus proche du zero : deux est donc a gauche de cinq et deux est plus petit que cinq. Sur celle du bas sont marques les nombres moins deux et moins cinq, obtenus en multipliant les precedents par moins un ; ils sont tous deux a gauche du zero, a la meme distance du zero que leurs correspondants du haut mais de l'autre cote. Moins cinq est desormais a gauche de moins deux, si bien que moins deux est le plus grand des deux. L'ordre des deux nombres a ete echange par la multiplication.</desc>
+
+              <text class="tick-label" x="16" y="46" text-anchor="start">avant</text>
+              <line class="axis" x1="68" y1="56" x2="332" y2="56"></line>
+              <line class="grid-line" x1="200" y1="48" x2="200" y2="64"></line>
+              <text class="tick-label" x="200" y="78" text-anchor="middle">0</text>
+              <circle class="plot-point" cx="244" cy="56" r="5"></circle>
+              <circle class="plot-point-alt" cx="310" cy="56" r="5"></circle>
+              <text class="annotation-label" x="244" y="42" text-anchor="middle">2</text>
+              <text class="annotation-label" x="310" y="42" text-anchor="middle">5</text>
+              <text class="label-soft" x="120" y="34" text-anchor="middle">2 est a gauche de 5</text>
+
+              <text class="tick-label" x="16" y="150" text-anchor="start">apres</text>
+              <line class="axis" x1="68" y1="160" x2="332" y2="160"></line>
+              <line class="grid-line" x1="200" y1="152" x2="200" y2="168"></line>
+              <text class="tick-label" x="200" y="182" text-anchor="middle">0</text>
+              <circle class="plot-point" cx="156" cy="160" r="5"></circle>
+              <circle class="plot-point-alt" cx="90" cy="160" r="5"></circle>
+              <text class="annotation-label" x="156" y="146" text-anchor="middle">-2</text>
+              <text class="annotation-label" x="90" y="146" text-anchor="middle">-5</text>
+              <text class="label-soft" x="282" y="182" text-anchor="middle">-5 est a gauche de -2</text>
+
+              <line class="guide-line" x1="244" y1="64" x2="156" y2="152"></line>
+              <line class="guide-line" x1="310" y1="64" x2="90" y2="152"></line>
+
+              <text class="annotation-label" x="200" y="206" text-anchor="middle">2 plus petit que 5 devient -2 plus grand que -5</text>
+            </svg>
+          `,
+          notes: [
+            'Multiplier par $-1$, c\'est envoyer chaque nombre <strong>de l\'autre côté de zéro</strong>, à la même distance. Les deux traits obliques suivent ce déplacement.',
+            'Le $5$, qui était le plus <strong>éloigné</strong> de zéro à droite, devient le plus éloigné à <strong>gauche</strong> — donc le plus <strong>petit</strong>. C\'est cela, et rien d\'autre, qui retourne l\'inégalité.',
+            'La règle complète : <strong>ajouter ou soustraire</strong> ne change jamais le sens (on décale les deux nombres du même côté). <strong>Multiplier ou diviser par un positif</strong> ne le change pas non plus. Seul un facteur <strong>négatif</strong> le retourne.',
+            'Et si tu as un doute au contrôle : teste une valeur. $-2x < 6$ avec $x = -5$ donne $10 < 6$, ce qui est faux ; donc $-5$ n\'est pas solution, donc la réponse n\'est pas $x < -3$ mais $x > -3$.'
+          ],
+          reading: 'Compare les deux droites graduées : le zéro est au même endroit et le pas est le même. Seule la position des deux points a changé, et elle a changé de telle façon que leur ordre est échangé.',
+          caption: 'Les nombres $2$ et $5$ multipliés par $-1$ : le retournement autour de zéro échange leur ordre, ce qui inverse le sens de l\'inégalité.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Le crochet',
+          title: 'Le crochet dit si la borne fait partie des solutions',
+          description: 'Deux inéquations qui ne diffèrent que par un trait sous le symbole. La borne est la <strong>même</strong>, l\'ensemble est presque le même — et pourtant $3$ appartient à l\'un et pas à l\'autre. C\'est tout ce que code le sens du crochet.',
+          svg: `
+            <svg viewBox="0 0 400 196" role="img" aria-labelledby="ineq-crochet-title ineq-crochet-desc">
+              <title id="ineq-crochet-title">Borne exclue et borne incluse sur la meme valeur</title>
+              <desc id="ineq-crochet-desc">Deux droites graduees identiques sont tracees l'une sous l'autre, graduees de zero a six, avec la valeur trois au meme endroit sur les deux. Sur celle du haut, qui represente les nombres strictement superieurs a trois, un cercle vide est place en trois et un trait epais part de trois vers la droite : la valeur trois elle-meme n'appartient pas aux solutions. Sur celle du bas, qui represente les nombres superieurs ou egaux a trois, un cercle plein est place en trois et le meme trait epais part de trois vers la droite : cette fois la valeur trois appartient aux solutions. Les deux ensembles ne different que par ce seul point.</desc>
+
+              <text class="tick-label" x="16" y="40" text-anchor="start">x superieur a 3</text>
+              <line class="axis" x1="120" y1="56" x2="368" y2="56"></line>
+              <line class="grid-line" x1="160" y1="50" x2="160" y2="62"></line>
+              <text class="tick-label" x="160" y="76" text-anchor="middle">2</text>
+              <line class="grid-line" x1="200" y1="50" x2="200" y2="62"></line>
+              <text class="annotation-label" x="200" y="76" text-anchor="middle">3</text>
+              <line class="grid-line" x1="240" y1="50" x2="240" y2="62"></line>
+              <text class="tick-label" x="240" y="76" text-anchor="middle">4</text>
+              <line class="curve-main" x1="206" y1="56" x2="356" y2="56"></line>
+              <circle class="plot-point-alt" cx="200" cy="56" r="6"></circle>
+              <text class="label-soft" x="290" y="42" text-anchor="middle">3 est exclu</text>
+
+              <text class="tick-label" x="16" y="128" text-anchor="start">x superieur ou egal a 3</text>
+              <line class="axis" x1="120" y1="144" x2="368" y2="144"></line>
+              <line class="grid-line" x1="160" y1="138" x2="160" y2="150"></line>
+              <text class="tick-label" x="160" y="164" text-anchor="middle">2</text>
+              <line class="grid-line" x1="200" y1="138" x2="200" y2="150"></line>
+              <text class="annotation-label" x="200" y="164" text-anchor="middle">3</text>
+              <line class="grid-line" x1="240" y1="138" x2="240" y2="150"></line>
+              <text class="tick-label" x="240" y="164" text-anchor="middle">4</text>
+              <line class="curve-main" x1="200" y1="144" x2="356" y2="144"></line>
+              <circle class="plot-point" cx="200" cy="144" r="6"></circle>
+              <text class="label-soft" x="290" y="130" text-anchor="middle">3 est inclus</text>
+
+              <text class="annotation-label" x="200" y="188" text-anchor="middle">le crochet se tourne vers ce qui est pris</text>
+            </svg>
+          `,
+          notes: [
+            'Le cercle <strong>vide</strong> se lit « je m\'arrête juste après » : la borne est exclue, et l\'intervalle s\'écrit $]3\\,;\\,+\\infty[$.',
+            'Le cercle <strong>plein</strong> se lit « je pars de là, celui-ci compris » : la borne est incluse, et l\'intervalle s\'écrit $[3\\,;\\,+\\infty[$.',
+            'Le moyen sûr de ne pas hésiter : le crochet <strong>s\'ouvre vers les nombres que tu gardes</strong>. Vers $+\\infty$ il est donc toujours ouvert, puisqu\'on ne peut pas atteindre l\'infini.',
+            'Et le lien avec le symbole : une barre sous l\'inégalité ($\\leq$, $\\geq$) veut dire « ou égal », donc borne <strong>incluse</strong>, donc cercle plein et crochet fermé. Sans barre ($<$, $>$), tout l\'inverse.',
+            '<strong>Le contrôle qui sauve</strong> : remplace $x$ par la borne elle-même dans l\'inéquation de départ. Si tu obtiens quelque chose de vrai, la borne est dedans.'
+          ],
+          reading: 'Les deux droites sont identiques, le trait épais part du même endroit. Ne regarde que le cercle posé sur le $3$ : vide, la valeur est dehors ; plein, elle est dedans.',
+          caption: 'Les ensembles $x > 3$ et $x \\geq 3$ sur la même droite graduée : seul le cercle posé sur la borne les distingue.'
+        }
+      ],
       recap: [
         '<strong>Principe de la balance</strong> : on effectue la même opération des deux côtés de l\'égalité (ou inégalité) pour isoler $x$.',
         '<strong>Inversion du sens</strong> : multiplier ou diviser par un nombre <strong>négatif</strong> inverse le sens de l\'inégalité. C\'est LA différence majeure entre équation et inéquation.',
