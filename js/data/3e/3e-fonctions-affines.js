@@ -152,10 +152,185 @@ window.MODULES.push(
     ],
     exercice: {
       type: 'numeric',
+      /* BANQUE ÉLARGIE le 2026-09-13.
+
+         AVANT : un seul moule de tâche — « on donne le tarif fixe et le tarif
+         unitaire, calcule le prix pour $x$ unités » — habillé de six contextes
+         tirés par pick(). Mesure à 60 tirages : 6 moules d'énoncé, mais
+         **1 seule tâche distincte**.
+
+         Le manque est frappant pour un chapitre GRAPHIQUE par nature : la
+         banque ne faisait jamais lire ni tracer une droite, ne demandait
+         jamais le coefficient directeur à partir de deux points, et ne
+         comparait jamais deux tarifs — alors que c'est la situation qui donne
+         son sens aux fonctions affines, et celle que le brevet pose.
+         L'énoncé FOURNISSAIT toujours $a$ et $b$ : l'élève n'avait qu'à
+         substituer, et ne construisait jamais la fonction.
+
+         APRÈS : sept familles de tâches, toutes au programme de troisième.
+           - 'tarif'      : la tâche d'origine, conservée ;
+           - 'image'      : calculer $f(x)$ à partir de l'expression seule ;
+           - 'antecedent' : remonter de $f(x)$ à $x$, donc résoudre une
+                            équation — l'élève y applique la fonction au lieu
+                            de l'inverser ;
+           - 'coefficient': trouver $a$ à partir de DEUX points, c'est-à-dire
+                            un rapport d'ACCROISSEMENTS et non de valeurs ;
+           - 'ordonnee'   : trouver $b$ connaissant $a$ et un point ;
+           - 'lineaire'   : reconnaître une situation de proportionnalité,
+                            donc distinguer linéaire et affine ;
+           - 'intersection' : le seuil où deux tarifs se croisent, qui prépare
+                            les systèmes et la lecture graphique.
+
+         Aucune figure : le chapitre porte sa propre figure de cours, et la
+         bibliothèque n'a pas de helper de droite dans un repère. Une figure
+         d'exercice y coterait les points qu'on demande de trouver. */
       generate() {
-        // a porte UNE decimale (tarif au km, à l'heure...), b est entier.
-        // Le calcul se fait en dixièmes pour éviter toute dérive en virgule
-        // flottante : aDix * x + b*10 reste un entier exact.
+        const tache = pick(['tarif', 'image', 'antecedent', 'coefficient',
+                            'ordonnee', 'lineaire', 'intersection']);
+
+        if (tache === 'image') {
+          /* L'expression est donnée, on demande une image. Le coefficient est
+             parfois NÉGATIF, ce que l'ancienne banque ne produisait jamais :
+             un tarif ne décroît pas, mais une fonction, si. */
+          const a = pick([-4, -3, -2, 2, 3, 4, 5]);
+          const b = rand(-8, 12);
+          const x = rand(-6, 9);
+          return {
+            statement: `Soit la fonction affine $f$ définie par $f(x) = ${a}x ${b < 0 ? '- ' + Math.abs(b) : '+ ' + b}$.<br/><br/>` +
+              `Calcule <strong>$f(${x})$</strong>.`,
+            answer: a * x + b, tolerance: 0.01, unit: '',
+            hint: `Calculer $f(${x})$, c'est <strong>remplacer</strong> chaque $x$ de l'expression par $${x}$.<br/><br/>Attention aux signes : $${a} \\times (${x})$ se calcule avant l'addition.`,
+            solution: [
+              `Pour calculer une image, on remplace $x$ par la valeur donnée dans l'expression de la fonction.`,
+              `$f(${x}) = ${a} \\times (${x}) ${b < 0 ? '- ' + Math.abs(b) : '+ ' + b} = ${a * x} ${b < 0 ? '- ' + Math.abs(b) : '+ ' + b}$`,
+              `$f(${x}) = ${a * x + b}$.`
+            ]
+          };
+        }
+
+        if (tache === 'antecedent') {
+          /* REMONTER DE L'IMAGE À L'ANTÉCÉDENT : c'est une ÉQUATION, pas une
+             substitution. L'élève calcule souvent $f$ de la valeur donnée,
+             c'est-à-dire l'inverse de ce qu'on demande. On tire $x$ entier
+             pour que la réponse reste ronde. */
+          const a = pick([2, 3, 4, 5, -2, -3]);
+          const b = rand(-9, 9);
+          const x = rand(2, 12);
+          const y = a * x + b;
+          return {
+            statement: `Soit la fonction affine $f$ définie par $f(x) = ${a}x ${b < 0 ? '- ' + Math.abs(b) : '+ ' + b}$.<br/><br/>` +
+              `Quel nombre a pour image $${y}$ ? Autrement dit, résous $f(x) = ${y}$.`,
+            answer: x, tolerance: 0.01, unit: '',
+            hint: `Ici on ne remplace <strong>pas</strong> $x$ : on cherche justement sa valeur.<br/><br/>Écris l'équation $${a}x ${b < 0 ? '- ' + Math.abs(b) : '+ ' + b} = ${y}$ et résous-la.`,
+            solution: [
+              `On cherche un <strong>antécédent</strong> : la valeur de $x$ est l'inconnue, et c'est son image qui est donnée. Cela se résout comme une équation.`,
+              `$${a}x ${b < 0 ? '- ' + Math.abs(b) : '+ ' + b} = ${y}$, donc $${a}x = ${y - b}$.`,
+              `$x = \\dfrac{${y - b}}{${a}} = ${x}$.<br/><br/>Contrôle : $f(${x}) = ${a} \\times ${x} ${b < 0 ? '- ' + Math.abs(b) : '+ ' + b} = ${y}$, on retrouve bien l'image annoncée.`
+            ]
+          };
+        }
+
+        if (tache === 'coefficient') {
+          /* UN RAPPORT D'ACCROISSEMENTS, et non de valeurs. C'est l'erreur que
+             la fiche professeur de ce chapitre traite, et rien ne la
+             travaillait. */
+          const a = pick([2, 3, 4, 5, -2, -3, -4]);
+          const b = rand(-8, 10);
+          const x1 = rand(1, 5), x2 = x1 + rand(2, 6);
+          const y1 = a * x1 + b, y2 = a * x2 + b;
+          return {
+            statement: `Une fonction affine $g$ vérifie $g(${x1}) = ${y1}$ et $g(${x2}) = ${y2}$.<br/><br/>` +
+              `Calcule son <strong>coefficient directeur</strong>.`,
+            answer: a, tolerance: 0.01, unit: '',
+            hint: `Le coefficient directeur mesure de combien $g$ varie quand $x$ augmente de $1$.<br/><br/>C'est un rapport de deux <strong>écarts</strong> : $a = \\dfrac{g(${x2}) - g(${x1})}{${x2} - ${x1}}$.`,
+            solution: [
+              `Le coefficient directeur est le rapport de l'accroissement des images sur l'accroissement des abscisses — deux <strong>écarts</strong>, jamais deux valeurs.`,
+              `$a = \\dfrac{${y2} - (${y1})}{${x2} - ${x1}} = \\dfrac{${y2 - y1}}{${x2 - x1}}$`,
+              `$a = ${a}$.<br/><br/>Lecture : quand $x$ augmente de $1$, $g(x)$ ${a > 0 ? 'augmente' : 'diminue'} de $${Math.abs(a)}$.`
+            ]
+          };
+        }
+
+        if (tache === 'ordonnee') {
+          const a = pick([2, 3, 4, -2, -3, 0.5]);
+          const b = rand(-9, 11);
+          const x = rand(2, 8);
+          const y = a * x + b;
+          return {
+            statement: `Une fonction affine $h$ a pour coefficient directeur $a = ${fr(a)}$, et l'on sait que $h(${x}) = ${fr(y)}$.<br/><br/>` +
+              `Quelle est son <strong>ordonnée à l'origine</strong> $b$ ?`,
+            answer: b, tolerance: 0.01, unit: '',
+            hint: `Écris $h(x) = ${fr(a)}x + b$, puis remplace $x$ par $${x}$ : tu obtiens une équation où $b$ est la seule inconnue.<br/><br/>L'ordonnée à l'origine est aussi la valeur de $h(0)$.`,
+            solution: [
+              `On écrit la forme générale $h(x) = ${fr(a)}x + b$, où seul $b$ manque.`,
+              `En $x = ${x}$ : $${fr(a)} \\times ${x} + b = ${fr(y)}$, soit $${fr(a * x)} + b = ${fr(y)}$.`,
+              `$b = ${fr(y)} - ${fr(a * x)} = ${fr(b)}$.<br/><br/>C'est aussi la valeur de $h(0)$, c'est-à-dire la hauteur à laquelle la droite coupe l'axe vertical.`
+            ]
+          };
+        }
+
+        if (tache === 'lineaire') {
+          /* DISTINGUER LINÉAIRE ET AFFINE, donc reconnaître une
+             proportionnalité. Réponse codée 1/0 pour rester numérique. */
+          const cas = pick([
+            { f: 'f(x) = 5x', prop: true, pourquoi: 'il n\'y a aucun terme constant : la fonction est <strong>linéaire</strong>, sa droite passe par l\'origine' },
+            { f: 'f(x) = 5x + 2', prop: false, pourquoi: 'le terme constant $+2$ empêche la proportionnalité : pour $x = 0$ on a déjà $f(0) = 2$, alors qu\'une proportionnalité donnerait $0$' },
+            { f: 'f(x) = -3x', prop: true, pourquoi: 'un coefficient négatif ne change rien à la proportionnalité : il n\'y a pas de terme constant' },
+            { f: 'f(x) = 7', prop: false, pourquoi: 'la fonction est constante : $x$ peut doubler sans que $f(x)$ change, ce qui exclut toute proportionnalité' },
+            { f: 'f(x) = x^2', prop: false, pourquoi: 'la fonction n\'est même pas affine : doubler $x$ multiplie $f(x)$ par $4$, pas par $2$' }
+          ]);
+          return {
+            statement: `On considère la fonction $${cas.f}$.<br/><br/>` +
+              `Traduit-elle une situation de <strong>proportionnalité</strong> ?<br/><br/>Réponds par $1$ pour oui, $0$ pour non.`,
+            answer: cas.prop ? 1 : 0, tolerance: 0.01, unit: '',
+            hint: `Une situation de proportionnalité s'écrit $f(x) = ax$ : le coefficient multiplie $x$, et <strong>rien</strong> ne s'ajoute.<br/><br/>Un test rapide : que vaut $f(0)$ ? Une proportionnalité donne toujours $0$.`,
+            solution: [
+              `Seule une fonction <strong>linéaire</strong>, de la forme $f(x) = ax$, traduit une proportionnalité : sa droite passe par l'origine.`,
+              `Ici, ${cas.pourquoi}.`,
+              cas.prop ? `C'est donc bien une proportionnalité. Réponse : $1$.`
+                       : `Ce n'est donc pas une proportionnalité. Réponse : $0$.`
+            ]
+          };
+        }
+
+        if (tache === 'intersection') {
+          /* LE SEUIL OÙ DEUX TARIFS SE CROISENT. C'est la situation qui donne
+             son sens au chapitre, et la banque ne la posait jamais. On
+             construit le croisement pour qu'il tombe sur un entier. */
+          const x = rand(4, 20);
+          const a1 = rand(3, 9);
+          const a2 = rand(1, a1 - 1);
+          const b2 = (a1 - a2) * x;
+          /* L'ÉLISION est portée par le contexte (`de` ou `d'`), jamais
+             reconstruite : « le nombre x de entrées » est sorti d'une première
+             version qui écrivait « de » en dur. Quatrième défaut de ce genre
+             attrapé le 2026-09-13, après l'accord du pronom en trigonométrie,
+             l'élision en équations et le genre en systèmes — tous invisibles
+             tant qu'un seul contexte était tiré. */
+          const ctx = pick([
+            { n1: 'sans abonnement', n2: 'avec abonnement', de: 'de séances', u: 'séances', v: 'séance' },
+            { n1: 'à l\'unité', n2: 'avec carte', de: 'd\'entrées', u: 'entrées', v: 'entrée' },
+            { n1: 'au trajet', n2: 'avec forfait', de: 'de trajets', u: 'trajets', v: 'trajet' }
+          ]);
+          return {
+            statement: `Deux formules sont proposées, en euros, selon le nombre $x$ ${ctx.de}.<br/><br/>` +
+              `<strong>Formule A</strong> (${ctx.n1}) : $f(x) = ${a1}x$.<br/><br/>` +
+              `<strong>Formule B</strong> (${ctx.n2}) : $g(x) = ${a2}x + ${b2}$.<br/><br/>` +
+              `Pour quel nombre ${ctx.de} les deux formules coûtent-elles <strong>exactement le même prix</strong> ?`,
+            answer: x, tolerance: 0.01, unit: '',
+            hint: `Les deux prix sont égaux quand $f(x) = g(x)$.<br/><br/>Écris $${a1}x = ${a2}x + ${b2}$ et résous cette équation.`,
+            solution: [
+              `Les deux formules coûtent le même prix lorsque leurs deux expressions sont égales : c'est le point où les deux droites se croisent.`,
+              `$${a1}x = ${a2}x + ${b2}$, donc $${a1 - a2}x = ${b2}$.`,
+              `$x = \\dfrac{${b2}}{${a1 - a2}} = ${x}$.<br/><br/>Au-delà de $${x}$ ${ctx.u}, la formule B devient la moins chère, puisque son prix augmente moins vite ($${a2}$ € par ${ctx.v} contre $${a1}$ €).`
+            ]
+          };
+        }
+
+        /* tache === 'tarif' : la tâche d'origine, conservée telle quelle.
+           a porte UNE decimale (tarif au km, à l'heure...), b est entier.
+           Le calcul se fait en dixièmes pour éviter toute dérive en virgule
+           flottante : aDix * x + b*10 reste un entier exact. */
         const aDix = rand(8, 25);
         const b = rand(2, 9);
         const x = rand(4, 20);
