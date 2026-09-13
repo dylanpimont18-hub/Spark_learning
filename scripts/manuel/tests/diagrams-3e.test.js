@@ -1277,3 +1277,113 @@ test('les abreviations ordinales de troisieme suivent l usage francais', () => {
   assert.deepStrictEqual(fautes, [],
     'abreviation(s) ordinale(s) fautive(s) — ecrire 1re, 2e, 3e :\n  ' + fautes.join('\n  '));
 });
+
+test('systemes : les trois vignettes montrent reellement trois cas differents', () => {
+  /* CE QUE CE TEST ATTRAPE. Ce schema n'illustre pas un calcul, il fait une
+     CLASSIFICATION : il affirme qu'il existe exactement trois positions pour
+     deux droites du plan, et que les trois vignettes en montrent une chacune.
+     Cette affirmation est fausse des qu'un trait est pose a vue — deux droites
+     annoncees paralleles qui se coupent hors du cadre restent parfaitement
+     credibles a la relecture, et le schema enseigne alors le contraire de son
+     texte.
+
+     On mesure donc, pour chaque vignette, la PENTE REELLE des deux traits en
+     pixels, et on verifie :
+       - vignette 1 : pentes differentes, donc secantes, et le point marque est
+         bien sur les deux droites ;
+       - vignette 2 : pentes egales et droites DISTINCTES ;
+       - vignette 3 : pentes egales et droites CONFONDUES (a l'epaisseur du
+         decalage de lisibilite pres).
+
+     On verifie en plus que le cadrage est identique d'une vignette a l'autre :
+     sans cela, comparer les trois positions n'aurait pas de sens. */
+  const d = parTitre('3e-systemes.js', 'aucune solution');
+  const tous = lignesToutes(d.svg);
+  const axes = tous.filter(l => l.cls === 'axis');
+  const droites = tous.filter(l => l.cls === 'curve-main' || l.cls === 'graph-line');
+  assert.strictEqual(axes.length, 6, 'deux axes par vignette');
+  assert.strictEqual(droites.length, 6, 'deux droites par vignette');
+
+  // Les trois vignettes, decoupees par l'abscisse de leur axe horizontal.
+  const horiz = axes.filter(l => l.y1 === l.y2).sort((a, b) => a.x1 - b.x1);
+  assert.strictEqual(horiz.length, 3, 'un axe horizontal par vignette');
+  for (const a of horiz) {
+    assert.strictEqual(a.y1, horiz[0].y1,
+      'les trois axes horizontaux doivent etre a la MEME hauteur : sinon les ' +
+      'trois vignettes ne se comparent pas');
+    assert.strictEqual(a.x2 - a.x1, horiz[0].x2 - horiz[0].x1,
+      'les trois vignettes doivent avoir la meme largeur de cadre');
+  }
+
+  // Chaque droite est rattachee a la vignette dont le cadre la contient.
+  const vignettes = horiz.map(a => droites.filter(l => l.x1 >= a.x1 - 1 && l.x2 <= a.x2 + 1));
+  vignettes.forEach((v, i) =>
+    assert.strictEqual(v.length, 2, 'vignette ' + (i + 1) + ' : deux droites attendues, ' + v.length + ' trouvees'));
+
+  const pente = l => (l.y1 - l.y2) / (l.x2 - l.x1);
+  // Ordonnee a l'origine du trait, dans le repere de l'ecran.
+  const ordonnee = l => l.y1 + pente(l) * l.x1;
+
+  // --- Vignette 1 : SECANTES, et le point marque est leur intersection.
+  const [p1, p2] = vignettes[0].map(pente);
+  assert.ok(Math.abs(p1 - p2) > 0.2,
+    'vignette 1 : les deux droites doivent etre nettement secantes, ' +
+    'or leurs pentes valent ' + p1.toFixed(3) + ' et ' + p2.toFixed(3));
+  const pts = cercles(d.svg);
+  assert.strictEqual(pts.length, 1, 'un seul point marque, celui de l intersection');
+  for (const l of vignettes[0]) {
+    const num = Math.abs((l.x2 - l.x1) * (l.y1 - pts[0][1]) - (l.y2 - l.y1) * (l.x1 - pts[0][0]));
+    const dist = num / Math.hypot(l.x2 - l.x1, l.y2 - l.y1);
+    assert.ok(dist < 0.6,
+      'le point marque doit etre sur les DEUX droites : il est a ' +
+      dist.toFixed(3) + ' px de l une d elles');
+  }
+
+  // --- Vignette 2 : PARALLELES et DISTINCTES.
+  const [q1, q2] = vignettes[1].map(pente);
+  assert.ok(Math.abs(q1 - q2) < 1e-9,
+    'vignette 2 : les deux droites doivent avoir la MEME pente, ' +
+    'or elles valent ' + q1 + ' et ' + q2);
+  const ecart2 = Math.abs(ordonnee(vignettes[1][0]) - ordonnee(vignettes[1][1]));
+  assert.ok(ecart2 > 20,
+    'vignette 2 : les deux paralleles doivent etre VISIBLEMENT distinctes, ' +
+    'or elles ne different que de ' + ecart2.toFixed(2) + ' px');
+
+  // --- Vignette 3 : CONFONDUES.
+  const [r1, r2] = vignettes[2].map(pente);
+  assert.ok(Math.abs(r1 - r2) < 1e-9,
+    'vignette 3 : les deux droites doivent avoir la meme pente, ' +
+    'or elles valent ' + r1 + ' et ' + r2);
+  const ecart3 = Math.abs(ordonnee(vignettes[2][0]) - ordonnee(vignettes[2][1]));
+  assert.ok(ecart3 > 0 && ecart3 < 8,
+    'vignette 3 : les deux droites doivent se LIRE comme confondues — un ' +
+    'leger decalage les rend visibles toutes les deux, mais au-dela elles ' +
+    'passent pour paralleles distinctes. Ecart mesure : ' + ecart3.toFixed(2) + ' px');
+  assert.ok(ecart3 < ecart2 / 4,
+    'le decalage des droites confondues doit etre sans commune mesure avec ' +
+    'l ecart des paralleles, sans quoi les vignettes 2 et 3 se ressemblent');
+
+  /* LA CLASSIFICATION EST EXACTE, verifiee sur les systemes eux-memes et non
+     sur le dessin : determinant non nul = une solution ; determinant nul avec
+     constantes non proportionnelles = aucune ; determinant nul avec constantes
+     proportionnelles = une infinite. */
+  const SYS = [
+    { s: [[2, 1, 7], [1, -1, 2]], cas: 'une' },
+    { s: [[1, 1, 2], [1, 1, 5]], cas: 'aucune' },
+    { s: [[1, 1, 3], [2, 2, 6]], cas: 'infinite' }
+  ];
+  for (const { s, cas } of SYS) {
+    const [[a1, b1, c1], [a2, b2, c2]] = s;
+    const det = a1 * b2 - a2 * b1;
+    if (cas === 'une') {
+      assert.notStrictEqual(det, 0, 'le premier systeme doit avoir un determinant non nul');
+      assert.strictEqual((c1 * b2 - c2 * b1) / det, 3, 'la solution doit etre x = 3');
+      assert.strictEqual((a1 * c2 - a2 * c1) / det, 1, 'la solution doit etre y = 1');
+    } else {
+      assert.strictEqual(det, 0, 'les deux autres systemes doivent avoir un determinant nul');
+      const proportionnel = a1 * c2 === a2 * c1 && b1 * c2 === b2 * c1;
+      assert.strictEqual(proportionnel, cas === 'infinite',
+        'le cas « ' + cas + ' » se distingue par la proportionnalite des constantes');
+    }
+  }
+});

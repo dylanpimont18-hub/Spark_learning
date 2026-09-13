@@ -128,6 +128,80 @@ window.MODULES.push(
         reading: 'Repère l\'unique point où les deux droites se croisent : c\'est le seul point du plan qui appartient à la fois à D1 et à D2, donc l\'unique solution du système.',
         caption: 'Représentation graphique du système $\\begin{cases} 2x+y=7 \\\\ x-y=2 \\end{cases}$ : les droites se croisent en $(x\\,;\\,y)=(3\\,;\\,1)$, solution trouvée par combinaison dans l\'exemple du cours.'
       },
+      /* SCHÉMA SECONDAIRE — UN SEUL, ajouté le 2026-09-13.
+         Principe du cahier des charges, section 9 : une figure par MALENTENDU,
+         pas une figure par formule.
+
+         Ce chapitre était le seul du niveau à n'avoir aucun schéma secondaire.
+         Sa figure principale montre deux droites qui se coupent, donc le cas
+         GÉNÉRAL — celui où tout se passe bien. Or le récapitulatif du chapitre
+         annonce trois cas possibles, et les deux autres n'étaient illustrés
+         nulle part : l'élève lit « si les droites sont parallèles, le système
+         n'a aucune solution » sans avoir jamais vu à quoi cela ressemble.
+
+         LE MALENTENDU EXACT, et il coûte des points au brevet : devant un
+         système sans solution, l'élève ne conclut pas « aucune solution », il
+         conclut qu'il s'est trompé. Il refait le calcul deux fois, perd du
+         temps, et finit par écrire un couple au hasard — parce que rien dans
+         son expérience ne lui a montré qu'un système PEUT ne pas avoir de
+         solution. Le cas des droites confondues produit la même panique en
+         sens inverse : il tombe sur $0 = 0$ et croit avoir tout effacé.
+
+         TOUTES LES COORDONNÉES SONT CALCULÉES à partir des trois systèmes, et
+         les trois cas sont vérifiés ALGÉBRIQUEMENT par leur déterminant dans
+         scripts/manuel/tests/diagrams-3e.test.js : $-3$ pour le premier (une
+         solution, le couple $(3\,;\,1)$), $0$ pour les deux autres, distingués
+         par la proportionnalité des constantes. Les trois repères partagent le
+         même pas, la même origine relative et le même cadrage : seule change
+         la position des droites. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Les trois cas',
+          title: 'Un système peut n\'avoir aucune solution, ou en avoir une infinité',
+          description: 'Deux droites du plan n\'ont que trois façons de se placer l\'une par rapport à l\'autre, et un système à deux inconnues n\'a donc que trois réponses possibles. <strong>Tomber sur « aucune solution » n\'est pas s\'être trompé</strong> : c\'est une réponse complète.',
+          svg: `
+            <svg viewBox="0 0 400 187" role="img" aria-labelledby="sys-cas-title sys-cas-desc">
+              <title id="sys-cas-title">Les trois positions possibles de deux droites</title>
+              <desc id="sys-cas-desc">Trois reperes identiques sont places cote a cote, avec le meme pas et le meme cadrage. Dans celui de gauche, les deux droites se croisent en un point unique, marque d'un rond plein, d'abscisse trois et d'ordonnee un : le systeme possede une solution et une seule. Dans celui du milieu, les deux droites montent exactement de la meme facon sans jamais se rencontrer : elles sont paralleles et distinctes, et le systeme n'a aucune solution. Dans celui de droite, les deux droites sont confondues, l'une exactement sur l'autre : toutes les deux representent la meme equation, et le systeme possede une infinite de solutions. Ce sont les trois seules configurations possibles pour deux droites du plan.</desc>
+
+              <line class="axis" x1="14" y1="126" x2="119" y2="126"></line>
+              <line class="axis" x1="29" y1="141" x2="29" y2="36"></line>
+              <line class="curve-main" x1="36.5" y1="36" x2="89" y2="141"></line>
+              <line class="curve-main" x1="44" y1="141" x2="119" y2="66"></line>
+              <circle class="plot-point" cx="74" cy="111" r="5"></circle>
+              <text class="annotation-label" x="66.5" y="26" text-anchor="middle">une seule solution</text>
+              <text class="label-soft" x="66.5" y="160" text-anchor="middle">les droites se croisent</text>
+              <text class="tick-label" x="66.5" y="174" text-anchor="middle">ici le couple 3 et 1</text>
+
+              <line class="axis" x1="148" y1="126" x2="253" y2="126"></line>
+              <line class="axis" x1="163" y1="141" x2="163" y2="36"></line>
+              <line class="curve-main" x1="148" y1="81" x2="208" y2="141"></line>
+              <line class="curve-main" x1="148" y1="36" x2="253" y2="141"></line>
+              <text class="annotation-label" x="200.5" y="26" text-anchor="middle">aucune solution</text>
+              <text class="label-soft" x="200.5" y="160" text-anchor="middle">les droites sont paralleles</text>
+              <text class="tick-label" x="200.5" y="174" text-anchor="middle">elles ne se rencontrent jamais</text>
+
+              <line class="axis" x1="282" y1="126" x2="387" y2="126"></line>
+              <line class="axis" x1="297" y1="141" x2="297" y2="36"></line>
+              <line class="graph-line" x1="284" y1="66" x2="357" y2="139"></line>
+              <line class="curve-main" x1="282" y1="68" x2="355" y2="141"></line>
+              <text class="annotation-label" x="334.5" y="26" text-anchor="middle">une infinite de solutions</text>
+              <text class="label-soft" x="334.5" y="160" text-anchor="middle">les droites sont confondues</text>
+              <text class="tick-label" x="334.5" y="174" text-anchor="middle">tous les points conviennent</text>
+            </svg>
+          `,
+          notes: [
+            '<strong>Deux droites qui se croisent</strong> : un seul point leur est commun, donc un seul couple vérifie les deux équations à la fois. C\'est le cas ordinaire, celui de la figure du cours.',
+            '<strong>Deux droites parallèles distinctes</strong> : aucun point commun, donc <strong>aucune</strong> solution. Au calcul, tu t\'en aperçois en tombant sur quelque chose d\'impossible, du genre $0 = 3$. Ce n\'est pas une erreur de ta part : c\'est la réponse.',
+            '<strong>Deux droites confondues</strong> : la seconde équation est un multiple de la première, elle ne dit donc rien de neuf. Tous les points de la droite conviennent, d\'où une <strong>infinité</strong> de solutions. Au calcul, tu tombes sur $0 = 0$.',
+            'Les deux dernières vignettes sont exactement ce que l\'on obtient quand les deux inconnues <strong>disparaissent ensemble</strong> pendant la résolution. Le réflexe à prendre est alors de regarder ce qui reste : si c\'est faux, aucune solution ; si c\'est vrai, une infinité.',
+            'Il n\'existe pas de quatrième cas. Deux droites du plan ne peuvent pas se couper en deux points, ni en trois : c\'est pourquoi un système du premier degré ne répond jamais « deux solutions ».'
+          ],
+          reading: 'Regarde uniquement la position relative des deux droites, jamais leurs équations. C\'est elle qui décide du nombre de solutions, et les trois cas ci-dessus sont les seuls possibles.',
+          caption: 'Les trois positions possibles de deux droites : sécantes (une solution), parallèles distinctes (aucune), confondues (une infinité).'
+        }
+      ],
       recap: [
         '<strong>Deux méthodes</strong> : la substitution isole puis remplace ; la combinaison multiplie puis additionne pour éliminer une inconnue.',
         '<strong>Vérification obligatoire</strong> : toujours tester le couple trouvé dans les DEUX équations de départ. Une seule ne suffit pas !',
