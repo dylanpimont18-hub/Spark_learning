@@ -174,6 +174,119 @@
         reading: 'Multiplier par un nombre négatif <strong>inverse le sens</strong> des sauts sur la droite graduée : $(-2) \\times 3 = -6$ (vers la gauche) devient $(-2) \\times (-3) = +6$ (mêmes sauts, mais vers la droite).',
         caption: 'Deux droites graduées superposées : en haut $(-2) \\times 3 = -6$, en bas $(-2) \\times (-3) = +6$, pour visualiser le renversement de sens.'
       },
+
+      /* SCHEMAS SECONDAIRES (2026-09-13). Une figure par MALENTENDU :
+         1. compter les facteurs negatifs plutot que les traiter deux par deux,
+            ce qui rate les produits a trois facteurs ;
+         2. (-5)^2 et -5^2 : la parenthese change TOUT, et c'est l'erreur la
+            plus couteuse du chapitre ;
+         3. la regle des signes vaut aussi pour la DIVISION, ce que les eleves
+            n'appliquent pas spontanement. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Compter, pas apparier',
+          title: 'C\'est le nombre de facteurs négatifs qui décide',
+          description: 'La règle « moins par moins fait plus » suffit pour deux facteurs. Au-delà, elle égare : ce qu\'il faut, c\'est <strong>compter</strong> les facteurs négatifs et regarder si ce nombre est pair ou impair.',
+          svg: `
+            <svg viewBox="0 0 400 176" role="img" aria-labelledby="rel-compte-title rel-compte-desc">
+              <title id="rel-compte-title">Signe d'un produit selon le nombre de facteurs negatifs</title>
+              <desc id="rel-compte-desc">Trois produits sont compares. Le premier comporte deux facteurs negatifs, un nombre pair, et son resultat est positif. Le deuxieme en comporte trois, un nombre impair, et son resultat est negatif. Le troisieme en comporte quatre, un nombre pair, et son resultat redevient positif. Le signe du resultat ne depend donc que de la parite du nombre de facteurs negatifs.</desc>
+
+              <text class="tick-label" x="24" y="46" text-anchor="start">(−2) × (−3)</text>
+              <text class="tick-label" x="170" y="46" text-anchor="start">2 facteurs négatifs</text>
+              <text class="annotation-label" x="300" y="46" text-anchor="start">pair : résultat +6</text>
+
+              <text class="tick-label" x="24" y="90" text-anchor="start">(−2) × (−3) × (−1)</text>
+              <text class="tick-label" x="170" y="90" text-anchor="start">3 facteurs négatifs</text>
+              <text class="annotation-label" x="300" y="90" text-anchor="start">impair : résultat −6</text>
+
+              <text class="tick-label" x="24" y="134" text-anchor="start">(−1) × (−2) × (−3) × (−1)</text>
+              <text class="tick-label" x="170" y="134" text-anchor="start">4 facteurs négatifs</text>
+              <text class="annotation-label" x="300" y="134" text-anchor="start">pair : résultat +6</text>
+
+              <line class="grid-line" x1="24" y1="60" x2="376" y2="60"></line>
+              <line class="grid-line" x1="24" y1="104" x2="376" y2="104"></line>
+              <text class="tick-label" x="200" y="164" text-anchor="middle">seule la parité du compte change le signe</text>
+            </svg>
+          `,
+          notes: [
+            'La valeur du produit ne change pas d\'une ligne à l\'autre : c\'est toujours $6$. Seul le <strong>signe</strong> varie.',
+            'Nombre <strong>pair</strong> de facteurs négatifs : résultat positif. Nombre <strong>impair</strong> : résultat négatif.',
+            'Méthode sûre : calcule d\'abord le produit des valeurs sans les signes, puis compte les moins pour décider du signe final.'
+          ],
+          reading: 'Entoure les facteurs négatifs et compte-les. Tu n\'as plus qu\'une question à te poser : ce nombre est-il pair ou impair ?',
+          caption: 'Le signe d\'un produit dépend uniquement de la parité du nombre de facteurs négatifs.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'La parenthèse change tout',
+          title: 'Moins cinq au carré n\'est pas moins cinq, au carré',
+          description: 'Dans $(-5)^2$, l\'exposant porte sur $-5$ tout entier. Dans $-5^2$, il ne porte que sur le $5$, et le signe moins reste devant. Les deux écritures se ressemblent et donnent des résultats <strong>opposés</strong>.',
+          svg: `
+            <svg viewBox="0 0 400 172" role="img" aria-labelledby="rel-carre-title rel-carre-desc">
+              <title id="rel-carre-title">Comparaison entre moins cinq entre parentheses au carre et moins cinq au carre</title>
+              <desc id="rel-carre-desc">A gauche, l'ecriture avec parentheses : l'exposant porte sur le nombre negatif tout entier, ce qui revient a multiplier moins cinq par moins cinq et donne plus vingt-cinq. A droite, l'ecriture sans parentheses : l'exposant ne porte que sur le cinq, le signe moins reste en dehors, ce qui donne l'oppose de vingt-cinq, soit moins vingt-cinq. Les deux resultats sont opposes.</desc>
+
+              <text class="annotation-label" x="100" y="46" text-anchor="middle">(−5)²</text>
+              <text class="tick-label" x="100" y="76" text-anchor="middle">l exposant porte sur −5</text>
+              <text class="tick-label" x="100" y="98" text-anchor="middle">(−5) × (−5)</text>
+              <text class="annotation-label" x="100" y="126" text-anchor="middle">= +25</text>
+
+              <line class="grid-line" x1="200" y1="30" x2="200" y2="140"></line>
+
+              <text class="annotation-label" x="300" y="46" text-anchor="middle">−5²</text>
+              <text class="tick-label" x="300" y="76" text-anchor="middle">l exposant porte sur 5 seul</text>
+              <text class="tick-label" x="300" y="98" text-anchor="middle">l opposé de 5 × 5</text>
+              <text class="annotation-label" x="300" y="126" text-anchor="middle">= −25</text>
+
+              <text class="tick-label" x="200" y="162" text-anchor="middle">deux écritures voisines, deux résultats opposés</text>
+            </svg>
+          `,
+          notes: [
+            '$(-5)^2 = (-5) \\times (-5) = +25$ : deux facteurs négatifs, nombre pair, résultat positif.',
+            '$-5^2 = -(5 \\times 5) = -25$ : le signe moins n\'entre jamais dans le carré, il attend dehors.',
+            'À la calculatrice, la même distinction existe : taper $-5$ puis le carré ne donne pas la même chose que taper la parenthèse.'
+          ],
+          reading: 'Cherche la parenthèse avant tout calcul. Si le signe moins est <strong>dedans</strong>, il est élevé au carré ; s\'il est dehors, il reste dehors.',
+          caption: 'La parenthèse décide si le signe moins est élevé au carré : $(-5)^2 = 25$ mais $-5^2 = -25$.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'La division aussi',
+          title: 'La règle des signes vaut pour la division',
+          description: 'Les élèves apprennent la règle sur la multiplication et hésitent devant un quotient. C\'est pourtant <strong>exactement la même règle</strong>, parce que diviser revient à multiplier par l\'inverse.',
+          svg: `
+            <svg viewBox="0 0 400 176" role="img" aria-labelledby="rel-div-title rel-div-desc">
+              <title id="rel-div-title">Regle des signes appliquee a la multiplication puis a la division</title>
+              <desc id="rel-div-desc">Un tableau compare quatre cas. Pour la multiplication : plus par plus donne plus, moins par moins donne plus, plus par moins donne moins. Pour la division, les memes combinaisons donnent exactement les memes signes : quinze divise par trois donne cinq, moins quinze divise par moins trois donne cinq, et moins quinze divise par trois donne moins cinq. La regle est donc identique dans les deux cas.</desc>
+
+              <text class="annotation-label" x="110" y="40" text-anchor="middle">multiplication</text>
+              <text class="annotation-label" x="290" y="40" text-anchor="middle">division</text>
+              <line class="frame-line" x1="24" y1="52" x2="376" y2="52"></line>
+              <line class="grid-line" x1="200" y1="30" x2="200" y2="150"></line>
+
+              <text class="tick-label" x="110" y="78" text-anchor="middle">(+3) × (+5) = +15</text>
+              <text class="tick-label" x="290" y="78" text-anchor="middle">(+15) ÷ (+3) = +5</text>
+
+              <text class="tick-label" x="110" y="106" text-anchor="middle">(−3) × (−5) = +15</text>
+              <text class="tick-label" x="290" y="106" text-anchor="middle">(−15) ÷ (−3) = +5</text>
+
+              <text class="tick-label" x="110" y="134" text-anchor="middle">(−3) × (+5) = −15</text>
+              <text class="tick-label" x="290" y="134" text-anchor="middle">(−15) ÷ (+3) = −5</text>
+
+              <text class="tick-label" x="200" y="166" text-anchor="middle">mêmes signes de départ, mêmes signes d arrivée</text>
+            </svg>
+          `,
+          notes: [
+            'Ligne par ligne, les signes de gauche et de droite <strong>coïncident</strong> : la règle ne fait aucune différence entre les deux opérations.',
+            'La raison est simple : diviser par $-3$, c\'est multiplier par $-\\dfrac{1}{3}$, donc on retombe sur une multiplication.',
+            'Une seule règle à retenir pour les deux opérations, et elle se résume au comptage des signes négatifs.'
+          ],
+          reading: 'Lis le tableau ligne par ligne plutôt que colonne par colonne : à chaque fois, le signe du résultat est le même des deux côtés.',
+          caption: 'La règle des signes est identique pour la multiplication et pour la division.'
+        }
+      ],
       recap: [
         'Mêmes signes → produit positif ; signes contraires → produit négatif.',
         'La division suit exactement les mêmes règles de signes que la multiplication.',

@@ -101,6 +101,88 @@
         reading: 'Multiplier deux fractions, c\'est croiser deux découpages du même rectangle : le nombre de petites cases coloriées (produit des numérateurs) sur le nombre total de petites cases (produit des dénominateurs) donne directement $\\dfrac{2}{3} \\times \\dfrac{5}{7} = \\dfrac{10}{21}$.',
         caption: 'Modèle d\'aire : $3 \\times 7 = 21$ petites cases au total, dont $2 \\times 5 = 10$ coloriées, soit $\\dfrac{2}{3} \\times \\dfrac{5}{7} = \\dfrac{10}{21}$.'
       },
+
+      /* SCHEMAS SECONDAIRES (2026-09-13). DEUX figures et non trois : le
+         chapitre a deja une figure principale (le modele d'aire) qui traite la
+         multiplication, et le cahier des charges demande une figure par
+         MALENTENDU, pas un quota. Les deux malentendus qui restent sont :
+         1. multiplier peut REDUIRE, ce qui heurte tout l'acquis du primaire —
+            c'est la question d'ouverture du chapitre ;
+         2. diviser par une fraction, c'est multiplier par son inverse, et
+            l'eleve renverse la MAUVAISE fraction.
+         Ajouter une troisieme figure ici reviendrait a illustrer une formule
+         deja lisible dans l'encadre. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'La réponse à la question d\'ouverture',
+          title: 'Multiplier par un nombre plus petit que 1 fait diminuer',
+          description: 'Depuis le primaire, multiplier veut dire agrandir. C\'est vrai <strong>tant qu\'on multiplie par un nombre plus grand que $1$</strong>. En dessous de $1$, la multiplication réduit.',
+          svg: `
+            <svg viewBox="0 0 400 184" role="img" aria-labelledby="frac-reduit-title frac-reduit-desc">
+              <title id="frac-reduit-title">Effet de la multiplication selon la taille du facteur</title>
+              <desc id="frac-reduit-desc">Une barre de reference de longueur huit est dessinee en haut. En dessous, la meme barre multipliee par deux mesure seize : elle est plus longue. Encore en dessous, la meme barre multipliee par trois quarts ne mesure plus que six : elle est plus courte que la barre de depart. Les trois barres partent du meme bord gauche et sont dessinees a la meme echelle, si bien que la comparaison des longueurs est directe.</desc>
+
+              <!-- MEME bord gauche (x = 60) et MEME echelle (16 unites de
+                   viewBox par unite) pour les trois barres : la longueur est la
+                   seule chose qui doit varier. -->
+              <text class="tick-label" x="52" y="46" text-anchor="end">départ</text>
+              <rect class="frame-line" x="60" y="34" width="128" height="18" fill="color-mix(in srgb, var(--diagram-accent) 16%, transparent)"></rect>
+              <text class="tick-label" x="196" y="46" text-anchor="start">8</text>
+
+              <text class="tick-label" x="52" y="90" text-anchor="end">× 2</text>
+              <rect class="frame-line" x="60" y="78" width="256" height="18" fill="color-mix(in srgb, var(--diagram-accent) 16%, transparent)"></rect>
+              <text class="annotation-label" x="324" y="90" text-anchor="start">16 : plus long</text>
+
+              <text class="tick-label" x="52" y="134" text-anchor="end">× 3/4</text>
+              <rect class="frame-line" x="60" y="122" width="96" height="18" fill="color-mix(in srgb, var(--diagram-accent) 16%, transparent)"></rect>
+              <text class="annotation-label" x="164" y="134" text-anchor="start">6 : plus court</text>
+
+              <line class="guide-line" x1="188" y1="30" x2="188" y2="146"></line>
+              <text class="tick-label" x="200" y="170" text-anchor="middle">le trait marque la longueur de départ</text>
+            </svg>
+          `,
+          notes: [
+            'Multiplier $8$ par $2$ donne $16$ : le facteur dépasse $1$, donc le résultat grandit.',
+            'Multiplier $8$ par $\\dfrac{3}{4}$ donne $6$ : le facteur est plus petit que $1$, donc le résultat <strong>diminue</strong>.',
+            'Le repère est toujours le nombre $1$ : au-dessus on agrandit, en dessous on réduit, et à $1$ exactement rien ne bouge.'
+          ],
+          reading: 'Avant de calculer, regarde le facteur. S\'il est plus petit que $1$, tu sais déjà que ton résultat sera plus petit que le nombre de départ — un contrôle gratuit.',
+          caption: 'Multiplier par $\\dfrac{3}{4}$ réduit la longueur, alors que multiplier par $2$ l\'augmente.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Laquelle retourner ?',
+          title: 'C\'est la deuxième fraction qu\'on renverse',
+          description: 'Diviser par une fraction revient à multiplier par son inverse. Encore faut-il renverser <strong>la bonne</strong> : c\'est toujours celle qui suit le signe de division, jamais la première.',
+          svg: `
+            <svg viewBox="0 0 400 176" role="img" aria-labelledby="frac-inverse-title frac-inverse-desc">
+              <title id="frac-inverse-title">Division de fractions, calcul juste et erreur de fraction renversee</title>
+              <desc id="frac-inverse-desc">On part de la division de trois quarts par trois cinquiemes. Le calcul juste renverse la seconde fraction et multiplie trois quarts par cinq tiers, ce qui donne quinze douziemes, soit un et quart. En dessous, en trait tirete, l'erreur frequente : l'eleve renverse la premiere fraction et calcule quatre tiers fois trois cinquiemes, ce qui donne douze quinziemes, soit quatre cinquiemes. Les deux resultats different, l'un est superieur a un et l'autre inferieur.</desc>
+
+              <text class="tick-label" x="200" y="32" text-anchor="middle">calcul de départ : 3/4 ÷ 3/5</text>
+
+              <!-- Le JUSTE en premier, en teinte d'accent ; l'erreur dessous,
+                   en teinte faible et tiretee. -->
+              <text class="annotation-label" x="30" y="76" text-anchor="start">juste</text>
+              <text class="tick-label" x="104" y="76" text-anchor="start">on renverse la SECONDE : 3/4 × 5/3</text>
+              <text class="annotation-label" x="104" y="98" text-anchor="start">= 15/12 = 1,25</text>
+
+              <text class="label-soft" x="30" y="132" text-anchor="start">erreur</text>
+              <text class="tick-label" x="104" y="132" text-anchor="start">on renverse la première : 4/3 × 3/5</text>
+              <line class="guide-line" x1="100" y1="140" x2="340" y2="140"></line>
+              <text class="label-soft" x="104" y="158" text-anchor="start">= 12/15 = 0,8, ce qui ne convient pas</text>
+            </svg>
+          `,
+          notes: [
+            'Le contrôle qui tranche : on divise par $\\dfrac{3}{5}$, un nombre <strong>plus petit que $1$</strong>, donc le résultat doit être <strong>plus grand</strong> que $\\dfrac{3}{4}$.',
+            'Le calcul juste donne $1{,}25$, effectivement plus grand que $0{,}75$. L\'erreur donne $0{,}8$… mais aussi plus grand, donc ce seul contrôle ne suffit pas ici.',
+            'La règle reste la seule garantie : la fraction renversée est celle qui vient <strong>après</strong> le signe de division.'
+          ],
+          reading: 'Repère le signe de division et pose ton doigt dessus. La fraction à retourner est celle qui se trouve juste à sa droite.',
+          caption: 'Diviser par une fraction, c\'est multiplier par l\'inverse de la <strong>seconde</strong> fraction.'
+        }
+      ],
       recap: [
         'Multiplier deux fractions : on multiplie numérateurs entre eux et dénominateurs entre eux.',
         'Diviser par une fraction = multiplier par son inverse (on « retourne » la deuxième fraction).',

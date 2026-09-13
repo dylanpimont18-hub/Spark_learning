@@ -110,6 +110,142 @@
         reading: 'Chaque graduation représente un facteur $10$ : passer d\'une graduation à la suivante, c\'est multiplier par dix. L\'écart entre le proton ($10^{-15}$ m) et l\'univers observable ($10^{26}$ m) est de $41$ ordres de grandeur.',
         caption: 'Échelle logarithmique de $10^{-15}$ m à $10^{26}$ m, avec des repères réels cités dans le cours.'
       },
+
+      /* SCHEMAS SECONDAIRES (2026-09-13). Une figure par MALENTENDU :
+         1. un exposant negatif ne rend pas le nombre negatif — confusion
+            massive entre « petit » et « negatif » ;
+         2. la notation scientifique impose UN SEUL chiffre non nul avant la
+            virgule : 45 x 10^6 n'est pas une notation scientifique ;
+         3. ajouter un a l'exposant multiplie par dix, ce qui explique qu'un
+            ecart de deux exposants soit un facteur cent et non deux. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Petit n\'est pas négatif',
+          title: 'Un exposant négatif donne un nombre positif, mais petit',
+          description: 'Le signe moins de l\'exposant agit sur la <strong>taille</strong> du nombre, jamais sur son signe. $10^{-3}$ est un nombre <strong>positif</strong>, simplement plus petit que $1$.',
+          svg: `
+            <svg viewBox="0 0 400 168" role="img" aria-labelledby="puiss-neg-title puiss-neg-desc">
+              <title id="puiss-neg-title">Position des puissances de dix sur un axe</title>
+              <desc id="puiss-neg-desc">Un axe gradue porte le zero a gauche et le nombre un au milieu. Les puissances de dix a exposant positif, comme dix et cent, se placent a droite du un. Les puissances a exposant negatif, comme un dixieme et un millieme, se placent entre zero et un : elles sont plus petites que un mais restent strictement positives, donc a droite du zero. Aucune puissance de dix ne se trouve dans la zone des nombres negatifs, situee a gauche du zero et grisee.</desc>
+
+              <!-- La zone des negatifs est dessinee mais VIDE : c'est le
+                   propos de la figure, montrer qu'aucune puissance de dix n'y
+                   tombe jamais. Aplat discret, c'est du decor. -->
+              <rect x="24" y="76" width="76" height="20" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></rect>
+              <text class="tick-label" x="62" y="66" text-anchor="middle">nombres négatifs</text>
+              <text class="label-soft" x="62" y="112" text-anchor="middle">aucune puissance ici</text>
+
+              <line class="axis" x1="24" y1="86" x2="376" y2="86"></line>
+              <line class="frame-line" x1="100" y1="78" x2="100" y2="94"></line>
+              <text class="annotation-label" x="100" y="112" text-anchor="middle">0</text>
+              <line class="frame-line" x1="240" y1="78" x2="240" y2="94"></line>
+              <text class="annotation-label" x="240" y="112" text-anchor="middle">1</text>
+
+              <circle class="plot-point" cx="150" cy="86" r="4"></circle>
+              <text class="tick-label" x="150" y="66" text-anchor="middle">0,001</text>
+              <circle class="plot-point" cx="190" cy="86" r="4"></circle>
+              <text class="tick-label" x="190" y="48" text-anchor="middle">0,1</text>
+
+              <circle class="plot-point" cx="290" cy="86" r="4"></circle>
+              <text class="tick-label" x="290" y="66" text-anchor="middle">10</text>
+              <circle class="plot-point" cx="340" cy="86" r="4"></circle>
+              <text class="tick-label" x="340" y="48" text-anchor="middle">100</text>
+
+              <text class="tick-label" x="170" y="140" text-anchor="middle">exposant négatif : entre 0 et 1</text>
+              <text class="tick-label" x="315" y="140" text-anchor="middle">exposant positif : au-delà de 1</text>
+            </svg>
+          `,
+          notes: [
+            '$10^{-3} = \\dfrac{1}{1000} = 0{,}001$ : c\'est bien un nombre <strong>positif</strong>, situé entre $0$ et $1$.',
+            'Le signe de l\'exposant dit seulement de quel côté du $1$ on se trouve : à droite s\'il est positif, entre $0$ et $1$ s\'il est négatif.',
+            'Pour obtenir un nombre négatif, il faudrait un signe moins <strong>devant</strong> : $-10^{3} = -1000$, ce qui n\'a rien à voir avec $10^{-3}$.'
+          ],
+          reading: 'Regarde la bande de gauche : elle est vide. Aucune puissance de $10$, quel que soit son exposant, ne tombe du côté des nombres négatifs.',
+          caption: 'Un exposant négatif place le nombre entre $0$ et $1$ : il reste strictement positif.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'La règle du seul chiffre',
+          title: 'Un seul chiffre non nul avant la virgule',
+          description: 'Une écriture $a \\times 10^n$ n\'est en notation scientifique que si $a$ possède <strong>exactement un chiffre non nul</strong> avant la virgule, c\'est-à-dire si $1 \\leq a < 10$.',
+          svg: `
+            <svg viewBox="0 0 400 176" role="img" aria-labelledby="puiss-forme-title puiss-forme-desc">
+              <title id="puiss-forme-title">Trois ecritures d'un meme nombre, une seule est scientifique</title>
+              <desc id="puiss-forme-desc">Le meme nombre est ecrit de trois facons. La premiere, 45 fois dix puissance six, a deux chiffres avant la virgule : elle est refusee. La deuxieme, 0,45 fois dix puissance huit, a un zero avant la virgule : elle est refusee aussi. La troisieme, 4,5 fois dix puissance sept, a exactement un chiffre non nul avant la virgule : c'est la seule ecriture scientifique correcte. Les trois designent pourtant le meme nombre, quarante-cinq millions.</desc>
+
+              <!-- PATRON PIEGE : la forme JUSTE est mise en avant (accent,
+                   annotation-label) et les deux formes refusees sont en teinte
+                   faible avec un trait tirete. -->
+              <text class="label-soft" x="40" y="42" text-anchor="start">45 × 10⁶</text>
+              <line class="guide-line" x1="36" y1="50" x2="150" y2="50"></line>
+              <text class="tick-label" x="176" y="42" text-anchor="start">deux chiffres avant la virgule</text>
+
+              <text class="label-soft" x="40" y="82" text-anchor="start">0,45 × 10⁸</text>
+              <line class="guide-line" x1="36" y1="90" x2="150" y2="90"></line>
+              <text class="tick-label" x="176" y="82" text-anchor="start">un zéro avant la virgule</text>
+
+              <rect x="30" y="104" width="130" height="30" rx="8" fill="color-mix(in srgb, var(--diagram-accent) 18%, transparent)" stroke="none"></rect>
+              <text class="annotation-label" x="40" y="124" text-anchor="start">4,5 × 10⁷</text>
+              <text class="tick-label" x="176" y="124" text-anchor="start">un seul chiffre non nul : correct</text>
+
+              <text class="tick-label" x="200" y="162" text-anchor="middle">les trois valent 45 000 000</text>
+            </svg>
+          `,
+          notes: [
+            'Les trois écritures désignent le <strong>même nombre</strong>, $45\\,000\\,000$ : aucune n\'est fausse en tant que calcul.',
+            'Mais une seule respecte la <strong>forme</strong> imposée : le facteur doit être compris entre $1$ inclus et $10$ exclu.',
+            'Pour corriger $45 \\times 10^6$, on décale la virgule d\'un rang à gauche et on ajoute $1$ à l\'exposant : $4{,}5 \\times 10^7$.'
+          ],
+          reading: 'Couvre la puissance de $10$ avec ton doigt et regarde seulement le nombre de gauche. S\'il est plus petit que $1$ ou plus grand que $10$, l\'écriture n\'est pas scientifique.',
+          caption: 'Trois écritures du même nombre : seule $4{,}5 \\times 10^7$ est en notation scientifique.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Un rang, pas une unité',
+          title: 'Ajouter 1 à l\'exposant multiplie par 10',
+          description: 'Deux exposants qui se suivent ne diffèrent pas de $1$ : ils diffèrent d\'un <strong>facteur $10$</strong>. C\'est pourquoi un écart de deux exposants représente un facteur $100$, et non $2$.',
+          svg: `
+            <svg viewBox="0 0 400 172" role="img" aria-labelledby="puiss-rang-title puiss-rang-desc">
+              <title id="puiss-rang-title">Progression des puissances de dix par multiplication</title>
+              <desc id="puiss-rang-desc">Quatre puissances de dix successives sont alignees : dix puissance un vaut dix, dix puissance deux vaut cent, dix puissance trois vaut mille et dix puissance quatre vaut dix mille. Entre chaque etape, une fleche indique que l'on multiplie par dix. En passant de dix puissance un a dix puissance trois, on multiplie donc par mille et non par deux, bien que les exposants ne different que de deux unites.</desc>
+
+              <text class="annotation-label" x="52" y="72" text-anchor="middle">10¹</text>
+              <text class="tick-label" x="52" y="92" text-anchor="middle">10</text>
+              <text class="annotation-label" x="148" y="72" text-anchor="middle">10²</text>
+              <text class="tick-label" x="148" y="92" text-anchor="middle">100</text>
+              <text class="annotation-label" x="244" y="72" text-anchor="middle">10³</text>
+              <text class="tick-label" x="244" y="92" text-anchor="middle">1000</text>
+              <text class="annotation-label" x="340" y="72" text-anchor="middle">10⁴</text>
+              <text class="tick-label" x="340" y="92" text-anchor="middle">10 000</text>
+
+              <!-- Une seule pointe de fleche par trait, comme l'exige le
+                   convertisseur. -->
+              <line class="curve-main" x1="72" y1="58" x2="126" y2="58"></line>
+              <polygon class="plot-point" points="132,58 122,54 122,62"></polygon>
+              <text class="tick-label" x="99" y="44" text-anchor="middle">× 10</text>
+
+              <line class="curve-main" x1="168" y1="58" x2="222" y2="58"></line>
+              <polygon class="plot-point" points="228,58 218,54 218,62"></polygon>
+              <text class="tick-label" x="195" y="44" text-anchor="middle">× 10</text>
+
+              <line class="curve-main" x1="264" y1="58" x2="318" y2="58"></line>
+              <polygon class="plot-point" points="324,58 314,54 314,62"></polygon>
+              <text class="tick-label" x="291" y="44" text-anchor="middle">× 10</text>
+
+              <path class="guide-line" fill="none" d="M52 108 L52 126 L244 126 L244 108"></path>
+              <text class="tick-label" x="148" y="146" text-anchor="middle">deux exposants d écart : facteur 1000 divisé par 10, soit 100</text>
+            </svg>
+          `,
+          notes: [
+            'Chaque pas vers la droite <strong>multiplie par $10$</strong> : c\'est ce que signifie ajouter $1$ à l\'exposant.',
+            'De $10^1$ à $10^3$, on fait deux pas, donc $10 \\times 10 = 100$ fois plus — pas deux fois plus.',
+            'C\'est ce qui rend la notation scientifique si pratique : quelques unités d\'exposant couvrent des écarts gigantesques.'
+          ],
+          reading: 'Compte les flèches entre deux puissances, pas la différence des exposants. Chaque flèche vaut une multiplication par $10$.',
+          caption: 'Chaque unité d\'exposant correspond à une multiplication par $10$.'
+        }
+      ],
       recap: [
         'Notation scientifique : $a \\times 10^n$ avec $1 \\leq a < 10$',
         'Multiplier → additionner les exposants ; diviser → soustraire les exposants',

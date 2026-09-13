@@ -107,6 +107,125 @@
         reading: 'Le principe est toujours le même : <strong>ce qu\'on fait à un plateau, on le fait à l\'autre</strong> — sinon la balance penche et l\'égalité n\'est plus vraie.',
         caption: 'Résolution de $4x = 20$ par la métaphore de la balance à deux plateaux : diviser les deux côtés par $4$ pour isoler $x = 5$.'
       },
+
+      /* SCHEMAS SECONDAIRES (2026-09-13). Une figure par MALENTENDU :
+         1. on defait les operations dans l'ORDRE INVERSE — l'eleve applique
+            les etapes dans le sens de lecture et bloque ;
+         2. ce qu'on fait a un membre, on le fait a l'AUTRE ENTIER, pas au
+            seul terme qu'on regarde ;
+         3. verifier en remplacant x par sa valeur : l'eleve croit que c'est
+            une politesse, c'est le seul controle qui existe. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'L\'ordre inverse',
+          title: 'On défait les opérations dans l\'ordre inverse',
+          description: 'Pour habiller, on met les chaussettes puis les chaussures. Pour déshabiller, on retire les chaussures <strong>puis</strong> les chaussettes. Une équation se défait de la même façon : par la dernière opération subie.',
+          svg: `
+            <svg viewBox="0 0 400 176" role="img" aria-labelledby="algebre-ordre-title algebre-ordre-desc">
+              <title id="algebre-ordre-title">Construction puis resolution d'une equation etape par etape</title>
+              <desc id="algebre-ordre-desc">En haut, on part de l'inconnue x et on construit l'expression en deux etapes : on multiplie d'abord par cinq, puis on retranche trois, ce qui donne cinq x moins trois egal vingt-sept. En bas, on defait ces operations en sens inverse : on ajoute d'abord trois, puis on divise par cinq, ce qui donne x egal six. Les fleches du bas vont de la droite vers la gauche, a l'oppose de celles du haut.</desc>
+
+              <text class="tick-label" x="24" y="46" text-anchor="start">on construit</text>
+              <text class="annotation-label" x="130" y="46" text-anchor="middle">x</text>
+              <line class="curve-main" x1="146" y1="42" x2="196" y2="42"></line>
+              <polygon class="plot-point" points="202,42 192,38 192,46"></polygon>
+              <text class="tick-label" x="172" y="30" text-anchor="middle">× 5</text>
+              <text class="annotation-label" x="228" y="46" text-anchor="middle">5x</text>
+              <line class="curve-main" x1="248" y1="42" x2="298" y2="42"></line>
+              <polygon class="plot-point" points="304,42 294,38 294,46"></polygon>
+              <text class="tick-label" x="274" y="30" text-anchor="middle">− 3</text>
+              <text class="annotation-label" x="342" y="46" text-anchor="middle">5x − 3</text>
+
+              <text class="tick-label" x="200" y="88" text-anchor="middle">équation : 5x − 3 = 27</text>
+
+              <text class="tick-label" x="24" y="130" text-anchor="start">on défait</text>
+              <text class="annotation-label" x="130" y="130" text-anchor="middle">x = 6</text>
+              <line class="curve-main" x1="202" y1="126" x2="152" y2="126"></line>
+              <polygon class="plot-point" points="146,126 156,122 156,130"></polygon>
+              <text class="tick-label" x="176" y="114" text-anchor="middle">÷ 5</text>
+              <text class="annotation-label" x="232" y="130" text-anchor="middle">5x = 30</text>
+              <line class="curve-main" x1="304" y1="126" x2="272" y2="126"></line>
+              <polygon class="plot-point" points="266,126 276,122 276,130"></polygon>
+              <text class="tick-label" x="288" y="114" text-anchor="middle">+ 3</text>
+              <text class="annotation-label" x="344" y="130" text-anchor="middle">27</text>
+
+              <text class="tick-label" x="200" y="166" text-anchor="middle">les flèches du bas vont dans l autre sens</text>
+            </svg>
+          `,
+          notes: [
+            'En construisant, la <strong>dernière</strong> opération subie par $x$ est le $-3$. C\'est donc la <strong>première</strong> à défaire.',
+            'On ajoute $3$ des deux côtés : $5x = 30$. Puis on divise par $5$ : $x = 6$.',
+            'Diviser par $5$ en premier n\'est pas interdit, mais il faut alors diviser <strong>tout</strong> le membre de gauche : on obtient $x - 0{,}6 = 5{,}4$, donc $x = 6$ également. L\'erreur serait d\'écrire $x - 3 = 5{,}4$, en oubliant de diviser aussi le $3$.'
+          ],
+          reading: 'Compare les deux lignes de flèches : elles parcourent le même chemin en sens opposé. C\'est exactement ce que tu fais en résolvant.',
+          caption: 'Résoudre, c\'est remonter le chemin de construction de l\'équation, dans l\'ordre inverse.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Les deux membres entiers',
+          title: 'Ce qu\'on fait d\'un côté, on le fait de l\'autre en entier',
+          description: 'L\'erreur n\'est pas d\'oublier l\'autre membre : c\'est de n\'en traiter <strong>qu\'une partie</strong>. Diviser par $2$ doit s\'appliquer à tout ce qui se trouve de l\'autre côté, pas seulement au premier terme rencontré.',
+          svg: `
+            <svg viewBox="0 0 400 172" role="img" aria-labelledby="algebre-membre-title algebre-membre-desc">
+              <title id="algebre-membre-title">Division correcte et division partielle des deux membres</title>
+              <desc id="algebre-membre-desc">On part de l'egalite deux x egal six plus huit. En haut, le calcul juste : on divise le membre de droite en entier, six plus huit fait quatorze, puis quatorze divise par deux donne sept. En dessous, en trait tirete, l'erreur frequente : l'eleve ne divise que le six et laisse le huit intact, ce qui donne trois plus huit egal onze, un resultat faux.</desc>
+
+              <text class="tick-label" x="200" y="34" text-anchor="middle">2x = 6 + 8</text>
+
+              <!-- Le JUSTE en premier et en teinte d'accent, l'erreur dessous
+                   en teinte faible et tirete : l'oeil lit le haut d'abord. -->
+              <text class="annotation-label" x="30" y="76" text-anchor="start">juste</text>
+              <text class="tick-label" x="110" y="76" text-anchor="start">on divise TOUT le membre de droite</text>
+              <text class="annotation-label" x="110" y="98" text-anchor="start">2x = 14 donc x = 7</text>
+
+              <text class="label-soft" x="30" y="132" text-anchor="start">erreur</text>
+              <text class="tick-label" x="110" y="132" text-anchor="start">on ne divise que le premier terme</text>
+              <line class="guide-line" x1="106" y1="140" x2="330" y2="140"></line>
+              <text class="label-soft" x="110" y="158" text-anchor="start">x = 3 + 8 = 11, ce qui ne convient pas</text>
+            </svg>
+          `,
+          notes: [
+            'Le membre de droite est un <strong>bloc</strong> : $6 + 8$ vaut $14$, et c\'est $14$ que l\'on divise par $2$.',
+            'La vérification tranche : avec $x = 7$, on a $2 \\times 7 = 14$ et $6 + 8 = 14$. Les deux membres coïncident.',
+            'Avec $x = 11$, on aurait $2 \\times 11 = 22$, alors que $6 + 8 = 14$. L\'égalité est rompue.'
+          ],
+          reading: 'Avant de diviser, réduis d\'abord chaque membre à un seul nombre quand c\'est possible. Tu n\'auras plus qu\'un terme à traiter de chaque côté.',
+          caption: 'Diviser une égalité, c\'est diviser chaque membre en entier, jamais un seul de ses termes.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Le contrôle qui ne coûte rien',
+          title: 'Remplacer x par sa valeur pour vérifier',
+          description: 'Une équation offre quelque chose de rare : on peut <strong>vérifier soi-même</strong> son résultat, sans corrigé. Il suffit de remplacer $x$ par la valeur trouvée et de comparer les deux membres.',
+          svg: `
+            <svg viewBox="0 0 400 168" role="img" aria-labelledby="algebre-verif-title algebre-verif-desc">
+              <title id="algebre-verif-title">Verification d'une solution en remplacant l'inconnue</title>
+              <desc id="algebre-verif-desc">On teste la valeur x egal six dans l'equation cinq x moins trois egal vingt-sept. Le membre de gauche donne cinq fois six moins trois, soit vingt-sept. Le membre de droite vaut vingt-sept. Les deux resultats sont identiques, ce qui confirme la solution. En dessous, on teste la valeur x egal cinq : le membre de gauche donne vingt-deux, different de vingt-sept, donc cette valeur est rejetee.</desc>
+
+              <text class="tick-label" x="200" y="30" text-anchor="middle">équation de départ : 5x − 3 = 27</text>
+
+              <text class="annotation-label" x="30" y="72" text-anchor="start">x = 6</text>
+              <text class="tick-label" x="110" y="72" text-anchor="start">5 × 6 − 3 = 27</text>
+              <text class="tick-label" x="250" y="72" text-anchor="start">et à droite : 27</text>
+              <text class="annotation-label" x="110" y="94" text-anchor="start">les deux côtés donnent le même nombre</text>
+
+              <text class="label-soft" x="30" y="130" text-anchor="start">x = 5</text>
+              <text class="tick-label" x="110" y="130" text-anchor="start">5 × 5 − 3 = 22</text>
+              <text class="tick-label" x="250" y="130" text-anchor="start">et à droite : 27</text>
+              <line class="guide-line" x1="106" y1="138" x2="330" y2="138"></line>
+              <text class="label-soft" x="110" y="156" text-anchor="start">22 et 27 diffèrent, donc 5 ne convient pas</text>
+            </svg>
+          `,
+          notes: [
+            'Vérifier ne consiste pas à refaire le calcul : on <strong>remplace</strong> $x$ par la valeur trouvée et on compare les deux membres.',
+            'Si les deux membres donnent le même nombre, la solution est juste — c\'est une certitude, pas une impression.',
+            'Cette vérification détecte aussi bien une erreur de signe qu\'une erreur d\'ordre des opérations.'
+          ],
+          reading: 'Prends l\'habitude de finir chaque équation par cette ligne. Elle coûte trente secondes et te dit, seul, si ton résultat tient.',
+          caption: 'Remplacer $x$ par la valeur trouvée : si les deux membres coïncident, la solution est juste.'
+        }
+      ],
       recap: [
         'L\'égalité est une balance : même opération des deux côtés',
         'Défaire les opérations de l\'extérieur vers l\'intérieur (inverse de la construction)',
