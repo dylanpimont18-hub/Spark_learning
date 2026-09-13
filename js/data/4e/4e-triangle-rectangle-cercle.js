@@ -86,6 +86,160 @@
         reading: 'Repère d\'abord le diamètre BC : si A est sur le cercle, l\'angle opposé à ce diamètre est automatiquement droit, quelle que soit la position de A.',
         caption: 'Théorème de l\'angle inscrit dans un demi-cercle : BC diamètre et A sur le cercle donc l\'angle en A vaut 90 degrés.'
       },
+
+      /* SCHEMAS SECONDAIRES (2026-09-13). Une figure par MALENTENDU :
+         1. « quel que soit A » n'est credible que si on MONTRE plusieurs A ;
+         2. l'hypothese « [BC] est un DIAMETRE » est celle qu'on oublie —
+            contre-exemple avec une corde quelconque ;
+         3. la mediane issue de l'angle droit vaut la moitie de l'hypotenuse,
+            consequence directe qu'on ne relie pas spontanement au cercle.
+         Coordonnees EXACTES : les points A sont des points RATIONNELS du cercle
+         (triplets 3-4-5 et 8-15-17 mis a l'echelle 80), donc le produit
+         scalaire vaut exactement 0 — un angle « rond » arrondi a deux
+         decimales donnait 89,9994 deg (scratchpad geo-exact.js). */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Quel que soit le point',
+          title: 'Trois positions de A, trois fois un angle droit',
+          description: 'Le théorème affirme que l\'angle est droit <strong>où que soit</strong> le point $A$ sur le cercle. Une seule figure ne prouve rien : en voici trois, sur le même cercle, avec le même diamètre.',
+          svg: `
+            <svg viewBox="0 0 400 172" role="img" aria-labelledby="cercle-troisA-title cercle-troisA-desc">
+              <title id="cercle-troisA-title">Trois triangles inscrits dans le meme demi-cercle</title>
+              <desc id="cercle-troisA-desc">Un cercle de centre O porte un diametre horizontal BC. Trois points differents sont places sur le demi-cercle superieur et relies chacun aux deux extremites du diametre. Les trois triangles obtenus ont tous un angle droit au sommet situe sur le cercle, marque par un petit carre. Les trois positions sont pourtant tres differentes : une a gauche, une au milieu, une a droite. L'angle droit ne depend donc pas de l'endroit choisi sur le cercle.</desc>
+
+              <circle class="frame-line" cx="200" cy="110" r="80" fill="color-mix(in srgb, var(--diagram-accent) 6%, transparent)"></circle>
+              <line class="curve-main" x1="120" y1="110" x2="280" y2="110"></line>
+              <circle class="plot-point" cx="120" cy="110" r="4"></circle>
+              <circle class="plot-point" cx="280" cy="110" r="4"></circle>
+              <circle class="plot-point-alt" cx="200" cy="110" r="3"></circle>
+              <text class="annotation-label" x="112" y="126" text-anchor="end">B</text>
+              <text class="annotation-label" x="288" y="126" text-anchor="start">C</text>
+              <text class="tick-label" x="200" y="126" text-anchor="middle">O</text>
+
+              <!-- A1 = (136,62) : point rationnel, dot(AB,AC) = 0 exactement. -->
+              <path class="grid-line" fill="none" d="M120 110 L136 62 L280 110"></path>
+              <circle class="plot-point" cx="136" cy="62" r="4"></circle>
+              <path class="guide-line" fill="none" d="M139.4 71.6 L147.9 74.4 L145.1 82.9"></path>
+              <text class="tick-label" x="130" y="54" text-anchor="middle">A</text>
+
+              <!-- A2 = (200,30) : sommet du demi-cercle. -->
+              <path class="grid-line" fill="none" d="M120 110 L200 30 L280 110"></path>
+              <circle class="plot-point" cx="200" cy="30" r="4"></circle>
+              <path class="guide-line" fill="none" d="M193.6 36.4 L200 42.7 L206.4 36.4"></path>
+              <text class="tick-label" x="200" y="22" text-anchor="middle">A</text>
+
+              <!-- A3 = (264,62) : symetrique de A1. -->
+              <path class="grid-line" fill="none" d="M120 110 L264 62 L280 110"></path>
+              <circle class="plot-point" cx="264" cy="62" r="4"></circle>
+              <path class="guide-line" fill="none" d="M254.9 82.9 L252.1 74.4 L260.6 71.6"></path>
+              <text class="tick-label" x="270" y="54" text-anchor="middle">A</text>
+
+              <text class="tick-label" x="200" y="164" text-anchor="middle">trois positions, trois angles droits</text>
+            </svg>
+          `,
+          notes: [
+            'Les trois points sont sur le <strong>même cercle</strong> et le segment $[BC]$ est le <strong>même diamètre</strong> à chaque fois.',
+            'Dans les trois triangles, l\'angle au sommet posé sur le cercle vaut exactement $90°$ — ce n\'est pas un effet de dessin.',
+            'C\'est ce que dit le théorème : la position de $A$ sur le cercle est <strong>libre</strong>, le résultat ne bouge pas.'
+          ],
+          reading: 'Choisis toi-même un quatrième point sur le cercle, relie-le à $B$ et à $C$ : tu obtiendras encore un angle droit. Le seul point interdit est celui qui tombe sur le diamètre lui-même.',
+          caption: 'Trois positions différentes de $A$ sur le cercle, et trois fois un angle droit en $A$.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'L\'hypothèse qu\'on oublie',
+          title: 'Sans diamètre, plus d\'angle droit',
+          description: 'Le théorème ne dit pas « un triangle inscrit dans un cercle est rectangle ». Il exige que $[BC]$ soit un <strong>diamètre</strong>, c\'est-à-dire qu\'il passe par le centre. Si la corde ne passe pas par le centre, l\'angle n\'est plus droit.',
+          svg: `
+            <svg viewBox="0 0 400 176" role="img" aria-labelledby="cercle-diam-title cercle-diam-desc">
+              <title id="cercle-diam-title">Comparaison entre une corde diametre et une corde quelconque</title>
+              <desc id="cercle-diam-desc">Deux cercles identiques sont dessines cote a cote. Sur celui de gauche, la corde passe par le centre : c'est un diametre, et le triangle inscrit a un angle droit au sommet oppose. Sur celui de droite, la corde ne passe pas par le centre, elle est plus courte, et l'angle au sommet oppose mesure environ 66 degres. Le petit carre de l'angle droit est remplace par un arc, et le centre du cercle est visiblement en dehors de la corde. L'hypothese du diametre est donc indispensable.</desc>
+
+              <!-- COMPARAISON : memes cercles, meme rayon 62, memes positions
+                   verticales. La SEULE difference est la position de la corde. -->
+              <circle class="frame-line" cx="100" cy="96" r="62" fill="color-mix(in srgb, var(--diagram-accent) 6%, transparent)"></circle>
+              <line class="curve-main" x1="38" y1="96" x2="162" y2="96"></line>
+              <circle class="plot-point-alt" cx="100" cy="96" r="3"></circle>
+              <text class="tick-label" x="100" y="112" text-anchor="middle">O</text>
+              <!-- A sur le cercle : (100+62*3/5, 96-62*4/5) = (137.2, 46.4) -->
+              <path class="grid-line" fill="none" d="M38 96 L137.2 46.4 L162 96"></path>
+              <circle class="plot-point" cx="137.2" cy="46.4" r="4"></circle>
+              <path class="guide-line" fill="none" d="M132.8 55.4 L141.1 58.6 L137.9 66.9"></path>
+              <text class="annotation-label" x="100" y="26" text-anchor="middle">corde = diamètre</text>
+              <text class="tick-label" x="100" y="168" text-anchor="middle">angle droit</text>
+
+              <circle class="frame-line" cx="300" cy="96" r="62" fill="color-mix(in srgb, var(--diagram-accent) 6%, transparent)"></circle>
+              <!-- Corde NON diametrale, a 24 unites sous le centre :
+                   demi-longueur = racine(62^2 - 24^2) = 57,17. L'angle inscrit
+                   vaut alors 67,2 deg, valeur MESUREE et annoncee telle quelle
+                   sous la figure. Une premiere version placait la corde a 30
+                   unites en annoncant « environ 66 degres » alors que l'angle
+                   reel valait 61,1 : la legende contredisait le dessin. -->
+              <line class="curve-main" x1="242.8" y1="120" x2="357.2" y2="120"></line>
+              <circle class="plot-point-alt" cx="300" cy="96" r="3"></circle>
+              <text class="tick-label" x="300" y="88" text-anchor="middle">O</text>
+              <path class="grid-line" fill="none" d="M242.8 120 L354.7 66.8 L357.2 120"></path>
+              <circle class="plot-point" cx="354.7" cy="66.8" r="4"></circle>
+              <path class="guide-line" fill="none" d="M347 76 A11 11 0 0 1 356 78" ></path>
+              <text class="annotation-label" x="300" y="26" text-anchor="middle">corde quelconque</text>
+              <text class="tick-label" x="300" y="168" text-anchor="middle">environ 67 degrés</text>
+            </svg>
+          `,
+          notes: [
+            'À gauche, la corde <strong>passe par le centre</strong> $O$ : c\'est un diamètre, et l\'angle en $A$ vaut $90°$.',
+            'À droite, la corde ne passe pas par $O$. Le sommet est pourtant bien sur le cercle, mais l\'angle ne vaut plus $90°$.',
+            'Avant d\'appliquer le théorème, vérifie donc toujours que le segment passe par le centre — c\'est l\'hypothèse, pas un détail.'
+          ],
+          reading: 'Regarde où se trouve le point $O$ dans chaque figure. À gauche il est <strong>sur</strong> la corde, à droite il est au-dessus. C\'est cette différence, et elle seule, qui fait disparaître l\'angle droit.',
+          caption: 'Le théorème exige un diamètre : avec une corde quelconque, l\'angle n\'est plus droit.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'La conséquence utile',
+          title: 'La médiane vers l\'hypoténuse vaut la moitié de l\'hypoténuse',
+          description: 'Si $A$ est sur le cercle et $[BC]$ un diamètre, alors $O$ est le milieu de $[BC]$ et $OA$ est un rayon. Donc $OA = OB = OC$ : dans un triangle rectangle, le milieu de l\'hypoténuse est <strong>à égale distance des trois sommets</strong>.',
+          svg: `
+            <svg viewBox="0 0 400 180" role="img" aria-labelledby="cercle-mediane-title cercle-mediane-desc">
+              <title id="cercle-mediane-title">Le milieu de l'hypotenuse est equidistant des trois sommets</title>
+              <desc id="cercle-mediane-desc">Un triangle rectangle est inscrit dans un cercle dont l'hypotenuse est un diametre. Le centre du cercle, note M, est le milieu de l'hypotenuse. Trois segments egaux relient M aux trois sommets du triangle : ils mesurent tous le rayon du cercle, soit la moitie de l'hypotenuse. Les trois longueurs egales sont marquees par un meme codage.</desc>
+
+              <!-- RAYON 68 et non 70 : avec 68, le point rationnel du triplet
+                   8-15-17 tombe sur des ENTIERS (260,72) et le produit scalaire
+                   est nul a la precision machine. A 70, l'arrondi a deux
+                   decimales donnait un angle de 90,0082 deg et un point a
+                   69,995 du centre — l'ecart est invisible a l'oeil mais la
+                   figure cessait d'etre exacte. -->
+              <circle class="grid-line" cx="200" cy="104" r="68" fill="none"></circle>
+              <polygon class="frame-line" points="132,104 268,104 260,72" fill="color-mix(in srgb, var(--diagram-accent) 12%, transparent)"></polygon>
+              <path class="grid-line" fill="none" d="M251.6 75.2 L254.8 83.5 L263.1 80.3"></path>
+
+              <line class="curve-main" x1="200" y1="104" x2="260" y2="72"></line>
+              <circle class="plot-point-alt" cx="200" cy="104" r="4"></circle>
+              <circle class="plot-point" cx="132" cy="104" r="4"></circle>
+              <circle class="plot-point" cx="268" cy="104" r="4"></circle>
+              <circle class="plot-point" cx="260" cy="72" r="4"></circle>
+
+              <text class="annotation-label" x="124" y="120" text-anchor="end">B</text>
+              <text class="annotation-label" x="276" y="120" text-anchor="start">C</text>
+              <text class="annotation-label" x="266" y="64" text-anchor="start">A</text>
+              <text class="annotation-label" x="200" y="122" text-anchor="middle">M</text>
+
+              <text class="tick-label" x="165" y="98" text-anchor="middle">rayon</text>
+              <text class="tick-label" x="235" y="98" text-anchor="middle">rayon</text>
+              <text class="tick-label" x="238" y="76" text-anchor="middle">rayon</text>
+              <text class="tick-label" x="200" y="166" text-anchor="middle">M milieu de l hypoténuse : MA = MB = MC</text>
+            </svg>
+          `,
+          notes: [
+            '$M$ est le milieu de $[BC]$, donc $MB = MC$ : c\'est la définition du milieu.',
+            'Mais $M$ est aussi le <strong>centre du cercle</strong>, et $A$ est dessus : donc $MA$ est un rayon, comme $MB$ et $MC$.',
+            'D\'où le résultat pratique : $MA = \\dfrac{BC}{2}$. Si l\'hypoténuse mesure $26$ cm, la médiane issue de l\'angle droit mesure $13$ cm.'
+          ],
+          reading: 'Les trois segments partant de $M$ ont la même longueur, parce que ce sont trois rayons du même cercle. C\'est la façon la plus rapide de retrouver ce résultat sans le retenir par cœur.',
+          caption: 'Le milieu de l\'hypoténuse est le centre du cercle circonscrit : il est à égale distance des trois sommets.'
+        }
+      ],
       recap: [
         'Si un côté d\'un triangle inscrit est un diamètre, l\'angle opposé vaut $90°$.',
         'Réciproque : si un triangle est rectangle, l\'hypoténuse est un diamètre du cercle circonscrit.',

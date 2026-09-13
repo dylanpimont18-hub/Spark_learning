@@ -105,6 +105,146 @@
         reading: 'Le cosinus ne fait intervenir que deux côtés : celui qui touche l\'angle (adjacent) et le plus long (hypoténuse).',
         caption: 'Triangle $ABC$ rectangle en $C$, avec l\'exemple chiffré du cours (échelle de 5 m à 60°).'
       },
+
+      /* SCHEMAS SECONDAIRES (2026-09-13). Une figure par MALENTENDU :
+         1. le cosinus ne depend pas de la TAILLE du triangle (obstacle n°1) ;
+         2. « adjacent » se lit par rapport a l'angle CHOISI, pas a la position
+            sur la feuille ;
+         3. cos ne peut pas depasser 1, ce qui donne un controle gratuit.
+         Coordonnees calculees (scratchpad geo-cos.js) : les deux triangles de
+         la figure 1 sont des 3-4-5 a l'echelle 14 et 22, angle en A verifie a
+         36,8699 deg dans les deux cas, cos = 0,8000 exactement. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Le malentendu n° 1',
+          title: 'Le cosinus dépend de l\'angle, pas de la taille du triangle',
+          description: 'Beaucoup d\'élèves pensent qu\'un plus grand triangle donne un plus grand cosinus. Ces deux triangles n\'ont <strong>pas la même taille</strong>, mais <strong>le même angle</strong> — et donc exactement le même cosinus.',
+          svg: `
+            <svg viewBox="0 0 400 200" role="img" aria-labelledby="cos-taille-title cos-taille-desc">
+              <title id="cos-taille-title">Deux triangles rectangles semblables de tailles differentes et de meme angle</title>
+              <desc id="cos-taille-desc">Deux triangles rectangles sont poses sur la meme ligne de base. Le petit a un cote adjacent de 4 unites et une hypotenuse de 5 unites. Le grand, une fois et demie plus grand, a un cote adjacent de 6 unites et une hypotenuse de 7,5 unites. Dans les deux cas l'angle etudie mesure le meme nombre de degres et le quotient du cote adjacent par l'hypotenuse vaut 0,8. La taille du dessin ne change donc pas la valeur du cosinus.</desc>
+
+              <!-- MEME LIGNE DE BASE (y = 150) et angle etudie au MEME sommet
+                   gauche : la seule difference visible doit etre la taille,
+                   sinon l'eleve lit autre chose dans la comparaison. -->
+              <line class="grid-line" x1="20" y1="150" x2="380" y2="150"></line>
+
+              <polygon class="frame-line" points="40,150 96,150 96,108" fill="color-mix(in srgb, var(--diagram-accent) 14%, transparent)"></polygon>
+              <path class="grid-line" fill="none" d="M87 150 L87 141 L96 141"></path>
+              <text class="tick-label" x="68" y="166" text-anchor="middle">adjacent = 4</text>
+              <text class="tick-label" x="60" y="120" text-anchor="end">hyp = 5</text>
+              <text class="annotation-label" x="34" y="145" text-anchor="end">angle</text>
+
+              <polygon class="frame-line" points="210,150 298,150 298,84" fill="color-mix(in srgb, var(--diagram-accent) 14%, transparent)"></polygon>
+              <path class="grid-line" fill="none" d="M289 150 L289 141 L298 141"></path>
+              <text class="tick-label" x="254" y="166" text-anchor="middle">adjacent = 6</text>
+              <text class="tick-label" x="238" y="104" text-anchor="end">hyp = 7,5</text>
+              <text class="annotation-label" x="204" y="145" text-anchor="end">angle</text>
+
+              <text class="label-soft" x="68" y="188" text-anchor="middle">4 ÷ 5 = 0,8</text>
+              <text class="label-soft" x="254" y="188" text-anchor="middle">6 ÷ 7,5 = 0,8</text>
+              <text class="annotation-label" x="200" y="30" text-anchor="middle">même angle, donc même cosinus</text>
+            </svg>
+          `,
+          notes: [
+            'Le grand triangle est le petit <strong>agrandi une fois et demie</strong> : $4 \\times 1{,}5 = 6$ et $5 \\times 1{,}5 = 7{,}5$.',
+            'Les deux quotients valent $0{,}8$ : en agrandissant, on multiplie le numérateur ET le dénominateur par le même nombre, donc le quotient ne bouge pas.',
+            'Retiens-le comme un contrôle : si tu changes seulement la taille d\'un triangle, <strong>aucun</strong> cosinus ne change.'
+          ],
+          reading: 'Compare les deux fractions écrites sous les triangles. Les nombres sont différents, le résultat est le même. Le cosinus est une propriété de l\'angle, pas du dessin.',
+          caption: 'Deux triangles semblables de tailles différentes : le cosinus de l\'angle vaut $0{,}8$ dans les deux cas.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Adjacent à quoi ?',
+          title: 'Le côté adjacent change quand on change d\'angle',
+          description: '« Adjacent » n\'est pas une place sur la feuille : c\'est une position <strong>par rapport à l\'angle qu\'on étudie</strong>. Dans le même triangle, le côté adjacent n\'est pas le même selon qu\'on travaille sur $\\hat{A}$ ou sur $\\hat{B}$.',
+          svg: `
+            <svg viewBox="0 0 400 196" role="img" aria-labelledby="cos-adj-title cos-adj-desc">
+              <title id="cos-adj-title">Le meme triangle rectangle etudie selon l'angle A puis selon l'angle B</title>
+              <desc id="cos-adj-desc">Le meme triangle rectangle, de cotes 6 et 8 et d'hypotenuse 10, est dessine deux fois. A gauche on etudie l'angle A : le cote adjacent est celui de longueur 8, qui touche l'angle A. A droite on etudie l'angle B : le cote adjacent est cette fois celui de longueur 6, qui touche l'angle B. L'hypotenuse, elle, reste la meme dans les deux cas. Le cote adjacent depend donc de l'angle choisi et non de la position du cote sur la feuille.</desc>
+
+              <!-- Le MEME triangle 6-8-10 (echelle 12) repete deux fois : seul
+                   l'angle etudie change, et donc le cote mis en avant. -->
+              <polygon class="frame-line" points="40,150 136,150 40,78" fill="color-mix(in srgb, var(--diagram-accent) 10%, transparent)"></polygon>
+              <path class="grid-line" fill="none" d="M49 150 L49 141 L40 141"></path>
+              <line class="curve-main" x1="40" y1="150" x2="136" y2="150"></line>
+              <text class="annotation-label" x="88" y="168" text-anchor="middle">adjacent = 8</text>
+              <text class="tick-label" x="32" y="118" text-anchor="end">6</text>
+              <text class="tick-label" x="96" y="106" text-anchor="start">hyp = 10</text>
+              <text class="annotation-label" x="140" y="145" text-anchor="start">A</text>
+              <text class="tick-label" x="88" y="36" text-anchor="middle">angle étudié : sommet A</text>
+              <text class="tick-label" x="88" y="188" text-anchor="middle">cos A = 8 ÷ 10 = 0,8</text>
+
+              <polygon class="frame-line" points="248,150 344,150 248,78" fill="color-mix(in srgb, var(--diagram-accent) 10%, transparent)"></polygon>
+              <path class="grid-line" fill="none" d="M257 150 L257 141 L248 141"></path>
+              <line class="curve-main" x1="248" y1="150" x2="248" y2="78"></line>
+              <text class="tick-label" x="296" y="168" text-anchor="middle">8</text>
+              <text class="annotation-label" x="240" y="118" text-anchor="end">adjacent = 6</text>
+              <text class="tick-label" x="304" y="106" text-anchor="start">hyp = 10</text>
+              <text class="annotation-label" x="244" y="72" text-anchor="end">B</text>
+              <text class="tick-label" x="296" y="36" text-anchor="middle">angle étudié : sommet B</text>
+              <text class="tick-label" x="296" y="188" text-anchor="middle">cos B = 6 ÷ 10 = 0,6</text>
+            </svg>
+          `,
+          notes: [
+            'Le triangle est <strong>le même</strong> des deux côtés : $6$, $8$ et $10$. Seul l\'angle étudié change.',
+            'Le côté adjacent est toujours celui qui <strong>touche l\'angle étudié sans être l\'hypoténuse</strong> : $8$ pour $\\hat{A}$, $6$ pour $\\hat{B}$.',
+            'L\'hypoténuse, elle, ne change jamais : elle est fixée par l\'angle droit, pas par l\'angle qu\'on étudie.'
+          ],
+          reading: 'Pose ton doigt sur l\'angle étudié. Deux côtés le touchent : l\'hypoténuse, et l\'autre — c\'est celui-là, l\'adjacent. Refais-le sur la figure de droite, tu tombes sur un côté différent.',
+          caption: 'Le même triangle $6$-$8$-$10$ : le côté adjacent vaut $8$ pour $\\hat{A}$ et $6$ pour $\\hat{B}$.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Le contrôle gratuit',
+          title: 'Un cosinus ne peut jamais dépasser 1',
+          description: 'L\'hypoténuse est le plus long côté du triangle. Le côté adjacent est donc toujours <strong>plus court</strong> qu\'elle, et leur quotient reste inférieur à $1$. Un résultat supérieur à $1$ signale une erreur, sans avoir à refaire le calcul.',
+          svg: `
+            <svg viewBox="0 0 400 172" role="img" aria-labelledby="cos-borne-title cos-borne-desc">
+              <title id="cos-borne-title">Le calcul juste et l'erreur de fraction renversee</title>
+              <desc id="cos-borne-desc">En haut, le calcul juste : le cote adjacent de 6 divise par l'hypotenuse de 10 donne 0,6, une valeur comprise entre 0 et 1. En dessous, en trait tirete, l'erreur frequente : l'eleve renverse la fraction et divise 10 par 6, ce qui donne environ 1,67. Une regle graduee de 0 a 2 montre que la valeur juste tombe dans la zone autorisee alors que la valeur erronee tombe au dela de 1, dans une zone qu'aucun cosinus ne peut atteindre.</desc>
+
+              <!-- PATRON « PIEGE » : le calcul JUSTE en premier et en teinte
+                   d'accent, l'erreur DESSOUS en teinte faible et en tirete.
+                   L'oeil lit le haut d'abord, donc il lit le vrai d'abord. -->
+              <text class="annotation-label" x="24" y="30" text-anchor="start">juste</text>
+              <text class="tick-label" x="88" y="30" text-anchor="start">adjacent ÷ hypoténuse = 6 ÷ 10 = 0,6</text>
+
+              <text class="label-soft" x="24" y="58" text-anchor="start">erreur</text>
+              <text class="tick-label" x="88" y="58" text-anchor="start">hypoténuse ÷ adjacent = 10 ÷ 6 = 1,67</text>
+              <line class="guide-line" x1="88" y1="64" x2="340" y2="64"></line>
+
+              <!-- Regle graduee 0..2, echelle 150 unites par unite. -->
+              <line class="frame-line" x1="40" y1="120" x2="340" y2="120"></line>
+              <line class="frame-line" x1="40" y1="114" x2="40" y2="126"></line>
+              <line class="frame-line" x1="190" y1="114" x2="190" y2="126"></line>
+              <line class="frame-line" x1="340" y1="114" x2="340" y2="126"></line>
+              <text class="tick-label" x="40" y="140" text-anchor="middle">0</text>
+              <text class="tick-label" x="190" y="140" text-anchor="middle">1</text>
+              <text class="tick-label" x="340" y="140" text-anchor="middle">2</text>
+
+              <!-- Zone permise 0..1 : aplat discret, c'est du decor. -->
+              <rect x="40" y="108" width="150" height="12" fill="color-mix(in srgb, var(--diagram-accent) 18%, transparent)" stroke="none"></rect>
+              <circle class="plot-point" cx="130" cy="120" r="5"></circle>
+              <text class="tick-label" x="130" y="104" text-anchor="middle">0,6</text>
+
+              <circle class="plot-point-alt" cx="290" cy="120" r="5"></circle>
+              <text class="label-soft" x="290" y="104" text-anchor="middle">1,67</text>
+              <text class="tick-label" x="115" y="162" text-anchor="middle">valeurs possibles</text>
+              <text class="tick-label" x="278" y="162" text-anchor="middle">aucun cosinus ici</text>
+            </svg>
+          `,
+          notes: [
+            'Le côté adjacent est un côté de l\'angle droit : il est <strong>toujours plus court</strong> que l\'hypoténuse.',
+            'Un quotient dont le numérateur est plus petit que le dénominateur est inférieur à $1$ : $\\cos$ vit donc entre $0$ et $1$.',
+            'Si tu trouves $1{,}67$, tu as divisé à l\'envers. Recommence en mettant l\'hypoténuse <strong>en bas</strong> de la fraction.'
+          ],
+          reading: 'Avant de valider un cosinus, regarde s\'il tient dans la zone colorée. Au-delà de $1$, inutile de chercher où est l\'erreur de calcul : la fraction est renversée.',
+          caption: 'Un cosinus tombe toujours entre $0$ et $1$ : au-delà, la fraction a été écrite à l\'envers.'
+        }
+      ],
       recap: [
         '$\\cos(\\hat{A}) = \\dfrac{\\text{côté adjacent}}{\\text{hypoténuse}}$ — le rapport est toujours compris entre $0$ et $1$.',
         'Le côté adjacent change selon l\'angle considéré : c\'est le côté qui touche l\'angle (sans être l\'hypoténuse).',
