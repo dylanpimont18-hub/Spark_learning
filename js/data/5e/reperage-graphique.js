@@ -13,7 +13,16 @@ window.MODULES.push({
     physics: 'Suivi de croissance en SVT, relevés météo, mouvement à vitesse constante en physique-chimie',
 
     cours: {
-      intro: 'Un graphique traduit visuellement une relation entre deux grandeurs. L\'axe horizontal (<strong>abscisse</strong>) porte la variable que l\'on contrôle, l\'axe vertical (<strong>ordonnée</strong>) porte ce que l\'on observe.<br/><br/>' +
+      /* DECOUVRIR REECRIT LE 2026-09-13. L'intro ouvrait sur « un graphique
+         traduit une relation entre deux grandeurs », soit la definition du mot
+         graphique. La question retenue oppose deux estimations qui se
+         RESSEMBLENT — meme droite, meme geste — et dont une seule est
+         legitime : c'est la distinction interpoler/extrapoler, qui est le cœur
+         du chapitre et sa seule vraie difficulte. */
+      intro: 'Un plant mesure $12$ cm au bout de $2$ semaines et $28$ cm au bout de $6$ semaines. Peux-tu estimer sa taille à $4$ semaines ? Et à $50$ semaines ?<br/><br/>' +
+        'Les deux questions se ressemblent, et la même droite semble répondre aux deux. Pourtant la première estimation est raisonnable — $4$ semaines tombe <strong>entre</strong> les deux mesures — tandis que la seconde annoncerait $2$ mètres de haut pour une plante en pot.<br/><br/>' +
+        'Prolonger une droite est un geste facile ; savoir jusqu\'où on a le droit de le faire est tout le sujet.<br/><br/>' +
+        'Un graphique traduit visuellement une relation entre deux grandeurs. L\'axe horizontal (<strong>abscisse</strong>) porte la variable que l\'on contrôle, l\'axe vertical (<strong>ordonnée</strong>) porte ce que l\'on observe.<br/><br/>' +
         '<strong>Interpoler</strong> signifie estimer une valeur entre deux points mesurés — c\'est fiable si la courbe est régulière. <strong>Extrapoler</strong> signifie prolonger au-delà des mesures — c\'est risqué car une courbe linéaire dans une plage peut devenir non linéaire ailleurs.<br/><br/>' +
         'La <strong>pente</strong> d\'une droite $a = \\dfrac{\\Delta y}{\\Delta x}$ a toujours un sens concret : si $y$ = distance parcourue et $x$ = temps, alors $a$ est une <strong>vitesse</strong> (en km/h par exemple) — le nombre de km gagnés à chaque heure qui passe.<br/><br/>' +
         'Ne jamais lire un graphe sans vérifier les <strong>unités sur les axes</strong> et l\'origine. Un graphique sans légende est inutilisable !',

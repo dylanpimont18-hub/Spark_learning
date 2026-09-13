@@ -13,7 +13,14 @@ window.MODULES.push({
     physics: 'Calcul du volume d\'une canalisation cylindrique, d\'un réservoir ou d\'une citerne',
 
     cours: {
-      intro: 'La formule universelle $V = \\mathcal{A}_{\\text{base}} \\times h$ s\'applique à tout <strong>prisme</strong> et tout <strong>cylindre</strong>. L\'intuition : le volume est la surface de la base « empilée » sur une hauteur $h$.<br/><br/>' +
+      /* DECOUVRIR REECRIT LE 2026-09-13. L'intro donnait la formule en premier
+         mot. La question retenue porte sur une citerne CYLINDRIQUE, dont le
+         volume n'est calculable par aucun outil de sixieme, ou seul le pave
+         droit etait vu. Valeur VERIFIEE : 3,14 x 0,6^2 x 2 = 2,261 m3, soit
+         environ 2 260 litres. */
+      intro: 'Une citerne cylindrique mesure $1{,}2$ m de diamètre et $2$ m de haut. Combien de litres d\'eau peut-elle contenir ?<br/><br/>' +
+        'La question paraît simple, et pourtant : en sixième, tu ne savais calculer que le volume d\'un pavé droit, en multipliant trois longueurs. Ici il n\'y en a pas trois — la base est ronde. Il va falloir une autre idée, et elle vaudra aussi bien pour les prismes que pour les cylindres.<br/><br/>' +
+        'La formule universelle $V = \\mathcal{A}_{\\text{base}} \\times h$ s\'applique à tout <strong>prisme</strong> et tout <strong>cylindre</strong>. L\'intuition : le volume est la surface de la base « empilée » sur une hauteur $h$.<br/><br/>' +
         '<strong>Point clé sur la hauteur :</strong> la hauteur est toujours perpendiculaire aux bases — si le prisme est « incliné », la hauteur est différente du côté latéral.<br/><br/>' +
         'Pour un <strong>cylindre</strong>, la base est un disque : $V = \\pi r^2 h$. Attention à ne pas confondre rayon et diamètre !<br/><br/>' +
         '<strong>Conversion :</strong> $1$ dm³ $= 1$ L exactement, et $1$ m³ $= 1000$ L. En chimie, le volume d\'une fiole jaugée est en mL, et la conversion vers cm³ est immédiate ($1$ mL $= 1$ cm³).',

@@ -13,7 +13,15 @@ window.MODULES.push({
     physics: 'Calcul de la vitesse moyenne d\'un mobile, lecture d\'échelles sur une carte ou un plan d\'architecte',
 
     cours: {
-      intro: 'La proportionnalité est l\'outil mathématique de la <strong>mise à l\'échelle</strong> : quand on double une grandeur, l\'autre double aussi. Les pourcentages sont un cas particulier où le coefficient est exprimé sur 100.<br/><br/>' +
+      /* DECOUVRIR REECRIT LE 2026-09-13. L'intro ouvrait sur la definition de
+         la proportionnalite. La question retenue oppose deux situations qui se
+         RESSEMBLENT — deux grandeurs qui augmentent ensemble — et dont une
+         seule est proportionnelle : c'est la reconnaissance, et non le calcul,
+         qui est la difficulte du chapitre. Valeur VERIFIEE : 3,60 / 3 x 7 =
+         8,40 EUR. */
+      intro: 'Trois croissants coûtent $3{,}60$ €. Combien coûtent sept croissants ? Un enfant de $2$ ans mesure $86$ cm. Combien mesure-t-il à $8$ ans ?<br/><br/>' +
+        'La première question a une réponse, $8{,}40$ €. La seconde n\'en a pas. Pourtant les deux se ressemblent : dans les deux cas, une grandeur augmente quand l\'autre augmente. Ce qui les sépare n\'est donc pas le calcul, c\'est de savoir quand tu as le <strong>droit</strong> de le faire.<br/><br/>' +
+        'La proportionnalité est l\'outil mathématique de la <strong>mise à l\'échelle</strong> : quand on double une grandeur, l\'autre double aussi. Les pourcentages sont un cas particulier où le coefficient est exprimé sur 100.<br/><br/>' +
         '<strong>Piège courant avec les pourcentages :</strong> une baisse de $20\\%$ puis une hausse de $20\\%$ ne revient PAS au prix initial ! Exemple : $100 \\to 80 \\to 96$ (pas $100$). En effet $0{,}8 \\times 1{,}2 = 0{,}96$.<br/><br/>' +
         'Les <strong>échelles cartographiques</strong> sont des rapports : $\\dfrac{1}{25\\,000}$ signifie que $1$ cm sur la carte = $25\\,000$ cm = $250$ m en réalité.<br/><br/>' +
         'La <strong>vitesse</strong> $v = \\dfrac{d}{t}$ est le coefficient de proportionnalité entre distance et temps quand la vitesse est constante. Toujours vérifier la cohérence des unités : $1$ km/h $= \\dfrac{1}{3{,}6}$ m/s.',

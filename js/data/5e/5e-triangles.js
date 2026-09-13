@@ -13,7 +13,16 @@ window.MODULES.push({
     physics: false,
 
     cours: {
-      intro: 'Le triangle est la <strong>forme géométrique la plus simple</strong> que l\'on puisse tracer avec des segments : trois côtés, trois sommets, trois angles. Mais derrière cette simplicité se cachent des propriétés puissantes, utilisées partout dans le monde réel.<br/><br/>' +
+      /* DECOUVRIR REECRIT LE 2026-09-13. L'intro ouvrait sur « le triangle est
+         la forme la plus simple », une definition a laquelle l'eleve n'a rien a
+         repondre. La question retenue n'est resoluble par AUCUN outil
+         anterieur : rien en sixieme ne dit qu'un triplet de longueurs peut etre
+         impossible, et l'eleve qui essaie de tracer le decouvre par l'echec.
+         Longueurs VERIFIEES : 3 + 4 = 7 < 8, le triangle ne ferme pas ;
+         6 + 7 = 13 > 10, celui-la ferme. */
+      intro: 'Prends trois baguettes de $3$ cm, $4$ cm et $8$ cm et essaie de fabriquer un triangle. Tu n\'y arriveras pas.<br/><br/>' +
+        'Avec $6$ cm, $7$ cm et $10$ cm, en revanche, cela marche du premier coup. Trois longueurs ne suffisent donc pas à faire un triangle : encore faut-il qu\'elles puissent se rejoindre. Sais-tu dire à l\'avance lesquelles conviennent, sans rien tracer ?<br/><br/>' +
+        'Le triangle est la <strong>forme géométrique la plus simple</strong> que l\'on puisse tracer avec des segments : trois côtés, trois sommets, trois angles. Mais derrière cette simplicité se cachent des propriétés puissantes, utilisées partout dans le monde réel.<br/><br/>' +
         'Sa propriété fondamentale : la <strong>somme des angles intérieurs est toujours $180°$</strong>, quelle que soit la forme du triangle. <strong>Pourquoi $180°$ ?</strong> Si l\'on trace une droite parallèle au côté de base passant par le sommet opposé, les trois angles du triangle forment exactement un angle plat (alternes-internes). Connaître deux angles suffit donc toujours à trouver le troisième !<br/><br/>' +
         'L\'<strong>inégalité triangulaire</strong> ($c < a + b$) traduit une réalité physique : le chemin direct entre deux points est toujours plus court que le chemin qui passe par un troisième point. Il suffit de vérifier que le <strong>plus grand côté</strong> est strictement inférieur à la somme des deux autres. Si cette condition n\'est pas respectée, le triangle est tout simplement impossible à construire : essaie de fermer un triangle avec des baguettes de $3$ cm, $4$ cm et $10$ cm — tu n\'y arriveras pas !<br/><br/>' +
         'Dans la <strong>vie courante</strong>, le triangle est partout : la charpente d\'un toit, les pylônes électriques, les ponts en treillis, les grues de chantier… Pourquoi ? Parce que le triangle est la seule figure géométrique qui est <strong>indéformable</strong> : un carré peut s\'aplatir en losange, mais un triangle garde toujours sa forme. C\'est pour cela que les ingénieurs l\'utilisent dans toute structure qui doit résister à des forces.<br/><br/>' +

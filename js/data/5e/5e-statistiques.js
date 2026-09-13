@@ -13,7 +13,14 @@ window.MODULES.push({
     physics: false,
 
     cours: {
-      intro: 'Les statistiques résument une série de données par quelques <strong>indicateurs clés</strong>. La <strong>moyenne</strong> donne la valeur « typique » mais peut être trompée par des valeurs extrêmes.<br/><br/>' +
+      /* DECOUVRIR REECRIT LE 2026-09-13. L'intro annoncait « les statistiques
+         resument une serie », une definition. La question retenue met l'eleve
+         devant une moyenne JUSTE et pourtant trompeuse, ce qu'aucun calcul ne
+         resout : il faut la notion de dispersion pour en sortir.
+         Moyenne VERIFIEE : (9 x 10 + 100) / 10 = 19. */
+      intro: 'Dans un groupe de dix personnes, neuf gagnent $10$ € par jour et la dixième $100$ €. Le revenu moyen est donc de $19$ € par jour. Cette phrase est-elle honnête ?<br/><br/>' +
+        'Le calcul est exact : $19$ € est bien la moyenne. Mais <strong>personne</strong> dans ce groupe ne gagne $19$ € — neuf gagnent bien moins, une gagne bien plus. Un nombre parfaitement juste peut donc donner une idée fausse de ce qu\'il résume.<br/><br/>' +
+        'Les statistiques résument une série de données par quelques <strong>indicateurs clés</strong>. La <strong>moyenne</strong> donne la valeur « typique » mais peut être trompée par des valeurs extrêmes.<br/><br/>' +
         'Exemple : si $9$ élèves ont $10$/20 et $1$ élève a $100$/20 (erreur), la moyenne passe à $19$ — complètement faussée. C\'est pourquoi la médiane (valeur du milieu) est parfois plus représentative.<br/><br/>' +
         'L\'<strong>étendue</strong> mesure la dispersion (différence max − min) mais ne dit rien sur la répartition des valeurs entre les deux extrêmes.<br/><br/>' +
         'Pour calculer une <strong>moyenne pondérée</strong> : multiplier chaque valeur par son effectif (ou coefficient), sommer, diviser par l\'effectif total. Ne pas faire la moyenne des valeurs sans tenir compte des effectifs !',

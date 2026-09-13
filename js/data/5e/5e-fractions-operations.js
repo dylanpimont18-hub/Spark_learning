@@ -13,7 +13,15 @@ window.MODULES.push({
     physics: false,
 
     cours: {
-      intro: 'Additionner des fractions nécessite un <strong>dénominateur commun</strong> pour la même raison qu\'on ne peut pas additionner des pommes et des oranges directement : $\\dfrac{1}{3} + \\dfrac{1}{4}$ ne vaut pas $\\dfrac{2}{7}$ !<br/><br/>' +
+      /* DECOUVRIR REECRIT LE 2026-09-13. L'intro donnait la regle (« il faut un
+         denominateur commun ») avant d'avoir pose le probleme. La question
+         d'ouverture doit etre une question a laquelle la notion du chapitre est
+         la SEULE reponse : ici, deux parts de tailles differentes qu'aucun
+         comptage direct ne permet de reunir. */
+      intro: 'Tu as mangé le tiers d\'une tablette de chocolat, ton voisin le quart d\'une tablette identique. À vous deux, quelle part d\'une tablette avez-vous mangée ?<br/><br/>' +
+        'Impossible de compter directement : un tiers et un quart ne sont pas des parts de la même taille. Additionner « $1$ part » et « $1$ part » donnerait $2$, ce qui ne veut rien dire, et additionner les dénominateurs donnerait $\\dfrac{2}{7}$ — soit <strong>moins</strong> que le tiers de départ, alors qu\'on a ajouté quelque chose.<br/><br/>' +
+        'Il faut donc d\'abord redécouper les deux tablettes de la même façon. C\'est tout le chapitre.<br/><br/>' +
+        'Additionner des fractions nécessite un <strong>dénominateur commun</strong> pour la même raison qu\'on ne peut pas additionner des pommes et des oranges directement : $\\dfrac{1}{3} + \\dfrac{1}{4}$ ne vaut pas $\\dfrac{2}{7}$ !<br/><br/>' +
         'On cherche un <strong>multiple commun</strong> aux deux dénominateurs, puis on amplifie chaque fraction pour l’amener à ce dénominateur. Multiplier les deux dénominateurs entre eux marche toujours ; en listant leurs multiples on trouve souvent plus petit, ce qui évite d’avoir à simplifier à la fin.<br/><br/>' +
         'Pour la <strong>multiplication</strong>, c\'est plus simple : on multiplie directement numérateurs entre eux et dénominateurs entre eux, sans chercher de dénominateur commun. Pour la <strong>division</strong>, on multiplie par l\'inverse du diviseur.<br/><br/>' +
         'Partager une recette, cumuler des durées, additionner des parts de budget : dès qu’on réunit deux grandeurs découpées différemment, il faut savoir les ramener au même dénominateur.',

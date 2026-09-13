@@ -13,7 +13,14 @@ window.MODULES.push({
     physics: false,
 
     cours: {
-      intro: 'Quand une <strong>sécante</strong> coupe deux droites parallèles, elle crée des paires d\'angles avec des relations précises.<br/><br/>' +
+      /* DECOUVRIR REECRIT LE 2026-09-13. L'intro ouvrait sur l'enonce des
+         proprietes, donc sur la reponse. La question retenue est celle du
+         menuisier : verifier un parallelisme SANS pouvoir prolonger les droites
+         jusqu'a leur intersection eventuelle, ce qui est le seul cas ou les
+         angles deviennent indispensables — partout ailleurs, la regle suffit. */
+      intro: 'Deux planches doivent être parfaitement parallèles. Elles font trois mètres de long, tu n\'as qu\'un rapporteur, et tu ne peux pas les prolonger pour voir si elles finissent par se croiser. Comment t\'en assurer ?<br/><br/>' +
+        'Mesurer l\'écart en deux endroits ne suffit pas tout à fait : rien ne dit qu\'il ne varie pas ailleurs. Il existe pourtant une vérification qui se fait en un seul point, avec un seul trait tracé en travers — et elle, elle est certaine.<br/><br/>' +
+        'Quand une <strong>sécante</strong> coupe deux droites parallèles, elle crée des paires d\'angles avec des relations précises.<br/><br/>' +
         'Les <strong>alternes-internes</strong> (configuration en Z) sont <strong>égaux</strong>. Les <strong>correspondants</strong> (configuration en F) sont <strong>égaux</strong>. Les <strong>angles internes du même côté</strong> de la sécante (configuration en U) sont <strong>supplémentaires</strong> (somme = $180°$).<br/><br/>' +
         '<strong>Point clé :</strong> ces propriétés ne valent que si les droites sont parallèles — et réciproquement, si ces propriétés sont vérifiées, alors les droites sont forcément parallèles. C\'est une façon de <em>démontrer</em> le parallélisme.<br/><br/>' +
         'En optique, les rayons parallèles incidents sur un miroir vérifient ces propriétés angulaires, ce qui explique la construction des images dans les miroirs plans.',

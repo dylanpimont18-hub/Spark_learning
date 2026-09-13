@@ -13,7 +13,15 @@ window.MODULES.push({
     physics: false,
 
     cours: {
-      intro: 'La probabilité quantifie l\'incertitude d\'un événement sur une échelle de <strong>$0$ (impossible) à $1$ (certain)</strong>.<br/><br/>' +
+      /* DECOUVRIR REECRIT LE 2026-09-13. L'intro ouvrait sur la definition
+         d'une probabilite. La question retenue est celle qui piege le plus
+         surement : deux issues, donc « une chance sur deux » — un raisonnement
+         que rien dans le cours anterieur ne permet de refuter.
+         Valeur VERIFIEE : 1 secteur sur 8 donne 0,125 et non 0,5. */
+      intro: 'À une fête foraine, une roue est partagée en huit secteurs identiques, dont un seul fait gagner. Tu joues une fois : ou tu gagnes, ou tu perds. Y a-t-il une chance sur deux ?<br/><br/>' +
+        'Le raisonnement semble solide — deux issues, donc une chance sur deux — et il est pourtant faux. Il suffit de regarder la roue : le secteur gagnant occupe un huitième du tour, pas la moitié.<br/><br/>' +
+        'Compter les issues ne suffit donc jamais. Encore faut-il savoir si elles ont la même chance de se produire, et c\'est là que tout se joue.<br/><br/>' +
+        'La probabilité quantifie l\'incertitude d\'un événement sur une échelle de <strong>$0$ (impossible) à $1$ (certain)</strong>.<br/><br/>' +
         '<strong>Équiprobabilité :</strong> quand tous les résultats ont la même chance, $P(A) = \\dfrac{\\text{cas favorables}}{\\text{cas possibles}}$. Attention au raisonnement intuitif : « il y a deux issues (gagner ou perdre), donc $P = \\dfrac{1}{2}$ » est faux si les issues ne sont pas équiprobables.<br/><br/>' +
         'Le <strong>sophisme du joueur</strong> : après 5 piles de suite à pile-ou-face, la probabilité d\'obtenir face reste $\\dfrac{1}{2}$ — la pièce n\'a pas de mémoire. Chaque lancer est indépendant.<br/><br/>' +
         'L\'<strong>événement contraire</strong> $\\bar{A}$ (« $A$ ne se réalise pas ») vérifie $P(\\bar{A}) = 1 - P(A)$ — souvent plus simple à calculer que $P(A)$ directement.',

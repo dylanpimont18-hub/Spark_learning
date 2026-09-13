@@ -13,7 +13,16 @@ window.MODULES.push({
     physics: 'Calcul numérique de formules physiques : $E = \\frac{1}{2}mv^2$, $P = RI^2$',
 
     cours: {
-      intro: 'Les priorités des opérations sont une <strong>convention universelle</strong> qui garantit qu\'une expression mathématique a une seule interprétation. Sans cette convention, $2 + 3 \\times 4$ pourrait valoir $20$ ou $14$ selon l\'ordre de lecture.<br/><br/>' +
+      /* DECOUVRIR REECRIT LE 2026-09-13. L'intro annoncait « les priorites sont
+         une convention universelle » : la reponse avant la question. Or ce
+         chapitre est le seul de l'annee ou l'on ne demontre RIEN — on fixe un
+         usage. Une entree historique convient donc mieux qu'une mise en
+         situation, qui serait ici decorative : le desaccord entre deux calculs
+         justes est un fait, pas une anecdote plaquee. */
+      intro: 'Demande à deux personnes de calculer $2 + 3 \\times 4$. L\'une répondra $14$, l\'autre $20$. Laquelle se trompe ?<br/><br/>' +
+        'Aucune des deux. La première a multiplié avant d\'additionner, la seconde a lu de gauche à droite, et chacune a calculé juste. Le problème n\'est pas dans les calculs : il est dans l\'<strong>écriture</strong>, qui ne dit pas par où commencer.<br/><br/>' +
+        'Les mathématiciens ont mis des siècles à s\'accorder là-dessus, et il a fallu trancher — non pas parce qu\'un ordre serait plus vrai que l\'autre, mais pour qu\'une même expression ne veuille dire qu\'une seule chose partout dans le monde.<br/><br/>' +
+        'Les priorités des opérations sont une <strong>convention universelle</strong> qui garantit qu\'une expression mathématique a une seule interprétation. Sans cette convention, $2 + 3 \\times 4$ pourrait valoir $20$ ou $14$ selon l\'ordre de lecture.<br/><br/>' +
         'L\'ordre est : <strong>Parenthèses → Exposants/Racines → Multiplications/Divisions → Additions/Soustractions</strong> (mémo : PEMDAS ou « Cher Ami »).<br/><br/>' +
         '<strong>Le trait de fraction agit comme des parenthèses</strong> : $\\dfrac{8+4}{2} = (8+4) \\div 2 = 6$, mais $8 + 4 \\div 2 = 8 + 2 = 10$.<br/><br/>' +
         'En physique, cela évite les erreurs classiques : dans $E_c = \\dfrac{1}{2}mv^2$, c\'est $v$ seul qui est au carré (pas $mv$), et dans $P = RI^2$, c\'est $I$ seul (pas $RI$).',

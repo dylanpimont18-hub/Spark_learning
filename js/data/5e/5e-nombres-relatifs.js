@@ -13,7 +13,16 @@ window.MODULES.push({
     physics: 'Coordonnées de vecteurs, températures, altitudes, potentiel électrique',
 
     cours: {
-      intro: 'Les nombres relatifs étendent la droite numérique dans les deux sens. Un nombre négatif n\'est pas « moins que zéro » de façon mystérieuse : c\'est une <strong>direction opposée</strong>, un manque, un écart vers le bas.<br/><br/>' +
+      /* DECOUVRIR REECRIT LE 2026-09-13. L'intro ouvrait sur « Les nombres
+         relatifs etendent la droite numerique » : une definition, a laquelle
+         l'eleve n'a rien a repondre. Test du cahier des charges : si l'on peut
+         repondre a la question d'ouverture SANS la notion du chapitre, la
+         question est mal choisie. Ici l'ecart entre deux temperatures dont
+         l'une est negative n'est calculable par AUCUN outil de sixieme — la
+         soustraction d'entiers positifs donne 3, ce qui est faux. */
+      intro: 'Ce matin il fait $-4$ °C ; cet après-midi, $7$ °C. De combien la température a-t-elle monté ?<br/><br/>' +
+        'La réponse n\'est ni $3$ ni $7$ : il faut d\'abord remonter les $4$ degrés qui séparent $-4$ de zéro, puis les $7$ suivants — soit $11$ degrés en tout. Aucun outil de sixième ne donne ce résultat, parce que les nombres s\'y arrêtaient à zéro. Il en faut de nouveaux.<br/><br/>' +
+        'Les nombres relatifs étendent la droite numérique dans les deux sens. Un nombre négatif n\'est pas « moins que zéro » de façon mystérieuse : c\'est une <strong>direction opposée</strong>, un manque, un écart vers le bas.<br/><br/>' +
         'En physique, le signe porte une information physique : $-5$ N signifie une force vers la gauche si l\'on a choisi la droite comme sens positif. $-120$ m signifie 120 m sous la surface de la mer.<br/><br/>' +
         '<strong>Règle d\'or de la soustraction :</strong> $a - b = a + (-b)$ — soustraire un nombre revient à ajouter son opposé. Ainsi $3 - (-5) = 3 + 5 = 8$ : soustraire un négatif augmente la valeur.<br/><br/>' +
         'La <strong>valeur absolue</strong> $|a|$ mesure la distance à zéro, indépendamment du signe : $|-7| = |+7| = 7$. La distance entre deux points $A$ et $B$ sur une droite graduée vaut $|x_B - x_A|$.',

@@ -13,7 +13,15 @@ window.MODULES.push({
     physics: false,
 
     cours: {
-      intro: 'Les figures complexes se décomposent toujours en <strong>figures simples</strong> (rectangles, triangles, disques). L\'aire totale est la somme (ou différence) des aires des parties.<br/><br/>' +
+      /* DECOUVRIR REECRIT LE 2026-09-13. L'intro ouvrait sur la METHODE (« les
+         figures complexes se decomposent »), c'est-a-dire sur la reponse. La
+         question retenue porte sur une figure qu'aucune formule connue ne
+         couvre : c'est l'absence de formule qui rend la decomposition
+         necessaire, et il faut la faire sentir avant de la nommer.
+         Aire VERIFIEE : 12 x 8 - 4 x 3 = 84 m2. */
+      intro: 'Un terrain a la forme d\'un rectangle de $12$ m sur $8$ m dont on a retiré un coin carré de $4$ m sur $3$ m. Quelle est son aire ?<br/><br/>' +
+        'Cherche la formule de « l\'aire d\'un terrain en forme de L » : elle n\'existe pas, et elle n\'existera jamais, car les formes possibles sont innombrables. Il faut donc se débrouiller avec les seules figures dont tu connais déjà l\'aire.<br/><br/>' +
+        'Les figures complexes se décomposent toujours en <strong>figures simples</strong> (rectangles, triangles, disques). L\'aire totale est la somme (ou différence) des aires des parties.<br/><br/>' +
         '<strong>Règle de conversion des aires :</strong> quand on passe d\'une unité de longueur à une autre, l\'exposant $2$ s\'applique aussi au facteur de conversion : $1$ m $= 100$ cm, donc $1$ m² $= 100^2$ cm² $= 10\\,000$ cm². Beaucoup d\'élèves multiplient par $100$ au lieu de $10\\,000$ !<br/><br/>' +
         'Le <strong>disque</strong> de rayon $r$ a une aire $\\pi r^2$ — c\'est $r$ seul au carré, pas $\\pi r$ entier. Le périmètre (ou <strong>circonférence</strong>) vaut $2\\pi r$.<br/><br/>' +
         'Pour les <strong>figures composées</strong>, bien identifier si on ajoute une partie (rectangle + demi-disque) ou si on soustrait (carré avec un trou circulaire).',
