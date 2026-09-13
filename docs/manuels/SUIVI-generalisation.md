@@ -27,10 +27,10 @@ Dernière mise à jour : 2026-09-13.
 | Ouvrage | Modules | Niveau | Dernière compilation | Notes |
 |---|---|---|---|---|
 | `college-maths-6e` | 10 | **N3** | 2026-09-13, 279 p. | manuel de référence |
-| `college-maths-5e` | 14 | — | 2026-08-28, 145 p. | vague 1, prioritaire |
-| `college-maths-4e` | 12 | — | 2026-08-28, 131 p. | vague 1, prioritaire |
+| `college-maths-5e` | 14 | **N3** | 2026-09-13, 399 p. | 42 schémas, 14 fiches, banque 291 → 369 |
+| `college-maths-4e` | 12 | **N3** | 2026-09-13, 343 p. | 35 schémas, 12 fiches, 75 coquilles corrigées |
 | `college-maths-3e` | 13 | — | 2026-08-28, 145 p. | vague 1 |
-| `college-maths` (cycle) | 49 | — | 2026-08-28, 489 p. | se complète des quatre niveaux |
+| `college-maths` (cycle) | 49 | — | 2026-09-13, 1203 p. | 36 fiches sur 49 ; se complète de la 3e |
 
 ### Maths lycée
 
@@ -75,7 +75,7 @@ Dernière mise à jour : 2026-09-13.
 | E7 | Planche de contrôle affichant toutes les figures | à faire | N3 |
 | E8 | Contrôle automatique des débordements de cadre | à faire | N3 |
 | E9 | Refus de conformité sur construction non traduite | à faire | SI |
-| E10 | Verrou de compilation par ouvrage | à faire | production parallèle |
+| E10 | Verrou de compilation par ouvrage | à faire | production parallèle (contourné par worktrees séparées) |
 | E12 | Ligne de base : compiler tout le périmètre et consigner | à faire | tout |
 
 Le référentiel des sciences de l'ingénieur reste à écrire et à faire valider par un enseignant de la matière.
@@ -90,6 +90,9 @@ Le référentiel des sciences de l'ingénieur reste à écrire et à faire valid
 | 2026-09-13 | `college-maths-6e` | 9 « Découvrir » réécrits, banque 60 → 252 énoncés, promesse de l'avant-propos rétablie | `fd1c7e9` |
 | 2026-09-13 | `bts-maths-prep` | correction d'une régression : pourcentage non échappé cassant la compilation | `e37cf58` |
 | 2026-09-13 | — | cahier des charges de généralisation | `0f972b0` |
+| 2026-09-13 | `college-maths-5e` | N3 : 42 schémas secondaires, 11 « Découvrir » réécrits, banque 291 → 369, 4 figures fausses trouvées par le calcul | branche `manuels-5e` |
+| 2026-09-13 | `college-maths-4e` | N3 : 35 schémas secondaires, 9 « Découvrir » réécrits, 75 coquilles d'accents, 6 figures fausses trouvées par le calcul | branche `manuels-4e` |
+| 2026-09-13 | pipeline | les prérequis se résolvent dans leur niveau et non dans la numérotation continue du livre : débloque l'ouvrage de cycle en édition professeur | `6eb58c7` |
 
 ---
 
