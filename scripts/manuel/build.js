@@ -308,10 +308,31 @@ async function construire(cle, options) {
 
   // Renvoi d'ouverture de chapitre : les numeros de la fiche, habilles du
   // titre reel du chapitre vise. La mise en forme appartient a chapitre.js.
-  const titres = new Map(charges.map(it => [it.numero, it.mod.title]));
+  /* 2026-09-13 — les numeros de `prerequis` sont RELATIFS AU NIVEAU de la fiche
+     (voir `indexerParNiveau`, prof.js). Sur un ouvrage a un seul niveau les deux
+     numerotations coincident ; sur `college-maths`, resoudre le titre dans la
+     table globale faisait pointer le « ch. 3 » d'une fiche de 4e vers un
+     chapitre de 6e, et le renvoi d'ouverture aurait imprime le mauvais titre. */
+  const parNiveau = new Map();
+  for (const it of charges) {
+    if (!parNiveau.has(it.dossier)) parNiveau.set(it.dossier, []);
+    parNiveau.get(it.dossier).push(it);
+  }
+  const titresLocaux = new Map();
+  for (const [dossier, groupe] of parNiveau) {
+    const m = new Map();
+    groupe.forEach((it, i) => { m.set(i + 1, it); });
+    titresLocaux.set(dossier, m);
+  }
   for (const item of charges) {
     const nums = item.prof && Array.isArray(item.prof.prerequis) ? item.prof.prerequis : [];
-    item.prerequis = nums.map(n => ({ numero: n, titre: titres.get(n) || '' }));
+    const locaux = titresLocaux.get(item.dossier);
+    item.prerequis = nums.map(n => {
+      const vise = locaux && locaux.get(n);
+      // Le numero imprime est celui du LIVRE : c'est lui qui permet au lecteur
+      // de trouver la page. Le titre vient du chapitre reellement vise.
+      return { numero: vise ? vise.numero : n, titre: vise ? vise.mod.title : '' };
+    });
   }
 
   const parties = [];

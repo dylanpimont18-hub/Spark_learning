@@ -186,9 +186,42 @@ function validerProf(fiche, mod, referentiel, exercices) {
    redevient exactement l'ancienne. Rien a migrer pour eux.
 
    `items` porte `numero`, `dossier` et `prof`. Liste vide = rien a reprocher. */
+/* Numero de chapitre AU SEIN DE SON NIVEAU, et table de correspondance vers le
+   numero du livre.
+
+   2026-09-13 — `prerequis` a toujours ete ecrit par les auteurs comme un numero
+   de chapitre DU MEME NIVEAU (« ch. 3 (Pythagore) » dans une fiche de 4e), et
+   c'est la seule lecture possible : une fiche de 4e ne sait pas a quel rang son
+   chapitre tombera dans un ouvrage de cycle, qui depend des niveaux places
+   avant lui. Tant que le seul ouvrage a fiches etait la 6e — premier niveau du
+   cycle — les deux numerotations coincidaient et rien ne le revelait. Des que
+   la 4e a recu ses fiches, `college-maths` a refuse de compiler : ses
+   `prerequis: [3]` visaient le chapitre 3 DU LIVRE, c'est-a-dire un chapitre de
+   6e, d'ou quatorze reproches « prerequis vers un chapitre d'un autre niveau ».
+
+   On resout donc les prerequis dans le niveau du chapitre qui les declare. Pour
+   un ouvrage a un seul niveau, numero local et numero du livre sont egaux et le
+   comportement est rigoureusement l'ancien. */
+function indexerParNiveau(items) {
+  const parDossier = new Map();
+  for (const it of items) {
+    if (!parDossier.has(it.dossier)) parDossier.set(it.dossier, []);
+    parDossier.get(it.dossier).push(it);
+  }
+  // `items` est deja dans l'ordre du livre, donc chaque groupe l'est aussi.
+  const local = new Map();   // dossier -> (numero local -> item)
+  for (const [dossier, groupe] of parDossier) {
+    const m = new Map();
+    groupe.forEach((it, i) => { m.set(i + 1, it); });
+    local.set(dossier, m);
+  }
+  return local;
+}
+
 function validerPrerequis(items) {
   const pb = [];
-  const connus = new Map(items.map(it => [it.numero, it]));
+  const parNiveau = indexerParNiveau(items);
+  const parNumero = new Map(items.map(it => [it.numero, it]));
   const rangs = rangsConseilles(items);
 
   /* Les rangs d'un niveau doivent former 1..n sans trou ni doublon. Un
@@ -229,26 +262,24 @@ function validerPrerequis(items) {
       pb.push(it.mod.id + ' : « prerequis » doit être une liste de numéros de chapitre');
       continue;
     }
+    // Les prerequis se lisent dans le niveau de la fiche qui les declare.
+    const locaux = parNiveau.get(it.dossier);
     for (const n of fiche.prerequis) {
+      const vise = locaux.get(n);
       if (!Number.isInteger(n) || n < 1) {
         pb.push(it.mod.id + ' : prérequis « ' + n + ' » n\'est pas un numéro de chapitre');
-      } else if (!connus.has(n)) {
-        pb.push(it.mod.id + ' : prérequis vers le chapitre ' + n + ', absent de cet ouvrage');
-      } else if (n === it.numero) {
+      } else if (!vise) {
+        pb.push(it.mod.id + ' : prérequis vers le chapitre ' + n +
+          ', absent du niveau ' + it.dossier);
+      } else if (vise.numero === it.numero) {
         pb.push(it.mod.id + ' : le chapitre ' + n + ' se cite lui-même en prérequis');
-      } else if (connus.get(n).dossier !== it.dossier) {
-        // Un renvoi d'un niveau a l'autre est licite (la 5e s'appuie sur la
-        // 6e) mais la colonne « ch. N » serait ambigue dans un tableau par
-        // niveau : on le dit plutot que de l'imprimer tel quel.
-        pb.push(it.mod.id + ' : prérequis vers le chapitre ' + n + ' d\'un autre niveau (' +
-          connus.get(n).dossier + ') ; le tableau de progression est par niveau');
-      } else if (rangs.get(n) >= rangs.get(it.numero)) {
+      } else if (rangs.get(vise.numero) >= rangs.get(it.numero)) {
         /* LE reproche de fond, reformule. Le message nomme les DEUX ordres,
            parce que le lecteur du message a le livre sous les yeux et que le
            numero de chapitre seul lui ferait chercher une erreur inexistante
            (« mais le chapitre 4 est bien avant le 7 ! »). */
         pb.push(it.mod.id + ' : prérequis vers le chapitre ' + n + ' (rang conseillé ' +
-          rangs.get(n) + '), qui ne précède pas le chapitre ' + it.numero +
+          rangs.get(vise.numero) + '), qui ne précède pas le chapitre ' + it.numero +
           ' (rang conseillé ' + rangs.get(it.numero) +
           ') dans la progression conseillée');
       }
@@ -274,15 +305,30 @@ function validerPrerequis(items) {
     }
     etat.set(numero, 1);
     pile.push(numero);
-    const it = connus.get(numero);
+    const it = parNumero.get(numero);
     const p = it && it.prof && Array.isArray(it.prof.prerequis) ? it.prof.prerequis : [];
-    for (const n of p) if (connus.has(n) && n !== numero) descendre(n);
+    /* On marche sur les numeros DU LIVRE (un cycle traverse potentiellement
+       plusieurs niveaux), mais chaque prerequis se resout d'abord dans le
+       niveau de la fiche qui l'ecrit — meme lecture que la validation ci-dessus. */
+    const locaux = parNiveau.get(it.dossier);
+    for (const n of p) {
+      const vise = locaux && locaux.get(n);
+      if (vise && vise.numero !== numero) descendre(vise.numero);
+    }
     pile.pop();
     etat.set(numero, 2);
   }
   for (const it of items) descendre(it.numero);
+  /* Le cycle est parcouru en numeros du LIVRE ; on le rend en numeros LOCAUX,
+     qui sont ceux que l'auteur a ecrits dans ses fiches et qu'il doit corriger.
+     Sur un ouvrage a un seul niveau, les deux coincident. */
+  const numeroLocal = new Map();
+  for (const [, locaux] of parNiveau) {
+    for (const [loc, it] of locaux) numeroLocal.set(it.numero, loc);
+  }
   for (const c of cycles) {
-    pb.push('cycle de prérequis : ' + c.map(n => 'ch. ' + n).join(' → ') +
+    pb.push('cycle de prérequis : ' +
+      c.map(n => 'ch. ' + (numeroLocal.get(n) != null ? numeroLocal.get(n) : n)).join(' → ') +
       ' — aucun de ces chapitres ne peut être enseigné en premier');
   }
 
@@ -358,12 +404,20 @@ function ordonner(items) {
      chapitre sans prerequis. La consequence est que la colonne est aussi vide
      que l'autre tant que les fiches ne declarent pas leurs prerequis — le
      signaler est le role de la legende, pas d'un lien fabrique. */
+  /* 2026-09-13 — resolution PAR NIVEAU, comme partout ailleurs : « ch. 3 » dans
+     une fiche de 4e designe le 3e chapitre de la 4e, pas le 3e du livre. La
+     table est indexee par numero du LIVRE, puisque c'est ce que la colonne
+     imprime. */
+  const localParDossier = indexerParNiveau(items);
   const prepare = new Map();
   for (const it of items) {
     const p = it.prof && Array.isArray(it.prof.prerequis) ? it.prof.prerequis : [];
+    const locaux = localParDossier.get(it.dossier);
     for (const n of p) {
-      if (!prepare.has(n)) prepare.set(n, []);
-      prepare.get(n).push(it.numero);
+      const vise = locaux && locaux.get(n);
+      if (!vise) continue;
+      if (!prepare.has(vise.numero)) prepare.set(vise.numero, []);
+      prepare.get(vise.numero).push(it.numero);
     }
   }
 
@@ -408,15 +462,21 @@ function ordonner(items) {
          chapitre, qui ne repart pas de 1 au second niveau d'un ouvrage
          multi-niveaux. */
       const rangLivre = groupe.indexOf(it) + 1;
-      const rangsLivre = new Map(groupe.map((x, i) => [x.numero, i + 1]));
-      const enAval = (prerequis || []).filter(n => rangsLivre.get(n) > rangLivre);
+      /* Un prerequis est un numero LOCAL au niveau, donc son rang dans le livre
+         est directement ce numero (le groupe est dans l'ordre du livre). */
+      const locaux = localParDossier.get(dossier);
+      const enAval = (prerequis || []).filter(n => n > rangLivre);
       lignes.push({
         dossier, numero: it.numero, rang: rangs.get(it.numero), rangLivre,
         decale: enAval.length > 0,
         titre: it.mod.title, sousTitre: it.mod.subtitle || '',
-        // Les numeros tels quels : la mise en forme du renvoi appartient au
-        // rendu, pas au calcul.
-        prerequis: prerequis ? prerequis.map(n => ({ numero: n, titre: titres.get(n) || '' })) : null,
+        // Le numero imprime est celui du LIVRE (il sert de repere de
+        // pagination) ; le titre vient du chapitre reellement vise dans le
+        // niveau. La mise en forme du renvoi appartient au rendu.
+        prerequis: prerequis ? prerequis.map(n => {
+          const vise = locaux && locaux.get(n);
+          return { numero: vise ? vise.numero : n, titre: vise ? vise.mod.title : '' };
+        }) : null,
         prepare: suite ? suite.map(n => ({ numero: n, titre: titres.get(n) || '' })) : null,
         attendus: prof && Array.isArray(prof.attendus) ? prof.attendus : null,
         fiche: !!prof
