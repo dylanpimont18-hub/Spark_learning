@@ -181,6 +181,7 @@ window.MODULES.push({
             unit: 'cm³',
             hint: `$V = \\pi r^2 h$ utilise le <strong>rayon</strong>, pas le diamètre.<br/><br/>Commence par $r = ${d} \\div 2$, sinon ton résultat sera quatre fois trop grand.`,
             solution: [
+              `Le volume d'un cylindre utilise le rayon, pas le diamètre.`,
               `Rayon : $r = ${d} \\div 2 = ${d / 2}$ cm.`,
               `Aire de la base : $3{,}14 \\times ${d / 2}^2 = ${fr(parseFloat((3.14 * (d / 2) * (d / 2)).toFixed(2)))}$ cm².`,
               `Volume : $${fr(parseFloat((3.14 * (d / 2) * (d / 2)).toFixed(2)))} \\times ${h} = ${fr(v, 1)}$ cm³.`,
@@ -233,6 +234,7 @@ window.MODULES.push({
             unit: 'L',
             hint: `Calcule d'abord le volume en cm³.<br/><br/>Puis souviens-toi que $1$ L $= 1$ dm³ $= 1\\,000$ cm³.`,
             solution: [
+              `On calcule le volume en cm³, puis on le convertit en litres.`,
               `Volume : $${a} \\times ${a} \\times ${a} = ${fr(a * a * a)}$ cm³.`,
               `Conversion : $1$ L $= 1\\,000$ cm³, donc $${fr(a * a * a)} \\div 1\\,000 = ${fr(litres)}$ L.`
             ]
@@ -259,6 +261,7 @@ window.MODULES.push({
           unit: 'cm³',
           hint: `Pour un pavé droit, le volume est le produit des trois dimensions : $${L} \\times ${l} \\times ${h}$.`,
           solution: [
+            `Le volume d'un pavé droit est le produit de ses trois dimensions.`,
             `$V = ${L} \\times ${l} \\times ${h} = ${fr(L * l * h)}$ cm³.`
           ]
         };

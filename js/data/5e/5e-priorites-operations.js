@@ -244,6 +244,7 @@ window.MODULES.push({
             unit: '',
             hint: `Il y a deux multiplications prioritaires : $${v1} \\times ${t1}$ et $${v2} \\times ${t2}$. Additionne ensuite.`,
             solution: [
+              `Les deux multiplications se calculent avant l'addition.`,
               `Priorité : $${v1} \\times ${t1} = ${v1 * t1}$ et $${v2} \\times ${t2} = ${v2 * t2}$`,
               `Addition : $${v1 * t1} + ${v2 * t2} = ${answer}$`
             ]
@@ -277,6 +278,7 @@ window.MODULES.push({
           unit: '',
           hint: `Multiplication d'abord : $${prixPommes} \\times ${nbKg}$, puis ajoute $${prixSac}$.`,
           solution: [
+            `La multiplication se calcule avant l'addition.`,
             `Priorité : $${prixPommes} \\times ${nbKg} = ${prixPommes * nbKg}$`,
             `Addition : $${prixPommes * nbKg} + ${prixSac} = ${answer}$`
           ]

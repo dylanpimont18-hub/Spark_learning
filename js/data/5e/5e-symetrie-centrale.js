@@ -186,6 +186,7 @@ window.MODULES.push({
             ? `Formule : $x_{A'} = 2 \\times x_O - x_A = 2 \\times ${ox} - ${ax}$.`
             : `Formule : $y_{A'} = 2 \\times y_O - y_A = 2 \\times ${oy} - ${ay}$.`,
           solution: [
+            `Le centre est le milieu du segment joignant le point et son symétrique.`,
             `$x_{A'} = 2 \\times ${ox} - ${ax} = ${2 * ox} - ${ax} = ${symX}$`,
             `$y_{A'} = 2 \\times ${oy} - ${ay} = ${2 * oy} - ${ay} = ${symY}$`,
             `Le symétrique est $A'(${symX} ; ${symY})$.`

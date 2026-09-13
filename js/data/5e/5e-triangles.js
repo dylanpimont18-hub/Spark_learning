@@ -318,7 +318,14 @@ window.MODULES.push({
             answer: possible ? 1 : 0,
             tolerance: 0,
             hint: `Repère le <strong>plus grand</strong> côté, ici $${Math.max(a, b, c)}$ cm.<br/><br/>Compare-le à la somme des deux autres : une seule inégalité à tester, pas trois.`,
+            /* La PREMIERE ligne du corrige sert d'intertitre a la banque du
+               professeur (titreDeGroupe, scripts/manuel/chapitre.js) : ses
+               nombres et ses formules en sont retires. Elle doit donc nommer la
+               METHODE, jamais porter une valeur — « Le plus grand cote mesure
+               $11$ cm » s'imprimait « Le plus grand cote mesure cm », constate
+               sur la page rendue le 2026-09-13. */
             solution: [
+              `On compare le plus grand côté à la somme des deux autres.`,
               `Le plus grand côté mesure $${Math.max(a, b, c)}$ cm.`,
               `La somme des deux autres vaut $${a + b + c - Math.max(a, b, c)}$ cm.`,
               possible
@@ -333,7 +340,7 @@ window.MODULES.push({
             { objet: 'fanion isocèle', emoji: '🚩' },
             { objet: 'pignon de maison isocèle', emoji: '🏡' },
             { objet: 'panneau isocèle', emoji: '🛑' },
-            { objet: 'aile de cerf-volant isocèle', emoji: '🪁' }
+            { objet: 'voile de cerf-volant isocèle', emoji: '🪁' }
           ]);
           /* Angle au sommet PAIR : les deux angles de base restent entiers, le
              chapitre portant sur les angles et non sur la division decimale. */
@@ -345,8 +352,10 @@ window.MODULES.push({
             tolerance: 0,
             unit: '°',
             hint: `Les deux angles de <strong>base</strong> sont égaux entre eux.<br/><br/>Retire d'abord l'angle du sommet à $180°$, puis partage ce qui reste en deux.`,
+            // Meme raison : la premiere ligne nomme la methode, la valeur suit.
             solution: [
-              `Somme des angles $= 180°$, donc les deux angles de base valent ensemble $180 - ${sommet} = ${180 - sommet}°$.`,
+              `Dans un triangle isocèle, les deux angles de base sont égaux.`,
+              `Somme des angles $= 180°$, donc ils valent ensemble $180 - ${sommet} = ${180 - sommet}°$.`,
               `Ils sont égaux, donc chacun vaut $${180 - sommet} \\div 2 = ${fr(base)}°$.`,
               `Vérification : $${fr(base)} + ${fr(base)} + ${sommet} = 180°$ ✓`
             ]

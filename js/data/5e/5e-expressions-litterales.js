@@ -174,6 +174,7 @@ window.MODULES.push({
           unit: '',
           hint: `Substitue $${ctx.letter}$ par $${val}$ : $${coef} \\times ${val} + ${cst}$.`,
           solution: [
+            `On substitue la valeur à la lettre, puis on calcule.`,
             `On remplace $${ctx.letter}$ par $${val}$ :`,
             `$${coef} \\times ${val} + ${cst} = ${coef * val} + ${cst} = ${result}$`
           ]

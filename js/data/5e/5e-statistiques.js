@@ -182,6 +182,7 @@ window.MODULES.push({
             unit: ctx.unite,
             hint: `L'étendue mesure de combien la série « s'étend » : c'est une <strong>soustraction</strong>, du plus grand au plus petit.<br/><br/>Repère d'abord le minimum et le maximum ; les autres valeurs ne servent pas.`,
             solution: [
+              `L'étendue est la différence entre le maximum et le minimum.`,
               `Plus petite valeur : $${mini}$. Plus grande valeur : $${maxi}$.`,
               `Étendue : $${maxi} - ${mini} = ${maxi - mini}$.`,
               `Contrairement à la moyenne, l'étendue n'utilise que ces deux valeurs : elle ne dit rien de ce qui se passe entre les deux.`
@@ -208,6 +209,7 @@ window.MODULES.push({
             unit: '',
             hint: `Attention : la moyenne du groupe n'est pas la moyenne des deux notes.<br/><br/>Chaque note compte autant de fois qu'il y a d'élèves qui l'ont obtenue.`,
             solution: [
+              `Une moyenne pondérée tient compte de l'effectif de chaque note.`,
               `Total des points : $${n1} \\times ${v1} + ${n2} \\times ${v2} = ${n1 * v1} + ${n2 * v2} = ${n1 * v1 + n2 * v2}$.`,
               `Nombre d'élèves : $${n1} + ${n2} = ${n1 + n2}$.`,
               `Moyenne : $${n1 * v1 + n2 * v2} \\div ${n1 + n2} = ${fr(moy)}$.`,
@@ -236,6 +238,7 @@ window.MODULES.push({
             unit: '%',
             hint: `Une fréquence est la part d'un effectif dans le total.<br/><br/>Divise l'effectif par le total, puis multiplie par $100$ pour l'exprimer en pourcentage.`,
             solution: [
+              `Une fréquence est la part d'un effectif dans le total.`,
               `Fréquence : $\\dfrac{${part}}{${total}} = ${fr(part / total)}$.`,
               `En pourcentage : $${fr(part / total)} \\times 100 = ${fr(freq)}\\%$.`,
               `Contrôle : la fréquence est toujours comprise entre $0\\%$ et $100\\%$.`
@@ -256,6 +259,7 @@ window.MODULES.push({
           unit: ctx.unite,
           hint: `Additionne toutes les valeurs, puis divise par le nombre de valeurs.<br/><br/>Ici il y a $${n}$ valeurs : compte-les bien, une valeur répétée compte plusieurs fois.`,
           solution: [
+            `La moyenne est la somme des valeurs divisée par leur nombre.`,
             `Somme : $${vals.join(' + ')} = ${sum}$.`,
             `Il y a $${n}$ valeurs.`,
             `Moyenne : $${sum} \\div ${n} = ${fr(mean)}$.`

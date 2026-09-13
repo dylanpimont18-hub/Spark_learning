@@ -162,6 +162,7 @@ window.MODULES.push({
             unit: 'cm',
             hint: `Le périmètre d'un cercle vaut $2\\pi r$, où $r$ est le <strong>rayon</strong>.<br/><br/>On te donne le diamètre : commence par en prendre la moitié. Ou utilise directement $\\pi d$, qui est la même formule.`,
             solution: [
+              `Le périmètre d'un cercle utilise le rayon, pas le diamètre.`,
               `Rayon : $r = ${d} \\div 2 = ${d / 2}$ cm.`,
               `Périmètre : $\\mathcal{P} = 2 \\times 3{,}14 \\times ${d / 2} = ${fr(p, 1)}$ cm.`,
               `Contrôle : $\\pi d = 3{,}14 \\times ${d} = ${fr(p, 1)}$ cm, le même résultat — $2\\pi r$ et $\\pi d$ sont deux écritures de la même formule.`
@@ -218,6 +219,7 @@ window.MODULES.push({
             unit: 'm²',
             hint: `La partie circulaire est <strong>retirée</strong> du rectangle : il faut donc une soustraction.<br/><br/>Calcule les deux aires séparément, puis retire la plus petite.`,
             solution: [
+              `On retire l'aire du disque à celle du rectangle.`,
               `Aire du rectangle : $${L} \\times ${l} = ${fr(L * l)}$ m².`,
               `Aire du disque : $3{,}14 \\times ${r}^2 = ${fr(parseFloat((3.14 * r * r).toFixed(1)), 1)}$ m².`,
               `Aire restante : $${fr(L * l)} - ${fr(parseFloat((3.14 * r * r).toFixed(1)), 1)} = ${fr(aire, 1)}$ m².`,
@@ -244,6 +246,7 @@ window.MODULES.push({
           unit: 'cm²',
           hint: `$\\mathcal{A} = \\pi r^2$ : c'est le <strong>rayon seul</strong> qui est au carré, jamais le produit $\\pi r$.<br/><br/>Commence par $${r}^2$.`,
           solution: [
+            `Dans $\\pi r^2$, c'est le rayon seul qui est élevé au carré.`,
             `Rayon au carré : $${r}^2 = ${r * r}$.`,
             `$\\mathcal{A} = 3{,}14 \\times ${r * r} = ${fr(3.14 * r * r, 1)}$ cm².`
           ]

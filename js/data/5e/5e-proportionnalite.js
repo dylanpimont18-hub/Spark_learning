@@ -176,6 +176,7 @@ window.MODULES.push({
             unit: 'm',
             hint: `$1$ cm sur la carte représente $${milliers(echelle)}$ cm en réalité.<br/><br/>Calcule d'abord la distance réelle en centimètres, puis convertis en mètres ($1$ m $= 100$ cm).`,
             solution: [
+              `Une échelle compare deux longueurs de même unité.`,
               `Distance réelle en centimètres : $${cm} \\times ${milliers(echelle)} = ${milliers(cm * echelle)}$ cm.`,
               `Conversion en mètres : $${milliers(cm * echelle)} \\div 100 = ${milliers(metres)}$ m.`,
               `L'échelle $\\dfrac{1}{${milliers(echelle)}}$ signifie que la réalité est $${milliers(echelle)}$ fois plus grande que la carte.`
@@ -197,6 +198,7 @@ window.MODULES.push({
             unit: 'km',
             hint: `La vitesse est une distance PAR heure.<br/><br/>En $${fr(t)}$ heure(s), on parcourt donc $${fr(t)}$ fois cette distance.`,
             solution: [
+              `La distance se calcule en multipliant la vitesse par la durée.`,
               `$d = v \\times t = ${v} \\times ${fr(t)} = ${fr(d)}$ km.`,
               `Contrôle de vraisemblance : en $1$ heure on ferait $${v}$ km, donc en $${fr(t)}$ heure(s) le résultat doit être ${t < 1 ? 'plus petit' : 'plus grand'}.`
             ]
@@ -218,6 +220,7 @@ window.MODULES.push({
             unit: '%',
             hint: `Calcule d'abord la baisse en euros.<br/><br/>Puis compare-la au prix de DÉPART, jamais au prix d'arrivée.`,
             solution: [
+              `On rapporte la baisse au prix de départ.`,
               `Baisse : $${prix} - ${fr(nouveau)} = ${fr(prix - nouveau)}$ €.`,
               `Pourcentage : $\\dfrac{${fr(prix - nouveau)}}{${prix}} \\times 100 = ${fr(taux)}\\%$.`,
               `Le dénominateur est le prix de DÉPART : une baisse se rapporte toujours à ce qu'on avait avant.`
@@ -246,6 +249,7 @@ window.MODULES.push({
           unit: '€',
           hint: `Calcule d'abord la réduction : $${taux}\\%$ de $${prix}$, puis soustrais-la du prix initial.`,
           solution: [
+            `On calcule d'abord la réduction en euros, puis on la retire.`,
             `Réduction : $\\dfrac{${taux}}{100} \\times ${prix} = ${fr(reduction)}$ €.`,
             `Nouveau prix : $${prix} - ${fr(reduction)} = ${fr(newPrix)}$ €.`
           ]

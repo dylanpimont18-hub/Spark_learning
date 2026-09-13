@@ -421,6 +421,7 @@ window.MODULES.push({
             unit: 'cm²',
             hint: `Aire d'un parallélogramme : $\\mathcal{A} = b \\times h$.<br/><br/>La hauteur est le trait <strong>perpendiculaire</strong> à la base, jamais le côté oblique.`,
             solution: [
+              `L'aire d'un parallélogramme est le produit de la base par la hauteur.`,
               `Formule : $\\mathcal{A} = b \\times h$`,
               `$\\mathcal{A} = ${base} \\times ${h} = ${fr(base * h)}$ cm²`
             ]
@@ -473,6 +474,7 @@ window.MODULES.push({
           unit: 'cm²',
           hint: `Aire d'un losange : $\\mathcal{A} = \\dfrac{d_1 \\times d_2}{2} = \\dfrac{${d1} \\times ${d2}}{2}$.`,
           solution: [
+            `L'aire d'un losange est le demi-produit de ses diagonales.`,
             `Formule : $\\mathcal{A} = \\dfrac{d_1 \\times d_2}{2}$`,
             `$\\mathcal{A} = \\dfrac{${d1} \\times ${d2}}{2} = \\dfrac{${d1 * d2}}{2} = ${fr(aire)}$ cm²`
           ]

@@ -228,7 +228,20 @@ window.MODULES.push({
           hint: op === '-'
             ? `Rappel : soustraire revient à additionner l'opposé. $${a} - ${bStr} = ${a} + (${-b})$.`
             : (b < 0 ? `Ajouter un nombre négatif revient à soustraire sa valeur absolue.` : `Même signe ou signes opposés ? Applique la règle.`),
+          /* 2026-09-13 : la premiere ligne etait UNIQUEMENT une formule. Or
+             l'intertitre de la banque du professeur se derive de cette ligne,
+             formules retirees (titreDeGroupe, scripts/manuel/chapitre.js) : le
+             groupe s'imprimait donc sous un titre VIDE. Le defaut etait
+             preexistant mais invisible tant que la banque ne comptait pas assez
+             d'enonces pour etre groupee.
+
+             On nomme donc la methode en premiere ligne, et les deux cas de
+             figure y sont distingues — ce qui donne au passage deux groupes
+             utiles a l'enseignant plutot qu'un seul fourre-tout. */
           solution: [
+            op === '-'
+              ? `Soustraire un nombre revient à ajouter son opposé.`
+              : `On additionne deux nombres relatifs.`,
             op === '-'
               ? `$${a} - ${bStr} = ${a} + (${-b}) = ${answer}$`
               : `$${a} + ${bStr} = ${answer}$`
