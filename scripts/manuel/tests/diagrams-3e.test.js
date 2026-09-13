@@ -892,3 +892,143 @@ test('aucun cercle de schema de troisieme ne porte de remplissage en dur', () =>
     'cercle(s) a remplissage en dur — employer les classes plot-point (plein) ' +
     'ou plot-point-alt (ouvert), seules lues par le convertisseur :\n  ' + fautes.join('\n  '));
 });
+
+test('arithmetique : le PGCD est bien sous les deux nombres et le PPCM au-dessus', () => {
+  /* CE QUE CE TEST ATTRAPE. Le schema n'affirme pas une propriete geometrique
+     mais une propriete D'ORDRE, et il la traduit en hauteurs sur la page. Si
+     les deux cadres etaient intervertis — ce qui ne se verrait pas, puisque
+     leur contenu dit le contraire de leur position — le schema enseignerait
+     exactement l'erreur qu'il est cense corriger.
+
+     On recalcule donc le PGCD et le PPCM de 12 et 18, on verifie qu'ils
+     encadrent bien les deux nombres, et on verifie que les ORDONNEES du
+     dessin respectent cet encadrement. En SVG l'axe vertical descend, donc
+     « plus grand » veut dire « ordonnee plus petite ». */
+  const d = parTitre('3e-arithmetique.js', 'PGCD se loge sous');
+
+  // Recalcul, sans rien recopier du schema.
+  const a = 12, b = 18;
+  const pgcd = (x, y) => (y ? pgcd(y, x % y) : x);
+  const g = pgcd(a, b), p = a * b / g;
+  assert.strictEqual(g, 6, 'PGCD(12, 18)');
+  assert.strictEqual(p, 36, 'PPCM(12, 18)');
+  assert.strictEqual(g * p, a * b, 'la relation PGCD x PPCM = a x b doit tenir');
+  assert.ok(g <= a && g <= b, 'le PGCD doit etre inferieur aux deux nombres');
+  assert.ok(p >= a && p >= b, 'le PPCM doit etre superieur aux deux nombres');
+
+  // Les trois valeurs doivent figurer dans le dessin, hors description.
+  const dessin = d.svg.replace(/<desc[\s\S]*?<\/desc>/, '');
+  for (const v of [g, p, a, b]) {
+    assert.ok(new RegExp('\\b' + v + '\\b').test(dessin),
+      'la valeur ' + v + ' est absente du dessin');
+  }
+
+  // Les deux cadres, et la ligne des deux nombres entre eux.
+  const cadres = [...dessin.matchAll(/<rect\b[^>]*>/g)].map(m => {
+    const t = m[0];
+    const at = n => { const r = new RegExp(n + '="([-\\d.]+)"').exec(t); return r ? +r[1] : null; };
+    return { y: at('y'), h: at('height') };
+  });
+  assert.strictEqual(cadres.length, 2, 'un cadre pour le PPCM, un pour le PGCD');
+  const hautCadre = cadres.reduce((m, c) => (c.y < m.y ? c : m));
+  const basCadre = cadres.reduce((m, c) => (c.y > m.y ? c : m));
+
+  // Le texte du cadre du haut doit nommer le PPCM, celui du bas le PGCD.
+  const etiq = [...dessin.matchAll(/<text class="annotation-label" x="([-\d.]+)" y="([-\d.]+)"[^>]*>([^<]*)<\/text>/g)]
+    .map(m => ({ x: +m[1], y: +m[2], t: m[3] }));
+  const ppcm = etiq.find(e => e.t.includes('PPCM'));
+  const pgcdE = etiq.find(e => e.t.includes('PGCD'));
+  assert.ok(ppcm && pgcdE, 'les deux etiquettes PPCM et PGCD doivent etre presentes');
+  assert.ok(ppcm.y < pgcdE.y,
+    'le PPCM doit etre DESSINE AU-DESSUS du PGCD (ordonnee ' + ppcm.y +
+    ' contre ' + pgcdE.y + ') : un axe vertical descend en SVG');
+  assert.ok(ppcm.y > hautCadre.y && ppcm.y < hautCadre.y + hautCadre.h,
+    'l etiquette PPCM doit tomber dans le cadre du haut');
+  assert.ok(pgcdE.y > basCadre.y && pgcdE.y < basCadre.y + basCadre.h,
+    'l etiquette PGCD doit tomber dans le cadre du bas');
+
+  // Les deux nombres de depart sont ENTRE les deux cadres.
+  const douze = etiq.find(e => e.t.trim() === '12');
+  const dixhuit = etiq.find(e => e.t.trim() === '18');
+  assert.ok(douze && dixhuit, '12 et 18 doivent etre etiquetes');
+  for (const e of [douze, dixhuit]) {
+    assert.ok(e.y > hautCadre.y + hautCadre.h,
+      'les deux nombres doivent etre SOUS le cadre du PPCM');
+    assert.ok(e.y < basCadre.y,
+      'les deux nombres doivent etre AU-DESSUS du cadre du PGCD');
+  }
+
+  // Et les valeurs annoncees sont bien celles calculees.
+  assert.ok(ppcm.t.includes(String(p)), 'le cadre du PPCM doit porter la valeur ' + p);
+  assert.ok(pgcdE.t.includes(String(g)), 'le cadre du PGCD doit porter la valeur ' + g);
+});
+
+test('algorithmique : la table de suivi est la vraie trace de l algorithme', () => {
+  /* CE QUE CE TEST ATTRAPE. Une table de suivi est le seul type de figure de
+     ce corpus qu'on puisse verifier ENTIEREMENT par execution : il suffit de
+     rejouer l'algorithme et de comparer case a case. Une valeur recopiee de
+     travers — un 5 ecrit la ou il faut 4, une ligne oubliee — donnerait un
+     tableau parfaitement credible et faux, et l'eleve qui s'en sert pour
+     comprendre apprendrait une mecanique qui ne tourne pas.
+
+     On rejoue donc S <- 0, i <- 1, tant que i <= 3 : S <- S + i au carre,
+     i <- i + 1. Puis on releve les valeurs du dessin, ligne par ligne, et on
+     compare les deux suites. */
+  const d = parTitre('3e-algorithmique.js', 'affectation');
+
+  // La trace reelle, calculee ici et nulle part ailleurs.
+  const attendu = [];
+  let S = 0, i = 1;
+  attendu.push([S, i]);                       // au depart
+  while (i <= 3) {
+    S = S + i * i; attendu.push([S, i]);      // apres l'addition
+    i = i + 1;     attendu.push([S, i]);      // apres l'incrementation
+  }
+  attendu.push([S, i]);                       // ligne de sortie de boucle
+  assert.strictEqual(S, 14, '1 + 4 + 9 doit faire 14');
+  assert.strictEqual(attendu.length, 8, 'depart, trois tours de deux lignes, sortie');
+
+  /* Les valeurs relevees dans le dessin. Les deux colonnes se distinguent par
+     leur abscisse ; la ligne, par l'ordonnee. On ne se fie donc a AUCUN ordre
+     d'ecriture dans le fichier. */
+  const dessin = d.svg.replace(/<desc[\s\S]*?<\/desc>/, '');
+  const cases = [...dessin.matchAll(/<text class="(annotation-label|tick-label)" x="([-\d.]+)" y="([-\d.]+)"[^>]*>([^<]*)<\/text>/g)]
+    .map(m => ({ x: +m[2], y: +m[3], t: m[4].trim() }))
+    .filter(c => /^\d+$/.test(c.t));
+
+  const COL_SOMME = 286, COL_COMPTEUR = 350;
+  const somme = cases.filter(c => c.x === COL_SOMME).sort((a, b) => a.y - b.y);
+  const compteur = cases.filter(c => c.x === COL_COMPTEUR).sort((a, b) => a.y - b.y);
+  assert.strictEqual(somme.length, attendu.length,
+    'la colonne de la somme doit compter ' + attendu.length + ' valeurs, ' +
+    'or elle en compte ' + somme.length);
+  assert.strictEqual(compteur.length, attendu.length,
+    'la colonne du compteur doit compter ' + attendu.length + ' valeurs');
+
+  for (let k = 0; k < attendu.length; k++) {
+    assert.strictEqual(+somme[k].t, attendu[k][0],
+      'ligne ' + (k + 1) + ' : la somme vaut ' + somme[k].t + ' dans le dessin, ' +
+      attendu[k][0] + ' dans l execution reelle');
+    assert.strictEqual(+compteur[k].t, attendu[k][1],
+      'ligne ' + (k + 1) + ' : le compteur vaut ' + compteur[k].t + ' dans le dessin, ' +
+      attendu[k][1] + ' dans l execution reelle');
+    // Les deux valeurs d'une ligne doivent etre a la MEME hauteur.
+    assert.strictEqual(somme[k].y, compteur[k].y,
+      'ligne ' + (k + 1) + ' : les deux colonnes ne sont pas alignees');
+  }
+
+  /* UNE SEULE VARIABLE CHANGE PAR LIGNE. C'est la these du schema : la fleche
+     remplace la valeur de la variable qu'elle nomme, et d'elle seule. Si deux
+     colonnes changeaient d'un coup, le dessin contredirait son propre texte.
+     On saute la premiere ligne (le depart) et la derniere (la sortie de
+     boucle, qui ne change rien). */
+  for (let k = 1; k < attendu.length - 1; k++) {
+    const dS = attendu[k][0] !== attendu[k - 1][0];
+    const dI = attendu[k][1] !== attendu[k - 1][1];
+    assert.ok(dS !== dI,
+      'ligne ' + (k + 1) + ' : exactement une des deux variables doit changer');
+  }
+  // La derniere ligne ne change rien : la boucle s'arrete sans rien affecter.
+  assert.deepStrictEqual(attendu[attendu.length - 1], attendu[attendu.length - 2],
+    'la ligne de sortie de boucle ne doit modifier aucune variable');
+});

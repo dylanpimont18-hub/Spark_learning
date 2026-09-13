@@ -111,6 +111,94 @@ window.MODULES.push(
         reading: 'Suis la boucle « Oui » qui revient sur le losange tant que i ≤ 3 ; dès qu\'elle devient fausse, la branche « Non » mène à l\'affichage du résultat.',
         caption: 'Algorigramme de l\'exemple du cours : $S \\leftarrow 0$, $\\mathtt{pour}\\ i\\ \\mathtt{de}\\ 1\\ \\mathtt{à}\\ 3$, $S \\leftarrow S + i^2$, ce qui donne $S = 1^2+2^2+3^2 = 14$.'
       },
+      /* SCHÉMA SECONDAIRE — UN SEUL, ajouté le 2026-09-13, et c'est délibéré.
+         Principe du cahier des charges, section 9 : une figure par MALENTENDU,
+         pas une figure par formule, et « on n'ajoute pas de figure pour faire
+         du chiffre ».
+
+         Ce chapitre est, avec l'arithmétique, le moins demandeur en figures du
+         niveau — pour une raison précise : son objet EST déjà une figure.
+         L'algorigramme principal montre la structure complète de la boucle,
+         ses deux branches et son retour. Redessiner une seconde structure de
+         contrôle n'apprendrait rien de plus ; ce serait une figure par
+         formule.
+
+         Le seul malentendu qui ne se voit PAS sur un algorigramme est celui
+         que le chapitre désigne lui-même comme son piège : l'affectation
+         `x ← x + 1`, que l'élève lit comme une équation et déclare
+         impossible. Un algorigramme ne peut pas le lever, justement parce
+         qu'il dessine le CHEMIN et jamais les VALEURS. Ce qui le lève, c'est
+         une table d'état : les valeurs successives des variables, ligne à
+         ligne. C'est donc cela, et rien d'autre, que ce schéma ajoute.
+
+         LA TRACE EST CALCULÉE, pas recopiée : elle est obtenue en exécutant
+         réellement l'algorithme du cours (S ← 0, i ← 1, tant que i ≤ 3), et
+         le test de scripts/manuel/tests/diagrams-3e.test.js la rejoue à
+         l'identique pour vérifier chaque case du tableau, y compris le
+         résultat final S = 14. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Piège',
+          title: 'Une affectation n\'est pas une équation',
+          description: '$x = x + 1$ est impossible en mathématiques, et pourtant $x \\leftarrow x + 1$ s\'écrit tous les jours en algorithmique. La raison tient en une image : la flèche ne compare pas deux choses, elle <strong>remplace</strong> l\'ancienne valeur par la nouvelle. Voici les valeurs, ligne à ligne, pendant l\'exécution de l\'exemple du cours.',
+          svg: `
+            <svg viewBox="0 0 400 262" role="img" aria-labelledby="algo-trace-title algo-trace-desc">
+              <title id="algo-trace-title">Table des valeurs successives pendant la boucle</title>
+              <desc id="algo-trace-desc">Un tableau de suivi donne les valeurs des deux variables apres chaque instruction de l'algorithme du cours. Au depart, la somme vaut zero et le compteur vaut un. Apres la premiere addition la somme vaut un, puis le compteur passe a deux. Apres la deuxieme addition la somme vaut cinq, puis le compteur passe a trois. Apres la troisieme addition la somme vaut quatorze, puis le compteur passe a quatre. Comme quatre est superieur a trois, la boucle s'arrete et la somme finale vaut quatorze, ce qui est bien un plus quatre plus neuf. A chaque ligne, la nouvelle valeur d'une variable remplace l'ancienne au lieu de s'y ajouter comme le ferait une equation.</desc>
+
+              <text class="tick-label" x="20" y="24" text-anchor="start">instruction executee</text>
+              <text class="tick-label" x="286" y="24" text-anchor="middle">somme</text>
+              <text class="tick-label" x="350" y="24" text-anchor="middle">compteur</text>
+              <line class="axis" x1="20" y1="32" x2="380" y2="32"></line>
+
+              <text class="label-soft" x="20" y="52" text-anchor="start">au depart</text>
+              <text class="annotation-label" x="286" y="52" text-anchor="middle">0</text>
+              <text class="annotation-label" x="350" y="52" text-anchor="middle">1</text>
+
+              <text class="label-soft" x="20" y="76" text-anchor="start">la somme recoit somme plus 1 au carre</text>
+              <text class="annotation-label" x="286" y="76" text-anchor="middle">1</text>
+              <text class="tick-label" x="350" y="76" text-anchor="middle">1</text>
+
+              <text class="label-soft" x="20" y="100" text-anchor="start">le compteur recoit compteur plus 1</text>
+              <text class="tick-label" x="286" y="100" text-anchor="middle">1</text>
+              <text class="annotation-label" x="350" y="100" text-anchor="middle">2</text>
+
+              <text class="label-soft" x="20" y="124" text-anchor="start">la somme recoit somme plus 2 au carre</text>
+              <text class="annotation-label" x="286" y="124" text-anchor="middle">5</text>
+              <text class="tick-label" x="350" y="124" text-anchor="middle">2</text>
+
+              <text class="label-soft" x="20" y="148" text-anchor="start">le compteur recoit compteur plus 1</text>
+              <text class="tick-label" x="286" y="148" text-anchor="middle">5</text>
+              <text class="annotation-label" x="350" y="148" text-anchor="middle">3</text>
+
+              <text class="label-soft" x="20" y="172" text-anchor="start">la somme recoit somme plus 3 au carre</text>
+              <text class="annotation-label" x="286" y="172" text-anchor="middle">14</text>
+              <text class="tick-label" x="350" y="172" text-anchor="middle">3</text>
+
+              <text class="label-soft" x="20" y="196" text-anchor="start">le compteur recoit compteur plus 1</text>
+              <text class="tick-label" x="286" y="196" text-anchor="middle">14</text>
+              <text class="annotation-label" x="350" y="196" text-anchor="middle">4</text>
+
+              <line class="axis" x1="20" y1="210" x2="380" y2="210"></line>
+              <text class="label-soft" x="20" y="230" text-anchor="start">4 depasse 3, la boucle s'arrete</text>
+              <text class="annotation-label" x="286" y="230" text-anchor="middle">14</text>
+              <text class="tick-label" x="350" y="230" text-anchor="middle">4</text>
+
+              <text class="label-soft" x="200" y="254" text-anchor="middle">la valeur en gras vient de remplacer celle de la ligne au-dessus</text>
+            </svg>
+          `,
+          notes: [
+            'Lis une ligne à la fois. À chaque ligne, <strong>une seule</strong> des deux variables change : celle que l\'instruction nomme à gauche de la flèche. L\'autre garde sa valeur.',
+            'Regarde la ligne « le compteur reçoit compteur plus $1$ » quand le compteur vaut $1$ : il passe à $2$. Il n\'y a aucune contradiction, parce que le $1$ de droite est l\'<strong>ancienne</strong> valeur et le $2$ de gauche la <strong>nouvelle</strong>.',
+            'C\'est pour cela que l\'ordre des instructions compte en algorithmique alors qu\'il ne compte pas dans un système d\'équations. Intervertir deux lignes change le résultat.',
+            'La somme suit le même mécanisme : $0$, puis $1$, puis $5$, puis $14$. Chaque valeur est l\'ancienne <strong>plus</strong> le nouveau carré, et elle écrase l\'ancienne.',
+            'On retrouve bien $14 = 1 + 4 + 9$, le résultat annoncé par l\'algorigramme. Une table de ce genre est le moyen le plus sûr de vérifier un algorithme dont tu doutes.'
+          ],
+          reading: 'Une table de suivi se remplit de haut en bas, une instruction par ligne, sans jamais sauter d\'étape. La colonne qui change est celle de la variable nommée avant la flèche.',
+          caption: 'Table de suivi de l\'algorithme du cours : valeurs de la somme et du compteur après chaque instruction, jusqu\'au résultat $14$.'
+        }
+      ],
       recap: [
         'Les trois structures fondamentales sont la <strong>séquence</strong>, la <strong>condition</strong> ($\\mathtt{si/sinon}$) et la <strong>boucle</strong> ($\\mathtt{pour}$ ou $\\mathtt{tant que}$).',
         'L\'<strong>affectation</strong> $x \\leftarrow x + 1$ n\'est PAS une équation : c\'est une mise à jour qui lit l\'ancienne valeur, calcule, et stocke le résultat.',

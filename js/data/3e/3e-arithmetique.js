@@ -101,6 +101,79 @@ window.MODULES.push(
         reading: 'Un arbre de décomposition se lit de haut en bas : à chaque nœud composé, on choisit deux facteurs dont le produit redonne le nombre, jusqu\'à n\'obtenir que des nombres premiers.',
         caption: 'Décomposition de $180$ en produit de facteurs premiers : $180 = 2^2 \\times 3^2 \\times 5$.'
       },
+      /* SCHÉMA SECONDAIRE — UN SEUL, ajouté le 2026-09-13, et c'est délibéré.
+         Principe du cahier des charges, section 9 : une figure par MALENTENDU,
+         pas une figure par formule, et « on n'ajoute pas de figure pour faire
+         du chiffre ».
+
+         Ce chapitre est le moins demandeur en figures du niveau, avec
+         l'algorithmique. La raison est qu'il est presque entièrement
+         ARITHMÉTIQUE : décomposer, diviser, comparer des listes. Sa figure
+         principale — l'arbre de décomposition de 180 — couvre déjà la
+         décomposition, la distinction premier/composé et l'unicité du
+         résultat. Les autres difficultés du chapitre sont des RÈGLES, pas des
+         images : « 1 n'est pas premier » se règle en une phrase, l'algorithme
+         d'Euclide est une suite de divisions que le cours déroule mieux qu'un
+         dessin ne le ferait.
+
+         Reste un vrai malentendu, et il est massif : l'élève confond le PGCD
+         et le PPCM, et surtout il ne sait pas LEQUEL DES DEUX est le plus
+         grand. Ce malentendu-là est spatial, donc il se traite en image : le
+         PGCD se loge SOUS les deux nombres, le PPCM AU-DESSUS. Une fois cette
+         image en tête, le nom même des deux ne peut plus s'inverser.
+
+         Toutes les valeurs sont CALCULÉES sur 12 et 18, les nombres du cours :
+         diviseurs communs 1, 2, 3, 6 (le plus grand est 6) ; multiples communs
+         36, 72, 108 (le plus petit est 36). Le produit 6 × 36 = 216 = 12 × 18
+         vérifie la relation du chapitre, et il est testé comme tel dans
+         scripts/manuel/tests/diagrams-3e.test.js. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Piège',
+          title: 'Le PGCD se loge sous les deux nombres, le PPCM au-dessus',
+          description: 'Les deux noms se ressemblent, et c\'est là tout le problème. Mais leurs <strong>places</strong> ne se ressemblent pas : un diviseur commun est forcément plus petit que les deux nombres, un multiple commun forcément plus grand. Sur $12$ et $18$, le PGCD vaut $6$ et le PPCM vaut $36$.',
+          svg: `
+            <svg viewBox="0 0 400 250" role="img" aria-labelledby="arith-pgcd-title arith-pgcd-desc">
+              <title id="arith-pgcd-title">Position du PGCD et du PPCM par rapport aux deux nombres</title>
+              <desc id="arith-pgcd-desc">Une echelle verticale de valeurs croissantes du bas vers le haut. Tout en bas figure le nombre six, designe comme le plus grand commun diviseur de douze et de dix-huit ; a cote de lui sont rappeles les autres diviseurs communs, un, deux et trois, tous plus petits que six. Au milieu figurent les deux nombres de depart, douze et dix-huit. Tout en haut figure le nombre trente-six, designe comme le plus petit commun multiple de douze et de dix-huit ; a cote de lui sont rappeles les multiples communs suivants, soixante-douze et cent huit, tous plus grands que trente-six. Le plus grand commun diviseur est donc situe en dessous des deux nombres de depart, et le plus petit commun multiple au-dessus : les diviseurs communs sont plus petits que les nombres, les multiples communs plus grands.</desc>
+
+              <line class="axis" x1="60" y1="222" x2="60" y2="24"></line>
+              <text class="tick-label" x="46" y="28" text-anchor="end">grand</text>
+              <text class="tick-label" x="46" y="222" text-anchor="end">petit</text>
+
+              <rect class="frame-line" x="96" y="24" width="180" height="34" rx="10" fill="none"></rect>
+              <text class="annotation-label" x="186" y="46" text-anchor="middle">PPCM de 12 et 18 : 36</text>
+              <text class="label-soft" x="290" y="46" text-anchor="start">puis 72, puis 108</text>
+              <text class="tick-label" x="186" y="72" text-anchor="middle">le plus petit des multiples communs</text>
+
+              <line class="grid-line" x1="96" y1="118" x2="276" y2="118"></line>
+              <text class="annotation-label" x="140" y="112" text-anchor="middle">12</text>
+              <text class="annotation-label" x="232" y="112" text-anchor="middle">18</text>
+              <text class="tick-label" x="290" y="116" text-anchor="start">les deux nombres</text>
+
+              <rect class="frame-line" x="96" y="164" width="180" height="34" rx="10" fill="none"></rect>
+              <text class="annotation-label" x="186" y="186" text-anchor="middle">PGCD de 12 et 18 : 6</text>
+              <text class="label-soft" x="290" y="186" text-anchor="start">apres 1, 2 et 3</text>
+              <text class="tick-label" x="186" y="212" text-anchor="middle">le plus grand des diviseurs communs</text>
+
+              <line class="guide-line" x1="110" y1="164" x2="110" y2="126"></line>
+              <line class="guide-line" x1="110" y1="110" x2="110" y2="58"></line>
+
+              <text class="label-soft" x="200" y="242" text-anchor="middle">un diviseur est plus petit, un multiple est plus grand</text>
+            </svg>
+          `,
+          notes: [
+            'Un <strong>diviseur</strong> de $12$ ne peut pas dépasser $12$. Donc un diviseur commun à $12$ et à $18$ est plus petit que les deux, et le PGCD se trouve nécessairement <strong>en dessous</strong>.',
+            'Un <strong>multiple</strong> de $12$ vaut au moins $12$. Donc un multiple commun est plus grand que les deux, et le PPCM se trouve nécessairement <strong>au-dessus</strong>.',
+            'Les diviseurs communs de $12$ et $18$ sont $1$, $2$, $3$ et $6$ : on prend le plus <strong>grand</strong>, d\'où $\\text{PGCD} = 6$. Les multiples communs sont $36$, $72$, $108$… : on prend le plus <strong>petit</strong>, d\'où $\\text{PPCM} = 36$.',
+            'Le mot « grand » dans PGCD et le mot « petit » dans PPCM ne parlent donc pas du résultat final, mais du <strong>choix dans la liste</strong>. C\'est exactement ce qui trompe.',
+            '<strong>Le contrôle qui sauve</strong> : $6 \\times 36 = 216$ et $12 \\times 18 = 216$. Si ton PGCD multiplié par ton PPCM ne redonne pas le produit des deux nombres de départ, l\'un des deux est faux.'
+          ],
+          reading: 'Ne retiens pas les deux noms, retiens les deux hauteurs. Ce qui divise est en bas, ce qui est multiple est en haut, et les deux nombres de départ sont toujours entre les deux.',
+          caption: 'Positions relatives du PGCD et du PPCM de $12$ et $18$ : le PGCD ($6$) sous les deux nombres, le PPCM ($36$) au-dessus.'
+        }
+      ],
       recap: [
         '<strong>Théorème fondamental</strong> : tout entier $\\geq 2$ se décompose de manière <strong>unique</strong> en produit de nombres premiers.',
         '<strong>Relation PGCD-PPCM</strong> : $\\text{PGCD}(a, b) \\times \\text{PPCM}(a, b) = a \\times b$. Connaître l\'un permet de calculer l\'autre.',
