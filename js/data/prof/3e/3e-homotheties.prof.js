@@ -213,7 +213,12 @@ window.SPARK_PROF["3e-homotheties"] = {
               "jamais la tourner en faute : « une pièce plus petite qu'un grain de riz, est-ce que " +
               "ça te paraît possible ? ».<br/><br/>" +
               "Un exercice de classe rapide et très efficace : donner cinq échelles " +
-              "($\\dfrac{1}{25}$, $\\dfrac{1}{500}$, $\\dfrac{1}{100\\,000}$, puis $2$ et $50$ pour " +
+              /* \frac et non \dfrac (2026-09-13) : trois fractions en ligne dans un
+                 paragraphe courant. En \dfrac elles sont composées à la taille du
+                 mode « display », dépassent la hauteur de ligne et CHEVAUCHENT la
+                 ligne suivante — défaut invisible aux tests, vu à l'épreuve sur la
+                 page 252 de l'édition professeur. En ligne, on écrit \frac. */
+              "($\\frac{1}{25}$, $\\frac{1}{500}$, $\\frac{1}{100\\,000}$, puis $2$ et $50$ pour " +
               "un microscope) et demander uniquement, pour chacune, « agrandissement ou réduction ? ». " +
               "Aucun calcul. Le tri se fait en trois minutes et fixe le sens pour de bon.",
       /* Vérifié contre le tirage réel de la graine du livre (2026-09-13) :

@@ -413,3 +413,56 @@ test('Identités, double produit : ce que a² + b² oublie vaut bien 2ab', () =>
       'le total ' + total + ' n apparaît pas dans le schéma');
   }
 });
+
+/* --- Le signe pourcent, qui a deja casse un ouvrage entier --------------- */
+test('aucun signe pourcent non echappe dans le texte typographie de la troisieme', () => {
+  /* HORS des delimiteurs mathematiques, un % brut ouvre un COMMENTAIRE LaTeX :
+     il avale la fin de la ligne, et la compilation casse plus loin, a un
+     endroit sans rapport. C'est ce qui est arrive a un ouvrage entier le
+     2026-09-13, et c'est arrive une seconde fois le meme jour dans la nouvelle
+     introduction de 3e-stats-probas, qui en comptait cinq.
+
+     Ce test regarde le texte REELLEMENT TYPOGRAPHIE — intro, definitions,
+     recapitulatif, notes de schemas, enonces, indices et corriges — et non le
+     fichier source : les % des attributs SVG (color-mix(... 14%, ...)) et les
+     modulos JS sont legitimes et ne traversent jamais le convertisseur. */
+  const fs = require('fs');
+  const path = require('path');
+  const { RACINE } = require('../extract.js');
+  const dossier = path.join(RACINE, 'js/data/3e');
+  const fautes = [];
+
+  for (const f of fs.readdirSync(dossier).filter(x => x !== 'index.js' && x.endsWith('.js'))) {
+    const { module: mod, exercices } = chargerModule('js/data/3e/' + f, { tirages: 6 });
+    const textes = [mod.cours.intro || '', mod.cours.piege || ''];
+    (mod.cours.definitions || []).forEach(d => textes.push(d.def, d.term));
+    (mod.cours.recap || []).forEach(r => textes.push(r));
+    (mod.cours.diagrams || []).forEach(d => {
+      textes.push(d.description, d.caption, d.reading);
+      (d.notes || []).forEach(n => textes.push(n));
+    });
+    if (mod.cours.diagram) textes.push(mod.cours.diagram.description, mod.cours.diagram.reading);
+    ((mod.evaluation && mod.evaluation.questions) || []).forEach(q => {
+      textes.push(q.statement, q.correction || '');
+      (q.options || []).forEach(o => textes.push(o));
+    });
+    exercices.forEach(e => {
+      textes.push(e.statement, e.hint || '');
+      (e.solution || []).forEach(s => textes.push(s));
+    });
+
+    for (const t of textes) {
+      const s = String(t || '');
+      for (const m of s.matchAll(/%/g)) {
+        let k = m.index - 1, n = 0;
+        while (k >= 0 && s[k] === '\\') { n++; k--; }
+        if (n === 0) {
+          fautes.push(mod.id + ' : « …' +
+            s.slice(Math.max(0, m.index - 45), m.index + 10).replace(/<[^>]+>/g, '') + '… »');
+        }
+      }
+    }
+  }
+  assert.deepStrictEqual(fautes, [],
+    'signe(s) pourcent non echappe(s) — ecrire \\% dans la chaine JS :\n  ' + fautes.join('\n  '));
+});

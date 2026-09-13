@@ -104,7 +104,7 @@ window.SPARK_PROF["3e-systemes"] = {
         "Le lien avec les <strong>droites</strong> — deux équations, deux droites, un point " +
         "d'intersection — est présent dans le schéma du cours et il est précieux, mais il suppose " +
         "de savoir tracer la droite d'équation $ax + by = c$, qui n'est pas une forme travaillée " +
-        "au collège (on y voit $y = mx + p$). Utilisez la figure pour <strong>illustrer</strong> " +
+        "au collège (on y voit $y = mx + p$). Utiliser la figure pour <strong>illustrer</strong> " +
         "une solution déjà trouvée algébriquement, pas pour demander une résolution " +
         "graphique.<br/><br/>" +
         "Enfin, le problème du chapitre mobilise les <strong>lois de Kirchhoff</strong>. C'est de " +

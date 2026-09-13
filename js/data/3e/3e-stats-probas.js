@@ -13,12 +13,18 @@ window.MODULES.push(
     keywords: ['Tableau croisé', 'Fréquence conditionnelle', 'Probabilité', 'Effectif', 'Proportion'],
     physics: false,
     cours: {
-      intro: 'Un test de dépistage est annoncé comme « fiable à $99$ % ». Tu le passes, il ressort positif.<br/><br/>' +
+      /* LE SIGNE POURCENT EST ECHAPPE EN `\\%` (2026-09-13). Hors des
+         delimiteurs mathematiques, un % brut ouvre un COMMENTAIRE LaTeX : il
+         avale la fin de la ligne, et c'est precisement ce qui a casse la
+         compilation d'un ouvrage entier ce meme jour. Cette intro en compte
+         cinq, tous echappes. En chaine JS il faut ecrire `\\%` pour produire
+         le `\%` que LaTeX attend — un simple `\%` serait avale par JS. */
+      intro: 'Un test de dépistage est annoncé comme « fiable à $99$ \\% ». Tu le passes, il ressort positif.<br/><br/>' +
         '<strong>Quelle est la probabilité que tu sois réellement malade ?</strong><br/><br/>' +
-        'La réponse qui vient spontanément est $99$ %. Elle est fausse, et de très loin. Prends $10\\,000$ personnes, dans une population où la maladie touche une personne sur mille.<br/><br/>' +
-        'Il y a donc $10$ malades, dont le test en détecte $10$. Et il y a $9\\,990$ personnes saines, dont le test se trompe sur $1$ % : cela fait environ $100$ personnes saines déclarées positives.<br/><br/>' +
-        'Au total, $110$ personnes reçoivent un résultat positif, et seulement $10$ d\'entre elles sont malades. Ta probabilité d\'être malade est donc d\'environ $\\dfrac{10}{110}$, soit <strong>moins de $10$ %</strong>.<br/><br/>' +
-        'Où était le piège ? Dans le mot « parmi ». Le $99$ % annoncé se lit <strong>parmi les malades</strong> : presque tous sont détectés. Ce que tu veux savoir, c\'est une proportion <strong>parmi les testés positifs</strong> — une autre sous-population, et donc un autre nombre. Intervertis ces deux lectures, et un médecin se trompe de diagnostic, un jury condamne un innocent.<br/><br/>' +
+        'La réponse qui vient spontanément est $99$ \\%. Elle est fausse, et de très loin. Prends $10\\,000$ personnes, dans une population où la maladie touche une personne sur mille.<br/><br/>' +
+        'Il y a donc $10$ malades, dont le test en détecte $10$. Et il y a $9\\,990$ personnes saines, dont le test se trompe sur $1$ \\% : cela fait environ $100$ personnes saines déclarées positives.<br/><br/>' +
+        'Au total, $110$ personnes reçoivent un résultat positif, et seulement $10$ d\'entre elles sont malades. Ta probabilité d\'être malade est donc d\'environ $\\dfrac{10}{110}$, soit <strong>moins de $10$ \\%</strong>.<br/><br/>' +
+        'Où était le piège ? Dans le mot « parmi ». Le $99$ \\% annoncé se lit <strong>parmi les malades</strong> : presque tous sont détectés. Ce que tu veux savoir, c\'est une proportion <strong>parmi les testés positifs</strong> — une autre sous-population, et donc un autre nombre. Intervertis ces deux lectures, et un médecin se trompe de diagnostic, un jury condamne un innocent.<br/><br/>' +
         'Un <strong>tableau croisé</strong> (ou de contingence) sert exactement à démêler cela : il analyse deux caractères d\'une même population en même temps et révèle leurs dépendances. La clé est de distinguer deux types de fréquences.<br/><br/>' +
         'La <strong>fréquence globale</strong> : effectif de la case / total général — répond à « quelle proportion dans toute la population ? ».<br/>' +
         'La <strong>fréquence conditionnelle</strong> : effectif / total de la sous-population — répond à « parmi les personnes de type $B$, quelle proportion est de type $A$ ? ».<br/><br/>' +
