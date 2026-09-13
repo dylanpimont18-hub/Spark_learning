@@ -389,7 +389,7 @@ window.MODULES.push({
               `Par le théorème de Thalès, $MN = k \\times BC = \\dfrac{1}{${ratio}} \\times ${bc} = ${mn}$.`,
               `Contrôle de bon sens : $MN$ doit être plus petit que $BC$, puisque le triangle $AMN$ est une réduction de $ABC$.`
             ],
-            figure: figureThales(am, ab, bc)
+            figure: figureThalesTriangle(am, ab, bc)
           };
         }
 

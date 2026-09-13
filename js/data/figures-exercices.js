@@ -1244,7 +1244,7 @@ function figureSection(type, a, b, c, options) {
    La figure NE DIVULGUE PAS la reponse : MN porte un point d'interrogation,
    jamais sa valeur. Elle donne AM, AB et BC, c'est-a-dire exactement les
    donnees de l'enonce. */
-function figureThales(am, ab, bc) {
+function figureThalesTriangle(am, ab, bc) {
   if (!(am > 0 && ab > am && bc > 0)) return '';
   const k = am / ab;
 

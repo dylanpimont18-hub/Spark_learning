@@ -33,7 +33,7 @@ function chargerHelpers() {
   vm.createContext(bac);
   const helpers = fs.readFileSync(path.join(RACINE, 'js/data/helpers.js'), 'utf8');
   const figures = fs.readFileSync(path.join(RACINE, 'js/data/figures-exercices.js'), 'utf8');
-  vm.runInContext(helpers + '\n' + figures + '\nthis.__F = { figureThales, figureVecteurRepere };', bac);
+  vm.runInContext(helpers + '\n' + figures + '\nthis.__F = { figureThalesTriangle, figureVecteurRepere };', bac);
   return bac.__F;
 }
 
@@ -60,10 +60,10 @@ function polygones(svg) {
   });
 }
 
-test('figureThales : le petit triangle est une reduction EXACTE du grand', () => {
+test('figureThalesTriangle : le petit triangle est une reduction EXACTE du grand', () => {
   // Plusieurs rapports, dont ceux que le generateur tire reellement.
   for (const [am, ab, bc] of [[2, 6, 9], [3, 12, 8], [5, 10, 14], [4, 8, 6]]) {
-    const svg = F.figureThales(am, ab, bc);
+    const svg = F.figureThalesTriangle(am, ab, bc);
     assert.ok(svg, 'figure produite pour ' + am + '/' + ab);
     const polys = polygones(svg);
     assert.strictEqual(polys.length, 2, 'deux triangles dessines');
@@ -106,8 +106,8 @@ test('figureThales : le petit triangle est une reduction EXACTE du grand', () =>
   }
 });
 
-test('figureThales : la figure ne divulgue pas la longueur cherchee', () => {
-  const svg = F.figureThales(3, 12, 8);
+test('figureThalesTriangle : la figure ne divulgue pas la longueur cherchee', () => {
+  const svg = F.figureThalesTriangle(3, 12, 8);
   // MN vaut 2 : ce nombre ne doit apparaitre nulle part comme cote.
   assert.ok(svg.includes('>?<'), 'l inconnue porte un point d interrogation');
   const etiquettes = points(svg, 'text').length;
@@ -117,10 +117,10 @@ test('figureThales : la figure ne divulgue pas la longueur cherchee', () => {
   assert.ok(svg.includes('>8<'), 'BC est cote');
 });
 
-test('figureThales : refuse une donnee impossible plutot que d inventer', () => {
+test('figureThalesTriangle : refuse une donnee impossible plutot que d inventer', () => {
   // AM > AB n'a pas de sens : M ne serait pas sur [AB].
-  assert.strictEqual(F.figureThales(9, 4, 7), '');
-  assert.strictEqual(F.figureThales(0, 4, 7), '');
+  assert.strictEqual(F.figureThalesTriangle(9, 4, 7), '');
+  assert.strictEqual(F.figureThalesTriangle(0, 4, 7), '');
 });
 
 test('figureVecteurRepere : les extremites tombent sur les graduations', () => {
