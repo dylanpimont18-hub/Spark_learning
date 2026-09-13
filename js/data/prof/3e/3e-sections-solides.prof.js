@@ -187,10 +187,12 @@ window.SPARK_PROF["3e-sections-solides"] = {
               "phrase en tête du chapitre.<br/><br/>" +
               "Exploiter ensuite la <strong>vue de profil</strong> du schéma du cours, qui est la " +
               "clé pédagogique du chapitre : à droite du schéma, la coupe passant par le sommet " +
-              "montre deux triangles emboîtés, le petit dans le grand, avec $h' = 4$ cm et " +
-              "$h = 12$ cm. La configuration de Thalès y est immédiatement reconnaissable, et le " +
+              "montre deux triangles emboîtés, le petit dans le grand. Sur la pyramide du cours — " +
+              "qui n'est pas celle de l'erreur ci-dessus — ce sont $h' = 4$ cm et $h = 12$ cm, " +
+              "d'où $k = 1/3$. La configuration de Thalès y est immédiatement reconnaissable, et le " +
               "rapport se lit comme on l'a appris quatre chapitres plus tôt : <strong>petit sur " +
-              "grand</strong>.<br/><br/>" +
+              "grand</strong>. Sur l'exemple fautif, la même lecture donnerait $k = 9/12$, donc " +
+              "une section de $9{,}75$ cm et non de $17{,}3$ cm.<br/><br/>" +
               "Le geste décisif, et il ne coûte rien : exiger que l'élève <strong>redessine la vue " +
               "de profil</strong> pour chaque exercice, avant de calculer. Deux triangles emboîtés, " +
               "deux hauteurs annotées. Passer de l'espace au plan, c'est ramener le problème à " +
