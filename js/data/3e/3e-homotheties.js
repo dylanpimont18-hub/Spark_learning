@@ -13,10 +13,30 @@ window.MODULES.push(
     keywords: ['Homothétie', 'Rapport', 'Centre', 'Agrandissement', 'Réduction', 'Similitude'],
     physics: false,
     cours: {
-      intro: 'L\'<strong>homothétie</strong> est la transformation géométrique qui réalise tous les agrandissements et réductions. Elle <strong>conserve les angles</strong> et multiplie toutes les longueurs par $|k|$, où $k$ est le <strong>rapport</strong>.<br/><br/>' +
-        'Le <strong>centre $O$</strong> est le seul point fixe : tous les autres « glissent » sur leur droite passant par $O$. Si $k > 0$, l\'image est du même côté ; si $k < 0$, elle est de l\'autre côté du centre (retournement).<br/><br/>' +
-        'En optique, une lentille réalise une <strong>homothétie entre objet et image</strong>.<br/><br/>' +
-        '<strong>Piège des aires</strong> : multiplier les longueurs par $k$ multiplie les <strong>aires par $k^2$</strong> — un agrandissement de facteur $3$ donne une aire $9$ fois plus grande !',
+      /* « Découvrir » réécrit le 2026-09-13.
+
+         L'ancienne version ouvrait sur « L'homothétie est la transformation
+         géométrique qui... », c'est-à-dire sur une définition. Le test du
+         cahier des charges (section 10) est sans appel : si on peut répondre à
+         la question d'ouverture sans la notion du chapitre, la question est
+         mal choisie — et une définition ne pose même pas de question.
+
+         La nouvelle ouverture part d'une DIFFICULTÉ RÉELLE, et non d'une
+         anecdote plaquée : un agrandissement double les longueurs mais
+         quadruple la surface à peindre. C'est un fait que l'élève trouve faux
+         tant qu'il ne l'a pas compté, et rien d'autre que le chapitre ne le
+         lui explique. Le comptage est fait devant lui, cases à l'appui : il
+         n'a pas à croire le résultat, il le voit. Ce déséquilibre entre
+         longueurs et aires est exactement ce que l'homothétie met en forme,
+         et c'est aussi la source d'erreur numéro deux de la fiche
+         professeur. */
+      intro: 'Tu veux repeindre une affiche carrée de $1$ mètre de côté, puis la même affiche <strong>deux fois plus grande</strong>, soit $2$ mètres de côté. Tu as acheté un pot de peinture qui a exactement couvert la petite. Combien de pots faut-il pour la grande ?<br/><br/>' +
+        'La réponse spontanée est « deux pots », puisque tout est deux fois plus grand. Compte les cases : la grande affiche se pave <strong>exactement</strong> par quatre petites affiches, deux en largeur et deux en hauteur. Il en faut donc <strong>quatre</strong> pots.<br/><br/>' +
+        'Voilà ce que ce chapitre met en forme : quand une figure est agrandie, les <strong>longueurs</strong> sont multipliées par le rapport, mais les <strong>aires</strong> sont multipliées par son <strong>carré</strong>. Doubler les côtés quadruple la surface ; les tripler la multiplie par neuf.<br/><br/>' +
+        'La transformation qui réalise cet agrandissement porte un nom : l\'<strong>homothétie</strong>. Elle est définie par un <strong>centre $O$</strong>, qui est le seul point à ne pas bouger, et un <strong>rapport $k$</strong>, qui dit de combien chaque point s\'éloigne du centre.<br/><br/>' +
+        'Elle <strong>conserve les angles</strong> et multiplie toutes les longueurs par $|k|$ : la figure garde donc exactement sa forme, seule sa taille change.<br/><br/>' +
+        'Le signe de $k$ raconte autre chose. Si $k > 0$, l\'image reste du même côté du centre. Si $k < 0$, elle <strong>bascule de l\'autre côté</strong> de $O$ : la figure fait un demi-tour. C\'est le point du chapitre qui se perd le plus vite, et c\'est celui que les schémas ci-dessous mettent sous les yeux.<br/><br/>' +
+        'En optique, une lentille réalise précisément une <strong>homothétie entre l\'objet et son image</strong> — et l\'image renversée que tu observes, c\'est un rapport négatif.',
       definitions: [
         { term: 'Homothétie', def: 'Transformation géométrique qui associe à tout point $A$ un point $A\'$ tel que $\\vec{OA\'} = k \\cdot \\vec{OA}$. Elle <strong>conserve les formes</strong> mais change les dimensions.' },
         { term: 'Centre', def: 'Le point fixe $O$ de l\'homothétie : c\'est le <strong>seul point qui ne bouge pas</strong>. Tous les autres points « glissent » le long de la droite qui les relie à $O$.' },
@@ -92,6 +112,200 @@ window.MODULES.push(
         reading: 'Pars toujours de $O$ et suis chaque droite jusqu\'à l\'image : avec $k = 2$, la distance double à chaque fois.',
         caption: 'Homothétie de centre $O$ et de rapport $k = 2$ : triangle $ABC$ et son image $A\'B\'C\'$, avec les droites $(OA)$, $(OB)$, $(OC)$ prolongées jusqu\'aux points images.'
       },
+
+      /* SCHÉMAS SECONDAIRES, ajoutés le 2026-09-13.
+
+         Principe du cahier des charges (section 9) : une figure par
+         MALENTENDU, pas une figure par formule. Les trois malentendus retenus
+         sont, dans l'ordre de gravité mesurée en classe :
+
+           1. « l'image est un peu plus loin, dans la même direction » — le
+              RAPPORT NÉGATIF, jamais compris, et c'est LE malentendu du
+              chapitre. Une figure qui se tromperait de côté enseignerait
+              l'inverse de la leçon ;
+           2. « si les longueurs doublent, l'aire double » — le carré du
+              rapport, confondu avec le rapport ;
+           3. « une symétrie centrale, ça n'a rien à voir avec une
+              homothétie » — alors que c'est exactement le cas $k = -1$.
+
+         TOUTES LES COORDONNÉES SONT CALCULÉES par un script Node, jamais
+         posées à vue, et les propriétés affirmées sont VÉRIFIÉES au calcul
+         avant d'être écrites ici :
+
+         Schéma 1 (k = +1,6 et k = -1,6, même centre, même triangle) : pour
+         chacun des six sommets, le rapport MESURÉ sur le dessin
+         (distance O-image divisée par distance O-antécédent) vaut exactement
+         1,600000 ; le produit vectoriel (O, M, M') vaut au plus 9,1e-13, soit
+         l'alignement exact aux erreurs d'arrondi flottantes près ; le produit
+         scalaire donne le côté +1 à gauche (même côté de O) et -1 à droite
+         (de l'autre côté). C'est cette dernière mesure qui garantit que la
+         figure n'enseigne pas l'inverse de la leçon.
+
+         Schéma 2 (k = 2 sur un carré) : côté 44 puis 88, donc rapport des
+         côtés 2 = |k| ; aires 1 936 et 7 744, donc rapport des aires 4 = k².
+         Le pavage compte quatre cases de 1 936 chacune, dont la somme vaut
+         7 744, exactement l'aire du grand carré : l'élève COMPTE, il ne croit
+         pas sur parole.
+
+         Schéma 3 (k = -1) : pour chacun des trois sommets, le milieu de
+         [M M'] tombe sur O à 0,00e+0 près, le rapport des distances vaut
+         1,000000, et les trois longueurs de côtés du triangle image sont
+         identiques à celles du triangle de départ (48,4665 / 40,3609 /
+         51,2640). Une symétrie centrale, donc, et pas une ressemblance. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Piège',
+          title: 'Un rapport négatif fait basculer la figure de l\'autre côté',
+          description: 'Les deux dessins ci-dessous ont le <strong>même centre</strong> $O$, le <strong>même triangle</strong> de départ et la <strong>même valeur absolue</strong> de rapport : $1{,}6$. Seul le <strong>signe</strong> change. À gauche l\'image reste du même côté du centre ; à droite elle bascule de l\'autre côté, et la figure fait un demi-tour.',
+          svg: `
+            <svg viewBox="0 0 400 184" role="img" aria-labelledby="homo-signe-title homo-signe-desc">
+              <title id="homo-signe-title">Homothetie de rapport positif et de rapport negatif</title>
+              <desc id="homo-signe-desc">A gauche, le triangle A B C et son image par l'homothetie de centre O et de rapport un virgule six : les trois rayons partent du centre O, traversent d'abord chaque sommet du triangle de depart puis atteignent le sommet image plus loin, du meme cote du centre. A droite, le meme triangle et le meme centre, mais le rapport vaut moins un virgule six : les trois rayons traversent le centre et les sommets images se trouvent de l'autre cote, si bien que le triangle image est retourne. Dans les deux cas les distances au centre sont multipliees par un virgule six.</desc>
+
+              <!-- GAUCHE : k = +1,6. Rapport mesure sur le dessin : 1,600000
+                   pour les trois sommets. Cote (produit scalaire) : +1. -->
+              <text class="annotation-label" x="108" y="16" text-anchor="middle">rapport positif</text>
+              <line class="guide-line" x1="66" y1="100" x2="107.6" y2="77.12"></line>
+              <line class="guide-line" x1="66" y1="100" x2="149.2" y2="91.68"></line>
+              <line class="guide-line" x1="66" y1="100" x2="122.16" y2="131.2"></line>
+              <polygon class="frame-line" points="92,85.7 118,94.8 101.1,119.5" fill="color-mix(in srgb, var(--diagram-accent) 14%, transparent)"></polygon>
+              <polygon class="curve-main" points="107.6,77.12 149.2,91.68 122.16,131.2" fill="none"></polygon>
+              <circle class="plot-point-alt" cx="66" cy="100" r="4"></circle>
+              <circle class="plot-point-alt" cx="92" cy="85.7" r="3"></circle>
+              <circle class="plot-point-alt" cx="118" cy="94.8" r="3"></circle>
+              <circle class="plot-point-alt" cx="101.1" cy="119.5" r="3"></circle>
+              <circle class="plot-point" cx="107.6" cy="77.12" r="3"></circle>
+              <circle class="plot-point" cx="149.2" cy="91.68" r="3"></circle>
+              <circle class="plot-point" cx="122.16" cy="131.2" r="3"></circle>
+              <text class="tick-label" x="58" y="104" text-anchor="end">O</text>
+              <text class="tick-label" x="86" y="80" text-anchor="end">A</text>
+              <text class="tick-label" x="124" y="106" text-anchor="start">B</text>
+              <text class="tick-label" x="95" y="131" text-anchor="end">C</text>
+              <text class="label-soft" x="108" y="158" text-anchor="middle">k = 1,6</text>
+              <text class="label-soft" x="108" y="174" text-anchor="middle">image du même côté</text>
+
+              <!-- DROITE : k = -1,6. Meme rapport mesure 1,600000, mais cote
+                   -1 : les images sont de l'autre cote du centre. Les rayons
+                   TRAVERSENT donc O, ce qui est precisement ce qu'il faut
+                   voir. -->
+              <text class="annotation-label" x="284" y="16" text-anchor="middle">rapport négatif</text>
+              <line class="guide-line" x1="326" y1="85.7" x2="258.4" y2="122.88"></line>
+              <line class="guide-line" x1="352" y1="94.8" x2="216.8" y2="108.32"></line>
+              <line class="guide-line" x1="335.1" y1="119.5" x2="222.56" y2="68.8"></line>
+              <polygon class="frame-line" points="326,85.7 352,94.8 335.1,119.5" fill="color-mix(in srgb, var(--diagram-accent) 14%, transparent)"></polygon>
+              <polygon class="curve-main" points="258.4,122.88 216.8,108.32 243.84,68.8" fill="none"></polygon>
+              <circle class="plot-point-alt" cx="300" cy="100" r="4"></circle>
+              <circle class="plot-point-alt" cx="326" cy="85.7" r="3"></circle>
+              <circle class="plot-point-alt" cx="352" cy="94.8" r="3"></circle>
+              <circle class="plot-point-alt" cx="335.1" cy="119.5" r="3"></circle>
+              <circle class="plot-point" cx="258.4" cy="122.88" r="3"></circle>
+              <circle class="plot-point" cx="216.8" cy="108.32" r="3"></circle>
+              <circle class="plot-point" cx="243.84" cy="68.8" r="3"></circle>
+              <text class="tick-label" x="306" y="96" text-anchor="start">O</text>
+              <text class="tick-label" x="322" y="80" text-anchor="end">A</text>
+              <text class="tick-label" x="358" y="92" text-anchor="start">B</text>
+              <text class="tick-label" x="341" y="128" text-anchor="start">C</text>
+              <text class="label-soft" x="284" y="158" text-anchor="middle">k = -1,6</text>
+              <text class="label-soft" x="284" y="174" text-anchor="middle">image de l'autre côté</text>
+            </svg>
+          `,
+          notes: [
+            'Dans les deux dessins, chaque point image est à $1{,}6$ fois la distance du centre : la <strong>valeur absolue</strong> du rapport est la même, et les deux triangles images ont exactement la même taille.',
+            'À gauche $k = 1{,}6 > 0$ : le rayon part de $O$, rencontre le sommet, puis son image plus loin. Les trois points sont dans cet ordre.',
+            'À droite $k = -1{,}6 < 0$ : le rayon <strong>traverse</strong> $O$. Le centre est entre le sommet et son image, et le triangle est retourné.',
+            'Le signe ne change donc ni la forme ni la taille de l\'image : il change seulement le <strong>côté</strong> où elle se trouve.'
+          ],
+          reading: 'Suis un rayon du doigt en partant du sommet $A$. À gauche tu t\'éloignes de $O$ pour atteindre son image ; à droite tu dois passer par $O$ et continuer au-delà.',
+          caption: 'Le même triangle et le même centre, transformés par deux rapports opposés : $k = 1{,}6$ à gauche, $k = -1{,}6$ à droite.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Longueurs et aires',
+          title: 'Les longueurs doublent, la surface est multipliée par quatre',
+          description: 'Un carré agrandi par une homothétie de rapport $k = 2$ : son côté est bien deux fois plus long. Mais le grand carré se pave <strong>exactement</strong> par quatre copies du petit, et non par deux. C\'est ce que dit la formule $\\mathcal{A}_{\\text{image}} = k^2 \\times \\mathcal{A}$.',
+          svg: `
+            <svg viewBox="0 0 268 168" role="img" aria-labelledby="homo-aires-title homo-aires-desc">
+              <title id="homo-aires-title">Un carre et son agrandissement de rapport deux</title>
+              <desc id="homo-aires-desc">A gauche, un petit carre dont le cote est note c. A droite, le carre image par une homothetie de rapport deux : son cote mesure deux fois c, et il est decoupe par un trait vertical et un trait horizontal en quatre cases identiques, chacune ayant exactement la taille du petit carre. Les quatre cases portent les numeros un, deux, trois et quatre. Le lecteur compte donc quatre copies du petit carre dans le grand, alors que les longueurs n'ont ete multipliees que par deux.</desc>
+
+              <!-- Cote 44 puis 88 : rapport des cotes 2, rapport des aires 4.
+                   Le pavage compte quatre cases de 1936 unites carrees dont la
+                   somme vaut 7744, exactement l'aire du grand carre. -->
+              <rect class="frame-line" x="30" y="80" width="44" height="44" fill="color-mix(in srgb, var(--diagram-accent) 14%, transparent)"></rect>
+              <text class="annotation-label" x="52" y="140" text-anchor="middle">côté c</text>
+              <text class="label-soft" x="52" y="156" text-anchor="middle">aire de départ</text>
+
+              <rect class="curve-main" x="150" y="36" width="88" height="88" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)"></rect>
+              <line class="grid-line" x1="194" y1="36" x2="194" y2="124"></line>
+              <line class="grid-line" x1="150" y1="80" x2="238" y2="80"></line>
+              <text class="tick-label" x="172" y="63" text-anchor="middle">1</text>
+              <text class="tick-label" x="216" y="63" text-anchor="middle">2</text>
+              <text class="tick-label" x="172" y="107" text-anchor="middle">3</text>
+              <text class="tick-label" x="216" y="107" text-anchor="middle">4</text>
+              <text class="annotation-label" x="194" y="140" text-anchor="middle">côté 2c</text>
+              <text class="label-soft" x="194" y="156" text-anchor="middle">quatre fois cette aire</text>
+
+              <text class="annotation-label" x="112" y="86" text-anchor="middle">k = 2</text>
+            </svg>
+          `,
+          notes: [
+            'Le côté passe de $c$ à $2c$ : les <strong>longueurs</strong> sont bien multipliées par $|k| = 2$.',
+            'Le grand carré contient <strong>quatre</strong> copies du petit, pas deux : l\'<strong>aire</strong> est multipliée par $k^2 = 4$.',
+            'Avec $k = 3$, le pavage compterait $9$ cases ; avec $k = 10$, il en compterait $100$. Le nombre de cases est toujours $k^2$.',
+            '<strong>Le réflexe utile</strong> : dès qu\'un énoncé parle de surface, de superficie, de peinture ou de carrelage, le facteur à utiliser est $k^2$, jamais $k$.'
+          ],
+          reading: 'Compte les cases du grand carré : il y en a quatre, et chacune a exactement la taille du carré de gauche.',
+          caption: 'Un carré et son image de rapport $2$, le grand pavé par quatre copies du petit.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Cas particulier',
+          title: 'Le rapport moins un est exactement la symétrie centrale',
+          description: 'Quand $k = -1$, l\'image est à la <strong>même distance</strong> du centre que le point de départ, mais de l\'autre côté. Le centre $O$ est donc le <strong>milieu</strong> de chaque segment reliant un point à son image : c\'est mot pour mot la définition de la symétrie centrale vue en cinquième.',
+          svg: `
+            <svg viewBox="0 0 400 176" role="img" aria-labelledby="homo-moins1-title homo-moins1-desc">
+              <title id="homo-moins1-title">Homothetie de rapport moins un</title>
+              <desc id="homo-moins1-desc">Le triangle A B C et son image par l'homothetie de centre O et de rapport moins un. Chaque sommet est relie a son image par un segment qui passe par le centre O, et le centre est exactement au milieu de chacun de ces trois segments. Le triangle image a donc la meme taille que le triangle de depart, mais il est retourne : c'est la symetrie centrale de centre O.</desc>
+
+              <!-- k = -1. Verifie au calcul : le milieu de chaque segment
+                   [M M'] tombe sur O a 0 pres, le rapport des distances vaut
+                   1,000000 et les trois cotes du triangle image mesurent
+                   exactement ceux du triangle de depart. -->
+              <line class="guide-line" x1="227" y1="60.5" x2="173" y2="123.5"></line>
+              <line class="guide-line" x1="272" y1="78.5" x2="128" y2="105.5"></line>
+              <line class="guide-line" x1="245" y1="108.5" x2="155" y2="75.5"></line>
+              <polygon class="frame-line" points="227,60.5 272,78.5 245,108.5" fill="color-mix(in srgb, var(--diagram-accent) 14%, transparent)"></polygon>
+              <polygon class="curve-main" points="173,123.5 128,105.5 155,75.5" fill="none"></polygon>
+              <circle class="plot-point-alt" cx="200" cy="92" r="5"></circle>
+              <circle class="plot-point-alt" cx="227" cy="60.5" r="3"></circle>
+              <circle class="plot-point-alt" cx="272" cy="78.5" r="3"></circle>
+              <circle class="plot-point-alt" cx="245" cy="108.5" r="3"></circle>
+              <circle class="plot-point" cx="173" cy="123.5" r="3"></circle>
+              <circle class="plot-point" cx="128" cy="105.5" r="3"></circle>
+              <circle class="plot-point" cx="155" cy="75.5" r="3"></circle>
+              <text class="tick-label" x="206" y="88" text-anchor="start">O</text>
+              <text class="tick-label" x="231" y="54" text-anchor="start">A</text>
+              <text class="tick-label" x="278" y="76" text-anchor="start">B</text>
+              <text class="tick-label" x="251" y="116" text-anchor="start">C</text>
+              <text class="tick-label" x="169" y="134" text-anchor="middle">A'</text>
+              <text class="tick-label" x="122" y="110" text-anchor="end">B'</text>
+              <text class="tick-label" x="151" y="68" text-anchor="end">C'</text>
+              <text class="annotation-label" x="200" y="26" text-anchor="middle">k = -1</text>
+              <text class="label-soft" x="200" y="166" text-anchor="middle">O est le milieu de chaque segment tracé</text>
+            </svg>
+          `,
+          notes: [
+            'Avec $k = -1$, on a $|k| = 1$ : les longueurs sont <strong>inchangées</strong>, et le triangle image a exactement la même taille que celui de départ.',
+            'Le signe négatif place l\'image de l\'autre côté de $O$, à la même distance : $O$ est donc le <strong>milieu</strong> de $[AA\']$, de $[BB\']$ et de $[CC\']$.',
+            'Une symétrie centrale n\'est pas un cas à part de l\'homothétie : c\'est <strong>exactement</strong> l\'homothétie de rapport $-1$.',
+            'À ne pas confondre avec $k = 1$, qui ne bouge rien du tout : le triangle et son image sont alors confondus.'
+          ],
+          reading: 'Pose ta règle sur $A$ et $A\'$ : elle passe par $O$, et $O$ tombe au milieu. Refais-le avec $B$ puis $C$, c\'est vrai à chaque fois.',
+          caption: 'Homothétie de centre $O$ et de rapport $-1$ : le triangle et son image sont symétriques par rapport à $O$.'
+        }
+      ],
+
       recap: [
         'Les <strong>longueurs</strong> sont multipliées par $|k|$ et les <strong>aires</strong> par $k^2$ — ne pas confondre !',
         'Les <strong>angles</strong> sont toujours conservés : l\'image d\'un triangle équilatéral reste équilatéral.',

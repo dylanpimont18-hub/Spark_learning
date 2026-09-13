@@ -13,10 +13,32 @@ window.MODULES.push(
     keywords: ['Section', 'Plan de coupe', 'Pavé', 'Cône', 'Cylindre', 'Pyramide'],
     physics: false,
     cours: {
-      intro: 'Couper un solide par un plan donne une <strong>section plane</strong> dont la forme révèle la structure géométrique du solide. Les <strong>sections parallèles à une base</strong> conservent la forme de celle-ci, en plus petit, selon un rapport de similitude lié aux hauteurs.<br/><br/>' +
-        'Les <strong>coupes obliques</strong> donnent des formes moins intuitives : une coupe oblique d\'un cylindre produit une <strong>ellipse</strong>, pas un rectangle ni un cercle.<br/><br/>' +
-        'Applications concrètes : en <strong>médecine</strong> (IRM, scanner), en <strong>architecture</strong> (plans de coupe), en fabrication industrielle.<br/><br/>' +
-        'Pour les pyramides et cônes, le <strong>rapport de similitude</strong> entre la section et la base est le rapport des hauteurs — c\'est le théorème de Thalès appliqué dans l\'espace.',
+      /* « Découvrir » réécrit le 2026-09-13.
+
+         L'ancienne version ouvrait sur « Couper un solide par un plan donne une
+         section plane... », c'est-à-dire sur la DÉFINITION du chapitre. Le test
+         du cahier des charges (section 10) est sans appel : si on peut répondre
+         à la question d'ouverture sans la notion du chapitre, la question est
+         mal choisie — et une définition ne pose même pas de question.
+
+         La nouvelle ouverture part d'une difficulté RÉELLE, et non d'une
+         anecdote plaquée : on demande à l'élève de PRÉVOIR une forme avant de
+         la voir. Or c'est exactement ce qu'il ne sait pas faire, et c'est le
+         malentendu central du chapitre : il croit qu'on « aplatit » le solide,
+         donc il répond « un cylindre coupé donne un rectangle » ou « un cercle »
+         selon le dessin qu'il a en tête. La question ne peut se trancher que
+         par la notion de plan de coupe.
+
+         L'ancrage (le saucisson, puis le scanner) n'est pas décoratif : la
+         tomographie médicale EST la reconstruction d'un solide à partir de ses
+         sections, et c'est le seul métier où l'on fait exactement cela. */
+      intro: 'Prends un saucisson et un couteau. Coupe-le droit, perpendiculairement à sa longueur : tu obtiens une rondelle, un <strong>disque</strong>. Maintenant coupe-le dans l\'autre sens, tout du long : tu obtiens une bande allongée, un <strong>rectangle</strong>.<br/><br/>' +
+        'Même saucisson, même couteau, deux formes qui n\'ont rien à voir. Et si tu coupes de biais, tu obtiens encore autre chose : une forme ovale, étirée.<br/><br/>' +
+        'Voilà la question du chapitre : <strong>qu\'est-ce qui a changé ?</strong> Pas le solide — il est resté le même. Ce qui a changé, c\'est l\'<strong>orientation du plan de coupe</strong>. La forme que tu vois n\'appartient donc pas au solide seul, elle appartient au couple « solide + plan ».<br/><br/>' +
+        'C\'est un point qui résiste, parce qu\'on est tenté de croire qu\'on « aplatit » le solide ou qu\'on rabat une de ses faces. Il n\'en est rien : la section est une figure <strong>nouvelle</strong>, qui vit dans le plan de coupe et nulle part ailleurs.<br/><br/>' +
+        'Un scanner médical fait exactement ce travail, des centaines de fois par examen : il produit des sections du corps, coupe après coupe, et un ordinateur reconstruit ensuite le volume à partir d\'elles. Sans la géométrie des sections, aucune image médicale en trois dimensions n\'existerait.<br/><br/>' +
+        'Deux régularités vont te servir tout au long du chapitre. Une <strong>section parallèle à une base</strong> conserve la forme de cette base, en plus petit : c\'est le théorème de Thalès, transporté dans l\'espace. Et une <strong>coupe oblique</strong> d\'un cylindre donne une <strong>ellipse</strong>, jamais un cercle ni un rectangle.<br/><br/>' +
+        'Pour les pyramides et les cônes, le <strong>rapport de similitude</strong> entre la section et la base est le rapport des hauteurs.',
       definitions: [
         { term: 'Section', def: 'Figure plane obtenue en <strong>coupant un solide par un plan</strong>. Sa forme dépend du type de solide et de l\'orientation du plan de coupe.' },
         { term: 'Plan de coupe', def: 'Le plan qui <strong>intersecte le solide</strong>. Il peut être parallèle à la base, perpendiculaire à l\'axe ou oblique — chaque orientation produit une section différente.' },
