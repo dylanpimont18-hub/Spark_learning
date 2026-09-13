@@ -9,7 +9,17 @@
     physics: 'Transformer toute formule physique : $\\rho = m/V$ → trouver $m$',
 
     cours: {
-      intro: 'Isoler une inconnue, c\'est comme défaire un nœud : on défait les opérations dans l\'ordre inverse. <strong>Principe fondamental :</strong> l\'égalité est une balance — toute opération effectuée d\'un côté doit l\'être de l\'autre.' +
+      /* DECOUVRIR reecrit le 2026-09-13. L'intro posait d'emblee la methode et
+         l'image de la balance. On ouvre sur un probleme que l'eleve sait
+         resoudre PAR TATONNEMENT avec des nombres ronds, puis on change les
+         nombres pour que le tatonnement devienne impraticable : l'equation
+         n'est plus une formalite imposee, c'est ce qui reste quand essayer ne
+         marche plus. */
+      intro: 'Un rectangle a un périmètre de $46$ cm et sa longueur dépasse sa largeur de $7$ cm. Quelle est sa largeur ?<br/><br/>' +
+        'Tu peux essayer : $10$ et $17$ ? Le périmètre fait $54$, trop grand. $8$ et $15$ ? On tombe sur $46$. Trouvé.<br/><br/>' +
+        'Maintenant, même problème avec un périmètre de $47{,}8$ cm et un écart de $6{,}3$ cm. Le tâtonnement ne mène plus nulle part, et pourtant le problème est exactement le même.<br/><br/>' +
+        'Il te faut une méthode qui donne la réponse <strong>sans deviner</strong>, quels que soient les nombres. C\'est tout l\'objet de ce chapitre.<br/><br/>' +
+        'Isoler une inconnue, c\'est comme défaire un nœud : on défait les opérations dans l\'ordre inverse. <strong>Principe fondamental :</strong> l\'égalité est une balance — toute opération effectuée d\'un côté doit l\'être de l\'autre.' +
         '<br/><br/>' +
         'En physique, la même formule sert dans les deux sens : $\\rho = \\dfrac{m}{V}$ permet de calculer $m$ (si on connaît $\\rho$ et $V$), ou $V$ (si on connaît $m$ et $\\rho$). Il n\'y a pas de "nouvelle formule" — juste de l\'algèbre.' +
         '<br/><br/>' +
@@ -55,7 +65,7 @@
         svg: `
           <svg viewBox="0 0 480 280" role="img" aria-labelledby="calcalg-balance-title calcalg-balance-desc">
             <title id="calcalg-balance-title">Isoler x par la métaphore de la balance</title>
-            <desc id="calcalg-balance-desc">Deux balances a deux plateaux montrent comment isoler x dans l'equation 4x = 20 : la balance de depart avec 4x sur un plateau et 20 sur l'autre, puis apres division des deux cotes par 4, la balance montre x seul face a 5.</desc>
+            <desc id="calcalg-balance-desc">Deux balances a deux plateaux montrent comment isoler x dans l'équation 4x = 20 : la balance de départ avec 4x sur un plateau et 20 sur l'autre, puis après division des deux côtés par 4, la balance montre x seul face a 5.</desc>
 
             <text class="axis-label" x="110" y="30" text-anchor="middle">Départ</text>
             <line class="frame-line" x1="55" y1="120" x2="165" y2="120"></line>
@@ -97,6 +107,125 @@
         reading: 'Le principe est toujours le même : <strong>ce qu\'on fait à un plateau, on le fait à l\'autre</strong> — sinon la balance penche et l\'égalité n\'est plus vraie.',
         caption: 'Résolution de $4x = 20$ par la métaphore de la balance à deux plateaux : diviser les deux côtés par $4$ pour isoler $x = 5$.'
       },
+
+      /* SCHEMAS SECONDAIRES (2026-09-13). Une figure par MALENTENDU :
+         1. on defait les operations dans l'ORDRE INVERSE — l'eleve applique
+            les etapes dans le sens de lecture et bloque ;
+         2. ce qu'on fait a un membre, on le fait a l'AUTRE ENTIER, pas au
+            seul terme qu'on regarde ;
+         3. verifier en remplacant x par sa valeur : l'eleve croit que c'est
+            une politesse, c'est le seul controle qui existe. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'L\'ordre inverse',
+          title: 'On défait les opérations dans l\'ordre inverse',
+          description: 'Pour habiller, on met les chaussettes puis les chaussures. Pour déshabiller, on retire les chaussures <strong>puis</strong> les chaussettes. Une équation se défait de la même façon : par la dernière opération subie.',
+          svg: `
+            <svg viewBox="0 0 400 176" role="img" aria-labelledby="algebre-ordre-title algebre-ordre-desc">
+              <title id="algebre-ordre-title">Construction puis resolution d'une equation etape par etape</title>
+              <desc id="algebre-ordre-desc">En haut, on part de l'inconnue x et on construit l'expression en deux etapes : on multiplie d'abord par cinq, puis on retranche trois, ce qui donne cinq x moins trois egal vingt-sept. En bas, on defait ces operations en sens inverse : on ajoute d'abord trois, puis on divise par cinq, ce qui donne x egal six. Les fleches du bas vont de la droite vers la gauche, a l'oppose de celles du haut.</desc>
+
+              <text class="tick-label" x="24" y="46" text-anchor="start">on construit</text>
+              <text class="annotation-label" x="130" y="46" text-anchor="middle">x</text>
+              <line class="curve-main" x1="146" y1="42" x2="196" y2="42"></line>
+              <polygon class="plot-point" points="202,42 192,38 192,46"></polygon>
+              <text class="tick-label" x="172" y="30" text-anchor="middle">× 5</text>
+              <text class="annotation-label" x="228" y="46" text-anchor="middle">5x</text>
+              <line class="curve-main" x1="248" y1="42" x2="298" y2="42"></line>
+              <polygon class="plot-point" points="304,42 294,38 294,46"></polygon>
+              <text class="tick-label" x="274" y="30" text-anchor="middle">− 3</text>
+              <text class="annotation-label" x="342" y="46" text-anchor="middle">5x − 3</text>
+
+              <text class="tick-label" x="200" y="88" text-anchor="middle">équation : 5x − 3 = 27</text>
+
+              <text class="tick-label" x="24" y="130" text-anchor="start">on défait</text>
+              <text class="annotation-label" x="130" y="130" text-anchor="middle">x = 6</text>
+              <line class="curve-main" x1="202" y1="126" x2="152" y2="126"></line>
+              <polygon class="plot-point" points="146,126 156,122 156,130"></polygon>
+              <text class="tick-label" x="176" y="114" text-anchor="middle">÷ 5</text>
+              <text class="annotation-label" x="232" y="130" text-anchor="middle">5x = 30</text>
+              <line class="curve-main" x1="304" y1="126" x2="272" y2="126"></line>
+              <polygon class="plot-point" points="266,126 276,122 276,130"></polygon>
+              <text class="tick-label" x="288" y="114" text-anchor="middle">+ 3</text>
+              <text class="annotation-label" x="344" y="130" text-anchor="middle">27</text>
+
+              <text class="tick-label" x="200" y="166" text-anchor="middle">les flèches du bas vont en sens inverse</text>
+            </svg>
+          `,
+          notes: [
+            'En construisant, la <strong>dernière</strong> opération subie par $x$ est le $-3$. C\'est donc la <strong>première</strong> à défaire.',
+            'On ajoute $3$ des deux côtés : $5x = 30$. Puis on divise par $5$ : $x = 6$.',
+            'Diviser par $5$ en premier n\'est pas interdit, mais il faut alors diviser <strong>tout</strong> le membre de gauche : on obtient $x - 0{,}6 = 5{,}4$, donc $x = 6$ également. L\'erreur serait d\'écrire $x - 3 = 5{,}4$, en oubliant de diviser aussi le $3$.'
+          ],
+          reading: 'Compare les deux lignes de flèches : elles parcourent le même chemin en sens opposé. C\'est exactement ce que tu fais en résolvant.',
+          caption: 'Résoudre, c\'est remonter le chemin de construction de l\'équation, dans l\'ordre inverse.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Les deux membres entiers',
+          title: 'Ce qu\'on fait d\'un côté, on le fait de l\'autre en entier',
+          description: 'L\'erreur n\'est pas d\'oublier l\'autre membre : c\'est de n\'en traiter <strong>qu\'une partie</strong>. Diviser par $2$ doit s\'appliquer à tout ce qui se trouve de l\'autre côté, pas seulement au premier terme rencontré.',
+          svg: `
+            <svg viewBox="0 0 400 172" role="img" aria-labelledby="algebre-membre-title algebre-membre-desc">
+              <title id="algebre-membre-title">Division correcte et division partielle des deux membres</title>
+              <desc id="algebre-membre-desc">On part de l'egalite deux x egal six plus huit. En haut, le calcul juste : on divise le membre de droite en entier, six plus huit fait quatorze, puis quatorze divise par deux donne sept. En dessous, en trait tirete, l'erreur frequente : l'eleve ne divise que le six et laisse le huit intact, ce qui donne trois plus huit egal onze, un resultat faux.</desc>
+
+              <text class="tick-label" x="200" y="34" text-anchor="middle">2x = 6 + 8</text>
+
+              <!-- Le JUSTE en premier et en teinte d'accent, l'erreur dessous
+                   en teinte faible et tirete : l'oeil lit le haut d'abord. -->
+              <text class="annotation-label" x="30" y="76" text-anchor="start">juste</text>
+              <text class="tick-label" x="110" y="76" text-anchor="start">on divise TOUT le membre de droite</text>
+              <text class="annotation-label" x="110" y="98" text-anchor="start">2x = 14 donc x = 7</text>
+
+              <text class="label-soft" x="30" y="132" text-anchor="start">erreur</text>
+              <text class="tick-label" x="110" y="132" text-anchor="start">on ne divise que le premier terme</text>
+              <line class="guide-line" x1="106" y1="140" x2="330" y2="140"></line>
+              <text class="label-soft" x="110" y="158" text-anchor="start">x = 3 + 8 = 11, ce qui ne convient pas</text>
+            </svg>
+          `,
+          notes: [
+            'Le membre de droite est un <strong>bloc</strong> : $6 + 8$ vaut $14$, et c\'est $14$ que l\'on divise par $2$.',
+            'La vérification tranche : avec $x = 7$, on a $2 \\times 7 = 14$ et $6 + 8 = 14$. Les deux membres coïncident.',
+            'Avec $x = 11$, on aurait $2 \\times 11 = 22$, alors que $6 + 8 = 14$. L\'égalité est rompue.'
+          ],
+          reading: 'Avant de diviser, réduis d\'abord chaque membre à un seul nombre quand c\'est possible. Tu n\'auras plus qu\'un terme à traiter de chaque côté.',
+          caption: 'Diviser une égalité, c\'est diviser chaque membre en entier, jamais un seul de ses termes.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Le contrôle qui ne coûte rien',
+          title: 'Remplacer x par sa valeur pour vérifier',
+          description: 'Une équation offre quelque chose de rare : on peut <strong>vérifier soi-même</strong> son résultat, sans corrigé. Il suffit de remplacer $x$ par la valeur trouvée et de comparer les deux membres.',
+          svg: `
+            <svg viewBox="0 0 400 168" role="img" aria-labelledby="algebre-verif-title algebre-verif-desc">
+              <title id="algebre-verif-title">Verification d'une solution en remplacant l'inconnue</title>
+              <desc id="algebre-verif-desc">On teste la valeur x egal six dans l'equation cinq x moins trois egal vingt-sept. Le membre de gauche donne cinq fois six moins trois, soit vingt-sept. Le membre de droite vaut vingt-sept. Les deux resultats sont identiques, ce qui confirme la solution. En dessous, on teste la valeur x egal cinq : le membre de gauche donne vingt-deux, different de vingt-sept, donc cette valeur est rejetee.</desc>
+
+              <text class="tick-label" x="200" y="30" text-anchor="middle">équation de départ : 5x − 3 = 27</text>
+
+              <text class="annotation-label" x="30" y="72" text-anchor="start">x = 6</text>
+              <text class="tick-label" x="110" y="72" text-anchor="start">5 × 6 − 3 = 27</text>
+              <text class="tick-label" x="250" y="72" text-anchor="start">et à droite : 27</text>
+              <text class="annotation-label" x="110" y="94" text-anchor="start">les deux côtés donnent le même nombre</text>
+
+              <text class="label-soft" x="30" y="130" text-anchor="start">x = 5</text>
+              <text class="tick-label" x="110" y="130" text-anchor="start">5 × 5 − 3 = 22</text>
+              <text class="tick-label" x="250" y="130" text-anchor="start">et à droite : 27</text>
+              <line class="guide-line" x1="106" y1="138" x2="330" y2="138"></line>
+              <text class="label-soft" x="110" y="156" text-anchor="start">22 et 27 diffèrent, donc 5 ne convient pas</text>
+            </svg>
+          `,
+          notes: [
+            'Vérifier ne consiste pas à refaire le calcul : on <strong>remplace</strong> $x$ par la valeur trouvée et on compare les deux membres.',
+            'Si les deux membres donnent le même nombre, la solution est juste — c\'est une certitude, pas une impression.',
+            'Cette vérification détecte aussi bien une erreur de signe qu\'une erreur d\'ordre des opérations.'
+          ],
+          reading: 'Prends l\'habitude de finir chaque équation par cette ligne. Elle coûte trente secondes et te dit, seul, si ton résultat tient.',
+          caption: 'Remplacer $x$ par la valeur trouvée : si les deux membres coïncident, la solution est juste.'
+        }
+      ],
       recap: [
         'L\'égalité est une balance : même opération des deux côtés',
         'Défaire les opérations de l\'extérieur vers l\'intérieur (inverse de la construction)',
@@ -134,33 +263,145 @@
 
     exercice: {
       type: 'numeric',
+      /* ELARGI LE 2026-09-13. Le generateur ne tirait qu'une forme d'equation,
+         $ax + b = c$ avec a, b et c POSITIFS : 5 moules, 15 enonces, 3 de
+         banque. Le chapitre s'intitule pourtant « isoler une inconnue », et
+         l'evaluation interroge la soustraction d'un coefficient negatif, la
+         division par une fraction et l'isolation d'une variable dans une
+         formule — trois formes que les exercices ne presentaient jamais.
+
+         Cinq taches maintenant. Elles suivent l'ordre de difficulte reel :
+         addition seule, coefficient negatif (ou la division par un negatif
+         renverse le raisonnement), inconnue des deux cotes, quotient, et
+         isolation dans une formule de physique. */
       generate() {
+        const tache = pick(['simple', 'negatif', 'deux-cotes', 'quotient', 'formule']);
         const ctx = pick([
-          {intro:'En mécanique, la relation entre force, masse et accélération donne l\'équation', emoji:'🔧'},
-          {intro:'Pour calculer la tension électrique dans un circuit, on résout', emoji:'⚡'},
-          {intro:'En chimie, l\'équilibre des masses donne l\'équation', emoji:'⚗️'},
-          {intro:'Pour déterminer la vitesse d\'un mobile, on résout', emoji:'🚀'},
-          {intro:'En économie, le calcul du prix de revient conduit à l\'équation', emoji:'💰'}
+          { intro: 'En mécanique, la relation entre force, masse et accélération donne l\'équation', emoji: '🔧' },
+          { intro: 'Pour calculer la tension électrique dans un circuit, on résout', emoji: '⚡' },
+          { intro: 'En chimie, l\'équilibre des masses donne l\'équation', emoji: '⚗️' },
+          { intro: 'Pour déterminer la vitesse d\'un mobile, on résout', emoji: '🚀' },
+          { intro: 'En économie, le calcul du prix de revient conduit a l\'équation', emoji: '💰' }
         ]);
-        const a = rand(2, 9);
-        const x = rand(2, 12);
-        const b = rand(1, 20);
-        const c = a * x + b;
+
+        if (tache === 'simple') {
+          const a = rand(2, 9), x = rand(2, 12), b = rand(1, 20);
+          const c = a * x + b;
+          return {
+            statement: ctx.emoji + ' ' + ctx.intro + ' : $' + a + 'x + ' + b + ' = ' + c + '$. Quelle est la valeur de $x$ ?',
+            answer: x,
+            tolerance: 0.001,
+            unit: '',
+            hint: 'Retire d\'abord $' + b + '$ aux deux membres pour isoler $' + a + 'x$, puis divise par $' + a + '$.',
+            solution: [
+              'Équation de départ : $' + a + 'x + ' + b + ' = ' + c + '$.',
+              'On retire $' + b + '$ aux DEUX membres : $' + a + 'x = ' + c + ' - ' + b + ' = ' + (c - b) + '$.',
+              'On divise les deux membres par $' + a + '$ : $x = \\dfrac{' + (c - b) + '}{' + a + '} = ' + x + '$.'
+            ]
+          };
+        }
+
+        if (tache === 'negatif') {
+          // Coefficient NEGATIF : c'est la forme ou le signe se perd le plus
+          // souvent, et elle etait totalement absente du generateur.
+          const a = rand(2, 8), x = rand(2, 10), b = rand(5, 30);
+          const c = -a * x + b;
+          return {
+            statement: ctx.emoji + ' ' + ctx.intro + ' : $-' + a + 'x + ' + b + ' = ' + c + '$. Quelle est la valeur de $x$ ?',
+            answer: x,
+            tolerance: 0.001,
+            unit: '',
+            hint: 'Isole d\'abord $-' + a + 'x$, puis divise par $-' + a + '$. Diviser par un nombre négatif change le signe du résultat.',
+            solution: [
+              'Équation de départ : $-' + a + 'x + ' + b + ' = ' + c + '$.',
+              'On retire $' + b + '$ aux deux membres : $-' + a + 'x = ' + c + ' - ' + b + ' = ' + (c - b) + '$.',
+              'On divise par $-' + a + '$ : $x = \\dfrac{' + (c - b) + '}{-' + a + '} = ' + x + '$. Deux nombres négatifs se divisent en un résultat positif.'
+            ]
+          };
+        }
+
+        if (tache === 'deux-cotes') {
+          // Inconnue des DEUX cotes : le vrai saut de la quatrieme.
+          const x = rand(2, 10);
+          const a = rand(4, 9), b = rand(2, 3);
+          const p = rand(1, 12);
+          // a*x + p = b*x + q  =>  q = (a-b)*x + p
+          const q = (a - b) * x + p;
+          return {
+            statement: ctx.emoji + ' ' + ctx.intro + ' : $' + a + 'x + ' + p + ' = ' + b + 'x + ' + q + '$. Quelle est la valeur de $x$ ?',
+            answer: x,
+            tolerance: 0.001,
+            unit: '',
+            hint: 'Commence par rassembler les $x$ d\'un seul cote : retire $' + b + 'x$ aux deux membres.',
+            solution: [
+              'Équation de départ : $' + a + 'x + ' + p + ' = ' + b + 'x + ' + q + '$.',
+              'On retire $' + b + 'x$ aux deux membres : $' + (a - b) + 'x + ' + p + ' = ' + q + '$.',
+              'On retire $' + p + '$ : $' + (a - b) + 'x = ' + (q - p) + '$, puis on divise par $' + (a - b) + '$ : $x = ' + x + '$.'
+            ]
+          };
+        }
+
+        if (tache === 'quotient') {
+          const d = rand(2, 8), x = rand(2, 12), b = rand(1, 15);
+          const c = x / d + b;
+          const cAff = Number.isInteger(c) ? String(c) : fr(parseFloat(c.toFixed(3)));
+          return {
+            statement: ctx.emoji + ' ' + ctx.intro + ' : $\\dfrac{x}{' + d + '} + ' + b + ' = ' + cAff + '$. Quelle est la valeur de $x$ ?',
+            answer: x,
+            tolerance: 0.001,
+            unit: '',
+            hint: 'Isole d\'abord la fraction, puis multiplie les deux membres par $' + d + '$ : multiplier annule la division.',
+            solution: [
+              'On retire $' + b + '$ aux deux membres : $\\dfrac{x}{' + d + '} = ' + fr(parseFloat((c - b).toFixed(3))) + '$.',
+              'On multiplie les deux membres par $' + d + '$ : $x = ' + fr(parseFloat((c - b).toFixed(3))) + ' \\times ' + d + ' = ' + x + '$.',
+              'Erreur fréquente : diviser par $' + d + '$ au lieu de multiplier. Pour défaire une division, on multiplie.'
+            ]
+          };
+        }
+
+        // tache === 'formule' : isoler une lettre dans une formule de physique,
+        // ce que l'evaluation demande et que rien n'exercait.
+        const cas = pick([
+          { f: 'v = \\dfrac{d}{t}', cherche: 'd', don: 'v = ' + rand(2, 9) + '$ et $t = ' + rand(2, 9), calc: null },
+          { f: 'P = U \\times I', cherche: 'U', don: null, calc: null }
+        ]);
+        if (cas.cherche === 'd') {
+          const v = rand(2, 9), t = rand(2, 9);
+          return {
+            statement: '🚀 La vitesse d\'un mobile vérifie $v = \\dfrac{d}{t}$, ou $d$ est la distance et $t$ la duree. ' +
+              'On mesure $v = ' + v + '$ et $t = ' + t + '$. Quelle est la valeur de $d$ ?',
+            answer: v * t,
+            tolerance: 0.001,
+            unit: '',
+            hint: 'Isole $d$ dans la formule AVANT de remplacer par les nombres : multiplie les deux membres par $t$.',
+            solution: [
+              'On part de $v = \\dfrac{d}{t}$ et on multiplie les deux membres par $t$ : $d = v \\times t$.',
+              'On remplace seulement maintenant : $d = ' + v + ' \\times ' + t + ' = ' + (v * t) + '$.',
+              'Isoler d\'abord, remplacer ensuite : c\'est plus sur, et la formule obtenue resservira.'
+            ]
+          };
+        }
+        /* U DOIT TOMBER JUSTE (corrige le 2026-09-13). On tirait P puis I
+           independamment, si bien que U = P / I valait parfois 10,666666666666666 :
+           une reponse illisible, imprimee telle quelle dans le livre, pour une
+           question dont l unique enjeu est d isoler une lettre. On tire donc U et I,
+           et P s en deduit. */
+        const I = pick([2, 3, 4, 5, 6]);
+        const U = rand(2, 24);
+        const Puse = U * I;
         return {
-          statement: `${ctx.emoji} ${ctx.intro} : $${a}x + ${b} = ${c}$. Quelle est la valeur de $x$ ?`,
-          answer: x,
+          statement: '⚡ La puissance électrique vérifie $P = U \\times I$. On mesure $P = ' + Puse + '$ et $I = ' + I + '$. Quelle est la valeur de $U$ ?',
+          answer: U,
           tolerance: 0.001,
           unit: '',
-          hint: `Commence par soustraire $${b}$ des deux côtés de l'égalité pour obtenir $${a}x$ seul à gauche. Ensuite, divise par $${a}$.`,
+          hint: 'Isole $U$ : divise les deux membres par $I$.',
           solution: [
-            `Équation de départ : $${a}x + ${b} = ${c}$`,
-            `Soustraction de $${b}$ des deux membres : $${a}x = ${c} - ${b} = ${c - b}$`,
-            `Division par $${a}$ : $x = \\dfrac{${c - b}}{${a}} = ${x}$`
+            'On part de $P = U \\times I$ et on divise les deux membres par $I$ : $U = \\dfrac{P}{I}$.',
+            'On remplace : $U = \\dfrac{' + Puse + '}{' + I + '} = ' + fr(U) + '$.'
           ]
         };
       }
     },
-
     probleme: {
       context: 'La masse volumique (densité) d\'une substance est définie par la relation $\\rho = \\dfrac{m}{V}$ où $\\rho$ est en kg/m³, $m$ est la masse en kg et $V$ est le volume en m³. L\'aluminium a une masse volumique $\\rho = 2700$ kg/m³. On souhaite fabriquer une pièce en aluminium de volume $V = 5 \\times 10^{-4}$ m³.',
       schema: null,
@@ -208,21 +449,40 @@
           correction: '$\\dfrac{x}{4} + 7 = 10 \\Rightarrow \\dfrac{x}{4} = 10 - 7 = 3 \\Rightarrow x = 3 \\times 4 = 12$. Vérification : $\\dfrac{12}{4} + 7 = 3 + 7 = 10$ ✓'
         },
         {
-          statement: 'L\'énergie cinétique est $E_c = \\dfrac{1}{2}mv^2$. Si $E_c = 100\\,\\text{J}$ et $m = 8\\,\\text{kg}$, quelle est la valeur de $v$ ?',
+          /* Q4 RÉÉCRITE le 2026-09-13 pour mobiliser « chercher ». L'ancien
+             énoncé donnait $E_c = \frac{1}{2}mv^2$ avec $E_c$ et $m$, et
+             demandait $v$ : la formule était fournie, la démarche évidente. Ici
+             aucune formule n'est donnée et le périmètre ne s'obtient qu'après
+             avoir posé une équation que rien ne suggère. */
+          statement: 'Un rectangle a un périmètre de $46\\,\\text{cm}$. Sa longueur dépasse sa largeur de $7\\,\\text{cm}$. Quelle est sa largeur, en cm ?',
           type: 'numeric',
-          answer: 5,
-          tolerance: 0.01,
-          unit: 'm/s',
+          answer: 8,
+          tolerance: 0.001,
+          unit: 'cm',
           points: 2,
-          correction: '$E_c = \\dfrac{1}{2}mv^2 \\Rightarrow v^2 = \\dfrac{2E_c}{m} = \\dfrac{2 \\times 100}{8} = 25 \\Rightarrow v = \\sqrt{25} = 5\\,\\text{m/s}$.'
+          correction: 'Aucune formule n\'est donnée : il faut d\'abord choisir l\'inconnue. Appelons $x$ la largeur ; la longueur vaut alors $x + 7$.<br/><br/>' +
+            'Le périmètre d\'un rectangle est $2 \\times (\\text{longueur} + \\text{largeur})$, donc $2 \\times (x + 7 + x) = 46$, soit $2 \\times (2x + 7) = 46$.<br/><br/>' +
+            'On divise par $2$ : $2x + 7 = 23$. On retire $7$ : $2x = 16$. On divise par $2$ : $x = 8$.<br/><br/>' +
+            'Contrôle : largeur $8$, longueur $15$, et $2 \\times (8 + 15) = 46$. ✓'
         },
         {
-          statement: 'Quelle est la bonne résolution de $-2x + 8 = 14$ ?',
+          /* Q5 RÉÉCRITE le 2026-09-13 pour mobiliser « communiquer ». L'ancien
+             énoncé demandait de choisir « la bonne résolution » parmi quatre,
+             sans jamais demander POURQUOI les autres échouent. Ici l'élève doit
+             nommer l'étape fautive et expliquer la règle qu'elle viole. */
+          statement: 'Pour résoudre $-4x + 9 = 1$, Sacha écrit : « je retire $9$ des deux côtés, donc $-4x = -8$ ; je divise par $4$, donc $x = -2$. » Quelle explication corrige le mieux son raisonnement ?',
           type: 'multiple-choice',
-          options: ['$x = 11$', '$x = 3$', '$x = -3$', '$x = -11$'],
-          answer: 2,
+          options: [
+            'Sa première étape est fausse : il aurait fallu ajouter $9$ des deux côtés.',
+            'Ses deux premières étapes sont justes, mais il a divisé par $4$ au lieu de $-4$ : le coefficient de $x$ est $-4$, donc $x = \\dfrac{-8}{-4} = 2$.',
+            'Il ne peut pas retirer $9$ des deux côtés d\'une égalité sans changer le résultat.',
+            'Son résultat est juste, seule l\'écriture de la dernière étape est maladroite.'
+          ],
+          answer: 1,
           points: 2,
-          correction: '$-2x + 8 = 14 \\Rightarrow -2x = 14 - 8 = 6 \\Rightarrow x = \\dfrac{6}{-2} = -3$. Vérification : $-2 \\times (-3) + 8 = 6 + 8 = 14$ ✓'
+          correction: 'La première étape est correcte : retirer $9$ des deux membres donne bien $-4x = -8$.<br/><br/>' +
+            'L\'erreur est à la dernière étape. Le coefficient de $x$ est $-4$, pas $4$ : il faut donc diviser par $-4$. Et $\\dfrac{-8}{-4} = +2$, car deux nombres négatifs se divisent en un résultat positif.<br/><br/>' +
+            'Le contrôle par substitution tranche en une ligne et aurait suffi à Sacha : avec $x = -2$, on obtient $-4 \\times (-2) + 9 = 8 + 9 = 17 \\neq 1$. Avec $x = 2$ : $-4 \\times 2 + 9 = -8 + 9 = 1$. ✓'
         }
       ]
     }

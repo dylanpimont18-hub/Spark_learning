@@ -82,10 +82,13 @@ test('un prerequis vers un chapitre anterieur du meme niveau est accepte', () =>
   assert.deepStrictEqual(P.validerPrerequis(itemsAvecPrerequis([1])), []);
 });
 
-test('un prerequis vers un chapitre absent de l ouvrage est refuse', () => {
+test('un prerequis vers un chapitre absent du niveau est refuse', () => {
   const pb = P.validerPrerequis(itemsAvecPrerequis([9]));
   assert.strictEqual(pb.length, 1);
-  assert.match(pb[0], /absent de cet ouvrage/);
+  // Le reproche nomme le NIVEAU depuis 2026-09-13 : les numeros de prerequis y
+  // sont resolus, et « absent de cet ouvrage » aurait ete faux sur un ouvrage
+  // de cycle ou le chapitre 9 existe, mais dans un autre niveau.
+  assert.match(pb[0], /absent du niveau 6e/);
 });
 
 /* REGLE CHANGEE LE 2026-09-12. Ce test disait « un prerequis vers un chapitre
@@ -176,10 +179,35 @@ test('un chapitre qui se cite lui-meme est refuse', () => {
   assert.match(pb[0], /se cite lui-même/);
 });
 
-test('un prerequis vers un autre niveau est refuse, le tableau etant par niveau', () => {
+/* 2026-09-13 — CONTRAT CHANGE. Un numero de `prerequis` se lit desormais DANS
+   LE NIVEAU de la fiche qui l'ecrit, et non dans la numerotation du livre.
+
+   L'ancien contrat refusait tout renvoi qui, resolu globalement, tombait sur un
+   autre niveau. Il tenait tant que le seul ouvrage a fiches etait la 6e,
+   premier niveau du cycle, ou les deux numerotations coincident. Des que la 4e
+   a recu ses fiches, `college-maths` a cesse de compiler : ses « ch. 3 »
+   visaient des chapitres de 6e. Or une fiche de 4e ne PEUT pas connaitre le
+   numero global de son chapitre, qui depend des niveaux empiles avant lui.
+
+   Ici, le second item est un chapitre de 5e portant `prerequis: [1]`. Comme il
+   est le seul de son niveau, son propre numero local vaut 1 : il se cite donc
+   lui-meme, et c'est bien ce reproche-la qui doit sortir. */
+test('un prerequis se resout dans le niveau de la fiche, pas dans le livre', () => {
   const pb = P.validerPrerequis(itemsAvecPrerequis([1], '5e'));
   assert.strictEqual(pb.length, 1);
-  assert.match(pb[0], /autre niveau/);
+  assert.match(pb[0], /se cite lui-même/);
+});
+
+/* Le cas qui motivait le changement : deux niveaux empiles, et le second
+   chapitre du SECOND niveau renvoie a son propre chapitre 1. Numerote
+   globalement il porte le numero 3 et son prerequis « 1 » designerait un
+   chapitre du premier niveau — ce que l'ancienne regle refusait. */
+test('un renvoi interne au second niveau d un ouvrage de cycle est accepte', () => {
+  const a = item(1, '6e', 'Décimaux');
+  const b = item(2, '4e', 'Relatifs', { rangConseille: 1 });
+  const c = item(3, '4e', 'Puissances', { prerequis: [1], rangConseille: 2 });
+  a.numero = 1; b.numero = 2; c.numero = 3;
+  assert.deepStrictEqual(P.validerPrerequis([a, b, c]), []);
 });
 
 test('une fiche sans prerequis ne provoque aucun reproche', () => {
