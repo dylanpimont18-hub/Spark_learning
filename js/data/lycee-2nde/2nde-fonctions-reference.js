@@ -170,6 +170,157 @@ window.MODULES.push({
         reading: 'Chaque panneau utilise sa propre échelle : les trois fonctions ont des vitesses de croissance très différentes (le carré explose, l\'inverse s\'écrase près de $0$, la racine ralentit).',
         caption: 'Les trois fonctions de référence tracées point par point : carré $x^2$, inverse $1/x$ et racine $\\sqrt{x}$, avec les valeurs remarquables citées dans le cours.'
       },
+
+      /* SCHÉMAS SECONDAIRES — ajoutés le 2026-09-13.
+         DEUX schémas ici, et non trois, et c'est une décision assumée : le
+         schéma principal ci-dessus juxtapose déjà les trois allures à la
+         même échelle, donc le malentendu « à quoi ressemblent-elles ? » est
+         couvert. Ajouter une troisième figure ne ferait que du chiffre, ce
+         que le cahier des charges (section 9) interdit explicitement.
+
+         Restent les deux malentendus que la fiche professeur signale comme
+         récurrents et que le schéma principal ne traite PAS :
+           1. « la fonction inverse est décroissante sur tout son domaine » —
+              faux, elle décroît sur chaque branche mais pas sur la réunion ;
+           2. « un nombre positif a un seul antécédent par la fonction
+              carré » — faux, il en a deux, opposés.
+
+         Les deux courbes sont recalculées point par point à partir de leur
+         définition et relues par scripts/manuel/tests/diagrams-2nde.test.js. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Le point dur du chapitre',
+          title: 'Deux branches, donc deux intervalles',
+          description: 'On lit souvent que la fonction inverse « est décroissante ». C\'est vrai sur chaque branche prise séparément, et <strong>faux</strong> si on parle de son domaine entier.<br/><br/>Regarde les deux points marqués : $-1$ est plus petit que $2$, et pourtant $g(-1) = -1$ est plus petit que $g(2) = 0{,}5$. Entre ces deux points, la fonction a donc <strong>augmenté</strong>. Impossible de dire qu\'elle décroît partout.<br/><br/>La raison tient en un mot : les deux branches ne se rejoignent jamais, car $0$ est interdit.',
+          svg: `
+            <svg viewBox="0 0 320 300" role="img" aria-labelledby="fr2-inverse-title fr2-inverse-desc">
+              <title id="fr2-inverse-title">Les deux branches separees de la fonction inverse</title>
+              <desc id="fr2-inverse-desc">Un repere orthonorme porte la courbe de un divise par x. Elle est faite de deux morceaux qui ne se touchent pas. Le morceau de gauche occupe la region situee en bas a gauche de l'origine, le morceau de droite occupe la region situee en haut a droite. Deux points sont marques : le point d'abscisse moins un et d'ordonnee moins un sur la branche de gauche, et le point d'abscisse deux et d'ordonnee un demi sur la branche de droite. Bien que moins un soit plus petit que deux, l'ordonnee du premier point est plus basse que celle du second.</desc>
+
+              <!-- Echelle : 34 unites de viewBox par unite, IDENTIQUE sur les
+                   deux axes. Ce repere est volontairement orthonorme, contre
+                   l'usage du reste du chapitre : la symetrie des deux
+                   branches par rapport a l'origine est le coeur du dessin, et
+                   elle serait invisible avec deux echelles differentes.
+                   Origine (160 ; 150). Les branches sont coupees exactement a
+                   l'ordonnee trois et moins trois, soit aux abscisses un
+                   tiers et moins un tiers. -->
+              <line class="grid-line" x1="24" y1="40" x2="24" y2="260"></line>
+              <line class="grid-line" x1="92" y1="40" x2="92" y2="260"></line>
+              <line class="grid-line" x1="126" y1="40" x2="126" y2="260"></line>
+              <line class="grid-line" x1="194" y1="40" x2="194" y2="260"></line>
+              <line class="grid-line" x1="228" y1="40" x2="228" y2="260"></line>
+              <line class="grid-line" x1="296" y1="40" x2="296" y2="260"></line>
+              <line class="grid-line" x1="20" y1="48" x2="300" y2="48"></line>
+              <line class="grid-line" x1="20" y1="82" x2="300" y2="82"></line>
+              <line class="grid-line" x1="20" y1="116" x2="300" y2="116"></line>
+              <line class="grid-line" x1="20" y1="184" x2="300" y2="184"></line>
+              <line class="grid-line" x1="20" y1="218" x2="300" y2="218"></line>
+              <line class="grid-line" x1="20" y1="252" x2="300" y2="252"></line>
+
+              <line class="axis" x1="16" y1="150" x2="308" y2="150"></line>
+              <line class="axis" x1="160" y1="286" x2="160" y2="36"></line>
+              <text class="axis-label" x="312" y="154">x</text>
+              <text class="axis-label" x="165" y="34">y</text>
+
+              <text class="tick-label" x="24" y="162" text-anchor="middle">-4</text>
+              <text class="tick-label" x="92" y="162" text-anchor="middle">-2</text>
+              <text class="tick-label" x="228" y="162" text-anchor="middle">2</text>
+              <text class="tick-label" x="296" y="162" text-anchor="middle">4</text>
+              <text class="tick-label" x="154" y="120" text-anchor="end">1</text>
+              <text class="tick-label" x="154" y="188" text-anchor="end">-1</text>
+
+              <!-- Branche de droite : x de un tiers a quatre. -->
+              <polyline class="curve-main" points="171.33,48 175.79,76.77 180.24,92.88 184.69,103.18 189.14,110.33 193.6,115.59 198.05,119.62 202.5,122.8 206.95,125.38 211.4,127.51 215.86,129.3 220.31,130.83 224.76,132.15 229.21,133.3 233.67,134.31 238.12,135.2 242.57,136 247.02,136.72 251.48,137.36 255.93,137.95 260.38,138.48 264.83,138.97 269.29,139.42 273.74,139.84 278.19,140.22 282.64,140.57 287.1,140.9 291.55,141.21 296,141.5"></polyline>
+              <!-- Branche de gauche : x de moins quatre a moins un tiers. -->
+              <polyline class="curve-main" points="24,158.5 28.45,158.79 32.9,159.1 37.36,159.43 41.81,159.78 46.26,160.16 50.71,160.58 55.17,161.03 59.62,161.52 64.07,162.05 68.52,162.64 72.98,163.28 77.43,164 81.88,164.8 86.33,165.69 90.79,166.7 95.24,167.85 99.69,169.17 104.14,170.7 108.6,172.49 113.05,174.62 117.5,177.2 121.95,180.38 126.4,184.41 130.86,189.67 135.31,196.82 139.76,207.12 144.21,223.23 148.67,252"></polyline>
+
+              <!-- Les deux points du contre-exemple. Coordonnees exactes :
+                   (-1 ; -1) tombe en (126 ; 184) et (2 ; 0,5) en (228 ; 133),
+                   tous deux sur des graduations. -->
+              <circle class="plot-point" cx="126" cy="184" r="4"></circle>
+              <circle class="plot-point" cx="228" cy="133" r="4"></circle>
+              <text class="tick-label" x="120" y="196" text-anchor="end">g(-1) = -1</text>
+              <text class="tick-label" x="236" y="128" text-anchor="start">g(2) = 0,5</text>
+
+              <!-- La comparaison se pose dans la zone vide du bas a droite,
+                   hors de toute branche. -->
+              <text class="annotation-label" x="236" y="238" text-anchor="start">-1 &lt; 2</text>
+              <text class="annotation-label" x="236" y="254" text-anchor="start">et pourtant -1 &lt; 0,5</text>
+            </svg>
+          `,
+          notes: [
+            'Sur $]-\\infty\\,;\\,0[$, la fonction inverse est bien décroissante. Sur $]0\\,;\\,+\\infty[$ aussi. Mais un sens de variation ne s\'annonce que sur un <strong>intervalle</strong>, et la réunion des deux n\'en est pas un.',
+            'Le contre-exemple suffit à trancher : $-1 < 2$ et pourtant $g(-1) < g(2)$, alors qu\'une fonction décroissante aurait donné $g(-1) > g(2)$.',
+            'Écris donc toujours le sens de variation branche par branche : décroissante sur $]-\\infty\\,;\\,0[$, décroissante sur $]0\\,;\\,+\\infty[$.'
+          ],
+          reading: 'Repère bien que les deux branches n\'occupent pas les mêmes régions : celle de gauche est entièrement sous l\'axe, celle de droite entièrement au-dessus. Aucun trait ne les relie, et c\'est justement ce vide qui interdit de parler du domaine entier d\'un seul coup.',
+          caption: 'Fonction inverse $g(x) = \\dfrac{1}{x}$ dans un repère orthonormé : décroissante sur chaque branche, mais pas sur la réunion des deux.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Ne perds pas la moitié des solutions',
+          title: 'Un carré positif vient toujours de deux nombres',
+          description: 'Tu cherches les nombres dont le carré vaut $4$. Trace l\'horizontale $y = 4$ : elle coupe la parabole <strong>deux fois</strong>, en $-2$ et en $2$.<br/><br/>C\'est la conséquence directe de la symétrie de la courbe : deux nombres opposés ont exactement le même carré, donc la même hauteur sur le dessin. Répondre seulement $2$, c\'est oublier la moitié de la réponse.',
+          svg: `
+            <svg viewBox="0 0 320 250" role="img" aria-labelledby="fr2-carre-title fr2-carre-desc">
+              <title id="fr2-carre-title">Un nombre positif a deux antecedents par la fonction carre</title>
+              <desc id="fr2-carre-desc">La parabole de la fonction carre est tracee dans un repere. Une droite horizontale d'ordonnee quatre traverse la figure et rencontre la parabole en deux points, l'un d'abscisse moins deux, l'autre d'abscisse deux. Les deux points sont a la meme hauteur et places symetriquement de part et d'autre de l'axe vertical. Deux traits verticaux en tirets descendent de ces deux points jusqu'a l'axe horizontal.</desc>
+
+              <!-- Echelle : 44 unites par unite d'abscisse, 20 par unite
+                   d'ordonnee. Origine (160 ; 220). La parabole est calculee
+                   de -3,2 a 3,2 par pas de 0,2 ; les abscisses entieres
+                   tombent sur des entiers de viewBox et f(2) = 4 tombe
+                   exactement sur la graduation y = 4 (ordonnee 140). -->
+              <line class="grid-line" x1="72" y1="20" x2="72" y2="228"></line>
+              <line class="grid-line" x1="116" y1="20" x2="116" y2="228"></line>
+              <line class="grid-line" x1="204" y1="20" x2="204" y2="228"></line>
+              <line class="grid-line" x1="248" y1="20" x2="248" y2="228"></line>
+              <line class="grid-line" x1="28" y1="180" x2="304" y2="180"></line>
+              <line class="grid-line" x1="28" y1="140" x2="304" y2="140"></line>
+              <line class="grid-line" x1="28" y1="100" x2="304" y2="100"></line>
+              <line class="grid-line" x1="28" y1="60" x2="304" y2="60"></line>
+
+              <line class="axis" x1="24" y1="220" x2="308" y2="220"></line>
+              <line class="axis" x1="160" y1="234" x2="160" y2="18"></line>
+              <text class="axis-label" x="312" y="224">x</text>
+              <text class="axis-label" x="165" y="16">y</text>
+
+              <text class="tick-label" x="72" y="232" text-anchor="middle">-2</text>
+              <text class="tick-label" x="116" y="232" text-anchor="middle">-1</text>
+              <text class="tick-label" x="204" y="232" text-anchor="middle">1</text>
+              <text class="tick-label" x="248" y="232" text-anchor="middle">2</text>
+              <text class="tick-label" x="154" y="184" text-anchor="end">2</text>
+              <text class="tick-label" x="154" y="144" text-anchor="end">4</text>
+              <text class="tick-label" x="154" y="64" text-anchor="end">8</text>
+
+              <!-- Parabole y = x carre, point par point. -->
+              <polyline class="curve-main" points="19.2,15.2 28,40 36.8,63.2 45.6,84.8 54.4,104.8 63.2,123.2 72,140 80.8,155.2 89.6,168.8 98.4,180.8 107.2,191.2 116,200 124.8,207.2 133.6,212.8 142.4,216.8 151.2,219.2 160,220 168.8,219.2 177.6,216.8 186.4,212.8 195.2,207.2 204,200 212.8,191.2 221.6,180.8 230.4,168.8 239.2,155.2 248,140 256.8,123.2 265.6,104.8 274.4,84.8 283.2,63.2 292,40 300.8,15.2"></polyline>
+
+              <!-- L'horizontale y = 4, en tirets : c'est la question posee,
+                   pas la courbe. -->
+              <line class="guide-line" x1="40" y1="140" x2="292" y2="140"></line>
+              <text class="label-soft" x="36" y="136" text-anchor="end">y = 4</text>
+
+              <!-- Les deux antecedents, et leurs redescentes sur l'axe. -->
+              <line class="guide-line" x1="72" y1="140" x2="72" y2="220"></line>
+              <line class="guide-line" x1="248" y1="140" x2="248" y2="220"></line>
+              <circle class="plot-point" cx="72" cy="140" r="4"></circle>
+              <circle class="plot-point" cx="248" cy="140" r="4"></circle>
+              <text class="annotation-label" x="66" y="132" text-anchor="end">x = -2</text>
+              <text class="annotation-label" x="254" y="132" text-anchor="start">x = 2</text>
+            </svg>
+          `,
+          notes: [
+            'Les deux points marqués sont à la <strong>même hauteur</strong> : c\'est le dessin de l\'égalité $(-2)^2 = 2^2 = 4$.',
+            'La courbe est symétrique par rapport à l\'axe des ordonnées, donc toute horizontale au-dessus de l\'axe la coupe en deux points symétriques.',
+            'L\'horizontale $y = 0$ fait exception : elle ne touche la courbe qu\'au sommet. C\'est le seul nombre, $0$, à n\'avoir qu\'un antécédent.'
+          ],
+          reading: 'Fais glisser l\'horizontale vers le haut : les deux points s\'écartent, mais ils restent deux. Fais-la glisser sous l\'axe : elle ne rencontre plus rien, et c\'est normal, aucun carré n\'est négatif. Chaque fois que tu résous $x^2 = k$ avec $k$ positif, attends-toi donc à <strong>deux</strong> réponses opposées.',
+          caption: 'Fonction carré : l\'horizontale $y = 4$ coupe la parabole en $x = -2$ et $x = 2$, les deux antécédents de $4$.'
+        }
+      ],
       formulas: [
         '$\\sqrt{a\\cdot b}=\\sqrt{a}\\cdot\\sqrt{b}$ (pour $a,b\\ge 0$)',
         '$\\left(\\sqrt{a}\\right)^2 = a$ (pour $a\\ge 0$)',

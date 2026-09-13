@@ -125,6 +125,235 @@ window.MODULES.push({
         reading: 'Repère la pente en comptant le déplacement horizontal ($\\Delta x$) puis vertical ($\\Delta y$) entre deux points de la droite ; leur rapport donne $a$.',
         caption: 'Droite $y = 3x + 1$, reconstruite à partir des points $A(1 ; 4)$ et $B(3 ; 10)$ de l\'exemple du cours.'
       },
+
+      /* SCHÉMAS SECONDAIRES — ajoutés le 2026-09-13.
+         Une figure par MALENTENDU (cahier des charges, section 9). Les trois
+         retenus sont ceux que la fiche professeur de ce chapitre décrit :
+           1. ne pas savoir ce que règle $a$ et ce que règle $b$ — on les
+              sépare en faisant varier l'un pendant que l'autre est figé ;
+           2. inverser numérateur et dénominateur de la pente — on pose le
+              triangle avec ses deux cotes nommées, et on lit le sens ;
+           3. croire que toute fonction affine est linéaire — on montre le
+              test du doublement, qui réussit pour l'une et échoue pour
+              l'autre.
+
+         Toutes les droites sont tracées entre deux points CALCULÉS à partir
+         de leur équation, et relues par
+         scripts/manuel/tests/diagrams-2nde.test.js : les pentes en pixels y
+         sont recalculées et comparées à la pente annoncée. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Deux réglages indépendants',
+          title: 'Ce que règle a, ce que règle b',
+          description: 'Les deux vignettes sont à la <strong>même échelle</strong> et couvrent le <strong>même intervalle</strong> : la seule différence visible est donc celle que la figure veut montrer.<br/><br/>À gauche, la pente $a$ est figée et seule $b$ change : les trois droites restent <strong>parallèles</strong>, elles ne font que glisser vers le haut ou vers le bas.<br/><br/>À droite, $b$ est figé et seule $a$ change : les trois droites <strong>pivotent</strong> autour du même point $(0\\,;\\,1)$.',
+          svg: `
+            <svg viewBox="0 0 340 200" role="img" aria-labelledby="fa2-roles-title fa2-roles-desc">
+              <title id="fa2-roles-title">Le role separe de la pente et de l ordonnee a l origine</title>
+              <desc id="fa2-roles-desc">Deux reperes de meme taille et de meme echelle sont places cote a cote. Dans celui de gauche, trois droites de meme inclinaison sont dessinees a des hauteurs differentes : elles sont paralleles entre elles et coupent l'axe vertical en trois endroits distincts. Dans celui de droite, trois droites d'inclinaisons differentes passent toutes par un meme point de l'axe vertical : elles pivotent autour de ce point.</desc>
+
+              <!-- Echelle IDENTIQUE dans les deux vignettes : 20 unites de
+                   viewBox par unite d'abscisse, 16 par unite d'ordonnee.
+                   Origines (78 ; 104) a gauche et (250 ; 104) a droite. Les
+                   six droites sont tracees sur le MEME intervalle, de x = -2
+                   a x = 2, pour qu'aucune difference de longueur ne se lise
+                   comme faisant partie de la demonstration (patron
+                   « comparaison » du cahier des charges). -->
+
+              <!-- ===== Vignette de gauche : a fige, b varie ===== -->
+              <text class="annotation-label" x="78" y="18" text-anchor="middle">même pente a</text>
+              <line class="grid-line" x1="38" y1="30" x2="38" y2="178"></line>
+              <line class="grid-line" x1="118" y1="30" x2="118" y2="178"></line>
+              <line class="grid-line" x1="34" y1="40" x2="122" y2="40"></line>
+              <line class="grid-line" x1="34" y1="168" x2="122" y2="168"></line>
+              <line class="axis" x1="30" y1="104" x2="126" y2="104"></line>
+              <line class="axis" x1="78" y1="182" x2="78" y2="28"></line>
+
+              <!-- y = x + 2, y = x, y = x - 2 : pentes en pixels toutes
+                   egales a -0,8 (soit +1 en coordonnees de repere). -->
+              <line class="curve-main" x1="38" y1="104" x2="118" y2="40"></line>
+              <line class="curve-main" x1="38" y1="136" x2="118" y2="72"></line>
+              <line class="curve-main" x1="38" y1="168" x2="118" y2="104"></line>
+
+              <circle class="plot-point" cx="78" cy="72" r="3"></circle>
+              <circle class="plot-point" cx="78" cy="104" r="3"></circle>
+              <circle class="plot-point" cx="78" cy="136" r="3"></circle>
+              <text class="tick-label" x="72" y="68" text-anchor="end">b = 2</text>
+              <text class="tick-label" x="72" y="100" text-anchor="end">b = 0</text>
+              <text class="tick-label" x="72" y="132" text-anchor="end">b = -2</text>
+              <text class="label-soft" x="78" y="194" text-anchor="middle">b déplace la droite</text>
+
+              <!-- ===== Vignette de droite : b fige, a varie ===== -->
+              <text class="annotation-label" x="250" y="18" text-anchor="middle">même ordonnée b</text>
+              <line class="grid-line" x1="210" y1="30" x2="210" y2="178"></line>
+              <line class="grid-line" x1="290" y1="30" x2="290" y2="178"></line>
+              <line class="grid-line" x1="206" y1="40" x2="294" y2="40"></line>
+              <line class="grid-line" x1="206" y1="168" x2="294" y2="168"></line>
+              <line class="axis" x1="202" y1="104" x2="298" y2="104"></line>
+              <line class="axis" x1="250" y1="182" x2="250" y2="28"></line>
+
+              <!-- y = 2x + 1, y = 0,5x + 1, y = -x + 1 : pentes en pixels
+                   -1,6 ; -0,4 ; +0,8. Les trois passent par (250 ; 88). -->
+              <line class="curve-main" x1="210" y1="152" x2="290" y2="24"></line>
+              <line class="curve-main" x1="210" y1="104" x2="290" y2="72"></line>
+              <line class="curve-main" x1="210" y1="56" x2="290" y2="120"></line>
+
+              <circle class="plot-point" cx="250" cy="88" r="4"></circle>
+              <text class="tick-label" x="244" y="98" text-anchor="end">b = 1</text>
+              <text class="label-soft" x="250" y="194" text-anchor="middle">a incline la droite</text>
+            </svg>
+          `,
+          notes: [
+            'À gauche, les trois droites ont la même pente $a = 1$ : elles sont parallèles, et $b$ ne fait que choisir <strong>à quelle hauteur</strong> la droite coupe l\'axe des ordonnées.',
+            'À droite, les trois droites ont la même ordonnée à l\'origine $b = 1$ : elles passent toutes par le même point, et $a$ choisit seulement <strong>l\'inclinaison</strong>.',
+            'Autrement dit : $b$ te dit d\'où tu pars, $a$ te dit dans quelle direction tu avances. Les deux réglages ne se marchent jamais dessus.'
+          ],
+          reading: 'Repère le point marqué sur chaque vignette. À gauche, il y en a trois, à des hauteurs différentes, sur des droites qui ne se croisent jamais. À droite, il n\'y en a qu\'un, et les trois droites y passent toutes. Quand tu hésites sur ce que change un coefficient, refais mentalement cette double expérience.',
+          caption: 'Deux vignettes à la même échelle : à gauche $a$ est figé et $b$ varie, à droite $b$ est figé et $a$ varie.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Le sens de la fraction',
+          title: 'Le triangle de pente, dans le bon ordre',
+          description: 'La pente se calcule avec $a = \\dfrac{\\Delta y}{\\Delta x}$, et l\'erreur la plus fréquente consiste à écrire la fraction à l\'envers.<br/><br/>Le triangle ci-dessous te donne le moyen de ne plus te tromper : la <strong>montée</strong> se lit verticalement, le <strong>déplacement</strong> se lit horizontalement, et la pente répond à la question « de combien je monte quand j\'avance de $1$ ». La montée est donc en haut de la fraction.',
+          svg: `
+            <svg viewBox="0 0 320 300" role="img" aria-labelledby="fa2-pente-title fa2-pente-desc">
+              <title id="fa2-pente-title">Le triangle de pente et le sens de la fraction</title>
+              <desc id="fa2-pente-desc">Une droite montante est tracee dans un repere. Deux de ses points sont marques : le premier a pour coordonnees un et un, le second trois et cinq. Un triangle rectangle relie ces deux points : son cote horizontal mesure deux unites vers la droite, son cote vertical mesure quatre unites vers le haut. Les deux cotes portent leur mesure, posee a l'exterieur du triangle. La pente vaut donc quatre divise par deux, c'est a dire deux.</desc>
+
+              <!-- Echelle : 50 unites par unite d'abscisse, 26 par unite
+                   d'ordonnee. Origine (70 ; 200). Le repere n'est pas
+                   orthonorme, et la figure ne le pretend pas : on n'y lit
+                   aucune longueur, seulement deux comptages de graduations.
+                   A(1 ; 1) tombe en (120 ; 174) et B(3 ; 5) en (220 ; 70),
+                   tous deux sur des intersections de graduations. -->
+              <line class="grid-line" x1="20" y1="30" x2="20" y2="284"></line>
+              <line class="grid-line" x1="120" y1="30" x2="120" y2="284"></line>
+              <line class="grid-line" x1="170" y1="30" x2="170" y2="284"></line>
+              <line class="grid-line" x1="220" y1="30" x2="220" y2="284"></line>
+              <line class="grid-line" x1="270" y1="30" x2="270" y2="284"></line>
+              <line class="grid-line" x1="16" y1="278" x2="286" y2="278"></line>
+              <line class="grid-line" x1="16" y1="226" x2="286" y2="226"></line>
+              <line class="grid-line" x1="16" y1="174" x2="286" y2="174"></line>
+              <line class="grid-line" x1="16" y1="122" x2="286" y2="122"></line>
+              <line class="grid-line" x1="16" y1="70" x2="286" y2="70"></line>
+
+              <line class="axis" x1="16" y1="200" x2="292" y2="200"></line>
+              <line class="axis" x1="70" y1="288" x2="70" y2="28"></line>
+              <text class="axis-label" x="296" y="204">x</text>
+              <text class="axis-label" x="75" y="26">y</text>
+
+              <text class="tick-label" x="62" y="212" text-anchor="end">0</text>
+              <text class="tick-label" x="120" y="212" text-anchor="middle">1</text>
+              <text class="tick-label" x="220" y="212" text-anchor="middle">3</text>
+              <text class="tick-label" x="64" y="178" text-anchor="end">1</text>
+              <text class="tick-label" x="64" y="74" text-anchor="end">5</text>
+
+              <!-- Droite y = 2x - 1, tracee entre deux points calcules :
+                   x = -1 donne y = -3 (soit 20 ; 278) et x = 4 donne y = 7
+                   (soit 270 ; 18). Pente en pixels : -260 / 250 = -1,04,
+                   ce qui vaut bien +2 en coordonnees de repere. -->
+              <line class="curve-main" x1="20" y1="278" x2="270" y2="18"></line>
+
+              <!-- Les deux cotes du triangle. Le cote horizontal est pose SUR
+                   la graduation y = 1, le cote vertical sur la graduation
+                   x = 3 : le triangle s'appuie donc sur le quadrillage, et
+                   l'eleve peut recompter lui-meme. -->
+              <line class="guide-line" x1="120" y1="174" x2="220" y2="174"></line>
+              <line class="guide-line" x1="220" y1="174" x2="220" y2="70"></line>
+
+              <circle class="plot-point" cx="120" cy="174" r="4"></circle>
+              <circle class="plot-point" cx="220" cy="70" r="4"></circle>
+              <text class="tick-label" x="112" y="168" text-anchor="end">A(1 ; 1)</text>
+              <text class="tick-label" x="228" y="64" text-anchor="start">B(3 ; 5)</text>
+
+              <!-- Les cotes sont posees HORS du triangle : la mesure
+                   horizontale sous son cote, la mesure verticale a droite du
+                   sien. Jamais sur un trait. -->
+              <text class="annotation-label" x="170" y="192" text-anchor="middle">on avance de 2</text>
+              <text class="annotation-label" x="230" y="122" text-anchor="start">on monte de 4</text>
+
+              <text class="label-soft" x="160" y="262" text-anchor="middle">pente = ce qu'on monte divisé par ce qu'on avance</text>
+              <text class="label-soft" x="160" y="280" text-anchor="middle">soit 4 divisé par 2, donc 2</text>
+            </svg>
+          `,
+          notes: [
+            'Le côté horizontal vaut $\\Delta x = 3 - 1 = 2$ et le côté vertical $\\Delta y = 5 - 1 = 4$.',
+            'La pente vaut donc $a = \\dfrac{\\Delta y}{\\Delta x} = \\dfrac{4}{2} = 2$ : quand tu avances de $1$, tu montes de $2$.',
+            'Le contrôle qui te sauve : si tu avais écrit $\\dfrac{2}{4} = 0{,}5$, la droite serait presque plate. Or elle est visiblement raide. Un coup d\'œil suffit à écarter la fraction inversée.'
+          ],
+          reading: 'Relis la définition en français avant de poser la moindre fraction : « de combien je monte quand j\'avance de $1$ ». La montée est ce qu\'on cherche, elle passe donc au numérateur ; le déplacement est ce par quoi on divise, il passe au dénominateur. Cette phrase te suffit, tu n\'as pas à retenir la formule.',
+          caption: 'Triangle de pente sur $y = 2x - 1$ entre $A(1\\,;\\,1)$ et $B(3\\,;\\,5)$ : $\\Delta x = 2$, $\\Delta y = 4$, donc $a = 2$.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Affine ou linéaire ?',
+          title: 'Le test du doublement, réussi puis raté',
+          description: 'Une fonction linéaire vérifie une propriété très pratique : si tu doubles $x$, tu doubles $f(x)$. Beaucoup d\'élèves l\'appliquent à <strong>toutes</strong> les fonctions affines, et se trompent.<br/><br/>Les deux droites ci-dessous ont la <strong>même pente</strong> $2$. Seule celle qui passe par l\'origine réussit le test.',
+          svg: `
+            <svg viewBox="0 0 320 240" role="img" aria-labelledby="fa2-lineaire-title fa2-lineaire-desc">
+              <title id="fa2-lineaire-title">Une fonction lineaire et une fonction affine de meme pente</title>
+              <desc id="fa2-lineaire-desc">Deux droites de meme inclinaison sont tracees dans un repere. La premiere part de l'origine du repere : quand on passe de l'abscisse un a l'abscisse deux, son ordonnee passe de deux a quatre, elle double. La seconde coupe l'axe vertical a l'ordonnee trois : quand on passe de l'abscisse un a l'abscisse deux, son ordonnee passe de cinq a sept, elle ne double pas.</desc>
+
+              <!-- Echelle : 56 unites par unite d'abscisse, 16 par unite
+                   d'ordonnee. Origine (56 ; 210). Les deux droites sont
+                   tracees sur le MEME intervalle, de x = 0 a x = 4, et ont la
+                   MEME pente en pixels : -128 / 224 = -0,571..., soit +2 en
+                   coordonnees de repere. -->
+              <line class="grid-line" x1="112" y1="24" x2="112" y2="222"></line>
+              <line class="grid-line" x1="168" y1="24" x2="168" y2="222"></line>
+              <line class="grid-line" x1="224" y1="24" x2="224" y2="222"></line>
+              <line class="grid-line" x1="280" y1="24" x2="280" y2="222"></line>
+              <line class="grid-line" x1="48" y1="178" x2="296" y2="178"></line>
+              <line class="grid-line" x1="48" y1="146" x2="296" y2="146"></line>
+              <line class="grid-line" x1="48" y1="114" x2="296" y2="114"></line>
+              <line class="grid-line" x1="48" y1="82" x2="296" y2="82"></line>
+              <line class="grid-line" x1="48" y1="50" x2="296" y2="50"></line>
+
+              <line class="axis" x1="48" y1="210" x2="302" y2="210"></line>
+              <line class="axis" x1="56" y1="222" x2="56" y2="22"></line>
+              <text class="axis-label" x="306" y="214">x</text>
+              <text class="axis-label" x="61" y="20">y</text>
+
+              <text class="tick-label" x="48" y="222" text-anchor="end">0</text>
+              <text class="tick-label" x="112" y="222" text-anchor="middle">1</text>
+              <text class="tick-label" x="168" y="222" text-anchor="middle">2</text>
+              <text class="tick-label" x="48" y="182" text-anchor="end">2</text>
+              <text class="tick-label" x="48" y="150" text-anchor="end">4</text>
+              <text class="tick-label" x="48" y="134" text-anchor="end">5</text>
+              <text class="tick-label" x="48" y="102" text-anchor="end">7</text>
+
+              <!-- La lineaire y = 2x, de (0 ; 0) a (4 ; 8). Trait plein et
+                   teinte d'accent : c'est le cas qui reussit, il se lit en
+                   premier (patron « piege »). -->
+              <line class="curve-main" x1="56" y1="210" x2="280" y2="82"></line>
+              <!-- L'affine y = 2x + 3, de (0 ; 3) a (4 ; 11). Teinte faible :
+                   c'est le cas ou le raisonnement echoue. -->
+              <line class="guide-line" x1="56" y1="162" x2="280" y2="34"></line>
+
+              <circle class="plot-point" cx="112" cy="178" r="4"></circle>
+              <circle class="plot-point" cx="168" cy="146" r="4"></circle>
+              <circle class="plot-point-alt" cx="112" cy="130" r="4"></circle>
+              <circle class="plot-point-alt" cx="168" cy="98" r="4"></circle>
+
+              <text class="tick-label" x="104" y="192" text-anchor="end">2</text>
+              <text class="tick-label" x="176" y="158" text-anchor="start">4 : doublé</text>
+              <text class="tick-label" x="104" y="126" text-anchor="end">5</text>
+              <text class="tick-label" x="176" y="94" text-anchor="start">7 : pas doublé</text>
+
+              <text class="annotation-label" x="288" y="78" text-anchor="end">y = 2x</text>
+              <text class="label-soft" x="288" y="30" text-anchor="end">y = 2x + 3</text>
+            </svg>
+          `,
+          notes: [
+            'Pour $f(x) = 2x$ : $f(1) = 2$ et $f(2) = 4$. On double $x$, on double bien $f(x)$. La fonction est <strong>linéaire</strong>.',
+            'Pour $g(x) = 2x + 3$ : $g(1) = 5$ et $g(2) = 7$. On double $x$, et pourtant $7$ n\'est pas le double de $5$. La fonction est affine mais <strong>pas linéaire</strong>.',
+            'Le coupable est le $+3$ : il ne double pas quand $x$ double, il reste $3$. Seule une droite passant par l\'origine échappe à ce décalage.'
+          ],
+          reading: 'Regarde où chaque droite coupe l\'axe vertical. Celle qui le coupe en $0$ réussit le test ; celle qui le coupe ailleurs le rate. Tu tiens là un contrôle immédiat : <strong>linéaire</strong> veut dire $b = 0$, donc passage par l\'origine, et rien d\'autre.',
+          caption: 'Deux droites de pente $2$ : $y = 2x$ est linéaire et réussit le test du doublement, $y = 2x + 3$ est affine et le rate.'
+        }
+      ],
       formulas: [
         '$y = ax + b$ (fonction affine)',
         '$a = \\dfrac{y_2 - y_1}{x_2 - x_1}$ (pente)',

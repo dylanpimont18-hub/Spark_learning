@@ -107,6 +107,240 @@ window.MODULES.push({
         reading: 'La zone ombrée n\'est comptée qu\'une seule fois : $P(B \\cup N) = P(B) + P(N) - P(B \\cap N) = \\dfrac{12+10-4}{30} = \\dfrac{18}{30} = 0{,}6$.',
         caption: 'Diagramme de Venn pour le choix d\'un élève au hasard dans une classe de $30$ : $B$ = basketball, $N$ = natation, intersection ombrée = pratique les deux.'
       },
+
+      /* SCHÉMAS SECONDAIRES — ajoutés le 2026-09-13.
+         Chapitre où l'intuition trompe systématiquement : c'est ici que les
+         figures valent des paragraphes, et l'effort de la vague y a été
+         concentré. Une figure par MALENTENDU (cahier des charges, section 9),
+         et les trois retenus sont les trois premiers de la fiche professeur :
+           1. le double comptage de l'intersection quand on additionne ;
+           2. le sophisme du joueur (« le hasard se corrige de lui-même ») ;
+           3. la confusion entre incompatible et indépendant.
+
+         Le schéma principal du chapitre étant DÉJÀ un diagramme de Venn, le
+         schéma 1 ne le redouble pas : il traduit le même comptage en barres
+         de LONGUEUR proportionnelle aux effectifs, ce qui rend le doublon
+         mesurable et non plus seulement suggéré.
+
+         ÉCHELLES, toutes calculées :
+           - schéma 1 : 1 élève = 12 unités de viewBox. La somme naïve mesure
+             donc 22 × 12 = 264, la réunion vraie 18 × 12 = 216, et l'excédent
+             exactement 48, soit les 4 élèves comptés deux fois.
+           - schéma 2 : abscisse LOGARITHMIQUE (20 à 2000 lancers), sans quoi
+             la convergence ne serait pas visible sur une seule figure ;
+             ordonnée linéaire, fréquence 0,40 en y=240 et 300 unités par
+             unité de fréquence. La courbe est calculée point par point à
+             partir de sa définition f(N) = (20 + (N-20)/2) / N.
+           - schéma 3 : grille des 36 issues de deux dés, 1 issue = 34 × 30. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Le malentendu fondateur',
+          title: 'Pourquoi on retranche l\'intersection',
+          description: 'Dans la classe du cours : $12$ élèves font du basket, $10$ font de la natation, et $4$ font les deux.<br/><br/>La barre du haut additionne simplement $12 + 10$. La barre du bas compte les élèves qui pratiquent <strong>au moins un</strong> des deux sports. Les deux barres sont à la même échelle : un élève y occupe toujours la même longueur.',
+          svg: `
+            <svg viewBox="0 0 400 250" role="img" aria-labelledby="proba-double-title proba-double-desc">
+              <title id="proba-double-title">Le double comptage de l intersection</title>
+              <desc id="proba-double-desc">Deux barres horizontales sont comparees a la meme echelle, ou chaque eleve occupe la meme longueur. La barre du haut represente douze plus dix, soit vingt-deux eleves comptes. La barre du bas represente les dix-huit eleves qui pratiquent au moins un des deux sports. La barre du haut depasse celle du bas d'une longueur qui vaut exactement quatre eleves : ce sont les quatre eleves qui pratiquent les deux sports et qui ont ete comptes deux fois.</desc>
+
+              <!-- BARRE DU HAUT : la somme naive, 12 + 10 = 22 eleves.
+                   Elle est decoupee en trois morceaux pour que l'oeil voie
+                   OU se trouve le doublon : basket seul (8), les deux (4),
+                   les deux encore (4), natation seule (6). -->
+              <text class="annotation-label" x="60" y="40" text-anchor="start">on additionne : 12 + 10 = 22</text>
+
+              <rect x="60" y="52" width="96" height="34" fill="color-mix(in srgb, var(--diagram-accent) 20%, transparent)" stroke="none"></rect>
+              <rect class="frame-line" x="60" y="52" width="96" height="34" fill="none"></rect>
+              <text class="tick-label" x="108" y="74" text-anchor="middle">basket seul</text>
+
+              <rect x="156" y="52" width="48" height="34" fill="color-mix(in srgb, var(--secondary) 30%, transparent)" stroke="none"></rect>
+              <rect class="frame-line" x="156" y="52" width="48" height="34" fill="none"></rect>
+              <text class="tick-label" x="180" y="74" text-anchor="middle">les 2</text>
+
+              <rect x="204" y="52" width="48" height="34" fill="color-mix(in srgb, var(--secondary) 30%, transparent)" stroke="none"></rect>
+              <rect class="frame-line" x="204" y="52" width="48" height="34" fill="none"></rect>
+              <text class="tick-label" x="228" y="74" text-anchor="middle">les 2</text>
+
+              <rect x="252" y="52" width="72" height="34" fill="color-mix(in srgb, var(--diagram-accent) 20%, transparent)" stroke="none"></rect>
+              <rect class="frame-line" x="252" y="52" width="72" height="34" fill="none"></rect>
+              <text class="tick-label" x="288" y="74" text-anchor="middle">natation</text>
+
+              <!-- BARRE DU BAS : la reunion reelle, 18 eleves. Meme origine
+                   x=60, meme echelle : elle s'arrete 48 unites plus tot. -->
+              <text class="annotation-label" x="60" y="140" text-anchor="start">élèves réellement concernés : 18</text>
+
+              <rect x="60" y="152" width="96" height="34" fill="color-mix(in srgb, var(--diagram-accent) 20%, transparent)" stroke="none"></rect>
+              <rect class="frame-line" x="60" y="152" width="96" height="34" fill="none"></rect>
+              <text class="tick-label" x="108" y="174" text-anchor="middle">basket seul</text>
+
+              <rect x="156" y="152" width="48" height="34" fill="color-mix(in srgb, var(--secondary) 30%, transparent)" stroke="none"></rect>
+              <rect class="frame-line" x="156" y="152" width="48" height="34" fill="none"></rect>
+              <text class="tick-label" x="180" y="174" text-anchor="middle">les 2</text>
+
+              <rect x="204" y="152" width="72" height="34" fill="color-mix(in srgb, var(--diagram-accent) 20%, transparent)" stroke="none"></rect>
+              <rect class="frame-line" x="204" y="152" width="72" height="34" fill="none"></rect>
+              <text class="tick-label" x="240" y="174" text-anchor="middle">natation</text>
+
+              <!-- La COTE de l'excedent, posee HORS des zones remplies
+                   (contrainte du cahier des charges) : entre les deux barres,
+                   de 276 a 324, soit 48 unites = 4 eleves exactement. -->
+              <line class="guide-line" x1="276" y1="86" x2="276" y2="152"></line>
+              <line class="guide-line" x1="324" y1="86" x2="324" y2="122"></line>
+              <line class="curve-main" x1="276" y1="112" x2="324" y2="112"></line>
+              <text class="annotation-label" x="334" y="116" text-anchor="start">4 élèves en trop</text>
+              <text class="label-soft" x="60" y="228" text-anchor="start">les 4 élèves des deux clubs ont été comptés deux fois</text>
+            </svg>
+          `,
+          notes: [
+            'La barre du haut mesure $22$ élèves, la barre du bas $18$. L\'écart vaut $4$, exactement l\'effectif de l\'intersection.',
+            'En probabilités : $P(B) + P(N) = \\dfrac{12}{30} + \\dfrac{10}{30} = \\dfrac{22}{30}$, alors que $P(B \\cup N) = \\dfrac{18}{30}$.',
+            'La formule $P(B \\cup N) = P(B) + P(N) - P(B \\cap N)$ ne fait rien d\'autre que retirer le morceau dessiné deux fois. Ce n\'est pas une bizarrerie à mémoriser, c\'est une correction de comptage.'
+          ],
+          reading: 'Compte les cases foncées sur la barre du haut : il y en a deux, alors que ces élèves n\'existent qu\'une fois dans la classe. En les additionnant, tu les as fait exister en double.<br/><br/>Retiens le test : dès que deux événements peuvent se produire <strong>ensemble</strong>, additionner leurs probabilités donne trop. Si au contraire ils ne peuvent jamais arriver ensemble, il n\'y a rien à retrancher et l\'addition est correcte.',
+          caption: 'Comptage des $30$ élèves : $12 + 10 = 22$ contre $18$ élèves réels, soit $4$ comptés deux fois.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Le piège du chapitre',
+          title: 'Le hasard ne rattrape rien, il dilue',
+          description: 'Imagine que les $20$ premiers lancers soient tous tombés sur pile. Beaucoup de joueurs annoncent alors que face « est en retard » et va se rattraper.<br/><br/>Voici ce qui se passe réellement si la pièce est équilibrée et que tu continues à lancer : la courbe suit la <strong>fréquence</strong> de pile, la barre du bas suit l\'<strong>écart brut</strong> entre le nombre de piles et le nombre de faces.',
+          svg: `
+            <svg viewBox="0 0 480 330" role="img" aria-labelledby="proba-joueur-title proba-joueur-desc">
+              <title id="proba-joueur-title">La frequence converge par dilution</title>
+              <desc id="proba-joueur-desc">Un graphique montre la frequence de pile en fonction du nombre total de lancers, porte sur une echelle logarithmique de vingt a deux mille lancers. La courbe part de un, car les vingt premiers lancers sont tous des piles, puis elle descend regulierement et se rapproche de la valeur un demi sans jamais passer en dessous. Sous le graphique, une bande rappelle que l'ecart brut entre le nombre de piles et le nombre de faces reste egal a vingt tout du long : il ne diminue jamais. C'est la frequence qui se rapproche d'un demi, parce que l'avance de vingt devient negligeable devant un nombre de lancers de plus en plus grand.</desc>
+
+              <!-- Axes. Ordonnee : frequence 0,40 en y=240, 300 unites de
+                   viewBox par unite de frequence. Abscisse LOGARITHMIQUE :
+                   20 lancers en x=60, 2000 en x=440. -->
+              <line class="grid-line" x1="60" y1="210" x2="450" y2="210"></line>
+              <line class="axis" x1="60" y1="240" x2="450" y2="240"></line>
+              <line class="axis" x1="60" y1="240" x2="60" y2="50"></line>
+
+              <text class="tick-label" x="54" y="214" text-anchor="end">0,5</text>
+              <text class="tick-label" x="54" y="64" text-anchor="end">1</text>
+              <text class="tick-label" x="54" y="244" text-anchor="end">0,4</text>
+              <text class="axis-label" x="20" y="140" text-anchor="middle">fréquence de pile</text>
+
+              <line class="axis" x1="60" y1="240" x2="60" y2="246"></line>
+              <line class="axis" x1="192.8" y1="240" x2="192.8" y2="246"></line>
+              <line class="axis" x1="250" y1="240" x2="250" y2="246"></line>
+              <line class="axis" x1="325.61" y1="240" x2="325.61" y2="246"></line>
+              <line class="axis" x1="440" y1="240" x2="440" y2="246"></line>
+              <text class="tick-label" x="60" y="260" text-anchor="middle">20</text>
+              <text class="tick-label" x="192.8" y="260" text-anchor="middle">100</text>
+              <text class="tick-label" x="250" y="260" text-anchor="middle">200</text>
+              <text class="tick-label" x="325.61" y="260" text-anchor="middle">500</text>
+              <text class="tick-label" x="440" y="260" text-anchor="middle">2000</text>
+              <text class="axis-label" x="255" y="280" text-anchor="middle">nombre total de lancers</text>
+
+              <!-- COURBE calculee point par point a partir de sa definition
+                   f(N) = (20 + (N-20)/2) / N, et non tracee a la main. -->
+              <polyline class="curve-main" fill="none" points="60.00,60.00 66.33,71.08 72.67,81.35 79.00,90.85 85.33,99.65 91.67,107.81 98.00,115.36 104.33,122.35 110.67,128.82 117.00,134.82 123.33,140.38 129.67,145.52 136.00,150.28 142.33,154.70 148.67,158.78 155.00,162.57 161.33,166.07 167.67,169.32 174.00,172.32 180.33,175.11 186.67,177.68 193.00,180.07 199.33,182.28 205.67,184.33 212.00,186.23 218.33,187.98 224.67,189.61 231.00,191.12 237.33,192.51 243.67,193.80 250.00,195.00 256.33,196.11 262.67,197.13 269.00,198.09 275.33,198.97 281.67,199.78 288.00,200.54 294.33,201.23 300.67,201.88 307.00,202.48 313.33,203.04 319.67,203.55 326.00,204.03 332.33,204.47 338.67,204.88 345.00,205.26 351.33,205.61 357.67,205.93 364.00,206.23 370.33,206.51 376.67,206.77 383.00,207.01 389.33,207.23 395.67,207.43 402.00,207.62 408.33,207.80 414.67,207.96 421.00,208.11 427.33,208.25 433.67,208.38 440.00,208.50"></polyline>
+
+              <circle class="plot-point" cx="60" cy="60" r="4"></circle>
+              <text class="annotation-label" x="72" y="56" text-anchor="start">20 piles sur 20</text>
+              <text class="label-soft" x="450" y="204" text-anchor="end">la courbe s'approche de 0,5 sans jamais l'atteindre</text>
+
+              <!-- L'ecart BRUT, qui ne bouge jamais. C'est la moitie de la
+                   demonstration : sans lui, l'eleve croit que la courbe
+                   descend parce que les faces rattrapent les piles. -->
+              <rect x="60" y="292" width="390" height="30" fill="color-mix(in srgb, var(--secondary) 16%, transparent)" stroke="none"></rect>
+              <rect class="frame-line" x="60" y="292" width="390" height="30" fill="none"></rect>
+              <text class="tick-label" x="255" y="312" text-anchor="middle">écart brut piles moins faces : 20, puis 20, puis 20... il ne bouge jamais</text>
+            </svg>
+          `,
+          notes: [
+            'Après $100$ lancers au total, la fréquence de pile vaut $\\dfrac{20 + 40}{100} = 0{,}60$. Après $2000$ lancers, elle vaut $\\dfrac{20 + 990}{2000} = 0{,}505$.',
+            'Pendant tout ce temps, il y a toujours $20$ piles de plus que de faces. Rien n\'a été « rattrapé » : l\'avance initiale est intacte.',
+            'Ce qui change, c\'est le dénominateur. Une avance de $20$ pèse lourd sur $20$ lancers, et presque rien sur $2000$. La fréquence se rapproche de $0{,}5$ par <strong>dilution</strong>, jamais par compensation.'
+          ],
+          reading: 'Pose-toi la question qui tranche : la pièce se souvient-elle des lancers précédents ? Elle n\'a ni mémoire, ni mécanisme pour se rattraper. Au lancer suivant, pile et face valent $0{,}5$ chacun, exactement comme au tout premier.<br/><br/>Cette erreur porte un nom, le <strong>sophisme du joueur</strong>, et elle est partagée par des millions de personnes. La connaître, c\'est déjà s\'en méfier.',
+          caption: 'Après $20$ piles consécutifs : la fréquence tend vers $0{,}5$, l\'écart brut reste bloqué à $20$.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Deux mots à ne pas confondre',
+          title: 'Incompatibles ou indépendants, ce n\'est pas la même chose',
+          description: 'Ces deux mots se ressemblent et désignent pourtant des situations sans aucun rapport.<br/><br/>À gauche, un seul lancer de dé. À droite, deux lancers successifs, dont les $36$ issues sont représentées par une case chacune.',
+          svg: `
+            <svg viewBox="0 0 480 290" role="img" aria-labelledby="proba-incomp-title proba-incomp-desc">
+              <title id="proba-incomp-title">Evenements incompatibles contre evenements independants</title>
+              <desc id="proba-incomp-desc">A gauche, les six issues d'un lancer de de sont alignees. L'evenement obtenir six et l'evenement obtenir trois occupent deux cases separees, sans aucune case commune : ils sont incompatibles, ils ne peuvent pas se produire ensemble. A droite, les trente-six issues de deux lancers successifs forment un carre de six cases sur six. L'evenement six au premier lancer occupe une ligne entiere, l'evenement six au second lancer occupe une colonne entiere, et ces deux zones se croisent en exactement une case. Ces deux evenements peuvent donc se produire ensemble : ils ne sont pas incompatibles, ils sont independants.</desc>
+
+              <!-- VIGNETTE GAUCHE : un lancer, 6 issues alignees.
+                   1 issue = 30 x 30 unites. -->
+              <text class="annotation-label" x="105" y="34" text-anchor="middle">incompatibles</text>
+              <text class="label-soft" x="105" y="54" text-anchor="middle">un seul lancer de dé</text>
+
+              <rect class="frame-line" x="30" y="70" width="30" height="30" fill="none"></rect>
+              <rect class="frame-line" x="60" y="70" width="30" height="30" fill="none"></rect>
+              <rect x="90" y="70" width="30" height="30" fill="color-mix(in srgb, var(--secondary) 30%, transparent)" stroke="none"></rect>
+              <rect class="frame-line" x="90" y="70" width="30" height="30" fill="none"></rect>
+              <rect class="frame-line" x="120" y="70" width="30" height="30" fill="none"></rect>
+              <rect class="frame-line" x="150" y="70" width="30" height="30" fill="none"></rect>
+              <rect x="180" y="70" width="30" height="30" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)" stroke="none"></rect>
+              <rect class="frame-line" x="180" y="70" width="30" height="30" fill="none"></rect>
+
+              <text class="tick-label" x="45" y="90" text-anchor="middle">1</text>
+              <text class="tick-label" x="75" y="90" text-anchor="middle">2</text>
+              <text class="tick-label" x="105" y="90" text-anchor="middle">3</text>
+              <text class="tick-label" x="135" y="90" text-anchor="middle">4</text>
+              <text class="tick-label" x="165" y="90" text-anchor="middle">5</text>
+              <text class="tick-label" x="195" y="90" text-anchor="middle">6</text>
+
+              <text class="tick-label" x="105" y="124" text-anchor="middle">obtenir 3</text>
+              <text class="tick-label" x="195" y="146" text-anchor="middle">obtenir 6</text>
+              <line class="guide-line" x1="105" y1="100" x2="105" y2="112"></line>
+              <line class="guide-line" x1="195" y1="100" x2="195" y2="134"></line>
+              <text class="label-soft" x="105" y="200" text-anchor="middle">aucune case commune</text>
+              <text class="label-soft" x="105" y="222" text-anchor="middle">ils ne peuvent pas</text>
+              <text class="label-soft" x="105" y="242" text-anchor="middle">arriver ensemble</text>
+
+              <!-- VIGNETTE DROITE : deux lancers, grille 6 x 6 = 36 issues.
+                   Meme taille de case qu'a gauche : l'echelle est commune.
+                   La ligne du 6 au premier lance et la colonne du 6 au second
+                   se CROISENT en exactement une case, et 1/36 = 1/6 x 1/6.
+                   C'est la definition de l'independance, lisible sur le
+                   dessin. -->
+              <text class="annotation-label" x="345" y="34" text-anchor="middle">indépendants</text>
+              <text class="label-soft" x="345" y="54" text-anchor="middle">deux lancers successifs</text>
+
+              <rect x="270" y="250" width="150" height="30" fill="color-mix(in srgb, var(--diagram-accent) 18%, transparent)" stroke="none"></rect>
+              <rect x="420" y="70" width="30" height="180" fill="color-mix(in srgb, var(--secondary) 18%, transparent)" stroke="none"></rect>
+              <rect x="420" y="250" width="30" height="30" fill="color-mix(in srgb, var(--diagram-accent) 45%, transparent)" stroke="none"></rect>
+
+              <line class="frame-line" x1="270" y1="70" x2="450" y2="70"></line>
+              <line class="frame-line" x1="270" y1="100" x2="450" y2="100"></line>
+              <line class="frame-line" x1="270" y1="130" x2="450" y2="130"></line>
+              <line class="frame-line" x1="270" y1="160" x2="450" y2="160"></line>
+              <line class="frame-line" x1="270" y1="190" x2="450" y2="190"></line>
+              <line class="frame-line" x1="270" y1="220" x2="450" y2="220"></line>
+              <line class="frame-line" x1="270" y1="250" x2="450" y2="250"></line>
+              <line class="frame-line" x1="270" y1="280" x2="450" y2="280"></line>
+              <line class="frame-line" x1="270" y1="70" x2="270" y2="280"></line>
+              <line class="frame-line" x1="300" y1="70" x2="300" y2="280"></line>
+              <line class="frame-line" x1="330" y1="70" x2="330" y2="280"></line>
+              <line class="frame-line" x1="360" y1="70" x2="360" y2="280"></line>
+              <line class="frame-line" x1="390" y1="70" x2="390" y2="280"></line>
+              <line class="frame-line" x1="420" y1="70" x2="420" y2="280"></line>
+              <line class="frame-line" x1="450" y1="70" x2="450" y2="280"></line>
+
+              <text class="tick-label" x="262" y="270" text-anchor="end">6</text>
+              <text class="tick-label" x="435" y="64" text-anchor="middle">6</text>
+              <text class="annotation-label" x="262" y="240" text-anchor="end">6 au premier</text>
+              <text class="annotation-label" x="450" y="50" text-anchor="end">6 au second</text>
+              <text class="label-soft" x="345" y="300" text-anchor="middle">une case commune sur 36</text>
+            </svg>
+          `,
+          notes: [
+            'À gauche : « obtenir $3$ » et « obtenir $6$ » au <strong>même</strong> lancer n\'ont aucune issue commune. Ils sont <strong>incompatibles</strong>, et $P(A \\cap B) = 0$.',
+            'À droite : « obtenir $6$ au premier lancer » et « obtenir $6$ au second » ont bien une issue commune, la case du coin. Ils ne sont donc pas incompatibles du tout.',
+            'Ils sont en revanche <strong>indépendants</strong> : $P(A \\cap B) = \\dfrac{1}{36}$, et c\'est exactement $\\dfrac{1}{6} \\times \\dfrac{1}{6}$. Le premier lancer ne change rien aux chances du second.'
+          ],
+          reading: 'Le test le plus sûr est visuel. Incompatibles : les deux zones ne se touchent pas. Indépendants : les deux zones se <strong>croisent</strong>, et la case d\'intersection représente exactement le produit des deux probabilités.<br/><br/>Deux événements incompatibles de probabilités non nulles ne sont d\'ailleurs jamais indépendants : si l\'un se produit, l\'autre devient impossible, donc le premier renseigne bel et bien sur le second.',
+          caption: 'Incompatibles : deux cases disjointes sur $6$ issues. Indépendants : une ligne et une colonne qui se croisent sur $36$ issues.'
+        }
+      ],
       recap: [
         'Probabilité = nombre entre $0$ et $1$ ; la somme des probabilités de tous les événements vaut $1$.',
         'En cas d\'équiprobabilité : $P(A) = \\frac{\\text{cas favorables}}{\\text{cas possibles}}$.',

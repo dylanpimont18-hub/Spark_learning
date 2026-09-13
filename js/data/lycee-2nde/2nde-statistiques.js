@@ -395,7 +395,118 @@ window.MODULES.push({
     exercice: {
       type: 'numeric',
       generate() {
-        const tache = pick(['ecart-type', 'moyenne', 'mediane', 'extreme', 'comparer']);
+        /* BANQUE ÉLARGIE une seconde fois le 2026-09-13 : la mesure en
+           TÂCHES DISTINCTES donnait 5, sous la cible de 6 à 7.
+
+           Les trois tâches ajoutées visent des gestes que la banque ne
+           demandait jamais et que l'évaluation suppose pourtant : lire une
+           unité sur un indicateur, remonter d'une moyenne aux données, et
+           choisir entre moyenne et médiane selon la série. */
+        const tache = pick(['ecart-type', 'moyenne', 'mediane', 'extreme', 'comparer',
+                            'uniteIndicateur', 'valeurManquante', 'choisirIndicateur']);
+
+        /* Tâche AJOUTÉE — l'unité de la variance et celle de l'écart-type.
+           C'est le point que la fiche professeur signale comme rarement
+           traité, et c'est lui qui explique POURQUOI on prend la racine. */
+        if (tache === 'uniteIndicateur') {
+          const grandeurs = [
+            { nom: 'tailles d\'élèves', u: 'cm' },
+            { nom: 'masses de colis', u: 'kg' },
+            { nom: 'durées de trajet', u: 'min' },
+            { nom: 'températures relevées', u: '°C' }
+          ];
+          const g = pick(grandeurs);
+          const sigma = pick([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+          const v = sigma * sigma;
+          return {
+            statement: `Une série de ${g.nom}, mesurées en ${g.u}, a pour variance $V = ${v}$.<br/><br/><strong>1.</strong> Calcule l'écart-type $\\sigma$.<br/><strong>2.</strong> Dans quelle unité s'exprime-t-il ?<br/><br/>Donne la valeur de $\\sigma$.`,
+            answer: sigma,
+            tolerance: 0.01,
+            unit: g.u,
+            hint: `L'écart-type est la <strong>racine carrée</strong> de la variance. C'est précisément ce passage par la racine qui ramène l'indicateur dans l'unité des données.`,
+            solution: [
+              `Unité des indicateurs de dispersion : $\\sigma = \\sqrt{V} = \\sqrt{${v}} = ${sigma}$`,
+              `La variance $V = ${v}$ s'exprime en ${g.u}<sup>2</sup>, ce qui ne se lit pas sur les données : personne ne sait ce que représentent des ${g.u} au carré ici.`,
+              `L'écart-type, lui, vaut $${sigma}$ ${g.u} — la <strong>même unité</strong> que les données. C'est pour cela qu'on prend la racine, et c'est lui qu'on interprète.`
+            ]
+          };
+        }
+
+        /* Tâche AJOUTÉE — remonter de la moyenne aux données. L'évaluation
+           pose cette question (Q1, réécrite ce jour) et aucun exercice ne
+           l'entraînait. */
+        if (tache === 'valeurManquante') {
+          const contextes = [
+            { quoi: 'notes', u: 'points' },
+            { quoi: 'durées', u: 'min' },
+            { quoi: 'masses', u: 'kg' }
+          ];
+          const c = pick(contextes);
+          const k = pick([4, 5, 6]);
+          const moy = rand(6, 15);
+          const somme = k * moy;
+          /* Les k-1 valeurs connues sont tirées puis la manquante est
+             DÉDUITE, ce qui garantit que la moyenne annoncée est exacte. */
+          const connues = [];
+          let reste = somme;
+          for (let i = 0; i < k - 1; i++) {
+            const max = Math.min(moy + 5, reste - (k - 1 - i));
+            const min = Math.max(1, moy - 5);
+            const v = rand(min, Math.max(min, max));
+            connues.push(v);
+            reste -= v;
+          }
+          if (reste < 1 || reste > 25) return {
+            statement: `Une série de $${k}$ ${c.quoi} a pour moyenne $${moy}$.<br/><br/>Quelle est la <strong>somme</strong> de toutes les valeurs de la série ?`,
+            answer: somme, tolerance: 0, unit: c.u,
+            hint: `La moyenne est la somme divisée par l'effectif. Retourne la relation : la somme vaut la moyenne multipliée par l'effectif.`,
+            solution: [
+              `Somme à partir de la moyenne : $\\bar{x} = \\dfrac{\\text{somme}}{${k}}$`,
+              `Donc somme $= ${k} \\times ${moy} = ${somme}$ ${c.u}.`
+            ]
+          };
+          return {
+            statement: `Une série de $${k}$ ${c.quoi} est $\\{${connues.join(' ; ')} ; x\\}$, où la dernière valeur a été effacée.<br/><br/>On sait que la moyenne de la série vaut $${moy}$.<br/><br/>Retrouve la valeur effacée $x$.`,
+            answer: reste,
+            tolerance: 0,
+            unit: c.u,
+            hint: `Si la moyenne vaut $${moy}$ pour $${k}$ valeurs, leur somme vaut $${k} \\times ${moy}$. Compare avec la somme des valeurs connues.`,
+            solution: [
+              `Valeur manquante : la somme des $${k}$ valeurs vaut $${k} \\times ${moy} = ${somme}$`,
+              `Les valeurs connues totalisent $${connues.join(' + ')} = ${somme - reste}$.`,
+              `Donc $x = ${somme} - ${somme - reste} = ${reste}$ ${c.u}.`,
+              `Vérification : la moyenne de la série complète vaut bien $\\dfrac{${somme}}{${k}} = ${moy}$ ✓`
+            ]
+          };
+        }
+
+        /* Tâche AJOUTÉE — choisir l'indicateur adapté. C'est un attendu
+           explicite du programme, et la banque ne le travaillait pas. */
+        if (tache === 'choisirIndicateur') {
+          const cas = pick([
+            { serie: [18, 19, 20, 21, 22], quoi: 'les âges des élèves d\'une classe', extreme: false },
+            { serie: [1100, 1200, 1250, 1300, 9000], quoi: 'les salaires mensuels d\'une petite entreprise', extreme: true },
+            { serie: [12, 13, 13, 14, 15], quoi: 'les notes d\'un élève régulier', extreme: false },
+            { serie: [2, 3, 3, 4, 40], quoi: 'les temps de connexion en minutes', extreme: true }
+          ]);
+          const tri = cas.serie.slice().sort((a, b) => a - b);
+          const med = tri[(tri.length - 1) / 2];
+          const moy = tri.reduce((s, v) => s + v, 0) / tri.length;
+          return {
+            statement: `On relève ${cas.quoi} : $\\{${cas.serie.join(' ; ')}\\}$.<br/><br/>Pour résumer cette série par un seul nombre, vaut-il mieux utiliser la <strong>médiane</strong> plutôt que la moyenne ?<br/><br/>Réponds par $1$ pour oui (la médiane est préférable), $0$ pour non (la moyenne convient).`,
+            answer: cas.extreme ? 1 : 0,
+            tolerance: 0,
+            unit: '',
+            hint: `Calcule les deux indicateurs et compare-les. S'ils sont très différents, demande-toi lequel des deux est tiré par une valeur isolée.`,
+            solution: [
+              `Choix de l'indicateur : je calcule les deux`,
+              `Moyenne : $\\bar{x} = ${fr(moy, 1)}$ ; médiane : $${med}$.`,
+              cas.extreme
+                ? `Les deux diffèrent nettement : la série contient une valeur <strong>extrême</strong> qui tire la moyenne vers le haut, alors que la médiane n'en est pas affectée. Ici la <strong>médiane</strong> résume mieux la série.`
+                : `Les deux sont proches : la série ne contient aucune valeur extrême, et la <strong>moyenne</strong> convient parfaitement. Elle a l'avantage d'utiliser toutes les valeurs.`
+            ]
+          };
+        }
 
         /* Tâche 2 — la moyenne seule, sans dispersion. C'est la base, et
            aucun exercice ne la travaillait isolément. */

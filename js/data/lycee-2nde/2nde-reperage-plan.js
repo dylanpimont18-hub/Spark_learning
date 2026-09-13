@@ -105,6 +105,33 @@ window.MODULES.push({
             <text class="annotation-label" x="160" y="48">&#916;x = 6</text>
             <text class="annotation-label" x="225" y="132">&#916;y = -4</text>
             <text class="label-soft" x="94" y="94">AB &#8776; 7,21</text>
+            <text class="axis-label" x="348" y="168">x</text>
+            <text class="axis-label" x="152" y="16">y</text>
+            <text class="tick-label" x="34" y="180">-3</text>
+            <text class="tick-label" x="70" y="180">-2</text>
+            <text class="tick-label" x="106" y="180">-1</text>
+            <text class="tick-label" x="180" y="180">1</text>
+            <text class="tick-label" x="216" y="180">2</text>
+            <text class="tick-label" x="252" y="180">3</text>
+            <text class="tick-label" x="288" y="180">4</text>
+            <text class="tick-label" x="324" y="180">5</text>
+            <text class="tick-label" x="126" y="24">4</text>
+            <text class="tick-label" x="126" y="60">3</text>
+            <text class="tick-label" x="126" y="96">2</text>
+            <text class="tick-label" x="126" y="132">1</text>
+            <text class="tick-label" x="130" y="204">-1</text>
+            <text class="tick-label" x="130" y="240">-2</text>
+            <text class="tick-label" x="140" y="176">0</text>
+          </svg>
+        `,
+        notes: [
+          'Le segment horizontal en pointillés mesure $\\Delta x = x_B - x_A = 4 - (-2) = 6$ : c\'est l\'écart entre les deux abscisses.',
+          'Le segment vertical en pointillés mesure $\\Delta y = y_B - y_A = -1 - 3 = -4$ : c\'est l\'écart entre les deux ordonnées (négatif car $B$ est plus bas que $A$).',
+          'La distance $AB$ est l\'hypoténuse de ce triangle rectangle : $AB = \\sqrt{\\Delta x^2 + \\Delta y^2} = \\sqrt{6^2+(-4)^2} = \\sqrt{52} = 2\\sqrt{13} \\approx 7{,}21$.'
+        ],
+        reading: 'Le point $M$ marqué sur $[AB]$ est le milieu : $M\\left(\\dfrac{-2+4}{2} ; \\dfrac{3+(-1)}{2}\\right) = M(1 ; 1)$, exactement au centre du segment.',
+        caption: 'Repère orthonormé avec $A(-2 ; 3)$, $B(4 ; -1)$, le triangle des écarts $\\Delta x$/$\\Delta y$ et le milieu $M(1 ; 1)$, conformément à l\'exemple du cours.'
+      },
 
       /* SCHÉMAS SECONDAIRES — ajoutés le 2026-09-13.
          Principe du cahier des charges (section 9) : une figure par
@@ -369,33 +396,6 @@ window.MODULES.push({
           caption: 'Quadrilatère $ABCD$ avec $A(-3\\,;\\,1)$, $B(1\\,;\\,3)$, $C(4\\,;\\,0)$ et $D(0\\,;\\,-2)$ : les diagonales $[AC]$ et $[BD]$ ont le même milieu $(0{,}5\\,;\\,0{,}5)$.'
         }
       ],
-            <text class="axis-label" x="348" y="168">x</text>
-            <text class="axis-label" x="152" y="16">y</text>
-            <text class="tick-label" x="34" y="180">-3</text>
-            <text class="tick-label" x="70" y="180">-2</text>
-            <text class="tick-label" x="106" y="180">-1</text>
-            <text class="tick-label" x="180" y="180">1</text>
-            <text class="tick-label" x="216" y="180">2</text>
-            <text class="tick-label" x="252" y="180">3</text>
-            <text class="tick-label" x="288" y="180">4</text>
-            <text class="tick-label" x="324" y="180">5</text>
-            <text class="tick-label" x="126" y="24">4</text>
-            <text class="tick-label" x="126" y="60">3</text>
-            <text class="tick-label" x="126" y="96">2</text>
-            <text class="tick-label" x="126" y="132">1</text>
-            <text class="tick-label" x="130" y="204">-1</text>
-            <text class="tick-label" x="130" y="240">-2</text>
-            <text class="tick-label" x="140" y="176">0</text>
-          </svg>
-        `,
-        notes: [
-          'Le segment horizontal en pointillés mesure $\\Delta x = x_B - x_A = 4 - (-2) = 6$ : c\'est l\'écart entre les deux abscisses.',
-          'Le segment vertical en pointillés mesure $\\Delta y = y_B - y_A = -1 - 3 = -4$ : c\'est l\'écart entre les deux ordonnées (négatif car $B$ est plus bas que $A$).',
-          'La distance $AB$ est l\'hypoténuse de ce triangle rectangle : $AB = \\sqrt{\\Delta x^2 + \\Delta y^2} = \\sqrt{6^2+(-4)^2} = \\sqrt{52} = 2\\sqrt{13} \\approx 7{,}21$.'
-        ],
-        reading: 'Le point $M$ marqué sur $[AB]$ est le milieu : $M\\left(\\dfrac{-2+4}{2} ; \\dfrac{3+(-1)}{2}\\right) = M(1 ; 1)$, exactement au centre du segment.',
-        caption: 'Repère orthonormé avec $A(-2 ; 3)$, $B(4 ; -1)$, le triangle des écarts $\\Delta x$/$\\Delta y$ et le milieu $M(1 ; 1)$, conformément à l\'exemple du cours.'
-      },
       recap: [
         'La distance entre deux points est le théorème de Pythagore appliqué aux écarts de coordonnées.',
         'Le milieu a pour coordonnées la moyenne des abscisses et la moyenne des ordonnées.',
