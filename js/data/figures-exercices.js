@@ -487,3 +487,109 @@ function figureSymetrie(valeurA, valeurAxe, options) {
 
   return svgFigure(`Point A et axe de symetrie ${nomVar} = ${valeurAxe}`, traits.join(''));
 }
+
+/* --- Losange sur ses diagonales ----------------------------------------
+   AJOUTE LE 2026-09-13 pour le chapitre pilote de cinquieme
+   (5e-parallelogrammes), ou le generateur ne tire que des aires de losange a
+   partir des deux diagonales. Servira aussi en quatrieme et en troisieme : le
+   losange reste l'aire « qui ne se lit pas comme base fois hauteur ».
+
+   POURQUOI UNE FIGURE ICI. L'erreur du chapitre n'est pas un calcul, c'est une
+   lecture : l'eleve prend les diagonales pour des cotes et applique « cote fois
+   cote ». Dessiner les deux diagonales A L'INTERIEUR du quadrilatere, cotees,
+   et les cotes NON cotes, montre en un regard que les nombres de l'enonce sont
+   les traits interieurs — ce que la phrase seule ne fait pas.
+
+   A L'ECHELLE, et c'est le point a ne pas rater : le rapport d1/d2 du dessin
+   est celui de l'enonce, si bien qu'un losange tres aplati se voit aplati. Le
+   plafond de rapport commun (borner) s'applique, avec la mention « non a
+   l'echelle » au-dela — un tirage 12 x 3 passerait sinon pour une aiguille.
+
+   L'AIRE N'EST JAMAIS ECRITE : c'est la reponse cherchee. On cote les deux
+   diagonales, rien d'autre. */
+function figureLosange(d1, d2, options) {
+  const o = options || {};
+  const unite = o.unite === undefined ? 'cm' : o.unite;
+  // d1 horizontale, d2 verticale. `borner` rend les dimensions A DESSINER.
+  const d = borner(d1, d2);
+
+  /* La cote de la diagonale verticale s'ecrit a gauche, hors du dessin : on lui
+     reserve sa largeur, comme figureRectangle le fait pour la largeur. */
+  const reserve = largeurEtiquette(`d2 = ${coteFig(d2, unite)}`) + 10;
+  const e = echelleFigure(d.a, d.b, reserve, FIG_MARGE);
+  const w = d.a * e, h = d.b * e;
+  const cx = reserve + (FIG_L - reserve - FIG_MARGE - w) / 2 + w / 2;
+  const cy = (FIG_H - h) / 2 - 6 + h / 2;
+
+  /* Les quatre sommets sont les EXTREMITES des diagonales : c'est la definition
+     meme du losange sur ses diagonales, et cela garantit que les quatre cotes
+     sortent egaux sans qu'on ait a les calculer (symetrie par rapport aux deux
+     axes). */
+  const gauche = `${nb2(cx - w / 2)},${nb2(cy)}`;
+  const droite = `${nb2(cx + w / 2)},${nb2(cy)}`;
+  const haut = `${nb2(cx)},${nb2(cy - h / 2)}`;
+  const bas = `${nb2(cx)},${nb2(cy + h / 2)}`;
+
+  // Angle droit des diagonales, code par un petit carre au centre — jamais par
+  // un arc (convention du projet). Trace vers le quart superieur droit.
+  const k = 7;
+  return svgFigure(`Losange de diagonales ${coteFig(d1, unite)} et ${coteFig(d2, unite)}`, [
+    `<polygon class="frame-line" points="${gauche} ${haut} ${droite} ${bas}" fill="${APLAT}"></polygon>`,
+    // Les diagonales, en trait de construction : ce sont elles que l'enonce
+    // chiffre, et elles seules.
+    `<line class="guide-line" x1="${nb2(cx - w / 2)}" y1="${nb2(cy)}" x2="${nb2(cx + w / 2)}" y2="${nb2(cy)}"></line>`,
+    `<line class="guide-line" x1="${nb2(cx)}" y1="${nb2(cy - h / 2)}" x2="${nb2(cx)}" y2="${nb2(cy + h / 2)}"></line>`,
+    `<path class="grid-line" fill="none" d="M${nb2(cx + k)} ${nb2(cy)} L${nb2(cx + k)} ${nb2(cy - k)} L${nb2(cx)} ${nb2(cy - k)}"></path>`,
+    `<circle class="plot-point" cx="${nb2(cx)}" cy="${nb2(cy)}" r="2.5"></circle>`,
+    // La cote horizontale sous la figure, la verticale a gauche et a
+    // l'exterieur : une etiquette posee dans l'aplat perdrait sa reserve
+    // blanche a la conversion et serait barree par le trait.
+    `<text class="annotation-label" x="${nb2(cx)}" y="${nb2(cy + h / 2 + 22)}" text-anchor="middle">d1 = ${coteFig(d1, unite)}</text>`,
+    `<text class="annotation-label" x="${nb2(cx - w / 2 - 10)}" y="${nb2(cy + 4)}" text-anchor="end">d2 = ${coteFig(d2, unite)}</text>`,
+    d.comprime ? figureHorsEchelle(FIG_L / 2, FIG_H - 6) : ''
+  ].join(''));
+}
+
+/* --- Parallelogramme base et hauteur -----------------------------------
+   AJOUTE LE 2026-09-13, meme chapitre pilote. Repond a l'autre malentendu du
+   chapitre, distinct du precedent : l'eleve multiplie la base par le COTE
+   OBLIQUE au lieu de la hauteur, parce que le cote oblique est le trait qu'il
+   voit et que la hauteur, elle, n'est pas dessinee dans l'enonce.
+
+   La figure trace donc la hauteur EN TRAIT DE CONSTRUCTION, du sommet
+   superieur perpendiculairement a la base, avec l'angle droit code, et cote la
+   base et la hauteur. Le cote oblique n'est volontairement PAS cote : lui
+   donner un nombre inviterait a l'utiliser, ce qui est exactement l'erreur.
+
+   A L'ECHELLE : base et hauteur dans le rapport de l'enonce, decalage oblique
+   fixe a 30 % de la base (assez pour qu'on voie que le cote n'est pas la
+   hauteur, pas assez pour sortir du cadre). */
+function figureParallelogramme(base, hauteur, options) {
+  const o = options || {};
+  const unite = o.unite === undefined ? 'cm' : o.unite;
+  const d = borner(base, hauteur);
+
+  const reserve = largeurEtiquette(`h = ${coteFig(hauteur, unite)}`) + 10;
+  /* Le decalage oblique s'ajoute a l'encombrement AVANT le choix de l'echelle,
+     sinon le sommet superieur droit sortirait du viewBox (lecon de figurePave,
+     ou la fuyante avait le meme effet). */
+  const DECALAGE = 0.3;
+  const e = echelleFigure(d.a * (1 + DECALAGE), d.b, reserve, FIG_MARGE);
+  const w = d.a * e, h = d.b * e, dx = w * DECALAGE;
+  const x0 = reserve + (FIG_L - reserve - FIG_MARGE - (w + dx)) / 2;
+  const yBas = (FIG_H + h) / 2 - 6;
+  const yHaut = yBas - h;
+
+  const k = 7;
+  return svgFigure(`Parallelogramme de base ${coteFig(base, unite)} et de hauteur ${coteFig(hauteur, unite)}`, [
+    `<polygon class="frame-line" points="${nb2(x0)},${nb2(yBas)} ${nb2(x0 + w)},${nb2(yBas)} ${nb2(x0 + w + dx)},${nb2(yHaut)} ${nb2(x0 + dx)},${nb2(yHaut)}" fill="${APLAT}"></polygon>`,
+    // La hauteur : du sommet superieur GAUCHE jusqu'au pied sur la base, a la
+    // verticale. Le pied tombe a l'interieur de la base, ce qui est le cas
+    // lisible ; l'angle droit y est code par un carre.
+    `<line class="guide-line" x1="${nb2(x0 + dx)}" y1="${nb2(yHaut)}" x2="${nb2(x0 + dx)}" y2="${nb2(yBas)}"></line>`,
+    `<path class="grid-line" fill="none" d="M${nb2(x0 + dx + k)} ${nb2(yBas)} L${nb2(x0 + dx + k)} ${nb2(yBas - k)} L${nb2(x0 + dx)} ${nb2(yBas - k)}"></path>`,
+    `<text class="annotation-label" x="${nb2(x0 + w / 2)}" y="${nb2(yBas + 22)}" text-anchor="middle">base = ${coteFig(base, unite)}</text>`,
+    `<text class="annotation-label" x="${nb2(x0 + dx - 10)}" y="${nb2(yHaut + h / 2 + 4)}" text-anchor="end">h = ${coteFig(hauteur, unite)}</text>`,
+    d.comprime ? figureHorsEchelle(FIG_L / 2, FIG_H - 6) : ''
+  ].join(''));
+}
