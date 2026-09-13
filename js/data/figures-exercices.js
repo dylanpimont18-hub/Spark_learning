@@ -593,3 +593,113 @@ function figureParallelogramme(base, hauteur, options) {
     d.comprime ? figureHorsEchelle(FIG_L / 2, FIG_H - 6) : ''
   ].join(''));
 }
+
+/* DEUX PARALLELES COUPEES PAR UNE SECANTE (2026-09-13, pour la cinquieme).
+
+   POURQUOI CE HELPER. Les enonces du chapitre « Angles et parallelisme »
+   disent « un angle alterne-interne mesure 47 degres, combien mesure l'angle
+   associe ? » sans montrer DE QUEL angle il s'agit. L'eleve doit reconstituer
+   de tete une configuration a huit angles, ce qui est precisement la
+   difficulte du chapitre — et rien ne l'y aide. La figure donne l'angle connu
+   et marque d'un point d'interrogation celui qu'on cherche : elle pose la
+   question, elle ne la resout pas (convention du manuel, section 9 du cahier
+   des charges).
+
+   L'INCLINAISON DE LA SECANTE EST CALCULEE A PARTIR DE L'ANGLE DEMANDE, elle
+   n'est pas fixe : dessiner 47 degres comme on dessine 130 degres ferait
+   mentir la figure, et c'est exactement le defaut que la 6e a paye onze fois.
+   L'angle entre la secante et les horizontales vaut donc `angle` au degre
+   pres, verifiable par produit scalaire.
+
+   Types traites, qui sont ceux du generateur :
+     - 'alterne-interne' : de part et d'autre de la secante, entre les deux
+       paralleles ; les deux angles sont EGAUX ;
+     - 'correspondant' : du meme cote de la secante, en positions homologues ;
+       egaux aussi ;
+     - 'interne' : du meme cote de la secante, entre les paralleles ;
+       SUPPLEMENTAIRES.
+
+   Etiquettes : pas de capitales ni d'article elide (contrainte du
+   convertisseur), et une seule pointe de fleche par trait. */
+function figureSecanteParalleles(angle, type, options) {
+  const o = options || {};
+  const marque = o.marque === undefined ? '?' : o.marque;
+
+  // Les deux paralleles, horizontales, ecartees d'ECART unites.
+  const ECART = 74;
+  const yHaut = (FIG_H - ECART) / 2 + 4;
+  const yBas = yHaut + ECART;
+  const xG = FIG_MARGE - 12, xD = FIG_L - FIG_MARGE + 12;
+
+  /* La secante coupe la parallele du HAUT en (xI, yHaut) et fait avec elle
+     l'angle `angle`, mesure du cote droit. Sa pente decoule donc directement
+     de l'angle demande : c'est ce qui rend la figure fidele. Pour un angle
+     obtus, la secante penche dans l'autre sens, ce que tan() donne tout seul.
+     On protege le cas 90 degres, ou tan diverge. */
+  const rad = angle * Math.PI / 180;
+  const cot = Math.abs(angle - 90) < 0.5 ? 0 : Math.cos(rad) / Math.sin(rad);
+  const xI = FIG_L / 2 - (ECART * cot) / 2;   // centre le croisement du bas
+  const xJ = xI + ECART * cot;                // intersection avec la parallele basse
+
+  // Prolongements de la secante au-dela des deux paralleles.
+  const DEB = 26;
+  const xA = xI - DEB * cot, yA = yHaut - DEB;
+  const xB = xJ + DEB * cot, yB = yBas + DEB;
+
+  /* Positions des deux etiquettes. L'angle CONNU se pose toujours au
+     croisement du haut, l'angle CHERCHE au croisement du bas : l'eleve lit
+     ainsi de haut en bas, et les deux marques ne se chevauchent jamais.
+     Le decalage se fait le long de la bissectrice du secteur concerne, ce qui
+     est la convention de placement du manuel. */
+  const D = 30;
+  function pos(x, y, deg) {
+    const r = deg * Math.PI / 180;
+    return [x + D * Math.cos(r), y - D * Math.sin(r)];
+  }
+  // Secteur de l'angle connu, en haut : entre l'horizontale droite et la
+  // secante montante, sa bissectrice est donc a angle/2.
+  const hautDeg = angle / 2;
+  // L'angle cherche depend du type.
+  //  - alterne-interne : cote GAUCHE en bas, entre la secante et
+  //    l'horizontale gauche, bissectrice a 180 - angle/2 ;
+  //  - correspondant : meme position qu'en haut, donc angle/2 ;
+  //  - interne (meme cote) : cote DROIT en bas, entre l'horizontale droite et
+  //    la secante descendante, bissectrice a -(180 - angle)/2 ramenee au-dessus
+  //    de la parallele basse.
+  let basDeg;
+  if (type === 'correspondant') {
+    // Position homologue de celle du haut : meme secteur, meme bissectrice.
+    basDeg = angle / 2;
+  } else if (type === 'alterne-interne') {
+    // De l'AUTRE cote de la secante, entre les deux paralleles : le secteur
+    // s'ouvre vers la gauche, sa bissectrice est donc a 180 - angle/2.
+    basDeg = 180 - angle / 2;
+  } else {
+    // Interne du meme cote : entre l'horizontale droite et la secante, au-
+    // dessus de la parallele basse. Le secteur mesure 180 - angle, sa
+    // bissectrice est donc a la moitie de cette ouverture.
+    basDeg = (180 - angle) / 2;
+  }
+  const pHaut = pos(xI, yHaut, hautDeg);
+  const pBas = pos(xJ, yBas, basDeg);
+
+  return svgFigure(
+    'Deux droites paralleles coupees par une secante, angle de ' + angle + ' degres',
+    [
+      // Les deux paralleles, chacune avec UNE seule pointe de fleche.
+      `<line class="frame-line" x1="${nb2(xG)}" y1="${nb2(yHaut)}" x2="${nb2(xD)}" y2="${nb2(yHaut)}"></line>`,
+      `<path class="grid-line" fill="none" d="M${nb2(xD - 8)} ${nb2(yHaut - 5)} L${nb2(xD)} ${nb2(yHaut)} L${nb2(xD - 8)} ${nb2(yHaut + 5)}"></path>`,
+      `<line class="frame-line" x1="${nb2(xG)}" y1="${nb2(yBas)}" x2="${nb2(xD)}" y2="${nb2(yBas)}"></line>`,
+      `<path class="grid-line" fill="none" d="M${nb2(xD - 8)} ${nb2(yBas - 5)} L${nb2(xD)} ${nb2(yBas)} L${nb2(xD - 8)} ${nb2(yBas + 5)}"></path>`,
+      // La secante.
+      `<line class="guide-line" x1="${nb2(xA)}" y1="${nb2(yA)}" x2="${nb2(xB)}" y2="${nb2(yB)}"></line>`,
+      // Les deux points de croisement.
+      `<circle class="plot-point" cx="${nb2(xI)}" cy="${nb2(yHaut)}" r="3"></circle>`,
+      `<circle class="plot-point" cx="${nb2(xJ)}" cy="${nb2(yBas)}" r="3"></circle>`,
+      // L'angle CONNU, chiffre.
+      `<text class="annotation-label" x="${nb2(pHaut[0])}" y="${nb2(pHaut[1])}" text-anchor="middle">${angle}°</text>`,
+      // L'angle CHERCHE : un point d'interrogation, jamais sa valeur.
+      `<text class="annotation-label" x="${nb2(pBas[0])}" y="${nb2(pBas[1])}" text-anchor="middle">${marque}</text>`
+    ].join('')
+  );
+}

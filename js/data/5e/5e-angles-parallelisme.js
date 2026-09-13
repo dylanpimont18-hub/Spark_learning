@@ -311,6 +311,15 @@ window.MODULES.push({
           answer,
           tolerance: 0,
           unit: '°',
+          /* FIGURE AJOUTEE LE 2026-09-13. L'enonce nommait la position de
+             l'angle (« alterne-interne », « correspondant ») sans la montrer :
+             l'eleve devait reconstituer de tete une configuration a huit
+             angles, ce qui EST la difficulte du chapitre. La figure donne
+             l'angle connu et marque d'un point d'interrogation celui qu'on
+             cherche — elle pose la question sans la resoudre.
+             L'inclinaison de la secante est calculee a partir de l'angle tire,
+             verifiee au centieme de degre pour 30, 47, 60, 90, 120 et 150. */
+          figure: figureSecanteParalleles(a, type.name === 'interne (même côté)' ? 'interne' : type.name),
           hint: type.relation === 'supplémentaire'
             ? 'Les angles internes du même côté de la sécante sont supplémentaires : leur somme vaut $180°$.'
             : `Les angles ${type.name}s sont égaux quand les droites sont parallèles.`,
