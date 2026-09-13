@@ -85,6 +85,148 @@ window.MODULES.push({
         reading: 'Sur une droite graduée, additionner un nombre positif fait avancer vers la droite ; soustraire un nombre positif (ou additionner un négatif) fait reculer vers la gauche.',
         caption: 'Droite graduée horizontale représentant la profondeur d’un sous-marin : départ à $-120\\,\\text{m}$, remontée de $45\\,\\text{m}$ jusqu’à $-75\\,\\text{m}$, puis descente de $80\\,\\text{m}$ jusqu’à $-155\\,\\text{m}$.'
       },
+
+      /* SCHEMAS SECONDAIRES (2026-09-13) — une figure par MALENTENDU.
+         Un chapitre de calcul n'a pas moins besoin de figures qu'un chapitre de
+         geometrie : ses malentendus sont simplement d'un autre ordre. Les trois
+         retenus se lisent TOUS sur la droite graduee, qui est le seul objet
+         capable de les trancher sans passer par une regle a retenir :
+           1. l'ordre s'inverse chez les negatifs ($-8 < -3$ alors que $8 > 3$) ;
+           2. soustraire, c'est ajouter l'oppose — un DEPLACEMENT, pas un signe
+              a manipuler ;
+           3. deux nombres opposes sont a egale distance de zero, ce qui donne
+              sa raison d'etre a la valeur absolue.
+
+         Toutes les positions sont CALCULEES a partir d'une echelle explicite,
+         jamais posees a l'oeil. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'L\'ordre s\'inverse',
+          title: 'Chez les négatifs, le plus grand nombre est le plus petit',
+          description: '$8$ est plus grand que $3$, mais $-8$ est plus <strong>petit</strong> que $-3$. Aucune règle à retenir : sur la droite graduée, le plus petit est toujours celui qui est <strong>le plus à gauche</strong>, et $-8$ y est bien à gauche de $-3$.',
+          svg: `
+            <svg viewBox="0 0 400 194" role="img" aria-labelledby="rel-ordre-title rel-ordre-desc">
+              <title id="rel-ordre-title">Comparaison de deux nombres positifs et de leurs opposes sur la droite graduee</title>
+              <desc id="rel-ordre-desc">Une droite graduee de moins 10 a 10 est tracee. Les nombres 3 et 8 sont marques a droite de zero : 8 est plus a droite que 3, il est donc plus grand. Leurs opposes moins 3 et moins 8 sont marques a gauche de zero : moins 8 est plus a gauche que moins 3, il est donc plus petit. En passant aux opposes, l'ordre s'est donc inverse. Deux fleches, une de chaque cote, indiquent le sens de lecture : vers la droite les nombres augmentent, vers la gauche ils diminuent.</desc>
+
+              <!-- Droite de -10 a 10, de x=30 a x=370 : 17 unites d'ecran par
+                   unite. Zero est donc a x = 30 + 17 x 10 = 200. Positions
+                   CALCULEES : -8 -> 64, -3 -> 149, 3 -> 251, 8 -> 336. -->
+              <line class="axis" x1="24" y1="104" x2="382" y2="104"></line>
+              <path class="axis" fill="none" d="M374 98 L382 104 L374 110"></path>
+
+              <line class="frame-line" x1="200" y1="98" x2="200" y2="110"></line>
+              <text class="tick-label" x="200" y="126" text-anchor="middle">0</text>
+
+              <circle class="plot-point" cx="336" cy="104" r="5"></circle>
+              <text class="annotation-label" x="336" y="88" text-anchor="middle">8</text>
+              <circle class="plot-point" cx="251" cy="104" r="5"></circle>
+              <text class="annotation-label" x="251" y="88" text-anchor="middle">3</text>
+              <circle class="plot-point-alt" cx="64" cy="104" r="5"></circle>
+              <text class="annotation-label" x="64" y="88" text-anchor="middle">−8</text>
+              <circle class="plot-point-alt" cx="149" cy="104" r="5"></circle>
+              <text class="annotation-label" x="149" y="88" text-anchor="middle">−3</text>
+
+              <text class="tick-label" x="293" y="144" text-anchor="middle">8 &gt; 3</text>
+              <text class="tick-label" x="106" y="144" text-anchor="middle">−8 &lt; −3</text>
+
+              <text class="label-soft" x="200" y="170" text-anchor="middle">le plus petit est toujours le plus à gauche</text>
+              <text class="tick-label" x="200" y="188" text-anchor="middle">passer aux opposés retourne la comparaison</text>
+            </svg>
+          `,
+          notes: [
+            'À droite de zéro, plus le nombre est grand, plus il est loin : $8 > 3$.',
+            'À gauche de zéro, c\'est l\'inverse : $-8$ est plus loin, donc plus <strong>bas</strong> dans l\'ordre, et $-8 < -3$.',
+            'La comparaison ne se joue jamais sur le nombre <strong>sans son signe</strong> : elle se lit sur la position, et une seule règle suffit — le plus à gauche est le plus petit.'
+          ],
+          reading: 'Place les deux nombres sur la droite avant de comparer, même de tête. Un thermomètre dit la même chose : $-8$ degrés est plus froid que $-3$ degrés, alors que $8$ est plus chaud que $3$.',
+          caption: 'Deux nombres positifs et leurs opposés sur la droite graduée : $8 > 3$ mais $-8 < -3$.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Soustraire, c\'est ajouter l\'opposé',
+          title: 'Retirer un négatif fait avancer vers la droite',
+          description: '$5 - (-3)$ donne $8$, et cela déroute : on soustrait, et pourtant le résultat <strong>augmente</strong>. Sur la droite, tout devient clair : soustraire, c\'est parcourir le déplacement <strong>en sens inverse</strong>. Inverser un déplacement vers la gauche, c\'est aller vers la droite.',
+          svg: `
+            <svg viewBox="0 0 400 206" role="img" aria-labelledby="rel-soustr-title rel-soustr-desc">
+              <title id="rel-soustr-title">Retirer moins trois revient a avancer de trois vers la droite</title>
+              <desc id="rel-soustr-desc">Sur une droite graduee de 0 a 10, deux calculs sont compares. En haut, ajouter moins trois a partir de 5 : la fleche part de 5 et va vers la gauche jusqu'a 2. En bas, retirer moins trois a partir de 5 : la fleche part de 5 et va vers la droite jusqu'a 8, car retirer un deplacement revient a le parcourir en sens inverse. Les deux fleches ont exactement la meme longueur, trois unites, et ne different que par leur sens. Les deux calculs partent du meme point 5 et sont traces sur deux droites identiques.</desc>
+
+              <!-- Deux droites IDENTIQUES, de 0 a 10, de x=40 a x=360 :
+                   32 unites d'ecran par unite. 5 -> 200, 2 -> 104, 8 -> 296. -->
+              <text class="tick-label" x="200" y="24" text-anchor="middle">ajouter −3 : on recule</text>
+              <line class="axis" x1="34" y1="56" x2="366" y2="56"></line>
+              <line class="frame-line" x1="200" y1="50" x2="200" y2="62"></line>
+              <text class="tick-label" x="200" y="76" text-anchor="middle">5</text>
+              <path class="curve-main" fill="none" d="M200 42 L104 42"></path>
+              <path class="curve-main" fill="none" d="M112 36 L104 42 L112 48"></path>
+              <circle class="plot-point" cx="104" cy="56" r="5"></circle>
+              <text class="annotation-label" x="104" y="76" text-anchor="middle">2</text>
+              <text class="tick-label" x="152" y="32" text-anchor="middle">3 vers la gauche</text>
+
+              <text class="tick-label" x="200" y="118" text-anchor="middle">retirer −3 : on avance</text>
+              <line class="axis" x1="34" y1="150" x2="366" y2="150"></line>
+              <line class="frame-line" x1="200" y1="144" x2="200" y2="156"></line>
+              <text class="tick-label" x="200" y="170" text-anchor="middle">5</text>
+              <path class="curve-main" fill="none" d="M200 136 L296 136"></path>
+              <path class="curve-main" fill="none" d="M288 130 L296 136 L288 142"></path>
+              <circle class="plot-point" cx="296" cy="150" r="5"></circle>
+              <text class="annotation-label" x="296" y="170" text-anchor="middle">8</text>
+              <text class="tick-label" x="248" y="126" text-anchor="middle">3 vers la droite</text>
+
+              <text class="label-soft" x="200" y="196" text-anchor="middle">même longueur de trajet, sens opposé</text>
+            </svg>
+          `,
+          notes: [
+            '$5 + (-3) = 2$ : ajouter $-3$, c\'est se déplacer de $3$ vers la <strong>gauche</strong>.',
+            '$5 - (-3) = 5 + 3 = 8$ : retirer ce même déplacement, c\'est le parcourir <strong>en sens inverse</strong>, donc vers la droite.',
+            'Les deux flèches ont la même longueur, $3$ unités : seul leur sens change. C\'est tout ce que dit la règle « soustraire revient à ajouter l\'opposé ».'
+          ],
+          reading: 'Ne cherche pas à appliquer une règle de signes de mémoire : demande-toi dans quel sens tu te déplaces. Ajouter un négatif recule, retirer un négatif avance.',
+          caption: 'Deux déplacements de même longueur et de sens opposés : $5 + (-3) = 2$ et $5 - (-3) = 8$.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'À égale distance de zéro',
+          title: 'Deux opposés, une seule distance',
+          description: '$-6$ et $6$ sont <strong>aussi loin</strong> de zéro l\'un que l\'autre : c\'est ce que mesure la <strong>distance à zéro</strong>. Elle ne remplace pas le nombre, elle en oublie volontairement le signe — d\'où le fait que deux nombres différents puissent partager la même.',
+          svg: `
+            <svg viewBox="0 0 400 176" role="img" aria-labelledby="rel-dist-title rel-dist-desc">
+              <title id="rel-dist-title">Deux nombres opposes a egale distance de zero</title>
+              <desc id="rel-dist-desc">Sur une droite graduee, les nombres moins 6 et 6 sont places de part et d'autre de zero. Deux accolades de longueur strictement identique relient chacun d'eux a zero, ce qui montre qu'ils sont a la meme distance, six unites. Les deux nombres sont pourtant differents : l'un est negatif, l'autre positif. La distance a zero est donc la meme pour un nombre et pour son oppose, et elle vaut toujours six ici.</desc>
+
+              <!-- Droite de -8 a 8, de x=40 a x=360 : 20 unites par unite.
+                   Zero -> 200 ; -6 -> 80 ; 6 -> 320. Les deux accolades font
+                   donc EXACTEMENT 120 unites chacune, ce qui est le propos. -->
+              <line class="axis" x1="34" y1="94" x2="366" y2="94"></line>
+              <line class="frame-line" x1="200" y1="88" x2="200" y2="100"></line>
+              <text class="tick-label" x="200" y="114" text-anchor="middle">0</text>
+
+              <circle class="plot-point" cx="80" cy="94" r="5"></circle>
+              <text class="annotation-label" x="80" y="114" text-anchor="middle">−6</text>
+              <circle class="plot-point" cx="320" cy="94" r="5"></circle>
+              <text class="annotation-label" x="320" y="114" text-anchor="middle">6</text>
+
+              <path class="guide-line" fill="none" d="M80 76 L80 62 L200 62 L200 76"></path>
+              <text class="tick-label" x="140" y="54" text-anchor="middle">6 unités</text>
+              <path class="guide-line" fill="none" d="M200 76 L200 62 L320 62 L320 76"></path>
+              <text class="tick-label" x="260" y="54" text-anchor="middle">6 unités</text>
+
+              <text class="annotation-label" x="200" y="30" text-anchor="middle">même distance à zéro</text>
+              <text class="label-soft" x="200" y="146" text-anchor="middle">la distance oublie le signe, elle ne le supprime pas</text>
+              <text class="tick-label" x="200" y="166" text-anchor="middle">−6 et 6 restent deux nombres différents</text>
+            </svg>
+          `,
+          notes: [
+            '$-6$ et $6$ sont les <strong>opposés</strong> l\'un de l\'autre : leur somme vaut $0$.',
+            'Leur distance à zéro est la même, $6$ : les deux accolades du dessin ont exactement la même longueur.',
+            'Cette distance sert à mesurer un écart, jamais à comparer : $-6$ reste plus petit que $6$, même si les deux sont « à $6$ de zéro ».'
+          ],
+          reading: 'Mesure les deux accolades avec ta règle : elles sont identiques. C\'est utile pour dire de combien on s\'écarte d\'un repère — une température de $-6$ degrés s\'écarte autant de zéro qu\'une de $6$ degrés, mais l\'une gèle et l\'autre non.',
+          caption: '$-6$ et $6$, opposés l\'un de l\'autre, à la même distance de zéro ($6$ unités).'
+        }
+      ],
       method: {
         title: 'Méthode en 3 étapes',
         steps: [

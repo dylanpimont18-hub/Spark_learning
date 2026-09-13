@@ -90,6 +90,144 @@ window.MODULES.push({
         reading: 'Le résultat final est <strong>$10$</strong>.<br/><br/>Ce n\'est ni un calcul « de gauche à droite », ni un calcul « au hasard » : c\'est un <strong>ordre fixe et universel</strong>, le même pour tout le monde, ce qui garantit qu\'une expression mathématique a toujours une seule valeur.',
         caption: 'Résolution de $2 + 3^2 \\times (7 - 4) \\div 3 - 1$ en 4 étapes, en respectant l\'ordre <strong>parenthèses → puissances → multiplications/divisions → additions/soustractions</strong>.'
       },
+
+      /* SCHEMAS SECONDAIRES (2026-09-13) — une figure par MALENTENDU.
+         Le chapitre est celui d'une CONVENTION : on n'y demontre rien, on y
+         fixe un ordre de lecture. Les figures doivent donc montrer ce que la
+         convention EVITE, pas la rejouer. Les trois retenus :
+           1. le meme calcul lu dans deux ordres donne deux resultats, ce qui
+              est la raison d'etre de la convention (l'intro le dit, aucune
+              figure ne le montrait) ;
+           2. a priorite EGALE, on lit de gauche a droite — la regle oubliee,
+              qui ne se voit que sur une soustraction ou une division ;
+           3. la parenthese n'est pas un ornement : elle change le resultat.
+
+         Valeurs VERIFIEES : 2 + 3 x 4 = 14 contre 20 ; 12 - 4 - 3 = 5 contre
+         11 ; 20 : 4 x 5 = 25 contre 1. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Pourquoi une convention',
+          title: 'Sans règle d\'ordre, le même calcul aurait deux résultats',
+          description: 'Écris $2 + 3 \\times 4$ et demande à deux personnes de le calculer : l\'une multiplie d\'abord et trouve $14$, l\'autre lit de gauche à droite et trouve $20$. Aucune des deux ne calcule mal — <strong>il manque une règle</strong>. C\'est exactement pour cela que la convention existe.',
+          svg: `
+            <svg viewBox="0 0 400 202" role="img" aria-labelledby="prio-conv-title prio-conv-desc">
+              <title id="prio-conv-title">Le meme calcul mene de deux facons donne deux resultats</title>
+              <desc id="prio-conv-desc">Le calcul 2 plus 3 multiplie par 4 est traite de deux facons paralleles. A gauche, en teinte d'accent, la multiplication est faite en premier : 3 fois 4 donne 12, puis 2 plus 12 donne 14. C'est le chemin conforme a la convention. A droite, en teinte faible et en trait tirete, la lecture se fait de gauche a droite : 2 plus 3 donne 5, puis 5 fois 4 donne 20. C'est le chemin errone. Les deux chemins partent du meme calcul ecrit en haut au centre et aboutissent a deux resultats differents, 14 et 20, ce qui montre qu'une convention est necessaire.</desc>
+
+              <text class="annotation-label" x="200" y="28" text-anchor="middle">2 + 3 × 4</text>
+
+              <line class="guide-line" x1="188" y1="38" x2="110" y2="62"></line>
+              <line class="guide-line" x1="212" y1="38" x2="290" y2="62"></line>
+
+              <!-- Chemin JUSTE, a gauche, en teinte d'accent : l'oeil lit le
+                   haut et la gauche d'abord. -->
+              <rect class="frame-line" x="34" y="68" width="152" height="34" rx="6" fill="color-mix(in srgb, var(--diagram-accent) 22%, transparent)"></rect>
+              <text class="tick-label" x="110" y="90" text-anchor="middle">3 × 4 = 12</text>
+              <rect class="frame-line" x="34" y="116" width="152" height="34" rx="6" fill="color-mix(in srgb, var(--diagram-accent) 22%, transparent)"></rect>
+              <text class="tick-label" x="110" y="138" text-anchor="middle">2 + 12 = 14</text>
+              <text class="annotation-label" x="110" y="172" text-anchor="middle">14</text>
+              <text class="tick-label" x="110" y="190" text-anchor="middle">la multiplication d abord</text>
+
+              <!-- Chemin ERRONE, a droite, teinte faible et tirete. -->
+              <rect class="guide-line" x="214" y="68" width="152" height="34" rx="6" fill="color-mix(in srgb, var(--diagram-accent) 6%, transparent)" stroke-dasharray="5 4"></rect>
+              <text class="tick-label" x="290" y="90" text-anchor="middle">2 + 3 = 5</text>
+              <rect class="guide-line" x="214" y="116" width="152" height="34" rx="6" fill="color-mix(in srgb, var(--diagram-accent) 6%, transparent)" stroke-dasharray="5 4"></rect>
+              <text class="tick-label" x="290" y="138" text-anchor="middle">5 × 4 = 20</text>
+              <text class="label-soft" x="290" y="172" text-anchor="middle">20</text>
+              <text class="tick-label" x="290" y="190" text-anchor="middle">de gauche à droite</text>
+            </svg>
+          `,
+          notes: [
+            'Chemin conforme : $3 \\times 4 = 12$, puis $2 + 12 = 14$.',
+            'Chemin de gauche à droite : $2 + 3 = 5$, puis $5 \\times 4 = 20$.',
+            'Les deux calculs sont justes <strong>pris un à un</strong> : c\'est l\'ordre qui diffère. La convention n\'est donc pas une contrainte arbitraire, c\'est ce qui permet à une écriture de n\'avoir qu\'un seul sens.'
+          ],
+          reading: 'Retiens la cause plutôt que la règle : une expression doit vouloir dire la même chose pour tout le monde. Sans ordre convenu, $2 + 3 \\times 4$ ne désignerait aucun nombre précis.',
+          caption: 'Le calcul $2 + 3 \\times 4$ mené de deux façons : $14$ en respectant les priorités, $20$ en lisant de gauche à droite.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'À priorité égale',
+          title: 'Deux soustractions se lisent de gauche à droite',
+          description: 'La règle des priorités classe les opérations <strong>entre elles</strong>. Mais quand deux opérations sont du <strong>même rang</strong>, elle ne dit plus rien — il faut alors lire de gauche à droite. Sur $12 - 4 - 3$, commencer par la droite donne $11$ au lieu de $5$.',
+          svg: `
+            <svg viewBox="0 0 400 206" role="img" aria-labelledby="prio-gauche-title prio-gauche-desc">
+              <title id="prio-gauche-title">Deux soustractions enchainees lues de gauche a droite puis de droite a gauche</title>
+              <desc id="prio-gauche-desc">Le calcul 12 moins 4 moins 3 est traite de deux facons. En haut, en teinte d'accent, la lecture se fait de gauche a droite : 12 moins 4 donne 8, puis 8 moins 3 donne 5. C'est la lecture correcte. En bas, en teinte faible et en trait tirete, la seconde soustraction est faite en premier comme si elle etait entre parentheses : 4 moins 3 donne 1, puis 12 moins 1 donne 11. Les deux resultats, 5 et 11, different de six unites, ce qui montre que l'ordre de lecture compte aussi entre operations de meme rang.</desc>
+
+              <text class="annotation-label" x="200" y="26" text-anchor="middle">12 − 4 − 3</text>
+
+              <!-- Lecture JUSTE : de gauche a droite, en accent. Une seule
+                   pointe de fleche par trait, comme l'exige le convertisseur. -->
+              <text class="tick-label" x="30" y="64" text-anchor="start">de gauche à droite</text>
+              <rect class="frame-line" x="76" y="76" width="112" height="32" rx="6" fill="color-mix(in srgb, var(--diagram-accent) 22%, transparent)"></rect>
+              <text class="tick-label" x="132" y="97" text-anchor="middle">12 − 4 = 8</text>
+              <path class="curve-main" fill="none" d="M188 92 L228 92"></path>
+              <path class="curve-main" fill="none" d="M220 86 L228 92 L220 98"></path>
+              <rect class="frame-line" x="228" y="76" width="112" height="32" rx="6" fill="color-mix(in srgb, var(--diagram-accent) 22%, transparent)"></rect>
+              <text class="tick-label" x="284" y="97" text-anchor="middle">8 − 3 = 5</text>
+              <text class="annotation-label" x="358" y="97" text-anchor="start">5</text>
+
+              <!-- Lecture ERRONEE : la seconde soustraction d'abord. -->
+              <text class="tick-label" x="30" y="146" text-anchor="start">en commençant par la droite</text>
+              <rect class="guide-line" x="76" y="158" width="112" height="32" rx="6" fill="color-mix(in srgb, var(--diagram-accent) 6%, transparent)" stroke-dasharray="5 4"></rect>
+              <text class="tick-label" x="132" y="179" text-anchor="middle">4 − 3 = 1</text>
+              <path class="guide-line" fill="none" d="M188 174 L228 174"></path>
+              <path class="guide-line" fill="none" d="M220 168 L228 174 L220 180"></path>
+              <rect class="guide-line" x="228" y="158" width="112" height="32" rx="6" fill="color-mix(in srgb, var(--diagram-accent) 6%, transparent)" stroke-dasharray="5 4"></rect>
+              <text class="tick-label" x="284" y="179" text-anchor="middle">12 − 1 = 11</text>
+              <text class="label-soft" x="358" y="179" text-anchor="start">11</text>
+            </svg>
+          `,
+          notes: [
+            'Lecture correcte : $12 - 4 = 8$, puis $8 - 3 = 5$.',
+            'En regroupant les deux derniers termes : $4 - 3 = 1$, puis $12 - 1 = 11$. L\'écart vaut $6$, soit deux fois $3$.',
+            'La même prudence vaut pour les divisions : $20 \\div 4 \\times 5$ donne $25$ de gauche à droite, mais $1$ si l\'on multiplie d\'abord. <strong>Multiplication et division sont de même rang</strong>, aucune ne passe avant l\'autre.'
+          ],
+          reading: 'Quand deux opérations sont du même rang, ne cherche pas laquelle est prioritaire : il n\'y en a pas. Calcule simplement dans l\'ordre où elles sont écrites, de gauche à droite.',
+          caption: '$12 - 4 - 3$ lu de gauche à droite ($5$) et en commençant par la droite ($11$).'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Ce que change une parenthèse',
+          title: 'La parenthèse déplace le résultat',
+          description: 'Une parenthèse n\'est pas une décoration : elle <strong>force</strong> un calcul à passer en premier, et donc elle change le résultat. Même chiffres, même opérations, deux valeurs différentes selon qu\'elle est là ou non.',
+          svg: `
+            <svg viewBox="0 0 400 186" role="img" aria-labelledby="prio-paren-title prio-paren-desc">
+              <title id="prio-paren-title">Le meme calcul avec et sans parenthese</title>
+              <desc id="prio-paren-desc">Deux calculs sont compares. A gauche, 2 plus 3 multiplie par 4 sans parenthese : la multiplication passe en premier, le resultat vaut 14. A droite, la parenthese ouvrante et fermante autour de 2 plus 3 force l'addition a passer en premier, et le resultat vaut 20. Les chiffres et les operations sont exactement les memes dans les deux cas, seules les parentheses different. Les deux calculs sont ecrits l'un sous l'autre a la meme taille, et la partie qui se calcule en premier est mise en evidence dans chacun.</desc>
+
+              <text class="annotation-label" x="200" y="26" text-anchor="middle">mêmes chiffres, mêmes opérations</text>
+
+              <!-- SANS parenthese : c'est la multiplication qui est prioritaire.
+                   La partie calculee en premier est teintee. -->
+              <text class="tick-label" x="40" y="70" text-anchor="start">sans parenthèse</text>
+              <rect class="frame-line" x="196" y="52" width="66" height="30" rx="5" fill="color-mix(in srgb, var(--diagram-accent) 34%, transparent)"></rect>
+              <text class="annotation-label" x="176" y="73" text-anchor="middle">2 +</text>
+              <text class="annotation-label" x="229" y="73" text-anchor="middle">3 × 4</text>
+              <text class="annotation-label" x="300" y="73" text-anchor="start">= 14</text>
+
+              <!-- AVEC parenthese : c'est l'addition qui passe devant. La zone
+                   teintee se DEPLACE, c'est tout le propos de la figure. -->
+              <text class="tick-label" x="40" y="130" text-anchor="start">avec parenthèse</text>
+              <rect class="frame-line" x="150" y="112" width="72" height="30" rx="5" fill="color-mix(in srgb, var(--diagram-accent) 34%, transparent)"></rect>
+              <text class="annotation-label" x="186" y="133" text-anchor="middle">(2 + 3)</text>
+              <text class="annotation-label" x="248" y="133" text-anchor="middle">× 4</text>
+              <text class="annotation-label" x="300" y="133" text-anchor="start">= 20</text>
+
+              <text class="label-soft" x="200" y="168" text-anchor="middle">la zone teintée est celle qui se calcule en premier</text>
+            </svg>
+          `,
+          notes: [
+            'Sans parenthèse, la multiplication est prioritaire : $3 \\times 4 = 12$, puis $2 + 12 = 14$.',
+            'Avec la parenthèse, l\'addition passe devant : $2 + 3 = 5$, puis $5 \\times 4 = 20$.',
+            'La parenthèse sert donc à <strong>imposer</strong> un ordre différent de celui de la convention. Quand elle est absente, c\'est la convention qui décide — jamais l\'ordre d\'écriture.'
+          ],
+          reading: 'Compare les deux zones teintées : elles ne portent pas sur les mêmes nombres. Avant de calculer, repère toujours ce qui se calcule en premier, et écris-le en toutes lettres si tu hésites.',
+          caption: '$2 + 3 \\times 4 = 14$ sans parenthèse, $(2 + 3) \\times 4 = 20$ avec : mêmes chiffres, résultats différents.'
+        }
+      ],
       method: {
         title: 'Ordre de priorité (de la plus haute à la plus basse)',
         steps: [

@@ -128,6 +128,188 @@ window.MODULES.push({
         reading: 'Une fois les bandes redécoupées au même dénominateur, on additionne simplement les parts coloriées : $8 + 9 = 17$ douzièmes.',
         caption: 'Bandes fractionnaires pour $\\dfrac{2}{3} + \\dfrac{3}{4} = \\dfrac{8}{12} + \\dfrac{9}{12} = \\dfrac{17}{12} = 1\\dfrac{5}{12}$.'
       },
+
+      /* SCHEMAS SECONDAIRES (2026-09-13) — une figure par MALENTENDU.
+         Les trois retenus :
+           1. additionner les numerateurs ET les denominateurs, l'erreur que
+              l'intro du cours nomme sans la montrer ;
+           2. le denominateur commun comme un DECOUPAGE plus fin, et non comme
+              une manipulation de nombres ;
+           3. la multiplication qui, elle, ne demande AUCUN denominateur commun
+              — piege exact inverse du precedent.
+
+         Valeurs VERIFIEES : 1/3 + 1/4 = 7/12 = 0,5833 alors que 2/7 = 0,2857,
+         soit moins de la moitie. Les bandes sont dessinees a la MEME longueur
+         totale, sans quoi la comparaison mentirait. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'L\'erreur classique',
+          title: 'Additionner les dénominateurs donne un résultat trop petit',
+          description: '$\\dfrac{1}{3} + \\dfrac{1}{4}$ ne fait pas $\\dfrac{2}{7}$. Les bandes le montrent sans un mot : la somme des deux parts est <strong>plus grande</strong> que chacune, alors que $\\dfrac{2}{7}$ est plus petite que $\\dfrac{1}{3}$. Le résultat annoncé est du mauvais côté.',
+          svg: `
+            <svg viewBox="0 0 400 216" role="img" aria-labelledby="frac-erreur-title frac-erreur-desc">
+              <title id="frac-erreur-title">La somme d'un tiers et d'un quart comparee a deux septiemes</title>
+              <desc id="frac-erreur-desc">Quatre bandes de meme longueur totale sont empilees. La premiere montre un tiers teinte, la deuxieme un quart teinte. La troisieme montre la somme reelle, sept douziemes, qui est nettement plus longue que chacune des deux precedentes. La quatrieme, en trait tirete, montre deux septiemes, le resultat errone obtenu en additionnant les numerateurs et les denominateurs : cette bande est plus courte que le tiers de depart, ce qui est impossible pour une somme de deux quantites positives. Toutes les bandes ont exactement la meme longueur totale, si bien que les portions teintees se comparent directement.</desc>
+
+              <!-- Toutes les bandes font 300 unites de long, de x=56 a x=356 :
+                   c'est indispensable, deux bandes de longueurs differentes
+                   rendraient la comparaison des parts fausse. -->
+              <rect class="frame-line" x="56" y="34" width="300" height="26" fill="none"></rect>
+              <rect class="frame-line" x="56" y="34" width="100" height="26" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)"></rect>
+              <text class="tick-label" x="46" y="52" text-anchor="end">1/3</text>
+
+              <rect class="frame-line" x="56" y="70" width="300" height="26" fill="none"></rect>
+              <rect class="frame-line" x="56" y="70" width="75" height="26" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)"></rect>
+              <text class="tick-label" x="46" y="88" text-anchor="end">1/4</text>
+
+              <!-- La somme JUSTE : 7/12 de 300 = 175 unites. -->
+              <rect class="frame-line" x="56" y="118" width="300" height="26" fill="none"></rect>
+              <rect class="frame-line" x="56" y="118" width="175" height="26" fill="color-mix(in srgb, var(--diagram-accent) 42%, transparent)"></rect>
+              <text class="annotation-label" x="46" y="136" text-anchor="end">7/12</text>
+              <text class="tick-label" x="243" y="136" text-anchor="start">la vraie somme</text>
+
+              <!-- Le resultat FAUX : 2/7 de 300 = 85,71 unites. Plus court que
+                   le tiers de depart, ce qui se voit immediatement. -->
+              <rect class="guide-line" x="56" y="154" width="300" height="26" fill="none" stroke-dasharray="5 4"></rect>
+              <rect class="guide-line" x="56" y="154" width="85.71" height="26" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke-dasharray="5 4"></rect>
+              <text class="label-soft" x="46" y="172" text-anchor="end">2/7</text>
+              <text class="tick-label" x="152" y="172" text-anchor="start">plus petit que 1/3 : impossible</text>
+
+              <text class="annotation-label" x="200" y="24" text-anchor="middle">une somme est plus grande que chacune de ses parts</text>
+              <text class="label-soft" x="200" y="204" text-anchor="middle">additionner les dénominateurs découpe plus fin au lieu d ajouter</text>
+            </svg>
+          `,
+          notes: [
+            '$\\dfrac{1}{3} + \\dfrac{1}{4} = \\dfrac{4}{12} + \\dfrac{3}{12} = \\dfrac{7}{12} \\approx 0{,}58$.',
+            '$\\dfrac{2}{7} \\approx 0{,}29$, soit <strong>moins de la moitié</strong> du vrai résultat — et même moins que $\\dfrac{1}{3}$ seul.',
+            'Le contrôle est immédiat et sans calcul : une somme de deux quantités positives est toujours plus grande que chacune d\'elles. Si le résultat est plus petit, la méthode est fausse.'
+          ],
+          reading: 'Compare la longueur de la bande $\\dfrac{2}{7}$ à celle de $\\dfrac{1}{3}$ : elle est plus courte. Ajouter quelque chose ne peut pas faire diminuer — ce seul réflexe suffit à écarter la réponse.',
+          caption: 'Les bandes de $\\dfrac{1}{3}$, $\\dfrac{1}{4}$, de leur vraie somme $\\dfrac{7}{12}$ et du résultat erroné $\\dfrac{2}{7}$, plus court que $\\dfrac{1}{3}$.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Ce que fait le dénominateur commun',
+          title: 'Redécouper les deux bandes de la même façon',
+          description: 'Chercher un dénominateur commun n\'est pas une manipulation de nombres : c\'est <strong>redécouper les deux bandes en parts de même taille</strong>. Une fois les parts identiques, on peut enfin les compter ensemble — c\'est tout ce qu\'on cherchait.',
+          svg: `
+            <svg viewBox="0 0 400 222" role="img" aria-labelledby="frac-commun-title frac-commun-desc">
+              <title id="frac-commun-title">Deux bandes redecoupees en douziemes pour pouvoir etre additionnees</title>
+              <desc id="frac-commun-desc">En haut, deux bandes de meme longueur : la premiere est partagee en trois tiers dont un est teinte, la seconde en quatre quarts dont un est teinte. Les parts n'ont pas la meme taille, on ne peut donc pas les compter ensemble. En bas, les deux memes bandes sont redecoupees en douze parts egales chacune : le tiers devient quatre douziemes et le quart devient trois douziemes. Les parts ont maintenant exactement la meme taille dans les deux bandes, si bien qu'on peut les additionner et obtenir sept douziemes. Les traits de decoupe supplementaires sont traces plus finement que les traits d'origine.</desc>
+
+              <text class="tick-label" x="200" y="22" text-anchor="middle">parts de tailles différentes : on ne peut pas compter ensemble</text>
+
+              <!-- AVANT : tiers et quarts, parts de tailles differentes. -->
+              <rect class="frame-line" x="56" y="34" width="300" height="24" fill="none"></rect>
+              <rect class="frame-line" x="56" y="34" width="100" height="24" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)"></rect>
+              <line class="frame-line" x1="156" y1="34" x2="156" y2="58"></line>
+              <line class="frame-line" x1="256" y1="34" x2="256" y2="58"></line>
+              <text class="tick-label" x="46" y="50" text-anchor="end">1/3</text>
+
+              <rect class="frame-line" x="56" y="66" width="300" height="24" fill="none"></rect>
+              <rect class="frame-line" x="56" y="66" width="75" height="24" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)"></rect>
+              <line class="frame-line" x1="131" y1="66" x2="131" y2="90"></line>
+              <line class="frame-line" x1="206" y1="66" x2="206" y2="90"></line>
+              <line class="frame-line" x1="281" y1="66" x2="281" y2="90"></line>
+              <text class="tick-label" x="46" y="82" text-anchor="end">1/4</text>
+
+              <text class="tick-label" x="200" y="112" text-anchor="middle">on redécoupe les deux en douzièmes</text>
+
+              <!-- APRES : les deux bandes en douziemes, soit 25 unites par part.
+                   Les traits ajoutes sont en grid-line, plus fins que les
+                   traits d'origine : la hierarchie visuelle dit lesquels sont
+                   nouveaux. -->
+              <rect class="frame-line" x="56" y="126" width="300" height="24" fill="none"></rect>
+              <rect class="frame-line" x="56" y="126" width="100" height="24" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)"></rect>
+              <line class="grid-line" x1="81" y1="126" x2="81" y2="150"></line>
+              <line class="grid-line" x1="106" y1="126" x2="106" y2="150"></line>
+              <line class="grid-line" x1="131" y1="126" x2="131" y2="150"></line>
+              <line class="frame-line" x1="156" y1="126" x2="156" y2="150"></line>
+              <line class="grid-line" x1="181" y1="126" x2="181" y2="150"></line>
+              <line class="grid-line" x1="206" y1="126" x2="206" y2="150"></line>
+              <line class="grid-line" x1="231" y1="126" x2="231" y2="150"></line>
+              <line class="frame-line" x1="256" y1="126" x2="256" y2="150"></line>
+              <line class="grid-line" x1="281" y1="126" x2="281" y2="150"></line>
+              <line class="grid-line" x1="306" y1="126" x2="306" y2="150"></line>
+              <line class="grid-line" x1="331" y1="126" x2="331" y2="150"></line>
+              <text class="annotation-label" x="46" y="142" text-anchor="end">4/12</text>
+
+              <rect class="frame-line" x="56" y="158" width="300" height="24" fill="none"></rect>
+              <rect class="frame-line" x="56" y="158" width="75" height="24" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)"></rect>
+              <line class="grid-line" x1="81" y1="158" x2="81" y2="182"></line>
+              <line class="grid-line" x1="106" y1="158" x2="106" y2="182"></line>
+              <line class="frame-line" x1="131" y1="158" x2="131" y2="182"></line>
+              <line class="grid-line" x1="156" y1="158" x2="156" y2="182"></line>
+              <line class="grid-line" x1="181" y1="158" x2="181" y2="182"></line>
+              <line class="frame-line" x1="206" y1="158" x2="206" y2="182"></line>
+              <line class="grid-line" x1="231" y1="158" x2="231" y2="182"></line>
+              <line class="grid-line" x1="256" y1="158" x2="256" y2="182"></line>
+              <line class="frame-line" x1="281" y1="158" x2="281" y2="182"></line>
+              <line class="grid-line" x1="306" y1="158" x2="306" y2="182"></line>
+              <line class="grid-line" x1="331" y1="158" x2="331" y2="182"></line>
+              <text class="annotation-label" x="46" y="174" text-anchor="end">3/12</text>
+
+              <text class="annotation-label" x="200" y="204" text-anchor="middle">4 douzièmes + 3 douzièmes = 7 douzièmes</text>
+            </svg>
+          `,
+          notes: [
+            'Un tiers de la bande vaut exactement quatre douzièmes ; un quart en vaut exactement trois.',
+            'Les parts ont désormais la même taille dans les deux bandes : on peut donc les compter ensemble, $4 + 3 = 7$.',
+            'La quantité n\'a pas changé, seul le <strong>découpage</strong> a changé. C\'est pourquoi le dénominateur commun ne modifie jamais la valeur d\'une fraction.'
+          ],
+          reading: 'Regarde la bande du tiers avant et après : la partie teintée est exactement la même longueur, elle est simplement coupée en quatre morceaux. Trouver un dénominateur commun, c\'est trouver un découpage qui va aux deux bandes à la fois.',
+          caption: 'Les bandes de $\\dfrac{1}{3}$ et $\\dfrac{1}{4}$ redécoupées en douzièmes : $\\dfrac{4}{12} + \\dfrac{3}{12} = \\dfrac{7}{12}$.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'La multiplication, elle, n\'en demande pas',
+          title: 'Multiplier, c\'est prendre une part d\'une part',
+          description: 'Piège exactement inverse du précédent : pour <strong>multiplier</strong> deux fractions, on ne cherche <strong>aucun</strong> dénominateur commun. On prend simplement une part <strong>d\'une part</strong>, ce que le découpage en deux sens montre d\'un coup d\'œil.',
+          svg: `
+            <svg viewBox="0 0 400 200" role="img" aria-labelledby="frac-produit-title frac-produit-desc">
+              <title id="frac-produit-title">Un carre partage en deux sens pour montrer le produit de deux fractions</title>
+              <desc id="frac-produit-desc">Un carre represente une unite entiere. Il est partage en trois bandes verticales, dont deux sont teintees legerement pour representer deux tiers. Il est ensuite partage en quatre bandes horizontales, dont trois sont teintees pour representer trois quarts. Le rectangle ou les deux teintes se superposent occupe six cases sur les douze du quadrillage obtenu, ce qui montre que deux tiers multiplies par trois quarts font six douziemes, c'est-a-dire un demi. Aucun denominateur commun n'a ete cherche : les numerateurs se multiplient entre eux et les denominateurs entre eux.</desc>
+
+              <!-- Carre unite de 144 unites de cote, quadrille en 3 colonnes de
+                   48 et 4 rangees de 36 : douze cases de 48 x 36. La zone
+                   commune fait 2 colonnes x 3 rangees = 6 cases sur 12. -->
+              <rect class="frame-line" x="60" y="36" width="144" height="144" fill="none"></rect>
+
+              <!-- 2/3 en colonnes, teinte legere. -->
+              <rect x="60" y="36" width="96" height="144" fill="color-mix(in srgb, var(--diagram-accent) 12%, transparent)" stroke="none"></rect>
+              <!-- 3/4 en rangees, teinte legere : la superposition fait le
+                   produit, sans qu'on ait a le dire. -->
+              <rect x="60" y="36" width="144" height="108" fill="color-mix(in srgb, var(--diagram-accent) 12%, transparent)" stroke="none"></rect>
+              <!-- La zone COMMUNE, teinte forte : le seul objet a isoler. -->
+              <rect class="frame-line" x="60" y="36" width="96" height="108" fill="color-mix(in srgb, var(--diagram-accent) 34%, transparent)"></rect>
+
+              <line class="grid-line" x1="108" y1="36" x2="108" y2="180"></line>
+              <line class="grid-line" x1="156" y1="36" x2="156" y2="180"></line>
+              <line class="grid-line" x1="60" y1="72" x2="204" y2="72"></line>
+              <line class="grid-line" x1="60" y1="108" x2="204" y2="108"></line>
+              <line class="grid-line" x1="60" y1="144" x2="204" y2="144"></line>
+
+              <text class="tick-label" x="132" y="196" text-anchor="middle">2 colonnes sur 3</text>
+              <text class="tick-label" x="52" y="112" text-anchor="end">3 rangées</text>
+              <text class="tick-label" x="52" y="128" text-anchor="end">sur 4</text>
+
+              <text class="annotation-label" x="232" y="70" text-anchor="start">2/3 × 3/4</text>
+              <text class="tick-label" x="232" y="96" text-anchor="start">numérateurs : 2 × 3 = 6</text>
+              <text class="tick-label" x="232" y="118" text-anchor="start">dénominateurs : 3 × 4 = 12</text>
+              <text class="annotation-label" x="232" y="146" text-anchor="start">= 6/12 = 1/2</text>
+              <text class="label-soft" x="232" y="170" text-anchor="start">aucun dénominateur commun</text>
+            </svg>
+          `,
+          notes: [
+            'Le carré représente l\'unité. Deux colonnes sur trois donnent $\\dfrac{2}{3}$ ; trois rangées sur quatre donnent $\\dfrac{3}{4}$.',
+            'Leur zone commune couvre $6$ cases sur les $12$ du quadrillage : $\\dfrac{2}{3} \\times \\dfrac{3}{4} = \\dfrac{6}{12} = \\dfrac{1}{2}$.',
+            'Les $12$ cases viennent de $3 \\times 4$ et les $6$ de $2 \\times 3$ : la règle « numérateurs entre eux, dénominateurs entre eux » se lit directement sur le quadrillage.'
+          ],
+          reading: 'Le résultat est plus petit que chacune des deux fractions, et c\'est normal : prendre les trois quarts de quelque chose qui ne représente déjà que deux tiers laisse forcément moins que ces deux tiers.',
+          caption: 'Le carré unité partagé en deux sens : $\\dfrac{2}{3} \\times \\dfrac{3}{4} = \\dfrac{6}{12} = \\dfrac{1}{2}$, sans aucun dénominateur commun.'
+        }
+      ],
       method: {
         title: 'Méthode en 4 étapes',
         steps: [
