@@ -42,7 +42,7 @@ window.MODULES.push(
         steps: [
           '<strong>Addition des deux équations</strong> : $(2x + y) + (x - y) = 7 + 2$, soit $3x = 9$, donc $x = 3$.',
           '<strong>Substitution de $x$</strong> dans la 2e équation : $3 - y = 2$, donc $y = 1$.',
-          '<strong>Vérification</strong> : dans la 1ère : $2(3) + 1 = 7$ ✓ ; dans la 2e : $3 - 1 = 2$ ✓. Le couple $(3\\,;\\,1)$ est bien la solution.'
+          '<strong>Vérification</strong> : dans la 1re : $2(3) + 1 = 7$ ✓ ; dans la 2e : $3 - 1 = 2$ ✓. Le couple $(3\\,;\\,1)$ est bien la solution.'
         ],
         answer: 'La solution du système est $(x\\,;\\,y) = (3\\,;\\,1)$.'
       },
@@ -141,13 +141,13 @@ window.MODULES.push(
       {
         q: 'Un élève résout $\\begin{cases} x + y = 7 \\\\ 2x - y = 5 \\end{cases}$ et trouve $x = 4$, $y = 4$. Comment vérifier qu\'il a tort ?',
         options: [
-          'Vérifier dans la 1ère équation : $4 + 4 = 8 \\neq 7$, donc la solution est fausse',
+          'Vérifier dans la 1re équation : $4 + 4 = 8 \\neq 7$, donc la solution est fausse',
           'On ne peut pas vérifier sans tout recalculer',
           'Vérifier dans une seule équation suffit pour confirmer',
           'Le résultat est correct, $x = 4, y = 4$'
         ],
         answer: 0,
-        correction: 'La vérification dans la 1ère équation : $4 + 4 = 8 \\neq 7$ — la solution est fausse. La vraie solution : addition des deux équations $\\Rightarrow 3x = 12 \\Rightarrow x = 4$, puis $y = 7 - 4 = 3$ (et non $4$). L\'erreur vient d\'avoir oublié de recalculer $y$ après avoir trouvé $x$.'
+        correction: 'La vérification dans la 1re équation : $4 + 4 = 8 \\neq 7$ — la solution est fausse. La vraie solution : addition des deux équations $\\Rightarrow 3x = 12 \\Rightarrow x = 4$, puis $y = 7 - 4 = 3$ (et non $4$). L\'erreur vient d\'avoir oublié de recalculer $y$ après avoir trouvé $x$.'
       },
       {
         q: 'Résoudre $\\begin{cases} 2x + y = 7 \\\\ x - y = 2 \\end{cases}$',
@@ -418,8 +418,8 @@ window.MODULES.push(
           statement: 'Pour résoudre $\\begin{cases} 2x + 3y = 12 \\\\ 4x + 3y = 18 \\end{cases}$, la méthode la plus directe est :',
           type: 'multiple-choice',
           options: [
-            'Soustraire la 1ère équation de la 2ème pour éliminer $y$',
-            'Substituer $x$ de la 1ère dans la 2ème',
+            'Soustraire la 1re équation de la 2e pour éliminer $y$',
+            'Substituer $x$ de la 1re dans la 2e',
             'Multiplier les deux équations entre elles',
             'Additionner les deux équations'
           ],
@@ -443,7 +443,7 @@ window.MODULES.push(
           tolerance: 0,
           unit: '',
           points: 2,
-          correction: 'Soit $c$ le nombre de cahiers et $s$ le nombre de stylos. $\\begin{cases} c + s = 7 \\\\ 2c + 3s = 17 \\end{cases}$. De la 1ère : $s = 7 - c$. Substitution : $2c + 3(7-c) = 17 \\Rightarrow 2c + 21 - 3c = 17 \\Rightarrow -c = -4 \\Rightarrow c = 4$. Il a acheté $4$ cahiers et $3$ stylos.'
+          correction: 'Soit $c$ le nombre de cahiers et $s$ le nombre de stylos. $\\begin{cases} c + s = 7 \\\\ 2c + 3s = 17 \\end{cases}$. De la 1re : $s = 7 - c$. Substitution : $2c + 3(7-c) = 17 \\Rightarrow 2c + 21 - 3c = 17 \\Rightarrow -c = -4 \\Rightarrow c = 4$. Il a acheté $4$ cahiers et $3$ stylos.'
         },
         {
           statement: 'Le système $\\begin{cases} 2x + 4y = 10 \\\\ x + 2y = 5 \\end{cases}$ admet :',
@@ -456,7 +456,7 @@ window.MODULES.push(
           ],
           answer: 2,
           points: 2,
-          correction: 'La 1ère équation est le double de la 2ème : $2(x + 2y) = 2 \\times 5 = 10$. Les deux équations sont proportionnelles, donc elles représentent la même droite. Le système a une infinité de solutions : tous les couples $(x, y)$ vérifiant $x + 2y = 5$.'
+          correction: 'La 1re équation est le double de la 2e : $2(x + 2y) = 2 \\times 5 = 10$. Les deux équations sont proportionnelles, donc elles représentent la même droite. Le système a une infinité de solutions : tous les couples $(x, y)$ vérifiant $x + 2y = 5$.'
         }
       ]
     }

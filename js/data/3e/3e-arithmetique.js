@@ -38,7 +38,7 @@ window.MODULES.push(
       example: {
         statement: 'Trouver le PGCD de $84$ et $56$ par l\'algorithme d\'Euclide.',
         steps: [
-          '<strong>1ère division</strong> : $84 = 56 \\times 1 + 28$. Le reste est $28 \\neq 0$, on continue avec $\\text{PGCD}(56, 28)$.',
+          '<strong>1re division</strong> : $84 = 56 \\times 1 + 28$. Le reste est $28 \\neq 0$, on continue avec $\\text{PGCD}(56, 28)$.',
           '<strong>2e division</strong> : $56 = 28 \\times 2 + 0$. Le reste est $0$, on s\'arrête.',
           '<strong>Conclusion</strong> : le dernier reste non nul est $28$, donc $\\text{PGCD}(84, 56) = 28$. Vérification : $84 = 28 \\times 3$ et $56 = 28 \\times 2$ ✓'
         ],

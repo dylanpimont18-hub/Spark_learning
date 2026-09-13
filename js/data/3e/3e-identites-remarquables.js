@@ -34,7 +34,7 @@ window.MODULES.push(
       example: {
         statement: 'Développer $(3x + 2)^2$.',
         steps: [
-          '<strong>Identifier $a$ et $b$</strong> : ici $a = 3x$ et $b = 2$. On applique la 1ère identité : $(a+b)^2 = a^2 + 2ab + b^2$.',
+          '<strong>Identifier $a$ et $b$</strong> : ici $a = 3x$ et $b = 2$. On applique la 1re identité : $(a+b)^2 = a^2 + 2ab + b^2$.',
           '<strong>Calculer chaque terme</strong> : $a^2 = (3x)^2 = 9x^2$, $2ab = 2 \\times 3x \\times 2 = 12x$, $b^2 = 2^2 = 4$.',
           '<strong>Assembler</strong> : $(3x+2)^2 = 9x^2 + 12x + 4$. On vérifie : pour $x = 1$, $(3+2)^2 = 25$ et $9 + 12 + 4 = 25$ ✓'
         ],

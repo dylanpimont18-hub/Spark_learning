@@ -1236,3 +1236,44 @@ test('chaque devoir note de troisieme est bareme sur 10, comme les trois autres 
   assert.deepStrictEqual(fautes, [],
     'devoir(s) note(s) hors du bareme sur 10 :\n  ' + fautes.join('\n  '));
 });
+
+test('les abreviations ordinales de troisieme suivent l usage francais', () => {
+  /* POURQUOI CE TEST. L'abreviation francaise correcte est 1re, 2e, 3e — et
+     jamais 1ere, 1ère, 2eme, 2ème. Les 36 chapitres de sixieme, cinquieme et
+     quatrieme n'en portaient AUCUNE forme fautive ; la troisieme en portait
+     douze, jusqu'au 2026-09-13, dont une a cote d'un « 2e » correct dans la
+     meme phrase de 3e-systemes.
+
+     POURQUOI CA COMPTE DANS CE LIVRE PARTICULIER. Un manuel scolaire est lu
+     par des enseignants de francais autant que de mathematiques, et il sert de
+     modele d'ecriture a des eleves de troisieme. Une abreviation fautive
+     repetee y est un defaut de fabrication visible, pas une coquette.
+
+     Le defaut est invisible a la relecture parce qu'il est BANAL : « 1ère »
+     est la forme que tout le monde ecrit dans un courriel, et l'oeil ne la
+     signale pas. Seule une recherche systematique la trouve.
+
+     PORTEE. Le niveau entier, edition eleve et fiches professeur. */
+  const fs = require('fs');
+  const path = require('path');
+  const { RACINE } = require('../extract.js');
+  const fautes = [];
+
+  // Les formes fautives, ancrees sur un chiffre pour ne pas attraper les mots
+  // ordinaires (« deuxieme », « systeme », « theoreme »).
+  const FAUTIF = /\d\s*(?:ère|ere|ème|eme|ieme|ième)\b/g;
+
+  for (const dossier of ['js/data/3e', 'js/data/prof/3e']) {
+    const complet = path.join(RACINE, dossier);
+    if (!fs.existsSync(complet)) continue;
+    for (const f of fs.readdirSync(complet).filter(x => x !== 'index.js' && x.endsWith('.js'))) {
+      const texte = fs.readFileSync(path.join(complet, f), 'utf8');
+      for (const m of texte.matchAll(FAUTIF)) {
+        const ligne = texte.slice(0, m.index).split('\n').length;
+        fautes.push(dossier + '/' + f + ':' + ligne + ' : « ' + m[0] + ' »');
+      }
+    }
+  }
+  assert.deepStrictEqual(fautes, [],
+    'abreviation(s) ordinale(s) fautive(s) — ecrire 1re, 2e, 3e :\n  ' + fautes.join('\n  '));
+});
