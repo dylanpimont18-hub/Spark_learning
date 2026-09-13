@@ -351,7 +351,7 @@
           const connu = chercheB ? a : b, reponse = chercheB ? b : a;
           const ctx = pick([
             { d: 'Une échelle de ' + c + '\\,\\text{m} est posée contre un mur vertical. Son pied est à ' + connu + '\\,\\text{m} du mur.', q: 'À quelle hauteur touche-t-elle le mur ?', u: 'm' },
-            { d: 'Un téléviseur rectangulaire à une diagonale de ' + c + '\\,\\text{cm} et une largeur de ' + connu + '\\,\\text{cm}.', q: 'Quelle est sa hauteur ?', u: 'cm' },
+            { d: 'Un téléviseur rectangulaire a une diagonale de ' + c + '\\,\\text{cm} et une largeur de ' + connu + '\\,\\text{cm}.', q: 'Quelle est sa hauteur ?', u: 'cm' },
             { d: 'Un toboggan rectiligne de ' + c + '\\,\\text{m} part du haut d\'un portique vertical. Son point d\'arrivée est à ' + connu + '\\,\\text{m} du pied du portique.', q: 'Quelle est la hauteur du portique ?', u: 'm' },
             { d: 'Un câble tendu de ' + c + '\\,\\text{m} relie le sommet d\'un poteau vertical à un piquet planté à ' + connu + '\\,\\text{m} du pied du poteau.', q: 'Quelle est la hauteur du poteau ?', u: 'm' }
           ]);
@@ -486,7 +486,7 @@
            decouvrir SEUL qu'un calcul de perimetre passe par Pythagore, parce
            que la largeur manque et que rien ne le lui signale. */
         {
-          statement: 'Un panneau rectangulaire à une longueur de $24\\,\\text{cm}$ et une diagonale de $25\\,\\text{cm}$. Calculer son <strong>périmètre</strong>.',
+          statement: 'Un panneau rectangulaire a une longueur de $24\\,\\text{cm}$ et une diagonale de $25\\,\\text{cm}$. Calculer son <strong>périmètre</strong>.',
           type: 'numeric',
           answer: 62,
           tolerance: 0.01,

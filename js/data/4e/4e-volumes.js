@@ -99,7 +99,7 @@
         correction: 'L\'arête latérale ($5$ cm) relie le sommet à un coin de là base ; ce n\'est pas la hauteur. La hauteur $h$ est la distance perpendiculaire du sommet au centre de là base — elle est toujours différente de l\'arête latérale (ici plus courte). Il faut calculer $h$ avec Pythagore avant d\'appliquer $V = \\frac{1}{3} \\times 16 \\times h$.'
       },
       {
-        q: 'Un cône à un rayon de base de $3$ cm et une hauteur de $10$ cm. Quel est son volume (avec $\\pi \\approx 3{,}14$) ?',
+        q: 'Un cône a un rayon de base de $3$ cm et une hauteur de $10$ cm. Quel est son volume (avec $\\pi \\approx 3{,}14$) ?',
         options: ['$94{,}2$ cm³', '$282{,}6$ cm³', '$31{,}4$ cm³', '$188{,}4$ cm³'],
         answer: 0,
         correction: '$V = \\dfrac{1}{3} \\times 3{,}14 \\times 9 \\times 10 = \\dfrac{282{,}6}{3} = 94{,}2$ cm³.'
@@ -128,11 +128,11 @@
 
         if (tache === 'pyramide-carree') {
           const ctx = pick([
-            { intro: 'Un toit en forme de pyramide à une base carrée de cote', emoji: '🏠' },
-            { intro: 'Un monument en forme de pyramide à une base carrée de cote', emoji: '🏛️' },
-            { intro: 'Un emballage décoratif en forme de pyramide à une base carrée de cote', emoji: '🎁' },
-            { intro: 'Un cristal en forme de pyramide à une base carrée de cote', emoji: '💎' },
-            { intro: 'Un silo a grain en forme de pyramide à une base carrée de cote', emoji: '🌾' }
+            { intro: 'Un toit en forme de pyramide a une base carrée de côté', emoji: '🏠' },
+            { intro: 'Un monument en forme de pyramide a une base carrée de côté', emoji: '🏛️' },
+            { intro: 'Un emballage décoratif en forme de pyramide a une base carrée de côté', emoji: '🎁' },
+            { intro: 'Un cristal en forme de pyramide a une base carrée de côté', emoji: '💎' },
+            { intro: 'Un silo à grain en forme de pyramide a une base carrée de côté', emoji: '🌾' }
           ]);
           const a = rand(3, 10), h = rand(3, 12);
           const v = parseFloat(((a * a * h) / 3).toFixed(1));
@@ -152,10 +152,10 @@
 
         if (tache === 'cone') {
           const ctx = pick([
-            { intro: 'Un cornet de glace en forme de cône à un rayon de base de', emoji: '🍦' },
-            { intro: 'Un chapeau de fete en forme de cône à un rayon de base de', emoji: '🎉' },
-            { intro: 'Un tas de sable en forme de cône à un rayon de base de', emoji: '⛱️' },
-            { intro: 'Un entonnoir conique à un rayon de base de', emoji: '🔻' }
+            { intro: 'Un cornet de glace en forme de cône a un rayon de base de', emoji: '🍦' },
+            { intro: 'Un chapeau de fête en forme de cône a un rayon de base de', emoji: '🎉' },
+            { intro: 'Un tas de sable en forme de cône a un rayon de base de', emoji: '⛱️' },
+            { intro: 'Un entonnoir conique a un rayon de base de', emoji: '🔻' }
           ]);
           const r = rand(2, 9), h = rand(4, 15);
           const v = parseFloat(((3.14 * r * r * h) / 3).toFixed(1));
@@ -222,7 +222,7 @@
       }
     },
     probleme: {
-      context: 'La Grande Pyramide de Gizeh à une base carrée de $230$ m de côté et une hauteur d\'origine de $146$ m.',
+      context: 'La Grande Pyramide de Gizeh a une base carrée de $230$ m de côté et une hauteur d\'origine de $146$ m.',
       tasks: [
         'Calculer le volume de la pyramide en m³.',
         'Convertir en km³ ($1\\,\\text{km}^3 = 10^9\\,\\text{m}^3$).',
@@ -241,7 +241,7 @@
       duration: '30 min',
       questions: [
         {
-          statement: 'Une pyramide à base carrée de côté $6\\,\\text{cm}$ à une hauteur de $9\\,\\text{cm}$. Calculer son volume en cm³.',
+          statement: 'Une pyramide à base carrée de côté $6\\,\\text{cm}$ a une hauteur de $9\\,\\text{cm}$. Calculer son volume en cm³.',
           type: 'numeric',
           answer: 108,
           tolerance: 0.1,
@@ -255,7 +255,7 @@
              du volume, c'est-à-dire à mettre la situation en modèle. Le corrigé a
              été détaillé le 2026-09-13 pour faire apparaître cette étape, qui
              était implicite. */
-          statement: 'Un cône à un rayon de base $r = 5\\,\\text{cm}$ et une hauteur $h = 12\\,\\text{cm}$. Calculer son volume (prendre $\\pi \\approx 3{,}14$).',
+          statement: 'Un cône a un rayon de base $r = 5\\,\\text{cm}$ et une hauteur $h = 12\\,\\text{cm}$. Calculer son volume (prendre $\\pi \\approx 3{,}14$).',
           type: 'numeric',
           answer: 314,
           tolerance: 1,
@@ -280,7 +280,7 @@
              question demandait de reconnaître la définition de la hauteur parmi
              quatre propositions, soit du vocabulaire. Ici l'élève doit inverser
              la formule du volume, et rien ne le lui dit. */
-          statement: 'Une pyramide à une base carrée de $6\\,\\text{cm}$ de côté et un volume de $96\\,\\text{cm}^3$. Quelle est sa hauteur, en cm ?',
+          statement: 'Une pyramide a une base carrée de $6\\,\\text{cm}$ de côté et un volume de $96\\,\\text{cm}^3$. Quelle est sa hauteur, en cm ?',
           type: 'numeric',
           answer: 8,
           tolerance: 0.01,

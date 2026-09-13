@@ -332,7 +332,7 @@
              préfixe et non la mise en opération. Avec lui, la seule difficulté
              restante est de choisir le sens de la conversion, ce qui est
              exactement modéliser. */
-          statement: 'Un nanomètre vaut $10^{-9}\\,\\text{m}$. Combien de nanomètrès ($\\text{nm}$) y a-t-il dans $5{,}3 \\times 10^{-6}\\,\\text{m}$ ?',
+          statement: 'Un nanomètre vaut $10^{-9}\\,\\text{m}$. Combien de nanomètres ($\\text{nm}$) y a-t-il dans $5{,}3 \\times 10^{-6}\\,\\text{m}$ ?',
           type: 'numeric',
           answer: 5300,
           tolerance: 1,
