@@ -1195,3 +1195,44 @@ test('trigonometrie : les trois rapports annonces sont ceux du triangle dessine'
   assert.ok(Math.abs(adjacent - 60) < 5e-3, 'adjacent dessine = ' + adjacent + ', 60 annonce');
   assert.ok(Math.abs(hypotenuse - 120) < 5e-3, 'hypotenuse dessinee = ' + hypotenuse + ', 120 annonce');
 });
+
+test('chaque devoir note de troisieme est bareme sur 10, comme les trois autres niveaux', () => {
+  /* POURQUOI CE TEST. Les 36 chapitres de sixieme, cinquieme et quatrieme
+     baremer tous leur evaluation sur 10, sans une seule exception. Deux
+     chapitres de troisieme y derogeaient — fonctions sur 13, Thales sur 12 —
+     jusqu'au 2026-09-13.
+
+     CE QUE CA CASSE. La grille de competences imprime un total en bas de
+     colonne. Un enseignant qui suit une classe additionne ou moyenne les
+     notes de plusieurs chapitres ; si l'un est sur 13 et l'autre sur 10, la
+     moyenne est fausse et rien sur la page ne l'en avertit — les deux
+     grilles se ressemblent trait pour trait. Le defaut ne se voit qu'en
+     comparant deux pages eloignees, ce qu'aucune relecture ne fait.
+
+     PORTEE. Le niveau entier, pour que l'ecriture d'une future evaluation ne
+     puisse pas reintroduire l'ecart. Le total de 10 n'est pas une preference
+     de style : c'est la convention etablie par les trois niveaux deja au
+     niveau de reference, et la seule qui rende les chapitres comparables. */
+  const fs = require('fs');
+  const path = require('path');
+  const { RACINE } = require('../extract.js');
+  const dossier = path.join(RACINE, 'js/data/3e');
+  const fautes = [];
+
+  for (const f of fs.readdirSync(dossier).filter(x => x !== 'index.js' && x.endsWith('.js'))) {
+    const { module: mod } = chargerModule('js/data/3e/' + f, { tirages: 1 });
+    const qs = (mod.evaluation && mod.evaluation.questions) || [];
+    if (!qs.length) continue;
+    const pts = qs.map(q => q.points || 0);
+    const total = pts.reduce((a, b) => a + b, 0);
+    if (total !== 10) {
+      fautes.push(mod.id + ' : total ' + total + ' (bareme [' + pts.join(', ') + '])');
+    }
+    for (const [i, p] of pts.entries()) {
+      assert.ok(Number.isInteger(p) && p >= 1,
+        mod.id + ' : la question ' + (i + 1) + ' vaut ' + p + ' point(s) — un entier positif est attendu');
+    }
+  }
+  assert.deepStrictEqual(fautes, [],
+    'devoir(s) note(s) hors du bareme sur 10 :\n  ' + fautes.join('\n  '));
+});

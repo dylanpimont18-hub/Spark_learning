@@ -595,7 +595,7 @@ window.MODULES.push(
           answer: 6,
           tolerance: 0,
           unit: 'cm',
-          points: 2,
+          points: 1,
           correction: 'Rapport de Thalès : $k = \\dfrac{OA\'}{OA} = \\dfrac{9}{6} = 1{,}5$. $A\'B\' = k \\times AB = 1{,}5 \\times 4 = 6$ cm.'
         },
         {
@@ -634,7 +634,7 @@ window.MODULES.push(
           answer: 12.5,
           tolerance: 0,
           unit: 'km',
-          points: 3,
+          points: 2,
           correction: 'La configuration est un <strong>papillon</strong> ($O$ est entre les deux parallèles), mais le théorème de Thalès s\'y applique comme ailleurs.<br/><br/>' +
             'La difficulté est de trouver le rapport : il n\'est pas donné directement, car sur la première sécante on ne connaît que $OA$. En revanche, la <strong>seconde</strong> sécante donne ses deux longueurs.<br/><br/>' +
             '$k = \\dfrac{ON}{OB} = \\dfrac{15}{6} = 2{,}5$.<br/><br/>' +

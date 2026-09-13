@@ -634,7 +634,7 @@ window.MODULES.push(
             'Aucun des deux : une fonction peut prendre n\'importe quelle valeur en n\'importe quel point.'
           ],
           answer: 0,
-          points: 3,
+          points: 2,
           correction: 'La règle porte sur un seul sens, et c\'est tout l\'enjeu de la question.<br/><br/>' +
             '<strong>Le relevé de Sarah est impossible.</strong> Elle attribue à un même nombre, $3$, deux images différentes : $8$ et $11$. Or une fonction associe à chaque entrée une sortie <strong>et une seule</strong> — sinon, la question « combien vaut $f(3)$ ? » n\'aurait pas de réponse.<br/><br/>' +
             '<strong>Le relevé de Malo est possible.</strong> Deux nombres différents, $3$ et $7$, y ont la même image $8$. Rien ne l\'interdit : cela signifie simplement que $8$ possède deux antécédents. C\'est le cas de $f(x) = x^2$, où $3$ et $-3$ ont tous deux pour image $9$.<br/><br/>' +
@@ -655,7 +655,7 @@ window.MODULES.push(
           answer: 31,
           tolerance: 0,
           unit: '',
-          points: 3,
+          points: 2,
           correction: 'Rien dans l\'énoncé ne donne $a$ : il faut commencer par le trouver, alors que la question porte sur un autre nombre.<br/><br/>' +
             '<strong>Première étape, non signalée : retrouver $a$.</strong> Dire que $a$ a pour image $23$, c\'est dire que $a$ est un antécédent de $23$. On résout donc $4a - 5 = 23$, soit $4a = 28$, donc $a = 7$.<br/><br/>' +
             '<strong>Seconde étape : calculer l\'image demandée.</strong> On cherche l\'image de $a + 2 = 9$ : $f(9) = 4 \\times 9 - 5 = 36 - 5 = 31$.<br/><br/>' +
@@ -682,7 +682,7 @@ window.MODULES.push(
             'Il aurait dû diviser $17$ par $3$, puis retirer $2$, ce qui donne environ $3{,}67$.'
           ],
           answer: 0,
-          points: 3,
+          points: 2,
           correction: 'Le calcul de Yanis est exact ligne à ligne : $3 \\times 17 + 2$ vaut bien $53$. C\'est la <strong>question à laquelle il répond</strong> qui n\'est pas la bonne.<br/><br/>' +
             'Chercher une <strong>image</strong>, c\'est remplacer : on connaît $x$, on calcule. Chercher un <strong>antécédent</strong>, c\'est résoudre : on connaît la sortie, on remonte vers l\'entrée. Yanis a appliqué la fonction au nombre donné, donc il a calculé l\'image de $17$.<br/><br/>' +
             'La bonne démarche : $3x + 2 = 17$, donc $3x = 15$, donc $x = 5$. L\'antécédent de $17$ est $5$.<br/><br/>' +
