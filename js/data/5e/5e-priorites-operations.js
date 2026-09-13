@@ -142,7 +142,64 @@ window.MODULES.push({
     exercice: {
       type: 'numeric',
       generate() {
-        const type = pick(['contexte1', 'contexte2', 'contexte3', 'contexte4', 'contexte5']);
+        const type = pick(['contexte1', 'contexte2', 'contexte3', 'contexte4', 'contexte5', 'fraction', 'puissance']);
+
+        /* DEUX TACHES AJOUTEES LE 2026-09-13.
+
+           L'evaluation du chapitre teste la barre de fraction (Q3) et la portee
+           de l'exposant dans un produit (Q4), deux points qu'AUCUN exercice ne
+           travaillait : les cinq contextes existants portent tous sur des
+           sommes de produits ou des parentheses. Les remediations
+           correspondantes de la fiche professeur n'avaient donc nulle part ou
+           renvoyer, et le cahier des charges interdit de combler ce trou par un
+           renvoi approximatif.
+
+           Les deux taches ci-dessous sont adossees a une erreur frequente
+           reelle, et non ajoutees pour grossir la banque. */
+        if (type === 'fraction') {
+          /* Barre de fraction : l'eleve qui lit le trait comme un simple signe
+             de division calcule a + b / d au lieu de (a + b) / d.
+             NUMERATEUR DIVISIBLE : le quotient reste entier, le chapitre portant
+             sur les priorites et non sur la division decimale. */
+          const d = rand(2, 6);
+          const q = rand(2, 9);
+          const somme = d * q;                 // le numerateur, divisible par d
+          const a = rand(1, somme - 1);
+          const b = somme - a;
+          return {
+            statement: `Pour une moyenne, on doit calculer $\\dfrac{${a} + ${b}}{${d}}$.<br/>Attention : la <strong>barre de fraction</strong> regroupe tout ce qui est écrit au-dessus.<br/>Quel est le résultat ?`,
+            answer: q,
+            tolerance: 0,
+            unit: '',
+            hint: `Réécris l'expression avec des parenthèses : $\\dfrac{${a} + ${b}}{${d}} = (${a} + ${b}) \\div ${d}$.<br/><br/>On additionne donc AVANT de diviser.`,
+            solution: [
+              `La barre de fraction joue le rôle d'une parenthèse : $\\dfrac{${a} + ${b}}{${d}} = (${a} + ${b}) \\div ${d}$`,
+              `Numérateur : $${a} + ${b} = ${somme}$`,
+              `Division : $${somme} \\div ${d} = ${q}$`,
+              `À comparer avec $${a} + ${b} \\div ${d}$, qui ne vaut pas la même chose : la barre change le calcul.`
+            ]
+          };
+        }
+        if (type === 'puissance') {
+          /* Portee de l'exposant : l'eleve calcule (k x n) au carre au lieu de
+             k x (n au carre). Les valeurs restent petites pour que les deux
+             resultats soient tous deux calculables mentalement, ce qui permet de
+             les comparer — c'est la comparaison qui corrige l'erreur. */
+          const k = rand(2, 5);
+          const n = rand(2, 6);
+          return {
+            statement: `Calcule $${k} \\times ${n}^2$.<br/>Lis bien l'écriture : l'exposant ne porte que sur le nombre qui le précède <strong>immédiatement</strong>.`,
+            answer: k * n * n,
+            tolerance: 0,
+            unit: '',
+            hint: `Dis l'expression à voix haute : « ${k} fois ${n} au carré ».<br/><br/>C'est donc $${n}^2$ qui se calcule d'abord.`,
+            solution: [
+              `La puissance est prioritaire : $${n}^2 = ${n * n}$`,
+              `Puis la multiplication : $${k} \\times ${n * n} = ${k * n * n}$`,
+              `Si l'exposant portait sur tout le produit, on écrirait $(${k} \\times ${n})^2 = ${k * n}^2 = ${k * n * k * n}$ — et les parenthèses seraient là pour le dire.`
+            ]
+          };
+        }
 
         if (type === 'contexte1') {
           // Note finale pondérée

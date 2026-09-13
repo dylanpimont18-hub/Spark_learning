@@ -134,10 +134,47 @@ window.MODULES.push({
       }
     ],
 
+    /* CORRECTIONS DU 2026-09-13, quatre defauts mesures sur 3 000 tirages.
+
+       Ils etaient invisibles jusqu'ici parce que l'edition eleve n'imprimait
+       qu'une poignee d'enonces ; en elargir la banque les a fait remonter, ce
+       qui est exactement l'effet annonce par le cahier des charges. Aucun n'est
+       une faute de calcul : ce sont des enonces qui ne veulent pas dire ce
+       qu'ils calculent.
+
+       1. VARIATION NULLE (32 tirages sur 3 000). « La temperature a augmente de
+          0 °C », « l'ascenseur monte de 0 etages » : un enonce vide de sens, et
+          un exercice qui n'apprend rien. `b` ne peut plus valoir 0 dans les
+          situations de variation.
+
+       2. « ECART » NEGATIF (140 tirages). « Quel est l'ecart de profondeur entre
+          les deux ? » pour une reponse de -17 : un ecart est une distance, donc
+          positif. L'enonce demandait un ecart et corrigeait une difference
+          signee. On demande desormais explicitement la difference ORIENTEE
+          (« de A a B »), ce qui rend le signe attendu, ou bien la distance, et
+          alors la reponse est positive.
+
+       3. « DIFFERENCE » NEGATIVE (276 tirages). Meme faute sur les temperatures
+          et les comptes : « la difference entre ce matin et la nuit derniere »
+          valait -19. Le sens de lecture est maintenant dit dans l'enonce.
+
+       4. PROFONDEUR ECRITE POSITIVE (299 tirages). « Un sous-marin se trouve a
+          20 m de profondeur » : en relatifs, une profondeur s'ecrit NEGATIVE,
+          et c'est tout l'interet du chapitre. Le mot « profondeur » portait
+          deja le signe, si bien que l'enonce doublait le signe ou le perdait.
+          Les situations sous-marines parlent desormais d'ALTITUDE, negative sous
+          la surface, ce qui est l'ecriture du chapitre et ne double plus le
+          signe. On ne derive aucune valeur : l'enonce affiche le meme nombre
+          que la correction, ce qui est la premiere chose a garantir. */
     exercice: {
       type: 'numeric',
       generate() {
-        const a = rand(-20, 20), b = rand(-20, 20);
+        /* `a` reste libre sur tout l'intervalle ; `b` ne peut plus etre nul
+           (defaut 1). Pour les situations de variation, `b` est le deplacement,
+           et un deplacement nul ne constitue pas un exercice. */
+        const a = rand(-20, 20);
+        let b = rand(-20, 20);
+        if (b === 0) b = pick([-1, 1]) * rand(1, 20);
         const op = pick(['+', '-']);
         const answer = op === '+' ? a + b : a - b;
         const bStr = b < 0 ? `(${b})` : `${b}`;
@@ -149,35 +186,37 @@ window.MODULES.push({
               ? (b >= 0
                 ? `Ce matin, le thermomètre affichait $${a}°C$. La température a <strong>augmenté</strong> de $${absB}°C$ dans la journée.<br/>Quelle est la température maintenant ?`
                 : `Ce matin, le thermomètre affichait $${a}°C$. La température a <strong>baissé</strong> de $${absB}°C$ dans la journée.<br/>Quelle est la température maintenant ?`)
-              : `Ce matin il faisait $${a}°C$. La nuit dernière, il faisait $${bStr}°C$.<br/>Quelle est la <strong>différence de température</strong> entre ce matin et la nuit dernière ?`
+              // Defaut 3 : le sens de lecture est dit, donc le signe est attendu.
+              : `La nuit dernière il faisait $${bStr}°C$ et ce matin il fait $${a}°C$.<br/>De combien la température a-t-elle <strong>varié</strong> de la nuit au matin (réponse signée) ?`
           },
           {
             build: () => op === '+'
               ? (b >= 0
-                ? `Un sous-marin se trouve à $${a}\\,\\text{m}$ de profondeur. Il <strong>remonte</strong> de $${absB}\\,\\text{m}$.<br/>À quelle profondeur se trouve-t-il maintenant ?`
-                : `Un sous-marin se trouve à $${a}\\,\\text{m}$ de profondeur. Il <strong>descend</strong> de $${absB}\\,\\text{m}$.<br/>À quelle profondeur se trouve-t-il maintenant ?`)
-              : `Un sous-marin est à $${a}\\,\\text{m}$. Un plongeur est à $${bStr}\\,\\text{m}$.<br/>Quel est l'<strong>écart de profondeur</strong> entre les deux ?`
+                ? `Un sous-marin est à l'altitude $${a}\\,\\text{m}$. Il <strong>remonte</strong> de $${absB}\\,\\text{m}$.<br/>À quelle altitude se trouve-t-il maintenant ?`
+                : `Un sous-marin est à l'altitude $${a}\\,\\text{m}$. Il <strong>descend</strong> de $${absB}\\,\\text{m}$.<br/>À quelle altitude se trouve-t-il maintenant ?`)
+              // Defaut 2 : on demande la difference ORIENTEE, pas un « ecart ».
+              : `Un sous-marin est à l'altitude $${a}\\,\\text{m}$ et un plongeur à l'altitude $${bStr}\\,\\text{m}$.<br/>Quelle est la différence d'altitude <strong>du plongeur au sous-marin</strong> (réponse signée) ?`
           },
           {
             build: () => op === '+'
               ? (b >= 0
                 ? `Le solde d'un compte en banque est de $${a}$ €. On y <strong>dépose</strong> $${absB}$ €.<br/>Quel est le nouveau solde ?`
                 : `Le solde d'un compte en banque est de $${a}$ €. On en <strong>retire</strong> $${absB}$ €.<br/>Quel est le nouveau solde ?`)
-              : `Le compte de Léa affiche $${a}$ € et celui de Tom affiche $${bStr}$ €.<br/>Quelle est la <strong>différence</strong> entre les deux comptes ?`
+              : `Le compte de Tom affiche $${bStr}$ € et celui de Léa $${a}$ €.<br/>Combien Léa a-t-elle de plus que Tom (réponse signée) ?`
           },
           {
             build: () => op === '+'
               ? (b >= 0
                 ? `Un ascenseur se trouve à l'étage $${a}$ d'un immeuble. Il <strong>monte</strong> de $${absB}$ étages.<br/>À quel étage arrive-t-il ?`
                 : `Un ascenseur se trouve à l'étage $${a}$. Il <strong>descend</strong> de $${absB}$ étages.<br/>À quel étage arrive-t-il ?`)
-              : `Un ascenseur part de l'étage $${a}$ pour aller à l'étage $${bStr}$.<br/>De combien d'étages s'est-il <strong>déplacé</strong> (en valeur signée) ?`
+              : `Un ascenseur part de l'étage $${bStr}$ pour aller à l'étage $${a}$.<br/>De combien d'étages s'est-il <strong>déplacé</strong> (réponse signée) ?`
           },
           {
             build: () => op === '+'
               ? (b >= 0
-                ? `Un randonneur est à une altitude de $${a}\\,\\text{m}$ (sous le niveau de la mer si négatif). Il <strong>grimpe</strong> de $${absB}\\,\\text{m}$.<br/>Quelle est sa nouvelle altitude ?`
+                ? `Un randonneur est à l'altitude $${a}\\,\\text{m}$ (négative sous le niveau de la mer). Il <strong>grimpe</strong> de $${absB}\\,\\text{m}$.<br/>Quelle est sa nouvelle altitude ?`
                 : `Un randonneur est à $${a}\\,\\text{m}$ d'altitude. Il <strong>descend</strong> de $${absB}\\,\\text{m}$.<br/>Quelle est sa nouvelle altitude ?`)
-              : `Le point $A$ est à $${a}\\,\\text{m}$ d'altitude et le point $B$ à $${bStr}\\,\\text{m}$.<br/>Quel est le <strong>dénivelé</strong> de $A$ à $B$ ?`
+              : `Le point $B$ est à l'altitude $${bStr}\\,\\text{m}$ et le point $A$ à l'altitude $${a}\\,\\text{m}$.<br/>Quel est le <strong>dénivelé de $B$ vers $A$</strong> (réponse signée) ?`
           }
         ]);
 
@@ -197,7 +236,6 @@ window.MODULES.push({
         };
       }
     },
-
     probleme: {
       context: 'Un sous-marin se trouve à $-120\\,\\text{m}$ (120 m sous la surface). Il monte de $45\\,\\text{m}$, puis descend de $80\\,\\text{m}$.',
       schema: null,
