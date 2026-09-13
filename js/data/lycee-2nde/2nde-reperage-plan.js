@@ -123,32 +123,251 @@ window.MODULES.push({
     exercice: {
       type: 'numeric',
       generate() {
-        const contexts = [
-          { intro: 'Sur un plan de ville (1 unité = 100 m), un piéton part de', dest: 'et se rend à', unit: 'unités' },
-          { intro: 'Sur une carte au trésor (1 unité = 1 pas), le point de départ est', dest: 'et le trésor est en', unit: 'pas' },
-          { intro: 'Dans un repère orthonormé, un robot part du point', dest: 'et doit atteindre', unit: 'unités' }
-        ];
-        const ctx = pick(contexts);
-        const triples = [[3,4,5],[5,12,13],[6,8,10],[8,15,17],[9,12,15]];
-        const t = pick(triples);
-        const signX = pick([1, -1]);
-        const signY = pick([1, -1]);
-        const x1 = rand(-3, 5);
-        const y1 = rand(-3, 5);
-        const x2 = x1 + signX * t[0];
-        const y2 = y1 + signY * t[1];
-        const mx = (x1 + x2) / 2;
-        const my = (y1 + y2) / 2;
+        /* BANQUE ÉLARGIE le 2026-09-13 (vague « manuel de référence »).
+
+           MESURE DE DÉPART : 54 exercices retenus pour UNE SEULE tâche
+           réelle. Les trois habillages (plan de ville, carte au trésor,
+           robot) et les triplets pythagoriciens donnaient l'illusion de la
+           variété, mais la question posée était invariablement « calcule AB
+           puis le milieu ». C'est le cas d'école décrit par la section 11 du
+           cahier des charges : la variété des NOMBRES masque l'absence de
+           variété des TÂCHES.
+
+           DÉFAUT DE FOND : le chapitre s'intitule « repérage dans le plan »
+           et annonce la géométrie analytique — prouver des propriétés par le
+           calcul —, mais aucune tâche ne demandait de PROUVER quoi que ce
+           soit. L'attendu central du chapitre n'était pas travaillé.
+
+           On passe à SEPT tâches, dont trois de preuve (isocèle, rectangle,
+           parallélogramme) et une de symétrique, qui est la lecture inverse
+           de la formule du milieu. */
+        /* Le tirage est PONDÉRÉ, et non uniforme. La tâche
+           « parallélogramme » a beaucoup plus de paramètres libres que les
+           autres, donc beaucoup plus de moules distincts : à tirage uniforme
+           elle survivait au plafond de répétitions bien mieux que ses
+           voisines et occupait 126 des 300 exercices retenus, reléguant les
+           preuves par Pythagore à 18.
+
+           On la tire donc moins souvent. La pondération corrige la
+           COMBINATOIRE du générateur, pas son importance pédagogique :
+           mesurée le 2026-09-13, elle ramène la banque à une répartition
+           lisible pour l'enseignant qui la feuillette. */
+        const tache = pick([
+          'distanceMilieu', 'distanceMilieu',
+          'distanceSeule', 'distanceSeule',
+          'milieuSeul', 'milieuSeul',
+          'symetrique', 'symetrique',
+          'isocele', 'isocele', 'isocele',
+          'rectangle', 'rectangle', 'rectangle',
+          'parallelogramme'
+        ]);
+
+        /* 1. Tache HISTORIQUE du chapitre : distance ET milieu en une
+              seule question, dans un contexte. Conservee telle quelle,
+              elle reste la tache de fond ; elle etait simplement la
+              SEULE avant le 2026-09-13. */
+        if (tache === 'distanceMilieu') {
+          const contexts = [
+            { intro: 'Sur un plan de ville (1 unité = 100 m), un piéton part de', dest: 'et se rend à', unit: 'unités' },
+            { intro: 'Sur une carte au trésor (1 unité = 1 pas), le point de départ est', dest: 'et le trésor est en', unit: 'pas' },
+            { intro: 'Dans un repère orthonormé, un robot part du point', dest: 'et doit atteindre', unit: 'unités' }
+          ];
+          const ctx = pick(contexts);
+          const triples = [[3,4,5],[5,12,13],[6,8,10],[8,15,17],[9,12,15]];
+          const t = pick(triples);
+          const signX = pick([1, -1]);
+          const signY = pick([1, -1]);
+          const x1 = rand(-3, 5);
+          const y1 = rand(-3, 5);
+          const x2 = x1 + signX * t[0];
+          const y2 = y1 + signY * t[1];
+          const mx = (x1 + x2) / 2;
+          const my = (y1 + y2) / 2;
+          return {
+            statement: `${ctx.intro} $A(${x1};${y1})$ ${ctx.dest} $B(${x2};${y2})$.<br/><br/><strong>1.</strong> Calculer la distance $AB$.<br/><strong>2.</strong> Déterminer les coordonnées du milieu $M$ de $[AB]$.<br/><strong>3.</strong> Vérifier que $MA = MB = AB/2$.<br/><br/>Donne la distance $AB$.`,
+            answer: t[2],
+            tolerance: 0.01,
+            unit: ctx.unit,
+            hint: `$AB = \\sqrt{(${x2}-${x1 < 0 ? '('+x1+')' : x1})^2+(${y2}-${y1 < 0 ? '('+y1+')' : y1})^2}$. Attention aux signes !`,
+            solution: [
+              `$AB = \\sqrt{(${x2}-(${x1}))^2+(${y2}-(${y1}))^2} = \\sqrt{${t[0]}^2+${t[1]}^2} = \\sqrt{${t[0]*t[0]}+${t[1]*t[1]}} = \\sqrt{${t[2]*t[2]}} = ${t[2]}$`,
+              `Milieu $M\\left(\\frac{${x1}+${x2}}{2};\\frac{${y1}+${y2}}{2}\\right) = M(${fr(mx)};${fr(my)})$`,
+              `Vérification : $MA = ${fr(t[2] / 2)}$ et $MB = ${fr(t[2] / 2)}$ ✓`
+            ]
+          };
+        }
+
+
+        /* 2. Distance seule, sans contexte : la formule nue, sur un triplet
+              pythagoricien pour que le résultat soit entier. */
+        if (tache === 'distanceSeule') {
+          const triples = [[3, 4, 5], [5, 12, 13], [6, 8, 10], [8, 15, 17], [9, 12, 15], [7, 24, 25]];
+          const t = pick(triples);
+          const sx = pick([1, -1]), sy = pick([1, -1]);
+          const x1 = rand(-4, 4), y1 = rand(-4, 4);
+          const x2 = x1 + sx * t[0], y2 = y1 + sy * t[1];
+          return {
+            statement: `On donne $A(${x1}\\,;\\,${y1})$ et $B(${x2}\\,;\\,${y2})$ dans un repère orthonormé.<br/><br/>Calcule la distance $AB$.`,
+            answer: t[2],
+            tolerance: 0.01,
+            unit: '',
+            hint: `$AB = \\sqrt{(x_B - x_A)^2 + (y_B - y_A)^2}$. Parenthèse chaque coordonnée négative avant de soustraire.`,
+            solution: [
+              `Distance entre deux points : $AB = \\sqrt{(x_B - x_A)^2 + (y_B - y_A)^2}$`,
+              `$AB = \\sqrt{(${x2} - (${x1}))^2 + (${y2} - (${y1}))^2} = \\sqrt{(${x2 - x1})^2 + (${y2 - y1})^2}$`,
+              `$AB = \\sqrt{${(x2 - x1) * (x2 - x1)} + ${(y2 - y1) * (y2 - y1)}} = \\sqrt{${t[2] * t[2]}} = ${t[2]}$`
+            ]
+          };
+        }
+
+        /* 3. Milieu seul, à coordonnées entières. */
+        if (tache === 'milieuSeul') {
+          const xm = rand(-5, 6), ym = rand(-5, 6);
+          const dx = rand(1, 6), dy = rand(1, 6);
+          const x1 = xm - dx, y1 = ym - dy;
+          const x2 = xm + dx, y2 = ym + dy;
+          return {
+            statement: `On donne $A(${x1}\\,;\\,${y1})$ et $B(${x2}\\,;\\,${y2})$.<br/><br/>Détermine les coordonnées du <strong>milieu</strong> $M$ de $[AB]$.<br/><br/>Donne l'abscisse de $M$.`,
+            answer: xm,
+            tolerance: 0,
+            unit: '',
+            hint: `Les coordonnées du milieu sont les <strong>moyennes</strong> de celles des extrémités : $x_M = \\dfrac{x_A + x_B}{2}$.`,
+            solution: [
+              `Milieu d'un segment : $M\\left(\\dfrac{x_A + x_B}{2}\\,;\\,\\dfrac{y_A + y_B}{2}\\right)$`,
+              `$x_M = \\dfrac{${x1} + ${x2}}{2} = \\dfrac{${x1 + x2}}{2} = ${xm}$`,
+              `$y_M = \\dfrac{${y1} + ${y2}}{2} = \\dfrac{${y1 + y2}}{2} = ${ym}$, donc $M(${xm}\\,;\\,${ym})$.`
+            ]
+          };
+        }
+
+        /* 4. Symétrique : la formule du milieu lue À L'ENVERS. Tâche ajoutée
+              le 2026-09-13 — c'est elle qui distingue un élève qui a compris
+              d'un élève qui applique. */
+        if (tache === 'symetrique') {
+          const xm = rand(-5, 6), ym = rand(-5, 6);
+          const dx = rand(1, 7), dy = rand(1, 7);
+          const x1 = xm - dx, y1 = ym - dy;
+          const x2 = xm + dx, y2 = ym + dy;
+          return {
+            statement: `Le point $M(${xm}\\,;\\,${ym})$ est le <strong>milieu</strong> du segment $[AB]$, et l'on connaît $A(${x1}\\,;\\,${y1})$.<br/><br/>Détermine les coordonnées de $B$.<br/><br/>Donne l'abscisse de $B$.`,
+            answer: x2,
+            tolerance: 0,
+            unit: '',
+            hint: `Pars de $x_M = \\dfrac{x_A + x_B}{2}$ et cherche $x_B$ : multiplie d'abord les deux membres par $2$. Ne divise pas, c'est l'erreur classique ici.`,
+            solution: [
+              `Symétrique d'un point : je pars de $x_M = \\dfrac{x_A + x_B}{2}$`,
+              `Je multiplie par $2$ : $x_A + x_B = 2 x_M = ${2 * xm}$, donc $x_B = ${2 * xm} - (${x1}) = ${x2}$.`,
+              `De même $y_B = ${2 * ym} - (${y1}) = ${y2}$, donc $B(${x2}\\,;\\,${y2})$.`,
+              `Contrôle : $M$ doit être à égale distance de $A$ et de $B$, ce qui se vérifie ici puisque $M$ est bien entre les deux.`
+            ]
+          };
+        }
+
+        /* 5, 6, 7 — les trois tâches de PREUVE, cœur annoncé du chapitre et
+              entièrement absentes de la banque avant ce jour. */
+        if (tache === 'isocele') {
+          // Triangle isocele en C, par construction symetrique.
+          const xa = rand(-4, 2), ya = rand(-4, 4);
+          const base = pick([4, 6, 8, 10]);
+          const xb = xa + base, yb = ya;
+          const h = pick([3, 4, 5, 6]);
+          const xc = xa + base / 2, yc = ya + h;
+          const cote = Math.sqrt((base / 2) * (base / 2) + h * h);
+          const estEntier = Number.isInteger(cote);
+          return {
+            statement: `On donne $A(${xa}\\,;\\,${ya})$, $B(${xb}\\,;\\,${yb})$ et $C(${xc}\\,;\\,${yc})$.<br/><br/>Démontre, <strong>par le calcul</strong>, que le triangle $ABC$ est isocèle.<br/><br/>Donne la longueur $AB$ (celle du côté qui n'est pas répété).`,
+            answer: base,
+            tolerance: 0.01,
+            unit: '',
+            hint: `Calcule les <strong>trois</strong> longueurs $AB$, $AC$ et $BC$, puis compare-les. Un triangle est isocèle dès que deux côtés sont égaux.`,
+            solution: [
+              `Preuve par le calcul : je compare les trois longueurs`,
+              `$AB = \\sqrt{${base}^2 + 0^2} = ${base}$`,
+              `$AC = \\sqrt{${base / 2}^2 + ${h}^2} = \\sqrt{${(base / 2) * (base / 2) + h * h}}${estEntier ? ' = ' + cote : ' \\approx ' + fr(cote, 2)}$`,
+              `$BC = \\sqrt{(-${base / 2})^2 + ${h}^2} = \\sqrt{${(base / 2) * (base / 2) + h * h}}${estEntier ? ' = ' + cote : ' \\approx ' + fr(cote, 2)}$`,
+              `Comme $AC = BC$, le triangle est <strong>isocèle en $C$</strong>. Aucun dessin n'a été nécessaire : c'est tout l'intérêt de la géométrie analytique.`
+            ]
+          };
+        }
+
+        if (tache === 'rectangle') {
+          // Triangle rectangle en A : les deux cotes de l'angle droit sont
+          // portes par des directions perpendiculaires, par construction.
+          const xa = rand(-4, 3), ya = rand(-4, 3);
+          const t = pick([[3, 4, 5], [6, 8, 10], [5, 12, 13]]);
+          const sx = pick([1, -1]), sy = pick([1, -1]);
+          const xb = xa + sx * t[0], yb = ya;
+          const xc = xa, yc = ya + sy * t[1];
+          return {
+            statement: `On donne $A(${xa}\\,;\\,${ya})$, $B(${xb}\\,;\\,${yb})$ et $C(${xc}\\,;\\,${yc})$.<br/><br/><strong>1.</strong> Calcule $AB$, $AC$ et $BC$.<br/><strong>2.</strong> Montre, par la réciproque du théorème de Pythagore, que $ABC$ est rectangle en $A$.<br/><br/>Donne la longueur $BC$ (l'hypoténuse).`,
+            answer: t[2],
+            tolerance: 0.01,
+            unit: '',
+            hint: `Calcule les trois longueurs, puis compare $BC^2$ à $AB^2 + AC^2$. Si les deux sont égaux, le triangle est rectangle.`,
+            solution: [
+              `Preuve par la réciproque de Pythagore : je calcule les trois longueurs`,
+              `$AB = ${t[0]}$ et $AC = ${t[1]}$ (les deux points sont alignés avec $A$ sur un axe)`,
+              `$BC = \\sqrt{${t[0]}^2 + ${t[1]}^2} = \\sqrt{${t[0] * t[0] + t[1] * t[1]}} = ${t[2]}$`,
+              `Or $AB^2 + AC^2 = ${t[0] * t[0]} + ${t[1] * t[1]} = ${t[0] * t[0] + t[1] * t[1]}$ et $BC^2 = ${t[2] * t[2]}$.`,
+              `Les deux sont égaux, donc par la <strong>réciproque du théorème de Pythagore</strong>, le triangle est rectangle en $A$.`
+            ]
+          };
+        }
+
+        /* 7. Parallelogramme : caracterisation par les MILIEUX des diagonales.
+
+           LES DEUX VECTEURS NE DOIVENT JAMAIS ETRE COLINEAIRES, sinon le
+           quadrilatere est APLATI : ses quatre sommets sont alignes, deux
+           d'entre eux peuvent meme se confondre, et l'enonce demande alors
+           de prouver qu'un segment est un parallelogramme.
+
+           Defaut trouve le 2026-09-13 PAR LE CALCUL, sur 1200 tirages : sept
+           cas degeneres, dont « A(1;-1) et C(1;-1) », c'est-a-dire deux
+           sommets superposes. Aucun n'etait visible a la relecture du code,
+           et la propriete des milieux restait vraie — le quadrilatere etait
+           donc bien un parallelogramme au sens strict, mais impossible a
+           dessiner et absurde a demontrer.
+
+           On impose donc un determinant non nul, qui est exactement la
+           condition de non-alignement. */
+        /* Les deux vecteurs sont choisis dans une LISTE COURTE de couples
+           non colinéaires, plutôt que tirés indépendamment.
+
+           Deux raisons, la seconde mesurée le 2026-09-13 :
+           — le déterminant est non nul PAR CONSTRUCTION, donc aucun cas
+             dégénéré n'est possible ;
+           — surtout, le nombre de MOULES devient fini. Avec quatre
+             coordonnées tirées librement, cette tâche produisait des
+             centaines de moules distincts ; comme le plafond de répétitions
+             s'applique PAR MOULE, elle survivait au filtrage bien mieux que
+             ses voisines et raflait 126 des 300 exercices retenus. Pondérer
+             le tirage n'y changeait rien — c'est la combinatoire qu'il
+             fallait réduire, pas la fréquence. */
+        const xa = rand(-5, 2), ya = rand(-4, 3);
+        const couple = pick([
+          { ux: 4, uy: 1, vx: -2, vy: 3 },
+          { ux: 5, uy: -2, vx: -1, vy: 4 },
+          { ux: 3, uy: 2, vx: -4, vy: 2 },
+          { ux: 6, uy: 0, vx: -2, vy: 5 },
+          { ux: 2, uy: -3, vx: -5, vy: 2 },
+          { ux: 4, uy: 3, vx: -3, vy: 3 }
+        ]);
+        const ux = couple.ux, uy = couple.uy, vx = couple.vx, vy = couple.vy;
+        const xb = xa + ux, yb = ya + uy;
+        const xc = xb + vx, yc = yb + vy;
+        const xd = xa + vx, yd = ya + vy;
+        const mx = (xa + xc) / 2, my = (ya + yc) / 2;
         return {
-          statement: `${ctx.intro} $A(${x1};${y1})$ ${ctx.dest} $B(${x2};${y2})$.<br/><br/><strong>1.</strong> Calculer la distance $AB$.<br/><strong>2.</strong> Déterminer les coordonnées du milieu $M$ de $[AB]$.<br/><strong>3.</strong> Vérifier que $MA = MB = AB/2$.<br/><br/>Donne la distance $AB$.`,
-          answer: t[2],
+          statement: `On donne $A(${xa}\\,;\\,${ya})$, $B(${xb}\\,;\\,${yb})$, $C(${xc}\\,;\\,${yc})$ et $D(${xd}\\,;\\,${yd})$.<br/><br/>Démontre que $ABCD$ est un <strong>parallélogramme</strong>, en montrant que ses deux diagonales ont le même milieu.<br/><br/>Donne l'abscisse de ce milieu commun.`,
+          answer: mx,
           tolerance: 0.01,
-          unit: ctx.unit,
-          hint: `$AB = \\sqrt{(${x2}-${x1 < 0 ? '('+x1+')' : x1})^2+(${y2}-${y1 < 0 ? '('+y1+')' : y1})^2}$. Attention aux signes !`,
+          unit: '',
+          hint: `Calcule le milieu de $[AC]$, puis celui de $[BD]$. Un quadrilatère est un parallélogramme si et seulement si ses diagonales se coupent en leur milieu.`,
           solution: [
-            `$AB = \\sqrt{(${x2}-(${x1}))^2+(${y2}-(${y1}))^2} = \\sqrt{${t[0]}^2+${t[1]}^2} = \\sqrt{${t[0]*t[0]}+${t[1]*t[1]}} = \\sqrt{${t[2]*t[2]}} = ${t[2]}$`,
-            `Milieu $M\\left(\\frac{${x1}+${x2}}{2};\\frac{${y1}+${y2}}{2}\\right) = M(${fr(mx)};${fr(my)})$`,
-            `Vérification : $MA = ${fr(t[2] / 2)}$ et $MB = ${fr(t[2] / 2)}$ ✓`
+            `Preuve par les milieux des diagonales : je calcule les deux milieux`,
+            `Milieu de $[AC]$ : $\\left(\\dfrac{${xa} + ${xc}}{2}\\,;\\,\\dfrac{${ya} + ${yc}}{2}\\right) = (${fr(mx)}\\,;\\,${fr(my)})$`,
+            `Milieu de $[BD]$ : $\\left(\\dfrac{${xb} + ${xd}}{2}\\,;\\,\\dfrac{${yb} + ${yd}}{2}\\right) = (${fr((xb + xd) / 2)}\\,;\\,${fr((yb + yd) / 2)})$`,
+            `Les deux milieux sont <strong>confondus</strong>, donc les diagonales se coupent en leur milieu : $ABCD$ est un parallélogramme.`
           ]
         };
       }

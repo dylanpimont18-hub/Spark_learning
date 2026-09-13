@@ -139,6 +139,12 @@ const ATTENDUS = {
     'Oublier qu’un nombre positif a deux antécédents par la fonction carré': ['antécédent'],
     'Chercher le domaine de définition seulement quand on y pense': ['condition']
   },
+  '2nde-reperage-plan': {
+    'Se tromper de signe en soustrayant deux coordonnées négatives': ['distance'],
+    'Diviser au lieu de multiplier pour retrouver une extrémité': ['symétrique', 'milieu'],
+    "Conclure d'un dessin au lieu de conclure d'un calcul": ['isocèle', 'démontre'],
+    'Oublier la racine carrée et donner le carré de la distance': ['sqrt', 'distance']
+  },
   '2nde-droites-systemes': {
     'Croire qu’un système sans solution est un système raté': ['pente'],
     "Conclure au parallélisme à partir de l'ordonnée à l'origine": ['pente'],
