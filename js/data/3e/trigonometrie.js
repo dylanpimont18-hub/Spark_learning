@@ -113,6 +113,216 @@ window.MODULES.push(
         reading: 'Repère d\'abord l\'angle droit, puis l\'angle $\\theta$ : le troisième sommet donne l\'hypoténuse, le côté opposé à l\'angle droit.',
         caption: 'Triangle de référence pour SOH-CAH-TOA, avec l\'exemple chiffré du cours (hypoténuse 13 cm, angle 30°).'
       },
+      /* SCHÉMAS SECONDAIRES, ajoutés le 2026-09-13.
+
+         Principe du cahier des charges, section 9 : une figure par MALENTENDU,
+         pas une figure par formule. SOH-CAH-TOA se récite très bien sans être
+         compris, et les trois points où la récitation lâche sont :
+
+           1. « ce côté, c'est l'adjacent » — l'élève apprend les rôles comme
+              des étiquettes collées au DESSIN, alors qu'ils dépendent de
+              l'angle choisi. Il garde donc le même rapport quand l'énoncé
+              change d'angle ;
+           2. « je ne sais pas laquelle des trois prendre » — il connaît les
+              trois formules mais n'a aucune procédure pour choisir ;
+           3. « j'ai trouvé un cosinus de 1,4 et je l'ai gardé » — aucun
+              contrôle de vraisemblance, donc l'erreur passe.
+
+         TOUTES LES COORDONNÉES SONT CALCULÉES, jamais posées à vue :
+
+         Schéma 1 : triangle 3-4-5 mis à l'échelle (90 ; 120 ; 150 unités de
+         viewBox), rectangle en B. Vérifié par arc cosinus : l'angle en A vaut
+         53,13° et celui en C 36,87°, de somme exactement 90°. Les deux copies
+         sont la MÊME figure translatée de 200 : aucune des deux n'est
+         redessinée, ce qui garantit qu'elles sont identiques au pixel près.
+
+         Schéma 3 : triangle rectangle d'angle 60° exactement — hypoténuse 120,
+         adjacent 120 × cos 60° = 60, opposé 120 × sin 60° = 103,92. Vérifié :
+         l'angle mesuré sur le dessin vaut 60,00° et l'hypoténuse mesure 120,00.
+         Les trois barres de comparaison sont tracées à 110 unités par unité de
+         valeur : sin 0,87 donne 95,26 ; cos 0,50 donne 55 ; tan 1,73 donne
+         190,53, qui dépasse donc RÉELLEMENT le repère de la valeur 1 posé à
+         110. La figure ne triche pas sur ce dépassement, elle le mesure. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Piège',
+          title: 'Le même côté est adjacent pour un angle et opposé pour l\'autre',
+          description: 'Un seul triangle, dessiné deux fois à l\'identique. Seul l\'<strong>angle de référence</strong> change. Le côté vertical est <strong>adjacent</strong> à l\'angle du haut et <strong>opposé</strong> à l\'angle du bas : ce n\'est pas le dessin qui décide du rôle d\'un côté, c\'est l\'angle que tu choisis.',
+          svg: `
+            <svg viewBox="0 0 400 236" role="img" aria-labelledby="trig-role-title trig-role-desc">
+              <title id="trig-role-title">Le role d'un cote depend de l'angle choisi</title>
+              <desc id="trig-role-desc">Le meme triangle rectangle est dessine deux fois, exactement a l'identique : l'angle droit est en bas a gauche, le cote vertical mesure 90 unites, le cote horizontal 120 unites et l'hypotenuse 150 unites. A gauche, l'angle de reference est celui du sommet du haut : le cote vertical le touche, il est donc adjacent, et le cote horizontal, en face, est oppose. A droite, l'angle de reference est celui du sommet de droite : les roles des deux memes cotes sont echanges, le vertical devient oppose et l'horizontal devient adjacent. L'hypotenuse, elle, ne change jamais de nom dans les deux cas.</desc>
+
+              <!-- LE MEME TRIANGLE, DEUX FOIS. Triangle 3-4-5 a l'echelle :
+                   B(46 ; 168) angle droit, A(46 ; 78) au-dessus, C(166 ; 168) a
+                   droite. Cotes 90, 120 et 150, verifies a la racine carree.
+                   Angles verifies a l'arc cosinus : 53,13° en A, 36,87° en C,
+                   de somme exactement 90°. La copie de droite est la MEME
+                   figure translatee de 200, donc identique au pixel pres. -->
+
+              <!-- GAUCHE : angle de reference en A, le sommet du haut. -->
+              <text class="annotation-label" x="106" y="22" text-anchor="middle">angle du haut choisi</text>
+              <polygon class="frame-line" points="46,168 46,78 166,168"
+                       fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)"></polygon>
+              <path class="axis" d="M46 154 L60 154 L60 168" fill="none"></path>
+              <path class="curve-main" d="M46 102 A24 24 0 0 0 65.2 92.4" fill="none"></path>
+              <circle class="plot-point" cx="46" cy="78" r="5"></circle>
+              <text class="annotation-label" x="38" y="74" text-anchor="end">A</text>
+              <text class="tick-label" x="38" y="176" text-anchor="end">B</text>
+              <text class="tick-label" x="172" y="176" text-anchor="start">C</text>
+              <text class="annotation-label" x="40" y="126" text-anchor="end">adjacent</text>
+              <text class="annotation-label" x="106" y="188" text-anchor="middle">opposé</text>
+              <text class="annotation-label" x="122" y="112" text-anchor="middle">hypoténuse</text>
+              <text class="label-soft" x="106" y="212" text-anchor="middle">le côté vertical touche</text>
+              <text class="label-soft" x="106" y="228" text-anchor="middle">l'angle choisi</text>
+
+              <!-- DROITE : angle de reference en C, le sommet de droite. Meme
+                   triangle translate de 200 : B(246 ; 168), A(246 ; 78),
+                   C(366 ; 168). -->
+              <text class="annotation-label" x="306" y="22" text-anchor="middle">angle de droite choisi</text>
+              <polygon class="frame-line" points="246,168 246,78 366,168"
+                       fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)"></polygon>
+              <path class="axis" d="M246 154 L260 154 L260 168" fill="none"></path>
+              <path class="curve-main" d="M342 168 A24 24 0 0 1 346.8 153.6" fill="none"></path>
+              <circle class="plot-point" cx="366" cy="168" r="5"></circle>
+              <text class="tick-label" x="238" y="74" text-anchor="end">A</text>
+              <text class="tick-label" x="238" y="176" text-anchor="end">B</text>
+              <text class="annotation-label" x="374" y="176" text-anchor="start">C</text>
+              <text class="annotation-label" x="240" y="126" text-anchor="end">opposé</text>
+              <text class="annotation-label" x="300" y="188" text-anchor="middle">adjacent</text>
+              <text class="annotation-label" x="322" y="112" text-anchor="middle">hypoténuse</text>
+              <text class="label-soft" x="306" y="212" text-anchor="middle">le même côté vertical</text>
+              <text class="label-soft" x="306" y="228" text-anchor="middle">ne le touche plus</text>
+            </svg>
+          `,
+          notes: [
+            'Les deux triangles sont <strong>le même</strong> : mêmes longueurs $90$, $120$ et $150$, même angle droit en $B$. Rien n\'a bougé sauf l\'angle qu\'on regarde.',
+            'Le côté vertical $[AB]$ <strong>touche</strong> l\'angle $\\widehat{A}$ : il en est l\'adjacent. Il ne touche <strong>pas</strong> l\'angle $\\widehat{C}$ : il en est l\'opposé.',
+            'L\'hypoténuse, elle, ne change jamais de nom : elle est toujours en face de l\'angle droit, quel que soit l\'angle choisi.',
+            '<strong>Le geste qui sauve</strong> : avant d\'écrire une formule, entoure l\'angle de l\'énoncé au crayon, puis demande-toi côté par côté « celui-ci le touche, oui ou non ? ». Les étiquettes se posent à ce moment-là, jamais avant.'
+          ],
+          reading: 'Pose ton doigt sur le côté vertical à gauche, lis son étiquette, puis pose-le sur le même côté vertical à droite : l\'étiquette a changé alors que le côté, lui, est identique.',
+          caption: 'Le même triangle rectangle avec deux angles de référence différents : les rôles adjacent et opposé s\'échangent, l\'hypoténuse ne bouge pas.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Méthode',
+          title: 'Ce sont les deux longueurs en jeu qui choisissent la formule',
+          description: 'Tu n\'as pas à hésiter entre les trois formules : repère la longueur que tu <strong>connais</strong> et celle que tu <strong>cherches</strong>, puis lis la case correspondante. Chaque paire de côtés n\'appartient qu\'à <strong>une seule</strong> des trois fonctions.',
+          svg: `
+            <svg viewBox="0 0 400 244" role="img" aria-labelledby="trig-choix-title trig-choix-desc">
+              <title id="trig-choix-title">Tableau de choix entre sinus cosinus et tangente</title>
+              <desc id="trig-choix-desc">Un tableau a double entree. Les trois lignes portent les paires de cotes possibles : oppose et hypotenuse, adjacent et hypotenuse, oppose et adjacent. En face de chaque paire, une seule fonction est indiquee : le sinus pour oppose et hypotenuse, le cosinus pour adjacent et hypotenuse, la tangente pour oppose et adjacent. La derniere colonne rappelle la formule complete de chaque ligne. Le message du tableau est qu'une paire de cotes ne correspond jamais qu'a une seule des trois fonctions, il n'y a donc jamais de choix a faire au hasard.</desc>
+
+              <!-- Tableau a trois lignes de 52 unites, de y = 62 a y = 218.
+                   Colonnes : paire de cotes (16 a 196), fonction (196 a 268),
+                   formule (268 a 388). -->
+              <text class="annotation-label" x="200" y="24" text-anchor="middle">les deux longueurs en jeu</text>
+              <text class="label-soft" x="200" y="44" text-anchor="middle">décident seules de la formule</text>
+
+              <line class="grid-line" x1="16" y1="62" x2="388" y2="62"></line>
+
+              <rect x="16" y="62" width="372" height="52" rx="8"
+                    fill="color-mix(in srgb, var(--diagram-accent) 9%, var(--bg-card))"
+                    stroke="color-mix(in srgb, var(--diagram-accent) 26%, var(--border))"></rect>
+              <text class="annotation-label" x="30" y="84">opposé et hypoténuse</text>
+              <text class="label-soft" x="30" y="104">les deux longueurs connues ou cherchées</text>
+              <text class="annotation-label" x="232" y="94" text-anchor="middle">sinus</text>
+              <text class="tick-label" x="328" y="94" text-anchor="middle">sin θ = opp / hyp</text>
+
+              <rect x="16" y="122" width="372" height="52" rx="8"
+                    fill="color-mix(in srgb, var(--accent) 9%, var(--bg-card))"
+                    stroke="color-mix(in srgb, var(--accent) 26%, var(--border))"></rect>
+              <text class="annotation-label" x="30" y="144">adjacent et hypoténuse</text>
+              <text class="label-soft" x="30" y="164">les deux longueurs connues ou cherchées</text>
+              <text class="annotation-label" x="232" y="154" text-anchor="middle">cosinus</text>
+              <text class="tick-label" x="328" y="154" text-anchor="middle">cos θ = adj / hyp</text>
+
+              <rect x="16" y="182" width="372" height="52" rx="8"
+                    fill="color-mix(in srgb, var(--secondary) 9%, var(--bg-card))"
+                    stroke="color-mix(in srgb, var(--secondary) 26%, var(--border))"></rect>
+              <text class="annotation-label" x="30" y="204">opposé et adjacent</text>
+              <text class="label-soft" x="30" y="224">l'hypoténuse ne sert pas ici</text>
+              <text class="annotation-label" x="232" y="214" text-anchor="middle">tangente</text>
+              <text class="tick-label" x="328" y="214" text-anchor="middle">tan θ = opp / adj</text>
+            </svg>
+          `,
+          notes: [
+            'Il n\'existe que <strong>trois paires</strong> de côtés dans un triangle rectangle, et chaque paire appartient à une seule fonction. Le choix n\'est donc jamais ouvert.',
+            'La ligne se lit de la même façon que la longueur soit connue ou cherchée : ce qui compte est la <strong>paire</strong>, pas le sens du calcul.',
+            'Si l\'hypoténuse n\'apparaît ni dans ce que tu connais ni dans ce que tu cherches, la réponse est forcément la <strong>tangente</strong> — c\'est la seule des trois qui ne la fait pas intervenir.',
+            '<strong>La procédure complète</strong> : repère l\'angle, note les deux longueurs en jeu, lis la ligne du tableau, écris la formule, remplace. Cinq gestes, aucun ne demande de deviner.'
+          ],
+          reading: 'Commence par la colonne de gauche : cherches-y la paire de longueurs de ton énoncé. La fonction à employer est écrite juste à droite, et la formule complète encore à droite.',
+          caption: 'Tableau de choix : chaque paire de côtés ne correspond qu\'à une seule des trois fonctions trigonométriques.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Contrôle',
+          title: 'Un sinus dépasse jamais 1, une tangente peut valoir ce qu\'elle veut',
+          description: 'Le sinus et le cosinus comparent un côté à l\'<strong>hypoténuse</strong>, qui est le plus grand côté : ces deux rapports restent donc toujours entre $0$ et $1$. La tangente, elle, compare deux côtés de l\'angle droit entre eux, et <strong>rien ne l\'empêche de dépasser $1$</strong>.',
+          svg: `
+            <svg viewBox="0 0 400 258" role="img" aria-labelledby="trig-borne-title trig-borne-desc">
+              <title id="trig-borne-title">Sinus et cosinus bornes par un, tangente sans plafond</title>
+              <desc id="trig-borne-desc">A gauche, un triangle rectangle dont l'angle de reference mesure exactement soixante degres : l'hypotenuse mesure 120 unites, le cote adjacent 60 et le cote oppose environ 104. A droite, trois barres horizontales representant les valeurs du sinus, du cosinus et de la tangente de cet angle, toutes tracees a la meme echelle. Un trait vertical marque la valeur un. La barre du sinus, qui vaut zero virgule quatre-vingt-sept, et celle du cosinus, qui vaut zero virgule cinquante, s'arretent avant ce trait. La barre de la tangente, qui vaut un virgule soixante-treize, le depasse nettement et continue au-dela.</desc>
+
+              <!-- GAUCHE : triangle rectangle d'angle EXACTEMENT 60°.
+                   Hypotenuse 120 ; adjacent = 120 × cos 60° = 60 ; oppose =
+                   120 × sin 60° = 103,92. Sommets : B(70 ; 180) angle droit,
+                   C(130 ; 180) sommet de l'angle de reference, A(70 ; 76,08).
+                   VERIFIE : l'angle mesure en C vaut 60,00° et l'hypotenuse
+                   mesure 120,00 unites. -->
+              <polygon class="frame-line" points="70,180 130,180 70,76.08"
+                       fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)"></polygon>
+              <path class="axis" d="M70 166 L84 166 L84 180" fill="none"></path>
+              <path class="curve-main" d="M108 180 A22 22 0 0 1 119 160.95" fill="none"></path>
+              <text class="annotation-label" x="100" y="174" text-anchor="middle">60°</text>
+              <text class="tick-label" x="62" y="132" text-anchor="end">opposé</text>
+              <text class="tick-label" x="62" y="148" text-anchor="end">104</text>
+              <text class="tick-label" x="100" y="196" text-anchor="middle">adjacent 60</text>
+              <text class="tick-label" x="126" y="118" text-anchor="start">hyp 120</text>
+              <text class="label-soft" x="100" y="222" text-anchor="middle">l'hypoténuse est</text>
+              <text class="label-soft" x="100" y="238" text-anchor="middle">toujours la plus longue</text>
+
+              <!-- DROITE : les trois valeurs a la meme echelle, 110 unites de
+                   viewBox pour la valeur 1, depart a x = 200.
+                   sin 60° = 0,87 -> 95,26 -> fin a 295,26
+                   cos 60° = 0,50 -> 55,00 -> fin a 255,00
+                   tan 60° = 1,73 -> 190,53 -> fin a 390,53, donc au-dela du
+                   repere de la valeur 1 pose a 310. Le depassement est reel,
+                   pas suggere. La barre est ecretee a 388 pour rester dans le
+                   cadre, et la fleche dit qu'elle continue. -->
+              <line class="grid-line" x1="310" y1="44" x2="310" y2="226"></line>
+              <text class="tick-label" x="310" y="36" text-anchor="middle">valeur 1</text>
+
+              <text class="tick-label" x="196" y="76" text-anchor="end">sinus</text>
+              <line class="curve-main" x1="200" y1="72" x2="295.26" y2="72"></line>
+              <circle class="plot-point" cx="295.26" cy="72" r="4"></circle>
+              <text class="tick-label" x="302" y="68" text-anchor="start">0,87</text>
+
+              <text class="tick-label" x="196" y="134" text-anchor="end">cosinus</text>
+              <line class="curve-main" x1="200" y1="130" x2="255" y2="130"></line>
+              <circle class="plot-point" cx="255" cy="130" r="4"></circle>
+              <text class="tick-label" x="262" y="126" text-anchor="start">0,50</text>
+
+              <text class="tick-label" x="196" y="192" text-anchor="end">tangente</text>
+              <line class="curve-main" x1="200" y1="188" x2="388" y2="188"></line>
+              <text class="tick-label" x="330" y="184" text-anchor="start">1,73</text>
+              <text class="label-soft" x="294" y="216" text-anchor="middle">elle passe le trait</text>
+              <text class="label-soft" x="294" y="240" text-anchor="middle">et continue</text>
+            </svg>
+          `,
+          notes: [
+            'Ici $\\sin(60°) \\approx 0{,}87$ et $\\cos(60°) = 0{,}50$ : les deux barres s\'arrêtent avant le trait de la valeur $1$, et c\'est toujours le cas.',
+            'La raison est géométrique : $\\sin$ et $\\cos$ divisent un côté par l\'<strong>hypoténuse</strong>, qui est le plus long des trois. Le quotient d\'un plus petit par un plus grand ne peut pas dépasser $1$.',
+            '$\\tan(60°) \\approx 1{,}73$ dépasse largement. La tangente divise l\'opposé par l\'adjacent, et rien n\'oblige l\'un à être plus petit que l\'autre.',
+            '<strong>Le contrôle qui sauve</strong> : si ta calculatrice affiche un sinus ou un cosinus supérieur à $1$, tu as confondu deux côtés ou inversé le quotient. Un résultat au-dessus de $1$ pour une tangente, en revanche, est parfaitement normal.'
+          ],
+          reading: 'Compare la longueur des trois barres au trait vertical marqué $1$ : les deux premières s\'arrêtent avant, la troisième le franchit et sort du cadre.',
+          caption: 'Les trois rapports du même angle de $60°$, tracés à la même échelle : sinus et cosinus restent sous $1$, la tangente le dépasse.'
+        }
+      ],
       recap: [
         '<strong>SOH-CAH-TOA</strong> : Sinus = Opposé/Hypoténuse, Cosinus = Adjacent/Hypoténuse, Tangente = Opposé/Adjacent.',
         '<strong>Relation fondamentale</strong> : $\\sin^2(\\theta) + \\cos^2(\\theta) = 1$ pour tout angle $\\theta$. Cette relation permet de trouver l\'un si on connaît l\'autre.',

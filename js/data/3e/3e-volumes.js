@@ -85,6 +85,243 @@ window.MODULES.push(
         reading: 'Ne confonds pas facteur de longueur et facteur de volume : le rayon double (facteur $2$) mais le volume est multiplié par $2^3 = 8$, pas par $2$.',
         caption: 'Deux sphères de rayons $r = 3$ cm et $2r = 6$ cm : leurs volumes sont dans un rapport de $8 = 2^3$.'
       },
+      /* SCHÉMAS SECONDAIRES, ajoutés le 2026-09-13.
+
+         Principe du cahier des charges, section 9 : une figure par MALENTENDU,
+         pas une figure par formule. Le schéma principal AFFIRME déjà le facteur
+         huit en juxtaposant deux sphères, mais il ne le DÉMONTRE pas : l'élève
+         doit croire le nombre écrit sous chaque boule. Les trois malentendus
+         retenus sont donc :
+
+           1. « doubler le rayon double le volume » — il faut le réfuter en
+              faisant COMPTER, ce qu'aucune sphère ne permet ; d'où le cube,
+              seul solide qui se pave par lui-même ;
+           2. « le rayon, le diamètre, c'est pareil » — l'erreur coûte
+              exactement le même facteur huit, ce qui la rend indétectable si
+              l'élève ne sait pas déjà que le facteur huit existe ;
+           3. « un solide bizarre, je ne sais pas par où commencer » — le
+              découpage en morceaux simples n'est pas évident tant qu'on n'a
+              pas vu le trait de séparation.
+
+         TOUTES LES COORDONNÉES SONT CALCULÉES, jamais posées à vue :
+
+         Schéma 1 : petit cube d'arête 34 unités de viewBox, grand cube d'arête
+         68, soit exactement le double. Vérifié : 34³ = 39 304 et 68³ = 314 432,
+         de rapport 8,000000, et huit petits cubes totalisent 8 × 39 304 =
+         314 432, c'est-à-dire EXACTEMENT le volume du grand. Le pavage est donc
+         exact, pas approché. Le vecteur de fuite du grand cube (40 ; -28) est
+         le double de celui du petit (20 ; -14), pour que la perspective elle
+         aussi respecte le facteur deux.
+
+         Schéma 2 : boule de diamètre 10 cm. Avec pi ≈ 3,14, le volume juste
+         vaut 4/3 × 3,14 × 5³ = 523,33 cm³ et le volume fautif (diamètre pris
+         pour rayon) 4/3 × 3,14 × 10³ = 4 186,67 cm³. Vérifié : leur rapport
+         vaut exactement 8, le même facteur que celui du schéma précédent — ce
+         qui est le point du schéma.
+
+         Schéma 3 : cylindre de rayon 3 cm et de hauteur 8 cm surmonté d'une
+         demi-boule de rayon 3 cm, à 14 unités de viewBox par centimètre.
+         Vérifié : le rayon dessiné 42 et la hauteur dessinée 112 donnent bien
+         3 cm et 8 cm ; la hauteur totale dessinée 112 + 42 = 154 vaut
+         11 cm = 8 + 3. Volumes : 3,14 × 9 × 8 = 226,08 cm³ pour le cylindre,
+         2/3 × 3,14 × 27 = 56,52 cm³ pour la demi-boule, total 282,60 cm³. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Piège',
+          title: 'Doubler une arête range huit cubes, pas deux',
+          description: 'Le schéma précédent l\'<strong>affirme</strong> avec deux sphères ; celui-ci te laisse le <strong>compter</strong>. Un cube dont l\'arête double se remplit exactement par <strong>huit</strong> copies du petit — quatre devant, quatre derrière. Rien à croire sur parole : les cases sont là.',
+          svg: `
+            <svg viewBox="0 0 400 244" role="img" aria-labelledby="vol-huit-title vol-huit-desc">
+              <title id="vol-huit-title">Un cube d'arete doublee contient huit petits cubes</title>
+              <desc id="vol-huit-desc">A gauche, un petit cube dessine en perspective, dont l'arete est notee a. A droite, un cube dont l'arete vaut exactement le double : ses trois faces visibles sont partagees en quatre par un trait vertical et un trait horizontal, si bien que le grand cube apparait decoupe en huit cubes de la taille du petit, quatre devant et quatre derriere. Le lecteur peut donc compter huit copies du petit cube dans le grand, alors que l'arete n'a ete multipliee que par deux.</desc>
+
+              <!-- GAUCHE : le petit cube, arete 34, fuite (20 ; -14).
+                   Face avant de (34 ; 180) a (68 ; 146). -->
+              <text class="annotation-label" x="61" y="24" text-anchor="middle">arête a</text>
+              <line class="guide-line" x1="54" y1="166" x2="88" y2="166"></line>
+              <line class="guide-line" x1="54" y1="166" x2="54" y2="132"></line>
+              <line class="guide-line" x1="34" y1="180" x2="54" y2="166"></line>
+              <line class="frame-line" x1="34" y1="180" x2="68" y2="180"></line>
+              <line class="frame-line" x1="68" y1="180" x2="68" y2="146"></line>
+              <line class="frame-line" x1="68" y1="146" x2="34" y2="146"></line>
+              <line class="frame-line" x1="34" y1="146" x2="34" y2="180"></line>
+              <line class="frame-line" x1="34" y1="146" x2="54" y2="132"></line>
+              <line class="frame-line" x1="68" y1="146" x2="88" y2="132"></line>
+              <line class="frame-line" x1="68" y1="180" x2="88" y2="166"></line>
+              <line class="frame-line" x1="54" y1="132" x2="88" y2="132"></line>
+              <line class="frame-line" x1="88" y1="132" x2="88" y2="166"></line>
+              <text class="tick-label" x="61" y="200" text-anchor="middle">le petit cube</text>
+              <text class="label-soft" x="61" y="220" text-anchor="middle">une seule case</text>
+
+              <!-- MILIEU : le passage d'un cube a l'autre. -->
+              <text class="annotation-label" x="146" y="152" text-anchor="middle">arête × 2</text>
+              <line class="guide-line" x1="112" y1="164" x2="180" y2="164"></line>
+
+              <!-- DROITE : le grand cube, arete 68 = 2 × 34, fuite (40 ; -28)
+                   = 2 × (20 ; -14). Face avant de (208 ; 212) a (276 ; 144).
+                   Les medianes des trois faces visibles decoupent le solide en
+                   huit cubes d'arete 34. VERIFIE : 68³ = 314 432 et
+                   8 × 34³ = 8 × 39 304 = 314 432, egalite exacte. -->
+              <text class="annotation-label" x="262" y="24" text-anchor="middle">arête 2a</text>
+              <line class="frame-line" x1="208" y1="212" x2="276" y2="212"></line>
+              <line class="frame-line" x1="276" y1="212" x2="276" y2="144"></line>
+              <line class="frame-line" x1="276" y1="144" x2="208" y2="144"></line>
+              <line class="frame-line" x1="208" y1="144" x2="208" y2="212"></line>
+              <line class="frame-line" x1="208" y1="144" x2="248" y2="116"></line>
+              <line class="frame-line" x1="276" y1="144" x2="316" y2="116"></line>
+              <line class="frame-line" x1="276" y1="212" x2="316" y2="184"></line>
+              <line class="frame-line" x1="248" y1="116" x2="316" y2="116"></line>
+              <line class="frame-line" x1="316" y1="116" x2="316" y2="184"></line>
+              <line class="guide-line" x1="208" y1="212" x2="248" y2="184"></line>
+              <line class="guide-line" x1="248" y1="184" x2="316" y2="184"></line>
+              <line class="guide-line" x1="248" y1="184" x2="248" y2="116"></line>
+              <line class="curve-main" x1="242" y1="212" x2="242" y2="144"></line>
+              <line class="curve-main" x1="208" y1="178" x2="276" y2="178"></line>
+              <line class="curve-main" x1="242" y1="144" x2="282" y2="116"></line>
+              <line class="curve-main" x1="228" y1="130" x2="296" y2="130"></line>
+              <line class="curve-main" x1="296" y1="198" x2="296" y2="130"></line>
+              <line class="curve-main" x1="276" y1="178" x2="316" y2="150"></line>
+              <text class="tick-label" x="225" y="166" text-anchor="middle">1</text>
+              <text class="tick-label" x="259" y="166" text-anchor="middle">2</text>
+              <text class="tick-label" x="225" y="200" text-anchor="middle">3</text>
+              <text class="tick-label" x="259" y="200" text-anchor="middle">4</text>
+              <text class="tick-label" x="262" y="232" text-anchor="middle">quatre cases devant</text>
+              <text class="annotation-label" x="370" y="166" text-anchor="middle">et quatre</text>
+              <text class="annotation-label" x="370" y="184" text-anchor="middle">derrière</text>
+              <text class="annotation-label" x="370" y="212" text-anchor="middle">huit en tout</text>
+            </svg>
+          `,
+          notes: [
+            'Le grand cube contient <strong>quatre</strong> cases visibles devant et <strong>quatre</strong> cachées derrière : huit en tout, jamais deux.',
+            'Le calcul le confirme : $(2a)^3 = 2^3 \\times a^3 = 8a^3$. L\'exposant $3$ vient des trois directions de l\'espace, et chacune double.',
+            'Le même raisonnement vaut pour une boule, un cône ou n\'importe quel solide : agrandir toutes les longueurs d\'un facteur $k$ multiplie le volume par $k^3$.',
+            'Une aire, elle, serait multipliée par $k^2$ seulement — c\'est ce qu\'on voit sur une face du cube, découpée en quatre cases et non en huit.',
+            '<strong>Le réflexe utile</strong> : pour une longueur, $k$ ; pour une aire, $k^2$ ; pour un volume, $k^3$. L\'exposant est le nombre de dimensions de la grandeur.'
+          ],
+          reading: 'Compte les cases dessinées sur la face avant du grand cube : il y en a quatre. Ajoute-leur les quatre qui se cachent derrière, marquées par les traits en pointillés. Chacune a la taille du petit cube de gauche.',
+          caption: 'Un cube d\'arête $a$ et son agrandissement d\'arête $2a$, découpé en huit cubes de la taille du premier.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Piège',
+          title: 'Prendre le diamètre pour le rayon multiplie le résultat par huit',
+          description: 'Une boule de <strong>diamètre</strong> $10$ cm. Utiliser $10$ dans la formule au lieu de $5$ ne fait pas « un peu trop » : cela donne <strong>huit fois</strong> le vrai volume, exactement le facteur du schéma précédent. Et rien dans le résultat ne signale l\'erreur, puisque les deux nombres sont plausibles.',
+          svg: `
+            <svg viewBox="0 0 400 236" role="img" aria-labelledby="vol-rayon-title vol-rayon-desc">
+              <title id="vol-rayon-title">Le rayon et le diametre d'une meme boule</title>
+              <desc id="vol-rayon-desc">A gauche, une boule vue de face avec deux cotes tracees : le rayon, qui va du centre au bord et mesure cinq centimetres, et le diametre, qui traverse toute la boule d'un bord a l'autre et mesure dix centimetres. A droite, deux calculs superposes. Celui du haut, en teinte accentuee, utilise le rayon cinq et donne environ cinq cent vingt-trois centimetres cubes. Celui du bas, en trait tirete et en teinte plus faible, utilise le diametre dix a la place du rayon et donne environ quatre mille cent quatre-vingt-sept centimetres cubes, soit huit fois trop.</desc>
+
+              <!-- GAUCHE : la boule, rayon dessine 52. La cote du rayon part du
+                   centre (84 ; 118) vers le bord droit (136 ; 118) ; celle du
+                   diametre traverse de (32 ; 118) a (136 ; 118). Les deux cotes
+                   sont ecrites HORS du disque, sous et sur la figure. -->
+              <circle class="frame-line" cx="84" cy="118" r="52"
+                      fill="color-mix(in srgb, var(--diagram-accent) 10%, transparent)"></circle>
+              <line class="curve-main" x1="84" y1="118" x2="136" y2="118"></line>
+              <line class="guide-line" x1="32" y1="118" x2="84" y2="118"></line>
+              <circle class="plot-point-alt" cx="84" cy="118" r="4"></circle>
+              <text class="tick-label" x="110" y="110" text-anchor="middle">rayon 5</text>
+              <text class="tick-label" x="84" y="190" text-anchor="middle">diamètre 10 cm</text>
+              <line class="guide-line" x1="32" y1="178" x2="136" y2="178"></line>
+              <line class="guide-line" x1="32" y1="170" x2="32" y2="186"></line>
+              <line class="guide-line" x1="136" y1="170" x2="136" y2="186"></line>
+              <text class="label-soft" x="84" y="216" text-anchor="middle">l'énoncé donne souvent</text>
+              <text class="label-soft" x="84" y="232" text-anchor="middle">le diamètre</text>
+
+              <!-- DROITE : le calcul juste au-dessus, l'erreur en dessous.
+                   VERIFIE avec pi ≈ 3,14 : 4/3 × 3,14 × 125 = 523,33 et
+                   4/3 × 3,14 × 1 000 = 4 186,67, de rapport exactement 8. -->
+              <rect x="176" y="36" width="212" height="76" rx="10"
+                    fill="color-mix(in srgb, var(--diagram-accent) 9%, var(--bg-card))"
+                    stroke="color-mix(in srgb, var(--diagram-accent) 30%, var(--border))"></rect>
+              <text class="annotation-label" x="190" y="58">le rayon vaut 5</text>
+              <text class="tick-label" x="190" y="80">V = 4/3 × 3,14 × 5³</text>
+              <text class="annotation-label" x="190" y="102">V ≈ 523 cm cubes</text>
+
+              <rect x="176" y="130" width="212" height="76" rx="10" fill="none"
+                    stroke="color-mix(in srgb, var(--text-muted) 34%, transparent)"
+                    stroke-dasharray="6 4"></rect>
+              <text class="label-soft" x="190" y="152">le diamètre pris pour le rayon</text>
+              <text class="label-soft" x="190" y="174">V = 4/3 × 3,14 × 10³</text>
+              <text class="label-soft" x="190" y="196">V ≈ 4 187 cm cubes</text>
+
+              <text class="annotation-label" x="282" y="226" text-anchor="middle">huit fois trop</text>
+            </svg>
+          `,
+          notes: [
+            'Données : une boule de diamètre $d = 10$ cm, donc de rayon $r = \\dfrac{d}{2} = 5$ cm. On prend $\\pi \\approx 3{,}14$.',
+            'Calcul juste : $V = \\dfrac{4}{3} \\times 3{,}14 \\times 5^3 \\approx 523$ cm³.',
+            'Calcul fautif : $V = \\dfrac{4}{3} \\times 3{,}14 \\times 10^3 \\approx 4\\,187$ cm³, soit exactement <strong>huit fois</strong> le bon résultat — parce qu\'on a doublé le rayon sans le vouloir.',
+            'Aucun des deux nombres n\'a l\'air absurde. C\'est ce qui rend cette erreur si coûteuse : elle ne se voit pas dans le résultat, seulement dans la donnée de départ.',
+            '<strong>Le geste qui sauve</strong> : souligne dans l\'énoncé le mot « rayon » ou « diamètre » avant d\'écrire quoi que ce soit, et note $r = \\dfrac{d}{2}$ sur ta copie dès que c\'est le diamètre qui est donné.'
+          ],
+          reading: 'Compare les deux traits sur la boule de gauche : le court va du centre au bord, le long traverse tout. Regarde ensuite lequel des deux nombres a servi dans chacun des deux calculs de droite.',
+          caption: 'Une boule de diamètre $10$ cm : le calcul juste avec $r = 5$ et le calcul fautif avec $r = 10$, huit fois trop grand.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Méthode',
+          title: 'Un solide composé se découpe avant de se calculer',
+          description: 'Ce réservoir n\'a pas de formule à lui. Trace le <strong>trait de séparation</strong> à l\'endroit où la forme change, et tu obtiens deux solides que tu sais déjà traiter : un <strong>cylindre</strong> et une <strong>demi-boule</strong>. Il ne reste qu\'à additionner.',
+          svg: `
+            <svg viewBox="0 0 400 260" role="img" aria-labelledby="vol-compose-title vol-compose-desc">
+              <title id="vol-compose-title">Un reservoir decoupe en un cylindre et une demi-boule</title>
+              <desc id="vol-compose-desc">A gauche, un reservoir dessine de face : un cylindre de rayon trois centimetres et de hauteur huit centimetres, surmonte d'une demi-boule de meme rayon. Un trait horizontal marque bien visiblement l'endroit ou la forme change, c'est-a-dire le haut du cylindre. A droite, les deux morceaux sont traites separement : le volume du cylindre vaut environ deux cent vingt-six centimetres cubes, celui de la demi-boule environ cinquante-sept centimetres cubes, et leur somme donne le volume total du reservoir, environ deux cent quatre-vingt-trois centimetres cubes.</desc>
+
+              <!-- GAUCHE : le reservoir, a 14 unites de viewBox par centimetre.
+                   Rayon 3 cm = 42 ; hauteur du cylindre 8 cm = 112. Axe en
+                   x = 90. Base du cylindre a y = 222, haut du cylindre a
+                   y = 222 - 112 = 110. La demi-boule de rayon 42 culmine donc
+                   a y = 110 - 42 = 68, soit une hauteur totale de 154 unites,
+                   c'est-a-dire 11 cm = 8 + 3. VERIFIE. -->
+              <path class="frame-line" d="M48 110 A42 42 0 0 1 132 110" fill="color-mix(in srgb, var(--diagram-accent) 16%, transparent)"></path>
+              <line class="frame-line" x1="48" y1="110" x2="48" y2="222"></line>
+              <line class="frame-line" x1="132" y1="110" x2="132" y2="222"></line>
+              <ellipse class="frame-line" cx="90" cy="222" rx="42" ry="13"
+                       fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)"></ellipse>
+              <line class="curve-main" x1="34" y1="110" x2="146" y2="110"></line>
+              <text class="annotation-label" x="152" y="106" text-anchor="start">ici la</text>
+              <text class="annotation-label" x="152" y="124" text-anchor="start">forme change</text>
+              <line class="guide-line" x1="90" y1="110" x2="132" y2="110"></line>
+              <text class="tick-label" x="111" y="102" text-anchor="middle">3 cm</text>
+              <text class="tick-label" x="90" y="176" text-anchor="middle">hauteur 8 cm</text>
+              <text class="tick-label" x="90" y="250" text-anchor="middle">le réservoir entier</text>
+
+              <!-- DROITE : les deux morceaux et leur somme. Volumes calcules
+                   avec pi ≈ 3,14 : cylindre 3,14 × 3² × 8 = 226,08 ;
+                   demi-boule 2/3 × 3,14 × 3³ = 56,52 ; total 282,60. -->
+              <rect x="204" y="36" width="184" height="60" rx="10"
+                    fill="color-mix(in srgb, var(--diagram-accent) 8%, var(--bg-card))"
+                    stroke="color-mix(in srgb, var(--diagram-accent) 26%, var(--border))"></rect>
+              <text class="annotation-label" x="216" y="58">morceau du haut</text>
+              <text class="tick-label" x="216" y="78">demi-boule : 2/3 × 3,14 × 3³</text>
+              <text class="tick-label" x="216" y="92">soit 56,52 cm cubes</text>
+
+              <rect x="204" y="110" width="184" height="60" rx="10"
+                    fill="color-mix(in srgb, var(--diagram-accent) 8%, var(--bg-card))"
+                    stroke="color-mix(in srgb, var(--diagram-accent) 26%, var(--border))"></rect>
+              <text class="annotation-label" x="216" y="132">morceau du bas</text>
+              <text class="tick-label" x="216" y="152">cylindre : 3,14 × 3² × 8</text>
+              <text class="tick-label" x="216" y="166">soit 226,08 cm cubes</text>
+
+              <line class="grid-line" x1="204" y1="186" x2="388" y2="186"></line>
+              <text class="annotation-label" x="216" y="212">total : 282,60 cm cubes</text>
+              <text class="label-soft" x="216" y="234">on additionne, car les deux</text>
+              <text class="label-soft" x="216" y="250">morceaux sont posés l'un sur l'autre</text>
+            </svg>
+          `,
+          notes: [
+            'Le trait de séparation se pose là où la forme <strong>change</strong> : ici au sommet du cylindre, qui est aussi le plat de la demi-boule.',
+            'Volume du cylindre : $V = \\pi r^2 h = 3{,}14 \\times 3^2 \\times 8 = 226{,}08$ cm³.',
+            'Volume de la demi-boule : $V = \\dfrac{2}{3}\\pi r^3 = \\dfrac{2}{3} \\times 3{,}14 \\times 3^3 = 56{,}52$ cm³.',
+            'Total : $226{,}08 + 56{,}52 = 282{,}60$ cm³. On <strong>additionne</strong> parce que les deux morceaux sont posés l\'un sur l\'autre.',
+            '<strong>Quand soustraire</strong> : si un solide est <strong>creusé</strong> dans un autre — un trou cylindrique dans un pavé, par exemple — on retire le volume du creux au lieu de l\'ajouter. Le découpage est le même, seul le signe change.'
+          ],
+          reading: 'Repère d\'abord le trait qui traverse le réservoir : il sépare les deux morceaux. Retrouve ensuite chacun d\'eux dans les deux cadres de droite, avec sa formule et son volume.',
+          caption: 'Un réservoir découpé en un cylindre de rayon $3$ cm et de hauteur $8$ cm surmonté d\'une demi-boule de même rayon, avec le détail des deux volumes.'
+        }
+      ],
       recap: [
         'La formule de la boule est $V = \\dfrac{4}{3}\\pi r^3$ — le volume dépend du <strong>cube</strong> du rayon.',
         'Doubler le rayon multiplie le volume par $2^3 = 8$ — pas par $2$ ! C\'est la principale source d\'erreur.',
