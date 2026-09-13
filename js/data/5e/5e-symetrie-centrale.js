@@ -91,6 +91,165 @@ window.MODULES.push({
         reading: 'Le centre $O$ est le milieu de $[AA\']$ : il se trouve exactement au milieu du segment qui relie un point à son symétrique.',
         caption: 'Symétrique de $A(5 ; 3)$ par rapport au centre $O(2 ; 1)$ : on obtient $A\'(-1 ; -1)$, avec $O$ milieu de $[AA\']$.'
       },
+
+      /* SCHEMAS SECONDAIRES (2026-09-13) — une figure par MALENTENDU.
+         Les trois retenus :
+           1. la symetrie centrale confondue avec la symetrie axiale ;
+           2. « le centre est le milieu » reste une phrase tant qu'on n'a pas vu
+              les deux longueurs egales sur le meme trait ;
+           3. une figure peut avoir un centre de symetrie SANS avoir d'axe,
+              ce que le cours affirme sans le montrer.
+
+         La figure 1 emploie un « L », qui est CHIRAL : c'est la seule facon de
+         rendre la difference visible. Sur une figure symetrique (un carre, un
+         disque), les deux transformees se superposent et la figure ne
+         demontrerait rien. Verification par le calcul : l'aire signee du L vaut
+         +5 avant transformation, +5 apres symetrie centrale (l'orientation est
+         conservee, c'est une rotation) et -5 apres symetrie axiale (elle
+         l'inverse). C'est ce signe, et non l'apparence, qui distingue les deux.
+
+         COORDONNEES CALCULEES, jamais posees a l'oeil : origine ecran (200,120)
+         pour la figure 1, echelle 22 unites ; (120,150) et echelle 26 pour la
+         figure 2. Alignement de A, O et A' verifie par produit vectoriel nul,
+         et OA = OA' = 3,6056 exactement. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Centrale ou axiale',
+          title: 'Un demi-tour n\'est pas un reflet',
+          description: 'Sur une figure <strong>non symétrique</strong>, les deux transformations ne donnent pas le même résultat. La symétrie axiale se lit comme un <strong>reflet dans un miroir</strong> ; la symétrie centrale, comme un <strong>demi-tour</strong>. Sur un carré ou un disque, l\'écart serait invisible : c\'est pourquoi la figure choisie a la forme d\'un L.',
+          svg: `
+            <svg viewBox="60 12 300 212" role="img" aria-labelledby="symc-comp-title symc-comp-desc">
+              <title id="symc-comp-title">Une figure en L, son symetrique central et son symetrique axial</title>
+              <desc id="symc-comp-desc">Une figure en forme de L est dessinee en haut a droite d'un centre marque O. Son symetrique par rapport au point O se trouve en bas a gauche : la figure a tourne d'un demi-tour, si bien que le pied du L pointe dans la direction opposee. Son symetrique par rapport a l'axe vertical passant par O se trouve en haut a gauche : la figure est retournee comme dans un miroir, mais reste en haut. Les deux transformees partent de la meme figure de depart et sont dessinees a la meme echelle. Comme la figure en L n'a elle-meme aucune symetrie, les deux resultats ne se superposent pas, ce qui montre que les deux transformations sont bien differentes.</desc>
+
+              <!-- Repere : origine ecran (200,120), 22 unites par unite. L'axe
+                   vertical de la symetrie AXIALE passe par O. -->
+              <line class="grid-line" x1="200" y1="24" x2="200" y2="216" stroke-dasharray="4 4"></line>
+              <text class="tick-label" x="206" y="222" text-anchor="start">axe</text>
+
+              <!-- Figure de depart, en teinte forte : c'est l'objet a suivre. -->
+              <polygon class="frame-line" points="222,98 288,98 288,76 244,76 244,32 222,32" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)"></polygon>
+              <text class="annotation-label" x="292" y="60" text-anchor="start">départ</text>
+
+              <!-- Symetrique CENTRAL par rapport a O : chaque sommet (x,y)
+                   devient (-x,-y). La figure passe en bas a GAUCHE. -->
+              <polygon class="frame-line" points="178,142 112,142 112,164 156,164 156,208 178,208" fill="color-mix(in srgb, var(--diagram-accent) 16%, transparent)"></polygon>
+              <text class="annotation-label" x="108" y="196" text-anchor="end">demi-tour</text>
+
+              <!-- Symetrique AXIAL par rapport a l'axe vertical : (x,y) devient
+                   (-x,y). La figure reste en HAUT, a gauche. -->
+              <polygon class="guide-line" points="178,98 112,98 112,76 156,76 156,32 178,32" fill="color-mix(in srgb, var(--diagram-accent) 6%, transparent)" stroke-dasharray="5 4"></polygon>
+              <text class="label-soft" x="108" y="60" text-anchor="end">reflet</text>
+
+              <circle class="plot-point" cx="200" cy="120" r="4"></circle>
+              <text class="annotation-label" x="207" y="134" text-anchor="start">O</text>
+            </svg>
+          `,
+          notes: [
+            'Le <strong>demi-tour</strong> autour de $O$ envoie la figure en bas à gauche : elle a pivoté de $180°$.',
+            'Le <strong>reflet</strong> dans l\'axe vertical la laisse en haut : elle a seulement été retournée de gauche à droite.',
+            'Les deux résultats sont différents parce que le L n\'a aucune symétrie propre. La symétrie centrale <strong>conserve le sens de parcours</strong> de la figure, la symétrie axiale l\'inverse.'
+          ],
+          reading: 'Pose ton doigt sur le pied du L de départ, puis cherche-le sur chaque transformée. Après le demi-tour, il pointe vers le bas ; après le reflet, il pointe encore vers le haut. C\'est ce détail qui distingue les deux transformations.',
+          caption: 'La même figure en L, son symétrique par rapport au point $O$ (demi-tour) et son symétrique par rapport à un axe vertical (reflet) : deux résultats distincts.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Ce que veut dire « milieu »',
+          title: 'Le centre est à égale distance, et sur la même droite',
+          description: 'Dire que $O$ est le <strong>milieu de $[AA\']$</strong> impose deux choses à la fois, et les deux comptent : les points $A$, $O$ et $A\'$ sont <strong>alignés</strong>, et les longueurs $OA$ et $OA\'$ sont <strong>égales</strong>. Oublier l\'alignement est l\'erreur la plus fréquente.',
+          svg: `
+            <svg viewBox="60 30 260 168" role="img" aria-labelledby="symc-milieu-title symc-milieu-desc">
+              <title id="symc-milieu-title">Le centre O milieu du segment joignant un point et son symetrique</title>
+              <desc id="symc-milieu-desc">Le point A de coordonnees 5 et 3, le centre O de coordonnees 2 et 1, et le point A prime de coordonnees moins 1 et moins 1 sont places dans un repere. Les trois points sont alignes sur une meme droite, ce qui est verifie par le calcul. Le segment joignant A a A prime passe donc par O, et O le partage en deux parties de meme longueur, chacune marquee d'un tic identique. Les deux longueurs valent la meme chose a la quatrieme decimale. Un point mal place, hors de la droite, est montre a cote en trait tirete pour rappeler que l'egalite des distances ne suffit pas : il faut aussi l'alignement.</desc>
+
+              <!-- Repere : origine (120,150), 26 unites par unite de repere.
+                   A(5;3) -> (250,72) ; O(2;1) -> (172,124) ; A'(-1;-1) -> (94,176).
+                   Alignement verifie par produit vectoriel EXACTEMENT nul. -->
+              <line class="frame-line" x1="94" y1="176" x2="250" y2="72"></line>
+
+              <!-- Les deux moitiees portent le MEME tic : c'est le codage du
+                   manuel pour deux longueurs egales. Tic perpendiculaire au
+                   segment, pose au milieu de chaque moitie. -->
+              <line class="frame-line" x1="127" y1="144" x2="139" y2="156"></line>
+              <line class="frame-line" x1="205" y1="92" x2="217" y2="104"></line>
+
+              <circle class="plot-point" cx="250" cy="72" r="4"></circle>
+              <text class="annotation-label" x="258" y="66" text-anchor="start">A</text>
+              <circle class="plot-point" cx="172" cy="124" r="4"></circle>
+              <text class="annotation-label" x="180" y="140" text-anchor="start">O</text>
+              <circle class="plot-point" cx="94" cy="176" r="4"></circle>
+              <text class="annotation-label" x="86" y="190" text-anchor="end">A′</text>
+
+              <!-- Le contre-exemple : un point a la BONNE distance de O mais
+                   HORS de la droite. Trait tirete, teinte faible.
+
+                   2026-09-13 — CORRIGE PAR LE CALCUL. Le point etait d'abord
+                   pose a (120,86), soit a 64,41 de O quand OA vaut 93,74 : la
+                   figure ANNONCAIT « meme distance » et montrait une distance
+                   plus courte d'un tiers. Le contre-exemple se refutait donc
+                   lui-meme, et rien dans le dessin ne le laissait voir. Le point
+                   est desormais pris sur le CERCLE de centre O et de rayon OA,
+                   a 60 degres de la direction de OA' : (88,82), a 93,74 de O
+                   exactement, et dans le cadre. -->
+              <circle class="plot-point-alt" cx="88" cy="82" r="4"></circle>
+              <line class="guide-line" x1="172" y1="124" x2="88" y2="82" stroke-dasharray="5 4"></line>
+              <text class="label-soft" x="96" y="66" text-anchor="middle">même distance,</text>
+              <text class="label-soft" x="96" y="50" text-anchor="middle">mais pas aligné</text>
+
+              <text class="tick-label" x="190" y="44" text-anchor="middle">O est le milieu de AA′</text>
+            </svg>
+          `,
+          notes: [
+            'Alignement : $A$, $O$ et $A\'$ sont sur une même droite. Le vérifier revient à s\'assurer que le segment $[AA\']$ <strong>passe</strong> par $O$.',
+            'Égalité : $OA = OA\'$, ce que codent les deux tics identiques sur les deux moitiés du segment.',
+            'Le point en tirets est à la <strong>bonne distance</strong> de $O$ mais hors de la droite : il n\'est donc <strong>pas</strong> le symétrique de $A$. La distance seule ne suffit jamais.'
+          ],
+          reading: 'Place ta règle sur $A$ et $A\'$ : elle doit passer exactement sur $O$. Mesure ensuite les deux moitiés, elles doivent être égales. Ces deux vérifications ensemble définissent le symétrique, l\'une sans l\'autre ne suffit pas.',
+          caption: 'Le centre $O(2 ; 1)$ milieu de $[AA\']$ avec $A(5 ; 3)$ et $A\'(-1 ; -1)$ : alignement et égalité des deux moitiés.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Centre sans axe',
+          title: 'Le parallélogramme a un centre, mais aucun axe',
+          description: 'Le cours l\'affirme : une figure peut avoir un centre de symétrie <strong>sans</strong> avoir d\'axe de symétrie. Le parallélogramme quelconque en est l\'exemple, et il vaut la peine d\'être vu : plier la figure en deux ne marche jamais, alors que la faire tourner d\'un demi-tour la remet exactement sur elle-même.',
+          svg: `
+            <svg viewBox="0 0 400 200" role="img" aria-labelledby="symc-para-title symc-para-desc">
+              <title id="symc-para-title">Un parallelogramme a un centre de symetrie mais aucun axe de symetrie</title>
+              <desc id="symc-para-desc">A gauche, un parallelogramme quelconque avec son centre marque au croisement des diagonales : un demi-tour autour de ce point ramene la figure exactement sur elle-meme, ce que montrent deux sommets opposes reperes par le meme marquage. A droite, le meme parallelogramme avec deux pliages essayes, l'un vertical et l'autre horizontal, tous deux traces en tirets : dans les deux cas les deux moities ne se superposent pas, car la figure penche d'un cote. Le parallelogramme possede donc un centre de symetrie sans posseder le moindre axe de symetrie.</desc>
+
+              <!-- Parallelogramme de base 100, decalage 34, hauteur 70. Le centre
+                   est le croisement des diagonales, calcule : moyenne des quatre
+                   sommets. Sommets (24,150) (124,150) (158,80) (58,80) :
+                   centre = ((24+124+158+58)/4, (150+150+80+80)/4) = (91,115). -->
+              <polygon class="frame-line" points="24,150 124,150 158,80 58,80" fill="color-mix(in srgb, var(--diagram-accent) 18%, transparent)"></polygon>
+              <line class="guide-line" x1="24" y1="150" x2="158" y2="80"></line>
+              <line class="guide-line" x1="124" y1="150" x2="58" y2="80"></line>
+              <circle class="plot-point" cx="91" cy="115" r="4"></circle>
+              <text class="annotation-label" x="98" y="130" text-anchor="start">O</text>
+              <text class="tick-label" x="91" y="176" text-anchor="middle">demi-tour : ça marche</text>
+
+              <!-- Le MEME parallelogramme a droite, meme echelle, meme ligne de
+                   base : sommets translates de +220. Deux pliages essayes. -->
+              <polygon class="frame-line" points="244,150 344,150 378,80 278,80" fill="color-mix(in srgb, var(--diagram-accent) 18%, transparent)"></polygon>
+              <line class="guide-line" x1="311" y1="66" x2="311" y2="164" stroke-dasharray="5 4"></line>
+              <line class="guide-line" x1="232" y1="115" x2="390" y2="115" stroke-dasharray="5 4"></line>
+              <text class="tick-label" x="311" y="176" text-anchor="middle">pliage : ça ne marche pas</text>
+
+              <text class="annotation-label" x="200" y="24" text-anchor="middle">un centre, aucun axe</text>
+              <text class="label-soft" x="200" y="42" text-anchor="middle">la figure penche, donc aucun pli ne la referme sur elle-même</text>
+            </svg>
+          `,
+          notes: [
+            'Le centre du parallélogramme est le point de croisement de ses <strong>diagonales</strong> : un demi-tour autour de lui redonne exactement la même figure.',
+            'Aucun pliage ne fonctionne : la figure penche d\'un côté, donc les deux moitiés ne se recouvrent jamais.',
+            'Ce n\'est pas un cas exotique — le rectangle, lui, possède les deux ; le parallélogramme quelconque montre que le centre et l\'axe sont bien deux propriétés <strong>indépendantes</strong>.'
+          ],
+          reading: 'Décalque le parallélogramme de gauche, plante ton crayon sur $O$ et fais tourner le calque d\'un demi-tour : il retombe exactement sur le dessin. Essaie maintenant de plier ta feuille sur l\'un des traits de droite : les deux moitiés ne coïncident jamais.',
+          caption: 'Le parallélogramme quelconque : un centre de symétrie au croisement des diagonales, et aucun axe de symétrie.'
+        }
+      ],
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
