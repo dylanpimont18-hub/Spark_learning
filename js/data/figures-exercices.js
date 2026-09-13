@@ -1209,3 +1209,148 @@ function figureSection(type, a, b, c, options) {
     '<text class="annotation-label" x="' + nb2(etiq[0]) + '" y="' + nb2(etiq[1]) + '" text-anchor="middle">section</text>'
   ], cotes).join(''));
 }
+
+/* =========================================================
+   HELPERS AJOUTES POUR LA SECONDE (2026-09-13)
+
+   REGLE D'INSERTION, apprise d'un conflit reel : ce bloc est ajoute a la
+   TOUTE FIN du fichier, jamais au milieu. Deux sessions de la vague 5e/4e
+   avaient insere leurs helpers au meme endroit et produit un conflit au
+   merge. Les vagues suivantes (1re, terminale) sont priees de faire de
+   meme : un bloc nomme, en fin de fichier.
+
+   POURQUOI UNE NOUVELLE SERIE : la seconde garde la geometrie du college
+   (Thales, aires, triangles) mais y ajoute deux objets que le college n'a
+   jamais eus, le VECTEUR et le REPERE. Les helpers existants savaient
+   dessiner des figures a MESURER ; il manquait de quoi dessiner des figures
+   a LIRE dans un repere.
+
+   La bibliotheque de la 5e/4e est reutilisee telle quelle partout ou elle
+   convient (figureTriangle, figureTriangleAngles, figureRectangle...) : on
+   n'ajoute ici que ce qui manquait reellement.
+   ========================================================= */
+
+/* --- Configuration de Thales -------------------------------------------
+   Triangle ABC coupe par une parallele (MN) a la base, avec M sur [AB] et
+   N sur [AC]. Sert aux exercices ou l'on calcule MN a partir du rapport de
+   reduction.
+
+   FIDELITE : le rapport AM/AB du DESSIN est exactement celui de l'enonce.
+   Le point M est place par interpolation lineaire entre A et B, et N par la
+   MEME interpolation entre A et C — ce qui garantit PAR CONSTRUCTION que
+   (MN) est parallele a (BC), sans dependre d'un trace a l'oeil. La longueur
+   MN dessinee vaut donc k fois BC, comme le theoreme l'annonce.
+
+   La figure NE DIVULGUE PAS la reponse : MN porte un point d'interrogation,
+   jamais sa valeur. Elle donne AM, AB et BC, c'est-a-dire exactement les
+   donnees de l'enonce. */
+function figureThales(am, ab, bc) {
+  if (!(am > 0 && ab > am && bc > 0)) return '';
+  const k = am / ab;
+
+  /* Triangle de reference, en unites de figure. La base BC est horizontale
+     et le sommet A est decale vers la droite : une figure symetrique
+     laisserait croire que le resultat depend de cette symetrie. */
+  const baseU = bc;
+  const hauteurU = bc * 0.72;
+  const decalU = bc * 0.22;
+
+  const e = echelleFigure(baseU + decalU, hauteurU, FIG_MARGE + 18, FIG_MARGE + 18);
+  const w = baseU * e, h = hauteurU * e, dx = decalU * e;
+  const x0 = (FIG_L - w - dx) / 2;
+  const yBas = (FIG_H + h) / 2 - 12;
+
+  const B = [x0, yBas];
+  const C = [x0 + w, yBas];
+  const A = [x0 + dx + w * 0.5, yBas - h];
+
+  /* M sur [AB] et N sur [AC], a la MEME fraction k depuis le sommet A.
+     C'est cette egalite des deux fractions qui fait le parallelisme, et elle
+     est ici exacte au flottant pres, jamais approchee. */
+  const M = [A[0] + (B[0] - A[0]) * k, A[1] + (B[1] - A[1]) * k];
+  const N = [A[0] + (C[0] - A[0]) * k, A[1] + (C[1] - A[1]) * k];
+  const P = (q) => nb2(q[0]) + ',' + nb2(q[1]);
+
+  return svgFigure('Triangle coupe par une parallele a la base', [
+    '<polygon class="frame-line" points="' + P(A) + ' ' + P(B) + ' ' + P(C) + '" fill="' + APLAT + '"></polygon>',
+    // Le petit triangle, teinte plus fort : c'est lui que l'exercice isole.
+    '<polygon class="frame-line" points="' + P(A) + ' ' + P(M) + ' ' + P(N) +
+      '" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)"></polygon>',
+    '<line class="curve-main" x1="' + nb2(M[0]) + '" y1="' + nb2(M[1]) +
+      '" x2="' + nb2(N[0]) + '" y2="' + nb2(N[1]) + '"></line>',
+    // Sommets poses HORS du triangle, pour garder leur reserve blanche.
+    '<text class="tick-label" x="' + nb2(A[0]) + '" y="' + nb2(A[1] - 8) + '" text-anchor="middle">A</text>',
+    '<text class="tick-label" x="' + nb2(B[0] - 8) + '" y="' + nb2(B[1] + 16) + '" text-anchor="end">B</text>',
+    '<text class="tick-label" x="' + nb2(C[0] + 8) + '" y="' + nb2(C[1] + 16) + '" text-anchor="start">C</text>',
+    '<text class="tick-label" x="' + nb2(M[0] - 10) + '" y="' + nb2(M[1] + 4) + '" text-anchor="end">M</text>',
+    '<text class="tick-label" x="' + nb2(N[0] + 10) + '" y="' + nb2(N[1] + 4) + '" text-anchor="start">N</text>',
+    // Donnees de l'enonce, et SEULEMENT elles.
+    '<text class="annotation-label" x="' + nb2((A[0] + M[0]) / 2 - 12) + '" y="' + nb2((A[1] + M[1]) / 2) + '" text-anchor="end">' + coteFig(am, '') + '</text>',
+    '<text class="annotation-label" x="' + nb2((B[0] + C[0]) / 2) + '" y="' + nb2(yBas + 22) + '" text-anchor="middle">' + coteFig(bc, '') + '</text>',
+    // L'inconnue porte un point d'interrogation, jamais sa valeur.
+    '<text class="annotation-label" x="' + nb2((M[0] + N[0]) / 2) + '" y="' + nb2((M[1] + N[1]) / 2 - 8) + '" text-anchor="middle">?</text>'
+  ].join(''));
+}
+
+/* --- Vecteur dans un repere gradue -------------------------------------
+   Un repere portant un vecteur d'origine et d'extremite donnees en
+   COORDONNEES DE REPERE. Sert aux exercices de lecture de composantes.
+
+   POURQUOI CE HELPER : c'est l'objet que le college n'avait pas, et le
+   malentendu fondateur de la seconde (un vecteur n'est ni un point ni un
+   segment). Une figure qui le montre vaut un paragraphe.
+
+   FIDELITE, exigence propre a ce niveau : les extremites tombent EXACTEMENT
+   sur les graduations, jamais entre deux. Un vecteur dont la pointe flotte a
+   cote d'un noeud du quadrillage rendrait la lecture des composantes
+   impossible, ce qui est pourtant tout l'objet de l'exercice. */
+function figureVecteurRepere(ox, oy, vx, vy, options) {
+  const o = options || {};
+  const nom = o.nom === undefined ? 'u' : o.nom;
+  const ex = ox + vx, ey = oy + vy;
+
+  // Fenetre du repere : elle englobe l'origine du vecteur, son extremite et
+  // le point O du repere.
+  const xMin = Math.min(0, ox, ex) - 1, xMax = Math.max(0, ox, ex) + 1;
+  const yMin = Math.min(0, oy, ey) - 1, yMax = Math.max(0, oy, ey) + 1;
+  const largeurU = xMax - xMin, hauteurU = yMax - yMin;
+  const e = echelleFigure(largeurU, hauteurU, FIG_MARGE, FIG_MARGE);
+
+  // Repere -> viewBox. L'axe des ordonnees est inverse, comme en SVG.
+  const X = (x) => (FIG_L - largeurU * e) / 2 + (x - xMin) * e;
+  const Y = (y) => (FIG_H + hauteurU * e) / 2 - (y - yMin) * e;
+
+  const traits = [];
+  /* Le marqueur de fleche est declare DANS la figure : chaque figure
+     d'exercice est convertie isolement, il n'y a pas de defs partage. */
+  traits.push('<defs><marker id="fl-vect-ex" viewBox="0 0 10 10" refX="8" refY="5" ' +
+    'markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">' +
+    '<path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path></marker></defs>');
+
+  // Quadrillage aux graduations entieres : c'est lui qui rend les
+  // composantes LISIBLES, donc l'exercice faisable.
+  for (let x = Math.ceil(xMin); x <= Math.floor(xMax); x++) {
+    traits.push('<line class="grid-line" x1="' + nb2(X(x)) + '" y1="' + nb2(Y(yMin)) +
+      '" x2="' + nb2(X(x)) + '" y2="' + nb2(Y(yMax)) + '"></line>');
+  }
+  for (let y = Math.ceil(yMin); y <= Math.floor(yMax); y++) {
+    traits.push('<line class="grid-line" x1="' + nb2(X(xMin)) + '" y1="' + nb2(Y(y)) +
+      '" x2="' + nb2(X(xMax)) + '" y2="' + nb2(Y(y)) + '"></line>');
+  }
+  // Les deux axes, plus appuyes que le quadrillage.
+  traits.push('<line class="axis" x1="' + nb2(X(xMin)) + '" y1="' + nb2(Y(0)) +
+    '" x2="' + nb2(X(xMax)) + '" y2="' + nb2(Y(0)) + '"></line>');
+  traits.push('<line class="axis" x1="' + nb2(X(0)) + '" y1="' + nb2(Y(yMin)) +
+    '" x2="' + nb2(X(0)) + '" y2="' + nb2(Y(yMax)) + '"></line>');
+
+  // Le vecteur. Une SEULE pointe de fleche par trait, a l'extremite.
+  traits.push('<line class="curve-main" x1="' + nb2(X(ox)) + '" y1="' + nb2(Y(oy)) +
+    '" x2="' + nb2(X(ex)) + '" y2="' + nb2(Y(ey)) + '" marker-end="url(#fl-vect-ex)"></line>');
+  traits.push('<circle class="plot-point-alt" cx="' + nb2(X(ox)) + '" cy="' + nb2(Y(oy)) + '" r="3"></circle>');
+  /* Etiquette du vecteur : une minuscule, sans capitale ni article elide,
+     pour ne pas declencher d'italique parasite a la conversion. */
+  traits.push('<text class="annotation-label" x="' + nb2((X(ox) + X(ex)) / 2 + 8) +
+    '" y="' + nb2((Y(oy) + Y(ey)) / 2 - 6) + '">' + nom + '</text>');
+
+  return svgFigure('Vecteur trace dans un repere gradue', traits.join(''));
+}
