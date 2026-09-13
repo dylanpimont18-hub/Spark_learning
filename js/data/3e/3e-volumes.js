@@ -132,64 +132,64 @@ window.MODULES.push(
           title: 'Doubler une arête range huit cubes, pas deux',
           description: 'Le schéma précédent l\'<strong>affirme</strong> avec deux sphères ; celui-ci te laisse le <strong>compter</strong>. Un cube dont l\'arête double se remplit exactement par <strong>huit</strong> copies du petit — quatre devant, quatre derrière. Rien à croire sur parole : les cases sont là.',
           svg: `
-            <svg viewBox="0 0 400 244" role="img" aria-labelledby="vol-huit-title vol-huit-desc">
+            <svg viewBox="0 0 400 152" role="img" aria-labelledby="vol-huit-title vol-huit-desc">
               <title id="vol-huit-title">Un cube d'arete doublee contient huit petits cubes</title>
               <desc id="vol-huit-desc">A gauche, un petit cube dessine en perspective, dont l'arete est notee a. A droite, un cube dont l'arete vaut exactement le double : ses trois faces visibles sont partagees en quatre par un trait vertical et un trait horizontal, si bien que le grand cube apparait decoupe en huit cubes de la taille du petit, quatre devant et quatre derriere. Le lecteur peut donc compter huit copies du petit cube dans le grand, alors que l'arete n'a ete multipliee que par deux.</desc>
 
               <!-- GAUCHE : le petit cube, arete 34, fuite (20 ; -14).
                    Face avant de (34 ; 180) a (68 ; 146). -->
-              <text class="annotation-label" x="61" y="24" text-anchor="middle">arête a</text>
-              <line class="guide-line" x1="54" y1="166" x2="88" y2="166"></line>
-              <line class="guide-line" x1="54" y1="166" x2="54" y2="132"></line>
-              <line class="guide-line" x1="34" y1="180" x2="54" y2="166"></line>
-              <line class="frame-line" x1="34" y1="180" x2="68" y2="180"></line>
-              <line class="frame-line" x1="68" y1="180" x2="68" y2="146"></line>
-              <line class="frame-line" x1="68" y1="146" x2="34" y2="146"></line>
-              <line class="frame-line" x1="34" y1="146" x2="34" y2="180"></line>
-              <line class="frame-line" x1="34" y1="146" x2="54" y2="132"></line>
-              <line class="frame-line" x1="68" y1="146" x2="88" y2="132"></line>
-              <line class="frame-line" x1="68" y1="180" x2="88" y2="166"></line>
-              <line class="frame-line" x1="54" y1="132" x2="88" y2="132"></line>
-              <line class="frame-line" x1="88" y1="132" x2="88" y2="166"></line>
-              <text class="tick-label" x="61" y="200" text-anchor="middle">le petit cube</text>
-              <text class="label-soft" x="61" y="220" text-anchor="middle">une seule case</text>
+              <text class="annotation-label" x="61" y="28" text-anchor="middle">arête a</text>
+              <line class="guide-line" x1="54" y1="74" x2="88" y2="74"></line>
+              <line class="guide-line" x1="54" y1="74" x2="54" y2="40"></line>
+              <line class="guide-line" x1="34" y1="88" x2="54" y2="74"></line>
+              <line class="frame-line" x1="34" y1="88" x2="68" y2="88"></line>
+              <line class="frame-line" x1="68" y1="88" x2="68" y2="54"></line>
+              <line class="frame-line" x1="68" y1="54" x2="34" y2="54"></line>
+              <line class="frame-line" x1="34" y1="54" x2="34" y2="88"></line>
+              <line class="frame-line" x1="34" y1="54" x2="54" y2="40"></line>
+              <line class="frame-line" x1="68" y1="54" x2="88" y2="40"></line>
+              <line class="frame-line" x1="68" y1="88" x2="88" y2="74"></line>
+              <line class="frame-line" x1="54" y1="40" x2="88" y2="40"></line>
+              <line class="frame-line" x1="88" y1="40" x2="88" y2="74"></line>
+              <text class="tick-label" x="61" y="108" text-anchor="middle">le petit cube</text>
+              <text class="label-soft" x="61" y="128" text-anchor="middle">une seule case</text>
 
               <!-- MILIEU : le passage d'un cube a l'autre. -->
-              <text class="annotation-label" x="146" y="152" text-anchor="middle">arête × 2</text>
-              <line class="guide-line" x1="112" y1="164" x2="180" y2="164"></line>
+              <text class="annotation-label" x="146" y="60" text-anchor="middle">arête × 2</text>
+              <line class="guide-line" x1="112" y1="72" x2="180" y2="72"></line>
 
               <!-- DROITE : le grand cube, arete 68 = 2 × 34, fuite (40 ; -28)
                    = 2 × (20 ; -14). Face avant de (208 ; 212) a (276 ; 144).
                    Les medianes des trois faces visibles decoupent le solide en
                    huit cubes d'arete 34. VERIFIE : 68³ = 314 432 et
                    8 × 34³ = 8 × 39 304 = 314 432, egalite exacte. -->
-              <text class="annotation-label" x="262" y="24" text-anchor="middle">arête 2a</text>
-              <line class="frame-line" x1="208" y1="212" x2="276" y2="212"></line>
-              <line class="frame-line" x1="276" y1="212" x2="276" y2="144"></line>
-              <line class="frame-line" x1="276" y1="144" x2="208" y2="144"></line>
-              <line class="frame-line" x1="208" y1="144" x2="208" y2="212"></line>
-              <line class="frame-line" x1="208" y1="144" x2="248" y2="116"></line>
-              <line class="frame-line" x1="276" y1="144" x2="316" y2="116"></line>
-              <line class="frame-line" x1="276" y1="212" x2="316" y2="184"></line>
-              <line class="frame-line" x1="248" y1="116" x2="316" y2="116"></line>
-              <line class="frame-line" x1="316" y1="116" x2="316" y2="184"></line>
-              <line class="guide-line" x1="208" y1="212" x2="248" y2="184"></line>
-              <line class="guide-line" x1="248" y1="184" x2="316" y2="184"></line>
-              <line class="guide-line" x1="248" y1="184" x2="248" y2="116"></line>
-              <line class="curve-main" x1="242" y1="212" x2="242" y2="144"></line>
-              <line class="curve-main" x1="208" y1="178" x2="276" y2="178"></line>
-              <line class="curve-main" x1="242" y1="144" x2="282" y2="116"></line>
-              <line class="curve-main" x1="228" y1="130" x2="296" y2="130"></line>
-              <line class="curve-main" x1="296" y1="198" x2="296" y2="130"></line>
-              <line class="curve-main" x1="276" y1="178" x2="316" y2="150"></line>
-              <text class="tick-label" x="225" y="166" text-anchor="middle">1</text>
-              <text class="tick-label" x="259" y="166" text-anchor="middle">2</text>
-              <text class="tick-label" x="225" y="200" text-anchor="middle">3</text>
-              <text class="tick-label" x="259" y="200" text-anchor="middle">4</text>
-              <text class="tick-label" x="262" y="232" text-anchor="middle">quatre cases devant</text>
-              <text class="annotation-label" x="370" y="166" text-anchor="middle">et quatre</text>
-              <text class="annotation-label" x="370" y="184" text-anchor="middle">derrière</text>
-              <text class="annotation-label" x="370" y="212" text-anchor="middle">huit en tout</text>
+              <text class="annotation-label" x="262" y="12" text-anchor="middle">arête 2a</text>
+              <line class="frame-line" x1="208" y1="120" x2="276" y2="120"></line>
+              <line class="frame-line" x1="276" y1="120" x2="276" y2="52"></line>
+              <line class="frame-line" x1="276" y1="52" x2="208" y2="52"></line>
+              <line class="frame-line" x1="208" y1="52" x2="208" y2="120"></line>
+              <line class="frame-line" x1="208" y1="52" x2="248" y2="24"></line>
+              <line class="frame-line" x1="276" y1="52" x2="316" y2="24"></line>
+              <line class="frame-line" x1="276" y1="120" x2="316" y2="92"></line>
+              <line class="frame-line" x1="248" y1="24" x2="316" y2="24"></line>
+              <line class="frame-line" x1="316" y1="24" x2="316" y2="92"></line>
+              <line class="guide-line" x1="208" y1="120" x2="248" y2="92"></line>
+              <line class="guide-line" x1="248" y1="92" x2="316" y2="92"></line>
+              <line class="guide-line" x1="248" y1="92" x2="248" y2="24"></line>
+              <line class="curve-main" x1="242" y1="120" x2="242" y2="52"></line>
+              <line class="curve-main" x1="208" y1="86" x2="276" y2="86"></line>
+              <line class="curve-main" x1="242" y1="52" x2="282" y2="24"></line>
+              <line class="curve-main" x1="228" y1="38" x2="296" y2="38"></line>
+              <line class="curve-main" x1="296" y1="106" x2="296" y2="38"></line>
+              <line class="curve-main" x1="276" y1="86" x2="316" y2="58"></line>
+              <text class="tick-label" x="225" y="74" text-anchor="middle">1</text>
+              <text class="tick-label" x="259" y="74" text-anchor="middle">2</text>
+              <text class="tick-label" x="225" y="108" text-anchor="middle">3</text>
+              <text class="tick-label" x="259" y="108" text-anchor="middle">4</text>
+              <text class="tick-label" x="262" y="140" text-anchor="middle">quatre cases devant</text>
+              <text class="annotation-label" x="370" y="74" text-anchor="middle">et quatre</text>
+              <text class="annotation-label" x="370" y="92" text-anchor="middle">derrière</text>
+              <text class="annotation-label" x="370" y="120" text-anchor="middle">huit en tout</text>
             </svg>
           `,
           notes: [

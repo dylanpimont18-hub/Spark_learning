@@ -1032,3 +1032,166 @@ test('algorithmique : la table de suivi est la vraie trace de l algorithme', () 
   assert.deepStrictEqual(attendu[attendu.length - 1], attendu[attendu.length - 2],
     'la ligne de sortie de boucle ne doit modifier aucune variable');
 });
+
+/* =====================================================================
+   VOLUMES ET TRIGONOMETRIE, verifies le 2026-09-13.
+
+   POURQUOI CES TESTS ARRIVENT APRES LES AUTRES. Ces six schemas ont ete
+   commites en urgence (7da30f9) a la fin d'une session interrompue, sans
+   jamais passer au build ni au controle. Ils etaient donc les seuls du
+   niveau qu'aucun calcul ne couvrait — exactement la situation dans
+   laquelle les vingt et une erreurs de figure des ouvrages precedents ont
+   prospere. Verification faite : les six sont justes. Les tests ci-dessous
+   figent ce constat, pour qu'une retouche ne le defasse pas en silence.
+   ===================================================================== */
+
+// Les sommets d'un <polygon>, dans l'ordre d'ecriture.
+function polygones(svg) {
+  return [...svg.matchAll(/<polygon\b[^>]*points="([^"]+)"/g)]
+    .map(m => m[1].trim().split(/\s+/).map(p => p.split(',').map(Number)));
+}
+// Angle au sommet A d'un triangle ABC, en degres.
+function angleEn(A, B, C) {
+  const u = [B[0] - A[0], B[1] - A[1]], v = [C[0] - A[0], C[1] - A[1]];
+  const cos = (u[0] * v[0] + u[1] * v[1]) / (Math.hypot(...u) * Math.hypot(...v));
+  return Math.acos(Math.min(1, Math.max(-1, cos))) * 180 / Math.PI;
+}
+
+test('volumes : le grand cube est l homothetique EXACT du petit, de rapport 2', () => {
+  /* CE QUE CE TEST ATTRAPE. Le schema demande a l'eleve de COMPTER huit cases
+     dans le grand cube. Ce comptage n'a de sens que si le grand cube est
+     vraiment le double du petit — arete ET fuite. Si la fuite n'etait pas
+     doublee, le dessin ne serait plus une perspective coherente : les huit
+     cases ne paveraient pas, et la figure demanderait de verifier a l'oeil
+     une egalite qu'elle aurait elle-meme cassee.
+
+     On verifie donc les deux echelles separement, puis l'egalite des volumes
+     8 x a^3 = (2a)^3 en nombres entiers, sans arrondi. */
+  const d = parTitre('3e-volumes.js', 'huit cubes');
+  const f = lignesToutes(d.svg).filter(l => l.cls === 'frame-line');
+
+  // Les aretes horizontales : deux longueurs seulement, dans un rapport de 2.
+  const horiz = [...new Set(f.filter(l => l.y1 === l.y2)
+    .map(l => Math.abs(l.x2 - l.x1)))].sort((a, b) => a - b);
+  assert.strictEqual(horiz.length, 2,
+    'deux longueurs d arete attendues (le petit cube et le grand), ' + horiz.length + ' trouvees');
+  const [a, deuxA] = horiz;
+  assert.strictEqual(deuxA, 2 * a,
+    'l arete du grand cube doit valoir exactement le double : ' + deuxA + ' contre ' + (2 * a));
+
+  // Les fuites : deux vecteurs seulement, eux aussi dans un rapport de 2.
+  const fuites = [...new Set(f.filter(l => l.x1 !== l.x2 && l.y1 !== l.y2)
+    .map(l => (l.x2 - l.x1) + ';' + (l.y2 - l.y1)))]
+    .map(s => s.split(';').map(Number));
+  assert.strictEqual(fuites.length, 2,
+    'deux vecteurs de fuite attendus, ' + fuites.length + ' trouves : ' + JSON.stringify(fuites));
+  const petitF = fuites.reduce((m, v) => (Math.hypot(...v) < Math.hypot(...m) ? v : m));
+  const grandF = fuites.reduce((m, v) => (Math.hypot(...v) > Math.hypot(...m) ? v : m));
+  assert.strictEqual(grandF[0], 2 * petitF[0], 'la fuite horizontale doit etre doublee');
+  assert.strictEqual(grandF[1], 2 * petitF[1], 'la fuite verticale doit etre doublee');
+
+  // Et la these du schema, en entiers exacts.
+  assert.strictEqual(8 * Math.pow(a, 3), Math.pow(deuxA, 3),
+    'huit cubes d arete ' + a + ' doivent remplir exactement un cube d arete ' + deuxA);
+
+  // Les six medianes qui decoupent les trois faces visibles en quatre.
+  const med = lignesToutes(d.svg).filter(l => l.cls === 'curve-main');
+  assert.strictEqual(med.length, 6,
+    'six medianes attendues : deux par face visible, ' + med.length + ' trouvees');
+
+  // Les quatre cases de devant sont bien numerotees 1 a 4.
+  const nums = [...d.svg.matchAll(/<text class="tick-label"[^>]*>(\d)<\/text>/g)]
+    .map(m => +m[1]).sort((x, y) => x - y);
+  assert.deepStrictEqual(nums, [1, 2, 3, 4],
+    'les quatre cases visibles doivent porter les numeros 1 a 4');
+});
+
+test('trigonometrie : le triangle du schema des roles est rectangle et identique deux fois', () => {
+  /* CE QUE CE TEST ATTRAPE. Toute la these du schema tient en une phrase :
+     « un seul triangle, dessine deux fois a l'identique ; seul l'angle de
+     reference change ». Si les deux triangles differaient — ne serait-ce que
+     d'un pixel — le schema n'aurait plus rien a demontrer, puisque l'eleve
+     pourrait attribuer le changement de role au changement de dessin. On
+     verifie donc que les deux sont superposables par translation, et qu'ils
+     sont bien rectangles (sans quoi aucune des trois formules ne s'applique). */
+  const d = parTitre('trigonometrie.js', 'adjacent pour un angle');
+  const tri = polygones(d.svg);
+  assert.strictEqual(tri.length, 2, 'deux triangles attendus, un par vignette');
+
+  for (const [k, t] of tri.entries()) {
+    const angles = [0, 1, 2].map(i => angleEn(t[i], t[(i + 1) % 3], t[(i + 2) % 3]));
+    const droit = angles.find(x => Math.abs(x - 90) < 1e-6);
+    assert.ok(droit !== undefined,
+      'triangle ' + (k + 1) + ' : aucun angle droit (angles ' +
+      angles.map(x => x.toFixed(3)).join(', ') + ') — les formules ne s y appliquent pas');
+    assert.ok(Math.abs(angles.reduce((s, x) => s + x, 0) - 180) < 1e-6,
+      'triangle ' + (k + 1) + ' : les angles ne totalisent pas 180 degres');
+  }
+
+  // Les deux triangles doivent etre superposables par TRANSLATION : meme
+  // forme, meme taille, meme orientation.
+  const v = [tri[1][0][0] - tri[0][0][0], tri[1][0][1] - tri[0][0][1]];
+  for (let i = 0; i < 3; i++) {
+    assert.strictEqual(tri[1][i][0] - tri[0][i][0], v[0],
+      'sommet ' + (i + 1) + ' : les deux triangles ne se deduisent pas d une seule translation');
+    assert.strictEqual(tri[1][i][1] - tri[0][i][1], v[1],
+      'sommet ' + (i + 1) + ' : les deux triangles ne se deduisent pas d une seule translation');
+  }
+  assert.strictEqual(v[1], 0, 'les deux vignettes doivent etre cote a cote, a la meme hauteur');
+});
+
+test('trigonometrie : les trois rapports annonces sont ceux du triangle dessine', () => {
+  /* CE QUE CE TEST ATTRAPE. Le schema imprime trois valeurs — 0,87, 0,50 et
+     1,73 — et affirme que les deux premieres ne peuvent pas depasser 1 tandis
+     que la troisieme le peut. Si le triangle dessine ne donnait pas ces
+     rapports, l'eleve qui mesure a la regle lirait autre chose que ce qui est
+     ecrit, et c'est precisement le type d'erreur qu'aucune relecture
+     n'attrape. On recalcule donc les trois rapports depuis les sommets.
+
+     TOLERANCE. Les sommets sont ecrits au centieme de pixel, ce qui laisse un
+     ecart de l'ordre de 3 millièmes sur l'hypotenuse. On compare donc a 5e-3,
+     assez serre pour attraper un cote pose a vue. */
+  const d = parTitre('trigonometrie.js', 'tangente peut valoir');
+  const tri = polygones(d.svg);
+  assert.strictEqual(tri.length, 1, 'un seul triangle attendu');
+  const t = tri[0];
+
+  const angles = [0, 1, 2].map(i => angleEn(t[i], t[(i + 1) % 3], t[(i + 2) % 3]));
+  const iDroit = angles.findIndex(x => Math.abs(x - 90) < 1e-3);
+  assert.ok(iDroit >= 0, 'le triangle doit etre rectangle');
+
+  // L'angle de reference est celui que le dessin etiquette 60 degres.
+  const iRef = angles.findIndex((x, i) => i !== iDroit && Math.abs(x - 60) < 5e-3);
+  assert.ok(iRef >= 0,
+    'un angle de 60 degres doit figurer, or les angles valent ' +
+    angles.map(x => x.toFixed(3)).join(', '));
+
+  const A = t[iRef];                       // sommet de l'angle de reference
+  const D = t[iDroit];                     // sommet de l'angle droit
+  const C = t[3 - iRef - iDroit];          // le troisieme
+  const adjacent = Math.hypot(D[0] - A[0], D[1] - A[1]);
+  const oppose = Math.hypot(C[0] - D[0], C[1] - D[1]);
+  const hypotenuse = Math.hypot(C[0] - A[0], C[1] - A[1]);
+
+  assert.ok(hypotenuse > adjacent && hypotenuse > oppose,
+    'l hypotenuse doit etre le plus long des trois cotes — c est l argument meme du schema');
+  assert.ok(Math.abs(oppose / hypotenuse - 0.866) < 5e-3,
+    'sinus dessine = ' + (oppose / hypotenuse).toFixed(4) + ', 0,87 annonce');
+  assert.ok(Math.abs(adjacent / hypotenuse - 0.5) < 5e-3,
+    'cosinus dessine = ' + (adjacent / hypotenuse).toFixed(4) + ', 0,50 annonce');
+  assert.ok(Math.abs(oppose / adjacent - 1.732) < 5e-3,
+    'tangente dessinee = ' + (oppose / adjacent).toFixed(4) + ', 1,73 annonce');
+
+  // LA these du schema : les deux premiers sont sous 1, le troisieme au-dessus.
+  assert.ok(oppose / hypotenuse < 1 && adjacent / hypotenuse < 1,
+    'sinus et cosinus doivent rester sous 1');
+  assert.ok(oppose / adjacent > 1,
+    'la tangente doit DEPASSER 1 sur ce dessin, sans quoi le schema ne montre rien');
+
+  // Et les longueurs etiquetees correspondent au dessin.
+  const etiq = d.svg.replace(/<desc[\s\S]*?<\/desc>/, '');
+  assert.ok(/adjacent 60/.test(etiq), 'le cote adjacent doit etre etiquete 60');
+  assert.ok(/hyp 120/.test(etiq), 'l hypotenuse doit etre etiquetee 120');
+  assert.ok(Math.abs(adjacent - 60) < 5e-3, 'adjacent dessine = ' + adjacent + ', 60 annonce');
+  assert.ok(Math.abs(hypotenuse - 120) < 5e-3, 'hypotenuse dessinee = ' + hypotenuse + ', 120 annonce');
+});
