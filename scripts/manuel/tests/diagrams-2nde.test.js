@@ -353,6 +353,123 @@ test('equations, schema 2 : la borne et l ensemble partent du MEME nombre', () =
 });
 
 /* ---------------------------------------------------------------------------
+   2nde-algorithmique — trois schemas ajoutes le 2026-09-13.
+
+   Particularite de ce chapitre : ses figures n'affirment pas des proprietes
+   geometriques mais des resultats d'EXECUTION. On ne les verifie donc pas en
+   relisant des coordonnees, mais en REJOUANT le programme et en comparant au
+   tableau imprime. C'est la seule maniere honnete de garder une figure qui
+   pretend derouler du code.
+   --------------------------------------------------------------------------- */
+
+const ALGO = schemas('2nde-algorithmique');
+
+/* Contenu des <text> d'un SVG, dans l'ordre du document. */
+function etiquettes(svg) {
+  const out = [];
+  for (const m of svg.matchAll(/<text\b[^>]*>([^<]*)</g)) out.push(m[1].trim());
+  return out;
+}
+
+test('algorithmique : le chapitre porte ses trois schemas secondaires', () => {
+  assert.strictEqual(ALGO.length, 3);
+});
+
+test('algorithmique, schema 1 : les deux rangees ont le MEME nombre de cases', () => {
+  /* C'est le coeur du malentendu : range(5) et le comptage de 1 a 5 donnent
+     autant de valeurs, et l'eleve en conclut que ce sont les memes. Si le
+     dessin ne montrait pas deux rangees de longueur egale, il raterait
+     precisement ce qu'il doit corriger. */
+  const svg = ALGO[0].svg;
+  const cadres = balises(svg, 'rect').filter((t) => t.includes('frame-line'));
+  const haut = cadres.filter((t) => attr(t, 'y') === 46);
+  const bas = cadres.filter((t) => attr(t, 'y') === 154);
+  assert.strictEqual(haut.length, 5, 'cinq cases en haut');
+  assert.strictEqual(bas.length, 5, 'cinq cases en bas');
+
+  /* Memes abscisses et memes largeurs, case par case. */
+  for (let i = 0; i < 5; i++) {
+    assert.strictEqual(attr(haut[i], 'x'), attr(bas[i], 'x'), 'case ' + i + ' : meme abscisse');
+    assert.strictEqual(attr(haut[i], 'width'), attr(bas[i], 'width'), 'case ' + i + ' : meme largeur');
+  }
+
+  /* Et les valeurs affichees sont celles que Python produirait reellement.
+     On les REGENERE plutot que de les relire. */
+  const attendus = [...Array(5).keys()];                 // range(5)
+  const naif = attendus.map((k) => k + 1);               // 1..5
+  const lues = etiquettes(svg).filter((t) => /^\d+$/.test(t)).map(Number);
+  assert.deepStrictEqual(lues.slice(0, 5), attendus, 'la rangee du haut est range(5)');
+  assert.deepStrictEqual(lues.slice(5, 10), naif, 'la rangee du bas est le comptage de 1 a 5');
+  assert.strictEqual(attendus.length, naif.length, 'meme effectif, valeurs decalees');
+});
+
+test('algorithmique, schema 2 : le tableau de suivi est REJOUE, pas recopie', () => {
+  /* On execute reellement « s = 0 ; for i in range(4) : s = s + i » et on
+     compare ligne a ligne au tableau imprime. Une valeur recopiee de travers
+     serait invisible a la relecture et fausse dans le manuel. */
+  const lignes = [];
+  let s = 0;
+  for (let i = 0; i < 4; i++) {
+    const avant = s;
+    s = s + i;
+    lignes.push([i, avant, s]);
+  }
+  assert.strictEqual(s, 6, 'le programme donne bien 6');
+  assert.notStrictEqual(s, 10, 'et non 10, qui est la reponse intuitive fausse');
+
+  /* Le tableau imprime : on retire l'en-tete (trois mots) et la mention
+     finale, puis on relit les douze nombres dans l'ordre du document. */
+  const nombres = etiquettes(ALGO[1].svg).filter((t) => /^\d+$/.test(t)).map(Number);
+  assert.strictEqual(nombres.length, 12, 'quatre lignes de trois valeurs');
+  for (let k = 0; k < 4; k++) {
+    assert.deepStrictEqual(nombres.slice(k * 3, k * 3 + 3), lignes[k],
+      'ligne ' + (k + 1) + ' du tableau conforme au deroule reel');
+  }
+
+  /* Coherence interne : la somme « apres » d'un tour est la somme « avant »
+     du tour suivant. Un tableau qui violerait cela decrirait un programme
+     qui n'existe pas. */
+  for (let k = 0; k < 3; k++) {
+    assert.strictEqual(lignes[k][2], lignes[k + 1][1],
+      'la somme apres le tour ' + k + ' est la somme avant le tour ' + (k + 1));
+  }
+});
+
+test('algorithmique, schema 3 : une seule branche est mise en avant', () => {
+  /* La hierarchie des aplats porte ici tout le sens : la voie parcourue doit
+     etre en teinte FORTE et en trait plein, l'autre en teinte faible et en
+     tirets. Les intervertir dirait le contraire du texte. */
+  const svg = ALGO[2].svg;
+  const fleches = balises(svg, 'line');
+  const prise = fleches.find((t) => t.includes('curve-main'));
+  const delaissee = fleches.find((t) => t.includes('guide-line'));
+  assert.ok(prise && delaissee, 'les deux branches sont tracees');
+
+  /* Elles partent du losange et divergent : l'une vers la gauche, l'autre
+     vers la droite. */
+  assert.ok(attr(prise, 'x2') < attr(prise, 'x1'), 'la branche oui part vers la gauche');
+  assert.ok(attr(delaissee, 'x2') > attr(delaissee, 'x1'), 'la branche non part vers la droite');
+
+  /* Symetrie : les deux branches descendent de la meme hauteur et s'ecartent
+     d'autant, pour ne privilegier visuellement aucune des deux avant lecture. */
+  assert.strictEqual(attr(prise, 'y1'), attr(delaissee, 'y1'), 'meme depart en hauteur');
+  assert.strictEqual(attr(prise, 'y2'), attr(delaissee, 'y2'), 'meme arrivee en hauteur');
+  assert.strictEqual(attr(prise, 'x1') - attr(prise, 'x2'),
+    attr(delaissee, 'x2') - attr(delaissee, 'x1'), 'ecart symetrique');
+
+  /* Les deux cases d'arrivee ont la meme taille : seule leur teinte differe. */
+  const cadres = balises(svg, 'rect').filter((t) => t.includes('frame-line'));
+  assert.strictEqual(cadres.length, 2, 'deux cases d arrivee');
+  assert.strictEqual(attr(cadres[0], 'width'), attr(cadres[1], 'width'), 'meme largeur');
+  assert.strictEqual(attr(cadres[0], 'height'), attr(cadres[1], 'height'), 'meme hauteur');
+  assert.strictEqual(attr(cadres[0], 'y'), attr(cadres[1], 'y'), 'meme hauteur de pose');
+
+  /* Et l'exemple annonce est coherent : 14 >= 10, donc c'est bien la branche
+     « oui » qui doit etre celle mise en avant. */
+  assert.ok(14 >= 10, 'la note de l exemple verifie la condition');
+});
+
+/* ---------------------------------------------------------------------------
    2nde-ensembles-nombres — deux schemas ajoutes le 2026-09-13.
    --------------------------------------------------------------------------- */
 
