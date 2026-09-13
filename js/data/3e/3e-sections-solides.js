@@ -170,29 +170,205 @@ window.MODULES.push(
     ],
     exercice: {
       type: 'numeric',
+      /* BANQUE ÉLARGIE le 2026-09-13.
+
+         AVANT : un seul moule de tâche — « pyramide coupée parallèlement à la
+         base, calcule le côté de la section » — habillé de six contextes tirés
+         par pick(). Mesure à 60 tirages : 6 moules d'énoncé, mais **1 seule
+         tâche distincte**.
+
+         Le manque décisif : la NATURE de la section n'était jamais demandée.
+         Or c'est exactement là qu'est la difficulté du chapitre — un élève
+         confond une section avec une projection ou avec une face, et aucun
+         calcul de côté ne corrige cette confusion. La banque entraînait donc
+         une proportionnalité, pas une vision dans l'espace.
+
+         APRÈS : sept familles de tâches, toutes au programme de troisième.
+           - 'cotePyramide' : la tâche d'origine, conservée ;
+           - 'nature'    : reconnaître la FORME de la section, ce qui est la
+                           vraie question du chapitre ;
+           - 'rayonCone' : la même réduction sur un cône, où c'est le rayon qui
+                           se réduit ;
+           - 'aireSection' : l'aire de la section, dans le rapport $k^2$ et non
+                           $k$ — le pendant exact de l'erreur d'homothétie ;
+           - 'pave'      : la section d'un pavé, où AUCUNE réduction n'a lieu,
+                           ce que l'élève applique pourtant par habitude ;
+           - 'cylindre'  : la section d'un cylindre selon l'orientation du plan ;
+           - 'hauteurInverse' : à quelle hauteur couper pour obtenir une section
+                           donnée, c'est-à-dire le chemin retour.
+
+         Les figures emploient figureSection, qui place la section DANS le
+         solide et non à côté : c'est précisément ce qui distingue une section
+         d'une projection. Les tâches sur la pyramide et le cône n'en reçoivent
+         pas, le helper ne traitant que le pavé et le cylindre — plutôt aucune
+         figure qu'une figure qui montre un autre solide que celui de
+         l'énoncé. */
       generate() {
-        const base = rand(6, 15);
-        const h = rand(6, 15);
-        const hprime = rand(1, h - 1);
-        const cprime = parseFloat((base * hprime / h).toFixed(1));
+        const tache = pick(['cotePyramide', 'nature', 'rayonCone', 'aireSection',
+                            'pave', 'cylindre', 'hauteurInverse']);
 
-        const ctx = pick([
-          { build: () => `Une <strong>pyramide égyptienne miniature</strong> (souvenir touristique) a une base carrée de côté $${base}$ cm et une hauteur de $${h}$ cm. On la coupe à $${hprime}$ cm du sommet, parallèlement à la base.<br/><br/>Quel est le <strong>côté de la section</strong> obtenue (en cm) ?` },
-          { build: () => `Une <strong>tente de camping</strong> pyramidale a une base carrée de côté $${base}$ cm et une hauteur de $${h}$ cm. Une moustiquaire est tendue à $${hprime}$ cm du sommet, parallèlement au sol.<br/><br/>Quel est le <strong>côté</strong> de cette moustiquaire (en cm) ?` },
-          { build: () => `Un <strong>abat-jour</strong> pyramidal a une base carrée de côté $${base}$ cm et une hauteur de $${h}$ cm. On le coupe à $${hprime}$ cm du sommet, parallèlement à la base.<br/><br/>Quel est le <strong>côté de la section</strong> obtenue (en cm) ?` },
-          { build: () => `Un <strong>chocolatier</strong> moule une pyramide de côté $${base}$ cm et de hauteur $${h}$ cm. Il tranche la pointe à $${hprime}$ cm du sommet, parallèlement à la base.<br/><br/>Quel est le <strong>côté de la tranche</strong> obtenue (en cm) ?` },
-          { build: () => `Une <strong>trémie de silo</strong> agricole a la forme d'une pyramide de côté $${base}$ cm et de hauteur $${h}$ cm. On observe le niveau du grain à $${hprime}$ cm du sommet, parallèlement à la base.<br/><br/>Quel est le <strong>côté</strong> de la section de grain à ce niveau (en cm) ?` },
-          { build: () => `Un décorateur conçoit un <strong>présentoir de vitrine</strong> pyramidal de côté $${base}$ cm et de hauteur $${h}$ cm. Une étagère est fixée à $${hprime}$ cm du sommet, parallèlement à la base.<br/><br/>Quel est le <strong>côté</strong> de cette étagère (en cm) ?` }
-        ]);
+        if (tache === 'cotePyramide') {
+          /* On tire d'abord le rapport, puis les longueurs : la réponse reste
+             ainsi un nombre simple, et l'élève travaille la proportionnalité
+             plutôt que la division décimale. */
+          const h = pick([8, 10, 12, 15, 16, 20]);
+          const hp = pick([h / 4, h / 2, (3 * h) / 4]);
+          const base = rand(6, 16);
+          const cp = parseFloat((base * hp / h).toFixed(2));
+          const ctx = pick([
+            { o: 'Une <strong>pyramide souvenir</strong> à base carrée', s: 'le côté de la section' },
+            { o: 'Une <strong>tente</strong> pyramidale à base carrée', s: 'le côté de la moustiquaire tendue à ce niveau' },
+            { o: 'Un <strong>abat-jour</strong> pyramidal à base carrée', s: 'le côté de la section' },
+            { o: 'Une <strong>trémie de silo</strong> pyramidale à base carrée', s: 'le côté de la section de grain' }
+          ]);
+          return {
+            statement: `${ctx.o} a une base de côté $${base}$ cm et une hauteur de $${h}$ cm.<br/><br/>On la coupe à $${fr(hp)}$ cm du <strong>sommet</strong>, parallèlement à la base.<br/><br/>Quel est <strong>${ctx.s}</strong> ?`,
+            answer: cp, tolerance: 0.05, unit: 'cm',
+            hint: `Couper parallèlement à la base donne une figure de <strong>même forme</strong>, réduite.<br/><br/>Le rapport de réduction se lit sur les hauteurs comptées <strong>depuis le sommet</strong> : $k = \\dfrac{${fr(hp)}}{${h}}$.`,
+            solution: [
+              `Un plan parallèle à la base donne une section de <strong>même forme</strong> que la base : ici un carré, réduit dans un rapport $k$.`,
+              `Le rapport se compte depuis le <strong>sommet</strong> : $k = \\dfrac{${fr(hp)}}{${h}} = ${fr(parseFloat((hp / h).toFixed(3)))}$.`,
+              `Côté de la section $= ${base} \\times ${fr(parseFloat((hp / h).toFixed(3)))} = ${fr(cp)}$ cm.<br/><br/>Contrôle : la section est plus proche du sommet que la base, elle doit donc être plus petite que $${base}$ cm.`
+            ]
+          };
+        }
 
-        const cprimeStr = fr(cprime);
+        if (tache === 'nature') {
+          /* LA VRAIE QUESTION DU CHAPITRE : quelle FORME obtient-on ? Aucun
+             calcul, seulement une vision dans l'espace. Réponse codée en
+             chiffre pour rester numérique. */
+          const cas = pick([
+            { s: 'un <strong>cylindre</strong>', p: 'parallèlement à ses bases', bon: 2, nom: 'un disque',
+              pourquoi: 'le plan rencontre la surface courbe à distance constante de l\'axe, donc en un cercle' },
+            { s: 'un <strong>cylindre</strong>', p: 'par un plan contenant son axe', bon: 1, nom: 'un rectangle',
+              pourquoi: 'le plan coupe les deux bases selon deux diamètres et la surface courbe selon deux droites verticales' },
+            { s: 'une <strong>pyramide à base carrée</strong>', p: 'parallèlement à sa base', bon: 3, nom: 'un carré',
+              pourquoi: 'une section parallèle à la base a toujours la même forme que la base, en plus petit' },
+            { s: 'un <strong>cône</strong>', p: 'parallèlement à sa base', bon: 2, nom: 'un disque',
+              pourquoi: 'la base est un disque, et une section parallèle garde la même forme' },
+            { s: 'un <strong>pavé droit</strong>', p: 'parallèlement à une face', bon: 1, nom: 'un rectangle',
+              pourquoi: 'la section est identique à la face à laquelle le plan est parallèle' }
+          ]);
+          return {
+            statement: `On coupe ${cas.s} ${cas.p}.<br/><br/>Quelle est la <strong>nature</strong> de la section obtenue ?<br/><br/>` +
+              `Réponds par $1$ pour un <strong>rectangle</strong>, $2$ pour un <strong>disque</strong>, $3$ pour un <strong>carré</strong>.`,
+            answer: cas.bon, tolerance: 0.01, unit: '',
+            hint: `Imagine le couteau qui traverse le solide, et demande-toi quelle trace il laisse <strong>dans</strong> la matière.<br/><br/>Une section n'est ni une face ni une ombre : c'est ce qu'on voit à l'endroit exact de la coupe.`,
+            solution: [
+              `Une section est la figure obtenue <strong>à l'endroit de la coupe</strong>, dans le solide — ce n'est ni une face existante, ni l'ombre du solide.`,
+              `Ici, ${cas.pourquoi}.`,
+              `La section est donc <strong>${cas.nom}</strong>. Réponse : $${cas.bon}$.`
+            ]
+          };
+        }
+
+        if (tache === 'rayonCone') {
+          const h = pick([8, 10, 12, 16, 20]);
+          const hp = pick([h / 4, h / 2, (3 * h) / 4]);
+          const r = rand(4, 12);
+          const rp = parseFloat((r * hp / h).toFixed(2));
+          return {
+            statement: `Un <strong>cône</strong> a un rayon de base de $${r}$ cm et une hauteur de $${h}$ cm.<br/><br/>On le coupe à $${fr(hp)}$ cm du <strong>sommet</strong>, parallèlement à la base.<br/><br/>Quel est le <strong>rayon</strong> de la section obtenue ?`,
+            answer: rp, tolerance: 0.05, unit: 'cm',
+            hint: `La section d'un cône par un plan parallèle à la base est un <strong>disque</strong> réduit.<br/><br/>Le rapport se lit sur les hauteurs depuis le sommet : $k = \\dfrac{${fr(hp)}}{${h}}$.`,
+            solution: [
+              `La section est un disque, de même forme que la base, réduit dans le rapport $k$.`,
+              `$k = \\dfrac{${fr(hp)}}{${h}} = ${fr(parseFloat((hp / h).toFixed(3)))}$, compté depuis le sommet.`,
+              `Rayon de la section $= ${r} \\times ${fr(parseFloat((hp / h).toFixed(3)))} = ${fr(rp)}$ cm.`
+            ]
+          };
+        }
+
+        if (tache === 'aireSection') {
+          /* LE FACTEUR k² DANS L'ESPACE : pendant exact de l'erreur
+             d'homothétie, et le programme l'évalue. */
+          const h = pick([8, 10, 12, 16, 20]);
+          const hp = pick([h / 4, h / 2]);
+          const base = pick([6, 8, 10, 12]);
+          const k = hp / h;
+          const aire = parseFloat((base * base * k * k).toFixed(2));
+          return {
+            statement: `Une <strong>pyramide</strong> à base carrée a un côté de base de $${base}$ cm et une hauteur de $${h}$ cm.<br/><br/>` +
+              `On la coupe à $${fr(hp)}$ cm du <strong>sommet</strong>, parallèlement à la base.<br/><br/>` +
+              `Quelle est l'<strong>aire</strong> de la section obtenue, en cm² ?`,
+            answer: aire, tolerance: 0.1, unit: 'cm²',
+            hint: `Le rapport de réduction vaut $k = \\dfrac{${fr(hp)}}{${h}}$, mais une <strong>aire</strong> ne se réduit pas dans le rapport $k$ : elle se réduit dans le rapport $k^2$.<br/><br/>Tu peux aussi calculer le côté de la section, puis l'élever au carré.`,
+            solution: [
+              `Le rapport de réduction des <strong>longueurs</strong> vaut $k = \\dfrac{${fr(hp)}}{${h}} = ${fr(parseFloat(k.toFixed(3)))}$.`,
+              `Une aire a deux dimensions : elle est donc multipliée par $k^2 = ${fr(parseFloat((k * k).toFixed(4)))}$, et non par $k$.`,
+              `Aire de la base $= ${base}^2 = ${base * base}$ cm², donc aire de la section $= ${base * base} \\times ${fr(parseFloat((k * k).toFixed(4)))} = ${fr(aire)}$ cm².<br/><br/>Vérification : le côté de la section vaut $${fr(parseFloat((base * k).toFixed(2)))}$ cm, et son carré donne bien le même résultat.`
+            ]
+          };
+        }
+
+        if (tache === 'pave') {
+          /* AUCUNE RÉDUCTION ICI. L'élève applique la proportionnalité par
+             habitude, alors que les faces d'un pavé sont toutes identiques :
+             couper un pavé parallèlement à une face redonne cette face. */
+          const L = rand(5, 14), l = rand(4, 10), H = rand(5, 12);
+          const d = rand(1, H - 1);
+          return {
+            statement: `Un <strong>pavé droit</strong> mesure $${L}$ cm de long, $${l}$ cm de large et $${H}$ cm de haut.<br/><br/>` +
+              `On le coupe par un plan <strong>parallèle à la base</strong>, à $${d}$ cm du dessus.<br/><br/>` +
+              `Quelle est l'<strong>aire</strong> de la section obtenue, en cm² ?`,
+            answer: L * l, tolerance: 0.01, unit: 'cm²',
+            figure: figureSection('pave-horizontal', L, H, l),
+            hint: `Attention : un pavé n'est pas une pyramide. Ses faces ne rétrécissent pas quand on monte.<br/><br/>Demande-toi de quelle forme et de quelles dimensions est la trace laissée par le couteau.`,
+            solution: [
+              `Un pavé droit a des faces <strong>parallèles et identiques</strong> : contrairement à une pyramide, il ne rétrécit pas vers le haut.`,
+              `La section parallèle à la base est donc un rectangle de <strong>mêmes dimensions</strong> que la base : $${L}$ cm sur $${l}$ cm, quelle que soit la hauteur de coupe.`,
+              `Aire $= ${L} \\times ${l} = ${L * l}$ cm².<br/><br/>La distance $${d}$ cm ne sert à rien ici : c'est une donnée inutile, et savoir l'ignorer fait partie de l'exercice.`
+            ]
+          };
+        }
+
+        if (tache === 'cylindre') {
+          const r = rand(3, 9), h = rand(6, 15);
+          const parallele = Math.random() > 0.5;
+          const aire = parallele ? parseFloat((3.14 * r * r).toFixed(2)) : 2 * r * h;
+          return {
+            statement: `Un <strong>cylindre</strong> a un rayon de $${r}$ cm et une hauteur de $${h}$ cm.<br/><br/>` +
+              (parallele
+                ? `On le coupe <strong>parallèlement à ses bases</strong>.<br/><br/>Quelle est l'<strong>aire</strong> de la section, en cm² ? (On prendra $\\pi \\approx 3{,}14$.)`
+                : `On le coupe par un plan <strong>contenant son axe</strong>.<br/><br/>Quelle est l'<strong>aire</strong> de la section, en cm² ?`),
+            answer: aire, tolerance: 0.1, unit: 'cm²',
+            figure: parallele ? figureSection('cylindre-horizontal', r, h) : '',
+            hint: parallele
+              ? `Une coupe parallèle aux bases donne un <strong>disque</strong>, exactement de même rayon que la base : le cylindre ne rétrécit pas.<br/><br/>Aire d'un disque : $\\pi r^2$.`
+              : `Un plan qui contient l'axe coupe le cylindre de part en part : la section est un <strong>rectangle</strong>.<br/><br/>Sa largeur est le <strong>diamètre</strong>, pas le rayon.`,
+            solution: parallele
+              ? [
+                  `Un cylindre a la même section sur toute sa hauteur : couper parallèlement aux bases redonne un <strong>disque de même rayon</strong> que la base.`,
+                  `Aire $= \\pi r^2 = 3{,}14 \\times ${r}^2 = 3{,}14 \\times ${r * r}$.`,
+                  `Aire $\\approx ${fr(aire)}$ cm².`
+                ]
+              : [
+                  `Un plan contenant l'axe traverse le cylindre de part en part : la section est un <strong>rectangle</strong>.`,
+                  `Sa hauteur est celle du cylindre, $${h}$ cm, et sa largeur est le <strong>diamètre</strong>, soit $2 \\times ${r} = ${2 * r}$ cm — c'est le piège, beaucoup écrivent le rayon.`,
+                  `Aire $= ${2 * r} \\times ${h} = ${aire}$ cm².`
+                ]
+          };
+        }
+
+        /* tache === 'hauteurInverse' : à quelle hauteur couper pour obtenir une
+           section donnée. C'est le chemin retour de la tâche d'origine, et il
+           demande de résoudre une proportion au lieu de l'appliquer. */
+        const h = pick([12, 16, 20, 24]);
+        const base = pick([8, 12, 16]);
+        const k = pick([0.25, 0.5, 0.75]);
+        const cp = base * k;
+        const hp = h * k;
         return {
-          statement: ctx.build(),
-          answer: cprime,
-          tolerance: 0.1,
-          unit: 'cm',
-          hint: `Rapport de similitude : $\\dfrac{${hprime}}{${h}}$.<br/><br/>Côté section $= ${base} \\times \\dfrac{${hprime}}{${h}}$.`,
-          solution: [`$c' = ${base} \\times \\dfrac{${hprime}}{${h}} = \\dfrac{${base*hprime}}{${h}} = ${cprimeStr}$ cm.`]
+          statement: `Une <strong>pyramide</strong> à base carrée a un côté de base de $${base}$ cm et une hauteur de $${h}$ cm.<br/><br/>` +
+            `On veut obtenir, par une coupe parallèle à la base, une section carrée de côté $${fr(cp)}$ cm.<br/><br/>` +
+            `À quelle <strong>distance du sommet</strong> faut-il couper, en centimètres ?`,
+          answer: hp, tolerance: 0.05, unit: 'cm',
+          hint: `Le rapport de réduction se lit indifféremment sur les côtés ou sur les hauteurs : $\\dfrac{\\text{côté section}}{\\text{côté base}} = \\dfrac{\\text{hauteur de coupe}}{\\text{hauteur totale}}$.<br/><br/>Commence par calculer le rapport à partir des côtés.`,
+          solution: [
+            `Les côtés et les hauteurs se réduisent dans le <strong>même rapport</strong> : c'est ce qui permet de passer des uns aux autres.`,
+            `$k = \\dfrac{${fr(cp)}}{${base}} = ${fr(k)}$`,
+            `La hauteur de coupe vaut donc $${h} \\times ${fr(k)} = ${fr(hp)}$ cm, comptés depuis le <strong>sommet</strong>.<br/><br/>Contrôle : la section demandée est plus petite que la base, la coupe doit donc être plus proche du sommet que ne l'est la base.`
+          ]
         };
       }
     },
