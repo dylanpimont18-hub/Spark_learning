@@ -51,8 +51,8 @@
         description: 'Le rectangle représente le nombre $1$.<br/><br/>On le partage en $3$ colonnes (des <strong>tiers</strong>) et en $7$ lignes (des <strong>septièmes</strong>) : cela crée $3 \\times 7 = 21$ petites cases identiques.',
         svg: `
           <svg viewBox="0 0 420 340" role="img" aria-labelledby="fracmultdiv-graph-title fracmultdiv-graph-desc">
-            <title id="fracmultdiv-graph-title">Rectangle unite decoupe pour illustrer 2/3 fois 5/7</title>
-            <desc id="fracmultdiv-graph-desc">Un rectangle representant 1 est quadrille en 3 colonnes et 7 lignes, soit 21 petites cases. La bande des 2 premieres colonnes (2/3) et la bande des 5 premieres lignes (5/7) se superposent sur une zone de 10 cases, illustrant 2/3 fois 5/7 egale 10/21.</desc>
+            <title id="fracmultdiv-graph-title">Rectangle unité découpé pour illustrer 2/3 fois 5/7</title>
+            <desc id="fracmultdiv-graph-desc">Un rectangle representant 1 est quadrille en 3 colonnes et 7 lignes, soit 21 petites cases. La bande des 2 premières colonnes (2/3) et la bande des 5 premières lignes (5/7) se superposent sur une zone de 10 cases, illustrant 2/3 fois 5/7 égale 10/21.</desc>
             <rect x="110" y="50" width="100" height="210" fill="var(--diagram-accent)" fill-opacity="0.10"></rect>
             <rect x="110" y="50" width="150" height="150" fill="var(--secondary)" fill-opacity="0.10"></rect>
             <rect x="110" y="50" width="100" height="150" fill="var(--diagram-accent)" fill-opacity="0.38"></rect>
@@ -141,11 +141,11 @@
       generate() {
         const tache = pick(['produit', 'quotient', 'inverse', 'fraction-de']);
         const ctx = pick([
-          { intro: 'En cuisine, on prepare', emoji: '🍳' },
+          { intro: 'En cuisine, on prépare', emoji: '🍳' },
           { intro: 'En pharmacie, on dose', emoji: '💊' },
           { intro: 'En bricolage, on mesure', emoji: '🔨' },
           { intro: 'En couture, on coupe', emoji: '✂️' },
-          { intro: 'En jardinage, on melange', emoji: '🌱' }
+          { intro: 'En jardinage, on mélange', emoji: '🌱' }
         ]);
         const pgcd = (x, y) => y === 0 ? x : pgcd(y, x % y);
 
@@ -154,15 +154,15 @@
           const num = a * c, den = b * d, g = pgcd(num, den);
           const rep = parseFloat((num / den).toFixed(4));
           return {
-            statement: ctx.emoji + ' ' + ctx.intro + ' une quantite qui vaut $\\dfrac{' + a + '}{' + b + '}$ d\'un lot de $\\dfrac{' + c + '}{' + d + '}$. ' +
-              'Calcule $\\dfrac{' + a + '}{' + b + '} \\times \\dfrac{' + c + '}{' + d + '}$ et donne le resultat decimal.',
+            statement: ctx.emoji + ' ' + ctx.intro + ' une quantité qui vaut $\\dfrac{' + a + '}{' + b + '}$ d\'un lot de $\\dfrac{' + c + '}{' + d + '}$. ' +
+              'Calcule $\\dfrac{' + a + '}{' + b + '} \\times \\dfrac{' + c + '}{' + d + '}$ et donne le résultat décimal.',
             answer: rep,
             tolerance: 0.001,
             unit: '',
-            hint: 'Pour multiplier deux fractions, on multiplie les numerateurs entre eux et les denominateurs entre eux. Aucun denominateur commun n\'est necessaire.',
+            hint: 'Pour multiplier deux fractions, on multiplie les numérateurs entre eux et les dénominateurs entre eux. Aucun dénominateur commun n\'est necessaire.',
             solution: [
               '$\\dfrac{' + a + '}{' + b + '} \\times \\dfrac{' + c + '}{' + d + '} = \\dfrac{' + a + ' \\times ' + c + '}{' + b + ' \\times ' + d + '} = \\dfrac{' + num + '}{' + den + '} = \\dfrac{' + (num / g) + '}{' + (den / g) + '}$.',
-              'Valeur decimale : $' + fr(rep) + '$.'
+              'Valeur décimale : $' + fr(rep) + '$.'
             ]
           };
         }
@@ -172,15 +172,15 @@
           const num = a * d, den = b * c, g = pgcd(num, den);
           const rep = parseFloat((num / den).toFixed(4));
           return {
-            statement: ctx.emoji + ' Calcule $\\dfrac{' + a + '}{' + b + '} \\div \\dfrac{' + c + '}{' + d + '}$ et donne le resultat decimal.',
+            statement: ctx.emoji + ' Calcule $\\dfrac{' + a + '}{' + b + '} \\div \\dfrac{' + c + '}{' + d + '}$ et donne le résultat décimal.',
             answer: rep,
             tolerance: 0.001,
             unit: '',
             hint: 'Diviser par une fraction, c\'est multiplier par son inverse : l\'inverse de $\\dfrac{' + c + '}{' + d + '}$ est $\\dfrac{' + d + '}{' + c + '}$.',
             solution: [
-              'Diviser par une fraction revient a multiplier par son inverse : $\\dfrac{' + a + '}{' + b + '} \\div \\dfrac{' + c + '}{' + d + '} = \\dfrac{' + a + '}{' + b + '} \\times \\dfrac{' + d + '}{' + c + '}$.',
+              'Diviser par une fraction revient à multiplier par son inverse : $\\dfrac{' + a + '}{' + b + '} \\div \\dfrac{' + c + '}{' + d + '} = \\dfrac{' + a + '}{' + b + '} \\times \\dfrac{' + d + '}{' + c + '}$.',
               '$= \\dfrac{' + a + ' \\times ' + d + '}{' + b + ' \\times ' + c + '} = \\dfrac{' + num + '}{' + den + '} = \\dfrac{' + (num / g) + '}{' + (den / g) + '}$.',
-              'Valeur decimale : $' + fr(rep) + '$. Piege : on retourne la SECONDE fraction, jamais la premiere.'
+              'Valeur décimale : $' + fr(rep) + '$. Piege : on retourne la SECONDE fraction, jamais la première.'
             ]
           };
         }
@@ -189,15 +189,15 @@
           const a = rand(2, 9), b = rand(2, 9);
           const rep = parseFloat((b / a).toFixed(4));
           return {
-            statement: 'Quel est l\'inverse de $\\dfrac{' + a + '}{' + b + '}$ ? Donne le resultat decimal.',
+            statement: 'Quel est l\'inverse de $\\dfrac{' + a + '}{' + b + '}$ ? Donne le résultat décimal.',
             answer: rep,
             tolerance: 0.001,
             unit: '',
-            hint: 'L\'inverse d\'une fraction s\'obtient en echangeant son numerateur et son denominateur. Verification : le produit des deux doit valoir $1$.',
+            hint: 'L\'inverse d\'une fraction s\'obtient en echangeant son numérateur et son dénominateur. Vérification : le produit des deux doit valoir $1$.',
             solution: [
               'L\'inverse de $\\dfrac{' + a + '}{' + b + '}$ est $\\dfrac{' + b + '}{' + a + '}$, obtenu en echangeant les deux termes.',
-              'Valeur decimale : $' + fr(rep) + '$.',
-              'Verification : $\\dfrac{' + a + '}{' + b + '} \\times \\dfrac{' + b + '}{' + a + '} = \\dfrac{' + (a * b) + '}{' + (a * b) + '} = 1$. C\'est la definition de l\'inverse — a ne pas confondre avec l\'oppose, dont la somme fait $0$.'
+              'Valeur décimale : $' + fr(rep) + '$.',
+              'Vérification : $\\dfrac{' + a + '}{' + b + '} \\times \\dfrac{' + b + '}{' + a + '} = \\dfrac{' + (a * b) + '}{' + (a * b) + '} = 1$. C\'est la definition de l\'inverse — a ne pas confondre avec l\'opposé, dont la somme fait $0$.'
             ]
           };
         }
@@ -208,22 +208,22 @@
         const total = b * rand(2, 9);
         const rep = a * total / b;
         const objet = pick([
-          { q: 'litres de sirop', s: 'On en utilise' },
-          { q: 'metres de tissu', s: 'On en coupe' },
+          { q: 'litrès de sirop', s: 'On en utilise' },
+          { q: 'mètrès de tissu', s: 'On en coupe' },
           { q: 'grammes de farine', s: 'On en verse' },
-          { q: 'centilitres de solution', s: 'On en preleve' }
+          { q: 'centilitrès de solution', s: 'On en prélève' }
         ]);
         return {
-          statement: ctx.emoji + ' Un recipient contient $' + total + '$ ' + objet.q + '. ' + objet.s + ' les $\\dfrac{' + a + '}{' + b + '}$. ' +
-            'Quelle quantite cela represente-t-il ?',
+          statement: ctx.emoji + ' Un récipient contient $' + total + '$ ' + objet.q + '. ' + objet.s + ' les $\\dfrac{' + a + '}{' + b + '}$. ' +
+            'Quelle quantité cela représente-t-il ?',
           answer: rep,
           tolerance: 0.001,
           unit: '',
-          hint: 'Prendre les $\\dfrac{' + a + '}{' + b + '}$ d\'une quantite, c\'est la MULTIPLIER par $\\dfrac{' + a + '}{' + b + '}$.',
+          hint: 'Prendre les $\\dfrac{' + a + '}{' + b + '}$ d\'une quantité, c\'est la MULTIPLIER par $\\dfrac{' + a + '}{' + b + '}$.',
           solution: [
             'Le mot « des » se traduit ici par une multiplication : $\\dfrac{' + a + '}{' + b + '} \\times ' + total + '$.',
             'On peut diviser d\'abord : $' + total + ' \\div ' + b + ' = ' + (total / b) + '$, puis multiplier par $' + a + '$ : $' + rep + '$.',
-            'Controle de bon sens : $\\dfrac{' + a + '}{' + b + '}$ est plus petit que $1$, donc le resultat doit etre plus petit que $' + total + '$.'
+            'Contrôle de bon sens : $\\dfrac{' + a + '}{' + b + '}$ est plus petit que $1$, donc le résultat doit être plus petit que $' + total + '$.'
           ]
         };
       }
@@ -266,30 +266,54 @@
           correction: '$\\dfrac{3}{8} \\div \\dfrac{9}{4} = \\dfrac{3}{8} \\times \\dfrac{4}{9} = \\dfrac{12}{72} = \\dfrac{1}{6} \\approx 0{,}167$.'
         },
         {
-          statement: 'Un réservoir contient $\\dfrac{3}{5}$ de litre d\'eau. On en utilise $\\dfrac{2}{3}$. Quel volume d\'eau a-t-on utilisé (en litres) ?',
+          /* Q3 — « modéliser ». L'énoncé a été précisé le 2026-09-13 (« les
+             $\frac{2}{3}$ » et non « $\frac{2}{3}$ ») : c'est la tournure du
+             langage courant, et c'est justement elle que les élèves traduisent
+             par une soustraction. La difficulté n'est pas le produit, c'est la
+             mise en opération. */
+          statement: 'Un réservoir contient $\\dfrac{3}{5}$ de litre d\'eau. On en utilise les $\\dfrac{2}{3}$. Quel volume d\'eau a-t-on utilisé (en litres) ?',
           type: 'numeric',
           answer: 0.4,
           tolerance: 0.001,
           unit: 'L',
           points: 2,
-          correction: 'Volume utilisé $= \\dfrac{2}{3} \\times \\dfrac{3}{5} = \\dfrac{6}{15} = \\dfrac{2}{5} = 0{,}4\\,\\text{L}$.'
+          correction: 'Le mot « des » se traduit ici par une <strong>multiplication</strong>, et non par une soustraction : prendre les $\\dfrac{2}{3}$ d\'une quantité, c\'est la multiplier par $\\dfrac{2}{3}$.<br/><br/>' +
+            'Volume utilisé $= \\dfrac{2}{3} \\times \\dfrac{3}{5} = \\dfrac{6}{15} = \\dfrac{2}{5} = 0{,}4\\,\\text{L}$.<br/><br/>' +
+            'Contrôle de bon sens : $\\dfrac{2}{3}$ est plus petit que $1$, donc le résultat doit être plus petit que $\\dfrac{3}{5} = 0{,}6$. C\'est le cas.'
         },
         {
-          statement: 'Quel est l\'inverse de $\\dfrac{7}{3}$ ?',
+          /* Q4 — « représenter ». L'énoncé a été complété le 2026-09-13 par le
+             rappel de la propriété caractéristique : l'élève doit produire
+             l'autre écriture du même nombre ET la contrôler par le produit, ce
+             qui fait de la tâche une mise en correspondance de deux
+             représentations, non un calcul. */
+          statement: 'Quel est l\'inverse de $\\dfrac{7}{3}$ ? (On rappelle que le produit d\'un nombre par son inverse vaut $1$.)',
           type: 'multiple-choice',
           options: ['$\\dfrac{-7}{3}$', '$\\dfrac{3}{7}$', '$\\dfrac{-3}{7}$', '$\\dfrac{7}{3}$'],
           answer: 1,
           points: 2,
-          correction: 'L\'inverse d\'une fraction $\\dfrac{a}{b}$ est $\\dfrac{b}{a}$. L\'inverse de $\\dfrac{7}{3}$ est $\\dfrac{3}{7}$. Vérification : $\\dfrac{7}{3} \\times \\dfrac{3}{7} = \\dfrac{21}{21} = 1$ ✓'
+          correction: 'L\'inverse de $\\dfrac{a}{b}$ est $\\dfrac{b}{a}$ : on échange numérateur et dénominateur. L\'inverse de $\\dfrac{7}{3}$ est donc $\\dfrac{3}{7}$.<br/><br/>' +
+            'Vérification par la propriété rappelée : $\\dfrac{7}{3} \\times \\dfrac{3}{7} = \\dfrac{21}{21} = 1$. ✓<br/><br/>' +
+            'Ne pas confondre avec l\'<strong>opposé</strong>, $-\\dfrac{7}{3}$, dont la SOMME avec le nombre vaut $0$. Les deux premières propositions fausses jouent précisément sur cette confusion.'
         },
         {
-          statement: 'Calculer $\\dfrac{4}{5} \\times \\dfrac{3}{2} \\div \\dfrac{6}{5}$. Donner le résultat décimal.',
-          type: 'numeric',
+          /* Q5 RÉÉCRITE le 2026-09-13 pour mobiliser « communiquer ». L'ancien
+             énoncé était un calcul en chaîne. Celui-ci demande d'expliquer
+             l'effet exact d'une erreur — retourner la mauvaise fraction retourne
+             le résultat — ce qui est plus exigeant que de dire « c'est faux ». */
+          statement: 'Pour calculer $\\dfrac{3}{4} \\div \\dfrac{3}{5}$, Inès retourne la <strong>première</strong> fraction au lieu de la seconde et écrit $\\dfrac{4}{3} \\times \\dfrac{3}{5} = \\dfrac{12}{15}$. Quelle explication décrit le mieux son erreur ?',
+          type: 'multiple-choice',
+          options: [
+            'Sa méthode est correcte : dans une division de fractions, on peut retourner celle que l\'on veut.',
+            'Elle a retourné la mauvaise fraction : diviser par $\\dfrac{3}{5}$, c\'est multiplier par $\\dfrac{5}{3}$, donc le calcul juste est $\\dfrac{3}{4} \\times \\dfrac{5}{3} = \\dfrac{15}{12}$ — l\'<strong>inverse</strong> de son résultat.',
+            'Elle aurait dû chercher un dénominateur commun avant de diviser.',
+            'Son erreur est sans conséquence, car $\\dfrac{12}{15}$ et $\\dfrac{15}{12}$ désignent le même nombre.'
+          ],
           answer: 1,
-          tolerance: 0.01,
-          unit: '',
           points: 2,
-          correction: '$\\dfrac{4}{5} \\times \\dfrac{3}{2} \\div \\dfrac{6}{5} = \\dfrac{4}{5} \\times \\dfrac{3}{2} \\times \\dfrac{5}{6} = \\dfrac{4 \\times 3 \\times 5}{5 \\times 2 \\times 6} = \\dfrac{60}{60} = 1$.'
+          correction: 'La règle est précise : diviser par une fraction, c\'est multiplier par l\'inverse de la <strong>seconde</strong>, jamais de la première.<br/><br/>' +
+            'Le calcul juste est $\\dfrac{3}{4} \\times \\dfrac{5}{3} = \\dfrac{15}{12} = 1{,}25$. Inès a obtenu $\\dfrac{12}{15} = 0{,}8$, qui en est exactement l\'inverse : retourner la mauvaise fraction retourne le résultat.<br/><br/>' +
+            'Un contrôle d\'ordre de grandeur l\'aurait alertée : on divise par $\\dfrac{3}{5}$, un nombre plus petit que $1$, donc le résultat doit être plus GRAND que $\\dfrac{3}{4} = 0{,}75$. Or $0{,}8$ l\'est à peine, tandis que $1{,}25$ l\'est franchement.'
         }
       ]
     }

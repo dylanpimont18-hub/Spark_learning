@@ -14,7 +14,7 @@
         '<br/><br/>' +
         'Enfin, $P(\\bar{A}) = 1 - P(A)$ car $A$ et son contraire couvrent tous les cas possibles. Cette formule est très utile quand le contraire est plus simple à calculer que l\'événement lui-même.' +
         '<br/><br/>' +
-        'En pratique, les probabilités servent en météo (risque de pluie), en médecine (fiabilité d\'un test), en ingénierie (risque de panne) et dans bien d\'autres domaines.',
+        'En pratique, les probabilités servent en météo (risque de pluie), en médecine (fiabilité d\'un test), en ingénierie (risque de panne) et dans bien d\'autrès domaines.',
       definitions: [
         { term: 'Expérience aléatoire', def: 'Expérience dont on ne peut pas prévoir le résultat à l\'avance. L\'ensemble de tous les résultats possibles est l\'univers $\\Omega$.' },
         { term: 'Événement', def: 'Sous-ensemble de l\'univers $\\Omega$. Un événement est réalisé si le résultat de l\'expérience lui appartient.' },
@@ -141,19 +141,19 @@
           const punion = parseFloat((pa + pb - pab).toFixed(1));
           const ctx = pick([
             { a: 'aimer le sport', b: 'aimer la musique' },
-            { a: 'porter des lunettes', b: 'etre gaucher' },
-            { a: 'prendre le bus', b: 'dejeuner a la cantine' },
+            { a: 'porter des lunettes', b: 'être gaucher' },
+            { a: 'prendre le bus', b: 'déjeuner a la cantine' },
             { a: 'jouer d un instrument', b: 'faire partie d un club' }
           ]);
           return {
-            statement: 'Dans une classe, on note $A$ l\'evenement « ' + ctx.a + ' » et $B$ l\'evenement « ' + ctx.b + ' ». ' +
+            statement: 'Dans une classe, on note $A$ l\'événement « ' + ctx.a + ' » et $B$ l\'événement « ' + ctx.b + ' ». ' +
               'On sait que $P(A) = ' + fr(pa) + '$, $P(B) = ' + fr(pb) + '$ et $P(A \\cap B) = ' + fr(pab) + '$. Calcule $P(A \\cup B)$.',
             answer: punion,
             tolerance: 0.01,
             unit: '',
-            hint: 'Additionner $P(A)$ et $P(B)$ compterait deux fois les eleves qui verifient les deux conditions : il faut retrancher $P(A \\cap B)$.',
+            hint: 'Additionner $P(A)$ et $P(B)$ compterait deux fois les élèves qui vérifient les deux conditions : il faut retrancher $P(A \\cap B)$.',
             solution: [
-              'Les eleves qui verifient les DEUX conditions sont comptes une fois dans $P(A)$ et une fois dans $P(B)$ : on les compte donc deux fois si on additionne simplement.',
+              'Les élèves qui vérifient les DEUX conditions sont comptes une fois dans $P(A)$ et une fois dans $P(B)$ : on les compte donc deux fois si on additionne simplement.',
               '$P(A \\cup B) = P(A) + P(B) - P(A \\cap B) = ' + fr(pa) + ' + ' + fr(pb) + ' - ' + fr(pab) + ' = ' + fr(punion) + '$.'
             ]
           };
@@ -164,18 +164,18 @@
           const q = parseFloat((1 - p).toFixed(2));
           const ctx = pick([
             { e: 'qu il pleuve demain', c: 'qu il ne pleuve pas' },
-            { e: 'que le train soit a l heure', c: 'qu il soit en retard' },
+            { e: 'que le train soit à l\'heure', c: 'qu il soit en retard' },
             { e: 'de gagner une partie', c: 'de ne pas la gagner' },
-            { e: 'que la piece tombee soit defectueuse', c: 'qu elle ne le soit pas' }
+            { e: 'que la pièce tombee soit defectueuse', c: 'qu elle ne le soit pas' }
           ]);
           return {
-            statement: 'La probabilite ' + ctx.e + ' vaut $' + fr(p) + '$. Quelle est la probabilite ' + ctx.c + ' ?',
+            statement: 'La probabilité ' + ctx.e + ' vaut $' + fr(p) + '$. Quelle est la probabilité ' + ctx.c + ' ?',
             answer: q,
             tolerance: 0.001,
             unit: '',
-            hint: 'Un evenement et son contraire couvrent toutes les possibilites : leurs probabilites font $1$ a elles deux.',
+            hint: 'Un événement et son contraire couvrent toutes les possibilites : leurs probabilités font $1$ a elles deux.',
             solution: [
-              'L\'evenement et son contraire forment l\'ensemble de tous les cas possibles, donc leurs probabilites ont pour somme $1$.',
+              'L\'événement et son contraire forment l\'ensemble de tous les cas possibles, donc leurs probabilités ont pour somme $1$.',
               '$P(\\bar{A}) = 1 - P(A) = 1 - ' + fr(p) + ' = ' + fr(q) + '$.'
             ]
           };
@@ -186,28 +186,37 @@
           // qui est la definition meme de l'equiprobabilite.
           const a = rand(2, 7), b = rand(2, 7), c = rand(1, 5);
           const total = a + b + c;
+          /* ACCORD EN NOMBRE (correctif du 2026-09-13). Les libelles servent a
+             DEUX endroits de l'enonce, et pas dans le meme nombre : au pluriel
+             pour compter (« 7 billes rouges »), au singulier dans la question
+             (« obtenir une bille rouge »). Une seule liste produisait
+             « obtenir un objet vertes », du francais fautif imprime dans un
+             manuel. On distingue donc :
+               pl  : l'adjectif au pluriel, pour le comptage ;
+               sg  : l'adjectif au singulier, pour la question ;
+               nom : le nom de l'objet au singulier, avec son article. */
           const ctx = pick([
-            { objet: 'billes', c1: 'rouges', c2: 'bleues', c3: 'vertes' },
-            { objet: 'jetons', c1: 'jaunes', c2: 'noirs', c3: 'blancs' },
-            { objet: 'bonbons', c1: 'a la fraise', c2: 'au citron', c3: 'a la menthe' },
-            { objet: 'cartes', c1: 'de coeur', c2: 'de pique', c3: 'de trefle' }
+            { objet: 'billes', nom: 'une bille', pl: ['rouges', 'bleues', 'vertes'], sg: ['rouge', 'bleue', 'verte'] },
+            { objet: 'jetons', nom: 'un jeton', pl: ['jaunes', 'noirs', 'blancs'], sg: ['jaune', 'noir', 'blanc'] },
+            { objet: 'bonbons', nom: 'un bonbon', pl: ['a la fraise', 'au citron', 'a la menthe'], sg: ['a la fraise', 'au citron', 'a la menthe'] },
+            { objet: 'cartes', nom: 'une carte', pl: ['de coeur', 'de pique', 'de trefle'], sg: ['de coeur', 'de pique', 'de trefle'] }
           ]);
           const quoi = pick(['premiere', 'contraire']);
           const rep = quoi === 'premiere'
             ? parseFloat((a / total).toFixed(4))
             : parseFloat(((total - c) / total).toFixed(4));
           return {
-            statement: 'Un sac contient $' + a + '$ ' + ctx.objet + ' ' + ctx.c1 + ', $' + b + '$ ' + ctx.c2 +
-              ' et $' + c + '$ ' + ctx.c3 + '. On en tire un au hasard. ' +
+            statement: 'Un sac contient $' + a + '$ ' + ctx.objet + ' ' + ctx.pl[0] + ', $' + b + '$ ' + ctx.pl[1] +
+              ' et $' + c + '$ ' + ctx.pl[2] + '. On en tire un au hasard. ' +
               (quoi === 'premiere'
-                ? 'Quelle est la probabilite d\'obtenir ' + (ctx.objet === 'cartes' ? 'une carte ' : 'un objet ') + ctx.c1 + ' ?'
-                : 'Quelle est la probabilite de ne PAS obtenir ' + (ctx.objet === 'cartes' ? 'une carte ' : 'un objet ') + ctx.c3 + ' ?'),
+                ? 'Quelle est la probabilité d\'obtenir ' + ctx.nom + ' ' + ctx.sg[0] + ' ?'
+                : 'Quelle est la probabilité de ne PAS obtenir ' + ctx.nom + ' ' + ctx.sg[2] + ' ?'),
             answer: rep,
             tolerance: 0.001,
             unit: '',
-            hint: 'Tous les tirages ont la meme chance : la probabilite est le nombre de cas favorables divise par le nombre total.',
+            hint: 'Tous les tirages ont la même chance : la probabilité est le nombre de cas favorables divise par le nombre total.',
             solution: [
-              'Le sac contient $' + a + ' + ' + b + ' + ' + c + ' = ' + total + '$ objets, et chacun a la meme chance d\'etre tire.',
+              'Le sac contient $' + a + ' + ' + b + ' + ' + c + ' = ' + total + '$ objets, et chacun a la même chance d\'être tiré.',
               quoi === 'premiere'
                 ? 'Cas favorables : $' + a + '$. Donc $P = \\dfrac{' + a + '}{' + total + '} \\approx ' + fr(rep) + '$.'
                 : 'Il est plus rapide de passer par le contraire : $P = 1 - \\dfrac{' + c + '}{' + total + '} = \\dfrac{' + (total - c) + '}{' + total + '} \\approx ' + fr(rep) + '$.'
@@ -226,14 +235,14 @@
             { a: 'reussir du premier coup', b: 'echouer trois fois' }
           ]);
           return {
-            statement: 'Les evenements $A$ (« ' + ctx.a + ' ») et $B$ (« ' + ctx.b + ' ») ne peuvent pas se produire en meme temps. ' +
+            statement: 'Les événements $A$ (« ' + ctx.a + ' ») et $B$ (« ' + ctx.b + ' ») ne peuvent pas se produire en même temps. ' +
               'On donne $P(A) = ' + fr(pa) + '$ et $P(B) = ' + fr(pb) + '$. Calcule $P(A \\cup B)$.',
             answer: punion,
             tolerance: 0.001,
             unit: '',
-            hint: 'Deux evenements qui ne peuvent pas se produire ensemble sont dits incompatibles : leur intersection est vide.',
+            hint: 'Deux événements qui ne peuvent pas se produire ensemble sont dits incompatibles : leur intersection est vide.',
             solution: [
-              'Les deux evenements sont <strong>incompatibles</strong>, donc $P(A \\cap B) = 0$ : aucun cas ne verifie les deux a la fois.',
+              'Les deux événements sont <strong>incompatibles</strong>, donc $P(A \\cap B) = 0$ : aucun cas ne vérifie les deux a la fois.',
               'La formule generale se simplifie : $P(A \\cup B) = P(A) + P(B) - 0 = ' + fr(pa) + ' + ' + fr(pb) + ' = ' + fr(punion) + '$.'
             ]
           };
@@ -246,18 +255,18 @@
         const fav = rand(3, Math.floor(total / 2));
         const p = parseFloat((fav / total).toFixed(4));
         const ctx = pick([
-          { s: 'Dans un groupe de ' + total + ' eleves, ' + fav + ' sont inscrits au club de theatre.', q: 'On interroge un eleve au hasard. Quelle est la probabilite qu il soit inscrit au club de theatre ?' },
-          { s: 'Sur ' + total + ' pieces sorties d une machine, ' + fav + ' presentent un defaut.', q: 'On prend une piece au hasard. Quelle est la probabilite qu elle presente un defaut ?' },
-          { s: 'Une urne contient ' + total + ' tickets, dont ' + fav + ' sont gagnants.', q: 'On tire un ticket au hasard. Quelle est la probabilite de gagner ?' }
+          { s: 'Dans un groupe de ' + total + ' élèves, ' + fav + ' sont inscrits au club de théâtre.', q: 'On interroge un élève au hasard. Quelle est la probabilité qu il soit inscrit au club de théâtre ?' },
+          { s: 'Sur ' + total + ' pièces sorties d une machine, ' + fav + ' presentent un défaut.', q: 'On prend une pièce au hasard. Quelle est la probabilité qu elle presente un défaut ?' },
+          { s: 'Une urne contient ' + total + ' tickets, dont ' + fav + ' sont gagnants.', q: 'On tire un ticket au hasard. Quelle est la probabilité de gagner ?' }
         ]);
         return {
           statement: ctx.s + ' ' + ctx.q,
           answer: p,
           tolerance: 0.001,
           unit: '',
-          hint: 'La probabilite est le quotient du nombre de cas favorables par le nombre total de cas, tous etant equiprobables.',
+          hint: 'La probabilité est le quotient du nombre de cas favorables par le nombre total de cas, tous etant equiprobables.',
           solution: [
-            'Chaque tirage a la meme chance, donc la probabilite est un quotient d\'effectifs.',
+            'Chaque tirage a la même chance, donc la probabilité est un quotient d\'effectifs.',
             '$P = \\dfrac{' + fav + '}{' + total + '} \\approx ' + fr(p) + '$.'
           ]
         };
@@ -311,21 +320,42 @@
           correction: '$P(\\bar{A}) = 1 - P(A) = 1 - 0{,}75 = 0{,}25$.'
         },
         {
-          statement: 'Deux événements $A$ et $B$ sont incompatibles. Que vaut $P(A \\cap B)$ ?',
+          /* Q4 RÉÉCRITE le 2026-09-13 pour mobiliser « chercher ». L'ancienne
+             question se répondait par la définition même du mot « incompatibles »
+             ($P(A \cap B) = 0$), sans aucune démarche. Ici l'élève doit voir que
+             la formule de la réunion, qu'il connaît dans un sens, se retourne
+             pour donner l'intersection. */
+          statement: 'On sait que $P(A) = 0{,}5$, $P(B) = 0{,}4$ et $P(A \\cup B) = 0{,}7$. Calculer $P(A \\cap B)$.',
           type: 'numeric',
-          answer: 0,
-          tolerance: 0,
+          answer: 0.2,
+          tolerance: 0.001,
           unit: '',
           points: 2,
-          correction: 'Deux événements incompatibles ne peuvent pas se produire simultanément. Donc $A \\cap B = \\emptyset$ et $P(A \\cap B) = 0$.'
+          correction: 'La formule connue donne la réunion à partir de l\'intersection. Ici c\'est l\'inverse qui est demandé : il faut la retourner.<br/><br/>' +
+            'De $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$, on tire $P(A \\cap B) = P(A) + P(B) - P(A \\cup B)$.<br/><br/>' +
+            '$P(A \\cap B) = 0{,}5 + 0{,}4 - 0{,}7 = 0{,}2$.<br/><br/>' +
+            'Contrôle de cohérence : une intersection ne peut dépasser aucun des deux événements, et $0{,}2$ est bien inférieur à $0{,}5$ comme à $0{,}4$. ✓ Remarque : la valeur n\'étant pas nulle, les deux événements ne sont pas incompatibles.'
         },
         {
-          statement: 'Dans un sac, il y a $5$ billes rouges, $3$ billes bleues et $2$ billes vertes. Quelle est la probabilité de tirer une bille qui n\'est pas verte ?',
+          /* Q5 RÉÉCRITE le 2026-09-13 pour mobiliser « communiquer ». L'ancienne
+             question était un calcul d'événement contraire à choisir parmi quatre
+             fractions. Celle-ci demande d'expliquer pourquoi une somme de
+             probabilités dépasse $1$, ce qui est l'erreur la plus révélatrice du
+             chapitre et la raison d\'être de la formule de la réunion. */
+          statement: 'Dans une classe, $60\\,\\%$ des élèves font du sport et $50\\,\\%$ jouent d\'un instrument. Un élève en conclut que $110\\,\\%$ des élèves font du sport ou jouent d\'un instrument. Quelle explication corrige le mieux son raisonnement ?',
           type: 'multiple-choice',
-          options: ['$\\dfrac{2}{10}$', '$\\dfrac{8}{10}$', '$\\dfrac{5}{10}$', '$\\dfrac{3}{10}$'],
+          options: [
+            'Il a raison : on additionne les pourcentages de deux événements pour obtenir celui de leur réunion.',
+            'Il a tort : les élèves qui font du sport ET jouent d\'un instrument sont comptés deux fois. Il faut retrancher leur proportion, $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$ — et une probabilité ne peut jamais dépasser $1$, soit $100\\,\\%$.',
+            'Il a tort : il aurait fallu multiplier les deux pourcentages, ce qui donne $30\\,\\%$.',
+            'Il a tort : la somme de deux pourcentages est toujours égale à $100\\,\\%$.'
+          ],
           answer: 1,
           points: 2,
-          correction: '$P(\\text{verte}) = \\dfrac{2}{10}$. $P(\\overline{\\text{verte}}) = 1 - \\dfrac{2}{10} = \\dfrac{8}{10} = 0{,}8$. Il y a $8$ billes non vertes sur $10$.'
+          correction: 'Le résultat $110\\,\\%$ devrait suffire à alerter : une probabilité est toujours comprise entre $0$ et $1$, donc un pourcentage entre $0$ et $100$.<br/><br/>' +
+            'L\'erreur est un double comptage. Un élève qui fait du sport ET joue d\'un instrument est compté une fois dans les $60\\,\\%$ et une fois dans les $50\\,\\%$ : il est donc compté deux fois dans la somme.<br/><br/>' +
+            'La formule corrige exactement cela : $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$. Avec, par exemple, $20\\,\\%$ d\'élèves faisant les deux, la réunion vaudrait $60 + 50 - 20 = 90\\,\\%$.<br/><br/>' +
+            'La proposition 3 est fausse : on ne multiplie les probabilités que pour des événements indépendants, et c\'est alors l\'intersection qu\'on obtient, pas la réunion.'
         }
       ]
     }

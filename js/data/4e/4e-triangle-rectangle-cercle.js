@@ -26,7 +26,7 @@
         steps: [
           '<strong>Identifier si un côté est un diamètre</strong> : si $O$ est le centre du cercle et le milieu de $[BC]$, alors $[BC]$ est un diamètre du cercle.',
           '<strong>Théorème direct</strong> : si un côté est un diamètre et $A$ est sur le cercle, l\'angle opposé à ce diamètre est nécessairement droit ($90°$). <strong>Exemple :</strong> $[BC]$ est un diamètre et $A$ est sur le cercle → $\\hat{A} = 90°$.',
-          '<strong>Réciproque</strong> : si un angle d\'un triangle est droit, le côté opposé (hypoténuse) est un diamètre du cercle circonscrit. <strong>Exemple :</strong> $\\hat{A} = 90°$ et $BC = 14$ cm → le cercle circonscrit a pour rayon $R = \\dfrac{14}{2} = 7$ cm.'
+          '<strong>Réciproque</strong> : si un angle d\'un triangle est droit, le côté opposé (hypoténuse) est un diamètre du cercle circonscrit. <strong>Exemple :</strong> $\\hat{A} = 90°$ et $BC = 14$ cm → le cercle circonscrit à pour rayon $R = \\dfrac{14}{2} = 7$ cm.'
         ]
       },
       example: {
@@ -51,7 +51,7 @@
         svg: `
           <svg viewBox="0 0 400 300" role="img" aria-labelledby="cercle-circonscrit-title cercle-circonscrit-desc">
             <title id="cercle-circonscrit-title">Triangle rectangle inscrit dans un demi-cercle</title>
-            <desc id="cercle-circonscrit-desc">Cercle de centre O et de diametre BC, avec un point A sur le cercle formant un angle droit en A, marque par un petit carre.</desc>
+            <desc id="cercle-circonscrit-desc">Cercle de centre O et de diamètre BC, avec un point A sur le cercle formant un angle droit en A, marque par un petit carre.</desc>
             <circle class="curve-main" cx="200" cy="150" r="90" fill="none"></circle>
             <polygon points="148.38,76.28 110,150 290,150" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></polygon>
             <line class="frame-line" x1="110" y1="150" x2="290" y2="150"></line>
@@ -139,15 +139,15 @@
           const hyp = pick([6, 8, 10, 12, 13, 14, 16, 18, 20]);
           const rep = hyp / 2;
           return {
-            statement: lieu.emoji + ' Un triangle $ABC$ est rectangle en $A$ et son hypotenuse mesure $BC = ' + hyp + '$ cm. ' +
+            statement: lieu.emoji + ' Un triangle $ABC$ est rectangle en $A$ et son hypoténuse mesure $BC = ' + hyp + '$ cm. ' +
               'Soit $M$ le milieu de $[BC]$. Quelle est la longueur $AM$, en cm ?',
             answer: rep,
             tolerance: 0.01,
             unit: 'cm',
-            hint: 'Le milieu de l\'hypotenuse est le centre du cercle circonscrit, et les trois sommets sont sur ce cercle : $MA$, $MB$ et $MC$ sont donc trois rayons.',
+            hint: 'Le milieu de l\'hypoténuse est le centre du cercle circonscrit, et les trois sommets sont sur ce cercle : $MA$, $MB$ et $MC$ sont donc trois rayons.',
             solution: [
-              'Le triangle est rectangle en $A$, donc $[BC]$ est un diametre du cercle circonscrit et son milieu $M$ en est le centre.',
-              'Les trois sommets sont sur le cercle, donc $MA = MB = MC = R$ : la mediane issue de l\'angle droit est un rayon.',
+              'Le triangle est rectangle en $A$, donc $[BC]$ est un diamètre du cercle circonscrit et son milieu $M$ en est le centre.',
+              'Les trois sommets sont sur le cercle, donc $MA = MB = MC = R$ : la médiane issue de l\'angle droit est un rayon.',
               '$AM = \\dfrac{BC}{2} = \\dfrac{' + hyp + '}{2} = ' + fr(rep) + '$ cm.'
             ]
           };
@@ -160,13 +160,13 @@
           const autre = connu === a ? b : a;
           return {
             statement: lieu.emoji + ' ' + lieu.intro + '. Le triangle $ABC$ est inscrit dans un cercle de rayon $' + fr(c / 2) + '$ cm, ' +
-              'et $[BC]$ est un diametre. On mesure $AB = ' + connu + '$ cm. Calcule $AC$, en cm.',
+              'et $[BC]$ est un diamètre. On mesure $AB = ' + connu + '$ cm. Calcule $AC$, en cm.',
             answer: autre,
             tolerance: 0.01,
             unit: 'cm',
-            hint: 'Commence par ce que le diametre t\'apprend : le triangle est rectangle en $A$. Son hypotenuse $BC$ vaut deux fois le rayon.',
+            hint: 'Commence par ce que le diamètre t\'apprend : le triangle est rectangle en $A$. Son hypoténuse $BC$ vaut deux fois le rayon.',
             solution: [
-              '$[BC]$ est un diametre et $A$ est sur le cercle, donc le triangle est rectangle en $A$ (angle inscrit dans un demi-cercle).',
+              '$[BC]$ est un diamètre et $A$ est sur le cercle, donc le triangle est rectangle en $A$ (angle inscrit dans un demi-cercle).',
               'L\'hypoténuse vaut $BC = 2 \\times ' + fr(c / 2) + ' = ' + c + '$ cm.',
               '$AC^2 = BC^2 - AB^2 = ' + c + '^2 - ' + connu + '^2 = ' + (c * c) + ' - ' + (connu * connu) + ' = ' + (autre * autre) + '$, donc $AC = ' + autre + '$ cm.'
             ]
@@ -176,14 +176,14 @@
         if (tache === 'angle-inscrit') {
           const pos = pick(['sur le cercle', 'sur le cercle']);
           return {
-            statement: lieu.emoji + ' Un cercle a pour diametre $[BC]$. Un point $A$ est place ' + pos + ', distinct de $B$ et de $C$. ' +
-              'Combien vaut l\'angle $\\widehat{BAC}$, en degres ?',
+            statement: lieu.emoji + ' Un cercle a pour diamètre $[BC]$. Un point $A$ est place ' + pos + ', distinct de $B$ et de $C$. ' +
+              'Combien vaut l\'angle $\\widehat{BAC}$, en degrés ?',
             answer: 90,
             tolerance: 0,
             unit: '°',
-            hint: 'Ce resultat ne demande aucun calcul : il ne depend pas de l\'endroit ou se trouve $A$ sur le cercle.',
+            hint: 'Ce résultat ne demande aucun calcul : il ne depend pas de l\'endroit ou se trouve $A$ sur le cercle.',
             solution: [
-              'Tout point du cercle, autre que $B$ et $C$, voit le diametre $[BC]$ sous un angle droit.',
+              'Tout point du cercle, autre que $B$ et $C$, voit le diamètre $[BC]$ sous un angle droit.',
               'C\'est le theoreme de l\'angle inscrit dans un demi-cercle : $\\widehat{BAC} = 90°$.',
               'La position exacte de $A$ ne change rien, et c\'est ce qui rend ce theoreme si utile.'
             ]
@@ -194,15 +194,15 @@
         const r = pick([2.5, 3, 3.5, 4, 4.5, 5, 6, 6.5, 7.5]);
         const d = parseFloat((2 * r).toFixed(1));
         return {
-          statement: lieu.emoji + ' ' + lieu.intro + '. Le cercle circonscrit a ce triangle rectangle a un rayon de $' + fr(r) + '$ cm. ' +
-            'Quelle est la longueur de l\'hypotenuse, en cm ?',
+          statement: lieu.emoji + ' ' + lieu.intro + '. Le cercle circonscrit à ce triangle rectangle à un rayon de $' + fr(r) + '$ cm. ' +
+            'Quelle est la longueur de l\'hypoténuse, en cm ?',
           answer: d,
           tolerance: 0.01,
           unit: 'cm',
-          hint: 'Dans un triangle rectangle, l\'hypotenuse est un diametre du cercle circonscrit.',
+          hint: 'Dans un triangle rectangle, l\'hypoténuse est un diamètre du cercle circonscrit.',
           solution: [
-            'Le centre du cercle circonscrit a un triangle rectangle est le milieu de son hypotenuse : l\'hypotenuse est donc un diametre.',
-            '$\\text{hypotenuse} = 2R = 2 \\times ' + fr(r) + ' = ' + fr(d) + '$ cm.'
+            'Le centre du cercle circonscrit à un triangle rectangle est le milieu de son hypoténuse : l\'hypoténuse est donc un diamètre.',
+            '$\\text{hypoténuse} = 2R = 2 \\times ' + fr(r) + ' = ' + fr(d) + '$ cm.'
           ]
         };
       }
@@ -249,7 +249,7 @@
           type: 'multiple-choice',
           options: [
             'Au centre de gravité du triangle',
-            'Au milieu de l\'hypoténuse',
+            'Au milieu de l\'hypotenuse',
             'Au sommet de l\'angle droit',
             'À l\'intersection des hauteurs'
           ],
@@ -258,26 +258,44 @@
           correction: 'Dans un triangle rectangle, le centre du cercle circonscrit est le milieu de l\'hypoténuse. Ce point est équidistant des trois sommets (distance = rayon $R = \\dfrac{\\text{hypoténuse}}{2}$).'
         },
         {
-          statement: 'Un triangle rectangle inscrit dans un cercle de rayon $R = 10\\,\\text{cm}$ a un côté $AB = 12\\,\\text{cm}$. L\'angle droit est en $A$. Calculer le côté $AC$.',
+          /* Q4 RÉÉCRITE le 2026-09-13 pour mobiliser « chercher ». L'ancien énoncé
+             donnait le rayon ET désignait l'angle droit : il ne restait qu'à
+             doubler puis appliquer Pythagore, deux gestes annoncés. Ici on donne
+             un PÉRIMÈTRE de cercle : l'élève doit remonter au rayon, puis au
+             diamètre, puis reconnaître l'hypoténuse — trois étapes dont aucune
+             n'est nommée. */
+          statement: 'Un triangle $ABC$ est inscrit dans un cercle dont $[BC]$ est un diamètre. Le périmètre de ce cercle mesure $62{,}8\\,\\text{cm}$ et l\'on mesure $AB = 12\\,\\text{cm}$. Calculer $AC$, en cm. (Prendre $\\pi \\approx 3{,}14$.)',
           type: 'numeric',
           answer: 16,
-          tolerance: 0.01,
+          tolerance: 0.1,
           unit: 'cm',
           points: 2,
-          correction: 'L\'hypoténuse $BC$ est le diamètre : $BC = 2R = 20\\,\\text{cm}$. Par Pythagore : $AC = \\sqrt{BC^2 - AB^2} = \\sqrt{400 - 144} = \\sqrt{256} = 16\\,\\text{cm}$.'
+          correction: 'Rien n\'est donné directement : il faut remonter du périmètre jusqu\'à l\'hypoténuse.<br/><br/>' +
+            'Le périmètre d\'un cercle vaut $2\\pi R$, donc $R = \\dfrac{62{,}8}{2 \\times 3{,}14} = 10\\,\\text{cm}$, et le diamètre $BC$ vaut $20\\,\\text{cm}$.<br/><br/>' +
+            'Comme $[BC]$ est un diamètre et que $A$ est sur le cercle, le triangle est rectangle en $A$ : $BC$ est son hypoténuse.<br/><br/>' +
+            'Par Pythagore : $AC^2 = 20^2 - 12^2 = 400 - 144 = 256$, donc $AC = 16\\,\\text{cm}$.'
         },
         {
-          statement: 'Si le milieu de l\'hypoténuse d\'un triangle est le centre d\'un cercle passant par les trois sommets, que peut-on conclure sur ce triangle ?',
+          /* Q5 RÉÉCRITE le 2026-09-13 pour mobiliser « communiquer ». L'ancienne
+             question demandait de nommer la conclusion (« il est rectangle »)
+             sans jamais demander le raisonnement — et son énoncé disait déjà
+             « hypoténuse », ce qui donnait la réponse. Ici l'élève doit choisir
+             la JUSTIFICATION correcte, et le mot « hypoténuse » a disparu de
+             l'énoncé. */
+          statement: 'Dans un triangle $ABC$, on constate que le milieu $M$ de $[BC]$ vérifie $MA = MB = MC$. Un élève en conclut que le triangle est rectangle en $A$. Quelle justification est correcte ?',
           type: 'multiple-choice',
           options: [
-            'Il est isocèle',
-            'Il est équilatéral',
-            'Il est rectangle',
-            'Il est quelconque'
+            'Aucune : l\'égalité $MA = MB = MC$ prouve seulement que le triangle est isocèle.',
+            'Comme $MA = MB = MC$, les trois sommets sont sur un même cercle de centre $M$ ; or $M$ est le milieu de $[BC]$, donc $[BC]$ en est un diamètre, et tout point du cercle voit un diamètre sous un angle droit.',
+            'Parce que $M$ est le centre de gravité du triangle, et que le centre de gravité n\'est équidistant des sommets que dans un triangle rectangle.',
+            'Parce que $MA$ est une hauteur du triangle, et qu\'une hauteur qui vaut la moitié d\'un côté crée un angle droit.'
           ],
-          answer: 2,
+          answer: 1,
           points: 2,
-          correction: 'C\'est la réciproque du théorème : si le milieu d\'un côté d\'un triangle est le centre du cercle passant par les trois sommets, alors ce côté est un diamètre et l\'angle opposé vaut $90°$. Le triangle est rectangle.'
+          correction: 'La conclusion de l\'élève est juste, et la justification passe par le cercle.<br/><br/>' +
+            '$MA = MB = MC$ signifie que $A$, $B$ et $C$ sont à la même distance de $M$ : ils sont donc tous les trois sur le cercle de centre $M$ et de rayon $MA$.<br/><br/>' +
+            'Comme $M$ est le milieu de $[BC]$, le segment $[BC]$ passe par le centre : c\'est un <strong>diamètre</strong>. Et tout point du cercle, distinct de $B$ et de $C$, voit un diamètre sous un angle droit. Donc $\\widehat{BAC} = 90°$.<br/><br/>' +
+            'La proposition 3 confond $M$ avec le centre de gravité, qui est sur la médiane mais pas au milieu du côté ; la proposition 4 invente une propriété des hauteurs.'
         }
       ]
     }

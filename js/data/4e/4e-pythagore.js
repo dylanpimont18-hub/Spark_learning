@@ -10,7 +10,7 @@
 
     cours: {
       intro: 'Pour vérifier qu\'un poteau est parfaitement vertical sans équerre ni rapporteur, un technicien peut simplement tendre un câble depuis son sommet jusqu\'au sol et mesurer trois longueurs : la hauteur du poteau, la distance au sol, et la longueur du câble. Si ces trois mesures respectent une certaine relation, l\'angle est bien droit — c\'est le théorème de Pythagore.<br/><br/>' +
-        'Le théorème de Pythagore dit que dans tout triangle rectangle, le carré de l\'hypoténuse est égal à la somme des carrés des deux autres côtés : $c^2 = a^2 + b^2$. <strong>L\'hypoténuse est toujours le côté opposé à l\'angle droit</strong> — c\'est aussi le plus long côté.' +
+        'Le théorème de Pythagore dit que dans tout triangle rectangle, le carré de l\'hypoténuse est égal à la somme des carrés des deux autrès côtés : $c^2 = a^2 + b^2$. <strong>L\'hypoténuse est toujours le côté opposé à l\'angle droit</strong> — c\'est aussi le plus long côté.' +
         '<br/><br/>' +
         'La réciproque est puissante : si $c^2 = a^2 + b^2$, alors le triangle est rectangle. En physique, cette formule donne la norme d\'un vecteur résultant ($\\|\\vec{F}\\| = \\sqrt{F_x^2 + F_y^2}$) et la distance entre deux points.' +
         '<br/><br/>' +
@@ -24,7 +24,7 @@
         title: 'Méthode en 4 étapes',
         steps: [
           '<strong>Identifier</strong> le triangle rectangle et son hypoténuse (le côté en face de l\'angle droit — toujours le plus long). <strong>Exemple :</strong> un triangle avec un angle droit en $C$ a son hypoténuse $[AB]$.',
-          '<strong>Appliquer le théorème</strong> : $c^2 = a^2 + b^2$ où $c$ est l\'hypoténuse et $a$, $b$ les deux autres côtés. <strong>Exemple :</strong> $AB^2 = AC^2 + BC^2$.',
+          '<strong>Appliquer le théorème</strong> : $c^2 = a^2 + b^2$ où $c$ est l\'hypoténuse et $a$, $b$ les deux autrès côtés. <strong>Exemple :</strong> $AB^2 = AC^2 + BC^2$.',
           '<strong>Chercher un côté non-hypoténuse</strong> : $a^2 = c^2 - b^2 \\Rightarrow a = \\sqrt{c^2 - b^2}$. <strong>Exemple :</strong> si $AB = 13$ et $BC = 5$, alors $AC = \\sqrt{13^2 - 5^2} = \\sqrt{144} = 12$.',
           '<strong>Vérification</strong> : l\'hypoténuse est toujours le plus grand côté. Ici $13 > 12 > 5$ ✓'
         ]
@@ -50,14 +50,14 @@
         title: 'Repérer visuellement l\'hypoténuse et choisir la bonne formule',
         description: 'Le côté opposé à l\'angle droit décide toute la suite : si c\'est lui qu\'on cherche, on additionne ; sinon on soustrait.',
         svg: `
-          <!-- Triangle A(86,224) B(86,80) C(194,224) : 1 unite = 36 px, donc
+          <!-- Triangle A(86,224) B(86,80) C(194,224) : 1 unité = 36 px, donc
                AB = 144 px = 4, AC = 108 px = 3, BC = 180 px = 5. Le trace suit
                desormais ses propres etiquettes. La version precedente dessinait
-               le cote « b = 3 » 1,57 fois PLUS LONG que le cote « a = 4 » : un
-               eleve qui mesurait a la regle lisait l'inverse de l'enonce. -->
+               le côté « b = 3 » 1,57 fois PLUS LONG que le côté « a = 4 » : un
+               élève qui mesurait a la regle lisait l'inverse de l'enonce. -->
           <svg viewBox="0 0 360 262" role="img" aria-labelledby="pythagore-graph-title pythagore-graph-desc">
             <title id="pythagore-graph-title">Triangle rectangle pour le theoreme de Pythagore</title>
-            <desc id="pythagore-graph-desc">Le schema montre un triangle rectangle 3 4 5 trace a l'echelle, angle droit en A, avec l'hypotenuse en evidence et les deux formules utiles selon l'inconnue.</desc>
+            <desc id="pythagore-graph-desc">Le schema montre un triangle rectangle 3 4 5 trace a l'echelle, angle droit en A, avec l'hypoténuse en evidence et les deux formules utiles selon l'inconnue.</desc>
             <line class="grid-line" x1="40" y1="232" x2="330" y2="232"></line>
             <polygon points="86,224 86,80 194,224" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></polygon>
             <line class="frame-line" x1="86" y1="224" x2="86" y2="80"></line>
@@ -85,7 +85,7 @@
         `,
         notes: [
           'L\'hypoténuse est le seul côté opposé à l\'angle droit. C\'est aussi le plus long côté du triangle.',
-          'Si l\'inconnue est l\'hypoténuse $c$, on additionne les carrés des deux autres côtés.',
+          'Si l\'inconnue est l\'hypoténuse $c$, on additionne les carrés des deux autrès côtés.',
           'Si l\'inconnue est un petit côté, on isole son carré puis on soustrait le carré du côté connu à celui de l\'hypoténuse.'
         ],
         reading: 'Avant toute formule, trouve l\'angle droit. Le côté en face fixe le rôle de l\'hypoténuse.',
@@ -108,15 +108,15 @@
           description: 'L\'erreur la plus fréquente du chapitre n\'est pas de se tromper dans un carré : c\'est d\'<strong>additionner dans les deux cas</strong>. Les deux triangles ci-dessous ont la même forme ; seule change la longueur cherchée, et cela suffit à changer l\'opération.',
           svg: `
             <svg viewBox="0 0 400 212" role="img" aria-labelledby="pyth-sens-title pyth-sens-desc">
-              <title id="pyth-sens-title">Deux triangles rectangles identiques, selon que l'inconnue est l'hypotenuse ou un cote de l'angle droit</title>
-              <desc id="pyth-sens-desc">Deux triangles rectangles 6 8 10 sont dessines cote a cote, a la meme echelle et sur la meme ligne de base. Sur celui de gauche les deux cotes de l'angle droit valent 6 et 8 et l'hypotenuse est inconnue : on additionne les carres, 36 plus 64 font 100, et la racine de 100 vaut 10. Sur celui de droite l'hypotenuse vaut 10 et un cote de l'angle droit vaut 6, l'autre cote de l'angle droit est inconnu : on soustrait, 100 moins 36 font 64, et la racine de 64 vaut 8. La seule difference entre les deux figures est l'emplacement du point d'interrogation.</desc>
+              <title id="pyth-sens-title">Deux triangles rectangles identiques, selon que l'inconnue est l'hypoténuse ou un côté de l'angle droit</title>
+              <desc id="pyth-sens-desc">Deux triangles rectangles 6 8 10 sont dessines cote a cote, à la même echelle et sur la même ligne de base. Sur celui de gauche les deux côtés de l'angle droit valent 6 et 8 et l'hypoténuse est inconnue : on additionne les carres, 36 plus 64 font 100, et la racine de 100 vaut 10. Sur celui de droite l'hypoténuse vaut 10 et un côté de l'angle droit vaut 6, l'autre cote de l'angle droit est inconnu : on soustrait, 100 moins 36 font 64, et la racine de 64 vaut 8. La seule difference entre les deux figures est l'emplacement du point d'interrogation.</desc>
 
-              <!-- ECHELLE COMMUNE, 12 unites de viewBox par unite de longueur,
+              <!-- ECHELLE COMMUNE, 12 unités de viewBox par unité de longueur,
                    et MEME LIGNE DE BASE a y = 150 : la grandeur qui varie (la
                    place de l'inconnue) doit etre la SEULE difference visible,
-                   sinon l'eleve lit la difference de forme comme faisant partie
+                   sinon l'élève lit la difference de forme comme faisant partie
                    de la demonstration. Les deux triangles sont donc le meme
-                   6-8-10 : angle droit exact par construction, les deux cotes
+                   6-8-10 : angle droit exact par construction, les deux côtés
                    partant horizontal et vertical du meme sommet. -->
               <line class="grid-line" x1="16" y1="150" x2="384" y2="150"></line>
 
@@ -125,7 +125,7 @@
               <text class="annotation-label" x="104" y="168" text-anchor="middle">8</text>
               <text class="annotation-label" x="48" y="118" text-anchor="end">6</text>
               <text class="annotation-label" x="112" y="106" text-anchor="start">?</text>
-              <text class="tick-label" x="104" y="192" text-anchor="middle">on cherche l hypotenuse</text>
+              <text class="tick-label" x="104" y="192" text-anchor="middle">on cherche l hypoténuse</text>
               <text class="label-soft" x="104" y="34" text-anchor="middle">36 + 64 = 100</text>
               <text class="tick-label" x="104" y="52" text-anchor="middle">racine de 100 = 10</text>
 
@@ -134,13 +134,13 @@
               <text class="annotation-label" x="296" y="168" text-anchor="middle">?</text>
               <text class="annotation-label" x="240" y="118" text-anchor="end">6</text>
               <text class="annotation-label" x="304" y="106" text-anchor="start">10</text>
-              <text class="tick-label" x="296" y="192" text-anchor="middle">on cherche un petit cote</text>
+              <text class="tick-label" x="296" y="192" text-anchor="middle">on cherche un petit côté</text>
               <text class="label-soft" x="296" y="34" text-anchor="middle">100 - 36 = 64</text>
               <text class="tick-label" x="296" y="52" text-anchor="middle">racine de 64 = 8</text>
             </svg>
           `,
           notes: [
-            'À gauche, l\'inconnue est l\'hypoténuse : elle est plus grande que chacun des deux autres côtés, donc on <strong>additionne</strong> — $6^2 + 8^2 = 100$, puis $\\sqrt{100} = 10$.',
+            'À gauche, l\'inconnue est l\'hypoténuse : elle est plus grande que chacun des deux autrès côtés, donc on <strong>additionne</strong> — $6^2 + 8^2 = 100$, puis $\\sqrt{100} = 10$.',
             'À droite, l\'inconnue est un côté de l\'angle droit : elle est plus petite que l\'hypoténuse, donc on <strong>soustrait</strong> — $10^2 - 6^2 = 64$, puis $\\sqrt{64} = 8$.',
             'Le contrôle qui ne trompe jamais : <strong>l\'hypoténuse est toujours le plus long côté</strong>. Si ton résultat pour un petit côté dépasse l\'hypoténuse, tu as additionné au lieu de soustraire.'
           ],
@@ -149,33 +149,33 @@
         },
         {
           theme: 'maths',
-          kicker: 'Trouver l\'hypoténuse',
+          kicker: 'Trouver l\'hypotenuse',
           title: 'L\'hypoténuse ne dépend pas de l\'orientation du triangle',
           description: 'Beaucoup d\'élèves cherchent l\'hypoténuse « en haut » ou « en diagonale ». Ce n\'est pas une affaire de position sur la feuille : l\'hypoténuse est le côté <strong>en face de l\'angle droit</strong>, et elle le reste quand on fait tourner le triangle.',
           svg: `
             <svg viewBox="0 0 400 180" role="img" aria-labelledby="pyth-orient-title pyth-orient-desc">
               <title id="pyth-orient-title">Le meme triangle rectangle dans trois orientations differentes</title>
-              <desc id="pyth-orient-desc">Le meme triangle rectangle 3 4 5 est dessine trois fois, dans trois orientations differentes. A chaque fois l'angle droit est marque par un petit carre et l'hypotenuse est tracee en trait plus epais. Dans la premiere figure l'hypotenuse monte vers la droite, dans la deuxieme elle descend, dans la troisieme elle est horizontale en haut. Dans les trois cas l'hypotenuse est le cote situe en face de l'angle droit, jamais celui qui occupe une position particuliere sur la feuille.</desc>
+              <desc id="pyth-orient-desc">Le meme triangle rectangle 3 4 5 est dessine trois fois, dans trois orientations differentes. A chaque fois l'angle droit est marque par un petit carre et l'hypoténuse est tracee en trait plus epais. Dans la première figure l'hypoténuse monte vers là droite, dans la deuxième elle descend, dans la troisième elle est horizontale en haut. Dans les trois cas l'hypoténuse est le côté situe en face de l'angle droit, jamais celui qui occupe une position particuliere sur la feuille.</desc>
 
-              <!-- PAS A PAS, de gauche a droite : chaque vignette rejoue la
+              <!-- PAS A PAS, de gauche à droite : chaque vignette rejoue la
                    precedente et ne change QU'UNE chose, l'orientation. Le
-                   triangle est a chaque fois le 3-4-5 a l'echelle 24 unites par
-                   unite de longueur : cotes 72 et 96, hypotenuse 120. Verifie au
+                   triangle est a chaque fois le 3-4-5 a l'echelle 24 unités par
+                   unité de longueur : cotes 72 et 96, hypoténuse 120. Vérifie au
                    produit scalaire pour les trois. -->
               <polygon class="frame-line" points="32,140 104,140 32,44" fill="color-mix(in srgb, var(--diagram-accent) 12%, transparent)"></polygon>
               <path class="grid-line" fill="none" d="M41 140 L41 131 L32 131"></path>
               <line class="curve-main" x1="104" y1="140" x2="32" y2="44"></line>
-              <text class="tick-label" x="68" y="166" text-anchor="middle">angle droit en bas a gauche</text>
+              <text class="tick-label" x="68" y="166" text-anchor="middle">angle droit en bas à gauche</text>
 
               <polygon class="frame-line" points="176,44 248,44 248,140" fill="color-mix(in srgb, var(--diagram-accent) 12%, transparent)"></polygon>
               <path class="grid-line" fill="none" d="M239 44 L239 53 L248 53"></path>
               <line class="curve-main" x1="176" y1="44" x2="248" y2="140"></line>
-              <text class="tick-label" x="212" y="166" text-anchor="middle">angle droit en haut a droite</text>
+              <text class="tick-label" x="212" y="166" text-anchor="middle">angle droit en haut à droite</text>
 
               <polygon class="frame-line" points="296,44 368,44 368,140" fill="color-mix(in srgb, var(--diagram-accent) 12%, transparent)"></polygon>
               <path class="grid-line" fill="none" d="M359 140 L359 131 L368 131"></path>
               <line class="curve-main" x1="296" y1="44" x2="368" y2="44"></line>
-              <text class="tick-label" x="332" y="166" text-anchor="middle">hypotenuse horizontale</text>
+              <text class="tick-label" x="332" y="166" text-anchor="middle">hypoténuse horizontale</text>
             </svg>
           `,
           notes: [
@@ -194,21 +194,21 @@
           svg: `
             <svg viewBox="0 0 400 196" role="img" aria-labelledby="pyth-recip-title pyth-recip-desc">
               <title id="pyth-recip-title">Un triangle 5 7 9 qui ressemble a un triangle rectangle sans en etre un</title>
-              <desc id="pyth-recip-desc">A gauche, un triangle de cotes 5, 7 et 9 est dessine a l'echelle. Son plus grand angle mesure environ 95 degres : il est visiblement proche de l'angle droit, mais il le depasse. Aucun petit carre ne le marque, puisque ce n'est pas un angle droit. A droite, le calcul de la reciproque est pose : la somme des carres des deux petits cotes vaut 25 plus 49, soit 74, tandis que le carre du plus grand cote vaut 81. Les deux nombres ne sont pas egaux, donc le triangle n'est pas rectangle, et l'ecart de sept unites ne se rattrape pas par un arrondi.</desc>
+              <desc id="pyth-recip-desc">A gauche, un triangle de cotes 5, 7 et 9 est dessine a l'echelle. Son plus grand angle mesure environ 95 degrés : il est visiblement proche de l'angle droit, mais il le depasse. Aucun petit carre ne le marque, puisque ce n'est pas un angle droit. A droite, le calcul de la reciproque est pose : la somme des carres des deux petits cotes vaut 25 plus 49, soit 74, tandis que le carre du plus grand côté vaut 81. Les deux nombres ne sont pas égaux, donc le triangle n'est pas rectangle, et l'écart de sept unités ne se rattrape pas par un arrondi.</desc>
 
-              <!-- Le triangle est construit au compas a partir de ses trois
-                   cotes, echelle 14 unites par unite : base 9 -> 126, et le
+              <!-- Le triangle est construit au compas à partir de ses trois
+                   cotes, echelle 14 unités par unité : base 9 -> 126, et le
                    sommet est a l'intersection des cercles de rayons 7 et 5.
-                   Coordonnees calculees, pas estimees : xc = (81+49-25)/18 =
+                   Coordonnées calculees, pas estimees : xc = (81+49-25)/18 =
                    5,8333 et yc = racine(49 - 34,0278) = 3,8695, soit 81,67 et
-                   54,17 unites. L'angle au sommet vaut alors 95,7 degres : il
+                   54,17 unités. L'angle au sommet vaut alors 95,7 degrés : il
                    DEPASSE l'angle droit, ce qui est exactement ce que la figure
                    doit montrer. -->
               <polygon class="frame-line" points="34,150 160,150 115.67,95.83" fill="color-mix(in srgb, var(--diagram-accent) 14%, transparent)"></polygon>
               <text class="annotation-label" x="97" y="170" text-anchor="middle">9</text>
               <text class="annotation-label" x="66" y="116" text-anchor="end">7</text>
               <text class="annotation-label" x="146" y="116" text-anchor="start">5</text>
-              <text class="tick-label" x="97" y="188" text-anchor="middle">cet angle vaut 95,7 degres</text>
+              <text class="tick-label" x="97" y="188" text-anchor="middle">cet angle vaut 95,7 degrés</text>
 
               <!-- FIGURE « PIEGE » : le calcul JUSTE en haut et en teinte
                    d'accent, la conclusion fautive dessous en teinte faible et en
@@ -219,7 +219,7 @@
 
               <rect x="196" y="110" width="190" height="58" rx="8" fill="color-mix(in srgb, var(--diagram-accent) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--diagram-accent) 18%, var(--border))" stroke-dasharray="5 4"></rect>
               <text class="tick-label" x="210" y="132">74 proche de 81 donc oui</text>
-              <text class="label-soft" x="210" y="154">non : il faut l egalite</text>
+              <text class="label-soft" x="210" y="154">non : il faut l égalite</text>
             </svg>
           `,
           notes: [
@@ -315,7 +315,7 @@
             tolerance: 0.01,
             unit: ctx.u,
             figure: figureTriangleRectangle(a, b, c, { unite: ctx.u, inconnu: 'hypotenuse' }),
-            hint: 'La longueur cherchée est l\'hypoténuse : elle est en face de l\'angle droit, donc on additionne les carrés des deux autres côtés.',
+            hint: 'La longueur cherchée est l\'hypoténuse : elle est en face de l\'angle droit, donc on additionne les carrés des deux autrès côtés.',
             solution: [
               'Les deux longueurs connues forment l\'angle droit, la longueur cherchée est donc l\'hypoténuse.',
               '$c^2 = ' + a + '^2 + ' + b + '^2 = ' + (a * a) + ' + ' + (b * b) + ' = ' + (c * c) + '$',
@@ -333,7 +333,7 @@
           const connu = chercheB ? a : b, reponse = chercheB ? b : a;
           const ctx = pick([
             { d: 'Une échelle de ' + c + '\\,\\text{m} est posée contre un mur vertical. Son pied est à ' + connu + '\\,\\text{m} du mur.', q: 'À quelle hauteur touche-t-elle le mur ?', u: 'm' },
-            { d: 'Un téléviseur rectangulaire a une diagonale de ' + c + '\\,\\text{cm} et une largeur de ' + connu + '\\,\\text{cm}.', q: 'Quelle est sa hauteur ?', u: 'cm' },
+            { d: 'Un téléviseur rectangulaire à une diagonale de ' + c + '\\,\\text{cm} et une largeur de ' + connu + '\\,\\text{cm}.', q: 'Quelle est sa hauteur ?', u: 'cm' },
             { d: 'Un toboggan rectiligne de ' + c + '\\,\\text{m} part du haut d\'un portique vertical. Son point d\'arrivée est à ' + connu + '\\,\\text{m} du pied du portique.', q: 'Quelle est la hauteur du portique ?', u: 'm' },
             { d: 'Un câble tendu de ' + c + '\\,\\text{m} relie le sommet d\'un poteau vertical à un piquet planté à ' + connu + '\\,\\text{m} du pied du poteau.', q: 'Quelle est la hauteur du poteau ?', u: 'm' }
           ]);
@@ -468,7 +468,7 @@
            decouvrir SEUL qu'un calcul de perimetre passe par Pythagore, parce
            que la largeur manque et que rien ne le lui signale. */
         {
-          statement: 'Un panneau rectangulaire a une longueur de $24\\,\\text{cm}$ et une diagonale de $25\\,\\text{cm}$. Calculer son <strong>périmètre</strong>.',
+          statement: 'Un panneau rectangulaire à une longueur de $24\\,\\text{cm}$ et une diagonale de $25\\,\\text{cm}$. Calculer son <strong>périmètre</strong>.',
           type: 'numeric',
           answer: 62,
           tolerance: 0.01,
@@ -497,7 +497,7 @@
           ],
           answer: 1,
           points: 2,
-          correction: 'Le calcul de Léa est juste, et elle compare bien le carré du plus grand côté à la somme des carrés des deux autres : sa méthode est la bonne.<br/><br/>' +
+          correction: 'Le calcul de Léa est juste, et elle compare bien le carré du plus grand côté à la somme des carrés des deux autrès : sa méthode est la bonne.<br/><br/>' +
             'Ce qui ne va pas, c\'est sa <strong>conclusion</strong>. La réciproque du théorème de Pythagore demande une <strong>égalité exacte</strong> : le triangle est rectangle si et seulement si $a^2 + b^2 = c^2$. Ici $100 \\neq 81$, donc le triangle n\'est pas rectangle.<br/><br/>' +
             'La proposition 3 est fausse : le côté isolé doit être le <strong>plus grand</strong>, car c\'est lui qui serait l\'hypoténuse. La proposition 4 l\'est aussi : le calcul tranche, et il tranche mieux que le rapporteur, qui se lit à un ou deux degrés près.'
         }

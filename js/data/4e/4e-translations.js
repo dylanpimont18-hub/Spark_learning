@@ -51,7 +51,7 @@
         svg: `
           <svg viewBox="0 0 360 300" role="img" aria-labelledby="translation-graph-title translation-graph-desc">
             <title id="translation-graph-title">Translation du point A par le vecteur v</title>
-            <desc id="translation-graph-desc">Repere avec le point A en 3 ; 1 et son image A prime en 5 ; -3 par la translation de vecteur v de coordonnees 2 ; -4, avec la fleche du vecteur tracee entre les deux points.</desc>
+            <desc id="translation-graph-desc">Repere avec le point A en 3 ; 1 et son image A prime en 5 ; -3 par la translation de vecteur v de coordonnées 2 ; -4, avec la fleche du vecteur tracee entre les deux points.</desc>
 
             <line class="grid-line" x1="50" y1="20" x2="50" y2="272"></line>
             <line class="grid-line" x1="86" y1="20" x2="86" y2="272"></line>
@@ -104,7 +104,7 @@
           </svg>
         `,
         notes: [
-          'Le vecteur $\\vec{v}(2\\,;\\,-4)$ donne le déplacement : on avance de $2$ vers la droite (abscisse) puis de $4$ vers le bas (ordonnée négative).',
+          'Le vecteur $\\vec{v}(2\\,;\\,-4)$ donne le déplacement : on avance de $2$ vers là droite (abscisse) puis de $4$ vers le bas (ordonnée négative).',
           'La flèche relie directement $A$ à son image $A\'$ : c\'est le même vecteur $\\vec{v}$ qui déplacerait n\'importe quel autre point du plan.',
           'Vérification par coordonnées : $A\'(3+2\\,;\\,1+(-4)) = A\'(5\\,;\\,-3)$, exactement le point marqué sur le graphique.'
         ],
@@ -212,21 +212,42 @@
           correction: '$b = y_{B\'} - y_B = 1 - 5 = -4$.'
         },
         {
-          statement: 'Une rotation de centre $O$ et d\'angle $180°$ transforme $A(3 ; 2)$ en $A\'$. Si $O$ est l\'origine $(0 ; 0)$, quelles sont les coordonnées de $A\'$ ?',
-          type: 'multiple-choice',
-          options: ['$(3 ; -2)$', '$(-3 ; -2)$', '$(-3 ; 2)$', '$(2 ; 3)$'],
-          answer: 1,
+          /* Q4 RÉÉCRITE le 2026-09-13 pour mobiliser « chercher ». L'ancien
+             énoncé appliquait une rotation de 180° à un point, ce que le cours
+             donne tel quel. Ici l'élève doit COMPOSER deux translations et
+             comprendre qu'une seule suffit à décrire le trajet entier — rien dans
+             l'énoncé ne le suggère. */
+          statement: 'Un robot part du point $A(-2 ; 3)$. Il subit d\'abord une translation de vecteur $\\vec{u}(5 ; -1)$, puis une translation de vecteur $\\vec{v}(-3 ; 4)$. Une seule translation mène directement de $A$ à son image finale : quelle est son abscisse ?',
+          type: 'numeric',
+          answer: 2,
+          tolerance: 0,
+          unit: '',
           points: 2,
-          correction: 'Rotation de $180°$ autour de l\'origine : $A\'(-x ; -y) = A\'(-3 ; -2)$.'
+          correction: 'Deux translations enchaînées équivalent à une seule, dont le vecteur est la somme des deux.<br/><br/>' +
+            'Abscisse du vecteur résultant : $5 + (-3) = 2$. Ordonnée : $-1 + 4 = 3$.<br/><br/>' +
+            'La translation unique a donc pour vecteur $\\vec{w}(2 ; 3)$, et son abscisse vaut $2$.<br/><br/>' +
+            'Contrôle par le trajet complet : $A(-2 ; 3)$ devient $(3 ; 2)$, puis $(0 ; 6)$. Et $(-2) + 2 = 0$ : on retombe bien sur la même image finale. ✓'
         },
         {
-          statement: 'Un segment $[AB]$ de longueur $7\\,\\text{cm}$ subit une translation. Quelle est la longueur de l\'image $[A\'B\']$ ?',
-          type: 'numeric',
-          answer: 7,
-          tolerance: 0,
-          unit: 'cm',
+          /* Q5 RÉÉCRITE le 2026-09-13 pour mobiliser « communiquer ». L'ancienne
+             question demandait une longueur que son propre corrigé donnait en une
+             ligne (« la translation conserve les distances »), donc du calcul
+             déguisé. Ici l'élève doit expliquer POURQUOI une aire est conservée,
+             ce qui suppose d'articuler conservation des longueurs et conservation
+             de la forme. */
+          statement: 'Un triangle d\'aire $24\\,\\text{cm}^2$ subit une translation. Un élève affirme que son image a aussi une aire de $24\\,\\text{cm}^2$. Quelle explication justifie le mieux son affirmation ?',
+          type: 'multiple-choice',
+          options: [
+            'Il se trompe : une translation déplace la figure, donc son aire change selon la longueur du déplacement.',
+            'Il a raison : une translation conserve toutes les longueurs, donc la figure image a exactement les mêmes côtés et la même forme que l\'originale — c\'est la même figure, simplement ailleurs.',
+            'Il a raison, mais uniquement parce que le vecteur de translation est horizontal.',
+            'Il a raison parce qu\'une translation conserve les aires alors qu\'elle ne conserve pas les longueurs.'
+          ],
+          answer: 1,
           points: 2,
-          correction: 'La translation est une isométrie : elle conserve toutes les distances. Donc $A\'B\' = AB = 7\\,\\text{cm}$.'
+          correction: 'Une translation est une <strong>isométrie</strong> : elle conserve toutes les distances. L\'image d\'un segment est un segment de même longueur.<br/><br/>' +
+            'Les trois côtés de l\'image ont donc les mêmes longueurs que ceux de l\'originale : c\'est le même triangle, simplement déplacé. Son aire est nécessairement la même, $24\\,\\text{cm}^2$.<br/><br/>' +
+            'La proposition 3 est fausse : la direction du vecteur ne change rien. La proposition 4 inverse le raisonnement — c\'est parce que les longueurs sont conservées que l\'aire l\'est, et non l\'inverse.'
         }
       ]
     }

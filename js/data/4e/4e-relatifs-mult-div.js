@@ -10,12 +10,12 @@
     cours: {
       intro: 'La règle des signes pour la multiplication est intuitive si on pense aux opposés : multiplier par $-1$ inverse le signe. Donc $(-1) \\times (-1) = 1$ car « l\'opposé de l\'opposé ». Règle générale : pair de $-$ → $+$, impair de $-$ → $-$.' +
         '<br/><br/>' +
-        '<strong>Piège classique avec les exposants :</strong> $(-3)^2 = (-3) \\times (-3) = +9$ (le $-$ est dans la base), mais $-3^2 = -(3 \\times 3) = -9$ (l\'exposant s\'applique uniquement au $3$). Les parenthèses sont essentielles.' +
+        '<strong>Piège classique avec les exposants :</strong> $(-3)^2 = (-3) \\times (-3) = +9$ (le $-$ est dans là base), mais $-3^2 = -(3 \\times 3) = -9$ (l\'exposant s\'applique uniquement au $3$). Les parenthèses sont essentielles.' +
         '<br/><br/>' +
         'En physique, les grandeurs algébriques (tension, position, vitesse) peuvent être négatives — le signe indique un sens (opposé à la convention positive choisie). Par exemple, une vitesse de $-5$ m/s signifie un déplacement dans le sens opposé à l\'axe choisi.',
       definitions: [
         { term: 'Nombre relatif', def: 'Nombre muni d\'un signe ($+$ ou $-$) et d\'une valeur absolue. Exemples : $+7$, $-3{,}5$.' },
-        { term: 'Valeur absolue', def: 'Distance à zéro sur la droite graduée, toujours positive. $|{-5}| = 5$ et $|{+5}| = 5$.' },
+        { term: 'Valeur absolue', def: 'Distance à zéro sur là droite graduée, toujours positive. $|{-5}| = 5$ et $|{+5}| = 5$.' },
         { term: 'Règle des signes', def: 'Deux facteurs de même signe donnent un produit positif ; deux facteurs de signes contraires donnent un produit négatif.' },
         { term: 'Opposé d\'un nombre', def: 'L\'opposé de $a$ est $-a$. Leur somme vaut $0$ : $a + (-a) = 0$.' }
       ],
@@ -53,10 +53,10 @@
         svg: `
           <svg viewBox="0 0 640 300" role="img" aria-labelledby="relatifs-multdiv-title relatifs-multdiv-desc">
             <title id="relatifs-multdiv-title">Deux droites graduées comparant (-2) x 3 et (-2) x (-3)</title>
-            <desc id="relatifs-multdiv-desc">En haut, une droite graduée de -8 a 8 montre trois sauts de -2 vers la gauche partant de 0 et arrivant a -6, illustrant (-2) x 3 = -6. En bas, une deuxieme droite graduee identique montre trois sauts de +2 vers la droite partant de 0 et arrivant a +6, illustrant (-2) x (-3) = +6 : le sens des sauts s'est inverse.</desc>
+            <desc id="relatifs-multdiv-desc">En haut, une droite graduée de -8 a 8 montre trois sauts de -2 vers là gauche partant de 0 et arrivant a -6, illustrant (-2) x 3 = -6. En bas, une deuxième droite graduee identique montre trois sauts de +2 vers là droite partant de 0 et arrivant a +6, illustrant (-2) x (-3) = +6 : le sens des sauts s'est inverse.</desc>
 
             <text class="annotation-label" x="320" y="22" text-anchor="middle">(-2) x 3 = -6</text>
-            <text class="label-soft" x="320" y="40" text-anchor="middle">3 sauts de -2, vers la gauche</text>
+            <text class="label-soft" x="320" y="40" text-anchor="middle">3 sauts de -2, vers là gauche</text>
 
             <line class="graph-line" x1="316" y1="90" x2="260" y2="90"></line>
             <polygon class="plot-point" points="250,90 260,84 260,96"></polygon>
@@ -106,7 +106,7 @@
             <circle class="plot-point" cx="110" cy="110" r="5"></circle>
 
             <text class="annotation-label" x="320" y="168" text-anchor="middle">(-2) x (-3) = +6</text>
-            <text class="label-soft" x="320" y="186" text-anchor="middle">3 sauts de +2, vers la droite (sens inverse !)</text>
+            <text class="label-soft" x="320" y="186" text-anchor="middle">3 sauts de +2, vers là droite (sens inverse !)</text>
 
             <line class="graph-line" x1="324" y1="236" x2="380" y2="236"></line>
             <polygon class="plot-point" points="390,236 380,230 380,242"></polygon>
@@ -157,12 +157,12 @@
           </svg>
         `,
         notes: [
-          '<strong>Ligne du haut — $(-2) \\times 3$ :</strong> on répète $3$ fois le saut de $-2$, toujours dans le même sens (vers la gauche), comme une addition répétée. On part de $0$ et on arrive à $-6$.',
-          '<strong>Ligne du bas — $(-2) \\times (-3)$ :</strong> multiplier par $-3$ revient à faire l\'opposé de « $3$ sauts de $-2$ ». Le sens s\'inverse : ce sont désormais $3$ sauts de $+2$ vers la droite. On part de $0$ et on arrive à $+6$.',
+          '<strong>Ligne du haut — $(-2) \\times 3$ :</strong> on répète $3$ fois le saut de $-2$, toujours dans le même sens (vers là gauche), comme une addition répétée. On part de $0$ et on arrive à $-6$.',
+          '<strong>Ligne du bas — $(-2) \\times (-3)$ :</strong> multiplier par $-3$ revient à faire l\'opposé de « $3$ sauts de $-2$ ». Le sens s\'inverse : ce sont désormais $3$ sauts de $+2$ vers là droite. On part de $0$ et on arrive à $+6$.',
           '<strong>Ce qui ne change pas :</strong> la longueur du saut reste $2$ dans les deux cas — seul le signe du deuxième facteur décide de la direction.',
           '<strong>Règle des signes retrouvée :</strong> $(-) \\times (+) = (-)$ (même sens → résultat négatif) et $(-) \\times (-) = (+)$ (sens inversé → résultat positif).'
         ],
-        reading: 'Multiplier par un nombre négatif <strong>inverse le sens</strong> des sauts sur la droite graduée : $(-2) \\times 3 = -6$ (vers la gauche) devient $(-2) \\times (-3) = +6$ (mêmes sauts, mais vers la droite).',
+        reading: 'Multiplier par un nombre négatif <strong>inverse le sens</strong> des sauts sur là droite graduée : $(-2) \\times 3 = -6$ (vers là gauche) devient $(-2) \\times (-3) = +6$ (mêmes sauts, mais vers là droite).',
         caption: 'Deux droites graduées superposées : en haut $(-2) \\times 3 = -6$, en bas $(-2) \\times (-3) = +6$, pour visualiser le renversement de sens.'
       },
       recap: [
@@ -192,7 +192,7 @@
           '$(-2)^3 > 0$ et $(-2)^4 > 0$ : les exposants impairs et pairs donnent tous des positifs.',
           '$(-2)^3 < 0$ et $(-2)^4 > 0$ : exposant impair → négatif, exposant pair → positif.',
           '$(-2)^3 > 0$ et $(-2)^4 < 0$ : l\'inverse.',
-          'Les deux sont négatifs car la base est négative.'
+          'Les deux sont négatifs car là base est négative.'
         ],
         answer: 1,
         correction: '$(-2)^3 = (-2) \\times (-2) \\times (-2) = 4 \\times (-2) = -8 < 0$ (3 facteurs négatifs = nombre impair de $-$). $(-2)^4 = (-2)^3 \\times (-2) = (-8) \\times (-2) = +16 > 0$ (4 facteurs = pair). Règle : $(-a)^n$ est positif si $n$ est pair, négatif si $n$ est impair.'
@@ -209,7 +209,7 @@
           { emoji: '💰', statement: `Un commerçant enregistre une variation de $(${a})$ € par jour pendant $(${b})$ jours. Quelle est la variation totale ? <br/><em>Calcul : $(${a}) \\times (${b})$</em>` },
           { emoji: '🌡️', statement: `La température change de $(${a})°C$ chaque heure pendant $(${b})$ heures. Quelle est la variation totale ? <br/><em>Calcul : $(${a}) \\times (${b})$</em>` },
           { emoji: '🏔️', statement: `Un randonneur ${a < 0 ? 'descend' : 'monte'} de $${Math.abs(a)}$ m d'altitude par étape. Après $(${b})$ étapes, quelle est la variation d'altitude totale ? <br/><em>Calcul : $(${a}) \\times (${b})$</em>` },
-          { emoji: '🚰', statement: `Un réservoir ${a < 0 ? 'perd' : 'gagne'} $(${a})$ litres par minute pendant $(${b})$ minutes. Quelle est la variation totale ? <br/><em>Calcul : $(${a}) \\times (${b})$</em>` },
+          { emoji: '🚰', statement: `Un réservoir ${a < 0 ? 'perd' : 'gagne'} $(${a})$ litrès par minute pendant $(${b})$ minutes. Quelle est la variation totale ? <br/><em>Calcul : $(${a}) \\times (${b})$</em>` },
           { emoji: '📊', statement: `Une action en bourse varie de $(${a})$ points par séance pendant $(${b})$ séances. Quelle est la variation totale ? <br/><em>Calcul : $(${a}) \\times (${b})$</em>` },
           { emoji: '🤿', statement: `Un plongeur ${a < 0 ? 'descend' : 'remonte'} de $${Math.abs(a)}$ m par minute pendant $(${b})$ minutes. Quelle est la variation de profondeur ? <br/><em>Calcul : $(${a}) \\times (${b})$</em>` }
         ]);
@@ -275,25 +275,41 @@
           ],
           answer: 2,
           points: 2,
-          correction: '$(-5)^2 = (-5) \\times (-5) = 25$ (le $-$ est dans la base, élevé au carré). $-5^2 = -(5 \\times 5) = -25$ (l\'exposant s\'applique uniquement au $5$, puis on applique le signe $-$). Les parenthèses changent tout !'
+          correction: '$(-5)^2 = (-5) \\times (-5) = 25$ (le $-$ est dans là base, élevé au carré). $-5^2 = -(5 \\times 5) = -25$ (l\'exposant s\'applique uniquement au $5$, puis on applique le signe $-$). Les parenthèses changent tout !'
         },
         {
-          statement: 'Calculer $\\dfrac{(-36)}{(+9)}$.',
+          /* Q4 RÉÉCRITE le 2026-09-13 pour mobiliser « chercher ». L'ancien
+             énoncé était un quotient à poser, $\dfrac{-36}{+9}$. Ici l'énoncé
+             ne parle que d'un PRODUIT : l'élève doit comprendre de lui-même
+             qu'un facteur manquant se retrouve par une division. */
+          statement: 'Un produit de deux facteurs vaut $-72$. L\'un des deux facteurs est $+9$. Quel est l\'autre facteur ?',
           type: 'numeric',
-          answer: -4,
+          answer: -8,
           tolerance: 0,
           unit: '',
           points: 2,
-          correction: 'Signes contraires → résultat négatif. $36 \\div 9 = 4$. Donc $\\dfrac{-36}{+9} = -4$.'
+          correction: 'L\'énoncé parle d\'un produit, mais c\'est une <strong>division</strong> qui retrouve un facteur manquant : si $9 \\times a = -72$, alors $a = \\dfrac{-72}{9}$.<br/><br/>' +
+            'Signes contraires, donc résultat négatif, et $72 \\div 9 = 8$ : le facteur cherché vaut $-8$.<br/><br/>' +
+            'Contrôle indispensable : $(+9) \\times (-8) = -72$. On retombe bien sur le produit donné.'
         },
         {
-          statement: 'Un sous-marin descend de $15\\,\\text{m}$ toutes les $3\\,\\text{min}$. Quelle variation de profondeur subit-il en $12\\,\\text{min}$ ?',
-          type: 'numeric',
-          answer: -60,
-          tolerance: 0,
-          unit: 'm',
+          /* Q5 RÉÉCRITE le 2026-09-13 pour mobiliser « communiquer ». L'ancien
+             énoncé (un sous-marin) était un calcul de variation en situation.
+             Celui-ci demande de distinguer une erreur de SIGNE d'une erreur de
+             VALEUR, et de nommer la règle mal appliquée. */
+          statement: 'Pour calculer $(-2) \\times (-3) \\times (-5)$, Tom écrit : « moins par moins donne plus, donc le résultat est positif ; $2 \\times 3 \\times 5 = 30$, la réponse est $+30$. » Quelle explication corrige le mieux son raisonnement ?',
+          type: 'multiple-choice',
+          options: [
+            'Son produit de valeurs est faux : $2 \\times 3 \\times 5$ ne vaut pas $30$.',
+            'Il a appliqué la règle à deux facteurs alors qu\'il y en a trois : c\'est le <strong>nombre</strong> de facteurs négatifs qui décide, et $3$ est impair, donc le résultat est négatif, $-30$.',
+            'La règle « moins par moins donne plus » est fausse : un produit de nombres négatifs est toujours négatif.',
+            'Il aurait dû additionner les trois nombres avant de s\'occuper du signe.'
+          ],
+          answer: 1,
           points: 2,
-          correction: 'Variation par minute : $\\dfrac{-15}{3} = -5\\,\\text{m/min}$. En $12\\,\\text{min}$ : $(-5) \\times 12 = -60\\,\\text{m}$. Le sous-marin descend de $60\\,\\text{m}$.'
+          correction: 'Le produit des valeurs est juste : $2 \\times 3 \\times 5 = 30$. C\'est le <strong>signe</strong> qui est faux.<br/><br/>' +
+            'Tom a appliqué « moins par moins donne plus » aux deux premiers facteurs et s\'est arrêté là. Avec trois facteurs négatifs, il faut compter : un nombre <strong>pair</strong> de facteurs négatifs donne un résultat positif, un nombre <strong>impair</strong> un résultat négatif. Ici $3$ facteurs négatifs, donc $-30$.<br/><br/>' +
+            'La proposition 3 est fausse — $(-2) \\times (-3) = +6$ est bien positif — et la proposition 4 confond produit et somme.'
         }
       ]
     }

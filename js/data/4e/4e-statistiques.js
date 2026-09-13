@@ -52,7 +52,7 @@
         svg: `
           <svg viewBox="0 0 490 230" role="img" aria-labelledby="stats-boxplot-title stats-boxplot-desc">
             <title id="stats-boxplot-title">Boite a moustaches des temps de 8 coureurs au 100 m</title>
-            <desc id="stats-boxplot-desc">Huit points representant les temps ordonnes sont places au dessus d'une boite a moustaches allant du minimum 11,2 au maximum 14,1 secondes, avec la boite entre le premier quartile 11,65 et le troisieme quartile 13,1, coupee par la mediane 12,15.</desc>
+            <desc id="stats-boxplot-desc">Huit points representant les temps ordonnes sont places au dessus d'une boite a moustaches allant du minimum 11,2 au maximum 14,1 secondes, avec la boite entre le premier quartile 11,65 et le troisième quartile 13,1, coupée par la médiane 12,15.</desc>
             <line class="grid-line" x1="60.0" y1="40" x2="60.0" y2="170"></line>
             <line class="grid-line" x1="112.9" y1="40" x2="112.9" y2="170"></line>
             <line class="grid-line" x1="165.7" y1="40" x2="165.7" y2="170"></line>
@@ -166,11 +166,11 @@
       generate() {
         const tache = pick(['mediane-impaire', 'mediane-paire', 'quartile', 'etendue']);
         const ctx = pick([
-          { quoi: 'les notes obtenues a un controle', u: '' },
-          { quoi: 'les temperatures relevees a midi, en degres', u: '' },
-          { quoi: 'les temps de trajet des eleves, en minutes', u: '' },
-          { quoi: 'les nombres de livres empruntes en une semaine', u: '' },
-          { quoi: 'les tailles relevees dans un groupe, en centimetres', u: '' }
+          { quoi: 'les notes obtenues à un contrôle', u: '' },
+          { quoi: 'les températures relevées à midi, en degrés', u: '' },
+          { quoi: 'les temps de trajet des élèves, en minutes', u: '' },
+          { quoi: 'les nombres de livres empruntés en une semaine', u: '' },
+          { quoi: 'les tailles relevées dans un groupe, en centimètres', u: '' }
         ]);
 
         if (tache === 'mediane-impaire') {
@@ -179,15 +179,15 @@
           const rang = Math.floor(n / 2) + 1;
           const med = vals[rang - 1];
           return {
-            statement: 'Voici ' + ctx.quoi + ', deja rangees dans l\'ordre croissant : $' + vals.join(', ') + '$. Calcule la mediane de cette serie.',
+            statement: 'Voici ' + ctx.quoi + ', déjà rangées dans l\'ordre croissant : $' + vals.join(', ') + '$. Calcule la médiane de cette série.',
             answer: med,
             tolerance: 0,
             unit: '',
-            hint: 'La serie compte $' + n + '$ valeurs, un nombre impair : la mediane est la valeur qui occupe la position centrale.',
+            hint: 'La série compte $' + n + '$ valeurs, un nombre impair : la médiane est la valeur qui occupe la position centrale.',
             solution: [
-              'La serie compte $' + n + '$ valeurs, et $' + n + '$ est impair : il y a donc une valeur exactement au milieu.',
+              'La série compte $' + n + '$ valeurs, et $' + n + '$ est impair : il y a donc une valeur exactement au milieu.',
               'Cette position est la $' + rang + '^e$ : autant de valeurs avant qu\'apres.',
-              'La mediane vaut donc $' + med + '$.'
+              'La médiane vaut donc $' + med + '$.'
             ]
           };
         }
@@ -198,15 +198,15 @@
           const g = vals[n / 2 - 1], d = vals[n / 2];
           const med = (g + d) / 2;
           return {
-            statement: 'Voici ' + ctx.quoi + ', deja rangees dans l\'ordre croissant : $' + vals.join(', ') + '$. Calcule la mediane de cette serie.',
+            statement: 'Voici ' + ctx.quoi + ', déjà rangées dans l\'ordre croissant : $' + vals.join(', ') + '$. Calcule la médiane de cette série.',
             answer: med,
             tolerance: 0.001,
             unit: '',
-            hint: 'La serie compte $' + n + '$ valeurs, un nombre pair : aucune valeur n\'est seule au milieu, il y en a deux.',
+            hint: 'La série compte $' + n + '$ valeurs, un nombre pair : aucune valeur n\'est seule au milieu, il y en a deux.',
             solution: [
-              'La serie compte $' + n + '$ valeurs, et $' + n + '$ est pair : aucune valeur n\'occupe seule le centre.',
+              'La série compte $' + n + '$ valeurs, et $' + n + '$ est pair : aucune valeur n\'occupe seule le centre.',
               'Les deux valeurs centrales sont la $' + (n / 2) + '^e$ et la $' + (n / 2 + 1) + '^e$, soit $' + g + '$ et $' + d + '$.',
-              'La mediane est leur demi-somme : $\\dfrac{' + g + ' + ' + d + '}{2} = ' + fr(med) + '$. Elle peut ne pas figurer dans la serie, et ce n\'est pas une erreur.'
+              'La médiane est leur demi-somme : $\\dfrac{' + g + ' + ' + d + '}{2} = ' + fr(med) + '$. Elle peut ne pas figurer dans la série, et ce n\'est pas une erreur.'
             ]
           };
         }
@@ -222,16 +222,16 @@
           const m = moitie.length;
           const q = m % 2 ? moitie[(m - 1) / 2] : (moitie[m / 2 - 1] + moitie[m / 2]) / 2;
           return {
-            statement: 'Voici ' + ctx.quoi + ', rangees dans l\'ordre croissant : $' + vals.join(', ') + '$. ' +
-              'Calcule le ' + (lequel === 1 ? 'premier quartile $Q_1$, mediane de la moitie inferieure' : 'troisieme quartile $Q_3$, mediane de la moitie superieure') + '.',
+            statement: 'Voici ' + ctx.quoi + ', rangées dans l\'ordre croissant : $' + vals.join(', ') + '$. ' +
+              'Calcule le ' + (lequel === 1 ? 'premier quartile $Q_1$, médiane de la moitié inférieure' : 'troisième quartile $Q_3$, médiane de la moitié supérieure') + '.',
             answer: q,
             tolerance: 0.001,
             unit: '',
-            hint: 'Coupe d\'abord la serie en deux moities de meme effectif, puis cherche la mediane de la moitie ' + (lequel === 1 ? 'inferieure' : 'superieure') + '.',
+            hint: 'Coupe d\'abord la série en deux moitiés de même effectif, puis cherche la médiane de la moitié ' + (lequel === 1 ? 'inférieure' : 'supérieure') + '.',
             solution: [
-              'La serie compte $' + n + '$ valeurs : chaque moitie en contient donc $' + (n / 2) + '$.',
-              'Moitie ' + (lequel === 1 ? 'inferieure' : 'superieure') + ' : $' + moitie.join(', ') + '$.',
-              'Sa mediane est $' + fr(q) + '$, donc $Q_' + lequel + ' = ' + fr(q) + '$.'
+              'La série compte $' + n + '$ valeurs : chaque moitié en contient donc $' + (n / 2) + '$.',
+              'Moitié ' + (lequel === 1 ? 'inférieure' : 'supérieure') + ' : $' + moitie.join(', ') + '$.',
+              'Sa médiane est $' + fr(q) + '$, donc $Q_' + lequel + ' = ' + fr(q) + '$.'
             ]
           };
         }
@@ -241,15 +241,15 @@
         const vals = Array.from({ length: n }, () => rand(1, 30)).sort((a, b) => a - b);
         const e = vals[n - 1] - vals[0];
         return {
-          statement: 'Voici ' + ctx.quoi + ' : $' + vals.join(', ') + '$. Calcule l\'etendue de cette serie.',
+          statement: 'Voici ' + ctx.quoi + ' : $' + vals.join(', ') + '$. Calcule l\'étendue de cette série.',
           answer: e,
           tolerance: 0,
           unit: '',
-          hint: 'L\'etendue mesure la dispersion : c\'est l\'ecart entre la plus grande et la plus petite valeur.',
+          hint: 'L\'étendue mesure la dispersion : c\'est l\'écart entre la plus grande et la plus petite valeur.',
           solution: [
             'La plus grande valeur est $' + vals[n - 1] + '$, la plus petite est $' + vals[0] + '$.',
-            'L\'etendue vaut $' + vals[n - 1] + ' - ' + vals[0] + ' = ' + e + '$.',
-            'Attention : l\'etendue dit comment les valeurs sont <strong>dispersees</strong>, pas ou elles se situent. Deux series de meme etendue peuvent avoir des medianes tres differentes.'
+            'L\'étendue vaut $' + vals[n - 1] + ' - ' + vals[0] + ' = ' + e + '$.',
+            'Attention : l\'étendue dit comment les valeurs sont <strong>dispersées</strong>, pas ou elles se situent. Deux séries de même étendue peuvent avoir des médianes très differentes.'
           ]
         };
       }
@@ -292,30 +292,56 @@
           correction: '$n = 6$ (pair). Médiane $= \\dfrac{x_3 + x_4}{2} = \\dfrac{8 + 11}{2} = 9{,}5$.'
         },
         {
-          statement: 'Pour la série ordonnée $2, 5, 7, 9, 11, 14, 17, 20$, le premier quartile $Q_1$ est la médiane de la moitié inférieure $\\{2, 5, 7, 9\\}$. Que vaut $Q_1$ ?',
+          /* Q3 — « représenter ». La tâche consiste à situer une valeur dans une
+             série ordonnée : l'élève ne calcule rien, il lit une POSITION. Le
+             découpage de la série en moitiés, qui était donné dans l'ancien
+             énoncé, a été retiré le 2026-09-13 — c'était précisément le travail
+             de représentation demandé. */
+          statement: 'Pour la série ordonnée $2, 5, 7, 9, 11, 14, 17, 20$, le premier quartile $Q_1$ est la médiane de la moitié inférieure de la série. Que vaut $Q_1$ ?',
           type: 'numeric',
           answer: 6,
           tolerance: 0.01,
           unit: '',
           points: 2,
-          correction: 'Moitié inférieure : $\\{2, 5, 7, 9\\}$. $n = 4$ (pair) → $Q_1 = \\dfrac{5 + 7}{2} = 6$.'
+          correction: 'Il faut d\'abord partager la série en deux moitiés de même effectif. Elle compte $8$ valeurs, donc chaque moitié en contient $4$ : la moitié inférieure est $\\{2, 5, 7, 9\\}$.<br/><br/>' +
+            'On cherche ensuite la médiane de cette moitié. Elle compte $4$ valeurs, un nombre pair : la médiane est la demi-somme des deux valeurs centrales, $5$ et $7$.<br/><br/>' +
+            '$Q_1 = \\dfrac{5 + 7}{2} = 6$. La valeur $6$ ne figure pas dans la série, et ce n\'est pas une erreur : un quartile, comme une médiane, peut tomber entre deux valeurs.'
         },
         {
           statement: 'Quel indicateur statistique n\'est pas affecté par les valeurs extrêmes ?',
           type: 'multiple-choice',
-          options: ['La moyenne', 'La médiane', 'La somme', 'L\'étendue'],
+          options: ['La moyenne', 'La médiane', 'La somme', 'L\'etendue'],
           answer: 1,
           points: 2,
           correction: 'La médiane est robuste aux valeurs extrêmes car elle dépend uniquement de la position centrale, pas de la grandeur des valeurs. La moyenne, la somme et l\'étendue sont toutes sensibles aux valeurs extrêmes.'
         },
         {
-          statement: 'Pour la série $2, 5, 7, 9, 11, 14, 17, 20$, le troisième quartile $Q_3$ est la médiane de la moitié supérieure $\\{11, 14, 17, 20\\}$. Calculer l\'écart interquartile $IQR = Q_3 - Q_1$. (On donne $Q_1 = 6$.)',
-          type: 'numeric',
-          answer: 9.5,
-          tolerance: 0.01,
-          unit: '',
+          /* Q5 RÉÉCRITE le 2026-09-13 pour mobiliser « communiquer ». L'ancienne
+             question était une soustraction dont l'énoncé fournissait $Q_1$ ET le
+             découpage de la série : du calcul. Celle-ci demande de justifier le
+             choix d'un indicateur devant une série à valeur extrême, ce qui est
+             l'usage réel des statistiques et la raison d\'être de la médiane.
+
+             Les nombres ont été choisis pour que la moyenne tombe JUSTE :
+             somme $25\,200$ pour neuf salaires, soit exactement $2\,800$ euros.
+             Une première version annonçait $2\,711$ euros à partir d'une somme
+             fausse — erreur trouvée par le contrôle arithmétique de tous les
+             énoncés réécrits, et invisible à la relecture puisque le chiffre
+             était plausible. */
+          statement: 'Dans une entreprise de $9$ salariés, les salaires mensuels sont $1\\,500$, $1\\,500$, $1\\,600$, $1\\,600$, $1\\,700$, $1\\,800$, $1\\,800$, $1\\,900$ et $11\\,800$ euros. Le directeur annonce « un salaire moyen de $2\\,800$ euros ». Quelle explication décrit le mieux la situation ?',
+          type: 'multiple-choice',
+          options: [
+            'Le calcul du directeur est faux : la moyenne de ces salaires ne vaut pas $2\\,800$ euros.',
+            'Le calcul est juste, mais la moyenne décrit mal cette série : le salaire de $11\\,800$ euros la tire vers le haut, si bien que huit salariés sur neuf gagnent moins que la « moyenne ». La médiane, $1\\,700$ euros, est ici plus représentative.',
+            'La moyenne est toujours le meilleur indicateur, car elle tient compte de toutes les valeurs.',
+            'Il aurait fallu calculer l\'étendue, qui est le seul indicateur fiable en présence d\'une valeur extrême.'
+          ],
+          answer: 1,
           points: 2,
-          correction: '$Q_3 = \\dfrac{14 + 17}{2} = 15{,}5$. $IQR = Q_3 - Q_1 = 15{,}5 - 6 = 9{,}5$.'
+          correction: 'Le calcul est correct : la somme des neuf salaires vaut $25\\,200$ euros, et $25\\,200 \\div 9 = 2\\,800$ euros exactement.<br/><br/>' +
+            'Mais cette moyenne est trompeuse. Le salaire de $11\\,800$ euros, très éloigné des autres, la tire fortement vers le haut : <strong>huit salariés sur neuf</strong> gagnent moins que la moyenne annoncée.<br/><br/>' +
+            'La médiane est la cinquième valeur de cette série de neuf, soit $1\\,700$ euros. Elle ne dépend que de la position centrale, jamais de la grandeur des extrêmes, et décrit donc bien mieux ce que gagne « un salarié de cette entreprise ».<br/><br/>' +
+            'La proposition 4 se trompe d\'indicateur : l\'étendue, $11\\,800 - 1\\,500 = 10\\,300$ euros, est au contraire <strong>très</strong> sensible aux valeurs extrêmes — elle ne dépend que d\'elles.'
         }
       ]
     }

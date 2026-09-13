@@ -10,29 +10,29 @@
     cours: {
       intro: 'La pyramide et le cône ont un volume égal au tiers du prisme ou cylindre qui les contient : $V = \\frac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$.' +
         '<br/><br/>' +
-        '<strong>Intuition :</strong> en versant un cône rempli de sable dans le cylindre de même base et même hauteur, il faut exactement 3 remplissages — vérifiable expérimentalement ! Cette formule s\'applique à toute pyramide quelle que soit la forme de sa base (carrée, triangulaire, hexagonale…).' +
+        '<strong>Intuition :</strong> en versant un cône rempli de sable dans le cylindre de même base et même hauteur, il faut exactement 3 remplissages — vérifiable expérimentalement ! Cette formule s\'applique à toute pyramide quelle que soit la forme de sà base (carrée, triangulaire, hexagonale…).' +
         '<br/><br/>' +
-        'Le point crucial est que $h$ désigne la <strong>hauteur perpendiculaire</strong> — la distance du sommet à la base — jamais l\'arête latérale qui relie le sommet à un coin de la base.' +
+        'Le point crucial est que $h$ désigne la <strong>hauteur perpendiculaire</strong> — la distance du sommet à là base — jamais l\'arête latérale qui relie le sommet à un coin de là base.' +
         '<br/><br/>' +
         'En physique, ces formules servent à calculer le volume de réservoirs coniques, de silos, d\'entonnoirs, ou de toitures en pyramide.',
       definitions: [
-        { term: 'Pyramide', def: 'Solide dont la base est un polygone et dont les faces latérales sont des triangles qui se rejoignent en un sommet appelé apex.' },
-        { term: 'Cône de révolution', def: 'Solide obtenu en faisant tourner un triangle rectangle autour d\'un de ses côtés de l\'angle droit. La base est un disque.' },
-        { term: 'Hauteur d\'une pyramide ou d\'un cône', def: 'Distance perpendiculaire du sommet (apex) au plan de la base. Ce n\'est pas l\'arête latérale.' },
+        { term: 'Pyramide', def: 'Solide dont là base est un polygone et dont les faces latérales sont des triangles qui se rejoignent en un sommet appelé apex.' },
+        { term: 'Cône de révolution', def: 'Solide obtenu en faisant tourner un triangle rectangle autour d\'un de ses côtés de l\'angle droit. Là base est un disque.' },
+        { term: 'Hauteur d\'une pyramide ou d\'un cône', def: 'Distance perpendiculaire du sommet (apex) au plan de là base. Ce n\'est pas l\'arête latérale.' },
         { term: 'Apothème', def: 'Arête latérale d\'une pyramide régulière, ou génératrice d\'un cône. Toujours plus longue que la hauteur.' }
       ],
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          '<strong>Calculer l\'aire de la base</strong> $\\mathcal{A}_{\\text{base}}$. <strong>Exemple :</strong> base carrée de côté $5$ cm → $\\mathcal{A} = 5^2 = 25$ cm² ; base circulaire de rayon $3$ cm → $\\mathcal{A} = \\pi \\times 3^2 \\approx 28{,}3$ cm².',
-          '<strong>Mesurer la hauteur $h$</strong> (distance perpendiculaire du sommet à la base). <strong>Exemple :</strong> si l\'arête latérale vaut $13$ cm et la demi-diagonale de la base carrée vaut $5$ cm, alors $h = \\sqrt{13^2 - 5^2} = 12$ cm (Pythagore).',
+          '<strong>Calculer l\'aire de là base</strong> $\\mathcal{A}_{\\text{base}}$. <strong>Exemple :</strong> base carrée de côté $5$ cm → $\\mathcal{A} = 5^2 = 25$ cm² ; base circulaire de rayon $3$ cm → $\\mathcal{A} = \\pi \\times 3^2 \\approx 28{,}3$ cm².',
+          '<strong>Mesurer la hauteur $h$</strong> (distance perpendiculaire du sommet à là base). <strong>Exemple :</strong> si l\'arête latérale vaut $13$ cm et la demi-diagonale de là base carrée vaut $5$ cm, alors $h = \\sqrt{13^2 - 5^2} = 12$ cm (Pythagore).',
           '<strong>Appliquer la formule</strong> : $V = \\dfrac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$. <strong>Exemple :</strong> $V = \\dfrac{1}{3} \\times 25 \\times 12 = 100$ cm³.'
         ]
       },
       example: {
         statement: 'Un entonnoir a la forme d\'un cône de rayon $4$ cm et de hauteur $9$ cm. Quel volume de liquide peut-il contenir ? (Prendre $\\pi \\approx 3{,}14$.)',
         steps: [
-          'Aire de la base circulaire : $\\mathcal{A} = \\pi r^2 = 3{,}14 \\times 4^2 = 3{,}14 \\times 16 = 50{,}24$ cm².',
+          'Aire de là base circulaire : $\\mathcal{A} = \\pi r^2 = 3{,}14 \\times 4^2 = 3{,}14 \\times 16 = 50{,}24$ cm².',
           'Volume du cône : $V = \\dfrac{1}{3} \\times 50{,}24 \\times 9 = \\dfrac{452{,}16}{3} = 150{,}72$ cm³.',
           'Conversion : $150{,}72$ cm³ $= 150{,}72$ mL $\\approx 0{,}15$ L.'
         ],
@@ -47,11 +47,11 @@
         theme: 'maths',
         kicker: 'Coupe d\'un cône',
         title: 'Hauteur perpendiculaire et génératrice : ne pas confondre',
-        description: 'Coupe de l\'entonnoir de l\'exemple du cours : un cône de rayon $r = 4$ cm et de hauteur $h = 9$ cm. La hauteur (en pointillés) relie le sommet au centre de la base ; la génératrice (trait plein) relie le sommet au bord de la base et sert de côté visible du cône.',
+        description: 'Coupe de l\'entonnoir de l\'exemple du cours : un cône de rayon $r = 4$ cm et de hauteur $h = 9$ cm. La hauteur (en pointillés) relie le sommet au centre de là base ; la génératrice (trait plein) relie le sommet au bord de là base et sert de côté visible du cône.',
         svg: `
-          <svg viewBox="0 0 360 260" role="img" aria-labelledby="volumes-cone-title volumes-cone-desc">
-            <title id="volumes-cone-title">Coupe d'un cone avec hauteur et generatrice</title>
-            <desc id="volumes-cone-desc">Un cone est represente en perspective avec sa base elliptique, sa hauteur perpendiculaire en pointilles reliant le sommet au centre de la base, et sa generatrice en trait plein reliant le sommet au bord de la base, plus longue que la hauteur.</desc>
+          <svg viewBox="0 0 360 260" role="img" aria-labelledby="volumes-cône-title volumes-cône-desc">
+            <title id="volumes-cône-title">Coupe d'un cône avec hauteur et generatrice</title>
+            <desc id="volumes-cône-desc">Un cône est représente en perspective avec sà base elliptique, sa hauteur perpendiculaire en pointilles reliant le sommet au centre de là base, et sa generatrice en trait plein reliant le sommet au bord de là base, plus longue que la hauteur.</desc>
             <path class="guide-line" d="M80 195 A100 24 0 0 1 280 195"></path>
             <path class="frame-line" d="M80 195 A100 24 0 0 0 280 195" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)"></path>
             <line class="curve-main" x1="180" y1="45" x2="80" y2="195"></line>
@@ -70,21 +70,21 @@
           </svg>
         `,
         notes: [
-          'La hauteur $h$ (en pointillés) est la distance perpendiculaire entre le sommet et le centre de la base — c\'est elle qui sert dans la formule du volume.',
-          'La génératrice (trait plein) relie le sommet à un point du bord de la base : elle est toujours plus longue que $h$. Ici $l = \\sqrt{r^2+h^2} = \\sqrt{4^2+9^2} = \\sqrt{97} \\approx 9{,}85$ cm.',
-          'Le petit carré marque l\'angle droit entre la hauteur et le rayon de la base.',
+          'La hauteur $h$ (en pointillés) est la distance perpendiculaire entre le sommet et le centre de là base — c\'est elle qui sert dans la formule du volume.',
+          'La génératrice (trait plein) relie le sommet à un point du bord de là base : elle est toujours plus longue que $h$. Ici $l = \\sqrt{r^2+h^2} = \\sqrt{4^2+9^2} = \\sqrt{97} \\approx 9{,}85$ cm.',
+          'Le petit carré marque l\'angle droit entre la hauteur et le rayon de là base.',
           'Volume : $V = \\dfrac{1}{3}\\pi r^2 h = \\dfrac{1}{3}\\times 3{,}14\\times 4^2\\times 9 = 150{,}72$ cm³ (voir l\'exemple du cours).'
         ],
-        reading: 'Repère d\'abord l\'angle droit entre la hauteur et le rayon de la base : c\'est ce qui distingue $h$ de la génératrice, plus longue et oblique.',
+        reading: 'Repère d\'abord l\'angle droit entre la hauteur et le rayon de là base : c\'est ce qui distingue $h$ de la génératrice, plus longue et oblique.',
         caption: 'Coupe d\'un cône (entonnoir de l\'exemple du cours) avec hauteur perpendiculaire en pointillés et génératrice en trait plein.'
       },
       recap: [
         'Volume d\'une pyramide ou d\'un cône = $\\dfrac{1}{3}$ du prisme ou cylindre de même base et même hauteur.',
-        'La hauteur $h$ est toujours perpendiculaire à la base — ne pas confondre avec l\'arête latérale.',
+        'La hauteur $h$ est toujours perpendiculaire à là base — ne pas confondre avec l\'arête latérale.',
         'Cône : $V = \\dfrac{1}{3} \\pi r^2 h$ ; pyramide à base carrée : $V = \\dfrac{1}{3} a^2 h$.',
         'Il faut $3$ cônes pour remplir un cylindre de même base et même hauteur.'
       ],
-      piege: 'Piège : la hauteur d\'une pyramide est la distance perpendiculaire du sommet à sa base, PAS l\'arête latérale (apothème). Sur les figures obliques, la hauteur est souvent différente de ce qu\'on voit de prime abord.'
+      piege: 'Piège : la hauteur d\'une pyramide est la distance perpendiculaire du sommet à sà base, PAS l\'arête latérale (apothème). Sur les figures obliques, la hauteur est souvent différente de ce qu\'on voit de prime abord.'
     },
     quiz: [
       {
@@ -92,14 +92,14 @@
         options: [
           'Il a utilisé l\'arête latérale au lieu de la hauteur perpendiculaire',
           'Il a oublié le facteur $\\frac{1}{3}$ dans la formule',
-          'L\'aire de la base est $4$ cm², pas $16$ cm²',
+          'L\'aire de là base est $4$ cm², pas $16$ cm²',
           'Il n\'y a pas d\'erreur, le résultat est correct'
         ],
         answer: 0,
-        correction: 'L\'arête latérale ($5$ cm) relie le sommet à un coin de la base ; ce n\'est pas la hauteur. La hauteur $h$ est la distance perpendiculaire du sommet au centre de la base — elle est toujours différente de l\'arête latérale (ici plus courte). Il faut calculer $h$ avec Pythagore avant d\'appliquer $V = \\frac{1}{3} \\times 16 \\times h$.'
+        correction: 'L\'arête latérale ($5$ cm) relie le sommet à un coin de là base ; ce n\'est pas la hauteur. La hauteur $h$ est la distance perpendiculaire du sommet au centre de là base — elle est toujours différente de l\'arête latérale (ici plus courte). Il faut calculer $h$ avec Pythagore avant d\'appliquer $V = \\frac{1}{3} \\times 16 \\times h$.'
       },
       {
-        q: 'Un cône a un rayon de base de $3$ cm et une hauteur de $10$ cm. Quel est son volume (avec $\\pi \\approx 3{,}14$) ?',
+        q: 'Un cône à un rayon de base de $3$ cm et une hauteur de $10$ cm. Quel est son volume (avec $\\pi \\approx 3{,}14$) ?',
         options: ['$94{,}2$ cm³', '$282{,}6$ cm³', '$31{,}4$ cm³', '$188{,}4$ cm³'],
         answer: 0,
         correction: '$V = \\dfrac{1}{3} \\times 3{,}14 \\times 9 \\times 10 = \\dfrac{282{,}6}{3} = 94{,}2$ cm³.'
@@ -128,11 +128,11 @@
 
         if (tache === 'pyramide-carree') {
           const ctx = pick([
-            { intro: 'Un toit en forme de pyramide a une base carree de cote', emoji: '🏠' },
-            { intro: 'Un monument en forme de pyramide a une base carree de cote', emoji: '🏛️' },
-            { intro: 'Un emballage decoratif en forme de pyramide a une base carree de cote', emoji: '🎁' },
-            { intro: 'Un cristal en forme de pyramide a une base carree de cote', emoji: '💎' },
-            { intro: 'Un silo a grain en forme de pyramide a une base carree de cote', emoji: '🌾' }
+            { intro: 'Un toit en forme de pyramide à une base carrée de cote', emoji: '🏠' },
+            { intro: 'Un monument en forme de pyramide à une base carrée de cote', emoji: '🏛️' },
+            { intro: 'Un emballage décoratif en forme de pyramide à une base carrée de cote', emoji: '🎁' },
+            { intro: 'Un cristal en forme de pyramide à une base carrée de cote', emoji: '💎' },
+            { intro: 'Un silo a grain en forme de pyramide à une base carrée de cote', emoji: '🌾' }
           ]);
           const a = rand(3, 10), h = rand(3, 12);
           const v = parseFloat(((a * a * h) / 3).toFixed(1));
@@ -141,21 +141,21 @@
             answer: v,
             tolerance: 0.2,
             unit: 'cm³',
-            hint: 'L\'aire de la base carree vaut $' + a + '^2 = ' + (a * a) + '$ cm², puis $V = \\dfrac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$.',
+            hint: 'L\'aire de là base carrée vaut $' + a + '^2 = ' + (a * a) + '$ cm², puis $V = \\dfrac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$.',
             solution: [
-              'Aire de la base : $' + a + '^2 = ' + (a * a) + '$ cm².',
+              'Aire de là base : $' + a + '^2 = ' + (a * a) + '$ cm².',
               '$V = \\dfrac{' + (a * a) + ' \\times ' + h + '}{3} = \\dfrac{' + (a * a * h) + '}{3} = ' + fr(v) + '$ cm³.',
-              'Controle : ce volume est bien le tiers de celui du prisme de meme base et meme hauteur, qui vaudrait $' + fr(a * a * h) + '$ cm³.'
+              'Contrôle : ce volume est bien le tiers de celui du prisme de même base et même hauteur, qui vaudrait $' + fr(a * a * h) + '$ cm³.'
             ]
           };
         }
 
         if (tache === 'cone') {
           const ctx = pick([
-            { intro: 'Un cornet de glace en forme de cone a un rayon de base de', emoji: '🍦' },
-            { intro: 'Un chapeau de fete en forme de cone a un rayon de base de', emoji: '🎉' },
-            { intro: 'Un tas de sable en forme de cone a un rayon de base de', emoji: '⛱️' },
-            { intro: 'Un entonnoir conique a un rayon de base de', emoji: '🔻' }
+            { intro: 'Un cornet de glace en forme de cône à un rayon de base de', emoji: '🍦' },
+            { intro: 'Un chapeau de fete en forme de cône à un rayon de base de', emoji: '🎉' },
+            { intro: 'Un tas de sable en forme de cône à un rayon de base de', emoji: '⛱️' },
+            { intro: 'Un entonnoir conique à un rayon de base de', emoji: '🔻' }
           ]);
           const r = rand(2, 9), h = rand(4, 15);
           const v = parseFloat(((3.14 * r * r * h) / 3).toFixed(1));
@@ -164,9 +164,9 @@
             answer: v,
             tolerance: 1,
             unit: 'cm³',
-            hint: 'La base est un disque : son aire vaut $\\pi r^2$. Ensuite, comme pour toute pyramide, on prend le tiers.',
+            hint: 'Là base est un disque : son aire vaut $\\pi r^2$. Ensuite, comme pour toute pyramide, on prend le tiers.',
             solution: [
-              'Aire de la base (un disque) : $\\pi \\times ' + r + '^2 \\approx 3{,}14 \\times ' + (r * r) + ' = ' + fr(parseFloat((3.14 * r * r).toFixed(2))) + '$ cm².',
+              'Aire de là base (un disque) : $\\pi \\times ' + r + '^2 \\approx 3{,}14 \\times ' + (r * r) + ' = ' + fr(parseFloat((3.14 * r * r).toFixed(2))) + '$ cm².',
               '$V = \\dfrac{1}{3} \\times ' + fr(parseFloat((3.14 * r * r).toFixed(2))) + ' \\times ' + h + ' \\approx ' + fr(v) + '$ cm³.',
               'Attention : dans $\\pi r^2$, c\'est le rayon qui est au carre, jamais $\\pi r$ tout entier.'
             ]
@@ -177,22 +177,22 @@
           // L'aire de base est DONNEE : la tache isole la formule du volume et
           // ne teste plus, au passage, le calcul d'une aire.
           const ctx = pick([
-            'Une pyramide a base triangulaire',
-            'Une pyramide a base hexagonale',
-            'Une pyramide a base pentagonale',
-            'Un solide en forme de pyramide dont la base est un polygone quelconque'
+            'Une pyramide à base triangulaire',
+            'Une pyramide à base hexagonale',
+            'Une pyramide à base pentagonale',
+            'Un solide en forme de pyramide dont là base est un polygone quelconque'
           ]);
           const base = pick([12, 15, 18, 20, 24, 30, 36]);
           const h = rand(4, 15);
           const v = parseFloat(((base * h) / 3).toFixed(1));
           return {
-            statement: ctx + ' a une base d\'aire $' + base + '$ cm² et une hauteur de $' + h + '$ cm. Calcule son volume en cm³.',
+            statement: ctx + ' à une base d\'aire $' + base + '$ cm² et une hauteur de $' + h + '$ cm. Calcule son volume en cm³.',
             answer: v,
             tolerance: 0.2,
             unit: 'cm³',
-            hint: 'La forme de la base ne change rien : $V = \\dfrac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$ vaut pour toute pyramide.',
+            hint: 'La forme de là base ne change rien : $V = \\dfrac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$ vaut pour toute pyramide.',
             solution: [
-              'La formule ne depend pas de la forme de la base, seulement de son AIRE.',
+              'La formule ne depend pas de la forme de là base, seulement de son AIRE.',
               '$V = \\dfrac{' + base + ' \\times ' + h + '}{3} = \\dfrac{' + (base * h) + '}{3} = ' + fr(v) + '$ cm³.'
             ]
           };
@@ -205,7 +205,7 @@
         const ctx = pick([
           'Un vase en forme de pyramide contient $' + fr(v) + '$ cm³ quand il est plein.',
           'Un moule a gateau en forme de pyramide a un volume de $' + fr(v) + '$ cm³.',
-          'Une piece usinee en forme de pyramide occupe $' + fr(v) + '$ cm³.'
+          'Une pièce usinée en forme de pyramide occupe $' + fr(v) + '$ cm³.'
         ]);
         return {
           statement: ctx + ' Son aire de base vaut $' + base + '$ cm². Quelle est sa hauteur en cm ?',
@@ -222,7 +222,7 @@
       }
     },
     probleme: {
-      context: 'La Grande Pyramide de Gizeh a une base carrée de $230$ m de côté et une hauteur d\'origine de $146$ m.',
+      context: 'La Grande Pyramide de Gizeh à une base carrée de $230$ m de côté et une hauteur d\'origine de $146$ m.',
       tasks: [
         'Calculer le volume de la pyramide en m³.',
         'Convertir en km³ ($1\\,\\text{km}^3 = 10^9\\,\\text{m}^3$).',
@@ -241,7 +241,7 @@
       duration: '30 min',
       questions: [
         {
-          statement: 'Une pyramide à base carrée de côté $6\\,\\text{cm}$ a une hauteur de $9\\,\\text{cm}$. Calculer son volume en cm³.',
+          statement: 'Une pyramide à base carrée de côté $6\\,\\text{cm}$ à une hauteur de $9\\,\\text{cm}$. Calculer son volume en cm³.',
           type: 'numeric',
           answer: 108,
           tolerance: 0.1,
@@ -250,13 +250,21 @@
           correction: '$V = \\dfrac{1}{3} \\times 6^2 \\times 9 = \\dfrac{1}{3} \\times 36 \\times 9 = \\dfrac{324}{3} = 108\\,\\text{cm}^3$.'
         },
         {
-          statement: 'Un cône a un rayon de base $r = 5\\,\\text{cm}$ et une hauteur $h = 12\\,\\text{cm}$. Calculer son volume (prendre $\\pi \\approx 3{,}14$).',
+          /* Q2 — « modéliser ». L'énoncé est conservé : la tâche consiste bien à
+             construire l'aire de la base (un disque) avant d'appliquer la formule
+             du volume, c'est-à-dire à mettre la situation en modèle. Le corrigé a
+             été détaillé le 2026-09-13 pour faire apparaître cette étape, qui
+             était implicite. */
+          statement: 'Un cône à un rayon de base $r = 5\\,\\text{cm}$ et une hauteur $h = 12\\,\\text{cm}$. Calculer son volume (prendre $\\pi \\approx 3{,}14$).',
           type: 'numeric',
           answer: 314,
           tolerance: 1,
           unit: 'cm³',
           points: 2,
-          correction: '$V = \\dfrac{1}{3} \\pi r^2 h = \\dfrac{1}{3} \\times 3{,}14 \\times 25 \\times 12 = \\dfrac{942}{3} = 314\\,\\text{cm}^3$.'
+          correction: 'La formule $V = \\dfrac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$ vaut pour tout cône comme pour toute pyramide : la seule chose à construire est l\'aire de là base.<br/><br/>' +
+            'Ici là base est un <strong>disque</strong> de rayon $5\\,\\text{cm}$ : $\\mathcal{A}_{\\text{base}} = \\pi r^2 \\approx 3{,}14 \\times 25 = 78{,}5\\,\\text{cm}^2$.<br/><br/>' +
+            '$V \\approx \\dfrac{78{,}5 \\times 12}{3} = \\dfrac{942}{3} = 314\\,\\text{cm}^3$.<br/><br/>' +
+            'Attention : dans $\\pi r^2$, c\'est le rayon qui est au carré, jamais $\\pi r$ tout entier.'
         },
         {
           statement: 'On remplit un cône d\'eau et on le verse dans un cylindre de même base et même hauteur. Combien de cônes faut-il pour remplir le cylindre ?',
@@ -268,26 +276,40 @@
           correction: '$V_{\\text{cylindre}} = \\pi r^2 h$ et $V_{\\text{cône}} = \\dfrac{1}{3} \\pi r^2 h$. Le rapport est $\\dfrac{V_{\\text{cylindre}}}{V_{\\text{cône}}} = 3$. Il faut donc $3$ cônes.'
         },
         {
-          statement: 'La hauteur d\'une pyramide est :',
+          /* Q4 RÉÉCRITE le 2026-09-13 pour mobiliser « chercher ». L'ancienne
+             question demandait de reconnaître la définition de la hauteur parmi
+             quatre propositions, soit du vocabulaire. Ici l'élève doit inverser
+             la formule du volume, et rien ne le lui dit. */
+          statement: 'Une pyramide à une base carrée de $6\\,\\text{cm}$ de côté et un volume de $96\\,\\text{cm}^3$. Quelle est sa hauteur, en cm ?',
+          type: 'numeric',
+          answer: 8,
+          tolerance: 0.01,
+          unit: 'cm',
+          points: 2,
+          correction: 'La formule du volume est connue, mais c\'est la hauteur qui est cherchée : il faut la faire sortir de la formule.<br/><br/>' +
+            'Aire de là base : $6^2 = 36\\,\\text{cm}^2$. La formule donne $96 = \\dfrac{36 \\times h}{3}$.<br/><br/>' +
+            'On multiplie les deux membres par $3$ : $288 = 36 \\times h$. On divise par $36$ : $h = 8\\,\\text{cm}$.<br/><br/>' +
+            'Contrôle : $\\dfrac{36 \\times 8}{3} = 96$. ✓ Oublier de multiplier par $3$ aurait donné $h \\approx 2{,}7\\,\\text{cm}$, une hauteur trois fois trop petite.'
+        },
+        {
+          /* Q5 RÉÉCRITE le 2026-09-13 pour mobiliser « communiquer ». L'ancienne
+             question était une application directe de la formule. Celle-ci
+             demande d'expliquer d'où vient le facteur un tiers et de réfuter une
+             explication plausible mais fausse — le coeur conceptuel du chapitre. */
+          statement: 'Un élève affirme : « le volume d\'une pyramide vaut le tiers de celui du prisme de même base et même hauteur parce qu\'une pyramide a trois faces de moins. » Quelle explication corrige le mieux son raisonnement ?',
           type: 'multiple-choice',
           options: [
-            'L\'arête latérale reliant le sommet à un coin de la base',
-            'La distance perpendiculaire du sommet à la base',
-            'La diagonale de la base',
-            'La longueur d\'une face latérale'
+            'Il a raison, et c\'est pour cela que le facteur est $\\dfrac{1}{3}$.',
+            'Sa conclusion est juste mais sa raison est fausse : le facteur $\\dfrac{1}{3}$ ne dépend pas du nombre de faces. On le vérifie en versant trois pyramides pleines d\'eau dans le prisme de même base et même hauteur, quelle que soit la forme de cette base.',
+            'Sa conclusion est fausse : le volume d\'une pyramide vaut la moitié de celui du prisme.',
+            'Sa conclusion est juste, mais elle ne vaut que pour les pyramides à base carrée.'
           ],
           answer: 1,
           points: 2,
-          correction: 'La hauteur d\'une pyramide est la distance perpendiculaire du sommet au plan de la base. Ce n\'est jamais l\'arête latérale (qui relie le sommet à un sommet de la base et qui est plus longue que la hauteur).'
-        },
-        {
-          statement: 'Une pyramide à base triangulaire a une base de $20\\,\\text{cm}^2$ d\'aire et une hauteur de $15\\,\\text{cm}$. Calculer son volume.',
-          type: 'numeric',
-          answer: 100,
-          tolerance: 0.1,
-          unit: 'cm³',
-          points: 2,
-          correction: '$V = \\dfrac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h = \\dfrac{1}{3} \\times 20 \\times 15 = \\dfrac{300}{3} = 100\\,\\text{cm}^3$.'
+          correction: 'La conclusion est exacte : $V_{\\text{pyramide}} = \\dfrac{1}{3} V_{\\text{prisme}}$ à base et hauteur égales. Mais la raison invoquée ne tient pas.<br/><br/>' +
+            'Le nombre de faces ne décide de rien. Une pyramide à base hexagonale a sept faces, une pyramide à base triangulaire en a quatre, et le facteur $\\dfrac{1}{3}$ est le même pour les deux. Un cône, qui n\'a même pas de face plane latérale, le vérifie aussi.<br/><br/>' +
+            'La preuve tient dans une expérience : trois pyramides remplies d\'eau remplissent exactement le prisme de même base et même hauteur. Le facteur vient du <strong>rapprochement du solide vers son sommet</strong>, pas de son nombre de faces.<br/><br/>' +
+            'La proposition 4 est fausse pour la même raison : la forme de là base n\'intervient pas.'
         }
       ]
     }

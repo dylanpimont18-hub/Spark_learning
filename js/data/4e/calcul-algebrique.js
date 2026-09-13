@@ -55,7 +55,7 @@
         svg: `
           <svg viewBox="0 0 480 280" role="img" aria-labelledby="calcalg-balance-title calcalg-balance-desc">
             <title id="calcalg-balance-title">Isoler x par la métaphore de la balance</title>
-            <desc id="calcalg-balance-desc">Deux balances a deux plateaux montrent comment isoler x dans l'equation 4x = 20 : la balance de depart avec 4x sur un plateau et 20 sur l'autre, puis apres division des deux cotes par 4, la balance montre x seul face a 5.</desc>
+            <desc id="calcalg-balance-desc">Deux balances a deux plateaux montrent comment isoler x dans l'équation 4x = 20 : la balance de départ avec 4x sur un plateau et 20 sur l'autre, puis après division des deux côtés par 4, la balance montre x seul face a 5.</desc>
 
             <text class="axis-label" x="110" y="30" text-anchor="middle">Départ</text>
             <line class="frame-line" x1="55" y1="120" x2="165" y2="120"></line>
@@ -148,11 +148,11 @@
       generate() {
         const tache = pick(['simple', 'negatif', 'deux-cotes', 'quotient', 'formule']);
         const ctx = pick([
-          { intro: 'En mecanique, la relation entre force, masse et acceleration donne l\'equation', emoji: '🔧' },
-          { intro: 'Pour calculer la tension electrique dans un circuit, on resout', emoji: '⚡' },
-          { intro: 'En chimie, l\'equilibre des masses donne l\'equation', emoji: '⚗️' },
-          { intro: 'Pour determiner la vitesse d\'un mobile, on resout', emoji: '🚀' },
-          { intro: 'En economie, le calcul du prix de revient conduit a l\'equation', emoji: '💰' }
+          { intro: 'En mécanique, la relation entre force, masse et accélération donne l\'équation', emoji: '🔧' },
+          { intro: 'Pour calculer la tension électrique dans un circuit, on résout', emoji: '⚡' },
+          { intro: 'En chimie, l\'équilibre des masses donne l\'équation', emoji: '⚗️' },
+          { intro: 'Pour déterminer la vitesse d\'un mobile, on résout', emoji: '🚀' },
+          { intro: 'En économie, le calcul du prix de revient conduit a l\'équation', emoji: '💰' }
         ]);
 
         if (tache === 'simple') {
@@ -165,7 +165,7 @@
             unit: '',
             hint: 'Retire d\'abord $' + b + '$ aux deux membres pour isoler $' + a + 'x$, puis divise par $' + a + '$.',
             solution: [
-              'Equation de depart : $' + a + 'x + ' + b + ' = ' + c + '$.',
+              'Équation de départ : $' + a + 'x + ' + b + ' = ' + c + '$.',
               'On retire $' + b + '$ aux DEUX membres : $' + a + 'x = ' + c + ' - ' + b + ' = ' + (c - b) + '$.',
               'On divise les deux membres par $' + a + '$ : $x = \\dfrac{' + (c - b) + '}{' + a + '} = ' + x + '$.'
             ]
@@ -182,11 +182,11 @@
             answer: x,
             tolerance: 0.001,
             unit: '',
-            hint: 'Isole d\'abord $-' + a + 'x$, puis divise par $-' + a + '$. Diviser par un nombre negatif change le signe du resultat.',
+            hint: 'Isole d\'abord $-' + a + 'x$, puis divise par $-' + a + '$. Diviser par un nombre négatif change le signe du résultat.',
             solution: [
-              'Equation de depart : $-' + a + 'x + ' + b + ' = ' + c + '$.',
+              'Équation de départ : $-' + a + 'x + ' + b + ' = ' + c + '$.',
               'On retire $' + b + '$ aux deux membres : $-' + a + 'x = ' + c + ' - ' + b + ' = ' + (c - b) + '$.',
-              'On divise par $-' + a + '$ : $x = \\dfrac{' + (c - b) + '}{-' + a + '} = ' + x + '$. Deux nombres negatifs se divisent en un resultat positif.'
+              'On divise par $-' + a + '$ : $x = \\dfrac{' + (c - b) + '}{-' + a + '} = ' + x + '$. Deux nombres négatifs se divisent en un résultat positif.'
             ]
           };
         }
@@ -205,7 +205,7 @@
             unit: '',
             hint: 'Commence par rassembler les $x$ d\'un seul cote : retire $' + b + 'x$ aux deux membres.',
             solution: [
-              'Equation de depart : $' + a + 'x + ' + p + ' = ' + b + 'x + ' + q + '$.',
+              'Équation de départ : $' + a + 'x + ' + p + ' = ' + b + 'x + ' + q + '$.',
               'On retire $' + b + 'x$ aux deux membres : $' + (a - b) + 'x + ' + p + ' = ' + q + '$.',
               'On retire $' + p + '$ : $' + (a - b) + 'x = ' + (q - p) + '$, puis on divise par $' + (a - b) + '$ : $x = ' + x + '$.'
             ]
@@ -225,7 +225,7 @@
             solution: [
               'On retire $' + b + '$ aux deux membres : $\\dfrac{x}{' + d + '} = ' + fr(parseFloat((c - b).toFixed(3))) + '$.',
               'On multiplie les deux membres par $' + d + '$ : $x = ' + fr(parseFloat((c - b).toFixed(3))) + ' \\times ' + d + ' = ' + x + '$.',
-              'Erreur frequente : diviser par $' + d + '$ au lieu de multiplier. Pour defaire une division, on multiplie.'
+              'Erreur fréquente : diviser par $' + d + '$ au lieu de multiplier. Pour défaire une division, on multiplie.'
             ]
           };
         }
@@ -239,7 +239,7 @@
         if (cas.cherche === 'd') {
           const v = rand(2, 9), t = rand(2, 9);
           return {
-            statement: '🚀 La vitesse d\'un mobile verifie $v = \\dfrac{d}{t}$, ou $d$ est la distance et $t$ la duree. ' +
+            statement: '🚀 La vitesse d\'un mobile vérifie $v = \\dfrac{d}{t}$, ou $d$ est la distance et $t$ la duree. ' +
               'On mesure $v = ' + v + '$ et $t = ' + t + '$. Quelle est la valeur de $d$ ?',
             answer: v * t,
             tolerance: 0.001,
@@ -252,11 +252,16 @@
             ]
           };
         }
-        const P = rand(2, 12) * rand(2, 9), I = pick([2, 3, 4, 6]);
-        const U = P / I;
+        /* U DOIT TOMBER JUSTE (corrige le 2026-09-13). On tirait P puis I
+           independamment, si bien que U = P / I valait parfois 10,666666666666666 :
+           une reponse illisible, imprimee telle quelle dans le livre, pour une
+           question dont l unique enjeu est d isoler une lettre. On tire donc U et I,
+           et P s en deduit. */
+        const I = pick([2, 3, 4, 5, 6]);
+        const U = rand(2, 24);
         const Puse = U * I;
         return {
-          statement: '⚡ La puissance electrique verifie $P = U \\times I$. On mesure $P = ' + Puse + '$ et $I = ' + I + '$. Quelle est la valeur de $U$ ?',
+          statement: '⚡ La puissance électrique vérifie $P = U \\times I$. On mesure $P = ' + Puse + '$ et $I = ' + I + '$. Quelle est la valeur de $U$ ?',
           answer: U,
           tolerance: 0.001,
           unit: '',
@@ -315,21 +320,40 @@
           correction: '$\\dfrac{x}{4} + 7 = 10 \\Rightarrow \\dfrac{x}{4} = 10 - 7 = 3 \\Rightarrow x = 3 \\times 4 = 12$. Vérification : $\\dfrac{12}{4} + 7 = 3 + 7 = 10$ ✓'
         },
         {
-          statement: 'L\'énergie cinétique est $E_c = \\dfrac{1}{2}mv^2$. Si $E_c = 100\\,\\text{J}$ et $m = 8\\,\\text{kg}$, quelle est la valeur de $v$ ?',
+          /* Q4 RÉÉCRITE le 2026-09-13 pour mobiliser « chercher ». L'ancien
+             énoncé donnait $E_c = \frac{1}{2}mv^2$ avec $E_c$ et $m$, et
+             demandait $v$ : la formule était fournie, la démarche évidente. Ici
+             aucune formule n'est donnée et le périmètre ne s'obtient qu'après
+             avoir posé une équation que rien ne suggère. */
+          statement: 'Un rectangle a un périmètre de $46\\,\\text{cm}$. Sa longueur dépasse sa largeur de $7\\,\\text{cm}$. Quelle est sa largeur, en cm ?',
           type: 'numeric',
-          answer: 5,
-          tolerance: 0.01,
-          unit: 'm/s',
+          answer: 8,
+          tolerance: 0.001,
+          unit: 'cm',
           points: 2,
-          correction: '$E_c = \\dfrac{1}{2}mv^2 \\Rightarrow v^2 = \\dfrac{2E_c}{m} = \\dfrac{2 \\times 100}{8} = 25 \\Rightarrow v = \\sqrt{25} = 5\\,\\text{m/s}$.'
+          correction: 'Aucune formule n\'est donnée : il faut d\'abord choisir l\'inconnue. Appelons $x$ la largeur ; la longueur vaut alors $x + 7$.<br/><br/>' +
+            'Le périmètre d\'un rectangle est $2 \\times (\\text{longueur} + \\text{largeur})$, donc $2 \\times (x + 7 + x) = 46$, soit $2 \\times (2x + 7) = 46$.<br/><br/>' +
+            'On divise par $2$ : $2x + 7 = 23$. On retire $7$ : $2x = 16$. On divise par $2$ : $x = 8$.<br/><br/>' +
+            'Contrôle : largeur $8$, longueur $15$, et $2 \\times (8 + 15) = 46$. ✓'
         },
         {
-          statement: 'Quelle est la bonne résolution de $-2x + 8 = 14$ ?',
+          /* Q5 RÉÉCRITE le 2026-09-13 pour mobiliser « communiquer ». L'ancien
+             énoncé demandait de choisir « la bonne résolution » parmi quatre,
+             sans jamais demander POURQUOI les autres échouent. Ici l'élève doit
+             nommer l'étape fautive et expliquer la règle qu'elle viole. */
+          statement: 'Pour résoudre $-4x + 9 = 1$, Sacha écrit : « je retire $9$ des deux côtés, donc $-4x = -8$ ; je divise par $4$, donc $x = -2$. » Quelle explication corrige le mieux son raisonnement ?',
           type: 'multiple-choice',
-          options: ['$x = 11$', '$x = 3$', '$x = -3$', '$x = -11$'],
-          answer: 2,
+          options: [
+            'Sa première étape est fausse : il aurait fallu ajouter $9$ des deux côtés.',
+            'Ses deux premières étapes sont justes, mais il a divisé par $4$ au lieu de $-4$ : le coefficient de $x$ est $-4$, donc $x = \\dfrac{-8}{-4} = 2$.',
+            'Il ne peut pas retirer $9$ des deux côtés d\'une égalité sans changer le résultat.',
+            'Son résultat est juste, seule l\'écriture de la dernière étape est maladroite.'
+          ],
+          answer: 1,
           points: 2,
-          correction: '$-2x + 8 = 14 \\Rightarrow -2x = 14 - 8 = 6 \\Rightarrow x = \\dfrac{6}{-2} = -3$. Vérification : $-2 \\times (-3) + 8 = 6 + 8 = 14$ ✓'
+          correction: 'La première étape est correcte : retirer $9$ des deux membres donne bien $-4x = -8$.<br/><br/>' +
+            'L\'erreur est à la dernière étape. Le coefficient de $x$ est $-4$, pas $4$ : il faut donc diviser par $-4$. Et $\\dfrac{-8}{-4} = +2$, car deux nombres négatifs se divisent en un résultat positif.<br/><br/>' +
+            'Le contrôle par substitution tranche en une ligne et aurait suffi à Sacha : avec $x = -2$, on obtient $-4 \\times (-2) + 9 = 8 + 9 = 17 \\neq 1$. Avec $x = 2$ : $-4 \\times 2 + 9 = -8 + 9 = 1$. ✓'
         }
       ]
     }
