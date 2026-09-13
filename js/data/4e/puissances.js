@@ -13,7 +13,7 @@
         '<br/><br/>' +
         '<strong>Pourquoi cette contrainte sur $a$ ?</strong> Pour avoir une représentation unique : $0{,}47 \\times 10^{-4}$ et $4{,}7 \\times 10^{-5}$ sont égaux, mais seule la seconde est en notation scientifique standard.' +
         '<br/><br/>' +
-        'Pour convertir, il suffit de compter combien de rangs on déplace la virgule vers là droite (exposant positif si le nombre est grand, négatif si petit). Les <strong>préfixes SI</strong> (nano, micro, milli, kilo…) sont des raccourcis pour des puissances de 10 fréquentes.' +
+        'Pour convertir, il suffit de compter combien de rangs on déplace la virgule vers la droite (exposant positif si le nombre est grand, négatif si petit). Les <strong>préfixes SI</strong> (nano, micro, milli, kilo…) sont des raccourcis pour des puissances de 10 fréquentes.' +
         '<br/><br/>' +
         '<strong>Attention :</strong> l\'erreur la plus courante est de mal compter le nombre de décalages de la virgule. Vérifie toujours que ta mantisse $a$ a un seul chiffre avant la virgule.',
       definitions: [
@@ -33,7 +33,7 @@
       example: {
         statement: 'La longueur d\'onde de la lumière rouge vaut $0{,}000\\,000\\,65$ m. Écrire en notation scientifique puis convertir en nanomètres.',
         steps: [
-          'On déplace la virgule de 7 rangs vers là droite pour obtenir $6{,}5$. L\'exposant est donc $-7$.',
+          'On déplace la virgule de 7 rangs vers la droite pour obtenir $6{,}5$. L\'exposant est donc $-7$.',
           'Notation scientifique : $6{,}5 \\times 10^{-7}$ m.',
           'Conversion : $1\\,\\text{nm} = 10^{-9}\\,\\text{m}$, donc $6{,}5 \\times 10^{-7} = 6{,}5 \\times 10^{2}\\,\\text{nm} = 650\\,\\text{nm}$.'
         ],
@@ -116,7 +116,7 @@
         'Virgule à droite → exposant négatif ; virgule à gauche → exposant positif',
         'Toujours vérifier que $a$ a un seul chiffre avant la virgule'
       ],
-      piege: 'Piège classique : $0{,}005$ en notation scientifique ne s\'écrit pas $5 \\times 10^{-2}$ mais $5 \\times 10^{-3}$ ! Compte bien : $0{,}005 = \\frac{5}{1000} = 5 \\times 10^{-3}$. Déplace la virgule de 3 rangs vers là droite.'
+      piege: 'Piège classique : $0{,}005$ en notation scientifique ne s\'écrit pas $5 \\times 10^{-2}$ mais $5 \\times 10^{-3}$ ! Compte bien : $0{,}005 = \\frac{5}{1000} = 5 \\times 10^{-3}$. Déplace la virgule de 3 rangs vers la droite.'
     },
 
     quiz: [
@@ -124,7 +124,7 @@
         q: 'Quelle est la notation scientifique de $0{,}000\\ 047$ ?',
         options: ['$4{,}7 \\times 10^{-5}$', '$4{,}7 \\times 10^{-4}$', '$47 \\times 10^{-6}$', '$0{,}47 \\times 10^{-4}$'],
         answer: 0,
-        correction: 'On déplace la virgule de 5 rangs vers là droite pour obtenir $4{,}7$. L\'exposant est donc $-5$. Résultat : $4{,}7 \\times 10^{-5}$.'
+        correction: 'On déplace la virgule de 5 rangs vers la droite pour obtenir $4{,}7$. L\'exposant est donc $-5$. Résultat : $4{,}7 \\times 10^{-5}$.'
       },
       {
         q: 'Calculer $3 \\times 10^4 \\times 2 \\times 10^{-2}$.',
@@ -230,7 +230,7 @@
             answer: exp,
             tolerance: 0,
             unit: '',
-            hint: 'Déplace la virgule jusqu\'a n\'avoir qu\'un seul chiffre non nul devant elle, et compte les rangs parcourus. Vers là gauche l\'exposant est positif, vers là droite il est négatif.',
+            hint: 'Déplace la virgule jusqu\'a n\'avoir qu\'un seul chiffre non nul devant elle, et compte les rangs parcourus. Vers la gauche l\'exposant est positif, vers la droite il est négatif.',
             solution: [
               'La mantisse doit être comprise entre $1$ et $10$ : ici $a = ' + fr(mant, d ? 1 : 0) + '$.',
               'Il faut donc déplacer la virgule de $' + Math.abs(exp) + '$ rang(s) vers la ' + (exp > 0 ? 'gauche' : 'droite') + ', ce qui donne $n = ' + exp + '$.',
@@ -315,7 +315,7 @@
           options: ['$72 \\times 10^{-5}$', '$7{,}2 \\times 10^{-4}$', '$7{,}2 \\times 10^{-3}$', '$0{,}72 \\times 10^{-3}$'],
           answer: 1,
           points: 2,
-          correction: 'On déplace la virgule de 4 rangs vers là droite pour obtenir $7{,}2$. L\'exposant est donc $-4$. Résultat : $7{,}2 \\times 10^{-4}$.'
+          correction: 'On déplace la virgule de 4 rangs vers la droite pour obtenir $7{,}2$. L\'exposant est donc $-4$. Résultat : $7{,}2 \\times 10^{-4}$.'
         },
         {
           statement: 'Calculer $\\dfrac{6 \\times 10^{5}}{3 \\times 10^{-2}}$. Donner le résultat en notation scientifique.',
@@ -376,7 +376,7 @@
           answer: 2,
           points: 2,
           correction: 'La <strong>valeur</strong> est correcte : $45 \\times 10^{6} = 45\\,000\\,000$. L\'erreur ne porte que sur la forme, et c\'est tout l\'intérêt de la question.<br/><br/>' +
-            'La notation scientifique exige une mantisse comprise entre $1$ inclus et $10$ exclu. Ici $45 \\geqslant 10$ : on déplace la virgule d\'un rang vers là gauche, ce qui divise la mantisse par $10$, et on augmente l\'exposant de $1$ pour compenser.<br/><br/>' +
+            'La notation scientifique exige une mantisse comprise entre $1$ inclus et $10$ exclu. Ici $45 \\geqslant 10$ : on déplace la virgule d\'un rang vers la gauche, ce qui divise la mantisse par $10$, et on augmente l\'exposant de $1$ pour compenser.<br/><br/>' +
             '$45 \\times 10^{6} = 4{,}5 \\times 10^{7}$. Les deux écritures désignent le même nombre ; une seule est la notation scientifique.'
         }
       ]

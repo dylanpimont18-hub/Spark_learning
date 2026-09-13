@@ -14,7 +14,7 @@
         '<br/><br/>' +
         'Enfin, $P(\\bar{A}) = 1 - P(A)$ car $A$ et son contraire couvrent tous les cas possibles. Cette formule est très utile quand le contraire est plus simple à calculer que l\'événement lui-même.' +
         '<br/><br/>' +
-        'En pratique, les probabilités servent en météo (risque de pluie), en médecine (fiabilité d\'un test), en ingénierie (risque de panne) et dans bien d\'autrès domaines.',
+        'En pratique, les probabilités servent en météo (risque de pluie), en médecine (fiabilité d\'un test), en ingénierie (risque de panne) et dans bien d\'autres domaines.',
       definitions: [
         { term: 'Expérience aléatoire', def: 'Expérience dont on ne peut pas prévoir le résultat à l\'avance. L\'ensemble de tous les résultats possibles est l\'univers $\\Omega$.' },
         { term: 'Événement', def: 'Sous-ensemble de l\'univers $\\Omega$. Un événement est réalisé si le résultat de l\'expérience lui appartient.' },

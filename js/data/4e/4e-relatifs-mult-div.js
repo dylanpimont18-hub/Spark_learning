@@ -15,7 +15,7 @@
         'En physique, les grandeurs algébriques (tension, position, vitesse) peuvent être négatives — le signe indique un sens (opposé à la convention positive choisie). Par exemple, une vitesse de $-5$ m/s signifie un déplacement dans le sens opposé à l\'axe choisi.',
       definitions: [
         { term: 'Nombre relatif', def: 'Nombre muni d\'un signe ($+$ ou $-$) et d\'une valeur absolue. Exemples : $+7$, $-3{,}5$.' },
-        { term: 'Valeur absolue', def: 'Distance à zéro sur là droite graduée, toujours positive. $|{-5}| = 5$ et $|{+5}| = 5$.' },
+        { term: 'Valeur absolue', def: 'Distance à zéro sur la droite graduée, toujours positive. $|{-5}| = 5$ et $|{+5}| = 5$.' },
         { term: 'Règle des signes', def: 'Deux facteurs de même signe donnent un produit positif ; deux facteurs de signes contraires donnent un produit négatif.' },
         { term: 'Opposé d\'un nombre', def: 'L\'opposé de $a$ est $-a$. Leur somme vaut $0$ : $a + (-a) = 0$.' }
       ],
@@ -53,10 +53,10 @@
         svg: `
           <svg viewBox="0 0 640 300" role="img" aria-labelledby="relatifs-multdiv-title relatifs-multdiv-desc">
             <title id="relatifs-multdiv-title">Deux droites graduées comparant (-2) x 3 et (-2) x (-3)</title>
-            <desc id="relatifs-multdiv-desc">En haut, une droite graduée de -8 a 8 montre trois sauts de -2 vers là gauche partant de 0 et arrivant a -6, illustrant (-2) x 3 = -6. En bas, une deuxième droite graduee identique montre trois sauts de +2 vers là droite partant de 0 et arrivant a +6, illustrant (-2) x (-3) = +6 : le sens des sauts s'est inverse.</desc>
+            <desc id="relatifs-multdiv-desc">En haut, une droite graduée de -8 a 8 montre trois sauts de -2 vers la gauche partant de 0 et arrivant a -6, illustrant (-2) x 3 = -6. En bas, une deuxième droite graduee identique montre trois sauts de +2 vers la droite partant de 0 et arrivant a +6, illustrant (-2) x (-3) = +6 : le sens des sauts s'est inverse.</desc>
 
             <text class="annotation-label" x="320" y="22" text-anchor="middle">(-2) x 3 = -6</text>
-            <text class="label-soft" x="320" y="40" text-anchor="middle">3 sauts de -2, vers là gauche</text>
+            <text class="label-soft" x="320" y="40" text-anchor="middle">3 sauts de -2, vers la gauche</text>
 
             <line class="graph-line" x1="316" y1="90" x2="260" y2="90"></line>
             <polygon class="plot-point" points="250,90 260,84 260,96"></polygon>
@@ -106,7 +106,7 @@
             <circle class="plot-point" cx="110" cy="110" r="5"></circle>
 
             <text class="annotation-label" x="320" y="168" text-anchor="middle">(-2) x (-3) = +6</text>
-            <text class="label-soft" x="320" y="186" text-anchor="middle">3 sauts de +2, vers là droite (sens inverse !)</text>
+            <text class="label-soft" x="320" y="186" text-anchor="middle">3 sauts de +2, vers la droite (sens inverse !)</text>
 
             <line class="graph-line" x1="324" y1="236" x2="380" y2="236"></line>
             <polygon class="plot-point" points="390,236 380,230 380,242"></polygon>
@@ -157,12 +157,12 @@
           </svg>
         `,
         notes: [
-          '<strong>Ligne du haut — $(-2) \\times 3$ :</strong> on répète $3$ fois le saut de $-2$, toujours dans le même sens (vers là gauche), comme une addition répétée. On part de $0$ et on arrive à $-6$.',
-          '<strong>Ligne du bas — $(-2) \\times (-3)$ :</strong> multiplier par $-3$ revient à faire l\'opposé de « $3$ sauts de $-2$ ». Le sens s\'inverse : ce sont désormais $3$ sauts de $+2$ vers là droite. On part de $0$ et on arrive à $+6$.',
+          '<strong>Ligne du haut — $(-2) \\times 3$ :</strong> on répète $3$ fois le saut de $-2$, toujours dans le même sens (vers la gauche), comme une addition répétée. On part de $0$ et on arrive à $-6$.',
+          '<strong>Ligne du bas — $(-2) \\times (-3)$ :</strong> multiplier par $-3$ revient à faire l\'opposé de « $3$ sauts de $-2$ ». Le sens s\'inverse : ce sont désormais $3$ sauts de $+2$ vers la droite. On part de $0$ et on arrive à $+6$.',
           '<strong>Ce qui ne change pas :</strong> la longueur du saut reste $2$ dans les deux cas — seul le signe du deuxième facteur décide de la direction.',
           '<strong>Règle des signes retrouvée :</strong> $(-) \\times (+) = (-)$ (même sens → résultat négatif) et $(-) \\times (-) = (+)$ (sens inversé → résultat positif).'
         ],
-        reading: 'Multiplier par un nombre négatif <strong>inverse le sens</strong> des sauts sur là droite graduée : $(-2) \\times 3 = -6$ (vers là gauche) devient $(-2) \\times (-3) = +6$ (mêmes sauts, mais vers là droite).',
+        reading: 'Multiplier par un nombre négatif <strong>inverse le sens</strong> des sauts sur la droite graduée : $(-2) \\times 3 = -6$ (vers la gauche) devient $(-2) \\times (-3) = +6$ (mêmes sauts, mais vers la droite).',
         caption: 'Deux droites graduées superposées : en haut $(-2) \\times 3 = -6$, en bas $(-2) \\times (-3) = +6$, pour visualiser le renversement de sens.'
       },
       recap: [

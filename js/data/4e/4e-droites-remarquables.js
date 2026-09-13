@@ -25,7 +25,7 @@
       method: {
         title: 'Les quatre droites remarquables',
         steps: [
-           '<strong>Médiatrice</strong> d\'un côté : perpendiculaire à ce côté en son milieu. Les trois médiatrices se coupent au CIRCUMCENTRE (centre du cercle circonscrit). <strong>Exemple :</strong> pour $[AB]$ avec $A(0;0)$ et $B(6;0)$, le milieu est $(3;0)$ et la médiatrice est là droite $x = 3$.',
+           '<strong>Médiatrice</strong> d\'un côté : perpendiculaire à ce côté en son milieu. Les trois médiatrices se coupent au CIRCUMCENTRE (centre du cercle circonscrit). <strong>Exemple :</strong> pour $[AB]$ avec $A(0;0)$ et $B(6;0)$, le milieu est $(3;0)$ et la médiatrice est la droite $x = 3$.',
            '<strong>Bissectrice</strong> d\'un angle : partage l\'angle en deux angles égaux. Les trois bissectrices se coupent à l\'INCENTRE (centre du cercle inscrit). <strong>Exemple :</strong> la bissectrice d\'un angle de $80°$ crée deux angles de $40°$.',
           '<strong>Médiane</strong> : joint un sommet au milieu du côté opposé. Les trois médianes se coupent au CENTROÏDE (ou ISOBARYCENTRE), à $\\frac{2}{3}$ de chaque sommet. <strong>Exemple :</strong> si la médiane issue de $A$ mesure $12$ cm, alors $AG = \\frac{2}{3} \\times 12 = 8$ cm.',
           '<strong>Hauteur</strong> : perpendiculaire issue d\'un sommet sur le côté opposé. Les trois hauteurs se coupent à l\'ORTHOCENTRE. <strong>Exemple :</strong> dans un triangle rectangle, les deux hauteurs issues des angles aigus sont les deux côtés de l\'angle droit.'
@@ -164,7 +164,7 @@
         q: 'La médiatrice d\'un segment $[AB]$ est l\'ensemble des points :',
         options: ['À égale distance de $A$ et $B$', 'Sur le segment $[AB]$', 'Formant un angle de $45°$ avec $[AB]$', 'À mi-chemin entre $A$ et $B$'],
         answer: 0,
-        correction: 'La médiatrice de $[AB]$ est là droite perpendiculaire à $[AB]$ en son milieu. Elle est le lieu des points équidistants de $A$ et $B$.'
+        correction: 'La médiatrice de $[AB]$ est la droite perpendiculaire à $[AB]$ en son milieu. Elle est le lieu des points équidistants de $A$ et $B$.'
       },
       {
         q: 'Le centroïde $G$ se trouve à quelle fraction de la longueur d\'une médiane depuis le sommet ?',
@@ -281,7 +281,7 @@
           answer: aire,
           tolerance: 0.01,
           unit: 'cm²',
-          hint: 'La hauteur issue de $A$ est la distance de $A$ a là droite $(BC)$ : c\'est exactement ce qu\'il faut pour l\'aire.',
+          hint: 'La hauteur issue de $A$ est la distance de $A$ a la droite $(BC)$ : c\'est exactement ce qu\'il faut pour l\'aire.',
           solution: [
             'La hauteur issue de $A$ est perpendiculaire a $(BC)$ : c\'est la hauteur relative au cote $[BC]$.',
             '$\\mathcal{A} = \\dfrac{' + base + ' \\times ' + h + '}{2} = ' + fr(aire) + '$ cm².',

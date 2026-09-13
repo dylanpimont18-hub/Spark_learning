@@ -104,7 +104,7 @@
           </svg>
         `,
         notes: [
-          'Le vecteur $\\vec{v}(2\\,;\\,-4)$ donne le déplacement : on avance de $2$ vers là droite (abscisse) puis de $4$ vers le bas (ordonnée négative).',
+          'Le vecteur $\\vec{v}(2\\,;\\,-4)$ donne le déplacement : on avance de $2$ vers la droite (abscisse) puis de $4$ vers le bas (ordonnée négative).',
           'La flèche relie directement $A$ à son image $A\'$ : c\'est le même vecteur $\\vec{v}$ qui déplacerait n\'importe quel autre point du plan.',
           'Vérification par coordonnées : $A\'(3+2\\,;\\,1+(-4)) = A\'(5\\,;\\,-3)$, exactement le point marqué sur le graphique.'
         ],
