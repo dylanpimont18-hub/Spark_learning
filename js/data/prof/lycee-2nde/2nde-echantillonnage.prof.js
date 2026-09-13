@@ -145,13 +145,18 @@ window.SPARK_PROF["2nde-echantillonnage"] = {
               "n'améliore la précision que de trente pour cent environ. C'est la raison pour " +
               "laquelle presque tous les sondages publiés portent sur environ mille " +
               "personnes — l'élève comprend soudain un chiffre qu'il voit partout.",
-      /* Vérifié contre le tirage réel (2026-09-13) : l'exercice 3 multiplie
-         la taille de l'échantillon et demande par combien la marge d'erreur
-         est divisée, et l'exercice 4 pose la question inverse (par combien
-         multiplier n pour diviser e par un facteur donné). Les deux sens de
-         la relation sont donc travaillés, ce qui est nécessaire ici. Les
-         exercices 7 et 8 sont du même type. */
-      exercice: { type: "exercice", n: 3 }
+      /* Renvoi RECALCULÉ le 2026-09-13 sur le tirage définitif du livre. Il
+         visait l'exercice 3, devenu — après l'élargissement de la banque —
+         une question sur le rôle de la taille de la POPULATION, qui est un
+         autre malentendu du chapitre.
+
+         L'exercice 6 est bien celui qui travaille cette erreur : il multiplie
+         la taille de l'échantillon par $25$ et demande par combien la marge
+         est divisée. Son corrigé énonce lui-même le contre-intuitif —
+         interroger $25$ fois plus de personnes ne rend pas le sondage $25$
+         fois plus précis, mais $5$ fois. Les exercices 7, 8, 14, 17 et 21
+         sont du même type. */
+      exercice: { type: "exercice", n: 6 }
     },
     {
       titre: "Confondre la fréquence observée et la proportion cherchée",
@@ -174,12 +179,21 @@ window.SPARK_PROF["2nde-echantillonnage"] = {
               "nombre seul : « la proportion est comprise entre ... et ..., avec un niveau de " +
               "confiance de $95$ % ». Un élève qui a écrit cette phrase dix fois ne conclut " +
               "plus par un pourcentage isolé.",
-      /* Vérifié contre le tirage réel (2026-09-13) : l'exercice 2 fait
-         calculer la fréquence observée PUIS construire l'intervalle, dans
-         cet ordre, ce qui sépare matériellement les deux notions. Son
-         corrigé nomme f puis conclut sur la « vraie proportion », en
-         distinguant les deux. L'exercice 6 est du même type. */
-      exercice: { type: "exercice", n: 6 }
+      /* Renvoi RECALCULÉ le 2026-09-13 sur le tirage définitif du livre. Il
+         visait l'exercice 6, devenu une question sur l'effet de la taille de
+         l'échantillon ; et sa justification, elle, décrivait l'exercice 2 —
+         signe que l'indice et le texte avaient glissé séparément.
+
+         L'exercice 5 est retenu plutôt que le 2 pour deux raisons. Il oppose
+         frontalement les deux objets : une fréquence observée $f = 0{,}49$
+         d'un côté, une proportion de $0{,}51$ AFFIRMÉE par un responsable de
+         l'autre, et il demande si les deux sont compatibles. Son corrigé se
+         clôt sur la nuance exacte que cette erreur ignore : le sondage ne
+         prouve pas l'affirmation, il ne la contredit pas. Et il laisse
+         l'exercice 2 à la première erreur de la fiche, au lieu d'envoyer deux
+         remédiations différentes sur le même exercice. Les exercices 10, 13
+         et 18 sont du même type. */
+      exercice: { type: "exercice", n: 5 }
     },
     {
       titre: "Croire que la taille de la population intervient dans le calcul",

@@ -106,12 +106,19 @@ window.SPARK_PROF["2nde-statistiques"] = {
               "indicateurs : une tendance centrale ET une dispersion. Un résumé qui n'en " +
               "comporte qu'un est incomplet, et la consigne installe le réflexe mieux qu'une " +
               "explication.",
-      /* Vérifié contre le tirage réel (2026-09-13) : l'exercice 5 donne deux
-         séries de MÊME MOYENNE et demande laquelle est la plus homogène —
-         c'est-à-dire exactement la question que l'élève ne se pose pas. Son
-         corrigé commence par vérifier l'égalité des moyennes, ce qui rend le
-         critère de décision visible. L'exercice 10 est du même type. */
-      exercice: { type: "exercice", n: 5 }
+      /* Renvoi RECALCULÉ le 2026-09-13 sur le tirage définitif du livre.
+         Il pointait vers l'exercice 5, qui était le bon AVANT l'élargissement
+         de la banque ; celui-ci a décalé les rangs et l'exercice 5 est devenu
+         une question d'unité de l'écart-type, hors sujet. C'est précisément le
+         défaut que le cahier des charges nomme « un renvoi faux est pire qu'un
+         renvoi absent », et la garde de prof-2nde.test.js l'a attrapé.
+
+         L'exercice 8 du tirage donne deux séries de MÊME MOYENNE et demande
+         laquelle est la plus homogène : c'est exactement la question que
+         l'élève ne se pose pas. Son corrigé commence par constater l'égalité
+         des moyennes, ce qui rend le critère de décision visible. Les
+         exercices 13 et 24 sont du même type, si l'enseignant veut varier. */
+      exercice: { type: "exercice", n: 8 }
     },
     {
       titre: "Prendre la valeur du milieu de la liste pour la médiane",
@@ -137,12 +144,17 @@ window.SPARK_PROF["2nde-statistiques"] = {
               "$\\{10 ; 11 ; 12 ; 14 ; 35\\}$, la moyenne est tirée vers le haut par le $35$ " +
               "alors que la médiane reste à $12$. C'est l'argument qui justifie qu'on dispose " +
               "de deux indicateurs plutôt qu'un.",
-      /* Vérifié contre le tirage réel (2026-09-13) : l'exercice 4 est une
-         série de salaires contenant une valeur extrême, et son corrigé
-         s'ouvre sur « on range les valeurs dans l'ordre croissant ». Le
-         contexte des salaires est aussi celui où l'écart entre moyenne et
-         médiane a un sens social immédiat. L'exercice 6 est du même type. */
-      exercice: { type: "exercice", n: 4 }
+      /* Renvoi RECALCULÉ le 2026-09-13 sur le tirage définitif : il visait
+         l'exercice 4, devenu une recherche de valeur manquante après
+         l'élargissement de la banque.
+
+         L'exercice 1 est une série de salaires contenant une valeur extrême
+         ($35$ contre quatre valeurs entre $10$ et $14$), et son corrigé
+         s'ouvre littéralement sur « on range les valeurs dans l'ordre
+         croissant » avant de conclure sur l'écart entre moyenne et médiane.
+         Le contexte des salaires est aussi celui où cet écart a un sens
+         social immédiat. Les exercices 16 et 22 sont du même type. */
+      exercice: { type: "exercice", n: 1 }
     },
     {
       titre: "Confondre la variance et l'écart-type, et se tromper d'unité",
@@ -167,11 +179,16 @@ window.SPARK_PROF["2nde-statistiques"] = {
               "tailles d'élèves comprises entre $150$ et $180$ cm, un écart-type de $4$ cm " +
               "est plausible, un écart-type de $16$ cm beaucoup moins. L'élève peut trancher " +
               "seul.",
-      /* Vérifié contre le tirage réel (2026-09-13) : l'exercice 2 enchaîne
-         les trois étapes dans l'ordre — moyenne, puis variance, puis
-         écart-type — sur une série de températures, et son corrigé fait
-         apparaître la racine carrée comme dernière opération. L'exercice 7
-         est du même type sur des durées. */
+      /* Renvoi CONFIRMÉ sur le tirage définitif le 2026-09-13. Le numéro était
+         bon, mais la justification décrivait une série de TEMPÉRATURES : c'est
+         une série de DURÉES de trajet. La rédaction datait d'un tirage
+         antérieur à l'élargissement de la banque ; seule la description avait
+         glissé, pas l'indice.
+
+         L'exercice 2 enchaîne bien les trois étapes dans l'ordre — moyenne,
+         puis variance, puis écart-type — et son corrigé fait apparaître la
+         racine carrée comme dernière opération, en minutes. Les exercices 14,
+         20 et 26 sont du même type sur d'autres grandeurs. */
       exercice: { type: "exercice", n: 2 }
     },
     {
@@ -200,14 +217,18 @@ window.SPARK_PROF["2nde-statistiques"] = {
               "La racine finale apparaît alors pour ce qu'elle est : le moyen de revenir à " +
               "l'unité de départ après être passé par des carrés. Toute la construction se " +
               "tient, et aucune étape n'est arbitraire.",
-      /* Vérifié contre le tirage réel (2026-09-13) : l'exercice 3 ajoute une
-         valeur très éloignée à une série et demande de combien la moyenne se
-         déplace, ce qui fait travailler le rapport entre écarts et
-         indicateur. Aucun exercice de la banque ne fait calculer la somme
-         des écarts simples pour en constater la nullité — c'est une
-         manipulation à mener au tableau, et le remède l'indique. L'exercice
-         8 est du même type. */
-      exercice: { type: "exercice", n: 3 }
+      /* Renvoi RECALCULÉ le 2026-09-13 sur le tirage définitif : il visait
+         l'exercice 3, devenu un calcul de moyenne simple après
+         l'élargissement de la banque.
+
+         L'exercice 6 ajoute une valeur très éloignée ($70$) à une série
+         resserrée et demande de combien la moyenne se déplace, ce qui fait
+         travailler le rapport entre les écarts et l'indicateur. Aucun
+         exercice de la banque ne fait calculer la somme des écarts SIMPLES
+         pour en constater la nullité — c'est une manipulation à mener au
+         tableau, et le remède l'indique plutôt que de renvoyer à un exercice
+         approximatif. Les exercices 10 et 18 sont du même type. */
+      exercice: { type: "exercice", n: 6 }
     }
   ],
 

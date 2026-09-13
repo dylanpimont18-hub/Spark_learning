@@ -116,10 +116,44 @@ test('chaque fiche porte au moins trois erreurs completes', () => {
    Un renvoi sans entrée ici n'est pas jugé — la table se complète au fil des
    vagues plutôt que de bloquer sur un module non couvert. */
 const ATTENDUS = {
+  /* Les trois modules ci-dessous complètent la table le 2026-09-13 : ils
+     étaient les seuls des quatorze à n'être pas gardés, donc les seuls dont un
+     renvoi pouvait glisser sans que rien ne le dise. Leurs mots-clés sont tirés
+     du corrigé RÉEL de l'exercice visé, relu un par un.
+
+     ATTENTION aux apostrophes : les titres des fiches emploient tous
+     l'apostrophe DROITE. Huit clés de cette table portaient l'apostrophe
+     courbe « ’ » et ne correspondaient donc à aucun titre : elles étaient des
+     gardes inertes, qui donnaient l'apparence d'une couverture sans rien
+     vérifier. Le test « aucune cle de la table ne reste inerte » ci-dessous
+     interdit désormais que cela se reproduise.
+
+     Cas particulier de « vecteurs » : sa banque est entièrement consacrée à la
+     projection de forces et ne contient aucun exercice sur la distinction
+     point / vecteur ni sur l'addition. Les deux renvois concernés visent donc
+     un exercice où l'erreur se MANIFESTE (une question de quadrant, une norme
+     de triplet pythagoricien) faute d'exercice qui la travaille de front ; les
+     mots-clés gardent cette intention, et non un sujet que la banque n'a pas. */
+  'vecteurs': {
+    'Confondre le point et le vecteur': ['quadrant'],
+    "Appliquer le cosinus sans regarder d'où part l'angle": ['angle'],
+    'Additionner les normes au lieu des composantes': ['norme', 'pythagore']
+  },
+  '2nde-ensembles-nombres': {
+    "Croire qu'un nombre à virgule ne peut pas être rationnel": ['rationnel'],
+    'Confondre le crochet ouvert et le crochet fermé': ['intervalle', 'appartient'],
+    "Échanger l'intersection et la réunion": ['intervalle']
+  },
+  '2nde-calcul-algebrique': {
+    'Oublier le double produit': ['double produit', 'identité'],
+    'Factoriser une somme de deux carrés': ['identité', 'factoris'],
+    "Développer alors qu'il fallait garder la forme factorisée": ['factoris']
+  },
   '2nde-equations-inequations': {
     "Oublier d'inverser le sens en divisant par un négatif": ['négatif'],
-    'Confondre la borne et l’ensemble solution': ['borne', 'intervalle', 'solution'],
-    'Traduire « au plus » et « au moins » par le mauvais symbole': ['inéquation']
+    "Confondre la borne et l'ensemble solution": ['borne', 'intervalle', 'solution'],
+    'Traduire « au plus » et « au moins » par le mauvais symbole': ['inéquation'],
+    'Changer un terme de membre sans changer son signe': ['membre', 'retire']
   },
   'fonctions-affines': {
     'Inverser le numérateur et le dénominateur de la pente': ['coefficient directeur'],
@@ -130,13 +164,13 @@ const ATTENDUS = {
   '2nde-fonctions-generalites': {
     "Échanger l'image et l'antécédent": ['antécédent'],
     'Oublier les parenthèses en substituant un nombre négatif': ['remplace'],
-    'Croire qu’une fonction est définie pour tous les nombres': ['dénominateur'],
+    "Croire qu'une fonction est définie pour tous les nombres": ['dénominateur'],
     'Confondre le sens de variation et le signe de la fonction': ['augmente', 'passe']
   },
   '2nde-fonctions-reference': {
     'Croire que la fonction inverse est décroissante sur tout son domaine': ['inverse'],
     'Croire que la fonction carré est croissante partout': ['carré', 'négatif'],
-    'Oublier qu’un nombre positif a deux antécédents par la fonction carré': ['antécédent'],
+    "Oublier qu'un nombre positif a deux antécédents par la fonction carré": ['antécédent'],
     'Chercher le domaine de définition seulement quand on y pense': ['condition']
   },
   '2nde-probabilites': {
@@ -159,14 +193,14 @@ const ATTENDUS = {
   },
   '2nde-echantillonnage': {
     "Croire que l'intervalle de confiance est une garantie certaine": ['confiance', 'IC'],
-    'Croire que doubler l’échantillon divise la marge d’erreur par deux': ['multiplié', 'divisée'],
+    "Croire que doubler l'échantillon divise la marge d'erreur par deux": ['multiplié', 'divisée'],
     'Confondre la fréquence observée et la proportion cherchée': ['fréquence', 'proportion']
   },
   '2nde-geometrie-plane': {
     'Appliquer le rapport de réduction aux aires comme aux longueurs': ['rapport', 'aire'],
     'Confondre les quatre droites remarquables du triangle': ['médiane', 'hauteur', 'médiatrice'],
     'Appliquer Thalès sans vérifier le parallélisme': ['parallel'],
-    'Prendre n’importe quel côté pour base sans changer la hauteur': ['hauteur', 'aire']
+    "Prendre n'importe quel côté pour base sans changer la hauteur": ['hauteur', 'aire']
   },
   '2nde-reperage-plan': {
     'Se tromper de signe en soustrayant deux coordonnées négatives': ['distance'],
@@ -175,12 +209,37 @@ const ATTENDUS = {
     'Oublier la racine carrée et donner le carré de la distance': ['sqrt', 'distance']
   },
   '2nde-droites-systemes': {
-    'Croire qu’un système sans solution est un système raté': ['pente'],
+    "Croire qu'un système sans solution est un système raté": ['pente'],
     "Conclure au parallélisme à partir de l'ordonnée à l'origine": ['pente'],
-    'Ne donner qu’une seule coordonnée du point d’intersection': ['intersection'],
-    'Substituer dans l’équation dont on vient de tirer l’inconnue': ['système']
+    "Ne donner qu'une seule coordonnée du point d'intersection": ['intersection'],
+    "Substituer dans l'équation dont on vient de tirer l'inconnue": ['système']
   }
 };
+
+/* Ajouté le 2026-09-13. Le test suivant passe silencieusement une erreur dont
+   le titre n'est pas dans la table (« if (!mots) continue »), ce qui est voulu :
+   la table se remplit vague après vague. Mais l'inverse est un défaut grave —
+   une clé de la table qui ne correspond à AUCUN titre de fiche ne garde rien,
+   tout en donnant l'apparence d'une couverture.
+
+   Huit clés étaient dans ce cas au moment où ce test a été écrit, toutes à
+   cause d'une apostrophe courbe « ’ » là où les fiches écrivent « ' ». Aucun
+   contrôle ne pouvait le dire, puisque l'absence de correspondance était
+   justement la condition de sortie silencieuse. */
+test('aucune cle de la table ne reste inerte', () => {
+  const orphelines = [];
+  for (const [id, table] of Object.entries(ATTENDUS)) {
+    const fiche = FICHES.get(id);
+    assert.ok(fiche, 'la table decrit « ' + id +' », qui n a pas de fiche');
+    const titres = new Set((fiche.erreurs || []).map((e) => e.titre));
+    for (const cle of Object.keys(table)) {
+      if (!titres.has(cle)) orphelines.push(id + ' : « ' + cle + ' »');
+    }
+  }
+  assert.deepStrictEqual(orphelines, [],
+    'cle(s) ne correspondant a aucun titre d erreur (apostrophe courbe ?) :\n  '
+    + orphelines.join('\n  '));
+});
 
 test('chaque renvoi tombe sur un exercice qui parle reellement du sujet', () => {
   for (const [id, fiche] of FICHES) {
