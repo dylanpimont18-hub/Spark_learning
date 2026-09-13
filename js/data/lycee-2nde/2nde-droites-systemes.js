@@ -225,12 +225,16 @@ window.MODULES.push({
           const p1 = rand(-6, 6);
           const yi = m1 * xi + p1;
           const p2 = yi - m2 * xi;
+          /* Écriture signée du terme constant : sans elle l'énoncé imprimait
+             « $y = 4x + -1$ » et « $y = 5x + 0$ ». Défaut trouvé le
+             2026-09-13 sur le tirage réel, pas à la lecture du code. */
+          const signe = (n) => (n === 0 ? '' : (n < 0 ? '- ' + Math.abs(n) : '+ ' + n));
           return {
-            statement: `On considère les droites d'équations $y = ${m1}x + ${p1}$ et $y = ${m2}x + ${p2}$.<br/><br/>Calcule l'abscisse $x$ de leur point d'intersection.`,
+            statement: `On considère les droites d'équations $y = ${m1}x ${signe(p1)}$ et $y = ${m2}x ${signe(p2)}$.<br/><br/>Calcule l'abscisse $x$ de leur point d'intersection.`,
             answer: xi, tolerance: 0, unit: '',
             hint: `Au point d'intersection, les deux droites ont la MÊME ordonnée pour la même abscisse. Il suffit donc d'égaler les deux expressions de $y$.`,
             solution: [
-              `Au point d'intersection, les deux expressions de $y$ sont égales : $${m1}x + ${p1} = ${m2}x + ${p2}$.`,
+              `Au point d'intersection, les deux expressions de $y$ sont égales : $${m1}x ${signe(p1)} = ${m2}x ${signe(p2)}$.`,
               `On regroupe les $x$ d'un côté : $${m1 - m2}x = ${p2 - p1}$.`,
               `D'où $x = ${xi}$ (et l'ordonnée correspondante vaut $y = ${yi}$).`
             ]
@@ -246,8 +250,14 @@ window.MODULES.push({
         const p1 = rand(-5, 5);
         let p2 = rand(-5, 5);
         while (paralleles && p2 === p1) { p2 = rand(-5, 5); }
+        /* Écriture signée du terme constant. Sans elle, l'énoncé imprimait
+           « $y = -3x + -4$ » (deux signes qui se suivent) et « $y = 3x + 0$ »
+           (terme nul écrit). Défaut trouvé le 2026-09-13 en relisant un
+           TIRAGE RÉEL, pas le code : il traversait tout le pipeline sans
+           qu'aucune vérification ne le voie. */
+        const signe = (n) => (n === 0 ? '' : (n < 0 ? '- ' + Math.abs(n) : '+ ' + n));
         return {
-          statement: `Les droites d'équations $y = ${m1}x + ${p1}$ et $y = ${m2}x + ${p2}$ sont-elles parallèles ?<br/><br/>Réponds par $1$ pour oui, $0$ pour non.`,
+          statement: `Les droites d'équations $y = ${m1}x ${signe(p1)}$ et $y = ${m2}x ${signe(p2)}$ sont-elles parallèles ?<br/><br/>Réponds par $1$ pour oui, $0$ pour non.`,
           answer: paralleles ? 1 : 0, tolerance: 0, unit: '',
           hint: `Deux droites non verticales sont parallèles si et seulement si elles ont la MÊME pente. L'ordonnée à l'origine ne joue aucun rôle ici : elle dit seulement où chaque droite coupe l'axe vertical.`,
           solution: [

@@ -177,7 +177,10 @@ window.MODULES.push({
         /* Tâche 3 — une image simple, pour installer la notation f(x). */
         if (tache === 'image-simple') {
           const a = pick([2, 3, -2, -1]);
-          const c = rand(-6, 6);
+          /* c non nul : l'énoncé imprimait « $f(x) = -2x^2 + 0$ » quand le
+             tirage donnait zéro. Défaut trouvé le 2026-09-13 sur le tirage
+             réel. On tire donc dans deux plages qui excluent 0. */
+          const c = pick([rand(-6, -1), rand(1, 6)]);
           const x = rand(-4, 5);
           const y = a * x * x + c;
           return {

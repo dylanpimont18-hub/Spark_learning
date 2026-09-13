@@ -197,27 +197,203 @@ window.MODULES.push({
           { intro: 'Le prix d\'un trajet en taxi dépend de la distance parcourue', xUnit: 'km', yUnit: '€', xName: 'd', yName: 'C', peutBaisser: false },
           { intro: 'L\'altitude d\'un randonneur varie au fil de sa marche', xUnit: 'km', yUnit: 'm', xName: 'x', yName: 'h', peutBaisser: true }
         ];
-        const ctx = pick(contexts);
-        const a = ctx.peutBaisser ? pick([2, 3, 4, 5, -2, -3]) : pick([2, 3, 4, 5]);
-        const x1 = rand(1, 4);
-        const x2 = x1 + rand(2, 5);
-        /* L'ordonnée à l'origine est choisie APRÈS la pente, assez grande pour
-           que les deux mesures restent positives même quand la grandeur
-           décroît. Sans cela, une température de départ de 5 °C et une pente
-           de -3 donnaient une mesure négative dès la seconde valeur. */
-        const b = a < 0 ? Math.abs(a) * x2 + rand(2, 14) : rand(5, 20);
-        const y1 = a * x1 + b;
-        const y2 = a * x2 + b;
+        /* BANQUE ÉLARGIE le 2026-09-13 (vague « manuel de référence »).
+
+           MESURE DE DÉPART, la plus mauvaise de tout l'ouvrage : UNE SEULE
+           tâche distincte. Les quatre habillages (réservoir, température,
+           taxi, randonneur) faisaient croire à de la variété, mais la
+           question posée était toujours la même — « deux points, trouve b ».
+           Un élève qui faisait douze exercices de ce chapitre faisait douze
+           fois le même.
+
+           TROISIÈME DÉFAUT corrigé ce jour, sur le même tirage réel : le
+           corrigé écrivait $\dfrac{6 - (10)}{3 - 1}$, avec une parenthèse
+           autour d'un nombre POSITIF, et produisait « $- -$ » quand la valeur
+           était négative. On passe par une fonction d'écriture signée, comme
+           dans 2nde-equations-inequations.js.
+
+           On passe à SEPT tâches. Les six nouvelles couvrent ce que le
+           chapitre exige réellement : lire une pente, décider d'un sens de
+           variation, tester une appartenance, distinguer linéaire et affine,
+           résoudre f(x) = k, et comparer deux tarifs. */
+
+        /* Écriture d'un nombre à placer après un signe d'opération.
+
+           `signe(0)` renvoie la chaîne VIDE : sans cela l'énoncé imprimait
+           « $f(x) = -4x + 0$ », défaut trouvé le 2026-09-13 en relisant le
+           tirage réel et non le code. Les appelants doivent donc tolérer un
+           terme constant absent, ce qui est le cas partout ici. */
+        const par = (n) => (n < 0 ? '(' + n + ')' : String(n));
+        const signe = (n) => (n === 0 ? '' : (n < 0 ? '- ' + Math.abs(n) : '+ ' + n));
+
+        const tache = pick(['ordonneeOrigine', 'pente', 'image', 'antecedent',
+                            'appartenance', 'sensVariation', 'comparaison']);
+
+        /* 1. Tâche historique : deux mesures, retrouver l'ordonnée à
+              l'origine. Conservée telle quelle, corrections de signe mises
+              à part — elle reste la tâche de fond du chapitre. */
+        if (tache === 'ordonneeOrigine') {
+          const ctx = pick(contexts);
+          const a = ctx.peutBaisser ? pick([2, 3, 4, 5, -2, -3]) : pick([2, 3, 4, 5]);
+          const x1 = rand(1, 4);
+          const x2 = x1 + rand(2, 5);
+          /* L'ordonnée à l'origine est choisie APRÈS la pente, assez grande
+             pour que les deux mesures restent positives même quand la
+             grandeur décroît. */
+          const b = a < 0 ? Math.abs(a) * x2 + rand(2, 14) : rand(5, 20);
+          const y1 = a * x1 + b;
+          const y2 = a * x2 + b;
+          return {
+            statement: `${ctx.intro}. On mesure $${ctx.yName}(${x1}) = ${y1}$ ${ctx.yUnit} et $${ctx.yName}(${x2}) = ${y2}$ ${ctx.yUnit}.<br/><br/><strong>1.</strong> Déterminer le coefficient directeur $a$.<br/><strong>2.</strong> En déduire l'ordonnée à l'origine $b$ et écrire l'équation $${ctx.yName} = a \\cdot ${ctx.xName} + b$.<br/><br/>Donne la valeur de $b$ (ordonnée à l'origine).`,
+            answer: b,
+            tolerance: 0,
+            unit: ctx.yUnit,
+            hint: `Calcule d'abord la pente : $a = \\dfrac{${y2} - ${par(y1)}}{${x2} - ${x1}} = \\dfrac{${y2 - y1}}{${x2 - x1}}$. Puis utilise $b = ${ctx.yName} - a \\cdot ${ctx.xName}$ avec l'un des deux points.`,
+            solution: [
+              `Ordonnée à l'origine à partir de deux mesures : $a = \\dfrac{${y2} - ${par(y1)}}{${x2} - ${x1}} = \\dfrac{${y2 - y1}}{${x2 - x1}} = ${a}$ ${ctx.yUnit}/${ctx.xUnit}`,
+              `$b = ${ctx.yName}_1 - a \\cdot ${ctx.xName}_1 = ${y1} - ${par(a)} \\times ${x1} = ${b}$ ${ctx.yUnit}`,
+              `Équation : $${ctx.yName} = ${a}${ctx.xName} ${signe(b)}$`
+            ]
+          };
+        }
+
+        /* 2. Pente entre deux points d'un repère, sans habillage : c'est la
+              lecture algébrique pure, et elle manquait. */
+        if (tache === 'pente') {
+          const x1 = rand(-5, 3);
+          const x2 = x1 + rand(2, 6);
+          const a = pick([-4, -3, -2, -1, 1, 2, 3, 4]);
+          const b = rand(-6, 8);
+          const y1 = a * x1 + b, y2 = a * x2 + b;
+          return {
+            statement: `Une droite passe par les points $A(${x1}\\,;\\,${y1})$ et $B(${x2}\\,;\\,${y2})$.<br/><br/>Calcule son <strong>coefficient directeur</strong> $a$.`,
+            answer: a,
+            tolerance: 0,
+            unit: '',
+            hint: `$a = \\dfrac{y_B - y_A}{x_B - x_A}$. Attention aux soustractions de nombres négatifs : écris les parenthèses.`,
+            solution: [
+              `Coefficient directeur entre deux points : $a = \\dfrac{y_B - y_A}{x_B - x_A}$`,
+              `$a = \\dfrac{${y2} - ${par(y1)}}{${x2} - ${par(x1)}} = \\dfrac{${y2 - y1}}{${x2 - x1}} = ${a}$`,
+              `La droite ${a > 0 ? 'monte' : 'descend'} : quand $x$ augmente de $1$, $y$ ${a > 0 ? 'augmente' : 'diminue'} de $${Math.abs(a)}$.`
+            ]
+          };
+        }
+
+        /* 3. Image : calculer f(x) pour un x donné. Tâche élémentaire, mais
+              absente — or c'est elle qui sert partout ailleurs. */
+        if (tache === 'image') {
+          const a = pick([-5, -4, -3, -2, 2, 3, 4, 5]);
+          const b = rand(-9, 12);
+          const x = rand(-6, 7);
+          return {
+            statement: `Soit la fonction affine $f(x) = ${a}x ${signe(b)}$.<br/><br/>Calcule $f(${x})$.`,
+            answer: a * x + b,
+            tolerance: 0,
+            unit: '',
+            hint: `Remplace $x$ par $${par(x)}$ dans l'expression, en gardant les parenthèses si le nombre est négatif.`,
+            solution: [
+              `Image par une fonction affine : $f(${x}) = ${a} \\times ${par(x)} ${signe(b)}$`,
+              `$f(${x}) = ${a * x} ${signe(b)} = ${a * x + b}$`
+            ]
+          };
+        }
+
+        /* 4. Antécédent : résoudre f(x) = k. C'est la tâche réciproque de la
+              précédente, et elle est au programme explicitement. */
+        if (tache === 'antecedent') {
+          const a = pick([-4, -3, -2, 2, 3, 4, 5]);
+          const b = rand(-10, 12);
+          const x = rand(-6, 7);
+          const k = a * x + b;
+          return {
+            statement: `Soit la fonction affine $f(x) = ${a}x ${signe(b)}$.<br/><br/>Détermine l'<strong>antécédent</strong> de $${k}$ par $f$, c'est-à-dire résous $f(x) = ${k}$.`,
+            answer: x,
+            tolerance: 0,
+            unit: '',
+            hint: `Écris l'équation $${a}x ${signe(b)} = ${k}$, puis isole $x$ comme pour toute équation du premier degré.`,
+            solution: [
+              `Antécédent : je résous $${a}x ${signe(b)} = ${k}$`,
+              `${b < 0 ? 'J\'ajoute $' + Math.abs(b) + '$' : 'Je retire $' + b + '$'} aux deux membres : $${a}x = ${k - b}$`,
+              `Je divise par $${a}$ : $x = ${x}$`,
+              `Vérification : $f(${x}) = ${a} \\times ${par(x)} ${signe(b)} = ${k}$ ✓`
+            ]
+          };
+        }
+
+        /* 5. Appartenance d'un point à une droite. Tâche de décision : la
+              réponse est oui ou non, donc l'élève ne peut pas s'en tirer par
+              un calcul automatique. */
+        if (tache === 'appartenance') {
+          const a = pick([-3, -2, 2, 3, 4]);
+          const b = rand(-8, 10);
+          const x = rand(-5, 6);
+          const vrai = a * x + b;
+          const appartient = pick([true, false]);
+          const y = appartient ? vrai : vrai + pick([-3, -2, -1, 1, 2, 3]);
+          return {
+            statement: `On considère la droite d'équation $y = ${a}x ${signe(b)}$ et le point $P(${x}\\,;\\,${y})$.<br/><br/>Le point $P$ appartient-il à cette droite ?<br/><br/>Réponds par $1$ pour oui, $0$ pour non.`,
+            answer: appartient ? 1 : 0,
+            tolerance: 0,
+            unit: '',
+            hint: `Calcule l'ordonnée que la droite donne pour $x = ${par(x)}$, puis compare-la à $${y}$. Un point est sur la droite si et seulement si ses deux coordonnées vérifient l'équation.`,
+            solution: [
+              `Appartenance d'un point à une droite : je calcule l'ordonnée pour $x = ${par(x)}$`,
+              `$${a} \\times ${par(x)} ${signe(b)} = ${vrai}$`,
+              appartient
+                ? `On trouve $${vrai}$, qui est bien l'ordonnée de $P$ : le point <strong>appartient</strong> à la droite.`
+                : `On trouve $${vrai}$, alors que l'ordonnée de $P$ vaut $${y}$ : le point <strong>n'appartient pas</strong> à la droite.`
+            ]
+          };
+        }
+
+        /* 6. Sens de variation à partir du signe de la pente, sans aucun
+              calcul numérique. Tâche de raisonnement pur. */
+        if (tache === 'sensVariation') {
+          const fonctions = [
+            { expr: '5x - 3', a: 5 }, { expr: '-2x + 7', a: -2 },
+            { expr: '-x + 4', a: -1 }, { expr: '3x', a: 3 },
+            { expr: '-4x - 1', a: -4 }, { expr: '0{,}5x + 2', a: 0.5 },
+            { expr: '9 - 2x', a: -2 }, { expr: '6 + 3x', a: 3 }
+          ];
+          const f = pick(fonctions);
+          const croissante = f.a > 0;
+          return {
+            statement: `Soit la fonction affine $f(x) = ${f.expr}$.<br/><br/>Sans faire aucun calcul de valeurs, dis si $f$ est <strong>croissante</strong> ou <strong>décroissante</strong> sur $\\mathbb{R}$.<br/><br/>Réponds par $1$ pour croissante, $0$ pour décroissante.`,
+            answer: croissante ? 1 : 0,
+            tolerance: 0,
+            unit: '',
+            hint: `Le sens de variation d'une fonction affine ne dépend que du <strong>signe du coefficient directeur</strong>. Repère-le, en faisant attention si l'expression est écrite dans l'autre ordre.`,
+            solution: [
+              `Sens de variation d'une fonction affine : seul le signe de $a$ compte`,
+              `Ici $a = ${fr(f.a)}$, qui est ${croissante ? 'positif' : 'négatif'}.`,
+              `La fonction est donc <strong>${croissante ? 'croissante' : 'décroissante'}</strong> sur $\\mathbb{R}$ : quand $x$ augmente, $f(x)$ ${croissante ? 'augmente' : 'diminue'}.`
+            ]
+          };
+        }
+
+        /* 7. Comparaison de deux tarifs affines : la tâche qui MODÉLISE, et
+              qui donne au chapitre son utilité hors des mathématiques. */
+        const offres = [
+          { nom: 'un cinéma', u: 'places', o1: 'le tarif plein', o2: 'la carte d\'abonnement' },
+          { nom: 'un service de streaming', u: 'films', o1: 'la location à l\'unité', o2: 'l\'abonnement mensuel' },
+          { nom: 'un club de escalade', u: 'séances', o1: 'le ticket à l\'entrée', o2: 'la formule annuelle' }
+        ];
+        const o = pick(offres);
+        const p1 = rand(5, 14);
+        const p2 = rand(1, p1 - 2);
+        const fixe = (p1 - p2) * rand(3, 11);
+        const seuil = fixe / (p1 - p2);
         return {
-          statement: `${ctx.intro}. On mesure $${ctx.yName}(${x1}) = ${y1}$ ${ctx.yUnit} et $${ctx.yName}(${x2}) = ${y2}$ ${ctx.yUnit}.<br/><br/><strong>1.</strong> Déterminer le coefficient directeur $a$.<br/><strong>2.</strong> En déduire l'ordonnée à l'origine $b$ et écrire l'équation $${ctx.yName} = a \\cdot ${ctx.xName} + b$.<br/><br/>Donne la valeur de $b$ (ordonnée à l'origine).`,
-          answer: b,
+          statement: `Pour $x$ ${o.u}, ${o.nom} propose deux formules :<br/><br/>avec ${o.o1}, on paie $f(x) = ${p1}x$ € ;<br/>avec ${o.o2}, on paie $g(x) = ${p2}x + ${fixe}$ €.<br/><br/><strong>1.</strong> Ces deux fonctions sont-elles affines ? linéaires ?<br/><strong>2.</strong> Détermine le nombre de ${o.u} pour lequel les deux formules coûtent exactement le même prix.<br/><br/>Donne ce nombre de ${o.u}.`,
+          answer: seuil,
           tolerance: 0,
-          unit: ctx.yUnit,
-          hint: `Calcule d'abord la pente : $a = \\dfrac{${y2} - ${y1}}{${x2} - ${x1}} = \\dfrac{${y2-y1}}{${x2-x1}}$. Puis utilise $b = ${ctx.yName} - a \\cdot ${ctx.xName}$ avec l'un des deux points.`,
+          unit: o.u,
+          hint: `Les deux formules coûtent pareil quand $f(x) = g(x)$. Écris cette équation, puis résous-la.`,
           solution: [
-            `Pente : $a = \\dfrac{${y2} - (${y1})}{${x2} - ${x1}} = \\dfrac{${y2-y1}}{${x2-x1}} = ${a}$ ${ctx.yUnit}/${ctx.xUnit}`,
-            `Ordonnée à l'origine : $b = ${ctx.yName}_1 - a \\cdot ${ctx.xName}_1 = ${y1} - ${a} \\times ${x1} = ${y1} - ${a*x1} = ${b}$ ${ctx.yUnit}`,
-            `Équation : $${ctx.yName} = ${a}${ctx.xName} + ${b}$`
+            `Comparaison de deux fonctions affines : je résous $f(x) = g(x)$`,
+            `$${p1}x = ${p2}x + ${fixe}$, donc $${p1 - p2}x = ${fixe}$ et $x = ${seuil}$ ${o.u}.`,
+            `$f$ est <strong>linéaire</strong> (de la forme $ax$, sa droite passe par l'origine) ; $g$ est <strong>affine sans être linéaire</strong>, car son ordonnée à l'origine vaut $${fixe}$ et non $0$.`,
+            `Au-delà de $${seuil}$ ${o.u}, ${o.o2} devient plus avantageuse.`
           ]
         };
       }
