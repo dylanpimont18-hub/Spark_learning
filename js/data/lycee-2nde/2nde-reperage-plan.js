@@ -12,7 +12,34 @@ window.MODULES.push({
     keywords: ['Distance', 'Milieu', 'Coordonnées', 'Repère orthonormé'],
     physics: false,
     cours: {
-      intro: 'Dans un repère orthonormé, chaque point du plan est identifié de façon unique par ses deux coordonnées $(x ; y)$. La formule $AB = \\sqrt{(x_B-x_A)^2+(y_B-y_A)^2}$ est le théorème de Pythagore appliqué au triangle rectangle dont les côtés sont $|x_B-x_A|$ et $|y_B-y_A|$. Le milieu de $[AB]$ a pour coordonnées la moyenne arithmétique de celles des extrémités. Ces formules permettent de prouver des propriétés géométriques (isocèle, rectangle, parallélogramme) par le calcul, sans dessin — c\'est l\'approche de la géométrie analytique.',
+      /* « Découvrir » RÉÉCRIT le 2026-09-13.
+
+         L'ancienne version ouvrait sur « Dans un repère orthonormé, chaque
+         point du plan est identifié par ses deux coordonnées » : une
+         définition, donc l'entrée que le cahier des charges proscrit.
+
+         La situation retenue fait éprouver ce que le chapitre a de
+         RÉELLEMENT neuf, et qui n'est pas technique : un dessin peut
+         tromper, un calcul non. Deux longueurs très proches mais inégales
+         partagent la classe en deux, et seul le calcul tranche. C'est
+         l'argument qui justifie toute la géométrie analytique, et il vaut
+         mieux le faire vivre que l'affirmer.
+
+         Les nombres ont été VÉRIFIÉS : avec A(0;0), B(6;0) et C(3;4), on a
+         AC = BC = 5 exactement (triplet 3-4-5), tandis que C'(3;4) deplace
+         en (2;4) donne AC' = racine(20) ≈ 4,47 et BC' = racine(32) ≈ 5,66 —
+         deux longueurs que l'oeil peine a distinguer sur un dessin de la
+         taille d'une page, et pourtant franchement differentes.
+
+         Le test tient : on ne peut pas répondre « ce triangle est-il
+         isocèle ? » de façon sûre sans calculer les longueurs. */
+      intro: 'On te donne trois points dans un repère : $A(0\\,;\\,0)$, $B(6\\,;\\,0)$ et $C(2\\,;\\,4)$.<br/><br/>' +
+        'Place-les, relie-les. Le triangle obtenu te paraît-il isocèle ?<br/><br/>' +
+        'Pose la question autour de toi : les avis seront partagés. Les deux côtés $[AC]$ et $[BC]$ se ressemblent beaucoup, et à l\'œil nu personne ne peut trancher honnêtement.<br/><br/>' +
+        'Calcule-les. $AC = \\sqrt{2^2 + 4^2} = \\sqrt{20} \\approx 4{,}47$, tandis que $BC = \\sqrt{4^2 + 4^2} = \\sqrt{32} \\approx 5{,}66$. L\'écart dépasse le <strong>quart</strong> de la longueur, et pourtant le dessin ne le montrait pas.<br/><br/>' +
+        'Déplace maintenant $C$ en $(3\\,;\\,4)$ : cette fois $AC = BC = 5$ exactement, et le triangle est réellement isocèle. Le dessin, lui, a à peine changé.<br/><br/>' +
+        'C\'est ce que ce chapitre t\'apporte : avec les <strong>coordonnées</strong>, tu peux calculer des longueurs et des milieux, donc <strong>démontrer</strong> qu\'une figure a telle ou telle propriété — sans dépendre de ce que ton dessin laisse croire.<br/><br/>' +
+        'Tu sais placer un point dans un repère depuis la cinquième. Ce qui est nouveau, c\'est que le repère devient un outil de <strong>preuve</strong> et non plus seulement de représentation.',
       definitions: [
         { term: 'Repère orthonormé', def: 'Système d\'axes perpendiculaires $(Ox, Oy)$ avec la même unité sur chaque axe. Chaque point est repéré par $(x ; y)$.' },
         { term: 'Distance', def: 'Longueur du segment $[AB]$ : $AB = \\sqrt{(x_B - x_A)^2 + (y_B - y_A)^2}$, application directe du théorème de Pythagore.' },
@@ -78,6 +105,270 @@ window.MODULES.push({
             <text class="annotation-label" x="160" y="48">&#916;x = 6</text>
             <text class="annotation-label" x="225" y="132">&#916;y = -4</text>
             <text class="label-soft" x="94" y="94">AB &#8776; 7,21</text>
+
+      /* SCHÉMAS SECONDAIRES — ajoutés le 2026-09-13.
+         Principe du cahier des charges (section 9) : une figure par
+         MALENTENDU, pas une figure par formule. La figure PRINCIPALE de ce
+         chapitre montre déjà le triangle des écarts d'où sort la formule de
+         la distance ; on ne la redouble donc pas. Les trois malentendus
+         retenus sont ceux que la fiche professeur nomme :
+
+           1. « on voit que c'est isocèle » — conclure d'un dessin au lieu de
+              conclure d'un calcul (erreur n°3 de la fiche, la plus coûteuse
+              du chapitre) ;
+           2. la question INVERSE du milieu : retrouver B connaissant M et A,
+              où l'élève divise au lieu de multiplier (erreur n°2) ;
+           3. le parallélogramme reconnu par ses diagonales, seul endroit du
+              chapitre où le milieu sert à DÉMONTRER et non à calculer.
+
+         TOUTES les coordonnées sont CALCULÉES, jamais posées à l'œil, et
+         gardées par scripts/manuel/tests/diagrams-2nde.test.js. L'échelle
+         est indiquée dans chaque SVG. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Pourquoi calculer plutôt que regarder',
+          title: 'Le dessin hésite, le calcul tranche',
+          description: 'Regarde ce triangle et réponds franchement : est-il isocèle en $A$ ? Les deux côtés $[AB]$ et $[AC]$ ont l\'air d\'avoir la même longueur, et l\'œil ne peut pas faire mieux qu\'hésiter.<br/><br/>' +
+            'Pourtant $AB = 5$ et $AC = \\sqrt{26}$, qui vaut environ $5{,}099$. Ils diffèrent de moins de $2\\,\\%$ : à cette échelle, l\'écart sur le papier est de deux millimètres à peine. Ce triangle n\'est <strong>pas</strong> isocèle, et aucun dessin au monde ne pouvait te le dire.<br/><br/>' +
+            'C\'est exactement la raison d\'être de la géométrie analytique : elle te donne un moyen de <strong>trancher</strong> là où l\'œil ne peut que voter.',
+          svg: `
+            <svg viewBox="0 0 300 280" role="img" aria-labelledby="rep-isoc-title rep-isoc-desc">
+              <title id="rep-isoc-title">Triangle presque isocele dans un repere</title>
+              <desc id="rep-isoc-desc">Un repere orthonorme porte les trois points A de coordonnees un et un, B de coordonnees moins trois et moins deux, et C de coordonnees deux et six. Le triangle ABC est trace. Les cotes AB et AC semblent avoir la meme longueur, mais le calcul donne AB egal cinq exactement et AC egal racine de vingt-six, soit environ cinq virgule zero neuf neuf. Le triangle n'est donc pas isocele, bien que le dessin ne permette pas de le voir.</desc>
+
+              <!-- Repere. Echelle CHOISIE a 22 unites de viewBox par
+                   graduation : c'est le plus grand pas qui laisse tenir les
+                   onze colonnes (x de -4 a 4) et les onze lignes (y de -3 a 7)
+                   exigees par les trois points, etiquettes comprises.
+                   x = 0 tombe a l'abscisse 140, y = 0 a l'ordonnee 180. -->
+              <line class="grid-line" x1="52" y1="26" x2="52" y2="246"></line>
+              <line class="grid-line" x1="74" y1="26" x2="74" y2="246"></line>
+              <line class="grid-line" x1="96" y1="26" x2="96" y2="246"></line>
+              <line class="grid-line" x1="118" y1="26" x2="118" y2="246"></line>
+              <line class="grid-line" x1="162" y1="26" x2="162" y2="246"></line>
+              <line class="grid-line" x1="184" y1="26" x2="184" y2="246"></line>
+              <line class="grid-line" x1="206" y1="26" x2="206" y2="246"></line>
+              <line class="grid-line" x1="228" y1="26" x2="228" y2="246"></line>
+              <line class="grid-line" x1="52" y1="26" x2="228" y2="26"></line>
+              <line class="grid-line" x1="52" y1="48" x2="228" y2="48"></line>
+              <line class="grid-line" x1="52" y1="70" x2="228" y2="70"></line>
+              <line class="grid-line" x1="52" y1="92" x2="228" y2="92"></line>
+              <line class="grid-line" x1="52" y1="114" x2="228" y2="114"></line>
+              <line class="grid-line" x1="52" y1="136" x2="228" y2="136"></line>
+              <line class="grid-line" x1="52" y1="158" x2="228" y2="158"></line>
+              <line class="grid-line" x1="52" y1="202" x2="228" y2="202"></line>
+              <line class="grid-line" x1="52" y1="224" x2="228" y2="224"></line>
+              <line class="grid-line" x1="52" y1="246" x2="228" y2="246"></line>
+
+              <line class="axis" x1="44" y1="180" x2="240" y2="180"></line>
+              <line class="axis" x1="140" y1="256" x2="140" y2="18"></line>
+              <text class="axis-label" x="246" y="184">x</text>
+              <text class="axis-label" x="144" y="24">y</text>
+              <text class="tick-label" x="132" y="192" text-anchor="end">0</text>
+              <text class="tick-label" x="162" y="192" text-anchor="middle">1</text>
+              <text class="tick-label" x="206" y="192" text-anchor="middle">3</text>
+              <text class="tick-label" x="132" y="140" text-anchor="end">2</text>
+              <text class="tick-label" x="132" y="52" text-anchor="end">6</text>
+
+              <!-- Le triangle. Points a coordonnees entieres, donc tombant
+                   exactement sur les graduations : A(1 ; 1) -> (162 ; 158),
+                   B(-3 ; -2) -> (74 ; 224), C(2 ; 6) -> (184 ; 48).
+                   Longueurs d'ecran : AB = 110 exactement (car AB = 5 et
+                   5 x 22 = 110), AC = 112,178. L'ecart de 2,2 pixels est
+                   reellement invisible : c'est tout le propos du schema. -->
+              <line class="curve-main" x1="162" y1="158" x2="74" y2="224"></line>
+              <line class="curve-main" x1="162" y1="158" x2="184" y2="48"></line>
+              <line class="frame-line" x1="74" y1="224" x2="184" y2="48"></line>
+
+              <circle class="plot-point" cx="162" cy="158" r="5"></circle>
+              <circle class="plot-point" cx="74" cy="224" r="5"></circle>
+              <circle class="plot-point" cx="184" cy="48" r="5"></circle>
+
+              <text class="annotation-label" x="170" y="172" text-anchor="start">A(1 ; 1)</text>
+              <text class="annotation-label" x="66" y="240" text-anchor="start">B(-3 ; -2)</text>
+              <text class="annotation-label" x="192" y="44" text-anchor="start">C(2 ; 6)</text>
+
+              <!-- Les deux cotes en litige portent un point d'interrogation :
+                   la figure POSE la question, elle ne la resout pas. Les
+                   valeurs sont dans les notes, pas sur le dessin. -->
+              <text class="label-soft" x="104" y="182" text-anchor="middle">AB = ?</text>
+              <text class="label-soft" x="188" y="106" text-anchor="start">AC = ?</text>
+            </svg>
+          `,
+          notes: [
+            'Longueur $AB$ : les écarts valent $x_B - x_A = -3 - (1) = -4$ et $y_B - y_A = -2 - (1) = -3$, donc $AB = \\sqrt{(-4)^2 + (-3)^2} = \\sqrt{16+9} = \\sqrt{25} = 5$.',
+            'Longueur $AC$ : les écarts valent $x_C - x_A = 2 - (1) = 1$ et $y_C - y_A = 6 - (1) = 5$, donc $AC = \\sqrt{1^2 + 5^2} = \\sqrt{1+25} = \\sqrt{26} \\approx 5{,}099$.',
+            'Conclusion : $\\sqrt{25} \\neq \\sqrt{26}$, donc $AB \\neq AC$ et le triangle n\'est pas isocèle en $A$. L\'écart est de $0{,}099$, soit moins de $2\\,\\%$ — c\'est pourquoi le dessin ne pouvait rien en dire.'
+          ],
+          reading: 'Fais l\'expérience honnêtement : prends ta règle et mesure les deux côtés sur la page. Tu trouveras la même chose aux deux, parce que l\'écart réel y est de deux millimètres. Puis refais les deux calculs ci-dessus — ils te donnent $\\sqrt{25}$ et $\\sqrt{26}$, et là il n\'y a plus de doute possible.<br/><br/>Garde la figure quand même : elle reste utile pour <strong>anticiper</strong> le résultat et repérer une grosse erreur. Ce qu\'elle ne peut pas faire, c\'est le <strong>démontrer</strong>.',
+          caption: 'Triangle $ABC$ avec $A(1\\,;\\,1)$, $B(-3\\,;\\,-2)$ et $C(2\\,;\\,6)$ : $AB = 5$ et $AC = \\sqrt{26}$, deux longueurs que le dessin ne sépare pas.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'La question posée à l\'envers',
+          title: 'Tu connais le milieu et un bout : où est l\'autre ?',
+          description: 'Jusqu\'ici tu calculais le milieu à partir des deux extrémités. Ici on te donne une extrémité $A$ et le milieu $M$, et on te demande l\'autre extrémité $B$.<br/><br/>' +
+            'C\'est la même formule, mais lue dans l\'autre sens — et c\'est précisément là qu\'on divise par $2$ alors qu\'il faudrait multiplier. La figure te donne le moyen de ne jamais te tromper : $M$ est au <strong>milieu</strong>, donc le trajet de $A$ à $M$ doit se <strong>refaire une seconde fois</strong> pour atteindre $B$.',
+          svg: `
+            <svg viewBox="0 0 320 260" role="img" aria-labelledby="rep-milieu-title rep-milieu-desc">
+              <title id="rep-milieu-title">Retrouver une extremite connaissant le milieu</title>
+              <desc id="rep-milieu-desc">Dans un repere, le point A de coordonnees moins un et deux et le point M de coordonnees trois et quatre sont marques par des ronds pleins. Un trait plein va de A a M. Un trait en tirets prolonge ce trajet au-dela de M, sur exactement la meme longueur, et aboutit a un cercle vide marque d'un point d'interrogation. Ce cercle vide est le point B cherche, dont les coordonnees sont sept et six. Deux annotations indiquent que l'on avance de quatre graduations vers la droite et de deux graduations vers le haut, d'abord de A a M, puis a l'identique de M au point cherche.</desc>
+              <defs>
+                <marker id="fl-rep-milieu" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+                </marker>
+              </defs>
+
+              <!-- Echelle CHOISIE a 26 unites de viewBox par graduation : le
+                   segment [AB] traverse huit colonnes en abscisse, et 26 est
+                   le pas le plus large qui les fait tenir dans 320 unites
+                   avec la place des etiquettes. x = 0 tombe a l'abscisse 80,
+                   y = 0 a l'ordonnee 228. -->
+              <line class="grid-line" x1="28" y1="34" x2="28" y2="228"></line>
+              <line class="grid-line" x1="54" y1="34" x2="54" y2="228"></line>
+              <line class="grid-line" x1="106" y1="34" x2="106" y2="228"></line>
+              <line class="grid-line" x1="132" y1="34" x2="132" y2="228"></line>
+              <line class="grid-line" x1="158" y1="34" x2="158" y2="228"></line>
+              <line class="grid-line" x1="184" y1="34" x2="184" y2="228"></line>
+              <line class="grid-line" x1="210" y1="34" x2="210" y2="228"></line>
+              <line class="grid-line" x1="236" y1="34" x2="236" y2="228"></line>
+              <line class="grid-line" x1="262" y1="34" x2="262" y2="228"></line>
+              <line class="grid-line" x1="288" y1="34" x2="288" y2="228"></line>
+              <line class="grid-line" x1="28" y1="46" x2="288" y2="46"></line>
+              <line class="grid-line" x1="28" y1="72" x2="288" y2="72"></line>
+              <line class="grid-line" x1="28" y1="98" x2="288" y2="98"></line>
+              <line class="grid-line" x1="28" y1="124" x2="288" y2="124"></line>
+              <line class="grid-line" x1="28" y1="150" x2="288" y2="150"></line>
+              <line class="grid-line" x1="28" y1="176" x2="288" y2="176"></line>
+              <line class="grid-line" x1="28" y1="202" x2="288" y2="202"></line>
+
+              <line class="axis" x1="20" y1="228" x2="300" y2="228"></line>
+              <line class="axis" x1="80" y1="240" x2="80" y2="28"></line>
+              <text class="axis-label" x="306" y="232">x</text>
+              <text class="axis-label" x="84" y="34">y</text>
+              <text class="tick-label" x="72" y="242" text-anchor="end">0</text>
+              <text class="tick-label" x="158" y="242" text-anchor="middle">3</text>
+              <text class="tick-label" x="262" y="242" text-anchor="middle">7</text>
+              <text class="tick-label" x="72" y="180" text-anchor="end">2</text>
+              <text class="tick-label" x="72" y="76" text-anchor="end">6</text>
+
+              <!-- Le trajet CONNU, de A a M : trait plein, teinte d'accent.
+                   A(-1 ; 2) -> (54 ; 176) et M(3 ; 4) -> (158 ; 124).
+                   Deplacement d'ecran : +104 en x, -52 en y. -->
+              <line class="curve-main" x1="54" y1="176" x2="158" y2="124" marker-end="url(#fl-rep-milieu)"></line>
+
+              <!-- Le trajet A REFAIRE, de M au point cherche : tirets, teinte
+                   faible. MEME deplacement d'ecran, +104 et -52, au pixel :
+                   c'est ce que le test verifie. Arrivee en (262 ; 72), soit
+                   le point (7 ; 6). -->
+              <line class="guide-line" x1="158" y1="124" x2="262" y2="72" marker-end="url(#fl-rep-milieu)"></line>
+
+              <circle class="plot-point" cx="54" cy="176" r="5"></circle>
+              <circle class="plot-point" cx="158" cy="124" r="5"></circle>
+
+              <!-- Le point cherche est un cercle VIDE : la figure ne divulgue
+                   pas la reponse. Ses coordonnees n'apparaissent nulle part
+                   sur le dessin, seulement dans les notes. -->
+              <circle class="plot-point-alt" cx="262" cy="72" r="6" fill="var(--bg-card)"></circle>
+
+              <text class="annotation-label" x="40" y="196" text-anchor="start">A(-1 ; 2)</text>
+              <text class="annotation-label" x="146" y="144" text-anchor="start">M(3 ; 4)</text>
+              <text class="annotation-label" x="252" y="60" text-anchor="start">B ?</text>
+
+              <text class="label-soft" x="96" y="140" text-anchor="start">+4 et +2</text>
+              <text class="label-soft" x="200" y="88" text-anchor="start">+4 et +2</text>
+            </svg>
+          `,
+          notes: [
+            'De $A$ à $M$, on avance de $x_M - x_A = 3 - (-1) = 4$ et de $y_M - y_A = 4 - (2) = 2$. Comme $M$ est le milieu, il reste exactement le même trajet à faire pour atteindre $B$.',
+            'D\'où $x_B = 3 + 4 = 7$ et $y_B = 4 + 2 = 6$ : le point cherché est $B(7\\,;\\,6)$.',
+            'La formule directe dit la même chose : $x_B = 2x_M - x_A = 2\\times 3 - (-1) = 7$, et $y_B = 2y_M - y_A = 2\\times 4 - 2 = 6$. Elle se retient mieux une fois qu\'on l\'a vue sur le dessin.',
+            'Le contrôle qui te sauve : $M$ doit être <strong>entre</strong> $A$ et $B$. Une réponse comme $x_B = 1{,}5$ placerait $B$ du même côté que $A$, donc $M$ ne serait plus au milieu de rien.'
+          ],
+          reading: 'Le trait plein est le trajet que tu connais ; le trait en tirets est le même trajet, refait une seconde fois. Les deux flèches portent la même indication, $+4$ et $+2$, et c\'est bien pour cela que tu <strong>multiplies</strong> par $2$ au lieu de diviser.<br/><br/>Si tu hésites encore, écris l\'égalité en entier avant de calculer : $3 = \\dfrac{-1 + x_B}{2}$. C\'est une équation comme celles que tu résous depuis la quatrième — multiplie les deux membres par $2$ et la fraction disparaît.',
+          caption: 'Retrouver $B$ connaissant $A(-1\\,;\\,2)$ et le milieu $M(3\\,;\\,4)$ : le trajet de $A$ à $M$ se refait à l\'identique au-delà de $M$.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Le milieu qui démontre',
+          title: 'Un quadrilatère est un parallélogramme si ses diagonales se coupent en leur milieu',
+          description: 'Voici le seul endroit du chapitre où la formule du milieu ne sert pas à calculer, mais à <strong>démontrer</strong>.<br/><br/>' +
+            'Les quatre points ci-dessous forment-ils un parallélogramme ? Le dessin penche pour oui, mais tu sais maintenant ce que vaut un dessin. La preuve tient en deux calculs de milieu : si les deux diagonales $[AC]$ et $[BD]$ ont le <strong>même</strong> milieu, alors elles se coupent en leur milieu, et le quadrilatère est un parallélogramme.',
+          svg: `
+            <svg viewBox="0 0 300 240" role="img" aria-labelledby="rep-para-title rep-para-desc">
+              <title id="rep-para-title">Parallelogramme reconnu par ses diagonales</title>
+              <desc id="rep-para-desc">Dans un repere, quatre points forment un quadrilatere : A de coordonnees moins trois et un, B de coordonnees un et trois, C de coordonnees quatre et zero, et D de coordonnees zero et moins deux. Les deux diagonales AC et BD sont tracees en tirets. Elles se croisent en un point unique marque par un rond, situe aux coordonnees zero virgule cinq et zero virgule cinq. Ce point est a la fois le milieu de la diagonale AC et le milieu de la diagonale BD, ce qui prouve que le quadrilatere est un parallelogramme.</desc>
+
+              <!-- Echelle CHOISIE a 28 unites de viewBox par graduation : les
+                   dix colonnes (x de -4 a 5) et les huit lignes (y de -3 a 4)
+                   tiennent alors dans 300 par 240, et un pas PAIR est
+                   indispensable ici parce que le point d'intersection tombe
+                   sur une demi-graduation. x = 0 a l'abscisse 142, y = 0 a
+                   l'ordonnee 142. -->
+              <line class="grid-line" x1="30" y1="30" x2="30" y2="226"></line>
+              <line class="grid-line" x1="58" y1="30" x2="58" y2="226"></line>
+              <line class="grid-line" x1="86" y1="30" x2="86" y2="226"></line>
+              <line class="grid-line" x1="114" y1="30" x2="114" y2="226"></line>
+              <line class="grid-line" x1="170" y1="30" x2="170" y2="226"></line>
+              <line class="grid-line" x1="198" y1="30" x2="198" y2="226"></line>
+              <line class="grid-line" x1="226" y1="30" x2="226" y2="226"></line>
+              <line class="grid-line" x1="254" y1="30" x2="254" y2="226"></line>
+              <line class="grid-line" x1="282" y1="30" x2="282" y2="226"></line>
+              <line class="grid-line" x1="30" y1="30" x2="282" y2="30"></line>
+              <line class="grid-line" x1="30" y1="58" x2="282" y2="58"></line>
+              <line class="grid-line" x1="30" y1="86" x2="282" y2="86"></line>
+              <line class="grid-line" x1="30" y1="114" x2="282" y2="114"></line>
+              <line class="grid-line" x1="30" y1="170" x2="282" y2="170"></line>
+              <line class="grid-line" x1="30" y1="198" x2="282" y2="198"></line>
+              <line class="grid-line" x1="30" y1="226" x2="282" y2="226"></line>
+
+              <line class="axis" x1="22" y1="142" x2="292" y2="142"></line>
+              <line class="axis" x1="142" y1="234" x2="142" y2="22"></line>
+              <text class="axis-label" x="288" y="134" text-anchor="end">x</text>
+              <text class="axis-label" x="148" y="30">y</text>
+              <text class="tick-label" x="134" y="156" text-anchor="end">0</text>
+              <text class="tick-label" x="170" y="156" text-anchor="middle">1</text>
+              <text class="tick-label" x="134" y="120" text-anchor="end">1</text>
+
+              <!-- Les quatre cotes, en trait de decor : ce n'est pas eux qui
+                   demontrent. A(-3 ; 1) -> (58 ; 114), B(1 ; 3) -> (170 ; 58),
+                   C(4 ; 0) -> (254 ; 142), D(0 ; -2) -> (142 ; 198). -->
+              <line class="frame-line" x1="58" y1="114" x2="170" y2="58"></line>
+              <line class="frame-line" x1="170" y1="58" x2="254" y2="142"></line>
+              <line class="frame-line" x1="254" y1="142" x2="142" y2="198"></line>
+              <line class="frame-line" x1="142" y1="198" x2="58" y2="114"></line>
+
+              <!-- Les DIAGONALES, en tirets d'accent : ce sont elles qui
+                   portent la preuve, donc elles dominent la hierarchie de
+                   trait. Leurs milieux d'ecran tombent tous deux exactement
+                   sur (156 ; 128), ce que le test recalcule. -->
+              <line class="guide-line" x1="58" y1="114" x2="254" y2="142"></line>
+              <line class="guide-line" x1="170" y1="58" x2="142" y2="198"></line>
+
+              <circle class="plot-point" cx="58" cy="114" r="5"></circle>
+              <circle class="plot-point" cx="170" cy="58" r="5"></circle>
+              <circle class="plot-point" cx="254" cy="142" r="5"></circle>
+              <circle class="plot-point" cx="142" cy="198" r="5"></circle>
+              <circle class="plot-point-alt" cx="156" cy="128" r="4"></circle>
+
+              <text class="annotation-label" x="34" y="108" text-anchor="start">A(-3 ; 1)</text>
+              <text class="annotation-label" x="160" y="50" text-anchor="start">B(1 ; 3)</text>
+              <text class="annotation-label" x="250" y="160" text-anchor="start">C(4 ; 0)</text>
+              <text class="annotation-label" x="112" y="216" text-anchor="start">D(0 ; -2)</text>
+              <text class="label-soft" x="164" y="124" text-anchor="start">meme milieu</text>
+            </svg>
+          `,
+          notes: [
+            'Milieu de la diagonale $[AC]$ : $\\left(\\dfrac{-3+4}{2}\\,;\\,\\dfrac{1+0}{2}\\right) = (0{,}5\\,;\\,0{,}5)$.',
+            'Milieu de la diagonale $[BD]$ : $\\left(\\dfrac{1+0}{2}\\,;\\,\\dfrac{3+(-2)}{2}\\right) = (0{,}5\\,;\\,0{,}5)$.',
+            'Les deux milieux sont le <strong>même point</strong>. Les diagonales se coupent donc en leur milieu, et $ABCD$ est un parallélogramme.',
+            'Attention à l\'ordre des lettres : il faut prendre les diagonales, $[AC]$ et $[BD]$, et non deux côtés. Sur un quadrilatère $ABCD$, les diagonales joignent les sommets qui ne se suivent pas.'
+          ],
+          reading: 'Remarque ce que la preuve ne demande <strong>pas</strong> : aucune longueur, aucun angle, aucun parallélisme à vérifier. Deux moyennes suffisent, et elles tombent sur le même couple de nombres.<br/><br/>Remarque aussi que ce parallélogramme n\'est ni un losange ni un rectangle — ses côtés mesurent $\\sqrt{20}$ et $\\sqrt{18}$, ses diagonales $\\sqrt{50}$ et $\\sqrt{26}$. C\'est volontaire : la propriété des diagonales vaut pour <strong>tous</strong> les parallélogrammes, pas seulement pour les jolis.',
+          caption: 'Quadrilatère $ABCD$ avec $A(-3\\,;\\,1)$, $B(1\\,;\\,3)$, $C(4\\,;\\,0)$ et $D(0\\,;\\,-2)$ : les diagonales $[AC]$ et $[BD]$ ont le même milieu $(0{,}5\\,;\\,0{,}5)$.'
+        }
+      ],
             <text class="axis-label" x="348" y="168">x</text>
             <text class="axis-label" x="152" y="16">y</text>
             <text class="tick-label" x="34" y="180">-3</text>

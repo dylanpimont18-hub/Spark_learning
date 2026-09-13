@@ -12,7 +12,31 @@ window.MODULES.push({
     keywords: ['Fonction carré', 'Fonction inverse', 'Racine carrée', 'Parité'],
     physics: 'Chute libre (fonction carré), lois en 1/x en électricité (fonction inverse), période d\'un pendule (fonction racine carrée)',
     cours: {
-      intro: 'Les trois <strong>fonctions de référence</strong> ($x\\mapsto x^2$, $x\\mapsto 1/x$, $x\\mapsto \\sqrt{x}$) sont les briques de base de l\'analyse.<br/><br/>La <strong>fonction carré</strong> est paire ($f(-x) = f(x)$), atteint son minimum $0$ en $x=0$, et est définie sur $\\mathbb{R}$. La <strong>fonction inverse</strong> est impaire et n\'est jamais nulle : son domaine exclut $0$. La <strong>racine carrée</strong> n\'est définie que pour $x \\geq 0$ et est toujours croissante.<br/><br/>Ces domaines sont fondamentaux : $\\sqrt{x-2}$ n\'existe que si $x \\geq 2$, $1/(x-3)$ est interdite en $x = 3$.<br/><br/>Enfin, $\\sqrt{ab} = \\sqrt{a}\\cdot\\sqrt{b}$ est vraie pour un produit — mais $\\sqrt{a+b} \\neq \\sqrt{a}+\\sqrt{b}$.',
+      /* « Découvrir » RÉÉCRIT le 2026-09-13.
+
+         L'ancienne version ouvrait sur « Les trois fonctions de référence
+         sont les briques de base de l'analyse » : une définition, donc
+         l'entrée que le cahier des charges proscrit.
+
+         La situation retenue fait éprouver le point le plus difficile de
+         tout le niveau — le fait qu'une même fonction puisse renverser son
+         sens de variation, ce qu'aucune fonction affine ne fait. L'élève
+         range spontanément les carrés dans le même ordre que les nombres ;
+         sur les négatifs, c'est faux, et il peut le vérifier lui-même en
+         deux secondes.
+
+         Le test tient : on ne peut pas répondre « lequel des deux carrés est
+         le plus grand ? » de façon fiable sans connaître les variations de
+         la fonction carré — l'intuition de l'ordre échoue précisément là.
+         Entrée non décorative : c'est la difficulté centrale du chapitre, et
+         la source de son erreur la plus fréquente. */
+      intro: 'Range ces deux nombres : $-5$ et $-2$. Tu réponds sans hésiter que $-5$ est le plus petit.<br/><br/>' +
+        'Maintenant, range leurs carrés.<br/><br/>' +
+        'Si tu appliques le même ordre, tu annonces que $(-5)^2$ est plus petit que $(-2)^2$. Vérifie : $(-5)^2 = 25$ et $(-2)^2 = 4$. C\'est <strong>l\'inverse</strong>.<br/><br/>' +
+        'Recommence avec $2$ et $5$ : cette fois $2^2 = 4$ et $5^2 = 25$, l\'ordre est conservé. La même opération respecte donc l\'ordre sur les nombres positifs et le renverse sur les négatifs.<br/><br/>' +
+        'Jusqu\'ici, toutes les fonctions que tu as rencontrées allaient dans un seul sens : une fonction affine monte partout, ou descend partout. La fonction carré, elle, <strong>descend puis remonte</strong>, et le point de bascule est en $0$.<br/><br/>' +
+        'Ce chapitre étudie trois fonctions de ce genre — le <strong>carré</strong>, l\'<strong>inverse</strong> et la <strong>racine carrée</strong> —, qu\'on appelle fonctions de référence parce qu\'on les retrouvera partout jusqu\'en terminale.<br/><br/>' +
+        'Tu y rencontreras une surprise encore plus déroutante que celle-ci : la fonction inverse descend sur chacun de ses deux morceaux, et pourtant on ne peut pas dire qu\'elle descend partout. Tu verras pourquoi, et ce n\'est pas un détail.',
       definitions: [
         { term: 'Fonction carré', def: 'Fonction $f(x) = x^2$. Définie sur $\\mathbb{R}$, paire, minimum en $0$. Sa courbe est une parabole tournée vers le haut.' },
         { term: 'Fonction inverse', def: 'Fonction $g(x) = \\dfrac{1}{x}$. Définie sur $\\mathbb{R} \\setminus \\{0\\}$, impaire, jamais nulle. Sa courbe est une hyperbole.' },

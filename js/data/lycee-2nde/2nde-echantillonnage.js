@@ -12,7 +12,29 @@ window.MODULES.push({
     keywords: ['Échantillon', 'Fréquence', 'Fluctuation', 'Intervalle de confiance'],
     physics: false,
     cours: {
-      intro: 'L\'échantillonnage permet d\'inférer des propriétés d\'une grande population à partir d\'un sous-groupe représentatif. La fréquence observée dans un échantillon de taille $n$ fluctue aléatoirement autour de la vraie proportion $p$ — cette variabilité diminue quand $n$ augmente. L\'intervalle de confiance à $95\\%$ fournit une plage dans laquelle se trouve la vraie proportion dans $95\\%$ des cas si on répétait l\'expérience. La marge d\'erreur $e = 1/\\sqrt{n}$ montre que passer de $100$ à $400$ personnes divise l\'erreur par $2$ (pas par $4$) : améliorer la précision coûte cher en taille d\'échantillon. Cette formule est une approximation valable pour $n \\geq 30$.',
+      /* « Découvrir » RÉÉCRIT le 2026-09-13.
+
+         L'ancienne version ouvrait sur « L'échantillonnage permet d'inférer
+         des propriétés d'une grande population » : une définition, donc
+         l'entrée que le cahier des charges proscrit.
+
+         La situation retenue est l'OBJECTION que tout élève formule en
+         entendant parler de sondages, et qui est la difficulté réelle du
+         chapitre : mille personnes ne peuvent pas représenter soixante-sept
+         millions. L'objection est raisonnable, elle est partagée par
+         beaucoup d'adultes, et elle est fausse — mais on ne peut la lever
+         qu'en montrant pourquoi, ce que le chapitre fait.
+
+         Le test tient : on ne peut pas répondre « mille suffisent-ils ? »
+         sans la notion de marge d'erreur. Entrée non décorative : le
+         sondage est le cas d'usage réel de ces mathématiques, et l'élève en
+         croise un chaque semaine. */
+      intro: 'Un institut publie un sondage : « $52\\%$ des Français pensent que… ». En bas de page, en petits caractères : <strong>échantillon de $1\\,000$ personnes</strong>.<br/><br/>' +
+        'Mille personnes pour soixante-sept millions d\'habitants. Une personne sur soixante-sept mille.<br/><br/>' +
+        'Comment peut-on sérieusement prétendre savoir quelque chose du pays entier ?<br/><br/>' +
+        'L\'objection est légitime, et pourtant la méthode fonctionne. Pense à une marmite de soupe : pour savoir si elle est assez salée, une <strong>cuillère</strong> suffit — à condition d\'avoir bien remué. Et voici ce qui surprend : que la marmite contienne deux litres ou deux cents, la cuillère nécessaire est la même.<br/><br/>' +
+        'C\'est exactement ce qui se passe ici. La précision d\'un sondage ne dépend <strong>pas</strong> de la taille de la population, mais seulement du nombre de personnes interrogées. C\'est pour cela que presque tous les sondages que tu verras portent sur environ mille personnes, qu\'il s\'agisse d\'une ville ou d\'un pays.<br/><br/>' +
+        'Reste à savoir avec quelle précision, et c\'est là que ce chapitre devient utile : il te donne de quoi calculer une <strong>marge d\'erreur</strong>, encadrer la vraie proportion, et surtout comprendre ce que signifie vraiment le « $95\\%$ de confiance » que les instituts annoncent sans jamais l\'expliquer.',
       definitions: [
         { term: 'Échantillon', def: 'Sous-groupe de taille $n$ tiré au hasard dans une population. Il doit être représentatif pour que les résultats soient fiables.' },
         { term: 'Fréquence observée', def: '$f = \\dfrac{\\text{effectif du caractère}}{n}$ : proportion mesurée dans l\'échantillon. Elle fluctue d\'un échantillon à l\'autre.' },

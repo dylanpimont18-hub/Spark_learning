@@ -12,7 +12,29 @@ window.MODULES.push({
     keywords: ['Probabilité', 'Événement', 'Univers', 'Équiprobabilité', 'Complémentaire'],
     physics: false,
     cours: {
-      intro: 'Une <strong>expérience aléatoire</strong> est une expérience dont le résultat ne peut pas être prédit à l\'avance — contrairement à une expérience déterministe. L\'<strong>univers $\\Omega$</strong> est l\'ensemble de toutes les issues possibles.<br/><br/>La <strong>probabilité $P(A)$</strong> est un réel de $[0;1]$ qui mesure la fréquence relative de l\'événement $A$ sur un grand nombre de répétitions.<br/><br/>En cas d\'<strong>équiprobabilité</strong> (toutes les issues ont la même probabilité), $P(A) = |A| / |\\Omega|$. L\'équiprobabilité n\'est pas automatique : un dé truqué ou une urne déséquilibrée ne la vérifient pas.<br/><br/>Les lancers successifs sont des <strong>épreuves indépendantes</strong> : la pièce n\'a pas de mémoire, et les résultats passés n\'influencent pas les futurs.',
+      /* « Découvrir » RÉÉCRIT le 2026-09-13.
+
+         L'ancienne version ouvrait sur « Une expérience aléatoire est une
+         expérience dont le résultat ne peut pas être prédit » : une
+         définition, donc l'entrée que le cahier des charges proscrit.
+
+         La situation retenue est celle où l'INTUITION DONNE UNE RÉPONSE
+         FAUSSE, ce qui est la marque de ce chapitre : ailleurs l'élève
+         ignore, ici il croit savoir. Le sophisme du joueur est la croyance
+         la plus répandue sur le hasard, elle est forgée hors de l'école, et
+         aucun énoncé de définition ne la déloge.
+
+         Le test tient : on ne peut pas répondre « la pièce est-elle en
+         retard ? » sans la notion d'indépendance — et la réponse contredit
+         ce que presque tout le monde répond spontanément. Entrée non
+         décorative : c'est la difficulté centrale du chapitre. */
+      intro: 'Tu lances une pièce équilibrée. Elle tombe sur pile. Tu recommences : pile. Encore : pile.<br/><br/>' +
+        'Neuf fois de suite, pile.<br/><br/>' +
+        'Au dixième lancer, quelle est la probabilité d\'obtenir face ?<br/><br/>' +
+        'Presque tout le monde répond « plus d\'une chance sur deux », parce que face <strong>est en retard</strong>. C\'est faux, et c\'est sans doute la croyance la plus répandue au monde sur le hasard.<br/><br/>' +
+        'La réponse est exactement $\\dfrac{1}{2}$, comme au premier lancer. La raison tient en une question : <strong>la pièce se souvient-elle des neuf lancers précédents ?</strong> Elle n\'a ni mémoire, ni mécanisme pour rattraper quoi que ce soit. Chaque lancer recommence à zéro.<br/><br/>' +
+        'Alors pourquoi dit-on que les fréquences finissent par s\'équilibrer ? Parce que sur dix mille lancers, une avance de neuf piles devient <strong>négligeable</strong> — pas parce qu\'elle est compensée. C\'est une dilution, jamais un rattrapage, et toute la différence est là.<br/><br/>' +
+        'Ce chapitre te donne de quoi raisonner sur l\'aléatoire au lieu de te fier à ton intuition, qui te trompera encore souvent cette année. Tu apprendras à décrire toutes les issues possibles, à calculer une probabilité, et à combiner deux événements sans compter deux fois ce qui leur est commun.',
       definitions: [
         { term: 'Expérience aléatoire', def: 'Expérience dont le résultat ne peut pas être prédit à l\'avance (ex. : lancer un dé, tirer une carte).' },
         { term: 'Univers $\\Omega$', def: 'Ensemble de toutes les issues possibles d\'une expérience aléatoire. Ex. : dé à $6$ faces → $\\Omega = \\{1;2;3;4;5;6\\}$.' },

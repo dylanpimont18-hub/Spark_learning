@@ -12,7 +12,29 @@ window.MODULES.push({
     keywords: ['Droite', 'Pente', 'Ordonnée à l\'origine', 'Système', 'Substitution'],
     physics: false,
     cours: {
-      intro: 'L\'équation $y = mx + p$ décrit toute droite non verticale : $m$ est la pente (combien $y$ change pour $+1$ en $x$) et $p$ est l\'ordonnée à l\'origine. Les droites verticales ont une équation $x = k$ et n\'ont pas de pente définie. Deux droites distinctes sont soit parallèles (même pente $m_1 = m_2$, aucun point commun), soit sécantes (pentes différentes, un unique point commun). Ce point d\'intersection est la solution du système formé par les deux équations : on l\'obtient en égalisant les deux expressions de $y$. Si $m_1 = m_2$ mais $p_1 \\neq p_2$, le système est impossible (contradiction) — les droites ne se croisent jamais.',
+      /* « Découvrir » RÉÉCRIT le 2026-09-13.
+
+         L'ancienne version ouvrait sur « L'équation y = mx + p décrit toute
+         droite non verticale » : une définition, donc l'entrée que le cahier
+         des charges proscrit.
+
+         La situation retenue fait éprouver ce que ce chapitre a de propre :
+         la CORRESPONDANCE entre un objet géométrique et un objet algébrique.
+         Un système sans solution n'est pas un calcul raté, c'est la
+         traduction algébrique de deux droites parallèles — et c'est l'erreur
+         la plus tenace du chapitre, celle de l'élève qui recommence trois
+         fois son calcul en croyant s'être trompé.
+
+         Le test tient : on ne peut pas répondre « pourquoi le calcul
+         aboutit-il à une absurdité ? » sans voir les deux droites. Entrée
+         non décorative : c'est exactement la difficulté du chapitre. */
+      intro: 'Deux amis suivent chacun un tarif de téléphone. Le premier paie $3$ € par gigaoctet plus $10$ € d\'abonnement, le second $3$ € par gigaoctet plus $18$ € d\'abonnement.<br/><br/>' +
+        'À partir de combien de gigaoctets paient-ils la même chose ?<br/><br/>' +
+        'Écris l\'égalité et résous : $3g + 10 = 3g + 18$. Les $3g$ disparaissent des deux côtés, et il reste $10 = 18$.<br/><br/>' +
+        'Ce n\'est pas une erreur de calcul. Recommence autant de fois que tu veux, tu retrouveras la même absurdité.<br/><br/>' +
+        'Regarde maintenant les deux tarifs sur un graphique : ce sont deux droites de <strong>même pente</strong>, l\'une au-dessus de l\'autre, séparées de huit euros pour toujours. Elles ne se croisent jamais. Il n\'existe donc aucune valeur de $g$ qui convienne, et le $10 = 18$ est exactement la façon dont l\'algèbre te dit cela.<br/><br/>' +
+        'C\'est la grande idée de ce chapitre : une <strong>droite</strong> que tu dessines et une <strong>équation</strong> que tu écris sont deux visages du même objet. Chercher un point d\'intersection sur un dessin ou résoudre un système par le calcul, c\'est faire la même chose de deux façons.<br/><br/>' +
+        'Tu sais déjà résoudre des systèmes depuis la troisième. Ce que la seconde ajoute, c\'est de pouvoir dire ce que le résultat <strong>signifie</strong> : une solution unique, aucune solution, ou une infinité — et à chaque fois, deux droites qui expliquent pourquoi.',
       definitions: [
         { term: 'Équation de droite', def: 'Toute droite non verticale s\'écrit $y = mx + p$ avec $m$ la pente et $p$ l\'ordonnée à l\'origine. Une droite verticale s\'écrit $x = k$.' },
         { term: 'Droites parallèles', def: 'Deux droites non verticales sont parallèles si elles ont la même pente : $m_1 = m_2$. Elles n\'ont aucun point commun (sauf si elles sont confondues).' },

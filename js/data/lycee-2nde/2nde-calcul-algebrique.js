@@ -12,7 +12,36 @@ window.MODULES.push({
     keywords: ['Développer', 'Factoriser', 'Identité remarquable', 'Distributivité'],
     physics: false,
     cours: {
-      intro: 'Le <strong>calcul algébrique</strong> permet de transformer une expression en une forme équivalente — plus simple ou plus adaptée au problème.<br/><br/><strong>Développer</strong> supprime les parenthèses et étale tous les termes ; <strong>factoriser</strong> fait l\'inverse en regroupant sous un produit.<br/><br/>Choisir entre les deux dépend du contexte : pour résoudre $f(x) = 0$, la forme factorisée permet de trouver directement les racines ($f(x) = 0 \\Leftrightarrow$ chaque facteur $= 0$) ; pour comparer ou simplifier, la forme développée est souvent plus lisible.<br/><br/>La vérification consiste à redévelopper le résultat factorisé pour retrouver la forme initiale — indispensable pour éviter les erreurs de signe.',
+      /* « Découvrir » RÉÉCRIT le 2026-09-13.
+
+         L'ancienne version ouvrait sur « Le calcul algébrique permet de
+         transformer une expression en une forme équivalente » : une
+         définition, donc l'entrée que le cahier des charges proscrit.
+
+         DIFFICULTÉ PROPRE À CE CHAPITRE : c'est un chapitre d'OUTIL. Il ne
+         sert pas à résoudre un problème du quotidien, il sert à rendre
+         d'autres chapitres possibles. Toute mise en situation concrète
+         serait donc un prétexte — le travers explicitement dénoncé par le
+         cahier des charges.
+
+         L'ouverture retenue est une DIFFICULTÉ RÉELLE, et même la plus
+         coûteuse de l'année : l'élève croit que développer est toujours ce
+         qu'il faut faire. On lui montre donc la même expression sous deux
+         formes, et deux questions dont chacune n'est facile que dans UNE des
+         deux. Il n'y a pas de bonne forme dans l'absolu, seulement une bonne
+         forme pour une question donnée.
+
+         Le test tient : on ne peut pas répondre « laquelle des deux
+         écritures choisir ? » sans la notion — c'est précisément ce que le
+         chapitre enseigne. */
+      intro: 'Voici deux écritures du même objet :<br/><br/>' +
+        '$A = (x - 3)(x + 5)$ et $A = x^2 + 2x - 15$.<br/><br/>' +
+        'Développe la première : tu retrouves exactement la seconde. Ce sont donc deux façons d\'écrire la <strong>même</strong> expression, qui donnent la même valeur pour n\'importe quel $x$.<br/><br/>' +
+        'Maintenant, deux questions.<br/><br/>' +
+        '<strong>Première question :</strong> pour quelles valeurs de $x$ cette expression vaut-elle $0$ ? Sur la forme du haut, tu réponds presque sans calculer : un produit est nul quand l\'un de ses facteurs l\'est, donc $x = 3$ ou $x = -5$. Sur la forme du bas, tu es bloqué.<br/><br/>' +
+        '<strong>Seconde question :</strong> combien vaut cette expression pour $x = 0$ ? Sur la forme du bas, tu lis la réponse directement : $-15$. Sur la forme du haut, il faut calculer $(-3) \\times 5$.<br/><br/>' +
+        'Aucune des deux écritures n\'est meilleure que l\'autre. Ce qui décide, c\'est la <strong>question posée</strong>.<br/><br/>' +
+        'C\'est tout l\'enjeu de ce chapitre, et c\'est là que se joue l\'erreur la plus fréquente de l\'année : on ne développe pas parce qu\'on sait développer, on choisit la forme qui répond à la question. <strong>Développer</strong> et <strong>factoriser</strong> sont deux chemins opposés entre ces deux écritures, et savoir lequel prendre vaut mieux que savoir les parcourir.',
       definitions: [
         { term: 'Développer', def: 'Transformer un produit en somme en supprimant les parenthèses : $a(b+c) = ab + ac$.' },
         { term: 'Factoriser', def: 'Transformer une somme en produit en mettant en facteur un terme commun ou en reconnaissant une identité remarquable.' },

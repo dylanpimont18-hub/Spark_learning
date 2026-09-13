@@ -12,7 +12,34 @@ window.MODULES.push({
     keywords: ['Triangle', 'Parallélisme', 'Thalès', 'Médiane', 'Hauteur'],
     physics: false,
     cours: {
-      intro: 'La géométrie plane combine raisonnement logique et calcul pour prouver des propriétés sur des figures.<br/><br/>Le <strong>théorème de Thalès</strong> permet de calculer des longueurs inaccessibles à partir de rapports entre segments parallèles.<br/><br/>Dans un triangle, quatre <strong>droites remarquables</strong> se distinguent par leur définition : la médiane joint un sommet au milieu du côté opposé ; la hauteur est perpendiculaire au côté opposé (mais pas nécessairement en son milieu) ; la médiatrice est perpendiculaire au côté par son milieu ; la bissectrice divise l\'angle en deux parties égales.<br/><br/>Confondre ces quatre notions est l\'une des erreurs les plus fréquentes en géométrie.',
+      /* « Découvrir » RÉÉCRIT le 2026-09-13.
+
+         L'ancienne version ouvrait sur « La géométrie plane combine
+         raisonnement logique et calcul pour prouver des propriétés » : une
+         définition, donc l'entrée que le cahier des charges proscrit.
+
+         DIFFICULTÉ PROPRE À CE CHAPITRE : c'est le chapitre de reprise le
+         plus complet de l'année — Thalès, Pythagore, les aires et les
+         droites remarquables viennent tous du collège. Ouvrir sur « à quoi
+         sert la géométrie » serait donc creux, puisque l'élève sait déjà
+         s'en servir.
+
+         Ce qui est réellement neuf en seconde, c'est l'EXIGENCE DE
+         DÉMONSTRATION : citer le théorème, vérifier ses hypothèses,
+         conclure. L'ouverture vise donc exactement cela, en montrant une
+         mesure IMPOSSIBLE à prendre — on ne peut pas tendre un décamètre
+         jusqu'au sommet d'une pyramide, il faut raisonner. Thalès l'a fait
+         il y a vingt-six siècles, et c'est la meilleure justification qui
+         soit du fait qu'un raisonnement remplace une mesure.
+
+         Le test tient : on ne peut pas répondre « quelle est la hauteur ? »
+         sans une configuration géométrique. */
+      intro: 'Tu es au pied de la pyramide de Khéops. Quelle est sa hauteur ?<br/><br/>' +
+        'Tu ne peux pas la mesurer : il faudrait grimper dessus en tenant un décamètre, et le sommet est à cent quarante mètres. Aucun instrument posé au sol ne te donnera ce nombre directement.<br/><br/>' +
+        'Thalès, il y a vingt-six siècles, a pourtant trouvé la réponse sans quitter le sable. Il a planté un bâton, mesuré <strong>son</strong> ombre, mesuré <strong>l\'ombre de la pyramide</strong>, et comparé les deux rapports. Le soleil éclairant les deux objets sous le même angle, la pyramide est à son ombre ce que le bâton est à la sienne.<br/><br/>' +
+        'Quatre longueurs, dont trois mesurables au sol, et la quatrième s\'en déduit.<br/><br/>' +
+        'C\'est le cœur de ce chapitre : une <strong>configuration</strong> géométrique permet d\'atteindre ce qu\'aucune mesure directe ne donne. Tu connais déjà Thalès et Pythagore depuis le collège, et ils n\'ont pas changé.<br/><br/>' +
+        'Ce que la seconde ajoute, c\'est l\'exigence de <strong>démontrer</strong> : nommer le théorème que tu emploies, vérifier que ses conditions sont bien réunies, puis conclure. Appliquer une formule ne suffit plus — il faut pouvoir dire pourquoi tu as le droit de l\'appliquer.',
       definitions: [
         { term: 'Théorème de Thalès', def: 'Si $(MN) \\parallel (BC)$ dans un triangle $ABC$ avec $M \\in [AB]$ et $N \\in [AC]$, alors $\\dfrac{AM}{AB} = \\dfrac{AN}{AC} = \\dfrac{MN}{BC}$.' },
         { term: 'Médiane', def: 'Droite joignant un sommet au milieu du côté opposé. Les trois médianes se coupent au centre de gravité.' },

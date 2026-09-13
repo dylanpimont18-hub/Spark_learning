@@ -12,7 +12,36 @@ window.MODULES.push({
     keywords: ['Ensemble', 'Intervalle', 'Réels', 'Appartenance'],
     physics: false,
     cours: {
-      intro: 'Les nombres se classent en <strong>ensembles emboîtés</strong> : $\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R}$.<br/><br/>Un réel est <strong>rationnel</strong> s\'il peut s\'écrire $p/q$ (avec $p, q$ entiers, $q \\neq 0$) — sinon il est <strong>irrationnel</strong> comme $\\sqrt{2}$ ou $\\pi$. Les décimaux périodiques (comme $1{,}\\overline{3} = 4/3$) sont tous rationnels.<br/><br/>Les <strong>intervalles</strong> décrivent des ensembles continus de réels avec une notation compacte : un crochet fermé $[$ inclut la borne, un crochet ouvert $]$ l\'exclut. L\'infini n\'est pas un nombre — la borne infinie est toujours ouverte.<br/><br/>Les opérations sur intervalles ($\\cap$, $\\cup$) permettent d\'exprimer les domaines de définition et les conditions de validité des formules.',
+      /* « Découvrir » RÉÉCRIT le 2026-09-13.
+
+         L'ancienne version ouvrait sur « Les nombres se classent en
+         ensembles emboîtés » : une définition, donc l'entrée que le cahier
+         des charges proscrit.
+
+         ENTRÉE HISTORIQUE ASSUMÉE, et c'est un choix. Ce chapitre est
+         technique et ne se prête à aucune mise en situation quotidienne
+         honnête : personne n'a jamais eu besoin de savoir si un nombre est
+         irrationnel pour faire ses courses, et inventer un prétexte serait
+         exactement le travers que le cahier des charges appelle « une mise
+         en situation décorative, pire qu'une définition ».
+
+         Le cahier des charges prévoit ce cas : « sur les chapitres
+         techniques, une entrée historique ou une difficulté réelle vaut
+         mieux qu'une anecdote plaquée ». La découverte de l'irrationalité de
+         racine de deux est à la fois historique ET la difficulté réelle du
+         chapitre : elle montre qu'il existe des longueurs parfaitement
+         constructibles qu'AUCUNE fraction ne peut écrire.
+
+         Le test tient : on ne peut pas répondre « quelle fraction mesure
+         cette diagonale ? » sans la notion d'irrationnel — la réponse est
+         précisément qu'il n'en existe aucune. */
+      intro: 'Trace un carré de côté $1$, puis sa diagonale.<br/><br/>' +
+        'Cette diagonale a bien une longueur : tu peux la mesurer, la reporter, la comparer. Par le théorème de Pythagore, son carré vaut $1^2 + 1^2 = 2$, donc elle mesure $\\sqrt{2}$.<br/><br/>' +
+        'Maintenant, écris cette longueur sous forme de fraction.<br/><br/>' +
+        'Tu peux chercher longtemps. $\\dfrac{7}{5}$ donne $1{,}4$, c\'est un peu court. $\\dfrac{141}{100}$ donne $1{,}41$, c\'est encore un peu court. $\\dfrac{1414}{1000}$ s\'approche davantage… mais aucune de ces fractions ne tombe <strong>exactement</strong> juste.<br/><br/>' +
+        'Et ce n\'est pas une question de patience : on peut <strong>démontrer</strong> qu\'aucune fraction ne convient, quelle qu\'elle soit. Cette découverte a bouleversé les mathématiciens grecs, qui étaient persuadés que tout nombre était un rapport d\'entiers.<br/><br/>' +
+        'Il existe donc des longueurs parfaitement constructibles à la règle et au compas que <strong>aucune fraction ne peut écrire</strong>. On les appelle des nombres <strong>irrationnels</strong>, et ils sont bien plus nombreux que les autres.<br/><br/>' +
+        'Ce chapitre met de l\'ordre dans tout cela : quels nombres s\'écrivent en fraction, lesquels non, comment ils s\'emboîtent les uns dans les autres, et comment décrire d\'un seul coup tous les nombres compris entre deux bornes.',
       definitions: [
         { term: 'Entiers naturels $\\mathbb{N}$', def: 'Ensemble $\\{0 ; 1 ; 2 ; 3 ; \\ldots\\}$ : les nombres entiers positifs ou nuls.' },
         { term: 'Entiers relatifs $\\mathbb{Z}$', def: 'Ensemble $\\{\\ldots ; -2 ; -1 ; 0 ; 1 ; 2 ; \\ldots\\}$ : les entiers avec leur signe.' },

@@ -12,7 +12,33 @@ window.MODULES.push({
     keywords: ['Python', 'Boucle', 'Condition', 'Variable', 'Algorithme'],
     physics: false,
     cours: {
-      intro: 'Un algorithme est une suite finie d\'instructions non ambiguës permettant de résoudre un problème. En seconde, Python est le langage de référence : sa syntaxe minimaliste force une structuration claire. La boucle $\\texttt{for i in range(n)}$ parcourt les entiers de $0$ à $n-1$ (la borne supérieure est exclue) ; $\\texttt{while condition}$ répète tant que la condition est vraie. L\'indentation (espaces obligatoires en début de bloc) est syntaxiquement obligatoire en Python — une indentation incorrecte cause une erreur ou change silencieusement le sens du programme. Déboguer consiste à suivre l\'exécution pas à pas avec des valeurs test pour identifier où le comportement diverge de l\'attendu.',
+      /* « Découvrir » RÉÉCRIT le 2026-09-13.
+
+         L'ancienne version ouvrait sur « Un algorithme est une suite finie
+         d'instructions non ambiguës » : une définition, donc l'entrée que le
+         cahier des charges proscrit.
+
+         DIFFICULTÉ PROPRE À CE CHAPITRE : l'élève a déjà programmé au
+         collège avec Scratch, donc « à quoi sert un programme ? » ne pose
+         aucune question. Ce qui est réellement neuf, c'est l'EXIGENCE DE
+         NON-AMBIGUÏTÉ : une machine ne comble aucun sous-entendu, là où un
+         humain en comble des dizaines sans s'en apercevoir.
+
+         La situation retenue le fait éprouver : une consigne parfaitement
+         claire pour un humain devient inexécutable dès qu'on retire le bon
+         sens. C'est aussi le meilleur passage vers l'erreur dominante du
+         chapitre (range commence à zéro), où la machine fait exactement ce
+         qu'on a écrit et non ce qu'on voulait.
+
+         Le test tient : on ne peut pas répondre « pourquoi la machine
+         échoue-t-elle ? » sans la notion d'instruction non ambiguë. */
+      intro: 'Explique à quelqu\'un comment préparer des pâtes. Tu diras sans doute : « fais bouillir de l\'eau, jette les pâtes, attends dix minutes, égoutte ».<br/><br/>' +
+        'Parfait pour un humain. Catastrophique pour une machine.<br/><br/>' +
+        'Combien d\'eau ? Dans quoi ? Bouillir, c\'est quoi — quelle température, et comment le sait-on ? « Jette les pâtes » : toutes, d\'un coup, depuis quelle hauteur ? Et « attends dix minutes » : à partir de quand exactement ?<br/><br/>' +
+        'Chacune de ces questions, ton interlocuteur y répond tout seul, sans même remarquer qu\'elle se posait. Une machine, elle, ne comble <strong>aucun</strong> sous-entendu. Elle fait exactement ce qui est écrit — ni plus, ni moins, ni autrement.<br/><br/>' +
+        'C\'est toute la difficulté d\'un <strong>algorithme</strong> : une suite d\'instructions si précises qu\'aucune interprétation n\'est possible. Et c\'est aussi sa force, car une instruction non ambiguë peut être répétée un million de fois sans fatigue et sans erreur.<br/><br/>' +
+        'Tu as déjà programmé au collège. Ce que la seconde ajoute, c\'est l\'écriture en <strong>Python</strong>, où la moindre imprécision se paie comptant : une indentation de travers, et le programme change de sens ou refuse de démarrer.<br/><br/>' +
+        'Tu verras d\'ailleurs très vite un cas où la machine fait scrupuleusement ce que tu as écrit, alors que tu voulais dire autre chose — c\'est l\'erreur la plus fréquente de tout ce chapitre.',
       definitions: [
         { term: 'Algorithme', def: 'Suite finie d\'instructions non ambiguës qui, à partir de données d\'entrée, produit un résultat en un nombre fini d\'étapes.' },
         { term: 'Variable', def: 'Espace mémoire nommé qui stocke une valeur. En Python : $\\texttt{x = 5}$ crée la variable $x$ avec la valeur $5$.' },
