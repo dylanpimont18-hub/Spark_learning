@@ -18,29 +18,29 @@
         'Il en faut <strong>trois</strong>, exactement trois, et jamais un peu plus ou un peu moins. Ce nombre n\'a rien d\'un hasard de fabrication, et c\'est ce que ce chapitre explique.<br/><br/>' +
         'La pyramide et le cône ont un volume égal au tiers du prisme ou cylindre qui les contient : $V = \\frac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$.' +
         '<br/><br/>' +
-        '<strong>Intuition :</strong> en versant un cône rempli de sable dans le cylindre de même base et même hauteur, il faut exactement 3 remplissages — vérifiable expérimentalement ! Cette formule s\'applique à toute pyramide quelle que soit la forme de sà base (carrée, triangulaire, hexagonale…).' +
+        '<strong>Intuition :</strong> en versant un cône rempli de sable dans le cylindre de même base et même hauteur, il faut exactement 3 remplissages — vérifiable expérimentalement ! Cette formule s\'applique à toute pyramide quelle que soit la forme de sa base (carrée, triangulaire, hexagonale…).' +
         '<br/><br/>' +
-        'Le point crucial est que $h$ désigne la <strong>hauteur perpendiculaire</strong> — la distance du sommet à là base — jamais l\'arête latérale qui relie le sommet à un coin de là base.' +
+        'Le point crucial est que $h$ désigne la <strong>hauteur perpendiculaire</strong> — la distance du sommet à la base — jamais l\'arête latérale qui relie le sommet à un coin de la base.' +
         '<br/><br/>' +
         'En physique, ces formules servent à calculer le volume de réservoirs coniques, de silos, d\'entonnoirs, ou de toitures en pyramide.',
       definitions: [
-        { term: 'Pyramide', def: 'Solide dont là base est un polygone et dont les faces latérales sont des triangles qui se rejoignent en un sommet appelé apex.' },
+        { term: 'Pyramide', def: 'Solide dont la base est un polygone et dont les faces latérales sont des triangles qui se rejoignent en un sommet appelé apex.' },
         { term: 'Cône de révolution', def: 'Solide obtenu en faisant tourner un triangle rectangle autour d\'un de ses côtés de l\'angle droit. Là base est un disque.' },
-        { term: 'Hauteur d\'une pyramide ou d\'un cône', def: 'Distance perpendiculaire du sommet (apex) au plan de là base. Ce n\'est pas l\'arête latérale.' },
+        { term: 'Hauteur d\'une pyramide ou d\'un cône', def: 'Distance perpendiculaire du sommet (apex) au plan de la base. Ce n\'est pas l\'arête latérale.' },
         { term: 'Apothème', def: 'Arête latérale d\'une pyramide régulière, ou génératrice d\'un cône. Toujours plus longue que la hauteur.' }
       ],
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
-          '<strong>Calculer l\'aire de là base</strong> $\\mathcal{A}_{\\text{base}}$. <strong>Exemple :</strong> base carrée de côté $5$ cm → $\\mathcal{A} = 5^2 = 25$ cm² ; base circulaire de rayon $3$ cm → $\\mathcal{A} = \\pi \\times 3^2 \\approx 28{,}3$ cm².',
-          '<strong>Mesurer la hauteur $h$</strong> (distance perpendiculaire du sommet à là base). <strong>Exemple :</strong> si l\'arête latérale vaut $13$ cm et la demi-diagonale de là base carrée vaut $5$ cm, alors $h = \\sqrt{13^2 - 5^2} = 12$ cm (Pythagore).',
+          '<strong>Calculer l\'aire de la base</strong> $\\mathcal{A}_{\\text{base}}$. <strong>Exemple :</strong> base carrée de côté $5$ cm → $\\mathcal{A} = 5^2 = 25$ cm² ; base circulaire de rayon $3$ cm → $\\mathcal{A} = \\pi \\times 3^2 \\approx 28{,}3$ cm².',
+          '<strong>Mesurer la hauteur $h$</strong> (distance perpendiculaire du sommet à la base). <strong>Exemple :</strong> si l\'arête latérale vaut $13$ cm et la demi-diagonale de la base carrée vaut $5$ cm, alors $h = \\sqrt{13^2 - 5^2} = 12$ cm (Pythagore).',
           '<strong>Appliquer la formule</strong> : $V = \\dfrac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$. <strong>Exemple :</strong> $V = \\dfrac{1}{3} \\times 25 \\times 12 = 100$ cm³.'
         ]
       },
       example: {
         statement: 'Un entonnoir a la forme d\'un cône de rayon $4$ cm et de hauteur $9$ cm. Quel volume de liquide peut-il contenir ? (Prendre $\\pi \\approx 3{,}14$.)',
         steps: [
-          'Aire de là base circulaire : $\\mathcal{A} = \\pi r^2 = 3{,}14 \\times 4^2 = 3{,}14 \\times 16 = 50{,}24$ cm².',
+          'Aire de la base circulaire : $\\mathcal{A} = \\pi r^2 = 3{,}14 \\times 4^2 = 3{,}14 \\times 16 = 50{,}24$ cm².',
           'Volume du cône : $V = \\dfrac{1}{3} \\times 50{,}24 \\times 9 = \\dfrac{452{,}16}{3} = 150{,}72$ cm³.',
           'Conversion : $150{,}72$ cm³ $= 150{,}72$ mL $\\approx 0{,}15$ L.'
         ],
@@ -55,11 +55,11 @@
         theme: 'maths',
         kicker: 'Coupe d\'un cône',
         title: 'Hauteur perpendiculaire et génératrice : ne pas confondre',
-        description: 'Coupe de l\'entonnoir de l\'exemple du cours : un cône de rayon $r = 4$ cm et de hauteur $h = 9$ cm. La hauteur (en pointillés) relie le sommet au centre de là base ; la génératrice (trait plein) relie le sommet au bord de là base et sert de côté visible du cône.',
+        description: 'Coupe de l\'entonnoir de l\'exemple du cours : un cône de rayon $r = 4$ cm et de hauteur $h = 9$ cm. La hauteur (en pointillés) relie le sommet au centre de la base ; la génératrice (trait plein) relie le sommet au bord de la base et sert de côté visible du cône.',
         svg: `
           <svg viewBox="0 0 360 260" role="img" aria-labelledby="volumes-cône-title volumes-cône-desc">
             <title id="volumes-cône-title">Coupe d'un cône avec hauteur et generatrice</title>
-            <desc id="volumes-cône-desc">Un cône est représente en perspective avec sà base elliptique, sa hauteur perpendiculaire en pointilles reliant le sommet au centre de là base, et sa generatrice en trait plein reliant le sommet au bord de là base, plus longue que la hauteur.</desc>
+            <desc id="volumes-cône-desc">Un cône est représente en perspective avec sa base elliptique, sa hauteur perpendiculaire en pointilles reliant le sommet au centre de la base, et sa generatrice en trait plein reliant le sommet au bord de la base, plus longue que la hauteur.</desc>
             <path class="guide-line" d="M80 195 A100 24 0 0 1 280 195"></path>
             <path class="frame-line" d="M80 195 A100 24 0 0 0 280 195" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)"></path>
             <line class="curve-main" x1="180" y1="45" x2="80" y2="195"></line>
@@ -78,21 +78,147 @@
           </svg>
         `,
         notes: [
-          'La hauteur $h$ (en pointillés) est la distance perpendiculaire entre le sommet et le centre de là base — c\'est elle qui sert dans la formule du volume.',
-          'La génératrice (trait plein) relie le sommet à un point du bord de là base : elle est toujours plus longue que $h$. Ici $l = \\sqrt{r^2+h^2} = \\sqrt{4^2+9^2} = \\sqrt{97} \\approx 9{,}85$ cm.',
-          'Le petit carré marque l\'angle droit entre la hauteur et le rayon de là base.',
+          'La hauteur $h$ (en pointillés) est la distance perpendiculaire entre le sommet et le centre de la base — c\'est elle qui sert dans la formule du volume.',
+          'La génératrice (trait plein) relie le sommet à un point du bord de la base : elle est toujours plus longue que $h$. Ici $l = \\sqrt{r^2+h^2} = \\sqrt{4^2+9^2} = \\sqrt{97} \\approx 9{,}85$ cm.',
+          'Le petit carré marque l\'angle droit entre la hauteur et le rayon de la base.',
           'Volume : $V = \\dfrac{1}{3}\\pi r^2 h = \\dfrac{1}{3}\\times 3{,}14\\times 4^2\\times 9 = 150{,}72$ cm³ (voir l\'exemple du cours).'
         ],
-        reading: 'Repère d\'abord l\'angle droit entre la hauteur et le rayon de là base : c\'est ce qui distingue $h$ de la génératrice, plus longue et oblique.',
+        reading: 'Repère d\'abord l\'angle droit entre la hauteur et le rayon de la base : c\'est ce qui distingue $h$ de la génératrice, plus longue et oblique.',
         caption: 'Coupe d\'un cône (entonnoir de l\'exemple du cours) avec hauteur perpendiculaire en pointillés et génératrice en trait plein.'
       },
+
+      /* SCHEMAS SECONDAIRES (2026-09-13). Une figure par MALENTENDU :
+         1. le tiers ne se retient pas, il se CONSTATE (trois cones remplissent
+            le cylindre) — c'est la reponse a la question d'ouverture ;
+         2. la HAUTEUR n'est pas la generatrice : c'est l'erreur qui fausse
+            silencieusement tous les calculs de cone ;
+         3. doubler une longueur ne double pas le volume, il le multiplie par
+            huit — obstacle classique sur les agrandissements. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'La réponse à la question d\'ouverture',
+          title: 'Trois cônes remplissent exactement le cylindre',
+          description: 'Le tiers de la formule n\'est pas un coefficient à retenir : c\'est un fait que l\'on peut <strong>constater</strong>. Avec la même base et la même hauteur, il faut exactement trois cônes pour remplir le cylindre.',
+          svg: `
+            <svg viewBox="0 0 400 200" role="img" aria-labelledby="vol-tiers-title vol-tiers-desc">
+              <title id="vol-tiers-title">Trois cones remplissent un cylindre de meme base et de meme hauteur</title>
+              <desc id="vol-tiers-desc">A gauche, trois cones identiques sont dessines cote a cote. A droite, un cylindre de meme rayon de base et de meme hauteur que les cones. Une fleche indique que le contenu des trois cones remplit exactement le cylindre, sans qu'il reste de place ni qu'il y ait debordement. Le remplissage du cylindre est represente par trois bandes horizontales egales, une par cone verse.</desc>
+
+              <!-- MEME hauteur (60) et MEME rayon (24) partout, MEME ligne de
+                   base a y = 150 : c'est la condition du theoreme, elle doit
+                   etre visible et non affirmee. -->
+              <line class="grid-line" x1="16" y1="150" x2="384" y2="150"></line>
+
+              <polygon class="frame-line" points="30,150 78,150 54,90" fill="color-mix(in srgb, var(--diagram-accent) 20%, transparent)"></polygon>
+              <polygon class="frame-line" points="94,150 142,150 118,90" fill="color-mix(in srgb, var(--diagram-accent) 20%, transparent)"></polygon>
+              <polygon class="frame-line" points="158,150 206,150 182,90" fill="color-mix(in srgb, var(--diagram-accent) 20%, transparent)"></polygon>
+              <text class="tick-label" x="118" y="170" text-anchor="middle">trois cônes</text>
+
+              <text class="annotation-label" x="240" y="124" text-anchor="middle">versés dans</text>
+
+              <!-- Cylindre : meme rayon 24 (largeur 48) et meme hauteur 60. -->
+              <rect class="frame-line" x="300" y="90" width="48" height="60" fill="none"></rect>
+              <line class="grid-line" x1="300" y1="110" x2="348" y2="110"></line>
+              <line class="grid-line" x1="300" y1="130" x2="348" y2="130"></line>
+              <rect x="300" y="90" width="48" height="60" fill="color-mix(in srgb, var(--diagram-accent) 20%, transparent)" stroke="none"></rect>
+              <text class="tick-label" x="324" y="170" text-anchor="middle">un cylindre plein</text>
+              <text class="tick-label" x="360" y="106" text-anchor="start">1</text>
+              <text class="tick-label" x="360" y="126" text-anchor="start">2</text>
+              <text class="tick-label" x="360" y="146" text-anchor="start">3</text>
+              <text class="tick-label" x="200" y="192" text-anchor="middle">même base et même hauteur des deux côtés</text>
+            </svg>
+          `,
+          notes: [
+            'La condition est essentielle : <strong>même base</strong> et <strong>même hauteur</strong>. Sans elle, le rapport de trois ne vaut plus.',
+            'Les trois bandes du cylindre montrent les trois versements successifs : chacun remplit exactement un tiers de la hauteur… en volume, pas en hauteur d\'eau.',
+            'D\'où la formule : $V_{\\text{cône}} = \\dfrac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$, où le tiers vient de cette expérience.'
+          ],
+          reading: 'Retiens l\'image plutôt que le nombre : trois cônes pour un cylindre. Si un jour tu hésites entre diviser par $2$ ou par $3$, c\'est cette expérience qui tranche.',
+          caption: 'Trois cônes de même base et même hauteur remplissent exactement le cylindre : d\'où le tiers de la formule.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'L\'erreur qui ne se voit pas',
+          title: 'La hauteur n\'est pas le côté du cône',
+          description: 'Sur un cône, la longueur qu\'on lit le plus facilement est le côté incliné — la <strong>génératrice</strong>. Mais la formule réclame la <strong>hauteur</strong>, celle qui tombe droit du sommet au centre de la base. Confondre les deux fausse le volume sans jamais donner un résultat absurde.',
+          svg: `
+            <svg viewBox="0 0 400 190" role="img" aria-labelledby="vol-haut-title vol-haut-desc">
+              <title id="vol-haut-title">Difference entre la hauteur et la generatrice d'un cone</title>
+              <desc id="vol-haut-desc">Un cone est dessine de profil. La hauteur, tracee en trait plein depuis le sommet jusqu'au centre de la base, mesure 8 centimetres et forme un angle droit avec la base, marque par un petit carre. La generatrice, tracee en trait tirete du sommet jusqu'au bord de la base, mesure 10 centimetres : elle est plus longue car elle est inclinee. Le rayon de la base vaut 6 centimetres. Les trois longueurs forment un triangle rectangle, si bien que Pythagore relie la generatrice, la hauteur et le rayon.</desc>
+
+              <!-- Triangle rectangle 6-8-10 a l'echelle 14 : rayon 84,
+                   hauteur 112, generatrice 140. Angle droit EXACT entre la
+                   hauteur et le rayon, par construction (vertical/horizontal).
+                   L'eleve peut donc verifier au theoreme de Pythagore, vu au
+                   chapitre 5, que 6 au carre plus 8 au carre font 10 au carre. -->
+              <polygon class="frame-line" points="116,150 284,150 200,38" fill="color-mix(in srgb, var(--diagram-accent) 12%, transparent)"></polygon>
+              <line class="grid-line" x1="116" y1="150" x2="284" y2="150"></line>
+
+              <line class="curve-main" x1="200" y1="38" x2="200" y2="150"></line>
+              <path class="grid-line" fill="none" d="M191 150 L191 141 L200 141"></path>
+              <text class="annotation-label" x="192" y="100" text-anchor="end">hauteur = 8</text>
+
+              <line class="guide-line" x1="200" y1="38" x2="284" y2="150"></line>
+              <text class="tick-label" x="256" y="86" text-anchor="start">génératrice = 10</text>
+
+              <text class="tick-label" x="242" y="168" text-anchor="middle">rayon = 6</text>
+              <text class="tick-label" x="200" y="186" text-anchor="middle">la hauteur tombe droit, la génératrice est inclinée</text>
+            </svg>
+          `,
+          notes: [
+            'La hauteur est <strong>perpendiculaire</strong> à la base : c\'est elle, et elle seule, qui entre dans la formule du volume.',
+            'La génératrice est toujours <strong>plus longue</strong> que la hauteur, puisqu\'elle est l\'hypoténuse du triangle rectangle formé par la hauteur et le rayon.',
+            'Les trois longueurs sont liées par Pythagore : $6^2 + 8^2 = 10^2$. Si on te donne la génératrice, commence par en déduire la hauteur.'
+          ],
+          reading: 'Avant d\'appliquer la formule, demande-toi si la longueur donnée touche le <strong>centre</strong> de la base ou son <strong>bord</strong>. Le centre, c\'est la hauteur ; le bord, c\'est la génératrice.',
+          caption: 'Hauteur et génératrice d\'un cône : deux longueurs différentes, reliées par le théorème de Pythagore.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Doubler ne double pas',
+          title: 'Si on double toutes les longueurs, le volume est multiplié par huit',
+          description: 'C\'est l\'un des résultats les plus contre-intuitifs du chapitre. Une pyramide deux fois plus grande dans toutes ses dimensions ne contient pas deux fois plus, mais <strong>huit fois plus</strong>.',
+          svg: `
+            <svg viewBox="0 0 400 196" role="img" aria-labelledby="vol-double-title vol-double-desc">
+              <title id="vol-double-title">Effet du doublement des longueurs sur le volume</title>
+              <desc id="vol-double-desc">Deux cubes sont poses sur la meme ligne de base. Le petit mesure une unite de cote et contient un cube unite. Le grand mesure deux unites de cote : il est deux fois plus large, deux fois plus profond et deux fois plus haut, si bien qu'il contient huit petits cubes. Le grand cube est quadrille pour montrer les huit cubes unites qui le composent, quatre visibles devant et quatre caches derriere.</desc>
+
+              <!-- COMPARAISON : meme ligne de base y = 160, meme echelle
+                   (40 unites de viewBox par unite de longueur). Le grand a
+                   exactement le double du cote du petit. -->
+              <line class="grid-line" x1="20" y1="160" x2="380" y2="160"></line>
+
+              <rect class="frame-line" x="60" y="120" width="40" height="40" fill="color-mix(in srgb, var(--diagram-accent) 18%, transparent)"></rect>
+              <text class="tick-label" x="80" y="178" text-anchor="middle">côté 1</text>
+              <text class="annotation-label" x="80" y="110" text-anchor="middle">volume 1</text>
+
+              <rect class="frame-line" x="240" y="80" width="80" height="80" fill="color-mix(in srgb, var(--diagram-accent) 18%, transparent)"></rect>
+              <line class="grid-line" x1="280" y1="80" x2="280" y2="160"></line>
+              <line class="grid-line" x1="240" y1="120" x2="320" y2="120"></line>
+              <text class="tick-label" x="280" y="178" text-anchor="middle">côté 2</text>
+              <text class="annotation-label" x="280" y="70" text-anchor="middle">volume 8</text>
+
+              <text class="tick-label" x="170" y="130" text-anchor="middle">côté fois 2</text>
+              <text class="tick-label" x="170" y="148" text-anchor="middle">volume fois 8</text>
+            </svg>
+          `,
+          notes: [
+            'Le volume dépend de <strong>trois</strong> dimensions : longueur, largeur et hauteur. Doubler chacune revient à multiplier par $2 \\times 2 \\times 2 = 8$.',
+            'Le dessin ne montre que quatre carrés, parce qu\'il est plat : les quatre autres cubes sont <strong>derrière</strong>, cachés par la profondeur.',
+            'Même logique pour les aires, mais avec deux dimensions seulement : une surface est multipliée par $4$, pas par $8$.'
+          ],
+          reading: 'Compte les petits cubes du grand : quatre devant, quatre derrière. Le grand cube n\'est pas « deux fois » le petit, il en contient huit.',
+          caption: 'Doubler toutes les longueurs multiplie le volume par $8$, car le volume dépend de trois dimensions.'
+        }
+      ],
       recap: [
         'Volume d\'une pyramide ou d\'un cône = $\\dfrac{1}{3}$ du prisme ou cylindre de même base et même hauteur.',
-        'La hauteur $h$ est toujours perpendiculaire à là base — ne pas confondre avec l\'arête latérale.',
+        'La hauteur $h$ est toujours perpendiculaire à la base — ne pas confondre avec l\'arête latérale.',
         'Cône : $V = \\dfrac{1}{3} \\pi r^2 h$ ; pyramide à base carrée : $V = \\dfrac{1}{3} a^2 h$.',
         'Il faut $3$ cônes pour remplir un cylindre de même base et même hauteur.'
       ],
-      piege: 'Piège : la hauteur d\'une pyramide est la distance perpendiculaire du sommet à sà base, PAS l\'arête latérale (apothème). Sur les figures obliques, la hauteur est souvent différente de ce qu\'on voit de prime abord.'
+      piege: 'Piège : la hauteur d\'une pyramide est la distance perpendiculaire du sommet à sa base, PAS l\'arête latérale (apothème). Sur les figures obliques, la hauteur est souvent différente de ce qu\'on voit de prime abord.'
     },
     quiz: [
       {
@@ -100,11 +226,11 @@
         options: [
           'Il a utilisé l\'arête latérale au lieu de la hauteur perpendiculaire',
           'Il a oublié le facteur $\\frac{1}{3}$ dans la formule',
-          'L\'aire de là base est $4$ cm², pas $16$ cm²',
+          'L\'aire de la base est $4$ cm², pas $16$ cm²',
           'Il n\'y a pas d\'erreur, le résultat est correct'
         ],
         answer: 0,
-        correction: 'L\'arête latérale ($5$ cm) relie le sommet à un coin de là base ; ce n\'est pas la hauteur. La hauteur $h$ est la distance perpendiculaire du sommet au centre de là base — elle est toujours différente de l\'arête latérale (ici plus courte). Il faut calculer $h$ avec Pythagore avant d\'appliquer $V = \\frac{1}{3} \\times 16 \\times h$.'
+        correction: 'L\'arête latérale ($5$ cm) relie le sommet à un coin de la base ; ce n\'est pas la hauteur. La hauteur $h$ est la distance perpendiculaire du sommet au centre de la base — elle est toujours différente de l\'arête latérale (ici plus courte). Il faut calculer $h$ avec Pythagore avant d\'appliquer $V = \\frac{1}{3} \\times 16 \\times h$.'
       },
       {
         q: 'Un cône a un rayon de base de $3$ cm et une hauteur de $10$ cm. Quel est son volume (avec $\\pi \\approx 3{,}14$) ?',
@@ -149,9 +275,9 @@
             answer: v,
             tolerance: 0.2,
             unit: 'cm³',
-            hint: 'L\'aire de là base carrée vaut $' + a + '^2 = ' + (a * a) + '$ cm², puis $V = \\dfrac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$.',
+            hint: 'L\'aire de la base carrée vaut $' + a + '^2 = ' + (a * a) + '$ cm², puis $V = \\dfrac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$.',
             solution: [
-              'Aire de là base : $' + a + '^2 = ' + (a * a) + '$ cm².',
+              'Aire de la base : $' + a + '^2 = ' + (a * a) + '$ cm².',
               '$V = \\dfrac{' + (a * a) + ' \\times ' + h + '}{3} = \\dfrac{' + (a * a * h) + '}{3} = ' + fr(v) + '$ cm³.',
               'Contrôle : ce volume est bien le tiers de celui du prisme de même base et même hauteur, qui vaudrait $' + fr(a * a * h) + '$ cm³.'
             ]
@@ -174,7 +300,7 @@
             unit: 'cm³',
             hint: 'Là base est un disque : son aire vaut $\\pi r^2$. Ensuite, comme pour toute pyramide, on prend le tiers.',
             solution: [
-              'Aire de là base (un disque) : $\\pi \\times ' + r + '^2 \\approx 3{,}14 \\times ' + (r * r) + ' = ' + fr(parseFloat((3.14 * r * r).toFixed(2))) + '$ cm².',
+              'Aire de la base (un disque) : $\\pi \\times ' + r + '^2 \\approx 3{,}14 \\times ' + (r * r) + ' = ' + fr(parseFloat((3.14 * r * r).toFixed(2))) + '$ cm².',
               '$V = \\dfrac{1}{3} \\times ' + fr(parseFloat((3.14 * r * r).toFixed(2))) + ' \\times ' + h + ' \\approx ' + fr(v) + '$ cm³.',
               'Attention : dans $\\pi r^2$, c\'est le rayon qui est au carre, jamais $\\pi r$ tout entier.'
             ]
@@ -188,7 +314,7 @@
             'Une pyramide à base triangulaire',
             'Une pyramide à base hexagonale',
             'Une pyramide à base pentagonale',
-            'Un solide en forme de pyramide dont là base est un polygone quelconque'
+            'Un solide en forme de pyramide dont la base est un polygone quelconque'
           ]);
           const base = pick([12, 15, 18, 20, 24, 30, 36]);
           const h = rand(4, 15);
@@ -198,9 +324,9 @@
             answer: v,
             tolerance: 0.2,
             unit: 'cm³',
-            hint: 'La forme de là base ne change rien : $V = \\dfrac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$ vaut pour toute pyramide.',
+            hint: 'La forme de la base ne change rien : $V = \\dfrac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$ vaut pour toute pyramide.',
             solution: [
-              'La formule ne depend pas de la forme de là base, seulement de son AIRE.',
+              'La formule ne depend pas de la forme de la base, seulement de son AIRE.',
               '$V = \\dfrac{' + base + ' \\times ' + h + '}{3} = \\dfrac{' + (base * h) + '}{3} = ' + fr(v) + '$ cm³.'
             ]
           };
@@ -269,8 +395,8 @@
           tolerance: 1,
           unit: 'cm³',
           points: 2,
-          correction: 'La formule $V = \\dfrac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$ vaut pour tout cône comme pour toute pyramide : la seule chose à construire est l\'aire de là base.<br/><br/>' +
-            'Ici là base est un <strong>disque</strong> de rayon $5\\,\\text{cm}$ : $\\mathcal{A}_{\\text{base}} = \\pi r^2 \\approx 3{,}14 \\times 25 = 78{,}5\\,\\text{cm}^2$.<br/><br/>' +
+          correction: 'La formule $V = \\dfrac{1}{3} \\times \\mathcal{A}_{\\text{base}} \\times h$ vaut pour tout cône comme pour toute pyramide : la seule chose à construire est l\'aire de la base.<br/><br/>' +
+            'Ici la base est un <strong>disque</strong> de rayon $5\\,\\text{cm}$ : $\\mathcal{A}_{\\text{base}} = \\pi r^2 \\approx 3{,}14 \\times 25 = 78{,}5\\,\\text{cm}^2$.<br/><br/>' +
             '$V \\approx \\dfrac{78{,}5 \\times 12}{3} = \\dfrac{942}{3} = 314\\,\\text{cm}^3$.<br/><br/>' +
             'Attention : dans $\\pi r^2$, c\'est le rayon qui est au carré, jamais $\\pi r$ tout entier.'
         },
@@ -295,7 +421,7 @@
           unit: 'cm',
           points: 2,
           correction: 'La formule du volume est connue, mais c\'est la hauteur qui est cherchée : il faut la faire sortir de la formule.<br/><br/>' +
-            'Aire de là base : $6^2 = 36\\,\\text{cm}^2$. La formule donne $96 = \\dfrac{36 \\times h}{3}$.<br/><br/>' +
+            'Aire de la base : $6^2 = 36\\,\\text{cm}^2$. La formule donne $96 = \\dfrac{36 \\times h}{3}$.<br/><br/>' +
             'On multiplie les deux membres par $3$ : $288 = 36 \\times h$. On divise par $36$ : $h = 8\\,\\text{cm}$.<br/><br/>' +
             'Contrôle : $\\dfrac{36 \\times 8}{3} = 96$. ✓ Oublier de multiplier par $3$ aurait donné $h \\approx 2{,}7\\,\\text{cm}$, une hauteur trois fois trop petite.'
         },
@@ -317,7 +443,7 @@
           correction: 'La conclusion est exacte : $V_{\\text{pyramide}} = \\dfrac{1}{3} V_{\\text{prisme}}$ à base et hauteur égales. Mais la raison invoquée ne tient pas.<br/><br/>' +
             'Le nombre de faces ne décide de rien. Une pyramide à base hexagonale a sept faces, une pyramide à base triangulaire en a quatre, et le facteur $\\dfrac{1}{3}$ est le même pour les deux. Un cône, qui n\'a même pas de face plane latérale, le vérifie aussi.<br/><br/>' +
             'La preuve tient dans une expérience : trois pyramides remplies d\'eau remplissent exactement le prisme de même base et même hauteur. Le facteur vient du <strong>rapprochement du solide vers son sommet</strong>, pas de son nombre de faces.<br/><br/>' +
-            'La proposition 4 est fausse pour la même raison : la forme de là base n\'intervient pas.'
+            'La proposition 4 est fausse pour la même raison : la forme de la base n\'intervient pas.'
         }
       ]
     }

@@ -140,6 +140,145 @@
         reading: 'Les quatre vignettes montrent le même triangle à la même échelle : seule change la famille de droites tracée. Compare la position du point noir d\'une vignette à l\'autre — les quatre points de concours ne sont pas au même endroit.',
         caption: 'Le même triangle $ABC$ vu quatre fois : médianes (→ $G$), médiatrices (→ $O$), hauteurs (→ $H$), bissectrices (→ $I$). Ce triangle étant acutangle, les quatre points restent à l\'intérieur du triangle.'
       },
+
+      /* SCHEMAS SECONDAIRES (2026-09-13). Une figure par MALENTENDU :
+         1. mediane et mediatrice sont confondues parce que toutes deux
+            « passent par le milieu » — la mediatrice ignore le sommet ;
+         2. le rapport 2/3 du centre de gravite se compte depuis le SOMMET,
+            et l'eleve prend un tiers pour deux tiers ;
+         3. le centre du cercle circonscrit SORT du triangle quand celui-ci est
+            obtusangle, ce qu'aucune figure de cours ne montre jamais.
+         Coordonnees exactes : sommets choisis pour que G tombe sur des entiers
+         (somme des coordonnees divisible par 3) et que A, G et M soient
+         rigoureusement alignes — produit vectoriel nul (scratchpad
+         geo-exact.js). */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'La confusion la plus tenace',
+          title: 'Médiane et médiatrice passent par le même milieu',
+          description: 'Les deux droites passent par le milieu de $[BC]$, et c\'est tout ce qu\'elles ont en commun. La <strong>médiane</strong> rejoint le sommet opposé ; la <strong>médiatrice</strong> est perpendiculaire au côté et ne s\'occupe d\'aucun sommet.',
+          svg: `
+            <svg viewBox="0 0 400 200" role="img" aria-labelledby="droites-conf-title droites-conf-desc">
+              <title id="droites-conf-title">La mediane et la mediatrice d'un meme cote</title>
+              <desc id="droites-conf-desc">Le meme triangle est dessine deux fois. A gauche, la mediane part du sommet A et rejoint le milieu du cote oppose : elle est inclinee et touche le sommet. A droite, la mediatrice part du meme milieu mais monte perpendiculairement au cote, marquee par un petit carre d'angle droit, et ne passe pas par le sommet A. Les deux droites partagent donc le meme point de depart au milieu du cote, mais vont dans des directions differentes.</desc>
+
+              <!-- MEME triangle et MEME ligne de base des deux cotes : la seule
+                   difference visible doit etre la droite tracee. -->
+              <polygon class="frame-line" points="30,160 150,160 66,60" fill="color-mix(in srgb, var(--diagram-accent) 10%, transparent)"></polygon>
+              <line class="curve-main" x1="66" y1="60" x2="90" y2="160"></line>
+              <circle class="plot-point" cx="90" cy="160" r="4"></circle>
+              <text class="annotation-label" x="60" y="52" text-anchor="middle">A</text>
+              <text class="tick-label" x="22" y="176" text-anchor="middle">B</text>
+              <text class="tick-label" x="158" y="176" text-anchor="middle">C</text>
+              <text class="tick-label" x="90" y="176" text-anchor="middle">milieu</text>
+              <text class="annotation-label" x="90" y="30" text-anchor="middle">médiane</text>
+              <text class="tick-label" x="90" y="192" text-anchor="middle">elle rejoint le sommet A</text>
+
+              <polygon class="frame-line" points="240,160 360,160 276,60" fill="color-mix(in srgb, var(--diagram-accent) 10%, transparent)"></polygon>
+              <line class="curve-main" x1="300" y1="160" x2="300" y2="52"></line>
+              <circle class="plot-point" cx="300" cy="160" r="4"></circle>
+              <path class="grid-line" fill="none" d="M291 160 L291 151 L300 151"></path>
+              <text class="annotation-label" x="270" y="52" text-anchor="middle">A</text>
+              <text class="tick-label" x="232" y="176" text-anchor="middle">B</text>
+              <text class="tick-label" x="368" y="176" text-anchor="middle">C</text>
+              <text class="tick-label" x="300" y="176" text-anchor="middle">milieu</text>
+              <text class="annotation-label" x="300" y="30" text-anchor="middle">médiatrice</text>
+              <text class="tick-label" x="300" y="192" text-anchor="middle">elle ignore le sommet A</text>
+            </svg>
+          `,
+          notes: [
+            'Les deux droites partent du <strong>même point</strong>, le milieu de $[BC]$ : c\'est ce qui rend la confusion si naturelle.',
+            'La médiane est définie par un <strong>sommet</strong> et un milieu. La médiatrice est définie par un <strong>angle droit</strong> et un milieu.',
+            'Elles ne coïncident que si le triangle est isocèle en $A$ — cas particulier, et surtout pas cas général.'
+          ],
+          reading: 'Demande-toi toujours : est-ce que ma droite touche un sommet ? Si oui, c\'est une médiane. Est-ce qu\'elle forme un angle droit avec le côté ? Alors c\'est une médiatrice.',
+          caption: 'Médiane et médiatrice de $[BC]$ : même milieu, mais l\'une rejoint le sommet et l\'autre est perpendiculaire.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Deux tiers depuis où ?',
+          title: 'Le centre de gravité est aux deux tiers en partant du sommet',
+          description: 'Le point $G$ coupe chaque médiane en deux morceaux dont l\'un est <strong>le double</strong> de l\'autre. Toute la difficulté est de savoir de quel côté on compte : la grande part est du côté du <strong>sommet</strong>.',
+          svg: `
+            <svg viewBox="0 0 400 200" role="img" aria-labelledby="droites-g-title droites-g-desc">
+              <title id="droites-g-title">Le centre de gravite partage la mediane en deux tiers et un tiers</title>
+              <desc id="droites-g-desc">Un triangle porte une mediane allant du sommet A au milieu M du cote oppose. Le centre de gravite G est place sur cette mediane. Le segment allant de A a G est deux fois plus long que le segment allant de G a M : le premier represente deux tiers de la mediane et le second un tiers. Les deux portions sont mesurees et etiquetees, la grande du cote du sommet.</desc>
+
+              <!-- Sommets choisis pour que G soit ENTIER : A(60,180) B(300,180)
+                   C(162,39), somme des x = 522 et des y = 399, tous deux
+                   divisibles par 3. G = (174,133), M = (231,109.5).
+                   Verifie : A, G, M alignes (produit vectoriel exactement nul)
+                   et AG/GM = 2,000000000. -->
+              <polygon class="frame-line" points="60,180 300,180 162,39" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)"></polygon>
+              <line class="curve-main" x1="60" y1="180" x2="231" y2="109.5"></line>
+              <circle class="plot-point" cx="174" cy="133" r="5"></circle>
+              <circle class="plot-point-alt" cx="231" cy="109.5" r="4"></circle>
+
+              <text class="annotation-label" x="52" y="192" text-anchor="middle">A</text>
+              <text class="tick-label" x="306" y="192" text-anchor="middle">B</text>
+              <text class="tick-label" x="162" y="32" text-anchor="middle">C</text>
+              <text class="annotation-label" x="170" y="152" text-anchor="middle">G</text>
+              <text class="tick-label" x="243" y="104" text-anchor="middle">M</text>
+
+              <text class="annotation-label" x="112" y="146" text-anchor="middle">deux tiers</text>
+              <text class="tick-label" x="208" y="132" text-anchor="middle">un tiers</text>
+              <text class="tick-label" x="200" y="192" text-anchor="middle">la grande part est du côté du sommet</text>
+            </svg>
+          `,
+          notes: [
+            'Le segment $[AG]$ vaut <strong>deux tiers</strong> de la médiane, et $[GM]$ un tiers : $AG$ est donc le double de $GM$.',
+            'Conséquence pratique : si on te donne $GM$, la médiane entière vaut $3 \\times GM$, et $AG = 2 \\times GM$.',
+            'L\'erreur classique est de multiplier par $\\dfrac{3}{2}$ au lieu de $3$, en confondant $GM$ avec $AG$.'
+          ],
+          reading: 'Repère d\'abord le sommet, puis pars de lui. La première portion rencontrée est la plus longue : deux tiers. Le petit bout restant, du côté du milieu, est le tiers.',
+          caption: 'Le centre de gravité $G$ partage la médiane en deux tiers du côté du sommet et un tiers du côté du milieu.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Ce que les figures de cours ne montrent pas',
+          title: 'Le centre du cercle circonscrit peut sortir du triangle',
+          description: 'Presque toutes les figures de cours utilisent un triangle « bien proportionné », où le point $O$ tombe à l\'intérieur. Ce n\'est pas une règle : dès que le triangle a un <strong>angle obtus</strong>, le centre passe dehors.',
+          svg: `
+            <svg viewBox="0 0 400 188" role="img" aria-labelledby="droites-obtus-title droites-obtus-desc">
+              <title id="droites-obtus-title">Position du centre du cercle circonscrit selon la forme du triangle</title>
+              <desc id="droites-obtus-desc">Deux triangles sont compares. Celui de gauche a tous ses angles aigus et le centre de son cercle circonscrit se trouve a l'interieur de la figure. Celui de droite possede un angle obtus et le centre de son cercle circonscrit se trouve a l'exterieur du triangle, au dela du cote le plus long. Dans les deux cas le centre reste a egale distance des trois sommets, ce qui est la seule propriete qui le definit.</desc>
+
+              <!-- Triangle AIGU : A(40,150) B(150,150) C(104,64).
+                   Angles mesures 53,3 / 61,9 / 64,8 degres, donc bien aigu.
+                   Centre du cercle circonscrit CALCULE (formule du
+                   circumcentre, scratchpad circum.js) : O = (95 ; 124,12) et
+                   R = 60,79 — equidistant des trois sommets a 0,01 pres.
+                   Une premiere version posait O « a vue » en (95 ; 118,31)
+                   avec R = 63,05 : le cercle ne passait par aucun sommet. -->
+              <polygon class="frame-line" points="40,150 150,150 104,64" fill="color-mix(in srgb, var(--diagram-accent) 10%, transparent)"></polygon>
+              <circle class="grid-line" cx="95" cy="124.12" r="60.79" fill="none"></circle>
+              <circle class="plot-point" cx="95" cy="124.12" r="5"></circle>
+              <text class="annotation-label" x="95" y="142" text-anchor="middle">O</text>
+              <text class="tick-label" x="95" y="180" text-anchor="middle">angles aigus : O dedans</text>
+
+              <!-- Triangle OBTUS : A(250,150) B(360,150) C(280,120).
+                   Angle en C = 114,4 degres, franchement obtus (une premiere
+                   version n'atteignait que 90,8 : la sortie de O se jouait a
+                   un cheveu et ne se voyait pas). O = (305 ; 175), R = 60,42,
+                   verifie equidistant des trois sommets et EXTERIEUR au
+                   triangle par les coordonnees barycentriques. -->
+              <polygon class="frame-line" points="250,150 360,150 280,120" fill="color-mix(in srgb, var(--diagram-accent) 10%, transparent)"></polygon>
+              <circle class="grid-line" cx="305" cy="175" r="60.42" fill="none"></circle>
+              <circle class="plot-point" cx="305" cy="175" r="5"></circle>
+              <text class="annotation-label" x="317" y="172" text-anchor="start">O</text>
+              <text class="tick-label" x="305" y="112" text-anchor="middle">angle obtus : O dehors</text>
+            </svg>
+          `,
+          notes: [
+            'Dans les deux cas, $O$ est à <strong>égale distance des trois sommets</strong> : c\'est sa seule définition, et elle ne dit rien sur « dedans » ou « dehors ».',
+            'Le cercle passe bien par les trois sommets des deux côtés, même quand son centre est à l\'extérieur de la figure.',
+            'Cas limite à connaître : si le triangle est <strong>rectangle</strong>, $O$ tombe exactement sur le milieu de l\'hypoténuse.'
+          ],
+          reading: 'Ne cherche pas $O$ « au milieu » du triangle. Construis deux médiatrices et prends leur intersection : elle tombera où elle doit, dedans ou dehors.',
+          caption: 'Le centre du cercle circonscrit sort du triangle dès que celui-ci possède un angle obtus.'
+        }
+      ],
       recap: [
         'Quatre familles de droites : médiatrices, bissectrices, médianes, hauteurs — chacune a un point de concours.',
         'Médiatrices → circumcentre (cercle circonscrit) ; bissectrices → incentre (cercle inscrit).',
