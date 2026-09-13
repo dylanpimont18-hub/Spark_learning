@@ -629,3 +629,87 @@ test('fonctions affines : les deux lectures du quotient portent la meme droite',
       'triangle ' + i + ' : vertical/horizontal = ' + (ver[i] / hor[i]) + ', attendu 1,5');
   }
 });
+
+test('statistiques : les trois barres sont proportionnelles aux frequences annoncees', () => {
+  /* CE QUE CE TEST ATTRAPE. Tout le schema repose sur UNE affirmation
+     visuelle : la portion remplie grandit quand la population de reference
+     retrecit, et elle grandit DANS LE BON RAPPORT. Une barre posee a vue
+     donnerait un dessin plausible et faux — l'eleve mesurerait a la regle et
+     lirait autre chose que le pourcentage imprime a cote.
+
+     On reprend donc les quatre effectifs du tableau croise du chapitre
+     (25 sur 200, sur 80, sur 60), on recalcule les trois frequences, et on
+     verifie que la largeur de chaque rectangle rempli vaut exactement cette
+     frequence fois la largeur du cadre. */
+  const d = parTitre('3e-stats-probas.js', 'trois dénominateurs');
+  const rects = [...d.svg.matchAll(/<rect\b[^>]*>/g)].map(m => {
+    const t = m[0];
+    const at = n => { const r = new RegExp(n + '="([-\\d.]+)"').exec(t); return r ? +r[1] : null; };
+    return { cadre: /frame-line/.test(t), x: at('x'), y: at('y'), w: at('width') };
+  });
+  const cadres = rects.filter(r => r.cadre).sort((a, b) => a.y - b.y);
+  const pleins = rects.filter(r => !r.cadre).sort((a, b) => a.y - b.y);
+  assert.strictEqual(cadres.length, 3, 'trois cadres attendus');
+  assert.strictEqual(pleins.length, 3, 'trois portions remplies attendues');
+
+  // Les trois populations de reference, dans l'ordre du schema.
+  const DENOM = [200, 80, 60];
+  const NUM = 25;
+  for (let i = 0; i < 3; i++) {
+    assert.strictEqual(cadres[i].w, cadres[0].w,
+      'les trois cadres doivent avoir la MEME longueur : chacun represente 100 % de sa population');
+    assert.strictEqual(pleins[i].x, cadres[i].x, 'la portion ' + i + ' ne part pas du bord du cadre');
+    const attendue = cadres[i].w * NUM / DENOM[i];
+    assert.ok(Math.abs(pleins[i].w - attendue) < 0.01,
+      'barre ' + i + ' (25 sur ' + DENOM[i] + ') : largeur ' + pleins[i].w +
+      ' px, attendu ' + attendue.toFixed(2) + ' px');
+    assert.ok(pleins[i].w <= cadres[i].w + 1e-9, 'une portion deborde de son cadre');
+  }
+  // Et l'ordre annonce : la portion grandit quand la population retrecit.
+  assert.ok(pleins[0].w < pleins[1].w && pleins[1].w < pleins[2].w,
+    'les portions doivent aller croissant quand le denominateur decroit');
+});
+
+test('statistiques : l arbre est coherent, chaque paire de branches redonne sa mere', () => {
+  /* CE QUE CE TEST ATTRAPE. Un arbre faux se relit sans broncher : les
+     nombres sont plausibles un a un, et seule leur SOMME trahit l'erreur.
+     On rejoue donc les trois controles qu'un professeur ferait au tableau :
+     les effectifs des sous-branches redonnent leur branche, les probabilites
+     du premier niveau valent bien l'effectif divise par 200, et le produit le
+     long d'un chemin redonne la frequence globale du schema precedent. */
+  const d = parTitre('3e-stats-probas.js', 'branche précédente');
+  const N = 200, S = 80, NS = 120, SM = 25, SnM = 55, nSM = 35, ni = 85;
+
+  // Les effectifs sont bien ceux du tableau croise du chapitre.
+  assert.strictEqual(S + NS, N, 'sportifs + non sportifs doit faire 200');
+  assert.strictEqual(SM + SnM, S, '25 + 55 doit redonner les 80 sportifs');
+  assert.strictEqual(nSM + ni, NS, '35 + 85 doit redonner les 120 non sportifs');
+  assert.strictEqual(SM + SnM + nSM + ni, N, 'les quatre cases doivent faire 200');
+
+  // Chacun de ces nombres doit REELLEMENT figurer dans le schema, sans quoi le
+  // test validerait une arithmetique qui n'est pas celle dessinee.
+  const txt = d.svg.replace(/<desc[\s\S]*?<\/desc>/, '');
+  for (const [valeur, ou] of [[N, 'le total'], [S, 'les sportifs'], [NS, 'les non sportifs'],
+                              [SM, 'la case sport et musique'], [SnM, 'sport sans musique'],
+                              [nSM, 'musique sans sport'], [ni, 'ni l un ni l autre']]) {
+    assert.ok(new RegExp('\\b' + valeur + '\\b').test(txt),
+      'l effectif ' + valeur + ' (' + ou + ') est absent du schema');
+  }
+  // Les probabilites du premier niveau.
+  assert.ok(txt.includes('0,4') && txt.includes('0,6'), 'les probabilites 0,4 et 0,6 doivent etre ecrites');
+  assert.strictEqual(S / N, 0.4);
+  assert.strictEqual(NS / N, 0.6);
+  // Le produit le long du chemin haut redonne la frequence globale 12,5 %.
+  assert.ok(Math.abs((S / N) * (SM / S) - SM / N) < 1e-12);
+  assert.strictEqual(SM / N, 0.125);
+  // Les sous-branches partent bien de la hauteur de leur mere.
+  const branches = lignesToutes(d.svg);
+  const meres = branches.filter(l => l.cls === 'curve-main');
+  const filles = branches.filter(l => l.cls === 'graph-line');
+  assert.strictEqual(meres.length, 2, 'deux branches de premier niveau');
+  assert.strictEqual(filles.length, 4, 'quatre sous-branches');
+  for (const f of filles) {
+    assert.ok(meres.some(m => Math.abs(m.y2 - f.y1) < 1e-9),
+      'une sous-branche part de la hauteur ' + f.y1 + ', qui n est celle d aucune branche mere');
+  }
+});

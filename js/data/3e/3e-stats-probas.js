@@ -88,6 +88,123 @@ window.MODULES.push(
         reading: 'Chaque nombre correspond à une case du tableau croisé de l\'exemple : les deux cercles se chevauchent pour représenter les $25$ élèves comptés dans les deux catégories à la fois. En additionnant les quatre zones ($55 + 35 + 25 + 85$), on retrouve bien le total de $200$ élèves.',
         caption: 'Diagramme de Venn équivalent au tableau croisé « Sportifs / Musiciens » (200 élèves, dont 25 dans les deux catégories).'
       },
+      /* SCHÉMAS SECONDAIRES, ajoutés le 2026-09-13.
+         Principe du cahier des charges, section 9 : une figure par MALENTENDU,
+         pas une figure par formule. Le chapitre n'en a qu'un, mais il est
+         massif et il revient chaque année au brevet : l'élève sait diviser,
+         il ne sait pas PAR QUOI. Les deux schémas l'attaquent par deux
+         entrées différentes plutôt que de le redire deux fois :
+
+           1. la même case, trois dénominateurs, trois réponses — pour montrer
+              que « 25 élèves » ne devient un pourcentage qu'une fois choisie
+              la population de référence ;
+           2. l'arbre, où ce dénominateur n'est plus un choix mais une
+              conséquence de la branche empruntée — c'est la construction qui
+              rend l'erreur impossible, et c'est pour cela qu'elle vient en
+              second.
+
+         Un troisième schéma sur l'indépendance a été écrit puis ABANDONNÉ :
+         sur les données du chapitre, l'effectif attendu sous indépendance vaut
+         24 contre 25 observés. Un écart d'un élève n'illustre rien — il
+         suggérerait même que les deux caractères sont indépendants, ce que le
+         cours ne dit pas. Plutôt aucune figure qu'une figure qui plaide contre
+         son propre texte.
+
+         TOUTES LES VALEURS SONT CALCULÉES à partir des quatre effectifs du
+         tableau croisé de l'exemple (25, 55, 35, 85 sur 200), et les LARGEURS
+         DES BARRES sont proportionnelles aux fréquences qu'elles représentent
+         — c'est tout l'objet du premier schéma, et c'est vérifié par le calcul
+         dans scripts/manuel/tests/diagrams-3e.test.js. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Piège',
+          title: 'Une même case, trois dénominateurs, trois réponses',
+          description: 'Les $25$ élèves qui font du sport <strong>et</strong> de la musique ne changent pas. Pourtant, selon la population à laquelle tu les compares, tu obtiens $12{,}5\\,\\%$, $31{,}3\\,\\%$ ou $41{,}7\\,\\%$. Le nombre du haut ne suffit jamais : c\'est celui du <strong>bas</strong> qui décide.',
+          svg: `
+            <svg viewBox="0 0 400 210" role="img" aria-labelledby="stats-denom-title stats-denom-desc">
+              <title id="stats-denom-title">Trois frequences pour un meme effectif de vingt-cinq eleves</title>
+              <desc id="stats-denom-desc">Trois barres horizontales de meme longueur totale representent trois populations de reference. La premiere porte sur les deux cents eleves du college : la portion remplie, qui correspond aux vingt-cinq eleves a la fois sportifs et musiciens, y occupe douze et demi pour cent de la barre. La deuxieme porte sur les quatre-vingts sportifs : la meme portion de vingt-cinq eleves y occupe trente et un virgule trois pour cent, soit une portion nettement plus longue. La troisieme porte sur les soixante musiciens : la meme portion de vingt-cinq eleves y occupe quarante et un virgule sept pour cent, la plus longue des trois. L'effectif rempli est identique dans les trois barres, seule la population de reference change, et les trois pourcentages obtenus sont tres differents.</desc>
+
+              <text class="tick-label" x="14" y="38" text-anchor="start">sur les 200 eleves</text>
+              <rect class="frame-line" x="150" y="26" width="150" height="18" fill="none"></rect>
+              <rect x="150" y="26" width="18.75" height="18" fill="color-mix(in srgb, var(--diagram-accent) 55%, transparent)"></rect>
+              <text class="annotation-label" x="310" y="40" text-anchor="start">12,5 %</text>
+              <text class="label-soft" x="14" y="52" text-anchor="start">25 divise par 200</text>
+
+              <text class="tick-label" x="14" y="102" text-anchor="start">parmi les 80 sportifs</text>
+              <rect class="frame-line" x="150" y="90" width="150" height="18" fill="none"></rect>
+              <rect x="150" y="90" width="46.88" height="18" fill="color-mix(in srgb, var(--diagram-accent) 55%, transparent)"></rect>
+              <text class="annotation-label" x="310" y="104" text-anchor="start">31,3 %</text>
+              <text class="label-soft" x="14" y="116" text-anchor="start">25 divise par 80</text>
+
+              <text class="tick-label" x="14" y="166" text-anchor="start">parmi les 60 musiciens</text>
+              <rect class="frame-line" x="150" y="154" width="150" height="18" fill="none"></rect>
+              <rect x="150" y="154" width="62.5" height="18" fill="color-mix(in srgb, var(--diagram-accent) 55%, transparent)"></rect>
+              <text class="annotation-label" x="310" y="168" text-anchor="start">41,7 %</text>
+              <text class="label-soft" x="14" y="180" text-anchor="start">25 divise par 60</text>
+
+              <text class="label-soft" x="200" y="202" text-anchor="middle">le meme effectif de 25 eleves dans les trois barres</text>
+            </svg>
+          `,
+          notes: [
+            'Le <strong>numérateur</strong> est le même partout : ce sont toujours les $25$ élèves de la case « sportif et musicien ». C\'est le <strong>dénominateur</strong> qui change, et lui seul.',
+            '$\\dfrac{25}{200} = 12{,}5\\,\\%$ répond à « quelle part de <strong>tout le collège</strong> ? ». C\'est une fréquence <strong>globale</strong>.',
+            '$\\dfrac{25}{80} \\approx 31{,}3\\,\\%$ répond à « <strong>parmi les sportifs</strong>, quelle part fait aussi de la musique ? ». C\'est une fréquence <strong>conditionnelle</strong>.',
+            '$\\dfrac{25}{60} \\approx 41{,}7\\,\\%$ répond à « <strong>parmi les musiciens</strong>, quelle part fait aussi du sport ? ». C\'est encore une conditionnelle — mais ce n\'est pas la même que la précédente, et l\'écart entre $31{,}3$ et $41{,}7$ le prouve.',
+            '<strong>Le contrôle qui sauve</strong> : avant de diviser, relis l\'énoncé et souligne le groupe qui suit le mot « parmi ». Ce groupe est ton dénominateur, toujours.'
+          ],
+          reading: 'Les trois barres ont la même longueur parce qu\'elles représentent chacune la totalité de leur population. La portion remplie, elle, représente toujours les mêmes $25$ élèves — et tu vois qu\'elle occupe une place de plus en plus grande à mesure que la population de référence rétrécit.',
+          caption: 'Les $25$ élèves à la fois sportifs et musiciens, rapportés successivement aux $200$ élèves, aux $80$ sportifs puis aux $60$ musiciens.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Du tableau à l\'arbre',
+          title: 'Sur un arbre, le dénominateur est celui de la branche précédente',
+          description: 'Le même tableau croisé, redessiné en arbre. L\'intérêt n\'est pas décoratif : sur un arbre, tu ne <strong>choisis</strong> plus le dénominateur, tu le <strong>lis</strong>. Chaque probabilité du second niveau se divise par l\'effectif de la branche d\'où elle part.',
+          svg: `
+            <svg viewBox="0 0 400 230" role="img" aria-labelledby="stats-arbre-title stats-arbre-desc">
+              <title id="stats-arbre-title">Arbre de probabilites des sportifs et des musiciens</title>
+              <desc id="stats-arbre-desc">Un arbre part d'un point de depart representant les deux cents eleves. Deux branches en partent : celle des quatre-vingts sportifs, de probabilite zero virgule quatre, et celle des cent vingt non sportifs, de probabilite zero virgule six. De la branche des sportifs partent deux sous-branches : vingt-cinq eleves musiciens, soit vingt-cinq divise par quatre-vingts, et cinquante-cinq eleves non musiciens, soit cinquante-cinq divise par quatre-vingts. De la branche des non sportifs partent aussi deux sous-branches : trente-cinq eleves musiciens, soit trente-cinq divise par cent vingt, et quatre-vingt-cinq non musiciens, soit quatre-vingt-cinq divise par cent vingt. Sur chaque couple de sous-branches, les deux effectifs s'ajoutent pour redonner l'effectif de la branche dont ils partent, et les deux probabilites s'ajoutent pour donner un.</desc>
+
+              <circle class="plot-point" cx="40" cy="112" r="5"></circle>
+              <text class="tick-label" x="40" y="132" text-anchor="middle">200</text>
+
+              <line class="curve-main" x1="40" y1="112" x2="150" y2="56"></line>
+              <line class="curve-main" x1="40" y1="112" x2="150" y2="168"></line>
+              <text class="annotation-label" x="86" y="76" text-anchor="middle">0,4</text>
+              <text class="annotation-label" x="86" y="156" text-anchor="middle">0,6</text>
+              <text class="tick-label" x="158" y="60" text-anchor="start">80 sportifs</text>
+              <text class="tick-label" x="158" y="172" text-anchor="start">120 non sportifs</text>
+
+              <line class="graph-line" x1="238" y1="56" x2="318" y2="26"></line>
+              <line class="graph-line" x1="238" y1="56" x2="318" y2="86"></line>
+              <text class="label-soft" x="272" y="34" text-anchor="middle">25 sur 80</text>
+              <text class="label-soft" x="272" y="82" text-anchor="middle">55 sur 80</text>
+              <text class="tick-label" x="324" y="30" text-anchor="start">25 musiciens</text>
+              <text class="tick-label" x="324" y="90" text-anchor="start">55 non musiciens</text>
+
+              <line class="graph-line" x1="238" y1="168" x2="318" y2="138"></line>
+              <line class="graph-line" x1="238" y1="168" x2="318" y2="198"></line>
+              <text class="label-soft" x="272" y="146" text-anchor="middle">35 sur 120</text>
+              <text class="label-soft" x="272" y="194" text-anchor="middle">85 sur 120</text>
+              <text class="tick-label" x="324" y="142" text-anchor="start">35 musiciens</text>
+              <text class="tick-label" x="324" y="202" text-anchor="start">85 non musiciens</text>
+
+              <text class="label-soft" x="200" y="222" text-anchor="middle">sur chaque paire de branches, les deux effectifs redonnent celui du depart</text>
+            </svg>
+          `,
+          notes: [
+            'Au premier niveau, on divise par $200$ : $\\dfrac{80}{200} = 0{,}4$ et $\\dfrac{120}{200} = 0{,}6$. Ces deux-là s\'ajoutent bien pour donner $1$.',
+            'Au second niveau, le dénominateur n\'est plus $200$ : c\'est l\'effectif de la <strong>branche d\'où l\'on part</strong>. En haut on divise par $80$, en bas par $120$.',
+            'Chaque paire de sous-branches redonne sa branche : $25 + 55 = 80$, et $35 + 85 = 120$. Si ce contrôle échoue, une valeur du tableau a été mal reportée.',
+            'Pour revenir à une fréquence globale, on <strong>multiplie le long du chemin</strong> : $0{,}4 \\times \\dfrac{25}{80} = 0{,}125$, et l\'on retrouve les $12{,}5\\,\\%$ du schéma précédent.',
+            'C\'est là tout l\'intérêt de l\'arbre : il ne te laisse pas le choix du dénominateur, donc il ne te laisse pas commettre l\'erreur.'
+          ],
+          reading: 'Lis toujours un arbre de la gauche vers la droite, une branche après l\'autre. Pour une probabilité conditionnelle, tu ne regardes qu\'une seule sous-branche ; pour une fréquence globale, tu multiplies tout le chemin depuis le départ.',
+          caption: 'Arbre du tableau croisé « Sportifs / Musiciens » : les dénominateurs du second niveau valent $80$ et $120$, jamais $200$.'
+        }
+      ],
       recap: [
         'La <strong>fréquence globale</strong> divise par le total général $N$ ; la <strong>fréquence conditionnelle</strong> divise par le total de la sous-population.',
         'Pour l\'union : $|A \\cup B| = |A| + |B| - |A \\cap B|$ — ne pas oublier de <strong>soustraire l\'intersection</strong>.',
