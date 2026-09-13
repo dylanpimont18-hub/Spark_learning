@@ -437,6 +437,28 @@ test('aucun signe pourcent non echappe dans le texte typographie de la troisieme
     const textes = [mod.cours.intro || '', mod.cours.piege || ''];
     (mod.cours.definitions || []).forEach(d => textes.push(d.def, d.term));
     (mod.cours.recap || []).forEach(r => textes.push(r));
+    (mod.cours.formulas || []).forEach(f => textes.push(f));
+    /* L'exemple résolu et la méthode sont imprimés eux aussi : ils ont été
+       ajoutés ici après coup (2026-09-13), la première version du test ne
+       regardant que l'intro et les exercices. Un test qui ne couvre qu'une
+       partie du texte imprimé donne une fausse assurance. */
+    if (mod.cours.example) {
+      textes.push(mod.cours.example.statement || '', mod.cours.example.answer || '');
+      (mod.cours.example.steps || []).forEach(s => textes.push(s));
+    }
+    if (mod.cours.method) {
+      textes.push(mod.cours.method.title || '');
+      (mod.cours.method.steps || []).forEach(s => textes.push(s));
+    }
+    (mod.quiz || []).forEach(q => {
+      textes.push(q.q || '', q.correction || '');
+      (q.options || []).forEach(o => textes.push(o));
+    });
+    if (mod.probleme) {
+      textes.push(mod.probleme.context || '', mod.probleme.finalAnswer || '');
+      (mod.probleme.tasks || []).forEach(t => textes.push(t));
+      (mod.probleme.solutions || []).forEach(s => textes.push(s));
+    }
     (mod.cours.diagrams || []).forEach(d => {
       textes.push(d.description, d.caption, d.reading);
       (d.notes || []).forEach(n => textes.push(n));
