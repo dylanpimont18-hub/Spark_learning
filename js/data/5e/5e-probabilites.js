@@ -89,6 +89,163 @@ window.MODULES.push({
         reading: 'Les repères « peu probable » et « probable » n\'ont pas de seuil chiffré officiel — ce sont des mots du langage courant. Un calcul de $P(A)$ doit toujours donner une fraction ou un nombre exact entre $0$ et $1$, jamais une simple impression.',
         caption: 'Échelle qualitative superposée aux trois repères numériques du cours : $0$ (impossible), $0{,}5$ (une chance sur deux), $1$ (certain).'
       },
+
+      /* SCHEMAS SECONDAIRES (2026-09-13) — une figure par MALENTENDU.
+         Les trois retenus :
+           1. « deux issues, donc une chance sur deux » — l'erreur que l'intro
+              du cours nomme explicitement et ne montre pas ;
+           2. la probabilite comme une PART du tout, ce qui explique d'un coup
+              pourquoi elle ne depasse jamais 1 et pourquoi la somme fait 1 ;
+           3. le hasard n'a pas de memoire : une serie de tirages n'influe pas
+              sur le suivant.
+
+         Valeurs VERIFIEES : sur une roue de 8 secteurs egaux dont 1 gagnant,
+         P = 1/8 = 0,125 et non 0,5 ; les 8 secteurs font exactement 45 degres
+         chacun, coordonnees calculees par trigonometrie. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Deux issues ne font pas deux chances égales',
+          title: 'Gagner ou perdre, mais pas une chance sur deux',
+          description: 'À cette roue, il n\'y a que <strong>deux issues</strong> : gagner ou perdre. Beaucoup en concluent une chance sur deux. Il suffit de regarder la roue : le secteur gagnant occupe <strong>un huitième</strong> du tour, donc $P = 0{,}125$. Compter les issues ne suffit jamais.',
+          svg: `
+            <svg viewBox="0 0 400 214" role="img" aria-labelledby="proba-equi-title proba-equi-desc">
+              <title id="proba-equi-title">Une roue de huit secteurs egaux dont un seul est gagnant</title>
+              <desc id="proba-equi-desc">Une roue est partagee en huit secteurs de 45 degres chacun, tous de meme taille. Un seul secteur est teinte : c'est le secteur gagnant. Les sept autres sont laisses clairs. Il n'y a donc que deux issues possibles, gagner ou perdre, mais elles ne sont pas equiprobables : la probabilite de gagner vaut un huitieme, soit 0 virgule 125, et celle de perdre sept huitiemes, soit 0 virgule 875. A droite de la roue, une barre partagee dans les memes proportions rappelle que les deux issues ne se partagent pas le tour a parts egales.</desc>
+
+              <!-- Roue de rayon 72, centre (110,112). Huit secteurs de 45
+                   degres : sommets CALCULES par trigonometrie, pas poses a
+                   l'oeil. Le secteur gagnant va de -90 a -45 degres. -->
+              <circle class="frame-line" cx="110" cy="112" r="72" fill="color-mix(in srgb, var(--diagram-accent) 6%, transparent)"></circle>
+              <path class="frame-line" fill="color-mix(in srgb, var(--diagram-accent) 40%, transparent)" d="M110 112 L110 40 A 72 72 0 0 1 160.91 61.09 Z"></path>
+              <line class="grid-line" x1="110" y1="112" x2="110" y2="40"></line>
+              <line class="grid-line" x1="110" y1="112" x2="160.91" y2="61.09"></line>
+              <line class="grid-line" x1="110" y1="112" x2="182" y2="112"></line>
+              <line class="grid-line" x1="110" y1="112" x2="160.91" y2="162.91"></line>
+              <line class="grid-line" x1="110" y1="112" x2="110" y2="184"></line>
+              <line class="grid-line" x1="110" y1="112" x2="59.09" y2="162.91"></line>
+              <line class="grid-line" x1="110" y1="112" x2="38" y2="112"></line>
+              <line class="grid-line" x1="110" y1="112" x2="59.09" y2="61.09"></line>
+              <text class="annotation-label" x="140" y="62" text-anchor="start">gagné</text>
+              <text class="tick-label" x="110" y="202" text-anchor="middle">8 secteurs égaux</text>
+
+              <!-- La MEME proportion, redite en barre : c'est elle qui porte le
+                   raisonnement, la roue seule pouvant se lire de travers. -->
+              <rect class="frame-line" x="232" y="76" width="18" height="72" fill="color-mix(in srgb, var(--diagram-accent) 40%, transparent)"></rect>
+              <rect class="guide-line" x="256" y="76" width="18" height="72" fill="color-mix(in srgb, var(--diagram-accent) 10%, transparent)"></rect>
+              <text class="tick-label" x="241" y="166" text-anchor="middle">1</text>
+              <text class="tick-label" x="265" y="166" text-anchor="middle">7</text>
+              <text class="tick-label" x="253" y="184" text-anchor="middle">secteurs</text>
+
+              <text class="annotation-label" x="292" y="94" text-anchor="start">P(gagner) = 1/8 = 0,125</text>
+              <text class="tick-label" x="292" y="116" text-anchor="start">P(perdre) = 7/8 = 0,875</text>
+              <text class="label-soft" x="292" y="140" text-anchor="start">somme = 1</text>
+
+              <text class="annotation-label" x="200" y="24" text-anchor="middle">deux issues, mais pas deux chances égales</text>
+            </svg>
+          `,
+          notes: [
+            'La roue compte $8$ secteurs <strong>de même taille</strong> : ce sont eux les issues équiprobables, pas « gagner » et « perdre ».',
+            '$P(\\text{gagner}) = \\dfrac{1}{8} = 0{,}125$ et $P(\\text{perdre}) = \\dfrac{7}{8} = 0{,}875$.',
+            'Leur somme vaut $1$, comme toujours : il se passe forcément quelque chose. Mais elles ne valent $0{,}5$ chacune que si les deux issues sont réellement <strong>également possibles</strong>.'
+          ],
+          reading: 'Avant de compter les issues, demande-toi si elles sont également possibles. Ici la question à se poser n\'est pas « combien de résultats ? » mais « combien de secteurs, et combien me font gagner ? ».',
+          caption: 'Une roue de $8$ secteurs égaux dont un seul gagnant : deux issues possibles, mais $P(\\text{gagner}) = 0{,}125$ et non $0{,}5$.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Une probabilité est une part',
+          title: 'Pourquoi une probabilité ne dépasse jamais $1$',
+          description: 'Une probabilité n\'est pas un nombre abstrait : c\'est la <strong>part du tout</strong> qu\'occupent les cas favorables. Cette lecture explique d\'un coup deux règles que l\'on retient d\'ordinaire séparément : elle est toujours entre $0$ et $1$, et les probabilités de toutes les issues font <strong>exactement $1$</strong>.',
+          svg: `
+            <svg viewBox="0 0 400 194" role="img" aria-labelledby="proba-part-title proba-part-desc">
+              <title id="proba-part-title">Une barre unite partagee entre trois issues</title>
+              <desc id="proba-part-desc">Une barre horizontale represente la totalite des cas possibles, soit 10 boules dans un sac. Elle est partagee en trois portions : 5 dixiemes pour les boules rouges, 3 dixiemes pour les bleues et 2 dixiemes pour les vertes. Les trois portions sont teintees differemment et mises bout a bout sans trou ni chevauchement, si bien qu'elles remplissent exactement la barre. Sous la barre, une graduation de 0 a 1 permet de lire chaque probabilite. La somme des trois vaut 1, ce qui est signale, et aucune portion ne peut depasser la barre entiere.</desc>
+
+              <!-- Barre unite : de x=40 a x=360, soit 320 unites pour la
+                   probabilite 1. Les trois portions sont donc de 160, 96 et 64
+                   unites : positions CALCULEES, somme exacte 320. -->
+              <rect class="frame-line" x="40" y="56" width="160" height="44" fill="color-mix(in srgb, var(--diagram-accent) 40%, transparent)"></rect>
+              <rect class="frame-line" x="200" y="56" width="96" height="44" fill="color-mix(in srgb, var(--diagram-accent) 22%, transparent)"></rect>
+              <rect class="frame-line" x="296" y="56" width="64" height="44" fill="color-mix(in srgb, var(--diagram-accent) 10%, transparent)"></rect>
+
+              <text class="tick-label" x="120" y="82" text-anchor="middle">rouge</text>
+              <text class="tick-label" x="248" y="82" text-anchor="middle">bleue</text>
+              <text class="tick-label" x="328" y="82" text-anchor="middle">verte</text>
+
+              <text class="annotation-label" x="120" y="44" text-anchor="middle">0,5</text>
+              <text class="annotation-label" x="248" y="44" text-anchor="middle">0,3</text>
+              <text class="annotation-label" x="328" y="44" text-anchor="middle">0,2</text>
+
+              <!-- Graduation de 0 a 1 sous la barre. -->
+              <line class="axis" x1="40" y1="118" x2="360" y2="118"></line>
+              <line class="frame-line" x1="40" y1="112" x2="40" y2="124"></line>
+              <text class="tick-label" x="40" y="138" text-anchor="middle">0</text>
+              <line class="frame-line" x1="200" y1="112" x2="200" y2="124"></line>
+              <text class="tick-label" x="200" y="138" text-anchor="middle">0,5</text>
+              <line class="frame-line" x1="360" y1="112" x2="360" y2="124"></line>
+              <text class="tick-label" x="360" y="138" text-anchor="middle">1</text>
+
+              <text class="annotation-label" x="200" y="24" text-anchor="middle">10 boules dans un sac : 5 rouges, 3 bleues, 2 vertes</text>
+              <text class="tick-label" x="200" y="160" text-anchor="middle">0,5 + 0,3 + 0,2 = 1</text>
+              <text class="label-soft" x="200" y="180" text-anchor="middle">les trois parts remplissent la barre, sans trou ni dépassement</text>
+            </svg>
+          `,
+          notes: [
+            '$P(\\text{rouge}) = \\dfrac{5}{10} = 0{,}5$, $P(\\text{bleue}) = \\dfrac{3}{10} = 0{,}3$, $P(\\text{verte}) = \\dfrac{2}{10} = 0{,}2$.',
+            'Les trois parts mises bout à bout remplissent exactement la barre : $0{,}5 + 0{,}3 + 0{,}2 = 1$.',
+            'Une probabilité supérieure à $1$ serait une part <strong>plus grande que le tout</strong> : c\'est impossible, et c\'est le premier contrôle à faire sur un résultat.'
+          ],
+          reading: 'Lis chaque portion sur la graduation du bas : tu obtiens directement sa probabilité. Si tes probabilités ne font pas $1$ en tout, c\'est qu\'il manque une issue ou qu\'une part a été comptée deux fois.',
+          caption: 'La barre unité partagée entre trois issues ($0{,}5$, $0{,}3$ et $0{,}2$) : les probabilités remplissent exactement le tout.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Le hasard n\'a pas de mémoire',
+          title: 'Cinq piles de suite ne changent rien au sixième lancer',
+          description: 'Après cinq « pile » d\'affilée, beaucoup pensent que « face est dû ». La pièce, elle, ne se souvient de rien : au sixième lancer, la probabilité reste $0{,}5$, <strong>exactement comme au premier</strong>.',
+          svg: `
+            <svg viewBox="0 0 400 190" role="img" aria-labelledby="proba-memoire-title proba-memoire-desc">
+              <title id="proba-memoire-title">Cinq lancers de piece deja tombes sur pile et le lancer suivant</title>
+              <desc id="proba-memoire-desc">Cinq pieces alignees montrent toutes le resultat pile : ce sont les lancers deja effectues. Une sixieme piece, tracee en trait tirete et laissee vide, represente le lancer a venir. Sous elle, deux probabilites egales de 0 virgule 5 sont indiquees pour pile et pour face, ce qui montre que les cinq resultats precedents n'ont aucune influence sur le suivant. Une barre partagee en deux moities strictement egales illustre cette equiprobabilite.</desc>
+
+              <text class="annotation-label" x="200" y="22" text-anchor="middle">cinq lancers déjà faits</text>
+
+              <circle class="frame-line" cx="52" cy="62" r="18" fill="color-mix(in srgb, var(--diagram-accent) 26%, transparent)"></circle>
+              <text class="tick-label" x="52" y="66" text-anchor="middle">pile</text>
+              <circle class="frame-line" cx="104" cy="62" r="18" fill="color-mix(in srgb, var(--diagram-accent) 26%, transparent)"></circle>
+              <text class="tick-label" x="104" y="66" text-anchor="middle">pile</text>
+              <circle class="frame-line" cx="156" cy="62" r="18" fill="color-mix(in srgb, var(--diagram-accent) 26%, transparent)"></circle>
+              <text class="tick-label" x="156" y="66" text-anchor="middle">pile</text>
+              <circle class="frame-line" cx="208" cy="62" r="18" fill="color-mix(in srgb, var(--diagram-accent) 26%, transparent)"></circle>
+              <text class="tick-label" x="208" y="66" text-anchor="middle">pile</text>
+              <circle class="frame-line" cx="260" cy="62" r="18" fill="color-mix(in srgb, var(--diagram-accent) 26%, transparent)"></circle>
+              <text class="tick-label" x="260" y="66" text-anchor="middle">pile</text>
+
+              <!-- Le lancer A VENIR : cercle VIDE et tirete. Une figure ne
+                   divulgue jamais ce qu'elle demande de trouver. -->
+              <circle class="guide-line" cx="330" cy="62" r="18" fill="none" stroke-dasharray="5 4"></circle>
+              <text class="annotation-label" x="330" y="68" text-anchor="middle">?</text>
+              <text class="tick-label" x="330" y="96" text-anchor="middle">le suivant</text>
+
+              <!-- Deux moities STRICTEMENT egales : c'est tout le propos. -->
+              <rect class="frame-line" x="120" y="118" width="80" height="30" fill="color-mix(in srgb, var(--diagram-accent) 26%, transparent)"></rect>
+              <rect class="frame-line" x="200" y="118" width="80" height="30" fill="color-mix(in srgb, var(--diagram-accent) 26%, transparent)"></rect>
+              <text class="tick-label" x="160" y="138" text-anchor="middle">pile 0,5</text>
+              <text class="tick-label" x="240" y="138" text-anchor="middle">face 0,5</text>
+
+              <text class="label-soft" x="200" y="172" text-anchor="middle">la pièce ne se souvient pas des lancers précédents</text>
+            </svg>
+          `,
+          notes: [
+            'Chaque lancer est <strong>indépendant</strong> des précédents : la pièce n\'a ni mémoire ni compteur.',
+            'Au sixième lancer, $P(\\text{pile}) = P(\\text{face}) = 0{,}5$, comme au premier.',
+            'Ce qui est rare, c\'est d\'obtenir cinq piles <strong>d\'affilée</strong> — et cette rareté-là se juge <strong>avant</strong> de lancer, pas une fois les cinq résultats connus.'
+          ],
+          reading: 'Regarde la sixième pièce : elle est identique à celles du départ, rien ne la distingue. Le « c\'est le tour de face » est une intuition très répandue, mais aucun mécanisme ne la soutient.',
+          caption: 'Après cinq « pile », le lancer suivant reste équiprobable : $P(\\text{pile}) = P(\\text{face}) = 0{,}5$.'
+        }
+      ],
       method: {
         title: 'Méthode en 3 étapes',
         steps: [

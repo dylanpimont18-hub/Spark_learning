@@ -85,6 +85,198 @@ window.MODULES.push({
         reading: 'Sur une carte, chaque centimètre correspond toujours au même nombre de mètres réels : c\'est une situation de proportionnalité directe.',
         caption: 'Correspondance à l\'échelle $\\dfrac{1}{25\\,000}$ entre distance sur la carte (cm) et distance réelle (m).'
       },
+
+      /* SCHEMAS SECONDAIRES (2026-09-13) — une figure par MALENTENDU.
+         Les trois retenus sont les trois pieges que l'intro nomme :
+           1. une baisse puis une hausse du meme taux ne se compensent pas ;
+           2. la proportionnalite se RECONNAIT, elle ne se suppose pas ;
+           3. le pourcentage se rapporte toujours a un tout, qu'il faut nommer.
+
+         Valeurs VERIFIEES PAR LE CALCUL : 100 x 0,8 x 1,2 = 96 exactement,
+         soit une perte de 4 % qui ne depend pas du prix de depart (0,8 x 1,2 =
+         0,96 quel que soit le prix) — c'est ce que la note explique. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Le piège des pourcentages',
+          title: 'Baisser de $20\\%$ puis augmenter de $20\\%$ ne ramène pas au départ',
+          description: 'On part de $100$ €, on retire $20\\%$, puis on rajoute $20\\%$ : on ne retombe pas sur $100$ €, mais sur <strong>$96$ €</strong>. La raison tient en une phrase : les deux pourcentages ne se calculent pas sur la <strong>même base</strong>.',
+          svg: `
+            <svg viewBox="0 0 400 216" role="img" aria-labelledby="prop-piege-title prop-piege-desc">
+              <title id="prop-piege-title">Un prix baisse de 20 pour cent puis augmente de 20 pour cent</title>
+              <desc id="prop-piege-desc">Trois barres verticales de meme largeur sont posees sur la meme ligne de base et dessinees a la meme echelle. La premiere represente le prix de depart de 100 euros. La deuxieme, apres une baisse de 20 pour cent, represente 80 euros : la baisse retiree vaut 20 euros et se calcule sur 100. La troisieme, apres une hausse de 20 pour cent appliquee a 80 euros, represente 96 euros : la hausse ajoutee ne vaut que 16 euros, car elle se calcule sur 80 et non sur 100. Le prix final est donc inferieur de 4 euros au prix de depart, ce que montre un trait de repere horizontal trace au niveau des 100 euros initiaux.</desc>
+
+              <!-- Echelle : 1,3 unite d'ecran par euro, base commune y = 178.
+                   100 EUR -> 130 unites de haut ; 80 -> 104 ; 96 -> 124,8. -->
+              <line class="grid-line" x1="30" y1="48" x2="380" y2="48" stroke-dasharray="4 4"></line>
+              <text class="tick-label" x="384" y="52" text-anchor="end">100 €</text>
+
+              <rect class="frame-line" x="52" y="48" width="58" height="130" fill="color-mix(in srgb, var(--diagram-accent) 26%, transparent)"></rect>
+              <text class="annotation-label" x="81" y="196" text-anchor="middle">100 €</text>
+              <text class="tick-label" x="81" y="212" text-anchor="middle">au départ</text>
+
+              <rect class="frame-line" x="171" y="74" width="58" height="104" fill="color-mix(in srgb, var(--diagram-accent) 18%, transparent)"></rect>
+              <text class="annotation-label" x="200" y="196" text-anchor="middle">80 €</text>
+              <text class="tick-label" x="200" y="212" text-anchor="middle">après − 20 %</text>
+              <text class="label-soft" x="200" y="64" text-anchor="middle">on retire 20</text>
+
+              <rect class="frame-line" x="290" y="53.2" width="58" height="124.8" fill="color-mix(in srgb, var(--diagram-accent) 18%, transparent)"></rect>
+              <text class="annotation-label" x="319" y="196" text-anchor="middle">96 €</text>
+              <text class="tick-label" x="319" y="212" text-anchor="middle">après + 20 %</text>
+              <text class="label-soft" x="319" y="42" text-anchor="middle">on rajoute 16</text>
+
+              <text class="annotation-label" x="200" y="24" text-anchor="middle">il manque 4 € à la fin</text>
+            </svg>
+          `,
+          notes: [
+            'La baisse se calcule sur $100$ € : elle vaut $20$ €, et le prix tombe à $80$ €.',
+            'La hausse se calcule sur $80$ €, pas sur $100$ : elle ne vaut donc que $0{,}20 \\times 80 = 16$ €, et le prix remonte à $96$ €.',
+            'Le calcul direct le confirme : $100 \\times 0{,}8 \\times 1{,}2 = 96$. Le résultat est une perte de $4\\%$ <strong>quel que soit le prix de départ</strong>, puisque $0{,}8 \\times 1{,}2 = 0{,}96$.'
+          ],
+          reading: 'Compare la hauteur retirée puis la hauteur rajoutée : la seconde est visiblement plus courte. Un pourcentage n\'est jamais une quantité en soi, c\'est toujours une part <strong>de quelque chose</strong> — et ce quelque chose a changé entre les deux étapes.',
+          caption: 'Un prix de $100$ € baissé de $20\\%$ puis augmenté de $20\\%$ : il finit à $96$ €, car la hausse porte sur $80$ € et non sur $100$ €.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Reconnaître, pas supposer',
+          title: 'Deux tableaux, un seul est proportionnel',
+          description: 'La proportionnalité ne se devine pas au fait que « ça augmente ». Elle se <strong>vérifie</strong> : le rapport entre les deux lignes doit être <strong>le même partout</strong>. À gauche il l\'est, à droite il ne l\'est pas — et pourtant les deux séries montent régulièrement.',
+          svg: `
+            <svg viewBox="0 0 400 218" role="img" aria-labelledby="prop-recon-title prop-recon-desc">
+              <title id="prop-recon-title">Un tableau proportionnel et un tableau qui ne l'est pas</title>
+              <desc id="prop-recon-desc">Deux tableaux de deux lignes sont presentes cote a cote. Celui de gauche donne un nombre de kilos et un prix : 2 kilos pour 6 euros, 5 kilos pour 15 euros, 8 kilos pour 24 euros. Le quotient du prix par la masse vaut 3 dans les trois cas, le tableau est donc proportionnel. Celui de droite donne un age et une taille : 2 ans pour 86 centimetres, 5 ans pour 110 centimetres, 8 ans pour 128 centimetres. Les quotients valent 43, 22 et 16, ils sont tous differents, donc le tableau n'est pas proportionnel bien que la taille augmente regulierement avec l'age. Sous chaque tableau, les quotients calcules sont indiques.</desc>
+
+              <!-- Tableau PROPORTIONNEL, a gauche. -->
+              <text class="annotation-label" x="98" y="24" text-anchor="middle">proportionnel</text>
+              <line class="frame-line" x1="20" y1="40" x2="176" y2="40"></line>
+              <line class="frame-line" x1="20" y1="70" x2="176" y2="70"></line>
+              <line class="frame-line" x1="20" y1="100" x2="176" y2="100"></line>
+              <line class="frame-line" x1="20" y1="40" x2="20" y2="100"></line>
+              <line class="frame-line" x1="72" y1="40" x2="72" y2="100"></line>
+              <line class="frame-line" x1="106" y1="40" x2="106" y2="100"></line>
+              <line class="frame-line" x1="141" y1="40" x2="141" y2="100"></line>
+              <line class="frame-line" x1="176" y1="40" x2="176" y2="100"></line>
+              <text class="tick-label" x="26" y="60" text-anchor="start">kilos</text>
+              <text class="tick-label" x="26" y="90" text-anchor="start">prix</text>
+              <text class="tick-label" x="89" y="60" text-anchor="middle">2</text>
+              <text class="tick-label" x="123" y="60" text-anchor="middle">5</text>
+              <text class="tick-label" x="158" y="60" text-anchor="middle">8</text>
+              <text class="tick-label" x="89" y="90" text-anchor="middle">6</text>
+              <text class="tick-label" x="123" y="90" text-anchor="middle">15</text>
+              <text class="tick-label" x="158" y="90" text-anchor="middle">24</text>
+              <text class="tick-label" x="98" y="124" text-anchor="middle">6÷2 = 3   15÷5 = 3   24÷8 = 3</text>
+              <text class="annotation-label" x="98" y="146" text-anchor="middle">toujours 3</text>
+              <text class="label-soft" x="98" y="166" text-anchor="middle">le coefficient existe</text>
+
+              <!-- Tableau NON proportionnel, a droite. Meme forme, meme taille,
+                   memes abscisses : seule la seconde ligne change, ce qui est la
+                   convention du patron « comparaison ». -->
+              <text class="label-soft" x="302" y="24" text-anchor="middle">non proportionnel</text>
+              <line class="guide-line" x1="224" y1="40" x2="380" y2="40"></line>
+              <line class="guide-line" x1="224" y1="70" x2="380" y2="70"></line>
+              <line class="guide-line" x1="224" y1="100" x2="380" y2="100"></line>
+              <line class="guide-line" x1="224" y1="40" x2="224" y2="100"></line>
+              <line class="guide-line" x1="276" y1="40" x2="276" y2="100"></line>
+              <line class="guide-line" x1="310" y1="40" x2="310" y2="100"></line>
+              <line class="guide-line" x1="345" y1="40" x2="345" y2="100"></line>
+              <line class="guide-line" x1="380" y1="40" x2="380" y2="100"></line>
+              <text class="tick-label" x="230" y="60" text-anchor="start">âge</text>
+              <text class="tick-label" x="230" y="90" text-anchor="start">taille</text>
+              <text class="tick-label" x="293" y="60" text-anchor="middle">2</text>
+              <text class="tick-label" x="327" y="60" text-anchor="middle">5</text>
+              <text class="tick-label" x="362" y="60" text-anchor="middle">8</text>
+              <text class="tick-label" x="293" y="90" text-anchor="middle">86</text>
+              <text class="tick-label" x="327" y="90" text-anchor="middle">110</text>
+              <text class="tick-label" x="362" y="90" text-anchor="middle">128</text>
+              <text class="tick-label" x="302" y="124" text-anchor="middle">86÷2 = 43   110÷5 = 22   128÷8 = 16</text>
+              <text class="label-soft" x="302" y="146" text-anchor="middle">43, puis 22, puis 16</text>
+              <text class="label-soft" x="302" y="166" text-anchor="middle">aucun coefficient</text>
+
+              <text class="tick-label" x="200" y="200" text-anchor="middle">les deux séries montent, une seule est proportionnelle</text>
+            </svg>
+          `,
+          notes: [
+            'À gauche, le prix divisé par la masse donne $3$ à chaque colonne : c\'est le <strong>coefficient de proportionnalité</strong>, en euros par kilo.',
+            'À droite, la taille divisée par l\'âge donne $43$, puis $22$, puis $16$ : aucun coefficient commun, donc <strong>aucune</strong> proportionnalité.',
+            'Une grandeur qui augmente régulièrement n\'est pas pour autant proportionnelle. Un enfant de $8$ ans ne mesure pas quatre fois la taille d\'un enfant de $2$ ans.'
+          ],
+          reading: 'Pour trancher, divise chaque valeur du bas par celle du haut, colonne par colonne. Si tu retrouves toujours le même nombre, c\'est proportionnel ; s\'il change, ce ne l\'est pas — et une seule colonne qui diffère suffit à conclure.',
+          caption: 'Un tableau proportionnel (coefficient $3$ partout) et un tableau qui ne l\'est pas (quotients $43$, $22$, $16$), bien que les deux séries croissent.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Pourcentage de quoi',
+          title: 'Le même pourcentage sur deux touts différents',
+          description: 'Un pourcentage ne dit rien tant qu\'on ne sait pas <strong>de quoi</strong> il est la part. $30\\%$ des élèves d\'une classe de $30$ et $30\\%$ des élèves d\'une classe de $10$, c\'est la même fraction mais pas le même nombre d\'élèves : $9$ d\'un côté, $3$ de l\'autre.',
+          svg: `
+            <svg viewBox="0 0 400 206" role="img" aria-labelledby="prop-tout-title prop-tout-desc">
+              <title id="prop-tout-title">Trente pour cent de deux groupes de tailles differentes</title>
+              <desc id="prop-tout-desc">A gauche, une classe de 30 eleves est representee par 30 pastilles disposees en trois rangees de dix ; 9 d'entre elles sont teintees, ce qui represente 30 pour cent de la classe. A droite, un groupe de 10 eleves est represente par 10 pastilles disposees sur une rangee ; 3 d'entre elles sont teintees, ce qui represente aussi 30 pour cent. La proportion est donc la meme dans les deux cas, mais le nombre d'eleves concernes est trois fois plus grand a gauche qu'a droite. Les pastilles ont exactement la meme taille des deux cotes, si bien que la comparaison des effectifs se fait a vue.</desc>
+
+              <text class="annotation-label" x="200" y="22" text-anchor="middle">30 % dans les deux cas</text>
+
+              <!-- Classe de 30 : trois rangees de dix pastilles de meme taille
+                   que celles de droite, sinon la comparaison mentirait. -->
+              <text class="tick-label" x="98" y="46" text-anchor="middle">classe de 30 élèves</text>
+              <circle class="plot-point" cx="26" cy="66" r="6"></circle>
+              <circle class="plot-point" cx="42" cy="66" r="6"></circle>
+              <circle class="plot-point" cx="58" cy="66" r="6"></circle>
+              <circle class="plot-point" cx="74" cy="66" r="6"></circle>
+              <circle class="plot-point" cx="90" cy="66" r="6"></circle>
+              <circle class="plot-point" cx="106" cy="66" r="6"></circle>
+              <circle class="plot-point" cx="122" cy="66" r="6"></circle>
+              <circle class="plot-point" cx="138" cy="66" r="6"></circle>
+              <circle class="plot-point" cx="154" cy="66" r="6"></circle>
+              <circle class="plot-point" cx="170" cy="66" r="6"></circle>
+              <circle class="plot-point-alt" cx="26" cy="88" r="6"></circle>
+              <circle class="plot-point-alt" cx="42" cy="88" r="6"></circle>
+              <circle class="plot-point-alt" cx="58" cy="88" r="6"></circle>
+              <circle class="plot-point-alt" cx="74" cy="88" r="6"></circle>
+              <circle class="plot-point-alt" cx="90" cy="88" r="6"></circle>
+              <circle class="plot-point-alt" cx="106" cy="88" r="6"></circle>
+              <circle class="plot-point-alt" cx="122" cy="88" r="6"></circle>
+              <circle class="plot-point-alt" cx="138" cy="88" r="6"></circle>
+              <circle class="plot-point-alt" cx="154" cy="88" r="6"></circle>
+              <circle class="plot-point" cx="170" cy="88" r="6"></circle>
+              <circle class="plot-point" cx="26" cy="110" r="6"></circle>
+              <circle class="plot-point" cx="42" cy="110" r="6"></circle>
+              <circle class="plot-point" cx="58" cy="110" r="6"></circle>
+              <circle class="plot-point" cx="74" cy="110" r="6"></circle>
+              <circle class="plot-point" cx="90" cy="110" r="6"></circle>
+              <circle class="plot-point" cx="106" cy="110" r="6"></circle>
+              <circle class="plot-point" cx="122" cy="110" r="6"></circle>
+              <circle class="plot-point" cx="138" cy="110" r="6"></circle>
+              <circle class="plot-point" cx="154" cy="110" r="6"></circle>
+              <circle class="plot-point" cx="170" cy="110" r="6"></circle>
+              <text class="annotation-label" x="98" y="140" text-anchor="middle">9 élèves</text>
+
+              <!-- Groupe de 10 : MEME rayon de pastille, meme espacement. -->
+              <text class="tick-label" x="302" y="46" text-anchor="middle">groupe de 10 élèves</text>
+              <circle class="plot-point-alt" cx="230" cy="88" r="6"></circle>
+              <circle class="plot-point-alt" cx="246" cy="88" r="6"></circle>
+              <circle class="plot-point-alt" cx="262" cy="88" r="6"></circle>
+              <circle class="plot-point" cx="278" cy="88" r="6"></circle>
+              <circle class="plot-point" cx="294" cy="88" r="6"></circle>
+              <circle class="plot-point" cx="310" cy="88" r="6"></circle>
+              <circle class="plot-point" cx="326" cy="88" r="6"></circle>
+              <circle class="plot-point" cx="342" cy="88" r="6"></circle>
+              <circle class="plot-point" cx="358" cy="88" r="6"></circle>
+              <circle class="plot-point" cx="374" cy="88" r="6"></circle>
+              <text class="annotation-label" x="302" y="140" text-anchor="middle">3 élèves</text>
+
+              <text class="tick-label" x="200" y="176" text-anchor="middle">même part, trois fois moins d élèves</text>
+              <text class="label-soft" x="200" y="194" text-anchor="middle">un pourcentage se rapporte toujours à un tout, qu il faut nommer</text>
+            </svg>
+          `,
+          notes: [
+            'Classe de $30$ : $\\dfrac{30}{100} \\times 30 = 9$ élèves.',
+            'Groupe de $10$ : $\\dfrac{30}{100} \\times 10 = 3$ élèves.',
+            'Le pourcentage est identique, l\'effectif ne l\'est pas. C\'est aussi pourquoi on ne peut jamais <strong>additionner</strong> deux pourcentages portant sur des touts différents.'
+          ],
+          reading: 'Compte les pastilles teintées de chaque côté : $9$ à gauche, $3$ à droite. Les pastilles ont pourtant la même taille et la part est la même. Avant d\'interpréter un pourcentage, demande-toi toujours : pourcentage de quoi ?',
+          caption: '$30\\%$ d\'une classe de $30$ élèves ($9$ élèves) et $30\\%$ d\'un groupe de $10$ élèves ($3$ élèves) : même part, effectifs différents.'
+        }
+      ],
       method: {
         title: 'Méthode en 3 cas',
         steps: [
