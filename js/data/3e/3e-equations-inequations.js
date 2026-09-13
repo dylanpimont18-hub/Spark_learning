@@ -13,7 +13,13 @@ window.MODULES.push(
     keywords: ['Équation', 'Inéquation', 'Inconnue', 'Solution', 'Intervalle'],
     physics: 'Résolution d\'équations horaires du mouvement, calcul de seuils de tension ou d\'intensité en électricité',
     cours: {
-      intro: 'Une <strong>équation</strong> fixe une condition d\'égalité : on cherche toutes les valeurs de $x$ qui la rendent vraie. Une <strong>inéquation</strong> fixe une condition d\'ordre : la solution est un <strong>intervalle</strong>, pas un point isolé.<br/><br/>' +
+      intro: 'Tu veux t\'abonner à une salle d\'escalade. Deux formules sont affichées à l\'entrée.<br/><br/>' +
+        'La formule A : $12$ € la séance, sans rien payer d\'avance. La formule B : $60$ € de carte à l\'année, puis $6$ € la séance.<br/><br/>' +
+        '<strong>Laquelle est la moins chère ?</strong><br/><br/>' +
+        'La question n\'a pas de réponse. Pour trois séances, A coûte $36$ € et B en coûte $78$ : A gagne largement. Pour vingt séances, A coûte $240$ € et B seulement $180$ € : B gagne largement. Aucune des deux formules n\'est <strong>toujours</strong> la meilleure, et aucun coup d\'œil au tarif ne dit à partir de quand la seconde prend l\'avantage.<br/><br/>' +
+        'Ce moment de bascule, on ne le devine pas : on le <strong>calcule</strong>. Les deux formules coûtent pareil quand $12x = 60 + 6x$, c\'est-à-dire quand $6x = 60$, donc pour $x = 10$ séances. Voilà le <strong>seuil</strong>.<br/><br/>' +
+        'Mais savoir où les deux prix se croisent ne suffit pas encore : ce que tu veux savoir, c\'est <em>de quel côté</em> tu te trouves. « À partir de combien de séances B devient-elle plus avantageuse ? » ne se répond pas par un nombre isolé, mais par $12x > 60 + 6x$, donc $x > 10$ : <strong>toutes</strong> les valeurs au-delà de $10$ conviennent.<br/><br/>' +
+        'Tu tiens là les deux outils du chapitre. Une <strong>équation</strong> fixe une condition d\'égalité : on cherche les valeurs de $x$ qui la rendent vraie, et il y en a en général une poignée. Une <strong>inéquation</strong> fixe une condition d\'ordre : la solution est un <strong>intervalle</strong> tout entier, pas un point isolé.<br/><br/>' +
         'Les deux se résolvent par les mêmes opérations — avec une <strong>différence cruciale</strong> : multiplier ou diviser par un nombre <strong>négatif inverse le sens de l\'inégalité</strong>.<br/>Intuition : si $-x < 3$, alors $x > -3$.<br/><br/>' +
         'En physique, les inéquations apparaissent dans les <strong>conditions de validité</strong> des modèles : une distance est positive, une probabilité reste entre $0$ et $1$.<br/><br/>' +
         'Règle d\'or : <strong>toujours vérifier</strong> la solution en la substituant dans l\'expression de départ.',

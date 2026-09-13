@@ -14,8 +14,13 @@ window.MODULES.push(
     physics: 'Décomposition de forces, lois de Snell-Descartes',
 
     cours: {
-      intro: 'Dans tout triangle rectangle, les rapports entre les côtés dépendent <strong>uniquement des angles</strong> — jamais de la taille du triangle. La <strong>trigonométrie</strong> exploite cette invariance : $\\sin$, $\\cos$ et $\\tan$ sont des fonctions de l\'angle constantes pour tous les triangles semblables.<br/><br/>' +
-        '<strong>SOH-CAH-TOA</strong> est le mémo fondamental : Sinus = Opposé/Hypoténuse, Cosinus = Adjacent/Hypoténuse, Tangente = Opposé/Adjacent. Chaque fonction est liée à une paire précise de côtés.<br/><br/>' +
+      intro: 'Tu dois donner la hauteur du clocher de ton village. Il pleut depuis trois jours : pas la moindre ombre au sol, donc Thalès est hors-jeu. Impossible d\'y grimper, impossible de tendre un décamètre le long du mur.<br/><br/>' +
+        'Tu as seulement deux choses. Tu peux mesurer la distance du pied du clocher jusqu\'à toi : $25$ mètres. Et tu peux viser le sommet avec un rapporteur monté sur un bâton, ce qui te donne un <strong>angle</strong> de $40°$ au-dessus de l\'horizontale.<br/><br/>' +
+        '<strong>Est-ce assez pour conclure ?</strong><br/><br/>' +
+        'Regarde ce que tu possèdes : un triangle rectangle dont tu connais <strong>un seul côté</strong> et <strong>un angle</strong>. Pythagore ne sert à rien — il lui faut deux côtés, et il ne sait pas ce qu\'est un angle. Thalès ne sert à rien non plus — il lui faut un second triangle, celui de l\'ombre, et il n\'y en a pas.<br/><br/>' +
+        'Il manque donc un outil, et un seul : quelque chose qui relie un <strong>angle</strong> à des <strong>longueurs</strong>. C\'est exactement ce que fait la <strong>trigonométrie</strong>. Ici $\\tan(40°) \\approx 0{,}84$, et la hauteur vaut $25 \\times 0{,}84 \\approx 21$ mètres.<br/><br/>' +
+        'Pourquoi cela fonctionne-t-il ? Parce que dans tout triangle rectangle, les rapports entre les côtés dépendent <strong>uniquement des angles</strong> — jamais de la taille du triangle. Un triangle deux fois plus grand a exactement les mêmes rapports. La trigonométrie exploite cette invariance : $\\sin$, $\\cos$ et $\\tan$ sont des fonctions de l\'angle, constantes pour tous les triangles semblables.<br/><br/>' +
+        '<strong>SOH-CAH-TOA</strong> est le mémo fondamental : Sinus = Opposé/Hypoténuse, Cosinus = Adjacent/Hypoténuse, Tangente = Opposé/Adjacent. Chaque fonction est liée à une paire précise de côtés, et tout l\'art consiste à repérer laquelle tu connais.<br/><br/>' +
         'En physique, <strong>décomposer une force</strong> ou une vitesse revient à trouver les <strong>triangles rectangles cachés</strong> dans la situation réelle.<br/><br/>' +
         'La <strong>relation fondamentale</strong> $\\sin^2(\\theta) + \\cos^2(\\theta) = 1$ relie sinus et cosinus pour tout angle — c\'est le théorème de Pythagore exprimé en rapports trigonométriques.',
       definitions: [
@@ -269,8 +274,16 @@ window.MODULES.push(
           /* REMONTER À L'ANGLE. C'est la tâche que le brevet pose le plus
              souvent, et l'ancienne banque ne la posait jamais. On tire des
              longueurs qui donnent un angle rond, pour que la réponse reste
-             contrôlable. */
-          const r = pick(REMARQ), hyp = rand(8, 20);
+             contrôlable.
+
+             45° EST EXCLU ICI, et c'est un défaut vu seulement à l'épreuve
+             (2026-09-13) : à 45° l'adjacent et l'opposé sont égaux, si bien
+             que la figure montrait un triangle visiblement isocèle et
+             DIVULGUAIT la réponse — une figure ne doit jamais résoudre ce
+             qu'elle illustre (section 9). Le tirage se limite donc à 30° et
+             60°, les deux angles remarquables qui laissent la question
+             ouverte. */
+          const r = pick([REMARQ[0], REMARQ[2]]), hyp = rand(8, 20);
           const adj = parseFloat((hyp * r.cos).toFixed(2));
           /* Le pronom de reprise est porté par le CONTEXTE, jamais déduit du
              nom par un test sur la chaîne : « la rampe fait-il » est sorti

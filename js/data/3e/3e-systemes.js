@@ -14,7 +14,12 @@ window.MODULES.push(
     physics: 'Lois de Kirchhoff (tensions et courants), mélange de solutions, bilan forces',
 
     cours: {
-      intro: 'Un <strong>système de deux équations</strong> à deux inconnues apparaît dès qu\'un problème lie deux quantités par deux relations indépendantes. On dispose de deux méthodes : la <strong>substitution</strong> et la <strong>combinaison</strong> (addition).<br/><br/>' +
+      intro: 'Au distributeur du lycée, tu prends $3$ boissons et $2$ sandwichs : le ticket affiche $17$ €. Un camarade prend $1$ boisson et $4$ sandwichs et paie $24$ €.<br/><br/>' +
+        '<strong>Combien coûte une boisson ?</strong><br/><br/>' +
+        'Regarde d\'abord ton seul ticket. Il dit que $3b + 2s = 17$. C\'est vrai si la boisson vaut $1$ € et le sandwich $7$ €. C\'est tout aussi vrai si la boisson vaut $3$ € et le sandwich $4$ €. Et encore si elle vaut $5$ € et le sandwich $1$ €. Une seule information laisse une <strong>infinité de possibilités</strong> : elle ne suffit pas, et aucun calcul ne la rendra suffisante.<br/><br/>' +
+        'Maintenant ajoute le second ticket : $b + 4s = 24$. Parmi toutes les combinaisons compatibles avec le premier ticket, une seule l\'est aussi avec le second. Les deux informations, <strong>prises ensemble</strong>, verrouillent la réponse — ici $b = 2$ € et $s = 5{,}5$ €, que tu peux vérifier sur les deux tickets.<br/><br/>' +
+        'C\'est exactement cela, un <strong>système</strong> : deux inconnues exigent deux relations indépendantes. Une de moins, et le problème reste ouvert.<br/><br/>' +
+        'Un <strong>système de deux équations</strong> à deux inconnues apparaît donc dès qu\'un problème lie deux quantités par deux relations. On dispose de deux méthodes pour le résoudre : la <strong>substitution</strong> et la <strong>combinaison</strong> (addition).<br/><br/>' +
         'La <strong>substitution</strong> isole une variable dans une équation et la remplace dans l\'autre. La <strong>combinaison</strong> multiplie une équation par un coefficient pour éliminer directement une variable — plus rapide quand les coefficients s\'y prêtent.<br/><br/>' +
         'En physique, les <strong>lois de Kirchhoff</strong> (circuits électriques) et les bilans de mélange (chimie) donnent naturellement des systèmes.<br/><br/>' +
         '<strong>Vérification obligatoire</strong> : réinjecter les valeurs dans LES DEUX équations — une erreur peut satisfaire l\'une mais pas l\'autre.',

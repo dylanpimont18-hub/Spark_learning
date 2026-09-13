@@ -1095,8 +1095,15 @@ function figureTrigo(angleDeg, hypotenuse, options) {
     ' L' + nb2(D[0] - k) + ' ' + nb2(D[1] - k) + ' L' + nb2(D[0]) + ' ' + nb2(D[1] - k) + '"></path>';
 
   const eA = inconnu === 'angle' ? '?' : fr(angleDeg) + '°';
-  const eV = inconnu === 'vertical' ? '?' : coteFig(Math.round(vert * 10) / 10, unite);
-  const eH = inconnu === 'horizontal' ? '?' : coteFig(Math.round(horiz * 10) / 10, unite);
+  /* Cotes arrondies au CENTIEME, et non au dixieme (2026-09-13). Defaut vu
+     seulement a l'epreuve, sur une page de banque de troisieme : l'enonce
+     annoncait « la distance horizontale couverte est de 11,26 m » tandis que
+     la figure, juste en dessous, cotait « 11,3 m ». Deux nombres differents
+     pour une meme longueur sur une meme page, et l'eleve n'a aucun moyen de
+     savoir lequel fait foi. Les enonces du niveau cotent au centieme : la
+     figure s'aligne dessus. */
+  const eV = inconnu === 'vertical' ? '?' : coteFig(Math.round(vert * 100) / 100, unite);
+  const eH = inconnu === 'horizontal' ? '?' : coteFig(Math.round(horiz * 100) / 100, unite);
   const eHyp = inconnu === 'hypotenuse' ? '?' : coteFig(hypotenuse, unite);
 
   return svgFigure('Triangle rectangle avec un angle aigu marque', [

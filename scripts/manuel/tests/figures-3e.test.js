@@ -307,3 +307,68 @@ test('les figures de troisieme respectent les contraintes d etiquettes du conver
     }
   }
 });
+
+/* =========================================================
+   DEUX DEFAUTS VUS SEULEMENT A L'EPREUVE (2026-09-13).
+
+   Les tests precedents verifient la GEOMETRIE des figures : parallelisme,
+   rapports, angles. Ils ne voient pas ce qui se lit sur une page imprimee,
+   et c'est le controle visuel de la banque de troisieme qui a trouve les
+   deux defauts ci-dessous. Ils sont transcrits ici en tests pour que la
+   vague suivante ne les reintroduise pas.
+   ========================================================= */
+
+test('figureTrigo : les cotes sont au centieme, comme les enonces du niveau', () => {
+  /* DEFAUT 1. La figure cotait au DIXIEME (« 11,3 m ») alors que l'enonce
+     juste au-dessus annoncait la meme longueur au CENTIEME (« 11,26 m »).
+     Deux nombres differents pour une meme longueur sur une meme page :
+     l'eleve n'a aucun moyen de savoir lequel fait foi. */
+  const svg = H.figureTrigo(30, 13, { inconnu: 'angle' });
+  const exact = 13 * Math.cos(Math.PI / 6);          // 11,2583...
+  const attendu = (Math.round(exact * 100) / 100).toString().replace('.', '{,}');
+  assert.ok(svg.includes(attendu),
+    'la cote de l adjacent devrait etre ' + attendu + ' (au centieme) dans :\n' + svg);
+  // Et surtout : l'ancienne valeur au dixieme ne doit plus apparaitre.
+  assert.ok(!/>11\{,\}3 m</.test(svg), 'cote encore arrondie au dixieme');
+});
+
+test('figureTrigo a 45 degres : adjacent et oppose sont egaux, donc la figure divulgue l angle', () => {
+  /* DEFAUT 2, et c'est le plus grave des deux : a 45 degres les deux cotes de
+     l'angle droit sont egaux. Une figure qui les cote tous les deux montre un
+     triangle visiblement isocele et REPOND a la question « quel est l'angle ? »
+     — or une figure ne doit jamais resoudre ce qu'elle illustre (section 9 du
+     cahier des charges).
+
+     Ce test ne corrige pas le helper, qui a raison de dessiner ce qu'on lui
+     demande : il documente la propriete, pour que l'auteur d'un generateur
+     sache qu'il ne doit pas tirer 45 degres quand l'angle est l'inconnue.
+     C'est ce que fait desormais la tache 'angle' de trigonometrie.js, qui se
+     limite a 30 et 60 degres. */
+  const a = 10 * Math.cos(Math.PI / 4), o = 10 * Math.sin(Math.PI / 4);
+  assert.ok(Math.abs(a - o) < 1e-9,
+    'a 45 degres, adjacent et oppose doivent etre egaux — sinon ce test n a plus d objet');
+
+  // La garde reelle : le generateur ne doit jamais produire un enonce
+  // « quel est l angle » dont la reponse soit 45.
+  const { chargerModule } = require('../extract.js');
+  const { exercices } = chargerModule('js/data/3e/trigonometrie.js',
+    { tirages: 60, repetitionsMax: 6 });
+  const anglesDemandes = exercices.filter(e => e.unit === '°').map(e => e.answer);
+  assert.ok(anglesDemandes.length > 0, 'aucune tache de recherche d angle tiree');
+  assert.ok(!anglesDemandes.includes(45),
+    'la tache « angle » a tire 45 degres, ou la figure divulgue la reponse : ' +
+    JSON.stringify(anglesDemandes));
+});
+
+test('figureTrigo : la cote de la grandeur cherchee est un point d interrogation', () => {
+  // Regle generale de la section 9, verifiee sur les quatre inconnues possibles.
+  for (const [inconnu, interdit] of [['angle', '35'], ['hypotenuse', '10'],
+                                     ['vertical', null], ['horizontal', null]]) {
+    const svg = H.figureTrigo(35, 10, { inconnu });
+    assert.ok(svg.includes('>?<'), 'aucun point d interrogation pour inconnu = ' + inconnu);
+    if (interdit) {
+      assert.ok(!new RegExp('>' + interdit + '(\{,\}\d+)? ?(cm|°)?<').test(svg),
+        'la figure divulgue la valeur cherchee (' + interdit + ') pour inconnu = ' + inconnu);
+    }
+  }
+});

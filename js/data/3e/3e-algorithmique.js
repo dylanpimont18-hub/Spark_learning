@@ -13,10 +13,15 @@ window.MODULES.push(
     keywords: ['Algorithme', 'Variable', 'Boucle', 'Condition', 'Instruction', 'Pseudo-code'],
     physics: false,
     cours: {
-      intro: 'Un <strong>algorithme</strong> est une suite finie et non ambiguë d\'instructions permettant de résoudre un problème. Les trois <strong>structures fondamentales</strong> — séquence, condition, boucle — suffisent à exprimer n\'importe quel calcul.<br/><br/>' +
-        'L\'<strong>affectation</strong> $x \\leftarrow x + 1$ est très différente d\'une équation : en maths, $x = x + 1$ est absurde ; en algorithmique, c\'est une <strong>mise à jour</strong> (lire l\'ancienne valeur, ajouter $1$, stocker le résultat).<br/><br/>' +
-        'Pour <strong>déboguer</strong> un algorithme : tracer son exécution ligne par ligne dans un tableau de valeurs des variables — une colonne par variable, une ligne par étape.<br/><br/>' +
-        'Deux types de boucles : la boucle <strong>bornée</strong> ($\\mathtt{pour}$) avec un nombre fixé de tours ; la boucle <strong>non bornée</strong> ($\\mathtt{tant\\ que}$) qui continue sous condition.',
+      intro: 'Voici une ligne que tu vas croiser dans tous les programmes du monde :<br/><br/>' +
+        '$$x \\leftarrow x + 1$$<br/>' +
+        'Lis-la comme une égalité mathématique et elle est <strong>absurde</strong>. Aucun nombre ne vérifie $x = x + 1$ : en retirant $x$ des deux côtés, il resterait $0 = 1$. Pourtant cette ligne est parfaitement correcte en programmation, et elle s\'exécute des milliards de fois par seconde dans les machines autour de toi.<br/><br/>' +
+        '<strong>Comment une chose impossible peut-elle être juste ?</strong><br/><br/>' +
+        'Parce que la flèche ne dit pas « est égal à ». Elle dit « <strong>reçoit</strong> ». La machine lit l\'<em>ancienne</em> valeur de $x$, lui ajoute $1$, puis range le résultat dans $x$, écrasant ce qu\'il y avait. Si $x$ valait $7$ avant la ligne, il vaut $8$ après. Rien n\'est affirmé : quelque chose est <strong>fait</strong>, et le temps est passé entre les deux côtés de la flèche.<br/><br/>' +
+        'Tout le chapitre tient dans ce basculement. En mathématiques, $x$ désigne un nombre fixe qu\'on cherche à connaître. En algorithmique, $x$ désigne une <strong>case mémoire</strong> dont le contenu change au fil de l\'exécution. Confondre les deux, c\'est ne plus rien comprendre à un programme dès la troisième ligne.<br/><br/>' +
+        'Un <strong>algorithme</strong> est une suite finie et non ambiguë d\'instructions permettant de résoudre un problème. Les trois <strong>structures fondamentales</strong> — séquence, condition, boucle — suffisent à exprimer n\'importe quel calcul, du plus simple au moteur de recherche.<br/><br/>' +
+        'Pour <strong>déboguer</strong> un algorithme, une seule technique vaut vraiment : tracer son exécution ligne par ligne dans un tableau de valeurs — une colonne par variable, une ligne par étape. On y voit chaque affectation faire son effet, et l\'erreur saute aux yeux.<br/><br/>' +
+        'Deux types de boucles : la boucle <strong>bornée</strong> ($\\mathtt{pour}$) avec un nombre fixé de tours ; la boucle <strong>non bornée</strong> ($\\mathtt{tant\\ que}$) qui continue tant qu\'une condition reste vraie.',
       definitions: [
         { term: 'Algorithme', def: 'Suite <strong>finie et non ambiguë</strong> d\'instructions qui résout un problème donné. Chaque étape doit être suffisamment précise pour être exécutée mécaniquement.' },
         { term: 'Variable', def: 'Espace mémoire nommé qui <strong>stocke une valeur</strong>. Une variable peut contenir un nombre, du texte, etc. Sa valeur peut changer au cours de l\'exécution.' },

@@ -13,8 +13,12 @@ window.MODULES.push(
     keywords: ['Sphère', 'Boule', 'Volume', 'Solides composés', 'Rayon'],
     physics: 'Calcul du volume d\'un réservoir sphérique, d\'une planète, d\'une bulle de gaz',
     cours: {
-      intro: 'La <strong>sphère</strong> est la surface des points à distance $r$ d\'un centre ; la <strong>boule</strong> est le volume plein qu\'elle délimite. La formule $V = \\dfrac{4}{3}\\pi r^3$ porte le <strong>cube du rayon</strong> : doubler le rayon multiplie le volume par $8$, pas par $2$ !<br/><br/>' +
-        'Cette sensibilité au rayon explique pourquoi les cellules biologiques ne dépassent pas une certaine taille : leur surface (en $r^2$) ne peut plus suffire aux échanges si le volume (en $r^3$) croît trop vite.<br/><br/>' +
+      intro: 'Une boule de glace de $3$ cm de rayon, ce n\'est pas énorme. Le vendeur te propose, pour le double du prix, une boule de $6$ cm de rayon — « deux fois plus grosse », annonce-t-il.<br/><br/>' +
+        '<strong>Est-ce une bonne affaire ?</strong><br/><br/>' +
+        'Presque tout le monde répond que c\'est équitable : rayon doublé, glace doublée, prix doublé. C\'est faux, et largement. Le volume d\'une boule vaut $V = \\dfrac{4}{3}\\pi r^3$ : le rayon y figure <strong>au cube</strong>. En doublant $r$, on multiplie $r^3$ par $2^3 = 8$. La grosse boule contient <strong>huit fois</strong> plus de glace que la petite, pas deux. Au double du prix, c\'est une excellente affaire.<br/><br/>' +
+        'Ce décalage entre l\'intuition et le calcul est tout le chapitre : dans l\'espace, les <strong>longueurs</strong> se multiplient par $k$, mais les <strong>volumes</strong> se multiplient par $k^3$. Aucune estimation à l\'œil ne rattrape ce facteur — seul le calcul tranche.<br/><br/>' +
+        'La <strong>sphère</strong> est la surface des points situés à distance $r$ d\'un centre ; la <strong>boule</strong> est le volume plein qu\'elle délimite. Les deux mots désignent des objets différents, et l\'énoncé d\'un exercice choisit toujours l\'un ou l\'autre pour une bonne raison.<br/><br/>' +
+        'Cette sensibilité au rayon explique pourquoi les cellules biologiques ne dépassent pas une certaine taille : leur surface (en $r^2$) ne peut plus suffire aux échanges si le volume (en $r^3$) croît trop vite. C\'est aussi pourquoi un gros animal se refroidit bien plus lentement qu\'une souris.<br/><br/>' +
         'Pour les <strong>solides composés</strong> : décomposer en formes simples (boule, cylindre, cône, pyramide), calculer chaque volume, puis <strong>additionner</strong> — ou <strong>soustraire</strong> si un solide est creusé dans un autre.',
       definitions: [
         { term: 'Sphère', def: 'La <strong>surface</strong> formée par tous les points situés à la même distance $r$ d\'un point central. La sphère est « creuse » : elle n\'inclut que la surface.' },
