@@ -174,17 +174,38 @@ window.MODULES.push({
     exercice: {
       type: 'numeric',
       generate() {
+        /* DEUX DÉFAUTS CORRIGÉS le 2026-09-13, révélés en relisant un tirage
+           réel de la banque (le défaut existait, il était invisible) :
+
+           1. « Le prix d'un trajet en taxi est modélisé par. On mesure... » —
+              cette amorce appelait un complément qui ne venait jamais, la
+              phrase se refermant sur un point. Même faute pour « varie selon ».
+              Les quatre amorces sont désormais des phrases complètes.
+
+           2. Un coefficient directeur négatif faisait descendre la grandeur
+              sous zéro : la banque imprimait un trajet en taxi à $-2$ € et un
+              réservoir contenant $1$ L après en avoir contenu $9$. Les
+              contextes qui ne peuvent PAS décroître (un prix au kilomètre, un
+              réservoir qui se remplit) reçoivent maintenant une pente
+              positive ; seuls la température et l'altitude, qui peuvent
+              réellement baisser, acceptent une pente négative. Et dans tous
+              les cas on vérifie que les deux valeurs mesurées restent
+              positives. */
         const contexts = [
-          { intro: 'Un réservoir se remplit d\'eau', xUnit: 'min', yUnit: 'L', xName: 't', yName: 'V' },
-          { intro: 'La température d\'un liquide chauffé évolue', xUnit: 'min', yUnit: '°C', xName: 't', yName: 'T' },
-          { intro: 'Le prix d\'un trajet en taxi est modélisé par', xUnit: 'km', yUnit: '€', xName: 'd', yName: 'C' },
-          { intro: 'L\'altitude d\'un randonneur varie selon', xUnit: 'km', yUnit: 'm', xName: 'x', yName: 'h' }
+          { intro: 'Un réservoir se remplit d\'eau', xUnit: 'min', yUnit: 'L', xName: 't', yName: 'V', peutBaisser: false },
+          { intro: 'La température d\'un liquide évolue au cours du temps', xUnit: 'min', yUnit: '°C', xName: 't', yName: 'T', peutBaisser: true },
+          { intro: 'Le prix d\'un trajet en taxi dépend de la distance parcourue', xUnit: 'km', yUnit: '€', xName: 'd', yName: 'C', peutBaisser: false },
+          { intro: 'L\'altitude d\'un randonneur varie au fil de sa marche', xUnit: 'km', yUnit: 'm', xName: 'x', yName: 'h', peutBaisser: true }
         ];
         const ctx = pick(contexts);
-        const a = pick([2, 3, 4, 5, -2, -3]);
-        const b = rand(5, 20);
+        const a = ctx.peutBaisser ? pick([2, 3, 4, 5, -2, -3]) : pick([2, 3, 4, 5]);
         const x1 = rand(1, 4);
         const x2 = x1 + rand(2, 5);
+        /* L'ordonnée à l'origine est choisie APRÈS la pente, assez grande pour
+           que les deux mesures restent positives même quand la grandeur
+           décroît. Sans cela, une température de départ de 5 °C et une pente
+           de -3 donnaient une mesure négative dès la seconde valeur. */
+        const b = a < 0 ? Math.abs(a) * x2 + rand(2, 14) : rand(5, 20);
         const y1 = a * x1 + b;
         const y2 = a * x2 + b;
         return {
