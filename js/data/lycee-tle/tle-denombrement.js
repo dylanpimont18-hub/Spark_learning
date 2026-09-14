@@ -402,12 +402,27 @@ window.MODULES.push({
           correction: 'Choisir le groupe de $5$ détermine automatiquement le groupe de $7$. Donc $\\binom{12}{5} = \\dfrac{12!}{5! \\times 7!} = \\dfrac{12 \\times 11 \\times 10 \\times 9 \\times 8}{120} = \\dfrac{95040}{120} = 792$.'
         },
         {
-          statement: 'Lequel est un arrangement et non une combinaison ?',
+          /* Q5 RÉÉCRITE le 2026-09-14. L'ancienne demandait de reconnaître
+             l'arrangement parmi quatre situations : une question de tri, qui
+             relève de « raisonner » et qui faisait donc doublon avec Q3.
+
+             Aucune des cinq questions ne mobilisait « communiquer », alors
+             que la grille de suivi photocopiable en imprime la colonne toute
+             l'année. La nouvelle question demande de JUGER la démarche d'un
+             camarade et de nommer ce qui cloche : l'élève ne produit aucun
+             nombre, il produit une explication. L'étiquette suit l'énoncé,
+             jamais l'inverse. */
+          statement: 'Pour compter les podiums possibles (1er, 2e, 3e) parmi $8$ coureurs, un camarade écrit : « c\'est un choix de $3$ personnes parmi $8$, donc $\\binom{8}{3} = 56$ ». Son calcul de $\\binom{8}{3}$ est exact, mais sa réponse ne l\'est pas. Quelle phrase explique le mieux son erreur ?',
           type: 'multiple-choice',
-          options: ['Choisir $3$ fruits dans un panier de $10$', 'Constituer un podium (1er, 2e, 3e) parmi $8$ coureurs', 'Former un comité de $4$ membres parmi $15$', 'Tirer $5$ boules dans une urne'],
-          answer: 1,
+          options: [
+            'Un podium attribue des <strong>rangs</strong> : deux mêmes coureurs dans un autre ordre font deux podiums différents. Il faut donc un arrangement, $A_8^3 = 336$, soit $3! = 6$ fois plus',
+            'Il aurait dû écrire $\\binom{8}{5}$, car il reste $5$ coureurs sans médaille',
+            'Son erreur est de calcul : $\\binom{8}{3}$ vaut $336$ et non $56$',
+            'Il fallait ajouter les trois rangs au résultat : $56 + 3 = 59$'
+          ],
+          answer: 0,
           points: 2,
-          correction: 'Le podium attribue des rangs (1er, 2e, 3e) : l\'ordre compte, c\'est un arrangement. Les autres choix (fruits, comité, boules) ne tiennent pas compte de l\'ordre : ce sont des combinaisons.'
+          correction: 'Son calcul est juste : $\\binom{8}{3} = \\dfrac{8 \\times 7 \\times 6}{3!} = 56$.<br/><br/>Ce qui est faux, c\'est le <strong>choix de l\'outil</strong>. Une combinaison compte des groupes, sans distinguer l\'ordre : elle répondrait à « quels $3$ coureurs montent sur le podium ? ».<br/><br/>Mais un podium <strong>attribue des rangs</strong>. Si Alice est première et Bob deuxième, ce n\'est pas le même podium que l\'inverse — alors que c\'est le même groupe de trois personnes.<br/><br/>Chaque groupe de $3$ peut être ordonné de $3! = 6$ façons, donc il y a $6$ fois plus de podiums que de groupes : $A_8^3 = 8 \\times 7 \\times 6 = 336$, et l\'on vérifie que $56 \\times 6 = 336$.<br/><br/>La question à se poser avant tout calcul est toujours la même : <strong>est-ce que changer l\'ordre change le résultat ?</strong>'
         }
       ]
     }

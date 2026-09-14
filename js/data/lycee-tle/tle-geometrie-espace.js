@@ -482,15 +482,18 @@ window.MODULES.push({
            l'élève les recopie, puis ne cherche plus que d. */
         if (tache === 'equationPlan') {
           const ctx = pick([
-            { quoi: 'le plan d\'une plaque à souder' },
-            { quoi: 'le plan d\'un pan de toiture' },
-            { quoi: 'le plan du sol d\'une scène 3D' }
+            { quoi: 'd\'une plaque à souder' },
+            { quoi: 'd\'un pan de toiture' },
+            { quoi: 'du sol d\'une scène 3D' }
           ]);
           const n = [rand(1, 4), rand(-4, 4), rand(1, 4)];
           const p = [rand(-3, 3), rand(-3, 3), rand(-3, 3)];
           const d = -(n[0] * p[0] + n[1] * p[1] + n[2] * p[2]);
           return {
-            statement: `On cherche une équation de ${ctx.quoi}, qui passe par le point $A(${p[0]};${p[1]};${p[2]})$ et admet $\\vec{n}(${n[0]};${n[1]};${n[2]})$ pour vecteur normal.<br/><br/>L'équation s'écrit $${n[0]}x ${n[1] >= 0 ? '+ ' + n[1] : n[1]}y + ${n[2]}z + d = 0$. Déterminer $d$.`,
+            // 2026-09-14 : « une équation de le plan... » sortait de la
+            // concatenation directe. Le decor porte desormais un COMPLEMENT
+            // (« d'une plaque a souder »), et l'article est dans la phrase.
+            statement: `On cherche une équation du plan ${ctx.quoi}, qui passe par le point $A(${p[0]};${p[1]};${p[2]})$ et admet $\\vec{n}(${n[0]};${n[1]};${n[2]})$ pour vecteur normal.<br/><br/>L'équation s'écrit $${n[0]}x ${n[1] >= 0 ? '+ ' + n[1] : n[1]}y + ${n[2]}z + d = 0$. Déterminer $d$.`,
             answer: d, tolerance: 0, unit: '',
             hint: `Les coefficients de $x$, $y$ et $z$ sont DÉJÀ les coordonnées du vecteur normal : il n'y a rien à chercher de ce côté. Écris que le point $A$ vérifie l'équation, et isole $d$.`,
             solution: [

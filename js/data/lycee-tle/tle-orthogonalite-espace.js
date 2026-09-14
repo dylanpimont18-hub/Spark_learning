@@ -256,7 +256,10 @@ window.MODULES.push({
           const s = a * a + b * b + c * c;
           const res = parseFloat((num / Math.sqrt(s)).toFixed(2));
           return {
-            statement: `${ctx.quoi} se trouve au point $M(${x0};${y0};${z0})$, et ${ctx.ou} est modélisé par le plan $\\mathcal{P}$ d'équation $${a}x + ${b}y + ${c}z ${d} = 0$.<br/><br/>Calculer la distance de $M$ au plan $\\mathcal{P}$. Arrondir à $0{,}01$.`,
+            // 2026-09-14 : « $...z -4 = 0$ » laissait une espace parasite avant
+            // le signe, et « est modélisé » ne s'accordait pas avec les décors
+            // féminins. On compose le terme constant et on neutralise l'accord.
+            statement: `${ctx.quoi} se trouve au point $M(${x0};${y0};${z0})$, et l'on modélise ${ctx.ou} par le plan $\\mathcal{P}$ d'équation $${a}x + ${b}y + ${c}z - ${Math.abs(d)} = 0$.<br/><br/>Calculer la distance de $M$ au plan $\\mathcal{P}$. Arrondir à $0{,}01$.`,
             answer: res, tolerance: 0.05, unit: 'unités',
             hint: `$d = \\dfrac{|a x_0 + b y_0 + c z_0 + d|}{\\sqrt{a^2 + b^2 + c^2}}$. Le numérateur est en valeur absolue : une distance ne peut pas être négative, même si le point est du « mauvais » côté du plan.`,
             solution: [
@@ -311,14 +314,17 @@ window.MODULES.push({
            confond systématiquement les deux, et cette tâche les oppose. */
         if (tache === 'perpendiculaire') {
           const ctx = pick([
-            { quoi: 'un mât', ou: 'la dalle' },
+            // 2026-09-14 : « On veut que un mat... soit perpendiculaire a le
+            // plancher » sortait de la concatenation. Les decors portent
+            // desormais l'article correct, et la phrase ne le rajoute plus.
+            { quoi: 'le mât d\'une antenne', ou: 'la dalle' },
             { quoi: 'un forage', ou: 'la couche géologique' },
-            { quoi: 'un pilier', ou: 'le plancher' }
+            { quoi: 'le pilier d\'un pont', ou: 'le plancher' }
           ]);
           const n = [rand(1, 4), rand(1, 4), rand(1, 4)];
           const k = rand(2, 4);
           return {
-            statement: `On veut que ${ctx.quoi}, de vecteur directeur $\\vec{u}(${k * n[0]};${k * n[1]};${k * n[2]})$, soit perpendiculaire à ${ctx.ou}, plan de vecteur normal $\\vec{n}(${n[0]};${n[1]};${n[2]})$.<br/><br/>C'est le cas si $\\vec{u}$ et $\\vec{n}$ sont colinéaires. Déterminer le réel $k$ tel que $\\vec{u} = k\\,\\vec{n}$.`,
+            statement: `On veut que ${ctx.quoi}, de vecteur directeur $\\vec{u}(${k * n[0]};${k * n[1]};${k * n[2]})$, soit perpendiculaire à ${ctx.ou}, plan de vecteur normal $\\vec{n}(${n[0]};${n[1]};${n[2]})$.<br/><br/>C'est le cas lorsque $\\vec{u}$ et $\\vec{n}$ sont colinéaires. Déterminer le réel $k$ tel que $\\vec{u} = k\\,\\vec{n}$.`,
             answer: k, tolerance: 0, unit: '',
             hint: `Attention au piège : une droite perpendiculaire à un plan a son vecteur directeur COLINÉAIRE à la normale, et non orthogonal à elle. Le critère du produit scalaire nul sert pour deux vecteurs, pas ici.`,
             solution: [
@@ -344,7 +350,9 @@ window.MODULES.push({
           const n1 = [p, q, 0], n2 = [q * r, -p * r, s];
           const ps = n1[0] * n2[0] + n1[1] * n2[1] + n1[2] * n2[2];
           return {
-            statement: `On se demande si ${ctx.quoi} sont perpendiculaires. Leurs plans ont pour équations $${n1[0]}x + ${n1[1]}y = 0$ et $${n2[0]}x ${n2[1]} y + ${n2[2]}z = 0$.<br/><br/>Calculer le produit scalaire des deux vecteurs normaux. (S'il est nul, les plans sont perpendiculaires.)`,
+            // 2026-09-14 : « $1x -3 y$ » s'imprimait avec une espace parasite
+            // avant le y et un coefficient 1 explicite. On compose le terme.
+            statement: `On se demande si ${ctx.quoi} sont perpendiculaires. Leurs plans ont pour équations $${n1[0]}x + ${n1[1]}y = 0$ et $${n2[0]}x ${n2[1] >= 0 ? '+ ' + n2[1] : '- ' + Math.abs(n2[1])}y + ${n2[2]}z = 0$.<br/><br/>Calculer le produit scalaire des deux vecteurs normaux. (S'il est nul, les plans sont perpendiculaires.)`,
             answer: ps, tolerance: 0, unit: '',
             hint: `Les coefficients de $x$, $y$ et $z$ dans l'équation d'un plan SONT les coordonnées de son vecteur normal : ici $\\vec{n_1}(${n1[0]};${n1[1]};0)$ et $\\vec{n_2}(${n2[0]};${n2[1]};${n2[2]})$. Il n'y a rien d'autre à chercher.`,
             solution: [
@@ -369,7 +377,9 @@ window.MODULES.push({
           const s = a * a + b * b + c * c;
           const res = parseFloat(Math.sqrt(s).toFixed(2));
           return {
-            statement: `${ctx.quoi} a pour équation $${a}x + ${b}y + ${c}z - 7 = 0$.<br/><br/>Calculer la norme $\\|\\vec{n}\\|$ de son vecteur normal — c'est le dénominateur de la formule de distance. Arrondir à $0{,}01$.`,
+            // 2026-09-14 : le decor ouvrait la phrase en minuscule (« un plan
+            // de coupe a pour equation »). On le place apres un sujet fixe.
+            statement: `Dans une maquette, ${ctx.quoi} a pour équation $${a}x + ${b}y + ${c}z - 7 = 0$.<br/><br/>Calculer la norme $\\|\\vec{n}\\|$ de son vecteur normal — c'est le dénominateur de la formule de distance. Arrondir à $0{,}01$.`,
             answer: res, tolerance: 0.05, unit: '',
             hint: `Le vecteur normal se lit dans l'équation : $\\vec{n}(${a};${b};${c})$. Sa norme est $\\sqrt{a^2 + b^2 + c^2}$ — la somme des CARRÉS, puis la racine. Ce n'est pas $a + b + c$.`,
             solution: [
