@@ -543,38 +543,78 @@ window.MODULES.push({
           correction: '$42 = 50 - 2 \\times 4 = \\mu - 2\\sigma$ et $58 = 50 + 2 \\times 4 = \\mu + 2\\sigma$. Donc $P(42 \\leq X \\leq 58) = P(\\mu - 2\\sigma \\leq X \\leq \\mu + 2\\sigma) \\approx 0{,}954$.'
         },
         {
-          statement: 'Pour $X \\sim \\mathcal{N}(100;15^2)$, que vaut $P(X \\leq 100)$ ?',
-          type: 'multiple-choice',
-          options: ['$0{,}5$', '$0{,}683$', '$1$', '$0{,}954$'],
-          answer: 0,
-          points: 2,
-          correction: 'La loi normale est symétrique autour de $\\mu$. Donc $P(X \\leq \\mu) = P(X \\leq 100) = 0{,}5$.'
-        },
-        {
-          statement: 'La variable $X$ suit la loi uniforme sur $[2;10]$. Calculer $E(X)$.',
+          /* Q2 CONSERVÉE dans son intention (calcul), mais REFORMULÉE le
+             2026-09-14 pour ne plus se cocher à la reconnaissance : la
+             réponse $0{,}5$ était devinable sans rien comprendre, puisque
+             c'était la seule « jolie » valeur de la liste. Elle demande
+             maintenant une queue unilatérale, où il faut effectivement
+             diviser par deux. C'est « calculer ». */
+          statement: 'Pour $X \\sim \\mathcal{N}(100\\,;\\,15^2)$, calculer $P(X > 130)$. Arrondir à $0{,}0001$.',
           type: 'numeric',
-          answer: 6,
-          tolerance: 0,
+          answer: 0.023,
+          tolerance: 0.001,
           unit: '',
           points: 2,
-          correction: '$E(X) = \\dfrac{a+b}{2} = \\dfrac{2+10}{2} = 6$.'
+          correction: 'On situe d\'abord la borne : $130 = 100 + 2 \\times 15 = \\mu + 2\\sigma$.<br/><br/>L\'intervalle centré $[\\mu - 2\\sigma\\,;\\,\\mu + 2\\sigma] = [70\\,;\\,130]$ contient $0{,}954$ de la population.<br/><br/>Il reste donc $1 - 0{,}954 = 0{,}046$ en dehors — mais cette part se trouve des <strong>deux</strong> côtés de la cloche, à gauche de $70$ et à droite de $130$.<br/><br/>Par symétrie, chaque queue en contient la moitié :<br/><br/>$P(X > 130) = \\dfrac{0{,}046}{2} = 0{,}023$.<br/><br/>L\'erreur à éviter est d\'annoncer $0{,}046$ : ce nombre est la probabilité d\'être <strong>loin</strong> de la moyenne, des deux côtés confondus, et non celle de dépasser $130$.'
         },
         {
-          statement: 'Pour $X \\sim \\mathcal{N}(80;5^2)$, quelle est la probabilité approchée $P(X > 90)$ ?',
+          /* Q3 RÉÉCRITE le 2026-09-14. L'ancienne demandait $E(X)$ pour une
+             loi uniforme : un troisième calcul, dans une évaluation qui en
+             comptait déjà cinq. Aucune des cinq questions ne demandait de
+             LIRE une courbe de densité, alors que c'est l'objet même du
+             chapitre.
+
+             La nouvelle question ne se calcule pas : elle demande de dire ce
+             qu'on lit sur une densité, et notamment de ne PAS confondre la
+             hauteur avec une probabilité. C'est « représenter ». */
+          statement: 'On trace la densité d\'une loi uniforme sur $[0\\,;\\,0{,}5]$. C\'est un rectangle, et sa <strong>hauteur</strong> vaut $2$. Un élève s\'inquiète : « une probabilité ne peut pas valoir $2$, il y a une erreur dans la figure ». Que faut-il lui répondre ?',
           type: 'multiple-choice',
-          options: ['$\\approx 0{,}023$ (environ $2{,}3\\%$)', '$\\approx 0{,}046$ (environ $4{,}6\\%$)', '$\\approx 0{,}159$ (environ $16\\%$)', '$\\approx 0{,}5$ (environ $50\\%$)'],
+          options: [
+            'La figure est juste : cette hauteur est une <strong>densité</strong>, pas une probabilité. Ce qui doit valoir $1$, c\'est l\'<strong>aire</strong>, et ici $0{,}5 \\times 2 = 1$',
+            'Il a raison : la hauteur devrait valoir $0{,}5$',
+            'Il a raison : une densité ne peut jamais dépasser $1$',
+            'La figure est juste, mais seulement parce que l\'intervalle commence à $0$'
+          ],
           answer: 0,
           points: 2,
-          correction: '$90 = 80 + 2 \\times 5 = \\mu + 2\\sigma$. Donc $P(X > 90) = P(X > \\mu + 2\\sigma) = \\dfrac{1 - 0{,}954}{2} \\approx 0{,}023$. Par symétrie, la probabilité au-delà de $\\mu + 2\\sigma$ est la moitié de la queue bilatérale.'
+          correction: 'L\'inquiétude de l\'élève est légitime, et c\'est exactement le malentendu central du chapitre : il lit la <strong>hauteur</strong> de la courbe comme une probabilité.<br/><br/>Or une densité n\'est pas une probabilité. Elle n\'est même pas un nombre sans dimension : c\'est une probabilité <strong>par unité de longueur</strong>. Rien ne lui interdit donc de dépasser $1$.<br/><br/>Ce qui est contraint, c\'est l\'<strong>aire totale</strong>, qui doit valoir exactement $1$ — puisqu\'elle représente la certitude que la variable prend une valeur quelconque.<br/><br/>Vérifions : le rectangle a pour largeur $0{,}5 - 0 = 0{,}5$ et pour hauteur $2$. Son aire vaut $0{,}5 \\times 2 = 1$. La figure est donc parfaitement correcte.<br/><br/>Le raisonnement général : plus l\'intervalle est étroit, plus la densité doit être haute pour que l\'aire reste égale à $1$. Sur $[0\\,;\\,0{,}01]$, elle vaudrait $100$.<br/><br/>Règle à retenir : sur une densité, on ne lit jamais une probabilité en hauteur, <strong>toujours en aire</strong>.'
         },
         {
-          statement: 'La variable $X$ suit la loi uniforme sur $[0;6]$. Calculer $P(1 \\leq X \\leq 4)$.',
+          /* Q4 RÉÉCRITE le 2026-09-14. L'ancienne demandait $P(X > 90)$ pour
+             une loi normale : exactement la même tâche que la Q2 telle
+             qu'elle est maintenant rédigée, ce qui aurait fait doublon.
+
+             La nouvelle part d'une situation industrielle et demande de la
+             TRADUIRE : identifier les paramètres dans un texte qui ne les
+             nomme pas, choisir l'événement à calculer, puis interpréter le
+             résultat en nombre de pièces. C'est « modéliser ». */
+          statement: 'Une machine remplit des sachets. Les masses obtenues se répartissent autour de $250$ g, et l\'atelier constate que $95{,}4\\%$ des sachets pèsent entre $244$ g et $256$ g. Le service qualité rejette tout sachet de moins de $247$ g. Sur un lot de $10\\,000$ sachets, combien seront rejetés, environ ?',
           type: 'numeric',
-          answer: 0.5,
-          tolerance: 0.01,
-          unit: '',
+          answer: 1585,
+          tolerance: 120,
+          unit: 'sachets',
           points: 2,
-          correction: 'Pour la loi uniforme sur $[a;b]$ : $P(c \\leq X \\leq d) = \\dfrac{d-c}{b-a}$. Donc $P(1 \\leq X \\leq 4) = \\dfrac{4-1}{6-0} = \\dfrac{3}{6} = 0{,}5$.'
+          correction: 'Rien n\'est donné directement : il faut d\'abord <strong>identifier les paramètres</strong>.<br/><br/>La moyenne est annoncée : $\\mu = 250$ g.<br/><br/>Pour l\'écart-type, on reconnaît la règle des $2\\sigma$ : $95{,}4\\%$ correspond à l\'intervalle $[\\mu - 2\\sigma\\,;\\,\\mu + 2\\sigma]$. Or cet intervalle est $[244\\,;\\,256]$, donc $\\mu - 2\\sigma = 244$, ce qui donne $2\\sigma = 6$ et $\\sigma = 3$ g.<br/><br/>Le seuil de rejet vaut $247 = 250 - 3 = \\mu - \\sigma$.<br/><br/>On cherche donc $P(X < \\mu - \\sigma)$. L\'intervalle $[\\mu - \\sigma\\,;\\,\\mu + \\sigma]$ contient $0{,}683$, il reste $1 - 0{,}683 = 0{,}317$ réparti des deux côtés, donc une seule queue en contient la moitié :<br/><br/>$P(X < 247) = \\dfrac{0{,}317}{2} \\approx 0{,}1585$.<br/><br/>Sur $10\\,000$ sachets : $10\\,000 \\times 0{,}1585 \\approx 1585$ sachets rejetés.<br/><br/>L\'interprétation compte autant que le calcul : près d\'un sachet sur six part au rebut. Un réglage aussi serré coûte cher, et l\'atelier a intérêt soit à viser une masse moyenne plus haute, soit à réduire $\\sigma$ — c\'est-à-dire à régler la machine plus finement.'
+        },
+        {
+          /* Q5 RÉÉCRITE le 2026-09-14. L'ancienne demandait
+             $P(1 \leq X \leq 4)$ pour une uniforme : un quatrième calcul.
+
+             La nouvelle ne produit aucun nombre : elle demande de trancher
+             entre deux affirmations qui se ressemblent — « probabilité
+             nulle » et « impossible » — c'est-à-dire de passer d'une
+             propriété à sa portée. C'est « raisonner ». */
+          statement: 'Un train passe à un horaire aléatoire uniformément réparti entre $8$ h et $9$ h. On a montré en cours que la probabilité qu\'il passe exactement à $8$ h $30$ min $00$ s vaut $0$. Pourtant, le train passe bien à un instant précis. Que faut-il en conclure ?',
+          type: 'multiple-choice',
+          options: [
+            'En probabilités continues, un événement de probabilité nulle n\'est <strong>pas</strong> forcément impossible. Chaque instant a une probabilité nulle, et l\'un d\'eux se réalise pourtant',
+            'Il y a une contradiction : la probabilité n\'est donc pas réellement nulle, seulement très petite',
+            'Le train ne passe pas vraiment à un instant précis, mais pendant un intervalle de temps',
+            'Le modèle uniforme est mal choisi pour cette situation'
+          ],
+          answer: 0,
+          points: 2,
+          correction: 'Il n\'y a aucune contradiction, mais il faut accepter de séparer deux idées que le langage courant confond.<br/><br/>En probabilités <strong>discrètes</strong>, « probabilité nulle » et « impossible » coïncident : si un dé ne peut pas faire $7$, c\'est que $7$ n\'est pas une face.<br/><br/>En probabilités <strong>continues</strong>, ce lien se rompt. La probabilité étant une <strong>aire</strong>, un instant isolé a une largeur nulle, donc une aire nulle, donc une probabilité nulle — et cela vaut pour <strong>tous</strong> les instants, sans exception.<br/><br/>Si « probabilité nulle » voulait dire « impossible », aucun instant ne serait possible, et le train ne passerait jamais. C\'est bien la preuve que l\'implication est fausse.<br/><br/>Ce qu\'on peut dire, en revanche, c\'est que la probabilité d\'un <strong>intervalle</strong> est calculable : entre $8$ h $29$ et $8$ h $31$, elle vaut $\\dfrac{2}{60} \\approx 0{,}033$.<br/><br/>Conséquence pratique à retenir : puisque les points isolés ne pèsent rien, inégalités strictes et larges donnent le même résultat, et $P(X \\leq a) = P(X < a)$ pour toute loi continue.'
         }
       ]
     }

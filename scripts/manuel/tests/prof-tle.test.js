@@ -141,11 +141,17 @@ test('chaque fiche porte ses attendus officiels', () => {
    inerte » ci-dessous interdit que cela se reproduise. */
 const ATTENDUS = {
   'tle-primitives-integrales': {
-    'Dériver au lieu de primitiver': ['sqrt', 'primitive'],
-    "Confondre l'intégrale et l'aire": ['aire géométrique', 'change de signe'],
-    'Oublier la constante, ou la croire décorative': ['condition initiale', 'primitives de'],
-    "Croire que l'intégrale et la valeur moyenne sont le même nombre": ['valeur moyenne', 'intervalle'],
-    "Appliquer la règle des puissances à l'exponentielle": ['exponentielle', 'propre primitive', 'e^{-t}']
+    /* Mots-cles RESSERRES le 2026-09-14. La premiere version acceptait
+       « primitive » pour l'erreur « deriver au lieu de primitiver » — mot
+       present dans le corrige de PRESQUE TOUS les exercices du chapitre, donc
+       une garde inerte en pratique. On exige desormais le signe distinctif de
+       l'exercice vise : la racine carree, dont l'exposant fractionnaire est
+       ce qui revele l'erreur. */
+    'Dériver au lieu de primitiver': ['sqrt'],
+    "Confondre l'intégrale et l'aire": ['aire géométrique'],
+    'Oublier la constante, ou la croire décorative': ['condition initiale'],
+    "Croire que l'intégrale et la valeur moyenne sont le même nombre": ['valeur moyenne'],
+    "Appliquer la règle des puissances à l'exponentielle": ['e^{-t}']
   },
   'tle-geometrie-espace': {
     'Confondre colinéarité et orthogonalité': ['colinéaire', 'colinéarité'],

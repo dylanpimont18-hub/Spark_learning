@@ -123,12 +123,18 @@ window.SPARK_PROF["tle-primitives-integrales"] = {
               "s'appuyer sur un ordre de grandeur : une primitive de $x^4$ doit croître plus vite " +
               "que $x^4$, jamais moins vite.",
       /* Vérifié contre le tirage réel de la graine du livre (2026-09-14) :
-         l'exercice 3 demande $\int_0^4 4\sqrt{x}\,dx$. L'exposant y vaut
+         l'exercice 4 demande $\int_0^{25} 2\sqrt{x}\,dx$. L'exposant y vaut
          $\frac{1}{2}$, donc l'élève qui dérive au lieu de primitiver tombe sur
          un exposant NÉGATIF ($-\frac{1}{2}$) — un résultat qui ne ressemble à
          rien de ce qu'il attend, alors qu'avec un exposant entier il aurait
-         obtenu une expression plausible et ne se serait aperçu de rien. */
-      exercice: { type: "exercice", n: 3 }
+         obtenu une expression plausible et ne se serait aperçu de rien.
+
+         RENUMÉROTÉ le 2026-09-14 (c'était l'exercice 3) : l'ajout de la tâche
+         « aire figurée » a décalé le tirage. C'est exactement le piège que
+         scripts/manuel/tests/prof-tle.test.js existe pour attraper, et il l'a
+         attrapé — le renvoi pointait vers un exercice qui existait toujours,
+         donc la validation l'acceptait, mais qui parlait d'autre chose. */
+      exercice: { type: "exercice", n: 4 }
     },
     {
       titre: "Confondre l'intégrale et l'aire",
@@ -152,14 +158,18 @@ window.SPARK_PROF["tle-primitives-integrales"] = {
               "chercher d'abord où la fonction s'annule et découper l'intervalle en ces " +
               "points</strong>. C'est un réflexe de lecture d'énoncé, pas une formule " +
               "supplémentaire.",
-      /* Vérifié contre le tirage réel (2026-09-14) : l'exercice 5 demande
-         explicitement l'AIRE GÉOMÉTRIQUE de $f(x) = x - 2$ sur $[0;5]$, une
+      /* Vérifié contre le tirage réel (2026-09-14) : l'exercice 8 demande
+         explicitement l'AIRE GÉOMÉTRIQUE de $f(x) = x - 4$ sur $[0;7]$, une
          fonction qui change de signe à l'intérieur de l'intervalle. L'élève
-         qui intègre sans découper obtient 2,5 au lieu de 6,5 : l'écart est
-         grand, et l'indication nomme le piège sans donner la réponse. Cette
-         tâche n'existait pas avant ce jour — la banque du chapitre ne
-         contenait qu'une seule tâche, l'intégrale d'un monôme. */
-      exercice: { type: "exercice", n: 5 }
+         qui intègre sans découper obtient $-3{,}5$ au lieu de $12{,}5$ :
+         non seulement l'écart est grand, mais le résultat est NÉGATIF, ce
+         qui est impossible pour une aire. L'erreur se dénonce donc elle-même,
+         et l'indication nomme le piège sans donner la réponse. Cette tâche n'existait pas avant ce jour — la banque du
+         chapitre ne contenait qu'une seule tâche, l'intégrale d'un monôme.
+
+         RENUMÉROTÉ le 2026-09-14 (c'était l'exercice 5), tirage décalé par
+         l'ajout de la tâche « aire figurée ». */
+      exercice: { type: "exercice", n: 8 }
     },
     {
       titre: "Oublier la constante, ou la croire décorative",
@@ -181,13 +191,16 @@ window.SPARK_PROF["tle-primitives-integrales"] = {
               "Impossible de répondre — jusqu'à ce qu'on donne sa position de départ.<br/><br/>" +
               "La condition initiale cesse d'être une contrainte d'exercice pour devenir ce " +
               "qu'elle est : la donnée qui <strong>choisit</strong> une courbe parmi une infinité.",
-      /* Vérifié contre le tirage réel (2026-09-14) : l'exercice 4 donne une
-         position de départ (19 m) puis une vitesse, et demande la position à
-         un instant donné. L'élève qui néglige la constante obtient un nombre
-         trop petit de très exactement la position initiale — écart que
-         l'énoncé lui permet de repérer seul, puisque le mobile ne peut pas
-         avoir reculé. */
-      exercice: { type: "exercice", n: 4 }
+      /* Vérifié contre le tirage réel (2026-09-14) : l'exercice 5 donne un
+         volume de départ ($16$ L) puis un débit de remplissage, et demande le
+         volume à un instant donné. L'élève qui néglige la constante obtient
+         un nombre trop petit de très exactement le volume initial — écart que
+         l'énoncé lui permet de repérer seul, puisque une cuve qu'on remplit
+         ne peut pas contenir moins qu'au départ.
+
+         RENUMÉROTÉ le 2026-09-14 (c'était l'exercice 4), tirage décalé par
+         l'ajout de la tâche « aire figurée ». */
+      exercice: { type: "exercice", n: 5 }
     },
     {
       titre: "Croire que l'intégrale et la valeur moyenne sont le même nombre",
@@ -210,12 +223,15 @@ window.SPARK_PROF["tle-primitives-integrales"] = {
               "devient une hauteur, c'est-à-dire un objet qu'on peut voir. La division par la " +
               "longueur de l'intervalle n'est alors plus une étape à retenir : c'est le calcul de " +
               "la hauteur d'un rectangle dont on connaît l'aire et la base.",
-      /* Vérifié contre le tirage réel (2026-09-14) : l'exercice 7 demande la
-         valeur moyenne de $T(t) = 2t^2$ sur $[0;2]$, et son corrigé sépare
+      /* Vérifié contre le tirage réel (2026-09-14) : l'exercice 6 demande la
+         valeur moyenne de $T(t) = 2t^2$ sur $[0;3]$, et son corrigé sépare
          explicitement les trois étapes — intégrale, longueur de l'intervalle,
          quotient. Tâche également créée ce jour : elle n'existait pas dans la
-         banque d'origine. */
-      exercice: { type: "exercice", n: 7 }
+         banque d'origine.
+
+         RENUMÉROTÉ le 2026-09-14 (c'était l'exercice 7), tirage décalé par
+         l'ajout de la tâche « aire figurée ». */
+      exercice: { type: "exercice", n: 6 }
     },
     {
       titre: "Appliquer la règle des puissances à l'exponentielle",
@@ -236,13 +252,16 @@ window.SPARK_PROF["tle-primitives-integrales"] = {
               "aucune règle à appliquer, seulement un fait à reconnaître.<br/><br/>" +
               "Et là encore, la vérification par dérivation tranche sans discussion : " +
               "$(xe^x)' = e^x + xe^x \\neq e^x$.",
-      /* Vérifié contre le tirage réel (2026-09-14) : l'exercice 6 intègre
-         $2e^{-t}$ entre 0 et 1. Le signe moins de l'exposant y ajoute la
+      /* Vérifié contre le tirage réel (2026-09-14) : l'exercice 1 intègre
+         $4e^{-t}$ entre $0$ et $1$. Le signe moins de l'exposant y ajoute la
          difficulté qui révèle l'erreur : l'élève qui applique la règle des
          puissances obtient un dénominateur nul dès que l'exposant vaut $-1$,
          ce qui rend l'impasse visible. La tâche exponentielle a été ajoutée à
-         la banque ce jour. */
-      exercice: { type: "exercice", n: 6 }
+         la banque ce jour.
+
+         RENUMÉROTÉ le 2026-09-14 (c'était l'exercice 6), tirage décalé par
+         l'ajout de la tâche « aire figurée ». */
+      exercice: { type: "exercice", n: 1 }
     }
   ],
 
