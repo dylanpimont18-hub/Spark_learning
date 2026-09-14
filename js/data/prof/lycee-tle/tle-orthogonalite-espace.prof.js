@@ -38,15 +38,30 @@ window.SPARK_PROF["tle-orthogonalite-espace"] = {
      rien ici ne demande de limite, de dérivée ni d'intégrale. */
   prerequis: [11],
 
-  /* Rang conseillé (2026-09-14) : rang 4, immédiatement après la géométrie
-     dans l'espace (rang 3).
+  /* Rang conseillé (2026-09-14) : rang 12, immédiatement après la géométrie
+     dans l'espace (rang 11).
 
-     Les deux chapitres se traitent d'affilée, et c'est le point important :
-     les séparer par plusieurs semaines d'analyse obligerait à réinstaller
-     entièrement les coordonnées de l'espace au moment de reprendre. Le
-     LIVRE les range d'ailleurs côte à côte (chapitres 11 et 12), et sur ce
-     point l'ordre du livre et celui de la progression coïncident. */
-  rangConseille: 4,
+     CE QUI COMPTE ICI N'EST PAS LE NUMÉRO, C'EST L'ADJACENCE. Les deux
+     chapitres d'espace se traitent d'affilée : les séparer par plusieurs
+     semaines d'analyse obligerait à réinstaller entièrement les coordonnées
+     de l'espace au moment de reprendre le second.
+
+     Une première version de cette fiche proposait le rang 4, en plaçant le
+     bloc « espace » tôt dans l'année au motif qu'il est indépendant de toute
+     l'analyse. C'était défendable, mais cela entrait en collision avec le
+     rang 4 des limites, dont la progression d'analyse a besoin très tôt —
+     et un rang en double invalide TOUT l'ordre conseillé du niveau, qui est
+     du tout ou rien. Le bloc « espace » a donc été déplacé en fin d'année
+     plutôt que d'ouvrir un trou dans la chaîne d'analyse.
+
+     Le résultat reste cohérent : l'année se déroule en analyse (rangs 2 à
+     10), puis en probabilités (rang 1 pour le dénombrement, rang 11 pour les
+     lois continues... voir la progression complète), et se termine par les
+     deux chapitres de géométrie, qui ne dépendent de rien et que l'on peut
+     donc placer là sans contrainte. Le LIVRE les range d'ailleurs aux
+     chapitres 11 et 12 : sur ce point, l'ordre du livre et celui de la
+     progression coïncident exactement. */
+  rangConseille: 12,
 
   // Attendus de fin d'année de terminale, enseignement de spécialité
   // mathématiques (programme de 2019), partie « Géométrie de l'espace ».

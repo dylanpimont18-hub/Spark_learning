@@ -41,22 +41,31 @@ window.SPARK_PROF["tle-geometrie-espace"] = {
      ne franchira pas le passage à trois dimensions. */
   prerequis: [],
 
-  /* Rang conseillé (2026-09-14) : rang 3.
+  /* Rang conseillé (2026-09-14) : rang 11, suivi immédiatement de
+     l'orthogonalité dans l'espace (rang 12) qui s'appuie entièrement sur lui.
 
-     Le LIVRE range ce chapitre en onzième position, avec la géométrie, mais
-     c'est un rangement par domaine et non un conseil d'enseignement.
+     Ce chapitre est INDÉPENDANT de toute l'analyse du niveau : rien n'y
+     demande de limite, de dérivée ni d'intégrale. Il peut donc se placer où
+     l'on veut, et c'est cette liberté qui décide de sa position — on le met
+     là où il ne gêne personne, c'est-à-dire après la chaîne d'analyse, qui
+     elle est fortement contrainte (limites, puis dérivation, puis convexité
+     et primitives, puis équations différentielles).
 
-     Trois raisons de le traiter tôt. D'abord il est INDÉPENDANT de toute
-     l'analyse du niveau : rien n'y demande de limite, de dérivée ni
-     d'intégrale, donc il peut se placer où l'on veut. Ensuite il prolonge
-     directement la première, dont il vaut mieux profiter pendant que les
-     vecteurs du plan sont encore frais. Enfin il est long et il rebute :
-     le garder pour le printemps, c'est l'aborder au moment où l'année se
-     resserre sur les révisions.
+     UN ARBITRAGE À CONNAÎTRE. Une première version proposait le rang 3, au
+     motif que ce chapitre prolonge directement la première et qu'il vaut
+     mieux en profiter pendant que les vecteurs du plan sont encore frais.
+     L'argument reste valable, et un enseignant qui préfère traiter le bloc
+     « espace » en octobre ne se trompera pas : il déplacera simplement les
+     deux chapitres ensemble, sans rien casser ailleurs.
 
-     Il précède immédiatement l'orthogonalité dans l'espace (rang 4), qui
-     s'appuie entièrement sur lui. */
-  rangConseille: 3,
+     Le seul point non négociable est l'ADJACENCE des deux chapitres
+     d'espace. Les séparer par plusieurs semaines obligerait à réinstaller
+     entièrement les coordonnées de l'espace au moment de reprendre le
+     second, ce qui coûte une séance entière.
+
+     Sur ce point, l'ordre du LIVRE (chapitres 11 et 12) et celui de la
+     progression coïncident exactement. */
+  rangConseille: 11,
 
   // Attendus de fin d'année de terminale, enseignement de spécialité
   // mathématiques (programme de 2019), partie « Géométrie de l'espace ».
