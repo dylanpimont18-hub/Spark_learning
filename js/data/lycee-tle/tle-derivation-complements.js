@@ -218,7 +218,7 @@ window.MODULES.push({
               <!-- designation du petit coin -->
               <line class="guide-line" x1="330" y1="52" x2="256" y2="100"></line>
               <text class="annotation-label" x="334" y="48" text-anchor="start">le petit coin : 1,4</text>
-              <text class="label-soft" x="334" y="68" text-anchor="start">seul morceau négligeable</text>
+              <text class="label-soft" x="434" y="68" text-anchor="end">morceau négligeable</text>
             </svg>
           `,
           notes: [

@@ -1572,11 +1572,32 @@ function figureTleAireSousCourbe(a, b, borne, options) {
   const yMax = f(borne) * 1.12;
   if (!(yMax > 0)) return '';
 
-  const e = echelleFigure(borne, yMax, FIG_MARGE + 16, FIG_MARGE + 12);
-  const ox = (FIG_L - borne * e) / 2;
-  const oz = (FIG_H + yMax * e) / 2 - 12;
-  const X = (x) => ox + x * e;
-  const Y = (y) => oz - y * e;
+  /* DEUX ECHELLES INDEPENDANTES, contrairement aux figures de geometrie de ce
+     fichier qui en partagent une seule.
+
+     Corrige le 2026-09-14, apres controle visuel du PDF. La version
+     precedente appelait echelleFigure(borne, yMax, ...), qui impose la MEME
+     echelle aux deux axes pour ne pas deformer une figure geometrique. Ici
+     c'est un GRAPHE, pas une figure : l'abscisse porte des x de 2 a 5 et
+     l'ordonnee des valeurs de f allant jusqu'a 30. L'echelle commune etait
+     donc dictee par l'ordonnee, et la courbe sortait large de 15 a 23 unites
+     de viewBox sur 260 disponibles — un trait vertical dans lequel
+     l'etiquette « aire ? » etait illisible. Le defaut ne se voyait sur aucun
+     test : toutes les proprietes mathematiques etaient exactes, seule la
+     LISIBILITE etait en cause, et c'est l'epreuve imprimee qui l'a montre.
+
+     Un graphe n'a pas a etre isometrique : deformer l'echelle des ordonnees
+     ne fait mentir aucune longueur, puisque aucune longueur n'est a mesurer
+     sur ce dessin. La seule chose qui doit rester vraie est l'AIRE annoncee,
+     et le test la mesure en revenant aux deux echelles. */
+  const largeurUtile = FIG_L - 2 * (FIG_MARGE + 16);
+  const hauteurUtile = FIG_H - 2 * FIG_MARGE;
+  const eX = largeurUtile / borne;
+  const eY = hauteurUtile / yMax;
+  const ox = (FIG_L - borne * eX) / 2;
+  const oz = (FIG_H + yMax * eY) / 2 - 12;
+  const X = (x) => ox + x * eX;
+  const Y = (y) => oz - y * eY;
 
   // Echantillonnage de la courbe : cinquante points, calcules par f.
   const pts = [];

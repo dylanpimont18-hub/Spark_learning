@@ -1745,3 +1745,52 @@ test('equations diff : les deux conditions initiales convergent vers la meme asy
       'les deux solutions se croisent, ce qui est impossible');
   }
 });
+
+/* =======================================================================
+   DEBORDEMENT DES ETIQUETTES — ajoute le 2026-09-14 apres le controle
+   visuel du PDF.
+
+   Le garde-fou « aucun element ne sort de son cadre » ne regarde que les
+   ANCRES des textes, pas leur largeur reelle. Une etiquette ancree a 5
+   unites du bord droit tient donc le test alors qu'elle deborde de cent
+   unites une fois composee — c'est exactement ce qui est arrive a
+   « normale du plan vertical », trouvee seulement sur l'epreuve imprimee.
+
+   Le convertisseur fige la boite TikZ sur le viewBox (\useasboundingbox),
+   donc LaTeX ne signale aucun Overfull : le texte s'imprime simplement
+   par-dessus ce qui l'entoure, en silence.
+
+   On estime ici la largeur composee a 5,4 unites de viewBox par caractere.
+   C'est une MAJORATION prudente pour les etiquettes du corpus, qui
+   n'emploient que des minuscules, des chiffres et des espaces.
+   ======================================================================= */
+
+const LARGEUR_CAR = 5.4;
+
+for (const id of TOUS) {
+  const DIAG = schemas(id);
+  if (!DIAG.length) continue;
+
+  test(id + ' : aucune etiquette ne deborde une fois composee', () => {
+    for (const d of DIAG) {
+      const vb = viewBox(d.svg);
+      const re = /<text\b([^>]*)>([\s\S]*?)<\/text>/g;
+      let m;
+      while ((m = re.exec(d.svg))) {
+        const attrs = m[1];
+        const texte = m[2].replace(/<[^>]*>/g, '').trim();
+        if (!texte) continue;
+        const x = parseFloat((attrs.match(/\bx="([^"]*)"/) || [])[1]);
+        if (Number.isNaN(x)) continue;
+        const ancre = (attrs.match(/text-anchor="(\w+)"/) || [])[1] || 'start';
+        const w = texte.length * LARGEUR_CAR;
+        const gauche = ancre === 'middle' ? x - w / 2 : ancre === 'end' ? x - w : x;
+        const droite = gauche + w;
+        assert.ok(gauche >= -6 && droite <= vb.w + 6,
+          id + ' / « ' + d.title + ' » : etiquette « ' + texte + ' » composee de ' +
+          gauche.toFixed(0) + ' a ' + droite.toFixed(0) +
+          ', hors du cadre [0 ; ' + vb.w + ']');
+      }
+    }
+  });
+}

@@ -305,10 +305,16 @@ test('l aire hachuree vaut l integrale de la fonction annoncee', () => {
     assert.ok(horizontal && vertical, 'un axe horizontal et un axe vertical');
     const y0 = horizontal.a[1], x0 = vertical.a[0];
 
-    // Le bord droit du polygone donne l'abscisse de la borne, donc l'echelle.
+    /* DEUX echelles a relire, et non une seule : depuis le 2026-09-14 ce
+       helper deforme volontairement l'ordonnee pour que la courbe occupe la
+       largeur disponible (voir le commentaire du helper). L'echelle des
+       abscisses se lit sur le bord droit du polygone ; celle des ordonnees
+       sur le sommet de la courbe, dont on connait l'ordonnee f(borne). */
     const xDroite = Math.max.apply(null, poly.map((p) => p[0]));
-    const e = (xDroite - x0) / borne;
-    assert.ok(e > 1, 'echelle plausible');
+    const eX = (xDroite - x0) / borne;
+    const yHaut = Math.min.apply(null, poly.map((p) => p[1]));
+    const eY = (y0 - yHaut) / (a * borne * borne + b);
+    assert.ok(eX > 1 && eY > 1, 'echelles plausibles');
 
     // Integration par trapezes sur la partie « courbe » du polygone.
     let aire = 0;
@@ -317,7 +323,7 @@ test('l aire hachuree vaut l integrale de la fonction annoncee', () => {
       if (Math.abs(X1 - X0) < 1e-9) continue;                 // bords verticaux
       aire += (X1 - X0) * ((y0 - Y0) + (y0 - Y1)) / 2;
     }
-    aire = aire / (e * e);                                    // retour aux unites du repere
+    aire = aire / (eX * eY);                                  // retour aux unites du repere
 
     const exact = a * Math.pow(borne, 3) / 3 + b * borne;
     assert.ok(Math.abs(aire - exact) / exact < 0.002,
@@ -341,11 +347,13 @@ test('la courbe dessinee est bien la parabole annoncee', () => {
     const y0 = axes.find((s) => Math.abs(s.a[1] - s.b[1]) < 1e-6).a[1];
     const x0 = axes.find((s) => Math.abs(s.a[0] - s.b[0]) < 1e-6).a[0];
     const xDroite = Math.max.apply(null, courbe.map((p) => p[0]));
-    const e = (xDroite - x0) / borne;
+    const eX = (xDroite - x0) / borne;
+    const yHaut = Math.min.apply(null, courbe.map((p) => p[1]));
+    const eY = (y0 - yHaut) / (a * borne * borne + b);
     let pire = 0;
     for (const [X, Y] of courbe) {
-      const x = (X - x0) / e;
-      const attendu = y0 - (a * x * x + b) * e;
+      const x = (X - x0) / eX;
+      const attendu = y0 - (a * x * x + b) * eY;
       pire = Math.max(pire, Math.abs(Y - attendu));
     }
     assert.ok(pire < 0.05,

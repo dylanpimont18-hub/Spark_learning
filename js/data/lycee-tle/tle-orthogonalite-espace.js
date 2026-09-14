@@ -164,7 +164,7 @@ window.MODULES.push({
           title: 'Deux plans perpendiculaires par leurs normales',
           description: 'Pour savoir si deux plans sont perpendiculaires, on ne regarde ni l\'un ni l\'autre : on regarde leurs deux vecteurs <strong>normaux</strong>, c\'est-à-dire deux directions qui ne sont dans aucun des deux plans. S\'ils sont orthogonaux, les plans le sont.',
           svg: `
-            <svg viewBox="0 0 267 168" role="img" aria-labelledby="tle-plans-title tle-plans-desc">
+            <svg viewBox="0 0 292 168" role="img" aria-labelledby="tle-plans-title tle-plans-desc">
               <title id="tle-plans-title">Deux plans perpendiculaires et leurs vecteurs normaux</title>
               <desc id="tle-plans-desc">Deux parallelogrammes representent deux plans qui se coupent le long d'une droite commune. Le premier est horizontal, le second vertical. D'un point de leur droite d'intersection partent deux fleches : l'une monte verticalement, c'est le vecteur normal du plan horizontal ; l'autre part en biais vers l'arriere, c'est le vecteur normal du plan vertical. Un petit carre entre les deux fleches code l'angle droit. Le produit scalaire de ces deux vecteurs normaux vaut zero.</desc>
 
@@ -189,10 +189,25 @@ window.MODULES.push({
               <!-- Carre codant l'angle droit entre les deux normales. -->
               <polyline class="frame-line" points="112,120 117.7,114.3 117.7,130.3" fill="none"></polyline>
 
-              <text class="annotation-label" x="104" y="72" text-anchor="end">normale du plan bas</text>
-              <text class="annotation-label" x="141" y="112" text-anchor="start">normale du plan haut</text>
-              <text class="label-soft" x="220" y="118" text-anchor="start">plan bas</text>
-              <text class="label-soft" x="40" y="46" text-anchor="start">plan haut</text>
+              <!-- ETIQUETTES REPOSITIONNEES ET RENOMMEES le 2026-09-14, apres
+                   controle visuel du PDF. Deux defauts, invisibles aux tests
+                   parce qu'ils ne portent sur aucune propriete mathematique :
+
+                   1. « normale du plan haut » chevauchait « plan bas » et
+                      traversait l'arete du parallelogramme. Les deux
+                      etiquettes sont desormais ecartees, et celle de la
+                      fuyante passe au-dessus de sa fleche plutot qu'a cote ;
+
+                   2. les noms etaient TROMPEURS : la fleche verticale est la
+                      normale du plan HORIZONTAL, pas du « plan bas ». Un
+                      eleve qui suit la fleche du doigt lisait exactement le
+                      contraire de ce que la figure demontre. Les etiquettes
+                      nomment maintenant l'orientation du plan concerne, ce
+                      qui leve toute ambiguite. -->
+              <text class="annotation-label" x="112" y="64" text-anchor="middle">normale du plan horizontal</text>
+              <text class="annotation-label" x="152" y="108" text-anchor="start">normale du plan vertical</text>
+              <text class="label-soft" x="226" y="152" text-anchor="middle">plan horizontal</text>
+              <text class="label-soft" x="66" y="46" text-anchor="middle">plan vertical</text>
             </svg>
           `,
           notes: [

@@ -215,7 +215,7 @@ window.MODULES.push({
               <polyline class="curve-main" points="60,195.6 65,200.6 70,205.5 75,210.1 80,214.6 85,218.9 90,223.1 95,227.1 100,230.9 105,234.5 110,238 115,241.3 120,244.4 125,247.4 130,250.2 135,252.8 140,255.3 145,257.6 150,259.7 155,261.6 160,263.4 165,265 170,266.5 175,267.7 180,268.8 185,269.8 190,270.5 195,271.1 200,271.5 205,271.8 210,271.9 215,271.8 220,271.5 225,271.1 230,270.5 235,269.8 240,268.8 245,267.7 250,266.5 255,265 260,263.4 265,261.6 270,259.7 275,257.6 280,255.3 285,252.8 290,250.2 295,247.4 300,244.4 305,241.3 310,238 315,234.5 320,230.9 325,227.1 330,223.1 335,218.9 340,214.6 345,210.1 350,205.5 355,200.6 360,195.6"></polyline>
               <circle class="plot-point-alt" cx="210" cy="271.9" r="5"></circle>
               <text class="annotation-label" x="366" y="205" text-anchor="start">courbe</text>
-              <text class="annotation-label" x="366" y="219" text-anchor="start">de k seconde</text>
+              <text class="annotation-label" x="414" y="219" text-anchor="end">de k seconde</text>
               <text class="tick-label" x="210" y="300" text-anchor="middle">elle touche zéro sans le traverser</text>
               <text class="tick-label" x="110" y="180" text-anchor="middle">toujours positive</text>
             </svg>

@@ -209,7 +209,7 @@ window.MODULES.push({
               <line class="graph-line" x1="32.8" y1="130" x2="32.8" y2="70"></line>
               <line class="graph-line" x1="143.2" y1="70" x2="143.2" y2="130"></line>
               <text class="annotation-label" x="88" y="28" text-anchor="middle">bande large</text>
-              <text class="tick-label" x="88" y="150" text-anchor="middle">aire : zéro virgule deux</text>
+              <text class="tick-label" x="88" y="150" text-anchor="middle">aire : 0,2</text>
 
               <!-- VIGNETTE 2 : demi-largeur 0,1, aire 0,02. -->
               <rect x="234.9" y="70" width="2.2" height="60" fill="color-mix(in srgb, var(--diagram-accent) 26%, transparent)" stroke="none"></rect>
@@ -218,7 +218,7 @@ window.MODULES.push({
               <line class="graph-line" x1="180.8" y1="130" x2="180.8" y2="70"></line>
               <line class="graph-line" x1="291.2" y1="70" x2="291.2" y2="130"></line>
               <text class="annotation-label" x="236" y="28" text-anchor="middle">dix fois plus fine</text>
-              <text class="tick-label" x="236" y="150" text-anchor="middle">aire : zéro virgule zéro deux</text>
+              <text class="tick-label" x="236" y="150" text-anchor="middle">aire : 0,02</text>
 
               <!-- VIGNETTE 3 : demi-largeur 0,01, aire 0,002. La bande y est
                    plus fine qu'un trait de crayon : c'est le message.
@@ -238,9 +238,9 @@ window.MODULES.push({
                    mesuree au-dessus. -->
               <line class="focus-line" x1="384" y1="130" x2="384" y2="140"></line>
               <text class="annotation-label" x="384" y="28" text-anchor="middle">cent fois plus fine</text>
-              <text class="tick-label" x="384" y="150" text-anchor="middle">aire : zéro virgule zéro zéro deux</text>
+              <text class="tick-label" x="384" y="150" text-anchor="middle">aire : 0,002</text>
 
-              <text class="tick-label" x="224" y="178" text-anchor="middle">en resserrant encore, il ne reste plus aucune aire</text>
+              <text class="tick-label" x="224" y="178" text-anchor="middle">en resserrant encore, il ne reste aucune aire</text>
             </svg>
           `,
           notes: [

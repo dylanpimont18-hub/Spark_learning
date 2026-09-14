@@ -242,7 +242,7 @@ window.MODULES.push({
 
               <text class="annotation-label" x="36" y="33" text-anchor="end">C = 1,5</text>
               <text class="annotation-label" x="36" y="74" text-anchor="end">C = 0</text>
-              <text class="annotation-label" x="36" y="115" text-anchor="end">C = −1,5</text>
+              <text class="annotation-label" x="8" y="115" text-anchor="start">C = −1,5</text>
               <text class="tick-label" x="286" y="244" text-anchor="middle">même pente en x = 1,6</text>
               <text class="axis-label" x="344" y="156" text-anchor="start">x</text>
             </svg>
