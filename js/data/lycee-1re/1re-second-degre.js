@@ -416,7 +416,10 @@ window.MODULES.push({
             hint: `L'abscisse du sommet se lit directement sur les coefficients : $x_S = -\\dfrac{b}{2a}$, avec $a = ${a}$ et $b = ${b}$.`,
             solution: [
               `On identifie $a = ${a}$ et $b = ${b}$, puis on applique la formule du sommet : $x_S = -\\dfrac{b}{2a}$.`,
-              `$x_S = -\\dfrac{${b}}{2 \\times ${a}} = -\\dfrac{${b}}{${2 * a}} = ${xs}$.`,
+              // Le coefficient a est parenthésé quand il est négatif : sinon le
+              // corrigé imprimait « $2 \times -2$ », deux signes à la suite
+              // (2026-09-14, contrôle de la banque).
+              `$x_S = -\\dfrac{${b}}{2 \\times ${a < 0 ? '(' + a + ')' : a}} = -\\dfrac{${b}}{${2 * a}} = ${xs}$.`,
               `Comme $a = ${a} ${a > 0 ? '> 0$, la parabole est tournée vers le haut : ce sommet est un <strong>minimum</strong>' : '< 0$, la parabole est tournée vers le bas : ce sommet est un <strong>maximum</strong>'}.`
             ]
           };

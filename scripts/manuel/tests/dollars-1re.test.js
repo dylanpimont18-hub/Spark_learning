@@ -210,3 +210,50 @@ test('1re : aucun delimiteur mathematique impair dans les fiches professeur', ()
   assert.deepStrictEqual(fautes, [],
     'un « $ » isole bloque la publication de l ouvrage entier :\n  - ' + fautes.join('\n  - '));
 });
+
+/* --- Signes doubles ----------------------------------------------------
+   « + -5 », « \times -1 », « + -2 » : deux signes a la suite, qui se lisent mal
+   et qu'un professeur repere immediatement. Le defaut vient toujours de la meme
+   cause — une valeur negative interpolee la ou le gabarit a deja pose un signe —
+   et il ne se voit que sur les tirages ou cette valeur est effectivement
+   negative, ce qui le rend intermittent.
+
+   SOIXANTE-SIX occurrences trouvees le 2026-09-14 au controle visuel de la
+   banque, sur quatre generateurs : le produit scalaire (le facteur y1 place
+   apres un « + »), la geometrie reperee (l'ordonnee a l'origine de la droite,
+   et les deux facteurs du determinant) et la derivation (l'ordonnee du point de
+   tangence). Aucun test ne lisait la SYNTAXE des formules, seulement leur
+   geometrie ; le corpus et la compilation etaient satisfaits.
+
+   Le remede est toujours le meme : parentheser la valeur quand elle est
+   negative, ou choisir le signe et ecrire la valeur absolue. */
+test('1re : aucun signe double dans les exercices generes', () => {
+  const fautes = [];
+
+  CHAPITRES.forEach((chemin, rang) => {
+    const r = chargerModule(chemin, {
+      graine: GRAINE + rang, tirages: TIRAGES, repetitionsMax: REPETITIONS_MAX
+    });
+    const id = path.basename(chemin, '.js');
+
+    r.exercices.forEach((ex, i) => {
+      for (const [quoi, texte] of fragmentsDe(ex)) {
+        const t = String(texte);
+        const trouves = [];
+        // Un « + », un « \times » ou un « \cdot », puis une espace, puis « -N ».
+        const re = /(\+|\\times|\\cdot)\s+-\d/g;
+        let m;
+        while ((m = re.exec(t))) trouves.push(m[0]);
+        if (trouves.length) {
+          fautes.push(id + ' / tirage ' + (i + 1) + ' / ' + quoi + ' : « ' +
+            trouves.join(' », « ') + ' »\n      ' +
+            t.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').slice(0, 150));
+        }
+      }
+    });
+  });
+
+  assert.deepStrictEqual(fautes, [],
+    'deux signes a la suite se lisent mal : parentheser la valeur negative, ' +
+    'ou choisir le signe et ecrire la valeur absolue :\n  - ' + fautes.join('\n  - '));
+});

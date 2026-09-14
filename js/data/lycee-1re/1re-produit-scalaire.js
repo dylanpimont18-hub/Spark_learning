@@ -419,9 +419,13 @@ window.MODULES.push({
             answer: ps,
             tolerance: 0,
             unit: '',
-            hint: `$\\vec{u} \\cdot \\vec{v} = x_1 x_2 + y_1 y_2 = ${x1} \\times ${x2 < 0 ? '(' + x2 + ')' : x2} + ${y1} \\times ${y2 < 0 ? '(' + y2 + ')' : y2}$.`,
+            /* y1 est parenthésé lui aussi quand il est négatif : placé juste
+               après le « + », il imprimait sinon « + -5 \times 4 », deux
+               signes à la suite. x2 et y2 l'étaient déjà, y1 avait été oublié.
+               Trouvé au contrôle visuel de la banque (2026-09-14). */
+            hint: `$\\vec{u} \\cdot \\vec{v} = x_1 x_2 + y_1 y_2 = ${x1} \\times ${x2 < 0 ? '(' + x2 + ')' : x2} + ${y1 < 0 ? '(' + y1 + ')' : y1} \\times ${y2 < 0 ? '(' + y2 + ')' : y2}$.`,
             solution: [
-              `$\\vec{u} \\cdot \\vec{v} = ${x1} \\times ${x2 < 0 ? '(' + x2 + ')' : x2} + ${y1} \\times ${y2 < 0 ? '(' + y2 + ')' : y2} = ${x1*x2} + (${y1*y2}) = ${ps}$.`,
+              `$\\vec{u} \\cdot \\vec{v} = ${x1} \\times ${x2 < 0 ? '(' + x2 + ')' : x2} + ${y1 < 0 ? '(' + y1 + ')' : y1} \\times ${y2 < 0 ? '(' + y2 + ')' : y2} = ${x1*x2} + (${y1*y2}) = ${ps}$.`,
               `${ps === 0 ? 'Comme $\\vec{u} \\cdot \\vec{v} = 0$, les vecteurs sont orthogonaux.' : 'Comme $\\vec{u} \\cdot \\vec{v} \\neq 0$, les vecteurs ne sont pas orthogonaux.'}`
             ]
           };

@@ -369,7 +369,12 @@ window.MODULES.push({
             hint: `$\\vec{AB}(${xB-xA}\\,;\\,${yB-yA})$ et $\\vec{AC}(${xC-xA}\\,;\\,${yC-yA})$. Le déterminant est $ad - bc$.`,
             solution: [
               `$\\vec{AB}(${xB-xA}\\,;\\,${yB-yA})$ et $\\vec{AC}(${xC-xA}\\,;\\,${yC-yA})$.`,
-              `$\\det = ${xB-xA} \\times ${yC-yA} - ${yB-yA} \\times ${xC-xA} = ${(xB-xA)*(yC-yA)} - ${(yB-yA)*(xC-xA)} = ${det}$.`,
+              /* Les facteurs négatifs sont parenthésés : sans cela le corrigé
+                 imprimait « $\det = 1 \times -1 - 1 \times 2$ », où le signe
+                 moins se lit comme une soustraction. Sept tirages du livre
+                 étaient concernés. Trouvé au contrôle de la banque
+                 (2026-09-14) ; aucun test ne lit la syntaxe d'une formule. */
+              `$\\det = ${xB-xA} \\times ${(yC-yA) < 0 ? '(' + (yC-yA) + ')' : (yC-yA)} - ${yB-yA} \\times ${(xC-xA) < 0 ? '(' + (xC-xA) + ')' : (xC-xA)} = ${(xB-xA)*(yC-yA)} - ${(yB-yA)*(xC-xA)} = ${det}$.`,
               `${det === 0 ? 'Le déterminant est nul : les points sont alignés.' : 'Le déterminant est non nul : les points ne sont pas alignés.'}`
             ]
           };
@@ -394,7 +399,12 @@ window.MODULES.push({
             solution: [
               `$m = \\dfrac{${yB} - ${yA}}{${xB} - ${xA}} = \\dfrac{${dy}}{${dx}}${Number.isInteger(m) ? ' = ' + m : ''}$.`,
               `$p = ${yA} - ${fr(m, 2)} \\times ${xA} = ${fr(answer)}$.`,
-              `Droite : $y = ${fr(m, 2)}x + ${fr(answer)}$.`
+              /* Le signe est choisi selon celui de l'ordonnée à l'origine, et
+                 la valeur absolue écrite ensuite : sans cela, l'équation
+                 s'imprimait « $y = 1{,}00x + -2$ », deux signes à la suite.
+                 Quatre tirages du livre étaient concernés. Trouvé au contrôle
+                 de la banque (2026-09-14). */
+              `Droite : $y = ${fr(m, 2)}x ${answer < 0 ? '-' : '+'} ${fr(Math.abs(answer))}$.`
             ]
           };
         }

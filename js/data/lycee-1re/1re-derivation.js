@@ -441,7 +441,12 @@ window.MODULES.push({
             solution: [
               `L'équation de la tangente en $x_0$ est $y = f'(x_0)(x - x_0) + f(x_0)$, et ici $f'(x) = ${2 * a}x ${b >= 0 ? '+' : ''}${b}$ donne $f'(${x0}) = ${fp}$.`,
               `L'ordonnée du point de tangence vaut $f(${x0}) = ${a} \\times ${x0}^2 ${b >= 0 ? '+' : ''}${b} \\times ${x0} = ${fx0}$.`,
-              `On développe : $y = ${fp}(x - ${x0}) + ${fx0} = ${fp}x ${p >= 0 ? '+' : ''}${p}$, donc $p = ${p}$.`
+              /* Le terme $f(x_0)$ est parenthésé quand il est négatif : sans
+                 cela, le corrigé imprimait « $y = 2(x - 1) + -1$ », deux
+                 signes à la suite. Trouvé au contrôle visuel de la banque
+                 (supplément 1.13), page 21 de l'édition professeur — aucun
+                 test ne lit la syntaxe d'une formule (2026-09-14). */
+              `On développe : $y = ${fp}(x - ${x0}) + ${fx0 < 0 ? '(' + fx0 + ')' : fx0} = ${fp}x ${p >= 0 ? '+' : ''}${p}$, donc $p = ${p}$.`
             ]
           };
         }
