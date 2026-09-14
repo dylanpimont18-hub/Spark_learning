@@ -12,7 +12,22 @@ window.MODULES.push({
     keywords: ['Combinatoire', 'Arrangements', 'Permutations', 'Combinaisons', 'Coefficient binomial'],
     physics: false,
     cours: {
-      intro: 'Le dénombrement répond à <strong>"combien de façons ?"</strong><br/><br/>La clé est de savoir si <strong>l\'ordre compte</strong>. Quand l\'ordre compte (podium, code PIN) → <strong>arrangements</strong>. Quand l\'ordre ne compte pas (comité, main de cartes) → <strong>combinaisons</strong>.<br/><br/>La formule $\\binom{n}{k} = \\frac{n!}{k!(n-k)!}$ donne le nombre de façons de choisir $k$ éléments parmi $n$ sans ordre. <strong>Erreur classique</strong> : diviser ou non par $k!$ selon le contexte. $\\binom{10}{3} = 120$ (combinaison), tandis que $A_{10}^3 = 720$ (arrangement).<br/><br/><strong>Propriété clé</strong> : $\\binom{n}{k} = \\binom{n}{n-k}$ (choisir $k$ éléments revient à en exclure $n-k$).',
+      /* « DÉCOUVRIR » RÉÉCRIT le 2026-09-14. L'ancienne version ouvrait sur
+         « Le dénombrement répond à combien de façons ? », puis enchaînait
+         directement sur la distinction arrangement / combinaison et sur la
+         formule : c'est-à-dire sur la définition, que le cahier des charges
+         proscrit. Le test est « si on peut répondre à la question d'ouverture
+         sans la notion du chapitre, la question est mal choisie » — et une
+         définition ne pose aucune question.
+
+         La question retenue est le PIÈGE du chapitre, posé en situation :
+         deux situations que la langue décrit avec le même verbe (choisir
+         trois personnes) et qui n'ont pourtant pas le même nombre de
+         réponses. L'élève peut la traiter à la main sur un petit cas — trois
+         coureurs, deux places — et constater l'écart lui-même. On évite
+         ainsi le travers inverse, l'anecdote plaquée : la difficulté est
+         réelle, et c'est elle qui organisera tout le chapitre. */
+      intro: 'Voici deux questions qui se ressemblent au mot près, et qui n\'ont pas la même réponse.<br/><br/>Dans une course de $8$ coureurs, combien de <strong>podiums</strong> différents peut-on obtenir ? Et combien de <strong>groupes de $3$ coureurs</strong> peut-on former ?<br/><br/>Dans les deux cas, on choisit trois personnes parmi huit. La langue emploie le même verbe. Et pourtant il y a $336$ podiums possibles, contre seulement $56$ groupes — six fois moins.<br/><br/>Pourquoi ? Parce qu\'un podium <strong>attribue des rangs</strong>. Si Alice est première et Bob deuxième, ce n\'est pas le même podium que l\'inverse ; mais c\'est bien le même groupe de trois personnes.<br/><br/>Vérifie-le toi-même sur un cas assez petit pour être écrit en entier : trois coureurs — Alice, Bob, Chloé — et deux places. Tu trouveras six podiums, mais seulement trois duos. Le rapport est $2$, et ce n\'est pas un hasard : chaque duo peut être ordonné de deux façons.<br/><br/>Tout le chapitre découle de cette observation. Avant chaque calcul, une seule question à se poser : <strong>est-ce que changer l\'ordre change le résultat ?</strong><br/><br/>Si oui, on compte les <strong>arrangements</strong>. Si non, on compte les <strong>combinaisons</strong>, et il faut alors corriger les doublons — c\'est ce que fait la division par $k!$ dans la formule $\\binom{n}{k} = \\dfrac{n!}{k!\\,(n-k)!}$.',
       definitions: [
         { term: 'Factorielle $n!$', def: '$n! = n \\times (n-1) \\times \\cdots \\times 2 \\times 1$. Convention : $0! = 1$. Interprétation : $n!$ est le nombre de façons d\'ordonner $n$ objets distincts (permutations).' },
         { term: 'Arrangement $A_n^k$', def: 'Nombre de façons de choisir et <strong>ordonner</strong> $k$ éléments parmi $n$ : $A_n^k = \\dfrac{n!}{(n-k)!} = n(n-1)\\cdots(n-k+1)$. L\'ordre compte.' },
