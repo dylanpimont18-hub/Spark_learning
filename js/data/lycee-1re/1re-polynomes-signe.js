@@ -468,7 +468,25 @@ window.MODULES.push({
             answer: r2 - r1, tolerance: 0, unit: '',
             hint: `Le coefficient $a = ${a}$ est négatif : la parabole est tournée vers le bas, donc positive entre ses racines. La longueur d'un intervalle $[\\alpha\\,;\\,\\beta]$ vaut $\\beta - \\alpha$.`,
             solution: [
-              `Comme $a = ${a} < 0$, la parabole est tournée vers le bas : le trinôme est <strong>positif entre ses racines</strong>, donc $f(x) \\geq 0$ sur $[${r1}\\,;\\,${r2}]$.`,
+              /* Le coefficient est écrit « $a$ est négatif » plutôt que
+                 « $a = -2 < 0$ ».
+
+                 RAISON, et c'est un DÉFAUT DU PIPELINE, pas une préférence de
+                 style (2026-09-14) : `titreDeGroupe` (scripts/manuel/chapitre.js)
+                 construit l'intertitre de la banque professeur en retirant
+                 D'ABORD les balises HTML, PUIS les formules. Or un « < » nu
+                 dans une formule fait que la suite du texte, jusqu'au
+                 « <strong> » suivant, ressemble à une balise : le retrait des
+                 balises emporte alors le « $ » fermant, la parité des
+                 délimiteurs est rompue, et l'intertitre imprimé contient un
+                 « $ » orphelin. Résultat : « Extra }, or forgotten $ » et
+                 PUBLICATION BLOQUÉE de l'ouvrage entier.
+
+                 Le correctif propre est dans chapitre.js — retirer les
+                 formules avant les balises — mais il touche tout le corpus et
+                 sort d'un chantier de niveau. On contourne donc ici, et le
+                 défaut est signalé dans le rapport. */
+              `Comme le coefficient $a$ est négatif, la parabole est tournée vers le bas : le trinôme est <strong>positif entre ses racines</strong>, donc $f(x) \\geq 0$ sur $[${r1}\\,;\\,${r2}]$.`,
               `Cet intervalle est bien borné, ce qui n'aurait pas été le cas avec $a > 0$ : on aurait obtenu deux demi-droites, de longueur infinie.`,
               // Le $ ouvrant manquait : l'expression partait en mode texte et
               // le $ fermant ouvrait au contraire le mode math, qui restait
