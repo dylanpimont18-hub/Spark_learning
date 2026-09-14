@@ -12,7 +12,17 @@ window.MODULES.push({
     keywords: ['Variable aléatoire', 'Espérance', 'Loi binomiale', 'Variance'],
     physics: false,
     cours: {
-      intro: 'Une <strong>variable aléatoire</strong> est une fonction qui transforme les issues d\'une expérience aléatoire en nombres : c\'est le pont entre le hasard et les mathématiques.<br/><br/>La <strong>loi binomiale</strong> $\\mathcal{B}(n,p)$ répond à "combien de succès sur $n$ tentatives indépendantes ?" Ses deux conditions : les essais sont indépendants et chacun a la même probabilité de succès $p$.<br/><br/>L\'<strong>espérance</strong> $E(X) = np$ est le nombre moyen de succès attendu.<br/><br/>Erreur classique sur la formule $P(X=k) = \\binom{n}{k}p^k(1-p)^{n-k}$ : oublier les puissances sur $p$ et $(1-p)$. Un résultat supérieur à $1$ est impossible pour une probabilité — cela doit alerter immédiatement.',
+      /* « DÉCOUVRIR » RÉÉCRIT le 2026-09-14. L'ancienne version enchaînait
+         trois définitions et une mise en garde sur une formule, c'est-à-dire
+         qu'elle donnait les réponses avant d'avoir posé une question.
+
+         La question retenue résiste à ce que l'élève sait déjà : il sait
+         calculer la probabilité d'UNE série précise, il ne sait pas encore
+         compter combien de séries différentes donnent le même nombre de
+         succès. C'est exactement ce que le coefficient binomial apporte, et
+         l'énoncé est construit pour que ce manque se fasse sentir avant qu'on
+         y réponde. */
+      intro: 'Tu lances une pièce $10$ fois de suite. Quelle est la probabilité d\'obtenir exactement $3$ fois « pile » ?<br/><br/>Tu sais déjà répondre à une question voisine : la probabilité d\'obtenir « pile, pile, pile, face, face, face, face, face, face, face » <strong>dans cet ordre</strong> vaut $\\left(\\dfrac{1}{2}\\right)^{10}$, soit environ $0{,}001$.<br/><br/>Mais la question ne dit pas dans quel ordre. Les trois « pile » peuvent tomber n\'importe où, et chacune de ces dispositions a la même probabilité. Il faudrait donc savoir <strong>combien il y en a</strong> — et les compter une par une n\'est pas raisonnable.<br/><br/>C\'est tout le problème que ce chapitre résout. Le nombre de dispositions s\'appelle le <strong>coefficient binomial</strong>, il se note $\\binom{10}{3}$, et il vaut $120$. La réponse est donc $120 \\times \\left(\\dfrac{1}{2}\\right)^{10} \\approx 0{,}117$.<br/><br/>Une fois cet outil en main, une même formule répond à toutes les situations du même type : un nombre d\'essais fixé, des essais indépendants, et la même probabilité de réussite à chaque fois. C\'est ce qu\'on appelle une <strong>loi binomiale</strong>.',
       definitions: [
         { term: 'Variable aléatoire', def: 'Une <strong>variable aléatoire</strong> $X$ est une fonction qui associe un nombre réel à chaque issue d\'une expérience aléatoire. Exemple : le nombre de $6$ obtenus en lançant $5$ dés.' },
         { term: 'Espérance', def: 'L\'<strong>espérance</strong> $E(X)$ est la valeur moyenne attendue sur un grand nombre de répétitions. Pour $\\mathcal{B}(n,p)$ : $E(X) = np$.' },
@@ -116,32 +126,179 @@ window.MODULES.push({
     ],
     exercice: {
       type: 'numeric',
+      /* BANQUE ÉLARGIE le 2026-09-14. Mesure d'avant : 12 tirages pour UNE
+         SEULE tâche réelle — « calculer P(X = k) pour une binomiale » —
+         habillée de quatre décors (archer, vaccin, machine, basket). Le décor
+         fabriquait quatre moules là où l'élève ne rencontrait qu'un exercice.
+
+         Sept tâches distinctes désormais, couvrant ce que le chapitre demande
+         réellement :
+           t1 P(X = k), la tâche d'origine, conservée ;
+           t2 espérance, dont le calcul est trivial mais l'interprétation non ;
+           t3 variance et écart-type ;
+           t4 P(X >= 1) par l'événement contraire, le geste le plus utile ;
+           t5 loi d'une variable aléatoire quelconque, hors binomiale, qui
+              manquait entièrement alors que le chapitre s'appelle « variables
+              aléatoires ET loi binomiale » ;
+           t6 reconnaître si une situation relève ou non de la binomiale, ce
+              qui est un attendu explicite du programme ;
+           t7 P(X <= k) par somme, la lecture cumulative. */
       generate() {
-        const n = rand(5, 10), p = pick([0.2, 0.25, 0.5]);
-        const k = rand(1, 3);
-        // Calcul de C(n,k)
-        let binom = 1;
-        for (let i = 0; i < k; i++) binom = binom * (n - i) / (i + 1);
-        binom = Math.round(binom);
-        const proba = parseFloat((binom * Math.pow(p, k) * Math.pow(1 - p, n - k)).toFixed(4));
-        const esperance = n * p;
-        const variance = parseFloat((n * p * (1 - p)).toFixed(2));
-        const ctx = pick([
-          { intro: `Un archer touche la cible avec une probabilité de $${fr(p)}$ à chaque tir. Il effectue $${n}$ tirs indépendants.`, varName: 'le nombre de tirs réussis' },
-          { intro: `Un vaccin a une efficacité de $${fr(p * 100)}\\%$. On vaccine $${n}$ patients.`, varName: 'le nombre de patients protégés' },
-          { intro: `Une machine produit $${fr(p * 100)}\\%$ de pièces défectueuses. On prélève $${n}$ pièces.`, varName: 'le nombre de pièces défectueuses' },
-          { intro: `Un joueur de basket a $${fr(p * 100)}\\%$ de réussite aux lancers francs. Il tire $${n}$ lancers.`, varName: 'le nombre de lancers réussis' }
+        const tache = pick(['pk', 'esperance', 'variance', 'aumoins', 'loiSimple', 'reconnaitre', 'auplus']);
+
+        // Coefficient binomial, en entiers : la boucle flottante d'origine
+        // pouvait rendre 119,99999 pour C(10,3) sur certains n.
+        const binom = (n, k) => {
+          let r = 1;
+          for (let i = 0; i < k; i++) r = r * (n - i) / (i + 1);
+          return Math.round(r);
+        };
+
+        const DECORS = (n, p) => pick([
+          { intro: `Un archer touche la cible avec une probabilité de $${fr(p)}$ à chaque tir. Il effectue $${n}$ tirs indépendants.`, v: 'le nombre de tirs réussis' },
+          { intro: `Un vaccin a une efficacité de $${fr(p * 100)}\\%$. On vaccine $${n}$ patients.`, v: 'le nombre de patients protégés' },
+          { intro: `Une machine produit $${fr(p * 100)}\\%$ de pièces défectueuses. On prélève $${n}$ pièces au hasard.`, v: 'le nombre de pièces défectueuses' },
+          { intro: `Un joueur de basket réussit $${fr(p * 100)}\\%$ de ses lancers francs. Il tire $${n}$ lancers.`, v: 'le nombre de lancers réussis' }
         ]);
+
+        if (tache === 'pk') {
+          const n = rand(5, 10), p = pick([0.2, 0.25, 0.5]), k = rand(1, 3);
+          const c = binom(n, k);
+          const proba = parseFloat((c * Math.pow(p, k) * Math.pow(1 - p, n - k)).toFixed(4));
+          const ctx = DECORS(n, p);
+          return {
+            statement: `${ctx.intro}<br/><br/>Soit $X$ ${ctx.v}.<br/><br/>Identifier la loi de $X$, puis calculer $P(X = ${k})$.<br/><br/>Arrondir à $0{,}001$.`,
+            answer: proba, tolerance: 0.005, unit: '',
+            hint: `$X$ suit la loi $\\mathcal{B}(${n}\\,;\\,${fr(p)})$, et $P(X = ${k}) = \\binom{${n}}{${k}} \\times ${fr(p)}^{${k}} \\times ${fr(1 - p)}^{${n - k}}$.`,
+            solution: [
+              `Il s'agit de $${n}$ épreuves indépendantes de même probabilité de succès, donc $X$ suit la loi binomiale $\\mathcal{B}(${n}\\,;\\,${fr(p)})$.`,
+              `Le coefficient binomial vaut $\\binom{${n}}{${k}} = ${c}$, c'est-à-dire le nombre de façons de placer les $${k}$ succès parmi les $${n}$ essais.`,
+              `On obtient $P(X = ${k}) = ${c} \\times ${fr(p)}^{${k}} \\times ${fr(1 - p)}^{${n - k}} \\approx ${fr(proba)}$.`
+            ]
+          };
+        }
+
+        if (tache === 'esperance') {
+          /* n borné à 25 : au-delà, les décors deviennent invraisemblables
+             (« il tire 31 lancers francs »), ce que la mesure du tirage réel a
+             montré et la relecture non. */
+          const n = rand(10, 25), p = pick([0.1, 0.2, 0.25, 0.4, 0.5]);
+          const e = parseFloat((n * p).toFixed(4));
+          const ctx = DECORS(n, p);
+          return {
+            statement: `${ctx.intro}<br/><br/>Soit $X$ ${ctx.v}.<br/><br/>Calculer l'espérance $E(X)$, puis dire ce qu'elle représente concrètement.<br/><br/>Donner la valeur de $E(X)$.`,
+            answer: e, tolerance: 0.005, unit: '',
+            hint: `Pour une loi binomiale, l'espérance se calcule très simplement : c'est le produit du nombre d'essais par la probabilité de succès.`,
+            solution: [
+              `Pour une loi binomiale $\\mathcal{B}(n\\,;\\,p)$, l'espérance vaut $E(X) = np$.`,
+              `Ici $E(X) = ${n} \\times ${fr(p)} = ${fr(e)}$.`,
+              `Concrètement : en répétant un grand nombre de fois cette expérience de $${n}$ essais, on obtiendrait en moyenne $${fr(e)}$ succès. L'espérance n'est pas la valeur la plus probable, et elle n'a pas besoin d'être un nombre entier.`
+            ]
+          };
+        }
+
+        if (tache === 'variance') {
+          const n = rand(8, 30), p = pick([0.2, 0.25, 0.5, 0.6]);
+          const v = parseFloat((n * p * (1 - p)).toFixed(4));
+          const sigma = parseFloat(Math.sqrt(v).toFixed(4));
+          return {
+            statement: `Soit $X$ une variable aléatoire suivant la loi $\\mathcal{B}(${n}\\,;\\,${fr(p)})$.<br/><br/>Calculer la variance $V(X)$, puis l'écart-type $\\sigma$.<br/><br/>Donner la valeur de $\\sigma$, arrondie à $0{,}001$.`,
+            answer: sigma, tolerance: 0.005, unit: '',
+            hint: `La variance d'une binomiale vaut $np(1-p)$. L'écart-type en est la racine carrée — c'est lui qui s'exprime dans la même unité que $X$.`,
+            solution: [
+              `La variance d'une loi binomiale vaut $V(X) = np(1-p)$, soit ici $${n} \\times ${fr(p)} \\times ${fr(parseFloat((1 - p).toFixed(4)))} = ${fr(v)}$.`,
+              `L'écart-type en est la racine carrée : $\\sigma = \\sqrt{${fr(v)}} \\approx ${fr(sigma)}$.`,
+              `C'est l'écart-type, et non la variance, qui se compare directement à $E(X)$ : il s'exprime dans la même unité, alors que la variance est un carré.`
+            ]
+          };
+        }
+
+        if (tache === 'aumoins') {
+          /* Le geste le plus utile du chapitre, et le plus absent de la banque
+             d'origine : passer par l'événement contraire plutôt que de sommer
+             n termes. */
+          const n = rand(4, 8), p = pick([0.1, 0.2, 0.25, 0.3]);
+          const res = parseFloat((1 - Math.pow(1 - p, n)).toFixed(4));
+          const ctx = DECORS(n, p);
+          return {
+            statement: `${ctx.intro}<br/><br/>Soit $X$ ${ctx.v}.<br/><br/>Calculer $P(X \\geqslant 1)$, la probabilité d'obtenir <strong>au moins un</strong> succès.<br/><br/>Arrondir à $0{,}001$.`,
+            answer: res, tolerance: 0.005, unit: '',
+            hint: `Sommer $P(X=1)$, $P(X=2)$... jusqu'à $P(X=${n})$ serait très long. L'événement contraire de « au moins un » est « aucun », et celui-là ne demande qu'un seul calcul.`,
+            solution: [
+              `L'événement contraire de « au moins un succès » est « aucun succès », c'est-à-dire $X = 0$ : il est bien plus rapide à calculer que la somme des $${n}$ autres cas.`,
+              `Or $P(X = 0) = ${fr(parseFloat((1 - p).toFixed(4)))}^{${n}} \\approx ${fr(parseFloat(Math.pow(1 - p, n).toFixed(4)))}$, puisque les $${n}$ essais doivent tous échouer.`,
+              `On en déduit $P(X \\geqslant 1) = 1 - ${fr(parseFloat(Math.pow(1 - p, n).toFixed(4)))} \\approx ${fr(res)}$.`
+            ]
+          };
+        }
+
+        if (tache === 'loiSimple') {
+          /* Une variable aléatoire QUELCONQUE, définie par sa loi : le chapitre
+             s'appelle « variables aléatoires et loi binomiale », mais la banque
+             d'origine ne traitait que la binomiale. L'espérance générale,
+             somme des x_i p_i, n'y était jamais calculée. */
+          const g1 = rand(2, 5), g2 = rand(8, 15), perte = rand(1, 4);
+          const p1 = pick([0.1, 0.2]), p2 = pick([0.05, 0.1]);
+          const p0 = parseFloat((1 - p1 - p2).toFixed(4));
+          const e = parseFloat((g1 * p1 + g2 * p2 - perte * p0).toFixed(4));
+          return {
+            statement: `À une kermesse, un jeu coûte quelques euros. Le gain algébrique $X$ du joueur, en euros, prend trois valeurs :<br/><br/>$X = ${g1}$ avec la probabilité $${fr(p1)}$ ;<br/>$X = ${g2}$ avec la probabilité $${fr(p2)}$ ;<br/>$X = -${perte}$ avec la probabilité $${fr(p0)}$.<br/><br/>Calculer l'espérance de gain $E(X)$.<br/><br/>Arrondir à $0{,}001$.`,
+            answer: e, tolerance: 0.005, unit: '',
+            hint: `Ici $X$ ne suit pas une loi binomiale : il faut revenir à la définition générale de l'espérance, qui multiplie chaque valeur par sa probabilité, puis additionne le tout.`,
+            solution: [
+              `Cette variable aléatoire ne suit pas une loi binomiale : on revient donc à la définition générale, $E(X) = \\sum x_i \\times P(X = x_i)$.`,
+              `On calcule terme à terme : $E(X) = ${g1} \\times ${fr(p1)} + ${g2} \\times ${fr(p2)} + (-${perte}) \\times ${fr(p0)}$.`,
+              `On obtient $E(X) \\approx ${fr(e)}$ euros. ${e < 0 ? 'L\'espérance est <strong>négative</strong> : sur un grand nombre de parties, le joueur perd en moyenne, ce qui est la règle pour tout jeu payant.' : 'L\'espérance est positive, ce qui serait très inhabituel pour un jeu payant : vérifie que les probabilités somment bien à $1$.'}`
+            ]
+          };
+        }
+
+        if (tache === 'reconnaitre') {
+          /* Reconnaître si une situation relève de la binomiale est un attendu
+             explicite du programme, et la banque d'origine ne le travaillait
+             jamais : tous ses énoncés annonçaient la loi. */
+          const binomiale = pick([true, false]);
+          const n = rand(5, 12);
+          const cas = binomiale
+            ? pick([
+                { txt: `On lance $${n}$ fois un dé équilibré et on compte le nombre de $6$ obtenus.`, pourquoi: `les $${n}$ lancers sont indépendants et la probabilité d'obtenir un $6$ reste $\\dfrac{1}{6}$ à chaque lancer` },
+                { txt: `On prélève $${n}$ pièces dans une production très nombreuse, en notant celles qui sont défectueuses.`, pourquoi: `la production étant très nombreuse, retirer une pièce ne modifie pas sensiblement la proportion de défectueuses : les prélèvements sont assimilables à des tirages indépendants de même probabilité` }
+              ])
+            : pick([
+                { txt: `Une urne contient $10$ boules. On en tire $${Math.min(n, 5)}$ <strong>sans remise</strong> et on compte les boules rouges.`, pourquoi: `les tirages ne sont pas indépendants : chaque boule retirée modifie la composition de l'urne, donc la probabilité de succès change d'un tirage à l'autre` },
+                { txt: `Un joueur tire au but jusqu'à ce qu'il marque, et on compte le nombre de tirs effectués.`, pourquoi: `le nombre d'épreuves n'est pas fixé à l'avance : il dépend du résultat, alors qu'une loi binomiale suppose un nombre d'essais connu` }
+              ]);
+          return {
+            statement: `${cas.txt}<br/><br/>La variable aléatoire décrite suit-elle une loi binomiale ?<br/><br/>Répondre par $1$ si oui, par $0$ si non.`,
+            answer: binomiale ? 1 : 0, tolerance: 0.001, unit: '',
+            hint: `Une loi binomiale demande trois choses : un nombre d'épreuves fixé à l'avance, des épreuves indépendantes, et une même probabilité de succès à chaque épreuve. Vérifie les trois.`,
+            solution: [
+              `Une loi binomiale suppose trois conditions : un nombre d'épreuves fixé à l'avance, des épreuves indépendantes, et une probabilité de succès identique à chaque épreuve.`,
+              `Ici, ${cas.pourquoi}.`,
+              binomiale
+                ? `Les trois conditions sont réunies : la variable suit bien une loi binomiale.`
+                : `Une des conditions n'est pas remplie : la variable ne suit <strong>pas</strong> une loi binomiale, même si la situation lui ressemble.`
+            ]
+          };
+        }
+
+        // tache === 'auplus' : lecture cumulative, par somme de deux ou trois termes.
+        const n = rand(4, 7), p = pick([0.2, 0.25, 0.5]), k = rand(1, 2);
+        let cum = 0;
+        for (let i = 0; i <= k; i++) cum += binom(n, i) * Math.pow(p, i) * Math.pow(1 - p, n - i);
+        const res = parseFloat(cum.toFixed(4));
+        const termes = [];
+        for (let i = 0; i <= k; i++) {
+          termes.push(`$P(X = ${i}) = ${binom(n, i)} \\times ${fr(p)}^{${i}} \\times ${fr(parseFloat((1 - p).toFixed(4)))}^{${n - i}} \\approx ${fr(parseFloat((binom(n, i) * Math.pow(p, i) * Math.pow(1 - p, n - i)).toFixed(4)))}$`);
+        }
         return {
-          statement: `${ctx.intro} Soit $X$ ${ctx.varName}.<br/><br/>1) Identifier la loi de $X$.<br/>2) Calculer $E(X)$ et $V(X)$.<br/>3) Calculer $P(X = ${k})$.<br/><br/>Donner $P(X = ${k})$ (arrondir à $0{,}001$).`,
-          answer: proba,
-          tolerance: 0.005,
-          unit: '',
-          hint: `$X \\sim \\mathcal{B}(${n}\\,;\\,${fr(p)})$. $P(X = ${k}) = \\binom{${n}}{${k}} \\times ${fr(p)}^{${k}} \\times ${fr(1 - p)}^{${n-k}}$.`,
+          statement: `Soit $X$ une variable aléatoire suivant la loi $\\mathcal{B}(${n}\\,;\\,${fr(p)})$.<br/><br/>Calculer $P(X \\leqslant ${k})$, la probabilité d'obtenir <strong>au plus</strong> $${k}$ succès.<br/><br/>Arrondir à $0{,}001$.`,
+          answer: res, tolerance: 0.005, unit: '',
+          hint: `« Au plus $${k}$ » regroupe plusieurs cas : $X = 0$, $X = 1$${k >= 2 ? `, jusqu'à $X = ${k}$` : ''}. Calcule chacun, puis additionne — ces cas ne peuvent pas se produire ensemble.`,
           solution: [
-            `$X \\sim \\mathcal{B}(${n}\\,;\\,${fr(p)})$. $E(X) = ${n} \\times ${fr(p)} = ${fr(esperance)}$. $V(X) = ${n} \\times ${fr(p)} \\times ${fr(1 - p)} = ${fr(variance)}$.`,
-            `$\\binom{${n}}{${k}} = ${binom}$.`,
-            `$P(X = ${k}) = ${binom} \\times ${fr(p)}^{${k}} \\times ${fr(1 - p)}^{${n-k}} \\approx ${fr(proba)}$.`
+            `L'événement « au plus $${k}$ succès » regroupe les cas $X = 0$ jusqu'à $X = ${k}$, qui sont incompatibles deux à deux : leurs probabilités s'additionnent.`,
+            termes.join('<br/><br/>'),
+            `En additionnant ces ${k + 1} termes, on obtient $P(X \\leqslant ${k}) \\approx ${fr(res)}$.`
           ]
         };
       }
@@ -174,14 +331,27 @@ window.MODULES.push({
           points: 2,
           correction: 'Pour une loi binomiale, l\'espérance est $E(X) = np$.<br/><br/>$E(X) = 8 \\times 0{,}3 = 2{,}4$. En moyenne, on attend $2{,}4$ succès sur $8$ essais.'
         },
+        /* QUESTION 2 RÉÉCRITE le 2026-09-14. Elle demandait la variance, c'est-à-dire
+           une seconde application de formule après l'espérance de la question 1 :
+           quatre des cinq questions de ce devoir relevaient alors de « calculer »,
+           et la compétence « raisonner » n'était évaluée nulle part.
+
+           La nouvelle question porte sur les trois conditions du schéma de
+           Bernoulli, qui est un attendu explicite du programme. Elle ne se
+           résout par aucune formule : l'élève doit confronter une situation à
+           trois critères et trancher. L'étiquette suit l'énoncé. */
         {
-          statement: 'Calculer la variance de $X \\sim \\mathcal{B}(8\\,;\\,0{,}3)$.',
-          type: 'numeric',
-          answer: 1.68,
-          tolerance: 0.01,
-          unit: '',
+          statement: 'Une urne contient $4$ boules rouges et $6$ boules noires. On tire successivement $3$ boules <strong>sans les remettre</strong> dans l\'urne, et on note $X$ le nombre de boules rouges obtenues.<br/><br/>La variable $X$ suit-elle une loi binomiale ?',
+          type: 'multiple-choice',
+          options: [
+            'Non, car la probabilité de tirer une rouge change à chaque tirage',
+            'Oui, avec $n = 3$ et $p = 0{,}4$',
+            'Non, car le nombre de tirages n\'est pas fixé à l\'avance',
+            'Oui, car il n\'y a que deux issues possibles à chaque tirage'
+          ],
+          answer: 0,
           points: 2,
-          correction: 'La variance d\'une loi binomiale est $V(X) = np(1-p)$.<br/><br/>$V(X) = 8 \\times 0{,}3 \\times 0{,}7 = 1{,}68$. L\'écart-type est $\\sigma = \\sqrt{1{,}68} \\approx 1{,}30$.'
+          correction: 'Une loi binomiale suppose <strong>trois</strong> conditions : un nombre d\'épreuves fixé à l\'avance, des épreuves indépendantes, et une même probabilité de succès à chaque épreuve.<br/><br/>Ici les deux premières semblent réunies — $3$ tirages annoncés, deux issues par tirage — et c\'est ce qui rend le piège efficace.<br/><br/>Mais le tirage se fait <strong>sans remise</strong> : au premier tirage la probabilité d\'obtenir une rouge vaut $\\dfrac{4}{10}$, alors qu\'au deuxième elle vaut $\\dfrac{3}{9}$ ou $\\dfrac{4}{9}$ selon ce qui a été tiré. La troisième condition tombe, et $X$ ne suit donc pas une loi binomiale.<br/><br/>À retenir : c\'est presque toujours cette troisième condition qui fait échouer le modèle, et c\'est la seule que l\'énoncé ne donne jamais explicitement.'
         },
         {
           statement: 'On lance un dé équilibré $5$ fois. Soit $X$ le nombre de $6$ obtenus. Quelle loi suit $X$ ?',
@@ -200,13 +370,32 @@ window.MODULES.push({
           points: 2,
           correction: 'On applique la formule binomiale : $P(X=2) = \\binom{3}{2} (0{,}4)^2 (0{,}6)^1$.<br/><br/>$P(X=2) = 3 \\times 0{,}16 \\times 0{,}6 = 0{,}288$. Il y a environ $28{,}8\\%$ de chances d\'obtenir exactement $2$ succès.'
         },
+        /* QUESTION 5 RÉÉCRITE le 2026-09-14, pour deux raisons.
+
+           D'abord le fond : elle demandait la valeur de $\binom{7}{3}$ et sa
+           correction la calculait par la formule factorielle, qui n'est PAS
+           exigible en première — le programme demande de lire un coefficient
+           binomial dans le triangle de Pascal ou à la calculatrice, pas de le
+           calculer ainsi. Le devoir noté exigeait donc une notion hors
+           programme.
+
+           Ensuite l'équilibre : c'était la quatrième question de « calculer »
+           sur cinq. La nouvelle question demande d'expliquer un résultat en
+           langue naturelle, ce que ce devoir ne demandait nulle part, et elle
+           porte donc « communiquer ». Elle reste corrigeable objectivement,
+           puisque l'explication attendue est une des quatre propositions. */
         {
-          statement: 'Un coefficient binomial vérifie $\\binom{7}{3} =$ :',
+          statement: 'Un élève calcule $E(X) = 2{,}4$ pour le nombre de tirs réussis d\'un archer sur $8$ tirs. Il écrit alors : « ce n\'est pas possible, on ne peut pas réussir $2{,}4$ tirs », et corrige sa réponse en $2$.<br/><br/>Quelle explication lui donnerais-tu ?',
           type: 'multiple-choice',
-          options: ['$21$', '$35$', '$42$', '$210$'],
-          answer: 1,
+          options: [
+            'Son calcul est juste : l\'espérance est une moyenne sur un grand nombre de répétitions, elle n\'a pas à être un nombre entier',
+            'Il a raison de corriger : une espérance doit toujours être arrondie au résultat possible le plus proche',
+            'Son calcul est faux : pour une loi binomiale, $E(X)$ vaut toujours un nombre entier',
+            'Il faut plutôt arrondir à $3$, car on arrondit toujours une espérance vers le haut'
+          ],
+          answer: 0,
           points: 2,
-          correction: 'On utilise la formule : $\\binom{7}{3} = \\dfrac{7!}{3! \\times 4!} = \\dfrac{7 \\times 6 \\times 5}{3 \\times 2 \\times 1} = \\dfrac{210}{6} = 35$.<br/><br/>Astuce : on écrit $3$ facteurs au numérateur (en partant de $7$) et on divise par $3!$.'
+          correction: 'Le calcul $E(X) = 8 \\times 0{,}3 = 2{,}4$ est parfaitement juste, et il ne faut surtout pas l\'arrondir.<br/><br/>L\'espérance n\'est pas une issue de l\'expérience : c\'est la <strong>moyenne</strong> des résultats qu\'on obtiendrait en répétant un très grand nombre de fois la série des $8$ tirs. Cette moyenne n\'a aucune raison d\'être entière, exactement comme la moyenne « $2{,}3$ enfants par famille » — que personne ne songe à arrondir, alors qu\'aucune famille n\'a $2{,}3$ enfants.<br/><br/>Le réflexe de l\'élève vient d\'une confusion très répandue entre l\'espérance et la valeur la plus probable, qui sont deux nombres différents et souvent distincts.'
         }
       ]
     }
