@@ -1354,3 +1354,198 @@ function figureVecteurRepere(ox, oy, vx, vy, options) {
 
   return svgFigure('Vecteur trace dans un repere gradue', traits.join(''));
 }
+
+/* =========================================================
+   HELPERS AJOUTES POUR LA PREMIERE (2026-09-14)
+
+   REGLE DE NOMMAGE, apprise a nos depens sur la vague 3e/2nde : chaque helper
+   porte LE NIVEAU EN PREFIXE. Deux sessions y avaient respecte la regle
+   d'insertion en fin de fichier et produit malgre tout une collision, en
+   ecrivant chacune une fonction `figureThales` de signature differente. Git
+   n'a rien vu — les blocs etaient a des endroits distincts — et en JavaScript
+   la derniere declaration gagne : quatre figures seraient sorties VIDES en
+   production, sans la moindre erreur de compilation. Le prefixe `figure1re`
+   rend la collision impossible entre niveaux.
+
+   On n'ajoute ici que ce qui MANQUAIT reellement. Les chapitres de premiere
+   traites dans cette vague reutilisent tels quels figureTrigo (triangle
+   rectangle cote) et figureVecteurRepere partout ou ils conviennent ; seuls
+   la projection orthogonale et le cercle dans un repere n'avaient aucun
+   equivalent dans la bibliotheque.
+   ========================================================= */
+
+/* --- Projection orthogonale d'un vecteur sur un autre -------------------
+   LE malentendu central du produit scalaire. L'eleve retient « on multiplie
+   les coordonnees » sans jamais voir ce que le nombre obtenu mesure : la
+   LONGUEUR DE L'OMBRE de u sur la direction de v, comptee positivement ou
+   negativement selon le cote.
+
+   FIDELITE, exigence propre a cette figure : le pied de la projection est
+   calcule par la formule, jamais place a l'oeil, et le trait de projection
+   tombe donc a angle droit sur la droite portee par v AU FLOTTANT PRES.
+   C'est verifie par produit scalaire nul dans les tests — un angle droit
+   dessine a 89 degres est rigoureusement invisible a la relecture.
+
+   La figure NE DIVULGUE PAS le resultat : la longueur projetee porte un point
+   d'interrogation des que l'exercice la demande (option `inconnu`). */
+function figure1reProjection(ux, uy, vx, vy, options) {
+  const o = options || {};
+  const inconnu = o.inconnu === true;
+  if (!(vx || vy)) return '';          // v nul : aucune direction sur quoi projeter
+
+  const ps = ux * vx + uy * vy;
+  const nv2 = vx * vx + vy * vy;
+  const k = ps / nv2;
+  const hx = k * vx, hy = k * vy;      // pied de la projection, sur la droite portee par v
+
+  // Fenetre : elle englobe l'origine, les deux extremites et le pied.
+  const xMin = Math.min(0, ux, vx, hx) - 0.8, xMax = Math.max(0, ux, vx, hx) + 0.8;
+  const yMin = Math.min(0, uy, vy, hy) - 0.8, yMax = Math.max(0, uy, vy, hy) + 0.8;
+  const largeurU = xMax - xMin, hauteurU = yMax - yMin;
+  const e = echelleFigure(largeurU, hauteurU, FIG_MARGE + 12, FIG_MARGE + 12);
+
+  const X = (x) => (FIG_L - largeurU * e) / 2 + (x - xMin) * e;
+  const Y = (y) => (FIG_H + hauteurU * e) / 2 - (y - yMin) * e;
+
+  const traits = [];
+  traits.push('<defs><marker id="fl-proj-1re" viewBox="0 0 10 10" refX="8" refY="5" ' +
+    'markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">' +
+    '<path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path></marker></defs>');
+
+  // Les deux axes, discrets : ils situent le repere sans concurrencer les
+  // vecteurs, qui sont le sujet de la figure.
+  traits.push('<line class="grid-line" x1="' + nb2(X(xMin)) + '" y1="' + nb2(Y(0)) +
+    '" x2="' + nb2(X(xMax)) + '" y2="' + nb2(Y(0)) + '"></line>');
+  traits.push('<line class="grid-line" x1="' + nb2(X(0)) + '" y1="' + nb2(Y(yMin)) +
+    '" x2="' + nb2(X(0)) + '" y2="' + nb2(Y(yMax)) + '"></line>');
+
+  /* La droite portee par v, prolongee au-dela de son extremite : c'est SUR
+     ELLE que se lit la projection, et l'eleve doit voir qu'elle depasse le
+     vecteur. Sans ce prolongement, un pied situe plus loin que la pointe de v
+     passerait pour une faute de dessin. */
+  const lv = Math.sqrt(nv2);
+  const tMax = Math.max(1.25, k + 0.35);
+  const tMin = Math.min(-0.25, k - 0.35);
+  traits.push('<line class="guide-line" x1="' + nb2(X(tMin * vx)) + '" y1="' + nb2(Y(tMin * vy)) +
+    '" x2="' + nb2(X(tMax * vx)) + '" y2="' + nb2(Y(tMax * vy)) + '"></line>');
+
+  // Les deux vecteurs, une seule pointe de fleche chacun.
+  traits.push('<line class="curve-main" x1="' + nb2(X(0)) + '" y1="' + nb2(Y(0)) +
+    '" x2="' + nb2(X(vx)) + '" y2="' + nb2(Y(vy)) + '" marker-end="url(#fl-proj-1re)"></line>');
+  traits.push('<line class="curve-main" x1="' + nb2(X(0)) + '" y1="' + nb2(Y(0)) +
+    '" x2="' + nb2(X(ux)) + '" y2="' + nb2(Y(uy)) + '" marker-end="url(#fl-proj-1re)"></line>');
+
+  // Le trait de projection, de la pointe de u jusqu'a son pied.
+  traits.push('<line class="focus-line" x1="' + nb2(X(ux)) + '" y1="' + nb2(Y(uy)) +
+    '" x2="' + nb2(X(hx)) + '" y2="' + nb2(Y(hy)) + '"></line>');
+
+  /* Angle droit au pied, code par un CARRE et jamais par un arc (regle du
+     cahier des charges). Les deux cotes du carre suivent la direction de v et
+     la direction de la projection, orthogonales par construction : le carre
+     est donc un vrai carre, pas un losange. */
+  const dhx = ux - hx, dhy = uy - hy;
+  const ld = Math.hypot(dhx, dhy);
+  if (ld > 1e-9) {
+    const c = 10;
+    // Le carre se pose du cote de l'origine le long de v, et du cote de u
+    // pour l'autre direction. En ecran, l'axe des ordonnees est inverse.
+    const sens = k >= 0 ? -1 : 1;
+    const avx = sens * (vx / lv) * c, avy = -sens * (vy / lv) * c;
+    const aux = (dhx / ld) * c, auy = -(dhy / ld) * c;
+    const Hx = X(hx), Hy = Y(hy);
+    traits.push('<path class="grid-line" fill="none" d="M' + nb2(Hx + avx) + ' ' + nb2(Hy + avy) +
+      ' L' + nb2(Hx + avx + aux) + ' ' + nb2(Hy + avy + auy) +
+      ' L' + nb2(Hx + aux) + ' ' + nb2(Hy + auy) + '"></path>');
+  }
+
+  traits.push('<circle class="plot-point" cx="' + nb2(X(hx)) + '" cy="' + nb2(Y(hy)) + '" r="4"></circle>');
+
+  /* Etiquettes : en minuscules, sans article elide ni lettre isolee, qui
+     sortiraient en italique parasite a la conversion. Le pied est nomme
+     « pied » plutot que par une lettre seule, pour la meme raison. */
+  traits.push('<text class="annotation-label" x="' + nb2(X(ux) + 8) + '" y="' + nb2(Y(uy) - 6) + '">vecteur u</text>');
+  traits.push('<text class="annotation-label" x="' + nb2(X(vx) + 8) + '" y="' + nb2(Y(vy) + 14) + '">vecteur v</text>');
+  traits.push('<text class="tick-label" x="' + nb2(X(hx)) + '" y="' + nb2(Y(hy) + 20) + '" text-anchor="middle">pied</text>');
+
+  /* La longueur projetee. Quand l'exercice la demande, elle porte un point
+     d'interrogation : une figure ne divulgue jamais ce qu'elle fait chercher. */
+  const OH = ps / lv;
+  const etiq = inconnu ? '?' : coteFig(Math.round(OH * 100) / 100, '');
+  traits.push('<text class="annotation-label" x="' + nb2((X(0) + X(hx)) / 2) +
+    '" y="' + nb2((Y(0) + Y(hy)) / 2 - 10) + '" text-anchor="middle">' + etiq + '</text>');
+
+  return svgFigure('Projection orthogonale d un vecteur sur un autre', traits.join(''));
+}
+
+/* --- Cercle dans un repere gradue --------------------------------------
+   Sert aux exercices ou l'on teste si un point appartient au cercle de centre
+   et de rayon donnes.
+
+   POURQUOI CE HELPER : l'equation d'un cercle s'apprend comme une formule a
+   retenir, alors qu'elle ne dit qu'une chose — la distance au centre vaut le
+   rayon. Un dessin ou le point teste tombe visiblement sur le cercle, ou a
+   cote, remet le sens devant la formule.
+
+   FIDELITE : le rayon DESSINE vaut exactement le rayon annonce multiplie par
+   l'echelle commune, et le point teste est place a ses coordonnees reelles.
+   Un point annonce sur le cercle qui tomberait a cote serait une faute
+   invisible a la relecture ; les tests verifient la distance au centieme. */
+function figure1reCercleRepere(cx, cy, r, px, py, options) {
+  const o = options || {};
+  const inconnu = o.inconnu === true;
+  if (!(r > 0)) return '';
+  const avecPoint = Number.isFinite(px) && Number.isFinite(py);
+
+  // La fenetre englobe TOUT le cercle, et le point teste s'il tombe dehors.
+  const xMin = Math.min(cx - r, avecPoint ? px : cx - r) - 0.8;
+  const xMax = Math.max(cx + r, avecPoint ? px : cx + r) + 0.8;
+  const yMin = Math.min(cy - r, avecPoint ? py : cy - r) - 0.8;
+  const yMax = Math.max(cy + r, avecPoint ? py : cy + r) + 0.8;
+  const largeurU = xMax - xMin, hauteurU = yMax - yMin;
+  const e = echelleFigure(largeurU, hauteurU, FIG_MARGE + 6, FIG_MARGE + 6);
+
+  const X = (x) => (FIG_L - largeurU * e) / 2 + (x - xMin) * e;
+  const Y = (y) => (FIG_H + hauteurU * e) / 2 - (y - yMin) * e;
+
+  const traits = [];
+  /* Quadrillage aux graduations entieres : c'est lui qui rend les coordonnees
+     lisibles, donc l'exercice faisable sans regle. */
+  for (let x = Math.ceil(xMin); x <= Math.floor(xMax); x++) {
+    traits.push('<line class="grid-line" x1="' + nb2(X(x)) + '" y1="' + nb2(Y(yMin)) +
+      '" x2="' + nb2(X(x)) + '" y2="' + nb2(Y(yMax)) + '"></line>');
+  }
+  for (let y = Math.ceil(yMin); y <= Math.floor(yMax); y++) {
+    traits.push('<line class="grid-line" x1="' + nb2(X(xMin)) + '" y1="' + nb2(Y(y)) +
+      '" x2="' + nb2(X(xMax)) + '" y2="' + nb2(Y(y)) + '"></line>');
+  }
+  traits.push('<line class="axis" x1="' + nb2(X(xMin)) + '" y1="' + nb2(Y(0)) +
+    '" x2="' + nb2(X(xMax)) + '" y2="' + nb2(Y(0)) + '"></line>');
+  traits.push('<line class="axis" x1="' + nb2(X(0)) + '" y1="' + nb2(Y(yMin)) +
+    '" x2="' + nb2(X(0)) + '" y2="' + nb2(Y(yMax)) + '"></line>');
+
+  /* Le cercle. Le rayon a l'ecran vaut exactement le rayon reel fois
+     l'echelle commune aux deux directions : c'est ce qui interdit au dessin
+     de mentir sur la distance. */
+  traits.push('<circle class="frame-line" cx="' + nb2(X(cx)) + '" cy="' + nb2(Y(cy)) +
+    '" r="' + nb2(r * e) + '" fill="' + APLAT + '"></circle>');
+  traits.push('<circle class="plot-point" cx="' + nb2(X(cx)) + '" cy="' + nb2(Y(cy)) + '" r="4"></circle>');
+  traits.push('<text class="tick-label" x="' + nb2(X(cx)) + '" y="' + nb2(Y(cy) + 18) +
+    '" text-anchor="middle">centre</text>');
+
+  /* Le rayon, trace horizontalement depuis le centre : la cote se lit alors
+     hors de la zone remplie, comme l'exige le cahier des charges. */
+  traits.push('<line class="focus-line" x1="' + nb2(X(cx)) + '" y1="' + nb2(Y(cy)) +
+    '" x2="' + nb2(X(cx + r)) + '" y2="' + nb2(Y(cy)) + '"></line>');
+  traits.push('<text class="annotation-label" x="' + nb2((X(cx) + X(cx + r)) / 2) +
+    '" y="' + nb2(Y(cy) - 8) + '" text-anchor="middle">' +
+    (inconnu ? '?' : coteFig(r, '')) + '</text>');
+
+  // Le point teste, en teinte distincte : l'exercice demande s'il est dessus.
+  if (avecPoint) {
+    traits.push('<circle class="plot-point-alt" cx="' + nb2(X(px)) + '" cy="' + nb2(Y(py)) + '" r="4"></circle>');
+    traits.push('<text class="annotation-label" x="' + nb2(X(px) + 9) + '" y="' + nb2(Y(py) - 7) +
+      '">point teste</text>');
+  }
+
+  return svgFigure('Cercle trace dans un repere gradue', traits.join(''));
+}

@@ -29,8 +29,11 @@ window.SPARK_PROF["1re-information-chiffree"] = {
 
   /* Rang conseillé (2026-09-14) : rang 1.
 
-     Le LIVRE le place en troisième position. La progression conseillée l'ouvre
-     en tête de l'année, pour trois raisons.
+     Le LIVRE le place en DERNIÈRE position, comme chapitre 10 — l'ordre du
+     livre venant de `DATA_FILES` dans js/loader.js, et non de l'ordre
+     alphabétique des fichiers. L'écart entre les deux positions est donc
+     maximal, et c'est le cas le plus net du niveau : la progression conseillée
+     l'ouvre en tête de l'année, pour trois raisons.
 
      D'abord parce qu'il est autonome, comme dit ci-dessus : c'est le seul
      chapitre qu'on puisse traiter en septembre sans rien devoir installer
@@ -110,14 +113,24 @@ window.SPARK_PROF["1re-information-chiffree"] = {
               "changer d'outil.<br/><br/>" +
               "Le « Découvrir » du chapitre est construit sur cette même vérification à $100$ €, et " +
               "peut servir d'entrée dès la première séance.",
-      /* Vérifié contre le tirage réel (2026-09-14) : l'exercice 2 compose une
-         hausse de 30 % et une baisse de 10 %, et son corrigé se termine en
-         opposant explicitement le résultat exact à celui que donnerait une
-         addition des taux. C'est la tâche « successives », ajoutée le
-         2026-09-14 : la banque d'origine ne tirait qu'une seule tâche, et la
-         composition d'évolutions — pourtant le cœur du chapitre — n'y était
-         jamais travaillée. */
-      exercice: { type: "exercice", n: 2 }
+      /* Vérifié contre le tirage réel (2026-09-14, ordre de DATA_FILES) :
+         l'exercice 7 compose une hausse de 30 % et une baisse de 20 %, et son
+         corrigé se termine en opposant explicitement le résultat exact à celui
+         que donnerait une addition des taux. C'est la tâche « successives »,
+         ajoutée le 2026-09-14 : la banque d'origine ne tirait qu'une seule
+         tâche, et la composition d'évolutions — pourtant le cœur du chapitre —
+         n'y était jamais travaillée.
+
+         RENVOI CORRIGÉ le 2026-09-14 : les quatre renvois de cette fiche
+         avaient d'abord été vérifiés contre un tirage obtenu en classant les
+         chapitres par ordre alphabétique. Or le livre les numérote dans l'ordre
+         de `DATA_FILES` (js/loader.js), ce qui change le rang du chapitre —
+         l'information chiffrée est le chapitre 10 et non le chapitre 3 — donc
+         la graine, donc les exercices tirés. Les renvois visaient des exercices
+         qui existaient, que la validation acceptait, et qui parlaient d'autre
+         chose. C'est exactement le symptôme décrit dans le cahier des
+         charges. */
+      exercice: { type: "exercice", n: 7 }
     },
     {
       titre: "Soustraire au lieu de diviser pour remonter à la valeur initiale",
@@ -138,11 +151,13 @@ window.SPARK_PROF["1re-information-chiffree"] = {
               "le compte.<br/><br/>" +
               "Cette vérification mérite d'être installée comme un réflexe permanent du chapitre : " +
               "elle rattrape aussi l'erreur du taux réciproque, plus loin dans l'année.",
-      /* Vérifié contre le tirage réel (2026-09-14) : l'exercice 5 donne une
-         valeur APRÈS hausse et demande celle d'avant, et son corrigé calcule
-         explicitement ce que donnerait la soustraction fautive pour montrer
-         qu'elle ne convient pas. L'indication nomme le piège sans donner la
-         réponse. C'est la tâche « initiale », ajoutée le 2026-09-14. */
+      /* Vérifié contre le tirage réel (2026-09-14, ordre de DATA_FILES) :
+         l'exercice 5 donne une valeur APRÈS une hausse de 20 % et demande celle
+         d'avant, et son corrigé calcule explicitement ce que donnerait la
+         soustraction fautive pour montrer qu'elle ne convient pas. L'indication
+         nomme le piège sans donner la réponse. C'est la tâche « initiale »,
+         ajoutée le 2026-09-14. Seul renvoi des quatre que la correction de
+         l'ordre des chapitres n'a pas déplacé. */
       exercice: { type: "exercice", n: 5 }
     },
     {
@@ -165,13 +180,13 @@ window.SPARK_PROF["1re-information-chiffree"] = {
               "bien : pour $2\\%$, la réciproque vaut $1{,}96\\%$, et l'approximation est " +
               "excellente. L'élève a donc souvent eu raison par accident, et il faut le lui dire " +
               "plutôt que de lui laisser croire qu'il se trompait depuis toujours.",
-      /* Vérifié contre le tirage réel (2026-09-14) : l'exercice 4 demande
-         justement de quel pourcentage il faut baisser après une hausse de
-         25 % pour revenir au départ, et son corrigé montre explicitement que
-         la baisse du même taux ne convient pas, en calculant le coefficient
-         global qu'elle donnerait. C'est la tâche « reciproque », ajoutée le
-         2026-09-14. */
-      exercice: { type: "exercice", n: 4 }
+      /* Vérifié contre le tirage réel (2026-09-14, ordre de DATA_FILES) :
+         l'exercice 6 demande justement de quel pourcentage il faut baisser
+         après une hausse de 20 % pour revenir au départ, et son corrigé montre
+         explicitement que la baisse du même taux ne convient pas, en calculant
+         le coefficient global qu'elle donnerait. C'est la tâche « reciproque »,
+         ajoutée le 2026-09-14. */
+      exercice: { type: "exercice", n: 6 }
     },
     {
       titre: "Diviser par la valeur d'arrivée pour calculer un taux",
@@ -192,11 +207,12 @@ window.SPARK_PROF["1re-information-chiffree"] = {
               "d'être légèrement décalée.<br/><br/>" +
               "Fixer enfin une formulation courte à répéter : « on divise toujours par ce qu'on " +
               "avait au départ ».",
-      /* Vérifié contre le tirage réel (2026-09-14) : l'exercice 3 donne deux
-         valeurs et demande le taux d'évolution, et son corrigé insiste dans sa
-         première ligne sur le fait que le dénominateur est toujours la valeur
-         de départ. C'est la tâche « taux », ajoutée le 2026-09-14. */
-      exercice: { type: "exercice", n: 3 }
+      /* Vérifié contre le tirage réel (2026-09-14, ordre de DATA_FILES) :
+         l'exercice 2 donne deux valeurs (21 000 puis 22 680 habitants) et
+         demande le taux d'évolution, et son corrigé insiste dans sa première
+         ligne sur le fait que le dénominateur est toujours la valeur de départ.
+         C'est la tâche « taux », ajoutée le 2026-09-14. */
+      exercice: { type: "exercice", n: 2 }
     }
   ],
 
@@ -230,6 +246,6 @@ window.SPARK_PROF["1re-information-chiffree"] = {
      donnée, de traduire une situation nouvelle en modèle, ni de lire une
      figure. L'étiquette suit l'énoncé, jamais l'inverse. */
   competences: {
-    evaluation: ["calculer", "raisonner", "calculer", "calculer", "communiquer"]
+    evaluation: ["chercher", "raisonner", "calculer", "calculer", "communiquer"]
   }
 };

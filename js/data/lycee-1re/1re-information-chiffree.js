@@ -310,13 +310,26 @@ window.MODULES.push({
       duration: '30 min',
       questions: [
         {
-          statement: 'Un article coûte $250$ € et subit une hausse de $12\\%$. Calculer le nouveau prix.',
+          /* QUESTION 1 RÉÉCRITE le 2026-09-14, pour deux raisons.
+
+             Sur le fond : elle demandait d'appliquer une hausse, avec une
+             correction d'une seule ligne sans aucune explication. C'est le
+             geste le plus élémentaire du chapitre, déjà travaillé douze fois
+             dans la banque, et il ouvrait le devoir sans rien apprendre.
+
+             Sur l'équilibre : mesuré sur les cinquante questions du niveau,
+             « calculer » dépassait le plafond de 35 % du cahier des charges,
+             tandis que « chercher » restait sous 5 %. La nouvelle question ne
+             donne aucune méthode : l'élève doit décider lui-même par où
+             entrer, et l'ordre des deux opérations est précisément ce qui est
+             en jeu. L'étiquette suit l'énoncé. */
+          statement: 'Un magasin annonce « $-20\\%$ sur tout le rayon », et un bon de réduction supplémentaire de $10\\%$ est valable en caisse.<br/><br/>Un client se demande s\'il a intérêt à ce que la caissière applique d\'abord la remise du rayon, ou d\'abord le bon.<br/><br/>Quel est le prix final d\'un article à $50$ € ?',
           type: 'numeric',
-          answer: 280,
+          answer: 36,
           tolerance: 0.01,
           unit: '€',
           points: 2,
-          correction: '$V_f = 250 \\times 1{,}12 = 280$ €.'
+          correction: 'La question sous-entend que l\'ordre pourrait changer le résultat : c\'est justement ce qu\'il faut éprouver.<br/><br/>Dans un sens : $50 \\times 0{,}8 = 40$ € puis $40 \\times 0{,}9 = 36$ €.<br/><br/>Dans l\'autre : $50 \\times 0{,}9 = 45$ € puis $45 \\times 0{,}8 = 36$ €.<br/><br/>Les deux chemins donnent $36$ €, et ce n\'est pas un hasard : le prix final vaut $50 \\times 0{,}8 \\times 0{,}9$, et la multiplication ne dépend pas de l\'ordre de ses facteurs. <strong>L\'ordre des remises n\'a donc aucune importance</strong>, ce qui est un argument utile à connaître en caisse.<br/><br/>Remarque : la remise totale est de $28\\%$ et non de $30\\%$, puisque $0{,}8 \\times 0{,}9 = 0{,}72$.'
         },
         {
           statement: 'Un produit coûte $180$ € après une baisse de $10\\%$. Quel était son prix initial ?',

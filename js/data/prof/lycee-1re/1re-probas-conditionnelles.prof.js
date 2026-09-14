@@ -20,17 +20,25 @@ window.SPARK_PROF["1re-probas-conditionnelles"] = {
   /* Prérequis, en numéros de chapitres DE CE NIVEAU. Le chapitre visé doit
      avoir un rang conseillé STRICTEMENT INFÉRIEUR à celui-ci (rang 9).
 
-     ch. 3 (information chiffrée, rang 1) : tout le chapitre manipule des
-     pourcentages, des proportions et des sous-populations. L'élève qui n'a pas
-     stabilisé « pourcentage de quoi ? » ne peut pas comprendre qu'une
-     probabilité conditionnelle change de dénominateur — c'est exactement la
-     même difficulté, un cran plus loin.
+     ATTENTION, PIÈGE VÉRIFIÉ LE 2026-09-14 : la numérotation des chapitres du
+     livre vient de l'ordre de `DATA_FILES` dans js/loader.js, et NON de
+     l'ordre alphabétique des fichiers. L'information chiffrée est le chapitre
+     10 du livre, et non le chapitre 3. Une première version de cette fiche
+     déclarait [3], c'est-à-dire le produit scalaire, qui n'a rien à voir avec
+     ce chapitre : le renvoi aurait été imprimé faux, et rien ne l'aurait
+     signalé.
+
+     ch. 10 (information chiffrée, rang conseillé 1) : tout le chapitre
+     manipule des pourcentages, des proportions et des sous-populations.
+     L'élève qui n'a pas stabilisé « pourcentage de quoi ? » ne peut pas
+     comprendre qu'une probabilité conditionnelle change de dénominateur —
+     c'est exactement la même difficulté, un cran plus loin.
 
      Aucun autre prérequis n'est retenu. Ce chapitre est remarquablement
      autonome sur le plan technique : il ne demande que des multiplications et
      des divisions de décimaux. Sa difficulté est entièrement conceptuelle, et
      déclarer le second degré ou la dérivation serait un prérequis décoratif. */
-  prerequis: [3],
+  prerequis: [10],
 
   /* Rang conseillé (2026-09-14) : rang 9.
 
@@ -109,14 +117,23 @@ window.SPARK_PROF["1re-probas-conditionnelles"] = {
               "Le « Découvrir » du chapitre est construit sur cette même expérience, et l'élève y " +
               "est invité à parier avant de savoir : c'est ce pari, plus que la correction, qui rend " +
               "le résultat mémorable.",
-      /* Vérifié contre le tirage réel (2026-09-14) : l'exercice 9 donne
-         justement une maladie rare (1 %) avec un test à 95 %, et demande la
+      /* Vérifié contre le tirage réel (2026-09-14) : l'exercice 6 donne une
+         maladie rare (2 % de la population) avec un test à 95 %, et demande la
          probabilité d'être malade sachant le test positif. L'élève qui inverse
          répond 0,95 ; la bonne réponse est bien plus basse, et l'écart est trop
          grand pour passer pour une erreur d'arrondi. C'est la tâche « bayes »,
          ajoutée le 2026-09-14 : elle n'existait pas dans la banque d'origine,
-         qui ne tirait qu'une seule tâche. */
-      exercice: { type: "exercice", n: 9 }
+         qui ne tirait qu'une seule tâche.
+
+         RENVOI CORRIGÉ le 2026-09-14 : il visait d'abord l'exercice 9, vérifié
+         contre un tirage obtenu en classant les chapitres par ordre
+         alphabétique. Or le livre les numérote dans l'ordre de `DATA_FILES`
+         (js/loader.js), ce qui change le rang du chapitre, donc la graine,
+         donc les exercices tirés. L'exercice 9 du vrai tirage est un tableau
+         croisé, sans rapport avec cette erreur : le renvoi existait, la
+         validation l'acceptait, et il parlait d'autre chose. C'est exactement
+         le symptôme décrit dans le cahier des charges. */
+      exercice: { type: "exercice", n: 6 }
     },
     {
       titre: "Diviser par la mauvaise population",
@@ -137,12 +154,13 @@ window.SPARK_PROF["1re-probas-conditionnelles"] = {
               "Le schéma « Le tableau croisé redonne exactement l'arbre » est utile ici : les totaux " +
               "de ligne y sont explicitement identifiés aux nœuds de l'arbre, ce qui donne au " +
               "dénominateur un sens et non un rang dans une formule.",
-      /* Vérifié contre le tirage réel (2026-09-14) : l'exercice 1 donne quatre
-         effectifs et demande une probabilité « parmi les demi-pensionnaires ».
-         L'élève qui divise par l'effectif du lycée entier obtient un nombre
-         nettement trop petit, et l'énoncé ne lui souffle pas le dénominateur :
-         il doit le construire lui-même en additionnant deux cases. C'est la
-         tâche « tableau », ajoutée le 2026-09-14. */
+      /* Vérifié contre le tirage réel (2026-09-14, ordre de DATA_FILES) :
+         l'exercice 1 donne quatre effectifs et demande une probabilité « parmi
+         les inscrits en option musique ». L'élève qui divise par l'effectif du
+         lycée entier obtient un nombre nettement trop petit, et l'énoncé ne lui
+         souffle pas le dénominateur : il doit le construire lui-même en
+         additionnant deux cases. C'est la tâche « tableau », ajoutée le
+         2026-09-14. */
       exercice: { type: "exercice", n: 1 }
     },
     {
@@ -166,12 +184,22 @@ window.SPARK_PROF["1re-probas-conditionnelles"] = {
               "petite démonstration, et qui ancre la différence mieux qu'une définition.<br/><br/>" +
               "Le schéma « L'indépendance se voit sur la découpe » sert de support : dans les deux " +
               "carrés, la zone colorée n'est jamais vide, et sa note le dit explicitement.",
-      /* Vérifié contre le tirage réel (2026-09-14) : l'exercice 4 donne
-         P(A)=0,5, P(B)=0,5 et P(A inter B)=0,25, et demande si les événements
-         sont indépendants. La réponse est OUI alors que l'intersection est non
-         nulle : l'élève qui croit qu'indépendant signifie incompatible répond
-         non, et se trompe. La tâche tire aléatoirement des cas indépendants et
-         des cas dépendants, pour qu'on ne puisse pas répondre sans calculer. */
+      /* Vérifié contre le tirage réel (2026-09-14, ordre de DATA_FILES) :
+         l'exercice 4 donne P(A) = 0,4, P(B) = 0,5 et P(A inter B) = 0,3, et
+         demande si les événements sont indépendants.
+
+         Ce que cet exercice apporte à CETTE erreur, précisément : l'élève qui
+         croit qu'indépendant signifie incompatible attend P(A inter B) = 0 et
+         lit 0,3 — une intersection franchement non nulle. Il doit donc soit
+         abandonner sa définition, soit répondre au hasard. Le corrigé lui donne
+         le vrai test, et le résultat (ici : NON indépendants) ne vient pas de
+         l'intersection nulle mais de la comparaison avec le produit.
+
+         La tâche tire aléatoirement des cas indépendants et des cas dépendants,
+         pour qu'on ne puisse pas répondre sans calculer ; le tirage courant de
+         cette place est un cas dépendant. Les deux cas indépendants du tirage
+         tombent dans la banque supplémentaire, qui n'est pas numérotée dans le
+         corps du chapitre : on ne peut donc pas y renvoyer. */
       exercice: { type: "exercice", n: 4 }
     },
     {
@@ -194,14 +222,18 @@ window.SPARK_PROF["1re-probas-conditionnelles"] = {
               "personnes.<br/><br/>" +
               "Formuler enfin la distinction en une phrase à faire répéter : « le long d'un chemin " +
               "je multiplie, entre les chemins j'additionne ».",
-      /* Vérifié contre le tirage réel (2026-09-14) : l'exercice 12 donne
-         directement les deux branches d'un même chemin (0,4 puis 0,25) et
+      /* Vérifié contre le tirage réel (2026-09-14) : l'exercice 7 donne
+         directement les deux branches d'un même chemin (0,2 puis 0,5) et
          demande la probabilité que les deux se produisent. L'élève qui
-         additionne obtient 0,65, soit une probabilité SUPÉRIEURE à celle de la
+         additionne obtient 0,7, soit une probabilité SUPÉRIEURE à celle de la
          première étape seule — ce qui est impossible et se repère par le seul
          critère de taille donné dans le remède. C'est la tâche « intersection »,
-         ajoutée le 2026-09-14. */
-      exercice: { type: "exercice", n: 12 }
+         ajoutée le 2026-09-14.
+
+         RENVOI CORRIGÉ le 2026-09-14, même cause que celui de la première
+         erreur : il visait l'exercice 12, qui est en réalité un tirage sans
+         remise. */
+      exercice: { type: "exercice", n: 7 }
     }
   ],
 
@@ -238,6 +270,6 @@ window.SPARK_PROF["1re-probas-conditionnelles"] = {
      méthode donnée, de lire une figure, ni de rédiger une explication.
      L'étiquette suit l'énoncé, jamais l'inverse. */
   competences: {
-    evaluation: ["calculer", "raisonner", "modéliser", "calculer", "calculer"]
+    evaluation: ["calculer", "raisonner", "modéliser", "représenter", "calculer"]
   }
 };

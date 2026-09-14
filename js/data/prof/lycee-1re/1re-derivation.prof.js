@@ -27,20 +27,33 @@ window.SPARK_PROF["1re-derivation"] = {
      par niveau depuis le correctif 6eb58c7 ; le numéro imprimé reste celui du
      livre).
 
-     ch. 7 (second degré) : toutes les dérivées du chapitre sont des polynômes,
-     et l'étude du signe de $f'$ — qui est l'usage principal de la dérivée en
-     première — revient systématiquement à étudier le signe d'un trinôme. Sans
-     le discriminant, l'élève sait dériver mais ne sait rien en faire.
+     ATTENTION, PIÈGE VÉRIFIÉ LE 2026-09-14 : la numérotation des chapitres du
+     livre vient de l'ordre de `DATA_FILES` dans js/loader.js, et NON de
+     l'ordre alphabétique des fichiers. Pour ce niveau, elle est :
+     1 dérivation, 2 suites, 3 produit scalaire, 4 second degré,
+     5 polynômes et signe, 6 trigonométrie, 7 géométrie repérée,
+     8 probabilités conditionnelles, 9 variables aléatoires,
+     10 information chiffrée.
+     Une première version de cette fiche déclarait [4, 7] en croyant viser le
+     second degré et les polynômes ; elle visait en réalité le second degré et
+     la géométrie repérée. Le renvoi aurait été imprimé faux, et rien ne
+     l'aurait signalé.
 
-     ch. 4 (polynômes et signe) : le tableau de signes est l'outil dans lequel
-     le résultat de la dérivation se déverse. C'est le prérequis le plus
-     immédiatement mobilisé du chapitre.
+     ch. 4 (second degré, rang conseillé 3) : toutes les dérivées du chapitre
+     sont des polynômes, et l'étude du signe de $f'$ — qui est l'usage
+     principal de la dérivée en première — revient systématiquement à étudier
+     le signe d'un trinôme. Sans le discriminant, l'élève sait dériver mais ne
+     sait rien en faire.
+
+     ch. 5 (polynômes et signe, rang conseillé 4) : le tableau de signes est
+     l'outil dans lequel le résultat de la dérivation se déverse. C'est le
+     prérequis le plus immédiatement mobilisé du chapitre.
 
      La géométrie repérée n'est PAS retenue, bien qu'un coefficient directeur y
      apparaisse : le chapitre n'utilise aucune équation de droite sous forme
      générale, seulement la forme $y = f'(a)(x-a) + f(a)$, qui se construit
      ici. Le déclarer serait un prérequis décoratif. */
-  prerequis: [4, 7],
+  prerequis: [4, 5],
 
   /* Rang conseillé (2026-09-14) : rang 6.
 

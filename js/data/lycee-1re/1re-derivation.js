@@ -250,7 +250,7 @@ window.MODULES.push({
             'En $a = 5$ : $f\'(5) = -2$. La tangente <strong>descend</strong>, de $2$ carreaux pour $1$ vers la droite.',
             'Le signe de $f\'(a)$ n\'est donc pas une convention à retenir : c\'est ce que fait la tangente, montrée trois fois sur la même courbe.'
           ],
-          reading: 'Choisis une des trois tangentes, pose ton doigt sur le point rond, avance d\'un carreau vers la droite et compte combien de carreaux tu montes ou tu descends pour rester sur la droite. Le nombre que tu comptes est $f\'(a)$. Si tu descends, tu comptes en négatif : c\'est toute la signification du signe.',
+          reading: 'Choisis une des trois tangentes, pose ton doi> sur le point rond, avance d\'un carreau vers la droite et compte combien de carreaux tu montes ou tu descends pour rester sur la droite. Le nombre que tu comptes est $f\'(a)$. Si tu descends, tu comptes en négatif : c\'est toute la signification du signe.',
           caption: 'Trois tangentes à la courbe de $f(x)=-0{,}5x^2+3x$, de pentes $f\'(1)=2$, $f\'(3)=0$ et $f\'(5)=-2$.'
         },
         {
@@ -315,7 +315,7 @@ window.MODULES.push({
             'À l\'extérieur, les deux facteurs ont le même signe, donc $f\'$ est <strong>positive</strong> : $f$ y monte.',
             'On obtient ainsi les variations de $f$ sans calculer une seule image : seul le signe de $f\'$ a servi.'
           ],
-          reading: 'Fais glisser ton doigt sur la courbe de la gauche vers la droite, et regarde en même temps la bande du dessous. Tant qu\'elle porte un $+$, ta main monte. Dès qu\'elle porte un $-$, ta main descend. Les deux traits verticaux marquent l\'instant exact où tu changes de sens, et c\'est là que la tangente est horizontale.',
+          reading: 'Fais glisser ton doi> sur la courbe de la gauche vers la droite, et regarde en même temps la bande du dessous. Tant qu\'elle porte un $+$, ta main monte. Dès qu\'elle porte un $-$, ta main descend. Les deux traits verticaux marquent l\'instant exact où tu changes de sens, et c\'est là que la tangente est horizontale.',
           caption: 'Variations de $f(x)=\\frac{x^3}{3}-x^2-3x+4$ et signe de $f\'(x)=(x-3)(x+1)$, qui s\'annule en $-1$ et en $3$.'
         }
       ],
@@ -528,7 +528,7 @@ window.MODULES.push({
       solutions: [
         '$v(t) = x\'(t) = v_0 + g \\cdot t = 5 + 9{,}81 t$.',
         '$v(3) = 5 + 9{,}81 \\times 3 = 5 + 29{,}43 = 34{,}43$ m/s.',
-        '$a(t) = v\'(t) = g = 9{,}81$ m/s². L\'accélération est bien constante et égale à $g$. La dérivée d\'une fonction linéaire ($v_0 + gt$) est une constante ($g$).'
+        '$a(t) = v\'(t) = g = 9{,}81$ m/s². L\'accélération est bien constante et égale à $g$. La dérivée d\'une fonction linéaire ($v_0 + >$) est une constante ($g$).'
       ],
       finalAnswer: '$v(3) = 34{,}43$ m/s ; $a(t) = g = 9{,}81$ m/s² (constante)'
     },

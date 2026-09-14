@@ -531,13 +531,28 @@ window.MODULES.push({
           correction: 'On utilise la formule de l\'intersection : $P(A \\cap E) = P(A) \\times P(E|A)$.<br/><br/>$P(A \\cap E) = 0{,}6 \\times 0{,}3 = 0{,}18$. Cela signifie que $18\\%$ des élèves font à la fois anglais et espagnol.'
         },
         {
-          statement: 'Un sac contient $3$ boules rouges et $7$ boules bleues. On tire une boule, on la remet, puis on tire une seconde boule. Calculer la probabilité d\'obtenir deux boules rouges.',
+          /* QUESTION 4 RÉÉCRITE le 2026-09-14, pour deux raisons.
+
+             Sur le fond : elle demandait un tirage AVEC remise, dont le corrigé
+             se réduit à une multiplication de deux fractions identiques. C'est
+             le cas le plus simple du chapitre, et surtout le seul qui
+             n'utilise pas de conditionnement — dans un devoir sur les
+             probabilités conditionnelles.
+
+             Sur l'équilibre : mesuré sur les cinquante questions du niveau,
+             « calculer » dépassait le plafond de 35 % du cahier des charges,
+             tandis que « représenter » restait sous 10 %. La nouvelle question
+             demande de LIRE un tableau croisé et d'y choisir le bon
+             dénominateur — ce qui est une lecture de représentation, et ce que
+             la fiche professeur diagnostique comme la deuxième erreur du
+             chapitre. L'étiquette suit l'énoncé. */
+          statement: 'Dans un club de $200$ adhérents, on relève :<br/><br/>parmi les $120$ adultes, $90$ pratiquent la natation ;<br/>parmi les $80$ jeunes, $30$ pratiquent la natation.<br/><br/>On choisit au hasard un adhérent qui pratique la natation. Quelle est la probabilité que ce soit un jeune ?',
           type: 'numeric',
-          answer: 0.09,
+          answer: 0.25,
           tolerance: 0.01,
           unit: '',
           points: 2,
-          correction: 'Avec remise, la composition du sac ne change pas : les tirages sont <strong>indépendants</strong>.<br/><br/>$P(R_1 \\cap R_2) = P(R_1) \\times P(R_2) = \\dfrac{3}{10} \\times \\dfrac{3}{10} = \\dfrac{9}{100} = 0{,}09$.'
+          correction: 'La question restreint la population aux nageurs : c\'est ce groupe, et non le club entier, qui sert de référence.<br/><br/>On commence donc par compter les nageurs : $90 + 30 = 120$.<br/><br/>Parmi eux, les jeunes sont au nombre de $30$. La probabilité cherchée vaut donc $\\dfrac{30}{120} = 0{,}25$.<br/><br/>Le piège classique consiste à diviser par $200$, l\'effectif total du club, ce qui donnerait $0{,}15$. Mais on ne tire pas au hasard dans tout le club : on tire parmi ceux qui nagent, et c\'est le mot « qui pratique la natation » qui le dit.<br/><br/>À ne pas confondre non plus avec la probabilité qu\'un jeune pris au hasard pratique la natation, qui vaut $\\dfrac{30}{80} \\approx 0{,}375$ : même numérateur, autre dénominateur, autre question.'
         },
         {
           statement: 'On sait que $P(B) = 0{,}4$, $P(A|B) = 0{,}7$ et $P(A|\\bar{B}) = 0{,}2$. Calculer $P(A)$ par la formule des probabilités totales.',

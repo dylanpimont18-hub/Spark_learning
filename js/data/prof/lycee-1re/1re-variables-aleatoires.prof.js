@@ -17,18 +17,26 @@ window.SPARK_PROF["1re-variables-aleatoires"] = {
   /* Prérequis, en numéros de chapitres DE CE NIVEAU. Le chapitre visé doit
      avoir un rang conseillé STRICTEMENT INFÉRIEUR à celui-ci (rang 10).
 
-     ch. 5 (probabilités conditionnelles, rang 9) : c'est le prérequis
-     essentiel, et il est immédiat. Une épreuve de Bernoulli répétée suppose
-     l'INDÉPENDANCE des répétitions, notion qui est définie et travaillée au
-     chapitre précédent. Un élève qui n'a pas compris l'indépendance apprend
-     la formule binomiale comme une recette et ne saura jamais dire si elle
-     s'applique.
+     ATTENTION, PIÈGE VÉRIFIÉ LE 2026-09-14 : la numérotation des chapitres du
+     livre vient de l'ordre de `DATA_FILES` dans js/loader.js, et NON de
+     l'ordre alphabétique des fichiers. Les probabilités conditionnelles sont
+     le chapitre 8 et l'information chiffrée le chapitre 10. Une première
+     version de cette fiche déclarait [3, 5], c'est-à-dire le produit scalaire
+     et les polynômes : deux renvois faux qu'aucun contrôle n'aurait signalés,
+     puisque ces chapitres existent bel et bien.
 
-     ch. 3 (information chiffrée, rang 1) : les énoncés donnent les
+     ch. 8 (probabilités conditionnelles, rang conseillé 9) : c'est le
+     prérequis essentiel, et il est immédiat. Une épreuve de Bernoulli répétée
+     suppose l'INDÉPENDANCE des répétitions, notion qui est définie et
+     travaillée au chapitre précédent dans la progression. Un élève qui n'a pas
+     compris l'indépendance apprend la formule binomiale comme une recette et
+     ne saura jamais dire si elle s'applique.
+
+     ch. 10 (information chiffrée, rang conseillé 1) : les énoncés donnent les
      probabilités de succès en pourcentages, et l'espérance s'interprète comme
      une moyenne. Le chapitre est aussi le lieu où l'élève a appris qu'une
      proportion ne s'additionne pas naïvement. */
-  prerequis: [3, 5],
+  prerequis: [8, 10],
 
   /* Rang conseillé (2026-09-14) : rang 10, le dernier.
 
@@ -103,12 +111,21 @@ window.SPARK_PROF["1re-variables-aleatoires"] = {
               "Le « Découvrir » du chapitre est construit exactement sur cette marche : il part de la " +
               "probabilité d'une série ordonnée, que l'élève sait déjà calculer, et fait apparaître " +
               "le besoin de compter les dispositions.",
-      /* Vérifié contre le tirage réel (2026-09-14) : l'exercice 4 demande
-         P(X = 1) pour une binomiale, et son corrigé isole le coefficient
-         binomial dans une étape à part, en le nommant « le nombre de façons de
-         placer les succès parmi les essais ». C'est la tâche « pk », la seule
-         de la banque d'origine, conservée et reformulée. */
-      exercice: { type: "exercice", n: 4 }
+      /* Vérifié contre le tirage réel (2026-09-14, ordre de DATA_FILES) :
+         l'exercice 5 demande P(X = k) pour une binomiale, et son corrigé isole
+         le coefficient binomial dans une étape à part, en le nommant « le
+         nombre de façons de placer les succès parmi les essais ». C'est la
+         tâche « pk », la seule de la banque d'origine, conservée et reformulée.
+
+         RENVOI CORRIGÉ le 2026-09-14 : les quatre renvois de cette fiche
+         avaient d'abord été vérifiés contre un tirage obtenu en classant les
+         chapitres par ordre alphabétique. Or le livre les numérote dans l'ordre
+         de `DATA_FILES` (js/loader.js), ce qui change le rang du chapitre, donc
+         la graine, donc les exercices tirés. Les quatre renvois pointaient donc
+         vers des exercices qui existaient bel et bien — la validation les
+         acceptait — mais qui parlaient d'autre chose. C'est exactement le
+         symptôme décrit dans le cahier des charges. */
+      exercice: { type: "exercice", n: 5 }
     },
     {
       titre: "Appliquer la loi binomiale à un tirage sans remise",
@@ -131,15 +148,16 @@ window.SPARK_PROF["1re-variables-aleatoires"] = {
               "modification est négligeable et la loi binomiale redevient un bon modèle. C'est une " +
               "approximation assumée, pas une entorse, et le dire évite à l'élève de croire que le " +
               "cours se contredit.",
-      /* Vérifié contre le tirage réel (2026-09-14) : l'exercice 9 décrit un
-         joueur qui tire jusqu'à ce qu'il marque, et demande si la loi est
-         binomiale. La réponse est non, et le corrigé nomme la condition qui
+      /* Vérifié contre le tirage réel (2026-09-14, ordre de DATA_FILES) :
+         l'exercice 8 décrit exactement la situation de cette erreur — cinq
+         boules tirées SANS REMISE dans une urne de dix — et demande si la loi
+         est binomiale. La réponse est non, et le corrigé nomme la condition qui
          tombe. La tâche « reconnaitre » tire aléatoirement des cas binomiaux et
-         des cas qui ne le sont pas, y compris le tirage sans remise : on ne
-         peut pas répondre sans vérifier. Elle a été ajoutée le 2026-09-14 —
-         la banque d'origine annonçait toujours la loi dans l'énoncé, et ne
-         travaillait donc jamais cet attendu du programme. */
-      exercice: { type: "exercice", n: 9 }
+         des cas qui ne le sont pas : on ne peut pas répondre sans vérifier.
+         Elle a été ajoutée le 2026-09-14 — la banque d'origine annonçait
+         toujours la loi dans l'énoncé, et ne travaillait donc jamais cet
+         attendu du programme. */
+      exercice: { type: "exercice", n: 8 }
     },
     {
       titre: "Sommer terme à terme au lieu de passer au contraire",
@@ -159,13 +177,14 @@ window.SPARK_PROF["1re-variables-aleatoires"] = {
               "l'événement contraire raccourcit toujours le calcul. Faire traiter un cas où il " +
               "n'aide pas — par exemple $P(X = 3)$ — pour que la règle reste attachée à « au moins », " +
               "et non au hasard.",
-      /* Vérifié contre le tirage réel (2026-09-14) : l'exercice 7 demande
-         P(X >= 1) pour n = 5, et son indication nomme le piège sans donner la
-         réponse (« sommer serait très long, l'événement contraire ne demande
-         qu'un seul calcul »). C'est la tâche « aumoins », ajoutée le
-         2026-09-14 : le geste le plus utile du chapitre était absent de la
-         banque d'origine. */
-      exercice: { type: "exercice", n: 7 }
+      /* Vérifié contre le tirage réel (2026-09-14, ordre de DATA_FILES) :
+         l'exercice 6 demande P(X >= 1) pour n = 8, et son indication nomme le
+         piège sans donner la réponse (« sommer serait très long, l'événement
+         contraire ne demande qu'un seul calcul »). Huit cas à sommer, c'est
+         exactement la situation décrite par cette erreur. C'est la tâche
+         « aumoins », ajoutée le 2026-09-14 : le geste le plus utile du
+         chapitre était absent de la banque d'origine. */
+      exercice: { type: "exercice", n: 6 }
     },
     {
       titre: "Attendre de l'espérance qu'elle soit une valeur possible",
@@ -186,12 +205,14 @@ window.SPARK_PROF["1re-variables-aleatoires"] = {
               "Bannir enfin la formulation « on s'attend à obtenir $E(X)$ succès », qui entretient " +
               "l'erreur, au profit de « sur un grand nombre de répétitions, on obtiendrait en " +
               "moyenne $E(X)$ succès ». La différence de formulation fait ici tout le travail.",
-      /* Vérifié contre le tirage réel (2026-09-14) : l'exercice 5 demande
-         l'espérance ET ce qu'elle représente concrètement, et son corrigé dit
-         explicitement qu'elle n'a pas besoin d'être un nombre entier et qu'elle
-         n'est pas la valeur la plus probable. C'est la tâche « esperance »,
-         ajoutée le 2026-09-14. */
-      exercice: { type: "exercice", n: 5 }
+      /* Vérifié contre le tirage réel (2026-09-14, ordre de DATA_FILES) :
+         l'exercice 3 demande l'espérance ET ce qu'elle représente concrètement,
+         et son corrigé dit explicitement qu'elle n'a pas besoin d'être un
+         nombre entier et qu'elle n'est pas la valeur la plus probable. Le
+         tirage courant donne d'ailleurs E(X) = 3,6 sur 18 lancers : un nombre
+         non entier, donc exactement le cas qui déclenche l'erreur. C'est la
+         tâche « esperance », ajoutée le 2026-09-14. */
+      exercice: { type: "exercice", n: 3 }
     }
   ],
 

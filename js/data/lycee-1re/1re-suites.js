@@ -13,7 +13,15 @@ window.MODULES.push({
     physics: 'Décroissance radioactive (suite géométrique), intérêts composés, signal numérique',
 
     cours: {
-      intro: 'Une <strong>suite numérique</strong> est une liste ordonnée de nombres où chaque terme se construit à partir du précédent.<br/><br/>Quand on ajoute toujours la même quantité $r$, c\'est une <strong>suite arithmétique</strong> (comme une horloge qui avance d\'une seconde à chaque tick). Quand on multiplie toujours par le même facteur $q$, c\'est une <strong>suite géométrique</strong> (comme la décroissance radioactive : chaque demi-vie divise la quantité par 2).<br/><br/>La distinction clé : arithmétique = variation absolue constante ; géométrique = taux de variation constant.<br/><br/>Attention au comptage des termes : $u_0, u_1, \\ldots, u_n$ contient $n+1$ termes — pas $n$.<br/><br/>Une suite géométrique de raison $q = 1/2$ ne s\'annule jamais mais tend vers $0$ : même après 50 demi-vies, il reste un atome en théorie.',
+      /* DECOUVRIR reecrit le 2026-09-14.
+         L'ancienne ouverture definissait la suite, puis les deux natures, puis
+         le piege du comptage : trois definitions avant la premiere question. Le
+         remplacement pose un choix concret ou les deux propositions sont
+         volontairement indiscernables au depart, et ou l'intuition se trompe.
+         C'est une entree par une difficulte reelle, pas une anecdote plaquee :
+         l'ecart entre les deux offres EST la difference entre les deux natures
+         de suite, et c'est tout le chapitre. */
+      intro: 'On te propose un travail d\'été de $25$ jours, payé selon l\'une de ces deux formules, à toi de choisir.<br/><br/><strong>Formule A</strong> : $100$ € le premier jour, puis $100$ € de plus chaque jour que la veille.<br/><br/><strong>Formule B</strong> : $1$ centime le premier jour, puis le <strong>double</strong> de la veille chaque jour.<br/><br/>La formule B a l\'air ridicule, et elle l\'est longtemps. Au bout de dix jours, elle ne t\'a rapporté que $10{,}23$ € en tout, pendant que la formule A t\'en a versé $5\\,500$.<br/><br/>Puis quelque chose bascule. Au dix-neuvième jour, la formule B te verse $2\\,621{,}44$ € pour cette seule journée, contre $1\\,900$ € à la formule A : elle vient de passer devant. Trois jours plus tard, c\'est son <strong>total</strong> qui dépasse celui de la formule A. Et au vin>-cinquième jour, la formule B a rapporté plus de $335\\,000$ € quand la formule A en est à $32\\,500$.<br/><br/>Ce renversement n\'est pas une curiosité de calcul : c\'est toute la différence entre <strong>ajouter</strong> chaque fois la même chose et <strong>multiplier</strong> chaque fois par la même chose. Les deux formules avancent régulièrement, mais pas du tout de la même manière — et rien dans les premiers jours ne permet de le deviner.<br/><br/>Ce chapitre te donne de quoi trancher un tel choix sans écrire les vin>-cinq lignes : reconnaître laquelle des deux régularités on a sous les yeux, calculer directement le versement d\'un jour donné, et additionner tous les versements d\'un coup.',
       definitions: [
         { term: 'Suite arithmétique', def: 'Une suite $(u_n)$ est <strong>arithmétique</strong> de raison $r$ si $u_{n+1} = u_n + r$ pour tout $n$. La différence entre deux termes consécutifs est <strong>constante</strong>.' },
         { term: 'Suite géométrique', def: 'Une suite $(u_n)$ est <strong>géométrique</strong> de raison $q$ si $u_{n+1} = u_n \\times q$ pour tout $n$ (avec $u_0 \\neq 0$). Le quotient entre deux termes consécutifs est <strong>constant</strong>.' },
@@ -130,6 +138,151 @@ window.MODULES.push({
         reading: 'Les deux suites partent du même $u_0=2$ et utilisent le même nombre $3$ (comme raison $r$ ou comme raison $q$) — pourtant leurs profils sont radicalement différents : alignement régulier de points sur une droite (arithmétique) contre courbe qui s\'envole (géométrique). Sur un même graphique à échelle unique, les $6$ points de la suite arithmétique seraient quasiment collés à l\'axe des abscisses tant $486$ écrase $17$ : c\'est pourquoi les deux nuages utilisent des échelles verticales différentes.',
         caption: 'Comparaison à $u_0=2$ identique : $u_n=2+3n$ (gauche) contre $u_n=2\\times3^n$ (droite), pour $n=0$ à $5$.'
       },
+
+      /* SCHEMAS SECONDAIRES ajoutes le 2026-09-14.
+         DEUX schemas seulement, et c'est deliberé. Ce chapitre est peu
+         demandeur en figures : ses deux notions centrales — la raison et le
+         terme general — sont des relations arithmetiques, pas des objets
+         geometriques, et le schema principal du module couvre deja la
+         comparaison arithmetique/geometrique. Une troisieme figure aurait ete
+         une figure de plus, pas un malentendu de plus.
+
+         Les deux retenues portent chacune un malentendu que le cours signale
+         explicitement dans sa rubrique « piege » :
+         1. le decalage rang / nombre de termes ($u_0$ a $u_n$ fait $n+1$
+            termes), qui fausse toutes les sommes ;
+         2. une suite geometrique de raison entre 0 et 1 decroit indefiniment
+            sans jamais atteindre zero.
+         Coordonnees calculees et verifiees par script : le nombre de jetons et
+         le nombre de pas sont comptes, et la hauteur de chaque barre de la
+         seconde figure est verifiee strictement positive. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Le décalage qui fausse les sommes',
+          title: 'De $u_0$ à $u_5$, il y a six termes et cinq pas',
+          description: 'C\'est l\'erreur la plus coûteuse du chapitre, parce qu\'elle ne se voit pas : elle ne fait pas échouer le calcul, elle donne un résultat <strong>presque</strong> juste.<br/><br/>Le rang compte les <strong>pas</strong> effectués depuis le départ ; la somme, elle, compte les <strong>termes</strong>. Or il y a toujours un terme de plus que de pas, parce que le premier terme est là avant qu\'aucun pas n\'ait été fait.',
+          svg: `
+            <svg viewBox="0 0 440 230" role="img" aria-labelledby="su-rang-title su-rang-desc">
+              <title id="su-rang-title">Six termes mais cinq pas entre eux</title>
+              <desc id="su-rang-desc">Six ronds alignes horizontalement representent les termes de rang 0 a 5 d'une suite. Entre deux ronds consecutifs, une fleche represente le passage d'un terme au suivant : il y a cinq fleches pour six ronds. Le compte des ronds donne six termes, celui des fleches donne cinq pas, et la figure montre que ces deux nombres ne sont pas les memes.</desc>
+
+              <line class="axis" x1="40.0" y1="80" x2="390.0" y2="80"></line>
+
+              <circle class="plot-point" cx="70.0" cy="80" r="9"></circle>
+              <circle class="plot-point" cx="128.0" cy="80" r="9"></circle>
+              <circle class="plot-point" cx="186.0" cy="80" r="9"></circle>
+              <circle class="plot-point" cx="244.0" cy="80" r="9"></circle>
+              <circle class="plot-point" cx="302.0" cy="80" r="9"></circle>
+              <circle class="plot-point" cx="360.0" cy="80" r="9"></circle>
+
+              <text class="tick-label" x="70.0" y="60" text-anchor="middle">u0</text>
+              <text class="tick-label" x="128.0" y="60" text-anchor="middle">u1</text>
+              <text class="tick-label" x="186.0" y="60" text-anchor="middle">u2</text>
+              <text class="tick-label" x="244.0" y="60" text-anchor="middle">u3</text>
+              <text class="tick-label" x="302.0" y="60" text-anchor="middle">u4</text>
+              <text class="tick-label" x="360.0" y="60" text-anchor="middle">u5</text>
+
+              <line class="focus-line" x1="70.0" y1="130" x2="128.0" y2="130"></line>
+              <line class="focus-line" x1="128.0" y1="130" x2="186.0" y2="130"></line>
+              <line class="focus-line" x1="186.0" y1="130" x2="244.0" y2="130"></line>
+              <line class="focus-line" x1="244.0" y1="130" x2="302.0" y2="130"></line>
+              <line class="focus-line" x1="302.0" y1="130" x2="360.0" y2="130"></line>
+
+              <line class="guide-line" x1="70.0" y1="90" x2="70.0" y2="130"></line>
+              <line class="guide-line" x1="128.0" y1="90" x2="128.0" y2="130"></line>
+              <line class="guide-line" x1="186.0" y1="90" x2="186.0" y2="130"></line>
+              <line class="guide-line" x1="244.0" y1="90" x2="244.0" y2="130"></line>
+              <line class="guide-line" x1="302.0" y1="90" x2="302.0" y2="130"></line>
+              <line class="guide-line" x1="360.0" y1="90" x2="360.0" y2="130"></line>
+
+              <text class="tick-label" x="99.0" y="150" text-anchor="middle">1</text>
+              <text class="tick-label" x="157.0" y="150" text-anchor="middle">2</text>
+              <text class="tick-label" x="215.0" y="150" text-anchor="middle">3</text>
+              <text class="tick-label" x="273.0" y="150" text-anchor="middle">4</text>
+              <text class="tick-label" x="331.0" y="150" text-anchor="middle">5</text>
+
+              <text class="annotation-label" x="400" y="84" text-anchor="start">six</text>
+              <text class="annotation-label" x="400" y="134" text-anchor="start">cinq</text>
+              <text class="label-soft" x="215" y="184" text-anchor="middle">six ronds a compter, cinq ecarts entre eux</text>
+              <text class="label-soft" x="215" y="208" text-anchor="middle">le rang compte les ecarts, la somme compte les ronds</text>
+            </svg>
+          `,
+          notes: [
+            'Les six ronds sont les termes $u_0$, $u_1$, $u_2$, $u_3$, $u_4$ et $u_5$ : ils se comptent en commençant à <strong>zéro</strong>, ce qui est toute la source du décalage.',
+            'Les cinq traits du bas sont les passages d\'un terme au suivant. Chacun ajoute une fois la raison $r$ — d\'où $u_5 = u_0 + 5r$, avec bien un $5$.',
+            'Dans la formule de somme $S = \\dfrac{(u_0 + u_n)(n+1)}{2}$, le facteur $n+1$ n\'est donc pas une correction arbitraire : c\'est le <strong>nombre de ronds</strong>.',
+            'Vérification sur $u_n = 2 + 3n$ : les six termes sont $2, 5, 8, 11, 14, 17$, de somme $57$, et la formule donne $\\dfrac{(2+17)\\times 6}{2} = 57$. Avec un facteur $5$ au lieu de $6$, on aurait obtenu $47{,}5$ — un nombre plausible, et faux.',
+            'Le même décalage vaut pour une suite qui commence à $u_1$ : de $u_1$ à $u_n$, il y a alors $n$ termes. Ce qui compte n\'est jamais le rang seul, mais l\'écart des rangs augmenté de un.'
+          ],
+          reading: 'Compte les ronds à voix haute, puis compte les traits. Tu trouves six d\'un côté et cinq de l\'autre, et pourtant tu as parcouru la même ligne. C\'est ce léger décalage qu\'il faut avoir en tête chaque fois qu\'une somme apparaît : demande-toi toujours si le nombre que tu écris compte des ronds ou des traits.',
+          caption: 'Les termes $u_0$ à $u_5$ : six termes séparés par cinq pas, d\'où le facteur $n+1$ dans la formule de somme.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Décroître sans jamais s\'annuler',
+          title: 'Une raison entre $0$ et $1$ : la suite diminue toujours et n\'atteint jamais zéro',
+          description: 'Quand la raison $q$ vaut $\\dfrac{1}{2}$, chaque terme est la moitié du précédent. La suite diminue donc à chaque étape — mais <strong>diviser par deux ne donne jamais zéro</strong>, aussi longtemps qu\'on recommence.<br/><br/>C\'est ce que dit le cours à propos de la demi-vie : il reste toujours quelque chose, en théorie.',
+          svg: `
+            <svg viewBox="0 0 440 270" role="img" aria-labelledby="su-demi-title su-demi-desc">
+              <title id="su-demi-title">Une suite geometrique de raison un demi qui n atteint jamais zero</title>
+              <desc id="su-demi-desc">Huit barres verticales de hauteurs decroissantes sont posees sur une meme ligne horizontale. La premiere mesure 64 unites, la deuxieme 32, puis 16, 8, 4, 2, 1 et enfin un demi : chaque barre fait exactement la moitie de la precedente. Les dernieres barres deviennent tres basses mais aucune ne disparait : leur sommet reste au-dessus de la ligne.</desc>
+
+              <line class="axis" x1="26.0" y1="210" x2="420.0" y2="210"></line>
+
+              <line class="focus-line" x1="60.0" y1="30.8" x2="60.0" y2="210"></line>
+              <line class="focus-line" x1="108.0" y1="120.4" x2="108.0" y2="210"></line>
+              <line class="focus-line" x1="156.0" y1="165.2" x2="156.0" y2="210"></line>
+              <line class="focus-line" x1="204.0" y1="187.6" x2="204.0" y2="210"></line>
+              <line class="focus-line" x1="252.0" y1="198.8" x2="252.0" y2="210"></line>
+              <line class="focus-line" x1="300.0" y1="204.4" x2="300.0" y2="210"></line>
+              <line class="focus-line" x1="348.0" y1="207.2" x2="348.0" y2="210"></line>
+              <line class="focus-line" x1="396.0" y1="208.6" x2="396.0" y2="210"></line>
+
+              <polyline class="guide-line" points="60.0,30.8 108.0,120.4 156.0,165.2 204.0,187.6 252.0,198.8 300.0,204.4 348.0,207.2 396.0,208.6" fill="none"></polyline>
+
+              <circle class="plot-point" cx="60.0" cy="30.8" r="5"></circle>
+              <circle class="plot-point-alt" cx="108.0" cy="120.4" r="4"></circle>
+              <circle class="plot-point-alt" cx="156.0" cy="165.2" r="4"></circle>
+              <circle class="plot-point-alt" cx="204.0" cy="187.6" r="4"></circle>
+              <circle class="plot-point-alt" cx="252.0" cy="198.8" r="4"></circle>
+              <circle class="plot-point-alt" cx="300.0" cy="204.4" r="4"></circle>
+              <circle class="plot-point-alt" cx="348.0" cy="207.2" r="4"></circle>
+              <circle class="plot-point" cx="396.0" cy="208.6" r="5"></circle>
+
+              <text class="annotation-label" x="60.0" y="22" text-anchor="middle">64</text>
+              <text class="tick-label" x="108.0" y="112" text-anchor="middle">32</text>
+              <text class="tick-label" x="156.0" y="157" text-anchor="middle">16</text>
+              <text class="tick-label" x="204.0" y="180" text-anchor="middle">8</text>
+              <text class="tick-label" x="252.0" y="191" text-anchor="middle">4</text>
+              <text class="tick-label" x="300.0" y="197" text-anchor="middle">2</text>
+              <text class="tick-label" x="348.0" y="200" text-anchor="middle">1</text>
+              <text class="annotation-label" x="396.0" y="201" text-anchor="middle">0,5</text>
+
+              <text class="tick-label" x="60.0" y="228" text-anchor="middle">0</text>
+              <text class="tick-label" x="108.0" y="228" text-anchor="middle">1</text>
+              <text class="tick-label" x="156.0" y="228" text-anchor="middle">2</text>
+              <text class="tick-label" x="204.0" y="228" text-anchor="middle">3</text>
+              <text class="tick-label" x="252.0" y="228" text-anchor="middle">4</text>
+              <text class="tick-label" x="300.0" y="228" text-anchor="middle">5</text>
+              <text class="tick-label" x="348.0" y="228" text-anchor="middle">6</text>
+              <text class="tick-label" x="396.0" y="228" text-anchor="middle">7</text>
+              <text class="axis-label" x="220" y="248" text-anchor="middle">rang</text>
+              <text class="label-soft" x="220" y="266" text-anchor="middle">chaque barre vaut la moitie de la precedente</text>
+            </svg>
+          `,
+          notes: [
+            'La suite est $u_n = 64 \\times \\left(\\dfrac{1}{2}\\right)^n$, donc $u_0 = 64$, $u_1 = 32$, $u_2 = 16$, et ainsi de suite jusqu\'à $u_7 = 0{,}5$.',
+            'Le quotient de deux barres consécutives vaut toujours $\\dfrac{1}{2}$ : c\'est bien une suite <strong>géométrique</strong>, même si elle décroît.',
+            'Une raison peut donc être plus petite que $1$ sans être négative : $0 < q < 1$ donne une suite qui diminue, et c\'est le cas de toute décroissance radioactive.',
+            'Les dernières barres sont très basses, mais aucune n\'est nulle : la moitié d\'un nombre strictement positif reste strictement positive, <strong>à chaque étape, sans exception</strong>.',
+            'C\'est pourquoi on dit que la suite <strong>tend vers</strong> $0$ sans l\'atteindre. Le mot « tend vers » sera défini précisément en terminale ; ici, la figure en montre déjà le sens.'
+          ],
+          reading: 'Parcours les barres de la gauche vers la droite et regarde à chaque fois de combien la hauteur a diminué : la chute est énorme au début, minuscule à la fin. Cherche maintenant la première barre de hauteur nulle : il n\'y en a pas. La suite s\'approche de la ligne autant qu\'on veut, mais elle ne s\'y pose jamais.',
+          caption: 'Suite géométrique $u_n = 64\\times\\left(\\frac{1}{2}\\right)^n$ : chaque terme vaut la moitié du précédent et reste strictement positif.'
+        }
+      ],
+
       recap: [
         'Arithmétique : on <strong>ajoute</strong> toujours la même quantité $r$. Formule : $u_n = u_0 + nr$.',
         'Géométrique : on <strong>multiplie</strong> toujours par le même facteur $q$. Formule : $u_n = u_0 \\times q^n$.',
@@ -179,8 +332,155 @@ window.MODULES.push({
 
     exercice: {
       type: 'numeric',
+      /* BANQUE ELARGIE le 2026-09-14.
+         Avant : deux tâches (terme et somme d'une arithmétique d'un côté, terme
+         d'une géométrique de l'autre), tirées dix-huit fois.
+
+         Sept tâches désormais. Les cinq ajoutées travaillent ce que le chapitre
+         demande et que la banque ne demandait jamais : reconnaître la NATURE
+         d'une suite (le geste premier du chapitre, et l'objet du quiz), retrouver
+         une raison à partir de deux termes non consécutifs, sommer une
+         géométrique, franchir un seuil par recherche du premier rang, et lire
+         une décroissance géométrique dans un contexte de demi-vie.
+
+         Toutes les valeurs décimales passent par fr() : c'est la règle du projet
+         et le bug qui revient le plus souvent dans ce dossier. */
       generate() {
-        const type = pick(['arith', 'geom']);
+        const type = pick(['arith', 'geom', 'nature', 'raison', 'sommegeom', 'seuil', 'demivie']);
+
+        if (type === 'nature') {
+          /* Reconnaître la nature d'une suite à partir de ses premiers termes.
+             C'est le premier geste du chapitre, présent au quiz mais absent de la
+             banque. On propose les trois cas, y compris « ni l'une ni l'autre »,
+             parce qu'un élève qui n'a jamais rencontré ce troisième cas classe
+             tout dans les deux premiers. */
+          const cas = pick(['arith', 'geom', 'ni']);
+          const u0 = rand(2, 6);
+          let termes, rep, just;
+          if (cas === 'arith') {
+            const r = rand(3, 9);
+            termes = [0, 1, 2, 3, 4].map(n => u0 + n * r);
+            rep = 1;
+            just = `Les différences successives valent toutes $${r}$ : $${termes[1]} - ${termes[0]} = ${r}$, $${termes[2]} - ${termes[1]} = ${r}$, et ainsi de suite. La suite est <strong>arithmétique</strong> de raison $r = ${r}$.`;
+          } else if (cas === 'geom') {
+            const q = pick([2, 3]);
+            termes = [0, 1, 2, 3, 4].map(n => u0 * Math.pow(q, n));
+            rep = 2;
+            just = `Les différences ne sont pas constantes ($${termes[1]} - ${termes[0]} = ${termes[1] - termes[0]}$ puis $${termes[2]} - ${termes[1]} = ${termes[2] - termes[1]}$), mais les quotients le sont : $${termes[1]} \\div ${termes[0]} = ${q}$ et $${termes[2]} \\div ${termes[1]} = ${q}$. La suite est <strong>géométrique</strong> de raison $q = ${q}$.`;
+          } else {
+            termes = [0, 1, 2, 3, 4].map(n => u0 + n * n);   // carrés : ni l'un ni l'autre
+            rep = 3;
+            just = `Les différences valent $1$, $3$, $5$, $7$ : elles ne sont pas constantes, donc la suite n'est pas arithmétique. Les quotients $${termes[1]}/${termes[0]}$ et $${termes[2]}/${termes[1]}$ ne le sont pas non plus, donc elle n'est pas géométrique. Cette suite n'est <strong>ni l'une ni l'autre</strong> : chaque terme s'obtient en ajoutant un nombre impair au précédent.`;
+          }
+          return {
+            statement: `Une suite a pour cinq premiers termes : $${termes.join('$, $')}$.<br/><br/>Déterminer sa nature en testant d'abord les différences, puis les quotients.<br/><br/>Répondre $1$ si la suite est arithmétique, $2$ si elle est géométrique, $3$ si elle n'est ni l'une ni l'autre.`,
+            answer: rep, tolerance: 0, unit: '',
+            hint: `Calcule d'abord $u_1 - u_0$ puis $u_2 - u_1$ : si ces deux différences sont égales, la piste arithmétique tient. Sinon, essaie les quotients $u_1 \\div u_0$ et $u_2 \\div u_1$.`,
+            solution: [
+              `On commence par les différences entre termes consécutifs, puis, si elles ne sont pas constantes, par les quotients.`,
+              just,
+              `La réponse attendue est donc $${rep}$.`
+            ]
+          };
+        }
+
+        if (type === 'raison') {
+          /* Retrouver la raison à partir de DEUX TERMES NON CONSÉCUTIFS. L'élève
+             ne peut pas se contenter de soustraire : il doit voir que l'écart
+             couvre plusieurs pas et diviser par le nombre de pas. C'est
+             exactement l'erreur « je divise par le rang au lieu de l'écart de
+             rangs », que rien dans la banque d'origine ne venait déranger. */
+          const p = rand(2, 4), n = p + rand(3, 6);
+          const r = rand(3, 9);
+          const u0 = rand(1, 8);
+          const up = u0 + p * r, un = u0 + n * r;
+          const ctx = pick([
+            { quoi: 'Le nombre de places de parking d\'un quartier augmente chaque année de la même quantité', v: 'places' },
+            { quoi: 'La longueur d\'une digue s\'allonge chaque mois de la même quantité', v: 'mètres' },
+            { quoi: 'Le nombre d\'abonnés d\'une revue croît chaque trimestre de la même quantité', v: 'abonnés' }
+          ]);
+          return {
+            statement: `${ctx.quoi}, ce qui en fait une suite arithmétique $(u_n)$.<br/><br/>On sait que $u_{${p}} = ${up}$ et $u_{${n}} = ${un}$ (en ${ctx.v}).<br/><br/>Déterminer la raison $r$ de cette suite.`,
+            answer: r, tolerance: 0.001, unit: '',
+            hint: `De $u_{${p}}$ à $u_{${n}}$, il s'écoule $${n} - ${p} = ${n - p}$ pas, et non $${n}$. L'écart total se partage donc en $${n - p}$ parts égales.`,
+            solution: [
+              `Entre le rang $${p}$ et le rang $${n}$, la suite fait $${n} - ${p} = ${n - p}$ pas, et chacun de ces pas ajoute la même raison $r$.`,
+              `L'écart total vaut $u_{${n}} - u_{${p}} = ${un} - ${up} = ${un - up}$, qui se répartit sur ces $${n - p}$ pas.`,
+              `Donc $r = \\dfrac{${un - up}}{${n - p}} = ${r}$. On peut vérifier : $u_{${p}} + ${n - p} \\times ${r} = ${up} + ${(n - p) * r} = ${un}$.`
+            ]
+          };
+        }
+
+        if (type === 'sommegeom') {
+          /* La somme d'une suite géométrique : donnée en formule dans le cours et
+             demandée à l'évaluation, mais jamais travaillée dans la banque. On
+             tire $q$ entier pour que la somme reste entière. */
+          const u0 = rand(1, 5), q = pick([2, 3]), n = rand(4, 7);
+          const somme = u0 * (Math.pow(q, n + 1) - 1) / (q - 1);
+          const ctx = pick([
+            { quoi: 'Un défi solidaire démarre avec', unite: 'participants', mot: `Chaque jour, le nombre de nouveaux participants est multiplié par $${q}$` },
+            { quoi: 'Un tournoi de dominos aligne d\'abord', unite: 'pièces', mot: `Chaque rangée suivante compte $${q}$ fois plus de pièces que la précédente` }
+          ]);
+          return {
+            statement: `${ctx.quoi} $${u0}$ ${ctx.unite}. ${ctx.mot}.<br/><br/>1) Justifier que la suite $(u_n)$ est géométrique et donner sa raison.<br/>2) Calculer le <strong>total cumulé</strong> $S = u_0 + u_1 + \\cdots + u_{${n}}$.<br/><br/>Donner la valeur de $S$.`,
+            answer: somme, tolerance: 0.01, unit: '',
+            hint: `La formule est $S = u_0 \\times \\dfrac{1 - q^{n+1}}{1 - q}$. Attention à l'exposant : de $u_0$ à $u_{${n}}$ il y a $${n + 1}$ termes, donc l'exposant vaut $${n + 1}$ et non $${n}$.`,
+            solution: [
+              `Chaque terme s'obtient en multipliant le précédent par $${q}$ : la suite est <strong>géométrique</strong> de raison $q = ${q}$ et de premier terme $u_0 = ${u0}$.`,
+              `De $u_0$ à $u_{${n}}$, il y a $${n + 1}$ termes, donc $S = ${u0} \\times \\dfrac{1 - ${q}^{${n + 1}}}{1 - ${q}} = ${u0} \\times \\dfrac{1 - ${Math.pow(q, n + 1)}}{${1 - q}}$.`,
+              `On obtient $S = ${u0} \\times ${(Math.pow(q, n + 1) - 1) / (q - 1)} = ${somme}$.`
+            ]
+          };
+        }
+
+        if (type === 'seuil') {
+          /* Le premier rang qui franchit un seuil. On ne dispose pas du
+             logarithme en première : la recherche se fait de proche en proche,
+             ce qui est précisément la méthode attendue au programme. */
+          const u0 = rand(2, 6), q = pick([2, 3]);
+          const N = rand(3, 6);
+          const seuil = u0 * Math.pow(q, N) - rand(1, Math.max(1, Math.floor(u0 * Math.pow(q, N - 1))));
+          const ctx = pick([
+            { quoi: 'Une colonie de bactéries compte', unite: 'individus', mot: `Leur nombre est multiplié par $${q}$ à chaque heure`, seuilMot: 'heures' },
+            /* « Un forum compte au départ ... messages au départ » : le gabarit
+               ajoute lui-meme « au départ » apres l'unite, d'ou la repetition.
+               Corrige le 2026-09-14 en relisant le tirage reel du livre. */
+            { quoi: 'Un forum héberge', unite: 'messages', mot: `Le nombre de messages est multiplié par $${q}$ chaque semaine`, seuilMot: 'semaines' }
+          ]);
+          return {
+            statement: `${ctx.quoi} $${u0}$ ${ctx.unite} au départ. ${ctx.mot}.<br/><br/>Déterminer le <strong>premier rang $n$</strong> à partir duquel $u_n$ dépasse $${seuil}$.<br/><br/>Donner ce rang $n$, en ${ctx.seuilMot}.`,
+            answer: N, tolerance: 0, unit: '',
+            hint: `Calcule les termes un par un — $u_0$, $u_1$, $u_2$… — et arrête-toi au premier qui dépasse $${seuil}$. En première, on ne dispose pas encore d'outil pour résoudre directement une inéquation avec un exposant.`,
+            solution: [
+              `La suite est géométrique : $u_n = ${u0} \\times ${q}^n$. On calcule les termes successifs jusqu'à franchir le seuil.`,
+              `$u_{${N - 1}} = ${u0} \\times ${q}^{${N - 1}} = ${u0 * Math.pow(q, N - 1)}$, qui ne dépasse pas $${seuil}$, alors que $u_{${N}} = ${u0} \\times ${q}^{${N}} = ${u0 * Math.pow(q, N)}$, qui le dépasse.`,
+              `Le premier rang cherché est donc $n = ${N}$.`
+            ]
+          };
+        }
+
+        if (type === 'demivie') {
+          /* Une suite géométrique DÉCROISSANTE, de raison $1/2$. La banque
+             d'origine ne tirait que des raisons entières, donc l'élève n'y
+             rencontrait jamais une suite qui diminue — alors que c'est le
+             contexte physique annoncé par le module (décroissance radioactive).
+             Le résultat est décimal : il passe par fr(). */
+          const N0 = pick([200, 400, 800, 1600]);
+          const t = pick([4, 5, 8, 10]);
+          const k = rand(2, 4);
+          const reste = N0 / Math.pow(2, k);
+          return {
+            statement: `Un échantillon radioactif contient $${N0}$ mg de matière active. Sa demi-vie est de $${t}$ jours : à chaque période de $${t}$ jours, la masse restante est divisée par $2$.<br/><br/>1) Justifier que la masse restante forme une suite géométrique et donner sa raison.<br/>2) Calculer la masse restante après $${k * t}$ jours.<br/><br/>Donner cette masse, en mg.`,
+            answer: reste, tolerance: 0.01, unit: 'mg',
+            hint: `Commence par compter le nombre de demi-vies écoulées : $${k * t} \\div ${t}$. La raison de la suite est $q = \\dfrac{1}{2}$, donc chaque demi-vie divise la masse par $2$.`,
+            solution: [
+              `À chaque période, la masse est <strong>multipliée</strong> par $\\dfrac{1}{2}$ : la suite des masses est géométrique de raison $q = ${fr(0.5)}$ et de premier terme $N_0 = ${N0}$ mg.`,
+              `En $${k * t}$ jours, il s'écoule $${k * t} \\div ${t} = ${k}$ demi-vies, donc la masse restante vaut $N_0 \\times \\left(\\dfrac{1}{2}\\right)^{${k}} = ${N0} \\times \\dfrac{1}{${Math.pow(2, k)}}$.`,
+              `Il reste donc $${fr(reste)}$ mg. La masse diminue à chaque étape mais ne s'annule jamais : c'est la signature d'une suite géométrique de raison strictement comprise entre $0$ et $1$.`
+            ]
+          };
+        }
+
         if (type === 'arith') {
           const u0 = rand(2, 10);
           const r = rand(2, 8);
@@ -205,13 +505,20 @@ window.MODULES.push({
             ]
           };
         } else {
-          const u0 = rand(1, 5);
+          /* u0 part de 2 et non de 1 : avec 1, le gabarit imprimait
+             « 1 individus », « 1 personnes au départ ». Corrige le 2026-09-14
+             sur lecture du tirage reel. */
+          const u0 = rand(2, 5);
           const q = pick([2, 3]);
           const n = rand(3, 6);
           const ctx = pick([
             { intro: 'Une colonie de bactéries compte initialement', unit: 'individus', mot: `La population est multipliée par $${q}$ à chaque heure` },
             { intro: 'Un message viral est partagé par', unit: 'personnes au départ', mot: `Chaque personne le partage avec $${q}$ nouvelles personnes à chaque étape` },
-            { intro: 'Un investissement initial de', unit: '€ est placé avec un facteur multiplicateur de', mot: `Le capital est multiplié par $${q}$ chaque année` }
+            /* Libelle corrige le 2026-09-14 : l'unite disait « € est placé avec
+               un facteur multiplicateur de », phrase que le gabarit refermait
+               aussitot par un point, ce qui imprimait « ... multiplicateur de. »
+               Defaut ancien, revele par l'elargissement de la banque. */
+            { intro: 'Un investissement initial de', unit: '€ est placé sur un compte', mot: `Le capital est multiplié par $${q}$ chaque année` }
           ]);
           const un = u0 * Math.pow(q, n);
           return {
@@ -285,12 +592,28 @@ window.MODULES.push({
           correction: 'On applique la formule du terme général de la suite géométrique : $C_3 = 1000 \\times (1{,}05)^3$.<br/><br/>$C_3 = 1000 \\times 1{,}157625 = 1157{,}63$ € (arrondi au centime).'
         },
         {
-          statement: 'La somme des $6$ premiers termes ($v_0$ à $v_5$) d\'une suite géométrique de premier terme $v_0 = 1$ et de raison $q = 2$ vaut :',
+          /* QUESTION 5 RÉÉCRITE le 2026-09-14. Elle demandait une troisième
+             somme après les questions 1 et 3 : ce devoir comptait trois
+             « calculer » sur cinq, et sur les cinquante questions du niveau
+             « calculer » atteignait 50 %, très au-delà du plafond de 35 % du
+             cahier des charges.
+
+             La nouvelle question demande de comparer deux croissances et
+             d'EXPLIQUER pourquoi l'une finit par dépasser l'autre. C'est le
+             fait le plus utile du chapitre pour la terminale — la croissance
+             géométrique l'emporte toujours sur l'arithmétique — et il n'était
+             évalué nulle part. L'étiquette suit l'énoncé. */
+          statement: 'Deux placements partent de $100$ € :<br/><br/>le placement A rapporte $30$ € par an (suite arithmétique de raison $30$) ;<br/>le placement B rapporte $10\\%$ par an (suite géométrique de raison $1{,}1$).<br/><br/>Au bout de $5$ ans, A vaut $250$ € et B vaut environ $161$ €. Un camarade conclut : « le placement A est meilleur, c\'est démontré ».<br/><br/>Que lui réponds-tu ?',
           type: 'multiple-choice',
-          options: ['$32$', '$63$', '$64$', '$31$'],
-          answer: 1,
+          options: [
+            'Sa conclusion ne vaut que pour les premières années : B augmente d\'un pourcentage sur une somme qui grossit, donc son gain annuel augmente sans cesse et finit toujours par dépasser celui de A',
+            'Il a raison : une suite arithmétique de raison $30$ dépasse toujours une suite géométrique de raison $1{,}1$',
+            'Les deux placements donneront exactement la même somme à partir de la dixième année',
+            'On ne peut pas comparer une suite arithmétique et une suite géométrique'
+          ],
+          answer: 0,
           points: 2,
-          correction: 'On utilise la formule de somme géométrique avec $v_0 = 1$, $q = 2$ et $6$ termes ($v_0$ à $v_5$).<br/><br/>$S = v_0 \\times \\dfrac{1 - q^{6}}{1 - q} = 1 \\times \\dfrac{1 - 64}{1 - 2} = \\dfrac{-63}{-1} = 63$.'
+          correction: 'Le constat de ton camarade est exact à $5$ ans, mais sa conclusion générale ne l\'est pas.<br/><br/>La différence tient à la <strong>nature</strong> du gain annuel. Le placement A rapporte toujours $30$ € : son gain est <strong>constant</strong>. Le placement B rapporte $10\\%$ d\'une somme qui grossit chaque année : son gain annuel <strong>augmente</strong>, de $10$ € la première année à plus de $30$ € dès que le capital dépasse $300$ €.<br/><br/>À partir de ce moment-là, B gagne plus vite que A chaque année, et l\'écart accumulé finit nécessairement par se combler. Le calcul le confirme : à $30$ ans, A vaut $1000$ € et B environ $1745$ €.<br/><br/>C\'est un fait général, qu\'il te faudra retenir pour la terminale : <strong>une croissance géométrique de raison strictement supérieure à $1$ finit toujours par dépasser n\'importe quelle croissance arithmétique</strong>, aussi grande soit sa raison. Il faut parfois attendre longtemps, mais cela arrive toujours.'
         }
       ]
     }

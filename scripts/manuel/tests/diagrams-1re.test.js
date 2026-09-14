@@ -1167,3 +1167,614 @@ test('1re-variables-aleatoires : aucune couleur en dur dans les schemas', () => 
       d.title + ' : une couleur est ecrite en dur au lieu d une variable du projet');
   }
 });
+
+/* =========================================================
+   PRODUIT SCALAIRE, GEOMETRIE REPEREE, TRIGONOMETRIE (2026-09-14)
+
+   Ajoutes a la FIN du fichier, sans toucher aux tests existants : une autre
+   session ecrit en parallele dans ce meme repertoire, et une insertion au
+   milieu produirait un conflit textuel.
+
+   LA PROPRIETE PROPRE A CES TROIS CHAPITRES est l'ORTHOGONALITE. Une
+   projection qui ne tombe pas a angle droit, un point annonce sur un cercle
+   qui passe a cote, un vecteur normal qui ne serait pas perpendiculaire a sa
+   droite : aucune de ces fautes ne se voit a la relecture, et toutes seraient
+   imprimees sans la moindre alerte de LaTeX. On les verifie donc par le
+   calcul, au produit scalaire nul et a la distance exacte.
+   ========================================================= */
+
+const PSCAL = schemas('1re-produit-scalaire');
+const GREP = schemas('1re-geometrie-reperee');
+const TRIGO = schemas('1re-trigonometrie');
+
+/* Produit scalaire de deux segments d'ecran, utilise pour contraler les
+   angles droits. L'axe des ordonnees du SVG est inverse, mais cela ne change
+   RIEN a la nullite d'un produit scalaire : l'inversion est une symetrie, qui
+   conserve l'orthogonalite. On travaille donc directement en coordonnees
+   d'ecran. */
+function vecteurDe1re(tag) {
+  return { x: attr(tag, 'x2') - attr(tag, 'x1'), y: attr(tag, 'y2') - attr(tag, 'y1') };
+}
+function cosEntre1re(a, b) {
+  const va = vecteurDe1re(a), vb = vecteurDe1re(b);
+  const n = Math.hypot(va.x, va.y) * Math.hypot(vb.x, vb.y);
+  return (va.x * vb.x + va.y * vb.y) / n;
+}
+
+/* --- Regles generales, appliquees aux trois chapitres ------------------ */
+for (const [nom, LOT] of [['1re-produit-scalaire', PSCAL],
+                          ['1re-geometrie-reperee', GREP],
+                          ['1re-trigonometrie', TRIGO]]) {
+
+  test(nom + ' : le chapitre porte bien ses trois schemas secondaires', () => {
+    assert.strictEqual(LOT.length, 3);
+    for (const d of LOT) {
+      assert.ok(d.svg && d.svg.includes('<svg'), 'chaque schema porte une source SVG');
+      assert.ok(d.caption && d.caption.trim(), 'chaque schema porte une legende');
+      assert.ok(d.notes && d.notes.length >= 2, 'chaque schema porte ses notes');
+      assert.ok(d.reading && d.reading.trim(), 'chaque schema porte sa lecture');
+    }
+  });
+
+  test(nom + ' : tous les viewBox ont une origine 0 0', () => {
+    for (const d of LOT) {
+      const vb = viewBox(d.svg);
+      assert.strictEqual(vb.x, 0, 'origine x du viewBox');
+      assert.strictEqual(vb.y, 0, 'origine y du viewBox');
+    }
+  });
+
+  /* Un element hors cadre s'imprime par-dessus le texte voisin, sans le
+     moindre Overfull de LaTeX : c'est le defaut le plus silencieux du
+     pipeline. On controle aussi les CERCLES par leurs bords, et pas seulement
+     par leur centre — un cercle dont le centre est dans le cadre peut
+     parfaitement en deborder. */
+  test(nom + ' : aucun trait, point ni cercle ne sort de son viewBox', () => {
+    for (const d of LOT) {
+      const vb = viewBox(d.svg);
+      const dans = (x, y, quoi) => {
+        assert.ok(x >= -0.5 && x <= vb.w + 0.5, quoi + ' : x=' + x + ' hors [0 ; ' + vb.w + ']');
+        assert.ok(y >= -0.5 && y <= vb.h + 0.5, quoi + ' : y=' + y + ' hors [0 ; ' + vb.h + ']');
+      };
+      for (const l of balises(d.svg, 'line')) {
+        dans(attr(l, 'x1'), attr(l, 'y1'), d.title + ' / debut de trait');
+        dans(attr(l, 'x2'), attr(l, 'y2'), d.title + ' / fin de trait');
+      }
+      for (const c of balises(d.svg, 'circle')) {
+        const r = attr(c, 'r') || 0;
+        dans(attr(c, 'cx') - r, attr(c, 'cy') - r, d.title + ' / bord de cercle');
+        dans(attr(c, 'cx') + r, attr(c, 'cy') + r, d.title + ' / bord de cercle');
+      }
+      for (const pts of polyPoints(d.svg)) {
+        for (const p of pts) dans(p.x, p.y, d.title + ' / point de courbe');
+      }
+    }
+  });
+
+  test(nom + ' : aucune couleur en dur dans les schemas', () => {
+    for (const d of LOT) {
+      assert.ok(!/(?:stroke|fill)="#/.test(d.svg),
+        d.title + ' : une couleur est ecrite en dur au lieu d une variable du projet');
+    }
+  });
+
+  test(nom + ' : pas d etiquette en capitales dans les schemas', () => {
+    for (const d of LOT) {
+      const textes = [];
+      const re = /<text\b[^>]*>([^<]*)<\/text>/g;
+      let m;
+      while ((m = re.exec(d.svg))) textes.push(m[1].trim());
+      for (const t of textes) {
+        const lettres = t.replace(/[^A-Za-zA-yu]/g, '').replace(/[^A-Za-z]/g, '');
+        if (lettres.length >= 3) {
+          assert.ok(lettres !== lettres.toUpperCase(),
+            d.title + ' : etiquette « ' + t + ' » entierement en capitales, qui se fracture a la conversion');
+        }
+      }
+    }
+  });
+}
+
+/* --- Produit scalaire, schema 1 : LA PROJECTION ORTHOGONALE ------------
+   u = (-2 ; 6), v = (4 ; 3). Echelle 28 unites de viewBox par unite de
+   repere, origine du repere a l'ecran en (140 ; 222).
+
+   C'est LE schema du chapitre, et sa propriete est verifiable au calcul :
+   le trait de projection doit tomber a angle droit sur la droite portee par
+   v. Un angle droit dessine a 89 degres serait invisible a la relecture. */
+test('1re-produit-scalaire / projection : le trait de projection est orthogonal a v', () => {
+  const d = PSCAL[0];
+  const traits = balises(d.svg, 'line');
+  const proj = traits.find(l => classeDe(l) === 'focus-line');
+  const porteuse = traits.find(l => classeDe(l) === 'guide-line');
+  assert.ok(proj, 'le trait de projection est trace en focus-line');
+  assert.ok(porteuse, 'la droite portee par v est tracee en guide-line');
+
+  const cos = cosEntre1re(proj, porteuse);
+  assert.ok(Math.abs(cos) < 5e-3,
+    'la projection n est pas orthogonale a la direction de v : cos = ' + cos.toFixed(6));
+});
+
+test('1re-produit-scalaire / projection : le pied tombe bien sur la droite portee par v', () => {
+  const d = PSCAL[0];
+  const E = 28, OX = 140, OY = 222;
+  const pied = balises(d.svg, 'circle')
+    .filter(c => classeDe(c) === 'plot-point')
+    .map(c => ({ x: attr(c, 'cx'), y: attr(c, 'cy') }))[0];
+  assert.ok(pied, 'le pied de la projection est marque par un point');
+
+  // Retour aux coordonnees du repere, puis controle par la formule de
+  // projection : H = (u.v / ||v||^2) * v, avec u = (-2 ; 6) et v = (4 ; 3).
+  const hx = (pied.x - OX) / E, hy = (OY - pied.y) / E;
+  const u = [-2, 6], v = [4, 3];
+  const k = (u[0] * v[0] + u[1] * v[1]) / (v[0] * v[0] + v[1] * v[1]);
+  assert.ok(Math.abs(hx - k * v[0]) < 0.02 && Math.abs(hy - k * v[1]) < 0.02,
+    'le pied dessine (' + hx.toFixed(3) + ' ; ' + hy.toFixed(3) + ') ne vaut pas le projete calcule (' +
+    (k * v[0]).toFixed(3) + ' ; ' + (k * v[1]).toFixed(3) + ')');
+
+  /* La legende annonce OH = 2 et ||v|| = 5, donc u.v = 10 : on verifie que
+     l'arithmetique du texte est celle du dessin. */
+  assert.ok(Math.abs(Math.hypot(hx, hy) - 2) < 0.03,
+    'la longueur OH dessinee vaut ' + Math.hypot(hx, hy).toFixed(4) + ' au lieu de 2');
+  assert.strictEqual(u[0] * v[0] + u[1] * v[1], 10, 'le produit scalaire annonce vaut bien 10');
+  assert.strictEqual(Math.hypot(v[0], v[1]), 5, 'la norme de v annoncee vaut bien 5');
+});
+
+/* --- Produit scalaire, schema 2 : LE SIGNE, LU SUR LA PROJECTION -------
+   Patron « comparaison » : trois panneaux ou SEUL l'angle change. Si les
+   normes dessinees differaient, la figure ferait croire que le signe depend
+   aussi des longueurs — ce qui est faux, et ruinerait le propos. */
+test('1re-produit-scalaire / signe : les trois vecteurs u ont la MEME longueur dessinee', () => {
+  const d = PSCAL[1];
+  /* Les vecteurs u sont les curve-main obliques ou verticaux ; les v sont
+     horizontaux. On separe par la nullite de la composante verticale. */
+  const us = balises(d.svg, 'line')
+    .filter(l => classeDe(l) === 'curve-main')
+    .filter(l => Math.abs(attr(l, 'y2') - attr(l, 'y1')) > 1e-9);
+  assert.strictEqual(us.length, 3, 'trois vecteurs u, un par panneau');
+
+  const longueurs = us.map(l => Math.hypot(attr(l, 'x2') - attr(l, 'x1'),
+                                           attr(l, 'y2') - attr(l, 'y1')));
+  for (const L of longueurs) {
+    assert.ok(Math.abs(L - longueurs[0]) < 0.5,
+      'les normes dessinees de u different (' + longueurs.map(x => x.toFixed(2)).join(' / ') +
+      ') : le patron « comparaison » exige que seul l angle change');
+  }
+});
+
+test('1re-produit-scalaire / signe : les trois vecteurs v ont la MEME longueur dessinee', () => {
+  const d = PSCAL[1];
+  const vs = balises(d.svg, 'line')
+    .filter(l => classeDe(l) === 'curve-main')
+    .filter(l => Math.abs(attr(l, 'y2') - attr(l, 'y1')) < 1e-9);
+  assert.strictEqual(vs.length, 3, 'trois vecteurs v, un par panneau');
+  const longueurs = vs.map(l => Math.abs(attr(l, 'x2') - attr(l, 'x1')));
+  for (const L of longueurs) {
+    assert.ok(Math.abs(L - longueurs[0]) < 0.5,
+      'les normes dessinees de v different : ' + longueurs.map(x => x.toFixed(2)).join(' / '));
+  }
+});
+
+test('1re-produit-scalaire / signe : le pied passe a droite, sur l origine, puis a gauche', () => {
+  const d = PSCAL[1];
+  /* Les trois origines sont marquees : deux plot-point-alt (panneaux 1 et 3)
+     et, au panneau 2, l'origine EST le pied, donc un plot-point. On relit
+     donc les pieds (plot-point) et on les compare a l'origine de leur
+     panneau, identifiee par l'abscisse de depart du vecteur v. */
+  const pieds = balises(d.svg, 'circle')
+    .filter(c => classeDe(c) === 'plot-point')
+    .map(c => attr(c, 'cx'))
+    .sort((a, b) => a - b);
+  assert.strictEqual(pieds.length, 3, 'un pied de projection par panneau');
+
+  const origines = balises(d.svg, 'line')
+    .filter(l => classeDe(l) === 'curve-main')
+    .filter(l => Math.abs(attr(l, 'y2') - attr(l, 'y1')) < 1e-9)
+    .map(l => attr(l, 'x1'))
+    .sort((a, b) => a - b);
+
+  // Panneau 1 : pied strictement a DROITE de son origine (produit positif).
+  assert.ok(pieds[0] > origines[0] + 1,
+    'panneau 1 : le pied devrait tomber a droite de l origine (produit positif)');
+  // Panneau 2 : pied CONFONDU avec l origine (produit nul).
+  assert.ok(Math.abs(pieds[1] - origines[1]) < 0.5,
+    'panneau 2 : le pied devrait se confondre avec l origine (produit nul)');
+  // Panneau 3 : pied strictement a GAUCHE de son origine (produit negatif).
+  assert.ok(pieds[2] < origines[2] - 1,
+    'panneau 3 : le pied devrait tomber a gauche de l origine (produit negatif)');
+});
+
+/* --- Produit scalaire, schema 3 : LES DEUX FORMULES CONCORDENT ---------
+   u = (3 ; 4), v = (8 ; 6). Le schema ANNONCE ses deux calculs en toutes
+   lettres dans deux encadres : si l'arithmetique etait fausse, la figure
+   mentirait sans que rien ne le signale. */
+test('1re-produit-scalaire / deux voies : les deux calculs annonces donnent le meme nombre', () => {
+  const u = [3, 4], v = [8, 6];
+  const parCoord = u[0] * v[0] + u[1] * v[1];
+  const nu = Math.hypot(u[0], u[1]), nv = Math.hypot(v[0], v[1]);
+  const cos = parCoord / (nu * nv);
+
+  assert.strictEqual(parCoord, 48, 'par les coordonnees, le produit scalaire vaut 48');
+  assert.strictEqual(nu, 5, 'la norme de u vaut exactement 5');
+  assert.strictEqual(nv, 10, 'la norme de v vaut exactement 10');
+  assert.ok(Math.abs(cos - 0.96) < 1e-12, 'le cosinus annonce vaut exactement 0,96');
+  assert.ok(Math.abs(nu * nv * cos - parCoord) < 1e-9,
+    'les deux chemins de calcul ne rendent pas le meme nombre');
+
+  // Et les encadres du dessin annoncent bien ces nombres-la.
+  const d = PSCAL[2];
+  assert.ok(d.svg.includes('3×8 + 4×6 = 48'), 'le calcul par coordonnees est affiche');
+  assert.ok(d.svg.includes('5 × 10 × 0,96 = 48'), 'le calcul par les normes est affiche');
+});
+
+test('1re-produit-scalaire / deux voies : les vecteurs dessines sont bien u et v', () => {
+  const d = PSCAL[2];
+  const E = 22, OX = 60, OY = 212;
+  const vecs = balises(d.svg, 'line').filter(l => classeDe(l) === 'curve-main');
+  assert.strictEqual(vecs.length, 2, 'deux vecteurs traces');
+
+  const lus = vecs.map(l => ({
+    x: (attr(l, 'x2') - OX) / E,
+    y: (OY - attr(l, 'y2')) / E
+  })).sort((a, b) => a.x - b.x);
+
+  assert.ok(Math.abs(lus[0].x - 3) < 0.02 && Math.abs(lus[0].y - 4) < 0.02,
+    'le premier vecteur dessine vaut (' + lus[0].x.toFixed(2) + ' ; ' + lus[0].y.toFixed(2) + ') au lieu de (3 ; 4)');
+  assert.ok(Math.abs(lus[1].x - 8) < 0.02 && Math.abs(lus[1].y - 6) < 0.02,
+    'le second vecteur dessine vaut (' + lus[1].x.toFixed(2) + ' ; ' + lus[1].y.toFixed(2) + ') au lieu de (8 ; 6)');
+});
+
+/* --- Geometrie reperee, schema 1 : LE DETERMINANT ----------------------
+   Patron « comparaison » : memes A et B a gauche et a droite, seul C change
+   d'un carreau. Tout le propos tient a cette egalite : si A ou B differaient
+   d'un panneau a l'autre, la figure ne comparerait plus rien. */
+test('1re-geometrie-reperee / determinant : les deux panneaux partagent les memes A et B', () => {
+  const d = GREP[0];
+  const E = 22;
+  const pts = balises(d.svg, 'circle')
+    .map(c => ({ x: attr(c, 'cx'), y: attr(c, 'cy'), cl: classeDe(c) }));
+  const gauche = pts.filter(p => p.x < 200).sort((a, b) => a.x - b.x);
+  const droite = pts.filter(p => p.x >= 200).sort((a, b) => a.x - b.x);
+  assert.strictEqual(gauche.length, 3, 'trois points a gauche');
+  assert.strictEqual(droite.length, 3, 'trois points a droite');
+
+  // Ecarts A->B identiques des deux cotes, en ecran comme en repere.
+  const dgx = gauche[1].x - gauche[0].x, dgy = gauche[1].y - gauche[0].y;
+  const ddx = droite[1].x - droite[0].x, ddy = droite[1].y - droite[0].y;
+  assert.ok(Math.abs(dgx - ddx) < 0.5 && Math.abs(dgy - ddy) < 0.5,
+    'le vecteur AB doit etre IDENTIQUE dans les deux panneaux');
+
+  /* Et les determinants sont bien ceux annonces : 0 a gauche, 3 a droite.
+     On relit les coordonnees de repere a partir de l'ecran. */
+  const rep = (lot) => lot.map(p => ({
+    x: Math.round((p.x - lot[0].x) / E),
+    y: Math.round((lot[0].y - p.y) / E)
+  }));
+  const det = (T) => (T[1].x - T[0].x) * (T[2].y - T[0].y) - (T[1].y - T[0].y) * (T[2].x - T[0].x);
+  assert.strictEqual(det(rep(gauche)), 0, 'le panneau de gauche doit avoir un determinant NUL');
+  assert.strictEqual(det(rep(droite)), 3, 'le panneau de droite doit avoir un determinant de 3');
+});
+
+/* --- Geometrie reperee, schema 2 : LE CERCLE ---------------------------
+   Centre (3 ; 2), rayon 5, echelle 21, origine du repere a l'ecran (92 ; 214).
+
+   Les quatre points marques sont annonces SUR le cercle. Un point a 4,998 du
+   centre d'un cercle de rayon 5 se relit sans que rien n'attire l'attention :
+   c'est exactement le type de faute que seul le calcul attrape. */
+test('1re-geometrie-reperee / cercle : les quatre points marques sont a distance exactement 5', () => {
+  const d = GREP[1];
+  const E = 21, OX = 92, OY = 214;
+  const cercle = balises(d.svg, 'circle').find(c => classeDe(c) === 'frame-line');
+  assert.ok(cercle, 'le cercle est trace en frame-line');
+
+  const cx = attr(cercle, 'cx'), cy = attr(cercle, 'cy'), R = attr(cercle, 'r');
+  // Le centre dessine est bien (3 ; 2) et le rayon dessine vaut bien 5 unites.
+  assert.ok(Math.abs((cx - OX) / E - 3) < 0.02, 'abscisse du centre');
+  assert.ok(Math.abs((OY - cy) / E - 2) < 0.02, 'ordonnee du centre');
+  assert.ok(Math.abs(R / E - 5) < 0.02, 'le rayon dessine vaut ' + (R / E).toFixed(4) + ' au lieu de 5');
+
+  const marques = balises(d.svg, 'circle')
+    .filter(c => classeDe(c) === 'plot-point-alt')
+    .map(c => ({ x: attr(c, 'cx'), y: attr(c, 'cy') }));
+  assert.strictEqual(marques.length, 4, 'quatre points marques sur le cercle');
+
+  for (const p of marques) {
+    // Distance au centre, en unites de repere, et verification de l'equation.
+    const x = (p.x - OX) / E, y = (OY - p.y) / E;
+    const dist = Math.hypot(x - 3, y - 2);
+    assert.ok(Math.abs(dist - 5) < 0.03,
+      'le point (' + x.toFixed(2) + ' ; ' + y.toFixed(2) + ') est a ' + dist.toFixed(4) +
+      ' du centre au lieu de 5 : il ne tombe pas sur le cercle');
+    // Les quatre points sont annonces a coordonnees ENTIERES : on le verifie,
+    // faute de quoi la lecture au carreau promise par la note serait fausse.
+    assert.ok(Math.abs(x - Math.round(x)) < 0.03 && Math.abs(y - Math.round(y)) < 0.03,
+      'le point (' + x.toFixed(3) + ' ; ' + y.toFixed(3) + ') n est pas a coordonnees entieres');
+    // Et l'equation du cercle est verifiee EXACTEMENT sur les entiers.
+    const xi = Math.round(x), yi = Math.round(y);
+    assert.strictEqual((xi - 3) * (xi - 3) + (yi - 2) * (yi - 2), 25,
+      'le point (' + xi + ' ; ' + yi + ') ne verifie pas (x-3)^2 + (y-2)^2 = 25');
+  }
+});
+
+/* --- Geometrie reperee, schema 3 : LA DROITE ---------------------------
+   2x + 3y - 12 = 0, echelle 28, origine du repere a l'ecran (96 ; 224).
+   Le vecteur normal doit etre RIGOUREUSEMENT perpendiculaire a la droite :
+   c'est tout le propos du schema, et le carre d'angle droit l'affirme. */
+test('1re-geometrie-reperee / droite : les trois points marques verifient l equation', () => {
+  const d = GREP[2];
+  const E = 28, OX = 96, OY = 224;
+  const pts = balises(d.svg, 'circle')
+    .filter(c => classeDe(c) === 'plot-point')
+    .map(c => ({ x: (attr(c, 'cx') - OX) / E, y: (OY - attr(c, 'cy')) / E }));
+  assert.strictEqual(pts.length, 3, 'trois points marques sur la droite');
+
+  for (const p of pts) {
+    const xi = Math.round(p.x), yi = Math.round(p.y);
+    assert.ok(Math.abs(p.x - xi) < 0.03 && Math.abs(p.y - yi) < 0.03,
+      'le point (' + p.x.toFixed(3) + ' ; ' + p.y.toFixed(3) + ') n est pas a coordonnees entieres');
+    assert.strictEqual(2 * xi + 3 * yi - 12, 0,
+      'le point (' + xi + ' ; ' + yi + ') ne verifie pas 2x + 3y - 12 = 0');
+    // Et la forme reduite donne la meme chose.
+    assert.ok(Math.abs((-2 / 3) * xi + 4 - yi) < 1e-9,
+      'le point (' + xi + ' ; ' + yi + ') ne verifie pas y = -2/3 x + 4');
+  }
+});
+
+test('1re-geometrie-reperee / droite : le vecteur normal est perpendiculaire a la droite', () => {
+  const d = GREP[2];
+  const droite = balises(d.svg, 'line').find(l => classeDe(l) === 'curve-main');
+  const normal = balises(d.svg, 'line').find(l => classeDe(l) === 'focus-line');
+  assert.ok(droite, 'la droite est tracee en curve-main');
+  assert.ok(normal, 'le vecteur normal est trace en focus-line');
+
+  const cos = cosEntre1re(droite, normal);
+  assert.ok(Math.abs(cos) < 5e-3,
+    'le vecteur normal n est pas perpendiculaire a la droite : cos = ' + cos.toFixed(6));
+
+  // Le trait de la droite est bien porte par 2x + 3y - 12 = 0.
+  const E = 28, OX = 96, OY = 224;
+  for (const bout of [['x1', 'y1'], ['x2', 'y2']]) {
+    const x = (attr(droite, bout[0]) - OX) / E, y = (OY - attr(droite, bout[1])) / E;
+    assert.ok(Math.abs(2 * x + 3 * y - 12) < 0.05,
+      'une extremite du trait ne verifie pas l equation de la droite : 2x+3y-12 = ' +
+      (2 * x + 3 * y - 12).toFixed(4));
+  }
+});
+
+/* --- Trigonometrie, schema 1 : LE RADIAN EST UNE LONGUEUR --------------
+   Cercle de rayon 1 dessine au rayon 98, centre a l'ecran (150 ; 158).
+   Le propos EST une egalite de longueurs : si l'arc dessine ne mesurait pas
+   le rayon, la figure dirait le contraire de son titre. */
+test('1re-trigonometrie / radian : l arc dessine a exactement la longueur du rayon', () => {
+  const d = TRIGO[0];
+  const CX = 150, CY = 158, R = 98;
+  const cercle = balises(d.svg, 'circle').find(c => classeDe(c) === 'frame-line');
+  assert.ok(cercle, 'le cercle trigonometrique est trace en frame-line');
+  assert.strictEqual(attr(cercle, 'r'), R, 'rayon du cercle a l ecran');
+
+  const arc = polyPoints(d.svg)[0];
+  assert.ok(arc && arc.length > 8, 'arc trace en polyline suffisamment echantillonnee');
+
+  // Chaque point de l'arc est sur le cercle...
+  for (const p of arc) {
+    const dist = Math.hypot(p.x - CX, p.y - CY);
+    assert.ok(Math.abs(dist - R) < 0.6,
+      'un point de l arc est a ' + dist.toFixed(2) + ' du centre au lieu de ' + R);
+  }
+  // ...et la longueur de l'arc vaut le rayon, a l'echantillonnage pres.
+  let L = 0;
+  for (let i = 1; i < arc.length; i++) {
+    L += Math.hypot(arc[i].x - arc[i - 1].x, arc[i].y - arc[i - 1].y);
+  }
+  assert.ok(Math.abs(L / R - 1) < 0.01,
+    'l arc mesure ' + (L / R).toFixed(5) + ' rayon(s) au lieu de 1 : ce serait dementir le titre du schema');
+});
+
+/* --- Trigonometrie, schema 2 : LES QUATRE SYMETRIQUES -----------------
+   Cercle de rayon 118, centre a l'ecran (178 ; 170). Les quatre points de
+   pi/6, 5pi/6, 7pi/6 et 11pi/6 doivent partager EXACTEMENT leurs valeurs
+   absolues : c'est l'unique propos du schema. */
+test('1re-trigonometrie / symetries : les quatre points partagent leurs valeurs absolues', () => {
+  const d = TRIGO[1];
+  const CX = 178, CY = 170, R = 118;
+  const pts = balises(d.svg, 'circle')
+    .filter(c => classeDe(c) === 'plot-point')
+    .map(c => ({ x: (attr(c, 'cx') - CX) / R, y: (CY - attr(c, 'cy')) / R }));
+  assert.strictEqual(pts.length, 4, 'quatre points marques');
+
+  for (const p of pts) {
+    // Chacun est sur le cercle trigonometrique, donc a distance 1.
+    assert.ok(Math.abs(Math.hypot(p.x, p.y) - 1) < 0.01,
+      'un point est a ' + Math.hypot(p.x, p.y).toFixed(4) + ' du centre au lieu de 1');
+    // Et ses valeurs absolues sont celles de pi/6.
+    assert.ok(Math.abs(Math.abs(p.x) - Math.sqrt(3) / 2) < 0.01,
+      '|cos| vaut ' + Math.abs(p.x).toFixed(4) + ' au lieu de racine(3)/2');
+    assert.ok(Math.abs(Math.abs(p.y) - 0.5) < 0.01,
+      '|sin| vaut ' + Math.abs(p.y).toFixed(4) + ' au lieu de 1/2');
+  }
+
+  // Les quatre quadrants sont bien representes, un point chacun.
+  const quadrants = new Set(pts.map(p => (p.x > 0 ? 'd' : 'g') + (p.y > 0 ? 'h' : 'b')));
+  assert.strictEqual(quadrants.size, 4, 'les quatre points doivent occuper les quatre quadrants');
+});
+
+/* --- Trigonometrie, schema 3 : pi/6 CONTRE pi/3 -----------------------
+   Quart de cercle de rayon 104, centre a l'ecran (128 ; 196). Le schema
+   affirme que le cosinus DECROIT quand l'angle croit : c'est verifiable. */
+test('1re-trigonometrie / remarquables : les trois points sont sur le cercle aux bons angles', () => {
+  const d = TRIGO[2];
+  const CX = 128, CY = 196, R = 104;
+  const pts = balises(d.svg, 'circle')
+    .filter(c => classeDe(c) === 'plot-point')
+    .map(c => ({ x: (attr(c, 'cx') - CX) / R, y: (CY - attr(c, 'cy')) / R }));
+  assert.strictEqual(pts.length, 3, 'trois points remarquables marques');
+
+  const attendus = [Math.PI / 6, Math.PI / 4, Math.PI / 3];
+  const lus = pts.map(p => Math.atan2(p.y, p.x)).sort((a, b) => a - b);
+  lus.forEach((a, i) => {
+    assert.ok(Math.abs(a - attendus[i]) < 0.01,
+      'angle dessine ' + (a * 180 / Math.PI).toFixed(3) + ' degres au lieu de ' +
+      (attendus[i] * 180 / Math.PI).toFixed(3));
+  });
+  for (const p of pts) {
+    assert.ok(Math.abs(Math.hypot(p.x, p.y) - 1) < 0.01, 'chaque point est sur le cercle de rayon 1');
+  }
+});
+
+test('1re-trigonometrie / remarquables : le cosinus decroit quand l angle croit', () => {
+  const d = TRIGO[2];
+  const CX = 128, CY = 196, R = 104;
+  const pts = balises(d.svg, 'circle')
+    .filter(c => classeDe(c) === 'plot-point')
+    .map(c => ({ x: (attr(c, 'cx') - CX) / R, y: (CY - attr(c, 'cy')) / R }))
+    .sort((a, b) => Math.atan2(a.y, a.x) - Math.atan2(b.y, b.x));   // angle croissant
+
+  for (let i = 1; i < pts.length; i++) {
+    assert.ok(pts[i].x < pts[i - 1].x,
+      'le cosinus doit DECROITRE quand l angle croit, or ' + pts[i].x.toFixed(4) +
+      ' ne suit pas ' + pts[i - 1].x.toFixed(4) + ' : le schema dementirait son propre titre');
+    assert.ok(pts[i].y > pts[i - 1].y, 'et le sinus doit croitre');
+  }
+  // Les trois pieds de projection se succedent de droite a gauche.
+  const pieds = balises(d.svg, 'circle')
+    .filter(c => classeDe(c) === 'plot-point-alt')
+    .map(c => attr(c, 'cx'));
+  assert.strictEqual(pieds.length, 3, 'trois pieds de projection');
+  const tries = [...pieds].sort((a, b) => b - a);
+  assert.deepStrictEqual(pieds.map(x => Math.round(x)), tries.map(x => Math.round(x)),
+    'les pieds doivent etre ecrits dans l ordre decroissant des abscisses');
+});
+
+/* =========================================================
+   HELPERS DE FIGURES D'EXERCICE DE LA PREMIERE (2026-09-14)
+
+   figure1reProjection et figure1reCercleRepere sont appeles depuis les
+   generate(), donc sur des valeurs TIREES : on les eprouve ici sur plusieurs
+   jeux de parametres, et non sur un seul cas heureux.
+   ========================================================= */
+
+const fs1re = require('fs');
+const vm1re = require('vm');
+const { RACINE: RACINE1RE } = require('../extract.js');
+
+const BAC_1RE = (() => {
+  const bac = { window: { MODULES: [] }, console, Math };
+  vm1re.createContext(bac);
+  const lire = (p) => fs1re.readFileSync(path.join(RACINE1RE, p), 'utf8');
+  vm1re.runInContext(lire('js/data/helpers.js') + '\n' + lire('js/data/figures-exercices.js'), bac);
+  return bac;
+})();
+const figure1re = (expr) => vm1re.runInContext(expr, BAC_1RE);
+
+test('figure1reProjection : la projection tombe TOUJOURS a angle droit', () => {
+  const cas = [[-2, 6, 4, 3], [3, 4, 8, 6], [5, 1, 4, 3], [-3, 2, 5, -1],
+               [1, 5, 4, 3], [6, 2, 4, 3], [2, -5, 3, 4], [-4, -2, 2, 5]];
+  for (const [ux, uy, vx, vy] of cas) {
+    const svg = figure1re(`figure1reProjection(${ux}, ${uy}, ${vx}, ${vy})`);
+    const traits = balises(svg, 'line');
+    const proj = traits.find(l => classeDe(l) === 'focus-line');
+    const porteuse = traits.find(l => classeDe(l) === 'guide-line');
+    assert.ok(proj && porteuse, 'la figure porte son trait de projection et sa droite porteuse');
+    const cos = cosEntre1re(proj, porteuse);
+    assert.ok(Math.abs(cos) < 5e-3,
+      'u=(' + ux + ';' + uy + ') v=(' + vx + ';' + vy + ') : projection non orthogonale, cos = ' + cos.toFixed(6));
+  }
+});
+
+test('figure1reProjection : rien ne sort du viewBox', () => {
+  const cas = [[-2, 6, 4, 3], [3, 4, 8, 6], [6, 2, 4, 3], [2, -5, 3, 4], [-4, -2, 2, 5]];
+  for (const [ux, uy, vx, vy] of cas) {
+    const svg = figure1re(`figure1reProjection(${ux}, ${uy}, ${vx}, ${vy})`);
+    const vb = viewBox(svg);
+    for (const l of balises(svg, 'line')) {
+      for (const b of [['x1', 'y1'], ['x2', 'y2']]) {
+        const x = attr(l, b[0]), y = attr(l, b[1]);
+        assert.ok(x >= -0.5 && x <= vb.w + 0.5 && y >= -0.5 && y <= vb.h + 0.5,
+          'u=(' + ux + ';' + uy + ') v=(' + vx + ';' + vy + ') : un trait sort du cadre en (' + x + ' ; ' + y + ')');
+      }
+    }
+  }
+});
+
+test('figure1reProjection : une figure ne divulgue jamais ce qu elle fait chercher', () => {
+  const connu = figure1re('figure1reProjection(-2, 6, 4, 3)');
+  const cherche = figure1re('figure1reProjection(-2, 6, 4, 3, {inconnu: true})');
+  assert.ok(cherche.includes('>?<'), 'avec inconnu, la longueur projetee porte un point d interrogation');
+  assert.ok(!connu.includes('>?<'), 'sans inconnu, la longueur est cotee');
+});
+
+test('figure1reCercleRepere : le rayon dessine est fidele et le point teste est bien place', () => {
+  const cas = [[3, 2, 5, 8, 2], [0, 0, 4, 3, 3], [-2, 3, 3, 1, 3], [4, -1, 2, 4, 1], [1, 1, 6, 7, 1]];
+  for (const [cx, cy, r, px, py] of cas) {
+    const svg = figure1re(`figure1reCercleRepere(${cx}, ${cy}, ${r}, ${px}, ${py})`);
+    const cercles = balises(svg, 'circle');
+    const grand = cercles.find(c => classeDe(c) === 'frame-line');
+    const centre = cercles.find(c => classeDe(c) === 'plot-point');
+    const point = cercles.find(c => classeDe(c) === 'plot-point-alt');
+    assert.ok(grand && centre && point, 'la figure porte son cercle, son centre et son point teste');
+
+    /* Le rapport « distance du point au centre » sur « rayon dessine » doit
+       valoir le rapport reel. C'est ce qui interdit au dessin de mentir sur
+       l'appartenance au cercle, qui est justement la question posee. */
+    const dEcran = Math.hypot(attr(point, 'cx') - attr(centre, 'cx'),
+                              attr(point, 'cy') - attr(centre, 'cy'));
+    const attendu = Math.hypot(px - cx, py - cy) / r;
+    const obtenu = dEcran / attr(grand, 'r');
+    assert.ok(Math.abs(attendu - obtenu) < 0.01,
+      'centre(' + cx + ';' + cy + ') r=' + r + ' point(' + px + ';' + py + ') : rapport dessine ' +
+      obtenu.toFixed(4) + ' au lieu de ' + attendu.toFixed(4));
+
+    // Le centre dessine est bien le centre du cercle dessine.
+    assert.ok(Math.abs(attr(centre, 'cx') - attr(grand, 'cx')) < 0.02 &&
+              Math.abs(attr(centre, 'cy') - attr(grand, 'cy')) < 0.02,
+      'le point du centre ne coincide pas avec le centre du cercle');
+  }
+});
+
+test('figure1reCercleRepere : un point a distance r tombe exactement SUR le cercle', () => {
+  // Triplets pythagoriciens : le point est a distance exactement r du centre.
+  const cas = [[3, 2, 5, 6, -2], [0, 0, 5, 3, 4], [2, 1, 5, -2, 4], [1, 1, 13, 6, 13]];
+  for (const [cx, cy, r, px, py] of cas) {
+    assert.strictEqual(Math.hypot(px - cx, py - cy), r, 'le cas de test est bien a distance r');
+    const svg = figure1re(`figure1reCercleRepere(${cx}, ${cy}, ${r}, ${px}, ${py})`);
+    const cercles = balises(svg, 'circle');
+    const grand = cercles.find(c => classeDe(c) === 'frame-line');
+    const point = cercles.find(c => classeDe(c) === 'plot-point-alt');
+    const d = Math.hypot(attr(point, 'cx') - attr(grand, 'cx'),
+                         attr(point, 'cy') - attr(grand, 'cy'));
+    assert.ok(Math.abs(d - attr(grand, 'r')) < 0.5,
+      'le point est a ' + d.toFixed(3) + ' du centre alors que le cercle a pour rayon ' +
+      attr(grand, 'r') + ' : il devrait tomber dessus');
+  }
+});
+
+test('figure1reCercleRepere : rien ne sort du viewBox, bords du cercle compris', () => {
+  const cas = [[3, 2, 5, 8, 2], [0, 0, 4, 3, 3], [-2, 3, 3, 1, 3], [1, 1, 6, 9, 1]];
+  for (const [cx, cy, r, px, py] of cas) {
+    const svg = figure1re(`figure1reCercleRepere(${cx}, ${cy}, ${r}, ${px}, ${py})`);
+    const vb = viewBox(svg);
+    for (const c of balises(svg, 'circle')) {
+      const rr = attr(c, 'r') || 0;
+      const x = attr(c, 'cx'), y = attr(c, 'cy');
+      assert.ok(x - rr >= -0.5 && x + rr <= vb.w + 0.5 && y - rr >= -0.5 && y + rr <= vb.h + 0.5,
+        'centre(' + cx + ';' + cy + ') r=' + r + ' : un cercle deborde du cadre');
+    }
+  }
+});
+
+test('les helpers de premiere n ecrivent aucune couleur en dur', () => {
+  for (const svg of [figure1re('figure1reProjection(-2, 6, 4, 3)'),
+                     figure1re('figure1reCercleRepere(3, 2, 5, 8, 2)')]) {
+    assert.ok(!/(?:stroke|fill)="#/.test(svg),
+      'une couleur est ecrite en dur au lieu d une variable du projet');
+  }
+});
+
+test('les helpers de premiere refusent proprement les cas degeneres', () => {
+  // v nul : aucune direction sur quoi projeter.
+  assert.strictEqual(figure1re('figure1reProjection(3, 4, 0, 0)'), '',
+    'une projection sur le vecteur nul doit rendre une figure vide, pas un dessin faux');
+  // rayon nul ou negatif : pas de cercle.
+  assert.strictEqual(figure1re('figure1reCercleRepere(1, 1, 0, 2, 2)'), '');
+  assert.strictEqual(figure1re('figure1reCercleRepere(1, 1, -3, 2, 2)'), '');
+});
