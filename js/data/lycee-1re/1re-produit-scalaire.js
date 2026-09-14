@@ -89,7 +89,7 @@ window.MODULES.push({
 
             <circle class="guide-line" cx="90" cy="290" r="9" fill="none"></circle>
             <circle class="plot-point" cx="90" cy="290" r="3"></circle>
-            <text class="annotation-label" x="100" y="312">H = O (projection nulle)</text>
+            <text class="label-soft" x="55" y="342">projection reduite au point O</text>
           </svg>
         `,
         notes: [
@@ -182,8 +182,17 @@ window.MODULES.push({
 
               <text class="annotation-label" x="76" y="46" text-anchor="start">vecteur u</text>
               <text class="annotation-label" x="258" y="132" text-anchor="start">vecteur v</text>
-              <text class="tick-label" x="192" y="204" text-anchor="start">pied</text>
-              <text class="annotation-label" x="150" y="200" text-anchor="start">longueur 2</text>
+              <!-- ETIQUETTES DE OH ET DU PIED, REPLACEES le 2026-09-14.
+                   Elles se chevauchaient : « longueur 2 » ancrée en x=150 et
+                   « pied » en x=192, sur la même ligne de base, s'imprimaient
+                   l'une par-dessus l'autre. Le défaut n'était visible qu'à
+                   l'épreuve — aucun test ne mesure la boîte d'un texte, et les
+                   deux étiquettes restaient dans le cadre.
+                   « longueur 2 » descend sous le segment OH, dont le milieu est
+                   en (162,4 ; 205,2), et « pied » passe à droite du point H
+                   (184,8 ; 188,4), là où rien n'est tracé. -->
+              <text class="annotation-label" x="146" y="228" text-anchor="start">longueur 2</text>
+              <text class="tick-label" x="196" y="184" text-anchor="start">pied</text>
             </svg>
           `,
           notes: [

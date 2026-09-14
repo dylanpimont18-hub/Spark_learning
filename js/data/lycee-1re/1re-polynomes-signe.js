@@ -108,21 +108,21 @@ window.MODULES.push({
             <circle class="plot-point-alt" cx="332.5" cy="55.0" r="5"></circle>
 
             <!-- etiquettes panneau A -->
-            <text class="annotation-label" x="127.5" y="14" text-anchor="middle">f(x) = x² − x − 6 (a = 1 &>; 0)</text>
+            <text class="annotation-label" x="127.5" y="14" text-anchor="middle">a positif</text>
             <text class="tick-label" x="40.0" y="176" text-anchor="middle">-4</text>
             <text class="tick-label" x="117.8" y="176" text-anchor="middle">0</text>
             <text class="tick-label" x="215.0" y="176" text-anchor="middle">5</text>
             <text class="annotation-label" x="78.9" y="146" text-anchor="middle">x₁ = -2</text>
             <text class="annotation-label" x="176.1" y="146" text-anchor="middle">x₂ = 3</text>
             <text class="tick-label" x="127.5" y="228" text-anchor="middle">S(0,5 ; -6,25)</text>
-            <text class="label-soft" x="59.4" y="140">+</text>
+            <text class="label-soft" x="52" y="118">+</text>
             <text class="label-soft" x="127.5" y="196">−</text>
             <text class="label-soft" x="195.6" y="130">+</text>
             <text class="axis-label" x="224" y="164">x</text>
-            <text class="axis-label" x="121" y="18">y</text>
+            <text class="axis-label" x="124" y="34">y</text>
 
             <!-- etiquettes panneau B -->
-            <text class="annotation-label" x="332.5" y="14" text-anchor="middle">g(x) = -x² + 4x − 3 (a = -1 &<; 0)</text>
+            <text class="annotation-label" x="332.5" y="14" text-anchor="middle">a negatif</text>
             <text class="tick-label" x="245.0" y="88" text-anchor="middle">-1</text>
             <text class="tick-label" x="274.2" y="88" text-anchor="middle">0</text>
             <text class="tick-label" x="420.0" y="88" text-anchor="middle">5</text>
@@ -133,7 +133,7 @@ window.MODULES.push({
             <text class="label-soft" x="332.5" y="65">+</text>
             <text class="label-soft" x="390.8" y="115">−</text>
             <text class="axis-label" x="429" y="76.5">x</text>
-            <text class="axis-label" x="278" y="18">y</text>
+            <text class="axis-label" x="281" y="34">y</text>
           </svg>
         `,
         notes: [
