@@ -703,7 +703,7 @@ function figureSecanteParalleles(angle, type, options) {
   );
 }
 
-/* =========================================================
+/* ==================================================/* =========================================================
    HELPERS AJOUTES POUR LA QUATRIEME (2026-09-13)
 
    POURQUOI UNE NOUVELLE SERIE : la bibliotheque du 2026-09-12 a ete ecrite
@@ -1548,4 +1548,283 @@ function figure1reCercleRepere(cx, cy, r, px, py, options) {
   }
 
   return svgFigure('Cercle trace dans un repere gradue', traits.join(''));
+}
+
+/* =========================================================
+   HELPERS AJOUTES POUR LA TERMINALE (2026-09-14)
+
+   Ajoutes a la TOUTE FIN du fichier, jamais au milieu : c'est la regle
+   d'insertion de la section 9 du cahier des charges, qui evite le conflit
+   textuel entre deux sessions ecrivant en parallele.
+
+   ELLE NE SUFFIT PAS, et la vague 3e/2nde l'a prouve a ses depens : les deux
+   sessions l'avaient respectee et ont malgre tout produit une collision, en
+   ecrivant chacune une fonction `figureThales` aux signatures incompatibles.
+   Git n'a rien vu — les blocs etaient a des endroits distincts — et en
+   JavaScript la derniere declaration gagne : les quatre figures de Thales de
+   la troisieme seraient sorties VIDES en production, sans erreur de
+   compilation.
+
+   D'ou le prefixe de niveau sur CHAQUE helper ci-dessous (`figureTle...`), et
+   la verification faite avant de commiter :
+       grep -n "^function figureTlePaveRepere" js/data/figures-exercices.js
+   Aucun des trois noms n'existait ailleurs dans le fichier. Exigence E13 du
+   suivi de generalisation.
+
+   POURQUOI SEULEMENT TROIS. La terminale est un niveau majoritairement
+   ANALYTIQUE : limites, derivation, primitives, exponentielle, logarithme,
+   suites et denombrement n'ont rien de geometrique a mesurer. Le cahier des
+   charges est explicit : « un chapitre de calcul pur n'en a pas besoin :
+   n'en mets pas pour faire du chiffre ». Les seuls chapitres qui gagnent une
+   figure d'exercice sont donc les deux chapitres d'espace, plus l'aire sous
+   la courbe du chapitre d'integration.
+
+   LA PERSPECTIVE CAVALIERE, commune aux deux premiers helpers. Convention
+   scolaire francaise : x vers la droite, z vers le haut, fuyante y a 45
+   degres avec un coefficient de reduction 0,5. C'est une projection AFFINE,
+   ce qui garantit PAR CONSTRUCTION que deux aretes paralleles dans l'espace
+   se projettent sur deux vecteurs colineaires — la propriete sans laquelle
+   une figure d'espace est inutilisable. Elle est verifiee numeriquement dans
+   scripts/manuel/tests/figures-tle.test.js sur les neuf paires d'aretes
+   paralleles du pave.
+   ========================================================= */
+
+/* Projection cavaliere partagee par les helpers d'espace. Renvoie la fonction
+   qui envoie un point (x, y, z) de l'espace sur le plan de la feuille.
+   Facteur commun : deux helpers qui reimplementeraient chacun leur projection
+   finiraient par diverger, et la divergence serait invisible. */
+function projetteTleCavaliere(ox, oz, u) {
+  const COS45 = Math.SQRT1_2;                 // cos(45 deg) = sin(45 deg)
+  const K = 0.5;                              // reduction sur la fuyante
+  return function (x, y, z) {
+    return [ox + x * u + y * K * u * COS45, oz - y * K * u * COS45 - z * u];
+  };
+}
+
+/* --- Pave droit repere dans l'espace -----------------------------------
+   Un pave de dimensions L x p x h, dessine en perspective cavaliere, avec ses
+   huit sommets nommes et le repere d'origine A. Sert aux exercices ou l'on
+   lit des coordonnees de sommets, ou l'on calcule une longueur d'arete, une
+   diagonale, ou un produit scalaire sur des aretes.
+
+   FIDELITE, exigence propre a ce niveau : les trois dimensions sont a la
+   MEME echelle, et les aretes paralleles dans l'espace le restent apres
+   projection. Une figure ou les fuyantes ne seraient pas paralleles entre
+   elles ferait mentir toute lecture de coordonnees, et rien dans le pipeline
+   ne s'en apercevrait.
+
+   La figure NE DIVULGUE PAS ce qu'elle demande de trouver : elle porte les
+   trois dimensions donnees par l'enonce, et rien d'autre. */
+function figureTlePaveRepere(L, p, h, options) {
+  const o = options || {};
+  if (!(L > 0 && p > 0 && h > 0)) return '';
+
+  /* Encombrement projete, pour choisir l'echelle. La fuyante ajoute
+     p*K*cos45 en largeur et autant en hauteur. */
+  const K = 0.5, C = Math.SQRT1_2;
+  const largeurU = L + p * K * C;
+  const hauteurU = h + p * K * C;
+
+  const e = echelleFigure(largeurU, hauteurU, FIG_MARGE + 12, FIG_MARGE + 12);
+  const ox = (FIG_L - largeurU * e) / 2;
+  const oz = (FIG_H + hauteurU * e) / 2 - 10;
+  const P = projetteTleCavaliere(ox, oz, e);
+
+  // Les huit sommets, dans la numerotation scolaire habituelle.
+  const A = P(0, 0, 0), B = P(L, 0, 0), C2 = P(L, p, 0), D = P(0, p, 0);
+  const E = P(0, 0, h), F = P(L, 0, h), G = P(L, p, h), H = P(0, p, h);
+  const pt = (q) => nb2(q[0]) + ',' + nb2(q[1]);
+  const seg = (cl, a, b) => '<line class="' + cl + '" x1="' + nb2(a[0]) + '" y1="' + nb2(a[1]) +
+    '" x2="' + nb2(b[0]) + '" y2="' + nb2(b[1]) + '"></line>';
+  const nom = (q, t, dx, dy, ancre) => '<text class="tick-label" x="' + nb2(q[0] + dx) +
+    '" y="' + nb2(q[1] + dy) + '" text-anchor="' + ancre + '">' + t + '</text>';
+
+  const traits = [];
+
+  // Face avant, en aplat discret : c'est le decor.
+  traits.push('<polygon class="frame-line" points="' + pt(A) + ' ' + pt(B) + ' ' +
+    pt(F) + ' ' + pt(E) + '" fill="' + APLAT + '"></polygon>');
+
+  /* Aretes CACHEES en pointilles : les trois qui partent de D, sommet
+     arriere-gauche-bas. Convention du dessin technique, et seul moyen de lire
+     la profondeur sans ambiguite. */
+  traits.push(seg('guide-line', D, A));
+  traits.push(seg('guide-line', D, C2));
+  traits.push(seg('guide-line', D, H));
+
+  // Aretes visibles.
+  traits.push(seg('frame-line', A, B), seg('frame-line', B, C2));
+  traits.push(seg('frame-line', E, F), seg('frame-line', F, G), seg('frame-line', G, H));
+  traits.push(seg('frame-line', H, E));
+  traits.push(seg('frame-line', A, E), seg('frame-line', B, F), seg('frame-line', C2, G));
+
+  /* Sommets nommes, poses HORS du solide pour garder leur reserve blanche.
+     Minuscules interdites ici : ce sont des points, et la convention
+     mathematique impose la capitale — mais une capitale ISOLEE ne se fracture
+     pas, seul un MOT entier en capitales pose probleme au convertisseur. */
+  traits.push(nom(A, 'A', -7, 12, 'end'), nom(B, 'B', 7, 12, 'start'));
+  traits.push(nom(C2, 'C', 8, 8, 'start'), nom(D, 'D', -8, 8, 'end'));
+  traits.push(nom(E, 'E', -7, -4, 'end'), nom(F, 'F', 7, -4, 'start'));
+  traits.push(nom(G, 'G', 8, -4, 'start'), nom(H, 'H', -8, -4, 'end'));
+
+  /* Les trois dimensions DONNEES par l'enonce, posees hors des zones
+     remplies. Aucune diagonale ni aucune longueur cherchee n'est ecrite : la
+     figure pose la question, elle ne la resout pas. */
+  if (o.cotes !== false) {
+    traits.push('<text class="annotation-label" x="' + nb2((A[0] + B[0]) / 2) +
+      '" y="' + nb2(A[1] + 24) + '" text-anchor="middle">' + coteFig(L, o.unite || '') + '</text>');
+    traits.push('<text class="annotation-label" x="' + nb2(B[0] + 10) +
+      '" y="' + nb2((B[1] + F[1]) / 2) + '" text-anchor="start">' + coteFig(h, o.unite || '') + '</text>');
+    traits.push('<text class="annotation-label" x="' + nb2((B[0] + C2[0]) / 2 + 6) +
+      '" y="' + nb2((B[1] + C2[1]) / 2 + 14) + '" text-anchor="start">' + coteFig(p, o.unite || '') + '</text>');
+  }
+
+  return svgFigure('Pave droit en perspective cavaliere', traits.join(''));
+}
+
+/* --- Distance d'un point a un plan -------------------------------------
+   Un plan horizontal en perspective cavaliere, un point M au-dessus, et le
+   segment perpendiculaire qui descend jusqu'a son projete orthogonal H.
+   L'angle droit en H est code par un CARRE, jamais par un arc.
+
+   Sert aux exercices ou l'on demande la distance d'un point a un plan, ou
+   les coordonnees du projete orthogonal.
+
+   LA FIGURE NE DIVULGUE PAS LA REPONSE : la longueur MH porte un point
+   d'interrogation, jamais sa valeur. Elle situe le point au-dessus du plan et
+   montre ce qu'il faut mesurer, rien de plus. */
+function figureTleDistancePlan(xM, yM, zM, options) {
+  const o = options || {};
+  if (!(zM > 0)) return '';
+
+  const K = 0.5, C = Math.SQRT1_2;
+  // Etendue du plan dessine : il doit englober largement le projete H.
+  const etX = Math.max(Math.abs(xM) * 2, 3.6);
+  const etY = Math.max(Math.abs(yM) * 2, 2.8);
+  const largeurU = etX + etY * K * C;
+  const hauteurU = zM + etY * K * C + 0.6;
+
+  const e = echelleFigure(largeurU, hauteurU, FIG_MARGE + 10, FIG_MARGE + 10);
+  const ox = (FIG_L - largeurU * e) / 2;
+  const oz = (FIG_H + hauteurU * e) / 2 - 8;
+  const P = projetteTleCavaliere(ox, oz, e);
+
+  const c0 = P(0, 0, 0), c1 = P(etX, 0, 0), c2 = P(etX, etY, 0), c3 = P(0, etY, 0);
+  const H = P(xM, yM, 0), M = P(xM, yM, zM);
+  const pt = (q) => nb2(q[0]) + ',' + nb2(q[1]);
+
+  const traits = [];
+  // Le plan, en aplat discret : c'est le decor.
+  traits.push('<polygon class="frame-line" points="' + pt(c0) + ' ' + pt(c1) + ' ' +
+    pt(c2) + ' ' + pt(c3) + '" fill="' + APLAT + '"></polygon>');
+
+  /* Le segment [MH], seul objet en teinte forte. Il est VERTICAL sur le
+     dessin parce que la cote est le seul axe non fuyant : c'est ce qui rend
+     l'angle droit lisible. */
+  traits.push('<line class="curve-main" x1="' + nb2(M[0]) + '" y1="' + nb2(M[1]) +
+    '" x2="' + nb2(H[0]) + '" y2="' + nb2(H[1]) + '"></line>');
+  traits.push('<circle class="plot-point" cx="' + nb2(M[0]) + '" cy="' + nb2(M[1]) + '" r="4"></circle>');
+  traits.push('<circle class="plot-point-alt" cx="' + nb2(H[0]) + '" cy="' + nb2(H[1]) + '" r="3"></circle>');
+
+  /* Carre codant l'angle droit en H. Il est trace dans le plan vertical qui
+     contient [MH] et la direction des x, donc ses deux cotes suivent
+     exactement les deux directions concernees. */
+  const t = Math.min(0.34, etX / 8);
+  const q1 = P(xM + t, yM, 0), q2 = P(xM + t, yM, t), q3 = P(xM, yM, t);
+  traits.push('<polyline class="frame-line" points="' + pt(q1) + ' ' + pt(q2) + ' ' +
+    pt(q3) + '" fill="none"></polyline>');
+
+  traits.push('<text class="tick-label" x="' + nb2(M[0] - 8) + '" y="' + nb2(M[1] - 4) +
+    '" text-anchor="end">M</text>');
+  traits.push('<text class="tick-label" x="' + nb2(H[0] - 8) + '" y="' + nb2(H[1] + 14) +
+    '" text-anchor="end">H</text>');
+  // L'inconnue porte un point d'interrogation, jamais sa valeur.
+  traits.push('<text class="annotation-label" x="' + nb2((M[0] + H[0]) / 2 + 9) +
+    '" y="' + nb2((M[1] + H[1]) / 2) + '" text-anchor="start">?</text>');
+  traits.push('<text class="label-soft" x="' + nb2(c0[0] + 12) + '" y="' + nb2(c0[1] + 15) +
+    '" text-anchor="start">' + (o.nomPlan || 'le plan') + '</text>');
+
+  return svgFigure('Distance d un point a un plan', traits.join(''));
+}
+
+/* --- Aire sous une courbe ----------------------------------------------
+   Une parabole y = a x^2 + b sur [0 ; borne], avec l'aire sous la courbe
+   hachuree. Sert aux exercices ou l'integrale est demandee comme une AIRE, et
+   non comme un calcul de primitive deguise.
+
+   FIDELITE : la courbe est echantillonnee en cinquante points a partir de la
+   fonction elle-meme, jamais approchee par un arc de cercle ou une courbe de
+   Bezier posee a l'oeil. L'aire hachuree est donc exactement la region dont
+   l'enonce demande la mesure, ce que verifie par integration numerique
+   scripts/manuel/tests/figures-tle.test.js.
+
+   LA FIGURE NE DIVULGUE PAS LA REPONSE : la zone hachuree porte un point
+   d'interrogation, jamais la valeur de l'integrale. */
+function figureTleAireSousCourbe(a, b, borne, options) {
+  const o = options || {};
+  if (!(a > 0 && borne > 0)) return '';
+  const f = (x) => a * x * x + b;
+  const yMax = f(borne) * 1.12;
+  if (!(yMax > 0)) return '';
+
+  /* DEUX ECHELLES INDEPENDANTES, contrairement aux figures de geometrie de ce
+     fichier qui en partagent une seule.
+
+     Corrige le 2026-09-14, apres controle visuel du PDF. La version
+     precedente appelait echelleFigure(borne, yMax, ...), qui impose la MEME
+     echelle aux deux axes pour ne pas deformer une figure geometrique. Ici
+     c'est un GRAPHE, pas une figure : l'abscisse porte des x de 2 a 5 et
+     l'ordonnee des valeurs de f allant jusqu'a 30. L'echelle commune etait
+     donc dictee par l'ordonnee, et la courbe sortait large de 15 a 23 unites
+     de viewBox sur 260 disponibles — un trait vertical dans lequel
+     l'etiquette « aire ? » etait illisible. Le defaut ne se voyait sur aucun
+     test : toutes les proprietes mathematiques etaient exactes, seule la
+     LISIBILITE etait en cause, et c'est l'epreuve imprimee qui l'a montre.
+
+     Un graphe n'a pas a etre isometrique : deformer l'echelle des ordonnees
+     ne fait mentir aucune longueur, puisque aucune longueur n'est a mesurer
+     sur ce dessin. La seule chose qui doit rester vraie est l'AIRE annoncee,
+     et le test la mesure en revenant aux deux echelles. */
+  const largeurUtile = FIG_L - 2 * (FIG_MARGE + 16);
+  const hauteurUtile = FIG_H - 2 * FIG_MARGE;
+  const eX = largeurUtile / borne;
+  const eY = hauteurUtile / yMax;
+  const ox = (FIG_L - borne * eX) / 2;
+  const oz = (FIG_H + yMax * eY) / 2 - 12;
+  const X = (x) => ox + x * eX;
+  const Y = (y) => oz - y * eY;
+
+  // Echantillonnage de la courbe : cinquante points, calcules par f.
+  const pts = [];
+  for (let i = 0; i <= 50; i++) {
+    const x = borne * i / 50;
+    pts.push(nb2(X(x)) + ',' + nb2(Y(f(x))));
+  }
+
+  const traits = [];
+  // L'aplat hachure, ferme par les deux bords verticaux et l'axe.
+  traits.push('<polygon points="' + nb2(X(0)) + ',' + nb2(Y(0)) + ' ' + pts.join(' ') +
+    ' ' + nb2(X(borne)) + ',' + nb2(Y(0)) + '" fill="' + APLAT + '" stroke="none"></polygon>');
+
+  // Axes.
+  traits.push('<line class="axis" x1="' + nb2(X(0) - 12) + '" y1="' + nb2(Y(0)) +
+    '" x2="' + nb2(X(borne) + 14) + '" y2="' + nb2(Y(0)) + '"></line>');
+  traits.push('<line class="axis" x1="' + nb2(X(0)) + '" y1="' + nb2(Y(0) + 10) +
+    '" x2="' + nb2(X(0)) + '" y2="' + nb2(Y(yMax)) + '"></line>');
+
+  // Bornes verticales, en trait fin : ce sont elles qui delimitent l'aire.
+  traits.push('<line class="guide-line" x1="' + nb2(X(borne)) + '" y1="' + nb2(Y(0)) +
+    '" x2="' + nb2(X(borne)) + '" y2="' + nb2(Y(f(borne))) + '"></line>');
+
+  traits.push('<polyline class="curve-main" points="' + pts.join(' ') + '" fill="none"></polyline>');
+
+  traits.push('<text class="tick-label" x="' + nb2(X(0)) + '" y="' + nb2(Y(0) + 18) +
+    '" text-anchor="middle">0</text>');
+  traits.push('<text class="tick-label" x="' + nb2(X(borne)) + '" y="' + nb2(Y(0) + 18) +
+    '" text-anchor="middle">' + coteFig(borne, '') + '</text>');
+  // L'inconnue porte un point d'interrogation, jamais sa valeur.
+  traits.push('<text class="annotation-label" x="' + nb2(X(borne * 0.52)) +
+    '" y="' + nb2(Y(f(borne) * 0.3)) + '" text-anchor="middle">aire ?</text>');
+
+  return svgFigure('Aire sous une courbe entre deux bornes', traits.join(''));
 }
