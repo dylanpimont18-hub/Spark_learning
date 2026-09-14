@@ -439,6 +439,14 @@ Manifest Terminale.
 
 ## js/data/lycee-tle/tle-*.js *(13 modules)*
 Modules Maths Tle : exponentielle-logarithme, limites, dérivation compléments, convexité, primitives-intégrales, équations différentielles, suites compléments, géométrie espace, orthogonalité, dénombrement, lois continues, logarithme.
+- Mise au niveau « manuel de référence » (2026-09-14) sur `tle-convexite`, `tle-limites-continuite`, `tle-suites-complements`, `tle-lois-continues` : `cours.intro` réécrit (ouverture par un problème, jamais par une définition), 3 schémas secondaires ajoutés dans `cours.diagrams[]` par module (une figure par malentendu, coordonnées calculées par script), `exercice.generate()` restructuré en `pick([...tâches])` — 1 à 3 tâches distinctes avant, 8 à 10 après —, et 13 questions d'évaluation sur 20 réécrites pour mobiliser autre chose que le calcul.
+- `tle-lois-continues` : les deux `.replace('.', '{,}')` écrits à la main dans `generate()` sont remplacés par `fr()` (bug récurrent du corpus, interdit par la charte).
+
+## js/data/prof/lycee-tle/*.prof.js *(fiches professeur, Terminale)*
+Fiches de l'édition du professeur, jamais chargées par le site (ni `index.html` ni `js/loader.js`) : seul `scripts/manuel/prof.js` les lit à la compilation du livre.
+- **Piège de chemin** : le dossier suit le nom du DOSSIER de données (`lycee-tle`), pas celui du niveau. Une fiche dans `prof/tle/` n'est jamais trouvée, et l'ouvrage compile en se déclarant « sans fiche », sans message d'erreur.
+- Chaque fiche porte `prerequis`, `rangConseille`, `attendus` (programme 2019), `note` (ce qui déborde de l'année), `erreurs[]` (titre / eleve / cause / remede / renvoi vers un exercice, jamais vers l'évaluation) et `competences.evaluation` (une étiquette par question, prises dans chercher, modéliser, représenter, raisonner, calculer, communiquer — aucun référentiel « lycée » n'existe).
+- Un renvoi faux étant pire qu'un renvoi absent, `exercice: null` est un résultat acceptable et doit être motivé dans le remède.
 
 ## js/data/bts/index.js
 Manifest BTS Maths.
