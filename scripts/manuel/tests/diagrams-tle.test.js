@@ -99,10 +99,32 @@ const TOUS = [
   'tle-denombrement'
 ];
 
+/* Chapitres SANS schema secondaire, et c'est un choix documente, pas un
+   oubli. Le cahier des charges est explicite : « une figure par malentendu,
+   pas une figure par formule », et « on n'ajoute pas de figure pour faire du
+   chiffre ».
+
+   tle-denombrement : ses malentendus sont de nature LOGIQUE — l'ordre
+   compte-t-il, peut-on repeter — et non geometrique. Ils se traitent par
+   l'enumeration exhaustive d'un petit cas (trois coureurs, deux places), pas
+   par un dessin. Le brief du niveau le classait d'ailleurs parmi les
+   chapitres les moins demandeurs en figures.
+
+   Une entree ici doit TOUJOURS etre justifiee en commentaire : sans cela,
+   la liste deviendrait une porte de sortie commode pour un chapitre qu'on
+   n'a pas eu le temps d'illustrer. */
+const SANS_SCHEMA = new Set(['tle-denombrement']);
+
 for (const id of TOUS) {
   const DIAG = schemas(id);
 
   test(id + ' : chaque schema secondaire est complet', () => {
+    if (SANS_SCHEMA.has(id)) {
+      assert.strictEqual(DIAG.length, 0,
+        id + ' est declare sans schema secondaire, mais en porte ' + DIAG.length +
+        ' — retirer le module de SANS_SCHEMA plutot que de laisser les deux etats coexister');
+      return;
+    }
     assert.ok(DIAG.length >= 2, 'au moins deux schemas secondaires (' + DIAG.length + ')');
     for (const d of DIAG) {
       assert.ok(d.svg && d.svg.includes('<svg'), 'chaque schema porte une source SVG');
