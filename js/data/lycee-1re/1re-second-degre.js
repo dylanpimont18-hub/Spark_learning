@@ -166,7 +166,7 @@ window.MODULES.push({
             'Le sommet est chaque fois en $x_S = -\\dfrac{b}{2a} = 3$, et son ordonnée vaut successivement $-4$, $0$ et $+4$ : c\'est elle qui décide de tout.',
             'Le signe de $\\Delta$ et celui de l\'ordonnée du sommet sont donc <strong>opposés</strong> lorsque $a>0$ : une parabole qui plonge sous l\'axe le coupe deux fois, une parabole qui reste au-dessus ne le coupe jamais.'
           ],
-          reading: 'Ne regarde pas d\'abord la formule, regarde la ligne horizontale. Pose ton doi> sur le point le plus bas de chaque parabole et demande-toi s\'il est sous la ligne, sur la ligne, ou au-dessus. Ces trois réponses sont exactement les trois signes possibles de $\\Delta$ — et tu viens de lire le discriminant sans rien calculer.',
+          reading: 'Ne regarde pas d\'abord la formule, regarde la ligne horizontale. Pose ton doigt sur le point le plus bas de chaque parabole et demande-toi s\'il est sous la ligne, sur la ligne, ou au-dessus. Ces trois réponses sont exactement les trois signes possibles de $\\Delta$ — et tu viens de lire le discriminant sans rien calculer.',
           caption: 'Trois trinômes de même $a$ et de même sommet d\'abscisse $3$ : $\\Delta = 16$ (sommet en $-4$), $\\Delta = 0$ (sommet sur l\'axe), $\\Delta = -16$ (sommet en $+4$).'
         },
         {
@@ -215,7 +215,7 @@ window.MODULES.push({
             'La touche « racine carrée » de la calculatrice ne rend qu\'une seule de ces deux valeurs, la positive. C\'est elle, et non la parabole, qui fait oublier l\'autre.',
             'On retrouve ici, sous une autre forme, le schéma des trois positions : la droite $y=9$ joue le rôle de l\'axe, et elle est franchement traversée — donc deux solutions.'
           ],
-          reading: 'Pose ton doi> sur la droite horizontale et fais-le glisser de la gauche vers la droite. Tu croises la courbe une première fois, puis une seconde. Chacune de ces deux rencontres est une solution, et il n\'y a aucune raison de n\'en retenir qu\'une : la parabole est symétrique, donc elle atteint chaque hauteur exactement deux fois.',
+          reading: 'Pose ton doigt sur la droite horizontale et fais-le glisser de la gauche vers la droite. Tu croises la courbe une première fois, puis une seconde. Chacune de ces deux rencontres est une solution, et il n\'y a aucune raison de n\'en retenir qu\'une : la parabole est symétrique, donc elle atteint chaque hauteur exactement deux fois.',
           caption: 'La droite $y=9$ coupe la parabole $y=x^2$ en $x=-3$ et en $x=3$ : l\'équation $x^2=9$ a bien deux solutions.'
         },
         {
@@ -263,7 +263,7 @@ window.MODULES.push({
             'L\'ordonnée du sommet se calcule ensuite en une ligne : $f(4) = 16 - 32 + 12 = -4$.',
             'Cette symétrie sert aussi de <strong>vérification</strong> : si le sommet trouvé ne tombe pas entre les deux racines, c\'est qu\'une des trois valeurs est à revoir.'
           ],
-          reading: 'Repère les deux points où la courbe touche la ligne horizontale, puis place ton doi> exactement au milieu de ces deux points. Descends tout droit : tu tombes sur le point le plus bas de la parabole. Ce n\'est pas une coïncidence de cet exemple — la parabole est symétrique par rapport à cette verticale, donc c\'est toujours vrai.',
+          reading: 'Repère les deux points où la courbe touche la ligne horizontale, puis place ton doigt exactement au milieu de ces deux points. Descends tout droit : tu tombes sur le point le plus bas de la parabole. Ce n\'est pas une coïncidence de cet exemple — la parabole est symétrique par rapport à cette verticale, donc c\'est toujours vrai.',
           caption: 'Sur $f(x)=x^2-8x+12$, les racines $2$ et $6$ encadrent le sommet d\'abscisse $4$, à distance $2$ de chacune.'
         }
       ],

@@ -332,7 +332,7 @@ window.MODULES.push({
                             l'intervalle de base ;
          t7 « arc »        — la longueur d'un arc, qui est ce que le radian
                             mesure, et la seule tâche qui fasse toucher du
-                            doi> pourquoi cette unité existe.
+                            doigt pourquoi cette unité existe.
 
        Les décors restent, mais chacun n'habille plus qu'une tâche : le décor
        ne fabrique plus de fausse diversité. */

@@ -212,7 +212,7 @@ window.MODULES.push({
             'Les deux traits en tirets ne sont pas décoratifs : ils montrent que les séparations du tableau sont <strong>les racines</strong>, et rien d\'autre.',
             'Entre deux racines consécutives, le signe ne peut pas changer : pour changer de signe, une fonction continue doit passer par zéro. C\'est la raison profonde pour laquelle un tableau de signe n\'a qu\'une case par intervalle.'
           ],
-          reading: 'Fais glisser ton doi> le long de la courbe, de la gauche vers la droite, et regarde la bande du dessous en même temps. Tant que la courbe est sous l\'axe, la bande porte un $-$ ; dès qu\'elle passe au-dessus, la bande porte un $+$. Les deux traits verticaux marquent l\'instant exact du basculement — et cet instant, c\'est la racine.',
+          reading: 'Fais glisser ton doigt le long de la courbe, de la gauche vers la droite, et regarde la bande du dessous en même temps. Tant que la courbe est sous l\'axe, la bande porte un $-$ ; dès qu\'elle passe au-dessus, la bande porte un $+$. Les deux traits verticaux marquent l\'instant exact du basculement — et cet instant, c\'est la racine.',
           caption: 'Signe de $f(x)=-x^2+2x+8$ lu sur sa courbe : les séparations du tableau tombent exactement sous les racines $-2$ et $4$.'
         },
         {
