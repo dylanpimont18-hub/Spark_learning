@@ -378,7 +378,35 @@ window.MODULES.push({
       type: 'numeric',
       generate() {
         const tache = pick(['puissance', 'affine', 'exponentielle', 'moyenne',
-                            'aireSignee', 'condition', 'inverseRacine']);
+                            'aireSignee', 'condition', 'inverseRacine', 'aireFiguree']);
+
+        /* TÂCHE 8 — l'aire LUE SUR UNE FIGURE (ajoutée le 2026-09-14).
+           C'est la seule tâche du chapitre où l'élève voit la région dont on
+           lui demande la mesure, au lieu de la deviner derrière une notation.
+           Elle est adossée au helper figureTleAireSousCourbe, dont le test du
+           niveau vérifie par intégration numérique que l'aire hachurée vaut
+           bien l'intégrale annoncée. */
+        if (tache === 'aireFiguree') {
+          const ctx = pick([
+            { intro: 'La section d\'un canal a pour profil' },
+            { intro: 'Le flanc d\'une dune a pour profil' },
+            { intro: 'La coupe d\'une pièce moulée a pour profil' }
+          ]);
+          const a = pick([1, 2]), b = rand(0, 3), borne = rand(2, 4);
+          const res = parseFloat((a * Math.pow(borne, 3) / 3 + b * borne).toFixed(2));
+          return {
+            statement: `${ctx.intro} la courbe de $f(x) = ${a === 1 ? '' : a}x^2${b === 0 ? '' : ' + ' + b}$, entre $x = 0$ et $x = ${borne}$.<br/><br/>Calculer l'aire de la partie hachurée, comprise entre la courbe et l'axe des abscisses. Arrondir à $0{,}01$.`,
+            answer: res, tolerance: 0.05, unit: '',
+            // La figure POSE la question : la zone porte « aire ? », jamais sa valeur.
+            figure: figureTleAireSousCourbe(a, b, borne, {}),
+            hint: `La fonction est positive sur tout l'intervalle, donc l'aire hachurée est exactement $\\int_0^{${borne}} f(x)\\,dx$ — aucun découpage n'est nécessaire ici.`,
+            solution: [
+              `$f$ est positive sur $[0\\,;\\,${borne}]$ : l'aire hachurée est directement l'intégrale`,
+              `Primitive : $F(x) = ${a === 1 ? '' : a}\\dfrac{x^3}{3}${b === 0 ? '' : ' + ' + b + 'x'}$`,
+              `$F(${borne}) - F(0) = ${fr(res)}$`
+            ]
+          };
+        }
 
         /* TÂCHE 1 — intégrale d'un monôme. La tâche historique, conservée :
            c'est l'application directe du crochet, et il en faut une. */

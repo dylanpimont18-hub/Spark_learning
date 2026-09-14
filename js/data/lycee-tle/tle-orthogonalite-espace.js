@@ -399,10 +399,20 @@ window.MODULES.push({
           { quoi: 'un oiseau', ou: 'la surface du lac' },
           { quoi: 'un point d\'une charpente', ou: 'la dalle' }
         ]);
-        const x0 = rand(-5, 5), y0 = rand(-5, 5), z0 = rand(1, 6);
+        /* Coordonnees POSITIVES ici, contrairement aux autres taches : la
+           figure place le point au-dessus d'un plan dessine, et un point
+           derriere l'origine sortirait du quadrilatere represente. Le sens
+           mathematique est identique, et la lisibilite y gagne. */
+        const x0 = rand(1, 4), y0 = rand(1, 3), z0 = rand(1, 6);
         return {
           statement: `${ctx.quoi.charAt(0).toUpperCase() + ctx.quoi.slice(1)} se trouve au point $M(${x0};${y0};${z0})$, et ${ctx.ou} est le plan d'équation $z = 0$.<br/><br/>Le projeté orthogonal $H$ de $M$ sur ce plan a pour coordonnées $(${x0};${y0};0)$. Quelle est la distance $MH$ ?`,
           answer: z0, tolerance: 0, unit: '',
+          /* Figure d'exercice : le seul endroit du chapitre ou le projete
+             orthogonal devient VISIBLE. Elle ne divulgue pas la reponse — la
+             longueur cherchee porte un point d'interrogation — et code
+             l'angle droit en H par un carre, verifie par
+             scripts/manuel/tests/figures-tle.test.js. */
+          figure: figureTleDistancePlan(x0, y0, z0, { nomPlan: ctx.ou }),
           hint: `Projeter sur le plan $z = 0$, c'est descendre à la verticale : seule la cote change, l'abscisse et l'ordonnée sont conservées. La distance parcourue est donc exactement la cote de départ.`,
           solution: [
             `Le projeté orthogonal sur le plan $z = 0$ garde l'abscisse et l'ordonnée, et annule la cote : $H(${x0};${y0};0)$`,
