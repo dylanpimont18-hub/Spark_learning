@@ -167,29 +167,182 @@ window.MODULES.push({
       { q: '$\\binom{100}{98}$ vaut :', options: ['$\\dfrac{100!}{98!}$', '$4950$', '$100 \\times 99 = 9900$', '$\\dfrac{100!}{98! \\times 2!} = 4950$'], answer: 3, correction: 'Par symétrie : $\\binom{100}{98} = \\binom{100}{2} = \\dfrac{100 \\times 99}{2} = 4950$. Choisir $98$ éléments parmi $100$, c\'est exclure $2$ éléments parmi $100$.' },
       { q: 'Combien de mots de passe de $4$ chiffres (avec répétition possible) peut-on former ?', options: ['$5040$', '$10\\,000$', '$10^{10}$', '$\\binom{10}{4} = 210$'], answer: 1, correction: 'Avec répétition : chaque position a $10$ choix (de $0$ à $9$). Par le principe multiplicatif : $10^4 = 10\\,000$. La combinaison $\\binom{10}{4}$ ne s\'applique pas car la répétition est autorisée et l\'ordre compte.' }
     ],
+    /* BANQUE D'EXERCICES — élargie le 2026-09-14.
+
+       AVANT : une seule tâche distincte — « choisir $k$ éléments parmi $n$,
+       l'ordre ne compte pas » — habillée de quatre décors. Or TOUT le
+       chapitre consiste à décider si l'ordre compte : une banque qui répond
+       toujours « non » à cette question n'entraîne rien du tout. C'est le
+       défaut de calibrage le plus grave des douze chapitres du niveau.
+
+       APRÈS : sept tâches, dont plusieurs où l'ordre COMPTE (arrangements,
+       permutations, tirages avec remise), plus la symétrie du binôme et les
+       compléments. L'élève ne peut plus répondre juste en appliquant
+       toujours la même formule.
+
+       Ce chapitre n'a volontairement PAS reçu de figure d'exercice : il n'y a
+       rien de géométrique à y mesurer, et le cahier des charges interdit
+       d'ajouter des figures pour faire du chiffre. */
     exercice: {
       type: 'numeric',
       generate() {
+        const tache = pick(['combinaison', 'arrangement', 'permutation',
+                            'avecRemise', 'symetrie', 'complementaire', 'codeDistinct']);
+
+        const fact = (n) => { let r = 1; for (let i = 2; i <= n; i++) r *= i; return r; };
+        const combi = (n, k) => {
+          let num = 1, den = 1;
+          for (let i = 0; i < k; i++) { num *= (n - i); den *= (i + 1); }
+          return num / den;
+        };
+        const arr = (n, k) => { let r = 1; for (let i = 0; i < k; i++) r *= (n - i); return r; };
+        const liste = (n, k) => Array.from({ length: k }, (_, i) => n - i).join(' \\times ');
+
+        /* TÂCHE 1 — combinaison. La tâche historique : l'ordre ne compte pas. */
+        if (tache === 'combinaison') {
+          const ctx = pick([
+            { intro: 'Une classe de', elem: 'élèves', act: 'former une équipe de', fin: 'élèves pour un projet' },
+            { intro: 'Un panier contient', elem: 'fruits différents', act: 'choisir', fin: 'fruits pour une salade' },
+            { intro: 'Un club sportif compte', elem: 'joueurs', act: 'sélectionner', fin: 'titulaires' },
+            { intro: 'Un jury se compose parmi', elem: 'candidats', act: 'retenir', fin: 'membres' }
+          ]);
+          const n = rand(8, 15), k = rand(3, 5);
+          return {
+            statement: `${ctx.intro} $${n}$ ${ctx.elem}. On souhaite ${ctx.act} $${k}$ ${ctx.fin}, <strong>sans tenir compte de l'ordre</strong>. Combien de choix possibles ?`,
+            answer: combi(n, k), tolerance: 0, unit: '',
+            hint: `L'ordre ne compte pas : c'est une combinaison, $\\binom{${n}}{${k}}$. Une équipe formée des mêmes personnes dans un autre ordre reste la même équipe.`,
+            solution: [
+              `L'ordre ne compte pas : c'est une <strong>combinaison</strong>.`,
+              `$\\binom{${n}}{${k}} = \\dfrac{${liste(n, k)}}{${k}!} = \\dfrac{${arr(n, k)}}{${fact(k)}}$`,
+              `$= ${combi(n, k)}$`
+            ]
+          };
+        }
+
+        /* TÂCHE 2 — arrangement. MÊME situation, mais l'ordre compte : c'est
+           la tâche qui manquait, et sans elle le chapitre ne s'entraîne pas. */
+        if (tache === 'arrangement') {
+          const ctx = pick([
+            { intro: 'Une course réunit', elem: 'coureurs', act: 'établir le podium des', fin: 'premiers (or, argent, bronze compris)' },
+            { intro: 'Un concours compte', elem: 'candidats', act: 'désigner les', fin: 'lauréats, du premier au dernier rang' },
+            { intro: 'Une association compte', elem: 'membres', act: 'élire', fin: 'responsables à des postes tous différents' }
+          ]);
+          const n = rand(7, 12), k = rand(2, 4);
+          return {
+            statement: `${ctx.intro} $${n}$ ${ctx.elem}. On souhaite ${ctx.act} $${k}$ ${ctx.fin}. <strong>Ici l'ordre compte</strong>. Combien de résultats possibles ?`,
+            answer: arr(n, k), tolerance: 0, unit: '',
+            hint: `L'ordre compte : c'est un arrangement, $A_{${n}}^{${k}}$. Compte les possibilités poste par poste — $${n}$ pour le premier, puis un de moins à chaque fois.`,
+            solution: [
+              `L'ordre compte : c'est un <strong>arrangement</strong>, et non une combinaison.`,
+              `$A_{${n}}^{${k}} = ${liste(n, k)}$`,
+              `$= ${arr(n, k)}$. C'est $${k}!= ${fact(k)}$ fois plus que la combinaison correspondante, puisque chaque groupe peut être ordonné de $${k}!$ façons.`
+            ]
+          };
+        }
+
+        /* TÂCHE 3 — permutation. Le cas limite $k = n$, où la factorielle
+           apparaît seule : c'est là qu'elle prend son sens. */
+        if (tache === 'permutation') {
+          const ctx = pick([
+            { intro: 'On range', elem: 'livres différents sur une étagère' },
+            { intro: 'On fait s\'asseoir', elem: 'convives sur une rangée de chaises' },
+            { intro: 'On programme le passage de', elem: 'groupes lors d\'un concert' }
+          ]);
+          const n = rand(4, 8);
+          return {
+            statement: `${ctx.intro} $${n}$ ${ctx.elem}. Combien d'ordres différents peut-on obtenir ?`,
+            answer: fact(n), tolerance: 0, unit: '',
+            hint: `Tous les éléments sont utilisés, et l'ordre compte : c'est une permutation. Il y a $${n}$ choix pour la première place, $${n - 1}$ pour la deuxième, et ainsi de suite jusqu'à $1$.`,
+            solution: [
+              `Tous les éléments servent, et l'ordre compte : c'est une <strong>permutation</strong> de $${n}$ éléments.`,
+              `$${n}! = ${Array.from({ length: n }, (_, i) => n - i).join(' \\times ')}$`,
+              `$= ${fact(n)}$`
+            ]
+          };
+        }
+
+        /* TÂCHE 4 — tirage AVEC REMISE. Le troisième régime, que l'élève
+           confond avec l'arrangement : ici on peut répéter, donc c'est une
+           puissance et non un produit décroissant. */
+        if (tache === 'avecRemise') {
+          const ctx = pick([
+            { intro: 'Un code d\'accès comporte', quoi: 'caractères', parmi: 'symboles possibles', note: 'les répétitions sont autorisées' },
+            { intro: 'Une plaque comporte', quoi: 'positions', parmi: 'chiffres disponibles', note: 'un même chiffre peut revenir' },
+            { intro: 'Un mot de passe compte', quoi: 'cases', parmi: 'lettres utilisables', note: 'une lettre peut être répétée' }
+          ]);
+          const k = rand(2, 4), n = rand(4, 8);
+          return {
+            statement: `${ctx.intro} $${k}$ ${ctx.quoi}, choisis parmi $${n}$ ${ctx.parmi}. Comme ${ctx.note}, combien de possibilités existe-t-il ?`,
+            answer: Math.pow(n, k), tolerance: 0, unit: '',
+            hint: `Chaque position se choisit indépendamment parmi les $${n}$ possibilités, puisque rien n'est retiré entre deux choix. Ce n'est donc ni une combinaison ni un arrangement.`,
+            solution: [
+              `Les répétitions sont autorisées : chaque position a les $${n}$ mêmes possibilités, indépendamment des autres.`,
+              `$${n}^{${k}} = ${Array.from({ length: k }, () => n).join(' \\times ')}$`,
+              `$= ${Math.pow(n, k)}$. À comparer avec $A_{${n}}^{${k}} = ${arr(n, k)}$, le cas où les répétitions seraient interdites.`
+            ]
+          };
+        }
+
+        /* TÂCHE 5 — symétrie du coefficient binomial. Aucun calcul lourd :
+           il s'agit de reconnaître que choisir k, c'est exclure n-k. */
+        if (tache === 'symetrie') {
+          const n = rand(9, 16), k = rand(2, 4);
+          return {
+            statement: `On sait que $\\binom{${n}}{${k}} = ${combi(n, k)}$.<br/><br/>En déduire $\\binom{${n}}{${n - k}}$, <strong>sans refaire le calcul</strong>.`,
+            answer: combi(n, k), tolerance: 0, unit: '',
+            hint: `Choisir $${k}$ éléments parmi $${n}$, c'est exactement la même chose que décider lesquels des $${n - k}$ autres on laisse de côté. À chaque choix correspond donc un et un seul rejet.`,
+            solution: [
+              `Propriété de symétrie : $\\binom{n}{k} = \\binom{n}{n-k}$`,
+              `Choisir $${k}$ éléments revient à en exclure $${n - k}$ : les deux décisions se correspondent une à une.`,
+              `Donc $\\binom{${n}}{${n - k}} = \\binom{${n}}{${k}} = ${combi(n, k)}$`
+            ]
+          };
+        }
+
+        /* TÂCHE 6 — passage par le complémentaire. « Au moins un » se compte
+           en retranchant « aucun » du total : c'est le raisonnement le plus
+           rentable du chapitre, et il ne s'improvise pas. */
+        if (tache === 'complementaire') {
+          /* `cible` porte le nom au SINGULIER : la phrase « au moins une X »
+             se construit alors sans bricolage de chaine, qui casserait au
+             premier decor ajoute. */
+          const ctx = pick([
+            { intro: 'Une urne contient', a: 'boules rouges', b: 'boules blanches', cible: 'boule blanche' },
+            { intro: 'Un tiroir contient', a: 'chaussettes noires', b: 'chaussettes grises', cible: 'chaussette grise' },
+            { intro: 'Un stock comprend', a: 'pièces conformes', b: 'pièces défectueuses', cible: 'pièce défectueuse' }
+          ]);
+          const rouges = rand(4, 7), blanches = rand(3, 5), k = rand(2, 3);
+          const total = rouges + blanches;
+          const res = combi(total, k) - combi(rouges, k);
+          return {
+            statement: `${ctx.intro} $${rouges}$ ${ctx.a} et $${blanches}$ ${ctx.b}, toutes discernables. On en tire $${k}$ simultanément.<br/><br/>Combien de tirages contiennent <strong>au moins une</strong> ${ctx.cible} ?`,
+            answer: res, tolerance: 0, unit: '',
+            hint: `Compter directement « au moins un » obligerait à additionner plusieurs cas. Il est bien plus court de compter le contraire — les tirages qui n'en contiennent AUCUNE — et de le retrancher du total.`,
+            solution: [
+              `Total des tirages de $${k}$ parmi $${total}$ : $\\binom{${total}}{${k}} = ${combi(total, k)}$`,
+              `Tirages n'en contenant aucune, donc pris uniquement parmi les $${rouges}$ autres : $\\binom{${rouges}}{${k}} = ${combi(rouges, k)}$`,
+              `Par le complémentaire : $${combi(total, k)} - ${combi(rouges, k)} = ${res}$`
+            ]
+          };
+        }
+
+        /* TÂCHE 7 — code à chiffres tous distincts. Même habillage que le
+           tirage avec remise, mais la contrainte « distincts » bascule vers
+           l'arrangement. Les deux tâches se répondent, et c'est voulu. */
         const ctx = pick([
-          { intro: 'Une classe de', elem: 'élèves', action: 'former une équipe de', unite: 'élèves pour un projet scientifique' },
-          { intro: 'Un panier contient', elem: 'fruits différents', action: 'choisir', unite: 'fruits pour une salade' },
-          { intro: 'Un club sportif compte', elem: 'joueurs', action: 'sélectionner', unite: 'titulaires pour un match' },
-          { intro: 'Un jury doit être composé de', elem: 'candidats potentiels', action: 'retenir', unite: 'membres' }
+          { intro: 'Un code de coffre comporte', quoi: 'chiffres' },
+          { intro: 'Un identifiant comporte', quoi: 'chiffres' },
+          { intro: 'Une combinaison de cadenas comporte', quoi: 'chiffres' }
         ]);
-        const n = rand(8, 15), k = rand(3, 5);
-        let num = 1, denom = 1;
-        for (let i = 0; i < k; i++) { num *= (n - i); denom *= (i + 1); }
-        const result = num / denom;
+        const k = rand(3, 5);
         return {
-          statement: `${ctx.intro} $${n}$ ${ctx.elem}. On souhaite ${ctx.action} $${k}$ ${ctx.unite} (l'ordre ne compte pas). Combien de choix possibles ?`,
-          answer: result,
-          tolerance: 0,
-          unit: '',
-          hint: `L'ordre ne compte pas → combinaison. $\\binom{${n}}{${k}} = \\dfrac{${Array.from({length:k},(_,i)=>n-i).join(' \\times ')}}{${k}!}$.`,
+          statement: `${ctx.intro} $${k}$ ${ctx.quoi} choisis parmi $\\{0\\,;\\,1\\,;\\,\\ldots\\,;\\,9\\}$, <strong>tous différents</strong>. Combien de codes peut-on former ?`,
+          answer: arr(10, k), tolerance: 0, unit: '',
+          hint: `L'ordre compte — $1234$ et $4321$ sont deux codes différents — et les répétitions sont interdites. C'est donc un arrangement : $10$ choix pour le premier chiffre, $9$ pour le deuxième, et ainsi de suite.`,
           solution: [
-            `L'ordre ne compte pas : c'est une combinaison.`,
-            `$\\binom{${n}}{${k}} = \\dfrac{${Array.from({length:k},(_,i)=>n-i).join(' \\times ')}}{${k}!} = \\dfrac{${num}}{${denom}}$`,
-            `$\\binom{${n}}{${k}} = ${result}$`
+            `L'ordre compte et les chiffres sont distincts : c'est un <strong>arrangement</strong> $A_{10}^{${k}}$.`,
+            `$A_{10}^{${k}} = ${liste(10, k)}$`,
+            `$= ${arr(10, k)}$. Si les répétitions étaient autorisées, on aurait eu $10^{${k}} = ${Math.pow(10, k)}$.`
           ]
         };
       }
