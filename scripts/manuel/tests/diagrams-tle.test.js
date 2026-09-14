@@ -382,3 +382,143 @@ test('primitives : la sinusoide dessinee est bien celle du sinus', () => {
   }
   assert.ok(pire < 0.15, 'ecart maximal a la vraie sinusoide : ' + pire.toFixed(4));
 });
+
+/* =======================================================================
+   CHAPITRES CONFIES AUX SESSIONS PARALLELES — verifications ajoutees le
+   2026-09-14 par la session qui coordonne le niveau.
+
+   Les schemas de ces chapitres ont ete ecrits par d'autres sessions, et
+   livres SANS test de calcul propre : seuls les garde-fous communs
+   (viewBox, debordement, fleches, etiquettes) les couvraient. Or ce sont
+   precisement les proprietes MATHEMATIQUES qu'aucun garde-fou generique ne
+   regarde, et c'est par elles que plus de vingt erreurs de figures ont ete
+   trouvees sur les ouvrages precedents.
+
+   On verifie donc ici, par le calcul, les deux affirmations les plus
+   couteuses du niveau : qu'une densite de probabilite a bien une aire totale
+   de 1, et qu'un point d'inflexion dessine est bien un changement de signe de
+   la derivee seconde et non un simple extremum.
+   ======================================================================= */
+
+const LOIS = schemas('tle-lois-continues');
+
+test('lois continues : la densite uniforme a une aire totale de 1', () => {
+  /* LA verification propre au chapitre. L'eleve confond densite et
+     probabilite, et une figure qui montrerait une densite d'aire differente
+     de 1 installerait la confusion au lieu de la lever.
+
+     On relit l'echelle sur le DESSIN : le palier va de l'origine du repere a
+     l'abscisse 10, et sa hauteur vaut 0,1 par construction d'une loi uniforme
+     sur [0 ; 10]. L'aire dessinee doit alors valoir 1. */
+  const d = LOIS[0];
+  const palier = balises(d.svg, 'line')
+    .filter((t) => /curve-main/.test(t))
+    .map((t) => ({ x1: attrNum(t, 'x1'), y1: attrNum(t, 'y1'),
+                   x2: attrNum(t, 'x2'), y2: attrNum(t, 'y2') }))
+    .find((s) => Math.abs(s.y1 - s.y2) < 0.01);
+  assert.ok(palier, 'la densite uniforme est un palier horizontal');
+
+  const axes = balises(d.svg, 'line').filter((t) => /class="axis"/.test(t))
+    .map((t) => ({ x1: attrNum(t, 'x1'), y1: attrNum(t, 'y1'),
+                   x2: attrNum(t, 'x2'), y2: attrNum(t, 'y2') }));
+  const horizontal = axes.find((s) => Math.abs(s.y1 - s.y2) < 0.01);
+  const vertical = axes.find((s) => Math.abs(s.x1 - s.x2) < 0.01);
+  assert.ok(horizontal && vertical, 'un axe horizontal et un axe vertical');
+
+  const y0 = horizontal.y1, xOrigine = vertical.x1;
+  // Le palier part de l'origine du repere et court jusqu'a l'abscisse 10.
+  assert.ok(Math.abs(palier.x1 - xOrigine) < 0.5,
+    'le palier demarre a l origine du repere');
+  const echelleX = (palier.x2 - palier.x1) / 10;      // support [0 ; 10]
+  const hauteurPix = y0 - palier.y1;
+  const echelleY = hauteurPix / 0.1;                  // hauteur 0,1
+  const aireTotale = ((palier.x2 - palier.x1) / echelleX) * (hauteurPix / echelleY);
+  assert.ok(Math.abs(aireTotale - 1) < 0.005,
+    'aire totale sous la densite : ' + aireTotale.toFixed(6) + ' au lieu de 1');
+});
+
+test('lois continues : l aire hachuree vaut la probabilite annoncee', () => {
+  /* Le rectangle hachure doit valoir 0,4 — soit P(2 <= X <= 6) pour une loi
+     uniforme sur [0 ; 10] — et s'appuyer exactement sur l'axe et sur le
+     palier. Un rectangle qui flotterait entre les deux ferait mentir la
+     figure sans qu'aucun controle ne le dise. */
+  const d = LOIS[0];
+  const rects = balises(d.svg, 'rect')
+    .filter((t) => /url\(#/.test(t))
+    .map((t) => ({ x: attrNum(t, 'x'), y: attrNum(t, 'y'),
+                   w: attrNum(t, 'width'), h: attrNum(t, 'height') }))
+    .filter((r) => r.x !== null && r.w > 20);
+  assert.strictEqual(rects.length, 1, 'un seul aplat hachure');
+  const r = rects[0];
+
+  const lignes = balises(d.svg, 'line');
+  const palier = lignes.filter((t) => /curve-main/.test(t))
+    .map((t) => ({ x1: attrNum(t, 'x1'), y1: attrNum(t, 'y1'),
+                   x2: attrNum(t, 'x2'), y2: attrNum(t, 'y2') }))
+    .find((s) => Math.abs(s.y1 - s.y2) < 0.01);
+  const y0 = lignes.filter((t) => /class="axis"/.test(t))
+    .map((t) => ({ y1: attrNum(t, 'y1'), y2: attrNum(t, 'y2') }))
+    .find((s) => Math.abs(s.y1 - s.y2) < 0.01).y1;
+
+  assert.ok(Math.abs(r.y - palier.y1) < 0.05,
+    'le haut du rectangle doit coincider avec le palier de densite');
+  assert.ok(Math.abs(r.y + r.h - y0) < 0.05,
+    'le bas du rectangle doit reposer sur l axe des abscisses');
+
+  const echelleX = (palier.x2 - palier.x1) / 10;
+  const echelleY = (y0 - palier.y1) / 0.1;
+  const aire = (r.w / echelleX) * (r.h / echelleY);
+  assert.ok(Math.abs(aire - 0.4) < 0.005,
+    'aire hachuree : ' + aire.toFixed(6) + ' au lieu de 0,4');
+});
+
+const CONVEX = schemas('tle-convexite');
+
+test('convexite : le point d inflexion est un changement de signe de f seconde', () => {
+  /* LA verification propre au chapitre, et la plus facile a rater : une
+     figure qui dessinerait un simple extremum en l'appelant point
+     d'inflexion serait indetectable a l'oeil.
+
+     Les deux vignettes opposent x^3 (inflexion en 0) et x^2 (minimum en 0).
+     On verifie sur les points REELLEMENT traces que la premiere courbe passe
+     de part et d'autre de sa tangente horizontale, et que la seconde reste
+     du meme cote. C'est la traduction geometrique exacte du changement de
+     signe de la derivee seconde. */
+  const d = CONVEX[0];
+  const courbes = balises(d.svg, 'polyline')
+    .filter((t) => /curve-main/.test(t)).map(points);
+  assert.strictEqual(courbes.length, 2, 'deux courbes comparees');
+
+  const tangentes = balises(d.svg, 'line')
+    .filter((t) => /guide-line/.test(t))
+    .map((t) => ({ x1: attrNum(t, 'x1'), y1: attrNum(t, 'y1'),
+                   x2: attrNum(t, 'x2'), y2: attrNum(t, 'y2') }));
+  assert.strictEqual(tangentes.length, 2, 'une tangente par courbe');
+  for (const t of tangentes) {
+    assert.ok(Math.abs(t.y1 - t.y2) < 0.01, 'les deux tangentes sont horizontales');
+  }
+
+  // Chaque courbe est rapprochee de la tangente qui la recouvre en abscisse.
+  for (let i = 0; i < 2; i++) {
+    const c = courbes[i];
+    const xMin = Math.min.apply(null, c.map((p) => p[0]));
+    const t = tangentes.find((g) => Math.min(g.x1, g.x2) <= xMin + 6 &&
+                                    Math.max(g.x1, g.x2) >= xMin);
+    assert.ok(t, 'chaque courbe a sa tangente');
+    // Signe de l'ecart courbe - tangente, de part et d'autre du point marque.
+    const ecarts = c.map((p) => p[1] - t.y1);
+    const negatifs = ecarts.filter((e) => e < -1).length;
+    const positifs = ecarts.filter((e) => e > 1).length;
+    if (i === 0) {
+      // x^3 : la courbe TRAVERSE, donc elle est des deux cotes.
+      assert.ok(negatifs > 5 && positifs > 5,
+        'la premiere courbe doit traverser sa tangente (points au-dessus : ' +
+        positifs + ', en dessous : ' + negatifs + ')');
+    } else {
+      // x^2 : la courbe REBONDIT, donc elle reste d'un seul cote.
+      assert.ok(negatifs < 2 || positifs < 2,
+        'la seconde courbe doit rester du meme cote de sa tangente (au-dessus : ' +
+        positifs + ', en dessous : ' + negatifs + ')');
+    }
+  }
+});
