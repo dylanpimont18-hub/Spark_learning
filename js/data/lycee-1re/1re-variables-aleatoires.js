@@ -109,6 +109,170 @@ window.MODULES.push({
         reading: 'Avec $p=0{,}5$, la loi binomiale est parfaitement symétrique autour de $E(X)=np$ : $P(X=k)=P(X=n-k)$. Le repère vertical (pointillé) tombe exactement sur le bâton central car $E(X)=3$ est un entier compris entre $0$ et $6$ — ce ne serait pas toujours aussi net pour d\'autres valeurs de $p$.',
         caption: 'Diagramme en bâtons de $\\mathcal{B}(6\\,;\\,0{,}5)$ avec $E(X)=3$ repéré.'
       },
+
+      /* SCHÉMAS SECONDAIRES — ajoutés le 2026-09-14.
+
+         DEUX schémas et non trois, et c'est délibéré. Le cahier des charges
+         demande une figure par MALENTENDU, pas une figure par formule : ce
+         chapitre en porte deux qui méritent un dessin, et le troisième que
+         j'ai envisagé — une illustration de la formule binomiale — n'aurait
+         fait que redessiner ce que le cours écrit déjà. Sur la quatrième, la
+         troisième et la seconde, plusieurs chapitres ont reçu deux figures
+         pour cette même raison.
+
+         Les deux malentendus retenus :
+           1. l'espérance n'est pas la valeur la plus probable, et elle n'a pas
+              besoin d'être entière — l'erreur que la fiche professeur
+              diagnostique en quatrième position ;
+           2. le coefficient binomial compte des dispositions, il n'est pas un
+              facteur de correction tombé du ciel.
+
+         Le premier schéma complète le schéma principal plutôt que de le
+         répéter : celui-ci montre $\mathcal{B}(6\,;\,0{,}5)$, symétrique, où
+         $E(X) = 3$ tombe pile sur le bâton central — et sa lecture dit
+         elle-même que « ce ne serait pas toujours aussi net ». Le schéma
+         ci-dessous montre justement le cas où ça ne l'est pas.
+
+         TOUTES les valeurs sont CALCULÉES et vérifiées par
+         scripts/manuel/tests/diagrams-1re.test.js : les onze probabilités
+         somment exactement à $1$, et les hauteurs des bâtons sont
+         proportionnelles à ces probabilités. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Ce que l\'espérance n\'est pas',
+          title: 'L\'espérance ne tombe pas sur le plus grand bâton',
+          description: 'Voici la loi du nombre de bonnes réponses d\'un élève qui répond au hasard à un questionnaire de $10$ questions à $4$ choix, soit $\\mathcal{B}(10\\,;\\,0{,}25)$.<br/><br/>Le bâton le plus haut est celui de $k = 2$ : c\'est le résultat le plus <strong>probable</strong>. L\'espérance, elle, vaut $2{,}5$ et tombe entre deux bâtons.<br/><br/>Ce sont deux nombres différents, et aucun des deux n\'est faux.',
+          svg: `
+            <svg viewBox="0 0 430 240" role="img" aria-labelledby="va-esp-title va-esp-desc">
+              <title id="va-esp-title">Diagramme en batons ou l esperance tombe entre deux batons</title>
+              <desc id="va-esp-desc">Diagramme en batons de la loi binomiale de parametres dix et zero virgule vingt-cinq. Les batons montent de la gauche jusqu'a un maximum atteint pour la valeur deux, puis redescendent regulierement et deviennent presque invisibles a partir de la valeur six. Un trait vertical en pointilles marque l'esperance, qui vaut deux virgule cinq : il ne tombe sur aucun baton, mais dans l'intervalle qui separe le baton de la valeur deux de celui de la valeur trois. Le baton le plus haut est celui de la valeur deux, qui est donc le resultat le plus probable, alors que l'esperance vaut deux virgule cinq.</desc>
+
+              <line class="grid-line" x1="52" y1="48" x2="396" y2="48"></line>
+              <line class="grid-line" x1="52" y1="114" x2="396" y2="114"></line>
+              <line class="axis" x1="52" y1="180" x2="396" y2="180"></line>
+
+              <rect x="60.4" y="153.6" width="21.4" height="26.4" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)"></rect>
+              <rect x="98.6" y="92" width="21.4" height="88" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)"></rect>
+              <rect x="136.9" y="48" width="21.4" height="132" fill="color-mix(in srgb, var(--diagram-accent) 55%, transparent)"></rect>
+              <rect x="175.1" y="62.7" width="21.4" height="117.3" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)"></rect>
+              <rect x="213.3" y="111.6" width="21.4" height="68.4" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)"></rect>
+              <rect x="251.5" y="152.6" width="21.4" height="27.4" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)"></rect>
+              <rect x="289.7" y="172.4" width="21.4" height="7.6" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)"></rect>
+              <rect x="328" y="178.6" width="21.4" height="1.4" fill="color-mix(in srgb, var(--diagram-accent) 30%, transparent)"></rect>
+
+              <!-- Le trait de l'esperance tombe a 166,7, entre le baton de
+                   k = 2 (centre 147,6) et celui de k = 3 (centre 185,8). -->
+              <line class="guide-line" x1="166.7" y1="36" x2="166.7" y2="190"></line>
+              <text class="annotation-label" x="174" y="32" text-anchor="start">E(X) = 2,5</text>
+              <text class="annotation-label" x="147.6" y="40" text-anchor="middle">le plus probable</text>
+
+              <text class="tick-label" x="71.1" y="196" text-anchor="middle">0</text>
+              <text class="tick-label" x="109.3" y="196" text-anchor="middle">1</text>
+              <text class="tick-label" x="147.6" y="196" text-anchor="middle">2</text>
+              <text class="tick-label" x="185.8" y="196" text-anchor="middle">3</text>
+              <text class="tick-label" x="224" y="196" text-anchor="middle">4</text>
+              <text class="tick-label" x="262.2" y="196" text-anchor="middle">5</text>
+              <text class="tick-label" x="300.4" y="196" text-anchor="middle">6</text>
+              <text class="tick-label" x="338.7" y="196" text-anchor="middle">7</text>
+              <text class="label-soft" x="224" y="222" text-anchor="middle">nombre de bonnes reponses</text>
+            </svg>
+          `,
+          notes: [
+            'La loi est $\\mathcal{B}(10\\,;\\,0{,}25)$, donc $E(X) = 10 \\times 0{,}25 = 2{,}5$.',
+            'Le plus grand bâton est celui de $k = 2$, avec $P(X = 2) \\approx 0{,}282$. C\'est le résultat qu\'on rencontrera le plus souvent.',
+            'L\'espérance $2{,}5$ n\'est pas ce résultat : c\'est la <strong>moyenne</strong> des résultats obtenus si l\'on faisait passer ce questionnaire à des milliers d\'élèves répondant au hasard.',
+            'Les bâtons au-delà de $k = 7$ ne sont pas dessinés : leur probabilité totale vaut $0{,}0004$, soit moins d\'une chance sur deux mille, et ils seraient invisibles à l\'impression. Les onze probabilités de la loi somment bien à $1$.'
+          ],
+          reading: 'Cherche le bâton le plus haut, puis cherche le trait en pointillés : ils ne sont pas au même endroit. Retiens-en la formule qui évite l\'erreur : l\'espérance répond à « combien en moyenne ? », et le plus grand bâton répond à « quel résultat est le plus fréquent ? ». Ce sont deux questions différentes, donc deux réponses différentes.',
+          caption: 'Loi $\\mathcal{B}(10\\,;\\,0{,}25)$ : le mode vaut $2$ alors que $E(X) = 2{,}5$.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'D\'où vient le coefficient',
+          title: 'Le coefficient binomial compte des dispositions',
+          description: 'L\'oubli du coefficient $\\binom{n}{k}$ est l\'erreur la plus fréquente du chapitre, et elle vient de ce qu\'on le prend pour un facteur de correction arbitraire. Il n\'en est rien : c\'est un <strong>dénombrement</strong>, et sur un petit cas on peut l\'écrire à la main.<br/><br/>Voici les $\\binom{4}{2} = 6$ façons de placer $2$ succès parmi $4$ essais.',
+          svg: `
+            <svg viewBox="0 0 430 230" role="img" aria-labelledby="va-coef-title va-coef-desc">
+              <title id="va-coef-title">Les six facons de placer deux succes parmi quatre essais</title>
+              <desc id="va-coef-desc">Six lignes de quatre cases chacune sont disposees en deux colonnes de trois. Dans chaque ligne, exactement deux cases sont remplies et deux sont vides, et aucune des six lignes ne repete la disposition d'une autre. Les six dispositions correspondent aux positions un et deux, un et trois, un et quatre, deux et trois, deux et quatre, puis trois et quatre. Ces six lignes epuisent toutes les possibilites, ce qui explique que le coefficient binomial de quatre parmi deux vaut six.</desc>
+
+              <text class="annotation-label" x="215" y="24" text-anchor="middle">deux succes parmi quatre essais</text>
+
+              <rect x="40" y="46" width="26" height="26" fill="color-mix(in srgb, var(--diagram-accent) 45%, transparent)"></rect>
+              <rect x="70" y="46" width="26" height="26" fill="color-mix(in srgb, var(--diagram-accent) 45%, transparent)"></rect>
+              <line class="frame-line" x1="40" y1="46" x2="160" y2="46"></line>
+              <line class="frame-line" x1="40" y1="72" x2="160" y2="72"></line>
+              <line class="frame-line" x1="40" y1="46" x2="40" y2="72"></line>
+              <line class="frame-line" x1="70" y1="46" x2="70" y2="72"></line>
+              <line class="frame-line" x1="100" y1="46" x2="100" y2="72"></line>
+              <line class="frame-line" x1="130" y1="46" x2="130" y2="72"></line>
+              <line class="frame-line" x1="160" y1="46" x2="160" y2="72"></line>
+
+              <rect x="40" y="92" width="26" height="26" fill="color-mix(in srgb, var(--diagram-accent) 45%, transparent)"></rect>
+              <rect x="100" y="92" width="26" height="26" fill="color-mix(in srgb, var(--diagram-accent) 45%, transparent)"></rect>
+              <line class="frame-line" x1="40" y1="92" x2="160" y2="92"></line>
+              <line class="frame-line" x1="40" y1="118" x2="160" y2="118"></line>
+              <line class="frame-line" x1="40" y1="92" x2="40" y2="118"></line>
+              <line class="frame-line" x1="70" y1="92" x2="70" y2="118"></line>
+              <line class="frame-line" x1="100" y1="92" x2="100" y2="118"></line>
+              <line class="frame-line" x1="130" y1="92" x2="130" y2="118"></line>
+              <line class="frame-line" x1="160" y1="92" x2="160" y2="118"></line>
+
+              <rect x="40" y="138" width="26" height="26" fill="color-mix(in srgb, var(--diagram-accent) 45%, transparent)"></rect>
+              <rect x="130" y="138" width="26" height="26" fill="color-mix(in srgb, var(--diagram-accent) 45%, transparent)"></rect>
+              <line class="frame-line" x1="40" y1="138" x2="160" y2="138"></line>
+              <line class="frame-line" x1="40" y1="164" x2="160" y2="164"></line>
+              <line class="frame-line" x1="40" y1="138" x2="40" y2="164"></line>
+              <line class="frame-line" x1="70" y1="138" x2="70" y2="164"></line>
+              <line class="frame-line" x1="100" y1="138" x2="100" y2="164"></line>
+              <line class="frame-line" x1="130" y1="138" x2="130" y2="164"></line>
+              <line class="frame-line" x1="160" y1="138" x2="160" y2="164"></line>
+
+              <rect x="250" y="46" width="26" height="26" fill="color-mix(in srgb, var(--diagram-accent) 45%, transparent)"></rect>
+              <rect x="280" y="46" width="26" height="26" fill="color-mix(in srgb, var(--diagram-accent) 45%, transparent)"></rect>
+              <line class="frame-line" x1="220" y1="46" x2="340" y2="46"></line>
+              <line class="frame-line" x1="220" y1="72" x2="340" y2="72"></line>
+              <line class="frame-line" x1="220" y1="46" x2="220" y2="72"></line>
+              <line class="frame-line" x1="250" y1="46" x2="250" y2="72"></line>
+              <line class="frame-line" x1="280" y1="46" x2="280" y2="72"></line>
+              <line class="frame-line" x1="310" y1="46" x2="310" y2="72"></line>
+              <line class="frame-line" x1="340" y1="46" x2="340" y2="72"></line>
+
+              <rect x="250" y="92" width="26" height="26" fill="color-mix(in srgb, var(--diagram-accent) 45%, transparent)"></rect>
+              <rect x="310" y="92" width="26" height="26" fill="color-mix(in srgb, var(--diagram-accent) 45%, transparent)"></rect>
+              <line class="frame-line" x1="220" y1="92" x2="340" y2="92"></line>
+              <line class="frame-line" x1="220" y1="118" x2="340" y2="118"></line>
+              <line class="frame-line" x1="220" y1="92" x2="220" y2="118"></line>
+              <line class="frame-line" x1="250" y1="92" x2="250" y2="118"></line>
+              <line class="frame-line" x1="280" y1="92" x2="280" y2="118"></line>
+              <line class="frame-line" x1="310" y1="92" x2="310" y2="118"></line>
+              <line class="frame-line" x1="340" y1="92" x2="340" y2="118"></line>
+
+              <rect x="280" y="138" width="26" height="26" fill="color-mix(in srgb, var(--diagram-accent) 45%, transparent)"></rect>
+              <rect x="310" y="138" width="26" height="26" fill="color-mix(in srgb, var(--diagram-accent) 45%, transparent)"></rect>
+              <line class="frame-line" x1="220" y1="138" x2="340" y2="138"></line>
+              <line class="frame-line" x1="220" y1="164" x2="340" y2="164"></line>
+              <line class="frame-line" x1="220" y1="138" x2="220" y2="164"></line>
+              <line class="frame-line" x1="250" y1="138" x2="250" y2="164"></line>
+              <line class="frame-line" x1="280" y1="138" x2="280" y2="164"></line>
+              <line class="frame-line" x1="310" y1="138" x2="310" y2="164"></line>
+              <line class="frame-line" x1="340" y1="138" x2="340" y2="164"></line>
+
+              <text class="annotation-label" x="215" y="200" text-anchor="middle">six dispositions, donc six chemins</text>
+              <text class="label-soft" x="215" y="220" text-anchor="middle">et aucune autre n est possible</text>
+            </svg>
+          `,
+          notes: [
+            'Chaque ligne est une série possible de $4$ essais ; les cases pleines sont les succès.',
+            'Il y en a exactement <strong>six</strong>, et l\'on peut vérifier qu\'aucune n\'a été oubliée : les deux succès occupent les positions $1$-$2$, $1$-$3$, $1$-$4$, $2$-$3$, $2$-$4$ ou $3$-$4$.',
+            'Six est donc la valeur de $\\binom{4}{2}$ — non par une formule, mais par un comptage qu\'on vient de faire.',
+            'Chacune de ces six séries a exactement la même probabilité, $p^2(1-p)^2$. C\'est pour cela qu\'on multiplie cette probabilité par $6$ : les six cas donnent tous « deux succès », et ils sont incompatibles.'
+          ],
+          reading: 'Compte les cases pleines de chaque ligne : il y en a toujours deux, jamais une ni trois. Puis vérifie qu\'aucune ligne n\'est la copie d\'une autre. Tu viens de démontrer que $\\binom{4}{2} = 6$, sans aucune formule. Pour $n = 10$, l\'idée est exactement la même — c\'est seulement le dessin qui deviendrait trop grand, et c\'est à ce moment-là que la calculatrice prend le relais.',
+          caption: 'Les $\\binom{4}{2} = 6$ dispositions de $2$ succès parmi $4$ essais.'
+        }
+      ],
       recap: [
         'Loi binomiale : $n$ épreuves <strong>indépendantes</strong>, même probabilité $p$. Si l\'une de ces conditions manque, ce n\'est pas binomial.',
         '$E(X) = np$ donne le nombre moyen de succès ; $\\sigma = \\sqrt{np(1-p)}$ mesure la dispersion.',
