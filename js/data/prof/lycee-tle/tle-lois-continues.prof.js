@@ -40,8 +40,18 @@ window.SPARK_PROF["tle-lois-continues"] = {
      aucune tâche de la banque, aucune question de l'évaluation et aucun
      schéma ne demande de CALCULER une intégrale. Les aires manipulées sont
      des rectangles, ou des valeurs lues dans le formulaire des sigma. Voir
-     la note ci-dessous, qui prévient l'enseignant de cet arbitrage. */
-  prerequis: [12],
+     la note ci-dessous, qui prévient l'enseignant de cet arbitrage.
+
+     CORRIGÉ le 2026-09-14 : la valeur écrite était `[12]`, c'est-à-dire
+     l'orthogonalité dans l'espace, alors que le commentaire ci-dessus nomme
+     bien le dénombrement — qui est le chapitre 9 du livre, et non le 12. Le
+     commentaire et le code se contredisaient, et c'est le code qui
+     s'imprime. La compilation l'a heureusement refusé, mais pour une autre
+     raison : le chapitre 12 est conseillé au rang 12, donc après celui-ci
+     (rang 3), ce qu'un prérequis ne peut pas faire. Sans ce garde-fou, le
+     livre aurait imprimé « s'appuie sur : Orthogonalité dans l'espace » en
+     tête d'un chapitre de probabilités. */
+  prerequis: [9],
 
   /* Rang conseillé (2026-09-14) : rang 3.
 

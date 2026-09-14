@@ -1156,3 +1156,592 @@ test('lois continues : la cloche dessinee est la vraie densite normale et l aire
   assert.ok(Math.abs(sommet.cx - X(0)) < 0.5, 'le sommet doit etre en z = 0');
   assert.ok(Math.abs(sommet.cy - Y(phi(0))) < 0.5, 'et a la hauteur de la densite maximale');
 });
+
+/* =======================================================================
+   BLOC AJOUTE LE 2026-09-14 — quatre chapitres :
+
+     tle-derivation-complements    (2 schemas)
+     tle-exponentielle-logarithme  (3 schemas)
+     tle-logarithme                (3 schemas)
+     tle-equations-differentielles (3 schemas)
+
+   Ces tests vont au-dela des garde-fous communs : ils recalculent ce que
+   chaque figure PRETEND montrer, et comparent au dessin reellement ecrit.
+   Sur les cinq ouvrages precedents, plus de vingt erreurs de figures n'ont
+   ete trouvees QUE par le calcul — un angle de 35 degres dessine a 36, une
+   pente de -3,00034 annoncee -3.
+
+   Les proprietes verifiees ici :
+
+     - derivation : la tangente dessinee a bien la pente f'(a) calculee, et
+       les quatre aires du rectangle s'additionnent exactement ;
+     - exp / ln : pour CHAQUE point (x ; y) trace de l'exponentielle, le
+       point (y ; x) est sur la courbe du logarithme — c'est la definition
+       de la symetrie par rapport a y = x, et le repere doit etre orthonorme
+       sans quoi elle ne se verrait pas. Et les paliers de demi-vie divisent
+       bien la masse par 2 ;
+     - logarithme : la courbe tracee est bien ln a l'echelle declaree, point
+       par point ; les deux reglettes de l'echelle pH sont regulieres ;
+     - equations differentielles : la tangente a l'origine coupe l'asymptote
+       a t = tau EXACTEMENT (propriete vraie au flottant pres), et les deux
+       solutions de la meme equation tendent vers la meme asymptote.
+   ======================================================================= */
+
+/* --- Petit outil commun : la pente d'un <line>, en unites de viewBox. --- */
+function penteTrait(tag) {
+  const x1 = attrNum(tag, 'x1'), y1 = attrNum(tag, 'y1');
+  const x2 = attrNum(tag, 'x2'), y2 = attrNum(tag, 'y2');
+  return (y2 - y1) / (x2 - x1);
+}
+
+/* =======================================================================
+   COMPLEMENTS SUR LA DERIVATION
+   ======================================================================= */
+
+const DER = schemas('tle-derivation-complements');
+
+test('derivation : deux schemas, et c est un choix assume', () => {
+  /* Ce chapitre est un chapitre de calcul : le cahier des charges autorise
+     DEUX figures quand le chapitre n'en merite honnetement que deux. On fige
+     le nombre pour qu'une troisieme ne soit pas ajoutee sans raison. */
+  assert.strictEqual(DER.length, 2, 'exactement deux schemas secondaires');
+});
+
+test('derivation : la tangente de la chaine a bien la pente f prime de a', () => {
+  /* Figure 1, etage de droite : f(u) = u^2, tangente en u = 3, donc pente
+     f'(3) = 6 en unites du repere. Echelles X(u) = 260 + (170/6) u et
+     Y(v) = 200 - (160/40) v, donc la pente EN UNITES DE VIEWBOX vaut
+     -6 * (160/40) / (170/6). On la recalcule et on la compare au trait. */
+  const d = DER[0];
+  const echX = 170 / 6;
+  const echY = 160 / 40;
+  const penteAttendue = -(2 * 3) * echY / echX;
+
+  const tangentes = balises(d.svg, 'line').filter((t) => /guide-line/.test(t));
+  assert.strictEqual(tangentes.length, 1, 'une seule tangente sur la figure');
+  const p = penteTrait(tangentes[0]);
+  assert.ok(Math.abs(p - penteAttendue) < 2e-3,
+    'pente de la tangente : ' + p.toFixed(6) + ' au lieu de ' + penteAttendue.toFixed(6));
+
+  /* Le point de tangence doit etre SUR la parabole, pas a cote : en u = 3,
+     f vaut 9, donc y = 200 - 9 * echY. */
+  const pts = balises(d.svg, 'circle').map((t) => [attrNum(t, 'cx'), attrNum(t, 'cy')]);
+  const surParabole = pts.some(([x, y]) =>
+    Math.abs(x - (260 + 3 * echX)) < 0.6 && Math.abs(y - (200 - 9 * echY)) < 0.6);
+  assert.ok(surParabole, 'le point de tangence est pose sur la parabole');
+});
+
+test('derivation : la parabole de la chaine est bien u au carre', () => {
+  /* Une courbe « qui ressemble a une parabole » ne suffit pas. */
+  const d = DER[0];
+  const courbe = balises(d.svg, 'polyline').map(points)[0];
+  const echX = 170 / 6, echY = 160 / 40;
+  let pire = 0;
+  for (const [x, y] of courbe) {
+    const u = (x - 260) / echX;
+    pire = Math.max(pire, Math.abs(y - (200 - u * u * echY)));
+  }
+  assert.ok(pire < 0.25, 'ecart maximal a la vraie parabole : ' + pire.toFixed(4));
+});
+
+test('derivation : la droite du premier maillon a bien la pente 3', () => {
+  /* Etage de gauche : u(x) = 3x. Echelles X(x) = 40 + 80x et
+     Y(u) = 200 - 25u, donc la pente en unites de viewBox vaut -3 * 25 / 80. */
+  const d = DER[0];
+  const droites = balises(d.svg, 'line').filter((t) => /graph-line/.test(t));
+  assert.strictEqual(droites.length, 1, 'une seule droite pour le premier maillon');
+  const attendue = -3 * 25 / 80;
+  const p = penteTrait(droites[0]);
+  assert.ok(Math.abs(p - attendue) < 1e-6,
+    'pente du premier maillon : ' + p + ' au lieu de ' + attendue);
+});
+
+test('derivation : les quatre aires du rectangle s additionnent exactement', () => {
+  /* Figure 2. Le message de la figure est une EGALITE :
+       15 (depart) + 4,2 (bande droite) + 5 (bande haute) + 1,4 (coin) = 25,6.
+     Si les rectangles dessines ne la verifiaient pas, la figure
+     contredirait le texte qu'elle illustre. Echelle : 30 unites de viewBox
+     par unite de longueur, donc 900 par unite d'aire. */
+  const d = DER[1];
+  const ECH = 30;
+  const rects = balises(d.svg, 'rect')
+    .map((t) => ({
+      x: attrNum(t, 'x'), y: attrNum(t, 'y'),
+      w: attrNum(t, 'width'), h: attrNum(t, 'height')
+    }))
+    .filter((r) => r.x !== null);
+  assert.strictEqual(rects.length, 4, 'quatre morceaux : depart, deux bandes, un coin');
+
+  const aires = rects.map((r) => (r.w / ECH) * (r.h / ECH)).sort((a, b) => a - b);
+  const attendues = [1.4, 4.2, 5, 15];
+  for (let i = 0; i < 4; i++) {
+    assert.ok(Math.abs(aires[i] - attendues[i]) < 0.01,
+      'aire ' + (i + 1) + ' : ' + aires[i].toFixed(3) + ' au lieu de ' + attendues[i]);
+  }
+  const total = aires.reduce((a, b) => a + b, 0);
+  assert.ok(Math.abs(total - 6.4 * 4) < 0.01,
+    'somme des quatre morceaux : ' + total.toFixed(3) + ' au lieu de 25,6');
+
+  /* Le coin doit etre le PLUS PETIT des quatre : c'est tout le propos. */
+  assert.ok(aires[0] < aires[1] && aires[0] < aires[2] && aires[0] < aires[3],
+    'le petit coin est bien le plus petit morceau');
+
+  /* Les quatre morceaux doivent PAVER le grand rectangle sans se chevaucher :
+     la somme de leurs aires egale alors celle de leur enveloppe. */
+  const xMin = Math.min.apply(null, rects.map((r) => r.x));
+  const xMax = Math.max.apply(null, rects.map((r) => r.x + r.w));
+  const yMin = Math.min.apply(null, rects.map((r) => r.y));
+  const yMax = Math.max.apply(null, rects.map((r) => r.y + r.h));
+  const enveloppe = ((xMax - xMin) / ECH) * ((yMax - yMin) / ECH);
+  assert.ok(Math.abs(enveloppe - total) < 0.01,
+    'les quatre morceaux pavent exactement le grand rectangle');
+});
+
+/* =======================================================================
+   FONCTIONS EXPONENTIELLE ET LOGARITHME
+   ======================================================================= */
+
+const EXPO = schemas('tle-exponentielle-logarithme');
+
+test('exp et ln : le repere de la symetrie est bien ORTHONORME', () => {
+  /* Sans echelles egales sur les deux axes, la symetrie par rapport a y = x
+     serait FAUSSE a l'oeil, et la figure contredirait son propre titre. On
+     lit les echelles sur les graduations dessinees. */
+  const d = EXPO[0];
+  const grilles = balises(d.svg, 'line').filter((t) => /grid-line/.test(t));
+  const verticales = grilles
+    .filter((t) => attrNum(t, 'x1') === attrNum(t, 'x2'))
+    .map((t) => attrNum(t, 'x1')).sort((a, b) => a - b);
+  const horizontales = grilles
+    .filter((t) => attrNum(t, 'y1') === attrNum(t, 'y2'))
+    .map((t) => attrNum(t, 'y1')).sort((a, b) => a - b);
+  assert.strictEqual(verticales.length, 5, 'cinq verticales de grille');
+  assert.strictEqual(horizontales.length, 5, 'cinq horizontales de grille');
+
+  /* Les valeurs graduees sautent le zero (-2, -1, 1, 2, 3), donc un ecart
+     est double au milieu. On prend le plus petit comme unite et l'on
+     verifie que tous les autres en sont des multiples. */
+  const ecarts = (a) => a.slice(1).map((v, i) => v - a[i]);
+  const eV = ecarts(verticales), eH = ecarts(horizontales);
+  const uniteV = Math.min.apply(null, eV), uniteH = Math.min.apply(null, eH);
+  for (const e of eV) {
+    assert.ok(Math.abs(e / uniteV - Math.round(e / uniteV)) < 1e-6,
+      'pas irregulier en abscisse : ' + e);
+  }
+  for (const e of eH) {
+    assert.ok(Math.abs(e / uniteH - Math.round(e / uniteH)) < 1e-6,
+      'pas irregulier en ordonnee : ' + e);
+  }
+
+  /* ... ET la meme unite d'un axe a l'autre. C'est la condition de la figure. */
+  assert.ok(Math.abs(uniteV - uniteH) < 1e-6,
+    'repere non orthonorme : ' + uniteV + ' par unite en x contre ' + uniteH + ' en y');
+});
+
+test('exp et ln : chaque point trace de exp a son reflet sur ln', () => {
+  /* LA verification de la figure. La symetrie par rapport a la droite y = x
+     echange les coordonnees : si (a ; b) est sur exp, alors (b ; a) doit
+     etre sur ln. On le teste sur CHAQUE point trace, apres retour aux
+     unites du repere (X(x) = 150 + 40x, Y(y) = 180 - 40y). */
+  const d = EXPO[0];
+  const courbes = balises(d.svg, 'polyline').map(points);
+  assert.strictEqual(courbes.length, 2, 'deux courbes : exponentielle et logarithme');
+
+  const ECH = 40, OX = 150, OY = 180;
+  const enUnites = (pts) => pts.map(([x, y]) => [(x - OX) / ECH, (OY - y) / ECH]);
+  const expU = enUnites(courbes[0]), lnU = enUnites(courbes[1]);
+
+  let pire = 0, testes = 0;
+  for (const couple of expU) {
+    const a = couple[0], b = couple[1];
+    if (b < -3 || b > 4 || a < -3 || a > 4) continue;
+    let mieux = Infinity;
+    for (const autre of lnU) {
+      mieux = Math.min(mieux, Math.hypot(autre[0] - b, autre[1] - a));
+    }
+    pire = Math.max(pire, mieux);
+    testes++;
+  }
+  assert.ok(testes >= 20, 'assez de points testes (' + testes + ')');
+  assert.ok(pire * ECH < 0.25,
+    'ecart maximal a la symetrie : ' + (pire * ECH).toFixed(4) + ' unite de viewBox');
+});
+
+test('exp et ln : la courbe de exp est bien celle de exp', () => {
+  const d = EXPO[0];
+  const courbe = balises(d.svg, 'polyline').map(points)[0];
+  const ECH = 40, OX = 150, OY = 180;
+  let pire = 0;
+  for (const [x, y] of courbe) {
+    const u = (x - OX) / ECH;
+    pire = Math.max(pire, Math.abs(y - (OY - Math.exp(u) * ECH)));
+  }
+  assert.ok(pire < 0.25, 'ecart maximal a la vraie exponentielle : ' + pire.toFixed(4));
+});
+
+test('exp et ln : les paliers de demi-vie divisent bien la masse par 2', () => {
+  /* Figure 2. Les points marques doivent porter les masses 160, 80, 40, 20
+     puis 10 mg, a des abscisses REGULIEREMENT espacees de la demi-vie.
+     Echelles : X(t) = 60 + 11,25 t et Y(m) = 200 - m. */
+  const d = EXPO[1];
+  const marques = balises(d.svg, 'circle')
+    .map((t) => [attrNum(t, 'cx'), attrNum(t, 'cy')])
+    .sort((a, b) => a[0] - b[0]);
+  assert.ok(marques.length >= 4, 'au moins quatre paliers marques');
+
+  const masses = marques.map((p) => 200 - p[1]);
+  const attendues = [160, 80, 40, 20, 10];
+  for (let i = 0; i < marques.length; i++) {
+    assert.ok(Math.abs(masses[i] - attendues[i]) < 0.2,
+      'palier ' + i + ' : masse ' + masses[i].toFixed(2) + ' au lieu de ' + attendues[i]);
+    if (i > 0) {
+      assert.ok(Math.abs(masses[i - 1] / masses[i] - 2) < 0.01,
+        'division par 2 entre les paliers ' + (i - 1) + ' et ' + i);
+    }
+  }
+
+  /* Les intervalles de TEMPS entre paliers doivent etre egaux : c'est le
+     message meme de la figure (temps regulier, masse divisee). */
+  const xs = marques.map((p) => p[0]);
+  const pas = xs.slice(1).map((v, i) => v - xs[i]);
+  for (const p of pas) {
+    assert.ok(Math.abs(p - pas[0]) < 0.2,
+      'intervalles de temps inegaux : ' + p + ' contre ' + pas[0]);
+  }
+});
+
+test('exp et ln : la courbe de decroissance est la vraie exponentielle', () => {
+  const d = EXPO[1];
+  const courbe = balises(d.svg, 'polyline').map(points)[0];
+  const lam = Math.log(2) / 8;
+  let pire = 0;
+  for (const [x, y] of courbe) {
+    const t = (x - 60) / 11.25;
+    pire = Math.max(pire, Math.abs(y - (200 - 160 * Math.exp(-lam * t))));
+  }
+  assert.ok(pire < 0.25, 'ecart maximal a la vraie decroissance : ' + pire.toFixed(4));
+});
+
+test('exp et ln : le rapport entre les deux logarithmes est constant', () => {
+  /* Figure 3. Le message est que ln et log different d'un FACTEUR, pas d'une
+     forme. On mesure les deux hauteurs au-dessus de l'axe des abscisses a
+     chaque abscisse commune : leur rapport doit valoir ln(10) partout. */
+  const d = EXPO[2];
+  const courbes = balises(d.svg, 'polyline').map(points);
+  assert.strictEqual(courbes.length, 2, 'deux courbes : neperien et decimal');
+  const nep = courbes[0], dec = courbes[1];
+  assert.strictEqual(nep.length, dec.length, 'meme echantillonnage');
+
+  const yZero = 162.1;
+  let pire = 0, testes = 0;
+  for (let i = 0; i < nep.length; i++) {
+    assert.ok(Math.abs(nep[i][0] - dec[i][0]) < 1e-6, 'memes abscisses');
+    const hNep = yZero - nep[i][1], hDec = yZero - dec[i][1];
+    // On saute le voisinage du zero commun, ou le rapport 0/0 n'a pas de sens.
+    if (Math.abs(hDec) < 5) continue;
+    pire = Math.max(pire, Math.abs(hNep / hDec - Math.log(10)));
+    testes++;
+  }
+  assert.ok(testes >= 30, 'assez de points testes (' + testes + ')');
+  assert.ok(pire < 0.03,
+    'le rapport des deux hauteurs n est pas constant : ecart ' + pire.toFixed(4) +
+    ' a ln(10) = ' + Math.log(10).toFixed(4));
+});
+
+test('exp et ln : les deux logarithmes s annulent au meme point', () => {
+  /* Aucun logarithme, quelle que soit sa base, ne vaut autre chose que 0 en
+     x = 1. Les deux courbes doivent donc croiser l'axe au meme endroit. */
+  const d = EXPO[2];
+  const courbes = balises(d.svg, 'polyline').map(points);
+  const yZero = 162.1, xUn = 63.4;
+  for (const courbe of courbes) {
+    let avant = null, apres = null;
+    for (let i = 1; i < courbe.length; i++) {
+      if (courbe[i - 1][0] <= xUn && courbe[i][0] >= xUn) {
+        avant = courbe[i - 1];
+        apres = courbe[i];
+      }
+    }
+    assert.ok(avant, 'la courbe couvre bien x = 1');
+    const t = (xUn - avant[0]) / (apres[0] - avant[0]);
+    const y = avant[1] + t * (apres[1] - avant[1]);
+    assert.ok(Math.abs(y - yZero) < 1.5,
+      'la courbe ne s annule pas en x = 1 : y = ' + y.toFixed(2) + ' au lieu de ' + yZero);
+  }
+});
+
+/* =======================================================================
+   FONCTION LOGARITHME NEPERIEN
+   ======================================================================= */
+
+const LOGA = schemas('tle-logarithme');
+
+test('logarithme : la courbe du piege est bien ln a l echelle declaree', () => {
+  /* Figure 1. Echelles annoncees : X(x) = 55 + (345/7) x et
+     Y(y) = 220 - (180/2,6) (y + 0,4). On verifie point par point. */
+  const d = LOGA[0];
+  const courbe = balises(d.svg, 'polyline').map(points)[0];
+  const echX = 345 / 7, echY = 180 / 2.6;
+  let pire = 0, testes = 0;
+  for (const [x, y] of courbe) {
+    const u = (x - 55) / echX;
+    if (u <= 0.3) continue;                 // le premier point est le bord du cadre
+    pire = Math.max(pire, Math.abs(y - (220 - echY * (Math.log(u) + 0.4))));
+    testes++;
+  }
+  assert.ok(testes >= 30, 'assez de points testes (' + testes + ')');
+  assert.ok(pire < 0.35, 'ecart maximal a la vraie courbe de ln : ' + pire.toFixed(4));
+});
+
+test('logarithme : la somme des deux hauteurs tombe bien sur ln(6)', () => {
+  /* LE message de la figure : ln2 + ln3 vaut ln6, pas ln5. On relit les
+     ordonnees des points marques et l'on verifie l'egalite EN UNITES DU
+     REPERE, jamais a l'oeil. */
+  const d = LOGA[0];
+  const echY = 180 / 2.6;
+  const enY = (py) => (220 - py) / echY - 0.4;
+
+  const marques = balises(d.svg, 'circle')
+    .map((t) => [attrNum(t, 'cx'), attrNum(t, 'cy')])
+    .sort((a, b) => a[0] - b[0]);
+  assert.strictEqual(marques.length, 4, 'quatre points marques : 2, 3, 5 et 6');
+
+  const v2 = enY(marques[0][1]), v3 = enY(marques[1][1]);
+  const v5 = enY(marques[2][1]), v6 = enY(marques[3][1]);
+
+  assert.ok(Math.abs(v2 - Math.log(2)) < 0.01, 'hauteur en x = 2 : ' + v2.toFixed(4));
+  assert.ok(Math.abs(v3 - Math.log(3)) < 0.01, 'hauteur en x = 3 : ' + v3.toFixed(4));
+  assert.ok(Math.abs(v5 - Math.log(5)) < 0.01, 'hauteur en x = 5 : ' + v5.toFixed(4));
+  assert.ok(Math.abs(v6 - Math.log(6)) < 0.01, 'hauteur en x = 6 : ' + v6.toFixed(4));
+
+  /* L'egalite qui fait la figure, et l'inegalite qui fait le piege. */
+  assert.ok(Math.abs((v2 + v3) - v6) < 0.02, 'ln2 + ln3 doit valoir ln6');
+  assert.ok(Math.abs((v2 + v3) - v5) > 0.15, 'ln2 + ln3 ne doit PAS valoir ln5');
+
+  /* Et le trait de report horizontal doit etre a la hauteur de la somme. */
+  const reports = balises(d.svg, 'line')
+    .filter((t) => /guide-line/.test(t) && attrNum(t, 'y1') === attrNum(t, 'y2'));
+  assert.strictEqual(reports.length, 1, 'un seul trait de report horizontal');
+  assert.ok(Math.abs(enY(attrNum(reports[0], 'y1')) - (v2 + v3)) < 0.02,
+    'le trait de report n est pas a la hauteur de la somme');
+});
+
+test('logarithme : les deux reglettes de l echelle pH sont regulieres et alignees', () => {
+  /* Figure 2. Sept reperes en haut, sept en bas, exactement aux memes
+     abscisses et regulierement espaces : c'est tout le message (un facteur
+     dix en haut, un pas de un en bas). */
+  const d = LOGA[1];
+  const cercles = balises(d.svg, 'circle')
+    .map((t) => ({ x: attrNum(t, 'cx'), y: attrNum(t, 'cy') }));
+  const haut = cercles.filter((c) => c.y < 110).map((c) => c.x).sort((a, b) => a - b);
+  const bas = cercles.filter((c) => c.y >= 110).map((c) => c.x).sort((a, b) => a - b);
+
+  assert.strictEqual(haut.length, 7, 'sept reperes sur la reglette du haut');
+  assert.strictEqual(bas.length, 7, 'sept reperes sur la reglette du bas');
+
+  for (let i = 0; i < 7; i++) {
+    assert.ok(Math.abs(haut[i] - bas[i]) < 0.01,
+      'repere ' + i + ' non aligne : ' + haut[i] + ' contre ' + bas[i]);
+  }
+  const pas = haut.slice(1).map((v, i) => v - haut[i]);
+  for (const p of pas) {
+    assert.ok(Math.abs(p - pas[0]) < 0.2,
+      'espacement irregulier : ' + p + ' contre ' + pas[0]);
+  }
+});
+
+test('logarithme : le domaine grise s arrete exactement a la frontiere', () => {
+  /* Figure 3. La zone interdite doit s'arreter a x = 3, frontiere du domaine
+     de ln(x) + ln(x - 3), et la seconde courbe ne doit commencer qu'apres.
+     Echelle : X(x) = 40 + (380/12)(x + 4). */
+  const d = LOGA[2];
+  const echX = 380 / 12;
+  const xDe = (v) => 40 + (v + 4) * echX;
+
+  const zones = balises(d.svg, 'rect')
+    .map((t) => ({ x: attrNum(t, 'x'), w: attrNum(t, 'width') }))
+    .filter((r) => r.x !== null);
+  assert.strictEqual(zones.length, 1, 'une seule zone grisee');
+  const bord = zones[0].x + zones[0].w;
+  assert.ok(Math.abs(bord - xDe(3)) < 0.5,
+    'la zone grisee s arrete a ' + bord.toFixed(1) + ' au lieu de ' + xDe(3).toFixed(1));
+
+  const courbes = balises(d.svg, 'polyline').map(points);
+  assert.strictEqual(courbes.length, 2, 'deux courbes de logarithme');
+  assert.ok(courbes[0][0][0] > xDe(0), 'la courbe de ln(x) ne commence pas avant x = 0');
+  assert.ok(courbes[1][0][0] > xDe(3) - 0.2,
+    'la courbe de ln(x-3) ne commence pas avant x = 3');
+
+  /* La racine retenue, x = 5, doit etre HORS de la zone grisee ; la racine
+     rejetee, x = -2, doit y etre. C'est le message de la figure. */
+  assert.ok(xDe(5) > bord, 'la racine 5 est hors de la zone grisee');
+  assert.ok(xDe(-2) < bord, 'la racine -2 tombe dans la zone grisee');
+});
+
+test('logarithme : les deux courbes du domaine sont les bonnes', () => {
+  /* ln(x) et ln(x - 3), point par point, a l'echelle declaree :
+     X(x) = 40 + (380/12)(x + 4) et Y(y) = 215 - (175/5,2)(y + 2,6). */
+  const d = LOGA[2];
+  const echX = 380 / 12, echY = 175 / 5.2;
+  const courbes = balises(d.svg, 'polyline').map(points);
+  const ecart = (courbe, decalage) => {
+    let pire = 0;
+    for (const [x, y] of courbe) {
+      const u = (x - 40) / echX - 4;
+      if (u - decalage <= 0.1) continue;
+      pire = Math.max(pire, Math.abs(y - (215 - echY * (Math.log(u - decalage) + 2.6))));
+    }
+    return pire;
+  };
+  const e1 = ecart(courbes[0], 0), e2 = ecart(courbes[1], 3);
+  assert.ok(e1 < 0.35, 'ecart sur ln(x) : ' + e1.toFixed(4));
+  assert.ok(e2 < 0.35, 'ecart sur ln(x-3) : ' + e2.toFixed(4));
+});
+
+/* =======================================================================
+   EQUATIONS DIFFERENTIELLES DU PREMIER ORDRE
+   ======================================================================= */
+
+const EDO = schemas('tle-equations-differentielles');
+
+test('equations diff : la tangente a l origine coupe l asymptote a t = tau', () => {
+  /* LA propriete exacte du chapitre, et la raison d'etre de la figure. Elle
+     se demontre en deux lignes : y'(0) = E/tau, donc une droite partant de 0
+     avec cette pente atteint E au bout de E/(E/tau) = tau. On la verifie sur
+     le DESSIN, au flottant pres.
+     Echelles : X(t) = 60 + 36 t et Y(y) = 210 - 12,5 y. E = 12, tau = 2. */
+  const d = EDO[0];
+  const echX = 36, echY = 12.5, ox = 60, oy = 210;
+  const E = 12, tau = 2;
+
+  const tangentes = balises(d.svg, 'line').filter((t) => /guide-line/.test(t));
+  assert.strictEqual(tangentes.length, 1, 'une seule tangente');
+  const tg = tangentes[0];
+  const ax = attrNum(tg, 'x1'), ay = attrNum(tg, 'y1');
+  const bx = attrNum(tg, 'x2'), by = attrNum(tg, 'y2');
+
+  // Elle part bien de l'origine de la courbe (t = 0, y = 0).
+  assert.ok(Math.abs(ax - ox) < 0.1 && Math.abs(ay - oy) < 0.1,
+    'la tangente part de l origine du repere');
+
+  // Sa pente, ramenee aux unites, doit valoir E / tau.
+  const penteUnites = ((ay - by) / echY) / ((bx - ax) / echX);
+  assert.ok(Math.abs(penteUnites - E / tau) < 5e-3,
+    'pente de la tangente : ' + penteUnites.toFixed(6) + ' au lieu de ' + (E / tau));
+
+  // Et par consequent elle vaut E exactement en t = tau.
+  const tCroisement = E / penteUnites;
+  assert.ok(Math.abs(tCroisement - tau) < 5e-3,
+    'la tangente coupe l asymptote a t = ' + tCroisement.toFixed(6) + ' au lieu de ' + tau);
+
+  // Le trait d'asymptote doit bien etre a la hauteur E.
+  const asymptotes = balises(d.svg, 'line')
+    .filter((t) => /focus-line/.test(t) && attrNum(t, 'y1') === attrNum(t, 'y2'));
+  assert.ok(asymptotes.length >= 1, 'une asymptote horizontale tracee');
+  const yAsym = attrNum(asymptotes[0], 'y1');
+  assert.ok(Math.abs((oy - yAsym) / echY - E) < 0.01,
+    'asymptote a ' + ((oy - yAsym) / echY).toFixed(3) + ' au lieu de ' + E);
+
+  // Le point marque sur la COURBE en t = tau doit etre a 63,2 % de E.
+  const pts = balises(d.svg, 'circle').map((t) => [attrNum(t, 'cx'), attrNum(t, 'cy')]);
+  const surCourbe = pts.filter((p) =>
+    Math.abs(p[0] - (ox + tau * echX)) < 0.5 && Math.abs(p[1] - yAsym) > 5);
+  assert.strictEqual(surCourbe.length, 1, 'un point marque sur la courbe en t = tau');
+  const valeur = (oy - surCourbe[0][1]) / echY;
+  assert.ok(Math.abs(valeur - E * (1 - Math.exp(-1))) < 0.02,
+    'valeur de la courbe en tau : ' + valeur.toFixed(3) + ' au lieu de ' +
+    (E * (1 - Math.exp(-1))).toFixed(3));
+});
+
+test('equations diff : la courbe de charge est la vraie exponentielle', () => {
+  const d = EDO[0];
+  const courbe = balises(d.svg, 'polyline').map(points)[0];
+  let pire = 0;
+  for (const [x, y] of courbe) {
+    const t = (x - 60) / 36;
+    pire = Math.max(pire, Math.abs(y - (210 - 12.5 * 12 * (1 - Math.exp(-t / 2)))));
+  }
+  assert.ok(pire < 0.25, 'ecart maximal a la vraie courbe de charge : ' + pire.toFixed(4));
+});
+
+test('equations diff : les quatre jalons du transitoire portent les bons pourcentages', () => {
+  /* Figure 2. Les quatre points marques doivent valoir 63,2 puis 86,5, 95,0
+     et 99,3 pour cent de la valeur finale, c'est-a-dire 1 - e^(-k) pour
+     k = 1, 2, 3 et 5. Echelles : X(t) = 60 + 45 t et Y(v) = 200 - 13,75 v,
+     valeur finale 10. */
+  const d = EDO[1];
+  const echX = 45, echY = 13.75, ox = 60, oy = 200, E = 10;
+  const marques = balises(d.svg, 'circle')
+    .map((t) => [attrNum(t, 'cx'), attrNum(t, 'cy')])
+    .sort((a, b) => a[0] - b[0]);
+  assert.strictEqual(marques.length, 4, 'quatre jalons marques');
+
+  const ks = [1, 2, 3, 5];
+  for (let i = 0; i < 4; i++) {
+    const t = (marques[i][0] - ox) / echX;
+    assert.ok(Math.abs(t - ks[i]) < 0.02,
+      'jalon ' + i + ' a t = ' + t.toFixed(3) + ' au lieu de ' + ks[i]);
+    const v = (oy - marques[i][1]) / echY;
+    const attendu = E * (1 - Math.exp(-ks[i]));
+    assert.ok(Math.abs(v - attendu) < 0.03,
+      'jalon ' + i + ' : ' + v.toFixed(3) + ' au lieu de ' + attendu.toFixed(3));
+  }
+
+  /* La bande du transitoire doit couvrir exactement les cinq premiers tau. */
+  const bandes = balises(d.svg, 'rect')
+    .map((t) => ({ x: attrNum(t, 'x'), w: attrNum(t, 'width') }))
+    .filter((r) => r.x !== null);
+  assert.strictEqual(bandes.length, 1, 'une seule bande de transitoire');
+  assert.ok(Math.abs(bandes[0].x - ox) < 0.1, 'la bande part de t = 0');
+  assert.ok(Math.abs(bandes[0].w / echX - 5) < 0.02,
+    'la bande couvre ' + (bandes[0].w / echX).toFixed(3) + ' tau au lieu de 5');
+});
+
+test('equations diff : les deux conditions initiales convergent vers la meme asymptote', () => {
+  /* Figure 3. Le message : l'EQUATION fixe la destination, la condition
+     initiale seulement le depart. Les deux courbes doivent donc partir de
+     points differents et finir au meme endroit.
+     Echelles : X(t) = 60 + 40 t et Y(v) = 210 - 10,9375 v. */
+  const d = EDO[2];
+  const echY = 10.9375, oy = 210, yinf = 8;
+  const courbes = balises(d.svg, 'polyline').map(points);
+  assert.strictEqual(courbes.length, 2, 'deux solutions tracees');
+  const basse = courbes[0], haute = courbes[1];
+  const enV = (py) => (oy - py) / echY;
+
+  // Deux departs nettement differents.
+  assert.ok(Math.abs(enV(basse[0][1]) - 0) < 0.05, 'la premiere part de 0');
+  assert.ok(Math.abs(enV(haute[0][1]) - 14) < 0.05, 'la seconde part de 14');
+
+  // Une seule destination : les deux fins coincident avec y_infini.
+  for (const c of courbes) {
+    const fin = enV(c[c.length - 1][1]);
+    assert.ok(Math.abs(fin - yinf) < 0.05,
+      'fin de courbe a ' + fin.toFixed(3) + ' au lieu de ' + yinf);
+  }
+
+  /* L'ecart entre les deux courbes decroit en e^(-t/tau) : apres un tau
+     (ici 1,5), il doit valoir exactement e^(-1) fois l'ecart initial. C'est
+     la propriete quantitative annoncee dans les notes de la figure. */
+  const tau = 1.5;
+  const interp = (c, xCible) => {
+    for (let i = 1; i < c.length; i++) {
+      if (c[i - 1][0] <= xCible && c[i][0] >= xCible) {
+        const t = (xCible - c[i - 1][0]) / (c[i][0] - c[i - 1][0]);
+        return c[i - 1][1] + t * (c[i][1] - c[i - 1][1]);
+      }
+    }
+    return null;
+  };
+  const xTau = 60 + tau * 40;
+  const ecartTau = Math.abs(enV(interp(haute, xTau)) - enV(interp(basse, xTau)));
+  assert.ok(Math.abs(ecartTau - 14 * Math.exp(-1)) < 0.05,
+    'ecart apres un tau : ' + ecartTau.toFixed(3) + ' au lieu de ' +
+    (14 * Math.exp(-1)).toFixed(3));
+
+  // Les deux courbes ne doivent JAMAIS se croiser.
+  for (let i = 0; i < Math.min(basse.length, haute.length); i++) {
+    assert.ok(haute[i][1] < basse[i][1],
+      'les deux solutions se croisent, ce qui est impossible');
+  }
+});
