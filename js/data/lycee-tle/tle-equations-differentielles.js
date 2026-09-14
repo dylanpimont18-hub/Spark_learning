@@ -610,38 +610,87 @@ window.MODULES.push({
       duration: '35 min',
       questions: [
         {
-          statement: 'Un circuit RC a $R = 4{,}7$ kΩ et $C = 220$ μF. Calculer $\\tau$ en secondes. Arrondir à $0{,}01$.',
+          /* Q1 RÉÉCRITE le 2026-09-14. Elle demandait de calculer
+             $\tau = RC$ : une multiplication, que la question 2 reprend
+             maintenant à son compte.
+
+             La nouvelle question part d'une SITUATION décrite en mots — un
+             ballon qui se remplit d'autant plus lentement qu'il est plein —
+             et demande de choisir l'équation qui la traduit. Aucune formule
+             n'est rappelée. Traduire une situation concrète en écriture
+             mathématique, c'est « modéliser ».
+
+             Les distracteurs sont les trois erreurs de modélisation les
+             plus fréquentes : confondre la grandeur et son écart à la
+             cible, oublier le signe, et écrire une proportionnalité simple
+             au lieu d'une équation différentielle. */
+          statement: 'Un ballon se gonfle jusqu\'à un volume maximal de $5$ L. Plus il est proche de ce volume, plus il se remplit lentement : la vitesse de remplissage est proportionnelle au volume qu\'il <strong>reste</strong> à remplir. On note $V(t)$ le volume au temps $t$. Quelle équation traduit cette situation ?',
+          type: 'multiple-choice',
+          options: [
+            '$V\'(t) = k\\big(5 - V(t)\\big)$, avec $k > 0$',
+            '$V\'(t) = kV(t)$, avec $k > 0$',
+            '$V(t) = k\\big(5 - V(t)\\big)$, avec $k > 0$',
+            '$V\'(t) = -k \\times 5$, avec $k > 0$'
+          ],
+          answer: 0,
+          points: 2,
+          correction: 'Traduisons l\'énoncé morceau par morceau.<br/><br/>« La vitesse de remplissage » : c\'est la dérivée du volume, donc $V\'(t)$.<br/><br/>« Le volume qu\'il reste à remplir » : c\'est la différence entre le maximum et le volume actuel, donc $5 - V(t)$.<br/><br/>« Est proportionnelle à » : les deux quantités sont liées par un coefficient constant $k$.<br/><br/>D\'où $V\'(t) = k\\big(5 - V(t)\\big)$.<br/><br/>Vérifions que le modèle se comporte comme décrit. Au départ, $V = 0$ et $V\' = 5k$ : le remplissage est rapide. Quand $V$ approche $5$, la parenthèse tend vers $0$ et $V\'$ aussi : le remplissage ralentit. C\'est bien ce que dit l\'énoncé.<br/><br/>L\'option B décrirait un ballon qui se remplit de plus en plus <strong>vite</strong> à mesure qu\'il se remplit — une croissance exponentielle, sans limite : c\'est le contraire.<br/><br/>L\'option C a oublié le prime : ce n\'est plus une équation différentielle, c\'est une équation ordinaire, dont la solution est un nombre fixe et non une fonction du temps.<br/><br/>L\'option D donne une vitesse constante : le ballon se remplirait linéairement, puis dépasserait les $5$ L sans rien remarquer.'
+        },
+        {
+          /* Q2 RÉÉCRITE le 2026-09-14. Elle demandait de reconnaître la
+             valeur $63{,}2\%$ parmi quatre pourcentages : une question de
+             mémoire, pas de calcul.
+
+             La nouvelle question reprend le calcul de $\tau = RC$ que
+             portait l'ancienne question 1, avec la conversion d'unités qui
+             en fait la difficulté réelle. C'est « calculer ». */
+          statement: 'Un circuit RC comporte $R = 4{,}7$ kΩ et $C = 220$ μF. Calculer sa constante de temps $\\tau$ en secondes. Arrondir à $0{,}01$.',
           type: 'numeric',
           answer: 1.03,
           tolerance: 0.02,
           unit: 's',
           points: 2,
-          correction: 'On convertit les unités et on applique $\\tau = RC$ :<br/><br/>$\\tau = 4{,}7 \\times 10^3 \\times 220 \\times 10^{-6} = 4700 \\times 0{,}000220 = 1{,}034$ s $\\approx 1{,}03$ s.'
+          correction: 'La formule $\\tau = RC$ ne vaut qu\'en unités de base : des <strong>ohms</strong> et des <strong>farads</strong>. Il faut donc convertir avant de multiplier.<br/><br/>$R = 4{,}7$ kΩ $= 4{,}7 \\times 10^3$ Ω, et $C = 220$ μF $= 220 \\times 10^{-6}$ F.<br/><br/>$\\tau = 4{,}7 \\times 10^3 \\times 220 \\times 10^{-6} = 4{,}7 \\times 220 \\times 10^{-3} = 1034 \\times 10^{-3}$.<br/><br/>Donc $\\tau \\approx 1{,}03$ s.<br/><br/>Astuce de calcul mental : le produit des deux préfixes, kilo et micro, vaut $10^{3} \\times 10^{-6} = 10^{-3}$. Multiplier des kΩ par des μF donne donc directement des <strong>millisecondes</strong>.'
         },
         {
-          statement: 'Dans un circuit RC en charge, à $t = \\tau$, la tension aux bornes du condensateur vaut environ :',
+          /* Q3 RÉÉCRITE le 2026-09-14. Elle demandait $U_C(2)$ pour
+             $E = 12$ V et $\tau = 2$ s : un calcul, et le troisième de
+             l'évaluation.
+
+             La nouvelle question ne demande AUCUN nombre : on donne deux
+             circuits de constantes de temps différentes et l'on demande de
+             conclure sur leur comportement relatif. L'élève passe d'une
+             propriété (la forme de la solution) à une comparaison, sans
+             calculer. C'est « raisonner ». */
+          statement: 'Deux circuits RC sont alimentés par la <strong>même</strong> tension $E$, mais le premier a une constante de temps $\\tau_1 = 0{,}5$ s et le second $\\tau_2 = 2$ s. <strong>Sans calculer aucune tension</strong>, que peut-on affirmer ?',
           type: 'multiple-choice',
-          options: ['$50\\%$ de $E$', '$63{,}2\\%$ de $E$', '$86{,}5\\%$ de $E$', '$99{,}3\\%$ de $E$'],
-          answer: 1,
+          options: [
+            'Le premier se charge quatre fois plus vite, mais les deux atteignent la même tension finale $E$',
+            'Le premier atteint une tension finale quatre fois plus élevée que le second',
+            'Le second se charge plus vite, car une constante de temps plus grande signifie une charge plus rapide',
+            'On ne peut rien comparer sans connaître $R$ et $C$ pour chaque circuit'
+          ],
+          answer: 0,
           points: 2,
-          correction: '$U_C(\\tau) = E(1 - e^{-1}) = E \\times (1 - 0{,}368) = 0{,}632 E$, soit $63{,}2\\%$ de $E$.<br/><br/>Cette valeur caractéristique permet de retrouver $\\tau$ sur un graphe expérimental.'
+          correction: 'Les deux solutions s\'écrivent $U_C(t) = E\\left(1 - e^{-t/\\tau}\\right)$. La lettre $\\tau$ n\'apparaît qu\'à <strong>un seul endroit</strong> : dans l\'exposant, au dénominateur.<br/><br/>Conséquence sur la valeur finale : quand $t$ devient grand, $e^{-t/\\tau}$ tend vers $0$ quelle que soit la valeur de $\\tau$, et $U_C$ tend vers $E$. La constante de temps ne change donc rien à la destination — seul $E$ la fixe. C\'est ce qui élimine l\'option B.<br/><br/>Conséquence sur la rapidité : pour atteindre un même pourcentage de $E$, il faut le même rapport $\\dfrac{t}{\\tau}$. Un $\\tau$ quatre fois plus petit demande donc un temps quatre fois plus court. Le premier circuit est bien quatre fois plus rapide — ce qui élimine l\'option C, qui inverse le sens.<br/><br/>Quant à l\'option D, elle est fausse parce que $R$ et $C$ n\'interviennent que par leur <strong>produit</strong>. Connaître $\\tau$ suffit ; savoir de quels $R$ et $C$ il provient n\'apporte rien.<br/><br/>À retenir : $\\tau$ règle la <strong>vitesse</strong>, pas la <strong>destination</strong>.'
         },
         {
-          statement: 'Un condensateur est chargé par $E = 12$ V avec $\\tau = 2$ s. Calculer $U_C(2)$ en V. Arrondir à $0{,}1$.',
+          /* Q4 RÉÉCRITE le 2026-09-14. Elle demandait après combien de
+             constantes de temps le régime permanent est atteint : une
+             convention à réciter.
+
+             La nouvelle question part d'un relevé expérimental décrit en
+             mots et demande de déterminer un paramètre du modèle. L'élève
+             doit décider quelle grandeur du texte joue quel rôle dans
+             l'équation, puis en tirer le nombre demandé. C'est
+             « modéliser ». */
+          statement: 'Un technicien mesure le refroidissement d\'un four. La température de la pièce est de $20$ °C. Le four part de $220$ °C, et après $30$ minutes il est descendu à $120$ °C. Sachant que l\'écart à la température de la pièce décroît exponentiellement, quelle sera la température du four après $60$ minutes ?',
           type: 'numeric',
-          answer: 7.6,
-          tolerance: 0.1,
-          unit: 'V',
+          answer: 70,
+          tolerance: 1,
+          unit: '°C',
           points: 2,
-          correction: 'Ici $t = 2 = \\tau$, donc on est exactement à une constante de temps.<br/><br/>$U_C(\\tau) = E(1 - e^{-1}) = 12 \\times 0{,}6321 = 7{,}6$ V.'
-        },
-        {
-          statement: 'On considère le régime permanent comme atteint après :',
-          type: 'multiple-choice',
-          options: ['$\\tau$', '$2\\tau$', '$3\\tau$', '$5\\tau$'],
-          answer: 3,
-          points: 2,
-          correction: 'Après $5\\tau$, $U_C = E(1 - e^{-5}) \\approx E \\times 0{,}993$, soit moins de $1\\%$ d\'écart avec $E$.<br/><br/>Par convention, le <strong>régime permanent</strong> est considéré comme atteint à $5\\tau$.'
+          correction: 'Le point à décider, et c\'est tout l\'enjeu, est <strong>quelle grandeur décroît exponentiellement</strong>. Ce n\'est pas la température — sinon elle tendrait vers $0$ °C — mais l\'<strong>écart</strong> à la pièce.<br/><br/>Écart au départ : $220 - 20 = 200$ °C.<br/><br/>Écart après $30$ min : $120 - 20 = 100$ °C. Il a donc été divisé par $2$ en $30$ minutes.<br/><br/>Un écart qui décroît exponentiellement est divisé par le <strong>même facteur</strong> sur des durées égales — exactement comme une demi-vie. Les $30$ minutes suivantes le divisent donc encore par $2$ : il passe de $100$ à $50$ °C.<br/><br/>Température après $60$ min : $20 + 50 = 70$ °C.<br/><br/>L\'erreur à éviter est de raisonner sur la température brute : « elle a perdu $100$ °C en $30$ min, donc elle en perdra encore $100$ », ce qui donnerait $20$ °C — c\'est-à-dire exactement la température de la pièce, atteinte en une heure pile. Un four ne se refroidit pas ainsi : plus il approche de la pièce, plus il ralentit.'
         },
         {
           statement: 'La solution de $\\tau \\dfrac{dy}{dt} + y = 5$ avec $y(0) = 0$ et $\\tau = 3$ est $y(t) = 5(1 - e^{-t/3})$. Calculer $y(3)$. Arrondir à $0{,}01$.',

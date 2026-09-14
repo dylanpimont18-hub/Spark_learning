@@ -294,9 +294,19 @@ window.SPARK_PROF["tle-lois-continues"] = {
      Aucune compétence « lycée » ou « spécialité » n'existe : une étiquette
      hors liste est refusée à la validation.
 
-     Q1 $P(42 \leq X \leq 58)$ pour $\mathcal{N}(50;4^2)$ : reconnaissance
-        d'un intervalle centré puis lecture du formulaire. C'est
-        « calculer ».
+     Q1 retrouver l'écart-type d'une production à partir d'un intervalle et
+        du pourcentage qu'il contient. Le sens de lecture est RENVERSÉ : on
+        donne la probabilité et l'on cherche le paramètre, alors que le cours
+        fait toujours l'inverse. Aucune formule ne s'applique directement —
+        l'élève doit reconnaître de lui-même que $99{,}7\%$ désigne
+        l'intervalle à $3\sigma$, vérifier que l'intervalle est bien centré,
+        puis remonter de la demi-largeur à $\sigma$. C'est « chercher ».
+        RÉÉCRITE le 2026-09-14 : elle demandait $P(42 \leq X \leq 58)$ pour
+        $\mathcal{N}(50\,;\,4^2)$, c'est-à-dire EXACTEMENT la même tâche que
+        la question 2 — situer des bornes en nombre d'écarts-types, puis lire
+        la règle des $k\sigma$. Deux questions sur cinq pour une seule
+        compétence, et surtout un « calculer » de trop : sur les soixante
+        questions du niveau, la compétence dépassait le plafond de 35 %.
      Q2 $P(X > 130)$ pour $\mathcal{N}(100;15^2)$ : le découpage en trois
         étapes, avec la division par deux. C'est « calculer ».
         CETTE QUESTION A ÉTÉ REFORMULÉE le 2026-09-14 : elle demandait
@@ -320,12 +330,12 @@ window.SPARK_PROF["tle-lois-continues"] = {
         RÉÉCRITE le 2026-09-14 (c'était $P(1 \leq X \leq 4)$ sur une
         uniforme, donc un quatrième calcul).
 
-     « Chercher » et « communiquer » ne sont PAS déclarées ici : aucune des
-     cinq questions ne demande d'explorer une piste sans méthode donnée, ni
-     de juger l'énoncé produit par quelqu'un d'autre. Les deux compétences
-     sont portées par d'autres chapitres du niveau, où les énoncés ont été
-     écrits pour cela. */
+     « Communiquer » n'est PAS déclarée ici : aucune des cinq questions ne
+     demande de juger ou de corriger l'énoncé produit par quelqu'un d'autre.
+     La compétence est portée par d'autres chapitres du niveau, où les
+     énoncés ont été écrits pour cela — l'étiquette suit l'énoncé, jamais
+     l'inverse. */
   competences: {
-    evaluation: ["calculer", "calculer", "représenter", "modéliser", "raisonner"]
+    evaluation: ["chercher", "calculer", "représenter", "modéliser", "raisonner"]
   }
 };

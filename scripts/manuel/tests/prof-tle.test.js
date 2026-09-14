@@ -172,6 +172,70 @@ const ATTENDUS = {
     'Confondre « sans répétition » et « avec répétition »': ['répétitions', 'répéter', 'revenir'],
     'Additionner les cas au lieu de passer par le contraire': ['au moins', 'contraire'],
     'Recalculer un coefficient binomial déjà connu': ['binom', 'sans refaire']
+  },
+
+  /* CONVEXITE, LIMITES, SUITES, LOIS CONTINUES — entrees ajoutees le
+     2026-09-14, en meme temps que les quatre fiches. Une par renvoi NON NUL.
+
+     Les quatre fiches comptent 20 erreurs au total, dont 3 sans renvoi
+     (erreur assumee et documentee dans le remede : la banque est a reponse
+     numerique et ne peut pas travailler une rédaction de recurrence ni une
+     distinction conceptuelle). Il y a donc 17 entrees ici.
+
+     Les mots-cles sont RESSERRES sur le signe distinctif de l'exercice vise,
+     jamais sur un mot present dans tout le chapitre : « convexe » aurait ete
+     une garde inerte dans le chapitre de convexite. */
+  'tle-convexite': {
+    // ex. 4 : f''(1) pour 3ln(x) — seule tache du chapitre qui porte un ln.
+    "Confondre le signe de $f'$ et celui de $f''$": ['\\ln'],
+    // ex. 7 : le zero sans changement de signe, sur x^4.
+    "Croire que $f''(a) = 0$ suffit à donner un point d'inflexion": ['x^4', 'nécessaire'],
+    // ex. 6 : la borne d'un intervalle de convexite (inequation).
+    'Répondre par un point quand on demande un intervalle': ['inéquation', '+\\infty'],
+    // ex. 10 : la meme tache que 4, sur une autre valeur — le corrige y
+    // oppose explicitement croissance et convexite.
+    "Croire que « croissante » et « convexe » vont ensemble": ['concave', '\\ln'],
+    // ex. 1 : f''(1), ou l'indication impose de deriver avant de substituer.
+    'Substituer avant de dériver': ['substituer']
+  },
+  'tle-limites-continuite': {
+    // ex. 7 : la forme 0/0 levee par factorisation.
+    'Traiter une forme indéterminée comme un résultat': ['indéterminée', 'factoris'],
+    // ex. 1 : degre du numerateur strictement plus petit.
+    'Comparer les coefficients au lieu de comparer les degrés': ['degré'],
+    // ex. 5 : l'abscisse d'une asymptote verticale.
+    'Échanger les deux sortes d\'asymptotes': ['asymptote verticale'],
+    // ex. 4 : le recollement, ou il faut resoudre pour rendre continu.
+    'Croire que « définie en $a$ » veut dire « continue en $a$ »': ['continue', 'saut'],
+    // ex. 3 : le theoreme des valeurs intermediaires, en nombre garanti.
+    'Lire dans le théorème des valeurs intermédiaires une unicité qu\'il ne donne pas':
+      ['valeurs intermédiaires', 'changement de signe']
+  },
+  'tle-suites-complements': {
+    // ex. 3 : la suite auxiliaire, qui etablit vraiment la convergence.
+    'Prendre le point fixe pour une preuve de convergence': ['point fixe', 'géométrique'],
+    // ex. 7 : la somme, ou le compte des termes vaut n+1.
+    'Oublier que le nombre de termes vaut $n+1$': ['nombre de termes', 'arithmétique'],
+    // ex. 4 : la NATURE de la suite selon |q|.
+    "Retenir « $q^n$ tend vers zéro » sans la condition": ['raison', 'nature']
+    /* Les deux premieres erreurs de la fiche (« Croire qu'on doit démontrer
+       l'hypothèse de récurrence » et « Conclure sans avoir initialisé ») ont
+       un renvoi NUL : aucune tache de la banque ne fait rédiger une
+       récurrence, la banque etant a reponse numerique. Elles n'ont donc pas
+       d'entree ici, et c'est volontaire. */
+  },
+  'tle-lois-continues': {
+    // ex. 1 : la queue unilaterale, ou il faut diviser par deux.
+    'Oublier de diviser par deux sur une queue': ['deux', 'symétrie'],
+    // ex. 4 : la HAUTEUR d'une densite uniforme, qui peut depasser 1.
+    'Lire la densité comme une probabilité': ['densité', 'hauteur'],
+    // ex. 3 : le centrage-reduction, ou confondre sigma et sigma^2 se voit.
+    'Confondre $\\sigma$ et $\\sigma^2$ dans la notation': ['écart-type'],
+    // ex. 7 : une loi UNIFORME, immediatement apres une loi normale.
+    'Appliquer la règle des sigma à une loi uniforme': ['uniforme', 'longueur']
+    /* La troisieme erreur de la fiche (« Refuser que $P(X = a)$ soit nul »)
+       a un renvoi NUL : sa reponse n'est pas un nombre mais une distinction
+       entre « nul » et « impossible ». Pas d'entree ici, volontairement. */
   }
 };
 

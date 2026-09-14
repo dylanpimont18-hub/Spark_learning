@@ -221,12 +221,22 @@ window.MODULES.push({
               <text class="tick-label" x="236" y="150" text-anchor="middle">aire : zéro virgule zéro deux</text>
 
               <!-- VIGNETTE 3 : demi-largeur 0,01, aire 0,002. La bande y est
-                   plus fine qu'un trait de crayon : c'est le message. -->
-              <rect x="383.9" y="70" width="0.4" height="60" fill="color-mix(in srgb, var(--diagram-accent) 26%, transparent)" stroke="none"></rect>
+                   plus fine qu'un trait de crayon : c'est le message.
+                   LARGEUR EXACTE 0,2207, et non arrondie a 0,4 « pour qu'on
+                   la voie » : le test du niveau remesure l'aire dessinee, et
+                   une bande elargie annoncerait 0,0036 sous une etiquette
+                   disant 0,002. Une figure ne triche pas sur ce qu'elle
+                   mesure, meme pour etre plus lisible. -->
+              <rect x="383.9" y="70" width="0.2207" height="60" fill="color-mix(in srgb, var(--diagram-accent) 26%, transparent)" stroke="none"></rect>
               <line class="axis" x1="320" y1="130" x2="448" y2="130"></line>
               <line class="curve-main" x1="328.8" y1="70" x2="439.2" y2="70"></line>
               <line class="graph-line" x1="328.8" y1="130" x2="328.8" y2="70"></line>
               <line class="graph-line" x1="439.2" y1="70" x2="439.2" y2="130"></line>
+              <!-- La bande de la troisieme vignette est plus fine qu'un
+                   trait imprime : ce repere vertical, POSE SOUS L'AXE, dit
+                   au lecteur ou elle se trouve sans rien ajouter a l'aire
+                   mesuree au-dessus. -->
+              <line class="focus-line" x1="384" y1="130" x2="384" y2="140"></line>
               <text class="annotation-label" x="384" y="28" text-anchor="middle">cent fois plus fine</text>
               <text class="tick-label" x="384" y="150" text-anchor="middle">aire : zéro virgule zéro zéro deux</text>
 
@@ -534,13 +544,27 @@ window.MODULES.push({
       duration: '35 min',
       questions: [
         {
-          statement: 'Pour $X \\sim \\mathcal{N}(50;4^2)$, calculer $P(42 \\leq X \\leq 58)$ en utilisant la règle des $k\\sigma$.',
+          /* Q1 RÉÉCRITE le 2026-09-14. L'ancienne demandait
+             $P(42 \leq X \leq 58)$ pour $\mathcal{N}(50\,;\,4^2)$ : c'est
+             exactement la même tâche que la question 2 — situer des bornes en
+             nombre d'écarts-types, puis lire la règle des $k\sigma$. Deux
+             questions sur cinq pour une seule compétence, dans une évaluation
+             qui comptait déjà trop de calcul : sur les soixante questions du
+             niveau, « calculer » dépassait le plafond de 35 %.
+
+             La nouvelle question RENVERSE le sens de lecture : on donne la
+             probabilité et l'on cherche l'écart-type. Aucune formule du cours
+             ne s'applique directement, et l'élève doit reconnaître de
+             lui-même que $99{,}7\%$ désigne l'intervalle à $3\sigma$, puis
+             remonter de la demi-largeur à $\sigma$. C'est « chercher » :
+             explorer une piste sans méthode donnée. */
+          statement: 'Une machine produit des axes dont le diamètre suit une loi normale de moyenne $\\mu = 20$ mm. Le service qualité constate que $99{,}7\\%$ des axes ont un diamètre compris entre $19{,}4$ mm et $20{,}6$ mm.<br/><br/>En déduire l\'écart-type $\\sigma$ de la production, en mm.',
           type: 'numeric',
-          answer: 0.954,
-          tolerance: 0.005,
-          unit: '',
+          answer: 0.2,
+          tolerance: 0.01,
+          unit: 'mm',
           points: 2,
-          correction: '$42 = 50 - 2 \\times 4 = \\mu - 2\\sigma$ et $58 = 50 + 2 \\times 4 = \\mu + 2\\sigma$. Donc $P(42 \\leq X \\leq 58) = P(\\mu - 2\\sigma \\leq X \\leq \\mu + 2\\sigma) \\approx 0{,}954$.'
+          correction: 'Le pourcentage est la clé : $99{,}7\\%$ est la valeur de la règle des $k\\sigma$ pour $k = 3$. L\'intervalle donné est donc $[\\mu - 3\\sigma\\,;\\,\\mu + 3\\sigma]$.<br/><br/>On vérifie que l\'intervalle est bien centré sur $\\mu$ : $20 - 19{,}4 = 0{,}6$ et $20{,}6 - 20 = 0{,}6$. Il l\'est.<br/><br/>Cette demi-largeur vaut donc $3\\sigma$ :<br/><br/>$3\\sigma = 0{,}6$, d\'où $\\sigma = \\dfrac{0{,}6}{3} = 0{,}2$ mm.<br/><br/>La démarche est l\'inverse de l\'habituelle : d\'ordinaire on connaît $\\sigma$ et l\'on cherche une probabilité. Ici la probabilité est <strong>donnée</strong>, et c\'est elle qui désigne le $k$ à employer. Retenir les trois repères — $68\\%$ pour $1\\sigma$, $95\\%$ pour $2\\sigma$, $99{,}7\\%$ pour $3\\sigma$ — sert donc dans les deux sens.'
         },
         {
           /* Q2 CONSERVÉE dans son intention (calcul), mais REFORMULÉE le
