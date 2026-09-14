@@ -228,6 +228,20 @@ Aucune couleur en dur, uniquement les variables du projet. L'intensité de l'apl
 
 Pas d'article élidé ni de lettre isolée dans une étiquette, sous peine d'italique parasite. Pas d'étiquette en capitales, qui se fracture. Structure plate, sans groupes ni définitions, en coordonnées absolues. Une seule pointe de flèche par trait.
 
+### Règle d'insertion des helpers, et collision de noms entre sessions parallèles
+
+Les helpers de `js/data/figures-exercices.js` s'ajoutent à la **toute fin du fichier**, dans un bloc commenté qui nomme le niveau (`HELPERS AJOUTES POUR LA TROISIEME`), jamais au milieu. Cette règle évite le conflit textuel entre deux sessions qui écrivent en parallèle.
+
+**Elle ne suffit pas.** Lors de la vague 3e/2nde, les deux sessions l'ont respectée et ont malgré tout produit une collision : chacune a écrit une fonction `figureThales` aux signatures incompatibles — `(OA, OAp, AB, options)` pour la troisième, `(am, ab, bc)` pour la seconde. Git n'a rien vu, les blocs étant à des endroits distincts du fichier, et en JavaScript la dernière déclaration gagne : les quatre figures de Thalès de `3e-thales.js` seraient sorties vides en production, sans erreur de compilation.
+
+D'où la règle, qui s'ajoute à la précédente : **chaque helper porte le niveau en préfixe** (`figure1reTangente`, `figureTleAire`, et non `figureTangente`). Avant de commiter, vérifier qu'aucun nom ajouté n'existe déjà :
+
+```
+grep -n "^function <nom>" js/data/figures-exercices.js
+```
+
+Voir le correctif d'outillage E13 du [suivi](SUIVI-generalisation.md), qui vise à faire porter ce contrôle par un test plutôt que par la discipline.
+
 ---
 
 ## 10. Ce qu'une fiche professeur doit contenir

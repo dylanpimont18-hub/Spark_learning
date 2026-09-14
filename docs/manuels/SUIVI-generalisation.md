@@ -5,7 +5,7 @@ Périmètre : collège et lycée, maths, physique-chimie et sciences de l'ingén
 
 **À tenir à jour après chaque ouvrage livré.** Une ligne ne passe au vert que si les contrôles de recette du cahier des charges ont été exécutés et leur sortie constatée, jamais sur la foi d'un compte rendu.
 
-Dernière mise à jour : 2026-09-13.
+Dernière mise à jour : 2026-09-14.
 
 ---
 
@@ -29,17 +29,17 @@ Dernière mise à jour : 2026-09-13.
 | `college-maths-6e` | 10 | **N3** | 2026-09-13, 279 p. | manuel de référence |
 | `college-maths-5e` | 14 | **N3** | 2026-09-13, 399 p. | 42 schémas, 14 fiches, banque 291 → 369 |
 | `college-maths-4e` | 12 | **N3** | 2026-09-13, 343 p. | 35 schémas, 12 fiches, 75 coquilles corrigées |
-| `college-maths-3e` | 13 | — | 2026-08-28, 145 p. | vague 1 |
-| `college-maths` (cycle) | 49 | — | 2026-09-13, 1203 p. | 36 fiches sur 49 ; se complète de la 3e |
+| `college-maths-3e` | 13 | **N3** | 2026-09-14, 476 p. | 30 schémas, 13 fiches |
+| `college-maths` (cycle) | 49 | **N3** | 2026-09-14, 1484 p. | **49 fiches sur 49**, 137 schémas secondaires ; cycle collège complet |
 
 ### Maths lycée
 
 | Ouvrage | Modules | Niveau | Dernière compilation | Notes |
 |---|---|---|---|---|
-| `lycee-maths-2nde` | 14 | — | 2026-08-28, 167 p. | vague 2 |
-| `lycee-maths-1re` | 10 | — | 2026-08-28 | vague 2 |
-| `lycee-maths-tle` | 12 | — | 2026-08-28 | vague 2 |
-| `lycee-maths` (cycle) | 36 | — | 2026-08-28 | |
+| `lycee-maths-2nde` | 14 | **N3** | 2026-09-14, 423 p. | 40 schémas, 14 fiches |
+| `lycee-maths-1re` | 10 | — | 2026-08-28 | vague 5 à venir ; aucun schéma secondaire, aucune fiche |
+| `lycee-maths-tle` | 12 | — | 2026-08-28 | vague 5 à venir ; aucun schéma secondaire, aucune fiche |
+| `lycee-maths` (cycle) | 36 | — | 2026-09-14, 774 p. | 14 fiches sur 36 ; se complète de la 1re et de la terminale |
 
 ### Physique-chimie
 
@@ -77,8 +77,11 @@ Dernière mise à jour : 2026-09-13.
 | E9 | Refus de conformité sur construction non traduite | à faire | SI |
 | E10 | Verrou de compilation par ouvrage | à faire | production parallèle (contourné par worktrees séparées) |
 | E12 | Ligne de base : compiler tout le périmètre et consigner | à faire | tout |
+| E13 | Helpers de figures préfixés par le niveau, ou test de collision de noms | à faire | production parallèle |
 
 Le référentiel des sciences de l'ingénieur reste à écrire et à faire valider par un enseignant de la matière.
+
+**E13 vient de la vague 3e/2nde.** La règle d'insertion en fin de fichier protège du conflit textuel, mais pas de la collision de noms : les deux sessions ont écrit une fonction `figureThales` aux signatures incompatibles, que ni git ni le merge n'ont vue, et qui aurait vidé silencieusement les quatre figures de Thalès de la troisième. En attendant le test automatique, la règle est le préfixe de niveau sur chaque helper (`figure1reTangente`) et un `grep` de vérification avant commit — voir la section 9 du [cahier des charges](cahier-des-charges-generalisation.md).
 
 ---
 
@@ -93,6 +96,10 @@ Le référentiel des sciences de l'ingénieur reste à écrire et à faire valid
 | 2026-09-13 | `college-maths-5e` | N3 : 42 schémas secondaires, 11 « Découvrir » réécrits, banque 291 → 369, 4 figures fausses trouvées par le calcul | branche `manuels-5e` |
 | 2026-09-13 | `college-maths-4e` | N3 : 35 schémas secondaires, 9 « Découvrir » réécrits, 75 coquilles d'accents, 6 figures fausses trouvées par le calcul | branche `manuels-4e` |
 | 2026-09-13 | pipeline | les prérequis se résolvent dans leur niveau et non dans la numérotation continue du livre : débloque l'ouvrage de cycle en édition professeur | `6eb58c7` |
+| 2026-09-14 | `college-maths-3e` | N3 : 30 schémas secondaires, 13 fiches professeur, « Découvrir » revus, banque calibrée | branche `manuels-3e`, `fd465ce` |
+| 2026-09-14 | `lycee-maths-2nde` | N3 : 40 schémas secondaires, 14 fiches professeur, « Découvrir » revus, banque calibrée | branche `manuels-2nde`, `d53f1bf` |
+| 2026-09-14 | pipeline | collision `figureThales` entre la troisième et la seconde : deux signatures incompatibles que ni git ni le merge n'ont vues ; la version de la seconde devient `figureThalesTriangle`. Trouvée par la fusion d'essai seule — d'où E13 | `61555c8` |
+| 2026-09-14 | consolidation | fusion de la vague 3e/2nde dans `manuels-spark` (47 commits), recette complète relancée, cycle collège complet à 49 fiches sur 49 | `61555c8` |
 
 ---
 
