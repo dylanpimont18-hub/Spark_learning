@@ -7,7 +7,7 @@
 
 ## college-maths — Mathématiques, Collège   [49 / 49]
 
-Graine : `20260816` · 439 pages · gouttière 15.9 mm · dos 26.2 mm · dernière compilation 2026-08-28
+Graine : `20260816` · 750 pages · gouttière 22.2 mm · dos 44.7 mm · dernière compilation 2026-09-14
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -63,7 +63,7 @@ Graine : `20260816` · 439 pages · gouttière 15.9 mm · dos 26.2 mm · derniè
 
 ## college-maths-6e — Mathématiques, Sixième   [10 / 10]
 
-Graine : `20260816` · 84 pages · gouttière 9.5 mm · dos 5 mm · dernière compilation 2026-09-11
+Graine : `20260816` · 158 pages · gouttière 12.7 mm · dos 9.4 mm · dernière compilation 2026-09-16
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -80,7 +80,7 @@ Graine : `20260816` · 84 pages · gouttière 9.5 mm · dos 5 mm · dernière co
 
 ## college-maths-5e — Mathématiques, Cinquième   [14 / 14]
 
-Graine : `20260816` · 133 pages · gouttière 9.5 mm · dos 7.9 mm · dernière compilation 2026-08-28
+Graine : `20260816` · 214 pages · gouttière 12.7 mm · dos 12.8 mm · dernière compilation 2026-09-16
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -101,7 +101,7 @@ Graine : `20260816` · 133 pages · gouttière 9.5 mm · dos 7.9 mm · dernière
 
 ## college-maths-4e — Mathématiques, Quatrième   [12 / 12]
 
-Graine : `20260816` · 119 pages · gouttière 9.5 mm · dos 7.1 mm · dernière compilation 2026-08-28
+Graine : `20260816` · 180 pages · gouttière 12.7 mm · dos 10.7 mm · dernière compilation 2026-09-16
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -120,7 +120,7 @@ Graine : `20260816` · 119 pages · gouttière 9.5 mm · dos 7.1 mm · dernière
 
 ## college-maths-3e — Mathématiques, Troisième   [13 / 13]
 
-Graine : `20260816` · 125 pages · gouttière 9.5 mm · dos 7.5 mm · dernière compilation 2026-08-28
+Graine : `20260816` · 210 pages · gouttière 12.7 mm · dos 12.5 mm · dernière compilation 2026-09-16
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -140,7 +140,7 @@ Graine : `20260816` · 125 pages · gouttière 9.5 mm · dos 7.5 mm · dernière
 
 ## lycee-maths — Mathématiques, Lycée   [36 / 36]
 
-Graine : `20260816` · 337 pages · gouttière 15.9 mm · dos 20.1 mm · dernière compilation 2026-08-28
+Graine : `20260816` · 576 pages · gouttière 19 mm · dos 34.3 mm · dernière compilation 2026-09-14
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -183,7 +183,7 @@ Graine : `20260816` · 337 pages · gouttière 15.9 mm · dos 20.1 mm · derniè
 
 ## lycee-maths-2nde — Mathématiques, Seconde   [14 / 14]
 
-Graine : `20260816` · 139 pages · gouttière 9.5 mm · dos 8.3 mm · dernière compilation 2026-08-28
+Graine : `20260816` · 228 pages · gouttière 12.7 mm · dos 13.6 mm · dernière compilation 2026-09-14
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -204,7 +204,7 @@ Graine : `20260816` · 139 pages · gouttière 9.5 mm · dos 8.3 mm · dernière
 
 ## lycee-maths-1re — Mathématiques, Première   [10 / 10]
 
-Graine : `20260816` · 105 pages · gouttière 9.5 mm · dos 6.3 mm · dernière compilation 2026-08-28
+Graine : `20260816` · 163 pages · gouttière 12.7 mm · dos 9.7 mm · dernière compilation 2026-09-14
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -221,7 +221,7 @@ Graine : `20260816` · 105 pages · gouttière 9.5 mm · dos 6.3 mm · dernière
 
 ## lycee-maths-tle — Mathématiques, Terminale   [12 / 12]
 
-Graine : `20260816` · 119 pages · gouttière 9.5 mm · dos 7.1 mm · dernière compilation 2026-08-28
+Graine : `20260816` · 192 pages · gouttière 12.7 mm · dos 11.4 mm · dernière compilation 2026-09-14
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -322,7 +322,7 @@ Graine : `20260816` · 219 pages · gouttière 12.7 mm · dos 13.1 mm · derniè
 
 ## college-physique — Physique-Chimie, Collège   [12 / 12]
 
-Graine : `20260816` · 131 pages · gouttière 9.5 mm · dos 7.8 mm · dernière compilation 2026-08-28
+Graine : `20260816` · 180 pages · gouttière 12.7 mm · dos 10.7 mm · dernière compilation 2026-09-16
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -341,7 +341,7 @@ Graine : `20260816` · 131 pages · gouttière 9.5 mm · dos 7.8 mm · dernière
 
 ## college-physique-4e — Physique-Chimie, Quatrième   [6 / 6]
 
-Graine : `20260816` · 75 pages · gouttière 9.5 mm · dos 4.5 mm · dernière compilation 2026-08-28
+Graine : `20260816` · 97 pages · gouttière 9.5 mm · dos 5.8 mm · dernière compilation 2026-09-16
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -354,7 +354,7 @@ Graine : `20260816` · 75 pages · gouttière 9.5 mm · dos 4.5 mm · dernière 
 
 ## college-physique-3e — Physique-Chimie, Troisième   [6 / 6]
 
-Graine : `20260816` · 71 pages · gouttière 9.5 mm · dos 4.2 mm · dernière compilation 2026-08-28
+Graine : `20260816` · 91 pages · gouttière 9.5 mm · dos 5.4 mm · dernière compilation 2026-09-16
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
