@@ -153,7 +153,7 @@ window.MODULES.push({
             'un chauffe-eau', 'un sèche-cheveux', 'une bouilloire électrique'
           ]);
           return {
-            statement: 'Sur l\'étiquette de ' + contexte + ', on lit une puissance $P=' + Ppuiss + '$ W. Cet appareil fonctionne pendant $t=' + fr(tHeures, 1) + '$ h.<br/><br/>Calcule l\'énergie électrique $E$ consommée (en kWh, arrondie au centième).',
+            statement: 'Sur l\'étiquette ' + dElide(contexte) + ', on lit une puissance $P=' + Ppuiss + '$ W. Cet appareil fonctionne pendant $t=' + fr(tHeures, 1) + '$ h.<br/><br/>Calcule l\'énergie électrique $E$ consommée (en kWh, arrondie au centième).',
             answer: Ekwh,
             tolerance: Math.max(0.05, parseFloat((Ekwh * 0.03).toFixed(2))),
             unit: 'kWh',

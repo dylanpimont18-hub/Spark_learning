@@ -240,7 +240,7 @@ window.MODULES.push({
             var mA = pick([25, 50, 75, 100, 125, 150, 175, 200, 250, 300, 375, 400, 450, 500, 600, 750, 800, 900]);
             var A = parseFloat((mA / 1000).toFixed(3));
             return {
-              statement: 'Un ampèremètre branché en série dans le circuit de ' + ctx + ' affiche une intensité $I = ' + mA + '$ mA.<br/><br/>Exprime cette intensité en ampères (A).',
+              statement: 'Un ampèremètre branché en série dans le circuit ' + dElide(ctx) + ' affiche une intensité $I = ' + mA + '$ mA.<br/><br/>Exprime cette intensité en ampères (A).',
               answer: A,
               tolerance: 0.001,
               unit: 'A',
@@ -255,7 +255,7 @@ window.MODULES.push({
             var Aval = randFloat(0.05, 3, 2);
             var mAval = parseFloat((Aval * 1000).toFixed(0));
             return {
-              statement: 'Un ampèremètre branché en série dans le circuit de ' + ctx + ' affiche une intensité $I = ' + fr(Aval, 2) + '$ A.<br/><br/>Exprime cette intensité en milliampères (mA).',
+              statement: 'Un ampèremètre branché en série dans le circuit ' + dElide(ctx) + ' affiche une intensité $I = ' + fr(Aval, 2) + '$ A.<br/><br/>Exprime cette intensité en milliampères (mA).',
               answer: mAval,
               tolerance: 1,
               unit: 'mA',

@@ -77,6 +77,25 @@ const fr = (value, decimals) => (decimals === undefined ? String(value) : value.
      l'  -> de l'     inchange
      un/une/du/des/d' inchange (deja correct apres « de »)
    Rien d'autre n'est touche : un nom sans article ressort tel quel. */
+/* Elide « de » devant un groupe a article INDEFINI : « de » + « une
+   guirlande » doit donner « d'une guirlande ». Complement de de() ci-dessous,
+   qui traite les articles DEFINIS (le -> du, les -> des) et laisse les
+   indefinis intacts.
+
+   Ajoute le 2026-09-16, meme releve que de() : « dans le circuit de une
+   guirlande lumineuse a piles » et « sur l'etiquette de un radiateur
+   electrique » apparaissaient dans tous les enonces tires de deux chapitres.
+
+   Rend TOUJOURS le groupe precede de sa preposition, prete a l'emploi :
+     un/une/  -> « d'un », « d'une »
+     autre    -> delegue a de(), qui sait traiter le reste
+   Defaut mecanique, sans effet sur le fond. */
+const dElide = (groupe) => {
+  const g = String(groupe == null ? '' : groupe).trim();
+  if (/^(un|une)\s+/i.test(g)) return "d'" + g;
+  return de(g);
+};
+
 const de = (groupe) => {
   const g = String(groupe == null ? '' : groupe).trim();
   if (/^le\s+/i.test(g)) return 'du ' + g.slice(3);
