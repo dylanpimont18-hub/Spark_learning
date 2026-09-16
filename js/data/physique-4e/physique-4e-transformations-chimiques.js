@@ -194,7 +194,7 @@ window.MODULES.push({
           var mProduitsTotal = randFloat(mReactif1 + 3, mReactif1 + 40, 1);
           var mReactif2 = parseFloat((mProduitsTotal - mReactif1).toFixed(1));
           return {
-            statement: 'Dans un récipient fermé, on fait brûler ' + ctx.combustible + ' (masse $' + fr(mReactif1, 1) + '\\,\\text{g}$) avec une masse inconnue de ' + ctx.comburant + '. Cette transformation chimique produit une masse totale de $' + fr(mProduitsTotal, 1) + '\\,\\text{g}$ de produits.<br/><br/>D\'après la loi de conservation de la masse, calcule la masse de ' + ctx.comburant + ' qui a été consommée (en g).',
+            statement: 'Dans un récipient fermé, on fait brûler ' + ctx.combustible + ' (masse $' + fr(mReactif1, 1) + '\\,\\text{g}$) avec une masse inconnue ' + de(ctx.comburant) + '. Cette transformation chimique produit une masse totale de $' + fr(mProduitsTotal, 1) + '\\,\\text{g}$ de produits.<br/><br/>D\'après la loi de conservation de la masse, calcule la masse ' + de(ctx.comburant) + ' qui a été consommée (en g).',
             answer: mReactif2,
             tolerance: 0.1,
             unit: 'g',

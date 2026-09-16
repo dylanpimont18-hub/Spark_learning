@@ -181,13 +181,13 @@ window.MODULES.push({
           var atome = pick(mol.atomes);
           var total = n * atome.n;
           return {
-            statement: 'On dispose de $' + n + '\\,' + mol.katex + '$ (soit ' + n + ' molécules de ' + mol.nom + ').<br/><br/>Combien d\'atomes ' + atome.prep + atome.nom + ' (' + atome.sym + ') ces molécules contiennent-elles au total ?',
+            statement: 'On dispose de $' + n + '\\,' + mol.katex + '$ (soit ' + n + ' molécules ' + de(mol.nom) + ').<br/><br/>Combien d\'atomes ' + atome.prep + atome.nom + ' (' + atome.sym + ') ces molécules contiennent-elles au total ?',
             answer: total,
             tolerance: 0,
             unit: '',
-            hint: 'Chaque molécule de ' + mol.nom + ' contient ' + atome.n + ' atome' + (atome.n > 1 ? 's' : '') + ' ' + atome.prep + atome.nom + '. Multiplie ce nombre par le nombre de molécules.',
+            hint: 'Chaque molécule ' + de(mol.nom) + ' contient ' + atome.n + ' atome' + (atome.n > 1 ? 's' : '') + ' ' + atome.prep + atome.nom + '. Multiplie ce nombre par le nombre de molécules.',
             solution: [
-              'Une seule molécule de ' + mol.nom + ' ($' + mol.katex + '$) contient ' + atome.n + ' atome' + (atome.n > 1 ? 's' : '') + ' ' + atome.prep + atome.nom + '.',
+              'Une seule molécule ' + de(mol.nom) + ' ($' + mol.katex + '$) contient ' + atome.n + ' atome' + (atome.n > 1 ? 's' : '') + ' ' + atome.prep + atome.nom + '.',
               'On multiplie par le nombre de molécules : $' + n + ' \\times ' + atome.n + '$.',
               'Résultat : ' + total + ' atomes ' + atome.prep + atome.nom + ' au total.'
             ]
@@ -196,13 +196,13 @@ window.MODULES.push({
           var sommePerMolecule = mol.atomes.reduce(function (s, a) { return s + a.n; }, 0);
           var grandTotal = n * sommePerMolecule;
           return {
-            statement: 'On dispose de $' + n + '\\,' + mol.katex + '$ (soit ' + n + ' molécules de ' + mol.nom + ').<br/><br/>Combien d\'atomes contiennent-elles au total, tous éléments confondus ?',
+            statement: 'On dispose de $' + n + '\\,' + mol.katex + '$ (soit ' + n + ' molécules ' + de(mol.nom) + ').<br/><br/>Combien d\'atomes contiennent-elles au total, tous éléments confondus ?',
             answer: grandTotal,
             tolerance: 0,
             unit: '',
-            hint: 'Compte d\'abord le nombre total d\'atomes dans UNE SEULE molécule de ' + mol.nom + ' (additionne tous les indices), puis multiplie par le nombre de molécules.',
+            hint: 'Compte d\'abord le nombre total d\'atomes dans UNE SEULE molécule ' + de(mol.nom) + ' (additionne tous les indices), puis multiplie par le nombre de molécules.',
             solution: [
-              'Dans une molécule de ' + mol.nom + ' ($' + mol.katex + '$), le nombre total d\'atomes est ' + mol.atomes.map(function (a) { return a.n + ' (' + a.sym + ')'; }).join(' + ') + ' $= ' + sommePerMolecule + '$ atomes.',
+              'Dans une molécule ' + de(mol.nom) + ' ($' + mol.katex + '$), le nombre total d\'atomes est ' + mol.atomes.map(function (a) { return a.n + ' (' + a.sym + ')'; }).join(' + ') + ' $= ' + sommePerMolecule + '$ atomes.',
               'On multiplie par le nombre de molécules : $' + n + ' \\times ' + sommePerMolecule + '$.',
               'Résultat : ' + grandTotal + ' atomes au total.'
             ]
