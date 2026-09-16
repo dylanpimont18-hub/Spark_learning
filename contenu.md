@@ -54,6 +54,7 @@ Ce fichier est la **source de vérité** pour la structure de fichiers du projet
 |---------|------|
 | js/components/moduleTabs.js | Onglets du module (cours, quiz, exercice, etc.) |
 | js/components/renderCours.js | Rendu du contenu de cours |
+| js/components/manuelPromo.js | Encart « ce chapitre en manuel » (bas de l'onglet Cours) : manuel de l'année + pack du cycle, prix en direct de la boutique Shopify |
 | js/components/quiz.js | Interface des quiz |
 | js/components/exercice.js | Interface des exercices |
 | js/components/probleme.js | Interface des problèmes |
@@ -91,6 +92,7 @@ Permet au tuteur d'envoyer un lien à un futur élève pour évaluer son niveau 
 | Fichier | Rôle |
 |---------|------|
 | helpers.js | Fonctions utilitaires partagées par les bases de données |
+| figures-exercices.js | Générateurs de figures paramétriques pour les exercices — maths (rectangle, triangle, disque, pavé, angles, symétrie) et **physique-chimie du collège** depuis le 2026-09-16 (circuit série et dérivation, montage de mesure, caractéristique $U=f(I)$, trajet, ombre portée, forces, barres d'énergie, bilan de masse, atome, gravitation) — construites à partir des valeurs du tirage, affichées sur le site et dans le manuel |
 | **6e/** | Contenus Collège 6e — **refactoring TERMINÉ** (9 sous-modules) |
 | **5e/** | Contenus Collège 5e — **refactoring TERMINÉ** (15 sous-modules) |
 | **4e/** | Contenus Collège 4e — **refactoring TERMINÉ** (12 sous-modules) |
@@ -160,8 +162,8 @@ Permet au tuteur d'envoyer un lien à un futur élève pour évaluer son niveau 
 | **si-1re/** | Contenus SI 1re — refactoring terminé |
 | **si-tle/** | Contenus SI Tle — refactoring terminé |
 | **si-bts/** | Contenus SI BTS — refactoring terminé |
-| **physique-4e/** | Contenus Physique-Chimie 4e — complet (6/6 sous-modules) |
-| **physique-3e/** | Contenus Physique-Chimie 3e — complet (6/6 sous-modules) |
+| **physique-4e/** | Contenus Physique-Chimie 4e — complet (6/6 sous-modules) ; **fiches professeur 6/6** (`js/data/prof/physique-4e/`) |
+| **physique-3e/** | Contenus Physique-Chimie 3e — complet (6/6 sous-modules) ; **fiches professeur 6/6** (`js/data/prof/physique-3e/`) |
 | **physique-2nde/** | Contenus Physique-Chimie 2nde — complet (10/10 sous-modules) |
 | **physique-1re/** | Contenus Physique-Chimie 1re — complet (11/11 sous-modules) |
 | **physique-tle/** | Contenus Physique-Chimie Tle — complet (11/11 sous-modules) |
