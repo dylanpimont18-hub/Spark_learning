@@ -233,12 +233,28 @@ window.MODULES.push({
           correction: '$I=\\dfrac{P}{U}=\\dfrac{1150}{230}=5$ A.'
         },
         {
-          statement: 'Sur un graphique $P=f(t)$ à puissance constante, l\'énergie consommée entre deux instants correspond à :',
+          /* Question « realiser » (reecrite le 2026-09-16). Elle demandait
+             d'identifier l'energie a l'aire sous la courbe de puissance, ce
+             que pose deja le quiz 3 du chapitre : le troisieme « analyser »
+             d'un devoir qui en comptait trois.
+
+             Elle porte maintenant sur un PROTOCOLE de verification a partir
+             d'une etiquette d'appareil. Le chapitre n'evaluait aucune
+             competence experimentale, alors que son objet — la consommation
+             d'un appareil reel — s'y prete directement. */
+          statement: 'L\'étiquette d\'un radiateur indique « $230$ V — $1\\,150$ W ». On veut vérifier par la mesure que cette puissance est correcte. Quel protocole convient ?',
           type: 'multiple-choice',
-          options: ['L\'aire sous la courbe entre ces deux instants', 'La distance entre les deux instants sur l\'axe des temps', 'La valeur de $P$ au premier instant', 'La différence entre les deux valeurs de $P$'],
-          answer: 0,
+          options: [
+            'Mesurer la tension aux bornes du radiateur avec un voltmètre en série, puis multiplier par la durée de fonctionnement.',
+            'Mesurer la tension $U$ à ses bornes (voltmètre en dérivation) et l\'intensité $I$ qui le traverse (ampèremètre en série), puis vérifier que $U \\times I$ vaut environ $1\\,150$ W.',
+            'Relever la durée de fonctionnement et la diviser par la puissance indiquée.',
+            'Mesurer la résistance du radiateur à l\'ohmmètre pendant qu\'il chauffe, puis calculer $P = R \\times I$.'
+          ],
+          answer: 1,
           points: 2,
-          correction: 'Puisque $E=P\\times t$, l\'énergie correspond à l\'aire du rectangle (puissance × durée) délimité sous la courbe entre les deux instants considérés.'
+          correction: 'La puissance se calcule par $P = U \\times I$ : il faut donc mesurer <strong>les deux</strong> grandeurs, chacune avec son appareil et son branchement — <strong>voltmètre en dérivation</strong> aux bornes du radiateur, <strong>ampèremètre en série</strong> dans le circuit. Ici $U \\times I = 230 \\times 5 = 1\\,150$ W : l\'étiquette est vérifiée.<br/><br/>' +
+            'La proposition 1 branche le voltmètre en série, ce qu\'on ne fait jamais, et confond puissance et énergie. La proposition 3 divise une durée par une puissance, ce qui ne donne l\'unité de rien.<br/><br/>' +
+            'La proposition 4 comporte deux fautes : un <strong>ohmmètre</strong> ne se branche que hors tension sur un composant isolé — jamais sur un appareil qui chauffe — et la relation $P = R \\times I$ est fausse ($P = R \\times I^2$).'
         },
         {
           statement: 'Un foyer a consommé $E=10$ kWh sur une journée, facturés à $0{,}18$ €/kWh. Calculer le coût de cette consommation (en €).',

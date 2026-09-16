@@ -270,13 +270,27 @@ window.MODULES.push({
           correction: 'L\'eau salée contient deux substances différentes (l\'eau et le sel) en proportions qui peuvent varier : c\'est un mélange. Les trois autres propositions ne contiennent qu\'une seule substance chacune : ce sont des corps purs.'
         },
         {
-          statement: 'Une molécule de propane a pour formule $\\text{C}_3\\text{H}_8$. Combien d\'atomes contient-elle au total, tous éléments confondus ?',
-          type: 'numeric',
-          answer: 11,
-          tolerance: 0,
-          unit: '',
+          /* Question « communiquer » (reecrite le 2026-09-16). Elle demandait
+             un troisieme denombrement d'atomes, apres Q1 et Q3 : la meme tache
+             pour la troisieme fois dans le meme devoir. Elle demande
+             maintenant de juger le raisonnement d'un eleve qui confond
+             coefficient et indice — l'erreur 1 de la fiche professeur, et la
+             plus frequente du chapitre. Le propane reste dans l'enonce, si
+             bien que le denombrement est toujours necessaire pour trancher :
+             la question est plus exigeante, pas plus facile. */
+          statement: 'On demande le nombre total d\'atomes contenus dans $2\\,\\text{C}_3\\text{H}_8$ (deux molécules de propane). Inès répond : « il y a $2$ molécules et la formule contient $3 + 8 = 11$ atomes, donc $2 + 11 = 13$ atomes. » Quelle explication corrige le mieux son raisonnement ?',
+          type: 'multiple-choice',
+          options: [
+            'Son compte des atomes d\'une molécule est faux : $\\text{C}_3\\text{H}_8$ contient $3 \\times 8 = 24$ atomes.',
+            'Elle compte bien $11$ atomes par molécule, mais le coefficient $2$ se <strong>multiplie</strong>, il ne s\'additionne pas : il y a $2 \\times 11 = 22$ atomes au total.',
+            'Le coefficient $2$ ne concerne pas les atomes : la réponse est $11$ atomes.',
+            'Il faut ajouter le coefficient à chaque indice : $(2+3) + (2+8) = 13$ atomes.'
+          ],
+          answer: 1,
           points: 3,
-          correction: '$3$ atomes de carbone (indice $3$) et $8$ atomes d\'hydrogène (indice $8$) : au total $3 + 8 = 11$ atomes.'
+          correction: 'Le premier calcul d\'Inès est juste : une molécule de propane $\\text{C}_3\\text{H}_8$ contient bien $3 + 8 = 11$ atomes.<br/><br/>' +
+            'Ce qui ne va pas, c\'est l\'opération qu\'elle applique ensuite. Le coefficient $2$ placé <strong>devant</strong> la formule compte des <strong>molécules</strong> : il y a deux molécules, et <strong>chacune</strong> contient $11$ atomes. On multiplie donc : $2 \\times 11 = 22$ atomes.<br/><br/>' +
+            'La proposition 3 oublie le coefficient, la proposition 4 l\'ajoute aux indices — deux façons de ne pas voir que le coefficient et l\'indice ne comptent pas la même chose : l\'indice compte les atomes <strong>dans</strong> une molécule, le coefficient compte les molécules.'
         }
       ]
     }

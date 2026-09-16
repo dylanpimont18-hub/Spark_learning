@@ -315,13 +315,29 @@ window.MODULES.push({
           correction: 'Chaque branche d\'un circuit en dérivation est reliée directement aux deux mêmes bornes du générateur : elle reçoit donc la même tension que lui (loi d\'unicité de la tension).'
         },
         {
-          statement: 'Une guirlande série de $5$ lampes identiques est alimentée sous $U = 20$ V. En supposant un partage égal, calculer la tension aux bornes d\'une seule lampe (en V).',
-          type: 'numeric',
-          answer: 4,
-          tolerance: 0.2,
-          unit: 'V',
+          /* Question « communiquer » (reecrite le 2026-09-16). Elle demandait
+             la tension d'une lampe dans une guirlande serie de cinq lampes,
+             soit le geste de Q1 refait sur cinq dipoles au lieu de deux : le
+             troisieme « analyser » d'un devoir qui en comptait trois.
+
+             Elle demande maintenant de juger un raisonnement qui applique la
+             loi de l'AUTRE montage — l'erreur 1 de la fiche professeur, la
+             plus frequente du chapitre, et celle qu'aucune question
+             n'evaluait sous cette forme. Le partage egal reste dans l'enonce,
+             donc le calcul est toujours necessaire pour trancher. */
+          statement: 'Une guirlande de $5$ lampes identiques montées <strong>en série</strong> est alimentée sous $U = 20$ V. Maël affirme : « en série l\'intensité est la même partout, donc la tension aussi : chaque lampe reçoit $20$ V. » Quelle explication corrige le mieux son raisonnement ?',
+          type: 'multiple-choice',
+          options: [
+            'Il a raison pour l\'intensité et pour la tension : en série, tout est identique partout.',
+            'Son affirmation sur l\'intensité est juste, mais en série la tension s\'<strong>additionne</strong> au lieu d\'être unique : les $5$ tensions se partagent les $20$ V, soit $\\dfrac{20}{5} = 4$ V par lampe.',
+            'Son affirmation sur l\'intensité est fausse : en série, l\'intensité se partage entre les lampes.',
+            'Les deux lois s\'appliquent en même temps : chaque lampe reçoit $20$ V et $\\dfrac{1}{5}$ de l\'intensité.'
+          ],
+          answer: 1,
           points: 3,
-          correction: '$U_{\\text{lampe}} = \\dfrac{U}{5} = \\dfrac{20}{5} = 4$ V (les $5$ tensions identiques s\'additionnent pour redonner $U$).'
+          correction: 'La première moitié du raisonnement de Maël est <strong>juste</strong> : en série, l\'intensité est bien unique, la même en tout point de la boucle.<br/><br/>' +
+            'Son erreur est d\'étendre cette propriété à la tension. En série, les deux grandeurs ne se comportent pas de la même façon : l\'intensité est <strong>unique</strong>, la tension s\'<strong>additionne</strong>. Les cinq tensions doivent redonner celle du générateur, donc chaque lampe reçoit $\\dfrac{20}{5} = 4$ V.<br/><br/>' +
+            'La proposition 3 est fausse (c\'est en dérivation que l\'intensité se partage) et la proposition 4 cumule les deux lois, ce qui est impossible : sur une même grandeur, l\'unicité et l\'additivité s\'excluent.'
         }
       ]
     }

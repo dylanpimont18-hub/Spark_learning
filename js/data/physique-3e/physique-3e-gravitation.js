@@ -271,13 +271,29 @@ window.MODULES.push({
       duration: '30 min',
       questions: [
         {
-          statement: 'Un objet de masse $m=75$ kg se trouve sur Terre, où $g=9{,}8$ N/kg. Calculer son poids (en N).',
-          type: 'numeric',
-          answer: 735,
-          tolerance: 5,
-          unit: 'N',
+          /* Question « communiquer » (reecrite le 2026-09-16). Elle demandait
+             d'appliquer P = mg sur Terre, ce que font deja la moitie des
+             quarante-deux exercices du chapitre. Elle demande maintenant de
+             juger un raisonnement qui confond poids et masse — l'erreur 1 de
+             la fiche professeur, la plus tenace du chapitre, et celle qui
+             survit souvent jusqu'au lycee.
+
+             Le calcul reste necessaire pour ecarter les distracteurs
+             chiffres : la question est plus exigeante que celle qu'elle
+             remplace, pas moins. */
+          statement: 'Un astronaute de masse $m=75$ kg part sur la Lune, où $g_{Lune}\\approx1{,}6$ N/kg. Tom affirme : « sur la Lune, sa masse devient $75\\div6=12{,}5$ kg, il est donc six fois plus léger. » Quelle explication corrige le mieux son raisonnement ?',
+          type: 'multiple-choice',
+          options: [
+            'Sa division est fausse : il faut diviser par $1{,}6$, donc la masse devient $46{,}9$ kg.',
+            'La <strong>masse</strong> ne change pas : elle reste $75$ kg partout dans l\'Univers. C\'est le <strong>poids</strong> qui est divisé par six environ, passant de $735$ N sur Terre à $120$ N sur la Lune.',
+            'Il a raison : sur la Lune, tout est six fois plus léger, masse comprise.',
+            'La masse et le poids sont deux noms de la même grandeur : on peut indifféremment dire $12{,}5$ kg ou $120$ N.'
+          ],
+          answer: 1,
           points: 2,
-          correction: '$P=m\\times g=75\\times9{,}8=735$ N.'
+          correction: 'Tom a bien retenu le <strong>facteur six</strong> entre la Terre et la Lune, et il l\'applique au bon endroit numériquement — mais à la <strong>mauvaise grandeur</strong>.<br/><br/>' +
+            'La <strong>masse</strong> mesure une quantité de matière, en kilogrammes : l\'astronaute n\'a rien perdu de son corps pendant le voyage, sa masse reste $75$ kg. Le <strong>poids</strong> est une force, en newtons, et il dépend de l\'astre : $P_{Terre}=75\\times9{,}8=735$ N contre $P_{Lune}=75\\times1{,}6=120$ N.<br/><br/>' +
+            'C\'est donc bien le poids qui est divisé par six, jamais la masse. La proposition 4 est la confusion la plus courante : les deux grandeurs n\'ont ni la même nature (une quantité de matière, une force) ni la même unité (kg, N).'
         },
         {
           statement: 'La loi de gravitation universelle s\'écrit :',
