@@ -1828,3 +1828,766 @@ function figureTleAireSousCourbe(a, b, borne, options) {
 
   return svgFigure('Aire sous une courbe entre deux bornes', traits.join(''));
 }
+
+/* =========================================================
+   FIGURES DE PHYSIQUE-CHIMIE (COLLEGE) — 2026-09-16
+
+   POURQUOI CE LOT. Les douze chapitres de physique de quatrieme et de
+   troisieme n'avaient qu'UNE figure chacun (le schema du cours), et AUCUNE
+   sur les exercices — la ou les chapitres de geometrie de maths en portent
+   de sept a treize, parce que leurs generateurs appellent les helpers
+   ci-dessus. Mesure du 2026-09-16 : 1 figure par chapitre de physique contre
+   7 en moyenne en sixieme. Or un eleve de quatrieme a qui on decrit « deux
+   lampes en derivation » EN TEXTE doit d'abord se representer le circuit
+   avant de pouvoir appliquer une loi : la figure n'illustre pas l'enonce,
+   elle en est la moitie. C'est encore plus vrai en optique et en mecanique,
+   ou l'objet de l'exercice est une configuration geometrique.
+
+   MEMES CONTRAINTES que les figures de maths ci-dessus, sans exception :
+   viewBox obligatoire, seules les balises lues par svg2tikz.js (<rect>,
+   <line>, <polygon>, <polyline>, <circle>, <ellipse>, <path>, <text>),
+   aucune couleur en dur, les classes du projet portent le style, les valeurs
+   chiffrees passent par fr() via coteFig().
+
+   CE QUI CHANGE PAR RAPPORT AUX FIGURES DE MATHS, ET QUI EST ASSUME : un
+   schema de circuit n'est PAS A L'ECHELLE, et n'a pas a l'etre. Un resistor
+   de 470 ohms n'est pas 47 fois plus long qu'un resistor de 10 ohms ; la
+   longueur d'un fil ne represente rien. La regle d'echelle des figures de
+   maths (un rectangle 12x7 dessine dans le rapport 12/7) ne s'applique donc
+   pas ici, et la mention « figure non a l echelle » n'est PAS posee : elle
+   servirait a prevenir qu'on ne peut pas mesurer, alors que personne ne
+   mesure un schema normalise. Les figures qui portent une VRAIE grandeur
+   geometrique — le rayon lumineux et ses angles, le vecteur force et sa
+   longueur, la caracteristique U=f(I) — sont elles a l'echelle, comme en
+   maths.
+
+   SYMBOLES. Normalises CEI, dans le trace le plus sobre qui reste lisible a
+   52 mm de large (LARGEUR_FIGURE_EXERCICE_MM) : le generateur est un cercle
+   barre, le resistor un rectangle vide, la lampe un cercle croise. Les
+   symboles sont dessines a taille FIXE en unites de viewBox — les agrandir
+   avec le circuit les rendrait difformes.
+
+   ETIQUETTES. Elles traversent svg2tikz, qui TRADUIT les accents et les
+   symboles usuels : « serie » s'ecrit donc « serie » avec son accent, et
+   l'ohm s'ecrit avec son symbole. Verifie par conversion reelle le
+   2026-09-16, pas suppose — un premier jet avait ecrit « ohms » en toutes
+   lettres et supprime tous les accents par exces de prudence.
+   Les indices s'ecrivent « U_1 » : le convertisseur les compose en
+   $U_{1}$. Les aria-label des <svg>, eux, restent sans accent — ils ne
+   traversent pas le convertisseur mais servent le lecteur d'ecran.
+   ========================================================= */
+
+/* Demi-dimension des symboles, en unites de viewBox. Valeur choisie pour
+   qu'une lampe reste lisible a l'impression : 11 unites sur un viewBox de 260
+   rendu sur 52 mm donnent ~2,2 mm de rayon. */
+const SYM = 11;
+
+/* --- Symboles normalises ------------------------------------------------
+   Chacun rend les traits d'UN dipole centre en (cx, cy). Les bornes du
+   symbole sont a +/- SYM du centre sur l'axe du fil : c'est a l'appelant de
+   tirer le fil jusqu'a elles. */
+
+/* Generateur : cercle barre d'un trait perpendiculaire au fil. */
+function symGenerateur(cx, cy) {
+  return '<circle class="frame-line" cx="' + nb2(cx) + '" cy="' + nb2(cy) + '" r="' + nb2(SYM) + '" fill="none"></circle>' +
+    '<line class="frame-line" x1="' + nb2(cx) + '" y1="' + nb2(cy - SYM) + '" x2="' + nb2(cx) + '" y2="' + nb2(cy + SYM) + '"></line>';
+}
+
+/* Lampe : cercle croise, symbole CEI de la lampe de signalisation — celui des
+   manuels de college. */
+function symLampe(cx, cy) {
+  const d = SYM * 0.707;
+  return '<circle class="frame-line" cx="' + nb2(cx) + '" cy="' + nb2(cy) + '" r="' + nb2(SYM) + '" fill="none"></circle>' +
+    '<line class="frame-line" x1="' + nb2(cx - d) + '" y1="' + nb2(cy - d) + '" x2="' + nb2(cx + d) + '" y2="' + nb2(cy + d) + '"></line>' +
+    '<line class="frame-line" x1="' + nb2(cx - d) + '" y1="' + nb2(cy + d) + '" x2="' + nb2(cx + d) + '" y2="' + nb2(cy - d) + '"></line>';
+}
+
+/* Resistor : rectangle vide, cote long parallele au fil. */
+function symResistor(cx, cy, vertical) {
+  const L = SYM, e = SYM * 0.62;
+  const w = vertical ? e : L, h = vertical ? L : e;
+  return '<rect class="frame-line" x="' + nb2(cx - w) + '" y="' + nb2(cy - h) + '" ' +
+    'width="' + nb2(2 * w) + '" height="' + nb2(2 * h) + '" fill="none"></rect>';
+}
+
+/* Appareil de mesure : cercle portant sa lettre (A pour amperemetre, V pour
+   voltmetre). */
+function symMesure(cx, cy, lettre) {
+  return '<circle class="frame-line" cx="' + nb2(cx) + '" cy="' + nb2(cy) + '" r="' + nb2(SYM) + '" fill="none"></circle>' +
+    '<text class="annotation-label" x="' + nb2(cx) + '" y="' + nb2(cy + 4.5) + '" text-anchor="middle">' + lettre + '</text>';
+}
+
+/* Fleche de sens du courant, posee SUR un fil horizontal. `marker-end` est lu
+   par svg2tikz et rendu par une pointe TikZ : c'est le seul moyen d'obtenir
+   une fleche qui traverse le pipeline. La valeur de l'attribut n'est jamais
+   dereferencee (le convertisseur ne relit pas les <defs>), elle sert
+   uniquement de drapeau. */
+function flecheCourant(x, y, longueur) {
+  const l = longueur === undefined ? 18 : longueur;
+  return '<line class="axis" x1="' + nb2(x - l / 2) + '" y1="' + nb2(y) + '" ' +
+    'x2="' + nb2(x + l / 2) + '" y2="' + nb2(y) + '" marker-end="url(#f)"></line>';
+}
+
+/* Etiquette d'une grandeur : sa valeur, ou un point d'interrogation quand
+   c'est l'inconnue. La figure ne donne JAMAIS la reponse — meme convention
+   que figureTriangleRectangle en maths, ou le cote cherche porte « ? ». */
+function cotePhys(nom, valeur, unite) {
+  return nom + ' = ' + (valeur === null ? '?' : coteFig(valeur, unite));
+}
+
+/* --- Circuit serie ------------------------------------------------------
+   Generateur et deux dipoles sur une seule boucle rectangulaire. Sert aux
+   exercices d'additivite des tensions (4e, lois des circuits) et a tout
+   exercice ou l'eleve doit d'abord RECONNAITRE la structure. */
+function figureCircuitSerie(options) {
+  const o = options || {};
+  const dipole = o.dipole === 'resistor' ? symResistor : symLampe;
+
+  /* Boucle rectangulaire : generateur sur la branche verticale de gauche,
+     les deux dipoles en haut. C'est la disposition des manuels de college,
+     et elle laisse le fil du bas libre pour la fleche du courant. */
+  const xg = 46, xd = 228, yh = 52, yb = 126;
+  const x1 = xg + (xd - xg) * 0.38, x2 = xg + (xd - xg) * 0.76;
+  const yGen = (yh + yb) / 2;
+
+  const t = [];
+  // Fils : la boucle, coupee a l'emplacement de chaque symbole.
+  t.push('<line class="frame-line" x1="' + nb2(xg) + '" y1="' + nb2(yh) + '" x2="' + nb2(x1 - SYM) + '" y2="' + nb2(yh) + '"></line>');
+  t.push('<line class="frame-line" x1="' + nb2(x1 + SYM) + '" y1="' + nb2(yh) + '" x2="' + nb2(x2 - SYM) + '" y2="' + nb2(yh) + '"></line>');
+  t.push('<line class="frame-line" x1="' + nb2(x2 + SYM) + '" y1="' + nb2(yh) + '" x2="' + nb2(xd) + '" y2="' + nb2(yh) + '"></line>');
+  t.push('<line class="frame-line" x1="' + nb2(xd) + '" y1="' + nb2(yh) + '" x2="' + nb2(xd) + '" y2="' + nb2(yb) + '"></line>');
+  t.push('<line class="frame-line" x1="' + nb2(xd) + '" y1="' + nb2(yb) + '" x2="' + nb2(xg) + '" y2="' + nb2(yb) + '"></line>');
+  t.push('<line class="frame-line" x1="' + nb2(xg) + '" y1="' + nb2(yb) + '" x2="' + nb2(xg) + '" y2="' + nb2(yGen + SYM) + '"></line>');
+  t.push('<line class="frame-line" x1="' + nb2(xg) + '" y1="' + nb2(yGen - SYM) + '" x2="' + nb2(xg) + '" y2="' + nb2(yh) + '"></line>');
+
+  t.push(symGenerateur(xg, yGen));
+  t.push(dipole(x1, yh));
+  t.push(dipole(x2, yh));
+
+  if (o.U !== undefined) {
+    t.push('<text class="annotation-label" x="' + nb2(xg - SYM - 6) + '" y="' + nb2(yGen + 4) + '" text-anchor="end">' + cotePhys('U', o.U, 'V') + '</text>');
+  }
+  if (o.U1 !== undefined) {
+    t.push('<text class="annotation-label" x="' + nb2(x1) + '" y="' + nb2(yh - SYM - 9) + '" text-anchor="middle">' + cotePhys('U_1', o.U1, 'V') + '</text>');
+  }
+  if (o.U2 !== undefined) {
+    t.push('<text class="annotation-label" x="' + nb2(x2) + '" y="' + nb2(yh - SYM - 9) + '" text-anchor="middle">' + cotePhys('U_2', o.U2, 'V') + '</text>');
+  }
+  /* Le courant sur le fil du bas. En serie il est UNIQUE, et c'est
+     precisement ce que l'eleve doit pouvoir lire sur la figure : la mention
+     est donc portee par la figure, pas laissee a l'enonce. */
+  t.push(flecheCourant((xg + xd) / 2, yb));
+  t.push('<text class="tick-label" x="' + nb2((xg + xd) / 2) + '" y="' + nb2(yb + 19) + '" text-anchor="middle">I : le même partout</text>');
+  t.push('<text class="label-soft" x="' + nb2(FIG_L / 2) + '" y="' + nb2(FIG_H - 6) + '" text-anchor="middle">montage en série</text>');
+
+  return svgFigure('Circuit serie : un generateur et deux dipoles sur une seule boucle', t.join(''));
+}
+
+/* --- Circuit en derivation ----------------------------------------------
+   Generateur et deux branches paralleles entre deux noeuds. Les noeuds sont
+   MARQUES d'un point : c'est le detail qui distingue visuellement les deux
+   structures, et la definition du chapitre s'appuie dessus (« un point ou se
+   rejoignent au moins trois fils »). */
+function figureCircuitDerivation(options) {
+  const o = options || {};
+  const dipole = o.dipole === 'resistor' ? symResistor : symLampe;
+
+  /* BUDGET VERTICAL, du haut vers le bas (viewBox de 170) :
+       14   l'etiquette I_1, au-dessus de la branche haute
+       46   la branche haute
+       ...  le corps du circuit
+      124   la branche basse
+      140   l'etiquette I_2, sous la branche basse
+      164   le titre, en pied
+     Les deux etiquettes de branche sont ainsi TOUJOURS du bon cote de leur
+     branche, et aucune ne peut atteindre le titre. */
+  const xg = 42, xA = 112, xB = 226, yh = 46, yb = 124;
+  const yGen = (yh + yb) / 2;
+  const xd = (xA + xB) / 2;               // centre des deux dipoles
+
+  const t = [];
+  // Du generateur vers les deux noeuds : les deux fils horizontaux, puis le
+  // montant gauche coupe par le seul symbole du generateur.
+  t.push('<line class="frame-line" x1="' + nb2(xg) + '" y1="' + nb2(yh) + '" x2="' + nb2(xA) + '" y2="' + nb2(yh) + '"></line>');
+  t.push('<line class="frame-line" x1="' + nb2(xg) + '" y1="' + nb2(yb) + '" x2="' + nb2(xA) + '" y2="' + nb2(yb) + '"></line>');
+  t.push('<line class="frame-line" x1="' + nb2(xg) + '" y1="' + nb2(yh) + '" x2="' + nb2(xg) + '" y2="' + nb2(yGen - SYM) + '"></line>');
+  t.push('<line class="frame-line" x1="' + nb2(xg) + '" y1="' + nb2(yGen + SYM) + '" x2="' + nb2(xg) + '" y2="' + nb2(yb) + '"></line>');
+  // Les deux branches, chacune coupee par son dipole.
+  t.push('<line class="frame-line" x1="' + nb2(xA) + '" y1="' + nb2(yh) + '" x2="' + nb2(xd - SYM) + '" y2="' + nb2(yh) + '"></line>');
+  t.push('<line class="frame-line" x1="' + nb2(xd + SYM) + '" y1="' + nb2(yh) + '" x2="' + nb2(xB) + '" y2="' + nb2(yh) + '"></line>');
+  t.push('<line class="frame-line" x1="' + nb2(xA) + '" y1="' + nb2(yb) + '" x2="' + nb2(xd - SYM) + '" y2="' + nb2(yb) + '"></line>');
+  t.push('<line class="frame-line" x1="' + nb2(xd + SYM) + '" y1="' + nb2(yb) + '" x2="' + nb2(xB) + '" y2="' + nb2(yb) + '"></line>');
+  // Les montants qui referment les branches sur les noeuds.
+  t.push('<line class="frame-line" x1="' + nb2(xA) + '" y1="' + nb2(yh) + '" x2="' + nb2(xA) + '" y2="' + nb2(yb) + '"></line>');
+  t.push('<line class="frame-line" x1="' + nb2(xB) + '" y1="' + nb2(yh) + '" x2="' + nb2(xB) + '" y2="' + nb2(yb) + '"></line>');
+
+  t.push(symGenerateur(xg, yGen));
+  t.push(dipole(xd, yh));
+  t.push(dipole(xd, yb));
+
+  // Les quatre noeuds, en pastille. `plot-point` est la classe des points
+  // remarquables du projet, deja rendue en pastille pleine par svg2tikz.
+  t.push('<circle class="plot-point" cx="' + nb2(xA) + '" cy="' + nb2(yh) + '" r="3"></circle>');
+  t.push('<circle class="plot-point" cx="' + nb2(xA) + '" cy="' + nb2(yb) + '" r="3"></circle>');
+  t.push('<circle class="plot-point" cx="' + nb2(xB) + '" cy="' + nb2(yh) + '" r="3"></circle>');
+  t.push('<circle class="plot-point" cx="' + nb2(xB) + '" cy="' + nb2(yb) + '" r="3"></circle>');
+
+  if (o.U !== undefined) {
+    t.push('<text class="annotation-label" x="' + nb2(xg - SYM - 6) + '" y="' + nb2(yGen + 4) + '" text-anchor="end">' + cotePhys('U', o.U, 'V') + '</text>');
+  }
+  /* Le courant total, sur le troncon AVANT le premier noeud : c'est la que
+     « total » a un sens, et c'est ce troncon que la fleche parcourt.
+     L'etiquette est posee entre le generateur et le noeud, au milieu de la
+     hauteur, ou aucun fil ne passe. */
+  if (o.I !== undefined) {
+    t.push(flecheCourant((xg + xA) / 2, yb));
+    t.push('<text class="annotation-label" x="' + nb2((xg + xA) / 2) + '" y="' + nb2(yb + 16) + '" text-anchor="middle">' + cotePhys('I', o.I, 'A') + '</text>');
+  }
+  if (o.I1 !== undefined) {
+    t.push('<text class="annotation-label" x="' + nb2(xd) + '" y="' + nb2(yh - SYM - 8) + '" text-anchor="middle">' + cotePhys('I_1', o.I1, 'A') + '</text>');
+  }
+  if (o.I2 !== undefined) {
+    t.push('<text class="annotation-label" x="' + nb2(xd) + '" y="' + nb2(yb + SYM + 15) + '" text-anchor="middle">' + cotePhys('I_2', o.I2, 'A') + '</text>');
+  }
+  t.push('<text class="label-soft" x="' + nb2(FIG_L / 2) + '" y="' + nb2(FIG_H - 2) + '" text-anchor="middle">montage en dérivation</text>');
+
+  return svgFigure('Circuit en derivation : deux branches entre les memes noeuds', t.join(''));
+}
+
+/* --- Circuit de mesure d'un resistor ------------------------------------
+   Un resistor, l'amperemetre EN SERIE dans la boucle et le voltmetre EN
+   DERIVATION a ses bornes. C'est la figure du chapitre 3e loi d'Ohm, et elle
+   porte a elle seule l'erreur la plus couteuse du chapitre (intervertir les
+   deux branchements) : l'eleve VOIT ou chaque appareil se place. */
+function figureCircuitMesure(options) {
+  const o = options || {};
+
+  /* BUDGET VERTICAL : le fil du haut porte la boucle principale, le voltmetre
+     est dans une derivation posee JUSTE SOUS le resistor, et le fil de retour
+     passe tout en bas — de sorte qu'aucun fil n'en croise un autre. C'est
+     cette absence de croisement qui rend le schema lisible a 52 mm, et c'est
+     pour cela que le voltmetre n'est pas pose au milieu du circuit. */
+  const yh = 40;                       // boucle principale
+  const yV = 92;                       // le voltmetre, en derivation
+  const yb = 148;                      // fil de retour
+  const xg = 38, xd = 232;
+  const xA = 84;                       // l'amperemetre, en serie
+  const xR = 168;                      // le resistor
+  const yGen = (yh + yb) / 2;
+
+  const t = [];
+  // Boucle principale : generateur -> amperemetre -> resistor -> retour.
+  t.push('<line class="frame-line" x1="' + nb2(xg) + '" y1="' + nb2(yh) + '" x2="' + nb2(xA - SYM) + '" y2="' + nb2(yh) + '"></line>');
+  t.push('<line class="frame-line" x1="' + nb2(xA + SYM) + '" y1="' + nb2(yh) + '" x2="' + nb2(xR - SYM) + '" y2="' + nb2(yh) + '"></line>');
+  t.push('<line class="frame-line" x1="' + nb2(xR + SYM) + '" y1="' + nb2(yh) + '" x2="' + nb2(xd) + '" y2="' + nb2(yh) + '"></line>');
+  t.push('<line class="frame-line" x1="' + nb2(xd) + '" y1="' + nb2(yh) + '" x2="' + nb2(xd) + '" y2="' + nb2(yb) + '"></line>');
+  t.push('<line class="frame-line" x1="' + nb2(xd) + '" y1="' + nb2(yb) + '" x2="' + nb2(xg) + '" y2="' + nb2(yb) + '"></line>');
+  t.push('<line class="frame-line" x1="' + nb2(xg) + '" y1="' + nb2(yb) + '" x2="' + nb2(xg) + '" y2="' + nb2(yGen + SYM) + '"></line>');
+  t.push('<line class="frame-line" x1="' + nb2(xg) + '" y1="' + nb2(yGen - SYM) + '" x2="' + nb2(xg) + '" y2="' + nb2(yh) + '"></line>');
+
+  /* La derivation du voltmetre : deux montants COURTS descendant des bornes du
+     resistor vers le voltmetre. Ils s'arretent a yV, bien au-dessus du fil de
+     retour (yb) : rien ne se croise. */
+  const xgV = xR - SYM - 14, xdV = xR + SYM + 14;
+  t.push('<line class="frame-line" x1="' + nb2(xgV) + '" y1="' + nb2(yh) + '" x2="' + nb2(xgV) + '" y2="' + nb2(yV) + '"></line>');
+  t.push('<line class="frame-line" x1="' + nb2(xdV) + '" y1="' + nb2(yh) + '" x2="' + nb2(xdV) + '" y2="' + nb2(yV) + '"></line>');
+  t.push('<line class="frame-line" x1="' + nb2(xgV) + '" y1="' + nb2(yV) + '" x2="' + nb2(xR - SYM) + '" y2="' + nb2(yV) + '"></line>');
+  t.push('<line class="frame-line" x1="' + nb2(xR + SYM) + '" y1="' + nb2(yV) + '" x2="' + nb2(xdV) + '" y2="' + nb2(yV) + '"></line>');
+  // Les deux points de piquage, sur le fil du haut : ce sont des noeuds.
+  t.push('<circle class="plot-point" cx="' + nb2(xgV) + '" cy="' + nb2(yh) + '" r="3"></circle>');
+  t.push('<circle class="plot-point" cx="' + nb2(xdV) + '" cy="' + nb2(yh) + '" r="3"></circle>');
+
+  t.push(symGenerateur(xg, yGen));
+  t.push(symResistor(xR, yh));
+  t.push(symMesure(xA, yh, 'A'));
+  t.push(symMesure(xR, yV, 'V'));
+
+  // La valeur du resistor, au-dessus de son symbole.
+  t.push('<text class="annotation-label" x="' + nb2(xR) + '" y="' + nb2(yh - SYM - 9) + '" text-anchor="middle">' +
+    cotePhys('R', o.R === undefined ? null : o.R, (o.R === null || o.R === undefined) ? '' : 'Ω') + '</text>');
+  // Les deux mentions de branchement : ce sont elles que porte la figure.
+  t.push('<text class="tick-label" x="' + nb2(xA) + '" y="' + nb2(yh - SYM - 9) + '" text-anchor="middle">en série</text>');
+  t.push('<text class="tick-label" x="' + nb2(xR) + '" y="' + nb2(yV + SYM + 14) + '" text-anchor="middle">en dérivation</text>');
+  // L'intensite, sur le fil de retour, sous le generateur.
+  if (o.I !== undefined) {
+    t.push('<text class="annotation-label" x="' + nb2(xg + 26) + '" y="' + nb2(yb - 11) + '" text-anchor="start">' + cotePhys('I', o.I, 'A') + '</text>');
+  }
+
+  return svgFigure('Montage de mesure : amperemetre en serie, voltmetre en derivation aux bornes du resistor', t.join(''));
+}
+
+/* --- Caracteristique tension-courant U = f(I) ---------------------------
+   La droite passant par l'origine d'un resistor, et le triangle qui donne son
+   coefficient directeur. A L'ECHELLE, celle-la : c'est un graphique, on y
+   lit des valeurs, et le triangle DeltaU / DeltaI n'a de sens que si les
+   proportions sont justes.
+
+   Sert au chapitre 3e loi d'Ohm, ou la moitie des enonces tires demande
+   justement de lire R comme un coefficient directeur. */
+function figureCaracteristique(I1, U1, I2, U2, options) {
+  const o = options || {};
+  const X0 = 46, Y0 = 138;                      // origine du repere
+  const LX = 176, LY = 104;                     // longueurs des axes
+
+  const iMax = Math.max(I1, I2) * 1.25;
+  const uMax = Math.max(U1, U2) * 1.25;
+  const X = i => X0 + (i / iMax) * LX;
+  const Y = u => Y0 - (u / uMax) * LY;
+
+  const t = [];
+  // Axes, depassant legerement l'origine pour porter leurs fleches.
+  t.push('<line class="axis" x1="' + nb2(X0) + '" y1="' + nb2(Y0) + '" x2="' + nb2(X0 + LX + 14) + '" y2="' + nb2(Y0) + '" marker-end="url(#f)"></line>');
+  t.push('<line class="axis" x1="' + nb2(X0) + '" y1="' + nb2(Y0) + '" x2="' + nb2(X0) + '" y2="' + nb2(Y0 - LY - 14) + '" marker-end="url(#f)"></line>');
+
+  // La droite, tracee de l'origine jusqu'au-dela du second point : c'est la
+  // proportionnalite qui est le fait du chapitre.
+  const pente = U2 / I2;
+  const iFin = iMax * 0.96;
+  t.push('<line class="curve-main" x1="' + nb2(X(0)) + '" y1="' + nb2(Y(0)) + '" x2="' + nb2(X(iFin)) + '" y2="' + nb2(Y(pente * iFin)) + '"></line>');
+
+  // Le triangle DeltaU / DeltaI entre les deux points mesures.
+  t.push('<line class="guide-line" x1="' + nb2(X(I1)) + '" y1="' + nb2(Y(U1)) + '" x2="' + nb2(X(I2)) + '" y2="' + nb2(Y(U1)) + '"></line>');
+  t.push('<line class="guide-line" x1="' + nb2(X(I2)) + '" y1="' + nb2(Y(U1)) + '" x2="' + nb2(X(I2)) + '" y2="' + nb2(Y(U2)) + '"></line>');
+
+  // Les deux points de mesure, et leurs pointilles vers les axes.
+  [[I1, U1], [I2, U2]].forEach(function (p) {
+    t.push('<line class="grid-line" x1="' + nb2(X0) + '" y1="' + nb2(Y(p[1])) + '" x2="' + nb2(X(p[0])) + '" y2="' + nb2(Y(p[1])) + '"></line>');
+    t.push('<line class="grid-line" x1="' + nb2(X(p[0])) + '" y1="' + nb2(Y0) + '" x2="' + nb2(X(p[0])) + '" y2="' + nb2(Y(p[1])) + '"></line>');
+    t.push('<circle class="plot-point" cx="' + nb2(X(p[0])) + '" cy="' + nb2(Y(p[1])) + '" r="3"></circle>');
+  });
+
+  // Graduations chiffrees : seules les deux mesures, pas une grille complete.
+  // Une figure d'exercice a 52 mm ne supporte pas dix etiquettes.
+  t.push('<text class="tick-label" x="' + nb2(X(I1)) + '" y="' + nb2(Y0 + 15) + '" text-anchor="middle">' + coteFig(I1, '') + '</text>');
+  t.push('<text class="tick-label" x="' + nb2(X(I2)) + '" y="' + nb2(Y0 + 15) + '" text-anchor="middle">' + coteFig(I2, '') + '</text>');
+  t.push('<text class="tick-label" x="' + nb2(X0 - 6) + '" y="' + nb2(Y(U1) + 4) + '" text-anchor="end">' + coteFig(U1, '') + '</text>');
+  t.push('<text class="tick-label" x="' + nb2(X0 - 6) + '" y="' + nb2(Y(U2) + 4) + '" text-anchor="end">' + coteFig(U2, '') + '</text>');
+
+  // Noms des axes, avec leur unite : c'est la lecture des unites qui manque le
+  // plus souvent a l'eleve quand il calcule une pente.
+  t.push('<text class="axis-label" x="' + nb2(X0 + LX + 14) + '" y="' + nb2(Y0 - 8) + '" text-anchor="end">I (A)</text>');
+  t.push('<text class="axis-label" x="' + nb2(X0 - 4) + '" y="' + nb2(Y0 - LY - 16) + '" text-anchor="start">U (V)</text>');
+  if (o.pente !== false) {
+    t.push('<text class="label-soft" x="' + nb2(X(I2) + 8) + '" y="' + nb2((Y(U1) + Y(U2)) / 2) + '" text-anchor="start">R = ?</text>');
+  }
+
+  return svgFigure('Caracteristique tension-courant d un resistor : droite passant par l origine et triangle du coefficient directeur', t.join(''));
+}
+
+/* --- Frise du mouvement (vitesse) --------------------------------------
+   Un trajet d'un point A a un point B, avec sa distance et sa duree. A
+   L'ECHELLE sur la distance : la fleche est proportionnelle au trajet, ce qui
+   rend comparables deux figures d'un meme chapitre.
+
+   Sert au chapitre 4e vitesse. Ce que la figure apporte a l'eleve : la vitesse
+   n'est pas un nombre qui tombe d'une formule, c'est un rapport entre une
+   LONGUEUR et une DUREE, et les deux sont sur le dessin. L'inconnue porte
+   « ? », jamais sa valeur. */
+function figureTrajet(distance, duree, options) {
+  const o = options || {};
+  const uD = o.uniteDistance === undefined ? 'km' : o.uniteDistance;
+  const uT = o.uniteDuree === undefined ? 'h' : o.uniteDuree;
+  const depart = o.depart === undefined ? 'A' : o.depart;
+  const arrivee = o.arrivee === undefined ? 'B' : o.arrivee;
+
+  const y = 78;
+  const x0 = 42, x1 = 226;
+
+  const t = [];
+  // La route : un trait epais, flechee dans le sens du parcours.
+  t.push('<line class="frame-line" x1="' + nb2(x0) + '" y1="' + nb2(y) + '" x2="' + nb2(x1) + '" y2="' + nb2(y) + '" marker-end="url(#f)"></line>');
+  // Les deux bornes, marquees et nommees.
+  t.push('<line class="axis" x1="' + nb2(x0) + '" y1="' + nb2(y - 12) + '" x2="' + nb2(x0) + '" y2="' + nb2(y + 12) + '"></line>');
+  t.push('<line class="axis" x1="' + nb2(x1) + '" y1="' + nb2(y - 12) + '" x2="' + nb2(x1) + '" y2="' + nb2(y + 12) + '"></line>');
+  t.push('<circle class="plot-point" cx="' + nb2(x0) + '" cy="' + nb2(y) + '" r="3.5"></circle>');
+  t.push('<circle class="plot-point" cx="' + nb2(x1) + '" cy="' + nb2(y) + '" r="3.5"></circle>');
+  t.push('<text class="annotation-label" x="' + nb2(x0) + '" y="' + nb2(y - 20) + '" text-anchor="middle">' + depart + '</text>');
+  t.push('<text class="annotation-label" x="' + nb2(x1) + '" y="' + nb2(y - 20) + '" text-anchor="middle">' + arrivee + '</text>');
+
+  // La distance SOUS la route, la duree encore dessous : les deux grandeurs
+  // du rapport, l'une au-dessus de l'autre, dans l'ordre de la fraction.
+  t.push('<text class="annotation-label" x="' + nb2((x0 + x1) / 2) + '" y="' + nb2(y + 30) + '" text-anchor="middle">' + cotePhys('d', distance === undefined ? null : distance, uD) + '</text>');
+  t.push('<text class="tick-label" x="' + nb2((x0 + x1) / 2) + '" y="' + nb2(y + 48) + '" text-anchor="middle">' + cotePhys('t', duree === undefined ? null : duree, uT) + '</text>');
+  if (o.v !== undefined) {
+    t.push('<text class="label-soft" x="' + nb2((x0 + x1) / 2) + '" y="' + nb2(y - 38) + '" text-anchor="middle">' + cotePhys('v', o.v, uD + '/' + uT) + '</text>');
+  }
+
+  return svgFigure('Trajet de ' + depart + ' a ' + arrivee + ', avec sa distance et sa duree', t.join(''));
+}
+
+/* --- Rayon lumineux et ombre (optique) ---------------------------------
+   Une source ponctuelle, un objet opaque et l'ombre portee sur un ecran. A
+   L'ECHELLE : c'est une figure de geometrie, et le theoreme de Thales y est
+   lisible — la taille de l'ombre se deduit des distances, et l'eleve doit
+   pouvoir le voir avant de le calculer.
+
+   Sert au chapitre 4e lumiere (propagation rectiligne). */
+function figureOmbre(hauteurObjet, distSourceObjet, distSourceEcran, options) {
+  const o = options || {};
+  const unite = o.unite === undefined ? 'cm' : o.unite;
+
+  // Echelle commune aux deux directions, comme en maths : une ombre deux fois
+  // plus grande que l'objet doit se voir deux fois plus grande.
+  const hOmbre = hauteurObjet * distSourceEcran / distSourceObjet;
+  /* La hauteur disponible exclut les DEUX lignes de cote du bas (2 x 20
+     unites) et la bande de titre : sans cette reserve, la cote de distance
+     remontait dans le dessin (releve sur planche le 2026-09-16). */
+  const e = Math.min((FIG_L - 90) / distSourceEcran, (FIG_H - 104) / hOmbre);
+
+  const xS = 40;                                  // la source
+  const yAxe = 84;                                // l'axe optique
+  const xO = xS + distSourceObjet * e;            // l'objet
+  const xE = xS + distSourceEcran * e;            // l'ecran
+  const hO = hauteurObjet * e, hE = hOmbre * e;
+
+  const t = [];
+  // Les deux rayons extremes, de la source aux bords de l'ombre : ce sont eux
+  // qui portent la propagation rectiligne.
+  t.push('<line class="curve-main" x1="' + nb2(xS) + '" y1="' + nb2(yAxe) + '" x2="' + nb2(xE) + '" y2="' + nb2(yAxe - hE) + '" marker-end="url(#f)"></line>');
+  t.push('<line class="curve-main" x1="' + nb2(xS) + '" y1="' + nb2(yAxe) + '" x2="' + nb2(xE) + '" y2="' + nb2(yAxe) + '"></line>');
+
+  // L'objet opaque : un segment plein, pose sur l'axe.
+  t.push('<line class="frame-line" x1="' + nb2(xO) + '" y1="' + nb2(yAxe) + '" x2="' + nb2(xO) + '" y2="' + nb2(yAxe - hO) + '"></line>');
+  // L'ecran : un trait vertical plein, debordant l'ombre des deux cotes.
+  t.push('<line class="frame-line" x1="' + nb2(xE) + '" y1="' + nb2(yAxe + 12) + '" x2="' + nb2(xE) + '" y2="' + nb2(yAxe - hE - 14) + '"></line>');
+  // L'ombre portee, en aplat : la grandeur cherchee, mise en evidence.
+  t.push('<rect x="' + nb2(xE) + '" y="' + nb2(yAxe - hE) + '" width="6" height="' + nb2(hE) + '" fill="' + APLAT + '" stroke="none"></rect>');
+
+  t.push('<circle class="plot-point" cx="' + nb2(xS) + '" cy="' + nb2(yAxe) + '" r="3.5"></circle>');
+  t.push('<text class="tick-label" x="' + nb2(xS) + '" y="' + nb2(yAxe + 16) + '" text-anchor="middle">source</text>');
+  /* La hauteur de l'objet, cotee A GAUCHE de son segment : posee au-dessus,
+     elle tombait sur le rayon superieur. */
+  t.push('<text class="annotation-label" x="' + nb2(xO - 7) + '" y="' + nb2(yAxe - hO - 7) + '" text-anchor="end">' + coteFig(hauteurObjet, unite) + '</text>');
+  t.push('<text class="tick-label" x="' + nb2(xE + 4) + '" y="' + nb2(yAxe + 16) + '" text-anchor="middle">écran</text>');
+  t.push('<text class="annotation-label" x="' + nb2(xE + 11) + '" y="' + nb2(yAxe - hE / 2 + 4) + '" text-anchor="start">ombre = ?</text>');
+
+  /* Les deux distances, cotees SOUS le dessin sur deux niveaux, chacune avec
+     ses traits de rappel : sans eux, deux nombres flottants sous un dessin ne
+     disent pas ce qu'ils mesurent. */
+  const y1 = yAxe + 40, y2 = yAxe + 62;
+  t.push('<line class="grid-line" x1="' + nb2(xS) + '" y1="' + nb2(yAxe) + '" x2="' + nb2(xS) + '" y2="' + nb2(y2) + '"></line>');
+  t.push('<line class="grid-line" x1="' + nb2(xO) + '" y1="' + nb2(yAxe) + '" x2="' + nb2(xO) + '" y2="' + nb2(y1) + '"></line>');
+  t.push('<line class="grid-line" x1="' + nb2(xE) + '" y1="' + nb2(yAxe + 12) + '" x2="' + nb2(xE) + '" y2="' + nb2(y2) + '"></line>');
+  t.push('<line class="axis" x1="' + nb2(xS) + '" y1="' + nb2(y1) + '" x2="' + nb2(xO) + '" y2="' + nb2(y1) + '"></line>');
+  t.push('<text class="tick-label" x="' + nb2((xS + xO) / 2) + '" y="' + nb2(y1 - 5) + '" text-anchor="middle">' + coteFig(distSourceObjet, unite) + '</text>');
+  t.push('<line class="axis" x1="' + nb2(xS) + '" y1="' + nb2(y2) + '" x2="' + nb2(xE) + '" y2="' + nb2(y2) + '"></line>');
+  t.push('<text class="tick-label" x="' + nb2((xS + xE) / 2) + '" y="' + nb2(y2 - 5) + '" text-anchor="middle">' + coteFig(distSourceEcran, unite) + '</text>');
+
+  return svgFigure('Source ponctuelle, objet opaque et ombre portee sur un ecran', t.join(''));
+}
+
+/* --- Vecteur force / poids (mecanique) ---------------------------------
+   Un objet et la ou les forces qui s'exercent sur lui, en fleches. A
+   L'ECHELLE sur la norme : deux forces de 300 N et 150 N sont dessinees dans
+   le rapport 2. C'est ce qui distingue un schema de forces utile d'une
+   decoration.
+
+   Sert au chapitre 3e gravitation (poids, P = m g). */
+function figureForces(forces, options) {
+  const o = options || {};
+  const nomObjet = o.objet === undefined ? '' : o.objet;
+
+  const cx = FIG_L / 2, cy = FIG_H / 2 - 4;
+  const r = 15;
+  // L'echelle : la plus grande force occupe la place disponible.
+  const normeMax = Math.max.apply(null, forces.map(function (f) { return Math.abs(f.valeur === null ? 1 : f.valeur); }));
+  const lMax = 50;
+
+  const t = [];
+  // L'objet : un disque, point d'application commun des forces.
+  t.push('<circle class="frame-line" cx="' + nb2(cx) + '" cy="' + nb2(cy) + '" r="' + nb2(r) + '" fill="' + APLAT + '"></circle>');
+  t.push('<circle class="plot-point" cx="' + nb2(cx) + '" cy="' + nb2(cy) + '" r="2.5"></circle>');
+  /* Le nom de l'objet A GAUCHE, et non dessous : la verticale porte les
+     fleches et leurs etiquettes, l'horizontale est libre. Pose dessous, il
+     percutait l'etiquette du poids (releve sur planche le 2026-09-16). */
+  if (nomObjet) {
+    t.push('<text class="tick-label" x="' + nb2(cx - r - 8) + '" y="' + nb2(cy + 4) + '" text-anchor="end">' + nomObjet + '</text>');
+  }
+
+  forces.forEach(function (f) {
+    // `sens` : 'bas' pour le poids, 'haut' pour une reaction ou une poussee.
+    const vers = f.sens === 'haut' ? -1 : 1;
+    const l = (Math.abs(f.valeur === null ? normeMax : f.valeur) / normeMax) * lMax;
+    const yDep = cy + vers * r;
+    const yFin = cy + vers * (r + l);
+    t.push('<line class="curve-main" x1="' + nb2(cx) + '" y1="' + nb2(yDep) + '" x2="' + nb2(cx) + '" y2="' + nb2(yFin) + '" marker-end="url(#f)"></line>');
+    const etiq = cotePhys(f.nom, f.valeur, f.unite === undefined ? 'N' : f.unite);
+    t.push('<text class="annotation-label" x="' + nb2(cx + 10) + '" y="' + nb2((yDep + yFin) / 2 + 4) + '" text-anchor="start">' + etiq + '</text>');
+  });
+
+  return svgFigure('Objet et forces qui s y exercent, representees par des fleches', t.join(''));
+}
+
+/* --- Diagramme d'energie (barres) --------------------------------------
+   Deux ou trois formes d'energie en barres comparables. A L'ECHELLE sur la
+   hauteur : c'est tout l'interet d'un diagramme d'energie, voir qu'une
+   conversion conserve le total.
+
+   Sert au chapitre 3e energie (cinetique / potentielle) et a
+   3e puissance-electrique. */
+function figureBarresEnergie(barres, options) {
+  const o = options || {};
+  const unite = o.unite === undefined ? 'J' : o.unite;
+
+  const y0 = 134;                                  // la ligne de base
+  const hMax = 92;
+  const valeurMax = Math.max.apply(null, barres.map(function (b) { return Math.abs(b.valeur === null ? 0 : b.valeur); })) || 1;
+  const n = barres.length;
+  const largeur = Math.min(42, (FIG_L - 70) / n - 14);
+  const pas = (FIG_L - 56) / n;
+  const x0 = 34;
+
+  const t = [];
+  // L'axe des ordonnees et la ligne de base.
+  t.push('<line class="axis" x1="' + nb2(x0 - 10) + '" y1="' + nb2(y0) + '" x2="' + nb2(FIG_L - 16) + '" y2="' + nb2(y0) + '"></line>');
+  t.push('<line class="axis" x1="' + nb2(x0 - 10) + '" y1="' + nb2(y0) + '" x2="' + nb2(x0 - 10) + '" y2="' + nb2(y0 - hMax - 14) + '" marker-end="url(#f)"></line>');
+  t.push('<text class="axis-label" x="' + nb2(x0 - 14) + '" y="' + nb2(y0 - hMax - 18) + '" text-anchor="start">E (' + unite + ')</text>');
+
+  barres.forEach(function (b, i) {
+    const xc = x0 + pas * (i + 0.5);
+    const inconnue = b.valeur === null;
+    const h = inconnue ? hMax * 0.18 : (Math.abs(b.valeur) / valeurMax) * hMax;
+    // Une barre inconnue est dessinee en pointilles et basse : elle ne doit
+    // pas suggerer une valeur. Le « ? » porte l'information.
+    t.push('<rect class="' + (inconnue ? 'guide-line' : 'frame-line') + '" x="' + nb2(xc - largeur / 2) + '" y="' + nb2(y0 - h) +
+      '" width="' + nb2(largeur) + '" height="' + nb2(h) + '" fill="' + (inconnue ? 'none' : APLAT) + '"></rect>');
+    t.push('<text class="annotation-label" x="' + nb2(xc) + '" y="' + nb2(y0 - h - 8) + '" text-anchor="middle">' +
+      (inconnue ? '?' : coteFig(b.valeur, '')) + '</text>');
+    t.push('<text class="tick-label" x="' + nb2(xc) + '" y="' + nb2(y0 + 16) + '" text-anchor="middle">' + b.nom + '</text>');
+  });
+
+  return svgFigure('Diagramme en barres comparant des energies', t.join(''));
+}
+
+/* --- Bilan de masse d'une transformation chimique ----------------------
+   Les reactifs a gauche, les produits a droite, une fleche de transformation
+   au milieu, et les masses de part et d'autre. A L'ECHELLE sur la masse
+   totale : les deux plateaux ont la meme hauteur quand la masse se conserve,
+   ce qui est EXACTEMENT le fait du chapitre.
+
+   Sert aux chapitres 4e transformations-chimiques et 3e reactions-chimiques. */
+function figureBilanMasse(reactifs, produits, options) {
+  const o = options || {};
+  const unite = o.unite === undefined ? 'g' : o.unite;
+
+  const somme = function (l) {
+    return l.reduce(function (s, x) { return s + (x.masse === null ? 0 : x.masse); }, 0);
+  };
+  const total = Math.max(somme(reactifs), somme(produits)) || 1;
+
+  const y0 = 128;
+  const hMax = 74;
+  const xG = 62, xD = 198;
+  const largeur = 46;
+
+  const t = [];
+  // Les deux piles, empilees par constituant : une transformation qui conserve
+  // la masse donne deux piles de meme hauteur, et c'est visible d'un coup.
+  [[xG, reactifs], [xD, produits]].forEach(function (cote) {
+    const x = cote[0], liste = cote[1];
+    let cumul = 0;
+    liste.forEach(function (c) {
+      const inconnue = c.masse === null;
+      const h = inconnue ? 16 : (c.masse / total) * hMax;
+      const yb = y0 - cumul;
+      t.push('<rect class="' + (inconnue ? 'guide-line' : 'frame-line') + '" x="' + nb2(x - largeur / 2) + '" y="' + nb2(yb - h) +
+        '" width="' + nb2(largeur) + '" height="' + nb2(h) + '" fill="' + (inconnue ? 'none' : APLAT) + '"></rect>');
+      t.push('<text class="tick-label" x="' + nb2(x) + '" y="' + nb2(yb - h / 2 + 4) + '" text-anchor="middle">' +
+        (inconnue ? '?' : coteFig(c.masse, unite)) + '</text>');
+      cumul += h;
+    });
+    /* Le TOTAL de la pile : c'est lui que le chapitre compare d'un cote a
+       l'autre (« la masse totale se conserve »). Muet des qu'une masse est
+       inconnue — l'annoncer supposerait la reponse.
+
+       Les NOMS des especes ne sont PAS imprimes sous les piles (corrige le
+       2026-09-16 apres controle sur figures tirees du livre) : les noms reels
+       du corpus sont des expressions entieres — « un ruban de magnesium »,
+       « le dioxygene de l'air » — qui, concatenees par « + » sous une pile de
+       46 unites, debordaient sur la figure voisine. Les deux libelles
+       « reactifs » et « produits » suffisent : le detail des especes est dans
+       l'enonce, trois centimetres plus haut, et l'y repeter en corps 5 ne
+       servait personne. */
+    const inconnue = liste.some(function (c) { return c.masse === null; });
+    if (!inconnue) {
+      t.push('<text class="tick-label" x="' + nb2(x) + '" y="' + nb2(y0 - cumul - 9) + '" text-anchor="middle">total ' + coteFig(somme(liste), unite) + '</text>');
+    }
+  });
+
+  // La ligne de base commune, qui rend les deux piles comparables.
+  t.push('<line class="axis" x1="' + nb2(xG - largeur / 2 - 12) + '" y1="' + nb2(y0) + '" x2="' + nb2(xD + largeur / 2 + 12) + '" y2="' + nb2(y0) + '"></line>');
+  // La fleche de transformation, entre les deux piles.
+  const xm = (xG + xD) / 2;
+  t.push('<line class="curve-main" x1="' + nb2(xm - 19) + '" y1="' + nb2(y0 - hMax / 2) + '" x2="' + nb2(xm + 19) + '" y2="' + nb2(y0 - hMax / 2) + '" marker-end="url(#f)"></line>');
+  t.push('<text class="tick-label" x="' + nb2(xm) + '" y="' + nb2(y0 - hMax / 2 + 15) + '" text-anchor="middle">transformation</text>');
+  t.push('<text class="annotation-label" x="' + nb2(xG) + '" y="' + nb2(y0 + 18) + '" text-anchor="middle">réactifs</text>');
+  t.push('<text class="annotation-label" x="' + nb2(xD) + '" y="' + nb2(y0 + 18) + '" text-anchor="middle">produits</text>');
+
+  return svgFigure('Bilan de masse d une transformation chimique : reactifs et produits', t.join(''));
+}
+
+/* --- Modele de l'atome / de l'ion --------------------------------------
+   Noyau central portant sa charge, et les electrons en couronne. PAS a
+   l'echelle, et pour une raison physique : le noyau est 100 000 fois plus
+   petit que l'atome, un dessin a l'echelle serait une page blanche avec un
+   point. C'est la convention de tous les manuels, et le cours le dit.
+
+   Sert aux chapitres 4e atomes-molecules et 3e structure-atome. */
+function figureAtome(nbProtons, nbElectrons, options) {
+  const o = options || {};
+  const nom = o.nom === undefined ? '' : o.nom;
+
+  /* BUDGET VERTICAL : le nom de l'element en tete (y=16), la couronne au
+     centre, le compte d'electrons sous la couronne, la mention d'echelle en
+     pied (y=166). Trois bandes qui ne se rencontrent jamais — le premier jet
+     posait le nom et la mention tous deux en haut, et ils se superposaient. */
+  const cx = FIG_L / 2, cy = FIG_H / 2 + 2;
+  const rNoyau = 18, rCouronne = 50;
+
+  const t = [];
+  // La couronne : le trait en pointilles porte l'idee d'un nuage, pas d'une
+  // orbite solide.
+  t.push('<circle class="guide-line" cx="' + nb2(cx) + '" cy="' + nb2(cy) + '" r="' + nb2(rCouronne) + '" fill="none"></circle>');
+  t.push('<circle class="frame-line" cx="' + nb2(cx) + '" cy="' + nb2(cy) + '" r="' + nb2(rNoyau) + '" fill="' + APLAT + '"></circle>');
+
+  // Le noyau porte sa charge, qui est la donnee du chapitre.
+  t.push('<text class="annotation-label" x="' + nb2(cx) + '" y="' + nb2(cy + 4.5) + '" text-anchor="middle">' +
+    (nbProtons === null ? '?' : '+' + nbProtons) + '</text>');
+
+  /* Les electrons, repartis regulierement sur la couronne. Au-dela de dix on
+     ne les dessine plus un par un : on porte leur nombre — dix-huit pastilles
+     a 52 mm de large sont illisibles et ne s'y comptent pas. */
+  const n = nbElectrons === null ? 0 : nbElectrons;
+  if (n > 0 && n <= 10) {
+    for (let i = 0; i < n; i++) {
+      const a = (2 * Math.PI * i) / n - Math.PI / 2;
+      t.push('<circle class="plot-point" cx="' + nb2(cx + rCouronne * Math.cos(a)) + '" cy="' + nb2(cy + rCouronne * Math.sin(a)) + '" r="3.4"></circle>');
+    }
+  }
+  t.push('<text class="tick-label" x="' + nb2(cx) + '" y="' + nb2(cy + rCouronne + 19) + '" text-anchor="middle">' +
+    (nbElectrons === null ? 'électrons : ?' : n + ' électron' + (n > 1 ? 's' : '')) + '</text>');
+  if (nom) {
+    t.push('<text class="annotation-label" x="' + nb2(cx) + '" y="' + nb2(16) + '" text-anchor="middle">' + nom + '</text>');
+  }
+  t.push('<text class="label-soft" x="' + nb2(FIG_L / 2) + '" y="' + nb2(FIG_H - 4) + '" text-anchor="middle">figure non à l\'échelle</text>');
+
+  return svgFigure('Modele de l atome : noyau charge et electrons en couronne', t.join(''));
+}
+
+/* --- Gravitation : deux corps et leur attraction -----------------------
+   Deux astres, la distance qui les separe et les deux forces d'attraction,
+   egales et opposees. PAS a l'echelle sur les rayons (la Terre et la Lune
+   dans un carre de 52 mm), mais les DEUX FLECHES sont de meme longueur,
+   parce que les deux forces ont la meme valeur — c'est le point du chapitre,
+   et le dessin ne doit pas le contredire.
+
+   Sert au chapitre 3e gravitation. */
+function figureGravitation(options) {
+  const o = options || {};
+  const nomA = o.nomA === undefined ? 'A' : o.nomA;
+  const nomB = o.nomB === undefined ? 'B' : o.nomB;
+
+  const y = FIG_H / 2 - 4;
+  const xA = 54, xB = 208;
+  const rA = 20, rB = 13;
+
+  const t = [];
+  t.push('<circle class="frame-line" cx="' + nb2(xA) + '" cy="' + nb2(y) + '" r="' + nb2(rA) + '" fill="' + APLAT + '"></circle>');
+  t.push('<circle class="frame-line" cx="' + nb2(xB) + '" cy="' + nb2(y) + '" r="' + nb2(rB) + '" fill="' + APLAT + '"></circle>');
+  t.push('<text class="annotation-label" x="' + nb2(xA) + '" y="' + nb2(y - rA - 12) + '" text-anchor="middle">' + nomA + '</text>');
+  t.push('<text class="annotation-label" x="' + nb2(xB) + '" y="' + nb2(y - rB - 12) + '" text-anchor="middle">' + nomB + '</text>');
+
+  // Les deux forces, de MEME longueur et opposees : l'attraction est
+  // reciproque, et c'est l'erreur la plus courante du chapitre de croire que
+  // le gros astre « tire plus fort ».
+  const l = 34;
+  t.push('<line class="curve-main" x1="' + nb2(xA + rA + 4) + '" y1="' + nb2(y) + '" x2="' + nb2(xA + rA + 4 + l) + '" y2="' + nb2(y) + '" marker-end="url(#f)"></line>');
+  t.push('<line class="curve-main" x1="' + nb2(xB - rB - 4) + '" y1="' + nb2(y) + '" x2="' + nb2(xB - rB - 4 - l) + '" y2="' + nb2(y) + '" marker-end="url(#f)"></line>');
+
+  // La distance entre les CENTRES : c'est celle de la formule, et la
+  // confondre avec la distance entre les surfaces est une erreur classique.
+  const yd = y + 44;
+  t.push('<line class="guide-line" x1="' + nb2(xA) + '" y1="' + nb2(y) + '" x2="' + nb2(xA) + '" y2="' + nb2(yd + 8) + '"></line>');
+  t.push('<line class="guide-line" x1="' + nb2(xB) + '" y1="' + nb2(y) + '" x2="' + nb2(xB) + '" y2="' + nb2(yd + 8) + '"></line>');
+  t.push('<line class="axis" x1="' + nb2(xA) + '" y1="' + nb2(yd) + '" x2="' + nb2(xB) + '" y2="' + nb2(yd) + '"></line>');
+  t.push('<text class="annotation-label" x="' + nb2((xA + xB) / 2) + '" y="' + nb2(yd + 17) + '" text-anchor="middle">' +
+    cotePhys('d', o.d === undefined ? null : o.d, o.unite === undefined ? 'm' : o.unite) + '</text>');
+  t.push('<text class="tick-label" x="' + nb2((xA + xB) / 2) + '" y="' + nb2(yd + 33) + '" text-anchor="middle">forces égales et opposées</text>');
+  t.push('<text class="label-soft" x="' + nb2(8) + '" y="' + nb2(14) + '" text-anchor="start">figure non à l\'échelle</text>');
+
+  return svgFigure('Deux corps en attraction gravitationnelle, distance entre leurs centres', t.join(''));
+}
+
+/* --- Ombre portee au sol (lampadaire et poteau) ------------------------
+   Une source en hauteur (lampadaire, projecteur) eclaire un poteau vertical
+   pose au sol ; le rayon qui rase le sommet du poteau touche le sol au bout
+   de l'ombre. A L'ECHELLE : la figure est la CONFIGURATION du probleme, et
+   c'est sur elle que se lisent les deux triangles semblables dont l'enonce
+   demande la proportionnalite.
+
+   Cette figure est distincte de figureOmbre() (objet entre une source et un
+   ecran vertical) : la geometrie n'est pas la meme, et reutiliser l'une pour
+   l'autre ferait mentir le dessin. Sert au chapitre 4e lumiere. */
+function figureOmbreSol(H, h, d, options) {
+  const o = options || {};
+  const unite = o.unite === undefined ? 'm' : o.unite;
+
+  // Longueur de l'ombre, par les triangles semblables : H/(d+x) = h/x.
+  const xOmbre = h * d / (H - h);
+  /* PLAFONNEMENT DE LA LARGEUR (corrige le 2026-09-16 apres controle sur
+     figures tirees du livre). x = h*d/(H-h) explose quand la hauteur du
+     poteau approche celle du lampadaire : un poteau de 5,5 m sous un
+     lampadaire de 8 m donne une ombre de 13,2 m pour d = 6 m, et le dessin
+     sortait du viewBox par la droite. On borne donc la largeur representee,
+     comme le font les figures de maths (voir borner()), et la figure DECLARE
+     qu'elle n'est plus a l'echelle — ce que la convention des manuels exige
+     de tout dessin sur lequel on ne peut pas mesurer. */
+  const largeurVraie = d + xOmbre;
+  const comprime = largeurVraie / H > 5;
+  const largeurReelle = comprime ? H * 5 : largeurVraie;
+
+  /* Echelle commune aux deux directions, comme toute figure a l'echelle. La
+     largeur reservee garde 42 unites a droite pour l'etiquette « x = ? », et
+     la hauteur exclut les bandes de cotes du haut et du bas. */
+  const e = Math.min((FIG_L - 96) / largeurReelle, (FIG_H - 56) / H);
+
+  const xS = 40;                          // le pied du lampadaire
+  const ySol = FIG_H - 34;                // le sol
+  const xP = xS + d * e;                  // le poteau
+  const xF = xS + largeurReelle * e;      // le bout de l'ombre (borne)
+  const ySom = ySol - H * e;              // le sommet du lampadaire
+  const yPot = ySol - h * e;              // le sommet du poteau
+
+  const t = [];
+  // Le sol.
+  t.push('<line class="axis" x1="' + nb2(xS - 14) + '" y1="' + nb2(ySol) + '" x2="' + nb2(FIG_L - 10) + '" y2="' + nb2(ySol) + '"></line>');
+  // Le lampadaire : son mat et sa lampe.
+  t.push('<line class="frame-line" x1="' + nb2(xS) + '" y1="' + nb2(ySol) + '" x2="' + nb2(xS) + '" y2="' + nb2(ySom) + '"></line>');
+  t.push('<circle class="plot-point" cx="' + nb2(xS) + '" cy="' + nb2(ySom) + '" r="3.5"></circle>');
+  // Le poteau.
+  t.push('<line class="frame-line" x1="' + nb2(xP) + '" y1="' + nb2(ySol) + '" x2="' + nb2(xP) + '" y2="' + nb2(yPot) + '"></line>');
+  /* Le rayon qui rase le sommet du poteau et touche le sol : c'est LE trait
+     qui porte le raisonnement, d'ou la classe d'accent. */
+  t.push('<line class="curve-main" x1="' + nb2(xS) + '" y1="' + nb2(ySom) + '" x2="' + nb2(xF) + '" y2="' + nb2(ySol) + '" marker-end="url(#f)"></line>');
+  // L'ombre au sol, en aplat : la grandeur cherchee.
+  t.push('<rect x="' + nb2(xP) + '" y="' + nb2(ySol) + '" width="' + nb2(xF - xP) + '" height="6" fill="' + APLAT + '" stroke="none"></rect>');
+
+  // Les trois hauteurs et longueurs, cotees sans se croiser.
+  t.push('<text class="annotation-label" x="' + nb2(xS - 6) + '" y="' + nb2((ySol + ySom) / 2) + '" text-anchor="end">' + cotePhys('H', H, unite) + '</text>');
+  /* La cote du poteau A DROITE de son mat, et non a gauche (corrige le
+     2026-09-16 sur figures tirees du livre) : posee a gauche, elle percutait
+     la cote du lampadaire des que le poteau etait haut et proche — un poteau
+     de 5,5 m a 6 m d'un lampadaire de 8 m les superposait. A droite, elle est
+     dans le triangle d'ombre, ou rien d'autre n'est ecrit. */
+  t.push('<text class="annotation-label" x="' + nb2(xP + 6) + '" y="' + nb2((ySol + yPot) / 2 + 4) + '" text-anchor="start">' + cotePhys('h', h, unite) + '</text>');
+  // d : du pied du lampadaire au pied du poteau, cote sous le sol.
+  const yc = ySol + 16;
+  t.push('<line class="axis" x1="' + nb2(xS) + '" y1="' + nb2(yc) + '" x2="' + nb2(xP) + '" y2="' + nb2(yc) + '"></line>');
+  t.push('<text class="tick-label" x="' + nb2((xS + xP) / 2) + '" y="' + nb2(yc + 13) + '" text-anchor="middle">' + cotePhys('d', d, unite) + '</text>');
+  // x : l'ombre, du pied du poteau au bout de l'ombre.
+  t.push('<line class="axis" x1="' + nb2(xP) + '" y1="' + nb2(yc) + '" x2="' + nb2(xF) + '" y2="' + nb2(yc) + '"></line>');
+  t.push('<text class="annotation-label" x="' + nb2((xP + xF) / 2) + '" y="' + nb2(yc + 13) + '" text-anchor="middle">x = ?</text>');
+  if (comprime) t.push(figureHorsEchelle(FIG_L / 2, 12));
+
+  return svgFigure('Lampadaire eclairant un poteau : ombre portee au sol', t.join(''));
+}

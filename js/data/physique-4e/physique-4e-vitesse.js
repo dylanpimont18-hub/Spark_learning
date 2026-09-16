@@ -230,6 +230,13 @@ window.MODULES.push({
             tolerance: tol,
             unit: ctx.unite,
             hint: 'Utilise la formule $v = \\dfrac{d}{t}$ : divise la distance parcourue par la durée du parcours.',
+            /* Le trajet, cote avec les valeurs du tirage. La vitesse n'est pas
+               un nombre qui tombe d'une formule : c'est le rapport d'une
+               LONGUEUR a une DUREE, et les deux sont sur le dessin. */
+            figure: {
+              svg: figureTrajet(d, t, { uniteDistance: ctx.du, uniteDuree: ctx.tu }),
+              caption: 'Le trajet parcouru et sa durée : la vitesse moyenne est le rapport de la distance au temps.'
+            },
             solution: [
               'Formule de la vitesse moyenne : $v = \\dfrac{d}{t}$.',
               'Application numérique : $v = \\dfrac{' + d + '}{' + tTexte + '}$.',
@@ -253,6 +260,12 @@ window.MODULES.push({
             tolerance: tol2,
             unit: ctx2.du,
             hint: 'Utilise la relation $d = v \\times t$, déduite de $v = \\dfrac{d}{t}$.',
+            /* Meme frise, mais c'est la DISTANCE qui porte le point
+               d'interrogation : la figure ne donne jamais la reponse. */
+            figure: {
+              svg: figureTrajet(null, t2, { uniteDistance: ctx2.du, uniteDuree: ctx2.tu, v: v2 }),
+              caption: 'La durée et la vitesse sont connues ; la distance parcourue est la grandeur cherchée.'
+            },
             solution: [
               'Relation entre distance, vitesse et durée : $d = v \\times t$.',
               'Application numérique : $d = ' + fr(v2, 1) + ' \\times ' + t2Texte + '$.',

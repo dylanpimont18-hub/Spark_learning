@@ -214,6 +214,14 @@ window.MODULES.push({
             tolerance: Math.max(0.5, parseFloat((Poids * 0.03).toFixed(1))),
             unit: 'N',
             hint: 'Le poids se calcule par $P=m\\times g$.',
+            /* Le poids, en fleche verticale unique, appliquee a l'objet. La
+               figure porte la distinction que le chapitre traque : la MASSE est
+               une donnee de l'objet, le POIDS est une force dirigee vers le bas
+               et il change d'un astre a l'autre. */
+            figure: {
+              svg: figureForces([{ nom: 'P', valeur: null, sens: 'bas' }], { objet: 'm = ' + fr(m, 1) + ' kg' }),
+              caption: 'Le poids est une force verticale, dirigée vers le bas : sa valeur dépend de l\'astre, la masse non.'
+            },
             solution: [
               'Formule du poids : $P = m \\times g = ' + fr(m, 1) + ' \\times ' + fr(astre.g, 1) + '$.',
               'Résultat : $P \\approx ' + fr(Poids, 1) + '$ N.'

@@ -172,6 +172,17 @@ window.MODULES.push({
             tolerance: 0.1,
             unit: 'g',
             hint: 'Dans un système fermé, la masse totale des produits est égale à la masse totale des réactifs consommés : additionne simplement les deux masses.',
+            /* Les deux plateaux du bilan, a l'echelle sur la masse. La masse du
+               produit est inconnue, donc sa pile est en pointilles : c'est
+               justement de constater que les deux cotes doivent s'equilibrer que
+               nait la conservation de la masse. */
+            figure: {
+              svg: figureBilanMasse(
+                [{ nom: ctx.combustible, masse: m1 }, { nom: ctx.comburant, masse: m2 }],
+                [{ nom: 'produits', masse: null }]
+              ),
+              caption: 'Dans un récipient fermé, la masse totale des produits est égale à la masse totale des réactifs.'
+            },
             solution: [
               'Système fermé → loi de conservation de la masse : $m(\\text{produits}) = m(\\text{réactifs})$.',
               'Masse des réactifs : $' + fr(m1, 1) + ' + ' + fr(m2, 1) + '$.',
@@ -188,6 +199,16 @@ window.MODULES.push({
             tolerance: 0.1,
             unit: 'g',
             hint: 'La masse totale des réactifs est égale à la masse totale des produits. Tu connais déjà la masse d\'un réactif : soustrais-la à la masse totale des produits.',
+            /* Ici c'est un REACTIF qui manque : la pile de gauche est incomplete
+               et celle de droite connue. Le dessin pose la question dans le bon
+               sens, sans la resoudre. */
+            figure: {
+              svg: figureBilanMasse(
+                [{ nom: ctx.combustible, masse: mReactif1 }, { nom: ctx.comburant, masse: null }],
+                [{ nom: 'produits', masse: mProduitsTotal }]
+              ),
+              caption: 'La masse totale des réactifs égale celle des produits : la masse du second réactif s\'en déduit.'
+            },
             solution: [
               'Système fermé → loi de conservation de la masse : $m(\\text{réactifs}) = m(\\text{produits}) = ' + fr(mProduitsTotal, 1) + '$ g.',
               'Masse du premier réactif déjà connue : $' + fr(mReactif1, 1) + '$ g.',

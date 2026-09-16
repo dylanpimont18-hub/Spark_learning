@@ -153,6 +153,15 @@ window.MODULES.push({
             tolerance: Math.max(0.05, parseFloat((U * 0.03).toFixed(2))),
             unit: 'V',
             hint: 'Loi d\'Ohm : $U = R \\times I$.',
+            /* Le montage de mesure, construit sur les valeurs du tirage.
+               L'amperemetre y est en serie et le voltmetre en derivation : c'est
+               la disposition que l'eleve doit avoir sous les yeux, et
+               l'interversion des deux appareils est l'erreur que le chapitre
+               traque (un amperemetre en derivation court-circuite). */
+            figure: {
+              svg: figureCircuitMesure({ R: R, I: I }),
+              caption: 'Montage de mesure : ampèremètre en série dans le circuit, voltmètre en dérivation aux bornes du résistor.'
+            },
             solution: [
               'Loi d\'Ohm : $U = R \\times I = ' + R + ' \\times ' + fr(I, 2) + '$.',
               'Résultat : $U \\approx ' + fr(U, 2) + '$ V.'
@@ -179,6 +188,13 @@ window.MODULES.push({
             tolerance: Math.max(0.5, parseFloat((Rcalc * 0.03).toFixed(2))),
             unit: 'Ω',
             hint: 'Le coefficient directeur d\'une caractéristique $U=f(I)$ passant par l\'origine se calcule par $R=\\dfrac{\\Delta U}{\\Delta I}$.',
+            /* La caracteristique, tracee sur les DEUX points reellement tires,
+               avec le triangle du coefficient directeur. Sans elle, l'enonce
+               demande de lire une pente sur un graphique absent. */
+            figure: {
+              svg: figureCaracteristique(I1, parseFloat(U1.toFixed(2)), I2, parseFloat(U2.toFixed(2))),
+              caption: 'Caractéristique tension-courant du résistor : une droite passant par l\'origine, dont le coefficient directeur vaut $R$.'
+            },
             solution: [
               'Coefficient directeur : $R=\\dfrac{\\Delta U}{\\Delta I}=\\dfrac{U_2-U_1}{I_2-I_1}$.',
               'Variation de tension : $\\Delta U = ' + fr(U2, 2) + ' - ' + fr(U1, 2) + ' = ' + fr(deltaU, 2) + '$ V.',

@@ -209,6 +209,14 @@ window.MODULES.push({
             tolerance: 0.15,
             unit: 'V',
             hint: 'Circuit série → loi d\'additivité des tensions : $U = U_1 + U_2$. Isole $U_2$.',
+            /* Le circuit, dessine avec les valeurs du tirage. C'est la moitie
+               de l'enonce : un eleve de quatrieme a qui on DECRIT « deux lampes
+               en serie » doit d'abord se representer la boucle avant de pouvoir
+               choisir la loi. La tension cherchee porte « ? », jamais sa valeur. */
+            figure: {
+              svg: figureCircuitSerie({ U: Utot, U1: U1, U2: null }),
+              caption: 'Circuit série : une seule boucle, donc une intensité unique et des tensions qui s\'additionnent.'
+            },
             solution: [
               'Loi d\'additivité des tensions (circuit série) : $U = U_1 + U_2$.',
               'On isole $U_2$ : $U_2 = U - U_1 = ' + Utot + ' - ' + fr(U1, 1) + '$.',
@@ -226,6 +234,13 @@ window.MODULES.push({
             tolerance: 0.03,
             unit: 'A',
             hint: 'Circuit en dérivation → loi d\'additivité des intensités : $I = I_1 + I_2$. Isole $I_2$.',
+            /* Le circuit en derivation, avec ses noeuds marques : c'est le
+               detail qui distingue visuellement les deux structures, et la loi
+               a appliquer se lit alors sur le dessin. */
+            figure: {
+              svg: figureCircuitDerivation({ I: Itot, I1: I1, I2: null }),
+              caption: 'Circuit en dérivation : deux branches entre les mêmes nœuds, donc une tension unique et des intensités qui s\'additionnent.'
+            },
             solution: [
               'Loi d\'additivité des intensités (circuit en dérivation) : $I = I_1 + I_2$.',
               'On isole $I_2$ : $I_2 = I - I_1 = ' + fr(Itot, 2) + ' - ' + fr(I1, 2) + '$.',
