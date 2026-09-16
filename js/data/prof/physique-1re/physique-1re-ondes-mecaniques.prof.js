@@ -121,7 +121,8 @@ window.SPARK_PROF["physique-1re-ondes-mecaniques"] = {
         "n'apparaît dans <strong>aucun</strong> exercice, alors qu'elle structure le premier " +
         "attendu officiel : seule la question 4 de l'évaluation la porte. Le " +
         "<strong>non-transport de matière</strong> — cœur du même attendu et piège du cours — " +
-        "n'est travaillé par aucun exercice non plus (question 2 de l'évaluation seulement). Et " +
+        "n'est travaillé par aucun exercice non plus (questions 2 et 5 de l'évaluation " +
+        "seulement, la 5 réécrite le 2026-09-17 pour le confronter à un calcul de célérité). Et " +
         "aucun exercice ne demande d'<strong>exploiter un graphique</strong> : ni de mesurer " +
         "une période sur un enregistrement temporel, ni une longueur d'onde sur une photographie " +
         "à un instant donné — geste qui est pourtant le cœur du travail expérimental sur les " +
@@ -316,20 +317,40 @@ window.SPARK_PROF["physique-1re-ondes-mecaniques"] = {
      Q4 — le son dans l'air est une onde longitudinale ou transversale ?
           Restitution d'une définition du cours, appliquée à l'exemple
           canonique : « s'approprier ».
-     Q5 — $\lambda = 2{,}0$ m et $T = 0{,}25$ s : calculer $v$. La relation du
-          cours est $\lambda = v \times T$ ; il faut la RENVERSER pour isoler
-          $v$. Le renversement est modeste mais réel, et c'est la seule
-          question du chapitre où la relation n'est pas employée dans le sens
-          où elle est écrite : « analyser ».
+     Q5 — RÉÉCRITE le 2026-09-17. L'ancien énoncé ($\lambda = 2{,}0$ m,
+          $T = 0{,}25$ s, calculer $v$) renversait une relation, mais très
+          modestement : la Q1 ($\tau = d/v$) et la Q3 ($\lambda = v/f$) du même
+          devoir font déjà deux fois le même geste sur les mêmes grandeurs, et
+          les deux moules du générateur — purement numériques — le répètent sur
+          les vingt-quatre énoncés tirés.
+          Le nouvel énoncé conserve intégralement ce calcul ($v = 8{,}0$ m/s)
+          mais l'enveloppe d'une conclusion fausse : Hugo en déduit que le
+          ruban traverse les $12$ m de corde. Il faut EXPLIQUER que la célérité
+          est celle de la perturbation et non de la matière : produire une
+          explication, donc « communiquer ».
+          Le calcul reste nécessaire pour écarter le distracteur 1, qui
+          multiplie $\lambda$ par $T$ au lieu de diviser.
+          La question porte désormais sur l'erreur 1 de cette fiche — « croire
+          que la matière est transportée par l'onde » — explicitement SANS
+          renvoi parce qu'un calcul de retard ne peut pas distinguer une onde
+          d'un projectile : les exercices fonctionnent tout aussi bien avec la
+          conception fausse. La Q2 énonce le fait (le ruban oscille) ; la Q5 le
+          met à l'épreuve d'un calcul, ce qui n'est pas la même tâche.
 
      Répartition honnête et sans surprise pour un chapitre dont les deux moules
      d'exercice sont deux applications directes de formule. À noter pour la
      composition d'un devoir : l'évaluation ne comporte AUCUNE question de
      lecture graphique, alors que c'est le geste expérimental central du
      chapitre — c'est la même absence que dans les exercices, signalée dans la
-     `note`. « Communiquer » n'est pas mobilisé : aucune des cinq questions ne
-     demande de produire une explication rédigée. */
+     `note`. « Communiquer » est mobilisé une fois depuis la réécriture de la
+     Q5, sur le format « juger le raisonnement d'un élève » : le type
+     `multiple-choice` ne permet pas de rédiger, mais il permet de CHOISIR la
+     meilleure explication parmi quatre, ce qui est déjà une tâche de
+     communication scientifique. « Analyser » est en revanche devenu absent :
+     aucune des cinq questions ne demande plus de choisir une méthode avant de
+     calculer, ce qui est cohérent avec un chapitre dont les deux moules
+     d'exercice sont deux applications directes. */
   competences: {
-    evaluation: ["réaliser", "valider", "réaliser", "s'approprier", "analyser"]
+    evaluation: ["réaliser", "valider", "réaliser", "s'approprier", "communiquer"]
   }
 };

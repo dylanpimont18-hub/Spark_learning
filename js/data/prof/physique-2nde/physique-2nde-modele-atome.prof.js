@@ -357,10 +357,22 @@ window.SPARK_PROF["physique-2nde-modele-atome"] = {
      Q2 — « le numéro atomique $Z$ représente : … », avec « le nombre de
           neutrons » et « le nombre total de nucléons » en distracteurs. Pure
           restitution de la définition D1 du cours : « s'approprier ».
-     Q3 — un atome neutre a $Z = 17$ : combien d'électrons ? Il n'y a rien à
-          calculer ; il faut mobiliser la propriété d'électroneutralité (D3) et
-          l'appliquer. C'est une restitution suivie d'un report immédiat :
-          « s'approprier ».
+     Q3 — RÉÉCRITE le 2026-09-17. L'ancien énoncé (un atome neutre a
+          $Z = 17$ : combien d'électrons ?) se répondait en recopiant $Z$ :
+          rien à calculer, et une propriété — l'électroneutralité — que la Q2
+          (ce que compte $Z$) et la Q5 (l'ion qui perd un électron) du même
+          devoir travaillent déjà, la Q4 couvrant en outre les couches. La
+          question était redondante avec trois autres du même devoir.
+          Le nouvel énoncé demande de juger la lecture que Yanis fait du
+          symbole $^{45}_{19}K$ — il annonce $N = 19 - 45 = -26$ neutrons — et
+          d'EXPLIQUER pourquoi le résultat négatif signale l'inversion :
+          produire une explication, donc « communiquer ».
+          Le calcul reste nécessaire pour écarter le distracteur 1, qui arrive
+          au bon nombre ($45 - 19 = 26$) en conservant la lecture fausse du
+          symbole.
+          La question porte désormais sur l'erreur 1 de cette fiche —
+          « inverser $A$ et $Z$, ou calculer $N = Z - A$ » — c'est-à-dire sur
+          une convention pure que rien dans la notation ne rappelle.
      Q4 — quelle est la répartition électronique correcte pour $Z = 12$ ? Il
           faut construire mentalement le remplissage, puis écarter trois
           propositions dont chacune viole une règle différente (L(10) dépasse
@@ -373,11 +385,13 @@ window.SPARK_PROF["physique-2nde-modele-atome"] = {
           d'un même événement et retenir celle dont le bilan de charge est
           cohérent : « valider ».
 
-     « Communiquer » n'est PAS mobilisé, et ce n'est pas un oubli : aucune des
-     cinq questions ne demande de produire une explication rédigée — les deux
-     types disponibles dans le corpus (`numeric` et `multiple-choice`) ne le
-     permettent pas. */
+     « Communiquer » est mobilisé une fois depuis la réécriture de la Q3, sur
+     le format « juger le raisonnement d'un élève » : le type
+     `multiple-choice` ne permet pas de rédiger, mais il permet de CHOISIR la
+     meilleure explication parmi quatre, ce qui est déjà une tâche de
+     communication scientifique. Les cinq compétences du référentiel sont
+     désormais toutes représentées dans ce devoir. */
   competences: {
-    evaluation: ["réaliser", "s'approprier", "s'approprier", "analyser", "valider"]
+    evaluation: ["réaliser", "s'approprier", "communiquer", "analyser", "valider"]
   }
 };

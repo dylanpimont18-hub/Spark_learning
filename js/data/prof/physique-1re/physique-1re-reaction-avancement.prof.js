@@ -319,11 +319,26 @@ window.SPARK_PROF["physique-1re-reaction-avancement"] = {
           celle (« directement les $n_i$ ») qui est l'erreur 1. Ce n'est pas
           une restitution de définition mais un choix de démarche :
           « analyser ».
-     Q5 — $n(H_2)_i = 5$ et $x_{max} = 2$ donnés : calculer $n(H_2)_f$.
-          Application directe de la ligne du tableau d'avancement,
-          $n_i - 2\,x_{max}$ : « réaliser ». Le coefficient $2$ est le piège
-          (erreur 2 de cette fiche), mais la relation reste employée dans le
-          sens où le cours l'écrit.
+     Q5 — RÉÉCRITE le 2026-09-17. L'ancien énoncé ($n(H_2)_i = 5$ et
+          $x_{max} = 2$ donnés, calculer $n(H_2)_f$) était la TROISIÈME
+          question du devoir portant sur le même tableau d'avancement
+          ($2\,H_2 + O_2$, $x_{max} = 2$ mol) : la Q1 y calcule $x_{max}$ et la
+          Q3 la quantité d'eau formée. Retrancher $2\,x_{max}$ de $n(H_2)_i$
+          n'ajoutait rien au diagnostic.
+          Le nouvel énoncé change de réaction ($CH_4 + 2\,O_2$, données de
+          l'exercice 12 du tirage) et demande de juger Malo, qui désigne le BON
+          réactif limitant pour une mauvaise raison et annonce exactement le
+          DOUBLE du bon avancement. Il faut EXPLIQUER qu'on ne compare pas des
+          stocks mais des quotients $n_i/\text{coefficient}$ : produire une
+          explication, donc « communiquer ».
+          Le calcul reste nécessaire, et il est double : former les deux
+          quotients ($3{,}3$ et $0{,}80$), puis mener le contrôle par
+          l'absurde ($2\times1{,}6 = 3{,}2 > 1{,}6$, quantité finale négative)
+          qui écarte le distracteur 3.
+          La question porte désormais sur l'erreur 1 de cette fiche —
+          « désigner comme limitant le réactif le moins abondant » —
+          l'obstacle central du chapitre, d'autant plus tenace que la méthode
+          intuitive donne souvent la bonne réponse par accident.
 
      « Valider » est ABSENT de ce chapitre, et c'est un constat honnête, pas un
      oubli : aucune des cinq questions ne demande de juger une vraisemblance,
@@ -331,10 +346,14 @@ window.SPARK_PROF["physique-1re-reaction-avancement"] = {
      nombres sont de petites moles sans repère physique fort — contrairement
      aux chapitres de mécanique, où l'ordre de grandeur porte beaucoup. Un
      devoir maison gagnerait à ajouter une question du type « une quantité
-     finale peut-elle être négative ? », qui manque ici. « Communiquer » n'est
-     pas mobilisé : aucune question ne demande de produire une explication
-     rédigée. */
+     finale peut-elle être négative ? » — que la Q5 réécrite mobilise
+     désormais au titre du contrôle par l'absurde, sans en faire la tâche
+     principale. « Communiquer » est mobilisé une fois depuis cette réécriture,
+     sur le format « juger le raisonnement d'un élève » : le type
+     `multiple-choice` ne permet pas de rédiger, mais il permet de CHOISIR la
+     meilleure explication parmi quatre, ce qui est déjà une tâche de
+     communication scientifique. */
   competences: {
-    evaluation: ["analyser", "s'approprier", "réaliser", "analyser", "réaliser"]
+    evaluation: ["analyser", "s'approprier", "réaliser", "analyser", "communiquer"]
   }
 };

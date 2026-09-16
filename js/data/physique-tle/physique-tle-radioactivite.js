@@ -284,13 +284,40 @@ window.MODULES.push({
       duration: '30 min',
       questions: [
         {
-          statement: 'Un noyau de radium 226 ($A=226$, $Z=88$) subit une désintégration $\\alpha$. Calculer le nombre de masse $A\'$ du noyau fils.',
-          type: 'numeric',
-          answer: 222,
-          tolerance: 0.5,
-          unit: '',
+          /* Question « communiquer » (reecrite le 2026-09-17). Elle demandait
+             A' = A - 4 apres une desintegration alpha, soit une soustraction
+             a un chiffre ; la Q2 du meme devoir traite deja la nature des
+             desintegrations et la variation de Z, et les deux moules du
+             generateur repetent la conservation de Z sur les vingt-quatre
+             enonces tires.
+
+             Elle porte desormais sur l'erreur 4 de la fiche professeur,
+             « croire que la masse se conserve dans une reaction nucleaire » —
+             explicitement SANS renvoi parce qu'aucun des vingt-quatre enonces
+             tires ne porte sur une perte de masse : le troisieme attendu
+             officiel du chapitre n'est travaille par aucun exercice. La
+             difficulte est reelle, puisque les lois de Soddy conservent A et
+             Z, ce qui RENFORCE la conception fausse.
+
+             Le calcul reste necessaire pour ecarter les distracteurs : il
+             faut appliquer les lois de Soddy (A' = 226 - 4 = 222 et
+             Z' = 88 - 2 = 86) pour verifier que le bilan en NUCLEONS est
+             juste, et comprendre que c'est le bilan en KILOGRAMMES qui ne
+             l'est pas. Plus exigeante que la question qu'elle remplace, pas
+             moins. */
+          statement: 'Un noyau de radium 226 ($A = 226$, $Z = 88$) subit une désintégration $\\alpha$. Camille écrit le noyau fils, puis conclut : « les $226$ nucléons sont toujours là, répartis entre le noyau fils et la particule $\\alpha$ ; la masse totale est donc inchangée et cette désintégration ne libère aucune énergie. »<br/><br/>Quelle explication corrige le mieux son raisonnement ?',
+          type: 'multiple-choice',
+          options: [
+            'Son bilan de nucléons est faux : la particule $\\alpha$ emporte $4$ nucléons qui disparaissent, il ne reste donc que $222$ nucléons en tout.',
+            'Son bilan de nucléons est juste ($A\' = 226 - 4 = 222$ et $Z\' = 88 - 2 = 86$, plus la particule $\\alpha$), mais deux conservations différentes se jouent ici : le <strong>nombre</strong> de nucléons se conserve, leur <strong>masse</strong> totale non. L\'énergie de liaison des noyaux diffère, et la masse manquante est libérée sous forme d\'énergie selon $|\\Delta E| = |\\Delta m|c^2$.',
+            'Elle a raison : les lois de Soddy conservent $A$ et $Z$, donc rien ne se perd, et c\'est la définition même de la conservation de la masse.',
+            'La masse ne se conserve pas parce qu\'une partie de la matière est <strong>détruite</strong> pendant la désintégration.'
+          ],
+          answer: 1,
           points: 2,
-          correction: 'La désintégration $\\alpha$ émet un noyau d\'hélium ($A=4$) : $A\'=A-4=226-4=222$.'
+          correction: 'Le bilan de Camille est <strong>exact</strong> : les lois de Soddy donnent $A\' = 226 - 4 = 222$ et $Z\' = 88 - 2 = 86$, le radon $^{222}_{86}Rn$, plus la particule $\\alpha$. Les $226$ nucléons sont bien tous présents après la désintégration — c\'est ce qui écarte la proposition 1.<br/><br/>' +
+            'Mais $A$ compte des <strong>nucléons</strong>, pas des <strong>kilogrammes</strong>. Un nucléon lié dans le radium n\'a pas la même masse effective qu\'un nucléon lié dans le radon, parce que l\'énergie de liaison des deux noyaux diffère. La masse totale mesurée à la balance est donc plus faible après qu\'avant, et cette masse manquante est exactement l\'énergie libérée : $|\\Delta E| = |\\Delta m|c^2$.<br/><br/>' +
+            'La proposition 3 est la plus tentante, et l\'élève a de bonnes raisons d\'y croire : toute la chimie depuis la seconde repose sur la conservation de la masse. Elle n\'est pas fausse — c\'est une excellente <em>approximation</em>. Le facteur $c^2 \\approx 9\\times10^{16}$ explique pourquoi : une réaction chimique ordinaire perd une masse qu\'aucune balance ne peut mesurer. Quant à la proposition 4, elle se trompe de mot : rien n\'est <strong>détruit</strong>, la masse est une <strong>forme d\'énergie</strong> qui se convertit en une autre, exactement comme une énergie potentielle devient cinétique.'
         },
         {
           statement: 'Lors d\'une désintégration $\\beta^-$, la transformation qui a lieu dans le noyau est :',

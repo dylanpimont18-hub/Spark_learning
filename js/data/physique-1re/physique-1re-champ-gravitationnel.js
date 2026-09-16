@@ -265,13 +265,35 @@ window.MODULES.push({
           correction: '$g_{Mars} = G\\dfrac{M}{R^2} = 6{,}67\\times10^{-11}\\times\\dfrac{6{,}42\\times10^{23}}{(3{,}39\\times10^6)^2} \\approx 3{,}73$ m/s².'
         },
         {
-          statement: 'Sur la Lune, où $g_L \\approx 1{,}62$ m/s², calculer le poids $P$ d\'un objet de masse $m = 60$ kg (en N, arrondi au dixième).',
-          type: 'numeric',
-          answer: 97.2,
-          tolerance: 3,
-          unit: 'N',
+          /* Question « communiquer » (reecrite le 2026-09-17). Elle demandait
+             P = m*g sur la Lune, alors que la Q4 du meme devoir calcule deja
+             un g par g = GM/R² : la question ne faisait que remultiplier par
+             une masse, sans rien ajouter au raisonnement.
+
+             Elle porte desormais sur la confusion entre le CHAMP g et la
+             FORCE (le poids) — erreur 2 de la fiche professeur, « croire que
+             le champ de gravitation depend de la masse qui le subit », celle
+             qui conduit l'eleve a declarer l'exercice impossible « puisqu'on
+             ne donne pas la masse de l'objet ».
+
+             Le calcul reste necessaire pour ecarter les distracteurs : il
+             faut mener g = GM/R² jusqu'a 1,62 N/kg sur les donnees de la Lune
+             pour constater qu'aucune masse d'objet n'y figure, puis P = m*g
+             pour chacune des deux masses. Plus exigeante que la question
+             qu'elle remplace, pas moins. */
+          statement: 'La Lune est assimilée à une sphère de masse $M = 7{,}35\\times10^{22}$ kg et de rayon $R = 1{,}74\\times10^6$ m. Face à la question « calculer $g$ à la surface de la Lune », Nina répond : « impossible, on ne donne pas la masse de l\'objet posé dessus — et de toute façon une valise de $80$ kg y subirait un $g$ plus grand qu\'un caillou de $2$ kg. »<br/><br/>Quelle explication corrige le mieux son raisonnement ?',
+          type: 'multiple-choice',
+          options: [
+            'Elle a raison sur le principe : il faut choisir une masse de référence, et l\'usage est de prendre $m = 1$ kg, ce qui donne $g_{Lune} = 1{,}62$ N/kg.',
+            'Le <strong>champ</strong> $g = G\\dfrac{M}{R^2} = 1{,}62$ N/kg ne contient <strong>qu\'une seule masse</strong>, celle de l\'astre qui le CRÉE : il vaut $1{,}62$ N/kg pour la valise comme pour le caillou. C\'est le <strong>poids</strong> $P = mg$ qui dépend de l\'objet — $130$ N pour la valise, $3{,}2$ N pour le caillou.',
+            'La valise subit effectivement un champ plus intense, car la force gravitationnelle $F = G\\dfrac{Mm}{R^2}$ augmente bien avec $m$.',
+            'L\'énoncé est incomplet : sans la masse de l\'objet, on ne peut calculer ni $g$ ni le poids.'
+          ],
+          answer: 1,
           points: 2,
-          correction: '$P = m \\times g_L = 60 \\times 1{,}62 = 97{,}2$ N — un poids bien plus faible que sur Terre ($60\\times9{,}81\\approx588{,}6$ N), bien que la masse de l\'objet n\'ait pas changé.'
+          correction: 'Le calcul se mène sans aucune masse d\'objet : $g_{Lune} = G\\dfrac{M}{R^2} = 6{,}67\\times10^{-11}\\times\\dfrac{7{,}35\\times10^{22}}{(1{,}74\\times10^6)^2} \\approx 1{,}62$ N/kg. Le contrôle de vraisemblance est immédiat : $\\dfrac{9{,}81}{1{,}62} \\approx 6$, on retrouve bien le « six fois plus léger » de la Lune.<br/><br/>' +
+            'Il faut lire les deux formules et <strong>compter les masses</strong>. $g = G\\dfrac{M}{R^2}$ n\'en contient <strong>qu\'une</strong> : celle de l\'astre qui crée le champ. $P = mg$ en contient une seconde : celle de l\'objet qui le subit. Deux masses, deux rôles, jamais dans la même formule. Le champ est là <em>avant</em> qu\'on pose quoi que ce soit — comme la température d\'une pièce existe avant qu\'on y entre. Les poids, eux, diffèrent : $P_{valise} = 80\\times1{,}62 \\approx 130$ N et $P_{caillou} = 2\\times1{,}62 \\approx 3{,}2$ N.<br/><br/>' +
+            'La proposition 3 est la plus tentante, parce que sa formule est <strong>juste</strong> : la force $F = G\\dfrac{Mm}{R^2}$ augmente bien avec $m$. Mais une force n\'est pas un champ. Le contrôle d\'unités tranche : $g$ s\'exprime en <strong>newtons par kilogramme</strong>, c\'est-à-dire ce qu\'on obtient <em>par</em> kilogramme — donc une grandeur qui ne dépend pas du nombre de kilogrammes.'
         }
       ]
     }

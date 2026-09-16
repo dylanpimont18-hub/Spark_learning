@@ -250,8 +250,11 @@ window.SPARK_PROF["physique-1re-titrage"] = {
          conductimétrique — n'est travaillé par aucun exercice, et la
          question 4 de l'évaluation ne le travaille que déclarativement (« le
          volume équivalent est repéré : à l'intersection des deux segments »).
-         Pointer un exercice de calcul pour remédier à une erreur de lecture
-         graphique serait un renvoi faux. Le travail est à construire : une
+         La question 5, réécrite le 2026-09-17, le travaille enfin sur une
+         courbe décrite par ses deux repères concurrents, mais la règle
+         éditoriale du projet interdit de renvoyer vers l'évaluation notée :
+         on remédie avant d'évaluer. Pointer un exercice de calcul pour
+         remédier à une erreur de lecture graphique serait un renvoi faux. Le travail est à construire : une
          courbe sigma = f(V) à dix points, avec les deux droites à tracer à la
          règle, occupe utilement vingt minutes et n'existe nulle part dans le
          livre. */
@@ -323,10 +326,26 @@ window.SPARK_PROF["physique-1re-titrage"] = {
           la méthode telle que le cours l'énonce (rupture de pente), avec les
           distracteurs « $pH = 7$ » et « changement de couleur » :
           « s'approprier ».
-     Q5 — solution diluée $5$ fois, $C_{dil} = 0{,}04$ mol/L : calculer la
-          concentration mère. Il faut reconnaître qu'une dilution se REMONTE
-          par une multiplication, alors que le mot « dilué » suggère de
-          diviser. Le choix de l'opération est toute la question : « analyser ».
+     Q5 — RÉÉCRITE le 2026-09-17. L'ancien énoncé (solution diluée $5$ fois,
+          $C_{dil} = 0{,}04$ mol/L, remonter à la concentration mère) se
+          réduisait à une multiplication par le facteur de dilution, et
+          l'appareil de raisonnement qu'il mobilisait — reconnaître le sens de
+          l'opération sur la relation d'équivalence — est déjà celui de la Q1
+          et de la Q3 du même devoir. Trois questions numériques sur cinq
+          renversaient la même relation.
+          Le nouvel énoncé donne une courbe conductimétrique décrite par ses
+          deux repères concurrents (minimum à $11{,}0$ mL, intersection des
+          droites à $14{,}0$ mL) et demande d'EXPLIQUER pourquoi Inès se trompe
+          de repère et de combien elle fausse $C_A$ : produire une explication,
+          donc « communiquer ».
+          Le calcul reste nécessaire, et il est doublé : il faut appliquer
+          $C_A = C_B V_{eq}/V_A$ sur les DEUX volumes candidats ($0{,}0550$
+          contre $0{,}0700$ mol/L) pour mesurer ce que coûte le mauvais repère,
+          et écarter le distracteur 1 qui inverse la relation.
+          La question porte désormais sur l'erreur 3 de cette fiche —
+          « chercher l'équivalence au minimum de la courbe de conductivité » —
+          explicitement SANS renvoi parce qu'aucun des vingt-sept énoncés tirés
+          ne comporte de courbe ni de tableau de mesures.
 
      « Réaliser » est ABSENT, et c'est un constat honnête : aucune des cinq
      questions n'applique une relation dans le sens où le cours l'écrit — les
@@ -335,9 +354,13 @@ window.SPARK_PROF["physique-1re-titrage"] = {
      « Valider » est absent aussi : aucune question ne demande de juger une
      vraisemblance, alors que le chapitre s'y prêterait (une concentration
      négative, un V_eq aberrant). Un devoir maison gagnerait à l'ajouter.
-     « Communiquer » n'est pas mobilisé : aucune question ne demande de
-     produire une explication rédigée. */
+     « Communiquer » est mobilisé une fois depuis la réécriture de la Q5, sur
+     le format « juger le raisonnement d'un élève » : le type
+     `multiple-choice` ne permet pas de rédiger, mais il permet de CHOISIR la
+     meilleure explication parmi quatre, ce qui est déjà une tâche de
+     communication scientifique — et c'est la seule question du chapitre qui
+     travaille la lecture graphique. */
   competences: {
-    evaluation: ["analyser", "s'approprier", "analyser", "s'approprier", "analyser"]
+    evaluation: ["analyser", "s'approprier", "analyser", "s'approprier", "communiquer"]
   }
 };

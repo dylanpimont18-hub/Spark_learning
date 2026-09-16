@@ -325,20 +325,37 @@ window.SPARK_PROF["physique-2nde-solutions"] = {
           correctement les deux volumes — c'est exactement l'erreur 2 de cette
           fiche, et c'est un choix de méthode avant d'être un calcul :
           « analyser ».
-     Q4 — $n = 0{,}30$ mol, $V = 1{,}5$ L, calculer $c$. Relation donnée, sens
-          direct, une division, et même pas de conversion (le volume est déjà
-          en litres) : « réaliser ».
+     Q4 — RÉÉCRITE le 2026-09-17. L'ancien énoncé ($n = 0{,}30$ mol,
+          $V = 1{,}5$ L, calculer $c$) appliquait une relation donnée dans le
+          sens direct, sans même une conversion — le geste que la Q1
+          ($c_m = m/V$) et la Q3 (dilution) du même devoir mobilisent déjà, et
+          que les vingt-sept exercices du chapitre répètent : la question était
+          redondante, et elle étiquetait « réaliser » une troisième exécution.
+          Le nouvel énoncé demande de juger le protocole de Sarah, qui calcule
+          correctement $V = n/c = 1{,}5$ L puis ajoute $1{,}5$ L d'eau à son
+          soluté, et d'EXPLIQUER pourquoi le volume de la relation est celui de
+          la solution et non celui du solvant ajouté : produire une
+          explication, donc « communiquer ».
+          Le calcul reste nécessaire pour écarter le distracteur 1, qui divise
+          à l'envers ($0{,}30/0{,}20$ contre $0{,}20/0{,}30$).
+          La question porte désormais sur l'erreur 3 de cette fiche — « ajouter
+          le volume de solvant au lieu de compléter jusqu'au trait » — qui est
+          explicitement SANS renvoi parce que les vingt-sept énoncés tirés
+          emploient tous la formule « on complète jusqu'à un volume $V$ de
+          solution » et n'exposent donc jamais l'élève au choix.
      Q5 — quel instrument pour prélever avec précision ? La question porte sur
           le choix de la verrerie, donc sur le geste de laboratoire :
           « réaliser ». Elle ne peut l'évaluer que déclarativement — c'est la
           limite d'une évaluation écrite, et c'est pourquoi l'erreur 3 de cette
           fiche reste sans renvoi vers un exercice.
 
-     « Communiquer » n'est PAS mobilisé, et ce n'est pas un oubli : aucune des
-     cinq questions ne demande de produire une explication rédigée — les deux
-     types disponibles dans le corpus (`numeric` et `multiple-choice`) ne le
-     permettent pas. */
+     « Communiquer » est mobilisé une fois depuis la réécriture de la Q4, sur
+     le format « juger le raisonnement d'un élève » : le type
+     `multiple-choice` ne permet pas de rédiger, mais il permet de CHOISIR la
+     meilleure explication parmi quatre, ce qui est déjà une tâche de
+     communication scientifique. « Valider » reste absent : aucune question ne
+     demande de juger une vraisemblance. */
   competences: {
-    evaluation: ["réaliser", "s'approprier", "analyser", "réaliser", "réaliser"]
+    evaluation: ["réaliser", "s'approprier", "analyser", "communiquer", "réaliser"]
   }
 };

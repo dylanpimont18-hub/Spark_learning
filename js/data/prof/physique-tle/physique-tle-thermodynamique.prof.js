@@ -305,7 +305,9 @@ window.SPARK_PROF["physique-tle-thermodynamique"] = {
          limite signalée dans la `note`, et elle est sérieuse puisque le
          baccalauréat, lui, donne des énoncés en français. Le seul support du
          livre est la question 2 de l'évaluation (« un travail cédé est compté
-         comment ? »), mais la règle éditoriale du projet interdit de renvoyer
+         comment ? ») et, depuis le 2026-09-17, la question 3 réécrite — qui
+         décrit la situation en français et fait DÉDUIRE les deux signes —,
+         mais la règle éditoriale du projet interdit de renvoyer
          vers l'évaluation notée : on remédie avant d'évaluer. Le remède
          s'appuie donc sur le piège du cours — qui décrit exactement cette
          erreur — et sur un tableau de traduction à construire en classe. */
@@ -323,9 +325,27 @@ window.SPARK_PROF["physique-tle-thermodynamique"] = {
      Q2 — un travail cédé est compté comment ? Restitution de la convention
           récepteur, énoncée dans la définition D2 et dans le piège du cours :
           « s'approprier ». C'est l'erreur 4 de cette fiche.
-     Q3 — $W = 200$ J, $Q = -60$ J, calculer $\Delta U$. Addition algébrique
-          directe, les signes étant donnés : « réaliser ». C'est l'erreur 1 de
-          cette fiche.
+     Q3 — RÉÉCRITE le 2026-09-17. L'ancien énoncé ($W = 200$ J, $Q = -60$ J,
+          calculer $\Delta U$) DONNAIT les deux signes tout faits et ne
+          demandait qu'une addition ; la Q2 du même devoir énonce déjà la
+          convention récepteur et la Q5 l'applique au cas $Q = 0$. Trois
+          questions sur cinq portaient sur la même convention, dont une sans
+          aucune difficulté.
+          Le nouvel énoncé décrit la situation EN FRANÇAIS — un gaz qui
+          « fournit » $200$ J de travail et « reçoit » $60$ J de la flamme — et
+          demande de juger Léo, qui additionne les deux au motif que les deux
+          verbes lui paraissent positifs. Il faut EXPLIQUER que le signe se lit
+          dans le sens du transfert par rapport au système, jamais dans le
+          verbe : produire une explication, donc « communiquer ».
+          Le calcul reste nécessaire, et il porte sur les quatre combinaisons
+          de signes possibles : $-200 + 60 = -140$ J contre $+260$, $+140$ et
+          $-260$ J. Le distracteur 1 est le plus retors, car il tombe sur le
+          bon écart avec le signe inverse.
+          La question porte désormais sur l'erreur 4 de cette fiche — « décider
+          du signe d'après le sens du mot plutôt que d'après le système » —
+          explicitement SANS renvoi parce que les quarante-deux énoncés tirés
+          donnent TOUS les signes tout faits. La limite est sérieuse, puisque
+          le baccalauréat, lui, donne des énoncés en français.
      Q4 — que signifie « fonction d'état » ? Il faut juger quatre affirmations
           sur ce dont $\Delta U$ dépend et ne dépend pas, et écarter notamment
           « dépend du chemin suivi » — qui est vrai de $W$ et $Q$ pris
@@ -337,11 +357,16 @@ window.SPARK_PROF["physique-tle-thermodynamique"] = {
           C'est un raisonnement de cas particulier, pas une restitution :
           « analyser ».
 
-     « Communiquer » n'est pas mobilisé : aucune des cinq questions ne demande
-     de produire une explication rédigée. C'est particulièrement coûteux ici,
-     où le baccalauréat demande régulièrement de COMMENTER un bilan énergétique
-     — dire où l'énergie est passée, pas seulement calculer $\Delta U$. */
+     « Communiquer » est mobilisé une fois depuis la réécriture de la Q3, sur
+     le format « juger le raisonnement d'un élève » : le type
+     `multiple-choice` ne permet pas de rédiger, mais il permet de CHOISIR la
+     meilleure explication parmi quatre, ce qui est déjà une tâche de
+     communication scientifique — et c'est la seule question du chapitre à
+     faire DÉDUIRE les signes d'un énoncé en français, comme le fait le
+     baccalauréat. Reste hors de portée ce que celui-ci demande aussi :
+     COMMENTER un bilan énergétique en rédigeant, c'est-à-dire dire où
+     l'énergie est passée, ce qu'aucun des deux types du corpus ne permet. */
   competences: {
-    evaluation: ["réaliser", "s'approprier", "réaliser", "valider", "analyser"]
+    evaluation: ["réaliser", "s'approprier", "communiquer", "valider", "analyser"]
   }
 };

@@ -105,7 +105,9 @@ window.SPARK_PROF["physique-1re-champ-gravitationnel"] = {
         "la surface d'un astre. Trois absences à connaître avant de composer un devoir. Le " +
         "<strong>poids $P = mg$</strong> n'apparaît dans <strong>aucun</strong> exercice, alors " +
         "qu'il est le troisième attendu officiel : il n'est évalué que par la question 5 de " +
-        "l'évaluation. Le <strong>principe des actions réciproques</strong> n'apparaît lui non " +
+        "l'évaluation, et depuis sa réécriture du 2026-09-17 il n'y est plus qu'un calcul " +
+        "auxiliaire, au service de la distinction entre le champ et la force. Le " +
+        "<strong>principe des actions réciproques</strong> n'apparaît lui non " +
         "plus dans aucun énoncé (seule la question 2 de l'évaluation le porte). Et aucun " +
         "exercice ne demande de <strong>comparer</strong> deux situations ou de discuter une " +
         "variation de distance : la dépendance en $1/r^2$ est appliquée, jamais interrogée. Ces " +
@@ -284,18 +286,38 @@ window.SPARK_PROF["physique-1re-champ-gravitationnel"] = {
           « valider ».
      Q4 — $M$ et $R$ de Mars donnés, calculer $g$. Sens direct de
           $g = GM/R^2$ : « réaliser ».
-     Q5 — $g_L$ et $m$ donnés, calculer $P$. Application directe de $P = mg$,
-          la relation la plus simple du chapitre : « réaliser ».
+     Q5 — RÉÉCRITE le 2026-09-17. L'ancien énoncé ($g_L$ et $m$ donnés,
+          calculer $P$) appliquait $P = mg$, la relation la plus simple du
+          chapitre, juste après une Q4 qui calcule déjà un $g$ par
+          $g = GM/R^2$ : la question ne faisait que remultiplier par une masse,
+          et elle étiquetait « réaliser » une troisième exécution.
+          Le nouvel énoncé donne $M$ et $R$ de la Lune, et une élève qui
+          déclare l'exercice impossible « puisqu'on ne donne pas la masse de
+          l'objet ». Il faut EXPLIQUER que $g = GM/R^2$ ne contient qu'une
+          masse, celle de l'astre qui CRÉE le champ, tandis que $P = mg$ en
+          contient une seconde, celle de l'objet qui le SUBIT : produire une
+          explication, donc « communiquer ».
+          Le calcul reste nécessaire, et il est double : il faut mener
+          $g_{Lune} = 1{,}62$ N/kg sur les données fournies pour constater
+          qu'aucune masse d'objet n'y intervient, puis $P = mg$ sur les deux
+          masses ($130$ N et $3{,}2$ N) pour voir ce qui, lui, dépend bien de
+          l'objet. Le distracteur 3 est le plus retors : sa formule
+          $F = GMm/R^2$ est JUSTE, mais elle décrit une force, pas un champ.
+          La question porte désormais sur l'erreur 2 de cette fiche — « croire
+          que le champ de gravitation dépend de la masse qui le subit ».
 
-     « Réaliser » est donc évalué TROIS fois, ce qui est le reflet fidèle d'un
-     chapitre dont les deux moules d'exercice sont deux applications directes
-     de formule. Ce déséquilibre est un CONSTAT, pas un choix : le corriger en
+     « Réaliser » était évalué TROIS fois avant la réécriture de la Q5, ce qui
+     reflétait fidèlement un chapitre dont les deux moules d'exercice sont deux
+     applications directes de formule ; il l'est désormais deux fois, et le
+     déséquilibre restant est un CONSTAT, pas un choix : corriger davantage en
      étiquetant Q4 « analyser » serait malhonnête, la relation y étant employée
-     dans le sens où le cours l'écrit. Il indique en revanche ce qu'un devoir
-     maison devrait ajouter : une question de vraisemblance et une question de
-     comparaison. « Communiquer » n'est pas mobilisé : aucune des cinq
-     questions ne demande de produire une explication rédigée. */
+     dans le sens où le cours l'écrit. « Communiquer » est mobilisé une fois,
+     sur le format « juger le raisonnement d'un élève » : le type
+     `multiple-choice` ne permet pas de rédiger, mais il permet de CHOISIR la
+     meilleure explication parmi quatre, ce qui est déjà une tâche de
+     communication scientifique. Les cinq compétences du référentiel sont
+     désormais toutes représentées dans ce devoir. */
   competences: {
-    evaluation: ["réaliser", "s'approprier", "valider", "réaliser", "réaliser"]
+    evaluation: ["réaliser", "s'approprier", "valider", "réaliser", "communiquer"]
   }
 };

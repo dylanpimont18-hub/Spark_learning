@@ -325,10 +325,26 @@ window.SPARK_PROF["physique-tle-radioactivite"] = {
   /* Une compétence du référentiel PHYSIQUE par question, dans l'ordre.
      Cinq questions, donc cinq compétences. Étiquetage honnête.
 
-     Q1 — radium 226 en désintégration $\alpha$, calculer $A'$. La conservation
-          du nombre de masse est donnée dans la définition D3, et la particule
-          $\alpha$ est identifiée dans D2 comme un noyau d'hélium ($A = 4$) :
-          il reste à soustraire. Exécution : « réaliser ».
+     Q1 — RÉÉCRITE le 2026-09-17. L'ancien énoncé (radium 226 en
+          désintégration $\alpha$, calculer $A'$) se réduisait à une
+          soustraction à un chiffre ($226 - 4$) ; la Q2 du même devoir traite
+          déjà la nature des désintégrations et la variation de $Z$, et les
+          deux moules du générateur répètent la conservation de $Z$ sur les
+          vingt-quatre énoncés tirés. La question était redondante.
+          Le nouvel énoncé conserve intégralement le bilan de Soddy
+          ($A' = 222$, $Z' = 86$) mais l'enveloppe d'une conclusion fausse :
+          Camille en déduit que la masse est inchangée et qu'aucune énergie
+          n'est libérée. Il faut EXPLIQUER que le NOMBRE de nucléons se
+          conserve alors que leur MASSE totale non : produire une explication,
+          donc « communiquer ».
+          Le calcul reste nécessaire pour écarter le distracteur 1, qui fait
+          disparaître les quatre nucléons de la particule $\alpha$ du bilan.
+          La question porte désormais sur l'erreur 4 de cette fiche — « croire
+          que la masse se conserve dans une réaction nucléaire » —
+          explicitement SANS renvoi parce qu'aucun des vingt-quatre énoncés
+          tirés ne porte sur une perte de masse. La difficulté est réelle,
+          puisque les lois de Soddy conservent $A$ et $Z$, ce qui RENFORCE la
+          conception fausse.
      Q2 — que se passe-t-il dans le noyau lors d'une désintégration $\beta^-$ ?
           Restitution de la définition D2, avec la transformation inverse
           (proton en neutron) en distracteur — exactement l'erreur 2 de cette
@@ -349,15 +365,18 @@ window.SPARK_PROF["physique-tle-radioactivite"] = {
           apparition de la relation d'Einstein dans tout le chapitre, exercices
           compris — voir la `note`.
 
-     « Valider » et « communiquer » ne sont pas mobilisés, et c'est une perte
-     réelle sur ce chapitre. « Valider » aurait naturellement porté sur la
-     non-linéarité de la décroissance (« après deux demi-vies, il ne reste
-     plus rien : vrai ou faux ? »), qui est l'erreur 1 de cette fiche et le
-     piège du cours — aucune question ne la met en jeu sous forme de jugement.
-     Et aucune question ne demande d'explication rédigée, alors que le premier
-     attendu officiel — écrire une équation de réaction nucléaire — appelle
-     précisément une production écrite. On ne maquille pas ces absences. */
+     « Valider » reste absent, et c'est une perte réelle sur ce chapitre : il
+     aurait naturellement porté sur la non-linéarité de la décroissance
+     (« après deux demi-vies, il ne reste plus rien : vrai ou faux ? »), qui
+     est l'erreur 1 de cette fiche et le piège du cours — aucune question ne la
+     met en jeu sous forme de jugement. On ne maquille pas cette absence.
+     « Communiquer » est en revanche mobilisé depuis la réécriture de la Q1,
+     sur le format « juger le raisonnement d'un élève » : le type
+     `multiple-choice` ne permet pas de rédiger, mais il permet de CHOISIR la
+     meilleure explication parmi quatre, ce qui est déjà une tâche de
+     communication scientifique — et c'est la seule question du chapitre à
+     confronter les deux conservations. */
   competences: {
-    evaluation: ["réaliser", "s'approprier", "analyser", "s'approprier", "réaliser"]
+    evaluation: ["communiquer", "s'approprier", "analyser", "s'approprier", "réaliser"]
   }
 };

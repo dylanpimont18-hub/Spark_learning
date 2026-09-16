@@ -253,13 +253,34 @@ window.MODULES.push({
           correction: 'Le vecteur vitesse est toujours <strong>tangent à la trajectoire</strong> au point considéré, orienté dans le sens du mouvement : c\'est une propriété générale, valable pour une trajectoire rectiligne, circulaire ou quelconque.'
         },
         {
-          statement: 'Convertir $v = 72$ km/h en m/s.',
-          type: 'numeric',
-          answer: 20,
-          tolerance: 0.5,
-          unit: 'm/s',
+          /* Question « communiquer » (reecrite le 2026-09-17). Elle demandait
+             de convertir 72 km/h en m/s, geste que la Q1 (vitesse moyenne) et
+             la Q4 (vitesse instantanee) du meme devoir mobilisent deja, et que
+             les trente exercices du chapitre repetent.
+
+             Elle porte desormais sur la RELATIVITE DU MOUVEMENT — l'erreur 3
+             de la fiche professeur, celle qui n'a AUCUN support dans le
+             tirage (les trente enonces donnent tous le referentiel
+             implicitement) et qui est pourtant la definition D1 du cours.
+
+             Le calcul reste necessaire pour ecarter les distracteurs : il faut
+             convertir les 72 km/h en 20 m/s pour verifier que le chiffre
+             avance par l'eleve fictif est juste, et comprendre que c'est son
+             RAISONNEMENT, non son resultat, qui est en defaut. Plus exigeante
+             que la question qu'elle remplace, pas moins. */
+          statement: 'Un train roule à $v = 72$ km/h par rapport au sol. Léa, assise dans ce train, affirme : « je suis immobile ». Son voisin lui répond : « c\'est faux, tu vas à $20$ m/s comme le train ».<br/><br/>Quelle explication rend le mieux compte de la situation ?',
+          type: 'multiple-choice',
+          options: [
+            'Léa se trompe : un passager assis dans un train qui roule est nécessairement en mouvement.',
+            'Les deux ont raison, mais dans des <strong>référentiels différents</strong> : Léa est immobile dans le référentiel du train, et elle se déplace à $20$ m/s dans le référentiel du sol. Un mouvement ne se décrit jamais sans préciser par rapport à quoi.',
+            'Le voisin se trompe : $72$ km/h ne font pas $20$ m/s, mais $72 \\times 3{,}6 = 259{,}2$ m/s.',
+            'La question n\'a pas de sens : un même objet ne peut pas être à la fois immobile et en mouvement.'
+          ],
+          answer: 1,
           points: 2,
-          correction: '$v = \\dfrac{72}{3{,}6} = 20$ m/s.'
+          correction: 'La conversion du voisin est <strong>exacte</strong> : $v = \\dfrac{72}{3{,}6} = 20$ m/s (on divise par $3{,}6$ pour passer des km/h aux m/s, jamais on ne multiplie — c\'est ce qui écarte la proposition 3).<br/><br/>' +
+            'Mais l\'essentiel est ailleurs. Léa et son voisin ne parlent pas du même <strong>référentiel</strong> : dans celui du train, Léa ne change pas de position, elle est donc bien immobile ; dans celui du sol, elle parcourt $20$ mètres chaque seconde. Les deux descriptions sont vraies <em>en même temps</em>, et elles ne se contredisent pas.<br/><br/>' +
+            'C\'est tout le sens de la définition du cours : <strong>le mouvement d\'un corps n\'existe que relativement à un référentiel</strong>. Dire « cet objet bouge » sans préciser par rapport à quoi n\'est pas une phrase de physique — et c\'est pourquoi la proposition 4, qui y voit une contradiction, passe à côté.'
         },
         {
           statement: 'Sur une chronophotographie prise toutes les $\\tau = 0{,}1$ s, un point occupe la position $x_{i-1} = 3{,}0$ m puis $x_{i+1} = 5{,}4$ m. Calculer la vitesse instantanée approchée $v_i$ (en m/s).',

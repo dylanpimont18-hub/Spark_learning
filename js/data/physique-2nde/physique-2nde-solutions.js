@@ -241,13 +241,35 @@ window.MODULES.push({
           correction: '$C_f = \\dfrac{C_m \\times V_{prélevé}}{V_{fille}} = \\dfrac{0{,}50 \\times 50}{250} = 0{,}10$ mol/L.'
         },
         {
-          statement: 'Une quantité de matière $n = 0{,}30$ mol de soluté est dissoute dans $V = 1{,}5$ L de solution. Calculer la concentration molaire $c$ (en mol/L).',
-          type: 'numeric',
-          answer: 0.2,
-          tolerance: 0.01,
-          unit: 'mol/L',
+          /* Question « communiquer » (reecrite le 2026-09-17). Elle demandait
+             d'appliquer c = n/V sur des nombres immediats, geste que la Q1
+             (c_m = m/V) et la Q3 (dilution) du meme devoir mobilisent deja
+             deux fois, et que les vingt-sept exercices du chapitre repetent.
+
+             Elle porte desormais sur le VOLUME DE LA SOLUTION contre le
+             volume de solvant ajoute — l'erreur 3 de la fiche professeur,
+             celle qui est explicitement SANS renvoi parce que les vingt-sept
+             enonces emploient tous la formule « on complete jusqu'au trait »
+             et n'exposent donc jamais l'eleve au choix.
+
+             Le calcul reste necessaire pour ecarter les distracteurs : il
+             faut evaluer 0,30/1,5 = 0,20 mol/L pour verifier que le chiffre
+             de l'eleve fictif est le bon, et comprendre que c'est son
+             PROTOCOLE, non son arithmetique, qui est en defaut. Plus
+             exigeante que la question qu'elle remplace, pas moins. */
+          statement: 'Sarah doit préparer une solution de concentration $c = 0{,}20$ mol/L à partir de $n = 0{,}30$ mol de soluté. Elle écrit : « il me faut $V = \\dfrac{n}{c} = 1{,}5$ L, je verse donc mon soluté dans un bécher, j\'y ajoute $1{,}5$ L d\'eau mesurés à l\'éprouvette, et c\'est prêt. »<br/><br/>Quelle explication corrige le mieux son protocole ?',
+          type: 'multiple-choice',
+          options: [
+            'Son calcul est faux : $\\dfrac{0{,}30}{0{,}20}$ vaut $0{,}15$ L, et non $1{,}5$ L.',
+            'Son calcul est juste, mais $V$ désigne le volume de la <strong>solution finale</strong>, soluté compris, et non le volume d\'eau ajouté : il faut verser le soluté dans une <strong>fiole jaugée de $1{,}5$ L</strong> et compléter <strong>jusqu\'au trait de jauge</strong>.',
+            'Son protocole est correct : ajouter $1{,}5$ L d\'eau revient exactement à obtenir $1{,}5$ L de solution, car le soluté se dissout sans occuper de place.',
+            'Il faut ajouter un peu plus de $1{,}5$ L d\'eau, car une partie du solvant s\'évapore pendant la dissolution.'
+          ],
+          answer: 1,
           points: 2,
-          correction: '$c = \\dfrac{n}{V} = \\dfrac{0{,}30}{1{,}5} = 0{,}20$ mol/L.'
+          correction: 'Le calcul de Sarah est <strong>exact</strong> : $V = \\dfrac{n}{c} = \\dfrac{0{,}30}{0{,}20} = 1{,}5$ L (c\'est ce qui écarte la proposition 1, où la division a été faite à l\'envers).<br/><br/>' +
+            'Le défaut est ailleurs, et il est de <strong>protocole</strong>. Dans $c = \\dfrac{n}{V}$, la lettre $V$ désigne le volume de la <strong>solution</strong> — celui qu\'on lit au trait de jauge de la fiole — et non le volume de solvant qu\'on a versé. Le soluté occupe lui aussi de la place : en ajoutant $1{,}5$ L d\'eau à son soluté, Sarah obtient un peu <em>plus</em> de $1{,}5$ L de solution, donc une concentration un peu <em>plus faible</em> que celle qu\'elle visait.<br/><br/>' +
+            'La proposition 3 est la plus tentante, parce qu\'elle est presque vraie : pour une pincée de sel, la différence est invisible. Mais dès que le soluté est en quantité réelle — $0{,}30$ mol, ce n\'est pas rien — elle devient mesurable. C\'est tout l\'intérêt de la <strong>fiole jaugée</strong>, qui ne porte qu\'un seul trait : elle mesure un volume total de solution, jamais un volume d\'eau ajouté.'
         },
         {
           statement: 'Pour prélever avec précision un volume donné de solution mère lors d\'une dilution, on utilise :',

@@ -279,8 +279,10 @@ window.SPARK_PROF["physique-tle-satellites"] = {
          ne mentionne Kepler, aucun ne demande de rapport. La troisième loi de
          Kepler — deuxième attendu officiel du chapitre — n'est donc travaillée
          nulle part dans les exercices, alors qu'elle figure dans les formules
-         du cours. Le seul support du livre est la question 5 de l'évaluation
-         (r1 = 8 000 km, T1 = 2 h, r2 = 32 000 km), mais la règle éditoriale du
+         du cours. Les seuls supports du livre sont les questions 3 et 5 de
+         l'évaluation (la 3 réécrite le 2026-09-17 : r2/r1 = 3 et un
+         raisonnement à juger ; la 5 : r1 = 8 000 km, T1 = 2 h,
+         r2 = 32 000 km), mais la règle éditoriale du
          projet interdit de renvoyer vers l'évaluation notée : on remédie avant
          d'évaluer. C'est la limite signalée dans la `note`, et elle appelle un
          exercice écrit par l'enseignant. */
@@ -298,9 +300,28 @@ window.SPARK_PROF["physique-tle-satellites"] = {
      Q2 — la force de gravitation joue le rôle de quelle force ? Restitution de
           la propriété centrale du cours, avec « force centrifuge » en
           distracteur classique : « s'approprier ».
-     Q3 — $r = 8{,}0\times10^6$ m, calculer $T$ en minutes. Même structure que
-          Q1, avec la relation $T = 2\pi\sqrt{r^3/GM}$ donnée dans le cours et
-          une conversion secondes -> minutes en fin de calcul : « réaliser ».
+     Q3 — RÉÉCRITE le 2026-09-17. L'ancien énoncé ($r = 8{,}0\times10^6$ m,
+          calculer $T$ en minutes) avait exactement la structure de la Q1 —
+          une formule du cours appliquée à un satellite unique dont $r$ est
+          donné — et la Q5 traite déjà les périodes par les rapports de
+          Kepler : trois questions sur cinq appliquaient la même relation au
+          même satellite.
+          Le nouvel énoncé met DEUX orbites en relation et demande de juger
+          Rayan, qui annonce une période trois fois plus grande pour un rayon
+          trois fois plus grand. Il faut EXPLIQUER que $T^2/r^3$ constant n'est
+          pas une proportionnalité : produire une explication, donc
+          « communiquer ».
+          Le calcul reste nécessaire : cuber le rapport des rayons, en prendre
+          la racine ($3^{1{,}5} \approx 5{,}2$, soit $T_2 \approx 10{,}4$ h) et
+          encadrer le résultat entre les deux erreurs classiques — $6$ h
+          (proportionnalité) et $18$ h (distracteur 1, qui confond le carré et
+          la puissance $3/2$). Le rapport choisi est $3$, et non $4$ comme en
+          Q5, pour ne pas dupliquer la dernière question du devoir.
+          La question porte désormais sur l'erreur 4 de cette fiche —
+          « appliquer la troisième loi de Kepler comme une proportionnalité
+          simple » — explicitement SANS renvoi parce que les trente énoncés
+          tirés donnent tous une altitude unique et ne mettent jamais deux
+          orbites en relation.
      Q4 — de quoi dépend la vitesse orbitale ? Il faut juger quatre
           affirmations sur ce qui intervient et ce qui n'intervient pas, ce qui
           est un contrôle de cohérence sur la formule, pas une restitution :
@@ -308,14 +329,19 @@ window.SPARK_PROF["physique-tle-satellites"] = {
      Q5 — $r_1$, $T_1$, $r_2$ donnés, trouver $T_2$ par Kepler. La relation
           n'est pas utilisable telle quelle : il faut la mettre en rapport et
           manipuler un exposant $3/2$, ce qui est un choix de méthode —
-          « analyser ». C'est l'erreur 4 de cette fiche, et la seule question
-          du livre à travailler Kepler.
+          « analyser ». C'est l'erreur 4 de cette fiche, qu'elle partage
+          désormais avec la Q3 réécrite — les deux seules questions du livre à
+          travailler Kepler, les exercices n'en proposant aucune.
 
-     « Communiquer » n'est pas mobilisé : aucune des cinq questions ne demande
-     de produire une explication rédigée. C'est particulièrement coûteux sur ce
-     chapitre, où justifier À L'ÉCRIT que la masse du satellite n'intervient pas
-     est un attendu récurrent du baccalauréat. */
+     « Communiquer » est mobilisé une fois depuis la réécriture de la Q3, sur
+     le format « juger le raisonnement d'un élève » : le type
+     `multiple-choice` ne permet pas de rédiger, mais il permet de CHOISIR la
+     meilleure explication parmi quatre, ce qui est déjà une tâche de
+     communication scientifique. Reste un manque, à combler en devoir maison :
+     justifier À L'ÉCRIT que la masse du satellite n'intervient pas est un
+     attendu récurrent du baccalauréat, et la Q4 ne le fait que sous forme de
+     jugement. */
   competences: {
-    evaluation: ["réaliser", "s'approprier", "réaliser", "valider", "analyser"]
+    evaluation: ["réaliser", "s'approprier", "communiquer", "valider", "analyser"]
   }
 };
