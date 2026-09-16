@@ -367,7 +367,7 @@ Graine : `20260816` · 91 pages · gouttière 9.5 mm · dos 5.4 mm · dernière 
 
 ## lycee-physique — Physique-Chimie, Lycée   [32 / 32]
 
-Graine : `20260816` · 323 pages · gouttière 15.9 mm · dos 19.3 mm · dernière compilation 2026-08-28
+Graine : `20260816` · 429 pages · gouttière 15.9 mm · dos 25.6 mm · dernière compilation 2026-09-16
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -406,7 +406,7 @@ Graine : `20260816` · 323 pages · gouttière 15.9 mm · dos 19.3 mm · derniè
 
 ## lycee-physique-2nde — Physique-Chimie, Seconde   [10 / 10]
 
-Graine : `20260816` · 103 pages · gouttière 9.5 mm · dos 6.1 mm · dernière compilation 2026-08-28
+Graine : `20260816` · 132 pages · gouttière 9.5 mm · dos 7.9 mm · dernière compilation 2026-09-16
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -423,7 +423,7 @@ Graine : `20260816` · 103 pages · gouttière 9.5 mm · dos 6.1 mm · dernière
 
 ## lycee-physique-1re — Physique-Chimie, Première   [11 / 11]
 
-Graine : `20260816` · 121 pages · gouttière 9.5 mm · dos 7.2 mm · dernière compilation 2026-08-28
+Graine : `20260816` · 151 pages · gouttière 12.7 mm · dos 9 mm · dernière compilation 2026-09-16
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -441,7 +441,7 @@ Graine : `20260816` · 121 pages · gouttière 9.5 mm · dos 7.2 mm · dernière
 
 ## lycee-physique-tle — Physique-Chimie, Terminale   [11 / 11]
 
-Graine : `20260816` · 123 pages · gouttière 9.5 mm · dos 7.3 mm · dernière compilation 2026-08-28
+Graine : `20260816` · 157 pages · gouttière 12.7 mm · dos 9.4 mm · dernière compilation 2026-09-16
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
