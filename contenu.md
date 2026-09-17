@@ -124,7 +124,7 @@ Permet au tuteur d'envoyer un lien à un futur élève pour évaluer son niveau 
 | 3e/3e-stats-probas.js | Statistiques et probabilités |
 | 3e/3e-algorithmique.js | Algorithmique |
 | 3e/index.js | Manifest d'ordre de chargement |
-| **bts-prep/** | Prérequis BTS Scientifique — **TERMINÉ** (14 modules remise à niveau) |
+| **bts-prep/** | Prérequis BTS Scientifique — **TERMINÉ** (14 modules remise à niveau) ; **fiches professeur 14/14** (`js/data/prof/bts-prep/`) |
 | bts-prep/bts-prep-calcul-litteral.js | Calcul littéral — Isolation de l'inconnue |
 | bts-prep/bts-prep-equations.js | Équations 1er/2nd degré, systèmes 2×2 |
 | bts-prep/bts-prep-proportionnalite.js | Proportionnalité, règle de trois, rendement |
@@ -140,7 +140,7 @@ Permet au tuteur d'envoyer un lien à un futur élève pour évaluer son niveau 
 | bts-prep/bts-prep-graphiques.js | Interpolation linéaire, pente, extrapolation, abaques |
 | bts-prep/bts-prep-donnees-techniques.js | Catalogues Grundfos/Daikin/Schneider, NPSH, COP |
 | bts-prep/index.js | Manifest d'ordre de chargement |
-| **bts/** | Contenus BTS (Maths) — **refactoring TERMINÉ** (13 sous-modules) |
+| **bts/** | Contenus BTS (Maths) — **refactoring TERMINÉ** (13 sous-modules) ; **fiches professeur 13/13** (`js/data/prof/bts/`) |
 | bts/complexes.js | Nombres Complexes (impédances, régimes AC) |
 | bts/eq-diff-2.js | Équations Différentielles 2nd ordre |
 | bts/statistiques.js | Statistiques descriptives |

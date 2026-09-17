@@ -267,7 +267,7 @@ _Jamais compilé._
 
 ## bts-maths — Mathématiques, BTS   [27 / 27]
 
-Graine : `20260816` · 335 pages · gouttière 15.9 mm · dos 20 mm · dernière compilation 2026-08-28
+Graine : `20260816` · 418 pages · gouttière 15.9 mm · dos 24.9 mm · dernière compilation 2026-09-17
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
@@ -301,7 +301,7 @@ Graine : `20260816` · 335 pages · gouttière 15.9 mm · dos 20 mm · dernière
 
 ## bts-maths-prep — Mathématiques, Remise à niveau   [14 / 14]
 
-Graine : `20260816` · 219 pages · gouttière 12.7 mm · dos 13.1 mm · dernière compilation 2026-08-28
+Graine : `20260816` · 256 pages · gouttière 12.7 mm · dos 15.3 mm · dernière compilation 2026-09-17
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
