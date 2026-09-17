@@ -8,10 +8,24 @@
 ## Le prompt
 
 Tu vas écrire les **27 fiches professeur du BTS mathématiques**, pour que
-`bts-maths` (13 chapitres) et `bts-maths-prep` (14 chapitres) puissent être
-compilés en édition professeur v2 — comme le sont déjà les quatre niveaux du
-collège maths, les trois du lycée maths, les deux du collège physique-chimie
-et les trois du lycée physique-chimie.
+`bts-maths` et `bts-maths-prep` puissent être compilés en édition professeur
+v2 — comme le sont déjà les quatre niveaux du collège maths, les trois du
+lycée maths, les deux du collège physique-chimie et les trois du lycée
+physique-chimie.
+
+**Comprends d'abord la structure des deux ouvrages, elle n'est pas
+symétrique** (relevé dans `build.js`, lignes 116-121) :
+
+| ouvrage | dossiers | chapitres |
+|---|---|---|
+| `bts-maths-prep` | `bts-prep` | **14** |
+| `bts-maths` | `bts-prep` **puis** `bts` | **27** (14 + 13) |
+
+`bts-maths` est donc un ouvrage **à deux niveaux**, exactement comme
+`lycee-physique` l'était : il REPREND les quatorze chapitres de la remise à
+niveau, puis enchaîne les treize du programme BTS. Les 27 fiches à écrire se
+répartissent en **14 dans `bts-prep` + 13 dans `bts`** — et les quatorze
+premières servent AUX DEUX ouvrages. Il n'y a pas 41 fiches à écrire.
 
 Invoque d'abord le skill `manuels-spark`.
 
@@ -102,29 +116,22 @@ est retenu ou écarté, et *contre quel tirage réel* un renvoi a été vérifi�
 ### L'ordre des chapitres et les graines, à ne pas deviner
 
 L'ordre vient de `js/loader.js`, **pas de l'ordre alphabétique**. La graine du
-tirage est `20260816 + rang`, où `rang` est l'index 0-based dans l'ouvrage.
-Les deux ouvrages sont MONO-DOSSIER : rang dans l'ouvrage = rang dans le
-dossier. Relevé et **mesuré** le 2026-09-17 :
+tirage est `20260816 + rang`, où `rang` est l'index 0-based **dans l'ouvrage
+compilé**, et non dans le dossier.
 
-**`bts-maths` (13 chapitres)** — noter les trois `id` sans préfixe
+**ATTENTION — le même chapitre n'a PAS la même graine dans les deux
+ouvrages.** Dans `bts-maths-prep`, `bts-prep-logarithme` est au rang 6
+(graine +6) ; dans `bts-maths`, il est au même rang 6, parce que `bts-prep`
+ouvre les deux ouvrages. En revanche les treize chapitres de `bts/` n'existent
+QUE dans `bts-maths`, où ils commencent au rang 14. C'est la même propriété que
+`lycee-physique` : **cale tes renvois sur l'ouvrage où le chapitre est
+imprimé**, et pour les quatorze chapitres communs, les deux ouvrages
+coïncident — heureuse conséquence du fait que `bts-prep` vient en premier dans
+les deux.
 
-| ch. | `id` du module | graine | tirés | banque |
-|---|---|---|---|---|
-| 1 | **`complexes`** | +0 | 21 | 9 |
-| 2 | **`eq-diff-2`** | +1 | 21 | 9 |
-| 3 | **`statistiques`** | +2 | 18 | 6 |
-| 4 | `bts-loi-normale` | +3 | 18 | 6 |
-| 5 | `bts-fonctions-reelles` | +4 | 21 | 9 |
-| 6 | `bts-derivation-appliquee` | +5 | 21 | 9 |
-| 7 | `bts-integrales-appliquees` | +6 | 18 | 6 |
-| 8 | `bts-stats-deux-variables` | +7 | 18 | 6 |
-| 9 | `bts-probas-discretes` | +8 | 18 | 6 |
-| 10 | `bts-suites-appliquees` | +9 | 18 | 6 |
-| 11 | `bts-matrices` | +10 | 18 | 6 |
-| 12 | `bts-fourier` | +11 | 36 | 24 |
-| 13 | `bts-laplace` | +12 | 18 | 6 |
+Relevé et **mesuré** le 2026-09-17 :
 
-**`bts-maths-prep` (14 chapitres)**
+**Chapitres 1 à 14 — dossier `bts-prep`** (mêmes graines dans les DEUX ouvrages)
 
 | ch. | `id` du module | graine | tirés | banque |
 |---|---|---|---|---|
@@ -142,6 +149,31 @@ dossier. Relevé et **mesuré** le 2026-09-17 :
 | 12 | `bts-prep-equations-transf` | +11 | 42 | 30 |
 | 13 | `bts-prep-graphiques` | +12 | 42 | 30 |
 | 14 | `bts-prep-donnees-techniques` | +13 | 42 | 30 |
+
+**Chapitres 15 à 27 — dossier `bts`** (uniquement dans `bts-maths`) — noter les
+trois `id` sans préfixe
+
+| ch. | `id` du module | graine | tirés | banque |
+|---|---|---|---|---|
+| 15 | **`complexes`** | +14 | 21 | 9 |
+| 16 | **`eq-diff-2`** | +15 | 21 | 9 |
+| 17 | **`statistiques`** | +16 | 18 | 6 |
+| 18 | `bts-loi-normale` | +17 | 18 | 6 |
+| 19 | `bts-fonctions-reelles` | +18 | 21 | 9 |
+| 20 | `bts-derivation-appliquee` | +19 | 21 | 9 |
+| 21 | `bts-integrales-appliquees` | +20 | 18 | 6 |
+| 22 | `bts-stats-deux-variables` | +21 | 18 | 6 |
+| 23 | `bts-probas-discretes` | +22 | 18 | 6 |
+| 24 | `bts-suites-appliquees` | +23 | 18 | 6 |
+| 25 | `bts-matrices` | +24 | 18 | 6 |
+| 26 | `bts-fourier` | +25 | 36 | 24 |
+| 27 | `bts-laplace` | +26 | 18 | 6 |
+
+**Rappel qui découle de la structure** : `rangConseille` se compte PAR DOSSIER
+(1..14 pour `bts-prep`, 1..13 pour `bts`), et `prerequis` ne vise qu'un
+chapitre du **même dossier** — c'est ce que fait `indexerParNiveau()` dans
+`prof.js`. Un chapitre de `bts` qui s'appuie sur un chapitre de `bts-prep` ne
+peut donc pas le déclarer : ça va dans la `note`.
 
 **Bonne nouvelle que ces chiffres annoncent** : les générateurs de maths sont
 nettement plus riches que ceux de physique. `bts-maths-prep` sature le plafond
@@ -205,11 +237,15 @@ physique, `1re-lewis` ne tirait que **7** énoncés et n'avait aucune banque :
 `validerProf` refusait tout supplément. Les premiers relevés sur `bts-maths`
 donnent ~21 tirages par chapitre, donc ~9 en banque, mais **mesure-le**.
 
-**4. La question de la répartition des compétences va se reposer.** Sur les 160
-questions du lycée physique, toutes `numeric` ou `multiple-choice`, un
-étiquetage honnête donnait `communiquer` **0 %**. Le premier relevé sur
-`bts-maths` montre le même profil (`numeric` / `multiple-choice` alternés, 5
-questions par chapitre). Deux issues, et **c'est à moi de trancher, pas à toi** :
+**4. La question de la répartition des compétences va se reposer, et en PIRE.**
+Sur les 160 questions du lycée physique, toutes `numeric` ou
+`multiple-choice`, un étiquetage honnête donnait `communiquer` **0 %**. Le
+relevé du 2026-09-17 sur les 130 questions du BTS montre un profil **plus
+déséquilibré encore** : **89 `numeric` contre 41 `multiple-choice`**, là où la
+physique était à 79/81. Autrement dit, deux questions sur trois demandent de
+calculer un nombre. Attends-toi donc à un `calculer` très au-dessus du plafond
+de 35 % et à un `communiquer` nul, avant toute correction. Deux issues, et
+**c'est à moi de trancher, pas à toi** :
   - **soit** tu livres l'étiquetage honnête et tu écris noir sur blanc dans
     `CODEBASE_MAP.md` que `communiquer` est absent, avec la raison ;
   - **soit** tu réécris une dizaine de questions dans `js/data/bts*/` pour
@@ -243,6 +279,20 @@ défaut mécanique demande mon accord.
   référentiel **mathématiques** (`chercher`, `modéliser`, `représenter`,
   `raisonner`, `calculer`, `communiquer`). Autant de compétences que de
   questions, sinon `validerProf` refuse.
+
+  **NE PRÉSUME PAS 5 QUESTIONS PAR CHAPITRE — c'est faux ici.** La convention
+  des sept niveaux déjà traités (5 questions partout) ne tient pas sur le BTS.
+  Relevé le 2026-09-17, **130 questions** au total sur les 27 chapitres :
+
+  | chapitres | questions |
+  |---|---|
+  | `bts-prep-trigonometrie` | **8** |
+  | `bts-prep-calcul-litteral`, `-vecteurs`, `-si-unites`, `-analyse-dim`, `-conversions`, `-equations-transf`, `-graphiques`, `-donnees-techniques` | **4** |
+  | les dix-huit autres | 5 |
+
+  Écrire cinq compétences sur un chapitre qui n'a que quatre questions fait
+  échouer la validation avec « 5 compétence(s) pour 4 question(s) d'évaluation ».
+  Compte-les module par module avec `chargerModule()`.
 
 ### Ce qui change entre le lycée et le BTS, et qu'il faut anticiper
 
@@ -321,8 +371,8 @@ du lycée physique sans une seule itération de correction. Modèle :
 - **Ne force jamais un garde-fou.** Une figure sans provenance, un Unicode non
   traduit, une erreur LaTeX se corrigent par la cause.
 - **Ne change pas la graine.** En changer renumérote tous les exercices et
-  invalide les renvois déjà écrits — y compris ceux des 44 fiches de maths et
-  des 44 fiches de physique déjà en place.
+  invalide les renvois déjà écrits — y compris ceux des **85 fiches de maths**
+  (collège et lycée) et des **44 fiches de physique-chimie** déjà en place.
 - **N'incrémente le `?v=N` de `index.html` que si tu touches `js/` ou `css/`.**
   Les fiches prof ne sont pas chargées par le site : les écrire seules ne
   justifie aucun cache-busting. En revanche une correction dans `js/data/bts*/`
@@ -346,7 +396,7 @@ du lycée physique sans une seule itération de correction. Modèle :
    de ce chantier pour livrer les quatre d'un coup, et **demande-moi** si tu
    préfères t'en tenir aux deux éditions professeur.
 3. `CODEBASE_MAP.md` et `contenu.md` mis à jour — dont la **répartition
-   mesurée** des 135 compétences, comme le font les sept sections déjà écrites.
+   mesurée** des 130 compétences, comme le font les sept sections déjà écrites.
 4. `docs/manuels/PROGRESSION.md` régénéré.
 5. Commits séparés : les fiches d'un côté, toute correction de `js/data/` de
    l'autre, la documentation en troisième.
