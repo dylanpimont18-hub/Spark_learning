@@ -260,7 +260,10 @@ async function construire(cle, options) {
 
   // Couche professeur v2 : la fiche de chaque module, quand elle existe,
   // validee contre le module reel et le referentiel de la matiere.
-  const referentiel = P.referentielDe(conf.collection);
+  /* La cle de l'ouvrage est passee en second : `lycee-si` et `bts-si` portent
+     la meme collection, et seul le premier a un referentiel SI (voir
+     `referentielDe`, prof.js). */
+  const referentiel = P.referentielDe(conf.collection, cle);
   /* La fiche est chargee dans LES DEUX editions depuis le 2026-09-12 : elle
      porte les PREREQUIS, qui sont un fait de progression et non un contenu
      reserve a l'enseignant — le renvoi « ce chapitre s'appuie sur le chapitre

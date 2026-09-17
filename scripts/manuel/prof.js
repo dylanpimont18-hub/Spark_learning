@@ -29,10 +29,54 @@ const REFERENTIELS = {
   physique: {
     nom: 'Compétences de la démarche scientifique',
     competences: ["s'approprier", 'analyser', 'réaliser', 'valider', 'communiquer']
+  },
+  /* Competences du programme de specialite Sciences de l'ingenieur (2019).
+     Ajoute le 2026-09-17, en meme temps que les vingt fiches de `lycee-si`.
+
+     POURQUOI un troisieme referentiel. Les deux premiers ne convenaient a
+     aucune des 96 questions d'evaluation de l'ouvrage : « Selon la regle R2,
+     une transition est franchie quand : » (GRAFCET) ou « Quel protocole de
+     transport garantit la livraison ordonnee des donnees ? » (reseaux) ne sont
+     ni du `calculer` ni du `modeliser` mathematique. Etiqueter ces questions
+     avec les mots des maths aurait produit une grille fausse.
+
+     CE QUE LA MESURE DIT, ET QU'IL FAUT SAVOIR AVANT DE S'EN SERVIR. Sur les
+     96 questions reellement tirees (graine du livre, 2026-09-17), la nature
+     des taches se repartit ainsi : 42 applications directes de formule, 18
+     raisonnements a deux etapes, 31 RESTITUTIONS DE CONNAISSANCE (definition,
+     vocabulaire, regle formelle) et 5 lectures de schema. Deux consequences
+     que ce referentiel ne corrige pas et ne pretend pas corriger :
+       - `experimenter` et `concevoir` ne seront JAMAIS tires par cet ouvrage :
+         le corpus ne contient ni travail pratique ni tache de conception. Ce
+         sont des competences du programme, conservees ici parce que la regle
+         du fichier est d'employer les mots du programme et non de les
+         tronquer, mais leur colonne restera vide dans la grille imprimee.
+       - les 31 questions de restitution n'ont pas d'equivalent exact dans
+         AUCUN referentiel officiel ; elles sont rattachees a `analyser`
+         (identifier et caracteriser une grandeur ou un constituant), qui est
+         la formulation la moins forcee du programme.
+     Voir CODEBASE_MAP.md pour la repartition finale mesuree. */
+  si: {
+    nom: "Compétences du programme de spécialité Sciences de l'ingénieur (2019)",
+    competences: ['analyser', 'modéliser', 'résoudre', 'expérimenter', 'concevoir', 'communiquer']
   }
 };
 
-function referentielDe(collection) {
+/* Referentiel d'un ouvrage. `cle` est la CLE DE L'OUVRAGE (`lycee-si`,
+   `bts-si`...), facultative.
+
+   Pourquoi la cle et pas seulement la collection : `lycee-si` et `bts-si`
+   portent la MEME collection (« Collection Sciences de l'ingénieur »), donc la
+   collection seule ne peut pas les distinguer. Le referentiel SI est volon-
+   tairement restreint au seul `lycee-si`, dont les vingt fiches sont ecrites
+   contre lui ; `bts-si` (0 fiche au 2026-09-17) conserve le comportement
+   historique et decidera sur ses propres mesures, quand il aura des fiches.
+   Les 21 autres ouvrages sont inchanges : sans `cle`, la fonction se comporte
+   exactement comme avant le 2026-09-17. */
+const REFERENTIEL_PAR_OUVRAGE = { 'lycee-si': REFERENTIELS.si };
+
+function referentielDe(collection, cle) {
+  if (cle && REFERENTIEL_PAR_OUVRAGE[cle]) return REFERENTIEL_PAR_OUVRAGE[cle];
   return /physique/i.test(String(collection || '')) ? REFERENTIELS.physique : REFERENTIELS.maths;
 }
 
@@ -1142,7 +1186,7 @@ function grilleSuiviClasse(referentiel, rangs) {
 }
 
 module.exports = {
-  REFERENTIELS, referentielDe,
+  REFERENTIELS, REFERENTIEL_PAR_OUVRAGE, referentielDe,
   cheminFiche, chargerProf, validerProf, validerPrerequis,
   ordonner, rangsConseilles, progressionLatex, suiviNotionsLatex,
   sectionErreurs, placeDansLeProgramme, renvoi,
