@@ -365,34 +365,60 @@ window.SPARK_PROF["statistiques"] = {
           C'est un jugement de validité : « raisonner ».
      Q3 — cinq masses données, calculer la moyenne. C'est la tâche des douze
           exercices, sur cinq valeurs au lieu de quatre : « calculer ».
-     Q4 — $k = 2$ correspond à quel niveau de confiance ? Les quatre options
-          sont $68\,\%$, $90\,\%$, $95\,\%$ et $99\,\%$. Aucun calcul n'est
-          possible : c'est la restitution d'une correspondance conventionnelle
-          entre facteur d'élargissement et quantile. On pourrait hésiter avec
-          « raisonner », mais il n'y a rien à déduire — la valeur est apprise
-          ou elle ne l'est pas, et l'appliquer est une procédure connue :
-          « calculer ».
-     Q5 — $n = 25$, $\bar{R} = 47{,}0$ Ω, $s = 1{,}0$ Ω, donner la demi-largeur
-          à $95\,\%$. Deux étapes enchaînées ($u_A = s/\sqrt{n}$ puis
-          $k \times u_A$) mais aucune n'appelle de choix : la question fournit
-          $k = 2$. Exécution d'une procédure connue : « calculer ».
+     Q4 — RÉÉCRITE le 2026-09-17. Elle demandait à quel niveau de confiance
+          correspond $k = 2$, parmi quatre pourcentages : une correspondance
+          apprise par cœur, qu'aucun calcul ne permettait d'établir — et que
+          la Q5 du même devoir donnait DÉJÀ en clair dans son énoncé (« à
+          $95\,\%$, $k = 2$ »). La question livrait sa réponse deux lignes
+          plus bas : c'était la plus redondante du devoir.
+          Elle demande maintenant de LIRE un tableau de facteurs
+          d'élargissement — celui que porte tout rapport d'étalonnage — et
+          d'y entrer par la bonne colonne : un capteur donné avec $u = 0{,}3$
+          bar et $U = 0{,}9$ bar a été élargi à quel niveau ? Lire une donnée
+          dans une représentation tabulée et l'interpréter, c'est
+          « représenter ».
+          Le calcul reste nécessaire, là où il était impossible : il faut
+          former $k = U/u = 0{,}9/0{,}3 = 3$ pour savoir quelle ligne lire,
+          sans quoi les quatre colonnes se valent.
+          La question porte désormais sur l'erreur 4 de cette fiche — rendre
+          une moyenne nue, sans unité ni incertitude — par son revers : elle
+          oblige à distinguer une incertitude EN UNITÉS PHYSIQUES ($0{,}9$
+          bar) d'un niveau de confiance en pourcentage, confusion que le
+          deuxième distracteur met en scène.
+     Q5 — RÉÉCRITE le 2026-09-17. Elle demandait $u_A = s/\sqrt{n}$ puis
+          $k \times u_A$, avec $k = 2$ fourni — or la Q1 du même devoir fait
+          déjà exactement $u_A = s/\sqrt{n}$. La question ne rajoutait qu'une
+          multiplication par $2$ : troisième exécution du même geste dans un
+          devoir qui en comptait déjà quatre.
+          Elle demande maintenant de juger le raisonnement de Maxime, qui
+          rend $R = 47{,}0 \pm 2{,}0$ Ω en élargissant l'ÉCART-TYPE au lieu de
+          l'incertitude sur la moyenne, et d'EXPLIQUER que la dispersion des
+          mesures ne diminue pas quand on mesure davantage, alors que
+          l'incertitude sur la moyenne, elle, diminue en $\sqrt{n}$ :
+          produire une explication, donc « communiquer ».
+          Le calcul reste nécessaire et il est complet : $u_A = 1{,}0/5
+          = 0{,}2$ Ω puis $2 \times 0{,}2 = 0{,}4$ Ω, pour constater que le
+          $\pm 2{,}0$ Ω annoncé est cinq fois trop large ; et il faut mener
+          $1{,}0/25 = 0{,}04$ pour écarter le distracteur qui divise par $n$.
+          La question porte désormais sur l'erreur 2 de cette fiche —
+          confondre l'écart-type $s$ et l'incertitude sur la moyenne $u_A$ —
+          qui est l'erreur conceptuelle centrale du chapitre et l'une des
+          deux qu'AUCUN exercice du tirage ne travaille (`exercice: null`).
 
-     RÉPARTITION DE CE CHAPITRE : calculer 4, raisonner 1. « chercher »,
-     « modéliser », « représenter » et « communiquer » ne sont pas mobilisés :
-     aucune question ne demande d'essayer une piste, de mettre une situation
-     en équation, de produire ou lire un graphique, ni de rédiger une
-     explication. C'est un constat sur les cinq énoncés, pas un choix.
+     RÉPARTITION DE CE CHAPITRE : calculer 2, raisonner 1, représenter 1,
+     communiquer 1. « chercher » et « modéliser » ne sont pas mobilisés :
+     aucune question ne demande d'essayer une piste ni de mettre une situation
+     en équation. C'est un constat sur les cinq énoncés, pas un choix.
 
-     Le déséquilibre vers « calculer » est ici particulièrement marqué, et il
-     mérite d'être dit plutôt que corrigé en trichant sur l'étiquetage : ce
-     devoir est un devoir d'APPLICATION NUMÉRIQUE, où toutes les formules sont
-     fournies dans les énoncés. Il n'évalue à aucun moment la capacité à
-     décider QUELLE incertitude calculer, ni à interpréter un intervalle de
-     confiance — ce qui est pourtant le geste professionnel du chapitre. Un
-     enseignant qui veut évaluer cela devra ajouter sa propre question ;
-     « communiquer », en particulier, resterait à 0 sur tout le corpus, dont
-     les 130 questions sont toutes `numeric` ou à choix multiple. */
+     Ce devoir était, avant le 2026-09-17, le plus déséquilibré du recueil :
+     quatre « calculer » sur cinq questions, toutes formules fournies. Il
+     n'évaluait à aucun moment la capacité à décider QUELLE incertitude
+     calculer ni à l'interpréter — le geste professionnel du chapitre. Les
+     réécritures des Q4 et Q5 portent précisément là : la Q5 oppose
+     dispersion et incertitude sur la moyenne, la Q4 fait entrer dans un
+     tableau d'élargissement par le bon bout. Les deux visent des erreurs que
+     le tirage d'exercices ne travaille pas. */
   competences: {
-    evaluation: ["calculer", "raisonner", "calculer", "calculer", "calculer"]
+    evaluation: ["calculer", "raisonner", "calculer", "représenter", "communiquer"]
   }
 };

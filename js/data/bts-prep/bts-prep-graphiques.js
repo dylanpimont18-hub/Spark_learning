@@ -680,13 +680,37 @@ Le croisement est entre Q=8 et Q=10 m³/h.`,
         correction: '$P = 1{,}8 + \\dfrac{7-5}{9-5} \\times (2{,}6-1{,}8) = 1{,}8 + 0{,}5 \\times 0{,}8 = 2{,}2\\;\\text{kW}$',
       },
       {
-        statement: 'Sur un abaque à double échelle logarithmique, une droite passe par les points $(10, 5)$ et $(100, 50)$ : c\'est une loi puissance $y = a x^n$. Calculer la valeur de $y$ pour $x = 1000$.',
-        type: 'numeric',
-        answer: 500,
-        tolerance: 5,
-        unit: '',
+        /* Question « représenter » (réécrite le 2026-09-17). Elle donnait deux
+           points d'un abaque log-log et demandait $y$ en $x = 1000$ : une
+           chaîne de calculs (pente en logarithmes, puis application), le même
+           type d'exécution chaînée que la Q1 (interpolation) et la Q3 (pente)
+           du même devoir, sur des couples fournis en clair.
+
+           Le chapitre s'intitule « Lecture et exploitation de graphiques » et
+           cette fiche signalait qu'AUCUNE de ses quatre questions ne
+           présentait ni ne faisait lire de représentation. La question
+           demande désormais de LIRE une graduation logarithmique — où se
+           place un point entre deux décades, et pourquoi le milieu physique
+           du segment ne vaut pas la moyenne arithmétique. C'est bien
+           « représenter ».
+
+           Elle vise l'erreur 4 de la fiche professeur : lire une échelle
+           logarithmique comme une échelle linéaire. Le calcul reste
+           nécessaire — il faut former $\sqrt{10 \times 100} \approx 31{,}6$ et
+           le comparer aux $55$ de la lecture linéaire pour trancher. */
+        statement: 'Sur l\'axe horizontal d\'un abaque à échelle logarithmique, les graduations $10$ et $100$ sont distantes de $60$ mm. Un point de mesure est repéré à $30$ mm après la graduation $10$, soit exactement à mi-chemin. Quelle abscisse lui correspond ? (On donne $\\sqrt{10} \\approx 3{,}16$.)',
+        type: 'multiple-choice',
+        options: [
+          '$x = 55$, car le milieu du segment correspond à la moyenne de $10$ et $100$.',
+          '$x \\approx 31{,}6$, car sur une échelle logarithmique une distance égale représente un <strong>rapport</strong> égal, non une différence : le milieu est la <strong>moyenne géométrique</strong> $\\sqrt{10 \\times 100} = 10\\sqrt{10} \\approx 31{,}6$, qui est $3{,}16$ fois $10$ comme $100$ est $3{,}16$ fois $31{,}6$.',
+          '$x = 50$, car $30$ mm sur $60$ mm font la moitié de $100$.',
+          '$x = 60$, car il faut convertir directement les millimètres en unités de l\'axe.'
+        ],
+        answer: 1,
         points: 4,
-        correction: 'La pente en log-log : $n = \\dfrac{\\log 50 - \\log 5}{\\log 100 - \\log 10} = \\dfrac{\\log 10}{\\log 10} = 1$ → loi linéaire $y = 0{,}5 x$.<br/>Pour $x = 1000$ : $y = 0{,}5 \\times 1000 = 500$.',
+        correction: 'Sur une échelle <strong>linéaire</strong>, une même distance représente partout la même <strong>différence</strong> : c\'est ce qui justifierait la moyenne $\\dfrac{10 + 100}{2} = 55$. Mais sur une échelle <strong>logarithmique</strong>, une même distance représente partout le même <strong>rapport</strong> — c\'est toute la raison d\'être de ce type de graduation, qui permet de faire tenir plusieurs décades sur une feuille.<br/><br/>' +
+          'Puisque les $60$ mm de la décade correspondent à un rapport $\\times 10$, les $30$ mm parcourus correspondent à la <strong>racine</strong> de ce rapport, soit $\\times \\sqrt{10} \\approx 3{,}16$. L\'abscisse cherchée est donc $10 \\times 3{,}16 \\approx 31{,}6$, c\'est-à-dire la moyenne géométrique $\\sqrt{10 \\times 100}$. On le vérifie par symétrie : $31{,}6 \\div 10 = 3{,}16$ et $100 \\div 31{,}6 = 3{,}16$ — les deux moitiés du segment portent bien le même rapport, ce qui n\'est pas le cas avec $55$ ($55/10 = 5{,}5$ mais $100/55 = 1{,}8$).<br/><br/>' +
+          'Les deux dernières propositions ne lisent pas l\'axe du tout : la troisième traite les $30$ mm comme une fraction de la valeur $100$, la quatrième confond les millimètres du papier avec les unités portées par l\'axe. Retenir la conséquence pratique : sur un abaque log, <strong>ne jamais interpoler à la règle</strong> sans vérifier si l\'échelle est linéaire ou logarithmique.',
       },
       {
         statement: 'Sur une caractéristique courant-vitesse d\'un moteur à courant continu, la vitesse passe de 1000 tr/min à 800 tr/min quand le courant passe de 2 A à 8 A. Calculer la pente de cette droite (en tr/min/A, arrondie à 0,1).',

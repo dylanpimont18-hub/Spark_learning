@@ -423,12 +423,29 @@ window.SPARK_PROF["bts-suites-appliquees"] = {
           La formule $a = C_0 \dfrac{t}{1-(1+t)^{-n}}$ est ÉCRITE dans
           l'énoncé : il ne reste que l'application numérique, avec un exposant
           négatif. Aucun choix de méthode : « calculer ».
-     Q4 — $500$ € par an pendant $5$ ans à $3\,\%$, calculer la valeur acquise.
-          La formule $V = a\dfrac{(1+t)^n - 1}{t}$ est également ÉCRITE dans
-          l'énoncé — ce qui retire à la question l'essentiel de sa difficulté,
-          puisque le choix entre versement unique et suite de versements (voir
-          l'erreur 4 de cette fiche) est ainsi tranché par le rédacteur.
-          Il ne reste qu'une application numérique : « calculer ».
+     Q4 — RÉÉCRITE le 2026-09-17. Elle ÉCRIVAIT la formule
+          $V = a\dfrac{(1+t)^n - 1}{t}$ dans son énoncé et n'en demandait que
+          l'application numérique — le même geste que la Q1 et la Q3, dont
+          les formules étaient elles aussi fournies : trois applications
+          dictées dans un devoir de cinq questions. Pire, comme cette fiche
+          le signalait déjà, en donnant la formule la question TRANCHAIT
+          elle-même le choix entre versement unique et suite de versements,
+          c'est-à-dire la seule difficulté qu'elle aurait pu évaluer.
+          Elle demande maintenant de juger le raisonnement d'Élodie, qui
+          écrit $500 \times 1{,}03^5 = 579{,}64$ € pour cinq versements
+          annuels de $500$ € — elle capitalise UN dépôt là où il y en a cinq —
+          et d'EXPLIQUER que les cinq versements ne travaillent pas la même
+          durée, ce qui interdit aussi bien de ne rien multiplier que de
+          multiplier platement par $5$ : produire une explication, donc
+          « communiquer ».
+          Le calcul reste nécessaire et il est double : la valeur acquise
+          correcte ($2\,655$ €) et le placement unique ($579{,}64$ €), plus
+          le contrôle de bon sens $5 \times 500 = 2\,500$ € qui élimine à lui
+          seul deux distracteurs.
+          La question porte désormais sur l'erreur 4 de cette fiche —
+          confondre un versement unique et une suite de versements — la seule
+          du chapitre qu'AUCUN exercice du tirage ne travaille
+          (`exercice: null`).
      Q5 — d'où vient la différence entre intérêts simples et composés sur
           $10$ ans ? Les quatre options proposent « aucune différence »,
           « la capitalisation », « l'inflation », « seulement au-dessus de
@@ -437,24 +454,22 @@ window.SPARK_PROF["bts-suites-appliquees"] = {
           fausses, dont une (l'inflation) relève d'un autre phénomène
           entièrement. « raisonner ».
 
-     RÉPARTITION DE CE CHAPITRE : calculer 3, raisonner 2. « chercher »,
-     « modéliser », « représenter » et « communiquer » ne sont pas mobilisés :
+     RÉPARTITION DE CE CHAPITRE : calculer 2, raisonner 2, communiquer 1.
+     « chercher », « modéliser » et « représenter » ne sont pas mobilisés :
      aucune question ne demande d'essayer une piste, de mettre une situation
-     en équation, de produire ou lire un graphique, ni de rédiger une
-     explication. C'est un constat sur les cinq énoncés, pas un choix — et il
-     rejoint celui du corpus entier, dont les 130 questions sont toutes
-     `numeric` ou à choix multiple.
+     en équation, ni de lire une représentation. C'est un constat sur les
+     cinq énoncés, pas un choix.
 
-     À signaler, parce que c'est l'occasion manquée la plus nette du devoir :
-     les Q3 et Q4 FOURNISSENT leur formule dans l'énoncé. Or le geste difficile
-     de ce chapitre n'est pas d'appliquer une formule financière, c'est de
-     CHOISIR laquelle des quatre convient — versement unique, valeur acquise,
-     annuité, amortissement. En donnant la formule, les deux questions
-     suppriment précisément ce qu'elles pourraient évaluer, et « modéliser »
-     reste à 0 alors que c'est la compétence centrale du chapitre. Un
-     enseignant qui veut l'évaluer n'a qu'à reprendre les mêmes énoncés en
-     retirant la formule. */
+     À signaler, parce que c'était l'occasion manquée la plus nette du devoir
+     avant le 2026-09-17 : les Q3 et Q4 FOURNISSAIENT toutes deux leur
+     formule dans l'énoncé. Or le geste difficile de ce chapitre n'est pas
+     d'appliquer une formule financière, c'est de CHOISIR laquelle des quatre
+     convient — versement unique, valeur acquise, annuité, amortissement. La
+     réécriture de la Q4 rend ce choix à l'élève en le lui faisant arbitrer
+     sur la copie d'un tiers ; il reste que la Q3 donne encore sa formule, et
+     qu'un enseignant qui veut évaluer « modéliser » n'a qu'à la lui
+     retirer. */
   competences: {
-    evaluation: ["calculer", "raisonner", "calculer", "calculer", "raisonner"]
+    evaluation: ["calculer", "raisonner", "calculer", "communiquer", "raisonner"]
   }
 };

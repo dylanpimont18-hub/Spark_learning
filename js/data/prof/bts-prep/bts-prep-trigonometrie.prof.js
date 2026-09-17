@@ -328,10 +328,16 @@ window.SPARK_PROF["bts-prep-trigonometrie"] = {
 
      UNE PARTICULARITÉ DE STRUCTURE QUI COMMANDE L'ÉTIQUETAGE : les huit
      questions forment trois groupes enchaînés. Dans chaque groupe, la
-     PREMIÈRE question porte le travail de traduction (comprendre la situation,
-     choisir la relation) et les SUIVANTES exécutent sur le même dispositif,
-     avec les données déjà mises en place. L'étiquetage suit fidèlement cette
+     PREMIÈRE question porte le travail de traduction (comprendre la
+     situation, choisir la relation) et les suivantes travaillent sur le même
+     dispositif, données déjà en place. L'étiquetage suit fidèlement cette
      asymétrie plutôt que de répéter la même compétence par groupe.
+     Depuis le 2026-09-17, deux de ces questions de second rang ne se
+     contentent plus d'exécuter : la Q5 fait juger une confusion pente/angle
+     sur la canalisation de la Q4, et la Q7 fait chercher un instant
+     d'annulation sur le signal de la Q6. Le dispositif est réutilisé, mais
+     la tâche change — c'est ce qui autorise une compétence différente, et
+     non un simple changement d'étiquette.
 
      ÉTIQUETAGE HONNÊTE (règle du projet) : la compétence est lue sur la tâche
      RÉELLEMENT demandée, jamais choisie pour équilibrer la grille.
@@ -353,29 +359,63 @@ window.SPARK_PROF["bts-prep-trigonometrie"] = {
           n'explicite pas — puis traduire « 5 % sur 400 m » en une
           multiplication. C'est la mise en relation qui fait le travail, le
           calcul est trivial. « modéliser ».
-     Q5 — angle de la MÊME canalisation, $\arctan(0{,}05)$. La traduction a été
-          faite en Q4 ; il reste une touche de calculatrice. « calculer ».
+     Q5 — RÉÉCRITE le 2026-09-17. Elle demandait $\arctan(0{,}05)$ sur la
+          canalisation dont la Q4 venait de traduire la pente : une touche de
+          calculatrice sur un dispositif déjà mis en place, et la question la
+          moins chargée du devoir (1 point). Deuxième exécution d'affilée sur
+          les mêmes données : redondante.
+          Elle demande maintenant de juger le raisonnement de Karim, qui lit
+          « pente de $5$ % » comme « angle de $5°$ », et d'EXPLIQUER qu'un
+          pourcentage de pente est une TANGENTE et non un angle : produire
+          une explication, donc « communiquer ».
+          Le calcul reste nécessaire et il est double : $\arctan(0{,}05)
+          \approx 2{,}86°$ pour l'angle vrai, ET $\tan(5°) \approx 0{,}0875$
+          pour chiffrer ce que coûterait l'erreur — $35$ m de dénivelé au
+          lieu de $20$ sur les $400$ m de la Q4. La question s'articule ainsi
+          à la Q4 au lieu de la répéter.
+          Elle porte sur l'erreur 3 de cette fiche — confondre une pente en
+          pourcentage avec un angle en degrés — la plus répandue du chapitre
+          sur le terrain.
      Q6 — valeur maximale de $u(t) = 230\sqrt{2}\sin(100\pi t - \pi/6)$. Il
           faut IDENTIFIER, dans une écriture symbolique, quel facteur joue le
           rôle d'amplitude — reconnaître la structure $U_{\max}\sin(\omega t +
           \varphi)$ dans une expression concrète — puis calculer. La lecture de
           structure est le vrai travail. « modéliser ».
-     Q7 — fréquence du MÊME signal, $f = \omega/(2\pi)$ avec
-          $\omega = 100\pi$. La structure a été lue en Q6 ; il reste une
-          division. Exécution. « calculer ».
+     Q7 — RÉÉCRITE le 2026-09-17. Elle demandait la fréquence du MÊME signal,
+          $f = \omega/(2\pi)$ : une division, sur un dispositif dont la Q6
+          avait déjà lu la structure et dont la Q8 relit encore le déphasage.
+          Troisième exécution d'affilée sur les mêmes données, dans un devoir
+          qui comptait déjà cinq « calculer » sur huit questions : c'était la
+          redondance la plus nette du chapitre.
+          Elle demande maintenant d'ESSAYER : quatre dates sont proposées et
+          il faut chercher laquelle annule la tension, en évaluant l'argument
+          $100\pi t - \pi/6$ pour chacune et en constatant que seule
+          $t = 1{,}67$ ms le rend nul. Tâtonner sur des candidates, comparer
+          les résultats, écarter celles qui échouent : c'est « chercher ».
+          Le calcul reste nécessaire et il est quadruple, là où il était
+          unique : quatre évaluations d'argument avant de pouvoir trancher.
+          La question porte désormais sur l'erreur 2 de cette fiche — laisser
+          la calculatrice dans la mauvaise unité d'angle — car l'argument est
+          en RADIANS et les quatre essais échouent silencieusement en mode
+          degré. C'est aussi la première question du chapitre à faire sentir
+          qu'un déphasage de $-30°$ est un retard de $1{,}67$ ms, ce que
+          l'erreur 4 (confondre fréquence et pulsation) suppose acquis.
      Q8 — déphasage à l'origine du MÊME signal : $-\pi/6$, converti en $-30°$.
           Même remarque, et la conversion radian/degré est au programme du
           cours. Exécution. « calculer ».
 
-     RÉPARTITION DE CE CHAPITRE : calculer 5, modéliser 3.
-     « chercher », « raisonner », « représenter » et « communiquer » ne sont
-     PAS mobilisés. L'absence de « raisonner » mérite un mot : aucune des huit
-     questions ne demande de juger la validité d'une affirmation ni de
-     démontrer — toutes les huit sont `numeric`, et c'est le seul chapitre du
-     recueil sans aucune question à choix multiple. C'est un constat sur les
-     huit énoncés, non corrigé par un étiquetage complaisant. */
+     RÉPARTITION DE CE CHAPITRE : calculer 3, modéliser 3, chercher 1,
+     communiquer 1.
+     « raisonner » et « représenter » ne sont PAS mobilisés : aucune des huit
+     questions ne demande de démontrer ni de lire une représentation. C'est un
+     constat sur les huit énoncés, non corrigé par un étiquetage complaisant.
+     À noter, depuis les réécritures des Q5 et Q7 le 2026-09-17 : ce chapitre
+     n'est plus le seul du recueil dépourvu de question à choix multiple, et
+     ses trois groupes de questions ne se terminent plus tous par une simple
+     répétition — les Q5 et Q7 relancent désormais leur dispositif au lieu de
+     l'épuiser. */
   competences: {
-    evaluation: ["modéliser", "calculer", "calculer", "modéliser", "calculer",
-                 "modéliser", "calculer", "calculer"]
+    evaluation: ["modéliser", "calculer", "calculer", "modéliser", "communiquer",
+                 "modéliser", "chercher", "calculer"]
   }
 };

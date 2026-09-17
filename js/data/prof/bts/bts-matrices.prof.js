@@ -405,8 +405,25 @@ window.SPARK_PROF["bts-matrices"] = {
           $(1,1)$ de $A^{-1}$. Deux étapes enchaînées — déterminant, puis
           formule de l'inverse — mais toutes deux au programme et sans choix
           de méthode : « calculer ».
-     Q4 — coefficient $(1,2)$ du produit $AB$. Application de la règle
-          « ligne par colonne » sur une seule case : « calculer ».
+     Q4 — RÉÉCRITE le 2026-09-17. Elle demandait le coefficient $(1,2)$ d'un
+          produit $AB$ : une ligne fois une colonne, soit deux produits et une
+          somme — la même extraction ponctuelle que la Q3, qui allait chercher
+          le coefficient $(1,1)$ de $A^{-1}$. Deuxième coefficient isolé du
+          même devoir, et troisième « calculer ».
+          Elle demande maintenant d'ESSAYER : quatre matrices sont proposées
+          et il faut chercher laquelle commute avec $A$, en calculant $AB$
+          PUIS $BA$ pour chacune. Tâtonner sur des candidates et produire un
+          contre-exemple ($\begin{pmatrix}2&0\\0&3\end{pmatrix}$ est diagonale
+          et ne commute pourtant pas) : c'est « chercher ».
+          Le calcul reste indispensable et il est bien plus lourd qu'avant —
+          deux produits matriciels complets au minimum, là où un seul
+          coefficient suffisait.
+          La question porte désormais sur l'erreur 1 de cette fiche —
+          multiplier les matrices terme à terme — que le tirage ne travaille
+          pas (`exercice: null`), et elle la rend auto-détectable : un élève
+          qui multiplie case par case trouve $AB = BA$ pour les QUATRE
+          candidates et se retrouve incapable de choisir. La correction le lui
+          dit explicitement.
      Q5 — $(AB)^{-1} = B^{-1}A^{-1}$ est une conséquence de : la commutativité,
           la NON-commutativité, la distributivité, l'associativité de
           l'addition ? Aucun calcul : il faut identifier la propriété
@@ -415,11 +432,15 @@ window.SPARK_PROF["bts-matrices"] = {
           contraire de la bonne réponse. C'est la question la plus exigeante
           du devoir : « raisonner ».
 
-     RÉPARTITION DE CE CHAPITRE : calculer 3, raisonner 2. « chercher »,
+     RÉPARTITION DE CE CHAPITRE : calculer 2, raisonner 2, chercher 1.
      « modéliser », « représenter » et « communiquer » ne sont pas mobilisés :
-     aucune question ne demande d'essayer une piste, de mettre une situation
-     en équation, de produire ou lire un graphique, ni de rédiger une
-     explication. C'est un constat sur les cinq énoncés, pas un choix.
+     aucune question ne demande de mettre une situation en équation, de lire
+     une représentation, ni de rédiger une explication. C'est un constat sur
+     les cinq énoncés, pas un choix.
+     La Q4 et la Q5 se répondent désormais : la Q5 NOMME la non-commutativité,
+     la Q4 la fait ÉPROUVER sur quatre essais. C'est l'ordre inverse de celui
+     qu'on attendrait, mais il est pédagogiquement heureux — l'élève tâtonne
+     avant qu'on lui donne le mot.
 
      À signaler : le geste central du chapitre — METTRE UN SYSTÈME sous forme
      matricielle $AX = B$, c'est-à-dire traduire deux équations en un tableau —
@@ -430,6 +451,6 @@ window.SPARK_PROF["bts-matrices"] = {
      Un enseignant qui veut l'évaluer n'a qu'à donner un système de deux
      équations et demander $A$, $X$ et $B$ : deux lignes suffisent. */
   competences: {
-    evaluation: ["calculer", "raisonner", "calculer", "calculer", "raisonner"]
+    evaluation: ["calculer", "raisonner", "calculer", "chercher", "raisonner"]
   }
 };

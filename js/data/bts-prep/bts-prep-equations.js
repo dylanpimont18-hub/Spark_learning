@@ -498,13 +498,37 @@ window.MODULES.push({
     duration: '35 min',
     questions: [
       {
-        statement: 'Résoudre $4x - 20 = 0$.',
-        type: 'numeric',
-        answer: 5,
-        tolerance: 0,
-        unit: '',
+        /* Question « communiquer » (réécrite le 2026-09-17). Elle demandait de
+           résoudre $4x - 20 = 0$ : une addition et une division, question à
+           1 point, et le doublon de la Q5 (point de fonctionnement), qui
+           résout elle aussi une équation du premier degré après l'avoir
+           posée. C'était la question la plus légère du devoir.
+
+           Elle porte désormais sur l'erreur 1 de la fiche professeur —
+           « mettre tout du même côté sans changer les signes » — que cette
+           fiche décrit comme la consigne la plus abîmée de l'enseignement
+           des mathématiques, et qui a la particularité redoutable de donner
+           le bon résultat une fois sur deux : elle n'est jamais assez fausse
+           pour être abandonnée.
+
+           Le calcul reste nécessaire, et c'est tout l'intérêt de l'énoncé :
+           l'élève fictif obtient $-5$ alors que la réponse est $+5$, et il
+           faut mener la vérification par substitution ($4 \times (-5) - 20 =
+           -40 \neq 0$) pour le montrer. Plus exigeante que la résolution
+           qu'elle remplace, pas moins. */
+        statement: 'Pour résoudre $4x - 20 = 0$, Lucas applique la règle qu\'il a retenue : « on met tout du même côté », écrit $4x = -20$, puis conclut $x = -5$. Quelle explication corrige le mieux son raisonnement ?',
+        type: 'multiple-choice',
+        options: [
+          'Sa méthode est bonne mais sa division est fausse : $-20 \\div 4 = -4$, donc $x = -4$.',
+          'Il faut toujours diviser AVANT de déplacer les termes : $x - 5 = 0$, puis $x = 5$.',
+          'Déplacer un terme n\'est pas le ranger ailleurs, c\'est <strong>ajouter $20$ aux deux membres</strong> : $4x - 20 + 20 = 0 + 20$ donne $4x = +20$, donc $x = 5$. La <strong>vérification</strong> tranche : $4 \\times (-5) - 20 = -40 \\neq 0$, alors que $4 \\times 5 - 20 = 0$ ✓',
+          'Il a raison : un terme qui change de côté change toujours de signe, donc $-20$ devient $-20$ à droite.'
+        ],
+        answer: 2,
         points: 1,
-        correction: '$4x = 20 \\Rightarrow x = 5$.'
+        correction: 'La règle que récite Lucas — « on met tout du même côté » — décrit un <strong>rangement</strong>, alors qu\'elle devrait décrire une <strong>opération</strong>. C\'est ce glissement, et lui seul, qui produit l\'erreur : on retient qu\'il faut déplacer les nombres à droite, on oublie pourquoi leur signe change.<br/><br/>' +
+          'L\'opération réelle est toujours la même : on ajoute (ou retranche) la même quantité aux <strong>deux membres</strong>, ce qui ne modifie pas l\'égalité. Ici, on ajoute $20$ de chaque côté : $4x - 20 + 20 = 0 + 20$, soit $4x = 20$. Le $-20$ ne « passe » nulle part, il <strong>disparaît de lui-même</strong> parce que $-20 + 20 = 0$ ; et ce qui apparaît à droite est $+20$, non $-20$. On conclut $x = \\dfrac{20}{4} = 5$.<br/><br/>' +
+          'Le réflexe qui met à l\'abri définitivement est la <strong>vérification par substitution</strong>, et il faut la pratiquer systématiquement, pas seulement quand on doute. Réinjectons la réponse de Lucas dans l\'équation de départ : $4 \\times (-5) - 20 = -20 - 20 = -40$, qui n\'est pas $0$ : l\'erreur est trouvée en cinq secondes, sans rien savoir de la méthode employée. Avec $x = 5$ : $4 \\times 5 - 20 = 20 - 20 = 0$ ✓ Notons au passage que la quatrième proposition se contredit elle-même — elle affirme que le signe change, puis laisse $-20$ inchangé.'
       },
       {
         statement: 'Calculer le discriminant de $x^2 - 5x + 6 = 0$.',
@@ -524,13 +548,36 @@ window.MODULES.push({
         correction: '$\\Delta = 1$, $x = (5 \\pm 1)/2$. $x_1 = 3$ et $x_2 = 2$. La plus grande est $x = 3$.'
       },
       {
-        statement: 'Résoudre le système $\\begin{cases} 2x + y = 7 \\\\ x + y = 5 \\end{cases}$. Donner la valeur de $x$.',
-        type: 'numeric',
+        /* Question « communiquer » (réécrite le 2026-09-17). Elle demandait de
+           résoudre $2x+y=7$ / $x+y=5$ par soustraction : exécution d'une
+           procédure connue, déjà mobilisée par la Q1 (résoudre $4x-20=0$) et
+           répétée par la moitié des quarante-deux exercices du chapitre.
+
+           Elle porte désormais sur l'erreur 3 de la fiche professeur —
+           « additionner les deux équations sans les avoir rendues
+           compatibles » — c'est-à-dire la combinaison linéaire appliquée
+           comme un rangement plutôt que comme une opération. L'élève fictif
+           obtient un résultat FAUX par une méthode qui « marche » parfois :
+           c'est le pire cas, celui qui survit à la scolarité.
+
+           Le calcul reste nécessaire : il faut résoudre correctement le
+           système (par soustraction : $x = 2$, $y = 3$) pour constater que
+           $3$ n'est pas la valeur de $x$, et il faut vérifier la somme
+           $3x + 2y = 12$ pour comprendre d'où sort le $4$ de l'élève. Plus
+           exigeante que la question qu'elle remplace, pas moins. */
+        statement: 'Pour résoudre $\\begin{cases} 2x + y = 7 \\\\ x + y = 5 \\end{cases}$, Nadia additionne les deux lignes et écrit : « $3x + 2y = 12$, donc $x = 4$ ». Quelle explication corrige le mieux son raisonnement ?',
+        type: 'multiple-choice',
+        options: [
+          'Son addition est fausse : $2x + x = 3x$ mais $7 + 5 = 13$, donc la somme est $3x + 2y = 13$.',
+          'On n\'additionne jamais deux équations d\'un système : seule la soustraction est autorisée.',
+          'Sa somme $3x + 2y = 12$ est <strong>juste</strong>, mais elle contient encore <strong>deux inconnues</strong> : additionner n\'a rien éliminé. Il fallait <strong>soustraire</strong>, car c\'est l\'opération qui annule le $y$ — et on trouve alors $x = 2$, puis $y = 3$.',
+          'Il fallait multiplier la seconde ligne par $2$ avant d\'additionner, ce qui donne $x = 3$.'
+        ],
         answer: 2,
-        tolerance: 0,
-        unit: '',
         points: 3,
-        correction: 'Soustraction (1)-(2) : $x = 2$. Puis $y = 5 - 2 = 3$. Vérification : $2\\times2+3=7$ ✓'
+        correction: 'Commençons par vérifier l\'addition de Nadia : $2x + x = 3x$, $y + y = 2y$ et $7 + 5 = 12$. Sa somme $3x + 2y = 12$ est donc <strong>exacte</strong> — c\'est ce qui écarte la première proposition.<br/><br/>' +
+          'Le défaut est ailleurs. Combiner deux équations ne sert que si la combinaison <strong>fait disparaître une inconnue</strong>. Ici, additionner conserve les deux, et Nadia lit ensuite $x = 4$ dans une ligne où le $y$ est toujours présent : elle a traité $2y$ comme s\'il valait $0$. C\'est l\'opération à choisir qui était en jeu, pas l\'arithmétique.<br/><br/>' +
+          'La bonne opération est la <strong>soustraction</strong> : $(2x + y) - (x + y) = 7 - 5$ donne $x = 2$, car le $y$ s\'annule de lui-même. On remonte ensuite à $y = 5 - 2 = 3$, et on vérifie dans la première ligne : $2 \\times 2 + 3 = 7$ ✓. Additionner n\'est pas interdit — la proposition 2 a tort sur ce point — mais il faut d\'abord rendre les coefficients opposés, ce qui n\'est pas le cas ici.'
       },
       {
         statement: 'Le point de fonctionnement d\'un réseau hydraulique simple vérifie $H_{pompe} = H_{réseau}$, soit $-Q + 8 = 2Q + 2$. Trouver $Q$ (en m³/h).',

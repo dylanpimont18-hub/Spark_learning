@@ -593,13 +593,37 @@ window.MODULES.push({
     duration: '25 min',
     questions: [
       {
-        statement: 'Exprimer $47\\,000$ Ω en kΩ.',
-        type: 'numeric',
-        answer: 47,
-        tolerance: 0,
-        unit: 'kΩ',
+        /* Question « chercher » (réécrite le 2026-09-17). Elle demandait de
+           passer $47\,000$ Ω en kΩ : une division par $10^3$ sur un nombre
+           rond, question à 1 point et geste que la Q2 (quotient de
+           puissances) et la Q5 (sortie en milli) refont chacune à leur
+           manière. C'était la question la plus légère du devoir.
+
+           Elle demande maintenant de CHERCHER, parmi quatre écritures d'une
+           même mesure, la seule qui soit correcte — donc de convertir quatre
+           fois et d'écarter trois pièges de sens de virgule. Essayer,
+           comparer, écarter : « chercher ».
+
+           Elle vise l'erreur 3 de la fiche professeur — déplacer la virgule
+           dans le mauvais sens — en la déclinant sur les deux préfixes que
+           les élèves confondent le plus (le micro et le méga), et l'erreur 4
+           (rendre un résultat dans la mauvaise unité) par la même occasion.
+
+           Le calcul reste nécessaire et il est quadruple, là où il était
+           unique : quatre conversions à mener avant de pouvoir trancher. */
+        statement: 'Un condensateur porte l\'inscription $0{,}000\\,047$ F. Parmi les quatre écritures ci-dessous, une seule désigne la même capacité. Laquelle ?',
+        type: 'multiple-choice',
+        options: [
+          '$47$ mF, car il y a trois zéros avant le $47$.',
+          '$4{,}7$ nF, car $0{,}000\\,047 = 4{,}7 \\times 10^{-5}$ et nano vaut $10^{-5}$.',
+          '$47\\,\\mu$F, car $0{,}000\\,047 = 47 \\times 10^{-6}$ F et le préfixe <strong>micro</strong> vaut précisément $10^{-6}$ : c\'est la seule des quatre écritures qui retombe sur la valeur de départ.',
+          '$47$ MF, car pour alléger l\'écriture d\'un petit nombre on utilise un grand préfixe.'
+        ],
+        answer: 2,
         points: 1,
-        correction: '$47\\,000 = 47 \\times 10^3$ Ω $= 47$ kΩ.'
+        correction: 'La seule méthode fiable est de <strong>mettre la mesure en notation scientifique</strong> avant de chercher son préfixe, puis de tester chaque candidate. Ici, la virgule doit se déplacer de cinq rangs vers la droite pour atteindre le $4$, donc $0{,}000\\,047 = 4{,}7 \\times 10^{-5}$ F, ce qui s\'écrit aussi $47 \\times 10^{-6}$ F.<br/><br/>' +
+          'Essayons les quatre. <strong>$47\\,\\mu$F</strong> : micro vaut $10^{-6}$, donc $47 \\times 10^{-6}$ F — c\'est exactement notre valeur ✓. $47$ mF : milli vaut $10^{-3}$, donc $0{,}047$ F, mille fois trop grand — compter les zéros à l\'œil, comme le propose cette option, ne dit rien du préfixe. $4{,}7$ nF : le coefficient $4{,}7$ est juste, mais nano vaut $10^{-9}$ et non $10^{-5}$ ; cette écriture désigne $0{,}000\\,000\\,004\\,7$ F, dix mille fois trop petit. $47$ MF enfin : méga vaut $10^{+6}$, soit $47$ millions de farads — une capacité qui n\'existe dans aucun catalogue.<br/><br/>' +
+          'Ce dernier distracteur porte l\'erreur qui coûte le plus cher, et elle est de <strong>sens</strong> : un grand préfixe n\'allège pas l\'écriture d\'un petit nombre, il la fausse d\'un facteur $10^{12}$. Le repère à garder : les préfixes plus petits que l\'unité (milli, micro, nano, pico) descendent de trois en trois — $10^{-3}$, $10^{-6}$, $10^{-9}$, $10^{-12}$ — et les majuscules (k exceptée, M, G, T) montent dans l\'autre sens.'
       },
       {
         statement: 'Calculer $\\dfrac{6 \\times 10^{-4}}{3 \\times 10^{-7}}$ et donner le résultat sous la forme $a \\times 10^n$. Quelle est la valeur de $a$ ?',
@@ -619,13 +643,36 @@ window.MODULES.push({
         correction: '1 mm $= 10^{-3}$ m, donc 1 mm² $= 10^{-6}$ m². Ainsi $6$ mm² $= 6 \\times 10^{-6}$ m².'
       },
       {
-        statement: 'Calculer la résistance d\'un câble de cuivre ($\\rho = 1{,}7 \\times 10^{-8}$ Ω·m) de $L = 30$ m et $S = 4$ mm² $= 4 \\times 10^{-6}$ m². Donner $R$ en mΩ.',
-        type: 'numeric',
-        answer: 127.5,
-        tolerance: 1,
-        unit: 'mΩ',
+        /* Question « communiquer » (réécrite le 2026-09-17). Elle demandait
+           d'appliquer $R = \rho L / S$ avec la conversion de $S$ DÉJÀ donnée
+           dans l'énoncé : une substitution, un quotient de puissances, une
+           sortie en mΩ. Or la Q2 du même devoir fait exactement ce quotient
+           de puissances et la Q5 refait la sortie en milli : la question
+           n'apportait qu'une troisième exécution.
+
+           Elle porte désormais sur l'erreur 1 de la fiche professeur —
+           additionner les exposants dans une division au lieu de les
+           soustraire — qui est l'erreur la plus fréquente du chapitre et
+           celle que le tirage ne travaille que sous forme numérique nue,
+           jamais sous forme de raisonnement à juger.
+
+           Le calcul reste nécessaire, et il est plus lourd qu'avant : il faut
+           mener le quotient correctement ($127{,}5$ mΩ) pour constater que le
+           résultat de l'élève est faux d'un facteur $10^{28}$, et repérer
+           laquelle des quatre explications décrit vraiment la règle. */
+        statement: 'Un câble de cuivre ($\\rho = 1{,}7 \\times 10^{-8}$ Ω·m) mesure $L = 30$ m et a une section $S = 4$ mm² $= 4 \\times 10^{-6}$ m². Yanis applique $R = \\dfrac{\\rho L}{S}$ et écrit : « $\\dfrac{1{,}7 \\times 10^{-8} \\times 30}{4 \\times 10^{-6}} = \\dfrac{51 \\times 10^{-8}}{4 \\times 10^{-6}} = 12{,}75 \\times 10^{-14}$ Ω, soit une résistance quasi nulle ». Quelle explication corrige le mieux son raisonnement ?',
+        type: 'multiple-choice',
+        options: [
+          'Son erreur est le $51$ : $1{,}7 \\times 30 = 5{,}1$ et non $51$, la résistance vaut donc $12{,}75$ mΩ.',
+          'Dans une <strong>division</strong>, les exposants se <strong>soustraient</strong> : $10^{-8} / 10^{-6} = 10^{-8-(-6)} = 10^{-2}$, et non $10^{-14}$. Yanis les a additionnés. La résistance vaut $12{,}75 \\times 10^{-2}$ Ω, soit $127{,}5$ mΩ — petite, mais pas négligeable sur $30$ m.',
+          'Une résistance ne peut pas être négative : il faut prendre $10^{+14}$, donc $R = 12{,}75 \\times 10^{14}$ Ω.',
+          'Il a oublié de convertir la section : $4$ mm² valent $4 \\times 10^{-3}$ m², d\'où $R = 12{,}75 \\times 10^{-11}$ Ω.'
+        ],
+        answer: 1,
         points: 3,
-        correction: '$R = 1{,}7 \\times 10^{-8} \\times 30 / (4 \\times 10^{-6}) = 51 \\times 10^{-8} / (4 \\times 10^{-6}) = 12{,}75 \\times 10^{-2}$ Ω $= 127{,}5$ mΩ.'
+        correction: 'Reprenons le calcul ligne à ligne. Le numérateur est juste : $1{,}7 \\times 30 = 51$, donc $\\rho L = 51 \\times 10^{-8}$ Ω·m² — la première proposition se trompe d\'un facteur $10$ sur ce produit.<br/><br/>' +
+          'C\'est au moment de la division que le raisonnement dérape. Yanis a écrit $10^{-8} / 10^{-6} = 10^{-14}$ : il a <strong>additionné</strong> les exposants alors qu\'une division les <strong>soustrait</strong>. La règle exacte est $\\dfrac{10^{m}}{10^{n}} = 10^{m-n}$, ici $10^{-8-(-6)} = 10^{-8+6} = 10^{-2}$. Le double signe moins est précisément ce qui rend l\'erreur si tenace.<br/><br/>' +
+          'Le résultat correct est donc $R = \\dfrac{51}{4} \\times 10^{-2} = 12{,}75 \\times 10^{-2}$ Ω $= 0{,}1275$ Ω $= 127{,}5$ mΩ. La conversion de la section, elle, était bien donnée par l\'énoncé et bien appliquée ($1$ mm² $= 10^{-6}$ m², ce qui écarte la proposition 4) ; et un exposant négatif n\'a rien d\'anormal pour une résistance de quelques centièmes d\'ohm, contrairement à ce qu\'affirme la proposition 3.'
       },
       {
         statement: 'Un condensateur $C = 220$ μF est chargé sous $U = 24$ V. L\'énergie stockée $E = \\frac{1}{2}CU^2$ vaut (en mJ) :',

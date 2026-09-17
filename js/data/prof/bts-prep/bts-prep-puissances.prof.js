@@ -314,8 +314,24 @@ window.SPARK_PROF["bts-prep-puissances"] = {
      ÉTIQUETAGE HONNÊTE (règle du projet) : la compétence est lue sur la tâche
      RÉELLEMENT demandée, jamais choisie pour équilibrer la grille.
 
-     Q1 — exprimer $47\,000\ \Omega$ en kΩ. Une division par $10^3$, le
-          préfixe étant au programme du cours. Exécution. « calculer ».
+     Q1 — RÉÉCRITE le 2026-09-17. Elle demandait d'exprimer $47\,000\ \Omega$
+          en kΩ : une division par $10^3$ sur un nombre rond, 1 point — la
+          question la plus légère du devoir, et le doublon du geste que la Q2
+          (quotient de puissances) et la Q5 (sortie en milli) refont chacune
+          à leur manière.
+          Elle demande maintenant de CHERCHER, parmi quatre écritures d'une
+          capacité de $0{,}000\,047$ F, la seule qui soit correcte : il faut
+          convertir les quatre candidates ($47$ mF, $4{,}7$ nF, $47\ \mu$F,
+          $47$ MF) et écarter les trois qui se trompent de préfixe. Essayer,
+          comparer, écarter : « chercher ».
+          Le calcul reste nécessaire et il est quadruple là où il était
+          unique : quatre conversions avant de pouvoir trancher.
+          La question porte sur l'erreur 3 de cette fiche — déplacer la
+          virgule dans le mauvais sens — déclinée sur les deux préfixes que
+          les élèves confondent le plus, le micro et le méga ; et le
+          quatrième distracteur ($47$ MF, faux d'un facteur $10^{12}$) vise
+          en même temps l'erreur 4, rendre un résultat dans une unité
+          absurde sans s'en apercevoir.
      Q2 — calculer $\dfrac{6 \times 10^{-4}}{3 \times 10^{-7}}$ et donner $a$.
           Application de la règle du quotient sur des nombres donnés.
           Exécution. « calculer ».
@@ -325,10 +341,27 @@ window.SPARK_PROF["bts-prep-puissances"] = {
           sont des extensions plausibles de la règle des longueurs. Il faut
           justifier pourquoi le facteur s'élève au carré et rejeter les
           autres. « raisonner ».
-     Q4 — résistance d'un câble, avec la conversion de $S$ DONNÉE dans
-          l'énoncé ($4$ mm² $= 4 \times 10^{-6}$ m²). Comme la seule difficulté
-          conceptuelle est levée par l'énoncé, il ne reste qu'à substituer,
-          diviser et rendre en mΩ. Exécution. « calculer ».
+     Q4 — RÉÉCRITE le 2026-09-17. Elle demandait la résistance d'un câble
+          avec la conversion de $S$ DONNÉE dans l'énoncé ($4$ mm²
+          $= 4 \times 10^{-6}$ m²) : la seule difficulté conceptuelle étant
+          levée par le rédacteur, il ne restait qu'à substituer, diviser et
+          rendre en mΩ. Or la Q2 du même devoir fait déjà exactement ce
+          quotient de puissances et la Q5 refait déjà la sortie en milli : la
+          question était redondante, et elle étiquetait « calculer » une
+          troisième exécution.
+          Elle demande maintenant de juger le raisonnement de Yanis, qui
+          ADDITIONNE les exposants dans la division ($10^{-8}/10^{-6}
+          = 10^{-14}$ au lieu de $10^{-2}$) et conclut à une résistance
+          « quasi nulle », et d'EXPLIQUER que la division soustrait les
+          exposants : produire une explication, donc « communiquer ».
+          Le calcul reste nécessaire, et plus lourd qu'avant : il faut mener
+          le quotient correct ($127{,}5$ mΩ) pour mesurer l'écart d'un
+          facteur $10^{12}$, vérifier que $1{,}7 \times 30 = 51$ et non $5{,}1$
+          (premier distracteur), et confirmer que $1$ mm² $= 10^{-6}$ m² et
+          non $10^{-3}$ (quatrième distracteur).
+          La question porte désormais sur l'erreur 1 de cette fiche —
+          additionner les exposants dans une division — que l'exercice 6
+          travaille numériquement, jamais comme un raisonnement à corriger.
      Q5 — énergie stockée dans un condensateur, $E = \frac{1}{2}CU^2$ avec
           $C = 220\ \mu$F, résultat en mJ. La formule est donnée, mais
           l'énoncé enchaîne trois conversions que rien n'annonce (micro en
@@ -336,12 +369,16 @@ window.SPARK_PROF["bts-prep-puissances"] = {
           soi-même de l'ordre dans lequel les mener. C'est une chaîne de
           déductions sur les unités, pas une substitution. « raisonner ».
 
-     RÉPARTITION DE CE CHAPITRE : calculer 3, raisonner 2.
-     « chercher », « modéliser », « représenter » et « communiquer » ne sont
-     PAS mobilisés : aucune question ne demande de tâtonner, de traduire une
-     situation en relation (les formules sont toutes fournies), de tracer ni
-     de rédiger. Constat sur les cinq énoncés, non corrigé par complaisance. */
+     RÉPARTITION DE CE CHAPITRE : calculer 1, raisonner 2, chercher 1,
+     communiquer 1.
+     « modéliser » et « représenter » ne sont PAS mobilisés : aucune question
+     ne demande de traduire une situation en relation (les formules sont
+     toutes fournies) ni de lire une représentation. Constat sur les cinq
+     énoncés, non corrigé par complaisance.
+     Les trois erreurs les plus fréquentes de cette fiche sont désormais
+     évaluées chacune par une question : la 3 (sens de la virgule) en Q1, la
+     2 (conversion de surface) en Q3, la 1 (exposants d'une division) en Q4. */
   competences: {
-    evaluation: ["calculer", "calculer", "raisonner", "calculer", "raisonner"]
+    evaluation: ["chercher", "calculer", "raisonner", "communiquer", "raisonner"]
   }
 };

@@ -304,8 +304,25 @@ window.SPARK_PROF["bts-prep-equations"] = {
      ÉTIQUETAGE HONNÊTE (règle du projet) : la compétence est lue sur la tâche
      RÉELLEMENT demandée, jamais choisie pour équilibrer la grille.
 
-     Q1 — résoudre $4x - 20 = 0$. Une division sur deux nombres donnés, aucune
-          décision à prendre. Exécution pure. « calculer ».
+     Q1 — RÉÉCRITE le 2026-09-17. Elle demandait de résoudre $4x - 20 = 0$ :
+          une addition et une division, aucune décision à prendre, 1 point —
+          la question la plus légère du devoir, et le doublon de la Q5, qui
+          résout elle aussi une équation du premier degré après l'avoir posée.
+          Elle demande maintenant de juger le raisonnement de Lucas, qui
+          récite « on met tout du même côté », écrit $4x = -20$ et conclut
+          $x = -5$, et d'EXPLIQUER que déplacer un terme n'est pas le ranger
+          ailleurs mais ajouter la même quantité aux deux membres : produire
+          une explication, donc « communiquer ».
+          Le calcul reste nécessaire, et l'énoncé est bâti pour cela : la
+          vérification par substitution ($4 \times (-5) - 20 = -40 \neq 0$)
+          est le seul moyen de trancher entre les quatre propositions, et
+          c'est précisément le geste que le `remede` de l'erreur 1 réclame.
+          La question porte sur l'erreur 1 de cette fiche — la consigne
+          « on met tout du même côté », que cette fiche décrit comme la phrase
+          la plus abîmée de l'enseignement des mathématiques, et qui donne le
+          bon résultat une fois sur deux : elle n'est jamais assez fausse
+          pour être abandonnée, ce qui la rend invisible en évaluation
+          numérique. Il fallait une question qui la fasse dire.
      Q2 — calculer le discriminant de $x^2 - 5x + 6 = 0$. Substitution dans une
           formule donnée par le cours. « calculer ».
      Q3 — résoudre $x^2 - 5x + 6 = 0$ et donner la plus grande solution, parmi
@@ -313,9 +330,26 @@ window.SPARK_PROF["bts-prep-equations"] = {
           est d'enchaîner $\Delta$ → $\sqrt{\Delta}$ → les deux racines → le
           tri, et de juger laquelle des quatre propositions est valide. La
           déduction en plusieurs pas est le vrai travail. « raisonner ».
-     Q4 — résoudre le système $2x + y = 7$ / $x + y = 5$. Le système est donné
-          tout fait, la méthode est au programme du cours : on soustrait et on
-          conclut. Exécution d'une procédure connue. « calculer ».
+     Q4 — RÉÉCRITE le 2026-09-17. Elle demandait de résoudre le système
+          $2x + y = 7$ / $x + y = 5$ par soustraction : exécution d'une
+          procédure connue, déjà mobilisée par la Q1 (résoudre $4x - 20 = 0$)
+          et répétée par la moitié des quarante-deux exercices du chapitre.
+          La question était redondante, et elle étiquetait « calculer » une
+          troisième exécution dans un devoir qui en comptait déjà deux.
+          Elle demande maintenant de juger le raisonnement de Nadia, qui
+          ADDITIONNE les deux lignes, obtient la somme juste $3x + 2y = 12$,
+          puis en tire $x = 4$ comme si le $2y$ valait zéro — et d'EXPLIQUER
+          pourquoi combiner deux équations ne sert que si la combinaison fait
+          disparaître une inconnue : produire une explication, donc
+          « communiquer ».
+          Le calcul reste nécessaire pour trancher : il faut vérifier que la
+          somme de Nadia est bien $12$ et non $13$ (ce qui écarte le premier
+          distracteur), puis résoudre correctement par soustraction ($x = 2$,
+          $y = 3$) pour mesurer l'écart.
+          La question porte désormais sur l'erreur 3 de cette fiche —
+          additionner deux équations sans les avoir rendues compatibles —
+          que l'exercice 2 travaille numériquement mais jamais comme un
+          raisonnement à juger.
      Q5 — point de fonctionnement d'un réseau hydraulique. L'énoncé donne la
           CONDITION en français (« $H_{pompe} = H_{réseau}$ ») et les deux
           expressions ; il faut comprendre que l'égalité des deux hauteurs
@@ -323,12 +357,17 @@ window.SPARK_PROF["bts-prep-equations"] = {
           technique en une équation à résoudre. La mise en équation est le
           travail. « modéliser ».
 
-     RÉPARTITION DE CE CHAPITRE : calculer 3, raisonner 1, modéliser 1.
-     « chercher », « représenter » et « communiquer » ne sont PAS mobilisés :
-     aucune question ne demande de tâtonner, de tracer, ni de rédiger. Ce
-     n'est pas un oubli mais un constat sur les cinq énoncés — sur les 130
-     questions du BTS, aucune n'est ouverte. */
+     RÉPARTITION DE CE CHAPITRE : calculer 1, raisonner 1, modéliser 1,
+     communiquer 2.
+     « chercher » et « représenter » ne sont PAS mobilisés : aucune question
+     ne demande de tâtonner ni de lire une représentation. Ce n'est pas un
+     oubli mais un constat sur les cinq énoncés.
+     Les deux « communiquer » (Q1 et Q4) ne font pas doublon : la Q1 porte
+     sur le premier degré et la transposition de terme, la Q4 sur les
+     systèmes et le choix de la combinaison. Ce sont les deux erreurs les
+     plus tenaces de cette fiche (1 et 3), prises chacune à l'endroit où
+     elle se produit. */
   competences: {
-    evaluation: ["calculer", "calculer", "raisonner", "calculer", "modéliser"]
+    evaluation: ["communiquer", "calculer", "raisonner", "communiquer", "modéliser"]
   }
 };

@@ -229,21 +229,68 @@ window.MODULES.push(
           correction: '$\\bar{x} = \\dfrac{50{,}2 + 49{,}8 + 50{,}0 + 50{,}4 + 49{,}6}{5} = \\dfrac{250{,}0}{5} = 50{,}0$ g.'
         },
         {
-          statement: 'L\'incertitude élargie avec facteur $k = 2$ correspond à un intervalle de confiance d\'environ :',
+          /* Question « représenter » (réécrite le 2026-09-17). Elle demandait
+             à quel niveau de confiance correspond $k = 2$, parmi quatre
+             pourcentages : une correspondance apprise par cœur, que la Q5
+             du même devoir donnait déjà en clair dans son énoncé (« à $95\%$,
+             $k = 2$ »). La question livrait donc sa réponse deux lignes plus
+             bas.
+
+             Elle demande désormais de LIRE un tableau de facteurs
+             d'élargissement — le tableau que tout technicien a sous les yeux
+             dans un rapport d'étalonnage — et d'en tirer la conclusion
+             correcte sur un cas concret. Lire une donnée dans une
+             représentation tabulée et l'interpréter, c'est « représenter ».
+
+             Le calcul reste nécessaire pour trancher : il faut former le
+             rapport $\dfrac{0{,}9}{0{,}3} = 3$ et le confronter à la colonne
+             $k$ du tableau, sans quoi les quatre lignes se valent. */
+          statement: 'Un rapport d\'étalonnage donne le tableau des facteurs d\'élargissement :<br/><br/>$k$ : $1$ — $1{,}65$ — $2$ — $3$<br/>Niveau de confiance : $68{,}3\\%$ — $90\\%$ — $95{,}4\\%$ — $99{,}7\\%$<br/><br/>Un capteur est livré avec $u = 0{,}3$ bar et une incertitude élargie $U = 0{,}9$ bar. À quel niveau de confiance ce $U$ a-t-il été calculé ?',
           type: 'multiple-choice',
-          options: ['$68\\%$', '$90\\%$', '$95\\%$', '$99\\%$'],
-          answer: 2,
+          options: [
+            '$68{,}3\\%$, car le tableau commence toujours par la ligne de référence.',
+            '$90\\%$, car $0{,}9$ bar se lit directement comme $90\\%$.',
+            '$95{,}4\\%$, car c\'est le niveau conventionnel de tous les rapports d\'étalonnage.',
+            '$99{,}7\\%$, car $U = k\\,u$ donne $k = \\dfrac{0{,}9}{0{,}3} = 3$, et la <strong>quatrième colonne</strong> du tableau associe $k = 3$ à $99{,}7\\%$.'
+          ],
+          answer: 3,
           points: 2,
-          correction: 'Conventionnellement : $k = 1 \\to 68\\%$, $k = 2 \\to 95\\%$, $k = 3 \\to 99\\%$. Ces valeurs correspondent aux quantiles de la loi normale.'
+          correction: 'Un tableau ne se lit pas de gauche à droite au hasard : il faut d\'abord savoir <strong>par quelle colonne y entrer</strong>. Ici, la relation du cours est $U = k \\times u$, donc le facteur se retrouve en divisant : $k = \\dfrac{U}{u} = \\dfrac{0{,}9}{0{,}3} = 3$. C\'est cette valeur, et elle seule, qui donne la ligne à lire.<br/><br/>' +
+            'La colonne $k = 3$ est la quatrième du tableau, en face de $99{,}7\\%$. Le fabricant a donc choisi un niveau de confiance très élevé — ce qui est fréquent pour un capteur de sécurité, où l\'on veut être quasi certain d\'englober la valeur vraie, au prix d\'une plage annoncée plus large.<br/><br/>' +
+            'Les trois autres propositions illustrent les manières de se tromper devant un tableau. La deuxième lit un chiffre pour un autre : $0{,}9$ <strong>bar</strong> est une incertitude en unités physiques, pas un pourcentage. La troisième applique une habitude ($k = 2$ est effectivement le plus répandu) sans vérifier les données fournies. Et la première n\'entre pas du tout dans le tableau : elle prend la première ligne venue.'
         },
         {
-          statement: 'On mesure $n = 25$ fois une résistance. $\\bar{R} = 47{,}0$ Ω, $s = 1{,}0$ Ω. Exprimer le résultat avec incertitude élargie à $95\\%$ ($k = 2$). Quelle est la demi-largeur de l\'intervalle (en Ω) ?',
-          type: 'numeric',
-          answer: 0.4,
-          tolerance: 0.01,
-          unit: 'Ω',
+          /* Question « communiquer » (réécrite le 2026-09-17). Elle demandait
+             $u_A = s/\sqrt{n}$ puis $k \times u_A$ — or la Q1 du même devoir
+             fait déjà exactement $u_A = s/\sqrt{n}$ et la Q4 fournit déjà
+             $k = 2$. La question ne rajoutait qu'une multiplication par $2$ :
+             troisième exécution du même geste dans un devoir qui en comptait
+             déjà quatre.
+
+             Elle porte désormais sur l'erreur 2 de la fiche professeur —
+             confondre l'écart-type $s$ (dispersion des mesures) et
+             l'incertitude sur la moyenne $u_A$ (précision du résultat) — qui
+             est l'erreur conceptuelle centrale du chapitre et l'une des deux
+             que AUCUN exercice du tirage ne travaille (`exercice: null`).
+
+             Le calcul reste nécessaire, et il est plus complet qu'avant : il
+             faut mener toute la chaîne ($u_A = 0{,}2$ Ω puis $2u_A = 0{,}4$ Ω)
+             pour constater que le $\pm 2{,}0$ Ω annoncé est cinq fois trop
+             large, et savoir que c'est le $\sqrt{25}$ oublié qui en est la
+             cause. */
+          statement: 'On mesure $n = 25$ fois une résistance : $\\bar{R} = 47{,}0$ Ω et $s = 1{,}0$ Ω. Maxime écrit : « l\'écart-type vaut $1{,}0$ Ω, donc avec $k = 2$ je rends $R = 47{,}0 \\pm 2{,}0$ Ω à $95\\%$ ». Quelle explication corrige le mieux son raisonnement ?',
+          type: 'multiple-choice',
+          options: [
+            'Son résultat est juste : l\'incertitude élargie est toujours $k$ fois l\'écart-type.',
+            'Il aurait dû diviser par $n$ et non par $\\sqrt{n}$ : l\'incertitude vaut $2 \\times 1{,}0/25 = 0{,}08$ Ω.',
+            'Il a confondu la <strong>dispersion des mesures</strong> ($s = 1{,}0$ Ω, qui ne diminue pas quand on mesure davantage) et l\'incertitude sur la <strong>moyenne</strong> ($u_A = s/\\sqrt{n} = 1{,}0/5 = 0{,}2$ Ω, qui elle diminue). La demi-largeur correcte est $2 \\times 0{,}2 = 0{,}4$ Ω, soit $R = 47{,}0 \\pm 0{,}4$ Ω.',
+            'Il aurait dû prendre $k = 1$ pour $95\\%$, ce qui donne $R = 47{,}0 \\pm 1{,}0$ Ω.'
+          ],
+          answer: 2,
           points: 2,
-          correction: '$u_A = s/\\sqrt{n} = 1{,}0/\\sqrt{25} = 0{,}2$ Ω. Demi-largeur $= k \\times u_A = 2 \\times 0{,}2 = 0{,}4$ Ω. Résultat : $R = 47{,}0 \\pm 0{,}4$ Ω (à $95\\%$).'
+          correction: 'Maxime a bien identifié $k = 2$ pour $95\\%$ — c\'est la convention du cours, et la proposition 4 se trompe en lui préférant $k = 1$, qui correspond à $68\\%$. Son erreur est ailleurs, et elle est conceptuelle.<br/><br/>' +
+            'L\'écart-type $s = 1{,}0$ Ω mesure la <strong>dispersion des mesures individuelles</strong> : si l\'on refaisait une vingt-sixième mesure, elle tomberait typiquement à $1$ Ω de la moyenne. Cette grandeur est une propriété du montage, et elle ne s\'améliore pas parce qu\'on mesure plus longtemps. L\'incertitude type A, elle, porte sur la <strong>moyenne des vingt-cinq mesures</strong>, et une moyenne est bien plus stable qu\'une mesure isolée : $u_A = \\dfrac{s}{\\sqrt{n}} = \\dfrac{1{,}0}{\\sqrt{25}} = \\dfrac{1{,}0}{5} = 0{,}2$ Ω.<br/><br/>' +
+            'La demi-largeur à $95\\%$ est donc $k \\times u_A = 2 \\times 0{,}2 = 0{,}4$ Ω, et le résultat s\'écrit $R = 47{,}0 \\pm 0{,}4$ Ω. Maxime annonçait une incertitude <strong>cinq fois trop grande</strong> — il se croit prudent, mais il disqualifie son propre travail en jetant le bénéfice des vingt-cinq mesures. Attention enfin au diviseur : c\'est bien $\\sqrt{n} = 5$ et non $n = 25$, sans quoi on tomberait sur les $0{,}08$ Ω de la proposition 2, cette fois beaucoup trop optimistes.'
         }
       ]
     }

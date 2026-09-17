@@ -387,12 +387,28 @@ window.SPARK_PROF["bts-integrales-appliquees"] = {
           calculer l'intégrale PUIS diviser : c'est une procédure en deux
           temps, mais les deux temps sont connus et aucun choix de méthode ne
           se pose. « calculer ».
-     Q3 — $\int_0^1 e^{2x}dx$, avec $e^2 \approx 7{,}389$ fourni. La primitive
-          de $e^{2x}$ n'est pas dans les quatre formules encadrées (qui
-          donnent $\int e^x dx$, sans coefficient) : il faut voir qu'il faut
-          diviser par $2$. On pourrait y voir un raisonnement, mais la
-          correction montre que le geste attendu est l'application directe
-          d'une primitive composée, procédure connue : « calculer ».
+     Q3 — RÉÉCRITE le 2026-09-17. Elle demandait $\int_0^1 e^{2x}dx$ :
+          primitive, évaluation aux deux bornes, soustraction — le même
+          enchaînement que la Q1 ($\int_1^3 2x\,dx$) et la Q5
+          ($\int_0^3 4t\,dt$) du même devoir, sur une fonction différente.
+          Troisième exécution du même geste dans un devoir qui comptait
+          quatre « calculer » sur cinq questions. L'ancienne fiche hésitait
+          déjà à la surclasser en « raisonner » : c'était le signe qu'il
+          fallait la réécrire, pas la réétiqueter.
+          Elle demande maintenant de juger le raisonnement de Rémi, qui
+          propose $2e^{2x}$ comme primitive de $e^{2x}$ — il a DÉRIVÉ au lieu
+          d'intégrer — et qui oublie de surcroît la borne inférieure, et
+          d'EXPLIQUER que le coefficient passe au dénominateur en intégration
+          et que $e^0 = 1$ : produire une explication, donc « communiquer ».
+          Le calcul reste entièrement nécessaire, et il est plus exigeant
+          qu'avant : mener l'intégrale juste ($3{,}19$), redériver la
+          primitive proposée pour voir qu'elle donne $4e^{2x}$, et repérer
+          que le $6{,}39$ du troisième distracteur est exactement le
+          numérateur oublié de la division par $2$.
+          La question porte désormais sur les erreurs 1 et 3 de cette fiche
+          réunies dans une même copie — dériver au lieu d'intégrer, et
+          oublier de soustraire $F(a)$ — qui sont les deux fautes qui
+          cohabitent le plus souvent.
      Q4 — « $\int_a^b f$ peut être négative. Cela signifie que : », avec « le
           calcul est faux », « l'aire géométrique est négative » et « les
           bornes sont inversées » en distracteurs. Aucun calcul : il faut
@@ -404,8 +420,8 @@ window.SPARK_PROF["bts-integrales-appliquees"] = {
           est celui des douze exercices. Il n'y a rien à traduire : le modèle
           est fourni. « calculer ».
 
-     RÉPARTITION DE CE CHAPITRE : calculer 4, raisonner 1. « chercher »,
-     « modéliser », « représenter » et « communiquer » ne sont pas mobilisés.
+     RÉPARTITION DE CE CHAPITRE : calculer 3, raisonner 1, communiquer 1.
+     « chercher », « modéliser » et « représenter » ne sont pas mobilisés.
 
      Le cas de « représenter » mérite un mot, comme au chapitre 5 : l'intégrale
      est DÉFINIE comme une aire (D2), le cours en parle en termes de courbe et
@@ -419,6 +435,6 @@ window.SPARK_PROF["bts-integrales-appliquees"] = {
      « représenter » devra ajouter sa propre question — une courbe à hachurer
      suffit. */
   competences: {
-    evaluation: ["calculer", "calculer", "calculer", "raisonner", "calculer"]
+    evaluation: ["calculer", "calculer", "communiquer", "raisonner", "calculer"]
   }
 };

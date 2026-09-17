@@ -338,22 +338,40 @@ window.SPARK_PROF["bts-prep-graphiques"] = {
      AVERTISSEMENT D'ÉTIQUETAGE PROPRE À CE CHAPITRE. C'est ici que la
      tentation d'écrire « représenter » est la plus forte : le chapitre
      s'intitule « Lecture et exploitation de graphiques », et « représenter »
-     couvre justement « produire ou lire un graphique ». Il faut résister.
-     AUCUNE des quatre questions ne présente de graphique : toutes donnent des
-     couples de nombres en clair et demandent un calcul. Étiqueter
-     « représenter » serait décrire le TITRE du chapitre au lieu de la tâche
-     demandée — exactement ce que la règle d'étiquetage honnête interdit.
+     couvre justement « produire ou lire un graphique ». Il faut résister
+     pour trois des quatre questions : les Q1, Q3 et Q4 ne présentent aucune
+     représentation, elles donnent des couples de nombres en clair et
+     demandent un calcul ou un jugement. Les étiqueter « représenter » serait
+     décrire le TITRE du chapitre au lieu de la tâche demandée — exactement
+     ce que la règle d'étiquetage honnête interdit.
+     Seule la Q2, réécrite le 2026-09-17, fait réellement LIRE une graduation
+     logarithmique ; elle est donc la seule à porter « représenter », et elle
+     le porte parce que la tâche a changé, pas parce que l'étiquette a été
+     redéclarée sur un énoncé inchangé.
 
      Q1 — interpolation linéaire entre $(5\ ;\ 1{,}8)$ et $(9\ ;\ 2{,}6)$ pour
           $Q = 7$. La formule est celle du cours (D2), les points sont donnés,
           la correction déroule la substitution. Exécution d'une procédure
           connue. « calculer ».
-     Q2 — loi puissance en log-log passant par $(10, 5)$ et $(100, 50)$, valeur
-          en $x = 1000$. Il faut d'abord établir $n$ par le rapport des
-          logarithmes, EN DÉDUIRE que la loi est linéaire ($y = 0{,}5x$), puis
-          l'appliquer hors de la plage donnée. C'est une chaîne de déductions
-          dont chaque maillon conditionne le suivant, et le calcul final n'en
-          est que la conclusion. « raisonner ».
+     Q2 — RÉÉCRITE le 2026-09-17. Elle donnait deux points d'un abaque log-log
+          et demandait $y$ en $x = 1000$ : une chaîne de calculs (pente par le
+          rapport des logarithmes, puis application), c'est-à-dire le même
+          type d'exécution chaînée que la Q1 (interpolation) et la Q3 (pente)
+          du même devoir, toujours sur des couples fournis en clair. Aucun
+          axe n'était lu.
+          Elle demande maintenant de LIRE une graduation logarithmique : les
+          graduations $10$ et $100$ sont à $60$ mm l'une de l'autre, où tombe
+          le point situé à $30$ mm ? Il faut comprendre qu'une distance égale
+          y représente un RAPPORT égal et non une différence, donc que le
+          milieu vaut la moyenne géométrique $\sqrt{10 \times 100} \approx
+          31{,}6$ et non $55$. Lire une représentation graduée, c'est bien
+          « représenter ».
+          Le calcul reste nécessaire pour trancher : il faut former
+          $10\sqrt{10} \approx 31{,}6$ et vérifier la symétrie des rapports
+          ($31{,}6/10 = 100/31{,}6 = 3{,}16$) que $55$ ne respecte pas.
+          C'est la première question du chapitre à faire lire un axe, et elle
+          porte sur l'erreur 4 de cette fiche — lire une échelle logarithmique
+          comme une échelle linéaire.
      Q3 — pente d'une caractéristique courant/vitesse, de $(2, 1000)$ à
           $(8, 800)$. Application de $\Delta y/\Delta x$ sur deux points
           donnés, avec un résultat négatif qui ne demande aucune justification
@@ -365,16 +383,17 @@ window.SPARK_PROF["bts-prep-graphiques"] = {
           interpolation. C'est un verdict à établir sur des affirmations
           concurrentes. « raisonner ».
 
-     RÉPARTITION DE CE CHAPITRE : calculer 2, raisonner 2.
-     « chercher », « modéliser », « représenter » et « communiquer » ne sont
-     PAS mobilisés. L'absence de « représenter » dans un chapitre de lecture
-     graphique est le constat le plus notable de cette fiche, et il vaut aussi
-     pour le chapitre 5 : sur l'ensemble du recueil, la compétence
-     « représenter » n'est mobilisée par AUCUNE question d'évaluation, parce
-     que les 130 questions du BTS sont toutes `numeric` ou `multiple-choice` et
-     qu'aucune ne comporte de figure. C'est un fait de corpus, publié tel quel
-     plutôt que corrigé par un étiquetage complaisant. */
+     RÉPARTITION DE CE CHAPITRE : calculer 2, raisonner 1, représenter 1.
+     « chercher », « modéliser » et « communiquer » ne sont PAS mobilisés :
+     aucune des quatre questions ne demande de tâtonner, de traduire une
+     situation en relation, ni de rédiger une explication. C'est un constat
+     sur les quatre énoncés.
+     Le format reste contraignant : les questions du BTS sont toutes
+     `numeric` ou `multiple-choice` et aucune ne comporte de figure. C'est
+     pourquoi la Q2 fait lire une graduation DÉCRITE dans son énoncé plutôt
+     qu'un axe dessiné — la tâche de lecture est réelle, le support est
+     textuel. */
   competences: {
-    evaluation: ["calculer", "raisonner", "calculer", "raisonner"]
+    evaluation: ["calculer", "représenter", "calculer", "raisonner"]
   }
 };

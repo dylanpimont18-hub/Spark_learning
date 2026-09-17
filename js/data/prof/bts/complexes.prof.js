@@ -350,25 +350,47 @@ window.SPARK_PROF["complexes"] = {
           calcul ($\arctan 1$), mais les quatre options sont $0°$, $45°$,
           $90°$, $180°$ : le vrai travail est de situer le point $(1;1)$ dans
           le plan complexe, sur la bissectrice. C'est la LECTURE d'une
-          position dans un repère : « représenter ». C'est la seule question
-          du corpus BTS qui mobilise cette compétence, et c'est pour cela
-          qu'elle est signalée ici.
-     Q5 — condition de résonance donnée ($L\omega_0 = 1/(C\omega_0)$), calculer
-          $\omega_0$ pour $L$ et $C$ fournis. Application numérique de
-          $1/\sqrt{LC}$ avec les microfarads : « calculer ».
+          position dans un repère : « représenter ». Elle était, jusqu'au
+          2026-09-17, la SEULE question du corpus BTS à mobiliser cette
+          compétence — fait de corpus qui a motivé la réécriture de la Q5
+          ci-dessous et de quatre autres questions du recueil.
+     Q5 — RÉÉCRITE le 2026-09-17. Elle donnait la condition de résonance
+          $L\omega_0 = 1/(C\omega_0)$ DANS l'énoncé et n'en demandait que
+          l'application numérique — or la Q3 du même devoir calcule déjà
+          $L\omega$ et $1/(C\omega)$ sur un RLC série, avec la même
+          conversion des microfarads. La question rejouait la Q3 avec des
+          valeurs choisies pour tomber rond : redondante, et troisième
+          « calculer » du devoir.
+          Elle demande maintenant de LIRE la position de trois impédances
+          dans le plan complexe — $40 + 40j$ au-dessus de l'axe réel,
+          $50$ dessus, $36 - 48j$ au-dessous — et d'en déduire la nature de
+          chaque dipôle. C'est la représentation de Fresnel, la seule figure
+          que ce chapitre mobilise vraiment : « représenter ».
+          Le calcul reste nécessaire : il faut former les trois modules
+          ($40\sqrt{2} \approx 56{,}6$, $50$ et $60$) pour écarter le
+          distracteur qui prétend classer les dipôles par taille, et
+          constater que le plus GRAND module est le dipôle capacitif — ce
+          qu'aucune lecture de module seul ne pouvait dire.
+          La question porte désormais sur l'erreur 4 de cette fiche — rendre
+          un module sans jamais interpréter le déphasage — que le tirage ne
+          travaille pas (`exercice: null`).
 
-     RÉPARTITION DE CE CHAPITRE : calculer 3, raisonner 1, représenter 1.
+     RÉPARTITION DE CE CHAPITRE : calculer 2, raisonner 1, représenter 2.
      « chercher », « modéliser » et « communiquer » ne sont pas mobilisés :
      aucune question ne demande d'essayer une piste, de mettre une situation
      en équation, ni de rédiger une explication. C'est un constat sur les cinq
-     énoncés, pas un choix — et il rejoint celui du corpus entier, dont les
-     130 questions sont toutes `numeric` ou à choix multiple.
+     énoncés, pas un choix.
+     Ce chapitre est désormais le seul du recueil à porter deux fois
+     « représenter », ce qui est cohérent avec son objet : le plan complexe
+     EST une représentation, et les Q4 et Q5 y font lire deux choses
+     différentes — une position sur la bissectrice, et le signe d'une partie
+     imaginaire.
 
      À signaler : quatre des cinq questions (Q2 à Q5) portent sur des notions
      que les douze exercices ne travaillent JAMAIS — argument, impédances de
      composants, résonance (voir la `note`). Un étudiant qui n'aurait fait que
      les exercices n'aurait préparé que la Q1. */
   competences: {
-    evaluation: ["calculer", "raisonner", "calculer", "représenter", "calculer"]
+    evaluation: ["calculer", "raisonner", "calculer", "représenter", "représenter"]
   }
 };

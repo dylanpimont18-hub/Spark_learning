@@ -246,13 +246,38 @@ window.MODULES.push(
           correction: '$\\arg(1 + j) = \\arctan\\left(\\dfrac{1}{1}\\right) = \\arctan(1) = 45°$ (ou $\\pi/4$ rad). Le module est $\\sqrt{2}$, d\'où la forme exponentielle $\\underline{Z} = \\sqrt{2}\\,e^{j\\pi/4}$.'
         },
         {
-          statement: 'À la résonance d\'un circuit RLC série, la condition sur les réactances est $L\\omega_0 = \\dfrac{1}{C\\omega_0}$. Pour $L = 0{,}1$ H et $C = 10$ μF, calculer la pulsation de résonance $\\omega_0$ (arrondir à l\'entier).',
-          type: 'numeric',
-          answer: 1000,
-          tolerance: 1,
-          unit: 'rad/s',
+          /* Question « représenter » (réécrite le 2026-09-17). Elle donnait la
+             condition de résonance DANS l'énoncé et n'en demandait que
+             l'application numérique — or la Q3 du même devoir calcule déjà
+             $L\omega$ et $1/(C\omega)$ sur un RLC série, avec la même
+             conversion des microfarads. La question rejouait la Q3 avec des
+             valeurs choisies pour tomber rond.
+
+             Elle demande désormais de LIRE la position de trois impédances
+             dans le plan complexe et d'en déduire la nature du circuit :
+             c'est la représentation de Fresnel, la seule figure que ce
+             chapitre mobilise vraiment, et « représenter » est bien la
+             compétence en jeu.
+
+             Elle vise l'erreur 4 de la fiche professeur — rendre un module
+             sans jamais interpréter le déphasage — que le tirage ne travaille
+             pas (`exercice: null`). Le calcul reste nécessaire : il faut
+             comparer les trois modules ($\sqrt{2} \times 40$, $50$ et $60$)
+             pour écarter le distracteur qui range les impédances par taille
+             au lieu de les ranger par signe de partie imaginaire. */
+          statement: 'Trois dipôles ont pour impédances $\\underline{Z_1} = 40 + 40j$ Ω, $\\underline{Z_2} = 50$ Ω et $\\underline{Z_3} = 36 - 48j$ Ω. Dans le plan complexe, où se placent leurs points d\'affixe, et que peut-on en conclure ?',
+          type: 'multiple-choice',
+          options: [
+            '$\\underline{Z_1}$ au-dessus de l\'axe réel (inductif, $\\varphi = +45°$), $\\underline{Z_2}$ <strong>sur</strong> l\'axe réel (purement résistif, $\\varphi = 0$), $\\underline{Z_3}$ au-dessous (capacitif, $\\varphi < 0$). Le <strong>signe de la partie imaginaire</strong> donne la nature du dipôle, et $|\\underline{Z_3}| = 60$ Ω est pourtant le plus grand des trois modules.',
+            'Les trois points sont alignés sur l\'axe réel, puisqu\'une impédance est toujours une grandeur positive.',
+            'Ils se classent du plus inductif au plus capacitif selon leur <strong>module</strong> : $\\underline{Z_1}$ ($56{,}6$ Ω), $\\underline{Z_3}$ ($60$ Ω), puis $\\underline{Z_2}$ ($50$ Ω).',
+            '$\\underline{Z_3}$ est au-dessus de l\'axe réel car sa partie réelle $36$ est positive, et $\\underline{Z_1}$ au-dessous car ses deux parties sont égales.'
+          ],
+          answer: 0,
           points: 1,
-          correction: '$\\omega_0 = \\dfrac{1}{\\sqrt{LC}} = \\dfrac{1}{\\sqrt{0{,}1 \\times 10 \\times 10^{-6}}} = \\dfrac{1}{\\sqrt{10^{-6}}} = \\dfrac{1}{10^{-3}} = 1000$ rad/s.'
+          correction: 'Dans le plan complexe, une impédance se lit sur <strong>deux</strong> axes : l\'axe horizontal porte la résistance (partie réelle) et l\'axe vertical la réactance (partie imaginaire). C\'est le <strong>signe de la partie imaginaire</strong>, donc la position au-dessus ou au-dessous de l\'axe réel, qui donne la nature du dipôle — jamais la partie réelle, qui est positive pour tout dipôle passif (ce qui invalide la proposition 4).<br/><br/>' +
+            '$\\underline{Z_1} = 40 + 40j$ est au-dessus : le circuit est <strong>inductif</strong>, le courant est en retard sur la tension, et $\\varphi = \\arctan(40/40) = +45°$. $\\underline{Z_2} = 50$ est exactement <strong>sur</strong> l\'axe réel : purement résistif, $\\varphi = 0$, tension et courant en phase. $\\underline{Z_3} = 36 - 48j$ est au-dessous : <strong>capacitif</strong>, $\\varphi = \\arctan(-48/36) \\approx -53°$, le courant est en avance. Un seul coup d\'œil au plan suffit donc à conclure, alors qu\'aucun module ne le permettrait.<br/><br/>' +
+            'C\'est bien ce que montre le calcul des trois modules : $|\\underline{Z_1}| = \\sqrt{40^2+40^2} = 40\\sqrt{2} \\approx 56{,}6$ Ω, $|\\underline{Z_2}| = 50$ Ω et $|\\underline{Z_3}| = \\sqrt{36^2+48^2} = \\sqrt{1296+2304} = \\sqrt{3600} = 60$ Ω. Le plus <strong>grand</strong> des trois est le dipôle capacitif : ranger les impédances par module, comme le propose la troisième option, ne dit rien de leur nature. Un module rendu sans son argument est une réponse à moitié muette — il indique combien le dipôle freine le courant, jamais s\'il le met en avance ou en retard.'
         }
       ]
     }

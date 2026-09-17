@@ -652,13 +652,36 @@ Les fonctions sin et cos sont périodiques de période $2\\pi$ (360°). C'est la
         correction: 'Pour une pente exprimée en %, $\\tan\\theta = $ pente/100. Ici $h = 400 \\times 0{,}05 = 20\\;\\text{m}$.',
       },
       {
-        statement: 'Pour cette même canalisation (pente de 5 %), quel est l\'angle θ avec l\'horizontale (en degrés, arrondi à 0,01°) ?',
-        type: 'numeric',
-        answer: 2.86,
-        tolerance: 0.05,
-        unit: '°',
+        /* Question « communiquer » (réécrite le 2026-09-17). Elle demandait
+           $\arctan(0{,}05)$ sur la canalisation dont la Q4 venait de traduire
+           la pente : une touche de calculatrice, sur un dispositif déjà mis
+           en place. Deuxième exécution d'affilée, et la question la moins
+           chargée du devoir (1 point).
+
+           Elle porte désormais sur l'erreur 3 de la fiche professeur —
+           confondre une pente en pourcentage avec un angle en degrés — qui
+           est l'erreur la plus répandue du chapitre sur le terrain, et la
+           plus coûteuse en canalisation.
+
+           Le calcul reste nécessaire et il est double : il faut mener
+           $\arctan(0{,}05) \approx 2{,}86°$ pour voir que l'angle réel n'est
+           pas $5°$, ET mener $\tan(5°) \approx 0{,}0875$ pour chiffrer
+           l'erreur que commet l'élève — soit $35$ m de dénivelé au lieu de
+           $20$ sur les $400$ m de l'énoncé. Plus exigeante que la question
+           qu'elle remplace, pas moins. */
+        statement: 'Pour cette même canalisation (pente de $5$ % sur $400$ m horizontaux), Karim écrit : « une pente de $5$ % fait un angle de $5°$ avec l\'horizontale ». On donne $\\arctan(0{,}05) \\approx 2{,}86°$ et $\\tan(5°) \\approx 0{,}0875$. Quelle explication corrige le mieux son raisonnement ?',
+        type: 'multiple-choice',
+        options: [
+          'Il a raison sur le principe, mais il faut arrondir : l\'angle vaut $5{,}0°$ à un dixième près.',
+          'Une pente en pourcentage est une <strong>tangente</strong>, pas un angle : $5$ % signifie $\\tan\\theta = 0{,}05$, donc $\\theta = \\arctan(0{,}05) \\approx 2{,}86°$. Croire à $5°$ reviendrait à une pente de $\\tan(5°) \\approx 8{,}75$ %, soit $35$ m de dénivelé sur $400$ m au lieu de $20$ m.',
+          'Son erreur est d\'unité : $5$ % correspond à $5$ grades, soit $4{,}5°$.',
+          'Une pente de $5$ % vaut $5 \\times 0{,}9 = 4{,}5°$, car $100$ % correspond à $90°$.'
+        ],
+        answer: 1,
         points: 1,
-        correction: '$\\theta = \\arctan(0{,}05) \\approx 2{,}86°$.',
+        correction: 'Une pente exprimée en pourcentage n\'est pas un angle : c\'est un <strong>rapport de longueurs</strong>, la hauteur gagnée divisée par la distance horizontale parcourue. Dire « $5$ % », c\'est dire $\\dfrac{h}{d} = 0{,}05$, c\'est-à-dire exactement $\\tan\\theta = 0{,}05$. L\'angle s\'en déduit par l\'arctangente : $\\theta = \\arctan(0{,}05) \\approx 2{,}86°$.<br/><br/>' +
+          'Chiffrons ce que coûterait l\'erreur de Karim, car c\'est là qu\'elle devient parlante. S\'il travaillait vraiment à $5°$, la pente serait $\\tan(5°) \\approx 0{,}0875$, soit $8{,}75$ % — près du <strong>double</strong> de ce qui est prescrit. Sur les $400$ m de l\'énoncé, il creuserait un dénivelé de $400 \\times 0{,}0875 = 35$ m au lieu des $20$ m calculés en Q4. Sur un réseau de gaz ou d\'assainissement, un tel écart n\'est pas une approximation, c\'est une reprise de chantier.<br/><br/>' +
+          'Les deux dernières propositions cherchent une règle de conversion linéaire entre pourcentage et degrés — il n\'en existe pas, précisément parce que la tangente n\'est pas linéaire. Une pente de $100$ % ne fait pas $90°$ mais $45°$ ($\\tan 45° = 1$), ce qui suffit à ruiner la proportionnalité de la quatrième option. Retenir la règle pratique : <strong>tant que la pente reste faible</strong> (sous $10$ %), l\'angle en degrés vaut à peu près $0{,}57$ fois le pourcentage — d\'où les $2{,}86°$ trouvés ici pour $5$ %.',
       },
       {
         statement: 'Un signal de tension mesure $u(t) = 230\\sqrt{2}\\,\\sin(100\\pi t - \\pi/6)\\;\\text{V}$. Quelle est sa valeur maximale $U_{\\max}$ (en V, arrondie à l\'unité) ?',
@@ -670,13 +693,37 @@ Les fonctions sin et cos sont périodiques de période $2\\pi$ (360°). C'est la
         correction: '$U_{\\max} = 230\\sqrt{2} \\approx 325\\;\\text{V}$.',
       },
       {
-        statement: 'Pour ce même signal, quelle est sa fréquence $f$ (en Hz) ?',
-        type: 'numeric',
-        answer: 50,
-        tolerance: 0.5,
-        unit: 'Hz',
+        /* Question « chercher » (réécrite le 2026-09-17). Elle demandait
+           $f = \omega/(2\pi)$ sur le signal dont la Q6 avait déjà lu la
+           structure et dont la Q8 relit encore le déphasage : une division
+           par $2\pi$, troisième exécution d'affilée sur le même dispositif.
+
+           Elle demande désormais d'ESSAYER : quatre valeurs de $t$ sont
+           proposées, et il faut tester laquelle annule la tension sans la
+           faire remonter — donc mener plusieurs essais et comparer leurs
+           résultats, ce qui est exactement « chercher ».
+
+           Elle vise l'erreur 2 de la fiche professeur (laisser la
+           calculatrice en radians pour un angle donné en degrés, ou
+           l'inverse) : l'argument $100\pi t - \pi/6$ est en RADIANS, et
+           l'élève qui tape ces valeurs en mode degré ne trouvera jamais zéro.
+
+           Le calcul reste entièrement nécessaire, et il est quadruple : il
+           faut évaluer l'argument pour chacune des quatre dates avant de
+           pouvoir trancher. Plus exigeante que la division qu'elle remplace. */
+        statement: 'Pour ce même signal $u(t) = 230\\sqrt{2}\\sin(100\\pi t - \\pi/6)$ V, on cherche le premier instant $t > 0$ où la tension s\'annule. Parmi les quatre dates ci-dessous, une seule convient. Laquelle, et pourquoi les trois autres échouent-elles ?',
+        type: 'multiple-choice',
+        options: [
+          '$t = 1{,}67$ ms, car l\'<strong>argument</strong> vaut alors $\\dfrac{\\pi}{6} - \\dfrac{\\pi}{6} = 0$ et $\\sin 0 = 0$. Les trois autres dates donnent des arguments qui ne sont <strong>pas des multiples de $\\pi$</strong> : ce n\'est pas $t$ qui doit être remarquable, c\'est l\'argument du sinus.',
+          '$t = 0$ ms, car un signal sinusoïdal part toujours de zéro.',
+          '$t = 5$ ms, car c\'est le quart de la période $T = 20$ ms.',
+          '$t = 10$ ms, car c\'est la demi-période et le sinus s\'annule à chaque demi-période.'
+        ],
+        answer: 0,
         points: 2,
-        correction: '$\\omega = 100\\pi$ rad/s, donc $f = \\omega/(2\\pi) = 50\\;\\text{Hz}$.',
+        correction: 'La tension s\'annule quand le <strong>sinus</strong> s\'annule, c\'est-à-dire quand son argument $100\\pi t - \\dfrac{\\pi}{6}$ est un multiple de $\\pi$ (et non quand $t$ lui-même a une valeur remarquable). Il faut donc essayer les quatre dates et calculer l\'argument à chaque fois — en <strong>radians</strong>, puisque c\'est dans cette unité que l\'expression est écrite.<br/><br/>' +
+          'Essai $t = 0$ : l\'argument vaut $-\\dfrac{\\pi}{6}$, donc $u(0) = 230\\sqrt{2}\\sin(-30°) \\approx -163$ V. Le signal ne part <strong>pas</strong> de zéro, justement parce qu\'il est déphasé. Essai $t = 5$ ms $= 0{,}005$ s : $100\\pi \\times 0{,}005 = 0{,}5\\pi$, l\'argument vaut $\\dfrac{\\pi}{2} - \\dfrac{\\pi}{6} = \\dfrac{\\pi}{3}$, dont le sinus vaut $0{,}866$ : on est près du maximum, pas du zéro. Essai $t = 10$ ms : $100\\pi \\times 0{,}01 = \\pi$, l\'argument vaut $\\pi - \\dfrac{\\pi}{6} = \\dfrac{5\\pi}{6}$, dont le sinus vaut $0{,}5$.<br/><br/>' +
+          'Essai $t = 1{,}67$ ms : $100\\pi \\times 0{,}00167 \\approx 0{,}167\\pi = \\dfrac{\\pi}{6}$, et l\'argument vaut $\\dfrac{\\pi}{6} - \\dfrac{\\pi}{6} = 0$. Le sinus s\'annule : c\'est bien la date cherchée. On retrouve d\'ailleurs le sens physique du déphasage — le signal est en <strong>retard</strong> de $30°$, soit $\\dfrac{30}{360} \\times 20 = 1{,}67$ ms sur une période de $20$ ms, exactement le décalage de son premier passage par zéro. Dernier avertissement, et c\'est l\'erreur qui fait perdre le plus de points au BTS : tous ces arguments sont en radians, et une calculatrice restée en mode degré donnera quatre résultats faux sans prévenir.',
       },
       {
         statement: 'Pour ce même signal, quel est le déphasage à l\'origine (en degrés, avec son signe) ?',

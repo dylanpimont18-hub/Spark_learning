@@ -425,24 +425,39 @@ window.SPARK_PROF["bts-probas-discretes"] = {
           qui suppose de comprendre POURQUOI l'approximation fonctionne
           (événements rares). C'est la question la plus exigeante du devoir, et
           c'est un jugement sur la validité d'un modèle : « raisonner ».
-     Q5 — $X \sim \mathcal{P}(4)$, calculer $P(X \geq 1) = 1 - P(X = 0)$, avec
-          $e^{-4}$ fourni ET la formule du contraire ÉCRITE dans l'énoncé. Le
-          passage au contraire — qui serait un raisonnement — est donc donné :
-          il ne reste qu'une soustraction. « calculer ».
+     Q5 — RÉÉCRITE le 2026-09-17. Elle demandait
+          $P(X \geq 1) = 1 - P(X = 0)$ avec la loi NOMMÉE, le paramètre
+          DONNÉ, $e^{-4}$ FOURNI et la formule du contraire ÉCRITE dans
+          l'énoncé : il ne restait qu'une soustraction, après la Q1 et la Q3
+          qui appliquaient déjà leurs lois toutes désignées. Troisième
+          application dictée du devoir, et la plus pauvre des trois.
+          Elle demande maintenant de TESTER une conjecture sur des données
+          brutes : un relevé de pannes sur cent jours est donné, et il faut
+          confronter quatre lois candidates à ce relevé — binomiale,
+          Poisson, uniforme, normale — avant de trancher. Essayer, comparer,
+          écarter celles qui échouent : c'est « chercher ».
+          Le calcul reste nécessaire et il est multiple : $E = V \approx 2$
+          désigne Poisson ; $V = np(1-p) < np$ écarte la binomiale ; cinq
+          effectifs voisins de $20$ écarteraient l'uniforme, ce que le relevé
+          dément ; et la continuité écarte la normale sur un comptage.
+          La question porte désormais sur l'erreur 1 de cette fiche —
+          choisir la mauvaise loi, binomiale là où il faut Poisson — que le
+          tirage ne travaille pas (`exercice: null`).
 
-     RÉPARTITION DE CE CHAPITRE : calculer 3, raisonner 2. « chercher »,
+     RÉPARTITION DE CE CHAPITRE : calculer 2, raisonner 2, chercher 1.
      « modéliser », « représenter » et « communiquer » ne sont pas mobilisés.
 
-     L'absence de « modéliser » mérite d'être signalée, car elle est ici
-     particulièrement lourde de conséquences : le geste central du chapitre —
-     RECONNAÎTRE qu'une situation relève de la binomiale ou de Poisson, et
-     identifier ses paramètres — est le premier attendu officiel, et il n'est
-     évalué par aucune des cinq questions. La Q1 nomme la loi, la Q3 donne
-     $\lambda$, la Q5 donne à la fois la loi et la formule. C'est un constat
-     sur les cinq questions, pas un choix d'étiquetage. Un enseignant qui veut
-     évaluer « modéliser » devra ajouter sa propre question : un énoncé où la
-     loi n'est pas nommée suffit, et il tient en deux lignes. */
+     L'absence de « modéliser » mérite toujours d'être signalée, même après
+     la réécriture de la Q5 : le geste central du chapitre — RECONNAÎTRE
+     qu'une situation relève de la binomiale ou de Poisson — est le premier
+     attendu officiel, et la Q1 nomme encore sa loi tandis que la Q3 donne
+     encore son $\lambda$. La Q5 s'en approche au plus près (elle fait
+     choisir la loi) mais elle le fait par ESSAIS sur quatre candidates
+     données, ce qui est « chercher » et non « modéliser » : traduire une
+     situation en modèle supposerait de produire la loi sans liste. Un
+     enseignant qui veut évaluer « modéliser » n'a qu'à reprendre le relevé
+     de la Q5 en supprimant les quatre propositions. */
   competences: {
-    evaluation: ["calculer", "raisonner", "calculer", "raisonner", "calculer"]
+    evaluation: ["calculer", "raisonner", "calculer", "raisonner", "chercher"]
   }
 };

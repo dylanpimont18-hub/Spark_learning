@@ -196,31 +196,37 @@ window.SPARK_PROF["bts-stats-deux-variables"] = {
               "année d'âge » désigne le dénominateur, et il désigne $x$. Une fois la phrase " +
               "écrite en français, il n'est plus possible de se tromper de sens — et c'est en " +
               "outre exactement ce que l'épreuve demande d'écrire en conclusion.",
-      /* Vérifié contre le tirage réel de la graine du livre (2026-09-17,
-         graine 20260816 + 21) : l'exercice 3 est l'âge d'une machine contre
-         son coût de maintenance, Cov = 1 et V_x = 2, réponse a = 0,5. C'est
-         LE support de cette erreur, et il est le seul possible du tirage :
-           - c'est le SEUL des douze exercices dont la réponse est INFÉRIEURE
-             à 1. Les onze autres donnent 1, 2, 3 ou 4 — c'est-à-dire des
-             entiers, sur lesquels l'inversion de la division est soit
-             invisible (a = 1 sur les exercices 4, 5, 8, 10, 11, 12, où Cov et
-             V_x sont égaux et où l'inversion donne le MÊME résultat), soit
-             produit un quotient non entier qui alerte l'élève par lui-même.
-             Autrement dit : six des douze exercices ne peuvent PAS révéler
-             cette erreur, et sur cinq autres elle se voit trop facilement.
-             Ce constat mérite d'être connu de l'enseignant, et c'est la
-             raison principale du choix ;
-           - l'inversion y donne exactement 2, un entier plausible : l'erreur
-             passe donc parfaitement inaperçue à la correction de l'élève, ce
-             qui est précisément ce qu'il faut pour justifier le contrôle de
-             plausibilité du remède ;
+      /* Vérifié contre le tirage réel, RELEVÉ À NOUVEAU le 2026-09-17 après
+         le retrait du contexte « isolant » du générateur (graine 20260816 +
+         21, 15 énoncés tirés) : l'exercice 4 est l'âge d'une machine contre
+         son coût annuel de maintenance, Cov = 1 et $V_x = 3$, réponse
+         a = 0,33.
+
+         C'est le meilleur support de cette erreur dans le tirage :
+           - sa réponse est INFÉRIEURE à 1, ce qui n'est le cas que de trois
+             exercices sur douze (4, 9 et 10, tous à 0,33, plus le 7 à 0,67).
+             Sur les huit autres, la réponse est entière : l'inversion y est
+             soit invisible (exercices 6 et 11, où Cov = V_x et où inverser
+             donne le MÊME résultat), soit repérable trop facilement. Ce
+             constat mérite d'être connu de l'enseignant, et c'est la raison
+             principale du choix ;
+           - l'inversion y donne exactement 3, un entier parfaitement
+             plausible pour une pente : l'erreur passe donc inaperçue à la
+             relecture de l'élève, ce qui est précisément ce qui justifie le
+             contrôle de plausibilité du remède ;
            - le contexte, âge d'une machine contre coût de maintenance, porte
              la phrase « euros par année d'âge » du troisième paragraphe.
-         La banque supplémentaire offre un second cas à réponse non entière
-         (le S1, a = 1,5, et le S3, a = 0,67), utile en reprise. Distinct du
-         renvoi de l'erreur 4 (exercice 9), conformément à la règle du
-         projet. */
-      exercice: { type: "exercice", n: 3 }
+         L'exercice 9 porte le même contexte et les mêmes valeurs : il sert
+         de reprise immédiate. La banque offre un cas à réponse non entière
+         (S1, a = 1,5).
+
+         NOTE DE MAINTENANCE : ce renvoi visait l'exercice 3 avant le retrait
+         du contexte incohérent « épaisseur d'isolant / perte thermique » du
+         générateur. Ce retrait a réduit le tirage de 18 à 15 énoncés et
+         décalé tous les contextes ; l'exercice 3 est désormais la vitesse du
+         vent (a = 4), qui ne convient pas. Renvoi déplacé vers l'exercice 4
+         et valeurs revérifiées une par une. */
+      exercice: { type: "exercice", n: 4 }
     },
     {
       titre: "Conclure à une causalité à partir d'une corrélation",
@@ -356,34 +362,36 @@ window.SPARK_PROF["bts-stats-deux-variables"] = {
               "ignore que l'installation change complètement de technologie au-delà d'un certain " +
               "seuil. Le calcul reste juste ; c'est le <strong>modèle</strong> qui a cessé d'être " +
               "valable, et aucune formule ne le signale. Seul le technicien peut le savoir.",
-      /* Vérifié contre le tirage réel (2026-09-17) : l'exercice 9 est
-         l'épaisseur d'isolant posé contre la perte thermique d'un local,
-         Cov = 4 et V_x = 1, réponse a = 4. Le renvoi est utilisable pour
-         cette erreur alors même que tous les exercices partagent le même
-         moule, et c'est assumé : l'erreur ne porte pas sur le RÉSULTAT (4
-         sera juste) mais sur la LECTURE, et l'enseignant peut exiger la
-         phrase de conclusion et l'unité composée sur cet énoncé précis.
-         Choix du 9 plutôt que d'un autre, pour trois raisons de contenu :
-           - a = 4 est la plus GRANDE pente du tirage, donc celle dont la
-             traduction en français est la plus parlante (« chaque centimètre
-             d'isolant en plus change la perte de 4 unités ») ;
-           - c'est surtout le seul contexte du tirage où la pente devrait
-             logiquement être NÉGATIVE : poser de l'isolant DIMINUE la perte
-             thermique. Le générateur ne tire que des covariances positives,
-             si bien que l'énoncé affirme implicitement qu'isoler fait perdre
-             plus de chaleur — une absurdité physique. C'est une occasion
-             pédagogique de premier ordre, à saisir plutôt qu'à masquer :
-             demander au groupe si le signe obtenu est plausible, et ce qu'il
-             faudrait pour qu'il le soit, fait travailler l'interprétation
-             bien mieux qu'un énoncé cohérent. L'enseignant doit donc être
-             prévenu de cette incohérence avant la séance, et c'est le rôle de
-             ce commentaire ;
-           - l'exercice 4 porte le même contexte d'isolant avec a = 1 : il
-             sert de comparaison utile si l'on veut faire varier la pente sans
-             changer le contexte.
-         Distinct du renvoi de l'erreur 1 (exercice 3), conformément à la
-         règle du projet. */
-      exercice: { type: "exercice", n: 9 }
+      /* Vérifié contre le tirage réel, RELEVÉ À NOUVEAU le 2026-09-17 après
+         le retrait du contexte « isolant » du générateur : l'exercice 1 est
+         la surface d'un bâtiment contre sa consommation énergétique,
+         Cov = 3 et $V_x = 1$, réponse a = 3.
+
+         Le renvoi est utilisable pour cette erreur alors même que les douze
+         exercices partagent le même moule, et c'est assumé : l'erreur ne
+         porte pas sur le RÉSULTAT (3 sera juste) mais sur la LECTURE, et
+         l'enseignant peut exiger la phrase de conclusion et l'unité composée
+         sur cet énoncé précis. Choix du 1 pour deux raisons :
+           - c'est le contexte dont l'unité composée est la plus concrète et
+             la plus vérifiable — « chaque mètre carré supplémentaire coûte 3
+             unités d'énergie de plus » — et il est celui que le troisième
+             paragraphe du remède prend en exemple pour l'extrapolation ;
+           - c'est le premier énoncé du chapitre, donc celui sur lequel
+             l'enseignant peut installer l'exigence de rédaction dès le
+             départ.
+         Distinct du renvoi de l'erreur 1 (exercice 4), conformément à la
+         règle du projet.
+
+         NOTE DE MAINTENANCE : ce renvoi visait l'exercice 9 et reposait
+         entièrement sur le contexte « épaisseur d'isolant / perte
+         thermique », dont il faisait une occasion pédagogique — le
+         générateur ne tirant que des covariances POSITIVES, l'énoncé
+         affirmait qu'isoler augmente les pertes. Le défaut a été corrigé à la
+         source (contexte retiré de `js/data/bts/bts-stats-deux-variables.js`)
+         plutôt qu'exploité : un livre vendu ne peut pas imprimer un énoncé
+         physiquement faux en comptant sur l'enseignant pour le rattraper. Le
+         renvoi a donc été entièrement réécrit. */
+      exercice: { type: "exercice", n: 1 }
     }
   ],
 
@@ -409,33 +417,47 @@ window.SPARK_PROF["bts-stats-deux-variables"] = {
           Aucun calcul : il faut lire un signe ET une valeur absolue, puis
           écarter trois interprétations voisines dont deux ne diffèrent que
           par un mot. Jugement de validité : « raisonner ».
-     Q5 — avec $y = 2{,}5x + 1$, estimer $y$ pour $x = 10$. Une multiplication
-          et une addition, l'équation étant fournie. Aucune mise en équation
-          n'est demandée — le modèle est donné : « calculer ». (La correction
-          ajoute une mise en garde sur l'extrapolation, mais elle ne fait pas
-          partie de la tâche évaluée.)
+     Q5 — RÉÉCRITE le 2026-09-17. Elle donnait la droite $y = 2{,}5x + 1$ et
+          demandait $y$ pour $x = 10$ : une multiplication et une addition,
+          l'équation étant fournie — le même geste d'exécution que la Q1
+          (covariance) et la Q3 (coefficients), qui recevaient elles aussi
+          leurs formules. Troisième application dictée du devoir, et la plus
+          pauvre des trois.
+          Elle demande maintenant de LIRE un nuage donné en tableau (cinq
+          couples charge/consommation) et d'y placer le point par lequel la
+          droite d'ajustement passe nécessairement — le point moyen
+          $(\bar{x}\,;\,\bar{y}) = (6\,;\,16)$. Lire un nuage sous sa forme
+          tabulée et y situer un point remarquable, c'est « représenter ».
+          Le distracteur le plus instructif est celui qui donne le BON point
+          pour la MAUVAISE raison (« c'est la mesure du milieu du tableau ») :
+          la bonne option explique que la coïncidence tient à la régularité
+          du nuage, ce qui interdit de deviner juste par hasard.
+          Le calcul reste nécessaire : il faut moyenner les cinq abscisses
+          ($30/5 = 6$) et les cinq ordonnées ($80/5 = 16$), puis calculer le
+          milieu des seuls extrêmes ($(6\,;\,16{,}5)$) pour voir qu'il diffère.
+          La question porte désormais sur l'erreur 3 de cette fiche —
+          oublier l'ordonnée à l'origine ou la calculer avec la mauvaise
+          moyenne — que le tirage ne travaille pas (`exercice: null`), le
+          point moyen étant précisément ce qui la rend visible.
 
-     RÉPARTITION DE CE CHAPITRE : calculer 3, raisonner 2. « chercher »,
-     « modéliser », « représenter » et « communiquer » ne sont pas mobilisés.
+     RÉPARTITION DE CE CHAPITRE : calculer 2, raisonner 2, représenter 1.
+     « chercher » et « communiquer » ne sont pas mobilisés.
 
-     Deux absences méritent d'être signalées, parce qu'elles sont
-     particulièrement frappantes ici :
-     - « représenter » : ce chapitre est celui du NUAGE DE POINTS et de la
-       DROITE D'AJUSTEMENT — l'un des plus graphiques du programme, et le
-       premier attendu officiel porte explicitement sur la représentation
-       d'un nuage. Aucune des cinq questions ne demande de lire ni de tracer
-       quoi que ce soit.
-     - « modéliser » : la régression EST l'acte de modélisation par
-       excellence — on remplace un nuage de mesures par une droite. Mais les
-       cinq questions fournissent toutes les données déjà réduites (Cov, V_x,
-       ou l'équation elle-même) : il n'y a jamais rien à traduire.
-     C'est un constat sur les cinq questions, pas un choix d'étiquetage : le
-     corpus entier est composé de questions `numeric` et à choix multiple,
-     format qui exclut de fait le graphique. Un enseignant qui veut évaluer
-     ces deux compétences devra ajouter ses propres questions — un nuage à
-     tracer et un tableau de données brutes à réduire suffisent, et couvrent
-     les deux. */
+     L'absence de « représenter » était, avant le 2026-09-17, le défaut le
+     plus frappant de ce devoir : ce chapitre est celui du NUAGE DE POINTS et
+     de la DROITE D'AJUSTEMENT — l'un des plus graphiques du programme, et le
+     premier attendu officiel porte explicitement sur la représentation d'un
+     nuage — alors qu'aucune des cinq questions ne faisait lire quoi que ce
+     soit. La réécriture de la Q5 y remédie : elle donne enfin un nuage brut
+     (cinq couples) au lieu de ses statistiques déjà réduites.
+
+     Reste « modéliser », toujours à 0 : la régression EST l'acte de
+     modélisation par excellence — on remplace un nuage de mesures par une
+     droite — mais les Q1, Q2, Q3 et Q4 fournissent encore leurs données
+     réduites (Cov, $V_x$, ou $r$ lui-même). Un enseignant qui veut l'évaluer
+     n'a qu'à demander l'équation de la droite à partir du tableau brut de la
+     Q5 : les données sont déjà là. */
   competences: {
-    evaluation: ["calculer", "raisonner", "calculer", "raisonner", "calculer"]
+    evaluation: ["calculer", "raisonner", "calculer", "raisonner", "représenter"]
   }
 };

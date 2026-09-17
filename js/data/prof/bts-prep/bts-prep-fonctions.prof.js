@@ -323,30 +323,81 @@ window.SPARK_PROF["bts-prep-fonctions"] = {
           discriminant, puis d'écarter la racine négative parce qu'un débit ne
           peut pas l'être. C'est un enchaînement de déductions avec un tri
           final à justifier. « raisonner ».
-     Q3 — $f(x) = 6/x$ pour $x = 3$. Une division. Exécution. « calculer ».
-     Q4 — perte de charge $H = 4Q$ pour $Q = 2{,}5$, parmi quatre propositions.
-          Une multiplication sur deux nombres donnés, les distracteurs étant
-          de simples variantes numériques. Exécution. « calculer ».
-     Q5 — pente d'une portion de courbe pompe, de $(3, 8)$ à $(4, 5)$. Même
-          formule qu'en Q1, mais la correction elle-même souligne ce qui se
-          joue : la pente est NÉGATIVE et doit être interprétée (« la pompe
-          perd de la hauteur quand le débit augmente »). Le calcul est trivial ;
-          ce qui est évalué, c'est la lecture correcte du signe dans son
-          contexte technique. Cela reste néanmoins l'exécution d'une procédure
-          connue sur des nombres donnés : « calculer ». On ne surclasse pas en
-          « raisonner » un énoncé qui ne demande pas de justification écrite —
-          c'est exactement le genre d'inflation que la règle d'étiquetage
-          honnête interdit.
+     Q3 — RÉÉCRITE le 2026-09-17. Elle demandait $f(3)$ pour $f(x) = 6/x$,
+          soit une division sur deux entiers — le même geste d'exécution que
+          la Q1 (pente sur deux points donnés) et la Q4 (une multiplication),
+          sur des nombres encore plus simples. La question était la plus
+          redondante et la moins exigeante du devoir.
+          Elle demande maintenant de LIRE un tableau de valeurs
+          ($Q$ : 1, 2, 3, 6 / $H$ : 12, 6, 4, 2) et d'identifier la loi qu'il
+          porte — affine ou inverse — en calculant d'abord les écarts (non
+          constants) puis les produits (constants à $12$). Lire une
+          représentation tabulée et l'associer à sa loi, c'est
+          « représenter ».
+          C'est la première question de ce chapitre à mériter son titre :
+          « Fonctions & lecture graphique » ne comportait AUCUNE tâche de
+          lecture, toutes ses questions fournissant les points en clair.
+          Le calcul reste nécessaire : sans les quatre produits $Q \times H$,
+          les distracteurs 1 et 3 restent également plausibles.
+          La question porte désormais sur l'erreur 2 de cette fiche — traiter
+          une fonction inverse comme une fonction affine — dont le tableau de
+          valeurs est le meilleur révélateur.
+     Q4 — RÉÉCRITE le 2026-09-17. Elle demandait $H = 4 \times 2{,}5$ avec
+          quatre distracteurs qui n'étaient que des variantes numériques :
+          une multiplication sur deux nombres donnés, la formule étant
+          fournie — le geste d'exécution le plus nu du devoir, et le doublon
+          de la Q1, qui appliquait déjà une formule donnée sur des nombres
+          donnés.
+          Elle demande maintenant de CHERCHER le point de fonctionnement en
+          testant quatre débits candidats : pour chacun il faut évaluer
+          $H_p = -2Q + 24$ et $H_r = 4Q$, puis retenir le seul débit qui les
+          égalise. Essayer, comparer, écarter : « chercher ». C'est aussi la
+          manière dont on relève un point de fonctionnement sur une
+          installation réelle, par approches successives.
+          Le calcul reste nécessaire et il est huit fois plus long qu'avant :
+          quatre débits, deux hauteurs à chaque fois.
+          Elle porte sur l'erreur 1 de cette fiche — confondre la pente et
+          l'ordonnée à l'origine — car le troisième distracteur ($Q = 6$)
+          est exactement celui que retient l'élève qui reconnaît le $24$ de
+          $H_p$ dans son $H_r$ sans voir qu'il compare deux grandeurs prises
+          à des débits différents.
+          Cette question et la Q2 se répondent : la Q2 résout l'intersection
+          par le discriminant, la Q4 la trouve par essais. Les deux voies du
+          point de fonctionnement sont ainsi évaluées dans le même devoir.
+     Q5 — RÉÉCRITE le 2026-09-17. Elle demandait la pente d'une portion de
+          courbe pompe, de $(3, 8)$ à $(4, 5)$ : exactement la formule
+          appliquée en Q1 du même devoir, sur deux points tout aussi
+          explicites. Deuxième exécution du même geste, et l'ancienne fiche
+          refusait déjà de la surclasser en « raisonner » faute de
+          justification demandée — c'était le signe qu'il fallait la
+          réécrire, pas la réétiqueter.
+          Elle demande maintenant de juger le raisonnement de Sarah, qui
+          calcule $\dfrac{8-5}{4-3} = 3$ en prenant ses deux différences
+          dans des sens OPPOSÉS, puis conclut que la pompe « monte » de $3$ m
+          par m³/h — et d'EXPLIQUER pourquoi le signe négatif porte tout le
+          sens technique de la caractéristique : produire une explication,
+          donc « communiquer ».
+          Le calcul reste nécessaire et il est double : la pente correcte
+          ($-3$) pour voir que le nombre est bon mais le signe faux, et la
+          fraction renversée ($\Delta Q/\Delta H = -1/3$) pour écarter le
+          premier distracteur.
+          La question porte désormais sur l'erreur 3 de cette fiche —
+          inverser $\Delta y$ et $\Delta x$, ou perdre le signe — la plus
+          coûteuse du chapitre puisqu'elle retourne le sens physique de la
+          courbe.
 
-     RÉPARTITION DE CE CHAPITRE : calculer 4, raisonner 1.
-     « chercher », « modéliser », « représenter » et « communiquer » ne sont
-     PAS mobilisés. L'absence de « représenter » mérite d'être soulignée dans
-     un chapitre qui s'intitule « Lecture graphique » : aucune des cinq
-     questions ne demande de produire ni de lire un graphique — toutes
-     fournissent les points en clair. C'est le même constat que pour les
-     exercices, et il est cohérent avec le corpus : sur les 130 questions du
-     BTS, aucune n'est ouverte ni graphique. */
+     RÉPARTITION DE CE CHAPITRE : calculer 1, raisonner 1, représenter 1,
+     chercher 1, communiquer 1 — cinq compétences différentes sur cinq
+     questions, cas unique du recueil.
+     « modéliser » n'est PAS mobilisé : les quatre relations du devoir sont
+     toutes fournies par leurs énoncés, il n'y a jamais rien à traduire. C'est
+     le constat qui reste à corriger sur ce chapitre, et un enseignant qui
+     veut l'évaluer n'a qu'à reprendre la Q4 en décrivant la pompe et le
+     réseau en français au lieu de donner $H_p$ et $H_r$.
+     « représenter », dont l'absence était le défaut le plus criant de ce
+     chapitre intitulé « Lecture graphique », est désormais évalué par la
+     Q3. */
   competences: {
-    evaluation: ["calculer", "raisonner", "calculer", "calculer", "calculer"]
+    evaluation: ["calculer", "raisonner", "représenter", "chercher", "communiquer"]
   }
 };

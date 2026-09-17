@@ -362,10 +362,26 @@ window.SPARK_PROF["bts-loi-normale"] = {
           « raisonner », mais il n'y a rien à déduire — les trois valeurs sont
           mémorisées ou elles ne le sont pas : « calculer » au sens
           « appliquer une règle connue ».
-     Q3 — $n = 64$, $\bar{x} = 120$, $\sigma = 16$ : demi-largeur de l'IC à
-          $95\,\%$. La formule $1{,}96 \times \sigma/\sqrt{n}$ est ÉCRITE dans
-          l'énoncé ; le travail est l'application numérique, racine carrée
-          comprise. Aucun choix de méthode : « calculer ».
+     Q3 — RÉÉCRITE le 2026-09-17. Elle ÉCRIVAIT la formule
+          $1{,}96 \times \sigma/\sqrt{n}$ dans son propre énoncé et n'en
+          demandait que l'application numérique — le même type d'exécution
+          dictée que la Q1 (z-score) et la Q2 (règle $68$-$95$-$99{,}7$) du
+          même devoir, qui comptait ainsi trois « calculer » d'affilée.
+          L'énoncé supprimait de lui-même la seule difficulté du chapitre.
+          Elle demande maintenant de juger le raisonnement d'Inès, qui écrit
+          « demi-largeur $= 1{,}96 \times 16 = 31{,}36$ » en OUBLIANT le
+          $\sqrt{n}$, et d'EXPLIQUER que l'intervalle de confiance encadre la
+          MOYENNE de soixante-quatre mesures, bien plus stable qu'une mesure
+          isolée : produire une explication, donc « communiquer ».
+          Le calcul reste nécessaire et il n'est plus dicté : il faut
+          retrouver $\sqrt{64} = 8$, mener $16/8 = 2$ puis
+          $1{,}96 \times 2 = 3{,}92$ pour mesurer le facteur $8$ d'écart, et
+          évaluer $16/64 = 0{,}25$ pour écarter le distracteur qui divise par
+          $n$.
+          La question porte désormais sur l'erreur 4 de cette fiche — oublier
+          le $\sqrt{n}$ de l'intervalle de confiance — qui est l'une des deux
+          erreurs du chapitre qu'AUCUN exercice du tirage ne travaille
+          (`exercice: null`).
      Q4 — la centration-réduction transforme $X$ en : $\mathcal{N}(\mu, 1)$,
           $\mathcal{N}(0, \sigma^2)$, $\mathcal{N}(0,1)$ ou $\mathcal{N}(1,0)$ ?
           Les quatre options sont des permutations des mêmes symboles : il
@@ -380,12 +396,12 @@ window.SPARK_PROF["bts-loi-normale"] = {
           une situation concrète (un intervalle de tolérance) dans les termes
           du modèle avant de pouvoir répondre : « modéliser ».
 
-     RÉPARTITION DE CE CHAPITRE : calculer 3, raisonner 1, modéliser 1.
-     « chercher », « représenter » et « communiquer » ne sont pas mobilisés :
-     aucune question ne demande d'essayer une piste, de produire ou lire un
-     graphique, ni de rédiger une explication. C'est un constat sur les cinq
-     énoncés, pas un choix — et il rejoint celui du corpus entier, dont les
-     130 questions sont toutes `numeric` ou à choix multiple.
+     RÉPARTITION DE CE CHAPITRE : calculer 2, raisonner 1, modéliser 1,
+     communiquer 1.
+     « chercher » et « représenter » ne sont pas mobilisés : aucune question
+     ne demande d'essayer une piste ni de lire une représentation. C'est un
+     constat sur les cinq énoncés, pas un choix — le format `numeric` /
+     `multiple-choice` du recueil exclut de fait la figure.
 
      À signaler : la Q5 est la seule question du chapitre à demander de
      reconnaître soi-même un $\pm 2\sigma$ derrière des cotes en millimètres,
@@ -393,6 +409,6 @@ window.SPARK_PROF["bts-loi-normale"] = {
      explicitement, voir la `note`). Un étudiant qui n'aurait fait que les
      exercices la découvrirait le jour du devoir. */
   competences: {
-    evaluation: ["calculer", "calculer", "calculer", "raisonner", "modéliser"]
+    evaluation: ["calculer", "calculer", "communiquer", "raisonner", "modéliser"]
   }
 };
