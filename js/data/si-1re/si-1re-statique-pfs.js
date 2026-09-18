@@ -200,9 +200,9 @@ window.MODULES.push({
               ? `Moments en $B$ : $R_A \\times ${L} - ${F} \\times ${L - d} = 0$`
               : `Moments en $A$ : $R_B \\times ${L} - ${F} \\times ${d} = 0$`,
             askA
-              ? `$R_A = \\dfrac{${F} \\times ${L - d}}{${L}} = ${Ra}$ N`
-              : `$R_B = \\dfrac{${F} \\times ${d}}{${L}} = ${Rb}$ N`,
-            `Vérification : $R_A + R_B = ${Ra} + ${Rb} = ${F}$ N $= F$ ✓`
+              ? `$R_A = \\dfrac{${F} \\times ${L - d}}{${L}} = ${fr(Ra)}$ N`
+              : `$R_B = \\dfrac{${F} \\times ${d}}{${L}} = ${fr(Rb)}$ N`,
+            `Vérification : $R_A + R_B = ${fr(Ra)} + ${fr(Rb)} = ${F}$ N $= F$ ✓`
           ]
         };
       }
