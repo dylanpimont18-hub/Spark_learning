@@ -43,10 +43,13 @@
    0{,}85$), il donne exactement la comparaison « avec / sans pertes » que le
    corpus ne propose nulle part ailleurs.
 
-   DÉFAUT PRÉEXISTANT MESURÉ, hors du périmètre de cette fiche : le
-   `generate()` de ce module produit de la notation décimale ANGLAISE dans les
-   corrections du moule « couple » (« C_s = 47.6 N·m » à l'exercice 2,
-   « 71.3 » au 4, « 19.8 » au 7). À corriger par `fr()` dans js/data/, pas ici.
+   DÉFAUT DE NOTATION DÉCIMALE : CORRIGÉ LE 2026-09-18, dans js/data/ et non
+   ici. Le `generate()` de ce module imprimait « C_s = 47.6 N·m » à l'exercice
+   2 (et « 71.3 », « 19.8 » ailleurs dans le moule « couple ») faute de passer
+   par `fr()`, et employait le `.replace('.', '{,}')` à la main que CLAUDE.md
+   (§2) proscrit pour le rendement. Les valeurs TIRÉES sont inchangées (la
+   graine ne bouge pas, seul l'affichage est corrigé) : les renvois de cette
+   fiche, qui citent $47{,}6$ N·m à l'exercice 2, restent valides.
 
    Contenu écrit à la main. Conventions du projet : KaTeX inline, virgule
    décimale en {,}, ton jamais punitif.

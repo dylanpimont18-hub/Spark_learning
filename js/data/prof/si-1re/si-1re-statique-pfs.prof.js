@@ -47,13 +47,15 @@
    l'équation $\sum F_x = 0$, qui n'a jamais rien à faire puisque toutes les
    charges sont verticales.
 
-   DÉFAUT PRÉEXISTANT MESURÉ, SIGNALÉ ET NON CORRIGÉ ICI (hors périmètre de
-   cette fiche) : le `generate()` de ce module produit de la NOTATION DÉCIMALE
-   ANGLAISE dans ses corrections — « $R_B = 296.7$ N » (exercice 2),
-   « $526.7$ » (ex. 3), « $206.7$ » (ex. 5), « $14.3$ » (ex. 10), etc., au
-   lieu de $296{,}7$. C'est le bug récurrent décrit dans CLAUDE.md (§2,
-   notation décimale dans `generate()`), et il touche tous les tirages dont la
-   division ne tombe pas juste. À corriger dans js/data/, pas ici.
+   DÉFAUT DE NOTATION DÉCIMALE : CORRIGÉ LE 2026-09-18, dans js/data/ et non
+   ici. Le `generate()` de ce module interpolait ses réactions d'appui sans
+   passer par `fr()`, ce qui imprimait « $R_B = 296.7$ N » au lieu de
+   $296{,}7$ dans huit des douze exercices du chapitre — bug récurrent décrit
+   dans CLAUDE.md (§2). Les valeurs TIRÉES sont inchangées (la graine ne bouge
+   pas, seul l'affichage est corrigé) : les renvois de cette fiche, qui citent
+   $296{,}7$ N à l'exercice 2 et $526{,}7$ N à l'exercice 3, restent valides.
+   `node scripts/check-decimal-notation.js` rend désormais 0 erreur sur tout
+   le corpus.
 
    Contenu écrit à la main. Conventions du projet : KaTeX inline, virgule
    décimale en {,}, ton jamais punitif.
@@ -159,11 +161,11 @@ window.SPARK_PROF["si-1re-statique-pfs"] = {
         "horizontale. Le <strong>quiz</strong> comble deux de ces trous (isostatisme, choix " +
         "stratégique du point de moment) : faites-le passer, il ne double aucun " +
         "exercice.<br/><br/>" +
-        "Dernier point, utile en correction : plusieurs corrections du chapitre affichent une " +
-        "décimale au <strong>point</strong> (« $296.7$ N ») au lieu de la virgule française. " +
-        "C'est un défaut d'affichage du générateur, pas une erreur de calcul — signalez-le à vos " +
-        "élèves pour qu'ils n'écrivent pas comme le corrigé, et attendez la correction du " +
-        "module.",
+        "Dernier point, utile en correction : les réactions d'appui tombent rarement juste " +
+        "($R_B = 296{,}7$ N pour une charge de $890$ N sur une poutre de $3$ m). Exigez la " +
+        "<strong>virgule française</strong> et un arrondi au dixième, comme le fait le corrigé, " +
+        "et profitez-en pour faire vérifier la cohérence : $R_A + R_B$ doit redonner exactement " +
+        "la charge, ce que chaque corrigé du chapitre montre en dernière ligne.",
 
   erreurs: [
     {

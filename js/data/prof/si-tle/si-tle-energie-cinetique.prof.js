@@ -42,11 +42,13 @@
    portent sur $E_c$, sur la proportionnalité en $v^2$ et sur $E_c$ de
    rotation). D'où un `exercice: null` assumé sur l'erreur correspondante.
 
-   DÉFAUT PRÉEXISTANT MESURÉ, hors du périmètre de cette fiche : le
-   `generate()` de ce module produit de la notation décimale ANGLAISE dans
-   plusieurs corrections tirées (« d = 313.7 m » à l'exercice 2, « 78.8 » à
-   l'exercice 6, « 50.7 » à l'exercice 9, « 17.3 » à l'exercice 5,
-   « -156132.5 J »). À corriger par `fr()` dans js/data/, pas ici.
+   DÉFAUT DE NOTATION DÉCIMALE : CORRIGÉ LE 2026-09-18, dans js/data/ et non
+   ici. Le `generate()` de ce module interpolait ses résultats sans passer par
+   `fr()` — « d = 313.7 m » à l'exercice 2, « -156132.5 J » — et les deux
+   branches « rotation » et « accélération » employaient encore le
+   `.replace('.', '{,}')` à la main que CLAUDE.md (§2) proscrit. Les valeurs
+   TIRÉES sont inchangées (la graine ne bouge pas, seul l'affichage est
+   corrigé) : les renvois de cette fiche restent valides.
 
    Contenu écrit à la main. Conventions du projet : KaTeX inline, virgule
    décimale en {,}, ton jamais punitif.
