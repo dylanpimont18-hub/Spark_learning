@@ -158,9 +158,9 @@ Permet au tuteur d'envoyer un lien à un futur élève pour évaluer son niveau 
 | **lycee-2nde/** | Contenus Lycée 2nde — refactoring terminé |
 | **lycee-1re/** | Contenus Lycée 1re — refactoring terminé |
 | **lycee-tle/** | Contenus Lycée Tle — refactoring terminé |
-| **si-2nde/** | Contenus SI 2nde — refactoring terminé |
-| **si-1re/** | Contenus SI 1re — refactoring terminé |
-| **si-tle/** | Contenus SI Tle — refactoring terminé |
+| **si-2nde/** | Contenus SI 2nde — refactoring terminé ; **fiches professeur 5/5** (`js/data/prof/si-2nde/`) |
+| **si-1re/** | Contenus SI 1re — refactoring terminé ; **fiches professeur 8/8** (`js/data/prof/si-1re/`) |
+| **si-tle/** | Contenus SI Tle — refactoring terminé ; **fiches professeur 7/7** (`js/data/prof/si-tle/`) |
 | **si-bts/** | Contenus SI BTS — refactoring terminé |
 | **physique-4e/** | Contenus Physique-Chimie 4e — complet (6/6 sous-modules) ; **fiches professeur 6/6** (`js/data/prof/physique-4e/`) |
 | **physique-3e/** | Contenus Physique-Chimie 3e — complet (6/6 sous-modules) ; **fiches professeur 6/6** (`js/data/prof/physique-3e/`) |

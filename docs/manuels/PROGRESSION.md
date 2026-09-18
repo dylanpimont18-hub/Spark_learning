@@ -3,7 +3,7 @@
 > Fichier **régénéré par scan** (`node scripts/manuel/progression.js`).
 > Ne pas éditer à la main : toute modification sera écrasée.
 
-**Total : 317 / 391 chapitres intégrés.**
+**Total : 337 / 391 chapitres intégrés.**
 
 ## college-maths — Mathématiques, Collège   [49 / 49]
 
@@ -238,32 +238,32 @@ Graine : `20260816` · 192 pages · gouttière 12.7 mm · dos 11.4 mm · derniè
 | tle-geometrie-espace | ✓ | SVG exact |
 | tle-orthogonalite-espace | ✓ | SVG exact |
 
-## lycee-si — Sciences de l'ingénieur, Lycée   [0 / 20]
+## lycee-si — Sciences de l'ingénieur, Lycée   [20 / 20]
 
-_Jamais compilé._
+Graine : `20260816` · 247 pages · gouttière 12.7 mm · dos 14.7 mm · dernière compilation 2026-09-18
 
 | Module | Chapitre | Figure |
 |--------|:--------:|:------:|
-| si-2nde-analyse-fonctionnelle | — | — |
-| si-2nde-chaines-energie-info | — | — |
-| si-2nde-capteurs-actionneurs | — | — |
-| si-2nde-programmation | — | — |
-| si-2nde-mecanique-base | — | — |
-| si-1re-sysml | — | — |
-| si-1re-cinematique | — | — |
-| si-1re-statique-pfs | — | — |
-| si-1re-logique-boole | — | — |
-| si-1re-asservissement | — | — |
-| si-1re-energie-rendement | — | — |
-| si-1re-rdm | — | — |
-| si-1re-poo | — | — |
-| si-tle-dynamique-pfd | — | — |
-| si-tle-energie-cinetique | — | — |
-| si-tle-asservis-pid | — | — |
-| si-tle-grafcet | — | — |
-| si-tle-transmission | — | — |
-| si-tle-bode | — | — |
-| si-tle-reseaux | — | — |
+| si-2nde-analyse-fonctionnelle | ✓ | SVG exact |
+| si-2nde-chaines-energie-info | ✓ | SVG exact |
+| si-2nde-capteurs-actionneurs | ✓ | SVG exact |
+| si-2nde-programmation | ✓ | SVG exact |
+| si-2nde-mecanique-base | ✓ | SVG exact |
+| si-1re-sysml | ✓ | SVG exact |
+| si-1re-cinematique | ✓ | SVG exact |
+| si-1re-statique-pfs | ✓ | SVG exact |
+| si-1re-logique-boole | ✓ | SVG exact |
+| si-1re-asservissement | ✓ | SVG exact |
+| si-1re-energie-rendement | ✓ | SVG exact |
+| si-1re-rdm | ✓ | SVG exact |
+| si-1re-poo | ✓ | SVG exact |
+| si-tle-dynamique-pfd | ✓ | SVG exact |
+| si-tle-energie-cinetique | ✓ | SVG exact |
+| si-tle-asservis-pid | ✓ | SVG exact |
+| si-tle-grafcet | ✓ | SVG exact |
+| si-tle-transmission | ✓ | SVG exact |
+| si-tle-bode | ✓ | SVG exact |
+| si-tle-reseaux | ✓ | SVG exact |
 
 ## bts-maths — Mathématiques, BTS   [27 / 27]
 
