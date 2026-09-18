@@ -157,7 +157,7 @@ window.MODULES.push({
           unit: 'L/s',
           hint: 'Calcule d\'abord $Q_t = \\sum q_i$, compte $N$, puis applique $y=1/\\sqrt{N-1}$ si $N>5$ (sinon $y=1$).',
           solution: [
-            `Débit total théorique : $Q_t = ${Qt}$ L/s, pour $N = ${N}$ appareils.`,
+            `Débit total théorique : $Q_t = ${fr(Qt, 2)}$ L/s, pour $N = ${N}$ appareils.`,
             N > 5
               ? `Comme $N=${N}>5$ : $y = 1/\\sqrt{${N}-1} = 1/\\sqrt{${N - 1}} \\approx ${fr(y, 3)}$.`
               : `Comme $N=${N}\\le 5$ : pas de réduction, $y=1$.`,

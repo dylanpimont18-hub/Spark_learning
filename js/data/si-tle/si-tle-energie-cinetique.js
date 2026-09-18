@@ -172,10 +172,10 @@ window.MODULES.push({
             unit: 'm',
             hint: `Utilise le TEC : $\\Delta E_c = W_{\\text{frein}}$. Ici $\\Delta E_c = -\\frac{1}{2} m v_i^2$ et $W_{\\text{frein}} = -F_f \\times d$.`,
             solution: [
-              `$\\Delta E_c = 0 - \\frac{1}{2} \\times ${m} \\times ${vi}^2 = -${0.5 * m * vi * vi}$ J`,
+              `$\\Delta E_c = 0 - \\frac{1}{2} \\times ${m} \\times ${vi}^2 = -${fr(0.5 * m * vi * vi)}$ J`,
               `$W_{\\text{frein}} = -${F} \\times d$`,
-              `TEC : $-${0.5 * m * vi * vi} = -${F} \\times d$`,
-              `$d = \\dfrac{${0.5 * m * vi * vi}}{${F}} = ${d}$ m`
+              `TEC : $-${fr(0.5 * m * vi * vi)} = -${F} \\times d$`,
+              `$d = \\dfrac{${fr(0.5 * m * vi * vi)}}{${F}} = ${fr(d)}$ m`
             ]
           };
         } else if (scenario === 'rotation') {
@@ -183,15 +183,15 @@ window.MODULES.push({
           const omega = rand(20, 100);
           const Ec = parseFloat((0.5 * J * omega * omega).toFixed(0));
           return {
-            statement: `Un volant d'inertie a un moment d'inertie $J = ${J.toFixed(1).replace('.', '{,}')}$ kg·m² et tourne à $\\omega = ${omega}$ rad/s. Calcule son énergie cinétique de rotation (en J).`,
+            statement: `Un volant d'inertie a un moment d'inertie $J = ${fr(J, 1)}$ kg·m² et tourne à $\\omega = ${omega}$ rad/s. Calcule son énergie cinétique de rotation (en J).`,
             answer: Ec,
             tolerance: 1,
             unit: 'J',
             hint: `Utilise la formule $E_{c,\\text{rot}} = \\frac{1}{2} J \\omega^2$.`,
             solution: [
-              `$E_{c,\\text{rot}} = \\frac{1}{2} \\times ${J.toFixed(1).replace('.', '{,}')} \\times ${omega}^2$`,
-              `$E_{c,\\text{rot}} = ${(0.5 * J).toFixed(2).replace('.', '{,}')} \\times ${omega * omega}$`,
-              `$E_{c,\\text{rot}} = ${Ec}$ J`
+              `$E_{c,\\text{rot}} = \\frac{1}{2} \\times ${fr(J, 1)} \\times ${omega}^2$`,
+              `$E_{c,\\text{rot}} = ${fr(0.5 * J, 2)} \\times ${omega * omega}$`,
+              `$E_{c,\\text{rot}} = ${fr(Ec)}$ J`
             ]
           };
         } else {
@@ -209,7 +209,7 @@ window.MODULES.push({
             solution: [
               `$W_F = ${F_mot} \\times ${d} = ${F_mot * d}$ J, $W_f = -${f_frot} \\times ${d} = -${f_frot * d}$ J`,
               `$\\Delta E_c = \\frac{1}{2} m v_f^2 = ${F_mot * d} - ${f_frot * d} = ${(F_mot - f_frot) * d}$ J`,
-              `$v_f = \\sqrt{\\dfrac{2 \\times ${(F_mot - f_frot) * d}}{${m}}} \\approx ${vf}$ m/s`
+              `$v_f = \\sqrt{\\dfrac{2 \\times ${(F_mot - f_frot) * d}}{${m}}} \\approx ${fr(vf)}$ m/s`
             ]
           };
         }
