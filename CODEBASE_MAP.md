@@ -233,6 +233,18 @@ Téléverse les PDF de `Livret pedagogique/` vers **Fileflare** (app Digital Dow
 - Clé d'API lue dans `.env` (`FILEFLARE_API_KEY`), jamais en argument de ligne de commande
 - Usage : `node scripts/shopify-sync-manuels.js` (essai à blanc) puis `--apply` ; `--only=SKU` pour un seul manuel
 
+## scripts/extraits-manuels.js
+Fabrique les pages d'aperçu (« Feuilleter un extrait ») des fiches produit à partir des PDF, via `pdftotext` (repérage) et `pdftoppm` (rendu 160 dpi). Les fiches n'offraient que 2 pages sur un manuel qui en compte jusqu'à 1484 ; elles en offrent 10.
+- **Pourquoi le nommage `-extrait-NN`** : `Shopify/sections/labo-produit.liquid` reconnaît une page d'aperçu à son **nom de fichier** (`sommaire`, `methode` ou `extrait`) et met son compteur « N pages » à jour seul. Aucun réglage de section à ressaisir
+- `choisirPages(pdf, total)` — cherche les sections qui prouvent le différentiel professeur (progression annuelle, suivi des attendus, erreurs fréquentes, corrigés, banque d'énoncés), puis prolonge d'une page pour donner à voir la rubrique et non son seul titre
+- **Piège 1** : l'avant-propos **annonce** toutes les rubriques de l'ouvrage. Un motif cherché n'importe où dans la page y ramenait les six sections d'un coup, et l'extrait se réduisait aux pages de garde — d'où `LONGUEUR_TITRE`, qui ne teste que le début de page, là où un titre de section se trouve
+- **Piège 2** : une fin de tableau (progression de la 3e, ~300 caractères) s'affichait aux trois quarts blanche dans la liseuse — d'où `CARACTERES_MINIMUM`, appliqué **après** la sélection pour que le quota soit rempli par des pages utiles
+- Usage : `node scripts/extraits-manuels.js` puis `--apply` ; sortie dans `build/extraits/` (gitignoré, régénérable)
+
+## scripts/shopify-televerser-extraits.js
+Prépare le plan de téléversement des pages d'aperçu vers Shopify (chemin local, texte alternatif, GID produit). L'envoi passe par `stagedUploadsCreate` → POST multipart vers le stockage → `productCreateMedia`, purement additif : les images existantes (couverture, sommaire, méthode) sont conservées.
+- Usage : `node scripts/shopify-televerser-extraits.js` — écrit `build/extraits/plan.json`
+
 ## scripts/shopify-corriger-paginations.js
 Remet la pagination annoncée des fiches produit en accord avec les PDF réels. Quinze fiches sur 38 sous-vendaient le contenu (pack Collège professeur : 489 pages annoncées pour 1484 réelles), les descriptions ayant été rédigées avant la vague du 14/09.
 - `compterPages(fichier)` — lit `/Type /Pages … /Count` dans le PDF, en clair puis dans les flux deflatés (la chaîne LaTeX du projet compresse le catalogue). Aucune liste de paginations à tenir à la main : le script reste juste après chaque recompilation
