@@ -223,6 +223,22 @@ Détecte les régressions du bug de notation décimale française dans `js/data/
 - Usage : `node scripts/check-decimal-notation.js` — à lancer après toute modification d'un `exercice.generate()` (voir `CLAUDE.md` section 2)
 - **État au 2026-08-16** : 0 faute dans college-maths ; **23 modules restent fautifs hors de cet ouvrage** (lycée 2nde/1re/Tle, SI, FED) — non corrigés, hors périmètre du chantier manuel
 
+## scripts/shopify-sync-manuels.js
+Téléverse les PDF de `Livret pedagogique/` vers **Fileflare** (app Digital Downloads de la boutique) et les attache aux fiches produit. Comble le chaînon manquant entre la recompilation d'un manuel et le fichier réellement vendu : avant lui, la boutique livrait encore les PDF d'août alors que le dossier local portait ceux de septembre.
+- **Pourquoi Fileflare et non l'app officielle Shopify** : cette dernière n'expose aucune API d'upload (ses outils MCP sont réservés au widget navigateur). Fileflare expose une API REST — c'est ce qui rend la diffusion automatisable sans clic
+- `skuDepuisFichier(fichier)` — déduit le SKU du nom de fichier ; la correspondance passe par le SKU et non le titre, car le fichier dit « Mathématiques Collège » là où la fiche dit « Mathématiques Collège (6e-3e) »
+- `controler(fichier, tailleEnLigne)` — refuse un PDF vide, sans en-tête `%PDF-`, ou deux fois plus petit que celui déjà en ligne. Sans relecture humaine avant mise en vente, c'est le seul garde-fou contre un fichier tronqué livré aux clients
+- `televerser(cle, fichier)` — flux en trois temps : `/assets/signed` → `PUT` sur l'URL S3 présignée → `/assets/{id}/uploaded`. Les manuels (8 Mo max) tiennent en un seul morceau, le chunk étant de 100 Mo
+- **Piège** : le corps JSON est sérialisé par Node, jamais interpolé dans une commande shell — les accents (« Troisième », « élève ») cassent la requête, et l'API répond alors 422 en prétendant que les champs sont absents
+- Clé d'API lue dans `.env` (`FILEFLARE_API_KEY`), jamais en argument de ligne de commande
+- Usage : `node scripts/shopify-sync-manuels.js` (essai à blanc) puis `--apply` ; `--only=SKU` pour un seul manuel
+
+## scripts/shopify-corriger-paginations.js
+Remet la pagination annoncée des fiches produit en accord avec les PDF réels. Quinze fiches sur 38 sous-vendaient le contenu (pack Collège professeur : 489 pages annoncées pour 1484 réelles), les descriptions ayant été rédigées avant la vague du 14/09.
+- `compterPages(fichier)` — lit `/Type /Pages … /Count` dans le PDF, en clair puis dans les flux deflatés (la chaîne LaTeX du projet compresse le catalogue). Aucune liste de paginations à tenir à la main : le script reste juste après chaque recompilation
+- `corriger(texte, reel)` — remplace « PDF de N pages » dans la description **et** dans la meta description SEO ; les deux doivent rester cohérentes, la seconde étant ce qu'affiche Google
+- Usage : `node scripts/shopify-corriger-paginations.js` — produit le plan ; l'écriture passe par le MCP Shopify
+
 ## scripts/manuel/schema.js
 Valide la forme d'un module de `js/data/` avant conversion vers LaTeX.
 - `validerModule(mod)` — contrôle les champs obligatoires, renvoie erreurs et avertissements
