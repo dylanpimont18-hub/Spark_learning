@@ -49,6 +49,10 @@ tiktok/production.json
 tiktok/sujets.json
 tiktok/envois.json
 tiktok/.env
+# Pages d'apercu des manuels : regenerees depuis les PDF par
+# scripts/extraits-manuels.js, et deja hebergees sur le CDN Shopify.
+build/extraits/
+
 # Secrets : cles d'API et identifiants. Regle large et volontaire — un .env
 # ajoute n'importe ou dans le projet ne doit jamais partir sur GitHub. Les
 # fichiers .env.example, eux, restent versionnes : ils ne portent aucune valeur.
