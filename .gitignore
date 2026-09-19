@@ -40,6 +40,7 @@ tiktok/output-culture/
 # Videos de presentation rendues : regenerables par interview.py, et 10 Mo
 # dans l'historique Git ne se desallouent jamais.
 tiktok/output-interview/
+tiktok/output-promo/
 tiktok/.travail/
 tiktok/catalogue.json
 # Memoire de production : etat local de la machine qui rend. La perdre
@@ -48,5 +49,12 @@ tiktok/production.json
 tiktok/sujets.json
 tiktok/envois.json
 tiktok/.env
+# Secrets : cles d'API et identifiants. Regle large et volontaire — un .env
+# ajoute n'importe ou dans le projet ne doit jamais partir sur GitHub. Les
+# fichiers .env.example, eux, restent versionnes : ils ne portent aucune valeur.
+.env
+**/.env
+!.env.example
+!**/.env.example
 __pycache__/
 *.pyc
