@@ -57,6 +57,7 @@ Pré-rend en HTML statique chaque URL de `sitemap.xml` via Puppeteer headless, p
 Système de design complet : variables CSS (`--primary`, `--secondary`, `--accent`, `--error`, `--space-*`), thèmes, composants UI.
 - `.ap-*` classes pour AdminPanel (conteneur, header, tabs, search, cartes utilisateurs, boutons actions)
 - `.auth-close` — bouton ✕ sur `.auth-card` pour fermer l'écran de connexion et revenir au mode invité
+- `.auth-subtitle` — sous-titre de l'écran de connexion ; remplace `.auth-tabs`/`.auth-tab`, `.auth-role-*` et `.auth-class-tag`, supprimés le 2026-10-12 avec l'onglet Inscription
 - `.ad-slot-placeholder` — cadre pointillé pour les emplacements publicitaires (placeholder, pas de pub réelle encore)
 - `.hub-intro-text` — court paragraphe éditorial (`--text-muted`) sous le titre des pages hub (`/subjects`, `/levels/:subject`), ajouté pour la conformité contenu AdSense
 - `.content-table-wrap` / `.content-table` — tableau généré par `convertMarkdownTables()` (js/utils/ui-helpers.js) à partir d'un tableau markdown dans le contenu d'un module
@@ -77,6 +78,7 @@ Registre de provenance des images de repli téléchargées par le skill `generer
 ## firestore.rules
 Règles de sécurité Firestore.
 - `config/{doc}` — lecture publique (invités inclus, pour lire `maintenanceMode`/annonce), écriture réservée admin
+- `users/{uid}` — lecture propriétaire/admin ; **création réservée à l'admin depuis le 2026-10-12** (l'auto-inscription élève/enseignant est retirée de l'interface ; sans ce verrou, n'importe qui pouvait encore créer un compte via l'API Firebase Auth puis écrire son propre profil). Un compte se crée désormais dans la console Firebase, qui contourne ces règles. Rappel : tout commit touchant ce fichier déploie en prod (hook post-commit)
 - `classes/{classCode}` — lecture restreinte à l'enseignant propriétaire/admin/élèves inscrits (plus de listing global) ; un élève peut s'auto-ajouter/retirer du champ `students` uniquement ; **création** exigeant `teacherId == request.auth.uid` (sauf admin) — sinon un compte enseignant pouvait, via un appel Firestore direct, créer une classe attribuée à un autre `teacherId`
 - `progress/{uid}` — lecture enseignant conditionnée au tableau dénormalisé `teacherIds` (élève dans une de ses classes), au lieu d'un accès enseignant global
 - `assignments/{id}` — lecture restreinte enseignant propriétaire/admin/élèves de la classe concernée (plus de listing global) ; **création** exigeant `teacherId == request.auth.uid` ET `isOwningTeacherOfClass(classCode)` (sauf admin) — sinon un enseignant pouvait injecter un devoir sur le `classCode` d'un collègue, visible par ses élèves à lui
@@ -417,7 +419,7 @@ Vues globales : accueil, liste matières, niveaux, modules, détail module.
 
 ## js/views/confidentialite.js
 Politique de confidentialité (RGPD, exigence Google AdSense).
-- `renderConfidentialite()` — page statique : localStorage sans compte, données Firebase si compte créé, publicité AdSense non personnalisée, formulaire de contact (Formspree, bulle + page `/contact`), droits RGPD. Route `#confidentialite`, lien en footer.
+- `renderConfidentialite()` — page statique : localStorage sans compte, données Firebase pour les comptes existants (plus aucune création de compte possible depuis le 2026-10-12, section 2 reformulée), publicité AdSense non personnalisée, formulaire de contact (Formspree, bulle + page `/contact`), droits RGPD. Route `#confidentialite`, lien en footer.
 
 ## js/views/contact.js
 Page de contact dédiée (question, erreur, proposition commerciale, partenariat, presse), complément pro de la bulle flottante (`js/components/contactPanel.js`).
@@ -426,7 +428,7 @@ Page de contact dédiée (question, erreur, proposition commerciale, partenariat
 
 ## js/auth/authService.js
 Service d'authentification et d'autorisations Firestore.
-- `signUp(email, password, role)` — crée un compte
+- (2026-10-12) `signUpWithEmail()` et `createUserProfile()` supprimés : l'inscription publique n'existe plus ; un compte se crée dans la console Firebase (Auth + document `users/{uid}`)
 - `signIn(email, password)` — connecte l'utilisateur
 - `signOut()` — déconnecte
 - `setTeacherApprovalStatus(uid, isApproved)` — approuve/refuse un enseignant
@@ -449,11 +451,12 @@ Vérifie l'état Firebase auth avant d'afficher l'app (profil, rôle, statut).
 - `AuthGuard.isTutor()` — accesseur : `tutorAccess === true` sur le profil chargé (tutorat privé, indépendant du champ `role`)
 
 ## js/views/authView.js
-Pages Inscription / Connexion (overlay plein `#app`, header/nav restent visibles). Email + mot de passe uniquement — l'auth par téléphone (SMS) a été retirée (nécessitait l'offre payante Firebase Blaze, refusée par le projet).
-- `AuthView.render(fromGuest)` — affiche l'écran de connexion ; si `fromGuest`, ajoute un bouton `.auth-close` (✕)
+Page Connexion uniquement (overlay plein `#app`, header/nav restent visibles). Email + mot de passe. L'onglet Inscription (choix du rôle élève/enseignant, codes de classe) a été **supprimé le 2026-10-12** : les comptes publics n'étaient pas utilisés ; les comptes restants (enseignants, classes, tutorat) se créent à la main dans la console Firebase. L'auth par téléphone (SMS) avait déjà été retirée (offre Blaze refusée).
+- `AuthView.render(fromGuest)` — affiche l'écran de connexion (titre « Connexion » + `.auth-subtitle` précisant que tout le contenu reste accessible sans compte) ; si `fromGuest`, ajoute un bouton `.auth-close` (✕)
 - `AuthView._closeToGuest()` — ferme l'écran de connexion et revient à l'accueil en mode invité (`navigate('home')`)
-- `AuthView.renderPending()` — écran d'attente de validation enseignant
-- `AuthView._finishRegistration(user, contactData, displayName)` — si un ou plusieurs codes de classe saisis à l'inscription élève sont invalides, `joinClass()` échoue par code mais le compte reste créé (impossible d'annuler l'inscription à ce stade) ; un `showToast` liste les codes en échec au lieu de les avaler silencieusement
+- `AuthView.renderPending()` — écran d'attente de validation enseignant (conservé pour d'éventuels comptes `pending` déjà existants)
+- `AuthView._renderLogin()` — vrai `<form>` (soumission à Entrée), labels liés par `for`, `autocomplete` email / current-password, zone d'erreur `role="alert"`
+- `AuthView._loginEmail()` — désactive le bouton et affiche « Connexion… » pendant l'appel Firebase ; ne le réactive qu'en cas d'échec (le succès est pris en charge par `onAuthStateChanged` dans `js/app.js`)
 
 ## js/views/adminPanel.js
 Panneau d'administration : gestion des enseignants en attente, comptes utilisateurs, modules et historique.
@@ -468,6 +471,7 @@ Panneau d'administration : gestion des enseignants en attente, comptes utilisate
 - `AdminPanel._renderLogs(logs)` / `_renderLogsList()` — onglet Historique avec filtres par type d'action (`_logActionFilter`) et par admin (`_logAdminFilter`), calculés dynamiquement à partir des logs chargés (`_logsCache`)
 - `AdminPanel._approve(uid)` / `_reject(uid)` — approuve/refuse un enseignant
 - `AdminPanel._setStatus(uid, status)` — modifie le statut d'un utilisateur
+- `AdminPanel._saveSettings()` — enregistre `maintenanceMode` et `maxStudentsPerClass` dans `config/settings` ; la case « Inscription enseignants activée » (`teacherSignupEnabled`) a été retirée le 2026-10-12 avec l'inscription publique (elle n'était d'ailleurs lue nulle part)
 - `AdminPanel._runBackfillTeacherIds()` — lance la migration `progress.teacherIds` (à exécuter une fois après déploiement des règles) ; affiche distinctement le nombre d'échecs individuels (`result.failed`) plutôt qu'un simple compteur de succès, pour ne pas laisser croire à une migration complète
 - `AdminPanel._archiveClass(classId)` — recherche la classe dans `_orphanClassesCache` pour afficher son nom et son nombre d'élèves dans la confirmation avant d'archiver (au lieu d'un message générique)
 - `setSubjectAccessMode(subjectId, mode)` / `setModuleAccessMode(moduleId, mode)` — fonctions globales async (hors objet `AdminPanel`, extraites de `js/app.js`) : verrouillage/maintenance par matière ou par module ; calculent la carte cible puis **attendent la confirmation d'écriture** (`AuthService.saveModuleAccess()`) avant de mettre à jour `Storage`/`state.moduleAccess` et de re-render — sinon l'admin voyait le verrouillage confirmé localement même si l'écriture Firestore (lue par tous, y compris invités) avait échoué ; appelées désormais depuis l'onglet Modules d'`AdminPanel` (ex-`renderAdminPage()` de `home.js`, supprimée)

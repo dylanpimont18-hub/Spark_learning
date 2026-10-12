@@ -4517,31 +4517,12 @@ ins.adsbygoogle {
   margin-bottom: 1.5rem;
 }
 
-.auth-tabs {
-  display: flex;
-  background: rgba(0,0,0,0.1);
-  border-radius: 10px;
-  padding: 4px;
-  margin-bottom: 1.5rem;
-  gap: 4px;
-}
-
-.auth-tab {
-  flex: 1;
-  padding: 0.5rem;
-  border: none;
-  background: transparent;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 600;
+.auth-subtitle {
   color: var(--text-muted, #9090b0);
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.auth-tab.active {
-  background: var(--primary);
-  color: #fff;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  text-align: center;
+  margin: -0.9rem 0 1.5rem;
 }
 
 .auth-field { margin-bottom: 1rem; }
@@ -4592,33 +4573,6 @@ ins.adsbygoogle {
 .auth-btn-primary:hover { opacity: 0.9; }
 .auth-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 
-.auth-role-select {
-  display: flex;
-  gap: 0.75rem;
-  margin-bottom: 1.25rem;
-}
-
-.auth-role-btn {
-  flex: 1;
-  padding: 0.75rem 0.5rem;
-  border: 2px solid var(--border, rgba(255,255,255,0.1));
-  background: transparent;
-  border-radius: 12px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-muted, #9090b0);
-  cursor: pointer;
-  text-align: center;
-  transition: all 0.2s;
-}
-
-.auth-role-btn .role-icon { font-size: 1.5rem; display: block; margin-bottom: 0.25rem; }
-
-.auth-role-btn.active {
-  border-color: var(--primary);
-  color: var(--primary);
-}
-
 .auth-error {
   background: rgba(239,68,68,0.1);
   border: 1px solid rgba(239,68,68,0.3);
@@ -4644,28 +4598,6 @@ ins.adsbygoogle {
   margin-top: 0.75rem;
   display: block;
   text-align: center;
-}
-
-.auth-class-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  background: rgba(0,0,0,0.15);
-  border: 1px solid var(--border, rgba(255,255,255,0.1));
-  border-radius: 20px;
-  padding: 0.3rem 0.7rem;
-  font-size: 0.82rem;
-  margin: 0.25rem;
-}
-
-.auth-class-tag button {
-  background: none;
-  border: none;
-  color: var(--text-muted, #9090b0);
-  cursor: pointer;
-  font-size: 0.9rem;
-  padding: 0;
-  line-height: 1;
 }
 
 /* ═══════════════════════════════════════════════════════

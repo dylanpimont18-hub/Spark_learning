@@ -117,10 +117,6 @@ var AdminPanel = {
         '<div class="ap-settings-group">' +
           '<div class="ap-settings-group-title">Paramètres plateforme</div>' +
           '<label class="ap-toggle-row">' +
-            '<span>Inscription enseignants activée</span>' +
-            '<input type="checkbox" id="ap-teacher-signup"' + (settings.teacherSignupEnabled !== false ? ' checked' : '') + ' />' +
-          '</label>' +
-          '<label class="ap-toggle-row">' +
             '<span>Mode maintenance (site en pause)</span>' +
             '<input type="checkbox" id="ap-maintenance"' + (settings.maintenanceMode ? ' checked' : '') + ' />' +
           '</label>' +
@@ -200,12 +196,10 @@ var AdminPanel = {
   },
 
   _saveSettings: async function() {
-    var teacherSignup = document.getElementById('ap-teacher-signup');
     var maintenance   = document.getElementById('ap-maintenance');
     var maxStudents   = document.getElementById('ap-max-students');
-    if (!teacherSignup || !maintenance || !maxStudents) return;
+    if (!maintenance || !maxStudents) return;
     var data = {
-      teacherSignupEnabled: teacherSignup.checked,
       maintenanceMode: maintenance.checked,
       maxStudentsPerClass: parseInt(maxStudents.value) || 35
     };
