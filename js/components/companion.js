@@ -367,6 +367,7 @@ function renderCompanionSession(moduleId) {
 
         .session-header {
           display: flex;
+          flex-wrap: wrap;          /* mobile : le compteur de lacunes passe à la ligne au lieu de faire défiler toute la page */
           align-items: center;
           gap: 1rem;
           margin-bottom: 2rem;
@@ -374,7 +375,8 @@ function renderCompanionSession(moduleId) {
           border-bottom: 2px solid var(--border-color);
         }
         .session-header h1 {
-          flex: 1;
+          flex: 1 1 auto;
+          min-width: 0;
           margin: 0;
           font-size: 1.8rem;
         }

@@ -339,3 +339,51 @@ function showCopyLinkModal(url, message) {
   input.focus();
   input.select();
 }
+
+/* ── Fondu de bord des conteneurs à défilement horizontal (.scroll-fade) ──
+   La barre de défilement est masquée (barre d'onglets, rangée des niveaux) : on pose
+   data-fade = none | left | right | both selon le côté où il reste du contenu caché,
+   et css/styles.css n'estompe que ce côté-là. Un MutationObserver sur #app relance
+   l'init après chaque rendu : aucune vue n'a à s'en occuper. */
+function updateScrollFade(el) {
+  if (!el) return;
+  var max = el.scrollWidth - el.clientWidth;
+  var state = 'none';
+  if (max > 2) {
+    var left = el.scrollLeft > 2, right = el.scrollLeft < max - 2;
+    state = left && right ? 'both' : right ? 'right' : left ? 'left' : 'none';
+  }
+  if (el.dataset.fade !== state) el.dataset.fade = state;
+}
+
+function initScrollFades(root) {
+  root = root || document;
+  var list = Array.prototype.slice.call(root.querySelectorAll('.scroll-fade'));
+  if (root.matches && root.matches('.scroll-fade')) list.unshift(root);
+  list.forEach(function (el) {
+    if (!el._fadeBound) {
+      el._fadeBound = true;
+      el.addEventListener('scroll', function () { updateScrollFade(el); }, { passive: true });
+    }
+    updateScrollFade(el);
+  });
+}
+
+(function () {
+  var scheduled = false;
+  function schedule() {
+    if (scheduled) return;
+    scheduled = true;
+    requestAnimationFrame(function () { scheduled = false; initScrollFades(document); });
+  }
+  function start() {
+    var app = document.getElementById('app');
+    if (app && 'MutationObserver' in window) {
+      new MutationObserver(schedule).observe(app, { childList: true, subtree: true });
+    }
+    window.addEventListener('resize', schedule);
+    schedule();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+  else start();
+})();

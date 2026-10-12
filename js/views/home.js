@@ -266,7 +266,7 @@ function renderHome() {
 			<div class="container" style="position:relative;z-index:1;">
 				<div class="hero-kicker">✨ Remédiation scientifique </div>
 				<h1 class="hero-title">
-					Maths, Physique, Ingénierie :<br/>
+					Maths, Physique, Ingénierie&nbsp;:<br/>
 					progresse à <span class="highlight">ton rythme</span>.
 				</h1>
 				<p class="hero-subtitle">
@@ -557,14 +557,14 @@ function renderModulesList() {
 			</div>
 
 			${state.moduleSelectionMode === 'level' ? `
-				<div class="level-switch-tabs">
+				<div class="level-switch-tabs scroll-fade">
 					${allLevels.map(l => `
 						<button class="level-switch-btn ${state.level === l.id ? 'active' : ''}"
 										onclick="navigate('modules', {level: ${typeof l.id === 'string' ? `'${l.id}'` : l.id}, subject: '${subjectDef.id}'})">${l.label}</button>
 					`).join('')}
 				</div>
 			` : `
-				<div class="theme-switch-tabs">
+				<div class="theme-switch-tabs scroll-fade">
 					<button class="level-switch-btn ${state.selectedTheme === 'all' ? 'active' : ''}" onclick="setModuleTheme('all')">Tous les thèmes</button>
 					${availableThemes.map(t => `
 						<button class="level-switch-btn ${state.selectedTheme === t.id ? 'active' : ''}" onclick="setModuleTheme('${t.id}')">${t.label}</button>
@@ -756,7 +756,7 @@ function renderModuleDetail() {
 				<p class="module-detail-subtitle">${mod.subtitle}</p>
 				${mod.physics ? `<div class="module-detail-physics">${subjectDef.applicationIcon} ${subjectDef.applicationLabel} : ${mod.physics}</div>` : ''}
 
-				<nav class="tab-bar" role="tablist" aria-label="Onglets du module">
+				<nav class="tab-bar scroll-fade" role="tablist" aria-label="Onglets du module">
 					${tabs.map(t => `
 						<button
 							class="tab-btn ${state.tab === t.id ? 'active' : ''}"

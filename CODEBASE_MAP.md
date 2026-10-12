@@ -55,6 +55,10 @@ Pré-rend en HTML statique chaque URL de `sitemap.xml` via Puppeteer headless, p
 
 ## css/styles.css
 Système de design complet : variables CSS (`--primary`, `--secondary`, `--accent`, `--error`, `--space-*`), thèmes, composants UI.
+- (2026-10-13, mobile) `.contact-btn` passe en bas à **droite** sous 1024 px et `.scroll-top-btn` s'empile au-dessus : à gauche, la bulle recouvrait la réponse D des quiz, « Valider » des évaluations et les liens du footer ; `.footer` reçoit un `padding-bottom` à ≤ 600 px pour que les deux boutons flottent sur du vide en fin de page
+- `.scroll-fade[data-fade=left|right|both]` — fondu de bord (`mask-image`) d'un conteneur qui défile horizontalement (`.tab-bar`, `.level-switch-tabs`, `.theme-switch-tabs`) ; l'attribut est posé par `initScrollFades()` (`js/utils/ui-helpers.js`), jamais à la main
+- Cibles tactiles ≥ 24 px (WCAG 2.2) sans changer le visuel : `.breadcrumb-link`, `.footer-legal-link`, `.promo-link` (padding + marges négatives), `.promo-dot` (pseudo-élément `::before` de 32 × 24 px), `.promo-pause` et `.contact-panel-close` (`min-width/height: 32px`)
+- `.hero-title { text-wrap: balance }` + espace insécable avant le « : » dans `js/views/home.js` : sur mobile, le deux-points se retrouvait seul sur sa ligne
 - `.ap-*` classes pour AdminPanel (conteneur, header, tabs, search, cartes utilisateurs, boutons actions)
 - `.auth-close` — bouton ✕ sur `.auth-card` pour fermer l'écran de connexion et revenir au mode invité
 - `.auth-subtitle` — sous-titre de l'écran de connexion ; remplace `.auth-tabs`/`.auth-tab`, `.auth-role-*` et `.auth-class-tag`, supprimés le 2026-10-12 avec l'onglet Inscription
@@ -355,6 +359,7 @@ Rendu HTML de l'onglet Cours d'un module (écran, pas impression).
 
 ## js/components/moduleTabs.js
 Rendu des onglets d'un module (cours / quiz / exercice / problème / évaluation / flashcards).
+- `renderTabContent()` — après avoir marqué l'onglet actif, le fait défiler au centre de `.tab-bar` quand la barre déborde (mobile : six onglets pour ~350 px, « Évaluation » et « Remédiation » étaient hors écran sans indice) et rafraîchit le fondu de bord via `initScrollFades()`
 - `renderTabContent()` — sélectionne et rend l'onglet actif ; passe le HTML par `convertMarkdownTables()` avant `innerHTML` pour transformer les tableaux markdown éventuels en `<table>`
 
 ## js/components/quiz.js
@@ -373,6 +378,7 @@ Rendu HTML de l'évaluation.
 
 ## js/components/companion.js
 Interface Spark Companion.
+- `renderCompanionSession()` — l'en-tête `.session-header` (styles inline dans le composant, pas dans `css/styles.css`) est en `flex-wrap: wrap` depuis le 2026-10-13 : sur mobile, « N lacune(s) détectée(s) » débordait à droite et faisait défiler toute la page de 34 px
 - `renderCompanionHome()` — accueil companion (badges, objectifs CCF) ; section "💡 À retravailler en priorité" alimentée par `getRemediationRecommendations()` (`js/engines/companionEngine.js`) : top 3 modules par sévérité, raison concrète affichée (`rec.reasons`), CTA contextuel selon `rec.weakestSection` (Revoir le cours / Refaire le quiz / Lancer un exercice ciblé / Revoir le problème)
 - `renderCompanionSession(moduleId)` — session de remédiation active ; la liste des lacunes (`ctx.lacunes`) est un array d'objets `{ section, label, severity, reasons }` (pas des tuples `[topic, count]`) ; persiste les 3 exercices générés dans `state.companionState.remediation.currentExercises` pour que `submitCompanionQuiz`/`submitCompanionExercise` (ci-dessous) puissent retrouver la vraie réponse attendue
 - `submitCompanionQuiz(moduleId, exerciseId, optionIndex)` / `submitCompanionExercise(moduleId, exerciseId)` — retrouvent l'exercice dans `currentExercises` et appellent `validateRemedialAnswer()` (`js/engines/companionEngine.js`), puis `_checkRemediationSessionComplete()`
@@ -398,6 +404,7 @@ Modale enseignant "proposer un piège fréquent" sur un module, extrait de `js/a
 
 ## js/views/home.js
 Vues globales : accueil, liste matières, niveaux, modules, détail module.
+- `renderModulesList()` / `renderModuleDetail()` — `.level-switch-tabs`, `.theme-switch-tabs` et `.tab-bar` portent la classe `scroll-fade` (défilement horizontal + fondu de bord). Piège : `.level-switch-tabs` est un **frère** de `.level-switcher`, pas un enfant — le `overflow-x: auto` du switcher ne le couvrait pas et, sur mobile, la liste des modules faisait défiler toute la page de 24 px
 - Cartes de navigation (matière/niveau/module/reprise/breadcrumb/prev-next) rendues en `<a href="${buildPath(...)}">` (pas des `<div onclick>`) — 2026-08-18, fix indexation Search Console : Google ne trouvait aucun lien interne crawlable, seulement 3/220 pages indexées
 - `renderContinueSection()` — section "Reprendre ton parcours"
 - `renderStreakBadge()` — badge streak 🔥 factorisé (utilisé par `renderHome()`, indépendamment de `renderStatsSection()`) ; affiché dès le jour 1 ("Tu démarres ta série aujourd'hui") pour renforcer l'habitude dès la première visite, message différent à partir de 2 jours
@@ -613,6 +620,7 @@ Recommandations adaptatives basées sur la progression.
 
 ## js/utils/ui-helpers.js
 Helpers de rendu et utilitaires UI partagés.
+- `updateScrollFade(el)` / `initScrollFades(root)` — posent `data-fade` (`none|left|right|both`) sur chaque `.scroll-fade` selon sa position de défilement ; un `MutationObserver` sur `#app` + `resize` relancent l'init après chaque rendu, aucune vue n'a à s'en occuper
 - `escapeHtml(str)` — échappement HTML partagé (auparavant dupliqué à l'identique en 6 endroits : `teacherDashboard.js`, `gradingPanel.js`, `adminPanel.js`, `tutoringHome.js`, `tutoringStudent.js`, `positioningTest.js`) ; ces fichiers chargent AVANT ce fichier dans `index.html`, donc chacun garde un wrapper local `_esc: function(str) { return escapeHtml(str); }` (une référence directe `_esc: escapeHtml` casserait au chargement, `escapeHtml` n'existant pas encore)
 - `showCopyLinkModal(url, message)` — panneau modal "copier le lien" (bouton copier-presse-papiers + fallback `execCommand('copy')` + sélection manuelle) ; remplace `window.prompt()` (fragile sur mobile/webview) pour partager les liens de test de positionnement (`tutoringHome.js`, `tutoringStudent.js`)
 - `convertMarkdownTables(html)` — convertit les tableaux markdown (`| a | b |` + ligne `|---|---|`) présents dans le contenu (`def`, `steps`, `context`...) en vrais `<table>` HTML ; appelé sur le HTML assemblé dans `moduleTabs.js` et `renderFicheCours()`, pas dans `js/data/`
