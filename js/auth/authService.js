@@ -39,28 +39,10 @@ const AuthService = {
     return await this._auth.signInWithEmailAndPassword(email, password);
   },
 
-  async signUpWithEmail(email, password) {
-    return await this._auth.createUserWithEmailAndPassword(email, password);
-  },
-
   /* ── Firestore : profils utilisateurs ── */
   async getUserProfile(uid) {
     const doc = await this._db.collection('users').doc(uid).get();
     return doc.exists ? { uid: doc.id, ...doc.data() } : null;
-  },
-
-  async createUserProfile(uid, data) {
-    await this._db.collection('users').doc(uid).set({
-      role: data.role || 'student',
-      status: data.status || 'active',
-      displayName: data.displayName || '',
-      phone: data.phone || null,
-      email: data.email || null,
-      classes: data.classes || [],
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      approvedAt: null,
-      approvedBy: null
-    });
   },
 
   async updateUserProfile(uid, patch) {
@@ -341,7 +323,7 @@ const AuthService = {
   /* ── Admin : paramètres plateforme ── */
   async getPlatformSettings() {
     const doc = await this._db.collection('config').doc('settings').get();
-    return doc.exists ? doc.data() : { teacherSignupEnabled: true, maintenanceMode: false, maxStudentsPerClass: 35 };
+    return doc.exists ? doc.data() : { maintenanceMode: false, maxStudentsPerClass: 35 };
   },
 
   async savePlatformSettings(data) {
