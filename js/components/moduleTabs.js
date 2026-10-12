@@ -13,6 +13,15 @@ function renderTabContent() {
     btn.setAttribute('aria-selected', tabId === state.tab);
   });
 
+  // Mobile : six onglets pour ~350 px et une barre de défilement masquée — sans ceci,
+  // « Évaluation » et « Remédiation » restaient hors écran sans aucun indice.
+  const activeBtn = document.querySelector('.tab-btn.active');
+  const bar = activeBtn && activeBtn.parentElement;
+  if (bar && bar.scrollWidth > bar.clientWidth + 2) {
+    activeBtn.scrollIntoView({ block: 'nearest', inline: 'center' });
+  }
+  if (typeof initScrollFades === 'function') initScrollFades(bar || document);
+
   const panel = document.querySelector('.tab-content');
   if (panel) {
     panel.id = `tab-panel-${state.tab}`;
