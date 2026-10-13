@@ -28,7 +28,7 @@
         { term: 'Cosinus d\'un angle aigu', def: 'Rapport entre le côté adjacent à l\'angle et l\'hypoténuse dans un triangle rectangle : $\\cos(\\hat{A}) = \\dfrac{\\text{adj}}{\\text{hyp}}$.' },
         { term: 'Côté adjacent', def: 'Côté du triangle rectangle qui forme l\'angle considéré, autre que l\'hypoténuse. Il change selon l\'angle choisi.' },
         { term: 'Hypoténuse', def: 'Plus grand côté du triangle rectangle, situé en face de l\'angle droit. C\'est toujours le dénominateur dans le cosinus.' },
-        { term: 'Arc cosinus ($\\arccos$)', def: 'Fonction inverse du cosinus : si $\\cos(\\hat{A}) = k$, alors $\\hat{A} = \\arccos(k)$. Permet de retrouver un angle à partir d\'un rapport.' }
+        { term: 'Retrouver l\'angle (touche $\\cos^{-1}$)', def: 'Si l\'on connaît $\\cos(\\hat{A})$, la calculatrice redonne l\'angle avec la touche $\\cos^{-1}$ (parfois notée arccos) : $\\cos(\\hat{A}) = 0{,}5$ donne $\\hat{A} = 60°$.' }
       ],
       method: {
         title: 'Méthode en 3 étapes',
@@ -50,13 +50,13 @@
       formulas: [
         '$\\cos(\\hat{A}) = \\dfrac{\\text{adj}}{\\text{hyp}}$',
         '$\\cos(0°) = 1$, $\\cos(30°) = \\frac{\\sqrt{3}}{2}$, $\\cos(45°) = \\frac{\\sqrt{2}}{2}$, $\\cos(60°) = \\frac{1}{2}$, $\\cos(90°) = 0$',
-        'Pour trouver l\'angle : $\\hat{A} = \\arccos\\left(\\dfrac{\\text{adj}}{\\text{hyp}}\\right)$'
+        'Pour trouver l\'angle : $\\hat{A} = \\cos^{-1}\\left(\\dfrac{\\text{adj}}{\\text{hyp}}\\right)$ (touche $\\cos^{-1}$ de la calculatrice)'
       ],
       diagram: {
         theme: 'maths',
         kicker: 'Triangle rectangle',
         title: 'Le cosinus : adjacent sur hypoténuse',
-        description: 'À ce niveau, seul le cosinus est au programme : on ne nomme que le côté adjacent et l\'hypoténuse — le troisième côté n\'a pas besoin de nom pour l\'instant.',
+        description: 'À ce niveau, seul le cosinus est au programme : il n\'utilise que le côté <strong>adjacent</strong> et l\'<strong>hypoténuse</strong>. Le troisième côté, l\'opposé, ne sert pas dans le calcul.',
         svg: `
           <!-- Trace A L'ECHELLE de l'exemple du cours : 1 m = 40 px, angle A = 60°.
                adjacent CA = 2,5 m = 100 px, opposé CB = 4,33 m = 173 px,
@@ -65,7 +65,7 @@
                contredisait le calcul qu'elle est censee illustrer. -->
           <svg viewBox="0 0 380 320" role="img" aria-labelledby="cosinus-graph-title cosinus-graph-desc">
             <title id="cosinus-graph-title">Triangle rectangle ABC et cosinus de l'angle A</title>
-            <desc id="cosinus-graph-desc">Triangle rectangle ABC trace a l'echelle, angle droit en C, angle de 60 degrés marque en A. Le cote AC, adjacent a l'angle A, mesure 2,5 mètrès et l'hypoténuse AB mesure 5 mètres, conformement a l'exemple chiffre du cours.</desc>
+            <desc id="cosinus-graph-desc">Triangle rectangle ABC tracé à l'échelle, angle droit en C, angle de 60 degrés marqué en A. Le côté AC, adjacent à l'angle A, mesure 2,5 mètres et l'hypoténuse AB mesure 5 mètres, conformément à l'exemple chiffré du cours.</desc>
 
             <rect x="150" y="10" width="140" height="40" rx="10" fill="color-mix(in srgb, var(--secondary) 10%, var(--bg-card))" stroke="color-mix(in srgb, var(--secondary) 30%, var(--border))"></rect>
             <text class="annotation-label" x="160" y="26">COS</text>
@@ -99,7 +99,7 @@
         `,
         notes: [
           'Le côté adjacent à $\\hat{A}$ est $AC$ : il touche $\\hat{A}$ sans être l\'hypoténuse. L\'hypoténuse $AB$ fait face à l\'angle droit en $C$.',
-          'À ce niveau, on ne nomme pas le troisième côté ($BC$) : son nom (opposé) et son usage (sinus) arrivent plus tard.',
+          'Le troisième côté, $BC$, est le côté <strong>opposé</strong> à $\\hat{A}$ : on le nomme pour ne pas le confondre avec l\'adjacent, mais le cosinus ne l\'utilise jamais (son usage, le sinus, arrive en troisième).',
           'Avec hyp $= 5$ m et $\\hat{A} = 60°$, on retrouve l\'exemple du cours : adjacent $= 5 \\times \\cos(60°) = 2{,}5$ m.'
         ],
         reading: 'Le cosinus ne fait intervenir que deux côtés : celui qui touche l\'angle (adjacent) et le plus long (hypoténuse).',
@@ -248,34 +248,41 @@
       recap: [
         '$\\cos(\\hat{A}) = \\dfrac{\\text{côté adjacent}}{\\text{hypoténuse}}$ — le rapport est toujours compris entre $0$ et $1$.',
         'Le côté adjacent change selon l\'angle considéré : c\'est le côté qui touche l\'angle (sans être l\'hypoténuse).',
-        'Pour trouver un côté : adj $= $ hyp $\\times \\cos(\\hat{A})$ ; pour trouver un angle : $\\hat{A} = \\arccos\\left(\\dfrac{\\text{adj}}{\\text{hyp}}\\right)$.',
-        'Valeurs clés : $\\cos(0°) = 1$, $\\cos(60°) = 0{,}5$, $\\cos(90°) = 0$.'
+        'Pour trouver un côté : adj $= $ hyp $\\times \\cos(\\hat{A})$ ; pour trouver un angle : $\\hat{A} = \\cos^{-1}\\left(\\dfrac{\\text{adj}}{\\text{hyp}}\\right)$ à la calculatrice.',
+        'Valeurs clés : $\\cos(0°) = 1$, $\\cos(60°) = 0{,}5$, $\\cos(90°) = 0$.',
+        'Retour à l\'échelle de l\'introduction : $\\cos(\\hat{A}) = \\dfrac{1{,}20}{4} = 0{,}30$, et la touche $\\cos^{-1}$ donne $\\hat{A} \\approx 72{,}5°$.<br/><br/>C\'est un peu moins que les $75°$ conseillés : il faut <strong>rapprocher le pied du mur</strong>.'
       ],
       piege: 'Piège : le côté adjacent change selon l\'angle considéré. Pour l\'angle $\\hat{A}$, l\'adjacent est le côté qui « touche » $\\hat{A}$ (autre que l\'hypoténuse). Ne pas confondre avec le côté opposé.'
     },
     quiz: [
       {
         q: 'Dans un triangle rectangle $ABC$ (angle droit en $C$) avec $AB = 10$ cm et $AC = 6$ cm. Quel est $\\cos(\\hat{A})$ ?',
-        options: ['$0{,}6$', '$0{,}8$', '$0{,}75$', '$1{,}67$'],
-        answer: 0,
-        correction: '$\\cos(\\hat{A}) = \\dfrac{\\text{adj}}{\\text{hyp}} = \\dfrac{AC}{AB} = \\dfrac{6}{10} = 0{,}6$.'
+        options: ['$0{,}8$', '$1{,}67$', '$0{,}75$', '$0{,}6$'],
+        answer: 3,
+        correction: '$\\cos(\\hat{A}) = \\dfrac{\\text{adj}}{\\text{hyp}} = \\dfrac{AC}{AB} = \\dfrac{6}{10} = 0{,}6$.<br/><br/>$1{,}67$ vient de la fraction renversée $\\dfrac{10}{6}$ — or un cosinus ne dépasse jamais $1$. $0{,}8$ utilise le troisième côté ($BC = 8$ cm, le côté opposé) à la place de l\'adjacent, et $0{,}75 = \\dfrac{6}{8}$ ne met pas l\'hypoténuse au dénominateur.'
       },
       {
         q: 'Dans un triangle rectangle, un angle aigu mesure $60°$. L\'hypoténuse vaut $14$ cm. Quel est le côté adjacent ?',
-        options: ['$7$ cm', '$12{,}12$ cm', '$7{,}27$ cm', '$28$ cm'],
+        options: ['$7$ cm', '$12{,}12$ cm', '$28$ cm', '$9{,}90$ cm'],
         answer: 0,
-        correction: '$\\text{adj} = \\text{hyp} \\times \\cos(60°) = 14 \\times 0{,}5 = 7$ cm.'
+        correction: '$\\text{adj} = \\text{hyp} \\times \\cos(60°) = 14 \\times 0{,}5 = 7$ cm.<br/><br/>$12{,}12$ et $9{,}90$ utilisent $\\cos(30°)$ ou $\\cos(45°)$ à la place de $\\cos(60°)$ ; $28$ divise par $0{,}5$ au lieu de multiplier — or le côté adjacent est toujours plus court que l\'hypoténuse.'
       },
       {
         q: 'Dans un triangle rectangle $ABC$ (angle droit en $C$) avec $AB = 10$ cm, $BC = 6$ cm, $AC = 8$ cm, un élève écrit : $\\cos(\\hat{A}) = \\dfrac{BC}{AB} = 0{,}6$. Quelle est son erreur ?',
         options: [
-          'Il a confondu côté adjacent et côté opposé : $\\cos(\\hat{A}) = \\dfrac{AC}{AB} = 0{,}8$',
           'Il a mal identifié l\'hypoténuse : ce n\'est pas $AB$',
+          'Il a confondu côté adjacent et côté opposé : $\\cos(\\hat{A}) = \\dfrac{AC}{AB} = 0{,}8$',
           'Le résultat $0{,}6$ est correct, il n\'y a pas d\'erreur',
           'Il aurait dû diviser $AB$ par $BC$'
         ],
-        answer: 0,
-        correction: 'Pour l\'angle $\\hat{A}$, le côté adjacent est $AC$ (il « touche » $\\hat{A}$ sans être l\'hypoténuse), pas $BC$ (qui est le côté opposé à $\\hat{A}$). Donc $\\cos(\\hat{A}) = \\dfrac{AC}{AB} = \\dfrac{8}{10} = 0{,}8$, pas $0{,}6$.'
+        answer: 1,
+        correction: 'Pour l\'angle $\\hat{A}$, le côté adjacent est $AC$ (il « touche » $\\hat{A}$ sans être l\'hypoténuse), pas $BC$, qui est le côté opposé à $\\hat{A}$. Donc $\\cos(\\hat{A}) = \\dfrac{AC}{AB} = \\dfrac{8}{10} = 0{,}8$.<br/><br/>L\'hypoténuse est bien $AB$ (en face de l\'angle droit $C$) ; et $\\dfrac{AB}{BC} \\approx 1{,}67$ dépasserait $1$, ce qu\'aucun cosinus ne peut faire.'
+      },
+      {
+        q: 'Dans un triangle rectangle, $\\cos(\\hat{A}) = \\dfrac{6}{12}$. Que vaut $\\hat{A}$ ?',
+        options: ['$30°$', '$0{,}5°$', '$60°$', '$45°$'],
+        answer: 2,
+        correction: '$\\dfrac{6}{12} = 0{,}5$ et $\\cos(60°) = 0{,}5$, donc $\\hat{A} = 60°$ : la touche $\\cos^{-1}$ de la calculatrice le confirme.<br/><br/>$30°$ et $45°$ ont pour cosinus $0{,}866$ et $0{,}707$, pas $0{,}5$. $0{,}5°$ confond la <strong>valeur du cosinus</strong> avec l\'angle lui-même.'
       }
     ],
     exercice: {
@@ -305,12 +312,12 @@
           const [adj, opp, hyp] = pick([[3, 4, 5], [6, 8, 10], [5, 12, 13], [8, 15, 17], [9, 12, 15], [12, 16, 20], [7, 24, 25]]);
           const rep = parseFloat((adj / hyp).toFixed(3));
           const ctx = pick([
-            'Dans un triangle rectangle $ABC$ rectangle en $C$',
-            'Un triangle rectangle est dessine sur un plan et il est rectangle en $C$',
-            'Une equerre a la forme d\'un triangle rectangle en $C$'
+            'Dans un triangle $ABC$ rectangle en $C$',
+            'Sur un plan, un triangle $ABC$ est rectangle en $C$',
+            'Une équerre a la forme d\'un triangle $ABC$ rectangle en $C$'
           ]);
           return {
-            statement: '📐 ' + ctx + ', on mesure $AC = ' + adj + '$ cm (côté adjacent a l\'angle $\\widehat{A}$) et $AB = ' + hyp + '$ cm (hypoténuse). ' +
+            statement: '📐 ' + ctx + ', on mesure $AC = ' + adj + '$ cm (côté adjacent à l\'angle $\\widehat{A}$) et $AB = ' + hyp + '$ cm (hypoténuse). ' +
               'Calcule $\\cos(\\widehat{A})$, arrondi au millième.',
             answer: rep,
             tolerance: 0.002,
@@ -320,7 +327,7 @@
                etant le cosinus et non une longueur, aucun cote ne porte de
                point d'interrogation (inconnu vise un cote deja masque). */
             figure: figureTriangleRectangle(adj, opp, hyp, { unite: 'cm', inconnu: 'vertical', masquer: ['vertical'], noms: { droit: 'C', horizontal: 'A', vertical: 'B' } }),
-            hint: 'Le cosinus est le quotient du côté ADJACENT par l\'HYPOTENUSE, dans cet ordre.',
+            hint: 'Le cosinus est le quotient du côté ADJACENT par l\'HYPOTÉNUSE, dans cet ordre.',
             solution: [
               '$\\cos(\\widehat{A}) = \\dfrac{\\text{côté adjacent}}{\\text{hypoténuse}} = \\dfrac{AC}{AB} = \\dfrac{' + adj + '}{' + hyp + '}$.',
               'Soit $\\cos(\\widehat{A}) \\approx ' + fr(rep) + '$.',
@@ -333,10 +340,10 @@
           const [adj, opp, hyp] = pick([[3, 4, 5], [6, 8, 10], [5, 12, 13], [8, 15, 17], [9, 12, 15], [12, 16, 20]]);
           const cos = parseFloat((adj / hyp).toFixed(3));
           const ctx = pick([
-            { d: 'Une rampe d\'accès', u: 'm' },
+            { d: 'Une échelle', u: 'm' },
             { d: 'Un câble tendu', u: 'm' },
             { d: 'Un pan de toit', u: 'm' },
-            { d: 'Une piste inclinee', u: 'm' }
+            { d: 'Un escalier de meunier', u: 'm' }
           ]);
           return {
             statement: '📏 ' + ctx.d + ' fait un angle $\\widehat{A}$ avec l\'horizontale, et l\'on sait que $\\cos(\\widehat{A}) = ' + fr(cos) + '$. ' +
@@ -364,17 +371,17 @@
         const scenario = pick([
           { emoji: '📐', s: 'Dans un triangle rectangle, un angle mesure $' + a + '°$ et l\'hypoténuse vaut $' + hyp + '$ cm. Calcule le côté adjacent (en cm, arrondi à $0{,}1$).', u: 'cm' },
           { emoji: '🪜', s: 'Une échelle de $' + hyp + '$ m est appuyée contre un mur et forme un angle de $' + a + '°$ avec le sol. À quelle distance du mur se trouve son pied (en m, arrondi à $0{,}1$) ?', u: 'm' },
-          { emoji: '⛷️', s: 'Une piste de ski mesure $' + hyp + '$ m de long et fait un angle de $' + a + '°$ avec l\'horizontale. Quelle est la distance horizontale parcourue (en m, arrondi à $0{,}1$) ?', u: 'm' },
+          { emoji: '🪁', s: 'Le fil tendu d\'un cerf-volant mesure $' + hyp + '$ m et forme un angle de $' + a + '°$ avec le sol. Quelle distance horizontale sépare la main de l\'enfant du point situé juste sous le cerf-volant (en m, arrondi à $0{,}1$) ?', u: 'm' },
           { emoji: '🏠', s: 'Le pan de toit d\'une maison mesure $' + hyp + '$ m et forme un angle de $' + a + '°$ avec l\'horizontale. Quelle largeur horizontale couvre-t-il (en m, arrondi à $0{,}1$) ?', u: 'm' },
-          { emoji: '🔌', s: 'Un câble tendu de $' + hyp + '$ m relie un poteau au sol en formant un angle de $' + a + '°$ avec le sol. À quelle distance horizontale du poteau est-il fixe (en m, arrondi à $0{,}1$) ?', u: 'm' },
-          { emoji: '♿', s: 'Une rampe d\'accès mesure $' + hyp + '$ m de long et forme un angle de $' + a + '°$ avec le sol. Quelle longueur horizontale couvre-t-elle (en m, arrondi à $0{,}1$) ?', u: 'm' }
+          { emoji: '🔌', s: 'Un câble tendu de $' + hyp + '$ m relie un poteau au sol en formant un angle de $' + a + '°$ avec le sol. À quelle distance horizontale du poteau est-il fixé (en m, arrondi à $0{,}1$) ?', u: 'm' },
+          { emoji: '🪵', s: 'Une planche de $' + hyp + '$ dm est appuyée sur un muret et forme un angle de $' + a + '°$ avec le sol. Quelle longueur horizontale couvre-t-elle (en dm, arrondi à $0{,}1$) ?', u: 'dm' }
         ]);
         return {
           statement: scenario.emoji + ' ' + scenario.s + ' <br/><em>On donne $\\cos(' + a + '°) \\approx ' + fr(cos) + '$.</em>',
           answer: adj,
           tolerance: 0.2,
           unit: scenario.u,
-          hint: 'Le côté adjacent vaut l\'hypoténuse multipliee par le cosinus de l\'angle : $' + hyp + ' \\times ' + fr(cos) + '$.',
+          hint: 'Le côté adjacent vaut l\'hypoténuse multipliée par le cosinus de l\'angle : $' + hyp + ' \\times ' + fr(cos) + '$.',
           solution: [
             'De $\\cos(' + a + '°) = \\dfrac{\\text{adjacent}}{\\text{hypoténuse}}$, on tire $\\text{adjacent} = \\text{hypoténuse} \\times \\cos(' + a + '°)$.',
             '$\\text{adjacent} = ' + hyp + ' \\times ' + fr(cos) + ' \\approx ' + fr(adj) + '$ ' + scenario.u + '.',
@@ -423,16 +430,16 @@
              il était auparavant purement formel (« cos = 0,6, hypoténuse = 15 »),
              donc une multiplication à poser. En situation, l'élève doit d'abord
              décider laquelle des longueurs joue le rôle de l'hypoténuse — la
-             rampe, pas le sol — ce qui est la mise en modèle. */
-          statement: 'Une rampe d\'accès rectiligne mesure $15\\,\\text{m}$ et forme avec le sol horizontal un angle $\\widehat{A}$ tel que $\\cos(\\widehat{A}) = 0{,}6$. Quelle longueur horizontale la rampe couvre-t-elle, en m ?',
+             câble, pas le sol — ce qui est la mise en modèle. */
+          statement: 'Un câble rectiligne, tendu du haut d\'un mât jusqu\'au sol, mesure $15\\,\\text{m}$ et forme avec le sol horizontal un angle $\\widehat{A}$ tel que $\\cos(\\widehat{A}) = 0{,}6$. Quelle longueur horizontale le câble couvre-t-il, en m ?',
           type: 'numeric',
           answer: 9,
           tolerance: 0.01,
           unit: 'm',
           points: 2,
-          correction: 'Première décision, avant tout calcul : la rampe est le côté le plus long du triangle, c\'est donc elle l\'hypoténuse. La longueur horizontale cherchée est le côté <strong>adjacent</strong> à l\'angle $\\widehat{A}$.<br/><br/>' +
+          correction: 'Première décision, avant tout calcul : le câble est le côté le plus long du triangle, c\'est donc lui l\'hypoténuse. La longueur horizontale cherchée est le côté <strong>adjacent</strong> à l\'angle $\\widehat{A}$.<br/><br/>' +
             'De $\\cos(\\widehat{A}) = \\dfrac{\\text{adjacent}}{\\text{hypoténuse}}$, on tire $\\text{adjacent} = \\text{hypoténuse} \\times \\cos(\\widehat{A}) = 15 \\times 0{,}6 = 9\\,\\text{m}$.<br/><br/>' +
-            'Contrôle : $9 < 15$, le côté trouvé est bien plus court que la rampe. Prendre le sol pour l\'hypoténuse aurait donné $15 \\div 0{,}6 = 25\\,\\text{m}$, soit une longueur horizontale plus grande que la rampe elle-même — impossible.'
+            'Contrôle : $9 < 15$, le côté trouvé est bien plus court que le câble. Prendre le sol pour l\'hypoténuse aurait donné $15 \\div 0{,}6 = 25\\,\\text{m}$, soit une longueur horizontale plus grande que le câble lui-même — impossible.'
         },
         {
           statement: 'Un élève écrit $\\cos(\\hat{B}) = \\dfrac{\\text{hypoténuse}}{\\text{adjacent}}$. Quelle est son erreur ?',
@@ -441,11 +448,11 @@
             'Il n\'y a pas d\'erreur',
             'Il a inversé le rapport : le cosinus est $\\dfrac{\\text{adjacent}}{\\text{hypoténuse}}$',
             'Le cosinus utilise le côté opposé, pas l\'adjacent',
-            'Le cosinus n\'existe que pour l\'angle de $90°$'
+            'Le rapport est juste, mais il fallait l\'écrire pour $\\hat{A}$ : le cosinus ne se calcule que pour l\'angle $\\hat{A}$'
           ],
           answer: 1,
           points: 2,
-          correction: 'Le cosinus d\'un angle aigu est $\\cos(\\hat{B}) = \\dfrac{\\text{adjacent}}{\\text{hypoténuse}}$. L\'élève a inversé numérateur et dénominateur. Le rapport $\\dfrac{\\text{hyp}}{\\text{adj}}$ est toujours $\\geq 1$, ce qui est impossible pour un cosinus d\'angle aigu.'
+          correction: 'Le cosinus d\'un angle aigu est $\\cos(\\hat{B}) = \\dfrac{\\text{adjacent}}{\\text{hypoténuse}}$. L\'élève a inversé numérateur et dénominateur. Le rapport $\\dfrac{\\text{hyp}}{\\text{adj}}$ est toujours $\\geq 1$, ce qui est impossible pour un cosinus d\'angle aigu.<br/><br/>Enfin, le cosinus se calcule pour n\'importe quel angle aigu du triangle, $\\hat{A}$ comme $\\hat{B}$ : seul le côté adjacent change.'
         },
         {
           /* Q5 RÉÉCRITE le 2026-09-13 pour mobiliser « chercher ». L'ancienne

@@ -23,15 +23,15 @@
         '<br/><br/>' +
         'En physique, les grandeurs algébriques (tension, position, vitesse) peuvent être négatives — le signe indique un sens (opposé à la convention positive choisie). Par exemple, une vitesse de $-5$ m/s signifie un déplacement dans le sens opposé à l\'axe choisi.',
       definitions: [
-        { term: 'Nombre relatif', def: 'Nombre muni d\'un signe ($+$ ou $-$) et d\'une valeur absolue. Exemples : $+7$, $-3{,}5$.' },
-        { term: 'Valeur absolue', def: 'Distance à zéro sur la droite graduée, toujours positive. $|{-5}| = 5$ et $|{+5}| = 5$.' },
+        { term: 'Nombre relatif', def: 'Nombre muni d\'un signe ($+$ ou $-$) et d\'une distance à zéro. Exemples : $+7$, $-3{,}5$.' },
+        { term: 'Distance à zéro', def: 'Distance entre le nombre et $0$ sur la droite graduée, toujours positive : la distance à zéro de $-5$ est $5$, celle de $+5$ aussi. (Au lycée, on l\'appellera « valeur absolue ».)' },
         { term: 'Règle des signes', def: 'Deux facteurs de même signe donnent un produit positif ; deux facteurs de signes contraires donnent un produit négatif.' },
         { term: 'Opposé d\'un nombre', def: 'L\'opposé de $a$ est $-a$. Leur somme vaut $0$ : $a + (-a) = 0$.' }
       ],
       method: {
         title: 'Règle des signes',
         steps: [
-          '<strong>Valeur absolue</strong> : calculer la valeur du résultat comme si les nombres étaient positifs. <strong>Exemple :</strong> pour $(-6) \\times (+4)$, la valeur absolue est $6 \\times 4 = 24$.',
+          '<strong>Distance à zéro</strong> : calculer d\'abord le résultat comme si les nombres étaient positifs. <strong>Exemple :</strong> pour $(-6) \\times (+4)$, on calcule $6 \\times 4 = 24$.',
           '<strong>Déterminer le signe</strong> : $(+) \\times (+) = (+)$, $(-) \\times (-) = (+)$, $(+) \\times (-) = (-)$, $(-) \\times (+) = (-)$. <strong>Exemple :</strong> $(-6) \\times (+4)$ → signes contraires → résultat négatif → $-24$.',
           '<strong>Suite de multiplications</strong> : compter le nombre de facteurs négatifs. Pair → positif ; impair → négatif. <strong>Exemple :</strong> $(-2) \\times (-3) \\times (-1)$ → $3$ facteurs négatifs (impair) → résultat négatif → $-6$.',
           '<strong>Division</strong> : suit les mêmes règles de signes que la multiplication. <strong>Exemple :</strong> $(-15) \\div (-3) = +5$ (deux négatifs → positif).'
@@ -298,15 +298,15 @@
     quiz: [
       {
         q: 'Quel est le résultat de $(-4) \\times (-5)$ ?',
-        options: ['$-20$', '$+20$', '$-9$', '$+9$'],
-        answer: 1,
-        correction: 'Deux négatifs → positif. $(-4) \\times (-5) = +20$.'
+        options: ['$-20$', '$-9$', '$+20$', '$+9$'],
+        answer: 2,
+        correction: 'Deux facteurs négatifs → produit <strong>positif</strong> : $(-4) \\times (-5) = +20$.<br/><br/>$-20$ applique la règle de l\'addition (« deux négatifs donnent du négatif ») à une multiplication ; $-9$ et $+9$ additionnent $4$ et $5$ au lieu de les multiplier.'
       },
       {
-        q: 'Quel est le signe de $(-2) \\times (+3) \\times (-1) \\times (-4)$ ?',
-        options: ['Positif', 'Négatif', 'Nul', 'Indéterminé'],
-        answer: 1,
-        correction: 'On compte les facteurs négatifs : $(-2)$, $(-1)$, $(-4)$ → $3$ facteurs négatifs. $3$ est impair → résultat négatif. Valeur : $-(2 \\times 3 \\times 1 \\times 4) = -24$.'
+        q: 'Calculer $(-2) \\times (+3) \\times (-1) \\times (-4)$.',
+        options: ['$-24$', '$+24$', '$-4$', '$+4$'],
+        answer: 0,
+        correction: 'On compte les facteurs négatifs : $(-2)$, $(-1)$, $(-4)$, soit $3$ — un nombre <strong>impair</strong>, donc le produit est négatif.<br/><br/>Valeur : $2 \\times 3 \\times 1 \\times 4 = 24$. Résultat : $-24$.<br/><br/>$+24$ vient de « moins par moins fait plus » appliqué à deux facteurs seulement, en oubliant le troisième ; $-4$ et $+4$ sont la somme des quatre nombres, pas leur produit.'
       },
       {
         q: 'Quel est le signe de $(-2)^3$ ? Et de $(-2)^4$ ?',
@@ -325,15 +325,36 @@
       generate() {
         const a = pick([-7,-6,-5,-4,-3,3,4,5,6,7]);
         const b = pick([-6,-5,-4,-3,3,4,5,6]);
+        const sg = v => (v > 0 ? '+' + v : String(v)); // (+6) plutôt que (6)
+        // Une fois sur trois : un quotient (la division est enseignée, elle doit être exercée).
+        if (Math.random() < 0.3) {
+          const q = a * b;
+          const memes = (q < 0) === (b < 0);
+          return {
+            statement: `🧮 Calcule $(${sg(q)}) \\div (${sg(b)})$.`,
+            answer: a,
+            tolerance: 0,
+            unit: '',
+            hint: `La division suit la même règle des signes que la multiplication : ${memes ? 'mêmes signes → quotient positif' : 'signes contraires → quotient négatif'}.`,
+            solution: [
+              `Sans les signes : $${Math.abs(q)} \\div ${Math.abs(b)} = ${Math.abs(a)}$.`,
+              `Signe : ${memes ? 'mêmes signes → positif' : 'signes contraires → négatif'}.`,
+              `Résultat : $${a}$. Contrôle : $(${sg(a)}) \\times (${sg(b)}) = ${q}$.`
+            ]
+          };
+        }
         const result = a * b;
+        /* Une durée ne peut pas être négative : quand b < 0, le contexte
+           remonte dans le passé (« il y a n heures »), ce qui est exactement
+           le sens d'une multiplication par un nombre négatif. */
+        const n = Math.abs(b), va = Math.abs(a), futur = b > 0;
+        const calc = ` <br/><em>Calcul : $(${sg(a)}) \\times (${sg(b)})$</em>`;
         const scenario = pick([
-          { emoji: '🧮', statement: `Calcule $(${a}) \\times (${b})$.` },
-          { emoji: '💰', statement: `Un commerçant enregistre une variation de $(${a})$ € par jour pendant $(${b})$ jours. Quelle est la variation totale ? <br/><em>Calcul : $(${a}) \\times (${b})$</em>` },
-          { emoji: '🌡️', statement: `La température change de $(${a})°C$ chaque heure pendant $(${b})$ heures. Quelle est la variation totale ? <br/><em>Calcul : $(${a}) \\times (${b})$</em>` },
-          { emoji: '🏔️', statement: `Un randonneur ${a < 0 ? 'descend' : 'monte'} de $${Math.abs(a)}$ m d'altitude par étape. Après $(${b})$ étapes, quelle est la variation d'altitude totale ? <br/><em>Calcul : $(${a}) \\times (${b})$</em>` },
-          { emoji: '🚰', statement: `Un réservoir ${a < 0 ? 'perd' : 'gagne'} $(${a})$ litrès par minute pendant $(${b})$ minutes. Quelle est la variation totale ? <br/><em>Calcul : $(${a}) \\times (${b})$</em>` },
-          { emoji: '📊', statement: `Une action en bourse varie de $(${a})$ points par séance pendant $(${b})$ séances. Quelle est la variation totale ? <br/><em>Calcul : $(${a}) \\times (${b})$</em>` },
-          { emoji: '🤿', statement: `Un plongeur ${a < 0 ? 'descend' : 'remonte'} de $${Math.abs(a)}$ m par minute pendant $(${b})$ minutes. Quelle est la variation de profondeur ? <br/><em>Calcul : $(${a}) \\times (${b})$</em>` }
+          { emoji: '🧮', statement: `Calcule $(${sg(a)}) \\times (${sg(b)})$.` },
+          { emoji: '🌡️', statement: `La température varie de $(${sg(a)})$ °C par heure. ${futur ? `Quelle sera la variation totale dans $${n}$ heures ?` : `Il y a $${n}$ heures, de combien la température différait-elle de celle de maintenant ? (Nombre relatif : positif s'il faisait plus chaud.) Remonter de $${n}$ heures, c'est multiplier par $(${sg(b)})$.`}` + calc },
+          { emoji: '🤿', statement: `Un plongeur ${a < 0 ? 'descend' : 'remonte'} de $${va}$ m par minute. ${futur ? `Quelle sera la variation de sa position verticale dans $${n}$ minutes ? (Nombre relatif : positif s'il monte.)` : `Il y a $${n}$ minutes, où était-il par rapport à sa position actuelle ? (Nombre relatif : positif s'il était plus haut.)`}` + calc },
+          { emoji: '💰', statement: `Un compte varie de $(${sg(a)})$ € par jour. ${futur ? `Quelle sera la variation totale dans $${n}$ jours ?` : `Il y a $${n}$ jours, de combien le solde différait-il du solde actuel ? (Nombre relatif : positif s'il était plus élevé.)`}` + calc },
+          { emoji: '🚰', statement: `Un réservoir ${a < 0 ? 'perd' : 'gagne'} $${va}$ litres par minute. ${futur ? `Quelle sera la variation de volume dans $${n}$ minutes ?` : `Il y a $${n}$ minutes, de combien le volume différait-il du volume actuel ? (Nombre relatif : positif s'il y avait plus d'eau.)`}` + calc }
         ]);
         return {
           statement: `${scenario.emoji} ${scenario.statement}`,
@@ -342,7 +363,7 @@
           unit: '',
           hint: `Règle des signes : les signes sont ${a < 0 && b < 0 ? 'identiques (deux négatifs) → résultat positif' : a > 0 && b > 0 ? 'identiques (deux positifs) → résultat positif' : 'contraires → résultat négatif'}.`,
           solution: [
-            `Valeur absolue : $${Math.abs(a)} \\times ${Math.abs(b)} = ${Math.abs(result)}$.`,
+            `Sans les signes : $${Math.abs(a)} \\times ${Math.abs(b)} = ${Math.abs(result)}$.`,
             `Signe : ${(a < 0) === (b < 0) ? 'mêmes signes → positif' : 'signes contraires → négatif'}.`,
             `Résultat : $${result}$.`
           ]
@@ -431,7 +452,7 @@
           points: 2,
           correction: 'Le produit des valeurs est juste : $2 \\times 3 \\times 5 = 30$. C\'est le <strong>signe</strong> qui est faux.<br/><br/>' +
             'Tom a appliqué « moins par moins donne plus » aux deux premiers facteurs et s\'est arrêté là. Avec trois facteurs négatifs, il faut compter : un nombre <strong>pair</strong> de facteurs négatifs donne un résultat positif, un nombre <strong>impair</strong> un résultat négatif. Ici $3$ facteurs négatifs, donc $-30$.<br/><br/>' +
-            'La proposition 3 est fausse — $(-2) \\times (-3) = +6$ est bien positif — et la proposition 4 confond produit et somme.'
+            'Déclarer fausse la règle « moins par moins donne plus » ne tient pas — $(-2) \\times (-3) = +6$ est bien positif — et additionner les trois nombres confond produit et somme.'
         }
       ]
     }

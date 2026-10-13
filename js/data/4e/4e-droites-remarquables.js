@@ -11,11 +11,11 @@
       intro: 'Un archéologue retrouve trois éclats du bord d\'une assiette circulaire cassée : comment retrouver le centre exact de l\'assiette sans le reste de l\'objet ? En traçant certaines droites bien choisies à partir des trois points, on peut reconstruire le centre — c\'est le genre de problème que résolvent les droites remarquables du triangle.<br/><br/>' +
         'Chaque triangle possède quatre familles de droites remarquables, chacune associée à un point de concours unique.' +
         '<br/><br/>' +
-        '<strong>Médiatrices</strong> → circumcentre (équidistant des 3 sommets = centre du cercle circonscrit). <strong>Bissectrices</strong> → incentre (équidistant des 3 côtés = centre du cercle inscrit). <strong>Médianes</strong> → centroïde ou isobarycentre (centre de gravité, à $\\frac{2}{3}$ de chaque sommet). <strong>Hauteurs</strong> → orthocentre (peut être extérieur au triangle si obtus).' +
+        '<strong>Médiatrices</strong> → <strong>centre du cercle circonscrit</strong> (à égale distance des $3$ sommets).<br/><br/><strong>Bissectrices</strong> → <strong>centre du cercle inscrit</strong> (à égale distance des $3$ côtés).<br/><br/><strong>Médianes</strong> → <strong>centre de gravité</strong> (aux $\\frac{2}{3}$ de chaque médiane en partant du sommet).<br/><br/><strong>Hauteurs</strong> → <strong>orthocentre</strong> (il peut être à l\'extérieur du triangle si un angle est obtus).' +
         '<br/><br/>' +
         '<strong>Piège fréquent :</strong> ne pas confondre médiane (joint un sommet au milieu du côté opposé) et médiatrice (perpendiculaire à un côté en son milieu — elle ne passe pas nécessairement par un sommet).' +
         '<br/><br/>' +
-        'Ces droites sont utiles en ingénierie : le centroïde est le centre de masse, le circumcentre sert à trouver le cercle passant par 3 points.',
+        'Ces droites sont utiles en ingénierie : le centre de gravité est le point d\'équilibre d\'une plaque ; le centre du cercle circonscrit permet de retrouver le cercle passant par $3$ points — c\'est la réponse à l\'assiette de l\'archéologue.',
       definitions: [
         { term: 'Médiatrice', def: 'Droite perpendiculaire à un côté en son milieu. Lieu des points équidistants des deux extrémités de ce côté.' },
         { term: 'Bissectrice', def: 'Demi-droite issue d\'un sommet qui partage l\'angle en deux angles égaux.' },
@@ -25,31 +25,31 @@
       method: {
         title: 'Les quatre droites remarquables',
         steps: [
-           '<strong>Médiatrice</strong> d\'un côté : perpendiculaire à ce côté en son milieu. Les trois médiatrices se coupent au CIRCUMCENTRE (centre du cercle circonscrit). <strong>Exemple :</strong> pour $[AB]$ avec $A(0;0)$ et $B(6;0)$, le milieu est $(3;0)$ et la médiatrice est la droite $x = 3$.',
-           '<strong>Bissectrice</strong> d\'un angle : partage l\'angle en deux angles égaux. Les trois bissectrices se coupent à l\'INCENTRE (centre du cercle inscrit). <strong>Exemple :</strong> la bissectrice d\'un angle de $80°$ crée deux angles de $40°$.',
-          '<strong>Médiane</strong> : joint un sommet au milieu du côté opposé. Les trois médianes se coupent au CENTROÏDE (ou ISOBARYCENTRE), à $\\frac{2}{3}$ de chaque sommet. <strong>Exemple :</strong> si la médiane issue de $A$ mesure $12$ cm, alors $AG = \\frac{2}{3} \\times 12 = 8$ cm.',
-          '<strong>Hauteur</strong> : perpendiculaire issue d\'un sommet sur le côté opposé. Les trois hauteurs se coupent à l\'ORTHOCENTRE. <strong>Exemple :</strong> dans un triangle rectangle, les deux hauteurs issues des angles aigus sont les deux côtés de l\'angle droit.'
+           '<strong>Médiatrice</strong> d\'un côté : perpendiculaire à ce côté en son milieu. Les trois médiatrices se coupent au <strong>centre du cercle circonscrit</strong>. <strong>Exemple :</strong> si $AB = 6$ cm, la médiatrice de $[AB]$ passe par le milieu de $[AB]$, à $3$ cm de $A$ et de $B$, et forme un angle droit avec $[AB]$ ; en général, elle ne passe par aucun sommet.',
+           '<strong>Bissectrice</strong> d\'un angle : partage l\'angle en deux angles égaux. Les trois bissectrices se coupent au <strong>centre du cercle inscrit</strong>. <strong>Exemple :</strong> la bissectrice d\'un angle de $80°$ crée deux angles de $40°$.',
+          '<strong>Médiane</strong> : joint un sommet au milieu du côté opposé. Les trois médianes se coupent au <strong>centre de gravité</strong> $G$, situé aux $\\frac{2}{3}$ de chaque médiane en partant du sommet. <strong>Exemple :</strong> si la médiane issue de $A$ mesure $12$ cm, alors $AG = \\frac{2}{3} \\times 12 = 8$ cm.',
+          '<strong>Hauteur</strong> : perpendiculaire issue d\'un sommet sur le côté opposé. Les trois hauteurs se coupent à l\'<strong>orthocentre</strong>. <strong>Exemple :</strong> dans un triangle rectangle, les deux hauteurs issues des angles aigus sont les deux côtés de l\'angle droit.'
         ]
       },
       example: {
-        statement: 'Un triangle $ABC$ a pour sommets $A(0 ; 0)$, $B(8 ; 0)$ et $C(2 ; 6)$. Calculer les coordonnées du centroïde $G$ et la longueur $AG$ sachant que la médiane issue de $A$ va au milieu $M$ de $[BC]$.',
+        statement: 'Dans un triangle $ABC$, la médiane issue de $A$ mesure $AM = 9$ cm, et les trois médiatrices se coupent en un point $O$ tel que $OA = 5$ cm. Calculer $AG$ et $GM$, où $G$ est le centre de gravité, puis $OB$.',
         steps: [
-          'Milieu de $[BC]$ : $M = \\left(\\dfrac{8+2}{2} ; \\dfrac{0+6}{2}\\right) = (5 ; 3)$.',
-          'Centroïde : $G = \\left(\\dfrac{0+8+2}{3} ; \\dfrac{0+0+6}{3}\\right) = \\left(\\dfrac{10}{3} ; 2\\right)$.',
-          'Longueur $AM = \\sqrt{5^2 + 3^2} = \\sqrt{34} \\approx 5{,}83$ cm. Donc $AG = \\dfrac{2}{3} \\times \\sqrt{34} \\approx 3{,}89$ cm.'
+          'Le centre de gravité $G$ est sur la médiane $[AM]$, aux deux tiers en partant du sommet : $AG = \\dfrac{2}{3} \\times 9 = 6$ cm.',
+          'Le tiers restant est du côté du milieu : $GM = 9 - 6 = 3$ cm. Contrôle : $AG = 2 \\times GM$.',
+          '$O$ est le point de concours des médiatrices, donc le <strong>centre du cercle circonscrit</strong> : il est à égale distance des trois sommets, $OB = OA = 5$ cm.'
         ],
-        answer: 'Le centroïde est en $G\\left(\\dfrac{10}{3} ; 2\\right)$ et $AG \\approx 3{,}89$ unités.'
+        answer: '$AG = 6$ cm, $GM = 3$ cm et $OB = 5$ cm.'
       },
       formulas: [
-        'Médiatrice : locus des points équidistants des deux extrémités',
-        'Centroïde $G$ : $\\overrightarrow{GA} + \\overrightarrow{GB} + \\overrightarrow{GC} = \\vec{0}$',
-        'Sur une médiane : $AG = \\frac{2}{3} AM$ (M = milieu du côté opposé)'
+        'Médiatrice de $[AB]$ : ensemble des points $M$ tels que $MA = MB$',
+        'Centre $O$ du cercle circonscrit : $OA = OB = OC$',
+        'Sur une médiane : $AG = \\dfrac{2}{3} AM$ et $GM = \\dfrac{1}{3} AM$ ($M$ milieu du côté opposé)'
       ],
       diagram: {
         theme: 'maths',
         kicker: 'Triangle et droites remarquables',
         title: 'Quatre familles de droites, quatre points de concours',
-        description: 'Sur le triangle $ABC$ de l\'exemple ($A(0;0)$, $B(8;0)$, $C(2;6)$) : les médianes se coupent au centre de gravité $G$, les médiatrices au centre du cercle circonscrit $O$, les hauteurs à l\'orthocentre $H$, et les bissectrices au centre du cercle inscrit $I$.',
+        description: 'Sur un même triangle $ABC$ : les médianes se coupent au centre de gravité $G$, les médiatrices au centre du cercle circonscrit $O$, les hauteurs à l\'orthocentre $H$, et les bissectrices au centre du cercle inscrit $I$.',
         svg: `
           <!-- QUATRE VIGNETTES, une par famille, plutot qu'une seule figure.
                La version precedente superposait 12 droites dans un triangle de
@@ -132,10 +132,10 @@
           </svg>
         `,
         notes: [
-          'Médianes (trait plein épais) : chaque sommet relié au milieu du côté opposé. Les trois se coupent au centre de gravité G, aux 2/3 de chaque sommet.',
-          'Médiatrices (tirets longs) : perpendiculaires à chaque côté en son milieu, elles ne passent pas forcément par un sommet. Elles se coupent au centre du cercle circonscrit O, équidistant de A, B et C.',
-          'Hauteurs (trait plein coloré) : perpendiculaires issues de chaque sommet sur le côté opposé. Elles se coupent à l\'orthocentre H.',
-          'Bissectrices (tirets courts) : partagent chaque angle en deux. Elles se coupent au centre du cercle inscrit I, équidistant des trois côtés.'
+          'Médianes (vignette 1) : chaque sommet relié au milieu du côté opposé. Les trois se coupent au centre de gravité $G$, aux $\\frac{2}{3}$ de chaque médiane en partant du sommet.',
+          'Médiatrices (vignette 2) : perpendiculaires à chaque côté en son milieu, elles ne passent pas forcément par un sommet. Elles se coupent au centre du cercle circonscrit $O$, à égale distance de $A$, $B$ et $C$.',
+          'Hauteurs (vignette 3) : perpendiculaires issues de chaque sommet sur le côté opposé. Elles se coupent à l\'orthocentre $H$.',
+          'Bissectrices (vignette 4) : partagent chaque angle en deux. Elles se coupent au centre du cercle inscrit $I$, à égale distance des trois côtés.'
         ],
         reading: 'Les quatre vignettes montrent le même triangle à la même échelle : seule change la famille de droites tracée. Compare la position du point noir d\'une vignette à l\'autre — les quatre points de concours ne sont pas au même endroit.',
         caption: 'Le même triangle $ABC$ vu quatre fois : médianes (→ $G$), médiatrices (→ $O$), hauteurs (→ $H$), bissectrices (→ $I$). Ce triangle étant acutangle, les quatre points restent à l\'intérieur du triangle.'
@@ -281,8 +281,8 @@
       ],
       recap: [
         'Quatre familles de droites : médiatrices, bissectrices, médianes, hauteurs — chacune a un point de concours.',
-        'Médiatrices → circumcentre (cercle circonscrit) ; bissectrices → incentre (cercle inscrit).',
-        'Médianes → centroïde (centre de gravité, à $\\frac{2}{3}$ du sommet) ; hauteurs → orthocentre.',
+        'Médiatrices → centre du cercle circonscrit ; bissectrices → centre du cercle inscrit.',
+        'Médianes → centre de gravité (aux $\\frac{2}{3}$ de chaque médiane depuis le sommet) ; hauteurs → orthocentre.',
         'Ne pas confondre médiane (passe par un sommet) et médiatrice (perpendiculaire au milieu d\'un côté).'
       ],
       piege: 'Piège : confondre médiane et médiatrice. La médiane joint un sommet au milieu du côté opposé (elle passe par un sommet). La médiatrice est perpendiculaire à un côté en son milieu (elle ne passe pas forcément par un sommet).'
@@ -293,23 +293,23 @@
         options: [
           'La médiane est perpendiculaire à un côté ; la médiatrice joint un sommet au milieu du côté opposé.',
           'La médiane joint un sommet au milieu du côté opposé ; la médiatrice est perpendiculaire à un côté en son milieu.',
-          'Médiane et médiatrice sont identiques dans un triangle isocèle.',
+          'La médiatrice d\'un côté passe toujours par le sommet opposé ; la médiane, jamais.',
           'La médiane passe par le milieu de deux côtés ; la médiatrice passe par un sommet.'
         ],
         answer: 1,
-        correction: 'La <strong>médiane</strong> joint un sommet au milieu du côté opposé → elle passe toujours par un sommet. La <strong>médiatrice</strong> est perpendiculaire à un côté en son milieu → elle passe par le milieu du côté, mais pas nécessairement par un sommet. Seul cas particulier : dans un triangle équilatéral ou isocèle, médiane, médiatrice, bissectrice et hauteur coïncident sur le même côté.'
+        correction: 'La <strong>médiane</strong> joint un sommet au milieu du côté opposé → elle passe toujours par un sommet. La <strong>médiatrice</strong> est perpendiculaire à un côté en son milieu → elle passe par le milieu du côté, mais pas nécessairement par un sommet. <br/><br/>Elles ne coïncident que dans un cas particulier : triangle isocèle en $A$, et seulement pour le côté $[BC]$ (dans un triangle équilatéral, pour les trois côtés).'
       },
       {
         q: 'La médiatrice d\'un segment $[AB]$ est l\'ensemble des points :',
-        options: ['À égale distance de $A$ et $B$', 'Sur le segment $[AB]$', 'Formant un angle de $45°$ avec $[AB]$', 'À mi-chemin entre $A$ et $B$'],
+        options: ['À égale distance de $A$ et $B$', 'Sur le segment $[AB]$', 'Plus proches de $A$ que de $B$', 'À mi-chemin entre $A$ et $B$'],
         answer: 0,
-        correction: 'La médiatrice de $[AB]$ est la droite perpendiculaire à $[AB]$ en son milieu. Elle est le lieu des points équidistants de $A$ et $B$.'
+        correction: 'La médiatrice de $[AB]$ est la droite perpendiculaire à $[AB]$ en son milieu. C\'est l\'ensemble des points situés à égale distance de $A$ et de $B$.'
       },
       {
-        q: 'Le centroïde $G$ se trouve à quelle fraction de la longueur d\'une médiane depuis le sommet ?',
+        q: 'Le centre de gravité $G$ se trouve à quelle fraction de la longueur d\'une médiane depuis le sommet ?',
         options: ['$\\frac{1}{2}$', '$\\frac{1}{3}$', '$\\frac{2}{3}$', '$\\frac{3}{4}$'],
         answer: 2,
-        correction: 'Le centroïde divise chaque médiane dans le rapport $2:1$ depuis le sommet. Il se trouve aux $\\frac{2}{3}$ de la médiane depuis le sommet.'
+        correction: 'Le centre de gravité partage chaque médiane en deux morceaux : celui côté sommet est deux fois plus long que l\'autre. Il se trouve donc aux $\\frac{2}{3}$ de la médiane depuis le sommet.'
       }
     ],
     exercice: {
@@ -329,10 +329,10 @@
       generate() {
         const tache = pick(['centre-gravite', 'centre-gravite', 'gm-inverse', 'mediatrice', 'bissectrice', 'hauteur']);
         const metier = pick([
-          { intro: 'En architecture, on localise le centre de gravite d\'une pièce triangulaire', emoji: '🏗️' },
-          { intro: 'En physique, on determine le point d\'équilibre d\'une plaque triangulaire', emoji: '⚖️' },
-          { intro: 'En cartographie, on cherche le centroide d\'une zone triangulaire', emoji: '🗺️' },
-          { intro: 'En robotique, on calcule la position du barycentre d\'un chassis triangulaire', emoji: '🤖' }
+          { intro: 'En architecture, on localise le centre de gravité d\'une pièce triangulaire', emoji: '🏗️' },
+          { intro: 'En physique, on détermine le point d\'équilibre d\'une plaque triangulaire', emoji: '⚖️' },
+          { intro: 'En cartographie, on cherche le centre de gravité d\'une zone triangulaire', emoji: '🗺️' },
+          { intro: 'En robotique, on calcule la position du centre de gravité d\'un châssis triangulaire', emoji: '🤖' }
         ]);
 
         if (tache === 'centre-gravite') {
@@ -342,7 +342,7 @@
           const ag = 2 * am / 3;
           return {
             statement: metier.emoji + ' ' + metier.intro + '. La médiane issue de $A$ mesure $' + am + '$ cm. ' +
-              'Le centre de gravite $G$ est situe aux deux tiers de cette médiane en partant de $A$. Quelle est la longueur $AG$, en cm ?',
+              'Le centre de gravité $G$ est situé aux deux tiers de cette médiane en partant de $A$. Quelle est la longueur $AG$, en cm ?',
             answer: ag,
             tolerance: 0.1,
             unit: 'cm',
@@ -360,16 +360,16 @@
           const gm = pick([2, 3, 4, 5, 6, 7, 8]);
           const am = 3 * gm;
           return {
-            statement: metier.emoji + ' Dans un triangle, $M$ est le milieu de $[BC]$ et $G$ le centre de gravite. On mesure $GM = ' + gm + '$ cm. ' +
+            statement: metier.emoji + ' Dans un triangle, $M$ est le milieu de $[BC]$ et $G$ le centre de gravité. On mesure $GM = ' + gm + '$ cm. ' +
               'Quelle est la longueur de la médiane $AM$, en cm ?',
             answer: am,
             tolerance: 0.1,
             unit: 'cm',
-            hint: 'Le centre de gravite coupe la médiane en deux morceaux : $AG$ vaut les deux tiers, $GM$ le tiers restant.',
+            hint: 'Le centre de gravité coupe la médiane en deux morceaux : $AG$ vaut les deux tiers, $GM$ le tiers restant.',
             solution: [
               '$G$ est aux deux tiers de la médiane en partant de $A$, donc $GM$ représente le TIERS de la médiane.',
               '$AM = 3 \\times GM = 3 \\times ' + gm + ' = ' + am + '$ cm.',
-              'Piege frequent : multiplier par $\\dfrac{3}{2}$ au lieu de $3$, en confondant $GM$ avec $AG$.'
+              'Piège fréquent : multiplier par $\\dfrac{3}{2}$ au lieu de $3$, en confondant $GM$ avec $AG$.'
             ]
           };
         }
@@ -386,7 +386,7 @@
             solution: [
               'Le point de concours des trois médiatrices est le <strong>centre du cercle circonscrit</strong>.',
               'Il est donc à la même distance des trois sommets : $OA = OB = OC = R$.',
-              '$OC = ' + R + '$ cm, sans aucun calcul a poser.'
+              '$OC = ' + R + '$ cm, sans aucun calcul à poser.'
             ]
           };
         }
@@ -396,7 +396,7 @@
           const moitie = ang / 2;
           return {
             statement: metier.emoji + ' Dans un triangle $ABC$, l\'angle $\\widehat{A}$ mesure $' + ang + '°$ et l\'on trace sa bissectrice. ' +
-              'Quelle est la mesure, en degrés, de chacun des deux angles ainsi formes en $A$ ?',
+              'Quelle est la mesure, en degrés, de chacun des deux angles ainsi formés en $A$ ?',
             answer: moitie,
             tolerance: 0.01,
             unit: '°',
@@ -404,7 +404,7 @@
             solution: [
               'La bissectrice d\'un angle le partage en deux angles <strong>égaux</strong>.',
               'Chaque moitié mesure donc $\\dfrac{' + ang + '}{2} = ' + fr(moitie) + '°$.',
-              'Le point de concours des trois bissectrices est le centre du cercle inscrit, a égale distance des trois côtés — a ne pas confondre avec le centre du cercle circonscrit, qui vient des médiatrices.'
+              'Le point de concours des trois bissectrices est le centre du cercle inscrit, à égale distance des trois côtés — à ne pas confondre avec le centre du cercle circonscrit, qui vient des médiatrices.'
             ]
           };
         }
@@ -420,28 +420,28 @@
           answer: aire,
           tolerance: 0.01,
           unit: 'cm²',
-          hint: 'La hauteur issue de $A$ est la distance de $A$ a la droite $(BC)$ : c\'est exactement ce qu\'il faut pour l\'aire.',
+          hint: 'La hauteur issue de $A$ est la distance de $A$ à la droite $(BC)$ : c\'est exactement ce qu\'il faut pour l\'aire.',
           solution: [
-            'La hauteur issue de $A$ est perpendiculaire a $(BC)$ : c\'est la hauteur relative au cote $[BC]$.',
+            'La hauteur issue de $A$ est perpendiculaire à $(BC)$ : c\'est la hauteur relative au côté $[BC]$.',
             '$\\mathcal{A} = \\dfrac{' + base + ' \\times ' + h + '}{2} = ' + fr(aire) + '$ cm².',
-            'Attention a ne pas prendre la médiane a la place de la hauteur : la médiane joint $A$ au MILIEU de $[BC]$, la hauteur y arrive perpendiculairement. Elles ne coincident que dans un triangle isocele.'
+            'Attention à ne pas prendre la médiane à la place de la hauteur : la médiane joint $A$ au MILIEU de $[BC]$, la hauteur y arrive perpendiculairement. Elles ne coïncident que dans un triangle isocèle en $A$.'
           ]
         };
       }
     },
     probleme: {
-      context: 'Un triangle $ABC$ a pour sommets $A(0;0)$, $B(6;0)$ et $C(3;6)$.',
+      context: 'Un triangle $ABC$ est isocèle en $A$ : $AB = AC = 15$ cm et $BC = 18$ cm.<br/><br/>On note $M$ le milieu de $[BC]$ et $G$ le centre de gravité du triangle. On mesure $\\widehat{BAC} \\approx 74°$.',
       tasks: [
-        'Calculer le milieu $M$ de $[BC]$.',
-        'Vérifier que $A$, $M$ et le centroïde $G\\left(3; 2\\right)$ sont alignés.',
-        'Calculer $AG$ et $GM$ pour vérifier que $AG = 2 \\times GM$.'
+        'Expliquer pourquoi, dans ce triangle, la médiane issue de $A$ est aussi la médiatrice de $[BC]$. En déduire que le triangle $AMB$ est rectangle en $M$, puis calculer $AM$.',
+        'Calculer $AG$ et $GM$.',
+        'Expliquer pourquoi $(AM)$ est aussi la bissectrice de $\\widehat{BAC}$, puis calculer $\\widehat{BAM}$.'
       ],
       solutions: [
-        '$M = \\left(\\frac{6+3}{2}; \\frac{0+6}{2}\\right) = (4{,}5 ; 3)$.',
-        'Vecteurs $\\vec{AM}(4{,}5;3)$ et $\\vec{AG}(3;2)$ : $\\frac{4{,}5}{3} = \\frac{3}{2} = 1{,}5$. Colinéaires ✓.',
-        '$AG = \\sqrt{9+4} = \\sqrt{13}$, $GM = \\sqrt{2{,}25+1} = \\sqrt{3{,}25}$. $\\frac{\\sqrt{13}}{\\sqrt{3{,}25}} = \\sqrt{4} = 2$ ✓.'
+        'Comme $AB = AC$, le point $A$ est à égale distance de $B$ et de $C$ : il est sur la médiatrice de $[BC]$. Cette médiatrice passe aussi par le milieu $M$ : c\'est donc la droite $(AM)$, à la fois <strong>médiane</strong> et <strong>médiatrice</strong>.<br/><br/>Une médiatrice est perpendiculaire au côté : le triangle $AMB$ est rectangle en $M$, avec $MB = 9$ cm et $AB = 15$ cm.<br/><br/>Théorème de Pythagore : $AM^2 = 15^2 - 9^2 = 225 - 81 = 144$, donc $AM = 12$ cm.',
+        '$G$ est aux deux tiers de la médiane en partant du sommet : $AG = \\dfrac{2}{3} \\times 12 = 8$ cm, et $GM = 12 - 8 = 4$ cm.<br/><br/>Contrôle : $AG = 2 \\times GM$.',
+        'Dans un triangle isocèle en $A$, la droite $(AM)$ est un <strong>axe de symétrie</strong> : elle partage l\'angle $\\widehat{BAC}$ en deux angles égaux, c\'est sa bissectrice.<br/><br/>Donc $\\widehat{BAM} \\approx \\dfrac{74}{2} = 37°$.'
       ],
-      finalAnswer: 'Le centroïde $G(3;2)$ se trouve bien aux $\\frac{2}{3}$ de la médiane depuis $A$.'
+      finalAnswer: '$AM = 12$ cm, $AG = 8$ cm, $GM = 4$ cm et $\\widehat{BAM} \\approx 37°$.'
     },
 
     evaluation: {
@@ -451,27 +451,27 @@
         {
           statement: 'Les trois médiatrices d\'un triangle se coupent en un point appelé :',
           type: 'multiple-choice',
-          options: ['L\'orthocentre', 'Le centroïde', 'Le circumcentre', 'L\'incentre'],
+          options: ['L\'orthocentre', 'Le centre de gravité', 'Le centre du cercle circonscrit', 'Le centre du cercle inscrit'],
           answer: 2,
           points: 2,
-          correction: 'Les trois médiatrices se coupent au circumcentre, qui est le centre du cercle circonscrit au triangle (équidistant des trois sommets).'
+          correction: 'Les trois médiatrices se coupent au <strong>centre du cercle circonscrit</strong>, à égale distance des trois sommets.<br/><br/>L\'orthocentre vient des hauteurs, le centre de gravité des médianes, le centre du cercle inscrit des bissectrices.'
         },
         {
           statement: 'Les trois bissectrices d\'un triangle se coupent en un point appelé :',
           type: 'multiple-choice',
-          options: ['Le circumcentre', 'L\'orthocentre', 'Le centroïde', 'L\'incentre'],
+          options: ['Le centre du cercle circonscrit', 'L\'orthocentre', 'Le centre de gravité', 'Le centre du cercle inscrit'],
           answer: 3,
           points: 2,
-          correction: 'Les trois bissectrices se coupent à l\'incentre, qui est le centre du cercle inscrit dans le triangle (équidistant des trois côtés).'
+          correction: 'Les trois bissectrices se coupent au <strong>centre du cercle inscrit</strong>, à égale distance des trois côtés — à ne pas confondre avec le centre du cercle circonscrit (médiatrices), à égale distance des trois sommets.'
         },
         {
-          statement: 'Dans un triangle, une médiane issue de $A$ mesure $15\\,\\text{cm}$. Le centroïde $G$ se trouve à quelle distance de $A$ ?',
+          statement: 'Dans un triangle, une médiane issue de $A$ mesure $15\\,\\text{cm}$. Le centre de gravité $G$ se trouve à quelle distance de $A$ ?',
           type: 'numeric',
           answer: 10,
           tolerance: 0.01,
           unit: 'cm',
           points: 2,
-          correction: 'Le centroïde divise chaque médiane dans le rapport $2:1$ depuis le sommet. $AG = \\dfrac{2}{3} \\times 15 = 10\\,\\text{cm}$.'
+          correction: 'Le centre de gravité est aux deux tiers de chaque médiane en partant du sommet : $AG = \\dfrac{2}{3} \\times 15 = 10\\,\\text{cm}$.'
         },
         {
           /* Q4 RÉÉCRITE le 2026-09-13 pour mobiliser « chercher ». L'ancienne

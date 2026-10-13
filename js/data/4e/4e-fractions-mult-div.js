@@ -189,32 +189,38 @@
         'Toujours simplifier avant de multiplier (simplification croisée) pour éviter les grands nombres.',
         'L\'inverse de $\\dfrac{a}{b}$ est $\\dfrac{b}{a}$ — attention, $0$ n\'a pas d\'inverse.'
       ],
-      piege: 'Erreur fréquente en division : diviser les numérateurs entre eux et les dénominateurs entre eux, comme en multiplication. $\\dfrac{6}{4} \\div \\dfrac{3}{2}$ ne vaut PAS $\\dfrac{6 \\div 3}{4 \\div 2} = \\dfrac{2}{2} = 1$. La bonne méthode : $\\dfrac{6}{4} \\times \\dfrac{2}{3} = \\dfrac{12}{12} = 1$. Même résultat ici, mais par chance !'
+      piege: 'L\'erreur la plus fréquente du chapitre : <strong>retourner la mauvaise fraction</strong>.<br/><br/>' +
+        'Pour $\\dfrac{2}{3} \\div \\dfrac{4}{5}$, on retourne celle qui vient <strong>après</strong> le signe $\\div$ : $\\dfrac{2}{3} \\times \\dfrac{5}{4} = \\dfrac{10}{12} = \\dfrac{5}{6}$.<br/><br/>' +
+        'Retourner la première donnerait $\\dfrac{3}{2} \\times \\dfrac{4}{5} = \\dfrac{12}{10} = \\dfrac{6}{5}$ : c\'est exactement l\'<strong>inverse</strong> du bon résultat.<br/><br/>' +
+        'Autre glissade courante : multiplier sans rien retourner, $\\dfrac{2}{3} \\times \\dfrac{4}{5} = \\dfrac{8}{15}$. Un contrôle rapide la repère : on divise par $\\dfrac{4}{5}$, un nombre plus petit que $1$, donc le résultat doit être <strong>plus grand</strong> que $\\dfrac{2}{3}$ — or $\\dfrac{8}{15} \\approx 0{,}53$ est plus petit que $0{,}67$.'
     },
 
     quiz: [
       {
-        q: 'Calculer $\\dfrac{3}{4} \\times \\dfrac{8}{9}$.',
-        options: ['$\\dfrac{24}{36}$', '$\\dfrac{2}{3}$', '$\\dfrac{11}{13}$', '$\\dfrac{24}{13}$'],
-        answer: 1,
-        correction: 'Simplification croisée : $\\dfrac{3}{4} \\times \\dfrac{8}{9} = \\dfrac{3 \\times 8}{4 \\times 9} = \\dfrac{24}{36} = \\dfrac{2}{3}$. (On pouvait simplifier : $3/9 = 1/3$ et $8/4 = 2$.)'
+        q: 'Calculer $\\dfrac{3}{4} \\times \\dfrac{8}{9}$ et donner le résultat sous forme de fraction irréductible.',
+        options: ['$\\dfrac{27}{32}$', '$\\dfrac{11}{13}$', '$\\dfrac{2}{3}$', '$\\dfrac{24}{13}$'],
+        answer: 2,
+        correction: 'On multiplie numérateurs entre eux et dénominateurs entre eux : $\\dfrac{3 \\times 8}{4 \\times 9} = \\dfrac{24}{36} = \\dfrac{2}{3}$.<br/><br/>Plus rapide : <strong>simplification croisée</strong>, $3$ et $9$ par $3$, $8$ et $4$ par $4$, d\'où $\\dfrac{1 \\times 2}{1 \\times 3} = \\dfrac{2}{3}$.<br/><br/>' +
+          '$\\dfrac{27}{32}$ vient d\'une multiplication « en croix » ($3 \\times 9$ et $4 \\times 8$) : on ne croise que pour <strong>simplifier</strong>, jamais pour multiplier. $\\dfrac{11}{13}$ additionne numérateurs et dénominateurs comme pour une somme. $\\dfrac{24}{13}$ multiplie en haut et additionne en bas.'
       },
       {
         q: 'Calculer $\\dfrac{5}{6} \\div \\dfrac{10}{3}$.',
-        options: ['$\\dfrac{50}{18}$', '$\\dfrac{1}{4}$', '$\\dfrac{25}{9}$', '$\\dfrac{4}{1}$'],
+        options: ['$\\dfrac{50}{18}$', '$\\dfrac{1}{4}$', '$\\dfrac{25}{6}$', '$4$'],
         answer: 1,
-        correction: '$\\dfrac{5}{6} \\div \\dfrac{10}{3} = \\dfrac{5}{6} \\times \\dfrac{3}{10} = \\dfrac{15}{60} = \\dfrac{1}{4}$.'
+        correction: 'Diviser par $\\dfrac{10}{3}$, c\'est multiplier par $\\dfrac{3}{10}$ : $\\dfrac{5}{6} \\times \\dfrac{3}{10} = \\dfrac{15}{60} = \\dfrac{1}{4}$.<br/><br/>' +
+          '$\\dfrac{50}{18}$ multiplie sans retourner. $4$ retourne la <strong>première</strong> fraction ($\\dfrac{6}{5} \\times \\dfrac{10}{3} = \\dfrac{60}{15}$) : c\'est l\'inverse du bon résultat. $\\dfrac{25}{6}$ est la somme $\\dfrac{5}{6} + \\dfrac{20}{6}$, pas le quotient.'
       },
       {
         q: 'Un élève calcule $\\dfrac{2}{3} \\div \\dfrac{4}{5}$ et trouve $\\dfrac{8}{15}$. Quelle est son erreur ?',
         options: [
           'Il a raison : $2 \\times 4 = 8$ et $3 \\times 5 = 15$, donc $\\dfrac{8}{15}$.',
-          'Il a multiplié au lieu de diviser. Pour diviser, on inverse le second terme : $\\dfrac{2}{3} \\times \\dfrac{5}{4} = \\dfrac{10}{12} = \\dfrac{5}{6}$.',
           'Il faut d\'abord trouver un dénominateur commun : $\\dfrac{2}{3} - \\dfrac{4}{5} = \\dfrac{10-12}{15} = \\dfrac{-2}{15}$.',
-          'Il faut diviser numérateurs et dénominateurs séparément : $\\dfrac{2 \\div 4}{3 \\div 5} = \\dfrac{0{,}5}{0{,}6}$.'
+          'Il aurait dû retourner la première fraction : $\\dfrac{3}{2} \\times \\dfrac{4}{5} = \\dfrac{12}{10} = \\dfrac{6}{5}$.',
+          'Il a multiplié au lieu de diviser. Pour diviser, on retourne la seconde fraction : $\\dfrac{2}{3} \\times \\dfrac{5}{4} = \\dfrac{10}{12} = \\dfrac{5}{6}$.'
         ],
-        answer: 1,
-        correction: 'L\'élève a multiplié les deux fractions au lieu de diviser ! Pour diviser par $\\dfrac{4}{5}$, on multiplie par son inverse $\\dfrac{5}{4}$ : $\\dfrac{2}{3} \\div \\dfrac{4}{5} = \\dfrac{2}{3} \\times \\dfrac{5}{4} = \\dfrac{10}{12} = \\dfrac{5}{6}$. Vérification : $\\dfrac{5}{6} \\times \\dfrac{4}{5} = \\dfrac{20}{30} = \\dfrac{2}{3}$ ✓'
+        answer: 3,
+        correction: 'L\'élève a multiplié les deux fractions au lieu de diviser. Pour diviser par $\\dfrac{4}{5}$, on multiplie par son inverse $\\dfrac{5}{4}$ : $\\dfrac{2}{3} \\div \\dfrac{4}{5} = \\dfrac{2}{3} \\times \\dfrac{5}{4} = \\dfrac{10}{12} = \\dfrac{5}{6}$.<br/><br/>Vérification : $\\dfrac{5}{6} \\times \\dfrac{4}{5} = \\dfrac{20}{30} = \\dfrac{2}{3}$ ✓<br/><br/>' +
+          'Retourner la première fraction donne $\\dfrac{6}{5}$, l\'inverse du bon résultat ; chercher un dénominateur commun n\'a de sens que pour additionner ou soustraire.'
       }
     ],
 
@@ -232,84 +238,90 @@
       generate() {
         const tache = pick(['produit', 'quotient', 'inverse', 'fraction-de']);
         const ctx = pick([
-          { intro: 'En cuisine, on prépare', emoji: '🍳' },
-          { intro: 'En pharmacie, on dose', emoji: '💊' },
-          { intro: 'En bricolage, on mesure', emoji: '🔨' },
-          { intro: 'En couture, on coupe', emoji: '✂️' },
-          { intro: 'En jardinage, on mélange', emoji: '🌱' }
+          { intro: 'En cuisine, il reste', q: 'de litre de lait', emoji: '🍳' },
+          { intro: 'En pharmacie, il reste', q: 'de litre de sirop', emoji: '💊' },
+          { intro: 'En bricolage, il reste', q: 'de mètre de tasseau', emoji: '🔨' },
+          { intro: 'En couture, il reste', q: 'de mètre de ruban', emoji: '✂️' },
+          { intro: 'En jardinage, il reste', q: 'de litre d\'engrais', emoji: '🌱' }
         ]);
         const pgcd = (x, y) => y === 0 ? x : pgcd(y, x % y);
 
         if (tache === 'produit') {
-          const a = rand(2, 7), b = rand(2, 8), c = rand(2, 6), d = rand(2, 7);
+          // a/b et c/d plus petits que 1 : on utilise une partie de ce qui reste.
+          // Fractions irréductibles et plus petites que 1.
+          const b = rand(3, 8), a = pick(Array.from({ length: b - 2 }, (_, i) => i + 2).filter(v => pgcd(v, b) === 1));
+          const d = rand(3, 7), c = pick(Array.from({ length: d - 2 }, (_, i) => i + 2).filter(v => pgcd(v, d) === 1));
           const num = a * c, den = b * d, g = pgcd(num, den);
           const rep = parseFloat((num / den).toFixed(4));
           return {
-            statement: ctx.emoji + ' ' + ctx.intro + ' une quantité qui vaut $\\dfrac{' + a + '}{' + b + '}$ d\'un lot de $\\dfrac{' + c + '}{' + d + '}$. ' +
-              'Calcule $\\dfrac{' + a + '}{' + b + '} \\times \\dfrac{' + c + '}{' + d + '}$ et donne le résultat décimal.',
+            statement: ctx.emoji + ' ' + ctx.intro + ' $\\dfrac{' + c + '}{' + d + '}$ ' + ctx.q + ' et on en utilise les $\\dfrac{' + a + '}{' + b + '}$. ' +
+              'Quelle quantité utilise-t-on ? Calcule $\\dfrac{' + a + '}{' + b + '} \\times \\dfrac{' + c + '}{' + d + '}$ et donne le résultat décimal arrondi au millième.',
             answer: rep,
             tolerance: 0.001,
             unit: '',
-            hint: 'Pour multiplier deux fractions, on multiplie les numérateurs entre eux et les dénominateurs entre eux. Aucun dénominateur commun n\'est necessaire.',
+            hint: 'Pour multiplier deux fractions, on multiplie les numérateurs entre eux et les dénominateurs entre eux. Aucun dénominateur commun n\'est nécessaire.',
             solution: [
-              '$\\dfrac{' + a + '}{' + b + '} \\times \\dfrac{' + c + '}{' + d + '} = \\dfrac{' + a + ' \\times ' + c + '}{' + b + ' \\times ' + d + '} = \\dfrac{' + num + '}{' + den + '} = \\dfrac{' + (num / g) + '}{' + (den / g) + '}$.',
+              '$\\dfrac{' + a + '}{' + b + '} \\times \\dfrac{' + c + '}{' + d + '} = \\dfrac{' + a + ' \\times ' + c + '}{' + b + ' \\times ' + d + '} = \\dfrac{' + num + '}{' + den + '}' + (g > 1 ? ' = \\dfrac{' + (num / g) + '}{' + (den / g) + '}' : '') + '$.',
               'Valeur décimale : $' + fr(rep) + '$.'
             ]
           };
         }
 
         if (tache === 'quotient') {
-          const a = rand(2, 8), b = rand(2, 7), c = rand(2, 7), d = rand(2, 8);
+          // a != b et c != d : aucune fraction égale à 1 (diviser 1 par 1 n'exerce rien).
+          const a = rand(2, 8), b = pick([2, 3, 4, 5, 6, 7].filter(v => v !== a));
+          const c = rand(2, 7), d = pick([2, 3, 4, 5, 6, 7, 8].filter(v => v !== c));
           const num = a * d, den = b * c, g = pgcd(num, den);
           const rep = parseFloat((num / den).toFixed(4));
           return {
-            statement: ctx.emoji + ' Calcule $\\dfrac{' + a + '}{' + b + '} \\div \\dfrac{' + c + '}{' + d + '}$ et donne le résultat décimal.',
+            statement: ctx.emoji + ' Calcule $\\dfrac{' + a + '}{' + b + '} \\div \\dfrac{' + c + '}{' + d + '}$ et donne le résultat décimal arrondi au millième.',
             answer: rep,
             tolerance: 0.001,
             unit: '',
             hint: 'Diviser par une fraction, c\'est multiplier par son inverse : l\'inverse de $\\dfrac{' + c + '}{' + d + '}$ est $\\dfrac{' + d + '}{' + c + '}$.',
             solution: [
               'Diviser par une fraction revient à multiplier par son inverse : $\\dfrac{' + a + '}{' + b + '} \\div \\dfrac{' + c + '}{' + d + '} = \\dfrac{' + a + '}{' + b + '} \\times \\dfrac{' + d + '}{' + c + '}$.',
-              '$= \\dfrac{' + a + ' \\times ' + d + '}{' + b + ' \\times ' + c + '} = \\dfrac{' + num + '}{' + den + '} = \\dfrac{' + (num / g) + '}{' + (den / g) + '}$.',
-              'Valeur décimale : $' + fr(rep) + '$. Piege : on retourne la SECONDE fraction, jamais la première.'
+              '$= \\dfrac{' + a + ' \\times ' + d + '}{' + b + ' \\times ' + c + '} = \\dfrac{' + num + '}{' + den + '}' + (g > 1 ? ' = \\dfrac{' + (num / g) + '}{' + (den / g) + '}' : '') + '$.',
+              'Valeur décimale : $' + fr(rep) + '$. Piège : on retourne la SECONDE fraction, jamais la première.'
             ]
           };
         }
 
         if (tache === 'inverse') {
-          const a = rand(2, 9), b = rand(2, 9);
+          // a != b : l'inverse de 6/6 serait 6/6, ce qui n'exerce rien.
+          const a = rand(2, 9), b = pick([2, 3, 4, 5, 6, 7, 8, 9].filter(v => v !== a));
           const rep = parseFloat((b / a).toFixed(4));
           return {
-            statement: 'Quel est l\'inverse de $\\dfrac{' + a + '}{' + b + '}$ ? Donne le résultat décimal.',
+            statement: 'Quel est l\'inverse de $\\dfrac{' + a + '}{' + b + '}$ ? Donne le résultat décimal arrondi au millième.',
             answer: rep,
             tolerance: 0.001,
             unit: '',
-            hint: 'L\'inverse d\'une fraction s\'obtient en echangeant son numérateur et son dénominateur. Vérification : le produit des deux doit valoir $1$.',
+            hint: 'L\'inverse d\'une fraction s\'obtient en échangeant son numérateur et son dénominateur. Vérification : le produit des deux doit valoir $1$.',
             solution: [
-              'L\'inverse de $\\dfrac{' + a + '}{' + b + '}$ est $\\dfrac{' + b + '}{' + a + '}$, obtenu en echangeant les deux termes.',
+              'L\'inverse de $\\dfrac{' + a + '}{' + b + '}$ est $\\dfrac{' + b + '}{' + a + '}$, obtenu en échangeant les deux termes.',
               'Valeur décimale : $' + fr(rep) + '$.',
-              'Vérification : $\\dfrac{' + a + '}{' + b + '} \\times \\dfrac{' + b + '}{' + a + '} = \\dfrac{' + (a * b) + '}{' + (a * b) + '} = 1$. C\'est la definition de l\'inverse — a ne pas confondre avec l\'opposé, dont la somme fait $0$.'
+              'Vérification : $\\dfrac{' + a + '}{' + b + '} \\times \\dfrac{' + b + '}{' + a + '} = \\dfrac{' + (a * b) + '}{' + (a * b) + '} = 1$. C\'est la définition de l\'inverse — à ne pas confondre avec l\'opposé, dont la somme fait $0$.'
             ]
           };
         }
 
         // tache === 'fraction-de' : traduire « les deux tiers de » en produit.
         const b = pick([2, 3, 4, 5, 6, 8]);
-        const a = rand(1, b - 1) || 1;
+        const a = pick(Array.from({ length: b - 1 }, (_, i) => i + 1).filter(v => pgcd(v, b) === 1));
         const total = b * rand(2, 9);
         const rep = a * total / b;
         const objet = pick([
-          { q: 'litrès de sirop', s: 'On en utilise' },
-          { q: 'mètrès de tissu', s: 'On en coupe' },
-          { q: 'grammes de farine', s: 'On en verse' },
-          { q: 'centilitrès de solution', s: 'On en prélève' }
+          { c: 'Une cuve contient', q: 'litres de sirop', s: 'On en utilise', u: 'L', e: '💊' },
+          { c: 'Un rouleau porte', q: 'mètres de tissu', s: 'On en coupe', u: 'm', e: '✂️' },
+          { c: 'Un sac contient', q: 'grammes de farine', s: 'On en verse', u: 'g', e: '🍳' },
+          { c: 'Un flacon contient', q: 'centilitres de solution', s: 'On en prélève', u: 'cL', e: '🧪' }
         ]);
         return {
-          statement: ctx.emoji + ' Un récipient contient $' + total + '$ ' + objet.q + '. ' + objet.s + ' les $\\dfrac{' + a + '}{' + b + '}$. ' +
-            'Quelle quantité cela représente-t-il ?',
+          statement: objet.e + ' ' + objet.c + ' $' + total + '$ ' + objet.q + '. ' + objet.s + ' les $\\dfrac{' + a + '}{' + b + '}$. ' +
+            'Quelle quantité cela représente-t-il, en ' + objet.u + ' ?',
           answer: rep,
           tolerance: 0.001,
-          unit: '',
+          unit: objet.u,
           hint: 'Prendre les $\\dfrac{' + a + '}{' + b + '}$ d\'une quantité, c\'est la MULTIPLIER par $\\dfrac{' + a + '}{' + b + '}$.',
           solution: [
             'Le mot « des » se traduit ici par une multiplication : $\\dfrac{' + a + '}{' + b + '} \\times ' + total + '$.',
@@ -320,19 +332,19 @@
       }
     },
     probleme: {
-      context: 'Un laboratoire prépare $\\dfrac{3}{4}$ de litre d\'une solution à partir d\'une solution mère de concentration $C_0 = \\dfrac{2}{5}\\,\\text{mol/L}$. La relation de dilution est $C_1 V_1 = C_0 V_0$.',
+      context: 'Une recette de sirop indique $\\dfrac{2}{5}$ de litre de jus de citron pour $1$ litre de sirop.<br/><br/>Lina prépare $\\dfrac{1}{5}$ de litre de sirop, puis l\'allonge avec de l\'eau jusqu\'à obtenir $\\dfrac{3}{4}$ de litre de boisson.',
       schema: null,
       tasks: [
-        'Calculer le nombre de moles $n = C_0 \\times V_0$ dans le volume prélevé $V_0 = \\dfrac{1}{5}\\,\\text{L}$.',
-        'On dilue cette quantité dans le volume final $V_1 = \\dfrac{3}{4}\\,\\text{L}$. Calculer $C_1 = \\dfrac{n}{V_1}$.',
-        'Exprimer $C_1$ sous forme de fraction irréductible.'
+        'Calculer le volume $j$ de jus de citron contenu dans le $\\dfrac{1}{5}$ de litre de sirop : $j = \\dfrac{2}{5} \\times \\dfrac{1}{5}$.',
+        'Ce jus se retrouve dans les $\\dfrac{3}{4}$ de litre de boisson. Quelle fraction de litre de jus y a-t-il par litre de boisson ? Calculer $j \\div \\dfrac{3}{4}$.',
+        'Donner ce résultat sous forme de fraction irréductible, puis en valeur décimale arrondie au millième.'
       ],
       solutions: [
-        '$n = C_0 \\times V_0 = \\dfrac{2}{5} \\times \\dfrac{1}{5} = \\dfrac{2}{25}\\,\\text{mol}$.',
-        '$C_1 = \\dfrac{n}{V_1} = \\dfrac{2/25}{3/4} = \\dfrac{2}{25} \\times \\dfrac{4}{3} = \\dfrac{8}{75}\\,\\text{mol/L}$.',
-        '$\\dfrac{8}{75}$ est déjà irréductible (PGCD(8,75) = 1). $C_1 \\approx 0{,}107\\,\\text{mol/L}$.'
+        '$j = \\dfrac{2}{5} \\times \\dfrac{1}{5} = \\dfrac{2 \\times 1}{5 \\times 5} = \\dfrac{2}{25}$ de litre.',
+        'Diviser par $\\dfrac{3}{4}$, c\'est multiplier par $\\dfrac{4}{3}$ :<br/><br/>$\\dfrac{2}{25} \\div \\dfrac{3}{4} = \\dfrac{2}{25} \\times \\dfrac{4}{3} = \\dfrac{8}{75}$ de litre de jus par litre de boisson.',
+        '$8 = 2 \\times 2 \\times 2$ et $75 = 3 \\times 5 \\times 5$ n\'ont aucun diviseur commun : $\\dfrac{8}{75}$ est <strong>irréductible</strong>.<br/><br/>En décimal : $\\dfrac{8}{75} \\approx 0{,}107$.'
       ],
-      finalAnswer: '$C_1 = \\dfrac{8}{75}\\,\\text{mol/L} \\approx 0{,}107\\,\\text{mol/L}$'
+      finalAnswer: '$\\dfrac{8}{75}$ de litre de jus par litre de boisson, soit environ $0{,}107$ L.'
     },
 
     evaluation: {
@@ -342,19 +354,19 @@
         {
           statement: 'Calculer $\\dfrac{5}{7} \\times \\dfrac{14}{15}$. Donner le résultat sous forme de fraction irréductible.',
           type: 'multiple-choice',
-          options: ['$\\dfrac{70}{105}$', '$\\dfrac{2}{3}$', '$\\dfrac{10}{15}$', '$\\dfrac{1}{3}$'],
-          answer: 1,
+          options: ['$\\dfrac{70}{105}$', '$\\dfrac{1}{3}$', '$\\dfrac{10}{15}$', '$\\dfrac{2}{3}$'],
+          answer: 3,
           points: 2,
           correction: '$\\dfrac{5}{7} \\times \\dfrac{14}{15}$. Simplification croisée : $5$ et $15$ se simplifient par $5$ ($\\to 1$ et $3$), $7$ et $14$ par $7$ ($\\to 1$ et $2$). Résultat : $\\dfrac{1 \\times 2}{1 \\times 3} = \\dfrac{2}{3}$.'
         },
         {
-          statement: 'Calculer $\\dfrac{3}{8} \\div \\dfrac{9}{4}$. Donner le résultat décimal.',
+          statement: 'Calculer $\\dfrac{3}{8} \\div \\dfrac{9}{4}$. Donner le résultat décimal arrondi au centième.',
           type: 'numeric',
-          answer: 1/6,
-          tolerance: 0.001,
+          answer: 0.17,
+          tolerance: 0.005,
           unit: '',
           points: 2,
-          correction: '$\\dfrac{3}{8} \\div \\dfrac{9}{4} = \\dfrac{3}{8} \\times \\dfrac{4}{9} = \\dfrac{12}{72} = \\dfrac{1}{6} \\approx 0{,}167$.'
+          correction: '$\\dfrac{3}{8} \\div \\dfrac{9}{4} = \\dfrac{3}{8} \\times \\dfrac{4}{9} = \\dfrac{12}{72} = \\dfrac{1}{6} = 0{,}1666\\ldots \\approx 0{,}17$.'
         },
         {
           /* Q3 — « modéliser ». L'énoncé a été précisé le 2026-09-13 (« les
@@ -380,12 +392,12 @@
              représentations, non un calcul. */
           statement: 'Quel est l\'inverse de $\\dfrac{7}{3}$ ? (On rappelle que le produit d\'un nombre par son inverse vaut $1$.)',
           type: 'multiple-choice',
-          options: ['$\\dfrac{-7}{3}$', '$\\dfrac{3}{7}$', '$\\dfrac{-3}{7}$', '$\\dfrac{7}{3}$'],
-          answer: 1,
+          options: ['$\\dfrac{3}{7}$', '$\\dfrac{-7}{3}$', '$\\dfrac{-3}{7}$', '$\\dfrac{7}{3}$'],
+          answer: 0,
           points: 2,
           correction: 'L\'inverse de $\\dfrac{a}{b}$ est $\\dfrac{b}{a}$ : on échange numérateur et dénominateur. L\'inverse de $\\dfrac{7}{3}$ est donc $\\dfrac{3}{7}$.<br/><br/>' +
             'Vérification par la propriété rappelée : $\\dfrac{7}{3} \\times \\dfrac{3}{7} = \\dfrac{21}{21} = 1$. ✓<br/><br/>' +
-            'Ne pas confondre avec l\'<strong>opposé</strong>, $-\\dfrac{7}{3}$, dont la SOMME avec le nombre vaut $0$. Les deux premières propositions fausses jouent précisément sur cette confusion.'
+            'Ne pas confondre avec l\'<strong>opposé</strong>, $-\\dfrac{7}{3}$, dont la SOMME avec le nombre vaut $0$. Les propositions $\\dfrac{-7}{3}$ et $\\dfrac{-3}{7}$ jouent précisément sur cette confusion.'
         },
         {
           /* Q5 RÉÉCRITE le 2026-09-13 pour mobiliser « communiquer ». L'ancien

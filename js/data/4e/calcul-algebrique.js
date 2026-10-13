@@ -33,11 +33,13 @@
         { term: 'Vérification', def: 'Remplacer l\'inconnue par la valeur trouvée dans l\'équation de départ pour s\'assurer que l\'égalité est vraie.' }
       ],
       method: {
-        title: 'Méthode en 3 étapes',
+        title: 'Méthode en 3 étapes, et deux cas à connaître',
         steps: [
           '<strong>Identifier l\'inconnue</strong> à isoler et les opérations qui l\'entourent (addition, multiplication, puissance, etc.). <strong>Exemple :</strong> dans $3x + 7 = 22$, l\'inconnue est $x$, elle est d\'abord multipliée par 3, puis on ajoute 7.',
           '<strong>Défaire les opérations</strong> dans l\'ordre inverse (de l\'extérieur vers l\'intérieur) en faisant la même chose des deux côtés. <strong>Exemple :</strong> $3x + 7 = 22 \\Rightarrow 3x = 22 - 7 = 15 \\Rightarrow x = \\frac{15}{3} = 5$.',
-          '<strong>Vérifier</strong> en réinjectant le résultat dans l\'équation de départ. <strong>Exemple :</strong> $3 \\times 5 + 7 = 15 + 7 = 22$ ✓ C\'est cohérent !'
+          '<strong>Vérifier</strong> en réinjectant le résultat dans l\'équation de départ. <strong>Exemple :</strong> $3 \\times 5 + 7 = 15 + 7 = 22$ ✓ C\'est cohérent !',
+          '<strong>Cas 1 — l\'inconnue des deux côtés</strong> : on rassemble d\'abord les $x$ dans un seul membre, en retirant le plus petit terme en $x$ des deux côtés.<br/><br/><strong>Exemple :</strong> $8x + 4 = 3x + 24 \\Rightarrow 5x + 4 = 24 \\Rightarrow 5x = 20 \\Rightarrow x = 4$.<br/><br/>Vérification : $8 \\times 4 + 4 = 36$ et $3 \\times 4 + 24 = 36$ ✓',
+          '<strong>Cas 2 — un coefficient négatif</strong> : on divise par le coefficient <em>avec son signe</em>.<br/><br/><strong>Exemple :</strong> $-4x + 9 = 1 \\Rightarrow -4x = 1 - 9 = -8 \\Rightarrow x = \\dfrac{-8}{-4} = 2$ (deux négatifs donnent un positif).<br/><br/>Vérification : $-4 \\times 2 + 9 = 1$ ✓'
         ]
       },
       example: {
@@ -59,7 +61,7 @@
         theme: 'maths',
         kicker: 'Résoudre une équation — la balance à deux plateaux',
         title: 'Isoler $x$ en gardant l\'égalité en équilibre',
-        description: 'Reprenons l\'exemple du tableau ci-dessus : <strong>$4x = 20$</strong>.' +
+        description: 'Prenons l\'équation la plus simple possible : <strong>$4x = 20$</strong>.' +
           '<br/><br/>' +
           'Pour isoler $x$, on applique la <strong>même opération aux deux plateaux</strong> de la balance : ici, diviser par $4$ des deux côtés.',
         svg: `
@@ -238,9 +240,9 @@
     quiz: [
       {
         q: 'Résoudre $3x + 7 = 22$.',
-        options: ['$x = 5$', '$x = 9{,}67$', '$x = 4{,}33$', '$x = 15$'],
-        answer: 0,
-        correction: '$3x + 7 = 22 \\Rightarrow 3x = 22 - 7 = 15 \\Rightarrow x = \\frac{15}{3} = 5$. Vérification : $3 \\times 5 + 7 = 15 + 7 = 22$ ✓'
+        options: ['$x = 9{,}67$', '$x = 45$', '$x = 5$', '$x = 15$'],
+        answer: 2,
+        correction: '$3x + 7 = 22 \\Rightarrow 3x = 22 - 7 = 15 \\Rightarrow x = \\frac{15}{3} = 5$. Vérification : $3 \\times 5 + 7 = 15 + 7 = 22$ ✓<br/><br/>$9{,}67$ vient de $\\dfrac{22 + 7}{3}$ : on a ajouté $7$ au lieu de le retirer. $15$ oublie de diviser par $3$, et $45$ multiplie par $3$ au lieu de diviser.'
       },
       {
         q: 'Dans la formule $P = U \\cdot I$, si $P = 60$ W et $U = 12$ V, quelle est la valeur de $I$ ?',
@@ -251,13 +253,13 @@
       {
         q: 'Un élève résout $2x - 6 = 10$ et trouve $x = 2$. Quelle vérification montre que c\'est faux ?',
         options: [
-          'On vérifie : $2 \\times 2 - 6 = -2 \\neq 10$. L\'élève a divisé par $2$ avant de soustraire $6$, au lieu de l\'inverse.',
           'On vérifie : $2 \\times 2 - 6 = -2 = 10$ ✓. L\'élève a bien calculé.',
           'Il n\'y a pas de vérification possible pour les équations.',
-          'On vérifie : $2 \\times 2 = 4$, puis $4 - 6 = -2$, et $-2 = 10$ ✓.'
+          'On vérifie : $2 \\times 2 = 4$, puis $4 - 6 = -2$, et $-2 = 10$ ✓.',
+          'On vérifie : $2 \\times 2 - 6 = -2 \\neq 10$. L\'élève a retiré $6$ au lieu de l\'ajouter : pour défaire « $- 6$ », on ajoute $6$ des deux côtés.'
         ],
-        answer: 0,
-        correction: 'Vérification : $2 \\times 2 - 6 = 4 - 6 = -2 \\neq 10$, ce qui ne correspond pas à l\'équation de départ : l\'élève s\'est trompé dans l\'ordre des étapes. La bonne résolution : $2x - 6 = 10 \\Rightarrow 2x = 10 + 6 = 16 \\Rightarrow x = 8$. Vérification : $2 \\times 8 - 6 = 16 - 6 = 10$ ✓. Il faut toujours isoler le terme en $x$ avant de diviser.'
+        answer: 3,
+        correction: 'Vérification : $2 \\times 2 - 6 = 4 - 6 = -2 \\neq 10$, donc $2$ n\'est pas solution.<br/><br/>D\'où vient l\'erreur ? L\'élève a écrit $2x = 10 - 6 = 4$ : il a retiré $6$ alors que l\'équation contient déjà « $- 6$ ». Pour le défaire, on <strong>ajoute</strong> $6$ des deux côtés : $2x = 10 + 6 = 16$, puis $x = 8$.<br/><br/>Vérification : $2 \\times 8 - 6 = 10$ ✓<br/><br/>Les deux propositions marquées « ✓ » affirment que $-2 = 10$, ce qui est faux : vérifier, c\'est comparer les deux membres, pas recopier un ✓.'
       }
     ],
 
@@ -276,19 +278,12 @@
          isolation dans une formule de physique. */
       generate() {
         const tache = pick(['simple', 'negatif', 'deux-cotes', 'quotient', 'formule']);
-        const ctx = pick([
-          { intro: 'En mécanique, la relation entre force, masse et accélération donne l\'équation', emoji: '🔧' },
-          { intro: 'Pour calculer la tension électrique dans un circuit, on résout', emoji: '⚡' },
-          { intro: 'En chimie, l\'équilibre des masses donne l\'équation', emoji: '⚗️' },
-          { intro: 'Pour déterminer la vitesse d\'un mobile, on résout', emoji: '🚀' },
-          { intro: 'En économie, le calcul du prix de revient conduit a l\'équation', emoji: '💰' }
-        ]);
 
         if (tache === 'simple') {
           const a = rand(2, 9), x = rand(2, 12), b = rand(1, 20);
           const c = a * x + b;
           return {
-            statement: ctx.emoji + ' ' + ctx.intro + ' : $' + a + 'x + ' + b + ' = ' + c + '$. Quelle est la valeur de $x$ ?',
+            statement: '💳 Un abonnement coûte $' + b + '$ € de frais d\'ouverture, puis $' + a + '$ € par mois. Au bout de $x$ mois, on a payé $' + c + '$ € en tout : $' + a + 'x + ' + b + ' = ' + c + '$. Combien de mois cela représente-t-il ?',
             answer: x,
             tolerance: 0.001,
             unit: '',
@@ -307,7 +302,7 @@
           const a = rand(2, 8), x = rand(2, 10), b = rand(5, 30);
           const c = -a * x + b;
           return {
-            statement: ctx.emoji + ' ' + ctx.intro + ' : $-' + a + 'x + ' + b + ' = ' + c + '$. Quelle est la valeur de $x$ ?',
+            statement: '🧊 À la mise en route, un congélateur de laboratoire est à $' + b + '$ °C et sa température baisse de $' + a + '$ °C par heure. Au bout de $x$ heures, elle vaut $' + c + '$ °C : $-' + a + 'x + ' + b + ' = ' + c + '$. Combien d\'heures se sont écoulées ?',
             answer: x,
             tolerance: 0.001,
             unit: '',
@@ -328,11 +323,11 @@
           // a*x + p = b*x + q  =>  q = (a-b)*x + p
           const q = (a - b) * x + p;
           return {
-            statement: ctx.emoji + ' ' + ctx.intro + ' : $' + a + 'x + ' + p + ' = ' + b + 'x + ' + q + '$. Quelle est la valeur de $x$ ?',
+            statement: '📺 Deux plateformes de streaming : la première demande $' + p + '$ € de frais d\'activation puis $' + a + '$ € par mois, la seconde $' + q + '$ € puis $' + b + '$ € par mois. Au bout de $x$ mois, on a payé la même somme aux deux : $' + a + 'x + ' + p + ' = ' + b + 'x + ' + q + '$. Que vaut $x$ ?',
             answer: x,
             tolerance: 0.001,
             unit: '',
-            hint: 'Commence par rassembler les $x$ d\'un seul cote : retire $' + b + 'x$ aux deux membres.',
+            hint: 'Commence par rassembler les $x$ d\'un seul côté : retire $' + b + 'x$ aux deux membres.',
             solution: [
               'Équation de départ : $' + a + 'x + ' + p + ' = ' + b + 'x + ' + q + '$.',
               'On retire $' + b + 'x$ aux deux membres : $' + (a - b) + 'x + ' + p + ' = ' + q + '$.',
@@ -342,18 +337,19 @@
         }
 
         if (tache === 'quotient') {
-          const d = rand(2, 8), x = rand(2, 12), b = rand(1, 15);
-          const c = x / d + b;
-          const cAff = Number.isInteger(c) ? String(c) : fr(parseFloat(c.toFixed(3)));
+          // x multiple de d : l'équation affichée est exacte et entière (plus d'arrondi
+          // dans l'énoncé qui rendait fausse la réponse fidèle à ce qui est écrit).
+          const d = rand(2, 8), x = d * rand(4, 15), b = rand(1, 3); // pourboire plus petit que la part
+          const c = x / d + b; // entier par construction
           return {
-            statement: ctx.emoji + ' ' + ctx.intro + ' : $\\dfrac{x}{' + d + '} + ' + b + ' = ' + cAff + '$. Quelle est la valeur de $x$ ?',
+            statement: '🍕 Une addition de $x$ € est partagée en $' + d + '$ parts égales. Chacun ajoute $' + b + '$ € de pourboire et paie au total $' + c + '$ € : $\\dfrac{x}{' + d + '} + ' + b + ' = ' + c + '$. Que vaut $x$ ?',
             answer: x,
             tolerance: 0.001,
             unit: '',
             hint: 'Isole d\'abord la fraction, puis multiplie les deux membres par $' + d + '$ : multiplier annule la division.',
             solution: [
-              'On retire $' + b + '$ aux deux membres : $\\dfrac{x}{' + d + '} = ' + fr(parseFloat((c - b).toFixed(3))) + '$.',
-              'On multiplie les deux membres par $' + d + '$ : $x = ' + fr(parseFloat((c - b).toFixed(3))) + ' \\times ' + d + ' = ' + x + '$.',
+              'On retire $' + b + '$ aux deux membres : $\\dfrac{x}{' + d + '} = ' + c + ' - ' + b + ' = ' + (c - b) + '$.',
+              'On multiplie les deux membres par $' + d + '$ : $x = ' + (c - b) + ' \\times ' + d + ' = ' + x + '$.',
               'Erreur fréquente : diviser par $' + d + '$ au lieu de multiplier. Pour défaire une division, on multiplie.'
             ]
           };
@@ -368,7 +364,7 @@
         if (cas.cherche === 'd') {
           const v = rand(2, 9), t = rand(2, 9);
           return {
-            statement: '🚀 La vitesse d\'un mobile vérifie $v = \\dfrac{d}{t}$, ou $d$ est la distance et $t$ la duree. ' +
+            statement: '🚀 La vitesse d\'un mobile vérifie $v = \\dfrac{d}{t}$, où $d$ est la distance et $t$ la durée. ' +
               'On mesure $v = ' + v + '$ et $t = ' + t + '$. Quelle est la valeur de $d$ ?',
             answer: v * t,
             tolerance: 0.001,
@@ -377,7 +373,7 @@
             solution: [
               'On part de $v = \\dfrac{d}{t}$ et on multiplie les deux membres par $t$ : $d = v \\times t$.',
               'On remplace seulement maintenant : $d = ' + v + ' \\times ' + t + ' = ' + (v * t) + '$.',
-              'Isoler d\'abord, remplacer ensuite : c\'est plus sur, et la formule obtenue resservira.'
+              'Isoler d\'abord, remplacer ensuite : c\'est plus sûr, et la formule obtenue resservira.'
             ]
           };
         }
@@ -403,7 +399,7 @@
       }
     },
     probleme: {
-      context: 'La masse volumique (densité) d\'une substance est définie par la relation $\\rho = \\dfrac{m}{V}$ où $\\rho$ est en kg/m³, $m$ est la masse en kg et $V$ est le volume en m³. L\'aluminium a une masse volumique $\\rho = 2700$ kg/m³. On souhaite fabriquer une pièce en aluminium de volume $V = 5 \\times 10^{-4}$ m³.',
+      context: 'La masse volumique d\'une substance est définie par la relation $\\rho = \\dfrac{m}{V}$ où $\\rho$ est en kg/m³, $m$ est la masse en kg et $V$ est le volume en m³. L\'aluminium a une masse volumique $\\rho = 2700$ kg/m³. On souhaite fabriquer une pièce en aluminium de volume $V = 5 \\times 10^{-4}$ m³.',
       schema: null,
       tasks: [
         'À partir de la formule $\\rho = \\dfrac{m}{V}$, isoler la masse $m$.',

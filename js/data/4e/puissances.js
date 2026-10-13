@@ -52,7 +52,7 @@
         description: 'Chaque repère correspond à une valeur citée dans le cours (proton, atome, lumière, distance Terre-Soleil, univers observable), placée sur une échelle logarithmique où chaque graduation multiplie par $10$.',
         svg: `
           <svg viewBox="0 0 480 210" role="img" aria-labelledby="puissances-echelle-title puissances-echelle-desc">
-            <title id="puissances-echelle-title">Echelle logarithmique de 10 puissance -15 mètrès a 10 puissance 26 mètres</title>
+            <title id="puissances-echelle-title">Echelle logarithmique de 10 puissance -15 mètres a 10 puissance 26 mètres</title>
             <desc id="puissances-echelle-desc">Un axe gradue de dix en dix puissances place cinq reperes reels cites dans le cours : le proton a 10 puissance -15 m, l'atome d'hydrogene pres de 10 puissance -10 m, la lumiere rouge pres de 10 puissance -6 m, la distance Terre-Soleil pres de 10 puissance 11 m, et l'univers observable a 10 puissance 26 m.</desc>
             <line class="grid-line" x1="60.0" y1="40" x2="60.0" y2="120"></line>
             <line class="grid-line" x1="95.2" y1="40" x2="95.2" y2="120"></line>
