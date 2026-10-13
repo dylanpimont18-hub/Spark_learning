@@ -13,7 +13,15 @@ window.MODULES.push({
     physics: false,
 
     cours: {
-      intro: 'La probabilité quantifie l\'incertitude d\'un événement sur une échelle de <strong>$0$ (impossible) à $1$ (certain)</strong>.<br/><br/>' +
+      /* DECOUVRIR REECRIT LE 2026-09-13. L'intro ouvrait sur la definition
+         d'une probabilite. La question retenue est celle qui piege le plus
+         surement : deux issues, donc « une chance sur deux » — un raisonnement
+         que rien dans le cours anterieur ne permet de refuter.
+         Valeur VERIFIEE : 1 secteur sur 8 donne 0,125 et non 0,5. */
+      intro: 'À une fête foraine, une roue est partagée en huit secteurs identiques, dont un seul fait gagner. Tu joues une fois : ou tu gagnes, ou tu perds. Y a-t-il une chance sur deux ?<br/><br/>' +
+        'Le raisonnement semble solide — deux issues, donc une chance sur deux — et il est pourtant faux. Il suffit de regarder la roue : le secteur gagnant occupe un huitième du tour, pas la moitié.<br/><br/>' +
+        'Compter les issues ne suffit donc jamais. Encore faut-il savoir si elles ont la même chance de se produire, et c\'est là que tout se joue.<br/><br/>' +
+        'La probabilité quantifie l\'incertitude d\'un événement sur une échelle de <strong>$0$ (impossible) à $1$ (certain)</strong>.<br/><br/>' +
         '<strong>Équiprobabilité :</strong> quand tous les résultats ont la même chance, $P(A) = \\dfrac{\\text{cas favorables}}{\\text{cas possibles}}$. Attention au raisonnement intuitif : « il y a deux issues (gagner ou perdre), donc $P = \\dfrac{1}{2}$ » est faux si les issues ne sont pas équiprobables.<br/><br/>' +
         'Le <strong>sophisme du joueur</strong> : après 5 piles de suite à pile-ou-face, la probabilité d\'obtenir face reste $\\dfrac{1}{2}$ — la pièce n\'a pas de mémoire. Chaque lancer est indépendant.<br/><br/>' +
         'L\'<strong>événement contraire</strong> $\\bar{A}$ (« $A$ ne se réalise pas ») vérifie $P(\\bar{A}) = 1 - P(A)$ — souvent plus simple à calculer que $P(A)$ directement.',
@@ -89,6 +97,163 @@ window.MODULES.push({
         reading: 'Les repères « peu probable » et « probable » n\'ont pas de seuil chiffré officiel — ce sont des mots du langage courant. Un calcul de $P(A)$ doit toujours donner une fraction ou un nombre exact entre $0$ et $1$, jamais une simple impression.',
         caption: 'Échelle qualitative superposée aux trois repères numériques du cours : $0$ (impossible), $0{,}5$ (une chance sur deux), $1$ (certain).'
       },
+
+      /* SCHEMAS SECONDAIRES (2026-09-13) — une figure par MALENTENDU.
+         Les trois retenus :
+           1. « deux issues, donc une chance sur deux » — l'erreur que l'intro
+              du cours nomme explicitement et ne montre pas ;
+           2. la probabilite comme une PART du tout, ce qui explique d'un coup
+              pourquoi elle ne depasse jamais 1 et pourquoi la somme fait 1 ;
+           3. le hasard n'a pas de memoire : une serie de tirages n'influe pas
+              sur le suivant.
+
+         Valeurs VERIFIEES : sur une roue de 8 secteurs egaux dont 1 gagnant,
+         P = 1/8 = 0,125 et non 0,5 ; les 8 secteurs font exactement 45 degres
+         chacun, coordonnees calculees par trigonometrie. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Deux issues ne font pas deux chances égales',
+          title: 'Gagner ou perdre, mais pas une chance sur deux',
+          description: 'À cette roue, il n\'y a que <strong>deux issues</strong> : gagner ou perdre. Beaucoup en concluent une chance sur deux. Il suffit de regarder la roue : le secteur gagnant occupe <strong>un huitième</strong> du tour, donc $P = 0{,}125$. Compter les issues ne suffit jamais.',
+          svg: `
+            <svg viewBox="0 0 400 214" role="img" aria-labelledby="proba-equi-title proba-equi-desc">
+              <title id="proba-equi-title">Une roue de huit secteurs egaux dont un seul est gagnant</title>
+              <desc id="proba-equi-desc">Une roue est partagee en huit secteurs de 45 degres chacun, tous de meme taille. Un seul secteur est teinte : c'est le secteur gagnant. Les sept autres sont laisses clairs. Il n'y a donc que deux issues possibles, gagner ou perdre, mais elles ne sont pas equiprobables : la probabilite de gagner vaut un huitieme, soit 0 virgule 125, et celle de perdre sept huitiemes, soit 0 virgule 875. A droite de la roue, une barre partagee dans les memes proportions rappelle que les deux issues ne se partagent pas le tour a parts egales.</desc>
+
+              <!-- Roue de rayon 72, centre (110,112). Huit secteurs de 45
+                   degres : sommets CALCULES par trigonometrie, pas poses a
+                   l'oeil. Le secteur gagnant va de -90 a -45 degres. -->
+              <circle class="frame-line" cx="110" cy="112" r="72" fill="color-mix(in srgb, var(--diagram-accent) 6%, transparent)"></circle>
+              <path class="frame-line" fill="color-mix(in srgb, var(--diagram-accent) 40%, transparent)" d="M110 112 L110 40 A 72 72 0 0 1 160.91 61.09 Z"></path>
+              <line class="grid-line" x1="110" y1="112" x2="110" y2="40"></line>
+              <line class="grid-line" x1="110" y1="112" x2="160.91" y2="61.09"></line>
+              <line class="grid-line" x1="110" y1="112" x2="182" y2="112"></line>
+              <line class="grid-line" x1="110" y1="112" x2="160.91" y2="162.91"></line>
+              <line class="grid-line" x1="110" y1="112" x2="110" y2="184"></line>
+              <line class="grid-line" x1="110" y1="112" x2="59.09" y2="162.91"></line>
+              <line class="grid-line" x1="110" y1="112" x2="38" y2="112"></line>
+              <line class="grid-line" x1="110" y1="112" x2="59.09" y2="61.09"></line>
+              <text class="annotation-label" x="140" y="62" text-anchor="start">gagné</text>
+              <text class="tick-label" x="110" y="202" text-anchor="middle">8 secteurs égaux</text>
+
+              <!-- La MEME proportion, redite en barre : c'est elle qui porte le
+                   raisonnement, la roue seule pouvant se lire de travers. -->
+              <rect class="frame-line" x="232" y="76" width="18" height="72" fill="color-mix(in srgb, var(--diagram-accent) 40%, transparent)"></rect>
+              <rect class="guide-line" x="256" y="76" width="18" height="72" fill="color-mix(in srgb, var(--diagram-accent) 10%, transparent)"></rect>
+              <text class="tick-label" x="241" y="166" text-anchor="middle">1</text>
+              <text class="tick-label" x="265" y="166" text-anchor="middle">7</text>
+              <text class="tick-label" x="253" y="184" text-anchor="middle">secteurs</text>
+
+              <text class="annotation-label" x="292" y="94" text-anchor="start">P(gagner) = 1/8 = 0,125</text>
+              <text class="tick-label" x="292" y="116" text-anchor="start">P(perdre) = 7/8 = 0,875</text>
+              <text class="label-soft" x="292" y="140" text-anchor="start">somme = 1</text>
+
+              <text class="annotation-label" x="200" y="24" text-anchor="middle">deux issues, mais pas deux chances égales</text>
+            </svg>
+          `,
+          notes: [
+            'La roue compte $8$ secteurs <strong>de même taille</strong> : ce sont eux les issues équiprobables, pas « gagner » et « perdre ».',
+            '$P(\\text{gagner}) = \\dfrac{1}{8} = 0{,}125$ et $P(\\text{perdre}) = \\dfrac{7}{8} = 0{,}875$.',
+            'Leur somme vaut $1$, comme toujours : il se passe forcément quelque chose. Mais elles ne valent $0{,}5$ chacune que si les deux issues sont réellement <strong>également possibles</strong>.'
+          ],
+          reading: 'Avant de compter les issues, demande-toi si elles sont également possibles. Ici la question à se poser n\'est pas « combien de résultats ? » mais « combien de secteurs, et combien me font gagner ? ».',
+          caption: 'Une roue de $8$ secteurs égaux dont un seul gagnant : deux issues possibles, mais $P(\\text{gagner}) = 0{,}125$ et non $0{,}5$.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Une probabilité est une part',
+          title: 'Pourquoi une probabilité ne dépasse jamais $1$',
+          description: 'Une probabilité n\'est pas un nombre abstrait : c\'est la <strong>part du tout</strong> qu\'occupent les cas favorables. Cette lecture explique d\'un coup deux règles que l\'on retient d\'ordinaire séparément : elle est toujours entre $0$ et $1$, et les probabilités de toutes les issues font <strong>exactement $1$</strong>.',
+          svg: `
+            <svg viewBox="0 0 400 194" role="img" aria-labelledby="proba-part-title proba-part-desc">
+              <title id="proba-part-title">Une barre unite partagee entre trois issues</title>
+              <desc id="proba-part-desc">Une barre horizontale represente la totalite des cas possibles, soit 10 boules dans un sac. Elle est partagee en trois portions : 5 dixiemes pour les boules rouges, 3 dixiemes pour les bleues et 2 dixiemes pour les vertes. Les trois portions sont teintees differemment et mises bout a bout sans trou ni chevauchement, si bien qu'elles remplissent exactement la barre. Sous la barre, une graduation de 0 a 1 permet de lire chaque probabilite. La somme des trois vaut 1, ce qui est signale, et aucune portion ne peut depasser la barre entiere.</desc>
+
+              <!-- Barre unite : de x=40 a x=360, soit 320 unites pour la
+                   probabilite 1. Les trois portions sont donc de 160, 96 et 64
+                   unites : positions CALCULEES, somme exacte 320. -->
+              <rect class="frame-line" x="40" y="56" width="160" height="44" fill="color-mix(in srgb, var(--diagram-accent) 40%, transparent)"></rect>
+              <rect class="frame-line" x="200" y="56" width="96" height="44" fill="color-mix(in srgb, var(--diagram-accent) 22%, transparent)"></rect>
+              <rect class="frame-line" x="296" y="56" width="64" height="44" fill="color-mix(in srgb, var(--diagram-accent) 10%, transparent)"></rect>
+
+              <text class="tick-label" x="120" y="82" text-anchor="middle">rouge</text>
+              <text class="tick-label" x="248" y="82" text-anchor="middle">bleue</text>
+              <text class="tick-label" x="328" y="82" text-anchor="middle">verte</text>
+
+              <text class="annotation-label" x="120" y="44" text-anchor="middle">0,5</text>
+              <text class="annotation-label" x="248" y="44" text-anchor="middle">0,3</text>
+              <text class="annotation-label" x="328" y="44" text-anchor="middle">0,2</text>
+
+              <!-- Graduation de 0 a 1 sous la barre. -->
+              <line class="axis" x1="40" y1="118" x2="360" y2="118"></line>
+              <line class="frame-line" x1="40" y1="112" x2="40" y2="124"></line>
+              <text class="tick-label" x="40" y="138" text-anchor="middle">0</text>
+              <line class="frame-line" x1="200" y1="112" x2="200" y2="124"></line>
+              <text class="tick-label" x="200" y="138" text-anchor="middle">0,5</text>
+              <line class="frame-line" x1="360" y1="112" x2="360" y2="124"></line>
+              <text class="tick-label" x="360" y="138" text-anchor="middle">1</text>
+
+              <text class="annotation-label" x="200" y="24" text-anchor="middle">10 boules dans un sac : 5 rouges, 3 bleues, 2 vertes</text>
+              <text class="tick-label" x="200" y="160" text-anchor="middle">0,5 + 0,3 + 0,2 = 1</text>
+              <text class="label-soft" x="200" y="180" text-anchor="middle">les trois parts remplissent la barre, sans trou ni dépassement</text>
+            </svg>
+          `,
+          notes: [
+            '$P(\\text{rouge}) = \\dfrac{5}{10} = 0{,}5$, $P(\\text{bleue}) = \\dfrac{3}{10} = 0{,}3$, $P(\\text{verte}) = \\dfrac{2}{10} = 0{,}2$.',
+            'Les trois parts mises bout à bout remplissent exactement la barre : $0{,}5 + 0{,}3 + 0{,}2 = 1$.',
+            'Une probabilité supérieure à $1$ serait une part <strong>plus grande que le tout</strong> : c\'est impossible, et c\'est le premier contrôle à faire sur un résultat.'
+          ],
+          reading: 'Lis chaque portion sur la graduation du bas : tu obtiens directement sa probabilité. Si tes probabilités ne font pas $1$ en tout, c\'est qu\'il manque une issue ou qu\'une part a été comptée deux fois.',
+          caption: 'La barre unité partagée entre trois issues ($0{,}5$, $0{,}3$ et $0{,}2$) : les probabilités remplissent exactement le tout.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Le hasard n\'a pas de mémoire',
+          title: 'Cinq piles de suite ne changent rien au sixième lancer',
+          description: 'Après cinq « pile » d\'affilée, beaucoup pensent que « face est dû ». La pièce, elle, ne se souvient de rien : au sixième lancer, la probabilité reste $0{,}5$, <strong>exactement comme au premier</strong>.',
+          svg: `
+            <svg viewBox="0 0 400 190" role="img" aria-labelledby="proba-memoire-title proba-memoire-desc">
+              <title id="proba-memoire-title">Cinq lancers de piece deja tombes sur pile et le lancer suivant</title>
+              <desc id="proba-memoire-desc">Cinq pieces alignees montrent toutes le resultat pile : ce sont les lancers deja effectues. Une sixieme piece, tracee en trait tirete et laissee vide, represente le lancer a venir. Sous elle, deux probabilites egales de 0 virgule 5 sont indiquees pour pile et pour face, ce qui montre que les cinq resultats precedents n'ont aucune influence sur le suivant. Une barre partagee en deux moities strictement egales illustre cette equiprobabilite.</desc>
+
+              <text class="annotation-label" x="200" y="22" text-anchor="middle">cinq lancers déjà faits</text>
+
+              <circle class="frame-line" cx="52" cy="62" r="18" fill="color-mix(in srgb, var(--diagram-accent) 26%, transparent)"></circle>
+              <text class="tick-label" x="52" y="66" text-anchor="middle">pile</text>
+              <circle class="frame-line" cx="104" cy="62" r="18" fill="color-mix(in srgb, var(--diagram-accent) 26%, transparent)"></circle>
+              <text class="tick-label" x="104" y="66" text-anchor="middle">pile</text>
+              <circle class="frame-line" cx="156" cy="62" r="18" fill="color-mix(in srgb, var(--diagram-accent) 26%, transparent)"></circle>
+              <text class="tick-label" x="156" y="66" text-anchor="middle">pile</text>
+              <circle class="frame-line" cx="208" cy="62" r="18" fill="color-mix(in srgb, var(--diagram-accent) 26%, transparent)"></circle>
+              <text class="tick-label" x="208" y="66" text-anchor="middle">pile</text>
+              <circle class="frame-line" cx="260" cy="62" r="18" fill="color-mix(in srgb, var(--diagram-accent) 26%, transparent)"></circle>
+              <text class="tick-label" x="260" y="66" text-anchor="middle">pile</text>
+
+              <!-- Le lancer A VENIR : cercle VIDE et tirete. Une figure ne
+                   divulgue jamais ce qu'elle demande de trouver. -->
+              <circle class="guide-line" cx="330" cy="62" r="18" fill="none" stroke-dasharray="5 4"></circle>
+              <text class="annotation-label" x="330" y="68" text-anchor="middle">?</text>
+              <text class="tick-label" x="330" y="96" text-anchor="middle">le suivant</text>
+
+              <!-- Deux moities STRICTEMENT egales : c'est tout le propos. -->
+              <rect class="frame-line" x="120" y="118" width="80" height="30" fill="color-mix(in srgb, var(--diagram-accent) 26%, transparent)"></rect>
+              <rect class="frame-line" x="200" y="118" width="80" height="30" fill="color-mix(in srgb, var(--diagram-accent) 26%, transparent)"></rect>
+              <text class="tick-label" x="160" y="138" text-anchor="middle">pile 0,5</text>
+              <text class="tick-label" x="240" y="138" text-anchor="middle">face 0,5</text>
+
+              <text class="label-soft" x="200" y="172" text-anchor="middle">la pièce ne se souvient pas des lancers précédents</text>
+            </svg>
+          `,
+          notes: [
+            'Chaque lancer est <strong>indépendant</strong> des précédents : la pièce n\'a ni mémoire ni compteur.',
+            'Au sixième lancer, $P(\\text{pile}) = P(\\text{face}) = 0{,}5$, comme au premier.',
+            'Ce qui est rare, c\'est d\'obtenir cinq piles <strong>d\'affilée</strong> — et cette rareté-là se juge <strong>avant</strong> de lancer, pas une fois les cinq résultats connus.'
+          ],
+          reading: 'Regarde la sixième pièce : elle est identique à celles du départ, rien ne la distingue. Le « c\'est le tour de face » est une intuition très répandue, mais aucun mécanisme ne la soutient.',
+          caption: 'Après cinq « pile », le lancer suivant reste équiprobable : $P(\\text{pile}) = P(\\text{face}) = 0{,}5$.'
+        }
+      ],
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
@@ -139,29 +304,137 @@ window.MODULES.push({
       }
     ],
 
+    /* ELARGISSEMENT ET CORRECTION DU 2026-09-13.
+
+       DEFAUT D'ACCORD, corrige d'abord : l'enonce ecrivait « Un(e) roue de
+       loterie », parenthese de complaisance qui s'IMPRIME telle quelle dans le
+       livre. Chaque contexte porte desormais son article.
+
+       ETAT DE DEPART : le generateur ne rendait QU'UNE tache, un tirage
+       equiprobable parmi des elements numerotes — 4 moules, aucune banque pour
+       le professeur. L'evaluation teste pourtant l'urne a plusieurs couleurs
+       (Q2, ou le total n'est PAS donne), l'evenement contraire (Q3) et
+       l'evenement impossible (Q4) : trois questions sur cinq sans exercice
+       d'entrainement, et une remediation sans renvoi possible.
+
+       On ajoute ces trois taches, chacune adossee a une erreur frequente :
+         - l'urne melangee, ou l'eleve doit CONSTRUIRE le total des cas ;
+         - l'evenement contraire, ou il soustrait a 100 au lieu de 1 ;
+         - l'evenement impossible ou certain, qui fixe les bornes 0 et 1. */
     exercice: {
       type: 'numeric',
       generate() {
+        const tache = pick(['tirage', 'urne', 'contraire', 'borne']);
+
+        if (tache === 'urne') {
+          /* Le total n'est PAS donne : l'eleve doit l'additionner lui-meme.
+             C'est la difficulte de la question 2 de l'evaluation, et aucun
+             exercice ne la travaillait. Effectifs choisis pour que la
+             probabilite tombe a deux decimales. */
+          const couleurs = pick([
+            { a: 'rouges', b: 'bleues', c: 'vertes' },
+            { a: 'jaunes', b: 'noires', c: 'blanches' },
+            { a: 'rouges', b: 'vertes', c: 'oranges' }
+          ]);
+          const n1 = rand(2, 8), n2 = rand(2, 8), n3 = rand(2, 8);
+          const total = n1 + n2 + n3;
+          const cible = pick([
+            { nom: couleurs.a, eff: n1 },
+            { nom: couleurs.b, eff: n2 },
+            { nom: couleurs.c, eff: n3 }
+          ]);
+          const p = parseFloat((cible.eff / total).toFixed(2));
+          return {
+            statement: `🎱 Un sac contient $${n1}$ billes ${couleurs.a}, $${n2}$ ${couleurs.b} et $${n3}$ ${couleurs.c}. On en tire une au hasard.<br/>Quelle est la probabilité de tirer une bille ${cible.nom} ? Arrondis à $0{,}01$.`,
+            answer: p,
+            tolerance: 0.01,
+            unit: '',
+            hint: `Le nombre total de billes n'est pas donné : commence par l'additionner.<br/><br/>Puis compare l'effectif de la couleur cherchée à ce total.`,
+            solution: [
+              `Total des billes : $${n1} + ${n2} + ${n3} = ${total}$.`,
+              `Billes ${cible.nom} : $${cible.eff}$.`,
+              `$P = \\dfrac{${cible.eff}}{${total}} = ${fr(p)}$.`,
+              `Contrôle : une probabilité est toujours comprise entre $0$ et $1$.`
+            ]
+          };
+        }
+
+        if (tache === 'contraire') {
+          /* Evenement CONTRAIRE : l'eleve doit soustraire a 1, pas a 100.
+             La probabilite de depart est un multiple de 0,05 pour que le
+             complement tombe juste. */
+          const jeu = pick(['un jeu de fléchettes', 'une tombola', 'un jeu vidéo', 'un concours de tir']);
+          const p = rand(1, 19) * 5 / 100;           // de 0,05 a 0,95
+          const q = parseFloat((1 - p).toFixed(2));
+          return {
+            statement: `🎯 À ${jeu}, la probabilité de gagner est $${fr(p)}$.<br/>Quelle est la probabilité de <strong>perdre</strong> ?`,
+            answer: q,
+            tolerance: 0.01,
+            unit: '',
+            hint: `Gagner ou perdre : l'un des deux arrive forcément.<br/><br/>Les deux probabilités réunies valent donc la <strong>certitude</strong>, c'est-à-dire $1$ — et non $100$.`,
+            solution: [
+              `L'événement contraire de « gagner » est « perdre ».`,
+              `$P(\\text{perdre}) = 1 - ${fr(p)} = ${fr(q)}$.`,
+              `Contrôle : $${fr(p)} + ${fr(q)} = 1$ ✓ — la somme d'un événement et de son contraire vaut toujours $1$.`
+            ]
+          };
+        }
+
+        if (tache === 'borne') {
+          /* Evenement IMPOSSIBLE ou CERTAIN : la reponse est 0 ou 1, et c'est
+             ce qui fixe les bornes de l'echelle des probabilites. Les deux cas
+             se presentent, sans quoi l'eleve repondrait toujours pareil. */
+          const faces = pick([6, 8, 10, 12]);
+          const impossible = rand(0, 1) === 1;
+          const valeur = impossible ? faces + rand(1, 4) : faces;
+          return {
+            statement: impossible
+              ? `🎲 On lance un dé à $${faces}$ faces, numérotées de $1$ à $${faces}$.<br/>Quelle est la probabilité d'obtenir $${valeur}$ ?`
+              : `🎲 On lance un dé à $${faces}$ faces, numérotées de $1$ à $${faces}$.<br/>Quelle est la probabilité d'obtenir un nombre inférieur ou égal à $${faces}$ ?`,
+            answer: impossible ? 0 : 1,
+            tolerance: 0,
+            unit: '',
+            hint: impossible
+              ? `Le nombre $${valeur}$ figure-t-il sur ce dé ?<br/><br/>Un événement qui ne peut pas se produire a une probabilité de $0$.`
+              : `Combien de faces vérifient cette condition ?<br/><br/>Un événement qui se produit à coup sûr a une probabilité de $1$.`,
+            solution: impossible
+              ? [
+                  `Le dé ne porte que les numéros de $1$ à $${faces}$ : le nombre $${valeur}$ n'y figure pas.`,
+                  `Aucun cas favorable, donc $P = \\dfrac{0}{${faces}} = 0$.`,
+                  `C'est un événement <strong>impossible</strong> : sa probabilité est nulle.`
+                ]
+              : [
+                  `Toutes les faces portent un numéro inférieur ou égal à $${faces}$.`,
+                  `Les $${faces}$ cas sont favorables, donc $P = \\dfrac{${faces}}{${faces}} = 1$.`,
+                  `C'est un événement <strong>certain</strong> : sa probabilité vaut $1$.`
+                ]
+          };
+        }
+
+        // Tache d'origine, avec l'accord corrige.
         const ctx = pick([
-          { obj: 'roue de loterie', emoji: '🎡' },
-          { obj: 'urne avec des boules numérotées', emoji: '🎱' },
-          { obj: 'jeu de cartes numérotées', emoji: '🃏' },
-          { obj: 'tirage au sort', emoji: '🎲' }
+          { obj: 'une roue de loterie', emoji: '🎡' },
+          { obj: 'une urne de boules numérotées', emoji: '🎱' },
+          { obj: 'un jeu de cartes numérotées', emoji: '🃏' },
+          { obj: 'un tirage au sort', emoji: '🎲' }
         ]);
         const total = pick([6, 8, 10, 12]);
         const fav = rand(1, total - 1);
         const p = parseFloat((fav / total).toFixed(2));
         return {
-          statement: `${ctx.emoji} Un(e) ${ctx.obj} comporte $${total}$ éléments numérotés de $1$ à $${total}$, tous équiprobables. On gagne si le numéro tiré est $\\leq ${fav}$. Quelle est la probabilité de gagner (arrondie à $0{,}01$) ?`,
+          statement: `${ctx.emoji} ${ctx.obj.charAt(0).toUpperCase() + ctx.obj.slice(1)} comporte $${total}$ éléments numérotés de $1$ à $${total}$, tous équiprobables. On gagne si le numéro tiré est $\\leq ${fav}$.<br/>Quelle est la probabilité de gagner ? Arrondis à $0{,}01$.`,
           answer: p,
           tolerance: 0.01,
           unit: '',
-          hint: `$P = \\dfrac{\\text{cas favorables}}{\\text{cas possibles}} = \\dfrac{${fav}}{${total}}$.`,
-          solution: [`$P = \\dfrac{${fav}}{${total}} = ${fr(p)}$.`]
+          hint: `Compte les numéros qui font gagner : ce sont ceux de $1$ à $${fav}$, donc $${fav}$ numéros.<br/><br/>$P = \\dfrac{\\text{cas favorables}}{\\text{cas possibles}}$.`,
+          solution: [
+            `Cas favorables : les numéros de $1$ à $${fav}$, soit $${fav}$ cas.`,
+            `Cas possibles : $${total}$.`,
+            `$P = \\dfrac{${fav}}{${total}} = ${fr(p)}$.`
+          ]
         };
       }
     },
-
     probleme: {
       context: 'Une classe de $30$ élèves tire au sort un délégué. Il y a $13$ filles et $17$ garçons.',
       tasks: [

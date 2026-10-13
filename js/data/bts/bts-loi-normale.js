@@ -222,13 +222,36 @@ window.MODULES.push(
           correction: 'Règle empirique $68$-$95$-$99{,}7$ : $\\pm 1\\sigma \\to 68{,}3\\%$, $\\pm 2\\sigma \\to 95{,}4\\%$, $\\pm 3\\sigma \\to 99{,}7\\%$.'
         },
         {
-          statement: 'Un échantillon de $n = 64$ mesures donne $\\bar{x} = 120$ et $\\sigma = 16$. Calculer la demi-largeur de l\'intervalle de confiance à $95\\%$ : $1{,}96 \\times \\dfrac{\\sigma}{\\sqrt{n}}$.',
-          type: 'numeric',
-          answer: 3.92,
-          tolerance: 0.02,
-          unit: '',
+          /* Question « communiquer » (réécrite le 2026-09-17). Elle écrivait la
+             formule $1{,}96 \times \sigma/\sqrt{n}$ DANS l'énoncé et n'en
+             demandait que l'application numérique — exactement le même type
+             d'exécution que la Q1 (z-score) du même devoir, avec une donnée
+             de plus. L'énoncé supprimait de lui-même la seule difficulté du
+             chapitre.
+
+             Elle porte désormais sur l'erreur 4 de la fiche professeur —
+             oublier le $\sqrt{n}$ de l'intervalle de confiance — qui est
+             l'une des deux erreurs du chapitre qu'AUCUN exercice du tirage ne
+             travaille (`exercice: null`), et dont la conséquence est une
+             incertitude huit fois trop large sur cet exemple.
+
+             Le calcul reste indispensable et il n'est plus dicté : il faut
+             retrouver $\sqrt{64} = 8$, mener $16/8 = 2$, puis
+             $1{,}96 \times 2 = 3{,}92$, et comparer au $31{,}36$ annoncé pour
+             voir de quel facteur l'élève se trompe. */
+          statement: 'Un échantillon de $n = 64$ mesures donne $\\bar{x} = 120$ et $\\sigma = 16$. Inès calcule l\'intervalle de confiance à $95\\%$ et écrit : « demi-largeur $= 1{,}96 \\times 16 = 31{,}36$, donc l\'intervalle est $[88{,}6\\,;\\,151{,}4]$ ». Quelle explication corrige le mieux son raisonnement ?',
+          type: 'multiple-choice',
+          options: [
+            'Elle a oublié de diviser par $\\sqrt{n}$ : la demi-largeur est $1{,}96 \\times \\dfrac{16}{\\sqrt{64}} = 1{,}96 \\times 2 = 3{,}92$, soit $[116{,}08\\,;\\,123{,}92]$. Son intervalle porte sur une <strong>mesure isolée</strong>, alors que l\'intervalle de confiance porte sur la <strong>moyenne</strong>, bien plus stable.',
+            'Elle a utilisé le mauvais quantile : à $95\\%$ il faut $2{,}58$ et non $1{,}96$, d\'où $[78{,}7\\,;\\,161{,}3]$.',
+            'Son calcul est juste : $\\sigma = 16$ est déjà l\'incertitude sur la moyenne, il n\'y a rien à diviser.',
+            'Elle aurait dû diviser par $n$ et non par $\\sqrt{n}$ : la demi-largeur vaut $1{,}96 \\times \\dfrac{16}{64} = 0{,}49$.'
+          ],
+          answer: 0,
           points: 3,
-          correction: 'Demi-largeur $= 1{,}96 \\times \\dfrac{16}{\\sqrt{64}} = 1{,}96 \\times \\dfrac{16}{8} = 1{,}96 \\times 2 = 3{,}92$. L\'IC est $[120 - 3{,}92\\,;\\,120 + 3{,}92] = [116{,}08\\,;\\,123{,}92]$.'
+          correction: 'Le quantile d\'Inès est le bon : $1{,}96$ est bien celui de $95\\%$ pour la loi normale ($2{,}58$ correspond à $99\\%$, ce qui écarte la proposition 2). Ce qu\'elle a perdu en route, c\'est le $\\sqrt{n}$.<br/><br/>' +
+            'La formule complète est demi-largeur $= 1{,}96 \\times \\dfrac{\\sigma}{\\sqrt{n}}$. Ici $\\sqrt{64} = 8$, donc $\\dfrac{16}{8} = 2$ et la demi-largeur vaut $1{,}96 \\times 2 = 3{,}92$. L\'intervalle correct est $[120 - 3{,}92\\,;\\,120 + 3{,}92] = [116{,}08\\,;\\,123{,}92]$, <strong>huit fois plus étroit</strong> que celui d\'Inès.<br/><br/>' +
+            'La raison de ce $\\sqrt{n}$ mérite d\'être comprise plutôt que retenue. Le $\\sigma = 16$ décrit la dispersion d\'<strong>une</strong> mesure ; l\'intervalle de confiance, lui, encadre la <strong>moyenne de soixante-quatre</strong> mesures, et une moyenne fluctue beaucoup moins qu\'une valeur isolée. Plus l\'échantillon grandit, plus l\'intervalle rétrécit — c\'est tout l\'intérêt de mesurer plusieurs fois, et c\'est ce que la proposition 3 ignore. Attention toutefois au diviseur exact : c\'est $\\sqrt{n} = 8$, non $n = 64$, sans quoi on obtiendrait les $0{,}49$ de la proposition 4, cette fois bien trop optimistes.'
         },
         {
           statement: 'La centration-réduction $Z = \\dfrac{X - \\mu}{\\sigma}$ transforme $X \\sim \\mathcal{N}(\\mu, \\sigma^2)$ en :',

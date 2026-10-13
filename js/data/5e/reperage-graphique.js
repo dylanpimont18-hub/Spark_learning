@@ -13,7 +13,16 @@ window.MODULES.push({
     physics: 'Suivi de croissance en SVT, relevés météo, mouvement à vitesse constante en physique-chimie',
 
     cours: {
-      intro: 'Un graphique traduit visuellement une relation entre deux grandeurs. L\'axe horizontal (<strong>abscisse</strong>) porte la variable que l\'on contrôle, l\'axe vertical (<strong>ordonnée</strong>) porte ce que l\'on observe.<br/><br/>' +
+      /* DECOUVRIR REECRIT LE 2026-09-13. L'intro ouvrait sur « un graphique
+         traduit une relation entre deux grandeurs », soit la definition du mot
+         graphique. La question retenue oppose deux estimations qui se
+         RESSEMBLENT — meme droite, meme geste — et dont une seule est
+         legitime : c'est la distinction interpoler/extrapoler, qui est le cœur
+         du chapitre et sa seule vraie difficulte. */
+      intro: 'Un plant mesure $12$ cm au bout de $2$ semaines et $28$ cm au bout de $6$ semaines. Peux-tu estimer sa taille à $4$ semaines ? Et à $50$ semaines ?<br/><br/>' +
+        'Les deux questions se ressemblent, et la même droite semble répondre aux deux. Pourtant la première estimation est raisonnable — $4$ semaines tombe <strong>entre</strong> les deux mesures — tandis que la seconde annoncerait $2$ mètres de haut pour une plante en pot.<br/><br/>' +
+        'Prolonger une droite est un geste facile ; savoir jusqu\'où on a le droit de le faire est tout le sujet.<br/><br/>' +
+        'Un graphique traduit visuellement une relation entre deux grandeurs. L\'axe horizontal (<strong>abscisse</strong>) porte la variable que l\'on contrôle, l\'axe vertical (<strong>ordonnée</strong>) porte ce que l\'on observe.<br/><br/>' +
         '<strong>Interpoler</strong> signifie estimer une valeur entre deux points mesurés — c\'est fiable si la courbe est régulière. <strong>Extrapoler</strong> signifie prolonger au-delà des mesures — c\'est risqué car une courbe linéaire dans une plage peut devenir non linéaire ailleurs.<br/><br/>' +
         'La <strong>pente</strong> d\'une droite $a = \\dfrac{\\Delta y}{\\Delta x}$ a toujours un sens concret : si $y$ = distance parcourue et $x$ = temps, alors $a$ est une <strong>vitesse</strong> (en km/h par exemple) — le nombre de km gagnés à chaque heure qui passe.<br/><br/>' +
         'Ne jamais lire un graphe sans vérifier les <strong>unités sur les axes</strong> et l\'origine. Un graphique sans légende est inutilisable !',
@@ -87,6 +96,175 @@ window.MODULES.push({
         reading: 'Toujours lire l’abscisse sur l’axe horizontal puis l’ordonnée sur l’axe vertical. Le couple s’écrit dans cet ordre : $(x ; y)$.',
         caption: 'Repère cartésien avec lecture d’un point connu, d’un second point et d’une valeur interpolée sur la droite reliant $A$ et $B$.'
       },
+
+      /* SCHEMAS SECONDAIRES (2026-09-13) — une figure par MALENTENDU.
+         Les trois retenus sont les trois pieges que l'intro du cours nomme
+         elle-meme, et qu'aucun encadre ne peut lever :
+           1. interpoler et extrapoler traites comme le meme geste ;
+           2. la pente calculee en melangeant l'ordre des soustractions ;
+           3. la pente jugee A L'OEIL, alors qu'elle depend de l'echelle.
+
+         La figure 3 est la plus importante des trois et la moins attendue :
+         c'est la seule qui apprend a se MEFIER du dessin, ce que le cours exige
+         (« ne jamais lire un graphe sans verifier les unites sur les axes »).
+
+         Toutes les coordonnees sont CALCULEES a partir des donnees du chapitre
+         (le plant du probleme : 12 cm a 2 semaines, 28 cm a 6 semaines, donc
+         une pente de 4 cm par semaine exactement) puis converties en
+         coordonnees ecran par une echelle explicite, jamais posees a la main. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Entre ou au-delà',
+          title: 'Interpoler est sûr, extrapoler ne l\'est pas',
+          description: 'Entre deux mesures, prolonger la régularité observée est raisonnable : c\'est <strong>interpoler</strong>. Au-delà de la dernière mesure, plus rien ne garantit qu\'elle continue : c\'est <strong>extrapoler</strong>. Le même trait de crayon, mais pas du tout la même confiance.',
+          svg: `
+            <svg viewBox="0 0 400 210" role="img" aria-labelledby="repere-interp-title repere-interp-desc">
+              <title id="repere-interp-title">Zone d'interpolation et zone d'extrapolation autour de deux mesures</title>
+              <desc id="repere-interp-desc">Un repere porte en abscisse les semaines et en ordonnee la hauteur d'un plant en centimetres. Deux mesures sont marquees : 12 centimetres a 2 semaines et 28 centimetres a 6 semaines. Entre ces deux mesures, la droite est tracee en trait plein : c'est la zone d'interpolation, ou l'estimation est fiable, et la hauteur estimee a 4 semaines y vaut 20 centimetres. Au-dela de la derniere mesure, la droite est prolongee en trait tirete jusqu'a 20 semaines, ou elle annoncerait 84 centimetres : c'est la zone d'extrapolation, ou l'estimation n'est plus garantie, car une plante finit par ralentir sa croissance. Les deux zones sont distinguees par la nature du trait et par une etiquette chacune.</desc>
+
+              <!-- Axes. Echelle CALCULEE : 16 unites d'ecran par semaine en
+                   abscisse (0 a 20 semaines de x=50 a x=370), 1,4444 unite par
+                   centimetre en ordonnee (0 a 90 cm de y=170 a y=40). -->
+              <line class="axis" x1="50" y1="170" x2="384" y2="170"></line>
+              <line class="axis" x1="50" y1="170" x2="50" y2="34"></line>
+              <text class="axis-label" x="384" y="188" text-anchor="end">semaines</text>
+              <text class="axis-label" x="44" y="34" text-anchor="end">hauteur en cm</text>
+
+              <!-- Zone d'INTERPOLATION : entre les deux mesures, trait plein. -->
+              <line class="curve-main" x1="82" y1="152.7" x2="146" y2="129.6"></line>
+              <!-- Zone d'EXTRAPOLATION : au-dela, trait tirete et teinte faible.
+                   Meme droite prolongee jusqu'a 20 semaines (84 cm). -->
+              <line class="guide-line" x1="146" y1="129.6" x2="370" y2="48.75" stroke-dasharray="6 5"></line>
+
+              <!-- Les deux mesures, en plot-point fort : ce sont les seuls faits
+                   du dessin, tout le reste en est deduit. -->
+              <circle class="plot-point" cx="82" cy="152.7" r="4"></circle>
+              <text class="tick-label" x="76" y="146" text-anchor="end">12 cm</text>
+              <circle class="plot-point" cx="146" cy="129.6" r="4"></circle>
+              <text class="tick-label" x="152" y="122" text-anchor="start">28 cm</text>
+
+              <!-- La valeur interpolee : cercle VIDE, parce qu'elle est estimee
+                   et non mesuree. -->
+              <circle class="plot-point-alt" cx="114" cy="141.1" r="4"></circle>
+              <text class="label-soft" x="114" y="196" text-anchor="middle">4 sem : 20 cm</text>
+              <line class="grid-line" x1="114" y1="141.1" x2="114" y2="170" stroke-dasharray="3 3"></line>
+
+              <circle class="plot-point-alt" cx="370" cy="48.75" r="4"></circle>
+              <text class="label-soft" x="364" y="42" text-anchor="end">20 sem : 84 cm ?</text>
+
+              <text class="annotation-label" x="114" y="112" text-anchor="middle">interpoler</text>
+              <text class="tick-label" x="114" y="96" text-anchor="middle">entre les mesures</text>
+              <text class="label-soft" x="278" y="112" text-anchor="middle">extrapoler</text>
+              <text class="tick-label" x="278" y="96" text-anchor="middle">au-delà, sans garantie</text>
+            </svg>
+          `,
+          notes: [
+            'Les deux mesures donnent une croissance de $4$ cm par semaine : $\\dfrac{28 - 12}{6 - 2} = \\dfrac{16}{4} = 4$.',
+            'À $4$ semaines, on est <strong>entre</strong> les deux mesures : l\'estimation de $20$ cm est fiable.',
+            'À $20$ semaines, la droite annoncerait $84$ cm, soit près d\'un mètre. Aucune mesure ne le confirme, et une plante <strong>ralentit</strong> en vieillissant : l\'extrapolation est ici franchement fausse.'
+          ],
+          reading: 'Repère d\'abord les deux points mesurés : ce sont les seuls faits. Entre eux, tu peux lire la droite en confiance. Au-delà, tu ne lis plus une mesure mais une hypothèse — d\'où le trait en pointillés.',
+          caption: 'Zone d\'interpolation (trait plein, entre les mesures) et zone d\'extrapolation (pointillés, au-delà) pour un plant de $12$ cm à $2$ semaines et $28$ cm à $6$ semaines.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Lire une pente',
+          title: 'La pente se lit sur un triangle',
+          description: 'La pente n\'est pas une formule à retenir mais une <strong>forme à repérer</strong> : entre deux points de la droite, on avance horizontalement, on monte verticalement, et la pente est le rapport des deux. L\'essentiel est de faire les deux soustractions <strong>dans le même ordre</strong>.',
+          svg: `
+            <svg viewBox="0 0 400 208" role="img" aria-labelledby="repere-pente-title repere-pente-desc">
+              <title id="repere-pente-title">Le triangle qui donne la pente entre deux points d'une droite</title>
+              <desc id="repere-pente-desc">Une droite passe par le point A de coordonnees 2 et 12 et par le point B de coordonnees 6 et 28. Un triangle rectangle est trace sous la droite : son cote horizontal va de A jusqu'a l'aplomb de B et mesure 4 unites en abscisse, son cote vertical remonte de la jusqu'a B et mesure 16 unites en ordonnee. La pente vaut donc 16 divise par 4, soit 4. Un rappel ecrit precise que les deux soustractions doivent se faire dans le meme ordre, de A vers B au numerateur comme au denominateur.</desc>
+
+              <!-- Echelle CALCULEE : 35,5 unites d'ecran par unite d'abscisse
+                   (0 a 8), 4 unites par unite d'ordonnee (0 a 32).
+                   A(2;12) -> (127,120) ; B(6;28) -> (269,56). -->
+              <line class="axis" x1="56" y1="168" x2="384" y2="168"></line>
+              <line class="axis" x1="56" y1="168" x2="56" y2="30"></line>
+              <text class="axis-label" x="384" y="186" text-anchor="end">semaines</text>
+              <text class="axis-label" x="50" y="30" text-anchor="end">hauteur en cm</text>
+
+              <!-- La droite passe EXACTEMENT par A(127,120) et B(269,56), pente
+                   ecran -0,450704. Ses extremites sont CALCULEES sur cette
+                   droite, pas arrondies : posees a y=136 et y=32, les deux
+                   points marques tombaient a cote du trait (produits vectoriels
+                   48 et 32 au lieu de 0), ce qu'aucune relecture n'aurait vu. -->
+              <line class="curve-main" x1="91" y1="136.2" x2="322" y2="32.1"></line>
+
+              <!-- Le TRIANGLE de pente, en guide-line : il se lit sous la droite
+                   sans la concurrencer. -->
+              <line class="guide-line" x1="127" y1="120" x2="269" y2="120"></line>
+              <line class="guide-line" x1="269" y1="120" x2="269" y2="56"></line>
+              <path class="axis" d="M257 120 L257 108 L269 108"></path>
+
+              <circle class="plot-point" cx="127" cy="120" r="4"></circle>
+              <text class="annotation-label" x="119" y="114" text-anchor="end">A</text>
+              <circle class="plot-point" cx="269" cy="56" r="4"></circle>
+              <text class="annotation-label" x="277" y="50" text-anchor="start">B</text>
+
+              <text class="tick-label" x="198" y="138" text-anchor="middle">on avance de 4</text>
+              <text class="tick-label" x="279" y="92" text-anchor="start">on monte de 16</text>
+
+              <text class="annotation-label" x="60" y="196" text-anchor="start">pente = 16 ÷ 4 = 4 cm par semaine</text>
+            </svg>
+          `,
+          notes: [
+            'On avance de $6 - 2 = 4$ semaines et l\'on monte de $28 - 12 = 16$ cm.',
+            'La pente vaut $\\dfrac{16}{4} = 4$, et son unité se lit sur les axes : des <strong>cm par semaine</strong>.',
+            'Les deux soustractions vont de $A$ vers $B$, en haut comme en bas. Les inverser au numérateur seulement donnerait $-4$, une plante qui rapetisse.'
+          ],
+          reading: 'Pars de $A$, avance horizontalement jusqu\'à te placer sous $B$, puis monte jusqu\'à $B$. Tu viens de dessiner le triangle. La pente est simplement « ce que tu as monté » divisé par « ce que tu as avancé ».',
+          caption: 'Le triangle de pente entre $A(2 ; 12)$ et $B(6 ; 28)$ : on avance de $4$, on monte de $16$, la pente vaut $4$ cm par semaine.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Se méfier des axes',
+          title: 'La même croissance, deux graphiques très différents',
+          description: 'Ces deux graphiques portent <strong>exactement les mêmes mesures</strong>. Seule l\'échelle de l\'axe vertical change. À gauche la hausse paraît spectaculaire, à droite presque plate — et pourtant la pente calculée est <strong>la même</strong>. C\'est pourquoi on ne juge jamais une évolution à l\'œil.',
+          svg: `
+            <svg viewBox="0 0 400 216" role="img" aria-labelledby="repere-echelle-title repere-echelle-desc">
+              <title id="repere-echelle-title">Les memes mesures tracees avec deux echelles verticales differentes</title>
+              <desc id="repere-echelle-desc">Deux graphiques cote a cote portent les memes deux mesures : 12 centimetres a 2 semaines et 28 centimetres a 6 semaines. Le graphique de gauche a un axe vertical gradue de 10 a 30 centimetres seulement, si bien que la droite y monte tres fortement. Le graphique de droite a un axe vertical gradue de 0 a 100 centimetres, si bien que la meme droite y parait presque horizontale. La pente calculee vaut pourtant 4 centimetres par semaine dans les deux cas. Les deux dessins ont la meme largeur et la meme hauteur, et seule la graduation de leur axe vertical differe.</desc>
+
+              <!-- GAUCHE : axe vertical de 10 a 30 cm (plage 20). Les mesures 12
+                   et 28 occupent donc presque toute la hauteur. -->
+              <line class="axis" x1="40" y1="160" x2="176" y2="160"></line>
+              <line class="axis" x1="40" y1="160" x2="40" y2="46"></line>
+              <text class="tick-label" x="34" y="164" text-anchor="end">10</text>
+              <text class="tick-label" x="34" y="52" text-anchor="end">30</text>
+              <line class="curve-main" x1="74" y1="148.6" x2="142" y2="57.4"></line>
+              <circle class="plot-point" cx="74" cy="148.6" r="4"></circle>
+              <circle class="plot-point" cx="142" cy="57.4" r="4"></circle>
+              <text class="tick-label" x="108" y="178" text-anchor="middle">axe de 10 à 30</text>
+              <text class="label-soft" x="108" y="196" text-anchor="middle">ça flambe</text>
+
+              <!-- DROITE : axe vertical de 0 a 100 cm (plage 100), MEME hauteur
+                   de dessin. Les memes mesures y occupent cinq fois moins de
+                   place : 12 cm et 28 cm sont proches du bas. -->
+              <line class="axis" x1="236" y1="160" x2="372" y2="160"></line>
+              <line class="axis" x1="236" y1="160" x2="236" y2="46"></line>
+              <text class="tick-label" x="230" y="164" text-anchor="end">0</text>
+              <text class="tick-label" x="230" y="52" text-anchor="end">100</text>
+              <line class="curve-main" x1="270" y1="146.3" x2="338" y2="128.1"></line>
+              <circle class="plot-point" cx="270" cy="146.3" r="4"></circle>
+              <circle class="plot-point" cx="338" cy="128.1" r="4"></circle>
+              <text class="tick-label" x="304" y="178" text-anchor="middle">axe de 0 à 100</text>
+              <text class="label-soft" x="304" y="196" text-anchor="middle">ça stagne</text>
+
+              <text class="annotation-label" x="200" y="22" text-anchor="middle">mêmes mesures, même pente : 4 cm par semaine</text>
+              <text class="tick-label" x="200" y="38" text-anchor="middle">12 cm à 2 semaines, 28 cm à 6 semaines</text>
+            </svg>
+          `,
+          notes: [
+            'À gauche, l\'axe vertical ne couvre que $20$ cm : la montée de $16$ cm y occupe presque toute la hauteur.',
+            'À droite, il couvre $100$ cm : la même montée de $16$ cm n\'occupe plus qu\'un sixième environ.',
+            'Dans les deux cas la pente vaut $\\dfrac{28 - 12}{6 - 2} = 4$ cm par semaine. L\'impression visuelle a changé, <strong>le fait n\'a pas bougé</strong>.'
+          ],
+          reading: 'Avant de dire qu\'une courbe « explose » ou « stagne », lis les graduations de l\'axe vertical : c\'est là que se joue l\'impression. Puis calcule la pente, qui est le seul nombre que l\'échelle ne peut pas déformer.',
+          caption: 'Les mêmes mesures ($12$ cm à $2$ semaines, $28$ cm à $6$ semaines) tracées sur un axe vertical de $10$ à $30$ puis de $0$ à $100$ : la pente vaut $4$ cm/semaine dans les deux cas.'
+        }
+      ],
       method: {
         title: 'Méthode en 3 étapes',
         steps: [
@@ -140,7 +318,117 @@ window.MODULES.push({
 
     exercice: {
       type: 'numeric',
+      /* BANQUE ELARGIE LE 2026-09-13.
+
+         C'etait le chapitre le plus pauvre de l'ouvrage : quatre contextes,
+         UNE tache (calculer une pente), et une banque du professeur
+         litteralement VIDE — le tirage s'arretait a 12 enonces, soit le nombre
+         exact d'exercices de l'edition eleve, donc zero supplement. Les
+         remediations de la fiche n'avaient nulle part ou renvoyer.
+
+         Trois taches ajoutees, prises dans ce que le chapitre annonce et
+         n'entrainait pas :
+           - INTERPOLER une valeur intermediaire, qui est le titre meme du
+             chapitre et n'apparaissait que dans le probleme ;
+           - LIRE une coordonnee, l'attendu le plus elementaire, absent ;
+           - DECIDER si une estimation releve de l'interpolation ou de
+             l'extrapolation, qui est la seule difficulte conceptuelle du
+             chapitre et le sujet de sa question d'evaluation reecrite.
+         Mesure avant/apres : 1 tache pour 12 enonces -> 4 taches, 42 enonces. */
       generate() {
+        const tache = pick(['pente', 'pente', 'interpoler', 'lire', 'decider']);
+
+        /* TACHE 2 — interpoler a mi-chemin. On impose une abscisse au MILIEU
+           des deux mesures : l'ordonnee cherchee est alors la moyenne des deux,
+           donc entiere ou a une decimale, sans division penible. */
+        if (tache === 'interpoler') {
+          const ctx = pick([
+            { nom: 'la température d\'un four', unitX: 'min', unitY: '°C' },
+            { nom: 'le niveau d\'eau d\'une citerne', unitX: 'h', unitY: 'cm' },
+            { nom: 'la distance parcourue par un train', unitX: 'h', unitY: 'km' },
+            { nom: 'la masse de compost accumulée', unitX: 'semaines', unitY: 'kg' }
+          ]);
+          const x1 = rand(1, 4);
+          const ecart = 2 * rand(1, 3);          // pair : le milieu tombe juste
+          const x2 = x1 + ecart;
+          const y1 = rand(5, 40);
+          const y2 = y1 + 2 * rand(2, 12);       // pair : la moyenne est entiere
+          const xm = (x1 + x2) / 2, ym = (y1 + y2) / 2;
+          return {
+            statement: `On relève ${ctx.nom} à deux instants : $${y1}$ ${ctx.unitY} à $${x1}$ ${ctx.unitX}, puis $${y2}$ ${ctx.unitY} à $${x2}$ ${ctx.unitX}. Entre les deux, l'évolution est régulière.<br/><br/>Par <strong>interpolation</strong>, estime la valeur à $${xm}$ ${ctx.unitX}, en ${ctx.unitY}.`,
+            answer: ym,
+            tolerance: 0.02,
+            unit: ctx.unitY,
+            hint: `$${xm}$ est exactement au <strong>milieu</strong> de $${x1}$ et $${x2}$.<br/><br/>Si l'évolution est régulière, la valeur cherchée est donc au milieu de $${y1}$ et $${y2}$ : c'est leur moyenne.`,
+            solution: [
+              `Interpoler à mi-chemin revient à prendre la moyenne des deux mesures qui encadrent.`,
+              `L'abscisse $${xm}$ est au milieu de $${x1}$ et $${x2}$.`,
+              `L'évolution étant régulière, l'ordonnée est au milieu de $${y1}$ et $${y2}$ : $\\dfrac{${y1} + ${y2}}{2} = ${fr(ym)}$ ${ctx.unitY}.`,
+              `L'estimation est ici fiable, car $${xm}$ se situe <strong>entre</strong> les deux mesures.`
+            ]
+          };
+        }
+
+        /* TACHE 3 — lire une coordonnee. L'attendu le plus elementaire du
+           chapitre, et le seul que la banque n'exercait pas du tout. Le piege
+           vise est l'inversion abscisse/ordonnee, erreur numero un du chapitre
+           d'apres la fiche professeur. */
+        if (tache === 'lire') {
+          const px = rand(-6, 8), py = rand(-6, 8);
+          const quoi = pick([
+            { mot: 'abscisse', val: px, rang: 'premier' },
+            { mot: 'ordonnée', val: py, rang: 'second' }
+          ]);
+          const ctx = pick([
+            { nom: 'une balise de randonnée', lettre: 'B' },
+            { nom: 'un trésor sur une carte', lettre: 'T' },
+            { nom: 'une station de métro sur un plan', lettre: 'S' },
+            { nom: 'un pion sur un damier', lettre: 'P' }
+          ]);
+          return {
+            statement: `Dans un repère, ${ctx.nom} occupe le point $${ctx.lettre}(${px} ; ${py})$.<br/><br/>Quelle est son <strong>${quoi.mot}</strong> ?`,
+            answer: quoi.val,
+            tolerance: 0,
+            unit: '',
+            hint: `Dans un couple $(x ; y)$, l'abscisse vient <strong>toujours en premier</strong> et l'ordonnée en second.<br/><br/>L'abscisse se lit sur l'axe horizontal, l'ordonnée sur l'axe vertical.`,
+            solution: [
+              `Dans un couple de coordonnées, l'abscisse s'écrit toujours avant l'ordonnée.`,
+              `Le point s'écrit $${ctx.lettre}(${px} ; ${py})$ : son abscisse vaut $${px}$ et son ordonnée $${py}$.`,
+              `L'${quoi.mot} est donc $${quoi.val}$, c'est le ${quoi.rang} des deux nombres.`
+            ]
+          };
+        }
+
+        /* TACHE 4 — interpolation ou extrapolation. C'est le cœur conceptuel du
+           chapitre, celui que l'evaluation teste depuis sa reecriture, et qu'un
+           eleve peut manquer tout en calculant parfaitement des pentes.
+           Reponse 1 / 0, format du projet pour une question a trancher. */
+        if (tache === 'decider') {
+          const ctx = pick([
+            { nom: 'la croissance d\'un plant', unitX: 'semaines', limite: 'une plante finit par ralentir' },
+            { nom: 'la charge d\'une batterie', unitX: 'min', limite: 'une batterie sature une fois pleine' },
+            { nom: 'le remplissage d\'un réservoir', unitX: 'min', limite: 'un réservoir déborde une fois plein' },
+            { nom: 'la fonte d\'un glaçon', unitX: 'min', limite: 'la fonte s\'arrête quand tout est fondu' }
+          ]);
+          const x1 = rand(1, 4), x2 = x1 + rand(3, 6);
+          const dedans = pick([true, false]);
+          const xq = dedans ? x1 + Math.max(1, Math.floor((x2 - x1) / 2)) : x2 + rand(4, 15);
+          return {
+            statement: `On a mesuré ${ctx.nom} à $${x1}$ ${ctx.unitX} puis à $${x2}$ ${ctx.unitX}, et l'évolution entre ces deux relevés est régulière.<br/><br/>On veut maintenant estimer la valeur à $${xq}$ ${ctx.unitX}. Cette estimation est-elle une <strong>interpolation</strong>, donc fiable ? Réponds par $1$ pour oui, $0$ pour non.`,
+            answer: dedans ? 1 : 0,
+            tolerance: 0,
+            unit: '',
+            hint: `Regarde d'abord où se situe $${xq}$ par rapport aux deux mesures, $${x1}$ et $${x2}$.<br/><br/>Entre les deux, on interpole et l'estimation est fiable. Au-delà, on extrapole et plus rien ne la garantit.`,
+            solution: [
+              `Une estimation est fiable si elle tombe entre les mesures, risquée si elle les dépasse.`,
+              `Les mesures encadrent l'intervalle de $${x1}$ à $${x2}$ ${ctx.unitX}.`,
+              dedans
+                ? `La valeur $${xq}$ est <strong>dans</strong> cet intervalle : c'est bien une interpolation, et l'estimation est fiable.`
+                : `La valeur $${xq}$ est <strong>au-delà</strong> de la dernière mesure : c'est une extrapolation, et rien ne la garantit — ${ctx.limite}.`
+            ]
+          };
+        }
+
         const ctx = pick([
           { name: 'la distance parcourue par un cycliste', unitX: 'h', unitY: 'km' },
           { name: 'le prix total à payer', unitX: 'L', unitY: '€' },
@@ -207,14 +495,37 @@ window.MODULES.push({
           points: 2,
           correction: '$a = \\dfrac{y_B - y_A}{x_B - x_A} = \\dfrac{11 - 3}{5 - 1} = \\dfrac{8}{4} = 2$.'
         },
+        /* QUESTION REECRITE LE 2026-09-13.
+
+           Elle demandait une interpolation a mi-chemin, c'est-a-dire un calcul
+           de pente suivi d'une moyenne — soit la MEME mecanique que la question
+           2, qui demande deja la pente. Deux questions pour une competence, et un
+           TROISIEME « calculer » sur cinq dans un ouvrage ou cette competence
+           pesait 38,6 % du total, au-dela du plafond de 35 %.
+
+           La nouvelle question porte sur la distinction INTERPOLER / EXTRAPOLER
+           appliquee a un cas concret, qui est le cœur du chapitre et sa seule
+           vraie difficulte conceptuelle. Aucun calcul n'est demande : il faut
+           juger la FIABILITE d'une estimation, ce qui est « raisonner ». La
+           reponse 2 est le piege de l'eleve qui prolonge une regularite sans
+           voir qu'elle sort du domaine mesure. */
         {
-          statement: 'Une droite passe par $A(2 ; 7)$ et $B(6 ; 15)$. Par interpolation, quelle est l\'ordonnée du point de cette droite dont l\'abscisse est $x = 4$ (à mi-chemin entre $A$ et $B$) ?',
-          type: 'numeric',
-          answer: 11,
-          tolerance: 0,
-          unit: '',
+          statement: 'Un plant mesuré chaque semaine atteint $12$ cm à $2$ semaines et $28$ cm à $6$ semaines, avec une croissance régulière. Pour laquelle de ces estimations peut-on se fier à cette régularité ?',
+          type: 'multiple-choice',
+          options: [
+            'Sa hauteur à $50$ semaines, en prolongeant la droite.',
+            'Sa hauteur à $4$ semaines, qui est entre les deux mesures.',
+            'Les deux : la droite est valable partout.',
+            'Aucune des deux : on ne peut rien estimer sans mesurer.'
+          ],
+          answer: 1,
           points: 2,
-          correction: 'La pente est $a = \\dfrac{15 - 7}{6 - 2} = 2$. Comme $x = 4$ est à mi-chemin entre $x_A = 2$ et $x_B = 6$, $y$ est à mi-chemin entre $y_A = 7$ et $y_B = 15$, soit $y = 11$.'
+          correction: 'À $4$ semaines, on est ENTRE les deux mesures : c\'est une <strong>interpolation</strong>, ' +
+            'et elle est fiable puisque la régularité a été observée sur cet intervalle (on trouverait $20$ cm). ' +
+            'À $50$ semaines, on sort largement du domaine mesuré : c\'est une <strong>extrapolation</strong>, ' +
+            'et elle suppose que la croissance reste régulière indéfiniment — or un plant finit par cesser de grandir. ' +
+            'La droite donnerait $204$ cm, ce qui est absurde pour ce plant. ' +
+            'La limite n\'est donc pas mathématique mais physique : c\'est ce qui distingue les deux estimations.'
         },
         {
           statement: 'Qu\'appelle-t-on « interpoler » sur un graphique ?',

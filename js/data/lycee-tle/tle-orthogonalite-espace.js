@@ -88,6 +88,138 @@ window.MODULES.push({
         reading: 'Le petit carré tracé au point $H$ signale l\'angle droit entre le segment $[AH]$ et le plan $\\mathcal{P}$ : c\'est la définition même de la perpendiculaire abaissée d\'un point sur un plan.',
         caption: 'Perpendiculaire $[AH]$ abaissée du point $A(3;1;-2)$ sur le plan $\\mathcal{P} : x-2y+2z+1=0$ — reprise exacte de l\'exemple du cours, avec vérification $\\overrightarrow{HA} = -\\frac{2}{9}\\vec{n}$ et $AH = \\frac{2}{3} \\approx 0{,}67$.'
       },
+
+      /* SCHÉMAS SECONDAIRES — ajoutés le 2026-09-14.
+
+         Même projection que le chapitre de géométrie dans l'espace, et pour
+         la même raison : perspective cavalière de convention scolaire, $x$
+         vers la droite, $z$ vers le haut, fuyante $y$ à $45°$ réduite de
+         moitié. C'est une projection AFFINE, donc les arêtes parallèles le
+         restent après projection — vérifié numériquement dans le test du
+         niveau, parce qu'une coordonnée tapée à la main suffirait à casser la
+         propriété sans que rien ne le signale.
+
+         Les trois malentendus retenus :
+           1. « la » distance d'un point à un plan est celle du pied de la
+              perpendiculaire, et c'est la PLUS COURTE — l'élève croit souvent
+              qu'on peut mesurer n'importe où ;
+           2. un produit scalaire nul est un angle droit, y compris entre deux
+              vecteurs qui ne se touchent pas sur le dessin ;
+           3. deux plans sont perpendiculaires quand leurs NORMALES le sont,
+              ce qui est contre-intuitif : on regarde deux directions qui ne
+              sont dans aucun des deux plans.
+
+         Les valeurs numériques sont calculées, et les propriétés vérifiées :
+         $\vec{MH} \cdot \vec{HQ} = 0$ exactement, $MH^2 + HQ^2 = MQ^2$ au
+         flottant près, et $\vec{n_1} \cdot \vec{n_2} = 0$. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Pourquoi ce chemin-là',
+          title: 'La distance se mesure une seule fois',
+          description: 'Entre un point et un plan, on peut tracer une infinité de segments. Un seul mérite le nom de <strong>distance</strong> : celui qui arrive perpendiculairement au plan. Tous les autres sont plus longs, et la figure le montre sans qu\'aucun calcul soit nécessaire.',
+          svg: `
+            <svg viewBox="0 0 333 193" role="img" aria-labelledby="tle-dist-title tle-dist-desc">
+              <title id="tle-dist-title">Distance d un point a un plan, comparee a un autre chemin</title>
+              <desc id="tle-dist-desc">Un plan est represente par un parallelogramme en perspective cavaliere. Un point M est place au-dessus. Deux segments partent de M vers le plan : le premier tombe perpendiculairement au plan en un point H, le second rejoint un autre point Q du plan en biais. Un petit carre en H code l'angle droit. Le segment vertical mesure deux virgule deux unites, le segment oblique environ deux virgule quatre-vingt-sept : le chemin perpendiculaire est bien le plus court des deux.</desc>
+
+              <!-- Le plan, parallelogramme en perspective cavaliere. Teinte
+                   DISCRETE : c'est le decor, pas l'objet a isoler. -->
+              <polygon class="frame-line" points="34,158.8 240.8,158.8 298.4,101.2 91.6,101.2" fill="color-mix(in srgb, var(--diagram-accent) 10%, transparent)"></polygon>
+
+              <!-- Le chemin OBLIQUE, en teinte faible et en tirets : c'est
+                   l'option qu'on ecarte. Patron « piege » : le bon chemin en
+                   teinte d'accent, le mauvais dessous en trait tirete. -->
+              <line class="guide-line" x1="158.8" y1="34" x2="215.2" y2="144.8"></line>
+              <circle class="plot-point-alt" cx="215.2" cy="144.8" r="4"></circle>
+
+              <!-- Le chemin PERPENDICULAIRE, seul objet en teinte forte. -->
+              <line class="curve-main" x1="158.8" y1="34" x2="158.8" y2="130.8"></line>
+              <circle class="plot-point" cx="158.8" cy="34" r="5"></circle>
+              <circle class="plot-point" cx="158.8" cy="130.8" r="4"></circle>
+
+              <!-- Carre codant l'angle droit en H. Un angle droit se code par
+                   un CARRE, jamais par un arc. -->
+              <polyline class="frame-line" points="169.2,133.4 169.2,118.4 158.8,115.8" fill="none"></polyline>
+
+              <text class="tick-label" x="151" y="30" text-anchor="end">M</text>
+              <text class="tick-label" x="151" y="140" text-anchor="end">H</text>
+              <text class="tick-label" x="223" y="152" text-anchor="start">Q</text>
+              <text class="annotation-label" x="150" y="86" text-anchor="end">2,2</text>
+              <text class="label-soft" x="204" y="92" text-anchor="start">2,87</text>
+              <text class="label-soft" x="70" y="176" text-anchor="start">le plan</text>
+            </svg>
+          `,
+          notes: [
+            'Le segment $[MH]$ arrive <strong>perpendiculairement</strong> au plan : le point $H$ est le projeté orthogonal de $M$, et $MH = 2{,}2$.',
+            'Le segment $[MQ]$ rejoint un autre point du plan, en biais : il mesure environ $2{,}87$, donc il est plus long.',
+            'Ce n\'est pas un hasard, c\'est Pythagore. Le triangle $MHQ$ est rectangle en $H$, donc $MQ^2 = MH^2 + HQ^2$. Comme $HQ^2$ ne peut pas être négatif, $MQ$ est toujours au moins égal à $MH$ — quel que soit le point $Q$ choisi dans le plan.'
+          ],
+          reading: 'Déplace mentalement le point $Q$ n\'importe où dans le plan : le segment $[MQ]$ s\'allonge dès que tu t\'éloignes de $H$, et il ne peut jamais devenir plus court. C\'est pourquoi la formule $d = \\dfrac{|ax_0 + by_0 + cz_0 + d|}{\\sqrt{a^2 + b^2 + c^2}}$ donne <strong>un</strong> nombre et non un intervalle : il n\'y a qu\'un seul chemin le plus court, et c\'est celui qui suit la normale.',
+          caption: 'Distance du point $M$ au plan : $MH = 2{,}2$ le long de la perpendiculaire, contre $MQ \\approx 2{,}87$ en biais.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Le contre-intuitif du chapitre',
+          title: 'Deux plans perpendiculaires par leurs normales',
+          description: 'Pour savoir si deux plans sont perpendiculaires, on ne regarde ni l\'un ni l\'autre : on regarde leurs deux vecteurs <strong>normaux</strong>, c\'est-à-dire deux directions qui ne sont dans aucun des deux plans. S\'ils sont orthogonaux, les plans le sont.',
+          svg: `
+            <svg viewBox="0 0 292 168" role="img" aria-labelledby="tle-plans-title tle-plans-desc">
+              <title id="tle-plans-title">Deux plans perpendiculaires et leurs vecteurs normaux</title>
+              <desc id="tle-plans-desc">Deux parallelogrammes representent deux plans qui se coupent le long d'une droite commune. Le premier est horizontal, le second vertical. D'un point de leur droite d'intersection partent deux fleches : l'une monte verticalement, c'est le vecteur normal du plan horizontal ; l'autre part en biais vers l'arriere, c'est le vecteur normal du plan vertical. Un petit carre entre les deux fleches code l'angle droit. Le produit scalaire de ces deux vecteurs normaux vaut zero.</desc>
+
+              <defs>
+                <marker id="fl-tle-plans" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" fill="var(--diagram-accent)"></path>
+                </marker>
+              </defs>
+
+              <!-- Plan horizontal, puis plan vertical. Les deux partagent
+                   l'arete qui va de (32,136) a (192,136) : c'est leur droite
+                   d'intersection, et elle est tracee une seule fois. -->
+              <polygon class="frame-line" points="32,136 192,136 234.4,93.6 74.4,93.6" fill="color-mix(in srgb, var(--diagram-accent) 10%, transparent)"></polygon>
+              <polygon class="frame-line" points="32,136 192,136 192,32 32,32" fill="color-mix(in srgb, var(--diagram-accent) 18%, transparent)"></polygon>
+
+              <!-- Les deux normales, issues du meme point de la droite
+                   d'intersection. Seules elles portent la teinte d'accent. -->
+              <line class="curve-main" x1="112" y1="136" x2="112" y2="76" marker-end="url(#fl-tle-plans)"></line>
+              <line class="curve-main" x1="112" y1="136" x2="133.2" y2="114.8" marker-end="url(#fl-tle-plans)"></line>
+              <circle class="plot-point" cx="112" cy="136" r="4"></circle>
+
+              <!-- Carre codant l'angle droit entre les deux normales. -->
+              <polyline class="frame-line" points="112,120 117.7,114.3 117.7,130.3" fill="none"></polyline>
+
+              <!-- ETIQUETTES REPOSITIONNEES ET RENOMMEES le 2026-09-14, apres
+                   controle visuel du PDF. Deux defauts, invisibles aux tests
+                   parce qu'ils ne portent sur aucune propriete mathematique :
+
+                   1. « normale du plan haut » chevauchait « plan bas » et
+                      traversait l'arete du parallelogramme. Les deux
+                      etiquettes sont desormais ecartees, et celle de la
+                      fuyante passe au-dessus de sa fleche plutot qu'a cote ;
+
+                   2. les noms etaient TROMPEURS : la fleche verticale est la
+                      normale du plan HORIZONTAL, pas du « plan bas ». Un
+                      eleve qui suit la fleche du doigt lisait exactement le
+                      contraire de ce que la figure demontre. Les etiquettes
+                      nomment maintenant l'orientation du plan concerne, ce
+                      qui leve toute ambiguite. -->
+              <text class="annotation-label" x="112" y="64" text-anchor="middle">normale du plan horizontal</text>
+              <text class="annotation-label" x="152" y="108" text-anchor="start">normale du plan vertical</text>
+              <text class="label-soft" x="226" y="152" text-anchor="middle">plan horizontal</text>
+              <text class="label-soft" x="66" y="46" text-anchor="middle">plan vertical</text>
+            </svg>
+          `,
+          notes: [
+            'Le plan horizontal a pour vecteur normal $\\vec{n_1}\\,(0\\,;\\,0\\,;\\,1)$ : il pointe droit vers le haut, donc hors de ce plan.',
+            'Le plan vertical a pour vecteur normal $\\vec{n_2}\\,(0\\,;\\,1\\,;\\,0)$ : il pointe vers l\'arrière, donc hors de ce plan-là.',
+            'Leur produit scalaire vaut $0 \\times 0 + 0 \\times 1 + 1 \\times 0 = 0$ : les deux normales sont orthogonales, <strong>donc les deux plans sont perpendiculaires</strong>.'
+          ],
+          reading: 'Le renversement est déroutant la première fois : on juge deux plans en regardant deux flèches qui n\'appartiennent ni à l\'un ni à l\'autre. Mais c\'est aussi ce qui rend le critère utilisable — une équation de plan te donne directement sa normale, sans aucun travail. Lis $2x - y + 2z - 3 = 0$, tu as déjà $\\vec{n}\\,(2\\,;\\,-1\\,;\\,2)$, et il ne te reste qu\'un produit scalaire à poser.',
+          caption: 'Deux plans perpendiculaires et leurs normales $\\vec{n_1}\\,(0\\,;\\,0\\,;\\,1)$ et $\\vec{n_2}\\,(0\\,;\\,1\\,;\\,0)$, de produit scalaire nul.'
+        }
+      ],
+
       recap: [
         'Test d\'orthogonalité : $\\vec{u} \\perp \\vec{v} \\Leftrightarrow \\vec{u} \\cdot \\vec{v} = 0$. En 3D, on calcule la somme des produits coordonnée par coordonnée.',
         'La <strong>distance point-plan</strong> utilise la formule $d = |ax_0+by_0+cz_0+d| / \\sqrt{a^2+b^2+c^2}$. Ne jamais oublier la valeur absolue au numérateur.',
@@ -103,50 +235,204 @@ window.MODULES.push({
       { q: 'Le projeté orthogonal $H$ de $M(0;0;3)$ sur le plan $z = 0$ est :', options: ['$H(0;0;0)$', '$H(0;0;3)$', '$H(3;0;0)$', '$H(0;3;0)$'], answer: 0, correction: 'Le plan $z=0$ est le plan $xOy$. Le projeté orthogonal consiste à "descendre" perpendiculairement sur le plan : on garde les coordonnées $x$ et $y$ et on met $z=0$.<br/><br/>Donc $H(0;0;0)$. La distance $MH = |3-0| = 3$.' },
       { q: 'Les plans $\\mathcal{P}_1 : x + y + z = 1$ et $\\mathcal{P}_2 : x - y = 0$ sont-ils perpendiculaires ?', options: ['Oui, car $\\vec{n_1} \\cdot \\vec{n_2} = 1 \\times 1 + 1 \\times (-1) + 1 \\times 0 = 0$', 'Non, car $\\vec{n_1} \\cdot \\vec{n_2} = 2$', 'Oui, car les plans ne sont pas parallèles', 'Non, car $\\vec{n_1} \\cdot \\vec{n_2} = -1$'], answer: 0, correction: '$\\vec{n_1}(1;1;1)$ et $\\vec{n_2}(1;-1;0)$.<br/><br/>$\\vec{n_1} \\cdot \\vec{n_2} = 1 \\times 1 + 1 \\times (-1) + 1 \\times 0 = 1 - 1 + 0 = 0$.<br/><br/>Les vecteurs normaux sont orthogonaux, donc les deux plans sont bien <strong>perpendiculaires</strong>.' }
     ],
+    /* BANQUE D'EXERCICES — élargie le 2026-09-14.
+
+       AVANT : une seule tâche distincte (la distance d'un point à un plan),
+       habillée de six décors par pick(). Mesuré sur 400 tirages : 48 moules
+       d'énoncé pour 8 « tâches » apparentes, mais toutes la même question
+       sous des nombres différents.
+
+       APRÈS : six tâches, qui couvrent le chapitre — distance point-plan,
+       test d'orthogonalité de deux vecteurs, droite perpendiculaire à un
+       plan, perpendicularité de deux plans, norme d'un vecteur normal, et
+       coordonnées du projeté orthogonal sur un plan de base.
+
+       Notation décimale : par fr(), jamais par un .replace() écrit à la main.
+       Le générateur d'origine en contenait un (`distAnswer.toFixed(2).replace(...)`),
+       corrigé ce jour — c'est le bug récurrent du corpus. */
     exercice: {
       type: 'numeric',
       generate() {
-        const a = rand(1, 3), b = rand(1, 3), c = rand(1, 3);
-        const d = rand(-5, -1);
-        // Point de référence M variable (ne reste plus figé à l'origine)
-        const x0 = rand(-3, 3), y0 = rand(-3, 3), z0 = rand(-3, 3);
-        const num = Math.abs(a*x0 + b*y0 + c*z0 + d);
-        const denom = parseFloat(Math.sqrt(a*a+b*b+c*c).toFixed(4));
-        const dist = parseFloat((num/denom).toFixed(4));
-        const distAnswer = parseFloat(dist.toFixed(2));
-        const distStr = distAnswer.toFixed(2).replace('.', '{,}');
-        const planeEq = `${a}x+${b}y+${c}z${d}=0`;
-        const numDetail = `${a}\\times${x0}+${b}\\times${y0}+${c}\\times${z0}${d}`;
+        const tache = pick(['distance', 'orthogonaux', 'perpendiculaire',
+                            'deuxPlans', 'normeNormale', 'projete']);
 
-        const ctx = pick([
-          {
-            build: () => `Un <strong>drone de surveillance</strong> survole un site industriel et se situe au point $M(${x0};${y0};${z0})$ (coordonnées en mètres). Le toit du hangar est modélisé par le plan $\\mathcal{P}$ d'équation $${planeEq}$.<br/><br/>Calculer la <strong>distance</strong> du drone $M$ au plan $\\mathcal{P}$. Arrondir à $0{,}01$.`
-          },
-          {
-            build: () => `Sur le chantier d'une <strong>charpente</strong>, le sommet d'une lucarne est repéré par le point $M(${x0};${y0};${z0})$. Le pan de toiture est modélisé par le plan $\\mathcal{P}$ d'équation $${planeEq}$.<br/><br/>Calculer la <strong>distance</strong> entre la lucarne $M$ et le plan du toit $\\mathcal{P}$. Arrondir à $0{,}01$.`
-          },
-          {
-            build: () => `Un <strong>avion</strong> se situe au point $M(${x0};${y0};${z0})$ (coordonnées en km) lorsqu'il amorce sa descente. La piste d'atterrissage est modélisée par le plan $\\mathcal{P}$ d'équation $${planeEq}$.<br/><br/>Calculer la <strong>distance</strong> de l'avion $M$ au plan de la piste $\\mathcal{P}$. Arrondir à $0{,}01$.`
-          },
-          {
-            build: () => `Dans un <strong>jeu vidéo 3D</strong>, un personnage occupe la position $M(${x0};${y0};${z0})$. Le sol de la scène est modélisé par le plan $\\mathcal{P}$ d'équation $${planeEq}$.<br/><br/>Calculer la <strong>distance</strong> qui sépare le personnage $M$ du sol $\\mathcal{P}$. Arrondir à $0{,}01$.`
-          },
-          {
-            build: () => `L'extrémité du bras d'un <strong>robot de soudure</strong> se trouve en $M(${x0};${y0};${z0})$. La plaque métallique à souder correspond au plan $\\mathcal{P}$ d'équation $${planeEq}$.<br/><br/>Calculer la <strong>distance</strong> entre l'outil $M$ et la plaque $\\mathcal{P}$. Arrondir à $0{,}01$.`
-          },
-          {
-            build: () => `Sur la <strong>maquette numérique</strong> d'un bâtiment, un capteur de température est positionné en $M(${x0};${y0};${z0})$. Le mur auquel il pourrait être fixé correspond au plan $\\mathcal{P}$ d'équation $${planeEq}$.<br/><br/>Calculer la <strong>distance</strong> du capteur $M$ au mur $\\mathcal{P}$. Arrondir à $0{,}01$.`
+        /* TÂCHE 1 — distance d'un point à un plan. La tâche historique,
+           conservée : c'est la formule centrale du chapitre. */
+        if (tache === 'distance') {
+          const ctx = pick([
+            { quoi: 'Un drone de surveillance', ou: 'le toit du hangar' },
+            { quoi: 'Un avion en descente', ou: 'le plan de la piste' },
+            { quoi: 'L\'outil d\'un robot de soudure', ou: 'la plaque à souder' },
+            { quoi: 'Un capteur de maquette numérique', ou: 'le mur' }
+          ]);
+          const a = rand(1, 3), b = rand(1, 3), c = rand(1, 3), d = rand(-5, -1);
+          const x0 = rand(-3, 3), y0 = rand(-3, 3), z0 = rand(-3, 3);
+          const num = Math.abs(a * x0 + b * y0 + c * z0 + d);
+          const s = a * a + b * b + c * c;
+          const res = parseFloat((num / Math.sqrt(s)).toFixed(2));
+          return {
+            // 2026-09-14 : « $...z -4 = 0$ » laissait une espace parasite avant
+            // le signe, et « est modélisé » ne s'accordait pas avec les décors
+            // féminins. On compose le terme constant et on neutralise l'accord.
+            statement: `${ctx.quoi} se trouve au point $M(${x0};${y0};${z0})$, et l'on modélise ${ctx.ou} par le plan $\\mathcal{P}$ d'équation $${a}x + ${b}y + ${c}z - ${Math.abs(d)} = 0$.<br/><br/>Calculer la distance de $M$ au plan $\\mathcal{P}$. Arrondir à $0{,}01$.`,
+            answer: res, tolerance: 0.05, unit: 'unités',
+            hint: `$d = \\dfrac{|a x_0 + b y_0 + c z_0 + d|}{\\sqrt{a^2 + b^2 + c^2}}$. Le numérateur est en valeur absolue : une distance ne peut pas être négative, même si le point est du « mauvais » côté du plan.`,
+            solution: [
+              `Numérateur : $|${a} \\times (${x0}) + ${b} \\times (${y0}) + ${c} \\times (${z0}) ${d}| = ${num}$`,
+              `Dénominateur : $\\sqrt{${a}^2 + ${b}^2 + ${c}^2} = \\sqrt{${s}}$`,
+              `$d = \\dfrac{${num}}{\\sqrt{${s}}} \\approx ${fr(res)}$`
+            ]
+          };
+        }
+
+        /* TÂCHE 2 — tester l'orthogonalité de deux vecteurs. La réponse est
+           binaire (1 ou 0), ce qui oblige à CONCLURE et pas seulement à
+           calculer : c'est la différence avec un produit scalaire ordinaire. */
+        if (tache === 'orthogonaux') {
+          const ctx = pick([
+            { quoi: 'deux tirants d\'une charpente' },
+            { quoi: 'deux axes d\'un bras robotisé' },
+            { quoi: 'deux câbles tendus' }
+          ]);
+          const orth = pick([true, false]);
+          let a, b;
+          if (orth) {
+            /* Construction garantissant un produit scalaire EXACTEMENT nul :
+               $\vec{u}(p\,;\,q\,;\,0)$ et $\vec{v}(qr\,;\,-pr\,;\,w)$. Le
+               troisieme produit est nul parce que la cote de u l'est, et les
+               deux premiers s'annulent entre eux : $pqr - qpr = 0$. */
+            const p = rand(1, 4), q = rand(1, 4), r = rand(1, 3);
+            a = [p, q, 0];
+            b = [q * r, -p * r, rand(1, 4)];
+          } else {
+            a = [rand(1, 4), rand(1, 4), rand(1, 4)];
+            b = [rand(1, 4), rand(1, 4), rand(1, 4)];   // produit strictement positif
           }
-        ]);
+          const ps = a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+          const res = ps === 0 ? 1 : 0;
+          return {
+            statement: `On se demande si ${ctx.quoi}, dirigés par $\\vec{u}(${a[0]};${a[1]};${a[2]})$ et $\\vec{v}(${b[0]};${b[1]};${b[2]})$, sont perpendiculaires.<br/><br/>Répondre par $1$ s'ils sont orthogonaux, par $0$ sinon.`,
+            answer: res, tolerance: 0, unit: '',
+            hint: `Deux vecteurs sont orthogonaux exactement quand leur produit scalaire est NUL. Calcule $x_u x_v + y_u y_v + z_u z_v$, puis regarde si tu obtiens $0$ — la valeur elle-même n'a pas d'importance, seul compte le fait qu'elle s'annule ou non.`,
+            solution: [
+              `$\\vec{u} \\cdot \\vec{v} = ${a[0]} \\times ${b[0]} + ${a[1]} \\times (${b[1]}) + ${a[2]} \\times ${b[2]}$`,
+              `$= ${a[0] * b[0]} + ${a[1] * b[1]} + ${a[2] * b[2]} = ${ps}$`,
+              ps === 0
+                ? `Le produit scalaire est nul : les deux vecteurs sont bien orthogonaux, donc la réponse est $1$.`
+                : `Le produit scalaire vaut $${ps}$, qui n'est pas nul : les deux vecteurs ne sont pas orthogonaux, donc la réponse est $0$.`
+            ]
+          };
+        }
 
+        /* TÂCHE 3 — droite perpendiculaire à un plan. Le critère change : ce
+           n'est plus un produit scalaire NUL, c'est une COLINÉARITÉ. L'élève
+           confond systématiquement les deux, et cette tâche les oppose. */
+        if (tache === 'perpendiculaire') {
+          const ctx = pick([
+            // 2026-09-14 : « On veut que un mat... soit perpendiculaire a le
+            // plancher » sortait de la concatenation. Les decors portent
+            // desormais l'article correct, et la phrase ne le rajoute plus.
+            { quoi: 'le mât d\'une antenne', ou: 'la dalle' },
+            { quoi: 'un forage', ou: 'la couche géologique' },
+            { quoi: 'le pilier d\'un pont', ou: 'le plancher' }
+          ]);
+          const n = [rand(1, 4), rand(1, 4), rand(1, 4)];
+          const k = rand(2, 4);
+          return {
+            statement: `On veut que ${ctx.quoi}, de vecteur directeur $\\vec{u}(${k * n[0]};${k * n[1]};${k * n[2]})$, soit perpendiculaire à ${ctx.ou}, plan de vecteur normal $\\vec{n}(${n[0]};${n[1]};${n[2]})$.<br/><br/>C'est le cas lorsque $\\vec{u}$ et $\\vec{n}$ sont colinéaires. Déterminer le réel $k$ tel que $\\vec{u} = k\\,\\vec{n}$.`,
+            answer: k, tolerance: 0, unit: '',
+            hint: `Attention au piège : une droite perpendiculaire à un plan a son vecteur directeur COLINÉAIRE à la normale, et non orthogonal à elle. Le critère du produit scalaire nul sert pour deux vecteurs, pas ici.`,
+            solution: [
+              `Une droite est perpendiculaire à un plan quand son vecteur directeur est colinéaire au vecteur normal du plan`,
+              `Première coordonnée : $k = \\dfrac{${k * n[0]}}{${n[0]}} = ${k}$`,
+              `Vérification : $${k} \\times ${n[1]} = ${k * n[1]}$ et $${k} \\times ${n[2]} = ${k * n[2]}$ — le même $k$ convient, donc $k = ${k}$`
+            ]
+          };
+        }
+
+        /* TÂCHE 4 — perpendicularité de DEUX PLANS. On revient au produit
+           scalaire nul, mais entre les deux NORMALES. Placée juste après la
+           tâche 3, elle force à distinguer les deux critères. */
+        if (tache === 'deuxPlans') {
+          const ctx = pick([
+            { quoi: 'deux pans de toiture' },
+            { quoi: 'un mur et un plafond' },
+            { quoi: 'deux faces d\'une pièce usinée' }
+          ]);
+          const p = rand(1, 4), q = rand(1, 4), r = rand(1, 3);
+          // n1(p ; q ; 0) et n2(q*r ; -p*r ; s) : produit scalaire nul.
+          const s = rand(1, 4);
+          const n1 = [p, q, 0], n2 = [q * r, -p * r, s];
+          const ps = n1[0] * n2[0] + n1[1] * n2[1] + n1[2] * n2[2];
+          return {
+            // 2026-09-14 : « $1x -3 y$ » s'imprimait avec une espace parasite
+            // avant le y et un coefficient 1 explicite. On compose le terme.
+            statement: `On se demande si ${ctx.quoi} sont perpendiculaires. Leurs plans ont pour équations $${n1[0]}x + ${n1[1]}y = 0$ et $${n2[0]}x ${n2[1] >= 0 ? '+ ' + n2[1] : '- ' + Math.abs(n2[1])}y + ${n2[2]}z = 0$.<br/><br/>Calculer le produit scalaire des deux vecteurs normaux. (S'il est nul, les plans sont perpendiculaires.)`,
+            answer: ps, tolerance: 0, unit: '',
+            hint: `Les coefficients de $x$, $y$ et $z$ dans l'équation d'un plan SONT les coordonnées de son vecteur normal : ici $\\vec{n_1}(${n1[0]};${n1[1]};0)$ et $\\vec{n_2}(${n2[0]};${n2[1]};${n2[2]})$. Il n'y a rien d'autre à chercher.`,
+            solution: [
+              `Normales lues directement dans les équations : $\\vec{n_1}(${n1[0]};${n1[1]};0)$ et $\\vec{n_2}(${n2[0]};${n2[1]};${n2[2]})$`,
+              `$\\vec{n_1} \\cdot \\vec{n_2} = ${n1[0]} \\times ${n2[0]} + ${n1[1]} \\times (${n2[1]}) + 0 \\times ${n2[2]} = ${n1[0] * n2[0]} ${n1[1] * n2[1] >= 0 ? '+ ' + n1[1] * n2[1] : n1[1] * n2[1]}$`,
+              `$= ${ps}$, donc les deux plans sont bien perpendiculaires.`
+            ]
+          };
+        }
+
+        /* TÂCHE 5 — norme du vecteur normal, c'est-à-dire le DÉNOMINATEUR de
+           la formule de distance, isolé. L'élève qui se trompe sur la
+           distance se trompe presque toujours ici : il oublie la racine, ou
+           il met la somme des coefficients au lieu de la somme des carrés. */
+        if (tache === 'normeNormale') {
+          const ctx = pick([
+            { quoi: 'une façade vitrée' },
+            { quoi: 'un plan de coupe' },
+            { quoi: 'le plan d\'une rampe' }
+          ]);
+          const a = rand(1, 5), b = rand(1, 5), c = rand(1, 5);
+          const s = a * a + b * b + c * c;
+          const res = parseFloat(Math.sqrt(s).toFixed(2));
+          return {
+            // 2026-09-14 : le decor ouvrait la phrase en minuscule (« un plan
+            // de coupe a pour equation »). On le place apres un sujet fixe.
+            statement: `Dans une maquette, ${ctx.quoi} a pour équation $${a}x + ${b}y + ${c}z - 7 = 0$.<br/><br/>Calculer la norme $\\|\\vec{n}\\|$ de son vecteur normal — c'est le dénominateur de la formule de distance. Arrondir à $0{,}01$.`,
+            answer: res, tolerance: 0.05, unit: '',
+            hint: `Le vecteur normal se lit dans l'équation : $\\vec{n}(${a};${b};${c})$. Sa norme est $\\sqrt{a^2 + b^2 + c^2}$ — la somme des CARRÉS, puis la racine. Ce n'est pas $a + b + c$.`,
+            solution: [
+              `Vecteur normal lu dans l'équation : $\\vec{n}(${a};${b};${c})$`,
+              `$\\|\\vec{n}\\| = \\sqrt{${a}^2 + ${b}^2 + ${c}^2} = \\sqrt{${a * a} + ${b * b} + ${c * c}} = \\sqrt{${s}}$`,
+              `$\\approx ${fr(res)}$`
+            ]
+          };
+        }
+
+        /* TÂCHE 6 — projeté orthogonal sur un plan de base. Sur le plan
+           d'équation $z = 0$, projeter revient à annuler la cote : c'est la
+           situation où le projeté devient VISIBLE, et où l'élève comprend ce
+           que « pied de la perpendiculaire » veut dire. */
+        const ctx = pick([
+          { quoi: 'un drone', ou: 'le sol' },
+          { quoi: 'un oiseau', ou: 'la surface du lac' },
+          { quoi: 'un point d\'une charpente', ou: 'la dalle' }
+        ]);
+        /* Coordonnees POSITIVES ici, contrairement aux autres taches : la
+           figure place le point au-dessus d'un plan dessine, et un point
+           derriere l'origine sortirait du quadrilatere represente. Le sens
+           mathematique est identique, et la lisibilite y gagne. */
+        const x0 = rand(1, 4), y0 = rand(1, 3), z0 = rand(1, 6);
         return {
-          statement: ctx.build(),
-          answer: distAnswer,
-          tolerance: 0.05,
-          unit: 'unités',
-          hint: `$d=\\dfrac{|${numDetail}|}{\\sqrt{${a}^2+${b}^2+${c}^2}}$`,
+          statement: `${ctx.quoi.charAt(0).toUpperCase() + ctx.quoi.slice(1)} se trouve au point $M(${x0};${y0};${z0})$, et ${ctx.ou} est le plan d'équation $z = 0$.<br/><br/>Le projeté orthogonal $H$ de $M$ sur ce plan a pour coordonnées $(${x0};${y0};0)$. Quelle est la distance $MH$ ?`,
+          answer: z0, tolerance: 0, unit: '',
+          /* Figure d'exercice : le seul endroit du chapitre ou le projete
+             orthogonal devient VISIBLE. Elle ne divulgue pas la reponse — la
+             longueur cherchee porte un point d'interrogation — et code
+             l'angle droit en H par un carre, verifie par
+             scripts/manuel/tests/figures-tle.test.js. */
+          figure: figureTleDistancePlan(x0, y0, z0, { nomPlan: ctx.ou }),
+          hint: `Projeter sur le plan $z = 0$, c'est descendre à la verticale : seule la cote change, l'abscisse et l'ordonnée sont conservées. La distance parcourue est donc exactement la cote de départ.`,
           solution: [
-            `$d=\\dfrac{|${numDetail}|}{\\sqrt{${a*a+b*b+c*c}}}=\\dfrac{${num}}{\\sqrt{${a*a+b*b+c*c}}}\\approx${distStr}$`
+            `Le projeté orthogonal sur le plan $z = 0$ garde l'abscisse et l'ordonnée, et annule la cote : $H(${x0};${y0};0)$`,
+            `$\\vec{MH}(0\\,;\\,0\\,;\\,${-z0})$, donc $MH = \\sqrt{0 + 0 + ${z0 * z0}} = ${z0}$`,
+            `La distance vaut $${z0}$ : sur un plan de base, elle se lit directement sur la cote.`
           ]
         };
       }

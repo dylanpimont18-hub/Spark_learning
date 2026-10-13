@@ -452,7 +452,16 @@ window.MODULES.push({
         const { grandeur, variable, unite, unitY } = pick([
           { grandeur: 'la puissance utile d\'une éolienne en fonction de la vitesse du vent', variable: 'v', unite: 'm/s', unitY: 'kW' },
           { grandeur: 'la portance d\'un profil aérodynamique en fonction de l\'angle d\'incidence', variable: '\\alpha', unite: '°', unitY: 'N' },
-          { grandeur: 'le rendement d\'un moteur en fonction de son taux de charge', variable: 'x', unite: '%', unitY: '%' }
+          // 2026-09-13 : `unite` valait '%'. Interpole tel quel dans la
+          // `solution`, qui est du mode mathematique, le pourcentage ouvrait un
+          // COMMENTAIRE LaTeX : il avalait le $ fermant et la fin de ligne, et
+          // la compilation echouait sur « \end{enumerate} invalid in math
+          // mode ». Le defaut ne sortait que dans la banque du professeur, donc
+          // il est reste invisible tant que le tirage etait court — c'est
+          // l'elargissement de la banque (6 -> 42 tirages) qui l'a revele.
+          // `\%` est correct en mode math comme en mode texte, les deux usages
+          // sont donc couverts.
+          { grandeur: 'le rendement d\'un moteur en fonction de son taux de charge', variable: 'x', unite: '\\%', unitY: '\\%' }
         ]);
         return {
           statement: `Une courbe technique modélise ${grandeur} par $f(${variable}) = -${fr(a)}${variable}^2 + ${fr(b)}${variable}$ (en ${unitY}, ${variable} en ${unite}). Calculer la valeur de $${variable}$ qui maximise $f$ (sommet de la parabole).`,
@@ -577,30 +586,98 @@ window.MODULES.push({
         correction: '$-Q^2 + 16 = 2Q + 4 \\Rightarrow Q^2 + 2Q - 12 = 0 \\Rightarrow \\Delta = 4 + 48 = 52$. $Q = \\dfrac{-2 + \\sqrt{52}}{2} \\approx \\dfrac{-2 + 7{,}21}{2} \\approx 2{,}6$ m³/h (on ne garde que la solution positive).'
       },
       {
-        statement: 'La fonction $f(x) = 6/x$ pour $x = 3$ donne $f(3) =$',
-        type: 'numeric',
-        answer: 2,
-        tolerance: 0,
-        unit: '',
-        points: 1,
-        correction: '$f(3) = 6/3 = 2$.'
-      },
-      {
-        statement: 'La caractéristique d\'un réseau hydraulique linéaire est $H = 4Q$. Pour un débit $Q = 2{,}5$ m³/h, la perte de charge $H$ vaut :',
+        /* Question « représenter » (réécrite le 2026-09-17). Elle demandait
+           $f(3)$ pour $f(x) = 6/x$, soit une division — le même geste
+           d'exécution que la Q1 et la Q4 du même devoir, sur des nombres
+           encore plus simples.
+
+           Le chapitre s'intitule « Fonctions & lecture graphique » et
+           AUCUNE de ses cinq questions ne demandait de lire quoi que ce
+           soit : toutes fournissaient les points en clair. La question
+           demande désormais de LIRE un tableau de valeurs et d'en identifier
+           la nature — affine ou inverse — c'est-à-dire d'associer une
+           représentation à sa loi, ce qui est exactement « représenter ».
+
+           Elle vise l'erreur 2 de la fiche professeur (traiter une fonction
+           inverse comme une fonction affine), qui est celle dont la lecture
+           de tableau est le meilleur révélateur : les écarts $\Delta y$ ne
+           sont pas constants. */
+        statement: 'Un débitmètre relève la perte de charge $H$ (en m) d\'un organe de réglage en fonction du débit $Q$ (en m³/h) :<br/><br/>$Q$ : $1$ — $2$ — $3$ — $6$<br/>$H$ : $12$ — $6$ — $4$ — $2$<br/><br/>Quelle loi décrit ce tableau ?',
         type: 'multiple-choice',
-        options: ['$H = 6$ m', '$H = 8$ m', '$H = 10$ m', '$H = 12$ m'],
-        answer: 2,
-        points: 2,
-        correction: '$H = 4 \\times 2{,}5 = 10$ m.'
+        options: [
+          'Une fonction <strong>affine</strong> décroissante $H = -2Q + 14$, car $H$ diminue quand $Q$ augmente.',
+          'Une fonction <strong>inverse</strong> $H = \\dfrac{12}{Q}$, car le <strong>produit</strong> $Q \\times H$ vaut $12$ pour les quatre points, alors que les écarts $\\Delta H$ ($-6$, $-2$, $-2$) ne sont pas constants.',
+          'Une fonction linéaire $H = 12Q$, car $H = 12$ quand $Q = 1$.',
+          'Aucune loi simple : les quatre points ne sont pas alignés, la grandeur est donc imprévisible.'
+        ],
+        answer: 1,
+        points: 1,
+        correction: 'Le premier réflexe à avoir devant un tableau est de calculer les <strong>écarts</strong>. De $Q = 1$ à $Q = 2$, $H$ perd $6$ ; de $2$ à $3$, il ne perd plus que $2$ ; de $3$ à $6$, encore $2$ mais sur trois fois plus de chemin. Les écarts ne sont pas proportionnels aux pas en $Q$ : <strong>ce n\'est donc pas une fonction affine</strong>, et la proposition 1 tombe (elle donnerait d\'ailleurs $H = 2$ pour $Q = 6$ par chance, mais $H = 8$ pour $Q = 3$, ce que le tableau dément).<br/><br/>' +
+          'Le second réflexe est de calculer les <strong>produits</strong> : $1 \\times 12 = 12$, $2 \\times 6 = 12$, $3 \\times 4 = 12$, $6 \\times 2 = 12$. Le produit est constant, ce qui est la signature de la fonction inverse $H = \\dfrac{12}{Q}$, dont la courbe est une hyperbole et non une droite.<br/><br/>' +
+          'La proposition 3 confond produit constant et coefficient : $H = 12Q$ donnerait $H = 24$ pour $Q = 2$, pas $6$. Quant à la proposition 4, elle confond « non alignés » et « imprévisibles » — quatre points peuvent obéir à une loi parfaitement nette sans être sur une droite, et c\'est précisément le cas ici.'
       },
       {
-        statement: 'Sur une courbe pompe, on lit $H = 8$ m pour $Q = 3$ m³/h et $H = 5$ m pour $Q = 4$ m³/h. La pente de cette portion de courbe est :',
-        type: 'numeric',
-        answer: -3,
-        tolerance: 0,
-        unit: 'm/(m³/h)',
+        /* Question « chercher » (réécrite le 2026-09-17). Elle demandait
+           $H = 4 \times 2{,}5$ avec quatre distracteurs qui n'étaient que des
+           variantes numériques : une multiplication, sur une formule donnée —
+           le geste d'exécution le plus nu du devoir, alors que la Q1
+           appliquait déjà une formule donnée sur des nombres donnés.
+
+           Elle demande maintenant de CHERCHER le point de fonctionnement en
+           testant quatre débits candidats : pour chacun il faut évaluer les
+           deux caractéristiques et voir laquelle des quatre valeurs les rend
+           égales. Essayer, comparer, écarter : c'est « chercher ». C'est
+           aussi la manière dont on relève un point de fonctionnement sur une
+           installation réelle, par approches successives.
+
+           Le calcul reste nécessaire et il est huit fois plus long qu'avant :
+           quatre débits, deux hauteurs à chaque fois. La question vise
+           l'erreur 1 de la fiche professeur (confondre pente et ordonnée à
+           l'origine), car le distracteur $Q = 2$ est précisément celui que
+           trouve l'élève qui lit $H_r = 4Q$ comme s'il valait $H_r = 4 + Q$ */
+        statement: 'Une pompe a pour caractéristique $H_p = -2Q + 24$ et le réseau qu\'elle alimente $H_r = 4Q$ (en m, avec $Q$ en m³/h). Le point de fonctionnement est le débit où les deux hauteurs coïncident. Parmi les quatre débits ci-dessous, lequel est ce point ?',
+        type: 'multiple-choice',
+        options: [
+          '$Q = 2$ m³/h, car $H_r = 8$ m et $H_p = 20$ m : l\'écart est le plus petit des quatre.',
+          '$Q = 4$ m³/h, car $H_r = 16$ m et $H_p = 16$ m : les <strong>deux hauteurs sont égales</strong>, c\'est la définition même du point de fonctionnement.',
+          '$Q = 6$ m³/h, car $H_r = 24$ m égale l\'ordonnée à l\'origine de la pompe.',
+          '$Q = 8$ m³/h, car $H_r = 32$ m dépasse $H_p = 8$ m : la pompe est alors au maximum de son débit.'
+        ],
+        answer: 1,
         points: 2,
-        correction: '$a = (5-8)/(4-3) = -3/1 = -3$ m/(m³/h). La pente est négative (la pompe perd de la hauteur quand le débit augmente).'
+        correction: 'Il n\'y a rien à appliquer ici : il faut <strong>essayer</strong> les quatre débits et comparer, à chaque fois, ce que donnent les deux caractéristiques.<br/><br/>' +
+          'Essai $Q = 2$ : $H_r = 4 \\times 2 = 8$ m et $H_p = -2 \\times 2 + 24 = 20$ m. Écart de $12$ m — la pompe fournit bien plus que ce que le réseau consomme, le débit va donc <strong>augmenter</strong> ; ce n\'est pas un point d\'équilibre, et « l\'écart le plus petit » n\'est de toute façon pas un critère (l\'essai suivant fait mieux). Essai $Q = 4$ : $H_r = 16$ m et $H_p = -8 + 24 = 16$ m. <strong>Égalité</strong> : c\'est le point de fonctionnement. Essai $Q = 6$ : $H_r = 24$ m mais $H_p = -12 + 24 = 12$ m — le réseau demande deux fois plus que ce que la pompe peut donner ; que $24$ soit par ailleurs l\'ordonnée à l\'origine de $H_p$ est une coïncidence sans portée. Essai $Q = 8$ : $H_r = 32$ m contre $H_p = 8$ m, plus loin encore.<br/><br/>' +
+          'On peut confirmer algébriquement : $-2Q + 24 = 4Q$ donne $24 = 6Q$, soit $Q = 4$ m³/h et $H = 16$ m. Le sens physique de ces essais mérite d\'être retenu : à gauche du point de fonctionnement la pompe est excédentaire et le débit s\'établit en montant, à droite elle est déficitaire et il redescend. L\'installation converge donc toute seule vers l\'unique débit où les deux courbes se croisent.'
+      },
+      {
+        /* Question « communiquer » (réécrite le 2026-09-17). Elle demandait la
+           pente d'une portion de courbe pompe entre $(3\ ;\ 8)$ et
+           $(4\ ;\ 5)$ — exactement la formule appliquée en Q1 du même devoir,
+           sur deux points tout aussi explicites. Deuxième exécution du même
+           geste : la question était redondante.
+
+           Elle porte désormais sur l'erreur 3 de la fiche professeur —
+           calculer une pente en inversant $\Delta y$ et $\Delta x$, ou en
+           oubliant le signe — qui est la plus coûteuse du chapitre, puisqu'un
+           signe perdu inverse le sens physique de toute la courbe.
+
+           Le calcul reste nécessaire, et il est double : il faut mener la
+           pente correcte ($-3$) pour voir que l'élève a le bon nombre mais le
+           mauvais signe, ET mener l'inverse ($\Delta x / \Delta y = -1/3$)
+           pour écarter le distracteur qui propose la pente renversée. */
+        statement: 'Sur une courbe pompe, on lit $H = 8$ m pour $Q = 3$ m³/h et $H = 5$ m pour $Q = 4$ m³/h. Sarah calcule $a = \\dfrac{8 - 5}{4 - 3} = 3$ et conclut : « la pente vaut $3$, la pompe monte donc de $3$ m chaque fois que le débit augmente de $1$ m³/h ». Quelle explication corrige le mieux son raisonnement ?',
+        type: 'multiple-choice',
+        options: [
+          'Elle a inversé la fraction : la pente est $\\dfrac{\\Delta Q}{\\Delta H} = \\dfrac{4-3}{5-8} = -\\dfrac{1}{3}$ m³/h par mètre.',
+          'Elle a mélangé l\'<strong>ordre des points</strong> : le $\\Delta H$ doit être pris dans le même sens que le $\\Delta Q$, donc $a = \\dfrac{5 - 8}{4 - 3} = -3$ m par m³/h. La pente est <strong>négative</strong> : la pompe <strong>perd</strong> $3$ m de hauteur chaque fois que le débit augmente de $1$ m³/h.',
+          'Son résultat est juste : une pente est une distance, elle ne peut pas être négative.',
+          'La pente vaut bien $3$, mais l\'unité correcte est le mètre, pas le mètre par m³/h.'
+        ],
+        answer: 1,
+        points: 2,
+        correction: 'Sarah a pris son $\\Delta H$ « à l\'envers » : elle a écrit $8 - 5$ au numérateur alors qu\'au dénominateur elle allait de $3$ vers $4$, c\'est-à-dire de $Q = 3$ vers $Q = 4$. Or les deux différences doivent parcourir les points <strong>dans le même sens</strong>. En respectant cet ordre : $a = \\dfrac{H_2 - H_1}{Q_2 - Q_1} = \\dfrac{5 - 8}{4 - 3} = \\dfrac{-3}{1} = -3$ m par m³/h.<br/><br/>' +
+          'Le signe n\'est pas un détail d\'écriture, il porte tout le sens technique. Avec $a = +3$, Sarah décrit une pompe qui monterait de plus en plus haut à mesure qu\'on lui demande du débit — l\'inverse du comportement réel de toute pompe centrifuge, dont la caractéristique $H(Q)$ est décroissante. Une pente <strong>peut donc parfaitement être négative</strong>, contrairement à ce qu\'affirme la proposition 3 : ce n\'est pas une distance, c\'est un taux de variation.<br/><br/>' +
+          'La proposition 1 commet une autre erreur classique, celle de la fraction renversée : $\\dfrac{\\Delta Q}{\\Delta H}$ vaut ici $-\\dfrac{1}{3}$ et se lit « m³/h par mètre », ce qui répond à une autre question. Et l\'unité d\'une pente est toujours celle de l\'ordonnée divisée par celle de l\'abscisse, ici des mètres par m³/h — ce qui écarte la proposition 4.'
       }
     ]
   }

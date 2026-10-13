@@ -228,13 +228,36 @@ window.MODULES.push(
           correction: '$\\bar{f} = \\dfrac{1}{2-0}\\int_0^2 6x^2\\,dx = \\dfrac{1}{2}[2x^3]_0^2 = \\dfrac{1}{2} \\times 16 = 8$.'
         },
         {
-          statement: 'Calculer $\\int_0^1 e^{2x}\\,dx$ (arrondir à $0{,}01$). On donne $e^2 \\approx 7{,}389$.',
-          type: 'numeric',
-          answer: 3.19,
-          tolerance: 0.02,
-          unit: '',
+          /* Question « communiquer » (réécrite le 2026-09-17). Elle demandait
+             $\int_0^1 e^{2x}dx$ : primitive, évaluation aux deux bornes,
+             soustraction — le même enchaînement que la Q1
+             ($\int_1^3 2x\,dx$) et la Q5 ($\int_0^3 4t\,dt$) du même devoir.
+             Troisième exécution du même geste, sur une fonction différente.
+
+             Elle porte désormais sur les erreurs 1 et 3 de la fiche
+             professeur réunies dans un même raisonnement d'élève : le facteur
+             $\dfrac{1}{2}$ de la primitive composée (dérivé au lieu
+             d'intégré : on multiplie par $2$ au lieu de diviser) et l'oubli
+             de $F(a)$ à la borne inférieure. Ce sont les deux fautes qui
+             cohabitent le plus souvent dans une même copie.
+
+             Le calcul reste entièrement nécessaire, et il est plus exigeant
+             qu'avant : il faut mener l'intégrale juste ($3{,}19$), savoir
+             d'où sortent les $14{,}78$ annoncés ($2 e^2$), et vérifier au
+             passage que $e^0 = 1$ n'est pas nul. */
+          statement: 'On donne $e^2 \\approx 7{,}389$. Pour calculer $\\int_0^1 e^{2x}\\,dx$, Rémi écrit : « une primitive de $e^{2x}$ est $2e^{2x}$, donc $\\int_0^1 e^{2x}dx = [2e^{2x}]_0^1 = 2e^2 \\approx 14{,}78$ ». Quelle explication corrige le mieux son raisonnement ?',
+          type: 'multiple-choice',
+          options: [
+            'Sa primitive est bonne, mais il a oublié la borne $0$ : le résultat est $2e^2 - 2 \\approx 12{,}78$.',
+            'Il a <strong>dérivé</strong> au lieu d\'intégrer : c\'est en dérivant $e^{2x}$ qu\'on multiplie par $2$ ; en intégrant, on <strong>divise</strong>. La primitive est $\\dfrac{e^{2x}}{2}$, et il faut de plus soustraire $F(0) = \\dfrac{1}{2}$ car $e^0 = 1$. Le résultat est $\\dfrac{7{,}389 - 1}{2} \\approx 3{,}19$.',
+            'On ne peut pas intégrer $e^{2x}$ avec les formules du cours : il faut un changement de variable, et le résultat est $e^2 - 1 \\approx 6{,}39$.',
+            'Sa primitive est bonne et la borne $0$ n\'apporte rien puisque $e^0 = 0$ : son résultat $14{,}78$ est exact.'
+          ],
+          answer: 1,
           points: 3,
-          correction: '$\\int_0^1 e^{2x}\\,dx = \\left[\\dfrac{e^{2x}}{2}\\right]_0^1 = \\dfrac{e^2}{2} - \\dfrac{e^0}{2} = \\dfrac{7{,}389 - 1}{2} = \\dfrac{6{,}389}{2} \\approx 3{,}19$.'
+          correction: 'Le meilleur contrôle d\'une primitive est de la <strong>redériver</strong>. Rémi propose $F(x) = 2e^{2x}$ ; en la dérivant on obtient $F\'(x) = 2 \\times 2 e^{2x} = 4e^{2x}$, et non $e^{2x}$. Sa primitive est donc fausse d\'un facteur $4$. Le réflexe « $e^{ax}$, on sort le $a$ » existe bien, mais il appartient à la <strong>dérivation</strong> : en intégration, le coefficient passe au <strong>dénominateur</strong>. La primitive correcte est $F(x) = \\dfrac{e^{2x}}{2}$, qu\'on vérifie immédiatement : $F\'(x) = \\dfrac{2e^{2x}}{2} = e^{2x}$ ✓<br/><br/>' +
+            'Reste la seconde faute, qui se cache derrière la première. Une intégrale définie est une <strong>différence</strong> $F(b) - F(a)$, et Rémi n\'a écrit que $F(1)$. Or $F(0) = \\dfrac{e^{0}}{2} = \\dfrac{1}{2}$, car $e^0 = 1$ et non $0$ — c\'est ce qui rend la proposition 4 doublement fausse.<br/><br/>' +
+            'Le calcul complet donne $\\int_0^1 e^{2x}dx = \\left[\\dfrac{e^{2x}}{2}\\right]_0^1 = \\dfrac{e^2}{2} - \\dfrac{1}{2} = \\dfrac{7{,}389 - 1}{2} = \\dfrac{6{,}389}{2} \\approx 3{,}19$. Rémi annonçait $14{,}78$, soit près de cinq fois trop. Et aucun changement de variable n\'est requis : $e^{ax}$ figure dans les primitives usuelles du cours, ce qui écarte la proposition 3 — dont le résultat $6{,}39$ est d\'ailleurs exactement le numérateur oublié de sa division par $2$.'
         },
         {
           statement: '$\\int_a^b f(x)\\,dx$ peut être négative. Cela signifie que :',

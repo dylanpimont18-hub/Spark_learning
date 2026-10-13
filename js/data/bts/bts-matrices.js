@@ -219,13 +219,40 @@ window.MODULES.push(
           correction: '$\\det(A) = 4 \\times 3 - 1 \\times 2 = 10$. $A^{-1} = \\dfrac{1}{10}\\begin{pmatrix} 3 & -1 \\\\ -2 & 4 \\end{pmatrix}$. Le coefficient $(1,1)$ est $\\dfrac{3}{10} = 0{,}30$.'
         },
         {
-          statement: 'Soit $A = \\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}$ et $B = \\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}$. Calculer le coefficient $(1,2)$ du produit $AB$.',
-          type: 'numeric',
+          /* Question « chercher » (réécrite le 2026-09-17). Elle demandait un
+             seul coefficient d'un produit $AB$ : une ligne fois une colonne,
+             c'est-à-dire deux produits et une somme — la même extraction
+             ponctuelle que la Q3, qui allait chercher le coefficient $(1,1)$
+             de $A^{-1}$. Deuxième coefficient isolé du même devoir.
+
+             Elle demande désormais d'ESSAYER : quatre matrices sont
+             proposées, et il faut calculer $AB$ puis $BA$ pour chacune afin
+             de trouver celle qui commute — un tâtonnement guidé, donc
+             « chercher ». C'est aussi la manière la plus économique de faire
+             sentir la non-commutativité, que la Q5 du même devoir n'aborde
+             que par son nom.
+
+             Elle vise l'erreur 1 de la fiche professeur — multiplier les
+             matrices terme à terme — que le tirage ne travaille pas
+             (`exercice: null`) : l'élève qui multiplie case par case trouve
+             $AB = BA$ pour les QUATRE candidates et ne peut pas trancher, ce
+             qui rend son erreur immédiatement visible.
+
+             Le calcul reste indispensable et il est bien plus lourd qu'avant :
+             deux produits matriciels complets au minimum. */
+          statement: 'Soit $A = \\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}$. Le produit matriciel n\'est pas commutatif, mais certaines matrices commutent tout de même avec $A$. Parmi les quatre matrices ci-dessous, une seule vérifie $AB = BA$. Laquelle ?',
+          type: 'multiple-choice',
+          options: [
+            '$B = \\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}$, car elle ne contient que des $0$ et des $1$.',
+            '$B = \\begin{pmatrix} 3 & 0 \\\\ 0 & 3 \\end{pmatrix}$, car une matrice <strong>scalaire</strong> $\\lambda I$ multiplie toute la matrice par $\\lambda$ des deux côtés : $AB = BA = 3A = \\begin{pmatrix} 3 & 6 \\\\ 9 & 12 \\end{pmatrix}$.',
+            '$B = \\begin{pmatrix} 1 & 0 \\\\ 0 & 4 \\end{pmatrix}$, car elle reprend la diagonale de $A$.',
+            '$B = \\begin{pmatrix} 2 & 0 \\\\ 0 & 3 \\end{pmatrix}$, car toute matrice diagonale commute avec toute matrice.'
+          ],
           answer: 1,
-          tolerance: 0,
-          unit: '',
           points: 2,
-          correction: 'Le coefficient $(1,2)$ de $AB$ est : ligne 1 de $A$ $\\times$ colonne 2 de $B$ = $1 \\times 1 + 2 \\times 0 = 1$. (Produit complet : $AB = \\begin{pmatrix} 2 & 1 \\\\ 4 & 3 \\end{pmatrix}$).'
+          correction: 'Il n\'y a pas de règle à appliquer ici : il faut <strong>essayer</strong>, en calculant $AB$ puis $BA$ pour chaque candidate. Rappel du geste : le coefficient $(i,j)$ d\'un produit est la <strong>ligne $i$ de la première</strong> matrice multipliée par la <strong>colonne $j$ de la seconde</strong> — jamais le produit des cases de même position.<br/><br/>' +
+            'Avec $B = \\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}$ : $AB = \\begin{pmatrix} 2 & 1 \\\\ 4 & 3 \\end{pmatrix}$ mais $BA = \\begin{pmatrix} 3 & 4 \\\\ 1 & 2 \\end{pmatrix}$ — différents. Avec $B = \\begin{pmatrix} 1 & 0 \\\\ 0 & 4 \\end{pmatrix}$ : $AB = \\begin{pmatrix} 1 & 8 \\\\ 3 & 16 \\end{pmatrix}$ mais $BA = \\begin{pmatrix} 1 & 2 \\\\ 12 & 16 \\end{pmatrix}$ — différents encore, et la ressemblance avec la diagonale de $A$ n\'y change rien. Avec $B = \\begin{pmatrix} 2 & 0 \\\\ 0 & 3 \\end{pmatrix}$ : $AB = \\begin{pmatrix} 2 & 6 \\\\ 6 & 12 \\end{pmatrix}$ mais $BA = \\begin{pmatrix} 2 & 4 \\\\ 9 & 12 \\end{pmatrix}$ — ce contre-exemple ruine à lui seul l\'affirmation « toute matrice diagonale commute avec toute matrice ».<br/><br/>' +
+            'Reste $B = 3I = \\begin{pmatrix} 3 & 0 \\\\ 0 & 3 \\end{pmatrix}$, et cette fois $AB = BA = \\begin{pmatrix} 3 & 6 \\\\ 9 & 12 \\end{pmatrix}$. La raison se comprend une fois pour toutes : multiplier par $\\lambda I$ revient à multiplier <strong>chaque</strong> coefficient par $\\lambda$, opération qui ne dépend pas du côté. Seules les matrices <strong>scalaires</strong> (multiples de l\'identité) commutent avec toutes les autres — c\'est bien plus restrictif que « diagonales ». Contrôle final : un élève qui multiplierait terme à terme trouverait $AB = BA$ pour les quatre propositions et serait incapable de choisir ; si vos quatre essais donnent tous l\'égalité, c\'est la méthode de multiplication qui est en cause.'
         },
         {
           statement: 'La propriété $(AB)^{-1} = B^{-1}A^{-1}$ (et non $A^{-1}B^{-1}$) est une conséquence de :',

@@ -183,6 +183,8 @@
 
   <!-- Données : helpers (initialise MODULES[]) + lazy loader -->
   <script defer src="js/data/helpers.js?v=63"></script>
+  <!-- Figures paramétriques d'exercice : après helpers.js (utilise fr()) et avant les modules de js/data/, qui les appellent depuis leur exercice.generate(). -->
+  <script defer src="js/data/figures-exercices.js?v=63"></script>
   <script defer src="js/loader.js?v=63"></script>
 
   <!-- App scripts (ordre de chargement important) -->

@@ -13,7 +13,7 @@ window.MODULES.push({
     physics: 'Travail d\'une force $W = \\vec{F} \\cdot \\vec{d}$, puissance $P = \\vec{F} \\cdot \\vec{v}$',
 
     cours: {
-      intro: 'Le <strong>produit scalaire</strong> "projette" un vecteur sur un autre et retourne un <strong>scalaire</strong> (un nombre réel), jamais un vecteur. Sa formule : $\\vec{u} \\cdot \\vec{v} = \\|\\vec{u}\\| \\times \\|\\vec{v}\\| \\times \\cos\\theta$ où $\\theta$ est l\'angle entre les deux vecteurs.<br/><br/>En physique, le <strong>travail d\'une force</strong> est exactement ce produit scalaire : $W = \\vec{F} \\cdot \\vec{d}$. Si $\\theta = 90°$, cos vaut $0$ donc $W = 0$ (la réaction normale du sol ne travaille pas). Si $\\theta = 180°$, la force s\'oppose au mouvement et $W < 0$ (frottement).<br/><br/>Deux vecteurs sont <strong>orthogonaux</strong> si et seulement si leur produit scalaire est nul : c\'est le critère algébrique de la perpendicularité.',
+      intro: 'Tu sais additionner deux vecteurs, et tu sais en multiplier un par un nombre. Mais peux-tu multiplier deux vecteurs <strong>entre eux</strong> ?<br/><br/>La question n\'a rien d\'artificiel. Un traîneau est tiré par une corde oblique : la force ne pointe pas dans la direction du déplacement, et pourtant elle le fait avancer. De combien ? Une partie seulement de cette force sert à avancer, l\'autre tire vers le haut et ne sert à rien. <strong>Comment séparer les deux ?</strong><br/><br/>Autre impasse, purement géométrique cette fois : deux rues partent d\'un même carrefour, tu connais les coordonnées de leurs extrémités, et tu voudrais savoir si elles sont perpendiculaires. Avec les seuls outils de seconde, tu n\'as aucun moyen de trancher sans sortir un rapporteur.<br/><br/>Ces deux questions — quelle part d\'une force travaille, et quel angle font deux directions — n\'en font qu\'une. Le <strong>produit scalaire</strong> y répond d\'un seul calcul, et il rend un <strong>nombre</strong>, jamais un vecteur.',
       definitions: [
         { term: 'Produit scalaire', def: 'Le <strong>produit scalaire</strong> de $\\vec{u}$ et $\\vec{v}$ est le nombre réel $\\vec{u} \\cdot \\vec{v} = \\|\\vec{u}\\| \\times \\|\\vec{v}\\| \\times \\cos\\theta$. C\'est un <strong>scalaire</strong> (nombre), jamais un vecteur.' },
         { term: 'Norme d\'un vecteur', def: 'La <strong>norme</strong> de $\\vec{u}(x\\,;\\,y)$ est $\\|\\vec{u}\\| = \\sqrt{x^2 + y^2}$. On la retrouve via $\\|\\vec{u}\\|^2 = \\vec{u} \\cdot \\vec{u}$.' },
@@ -89,7 +89,7 @@ window.MODULES.push({
 
             <circle class="guide-line" cx="90" cy="290" r="9" fill="none"></circle>
             <circle class="plot-point" cx="90" cy="290" r="3"></circle>
-            <text class="annotation-label" x="100" y="312">H = O (projection nulle)</text>
+            <text class="label-soft" x="55" y="342">projection reduite au point O</text>
           </svg>
         `,
         notes: [
@@ -101,6 +101,253 @@ window.MODULES.push({
         reading: 'Le carré à angle droit en $O$ et le cercle en pointillés se lisent ensemble : la projection de $\\vec{u}$ sur $\\vec{v}$ n\'a littéralement aucune longueur, car les deux vecteurs sont perpendiculaires.',
         caption: 'Vecteurs $\\vec{u}(3\\,;\\,-1)$ et $\\vec{v}(2\\,;\\,6)$ (exemple du cours) : orthogonaux, donc de projection nulle l\'un sur l\'autre.'
       },
+      /* SCHÉMAS SECONDAIRES — ajoutés le 2026-09-14.
+
+         Principe du cahier des charges (section 9) : une figure par
+         MALENTENDU, pas une figure par formule.
+
+         Les trois malentendus retenus sont ceux qui font échouer le chapitre,
+         et ils s'enchaînent :
+           1. ce que le produit scalaire MESURE — la projection orthogonale,
+              que le schéma principal ne montre que dans son cas dégénéré
+              (projection nulle, vecteurs perpendiculaires) ;
+           2. ce que son SIGNE raconte — le pied de projection passe de l'autre
+              côté de l'origine, et rien d'autre ne change ;
+           3. pourquoi les DEUX FORMULES donnent le même nombre, alors que
+              l'élève croit sincèrement à deux produits scalaires différents.
+
+         TOUTES les coordonnées ci-dessous sont CALCULÉES et vérifiées par
+         scripts/manuel/tests/diagrams-1re.test.js : les projections tombent à
+         angle droit au produit scalaire nul, les normes annoncées sont les
+         normes dessinées, et les deux chemins de calcul rendent bien le même
+         nombre. Un angle droit dessiné à 89 degrés est invisible à la
+         relecture et faux dans le livre. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Ce que le produit scalaire mesure',
+          title: 'La projection orthogonale, la vraie définition du produit scalaire',
+          description: 'Le schéma d\'ouverture du chapitre montre une projection <strong>nulle</strong>, parce que les deux vecteurs y sont perpendiculaires. C\'est le cas particulier, pas le cas général : on ne voit pas ce qui est projeté.<br/><br/>Ici, $\\vec{u}(-2\\,;\\,6)$ et $\\vec{v}(4\\,;\\,3)$ ne sont pas perpendiculaires. Le point $H$ est l\'<strong>ombre</strong> de la pointe de $\\vec{u}$ sur la droite portée par $\\vec{v}$, et c\'est la longueur $OH$ qui fait tout le produit scalaire.',
+          svg: `
+            <svg viewBox="0 0 430 260" role="img" aria-labelledby="ps-proj-title ps-proj-desc">
+              <title id="ps-proj-title">Projection orthogonale de u sur la direction de v</title>
+              <desc id="ps-proj-desc">Repere gradue. Deux vecteurs partent de l'origine : u va vers le haut a gauche, jusqu'au point de coordonnees moins deux et six ; v va vers le haut a droite, jusqu'au point quatre et trois. La droite portee par v est prolongee en pointilles. Depuis la pointe de u, un trait descend perpendiculairement jusqu'a cette droite et la rencontre au point H, de coordonnees un virgule six et un virgule deux. Un petit carre marque l'angle droit en H. La longueur du segment allant de l'origine a H vaut deux unites, et la norme de v vaut cinq : leur produit, dix, est exactement le produit scalaire de u par v.</desc>
+
+              <line class="grid-line" x1="56" y1="26" x2="56" y2="250"></line>
+              <line class="grid-line" x1="84" y1="26" x2="84" y2="250"></line>
+              <line class="grid-line" x1="112" y1="26" x2="112" y2="250"></line>
+              <line class="grid-line" x1="168" y1="26" x2="168" y2="250"></line>
+              <line class="grid-line" x1="196" y1="26" x2="196" y2="250"></line>
+              <line class="grid-line" x1="224" y1="26" x2="224" y2="250"></line>
+              <line class="grid-line" x1="252" y1="26" x2="252" y2="250"></line>
+              <line class="grid-line" x1="280" y1="26" x2="280" y2="250"></line>
+              <line class="grid-line" x1="56" y1="250" x2="280" y2="250"></line>
+              <line class="grid-line" x1="56" y1="194" x2="280" y2="194"></line>
+              <line class="grid-line" x1="56" y1="166" x2="280" y2="166"></line>
+              <line class="grid-line" x1="56" y1="138" x2="280" y2="138"></line>
+              <line class="grid-line" x1="56" y1="110" x2="280" y2="110"></line>
+              <line class="grid-line" x1="56" y1="82" x2="280" y2="82"></line>
+              <line class="grid-line" x1="56" y1="54" x2="280" y2="54"></line>
+              <line class="grid-line" x1="56" y1="26" x2="280" y2="26"></line>
+
+              <line class="axis" x1="56" y1="222" x2="292" y2="222"></line>
+              <line class="axis" x1="140" y1="250" x2="140" y2="26"></line>
+              <text class="axis-label" x="298" y="226">x</text>
+              <text class="axis-label" x="146" y="32">y</text>
+              <text class="tick-label" x="132" y="238" text-anchor="end">0</text>
+
+              <!-- Droite portee par v, prolongee : la projection se lit SUR
+                   elle, et l'eleve doit voir qu'elle depasse le vecteur. -->
+              <line class="guide-line" x1="112" y1="243" x2="315" y2="90"></line>
+
+              <!-- Les deux vecteurs. Une seule pointe de fleche par trait. -->
+              <line class="curve-main" x1="140" y1="222" x2="252" y2="138"></line>
+              <polygon class="plot-point" points="252,138 242,137 246.5,144"></polygon>
+              <line class="curve-main" x1="140" y1="222" x2="84" y2="54"></line>
+              <polygon class="plot-point" points="84,54 82.5,64 90.5,60.5"></polygon>
+
+              <!-- Trait de projection, de la pointe de u jusqu'a son pied H.
+                   Orthogonal a v au flottant pres, verifie par le test. -->
+              <line class="focus-line" x1="84" y1="54" x2="184.8" y2="188.4"></line>
+
+              <!-- Angle droit en H, code par un CARRE et jamais par un arc. -->
+              <path class="grid-line" fill="none" d="M177.6,194.4 L171.6,186.4 L179.6,180.4"></path>
+
+              <!-- Le segment OH, qui porte toute la mesure. -->
+              <line class="focus-line" x1="140" y1="222" x2="184.8" y2="188.4"></line>
+              <circle class="plot-point" cx="184.8" cy="188.4" r="5"></circle>
+
+              <circle class="plot-point-alt" cx="252" cy="138" r="3"></circle>
+              <circle class="plot-point-alt" cx="84" cy="54" r="3"></circle>
+
+              <text class="annotation-label" x="76" y="46" text-anchor="start">vecteur u</text>
+              <text class="annotation-label" x="258" y="132" text-anchor="start">vecteur v</text>
+              <!-- ETIQUETTES DE OH ET DU PIED, REPLACEES le 2026-09-14.
+                   Elles se chevauchaient : « longueur 2 » ancrée en x=150 et
+                   « pied » en x=192, sur la même ligne de base, s'imprimaient
+                   l'une par-dessus l'autre. Le défaut n'était visible qu'à
+                   l'épreuve — aucun test ne mesure la boîte d'un texte, et les
+                   deux étiquettes restaient dans le cadre.
+                   « longueur 2 » descend sous le segment OH, dont le milieu est
+                   en (162,4 ; 205,2), et « pied » passe à droite du point H
+                   (184,8 ; 188,4), là où rien n'est tracé. -->
+              <text class="annotation-label" x="146" y="228" text-anchor="start">longueur 2</text>
+              <text class="tick-label" x="196" y="184" text-anchor="start">pied</text>
+            </svg>
+          `,
+          notes: [
+            'Le calcul par les coordonnées donne $\\vec{u} \\cdot \\vec{v} = (-2) \\times 4 + 6 \\times 3 = -8 + 18 = 10$.',
+            'La norme de $\\vec{v}$ vaut $\\|\\vec{v}\\| = \\sqrt{4^2+3^2} = \\sqrt{25} = 5$ : c\'est le triangle $3$-$4$-$5$, donc une longueur exacte.',
+            'Le pied de la projection est $H\\left(1{,}6\\,;\\,1{,}2\\right)$, et la longueur $OH$ vaut exactement $2$.',
+            'On retrouve alors le produit scalaire comme un simple produit de deux longueurs : $OH \\times \\|\\vec{v}\\| = 2 \\times 5 = 10$. <strong>C\'est la même valeur que par les coordonnées.</strong>',
+            'Le produit scalaire ne mesure donc rien d\'autre que ceci : <strong>la longueur de l\'ombre de $\\vec{u}$ sur $\\vec{v}$, multipliée par la longueur de $\\vec{v}$.</strong>'
+          ],
+          reading: 'Suis le trait qui descend de la pointe de $\\vec{u}$ : il tombe à angle droit sur la droite de $\\vec{v}$, et c\'est cet angle droit qui définit la projection. Le morceau qui va de l\'origine jusqu\'au pied est tout ce que $\\vec{v}$ « voit » de $\\vec{u}$. Le reste de $\\vec{u}$, la partie perpendiculaire, ne compte pour rien dans le produit scalaire.',
+          caption: 'Projection orthogonale de $\\vec{u}(-2\\,;\\,6)$ sur la direction de $\\vec{v}(4\\,;\\,3)$ : $OH = 2$, $\\|\\vec{v}\\| = 5$, et $\\vec{u} \\cdot \\vec{v} = 2 \\times 5 = 10$.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Ce que dit le signe',
+          title: 'Le signe du produit scalaire, lu sur la projection',
+          description: 'Une règle apprise par cœur — « positif si l\'angle est aigu, négatif s\'il est obtus » — ne se retient pas, parce qu\'elle ne s\'appuie sur rien.<br/><br/>Les trois dessins ci-dessous ont la <strong>même</strong> longueur de $\\vec{u}$, la <strong>même</strong> longueur de $\\vec{v}$, et la même origine. Seul l\'angle change. Regarde où tombe le pied de la projection : c\'est lui, et lui seul, qui donne le signe.',
+          svg: `
+            <svg viewBox="0 0 430 228" role="img" aria-labelledby="ps-signe-title ps-signe-desc">
+              <title id="ps-signe-title">Trois angles, trois signes du produit scalaire</title>
+              <desc id="ps-signe-desc">Trois dessins cote a cote, a la meme echelle. Dans chacun, un vecteur v est horizontal vers la droite et un vecteur u part de la meme origine avec la meme longueur. A gauche l'angle est aigu, de trente-cinq degres : le pied de la projection tombe a droite de l'origine, sur le vecteur v, et le produit scalaire est positif. Au milieu l'angle est droit : le pied se confond avec l'origine, la projection est nulle et le produit scalaire aussi. A droite l'angle est obtus, de cent quarante degres : le pied tombe a gauche de l'origine, du cote oppose a v, et le produit scalaire est negatif.</desc>
+
+              <!-- Panneau 1 : angle aigu, produit scalaire positif. -->
+              <line class="axis" x1="20" y1="158" x2="140" y2="158"></line>
+              <line class="curve-main" x1="46" y1="158" x2="128.8" y2="158"></line>
+              <polygon class="plot-point" points="128.8,158 120.8,153.5 120.8,162.5"></polygon>
+              <line class="curve-main" x1="46" y1="158" x2="107.9" y2="114.6"></line>
+              <polygon class="plot-point" points="107.9,114.6 99.6,117.6 105.5,123"></polygon>
+              <line class="focus-line" x1="107.9" y1="114.6" x2="107.9" y2="158"></line>
+              <path class="grid-line" fill="none" d="M99.9,158 L99.9,150 L107.9,150"></path>
+              <line class="focus-line" x1="46" y1="158" x2="107.9" y2="158"></line>
+              <circle class="plot-point" cx="107.9" cy="158" r="4"></circle>
+              <circle class="plot-point-alt" cx="46" cy="158" r="3"></circle>
+              <text class="tick-label" x="46" y="176" text-anchor="middle">origine</text>
+              <text class="annotation-label" x="70" y="146" text-anchor="middle">35°</text>
+              <text class="annotation-label" x="80" y="196" text-anchor="middle">pied a droite</text>
+              <text class="annotation-label" x="80" y="216" text-anchor="middle">produit positif</text>
+
+              <!-- Panneau 2 : angle droit, produit scalaire nul. -->
+              <line class="axis" x1="160" y1="158" x2="280" y2="158"></line>
+              <line class="curve-main" x1="186" y1="158" x2="268.8" y2="158"></line>
+              <polygon class="plot-point" points="268.8,158 260.8,153.5 260.8,162.5"></polygon>
+              <line class="curve-main" x1="186" y1="158" x2="186" y2="82.4"></line>
+              <polygon class="plot-point" points="186,82.4 181.5,90.4 190.5,90.4"></polygon>
+              <path class="grid-line" fill="none" d="M194,158 L194,150 L186,150"></path>
+              <circle class="plot-point" cx="186" cy="158" r="4"></circle>
+              <text class="tick-label" x="186" y="176" text-anchor="middle">origine</text>
+              <text class="annotation-label" x="212" y="146" text-anchor="middle">90°</text>
+              <text class="annotation-label" x="220" y="196" text-anchor="middle">pied sur origine</text>
+              <text class="annotation-label" x="220" y="216" text-anchor="middle">produit nul</text>
+
+              <!-- Panneau 3 : angle obtus, produit scalaire negatif. -->
+              <line class="axis" x1="256" y1="158" x2="420" y2="158"></line>
+              <line class="curve-main" x1="326" y1="158" x2="408.8" y2="158"></line>
+              <polygon class="plot-point" points="408.8,158 400.8,153.5 400.8,162.5"></polygon>
+              <line class="curve-main" x1="326" y1="158" x2="268.1" y2="109.4"></line>
+              <polygon class="plot-point" points="268.1,109.4 272.3,117.1 277.1,110.7"></polygon>
+              <line class="focus-line" x1="268.1" y1="109.4" x2="268.1" y2="158"></line>
+              <path class="grid-line" fill="none" d="M276.1,158 L276.1,150 L268.1,150"></path>
+              <line class="focus-line" x1="326" y1="158" x2="268.1" y2="158"></line>
+              <circle class="plot-point" cx="268.1" cy="158" r="4"></circle>
+              <circle class="plot-point-alt" cx="326" cy="158" r="3"></circle>
+              <text class="tick-label" x="330" y="176" text-anchor="start">origine</text>
+              <text class="annotation-label" x="310" y="132" text-anchor="middle">140°</text>
+              <text class="annotation-label" x="340" y="196" text-anchor="middle">pied a gauche</text>
+              <text class="annotation-label" x="340" y="216" text-anchor="middle">produit negatif</text>
+            </svg>
+          `,
+          notes: [
+            'Dans les trois dessins, $\\|\\vec{u}\\|$ et $\\|\\vec{v}\\|$ sont <strong>identiques</strong> : les longueurs ne changent jamais, seul l\'angle change.',
+            'À gauche, l\'angle vaut $35°$ : $\\cos(35°) > 0$, le pied tombe du même côté que $\\vec{v}$, et $\\vec{u} \\cdot \\vec{v} > 0$.',
+            'Au milieu, l\'angle vaut $90°$ : $\\cos(90°) = 0$, le pied remonte jusqu\'à l\'origine, et $\\vec{u} \\cdot \\vec{v} = 0$. C\'est exactement le critère d\'orthogonalité.',
+            'À droite, l\'angle vaut $140°$ : $\\cos(140°) < 0$, le pied passe de l\'<strong>autre côté</strong> de l\'origine, et $\\vec{u} \\cdot \\vec{v} < 0$.',
+            'En physique, c\'est la même lecture : une force qui tire vers l\'avant travaille positivement, une force de frottement, qui tire vers l\'arrière, travaille négativement.'
+          ],
+          reading: 'Ne regarde ni les flèches ni l\'angle : regarde uniquement le gros point, le pied de la projection. S\'il est du côté de $\\vec{v}$, le produit scalaire est positif. S\'il est sur l\'origine, il est nul. S\'il est de l\'autre côté, il est négatif. Tu n\'as aucune règle à retenir — il suffit de voir de quel côté tombe l\'ombre.',
+          caption: 'Même $\\|\\vec{u}\\|$ et même $\\|\\vec{v}\\|$, trois angles : le pied de la projection passe à droite, sur l\'origine, puis à gauche — et le produit scalaire change de signe avec lui.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Pourquoi les deux formules se valent',
+          title: 'Deux chemins, un seul nombre',
+          description: 'Beaucoup d\'élèves traversent le chapitre en croyant à <strong>deux</strong> produits scalaires : « celui avec les coordonnées » et « celui avec le cosinus ». Ils appliquent l\'un ou l\'autre selon ce que l\'énoncé leur donne, sans savoir que c\'est le même objet.<br/><br/>Sur un seul couple de vecteurs, $\\vec{u}(3\\,;\\,4)$ et $\\vec{v}(8\\,;\\,6)$, les deux chemins sont parcourus jusqu\'au bout. Ils aboutissent au même nombre, et ce n\'est pas une coïncidence : c\'est un théorème.',
+          svg: `
+            <svg viewBox="0 0 430 250" role="img" aria-labelledby="ps-deux-title ps-deux-desc">
+              <title id="ps-deux-title">Un seul couple de vecteurs, deux calculs concordants</title>
+              <desc id="ps-deux-desc">Repere gradue montrant deux vecteurs partant de l'origine. Le premier va au point de coordonnees trois et quatre, sa norme vaut cinq. Le second va au point huit et six, sa norme vaut dix. L'angle entre eux est marque par un arc, son cosinus vaut zero virgule quatre-vin>-seize. Deux encadres rappellent les deux calculs : par les coordonnees, trois fois huit plus quatre fois six egale quarante-huit ; par la formule angulaire, cinq fois dix fois zero virgule quatre-vin>-seize egale aussi quarante-huit.</desc>
+
+              <line class="grid-line" x1="60" y1="58" x2="60" y2="212"></line>
+              <line class="grid-line" x1="82" y1="58" x2="82" y2="212"></line>
+              <line class="grid-line" x1="104" y1="58" x2="104" y2="212"></line>
+              <line class="grid-line" x1="126" y1="58" x2="126" y2="212"></line>
+              <line class="grid-line" x1="148" y1="58" x2="148" y2="212"></line>
+              <line class="grid-line" x1="170" y1="58" x2="170" y2="212"></line>
+              <line class="grid-line" x1="192" y1="58" x2="192" y2="212"></line>
+              <line class="grid-line" x1="214" y1="58" x2="214" y2="212"></line>
+              <line class="grid-line" x1="236" y1="58" x2="236" y2="212"></line>
+              <line class="grid-line" x1="60" y1="212" x2="236" y2="212"></line>
+              <line class="grid-line" x1="60" y1="190" x2="236" y2="190"></line>
+              <line class="grid-line" x1="60" y1="168" x2="236" y2="168"></line>
+              <line class="grid-line" x1="60" y1="146" x2="236" y2="146"></line>
+              <line class="grid-line" x1="60" y1="124" x2="236" y2="124"></line>
+              <line class="grid-line" x1="60" y1="102" x2="236" y2="102"></line>
+              <line class="grid-line" x1="60" y1="80" x2="236" y2="80"></line>
+              <line class="grid-line" x1="60" y1="58" x2="236" y2="58"></line>
+
+              <line class="axis" x1="60" y1="212" x2="250" y2="212"></line>
+              <line class="axis" x1="60" y1="212" x2="60" y2="52"></line>
+              <text class="axis-label" x="256" y="216">x</text>
+              <text class="axis-label" x="66" y="48">y</text>
+              <text class="tick-label" x="52" y="224" text-anchor="end">0</text>
+
+              <line class="curve-main" x1="60" y1="212" x2="236" y2="80"></line>
+              <polygon class="plot-point" points="236,80 227.4,82.4 232.8,86.6"></polygon>
+              <line class="curve-main" x1="60" y1="212" x2="126" y2="124"></line>
+              <polygon class="plot-point" points="126,124 119.6,130 126.8,133.4"></polygon>
+              <circle class="plot-point-alt" cx="236" cy="80" r="3"></circle>
+              <circle class="plot-point-alt" cx="126" cy="124" r="3"></circle>
+
+              <!-- Arc de l'angle, etiquette posee SUR LA BISSECTRICE. -->
+              <polyline class="guide-line" fill="none" points="96.8,184.4 96.1,183.5 95.5,182.7 94.8,181.9 94,181 93.3,180.3 92.5,179.5 91.7,178.7 91,178 90.1,177.2 89.3,176.5 88.5,175.9 87.6,175.2"></polyline>
+              <text class="annotation-label" x="108.1" y="167.9" text-anchor="start">angle</text>
+
+              <text class="annotation-label" x="132" y="118" text-anchor="start">vecteur u (3 ; 4)</text>
+              <text class="annotation-label" x="180" y="70" text-anchor="start">vecteur v (8 ; 6)</text>
+
+              <!-- Les deux chemins de calcul, en vis-a-vis. -->
+              <line class="frame-line" x1="272" y1="72" x2="418" y2="72"></line>
+              <line class="frame-line" x1="272" y1="122" x2="418" y2="122"></line>
+              <line class="frame-line" x1="272" y1="72" x2="272" y2="122"></line>
+              <line class="frame-line" x1="418" y1="72" x2="418" y2="122"></line>
+              <text class="tick-label" x="345" y="90" text-anchor="middle">par les coordonnees</text>
+              <text class="annotation-label" x="345" y="112" text-anchor="middle">3×8 + 4×6 = 48</text>
+
+              <line class="frame-line" x1="272" y1="150" x2="418" y2="150"></line>
+              <line class="frame-line" x1="272" y1="200" x2="418" y2="200"></line>
+              <line class="frame-line" x1="272" y1="150" x2="272" y2="200"></line>
+              <line class="frame-line" x1="418" y1="150" x2="418" y2="200"></line>
+              <text class="tick-label" x="345" y="168" text-anchor="middle">par les normes</text>
+              <text class="annotation-label" x="345" y="190" text-anchor="middle">5 × 10 × 0,96 = 48</text>
+
+              <text class="tick-label" x="345" y="228" text-anchor="middle">le meme nombre</text>
+            </svg>
+          `,
+          notes: [
+            'Par les coordonnées : $\\vec{u} \\cdot \\vec{v} = 3 \\times 8 + 4 \\times 6 = 24 + 24 = 48$.',
+            'Les deux normes sont exactes, car ce sont des triangles $3$-$4$-$5$ : $\\|\\vec{u}\\| = \\sqrt{9+16} = 5$ et $\\|\\vec{v}\\| = \\sqrt{64+36} = 10$.',
+            'On en déduit $\\cos\\theta = \\dfrac{48}{5 \\times 10} = 0{,}96$, ce qui correspond à un angle d\'environ $16{,}3°$ — les deux vecteurs pointent effectivement dans des directions voisines.',
+            'Par la formule angulaire : $\\|\\vec{u}\\| \\times \\|\\vec{v}\\| \\times \\cos\\theta = 5 \\times 10 \\times 0{,}96 = 48$. <strong>Le même nombre, au chiffre près.</strong>',
+            'On choisit donc la formule d\'après ce que l\'énoncé <strong>donne</strong> : des coordonnées, ou des normes et un angle. Jamais d\'après le résultat souhaité, puisqu\'il est le même.'
+          ],
+          reading: 'Lis les deux encadrés l\'un après l\'autre. Le premier n\'utilise que les quatre coordonnées, le second n\'utilise que deux longueurs et un angle : ils ne partagent aucun nombre de départ, et pourtant ils finissent tous les deux sur $48$. C\'est ce qui autorise à passer librement d\'une écriture à l\'autre, par exemple pour trouver un angle quand on ne connaît que des coordonnées.',
+          caption: 'Pour $\\vec{u}(3\\,;\\,4)$ et $\\vec{v}(8\\,;\\,6)$ : $3 \\times 8 + 4 \\times 6 = 48$ et $5 \\times 10 \\times 0{,}96 = 48$ — les deux formules du cours donnent le même produit scalaire.'
+        }
+      ],
       formulas: [
         '$\\vec{u} \\cdot \\vec{v} = \\|\\vec{u}\\| \\cdot \\|\\vec{v}\\| \\cdot \\cos\\theta$',
         '$\\vec{u} \\cdot \\vec{v} = x_1 x_2 + y_1 y_2$',
@@ -172,9 +419,13 @@ window.MODULES.push({
             answer: ps,
             tolerance: 0,
             unit: '',
-            hint: `$\\vec{u} \\cdot \\vec{v} = x_1 x_2 + y_1 y_2 = ${x1} \\times ${x2 < 0 ? '(' + x2 + ')' : x2} + ${y1} \\times ${y2 < 0 ? '(' + y2 + ')' : y2}$.`,
+            /* y1 est parenthésé lui aussi quand il est négatif : placé juste
+               après le « + », il imprimait sinon « + -5 \times 4 », deux
+               signes à la suite. x2 et y2 l'étaient déjà, y1 avait été oublié.
+               Trouvé au contrôle visuel de la banque (2026-09-14). */
+            hint: `$\\vec{u} \\cdot \\vec{v} = x_1 x_2 + y_1 y_2 = ${x1} \\times ${x2 < 0 ? '(' + x2 + ')' : x2} + ${y1 < 0 ? '(' + y1 + ')' : y1} \\times ${y2 < 0 ? '(' + y2 + ')' : y2}$.`,
             solution: [
-              `$\\vec{u} \\cdot \\vec{v} = ${x1} \\times ${x2 < 0 ? '(' + x2 + ')' : x2} + ${y1} \\times ${y2 < 0 ? '(' + y2 + ')' : y2} = ${x1*x2} + (${y1*y2}) = ${ps}$.`,
+              `$\\vec{u} \\cdot \\vec{v} = ${x1} \\times ${x2 < 0 ? '(' + x2 + ')' : x2} + ${y1 < 0 ? '(' + y1 + ')' : y1} \\times ${y2 < 0 ? '(' + y2 + ')' : y2} = ${x1*x2} + (${y1*y2}) = ${ps}$.`,
               `${ps === 0 ? 'Comme $\\vec{u} \\cdot \\vec{v} = 0$, les vecteurs sont orthogonaux.' : 'Comme $\\vec{u} \\cdot \\vec{v} \\neq 0$, les vecteurs ne sont pas orthogonaux.'}`
             ]
           };
@@ -259,12 +510,30 @@ window.MODULES.push({
           correction: 'On applique la formule du travail : $W = F \\times d \\times \\cos(\\theta)$.<br/><br/>$W = 15 \\times 8 \\times \\cos(45°) = 120 \\times \\dfrac{\\sqrt{2}}{2} = 120 \\times 0{,}7071 \\approx 84{,}85$ J.'
         },
         {
-          statement: 'La norme du vecteur $\\vec{w}(5\\,;\\,-12)$ est :',
+          /* QUESTION 5 RÉÉCRITE le 2026-09-14. Elle demandait la norme de
+             $\vec{w}(5\,;\,-12)$, soit une troisième application de formule
+             après les questions 1 et 2 : ce devoir comptait alors trois
+             « calculer » sur cinq. Mesuré sur les cinquante questions du
+             niveau, « calculer » atteignait 50 %, très au-delà du plafond de
+             35 % du cahier des charges, tandis que « communiquer » restait
+             sous les 6 %.
+
+             La nouvelle question porte sur le SENS du signe du produit
+             scalaire — un malentendu que la fiche professeur diagnostique
+             comme durable — et demande d'expliquer plutôt que de calculer.
+             Elle reste corrigeable objectivement, l'explication attendue
+             étant l'une des quatre propositions. */
+          statement: 'Un camarade calcule $\\vec{u} \\cdot \\vec{v} = -20$ et déclare : « j\'ai dû me tromper, un produit ne peut pas être négatif ».<br/><br/>Que lui réponds-tu ?',
           type: 'multiple-choice',
-          options: ['$7$', '$17$', '$13$', '$\\sqrt{119}$'],
-          answer: 2,
+          options: [
+            'Son calcul peut être juste : un produit scalaire est un nombre réel quelconque, et un résultat négatif signifie que l\'angle entre les deux vecteurs est obtus',
+            'Il a raison : un produit scalaire est toujours positif, le calcul est donc à refaire',
+            'Il faut prendre la valeur absolue et répondre $20$, car on ne garde jamais le signe',
+            'C\'est impossible : un produit scalaire négatif signifierait que les vecteurs sont perpendiculaires'
+          ],
+          answer: 0,
           points: 2,
-          correction: 'On calcule la norme : $\\|\\vec{w}\\| = \\sqrt{5^2 + (-12)^2} = \\sqrt{25 + 144} = \\sqrt{169} = 13$.<br/><br/>On peut vérifier via l\'auto-produit scalaire : $\\vec{w} \\cdot \\vec{w} = \\|\\vec{w}\\|^2 = 169$, et $\\sqrt{169} = 13$.'
+          correction: 'Le produit scalaire n\'est pas une longueur : c\'est un <strong>nombre réel</strong>, qui peut être positif, négatif ou nul. Rien n\'oblige donc à refaire le calcul.<br/><br/>Son signe se lit sur la formule $\\vec{u} \\cdot \\vec{v} = \\|\\vec{u}\\| \\times \\|\\vec{v}\\| \\times \\cos\\theta$ : les deux normes sont toujours positives, donc le signe du produit scalaire est exactement celui de $\\cos\\theta$.<br/><br/>Un résultat <strong>négatif</strong> signifie $\\cos\\theta < 0$, c\'est-à-dire un angle <strong>obtus</strong> : les deux vecteurs pointent grossièrement en sens contraires. Un résultat <strong>nul</strong> signifie des vecteurs perpendiculaires, et c\'est d\'ailleurs le critère d\'orthogonalité du cours.<br/><br/>En physique, ce signe a un sens très concret : un travail négatif est celui d\'une force qui <strong>freine</strong> le mouvement, comme un frottement.'
         }
       ]
     }

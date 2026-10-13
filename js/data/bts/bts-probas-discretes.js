@@ -215,13 +215,40 @@ window.MODULES.push(
           correction: 'L\'approximation de Poisson est pertinente quand $n$ est grand ($\\geq 30$) et $p$ est petit ($\\leq 0{,}1$), avec $\\lambda = np$ modéré. Les événements sont alors rares et la formule de Poisson est beaucoup plus simple à calculer.'
         },
         {
-          statement: 'Pour $X \\sim \\mathcal{P}(4)$, calculer $P(X \\geq 1) = 1 - P(X=0)$ (arrondir à $0{,}001$). On donne $e^{-4} \\approx 0{,}0183$.',
-          type: 'numeric',
-          answer: 0.982,
-          tolerance: 0.002,
-          unit: '',
+          /* Question « chercher » (réécrite le 2026-09-17). Elle demandait
+             $P(X \geq 1) = 1 - e^{-4}$ avec la loi NOMMÉE, le paramètre
+             DONNÉ, $e^{-4}$ FOURNI et la formule du contraire ÉCRITE dans
+             l'énoncé : il ne restait qu'une soustraction, après la Q1 et la
+             Q3 qui appliquaient déjà leurs lois toutes désignées. Troisième
+             application dictée du devoir.
+
+             Elle demande désormais de TESTER une conjecture sur des données
+             brutes : quatre lois sont proposées, et il faut confronter chacune
+             au relevé avant de trancher. Essayer, comparer, écarter : c'est
+             « chercher ».
+
+             Elle vise l'erreur 1 de la fiche professeur — choisir la mauvaise
+             loi, binomiale là où il faut Poisson — que le tirage ne travaille
+             pas (`exercice: null`) et que cette fiche signalait comme
+             l'absence la plus lourde du devoir, puisque c'est le premier
+             attendu officiel du chapitre.
+
+             Le calcul reste nécessaire et il est multiple : moyenne du relevé
+             ($\bar{x} = 2$), variance ($\approx 2$), puis le critère
+             $E = V = \lambda$ qui distingue Poisson de la binomiale. */
+          statement: 'Un atelier relève le nombre de pannes par jour sur $100$ jours :<br/><br/>$0$ panne : $14$ jours — $1$ panne : $27$ jours — $2$ pannes : $27$ jours — $3$ pannes : $18$ jours — $4$ pannes ou plus : $14$ jours<br/><br/>La moyenne du relevé est $\\bar{x} \\approx 2{,}0$ et sa variance $\\approx 2{,}0$. Quelle loi modélise le mieux ces pannes, et pourquoi les autres échouent-elles ?',
+          type: 'multiple-choice',
+          options: [
+            'Une loi binomiale $\\mathcal{B}(100\\,;\\,0{,}02)$, car il y a $100$ jours de relevé.',
+            'Une loi de <strong>Poisson</strong> $\\mathcal{P}(2)$ : la moyenne et la variance sont <strong>égales</strong> ($\\approx 2$), ce qui est la signature de Poisson. Une binomiale aurait $V = np(1-p) < np = E$, et une loi uniforme donnerait cinq effectifs voisins de $20$, ce que le relevé dément.',
+            'Une loi uniforme sur $\\{0\\,;\\,1\\,;\\,2\\,;\\,3\\,;\\,4\\}$, car les cinq effectifs sont du même ordre de grandeur.',
+            'Une loi normale $\\mathcal{N}(2\\,;\\,2)$, car la moyenne vaut $2$ et le relevé est à peu près symétrique autour d\'elle.'
+          ],
+          answer: 1,
           points: 2,
-          correction: '$P(X \\geq 1) = 1 - P(X=0) = 1 - e^{-4} = 1 - 0{,}0183 = 0{,}982$. Il y a plus de $98\\%$ de chances d\'observer au moins un événement.'
+          correction: 'Aucune loi ne se lit dans l\'énoncé : il faut la <strong>chercher</strong> en confrontant chaque candidate au relevé. Le test décisif est la comparaison de la moyenne et de la variance, car c\'est sur ce point que les lois discrètes se séparent nettement.<br/><br/>' +
+            'Test de la <strong>binomiale</strong> : pour $\\mathcal{B}(n\\,;\\,p)$ on a $E = np$ et $V = np(1-p)$, donc la variance est toujours <strong>strictement inférieure</strong> à la moyenne dès que $p > 0$. Avec $\\mathcal{B}(100\\,;\\,0{,}02)$ on aurait $E = 2$ mais $V = 2 \\times 0{,}98 = 1{,}96$ — plausible de justesse ici, mais surtout le modèle n\'a pas de sens : le « $100$ » du relevé est le nombre de <strong>jours observés</strong>, pas un nombre d\'épreuves répétées dans une journée. Test de la loi <strong>uniforme</strong> : elle prédirait cinq effectifs proches de $20$, alors que le relevé va de $14$ à $27$ avec un maximum net sur $1$ et $2$ ; et une uniforme sur $\\{0,\\ldots,4\\}$ a une moyenne de $2$ mais une variance de $2$ également — c\'est son <strong>allure</strong> qui la disqualifie, pas ses deux premiers moments. Test de la loi <strong>normale</strong> : elle est <strong>continue</strong> et s\'étend aux valeurs négatives, alors qu\'un nombre de pannes est un entier positif. Elle ne peut pas décrire un comptage.<br/><br/>' +
+            'Reste <strong>Poisson</strong>, et le relevé porte exactement sa signature : $E(X) = V(X) = \\lambda$, ici $\\lambda \\approx 2$. C\'est le test que l\'on mène en atelier avant toute modélisation d\'événements rares — si la variance mesurée s\'écarte franchement de la moyenne, Poisson est à écarter, et l\'on soupçonne des pannes <strong>corrélées</strong> plutôt qu\'indépendantes.'
         }
       ]
     }

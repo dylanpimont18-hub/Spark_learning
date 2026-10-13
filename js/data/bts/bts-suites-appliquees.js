@@ -196,13 +196,37 @@ window.MODULES.push(
           correction: '$a = 20000 \\times \\dfrac{0{,}05}{1 - 1{,}05^{-4}} = 20000 \\times \\dfrac{0{,}05}{1 - 0{,}8227} = 20000 \\times \\dfrac{0{,}05}{0{,}1773} \\approx 20000 \\times 0{,}2820 \\approx 5\\,640$ €.'
         },
         {
-          statement: 'On place $500$ € chaque année pendant $5$ ans à $3\\%$ annuel. La valeur acquise est $V = a \\times \\dfrac{(1+t)^n - 1}{t}$. Calculer $V$ (arrondir à l\'euro).',
-          type: 'numeric',
-          answer: 2655,
-          tolerance: 5,
-          unit: '€',
+          /* Question « communiquer » (réécrite le 2026-09-17). Elle ÉCRIVAIT la
+             formule $V = a\dfrac{(1+t)^n - 1}{t}$ dans l'énoncé et n'en
+             demandait que l'application numérique — le même geste que la Q1
+             (valeur acquise) et la Q3 (annuité), dont la formule était elle
+             aussi fournie. Trois applications numériques dictées dans un
+             devoir de cinq questions.
+
+             Pire, comme le signalait déjà cette fiche : en donnant la
+             formule, la question tranchait elle-même le choix entre versement
+             unique et suite de versements, c'est-à-dire exactement l'erreur 4
+             de la fiche professeur — la seule du chapitre qu'AUCUN exercice
+             du tirage ne travaille (`exercice: null`).
+
+             La question la vise maintenant de front. Le calcul reste
+             nécessaire et il est double : il faut mener la valeur acquise
+             correcte ($2\,655$ €) ET le placement unique ($579{,}64$ €) pour
+             voir que le raisonnement de l'élève confond les deux situations,
+             et que son résultat est cinq fois trop petit. */
+          statement: 'On place $500$ € <strong>chaque année</strong> pendant $5$ ans à $3\\%$ annuel. Élodie calcule : « $500 \\times 1{,}03^5 = 579{,}64$ €, j\'ai donc $579{,}64$ € au bout de cinq ans ». On donne $1{,}03^5 \\approx 1{,}1593$. Quelle explication corrige le mieux son raisonnement ?',
+          type: 'multiple-choice',
+          options: [
+            'Son calcul est juste, mais elle a oublié de retrancher les frais : il faut compter environ $550$ €.',
+            'Elle a confondu <strong>un versement unique</strong> et une <strong>suite de versements</strong> : $500 \\times 1{,}03^5$ est ce que rapporterait un seul dépôt de $500$ €. Ici il y a <strong>cinq</strong> dépôts, capitalisés chacun sur une durée différente, et leur somme vaut $V = 500 \\times \\dfrac{1{,}03^5 - 1}{0{,}03} \\approx 2\\,655$ €.',
+            'Elle a utilisé le mauvais exposant : avec cinq versements il faut $1{,}03^{25}$, soit environ $1\\,047$ €.',
+            'Elle aurait dû multiplier son résultat par $5$ : $579{,}64 \\times 5 = 2\\,898{,}20$ €.'
+          ],
+          answer: 1,
           points: 2,
-          correction: '$V = 500 \\times \\dfrac{1{,}03^5 - 1}{0{,}03} = 500 \\times \\dfrac{1{,}1593 - 1}{0{,}03} = 500 \\times \\dfrac{0{,}1593}{0{,}03} = 500 \\times 5{,}3091 \\approx 2\\,655$ €.'
+          correction: 'Le calcul d\'Élodie n\'est pas faux en lui-même : $500 \\times 1{,}03^5 = 500 \\times 1{,}1593 \\approx 579{,}64$ €. Mais il répond à une <strong>autre question</strong> — celle d\'un dépôt unique de $500$ € laissé cinq ans sur le compte. Or l\'énoncé dit « chaque année » : il y a cinq dépôts, et elle n\'en a capitalisé qu\'un.<br/><br/>' +
+            'Le point délicat est que les cinq versements ne dorment pas la même durée : le premier travaille cinq ans, le deuxième quatre, et le dernier vient d\'être déposé. On ne peut donc pas se contenter de multiplier par $5$ comme le propose la dernière option — cela reviendrait à faire travailler les cinq dépôts pendant cinq ans chacun, et surestime le résultat de près de $250$ €. C\'est précisément pour sommer ces cinq durées différentes qu\'existe la formule de la <strong>valeur acquise d\'une suite de versements</strong> : $V = a \\times \\dfrac{(1+t)^n - 1}{t}$.<br/><br/>' +
+            'Numériquement : $V = 500 \\times \\dfrac{1{,}1593 - 1}{0{,}03} = 500 \\times \\dfrac{0{,}1593}{0{,}03} = 500 \\times 5{,}3091 \\approx 2\\,655$ €. Le contrôle de bon sens est immédiat : on a versé $5 \\times 500 = 2\\,500$ € au total, donc le résultat doit être un peu <strong>au-dessus</strong> de $2\\,500$ € — ce que les $579{,}64$ € d\'Élodie et les $1\\,047$ € de la proposition 3 ne sont manifestement pas, et ce qu\'aucune histoire de frais (proposition 1) ne saurait expliquer.'
         },
         {
           statement: 'La différence entre intérêts simples et intérêts composés sur $10$ ans :',

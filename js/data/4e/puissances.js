@@ -52,7 +52,7 @@
         description: 'Chaque repère correspond à une valeur citée dans le cours (proton, atome, lumière, distance Terre-Soleil, univers observable), placée sur une échelle logarithmique où chaque graduation multiplie par $10$.',
         svg: `
           <svg viewBox="0 0 480 210" role="img" aria-labelledby="puissances-echelle-title puissances-echelle-desc">
-            <title id="puissances-echelle-title">Echelle logarithmique de 10 puissance -15 metres a 10 puissance 26 metres</title>
+            <title id="puissances-echelle-title">Echelle logarithmique de 10 puissance -15 mètrès a 10 puissance 26 mètres</title>
             <desc id="puissances-echelle-desc">Un axe gradue de dix en dix puissances place cinq reperes reels cites dans le cours : le proton a 10 puissance -15 m, l'atome d'hydrogene pres de 10 puissance -10 m, la lumiere rouge pres de 10 puissance -6 m, la distance Terre-Soleil pres de 10 puissance 11 m, et l'univers observable a 10 puissance 26 m.</desc>
             <line class="grid-line" x1="60.0" y1="40" x2="60.0" y2="120"></line>
             <line class="grid-line" x1="95.2" y1="40" x2="95.2" y2="120"></line>
@@ -103,13 +103,149 @@
         notes: [
           'Le <strong>proton</strong> mesure environ $10^{-15}$ m, l\'échelle la plus petite citée en introduction du cours.',
           'L\'<strong>atome d\'hydrogène</strong> a un diamètre $d \\approx 1{,}06 \\times 10^{-10}$ m (voir le problème du cours) — environ $100\\,000$ fois plus grand qu\'un proton.',
-          'La <strong>lumière rouge</strong> a une longueur d\'onde $\\lambda \\approx 6{,}5 \\times 10^{-7}$ m $= 650$ nm (exemple du cours).',
+          'La <strong>lumière rouge</strong> à une longueur d\'onde $\\lambda \\approx 6{,}5 \\times 10^{-7}$ m $= 650$ nm (exemple du cours).',
           'La <strong>distance Terre-Soleil</strong> vaut $\\approx 1{,}5 \\times 10^{11}$ m (donnée de l\'évaluation).',
           'L\'<strong>univers observable</strong> s\'étend sur $\\approx 10^{26}$ m, cité en introduction du cours.'
         ],
         reading: 'Chaque graduation représente un facteur $10$ : passer d\'une graduation à la suivante, c\'est multiplier par dix. L\'écart entre le proton ($10^{-15}$ m) et l\'univers observable ($10^{26}$ m) est de $41$ ordres de grandeur.',
         caption: 'Échelle logarithmique de $10^{-15}$ m à $10^{26}$ m, avec des repères réels cités dans le cours.'
       },
+
+      /* SCHEMAS SECONDAIRES (2026-09-13). Une figure par MALENTENDU :
+         1. un exposant negatif ne rend pas le nombre negatif — confusion
+            massive entre « petit » et « negatif » ;
+         2. la notation scientifique impose UN SEUL chiffre non nul avant la
+            virgule : 45 x 10^6 n'est pas une notation scientifique ;
+         3. ajouter un a l'exposant multiplie par dix, ce qui explique qu'un
+            ecart de deux exposants soit un facteur cent et non deux. */
+      diagrams: [
+        {
+          theme: 'maths',
+          kicker: 'Petit n\'est pas négatif',
+          title: 'Un exposant négatif donne un nombre positif, mais petit',
+          description: 'Le signe moins de l\'exposant agit sur la <strong>taille</strong> du nombre, jamais sur son signe. $10^{-3}$ est un nombre <strong>positif</strong>, simplement plus petit que $1$.',
+          svg: `
+            <svg viewBox="0 0 400 168" role="img" aria-labelledby="puiss-neg-title puiss-neg-desc">
+              <title id="puiss-neg-title">Position des puissances de dix sur un axe</title>
+              <desc id="puiss-neg-desc">Un axe gradue porte le zero a gauche et le nombre un au milieu. Les puissances de dix a exposant positif, comme dix et cent, se placent a droite du un. Les puissances a exposant negatif, comme un dixieme et un millieme, se placent entre zero et un : elles sont plus petites que un mais restent strictement positives, donc a droite du zero. Aucune puissance de dix ne se trouve dans la zone des nombres negatifs, situee a gauche du zero et grisee.</desc>
+
+              <!-- La zone des negatifs est dessinee mais VIDE : c'est le
+                   propos de la figure, montrer qu'aucune puissance de dix n'y
+                   tombe jamais. Aplat discret, c'est du decor. -->
+              <rect x="24" y="76" width="76" height="20" fill="color-mix(in srgb, var(--diagram-accent) 8%, transparent)" stroke="none"></rect>
+              <text class="tick-label" x="62" y="66" text-anchor="middle">nombres négatifs</text>
+              <text class="label-soft" x="62" y="112" text-anchor="middle">aucune puissance ici</text>
+
+              <line class="axis" x1="24" y1="86" x2="376" y2="86"></line>
+              <line class="frame-line" x1="100" y1="78" x2="100" y2="94"></line>
+              <text class="annotation-label" x="100" y="112" text-anchor="middle">0</text>
+              <line class="frame-line" x1="240" y1="78" x2="240" y2="94"></line>
+              <text class="annotation-label" x="240" y="112" text-anchor="middle">1</text>
+
+              <circle class="plot-point" cx="150" cy="86" r="4"></circle>
+              <text class="tick-label" x="150" y="66" text-anchor="middle">0,001</text>
+              <circle class="plot-point" cx="190" cy="86" r="4"></circle>
+              <text class="tick-label" x="190" y="48" text-anchor="middle">0,1</text>
+
+              <circle class="plot-point" cx="290" cy="86" r="4"></circle>
+              <text class="tick-label" x="290" y="66" text-anchor="middle">10</text>
+              <circle class="plot-point" cx="340" cy="86" r="4"></circle>
+              <text class="tick-label" x="340" y="48" text-anchor="middle">100</text>
+
+              <text class="tick-label" x="170" y="140" text-anchor="middle">exposant négatif : entre 0 et 1</text>
+              <text class="tick-label" x="315" y="140" text-anchor="middle">exposant positif : au-delà de 1</text>
+            </svg>
+          `,
+          notes: [
+            '$10^{-3} = \\dfrac{1}{1000} = 0{,}001$ : c\'est bien un nombre <strong>positif</strong>, situé entre $0$ et $1$.',
+            'Le signe de l\'exposant dit seulement de quel côté du $1$ on se trouve : à droite s\'il est positif, entre $0$ et $1$ s\'il est négatif.',
+            'Pour obtenir un nombre négatif, il faudrait un signe moins <strong>devant</strong> : $-10^{3} = -1000$, ce qui n\'a rien à voir avec $10^{-3}$.'
+          ],
+          reading: 'Regarde la bande de gauche : elle est vide. Aucune puissance de $10$, quel que soit son exposant, ne tombe du côté des nombres négatifs.',
+          caption: 'Un exposant négatif place le nombre entre $0$ et $1$ : il reste strictement positif.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'La règle du seul chiffre',
+          title: 'Un seul chiffre non nul avant la virgule',
+          description: 'Une écriture $a \\times 10^n$ n\'est en notation scientifique que si $a$ possède <strong>exactement un chiffre non nul</strong> avant la virgule, c\'est-à-dire si $1 \\leq a < 10$.',
+          svg: `
+            <svg viewBox="0 0 400 176" role="img" aria-labelledby="puiss-forme-title puiss-forme-desc">
+              <title id="puiss-forme-title">Trois ecritures d'un meme nombre, une seule est scientifique</title>
+              <desc id="puiss-forme-desc">Le meme nombre est ecrit de trois facons. La premiere, 45 fois dix puissance six, a deux chiffres avant la virgule : elle est refusee. La deuxieme, 0,45 fois dix puissance huit, a un zero avant la virgule : elle est refusee aussi. La troisieme, 4,5 fois dix puissance sept, a exactement un chiffre non nul avant la virgule : c'est la seule ecriture scientifique correcte. Les trois designent pourtant le meme nombre, quarante-cinq millions.</desc>
+
+              <!-- PATRON PIEGE : la forme JUSTE est mise en avant (accent,
+                   annotation-label) et les deux formes refusees sont en teinte
+                   faible avec un trait tirete. -->
+              <text class="label-soft" x="40" y="42" text-anchor="start">45 × 10⁶</text>
+              <line class="guide-line" x1="36" y1="50" x2="150" y2="50"></line>
+              <text class="tick-label" x="176" y="42" text-anchor="start">deux chiffres avant la virgule</text>
+
+              <text class="label-soft" x="40" y="82" text-anchor="start">0,45 × 10⁸</text>
+              <line class="guide-line" x1="36" y1="90" x2="150" y2="90"></line>
+              <text class="tick-label" x="176" y="82" text-anchor="start">un zéro avant la virgule</text>
+
+              <rect x="30" y="104" width="130" height="30" rx="8" fill="color-mix(in srgb, var(--diagram-accent) 18%, transparent)" stroke="none"></rect>
+              <text class="annotation-label" x="40" y="124" text-anchor="start">4,5 × 10⁷</text>
+              <text class="tick-label" x="176" y="124" text-anchor="start">un seul chiffre non nul : correct</text>
+
+              <text class="tick-label" x="200" y="162" text-anchor="middle">les trois valent 45 000 000</text>
+            </svg>
+          `,
+          notes: [
+            'Les trois écritures désignent le <strong>même nombre</strong>, $45\\,000\\,000$ : aucune n\'est fausse en tant que calcul.',
+            'Mais une seule respecte la <strong>forme</strong> imposée : le facteur doit être compris entre $1$ inclus et $10$ exclu.',
+            'Pour corriger $45 \\times 10^6$, on décale la virgule d\'un rang à gauche et on ajoute $1$ à l\'exposant : $4{,}5 \\times 10^7$.'
+          ],
+          reading: 'Couvre la puissance de $10$ avec ton doigt et regarde seulement le nombre de gauche. S\'il est plus petit que $1$ ou plus grand que $10$, l\'écriture n\'est pas scientifique.',
+          caption: 'Trois écritures du même nombre : seule $4{,}5 \\times 10^7$ est en notation scientifique.'
+        },
+        {
+          theme: 'maths',
+          kicker: 'Un rang, pas une unité',
+          title: 'Ajouter 1 à l\'exposant multiplie par 10',
+          description: 'Deux exposants qui se suivent ne diffèrent pas de $1$ : ils diffèrent d\'un <strong>facteur $10$</strong>. C\'est pourquoi un écart de deux exposants représente un facteur $100$, et non $2$.',
+          svg: `
+            <svg viewBox="0 0 400 172" role="img" aria-labelledby="puiss-rang-title puiss-rang-desc">
+              <title id="puiss-rang-title">Progression des puissances de dix par multiplication</title>
+              <desc id="puiss-rang-desc">Quatre puissances de dix successives sont alignees : dix puissance un vaut dix, dix puissance deux vaut cent, dix puissance trois vaut mille et dix puissance quatre vaut dix mille. Entre chaque etape, une fleche indique que l'on multiplie par dix. En passant de dix puissance un a dix puissance trois, on multiplie donc par mille et non par deux, bien que les exposants ne different que de deux unites.</desc>
+
+              <text class="annotation-label" x="52" y="72" text-anchor="middle">10¹</text>
+              <text class="tick-label" x="52" y="92" text-anchor="middle">10</text>
+              <text class="annotation-label" x="148" y="72" text-anchor="middle">10²</text>
+              <text class="tick-label" x="148" y="92" text-anchor="middle">100</text>
+              <text class="annotation-label" x="244" y="72" text-anchor="middle">10³</text>
+              <text class="tick-label" x="244" y="92" text-anchor="middle">1000</text>
+              <text class="annotation-label" x="340" y="72" text-anchor="middle">10⁴</text>
+              <text class="tick-label" x="340" y="92" text-anchor="middle">10 000</text>
+
+              <!-- Une seule pointe de fleche par trait, comme l'exige le
+                   convertisseur. -->
+              <line class="curve-main" x1="72" y1="58" x2="126" y2="58"></line>
+              <polygon class="plot-point" points="132,58 122,54 122,62"></polygon>
+              <text class="tick-label" x="99" y="44" text-anchor="middle">× 10</text>
+
+              <line class="curve-main" x1="168" y1="58" x2="222" y2="58"></line>
+              <polygon class="plot-point" points="228,58 218,54 218,62"></polygon>
+              <text class="tick-label" x="195" y="44" text-anchor="middle">× 10</text>
+
+              <line class="curve-main" x1="264" y1="58" x2="318" y2="58"></line>
+              <polygon class="plot-point" points="324,58 314,54 314,62"></polygon>
+              <text class="tick-label" x="291" y="44" text-anchor="middle">× 10</text>
+
+              <path class="guide-line" fill="none" d="M52 108 L52 126 L244 126 L244 108"></path>
+              <text class="tick-label" x="148" y="146" text-anchor="middle">deux exposants d’écart : facteur 100</text>
+            </svg>
+          `,
+          notes: [
+            'Chaque pas vers la droite <strong>multiplie par $10$</strong> : c\'est ce que signifie ajouter $1$ à l\'exposant.',
+            'De $10^1$ à $10^3$, on fait deux pas, donc $10 \\times 10 = 100$ fois plus — pas deux fois plus.',
+            'C\'est ce qui rend la notation scientifique si pratique : quelques unités d\'exposant couvrent des écarts gigantesques.'
+          ],
+          reading: 'Compte les flèches entre deux puissances, pas la différence des exposants. Chaque flèche vaut une multiplication par $10$.',
+          caption: 'Chaque unité d\'exposant correspond à une multiplication par $10$.'
+        }
+      ],
       recap: [
         'Notation scientifique : $a \\times 10^n$ avec $1 \\leq a < 10$',
         'Multiplier → additionner les exposants ; diviser → soustraire les exposants',
@@ -147,32 +283,143 @@
 
     exercice: {
       type: 'numeric',
+      /* REECRIT LE 2026-09-13.
+
+         AVANT : une seule tache (multiplier par une puissance de 10), mantisse
+         FIGEE a 3, et surtout une reponse rendue en notation exponentielle
+         JavaScript des que l'exposant descendait sous -6 — « 3e-7 » imprime tel
+         quel dans un manuel francais, sur 27 tirages sur 120. Le defaut datait
+         de la creation du module et aucun controle ne le voyait : celui qui
+         traque la notation decimale anglaise cherche un point decimal, pas un
+         « e ».
+
+         APRES : quatre taches, mantisse tiree, et la forme decimale n'est
+         demandee que lorsqu'elle s'ecrit sans exces de zeros. Au-dela, on
+         demande l'EXPOSANT de l'ecriture scientifique — une reponse entiere,
+         donc toujours lisible, et c'est la competence que le chapitre vise. */
       generate() {
+        const tache = pick(['produit', 'produit', 'scientifique', 'quotient', 'ordre']);
         const ctx = pick([
-          {intro:'En astronomie, la distance entre deux étoiles est', emoji:'🌌'},
-          {intro:'En chimie, la masse d\'un atome est', emoji:'🧪'},
-          {intro:'En biologie, la taille d\'une bactérie est', emoji:'🦠'},
-          {intro:'En informatique, la capacité d\'un disque dur est', emoji:'💾'},
-          {intro:'En physique nucléaire, l\'énergie libérée est', emoji:'⚛️'}
+          { intro: 'En astronomie, la distance entre deux etoiles est', emoji: '🌌' },
+          { intro: 'En chimie, la masse d\'un atome est', emoji: '🧪' },
+          { intro: 'En biologie, la taille d\'une bacterie est', emoji: '🦠' },
+          { intro: 'En informatique, la capacite d\'un disque dur est', emoji: '💾' },
+          { intro: 'En physique nucleaire, l\'energie liberee est', emoji: '⚛️' }
         ]);
-        // Ask to calculate 10^n1 * 10^n2
-        const n1 = rand(-4, 2);
-        const n2 = rand(-4, 2);
-        const resultExp = n1 + n2;
-        const mantisse = 3;
-        const decimals = resultExp < 0 ? -resultExp : 0;
-        const fullAnswer = parseFloat((mantisse * Math.pow(10, resultExp)).toFixed(decimals));
-        const fullAnswerDisplay = fr(fullAnswer, decimals);
+
+        if (tache === 'produit') {
+          const m = rand(2, 9);
+          const n1 = rand(-4, 3), n2 = rand(-4, 3);
+          const exp = n1 + n2;
+          /* SEUIL D'ECRITURE DECIMALE. Au-dela de 4 decimales ou de 5 chiffres
+             avant la virgule, la forme decimale devient une file de zeros que
+             personne ne lit, et JavaScript basculerait en notation « e ». On
+             demande alors l'exposant de l'ecriture scientifique : reponse
+             entiere, lisible, et c'est l'objectif du chapitre. */
+          if (exp >= -4 && exp <= 4) {
+            const val = parseFloat((m * Math.pow(10, exp)).toFixed(Math.max(0, -exp)));
+            return {
+              statement: ctx.emoji + ' ' + ctx.intro + ' de l\'ordre de $' + m + ' \\times 10^{' + n1 + '}$. ' +
+                'On multiplie cette valeur par $10^{' + n2 + '}$. Calcule $' + m + ' \\times 10^{' + n1 + '} \\times 10^{' + n2 + '}$ ' +
+                'et donne le résultat en écriture décimale.',
+              answer: val,
+              tolerance: Math.abs(val) * 0.001 + 1e-12,
+              unit: '',
+              hint: 'Pour multiplier des puissances de $10$, on ADDITIONNE les exposants : $10^{a} \\times 10^{b} = 10^{a+b}$.',
+              solution: [
+                'On regroupe les puissances de $10$ : $' + m + ' \\times 10^{' + n1 + '} \\times 10^{' + n2 + '} = ' + m + ' \\times 10^{' + n1 + ' + (' + n2 + ')}$.',
+                'Addition des exposants : $' + n1 + ' + (' + n2 + ') = ' + exp + '$, donc le résultat vaut $' + m + ' \\times 10^{' + exp + '}$.',
+                'En écriture décimale : $' + fr(val, Math.max(0, -exp)) + '$.'
+              ]
+            };
+          }
+          return {
+            statement: ctx.emoji + ' ' + ctx.intro + ' de l\'ordre de $' + m + ' \\times 10^{' + n1 + '}$. ' +
+              'On multiplie cette valeur par $10^{' + n2 + '}$. Le résultat s\'ecrit $' + m + ' \\times 10^{n}$ : quelle est la valeur de $n$ ?',
+            answer: exp,
+            tolerance: 0,
+            unit: '',
+            hint: 'Pour multiplier des puissances de $10$, on ADDITIONNE les exposants. La mantisse $' + m + '$ ne change pas.',
+            solution: [
+              'On regroupe les puissances de $10$ : $' + m + ' \\times 10^{' + n1 + '} \\times 10^{' + n2 + '} = ' + m + ' \\times 10^{' + n1 + ' + (' + n2 + ')}$.',
+              'Addition des exposants : $n = ' + n1 + ' + (' + n2 + ') = ' + exp + '$.',
+              'Le résultat vaut donc $' + m + ' \\times 10^{' + exp + '}$. L\'ecrire en décimal demanderait ici ' +
+                (exp < 0 ? 'd\'aligner ' + (-exp) + ' décimales' : 'd\'écrire ' + exp + ' zéros') + ' : c\'est précisément pour cela que la notation scientifique existe.'
+            ]
+          };
+        }
+
+        if (tache === 'scientifique') {
+          /* Passer d'une ecriture decimale a la notation scientifique. On tire
+             la valeur de facon a ce qu'elle s'ecrive proprement, et la reponse
+             demandee est l'EXPOSANT : un entier, donc jamais de notation
+             exponentielle en sortie. */
+          const m = rand(1, 9);
+          const d = rand(0, 2);
+          const mant = d ? parseFloat((m + rand(1, 9) / 10).toFixed(1)) : m;
+          const exp = pick([-4, -3, -2, 2, 3, 4, 5]);
+          const val = mant * Math.pow(10, exp);
+          const dec = Math.max(0, -exp + (d ? 1 : 0));
+          return {
+            statement: ctx.emoji + ' Une mesure vaut $' + fr(parseFloat(val.toFixed(dec)), dec) + '$. ' +
+              'Ecrite en notation scientifique, elle se met sous la forme $a \\times 10^{n}$ avec $1 \\leqslant a < 10$. Quelle est la valeur de $n$ ?',
+            answer: exp,
+            tolerance: 0,
+            unit: '',
+            hint: 'Déplace la virgule jusqu\'a n\'avoir qu\'un seul chiffre non nul devant elle, et compte les rangs parcourus. Vers la gauche l\'exposant est positif, vers la droite il est négatif.',
+            solution: [
+              'La mantisse doit être comprise entre $1$ et $10$ : ici $a = ' + fr(mant, d ? 1 : 0) + '$.',
+              'Il faut donc déplacer la virgule de $' + Math.abs(exp) + '$ rang(s) vers la ' + (exp > 0 ? 'gauche' : 'droite') + ', ce qui donne $n = ' + exp + '$.',
+              'Vérification : $' + fr(mant, d ? 1 : 0) + ' \\times 10^{' + exp + '} = ' + fr(parseFloat(val.toFixed(dec)), dec) + '$.'
+            ]
+          };
+        }
+
+        if (tache === 'quotient') {
+          const m1 = pick([2, 4, 6, 8, 9]);
+          const m2 = pick([2, 3, 4]);
+          // On choisit m1 multiple de m2 : la mantisse du quotient reste simple.
+          const mant = (m1 % m2 === 0) ? m1 / m2 : m1;
+          const mm2 = (m1 % m2 === 0) ? m2 : 1;
+          const n1 = rand(-2, 6), n2 = rand(-2, 4);
+          const exp = n1 - n2;
+          return {
+            statement: ctx.emoji + ' Calcule $\\dfrac{' + m1 + ' \\times 10^{' + n1 + '}}{' + mm2 + ' \\times 10^{' + n2 + '}}$. ' +
+              'Le résultat s\'ecrit $' + mant + ' \\times 10^{n}$ : quelle est la valeur de $n$ ?',
+            answer: exp,
+            tolerance: 0,
+            unit: '',
+            hint: 'Pour diviser des puissances de $10$, on SOUSTRAIT les exposants : $\\dfrac{10^{a}}{10^{b}} = 10^{a-b}$.',
+            solution: [
+              'On traite séparement les mantisses et les puissances : $\\dfrac{' + m1 + '}{' + mm2 + '} = ' + mant + '$ et $\\dfrac{10^{' + n1 + '}}{10^{' + n2 + '}} = 10^{' + n1 + ' - (' + n2 + ')}$.',
+              'Soustraction des exposants : $n = ' + n1 + ' - (' + n2 + ') = ' + exp + '$.',
+              'Le quotient vaut donc $' + mant + ' \\times 10^{' + exp + '}$. Piege frequent : additionner les exposants par reflexe, alors qu\'une division les soustrait.'
+            ]
+          };
+        }
+
+        // tache === 'ordre' : comparer deux ordres de grandeur. C'est l'usage le
+        // plus durable du chapitre, et il ne demande aucun calcul decimal.
+        const e1 = rand(-9, 9);
+        const ecart = rand(1, 8);
+        const e2 = e1 - ecart;
+        const paire = pick([
+          { a: 'la taille d\'une cellule', b: 'la taille d\'un atome' },
+          { a: 'la masse de la Terre', b: 'la masse de la Lune' },
+          { a: 'la distance Terre-Soleil', b: 'le diamètre de la Terre' },
+          { a: 'la duree d\'une vie humaine', b: 'la duree d\'un battement de coeur' }
+        ]);
         return {
-          statement: `${ctx.emoji} ${ctx.intro} de l'ordre de $3 \\times 10^{${n1}}$. On multiplie cette valeur par $10^{${n2}}$. Calcule $3 \\times 10^{${n1}} \\times 10^{${n2}}$. Donne le résultat sous forme décimale standard.`,
-          answer: fullAnswer,
-          tolerance: Math.abs(fullAnswer) * 0.01 + 1e-15,
+          statement: '📏 On mesure ' + paire.a + ' a $10^{' + e1 + '}$ et ' + paire.b + ' a $10^{' + e2 + '}$ (dans la même unité). ' +
+            'Combien de fois la première est-elle plus grande que la seconde ? Le rapport vaut $10^{n}$ : quelle est la valeur de $n$ ?',
+          answer: ecart,
+          tolerance: 0,
           unit: '',
-          hint: 'Pour multiplier des puissances de 10, on additionne les exposants : $10^{a} \\times 10^{b} = 10^{a+b}$. Ici l\'exposant final sera $' + n1 + ' + (' + n2 + ')$.',
+          hint: 'Un rapport est un quotient : on soustrait les exposants, $10^{' + e1 + '} \\div 10^{' + e2 + '} = 10^{' + e1 + ' - (' + e2 + ')}$.',
           solution: [
-            `Regrouper les puissances : $3 \\times 10^{${n1}} \\times 10^{${n2}} = 3 \\times 10^{${n1} + (${n2})}$`,
-            `Addition des exposants : $${n1} + (${n2}) = ${resultExp}$`,
-            `Résultat : $3 \\times 10^{${resultExp}} = ${fullAnswerDisplay}$`
+            'Le rapport cherche est $\\dfrac{10^{' + e1 + '}}{10^{' + e2 + '}} = 10^{' + e1 + ' - (' + e2 + ')}$.',
+            '$n = ' + e1 + ' - (' + e2 + ') = ' + ecart + '$, donc la première grandeur est $10^{' + ecart + '}$ fois plus grande.',
+            'C\'est l\'interet des ordres de grandeur : une simple soustraction d\'exposants remplace une division de nombres a ' + (Math.abs(e1) + 1) + ' chiffres.'
           ]
         };
       }
@@ -189,7 +436,7 @@
       solutions: [
         '$d_{\\text{atome}} = 1{,}06 \\times 10^{-10}$ m. Or $1$ nm $= 10^{-9}$ m, donc $d_{\\text{atome}} = 1{,}06 \\times 10^{-10} / 10^{-9}$ nm $= 0{,}106$ nm $\\approx 0{,}1$ nm.',
         '$\\lambda_{\\text{UV}} = 200 \\times 10^{-9}$ m $= 2{,}00 \\times 10^{-7}$ m.',
-        '$\\dfrac{\\lambda_{\\text{UV}}}{d_{\\text{atome}}} = \\dfrac{2{,}00 \\times 10^{-7}}{1{,}06 \\times 10^{-10}} \\approx 1887 \\approx 2000$. La lumière UV a une longueur d\'onde environ 2000 fois plus grande que le diamètre d\'un atome d\'hydrogène !'
+        '$\\dfrac{\\lambda_{\\text{UV}}}{d_{\\text{atome}}} = \\dfrac{2{,}00 \\times 10^{-7}}{1{,}06 \\times 10^{-10}} \\approx 1887 \\approx 2000$. La lumière UV à une longueur d\'onde environ 2000 fois plus grande que le diamètre d\'un atome d\'hydrogène !'
       ],
       finalAnswer: 'Rapport $\\approx 1{,}89 \\times 10^3$ (la lumière UV est ~1900 fois plus grande qu\'un atome)'
     },
@@ -216,30 +463,57 @@
           correction: 'On divise les mantisses : $6 \\div 3 = 2$. On soustrait les exposants : $5 - (-2) = 7$. Résultat : $2 \\times 10^{7}$.'
         },
         {
-          statement: 'Combien de nanomètres ($\\text{nm}$) y a-t-il dans $5{,}3 \\times 10^{-6}\\,\\text{m}$ ?',
+          /* Q3 — « modéliser ». Le rappel « un nanomètre vaut $10^{-9}$ m » a été
+             AJOUTÉ le 2026-09-13 : sans lui, la question testait la mémoire du
+             préfixe et non la mise en opération. Avec lui, la seule difficulté
+             restante est de choisir le sens de la conversion, ce qui est
+             exactement modéliser. */
+          statement: 'Un nanomètre vaut $10^{-9}\\,\\text{m}$. Combien de nanomètres ($\\text{nm}$) y a-t-il dans $5{,}3 \\times 10^{-6}\\,\\text{m}$ ?',
           type: 'numeric',
           answer: 5300,
           tolerance: 1,
           unit: 'nm',
           points: 2,
-          correction: '$1\\,\\text{nm} = 10^{-9}\\,\\text{m}$. Donc $5{,}3 \\times 10^{-6}\\,\\text{m} = \\dfrac{5{,}3 \\times 10^{-6}}{10^{-9}}\\,\\text{nm} = 5{,}3 \\times 10^{3}\\,\\text{nm} = 5\\,300\\,\\text{nm}$.'
+          correction: 'Le sens de la conversion se décide avant tout calcul : un nanomètre est beaucoup plus petit qu\'un mètre, donc il y en a beaucoup dans la longueur donnée — le résultat sera grand.<br/><br/>' +
+            'On divise la longueur par la valeur d\'un nanomètre : $\\dfrac{5{,}3 \\times 10^{-6}}{10^{-9}} = 5{,}3 \\times 10^{-6-(-9)} = 5{,}3 \\times 10^{3}$.<br/><br/>' +
+            'Soit $5\\,300\\,\\text{nm}$. Un résultat plus petit que $1$ aurait signalé une conversion prise à l\'envers.'
         },
         {
-          statement: 'Calculer $(4 \\times 10^{3})^2$. Donner le résultat en notation scientifique.',
-          type: 'multiple-choice',
-          options: ['$4 \\times 10^{6}$', '$8 \\times 10^{6}$', '$16 \\times 10^{6}$', '$1{,}6 \\times 10^{7}$'],
-          answer: 3,
-          points: 2,
-          correction: '$(4 \\times 10^{3})^2 = 4^2 \\times (10^{3})^2 = 16 \\times 10^{6}$. En notation scientifique : $1{,}6 \\times 10^{7}$.'
-        },
-        {
-          statement: 'La distance Terre-Soleil est environ $1{,}5 \\times 10^{11}\\,\\text{m}$. La vitesse de la lumière est $3 \\times 10^{8}\\,\\text{m/s}$. Combien de secondes met la lumière pour parcourir cette distance ?',
+          /* Q4 RÉÉCRITE le 2026-09-13 pour mobiliser « chercher ». L'ancien
+             énoncé, « calculer $(4 \times 10^3)^2$ », était l'application
+             directe d'une règle du cours. Ici aucune opération n'est nommée :
+             l'élève doit reconnaître derrière « combien de fois plus grande » un
+             RAPPORT, donc un quotient, et se garder du réflexe d'addition des
+             exposants. */
+          statement: 'Une bactérie mesure $2 \\times 10^{-6}\\,\\text{m}$ et un atome $1 \\times 10^{-10}\\,\\text{m}$. Combien de fois la bactérie est-elle plus grande que l\'atome ? Le rapport s\'écrit $2 \\times 10^{n}$ : donner la valeur de $n$.',
           type: 'numeric',
-          answer: 500,
-          tolerance: 1,
-          unit: 's',
+          answer: 4,
+          tolerance: 0,
+          unit: '',
           points: 2,
-          correction: '$t = \\dfrac{d}{v} = \\dfrac{1{,}5 \\times 10^{11}}{3 \\times 10^{8}} = 0{,}5 \\times 10^{3} = 500\\,\\text{s}$. La lumière met environ $500$ secondes (un peu plus de $8$ minutes) pour aller du Soleil à la Terre.'
+          correction: '« Combien de fois plus grande » désigne un <strong>rapport</strong>, donc un quotient : il faut diviser, alors que l\'énoncé ne prononce jamais le mot.<br/><br/>' +
+            'On sépare mantisses et puissances : $\\dfrac{2}{1} = 2$ et $\\dfrac{10^{-6}}{10^{-10}} = 10^{-6-(-10)} = 10^{4}$.<br/><br/>' +
+            'Le rapport vaut $2 \\times 10^{4}$, donc $n = 4$ : la bactérie est $20\\,000$ fois plus grande. Le piège est d\'additionner les exposants, ce qui donnerait $10^{-16}$ — un rapport inférieur à $1$, absurde pour une grandeur annoncée plus grande.'
+        },
+        {
+          /* Q5 RÉÉCRITE le 2026-09-13 pour mobiliser « communiquer ». L'ancien
+             énoncé (durée du trajet de la lumière) était un quotient à poser.
+             Celui-ci demande de distinguer une erreur de FORME d'une erreur de
+             VALEUR et de le dire : une explication, pas un nombre. C'est aussi
+             la distinction la plus utile du chapitre. */
+          statement: 'Un élève écrit le résultat d\'un calcul sous la forme $45 \\times 10^{6}$ et affirme qu\'il est en notation scientifique. Quelle explication est la plus juste ?',
+          type: 'multiple-choice',
+          options: [
+            'Il a raison : tout produit d\'un nombre par une puissance de $10$ est en notation scientifique.',
+            'Il a tort, et sa valeur est fausse : $45 \\times 10^{6}$ ne correspond à aucun nombre.',
+            'Il a tort sur la FORME seulement : la valeur est juste, mais la notation scientifique impose une mantisse $a$ telle que $1 \\leqslant a < 10$, et $45$ ne l\'est pas. L\'écriture correcte est $4{,}5 \\times 10^{7}$.',
+            'Il a tort parce que l\'exposant d\'une notation scientifique doit rester inférieur à $6$.'
+          ],
+          answer: 2,
+          points: 2,
+          correction: 'La <strong>valeur</strong> est correcte : $45 \\times 10^{6} = 45\\,000\\,000$. L\'erreur ne porte que sur la forme, et c\'est tout l\'intérêt de la question.<br/><br/>' +
+            'La notation scientifique exige une mantisse comprise entre $1$ inclus et $10$ exclu. Ici $45 \\geqslant 10$ : on déplace la virgule d\'un rang vers la gauche, ce qui divise la mantisse par $10$, et on augmente l\'exposant de $1$ pour compenser.<br/><br/>' +
+            '$45 \\times 10^{6} = 4{,}5 \\times 10^{7}$. Les deux écritures désignent le même nombre ; une seule est la notation scientifique.'
         }
       ]
     }

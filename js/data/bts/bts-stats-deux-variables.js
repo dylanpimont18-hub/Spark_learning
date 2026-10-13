@@ -140,9 +140,18 @@ window.MODULES.push(
           {
             build: () => `Le service maintenance étudie la relation entre l'<strong>âge d'une machine</strong> ($x$) et son <strong>coût annuel de maintenance</strong> ($y$) : $\\bar{x}=${xbar}$, $\\bar{y}=${ybar}$, $\\text{Cov}(x,y)=${cov}$, $V_x=${vx}$.<br/><br/>Calcule la <strong>pente</strong> $a=\\text{Cov}/V_x$ de la droite de régression.`
           },
-          {
-            build: () => `On étudie la relation entre l'<strong>épaisseur d'isolant</strong> ($x$) posé et la <strong>perte thermique</strong> ($y$) d'un local : $\\bar{x}=${xbar}$, $\\bar{y}=${ybar}$, $\\text{Cov}(x,y)=${cov}$, $V_x=${vx}$.<br/><br/>Calcule la <strong>pente</strong> $a=\\text{Cov}/V_x$ de la droite de régression.`
-          },
+          /* Contexte « épaisseur d'isolant / perte thermique » RETIRE le
+             2026-09-17. La covariance est tiree par `rand(1, 4)`, donc
+             TOUJOURS POSITIVE, ce qui convient aux cinq contextes restants
+             (plus le moteur tourne vite, plus il chauffe ; plus la machine est
+             vieille, plus elle coute) mais pas a celui-la : entre l'epaisseur
+             d'isolant et la perte thermique, la correlation est NEGATIVE par
+             construction physique. L'enonce affirmait donc que plus on isole,
+             plus on perd de chaleur — une absurdite qu'un etudiant de BTS FED
+             ou de genie thermique releve immediatement, et qui decredibilise
+             le chapitre entier.
+             Corrige a la source plutot que signale dans la fiche : le calcul
+             demande (a = Cov / Vx) est le meme, seul le contexte disparait. */
           {
             build: () => `On étudie la relation entre la <strong>vitesse du vent</strong> ($x$) et la <strong>production d'une éolienne</strong> ($y$) : $\\bar{x}=${xbar}$, $\\bar{y}=${ybar}$, $\\text{Cov}(x,y)=${cov}$, $V_x=${vx}$.<br/><br/>Calcule la <strong>pente</strong> $a=\\text{Cov}/V_x$ de la droite de régression.`
           }
@@ -212,13 +221,41 @@ window.MODULES.push(
           correction: '$r = -0{,}92$ est proche de $-1$ : forte corrélation linéaire négative. Quand $x$ augmente, $y$ a tendance à diminuer de façon linéaire. Attention : cela ne prouve pas une causalité (corrélation $\\neq$ causalité).'
         },
         {
-          statement: 'Avec la droite de régression $y = 2{,}5x + 1$, estimer $y$ pour $x = 10$.',
-          type: 'numeric',
-          answer: 26,
-          tolerance: 0,
-          unit: '',
+          /* Question « représenter » (réécrite le 2026-09-17). Elle donnait la
+             droite $y = 2{,}5x + 1$ et demandait $y$ pour $x = 10$ : une
+             multiplication et une addition, l'équation étant fournie — le
+             même geste d'exécution que la Q1 (covariance) et la Q3
+             (coefficients), qui recevaient elles aussi leurs formules.
+
+             Ce chapitre est celui du NUAGE DE POINTS et de la DROITE
+             D'AJUSTEMENT, et cette fiche signalait qu'aucune de ses cinq
+             questions ne faisait lire ni produire la moindre représentation.
+             La question demande maintenant de LIRE un nuage donné sous forme
+             de tableau, d'y placer le point moyen et de juger l'allure du
+             nuage — c'est-à-dire « représenter ».
+
+             Elle vise l'erreur 3 de la fiche professeur (oublier l'ordonnée à
+             l'origine, ou la calculer avec la mauvaise moyenne), que le
+             tirage ne travaille pas (`exercice: null`) : le point moyen
+             $(\bar{x}\,;\,\bar{y})$ est justement ce qui la rend visible.
+
+             Le calcul reste nécessaire : il faut moyenner les cinq abscisses
+             ($\bar{x} = 6$) et les cinq ordonnées ($\bar{y} = 16$) pour
+             écarter les distracteurs, dont l'un propose le point médian des
+             valeurs extrêmes et l'autre un point du nuage lui-même. */
+          statement: 'Cinq mesures relient la charge $x$ (en kW) à la consommation $y$ (en L/h) d\'un groupe électrogène :<br/><br/>$x$ : $2$ — $4$ — $6$ — $8$ — $10$<br/>$y$ : $7$ — $12$ — $16$ — $19$ — $26$<br/><br/>Par quel point la droite d\'ajustement de $y$ en $x$ passe-t-elle nécessairement ?',
+          type: 'multiple-choice',
+          options: [
+            'Par $(6\\,;\\,16)$, le point du nuage qui se trouve au milieu du tableau.',
+            'Par $(6\\,;\\,16{,}5)$, milieu du segment joignant le premier et le dernier point du nuage.',
+            'Par le <strong>point moyen</strong> $(\\bar{x}\\,;\\,\\bar{y}) = (6\\,;\\,16)$, obtenu en moyennant les <strong>cinq</strong> abscisses et les <strong>cinq</strong> ordonnées. Que ce point coïncide ici avec la troisième mesure est une <strong>coïncidence</strong> due à la régularité du nuage.',
+            'Par l\'origine $(0\\,;\\,0)$, puisqu\'une consommation nulle correspond à une charge nulle.'
+          ],
+          answer: 2,
           points: 1,
-          correction: '$y = 2{,}5 \\times 10 + 1 = 25 + 1 = 26$. Attention : cette estimation n\'est fiable que si $x = 10$ est dans la plage des données observées (pas d\'extrapolation trop lointaine).'
+          correction: 'La propriété à mobiliser est celle du cours : la droite des moindres carrés passe toujours par le <strong>point moyen</strong> $(\\bar{x}\\,;\\,\\bar{y})$, parce que l\'ordonnée à l\'origine est construite pour cela ($b = \\bar{y} - a\\bar{x}$). Il faut donc calculer ces deux moyennes sur l\'ensemble des données : $\\bar{x} = \\dfrac{2+4+6+8+10}{5} = \\dfrac{30}{5} = 6$ et $\\bar{y} = \\dfrac{7+12+16+19+26}{5} = \\dfrac{80}{5} = 16$.<br/><br/>' +
+            'Le point moyen est donc $(6\\,;\\,16)$. Il tombe ici exactement sur la troisième mesure, mais c\'est un <strong>hasard</strong> lié à la régularité de ce nuage : en général le point moyen n\'appartient à aucune mesure, et c\'est pourquoi la première proposition — « le point du milieu du tableau » — est une recette qui n\'a aucune raison de marcher. Le vérifier : le milieu des seuls extrêmes $(2\\,;\\,7)$ et $(10\\,;\\,26)$ donne $(6\\,;\\,16{,}5)$, une ordonnée différente, car les trois mesures intermédiaires ne sont pas parfaitement alignées.<br/><br/>' +
+            'Quant à l\'origine, elle n\'a rien d\'obligatoire — et elle est même physiquement fausse ici : un groupe électrogène consomme du carburant à vide, pour entretenir sa propre rotation. L\'ajustement de ce nuage donne d\'ailleurs une ordonnée à l\'origine nettement positive, ce qui est précisément la consommation à charge nulle que la proposition 4 voudrait annuler.'
         }
       ]
     }
