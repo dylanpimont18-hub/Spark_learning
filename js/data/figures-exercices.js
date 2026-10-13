@@ -437,9 +437,7 @@ function figureAnglesAdjacents(a, total, options) {
    le point A tombe reellement sur sa valeur. Le symetrique est marque d'un
    cercle vide et d'un « ? » : la figure montre OU il se trouve, jamais sa
    valeur — elle ne doit pas donner la reponse. */
-function figureSymetrie(valeurA, valeurAxe, options) {
-  const o = options || {};
-  const nomVar = o.variable === undefined ? 'x' : o.variable;
+function figureSymetrie(valeurA, valeurAxe) {
   const symetrique = 2 * valeurAxe - valeurA;
 
   // Graduation : on encadre les trois valeurs utiles avec une unite de marge.
@@ -476,7 +474,7 @@ function figureSymetrie(valeurA, valeurAxe, options) {
   }
   // L'axe de symetrie : la « pliure », en pointilles.
   traits.push(`<line class="guide-line" x1="${nb2(X(valeurAxe))}" y1="${nb2(yAxe - 58)}" x2="${nb2(X(valeurAxe))}" y2="${nb2(yAxe + 26)}"></line>`);
-  traits.push(`<text class="label-soft" x="${nb2(X(valeurAxe))}" y="${nb2(yAxe - 64)}" text-anchor="middle">axe ${nomVar} = ${fr(valeurAxe)}</text>`);
+  traits.push(`<text class="label-soft" x="${nb2(X(valeurAxe))}" y="${nb2(yAxe - 64)}" text-anchor="middle">axe en ${fr(valeurAxe)}</text>`);
   // Le point A, a sa vraie place.
   traits.push(`<circle class="plot-point" cx="${nb2(X(valeurA))}" cy="${nb2(yAxe)}" r="3"></circle>`);
   traits.push(`<text class="annotation-label" x="${nb2(X(valeurA))}" y="${nb2(yAxe - 14)}" text-anchor="middle">A</text>`);
@@ -484,7 +482,7 @@ function figureSymetrie(valeurA, valeurAxe, options) {
   traits.push(`<circle class="plot-point-alt" cx="${nb2(X(symetrique))}" cy="${nb2(yAxe)}" r="3"></circle>`);
   traits.push(`<text class="annotation-label" x="${nb2(X(symetrique))}" y="${nb2(yAxe - 14)}" text-anchor="middle">A' = ?</text>`);
 
-  return svgFigure(`Point A et axe de symetrie ${nomVar} = ${valeurAxe}`, traits.join(''));
+  return svgFigure(`Point A et axe de symetrie place en ${valeurAxe}`, traits.join(''));
 }
 
 /* --- Losange sur ses diagonales ----------------------------------------

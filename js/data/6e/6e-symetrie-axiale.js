@@ -376,7 +376,7 @@ window.MODULES.push({
              figure, l'eleve applique une recette sans jamais voir la pliure.
              Le symetrique est marque d'un cercle vide et d'un « ? » : la figure
              montre OU il se trouve, jamais sa valeur. */
-          figure: figureSymetrie(pointVal, k, { variable: varSym }),
+          figure: figureSymetrie(pointVal, k),
           answer: symVal,
           tolerance: 0,
           unit: '',
