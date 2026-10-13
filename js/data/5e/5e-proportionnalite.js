@@ -24,7 +24,8 @@ window.MODULES.push({
         'La proportionnalité est l\'outil mathématique de la <strong>mise à l\'échelle</strong> : quand on double une grandeur, l\'autre double aussi. Les pourcentages sont un cas particulier où le coefficient est exprimé sur 100.<br/><br/>' +
         '<strong>Piège courant avec les pourcentages :</strong> une baisse de $20\\%$ puis une hausse de $20\\%$ ne revient PAS au prix initial ! Exemple : $100 \\to 80 \\to 96$ (pas $100$). En effet $0{,}8 \\times 1{,}2 = 0{,}96$.<br/><br/>' +
         'Les <strong>échelles cartographiques</strong> sont des rapports : $\\dfrac{1}{25\\,000}$ signifie que $1$ cm sur la carte = $25\\,000$ cm = $250$ m en réalité.<br/><br/>' +
-        'La <strong>vitesse</strong> $v = \\dfrac{d}{t}$ est le coefficient de proportionnalité entre distance et temps quand la vitesse est constante. Toujours vérifier la cohérence des unités : $1$ km/h $= \\dfrac{1}{3{,}6}$ m/s.',
+        'La <strong>vitesse</strong> $v = \\dfrac{d}{t}$ est le coefficient de proportionnalité entre distance et temps quand la vitesse est constante.<br/><br/>' +
+        'Toujours vérifier que la distance et la durée sont dans les unités de la vitesse : des kilomètres et des heures pour des km/h.',
       definitions: [
         { term: 'Pourcentage', def: 'Proportion exprimée sur 100. $p\\%$ de $T = \\dfrac{p}{100} \\times T$.' },
         { term: 'Échelle', def: 'Rapport entre une distance sur un plan et la distance réelle correspondante. Échelle $\\dfrac{1}{25\\,000}$ → 1 cm = 250 m.' },
@@ -288,16 +289,15 @@ window.MODULES.push({
       method: {
         title: 'Méthode en 3 cas',
         steps: [
-          '<strong>Pourcentage</strong> : $p\\%$ de $T = \\dfrac{p}{100} \\times T$. Pour trouver le taux : $\\dfrac{\\text{partie}}{\\text{total}} \\times 100$.',
-          '<strong>Échelle</strong> : $\\text{distance réelle} = \\dfrac{\\text{distance sur plan}}{\\text{échelle}}$. Ex : échelle $1/25000$ → $1$ cm sur plan = $250$ m réels.',
-          '<strong>Vitesse</strong> : $v = \\dfrac{d}{t}$, donc $d = v \\times t$ et $t = \\dfrac{d}{v}$. Vérifier la cohérence des unités (km/h, m/s).'
+          '<strong>Pourcentage</strong> : $p\\%$ de $T = \\dfrac{p}{100} \\times T$.<br/><br/>Pour retrouver un taux, on rapporte la variation au total de <strong>départ</strong> : de $120$ € à $90$ €, la baisse vaut $30$ € et $\\dfrac{30}{120} \\times 100 = 25\\%$.',
+          '<strong>Échelle</strong> : $\\dfrac{1}{25\\,000}$ signifie que la réalité est $25\\,000$ fois plus grande que la carte.<br/><br/>Distance réelle $=$ distance sur la carte $\\times 25\\,000$, en centimètres, puis on convertit : $3$ cm $\\to 75\\,000$ cm $= 750$ m.',
+          '<strong>Vitesse</strong> : $v = \\dfrac{d}{t}$, donc $d = v \\times t$ et $t = \\dfrac{d}{v}$.<br/><br/>À $20$ km/h pendant $1{,}5$ h : $d = 20 \\times 1{,}5 = 30$ km.'
         ]
       },
       formulas: [
         '$p\\% \\text{ de } T = \\dfrac{p}{100} \\times T$',
-        'Échelle $e$ : $d_{\\text{réelle}} = \\dfrac{d_{\\text{plan}}}{e}$',
-        '$v = \\dfrac{d}{t}$ ; $d = v \\times t$ ; $t = \\dfrac{d}{v}$',
-        'Conversion : $1\\,\\text{km/h} = \\dfrac{1}{3{,}6}\\,\\text{m/s}$'
+        'Échelle $\\dfrac{1}{n}$ : $d_{\\text{réelle}} = d_{\\text{carte}} \\times n$ (même unité des deux côtés, puis convertir)',
+        '$v = \\dfrac{d}{t}$ ; $d = v \\times t$ ; $t = \\dfrac{d}{v}$'
       ],
       recap: [
         '$p\\%$ de $T$ = $\\dfrac{p}{100} \\times T$. Ne jamais oublier de diviser par 100.',
@@ -305,15 +305,15 @@ window.MODULES.push({
         'Vitesse = distance ÷ temps. Vérifier que les unités sont cohérentes.',
         'Échelle : multiplier la distance sur la carte par le dénominateur de l\'échelle.'
       ],
-      piege: 'Piège avec les unités de vitesse : $90$ km/h $\\neq$ $90$ m/s. Pour convertir : $90 \\div 3{,}6 = 25$ m/s. Toujours vérifier que distance et temps sont dans les mêmes unités que la vitesse.'
+      piege: 'Piège : « $-20\\%$ puis $+20\\%$ » ne ramène pas au prix de départ, parce que les deux pourcentages ne portent pas sur le <strong>même</strong> prix : $100 \\to 80 \\to 96$.<br/><br/>De même, pour retrouver un taux de réduction, on divise toujours par le prix de <strong>départ</strong> : de $250$ € à $200$ €, la baisse de $50$ € vaut $\\dfrac{50}{250} = 20\\%$, et non $\\dfrac{50}{200} = 25\\%$.'
     },
 
     quiz: [
       {
         q: 'Un article coûte $80$ €. Il est soldé à $-25\\%$. Quel est son nouveau prix ?',
-        options: ['$55$ €', '$60$ €', '$65$ €', '$20$ €'],
-        answer: 1,
-        correction: 'Réduction : $25\\%$ de $80 = \\dfrac{25}{100} \\times 80 = 20$ €. Nouveau prix : $80 - 20 = 60$ €.'
+        options: ['$55$ €', '$20$ €', '$60$ €', '$65$ €'],
+        answer: 2,
+        correction: 'Réduction : $25\\%$ de $80 = \\dfrac{25}{100} \\times 80 = 20$ €. Nouveau prix : $80 - 20 = 60$ €.<br/><br/>$55$ € : les $25$ ont été retirés comme des euros, pas comme un pourcentage. $20$ € : c\'est la réduction, pas le prix après réduction.'
       },
       {
         q: 'Sur une carte à l\'échelle $1/50\\,000$, deux villes sont distantes de $4$ cm. Quelle est la distance réelle ?',
@@ -325,12 +325,23 @@ window.MODULES.push({
         q: 'Un article est d\'abord augmenté de $20\\%$, puis réduit de $20\\%$. Quel est le prix final par rapport au prix initial ?',
         options: [
           'Le même prix qu\'au départ : $+20\\%$ puis $-20\\%$ s\'annulent.',
-          'Un prix inférieur de $4\\%$ au départ : $100 \\to 120 \\to 96$.',
           'Un prix supérieur de $4\\%$ au départ.',
-          'Impossible à savoir sans connaître le prix initial.'
+          'Impossible à savoir sans connaître le prix initial.',
+          'Un prix inférieur de $4\\%$ au départ : $100 \\to 120 \\to 96$.'
         ],
-        answer: 1,
-        correction: 'Les pourcentages ne s\'annulent pas ! Partir de $100$ € : $+20\\%$ → $120$ €, puis $-20\\%$ de $120$ → $120 \\times 0{,}8 = 96$ €. Le résultat est $96$ €, soit $4\\%$ de moins que le départ.'
+        answer: 3,
+        correction: 'Les pourcentages ne s\'annulent pas ! Partir de $100$ € : $+20\\%$ → $120$ €, puis $-20\\%$ de $120$ → $120 \\times 0{,}8 = 96$ €.<br/><br/>Le résultat est $96$ €, soit $4\\%$ de moins que le départ.<br/><br/>Et ce $-4\\%$ ne dépend pas du prix choisi, puisque $1{,}2 \\times 0{,}8 = 0{,}96$ quel que soit le prix : « impossible à savoir » n\'est donc pas juste.'
+      },
+      {
+        q: 'Dans quel tableau le prix est-il proportionnel à la masse ?',
+        options: [
+          'Tableau 1 : $3$ kg → $12$ €, $5$ kg → $20$ €, $7$ kg → $28$ €.',
+          'Tableau 2 : $3$ kg → $12$ €, $5$ kg → $18$ €, $7$ kg → $24$ €.',
+          'Les deux : dans chacun, le prix augmente avec la masse.',
+          'Aucun : il manque la ligne « $1$ kg → ? € ».'
+        ],
+        answer: 0,
+        correction: 'On divise le prix par la masse, colonne par colonne.<br/><br/>Tableau 1 : $12 \\div 3 = 4$, $20 \\div 5 = 4$, $28 \\div 7 = 4$. Toujours le même coefficient : c\'est <strong>proportionnel</strong>.<br/><br/>Tableau 2 : $12 \\div 3 = 4$ mais $18 \\div 5 = 3{,}6$. Le coefficient change, ce n\'est pas proportionnel — même si le prix augmente avec la masse.<br/><br/>Une seule colonne qui diffère suffit à conclure, et la ligne « $1$ kg » n\'est pas nécessaire.'
       }
     ],
 

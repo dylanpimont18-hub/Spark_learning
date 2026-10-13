@@ -24,7 +24,8 @@ window.MODULES.push({
         'Prolonger une droite est un geste facile ; savoir jusqu\'où on a le droit de le faire est tout le sujet.<br/><br/>' +
         'Un graphique traduit visuellement une relation entre deux grandeurs. L\'axe horizontal (<strong>abscisse</strong>) porte la variable que l\'on contrôle, l\'axe vertical (<strong>ordonnée</strong>) porte ce que l\'on observe.<br/><br/>' +
         '<strong>Interpoler</strong> signifie estimer une valeur entre deux points mesurés — c\'est fiable si la courbe est régulière. <strong>Extrapoler</strong> signifie prolonger au-delà des mesures — c\'est risqué car une courbe linéaire dans une plage peut devenir non linéaire ailleurs.<br/><br/>' +
-        'La <strong>pente</strong> d\'une droite $a = \\dfrac{\\Delta y}{\\Delta x}$ a toujours un sens concret : si $y$ = distance parcourue et $x$ = temps, alors $a$ est une <strong>vitesse</strong> (en km/h par exemple) — le nombre de km gagnés à chaque heure qui passe.<br/><br/>' +
+        'La <strong>pente</strong> d\'une droite, $a = \\dfrac{\\Delta y}{\\Delta x}$, a toujours un sens concret.<br/><br/>' +
+        'Si $y$ est une distance parcourue et $x$ un temps, alors $a$ est une <strong>vitesse</strong> (en km/h par exemple) : le nombre de kilomètres gagnés à chaque heure qui passe.<br/><br/>' +
         'Ne jamais lire un graphe sans vérifier les <strong>unités sur les axes</strong> et l\'origine. Un graphique sans légende est inutilisable !',
       definitions: [
         { term: 'Abscisse', def: 'Coordonnée horizontale d\'un point dans un repère. Première valeur du couple $(x ; y)$.' },
@@ -289,12 +290,12 @@ window.MODULES.push({
       {
         q: 'Sur un graphe, un point a pour coordonnées $(3 ; 7{,}5)$. Cela signifie que :',
         options: [
-          'L\'abscisse est $7{,}5$ et l\'ordonnée est $3$',
           'L\'abscisse est $3$ et l\'ordonnée est $7{,}5$',
+          'L\'abscisse est $7{,}5$ et l\'ordonnée est $3$',
           'La pente est $7{,}5 / 3 = 2{,}5$',
           'Le point est à $3 + 7{,}5 = 10{,}5$ unités de l\'origine'
         ],
-        answer: 1,
+        answer: 0,
         correction: 'Dans le couple $(x ; y)$, le premier terme est TOUJOURS l\'abscisse (axe horizontal) et le second est l\'ordonnée (axe vertical). Donc abscisse = 3, ordonnée = 7,5.'
       },
       {
@@ -307,12 +308,18 @@ window.MODULES.push({
         q: 'Une droite passe par $(0 ; 2)$ et $(4 ; 2)$. Un élève dit que sa pente est $\\dfrac{4}{2} = 2$. Quelle est son erreur ?',
         options: [
           'Il a raison : la pente est $\\dfrac{x}{y} = \\dfrac{4}{2} = 2$.',
-          'Il a inversé : la pente est $\\dfrac{\\Delta y}{\\Delta x} = \\dfrac{2-2}{4-0} = \\dfrac{0}{4} = 0$. La droite est horizontale.',
           'Il a mal choisi les points : il faut prendre $(4;2)$ et $(2;4)$.',
-          'La pente est $\\dfrac{2}{4} = 0{,}5$.'
+          'La pente est $\\dfrac{2}{4} = 0{,}5$.',
+          'Il a inversé : la pente est $\\dfrac{\\Delta y}{\\Delta x} = \\dfrac{2-2}{4-0} = \\dfrac{0}{4} = 0$. La droite est horizontale.'
         ],
-        answer: 1,
+        answer: 3,
         correction: 'La pente se calcule toujours $a = \\dfrac{\\Delta y}{\\Delta x} = \\dfrac{y_2 - y_1}{x_2 - x_1}$, jamais $\\dfrac{x}{y}$. Ici $y$ ne change pas ($y_1 = y_2 = 2$), donc $\\Delta y = 0$ et la pente est nulle : la droite est horizontale.'
+      },
+      {
+        q: 'Sur le graphique du cours, la droite passe par $A(1 ; 3)$ et $B(4 ; 9)$. Pour lire la valeur de $y$ quand $x = 3$, on part de $3$ sur l\'axe horizontal, on monte jusqu\'à la droite, puis on lit à gauche. Que trouve-t-on ?',
+        options: ['$3$', '$7$', '$6$', '$9$'],
+        answer: 1,
+        correction: 'À chaque unité vers la droite, $y$ gagne $2$ (la pente).<br/><br/>De $A(1 ; 3)$ à $x = 3$, on avance de $2$ : $y = 3 + 2 \\times 2 = 7$.<br/><br/>$3$ et $9$ sont les ordonnées des points connus, pas celle du point cherché ; $6$ est la lecture à $x = 2{,}5$, celle de l\'exemple du cours.'
       }
     ],
 
@@ -342,20 +349,24 @@ window.MODULES.push({
            des deux mesures : l'ordonnee cherchee est alors la moyenne des deux,
            donc entiere ou a une decimale, sans division penible. */
         if (tache === 'interpoler') {
+          /* Plage de depart `y` et vitesse d'evolution `v` (par unite de x)
+             portees par le contexte (2026-10-13) : un four a 13 °C ou un train
+             a 3 km/h apprenaient a ignorer le sens des nombres. */
           const ctx = pick([
-            { nom: 'la température d\'un four', unitX: 'min', unitY: '°C' },
-            { nom: 'le niveau d\'eau d\'une citerne', unitX: 'h', unitY: 'cm' },
-            { nom: 'la distance parcourue par un train', unitX: 'h', unitY: 'km' },
-            { nom: 'la masse de compost accumulée', unitX: 'semaines', unitY: 'kg' }
+            { nom: 'la température d\'un four', unitX: 'min', unitY: '°C', y: [40, 120], v: [8, 20] },
+            { nom: 'le niveau d\'eau d\'une citerne', unitX: 'h', unitY: 'cm', y: [5, 40], v: [2, 12] },
+            { nom: 'la distance parcourue par un train', unitX: 'h', unitY: 'km', y: [20, 120], v: [60, 120] },
+            { nom: 'la masse de compost accumulée', unitX: 'semaines', unitXs: 'semaine', unitY: 'kg', y: [5, 40], v: [2, 12] }
           ]);
+          const ux = (n) => (n > 1 ? ctx.unitX : (ctx.unitXs || ctx.unitX));
           const x1 = rand(1, 4);
           const ecart = 2 * rand(1, 3);          // pair : le milieu tombe juste
           const x2 = x1 + ecart;
-          const y1 = rand(5, 40);
-          const y2 = y1 + 2 * rand(2, 12);       // pair : la moyenne est entiere
+          const y1 = rand(ctx.y[0], ctx.y[1]);
+          const y2 = y1 + ecart * rand(ctx.v[0], ctx.v[1]);   // ecart pair : la moyenne est entiere
           const xm = (x1 + x2) / 2, ym = (y1 + y2) / 2;
           return {
-            statement: `On relève ${ctx.nom} à deux instants : $${y1}$ ${ctx.unitY} à $${x1}$ ${ctx.unitX}, puis $${y2}$ ${ctx.unitY} à $${x2}$ ${ctx.unitX}. Entre les deux, l'évolution est régulière.<br/><br/>Par <strong>interpolation</strong>, estime la valeur à $${xm}$ ${ctx.unitX}, en ${ctx.unitY}.`,
+            statement: `On relève ${ctx.nom} à deux instants : $${y1}$ ${ctx.unitY} à $${x1}$ ${ux(x1)}, puis $${y2}$ ${ctx.unitY} à $${x2}$ ${ux(x2)}. Entre les deux, l'évolution est régulière.<br/><br/>Par <strong>interpolation</strong>, estime la valeur à $${xm}$ ${ctx.unitX}, en ${ctx.unitY}.`,
             answer: ym,
             tolerance: 0.02,
             unit: ctx.unitY,
@@ -405,7 +416,7 @@ window.MODULES.push({
            Reponse 1 / 0, format du projet pour une question a trancher. */
         if (tache === 'decider') {
           const ctx = pick([
-            { nom: 'la croissance d\'un plant', unitX: 'semaines', limite: 'une plante finit par ralentir' },
+            { nom: 'la croissance d\'un plant', unitX: 'semaines', unitXs: 'semaine', limite: 'une plante finit par ralentir' },
             { nom: 'la charge d\'une batterie', unitX: 'min', limite: 'une batterie sature une fois pleine' },
             { nom: 'le remplissage d\'un réservoir', unitX: 'min', limite: 'un réservoir déborde une fois plein' },
             { nom: 'la fonte d\'un glaçon', unitX: 'min', limite: 'la fonte s\'arrête quand tout est fondu' }
@@ -413,8 +424,9 @@ window.MODULES.push({
           const x1 = rand(1, 4), x2 = x1 + rand(3, 6);
           const dedans = pick([true, false]);
           const xq = dedans ? x1 + Math.max(1, Math.floor((x2 - x1) / 2)) : x2 + rand(4, 15);
+          const ux = (n) => (n > 1 ? ctx.unitX : (ctx.unitXs || ctx.unitX));
           return {
-            statement: `On a mesuré ${ctx.nom} à $${x1}$ ${ctx.unitX} puis à $${x2}$ ${ctx.unitX}, et l'évolution entre ces deux relevés est régulière.<br/><br/>On veut maintenant estimer la valeur à $${xq}$ ${ctx.unitX}. Cette estimation est-elle une <strong>interpolation</strong>, donc fiable ? Réponds par $1$ pour oui, $0$ pour non.`,
+            statement: `On a mesuré ${ctx.nom} à $${x1}$ ${ux(x1)} puis à $${x2}$ ${ctx.unitX}, et l'évolution entre ces deux relevés est régulière.<br/><br/>On veut maintenant estimer la valeur à $${xq}$ ${ctx.unitX}. Cette estimation est-elle une <strong>interpolation</strong>, donc fiable ? Réponds par $1$ pour oui, $0$ pour non.`,
             answer: dedans ? 1 : 0,
             tolerance: 0,
             unit: '',
@@ -429,12 +441,16 @@ window.MODULES.push({
           };
         }
 
+        /* Contextes compatibles avec une pente de 0,5 a 3 unites par unite de
+           temps et des valeurs a une decimale (2026-10-13) : un cycliste a
+           2,4 km/h et des « pages lues » non entieres ont ete remplaces. */
         const ctx = pick([
-          { name: 'la distance parcourue par un cycliste', unitX: 'h', unitY: 'km' },
+          { name: 'la hauteur d\'eau dans une baignoire', unitX: 'min', unitY: 'cm' },
           { name: 'le prix total à payer', unitX: 'L', unitY: '€' },
-          { name: 'la hauteur d\'un plant', unitX: 'semaines', unitY: 'cm' },
-          { name: 'le nombre de pages lues', unitX: 'jours', unitY: 'pages' }
+          { name: 'la hauteur d\'un plant', unitX: 'semaines', unitXs: 'semaine', unitY: 'cm' },
+          { name: 'la longueur de bougie consumée', unitX: 'h', unitY: 'cm' }
         ]);
+        const ux = (n) => (n > 1 ? ctx.unitX : (ctx.unitXs || ctx.unitX));
         const x1 = rand(1, 5);
         const a = randFloat(0.5, 3.0, 1);
         const b = rand(0, 5);
@@ -443,14 +459,14 @@ window.MODULES.push({
         const y2 = parseFloat((a * x2 + b).toFixed(1));
         const slope = parseFloat(((y2 - y1) / (x2 - x1)).toFixed(2));
         return {
-          statement: `On suit ${ctx.name} : à $x_1 = ${x1}$ ${ctx.unitX}, on mesure $y_1 = ${fr(y1)}$ ${ctx.unitY} ; à $x_2 = ${x2}$ ${ctx.unitX}, on mesure $y_2 = ${fr(y2)}$ ${ctx.unitY}. Sur un graphique, ces deux mesures correspondent aux points $A(${x1} ; ${fr(y1)})$ et $B(${x2} ; ${fr(y2)})$.<br/><br/>Calcule le coefficient directeur (la pente) de la droite $(AB)$.`,
+          statement: `On suit ${ctx.name} : à $x_1 = ${x1}$ ${ux(x1)}, on mesure $y_1 = ${fr(y1)}$ ${ctx.unitY} ; à $x_2 = ${x2}$ ${ux(x2)}, on mesure $y_2 = ${fr(y2)}$ ${ctx.unitY}. Sur un graphique, ces deux mesures correspondent aux points $A(${x1} ; ${fr(y1)})$ et $B(${x2} ; ${fr(y2)})$.<br/><br/>Calcule la <strong>pente</strong> de la droite $(AB)$.`,
           answer: slope,
           tolerance: 0.02,
-          unit: `${ctx.unitY}/${ctx.unitX}`,
+          unit: `${ctx.unitY}/${ctx.unitXs || ctx.unitX}`,
           hint: `La formule de la pente est $a = \\dfrac{y_B - y_A}{x_B - x_A} = \\dfrac{${fr(y2)} - ${fr(y1)}}{${x2} - ${x1}}$. Fais bien la soustraction dans le même ordre au numérateur et au dénominateur !`,
           solution: [
             `On applique la formule : $a = \\dfrac{y_2 - y_1}{x_2 - x_1}$`,
-            `$a = \\dfrac{${fr(y2)} - ${fr(y1)}}{${x2} - ${x1}} = \\dfrac{${fr(y2 - y1, 1)}}{${x2 - x1}}$`,
+            `$a = \\dfrac{${fr(y2)} - ${fr(y1)}}{${x2} - ${x1}} = \\dfrac{${fr(parseFloat((y2 - y1).toFixed(1)))}}{${x2 - x1}}$`,
             `$a = ${fr(slope)}$`
           ]
         };
@@ -487,7 +503,7 @@ window.MODULES.push({
           correction: 'Dans un couple $(x ; y)$, le premier nombre est l\'abscisse et le second est l\'ordonnée. Ici l\'ordonnée est $-2$.'
         },
         {
-          statement: 'Une droite passe par $A(1 ; 3)$ et $B(5 ; 11)$. Quelle est la pente (coefficient directeur) de cette droite ?',
+          statement: 'Une droite passe par $A(1 ; 3)$ et $B(5 ; 11)$. Quelle est la pente de cette droite ?',
           type: 'numeric',
           answer: 2,
           tolerance: 0.01,
@@ -532,13 +548,13 @@ window.MODULES.push({
           type: 'multiple-choice',
           options: [
             'Prolonger la courbe au-delà des points mesurés.',
+            'Lire la valeur exacte d\'un point qui a été mesuré.',
             'Estimer une valeur entre deux points mesurés.',
-            'Tracer la tangente à la courbe en un point.',
-            'Calculer l\'aire sous la courbe.'
+            'Relier tous les points mesurés par des segments.'
           ],
-          answer: 1,
+          answer: 2,
           points: 2,
-          correction: 'Interpoler signifie estimer une valeur entre deux points de mesure connus. Extrapoler, en revanche, consiste à prolonger la tendance au-delà des mesures — une démarche moins fiable.'
+          correction: 'Interpoler signifie estimer une valeur <strong>entre</strong> deux points de mesure connus.<br/><br/>Prolonger au-delà des mesures, c\'est extrapoler — une démarche moins fiable. Lire un point mesuré n\'est pas une estimation : la valeur est connue. Relier les points prépare l\'interpolation, mais n\'en est pas une.'
         },
         {
           statement: 'Une droite passe par $(0 ; 5)$ et $(3 ; 5)$. Quelle est sa pente ?',

@@ -344,26 +344,26 @@ window.MODULES.push({
     quiz: [
       {
         q: 'Combien vaut $\\dfrac{1}{3} + \\dfrac{1}{4}$ ?',
-        options: ['$\\dfrac{2}{7}$', '$\\dfrac{7}{12}$', '$\\dfrac{5}{12}$', '$\\dfrac{1}{12}$'],
-        answer: 1,
-        correction: 'Le dénominateur commun est $12$. $\\dfrac{1}{3} = \\dfrac{4}{12}$ et $\\dfrac{1}{4} = \\dfrac{3}{12}$. Donc $\\dfrac{4}{12} + \\dfrac{3}{12} = \\dfrac{7}{12}$.'
+        options: ['$\\dfrac{7}{12}$', '$\\dfrac{2}{7}$', '$\\dfrac{5}{12}$', '$\\dfrac{1}{12}$'],
+        answer: 0,
+        correction: 'Le dénominateur commun est $12$. $\\dfrac{1}{3} = \\dfrac{4}{12}$ et $\\dfrac{1}{4} = \\dfrac{3}{12}$.<br/><br/>Donc $\\dfrac{4}{12} + \\dfrac{3}{12} = \\dfrac{7}{12}$.<br/><br/>$\\dfrac{2}{7}$ vient de l\'addition des numérateurs ET des dénominateurs : le résultat serait plus petit que $\\dfrac{1}{3}$, impossible pour une somme. $\\dfrac{1}{12}$ est le <strong>produit</strong> des deux fractions, pas leur somme.'
       },
       {
         q: 'Combien vaut $\\dfrac{3}{4} - \\dfrac{1}{6}$ ?',
-        options: ['$\\dfrac{2}{2}$', '$\\dfrac{7}{12}$', '$\\dfrac{1}{3}$', '$\\dfrac{8}{24}$'],
-        answer: 1,
-        correction: 'Dénominateur commun : $12$. $\\dfrac{3}{4} = \\dfrac{9}{12}$ et $\\dfrac{1}{6} = \\dfrac{2}{12}$. Donc $\\dfrac{9}{12} - \\dfrac{2}{12} = \\dfrac{7}{12}$.'
+        options: ['$\\dfrac{7}{24}$', '$\\dfrac{1}{12}$', '$\\dfrac{7}{12}$', '$\\dfrac{2}{3}$'],
+        answer: 2,
+        correction: 'Dénominateur commun : $12$. $\\dfrac{3}{4} = \\dfrac{9}{12}$ et $\\dfrac{1}{6} = \\dfrac{2}{12}$.<br/><br/>Donc $\\dfrac{9}{12} - \\dfrac{2}{12} = \\dfrac{7}{12}$.<br/><br/>$\\dfrac{7}{24}$ : les numérateurs convertis ont été soustraits mais les dénominateurs additionnés — le dénominateur commun ne bouge pas. $\\dfrac{1}{12}$ : numérateurs soustraits et dénominateurs multipliés, sans conversion. $\\dfrac{2}{3}$ : $\\dfrac{1}{6}$ a été écrit $\\dfrac{1}{12}$ en changeant le dénominateur sans changer le numérateur.'
       },
       {
         q: 'Un élève calcule $\\dfrac{1}{3} + \\dfrac{1}{4} = \\dfrac{2}{7}$. Quelle règle a-t-il violée ?',
         options: [
           'Il a bien calculé : $1+1=2$ et $3+4=7$.',
-          'On ne peut pas additionner les numérateurs ET les dénominateurs séparément. Il faut un dénominateur commun : $\\dfrac{4}{12} + \\dfrac{3}{12} = \\dfrac{7}{12}$.',
           'Il aurait dû multiplier : $\\dfrac{1}{3} \\times \\dfrac{1}{4} = \\dfrac{1}{12}$.',
-          'La bonne réponse est $\\dfrac{1}{3} + \\dfrac{1}{4} = \\dfrac{2}{12} = \\dfrac{1}{6}$.'
+          'La bonne réponse est $\\dfrac{1}{3} + \\dfrac{1}{4} = \\dfrac{2}{12} = \\dfrac{1}{6}$.',
+          'On ne peut pas additionner les numérateurs ET les dénominateurs séparément. Il faut un dénominateur commun : $\\dfrac{4}{12} + \\dfrac{3}{12} = \\dfrac{7}{12}$.'
         ],
-        answer: 1,
-        correction: 'L\'erreur classique ! On ne peut pas additionner numérateurs et dénominateurs séparément — les dénominateurs représentent des unités différentes (tiers ≠ quarts). Le bon calcul : $12$ est multiple de $3$ et de $4$, donc $\\dfrac{1}{3} = \\dfrac{4}{12}$ et $\\dfrac{1}{4} = \\dfrac{3}{12}$, et la somme est $\\dfrac{7}{12}$.'
+        answer: 3,
+        correction: 'L\'erreur classique ! On ne peut pas additionner numérateurs et dénominateurs séparément — les dénominateurs représentent des parts de tailles différentes (tiers ≠ quarts).<br/><br/>Le bon calcul : $12$ est multiple de $3$ et de $4$, donc $\\dfrac{1}{3} = \\dfrac{4}{12}$ et $\\dfrac{1}{4} = \\dfrac{3}{12}$, et la somme est $\\dfrac{7}{12}$.<br/><br/>La proposition $\\dfrac{2}{12}$ garde le bon dénominateur $12$, mais additionne les numérateurs <strong>avant</strong> de les convertir.'
       }
     ],
 
@@ -376,18 +376,17 @@ window.MODULES.push({
          et tous posaient la meme question — c'est le chapitre le plus pauvre de
          l'ouvrage apres le reperage.
 
-         Trois taches ajoutees, prises dans le titre meme du chapitre
-         (« Operations sur les fractions »), dont deux operations que le cours
-         traite et que la banque ignorait completement :
+         Taches ajoutees, prises dans le titre meme du chapitre
+         (« Operations sur les fractions ») :
            - la SOUSTRACTION, ou l'ordre compte et ou l'eleve doit garder le
              signe du plus grand ;
-           - la MULTIPLICATION, dont le piege est justement qu'elle ne demande
-             AUCUN denominateur commun, contrairement a l'addition ;
            - la comparaison de deux fractions, qui est l'usage le plus frequent
              du denominateur commun hors calcul.
-         Mesure avant/apres : 1 tache pour 15 enonces -> 4 taches. */
+         La tache MULTIPLICATION a ete retiree le 2026-10-13 : le programme de
+         5e limite le chapitre a l'addition, la soustraction et la comparaison
+         (le produit de fractions est vu en 4e). */
       generate() {
-        const tache = pick(['somme', 'somme', 'difference', 'produit', 'comparer']);
+        const tache = pick(['somme', 'somme', 'difference', 'comparer']);
         function pgcd(x, y) { return y === 0 ? x : pgcd(y, x % y); }
 
         /* TACHE 2 — soustraction. On impose la premiere fraction PLUS GRANDE
@@ -427,36 +426,7 @@ window.MODULES.push({
           };
         }
 
-        /* TACHE 3 — multiplication. Son interet pedagogique est precisement
-           qu'elle ne demande PAS de denominateur commun : l'eleve qui applique
-           la procedure de l'addition par reflexe se trompe. */
-        if (tache === 'produit') {
-          const b = rand(2, 6), d = rand(2, 6);
-          const a = rand(1, b - 1), c = rand(1, d - 1);
-          const num = a * c, den = b * d;
-          const g = pgcd(num, den);
-          const val = num / den;
-          const ctx = pick([
-            { intro: `Les $\\dfrac{${a}}{${b}}$ d'un jardin sont cultivés, et $\\dfrac{${c}}{${d}}$ de cette partie cultivée sont plantés de fraises.`, quoi: 'la fraction du jardin entier plantée de fraises' },
-            { intro: `Les $\\dfrac{${a}}{${b}}$ d'une plaquette de chocolat sont posés sur la table. Tu en manges $\\dfrac{${c}}{${d}}$.`, quoi: 'la fraction de la plaquette entière que tu as mangée' },
-            { intro: `Un bidon est rempli aux $\\dfrac{${a}}{${b}}$. On transvase $\\dfrac{${c}}{${d}}$ de son contenu.`, quoi: 'la fraction du bidon transvasée' }
-          ]);
-          return {
-            statement: `${ctx.intro}<br/><br/>Calcule $\\dfrac{${a}}{${b}} \\times \\dfrac{${c}}{${d}}$ pour obtenir ${ctx.quoi}. Donne le résultat sous forme décimale arrondie à $0{,}01$.`,
-            answer: parseFloat(val.toFixed(2)),
-            tolerance: 0.01,
-            unit: '',
-            hint: `Piège classique : la multiplication ne demande <strong>aucun</strong> dénominateur commun.<br/><br/>On multiplie les numérateurs entre eux, et les dénominateurs entre eux. C'est tout.`,
-            solution: [
-              `Une multiplication de fractions ne demande aucun dénominateur commun, contrairement à une addition.`,
-              `Numérateurs : $${a} \\times ${c} = ${num}$. Dénominateurs : $${b} \\times ${d} = ${den}$.`,
-              `Produit : $\\dfrac{${num}}{${den}}${g > 1 ? ` = \\dfrac{${num / g}}{${den / g}}` : ''} \\approx ${fr(val, 2)}$.`,
-              `Le résultat est plus petit que chacune des deux fractions : prendre une part d'une part donne toujours moins que la part de départ.`
-            ]
-          };
-        }
-
-        /* TACHE 4 — comparer. Le denominateur commun sert ici a DECIDER, pas a
+        /* TACHE 3 — comparer. Le denominateur commun sert ici a DECIDER, pas a
            calculer : c'est son usage le plus courant, et il n'etait exerce
            nulle part. Reponse 1 ou 0, format du projet pour une question a
            trancher. */
@@ -500,12 +470,13 @@ window.MODULES.push({
         const answerDen = lcm / g;
         const answer = answerNum / answerDen;
 
-        const ctx = pick([
+        const contextes = [
           {
             intro: `Pour une recette de crêpes, il faut $\\dfrac{${a}}{${b}}$ de litre de lait et $\\dfrac{${c}}{${d}}$ de litre de crème.<br/>Quelle <strong>quantité totale</strong> de liquide faut-il ?`,
             hint: `Trouve le dénominateur commun de $${b}$ et $${d}$ pour additionner ces fractions de litre.`
           },
           {
+            borne: true,
             intro: `Un terrain est partagé : $\\dfrac{${a}}{${b}}$ est un jardin et $\\dfrac{${c}}{${d}}$ est une terrasse.<br/>Quelle <strong>fraction totale</strong> du terrain ces deux espaces occupent-ils ?`,
             hint: `Pour additionner les fractions, il faut le même dénominateur. Le plus petit multiple commun à $${b}$ et $${d}$ est $${lcm}$.`
           },
@@ -514,6 +485,7 @@ window.MODULES.push({
             hint: `Convertis les deux fractions d'heure au même dénominateur ($${lcm}$) pour les additionner.`
           },
           {
+            borne: true,
             intro: `Sur un trajet, Léa a parcouru $\\dfrac{${a}}{${b}}$ du chemin à pied et $\\dfrac{${c}}{${d}}$ du chemin à vélo.<br/>Quelle <strong>fraction du trajet</strong> a-t-elle déjà parcourue ?`,
             hint: `Même dénominateur nécessaire ! Le plus petit multiple commun à $${b}$ et $${d}$ est $${lcm}$.`
           },
@@ -521,7 +493,10 @@ window.MODULES.push({
             intro: `Pour un projet d'arts plastiques, Emma utilise $\\dfrac{${a}}{${b}}$ d'un tube de peinture bleue et $\\dfrac{${c}}{${d}}$ d'un tube de peinture jaune.<br/>Quelle <strong>quantité totale</strong> de peinture a-t-elle utilisée (en tubes) ?`,
             hint: `Additionne les deux fractions : trouve le dénominateur commun $${lcm}$.`
           }
-        ]);
+        ];
+        // Une part d'un tout ne peut pas dépasser le tout : les contextes
+        // « borne » ne sont tirés que si la somme reste inférieure ou égale à 1.
+        const ctx = pick(num <= lcm ? contextes : contextes.filter(k => !k.borne));
 
         return {
           statement: `${ctx.intro}<br/>Calcule $\\dfrac{${a}}{${b}} + \\dfrac{${c}}{${d}}$ et donne le résultat sous forme décimale arrondie à $0{,}01$.`,
@@ -552,7 +527,7 @@ window.MODULES.push({
       solutions: [
         '$\\dfrac{3}{4} + \\dfrac{2}{3} = \\dfrac{9}{12} + \\dfrac{8}{12} = \\dfrac{17}{12}$ tasses $\\approx 1{,}42$ tasses.',
         'Double : $2 \\times \\dfrac{17}{12} = \\dfrac{17}{6} \\approx 2{,}83$ tasses.',
-        '$5 \\div \\dfrac{17}{12} = 5 \\times \\dfrac{12}{17} = \\dfrac{60}{17} \\approx 3{,}5$. On peut faire $3$ recettes complètes.'
+        'Chaque recette utilise $\\dfrac{17}{12}$ tasse. On cherche combien de fois cette quantité tient dans $5$ tasses.<br/><br/>$3$ recettes : $3 \\times \\dfrac{17}{12} = \\dfrac{51}{12} = 4{,}25$ tasses, c\'est possible.<br/><br/>$4$ recettes : $4 \\times \\dfrac{17}{12} = \\dfrac{68}{12} \\approx 5{,}67$ tasses, c\'est trop.<br/><br/>On peut donc faire <strong>$3$ recettes complètes</strong>.'
       ],
       finalAnswer: 'Chaque recette utilise $\\dfrac{17}{12}$ tasses de farine ; on peut faire $3$ recettes complètes avec $5$ tasses.'
     },
@@ -584,11 +559,11 @@ window.MODULES.push({
           type: 'multiple-choice',
           options: [
             '$\\dfrac{1}{4} + \\dfrac{1}{3} = \\dfrac{2}{7}$',
-            '$\\dfrac{1}{4} + \\dfrac{1}{3} = \\dfrac{7}{12}$',
             '$\\dfrac{1}{4} + \\dfrac{1}{3} = \\dfrac{3}{12}$',
-            '$\\dfrac{1}{4} + \\dfrac{1}{3} = \\dfrac{4}{12}$'
+            '$\\dfrac{1}{4} + \\dfrac{1}{3} = \\dfrac{4}{12}$',
+            '$\\dfrac{1}{4} + \\dfrac{1}{3} = \\dfrac{7}{12}$'
           ],
-          answer: 1,
+          answer: 3,
           points: 2,
           correction: 'Le dénominateur commun est $12$. $\\dfrac{1}{4} = \\dfrac{3}{12}$ et $\\dfrac{1}{3} = \\dfrac{4}{12}$. Somme : $\\dfrac{3+4}{12} = \\dfrac{7}{12}$.'
         },
@@ -630,8 +605,9 @@ window.MODULES.push({
             'Leur somme est donc un peu plus petite que $2$, et clairement plus grande que $1$ : elle est entre $1$ et $2$. ' +
             '(Le calcul exact donnerait $\\dfrac{35}{40} + \\dfrac{36}{40} = \\dfrac{71}{40} \\approx 1{,}78$, ' +
             'ce qui confirme l\'encadrement.) ' +
-            'La réponse 4 est celle de l\'élève qui additionne les numérateurs et les dénominateurs séparément : ' +
-            'cette estimation rapide permet justement de repérer une telle erreur sans refaire le calcul.'
+            'La réponse « entre $0$ et $1$ » est celle de l\'élève qui additionne numérateurs et dénominateurs séparément : il obtient $\\dfrac{16}{18}$, plus petit que $1$ — alors que chacun des deux termes est déjà presque égal à $1$. ' +
+            'La réponse « entre $16$ et $18$ » reprend les nombres $7 + 9$ et $8 + 10$ comme s\'ils étaient le résultat lui-même. ' +
+            'Dans les deux cas, l\'estimation rapide (« deux nombres proches de $1$, la somme est proche de $2$ ») suffit à repérer que quelque chose cloche.'
         }
       ]
     }

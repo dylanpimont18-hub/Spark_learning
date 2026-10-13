@@ -8,7 +8,7 @@ window.MODULES.push({
     level: 1, subject: 'maths',
     icon: '🔢',
     title: 'Priorités des opérations',
-    subtitle: 'Règles de calcul, parenthèses, PEMDAS',
+    subtitle: 'Règles de calcul, parenthèses, puissances',
     keywords: ['Parenthèses', 'Puissances', 'Multiplication', 'Division', 'Addition', 'Soustraction'],
     physics: 'Calcul numérique de formules physiques : $E = \\frac{1}{2}mv^2$, $P = RI^2$',
 
@@ -21,15 +21,16 @@ window.MODULES.push({
          justes est un fait, pas une anecdote plaquee. */
       intro: 'Demande à deux personnes de calculer $2 + 3 \\times 4$. L\'une répondra $14$, l\'autre $20$. Laquelle se trompe ?<br/><br/>' +
         'Aucune des deux. La première a multiplié avant d\'additionner, la seconde a lu de gauche à droite, et chacune a calculé juste. Le problème n\'est pas dans les calculs : il est dans l\'<strong>écriture</strong>, qui ne dit pas par où commencer.<br/><br/>' +
-        'Les mathématiciens ont mis des siècles à s\'accorder là-dessus, et il a fallu trancher — non pas parce qu\'un ordre serait plus vrai que l\'autre, mais pour qu\'une même expression ne veuille dire qu\'une seule chose partout dans le monde.<br/><br/>' +
+        'Les mathématiciens ont mis des siècles à s\'accorder là-dessus. Il a fallu trancher.<br/><br/>' +
+        'Non pas parce qu\'un ordre serait plus vrai que l\'autre, mais pour qu\'une même expression ne veuille dire qu\'<strong>une seule chose</strong>, partout dans le monde.<br/><br/>' +
         'Les priorités des opérations sont une <strong>convention universelle</strong> qui garantit qu\'une expression mathématique a une seule interprétation. Sans cette convention, $2 + 3 \\times 4$ pourrait valoir $20$ ou $14$ selon l\'ordre de lecture.<br/><br/>' +
-        'L\'ordre est : <strong>Parenthèses → Exposants/Racines → Multiplications/Divisions → Additions/Soustractions</strong> (mémo : PEMDAS ou « Cher Ami »).<br/><br/>' +
+        'L\'ordre est : <strong>Parenthèses → Carrés et cubes (puissances) → Multiplications/Divisions → Additions/Soustractions</strong>.<br/><br/>' +
         '<strong>Le trait de fraction agit comme des parenthèses</strong> : $\\dfrac{8+4}{2} = (8+4) \\div 2 = 6$, mais $8 + 4 \\div 2 = 8 + 2 = 10$.<br/><br/>' +
         'En physique, cela évite les erreurs classiques : dans $E_c = \\dfrac{1}{2}mv^2$, c\'est $v$ seul qui est au carré (pas $mv$), et dans $P = RI^2$, c\'est $I$ seul (pas $RI$).',
       definitions: [
         { term: 'Priorité opératoire', def: 'Ordre dans lequel les opérations doivent être effectuées. La multiplication est prioritaire sur l\'addition.' },
         { term: 'Parenthèses', def: 'Symboles $()$ qui forcent un calcul à être effectué en premier, quel que soit son rang de priorité.' },
-        { term: 'PEMDAS', def: 'Moyen mnémotechnique : Parenthèses, Exposants, Multiplication/Division, Addition/Soustraction.' },
+        { term: 'Puissance', def: '$a^2 = a \\times a$ et $a^3 = a \\times a \\times a$. L\'exposant ne porte que sur le nombre écrit <strong>juste avant</strong> lui.' },
         { term: 'Trait de fraction', def: 'Agit comme des parenthèses implicites autour du numérateur et du dénominateur.' }
       ],
       example: {
@@ -241,7 +242,7 @@ window.MODULES.push({
         title: 'Ordre de priorité (de la plus haute à la plus basse)',
         steps: [
           '<strong>1. Parenthèses</strong> : calculer en premier tout ce qui est entre parenthèses, de l\'intérieur vers l\'extérieur.',
-          '<strong>2. Puissances et racines</strong> : calculer $a^n$ et $\\sqrt{a}$ avant de multiplier ou additionner.',
+          '<strong>2. Puissances</strong> : calculer les carrés et les cubes ($a^2$, $a^3$) avant de multiplier ou d\'additionner.',
           '<strong>3. Multiplications et divisions</strong> : de gauche à droite, avant les additions/soustractions.',
           '<strong>4. Additions et soustractions</strong> : en dernier, de gauche à droite.'
         ]
@@ -263,26 +264,26 @@ window.MODULES.push({
     quiz: [
       {
         q: 'Calculer $3 + 4 \\times 2 - 1$.',
-        options: ['$13$', '$10$', '$15$', '$7$'],
-        answer: 1,
-        correction: 'Priorité à la multiplication : $4 \\times 2 = 8$. Puis : $3 + 8 - 1 = 10$.'
+        options: ['$10$', '$13$', '$15$', '$7$'],
+        answer: 0,
+        correction: 'Priorité à la multiplication : $4 \\times 2 = 8$.<br/><br/>Puis, de gauche à droite : $3 + 8 - 1 = 10$.<br/><br/>Le $13$ vient d\'une lecture de gauche à droite, $(3 + 4) \\times 2 - 1$. Le $7$ vient d\'une soustraction faite avant la multiplication, $3 + 4 \\times (2 - 1)$.'
       },
       {
         q: 'Calculer $(5 + 3)^2 \\div 4$.',
         options: ['$28$', '$16$', '$36$', '$17$'],
         answer: 1,
-        correction: 'Parenthèses d\'abord : $5 + 3 = 8$. Puis puissance : $8^2 = 64$. Puis division : $64 \\div 4 = 16$.'
+        correction: 'Parenthèses d\'abord : $5 + 3 = 8$. Puis puissance : $8^2 = 64$. Puis division : $64 \\div 4 = 16$.<br/><br/>Le $28$ est obtenu en élevant au carré le seul $5$ ($5^2 + 3$) et en oubliant la division : la parenthèse regroupe <strong>toute</strong> la somme avant le carré.'
       },
       {
         q: 'Un élève calcule $2 + 3 \\times 4$ en faisant $(2+3) \\times 4 = 20$. Laquelle de ces corrections est juste ?',
         options: [
           'Il a raison : on lit de gauche à droite, donc $(2+3)$ d\'abord.',
+          'Non : le résultat $20$ est juste, mais il ne fallait pas écrire les parenthèses.',
           'Non : la multiplication est prioritaire sur l\'addition. Il faut d\'abord $3 \\times 4 = 12$, puis $2 + 12 = 14$.',
-          'Non : il faut d\'abord $2 + 3 = 5$, puis $5 \\times 4 = 20$, mais ensuite diviser par $2$.',
           'Non : il faut calculer $2 \\times 3 + 4 = 10$.'
         ],
-        answer: 1,
-        correction: 'La règle de priorité dit que la multiplication est toujours calculée <em>avant</em> l\'addition, sans parenthèses. Donc $2 + 3 \\times 4 = 2 + (3 \\times 4) = 2 + 12 = 14$.'
+        answer: 2,
+        correction: 'Sans parenthèses, c\'est la convention qui décide, et elle fait passer la multiplication avant : $2 + 3 \\times 4 = 2 + 12 = 14$.<br/><br/>« Il a raison » et « le résultat $20$ est juste » commettent la même erreur : lire de gauche à droite revient à ajouter des parenthèses qui ne sont pas écrites.<br/><br/>Le calcul $2 \\times 3 + 4$ applique bien « la multiplication d\'abord », mais aux mauvais nombres : ce qui est écrit, c\'est $3 \\times 4$, pas $2 \\times 3$.'
       }
     ],
 
@@ -349,18 +350,18 @@ window.MODULES.push({
         }
 
         if (type === 'contexte1') {
-          // Note finale pondérée
-          const noteDS = rand(8, 18), noteInterro = rand(5, 16), coef = rand(2, 3), bonus = rand(1, 3);
-          const answer = noteDS + noteInterro * coef - bonus;
+          // Score d'un jeu de plateau : a + b × c - d
+          const pts1 = rand(8, 18), pts2 = rand(5, 16), coef = rand(2, 3), malus = rand(1, 3);
+          const answer = pts1 + pts2 * coef - malus;
           return {
-            statement: `Un élève a $${noteDS}$ au DS et $${noteInterro}$ à l'interrogation (coefficient $${coef}$). On retire $${bonus}$ point(s) de malus retard.<br/>La note finale est : $${noteDS} + ${noteInterro} \\times ${coef} - ${bonus}$.<br/>Calcule cette note en respectant les <strong>priorités</strong>.`,
+            statement: `Dans un jeu de plateau, un joueur marque $${pts1}$ points au premier tour, puis $${pts2}$ points au second tour, qui comptent $${coef}$ fois. Il perd $${malus}$ point(s) de pénalité.<br/>Son total est : $${pts1} + ${pts2} \\times ${coef} - ${malus}$.<br/>Calcule ce total en respectant les <strong>priorités</strong>.`,
             answer,
             tolerance: 0,
             unit: '',
-            hint: `La multiplication est prioritaire : commence par $${noteInterro} \\times ${coef}$, puis effectue les additions et soustractions.`,
+            hint: `La multiplication est prioritaire : commence par $${pts2} \\times ${coef}$, puis effectue les additions et soustractions.`,
             solution: [
-              `Priorité (multiplication) : $${noteInterro} \\times ${coef} = ${noteInterro * coef}$`,
-              `Puis de gauche à droite : $${noteDS} + ${noteInterro * coef} - ${bonus} = ${answer}$`
+              `Priorité (multiplication) : $${pts2} \\times ${coef} = ${pts2 * coef}$`,
+              `Puis de gauche à droite : $${pts1} + ${pts2 * coef} - ${malus} = ${answer}$`
             ]
           };
         }
@@ -382,10 +383,10 @@ window.MODULES.push({
         }
         if (type === 'contexte3') {
           // Vitesse : a × b + c × d
-          const v1 = rand(2, 5), t1 = rand(1, 3), v2 = rand(3, 7), t2 = rand(1, 3);
+          const v1 = rand(3, 4), t1 = rand(1, 3), v2 = rand(5, 7), t2 = rand(1, 3);
           const answer = v1 * t1 + v2 * t2;
           return {
-            statement: `Un cycliste roule à $${v1}\\,\\text{km/h}$ pendant $${t1}\\,\\text{h}$, puis accélère à $${v2}\\,\\text{km/h}$ pendant $${t2}\\,\\text{h}$.<br/>La distance totale est : $${v1} \\times ${t1} + ${v2} \\times ${t2}$.<br/>Calcule cette distance.`,
+            statement: `Un randonneur marche à $${v1}\\,\\text{km/h}$ pendant $${t1}\\,\\text{h}$, puis accélère à $${v2}\\,\\text{km/h}$ pendant $${t2}\\,\\text{h}$.<br/>La distance totale est : $${v1} \\times ${t1} + ${v2} \\times ${t2}$.<br/>Calcule cette distance.`,
             answer,
             tolerance: 0,
             unit: '',
@@ -442,7 +443,7 @@ window.MODULES.push({
         'Un élève calcule $P = (R \\times I)^2 = 6^2 = 36\\,\\text{W}$. Quelle est son erreur ?'
       ],
       solutions: [
-        '$P = R \\times I^2 = 3 \\times (2)^2 = 3 \\times 4 = 12\\,\\text{W}$. La puissance est prioritaire sur la multiplication.',
+        '$P = R \\times I^2 = 3 \\times 2^2 = 3 \\times 4 = 12\\,\\text{W}$.<br/><br/>L\'<strong>exposant</strong> se calcule avant la multiplication : c\'est $I^2 = 4$ que l\'on multiplie ensuite par $R$.',
         '$E = P \\times t = 12 \\times 10 = 120\\,\\text{J}$.',
         'L\'élève a mis des parenthèses autour de $R \\times I$ ce qui change le calcul. La formule est $P = R \\times I^2$, pas $(R \\times I)^2$. Seul $I$ est élevé au carré, pas le produit $RI$.'
       ],
@@ -484,12 +485,12 @@ window.MODULES.push({
           statement: 'Quelle est la valeur de $2 \\times 3^2$ ?',
           type: 'multiple-choice',
           options: [
-            '$36$ car $(2 \\times 3)^2 = 6^2 = 36$.',
-            '$18$ car la puissance est prioritaire : $3^2 = 9$, puis $2 \\times 9 = 18$.',
             '$12$ car $2 \\times 3 \\times 2 = 12$.',
-            '$8$ car $2^3 \\times 1 = 8$.'
+            '$36$ car $(2 \\times 3)^2 = 6^2 = 36$.',
+            '$8$ car $2^3 \\times 1 = 8$.',
+            '$18$ car la puissance est prioritaire : $3^2 = 9$, puis $2 \\times 9 = 18$.'
           ],
-          answer: 1,
+          answer: 3,
           points: 2,
           correction: 'La puissance est prioritaire sur la multiplication. On calcule d\'abord $3^2 = 9$, puis $2 \\times 9 = 18$.'
         },
@@ -521,8 +522,8 @@ window.MODULES.push({
           points: 2,
           correction: 'Sans parenthèses, la multiplication est prioritaire : $3 + 5 \\times 2 = 3 + 10 = 13$. ' +
             'Pour obtenir $16$, il faut forcer l\'addition à se faire d\'abord : $(3 + 5) \\times 2 = 8 \\times 2 = 16$. ' +
-            'La proposition 1 ne change rien, puisqu\'elle ne fait qu\'écrire la priorité qui s\'applique déjà. ' +
-            'La proposition 3 non plus : une parenthèse autour d\'un seul nombre ne regroupe rien. ' +
+            'Écrire $3 + (5 \\times 2)$ ne change rien, puisque cela ne fait qu\'écrire la priorité qui s\'applique déjà. ' +
+            'Écrire $3 + 5 \\times (2)$ non plus : une parenthèse autour d\'un seul nombre ne regroupe rien. ' +
             'Les parenthèses ne servent donc qu\'à <strong>modifier</strong> l\'ordre naturel des priorités — ' +
             'quand elles le confirment, elles sont inutiles.'
         }

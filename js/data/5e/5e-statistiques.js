@@ -20,8 +20,8 @@ window.MODULES.push({
          Moyenne VERIFIEE : (9 x 10 + 100) / 10 = 19. */
       intro: 'Dans un groupe de dix personnes, neuf gagnent $10$ € par jour et la dixième $100$ €. Le revenu moyen est donc de $19$ € par jour. Cette phrase est-elle honnête ?<br/><br/>' +
         'Le calcul est exact : $19$ € est bien la moyenne. Mais <strong>personne</strong> dans ce groupe ne gagne $19$ € — neuf gagnent bien moins, une gagne bien plus. Un nombre parfaitement juste peut donc donner une idée fausse de ce qu\'il résume.<br/><br/>' +
-        'Les statistiques résument une série de données par quelques <strong>indicateurs clés</strong>. La <strong>moyenne</strong> donne la valeur « typique » mais peut être trompée par des valeurs extrêmes.<br/><br/>' +
-        'Exemple : si $9$ élèves ont $10$/20 et $1$ élève a $100$/20 (erreur), la moyenne passe à $19$ — complètement faussée. C\'est pourquoi la médiane (valeur du milieu) est parfois plus représentative.<br/><br/>' +
+        'Les statistiques résument une série de données par quelques <strong>indicateurs clés</strong>.<br/><br/>' +
+        'La <strong>moyenne</strong> donne une valeur « typique », mais une seule valeur extrême suffit à la tirer loin de presque toutes les données — c\'est ce que montre l\'exemple ci-dessus.<br/><br/>' +
         'L\'<strong>étendue</strong> mesure la dispersion (différence max − min) mais ne dit rien sur la répartition des valeurs entre les deux extrêmes.<br/><br/>' +
         'Pour calculer une <strong>moyenne pondérée</strong> : multiplier chaque valeur par son effectif (ou coefficient), sommer, diviser par l\'effectif total. Ne pas faire la moyenne des valeurs sans tenir compte des effectifs !',
       definitions: [
@@ -292,7 +292,7 @@ window.MODULES.push({
       method: {
         title: 'Méthode en 4 étapes',
         steps: [
-          '<strong>Organiser</strong> les données dans un tableau (valeurs, effectifs, effectifs cumulés).',
+          '<strong>Organiser</strong> les données dans un tableau : une ligne pour les valeurs, une ligne pour les effectifs.',
           '<strong>Calculer la moyenne</strong> : $\\bar{x} = \\dfrac{\\text{somme de toutes les valeurs}}{\\text{nombre de valeurs}} = \\dfrac{\\sum x_i \\cdot n_i}{\\sum n_i}$.',
           '<strong>Calculer l\'étendue</strong> : $e = x_{\\max} - x_{\\min}$.',
           '<strong>Calculer les fréquences</strong> : $f_i = \\dfrac{n_i}{N} \\times 100\\%$.'
@@ -309,7 +309,7 @@ window.MODULES.push({
         'La moyenne n\'est pas forcément une valeur présente dans la série.',
         'Fréquence en % = effectif de la valeur ÷ effectif total × 100.'
       ],
-      piege: 'Piège : la moyenne n\'est pas forcément une valeur de la série ! Si les notes sont $4, 8, 12$, la moyenne est $8$ — qui est bien une valeur. Mais avec $3, 8, 12$, la moyenne est $\\frac{23}{3} \\approx 7{,}67$, valeur absente de la série.'
+      piege: 'Piège : quand des notes ont des effectifs (ou des coefficients) différents, on ne fait pas simplement la moyenne des notes.<br/><br/>$5$ élèves à $8$ et $25$ élèves à $16$ : la moyenne n\'est pas $\\dfrac{8 + 16}{2} = 12$, mais $\\dfrac{5 \\times 8 + 25 \\times 16}{30} = \\dfrac{440}{30} \\approx 14{,}67$.<br/><br/>Chaque note compte <strong>autant de fois</strong> qu\'il y a d\'élèves qui l\'ont obtenue.'
     },
 
     quiz: [
@@ -329,11 +329,11 @@ window.MODULES.push({
         q: 'Un élève a les notes $10, 12, 14$ en mathématiques (coeff. 1) et $8$ en sport (coeff. 3). Il calcule sa moyenne générale comme $\\dfrac{10+12+14+8}{4} = 11$. Quelle est son erreur ?',
         options: [
           'Il n\'a pas fait d\'erreur : la moyenne vaut $11$.',
-          'Il a oublié les coefficients : $\\bar{x} = \\dfrac{10 \\times 1 + 12 \\times 1 + 14 \\times 1 + 8 \\times 3}{1+1+1+3} = \\dfrac{60}{6} = 10$.',
           'La bonne méthode est de multiplier la moyenne des maths par $3$ et celle du sport par $1$.',
+          'Il a oublié les coefficients : $\\bar{x} = \\dfrac{10 \\times 1 + 12 \\times 1 + 14 \\times 1 + 8 \\times 3}{1+1+1+3} = \\dfrac{60}{6} = 10$.',
           'Il faut diviser par le nombre de matières, pas par la somme des coefficients.'
         ],
-        answer: 1,
+        answer: 2,
         correction: 'Une moyenne pondérée tient compte des coefficients : $\\bar{x} = \\dfrac{10 + 12 + 14 + 8 \\times 3}{1+1+1+3} = \\dfrac{36+24}{6} = \\dfrac{60}{6} = 10$.'
       }
     ],
@@ -454,7 +454,7 @@ window.MODULES.push({
         const sum = vals.reduce((a, b) => a + b, 0);
         const mean = parseFloat((sum / n).toFixed(1));
         return {
-          statement: `${ctx.emoji} Calcule la moyenne de ces ${ctx.theme} : $${vals.join(', ')}$.`,
+          statement: `${ctx.emoji} Calcule la moyenne de ces ${ctx.theme} : $${vals.join(', ')}$. Arrondis au dixième si nécessaire.`,
           answer: mean,
           tolerance: 0.1,
           unit: ctx.unite,
@@ -463,7 +463,7 @@ window.MODULES.push({
             `La moyenne est la somme des valeurs divisée par leur nombre.`,
             `Somme : $${vals.join(' + ')} = ${sum}$.`,
             `Il y a $${n}$ valeurs.`,
-            `Moyenne : $${sum} \\div ${n} = ${fr(mean)}$.`
+            `Moyenne : $${sum} \\div ${n} ${Math.abs(sum / n - mean) < 1e-9 ? '=' : '\\approx'} ${fr(mean)}$.`
           ]
         };
       }
@@ -527,10 +527,10 @@ window.MODULES.push({
           statement: 'Un élève affirme : « la moyenne de $3, 7$ et $11$ est forcément l\'une de ces trois valeurs ». A-t-il raison ?',
           type: 'multiple-choice',
           options: [
-            'Oui, la moyenne est toujours l\'une des valeurs de la série.',
-            'Non, la moyenne est $7$ qui est bien une valeur de la série, mais ce n\'est qu\'une coïncidence — la moyenne peut ne pas être une valeur de la série.',
-            'Non, la moyenne est $21$.',
-            'Oui, la moyenne est toujours la valeur du milieu.'
+            'Oui : la moyenne est toujours l\'une des valeurs de la série.',
+            'Non : ici la moyenne vaut $7$ et se trouve dans la série, mais c\'est un hasard.',
+            'Non : la moyenne vaut $21$, et $21$ n\'est pas dans la série.',
+            'Oui : la moyenne est toujours la valeur du milieu de la série.'
           ],
           answer: 1,
           points: 2,

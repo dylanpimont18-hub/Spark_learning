@@ -21,9 +21,10 @@ window.MODULES.push({
       intro: 'Une citerne cylindrique mesure $1{,}2$ m de diamètre et $2$ m de haut. Combien de litres d\'eau peut-elle contenir ?<br/><br/>' +
         'La question paraît simple, et pourtant : en sixième, tu ne savais calculer que le volume d\'un pavé droit, en multipliant trois longueurs. Ici il n\'y en a pas trois — la base est ronde. Il va falloir une autre idée, et elle vaudra aussi bien pour les prismes que pour les cylindres.<br/><br/>' +
         'La formule universelle $V = \\mathcal{A}_{\\text{base}} \\times h$ s\'applique à tout <strong>prisme</strong> et tout <strong>cylindre</strong>. L\'intuition : le volume est la surface de la base « empilée » sur une hauteur $h$.<br/><br/>' +
-        '<strong>Point clé sur la hauteur :</strong> la hauteur est toujours perpendiculaire aux bases — si le prisme est « incliné », la hauteur est différente du côté latéral.<br/><br/>' +
+        '<strong>Point clé sur la hauteur :</strong> la hauteur est la distance entre les deux bases, mesurée perpendiculairement à celles-ci.<br/><br/>' +
         'Pour un <strong>cylindre</strong>, la base est un disque : $V = \\pi r^2 h$. Attention à ne pas confondre rayon et diamètre !<br/><br/>' +
-        '<strong>Conversion :</strong> $1$ dm³ $= 1$ L exactement, et $1$ m³ $= 1000$ L. En chimie, le volume d\'une fiole jaugée est en mL, et la conversion vers cm³ est immédiate ($1$ mL $= 1$ cm³).',
+        '<strong>Conversion :</strong> $1$ dm³ $= 1$ L exactement, et $1$ m³ $= 1000$ L. En chimie, le volume d\'une fiole jaugée est en mL, et la conversion vers cm³ est immédiate ($1$ mL $= 1$ cm³).<br/><br/>' +
+        'Et la citerne du début ? Son rayon vaut $1{,}2 \\div 2 = 0{,}6$ m, donc $V = 3{,}14 \\times 0{,}6^2 \\times 2 \\approx 2{,}26$ m³, soit environ <strong>$2\\,260$ litres</strong>.',
       definitions: [
         { term: 'Prisme droit', def: 'Solide dont les deux bases sont des polygones identiques et parallèles, reliés par des faces rectangulaires. Volume = aire de la base × hauteur.' },
         { term: 'Cylindre', def: 'Solide dont les deux bases sont des disques identiques et parallèles. Volume = $\\pi r^2 \\times h$.' },
@@ -311,15 +312,15 @@ window.MODULES.push({
         '$1$ L $= 1$ dm³ $= 1000$ cm³.',
         'La hauteur est perpendiculaire aux bases (pas un côté latéral).'
       ],
-      piege: 'Piège : la hauteur d\'un prisme est la distance entre les deux bases, perpendiculaire à celles-ci — pas nécessairement un côté latéral. Si le prisme est « penché », la hauteur est différente du côté.'
+      piege: 'Piège : la formule du cylindre utilise le <strong>rayon</strong>, et un énoncé donne souvent le <strong>diamètre</strong>. Avec un diamètre de $10$ cm, le rayon vaut $5$ cm : $V = \\pi \\times 5^2 \\times h$, et non $\\pi \\times 10^2 \\times h$.<br/><br/>L\'oubli ne double pas le volume, il le <strong>quadruple</strong>, car le rayon est au carré.'
     },
 
     quiz: [
       {
         q: 'Un cylindre a un rayon de $3$ cm et une hauteur de $10$ cm. Quel est son volume (avec $\\pi \\approx 3{,}14$) ?',
-        options: ['$94{,}2$ cm³', '$282{,}6$ cm³', '$188{,}4$ cm³', '$942$ cm³'],
-        answer: 1,
-        correction: '$V = \\pi r^2 h = 3{,}14 \\times 9 \\times 10 = 282{,}6$ cm³.'
+        options: ['$94{,}2$ cm³', '$28{,}26$ cm³', '$282{,}6$ cm³', '$188{,}4$ cm³'],
+        answer: 2,
+        correction: '$V = \\pi r^2 h = 3{,}14 \\times 9 \\times 10 = 282{,}6$ cm³.<br/><br/>$94{,}2$ : le rayon n\'a pas été mis au carré ($3{,}14 \\times 3 \\times 10$). $188{,}4$ : le rayon a été doublé au lieu d\'être élevé au carré ($3{,}14 \\times 6 \\times 10$). $28{,}26$ : c\'est l\'aire de la base seule, la hauteur a été oubliée.'
       },
       {
         q: 'Un aquarium (pavé droit) mesure $60\\,\\text{cm} \\times 30\\,\\text{cm} \\times 40\\,\\text{cm}$. Quelle est sa capacité en litres ?',
@@ -331,12 +332,18 @@ window.MODULES.push({
         q: 'Un cylindre a un diamètre de $6$ cm et une hauteur de $10$ cm. Un élève calcule $V = \\pi \\times 6^2 \\times 10 = 1130$ cm³. Où est l\'erreur ?',
         options: [
           'Il n\'y a pas d\'erreur.',
-          'Il a utilisé le diamètre au lieu du rayon : $r = 3$ cm. Le bon calcul est $V = \\pi \\times 3^2 \\times 10 \\approx 282{,}6$ cm³.',
           'Il aurait dû diviser par $2$ : $V = \\pi \\times 6^2 \\times 10 \\div 2$.',
-          'Il a oublié de multiplier par $h$ : $V = \\pi \\times 6^2$.'
+          'Il a oublié de multiplier par $h$ : $V = \\pi \\times 6^2$.',
+          'Il a utilisé le diamètre au lieu du rayon : $r = 3$ cm. Le bon calcul est $V = \\pi \\times 3^2 \\times 10 \\approx 282{,}6$ cm³.'
         ],
-        answer: 1,
-        correction: 'Le rayon est la moitié du diamètre : $r = 6 \\div 2 = 3$ cm. La formule est $V = \\pi r^2 h = \\pi \\times 3^2 \\times 10 = 90\\pi \\approx 282{,}6$ cm³.'
+        answer: 3,
+        correction: 'Le rayon est la moitié du diamètre : $r = 6 \\div 2 = 3$ cm. La formule est $V = \\pi r^2 h = \\pi \\times 3^2 \\times 10 = 90\\pi \\approx 282{,}6$ cm³.<br/><br/>Diviser par $2$ à la fin ne corrige pas l\'erreur : le rayon est au carré, le résultat de l\'élève est donc <strong>quatre</strong> fois trop grand, pas deux.'
+      },
+      {
+        q: 'Un prisme droit a pour base un triangle d\'aire $12$ cm² et une hauteur de $5$ cm. Quel est son volume ?',
+        options: ['$60$ cm³', '$17$ cm³', '$30$ cm³', '$120$ cm³'],
+        answer: 0,
+        correction: 'La formule est la même pour tout prisme : $V = \\mathcal{A}_{\\text{base}} \\times h = 12 \\times 5 = 60$ cm³.<br/><br/>$17$ : aire et hauteur ont été additionnées. $30$ : l\'aire du triangle a été divisée par $2$ une seconde fois, alors que l\'énoncé donne déjà l\'aire. $120$ : la hauteur a été comptée deux fois.'
       }
     ],
 
@@ -396,10 +403,10 @@ window.MODULES.push({
           /* Conversion de volume : le facteur de conversion des longueurs
              s'eleve au CUBE. Les couples sont ceux du programme. */
           const cas = pick([
-            { de: 'dm³', vers: 'cm³', facteur: 1000, lon: '1 dm = 10 cm', base: 10 },
-            { de: 'm³', vers: 'dm³', facteur: 1000, lon: '1 m = 10 dm', base: 10 },
-            { de: 'cm³', vers: 'mm³', facteur: 1000, lon: '1 cm = 10 mm', base: 10 },
-            { de: 'm³', vers: 'cm³', facteur: 1000000, lon: '1 m = 100 cm', base: 100 }
+            { de: 'dm³', vers: 'cm³', facteur: 1000, lon: '1\\,\\text{dm} = 10\\,\\text{cm}', base: 10 },
+            { de: 'm³', vers: 'dm³', facteur: 1000, lon: '1\\,\\text{m} = 10\\,\\text{dm}', base: 10 },
+            { de: 'cm³', vers: 'mm³', facteur: 1000, lon: '1\\,\\text{cm} = 10\\,\\text{mm}', base: 10 },
+            { de: 'm³', vers: 'cm³', facteur: 1000000, lon: '1\\,\\text{m} = 100\\,\\text{cm}', base: 100 }
           ]);
           const val = pick([2, 2.5, 3, 4, 7.5]);
           const res = val * cas.facteur;
@@ -443,15 +450,18 @@ window.MODULES.push({
           };
         }
 
-        // Tache d'origine, accord corrige.
+        // Tache d'origine, accord corrige. Plages de dimensions portees par le
+        // contexte (2026-10-13) : une valise de 11 x 3 x 4 cm apprenait a
+        // ignorer l'ordre de grandeur. Tirees APRES pick(), qui indexe sa
+        // memoire de tournee par contenu.
         const ctx = pick([
-          { obj: 'une boîte à chaussures', emoji: '👟' },
-          { obj: 'un aquarium', emoji: '🐠' },
-          { obj: 'une valise', emoji: '🧳' },
-          { obj: 'un coffre', emoji: '📦' },
-          { obj: 'une brique', emoji: '🧱' }
+          { obj: 'une boîte à chaussures', emoji: '👟', dims: [[28, 35], [18, 22], [10, 14]] },
+          { obj: 'un aquarium', emoji: '🐠', dims: [[40, 80], [25, 40], [30, 45]] },
+          { obj: 'une valise', emoji: '🧳', dims: [[55, 75], [35, 48], [20, 28]] },
+          { obj: 'un coffre', emoji: '📦', dims: [[60, 90], [35, 50], [30, 45]] },
+          { obj: 'une brique', emoji: '🧱', dims: [[20, 25], [10, 12], [5, 7]] }
         ]);
-        const L = rand(3, 15), l = rand(3, 10), h = rand(2, 10);
+        const [L, l, h] = ctx.dims.map(([mn, mx]) => rand(mn, mx));
         return {
           statement: `${ctx.emoji} Calcule le volume d'${ctx.obj} (pavé droit) de dimensions $${L}$ cm × $${l}$ cm × $${h}$ cm.`,
           /* Perspective cavaliere : la fuyante reduite de moitie est la
