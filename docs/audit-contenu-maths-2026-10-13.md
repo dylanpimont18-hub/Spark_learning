@@ -87,3 +87,29 @@ Un commit par lot. Avant chaque édition, le module est relu en entier ; toute r
 - **Décisions de programme laissées à l'auteur** : rattachement de `reperage-graphique` en 5e ; $\sin^2 + \cos^2 = 1$ et notation d'intervalle en 3e (enrichissement assumé ou retrait) ; périmètre des droites remarquables en 4e ; passerelles de physique (`physics`) en 3e trigonométrie et 5e priorités ; projeté sur une droite en Tle ; couverture du 1er ordre en BTS.
 - **Saisie à virgule.** Les réponses passent par `<input type="number">` puis `parseFloat` (`js/engines/shared.js:8`). Une virgule refusée par le navigateur donne une valeur vide et le message « Entre un nombre » : pas de note fausse, mais une friction possible selon le navigateur. Non testé sur poste réel.
 - **Hors périmètre.** Les étiquettes « oppose » / « hypotenuse » sans accent viennent de `js/data/figures-exercices.js` (contrainte historique du convertisseur de manuels, à revérifier) ; `figureSymetrie` affiche « axe x = 2 ».
+
+## 5. Bilan de la phase 4 (2026-10-13)
+
+Les 38 modules lus ont été corrigés, en un commit par lot : 5c742b5 (gains rapides), e9c3f08 (1re), 1804559 (Tle), b769691 (2nde), a083670 (BTS), 59115ae (3e), c9c4234 (5e), e01ffb4 (bts-prep), 8043552 (6e), b11cd35 (4e), 2fc570e (figure de symétrie), e898f71 (`?v=64`).
+
+- Les 12 défauts de gravité 0 et tous les défauts de gravité 1 sont corrigés. Les défauts de gravité 2 le sont aussi, sauf les réécritures que les correcteurs ont écartées ou adaptées parce qu'elles étaient fausses. Exemple : un distracteur « 836 kJ » proposé en remplacement était égal à la bonne réponse (0,836 MJ).
+- Toute réponse attendue modifiée a été recalculée à la main. Les plus visibles :
+  - `1re-suites` : 17 190 ans au lieu de 8 108 ans obtenus par logarithme ;
+  - `bts-prep-si-unites` : 14 000 € contre 10 800 €, soit 3 200 € d'économie ;
+  - `3e-equations-inequations` : un seuil entier de 8 donne la réponse 9 ;
+  - `6e-symetrie-axiale` : l'évaluation Q1 attend 7 au lieu de −7.
+- Contrôles finaux sur les 112 modules :
+  - 60 tirages de `generate()` par module, aucun problème ;
+  - `check-decimal-notation` : 0 erreur ;
+  - `verifier-corpus` : 248/248 modules valides ;
+  - score composite moyen : 85,9 → **87,0**.
+- Quiz : dans les modules lus, les bonnes réponses ont été réindexées dans les données, et plus aucune correction ne cite une lettre ou une position d'option.
+
+### Décisions restant à l'auteur
+
+1. **Mélange des options dans `quizEngine.js`.** Il réglerait aussi les 74 modules non lus. Il faut d'abord reformuler les corrections qui citent une option par sa lettre (« option B ») ou par sa position (« la réponse 3 ») : il en reste par exemple dans `5e-expressions-litterales`, `5e-parallelogrammes`, `5e-triangles`, `tle-equations-differentielles`, `tle-logarithme` et `2nde-geometrie-plane`.
+2. **Les points de programme listés au § 4**, inchangés.
+3. **Programme de 6e-angles.** La somme des angles du triangle et le triangle isocèle structurent tout le module : c'est une avance sur le programme de 6e.
+4. **Arrondi au dixième en 6e-nombres-decimaux** : il est exercé mais pas expliqué dans le cours.
+5. **`bts-prep-graphiques`, problème** : le cahier des charges « 7 m³/h à 30 m » ne colle pas à la loi de réseau (19,7 m).
+6. **Fichiers `js/data` chargés par `_loadScript()` (`js/loader.js`)** : ils n'ont pas de suffixe `?v=`. Seul le cache HTTP décide quand un navigateur reprend une version corrigée.
