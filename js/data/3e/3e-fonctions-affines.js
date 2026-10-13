@@ -28,7 +28,7 @@ window.MODULES.push(
         title: 'Méthode en 3 étapes',
         steps: [
           '<strong>Reconnaître et écrire la fonction</strong> : repérer la valeur de départ (elle donne $b$) et le rythme par unité (il donne $a$), puis écrire $f(x) = ax + b$.<br/><em>Exemple :</em> $4$ € de prise en charge puis $2$ € par km donnent $f(x) = 2x + 4$. S\'il n\'y a rien à payer au départ, alors $b = 0$ et la fonction est linéaire.',
-          '<strong>Calculer le coefficient directeur à partir de deux points</strong> : si on connaît $f(x_1)$ et $f(x_2)$, alors $a = \\dfrac{f(x_2) - f(x_1)}{x_2 - x_1}$.<br/><em>Exemple :</em> $f(1) = 6$ et $f(4) = 12$ donnent $a = \\dfrac{12 - 6}{4 - 1} = \\dfrac{6}{3} = 2$. On trouve ensuite $b$ en réinjectant un point : $6 = 2 \\times 1 + b$, donc $b = 4$.',
+          '<strong>Calculer le coefficient directeur à partir de deux points</strong> : si on connaît $f(x_1)$ et $f(x_2)$, alors $a = \\dfrac{f(x_2) - f(x_1)}{x_2 - x_1}$ — un rapport de deux <strong>écarts</strong>, jamais de deux valeurs.<br/><br/><em>Exemple :</em> $f(1) = 6$ et $f(4) = 12$ donnent $a = \\dfrac{12 - 6}{4 - 1} = \\dfrac{6}{3} = 2$.<br/><br/>On trouve ensuite $b$ en <strong>réinjectant</strong> un point : $6 = 2 \\times 1 + b$, donc $b = 4$.',
           '<strong>Tracer la droite</strong> : placer le point $(0 \\,;\\, b)$ sur l\'axe vertical, puis se déplacer de $1$ vers la droite et de $a$ vers le haut (vers le bas si $a$ est négatif). On obtient un second point, et deux points suffisent à tracer la droite.'
         ]
       },
@@ -184,7 +184,7 @@ window.MODULES.push(
               <text class="annotation-label" x="148" y="196" text-anchor="start">a = -3</text>
               <text class="annotation-label" x="204" y="62" text-anchor="end">a = 0,5</text>
 
-              <text class="label-soft" x="116" y="226" text-anchor="middle">meme raideur pour 3 et pour -3</text>
+              <text class="label-soft" x="116" y="226" text-anchor="middle">même raideur pour 3 et pour -3</text>
               <text class="label-soft" x="116" y="240" text-anchor="middle">la plus douce est celle de 0,5</text>
             </svg>
           `,
@@ -234,7 +234,7 @@ window.MODULES.push(
               <text class="tick-label" x="90" y="168" text-anchor="middle">+4</text>
               <text class="tick-label" x="136" y="96" text-anchor="start">+6</text>
               <text class="annotation-label" x="90" y="212" text-anchor="middle">de A vers B</text>
-              <text class="label-soft" x="90" y="226" text-anchor="middle">6 divise par 4 donne 1,5</text>
+              <text class="label-soft" x="90" y="226" text-anchor="middle">6 divisé par 4 donne 1,5</text>
 
               <line class="grid-line" x1="222" y1="12" x2="222" y2="192"></line>
               <line class="grid-line" x1="242" y1="12" x2="242" y2="192"></line>
@@ -263,7 +263,7 @@ window.MODULES.push(
               <text class="tick-label" x="282" y="168" text-anchor="middle">-4</text>
               <text class="tick-label" x="328" y="96" text-anchor="start">-6</text>
               <text class="annotation-label" x="282" y="212" text-anchor="middle">de B vers A</text>
-              <text class="label-soft" x="282" y="226" text-anchor="middle">moins 6 divise par moins 4 donne 1,5</text>
+              <text class="label-soft" x="282" y="226" text-anchor="middle">moins 6 divisé par moins 4 donne 1,5</text>
             </svg>
           `,
           notes: [
@@ -294,20 +294,20 @@ window.MODULES.push(
       },
       {
         q: 'Quelle est l\'ordonnée à l\'origine de $f(x) = -4x + 9$ ?',
-        options: ['$-4$', '$9$', '$0$', '$-9$'],
-        answer: 1,
+        options: ['$-4$', '$0$', '$9$', '$-9$'],
+        answer: 2,
         correction: 'L\'ordonnée à l\'origine est la valeur en $0$ : $f(0) = -4 \\times 0 + 9 = 9$. C\'est le terme constant, donc $9$. Le $-4$, lui, est le coefficient directeur : la droite descend.'
       },
       {
         q: 'Une fonction affine vérifie $f(2) = 7$ et $f(5) = 16$. Que vaut son coefficient directeur ?',
         options: ['$3$', '$9$', '$\\dfrac{1}{3}$', '$23$'],
         answer: 0,
-        correction: 'On applique la formule : $a = \\dfrac{f(5) - f(2)}{5 - 2} = \\dfrac{16 - 7}{3} = \\dfrac{9}{3} = 3$. Attention à bien diviser par l\'écart des $x$, et non à garder seulement l\'écart des images.'
+        correction: 'Le coefficient directeur est un rapport de deux <strong>écarts</strong> : $a = \\dfrac{f(5) - f(2)}{5 - 2} = \\dfrac{16 - 7}{3} = \\dfrac{9}{3} = 3$.<br/><br/>$9$ est l\'écart des images seul, sans division par l\'écart des $x$. $\\dfrac{1}{3}$ est le quotient écrit à l\'envers, $\\dfrac{\\Delta x}{\\Delta y}$ : or la droite monte de $9$ quand on avance de $3$, elle est donc plus raide que $1$. $23$ est la somme $16 + 7$, qui n\'a aucun sens ici : on compare des écarts, on n\'additionne pas des valeurs.'
       },
       {
         q: 'La droite de $f(x) = 2x + 5$ et celle de $g(x) = 2x - 1$ sont :',
-        options: ['sécantes en un point', 'parallèles', 'confondues', 'perpendiculaires'],
-        answer: 1,
+        options: ['sécantes en un point', 'confondues', 'perpendiculaires', 'parallèles'],
+        answer: 3,
         correction: 'Les deux ont le même coefficient directeur $a = 2$ : elles montent exactement de la même façon, elles sont donc <strong>parallèles</strong>. Elles ne sont pas confondues car leurs ordonnées à l\'origine diffèrent ($5$ et $-1$).'
       }
     ],
@@ -356,14 +356,15 @@ window.MODULES.push(
           const a = pick([-4, -3, -2, 2, 3, 4, 5]);
           const b = rand(-8, 12);
           const x = rand(-6, 9);
+          const bs = b === 0 ? '' : (b < 0 ? ' - ' + Math.abs(b) : ' + ' + b);   // « 3x », jamais « 3x + 0 »
           return {
-            statement: `Soit la fonction affine $f$ définie par $f(x) = ${a}x ${b < 0 ? '- ' + Math.abs(b) : '+ ' + b}$.<br/><br/>` +
+            statement: `Soit la fonction affine $f$ définie par $f(x) = ${a}x${bs}$.<br/><br/>` +
               `Calcule <strong>$f(${x})$</strong>.`,
             answer: a * x + b, tolerance: 0.01, unit: '',
             hint: `Calculer $f(${x})$, c'est <strong>remplacer</strong> chaque $x$ de l'expression par $${x}$.<br/><br/>Attention aux signes : $${a} \\times (${x})$ se calcule avant l'addition.`,
             solution: [
               `Pour calculer une image, on remplace $x$ par la valeur donnée dans l'expression de la fonction.`,
-              `$f(${x}) = ${a} \\times (${x}) ${b < 0 ? '- ' + Math.abs(b) : '+ ' + b} = ${a * x} ${b < 0 ? '- ' + Math.abs(b) : '+ ' + b}$`,
+              `$f(${x}) = ${a} \\times (${x})${bs} = ${a * x}${bs}$`,
               `$f(${x}) = ${a * x + b}$.`
             ]
           };
@@ -377,16 +378,17 @@ window.MODULES.push(
           const a = pick([2, 3, 4, 5, -2, -3]);
           const b = rand(-9, 9);
           const x = rand(2, 12);
+          const bs = b === 0 ? '' : (b < 0 ? ' - ' + Math.abs(b) : ' + ' + b);   // « 5x », jamais « 5x + 0 »
           const y = a * x + b;
           return {
-            statement: `Soit la fonction affine $f$ définie par $f(x) = ${a}x ${b < 0 ? '- ' + Math.abs(b) : '+ ' + b}$.<br/><br/>` +
+            statement: `Soit la fonction affine $f$ définie par $f(x) = ${a}x${bs}$.<br/><br/>` +
               `Quel nombre a pour image $${y}$ ? Autrement dit, résous $f(x) = ${y}$.`,
             answer: x, tolerance: 0.01, unit: '',
-            hint: `Ici on ne remplace <strong>pas</strong> $x$ : on cherche justement sa valeur.<br/><br/>Écris l'équation $${a}x ${b < 0 ? '- ' + Math.abs(b) : '+ ' + b} = ${y}$ et résous-la.`,
+            hint: `Ici on ne remplace <strong>pas</strong> $x$ : on cherche justement sa valeur.<br/><br/>Écris l'équation $${a}x${bs} = ${y}$ et résous-la.`,
             solution: [
               `On cherche un <strong>antécédent</strong> : la valeur de $x$ est l'inconnue, et c'est son image qui est donnée. Cela se résout comme une équation.`,
-              `$${a}x ${b < 0 ? '- ' + Math.abs(b) : '+ ' + b} = ${y}$, donc $${a}x = ${y - b}$.`,
-              `$x = \\dfrac{${y - b}}{${a}} = ${x}$.<br/><br/>Contrôle : $f(${x}) = ${a} \\times ${x} ${b < 0 ? '- ' + Math.abs(b) : '+ ' + b} = ${y}$, on retrouve bien l'image annoncée.`
+              `$${a}x${bs} = ${y}$, donc $${a}x = ${y - b}$.`,
+              `$x = \\dfrac{${y - b}}{${a}} = ${x}$.<br/><br/>Contrôle : $f(${x}) = ${a} \\times ${x}${bs} = ${y}$, on retrouve bien l'image annoncée.`
             ]
           };
         }
@@ -461,6 +463,7 @@ window.MODULES.push(
           const x = rand(4, 20);
           const a1 = rand(3, 9);
           const a2 = rand(1, a1 - 1);
+          const a2s = a2 === 1 ? '' : String(a2);   // « x + 18 », jamais « 1x + 18 »
           const b2 = (a1 - a2) * x;
           /* L'ÉLISION est portée par le contexte (`de` ou `d'`), jamais
              reconstruite : « le nombre x de entrées » est sorti d'une première
@@ -476,14 +479,14 @@ window.MODULES.push(
           return {
             statement: `Deux formules sont proposées, en euros, selon le nombre $x$ ${ctx.de}.<br/><br/>` +
               `<strong>Formule A</strong> (${ctx.n1}) : $f(x) = ${a1}x$.<br/><br/>` +
-              `<strong>Formule B</strong> (${ctx.n2}) : $g(x) = ${a2}x + ${b2}$.<br/><br/>` +
+              `<strong>Formule B</strong> (${ctx.n2}) : $g(x) = ${a2s}x + ${b2}$.<br/><br/>` +
               `Pour quel nombre ${ctx.de} les deux formules coûtent-elles <strong>exactement le même prix</strong> ?`,
             answer: x, tolerance: 0.01, unit: '',
-            hint: `Les deux prix sont égaux quand $f(x) = g(x)$.<br/><br/>Écris $${a1}x = ${a2}x + ${b2}$ et résous cette équation.`,
+            hint: `Les deux prix sont égaux quand $f(x) = g(x)$.<br/><br/>Écris $${a1}x = ${a2s}x + ${b2}$ et résous cette équation.`,
             solution: [
               `Les deux formules coûtent le même prix lorsque leurs deux expressions sont égales : c'est le point où les deux droites se croisent.`,
-              `$${a1}x = ${a2}x + ${b2}$, donc $${a1 - a2}x = ${b2}$.`,
-              `$x = \\dfrac{${b2}}{${a1 - a2}} = ${x}$.<br/><br/>Au-delà de $${x}$ ${ctx.u}, la formule B devient la moins chère, puisque son prix augmente moins vite ($${a2}$ € par ${ctx.v} contre $${a1}$ €).`
+              `$${a1}x = ${a2s}x + ${b2}$, donc $${a1 - a2 === 1 ? '' : a1 - a2}x = ${b2}$.`,
+              `${a1 - a2 === 1 ? `L'inconnue est déjà isolée : $x = ${x}$.` : `$x = \\dfrac{${b2}}{${a1 - a2}} = ${x}$.`}<br/><br/>Au-delà de $${x}$ ${ctx.u}, la formule B devient la moins chère, puisque son prix augmente moins vite ($${a2}$ € par ${ctx.v} contre $${a1}$ €).`
             ]
           };
         }
@@ -496,6 +499,7 @@ window.MODULES.push(
         const b = rand(2, 9);
         const x = rand(4, 20);
         const a = aDix / 10;
+        const ax = (aDix === 10 ? '' : fr(a)) + 'x';   // « x + 6 », jamais « 1x + 6 »
         const total = (aDix * x + b * 10) / 10;
 
         // `deUnite` porte l'elision : « de kilometres » mais « d'heures ».
@@ -520,11 +524,11 @@ window.MODULES.push(
           answer: total,
           tolerance: 0.01,
           unit: '€',
-          hint: `La valeur de départ donne $b = ${b}$, le rythme donne $a = ${fr(a)}$. Donc $f(x) = ${fr(a)}x + ${b}$ — il ne reste qu'à remplacer $x$ par $${x}$.`,
+          hint: `La valeur de départ donne $b = ${b}$, le rythme donne $a = ${fr(a)}$. Donc $f(x) = ${ax} + ${b}$ — il ne reste qu'à remplacer $x$ par $${x}$.`,
           solution: [
             `La valeur de départ est $${b}$ € : c'est l'<strong>ordonnée à l'origine</strong>, donc $b = ${b}$.`,
             `Chaque unité supplémentaire ajoute $${fr(a)}$ € : c'est le <strong>coefficient directeur</strong>, donc $a = ${fr(a)}$.`,
-            `La fonction s'écrit donc $f(x) = ${fr(a)}x + ${b}$.`,
+            `La fonction s'écrit donc $f(x) = ${ax} + ${b}$.`,
             `On remplace $x$ par $${x}$ : $f(${x}) = ${fr(a)} \\times ${x} + ${b} = ${fr((aDix * x) / 10)} + ${b} = ${fr(total)}$.`
           ]
         };
@@ -539,7 +543,7 @@ window.MODULES.push(
       tasks: [
         '(Étape 1 de la méthode) Exprimer le coût annuel $A(x)$ de la formule A, puis le coût $B(x)$ de la formule B. Préciser pour chacune s\'il s\'agit d\'une fonction affine ou linéaire.',
         'Calculer le coût des deux formules pour $10$ DVD, puis pour $30$ DVD. Laquelle est la plus avantageuse dans chaque cas ?',
-        '(Étape 3 de la méthode) Déterminer par le calcul le nombre de DVD à partir duquel la formule A devient plus avantageuse.',
+        '(Comme dans l\'exemple du cours) Déterminer par le calcul le nombre de DVD à partir duquel la formule A devient plus avantageuse.',
         'Réflexion : sans refaire le calcul, que peut-on dire des deux droites si la médiathèque augmente le prix de la carte à $40$ € sans toucher au prix par DVD ?'
       ],
       solutions: [

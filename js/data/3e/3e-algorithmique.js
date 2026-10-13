@@ -9,7 +9,7 @@ window.MODULES.push(
     level: 1, subject: 'maths',
     icon: '💻',
     title: 'Algorithmes et programmation',
-    subtitle: 'Variables, boucles, conditions, Scratch/Python',
+    subtitle: 'Variables, boucles, conditions, pseudo-code et Scratch',
     keywords: ['Algorithme', 'Variable', 'Boucle', 'Condition', 'Instruction', 'Pseudo-code'],
     physics: false,
     cours: {
@@ -26,7 +26,8 @@ window.MODULES.push(
         { term: 'Algorithme', def: 'Suite <strong>finie et non ambiguë</strong> d\'instructions qui résout un problème donné. Chaque étape doit être suffisamment précise pour être exécutée mécaniquement.' },
         { term: 'Variable', def: 'Espace mémoire nommé qui <strong>stocke une valeur</strong>. Une variable peut contenir un nombre, du texte, etc. Sa valeur peut changer au cours de l\'exécution.' },
         { term: 'Affectation', def: 'Instruction $x \\leftarrow \\text{valeur}$ qui <strong>donne une nouvelle valeur</strong> à la variable $x$. Attention : $x \\leftarrow x + 1$ n\'est pas une équation, c\'est une mise à jour.' },
-        { term: 'Boucle', def: 'Structure qui <strong>répète un bloc d\'instructions</strong>. La boucle <strong>bornée</strong> ($\\mathtt{pour}$) a un nombre fixé de tours ; la boucle <strong>non bornée</strong> ($\\mathtt{tant que}$) continue jusqu\'à ce qu\'une condition devienne fausse.' }
+        { term: 'Boucle', def: 'Structure qui <strong>répète un bloc d\'instructions</strong>. La boucle <strong>bornée</strong> ($\\mathtt{pour}$) a un nombre fixé de tours ; la boucle <strong>non bornée</strong> ($\\mathtt{tant\\ que}$) continue jusqu\'à ce qu\'une condition devienne fausse.' },
+        { term: 'Et en Scratch ?', def: 'Le pseudo-code du cours se traduit bloc par bloc dans Scratch, le langage du brevet.<br/><br/>$x \\leftarrow 0$ est le bloc <strong>« mettre x à 0 »</strong> ; $x \\leftarrow x + 1$ est <strong>« ajouter 1 à x »</strong>.<br/><br/>$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; 10$ est <strong>« répéter 10 fois »</strong>.<br/><br/>$\\mathtt{tant\\ que}$ (condition) est <strong>« répéter jusqu\'à »</strong> — attention, la condition y est <strong>contraire</strong> : « tant que $n > 1$ » devient « répéter jusqu\'à $n < 2$ » pour un entier $n$.<br/><br/>$\\mathtt{si} \\ldots \\mathtt{alors} \\ldots \\mathtt{sinon}$ est le bloc <strong>« si … alors … sinon »</strong>.' }
       ],
       method: {
         title: 'Les trois structures de base',
@@ -37,7 +38,7 @@ window.MODULES.push(
         ]
       },
       example: {
-        statement: 'Tracer l\'exécution de l\'algorithme suivant :<br/>$S \\leftarrow 0$<br/>$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; 3\\; \\mathtt{faire}$<br/>$\\quad S \\leftarrow S + i^2$<br/>$\\mathtt{fin pour}$',
+        statement: 'Tracer l\'exécution de l\'algorithme suivant :<br/>$S \\leftarrow 0$<br/>$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; 3\\; \\mathtt{faire}$<br/>$\\quad S \\leftarrow S + i^2$<br/>$\\mathtt{fin\\ pour}$',
         steps: [
           '<strong>Initialisation</strong> : $S = 0$.',
           '<strong>Tour $i = 1$</strong> : $S \\leftarrow 0 + 1^2 = 1$.<br/><strong>Tour $i = 2$</strong> : $S \\leftarrow 1 + 2^2 = 1 + 4 = 5$.<br/><strong>Tour $i = 3$</strong> : $S \\leftarrow 5 + 3^2 = 5 + 9 = 14$.',
@@ -147,41 +148,41 @@ window.MODULES.push(
               <title id="algo-trace-title">Table des valeurs successives pendant la boucle</title>
               <desc id="algo-trace-desc">Un tableau de suivi donne les valeurs des deux variables apres chaque instruction de l'algorithme du cours. Au depart, la somme vaut zero et le compteur vaut un. Apres la premiere addition la somme vaut un, puis le compteur passe a deux. Apres la deuxieme addition la somme vaut cinq, puis le compteur passe a trois. Apres la troisieme addition la somme vaut quatorze, puis le compteur passe a quatre. Comme quatre est superieur a trois, la boucle s'arrete et la somme finale vaut quatorze, ce qui est bien un plus quatre plus neuf. A chaque ligne, la nouvelle valeur d'une variable remplace l'ancienne au lieu de s'y ajouter comme le ferait une equation.</desc>
 
-              <text class="tick-label" x="20" y="24" text-anchor="start">instruction executee</text>
+              <text class="tick-label" x="20" y="24" text-anchor="start">instruction exécutée</text>
               <text class="tick-label" x="286" y="24" text-anchor="middle">somme</text>
               <text class="tick-label" x="350" y="24" text-anchor="middle">compteur</text>
               <line class="axis" x1="20" y1="32" x2="380" y2="32"></line>
 
-              <text class="label-soft" x="20" y="52" text-anchor="start">au depart</text>
+              <text class="label-soft" x="20" y="52" text-anchor="start">au départ</text>
               <text class="annotation-label" x="286" y="52" text-anchor="middle">0</text>
               <text class="annotation-label" x="350" y="52" text-anchor="middle">1</text>
 
-              <text class="label-soft" x="20" y="76" text-anchor="start">la somme recoit somme plus 1 au carre</text>
+              <text class="label-soft" x="20" y="76" text-anchor="start">la somme reçoit somme plus 1 au carré</text>
               <text class="annotation-label" x="286" y="76" text-anchor="middle">1</text>
               <text class="tick-label" x="350" y="76" text-anchor="middle">1</text>
 
-              <text class="label-soft" x="20" y="100" text-anchor="start">le compteur recoit compteur plus 1</text>
+              <text class="label-soft" x="20" y="100" text-anchor="start">le compteur reçoit compteur plus 1</text>
               <text class="tick-label" x="286" y="100" text-anchor="middle">1</text>
               <text class="annotation-label" x="350" y="100" text-anchor="middle">2</text>
 
-              <text class="label-soft" x="20" y="124" text-anchor="start">la somme recoit somme plus 2 au carre</text>
+              <text class="label-soft" x="20" y="124" text-anchor="start">la somme reçoit somme plus 2 au carré</text>
               <text class="annotation-label" x="286" y="124" text-anchor="middle">5</text>
               <text class="tick-label" x="350" y="124" text-anchor="middle">2</text>
 
-              <text class="label-soft" x="20" y="148" text-anchor="start">le compteur recoit compteur plus 1</text>
+              <text class="label-soft" x="20" y="148" text-anchor="start">le compteur reçoit compteur plus 1</text>
               <text class="tick-label" x="286" y="148" text-anchor="middle">5</text>
               <text class="annotation-label" x="350" y="148" text-anchor="middle">3</text>
 
-              <text class="label-soft" x="20" y="172" text-anchor="start">la somme recoit somme plus 3 au carre</text>
+              <text class="label-soft" x="20" y="172" text-anchor="start">la somme reçoit somme plus 3 au carré</text>
               <text class="annotation-label" x="286" y="172" text-anchor="middle">14</text>
               <text class="tick-label" x="350" y="172" text-anchor="middle">3</text>
 
-              <text class="label-soft" x="20" y="196" text-anchor="start">le compteur recoit compteur plus 1</text>
+              <text class="label-soft" x="20" y="196" text-anchor="start">le compteur reçoit compteur plus 1</text>
               <text class="tick-label" x="286" y="196" text-anchor="middle">14</text>
               <text class="annotation-label" x="350" y="196" text-anchor="middle">4</text>
 
               <line class="axis" x1="20" y1="210" x2="380" y2="210"></line>
-              <text class="label-soft" x="20" y="230" text-anchor="start">4 depasse 3, la boucle s'arrete</text>
+              <text class="label-soft" x="20" y="230" text-anchor="start">4 dépasse 3, la boucle s'arrête</text>
               <text class="annotation-label" x="286" y="230" text-anchor="middle">14</text>
               <text class="tick-label" x="350" y="230" text-anchor="middle">4</text>
 
@@ -200,10 +201,10 @@ window.MODULES.push(
         }
       ],
       recap: [
-        'Les trois structures fondamentales sont la <strong>séquence</strong>, la <strong>condition</strong> ($\\mathtt{si/sinon}$) et la <strong>boucle</strong> ($\\mathtt{pour}$ ou $\\mathtt{tant que}$).',
+        'Les trois structures fondamentales sont la <strong>séquence</strong>, la <strong>condition</strong> ($\\mathtt{si/sinon}$) et la <strong>boucle</strong> ($\\mathtt{pour}$ ou $\\mathtt{tant\\ que}$).',
         'L\'<strong>affectation</strong> $x \\leftarrow x + 1$ n\'est PAS une équation : c\'est une mise à jour qui lit l\'ancienne valeur, calcule, et stocke le résultat.',
         '<strong>Tracer</strong> l\'exécution dans un tableau (une ligne par étape, une colonne par variable) est la méthode la plus sûre pour comprendre et déboguer.',
-        'Une boucle <strong>bornée</strong> ($\\mathtt{pour}$) a un nombre de tours fixé à l\'avance ; une boucle <strong>non bornée</strong> ($\\mathtt{tant que}$) peut tourner indéfiniment si la condition ne devient jamais fausse.'
+        'Une boucle <strong>bornée</strong> ($\\mathtt{pour}$) a un nombre de tours fixé à l\'avance ; une boucle <strong>non bornée</strong> ($\\mathtt{tant\\ que}$) peut tourner indéfiniment si la condition ne devient jamais fausse.'
       ],
       piege: 'Piège : l\'affectation $x \\leftarrow x + 1$ signifie « prendre la valeur actuelle de $x$, y ajouter $1$, et stocker le résultat dans $x$ ». Ce n\'est pas une équation : $x = x + 1$ est impossible en maths, mais parfaitement valide en algorithmique.'
     },
@@ -216,8 +217,8 @@ window.MODULES.push(
       },
       {
         q: 'Un algorithme initialise $S \\leftarrow 1$, puis exécute $S \\leftarrow S \\times i$ pour $i$ allant de $1$ à $3$. Quelle est la valeur finale de $S$ ?',
-        options: ['$1$', '$3$', '$6$', '$9$'],
-        answer: 2,
+        options: ['$6$', '$1$', '$3$', '$9$'],
+        answer: 0,
         correction: 'Déroulement : $S=1$. $i=1 : S = 1 \\times 1 = 1$. $i=2 : S = 1 \\times 2 = 2$. $i=3 : S = 2 \\times 3 = 6$. L\'erreur fréquente est d\'additionner au lieu de multiplier ($1+2+3 = 6$ ici par coïncidence, mais pas pour $n=4$), ou d\'oublier que $S$ part de $1$ (pas $0$) car on multiplie.'
       },
       {
@@ -444,7 +445,7 @@ window.MODULES.push(
             solution: [
               `Dans une boucle $\\mathtt{pour}\\; i\\; \\mathtt{de}\\; a\\; \\mathtt{à}\\; b$, les <strong>deux bornes sont incluses</strong> : $i$ prend la valeur $a$, puis toutes les suivantes, jusqu'à $b$ compris.`,
               `Le nombre de tours vaut donc $b - a + 1$, et non $b - a$. Ici : $${b} - ${a} + 1 = ${nb}$.`,
-              `La valeur finale de $c$ est <strong>$${nb}$</strong>.<br/><br/>Contrôle sur un cas minuscule : de $3$ à $5$, la formule donne $5 - 3 + 1 = 3$, et on compte bien trois tours ($i = 3$, $i = 4$, $i = 5$). Le « $+1$ » oublié est l'erreur la plus fréquente du chapitre.`
+              `La valeur finale de $c$ est <strong>$${nb}$</strong>.<br/><br/>Contrôle sur un cas minuscule : de $3$ à $5$, la formule donne $5 - 3 + 1 = 3$, et on compte bien trois tours ($i = 3$, $i = 4$, $i = 5$). Le « $+1$ » oublié est l'erreur la plus fréquente sur les boucles $\\mathtt{pour}$.`
             ]
           };
         }
@@ -506,7 +507,7 @@ window.MODULES.push(
         'Modifier l\'algorithme pour compter combien de notes sont supérieures à la moyenne.'
       ],
       solutions: [
-        '$S \\leftarrow 0$\n$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; 5\\; \\mathtt{faire}$\n$\\quad$ Saisir $n_i$\n$\\quad S \\leftarrow S + n_i$\n$\\text{Afficher } S / 5$',
+        '$S \\leftarrow 0$<br/>$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; 5\\; \\mathtt{faire}$<br/>$\\quad$ Saisir $n_i$<br/>$\\quad S \\leftarrow S + n_i$<br/>$\\mathtt{fin\\ pour}$<br/>Afficher $S \\div 5$',
         '$S = 12+15+8+17+13 = 65$. Moyenne $= 65/5 = 13$.',
         'Ajouter un compteur $c \\leftarrow 0$ et tester $\\mathtt{si}\\; n_i > 13\\; \\mathtt{alors}\\; c \\leftarrow c + 1$. Ici : $15, 17$ → $c = 2$.'
       ],
@@ -531,7 +532,7 @@ window.MODULES.push(
           tolerance: 0,
           unit: '',
           points: 2,
-          correction: 'Ligne par ligne : $x = 3$, $y = 5$. Puis $x \\leftarrow 3 + 5 = 8$. Puis $y \\leftarrow 8 - 5 = 3$. La valeur finale de $y$ est $3$. En fait, cet algorithme échange les valeurs de $x$ et $y$ (sans variable intermédiaire pour $y$).'
+          correction: 'Ligne par ligne : $x = 3$, $y = 5$. Puis $x \\leftarrow 3 + 5 = 8$. Puis $y \\leftarrow x - y$ utilise le <strong>nouveau</strong> $x$ : $y = 8 - 5 = 3$.<br/><br/>La valeur finale de $y$ est $3$ — c\'est l\'ancienne valeur de $x$.<br/><br/>Avec une troisième ligne $x \\leftarrow x - y$, on obtiendrait $x = 8 - 3 = 5$ : les deux variables auraient alors <strong>échangé</strong> leurs valeurs sans variable intermédiaire. Ici, après deux lignes seulement, $x$ vaut encore $8$.'
         },
         {
           statement: 'Quel est le rôle de cet algorithme ?<br/>$S \\leftarrow 1$<br/>$\\mathtt{pour}\\; i\\; \\mathtt{de}\\; 1\\; \\mathtt{à}\\; n\\; \\mathtt{faire}$<br/>$\\quad S \\leftarrow S \\times 2$',

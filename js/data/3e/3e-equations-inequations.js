@@ -150,9 +150,9 @@ window.MODULES.push(
               <circle class="plot-point-alt" cx="310" cy="56" r="5"></circle>
               <text class="annotation-label" x="244" y="42" text-anchor="middle">2</text>
               <text class="annotation-label" x="310" y="42" text-anchor="middle">5</text>
-              <text class="label-soft" x="120" y="34" text-anchor="middle">2 est a gauche de 5</text>
+              <text class="label-soft" x="120" y="34" text-anchor="middle">2 est à gauche de 5</text>
 
-              <text class="tick-label" x="16" y="150" text-anchor="start">apres</text>
+              <text class="tick-label" x="16" y="150" text-anchor="start">après</text>
               <line class="axis" x1="68" y1="160" x2="332" y2="160"></line>
               <line class="grid-line" x1="200" y1="152" x2="200" y2="168"></line>
               <text class="tick-label" x="200" y="182" text-anchor="middle">0</text>
@@ -160,7 +160,7 @@ window.MODULES.push(
               <circle class="plot-point-alt" cx="90" cy="160" r="5"></circle>
               <text class="annotation-label" x="156" y="146" text-anchor="middle">-2</text>
               <text class="annotation-label" x="90" y="146" text-anchor="middle">-5</text>
-              <text class="label-soft" x="282" y="182" text-anchor="middle">-5 est a gauche de -2</text>
+              <text class="label-soft" x="282" y="182" text-anchor="middle">-5 est à gauche de -2</text>
 
               <line class="guide-line" x1="244" y1="64" x2="156" y2="152"></line>
               <line class="guide-line" x1="310" y1="64" x2="90" y2="152"></line>
@@ -187,7 +187,7 @@ window.MODULES.push(
               <title id="ineq-crochet-title">Borne exclue et borne incluse sur la meme valeur</title>
               <desc id="ineq-crochet-desc">Deux droites graduees identiques sont tracees l'une sous l'autre, graduees de zero a six, avec la valeur trois au meme endroit sur les deux. Sur celle du haut, qui represente les nombres strictement superieurs a trois, un cercle vide est place en trois et un trait epais part de trois vers la droite : la valeur trois elle-meme n'appartient pas aux solutions. Sur celle du bas, qui represente les nombres superieurs ou egaux a trois, un cercle plein est place en trois et le meme trait epais part de trois vers la droite : cette fois la valeur trois appartient aux solutions. Les deux ensembles ne different que par ce seul point.</desc>
 
-              <text class="tick-label" x="16" y="40" text-anchor="start">x superieur a 3</text>
+              <text class="tick-label" x="16" y="40" text-anchor="start">x supérieur à 3</text>
               <line class="axis" x1="120" y1="56" x2="368" y2="56"></line>
               <line class="grid-line" x1="160" y1="50" x2="160" y2="62"></line>
               <text class="tick-label" x="160" y="76" text-anchor="middle">2</text>
@@ -199,7 +199,7 @@ window.MODULES.push(
               <circle class="plot-point-alt" cx="200" cy="56" r="6"></circle>
               <text class="label-soft" x="290" y="42" text-anchor="middle">3 est exclu</text>
 
-              <text class="tick-label" x="16" y="128" text-anchor="start">x superieur ou egal a 3</text>
+              <text class="tick-label" x="16" y="128" text-anchor="start">x supérieur ou égal à 3</text>
               <line class="axis" x1="120" y1="144" x2="368" y2="144"></line>
               <line class="grid-line" x1="160" y1="138" x2="160" y2="150"></line>
               <text class="tick-label" x="160" y="164" text-anchor="middle">2</text>
@@ -242,9 +242,9 @@ window.MODULES.push(
       },
       {
         q: 'Résoudre $-2x + 5 > 1$.',
-        options: ['$x > 2$', '$x < 2$', '$x > -2$', '$x < -2$'],
-        answer: 1,
-        correction: '$-2x > -4 \\Rightarrow x < 2$ (sens inversé car on divise par $-2$).'
+        options: ['$x > 2$', '$x > -2$', '$x < -2$', '$x < 2$'],
+        answer: 3,
+        correction: 'On isole le terme en $x$ : $-2x > 1 - 5$, soit $-2x > -4$.<br/><br/>On divise par $-2$, qui est <strong>négatif</strong> : le sens de l\'inégalité <strong>s\'inverse</strong>, d\'où $x < 2$.<br/><br/>$x > 2$ est la réponse de celui qui a oublié d\'inverser le sens. $x > -2$ et $x < -2$ viennent d\'une erreur de signe : $(-4) \\div (-2)$ vaut $2$, pas $-2$.<br/><br/>Contrôle : $x = 0$ donne $-2 \\times 0 + 5 = 5 > 1$, vrai, et $0 < 2$ — cohérent.'
       },
       {
         q: 'Un élève résout $-3x > 12$ et écrit $x > -4$. Quelle est son erreur ?',
@@ -312,10 +312,10 @@ window.MODULES.push(
              remarque que pour l'accord du pronom dans le chapitre de
              trigonométrie, corrigé le même jour. */
           const ctx = pick([
-            { d: `Une compagnie de <strong>taxi</strong> facture $${b}$ € de prise en charge, puis $${a}$ € par kilomètre.`, e: 'de', q: 'kilomètres ont été parcourus', t: 'La course a coûté' , u: '€' },
-            { d: `Un loueur de <strong>vélos</strong> demande $${b}$ € de caution, puis $${a}$ € par heure.`, e: 'd\'', q: 'heures le vélo a-t-il été loué', t: 'La facture s\'élève à', u: '€' },
-            { d: `Un <strong>réservoir</strong> contient déjà $${b}$ litres et se remplit de $${a}$ litres par minute.`, e: 'de', q: 'minutes se sont écoulées', t: 'Il contient maintenant', u: 'litres' },
-            { d: `Un <strong>randonneur</strong> part de $${b}$ m d'altitude et grimpe de $${a}$ m par heure.`, e: 'd\'', q: 'heures a duré son ascension', t: 'Il se trouve maintenant à', u: 'm' }
+            { d: `Une compagnie de <strong>taxi</strong> facture $${b}$ € de prise en charge, puis $${a}$ € par kilomètre.`, e: 'de ', q: 'kilomètres ont été parcourus', t: 'La course a coûté' , u: '€' },
+            { d: `Un loueur de <strong>vélos</strong> demande $${b}$ € de frais de dossier, puis $${a}$ € par heure.`, e: 'd\'', q: 'heures le vélo a-t-il été loué', t: 'La facture s\'élève à', u: '€' },
+            { d: `Un <strong>réservoir</strong> contient déjà $${b}$ litres et se remplit de $${a}$ litres par minute.`, e: 'de ', q: 'minutes se sont écoulées', t: 'Il contient maintenant', u: 'litres' },
+            { d: `Une <strong>tirelire</strong> contient déjà $${b}$ € et reçoit $${a}$ € chaque semaine.`, e: 'de ', q: 'semaines se sont écoulées', t: 'Elle contient maintenant', u: '€' }
           ]);
           return {
             statement: ctx.d + `<br/><br/>${ctx.t} $${c}$ ${ctx.u}.<br/><br/>Combien ${ctx.e}<strong>${ctx.q}</strong> ?<br/><br/><em>Pose d'abord l'équation, puis résous-la.</em>`,
@@ -333,16 +333,17 @@ window.MODULES.push(
           /* L'INCONNUE DES DEUX CÔTÉS, que l'ancienne banque ne produisait
              jamais : c'est pourtant la forme que prend toute équation issue
              d'une comparaison. */
-          const x = rand(2, 12), a = rand(3, 9), b = rand(1, 4);
+          const x = rand(2, 12), a = rand(3, 9), b = rand(1, a - 1);   // b < a : l'inconnue ne disparaît jamais
           const c = rand(2, 15), d = (a - b) * x + c;
+          const nx = (k) => (k === 1 ? '' : String(k)) + 'x';   // « x », jamais « 1x »
           return {
-            statement: `Résous l'équation suivante :<br/><br/>$$${a}x + ${c} = ${b}x + ${d}$$<br/>Donne la valeur de $x$.`,
+            statement: `Résous l'équation suivante :<br/><br/>$$${a}x + ${c} = ${nx(b)} + ${d}$$<br/>Donne la valeur de $x$.`,
             answer: x, tolerance: 0.01, unit: '',
-            hint: `L'inconnue est présente des <strong>deux</strong> côtés : commence par rassembler les $x$ d'un seul côté.<br/><br/>Retire $${b}x$ aux deux membres.`,
+            hint: `L'inconnue est présente des <strong>deux</strong> côtés : commence par rassembler les $x$ d'un seul côté.<br/><br/>Retire $${nx(b)}$ aux deux membres.`,
             solution: [
-              `On rassemble les termes en $x$ d'un côté et les nombres de l'autre. En retirant $${b}x$ aux deux membres : $${a - b}x + ${c} = ${d}$.`,
-              `En retirant $${c}$ aux deux membres : $${a - b}x = ${d - c}$.`,
-              `$x = \\dfrac{${d - c}}{${a - b}} = ${x}$.<br/><br/>Contrôle : à gauche $${a} \\times ${x} + ${c} = ${a * x + c}$, à droite $${b} \\times ${x} + ${d} = ${b * x + d}$. Les deux membres sont égaux.`
+              `On rassemble les termes en $x$ d'un côté et les nombres de l'autre. En retirant $${nx(b)}$ aux deux membres : $${nx(a - b)} + ${c} = ${d}$.`,
+              `En retirant $${c}$ aux deux membres : $${nx(a - b)} = ${d - c}$.`,
+              `${a - b === 1 ? `L'inconnue est déjà isolée : $x = ${x}$.` : `$x = \\dfrac{${d - c}}{${a - b}} = ${x}$.`}<br/><br/>Contrôle : à gauche $${a} \\times ${x} + ${c} = ${a * x + c}$, à droite $${b === 1 ? '' : b + ' \\times '}${x} + ${d} = ${b * x + d}$. Les deux membres sont égaux.`
             ]
           };
         }
@@ -440,7 +441,8 @@ window.MODULES.push(
         const fixeB = rand(15, 40);
         const parUniteB = rand(2, parUniteA - 2);
         const seuil = fixeB / (parUniteA - parUniteB);
-        const seuilEntier = Math.ceil(seuil);
+        const seuilExact = Number.isInteger(seuil);
+        const seuilEntier = Math.floor(seuil) + 1;   // x > seuil : l'entier juste au-dessus, même quand le seuil est entier
         const ctx = pick([
           { o: 'films', a: 'payer chaque film à l\'unité', b: 'prendre un abonnement' },
           { o: 'séances', a: 'payer chaque séance à l\'unité', b: 'prendre une carte' },
@@ -455,8 +457,10 @@ window.MODULES.push(
           hint: `Appelle $x$ le nombre de ${ctx.o} et écris le prix de chaque formule en fonction de $x$.<br/><br/>« B plus avantageuse » se traduit par une <strong>inéquation</strong> : prix de B $<$ prix de A.`,
           solution: [
             `On note $x$ le nombre de ${ctx.o}. Formule A : $${parUniteA}x$. Formule B : $${fixeB} + ${parUniteB}x$.`,
-            `« B strictement plus avantageuse » s'écrit $${fixeB} + ${parUniteB}x < ${parUniteA}x$, soit $${fixeB} < ${parUniteA - parUniteB}x$, donc $x > \\dfrac{${fixeB}}{${parUniteA - parUniteB}} \\approx ${fr(parseFloat(seuil.toFixed(2)))}$.`,
-            `Un nombre de ${ctx.o} est un <strong>entier</strong> : la formule B devient donc plus avantageuse à partir de $${seuilEntier}$ ${ctx.o}.<br/><br/>C'est le dernier pas qui compte : la résolution donne un nombre décimal, mais la situation impose de revenir à un entier.`
+            `« B strictement plus avantageuse » s'écrit $${fixeB} + ${parUniteB}x < ${parUniteA}x$, soit $${fixeB} < ${parUniteA - parUniteB}x$, donc $x > \\dfrac{${fixeB}}{${parUniteA - parUniteB}}${seuilExact ? ' = ' + seuil : ' \\approx ' + fr(parseFloat(seuil.toFixed(2)))}$.`,
+            seuilExact
+              ? `Attention, l'inégalité est <strong>stricte</strong> : pour $x = ${seuil}$, les deux formules coûtent exactement le même prix ($${parUniteA * seuil}$ €), donc B n'est pas encore plus avantageuse. Elle le devient à partir de $${seuilEntier}$ ${ctx.o}.<br/><br/>C'est le dernier pas qui compte : la borne trouvée n'est pas la réponse quand elle rend les deux prix égaux.`
+              : `Un nombre de ${ctx.o} est un <strong>entier</strong> : la formule B devient donc plus avantageuse à partir de $${seuilEntier}$ ${ctx.o}.<br/><br/>C'est le dernier pas qui compte : la résolution donne un nombre décimal, mais la situation impose de revenir à un entier.`
           ]
         };
       }

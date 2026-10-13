@@ -34,7 +34,8 @@ window.MODULES.push(
         steps: [
           '<strong>SOH</strong> : $\\sin(\\theta) = \\dfrac{\\text{côté Opposé}}{\\text{Hypoténuse}}$.<br/>Le côté « Opposé » est celui qui <strong>ne touche pas</strong> l\'angle $\\theta$.',
           '<strong>CAH</strong> : $\\cos(\\theta) = \\dfrac{\\text{côté Adjacent}}{\\text{Hypoténuse}}$.<br/>Le côté « Adjacent » est celui qui <strong>touche</strong> l\'angle $\\theta$ (l\'autre côté, pas l\'hypoténuse).',
-          '<strong>TOA</strong> : $\\tan(\\theta) = \\dfrac{\\text{côté Opposé}}{\\text{côté Adjacent}} = \\dfrac{\\sin(\\theta)}{\\cos(\\theta)}$.<br/>Pour retrouver l\'angle : $\\theta = \\arccos\\left(\\dfrac{\\text{adj}}{\\text{hyp}}\\right)$, $\\arcsin$, ou $\\arctan$.'
+          '<strong>TOA</strong> : $\\tan(\\theta) = \\dfrac{\\text{côté Opposé}}{\\text{côté Adjacent}} = \\dfrac{\\sin(\\theta)}{\\cos(\\theta)}$.<br/>La tangente ne fait <strong>pas</strong> intervenir l\'hypoténuse.',
+          '<strong>Retrouver un angle</strong> : quand le rapport est connu, on remonte à l\'angle avec les touches $\\cos^{-1}$, $\\sin^{-1}$ ou $\\tan^{-1}$ de la calculatrice (parfois notées $\\arccos$, $\\arcsin$, $\\arctan$).<br/>Exemple : si $\\cos(\\theta) = 0{,}6$, alors $\\theta = \\cos^{-1}(0{,}6) \\approx 53°$.'
         ]
       },
       example: {
@@ -260,7 +261,7 @@ window.MODULES.push(
         {
           theme: 'maths',
           kicker: 'Contrôle',
-          title: 'Un sinus dépasse jamais 1, une tangente peut valoir ce qu\'elle veut',
+          title: 'Un sinus ne dépasse jamais 1, une tangente peut valoir ce qu\'elle veut',
           description: 'Le sinus et le cosinus comparent un côté à l\'<strong>hypoténuse</strong>, qui est le plus grand côté : ces deux rapports restent donc toujours entre $0$ et $1$. La tangente, elle, compare deux côtés de l\'angle droit entre eux, et <strong>rien ne l\'empêche de dépasser $1$</strong>.',
           svg: `
             <svg viewBox="0 0 400 258" role="img" aria-labelledby="trig-borne-title trig-borne-desc">
@@ -327,34 +328,34 @@ window.MODULES.push(
         '<strong>SOH-CAH-TOA</strong> : Sinus = Opposé/Hypoténuse, Cosinus = Adjacent/Hypoténuse, Tangente = Opposé/Adjacent.',
         '<strong>Relation fondamentale</strong> : $\\sin^2(\\theta) + \\cos^2(\\theta) = 1$ pour tout angle $\\theta$. Cette relation permet de trouver l\'un si on connaît l\'autre.',
         '<strong>Valeurs remarquables</strong> : connaître par cœur $\\sin$ et $\\cos$ de $30°$, $45°$ et $60°$ est indispensable (on les retrouve dans le triangle équilatéral et le carré).',
-        '<strong>Fonctions inverses</strong> : pour retrouver un angle, on utilise $\\arcsin$, $\\arccos$ ou $\\arctan$ à la calculatrice.'
+        '<strong>Retrouver un angle</strong> : quand on connaît un rapport, on remonte à l\'angle avec les touches $\\cos^{-1}$, $\\sin^{-1}$ ou $\\tan^{-1}$ de la calculatrice.'
       ],
-      piege: 'Piège classique sur un plan incliné : le poids $\\vec{P}$ est vertical. Si l\'angle du plan par rapport à l\'horizontal est $\\alpha$, alors la composante le long du plan est $P \\cdot \\sin(\\alpha)$ (et non $\\cos$). L\'angle se "décale" par rapport à l\'intuition !'
+      piege: 'Piège : les mots « opposé » et « adjacent » ne sont <strong>pas collés au dessin</strong>, ils dépendent de l\'angle que tu regardes. Dans un triangle $ABC$ rectangle en $C$, le côté $[BC]$ est <strong>opposé</strong> à $\\widehat{A}$ mais <strong>adjacent</strong> à $\\widehat{B}$.<br/><br/>Avant toute formule, entoure l\'angle de l\'énoncé et demande-toi, côté par côté : « celui-ci touche-t-il l\'angle ? ».<br/><br/>Et après le calcul, un contrôle gratuit : un sinus ou un cosinus <strong>supérieur à $1$</strong> est impossible — tu as inversé le quotient ou confondu deux côtés.'
     },
 
     quiz: [
       {
         q: 'Dans un triangle rectangle, l\'hypoténuse mesure $10$ cm et un angle vaut $30°$. Quelle est la longueur du côté adjacent à cet angle ?',
-        options: ['$5$ cm', '$8{,}66$ cm', '$5{,}77$ cm', '$10{,}39$ cm'],
-        answer: 1,
-        correction: '$\\cos(30°) = \\frac{\\text{adj}}{\\text{hyp}}$, donc $\\text{adj} = 10 \\times \\cos(30°) = 10 \\times 0{,}866 = 8{,}66$ cm.'
+        options: ['$8{,}66$ cm', '$5$ cm', '$11{,}55$ cm', '$5{,}77$ cm'],
+        answer: 0,
+        correction: 'Le côté cherché <strong>touche</strong> l\'angle de $30°$ sans être l\'hypoténuse : c\'est l\'<strong>adjacent</strong>, donc CAH.<br/><br/>$\\cos(30°) = \\dfrac{\\text{adj}}{10}$, d\'où $\\text{adj} = 10 \\times \\cos(30°) = 10 \\times 0{,}866 \\approx 8{,}66$ cm.<br/><br/>Les autres valeurs viennent de confusions fréquentes : $5$ cm est $10 \\times \\sin(30°)$ — le sinus donne le côté <strong>opposé</strong> ; $5{,}77$ cm est $10 \\times \\tan(30°)$ — la tangente ne fait jamais intervenir l\'hypoténuse ; $11{,}55$ cm est $10 \\div \\cos(30°)$, un résultat plus grand que l\'hypoténuse, donc impossible pour un côté de l\'angle droit.'
       },
       {
-        q: 'Une force $F = 20$ N est inclinée de $45°$ par rapport à l\'horizontale. Quelle est sa composante verticale $F_y$ ?',
-        options: ['$10$ N', '$14{,}14$ N', '$17{,}32$ N', '$20$ N'],
-        answer: 1,
-        correction: '$F_y = F \\cdot \\sin(45°) = 20 \\times \\frac{\\sqrt{2}}{2} = 20 \\times 0{,}707 \\approx 14{,}14$ N. La composante verticale utilise le sinus car elle est opposée à l\'angle $45°$ par rapport à l\'horizontale.'
-      },
-      {
-        q: 'Un objet repose sur un plan incliné à $30°$ par rapport à l\'horizontal. La composante du poids parallèle au plan (qui tend à faire glisser) est :',
+        q: 'Dans un triangle $ABC$ rectangle en $B$, on connaît $AB = 6$ cm et l\'hypoténuse $AC = 10$ cm. On cherche l\'angle $\\widehat{A}$. Quel calcul est correct ?',
         options: [
-          '$P \\times \\cos(30°)$',
-          '$P \\times \\sin(30°)$',
-          '$P \\times \\tan(30°)$',
-          '$P$ entier (la pente ne change rien)'
+          '$\\tan(\\widehat{A}) = \\dfrac{6}{10}$, donc $\\widehat{A} \\approx 31°$',
+          '$\\cos(\\widehat{A}) = \\dfrac{6}{10}$, donc $\\widehat{A} \\approx 53°$',
+          '$\\sin(\\widehat{A}) = \\dfrac{6}{10}$, donc $\\widehat{A} \\approx 37°$',
+          '$\\cos(\\widehat{A}) = \\dfrac{6}{10}$, donc $\\widehat{A} = 0{,}6°$'
         ],
         answer: 1,
-        correction: 'Le poids est vertical et l\'angle entre la normale au plan et la verticale est $30°$. La composante parallèle au plan est $P \\sin(30°) = 0{,}5P$. L\'erreur classique est de prendre $\\cos$ : mais $P \\cos(30°)$ donne la composante perpendiculaire au plan (qui équilibre la réaction normale $N$).'
+        correction: 'Le côté $[AB]$ <strong>touche</strong> l\'angle $\\widehat{A}$ : c\'est son côté <strong>adjacent</strong>. Avec l\'hypoténuse, la paire « adjacent et hypoténuse » appartient au <strong>cosinus</strong>.<br/><br/>$\\cos(\\widehat{A}) = \\dfrac{AB}{AC} = \\dfrac{6}{10} = 0{,}6$, puis la touche $\\cos^{-1}$ de la calculatrice donne $\\widehat{A} \\approx 53°$.<br/><br/>Pourquoi les autres calculs échouent : le sinus relierait $[BC]$, le côté <strong>opposé</strong>, qu\'on ne connaît pas ; la tangente ne fait pas intervenir l\'hypoténuse, or c\'est elle qu\'on connaît ; enfin $0{,}6$ n\'est pas l\'angle mais son <strong>cosinus</strong> — il faut encore appliquer $\\cos^{-1}$ pour remonter à l\'angle.'
+      },
+      {
+        q: 'Dans un triangle $ABC$ rectangle en $C$, quel est le côté <strong>opposé</strong> à l\'angle $\\widehat{A}$ ?',
+        options: ['$[AC]$', '$[AB]$', '$[BC]$', 'Cela dépend des longueurs des côtés'],
+        answer: 2,
+        correction: 'Le côté opposé à un angle est celui qui <strong>ne touche pas</strong> son sommet. Le sommet $A$ appartient à $[AB]$ et à $[AC]$ : le seul côté qui ne le touche pas est $[BC]$.<br/><br/>$[AC]$ touche $A$ sans être l\'hypoténuse : c\'est l\'<strong>adjacent</strong>. $[AB]$ est en face de l\'angle droit $\\widehat{C}$ : c\'est l\'<strong>hypoténuse</strong>, quel que soit l\'angle choisi.<br/><br/>Les longueurs n\'ont rien à voir : le rôle d\'un côté dépend uniquement de l\'<strong>angle</strong> qu\'on regarde. Le même côté $[BC]$ serait l\'adjacent de l\'angle $\\widehat{B}$.'
       }
     ],
 
@@ -420,7 +421,7 @@ window.MODULES.push(
             'Un <strong>hauban</strong> maintient une antenne depuis son point d\'ancrage au sol.'
           ]);
           return {
-            statement: ctx + `<br/><br/>Sa longueur est de $${hyp}$ m et elle fait un angle $\\theta = ${r.a}°$ avec l'horizontale.<br/><br/>Calcule la <strong>distance horizontale</strong> couverte, arrondie au centième.`,
+            statement: ctx + `<br/><br/>Sa longueur est de $${hyp}$ m et l'angle avec l'horizontale vaut $\\theta = ${r.a}°$.<br/><br/>Calcule la <strong>distance horizontale</strong> couverte, arrondie au centième.`,
             answer: adj, tolerance: 0.05, unit: 'm',
             figure: figureTrigo(r.a, hyp, { inconnu: 'horizontal', unite: 'm' }),
             hint: `Le côté cherché <strong>touche</strong> l'angle sans être la longueur inclinée : c'est le côté <strong>adjacent</strong>.<br/><br/>CAH : $\\cos(\\theta) = \\dfrac{\\text{adjacent}}{\\text{hypoténuse}}$.`,
@@ -470,7 +471,7 @@ window.MODULES.push(
           return {
             statement: ctx.d + `<br/><br/>On mesure ${ctx.a} : $${adj}$ m. On connaît ${ctx.b} : $${opp}$ m.<br/><br/>Calcule la <strong>tangente</strong> de l'angle sous lequel on voit le sommet, arrondie au millième.`,
             answer: t, tolerance: 0.002, unit: '',
-            figure: figureTrigo(Math.round(Math.atan(opp / adj) * 180 / Math.PI), parseFloat(Math.hypot(adj, opp).toFixed(2)), { inconnu: 'angle', unite: 'm' }),
+            figure: figureTrigo(Math.atan(opp / adj) * 180 / Math.PI, parseFloat(Math.hypot(adj, opp).toFixed(2)), { inconnu: 'angle', unite: 'm' }),
             hint: `Ici on ne connaît ni ne cherche l'hypoténuse : seulement les deux côtés de l'angle droit.<br/><br/>TOA : $\\tan(\\theta) = \\dfrac{\\text{opposé}}{\\text{adjacent}}$.`,
             solution: [
               `Les deux longueurs données sont les deux côtés de l'angle droit : la hauteur est <strong>opposée</strong> à l'angle, la distance au sol lui est <strong>adjacente</strong>. L'hypoténuse n'intervient pas.`,
