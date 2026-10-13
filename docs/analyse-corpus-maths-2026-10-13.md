@@ -12,7 +12,7 @@
 | Cours | 15 | intro, definitions, method, example, formulas, diagram, piege, recap : 1 chacun ; aucun bloc dense (champ ≥ 60 mots sans `<br/><br/>`) : 4, un seul : 2 ; `<strong>` ≥ 8 : 3 |
 | Évaluation | 10 | ≥5 questions 4, barème + durée 2, corrections 2, compétence sur chaque question 2 |
 | Alignement lexical | 5 | part moyenne des termes techniques des questions (quiz + évaluation) employés par le cours du module ; termes techniques = mots des `keywords` et des `<strong>` de tout le corpus |
-| Langue | 5 | −1 par mot non accentué dans le texte affiché, −1 par mot dans un `<text>` de SVG (étiquette visible, plafond 2), −0,1 par mot dans un `<title>`/`<desc>` de SVG lu seulement par les lecteurs d'écran (plafond 1), −1 par phrase de plus de 35 mots dans intro/method (plancher 0) |
+| Langue | 5 | −1 par mot non accentué dans le texte affiché, −0,5 par champ affiché de ≥ 40 mots sans aucune lettre accentuée (plafond 1), −1 par mot dans un `<text>` de SVG (étiquette visible, plafond 2), −0,1 par mot dans un `<title>`/`<desc>` de SVG lu seulement par les lecteurs d'écran (plafond 1), −1 par phrase de plus de 35 mots dans intro/method (plancher 0) |
 
 ## Distribution par niveau
 
@@ -25,9 +25,9 @@
 | 2nde | 14 | 90.2 | 84.9 (2nde-reperage-plan) | 91.8 (2nde-equations-inequations) | 0 | 0 | 0 | 0 | 0 | 55 |
 | 1re | 10 | 87.2 | 84.5 (1re-suites) | 90.6 (1re-geometrie-reperee) | 0 | 0 | 0 | 0 | 2 | 35 |
 | tle | 12 | 86.6 | 85.3 (tle-logarithme) | 89.1 (tle-denombrement) | 0 | 0 | 0 | 0 | 0 | 54 |
-| bts-prep | 14 | 85.6 | 81.3 (bts-prep-graphiques) | 90.7 (bts-prep-equations) | 0 | 0 | 0 | 9 | 3 | 173 |
+| bts-prep | 14 | 85.5 | 80.8 (bts-prep-graphiques) | 90.7 (bts-prep-equations) | 0 | 0 | 0 | 9 | 3 | 173 |
 | bts | 13 | 85.9 | 84.5 (bts-loi-normale) | 87.7 (bts-derivation-appliquee) | 0 | 0 | 0 | 0 | 0 | 48 |
-| **Total** | 112 | 86.0 | | | 0 | 0 | 0 | 9 | 8 | 497 |
+| **Total** | 112 | 85.9 | | | 0 | 0 | 0 | 9 | 8 | 497 |
 
 ### Moyennes par bloc et par niveau
 
@@ -39,8 +39,8 @@
 | 3e | 30.0 | 15.0 | 9.6 | 14.8 | 8.0 | 4.4 | 3.3 | 3.1 | 5.0 | 23.7 | 15.5 | 0.1 | 41.2 | 822.8 |
 | 2nde | 30.0 | 14.9 | 14.6 | 15.0 | 8.0 | 4.1 | 3.5 | 5.0 | 5.0 | 19.6 | 9.6 | 0.0 | 22.0 | 712.5 |
 | 1re | 30.0 | 15.0 | 14.8 | 13.2 | 8.0 | 4.1 | 2.1 | 5.0 | 5.0 | 20.4 | 12.0 | 0.9 | 25.6 | 783.4 |
-| tle | 30.0 | 15.0 | 15.0 | 11.3 | 8.0 | 3.6 | 3.7 | 5.0 | 5.0 | 25.1 | 22.8 | 2.6 | 23.7 | 822.7 |
-| bts-prep | 28.1 | 15.0 | 14.3 | 14.9 | 6.9 | 3.6 | 2.9 | 21.1 | 4.6 | 19.1 | 17.6 | 0.1 | 27.5 | 919.2 |
+| tle | 30.0 | 15.0 | 15.0 | 11.3 | 8.0 | 3.6 | 3.6 | 5.0 | 5.0 | 25.1 | 22.8 | 2.6 | 23.7 | 822.7 |
+| bts-prep | 28.1 | 15.0 | 14.3 | 14.9 | 6.9 | 3.6 | 2.8 | 21.1 | 4.6 | 19.1 | 17.6 | 0.1 | 27.5 | 919.2 |
 | bts | 30.0 | 15.0 | 10.0 | 14.7 | 8.0 | 3.8 | 4.4 | 3.0 | 5.0 | 6.7 | 6.7 | 0.0 | 9.9 | 824.3 |
 
 ## Les 20 modules les plus faibles
@@ -52,19 +52,19 @@
 | 3 | `5e-fractions-operations` | 5e | 80.5 | 30 | 15 | 5 | 15 | 8 | 3.5 | 4 | quiz-index-fixe, question-terme-technique-hors-cours ×3, mot-non-accentue-desc-svg ×13 |
 | 4 | `6e-volumes` | 6e | 80.8 | 30 | 15 | 5 | 15 | 8 | 3.7 | 4.1 | quiz-index-fixe, question-terme-technique-hors-cours ×3, mot-non-accentue-desc-svg ×5 |
 | 5 | `5e-proportionnalite` | 5e | 80.8 | 30 | 15 | 5 | 15 | 8 | 3.8 | 4 | quiz-index-fixe, question-terme-technique-hors-cours ×2, mot-non-accentue-desc-svg ×10 |
-| 6 | `trigonometrie` | 3e | 81.1 | 30 | 15 | 5 | 15 | 8 | 4.1 | 4 | quiz-index-fixe, question-terme-technique-hors-cours ×6, mot-non-accentue-desc-svg ×6 |
-| 7 | `5e-volumes` | 5e | 81.3 | 30 | 15 | 5 | 15 | 8 | 4.3 | 4 | quiz-index-fixe, question-terme-technique-hors-cours ×2, mot-non-accentue-desc-svg ×7 |
-| 8 | `bts-prep-graphiques` | bts-prep | 81.3 | 27 | 15 | 11 | 15 | 6 | 4.3 | 3 | quiz-distracteur-aberrant ×2, exercice-solution-chaine, question-terme-technique-hors-cours ×13, mot-non-accentue-desc-svg ×12, phrase-longue |
+| 6 | `bts-prep-graphiques` | bts-prep | 80.8 | 27 | 15 | 11 | 15 | 6 | 4.3 | 2.5 | quiz-distracteur-aberrant ×2, exercice-solution-chaine, question-terme-technique-hors-cours ×13, mot-non-accentue-desc-svg ×12, champ-sans-aucun-accent, phrase-longue |
+| 7 | `trigonometrie` | 3e | 81.1 | 30 | 15 | 5 | 15 | 8 | 4.1 | 4 | quiz-index-fixe, question-terme-technique-hors-cours ×6, mot-non-accentue-desc-svg ×6 |
+| 8 | `5e-volumes` | 5e | 81.3 | 30 | 15 | 5 | 15 | 8 | 4.3 | 4 | quiz-index-fixe, question-terme-technique-hors-cours ×2, mot-non-accentue-desc-svg ×7 |
 | 9 | `4e-cosinus` | 4e | 81.4 | 30 | 15 | 5 | 15 | 8 | 4.4 | 4 | quiz-index-fixe, question-terme-technique-hors-cours ×4, mot-non-accentue-desc-svg ×5 |
 | 10 | `4e-relatifs-mult-div` | 4e | 81.7 | 30 | 15 | 5 | 15 | 8 | 4.7 | 4 | quiz-index-fixe, question-terme-technique-hors-cours ×2, mot-non-accentue-desc-svg ×5 |
 | 11 | `bts-prep-equations-transf` | bts-prep | 82.1 | 27 | 15 | 13 | 15 | 6 | 3.9 | 2.2 | quiz-distracteur-aberrant, exercice-solution-chaine, question-terme-technique-hors-cours ×8, mot-non-accentue-desc-svg ×6, phrase-longue ×2 |
 | 12 | `6e-fractions` | 6e | 82.5 | 30 | 15 | 10 | 11 | 8 | 4.5 | 4 | bloc-dense ×2, question-terme-technique-hors-cours ×2, mot-non-accentue-desc-svg ×9 |
 | 13 | `6e-multiplication` | 6e | 82.9 | 30 | 15 | 7.5 | 15 | 8 | 3.4 | 4 | question-terme-technique-hors-cours ×3, mot-non-accentue-desc-svg ×16 |
-| 14 | `bts-prep-vecteurs` | bts-prep | 83.1 | 27 | 15 | 13 | 15 | 6 | 4.1 | 3 | quiz-distracteur-aberrant, exercice-solution-chaine, question-terme-technique-hors-cours ×12, mot-non-accentue-desc-svg ×10, phrase-longue |
-| 15 | `6e-figures-geometriques` | 6e | 83.2 | 30 | 15 | 7.5 | 15 | 8 | 4.7 | 3 | question-terme-technique-hors-cours ×2, mot-non-accentue-desc-svg ×12, phrase-longue |
-| 16 | `3e-fonctions-affines` | 3e | 83.4 | 30 | 15 | 10 | 13 | 8 | 4.4 | 3 | bloc-dense, question-terme-technique-hors-cours ×3, mot-non-accentue-svg, mot-non-accentue-desc-svg ×11 |
-| 17 | `bts-prep-si-unites` | bts-prep | 83.4 | 27 | 15 | 13 | 15 | 6 | 4.4 | 3 | quiz-distracteur-aberrant, exercice-solution-chaine, question-terme-technique-hors-cours ×5, mot-non-accentue-desc-svg ×15, phrase-longue |
-| 18 | `6e-symetrie-axiale` | 6e | 83.5 | 30 | 15 | 7.5 | 15 | 8 | 4 | 4 | question-terme-technique-hors-cours ×4, mot-non-accentue-desc-svg ×9 |
+| 14 | `6e-symetrie-axiale` | 6e | 83 | 30 | 15 | 7.5 | 15 | 8 | 4 | 3.5 | question-terme-technique-hors-cours ×4, mot-non-accentue-desc-svg ×9, champ-sans-aucun-accent |
+| 15 | `bts-prep-vecteurs` | bts-prep | 83.1 | 27 | 15 | 13 | 15 | 6 | 4.1 | 3 | quiz-distracteur-aberrant, exercice-solution-chaine, question-terme-technique-hors-cours ×12, mot-non-accentue-desc-svg ×10, phrase-longue |
+| 16 | `6e-figures-geometriques` | 6e | 83.2 | 30 | 15 | 7.5 | 15 | 8 | 4.7 | 3 | question-terme-technique-hors-cours ×2, mot-non-accentue-desc-svg ×12, phrase-longue |
+| 17 | `3e-fonctions-affines` | 3e | 83.4 | 30 | 15 | 10 | 13 | 8 | 4.4 | 3 | bloc-dense, question-terme-technique-hors-cours ×3, mot-non-accentue-svg, mot-non-accentue-desc-svg ×11 |
+| 18 | `bts-prep-si-unites` | bts-prep | 83.4 | 27 | 15 | 13 | 15 | 6 | 4.4 | 3 | quiz-distracteur-aberrant, exercice-solution-chaine, question-terme-technique-hors-cours ×5, mot-non-accentue-desc-svg ×15, phrase-longue |
 | 19 | `6e-addition-soustraction` | 6e | 83.6 | 30 | 15 | 7.5 | 15 | 8 | 4.1 | 4 | question-terme-technique-hors-cours, mot-non-accentue-desc-svg ×12 |
 | 20 | `6e-nombres-decimaux` | 6e | 83.8 | 30 | 15 | 7.5 | 15 | 8 | 4.3 | 4 | question-terme-technique-hors-cours, mot-non-accentue-desc-svg ×9 |
 
@@ -81,6 +81,7 @@
 | exercice-solution-chaine | 9 | 9 |
 | mot-non-accentue | 6 | 5 |
 | quiz-distracteur-aberrant | 6 | 5 |
+| champ-sans-aucun-accent | 3 | 3 |
 | guidage-visuel | 3 | 3 |
 
 ### mot-non-accentue-desc-svg (825)
@@ -1586,6 +1587,12 @@
 - `js/data/bts-prep/bts-prep-graphiques.js:353` — quiz[8] option 2 « 50 Ω » : ordre de grandeur absurde (rapport > 1000) (bonne réponse 0.02)
 - `js/data/bts-prep/bts-prep-si-unites.js:348` — quiz[16] option 1 « 15 000 A » : ordre de grandeur absurde (rapport > 1000) (bonne réponse 0.015)
 - `js/data/bts-prep/bts-prep-vecteurs.js:36` — quiz[2] option 3 « -11 » : grandeur positive avec option négative (bonne réponse 5)
+
+### champ-sans-aucun-accent (3)
+
+- `js/data/6e/6e-symetrie-axiale.js:306` — cours.diagrams[2].reading : 40 mots sans aucune lettre accentuée — « Pour tester un axe, imagine le pli : si un sommet ne tombe pas exactem… »
+- `js/data/lycee-tle/tle-primitives-integrales.js:648` — evaluation.questions[4].statement : 40 mots sans aucune lettre accentuée — « Un camarade calcule et trouve . Il en conclut : « donc il n'y a aucune… »
+- `js/data/bts-prep/bts-prep-graphiques.js:62` — cours.example.steps[0] : 58 mots sans aucune lettre accentuée — « Exemple 1 — Courbe pompe Grundfos (hydraulique) Une courbe de pompe do… »
 
 ### guidage-visuel (3)
 

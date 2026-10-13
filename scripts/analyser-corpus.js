@@ -589,6 +589,25 @@ function analyserModule(entree, options) {
     const type = zone === 'svg-texte' ? 'mot-non-accentue-svg' : zone === 'svg-desc' ? 'mot-non-accentue-desc-svg' : 'mot-non-accentue';
     defaut(type, idx + 1, `« ${mot} » ×${n} (${zone})`);
   }
+  /* Champ affiché écrit entièrement sans accent : un texte français d'au moins
+     25 mots sans aucune lettre accentuée (é è ê à ç ù û î ô…) est presque
+     sûrement une convention d'écriture « sans accents » qui a fui dans un champ
+     visible (ex. description d'un schéma). Le dictionnaire de mots ne voit pas
+     ces champs quand leurs mots ne sont pas dans la liste. */
+  r.langue_champs_sans_accent = 0;
+  (function parcourir(v, chemin) {
+    if (typeof v === 'string') {
+      if (SVG_ET_CODE.has(chemin.split('.').pop())) return;
+      const propre = sansHtml(v).replace(/\$[^$]*\$/g, ' ');
+      if (nbMots(propre) >= 40 && !/[àâäéèêëîïôöùûüçÀÂÉÈÊËÎÏÔÙÛÜÇ]/.test(propre)) {
+        r.langue_champs_sans_accent++;
+        defaut('champ-sans-aucun-accent', trouverLigne(lignes, propre, chemin.split(/[.[]/)[0] + ':'), `${chemin} : ${nbMots(propre)} mots sans aucune lettre accentuée — « ${propre.replace(/\s+/g, ' ').trim().slice(0, 70)}… »`);
+      }
+      return;
+    }
+    if (Array.isArray(v)) { v.forEach((x, i) => parcourir(x, chemin + '[' + i + ']')); return; }
+    if (v && typeof v === 'object') for (const k of Object.keys(v)) parcourir(v[k], chemin ? chemin + '.' + k : k);
+  })({ cours, quiz, probleme: pb, evaluation: ev }, '');
   const longues = [...phrasesLongues(cours.intro || '', options.seuilPhrase).map(p => ({ ...p, zone: 'intro' })),
                    ...phrasesLongues(texteChamp(cours, 'method') || '', options.seuilPhrase).map(p => ({ ...p, zone: 'method' }))];
   r.langue_phrases_longues = longues.length;
@@ -609,7 +628,7 @@ function analyserModule(entree, options) {
     + (qs.length && !r.eval_sans_correction ? 2 : 0) + (qs.length && r.eval_avec_competence === qs.length ? 2 : 0);
   r.score_alignement = +(5 * r.align_termes_techniques).toFixed(1);
   r.score_langue = Math.max(0, 5 - r.langue_non_accentues - Math.min(2, r.langue_non_accentues_svg)
-    - Math.min(1, 0.1 * r.langue_non_accentues_desc) - r.langue_phrases_longues);
+    - Math.min(1, 0.1 * r.langue_non_accentues_desc) - Math.min(1, 0.5 * r.langue_champs_sans_accent) - r.langue_phrases_longues);
   r.score = +(r.score_fiabilite + r.score_variete + r.score_quiz + r.score_cours + r.score_evaluation + r.score_alignement + r.score_langue).toFixed(1);
   r.defauts = defauts;
   r.nb_defauts = defauts.length;
@@ -627,7 +646,7 @@ const COLONNES = [
   'pb_taches', 'pb_taches_sans_solution',
   'eval_nb', 'eval_points', 'eval_duration', 'eval_sans_correction', 'eval_sans_points', 'eval_avec_competence', 'eval_competences', 'eval_competences_hors_referentiel',
   'align_termes_techniques', 'align_lexique', 'align_questions_hors_cours',
-  'langue_non_accentues', 'langue_non_accentues_svg', 'langue_non_accentues_desc', 'langue_phrases_longues'
+  'langue_non_accentues', 'langue_non_accentues_svg', 'langue_non_accentues_desc', 'langue_champs_sans_accent', 'langue_phrases_longues'
 ];
 
 function csvCellule(v) {
@@ -659,7 +678,7 @@ function ecrireResume(resultats, chemin, options) {
   L.push('| Cours | 15 | intro, definitions, method, example, formulas, diagram, piege, recap : 1 chacun ; aucun bloc dense (champ ≥ ' + options.seuilBloc + ' mots sans `<br/><br/>`) : 4, un seul : 2 ; `<strong>` ≥ ' + options.seuilStrong + ' : 3 |');
   L.push('| Évaluation | 10 | ≥5 questions 4, barème + durée 2, corrections 2, compétence sur chaque question 2 |');
   L.push('| Alignement lexical | 5 | part moyenne des termes techniques des questions (quiz + évaluation) employés par le cours du module ; termes techniques = mots des `keywords` et des `<strong>` de tout le corpus |');
-  L.push('| Langue | 5 | −1 par mot non accentué dans le texte affiché, −1 par mot dans un `<text>` de SVG (étiquette visible, plafond 2), −0,1 par mot dans un `<title>`/`<desc>` de SVG lu seulement par les lecteurs d\'écran (plafond 1), −1 par phrase de plus de ' + options.seuilPhrase + ' mots dans intro/method (plancher 0) |');
+  L.push('| Langue | 5 | −1 par mot non accentué dans le texte affiché, −0,5 par champ affiché de ≥ 40 mots sans aucune lettre accentuée (plafond 1), −1 par mot dans un `<text>` de SVG (étiquette visible, plafond 2), −0,1 par mot dans un `<title>`/`<desc>` de SVG lu seulement par les lecteurs d\'écran (plafond 1), −1 par phrase de plus de ' + options.seuilPhrase + ' mots dans intro/method (plancher 0) |');
   L.push('');
   L.push('## Distribution par niveau');
   L.push('');
