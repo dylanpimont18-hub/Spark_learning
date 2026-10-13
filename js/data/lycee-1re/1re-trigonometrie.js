@@ -134,7 +134,7 @@ window.MODULES.push({
           svg: `
             <svg viewBox="0 0 400 270" role="img" aria-labelledby="trigo-rad-title trigo-rad-desc">
               <title id="trigo-rad-title">Un radian est la longueur de l arc egale au rayon</title>
-              <desc id="trigo-rad-desc">Cercle de rayon un, centre en O. Un rayon horizontal part du centre vers la droite. Un second rayon est incline d'un angle d'un radian, soit environ cinquante-sept degres. L'arc du cercle compris entre les deux rayons est mis en evidence : sa longueur vaut exactement un, c'est-a-dire la meme valeur que le rayon. Un rappel indique qu'un tour complet correspond a deux pi radians, soit environ six virgule vin>-huit fois le rayon.</desc>
+              <desc id="trigo-rad-desc">Cercle de rayon un, centre en O. Un rayon horizontal part du centre vers la droite. Un second rayon est incline d'un angle d'un radian, soit environ cinquante-sept degres. L'arc du cercle compris entre les deux rayons est mis en evidence : sa longueur vaut exactement un, c'est-a-dire la meme valeur que le rayon. Un rappel indique qu'un tour complet correspond a deux pi radians, soit environ six virgule vingt-huit fois le rayon.</desc>
 
               <line class="axis" x1="30" y1="158" x2="290" y2="158"></line>
               <line class="axis" x1="150" y1="250" x2="150" y2="46"></line>
@@ -312,7 +312,7 @@ window.MODULES.push({
        douze fois.
 
        C'était le chapitre le plus pauvre des trois traités dans cette vague.
-       Le produit scalaire en portait déjà vin>-deux, la géométrie repérée
+       Le produit scalaire en portait déjà vingt-deux, la géométrie repérée
        sept ; la trigonométrie était seule sous le seuil.
 
        SEPT TÂCHES RÉELLEMENT DISTINCTES désormais, choisies pour couvrir ce

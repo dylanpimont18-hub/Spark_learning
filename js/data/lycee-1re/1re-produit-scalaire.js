@@ -279,7 +279,7 @@ window.MODULES.push({
           svg: `
             <svg viewBox="0 0 430 250" role="img" aria-labelledby="ps-deux-title ps-deux-desc">
               <title id="ps-deux-title">Un seul couple de vecteurs, deux calculs concordants</title>
-              <desc id="ps-deux-desc">Repere gradue montrant deux vecteurs partant de l'origine. Le premier va au point de coordonnees trois et quatre, sa norme vaut cinq. Le second va au point huit et six, sa norme vaut dix. L'angle entre eux est marque par un arc, son cosinus vaut zero virgule quatre-vin>-seize. Deux encadres rappellent les deux calculs : par les coordonnees, trois fois huit plus quatre fois six egale quarante-huit ; par la formule angulaire, cinq fois dix fois zero virgule quatre-vin>-seize egale aussi quarante-huit.</desc>
+              <desc id="ps-deux-desc">Repere gradue montrant deux vecteurs partant de l'origine. Le premier va au point de coordonnees trois et quatre, sa norme vaut cinq. Le second va au point huit et six, sa norme vaut dix. L'angle entre eux est marque par un arc, son cosinus vaut zero virgule quatre-vingt-seize. Deux encadres rappellent les deux calculs : par les coordonnees, trois fois huit plus quatre fois six egale quarante-huit ; par la formule angulaire, cinq fois dix fois zero virgule quatre-vingt-seize egale aussi quarante-huit.</desc>
 
               <line class="grid-line" x1="60" y1="58" x2="60" y2="212"></line>
               <line class="grid-line" x1="82" y1="58" x2="82" y2="212"></line>

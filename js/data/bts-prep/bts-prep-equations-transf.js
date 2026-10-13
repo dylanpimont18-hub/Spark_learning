@@ -313,7 +313,7 @@ D'après $Z = \\sqrt{R^2 + X^2}$, calculez la résistance $R$ en ohms (arrondi �
           tolerance: 0.2,
           unit: 'Ω',
           hint: `Isoler $R$ : $R = \\sqrt{Z^2 - X^2}$.`,
-          solution: `$R = \\sqrt{${Z}^2 - ${X}^2} = \\sqrt{${Z*Z} - ${X*X}} = \\sqrt{${Z*Z - X*X}} \\approx ${fr(Rn)}\\;\\Omega$`,
+          solution: [`$R = \\sqrt{${Z}^2 - ${X}^2} = \\sqrt{${Z*Z} - ${X*X}} = \\sqrt{${Z*Z - X*X}} \\approx ${fr(Rn)}\\;\\Omega$`],
         };
       }
 
@@ -330,7 +330,7 @@ Calculez sa vitesse $v$ en m/s (arrondi à 0,1 m/s). ($E_c = \\frac{1}{2}mv^2$)`
           tolerance: 0.1,
           unit: 'm/s',
           hint: `Isoler $v$ : $v = \\sqrt{2E_c/m}$. Attention : convertir $E_c$ en joules.`,
-          solution: `$v = \\sqrt{\\dfrac{2 \\times ${Ec_kJ} \\times 10^3}{${m}}} = \\sqrt{${fr(2*Ec/m, 2)}} \\approx ${fr(v, 1)}\\;\\text{m/s}$`,
+          solution: [`$v = \\sqrt{\\dfrac{2 \\times ${Ec_kJ} \\times 10^3}{${m}}} = \\sqrt{${fr(2*Ec/m, 2)}} \\approx ${fr(v, 1)}\\;\\text{m/s}$`],
         };
       }
 
@@ -348,7 +348,12 @@ Calculez sa vitesse $v$ en m/s (arrondi à 0,1 m/s). ($E_c = \\frac{1}{2}mv^2$)`
           tolerance: 0.02,
           unit: 's',
           hint: `Isoler $e^{-t/\\tau}$, puis prendre $\\ln$ et résoudre pour $t$.`,
-          solution: `$${fr(uc, 1)} = ${E}(1 - e^{-t/${fr(tau)}})$<br/>$e^{-t/${fr(tau)}} = 1 - ${fr(frac)} = ${fr(1-frac, 2)}$<br/>$-t/${fr(tau)} = \\ln(${fr(1-frac, 2)}) \\approx ${fr(Math.log(1-frac), 3)}$<br/>$t = ${fr(tau)} \\times ${fr(-Math.log(1-frac), 3)} \\approx ${fr(t, 2)}\\;\\text{s}$`,
+          solution: [
+            `$${fr(uc, 1)} = ${E}(1 - e^{-t/${fr(tau)}})$`,
+            `$e^{-t/${fr(tau)}} = 1 - ${fr(frac)} = ${fr(1-frac, 2)}$`,
+            `$-t/${fr(tau)} = \\ln(${fr(1-frac, 2)}) \\approx ${fr(Math.log(1-frac), 3)}$`,
+            `$t = ${fr(tau)} \\times ${fr(-Math.log(1-frac), 3)} \\approx ${fr(t, 2)}\\;\\text{s}$`,
+          ],
         };
       }
 
@@ -363,7 +368,7 @@ Sachant que $pH = -\\log_{10}[H^+]$, calculez la concentration $[H^+]$ en mol/L 
           tolerance: H * 0.05,
           unit: 'mol/L',
           hint: `Isoler $[H^+]$ : $[H^+] = 10^{-pH}$.`,
-          solution: `$\\log_{10}[H^+] = -${pH} \\Rightarrow [H^+] = 10^{-${pH}}\\;\\text{mol/L}$`,
+          solution: [`$\\log_{10}[H^+] = -${pH} \\Rightarrow [H^+] = 10^{-${pH}}\\;\\text{mol/L}$`],
         };
       }
 
@@ -380,7 +385,7 @@ Sachant que $E_p = \\frac{1}{2}kx^2$, calculez l'allongement $x$ en cm (arrondi 
           tolerance: 0.2,
           unit: 'cm',
           hint: `Isoler $x$ : $x = \\sqrt{2E_p/k}$, puis convertir en cm.`,
-          solution: `$x = \\sqrt{\\dfrac{2 \\times ${fr(Ep, 2)}}{${k}}} = \\sqrt{${fr(2 * Ep / k, 4)}} \\approx ${fr(x, 2)}\\;\\text{m} = ${x_cm}\\;\\text{cm}$`,
+          solution: [`$x = \\sqrt{\\dfrac{2 \\times ${fr(Ep, 2)}}{${k}}} = \\sqrt{${fr(2 * Ep / k, 4)}} \\approx ${fr(x, 2)}\\;\\text{m} = ${x_cm}\\;\\text{cm}$`],
         };
       }
 
@@ -396,7 +401,7 @@ Calculez la vitesse d'écoulement de l'air $v$ en m/s (arrondi à 0,1 m/s). ($p_
         tolerance: 0.1,
         unit: 'm/s',
         hint: `Isoler $v$ : $v = \\sqrt{2p_d / \\rho}$.`,
-        solution: `$v = \\sqrt{\\dfrac{2 \\times ${pd}}{1{,}2}} = \\sqrt{${fr(2*pd/rho, 1)}} \\approx ${fr(v, 1)}\\;\\text{m/s}$`,
+        solution: [`$v = \\sqrt{\\dfrac{2 \\times ${pd}}{1{,}2}} = \\sqrt{${fr(2*pd/rho, 1)}} \\approx ${fr(v, 1)}\\;\\text{m/s}$`],
       };
     },
   },

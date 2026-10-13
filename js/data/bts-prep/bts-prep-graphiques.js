@@ -466,7 +466,7 @@ Par interpolation linéaire, estimer la HMT pour $Q = ${Q_target_str}\\;\\text{m
           tolerance: 0.2,
           unit: 'm',
           hint: `Formule d'interpolation : $y = y_1 + \\dfrac{x - x_1}{x_2 - x_1} \\times (y_2 - y_1)$.`,
-          solution: `$\\text{HMT} = ${p1.H} + \\dfrac{${Q_target_str} - ${p1.Q}}{${p2.Q} - ${p1.Q}} \\times (${p2.H} - ${p1.H}) = ${p1.H} + ${ratio_str} \\times (${p2.H-p1.H}) = ${H_target_str}\\;\\text{m}$`,
+          solution: [`$\\text{HMT} = ${p1.H} + \\dfrac{${Q_target_str} - ${p1.Q}}{${p2.Q} - ${p1.Q}} \\times (${p2.H} - ${p1.H}) = ${p1.H} + ${ratio_str} \\times (${p2.H-p1.H}) = ${H_target_str}\\;\\text{m}$`],
         };
       }
 
@@ -492,7 +492,7 @@ Calculer la pente de la droite passant par ces deux points (en ${units.yunit}, a
           tolerance: 0.02,
           unit: units.yunit,
           hint: `$a = \\dfrac{y_2 - y_1}{x_2 - x_1}$`,
-          solution: `$a = \\dfrac{${y2.toFixed(0)} - ${y1.toFixed(0)}}{${x2} - ${x1}} = \\dfrac{${(y2-y1).toFixed(0)}}{${x2-x1}} = ${a_str}\\;${units.yunit}$`,
+          solution: [`$a = \\dfrac{${y2.toFixed(0)} - ${y1.toFixed(0)}}{${x2} - ${x1}} = \\dfrac{${(y2-y1).toFixed(0)}}{${x2-x1}} = ${a_str}\\;${units.yunit}$`],
         };
       }
 
@@ -516,7 +516,7 @@ Par interpolation, estimer le rendement à $${Q_t}\\%$ de charge (en %, arrondi 
           tolerance: 0.3,
           unit: '%',
           hint: 'Appliquer la formule d\'interpolation linéaire.',
-          solution: `$\\eta = ${eta1} + \\dfrac{${Q_t} - ${Q1}}{${Q2} - ${Q1}} \\times (${eta2} - ${eta1}) = ${eta1} + ${ratio2_str} \\times ${eta2-eta1} = ${eta_t_str}\\%$`,
+          solution: [`$\\eta = ${eta1} + \\dfrac{${Q_t} - ${Q1}}{${Q2} - ${Q1}} \\times (${eta2} - ${eta1}) = ${eta1} + ${ratio2_str} \\times ${eta2-eta1} = ${eta_t_str}\\%$`],
         };
       }
 
@@ -541,7 +541,11 @@ En supposant que la tendance reste linéaire, extrapoler la valeur pour $x = ${x
           tolerance: 0.1,
           unit: '',
           hint: `Calculer d'abord la pente $a = (y_2-y_1)/(x_2-x_1)$, puis appliquer $y = y_1 + a(x-x_1)$.`,
-          solution: `$a = \\dfrac{${fr(y2, 2)} - ${fr(y1, 2)}}{${x2} - ${x1}} = ${fr(a)}$<br/>$y(${xE}) = ${fr(y1, 2)} + ${fr(a)} \\times (${xE} - ${x1}) = ${fr(yE, 2)}$<br/><em>Attention : cette valeur est extrapolée, donc à utiliser avec prudence.</em>`,
+          solution: [
+            `$a = \\dfrac{${fr(y2, 2)} - ${fr(y1, 2)}}{${x2} - ${x1}} = ${fr(a)}$`,
+            `$y(${xE}) = ${fr(y1, 2)} + ${fr(a)} \\times (${xE} - ${x1}) = ${fr(yE, 2)}$`,
+            `<em>Attention : cette valeur est extrapolée, donc à utiliser avec prudence.</em>`,
+          ],
         };
       }
 
@@ -561,7 +565,7 @@ Une droite en échelle log-log correspond à une loi puissance $y = a \\cdot x^n
           tolerance: 0.05,
           unit: '',
           hint: `$n = \\dfrac{\\log(y_2/y_1)}{\\log(x_2/x_1)}$`,
-          solution: `$n = \\dfrac{\\log(${fr(y2, 2)}/${fr(y1, 2)})}{\\log(${x2}/${x1})} = \\dfrac{\\log(${fr(y2 / y1, 2)})}{\\log(${ratio})} = ${n}$`,
+          solution: [`$n = \\dfrac{\\log(${fr(y2, 2)}/${fr(y1, 2)})}{\\log(${x2}/${x1})} = \\dfrac{\\log(${fr(y2 / y1, 2)})}{\\log(${ratio})} = ${n}$`],
         };
       }
 
@@ -577,7 +581,7 @@ Une droite en échelle log-log correspond à une loi puissance $y = a \\cdot x^n
         tolerance: 0.05,
         unit: '',
         hint: `Une graduation vaut $${range}/${divisions}$. L'incertitude usuelle est $\\pm 0{,}5$ graduation.`,
-        solution: `Une graduation $= ${range}/${divisions} = ${fr(graduation, 2)}$. Incertitude $= 0{,}5 \\times ${fr(graduation, 2)} = ${fr(uncertainty, 2)}$`,
+        solution: [`Une graduation $= ${range}/${divisions} = ${fr(graduation, 2)}$. Incertitude $= 0{,}5 \\times ${fr(graduation, 2)} = ${fr(uncertainty, 2)}$`],
       };
     },
   },

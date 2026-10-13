@@ -462,7 +462,10 @@ Si $a \\cdot e^{bx} = c$ → $e^{bx} = c/a$ → $bx = \\ln(c/a)$ → $x = \\ln(c
           tolerance: 0.05,
           unit: 'V',
           hint: `Calculer d'abord $\\tau = RC$, puis appliquer $u_C = E(1 - e^{-t/\\tau})$ avec $t = 2{,}5\\tau$.`,
-          solution: `$\\tau = ${R} \\times 10^3 \\times ${C} \\times 10^{-6} = ${fr(tau, 3)}\\;\\text{s}$<br/>$u_C = ${E}\\left(1 - e^{-2{,}5}\\right) = ${E} \\times (1 - 0{,}0821) = ${E} \\times 0{,}9179 \\approx ${fr(uc, 2)}\\;\\text{V}$`,
+          solution: [
+            `$\\tau = ${R} \\times 10^3 \\times ${C} \\times 10^{-6} = ${fr(tau, 3)}\\;\\text{s}$`,
+            `$u_C = ${E}\\left(1 - e^{-2{,}5}\\right) = ${E} \\times (1 - 0{,}0821) = ${E} \\times 0{,}9179 \\approx ${fr(uc, 2)}\\;\\text{V}$`,
+          ],
         };
       }
 
@@ -477,7 +480,7 @@ Si $a \\cdot e^{bx} = c$ → $e^{bx} = c/a$ → $bx = \\ln(c/a)$ → $x = \\ln(c
           tolerance: 0.001,
           unit: '',
           hint: `$G_{dB} = 20\\log_{10}(V_s/V_e)$ → $V_s/V_e = 10^{G_{dB}/20}$.`,
-          solution: `$\\dfrac{V_s}{V_e} = 10^{${gain_dB}/20} = 10^{${fr(gain_dB/20, 1)}} = ${fr(factor, 4)}$`,
+          solution: [`$\\dfrac{V_s}{V_e} = 10^{${gain_dB}/20} = 10^{${fr(gain_dB/20, 1)}} = ${fr(factor, 4)}$`],
         };
       }
 
@@ -491,7 +494,7 @@ Si $a \\cdot e^{bx} = c$ → $e^{bx} = c/a$ → $bx = \\ln(c/a)$ → $x = \\ln(c
           tolerance: 0.1,
           unit: 'min',
           hint: `$t_{1/2} = \\ln 2 / k \\approx 0{,}693 / k$.`,
-          solution: `$t_{1/2} = \\dfrac{\\ln 2}{k} = \\dfrac{0{,}6931}{${fr(k)}} \\approx ${fr(t_half, 1)}\\;\\text{min}$`,
+          solution: [`$t_{1/2} = \\dfrac{\\ln 2}{k} = \\dfrac{0{,}6931}{${fr(k)}} \\approx ${fr(t_half, 1)}\\;\\text{min}$`],
         };
       }
 
@@ -506,7 +509,7 @@ Si $a \\cdot e^{bx} = c$ → $e^{bx} = c/a$ → $bx = \\ln(c/a)$ → $x = \\ln(c
           tolerance: 0.02,
           unit: '',
           hint: `$\\text{pH} = ${n} - \\log_{10}(${fr(a)})$.`,
-          solution: `$\\text{pH} = -\\log_{10}(${fr(a)} \\times 10^{-${n}}) = ${n} - \\log_{10}(${fr(a)}) = ${n} - ${fr(Math.log10(a), 3)} = ${fr(pH, 2)}$`,
+          solution: [`$\\text{pH} = -\\log_{10}(${fr(a)} \\times 10^{-${n}}) = ${n} - \\log_{10}(${fr(a)}) = ${n} - ${fr(Math.log10(a), 3)} = ${fr(pH, 2)}$`],
         };
       }
 
@@ -523,7 +526,7 @@ Si $a \\cdot e^{bx} = c$ → $e^{bx} = c/a$ → $bx = \\ln(c/a)$ → $x = \\ln(c
           tolerance: 0.02,
           unit: '',
           hint: `$e^{-${context.variable}} = 1-\\varepsilon \\Rightarrow ${context.variable} = -\\ln(1-\\varepsilon)$.`,
-          solution: `$${context.variable} = -\\ln(1 - ${fr(eps)}) = -\\ln(${fr(1 - eps, 2)}) = ${fr(ntu, 2)}$`,
+          solution: [`$${context.variable} = -\\ln(1 - ${fr(eps)}) = -\\ln(${fr(1 - eps, 2)}) = ${fr(ntu, 2)}$`],
         };
       }
 
@@ -539,7 +542,7 @@ Si $a \\cdot e^{bx} = c$ → $e^{bx} = c/a$ → $bx = \\ln(c/a)$ → $x = \\ln(c
         tolerance: 0.1,
         unit: 'dB',
         hint: `$L_{tot} = 10\\log_{10}\\left(10^{L_1/10} + 10^{L_2/10}\\right)$.`,
-        solution: `$L_{tot} = 10\\log_{10}(10^{${L1}/10} + 10^{${L2}/10}) = ${fr(Ltot, 1)}\\;\\text{dB}$`,
+        solution: [`$L_{tot} = 10\\log_{10}(10^{${L1}/10} + 10^{${L2}/10}) = ${fr(Ltot, 1)}\\;\\text{dB}$`],
       };
     },
   },

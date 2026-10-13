@@ -387,7 +387,10 @@ window.MODULES.push({
           tolerance: 0.1,
           unit: 'MJ',
           hint: `$W = P \\times t$ en kWh, puis convertir : $1\\;\\text{kWh} = 3{,}6\\;\\text{MJ}$.`,
-          solution: `$W = ${fr(P_kW)}\\;\\text{kW} \\times ${t_h}\\;\\text{h} = ${fr(W_kWh, 1)}\\;\\text{kWh}$<br/>$W = ${fr(W_kWh, 1)} \\times 3{,}6 = ${fr(W_MJ, 1)}\\;\\text{MJ}$`,
+          solution: [
+            `$W = ${fr(P_kW)}\\;\\text{kW} \\times ${t_h}\\;\\text{h} = ${fr(W_kWh, 1)}\\;\\text{kWh}$`,
+            `$W = ${fr(W_kWh, 1)} \\times 3{,}6 = ${fr(W_MJ, 1)}\\;\\text{MJ}$`,
+          ],
         };
       }
 
@@ -401,7 +404,7 @@ window.MODULES.push({
           tolerance: 0,
           unit: 'kPa',
           hint: `$1\\;\\text{bar} = 100\\;\\text{kPa} = 10^5\\;\\text{Pa}$.`,
-          solution: `$${p_bar}\\;\\text{bar} = ${p_bar} \\times 100\\;\\text{kPa} = ${p_kPa}\\;\\text{kPa}$`,
+          solution: [`$${p_bar}\\;\\text{bar} = ${p_bar} \\times 100\\;\\text{kPa} = ${p_kPa}\\;\\text{kPa}$`],
         };
       }
 
@@ -415,7 +418,7 @@ window.MODULES.push({
           tolerance: 0.01,
           unit: 'm/s',
           hint: `Diviser par 3,6 (ou multiplier par 1000/3600).`,
-          solution: `$${v_kmh}\\;\\text{km/h} = \\dfrac{${v_kmh}}{3{,}6} = ${fr(v_ms, 2)}\\;\\text{m/s}$`,
+          solution: [`$${v_kmh}\\;\\text{km/h} = \\dfrac{${v_kmh}}{3{,}6} = ${fr(v_ms, 2)}\\;\\text{m/s}$`],
         };
       }
 
@@ -437,7 +440,7 @@ window.MODULES.push({
           tolerance: 0.02,
           unit: 'mol',
           hint: `$n = m/M$.`,
-          solution: `$n = ${m_g}/${fr(sub.M)} \\approx ${fr(n, 2)}\\;\\text{mol}$`,
+          solution: [`$n = ${m_g}/${fr(sub.M)} \\approx ${fr(n, 2)}\\;\\text{mol}$`],
         };
       }
 
@@ -450,7 +453,7 @@ window.MODULES.push({
           tolerance: 0,
           unit: 'pF',
           hint: `1 nF = 1000 pF (facteur 1000 entre préfixes voisins : n → p).`,
-          solution: `$C = ${fr(value_nF)} \\times 1000 = ${value_pF}\\;\\text{pF}$`,
+          solution: [`$C = ${fr(value_nF)} \\times 1000 = ${value_pF}\\;\\text{pF}$`],
         };
       }
 
@@ -465,7 +468,7 @@ window.MODULES.push({
         tolerance: 0,
         unit: 'W',
         hint: `$P = F \\times v$, cohérence : $[\\text{N}] \\times [\\text{m/s}] = [\\text{W}]$.`,
-        solution: `$P = ${F_N} \\times ${fr(v_ms2)} = ${P_W}\\;\\text{W}$`,
+        solution: [`$P = ${F_N} \\times ${fr(v_ms2)} = ${P_W}\\;\\text{W}$`],
       };
     },
   },

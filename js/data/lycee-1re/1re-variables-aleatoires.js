@@ -146,7 +146,7 @@ window.MODULES.push({
           svg: `
             <svg viewBox="0 0 430 240" role="img" aria-labelledby="va-esp-title va-esp-desc">
               <title id="va-esp-title">Diagramme en batons ou l esperance tombe entre deux batons</title>
-              <desc id="va-esp-desc">Diagramme en batons de la loi binomiale de parametres dix et zero virgule vin>-cinq. Les batons montent de la gauche jusqu'a un maximum atteint pour la valeur deux, puis redescendent regulierement et deviennent presque invisibles a partir de la valeur six. Un trait vertical en pointilles marque l'esperance, qui vaut deux virgule cinq : il ne tombe sur aucun baton, mais dans l'intervalle qui separe le baton de la valeur deux de celui de la valeur trois. Le baton le plus haut est celui de la valeur deux, qui est donc le resultat le plus probable, alors que l'esperance vaut deux virgule cinq.</desc>
+              <desc id="va-esp-desc">Diagramme en batons de la loi binomiale de parametres dix et zero virgule vingt-cinq. Les batons montent de la gauche jusqu'a un maximum atteint pour la valeur deux, puis redescendent regulierement et deviennent presque invisibles a partir de la valeur six. Un trait vertical en pointilles marque l'esperance, qui vaut deux virgule cinq : il ne tombe sur aucun baton, mais dans l'intervalle qui separe le baton de la valeur deux de celui de la valeur trois. Le baton le plus haut est celui de la valeur deux, qui est donc le resultat le plus probable, alors que l'esperance vaut deux virgule cinq.</desc>
 
               <line class="grid-line" x1="52" y1="48" x2="396" y2="48"></line>
               <line class="grid-line" x1="52" y1="114" x2="396" y2="114"></line>

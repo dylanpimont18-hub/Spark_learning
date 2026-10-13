@@ -352,7 +352,11 @@ Lecture : pour $P_f = 3{,}5\\;\\text{kW}$ et $P_{\\text{élec}} = 0{,}88\\;\\tex
           tolerance: 20,
           unit: 'W',
           hint: `Convertir $Q$ en m³/s, calculer $P_{\\text{utile}} = \\rho g Q H$, puis $P_{\\text{abs}} = P_{\\text{utile}}/\\eta$.`,
-          solution: `$Q = ${Q_m3h}/3600 = ${Q_over_3600_str}\\;\\text{m}^3/\\text{s}$<br/>$P_{\\text{utile}} = 1000 \\times 9{,}81 \\times ${Q_over_3600_str} \\times ${H} = ${P_utile.toFixed(0)}\\;\\text{W}$<br/>$P_{\\text{abs}} = ${P_utile.toFixed(0)} / ${eta_str} = ${Math.round(P_abs)}\\;\\text{W}$`,
+          solution: [
+            `$Q = ${Q_m3h}/3600 = ${Q_over_3600_str}\\;\\text{m}^3/\\text{s}$`,
+            `$P_{\\text{utile}} = 1000 \\times 9{,}81 \\times ${Q_over_3600_str} \\times ${H} = ${P_utile.toFixed(0)}\\;\\text{W}$`,
+            `$P_{\\text{abs}} = ${P_utile.toFixed(0)} / ${eta_str} = ${Math.round(P_abs)}\\;\\text{W}$`,
+          ],
         };
       }
 
@@ -369,7 +373,7 @@ Lecture : pour $P_f = 3{,}5\\;\\text{kW}$ et $P_{\\text{élec}} = 0{,}88\\;\\tex
           tolerance: 0.1,
           unit: 'kW',
           hint: `$\\text{COP} = P_f / P_{\\text{élec}}$ → $P_f = \\text{COP} \\times P_{\\text{élec}}$.`,
-          solution: `$P_f = \\text{COP} \\times P_{\\text{élec}} = ${COP_str} \\times ${P_elec} = ${P_f_str}\\;\\text{kW}$`,
+          solution: [`$P_f = \\text{COP} \\times P_{\\text{élec}} = ${COP_str} \\times ${P_elec} = ${P_f_str}\\;\\text{kW}$`],
         };
       }
 
@@ -390,7 +394,7 @@ Lecture : pour $P_f = 3{,}5\\;\\text{kW}$ et $P_{\\text{élec}} = 0{,}88\\;\\tex
           tolerance: 0.2,
           unit: 'A',
           hint: `Isoler $I = \\dfrac{P}{\\sqrt{3} \\cdot U \\cdot \\cos\\varphi \\cdot \\eta}$.`,
-          solution: `$I = \\dfrac{${P_kW_str} \\times 10^3}{\\sqrt{3} \\times 400 \\times ${cosfi_str} \\times ${eta_m_str}} = \\dfrac{${P_kW*1000}}{${denom_str}} \\approx ${fr(I, 1)}\\;\\text{A}$`,
+          solution: [`$I = \\dfrac{${P_kW_str} \\times 10^3}{\\sqrt{3} \\times 400 \\times ${cosfi_str} \\times ${eta_m_str}} = \\dfrac{${P_kW*1000}}{${denom_str}} \\approx ${fr(I, 1)}\\;\\text{A}$`],
         };
       }
 
@@ -405,7 +409,7 @@ Lecture : pour $P_f = 3{,}5\\;\\text{kW}$ et $P_{\\text{élec}} = 0{,}88\\;\\tex
           tolerance: 0.5,
           unit: 'kW',
           hint: `$\\eta = P_{\\text{utile}}/P_{\\text{comb}}$.`,
-          solution: `$P_{\\text{comb}} = P_{\\text{utile}}/\\eta = ${P_utile_kW}/${fr(rendement_PCI)} \\approx ${fr(P_comb, 1)}\\;\\text{kW}$`,
+          solution: [`$P_{\\text{comb}} = P_{\\text{utile}}/\\eta = ${P_utile_kW}/${fr(rendement_PCI)} \\approx ${fr(P_comb, 1)}\\;\\text{kW}$`],
         };
       }
 
@@ -421,7 +425,7 @@ Lecture : pour $P_f = 3{,}5\\;\\text{kW}$ et $P_{\\text{élec}} = 0{,}88\\;\\tex
           tolerance: 0.02,
           unit: 'm²',
           hint: `$\\eta = P_{\\max}/(G \\times S)$.`,
-          solution: `$S = P_{\\max}/(G \\times \\eta) = ${P_max_Wc}/(1000 \\times ${fr(rendement_pv)}) \\approx ${fr(S, 2)}\\;\\text{m}^2$`,
+          solution: [`$S = P_{\\max}/(G \\times \\eta) = ${P_max_Wc}/(1000 \\times ${fr(rendement_pv)}) \\approx ${fr(S, 2)}\\;\\text{m}^2$`],
         };
       }
 
@@ -438,7 +442,7 @@ Lecture : pour $P_f = 3{,}5\\;\\text{kW}$ et $P_{\\text{élec}} = 0{,}88\\;\\tex
         tolerance: 0.1,
         unit: 'm',
         hint: `Additionner/soustraire directement les quatre termes.`,
-        solution: `$\\text{NPSH}_{\\text{dispo}} = ${fr(h_atm, 1)} - ${fr(h_v, 1)} - ${fr(h_s, 1)} - ${fr(Ja, 1)} = ${fr(NPSH_dispo, 1)}\\;\\text{m}$`,
+        solution: [`$\\text{NPSH}_{\\text{dispo}} = ${fr(h_atm, 1)} - ${fr(h_v, 1)} - ${fr(h_s, 1)} - ${fr(Ja, 1)} = ${fr(NPSH_dispo, 1)}\\;\\text{m}$`],
       };
     },
   },

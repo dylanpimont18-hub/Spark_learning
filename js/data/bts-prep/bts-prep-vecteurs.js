@@ -479,10 +479,12 @@ Calculez la norme de la résultante $R = \\|\\vec{F_1} + \\vec{F_2}\\|$ en N (ar
           tolerance: 2,
           unit: 'N',
           hint: 'Décomposer chaque force en composantes x et y, additionner, puis calculer la norme.',
-          solution: `$F_{1x} = ${F1}\\cos${theta1}° = ${fr(F1x, 1)}\\;\\text{N}$, $F_{1y} = ${F1}\\sin${theta1}° = ${fr(F1y, 1)}\\;\\text{N}$<br/>
-$F_{2x} = ${F2}\\cos${theta2}° = ${fr(F2x, 1)}\\;\\text{N}$, $F_{2y} = ${F2}\\sin${theta2}° = ${fr(F2y, 1)}\\;\\text{N}$<br/>
-$R_x = ${fr(Rx, 1)}\\;\\text{N}$, $R_y = ${fr(Ry, 1)}\\;\\text{N}$<br/>
-$R = \\sqrt{${fr(Rx, 1)}^2 + ${fr(Ry, 1)}^2} \\approx ${Math.round(R)}\\;\\text{N}$`,
+          solution: [
+            `$F_{1x} = ${F1}\\cos${theta1}° = ${fr(F1x, 1)}\\;\\text{N}$, $F_{1y} = ${F1}\\sin${theta1}° = ${fr(F1y, 1)}\\;\\text{N}$`,
+            `$F_{2x} = ${F2}\\cos${theta2}° = ${fr(F2x, 1)}\\;\\text{N}$, $F_{2y} = ${F2}\\sin${theta2}° = ${fr(F2y, 1)}\\;\\text{N}$`,
+            `$R_x = ${fr(Rx, 1)}\\;\\text{N}$, $R_y = ${fr(Ry, 1)}\\;\\text{N}$`,
+            `$R = \\sqrt{${fr(Rx, 1)}^2 + ${fr(Ry, 1)}^2} \\approx ${Math.round(R)}\\;\\text{N}$`,
+          ],
         };
       }
 
@@ -499,7 +501,7 @@ Calculez le travail $W$ de cette force (en J, arrondi à l'unité).`,
           tolerance: 2,
           unit: 'J',
           hint: '$W = F \\times d \\times \\cos\\theta$',
-          solution: `$W = ${F} \\times ${d} \\times \\cos${theta}° = ${F} \\times ${d} \\times ${fr(Math.cos(theta * Math.PI/180), 3)} \\approx ${Math.round(W)}\\;\\text{J}$`,
+          solution: [`$W = ${F} \\times ${d} \\times \\cos${theta}° = ${F} \\times ${d} \\times ${fr(Math.cos(theta * Math.PI/180), 3)} \\approx ${Math.round(W)}\\;\\text{J}$`],
         };
       }
 
@@ -519,10 +521,12 @@ Calculez l'angle $\\theta$ entre ces deux vecteurs (en degrés, arrondi à 0,1°
           tolerance: 0.3,
           unit: '°',
           hint: '$\\cos\\theta = \\dfrac{\\vec{u}\\cdot\\vec{v}}{\\|\\vec{u}\\|\\,\\|\\vec{v}\\|}$',
-          solution: `$\\vec{u}\\cdot\\vec{v} = ${u[0]}\\times${v[0]} + ${u[1]}\\times${v[1]} = ${dot}$<br/>
-$\\|\\vec{u}\\| = \\sqrt{${u[0]}^2+${u[1]}^2} = ${fr(nu, 3)}$, $\\|\\vec{v}\\| = \\sqrt{${v[0]}^2+${v[1]}^2} = ${fr(nv, 3)}$<br/>
-$\\cos\\theta = ${dot} / (${fr(nu, 3)} \\times ${fr(nv, 3)}) = ${fr(cosTheta, 3)}$<br/>
-$\\theta = \\arccos(${fr(cosTheta, 3)}) \\approx ${fr(theta, 1)}°$`,
+          solution: [
+            `$\\vec{u}\\cdot\\vec{v} = ${u[0]}\\times${v[0]} + ${u[1]}\\times${v[1]} = ${dot}$`,
+            `$\\|\\vec{u}\\| = \\sqrt{${u[0]}^2+${u[1]}^2} = ${fr(nu, 3)}$, $\\|\\vec{v}\\| = \\sqrt{${v[0]}^2+${v[1]}^2} = ${fr(nv, 3)}$`,
+            `$\\cos\\theta = ${dot} / (${fr(nu, 3)} \\times ${fr(nv, 3)}) = ${fr(cosTheta, 3)}$`,
+            `$\\theta = \\arccos(${fr(cosTheta, 3)}) \\approx ${fr(theta, 1)}°$`,
+          ],
         };
       }
 
@@ -539,7 +543,7 @@ $\\theta = \\arccos(${fr(cosTheta, 3)}) \\approx ${fr(theta, 1)}°$`,
           tolerance: 1,
           unit: 'J',
           hint: `$\\vec F \\cdot \\vec d = F_x d_x + F_y d_y$`,
-          solution: `$W = ${Fx}\\times${dx} + ${Fy}\\times${dy} = ${Fx * dx} + ${Fy * dy} = ${W}\\;\\text{J}$`,
+          solution: [`$W = ${Fx}\\times${dx} + ${Fy}\\times${dy} = ${Fx * dx} + ${Fy * dy} = ${W}\\;\\text{J}$`],
         };
       }
 
@@ -559,7 +563,7 @@ $\\theta = \\arccos(${fr(cosTheta, 3)}) \\approx ${fr(theta, 1)}°$`,
           tolerance: 0.2,
           unit: scenario.unit,
           hint: `$\\|\\vec u\\| = \\sqrt{u_x^2+u_y^2}$`,
-          solution: `$\\|\\vec u\\| = \\sqrt{${ux}^2+${uy}^2} = \\sqrt{${ux * ux + uy * uy}} \\approx ${fr(norme, 1)}\\;${scenario.unit}$`,
+          solution: [`$\\|\\vec u\\| = \\sqrt{${ux}^2+${uy}^2} = \\sqrt{${ux * ux + uy * uy}} \\approx ${fr(norme, 1)}\\;${scenario.unit}$`],
         };
       }
 
@@ -576,7 +580,10 @@ $\\theta = \\arccos(${fr(cosTheta, 3)}) \\approx ${fr(theta, 1)}°$`,
         tolerance: 0.1,
         unit: '',
         hint: `Perpendicularité ⟺ $\\vec u \\cdot \\vec v = 0$, donc $u_x v_x + u_y v_y = 0$.`,
-        solution: `$\\vec u \\cdot \\vec v = ${a}\\times ${c} + ${b}\\times y = 0$<br/>$${a * c} + ${b}y = 0 \\Rightarrow y = -\\dfrac{${a * c}}{${b}} = ${y}$`,
+        solution: [
+          `$\\vec u \\cdot \\vec v = ${a}\\times ${c} + ${b}\\times y = 0$`,
+          `$${a * c} + ${b}y = 0 \\Rightarrow y = -\\dfrac{${a * c}}{${b}} = ${y}$`,
+        ],
       };
     },
   },

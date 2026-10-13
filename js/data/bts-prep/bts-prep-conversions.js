@@ -454,7 +454,7 @@ Règle pratique : <strong>1 bar ≈ 10 m de colonne d'eau</strong> (pour la pres
           tolerance: 0.01,
           unit: 'bar',
           hint: `$p = \\rho g h$ en Pa, puis diviser par $10^5$.`,
-          solution: `$p = 1000 \\times 9{,}81 \\times ${h} = ${p_Pa.toFixed(0)}\\;\\text{Pa} = ${fr(p_bar, 2)}\\;\\text{bar}$`,
+          solution: [`$p = 1000 \\times 9{,}81 \\times ${h} = ${p_Pa.toFixed(0)}\\;\\text{Pa} = ${fr(p_bar, 2)}\\;\\text{bar}$`],
         };
       }
 
@@ -468,7 +468,7 @@ Règle pratique : <strong>1 bar ≈ 10 m de colonne d'eau</strong> (pour la pres
           tolerance: 0.1,
           unit: 'l/min',
           hint: `Multiplier par 1000 (m³→l) et diviser par 60 (h→min).`,
-          solution: `$Q = ${fr(Q_m3h)} \\times \\dfrac{1000}{60} = ${fr(Q_lmin, 1)}\\;\\text{l/min}$`,
+          solution: [`$Q = ${fr(Q_m3h)} \\times \\dfrac{1000}{60} = ${fr(Q_lmin, 1)}\\;\\text{l/min}$`],
         };
       }
 
@@ -482,7 +482,7 @@ Règle pratique : <strong>1 bar ≈ 10 m de colonne d'eau</strong> (pour la pres
           tolerance: 0.2,
           unit: 'rad/s',
           hint: `$\\omega = n \\times \\dfrac{2\\pi}{60}$`,
-          solution: `$\\omega = ${n} \\times \\dfrac{2\\pi}{60} = ${n} \\times 0{,}1047 = ${fr(omega, 1)}\\;\\text{rad/s}$`,
+          solution: [`$\\omega = ${n} \\times \\dfrac{2\\pi}{60} = ${n} \\times 0{,}1047 = ${fr(omega, 1)}\\;\\text{rad/s}$`],
         };
       }
 
@@ -496,7 +496,7 @@ Règle pratique : <strong>1 bar ≈ 10 m de colonne d'eau</strong> (pour la pres
           tolerance: 0,
           unit: 'kcal/h',
           hint: `$1\\;\\text{kW} = 860\\;\\text{kcal/h}$.`,
-          solution: `$P = ${P_kW} \\times 860 = ${P_kcalh}\\;\\text{kcal/h}$`,
+          solution: [`$P = ${P_kW} \\times 860 = ${P_kcalh}\\;\\text{kcal/h}$`],
         };
       }
 
@@ -510,7 +510,7 @@ Règle pratique : <strong>1 bar ≈ 10 m de colonne d'eau</strong> (pour la pres
           tolerance: 0,
           unit: '°F',
           hint: `$T(°F) = T(°C) \\times 1{,}8 + 32$`,
-          solution: `$T = ${T_C} \\times 1{,}8 + 32 = ${T_C * 1.8} + 32 = ${T_F}°\\text{F}$`,
+          solution: [`$T = ${T_C} \\times 1{,}8 + 32 = ${T_C * 1.8} + 32 = ${T_F}°\\text{F}$`],
         };
       }
 
@@ -524,7 +524,7 @@ Règle pratique : <strong>1 bar ≈ 10 m de colonne d'eau</strong> (pour la pres
         tolerance: 0.1,
         unit: 'kW',
         hint: `$1\\;\\text{ch} = 736\\;\\text{W}$.`,
-        solution: `$P = ${P_ch} \\times 736 = ${P_ch * 736}\\;\\text{W} = ${fr(P_kW_ch, 1)}\\;\\text{kW}$`,
+        solution: [`$P = ${P_ch} \\times 736 = ${P_ch * 736}\\;\\text{W} = ${fr(P_kW_ch, 1)}\\;\\text{kW}$`],
       };
     },
   },

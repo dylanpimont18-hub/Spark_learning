@@ -349,7 +349,11 @@ Exemples : nombre de Reynolds $Re = \\rho v D / \\mu$, rendement $\\eta = P_{\\t
           tolerance: 1,
           unit: 'W',
           hint: `Convertir d'abord : $v(\\text{m/s}) = v(\\text{km/h}) / 3{,}6$.`,
-          solution: `$v = ${fr(v_kmh)} / 3{,}6 = ${fr(v_ms, 2)}\\;\\text{m/s}$<br/>$P = ${F} \\times ${fr(v_ms, 2)} = ${fr(P, 1)}\\;\\text{W}$<br/>Vérification : $[F \\times v] = \\text{N·m·s}^{-1} = \\text{W}$ ✓`,
+          solution: [
+            `$v = ${fr(v_kmh)} / 3{,}6 = ${fr(v_ms, 2)}\\;\\text{m/s}$`,
+            `$P = ${F} \\times ${fr(v_ms, 2)} = ${fr(P, 1)}\\;\\text{W}$`,
+            `Vérification : $[F \\times v] = \\text{N·m·s}^{-1} = \\text{W}$ ✓`,
+          ],
         };
       }
 
@@ -368,7 +372,11 @@ Calculer la pression $p = F/A$ en MPa (arrondi à 0,01 MPa).`,
           tolerance: 0.01,
           unit: 'MPa',
           hint: `Convertir F en N et A en m², puis $p = F/A$ en Pa, puis en MPa ($\\div 10^6$).`,
-          solution: `$F = ${F_kN} \\times 10^3 = ${F_N}\\;\\text{N}$<br/>$A = ${A_cm2} \\times 10^{-4} = ${fr(A_m2)}\\;\\text{m}^2$<br/>$p = ${F_N} / ${fr(A_m2)} = ${P_Pa.toFixed(0)}\\;\\text{Pa} = ${fr(P_MPa, 2)}\\;\\text{MPa}$`,
+          solution: [
+            `$F = ${F_kN} \\times 10^3 = ${F_N}\\;\\text{N}$`,
+            `$A = ${A_cm2} \\times 10^{-4} = ${fr(A_m2)}\\;\\text{m}^2$`,
+            `$p = ${F_N} / ${fr(A_m2)} = ${P_Pa.toFixed(0)}\\;\\text{Pa} = ${fr(P_MPa, 2)}\\;\\text{MPa}$`,
+          ],
         };
       }
 
@@ -386,7 +394,11 @@ Calculer son énergie cinétique $E_c = \\dfrac{1}{2}mv^2$ en kilojoules (kJ, ar
           tolerance: 0.1,
           unit: 'kJ',
           hint: `Convertir $v$ en m/s, puis $E_c = \\frac{1}{2}mv^2$, résultat en J divisé par 1000.`,
-          solution: `$v = ${v_kmh}/3{,}6 = ${fr(v_ms, 2)}\\;\\text{m/s}$<br/>$E_c = \\frac{1}{2} \\times ${m} \\times ${fr(v_ms, 2)}^2 = \\frac{1}{2} \\times ${m} \\times ${fr(v_ms * v_ms, 2)} = ${Ec.toFixed(0)}\\;\\text{J} = ${fr(Ec_kJ, 1)}\\;\\text{kJ}$<br/>Vérification : $[\\frac{1}{2}mv^2] = \\text{kg·m}^2\\text{·s}^{-2} = \\text{J}$ ✓`,
+          solution: [
+            `$v = ${v_kmh}/3{,}6 = ${fr(v_ms, 2)}\\;\\text{m/s}$`,
+            `$E_c = \\frac{1}{2} \\times ${m} \\times ${fr(v_ms, 2)}^2 = \\frac{1}{2} \\times ${m} \\times ${fr(v_ms * v_ms, 2)} = ${Ec.toFixed(0)}\\;\\text{J} = ${fr(Ec_kJ, 1)}\\;\\text{kJ}$`,
+            `Vérification : $[\\frac{1}{2}mv^2] = \\text{kg·m}^2\\text{·s}^{-2} = \\text{J}$ ✓`,
+          ],
         };
       }
 
@@ -404,7 +416,12 @@ Calculez le débit volumique $Q = v \\times A$ en m³/h (arrondi à 0,1).`,
           tolerance: 0.2,
           unit: 'm³/h',
           hint: `Convertir $A$ en m², calculer $Q = v \\times A$ en m³/s, puis multiplier par 3600 pour obtenir des m³/h.`,
-          solution: `$A = ${A_cm2} \\times 10^{-4} = ${fr(A_m2, 4)}\\;\\text{m}^2$<br/>$Q = ${fr(v)} \\times ${fr(A_m2, 4)} = ${fr(Q_m3s, 5)}\\;\\text{m}^3\\text{/s}$<br/>$Q = ${fr(Q_m3s, 5)} \\times 3600 \\approx ${fr(Q_m3h, 1)}\\;\\text{m}^3\\text{/h}$<br/>Vérification : $[v \\times A] = \\text{L·T}^{-1} \\times \\text{L}^2 = \\text{L}^3\\text{·T}^{-1}$ ✓`,
+          solution: [
+            `$A = ${A_cm2} \\times 10^{-4} = ${fr(A_m2, 4)}\\;\\text{m}^2$`,
+            `$Q = ${fr(v)} \\times ${fr(A_m2, 4)} = ${fr(Q_m3s, 5)}\\;\\text{m}^3\\text{/s}$`,
+            `$Q = ${fr(Q_m3s, 5)} \\times 3600 \\approx ${fr(Q_m3h, 1)}\\;\\text{m}^3\\text{/h}$`,
+            `Vérification : $[v \\times A] = \\text{L·T}^{-1} \\times \\text{L}^2 = \\text{L}^3\\text{·T}^{-1}$ ✓`,
+          ],
         };
       }
 
@@ -420,7 +437,7 @@ Calculez la concentration molaire $c = n/V$ (en mol/L, arrondie à 0,01).`,
           tolerance: 0.02,
           unit: 'mol/L',
           hint: `$c = \\dfrac{n}{V}$, avec $n$ en mol et $V$ en L.`,
-          solution: `$c = \\dfrac{${fr(n)}}{${fr(V_L)}} = ${fr(c_mol_L, 2)}\\;\\text{mol/L}$`,
+          solution: [`$c = \\dfrac{${fr(n)}}{${fr(V_L)}} = ${fr(c_mol_L, 2)}\\;\\text{mol/L}$`],
         };
       }
 
@@ -438,7 +455,10 @@ Calculez l'énergie thermique $Q = mc\\Delta T$ nécessaire (en kJ, arrondie à 
         tolerance: 5,
         unit: 'kJ',
         hint: `$Q = m \\times c \\times \\Delta T$, résultat en J, à diviser par 1000 pour obtenir des kJ.`,
-        solution: `$Q = ${m} \\times 4185 \\times ${deltaT} = ${Q_J}\\;\\text{J} = ${fr(Q_kJ, 1)}\\;\\text{kJ}$<br/>Vérification : $[mc\\Delta T] = \\text{M}\\times(\\text{L}^2\\text{·T}^{-2}\\text{·θ}^{-1})\\times\\text{θ} = \\text{M·L}^2\\text{·T}^{-2} = \\text{J}$ ✓`,
+        solution: [
+          `$Q = ${m} \\times 4185 \\times ${deltaT} = ${Q_J}\\;\\text{J} = ${fr(Q_kJ, 1)}\\;\\text{kJ}$`,
+          `Vérification : $[mc\\Delta T] = \\text{M}\\times(\\text{L}^2\\text{·T}^{-2}\\text{·θ}^{-1})\\times\\text{θ} = \\text{M·L}^2\\text{·T}^{-2} = \\text{J}$ ✓`,
+        ],
       };
     },
   },
