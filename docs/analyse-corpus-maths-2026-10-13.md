@@ -1,0 +1,1602 @@
+# Analyse automatique du corpus mathématiques — 2026-10-13
+
+> 112 modules, 60 tirages de `generate()` par module (graine 1). Généré par `node scripts/analyser-corpus.js`. Les notes servent à prioriser les lectures, pas à juger : ce qui compte est ce que l'élève voit.
+
+## Pondération du score composite (/100)
+
+| Bloc | Points | Ce qui est mesuré |
+|---|---|---|
+| Fiabilité de l'exercice | 30 | exceptions au tirage, réponse non finie, décimale anglaise (énoncé 8 / aide 4), `undefined`/`NaN`, solution en chaîne, indice ou solution absents |
+| Variété de l'exercice | 15 | moules d'énoncé distincts (2,5/moule, plafond 10) + contextes narratifs distincts (1/contexte, plafond 5) |
+| Quiz | 20 | ≥5 questions 10 (3-4 : 5), corrections présentes et ≥12 mots 5, index de réponse fixe −5, options dupliquées −2/question, distracteur aberrant −2/option |
+| Cours | 15 | intro, definitions, method, example, formulas, diagram, piege, recap : 1 chacun ; aucun bloc dense (champ ≥ 60 mots sans `<br/><br/>`) : 4, un seul : 2 ; `<strong>` ≥ 8 : 3 |
+| Évaluation | 10 | ≥5 questions 4, barème + durée 2, corrections 2, compétence sur chaque question 2 |
+| Alignement lexical | 5 | part moyenne des termes techniques des questions (quiz + évaluation) employés par le cours du module ; termes techniques = mots des `keywords` et des `<strong>` de tout le corpus |
+| Langue | 5 | −1 par mot non accentué dans le texte affiché, −1 par mot dans un `<text>` de SVG (étiquette visible, plafond 2), −0,1 par mot dans un `<title>`/`<desc>` de SVG lu seulement par les lecteurs d'écran (plafond 1), −1 par phrase de plus de 35 mots dans intro/method (plancher 0) |
+
+## Distribution par niveau
+
+| Niveau | Modules | Score moyen | Min | Max | Exceptions `generate()` | Décimale anglaise (énoncé) | Mono-moule | Solution en chaîne | Mots non accentués | Questions hors cours |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 6e | 10 | 83.5 | 80.8 (6e-volumes) | 86.7 (6e-angles) | 0 | 0 | 0 | 0 | 0 | 21 |
+| 5e | 14 | 84.4 | 79 (5e-priorites-operations) | 87.1 (5e-nombres-relatifs) | 0 | 0 | 0 | 0 | 0 | 41 |
+| 4e | 12 | 84.5 | 80.3 (4e-fractions-mult-div) | 86.9 (4e-volumes) | 0 | 0 | 0 | 0 | 3 | 37 |
+| 3e | 13 | 85.2 | 81.1 (trigonometrie) | 86.9 (3e-sections-solides) | 0 | 0 | 0 | 0 | 0 | 33 |
+| 2nde | 14 | 90.2 | 84.9 (2nde-reperage-plan) | 91.8 (2nde-equations-inequations) | 0 | 0 | 0 | 0 | 0 | 55 |
+| 1re | 10 | 87.2 | 84.5 (1re-suites) | 90.6 (1re-geometrie-reperee) | 0 | 0 | 0 | 0 | 2 | 35 |
+| tle | 12 | 86.6 | 85.3 (tle-logarithme) | 89.1 (tle-denombrement) | 0 | 0 | 0 | 0 | 0 | 54 |
+| bts-prep | 14 | 85.6 | 81.3 (bts-prep-graphiques) | 90.7 (bts-prep-equations) | 0 | 0 | 0 | 9 | 3 | 173 |
+| bts | 13 | 85.9 | 84.5 (bts-loi-normale) | 87.7 (bts-derivation-appliquee) | 0 | 0 | 0 | 0 | 0 | 48 |
+| **Total** | 112 | 86.0 | | | 0 | 0 | 0 | 9 | 8 | 497 |
+
+### Moyennes par bloc et par niveau
+
+| Niveau | Fiabilité /30 | Variété /15 | Quiz /20 | Cours /15 | Évaluation /10 | Alignement /5 | Langue /5 | Quiz (questions) | Éval. (questions) | Moules | Contextes | Blocs denses | `<strong>` | Mots de cours |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 6e | 30.0 | 15.0 | 7.8 | 14.6 | 8.0 | 4.3 | 3.9 | 3.0 | 5.0 | 13.2 | 12.3 | 0.2 | 17.3 | 651.9 |
+| 5e | 30.0 | 15.0 | 8.6 | 15.0 | 8.0 | 4.2 | 3.6 | 3.0 | 5.0 | 19.4 | 13.4 | 0.0 | 20.9 | 656.7 |
+| 4e | 30.0 | 15.0 | 8.8 | 15.0 | 8.0 | 4.2 | 3.6 | 3.0 | 5.0 | 24.4 | 14.1 | 0.0 | 20.6 | 746.2 |
+| 3e | 30.0 | 15.0 | 9.6 | 14.8 | 8.0 | 4.4 | 3.3 | 3.1 | 5.0 | 23.7 | 15.5 | 0.1 | 41.2 | 822.8 |
+| 2nde | 30.0 | 14.9 | 14.6 | 15.0 | 8.0 | 4.1 | 3.5 | 5.0 | 5.0 | 19.6 | 9.6 | 0.0 | 22.0 | 712.5 |
+| 1re | 30.0 | 15.0 | 14.8 | 13.2 | 8.0 | 4.1 | 2.1 | 5.0 | 5.0 | 20.4 | 12.0 | 0.9 | 25.6 | 783.4 |
+| tle | 30.0 | 15.0 | 15.0 | 11.3 | 8.0 | 3.6 | 3.7 | 5.0 | 5.0 | 25.1 | 22.8 | 2.6 | 23.7 | 822.7 |
+| bts-prep | 28.1 | 15.0 | 14.3 | 14.9 | 6.9 | 3.6 | 2.9 | 21.1 | 4.6 | 19.1 | 17.6 | 0.1 | 27.5 | 919.2 |
+| bts | 30.0 | 15.0 | 10.0 | 14.7 | 8.0 | 3.8 | 4.4 | 3.0 | 5.0 | 6.7 | 6.7 | 0.0 | 9.9 | 824.3 |
+
+## Les 20 modules les plus faibles
+
+| # | Module | Niveau | Score | Fiab. | Var. | Quiz | Cours | Éval. | Align. | Langue | Défauts détectés |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | `5e-priorites-operations` | 5e | 79 | 30 | 15 | 5 | 15 | 8 | 3 | 3 | quiz-index-fixe, question-terme-technique-hors-cours ×2, mot-non-accentue-desc-svg ×11, phrase-longue |
+| 2 | `4e-fractions-mult-div` | 4e | 80.3 | 30 | 15 | 5 | 15 | 8 | 3.2 | 4.1 | quiz-index-fixe, question-terme-technique-hors-cours ×4, mot-non-accentue-desc-svg ×6 |
+| 3 | `5e-fractions-operations` | 5e | 80.5 | 30 | 15 | 5 | 15 | 8 | 3.5 | 4 | quiz-index-fixe, question-terme-technique-hors-cours ×3, mot-non-accentue-desc-svg ×13 |
+| 4 | `6e-volumes` | 6e | 80.8 | 30 | 15 | 5 | 15 | 8 | 3.7 | 4.1 | quiz-index-fixe, question-terme-technique-hors-cours ×3, mot-non-accentue-desc-svg ×5 |
+| 5 | `5e-proportionnalite` | 5e | 80.8 | 30 | 15 | 5 | 15 | 8 | 3.8 | 4 | quiz-index-fixe, question-terme-technique-hors-cours ×2, mot-non-accentue-desc-svg ×10 |
+| 6 | `trigonometrie` | 3e | 81.1 | 30 | 15 | 5 | 15 | 8 | 4.1 | 4 | quiz-index-fixe, question-terme-technique-hors-cours ×6, mot-non-accentue-desc-svg ×6 |
+| 7 | `5e-volumes` | 5e | 81.3 | 30 | 15 | 5 | 15 | 8 | 4.3 | 4 | quiz-index-fixe, question-terme-technique-hors-cours ×2, mot-non-accentue-desc-svg ×7 |
+| 8 | `bts-prep-graphiques` | bts-prep | 81.3 | 27 | 15 | 11 | 15 | 6 | 4.3 | 3 | quiz-distracteur-aberrant ×2, exercice-solution-chaine, question-terme-technique-hors-cours ×13, mot-non-accentue-desc-svg ×12, phrase-longue |
+| 9 | `4e-cosinus` | 4e | 81.4 | 30 | 15 | 5 | 15 | 8 | 4.4 | 4 | quiz-index-fixe, question-terme-technique-hors-cours ×4, mot-non-accentue-desc-svg ×5 |
+| 10 | `4e-relatifs-mult-div` | 4e | 81.7 | 30 | 15 | 5 | 15 | 8 | 4.7 | 4 | quiz-index-fixe, question-terme-technique-hors-cours ×2, mot-non-accentue-desc-svg ×5 |
+| 11 | `bts-prep-equations-transf` | bts-prep | 82.1 | 27 | 15 | 13 | 15 | 6 | 3.9 | 2.2 | quiz-distracteur-aberrant, exercice-solution-chaine, question-terme-technique-hors-cours ×8, mot-non-accentue-desc-svg ×6, phrase-longue ×2 |
+| 12 | `6e-fractions` | 6e | 82.5 | 30 | 15 | 10 | 11 | 8 | 4.5 | 4 | bloc-dense ×2, question-terme-technique-hors-cours ×2, mot-non-accentue-desc-svg ×9 |
+| 13 | `6e-multiplication` | 6e | 82.9 | 30 | 15 | 7.5 | 15 | 8 | 3.4 | 4 | question-terme-technique-hors-cours ×3, mot-non-accentue-desc-svg ×16 |
+| 14 | `bts-prep-vecteurs` | bts-prep | 83.1 | 27 | 15 | 13 | 15 | 6 | 4.1 | 3 | quiz-distracteur-aberrant, exercice-solution-chaine, question-terme-technique-hors-cours ×12, mot-non-accentue-desc-svg ×10, phrase-longue |
+| 15 | `6e-figures-geometriques` | 6e | 83.2 | 30 | 15 | 7.5 | 15 | 8 | 4.7 | 3 | question-terme-technique-hors-cours ×2, mot-non-accentue-desc-svg ×12, phrase-longue |
+| 16 | `3e-fonctions-affines` | 3e | 83.4 | 30 | 15 | 10 | 13 | 8 | 4.4 | 3 | bloc-dense, question-terme-technique-hors-cours ×3, mot-non-accentue-svg, mot-non-accentue-desc-svg ×11 |
+| 17 | `bts-prep-si-unites` | bts-prep | 83.4 | 27 | 15 | 13 | 15 | 6 | 4.4 | 3 | quiz-distracteur-aberrant, exercice-solution-chaine, question-terme-technique-hors-cours ×5, mot-non-accentue-desc-svg ×15, phrase-longue |
+| 18 | `6e-symetrie-axiale` | 6e | 83.5 | 30 | 15 | 7.5 | 15 | 8 | 4 | 4 | question-terme-technique-hors-cours ×4, mot-non-accentue-desc-svg ×9 |
+| 19 | `6e-addition-soustraction` | 6e | 83.6 | 30 | 15 | 7.5 | 15 | 8 | 4.1 | 4 | question-terme-technique-hors-cours, mot-non-accentue-desc-svg ×12 |
+| 20 | `6e-nombres-decimaux` | 6e | 83.8 | 30 | 15 | 7.5 | 15 | 8 | 4.3 | 4 | question-terme-technique-hors-cours, mot-non-accentue-desc-svg ×9 |
+
+## Défauts détectés automatiquement (liste exhaustive)
+
+| Type | Occurrences | Modules |
+|---|---|---|
+| mot-non-accentue-desc-svg | 825 | 108 |
+| question-terme-technique-hors-cours | 497 | 108 |
+| bloc-dense | 44 | 20 |
+| phrase-longue | 42 | 35 |
+| mot-non-accentue-svg | 34 | 17 |
+| quiz-index-fixe | 10 | 10 |
+| exercice-solution-chaine | 9 | 9 |
+| mot-non-accentue | 6 | 5 |
+| quiz-distracteur-aberrant | 6 | 5 |
+| guidage-visuel | 3 | 3 |
+
+### mot-non-accentue-desc-svg (825)
+
+- `js/data/6e/6e-addition-soustraction.js:62` — « schema » ×1 (svg-desc)
+- `js/data/6e/6e-addition-soustraction.js:117` — « complete » ×1 (svg-desc)
+- `js/data/6e/6e-addition-soustraction.js:117` — « decimales » ×1 (svg-desc)
+- `js/data/6e/6e-addition-soustraction.js:117` — « meme » ×3 (svg-desc)
+- `js/data/6e/6e-addition-soustraction.js:117` — « ete » ×1 (svg-desc)
+- `js/data/6e/6e-addition-soustraction.js:117` — « differents » ×1 (svg-desc)
+- `js/data/6e/6e-addition-soustraction.js:117` — « ecrits » ×1 (svg-desc)
+- `js/data/6e/6e-addition-soustraction.js:203` — « ecrites » ×1 (svg-desc)
+- `js/data/6e/6e-addition-soustraction.js:168` — « ecrit » ×1 (svg-desc)
+- `js/data/6e/6e-addition-soustraction.js:267` — « premiere » ×1 (svg-desc)
+- `js/data/6e/6e-addition-soustraction.js:106` — « verification » ×1 (svg-desc)
+- `js/data/6e/6e-addition-soustraction.js:267` — « difference » ×1 (svg-desc)
+- `js/data/6e/6e-angles.js:149` — « degres » ×10 (svg-desc)
+- `js/data/6e/6e-angles.js:150` — « reperes » ×1 (svg-desc)
+- `js/data/6e/6e-angles.js:220` — « meme » ×3 (svg-desc)
+- `js/data/6e/6e-angles.js:220` — « schema » ×1 (svg-desc)
+- `js/data/6e/6e-angles.js:33` — « definitions » ×1 (svg-desc)
+- `js/data/6e/6e-division.js:62` — « schema » ×1 (svg-desc)
+- `js/data/6e/6e-division.js:62` — « etapes » ×1 (svg-desc)
+- `js/data/6e/6e-division.js:113` — « egalite » ×1 (svg-desc)
+- `js/data/6e/6e-division.js:113` — « egale » ×1 (svg-desc)
+- `js/data/6e/6e-division.js:170` — « ecriture » ×3 (svg-desc)
+- `js/data/6e/6e-division.js:170` — « inferieur » ×2 (svg-desc)
+- `js/data/6e/6e-division.js:170` — « superieur » ×1 (svg-desc)
+- `js/data/6e/6e-division.js:170` — « premiere » ×1 (svg-desc)
+- `js/data/6e/6e-division.js:261` — « repartir » ×1 (svg-desc)
+- `js/data/6e/6e-division.js:261` — « differents » ×1 (svg-desc)
+- `js/data/6e/6e-division.js:118` — « etre » ×1 (svg-desc)
+- `js/data/6e/6e-figures-geometriques.js:21` — « meme » ×3 (svg-desc)
+- `js/data/6e/6e-figures-geometriques.js:132` — « memes » ×2 (svg-desc)
+- `js/data/6e/6e-figures-geometriques.js:132` — « premiere » ×1 (svg-desc)
+- `js/data/6e/6e-figures-geometriques.js:201` — « differents » ×1 (svg-desc)
+- `js/data/6e/6e-figures-geometriques.js:201` — « egalite » ×1 (svg-desc)
+- `js/data/6e/6e-figures-geometriques.js:201` — « diametre » ×2 (svg-desc)
+- `js/data/6e/6e-figures-geometriques.js:119` — « propriete » ×1 (svg-desc)
+- `js/data/6e/6e-figures-geometriques.js:201` — « egale » ×3 (svg-desc)
+- `js/data/6e/6e-figures-geometriques.js:271` — « differentes » ×1 (svg-desc)
+- `js/data/6e/6e-figures-geometriques.js:271` — « interieur » ×1 (svg-desc)
+- `js/data/6e/6e-figures-geometriques.js:271` — « exterieur » ×1 (svg-desc)
+- `js/data/6e/6e-figures-geometriques.js:271` — « ecrites » ×1 (svg-desc)
+- `js/data/6e/6e-fractions.js:67` — « meme » ×8 (svg-desc)
+- `js/data/6e/6e-fractions.js:23` — « premiere » ×1 (svg-desc)
+- `js/data/6e/6e-fractions.js:130` — « egales » ×3 (svg-desc)
+- `js/data/6e/6e-fractions.js:130` — « quantite » ×1 (svg-desc)
+- `js/data/6e/6e-fractions.js:193` — « superieur » ×2 (svg-desc)
+- `js/data/6e/6e-fractions.js:114` — « differentes » ×1 (svg-desc)
+- `js/data/6e/6e-fractions.js:264` — « verifie » ×1 (svg-desc)
+- `js/data/6e/6e-fractions.js:264` — « derniere » ×1 (svg-desc)
+- `js/data/6e/6e-fractions.js:264` — « complete » ×1 (svg-desc)
+- `js/data/6e/6e-multiplication.js:61` — « schema » ×1 (svg-desc)
+- `js/data/6e/6e-multiplication.js:109` — « memes » ×1 (svg-desc)
+- `js/data/6e/6e-multiplication.js:109` — « meme » ×1 (svg-desc)
+- `js/data/6e/6e-multiplication.js:109` — « ecrite » ×1 (svg-desc)
+- `js/data/6e/6e-multiplication.js:109` — « egale » ×2 (svg-desc)
+- `js/data/6e/6e-multiplication.js:192` — « etapes » ×1 (svg-desc)
+- `js/data/6e/6e-multiplication.js:192` — « premiere » ×1 (svg-desc)
+- `js/data/6e/6e-multiplication.js:192` — « etape » ×3 (svg-desc)
+- `js/data/6e/6e-multiplication.js:192` — « apres » ×1 (svg-desc)
+- `js/data/6e/6e-multiplication.js:192` — « etre » ×1 (svg-desc)
+- `js/data/6e/6e-multiplication.js:192` — « inferieur » ×1 (svg-desc)
+- `js/data/6e/6e-multiplication.js:192` — « verifie » ×1 (svg-desc)
+- `js/data/6e/6e-multiplication.js:252` — « methode » ×2 (svg-desc)
+- `js/data/6e/6e-multiplication.js:253` — « egal » ×1 (svg-desc)
+- `js/data/6e/6e-multiplication.js:253` — « ete » ×1 (svg-desc)
+- `js/data/6e/6e-multiplication.js:253` — « decimal » ×1 (svg-desc)
+- `js/data/6e/6e-nombres-decimaux.js:62` — « schema » ×1 (svg-desc)
+- `js/data/6e/6e-nombres-decimaux.js:62` — « etant » ×1 (svg-desc)
+- `js/data/6e/6e-nombres-decimaux.js:62` — « meme » ×3 (svg-desc)
+- `js/data/6e/6e-nombres-decimaux.js:17` — « reelle » ×1 (svg-desc)
+- `js/data/6e/6e-nombres-decimaux.js:122` — « derniere » ×1 (svg-desc)
+- `js/data/6e/6e-nombres-decimaux.js:177` — « ecrits » ×1 (svg-desc)
+- `js/data/6e/6e-nombres-decimaux.js:177` — « superieur » ×1 (svg-desc)
+- `js/data/6e/6e-nombres-decimaux.js:238` — « egales » ×1 (svg-desc)
+- `js/data/6e/6e-nombres-decimaux.js:238` — « inferieur » ×2 (svg-desc)
+- `js/data/6e/6e-perimetres-aires.js:18` — « perimetre » ×5 (svg-desc)
+- `js/data/6e/6e-perimetres-aires.js:17` — « meme » ×4 (svg-desc)
+- `js/data/6e/6e-perimetres-aires.js:17` — « differentes » ×1 (svg-desc)
+- `js/data/6e/6e-perimetres-aires.js:114` — « carre » ×7 (svg-desc)
+- `js/data/6e/6e-perimetres-aires.js:114` — « carres » ×9 (svg-desc)
+- `js/data/6e/6e-perimetres-aires.js:94` — « eleve » ×2 (svg-desc)
+- `js/data/6e/6e-symetrie-axiale.js:124` — « etapes » ×1 (svg-desc)
+- `js/data/6e/6e-symetrie-axiale.js:124` — « symetrique » ×3 (svg-desc)
+- `js/data/6e/6e-symetrie-axiale.js:125` — « premiere » ×1 (svg-desc)
+- `js/data/6e/6e-symetrie-axiale.js:125` — « meme » ×2 (svg-desc)
+- `js/data/6e/6e-symetrie-axiale.js:20` — « mediatrice » ×1 (svg-desc)
+- `js/data/6e/6e-symetrie-axiale.js:189` — « egale » ×1 (svg-desc)
+- `js/data/6e/6e-symetrie-axiale.js:2` — « symetrie » ×4 (svg-desc)
+- `js/data/6e/6e-symetrie-axiale.js:244` — « carre » ×1 (svg-desc)
+- `js/data/6e/6e-symetrie-axiale.js:244` — « equilateral » ×1 (svg-desc)
+- `js/data/6e/6e-volumes.js:59` — « arete » ×3 (svg-desc)
+- `js/data/6e/6e-volumes.js:59` — « egalite » ×1 (svg-desc)
+- `js/data/6e/6e-volumes.js:59` — « egale » ×1 (svg-desc)
+- `js/data/6e/6e-volumes.js:105` — « carres » ×1 (svg-desc)
+- `js/data/6e/6e-volumes.js:222` — « metre » ×3 (svg-desc)
+- `js/data/5e/5e-aires-perimetres.js:51` — « metres » ×3 (svg-desc)
+- `js/data/5e/5e-aires-perimetres.js:85` — « carre » ×9 (svg-desc)
+- `js/data/5e/5e-aires-perimetres.js:94` — « carres » ×9 (svg-desc)
+- `js/data/5e/5e-aires-perimetres.js:105` — « superieur » ×2 (svg-desc)
+- `js/data/5e/5e-aires-perimetres.js:80` — « meme » ×7 (svg-desc)
+- `js/data/5e/5e-aires-perimetres.js:161` — « difference » ×1 (svg-desc)
+- `js/data/5e/5e-aires-perimetres.js:199` — « interieur » ×1 (svg-desc)
+- `js/data/5e/5e-angles-parallelisme.js:95` — « meme » ×5 (svg-desc)
+- `js/data/5e/5e-angles-parallelisme.js:107` — « degres » ×7 (svg-desc)
+- `js/data/5e/5e-angles-parallelisme.js:107` — « egaux » ×3 (svg-desc)
+- `js/data/5e/5e-angles-parallelisme.js:155` — « difference » ×1 (svg-desc)
+- `js/data/5e/5e-angles-parallelisme.js:90` — « demonstration » ×1 (svg-desc)
+- `js/data/5e/5e-angles-parallelisme.js:201` — « parallele » ×3 (svg-desc)
+- `js/data/5e/5e-expressions-litterales.js:103` — « differentes » ×1 (svg-desc)
+- `js/data/5e/5e-expressions-litterales.js:86` — « meme » ×3 (svg-desc)
+- `js/data/5e/5e-expressions-litterales.js:104` — « difference » ×1 (svg-desc)
+- `js/data/5e/5e-expressions-litterales.js:160` — « ecrit » ×1 (svg-desc)
+- `js/data/5e/5e-expressions-litterales.js:160` — « etre » ×1 (svg-desc)
+- `js/data/5e/5e-expressions-litterales.js:160` — « reduite » ×1 (svg-desc)
+- `js/data/5e/5e-expressions-litterales.js:160` — « different » ×1 (svg-desc)
+- `js/data/5e/5e-expressions-litterales.js:92` — « carre » ×3 (svg-desc)
+- `js/data/5e/5e-expressions-litterales.js:199` — « egal » ×3 (svg-desc)
+- `js/data/5e/5e-expressions-litterales.js:199` — « ecart » ×1 (svg-desc)
+- `js/data/5e/5e-fractions-operations.js:55` — « meme » ×6 (svg-desc)
+- `js/data/5e/5e-fractions-operations.js:161` — « premiere » ×2 (svg-desc)
+- `js/data/5e/5e-fractions-operations.js:161` — « reelle » ×1 (svg-desc)
+- `js/data/5e/5e-fractions-operations.js:142` — « denominateurs » ×2 (svg-desc)
+- `js/data/5e/5e-fractions-operations.js:161` — « quantites » ×1 (svg-desc)
+- `js/data/5e/5e-fractions-operations.js:18` — « etre » ×1 (svg-desc)
+- `js/data/5e/5e-fractions-operations.js:207` — « memes » ×1 (svg-desc)
+- `js/data/5e/5e-fractions-operations.js:207` — « egales » ×1 (svg-desc)
+- `js/data/5e/5e-fractions-operations.js:279` — « carre » ×2 (svg-desc)
+- `js/data/5e/5e-fractions-operations.js:280` — « entiere » ×1 (svg-desc)
+- `js/data/5e/5e-fractions-operations.js:280` — « representer » ×2 (svg-desc)
+- `js/data/5e/5e-fractions-operations.js:17` — « denominateur » ×1 (svg-desc)
+- `js/data/5e/5e-fractions-operations.js:280` — « ete » ×1 (svg-desc)
+- `js/data/5e/5e-nombres-relatifs.js:104` — « deplacement » ×1 (svg-desc)
+- `js/data/5e/5e-nombres-relatifs.js:163` — « meme » ×4 (svg-desc)
+- `js/data/5e/5e-nombres-relatifs.js:163` — « different » ×1 (svg-desc)
+- `js/data/5e/5e-nombres-relatifs.js:106` — « egale » ×1 (svg-desc)
+- `js/data/5e/5e-nombres-relatifs.js:206` — « differents » ×1 (svg-desc)
+- `js/data/5e/5e-nombres-relatifs.js:206` — « negatif » ×1 (svg-desc)
+- `js/data/5e/5e-parallelogrammes.js:62` — « carre » ×3 (svg-desc)
+- `js/data/5e/5e-parallelogrammes.js:63` — « egalite » ×1 (svg-desc)
+- `js/data/5e/5e-parallelogrammes.js:63` — « egaux » ×1 (svg-desc)
+- `js/data/5e/5e-parallelogrammes.js:192` — « superieur » ×1 (svg-desc)
+- `js/data/5e/5e-parallelogrammes.js:26` — « meme » ×7 (svg-desc)
+- `js/data/5e/5e-priorites-operations.js:54` — « carre » ×2 (svg-desc)
+- `js/data/5e/5e-priorites-operations.js:54` — « etape » ×2 (svg-desc)
+- `js/data/5e/5e-priorites-operations.js:54` — « egale » ×6 (svg-desc)
+- `js/data/5e/5e-priorites-operations.js:107` — « meme » ×5 (svg-desc)
+- `js/data/5e/5e-priorites-operations.js:125` — « paralleles » ×1 (svg-desc)
+- `js/data/5e/5e-priorites-operations.js:125` — « ecrit » ×1 (svg-desc)
+- `js/data/5e/5e-priorites-operations.js:125` — « differents » ×1 (svg-desc)
+- `js/data/5e/5e-priorites-operations.js:166` — « different » ×2 (svg-desc)
+- `js/data/5e/5e-priorites-operations.js:2` — « operations » ×2 (svg-desc)
+- `js/data/5e/5e-priorites-operations.js:208` — « memes » ×1 (svg-desc)
+- `js/data/5e/5e-priorites-operations.js:208` — « ecrits » ×1 (svg-desc)
+- `js/data/5e/5e-probabilites.js:2` — « probabilites » ×2 (svg-desc)
+- `js/data/5e/5e-probabilites.js:51` — « reperes » ×1 (svg-desc)
+- `js/data/5e/5e-probabilites.js:110` — « egaux » ×1 (svg-desc)
+- `js/data/5e/5e-probabilites.js:111` — « degres » ×1 (svg-desc)
+- `js/data/5e/5e-probabilites.js:122` — « meme » ×1 (svg-desc)
+- `js/data/5e/5e-probabilites.js:17` — « probabilite » ×2 (svg-desc)
+- `js/data/5e/5e-probabilites.js:122` — « memes » ×1 (svg-desc)
+- `js/data/5e/5e-probabilites.js:122` — « egales » ×3 (svg-desc)
+- `js/data/5e/5e-probabilites.js:171` — « entiere » ×1 (svg-desc)
+- `js/data/5e/5e-probabilites.js:217` — « piece » ×2 (svg-desc)
+- `js/data/5e/5e-probabilites.js:217` — « deja » ×2 (svg-desc)
+- `js/data/5e/5e-probabilites.js:218` — « pieces » ×1 (svg-desc)
+- `js/data/5e/5e-proportionnalite.js:50` — « reelle » ×2 (svg-desc)
+- `js/data/5e/5e-proportionnalite.js:51` — « metres » ×3 (svg-desc)
+- `js/data/5e/5e-proportionnalite.js:99` — « meme » ×5 (svg-desc)
+- `js/data/5e/5e-proportionnalite.js:115` — « premiere » ×1 (svg-desc)
+- `js/data/5e/5e-proportionnalite.js:115` — « apres » ×2 (svg-desc)
+- `js/data/5e/5e-proportionnalite.js:115` — « inferieur » ×1 (svg-desc)
+- `js/data/5e/5e-proportionnalite.js:115` — « repere » ×1 (svg-desc)
+- `js/data/5e/5e-proportionnalite.js:155` — « differents » ×1 (svg-desc)
+- `js/data/5e/5e-proportionnalite.js:221` — « differentes » ×1 (svg-desc)
+- `js/data/5e/5e-proportionnalite.js:222` — « eleves » ×3 (svg-desc)
+- `js/data/5e/5e-statistiques.js:121` — « meme » ×7 (svg-desc)
+- `js/data/5e/5e-statistiques.js:121` — « donnees » ×1 (svg-desc)
+- `js/data/5e/5e-statistiques.js:121` — « premieres » ×1 (svg-desc)
+- `js/data/5e/5e-statistiques.js:176` — « differents » ×1 (svg-desc)
+- `js/data/5e/5e-statistiques.js:111` — « eleves » ×2 (svg-desc)
+- `js/data/5e/5e-statistiques.js:177` — « reponse » ×1 (svg-desc)
+- `js/data/5e/5e-statistiques.js:106` — « etendue » ×3 (svg-desc)
+- `js/data/5e/5e-statistiques.js:249` — « differentes » ×1 (svg-desc)
+- `js/data/5e/5e-symetrie-centrale.js:104` — « symetrique » ×5 (svg-desc)
+- `js/data/5e/5e-symetrie-centrale.js:99` — « meme » ×9 (svg-desc)
+- `js/data/5e/5e-symetrie-centrale.js:2` — « symetrie » ×5 (svg-desc)
+- `js/data/5e/5e-symetrie-centrale.js:124` — « differentes » ×1 (svg-desc)
+- `js/data/5e/5e-symetrie-centrale.js:126` — « repere » ×1 (svg-desc)
+- `js/data/5e/5e-symetrie-centrale.js:113` — « verifie » ×1 (svg-desc)
+- `js/data/5e/5e-symetrie-centrale.js:165` — « decimale » ×1 (svg-desc)
+- `js/data/5e/5e-symetrie-centrale.js:165` — « egalite » ×1 (svg-desc)
+- `js/data/5e/5e-symetrie-centrale.js:220` — « reperes » ×1 (svg-desc)
+- `js/data/5e/5e-triangles.js:51` — « isocele » ×4 (svg-desc)
+- `js/data/5e/5e-triangles.js:51` — « equilateral » ×2 (svg-desc)
+- `js/data/5e/5e-triangles.js:52` — « egalite » ×2 (svg-desc)
+- `js/data/5e/5e-triangles.js:52` — « egaux » ×2 (svg-desc)
+- `js/data/5e/5e-triangles.js:52` — « carre » ×1 (svg-desc)
+- `js/data/5e/5e-triangles.js:109` — « ecart » ×1 (svg-desc)
+- `js/data/5e/5e-triangles.js:151` — « premieres » ×1 (svg-desc)
+- `js/data/5e/5e-triangles.js:151` — « egale » ×1 (svg-desc)
+- `js/data/5e/5e-triangles.js:190` — « meme » ×1 (svg-desc)
+- `js/data/5e/5e-triangles.js:190` — « degres » ×2 (svg-desc)
+- `js/data/5e/5e-volumes.js:104` — « meme » ×9 (svg-desc)
+- `js/data/5e/5e-volumes.js:106` — « arete » ×6 (svg-desc)
+- `js/data/5e/5e-volumes.js:123` — « interieur » ×1 (svg-desc)
+- `js/data/5e/5e-volumes.js:123` — « egaux » ×1 (svg-desc)
+- `js/data/5e/5e-volumes.js:107` — « diametre » ×2 (svg-desc)
+- `js/data/5e/5e-volumes.js:230` — « carres » ×2 (svg-desc)
+- `js/data/5e/5e-volumes.js:230` — « superieur » ×1 (svg-desc)
+- `js/data/5e/reperage-graphique.js:122` — « repere » ×1 (svg-desc)
+- `js/data/5e/reperage-graphique.js:124` — « ordonnee » ×2 (svg-desc)
+- `js/data/5e/reperage-graphique.js:124` — « derniere » ×1 (svg-desc)
+- `js/data/5e/reperage-graphique.js:178` — « ecrit » ×1 (svg-desc)
+- `js/data/5e/reperage-graphique.js:19` — « meme » ×4 (svg-desc)
+- `js/data/5e/reperage-graphique.js:178` — « numerateur » ×1 (svg-desc)
+- `js/data/5e/reperage-graphique.js:178` — « denominateur » ×1 (svg-desc)
+- `js/data/5e/reperage-graphique.js:227` — « memes » ×2 (svg-desc)
+- `js/data/5e/reperage-graphique.js:227` — « differentes » ×1 (svg-desc)
+- `js/data/5e/reperage-graphique.js:228` — « tres » ×1 (svg-desc)
+- `js/data/4e/4e-cosinus.js:125` — « differentes » ×1 (svg-desc)
+- `js/data/4e/4e-cosinus.js:125` — « meme » ×6 (svg-desc)
+- `js/data/4e/4e-cosinus.js:126` — « hypotenuse » ×6 (svg-desc)
+- `js/data/4e/4e-cosinus.js:126` — « degres » ×1 (svg-desc)
+- `js/data/4e/4e-cosinus.js:130` — « eleve » ×1 (svg-desc)
+- `js/data/4e/4e-droites-remarquables.js:58` — « meme » ×5 (svg-desc)
+- `js/data/4e/4e-droites-remarquables.js:64` — « differentes » ×2 (svg-desc)
+- `js/data/4e/4e-droites-remarquables.js:64` — « interieur » ×2 (svg-desc)
+- `js/data/4e/4e-droites-remarquables.js:145` — « mediane » ×6 (svg-desc)
+- `js/data/4e/4e-droites-remarquables.js:145` — « mediatrice » ×2 (svg-desc)
+- `js/data/4e/4e-droites-remarquables.js:164` — « carre » ×1 (svg-desc)
+- `js/data/4e/4e-droites-remarquables.js:245` — « exterieur » ×1 (svg-desc)
+- `js/data/4e/4e-droites-remarquables.js:245` — « egale » ×1 (svg-desc)
+- `js/data/4e/4e-droites-remarquables.js:245` — « propriete » ×1 (svg-desc)
+- `js/data/4e/4e-fractions-mult-div.js:124` — « meme » ×4 (svg-desc)
+- `js/data/4e/4e-fractions-mult-div.js:14` — « eleve » ×1 (svg-desc)
+- `js/data/4e/4e-fractions-mult-div.js:161` — « premiere » ×1 (svg-desc)
+- `js/data/4e/4e-fractions-mult-div.js:161` — « different » ×1 (svg-desc)
+- `js/data/4e/4e-fractions-mult-div.js:161` — « superieur » ×1 (svg-desc)
+- `js/data/4e/4e-fractions-mult-div.js:161` — « inferieur » ×1 (svg-desc)
+- `js/data/4e/4e-probabilites.js:104` — « eleves » ×1 (svg-desc)
+- `js/data/4e/4e-probabilites.js:151` — « evenements » ×4 (svg-desc)
+- `js/data/4e/4e-probabilites.js:16` — « meme » ×1 (svg-desc)
+- `js/data/4e/4e-probabilites.js:105` — « evenement » ×3 (svg-desc)
+- `js/data/4e/4e-probabilites.js:187` — « interieur » ×1 (svg-desc)
+- `js/data/4e/4e-probabilites.js:11` — « probabilite » ×2 (svg-desc)
+- `js/data/4e/4e-probabilites.js:3` — « probabilites » ×1 (svg-desc)
+- `js/data/4e/4e-pythagore.js:59` — « theoreme » ×1 (svg-desc)
+- `js/data/4e/4e-pythagore.js:60` — « schema » ×1 (svg-desc)
+- `js/data/4e/4e-pythagore.js:112` — « carres » ×2 (svg-desc)
+- `js/data/4e/4e-pythagore.js:112` — « difference » ×1 (svg-desc)
+- `js/data/4e/4e-pythagore.js:98` — « meme » ×2 (svg-desc)
+- `js/data/4e/4e-pythagore.js:157` — « differentes » ×2 (svg-desc)
+- `js/data/4e/4e-pythagore.js:158` — « carre » ×3 (svg-desc)
+- `js/data/4e/4e-pythagore.js:158` — « particuliere » ×1 (svg-desc)
+- `js/data/4e/4e-pythagore.js:116` — « etre » ×1 (svg-desc)
+- `js/data/4e/4e-pythagore.js:215` — « reciproque » ×1 (svg-desc)
+- `js/data/4e/4e-relatifs-mult-div.js:179` — « negatifs » ×3 (svg-desc)
+- `js/data/4e/4e-relatifs-mult-div.js:194` — « negatif » ×2 (svg-desc)
+- `js/data/4e/4e-relatifs-mult-div.js:227` — « carre » ×2 (svg-desc)
+- `js/data/4e/4e-relatifs-mult-div.js:229` — « ecriture » ×2 (svg-desc)
+- `js/data/4e/4e-relatifs-mult-div.js:262` — « memes » ×2 (svg-desc)
+- `js/data/4e/4e-statistiques.js:11` — « mediane » ×7 (svg-desc)
+- `js/data/4e/4e-statistiques.js:146` — « tres » ×1 (svg-desc)
+- `js/data/4e/4e-statistiques.js:196` — « ordonnees » ×2 (svg-desc)
+- `js/data/4e/4e-statistiques.js:236` — « meme » ×1 (svg-desc)
+- `js/data/4e/4e-statistiques.js:236` — « different » ×1 (svg-desc)
+- `js/data/4e/4e-statistiques.js:236` — « memes » ×1 (svg-desc)
+- `js/data/4e/4e-translations.js:63` — « repere » ×1 (svg-desc)
+- `js/data/4e/4e-translations.js:125` — « meme » ×10 (svg-desc)
+- `js/data/4e/4e-translations.js:142` — « differents » ×2 (svg-desc)
+- `js/data/4e/4e-translations.js:246` — « memes » ×2 (svg-desc)
+- `js/data/4e/4e-translations.js:246` — « paralleles » ×1 (svg-desc)
+- `js/data/4e/4e-translations.js:145` — « deplacement » ×1 (svg-desc)
+- `js/data/4e/4e-triangle-rectangle-cercle.js:62` — « carre » ×3 (svg-desc)
+- `js/data/4e/4e-triangle-rectangle-cercle.js:108` — « meme » ×2 (svg-desc)
+- `js/data/4e/4e-triangle-rectangle-cercle.js:92` — « diametre » ×6 (svg-desc)
+- `js/data/4e/4e-triangle-rectangle-cercle.js:109` — « differents » ×1 (svg-desc)
+- `js/data/4e/4e-triangle-rectangle-cercle.js:109` — « superieur » ×1 (svg-desc)
+- `js/data/4e/4e-triangle-rectangle-cercle.js:109` — « tres » ×1 (svg-desc)
+- `js/data/4e/4e-triangle-rectangle-cercle.js:109` — « differentes » ×1 (svg-desc)
+- `js/data/4e/4e-triangle-rectangle-cercle.js:157` — « degres » ×1 (svg-desc)
+- `js/data/4e/4e-triangle-rectangle-cercle.js:92` — « hypothese » ×1 (svg-desc)
+- `js/data/4e/4e-triangle-rectangle-cercle.js:94` — « hypotenuse » ×4 (svg-desc)
+- `js/data/4e/4e-triangle-rectangle-cercle.js:205` — « egaux » ×1 (svg-desc)
+- `js/data/4e/4e-triangle-rectangle-cercle.js:205` — « egales » ×1 (svg-desc)
+- `js/data/4e/4e-volumes.js:105` — « meme » ×5 (svg-desc)
+- `js/data/4e/4e-volumes.js:106` — « egales » ×1 (svg-desc)
+- `js/data/4e/4e-volumes.js:147` — « difference » ×1 (svg-desc)
+- `js/data/4e/4e-volumes.js:148` — « carre » ×1 (svg-desc)
+- `js/data/4e/calcul-algebrique.js:126` — « resolution » ×1 (svg-desc)
+- `js/data/4e/calcul-algebrique.js:15` — « equation » ×2 (svg-desc)
+- `js/data/4e/calcul-algebrique.js:126` — « etape » ×2 (svg-desc)
+- `js/data/4e/calcul-algebrique.js:113` — « etapes » ×1 (svg-desc)
+- `js/data/4e/calcul-algebrique.js:127` — « egal » ×7 (svg-desc)
+- `js/data/4e/calcul-algebrique.js:112` — « operations » ×1 (svg-desc)
+- `js/data/4e/calcul-algebrique.js:172` — « egalite » ×1 (svg-desc)
+- `js/data/4e/calcul-algebrique.js:13` — « eleve » ×1 (svg-desc)
+- `js/data/4e/calcul-algebrique.js:203` — « verification » ×1 (svg-desc)
+- `js/data/4e/calcul-algebrique.js:204` — « different » ×1 (svg-desc)
+- `js/data/4e/puissances.js:56` — « reperes » ×1 (svg-desc)
+- `js/data/4e/puissances.js:56` — « reels » ×1 (svg-desc)
+- `js/data/4e/puissances.js:115` — « negatif » ×1 (svg-desc)
+- `js/data/4e/puissances.js:130` — « negatifs » ×1 (svg-desc)
+- `js/data/4e/puissances.js:174` — « meme » ×3 (svg-desc)
+- `js/data/4e/puissances.js:175` — « ecrit » ×1 (svg-desc)
+- `js/data/4e/puissances.js:175` — « premiere » ×1 (svg-desc)
+- `js/data/4e/puissances.js:175` — « ecriture » ×1 (svg-desc)
+- `js/data/4e/puissances.js:211` — « etape » ×1 (svg-desc)
+- `js/data/4e/puissances.js:211` — « different » ×1 (svg-desc)
+- `js/data/3e/3e-algorithmique.js:61` — « inferieur » ×1 (svg-desc)
+- `js/data/3e/3e-algorithmique.js:61` — « egal » ×2 (svg-desc)
+- `js/data/3e/3e-algorithmique.js:61` — « carre » ×1 (svg-desc)
+- `js/data/3e/3e-algorithmique.js:148` — « apres » ×4 (svg-desc)
+- `js/data/3e/3e-algorithmique.js:148` — « premiere » ×1 (svg-desc)
+- `js/data/3e/3e-algorithmique.js:148` — « superieur » ×1 (svg-desc)
+- `js/data/3e/3e-algorithmique.js:148` — « equation » ×1 (svg-desc)
+- `js/data/3e/3e-arithmetique.js:60` — « schema » ×1 (svg-desc)
+- `js/data/3e/3e-equations-inequations.js:63` — « inegalite » ×1 (svg-desc)
+- `js/data/3e/3e-equations-inequations.js:63` — « superieur » ×1 (svg-desc)
+- `js/data/3e/3e-equations-inequations.js:142` — « apres » ×1 (svg-desc)
+- `js/data/3e/3e-equations-inequations.js:143` — « meme » ×7 (svg-desc)
+- `js/data/3e/3e-equations-inequations.js:143` — « etant » ×1 (svg-desc)
+- `js/data/3e/3e-equations-inequations.js:143` — « ete » ×1 (svg-desc)
+- `js/data/3e/3e-equations-inequations.js:188` — « egaux » ×1 (svg-desc)
+- `js/data/3e/3e-equations-inequations.js:188` — « different » ×1 (svg-desc)
+- `js/data/3e/3e-fonctions-affines.js:59` — « lineaire » ×2 (svg-desc)
+- `js/data/3e/3e-fonctions-affines.js:59` — « repere » ×5 (svg-desc)
+- `js/data/3e/3e-fonctions-affines.js:60` — « paralleles » ×1 (svg-desc)
+- `js/data/3e/3e-fonctions-affines.js:60` — « egale » ×2 (svg-desc)
+- `js/data/3e/3e-fonctions-affines.js:146` — « differents » ×1 (svg-desc)
+- `js/data/3e/3e-fonctions-affines.js:147` — « meme » ×4 (svg-desc)
+- `js/data/3e/3e-fonctions-affines.js:147` — « premiere » ×2 (svg-desc)
+- `js/data/3e/3e-fonctions-affines.js:147` — « tres » ×2 (svg-desc)
+- `js/data/3e/3e-fonctions-affines.js:208` — « reperes » ×1 (svg-desc)
+- `js/data/3e/3e-fonctions-affines.js:208` — « ordonnee » ×2 (svg-desc)
+- `js/data/3e/3e-fonctions-affines.js:208` — « ecart » ×4 (svg-desc)
+- `js/data/3e/3e-fonctions.js:161` — « ordonnee » ×1 (svg-desc)
+- `js/data/3e/3e-fonctions.js:213` — « meme » ×2 (svg-desc)
+- `js/data/3e/3e-fonctions.js:213` — « differentes » ×1 (svg-desc)
+- `js/data/3e/3e-fonctions.js:249` — « equation » ×2 (svg-desc)
+- `js/data/3e/3e-fonctions.js:250` — « egale » ×3 (svg-desc)
+- `js/data/3e/3e-fonctions.js:250` — « verification » ×1 (svg-desc)
+- `js/data/3e/3e-fonctions.js:250` — « eleve » ×1 (svg-desc)
+- `js/data/3e/3e-homotheties.js:75` — « homothetie » ×7 (svg-desc)
+- `js/data/3e/3e-homotheties.js:77` — « schema » ×1 (svg-desc)
+- `js/data/3e/3e-homotheties.js:77` — « meme » ×5 (svg-desc)
+- `js/data/3e/3e-homotheties.js:163` — « negatif » ×1 (svg-desc)
+- `js/data/3e/3e-homotheties.js:229` — « carre » ×5 (svg-desc)
+- `js/data/3e/3e-homotheties.js:230` — « ete » ×1 (svg-desc)
+- `js/data/3e/3e-homotheties.js:269` — « symetrie » ×1 (svg-desc)
+- `js/data/3e/3e-identites-remarquables.js:55` — « carre » ×22 (svg-desc)
+- `js/data/3e/3e-identites-remarquables.js:56` — « schema » ×1 (svg-desc)
+- `js/data/3e/3e-identites-remarquables.js:130` — « meme » ×3 (svg-desc)
+- `js/data/3e/3e-identites-remarquables.js:130` — « carres » ×3 (svg-desc)
+- `js/data/3e/3e-identites-remarquables.js:130` — « etant » ×1 (svg-desc)
+- `js/data/3e/3e-identites-remarquables.js:186` — « premiere » ×1 (svg-desc)
+- `js/data/3e/3e-identites-remarquables.js:186` — « egale » ×1 (svg-desc)
+- `js/data/3e/3e-identites-remarquables.js:155` — « difference » ×2 (svg-desc)
+- `js/data/3e/3e-identites-remarquables.js:253` — « developpement » ×2 (svg-desc)
+- `js/data/3e/3e-sections-solides.js:77` — « parallele » ×4 (svg-desc)
+- `js/data/3e/3e-sections-solides.js:184` — « meme » ×7 (svg-desc)
+- `js/data/3e/3e-sections-solides.js:184` — « arete » ×2 (svg-desc)
+- `js/data/3e/3e-sections-solides.js:184` — « interieur » ×1 (svg-desc)
+- `js/data/3e/3e-sections-solides.js:184` — « etre » ×1 (svg-desc)
+- `js/data/3e/3e-sections-solides.js:87` — « aretes » ×1 (svg-desc)
+- `js/data/3e/3e-sections-solides.js:313` — « carres » ×1 (svg-desc)
+- `js/data/3e/3e-sections-solides.js:313` — « carre » ×4 (svg-desc)
+- `js/data/3e/3e-sections-solides.js:313` — « ete » ×1 (svg-desc)
+- `js/data/3e/3e-stats-probas.js:69` — « eleves » ×11 (svg-desc)
+- `js/data/3e/3e-stats-probas.js:126` — « frequences » ×1 (svg-desc)
+- `js/data/3e/3e-stats-probas.js:19` — « meme » ×4 (svg-desc)
+- `js/data/3e/3e-stats-probas.js:127` — « premiere » ×1 (svg-desc)
+- `js/data/3e/3e-stats-probas.js:127` — « tres » ×1 (svg-desc)
+- `js/data/3e/3e-stats-probas.js:127` — « differents » ×1 (svg-desc)
+- `js/data/3e/3e-stats-probas.js:167` — « probabilites » ×2 (svg-desc)
+- `js/data/3e/3e-stats-probas.js:168` — « probabilite » ×2 (svg-desc)
+- `js/data/3e/3e-systemes.js:62` — « repere » ×1 (svg-desc)
+- `js/data/3e/3e-systemes.js:62` — « equation » ×3 (svg-desc)
+- `js/data/3e/3e-systemes.js:62` — « egal » ×2 (svg-desc)
+- `js/data/3e/3e-systemes.js:62` — « systeme » ×4 (svg-desc)
+- `js/data/3e/3e-systemes.js:166` — « reperes » ×1 (svg-desc)
+- `js/data/3e/3e-systemes.js:166` — « meme » ×4 (svg-desc)
+- `js/data/3e/3e-systemes.js:166` — « ordonnee » ×1 (svg-desc)
+- `js/data/3e/3e-systemes.js:166` — « facon » ×1 (svg-desc)
+- `js/data/3e/3e-systemes.js:166` — « paralleles » ×1 (svg-desc)
+- `js/data/3e/3e-thales.js:78` — « schema » ×1 (svg-desc)
+- `js/data/3e/3e-thales.js:78` — « paralleles » ×3 (svg-desc)
+- `js/data/3e/3e-thales.js:142` — « memes » ×1 (svg-desc)
+- `js/data/3e/3e-thales.js:142` — « egaux » ×2 (svg-desc)
+- `js/data/3e/3e-thales.js:142` — « theoreme » ×1 (svg-desc)
+- `js/data/3e/3e-thales.js:142` — « meme » ×1 (svg-desc)
+- `js/data/3e/3e-thales.js:142` — « facon » ×1 (svg-desc)
+- `js/data/3e/3e-thales.js:201` — « ecriture » ×4 (svg-desc)
+- `js/data/3e/3e-thales.js:202` — « egal » ×2 (svg-desc)
+- `js/data/3e/3e-thales.js:202` — « numerateur » ×1 (svg-desc)
+- `js/data/3e/3e-thales.js:239` — « degres » ×1 (svg-desc)
+- `js/data/3e/3e-thales.js:239` — « difference » ×1 (svg-desc)
+- `js/data/3e/3e-volumes.js:59` — « schema » ×1 (svg-desc)
+- `js/data/3e/3e-volumes.js:136` — « arete » ×4 (svg-desc)
+- `js/data/3e/3e-volumes.js:137` — « ete » ×1 (svg-desc)
+- `js/data/3e/3e-volumes.js:212` — « diametre » ×3 (svg-desc)
+- `js/data/3e/3e-volumes.js:212` — « meme » ×2 (svg-desc)
+- `js/data/3e/trigonometrie.js:63` — « hypotenuse » ×9 (svg-desc)
+- `js/data/3e/trigonometrie.js:63` — « degres » ×2 (svg-desc)
+- `js/data/3e/trigonometrie.js:80` — « meme » ×2 (svg-desc)
+- `js/data/3e/trigonometrie.js:155` — « memes » ×1 (svg-desc)
+- `js/data/3e/trigonometrie.js:216` — « derniere » ×1 (svg-desc)
+- `js/data/3e/trigonometrie.js:216` — « complete » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-algorithmique.js:79` — « egal » ×3 (svg-desc)
+- `js/data/lycee-2nde/2nde-algorithmique.js:79` — « inferieur » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-algorithmique.js:167` — « meme » ×2 (svg-desc)
+- `js/data/lycee-2nde/2nde-algorithmique.js:167` — « eleve » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-algorithmique.js:167` — « premiere » ×2 (svg-desc)
+- `js/data/lycee-2nde/2nde-algorithmique.js:167` — « derniere » ×2 (svg-desc)
+- `js/data/lycee-2nde/2nde-algorithmique.js:167` — « different » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-algorithmique.js:222` — « apres » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-algorithmique.js:284` — « superieure » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-algorithmique.js:284` — « egale » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-calcul-algebrique.js:80` — « carre » ×8 (svg-desc)
+- `js/data/lycee-2nde/2nde-calcul-algebrique.js:82` — « egaux » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-calcul-algebrique.js:146` — « carres » ×2 (svg-desc)
+- `js/data/lycee-2nde/2nde-calcul-algebrique.js:146` — « difference » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-calcul-algebrique.js:147` — « meme » ×4 (svg-desc)
+- `js/data/lycee-2nde/2nde-calcul-algebrique.js:147` — « repere » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-calcul-algebrique.js:147` — « ordonnee » ×2 (svg-desc)
+- `js/data/lycee-2nde/2nde-calcul-algebrique.js:200` — « resoudre » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-calcul-algebrique.js:200` — « equation » ×3 (svg-desc)
+- `js/data/lycee-2nde/2nde-calcul-algebrique.js:201` — « egale » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-calcul-algebrique.js:201` — « etapes » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-calcul-algebrique.js:201` — « degre » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-droites-systemes.js:70` — « repere » ×4 (svg-desc)
+- `js/data/lycee-2nde/2nde-droites-systemes.js:70` — « systeme » ×4 (svg-desc)
+- `js/data/lycee-2nde/2nde-droites-systemes.js:172` — « meme » ×3 (svg-desc)
+- `js/data/lycee-2nde/2nde-droites-systemes.js:172` — « ordonnee » ×3 (svg-desc)
+- `js/data/lycee-2nde/2nde-droites-systemes.js:173` — « premiere » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-droites-systemes.js:173` — « differentes » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-droites-systemes.js:230` — « paralleles » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-droites-systemes.js:232` — « ecart » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-droites-systemes.js:232` — « differents » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-echantillonnage.js:73` — « frequence » ×2 (svg-desc)
+- `js/data/lycee-2nde/2nde-echantillonnage.js:157` — « different » ×2 (svg-desc)
+- `js/data/lycee-2nde/2nde-echantillonnage.js:157` — « echantillon » ×4 (svg-desc)
+- `js/data/lycee-2nde/2nde-echantillonnage.js:157` — « meme » ×3 (svg-desc)
+- `js/data/lycee-2nde/2nde-echantillonnage.js:157` — « methode » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-echantillonnage.js:242` — « decroissante » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-echantillonnage.js:242` — « tres » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-echantillonnage.js:242` — « echantillons » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-echantillonnage.js:242` — « reperage » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-echantillonnage.js:268` — « reperes » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-echantillonnage.js:308` — « frequences » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-echantillonnage.js:308` — « differents » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-ensembles-nombres.js:83` — « meme » ×7 (svg-desc)
+- `js/data/lycee-2nde/2nde-ensembles-nombres.js:83` — « reels » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-ensembles-nombres.js:142` — « difference » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-ensembles-nombres.js:203` — « premiere » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-equations-inequations.js:77` — « inegalite » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-equations-inequations.js:77` — « inferieur » ×2 (svg-desc)
+- `js/data/lycee-2nde/2nde-equations-inequations.js:77` — « egal » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-equations-inequations.js:151` — « meme » ×9 (svg-desc)
+- `js/data/lycee-2nde/2nde-equations-inequations.js:151` — « superieur » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-fonctions-generalites.js:72` — « repere » ×4 (svg-desc)
+- `js/data/lycee-2nde/2nde-fonctions-generalites.js:178` — « equation » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-fonctions-generalites.js:178` — « carre » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-fonctions-generalites.js:178` — « ordonnee » ×3 (svg-desc)
+- `js/data/lycee-2nde/2nde-fonctions-generalites.js:246` — « decroissante » ×2 (svg-desc)
+- `js/data/lycee-2nde/2nde-fonctions-generalites.js:316` — « tres » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-fonctions-reference.js:72` — « reperes » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-fonctions-reference.js:72` — « carre » ×4 (svg-desc)
+- `js/data/lycee-2nde/2nde-fonctions-reference.js:199` — « repere » ×3 (svg-desc)
+- `js/data/lycee-2nde/2nde-fonctions-reference.js:199` — « ordonnee » ×5 (svg-desc)
+- `js/data/lycee-2nde/2nde-fonctions-reference.js:269` — « meme » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-geometrie-plane.js:75` — « parallele » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-geometrie-plane.js:147` — « carre » ×4 (svg-desc)
+- `js/data/lycee-2nde/2nde-geometrie-plane.js:147` — « reduit » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-geometrie-plane.js:148` — « carres » ×3 (svg-desc)
+- `js/data/lycee-2nde/2nde-geometrie-plane.js:148` — « meme » ×5 (svg-desc)
+- `js/data/lycee-2nde/2nde-geometrie-plane.js:209` — « egales » ×2 (svg-desc)
+- `js/data/lycee-2nde/2nde-geometrie-plane.js:209` — « mediane » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-geometrie-plane.js:209` — « mediatrice » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-geometrie-plane.js:284` — « interieur » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-geometrie-plane.js:284` — « exterieur » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-probabilites.js:75` — « eleve » ×2 (svg-desc)
+- `js/data/lycee-2nde/2nde-probabilites.js:76` — « eleves » ×8 (svg-desc)
+- `js/data/lycee-2nde/2nde-probabilites.js:144` — « meme » ×2 (svg-desc)
+- `js/data/lycee-2nde/2nde-probabilites.js:144` — « ete » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-probabilites.js:209` — « frequence » ×3 (svg-desc)
+- `js/data/lycee-2nde/2nde-probabilites.js:210` — « ecart » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-probabilites.js:210` — « egal » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-probabilites.js:274` — « evenements » ×3 (svg-desc)
+- `js/data/lycee-2nde/2nde-probabilites.js:275` — « evenement » ×4 (svg-desc)
+- `js/data/lycee-2nde/2nde-probabilites.js:275` — « carre » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-probabilites.js:275` — « entiere » ×2 (svg-desc)
+- `js/data/lycee-2nde/2nde-reperage-plan.js:78` — « repere » ×6 (svg-desc)
+- `js/data/lycee-2nde/2nde-reperage-plan.js:78` — « ecarts » ×2 (svg-desc)
+- `js/data/lycee-2nde/2nde-reperage-plan.js:164` — « isocele » ×2 (svg-desc)
+- `js/data/lycee-2nde/2nde-reperage-plan.js:165` — « meme » ×2 (svg-desc)
+- `js/data/lycee-2nde/2nde-reperage-plan.js:165` — « egal » ×2 (svg-desc)
+- `js/data/lycee-2nde/2nde-statistiques.js:83` — « ecart » ×3 (svg-desc)
+- `js/data/lycee-2nde/2nde-statistiques.js:176` — « meme » ×8 (svg-desc)
+- `js/data/lycee-2nde/2nde-statistiques.js:177` — « premiere » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-statistiques.js:245` — « mediane » ×3 (svg-desc)
+- `js/data/lycee-2nde/2nde-statistiques.js:246` — « derniere » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-statistiques.js:246` — « ete » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-statistiques.js:313` — « ecarts » ×4 (svg-desc)
+- `js/data/lycee-2nde/2nde-statistiques.js:314` — « carre » ×2 (svg-desc)
+- `js/data/lycee-2nde/2nde-statistiques.js:315` — « memes » ×1 (svg-desc)
+- `js/data/lycee-2nde/2nde-statistiques.js:315` — « eleves » ×1 (svg-desc)
+- `js/data/lycee-2nde/fonctions-affines.js:70` — « repere » ×4 (svg-desc)
+- `js/data/lycee-2nde/fonctions-affines.js:70` — « ordonnee » ×5 (svg-desc)
+- `js/data/lycee-2nde/fonctions-affines.js:153` — « reperes » ×1 (svg-desc)
+- `js/data/lycee-2nde/fonctions-affines.js:153` — « meme » ×6 (svg-desc)
+- `js/data/lycee-2nde/fonctions-affines.js:153` — « differentes » ×2 (svg-desc)
+- `js/data/lycee-2nde/fonctions-affines.js:153` — « paralleles » ×1 (svg-desc)
+- `js/data/lycee-2nde/fonctions-affines.js:222` — « exterieur » ×1 (svg-desc)
+- `js/data/lycee-2nde/fonctions-affines.js:294` — « lineaire » ×1 (svg-desc)
+- `js/data/lycee-2nde/fonctions-affines.js:296` — « premiere » ×1 (svg-desc)
+- `js/data/lycee-2nde/vecteurs.js:67` — « degres » ×1 (svg-desc)
+- `js/data/lycee-2nde/vecteurs.js:130` — « meme » ×7 (svg-desc)
+- `js/data/lycee-2nde/vecteurs.js:131` — « differents » ×1 (svg-desc)
+- `js/data/lycee-2nde/vecteurs.js:187` — « deplacement » ×1 (svg-desc)
+- `js/data/lycee-2nde/vecteurs.js:233` — « premieres » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-derivation.js:71` — « carre » ×2 (svg-desc)
+- `js/data/lycee-1re/1re-derivation.js:263` — « derivee » ×3 (svg-desc)
+- `js/data/lycee-1re/1re-derivation.js:264` — « memes » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-derivation.js:264` — « negative » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-derivation.js:264` — « apres » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-geometrie-reperee.js:48` — « repere » ×3 (svg-desc)
+- `js/data/lycee-1re/1re-geometrie-reperee.js:48` — « equation » ×3 (svg-desc)
+- `js/data/lycee-1re/1re-geometrie-reperee.js:145` — « meme » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-geometrie-reperee.js:145` — « memes » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-geometrie-reperee.js:145` — « ecart » ×3 (svg-desc)
+- `js/data/lycee-1re/1re-geometrie-reperee.js:207` — « entieres » ×2 (svg-desc)
+- `js/data/lycee-1re/1re-geometrie-reperee.js:207` — « hypotenuse » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-geometrie-reperee.js:273` — « carre » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-geometrie-reperee.js:273` — « generale » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-geometrie-reperee.js:273` — « egale » ×2 (svg-desc)
+- `js/data/lycee-1re/1re-geometrie-reperee.js:273` — « reduite » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-information-chiffree.js:64` — « etapes » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-information-chiffree.js:64` — « egale » ×3 (svg-desc)
+- `js/data/lycee-1re/1re-information-chiffree.js:64` — « apres » ×2 (svg-desc)
+- `js/data/lycee-1re/1re-information-chiffree.js:64` — « egal » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-polynomes-signe.js:58` — « negative » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-polynomes-signe.js:58` — « negatif » ×5 (svg-desc)
+- `js/data/lycee-1re/1re-polynomes-signe.js:58` — « negatives » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-polynomes-signe.js:170` — « apres » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-polynomes-signe.js:18` — « meme » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-polynomes-signe.js:226` — « carre » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-polynomes-signe.js:264` — « differentes » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-polynomes-signe.js:265` — « numeriques » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-probas-conditionnelles.js:65` — « probabilite » ×8 (svg-desc)
+- `js/data/lycee-1re/1re-probas-conditionnelles.js:65` — « egale » ×3 (svg-desc)
+- `js/data/lycee-1re/1re-probas-conditionnelles.js:158` — « eleves » ×5 (svg-desc)
+- `js/data/lycee-1re/1re-probas-conditionnelles.js:159` — « general » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-probas-conditionnelles.js:206` — « differentes » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-probas-conditionnelles.js:187` — « meme » ×4 (svg-desc)
+- `js/data/lycee-1re/1re-probas-conditionnelles.js:207` — « premiere » ×2 (svg-desc)
+- `js/data/lycee-1re/1re-probas-conditionnelles.js:252` — « carres » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-probas-conditionnelles.js:252` — « carre » ×2 (svg-desc)
+- `js/data/lycee-1re/1re-probas-conditionnelles.js:252` — « evenements » ×2 (svg-desc)
+- `js/data/lycee-1re/1re-produit-scalaire.js:48` — « repere » ×3 (svg-desc)
+- `js/data/lycee-1re/1re-produit-scalaire.js:134` — « carre » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-produit-scalaire.js:216` — « meme » ×3 (svg-desc)
+- `js/data/lycee-1re/1re-produit-scalaire.js:216` — « degres » ×2 (svg-desc)
+- `js/data/lycee-1re/1re-produit-scalaire.js:216` — « negatif » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-produit-scalaire.js:282` — « egale » ×2 (svg-desc)
+- `js/data/lycee-1re/1re-second-degre.js:59` — « carre » ×2 (svg-desc)
+- `js/data/lycee-1re/1re-second-degre.js:19` — « meme » ×4 (svg-desc)
+- `js/data/lycee-1re/1re-second-degre.js:134` — « premiere » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-second-degre.js:134` — « negatif » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-second-degre.js:134` — « reelle » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-second-degre.js:180` — « symetrique » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-suites.js:61` — « geometrique » ×3 (svg-desc)
+- `js/data/lycee-1re/1re-suites.js:61` — « meme » ×3 (svg-desc)
+- `js/data/lycee-1re/1re-suites.js:62` — « facon » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-suites.js:168` — « memes » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-suites.js:18` — « premiere » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-suites.js:229` — « dernieres » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-suites.js:229` — « tres » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-trigonometrie.js:56` — « degres » ×2 (svg-desc)
+- `js/data/lycee-1re/1re-trigonometrie.js:136` — « egale » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-trigonometrie.js:137` — « meme » ×3 (svg-desc)
+- `js/data/lycee-1re/1re-trigonometrie.js:185` — « symetriques » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-trigonometrie.js:186` — « ordonnee » ×2 (svg-desc)
+- `js/data/lycee-1re/1re-variables-aleatoires.js:64` — « piece » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-variables-aleatoires.js:64` — « symetrique » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-variables-aleatoires.js:64` — « probabilite » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-variables-aleatoires.js:64` — « repere » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-variables-aleatoires.js:149` — « parametres » ×1 (svg-desc)
+- `js/data/lycee-1re/1re-variables-aleatoires.js:197` — « succes » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-convexite.js:160` — « meme » ×3 (svg-desc)
+- `js/data/lycee-tle/tle-convexite.js:160` — « carre » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-convexite.js:200` — « derivee » ×3 (svg-desc)
+- `js/data/lycee-tle/tle-convexite.js:201` — « reperes » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-convexite.js:201` — « memes » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-convexite.js:201` — « repere » ×2 (svg-desc)
+- `js/data/lycee-tle/tle-convexite.js:201` — « negative » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-convexite.js:239` — « differents » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-convexite.js:239` — « facon » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-denombrement.js:71` — « eleves » ×3 (svg-desc)
+- `js/data/lycee-tle/tle-denombrement.js:71` — « ordonnees » ×2 (svg-desc)
+- `js/data/lycee-tle/tle-denombrement.js:71` — « memes » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-denombrement.js:71` — « meme » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-derivation-complements.js:72` — « egale » ×4 (svg-desc)
+- `js/data/lycee-tle/tle-derivation-complements.js:72` — « carre » ×2 (svg-desc)
+- `js/data/lycee-tle/tle-derivation-complements.js:136` — « reperes » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-derivation-complements.js:137` — « repere » ×2 (svg-desc)
+- `js/data/lycee-tle/tle-derivation-complements.js:137` — « quantite » ×2 (svg-desc)
+- `js/data/lycee-tle/tle-derivation-complements.js:190` — « etre » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-equations-differentielles.js:166` — « systeme » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-equations-differentielles.js:166` — « meme » ×5 (svg-desc)
+- `js/data/lycee-tle/tle-equations-differentielles.js:226` — « premieres » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-equations-differentielles.js:226` — « reperes » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-equations-differentielles.js:278` — « equation » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-equations-differentielles.js:97` — « repere » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-equations-differentielles.js:279` — « premiere » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-equations-differentielles.js:279` — « ecart » ×2 (svg-desc)
+- `js/data/lycee-tle/tle-equations-differentielles.js:279` — « reduit » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-equations-differentielles.js:279` — « apres » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-exponentielle-logarithme.js:170` — « symetriques » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-exponentielle-logarithme.js:170` — « egale » ×5 (svg-desc)
+- `js/data/lycee-tle/tle-exponentielle-logarithme.js:95` — « repere » ×2 (svg-desc)
+- `js/data/lycee-tle/tle-exponentielle-logarithme.js:171` — « tres » ×2 (svg-desc)
+- `js/data/lycee-tle/tle-exponentielle-logarithme.js:171` — « ordonnees » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-exponentielle-logarithme.js:171` — « equation » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-exponentielle-logarithme.js:171` — « symetrie » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-exponentielle-logarithme.js:171` — « ordonnee » ×3 (svg-desc)
+- `js/data/lycee-tle/tle-exponentielle-logarithme.js:234` — « decroissante » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-exponentielle-logarithme.js:234` — « egaux » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-exponentielle-logarithme.js:234` — « quantites » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-exponentielle-logarithme.js:293` — « decimal » ×2 (svg-desc)
+- `js/data/lycee-tle/tle-exponentielle-logarithme.js:294` — « meme » ×2 (svg-desc)
+- `js/data/lycee-tle/tle-exponentielle-logarithme.js:294` — « premiere » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-geometrie-espace.js:55` — « aretes » ×7 (svg-desc)
+- `js/data/lycee-tle/tle-geometrie-espace.js:55` — « paralleles » ×2 (svg-desc)
+- `js/data/lycee-tle/tle-geometrie-espace.js:55` — « meme » ×3 (svg-desc)
+- `js/data/lycee-tle/tle-geometrie-espace.js:55` — « differentes » ×2 (svg-desc)
+- `js/data/lycee-tle/tle-geometrie-espace.js:250` — « interieur » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-geometrie-espace.js:250` — « eleve » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-geometrie-espace.js:250` — « carre » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-geometrie-espace.js:298` — « difference » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-limites-continuite.js:148` — « meme » ×4 (svg-desc)
+- `js/data/lycee-tle/tle-limites-continuite.js:246` — « reperage » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-logarithme.js:76` — « meme » ×3 (svg-desc)
+- `js/data/lycee-tle/tle-logarithme.js:76` — « repere » ×4 (svg-desc)
+- `js/data/lycee-tle/tle-logarithme.js:76` — « ecart » ×2 (svg-desc)
+- `js/data/lycee-tle/tle-logarithme.js:191` — « premieres » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-logarithme.js:252` — « reperes » ×2 (svg-desc)
+- `js/data/lycee-tle/tle-logarithme.js:320` — « definition » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-logarithme.js:321` — « premiere » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-logarithme.js:321` — « ordonnees » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-lois-continues.js:68` — « ecart » ×3 (svg-desc)
+- `js/data/lycee-tle/tle-lois-continues.js:149` — « probabilite » ×4 (svg-desc)
+- `js/data/lycee-tle/tle-lois-continues.js:202` — « decroissante » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-lois-continues.js:202` — « meme » ×3 (svg-desc)
+- `js/data/lycee-tle/tle-lois-continues.js:203` — « premiere » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-lois-continues.js:203` — « reduite » ×2 (svg-desc)
+- `js/data/lycee-tle/tle-lois-continues.js:262` — « ecarts » ×2 (svg-desc)
+- `js/data/lycee-tle/tle-orthogonalite-espace.js:55` — « equation » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-orthogonalite-espace.js:55` — « egale » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-orthogonalite-espace.js:55` — « carre » ×3 (svg-desc)
+- `js/data/lycee-tle/tle-primitives-integrales.js:67` — « negative » ×2 (svg-desc)
+- `js/data/lycee-tle/tle-primitives-integrales.js:66` — « integrale » ×2 (svg-desc)
+- `js/data/lycee-tle/tle-primitives-integrales.js:68` — « geometrique » ×2 (svg-desc)
+- `js/data/lycee-tle/tle-primitives-integrales.js:166` — « meme » ×5 (svg-desc)
+- `js/data/lycee-tle/tle-primitives-integrales.js:166` — « premiere » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-primitives-integrales.js:219` — « repere » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-primitives-integrales.js:219` — « paralleles » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-primitives-integrales.js:219` — « egale » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-suites-complements.js:71` — « ordonnee » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-suites-complements.js:156` — « meme » ×8 (svg-desc)
+- `js/data/lycee-tle/tle-suites-complements.js:156` — « memes » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-suites-complements.js:204` — « geometriques » ×2 (svg-desc)
+- `js/data/lycee-tle/tle-suites-complements.js:204` — « repere » ×3 (svg-desc)
+- `js/data/lycee-tle/tle-suites-complements.js:205` — « premiere » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-suites-complements.js:205` — « parametre » ×1 (svg-desc)
+- `js/data/lycee-tle/tle-suites-complements.js:272` — « carres » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-analyse-dim.js:209` — « numerateur » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-analyse-dim.js:209` — « diametre » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-analyse-dim.js:209` — « denominateur » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-analyse-dim.js:209` — « meme » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-analyse-dim.js:238` — « differentes » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-analyse-dim.js:238` — « metres » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-analyse-dim.js:459` — « interieur » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-analyse-dim.js:459` — « metre » ×3 (svg-desc)
+- `js/data/bts-prep/bts-prep-analyse-dim.js:459` — « proprietes » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-analyse-dim.js:551` — « exterieur » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-analyse-dim.js:552` — « carre » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:75` — « etape » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:75` — « equation » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:75` — « apres » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:181` — « diametre » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:181` — « interieur » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:181` — « egale » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:181` — « carre » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:246` — « acces » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:247` — « hypotenuse » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:437` — « degres » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:437` — « temperature » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-conversions.js:112` — « metre » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-conversions.js:258` — « meme » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-conversions.js:544` — « degres » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-conversions.js:544` — « metres » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:216` — « meme » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:216` — « repere » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:216` — « decroissante » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:216` — « reel » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:249` — « metre » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:249` — « carre » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:249` — « temperature » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:249` — « degres » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:249` — « reelle » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:461` — « metres » ×7 (svg-desc)
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:461` — « ordonnee » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:461` — « dernieres » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:524` — « differentes » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-equations-transf.js:77` — « symetrie » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-equations-transf.js:147` — « hypotenuse » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-equations-transf.js:147` — « determiner » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-equations-transf.js:414` — « diametre » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-equations-transf.js:414` — « metres » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-equations-transf.js:414` — « carre » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-equations.js:147` — « premiere » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-equations.js:147` — « negatif » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-equations.js:213` — « systeme » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-equations.js:215` — « differentes » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-equations.js:215` — « repere » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-equations.js:215` — « equation » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-equations.js:453` — « metres » ×3 (svg-desc)
+- `js/data/bts-prep/bts-prep-equations.js:453` — « ordonnee » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-equations.js:453` — « resolution » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-fonctions.js:132` — « repere » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-fonctions.js:132` — « carre » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-fonctions.js:132` — « legende » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-fonctions.js:203` — « meme » ×3 (svg-desc)
+- `js/data/bts-prep/bts-prep-fonctions.js:203` — « premiere » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-fonctions.js:203` — « ordonnee » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-fonctions.js:203` — « determiner » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-fonctions.js:512` — « parallele » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-fonctions.js:513` — « paralleles » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-fonctions.js:513` — « difference » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-graphiques.js:85` — « lineaire » ×3 (svg-desc)
+- `js/data/bts-prep/bts-prep-graphiques.js:130` — « repere » ×3 (svg-desc)
+- `js/data/bts-prep/bts-prep-graphiques.js:130` — « metres » ×14 (svg-desc)
+- `js/data/bts-prep/bts-prep-graphiques.js:130` — « ordonnee » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-graphiques.js:130` — « decroissante » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-graphiques.js:185` — « meme » ×3 (svg-desc)
+- `js/data/bts-prep/bts-prep-graphiques.js:186` — « reperes » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-graphiques.js:186` — « egale » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-graphiques.js:186` — « egaux » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-graphiques.js:327` — « geometrique » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-graphiques.js:327` — « determiner » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-graphiques.js:595` — « carre » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-logarithme.js:86` — « reperes » ×4 (svg-desc)
+- `js/data/bts-prep/bts-prep-logarithme.js:131` — « reels » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-logarithme.js:194` — « decroissante » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-logarithme.js:194` — « apres » ×3 (svg-desc)
+- `js/data/bts-prep/bts-prep-logarithme.js:194` — « meme » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-logarithme.js:293` — « determiner » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-logarithme.js:556` — « temperature » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-logarithme.js:557` — « repere » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-logarithme.js:557` — « degres » ×4 (svg-desc)
+- `js/data/bts-prep/bts-prep-logarithme.js:557` — « ordonnee » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-proportionnalite.js:76` — « electrique » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-proportionnalite.js:222` — « tres » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-proportionnalite.js:222` — « metre » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-puissances.js:73` — « deplacement » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-puissances.js:74` — « apres » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-puissances.js:126` — « elever » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-puissances.js:126` — « carres » ×4 (svg-desc)
+- `js/data/bts-prep/bts-prep-puissances.js:126` — « metres » ×4 (svg-desc)
+- `js/data/bts-prep/bts-prep-puissances.js:176` — « numeriques » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-puissances.js:292` — « carre » ×5 (svg-desc)
+- `js/data/bts-prep/bts-prep-puissances.js:292` — « metre » ×6 (svg-desc)
+- `js/data/bts-prep/bts-prep-puissances.js:371` — « arete » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-puissances.js:371` — « aretes » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-puissances.js:541` — « meme » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-si-unites.js:96` — « derivee » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-si-unites.js:96` — « systeme » ×3 (svg-desc)
+- `js/data/bts-prep/bts-prep-si-unites.js:219` — « metres » ×3 (svg-desc)
+- `js/data/bts-prep/bts-prep-si-unites.js:220` — « schema » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-si-unites.js:220` — « etapes » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-si-unites.js:257` — « metre » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-si-unites.js:257` — « electrique » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-si-unites.js:257` — « temperature » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-si-unites.js:257` — « quantite » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-si-unites.js:257` — « derivees » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-si-unites.js:484` — « degres » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-si-unites.js:484` — « ecart » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-si-unites.js:484` — « generateur » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-si-unites.js:484` — « interieur » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-si-unites.js:548` — « carres » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-trigonometrie.js:88` — « hypotenuse » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-trigonometrie.js:88` — « meme » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-trigonometrie.js:88` — « degres » ×8 (svg-desc)
+- `js/data/bts-prep/bts-prep-trigonometrie.js:157` — « repere » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-trigonometrie.js:157` — « reperes » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-trigonometrie.js:212` — « periode » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-trigonometrie.js:381` — « parallele » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-trigonometrie.js:434` — « metres » ×3 (svg-desc)
+- `js/data/bts-prep/bts-prep-trigonometrie.js:566` — « carres » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-trigonometrie.js:566` — « difference » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-vecteurs.js:82` — « degres » ×3 (svg-desc)
+- `js/data/bts-prep/bts-prep-vecteurs.js:138` — « meme » ×5 (svg-desc)
+- `js/data/bts-prep/bts-prep-vecteurs.js:138` — « memes » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-vecteurs.js:198` — « egale » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-vecteurs.js:267` — « repere » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-vecteurs.js:268` — « ordonnee » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-vecteurs.js:268` — « hypotenuse » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-vecteurs.js:354` — « deplacement » ×2 (svg-desc)
+- `js/data/bts-prep/bts-prep-vecteurs.js:355` — « metres » ×1 (svg-desc)
+- `js/data/bts-prep/bts-prep-vecteurs.js:591` — « piece » ×1 (svg-desc)
+- `js/data/bts/bts-fourier.js:57` — « schema » ×1 (svg-desc)
+- `js/data/bts/bts-integrales-appliquees.js:56` — « negative » ×2 (svg-desc)
+- `js/data/bts/bts-integrales-appliquees.js:57` — « periode » ×1 (svg-desc)
+- `js/data/bts/bts-laplace.js:56` — « reponse » ×1 (svg-desc)
+- `js/data/bts/bts-laplace.js:57` — « egal » ×1 (svg-desc)
+- `js/data/bts/bts-loi-normale.js:55` — « ecart » ×1 (svg-desc)
+- `js/data/bts/bts-matrices.js:54` — « electrique » ×1 (svg-desc)
+- `js/data/bts/bts-matrices.js:54` — « methode » ×1 (svg-desc)
+- `js/data/bts/bts-probas-discretes.js:55` — « parametre » ×2 (svg-desc)
+- `js/data/bts/bts-probas-discretes.js:56` — « egal » ×1 (svg-desc)
+- `js/data/bts/complexes.js:57` — « degres » ×2 (svg-desc)
+- `js/data/bts/complexes.js:57` — « negative » ×1 (svg-desc)
+- `js/data/bts/eq-diff-2.js:56` — « reponse » ×1 (svg-desc)
+- `js/data/bts/eq-diff-2.js:57` — « periodique » ×1 (svg-desc)
+- `js/data/bts/statistiques.js:58` — « egale » ×1 (svg-desc)
+
+### question-terme-technique-hors-cours (497)
+
+- `js/data/6e/6e-addition-soustraction.js:493` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : plusieurs, difference
+- `js/data/6e/6e-angles.js:346` — quiz[1] emploie un terme technique que le cours n'emploie jamais : difference, grand
+- `js/data/6e/6e-division.js:467` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : maximum, dehors
+- `js/data/6e/6e-division.js:468` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : formule
+- `js/data/6e/6e-figures-geometriques.js:431` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : carre
+- `js/data/6e/6e-figures-geometriques.js:438` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : definition, ouvert, surface
+- `js/data/6e/6e-fractions.js:567` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : differents
+- `js/data/6e/6e-fractions.js:590` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : interdit, droit, egalite, fausse, quotient, n'est
+- `js/data/6e/6e-multiplication.js:330` — quiz[1] emploie un terme technique que le cours n'emploie jamais : additionner
+- `js/data/6e/6e-multiplication.js:476` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : attention, additionner
+- `js/data/6e/6e-multiplication.js:478` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : decomposition
+- `js/data/6e/6e-nombres-decimaux.js:444` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : inferieur
+- `js/data/6e/6e-perimetres-aires.js:298` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : hauteur
+- `js/data/6e/6e-perimetres-aires.js:371` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : additionne, petit
+- `js/data/6e/6e-symetrie-axiale.js:330` — quiz[1] emploie un terme technique que le cours n'emploie jamais : coordonnees
+- `js/data/6e/6e-symetrie-axiale.js:398` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : carree, verticaux
+- `js/data/6e/6e-symetrie-axiale.js:404` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : longueur
+- `js/data/6e/6e-symetrie-axiale.js:405` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : double, oppose
+- `js/data/6e/6e-volumes.js:283` — quiz[1] emploie un terme technique que le cours n'emploie jamais : diviser
+- `js/data/6e/6e-volumes.js:451` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : relation
+- `js/data/6e/6e-volumes.js:458` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : sachant
+- `js/data/5e/5e-angles-parallelisme.js:276` — quiz[2] emploie un terme technique que le cours n'emploie jamais : perpendiculaires
+- `js/data/5e/5e-angles-parallelisme.js:264` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : degres
+- `js/data/5e/5e-angles-parallelisme.js:378` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : opposes
+- `js/data/5e/5e-angles-parallelisme.js:396` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : perpendiculaires, secantes
+- `js/data/5e/5e-angles-parallelisme.js:409` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : degres
+- `js/data/5e/5e-expressions-litterales.js:295` — quiz[2] emploie un terme technique que le cours n'emploie jamais : abord
+- `js/data/5e/5e-expressions-litterales.js:484` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : coefficient
+- `js/data/5e/5e-fractions-operations.js:565` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : decimale
+- `js/data/5e/5e-fractions-operations.js:565` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : decimale
+- `js/data/5e/5e-fractions-operations.js:596` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : decimale
+- `js/data/5e/5e-parallelogrammes.js:595` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : multiplier, calcul, multiplie
+- `js/data/5e/5e-priorites-operations.js:277` — quiz[2] emploie un terme technique que le cours n'emploie jamais : diviser
+- `js/data/5e/5e-priorites-operations.js:484` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : puissance
+- `js/data/5e/5e-probabilites.js:458` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : strictement, decimal
+- `js/data/5e/5e-probabilites.js:467` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : decimal
+- `js/data/5e/5e-probabilites.js:485` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : inferieur
+- `js/data/5e/5e-probabilites.js:295` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : presque, multiplier
+- `js/data/5e/5e-proportionnalite.js:325` — quiz[2] emploie un terme technique que le cours n'emploie jamais : abord, inferieur
+- `js/data/5e/5e-proportionnalite.js:515` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : inferieur
+- `js/data/5e/5e-statistiques.js:329` — quiz[2] emploie un terme technique que le cours n'emploie jamais : generale
+- `js/data/5e/5e-statistiques.js:491` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : controle
+- `js/data/5e/5e-symetrie-centrale.js:283` — quiz[1] emploie un terme technique que le cours n'emploie jamais : intersection
+- `js/data/5e/5e-symetrie-centrale.js:294` — quiz[2] emploie un terme technique que le cours n'emploie jamais : n'importe
+- `js/data/5e/5e-symetrie-centrale.js:277` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : abscisse
+- `js/data/5e/5e-symetrie-centrale.js:508` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : abscisse
+- `js/data/5e/5e-symetrie-centrale.js:521` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : eloigne
+- `js/data/5e/5e-symetrie-centrale.js:534` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : abscisse
+- `js/data/5e/5e-symetrie-centrale.js:543` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : intersection
+- `js/data/5e/5e-triangles.js:273` — quiz[2] emploie un terme technique que le cours n'emploie jamais : points, alignes, differentes
+- `js/data/5e/5e-triangles.js:185` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : degres
+- `js/data/5e/5e-triangles.js:457` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : degres
+- `js/data/5e/5e-triangles.js:480` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : differentes, infinite, n'importe
+- `js/data/5e/5e-volumes.js:331` — quiz[2] emploie un terme technique que le cours n'emploie jamais : calcul, diviser, multiplier
+- `js/data/5e/5e-volumes.js:331` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : diviser, ajouter, aires
+- `js/data/5e/reperage-graphique.js:290` — quiz[0] emploie un terme technique que le cours n'emploie jamais : coordonnees
+- `js/data/5e/reperage-graphique.js:301` — quiz[1] emploie un terme technique que le cours n'emploie jamais : debit, constant, minutes
+- `js/data/5e/reperage-graphique.js:307` — quiz[2] emploie un terme technique que le cours n'emploie jamais : inverse
+- `js/data/5e/reperage-graphique.js:481` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : coordonnees
+- `js/data/5e/reperage-graphique.js:490` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : coefficient, directeur
+- `js/data/5e/reperage-graphique.js:513` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : partout
+- `js/data/5e/reperage-graphique.js:531` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : tracer, tangente
+- `js/data/4e/4e-cosinus.js:20` — quiz[2] emploie un terme technique que le cours n'emploie jamais : diviser
+- `js/data/4e/4e-cosinus.js:404` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : decimal
+- `js/data/4e/4e-cosinus.js:427` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : horizontal, longueur, horizontale
+- `js/data/4e/4e-cosinus.js:270` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : n'existe
+- `js/data/4e/4e-droites-remarquables.js:292` — quiz[0] emploie un terme technique que le cours n'emploie jamais : identiques
+- `js/data/4e/4e-droites-remarquables.js:303` — quiz[1] emploie un terme technique que le cours n'emploie jamais : ensemble
+- `js/data/4e/4e-droites-remarquables.js:309` — quiz[2] emploie un terme technique que le cours n'emploie jamais : fraction
+- `js/data/4e/4e-droites-remarquables.js:499` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : confondues, definir, perpendiculairement
+- `js/data/4e/4e-fractions-mult-div.js:209` — quiz[2] emploie un terme technique que le cours n'emploie jamais : second, terme, abord
+- `js/data/4e/4e-fractions-mult-div.js:343` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : forme, irreductible
+- `js/data/4e/4e-fractions-mult-div.js:351` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : decimal
+- `js/data/4e/4e-fractions-mult-div.js:395` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : chercher, consequence
+- `js/data/4e/4e-probabilites.js:221` — quiz[0] emploie un terme technique que le cours n'emploie jamais : multiple
+- `js/data/4e/4e-probabilites.js:227` — quiz[1] emploie un terme technique que le cours n'emploie jamais : additionner, multiplier
+- `js/data/4e/4e-probabilites.js:419` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : strictement
+- `js/data/4e/4e-probabilites.js:467` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : proportion, multiplier
+- `js/data/4e/4e-pythagore.js:275` — quiz[2] emploie un terme technique que le cours n'emploie jamais : angles
+- `js/data/4e/4e-pythagore.js:476` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : angles
+- `js/data/4e/4e-pythagore.js:489` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : perimetre
+- `js/data/4e/4e-pythagore.js:508` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : egaux, comparer, premiers
+- `js/data/4e/4e-relatifs-mult-div.js:306` — quiz[2] emploie un terme technique que le cours n'emploie jamais : negative
+- `js/data/4e/4e-relatifs-mult-div.js:422` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : fausse, additionner
+- `js/data/4e/4e-statistiques.js:463` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : etendue
+- `js/data/4e/4e-statistiques.js:483` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : directeur, meilleur, etendue
+- `js/data/4e/4e-translations.js:298` — quiz[2] emploie un terme technique que le cours n'emploie jamais : triangle, cotes
+- `js/data/4e/4e-translations.js:400` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : triangle, cotes, forme, horizontal
+- `js/data/4e/4e-triangle-rectangle-cercle.js:416` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : intersection, hauteurs
+- `js/data/4e/4e-triangle-rectangle-cercle.js:435` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : perimetre
+- `js/data/4e/4e-triangle-rectangle-cercle.js:453` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : egalite, isocele, hauteur, qu'une
+- `js/data/4e/4e-volumes.js:225` — quiz[0] emploie un terme technique que le cours n'emploie jamais : mesure, facteur
+- `js/data/4e/4e-volumes.js:433` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : qu'une, facteur, conclusion
+- `js/data/4e/calcul-algebrique.js:246` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : fonction
+- `js/data/4e/calcul-algebrique.js:473` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : fausse, ajouter, coefficient, ecriture
+- `js/data/4e/puissances.js:272` — quiz[2] emploie un terme technique que le cours n'emploie jamais : addition, abord
+- `js/data/4e/puissances.js:471` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : nanometre
+- `js/data/4e/puissances.js:488` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : rapport
+- `js/data/4e/puissances.js:504` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : produit, aucun, inferieur
+- `js/data/3e/3e-algorithmique.js:224` — quiz[2] emploie un terme technique que le cours n'emploie jamais : augmente
+- `js/data/3e/3e-algorithmique.js:554` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : division
+- `js/data/3e/3e-arithmetique.js:193` — quiz[1] emploie un terme technique que le cours n'emploie jamais : inferieur
+- `js/data/3e/3e-arithmetique.js:518` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : aucune
+- `js/data/3e/3e-fonctions-affines.js:308` — quiz[3] emploie un terme technique que le cours n'emploie jamais : secantes, confondues, perpendiculaires
+- `js/data/3e/3e-fonctions-affines.js:585` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : au-dessus
+- `js/data/3e/3e-fonctions-affines.js:614` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : abscisse, diviser, methode
+- `js/data/3e/3e-fonctions.js:299` — quiz[2] emploie un terme technique que le cours n'emploie jamais : second, degre
+- `js/data/3e/3e-fonctions.js:603` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : releve, temperature, tableau, aucun, exacte, decrire, figure
+- `js/data/3e/3e-fonctions.js:628` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : differents, aucun, n'importe
+- `js/data/3e/3e-fonctions.js:676` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : impair, diviser
+- `js/data/3e/3e-homotheties.js:325` — quiz[1] emploie un terme technique que le cours n'emploie jamais : mesure
+- `js/data/3e/3e-homotheties.js:72` — quiz[2] emploie un terme technique que le cours n'emploie jamais : qu'une, moitie, rotation
+- `js/data/3e/3e-homotheties.js:566` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : echelle, mesure, longueur
+- `js/data/3e/3e-homotheties.js:319` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : translation, rotation, identite
+- `js/data/3e/3e-identites-remarquables.js:587` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : coefficient
+- `js/data/3e/3e-identites-remarquables.js:617` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : n'importe, ajouter, inferieur, augmente
+- `js/data/3e/3e-identites-remarquables.js:642` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : facteur, factorisation
+- `js/data/3e/3e-sections-solides.js:654` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : triangulaire
+- `js/data/3e/3e-systemes.js:216` — quiz[0] emploie un terme technique que le cours n'emploie jamais : fausse
+- `js/data/3e/3e-systemes.js:492` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : directe, soustraire
+- `js/data/3e/3e-thales.js:323` — quiz[2] emploie un terme technique que le cours n'emploie jamais : arbre
+- `js/data/3e/3e-thales.js:611` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : cotes, rectangle
+- `js/data/3e/3e-thales.js:632` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : croisent
+- `js/data/3e/3e-thales.js:654` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : numerateur
+- `js/data/3e/3e-volumes.js:578` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : ordre, diviser
+- `js/data/3e/3e-volumes.js:620` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : moitie
+- `js/data/3e/trigonometrie.js:343` — quiz[1] emploie un terme technique que le cours n'emploie jamais : verticale
+- `js/data/3e/trigonometrie.js:349` — quiz[2] emploie un terme technique que le cours n'emploie jamais : pente
+- `js/data/3e/trigonometrie.js:619` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : forme, decimale
+- `js/data/3e/trigonometrie.js:638` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : pente, verticale, verticalement, horizontalement
+- `js/data/3e/trigonometrie.js:655` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : posee, forme
+- `js/data/3e/trigonometrie.js:690` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : certain, inferieur, decimal, aucune
+- `js/data/lycee-2nde/2nde-algorithmique.js:341` — quiz[4] emploie un terme technique que le cours n'emploie jamais : fonction
+- `js/data/lycee-2nde/2nde-algorithmique.js:556` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : certain
+- `js/data/lycee-2nde/2nde-calcul-algebrique.js:270` — quiz[3] emploie un terme technique que le cours n'emploie jamais : inverse
+- `js/data/lycee-2nde/2nde-calcul-algebrique.js:416` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : reduire
+- `js/data/lycee-2nde/2nde-calcul-algebrique.js:432` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : rectangle, longueur, largeur
+- `js/data/lycee-2nde/2nde-calcul-algebrique.js:440` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : reduire, constant
+- `js/data/lycee-2nde/2nde-droites-systemes.js:379` — quiz[0] emploie un terme technique que le cours n'emploie jamais : change, signes
+- `js/data/lycee-2nde/2nde-droites-systemes.js:382` — quiz[3] emploie un terme technique que le cours n'emploie jamais : proportionnelles, double
+- `js/data/lycee-2nde/2nde-droites-systemes.js:383` — quiz[4] emploie un terme technique que le cours n'emploie jamais : horizontale, nulle
+- `js/data/lycee-2nde/2nde-droites-systemes.js:502` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : perpendiculaires
+- `js/data/lycee-2nde/2nde-echantillonnage.js:366` — quiz[0] emploie un terme technique que le cours n'emploie jamais : reduire
+- `js/data/lycee-2nde/2nde-echantillonnage.js:369` — quiz[3] emploie un terme technique que le cours n'emploie jamais : entierement
+- `js/data/lycee-2nde/2nde-echantillonnage.js:370` — quiz[4] emploie un terme technique que le cours n'emploie jamais : differentes, chevauchent, distinguer, identiques
+- `js/data/lycee-2nde/2nde-echantillonnage.js:612` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : sachant, retenir, minimum
+- `js/data/lycee-2nde/2nde-echantillonnage.js:621` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : borne
+- `js/data/lycee-2nde/2nde-echantillonnage.js:366` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : reduire
+- `js/data/lycee-2nde/2nde-echantillonnage.js:639` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : divise
+- `js/data/lycee-2nde/2nde-echantillonnage.js:647` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : interieur
+- `js/data/lycee-2nde/2nde-ensembles-nombres.js:192` — quiz[1] emploie un terme technique que le cours n'emploie jamais : inferieur
+- `js/data/lycee-2nde/2nde-ensembles-nombres.js:269` — quiz[3] emploie un terme technique que le cours n'emploie jamais : racine, carree
+- `js/data/lycee-2nde/2nde-ensembles-nombres.js:270` — quiz[4] emploie un terme technique que le cours n'emploie jamais : simplifier
+- `js/data/lycee-2nde/2nde-ensembles-nombres.js:426` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : inferieur
+- `js/data/lycee-2nde/2nde-ensembles-nombres.js:451` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : simplifier
+- `js/data/lycee-2nde/2nde-equations-inequations.js:615` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : total, situation
+- `js/data/lycee-2nde/2nde-fonctions-generalites.js:389` — quiz[0] emploie un terme technique que le cours n'emploie jamais : definie
+- `js/data/lycee-2nde/2nde-fonctions-generalites.js:392` — quiz[3] emploie un terme technique que le cours n'emploie jamais : constante, nulle, definie, theoreme
+- `js/data/lycee-2nde/2nde-fonctions-generalites.js:393` — quiz[4] emploie un terme technique que le cours n'emploie jamais : equation, solution, continue, expression
+- `js/data/lycee-2nde/2nde-fonctions-reference.js:414` — quiz[4] emploie un terme technique que le cours n'emploie jamais : egales
+- `js/data/lycee-2nde/2nde-fonctions-reference.js:695` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : simplifier
+- `js/data/lycee-2nde/2nde-geometrie-plane.js:352` — quiz[2] emploie un terme technique que le cours n'emploie jamais : parties, egales
+- `js/data/lycee-2nde/2nde-geometrie-plane.js:354` — quiz[4] emploie un terme technique que le cours n'emploie jamais : isocele, rectangle, distinctes
+- `js/data/lycee-2nde/2nde-geometrie-plane.js:491` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : degres
+- `js/data/lycee-2nde/2nde-geometrie-plane.js:352` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : divise
+- `js/data/lycee-2nde/2nde-probabilites.js:360` — quiz[0] emploie un terme technique que le cours n'emploie jamais : independant
+- `js/data/lycee-2nde/2nde-probabilites.js:364` — quiz[4] emploie un terme technique que le cours n'emploie jamais : methode, complementaire
+- `js/data/lycee-2nde/2nde-probabilites.js:504` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : forme, decimale
+- `js/data/lycee-2nde/2nde-probabilites.js:521` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : seconde
+- `js/data/lycee-2nde/2nde-probabilites.js:538` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : forme, decimale
+- `js/data/lycee-2nde/2nde-reperage-plan.js:411` — quiz[3] emploie un terme technique que le cours n'emploie jamais : differents
+- `js/data/lycee-2nde/2nde-reperage-plan.js:412` — quiz[4] emploie un terme technique que le cours n'emploie jamais : coefficient, identite, remarquable, signe
+- `js/data/lycee-2nde/2nde-reperage-plan.js:701` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : place, symetrie, abscisse
+- `js/data/lycee-2nde/2nde-reperage-plan.js:410` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : ordonnee
+- `js/data/lycee-2nde/2nde-reperage-plan.js:411` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : differents
+- `js/data/lycee-2nde/2nde-reperage-plan.js:733` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : ligne, droite, unites
+- `js/data/lycee-2nde/2nde-statistiques.js:381` — quiz[0] emploie un terme technique que le cours n'emploie jamais : convention
+- `js/data/lycee-2nde/2nde-statistiques.js:382` — quiz[1] emploie un terme technique que le cours n'emploie jamais : homogene
+- `js/data/lycee-2nde/2nde-statistiques.js:384` — quiz[3] emploie un terme technique que le cours n'emploie jamais : augmente, change
+- `js/data/lycee-2nde/2nde-statistiques.js:385` — quiz[4] emploie un terme technique que le cours n'emploie jamais : multiplie, nouvelle
+- `js/data/lycee-2nde/2nde-statistiques.js:692` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : homogene, egalement, comparer
+- `js/data/lycee-2nde/2nde-statistiques.js:700` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : convention
+- `js/data/lycee-2nde/fonctions-affines.js:374` — quiz[0] emploie un terme technique que le cours n'emploie jamais : terme, definie
+- `js/data/lycee-2nde/fonctions-affines.js:402` — quiz[3] emploie un terme technique que le cours n'emploie jamais : temperature
+- `js/data/lycee-2nde/fonctions-affines.js:413` — quiz[4] emploie un terme technique que le cours n'emploie jamais : equations, abscisse
+- `js/data/lycee-2nde/vecteurs.js:332` — quiz[3] emploie un terme technique que le cours n'emploie jamais : grand, comparer
+- `js/data/lycee-2nde/vecteurs.js:554` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : horizontal
+- `js/data/lycee-1re/1re-derivation.js:344` — quiz[1] emploie un terme technique que le cours n'emploie jamais : position
+- `js/data/lycee-1re/1re-derivation.js:331` — quiz[4] emploie un terme technique que le cours n'emploie jamais : certain
+- `js/data/lycee-1re/1re-derivation.js:555` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : position
+- `js/data/lycee-1re/1re-geometrie-reperee.js:344` — quiz[0] emploie un terme technique que le cours n'emploie jamais : norme
+- `js/data/lycee-1re/1re-geometrie-reperee.js:345` — quiz[1] emploie un terme technique que le cours n'emploie jamais : coefficient, n'existe
+- `js/data/lycee-1re/1re-geometrie-reperee.js:348` — quiz[4] emploie un terme technique que le cours n'emploie jamais : milieu
+- `js/data/lycee-1re/1re-geometrie-reperee.js:464` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : affine
+- `js/data/lycee-1re/1re-information-chiffree.js:120` — quiz[0] emploie un terme technique que le cours n'emploie jamais : diviser
+- `js/data/lycee-1re/1re-information-chiffree.js:326` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : rayon
+- `js/data/lycee-1re/1re-information-chiffree.js:344` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : diminue
+- `js/data/lycee-1re/1re-information-chiffree.js:373` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : vient
+- `js/data/lycee-1re/1re-polynomes-signe.js:317` — quiz[1] emploie un terme technique que le cours n'emploie jamais : partout
+- `js/data/lycee-1re/1re-polynomes-signe.js:611` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : partout
+- `js/data/lycee-1re/1re-probas-conditionnelles.js:301` — quiz[0] emploie un terme technique que le cours n'emploie jamais : conclusion, definition
+- `js/data/lycee-1re/1re-probas-conditionnelles.js:549` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : releve
+- `js/data/lycee-1re/1re-produit-scalaire.js:368` — quiz[0] emploie un terme technique que le cours n'emploie jamais : rapport
+- `js/data/lycee-1re/1re-produit-scalaire.js:385` — quiz[2] emploie un terme technique que le cours n'emploie jamais : normale, horizontal, verticale
+- `js/data/lycee-1re/1re-produit-scalaire.js:397` — quiz[4] emploie un terme technique que le cours n'emploie jamais : colineaires
+- `js/data/lycee-1re/1re-produit-scalaire.js:368` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : rapport
+- `js/data/lycee-1re/1re-produit-scalaire.js:526` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : absolue
+- `js/data/lycee-1re/1re-second-degre.js:280` — quiz[0] emploie un terme technique que le cours n'emploie jamais : negative
+- `js/data/lycee-1re/1re-second-degre.js:30` — quiz[1] emploie un terme technique que le cours n'emploie jamais : infinite
+- `js/data/lycee-1re/1re-second-degre.js:514` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : infinite
+- `js/data/lycee-1re/1re-second-degre.js:541` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : longueur, dimensions, rectangle, coefficients
+- `js/data/lycee-1re/1re-suites.js:297` — quiz[0] emploie un terme technique que le cours n'emploie jamais : constantes
+- `js/data/lycee-1re/1re-suites.js:326` — quiz[4] emploie un terme technique que le cours n'emploie jamais : nature
+- `js/data/lycee-1re/1re-suites.js:569` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : definie, nature
+- `js/data/lycee-1re/1re-suites.js:606` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : meilleur, conclusion, pourcentage, comparer
+- `js/data/lycee-1re/1re-trigonometrie.js:299` — quiz[0] emploie un terme technique que le cours n'emploie jamais : convertir
+- `js/data/lycee-1re/1re-trigonometrie.js:303` — quiz[4] emploie un terme technique que le cours n'emploie jamais : sachant
+- `js/data/lycee-1re/1re-trigonometrie.js:558` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : convertir
+- `js/data/lycee-1re/1re-trigonometrie.js:583` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : intervalle, qu'une
+- `js/data/lycee-1re/1re-trigonometrie.js:293` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : fausse
+- `js/data/lycee-1re/1re-trigonometrie.js:628` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : sachant, racine, carree, quatrieme, calcul, convertir, appliquer
+- `js/data/lycee-1re/1re-variables-aleatoires.js:508` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : rouge, change, issues
+- `js/data/lycee-tle/tle-convexite.js:201` — quiz[0] emploie un terme technique que le cours n'emploie jamais : decroissante, constante
+- `js/data/lycee-tle/tle-convexite.js:284` — quiz[3] emploie un terme technique que le cours n'emploie jamais : croissante
+- `js/data/lycee-tle/tle-convexite.js:285` — quiz[4] emploie un terme technique que le cours n'emploie jamais : verticale
+- `js/data/lycee-tle/tle-convexite.js:523` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : tableau, signes, croissante, decroissante, maximum
+- `js/data/lycee-tle/tle-convexite.js:544` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : milieu
+- `js/data/lycee-tle/tle-convexite.js:557` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : abscisse
+- `js/data/lycee-tle/tle-denombrement.js:180` — quiz[1] emploie un terme technique que le cours n'emploie jamais : distinctes
+- `js/data/lycee-tle/tle-denombrement.js:181` — quiz[2] emploie un terme technique que le cours n'emploie jamais : diviser
+- `js/data/lycee-tle/tle-denombrement.js:354` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : forme
+- `js/data/lycee-tle/tle-denombrement.js:430` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : compter, reste, ajouter
+- `js/data/lycee-tle/tle-derivation-complements.js:483` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : aucune, denominateur, decroissante, change, signe, carres, negatif, expression
+- `js/data/lycee-tle/tle-derivation-complements.js:518` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : graphique
+- `js/data/lycee-tle/tle-derivation-complements.js:539` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : methode, argument, n'est, definie, signe
+- `js/data/lycee-tle/tle-equations-differentielles.js:341` — quiz[0] emploie un terme technique que le cours n'emploie jamais : serie
+- `js/data/lycee-tle/tle-equations-differentielles.js:353` — quiz[2] emploie un terme technique que le cours n'emploie jamais : necessaire, demi-vie
+- `js/data/lycee-tle/tle-equations-differentielles.js:375` — quiz[4] emploie un terme technique que le cours n'emploie jamais : double, multiplie
+- `js/data/lycee-tle/tle-equations-differentielles.js:627` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : volume, situation
+- `js/data/lycee-tle/tle-equations-differentielles.js:665` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : second, aucune, comparer
+- `js/data/lycee-tle/tle-equations-differentielles.js:687` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : minutes, sachant
+- `js/data/lycee-tle/tle-exponentielle-logarithme.js:378` — quiz[2] emploie un terme technique que le cours n'emploie jamais : solution
+- `js/data/lycee-tle/tle-exponentielle-logarithme.js:389` — quiz[3] emploie un terme technique que le cours n'emploie jamais : simplifier
+- `js/data/lycee-tle/tle-exponentielle-logarithme.js:400` — quiz[4] emploie un terme technique que le cours n'emploie jamais : minimum, seconde
+- `js/data/lycee-tle/tle-exponentielle-logarithme.js:648` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : mesure
+- `js/data/lycee-tle/tle-exponentielle-logarithme.js:681` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : seconde, decroit, releve, aucune
+- `js/data/lycee-tle/tle-exponentielle-logarithme.js:707` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : seuil, aucune, methode, successives
+- `js/data/lycee-tle/tle-exponentielle-logarithme.js:730` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : recoit, origine, ralentit
+- `js/data/lycee-tle/tle-geometrie-espace.js:351` — quiz[0] emploie un terme technique que le cours n'emploie jamais : fausse
+- `js/data/lycee-tle/tle-geometrie-espace.js:353` — quiz[2] emploie un terme technique que le cours n'emploie jamais : norme
+- `js/data/lycee-tle/tle-geometrie-espace.js:355` — quiz[4] emploie un terme technique que le cours n'emploie jamais : nature
+- `js/data/lycee-tle/tle-geometrie-espace.js:579` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : norme
+- `js/data/lycee-tle/tle-geometrie-espace.js:588` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : perpendiculaires
+- `js/data/lycee-tle/tle-limites-continuite.js:288` — quiz[0] emploie un terme technique que le cours n'emploie jamais : convention
+- `js/data/lycee-tle/tle-limites-continuite.js:533` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : equation, monte
+- `js/data/lycee-tle/tle-limites-continuite.js:555` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : comparaison, degres
+- `js/data/lycee-tle/tle-limites-continuite.js:571` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : certain, seuil
+- `js/data/lycee-tle/tle-logarithme.js:377` — quiz[1] emploie un terme technique que le cours n'emploie jamais : simplifier
+- `js/data/lycee-tle/tle-logarithme.js:377` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : simplifier
+- `js/data/lycee-tle/tle-logarithme.js:623` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : aucun, positif, argument, signe
+- `js/data/lycee-tle/tle-logarithme.js:657` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : fausse, general, strictement, egaux, methode
+- `js/data/lycee-tle/tle-logarithme.js:679` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : chacune, calcul, conclusion, droit, regrouper, negative
+- `js/data/lycee-tle/tle-lois-continues.js:561` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : produit, diametre
+- `js/data/lycee-tle/tle-lois-continues.js:631` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : situation
+- `js/data/lycee-tle/tle-orthogonalite-espace.js:232` — quiz[0] emploie un terme technique que le cours n'emploie jamais : negative
+- `js/data/lycee-tle/tle-orthogonalite-espace.js:486` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : coordonnees, differentes
+- `js/data/lycee-tle/tle-primitives-integrales.js:322` — quiz[0] emploie un terme technique que le cours n'emploie jamais : derive
+- `js/data/lycee-tle/tle-primitives-integrales.js:351` — quiz[4] emploie un terme technique que le cours n'emploie jamais : n'existe
+- `js/data/lycee-tle/tle-primitives-integrales.js:648` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : sinus, conclusion, creux, place
+- `js/data/lycee-tle/tle-suites-complements.js:317` — quiz[1] emploie un terme technique que le cours n'emploie jamais : utile, automatiquement
+- `js/data/lycee-tle/tle-suites-complements.js:318` — quiz[2] emploie un terme technique que le cours n'emploie jamais : constante, nulle
+- `js/data/lycee-tle/tle-suites-complements.js:320` — quiz[4] emploie un terme technique que le cours n'emploie jamais : moyenne
+- `js/data/lycee-tle/tle-suites-complements.js:571` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : formule
+- `js/data/lycee-tle/tle-suites-complements.js:592` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : prises
+- `js/data/lycee-tle/tle-suites-complements.js:612` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : demontrer, multiple, calcul, divisibilite
+- `js/data/lycee-tle/tle-suites-complements.js:632` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : calcul, solution, n'existe
+- `js/data/bts-prep/bts-prep-analyse-dim.js:46` — quiz[3] emploie un terme technique que le cours n'emploie jamais : totale
+- `js/data/bts-prep/bts-prep-analyse-dim.js:233` — quiz[8] emploie un terme technique que le cours n'emploie jamais : distance
+- `js/data/bts-prep/bts-prep-analyse-dim.js:258` — quiz[9] emploie un terme technique que le cours n'emploie jamais : constante, circuit
+- `js/data/bts-prep/bts-prep-analyse-dim.js:276` — quiz[12] emploie un terme technique que le cours n'emploie jamais : debit, section
+- `js/data/bts-prep/bts-prep-analyse-dim.js:288` — quiz[14] emploie un terme technique que le cours n'emploie jamais : volume
+- `js/data/bts-prep/bts-prep-analyse-dim.js:300` — quiz[16] emploie un terme technique que le cours n'emploie jamais : coefficient
+- `js/data/bts-prep/bts-prep-analyse-dim.js:306` — quiz[17] emploie un terme technique que le cours n'emploie jamais : distance
+- `js/data/bts-prep/bts-prep-analyse-dim.js:312` — quiz[18] emploie un terme technique que le cours n'emploie jamais : suppose, periode, sachant
+- `js/data/bts-prep/bts-prep-analyse-dim.js:324` — quiz[20] emploie un terme technique que le cours n'emploie jamais : sachant
+- `js/data/bts-prep/bts-prep-analyse-dim.js:508` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : deuxieme, joule, pascal
+- `js/data/bts-prep/bts-prep-analyse-dim.js:521` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : expression, joule
+- `js/data/bts-prep/bts-prep-analyse-dim.js:534` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : frequence, exacte
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:153` — quiz[1] emploie un terme technique que le cours n'emploie jamais : pompe, pression, differentielle
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:159` — quiz[2] emploie un terme technique que le cours n'emploie jamais : normale, force, section
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:176` — quiz[4] emploie un terme technique que le cours n'emploie jamais : section, diametre
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:207` — quiz[5] emploie un terme technique que le cours n'emploie jamais : resistance, surface
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:213` — quiz[6] emploie un terme technique que le cours n'emploie jamais : vitesse
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:219` — quiz[7] emploie un terme technique que le cours n'emploie jamais : force, vitesse
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:225` — quiz[8] emploie un terme technique que le cours n'emploie jamais : monte, energie
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:231` — quiz[9] emploie un terme technique que le cours n'emploie jamais : joule, resistance, tension, positive
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:242` — quiz[10] emploie un terme technique que le cours n'emploie jamais : theoreme, pythagore, longueur, hauteur, projection, horizontale
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:286` — quiz[12] emploie un terme technique que le cours n'emploie jamais : ligne
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:297` — quiz[13] emploie un terme technique que le cours n'emploie jamais : force
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:303` — quiz[14] emploie un terme technique que le cours n'emploie jamais : force
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:309` — quiz[15] emploie un terme technique que le cours n'emploie jamais : volume, longueur, largeur
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:315` — quiz[16] emploie un terme technique que le cours n'emploie jamais : sachant, longueur
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:321` — quiz[17] emploie un terme technique que le cours n'emploie jamais : pompe, volume
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:327` — quiz[18] emploie un terme technique que le cours n'emploie jamais : electrique, duree, energie, fonctionnement
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:333` — quiz[19] emploie un terme technique que le cours n'emploie jamais : solution, volume
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:339` — quiz[20] emploie un terme technique que le cours n'emploie jamais : volume, solution
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:345` — quiz[21] emploie un terme technique que le cours n'emploie jamais : dilution, volume, solution
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:504` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : section
+- `js/data/bts-prep/bts-prep-calcul-litteral.js:521` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : normale, section
+- `js/data/bts-prep/bts-prep-conversions.js:293` — quiz[2] emploie un terme technique que le cours n'emploie jamais : angulaire
+- `js/data/bts-prep/bts-prep-conversions.js:353` — quiz[12] emploie un terme technique que le cours n'emploie jamais : resistance
+- `js/data/bts-prep/bts-prep-conversions.js:359` — quiz[13] emploie un terme technique que le cours n'emploie jamais : norme
+- `js/data/bts-prep/bts-prep-conversions.js:371` — quiz[15] emploie un terme technique que le cours n'emploie jamais : angulaire
+- `js/data/bts-prep/bts-prep-conversions.js:609` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : convertir
+- `js/data/bts-prep/bts-prep-conversions.js:618` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : decimale
+- `js/data/bts-prep/bts-prep-conversions.js:649` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : produit
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:181` — quiz[2] emploie un terme technique que le cours n'emploie jamais : indice
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:199` — quiz[5] emploie un terme technique que le cours n'emploie jamais : direct
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:211` — quiz[7] emploie un terme technique que le cours n'emploie jamais : differents, pertes, charge, fonction
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:244` — quiz[9] emploie un terme technique que le cours n'emploie jamais : resistance
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:272` — quiz[10] emploie un terme technique que le cours n'emploie jamais : transfert, inferieur, automatiquement, divise
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:278` — quiz[11] emploie un terme technique que le cours n'emploie jamais : transfert, solution, surface
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:290` — quiz[13] emploie un terme technique que le cours n'emploie jamais : indice, produits, nature
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:302` — quiz[15] emploie un terme technique que le cours n'emploie jamais : direct, energie
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:314` — quiz[17] emploie un terme technique que le cours n'emploie jamais : surface
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:326` — quiz[19] emploie un terme technique que le cours n'emploie jamais : reduire, moitie
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:571` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : surface
+- `js/data/bts-prep/bts-prep-equations-transf.js:198` — quiz[7] emploie un terme technique que le cours n'emploie jamais : condensateur
+- `js/data/bts-prep/bts-prep-equations-transf.js:204` — quiz[8] emploie un terme technique que le cours n'emploie jamais : resoudre
+- `js/data/bts-prep/bts-prep-equations-transf.js:210` — quiz[9] emploie un terme technique que le cours n'emploie jamais : signal
+- `js/data/bts-prep/bts-prep-equations-transf.js:234` — quiz[13] emploie un terme technique que le cours n'emploie jamais : sachant
+- `js/data/bts-prep/bts-prep-equations-transf.js:279` — quiz[17] emploie un terme technique que le cours n'emploie jamais : condensateur
+- `js/data/bts-prep/bts-prep-equations-transf.js:458` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : condensateur
+- `js/data/bts-prep/bts-prep-equations-transf.js:467` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : formule, produit
+- `js/data/bts-prep/bts-prep-equations-transf.js:485` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : resoudre
+- `js/data/bts-prep/bts-prep-equations.js:174` — quiz[2] emploie un terme technique que le cours n'emploie jamais : distinctes
+- `js/data/bts-prep/bts-prep-equations.js:186` — quiz[4] emploie un terme technique que le cours n'emploie jamais : circuit, serie
+- `js/data/bts-prep/bts-prep-equations.js:210` — quiz[8] emploie un terme technique que le cours n'emploie jamais : droites, paralleles, confondues, secantes, droite
+- `js/data/bts-prep/bts-prep-equations.js:268` — quiz[12] emploie un terme technique que le cours n'emploie jamais : longueur, totale, divise
+- `js/data/bts-prep/bts-prep-equations.js:274` — quiz[13] emploie un terme technique que le cours n'emploie jamais : volumes, volume
+- `js/data/bts-prep/bts-prep-equations.js:280` — quiz[14] emploie un terme technique que le cours n'emploie jamais : total, recoit
+- `js/data/bts-prep/bts-prep-equations.js:292` — quiz[16] emploie un terme technique que le cours n'emploie jamais : distinctes
+- `js/data/bts-prep/bts-prep-equations.js:303` — quiz[17] emploie un terme technique que le cours n'emploie jamais : charge, conditions
+- `js/data/bts-prep/bts-prep-equations.js:314` — quiz[18] emploie un terme technique que le cours n'emploie jamais : position
+- `js/data/bts-prep/bts-prep-equations.js:325` — quiz[19] emploie un terme technique que le cours n'emploie jamais : forces
+- `js/data/bts-prep/bts-prep-equations.js:519` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : retenue, division, fausse, diviser, termes, terme, n'est, ranger, ajouter, verification, change, droite
+- `js/data/bts-prep/bts-prep-equations.js:568` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : additionne, addition, fausse, somme, seule, soustraction, soustraire, seconde, ligne
+- `js/data/bts-prep/bts-prep-equations.js:583` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : simple
+- `js/data/bts-prep/bts-prep-fonctions.js:192` — quiz[1] emploie un terme technique que le cours n'emploie jamais : puissance, rendement
+- `js/data/bts-prep/bts-prep-fonctions.js:198` — quiz[2] emploie un terme technique que le cours n'emploie jamais : droites
+- `js/data/bts-prep/bts-prep-fonctions.js:235` — quiz[3] emploie un terme technique que le cours n'emploie jamais : points
+- `js/data/bts-prep/bts-prep-fonctions.js:241` — quiz[4] emploie un terme technique que le cours n'emploie jamais : croit, signe
+- `js/data/bts-prep/bts-prep-fonctions.js:253` — quiz[6] emploie un terme technique que le cours n'emploie jamais : temperature, viscosite, decroissante
+- `js/data/bts-prep/bts-prep-fonctions.js:264` — quiz[7] emploie un terme technique que le cours n'emploie jamais : maximum
+- `js/data/bts-prep/bts-prep-fonctions.js:275` — quiz[8] emploie un terme technique que le cours n'emploie jamais : maximum
+- `js/data/bts-prep/bts-prep-fonctions.js:306` — quiz[9] emploie un terme technique que le cours n'emploie jamais : puissance
+- `js/data/bts-prep/bts-prep-fonctions.js:312` — quiz[10] emploie un terme technique que le cours n'emploie jamais : coupe
+- `js/data/bts-prep/bts-prep-fonctions.js:318` — quiz[11] emploie un terme technique que le cours n'emploie jamais : distance
+- `js/data/bts-prep/bts-prep-fonctions.js:324` — quiz[12] emploie un terme technique que le cours n'emploie jamais : temperature, puissance
+- `js/data/bts-prep/bts-prep-fonctions.js:330` — quiz[13] emploie un terme technique que le cours n'emploie jamais : rendement, maximum
+- `js/data/bts-prep/bts-prep-fonctions.js:342` — quiz[15] emploie un terme technique que le cours n'emploie jamais : decroissante
+- `js/data/bts-prep/bts-prep-fonctions.js:348` — quiz[16] emploie un terme technique que le cours n'emploie jamais : temperature
+- `js/data/bts-prep/bts-prep-fonctions.js:354` — quiz[17] emploie un terme technique que le cours n'emploie jamais : puissance, mecanique, maximum
+- `js/data/bts-prep/bts-prep-fonctions.js:378` — quiz[21] emploie un terme technique que le cours n'emploie jamais : points
+- `js/data/bts-prep/bts-prep-fonctions.js:198` — quiz[22] emploie un terme technique que le cours n'emploie jamais : droites
+- `js/data/bts-prep/bts-prep-fonctions.js:605` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : tableau, decroissante, points, aucune, simple, alignes
+- `js/data/bts-prep/bts-prep-fonctions.js:638` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : hauteurs, coincident, petit, egales, definition, maximum
+- `js/data/bts-prep/bts-prep-fonctions.js:668` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : fraction, ordre, points, negative, distance
+- `js/data/bts-prep/bts-prep-graphiques.js:292` — quiz[2] emploie un terme technique que le cours n'emploie jamais : parabole
+- `js/data/bts-prep/bts-prep-graphiques.js:298` — quiz[3] emploie un terme technique que le cours n'emploie jamais : interieur, exterieur
+- `js/data/bts-prep/bts-prep-graphiques.js:304` — quiz[4] emploie un terme technique que le cours n'emploie jamais : lineaires
+- `js/data/bts-prep/bts-prep-graphiques.js:316` — quiz[6] emploie un terme technique que le cours n'emploie jamais : fonctionnement
+- `js/data/bts-prep/bts-prep-graphiques.js:353` — quiz[8] emploie un terme technique que le cours n'emploie jamais : resistance
+- `js/data/bts-prep/bts-prep-graphiques.js:359` — quiz[9] emploie un terme technique que le cours n'emploie jamais : pression
+- `js/data/bts-prep/bts-prep-graphiques.js:371` — quiz[11] emploie un terme technique que le cours n'emploie jamais : volume, methode, moindres, carres
+- `js/data/bts-prep/bts-prep-graphiques.js:413` — quiz[18] emploie un terme technique que le cours n'emploie jamais : vitesse, initiale, exposant
+- `js/data/bts-prep/bts-prep-graphiques.js:419` — quiz[19] emploie un terme technique que le cours n'emploie jamais : abscisse, ordonnee, affine, parabole
+- `js/data/bts-prep/bts-prep-graphiques.js:425` — quiz[20] emploie un terme technique que le cours n'emploie jamais : charge
+- `js/data/bts-prep/bts-prep-graphiques.js:701` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : abscisse, moyenne, distance, difference, moitie, convertir
+- `js/data/bts-prep/bts-prep-graphiques.js:716` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : vitesse
+- `js/data/bts-prep/bts-prep-graphiques.js:725` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : limite, aucune, qu'une, physiques, multiplier
+- `js/data/bts-prep/bts-prep-logarithme.js:264` — quiz[1] emploie un terme technique que le cours n'emploie jamais : multiplie
+- `js/data/bts-prep/bts-prep-logarithme.js:276` — quiz[3] emploie un terme technique que le cours n'emploie jamais : serie
+- `js/data/bts-prep/bts-prep-logarithme.js:288` — quiz[5] emploie un terme technique que le cours n'emploie jamais : deuxieme, identique
+- `js/data/bts-prep/bts-prep-logarithme.js:320` — quiz[6] emploie un terme technique que le cours n'emploie jamais : circuit
+- `js/data/bts-prep/bts-prep-logarithme.js:344` — quiz[10] emploie un terme technique que le cours n'emploie jamais : solution
+- `js/data/bts-prep/bts-prep-logarithme.js:350` — quiz[11] emploie un terme technique que le cours n'emploie jamais : vitesse
+- `js/data/bts-prep/bts-prep-logarithme.js:368` — quiz[14] emploie un terme technique que le cours n'emploie jamais : circuit
+- `js/data/bts-prep/bts-prep-logarithme.js:403` — quiz[15] emploie un terme technique que le cours n'emploie jamais : initiale
+- `js/data/bts-prep/bts-prep-logarithme.js:421` — quiz[18] emploie un terme technique que le cours n'emploie jamais : temperature, initiale
+- `js/data/bts-prep/bts-prep-logarithme.js:427` — quiz[19] emploie un terme technique que le cours n'emploie jamais : simplifier
+- `js/data/bts-prep/bts-prep-logarithme.js:439` — quiz[21] emploie un terme technique que le cours n'emploie jamais : multiplie
+- `js/data/bts-prep/bts-prep-logarithme.js:624` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : optique
+- `js/data/bts-prep/bts-prep-logarithme.js:633` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : simplifier
+- `js/data/bts-prep/bts-prep-proportionnalite.js:136` — quiz[2] emploie un terme technique que le cours n'emploie jamais : pente, longueur, horizontale, hauteur
+- `js/data/bts-prep/bts-prep-proportionnalite.js:175` — quiz[5] emploie un terme technique que le cours n'emploie jamais : solution
+- `js/data/bts-prep/bts-prep-proportionnalite.js:187` — quiz[7] emploie un terme technique que le cours n'emploie jamais : dilution, solution, volumes
+- `js/data/bts-prep/bts-prep-proportionnalite.js:205` — quiz[10] emploie un terme technique que le cours n'emploie jamais : solution
+- `js/data/bts-prep/bts-prep-proportionnalite.js:217` — quiz[12] emploie un terme technique que le cours n'emploie jamais : pente, reglementaire, longueur
+- `js/data/bts-prep/bts-prep-proportionnalite.js:255` — quiz[15] emploie un terme technique que le cours n'emploie jamais : reste
+- `js/data/bts-prep/bts-prep-proportionnalite.js:267` — quiz[17] emploie un terme technique que le cours n'emploie jamais : inferieur, identique
+- `js/data/bts-prep/bts-prep-proportionnalite.js:273` — quiz[18] emploie un terme technique que le cours n'emploie jamais : necessaire
+- `js/data/bts-prep/bts-prep-proportionnalite.js:279` — quiz[19] emploie un terme technique que le cours n'emploie jamais : charge
+- `js/data/bts-prep/bts-prep-proportionnalite.js:285` — quiz[20] emploie un terme technique que le cours n'emploie jamais : solution
+- `js/data/bts-prep/bts-prep-proportionnalite.js:475` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : vitesse
+- `js/data/bts-prep/bts-prep-proportionnalite.js:484` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : serie, multiplient
+- `js/data/bts-prep/bts-prep-proportionnalite.js:492` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : tension
+- `js/data/bts-prep/bts-prep-proportionnalite.js:501` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : produite
+- `js/data/bts-prep/bts-prep-puissances.js:330` — quiz[8] emploie un terme technique que le cours n'emploie jamais : energie
+- `js/data/bts-prep/bts-prep-puissances.js:348` — quiz[11] emploie un terme technique que le cours n'emploie jamais : atome
+- `js/data/bts-prep/bts-prep-puissances.js:354` — quiz[12] emploie un terme technique que le cours n'emploie jamais : signal
+- `js/data/bts-prep/bts-prep-puissances.js:360` — quiz[13] emploie un terme technique que le cours n'emploie jamais : force
+- `js/data/bts-prep/bts-prep-puissances.js:366` — quiz[14] emploie un terme technique que le cours n'emploie jamais : mesure
+- `js/data/bts-prep/bts-prep-puissances.js:391` — quiz[15] emploie un terme technique que le cours n'emploie jamais : debit
+- `js/data/bts-prep/bts-prep-puissances.js:614` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : seule, ecriture
+- `js/data/bts-prep/bts-prep-puissances.js:663` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : mesure, nulle, negligeable, negative
+- `js/data/bts-prep/bts-prep-puissances.js:678` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : charge, energie
+- `js/data/bts-prep/bts-prep-si-unites.js:306` — quiz[9] emploie un terme technique que le cours n'emploie jamais : degre
+- `js/data/bts-prep/bts-prep-si-unites.js:336` — quiz[14] emploie un terme technique que le cours n'emploie jamais : diviser
+- `js/data/bts-prep/bts-prep-si-unites.js:366` — quiz[19] emploie un terme technique que le cours n'emploie jamais : volume
+- `js/data/bts-prep/bts-prep-si-unites.js:543` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : section
+- `js/data/bts-prep/bts-prep-si-unites.js:585` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : degres
+- `js/data/bts-prep/bts-prep-trigonometrie.js:298` — quiz[5] emploie un terme technique que le cours n'emploie jamais : convertir
+- `js/data/bts-prep/bts-prep-trigonometrie.js:304` — quiz[6] emploie un terme technique que le cours n'emploie jamais : horizontal
+- `js/data/bts-prep/bts-prep-trigonometrie.js:322` — quiz[9] emploie un terme technique que le cours n'emploie jamais : horizontal, surface
+- `js/data/bts-prep/bts-prep-trigonometrie.js:328` — quiz[10] emploie un terme technique que le cours n'emploie jamais : tangente, negative
+- `js/data/bts-prep/bts-prep-trigonometrie.js:334` — quiz[11] emploie un terme technique que le cours n'emploie jamais : mesure, distance, hauteur
+- `js/data/bts-prep/bts-prep-trigonometrie.js:340` — quiz[12] emploie un terme technique que le cours n'emploie jamais : condensateur
+- `js/data/bts-prep/bts-prep-trigonometrie.js:346` — quiz[13] emploie un terme technique que le cours n'emploie jamais : facteur, degre
+- `js/data/bts-prep/bts-prep-trigonometrie.js:405` — quiz[16] emploie un terme technique que le cours n'emploie jamais : traverse, inclinaison
+- `js/data/bts-prep/bts-prep-trigonometrie.js:411` — quiz[17] emploie un terme technique que le cours n'emploie jamais : centrale, mesure, forme, hauteur
+- `js/data/bts-prep/bts-prep-trigonometrie.js:423` — quiz[19] emploie un terme technique que le cours n'emploie jamais : forme, hauteur
+- `js/data/bts-prep/bts-prep-trigonometrie.js:429` — quiz[20] emploie un terme technique que le cours n'emploie jamais : echelle, degre
+- `js/data/bts-prep/bts-prep-trigonometrie.js:646` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : naturel, difference, hauteur
+- `js/data/bts-prep/bts-prep-trigonometrie.js:672` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : principe, pourcentage, tangente
+- `js/data/bts-prep/bts-prep-trigonometrie.js:687` — evaluation[5] emploie un terme technique que le cours n'emploie jamais : mesure
+- `js/data/bts-prep/bts-prep-trigonometrie.js:714` — evaluation[6] emploie un terme technique que le cours n'emploie jamais : seule, argument, remarquable, sinus, quart
+- `js/data/bts-prep/bts-prep-vecteurs.js:344` — quiz[5] emploie un terme technique que le cours n'emploie jamais : chacune
+- `js/data/bts-prep/bts-prep-vecteurs.js:350` — quiz[6] emploie un terme technique que le cours n'emploie jamais : perpendiculaire
+- `js/data/bts-prep/bts-prep-vecteurs.js:376` — quiz[7] emploie un terme technique que le cours n'emploie jamais : positif, negatif
+- `js/data/bts-prep/bts-prep-vecteurs.js:388` — quiz[9] emploie un terme technique que le cours n'emploie jamais : systeme, nulle, perpendiculaire
+- `js/data/bts-prep/bts-prep-vecteurs.js:394` — quiz[10] emploie un terme technique que le cours n'emploie jamais : mesure
+- `js/data/bts-prep/bts-prep-vecteurs.js:412` — quiz[13] emploie un terme technique que le cours n'emploie jamais : systeme
+- `js/data/bts-prep/bts-prep-vecteurs.js:424` — quiz[15] emploie un terme technique que le cours n'emploie jamais : parfaitement
+- `js/data/bts-prep/bts-prep-vecteurs.js:436` — quiz[17] emploie un terme technique que le cours n'emploie jamais : electriques
+- `js/data/bts-prep/bts-prep-vecteurs.js:448` — quiz[19] emploie un terme technique que le cours n'emploie jamais : facteur
+- `js/data/bts-prep/bts-prep-vecteurs.js:412` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : systeme, points
+- `js/data/bts-prep/bts-prep-vecteurs.js:699` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : au-dessus
+- `js/data/bts-prep/bts-prep-vecteurs.js:708` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : degres
+- `js/data/bts/bts-derivation-appliquee.js:135` — quiz[2] emploie un terme technique que le cours n'emploie jamais : aucun
+- `js/data/bts/bts-derivation-appliquee.js:191` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : inflexion
+- `js/data/bts/bts-fonctions-reelles.js:111` — quiz[2] emploie un terme technique que le cours n'emploie jamais : simplification, definie, irreductible
+- `js/data/bts/bts-fonctions-reelles.js:172` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : borne
+- `js/data/bts/bts-fonctions-reelles.js:111` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : definie, c'est
+- `js/data/bts/bts-fonctions-reelles.js:111` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : decroissante, constante, concave
+- `js/data/bts/bts-fourier.js:102` — quiz[0] emploie un terme technique que le cours n'emploie jamais : coefficient, dephasage
+- `js/data/bts/bts-fourier.js:103` — quiz[1] emploie un terme technique que le cours n'emploie jamais : diverge
+- `js/data/bts/bts-fourier.js:102` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : coefficient, dephasage
+- `js/data/bts/bts-fourier.js:223` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : coefficient, sachant
+- `js/data/bts/bts-fourier.js:240` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : limite, diverge
+- `js/data/bts/bts-integrales-appliquees.js:146` — quiz[2] emploie un terme technique que le cours n'emploie jamais : unites, courbe, fausse, symetrie, positif, negatif
+- `js/data/bts/bts-integrales-appliquees.js:248` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : borne, derive, multiplie, divise, soustraire, variable
+- `js/data/bts/bts-integrales-appliquees.js:263` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : partie, bornes, inversees
+- `js/data/bts/bts-laplace.js:185` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : theoreme
+- `js/data/bts/bts-laplace.js:202` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : decomposer
+- `js/data/bts/bts-loi-normale.js:115` — quiz[0] emploie un terme technique que le cours n'emploie jamais : variable
+- `js/data/bts/bts-loi-normale.js:121` — quiz[1] emploie un terme technique que le cours n'emploie jamais : symetrie
+- `js/data/bts/bts-loi-normale.js:208` — evaluation[0] emploie un terme technique que le cours n'emploie jamais : variable
+- `js/data/bts/bts-loi-normale.js:242` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : diviser, mesure, calcul, incertitude
+- `js/data/bts/bts-loi-normale.js:265` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : diametre, pourcentage
+- `js/data/bts/bts-matrices.js:134` — quiz[1] emploie un terme technique que le cours n'emploie jamais : nulle
+- `js/data/bts/bts-matrices.js:16` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : aucune, homogene
+- `js/data/bts/bts-matrices.js:213` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : coefficient, position
+- `js/data/bts/bts-matrices.js:243` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : seule, multiplie, cotes
+- `js/data/bts/bts-matrices.js:258` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : propriete, consequence, commutativite, distributivite, addition
+- `js/data/bts/bts-probas-discretes.js:123` — quiz[0] emploie un terme technique que le cours n'emploie jamais : precis, seule, disponible
+- `js/data/bts/bts-probas-discretes.js:124` — quiz[1] emploie un terme technique que le cours n'emploie jamais : esperance
+- `js/data/bts/bts-probas-discretes.js:193` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : caracteristique
+- `js/data/bts/bts-probas-discretes.js:201` — evaluation[2] emploie un terme technique que le cours n'emploie jamais : recoit, seconde
+- `js/data/bts/bts-probas-discretes.js:239` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : releve, egales, uniforme, ordre, grandeur, symetrique
+- `js/data/bts/bts-stats-deux-variables.js:120` — quiz[0] emploie un terme technique que le cours n'emploie jamais : simultanement, directe
+- `js/data/bts/bts-stats-deux-variables.js:121` — quiz[1] emploie un terme technique que le cours n'emploie jamais : maximum
+- `js/data/bts/bts-stats-deux-variables.js:199` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : maximum, intersection
+- `js/data/bts/bts-stats-deux-variables.js:216` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : aucune
+- `js/data/bts/bts-stats-deux-variables.js:246` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : charge, milieu, tableau, nulle
+- `js/data/bts/bts-suites-appliquees.js:112` — quiz[0] emploie un terme technique que le cours n'emploie jamais : ajoute
+- `js/data/bts/bts-suites-appliquees.js:182` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : necessaire
+- `js/data/bts/bts-suites-appliquees.js:217` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : calcul, compter, unique, exposant, multiplier
+- `js/data/bts/bts-suites-appliquees.js:232` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : nulle, n'existe
+- `js/data/bts/complexes.js:118` — quiz[1] emploie un terme technique que le cours n'emploie jamais : formule, numerateur
+- `js/data/bts/complexes.js:129` — quiz[2] emploie un terme technique que le cours n'emploie jamais : produit
+- `js/data/bts/complexes.js:268` — evaluation[4] emploie un terme technique que le cours n'emploie jamais : points, nature, grand, alignes, positive, parties, egales
+- `js/data/bts/eq-diff-2.js:248` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : produit, n'existe
+- `js/data/bts/statistiques.js:124` — quiz[1] emploie un terme technique que le cours n'emploie jamais : facteur
+- `js/data/bts/statistiques.js:130` — quiz[2] emploie un terme technique que le cours n'emploie jamais : variance
+- `js/data/bts/statistiques.js:215` — evaluation[1] emploie un terme technique que le cours n'emploie jamais : c'est, variance, convention
+- `js/data/bts/statistiques.js:248` — evaluation[3] emploie un terme technique que le cours n'emploie jamais : rapport, tableau, facteurs, ligne, reference, c'est, rapports, quatrieme, colonne
+
+### bloc-dense (44)
+
+- `js/data/6e/6e-fractions.js:41` — cours.method.steps[0] : 60 mots sans <br/><br/> — « Simplifier : chercher un diviseur commun au numérateur et au dénominat… »
+- `js/data/6e/6e-fractions.js:41` — cours.method.steps[1] : 70 mots sans <br/><br/> — « Comparer : mettre les deux fractions au même dénominateur. Le plus sim… »
+- `js/data/3e/3e-fonctions-affines.js:27` — cours.method.steps[1] : 67 mots sans <br/><br/> — « Calculer le coefficient directeur à partir de deux points : si on conn… »
+- `js/data/lycee-1re/1re-derivation.js:200` — cours.diagrams[0].reading : 68 mots sans <br/><br/> — « Suis les trois droites en tirets du haut vers le bas : chacune est un … »
+- `js/data/lycee-1re/1re-polynomes-signe.js:254` — cours.diagrams[1].reading : 60 mots sans <br/><br/> — « Cherche sur chaque dessin un endroit où la courbe toucherait la ligne … »
+- `js/data/lycee-1re/1re-polynomes-signe.js:302` — cours.diagrams[2].reading : 62 mots sans <br/><br/> — « Compare les deux lignes en ne regardant que les traits épais. En haut,… »
+- `js/data/lycee-1re/1re-probas-conditionnelles.js:196` — cours.diagrams[0].reading : 64 mots sans <br/><br/> — « Choisis une case du tableau et retrouve le chemin de l'arbre qui lui c… »
+- `js/data/lycee-1re/1re-produit-scalaire.js:205` — cours.diagrams[0].reading : 60 mots sans <br/><br/> — « Suis le trait qui descend de la pointe de $\vec{u}$ : il tombe à angle… »
+- `js/data/lycee-1re/1re-produit-scalaire.js:347` — cours.diagrams[2].reading : 63 mots sans <br/><br/> — « Lis les deux encadrés l'un après l'autre. Le premier n'utilise que les… »
+- `js/data/lycee-1re/1re-suites.js:58` — cours.diagram.description : 69 mots sans <br/><br/> — « Reprise de deux exemples déjà utilisés dans le quiz du module : une su… »
+- `js/data/lycee-1re/1re-suites.js:138` — cours.diagram.reading : 76 mots sans <br/><br/> — « Les deux suites partent du même $u_0=2$ et utilisent le même nombre $3… »
+- `js/data/lycee-1re/1re-variables-aleatoires.js:272` — cours.diagrams[1].reading : 64 mots sans <br/><br/> — « Compte les cases pleines de chaque ligne : il y en a toujours deux, ja… »
+- `js/data/lycee-tle/tle-convexite.js:190` — cours.diagrams[0].reading : 68 mots sans <br/><br/> — « Pose ton crayon le long de la tangente, puis suis la courbe de gauche … »
+- `js/data/lycee-tle/tle-convexite.js:228` — cours.diagrams[1].reading : 71 mots sans <br/><br/> — « Regarde le repère du bas et suis la courbe du doigt de gauche à droite… »
+- `js/data/lycee-tle/tle-convexite.js:267` — cours.diagrams[2].reading : 73 mots sans <br/><br/> — « Tu n'as pas toujours l'expression de la fonction : parfois tu n'as qu'… »
+- `js/data/lycee-tle/tle-derivation-complements.js:179` — cours.diagrams[0].reading : 78 mots sans <br/><br/> — « Lis la figure de gauche à droite, comme une chaîne de transmission. Le… »
+- `js/data/lycee-tle/tle-derivation-complements.js:128` — cours.diagrams[1].notes[2] : 60 mots sans <br/><br/> — « Le petit coin est le produit des deux accroissements — exactement ce q… »
+- `js/data/lycee-tle/tle-derivation-complements.js:229` — cours.diagrams[1].reading : 79 mots sans <br/><br/> — « Compare les surfaces à l'œil : les deux bandes vertes portent presque … »
+- `js/data/lycee-tle/tle-equations-differentielles.js:215` — cours.diagrams[0].reading : 88 mots sans <br/><br/> — « Suis la droite depuis l'origine : elle part avec exactement la même in… »
+- `js/data/lycee-tle/tle-equations-differentielles.js:268` — cours.diagrams[1].reading : 77 mots sans <br/><br/> — « Regarde à quelle vitesse les repères se rapprochent du pointillé horiz… »
+- `js/data/lycee-tle/tle-equations-differentielles.js:323` — cours.diagrams[2].notes[2] : 64 mots sans <br/><br/> — « L'écart entre les deux courbes vaut $\|y_{0,1} - y_{0,2}\|\,e^{-t/\tau}$… »
+- `js/data/lycee-tle/tle-equations-differentielles.js:325` — cours.diagrams[2].reading : 87 mots sans <br/><br/> — « Suis les deux courbes en même temps, de gauche à droite : elles se rap… »
+- `js/data/lycee-tle/tle-exponentielle-logarithme.js:223` — cours.diagrams[0].reading : 76 mots sans <br/><br/> — « Pose une règle le long de la diagonale et regarde la figure en biais :… »
+- `js/data/lycee-tle/tle-exponentielle-logarithme.js:283` — cours.diagrams[1].reading : 87 mots sans <br/><br/> — « Regarde les trois segments à gauche, sur l'axe vertical : ils mesurent… »
+- `js/data/lycee-tle/tle-exponentielle-logarithme.js:340` — cours.diagrams[2].reading : 83 mots sans <br/><br/> — « Choisis n'importe quelle abscisse et compare les deux hauteurs : la co… »
+- `js/data/lycee-tle/tle-geometrie-espace.js:239` — cours.diagrams[0].reading : 72 mots sans <br/><br/> — « Suis l'arête $AB$ du doigt, puis l'arête $DH$ : à aucun moment ton doi… »
+- `js/data/lycee-tle/tle-geometrie-espace.js:287` — cours.diagrams[1].reading : 61 mots sans <br/><br/> — « Le petit carré à la base de la flèche foncée code l'angle droit : c'es… »
+- `js/data/lycee-tle/tle-limites-continuite.js:187` — cours.diagrams[0].reading : 71 mots sans <br/><br/> — « Ne cherche pas les asymptotes au même endroit. Pour la verticale, dema… »
+- `js/data/lycee-tle/tle-limites-continuite.js:235` — cours.diagrams[1].reading : 87 mots sans <br/><br/> — « Regarde le cercle évidé : il signale un endroit où la courbe s'arrête … »
+- `js/data/lycee-tle/tle-limites-continuite.js:274` — cours.diagrams[2].reading : 76 mots sans <br/><br/> — « Voilà comment se lit « $f(x)$ tend vers $4$ quand $x$ tend vers $2$ » … »
+- `js/data/lycee-tle/tle-logarithme.js:241` — cours.diagrams[0].reading : 76 mots sans <br/><br/> — « Empile mentalement les deux petits segments verticaux, celui de $\ln 2… »
+- `js/data/lycee-tle/tle-logarithme.js:310` — cours.diagrams[1].reading : 88 mots sans <br/><br/> — « Choisis deux repères, par exemple le premier et le quatrième. En bas, … »
+- `js/data/lycee-tle/tle-logarithme.js:362` — cours.diagrams[2].reading : 90 mots sans <br/><br/> — « Regarde où commencent les deux courbes : la première juste après $0$, … »
+- `js/data/lycee-tle/tle-lois-continues.js:192` — cours.diagrams[0].reading : 68 mots sans <br/><br/> — « Vérifie l'aire toi-même : c'est un rectangle, tu n'as besoin d'aucune … »
+- `js/data/lycee-tle/tle-lois-continues.js:251` — cours.diagrams[1].reading : 77 mots sans <br/><br/> — « Attention à ne pas conclure trop vite : une probabilité nulle ne signi… »
+- `js/data/lycee-tle/tle-lois-continues.js:303` — cours.diagrams[2].reading : 80 mots sans <br/><br/> — « Regarde comme la cloche s'écrase vite en s'éloignant du centre : au-de… »
+- `js/data/lycee-tle/tle-orthogonalite-espace.js:158` — cours.diagrams[0].reading : 69 mots sans <br/><br/> — « Déplace mentalement le point $Q$ n'importe où dans le plan : le segmen… »
+- `js/data/lycee-tle/tle-orthogonalite-espace.js:218` — cours.diagrams[1].reading : 69 mots sans <br/><br/> — « Le renversement est déroutant la première fois : on juge deux plans en… »
+- `js/data/lycee-tle/tle-primitives-integrales.js:255` — cours.diagrams[1].reading : 62 mots sans <br/><br/> — « Pose une règle sur les trois tangentes : tu verras qu'elles sont paral… »
+- `js/data/lycee-tle/tle-primitives-integrales.js:306` — cours.diagrams[2].reading : 60 mots sans <br/><br/> — « Une intégrale nulle ne veut pas dire « rien sous la courbe ». Elle veu… »
+- `js/data/lycee-tle/tle-suites-complements.js:194` — cours.diagrams[0].reading : 74 mots sans <br/><br/> — « Regarde la rangée du bas et demande-toi ce qui lui manque. Ce n'est pa… »
+- `js/data/lycee-tle/tle-suites-complements.js:261` — cours.diagrams[1].reading : 74 mots sans <br/><br/> — « Ne regarde pas les premiers rangs : ils ne prouvent rien. Au rang $2$,… »
+- `js/data/lycee-tle/tle-suites-complements.js:302` — cours.diagrams[2].reading : 88 mots sans <br/><br/> — « Voilà pourquoi résoudre $\ell = f(\ell)$ ne suffit jamais. Cette équat… »
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:145` — cours.diagram.notes[1] : 63 mots sans <br/><br/> — « La courbe est tracée avec $H(Q) = H_0 - k Q^2$ : $H_0 = 25\;\text{m}$ … »
+
+### phrase-longue (42)
+
+- `js/data/6e/6e-figures-geometriques.js:25` — 39 mots (intro) : « En géométrie, tout repose sur quelques objets de base : le  point  (position sans dimensio… »
+- `js/data/5e/5e-aires-perimetres.js:25` — 36 mots (intro) : « Règle de conversion des aires :  quand on passe d'une unité de longueur à une autre, l'exp… »
+- `js/data/5e/5e-priorites-operations.js:24` — 39 mots (intro) : « Les mathématiciens ont mis des siècles à s'accorder là-dessus, et il a fallu trancher — no… »
+- `js/data/5e/5e-symetrie-centrale.js:16` — 39 mots (intro) : « Imagine une photo punaisée par son centre sur un panneau : si tu la fais pivoter d'un demi… »
+- `js/data/5e/5e-symetrie-centrale.js:17` — 39 mots (intro) : « La symétrie centrale par rapport à un point  O  fait correspondre à chaque point  A  un po… »
+- `js/data/5e/5e-triangles.js:23` — 36 mots (intro) : « Les triangles  isocèles  (2 côtés égaux → 2 angles de base égaux) et  équilatéraux  (3 côt… »
+- `js/data/5e/reperage-graphique.js:22` — 39 mots (intro) : « La  pente  d'une droite  a =     y    x   a toujours un sens concret : si  y  = distance p… »
+- `js/data/4e/4e-pythagore.js:12` — 40 mots (intro) : « Pour vérifier qu'un poteau est parfaitement vertical sans équerre ni rapporteur, un techni… »
+- `js/data/4e/4e-triangle-rectangle-cercle.js:19` — 51 mots (intro) : « Le théorème de l'angle inscrit dans un demi-cercle est un résultat élégant : si un triangl… »
+- `js/data/lycee-2nde/2nde-echantillonnage.js:37` — 45 mots (intro) : « Reste à savoir avec quelle précision, et c'est là que ce chapitre devient utile : il te do… »
+- `js/data/lycee-2nde/2nde-ensembles-nombres.js:44` — 36 mots (intro) : « Ce chapitre met de l'ordre dans tout cela : quels nombres s'écrivent en fraction, lesquels… »
+- `js/data/lycee-2nde/vecteurs.js:35` — 36 mots (intro) : « Une fois l'objet en main, on apprend à le lire en  composantes  dans un repère, ce qui tra… »
+- `js/data/lycee-1re/1re-derivation.js:28` — 41 mots (intro) : « La sortie est la suivante : au lieu de calculer sur une durée nulle, on calcule sur une du… »
+- `js/data/lycee-1re/1re-derivation.js:35` — 37 mots (method) : « Exemple : pour  g(x) = x 2 e x , on pose  u = x 2  ( u' = 2x ) et  v = e x  ( v' = e x ), … »
+- `js/data/lycee-1re/1re-suites.js:24` — 40 mots (intro) : « Ce chapitre te donne de quoi trancher un tel choix sans écrire les vin>-cinq lignes : reco… »
+- `js/data/lycee-1re/1re-trigonometrie.js:22` — 45 mots (method) : « Symétries  (pour un angle en dehors du premier quadrant) : on le ramène à un angle remarqu… »
+- `js/data/lycee-tle/tle-convexite.js:27` — 37 mots (intro) : « Le jour où la montée cesse de s'emballer pour commencer à s'essouffler porte même un nom —… »
+- `js/data/lycee-tle/tle-geometrie-espace.js:15` — 37 mots (intro) : « Dans la charpente d'un toit, deux poutres peuvent passer l'une au-dessus de l'autre sans j… »
+- `js/data/lycee-tle/tle-orthogonalite-espace.js:15` — 38 mots (intro) : « La formule de  distance d'un point à un plan   M(x 0;y 0;z 0)  au plan  ax+by+cz+d=0  est … »
+- `js/data/lycee-tle/tle-orthogonalite-espace.js:15` — 37 mots (intro) : « Le numérateur est en  valeur absolue  car une distance est toujours positive — même si  M … »
+- `js/data/lycee-tle/tle-suites-complements.js:30` — 43 mots (intro) : « Elle existe, et elle repose sur une idée qui ressemble à une file de dominos : si tu établ… »
+- `js/data/bts-prep/bts-prep-analyse-dim.js:14` — 47 mots (intro) : « Cette règle permet : 
+• de  vérifier  si une formule est cohérente (mais attention : une f… »
+- `js/data/bts-prep/bts-prep-analyse-dim.js:57` — 48 mots (method) : « Méthode de détermination d'une inconnue  : si une formule est de la forme  A = k   B a   C… »
+- `js/data/bts-prep/bts-prep-conversions.js:75` — 48 mots (method) : « Méthode de conversion par facteur Toujours écrire la conversion comme une multiplication p… »
+- `js/data/bts-prep/bts-prep-equations-transf.js:14` — 58 mots (intro) : « Ces situations apparaissent régulièrement en physique appliquée :  
+• Calculer une impédan… »
+- `js/data/bts-prep/bts-prep-equations-transf.js:39` — 59 mots (method) : « \| Opération inverse \|
+\|--------------\|------------------\|
+\|    x   \| Mettre au carré :  ( … »
+- `js/data/bts-prep/bts-prep-fonctions.js:19` — 53 mots (intro) : « En BTS, les courbes sont partout : la courbe caractéristique d'une pompe (HMT en fonction … »
+- `js/data/bts-prep/bts-prep-fonctions.js:19` — 42 mots (intro) : « Et pour lire efficacement, il faut reconnaître la  famille de fonctions  qui génère cette … »
+- `js/data/bts-prep/bts-prep-graphiques.js:39` — 46 mots (method) : « Calcul de la pente  : choisir deux points éloignés sur la droite (pas forcément des points… »
+- `js/data/bts-prep/bts-prep-logarithme.js:47` — 63 mots (method) : « Niveau de puissance :  L P = 10      10  (  P  P 0  ) ;  dB   Niveau de pression sonore : … »
+- `js/data/bts-prep/bts-prep-proportionnalite.js:19` — 38 mots (intro) : « La proportionnalité est partout en BTS : un rendement est un rapport entre une grandeur ut… »
+- `js/data/bts-prep/bts-prep-puissances.js:19` — 45 mots (intro) : « En BTS, on manipule des grandeurs qui s'étendent sur des dizaines d'ordres de grandeur : d… »
+- `js/data/bts-prep/bts-prep-puissances.js:19` — 67 mots (intro) : « La  notation scientifique  permet d'écrire tout nombre sous la forme  a   10 n  avec  1   … »
+- `js/data/bts-prep/bts-prep-si-unites.js:59` — 45 mots (method) : « Exemple : convertir 72 km/h en m/s :   72 ;    km     h   = 72     1000 ;  m   1 ;  km    … »
+- `js/data/bts-prep/bts-prep-trigonometrie.js:14` — 49 mots (intro) : « En BTS technique, la trigonométrie n'est pas un exercice abstrait : c'est l'outil qui perm… »
+- `js/data/bts-prep/bts-prep-vecteurs.js:50` — 79 mots (method) : « Calculer la résultante de plusieurs forces  : (1) Décomposer chaque force en composantes  … »
+- `js/data/bts/bts-fourier.js:16` — 36 mots (intro) : « Piège fréquent : en un point de discontinuité (signal carré, créneau), la série de Fourier… »
+- `js/data/bts/bts-laplace.js:16` — 41 mots (intro) : « En automatique BTS, la transformée de Laplace permet de définir la fonction de transfert  … »
+- `js/data/bts/bts-matrices.js:16` — 36 mots (intro) : « Les matrices sont le langage des systèmes linéaires : un réseau de distribution, un circui… »
+- `js/data/bts/bts-suites-appliquees.js:16` — 51 mots (intro) : « Les intérêts composés ( C n = C 0(1+t) n ) et les intérêts simples ( C n = C 0(1+nt) ) sem… »
+- `js/data/bts/complexes.js:17` — 38 mots (intro) : « En régime sinusoïdal, chaque composant introduit un DÉPHASAGE entre courant et tension : l… »
+- `js/data/bts/eq-diff-2.js:17` — 38 mots (intro) : « Le facteur de qualité  Q  et le coefficient d'amortissement     définissent le comportemen… »
+
+### mot-non-accentue-svg (34)
+
+- `js/data/3e/3e-algorithmique.js:61` — « carre » ×3 (svg-texte)
+- `js/data/3e/3e-arithmetique.js:157` — « apres » ×1 (svg-texte)
+- `js/data/3e/3e-equations-inequations.js:142` — « apres » ×1 (svg-texte)
+- `js/data/3e/3e-equations-inequations.js:63` — « superieur » ×2 (svg-texte)
+- `js/data/3e/3e-equations-inequations.js:202` — « egal » ×1 (svg-texte)
+- `js/data/3e/3e-fonctions-affines.js:147` — « meme » ×1 (svg-texte)
+- `js/data/3e/3e-homotheties.js:75` — « homothetie » ×1 (svg-texte)
+- `js/data/3e/3e-stats-probas.js:69` — « eleves » ×2 (svg-texte)
+- `js/data/3e/3e-stats-probas.js:19` — « meme » ×1 (svg-texte)
+- `js/data/3e/3e-systemes.js:166` — « paralleles » ×1 (svg-texte)
+- `js/data/lycee-2nde/2nde-geometrie-plane.js:147` — « carre » ×1 (svg-texte)
+- `js/data/lycee-2nde/2nde-geometrie-plane.js:147` — « reduit » ×1 (svg-texte)
+- `js/data/lycee-2nde/2nde-geometrie-plane.js:209` — « mediane » ×1 (svg-texte)
+- `js/data/lycee-2nde/2nde-geometrie-plane.js:209` — « mediatrice » ×1 (svg-texte)
+- `js/data/lycee-2nde/2nde-reperage-plan.js:165` — « meme » ×1 (svg-texte)
+- `js/data/lycee-2nde/vecteurs.js:187` — « deplacement » ×1 (svg-texte)
+- `js/data/lycee-1re/1re-polynomes-signe.js:58` — « negatif » ×4 (svg-texte)
+- `js/data/lycee-1re/1re-polynomes-signe.js:18` — « meme » ×1 (svg-texte)
+- `js/data/lycee-1re/1re-polynomes-signe.js:292` — « memes » ×1 (svg-texte)
+- `js/data/lycee-1re/1re-polynomes-signe.js:292` — « reponse » ×1 (svg-texte)
+- `js/data/lycee-1re/1re-probas-conditionnelles.js:187` — « meme » ×2 (svg-texte)
+- `js/data/lycee-1re/1re-probas-conditionnelles.js:187` — « enonce » ×1 (svg-texte)
+- `js/data/lycee-1re/1re-probas-conditionnelles.js:187` — « ecrit » ×1 (svg-texte)
+- `js/data/lycee-1re/1re-produit-scalaire.js:92` — « reduite » ×1 (svg-texte)
+- `js/data/lycee-1re/1re-produit-scalaire.js:216` — « negatif » ×1 (svg-texte)
+- `js/data/lycee-1re/1re-produit-scalaire.js:216` — « meme » ×1 (svg-texte)
+- `js/data/lycee-1re/1re-second-degre.js:134` — « reelle » ×1 (svg-texte)
+- `js/data/lycee-1re/1re-second-degre.js:69` — « symetrie » ×1 (svg-texte)
+- `js/data/lycee-1re/1re-second-degre.js:256` — « memes » ×1 (svg-texte)
+- `js/data/lycee-1re/1re-second-degre.js:256` — « ecarts » ×1 (svg-texte)
+- `js/data/lycee-1re/1re-suites.js:207` — « ecarts » ×2 (svg-texte)
+- `js/data/lycee-1re/1re-trigonometrie.js:186` — « ordonnee » ×2 (svg-texte)
+- `js/data/lycee-1re/1re-variables-aleatoires.js:178` — « reponses » ×1 (svg-texte)
+- `js/data/lycee-1re/1re-variables-aleatoires.js:197` — « succes » ×1 (svg-texte)
+
+### quiz-index-fixe (10)
+
+- `js/data/6e/6e-volumes.js:275` — les 3 bonnes réponses sont toutes à l'index 1 et quizShuffle est absent
+- `js/data/5e/5e-fractions-operations.js:344` — les 3 bonnes réponses sont toutes à l'index 1 et quizShuffle est absent
+- `js/data/5e/5e-priorites-operations.js:263` — les 3 bonnes réponses sont toutes à l'index 1 et quizShuffle est absent
+- `js/data/5e/5e-proportionnalite.js:311` — les 3 bonnes réponses sont toutes à l'index 1 et quizShuffle est absent
+- `js/data/5e/5e-volumes.js:317` — les 3 bonnes réponses sont toutes à l'index 1 et quizShuffle est absent
+- `js/data/4e/4e-cosinus.js:256` — les 3 bonnes réponses sont toutes à l'index 0 et quizShuffle est absent
+- `js/data/4e/4e-fractions-mult-div.js:195` — les 3 bonnes réponses sont toutes à l'index 1 et quizShuffle est absent
+- `js/data/4e/4e-relatifs-mult-div.js:298` — les 3 bonnes réponses sont toutes à l'index 1 et quizShuffle est absent
+- `js/data/3e/trigonometrie.js:335` — les 3 bonnes réponses sont toutes à l'index 1 et quizShuffle est absent
+- `js/data/lycee-2nde/2nde-reperage-plan.js:407` — les 5 bonnes réponses sont toutes à l'index 0 et quizShuffle est absent
+
+### exercice-solution-chaine (9)
+
+- `js/data/bts-prep/bts-prep-analyse-dim.js:333` — solution renvoyée en chaîne (chaine) : le rendu attend un tableau d'étapes
+- `js/data/bts-prep/bts-prep-conversions.js:441` — solution renvoyée en chaîne (chaine) : le rendu attend un tableau d'étapes
+- `js/data/bts-prep/bts-prep-donnees-techniques.js:335` — solution renvoyée en chaîne (chaine) : le rendu attend un tableau d'étapes
+- `js/data/bts-prep/bts-prep-equations-transf.js:300` — solution renvoyée en chaîne (chaine) : le rendu attend un tableau d'étapes
+- `js/data/bts-prep/bts-prep-graphiques.js:440` — solution renvoyée en chaîne (chaine) : le rendu attend un tableau d'étapes
+- `js/data/bts-prep/bts-prep-logarithme.js:448` — solution renvoyée en chaîne (chaine) : le rendu attend un tableau d'étapes
+- `js/data/bts-prep/bts-prep-si-unites.js:375` — solution renvoyée en chaîne (chaine) : le rendu attend un tableau d'étapes
+- `js/data/bts-prep/bts-prep-trigonometrie.js:458` — solution renvoyée en chaîne (chaine) : le rendu attend un tableau d'étapes
+- `js/data/bts-prep/bts-prep-vecteurs.js:457` — solution renvoyée en chaîne (chaine) : le rendu attend un tableau d'étapes
+
+### mot-non-accentue (6)
+
+- `js/data/4e/4e-pythagore.js:152` — « hypotenuse » ×1 (cours)
+- `js/data/4e/4e-statistiques.js:317` — « etendue » ×1 (evaluation)
+- `js/data/4e/4e-triangle-rectangle-cercle.js:94` — « hypotenuse » ×1 (evaluation)
+- `js/data/lycee-1re/1re-information-chiffree.js:37` — « reciproque » ×2 (cours)
+- `js/data/bts-prep/bts-prep-fonctions.js:71` — « reel » ×2 (cours)
+- `js/data/bts-prep/bts-prep-fonctions.js:117` — « reelle » ×1 (cours)
+
+### quiz-distracteur-aberrant (6)
+
+- `js/data/lycee-1re/1re-probas-conditionnelles.js:303` — quiz[2] option 2 « $1{,}1$ » : probabilité hors [0;1] (bonne réponse 0.24)
+- `js/data/bts-prep/bts-prep-equations-transf.js:186` — quiz[5] option 0 « 40 » : ordre de grandeur absurde (rapport > 1000) (bonne réponse 0.01)
+- `js/data/bts-prep/bts-prep-graphiques.js:353` — quiz[8] option 0 « 50 A/V » : ordre de grandeur absurde (rapport > 1000) (bonne réponse 0.02)
+- `js/data/bts-prep/bts-prep-graphiques.js:353` — quiz[8] option 2 « 50 Ω » : ordre de grandeur absurde (rapport > 1000) (bonne réponse 0.02)
+- `js/data/bts-prep/bts-prep-si-unites.js:348` — quiz[16] option 1 « 15 000 A » : ordre de grandeur absurde (rapport > 1000) (bonne réponse 0.015)
+- `js/data/bts-prep/bts-prep-vecteurs.js:36` — quiz[2] option 3 « -11 » : grandeur positive avec option négative (bonne réponse 5)
+
+### guidage-visuel (3)
+
+- `js/data/bts/bts-loi-normale.js:17` — 6 <strong> dans le cours (seuil 8)
+- `js/data/bts/eq-diff-2.js:17` — 6 <strong> dans le cours (seuil 8)
+- `js/data/bts/statistiques.js:17` — 7 <strong> dans le cours (seuil 8)
+
+## Limites de la mesure
+
+- `cours.application` et `evaluation.questions[].competence` sont mesurés mais aucun renderer du site ne les affiche ; leur absence coûte les mêmes points à tous les modules.
+- « Contexte narratif » = première proposition du squelette d'énoncé (nombres masqués) : un générateur qui varie seulement les nombres compte pour un contexte.
+- Les distracteurs aberrants ne sont cherchés que sur les options numériques, et l'écart d'ordre de grandeur n'est pas signalé quand la question porte sur une échelle, une puissance de dix, une conversion ou un inverse (ce sont alors de vrais distracteurs) ; le jugement « erreur plausible d'élève » reste une lecture manuelle (phase 2).
+- L'alignement lexical compare des mots normalisés (sans accents, ≥ 5 lettres, hors mots-outils) : un synonyme compte comme absent, un mot présent dans une autre acception compte comme présent. Seuls les termes du lexique technique du corpus (`keywords` + `<strong>` de tous les modules) sont jugés ; les mots de contexte d'un énoncé ne le sont pas.
+- Le score ne mesure ni l'exactitude des réponses, ni la conformité au programme, ni la qualité des explications : c'est le rôle de la lecture.

@@ -165,6 +165,14 @@ Initialise `window.MODULES = []`, utilitaires aléatoires.
 Détecte les régressions du bug de notation décimale française dans `js/data/` (accolade `{,` manquante, `.toFixed(n)` interpolé sans `fr()`).
 - Usage : `node scripts/check-decimal-notation.js` — à lancer après toute modification d'un `exercice.generate()` (voir `CLAUDE.md` section 2)
 
+## scripts/analyser-corpus.js
+Mesure le corpus mathématiques (9 niveaux, 112 modules) sans lecture manuelle : charge chaque module hors navigateur (contexte `vm` + `helpers.js` + `figures-exercices.js`, `Math.random` ensemencé), tire `generate()` 60 fois sous `try/catch`, et écrit `docs/analyse-corpus-maths-<date>.csv` (une ligne par module, séparateur `;`) et `.md` (distribution par niveau, 20 modules les plus faibles, liste exhaustive des défauts avec `fichier:ligne`). Créé pour l'audit de contenu du 2026-10-13.
+- Mesures : complétude et longueur de chaque champ du cours, blocs denses (≥ 60 mots sans `<br/><br/>`), `<strong>` ; quiz (questions, options, corrections, doublons, index fixe, distracteurs aberrants) ; exercice (exceptions, moules via `squeletteEnonce`, contextes, `answer` non fini, décimale anglaise, `undefined`/`NaN`, `hint`, type de `solution`) ; problème ; évaluation (points, durée, compétences) ; alignement lexical cours ↔ questions (lexique technique = `keywords` + `<strong>` courts de tout le corpus) ; langue (mots non accentués dans le texte affiché, les `<text>` et les `<title>`/`<desc>` des SVG ; phrases > 35 mots).
+- Score composite /100 dont la pondération est écrite en tête du script (fiabilité 30, variété 15, quiz 20, cours 15, évaluation 10, alignement 5, langue 5) : sert à **prioriser** les lectures, pas à juger.
+- Usage : `node scripts/analyser-corpus.js [--niveaux 6e,5e] [--modules id1,id2] [--tirages 60] [--date AAAA-MM-JJ] [--sortie docs] [--json chemin]` — à relancer après un lot de corrections pour vérifier que les modules touchés ont bougé dans le bon sens.
+- Réutilise `scripts/manuel/extract.js` (`chargerModule`, `squeletteEnonce`) quand il est présent (branche `manuels-spark`), sinon un chargeur interne équivalent : le script tourne aussi sur `main`.
+- Pièges calibrés le 2026-10-13 : lookarounds Unicode obligatoires (`\w` ne voit pas « è » et « mètres » faisait remonter un faux « tres ») ; les `<desc>` des SVG sont systématiquement non accentués (convention d'écriture, lecteurs d'écran seulement) donc pesés à 0,1 ; un écart d'ordre de grandeur n'est pas un distracteur aberrant quand la question porte sur une échelle, une puissance de dix ou une conversion.
+
 ## js/data/6e/index.js
 Manifest 6e — liste et ordre des modules (chargés via `<script>` dans index.html).
 

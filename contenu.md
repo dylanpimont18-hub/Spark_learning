@@ -15,6 +15,7 @@ Ce fichier est la **source de vérité** pour la structure de fichiers du projet
 | manifest.json | Manifeste PWA minimal (nom, icône, couleur de thème) |
 | scripts/generate-sitemap.js | Génère `sitemap.xml` à partir de `js/loader.js` — à relancer après ajout de module |
 | scripts/check-decimal-notation.js | Détecte les régressions de notation décimale française dans `js/data/` — à relancer après modification d'un `exercice.generate()` |
+| scripts/analyser-corpus.js | Mesure le corpus maths (112 modules) : 60 tirages de `generate()` par module, complétude du cours, quiz, évaluation, alignement cours ↔ questions, langue ; écrit `docs/analyse-corpus-maths-<date>.csv` + `.md` avec un score de priorisation /100 — à relancer après un lot de corrections de contenu |
 
 ## Interface & Style
 | Dossier/Fichier | Rôle |
