@@ -43,14 +43,15 @@ window.MODULES.push({
         { term: 'Algorithme', def: 'Suite finie d\'instructions non ambiguës qui, à partir de données d\'entrée, produit un résultat en un nombre fini d\'étapes.' },
         { term: 'Variable', def: 'Espace mémoire nommé qui stocke une valeur. En Python : $\\texttt{x = 5}$ crée la variable $x$ avec la valeur $5$.' },
         { term: 'Boucle $\\texttt{for}$', def: 'Répète un bloc un nombre fixé de fois. $\\texttt{for i in range(n)}$ exécute le bloc $n$ fois avec $i = 0, 1, \\ldots, n-1$.' },
-        { term: 'Boucle $\\texttt{while}$', def: 'Répète un bloc tant qu\'une condition est vraie. Risque de boucle infinie si la condition ne devient jamais fausse.' }
+        { term: 'Boucle $\\texttt{while}$', def: 'Répète un bloc tant qu\'une condition est vraie. Risque de boucle infinie si la condition ne devient jamais fausse.' },
+        { term: 'Division entière $\\texttt{//}$', def: '$\\texttt{a // b}$ donne le <strong>quotient entier</strong> de la division de $a$ par $b$ : le nombre de fois où $b$ « rentre » dans $a$, sans la partie décimale.<br/><br/><strong>Exemple :</strong> $\\texttt{10 // 2}$ vaut $5$, $\\texttt{5 // 2}$ vaut $2$ (et non $2{,}5$), $\\texttt{2 // 2}$ vaut $1$.' }
       ],
       method: {
         title: 'Écrire un algorithme en Python',
         steps: [
           'Déclarer les variables et leurs valeurs initiales. <strong>Exemple :</strong> $\\texttt{s = 0}$ (accumulateur initialisé à zéro pour une somme).',
           'Utiliser $\\texttt{for i in range(n)}$ pour répéter $n$ fois. <strong>Exemple :</strong> $\\texttt{for i in range(1, 6):}$ fait varier $i$ de $1$ à $5$ inclus.',
-          'Utiliser $\\texttt{while condition}$ pour répéter tant qu\'une condition est vraie. <strong>Exemple :</strong> $\\texttt{while n > 1: n = n // 2}$ divise $n$ par $2$ jusqu\'à ce qu\'il atteigne $1$.',
+          'Utiliser $\\texttt{while condition}$ pour répéter tant qu\'une condition est vraie. <strong>Exemple :</strong> $\\texttt{while n > 1: n = n // 2}$ remplace $n$ par le <strong>quotient entier</strong> de $n$ par $2$ (division entière $\\texttt{//}$) jusqu\'à ce que $n$ atteigne $1$ : pour $n = 7$, on obtient $7 \\to 3 \\to 1$.',
           'Tester avec des exemples pour vérifier la correction de l\'algorithme. <strong>Exemple :</strong> Pour un programme de somme $1+\\ldots+5$, vérifier que le résultat est bien $15$.'
         ]
       },
@@ -59,6 +60,7 @@ window.MODULES.push({
         steps: [
           'Initialiser le résultat : $\\texttt{resultat = 1}$.',
           'Boucle : $\\texttt{for i in range(1, n+1):}$ puis $\\texttt{resultat = resultat * i}$.',
+          'Afficher le résultat à la fin, <strong>hors</strong> de la boucle (sans indentation) : $\\texttt{print(resultat)}$.',
           'Exécution pour $n = 5$ : $i = 1$ → $1$, $i = 2$ → $2$, $i = 3$ → $6$, $i = 4$ → $24$, $i = 5$ → $120$.'
         ],
         answer: '$5! = 120$. Le programme affiche $\\texttt{120}$.'
@@ -66,7 +68,8 @@ window.MODULES.push({
       formulas: [
         '$\\texttt{for i in range(a, b)}$ : $i$ prend les valeurs $a, a+1, \\ldots, b-1$',
         '$\\texttt{range(n)}$ est équivalent à $\\texttt{range(0, n)}$',
-        'Indentation obligatoire en Python (4 espaces ou 1 tabulation)'
+        'Indentation obligatoire en Python (4 espaces ou 1 tabulation)',
+        '$\\texttt{a // b}$ : quotient entier de $a$ par $b$ (exemple : $\\texttt{7 // 2}$ vaut $3$)'
       ],
       diagram: {
         theme: 'maths',
@@ -334,11 +337,11 @@ window.MODULES.push({
       piege: 'En Python, $\\texttt{range(1,6)}$ produit $1,2,3,4,5$ (pas $6$). La borne supérieure est exclue !'
     },
     quiz: [
-      { q: 'Que calcule ce code ?\n$\\texttt{s=0}$\n$\\texttt{for i in range(1,5):}$\n$\\quad\\texttt{s=s+i}$', options: ['$s=10$', '$s=15$', '$s=4$', '$s=6$'], answer: 0, correction: '$i$ prend les valeurs $1,2,3,4$. $s=1+2+3+4=10$.' },
-      { q: 'Un élève veut calculer $1+2+\\cdots+10$. Il écrit $\\texttt{s=0}$ puis $\\texttt{for i in range(10): s=s+i}$. Pourquoi son résultat sera-t-il incorrect ?', options: ['$\\texttt{range(10)}$ produit $0,1,\\ldots,9$ (le $10$ est exclu). Il faut $\\texttt{range(1,11)}$ pour inclure $10$', 'Il faut initialiser $\\texttt{s=1}$ et non $\\texttt{s=0}$', 'La boucle ne peut pas calculer une somme', 'Il n\'y a pas d\'erreur, le résultat est correct'], answer: 0, correction: '$\\texttt{range(10)}$ produit $0,1,2,\\ldots,9$ — la borne supérieure $10$ est exclue. La somme calculée est $0+1+\\ldots+9=45$ au lieu de $1+\\ldots+10=55$. Pour inclure $10$, il faut $\\texttt{range(1,11)}$.' },
+      { q: 'Que calcule ce code ?<br/>$\\texttt{s=0}$<br/>$\\texttt{for i in range(1,5):}$<br/>$\\quad\\texttt{s=s+i}$', options: ['$s=10$', '$s=15$', '$s=4$', '$s=6$'], answer: 0, correction: '$i$ prend les valeurs $1,2,3,4$. $s=1+2+3+4=10$.' },
+      { q: 'Un élève veut calculer $1+2+\\cdots+10$. Il écrit $\\texttt{s=0}$ puis $\\texttt{for i in range(10): s=s+i}$. Pourquoi son résultat sera-t-il incorrect ?', options: ['Il faut initialiser $\\texttt{s=1}$ et non $\\texttt{s=0}$', 'Il n\'y a pas d\'erreur, le résultat est correct', '$\\texttt{range(10)}$ produit $0,1,\\ldots,9$ (le $10$ est exclu). Il faut $\\texttt{range(1,11)}$ pour inclure $10$', 'La boucle ne peut pas calculer une somme'], answer: 2, correction: '$\\texttt{range(10)}$ produit $0,1,2,\\ldots,9$ — la borne supérieure $10$ est exclue. La somme calculée est $0+1+\\ldots+9=45$ au lieu de $1+\\ldots+10=55$. Pour inclure $10$, il faut $\\texttt{range(1,11)}$.<br/><br/>Initialiser $\\texttt{s=1}$ ajouterait $1$ au total sans faire apparaître le $10$ manquant ; et une boucle $\\texttt{for}$ calcule très bien une somme, c\'est même son usage le plus courant.' },
       { q: '$\\texttt{range(3,8)}$ produit :', options: ['$3,4,5,6,7,8$', '$3,4,5,6,7$', '$3,4,5,6$', '$0,1,2,3,4$'], answer: 1, correction: 'La borne supérieure $8$ est exclue : $3,4,5,6,7$.' },
-      { q: 'Quelle est la valeur de $x$ après :\n$\\texttt{x = 1}$\n$\\texttt{for i in range(4):}$\n$\\quad\\texttt{x = x * 3}$', options: ['$81$', '$12$', '$64$', '$27$'], answer: 0, correction: 'La boucle s\'exécute $4$ fois. $x$ est multiplié par $3$ à chaque passage : $1 \\to 3 \\to 9 \\to 27 \\to 81$. On calcule $3^4 = 81$. Attention : ce n\'est pas $3 \\times 4 = 12$ (multiplication) mais $3^4 = 81$ (puissance).' },
-      { q: 'Ce code contient une erreur. Laquelle ?\n$\\texttt{n = 5}$\n$\\texttt{while n > 0:}$\n$\\quad\\texttt{print(n)}$', options: ['Boucle infinie : $n$ n\'est jamais modifié dans la boucle, la condition $n > 0$ reste toujours vraie', '$\\texttt{print}$ n\'est pas une fonction Python valide', 'Il faut $\\texttt{while n >= 0}$', 'Il manque un $\\texttt{return}$'], answer: 0, correction: 'Le corps de la boucle affiche $n$ mais ne le modifie jamais. Comme $n = 5 > 0$ est toujours vrai, la boucle ne s\'arrête jamais. Il faudrait ajouter $\\texttt{n = n - 1}$ dans le bloc. C\'est le risque principal des boucles $\\texttt{while}$ : toujours vérifier que la condition finira par devenir fausse.' }
+      { q: 'Quelle est la valeur de $x$ après :<br/>$\\texttt{x = 1}$<br/>$\\texttt{for i in range(4):}$<br/>$\\quad\\texttt{x = x * 3}$', options: ['$12$', '$81$', '$64$', '$27$'], answer: 1, correction: 'La boucle s\'exécute $4$ fois. $x$ est multiplié par $3$ à chaque passage : $1 \\to 3 \\to 9 \\to 27 \\to 81$. On calcule $3^4 = 81$.<br/><br/>$12 = 3 \\times 4$ confond multiplication et puissance ; $64 = 4^3$ échange la base et l\'exposant ; $27 = 3^3$ oublie un passage (la boucle tourne bien $4$ fois, pour $i = 0, 1, 2, 3$).' },
+      { q: 'Ce code contient une erreur. Laquelle ?<br/>$\\texttt{n = 5}$<br/>$\\texttt{while n > 0:}$<br/>$\\quad\\texttt{print(n)}$', options: ['Il faut $\\texttt{while n >= 0}$', 'Il n\'y a pas d\'erreur : le programme affiche $5, 4, 3, 2, 1$ puis s\'arrête', 'Il faut remplacer $\\texttt{while}$ par $\\texttt{for}$, car on sait combien de fois on veut afficher', 'Boucle infinie : $n$ n\'est jamais modifié dans la boucle, la condition $n > 0$ reste toujours vraie'], answer: 3, correction: 'Le corps de la boucle affiche $n$ mais ne le modifie jamais. Comme $n = 5 > 0$ est toujours vrai, la boucle ne s\'arrête jamais : le programme affiche $5$ indéfiniment, et non $5, 4, 3, 2, 1$ — une variable ne diminue pas toute seule. Il faudrait ajouter $\\texttt{n = n - 1}$ dans le bloc.<br/><br/>Changer $>$ en $>=$ ne change rien au problème, et remplacer par $\\texttt{for}$ ne corrige pas ce code : cela dit seulement qu\'on aurait pu l\'écrire autrement. C\'est le risque principal des boucles $\\texttt{while}$ : toujours vérifier que la condition finira par devenir fausse.' }
     ],
     exercice: {
       type: 'numeric',
@@ -418,7 +421,9 @@ window.MODULES.push({
           const seuil = rand(8, 25);
           const x = rand(3, 35);
           const siVrai = rand(2, 9);
-          const siFaux = rand(2, 9);
+          /* siFaux différent de siVrai : sinon la réponse ne dépendait plus
+             de la condition et une erreur de branche était validée. */
+          const siFaux = pick([2, 3, 4, 5, 6, 7, 8, 9].filter(v => v !== siVrai));
           const prend = x > seuil ? siVrai : siFaux;
           return {
             statement: `On exécute le code suivant :<br/><br/>$\\texttt{x = ${x}}$<br/>$\\texttt{if x > ${seuil}:}$<br/>$\\quad\\texttt{y = ${siVrai}}$<br/>$\\texttt{else:}$<br/>$\\quad\\texttt{y = ${siFaux}}$<br/><br/>Quelle est la valeur finale de $\\texttt{y}$ ?`,
@@ -488,21 +493,29 @@ window.MODULES.push({
             ]
           };
         } else {
+          /* Branche RÉÉCRITE (phase 4 de l'audit) : l'ancienne imposait la
+             notation somme et la formule n(n+1)/2, qui relèvent de la 1re.
+             On montre le geste du chapitre : le déroulé tour par tour. */
           const a = rand(2, 5);
           const b = rand(10, 30);
           const n = rand(5, 10);
           let s = 0;
-          for (let i = 1; i <= n; i++) { s += a * i + b; }
+          const etapes = [];
+          for (let i = 1; i <= n; i++) {
+            const terme = a * i + b;
+            s += terme;
+            etapes.push(`Tour $i = ${i}$ : $s = ${s - terme} + ${terme} = ${s}$`);
+          }
           return {
-            statement: `On exécute le code suivant :<br/><br/>$\\texttt{s = 0}$<br/>$\\texttt{for i in range(1, ${n+1}):}$<br/>$\\quad\\texttt{s = s + ${a}*i + ${b}}$<br/><br/>Quelle est la valeur finale de $\\texttt{s}$ ? (On calcule $\\sum_{i=1}^{${n}} (${a}i + ${b})$.)`,
+            statement: `On exécute le code suivant :<br/><br/>$\\texttt{s = 0}$<br/>$\\texttt{for i in range(1, ${n + 1}):}$<br/>$\\quad\\texttt{s = s + ${a}*i + ${b}}$<br/><br/>Quelle est la valeur finale de $\\texttt{s}$ ?<br/><br/>Déroule la boucle à la main, tour par tour, avec un tableau de suivi.`,
             answer: s,
             tolerance: 0,
             unit: '',
-            hint: `La somme est $\\sum_{i=1}^{${n}} (${a}i + ${b}) = ${a} \\cdot \\frac{${n}(${n}+1)}{2} + ${b} \\cdot ${n}$.`,
+            hint: `$\\texttt{range(1, ${n + 1})}$ fait prendre à $\\texttt{i}$ les valeurs de $1$ à $${n}$ : la boucle tourne $${n}$ fois. À chaque tour, $s$ augmente de $${a} \\times i + ${b}$. Note la valeur de $s$ après chaque tour, sans sauter d'étape.`,
             solution: [
-              `$s = \\sum_{i=1}^{${n}} (${a}i + ${b}) = ${a} \\cdot \\frac{${n} \\times ${n+1}}{2} + ${b} \\times ${n}$`,
-              `$= ${a} \\times ${n*(n+1)/2} + ${b*n}$`,
-              `$= ${a*n*(n+1)/2} + ${b*n} = ${s}$`
+              `Au départ, $s = 0$. À chaque tour, on ajoute $${a} \\times i + ${b}$ à la valeur précédente de $s$ :`,
+              etapes.join('<br/>'),
+              `Après le dernier tour ($i = ${n}$), la valeur finale est $\\texttt{s} = ${s}$.`
             ]
           };
         }
@@ -511,14 +524,14 @@ window.MODULES.push({
     probleme: {
       context: 'On place un capital initial $C_0 = 1000$ € sur un livret à taux annuel $t = 3\\%$ ($= 0{,}03$). Chaque année, les intérêts sont ajoutés au capital : $C_{n+1} = C_n \\times (1 + t)$.',
       tasks: [
-        'Écrire un programme Python qui calcule le capital après $n$ années (avec une boucle $\\texttt{for}$).',
+        'Écrire un programme Python qui calcule le capital après $n$ années, par exemple $n = 10$ (avec une boucle $\\texttt{for}$).',
         'Modifier le programme pour qu\'il affiche le nombre d\'années nécessaires pour doubler le capital initial (utiliser une boucle $\\texttt{while}$).',
-        'Exécuter à la main le programme $\\texttt{while}$ et donner le résultat.'
+        'Faire tourner le programme $\\texttt{while}$ (à la calculatrice ou dans Python) et donner le résultat. Contrôler avec la touche puissance : $C_n = 1000 \\times 1{,}03^{n}$.'
       ],
       solutions: [
-        '$\\texttt{C = 1000}$<br/>$\\texttt{t = 0.03}$<br/>$\\texttt{for i in range(n):}$<br/>$\\quad\\texttt{C = C * (1 + t)}$<br/>$\\texttt{print(C)}$',
-        '$\\texttt{C = 1000}$<br/>$\\texttt{t = 0.03}$<br/>$\\texttt{annees = 0}$<br/>$\\texttt{while C < 2000:}$<br/>$\\quad\\texttt{C = C * 1.03}$<br/>$\\quad\\texttt{annees = annees + 1}$<br/>$\\texttt{print(annees)}$',
-        'Après $23$ ans : $C_{23} = 1000 \\times 1{,}03^{23} \\approx 1974$ € (pas encore doublé). Après $24$ ans : $C_{24} \\approx 2033$ €. Il faut $24$ ans pour doubler le capital.'
+        '$\\texttt{C = 1000}$<br/>$\\texttt{t = 0.03}$<br/>$\\texttt{n = 10}$<br/>$\\texttt{for i in range(n):}$<br/>$\\quad\\texttt{C = C * (1 + t)}$<br/>$\\texttt{print(C)}$<br/><br/>Ici $n = 10$ ; on peut changer cette valeur, ou la demander à l\'utilisateur avec $\\texttt{n = int(input())}$.',
+        '$\\texttt{C = 1000}$<br/>$\\texttt{t = 0.03}$<br/>$\\texttt{annees = 0}$<br/>$\\texttt{while C < 2000:}$<br/>$\\quad\\texttt{C = C * (1 + t)}$<br/>$\\quad\\texttt{annees = annees + 1}$<br/>$\\texttt{print(annees)}$',
+        'Faire les $24$ multiplications par $1{,}03$ à la main serait long : on utilise la calculatrice, ou la touche puissance.<br/><br/>Après $23$ ans : $C_{23} = 1000 \\times 1{,}03^{23} \\approx 1974$ € — pas encore doublé, la condition $\\texttt{C < 2000}$ est encore vraie. Après $24$ ans : $C_{24} \\approx 2033$ € — la condition devient fausse, la boucle s\'arrête.<br/><br/>Le programme affiche $24$ : il faut $24$ ans pour doubler le capital.'
       ],
       finalAnswer: 'Il faut $24$ ans pour doubler un capital à $3\\%$ par an (intérêts composés).'
     },
@@ -536,7 +549,7 @@ window.MODULES.push({
           correction: '$\\texttt{range(2, 7)}$ produit les entiers de $2$ à $6$ inclus. La borne supérieure $7$ est toujours exclue en Python.'
         },
         {
-          statement: 'On exécute le code :\n$\\texttt{s = 0}$\n$\\texttt{for i in range(1, 6):}$\n$\\quad\\texttt{s = s + i}$\nQuelle est la valeur finale de $s$ ?',
+          statement: 'On exécute le code :<br/>$\\texttt{s = 0}$<br/>$\\texttt{for i in range(1, 6):}$<br/>$\\quad\\texttt{s = s + i}$<br/><br/>Quelle est la valeur finale de $s$ ?',
           type: 'numeric',
           answer: 15,
           tolerance: 0,
@@ -553,7 +566,7 @@ window.MODULES.push({
              avant d'en donner la valeur. L'élève doit formuler le rôle de la
              boucle, pas seulement la dérouler. « communiquer ».
              La réponse reste $48$. */
-          statement: 'On exécute le code :\n$\\texttt{x = 3}$\n$\\texttt{for i in range(4):}$\n$\\quad\\texttt{x = x * 2}$\nCe programme calcule $3 \\times 2^{k}$ pour un certain entier $k$.\nExplique ce que représente $k$, puis donne la valeur finale de $\\texttt{x}$.',
+          statement: 'On exécute le code :<br/>$\\texttt{x = 3}$<br/>$\\texttt{for i in range(4):}$<br/>$\\quad\\texttt{x = x * 2}$<br/><br/>Ce programme calcule $3 \\times 2^{k}$ pour un certain entier $k$.<br/><br/>Avant de répondre, demande-toi ce que représente $k$ (la correction y revient), puis donne la valeur finale de $\\texttt{x}$.',
           type: 'numeric',
           answer: 48,
           tolerance: 0,
@@ -564,13 +577,13 @@ window.MODULES.push({
         {
           statement: 'Un élève écrit $\\texttt{for i in range(5)}$ pour répéter une action $5$ fois. Quelles valeurs prend $i$ ?',
           type: 'multiple-choice',
-          options: ['$1, 2, 3, 4, 5$', '$0, 1, 2, 3, 4$', '$0, 1, 2, 3, 4, 5$', '$1, 2, 3, 4$'],
-          answer: 1,
+          options: ['$1, 2, 3, 4, 5$', '$0, 1, 2, 3, 4, 5$', '$1, 2, 3, 4$', '$0, 1, 2, 3, 4$'],
+          answer: 3,
           points: 2,
           correction: '$\\texttt{range(5)}$ est équivalent à $\\texttt{range(0, 5)}$ et produit $0, 1, 2, 3, 4$ (cinq valeurs, la borne supérieure $5$ est exclue).'
         },
         {
-          statement: 'On exécute le code :\n$\\texttt{n = 10}$\n$\\texttt{compteur = 0}$\n$\\texttt{while n > 1:}$\n$\\quad\\texttt{n = n // 2}$\n$\\quad\\texttt{compteur = compteur + 1}$\nQuelle est la valeur finale de $\\texttt{compteur}$ ?',
+          statement: 'On exécute le code :<br/>$\\texttt{n = 10}$<br/>$\\texttt{compteur = 0}$<br/>$\\texttt{while n > 1:}$<br/>$\\quad\\texttt{n = n // 2}$<br/>$\\quad\\texttt{compteur = compteur + 1}$<br/><br/>Quelle est la valeur finale de $\\texttt{compteur}$ ?',
           type: 'numeric',
           answer: 3,
           tolerance: 0,

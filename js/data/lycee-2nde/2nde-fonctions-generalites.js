@@ -41,7 +41,8 @@ window.MODULES.push({
         { term: 'Fonction', def: 'Règle qui associe à chaque valeur $x$ de son domaine de définition une unique image $f(x)$.' },
         { term: 'Image', def: 'La valeur $f(x)$ obtenue en appliquant la fonction à $x$. Se lit verticalement sur le graphe.' },
         { term: 'Antécédent', def: 'Valeur $x$ telle que $f(x) = y$. Un antécédent peut ne pas exister, ou il peut y en avoir plusieurs.' },
-        { term: 'Extremum', def: 'Maximum ou minimum de $f$ sur un intervalle. C\'est le point où la fonction atteint sa plus grande (ou plus petite) valeur.' }
+        { term: 'Extremum', def: 'Maximum ou minimum de $f$ sur un intervalle. C\'est le point où la fonction atteint sa plus grande (ou plus petite) valeur.' },
+        { term: 'Tableau de variations', def: 'Tableau qui résume, intervalle par intervalle, si $f$ est croissante (flèche qui monte) ou décroissante (flèche qui descend), avec les images aux bornes de chaque intervalle.<br/><br/>Un maximum se lit au sommet d\'une flèche montante suivie d\'une flèche descendante.' }
       ],
       method: {
         title: 'Lire une courbe',
@@ -386,11 +387,11 @@ window.MODULES.push({
       piege: 'Un antécédent peut ne pas exister ou ne pas être unique. L\'image d\'un $x$ donné, elle, est toujours unique (sinon ce n\'est pas une fonction).'
     },
     quiz: [
-      { q: 'Si $f(5) = 3$, laquelle de ces affirmations est VRAIE ?', options: ['$3$ est l\'image de $5$ et $5$ est un antécédent de $3$', '$5$ est l\'image de $3$ et $3$ est un antécédent de $5$', '$f(3) = 5$', '$f$ n\'est définie qu\'en $x=5$'], answer: 0, correction: '$f(5) = 3$ signifie : « l\'image de $5$ est $3$ » et « $5$ est un antécédent de $3$ ». L\'erreur classique est d\'inverser : $5$ est l\'entrée (antécédent), $3$ est la sortie (image).' },
+      { q: 'Si $f(5) = 3$, laquelle de ces affirmations est VRAIE ?', options: ['$5$ est l\'image de $3$ et $3$ est un antécédent de $5$', '$f(3) = 5$', '$3$ est l\'image de $5$ et $5$ est un antécédent de $3$', '$f$ n\'est définie qu\'en $x=5$'], answer: 2, correction: '$f(5) = 3$ signifie : « l\'image de $5$ est $3$ » et « $5$ est un antécédent de $3$ ». L\'erreur classique est d\'inverser : $5$ est l\'entrée (antécédent), $3$ est la sortie (image).' },
       { q: '$f$ est croissante sur $[1;4]$. On a $f(1)=2$ et $f(4)=9$. Alors :', options: ['$f(2) > f(3)$', '$f(2) < f(3)$', '$f(2) = f(3)$', 'Impossible à dire'], answer: 1, correction: 'Croissante : $2 < 3 \\Rightarrow f(2) < f(3)$.' },
-      { q: 'Le maximum de $f$ sur $[-2;3]$ est $5$. Cela signifie que :', options: ['$f(5)=-2$', '$f(x)\\le 5$ pour tout $x\\in[-2;3]$', '$f(x)\\ge 5$ pour tout $x$', '$f(-2)=5$'], answer: 1, correction: 'Le maximum vaut $5$, donc $f(x)\\le 5$ pour tout $x$ de l\'intervalle.' },
-      { q: 'Soit $f(x) = x^2 - 4x + 3$. On calcule $f(1) = 0$ et $f(3) = 0$. Peut-on dire que $f$ est constante (nulle) sur $[1;3]$ ?', options: ['Non : $f(1) = f(3) = 0$ ne signifie pas que $f$ est nulle entre les deux. Par exemple $f(2) = -1 \\neq 0$', 'Oui : si $f(1) = f(3) = 0$, alors $f$ vaut $0$ partout entre $1$ et $3$', 'Non : $f$ n\'est pas définie entre $1$ et $3$', 'Oui : c\'est le théorème des valeurs intermédiaires'], answer: 0, correction: 'Deux images égales ne signifient pas que la fonction est constante entre les deux. Ici $f(2) = 4 - 8 + 3 = -1 \\neq 0$. La fonction descend puis remonte. On ne peut rien déduire entre deux points sans information supplémentaire sur les variations.' },
-      { q: 'Une fonction $f$ est décroissante sur $[0;5]$ avec $f(0) = 10$ et $f(5) = 2$. L\'équation $f(x) = 7$ admet-elle une solution sur $[0;5]$ ?', options: ['Oui : $2 \\leq 7 \\leq 10$ et $f$ est continue et décroissante, donc $f$ prend exactement une fois la valeur $7$', 'Non : on ne connaît pas l\'expression de $f$', 'Oui : il y a plusieurs solutions', 'Non : $f$ est décroissante donc elle ne peut pas valoir $7$'], answer: 0, correction: 'f est décroissante sur [0;5] avec f(0) = 10 ≥ 7 ≥ 2 = f(5). Comme f décroît continûment de 10 à 2, elle prend toutes les valeurs intermédiaires : il existe donc une unique valeur c telle que f(c) = 7.' }
+      { q: 'Le maximum de $f$ sur $[-2;3]$ est $5$. Cela signifie que :', options: ['$f(5)=-2$', '$f(x)\\ge 5$ pour tout $x$', '$f(-2)=5$', '$f(x)\\le 5$ pour tout $x\\in[-2;3]$'], answer: 3, correction: 'Le maximum vaut $5$, donc $f(x)\\le 5$ pour tout $x$ de l\'intervalle.' },
+      { q: 'Soit $f(x) = x^2 - 4x + 3$. On calcule $f(1) = 0$ et $f(3) = 0$. Peut-on dire que $f$ est constante (nulle) sur $[1;3]$ ?', options: ['Non : $f(1) = f(3) = 0$ ne signifie pas que $f$ est nulle entre les deux. Par exemple $f(2) = -1 \\neq 0$', 'Oui : si $f(1) = f(3) = 0$, alors $f$ vaut $0$ partout entre $1$ et $3$', 'Non : $f$ n\'est pas définie entre $1$ et $3$', 'On ne peut pas savoir : il faudrait connaître $f$ entre $1$ et $3$'], answer: 0, correction: 'Deux images égales ne signifient pas que la fonction est constante entre les deux. Ici $f(2) = 4 - 8 + 3 = -1 \\neq 0$ : la fonction descend puis remonte.<br/><br/>Et on <strong>peut</strong> savoir, puisque l\'expression de $f$ est donnée : il suffit de calculer une image entre $1$ et $3$. Enfin $f$ est bien définie partout, c\'est un polynôme : aucune valeur interdite.' },
+      { q: 'Une fonction $f$ est décroissante sur $[0\\,;\\,5]$, avec $f(0) = 10$ et $f(5) = 2$. Combien l\'équation $f(x) = 12$ a-t-elle de solutions sur $[0\\,;\\,5]$ ?', options: ['Une seule : $f$ prend toutes les valeurs entre $2$ et $10$', 'Aucune : pour tout $x$ de $[0\\,;\\,5]$, $f(x) \\leq f(0) = 10 < 12$', 'Deux : une en montant, une en descendant', 'On ne peut pas savoir sans l\'expression de $f$'], answer: 1, correction: '$f$ est décroissante : pour tout $x$ de $[0\\,;\\,5]$, on a $x \\geq 0$, donc $f(x) \\leq f(0) = 10$.<br/><br/>Le maximum de $f$ sur l\'intervalle est donc $10$, et la valeur $12$ n\'est jamais atteinte : <strong>aucune</strong> solution.<br/><br/>« Une seule » confond $12$ avec une valeur comprise entre $2$ et $10$. « Deux » décrit une fonction qui monte puis descend, ce qui n\'est pas le cas ici. Et l\'expression de $f$ n\'est pas nécessaire : le sens de variation et une seule image suffisent.' }
     ],
     /* GÉNÉRATEUR ÉLARGI le 2026-09-13.
        Mesure AVANT : 18 énoncés tirés, 6 moules, mais **2 tâches distinctes**
@@ -409,7 +410,8 @@ window.MODULES.push({
            confusion majeure du chapitre et aucun exercice ne la travaillait. */
         if (tache === 'antecedent') {
           const a = pick([-3, -2, 2, 3, 4]);
-          const b = rand(-8, 8);
+          /* b non nul : « g(x) = -2x + 0 » faisait douter de l'énoncé. */
+          const b = pick([rand(-8, -1), rand(1, 8)]);
           const x = rand(-5, 6);
           const k = a * x + b;
           return {
@@ -436,9 +438,11 @@ window.MODULES.push({
           return {
             statement: `Soit $f(x) = ${a === -1 ? '-' : a}x^2 ${c >= 0 ? '+ ' + c : '- ' + Math.abs(c)}$.<br/><br/>Calcule $f(${x})$.`,
             answer: y, tolerance: 0, unit: '',
-            hint: `Remplace chaque $x$ par $${x}$, <strong>parenthèses comprises</strong> si le nombre est négatif : $(${x})^2$ et non $-${Math.abs(x)}^2$.`,
+            hint: x < 0
+              ? `Remplace chaque $x$ par $${x}$, <strong>parenthèses comprises</strong> : $(${x})^2$ et non $-${Math.abs(x)}^2$.`
+              : `Remplace chaque $x$ par $${x}$ : calcule d'abord $${x}^2$, multiplie par $${a}$, puis ajoute le dernier terme.`,
             solution: [
-              `On remplace $x$ par $${x}$ : $f(${x}) = ${a === -1 ? '-' : a} \\times (${x})^2 ${c >= 0 ? '+ ' + c : '- ' + Math.abs(c)}$.`,
+              `On remplace $x$ par $${x}$ : $f(${x}) = ${a === -1 ? '-' : a + ' \\times '}(${x})^2 ${c >= 0 ? '+ ' + c : '- ' + Math.abs(c)}$.`,
               `$(${x})^2 = ${x * x}$, donc $f(${x}) = ${a * x * x} ${c >= 0 ? '+ ' + c : '- ' + Math.abs(c)} = ${y}$.`,
               x < 0 ? `Attention aux parenthèses : $(${x})^2 = ${x * x}$ est POSITIF, alors que $-${Math.abs(x)}^2$ vaudrait $${-(x * x)}$.` : `Pense à toujours parenthéser le nombre substitué : cela évite les erreurs de signe quand il est négatif.`
             ]
@@ -454,7 +458,7 @@ window.MODULES.push({
           const fd = rand(2, 10);
           const ff = croissante ? fd + a * (xf - xd) : fd - a * (xf - xd);
           return {
-            statement: `Une fonction $f$ vérifie $f(${xd}) = ${fd}$ et $f(${xf}) = ${ff}$, et elle est monotone sur l'intervalle $[${xd} ; ${xf}]$.<br/><br/>Est-elle croissante sur cet intervalle ?<br/><br/>Réponds par $1$ pour oui, $0$ pour non.`,
+            statement: `Une fonction $f$ vérifie $f(${xd}) = ${fd}$ et $f(${xf}) = ${ff}$, et elle est soit croissante, soit décroissante sur tout l'intervalle $[${xd} ; ${xf}]$.<br/><br/>Est-elle croissante sur cet intervalle ?<br/><br/>Réponds par $1$ pour oui, $0$ pour non.`,
             answer: croissante ? 1 : 0, tolerance: 0, unit: '',
             hint: `Une fonction est croissante quand $f(x)$ augmente en même temps que $x$. Compare les deux images en respectant l'ordre des deux abscisses.`,
             solution: [
@@ -467,7 +471,8 @@ window.MODULES.push({
 
         /* Tâche 5 — domaine de définition d'un quotient. */
         if (tache === 'domaine') {
-          const k = rand(-6, 6);
+          /* k non nul : « 1/(x - 0) » faisait douter de l'énoncé. */
+          const k = pick([rand(-6, -1), rand(1, 6)]);
           return {
             statement: `Soit $f(x) = \\dfrac{1}{x ${k >= 0 ? '- ' + k : '+ ' + Math.abs(k)}}$.<br/><br/>Quelle est la <strong>seule</strong> valeur interdite, c'est-à-dire le nombre que $x$ ne peut pas prendre ?`,
             answer: k, tolerance: 0, unit: '',
@@ -480,35 +485,49 @@ window.MODULES.push({
           };
         }
 
-        /* Tâche 1 — trois images d'un trinôme et sens de variation (tâche
-           historique). */
+        /* Tâche 1 — trois images d'un trinôme, évolution des images et plus
+           grande valeur. RÉÉCRITE (phase 4 de l'audit).
+           - Le contexte est AFFICHÉ (il ne l'était pas, alors que son unité
+             l'était : « € » ou « m » collés à une fonction abstraite).
+           - Le sommet de la parabole est placé exactement en x2 : avant, il
+             tombait strictement entre deux abscisses dans 47 % des tirages,
+             la question 2 n'avait aucune réponse et la solution affirmait un
+             sens de variation faux.
+           - On ne déduit plus un sens de variation de deux images (c'est le
+             piège du quiz Q4) : on compare des images.
+           - c >= 10 et x3 <= x2 + 2 garantissent trois images strictement
+             positives, cohérentes avec les contextes. Tous les contextes ont
+             un sens en 0 (x1 peut valoir 0) : le « prix de vente » proposé en
+             phase 2 a été écarté, un bénéfice positif à prix nul n'a pas de
+             sens. */
         const contexts = [
-          { intro: 'La hauteur d\'un ballon lancé en l\'air est modélisée par', unit: 'm', xName: 't', xUnit: 's' },
-          { intro: 'Le bénéfice d\'une entreprise en fonction du nombre de produits vendus est', unit: '€', xName: 'x', xUnit: 'produits' },
-          { intro: 'La distance de freinage d\'une voiture est donnée par', unit: 'm', xName: 'v', xUnit: 'km/h' }
+          { intro: 'La hauteur, en mètres, d\'un ballon lancé depuis un balcon est modélisée, $t$ secondes après le lancer, par', unit: 'm', xName: 't' },
+          { intro: 'La température, en degrés Celsius, à l\'intérieur d\'une serre un jour d\'été est modélisée, $h$ heures après $8$ h du matin, par', unit: '°C', xName: 'h' },
+          { intro: 'Le nombre de visiteurs, en dizaines, présents dans un musée $x$ heures après l\'ouverture est modélisé par', unit: 'dizaines', xName: 'x' }
         ];
         const ctx = pick(contexts);
+        const v = ctx.xName;
         const a = -rand(1, 3);
-        const b = rand(4, 10);
-        const c = rand(1, 8);
-        const x1 = rand(0, 3);
-        const x2 = rand(x1 + 1, x1 + 3);
-        const x3 = rand(x2 + 1, x2 + 3);
+        const x2 = a === -1 ? rand(2, 5) : (a === -2 ? rand(1, 2) : 1);
+        const b = 2 * Math.abs(a) * x2;
+        const c = rand(10, 30);
+        const x1 = x2 - rand(1, Math.min(3, x2));
+        const x3 = x2 + rand(1, 2);
         const f1 = a * x1 * x1 + b * x1 + c;
         const f2 = a * x2 * x2 + b * x2 + c;
         const f3 = a * x3 * x3 + b * x3 + c;
-        const maxVal = Math.max(f1, f2, f3);
         return {
-          statement: `Soit $f(${ctx.xName}) = ${a === -1 ? '-' : a}${ctx.xName}^2 + ${b}${ctx.xName} + ${c}$.<br/><br/><strong>1.</strong> Calculer $f(${x1})$, $f(${x2})$ et $f(${x3})$.<br/><strong>2.</strong> La fonction est-elle croissante ou décroissante sur $[${x1};${x2}]$ ? Sur $[${x2};${x3}]$ ?<br/><strong>3.</strong> En déduire le maximum de $f$ sur $\\{${x1};${x2};${x3}\\}$.<br/><br/>Donne la valeur de $f(${x2})$.`,
+          statement: `${ctx.intro} $f(${v}) = ${a === -1 ? '-' : a}${v}^2 + ${b}${v} + ${c}$.<br/><br/><strong>1.</strong> Calculer $f(${x1})$, $f(${x2})$ et $f(${x3})$.<br/><strong>2.</strong> Entre $${v} = ${x1}$ et $${v} = ${x2}$, l'image a-t-elle augmenté ou diminué ? Et entre $${v} = ${x2}$ et $${v} = ${x3}$ ?<br/><strong>3.</strong> Quelle est la plus grande des trois images ?<br/><br/>Donne la valeur de $f(${x2})$.`,
           answer: f2,
           tolerance: 0,
           unit: ctx.unit,
-          hint: `Remplace $${ctx.xName}$ par $${x2}$ : $f(${x2}) = ${a} \\times ${x2}^2 + ${b} \\times ${x2} + ${c}$.`,
+          hint: `Remplace $${v}$ par $${x2}$ : $f(${x2}) = ${a} \\times ${x2}^2 + ${b} \\times ${x2} + ${c}$. Calcule d'abord le carré, puis les deux produits, puis la somme.`,
           solution: [
-            `$f(${x1}) = ${a} \\times ${x1*x1} + ${b} \\times ${x1} + ${c} = ${a*x1*x1} + ${b*x1} + ${c} = ${f1}$`,
-            `$f(${x2}) = ${a} \\times ${x2*x2} + ${b} \\times ${x2} + ${c} = ${a*x2*x2} + ${b*x2} + ${c} = ${f2}$`,
-            `$f(${x3}) = ${a} \\times ${x3*x3} + ${b} \\times ${x3} + ${c} = ${a*x3*x3} + ${b*x3} + ${c} = ${f3}$`,
-            `${f1 < f2 ? 'Croissante' : 'Décroissante'} sur $[${x1};${x2}]$ ; ${f2 > f3 ? 'décroissante' : 'croissante'} sur $[${x2};${x3}]$. Maximum parmi ces trois valeurs : $${maxVal}$.`
+            `$f(${x1}) = ${a} \\times ${x1 * x1} + ${b} \\times ${x1} + ${c} = ${a * x1 * x1} + ${b * x1} + ${c} = ${f1}$`,
+            `$f(${x2}) = ${a} \\times ${x2 * x2} + ${b} \\times ${x2} + ${c} = ${a * x2 * x2} + ${b * x2} + ${c} = ${f2}$`,
+            `$f(${x3}) = ${a} \\times ${x3 * x3} + ${b} \\times ${x3} + ${c} = ${a * x3 * x3} + ${b * x3} + ${c} = ${f3}$`,
+            `De $${v} = ${x1}$ à $${v} = ${x2}$, l'image passe de $${f1}$ à $${f2}$ : elle <strong>augmente</strong>.<br/><br/>De $${v} = ${x2}$ à $${v} = ${x3}$, elle passe de $${f2}$ à $${f3}$ : elle <strong>diminue</strong>.`,
+            `La plus grande des trois images est donc $f(${x2}) = ${f2}$.<br/><br/>Attention : trois valeurs ne suffisent pas à affirmer que $f$ est croissante puis décroissante <strong>partout</strong> entre ces abscisses ; on ne compare ici que les images calculées.`
           ]
         };
       }
@@ -517,13 +536,13 @@ window.MODULES.push({
       context: 'Un fabricant de boîtes vend ses produits à un prix unitaire de $p$ euros. Le nombre de boîtes vendues par mois est $N(p) = 500 - 20p$ (pour $0 \\leq p \\leq 25$). Le chiffre d\'affaires mensuel est $C(p) = p \\times N(p) = p(500 - 20p) = -20p^2 + 500p$.',
       tasks: [
         'Calculer $C(5)$, $C(10)$, $C(15)$ et $C(20)$.',
-        'Dresser le tableau de variations de $C$ sur $[5;20]$ à partir de ces valeurs. Identifier le maximum.',
+        'Calculer aussi $C(12{,}5)$. En admettant que la courbe de $C$ est une parabole, symétrique par rapport à son sommet, dresser le tableau de variations de $C$ sur $[5\\,;\\,20]$ et identifier le maximum.',
         'Déterminer les antécédents de $2000$ par $C$ (c\'est-à-dire résoudre $C(p) = 2000$).'
       ],
       solutions: [
         '$C(5) = -20 \\times 25 + 500 \\times 5 = 2000$ € ; $C(10) = -2000 + 5000 = 3000$ € ; $C(15) = -4500 + 7500 = 3000$ € ; $C(20) = -8000 + 10000 = 2000$ €.',
-        '$C$ croît sur $[5;10]$ puis décroît (ou reste stable) sur $[10;20]$. Le maximum semble atteint autour de $p = 12{,}5$ (milieu entre $10$ et $15$) avec $C(12{,}5) = 3125$ €.',
-        '$-20p^2 + 500p = 2000 \\Rightarrow -20p^2 + 500p - 2000 = 0 \\Rightarrow p^2 - 25p + 100 = 0$. On trouve $p = 5$ ou $p = 20$ (vérification : $C(5) = C(20) = 2000$ ✓, cohérent avec les valeurs calculées en 1).'
+        '$C(12{,}5) = -20 \\times 156{,}25 + 500 \\times 12{,}5 = -3125 + 6250 = 3125$ €.<br/><br/>On remarque que $C(10) = C(15) = 3000$ : deux images égales, de part et d\'autre de $12{,}5$. La courbe étant une parabole symétrique par rapport à son sommet, celui-ci est au <strong>milieu</strong> de $10$ et $15$, c\'est-à-dire en $p = 12{,}5$.<br/><br/>Attention : $C(10) = C(15)$ ne signifie pas que $C$ reste constante entre les deux (c\'est le piège du quiz) — la valeur $C(12{,}5) = 3125 > 3000$ le confirme.<br/><br/><strong>Tableau de variations</strong> : $C$ est <strong>croissante</strong> sur $[5\\,;\\,12{,}5]$, de $2000$ à $3125$, puis <strong>décroissante</strong> sur $[12{,}5\\,;\\,20]$, de $3125$ à $2000$.<br/><br/>Le <strong>maximum</strong> est $3125$ €, atteint pour $p = 12{,}5$ €.',
+        '$-20p^2 + 500p = 2000 \\Rightarrow -20p^2 + 500p - 2000 = 0 \\Rightarrow p^2 - 25p + 100 = 0$ (on a divisé par $-20$).<br/><br/>La question 1 a déjà montré que $C(5) = C(20) = 2000$ : $5$ et $20$ sont deux antécédents de $2000$. Pour vérifier que ce sont les seuls, on factorise : $(p - 5)(p - 20) = p^2 - 20p - 5p + 100 = p^2 - 25p + 100$ ✓.<br/><br/>L\'équation s\'écrit donc $(p - 5)(p - 20) = 0$. Un produit est nul si et seulement si l\'un de ses facteurs est nul : $p = 5$ ou $p = 20$.'
       ],
       finalAnswer: 'Maximum du chiffre d\'affaires : $3125$ € pour $p = 12{,}5$ €. Antécédents de $2000$ : $p = 5$ € et $p = 20$ €.'
     },
