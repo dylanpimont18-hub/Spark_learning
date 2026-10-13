@@ -195,12 +195,12 @@ window.MODULES.push({
         caption: 'Le diamètre est au carré : l\'isoler demandera une racine carrée, jamais une simple division.'
       },
       options: [
-        '$d = \\sqrt{\\dfrac{4A}{\\pi}}$',
+        '$d = \\dfrac{A}{\\pi}$',
         '$d = \\dfrac{4A}{\\pi}$',
         '$d = \\sqrt{\\dfrac{A}{4\\pi}}$',
-        '$d = \\dfrac{A}{\\pi}$'
+        '$d = \\sqrt{\\dfrac{4A}{\\pi}}$'
       ],
-      answer: 0,
+      answer: 3,
       correction: 'On multiplie par 4 : $4A = \\pi d^2$. On divise par $\\pi$ : $d^2 = 4A/\\pi$. On prend la racine carrée (positive car $d > 0$) : $d = \\sqrt{4A/\\pi} = 2\\sqrt{A/\\pi}$.'
     },
     {
@@ -223,9 +223,9 @@ window.MODULES.push({
     },
     {
       q: 'La quantité de chaleur stockée est $Q = m \\cdot c \\cdot \\Delta T$. Un ballon d\'eau chaude de $m = 200$ kg avec $c = 4180$ J/(kg·K) monte de $\\Delta T = 40$ K. Quelle est l\'énergie stockée (en MJ) ?',
-      options: ['$Q = 8{,}36$ MJ', '$Q = 33{,}44$ MJ', '$Q = 0{,}836$ MJ', '$Q = 836$ kJ'],
+      options: ['$Q = 8{,}36$ MJ', '$Q = 33{,}44$ MJ', '$Q = 0{,}836$ MJ', '$Q = 33\\,440$ MJ'],
       answer: 1,
-      correction: '$Q = 200 \\times 4180 \\times 40 = 33\\,440\\,000$ J $= 33{,}44$ MJ $= 33\\,440$ kJ. La bonne réponse est B : 33,44 MJ. Attention à ne pas confondre les puissances de 10 (33,44 MJ ≠ 836 kJ).',
+      correction: '$Q = 200 \\times 4180 \\times 40 = 33\\,440\\,000$ J $= 33{,}44$ MJ $= 33\\,440$ kJ.<br/><br/>8,36 MJ correspond à $\\Delta T = 10$ K au lieu de 40 ; 0,836 MJ oublie complètement $\\Delta T$ ($200 \\times 4180 = 836\\,000$ J) ; 33 440 MJ confond kilo et méga ($33\\,440$ <strong>k</strong>J $= 33{,}44$ <strong>M</strong>J).<br/><br/>Vérifie toujours le passage J → kJ → MJ : chaque étape divise par 1000.',
     },
     {
       q: 'La puissance dissipée par effet Joule dans une résistance est $P = \\dfrac{U^2}{R}$. Pour isoler la tension $U$ (positive) :',
@@ -263,23 +263,23 @@ window.MODULES.push({
         caption: 'L est l\'hypoténuse : c\'est donc $L^2$ qui contient les deux autres, et $h^2 = L^2 - d^2$.'
       },
       options: [
-        '$h = \\sqrt{L^2 - d^2}$',
-        '$h = L^2 - d^2$',
         '$h = \\sqrt{L^2 + d^2}$',
+        '$h = L^2 - d^2$',
+        '$h = \\sqrt{L^2 - d^2}$',
         '$h = L - d$'
       ],
-      answer: 0,
+      answer: 2,
       correction: 'On soustrait $d^2$ aux deux membres : $L^2 - d^2 = h^2$. On prend la racine carrée (h ≥ 0) : $h = \\sqrt{L^2 - d^2}$. Cette formule permet de vérifier qu\'une rampe respecte la pente réglementaire pour une longueur donnée.'
     },
     {
       q: 'Un étudiant isole $I$ depuis $P = U \\cdot I \\cdot \\cos\\varphi$ et écrit $I = P \\cdot U \\cdot \\cos\\varphi$. Quelle erreur a-t-il commise ?',
       options: [
-        'Il a multiplié au lieu de diviser : $I = \\dfrac{P}{U \\cdot \\cos\\varphi}$',
         'Il a oublié $\\cos\\varphi$ : $I = \\dfrac{P}{U}$',
+        'Il a multiplié au lieu de diviser : $I = \\dfrac{P}{U \\cdot \\cos\\varphi}$',
         'Il n\'a pas fait d\'erreur',
         'Il faut écrire $I = P + U \\cdot \\cos\\varphi$'
       ],
-      answer: 0,
+      answer: 1,
       correction: 'Pour isoler $I$, on divise les deux membres par $U \\cdot \\cos\\varphi$ (pas on multiplie). La formule correcte est $I = P/(U \\cdot \\cos\\varphi)$. C\'est la formule du courant efficace en régime alternatif monophasé.'
     },
     {
@@ -301,20 +301,20 @@ window.MODULES.push({
     },
     {
       q: 'La force de rappel d\'un ressort suit la loi de Hooke $F = k \\cdot x$. Pour une raideur $k = 250$ N/m et une force $F = 37{,}5$ N, l\'allongement $x$ vaut :',
-      options: ['$x = 0{,}15$ m', '$x = 9375$ m', '$x = 6{,}67$ m', '$x = 212{,}5$ m'],
-      answer: 0,
+      options: ['$x = 6{,}67$ m', '$x = 9375$ m', '$x = 0{,}15$ m', '$x = 212{,}5$ m'],
+      answer: 2,
       correction: 'On isole $x$ en divisant les deux membres par $k$ : $x = F/k = 37{,}5/250 = 0{,}15$ m.'
     },
     {
       q: 'Le volume de béton d\'une dalle est $V = L \\cdot l \\cdot h$ (longueur × largeur × épaisseur). Pour isoler l\'épaisseur $h$ :',
-      options: ['$h = \\dfrac{V}{L \\cdot l}$', '$h = V \\cdot L \\cdot l$', '$h = \\dfrac{L \\cdot l}{V}$', '$h = V - L \\cdot l$'],
-      answer: 0,
+      options: ['$h = V \\cdot L \\cdot l$', '$h = \\dfrac{V}{L \\cdot l}$', '$h = \\dfrac{L \\cdot l}{V}$', '$h = V - L \\cdot l$'],
+      answer: 1,
       correction: 'On divise les deux membres par $L \\cdot l$ (le facteur commun qui multiplie $h$) : $h = V/(L \\cdot l)$. Utile pour retrouver l\'épaisseur d\'une dalle connaissant son volume total.'
     },
     {
       q: 'Un dallage carré a une aire $A = 36$ m². Sachant que $A = c^2$ (avec $c$ le côté du carré), la longueur du côté $c$ vaut :',
-      options: ['$c = 6$ m', '$c = 18$ m', '$c = 1296$ m', '$c = 12$ m'],
-      answer: 0,
+      options: ['$c = 12$ m', '$c = 18$ m', '$c = 1296$ m', '$c = 6$ m'],
+      answer: 3,
       correction: 'On prend la racine carrée des deux membres (c ≥ 0 car c\'est une longueur) : $c = \\sqrt{A} = \\sqrt{36} = 6$ m.'
     },
     {
@@ -325,31 +325,31 @@ window.MODULES.push({
     },
     {
       q: 'Un radiateur électrique de puissance $P = 1000$ W fonctionne pendant une durée $t$ et consomme une énergie $E = 2500$ Wh (avec $E = P \\cdot t$). La durée de fonctionnement $t$ vaut :',
-      options: ['$t = 2{,}5$ h', '$t = 0{,}4$ h', '$t = 2\\,500\\,000$ h', '$t = 1{,}5$ h'],
-      answer: 0,
+      options: ['$t = 0{,}4$ h', '$t = 2{,}5$ h', '$t = 2\\,500\\,000$ h', '$t = 1{,}5$ h'],
+      answer: 1,
       correction: 'On isole $t$ en divisant les deux membres par $P$ : $t = E/P = 2500/1000 = 2{,}5$ h.'
     },
     {
       q: 'La concentration molaire d\'une solution est $C = n/V$ (quantité de matière / volume). Pour isoler la quantité de matière $n$ :',
-      options: ['$n = C \\cdot V$', '$n = C/V$', '$n = V/C$', '$n = C - V$'],
-      answer: 0,
+      options: ['$n = C - V$', '$n = C/V$', '$n = V/C$', '$n = C \\cdot V$'],
+      answer: 3,
       correction: 'On multiplie les deux membres par $V$ : $n = C \\cdot V$. Unités : mol/L × L = mol ✓'
     },
     {
       q: 'La masse volumique est $\\rho = m/V$. Un volume $V = 0{,}25$ L d\'une solution de masse volumique $\\rho = 1{,}2$ kg/L a une masse $m$ qui vaut :',
-      options: ['$m = 0{,}3$ kg', '$m = 4{,}8$ kg', '$m = 1{,}45$ kg', '$m = 0{,}208$ kg'],
-      answer: 0,
+      options: ['$m = 1{,}45$ kg', '$m = 4{,}8$ kg', '$m = 0{,}3$ kg', '$m = 0{,}208$ kg'],
+      answer: 2,
       correction: 'On isole $m$ en multipliant les deux membres par $V$ : $m = \\rho \\cdot V = 1{,}2 \\times 0{,}25 = 0{,}3$ kg.'
     },
     {
       q: 'La relation de dilution s\'écrit $C_1 \\cdot V_1 = C_2 \\cdot V_2$. Pour isoler le volume final $V_2$ de la solution diluée :',
       options: [
-        '$V_2 = \\dfrac{C_1 \\cdot V_1}{C_2}$',
+        '$V_2 = C_1 \\cdot V_1 - C_2$',
         '$V_2 = C_1 \\cdot V_1 \\cdot C_2$',
         '$V_2 = \\dfrac{C_2}{C_1 \\cdot V_1}$',
-        '$V_2 = C_1 \\cdot V_1 - C_2$'
+        '$V_2 = \\dfrac{C_1 \\cdot V_1}{C_2}$'
       ],
-      answer: 0,
+      answer: 3,
       correction: 'On divise les deux membres par $C_2$ : $V_2 = C_1 V_1 / C_2$. Comme $C_2 < C_1$ lors d\'une dilution, on trouve bien $V_2 > V_1$ — le volume final est plus grand que le volume prélevé.'
     }
   ],
@@ -420,7 +420,7 @@ window.MODULES.push({
       return {
         statement: `<em>${scenario.context}</em><br/><br/>${s.q}`,
         answer: s.ans,
-        tolerance: 0.05,
+        tolerance: Math.max(0.005, Math.abs(s.ans) * 0.005),
         unit: s.unit,
         hint: s.hint,
         solution: s.sol
@@ -429,7 +429,7 @@ window.MODULES.push({
   },
 
   probleme: {
-    context: 'Un chauffe-eau solaire alimente un ballon de stockage. Le collecteur solar transfère une puissance $\\dot{Q} = 3{,}5$ kW à un fluide caloporteur (eau glycolée) de débit massique $\\dot{m} = 0{,}12$ kg/s et de capacité calorifique $c_p = 3800$ J/(kg·K). Le fluide entre dans le collecteur à $T_e = 25$ °C.',
+    context: 'Un chauffe-eau solaire alimente un ballon de stockage. Le collecteur solaire transfère une puissance $\\dot{Q} = 3{,}5$ kW à un fluide caloporteur (eau glycolée) de débit massique $\\dot{m} = 0{,}12$ kg/s et de capacité calorifique $c_p = 3800$ J/(kg·K). Le fluide entre dans le collecteur à $T_e = 25$ °C.',
     figure: {
       svg: `
         <svg viewBox="0 0 450 220" role="img" aria-labelledby="pb-calcullit-title pb-calcullit-desc">

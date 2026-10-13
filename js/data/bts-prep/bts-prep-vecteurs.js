@@ -288,8 +288,8 @@ Propriétés utiles :<br/>
         `,
         caption: 'La norme est l\'hypoténuse du triangle formé par les deux composantes.'
       },
-      options: ['7', '5', '√7', '25'],
-      answer: 1,
+      options: ['7', '25', '√7', '5'],
+      answer: 3,
       correction: '||u|| = √(3² + 4²) = √(9+16) = √25 = 5. Triplet pythagoricien classique : 3-4-5.',
     },
     {
@@ -300,14 +300,14 @@ Propriétés utiles :<br/>
     },
     {
       q: 'Le produit scalaire $\\vec{u}\\cdot\\vec{v}$ avec $\\vec{u} = (2, 3)$ et $\\vec{v} = (4, -1)$ vaut :',
-      options: ['11', '5', '8', '-11'],
-      answer: 1,
+      options: ['5', '11', '8', '-11'],
+      answer: 0,
       correction: 'u·v = 2×4 + 3×(-1) = 8 - 3 = 5.',
     },
     {
       q: 'Une force de 500 N est orientée à 30° de l\'horizontal. Sa composante verticale vaut :',
-      options: ['$500\\cos 30° \\approx 433\\;\\text{N}$', '$500\\sin 30° = 250\\;\\text{N}$', '$500\\tan 30° \\approx 289\\;\\text{N}$', '$250\\sqrt{2}\\;\\text{N}$'],
-      answer: 1,
+      options: ['$500\\cos 30° \\approx 433\\;\\text{N}$', '$500\\tan 30° \\approx 289\\;\\text{N}$', '$500\\sin 30° = 250\\;\\text{N}$', '$250\\sqrt{2}\\;\\text{N}$'],
+      answer: 2,
       correction: 'F_y = F·sin(30°) = 500 × 0,5 = 250 N. La composante verticale utilise sin, la composante horizontale utilise cos.',
     },
     {
@@ -336,9 +336,9 @@ Propriétés utiles :<br/>
         `,
         caption: 'Forces perpendiculaires : la résultante est la diagonale du rectangle, jamais la somme des normes.'
       },
-      options: ['350 N', '250 N', '√(200²+150²) N', '200 N'],
+      options: ['350 N', '250 N', '50 N', '200 N'],
       answer: 1,
-      correction: 'R = (200+0, 0+150) = (200, 150) N. Norme : √(200²+150²) = √(40000+22500) = √62500 = 250 N.',
+      correction: 'R = (200+0, 0+150) = (200, 150) N. Norme : √(200²+150²) = √(40000+22500) = √62500 = 250 N.<br/><br/>350 N additionne les normes : on additionne les <strong>composantes</strong>, pas les normes. 50 N les soustrait, et 200 N oublie F₂.',
     },
     {
       q: 'Deux forces de 600 N chacune sont opposées (sens contraires). Leur résultante est :',
@@ -380,8 +380,8 @@ Propriétés utiles :<br/>
     },
     {
       q: 'Un vecteur de norme 10 est orienté à 45° de l\'axe x. Ses composantes sont :',
-      options: ['$(10, 0)$', '$(\\frac{10}{\\sqrt{2}}, \\frac{10}{\\sqrt{2}}) \\approx (7{,}07, 7{,}07)$', '$(5, 5)$', '$(10\\cos 45°, 0)$'],
-      answer: 1,
+      options: ['$(10, 0)$', '$(10\\cos 45°, 0)$', '$(5, 5)$', '$(\\frac{10}{\\sqrt{2}}, \\frac{10}{\\sqrt{2}}) \\approx (7{,}07, 7{,}07)$'],
+      answer: 3,
       correction: 'u_x = 10·cos(45°) = 10/√2 ≈ 7,07 et u_y = 10·sin(45°) = 10/√2 ≈ 7,07. Vérification : √(7,07²+7,07²) = √(50+50) = √100 = 10 ✓',
     },
     {
@@ -392,20 +392,20 @@ Propriétés utiles :<br/>
     },
     {
       q: 'Un capteur de champ magnétique mesure un champ résultant de composantes $(5,\\;12)$ mT. Quelle est sa norme ?',
-      options: ['17 mT', '13 mT', '√7 mT', '169 mT'],
-      answer: 1,
+      options: ['13 mT', '17 mT', '√7 mT', '169 mT'],
+      answer: 0,
       correction: '||u|| = √(5²+12²) = √(25+144) = √169 = 13 mT. Encore un triplet pythagoricien classique (5-12-13), à repérer pour aller plus vite.',
     },
     {
       q: 'Un bras robotisé applique une force $\\vec u = (3, -2)$ N ; un capteur détecte une réaction $\\vec v = (4, 6)$ N. Que peut-on dire de ces deux vecteurs ?',
-      options: ['Colinéaires', 'Perpendiculaires', 'De même norme', 'Antiparallèles'],
-      answer: 1,
+      options: ['Colinéaires', 'De même norme', 'Perpendiculaires', 'Antiparallèles'],
+      answer: 2,
       correction: 'u·v = 3×4 + (-2)×6 = 12 - 12 = 0 → les deux vecteurs sont perpendiculaires, quelle que soit leur norme respective.',
     },
     {
       q: 'Deux convoyeurs orientent leurs vecteurs vitesse selon $\\vec u = (2, 4)$ et $\\vec v = (3, 6)$ (m/s). Ces deux vecteurs sont :',
-      options: ['Perpendiculaires', 'Colinéaires de même sens', 'Colinéaires de sens contraires', 'Sans relation particulière'],
-      answer: 1,
+      options: ['Perpendiculaires', 'Sans relation particulière', 'Colinéaires de sens contraires', 'Colinéaires de même sens'],
+      answer: 3,
       correction: 'v = 1,5 × u (chaque composante est multipliée par 1,5) : les vecteurs sont colinéaires et de même sens. On le vérifie aussi par u·v = 6+24 = 30 = ||u||×||v|| ≈ 4,47×6,71.',
     },
     {
@@ -422,20 +422,20 @@ Propriétés utiles :<br/>
     },
     {
       q: 'Une force de traction de 250 N, parfaitement alignée avec le déplacement d\'un convoyeur sur 6 m, produit un travail de :',
-      options: ['0 J', '1500 J', '250 J', '1506 J'],
-      answer: 1,
+      options: ['1500 J', '0 J', '250 J', '1506 J'],
+      answer: 0,
       correction: 'Quand la force est alignée avec le déplacement, θ = 0° et cos 0° = 1, donc W = F·d = 250 × 6 = 1500 J : le travail est maximal pour une force donnée.',
     },
     {
       q: 'Un écoulement dans une conduite a une vitesse de norme 5 m/s orientée à 200° par rapport à l\'axe horizontal. Quelle est sa composante horizontale (arrondie à 0,1) ?',
-      options: ['4,7 m/s', '-4,7 m/s', '-1,7 m/s', '1,7 m/s'],
-      answer: 1,
+      options: ['4,7 m/s', '-1,7 m/s', '-4,7 m/s', '1,7 m/s'],
+      answer: 2,
       correction: 'v_x = v·cos(200°) = 5 × (-0,940) ≈ -4,7 m/s. Le signe négatif indique que la composante horizontale est orientée vers l\'arrière (200° est dans le troisième quadrant).',
     },
     {
       q: 'Dans une cellule d\'électrolyse, deux électrodes créent des champs électriques $\\vec E_1 = (150, 0)$ V/m et $\\vec E_2 = (0, 200)$ V/m en un point du bain électrolytique. Quelle est la norme du champ résultant ?',
-      options: ['350 V/m', '250 V/m', '300 V/m', '200 V/m'],
-      answer: 1,
+      options: ['350 V/m', '200 V/m', '300 V/m', '250 V/m'],
+      answer: 3,
       correction: 'Le champ résultant est $\\vec E = (150, 200)$ V/m. Norme : √(150²+200²) = √(22500+40000) = √62500 = 250 V/m (triplet 3-4-5 mis à l\'échelle par 50).',
     },
     {
@@ -446,9 +446,15 @@ Propriétés utiles :<br/>
     },
     {
       q: 'Un vérin amplifie une force représentée par $\\vec u = (2, 3)$ kN d\'un facteur $k = -3$. Quel est le vecteur $k\\vec u$ ?',
-      options: ['$(6, 9)$ kN', '$(-6, -9)$ kN', '$(-6, 9)$ kN', '$(-1, 0)$ kN'],
-      answer: 1,
+      options: ['$(-6, -9)$ kN', '$(6, 9)$ kN', '$(-6, 9)$ kN', '$(-1, 0)$ kN'],
+      answer: 0,
       correction: 'k\\vec u = (k u_x,\\; k u_y) = (-3×2,\\; -3×3) = (-6, -9) kN. Le signe négatif de k inverse le sens du vecteur, sa valeur absolue multiplie sa norme.',
+    },
+    {
+      q: 'Deux tirants d\'une passerelle sont modélisés par $\\vec u = (4, 0)$ et $\\vec v = (3, 3)$ (kN). L\'angle entre eux vaut :',
+      options: ['30°', '45°', '60°', '90°'],
+      answer: 1,
+      correction: 'Produit scalaire : $\\vec u\\cdot\\vec v = 4\\times3 + 0\\times3 = 12$.<br/><br/>Normes : $\\|\\vec u\\| = 4$ et $\\|\\vec v\\| = \\sqrt{3^2+3^2} = \\sqrt{18} \\approx 4{,}24$.<br/><br/>Donc $\\cos\\theta = \\dfrac{12}{4 \\times 4{,}24} \\approx 0{,}707$ et $\\theta = \\arccos(0{,}707) = 45°$.<br/><br/>Contrôle : $\\vec u$ est sur l\'axe horizontal et $\\vec v = (3, 3)$ sur la bissectrice des axes, donc à 45° de lui.',
     },
   ],
 
@@ -493,7 +499,7 @@ Calculez la norme de la résultante $R = \\|\\vec{F_1} + \\vec{F_2}\\|$ en N (ar
         const d = pick([5, 8, 10, 15, 20]);
         const theta = pick([0, 20, 30, 45, 60]);
         const W = F * d * Math.cos(theta * Math.PI / 180);
-        const context = pick(['chariot de manutention', 'palet sur une glissière industrielle', 'caisse sur un convoyeur incliné']);
+        const context = pick(['chariot de manutention', 'palet sur une glissière industrielle', 'colis sur un convoyeur incliné']);
         return {
           statement: `Un ${context} est déplacé sur une distance $d = ${d}\\;\\text{m}$. La force de traction vaut $F = ${F}\\;\\text{N}$ et fait un angle $\\theta = ${theta}°$ avec la direction du déplacement.<br/><br/>
 Calculez le travail $W$ de cette force (en J, arrondi à l'unité).`,
@@ -522,8 +528,8 @@ Calculez l'angle $\\theta$ entre ces deux vecteurs (en degrés, arrondi à 0,1°
           unit: '°',
           hint: '$\\cos\\theta = \\dfrac{\\vec{u}\\cdot\\vec{v}}{\\|\\vec{u}\\|\\,\\|\\vec{v}\\|}$',
           solution: [
-            `$\\vec{u}\\cdot\\vec{v} = ${u[0]}\\times${v[0]} + ${u[1]}\\times${v[1]} = ${dot}$`,
-            `$\\|\\vec{u}\\| = \\sqrt{${u[0]}^2+${u[1]}^2} = ${fr(nu, 3)}$, $\\|\\vec{v}\\| = \\sqrt{${v[0]}^2+${v[1]}^2} = ${fr(nv, 3)}$`,
+            `$\\vec{u}\\cdot\\vec{v} = ${u[0]}\\times${v[0]} + ${u[1]}\\times${v[1] < 0 ? `(${v[1]})` : v[1]} = ${dot}$`,
+            `$\\|\\vec{u}\\| = \\sqrt{${u[0]}^2+${u[1]}^2} = ${fr(nu, 3)}$, $\\|\\vec{v}\\| = \\sqrt{${v[0]}^2+${v[1] < 0 ? `(${v[1]})` : v[1]}^2} = ${fr(nv, 3)}$`,
             `$\\cos\\theta = ${dot} / (${fr(nu, 3)} \\times ${fr(nv, 3)}) = ${fr(cosTheta, 3)}$`,
             `$\\theta = \\arccos(${fr(cosTheta, 3)}) \\approx ${fr(theta, 1)}°$`,
           ],
@@ -550,7 +556,7 @@ Calculez l'angle $\\theta$ entre ces deux vecteurs (en degrés, arrondi à 0,1°
       if (type === 'norme_directe') {
         const scenarios = [
           { context: 'champ magnétique résultant d\'un moteur électrique', unit: 'mT' },
-          { context: 'débit vectoriel dans un réseau de tuyauterie industrielle', unit: 'm³/h' },
+          { context: 'vecteur vitesse d\'un jet d\'air comprimé en sortie de buse de soufflage', unit: 'm/s' },
           { context: 'vecteur vitesse résultant d\'un mobile sur un tapis roulant', unit: 'm/s' },
         ];
         const scenario = pick(scenarios);
@@ -563,7 +569,7 @@ Calculez l'angle $\\theta$ entre ces deux vecteurs (en degrés, arrondi à 0,1°
           tolerance: 0.2,
           unit: scenario.unit,
           hint: `$\\|\\vec u\\| = \\sqrt{u_x^2+u_y^2}$`,
-          solution: [`$\\|\\vec u\\| = \\sqrt{${ux}^2+${uy}^2} = \\sqrt{${ux * ux + uy * uy}} \\approx ${fr(norme, 1)}\\;${scenario.unit}$`],
+          solution: [`$\\|\\vec u\\| = \\sqrt{${ux}^2+${uy}^2} = \\sqrt{${ux * ux + uy * uy}} \\approx ${fr(norme, 1)}\\;\\text{${scenario.unit}}$`],
         };
       }
 

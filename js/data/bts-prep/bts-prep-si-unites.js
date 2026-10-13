@@ -169,10 +169,10 @@ window.MODULES.push({
         'Au centre ($10^0$), les <strong>7 grandeurs de base</strong> du SI : mètre, kilogramme, seconde, ampère, kelvin, mole, candela.',
         'Le <strong>kilowatt (kW)</strong> vaut $10^3$ W — exemple du cours (moteur, chaudière).',
         'Le <strong>mégapascal (MPa)</strong> vaut $10^6$ Pa — pression, exemple du cours ($6$ bar $= 0{,}6$ MPa).',
-        'Le <strong>gigahertz (GHz)</strong> vaut $10^9$ Hz — fréquence d\'un processeur, cité dans le cours.',
-        'Le <strong>térawatt (TW)</strong> vaut $10^{12}$ W — échelle d\'un grand réseau électrique, cité dans le cours.'
+        'Le <strong>gigahertz (GHz)</strong> vaut $10^9$ Hz — fréquence d\'horloge d\'un processeur ou d\'une liaison radio.',
+        'Le <strong>térawatt (TW)</strong> vaut $10^{12}$ W — ordre de grandeur de la puissance appelée par un grand réseau électrique national.'
       ],
-      reading: 'Contrairement au module « Puissances de 10 », les huit préfixes SI ont ici chacun un exemple d\'unité dérivée réellement cité dans le cours (farad, mètre, watt, pascal, hertz), organisés symétriquement autour des 7 grandeurs de base à l\'exposant $10^0$.',
+      reading: 'Chaque préfixe est séparé du suivant par un <strong>facteur 1000</strong> : lire une valeur sur cette échelle, c\'est compter des sauts de trois puissances de 10.<br/><br/>Les unités dérivées choisies en exemple (farad, mètre, watt, pascal, hertz) sont celles que tu manipuleras tous les jours en BTS.',
       caption: 'Échelle logarithmique de $10^{-12}$ à $10^{12}$ : les huit préfixes SI du cours, chacun illustré par une unité dérivée caractéristique (F, m, W, Pa, Hz).'
     },
 
@@ -201,8 +201,8 @@ window.MODULES.push({
     },
     {
       q: 'Un condensateur vaut $470\\;\\mu\\text{F}$. En farads, cela représente :',
-      options: ['$470 \\times 10^3\\;\\text{F}$', '$470 \\times 10^{-6}\\;\\text{F}$', '$470 \\times 10^{-3}\\;\\text{F}$', '$4{,}7 \\times 10^{-2}\\;\\text{F}$'],
-      answer: 1,
+      options: ['$470 \\times 10^3\\;\\text{F}$', '$4{,}7 \\times 10^{-2}\\;\\text{F}$', '$470 \\times 10^{-3}\\;\\text{F}$', '$470 \\times 10^{-6}\\;\\text{F}$'],
+      answer: 3,
       correction: '1 μF = 10⁻⁶ F, donc 470 μF = 470 × 10⁻⁶ F.',
     },
     {
@@ -238,8 +238,8 @@ window.MODULES.push({
     },
     {
       q: 'Quelle est l\'unité SI de la pression ?',
-      options: ['Bar', 'Pascal (Pa)', 'Atmosphère (atm)', 'N/cm²'],
-      answer: 1,
+      options: ['Pascal (Pa)', 'Bar', 'Atmosphère (atm)', 'N/cm²'],
+      answer: 0,
       correction: 'Le pascal (Pa = N/m²) est l\'unité SI de la pression. Bar, atm, psi, N/cm² sont des unités hors-SI (utilisées en pratique mais non SI).',
     },
     {
@@ -310,14 +310,14 @@ window.MODULES.push({
     },
     {
       q: 'Parmi ces unités, laquelle est une grandeur de BASE du SI ?',
-      options: ['Newton (N)', 'Kelvin (K)', 'Watt (W)', 'Pascal (Pa)'],
-      answer: 1,
+      options: ['Newton (N)', 'Pascal (Pa)', 'Watt (W)', 'Kelvin (K)'],
+      answer: 3,
       correction: 'Le kelvin (K) est une des 7 grandeurs de base du SI. Newton, watt et pascal sont des unités dérivées, construites à partir des grandeurs de base.',
     },
     {
       q: 'Un capteur de pression indique $2{,}5\\;\\text{GPa}$. Cela vaut en Pa :',
-      options: ['$2{,}5 \\times 10^6\\;\\text{Pa}$', '$2{,}5 \\times 10^9\\;\\text{Pa}$', '$2{,}5 \\times 10^{12}\\;\\text{Pa}$', '$2{,}5 \\times 10^3\\;\\text{Pa}$'],
-      answer: 1,
+      options: ['$2{,}5 \\times 10^6\\;\\text{Pa}$', '$2{,}5 \\times 10^{12}\\;\\text{Pa}$', '$2{,}5 \\times 10^9\\;\\text{Pa}$', '$2{,}5 \\times 10^3\\;\\text{Pa}$'],
+      answer: 2,
       correction: 'Le préfixe giga (G) vaut $10^9$, donc 2,5 GPa = 2,5 × 10⁹ Pa.',
     },
     {
@@ -328,38 +328,38 @@ window.MODULES.push({
     },
     {
       q: 'Quelle masse de chlorure de sodium ($M_{\\text{NaCl}} = 58{,}5\\;\\text{g/mol}$) faut-il pour obtenir $2\\;\\text{mol}$ ?',
-      options: ['117 g', '58,5 g', '29,25 g', '2 g'],
-      answer: 0,
+      options: ['2 g', '58,5 g', '29,25 g', '117 g'],
+      answer: 3,
       correction: 'm = n × M = 2 × 58,5 = 117 g.',
     },
     {
       q: 'L\'équation $E = mc^2$ relie une énergie $E$ (J), une masse $m$ (kg) et une vitesse $c$ (m/s). Est-elle dimensionnellement cohérente ?',
-      options: ['Oui : $\\text{kg} \\times (\\text{m/s})^2 = \\text{kg·m}^2\\text{s}^{-2} = \\text{J}$', 'Non, il manque un facteur temps', 'Non, il faudrait diviser par $c$', 'Oui, mais uniquement en unités CGS'],
-      answer: 0,
+      options: ['Non, il manque un facteur temps', 'Oui : $\\text{kg} \\times (\\text{m/s})^2 = \\text{kg·m}^2\\text{s}^{-2} = \\text{J}$', 'Non, il faudrait diviser par $c$', 'Oui, mais uniquement en unités CGS'],
+      answer: 1,
       correction: '$[m \\times c^2] = \\text{kg} \\times (\\text{m/s})^2 = \\text{kg·m}^2\\text{s}^{-2}$, ce qui correspond bien à la dimension du joule.',
     },
     {
       q: 'Une vitesse de $108\\;\\text{km/h}$ vaut en m/s :',
-      options: ['30 m/s', '18 m/s', '3,6 m/s', '300 m/s'],
-      answer: 0,
+      options: ['3,6 m/s', '18 m/s', '30 m/s', '300 m/s'],
+      answer: 2,
       correction: '108 km/h = 108/3,6 = 30 m/s.',
     },
     {
       q: 'Un courant de $15\\;\\text{mA}$ correspond en ampères à :',
-      options: ['0,015 A', '15 000 A', '1,5 A', '0,15 A'],
-      answer: 0,
+      options: ['0,15 A', '15 000 A', '1,5 A', '0,015 A'],
+      answer: 3,
       correction: 'Le préfixe milli (m) vaut $10^{-3}$, donc 15 mA = 15 × 10⁻³ A = 0,015 A.',
     },
     {
       q: 'Une pression de $250\\,000\\;\\text{Pa}$ vaut en bar :',
-      options: ['2,5 bar', '25 bar', '0,25 bar', '250 bar'],
-      answer: 0,
+      options: ['25 bar', '2,5 bar', '0,25 bar', '250 bar'],
+      answer: 1,
       correction: '1 bar = 10⁵ Pa, donc 250 000 Pa = 2,5 × 10⁵ Pa = 2,5 bar.',
     },
     {
       q: 'Un moteur consomme $3{,}6\\;\\text{MJ}$. Cette énergie convertie en kWh vaut :',
-      options: ['1 kWh', '3,6 kWh', '0,1 kWh', '36 kWh'],
-      answer: 0,
+      options: ['0,1 kWh', '3,6 kWh', '1 kWh', '36 kWh'],
+      answer: 2,
       correction: '1 kWh = 3,6 MJ, donc 3,6 MJ = 1 kWh.',
     },
     {
@@ -411,7 +411,7 @@ window.MODULES.push({
       if (type === 'vitesse_kmh') {
         const v_kmh = pick([36, 54, 72, 90, 108, 120, 144]);
         const v_ms = v_kmh / 3.6;
-        const context = pick(['vitesse de déplacement d\'un chariot automatisé (AGV)', 'vitesse de rotation d\'un tapis de convoyeur', 'vitesse d\'un véhicule de livraison en zone logistique']);
+        const context = pick(['vitesse de défilement de la bande en sortie d\'un laminoir', 'vitesse du vent mesurée par l\'anémomètre d\'une éolienne', 'vitesse d\'un train de fret desservant une zone industrielle']);
         return {
           statement: `La ${context} est de $${v_kmh}\\;\\text{km/h}$.<br/><br/>Convertir cette vitesse en m/s.`,
           answer: parseFloat(v_ms.toFixed(2)),
@@ -518,15 +518,15 @@ window.MODULES.push({
       'Calculer l\'écart de température $\\Delta T = T_{int} - T_{ext}$ en kelvin. (Rappel : 1°C d\'écart = 1 K d\'écart)',
       'Calculer la puissance thermique nécessaire $P = K \\times V \\times \\Delta T$ (en kW, arrondi à 0,1 kW). Vérifier la cohérence des unités.',
       'Calculer l\'énergie annuelle consommée $W = P \\times t$ (en kWh puis en MJ).',
-      'Le fournisseur propose une chaudière de 100 kW ou une pompe à chaleur de COP = 3,5 consommant 25 kW électriques. Comparer les coûts énergétiques (électricité : 0,18 €/kWh, gaz : 0,06 €/kWh) et conclure.',
+      'Le fournisseur propose soit une chaudière gaz de 100 kW de rendement $\\eta = 0{,}9$, soit une pompe à chaleur de $\\text{COP} = 3{,}5$ ($\\text{COP} = \\dfrac{\\text{puissance thermique fournie}}{\\text{puissance électrique absorbée}}$). Calculer la consommation annuelle de chacune, puis son coût (électricité : 0,18 €/kWh, gaz : 0,06 €/kWh), et conclure.',
     ],
     solutions: [
       `$\\Delta T = 18 - (-10) = 28°\\text{C} = 28\\;\\text{K}$<br/>(Pour les différences de température, °C et K sont équivalents)`,
       `$P = K \\times V \\times \\Delta T = 0{,}5\\;\\text{W/(m}^3\\text{·K)} \\times 5000\\;\\text{m}^3 \\times 28\\;\\text{K}$<br/>$= 70\\,000\\;\\text{W} = 70\\;\\text{kW}$<br/>Vérification : $[\\text{W/(m}^3\\text{·K)}] \\times [\\text{m}^3] \\times [\\text{K}] = \\text{W}$ ✓`,
       `$W = 70\\;\\text{kW} \\times 3000\\;\\text{h} = 210\\,000\\;\\text{kWh} = 210\\;\\text{MWh}$<br/>En MJ : $210\\,000 \\times 3{,}6 = 756\\,000\\;\\text{MJ} = 756\\;\\text{GJ}$`,
-      `<strong>Chaudière gaz</strong> : consommation = 210 000 kWh × 1/rendement ≈ 210 000/0,9 ≈ 233 000 kWh gaz<br/>Coût ≈ 233 000 × 0,06 = 13 980 €/an<br/><br/><strong>PAC électrique</strong> : consommation électrique = 70 kW / 3,5 × 3000 h = 60 000 kWh élec<br/>Coût ≈ 60 000 × 0,18 = 10 800 €/an<br/><br/>→ La PAC est moins chère malgré l'électricité plus coûteuse, grâce au COP élevé. Économie annuelle : ≈ 3 180 €.`,
+      `Les deux appareils doivent livrer la même <strong>énergie utile</strong> : $W = 210\\,000\\;\\text{kWh}$ de chaleur par an. Leur puissance nominale (100 kW pour la chaudière) dépasse les 70 kW requis : ce n'est pas elle qui fixe la consommation, c'est le besoin.<br/><br/><strong>Chaudière gaz</strong> : avec un rendement de 0,9, il faut acheter plus de gaz que de chaleur livrée.<br/><br/>$W_{\\text{gaz}} = \\dfrac{210\\,000}{0{,}9} \\approx 233\\,333\\;\\text{kWh}$<br/><br/>Coût : $233\\,333 \\times 0{,}06 \\approx 14\\,000$ €/an (exactement $\\dfrac{210\\,000 \\times 0{,}06}{0{,}9} = \\dfrac{12\\,600}{0{,}9} = 14\\,000$ €).<br/><br/><strong>Pompe à chaleur</strong> : le COP divise la puissance thermique pour donner la puissance électrique absorbée.<br/><br/>$P_{\\text{élec}} = \\dfrac{70}{3{,}5} = 20\\;\\text{kW}$, soit $W_{\\text{élec}} = 20 \\times 3000 = 60\\,000\\;\\text{kWh}$ par an.<br/><br/>Coût : $60\\,000 \\times 0{,}18 = 10\\,800$ €/an.<br/><br/><strong>Conclusion</strong> : la PAC est moins chère malgré un kWh électrique trois fois plus cher que le kWh gaz, grâce à son COP. <strong>Économie annuelle : $14\\,000 - 10\\,800 = 3\\,200$ €.</strong>`,
     ],
-    finalAnswer: 'Puissance requise : 70 kW. La pompe à chaleur est la solution la plus économique (10 800 €/an vs 13 980 €/an pour la chaudière gaz).',
+    finalAnswer: 'Puissance requise : 70 kW. La pompe à chaleur est la solution la plus économique : 10 800 €/an contre 14 000 €/an pour la chaudière gaz, soit 3 200 € d\'économie par an.',
   },
 
   evaluation: {
@@ -575,7 +575,7 @@ window.MODULES.push({
         statement: 'En décomposant l\'ohm et l\'ampère en unités de base, que vaut $[R \\times I]$ dans la loi d\'Ohm $U = R \\times I$ ?',
         type: 'multiple-choice',
         options: [
-          '$\\text{kg·m}^2\\text{·s}^{-3}\\text{·A}^{-1}$, soit le volt ✓',
+          '$\\text{kg·m}^2\\text{·s}^{-3}\\text{·A}^{-1}$, soit le volt',
           '$\\text{kg·m}^2\\text{·s}^{-3}\\text{·A}^{-2}$, soit l\'ohm',
           '$\\text{kg·m}^2\\text{·s}^{-3}$, soit le watt',
           '$\\text{kg·m}^2\\text{·s}^{-2}$, soit le joule',

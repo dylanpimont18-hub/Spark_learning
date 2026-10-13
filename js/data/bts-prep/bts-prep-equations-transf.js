@@ -51,7 +51,7 @@ window.MODULES.push({
         '<strong>Exemple 1 — Retrouver R dans $Z = \\sqrt{R^2 + X_L^2}$</strong><br/><br/>Un circuit présente $Z = 100\\;\\Omega$ et $X_L = 60\\;\\Omega$. Trouver $R$ :<br/>$100 = \\sqrt{R^2 + 60^2}$<br/>$100^2 = R^2 + 3600$ (mise au carré des deux membres)<br/>$R^2 = 10000 - 3600 = 6400$<br/>$R = \\sqrt{6400} = 80\\;\\Omega$',
         '<strong>Exemple 2 — Trouver la vitesse depuis $E_c = \\frac{1}{2}mv^2$</strong><br/><br/>$E_c = 3600\\;\\text{J}$, $m = 80\\;\\text{kg}$. Trouver $v$ :<br/>$3600 = \\frac{1}{2} \\times 80 \\times v^2 = 40\\,v^2$<br/>$v^2 = 3600 / 40 = 90$<br/>$v = \\sqrt{90} \\approx 9{,}49\\;\\text{m/s}$',
         '<strong>Exemple 3 — Inverser une loi exponentielle RC</strong><br/><br/>$u_C(t) = 12(1 - e^{-t/0{,}5})$. À quel instant $t$ est-ce que $u_C = 9\\;\\text{V}$ ?<br/>$9 = 12(1 - e^{-t/0{,}5})$<br/>$9/12 = 1 - e^{-t/0{,}5}$<br/>$e^{-t/0{,}5} = 1 - 0{,}75 = 0{,}25$<br/>$-t/0{,}5 = \\ln(0{,}25) = -1{,}386$<br/>$t = 0{,}5 \\times 1{,}386 = 0{,}693\\;\\text{s}$',
-        '<strong>Exemple 4 — Retrouver un rapport de tension depuis des dB</strong><br/><br/>Un filtre atténue de $-30\\;\\text{dB}$ en tension. Quel est le rapport $V_s/V_e$ ?<br/>$-30 = 20\\log_{10}(V_s/V_e)$<br/>$\\log_{10}(V_s/V_e) = -30/20 = -1{,}5$<br/>$V_s/V_e = 10^{-1{,}5} \\approx 0{,}0316$',
+        '<strong>Exemple 4 — Retrouver un rapport de tension depuis des dB</strong><br/><br/>Un filtre atténue de $-30\\;\\text{dB}$ en tension. Quel est le rapport $V_s/V_e$ ?<br/>$-30 = 20\\log_{10}(V_s/V_e)$<br/>$\\log_{10}(V_s/V_e) = -30/20 = -1{,}5$<br/>$V_s/V_e = 10^{-1{,}5} \\approx 0{,}0316$<br/><br/><strong>Attention</strong> : en <em>tension</em> (ou en pression acoustique), $G_{\\text{dB}} = 20\\log_{10}(V_s/V_e)$.<br/><br/>En <em>puissance</em>, $G_{\\text{dB}} = 10\\log_{10}(P_s/P_e)$ : le facteur 2 disparaît car la puissance varie comme le carré de la tension ($P \\propto V^2$).',
         '<strong>Exemple 5 — Pression dynamique (BTP, ventilation)</strong><br/><br/>La pression dynamique $p_d = \\frac{1}{2}\\rho v^2$. Si $p_d = 20\\;\\text{Pa}$ et $\\rho = 1{,}2\\;\\text{kg/m}^3$ :<br/>$v^2 = 2 p_d / \\rho = 2 \\times 20 / 1{,}2 = 33{,}33$<br/>$v = \\sqrt{33{,}33} \\approx 5{,}77\\;\\text{m/s}$',
       ],
       answer: 'La clé est d\'identifier le type de transformation (racine, puissance, exponentielle, logarithme) et d\'appliquer l\'opération inverse des deux côtés de l\'équation.',
@@ -160,8 +160,8 @@ window.MODULES.push({
         `,
         caption: 'Isoler R impose d\'élever Z et X au carré avant de soustraire, puis de reprendre la racine.'
       },
-      options: ['80 Ω', '120 Ω', '100 Ω', '√(130²+50²) Ω'],
-      answer: 1,
+      options: ['80 Ω', '√(130²+50²) Ω', '100 Ω', '120 Ω'],
+      answer: 3,
       correction: 'R = √(Z²-X²) = √(130²-50²) = √(16900-2500) = √14400 = 120 Ω.',
     },
     {
@@ -178,8 +178,8 @@ window.MODULES.push({
     },
     {
       q: 'L\'énergie cinétique d\'un véhicule est $E_c = 180\\;\\text{kJ}$ pour une masse $m = 1800\\;\\text{kg}$. Sa vitesse est :',
-      options: ['10 m/s', '14,1 m/s', '100 m/s', '200 m/s'],
-      answer: 1,
+      options: ['10 m/s', '100 m/s', '14,1 m/s', '200 m/s'],
+      answer: 2,
       correction: 'v = √(2Ec/m) = √(2×180000/1800) = √200 ≈ 14,1 m/s.',
     },
     {
@@ -208,50 +208,50 @@ window.MODULES.push({
     },
     {
       q: 'Un signal subit un gain de $G = 10\\;\\text{dB}$ en puissance. La puissance de sortie $P_s$ par rapport à l\'entrée $P_e$ vaut :',
-      options: ['$P_s = 10 \\times P_e$', '$P_s = \\sqrt{10} \\times P_e$', '$P_s = 100 \\times P_e$', '$P_s = P_e / 10$'],
-      answer: 0,
+      options: ['$P_s = 100 \\times P_e$', '$P_s = \\sqrt{10} \\times P_e$', '$P_s = 10 \\times P_e$', '$P_s = P_e / 10$'],
+      answer: 2,
       correction: '10 = 10·log(Ps/Pe) ⟹ log(Ps/Pe) = 1 ⟹ Ps/Pe = 10¹ = 10. Une augmentation de 10 dB en puissance = ×10 la puissance.',
     },
     {
       q: 'Le pH d\'une solution est défini par $pH = -\\log_{10}[H^+]$. Si $pH = 3$, la concentration $[H^+]$ (en mol/L) vaut :',
-      options: ['$10^{-3}$ mol/L', '$-3$ mol/L', '$3$ mol/L', '$10^{3}$ mol/L'],
-      answer: 0,
+      options: ['$10^{3}$ mol/L', '$-3$ mol/L', '$3$ mol/L', '$10^{-3}$ mol/L'],
+      answer: 3,
       correction: '$pH = -\\log_{10}[H^+] \\Rightarrow \\log_{10}[H^+] = -pH = -3 \\Rightarrow [H^+] = 10^{-3}$ mol/L.',
     },
     {
       q: 'Une solution a une concentration $[H^+] = 10^{-5}$ mol/L. Son pH vaut :',
-      options: ['$5$', '$-5$', '$10^5$', '$0{,}5$'],
-      answer: 0,
+      options: ['$-5$', '$5$', '$10^5$', '$0{,}5$'],
+      answer: 1,
       correction: '$pH = -\\log_{10}(10^{-5}) = -(-5) = 5$.',
     },
     {
       q: 'Une solution a $[H^+] = 2 \\times 10^{-4}$ mol/L. Son pH (arrondi à 0,1) vaut :',
-      options: ['$3{,}7$', '$4{,}3$', '$2{,}0$', '$0{,}3$'],
-      answer: 0,
+      options: ['$2{,}0$', '$4{,}3$', '$3{,}7$', '$0{,}3$'],
+      answer: 2,
       correction: '$pH = -\\log_{10}(2\\times10^{-4}) = -(\\log_{10}2 - 4) \\approx -(0{,}301-4) = 3{,}7$.',
     },
     {
       q: 'Un ressort de raideur $k = 800$ N/m emmagasine une énergie potentielle $E_p = 4$ J. Sachant que $E_p = \\frac{1}{2}kx^2$, l\'allongement $x$ vaut :',
-      options: ['$0{,}1$ m', '$0{,}01$ m', '$10$ m', '$0{,}316$ m'],
-      answer: 0,
+      options: ['$0{,}316$ m', '$0{,}01$ m', '$10$ m', '$0{,}1$ m'],
+      answer: 3,
       correction: '$x^2 = 2E_p/k = 8/800 = 0{,}01 \\Rightarrow x = \\sqrt{0{,}01} = 0{,}1$ m.',
     },
     {
       q: 'Un mur atténue le son de $20$ dB en pression. Le rapport des pressions $p_s/p_e$ vaut :',
-      options: ['$0{,}1$', '$0{,}05$', '$2$', '$20$'],
-      answer: 0,
+      options: ['$0{,}05$', '$0{,}1$', '$2$', '$20$'],
+      answer: 1,
       correction: '$-20 = 20\\log_{10}(p_s/p_e) \\Rightarrow \\log_{10}(p_s/p_e) = -1 \\Rightarrow p_s/p_e = 10^{-1} = 0{,}1$.',
     },
     {
       q: 'Un chariot de masse $m = 200$ kg possède une énergie cinétique $E_c = 2{,}5$ kJ. Sa vitesse (en m/s) vaut :',
-      options: ['$5$', '$25$', '$12{,}5$', '$2{,}5$'],
-      answer: 0,
+      options: ['$12{,}5$', '$25$', '$5$', '$2{,}5$'],
+      answer: 2,
       correction: '$v = \\sqrt{2E_c/m} = \\sqrt{2\\times2500/200} = \\sqrt{25} = 5$ m/s.',
     },
     {
       q: 'Un circuit a une impédance $Z = 25\\;\\Omega$ et une réactance $X = 15\\;\\Omega$. La résistance $R$ vaut :',
-      options: ['$20\\;\\Omega$', '$10\\;\\Omega$', '$40\\;\\Omega$', '$\\sqrt{625+225}\\;\\Omega$'],
-      answer: 0,
+      options: ['$\\sqrt{625+225}\\;\\Omega$', '$10\\;\\Omega$', '$40\\;\\Omega$', '$20\\;\\Omega$'],
+      answer: 3,
       correction: '$R = \\sqrt{Z^2-X^2} = \\sqrt{625-225} = \\sqrt{400} = 20\\;\\Omega$.',
     },
     {
@@ -277,20 +277,20 @@ window.MODULES.push({
         caption: 'L\'inconnue est dans l\'exposant : seul le logarithme népérien permet de la faire redescendre.'
       },
       q: 'Un condensateur se charge selon $u_C(t) = 10(1 - e^{-t/2})$ V. Au bout de combien de temps $u_C = 5$ V (arrondi à 0,01 s) ?',
-      options: ['$2\\ln2 \\approx 1{,}39$ s', '$\\ln2 \\approx 0{,}69$ s', '$2$ s', '$\\ln(0{,}5) \\approx -0{,}69$ s'],
-      answer: 0,
+      options: ['$\\ln2 \\approx 0{,}69$ s', '$2\\ln2 \\approx 1{,}39$ s', '$2$ s', '$\\ln(0{,}5) \\approx -0{,}69$ s'],
+      answer: 1,
       correction: '$0{,}5 = 1-e^{-t/2} \\Rightarrow e^{-t/2} = 0{,}5 \\Rightarrow -t/2 = \\ln(0{,}5) = -\\ln2 \\Rightarrow t = 2\\ln2 \\approx 1{,}39$ s.',
     },
     {
       q: 'Le niveau de puissance acoustique est $L_W = 10\\log_{10}(W/W_0)$ avec $W_0 = 10^{-12}$ W. Une machine a $L_W = 70$ dB. Sa puissance acoustique $W$ vaut :',
-      options: ['$10^{-5}$ W', '$10^{-7}$ W', '$70\\times10^{-12}$ W', '$7\\times10^{-12}$ W'],
-      answer: 0,
+      options: ['$70\\times10^{-12}$ W', '$10^{-7}$ W', '$10^{-5}$ W', '$7\\times10^{-12}$ W'],
+      answer: 2,
       correction: '$70 = 10\\log_{10}(W/10^{-12}) \\Rightarrow \\log_{10}(W/10^{-12}) = 7 \\Rightarrow W = 10^{7}\\times10^{-12} = 10^{-5}$ W.',
     },
     {
       q: 'Si $x^3 = 125$, la valeur de $x$ est :',
-      options: ['$5$', '$41{,}67$', '$375$', '$\\sqrt{125}$'],
-      answer: 0,
+      options: ['$\\sqrt{125}$', '$41{,}67$', '$375$', '$5$'],
+      answer: 3,
       correction: '$x = \\sqrt[3]{125} = 125^{1/3} = 5$ (car $5^3 = 125$).',
     },
   ],
@@ -340,19 +340,22 @@ Calculez sa vitesse $v$ en m/s (arrondi à 0,1 m/s). ($E_c = \\frac{1}{2}mv^2$)`
         const frac = pick([0.5, 0.75, 0.9, 0.95]);
         const uc = E * frac;
         const t = -tau * Math.log(1 - frac);
-        const context = pick(['circuit de temporisation', 'alimentation à découpage', 'système de démarrage progressif']);
+        const context = pick(['un circuit de temporisation', 'une alimentation à découpage', 'un système de démarrage progressif']);
+        const tauTeX = tau === 1 ? 't' : `t/${fr(tau)}`;
         return {
-          statement: `Dans un ${context}, la tension aux bornes du condensateur suit : $u_C(t) = ${E}\\left(1 - e^{-t/${fr(tau)}}\\right)$ V.<br/>
+          statement: `Dans ${context}, la tension aux bornes du condensateur suit : $u_C(t) = ${E}\\left(1 - e^{-${tauTeX}}\\right)$ V.<br/>
 À quel instant $t$ la tension atteint-elle $u_C = ${fr(uc, 1)}\\;\\text{V}$ ? (Arrondir à 0,01 s)`,
           answer: parseFloat(t.toFixed(2)),
           tolerance: 0.02,
           unit: 's',
           hint: `Isoler $e^{-t/\\tau}$, puis prendre $\\ln$ et résoudre pour $t$.`,
           solution: [
-            `$${fr(uc, 1)} = ${E}(1 - e^{-t/${fr(tau)}})$`,
-            `$e^{-t/${fr(tau)}} = 1 - ${fr(frac)} = ${fr(1-frac, 2)}$`,
-            `$-t/${fr(tau)} = \\ln(${fr(1-frac, 2)}) \\approx ${fr(Math.log(1-frac), 3)}$`,
-            `$t = ${fr(tau)} \\times ${fr(-Math.log(1-frac), 3)} \\approx ${fr(t, 2)}\\;\\text{s}$`,
+            `$${fr(uc, 1)} = ${E}(1 - e^{-${tauTeX}})$`,
+            `On isole l'exponentielle : $e^{-${tauTeX}} = 1 - \\dfrac{${fr(uc, 1)}}{${E}} = 1 - ${fr(frac)} = ${fr(1-frac, 2)}$`,
+            `On applique $\\ln$ aux deux membres : $-${tauTeX} = \\ln(${fr(1-frac, 2)}) \\approx ${fr(Math.log(1-frac), 3)}$`,
+            tau === 1
+              ? `<strong>Instant cherché</strong> : $t = ${fr(-Math.log(1-frac), 3)} \\approx ${fr(t, 2)}\\;\\text{s}$`
+              : `<strong>Instant cherché</strong> : $t = ${fr(tau)} \\times ${fr(-Math.log(1-frac), 3)} \\approx ${fr(t, 2)}\\;\\text{s}$`,
           ],
         };
       }

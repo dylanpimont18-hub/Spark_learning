@@ -34,6 +34,10 @@ window.MODULES.push({
         term: 'Échelle logarithmique',
         def: `Sur une échelle logarithmique, les graduations sont espacées en proportion de $\\log(x)$. Une droite sur un graphe log-log correspond à une loi puissance : $y = a \\cdot x^n$. Une droite sur un graphe semi-log (x lin, y log) correspond à une exponentielle.`,
       },
+      {
+        term: 'Point de fonctionnement (courbe pompe / courbe réseau)',
+        def: `Une pompe est décrite par sa <strong>courbe caractéristique</strong> : HMT en fonction du débit $Q$, décroissante.<br/><br/>Le circuit qu'elle alimente est décrit par sa <strong>courbe de réseau</strong> : pertes de charge en fonction de $Q$, croissante (souvent en $Q^2$).<br/><br/>Le <strong>point de fonctionnement</strong> est l'<strong>intersection</strong> des deux courbes : c'est le seul couple $(Q, \\text{HMT})$ que l'installation peut réellement atteindre.<br/><br/>On le lit graphiquement, ou par interpolation entre les deux points qui encadrent le croisement.`,
+      },
     ],
 
     method: {
@@ -44,7 +48,8 @@ window.MODULES.push({
         'Tracer mentalement (ou au crayon) des lignes de projection verticale et horizontale.',
         'Lire la valeur à l\'intersection avec l\'axe correspondant.',
         'Estimer l\'incertitude de lecture (typiquement ±0,5 graduation).',
-        '<strong>Calcul de la pente</strong> : choisir deux points éloignés sur la droite (pas forcément des points de mesure), lire leurs coordonnées $(x_1, y_1)$ et $(x_2, y_2)$, calculer $a = (y_2 - y_1)/(x_2 - x_1)$, vérifier l\'unité $[a] = [y]/[x]$.',
+        '<strong>Calcul de la pente</strong> : choisir deux points <em>éloignés</em> sur la droite (pas forcément des points de mesure) et lire leurs coordonnées $(x_1, y_1)$ et $(x_2, y_2)$.',
+        'Calculer $a = \\dfrac{y_2 - y_1}{x_2 - x_1}$, puis <strong>vérifier l\'unité</strong> : $[a] = [y]/[x]$.',
       ],
     },
 
@@ -290,8 +295,8 @@ Pour $Q = 12\\;\\text{m}^3/\\text{h}$ (entre 10 et 15) :<br/>$$\\text{HMT} = 38 
     },
     {
       q: 'Sur un graphique d\'abaque, les axes x et y sont tous deux en échelle logarithmique. Une droite sur ce graphique représente :',
-      options: ['Une relation linéaire y = ax + b', 'Une loi puissance y = a·xⁿ', 'Une exponentielle y = a·eˣ', 'Une parabole'],
-      answer: 1,
+      options: ['Une relation linéaire y = ax + b', 'Une parabole', 'Une exponentielle y = a·eˣ', 'Une loi puissance y = a·xⁿ'],
+      answer: 3,
       correction: 'Sur un graphe log-log, une droite correspond à y = a·xⁿ, car log(y) = n·log(x) + log(a) est une équation de droite dans les coordonnées (log x, log y).',
     },
     {
@@ -357,8 +362,8 @@ Pour $Q = 12\\;\\text{m}^3/\\text{h}$ (entre 10 et 15) :<br/>$$\\text{HMT} = 38 
     },
     {
       q: 'Sur un diagramme de Mollier (pression-enthalpie) pour les frigorigènes, l\'axe des ordonnées est en pression (MPa) et est en :',
-      options: ['Échelle linéaire', 'Échelle logarithmique', 'Échelle semi-logarithmique', 'Échelle exponentielle'],
-      answer: 1,
+      options: ['Échelle linéaire', 'Échelle semi-logarithmique', 'Échelle logarithmique', 'Échelle exponentielle'],
+      answer: 2,
       correction: 'Dans le diagramme de Mollier, l\'axe des pressions est en échelle logarithmique. Cela permet de représenter à la fois les basses et hautes pressions sur un même graphique.',
     },
     {
@@ -368,10 +373,10 @@ Pour $Q = 12\\;\\text{m}^3/\\text{h}$ (entre 10 et 15) :<br/>$$\\text{HMT} = 38 
       correction: 'Fraction parcourue : (0,21-0,12)/(0,30-0,12) = 0,09/0,18 = 0,5. c = 2 + 0,5 × (5-2) = 3,5 mg/L.',
     },
     {
-      q: 'Sur une courbe de titrage acido-basique, le volume équivalent est repéré graphiquement à l\'intersection de deux tangentes tracées de part et d\'autre du saut de pH. Cette technique s\'appelle :',
-      options: ['La méthode des tangentes', 'La méthode d\'interpolation linéaire', 'La méthode d\'extrapolation', 'La méthode des moindres carrés'],
-      answer: 0,
-      correction: 'La méthode des tangentes est la construction graphique classique pour repérer le point équivalent sur une courbe de titrage : elle ne nécessite pas de calcul, seulement une lecture graphique précise.',
+      q: 'Sur une courbe de titrage acido-basique (pH en fonction du volume versé), le volume équivalent se repère graphiquement :',
+      options: ['Au point où la courbe coupe l\'axe des abscisses (pH nul)', 'Par deux tangentes parallèles tracées de part et d\'autre du saut de pH', 'Au maximum de la courbe, là où le pH cesse de monter', 'Par interpolation linéaire entre le premier et le dernier point'],
+      answer: 1,
+      correction: 'C\'est la <strong>méthode des tangentes</strong> : deux tangentes parallèles de part et d\'autre du saut, puis la parallèle équidistante ; son intersection avec la courbe donne le point équivalent.<br/><br/>La courbe ne coupe pas l\'axe des abscisses (le pH reste positif), elle n\'a pas de maximum intérieur (le pH monte jusqu\'au bout), et une interpolation entre les extrémités ignorerait justement le saut qu\'on cherche à localiser.',
     },
     {
       q: 'Deux points de mesure sur un graphique linéaire sont $(5, 12)$ et $(15, 32)$. En extrapolant pour $x = 25$, $y$ vaut :',
@@ -381,56 +386,56 @@ Pour $Q = 12\\;\\text{m}^3/\\text{h}$ (entre 10 et 15) :<br/>$$\\text{HMT} = 38 
     },
     {
       q: 'Une courbe pompe donne HMT = 44 m pour Q = 6 m³/h et HMT = 32 m pour Q = 9 m³/h. Par interpolation, HMT pour Q = 7 m³/h vaut :',
-      options: ['40 m', '38 m', '36 m', '42 m'],
-      answer: 0,
+      options: ['36 m', '38 m', '40 m', '42 m'],
+      answer: 2,
       correction: 'HMT = 44 + (7-6)/(9-6) × (32-44) = 44 + (1/3) × (-12) = 44 - 4 = 40 m.',
     },
     {
       q: 'Une caractéristique de transistor donne $I_C = 2$ mA pour $V_{BE} = 0{,}60$ V et $I_C = 8$ mA pour $V_{BE} = 0{,}64$ V. Par interpolation, $I_C$ pour $V_{BE} = 0{,}62$ V vaut :',
-      options: ['5 mA', '4 mA', '6 mA', '3 mA'],
-      answer: 0,
+      options: ['3 mA', '4 mA', '6 mA', '5 mA'],
+      answer: 3,
       correction: 'Fraction : (0,62-0,60)/(0,64-0,60) = 0,5. $I_C = 2 + 0{,}5 \\times (8-2) = 5$ mA.',
     },
     {
       q: 'Sur un axe logarithmique gradué de 1 à 100, quelle valeur se situe exactement au milieu visuel ?',
-      options: ['10', '50', '5,5', '25'],
-      answer: 0,
+      options: ['50', '10', '5,5', '25'],
+      answer: 1,
       correction: 'Sur un axe log, le milieu entre 1 et 100 est $\\sqrt{1 \\times 100} = \\sqrt{100} = 10$.',
     },
     {
       q: 'La hauteur d\'eau dans une cuve qui se vide passe de 45 cm (à t = 3 min) à 21 cm (à t = 9 min), variation supposée linéaire. La pente de cette droite est :',
-      options: ['-4 cm/min', '4 cm/min', '-24 cm/min', '-0,25 cm/min'],
-      answer: 0,
+      options: ['-0,25 cm/min', '4 cm/min', '-24 cm/min', '-4 cm/min'],
+      answer: 3,
       correction: 'a = (21-45)/(9-3) = -24/6 = -4 cm/min. La pente négative traduit la baisse du niveau au cours du temps.',
     },
     {
       q: 'Un axe est gradué de 0 à 40 avec 8 divisions. L\'incertitude de lecture usuelle (±0,5 graduation) est :',
-      options: ['±2,5', '±5', '±0,5', '±10'],
-      answer: 0,
+      options: ['±0,5', '±5', '±2,5', '±10'],
+      answer: 2,
       correction: 'Une division vaut 40/8 = 5. L\'incertitude usuelle est ±0,5 graduation = ±2,5.',
     },
     {
       q: 'Sur un graphique log-log donnant la vitesse initiale d\'une réaction chimique en fonction de la concentration, la droite passe par $(1, 2)$ et $(10, 200)$. L\'ordre de la réaction (exposant $n$ dans $v = a \\cdot c^n$) est :',
-      options: ['2', '1', '10', '100'],
-      answer: 0,
+      options: ['1', '2', '10', '100'],
+      answer: 1,
       correction: '$n = \\dfrac{\\log(200/2)}{\\log(10/1)} = \\dfrac{\\log 100}{\\log 10} = \\dfrac{2}{1} = 2$. La vitesse est proportionnelle au carré de la concentration.',
     },
     {
       q: 'Sur un graphe semi-logarithmique (abscisse linéaire, ordonnée logarithmique), une droite correspond à une loi :',
-      options: ['Exponentielle $y = a \\cdot e^{bx}$', 'Puissance $y = a \\cdot x^n$', 'Affine $y = ax + b$', 'Parabole $y = ax^2$'],
-      answer: 0,
+      options: ['Parabole $y = ax^2$', 'Puissance $y = a \\cdot x^n$', 'Affine $y = ax + b$', 'Exponentielle $y = a \\cdot e^{bx}$'],
+      answer: 3,
       correction: 'Sur un graphe semi-log, $\\ln y = bx + \\ln a$ est une droite en $(x, \\ln y)$, ce qui correspond à une loi exponentielle $y = a \\cdot e^{bx}$.',
     },
     {
       q: 'Une caractéristique linéaire de perte de charge passe par $(2, 8)$ et $(6, 20)$. En extrapolant pour un débit de 10 (hors plage mesurée), la perte de charge vaut :',
-      options: ['32', '26', '38', '24'],
-      answer: 0,
+      options: ['38', '26', '32', '24'],
+      answer: 2,
       correction: 'Pente : a = (20-8)/(6-2) = 3. y(10) = 8 + 3 × (10-2) = 8 + 24 = 32. Extrapolation à confirmer avec prudence si possible.',
     },
     {
       q: 'Une droite de pente 5 passe par le point $(2, 10)$. Sa valeur en $x = 6$ est :',
-      options: ['30', '20', '40', '50'],
-      answer: 0,
+      options: ['50', '20', '40', '30'],
+      answer: 3,
       correction: 'y(6) = 10 + 5 × (6-2) = 10 + 20 = 30.',
     },
   ],
@@ -530,20 +535,20 @@ Par interpolation, estimer le rendement à $${Q_t}\\%$ de charge (en %, arrondi 
         const xE = x2 + pick([5, 8, 10, 15]);
         const yE = Math.round((a * xE + b) * 100) / 100;
         const contexte = pick([
-          { grandeur: 'la température de sortie d\'un échangeur (°C)', variable: 'le débit (m³/h)' },
-          { grandeur: 'la pression en sortie d\'un compresseur (bar)', variable: 'le régime moteur (%)' },
-          { grandeur: 'la puissance consommée par un moteur (kW)', variable: 'la charge (%)' },
+          { grandeur: 'la température de sortie d\'un échangeur (°C)', variable: 'du débit (m³/h)', unit: '°C' },
+          { grandeur: 'la pression en sortie d\'un compresseur (bar)', variable: 'du régime moteur (%)', unit: 'bar' },
+          { grandeur: 'la puissance consommée par un moteur (kW)', variable: 'de la charge (%)', unit: 'kW' },
         ]);
         return {
-          statement: `Sur un graphique donnant ${contexte.grandeur} en fonction de ${contexte.variable}, on relève deux points de mesure $(${x1},\\,${fr(y1, 2)})$ et $(${x2},\\,${fr(y2, 2)})$.<br/><br/>
-En supposant que la tendance reste linéaire, extrapoler la valeur pour $x = ${xE}$ (hors de la plage mesurée).`,
+          statement: `Sur un graphique donnant ${contexte.grandeur} en fonction ${contexte.variable}, on relève deux points de mesure $(${x1},\\,${fr(y1, 2)})$ et $(${x2},\\,${fr(y2, 2)})$.<br/><br/>
+En supposant que la tendance reste linéaire, extrapoler la valeur pour $x = ${xE}$ (hors de la plage mesurée), en ${contexte.unit}.`,
           answer: yE,
           tolerance: 0.1,
-          unit: '',
+          unit: contexte.unit,
           hint: `Calculer d'abord la pente $a = (y_2-y_1)/(x_2-x_1)$, puis appliquer $y = y_1 + a(x-x_1)$.`,
           solution: [
             `$a = \\dfrac{${fr(y2, 2)} - ${fr(y1, 2)}}{${x2} - ${x1}} = ${fr(a)}$`,
-            `$y(${xE}) = ${fr(y1, 2)} + ${fr(a)} \\times (${xE} - ${x1}) = ${fr(yE, 2)}$`,
+            `$y(${xE}) = ${fr(y1, 2)} + ${fr(a)} \\times (${xE} - ${x1}) = ${fr(yE, 2)}$ ${contexte.unit}`,
             `<em>Attention : cette valeur est extrapolée, donc à utiliser avec prudence.</em>`,
           ],
         };
@@ -596,7 +601,7 @@ La courbe de réseau (pertes de charge du circuit) suit la loi : $\\Delta H_{\\t
       svg: `
         <svg viewBox="0 0 460 250" role="img" aria-labelledby="pb-graphiques-title pb-graphiques-desc">
           <title id="pb-graphiques-title">Points de mesure de la pompe et courbe de reseau</title>
-          <desc id="pb-graphiques-desc">Un repere avec le debit de 0 a 10 metres cubes par heure en abscisse et la hauteur manometrique de 0 a 55 metres en ordonnee. Six points de mesure du catalogue, de 52 metres a debit nul jusqu'a 14 metres a 10 metres cubes par heure, sont relies par une courbe decroissante. Une seconde courbe croissante represente les pertes de charge du reseau, 0,3 Q au carre plus 5. Les deux courbes se croisent entre 6 et 8 metres cubes par heure.</desc>
+          <desc id="pb-graphiques-desc">Un repere avec le debit de 0 a 10 metres cubes par heure en abscisse et la hauteur manometrique de 0 a 55 metres en ordonnee. Six points de mesure du catalogue, de 52 metres a debit nul jusqu'a 14 metres a 10 metres cubes par heure, sont relies par une courbe decroissante. Une seconde courbe croissante represente les pertes de charge du reseau, 0,3 Q au carre plus 5. Les deux courbes se croisent entre 8 et 10 metres cubes par heure, vers 8,4.</desc>
 
           <line class="grid-line" x1="128" y1="40" x2="128" y2="200"></line>
           <line class="grid-line" x1="186" y1="40" x2="186" y2="200"></line>
@@ -623,9 +628,10 @@ La courbe de réseau (pertes de charge du circuit) suit la loi : $\\Delta H_{\\t
           <path class="curve-main" fill="none" stroke="var(--secondary)" d="M 70 186 L 128 183 L 186 172 L 244 155 L 302 130 L 360 98"></path>
           <text class="annotation-label" x="300" y="196" fill="var(--secondary)">réseau : ΔH = 0,3 Q² + 5</text>
 
-          <line class="guide-line" x1="272" y1="200" x2="272" y2="101"></line>
-          <circle class="plot-point-alt" cx="272" cy="101" r="8"></circle>
-          <text class="annotation-label" x="230" y="96">croisement</text>
+          <line class="guide-line" x1="313" y1="200" x2="313" y2="124"></line>
+          <circle class="plot-point-alt" cx="313" cy="124" r="8"></circle>
+          <text class="annotation-label" x="368" y="120">croisement</text>
+          <text class="annotation-label" x="368" y="136">Q ≈ 8,4</text>
 
           <text class="tick-label" x="70" y="216" text-anchor="middle">0</text>
           <text class="tick-label" x="128" y="216" text-anchor="middle">2</text>
@@ -706,7 +712,7 @@ Le croisement est entre Q=8 et Q=10 m³/h.`,
         type: 'multiple-choice',
         options: [
           '$x = 55$, car le milieu du segment correspond à la moyenne de $10$ et $100$.',
-          '$x \\approx 31{,}6$, car sur une échelle logarithmique une distance égale représente un <strong>rapport</strong> égal, non une différence : le milieu est la <strong>moyenne géométrique</strong> $\\sqrt{10 \\times 100} = 10\\sqrt{10} \\approx 31{,}6$, qui est $3{,}16$ fois $10$ comme $100$ est $3{,}16$ fois $31{,}6$.',
+          '$x \\approx 31{,}6$, car le milieu d\'une décade logarithmique est la moyenne géométrique $\\sqrt{10 \\times 100}$.',
           '$x = 50$, car $30$ mm sur $60$ mm font la moitié de $100$.',
           '$x = 60$, car il faut convertir directement les millimètres en unités de l\'axe.'
         ],
@@ -714,7 +720,7 @@ Le croisement est entre Q=8 et Q=10 m³/h.`,
         points: 4,
         correction: 'Sur une échelle <strong>linéaire</strong>, une même distance représente partout la même <strong>différence</strong> : c\'est ce qui justifierait la moyenne $\\dfrac{10 + 100}{2} = 55$. Mais sur une échelle <strong>logarithmique</strong>, une même distance représente partout le même <strong>rapport</strong> — c\'est toute la raison d\'être de ce type de graduation, qui permet de faire tenir plusieurs décades sur une feuille.<br/><br/>' +
           'Puisque les $60$ mm de la décade correspondent à un rapport $\\times 10$, les $30$ mm parcourus correspondent à la <strong>racine</strong> de ce rapport, soit $\\times \\sqrt{10} \\approx 3{,}16$. L\'abscisse cherchée est donc $10 \\times 3{,}16 \\approx 31{,}6$, c\'est-à-dire la moyenne géométrique $\\sqrt{10 \\times 100}$. On le vérifie par symétrie : $31{,}6 \\div 10 = 3{,}16$ et $100 \\div 31{,}6 = 3{,}16$ — les deux moitiés du segment portent bien le même rapport, ce qui n\'est pas le cas avec $55$ ($55/10 = 5{,}5$ mais $100/55 = 1{,}8$).<br/><br/>' +
-          'Les deux dernières propositions ne lisent pas l\'axe du tout : la troisième traite les $30$ mm comme une fraction de la valeur $100$, la quatrième confond les millimètres du papier avec les unités portées par l\'axe. Retenir la conséquence pratique : sur un abaque log, <strong>ne jamais interpoler à la règle</strong> sans vérifier si l\'échelle est linéaire ou logarithmique.',
+          'Les réponses $50$ et $60$ ne lisent pas l\'axe du tout : $50$ traite les $30$ mm comme une fraction de la valeur $100$, $60$ confond les millimètres du papier avec les unités portées par l\'axe. Retenir la conséquence pratique : sur un abaque log, <strong>ne jamais interpoler à la règle</strong> sans vérifier si l\'échelle est linéaire ou logarithmique.',
       },
       {
         statement: 'Sur une caractéristique courant-vitesse d\'un moteur à courant continu, la vitesse passe de 1000 tr/min à 800 tr/min quand le courant passe de 2 A à 8 A. Calculer la pente de cette droite (en tr/min/A, arrondie à 0,1).',

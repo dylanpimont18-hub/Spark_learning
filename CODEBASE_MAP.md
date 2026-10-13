@@ -614,6 +614,7 @@ Parcours personnalisés (enseignants) et mode guidé (entrée mise à jour le 20
 ## js/data/bts-prep/
 14 modules de remise à niveau BTS (`tag: 'prep'`, `level: 3`). Chaque module : `cours` (+ `diagram` et/ou `diagrams[]`), `quiz`, `exercice.generate()`, `probleme` (avec `figure`), `evaluation`.
 - Les figures sont des SVG inline utilisant EXCLUSIVEMENT les classes du thème (`frame-line`, `axis`, `grid-line`, `curve-main`, `graph-line`, `guide-line`, `plot-point`, `plot-point-alt`, `axis-label`, `annotation-label`, `tick-label`, `label-soft`) et les variables CSS (`var(--primary)`, `var(--secondary)`, `var(--accent)`, `var(--error)`) — jamais de couleur codée en dur, sinon l'illustration casse en thème sombre et à l'impression
+- `exercice.generate()` renvoie `solution` en **tableau d'étapes**, jamais en chaîne : `renderSolutionSteps()` (`js/components/exercice.js`) appelle `steps.map()`, une chaîne fait planter la correction et l'écran de réussite. Neuf modules bts-prep étaient touchés, corrigés le 2026-10-13 (5c742b5).
 - Gotcha récurrent : un `<text>` trop long déborde du `viewBox` et est **coupé** (pas de retour à la ligne en SVG). Garder les phrases courtes dans le SVG et déporter les explications longues dans `caption`/`notes`, qui sont du HTML et passent à la ligne
 
 ## js/homework.js

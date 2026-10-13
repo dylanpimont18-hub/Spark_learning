@@ -42,7 +42,7 @@ Un tour complet = 360° = $2\\pi$ rad. Un angle droit = 90° = $\\dfrac{\\pi}{2}
       {
         term: 'Le cercle trigonométrique',
         def: `Pour les angles supérieurs à 90° (signaux AC, rotations), on utilise le cercle de rayon 1 centré à l'origine. Un point sur ce cercle a pour coordonnées $M = (\\cos\\theta,\\; \\sin\\theta)$.<br/><br/>
-Les fonctions sin et cos sont périodiques de période $2\\pi$ (360°). C'est la base de la représentation des signaux sinusoïdaux : $u(t) = U_{\\max} \\sin(\\omega t + \\varphi)$.`,
+Les fonctions sin et cos sont périodiques de période $2\\pi$ (360°). C'est la base de la représentation des signaux sinusoïdaux : $u(t) = U_{\\max} \\sin(\\omega t + \\varphi)$.<br/><br/>La <strong>pulsation</strong> $\\omega$ (en rad/s) est liée à la fréquence $f$ (en Hz) par $\\omega = 2\\pi f$ : en une période $T = 1/f$, l'angle $\\omega t$ parcourt un tour complet, soit $2\\pi$.<br/><br/>Pour le réseau à 50 Hz : $\\omega = 2\\pi \\times 50 = 100\\pi \\approx 314\\;\\text{rad/s}$.`,
       },
     ],
 
@@ -75,6 +75,7 @@ Les fonctions sin et cos sont périodiques de période $2\\pi$ (360°). C'est la
       '<strong>Pythagore</strong> : $a^2 + b^2 = c^2 \\quad (c=\\text{hypoténuse})$',
       '<strong>Conversion °→rad</strong> : $\\theta_{\\text{rad}} = \\theta_{°} \\times \\dfrac{\\pi}{180}$',
       '<strong>Signal sinusoïdal</strong> : $u(t) = U_{\\max}\\sin(\\omega t + \\varphi)$',
+      '<strong>Pulsation</strong> : $\\omega = 2\\pi f \\quad (\\text{rad/s}), \\qquad T = \\dfrac{1}{f}$',
     ],
 
     diagram: {
@@ -272,8 +273,8 @@ Les fonctions sin et cos sont périodiques de période $2\\pi$ (360°). C'est la
     },
     {
       q: 'Quelle est la valeur de cos 60° ?',
-      options: ['$\\frac{\\sqrt{3}}{2} \\approx 0{,}87$', '$\\frac{1}{2} = 0{,}5$', '$\\frac{\\sqrt{2}}{2} \\approx 0{,}71$', '1'],
-      answer: 1,
+      options: ['$\\frac{1}{2} = 0{,}5$', '$\\frac{\\sqrt{3}}{2} \\approx 0{,}87$', '$\\frac{\\sqrt{2}}{2} \\approx 0{,}71$', '1'],
+      answer: 0,
       correction: 'cos 60° = 1/2 = 0,5. Astuce : cos 60° = sin 30° (angles complémentaires). Valeur à connaître par cœur.',
     },
     {
@@ -286,12 +287,12 @@ Les fonctions sin et cos sont périodiques de période $2\\pi$ (360°). C'est la
       q: 'Un signal sinusoïdal a une amplitude maximale de 325 V et une fréquence de 50 Hz. Sa pulsation ω vaut :',
       options: ['50 rad/s', '$50\\pi$ rad/s', '$100\\pi$ rad/s', '$200\\pi$ rad/s'],
       answer: 2,
-      correction: 'ω = 2πf = 2π × 50 = 100π ≈ 314,2 rad/s. Attention à ne pas oublier le facteur 2 dans $\\omega = 2\\pi f$ (piège de la réponse B, $50\\pi$) ni à ne pas le doubler en trop (piège de la réponse D, $200\\pi$, qui correspondrait à $f = 100$ Hz).',
+      correction: 'ω = 2πf = 2π × 50 = 100π ≈ 314,2 rad/s. Attention à ne pas oublier le facteur 2 dans $\\omega = 2\\pi f$ (c\'est ce qui donne $50\\pi$) ni à le doubler en trop ($200\\pi$ correspondrait à $f = 100$ Hz).',
     },
     {
       q: 'Quelle identité trigonométrique est toujours vraie, pour tout angle θ ?',
-      options: ['sin θ + cos θ = 1', 'sin²θ + cos²θ = 1', 'tan θ = sin θ + cos θ', 'sin²θ = cos²θ'],
-      answer: 1,
+      options: ['sin θ + cos θ = 1', 'sin²θ = cos²θ', 'tan θ = sin θ + cos θ', 'sin²θ + cos²θ = 1'],
+      answer: 3,
       correction: 'sin²θ + cos²θ = 1 est l\'identité fondamentale. Elle découle du théorème de Pythagore appliqué au cercle de rayon 1.',
     },
     {
@@ -308,15 +309,15 @@ Les fonctions sin et cos sont périodiques de période $2\\pi$ (360°). C'est la
     },
     {
       q: 'Une canalisation d\'eau pluviale a une pente de 1 %. Quel est l\'angle approximatif avec l\'horizontale ?',
-      options: ['1°', '0,57°', '5,7°', '10°'],
-      answer: 1,
+      options: ['0,57°', '1°', '5,7°', '10°'],
+      answer: 0,
       correction: 'θ = arctan(0,01) ≈ 0,573°. Pour de petits angles, tan θ ≈ θ en radians ≈ pente. Une pente de 1% ≈ 0,57°.',
     },
     {
       q: 'Dans un triangle rectangle, si l\'hypoténuse vaut 10 m et un angle θ = 37°, le côté adjacent vaut :',
-      options: ['6,02 m', '7,99 m', '6,03 m', '8,00 m'],
+      options: ['6,02 m', '7,99 m', '7,54 m', '12,52 m'],
       answer: 1,
-      correction: 'adjacent = hypoténuse × cos 37° = 10 × 0,7986 ≈ 7,99 m. (sin 37° ≈ 0,602 → opposé ≈ 6,02 m)',
+      correction: 'adjacent = hypoténuse × cos 37° = 10 × 0,7986 ≈ 7,99 m.<br/><br/>6,02 m est le côté opposé (10 × sin 37°) ; 7,54 m vient de 10 × tan 37° (la tangente ne fait pas intervenir l\'hypoténuse) ; 12,52 m vient de 10 / cos 37° — une division au lieu d\'une multiplication, impossible puisqu\'un côté ne peut pas dépasser l\'hypoténuse.',
     },
     {
       q: 'Un panneau solaire est incliné à 35° de l\'horizontal. L\'irradiance normale au panneau est 900 W/m². L\'irradiance reçue sur la surface horizontale est :',
@@ -332,8 +333,8 @@ Les fonctions sin et cos sont périodiques de période $2\\pi$ (360°). C'est la
     },
     {
       q: 'Un technicien mesure une distance horizontale de 15 m et une hauteur de 8 m. L\'angle de la pente est :',
-      options: ['arcsin(8/15) ≈ 32,2°', 'arctan(8/15) ≈ 28,1°', 'arccos(8/15) ≈ 57,8°', 'arctan(15/8) ≈ 61,9°'],
-      answer: 1,
+      options: ['arcsin(8/15) ≈ 32,2°', 'arctan(15/8) ≈ 61,9°', 'arccos(8/15) ≈ 57,8°', 'arctan(8/15) ≈ 28,1°'],
+      answer: 3,
       correction: 'tan θ = opposé / adjacent = hauteur / distance horizontale = 8/15. Donc θ = arctan(8/15) ≈ 28,1°. arcsin donnerait le bon résultat seulement si 15 était l\'hypoténuse.',
     },
     {
@@ -344,8 +345,8 @@ Les fonctions sin et cos sont périodiques de période $2\\pi$ (360°). C'est la
     },
     {
       q: 'Un moteur asynchrone affiche un facteur de puissance cos φ = 0,8. Quel est l\'angle de déphasage φ (arrondi au degré) ?',
-      options: ['80°', '37°', '53°', '20°'],
-      answer: 1,
+      options: ['37°', '80°', '53°', '20°'],
+      answer: 0,
       correction: 'φ = arccos(0,8) ≈ 36,9° ≈ 37°. Le facteur de puissance cos φ est directement lu sur la plaque signalétique du moteur, l\'angle s\'obtient par la fonction réciproque arccos.',
     },
     {
@@ -397,14 +398,14 @@ Les fonctions sin et cos sont périodiques de période $2\\pi$ (360°). C'est la
         `,
         caption: 'Sur un plan incliné, le poids se scinde en P∥ (qui fait glisser) et P⊥ (qui plaque).'
       },
-      options: ['503 N', '1383 N', '1472 N', '1550 N'],
-      answer: 1,
+      options: ['1383 N', '503 N', '1472 N', '1550 N'],
+      answer: 0,
       correction: 'P = mg = 150 × 9,81 ≈ 1472 N. La composante perpendiculaire est P⊥ = P cos θ = 1472 × cos 20° ≈ 1383 N (à distinguer de la composante parallèle P sin 20° ≈ 503 N, qui tend à faire glisser la caisse).',
     },
     {
       q: 'Une gaine de ventilation de 6 m de longueur traverse un faux-plafond avec une inclinaison de 10°. Quelle est la dénivellation verticale (arrondie à 0,1 m) ?',
-      options: ['0,6 m', '1,0 m', '3,0 m', '5,9 m'],
-      answer: 1,
+      options: ['0,6 m', '5,9 m', '3,0 m', '1,0 m'],
+      answer: 3,
       correction: 'Ici, la longueur de la gaine (6 m) est l\'hypoténuse. La dénivellation est le côté opposé : h = 6 × sin 10° ≈ 1,0 m.',
     },
     {
@@ -415,14 +416,14 @@ Les fonctions sin et cos sont périodiques de période $2\\pi$ (360°). C'est la
     },
     {
       q: 'Une conduite de vidange gravitaire d\'un réacteur chimique a une pente de 3 %. Sur 12 m de longueur horizontale, la dénivellation est :',
-      options: ['3,6 cm', '36 cm', '25 cm', '40 cm'],
-      answer: 1,
+      options: ['36 cm', '3,6 cm', '25 cm', '40 cm'],
+      answer: 0,
       correction: 'Pour une pente en %, tan θ = pente/100. Ici h = 12 × 0,03 = 0,36 m = 36 cm.',
     },
     {
       q: 'Un tas de poudre chimique dans un silo forme un angle de repos de 35° avec l\'horizontale. Le rayon de sa base est 2 m. Quelle est la hauteur du tas (arrondie à 0,1 m) ?',
-      options: ['0,7 m', '1,4 m', '2,8 m', '1,15 m'],
-      answer: 1,
+      options: ['0,7 m', '1,15 m', '2,8 m', '1,4 m'],
+      answer: 3,
       correction: 'h = r × tan θ = 2 × tan 35° ≈ 1,4 m. L\'angle de repos décrit la pente maximale que peut adopter un tas de matière granulaire sans s\'effondrer.',
     },
     {
@@ -447,8 +448,8 @@ Les fonctions sin et cos sont périodiques de période $2\\pi$ (360°). C'est la
         `,
         caption: 'Hypoténuse et côté adjacent connus : c\'est le cosinus qu\'il faut inverser, pas la tangente.'
       },
-      options: ['37°', '53°', '30°', '60°'],
-      answer: 1,
+      options: ['53°', '37°', '30°', '60°'],
+      answer: 0,
       correction: 'Le sol, le mur et l\'échelle forment un triangle rectangle où l\'échelle est l\'hypoténuse (5 m) et la distance au mur est le côté adjacent à l\'angle au sol (3 m). θ = arccos(3/5) ≈ 53°.',
     },
   ],
@@ -465,14 +466,15 @@ Les fonctions sin et cos sont périodiques de période $2\\pi$ (360°). C'est la
         const phi = Math.atan(X / R) * 180 / Math.PI;
         const filiere = pick(['réseau triphasé industriel', 'variateur de vitesse', 'transformateur de puissance']);
         return {
-          statement: `Dans un ${filiere}, un circuit RL présente une résistance $R = ${R}\\;\\Omega$ et une réactance inductance $X_L = ${X}\\;\\Omega$.<br/><br/>Calculez l'impédance $Z$ (en Ω) et l'angle de déphasage $\\varphi$ (en degrés, arrondi à 0,1°).`,
+          statement: `Dans un ${filiere}, un circuit RL présente une résistance $R = ${R}\\;\\Omega$ et une réactance inductive $X_L = ${X}\\;\\Omega$.<br/><br/>Calculez l'angle de déphasage $\\varphi$ entre la tension et le courant (en degrés, arrondi à 0,1°).`,
           answer: parseFloat(phi.toFixed(1)),
           tolerance: 0.2,
           unit: '°',
-          hint: `Commencer par $Z = \\sqrt{R^2 + X_L^2}$, puis $\\varphi = \\arctan(X_L / R)$.`,
+          hint: `Triangle des impédances : $\\tan\\varphi = X_L / R$, puis $\\varphi = \\arctan(X_L / R)$.`,
           solution: [
-            `$Z = \\sqrt{${R}^2 + ${X}^2} = \\sqrt{${R*R + X*X}} = ${fr(Z, 1)}\\;\\Omega$`,
+            `Triangle des impédances : $R$ est le côté <strong>adjacent</strong> à $\\varphi$, $X_L$ le côté <strong>opposé</strong> : on utilise la tangente (TOA).`,
             `$\\varphi = \\arctan\\left(\\dfrac{${X}}{${R}}\\right) = \\arctan(${fr(X/R, 3)}) \\approx ${fr(phi, 1)}°$`,
+            `Vérification par l'hypoténuse : $Z = \\sqrt{${R}^2 + ${X}^2} = \\sqrt{${R*R + X*X}} \\approx ${fr(Z, 1)}\\;\\Omega$ et $\\cos\\varphi = \\dfrac{R}{Z} \\approx ${fr(R / Z, 3)}$, cohérent avec l'angle trouvé.`,
           ],
         };
       }
@@ -575,7 +577,7 @@ Les fonctions sin et cos sont périodiques de période $2\\pi$ (360°). C'est la
       svg: `
         <svg viewBox="0 0 460 240" role="img" aria-labelledby="pb-trigo-title pb-trigo-desc">
           <title id="pb-trigo-title">Capteur solaire incline et angle d'incidence des rayons</title>
-          <desc id="pb-trigo-desc">Un capteur solaire de 2 metres carres est pose sur un toit incline a 30 degres par rapport a l'horizontale. Les rayons du soleil arrivent avec une hauteur de 50 degres au-dessus de l'horizon. La normale au capteur est tracee en pointilles ; l'angle entre cette normale et les rayons vaut 20 degres, difference entre les deux angles donnes.</desc>
+          <desc id="pb-trigo-desc">Un capteur solaire de 2 metres carres est pose sur un toit incline a 30 degres par rapport a l'horizontale. Les rayons du soleil arrivent avec une hauteur de 50 degres au-dessus de l'horizon. La normale au capteur, tracee en pointilles, est a 60 degres de l'horizontale (90 moins 30) ; l'angle entre cette normale et les rayons vaut donc 60 moins 50, soit 10 degres.</desc>
 
           <line class="axis" x1="40" y1="185" x2="420" y2="185"></line>
           <text class="tick-label" x="46" y="200">horizontale</text>
@@ -601,12 +603,12 @@ Les fonctions sin et cos sont périodiques de période $2\\pi$ (360°). C'est la
           <text class="annotation-label" x="342" y="164">β = 50°</text>
 
           <path class="curve-main" fill="none" stroke="var(--secondary)" d="M 232 108 A 55 55 0 0 1 253 116"></path>
-          <text class="annotation-label" x="196" y="100" fill="var(--secondary)">β − α = 20°</text>
+          <text class="annotation-label" x="196" y="100" fill="var(--secondary)">γ = 60° − 50° = 10°</text>
 
-          <text class="tick-label" x="40" y="224">Surface « vue » par le soleil : S·cos(β − α)</text>
+          <text class="tick-label" x="40" y="224">Surface « vue » par le soleil : S·cos γ, avec γ = (90° − α) − β</text>
         </svg>
       `,
-      caption: 'L\'angle utile n\'est ni α ni β, mais leur différence : c\'est l\'écart entre la normale au capteur et la direction des rayons.'
+      caption: 'L\'angle utile n\'est ni α ni β : c\'est l\'écart γ = (90° − α) − β = 10° entre la normale au capteur et la direction des rayons.'
     },
     tasks: [
       'Quel est l\'angle $\\gamma$ entre les rayons solaires et la normale au capteur ? (La normale est perpendiculaire au capteur, soit à 90°-30°=60° de l\'horizontal)',
@@ -618,9 +620,9 @@ Les fonctions sin et cos sont périodiques de période $2\\pi$ (360°). C'est la
       `La normale au capteur est à $90° - 30° = 60°$ de l'horizontal.<br/>Le soleil est à $\\beta = 50°$ de l'horizontal.<br/>L'angle entre la normale et les rayons : $\\gamma = 60° - 50° = 10°$.<br/>*(Si le soleil était exactement dans l'axe de la normale, γ = 0° et l'absorption serait maximale.)*`,
       `$P_{\\text{cap}} = G \\times S \\times \\cos\\gamma = 850 \\times 2 \\times \\cos 10°$<br/>$= 1700 \\times 0{,}985 = 1674\\;\\text{W} \\approx 1{,}67\\;\\text{kW}$`,
       `$P_{\\text{th}} = \\eta \\times P_{\\text{cap}} = 0{,}72 \\times 1674 \\approx 1205\\;\\text{W} \\approx 1{,}2\\;\\text{kW}$`,
-      `Pour le capteur horizontal : $\\cos(90° - 50°) = \\cos 40° = 0{,}766$<br/>$P_{\\text{horiz}} = 850 \\times 2 \\times 0{,}766 = 1302\\;\\text{W}$<br/>Le capteur incliné à 30° produit $1674 - 1302 = 372\\;\\text{W}$ de plus (+28,5%) dans ces conditions. L'orientation du capteur améliore significativement le rendement.`,
+      `Pour le capteur horizontal : $\\cos(90° - 50°) = \\cos 40° = 0{,}766$<br/>$P_{\\text{horiz}} = 850 \\times 2 \\times 0{,}766 = 1302\\;\\text{W}$<br/>Le capteur incliné à 30° produit $1674 - 1302 = 372\\;\\text{W}$ de plus ($372 / 1302 \\approx 0{,}286$, soit +28,6 %) dans ces conditions. L'orientation du capteur améliore significativement le rendement.`,
     ],
-    finalAnswer: 'Puissance thermique produite : $P_{\\text{th}} \\approx 1{,}2\\;\\text{kW}$. Le capteur incliné est 28,5 % plus performant que le capteur horizontal dans ces conditions.',
+    finalAnswer: 'Puissance thermique produite : $P_{\\text{th}} \\approx 1{,}2\\;\\text{kW}$. Le capteur incliné est 28,6 % plus performant que le capteur horizontal dans ces conditions.',
   },
 
   evaluation: {
@@ -685,7 +687,7 @@ Les fonctions sin et cos sont périodiques de période $2\\pi$ (360°). C'est la
         type: 'multiple-choice',
         options: [
           'Il a raison sur le principe, mais il faut arrondir : l\'angle vaut $5{,}0°$ à un dixième près.',
-          'Une pente en pourcentage est une <strong>tangente</strong>, pas un angle : $5$ % signifie $\\tan\\theta = 0{,}05$, donc $\\theta = \\arctan(0{,}05) \\approx 2{,}86°$. Croire à $5°$ reviendrait à une pente de $\\tan(5°) \\approx 8{,}75$ %, soit $35$ m de dénivelé sur $400$ m au lieu de $20$ m.',
+          'Une pente en pourcentage est une tangente, pas un angle : $5$ % signifie $\\tan\\theta = 0{,}05$, donc $\\theta \\approx 2{,}86°$.',
           'Son erreur est d\'unité : $5$ % correspond à $5$ grades, soit $4{,}5°$.',
           'Une pente de $5$ % vaut $5 \\times 0{,}9 = 4{,}5°$, car $100$ % correspond à $90°$.'
         ],
@@ -693,7 +695,7 @@ Les fonctions sin et cos sont périodiques de période $2\\pi$ (360°). C'est la
         points: 1,
         correction: 'Une pente exprimée en pourcentage n\'est pas un angle : c\'est un <strong>rapport de longueurs</strong>, la hauteur gagnée divisée par la distance horizontale parcourue. Dire « $5$ % », c\'est dire $\\dfrac{h}{d} = 0{,}05$, c\'est-à-dire exactement $\\tan\\theta = 0{,}05$. L\'angle s\'en déduit par l\'arctangente : $\\theta = \\arctan(0{,}05) \\approx 2{,}86°$.<br/><br/>' +
           'Chiffrons ce que coûterait l\'erreur de Karim, car c\'est là qu\'elle devient parlante. S\'il travaillait vraiment à $5°$, la pente serait $\\tan(5°) \\approx 0{,}0875$, soit $8{,}75$ % — près du <strong>double</strong> de ce qui est prescrit. Sur les $400$ m de l\'énoncé, il creuserait un dénivelé de $400 \\times 0{,}0875 = 35$ m au lieu des $20$ m calculés en Q4. Sur un réseau de gaz ou d\'assainissement, un tel écart n\'est pas une approximation, c\'est une reprise de chantier.<br/><br/>' +
-          'Les deux dernières propositions cherchent une règle de conversion linéaire entre pourcentage et degrés — il n\'en existe pas, précisément parce que la tangente n\'est pas linéaire. Une pente de $100$ % ne fait pas $90°$ mais $45°$ ($\\tan 45° = 1$), ce qui suffit à ruiner la proportionnalité de la quatrième option. Retenir la règle pratique : <strong>tant que la pente reste faible</strong> (sous $10$ %), l\'angle en degrés vaut à peu près $0{,}57$ fois le pourcentage — d\'où les $2{,}86°$ trouvés ici pour $5$ %.',
+          'Les propositions « $5$ grades » et « $5 \\times 0{,}9 = 4{,}5°$ » cherchent une règle de conversion linéaire entre pourcentage et degrés — il n\'en existe pas, précisément parce que la tangente n\'est pas linéaire. Une pente de $100$ % ne fait pas $90°$ mais $45°$ ($\\tan 45° = 1$), ce qui suffit à ruiner la proportionnalité « $100$ % $= 90°$ ». Retenir la règle pratique : <strong>tant que la pente reste faible</strong> (sous $10$ %), l\'angle en degrés vaut à peu près $0{,}57$ fois le pourcentage — d\'où les $2{,}86°$ trouvés ici pour $5$ %.',
       },
       {
         statement: 'Un signal de tension mesure $u(t) = 230\\sqrt{2}\\,\\sin(100\\pi t - \\pi/6)\\;\\text{V}$. Quelle est sa valeur maximale $U_{\\max}$ (en V, arrondie à l\'unité) ?',
@@ -723,10 +725,10 @@ Les fonctions sin et cos sont périodiques de période $2\\pi$ (360°). C'est la
            Le calcul reste entièrement nécessaire, et il est quadruple : il
            faut évaluer l'argument pour chacune des quatre dates avant de
            pouvoir trancher. Plus exigeante que la division qu'elle remplace. */
-        statement: 'Pour ce même signal $u(t) = 230\\sqrt{2}\\sin(100\\pi t - \\pi/6)$ V, on cherche le premier instant $t > 0$ où la tension s\'annule. Parmi les quatre dates ci-dessous, une seule convient. Laquelle, et pourquoi les trois autres échouent-elles ?',
+        statement: 'Pour ce même signal $u(t) = 230\\sqrt{2}\\sin(100\\pi t - \\pi/6)$ V, on cherche le premier instant $t > 0$ où la tension s\'annule. Parmi les quatre propositions ci-dessous, une seule est juste. Laquelle ?',
         type: 'multiple-choice',
         options: [
-          '$t = 1{,}67$ ms, car l\'<strong>argument</strong> vaut alors $\\dfrac{\\pi}{6} - \\dfrac{\\pi}{6} = 0$ et $\\sin 0 = 0$. Les trois autres dates donnent des arguments qui ne sont <strong>pas des multiples de $\\pi$</strong> : ce n\'est pas $t$ qui doit être remarquable, c\'est l\'argument du sinus.',
+          '$t = 1{,}67$ ms, car l\'argument du sinus vaut alors $\\dfrac{\\pi}{6} - \\dfrac{\\pi}{6} = 0$, et $\\sin 0 = 0$.',
           '$t = 0$ ms, car un signal sinusoïdal part toujours de zéro.',
           '$t = 5$ ms, car c\'est le quart de la période $T = 20$ ms.',
           '$t = 10$ ms, car c\'est la demi-période et le sinus s\'annule à chaque demi-période.'
