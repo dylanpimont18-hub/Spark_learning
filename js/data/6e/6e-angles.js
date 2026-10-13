@@ -42,7 +42,7 @@ window.MODULES.push({
         steps: [
           '<strong>Identifier le type d\'angle</strong> : aigu ($0° < \\alpha < 90°$), droit ($= 90°$), obtus ($90° < \\alpha < 180°$), plat ($= 180°$). <em>Exemple :</em> $\\alpha = 115°$ est obtus car $90° < 115° < 180°$.',
           '<strong>Utiliser les relations d\'angles</strong> : complémentaires (somme $= 90°$), supplémentaires (somme $= 180°$), triangle (somme $= 180°$). <em>Exemple :</em> dans un triangle avec $47°$ et $68°$, le troisième angle $= 180° - 47° - 68° = 65°$.',
-          '<strong>Angles et droites parallèles</strong> : quand une droite coupe deux parallèles, les angles alternes-internes sont égaux et les angles correspondants sont égaux.'
+          '<strong>Mesurer au rapporteur</strong> : poser le centre sur le sommet, aligner le $0$ sur un côté, lire la graduation traversée par l\'autre côté <em>sur la série de nombres qui part de ce $0$</em>.<br/><br/><em>Contrôle :</em> un angle plus fermé que l\'angle droit mesure moins de $90°$, un angle plus ouvert mesure plus de $90°$. Si la lecture contredit ce contrôle, c\'est l\'autre graduation qu\'il fallait lire.'
         ]
       },
       example: {
@@ -258,7 +258,7 @@ window.MODULES.push({
             </svg>
           `,
           notes: [
-            'Les deux graduations sont <strong>complémentaires à $180°$</strong> : $50 + 130 = 180$. C\'est pourquoi une erreur de graduation donne toujours le supplémentaire de la bonne réponse.',
+            'Les deux graduations sont <strong>supplémentaires</strong> : $50 + 130 = 180$. C\'est pourquoi une erreur de graduation donne toujours le supplémentaire de la bonne réponse, jamais une valeur au hasard.',
             'Le seul contrôle fiable est visuel : comparer l\'angle à l\'angle droit <strong>avant</strong> de lire le nombre.',
             'Plus fermé que l\'angle droit $\\Rightarrow$ moins de $90°$ ; plus ouvert $\\Rightarrow$ plus de $90°$.'
           ],
@@ -338,13 +338,13 @@ window.MODULES.push({
         'La somme des angles d\'un triangle vaut toujours $180°$.',
         'Ne pas confondre la mesure d\'un angle avec la longueur d\'un côté.'
       ],
-      piege: 'Ne pas confondre la mesure d\'un angle et la longueur d\'un côté. Un angle ne dépend pas de la longueur des segments qui le forment — il mesure uniquement l\'écartement entre les deux demi-droites.'
+      piege: 'Piège du rapporteur : le même trait porte <strong>deux nombres</strong> ($50$ et $130$, par exemple). Avant de lire, regarde l\'angle : plus fermé qu\'un angle droit, il mesure <strong>moins de $90°$</strong> ; plus ouvert, <strong>plus de $90°$</strong>.<br/><br/>Et souviens-toi qu\'un angle ne dépend pas de la longueur de ses côtés : $60°$ reste $60°$ que les côtés mesurent $1$ cm ou $1$ km.'
     },
 
     quiz: [
-      { q: 'Dans un triangle, deux angles mesurent $47°$ et $68°$. Quelle est la mesure du troisième angle ?', options: ['$55°$', '$65°$', '$75°$', '$85°$'], answer: 1, correction: 'La somme des angles d\'un triangle est $180°$. Troisième angle $= 180° - 47° - 68° = 65°$.' },
-      { q: 'Deux angles sont complémentaires et leur différence est $20°$. Quelle est la valeur du plus grand ?', options: ['$35°$', '$45°$', '$55°$', '$65°$'], answer: 2, correction: 'Soit $x$ le plus petit et $x + 20°$ le plus grand. $x + (x+20°) = 90°$ → $2x = 70°$ → $x = 35°$. Le plus grand vaut $55°$.' },
-      { q: 'Deux angles sont supplémentaires. L\'un vaut $3x + 10°$ et l\'autre $x + 30°$. Quelle est la valeur de $x$ ?', options: ['$25°$', '$35°$', '$28°$', '$30°$'], answer: 1, correction: '$(3x+10) + (x+30) = 180 \\Rightarrow 4x + 40 = 180 \\Rightarrow x = 35°$.' }
+      { q: 'Dans un triangle, deux angles mesurent $47°$ et $68°$. Quelle est la mesure du troisième angle ?', options: ['$115°$', '$65°$', '$133°$', '$112°$'], answer: 1, correction: 'La somme des angles d\'un triangle est $180°$. Troisième angle $= 180° - 47° - 68° = 65°$.<br/><br/>$115°$ est la somme $47° + 68°$ : on a oublié de la retirer de $180°$.<br/><br/>$133° = 180° - 47°$ et $112° = 180° - 68°$ : on n\'a retiré qu\'un seul des deux angles.' },
+      { q: 'Deux angles sont complémentaires et leur différence est $20°$. Quelle est la valeur du plus grand ?', options: ['$35°$', '$45°$', '$55°$', '$65°$'], answer: 2, correction: 'Ensemble, les deux angles font $90°$. Le grand dépasse le petit de $20°$ : si on retire ces $20°$, il reste $90° - 20° = 70°$ à partager en deux parts égales, soit $35°$ chacune.<br/><br/>Le petit mesure $35°$ et le grand <strong>$35° + 20° = 55°$</strong>.<br/><br/>Vérification : $35° + 55° = 90°$ et $55° - 35° = 20°$ ✓' },
+      { q: 'Deux angles sont supplémentaires, et le plus grand mesure le double du plus petit. Combien mesure le plus petit ?', options: ['$45°$', '$60°$', '$90°$', '$120°$'], answer: 1, correction: 'Le grand vaut $2$ fois le petit : à eux deux, ils font $3$ fois le petit, soit $180°$.<br/><br/>Le petit mesure donc $180° \\div 3 = 60°$ et le grand $2 \\times 60° = 120°$.<br/><br/>Vérification : $60° + 120° = 180°$ ✓<br/><br/>$90°$ serait la réponse si les deux angles étaient égaux ; $120°$ est le grand angle, pas le petit ; $45°$ vient d\'une confusion avec des angles complémentaires ($90°$).' }
     ],
 
     exercice: {
@@ -460,19 +460,19 @@ window.MODULES.push({
       }
     },
     probleme: {
-      context: 'Un rayon lumineux passe de l\'air dans l\'eau : c\'est la <strong>réfraction</strong>, il change de direction en traversant la surface.<br/><br/>En arrivant à la surface, il fait un angle d\'incidence $i_1 = 30°$ avec la normale (la droite perpendiculaire à la surface). En entrant dans l\'eau, il ressort avec un angle de réfraction $i_2 = 22°$.',
+      context: 'Sur le plan d\'un quartier, la rue des Lilas coupe l\'avenue de la Gare. D\'un côté de la rue, l\'angle entre les deux voies mesure $68°$.',
       schema: null,
       tasks: [
-        'Comparer les deux angles $i_1$ et $i_2$ : lequel est le plus grand ?',
-        'Ranger les trois angles $i_1 = 30°$, $i_2 = 22°$ et un angle droit ($90°$) du plus petit au plus grand.',
-        'Le rayon s\'est-il rapproché ou éloigné de la normale en entrant dans l\'eau ?'
+        'De quel type est cet angle : aigu, droit, obtus ou plat ?',
+        'De l\'autre côté de la rue des Lilas, le long de l\'avenue, le second angle et le premier forment ensemble un angle plat. Quelle est sa mesure, et de quel type est-il ?',
+        'Un passage piéton traverse l\'avenue à angle droit. Range du plus petit au plus grand les trois angles : $68°$, le second angle du carrefour et l\'angle du passage piéton.'
       ],
       solutions: [
-        '$i_1 = 30°$ est plus grand que $i_2 = 22°$.',
-        '$i_2 = 22° < i_1 = 30° < 90°$ (angle droit).',
-        'Le rayon se rapproche de la normale : son angle a diminué en passant de l\'air à l\'eau.'
+        '$0° < 68° < 90°$ : l\'angle est <strong>aigu</strong>.',
+        'Les deux angles forment un angle plat : ils sont <strong>supplémentaires</strong>.<br/><br/>$180° - 68° = 112°$. Comme $90° < 112° < 180°$, il est <strong>obtus</strong>.',
+        '$68° < 90° < 112°$ : l\'angle aigu, puis l\'angle droit du passage piéton, puis l\'angle obtus.'
       ],
-      finalAnswer: 'Le rayon lumineux se rapproche de la normale en entrant dans l\'eau, car $i_2 = 22°$ est plus petit que $i_1 = 30°$.'
+      finalAnswer: 'Le carrefour forme un angle aigu de $68°$ et un angle obtus de $112°$ ; le passage piéton forme un angle droit de $90°$, entre les deux.'
     },
 
     evaluation: {
@@ -488,7 +488,7 @@ window.MODULES.push({
         // nomme la bonne propriete — c'est bien « communiquer » et non « calculer ».
         { statement: 'Deux angles sont <strong>supplémentaires</strong> et l\'un mesure $118°$. Un camarade répond $62°$ et te demande de vérifier sa justification.<br/><br/>Laquelle de ces phrases justifie correctement ce résultat ?', type: 'multiple-choice', options: ['« $62°$, parce que $180 - 118 = 62$. »', '« Deux angles supplémentaires forment ensemble un angle plat, soit $180°$ ; le second mesure donc $180° - 118° = 62°$. »', '« Deux angles supplémentaires forment ensemble un angle droit, soit $90°$ ; le second mesure donc $62°$. »', '« $62°$, parce que $118°$ est obtus et que son supplémentaire est forcément aigu. »'], answer: 1, points: 2, correction: 'Les quatre phrases avancent la même valeur $62°$ : c\'est la <strong>justification</strong> qui est évaluée ici, pas le calcul.<br/><br/>La première donne le calcul sans dire d\'où vient le $180$ : le lecteur doit deviner la propriété utilisée.<br/><br/>La troisième nomme une propriété fausse (l\'angle droit vaut $90°$, pas $180°$) et arrive au bon résultat par hasard.<br/><br/>La quatrième constate seulement que l\'angle est aigu, ce qui ne suffit pas à donner sa mesure.<br/><br/>Seule la deuxième <strong>nomme la propriété</strong> (l\'angle plat, $180°$) <strong>puis</strong> en déduit le calcul : c\'est la rédaction attendue.' },
         { statement: 'Un angle mesure $37°$. Comment le classe-t-on ?', type: 'multiple-choice', options: ['Angle droit', 'Angle obtus', 'Angle aigu', 'Angle plat'], answer: 2, points: 2, correction: '$0° < 37° < 90°$ → angle aigu.' },
-        { statement: 'Deux angles complémentaires ont pour mesures $2x + 5°$ et $3x - 10°$. Calcule la valeur de $x$ (en degrés).', type: 'numeric', answer: 19, tolerance: 0, unit: '°', points: 2, correction: '$(2x + 5) + (3x - 10) = 90$, $5x - 5 = 90$, $x = 19°$.' },
+        { statement: 'Deux angles sont complémentaires, et l\'un mesure $4$ fois l\'autre. Quelle est la mesure du plus petit (en degrés) ?', type: 'numeric', answer: 18, tolerance: 0, unit: '°', points: 2, correction: 'Le grand vaut $4$ fois le petit : ensemble ils font $5$ fois le petit, soit $90°$ puisqu\'ils sont complémentaires.<br/><br/>Le petit mesure $90° \\div 5 = 18°$, le grand $4 \\times 18° = 72°$.<br/><br/>Vérification : $18° + 72° = 90°$ ✓' },
         { statement: 'Quel est l\'angle formé par les aiguilles d\'une horloge à $15\\text{h}00$ ?', type: 'multiple-choice', options: ['$180°$', '$90°$', '$60°$', '$120°$'], answer: 1, points: 2, correction: 'De $12$ à $3$ : $3 \\times 30° = 90°$.' }
       ]
     }

@@ -39,11 +39,12 @@ window.MODULES.push({
         { term: 'Fractions égales', def: '$\\dfrac{a}{b} = \\dfrac{a \\times k}{b \\times k}$ pour tout $k \\neq 0$. Multiplier ou diviser les deux termes par un même nombre ne change pas la valeur.' }
       ],
       method: {
-        title: 'Méthode en 3 étapes',
+        title: 'Méthode en 4 étapes',
         steps: [
-          '<strong>Simplifier</strong> : chercher un diviseur commun au numérateur et au dénominateur, diviser les deux par ce nombre, puis recommencer tant qu\'on en trouve un. <em>Exemple :</em> $\\dfrac{18}{24}$ — les deux sont pairs, on divise par $2$ : $\\dfrac{9}{12}$. Les deux sont dans la table de $3$, on divise par $3$ : $\\dfrac{3}{4}$. Vérifie : $3$ et $4$ n\'ont plus de diviseur commun → irréductible ✓',
-          '<strong>Comparer</strong> : mettre les deux fractions au même dénominateur. Le plus simple est de multiplier les dénominateurs entre eux. <em>Exemple :</em> comparer $\\dfrac{2}{3}$ et $\\dfrac{3}{5}$ → dénominateur commun $3 \\times 5 = 15$. On amplifie : $\\dfrac{2 \\times 5}{3 \\times 5} = \\dfrac{10}{15}$ et $\\dfrac{3 \\times 3}{5 \\times 3} = \\dfrac{9}{15}$. Comme $10 > 9$, on conclut $\\dfrac{2}{3} > \\dfrac{3}{5}$. Astuce rapide : $\\dfrac{a}{b}$ vs $\\dfrac{c}{d}$ → comparer $a \\times d$ et $b \\times c$ (produit en croix).',
-          '<strong>Convertir en décimal</strong> : poser la division du numérateur par le dénominateur. <em>Exemple :</em> $\\dfrac{3}{4} = 3 \\div 4 = 0{,}75$. Certaines divisions <strong>tombent juste</strong> et donnent une valeur exacte ; d\'autres ne s\'arrêtent jamais et se répètent indéfiniment : $\\dfrac{1}{3} = 0{,}333\\ldots$ On arrondit alors au rang demandé.'
+          '<strong>Simplifier</strong> : chercher un diviseur commun au numérateur et au dénominateur, diviser les deux par ce nombre, puis recommencer tant qu\'on en trouve un.<br/><br/><em>Exemple :</em> $\\dfrac{18}{24}$ — les deux sont pairs, on divise par $2$ : $\\dfrac{9}{12}$.<br/><br/>Les deux sont dans la table de $3$, on divise par $3$ : $\\dfrac{3}{4}$.<br/><br/>Vérifie : $3$ et $4$ n\'ont plus de diviseur commun → <strong>irréductible</strong> ✓',
+          '<strong>Comparer</strong> : mettre les deux fractions au même dénominateur. Le plus simple est de multiplier les dénominateurs entre eux.<br/><br/><em>Exemple :</em> comparer $\\dfrac{2}{3}$ et $\\dfrac{3}{5}$ → dénominateur commun $3 \\times 5 = 15$.<br/><br/>On amplifie : $\\dfrac{2 \\times 5}{3 \\times 5} = \\dfrac{10}{15}$ et $\\dfrac{3 \\times 3}{5 \\times 3} = \\dfrac{9}{15}$.<br/><br/>Comme $10 > 9$, on conclut <strong>$\\dfrac{2}{3} > \\dfrac{3}{5}$</strong>.',
+          '<strong>Convertir en décimal</strong> : poser la division du numérateur par le dénominateur. <em>Exemple :</em> $\\dfrac{3}{4} = 3 \\div 4 = 0{,}75$. Certaines divisions <strong>tombent juste</strong> et donnent une valeur exacte ; d\'autres ne s\'arrêtent jamais et se répètent indéfiniment : $\\dfrac{1}{3} = 0{,}333\\ldots$ On arrondit alors au rang demandé.',
+          '<strong>Prendre une fraction d\'une quantité</strong> : partager d\'abord en autant de parts égales que le dénominateur, puis prendre autant de parts que le numérateur.<br/><br/><em>Exemple :</em> $\\dfrac{3}{4}$ de $28$ billes → une part vaut $28 \\div 4 = 7$ billes, et $3$ parts valent $3 \\times 7 = 21$ billes.'
         ]
       },
       example: {
@@ -338,12 +339,12 @@ window.MODULES.push({
       formulas: [
         '$\\dfrac{a}{b} = \\dfrac{a \\div k}{b \\div k}$ (simplification par $k$)',
         '$\\dfrac{a}{b} = \\dfrac{a \\times n}{b \\times n}$ (amplification par $n$)',
-        '$\\dfrac{a}{b} < \\dfrac{c}{d} \\Leftrightarrow a \\times d < b \\times c$ (si $b, d > 0$)'
+        'Pour comparer : même dénominateur, puis on compare les numérateurs'
       ],
       recap: [
         'Une fraction $\\dfrac{a}{b}$ est irréductible quand $a$ et $b$ n\'ont plus aucun diviseur commun autre que $1$.',
         'Pour simplifier, on divise numérateur et dénominateur par un même diviseur commun, autant de fois que possible.',
-        'Pour comparer, on utilise le même dénominateur ou les produits en croix.',
+        'Pour comparer, on met les deux fractions au même dénominateur, puis on compare les numérateurs.',
         'On ne simplifie JAMAIS par addition/soustraction, seulement par multiplication/division.'
       ],
       piege: 'Erreur fréquente : simplifier $\\dfrac{a + k}{b + k}$ en divisant par $k$. IMPOSSIBLE ! On ne peut simplifier qu\'en multipliant ou divisant numérateur ET dénominateur par un même facteur. $\\dfrac{6}{9} = \\dfrac{2}{3}$ ✓ mais $\\dfrac{6+3}{9+3} \\neq \\dfrac{2}{3}$ ✗.'
@@ -393,7 +394,12 @@ window.MODULES.push({
           // L'enonce demande un arrondi au MILLIEME : arrondir a 4 decimales
           // faisait repondre 0,2857 a une question qui attend 0,286 — enonce et
           // corrige se contredisaient (audit du 2026-08-16).
-          const val = parseFloat((a / b).toFixed(3));
+          // Une proportion, une recette ou une echelle sont des parts d'un
+          // tout : on range petit < grand pour que le decor reste coherent
+          // avec la fraction (2026-10-13 : on tirait des « proportions » de 28/24).
+          const [petit, grand] = a < b ? [a, b] : [b, a];
+          const numS = k * petit, denS = k * grand;
+          const val = parseFloat((petit / grand).toFixed(3));
           const decor = pick([
             'Simplifie la fraction',
             'Un chimiste note une proportion : simplifie la fraction',
@@ -401,17 +407,17 @@ window.MODULES.push({
             'Un cartographe relève une échelle : simplifie la fraction'
           ]);
           return {
-            statement: `${decor} $\\dfrac{${num}}{${den}}$ et donne sa valeur décimale arrondie au millième.`,
+            statement: `${decor} $\\dfrac{${numS}}{${denS}}$ et donne sa valeur décimale arrondie au millième.`,
             answer: val,
             tolerance: 0.001,
             unit: '',
-            hint: `La fraction n'est pas irréductible : ${num} et ${den} ont un diviseur commun. Essaie de diviser les deux par ${k}.`,
+            hint: `La fraction n'est pas irréductible : $${numS}$ et $${denS}$ ont un diviseur commun. Essaie de diviser les deux par $${k}$.`,
             solution: [
-              `Cherchons un diviseur commun à $${num}$ et $${den}$.`,
-              `On observe : $${num} = ${k} \\times ${a}$ et $${den} = ${k} \\times ${b}$.`,
-              `On divise numérateur et dénominateur par $${k}$ : $\\dfrac{${num}}{${den}} = \\dfrac{${a}}{${b}}$.`,
-              `Vérification : $${a}$ et $${b}$ n'ont plus de diviseur commun → la fraction $\\dfrac{${a}}{${b}}$ est irréductible ✓`,
-              `Valeur décimale arrondie au millième : $${a} \\div ${b} \\approx ${fr(val)}$`
+              `Cherchons un diviseur commun à $${numS}$ et $${denS}$.`,
+              `On observe : $${numS} = ${k} \\times ${petit}$ et $${denS} = ${k} \\times ${grand}$.`,
+              `On divise numérateur et dénominateur par $${k}$ : $\\dfrac{${numS}}{${denS}} = \\dfrac{${petit}}{${grand}}$.`,
+              `Vérification : $${petit}$ et $${grand}$ n'ont plus de diviseur commun → la fraction $\\dfrac{${petit}}{${grand}}$ est irréductible ✓`,
+              `Valeur décimale arrondie au millième : $${petit} \\div ${grand} \\approx ${fr(val)}$`
             ]
           };
         }
@@ -428,9 +434,10 @@ window.MODULES.push({
           const grandD = d * m;
           let p = rand(1, d - 1);                 // p/d
           let q = rand(1, grandD - 1);            // q/grandD
-          // On evite l'egalite, qui rendrait la question sans reponse.
+          // On evite l'egalite (question sans reponse) ET les numerateurs
+          // egaux (la valeur de controle ne distinguerait plus les fractions).
           let garde = 0;
-          while (p * grandD === q * d && garde < 20) { q = rand(1, grandD - 1); garde++; }
+          while ((p * grandD === q * d || p === q) && garde < 20) { q = rand(1, grandD - 1); garde++; }
           const pAmplifie = p * m;
           const premiereGagne = pAmplifie > q;
           const gagnante = premiereGagne ? `\\dfrac{${p}}{${d}}` : `\\dfrac{${q}}{${grandD}}`;

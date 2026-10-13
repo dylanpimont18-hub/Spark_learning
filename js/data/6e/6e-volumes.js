@@ -260,16 +260,16 @@ window.MODULES.push({
       formulas: [
         '$V_{\\text{pavé}} = L \\times l \\times h$',
         '$V_{\\text{cube}} = a^3$',
-        '$1\\,\\text{m}^3 = 1000\\,\\text{L} = 10^6\\,\\text{cm}^3$',
+        '$1\\,\\text{m}^3 = 1000\\,\\text{L} = 1\\,000\\,000\\,\\text{cm}^3$',
         '$1\\,\\text{L} = 1\\,\\text{dm}^3 = 1000\\,\\text{mL} = 1000\\,\\text{cm}^3$'
       ],
       recap: [
         'Le volume d\'un pavé droit est $V = L \\times l \\times h$, celui d\'un cube $V = a^3$.',
         '$1$ cm³ $= 1$ mL exactement. $1$ m³ $= 1000$ L.',
-        'Il faut cuber le facteur de conversion : $1$ cm³ $= (10^{-2})^3$ m³ $= 10^{-6}$ m³.',
+        'Entre deux unités de volume voisines (m³, dm³ $=$ L, cm³ $=$ mL), on multiplie ou on divise par $1000$, jamais par $10$.',
         'Toutes les dimensions doivent être dans la même unité avant de multiplier.'
       ],
-      piege: 'Piège des unités cubiques : $1\\,\\text{cm}^3 \\neq 1 \\times 10^{-2}\\,\\text{m}^3$ ! Il faut cuber le facteur de conversion : $1\\,\\text{cm} = 10^{-2}\\,\\text{m}$ donc $1\\,\\text{cm}^3 = (10^{-2})^3\\,\\text{m}^3 = 10^{-6}\\,\\text{m}^3$.'
+      piege: 'Piège du facteur $1000$ : entre deux unités de volume voisines, on ne multiplie pas par $10$ mais par <strong>$1000$</strong>.<br/><br/>Pour passer des cm³ aux litres, on divise par $1000$ : $5040$ cm³ $= 5{,}04$ L, et non $504$ L.<br/><br/>Pourquoi $1000$ ? Parce qu\'un volume met en jeu <strong>trois longueurs</strong> : $10 \\times 10 \\times 10 = 1000$.'
     },
 
     quiz: [
@@ -280,20 +280,20 @@ window.MODULES.push({
         correction: '$V = 80 \\times 40 \\times 50 = 160\\,000\\,\\text{cm}^3 = 160\\,000\\,\\text{mL} = 160\\,\\text{L}$.'
       },
       {
-        q: 'Un élève écrit : « $1\\,\\text{cm}^3 = 10^{-2}\\,\\text{m}^3$ car $1\\,\\text{cm} = 10^{-2}\\,\\text{m}$ ». Quelle est son erreur ?',
+        q: 'Un élève convertit $2500\\,\\text{cm}^3$ en litres et écrit « $2500 \\div 10 = 250\\,\\text{L}$ ». Quelle est son erreur ?',
         options: [
-          'Il n\'y a pas d\'erreur, c\'est correct.',
-          'Il faut cuber le facteur : $1\\,\\text{cm}^3 = (10^{-2})^3\\,\\text{m}^3 = 10^{-6}\\,\\text{m}^3$.',
-          'La bonne valeur est $1\\,\\text{cm}^3 = 10^{-3}\\,\\text{m}^3$.',
-          'Il faut diviser par 2 : $1\\,\\text{cm}^3 = 0{,}5 \\times 10^{-2}\\,\\text{m}^3$.'
+          'Il n\'y a pas d\'erreur : $250$ L est juste.',
+          'Il fallait multiplier : $2500 \\times 10 = 25\\,000$ L.',
+          'Il a divisé par $10$ au lieu de $1000$ : $2500 \\div 1000 = 2{,}5$ L.',
+          'Il fallait diviser par $100$ : $2500 \\div 100 = 25$ L.'
         ],
-        answer: 1,
-        correction: 'Il faut cuber le facteur de conversion ! $1\\,\\text{cm} = 10^{-2}\\,\\text{m}$ → $1\\,\\text{cm}^3 = (10^{-2})^3\\,\\text{m}^3 = 10^{-6}\\,\\text{m}^3$.'
+        answer: 2,
+        correction: '$1$ L $= 1000$ cm³ : des cm³ vers les litres, on divise par <strong>$1000$</strong>.<br/><br/>$2500 \\div 1000 = 2{,}5$ L, et l\'ordre de grandeur confirme : une grande bouteille de $2{,}5$ L est crédible, $250$ L (une baignoire) ne l\'est pas pour $2500$ cm³.<br/><br/>Diviser par $10$ ou par $100$ est le réflexe des unités de <strong>longueur</strong> ; pour un volume, chaque marche vaut $1000$ car trois longueurs sont en jeu. Multiplier par $10$ donnerait $25\\,000$ L, encore plus absurde.'
       },
       {
         q: 'Une boîte a la forme d\'un pavé droit de $4\\,\\text{cm} \\times 3\\,\\text{cm} \\times 2\\,\\text{cm}$. Combien de cubes de $1\\,\\text{cm}^3$ faut-il pour la remplir complètement ?',
-        options: ['$9$ cubes', '$24$ cubes', '$18$ cubes', '$12$ cubes'],
-        answer: 1,
+        options: ['$9$ cubes', '$12$ cubes', '$18$ cubes', '$24$ cubes'],
+        answer: 3,
         correction: 'Le volume de la boîte est $V = 4 \\times 3 \\times 2 = 24\\,\\text{cm}^3$. Comme chaque cube fait $1\\,\\text{cm}^3$, il faut exactement $24$ cubes pour la remplir complètement.'
       }
     ],
@@ -403,7 +403,9 @@ window.MODULES.push({
         // multiplication comme reversible.
         const L = rand(4, 12), l = rand(3, 10), h = rand(2, 9);
         const v = L * l * h;
-        const objet = pick(['une piscine gonflable', 'un bac à sable', 'un carton', 'un tiroir']);
+        // Volume d'au plus 1080 cm3 (un litre) : des objets qui tiennent dans
+        // la main, pour que le contexte reste credible (2026-10-13).
+        const objet = pick(['une boîte à bijoux', 'un étui à lunettes', 'une petite brique de jus', 'une boîte de craies']);
         return {
           statement: `${objet.charAt(0).toUpperCase() + objet.slice(1)} en forme de pavé droit a un volume de $${v}\\,\\text{cm}^3$. ` +
             `Sa longueur est de $${L}\\,\\text{cm}$ et sa largeur de $${l}\\,\\text{cm}$. Quelle est sa hauteur, en cm ?`,
@@ -455,7 +457,7 @@ window.MODULES.push({
         // sur $125$. La consigne et la correction disent desormais cette demarche,
         // qui est celle que « chercher » designe au referentiel.
         { statement: 'Un cube a un volume de $125\\,\\text{cm}^3$.<br/><br/>Cherche la longueur de son arête, en cm, en essayant plusieurs valeurs.', type: 'numeric', answer: 5, tolerance: 0, unit: 'cm', points: 2, correction: 'Le volume d\'un cube d\'arête $a$ vaut $a \\times a \\times a$. Il n\'y a pas de formule à appliquer directement en sixième : on <strong>essaie</strong>.<br/><br/>Avec $a = 4$ : $4 \\times 4 \\times 4 = 64$, c\'est trop peu.<br/><br/>Avec $a = 5$ : $5 \\times 5 \\times 5 = 125$ ✓<br/><br/>Avec $a = 6$ : $6 \\times 6 \\times 6 = 216$, c\'est déjà trop.<br/><br/>L\'arête mesure donc $5$ cm. Deux ou trois essais bien menés suffisent : chaque essai indique s\'il faut monter ou descendre.' },
-        { statement: 'Un récipient mesure $20\\,\\text{cm} \\times 10\\,\\text{cm} \\times 15\\,\\text{cm}$. On le remplit d\'eau. Quelle est la masse d\'eau contenue (en grammes), sachant que $1\\,\\text{cm}^3$ d\'eau pèse $1\\,\\text{g}$ ?', type: 'numeric', answer: 3000, tolerance: 0, unit: 'g', points: 2, correction: '$V = 20 \\times 10 \\times 15 = 3000\\,\\text{cm}^3$. Comme $1\\,\\text{cm}^3$ d\'eau $= 1\\,\\text{g}$, la masse est $3000\\,\\text{g} = 3\\,\\text{kg}$.' }
+        { statement: 'Un bac de jardinage mesure $1\\,\\text{m}$ de long, $40\\,\\text{cm}$ de large et $25\\,\\text{cm}$ de haut. Calcule son volume en litres.', type: 'numeric', answer: 100, tolerance: 0, unit: 'L', points: 2, correction: 'Les dimensions ne sont pas dans la même unité : on convertit d\'abord <strong>$1\\,\\text{m} = 100\\,\\text{cm}$</strong>.<br/><br/>$V = 100 \\times 40 \\times 25 = 100\\,000\\,\\text{cm}^3$.<br/><br/>$1\\,\\text{L} = 1000\\,\\text{cm}^3$, donc $V = 100\\,000 \\div 1000 = 100\\,\\text{L}$.' }
       ]
     }
   });

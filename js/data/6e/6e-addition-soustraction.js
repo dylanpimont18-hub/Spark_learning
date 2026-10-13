@@ -342,7 +342,7 @@ window.MODULES.push({
 
     quiz: [
       { q: 'Quel est le résultat de $8{,}7 + 3{,}45$ ?', options: ['$11{,}12$', '$12{,}15$', '$11{,}15$', '$12{,}12$'], answer: 1, correction: '$8{,}70 + 3{,}45 = 12{,}15$.' },
-      { q: 'Un élève calcule $15{,}2 - 6{,}75$ et trouve $9{,}55$. Où est l\'erreur ?', options: ['Il n\'a pas aligné les virgules.', 'Il a oublié de compléter $15{,}2$ en $15{,}20$ avant de soustraire.', 'Il n\'y a pas d\'erreur.', 'Il a inversé.'], answer: 1, correction: 'La bonne méthode : $15{,}20 - 6{,}75 = 8{,}45$.' },
+      { q: 'Un élève calcule $15{,}2 - 6{,}75$ et trouve $8{,}55$. Où est l\'erreur ?', options: ['Il n\'a pas aligné les virgules.', 'Il n\'y a pas d\'erreur.', 'Il a oublié de compléter $15{,}2$ en $15{,}20$ : dans la colonne des centièmes, il a recopié le $5$ au lieu de calculer $0 - 5$ avec un emprunt.', 'Il a inversé les deux nombres.'], answer: 2, correction: 'Avec la colonne des centièmes laissée vide, le $5$ de $6{,}75$ « descend » tel quel et aucun emprunt n\'est pris sur les dixièmes : on obtient $8{,}55$.<br/><br/>En écrivant <strong>$15{,}20$</strong>, la colonne des centièmes donne $0 - 5$ → emprunt → $10 - 5 = 5$, puis les dixièmes $12 - 1 - 7 = 4$ : le bon résultat est $15{,}20 - 6{,}75 = 8{,}45$.<br/><br/>Les virgules étaient bien alignées, sinon les unités et les dizaines auraient été fausses aussi ; et inverser les nombres n\'a pas de sens ici, on ne peut pas retirer $15{,}2$ de $6{,}75$.' },
       { q: 'Marie a $20{,}00$ €. Elle achète un livre à $8{,}95$ € et un stylo à $3{,}50$ €. Combien lui reste-t-il ?', options: ['$7{,}55$ €', '$7{,}45$ €', '$8{,}55$ €', '$6{,}55$ €'], answer: 0, correction: '$8{,}95 + 3{,}50 = 12{,}45$ €. Reste : $20{,}00 - 12{,}45 = 7{,}55$ €.' }
     ],
 
@@ -458,14 +458,14 @@ window.MODULES.push({
       tasks: [
         'Calcule la masse totale livrée.',
         'Quelle est la masse totale de tomates disponibles après livraison ?',
-        'Si une cliente achète $6{,}8$ kg de légumes, quelle masse reste-t-il ?'
+        'Quelle masse de légumes y a-t-il en rayon après la livraison ? Une cliente en achète ensuite $6{,}8$ kg : quelle masse reste-t-il ?'
       ],
       solutions: [
         'Masse livrée : $12{,}5 + 8{,}75 + 5{,}4 = 26{,}65$ kg.',
         'Tomates totales : $12{,}5 + 3{,}25 = 15{,}75$ kg.',
-        'Reste : $26{,}65 - 6{,}8 = 19{,}85$ kg.'
+        'En rayon : $26{,}65 + 3{,}25 = 29{,}90$ kg.<br/><br/>Reste : $29{,}90 - 6{,}80 = 23{,}10$ kg.'
       ],
-      finalAnswer: 'Il reste $19{,}85$ kg de légumes en rayon.'
+      finalAnswer: 'Il reste $23{,}10$ kg de légumes en rayon.'
     },
 
     evaluation: {

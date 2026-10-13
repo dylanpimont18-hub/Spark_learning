@@ -28,7 +28,7 @@ window.MODULES.push({
 
       definitions: [
         { term: 'Axe de symétrie', def: 'Droite $d$ telle que la réflexion de la figure par rapport à $d$ donne la même figure.' },
-        { term: 'Isométrie', def: 'Transformation qui conserve les distances. La symétrie axiale en est une.' },
+        { term: 'Conservation des longueurs', def: 'La symétrie axiale ne déforme rien : une figure et son symétrique ont les mêmes longueurs, les mêmes angles et la même aire.<br/><br/>Elles sont <strong>superposables par pliage</strong>.' },
         { term: 'Médiatrice', def: 'Droite perpendiculaire au segment $[AA\']$ passant par son milieu. L\'axe est la médiatrice de $[AA\']$.' },
         { term: 'Symétrique', def: '$A\'$ est le symétrique de $A$ si l\'axe est la médiatrice de $[AA\']$ : $AH = HA\'$ et $(AA\') \\perp d$.' }
       ],
@@ -42,12 +42,12 @@ window.MODULES.push({
         ]
       },
       example: {
-        statement: 'Le point $A(5 ; 2)$ est réfléchi par rapport à la droite $x = 3$. Trouver $A\'$.',
+        statement: 'Sur un quadrillage, le point $A(5 ; 2)$ a pour symétrique $A\'$ par rapport à la droite verticale $d$ passant par l\'abscisse $3$. Trouver $A\'$.',
         steps: [
-          'Formule : $x_{A\'} = 2k - x_A = 2 \\times 3 - 5 = 1$.',
-          'L\'ordonnée ne change pas : $y_{A\'} = 2$.',
-          'Donc $A\'(1 ; 2)$.',
-          'Vérification : le milieu de $[AA\']$ est $(\\dfrac{5+1}{2} ; 2) = (3 ; 2)$, qui est bien sur $x = 3$ ✓'
+          'La perpendiculaire à $d$ passant par $A$ est horizontale : elle coupe $d$ au <strong>pied</strong> $H(3 ; 2)$.',
+          '$A$ est à $5 - 3 = 2$ carreaux à droite de $H$.',
+          'On reporte la <strong>même distance</strong> à gauche : $3 - 2 = 1$. L\'ordonnée ne change pas.',
+          'Donc $A\'(1 ; 2)$.<br/><br/>Vérification : $H$ est bien le milieu de $[AA\']$, à $2$ carreaux de chacun ✓'
         ],
         answer: '$A\'(1 ; 2)$'
       },
@@ -55,11 +55,11 @@ window.MODULES.push({
         theme: 'maths',
         kicker: 'Construction du symétrique',
         title: 'Réfléchir un point par rapport à un axe',
-        description: 'Le point $A(5 ; 2)$ est réfléchi par rapport à l\'axe $d$ d\'équation $x = 3$. On trace la perpendiculaire à $d$ passant par $A$, on repère son pied $H$, puis on reporte la même distance de l\'autre côté pour obtenir $A\'(1 ; 2)$.',
+        description: 'Le point $A(5 ; 2)$ a pour symétrique $A\'$ par rapport à la droite verticale $d$ passant par l\'abscisse $3$. On trace la perpendiculaire à $d$ passant par $A$, on repère son pied $H$, puis on reporte la même distance de l\'autre côté pour obtenir $A\'(1 ; 2)$.',
         svg: `
           <svg viewBox="0 0 360 240" role="img" aria-labelledby="symaxiale-title symaxiale-desc">
             <title id="symaxiale-title">Symétrique d'un point par rapport à un axe vertical</title>
-            <desc id="symaxiale-desc">Le point A en 5 ; 2 est réfléchi par rapport à l'axe d d'équation x égale 3. Le pied H est en 3 ; 2 et le symétrique A' est en 1 ; 2, à la même distance de l'axe que A.</desc>
+            <desc id="symaxiale-desc">Le point A en 5 ; 2 est réfléchi par rapport à l'axe d, droite verticale passant par l'abscisse 3. Le pied H est en 3 ; 2 et le symétrique A' est en 1 ; 2, à la même distance de l'axe que A.</desc>
             <line class="grid-line" x1="50" y1="30" x2="50" y2="194"></line>
             <line class="grid-line" x1="90" y1="30" x2="90" y2="194"></line>
             <line class="grid-line" x1="130" y1="30" x2="130" y2="194"></line>
@@ -103,7 +103,7 @@ window.MODULES.push({
           'On reporte la même distance de l\'autre côté de $H$ : $AH = HA\' = 2$, donc $A\'(1 ; 2)$.'
         ],
         reading: 'L\'axe $d$ est la médiatrice de $[AA\']$ : il coupe le segment $[AA\']$ perpendiculairement, exactement en son milieu $H$.',
-        caption: 'Construction du symétrique de $A(5 ; 2)$ par rapport à l\'axe $d : x = 3$ — pied $H(3 ; 2)$ et symétrique $A\'(1 ; 2)$.'
+        caption: 'Construction du symétrique de $A(5 ; 2)$ par rapport à la droite verticale $d$ passant par l\'abscisse $3$ — pied $H(3 ; 2)$ et symétrique $A\'(1 ; 2)$.'
       },
       /* Schemas secondaires (2026-09-12). La figure principale montre le
          RESULTAT de la reflexion d'un point dans un repere ; elle ne montre ni
@@ -228,7 +228,7 @@ window.MODULES.push({
           notes: [
             'Chaque sommet se construit séparément, avec les trois gestes de la figure précédente.',
             'On relie ensuite $A\'$, $B\'$, $C\'$ dans le <strong>même ordre</strong> que $A$, $B$, $C$.',
-            'La symétrie est une <strong>isométrie</strong> : $A\'B\' = AB$, et tous les angles sont conservés. La figure image est superposable à la figure de départ après pliage.'
+            'La symétrie <strong>conserve les longueurs</strong> : $A\'B\' = AB$, et tous les angles sont conservés. La figure image est superposable à la figure de départ après pliage.'
           ],
           reading: 'Remarque que $B$, le sommet le plus éloigné de l\'axe, donne $B\'$ le plus éloigné lui aussi : chaque point garde sa distance à l\'axe. C\'est le moyen le plus rapide de repérer une construction fausse.',
           caption: 'Symétrique d\'un triangle : on réfléchit les trois sommets, puis on relie.'
@@ -310,15 +310,15 @@ window.MODULES.push({
       formulas: [
         '$H = $ milieu de $[AA\']$ (pied de la perpendiculaire)',
         '$AH = HA\'$',
-        'Axe vertical $x = k$ : $x_{A\'} = 2k - x_A$, $y_{A\'} = y_A$',
-        'Axe horizontal $y = k$ : $y_{A\'} = 2k - y_A$, $x_{A\'} = x_A$',
+        'Axe vertical passant par l\'abscisse $k$ : $A\'$ garde l\'ordonnée de $A$, et $k$ est au milieu des deux abscisses',
+        'Axe horizontal passant par l\'ordonnée $k$ : $A\'$ garde l\'abscisse de $A$, et $k$ est au milieu des deux ordonnées',
         'La symétrie conserve : distances, angles, aires.',
         'L\'axe est la médiatrice de $[AA\']$'
       ],
       recap: [
-        'La symétrie axiale conserve distances, angles et aires (c\'est une isométrie).',
-        'Le symétrique de $A$ par rapport à $x = k$ (axe vertical) a pour abscisse $x\' = 2k - x$ ; par rapport à $y = k$ (axe horizontal), pour ordonnée $y\' = 2k - y$.',
-        'Cas particuliers : axe des ordonnées ($x=0$) → $x\' = -x$ ; axe des abscisses ($y=0$) → $y\' = -y$.',
+        'La symétrie axiale conserve distances, angles et aires : une figure et son symétrique sont superposables par pliage.',
+        'Sur un quadrillage : on compte les carreaux entre $A$ et l\'axe, puis on reporte le même nombre de carreaux de l\'autre côté, perpendiculairement à l\'axe.',
+        'Si l\'axe est vertical, l\'ordonnée ne change pas ; s\'il est horizontal, c\'est l\'abscisse qui ne change pas.',
         'Un point situé sur l\'axe est son propre symétrique.',
         'Un triangle équilatéral a $3$ axes, un carré en a $4$, un cercle en a une infinité.'
       ],
@@ -326,8 +326,8 @@ window.MODULES.push({
     },
 
     quiz: [
-      { q: 'Le point $A(5 ; 2)$ est réfléchi par rapport à $x = 3$. Un élève trouve $A\'(-5 ; 2)$. Quelle est son erreur ?', options: ['Correct.', 'Il a confondu avec $x = 0$ : il faut $x\' = 2 \\times 3 - 5 = 1$, donc $A\'(1 ; 2)$.', 'Il faut changer $y$.', 'Pas d\'erreur car $-5$ est le symétrique de $5$.'], answer: 1, correction: '$x\' = 2 \\times 3 - 5 = 1$. $A\'(1 ; 2)$.' },
-      { q: 'Le point $A(3 ; 1)$ est réfléchi par rapport à l\'axe des ordonnées. Coordonnées de $A\'$ ?', options: ['$(3 ; -1)$', '$(-3 ; 1)$', '$(-3 ; -1)$', '$(1 ; 3)$'], answer: 1, correction: 'Axe $x = 0$ : $x\' = -x = -3$, $y\' = y = 1$.' },
+      { q: 'Le point $A(5 ; 2)$ a pour symétrique $A\'$ par rapport à la droite verticale passant par l\'abscisse $3$. Un élève répond $A\'(3 ; 2)$. Quelle est son erreur ?', options: ['Il n\'y a pas d\'erreur.', 'Il a posé $A\'$ sur l\'axe : il faut reporter les $2$ carreaux de l\'autre côté, $A\'(1 ; 2)$.', 'Il fallait changer l\'ordonnée : $A\'(5 ; 4)$.', 'Il fallait doubler l\'abscisse : $A\'(10 ; 2)$.'], answer: 1, correction: '$A$ est à $5 - 3 = 2$ carreaux à droite de l\'axe. Son symétrique est à $2$ carreaux à <strong>gauche</strong> : $3 - 2 = 1$, donc $A\'(1 ; 2)$.<br/><br/>Le point $(3 ; 2)$ est le pied $H$ sur l\'axe, pas le symétrique.<br/><br/>L\'ordonnée ne bouge pas quand l\'axe est vertical, et « doubler » n\'a aucun sens ici : la symétrie conserve la <strong>distance à l\'axe</strong>.' },
+      { q: 'Le point $A(3 ; 1)$ a pour symétrique $A\'$ par rapport à la droite verticale passant par l\'abscisse $5$. Quelles sont les coordonnées de $A\'$ ?', options: ['$(7 ; 1)$', '$(5 ; 1)$', '$(3 ; 9)$', '$(1 ; 3)$'], answer: 0, correction: '$A$ est à $5 - 3 = 2$ carreaux à gauche de l\'axe, donc $A\'$ est à $2$ carreaux à droite : $5 + 2 = 7$. L\'ordonnée est conservée : <strong>$A\'(7 ; 1)$</strong>.<br/><br/>$(5 ; 1)$ est le point de l\'axe en face de $A$ ; $(3 ; 9)$ a changé l\'ordonnée alors que l\'axe est vertical ; $(1 ; 3)$ a échangé les deux coordonnées.' },
       { q: 'Un triangle équilatéral possède combien d\'axes de symétrie ?', options: ['$1$', '$2$', '$3$', '$6$'], answer: 2, correction: '$3$ axes, chacun passant par un sommet et le milieu du côté opposé.' }
     ],
 
@@ -337,48 +337,70 @@ window.MODULES.push({
         const axType = pick(['vertical', 'horizontal']);
         const varSym = axType === 'vertical' ? 'x' : 'y';
         const coord = axType === 'vertical' ? 'abscisse' : 'ordonnée';
-        const k = rand(2, 8);
-        const pointVal = rand(k + 1, k + 6);
-        const symVal = 2 * k - pointVal;
-        const axisEq = `${varSym} = ${k}`;
+        const sens = axType === 'vertical' ? ['à droite', 'à gauche'] : ['au-dessus', 'en dessous'];
+        const k = rand(3, 9);
+        /* 2026-10-13 : l'ancien tirage (axe en 2 a 8, A au-dela de l'axe
+           d'au plus 6) donnait des symetriques NEGATIFS, et la seule methode
+           offerte etait la formule 2k - x. Les nombres negatifs ne sont vus
+           qu'en 5e : l'ecart entre A et l'axe est borne par k - 1, si bien que
+           le symetrique k - ecart reste strictement positif, et l'eleve
+           l'obtient par le geste du cours (compter les carreaux, reporter). */
+        const ecart = rand(1, Math.min(6, k - 1));
+        const pointVal = k + ecart;
+        const symVal = k - ecart;
+        const axe = axType === 'vertical'
+          ? `la droite verticale passant par l'abscisse $${k}$`
+          : `la droite horizontale passant par l'ordonnée $${k}$`;
+        const carreaux = ecart > 1 ? 'carreaux' : 'carreau';
 
-        const ctx = pick([
-          { build: () => `Le point $A$ a pour ${coord} $${varSym}_A = ${pointVal}$. L'axe de symétrie est $${axisEq}$.<br/>Quelle est l'${coord} de $A'$, le <strong>symétrique</strong> de $A$ ?` },
-          { build: () => `En pliant une feuille le long de la droite $${axisEq}$, un point $A$ (${coord} $${varSym}_A = ${pointVal}$) se superpose exactement à son symétrique $A'$.<br/>Quelle est l'${coord} de $A'$ ?` },
-          { build: () => `Le reflet d'un point $A$ dans un miroir plan d'axe $${axisEq}$ donne un point $A'$. Le point $A$ a pour ${coord} $${varSym}_A = ${pointVal}$.<br/>Quelle est l'${coord} du reflet $A'$ ?` },
-          { build: () => `Un carreleur pose un motif <strong>symétrique</strong> par rapport à la ligne $${axisEq}$. Un point $A$ du motif a pour ${coord} $${varSym}_A = ${pointVal}$.<br/>Quelle est l'${coord} du point symétrique $A'$ qu'il doit tracer ?` },
-          { build: () => `Sur un logo, un point $A$ (${coord} $${varSym}_A = ${pointVal}$) doit être reproduit par symétrie par rapport à l'axe $${axisEq}$ pour obtenir $A'$.<br/>Quelle est l'${coord} de $A'$ ?` },
-          { build: () => `Le reflet d'un point $A$ à la surface d'un lac (axe $${axisEq}$) donne un point $A'$ sous l'eau. Le point $A$ a pour ${coord} $${varSym}_A = ${pointVal}$.<br/>Quelle est l'${coord} du reflet $A'$ ?` }
-        ]);
+        const contextes = [
+          { build: () => `Le point $A$ a pour ${coord} $${varSym}_A = ${pointVal}$. L'axe de symétrie est ${axe}.<br/>Quelle est l'${coord} de $A'$, le <strong>symétrique</strong> de $A$ ?` },
+          { build: () => `En pliant une feuille quadrillée le long de ${axe}, un point $A$ (${coord} $${varSym}_A = ${pointVal}$) se superpose exactement à son symétrique $A'$.<br/>Quelle est l'${coord} de $A'$ ?` },
+          { build: () => `Un carreleur pose un motif <strong>symétrique</strong> par rapport à ${axe}. Un point $A$ du motif a pour ${coord} $${varSym}_A = ${pointVal}$.<br/>Quelle est l'${coord} du point symétrique $A'$ qu'il doit tracer ?` },
+          { build: () => `Sur un logo, un point $A$ (${coord} $${varSym}_A = ${pointVal}$) doit être reproduit par symétrie par rapport à ${axe} pour obtenir $A'$.<br/>Quelle est l'${coord} de $A'$ ?` }
+        ];
+        // Le miroir se tient debout (axe vertical), le lac est a plat (axe
+        // horizontal) : chaque decor ne vaut que pour un sens d'axe.
+        if (axType === 'vertical') {
+          contextes.push({ build: () => `Le reflet d'un point $A$ dans un miroir posé debout le long de ${axe} donne un point $A'$. Le point $A$ a pour abscisse $x_A = ${pointVal}$.<br/>Quelle est l'abscisse du reflet $A'$ ?` });
+        } else {
+          contextes.push({ build: () => `Le reflet d'un point $A$ à la surface d'un lac (${axe}) donne un point $A'$ sous l'eau. Le point $A$ a pour ordonnée $y_A = ${pointVal}$.<br/>Quelle est l'ordonnée du reflet $A'$ ?` });
+        }
+        const ctx = pick(contextes);
 
         return {
           statement: ctx.build(),
           /* Droite graduee aux VRAIES valeurs du tirage (2026-09-12) : le point
              A tombe reellement sur son abscisse et l'axe sur la sienne. La
              symetrie est une notion visuelle avant d'etre une formule ; sans
-             figure, l'eleve applique « 2k - x » sans jamais voir la pliure.
+             figure, l'eleve applique une recette sans jamais voir la pliure.
              Le symetrique est marque d'un cercle vide et d'un « ? » : la figure
              montre OU il se trouve, jamais sa valeur. */
           figure: figureSymetrie(pointVal, k, { variable: varSym }),
           answer: symVal,
           tolerance: 0,
           unit: '',
-          hint: `$${varSym}_{A'} = 2k - ${varSym}_A = 2 \\times ${k} - ${pointVal}$.`,
-          solution: [`$${varSym}_{A'} = 2 \\times ${k} - ${pointVal} = ${symVal}$`]
+          hint: `Compte de combien de carreaux $A$ est ${sens[0]} de l'axe : $${pointVal} - ${k} = ${ecart}$. Le symétrique $A'$ est à la <strong>même distance</strong>, mais ${sens[1]}.`,
+          solution: [
+            `L'axe passe par $${k}$ et $A$ est en $${pointVal}$ : $A$ est à $${pointVal} - ${k} = ${ecart}$ ${carreaux} ${sens[0]} de l'axe.`,
+            `Par pliage, $A'$ tombe à la <strong>même distance</strong> de l'autre côté, soit $${ecart}$ ${carreaux} ${sens[1]}.`,
+            `$${varSym}_{A'} = ${k} - ${ecart} = ${symVal}$`,
+            `Vérification : l'axe est bien au milieu de $[AA']$, car $\\dfrac{${pointVal} + ${symVal}}{2} = ${k}$ ✓`
+          ]
         };
       }
     },
 
     probleme: {
-      context: 'Un designer crée un logo symétrique. La moitié gauche est un triangle de sommets $A(0 ; 0)$, $B(0 ; 4)$ et $C(3 ; 2)$. Il veut tracer la partie droite par symétrie d\'axe $x = 3$.',
+      context: 'Un designer crée un logo symétrique. La moitié gauche est un triangle de sommets $A(0 ; 0)$, $B(0 ; 4)$ et $C(3 ; 2)$. Il veut tracer la partie droite par symétrie par rapport à la droite verticale passant par l\'abscisse $3$.',
       tasks: [
-        'Calculer les coordonnées de $A\'$, symétrique de $A$ par rapport à $x = 3$.',
+        'Calculer les coordonnées de $A\'$, symétrique de $A$ par rapport à cet axe.',
         'Calculer les coordonnées de $B\'$ et $C\'$.',
         'Expliquer pourquoi $C\' = C$.'
       ],
       solutions: [
-        '$x_{A\'} = 2 \\times 3 - 0 = 6$, $y_{A\'} = 0$. Donc $A\'(6 ; 0)$.',
-        '$B\'(6 ; 4)$ et $C\'(3 ; 2)$.',
+        '$A$ est à $3 - 0 = 3$ carreaux à gauche de l\'axe : $A\'$ est à $3$ carreaux à droite, en $3 + 3 = 6$. L\'axe est vertical, l\'ordonnée ne change pas.<br/><br/>Donc <strong>$A\'(6 ; 0)$</strong>.',
+        '$B$ est lui aussi à $3$ carreaux à gauche de l\'axe : <strong>$B\'(6 ; 4)$</strong>.<br/><br/>$C$ est à $0$ carreau de l\'axe : <strong>$C\'(3 ; 2)$</strong>.',
         '$C$ a pour abscisse $3$, qui est l\'axe. Un point sur l\'axe est son propre symétrique.'
       ],
       finalAnswer: 'Le logo a les sommets $A(0;0)$, $B(0;4)$, $C(3;2)$, $B\'(6;4)$, $A\'(6;0)$.'
@@ -388,8 +410,8 @@ window.MODULES.push({
       title: 'Évaluation — Symétrie axiale',
       duration: '20 min',
       questions: [
-        { statement: 'Le point $A(7 ; 3)$ est réfléchi par rapport à $x = 0$. Abscisse de $A\'$ ?', type: 'numeric', answer: -7, tolerance: 0, unit: '', points: 2, correction: '$x\' = -7$.' },
-        { statement: 'Le point $B(2 ; 5)$ est réfléchi par rapport à $x = 4$. Abscisse de $B\'$ ?', type: 'numeric', answer: 6, tolerance: 0, unit: '', points: 2, correction: '$x\' = 2 \\times 4 - 2 = 6$.' },
+        { statement: 'Le point $A(7 ; 3)$ a pour symétrique $A\'$ par rapport à la droite horizontale passant par l\'ordonnée $5$. Quelle est l\'ordonnée de $A\'$ ?', type: 'numeric', answer: 7, tolerance: 0, unit: '', points: 2, correction: '$A$ est à $5 - 3 = 2$ carreaux <strong>en dessous</strong> de l\'axe ; $A\'$ est donc à $2$ carreaux au-dessus : $5 + 2 = 7$.<br/><br/>L\'abscisse ne change pas : $A\'(7 ; 7)$.' },
+        { statement: 'Le point $B(2 ; 5)$ a pour symétrique $B\'$ par rapport à la droite verticale passant par l\'abscisse $4$. Quelle est l\'abscisse de $B\'$ ?', type: 'numeric', answer: 6, tolerance: 0, unit: '', points: 2, correction: '$B$ est à $4 - 2 = 2$ carreaux à gauche de l\'axe ; $B\'$ est à $2$ carreaux à droite : $4 + 2 = 6$.<br/><br/>L\'ordonnée ne change pas : $B\'(6 ; 5)$.' },
         // Competence « chercher » (2026-09-12). Le nombre d'axes d'un carre est un
         // resultat qui se retient ; pose tel quel, il ne notait qu'une memoire. La
         // consigne demande desormais de TROUVER ce nombre en essayant les plis un par
@@ -401,7 +423,7 @@ window.MODULES.push({
         // etant visiblement fausses. Les quatre options repondent desormais « oui » :
         // seule la justification les separe, et elle doit tenir dans les mots du
         // programme (pliage, superposition), pas dans un mot savant.
-        { statement: 'Tu construis le symétrique d\'une figure par rapport à une droite, puis tu affirmes que les <strong>longueurs sont conservées</strong>.<br/><br/>Quelle justification est la mieux formulée pour une classe de sixième ?', type: 'multiple-choice', options: ['« Oui, parce que c\'est une isométrie. »', '« Oui : en pliant la feuille le long de l\'axe, la figure et son symétrique se superposent exactement, donc chaque longueur retrouve la même longueur. »', '« Oui, parce qu\'un miroir ne change jamais rien à ce qu\'il reflète. »', '« Oui, parce que la formule $x\' = 2k - x$ ne modifie pas les nombres. »'], answer: 1, points: 2, correction: 'Les quatre réponses concluent « oui » : c\'est la <strong>justification</strong> qui est évaluée.<br/><br/>La première se contente d\'un mot savant, qui n\'explique rien tant qu\'on ne l\'a pas défini.<br/><br/>La troisième s\'appuie sur l\'expérience des miroirs, qui déforment parfois : ce n\'est pas un argument mathématique.<br/><br/>La quatrième est fausse : la formule modifie bien les coordonnées, c\'est l\'écart entre deux points qu\'elle préserve.<br/><br/>Seule la deuxième donne l\'argument du programme : la <strong>superposition par pliage</strong>, que chacun peut vérifier avec une feuille.' },
+        { statement: 'Tu construis le symétrique d\'une figure par rapport à une droite, puis tu affirmes que les <strong>longueurs sont conservées</strong>.<br/><br/>Quelle justification est la mieux formulée pour une classe de sixième ?', type: 'multiple-choice', options: ['« Oui, parce que c\'est une isométrie. »', '« Oui : en pliant la feuille le long de l\'axe, la figure et son symétrique se superposent exactement, donc chaque longueur retrouve la même longueur. »', '« Oui, parce qu\'un miroir ne change jamais rien à ce qu\'il reflète. »', '« Oui, parce que le symétrique est toujours de l\'autre côté de l\'axe. »'], answer: 1, points: 2, correction: 'Les quatre réponses concluent « oui » : c\'est la <strong>justification</strong> qui est évaluée.<br/><br/>La première se contente d\'un mot savant, qui n\'explique rien tant qu\'on ne l\'a pas défini.<br/><br/>La troisième s\'appuie sur l\'expérience des miroirs, qui déforment parfois : ce n\'est pas un argument mathématique.<br/><br/>La quatrième dit vrai, mais ne parle pas de longueurs : être de l\'autre côté de l\'axe ne dit rien sur les distances.<br/><br/>Seule la deuxième donne l\'argument du programme : la <strong>superposition par pliage</strong>, que chacun peut vérifier avec une feuille.' },
         { statement: 'Un point $P$ est situé sur l\'axe $d$. Quel est son symétrique ?', type: 'multiple-choice', options: ['Le point au double.', 'Le point opposé.', 'Le point $P$ lui-même.', 'Pas de symétrique.'], answer: 2, points: 2, correction: 'Distance à l\'axe $= 0$, donc $P\' = P$.' }
       ]
     }

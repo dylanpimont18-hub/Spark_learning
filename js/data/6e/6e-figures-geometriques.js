@@ -29,7 +29,8 @@ window.MODULES.push({
         { term: 'Droite $(AB)$', def: 'Ligne infinie dans les deux sens passant par $A$ et $B$. Dessinée avec des flèches.' },
         { term: 'Segment $[AB]$', def: 'Portion de droite limitée par deux extrémités $A$ et $B$. A une longueur mesurable.' },
         { term: 'Demi-droite $[AB)$', def: 'Portion de droite ayant une origine $A$ et infinie dans la direction de $B$.' },
-        { term: 'Cercle', def: 'Ensemble des points $M$ tels que $OM = r$ (rayon). Le diamètre est $d = 2r$.' }
+        { term: 'Cercle', def: 'Ensemble des points $M$ tels que $OM = r$ (rayon). Le diamètre est $d = 2r$.' },
+        { term: 'Disque', def: 'Surface entourée par un cercle : tous les points $M$ tels que $OM \\leq r$.<br/><br/>Le <strong>cercle</strong> est la ligne tracée au compas, le <strong>disque</strong> est la surface qu\'elle délimite.' }
       ],
       method: {
         title: 'Méthode en 4 étapes',
@@ -358,44 +359,48 @@ window.MODULES.push({
     exercice: {
       type: 'numeric',
       generate() {
+        /* 2026-10-13 : chaque objet tire son rayon dans une plage REALISTE (on
+           tirait un pneu de voiture de rayon 12 cm, un cerceau de diametre
+           14 cm), et l'article est elide (« d'une horloge », pas « de une
+           horloge »). Le diametre decoule du rayon. */
         const objet = pick([
-          { emoji: '🕰️', nom: 'une horloge', unite: 'cm' },
-          { emoji: '🍕', nom: 'une pizza', unite: 'cm' },
-          { emoji: '🚲', nom: 'une roue de vélo', unite: 'cm' },
-          { emoji: '💿', nom: 'un CD', unite: 'cm' },
-          { emoji: '🎯', nom: 'une cible de fléchettes', unite: 'cm' },
-          { emoji: '⭕', nom: 'un cerceau de gymnastique', unite: 'cm' },
-          { emoji: '🏀', nom: 'un ballon de basket (vu du dessus)', unite: 'cm' },
-          { emoji: '🛞', nom: 'un pneu de voiture', unite: 'cm' }
+          { emoji: '🕰️', nom: 'une horloge', unite: 'cm', rmin: 8, rmax: 20 },
+          { emoji: '🍕', nom: 'une pizza', unite: 'cm', rmin: 12, rmax: 20 },
+          { emoji: '🚲', nom: 'une roue de vélo', unite: 'cm', rmin: 25, rmax: 36 },
+          { emoji: '💿', nom: 'un CD', unite: 'cm', rmin: 6, rmax: 6 },
+          { emoji: '🎯', nom: 'une cible de fléchettes', unite: 'cm', rmin: 20, rmax: 25 },
+          { emoji: '⭕', nom: 'un cerceau de gymnastique', unite: 'cm', rmin: 35, rmax: 45 },
+          { emoji: '🏀', nom: 'un ballon de basket (vu du dessus)', unite: 'cm', rmin: 11, rmax: 13 },
+          { emoji: '🛞', nom: 'un pneu de voiture', unite: 'cm', rmin: 28, rmax: 36 }
         ]);
         const askFor = pick(['rayon', 'diametre']);
+        const r = rand(objet.rmin, objet.rmax);
+        const d = 2 * r;
         if (askFor === 'rayon') {
-          const d = rand(4, 24) * 2;
           return {
-            statement: `${objet.emoji} Le diamètre de ${objet.nom} est de $${d}$ ${objet.unite}. Quel est son rayon (en ${objet.unite}) ?`,
+            statement: `${objet.emoji} Le diamètre d'${objet.nom} est de $${d}$ ${objet.unite}. Quel est son rayon (en ${objet.unite}) ?`,
             // On donne le DIAMETRE : la figure trace donc le diametre, de bord
             // a bord en passant par le centre (2026-09-12). Voir le trait
             // traverser le cercle entier est ce qui rend evident que le rayon
             // en est la moitie — c'est la confusion centrale du chapitre.
-            figure: figureDisque(d / 2, { unite: objet.unite, diametre: true }),
-            answer: d / 2,
+            figure: figureDisque(r, { unite: objet.unite, diametre: true }),
+            answer: r,
             tolerance: 0,
             unit: objet.unite,
             hint: `Le rayon est la moitié du diamètre : $r = \\dfrac{d}{2}$.`,
-            solution: [`$r = \\dfrac{${d}}{2} = ${d / 2}$ ${objet.unite}`]
+            solution: [`$r = \\dfrac{${d}}{2} = ${r}$ ${objet.unite}`]
           };
         }
-        const r = rand(2, 15);
         return {
-          statement: `${objet.emoji} Le rayon de ${objet.nom} est de $${r}$ ${objet.unite}. Quel est son diamètre (en ${objet.unite}) ?`,
+          statement: `${objet.emoji} Le rayon d'${objet.nom} est de $${r}$ ${objet.unite}. Quel est son diamètre (en ${objet.unite}) ?`,
           // Cas symetrique : on donne le RAYON, la figure trace le rayon, du
           // centre au bord.
           figure: figureDisque(r, { unite: objet.unite }),
-          answer: 2 * r,
+          answer: d,
           tolerance: 0,
           unit: objet.unite,
           hint: `Le diamètre est le double du rayon : $d = 2r$.`,
-          solution: [`$d = 2 \\times ${r} = ${2 * r}$ ${objet.unite}`]
+          solution: [`$d = 2 \\times ${r} = ${d}$ ${objet.unite}`]
         };
       }
     },
@@ -420,7 +425,7 @@ window.MODULES.push({
       duration: '15 min',
       questions: [
         { statement: 'Un cercle a un diamètre de $18$ cm. Quel est son rayon en cm ?', type: 'numeric', answer: 9, tolerance: 0, unit: 'cm', points: 2, correction: '$r = 18 \\div 2 = 9$ cm.' },
-        { statement: 'Quelle notation désigne une droite passant par les points $A$ et $B$ ?', type: 'multiple-choice', options: ['$[AB]$', '$(AB)$', '$[AB)$', '$\\overrightarrow{AB}$'], answer: 1, points: 2, correction: '$(AB)$ est la droite.' },
+        { statement: 'Quelle notation désigne une droite passant par les points $A$ et $B$ ?', type: 'multiple-choice', options: ['$[AB]$', '$(AB)$', '$[AB)$', '$AB$'], answer: 1, points: 2, correction: '$(AB)$ est la <strong>droite</strong>.<br/><br/>$[AB]$ est le segment, $[AB)$ la demi-droite d\'origine $A$, et $AB$ sans crochets ni parenthèses désigne une <strong>longueur</strong>, pas une ligne.' },
         { statement: 'Un point $M$ est situé à $5{,}2$ cm du centre $O$ d\'un cercle de rayon $5{,}2$ cm. Où se trouve $M$ ?', type: 'multiple-choice', options: ['À l\'intérieur', 'À l\'extérieur', 'Sur le cercle', 'Au centre'], answer: 2, points: 2, correction: '$OM = r$, donc $M$ est sur le cercle.' },
         // Competence « chercher » (2026-09-12). L'ancienne question doublait la Q1
         // (meme relation rayon/diametre, sens inverse) et faisait deux « calculer »

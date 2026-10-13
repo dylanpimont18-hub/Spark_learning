@@ -23,7 +23,7 @@ window.MODULES.push({
         'Sûrement pas. Un rapide coup d\'œil suffit : un peu plus de $2$ kg à un peu plus de $1$ € le kilo, cela doit faire environ $2$ € — pas $32$. Quelqu\'un a bien multiplié $23$ par $14$, mais a oublié de replacer la virgule. Le résultat juste est $3{,}22$ €.<br/><br/>' +
         'Voilà toute la difficulté de ce chapitre. Multiplier des décimaux revient à <strong>multiplier des entiers</strong>, ce que tu sais déjà faire — puis à replacer la virgule au bon endroit. Et c\'est cette dernière étape, en apparence anodine, qui fait la différence entre $3$ € et $32$ €.<br/><br/>' +
         '<strong>Pourquoi la virgule tombe-t-elle là ?</strong> Parce que $2{,}3 \\times 1{,}4 = \\dfrac{23}{10} \\times \\dfrac{14}{10} = \\dfrac{23 \\times 14}{100} = \\dfrac{322}{100} = 3{,}22$. Les deux dénominateurs se multiplient, d\'où la règle : le nombre de décimales du produit est la <strong>somme</strong> des décimales des deux facteurs.<br/><br/>' +
-        'Gardez donc le réflexe de la caissière démasquée : <strong>estimer avant de conclure</strong>. Ici $2{,}3 \\times 1{,}4 \\approx 2 \\times 1 = 2$, le résultat doit être proche de $2$ — ni $0{,}2$, ni $20$.',
+        'Garde donc le réflexe de la caissière démasquée : <strong>estimer avant de conclure</strong>. Ici $2{,}3 \\times 1{,}4 \\approx 2 \\times 1 = 2$, le résultat doit être proche de $2$ — ni $0{,}2$, ni $20$.',
 
       definitions: [
         { term: 'Produit', def: 'Résultat d\'une multiplication. Le produit de $a$ et $b$ est $a \\times b$.' },
@@ -327,8 +327,8 @@ window.MODULES.push({
 
     quiz: [
       { q: 'Combien vaut $3{,}5 \\times 4{,}2$ ?', options: ['$14{,}70$', '$14{,}07$', '$1{,}470$', '$147{,}0$'], answer: 0, correction: '$35 \\times 42 = 1470$. $1 + 1 = 2$ décimales → $14{,}70$.' },
-      { q: 'En calculant $0{,}4 \\times 0{,}3$, un élève trouve $1{,}2$. Quelle erreur a-t-il commise ?', options: ['Il a bien calculé.', 'Il a oublié de compter les décimales : résultat $= 0{,}12$.', 'Il aurait dû additionner.', 'Il a mal multiplié.'], answer: 1, correction: '$4 \\times 3 = 12$ mais $1 + 1 = 2$ décimales → $0{,}12$.' },
-      { q: 'Un livre coûte $7{,}50$ €. Quel est le prix de $6$ exemplaires ?', options: ['$43{,}0$ €', '$45{,}00$ €', '$44{,}0$ €', '$42{,}00$ €'], answer: 1, correction: '$750 \\times 6 = 4500$, $2$ décimales : $45{,}00$ €.' }
+      { q: 'En calculant $0{,}4 \\times 0{,}3$, un élève trouve $1{,}2$. Quelle erreur a-t-il commise ?', options: ['Il a bien calculé.', 'Il n\'a compté qu\'une décimale au lieu de $1 + 1 = 2$ : le résultat est $0{,}12$.', 'Il a additionné au lieu de multiplier : le résultat est $0{,}7$.', 'Il a oublié le zéro devant la virgule : le résultat est $0{,}012$.'], answer: 1, correction: '$4 \\times 3 = 12$ est juste ; il faut ensuite $1 + 1 = 2$ décimales, d\'où <strong>$0{,}12$</strong>.<br/><br/>Le contrôle le dit aussi : deux facteurs plus petits que $1$ donnent un produit plus petit que $1$, donc $1{,}2$ est impossible.<br/><br/>$0{,}7$ est la somme $0{,}4 + 0{,}3$, pas le produit ; et le $0$ devant la virgule n\'est pas une décimale, $0{,}012$ en aurait trois.' },
+      { q: 'Un livre coûte $7{,}50$ €. Quel est le prix de $6$ exemplaires ?', options: ['$450$ €', '$4{,}50$ €', '$45{,}00$ €', '$42{,}00$ €'], answer: 2, correction: '$750 \\times 6 = 4500$, puis $2$ décimales : <strong>$45{,}00$ €</strong>.<br/><br/>$450$ € oublie la virgule, $4{,}50$ € la place un rang trop loin, et $42{,}00$ € vient de $7 \\times 6$ en oubliant les $50$ centimes.<br/><br/>L\'ordre de grandeur tranche : $6$ livres à un peu plus de $7$ €, c\'est un peu plus de $42$ €.' }
     ],
 
     exercice: {
@@ -350,7 +350,10 @@ window.MODULES.push({
           ]);
           let a, b, prod, statement;
           if (scenario.useInt) {
-            a = rand(2, 9); b = rand(2, 9); prod = a * b;
+            // Des effectifs credibles et une vraie multiplication posee : 4 classes
+            // de 27 eleves, 6 rangees de 18 briques, 5 pots a 23 € (2026-10-13 ;
+            // on tirait « 3 classes de 6 eleves », table de CE1).
+            a = rand(3, 9); b = rand(12, 32); prod = a * b;
             statement = scenario.aLabel
               ? `${scenario.emoji} ${scenario.intro} $${a}$ ${scenario.aLabel} $${b}$ ${scenario.bLabel}`
               : `${scenario.emoji} ${scenario.intro} $${a} \\times ${b}$.`;
@@ -366,12 +369,20 @@ window.MODULES.push({
             answer: prod,
             tolerance: 0.01,
             unit: scenario.unit,
-            hint: `Multiplie sans t'occuper des virgules, puis place la virgule dans le résultat.`,
-            solution: [
-              `On multiplie d'abord sans les virgules.`,
-              `On compte ensuite le nombre total de chiffres après la virgule dans les deux facteurs.`,
-              `Résultat : $${fr(prod)}$ ${scenario.unit}`
-            ]
+            hint: scenario.useInt
+              ? `Pose la multiplication de $${b}$ par $${a}$ : il n'y a pas de virgule à placer.`
+              : `Multiplie sans t'occuper des virgules, puis place la virgule dans le résultat.`,
+            solution: scenario.useInt
+              ? [
+                  `On pose la multiplication : $${a} \\times ${b}$.`,
+                  `Les deux facteurs sont entiers : le résultat est un entier, sans virgule à placer.`,
+                  `Résultat : $${prod}$ ${scenario.unit}`
+                ]
+              : [
+                  `On multiplie d'abord sans les virgules.`,
+                  `On compte ensuite le nombre total de chiffres après la virgule dans les deux facteurs.`,
+                  `Résultat : $${fr(prod)}$ ${scenario.unit}`
+                ]
           };
         }
 
@@ -452,15 +463,15 @@ window.MODULES.push({
       context: 'Une piscine rectangulaire mesure $12{,}5$ m de long et $6{,}4$ m de large. Un carreleur pose de la mosaïque sur toute la surface du fond.',
       tasks: [
         'Calcule l\'aire du fond de la piscine.',
-        'La mosaïque coûte $28{,}50$ € le m². Quel est le coût total ?',
-        'Arrondi le coût total à l\'euro près.'
+        'La mosaïque coûte $28{,}99$ € le m². Quel est le coût total ?',
+        'Arrondis le coût total à l\'euro près.'
       ],
       solutions: [
         'Aire : $12{,}5 \\times 6{,}4 = 80$ m².',
-        'Coût : $80 \\times 28{,}50 = 2280$ €.',
-        'Déjà un nombre entier : $2280$ €.'
+        'Coût : $80 \\times 28{,}99 = 2319{,}20$ €.',
+        '$2319{,}20$ est plus proche de $2319$ que de $2320$ : environ <strong>$2319$ €</strong>.'
       ],
-      finalAnswer: 'Le coût total de la mosaïque est $2280$ €.'
+      finalAnswer: 'Le coût total de la mosaïque est $2319{,}20$ €, soit environ $2319$ €.'
     },
 
     evaluation: {

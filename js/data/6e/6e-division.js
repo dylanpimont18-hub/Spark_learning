@@ -22,7 +22,7 @@ window.MODULES.push({
       intro: 'Dix-sept billes à partager équitablement entre cinq joueurs. Chacun en reçoit trois, et il en reste deux sur la table. Que fait-on de ces deux billes ?<br/><br/>' +
         'On ne peut pas les couper : une demi-bille ne se joue pas. Le partage s\'arrête donc là, et le résultat honnête comporte deux nombres, pas un seul — trois billes chacun, et deux qui restent.<br/><br/>' +
         'C\'est ce que dit la <strong>division euclidienne</strong>, qui répond à la question « combien de fois $5$ tient-il dans $17$ ? » en donnant un quotient entier et un reste. On l\'écrit $17 = 5 \\times 3 + 2$, et plus généralement $a = b \\times q + r$ avec $0 \\leq r < b$. Le reste est toujours plus petit que le diviseur : sinon, on pourrait encore distribuer un tour.<br/><br/>' +
-        'Reprenez maintenant la même situation avec $17$ litres de jus au lieu des billes. Le jus, lui, se partage : rien n\'oblige à s\'arrêter à un reste. En prolongeant le calcul au-delà de la virgule, la <strong>division décimale</strong> donne $3{,}4$ litres par personne, sans rien laisser sur la table.<br/><br/>' +
+        'Reprends maintenant la même situation avec $17$ litres de jus au lieu des billes. Le jus, lui, se partage : rien n\'oblige à s\'arrêter à un reste. En prolongeant le calcul au-delà de la virgule, la <strong>division décimale</strong> donne $3{,}4$ litres par personne, sans rien laisser sur la table.<br/><br/>' +
         '<strong>Une mise en garde pour finir :</strong> contrairement à l\'addition, la division n\'est <strong>pas commutative</strong>. Partager $12$ entre $4$ n\'a rien à voir avec partager $4$ entre $12$ : $12 \\div 4 \\neq 4 \\div 12$.',
 
       definitions: [
@@ -32,13 +32,14 @@ window.MODULES.push({
         { term: 'Reste', def: 'Ce qui reste après la division euclidienne. Il vérifie $0 \\leq r < b$.' }
       ],
       method: {
-        title: 'Méthode en 5 étapes',
+        title: 'Méthode en 6 étapes',
         steps: [
           '<strong>Identifier</strong> le dividende et le diviseur.',
           '<strong>Chercher</strong> combien de fois le diviseur « tient » dans les premiers chiffres. <em>Exemple :</em> $87 \\div 5$ → $5$ tient $17$ fois dans $87$.',
           '<strong>Multiplier et soustraire</strong> pour trouver le reste partiel.',
           '<strong>Abaisser</strong> le chiffre suivant et recommencer.',
-          '<strong>Vérifier</strong> : $b \\times q + r = a$. <em>Exemple :</em> $5 \\times 17 + 2 = 87$ ✓'
+          '<strong>Vérifier</strong> : $b \\times q + r = a$. <em>Exemple :</em> $5 \\times 17 + 2 = 87$ ✓',
+          '<strong>Prolonger après la virgule</strong> (division décimale) : si le reste n\'est pas nul et que la grandeur se partage (longueur, litres, euros), on pose une virgule au quotient, on abaisse un $0$ et on continue.<br/><br/><em>Exemple :</em> $17 \\div 5$ → $5$ tient $3$ fois, reste $2$ ; on écrit la virgule, on abaisse un $0$ : $20 \\div 5 = 4$. D\'où <strong>$17 \\div 5 = 3{,}4$</strong>.'
         ]
       },
       example: {
@@ -331,13 +332,13 @@ window.MODULES.push({
         'La division n\'est pas commutative : $a \\div b \\neq b \\div a$ en général.',
         'La division décimale prolonge le calcul en ajoutant des zéros au reste.'
       ],
-      piege: 'Piège : la division n\'est pas commutative ! $12 \\div 4 \\neq 4 \\div 12$. Toujours vérifier en multipliant : quotient $\\times$ diviseur + reste = dividende.'
+      piege: 'Piège du reste trop grand : si ton reste est <strong>supérieur ou égal au diviseur</strong>, il restait un paquet à faire — augmente le quotient de $1$ et recommence. $17 = 5 \\times 2 + 7$ est vrai, mais ce n\'est pas une division euclidienne : $17 = 5 \\times 3 + 2$.<br/><br/>Et dans tous les cas, vérifie en multipliant : diviseur $\\times$ quotient $+$ reste $=$ dividende.'
     },
 
     quiz: [
       { q: 'Dans la division euclidienne de $87$ par $5$, quel est le reste ?', options: ['$2$', '$1$', '$3$', '$0$'], answer: 0, correction: '$87 = 5 \\times 17 + 2$. Le reste est $2$.' },
       { q: 'Combien vaut $13{,}5 \\div 4$ ?', options: ['$3{,}275$', '$3{,}375$', '$3{,}475$', '$3{,}125$'], answer: 1, correction: '$13{,}5 \\div 4 = 3{,}375$.' },
-      { q: 'Un élève obtient quotient $= 8$ et reste $= 5$ pour $43 \\div 6$. Comment vérifier ?', options: ['$43 \\div 8$', '$6 \\times 8 + 5 = 53 \\neq 43$ → faux', '$6 \\times 8 + 5 = 53$', '$43 - 6 = 37$'], answer: 1, correction: '$6 \\times 8 + 5 = 53 \\neq 43$. Correct : $43 = 6 \\times 7 + 1$.' }
+      { q: 'Un élève obtient quotient $= 8$ et reste $= 5$ pour $43 \\div 6$. Comment vérifier ?', options: ['$43 \\div 8$', '$6 + 8 + 5 = 19 \\neq 43$ → faux', '$43 - 6 = 37$', '$6 \\times 8 + 5 = 53 \\neq 43$ → faux'], answer: 3, correction: 'On vérifie toujours avec <strong>diviseur $\\times$ quotient $+$ reste</strong> : $6 \\times 8 + 5 = 53 \\neq 43$, donc le résultat est faux. Correct : $43 = 6 \\times 7 + 1$.<br/><br/>Additionner les trois nombres ($6 + 8 + 5$) ne vérifie rien, même si la conclusion tombe juste par hasard ; $43 \\div 8$ et $43 - 6$ ne font pas intervenir le quotient et le reste ensemble.' }
     ],
 
     exercice: {

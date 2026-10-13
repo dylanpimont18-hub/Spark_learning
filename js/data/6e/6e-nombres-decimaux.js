@@ -21,7 +21,7 @@ window.MODULES.push({
          l'ancienne intro, est conservee telle quelle. */
       intro: 'Mesure la longueur de ta trousse avec une règle graduée. Il y a de fortes chances qu\'elle ne tombe pas pile sur une graduation : elle fait plus de $18$ cm, moins de $19$ cm. Que répondre alors ?<br/><br/>' +
         'Dire « environ $18$ » est insuffisant dès qu\'il faut découper une planche ou commander une pièce. C\'est le problème qu\'ont rencontré, pendant des siècles, tous ceux qui mesuraient : les entiers ne suffisent pas, parce que le monde ne se laisse pas mesurer en nombres ronds.<br/><br/>' +
-        'La solution trouvée est d\'une simplicité redoutable : on continue de couper en dix. Chaque centimètre est partagé en $10$ millimètres, et l\'on écrit ce qui dépasse à droite d\'une virgule. Votre trousse mesure $18{,}4$ cm — c\'est-à-dire $18$ centimètres et $4$ dixièmes.<br/><br/>' +
+        'La solution trouvée est d\'une simplicité redoutable : on continue de couper en dix. Chaque centimètre est partagé en $10$ millimètres, et l\'on écrit ce qui dépasse à droite d\'une virgule. Ta trousse mesure $18{,}4$ cm — c\'est-à-dire $18$ centimètres et $4$ dixièmes.<br/><br/>' +
         'Un <strong>nombre décimal</strong> a donc une partie entière (à gauche de la virgule) et une partie décimale (à droite). Ainsi $3{,}75$, c\'est $3$ unités $+$ $7$ dixièmes $+$ $5$ centièmes.<br/><br/>' +
         '<strong>Une vigilance s\'impose aussitôt</strong> : on croit souvent que $1{,}12 > 1{,}9$ parce que « $12 > 9$ ». Ce raisonnement d\'entier ne fonctionne plus ici. Il faut comparer position par position en partant de la gauche : les dixièmes ($1$ contre $9$) tranchent déjà, et $1{,}9 > 1{,}12$.<br/><br/>' +
         'Tout repose sur la <strong>valeur positionnelle</strong> : la valeur d\'un chiffre dépend de sa place. Avoir plus de chiffres ne veut pas dire être plus grand.',
@@ -304,7 +304,7 @@ window.MODULES.push({
     quiz: [
       { q: 'Quel est le chiffre des centièmes dans le nombre $47{,}356$ ?', options: ['$4$', '$7$', '$3$', '$5$'], answer: 3, correction: 'Dans $47{,}356$ : $3$ = dixièmes, $5$ = centièmes, $6$ = millièmes. Le chiffre des centièmes est $5$.' },
       { q: 'Quel est le plus grand parmi : $2{,}45$ ; $2{,}9$ ; $2{,}09$ ; $2{,}50$ ?', options: ['$2{,}45$', '$2{,}9$', '$2{,}09$', '$2{,}50$'], answer: 1, correction: 'Dixièmes : $2{,}9$ a $9$ dixièmes. $2{,}9$ est le plus grand.' },
-      { q: 'Un élève affirme que $2{,}50 > 2{,}9$ car « $50 > 9$ ». Quelle réponse corrige cette erreur ?', options: ['Il a raison car $50 > 9$.', 'Il se trompe : on compare les dixièmes d\'abord — $9 > 5$, donc $2{,}9 > 2{,}50$.', 'Il se trompe : il faut comparer les centièmes.', 'Il se trompe car $2{,}50 = 2{,}5$ et $2{,}5 = 2{,}9$.'], answer: 1, correction: 'Dixièmes : $9 > 5$, donc $2{,}9 > 2{,}50$.' }
+      { q: 'Un élève affirme que $2{,}50 > 2{,}9$ car « $50 > 9$ ». Quelle réponse corrige cette erreur ?', options: ['Il a raison car $50 > 9$.', 'Il se trompe : il faut comparer les centièmes.', 'Il se trompe : on compare les dixièmes d\'abord — $9 > 5$, donc $2{,}9 > 2{,}50$.', 'Il se trompe : c\'est le nombre qui a le plus de chiffres qui est le plus petit, donc $2{,}50 < 2{,}9$.'], answer: 2, correction: 'Dixièmes : $9 > 5$, donc <strong>$2{,}9 > 2{,}50$</strong> — la comparaison s\'arrête à la première colonne qui diffère.<br/><br/>Comparer « $50$ et $9$ » ou « les centièmes » revient à ignorer le rang des chiffres.<br/><br/>Et « plus de chiffres, donc plus petit » est aussi fausse que la règle inverse : $2{,}95$ a plus de chiffres que $2{,}9$ et lui est pourtant supérieur.' }
     ],
 
     exercice: {
@@ -345,7 +345,10 @@ window.MODULES.push({
         if (variante === 'encadrer') {
           // Encadrement entre deux entiers consecutifs : attendu explicite du
           // programme, et tache differente du simple rangement.
-          const v = randFloat(2, 18, 2);
+          let v = randFloat(2, 18, 2);
+          // randFloat peut tomber sur un entier (1 chance sur 100) : « encadre 5
+          // entre deux entiers consecutifs » n'aurait alors pas de sens.
+          if (Number.isInteger(v)) v = parseFloat((v + 0.5).toFixed(2));
           const bas = Math.floor(v);
           // Chaque contexte porte son unite : sans elle, « le prix d'un livre
           // est de 7,58 » n'a pas de sens (releve sur le PDF du 2026-09-08).
@@ -374,9 +377,13 @@ window.MODULES.push({
         if (variante === 'arrondir') {
           const v = randFloat(1, 40, 2);
           const rang = pick(['unité', 'dixième']);
+          // toFixed(1) arrondit la representation binaire (12,35 -> 12,3) et
+          // contredit la regle « 5 ou plus : au-dessus » du cours (2026-10-13).
+          // On passe par l'entier exact des centiemes.
+          const centiemes = Math.round(v * 100);
           const arrondi = rang === 'unité'
-            ? Math.round(v)
-            : parseFloat(v.toFixed(1));
+            ? Math.round(centiemes / 100)
+            : Math.round(centiemes / 10) / 10;
           return {
             // « à l'<strong>dixième</strong> » : élision fautive relevée sur le
             // PDF. L'article dépend du rang, il est donc porté par la variante.
