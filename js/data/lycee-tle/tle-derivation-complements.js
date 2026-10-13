@@ -29,7 +29,7 @@ window.MODULES.push({
 
          On évite aussi le travers inverse (l'anecdote décorative) : la
          difficulté est mathématique et vérifiable en trois lignes de calcul. */
-      intro: 'Voici un réflexe qui marche si bien depuis deux ans que tu ne le remets plus en question : pour dériver une somme, on dérive chaque morceau et on additionne. $(x^2 + e^x)\' = 2x + e^x$. Rien à redire.<br/><br/>Alors essaie la même chose avec un <strong>produit</strong>. Que vaut $(x^2 e^x)\'$ ? La réponse qui vient toute seule, c\'est $2x \\times e^x$ : on dérive chaque morceau, on remultiplie.<br/><br/>Vérifie-la. Prends la fonction encore plus simple $f(x) = x \\times x$, dont tu connais déjà la dérivée : c\'est $x^2$, donc $f\'(x) = 2x$.<br/><br/>Mais si on appliquait la recette « je dérive chaque morceau », on trouverait $1 \\times 1 = 1$. Or $2x$ et $1$ ne sont pas la même fonction — ils ne coïncident même qu\'en un seul point.<br/><br/>La recette est donc <strong>fausse</strong>, et elle l\'est pour une raison qu\'on peut voir : quand deux facteurs varient en même temps, chacun tire l\'autre. Imagine un rectangle dont la longueur ET la largeur s\'allongent : l\'aire gagnée ne se résume pas au petit carré du coin, il y a aussi les deux bandes le long des côtés. C\'est exactement ce que dit $(uv)\' = u\'v + uv\'$.<br/><br/>Le chapitre installe trois règles de ce genre — produit, quotient, composée. Chacune répond à la même question : <strong>comment se combinent deux variations qui se produisent en même temps ?</strong>',
+      intro: 'Voici un réflexe qui marche si bien depuis la première que tu ne le remets plus en question : pour dériver une somme, on dérive chaque morceau et on additionne. $(x^2 + e^x)\' = 2x + e^x$. Rien à redire.<br/><br/>Alors essaie la même chose avec un <strong>produit</strong>. Que vaut $(x^2 e^x)\'$ ? La réponse qui vient toute seule, c\'est $2x \\times e^x$ : on dérive chaque morceau, on remultiplie.<br/><br/>Vérifie-la. Prends la fonction encore plus simple $f(x) = x \\times x$, dont tu connais déjà la dérivée : c\'est $x^2$, donc $f\'(x) = 2x$.<br/><br/>Mais si on appliquait la recette « je dérive chaque morceau », on trouverait $1 \\times 1 = 1$. Or $2x$ et $1$ ne sont pas la même fonction — ils ne coïncident même qu\'en un seul point.<br/><br/>La recette est donc <strong>fausse</strong>, et elle l\'est pour une raison qu\'on peut voir : quand deux facteurs varient en même temps, chacun tire l\'autre. Imagine un rectangle dont la longueur ET la largeur s\'allongent : l\'aire gagnée ne se résume pas au petit carré du coin, il y a aussi les deux bandes le long des côtés. C\'est exactement ce que dit $(uv)\' = u\'v + uv\'$.<br/><br/>Le chapitre installe trois règles de ce genre — produit, quotient, composée. Chacune répond à la même question : <strong>comment se combinent deux variations qui se produisent en même temps ?</strong>',
       definitions: [
         { term: 'Dérivée d\'un produit', def: 'Si $f = u \\times v$, alors $f\' = u\'v + uv\'$. Chaque facteur est dérivé à tour de rôle, l\'autre restant inchangé.' },
         { term: 'Dérivée d\'un quotient', def: 'Si $f = \\dfrac{u}{v}$ avec $v \\neq 0$, alors $f\' = \\dfrac{u\'v - uv\'}{v^2}$. L\'ordre du numérateur ($u\'v$ en premier) est crucial.' },
@@ -37,12 +37,12 @@ window.MODULES.push({
         { term: 'Tangente en un point', def: 'La tangente à la courbe de $f$ en $a$ a pour équation $y = f\'(a)(x - a) + f(a)$. Le coefficient directeur est la dérivée en $a$.' }
       ],
       method: {
-        title: 'Choisir la bonne formule',
+        title: 'Dériver une fonction construite à partir de deux autres',
         steps: [
-          '<strong>Produit</strong> : $(uv)\'=u\'v+uv\'$.',
-          '<strong>Quotient</strong> : $\\left(\\frac{u}{v}\\right)\'=\\frac{u\'v-uv\'}{v^2}$.',
-          '<strong>Fonction composée</strong> : $(f\\circ g)\'(x)=g\'(x)\\cdot f\'(g(x))$.',
-          '<strong>Puissance composée</strong> : $[u^n]\'=n\\cdot u^{n-1}\\cdot u\'$.'
+          '<strong>Reconnaître la structure</strong> : la fonction est-elle un produit $u \\times v$, un quotient $\\dfrac{u}{v}$, ou une composée — une fonction « dans » une autre : $e^{u}$, $u^n$, $\\sqrt{u}$, $\\ln u$ ?',
+          '<strong>Nommer les morceaux</strong> : écrire explicitement $u$ et $v$ (ou $u$ et la fonction extérieure), puis dériver chacun séparément : $u\'$, $v\'$.',
+          '<strong>Assembler avec la bonne formule</strong> : produit $(uv)\'=u\'v+uv\'$ ; quotient $\\left(\\dfrac{u}{v}\\right)\'=\\dfrac{u\'v-uv\'}{v^2}$ ; composée $(e^{u})\'=u\'e^{u}$, $(u^n)\'=n\\,u^{n-1}\\,u\'$, $(\\sqrt{u})\'=\\dfrac{u\'}{2\\sqrt{u}}$, $(\\ln u)\'=\\dfrac{u\'}{u}$.',
+          '<strong>Simplifier et vérifier</strong> : factoriser ce qui se répète ($e^x$, une puissance), puis contrôler l\'ordre $u\'v - uv\'$ et la présence du facteur $u\'$ dans toute composée.'
         ]
       },
       example: {
@@ -59,7 +59,8 @@ window.MODULES.push({
         '$(uv)\'=u\'v+uv\'$',
         '$\\left(\\dfrac{u}{v}\\right)\'=\\dfrac{u\'v-uv\'}{v^2}$',
         '$(u^n)\'=nu^{n-1}u\'$',
-        '$(\\sqrt{u})\'=\\dfrac{u\'}{2\\sqrt{u}}$'
+        '$(\\sqrt{u})\'=\\dfrac{u\'}{2\\sqrt{u}}$',
+        '$(\\ln u)\'=\\dfrac{u\'}{u}$ (règle de la chaîne avec $(\\ln x)\'=\\dfrac{1}{x}$, vue au chapitre « Fonctions exponentielle et logarithme »)'
       ],
       diagram: {
         theme: 'maths',
@@ -176,7 +177,7 @@ window.MODULES.push({
             'À droite, $f(u) = u^2$ : au point $u = 3$, la tangente a pour pente $f\'(3) = 2 \\times 3 = 6$. Le taux de ce second maillon <strong>dépend de l\'endroit</strong> où l\'on se trouve, d\'où l\'écriture $f\'(u(x))$ et non $f\'(x)$.',
             'Au total, $g(x) = (3x)^2 = 9x^2$, donc $g\'(x) = 18x$ et $g\'(1) = 18$. On retrouve exactement $u\'(1) \\times f\'(u(1)) = 3 \\times 6 = 18$ : les deux taux se <strong>multiplient</strong>, ils ne s\'additionnent pas.'
           ],
-          reading: 'Lis la figure de gauche à droite, comme une chaîne de transmission. Le premier maillon amplifie $3$ fois, le second amplifie $6$ fois : au bout, tout est amplifié $18$ fois. Si tu oublies le facteur $u\'$, tu ne gardes que le second maillon — tu annonces $6$ au lieu de $18$, et ton résultat est trois fois trop petit. C\'est très exactement ce qui se passe quand on écrit $(e^{3x})\' = e^{3x}$ au lieu de $3e^{3x}$.',
+          reading: 'Lis la figure de gauche à droite, comme une chaîne de transmission. Le premier maillon amplifie $3$ fois, le second amplifie $6$ fois : au bout, tout est amplifié $18$ fois.<br/><br/>Si tu oublies le facteur $u\'$, tu ne gardes que le second maillon — tu annonces $6$ au lieu de $18$, et ton résultat est <strong>trois fois trop petit</strong>.<br/><br/>C\'est très exactement ce qui se passe quand on écrit $(e^{3x})\' = e^{3x}$ au lieu de $3e^{3x}$.',
           caption: 'Composition de deux variations : $u\'(1) = 3$ puis $f\'(3) = 6$, donc un taux total de $18$.'
         },
         {
@@ -224,9 +225,9 @@ window.MODULES.push({
           notes: [
             'Le rectangle de départ mesure $5$ sur $3$ : son aire vaut $15$. On allonge de $1{,}4$ et on rehausse de $1$, donc la nouvelle aire vaut $6{,}4 \\times 4 = 25{,}6$.',
             'L\'aire gagnée, $10{,}6$, se décompose exactement en trois : la bande de droite vaut $3 \\times 1{,}4 = 4{,}2$ (le terme $v \\times u\'$), la bande du haut vaut $5 \\times 1 = 5$ (le terme $u \\times v\'$), et le petit coin vaut $1{,}4 \\times 1 = 1{,}4$. Somme : $15 + 4{,}2 + 5 + 1{,}4 = 25{,}6$.',
-            'Le petit coin est le <strong>produit des deux accroissements</strong> — exactement ce que l\'élève propose comme réponse. Or c\'est le seul des trois morceaux à devenir négligeable quand les accroissements diminuent : divise-les tous les deux par $10$, les bandes sont divisées par $10$ mais le coin par $100$. Voilà pourquoi il disparaît de la formule, et pourquoi $(uv)\' = u\'v + uv\'$.'
+            'Le petit coin est le <strong>produit des deux accroissements</strong> — exactement ce que l\'élève propose comme réponse.<br/><br/>Or c\'est le seul des trois morceaux à devenir négligeable quand les accroissements diminuent : divise-les tous les deux par $10$, les bandes sont divisées par $10$ mais le coin par $100$.<br/><br/>Voilà pourquoi il disparaît de la formule, et pourquoi $(uv)\' = u\'v + uv\'$.'
           ],
-          reading: 'Compare les surfaces à l\'œil : les deux bandes vertes portent presque toute l\'aire gagnée, et le petit rectangle rouge n\'en est qu\'une miette. Puis imagine que tu réduises les deux agrandissements de moitié : les bandes maigrissent de moitié, le coin de trois quarts. Continue à réduire, et le coin s\'efface bien avant les bandes. La dérivée garde les deux bandes et oublie le coin : voilà pourquoi la réponse « je dérive chaque facteur » ne garde justement que ce qui disparaît.',
+          reading: 'Compare les surfaces à l\'œil : les deux bandes vertes portent presque toute l\'aire gagnée, et le petit rectangle rouge n\'en est qu\'une miette.<br/><br/>Puis imagine que tu réduises les deux agrandissements de moitié : les bandes maigrissent de moitié, le coin de trois quarts. Continue à réduire, et le coin s\'efface bien avant les bandes.<br/><br/>La dérivée garde les deux bandes et oublie le coin : voilà pourquoi la réponse « je dérive chaque facteur » ne garde justement que <strong>ce qui disparaît</strong>.',
           caption: 'Aire d\'un rectangle dont les deux côtés varient : $15 + 4{,}2 + 5 + 1{,}4 = 25{,}6$, et seul le coin de $1{,}4$ disparaît à la limite.'
         }
       ],
@@ -235,7 +236,7 @@ window.MODULES.push({
         '<strong>Produit</strong> : $(uv)\' = u\'v + uv\'$. Astuce mnémotechnique : "dérive le premier, garde le second, puis l\'inverse".',
         '<strong>Quotient</strong> : $(u/v)\' = (u\'v - uv\')/v^2$. Attention à l\'ordre : c\'est $u\'v$ MOINS $uv\'$, jamais l\'inverse.',
         '<strong>Composée</strong> : $(f \\circ g)\' = g\' \\times f\'(g)$. On dérive l\'extérieur puis on multiplie par la dérivée de l\'intérieur ($(e^{3x})\' = 3e^{3x}$).',
-        'Vérifier en revenant à la dérivation : si $F$ est une primitive de $f$, alors $F\' = f$. Toujours vérifier la cohérence.'
+        '<strong>Composées usuelles</strong> : $(u^n)\' = n\\,u^{n-1}\\,u\'$, $(\\sqrt{u})\' = \\dfrac{u\'}{2\\sqrt{u}}$, $(e^{u})\' = u\'\\,e^{u}$, $(\\ln u)\' = \\dfrac{u\'}{u}$. Dans chacune, le facteur $u\'$ est celui qu\'on oublie.'
       ],
       piege: 'Dans la formule du quotient, bien noter $u\'v - uv\'$ (et non $uv\' - u\'v$) au numérateur.<br/><br/>L\'ordre compte ! Un moyen mnémotechnique : "c\'est le haut prime fois le bas, moins le haut fois le bas prime, le tout sur le bas au carré".'
     },
@@ -244,7 +245,7 @@ window.MODULES.push({
       { q: 'Un élève dérive $f(x)=\\dfrac{x^2}{x+1}$ et écrit $f\'(x)=\\dfrac{2x}{1}=2x$ en "divisant les dérivées". Quelle est son erreur ?', options: ['Il a utilisé $(u/v)\'=u\'/v\'$ (faux) ; la règle correcte donne $f\'=\\dfrac{2x(x+1)-x^2}{(x+1)^2}=\\dfrac{x^2+2x}{(x+1)^2}$', 'L\'élève a raison : $(u/v)\'=u\'/v\'$', 'La bonne formule est $(u/v)\'=\\dfrac{u\'v+uv\'}{v^2}$ (avec un $+$)', 'La dérivée de $x+1$ est $0$, pas $1$'], answer: 0, correction: 'La règle du quotient est $(u/v)\'=\\frac{u\'v-uv\'}{v^2}$.<br/><br/>Avec $u=x^2$, $u\'=2x$, $v=x+1$, $v\'=1$ : $f\'=\\frac{2x(x+1)-x^2\\cdot1}{(x+1)^2}=\\frac{2x^2+2x-x^2}{(x+1)^2}=\\frac{x^2+2x}{(x+1)^2}$.<br/><br/>La règle $(u/v)\'=u\'/v\'$ <strong>n\'existe pas</strong>. Vérification : si $f(x)=\\frac{x}{x+1}$, $f\'=\\frac{1}{(x+1)^2}\\neq\\frac{1}{1}=1$.' },
       { q: 'Dériver $f(x)=(3x+1)^4$', options: ['$4(3x+1)^3$', '$12(3x+1)^3$', '$3(3x+1)^4$', '$(3x+1)^3$'], answer: 1, correction: 'On applique la <strong>règle de la chaîne</strong> : $[u^4]\'=4u^3\\cdot u\'$ avec $u=3x+1$ et $u\'=3$.<br/><br/>Donc $f\'=4\\times3\\times(3x+1)^3=12(3x+1)^3$. Ne pas oublier de multiplier par $u\'$ !' },
       { q: 'Dériver $f(x) = e^{x^2}$', options: ['$e^{x^2}$', '$2xe^{x^2}$', '$x^2 e^{x^2-1}$', '$2xe^{2x}$'], answer: 1, correction: 'C\'est une <strong>composée</strong> : la fonction extérieure est $e^u$ et la fonction intérieure est $u = x^2$.<br/><br/>$u\' = 2x$, donc $(e^{u})\' = u\' e^{u} = 2x e^{x^2}$.' },
-      { q: 'Dériver $f(x) = \\ln(x^2 + 1)$', options: ['$\\dfrac{1}{x^2+1}$', '$\\dfrac{2x}{x^2+1}$', '$\\dfrac{x}{x^2+1}$', '$2x\\ln(x^2+1)$'], answer: 1, correction: 'On utilise $(\\ln u)\' = u\'/u$ avec $u = x^2+1$ et $u\' = 2x$.<br/><br/>Donc $f\'(x) = \\dfrac{2x}{x^2+1}$. L\'option A oublie de multiplier par la dérivée de l\'intérieur.' }
+      { q: 'Dériver $f(x) = \\ln(x^2 + 1)$', options: ['$\\dfrac{1}{x^2+1}$', '$\\dfrac{x}{x^2+1}$', '$2x\\ln(x^2+1)$', '$\\dfrac{2x}{x^2+1}$'], answer: 3, correction: 'C\'est une <strong>composée</strong> : la fonction extérieure est $\\ln$, de dérivée $\\dfrac{1}{x}$, et l\'intérieur est $u = x^2+1$, de dérivée $u\' = 2x$.<br/><br/>La règle de la chaîne donne $(\\ln u)\' = u\' \\times \\dfrac{1}{u} = \\dfrac{u\'}{u}$, donc $f\'(x) = \\dfrac{2x}{x^2+1}$.<br/><br/>Répondre $\\dfrac{1}{x^2+1}$, c\'est oublier de multiplier par la dérivée de l\'intérieur : le facteur $u\'$ est encore une fois celui qui disparaît.' }
     ],
     /* BANQUE D'EXERCICES — élargie le 2026-09-14.
 
@@ -318,11 +319,14 @@ window.MODULES.push({
            premier schéma secondaire du cours. */
         if (tache === 'expComposee') {
           const ctx = pick([
-            { intro: 'La charge d\'un condensateur varie selon', f: 'f(t)' },
-            { intro: 'Le nombre de bactéries suit', f: 'f(t)' },
-            { intro: 'La température d\'un métal en refroidissement suit', f: 'f(t)' }
+            // Phase 4 : décors de croissance seulement (f est croissante), et
+            // a <= 3, t0 <= 1 pour que la réponse reste à l'échelle de
+            // l'arrondi au centième (au plus 6 x 3 x e^3, environ 361,5).
+            { intro: 'Le nombre de bactéries d\'une culture suit', f: 'f(t)' },
+            { intro: 'Le capital d\'un placement à intérêts continus suit', f: 'f(t)' },
+            { intro: 'La population d\'une colonie de levures suit', f: 'f(t)' }
           ]);
-          const a = rand(2, 5), k = rand(2, 6), t0 = rand(0, 2);
+          const a = rand(2, 3), k = rand(2, 6), t0 = rand(0, 1);
           // f(t) = k e^(a t)  =>  f'(t) = k a e^(a t)
           const res = parseFloat((k * a * Math.exp(a * t0)).toFixed(2));
           return {
@@ -390,8 +394,10 @@ window.MODULES.push({
           };
         }
 
-        /* TÂCHE 6 — logarithme composé. Nouvelle : $(\ln u)' = u'/u$ figure
-           au quiz du chapitre mais n'était travaillée par aucun exercice.
+        /* TÂCHE 6 — logarithme composé. $(\ln u)' = u'/u$ figure au quiz et,
+           depuis la phase 4, dans `formulas`, `method` et `recap` : c'est la
+           règle de la chaîne appliquée à $(\ln x)' = 1/x$, enseignée par
+           tle-exponentielle-logarithme, chargé AVANT ce module (js/loader.js).
            On choisit les valeurs pour que $u(x_0)$ soit entier. */
         if (tache === 'logComposee') {
           const ctx = pick([
@@ -406,7 +412,7 @@ window.MODULES.push({
           return {
             statement: `${ctx.intro} $${ctx.f} = \\ln(${a}x + ${b})$, pour $x > 0$. Calculer $f'(${x0})$. Arrondir à $0{,}001$.`,
             answer: res, tolerance: 0.002, unit: '',
-            hint: `$(\\ln u)' = \\dfrac{u'}{u}$ : le numérateur est la dérivée de l'intérieur, pas $1$. Ici $u = ${a}x + ${b}$ et $u' = ${a}$.`,
+            hint: `C'est la règle de la chaîne avec $(\\ln x)' = \\dfrac{1}{x}$ : $(\\ln u)' = \\dfrac{u'}{u}$. Le numérateur est la dérivée de l'intérieur, pas $1$. Ici $u = ${a}x + ${b}$ et $u' = ${a}$.`,
             solution: [
               `$u(x) = ${a}x + ${b}$ donc $u'(x) = ${a}$`,
               `$f'(x) = \\dfrac{${a}}{${a}x + ${b}}$`,
@@ -445,16 +451,16 @@ window.MODULES.push({
     probleme: {
       context: 'La position d\'un objet est $s(t)=\\frac{t^2}{t+1}$ (en m, $t\\ge 0$ en s).',
       tasks: [
-        'Calculer $s\'(t)$ (vitesse instantanée).',
-        'La vitesse est-elle croissante ?',
+        'Calculer $s\'(t)$ : c\'est la vitesse instantanée $v(t)$.',
+        'La vitesse est-elle croissante ? (Dériver $v(t)$, en factorisant $(t+1)$ au numérateur.)',
         'Quelle est la vitesse à $t=2$ s ?'
       ],
       solutions: [
-        '$s\'(t)=\\frac{2t(t+1)-t^2\\cdot1}{(t+1)^2}=\\frac{t^2+2t}{(t+1)^2}=\\frac{t(t+2)}{(t+1)^2}$.',
-        'Pour $t\\ge0$ : numérateur $\\ge0$, dénominateur $>0$, donc $s\'(t)\\ge0$ : vitesse croissante.',
-        '$s\'(2)=\\frac{2\\times4}{9}=\\frac{8}{9}\\approx0{,}89$ m/s.'
+        '$s\'(t)=\\dfrac{2t(t+1)-t^2\\times1}{(t+1)^2}=\\dfrac{t^2+2t}{(t+1)^2}=\\dfrac{t(t+2)}{(t+1)^2}$.<br/><br/>Pour $t \\geq 0$, numérateur et dénominateur sont positifs : $v(t) \\geq 0$, l\'objet avance toujours dans le sens positif.',
+        'Attention : $v(t) \\geq 0$ dit que la <strong>position</strong> augmente, pas que la vitesse augmente. Pour le sens de variation de $v$, il faut dériver $v$.<br/><br/>Avec $u = t^2+2t$, $u\' = 2t+2$, $w = (t+1)^2$, $w\' = 2(t+1)$ :<br/><br/>$v\'(t)=\\dfrac{(2t+2)(t+1)^2 - (t^2+2t)\\times 2(t+1)}{(t+1)^4}$.<br/><br/>On factorise $2(t+1)$ au numérateur : $2(t+1)\\left[(t+1)^2-(t^2+2t)\\right] = 2(t+1)\\times 1$.<br/><br/>Donc $v\'(t)=\\dfrac{2}{(t+1)^3} > 0$ pour $t \\geq 0$ : la vitesse est <strong>croissante</strong>, l\'objet accélère.',
+        '$v(2)=\\dfrac{2\\times4}{9}=\\dfrac{8}{9}\\approx0{,}89$ m/s.'
       ],
-      finalAnswer: '$s\'(t)=\\frac{t(t+2)}{(t+1)^2}\\ge0$ : objet en accélération. $v(2)\\approx0{,}89$ m/s.'
+      finalAnswer: '$v(t)=\\dfrac{t(t+2)}{(t+1)^2}$ et $v\'(t)=\\dfrac{2}{(t+1)^3}>0$ : la vitesse augmente, l\'objet accélère. $v(2)\\approx0{,}89$ m/s.'
     },
 
     evaluation: {
@@ -483,14 +489,14 @@ window.MODULES.push({
           statement: 'On sait que $f\'(x) = \\dfrac{e^x(x-1)^2}{(x^2+1)^2}$. <strong>Sans calculer aucune valeur</strong>, que peut-on affirmer du sens de variation de $f$ sur $\\mathbb{R}$ ?',
           type: 'multiple-choice',
           options: [
-            '$f$ est croissante sur $\\mathbb{R}$ tout entier : le numérateur et le dénominateur sont positifs ou nuls, donc $f\'(x) \\geq 0$ partout',
             '$f$ est croissante puis décroissante, car $(x-1)^2$ change de signe en $x = 1$',
-            '$f$ est décroissante sur $\\mathbb{R}$, car un quotient de carrés est négatif',
+            '$f$ est décroissante puis croissante, avec un minimum en $x = 1$, car $f\'$ s\'annule en $x = 1$',
+            '$f$ est croissante sur $\\mathbb{R}$ tout entier : le numérateur et le dénominateur sont positifs ou nuls, donc $f\'(x) \\geq 0$ partout',
             'On ne peut rien dire sans connaître l\'expression de $f$'
           ],
-          answer: 0,
+          answer: 2,
           points: 2,
-          correction: 'Regardons chaque morceau, sans jamais calculer de valeur.<br/><br/>Au numérateur : $e^x > 0$ pour tout réel $x$, et $(x-1)^2 \\geq 0$ puisque c\'est un carré. Leur produit est donc <strong>positif ou nul</strong>.<br/><br/>Au dénominateur : $(x^2+1)^2$ est un carré, et $x^2 + 1$ ne s\'annule jamais, donc le dénominateur est <strong>strictement positif</strong>.<br/><br/>Un quotient dont le numérateur est positif ou nul et le dénominateur strictement positif est positif ou nul : $f\'(x) \\geq 0$ sur $\\mathbb{R}$, et $f$ est donc croissante.<br/><br/>Le piège de l\'option B mérite un mot : un carré ne change <strong>jamais</strong> de signe. En $x = 1$, $(x-1)^2$ s\'annule — la pente devient nulle un instant — mais la courbe ne redescend pas pour autant. Elle marque une pause, puis repart.'
+          correction: 'Regardons chaque morceau, sans jamais calculer de valeur.<br/><br/>Au numérateur : $e^x > 0$ pour tout réel $x$, et $(x-1)^2 \\geq 0$ puisque c\'est un carré. Leur produit est donc <strong>positif ou nul</strong>.<br/><br/>Au dénominateur : $(x^2+1)^2$ est un carré, et $x^2 + 1$ ne s\'annule jamais, donc le dénominateur est <strong>strictement positif</strong>.<br/><br/>Un quotient dont le numérateur est positif ou nul et le dénominateur strictement positif est positif ou nul : $f\'(x) \\geq 0$ sur $\\mathbb{R}$, et $f$ est donc croissante.<br/><br/>Le piège « $(x-1)^2$ change de signe en $1$ » mérite un mot : un carré ne change <strong>jamais</strong> de signe. En $x = 1$, $(x-1)^2$ s\'annule — la pente devient nulle un instant — mais la courbe ne redescend pas pour autant. Elle marque une pause, puis repart.<br/><br/>Annoncer un minimum en $1$ fait la même confusion dans l\'autre sens : $f\'$ s\'annule en $1$ <strong>sans changer de signe</strong>, donc il n\'y a ni minimum ni maximum en $1$ — seulement une tangente horizontale.'
         },
         {
           statement: 'Calculer la dérivée de $g(x) = (2x+3)^5$ en $x = -1$.',
@@ -546,7 +552,7 @@ window.MODULES.push({
           ],
           answer: 0,
           points: 2,
-          correction: 'Un <strong>contre-exemple</strong> est l\'argument le plus fort qui soit : il ne demande de croire personne sur parole, il met la méthode en défaut sur un cas que l\'interlocuteur sait déjà traiter.<br/><br/>Ici, $\\dfrac{x^2}{x}$ se simplifie en $x$ pour $x \\neq 0$, et tout le monde sait que $(x)\' = 1$. Or la méthode « je dérive le haut et le bas » donnerait $\\dfrac{2x}{1} = 2x$. Comme $2x$ et $1$ ne coïncident qu\'en un seul point, la méthode est réfutée — définitivement, et sans avoir écrit la moindre formule.<br/><br/>L\'option B n\'est pas fausse mathématiquement, mais elle ne <strong>convainc</strong> pas : réciter la bonne formule à quelqu\'un qui en applique une autre revient à opposer une autorité à une autre. Il retiendra la règle un moment, puis la réappliquera à l\'envers.<br/><br/>L\'option C parle d\'un domaine de définition, ce qui ne dit rien de la méthode. L\'option D corrige un signe qui n\'est pas en cause.<br/><br/>À retenir : pour montrer qu\'une règle générale est fausse, un seul cas suffit. Pour montrer qu\'elle est vraie, aucun nombre de cas ne suffit.'
+          correction: 'Un <strong>contre-exemple</strong> est l\'argument le plus fort qui soit : il ne demande de croire personne sur parole, il met la méthode en défaut sur un cas que l\'interlocuteur sait déjà traiter.<br/><br/>Ici, $\\dfrac{x^2}{x}$ se simplifie en $x$ pour $x \\neq 0$, et tout le monde sait que $(x)\' = 1$. Or la méthode « je dérive le haut et le bas » donnerait $\\dfrac{2x}{1} = 2x$. Comme $2x$ et $1$ ne coïncident qu\'en un seul point, la méthode est réfutée — définitivement, et sans avoir écrit la moindre formule.<br/><br/>Réciter la formule du quotient n\'est pas faux mathématiquement, mais cela ne <strong>convainc</strong> pas : réciter la bonne formule à quelqu\'un qui en applique une autre revient à opposer une autorité à une autre. Il retiendra la règle un moment, puis la réappliquera à l\'envers.<br/><br/>Signaler que $\\cos x$ s\'annule parle d\'un domaine de définition, ce qui ne dit rien de la méthode. Quant à l\'argument du signe de la dérivée de $\\sin x$, il est inexact : $(\\sin x)\' = \\cos x$, sans signe moins — et ce n\'est pas là que la méthode pèche.<br/><br/>À retenir : pour montrer qu\'une règle générale est fausse, un seul cas suffit. Pour montrer qu\'elle est vraie, aucun nombre de cas ne suffit.'
         }
       ]
     }

@@ -12,7 +12,7 @@ window.MODULES.push({
     keywords: ['Orthogonalité', 'Produit scalaire', 'Distance', 'Perpendiculaire', 'Projection'],
     physics: 'Calcul de distances en mécanique du solide, positionnement GPS, forces perpendiculaires en architecture',
     cours: {
-      intro: 'Un drone doit garder une distance de sécurité constante par rapport à la façade d\'un immeuble, modélisée par un plan : comment calculer précisément l\'écart entre sa position (un point) et cette façade (un plan) ? C\'est un problème de distance point-plan, qui se résout grâce à l\'<strong>orthogonalité</strong>.<br/><br/>L\'<strong>orthogonalité</strong> en 3D se teste toujours par le produit scalaire : $\\vec{u} \\perp \\vec{v} \\Leftrightarrow \\vec{u} \\cdot \\vec{v} = 0$.<br/><br/>La formule de <strong>distance d\'un point à un plan</strong> $M(x_0;y_0;z_0)$ au plan $ax+by+cz+d=0$ est $d = |ax_0+by_0+cz_0+d|/\\sqrt{a^2+b^2+c^2}$.<br/><br/>Le numérateur est en <strong>valeur absolue</strong> car une distance est toujours positive — même si $M$ est du "mauvais côté" du plan (le signe du numérateur indique de quel côté se trouve $M$, mais la distance reste positive).<br/><br/>Intuition : la formule projette le vecteur $\\overrightarrow{HM}$ (où $H$ est le pied de la perpendiculaire) sur le vecteur normal unitaire.',
+      intro: 'Un drone doit garder une distance de sécurité constante par rapport à la façade d\'un immeuble, modélisée par un plan : comment calculer précisément l\'écart entre sa position (un point) et cette façade (un plan) ? C\'est un problème de distance point-plan, qui se résout grâce à l\'<strong>orthogonalité</strong>.<br/><br/>L\'<strong>orthogonalité</strong> en 3D se teste toujours par le produit scalaire : $\\vec{u} \\perp \\vec{v} \\Leftrightarrow \\vec{u} \\cdot \\vec{v} = 0$.<br/><br/>La <strong>distance du point</strong> $M(x_0;y_0;z_0)$ <strong>au plan</strong> d\'équation $ax+by+cz+d=0$ se calcule par $d = \\dfrac{|ax_0+by_0+cz_0+d|}{\\sqrt{a^2+b^2+c^2}}$.<br/><br/>Le numérateur est en <strong>valeur absolue</strong> car une distance est toujours positive.<br/><br/>Si $M$ est du « mauvais côté » du plan, le calcul brut $ax_0+by_0+cz_0+d$ est négatif : son signe dit de quel côté se trouve $M$, mais la distance, elle, reste positive.<br/><br/>Intuition : la formule projette le vecteur $\\overrightarrow{HM}$ (où $H$ est le pied de la perpendiculaire) sur le vecteur normal unitaire.',
       definitions: [
         { term: 'Orthogonalité de vecteurs', def: 'Deux vecteurs $\\vec{u}$ et $\\vec{v}$ sont <strong>orthogonaux</strong> si et seulement si $\\vec{u} \\cdot \\vec{v} = 0$. En 3D : $x_u x_v + y_u y_v + z_u z_v = 0$.' },
         { term: 'Projeté orthogonal', def: 'Le projeté orthogonal $H$ de $M$ sur un plan $\\mathcal{P}$ est le point de $\\mathcal{P}$ le plus proche de $M$. Le vecteur $\\overrightarrow{HM}$ est colinéaire au <strong>vecteur normal</strong> du plan.' },
@@ -20,12 +20,12 @@ window.MODULES.push({
         { term: 'Plans perpendiculaires', def: 'Deux plans sont <strong>perpendiculaires</strong> si et seulement si leurs vecteurs normaux sont orthogonaux : $\\vec{n_1} \\cdot \\vec{n_2} = 0$.' }
       ],
       method: {
-        title: 'Distance d\'un point à un plan',
+        title: 'Calculer la distance d\'un point à un plan',
         steps: [
-          '<strong>Équation et point</strong> : plan $\\mathcal{P}$ : $ax+by+cz+d=0$, point $M(x_0;y_0;z_0)$.',
-          '<strong>Distance point-plan</strong> : $d(M;\\mathcal{P})=\\dfrac{|ax_0+by_0+cz_0+d|}{\\sqrt{a^2+b^2+c^2}}$.',
-          '<strong>Perpendicularité</strong> : droite $\\perp$ à un plan $\\Leftrightarrow$ son vecteur directeur colinéaire au vecteur normal.',
-          '<strong>Plans perpendiculaires</strong> : deux plans $\\perp$ $\\Leftrightarrow$ leurs vecteurs normaux sont $\\perp$ ($\\vec{n_1}\\cdot\\vec{n_2}=0$).'
+          '<strong>Lire les coefficients</strong> : dans l\'équation $ax+by+cz+d=0$ du plan, les nombres $a$, $b$, $c$ sont les coordonnées du vecteur normal $\\vec{n}$, et $d$ est le terme constant, avec son signe.',
+          '<strong>Calculer le numérateur</strong> : remplacer $x$, $y$, $z$ par les coordonnées de $M(x_0;y_0;z_0)$, puis prendre la <strong>valeur absolue</strong> du résultat : $|ax_0+by_0+cz_0+d|$.',
+          '<strong>Calculer le dénominateur</strong> : la norme du vecteur normal, $\\sqrt{a^2+b^2+c^2}$ — la somme des <strong>carrés</strong>, puis la racine.',
+          '<strong>Conclure</strong> : $d(M;\\mathcal{P})=\\dfrac{|ax_0+by_0+cz_0+d|}{\\sqrt{a^2+b^2+c^2}}$, puis arrondir si l\'énoncé le demande.'
         ]
       },
       example: {
@@ -155,7 +155,7 @@ window.MODULES.push({
             'Le segment $[MQ]$ rejoint un autre point du plan, en biais : il mesure environ $2{,}87$, donc il est plus long.',
             'Ce n\'est pas un hasard, c\'est Pythagore. Le triangle $MHQ$ est rectangle en $H$, donc $MQ^2 = MH^2 + HQ^2$. Comme $HQ^2$ ne peut pas être négatif, $MQ$ est toujours au moins égal à $MH$ — quel que soit le point $Q$ choisi dans le plan.'
           ],
-          reading: 'Déplace mentalement le point $Q$ n\'importe où dans le plan : le segment $[MQ]$ s\'allonge dès que tu t\'éloignes de $H$, et il ne peut jamais devenir plus court. C\'est pourquoi la formule $d = \\dfrac{|ax_0 + by_0 + cz_0 + d|}{\\sqrt{a^2 + b^2 + c^2}}$ donne <strong>un</strong> nombre et non un intervalle : il n\'y a qu\'un seul chemin le plus court, et c\'est celui qui suit la normale.',
+          reading: 'Déplace mentalement le point $Q$ n\'importe où dans le plan : le segment $[MQ]$ s\'allonge dès que tu t\'éloignes de $H$, et il ne peut jamais devenir plus court.<br/><br/>C\'est pourquoi la formule $d = \\dfrac{|ax_0 + by_0 + cz_0 + d|}{\\sqrt{a^2 + b^2 + c^2}}$ donne <strong>un</strong> nombre et non un intervalle.<br/><br/>Il n\'y a qu\'un seul chemin le plus court, et c\'est celui qui suit la <strong>normale</strong>.',
           caption: 'Distance du point $M$ au plan : $MH = 2{,}2$ le long de la perpendiculaire, contre $MQ \\approx 2{,}87$ en biais.'
         },
         {
@@ -215,7 +215,7 @@ window.MODULES.push({
             'Le plan vertical a pour vecteur normal $\\vec{n_2}\\,(0\\,;\\,1\\,;\\,0)$ : il pointe vers l\'arrière, donc hors de ce plan-là.',
             'Leur produit scalaire vaut $0 \\times 0 + 0 \\times 1 + 1 \\times 0 = 0$ : les deux normales sont orthogonales, <strong>donc les deux plans sont perpendiculaires</strong>.'
           ],
-          reading: 'Le renversement est déroutant la première fois : on juge deux plans en regardant deux flèches qui n\'appartiennent ni à l\'un ni à l\'autre. Mais c\'est aussi ce qui rend le critère utilisable — une équation de plan te donne directement sa normale, sans aucun travail. Lis $2x - y + 2z - 3 = 0$, tu as déjà $\\vec{n}\\,(2\\,;\\,-1\\,;\\,2)$, et il ne te reste qu\'un produit scalaire à poser.',
+          reading: 'Le renversement est déroutant la première fois : on juge deux plans en regardant deux flèches qui n\'appartiennent ni à l\'un ni à l\'autre.<br/><br/>Mais c\'est aussi ce qui rend le critère utilisable — une équation de plan te donne directement sa <strong>normale</strong>, sans aucun travail.<br/><br/>Lis $2x - y + 2z - 3 = 0$ : tu as déjà $\\vec{n}\\,(2\\,;\\,-1\\,;\\,2)$, et il ne te reste qu\'un produit scalaire à poser.',
           caption: 'Deux plans perpendiculaires et leurs normales $\\vec{n_1}\\,(0\\,;\\,0\\,;\\,1)$ et $\\vec{n_2}\\,(0\\,;\\,1\\,;\\,0)$, de produit scalaire nul.'
         }
       ],
@@ -226,14 +226,14 @@ window.MODULES.push({
         'Deux plans sont <strong>perpendiculaires</strong> si $\\vec{n_1} \\cdot \\vec{n_2} = 0$. Deux plans sont parallèles si $\\vec{n_1}$ et $\\vec{n_2}$ sont colinéaires.',
         'Le <strong>projeté orthogonal</strong> $H$ de $M$ sur $\\mathcal{P}$ est le point de $\\mathcal{P}$ tel que $\\overrightarrow{HM}$ est colinéaire à $\\vec{n}$. La distance $MH$ est minimale parmi tous les points du plan.'
       ],
-      piege: 'La distance d\'un point à un plan se calcule avec la <strong>valeur absolue</strong> au numérateur.<br/><br/>Ne pas oublier le $|\\cdots|$ ! Une distance est toujours positive, même si le calcul brut donne un résultat négatif.'
+      piege: 'Deux critères se ressemblent et s\'échangent sans cesse.<br/><br/>Deux <strong>vecteurs</strong> sont orthogonaux quand leur produit scalaire est <strong>nul</strong>. Mais une <strong>droite</strong> est perpendiculaire à un plan quand son vecteur directeur est <strong>colinéaire</strong> au vecteur normal — pas orthogonal !<br/><br/>Et dans la formule de distance, deux oublis classiques : la <strong>valeur absolue</strong> au numérateur (une distance est toujours positive) et la <strong>racine</strong> au dénominateur ($\\sqrt{a^2+b^2+c^2}$, jamais $a+b+c$).'
     },
     quiz: [
       { q: 'Pour calculer la distance de $A(1;2;-1)$ au plan $x+y+z-6=0$, un élève obtient $\\dfrac{1+2-1-6}{\\sqrt{3}}=\\dfrac{-4}{\\sqrt{3}}$. Quelle est son erreur ?', options: ['La distance est toujours positive : il faut la valeur absolue. $d=\\dfrac{|-4|}{\\sqrt{3}}=\\dfrac{4}{\\sqrt{3}}\\approx2{,}31$', 'L\'élève a raison : une distance négative indique que $A$ est de l\'autre côté du plan', 'Le dénominateur devrait être $\\sqrt{1^2+1^2+1^2}=3$, pas $\\sqrt{3}$', 'Le numérateur devrait être $1+2+(-1)-6=-4$ donc $d=-4$'], answer: 0, correction: 'Une distance est toujours une longueur, donc toujours POSITIVE. La formule est $d=|ax_0+by_0+cz_0+d|/\\sqrt{a^2+b^2+c^2}$. Ici $|1+2-1-6|=|-4|=4$ et $\\sqrt{1+1+1}=\\sqrt{3}$, donc $d=4/\\sqrt{3}\\approx2{,}31$. Le signe négatif du numérateur ($-4$) indique seulement que $A$ est du côté "négatif" du plan — pas que la distance est négative.' },
       { q: 'La distance du point $O(0;0;0)$ au plan $x+y+z-3=0$ est :', options: ['$3$', '$\\sqrt{3}$', '$1$', '$3\\sqrt{3}$'], answer: 1, correction: '$d=\\frac{|0+0+0-3|}{\\sqrt{1+1+1}}=\\frac{3}{\\sqrt{3}}=\\sqrt{3}$.' },
-      { q: 'Une droite de vecteur directeur $\\vec{u}(1;2;3)$ est-elle perpendiculaire au plan de normale $\\vec{n}(2;4;6)$ ?', options: ['Non', 'Oui, car $\\vec{u}$ et $\\vec{n}$ sont colinéaires', 'Oui, car $\\vec{u}\\cdot\\vec{n}=0$', 'Impossible à dire'], answer: 1, correction: '$\\vec{n}=2\\vec{u}$ : colinéaires, donc la droite est perpendiculaire au plan.<br/><br/>En effet, une droite est perpendiculaire à un plan si et seulement si son vecteur directeur est <strong>colinéaire</strong> au vecteur normal du plan. Ici le rapport est $k=2$ pour les trois coordonnées.' },
+      { q: 'Une droite de vecteur directeur $\\vec{u}(1;2;3)$ est-elle perpendiculaire au plan de normale $\\vec{n}(2;4;6)$ ?', options: ['Non, car $\\vec{u}\\cdot\\vec{n}=2+8+18=28\\neq0$', 'Oui, car $\\vec{u}$ et $\\vec{n}$ sont colinéaires', 'Non, car les coordonnées de $\\vec{u}$ et de $\\vec{n}$ ne sont pas égales', 'On ne peut pas conclure sans l\'équation du plan'], answer: 1, correction: '$\\vec{n}=2\\vec{u}$ : colinéaires, donc la droite est perpendiculaire au plan.<br/><br/>Une droite est perpendiculaire à un plan si et seulement si son vecteur directeur est <strong>colinéaire</strong> au vecteur normal du plan. Ici le rapport est $k=2$ pour les trois coordonnées.<br/><br/>Calculer $\\vec{u}\\cdot\\vec{n}=28$ et conclure « non », c\'est appliquer le critère « produit scalaire nul », qui sert à l\'orthogonalité de deux <strong>vecteurs</strong>. Pour une droite et un plan, $\\vec{u}\\cdot\\vec{n}=0$ signifierait au contraire que la droite est <strong>parallèle</strong> au plan.' },
       { q: 'Le projeté orthogonal $H$ de $M(0;0;3)$ sur le plan $z = 0$ est :', options: ['$H(0;0;0)$', '$H(0;0;3)$', '$H(3;0;0)$', '$H(0;3;0)$'], answer: 0, correction: 'Le plan $z=0$ est le plan $xOy$. Le projeté orthogonal consiste à "descendre" perpendiculairement sur le plan : on garde les coordonnées $x$ et $y$ et on met $z=0$.<br/><br/>Donc $H(0;0;0)$. La distance $MH = |3-0| = 3$.' },
-      { q: 'Les plans $\\mathcal{P}_1 : x + y + z = 1$ et $\\mathcal{P}_2 : x - y = 0$ sont-ils perpendiculaires ?', options: ['Oui, car $\\vec{n_1} \\cdot \\vec{n_2} = 1 \\times 1 + 1 \\times (-1) + 1 \\times 0 = 0$', 'Non, car $\\vec{n_1} \\cdot \\vec{n_2} = 2$', 'Oui, car les plans ne sont pas parallèles', 'Non, car $\\vec{n_1} \\cdot \\vec{n_2} = -1$'], answer: 0, correction: '$\\vec{n_1}(1;1;1)$ et $\\vec{n_2}(1;-1;0)$.<br/><br/>$\\vec{n_1} \\cdot \\vec{n_2} = 1 \\times 1 + 1 \\times (-1) + 1 \\times 0 = 1 - 1 + 0 = 0$.<br/><br/>Les vecteurs normaux sont orthogonaux, donc les deux plans sont bien <strong>perpendiculaires</strong>.' }
+      { q: 'Les plans $\\mathcal{P}_1 : x + y + z = 1$ et $\\mathcal{P}_2 : x - y = 0$ sont-ils perpendiculaires ?', options: ['Non, car $\\vec{n_1} \\cdot \\vec{n_2} = 2$', 'Oui, car les plans ne sont pas parallèles', 'Oui, car $\\vec{n_1} \\cdot \\vec{n_2} = 1 \\times 1 + 1 \\times (-1) + 1 \\times 0 = 0$', 'Non, car $\\vec{n_1} \\cdot \\vec{n_2} = -1$'], answer: 2, correction: '$\\vec{n_1}(1;1;1)$ et $\\vec{n_2}(1;-1;0)$.<br/><br/>$\\vec{n_1} \\cdot \\vec{n_2} = 1 \\times 1 + 1 \\times (-1) + 1 \\times 0 = 1 - 1 + 0 = 0$.<br/><br/>Les vecteurs normaux sont orthogonaux, donc les deux plans sont bien <strong>perpendiculaires</strong>.' }
     ],
     /* BANQUE D'EXERCICES — élargie le 2026-09-14.
 
@@ -255,6 +255,8 @@ window.MODULES.push({
       generate() {
         const tache = pick(['distance', 'orthogonaux', 'perpendiculaire',
                             'deuxPlans', 'normeNormale', 'projete']);
+        // Coefficient d'une équation de plan : « x » et non « 1x ».
+        const co = (k) => (k === 1 ? '' : String(k));
 
         /* TÂCHE 1 — distance d'un point à un plan. La tâche historique,
            conservée : c'est la formule centrale du chapitre. */
@@ -274,7 +276,7 @@ window.MODULES.push({
             // 2026-09-14 : « $...z -4 = 0$ » laissait une espace parasite avant
             // le signe, et « est modélisé » ne s'accordait pas avec les décors
             // féminins. On compose le terme constant et on neutralise l'accord.
-            statement: `${ctx.quoi} se trouve au point $M(${x0};${y0};${z0})$, et l'on modélise ${ctx.ou} par le plan $\\mathcal{P}$ d'équation $${a}x + ${b}y + ${c}z - ${Math.abs(d)} = 0$.<br/><br/>Calculer la distance de $M$ au plan $\\mathcal{P}$. Arrondir à $0{,}01$.`,
+            statement: `${ctx.quoi} se trouve au point $M(${x0};${y0};${z0})$, et l'on modélise ${ctx.ou} par le plan $\\mathcal{P}$ d'équation $${co(a)}x + ${co(b)}y + ${co(c)}z - ${Math.abs(d)} = 0$.<br/><br/>Calculer la distance de $M$ au plan $\\mathcal{P}$. Arrondir à $0{,}01$.`,
             answer: res, tolerance: 0.05, unit: 'unités',
             hint: `$d = \\dfrac{|a x_0 + b y_0 + c z_0 + d|}{\\sqrt{a^2 + b^2 + c^2}}$. Le numérateur est en valeur absolue : une distance ne peut pas être négative, même si le point est du « mauvais » côté du plan.`,
             solution: [
@@ -316,7 +318,7 @@ window.MODULES.push({
             hint: `Deux vecteurs sont orthogonaux exactement quand leur produit scalaire est NUL. Calcule $x_u x_v + y_u y_v + z_u z_v$, puis regarde si tu obtiens $0$ — la valeur elle-même n'a pas d'importance, seul compte le fait qu'elle s'annule ou non.`,
             solution: [
               `$\\vec{u} \\cdot \\vec{v} = ${a[0]} \\times ${b[0]} + ${a[1]} \\times (${b[1]}) + ${a[2]} \\times ${b[2]}$`,
-              `$= ${a[0] * b[0]} + ${a[1] * b[1]} + ${a[2] * b[2]} = ${ps}$`,
+              `$= ${a[0] * b[0]} ${a[1] * b[1] >= 0 ? '+ ' + a[1] * b[1] : '- ' + Math.abs(a[1] * b[1])} + ${a[2] * b[2]} = ${ps}$`,
               ps === 0
                 ? `Le produit scalaire est nul : les deux vecteurs sont bien orthogonaux, donc la réponse est $1$.`
                 : `Le produit scalaire vaut $${ps}$, qui n'est pas nul : les deux vecteurs ne sont pas orthogonaux, donc la réponse est $0$.`
@@ -332,14 +334,15 @@ window.MODULES.push({
             // 2026-09-14 : « On veut que un mat... soit perpendiculaire a le
             // plancher » sortait de la concatenation. Les decors portent
             // desormais l'article correct, et la phrase ne le rajoute plus.
-            { quoi: 'le mât d\'une antenne', ou: 'la dalle' },
-            { quoi: 'un forage', ou: 'la couche géologique' },
-            { quoi: 'le pilier d\'un pont', ou: 'le plancher' }
+            // Phase 4 : la préposition passe dans le décor (« au plancher »).
+            { quoi: 'le mât d\'une antenne', ou: 'à la dalle' },
+            { quoi: 'le forage', ou: 'à la couche géologique' },   // « que un forage » évité
+            { quoi: 'le pilier d\'un pont', ou: 'au plancher' }
           ]);
           const n = [rand(1, 4), rand(1, 4), rand(1, 4)];
           const k = rand(2, 4);
           return {
-            statement: `On veut que ${ctx.quoi}, de vecteur directeur $\\vec{u}(${k * n[0]};${k * n[1]};${k * n[2]})$, soit perpendiculaire à ${ctx.ou}, plan de vecteur normal $\\vec{n}(${n[0]};${n[1]};${n[2]})$.<br/><br/>C'est le cas lorsque $\\vec{u}$ et $\\vec{n}$ sont colinéaires. Déterminer le réel $k$ tel que $\\vec{u} = k\\,\\vec{n}$.`,
+            statement: `On veut que ${ctx.quoi}, de vecteur directeur $\\vec{u}(${k * n[0]};${k * n[1]};${k * n[2]})$, soit perpendiculaire ${ctx.ou}, plan de vecteur normal $\\vec{n}(${n[0]};${n[1]};${n[2]})$.<br/><br/>C'est le cas lorsque $\\vec{u}$ et $\\vec{n}$ sont colinéaires. Déterminer le réel $k$ tel que $\\vec{u} = k\\,\\vec{n}$.`,
             answer: k, tolerance: 0, unit: '',
             hint: `Attention au piège : une droite perpendiculaire à un plan a son vecteur directeur COLINÉAIRE à la normale, et non orthogonal à elle. Le critère du produit scalaire nul sert pour deux vecteurs, pas ici.`,
             solution: [
@@ -367,7 +370,7 @@ window.MODULES.push({
           return {
             // 2026-09-14 : « $1x -3 y$ » s'imprimait avec une espace parasite
             // avant le y et un coefficient 1 explicite. On compose le terme.
-            statement: `On se demande si ${ctx.quoi} sont perpendiculaires. Leurs plans ont pour équations $${n1[0]}x + ${n1[1]}y = 0$ et $${n2[0]}x ${n2[1] >= 0 ? '+ ' + n2[1] : '- ' + Math.abs(n2[1])}y + ${n2[2]}z = 0$.<br/><br/>Calculer le produit scalaire des deux vecteurs normaux. (S'il est nul, les plans sont perpendiculaires.)`,
+            statement: `On se demande si ${ctx.quoi} sont perpendiculaires. Leurs plans ont pour équations $${co(n1[0])}x + ${co(n1[1])}y = 0$ et $${co(n2[0])}x ${n2[1] >= 0 ? '+ ' + co(n2[1]) : '- ' + co(Math.abs(n2[1]))}y + ${co(n2[2])}z = 0$.<br/><br/>Calculer le produit scalaire des deux vecteurs normaux. (S'il est nul, les plans sont perpendiculaires.)`,
             answer: ps, tolerance: 0, unit: '',
             hint: `Les coefficients de $x$, $y$ et $z$ dans l'équation d'un plan SONT les coordonnées de son vecteur normal : ici $\\vec{n_1}(${n1[0]};${n1[1]};0)$ et $\\vec{n_2}(${n2[0]};${n2[1]};${n2[2]})$. Il n'y a rien d'autre à chercher.`,
             solution: [
@@ -394,7 +397,7 @@ window.MODULES.push({
           return {
             // 2026-09-14 : le decor ouvrait la phrase en minuscule (« un plan
             // de coupe a pour equation »). On le place apres un sujet fixe.
-            statement: `Dans une maquette, ${ctx.quoi} a pour équation $${a}x + ${b}y + ${c}z - 7 = 0$.<br/><br/>Calculer la norme $\\|\\vec{n}\\|$ de son vecteur normal — c'est le dénominateur de la formule de distance. Arrondir à $0{,}01$.`,
+            statement: `Dans une maquette, ${ctx.quoi} a pour équation $${co(a)}x + ${co(b)}y + ${co(c)}z - 7 = 0$.<br/><br/>Calculer la norme $\\|\\vec{n}\\|$ de son vecteur normal — c'est le dénominateur de la formule de distance. Arrondir à $0{,}01$.`,
             answer: res, tolerance: 0.05, unit: '',
             hint: `Le vecteur normal se lit dans l'équation : $\\vec{n}(${a};${b};${c})$. Sa norme est $\\sqrt{a^2 + b^2 + c^2}$ — la somme des CARRÉS, puis la racine. Ce n'est pas $a + b + c$.`,
             solution: [
@@ -442,12 +445,12 @@ window.MODULES.push({
       tasks: [
         'Donner le vecteur normal à $\\mathcal{P}$.',
         'Calculer la distance de $A$ à $\\mathcal{P}$.',
-        'Écrire une équation paramétrique de la droite passant par $A$ et perpendiculaire à $\\mathcal{P}$.'
+        'Écrire une représentation paramétrique de la droite passant par $A$ et perpendiculaire à $\\mathcal{P}$.<br/><br/>(Rappel du chapitre précédent : la droite passant par $A(x_A;y_A;z_A)$, de vecteur directeur $\\vec{u}(a;b;c)$, a pour représentation paramétrique $x = x_A + at$, $y = y_A + bt$, $z = z_A + ct$, avec $t \\in \\mathbb{R}$.)'
       ],
       solutions: [
         '$\\vec{n}(2;1;-2)$.',
         '$d=\\frac{|2\\times1+1\\times1-2\\times1+3|}{\\sqrt{4+1+4}}=\\frac{|4|}{3}=\\frac{4}{3}$.',
-        'Droite : $(x;y;z)=(1;1;1)+t(2;1;-2)$, soit $x=1+2t$, $y=1+t$, $z=1-2t$.'
+        'Vecteur directeur : $\\vec{n}(2;1;-2)$ (une droite perpendiculaire au plan est dirigée par sa normale).<br/><br/>Représentation paramétrique : $x=1+2t$, $y=1+t$, $z=1-2t$, $t \\in \\mathbb{R}$.'
       ],
       finalAnswer: '$d(A;\\mathcal{P})=\\frac{4}{3}$. Droite perpendiculaire : $(1+2t;1+t;1-2t)$.'
     },
@@ -468,7 +471,7 @@ window.MODULES.push({
         {
           statement: 'Les vecteurs $\\vec{u}(1;-2;3)$ et $\\vec{v}(6;0;-2)$ sont-ils orthogonaux ?',
           type: 'multiple-choice',
-          options: ['Oui, car $\\vec{u}\\cdot\\vec{v}=0$', 'Non, car $\\vec{u}\\cdot\\vec{v}=12$', 'Non, car $\\vec{u}\\cdot\\vec{v}=-12$', 'Oui, car $\\vec{u}\\cdot\\vec{v}=6$'],
+          options: ['Oui, car $\\vec{u}\\cdot\\vec{v}=0$', 'Non, car $\\vec{u}\\cdot\\vec{v}=12$', 'Non, car $\\vec{u}\\cdot\\vec{v}=-12$', 'Oui, car leurs coordonnées ne sont pas proportionnelles'],
           answer: 0,
           points: 2,
           correction: '$\\vec{u}\\cdot\\vec{v} = 1 \\times 6 + (-2) \\times 0 + 3 \\times (-2) = 6 + 0 - 6 = 0$. Donc $\\vec{u} \\perp \\vec{v}$.'
@@ -485,10 +488,10 @@ window.MODULES.push({
         {
           statement: 'Une droite de vecteur directeur $\\vec{u}(3;-6;9)$ est-elle perpendiculaire au plan de vecteur normal $\\vec{n}(1;-2;3)$ ?',
           type: 'multiple-choice',
-          options: ['Oui, car $\\vec{u} = 3\\vec{n}$ (colinéaires)', 'Non, car $\\vec{u} \\cdot \\vec{n} = 0$', 'Non, car les coordonnées sont différentes', 'Oui, car $\\vec{u} \\cdot \\vec{n} \\neq 0$'],
-          answer: 0,
+          options: ['Non, car $\\vec{u} \\cdot \\vec{n} = 3+12+27 = 42 \\neq 0$', 'Non, car les coordonnées de $\\vec{u}$ et de $\\vec{n}$ sont différentes', 'Oui, car $\\vec{u} = 3\\vec{n}$ : les deux vecteurs sont colinéaires', 'On ne peut pas conclure sans connaître l\'équation du plan'],
+          answer: 2,
           points: 2,
-          correction: '$\\vec{u} = (3;-6;9) = 3 \\times (1;-2;3) = 3\\vec{n}$. Les vecteurs sont colinéaires, donc la droite est perpendiculaire au plan.'
+          correction: '$\\vec{u} = (3;-6;9) = 3 \\times (1;-2;3) = 3\\vec{n}$. Les vecteurs sont colinéaires, donc la droite est perpendiculaire au plan.<br/><br/>Le produit scalaire $\\vec{u}\\cdot\\vec{n} = 42$ ne sert à rien ici : un produit scalaire <strong>nul</strong> entre $\\vec{u}$ et $\\vec{n}$ dirait que la droite est <strong>parallèle</strong> au plan, pas perpendiculaire.'
         },
         {
           statement: 'Les plans $\\mathcal{P}_1 : x + 2y - z + 1 = 0$ et $\\mathcal{P}_2 : 2x - y + 2z - 3 = 0$ sont-ils perpendiculaires ?',
