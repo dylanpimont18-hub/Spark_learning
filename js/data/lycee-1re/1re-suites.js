@@ -31,9 +31,10 @@ window.MODULES.push({
       method: {
         title: 'Méthode',
         steps: [
+          '<strong>Identifier la nature</strong> de la suite : si $u_{n+1} - u_n$ est constant, elle est <strong>arithmétique</strong> ; si $u_{n+1} / u_n$ est constant, elle est <strong>géométrique</strong>.<br/><br/>Teste toujours les différences d\'abord, puis les quotients.',
           '<strong>Suite arithmétique</strong> (raison $r$) : $u_n = u_0 + n \\times r$. Terme suivant = terme précédent $+ r$ (variation constante).',
           '<strong>Suite géométrique</strong> (raison $q$) : $u_n = u_0 \\times q^n$. Terme suivant = terme précédent $\\times q$ (taux de variation constant).',
-          '<strong>Identifier le type</strong> : si $u_{n+1} - u_n$ est constant → arithmétique. Si $u_{n+1}/u_n$ est constant → géométrique.'
+          '<strong>Sommer les premiers termes</strong> : compte d\'abord les termes — de $u_0$ à $u_n$, il y en a $n+1$.<br/><br/>Puis $S = \\dfrac{(u_0 + u_n)(n+1)}{2}$ pour une arithmétique, $S = u_0 \\times \\dfrac{1 - q^{n+1}}{1 - q}$ pour une géométrique.<br/><br/><strong>Exemple :</strong> pour $u_n = 2 \\times 3^n$, la somme $u_0 + u_1 + u_2 + u_3$ compte $4$ termes : $S = 2 \\times \\dfrac{1 - 3^4}{1 - 3} = 2 \\times \\dfrac{-80}{-2} = 80$.<br/><br/>Vérification terme à terme : $2 + 6 + 18 + 54 = 80$.'
         ]
       },
       example: {
@@ -55,7 +56,7 @@ window.MODULES.push({
         theme: 'maths',
         kicker: 'Nuage de points $(n\\,;\\,u_n)$',
         title: 'Même point de départ, deux croissances : $u_n = 2+3n$ contre $u_n = 2\\times3^n$',
-        description: 'Reprise de deux exemples déjà utilisés dans le quiz du module : une suite arithmétique $u_0=2$, $r=3$ (dont on a vérifié $u_5=17$) et une suite géométrique $u_0=2$, $q=3$ (dont on a vérifié $u_3=54$). Les deux nuages sont tracés côte à côte, avec des échelles verticales différentes : à l\'échelle de la suite géométrique, la suite arithmétique serait totalement écrasée contre l\'axe.',
+        description: 'Reprise de deux exemples déjà utilisés dans le quiz du module : une suite arithmétique $u_0=2$, $r=3$ (dont on a vérifié $u_5=17$) et une suite géométrique $u_0=2$, $q=3$ (dont on a vérifié $u_3=54$).<br/><br/>Les deux nuages sont tracés côte à côte, avec des <strong>échelles verticales différentes</strong> : à l\'échelle de la suite géométrique, la suite arithmétique serait totalement écrasée contre l\'axe.',
         svg: `
           <svg viewBox="0 0 480 300" role="img" aria-labelledby="suites-cmp-title suites-cmp-desc">
             <title id="suites-cmp-title">Comparaison suite arithmetique et suite geometrique de meme depart</title>
@@ -135,7 +136,7 @@ window.MODULES.push({
           'Suite géométrique $u_n=2\\times3^n$ : $2, 6, 18, 54, 162, 486$ pour $n=0$ à $5$. Chaque terme multiplie le précédent par $3$ — l\'écart entre deux termes grossit lui-même à chaque étape.',
           'Sur $5$ pas, l\'arithmétique est multipliée par $8{,}5$ (soit $17/2$) alors que la géométrique est multipliée par $243$ (soit $486/2=3^5$) : c\'est la signature d\'une croissance exponentielle.'
         ],
-        reading: 'Les deux suites partent du même $u_0=2$ et utilisent le même nombre $3$ (comme raison $r$ ou comme raison $q$) — pourtant leurs profils sont radicalement différents : alignement régulier de points sur une droite (arithmétique) contre courbe qui s\'envole (géométrique). Sur un même graphique à échelle unique, les $6$ points de la suite arithmétique seraient quasiment collés à l\'axe des abscisses tant $486$ écrase $17$ : c\'est pourquoi les deux nuages utilisent des échelles verticales différentes.',
+        reading: 'Les deux suites partent du même $u_0=2$ et utilisent le même nombre $3$ (comme raison $r$ ou comme raison $q$) — pourtant leurs profils sont radicalement différents : alignement régulier de points sur une <strong>droite</strong> (arithmétique) contre courbe qui <strong>s\'envole</strong> (géométrique).<br/><br/>Sur un même graphique à échelle unique, les $6$ points de la suite arithmétique seraient quasiment collés à l\'axe des abscisses tant $486$ écrase $17$ : c\'est pourquoi les deux nuages utilisent des échelles verticales différentes.',
         caption: 'Comparaison à $u_0=2$ identique : $u_n=2+3n$ (gauche) contre $u_n=2\\times3^n$ (droite), pour $n=0$ à $5$.'
       },
 
@@ -204,8 +205,8 @@ window.MODULES.push({
 
               <text class="annotation-label" x="400" y="84" text-anchor="start">six</text>
               <text class="annotation-label" x="400" y="134" text-anchor="start">cinq</text>
-              <text class="label-soft" x="215" y="184" text-anchor="middle">six ronds a compter, cinq ecarts entre eux</text>
-              <text class="label-soft" x="215" y="208" text-anchor="middle">le rang compte les ecarts, la somme compte les ronds</text>
+              <text class="label-soft" x="215" y="184" text-anchor="middle">six ronds à compter, cinq écarts entre eux</text>
+              <text class="label-soft" x="215" y="208" text-anchor="middle">le rang compte les écarts, la somme compte les ronds</text>
             </svg>
           `,
           notes: [
@@ -268,7 +269,7 @@ window.MODULES.push({
               <text class="tick-label" x="348.0" y="228" text-anchor="middle">6</text>
               <text class="tick-label" x="396.0" y="228" text-anchor="middle">7</text>
               <text class="axis-label" x="220" y="248" text-anchor="middle">rang</text>
-              <text class="label-soft" x="220" y="266" text-anchor="middle">chaque barre vaut la moitie de la precedente</text>
+              <text class="label-soft" x="220" y="266" text-anchor="middle">chaque barre vaut la moitié de la précédente</text>
             </svg>
           `,
           notes: [
@@ -318,9 +319,9 @@ window.MODULES.push({
       },
       {
         q: 'La somme $u_0 + u_1 + \\cdots + u_5$ d\'une suite arithmétique avec $u_0 = 2$ et $r = 3$ vaut :',
-        options: ['$57$', '$17$', '$87$', '$42$'],
-        answer: 0,
-        correction: 'On calcule d\'abord le dernier terme : $u_5 = 2 + 5 \\times 3 = 17$.<br/><br/>De $u_0$ à $u_5$, il y a $6$ termes (attention, pas $5$).<br/><br/>On applique la formule de somme : $S = \\dfrac{(u_0 + u_5) \\times 6}{2} = \\dfrac{(2 + 17) \\times 6}{2} = \\dfrac{114}{2} = 57$.'
+        options: ['$47{,}5$', '$114$', '$17$', '$57$'],
+        answer: 3,
+        correction: 'On calcule d\'abord le dernier terme : $u_5 = 2 + 5 \\times 3 = 17$.<br/><br/>De $u_0$ à $u_5$, il y a $6$ termes (attention, pas $5$).<br/><br/>On applique la formule de somme : $S = \\dfrac{(u_0 + u_5) \\times 6}{2} = \\dfrac{(2 + 17) \\times 6}{2} = \\dfrac{114}{2} = 57$.<br/><br/>Si tu as trouvé $47{,}5$, tu as compté $5$ termes au lieu de $6$ : c\'est le décalage entre <strong>rang</strong> et <strong>nombre de termes</strong>.<br/><br/>Si tu as trouvé $114$, il manque la division par $2$. Et $17$ n\'est que le dernier terme, pas la somme.'
       },
       {
         q: 'Une suite vérifie $u_0 = 5$ et $u_n = 5 + 2n$. Sa nature est :',
@@ -482,13 +483,17 @@ window.MODULES.push({
         }
 
         if (type === 'arith') {
-          const u0 = rand(2, 10);
+          /* Contextes revus le 2026-10-13 : un salaire de 7 € n'était pas
+             crédible, et pour un randonneur ou une citerne la somme des termes
+             (somme d'altitudes, de contenus) ne représentait rien. Dans les
+             trois décors retenus, la somme S est un vrai total cumulé. */
+          const u0 = rand(5, 12);
           const r = rand(2, 8);
           const n = rand(5, 15);
           const ctx = pick([
-            { intro: 'Un randonneur part à une altitude de', unit: 'm', mot: 'Il monte de', motFin: 'mètres à chaque étape' },
-            { intro: 'Un salarié débute avec un salaire de', unit: '€', mot: 'Il reçoit une augmentation fixe de', motFin: '€ par an' },
-            { intro: 'Une citerne contient initialement', unit: 'L', mot: 'On y ajoute', motFin: 'litres chaque jour' }
+            { intro: 'Un théâtre de verdure compte', unit: 'sièges au premier rang', mot: 'Chaque rang suivant a', motFin: 'sièges de plus que le précédent' },
+            { intro: 'Le jour de son ouverture, une librairie vend', unit: 'livres', mot: 'Elle en vend chaque jour', motFin: 'de plus que la veille' },
+            { intro: 'Une tirelire reçoit', unit: '€ le premier jour', mot: 'Chaque jour, on y dépose', motFin: '€ de plus que la veille' }
           ]);
           const un = u0 + n * r;
           const somme = (u0 + un) * (n + 1) / 2;
@@ -518,7 +523,7 @@ window.MODULES.push({
                un facteur multiplicateur de », phrase que le gabarit refermait
                aussitot par un point, ce qui imprimait « ... multiplicateur de. »
                Defaut ancien, revele par l'elargissement de la banque. */
-            { intro: 'Un investissement initial de', unit: '€ est placé sur un compte', mot: `Le capital est multiplié par $${q}$ chaque année` }
+            { intro: 'Un nénuphar couvre', unit: 'm² d\'un étang', mot: `La surface couverte est multipliée par $${q}$ chaque semaine` }
           ]);
           const un = u0 * Math.pow(q, n);
           return {
@@ -537,19 +542,28 @@ window.MODULES.push({
     },
 
     probleme: {
-      context: 'Le carbone 14 ($^{14}\\text{C}$) utilisé en datation archéologique a une demi-vie $t_{1/2} = 5730$ ans. Un échantillon de bois ancien contient $37{,}5\\%$ de la quantité de $^{14}\\text{C}$ d\'un échantillon vivant actuel.',
+      /* PROBLÈME RÉÉCRIT le 2026-10-13 (audit maths, phase 4). L'ancienne
+         version partait de 37,5 % : (1/2)^k = 0,375 n'a pas de solution
+         entière, et la solution passait par ln et log2, outils de terminale,
+         en contradiction avec la tâche « seuil » du même module. Le nouveau
+         pourcentage, 12,5 %, est une puissance exacte de 1/2, et la dernière
+         question fait chercher un seuil par calcul successif des termes,
+         c'est-à-dire avec les seuls outils de première. */
+      context: 'Le carbone 14 ($^{14}\\text{C}$) utilisé en datation archéologique a une demi-vie $t_{1/2} = 5730$ ans : tous les $5730$ ans, la quantité de $^{14}\\text{C}$ d\'un échantillon est <strong>divisée par $2$</strong>.<br/><br/>Un fragment de bois ancien contient $12{,}5\\,\\%$ de la quantité de $^{14}\\text{C}$ d\'un morceau de bois vivant actuel.<br/><br/>Par ailleurs, les laboratoires considèrent qu\'en dessous de $1\\,\\%$ de la quantité initiale, la mesure n\'est plus fiable.',
       schema: null,
       tasks: [
-        'Exprimer $N(k) = N_0 \\times \\left(\\dfrac{1}{2}\\right)^k$ où $k$ est le nombre de demi-vies écoulées.',
-        'Résoudre $0{,}375 = \\left(\\dfrac{1}{2}\\right)^k$ pour trouver $k$ (décomposer $0{,}375$ en puissance de $\\dfrac{1}{2}$).',
-        'En déduire l\'âge de l\'échantillon en années.'
+        'On note $N_0$ la quantité de $^{14}\\text{C}$ du bois vivant et $N(k)$ celle qui reste après $k$ demi-vies. Justifier que $(N(k))$ est une suite géométrique et exprimer $N(k)$ en fonction de $N_0$ et de $k$.',
+        'Écrire $12{,}5\\,\\%$ sous la forme d\'une fraction, puis sous la forme d\'une puissance de $\\dfrac{1}{2}$. En déduire le nombre $k$ de demi-vies écoulées.',
+        'En déduire l\'âge du fragment, en années.',
+        'En calculant les termes $\\left(\\dfrac{1}{2}\\right)^k$ les uns après les autres, déterminer le plus petit nombre entier $k$ de demi-vies au bout duquel il reste moins de $1\\,\\%$ du $^{14}\\text{C}$ initial. En déduire l\'âge à partir duquel la datation n\'est plus fiable.'
       ],
       solutions: [
-        '$N(k) = N_0 \\times (1/2)^k$, donc $N/N_0 = (1/2)^k = 0{,}375$.',
-        '$0{,}375 = 3/8 = (1/2)^? $. On vérifie : $(1/2)^1 = 0{,}5$, $(1/2)^2 = 0{,}25$. Ni l\'un ni l\'autre. Mais $3/8 = 3 \\times (1/2)^3$... En fait $(1/2)^k = 3/8$ donne $k = \\log_2(8/3) \\approx 1{,}415$. Plus simplement : $(1/2)^k = 0{,}375$ → $k \\ln(0{,}5) = \\ln(0{,}375)$ → $k = \\ln(0{,}375)/\\ln(0{,}5) \\approx 1{,}415$.',
-        'Âge $= k \\times t_{1/2} = 1{,}415 \\times 5730 \\approx 8108$ ans.'
+        'À chaque demi-vie, la quantité restante est <strong>multipliée par $\\dfrac{1}{2}$</strong> : la suite $(N(k))$ est géométrique de raison $q = \\dfrac{1}{2}$ et de premier terme $N_0$.<br/><br/>Son terme général est donc $N(k) = N_0 \\times \\left(\\dfrac{1}{2}\\right)^k$.',
+        'On cherche $k$ tel que $\\dfrac{N(k)}{N_0} = 12{,}5\\,\\% = 0{,}125$.<br/><br/>Or $0{,}125 = \\dfrac{125}{1000} = \\dfrac{1}{8}$, et $\\dfrac{1}{8} = \\dfrac{1}{2 \\times 2 \\times 2} = \\left(\\dfrac{1}{2}\\right)^3$.<br/><br/>On peut aussi avancer de proche en proche : $\\left(\\dfrac{1}{2}\\right)^1 = 0{,}5$, puis $\\left(\\dfrac{1}{2}\\right)^2 = 0{,}25$, puis $\\left(\\dfrac{1}{2}\\right)^3 = 0{,}125$.<br/><br/>Il s\'est donc écoulé <strong>$k = 3$ demi-vies</strong>.',
+        'Chaque demi-vie dure $5730$ ans, donc l\'âge du fragment vaut $3 \\times 5730 = 17\\,190$ ans.',
+        'On cherche le premier rang $k$ tel que $\\left(\\dfrac{1}{2}\\right)^k < 0{,}01$. On calcule les termes successifs en divisant chaque fois par $2$, à partir de $\\left(\\dfrac{1}{2}\\right)^3 = 0{,}125$ :<br/><br/>$\\left(\\dfrac{1}{2}\\right)^4 = 0{,}0625$, puis $\\left(\\dfrac{1}{2}\\right)^5 = 0{,}03125$, puis $\\left(\\dfrac{1}{2}\\right)^6 = 0{,}015625$ : il reste encore plus de $1\\,\\%$.<br/><br/>$\\left(\\dfrac{1}{2}\\right)^7 = 0{,}0078125$, soit environ $0{,}78\\,\\%$ : c\'est le <strong>premier terme sous le seuil</strong>, donc $k = 7$.<br/><br/>La datation n\'est plus fiable au-delà de $7 \\times 5730 = 40\\,110$ ans environ.<br/><br/>Remarque : quand le pourcentage mesuré n\'est pas une puissance exacte de $\\dfrac{1}{2}$, on l\'encadre de la même façon entre deux termes consécutifs. L\'outil qui donne $k$ exactement dans ce cas, le logarithme, sera vu en terminale.'
       ],
-      finalAnswer: 'L\'échantillon a environ $8100$ ans.'
+      finalAnswer: 'Le fragment a $3$ demi-vies, soit $17\\,190$ ans. Il faut $7$ demi-vies pour passer sous $1\\,\\%$ : la datation n\'est plus fiable au-delà d\'environ $40\\,110$ ans.'
     },
 
     evaluation: {

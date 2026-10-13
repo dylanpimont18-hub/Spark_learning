@@ -24,7 +24,8 @@ window.MODULES.push({
         steps: [
           '<strong>Conversion</strong> : $\\text{rad} = \\text{degrés} \\times \\dfrac{\\pi}{180}$.',
           '<strong>Valeurs remarquables</strong> : $0, \\frac{\\pi}{6}, \\frac{\\pi}{4}, \\frac{\\pi}{3}, \\frac{\\pi}{2}$.',
-          '<strong>Symétries</strong> (pour un angle en dehors du premier quadrant) : on le ramène à un angle remarquable $\\alpha$ en le décomposant sous la forme $\\pi-\\alpha$, $\\pi+\\alpha$ ou $2\\pi-\\alpha$, puis on applique $\\cos(\\pi-\\alpha)=-\\cos\\alpha$, $\\sin(\\pi-\\alpha)=\\sin\\alpha$ (formules analogues pour $\\pi+\\alpha$ et $2\\pi-\\alpha$, seul le signe change selon le quadrant). <strong>Exemple :</strong> $\\dfrac{2\\pi}{3} = \\pi - \\dfrac{\\pi}{3}$, donc $\\cos\\dfrac{2\\pi}{3} = -\\cos\\dfrac{\\pi}{3} = -\\dfrac{1}{2}$.',
+          '<strong>Symétrie par rapport à l\'axe des ordonnées</strong> : un angle du deuxième quadrant s\'écrit $\\pi - \\alpha$ avec $\\alpha$ remarquable. Son point est le symétrique de celui de $\\alpha$ par rapport à l\'axe vertical, donc $\\cos(\\pi-\\alpha) = -\\cos\\alpha$ et $\\sin(\\pi-\\alpha) = \\sin\\alpha$.<br/><br/><strong>Exemple :</strong> $\\dfrac{2\\pi}{3} = \\pi - \\dfrac{\\pi}{3}$, donc $\\cos\\dfrac{2\\pi}{3} = -\\cos\\dfrac{\\pi}{3} = -\\dfrac{1}{2}$.',
+          '<strong>Les deux autres symétries</strong>, une fois la première comprise : $\\pi + \\alpha$ (troisième quadrant, symétrie par rapport à $O$) change les <strong>deux</strong> signes : $\\cos(\\pi+\\alpha) = -\\cos\\alpha$ et $\\sin(\\pi+\\alpha) = -\\sin\\alpha$.<br/><br/>$2\\pi - \\alpha$ (quatrième quadrant, symétrie par rapport à l\'axe des abscisses) ne change que le signe du sinus : $\\cos(2\\pi-\\alpha) = \\cos\\alpha$ et $\\sin(2\\pi-\\alpha) = -\\sin\\alpha$.<br/><br/>Dans tous les cas, la valeur absolue est celle de $\\alpha$ : <strong>seul le signe se lit sur le cercle</strong>.',
           '<strong>Périodicité</strong> : $\\cos(\\theta+2\\pi)=\\cos\\theta$, $\\sin(\\theta+2\\pi)=\\sin\\theta$.',
           '<strong>Parité</strong> : $\\cos(-\\theta)=\\cos\\theta$ (pair) ; $\\sin(-\\theta)=-\\sin\\theta$ (impair).'
         ]
@@ -43,7 +44,9 @@ window.MODULES.push({
         '$\\cos\\frac{\\pi}{3}=\\frac{1}{2}$, $\\sin\\frac{\\pi}{3}=\\frac{\\sqrt{3}}{2}$',
         '$\\cos\\frac{\\pi}{4}=\\sin\\frac{\\pi}{4}=\\frac{\\sqrt{2}}{2}$',
         '$\\cos\\frac{\\pi}{6}=\\frac{\\sqrt{3}}{2}$, $\\sin\\frac{\\pi}{6}=\\frac{1}{2}$',
-        '$\\cos(\\pi-\\alpha)=-\\cos\\alpha$, $\\sin(\\pi-\\alpha)=\\sin\\alpha$'
+        '$\\cos(\\pi-\\alpha)=-\\cos\\alpha$, $\\sin(\\pi-\\alpha)=\\sin\\alpha$',
+        '$\\cos(\\pi+\\alpha)=-\\cos\\alpha$, $\\sin(\\pi+\\alpha)=-\\sin\\alpha$',
+        '$\\cos(2\\pi-\\alpha)=\\cos\\alpha$, $\\sin(2\\pi-\\alpha)=-\\sin\\alpha$'
       ],
       diagram: {
         theme: 'maths',
@@ -161,8 +164,8 @@ window.MODULES.push({
               <line class="frame-line" x1="30" y1="262" x2="370" y2="262"></line>
               <line class="frame-line" x1="30" y1="222" x2="30" y2="262"></line>
               <line class="frame-line" x1="370" y1="222" x2="370" y2="262"></line>
-              <text class="tick-label" x="200" y="240" text-anchor="middle">un tour complet parcourt une longueur de 2 pi</text>
-              <text class="tick-label" x="200" y="256" text-anchor="middle">soit environ 6,28 fois le rayon : c est pourquoi un tour vaut 2 pi radians</text>
+              <text class="tick-label" x="200" y="240" text-anchor="middle">un tour complet parcourt une longueur de 2π</text>
+              <text class="tick-label" x="200" y="256" text-anchor="middle">soit environ 6,28 fois le rayon : c'est pourquoi un tour vaut 2π radians</text>
             </svg>
           `,
           notes: [
@@ -210,14 +213,14 @@ window.MODULES.push({
               <circle class="plot-point" cx="75.8" cy="229" r="5"></circle>
               <circle class="plot-point" cx="280.2" cy="229" r="5"></circle>
 
-              <text class="tick-label" x="288" y="102" text-anchor="start">pi/6</text>
-              <text class="tick-label" x="68" y="102" text-anchor="end">5 pi/6</text>
-              <text class="tick-label" x="68" y="248" text-anchor="end">7 pi/6</text>
-              <text class="tick-label" x="288" y="248" text-anchor="start">11 pi/6</text>
+              <text class="tick-label" x="288" y="102" text-anchor="start">π/6</text>
+              <text class="tick-label" x="68" y="102" text-anchor="end">5π/6</text>
+              <text class="tick-label" x="68" y="248" text-anchor="end">7π/6</text>
+              <text class="tick-label" x="288" y="248" text-anchor="start">11π/6</text>
 
-              <text class="annotation-label" x="178" y="100" text-anchor="middle">ordonnee 1/2</text>
-              <text class="annotation-label" x="178" y="248" text-anchor="middle">ordonnee −1/2</text>
-              <text class="tick-label" x="180" y="312" text-anchor="middle">abscisses : racine de 3 sur 2 a droite, son opposee a gauche</text>
+              <text class="annotation-label" x="178" y="100" text-anchor="middle">ordonnée 1/2</text>
+              <text class="annotation-label" x="178" y="248" text-anchor="middle">ordonnée −1/2</text>
+              <text class="tick-label" x="180" y="312" text-anchor="middle">abscisses : √3/2 à droite, −√3/2 à gauche</text>
             </svg>
           `,
           notes: [
@@ -265,15 +268,15 @@ window.MODULES.push({
               <circle class="plot-point-alt" cx="201.5" cy="196" r="4"></circle>
               <circle class="plot-point-alt" cx="180" cy="196" r="4"></circle>
 
-              <text class="tick-label" x="226" y="140" text-anchor="start">pi/6</text>
-              <text class="tick-label" x="209" y="116" text-anchor="start">pi/4</text>
-              <text class="tick-label" x="172" y="100" text-anchor="end">pi/3</text>
+              <text class="tick-label" x="226" y="140" text-anchor="start">π/6</text>
+              <text class="tick-label" x="209" y="116" text-anchor="start">π/4</text>
+              <text class="tick-label" x="172" y="100" text-anchor="end">π/3</text>
 
-              <text class="annotation-label" x="300" y="118" text-anchor="start">cos pi/6 ≈ 0,87</text>
-              <text class="annotation-label" x="300" y="146" text-anchor="start">cos pi/4 ≈ 0,71</text>
-              <text class="annotation-label" x="300" y="174" text-anchor="start">cos pi/3 = 0,5</text>
+              <text class="annotation-label" x="300" y="118" text-anchor="start">cos π/6 ≈ 0,87</text>
+              <text class="annotation-label" x="300" y="146" text-anchor="start">cos π/4 ≈ 0,71</text>
+              <text class="annotation-label" x="300" y="174" text-anchor="start">cos π/3 = 0,5</text>
               <text class="tick-label" x="300" y="202" text-anchor="start">le cosinus diminue</text>
-              <text class="tick-label" x="300" y="218" text-anchor="start">quand l angle augmente</text>
+              <text class="tick-label" x="300" y="218" text-anchor="start">quand l'angle augmente</text>
             </svg>
           `,
           notes: [
@@ -298,7 +301,7 @@ window.MODULES.push({
     quiz: [
       { q: 'Convertir $60°$ en radians :', options: ['$\\frac{\\pi}{4}$', '$\\frac{\\pi}{3}$', '$\\frac{\\pi}{2}$', '$\\frac{2\\pi}{3}$'], answer: 1, correction: 'On applique la formule de conversion : $60 \\times \\frac{\\pi}{180} = \\frac{60\\pi}{180} = \\frac{\\pi}{3}$.<br/><br/>Retiens que $60°$ correspond à un sixième de tour, soit $\\frac{\\pi}{3}$ radians.' },
       { q: '$\\sin\\frac{\\pi}{2}=$', options: ['$0$', '$\\frac{\\sqrt{2}}{2}$', '$\\frac{1}{2}$', '$1$'], answer: 3, correction: 'Sur le cercle trigonométrique, $\\frac{\\pi}{2}$ correspond au point $(0\\,;\\,1)$.<br/><br/>Le sinus étant l\'ordonnée du point, on a $\\sin\\frac{\\pi}{2} = 1$. C\'est la valeur maximale que le sinus peut atteindre.' },
-      { q: 'Laquelle de ces affirmations est VRAIE ?', options: ['$\\cos\\dfrac{\\pi}{3}=\\dfrac{1}{2}$ et $\\sin\\dfrac{\\pi}{3}=\\dfrac{\\sqrt{3}}{2}$', '$\\cos\\dfrac{\\pi}{3}=\\dfrac{\\sqrt{3}}{2}$ et $\\sin\\dfrac{\\pi}{3}=\\dfrac{1}{2}$', '$\\cos\\dfrac{\\pi}{3}=\\dfrac{\\sqrt{2}}{2}$ et $\\sin\\dfrac{\\pi}{3}=\\dfrac{\\sqrt{2}}{2}$', '$\\cos\\dfrac{\\pi}{3}=1$ et $\\sin\\dfrac{\\pi}{3}=0$'], answer: 0, correction: '$\\cos(\\pi/3) = 1/2$ et $\\sin(\\pi/3) = \\sqrt{3}/2$.<br/><br/>L\'option B est l\'erreur la plus fréquente : elle confond $\\pi/3$ avec $\\pi/6$ (qui donne $\\cos(\\pi/6) = \\sqrt{3}/2$ et $\\sin(\\pi/6) = 1/2$). L\'option C correspond à $\\pi/4$.<br/><br/>Moyen mnémotechnique : le cosinus <strong>descend</strong> quand l\'angle monte — $\\cos(\\pi/6) > \\cos(\\pi/4) > \\cos(\\pi/3)$.' },
+      { q: 'Laquelle de ces affirmations est VRAIE ?', options: ['$\\cos\\dfrac{\\pi}{3}=\\dfrac{1}{2}$ et $\\sin\\dfrac{\\pi}{3}=\\dfrac{\\sqrt{3}}{2}$', '$\\cos\\dfrac{\\pi}{3}=\\dfrac{\\sqrt{3}}{2}$ et $\\sin\\dfrac{\\pi}{3}=\\dfrac{1}{2}$', '$\\cos\\dfrac{\\pi}{3}=\\dfrac{\\sqrt{2}}{2}$ et $\\sin\\dfrac{\\pi}{3}=\\dfrac{\\sqrt{2}}{2}$', '$\\cos\\dfrac{\\pi}{3}=1$ et $\\sin\\dfrac{\\pi}{3}=0$'], answer: 0, correction: '$\\cos(\\pi/3) = 1/2$ et $\\sin(\\pi/3) = \\sqrt{3}/2$.<br/><br/>La proposition qui inverse les deux valeurs est l\'erreur la plus fréquente : elle confond $\\pi/3$ avec $\\pi/6$ (qui donne $\\cos(\\pi/6) = \\sqrt{3}/2$ et $\\sin(\\pi/6) = 1/2$). Celle qui donne $\\dfrac{\\sqrt{2}}{2}$ aux deux correspond à $\\pi/4$.<br/><br/>Moyen mnémotechnique : le cosinus <strong>descend</strong> quand l\'angle monte — $\\cos(\\pi/6) > \\cos(\\pi/4) > \\cos(\\pi/3)$.' },
       { q: 'La valeur de $\\cos\\left(\\dfrac{2\\pi}{3}\\right)$ est :', options: ['$\\dfrac{1}{2}$', '$-\\dfrac{1}{2}$', '$\\dfrac{\\sqrt{3}}{2}$', '$-\\dfrac{\\sqrt{3}}{2}$'], answer: 1, correction: 'On décompose l\'angle : $\\dfrac{2\\pi}{3} = \\pi - \\dfrac{\\pi}{3}$.<br/><br/>Par la formule de symétrie $\\cos(\\pi - \\alpha) = -\\cos\\alpha$, on obtient : $\\cos\\dfrac{2\\pi}{3} = -\\cos\\dfrac{\\pi}{3} = -\\dfrac{1}{2}$.' },
       { q: 'Sachant que $\\sin\\theta = 0{,}8$ et $\\theta \\in \\left[0\\,;\\,\\dfrac{\\pi}{2}\\right]$, $\\cos\\theta$ vaut :', options: ['$0{,}2$', '$0{,}6$', '$0{,}36$', '$-0{,}6$'], answer: 1, correction: 'On utilise la relation fondamentale : $\\cos^2\\theta = 1 - \\sin^2\\theta = 1 - 0{,}64 = 0{,}36$.<br/><br/>Comme $\\theta \\in [0\\,;\\,\\pi/2]$, le cosinus est positif, donc $\\cos\\theta = \\sqrt{0{,}36} = 0{,}6$. Attention à toujours vérifier le signe selon le quadrant !' }
     ],
@@ -345,12 +348,12 @@ window.MODULES.push({
            du premier quadrant. Les valeurs décimales sont arrondies au
            millième, ce que l'énoncé demande explicitement. */
         const angles = [
-          { deg: 120, rad: '2\\pi/3', cos: -0.5, sin: 0.866, decomp: '\\pi - \\pi/3', base: '\\pi/3' },
-          { deg: 150, rad: '5\\pi/6', cos: -0.866, sin: 0.5, decomp: '\\pi - \\pi/6', base: '\\pi/6' },
-          { deg: 210, rad: '7\\pi/6', cos: -0.866, sin: -0.5, decomp: '\\pi + \\pi/6', base: '\\pi/6' },
-          { deg: 240, rad: '4\\pi/3', cos: -0.5, sin: -0.866, decomp: '\\pi + \\pi/3', base: '\\pi/3' },
-          { deg: 300, rad: '5\\pi/3', cos: 0.5, sin: -0.866, decomp: '2\\pi - \\pi/3', base: '\\pi/3' },
-          { deg: 330, rad: '11\\pi/6', cos: 0.866, sin: -0.5, decomp: '2\\pi - \\pi/6', base: '\\pi/6' }
+          { deg: 120, rad: '2\\pi/3', cos: -0.5, sin: 0.866, decomp: '\\pi - \\pi/3', base: '\\pi/3', cosRel: '-\\cos(\\pi/3)', sinRel: '\\sin(\\pi/3)', cosE: '-\\dfrac{1}{2}', sinE: '\\dfrac{\\sqrt{3}}{2}' },
+          { deg: 150, rad: '5\\pi/6', cos: -0.866, sin: 0.5, decomp: '\\pi - \\pi/6', base: '\\pi/6', cosRel: '-\\cos(\\pi/6)', sinRel: '\\sin(\\pi/6)', cosE: '-\\dfrac{\\sqrt{3}}{2}', sinE: '\\dfrac{1}{2}' },
+          { deg: 210, rad: '7\\pi/6', cos: -0.866, sin: -0.5, decomp: '\\pi + \\pi/6', base: '\\pi/6', cosRel: '-\\cos(\\pi/6)', sinRel: '-\\sin(\\pi/6)', cosE: '-\\dfrac{\\sqrt{3}}{2}', sinE: '-\\dfrac{1}{2}' },
+          { deg: 240, rad: '4\\pi/3', cos: -0.5, sin: -0.866, decomp: '\\pi + \\pi/3', base: '\\pi/3', cosRel: '-\\cos(\\pi/3)', sinRel: '-\\sin(\\pi/3)', cosE: '-\\dfrac{1}{2}', sinE: '-\\dfrac{\\sqrt{3}}{2}' },
+          { deg: 300, rad: '5\\pi/3', cos: 0.5, sin: -0.866, decomp: '2\\pi - \\pi/3', base: '\\pi/3', cosRel: '\\cos(\\pi/3)', sinRel: '-\\sin(\\pi/3)', cosE: '\\dfrac{1}{2}', sinE: '-\\dfrac{\\sqrt{3}}{2}' },
+          { deg: 330, rad: '11\\pi/6', cos: 0.866, sin: -0.5, decomp: '2\\pi - \\pi/6', base: '\\pi/6', cosRel: '\\cos(\\pi/6)', sinRel: '-\\sin(\\pi/6)', cosE: '\\dfrac{\\sqrt{3}}{2}', sinE: '-\\dfrac{1}{2}' }
         ];
 
         /* Tâche 1 — la symétrie, tâche d'origine du chapitre. */
@@ -360,7 +363,7 @@ window.MODULES.push({
           const answer = func === 'cos' ? a.cos : a.sin;
           const ctx = pick([
             `Sur le cercle trigonométrique, on considère l'angle $\\theta = ${a.rad}$ rad (soit $${a.deg}°$).`,
-            `Un pendule est incliné d'un angle $\\theta = ${a.deg}°$ soit $${a.rad}$ rad.`,
+            `Un rayon de roue de vélo a tourné de $\\theta = ${a.deg}°$, soit $${a.rad}$ rad, depuis la position horizontale.`,
             `En électricité, la phase d'un signal est $\\theta = ${a.rad}$ rad.`
           ]);
           return {
@@ -369,7 +372,7 @@ window.MODULES.push({
             hint: `Décompose : $${a.rad} = ${a.decomp}$. Puis utilise les formules de symétrie avec l'angle de base $${a.base}$.`,
             solution: [
               `On décompose l'angle pour se ramener au premier quadrant : $${a.rad} = ${a.decomp}$.`,
-              `Les formules de symétrie donnent alors $\\${func}(${a.rad}) \\approx ${fr(answer)}$.`,
+              `Les formules de symétrie donnent $\\${func}\\left(${a.rad}\\right) = ${func === 'cos' ? a.cosRel : a.sinRel} = ${func === 'cos' ? a.cosE : a.sinE} \\approx ${fr(answer)}$.`,
               `Le signe se lit sur le cercle : l'angle $${a.rad}$ place le point dans un quadrant où le ${func === 'cos' ? 'cosinus (abscisse)' : 'sinus (ordonnée)'} est <strong>${answer < 0 ? 'négatif' : 'positif'}</strong>.`
             ]
           };
@@ -456,7 +459,7 @@ window.MODULES.push({
             solution: [
               `Par définition, le point associé à $\\theta$ a pour coordonnées $(\\cos\\theta\\,;\\,\\sin\\theta)$ : l'${quelle} cherchée est donc $\\${quelle === 'abscisse' ? 'cos' : 'sin'}\\left(${a.rad}\\right)$.`,
               `On décompose $${a.rad} = ${a.decomp}$, ce qui ramène au premier quadrant.`,
-              `On obtient une ${quelle} de $${fr(answer)}$.`
+              `Les formules de symétrie donnent $\\${quelle === 'abscisse' ? 'cos' : 'sin'}\\left(${a.rad}\\right) = ${quelle === 'abscisse' ? a.cosRel : a.sinRel} = ${quelle === 'abscisse' ? a.cosE : a.sinE} \\approx ${fr(answer)}$ : c'est l'${quelle} cherchée.`
             ]
           };
         }
@@ -480,7 +483,9 @@ window.MODULES.push({
               func === 'cos'
                 ? `La symétrie conserve l'abscisse : le cosinus est <strong>pair</strong>, donc $\\cos\\left(-${base.rad}\\right) = \\cos\\left(${base.rad}\\right) \\approx ${fr(answer)}$.`
                 : `La symétrie change le signe de l'ordonnée : le sinus est <strong>impair</strong>, donc $\\sin\\left(-${base.rad}\\right) = -\\sin\\left(${base.rad}\\right) \\approx ${fr(answer)}$.`,
-              `C'est bien la même valeur absolue que pour l'angle positif : seul ${func === 'cos' ? 'rien ne change' : 'le signe change'}.`
+              func === 'cos'
+                ? `La valeur est exactement la même que pour l'angle positif, signe compris : c'est ce que « pair » veut dire.`
+                : `C'est la même valeur absolue que pour l'angle positif, mais le signe a changé : c'est ce que « impair » veut dire.`
             ]
           };
         }
@@ -595,10 +600,10 @@ window.MODULES.push({
         {
           statement: 'L\'égalité $\\cos(-\\theta) = -\\cos(\\theta)$ est :',
           type: 'multiple-choice',
-          options: ['Toujours vraie', 'Vraie seulement si $\\theta = 0$', 'Toujours fausse (sauf $\\cos\\theta = 0$)', 'Vraie pour $\\theta = \\pi/2$'],
+          options: ['Toujours vraie', 'Vraie seulement si $\\theta = 0$', 'Toujours fausse (sauf $\\cos\\theta = 0$)', 'Vraie pour $\\theta = \\pi$'],
           answer: 2,
           points: 2,
-          correction: 'Le cosinus est une fonction <strong>paire</strong> : $\\cos(-\\theta) = \\cos(\\theta)$, et non $-\\cos(\\theta)$.<br/><br/>L\'égalité $\\cos(-\\theta) = -\\cos(\\theta)$ impliquerait $2\\cos\\theta = 0$, soit $\\cos\\theta = 0$.<br/><br/>Elle n\'est donc vraie que lorsque $\\cos\\theta = 0$ (par exemple $\\theta = \\pi/2$), et fausse en général.'
+          correction: 'Le cosinus est une fonction <strong>paire</strong> : $\\cos(-\\theta) = \\cos(\\theta)$, et non $-\\cos(\\theta)$.<br/><br/>L\'égalité $\\cos(-\\theta) = -\\cos(\\theta)$ impliquerait $2\\cos\\theta = 0$, soit $\\cos\\theta = 0$.<br/><br/>Elle n\'est donc vraie que lorsque $\\cos\\theta = 0$ (par exemple $\\theta = \\dfrac{\\pi}{2}$), et fausse en général.<br/><br/>Pour $\\theta = 0$ : $\\cos(0) = 1$ et $-\\cos(0) = -1$, l\'égalité est fausse.<br/><br/>Pour $\\theta = \\pi$ : $\\cos(-\\pi) = \\cos(\\pi) = -1$ alors que $-\\cos(\\pi) = 1$, elle est fausse aussi. Le signe « moins » devant l\'angle ne se transmet pas au cosinus.'
         },
         {
           statement: 'Quelle est la valeur de $\\sin\\left(\\dfrac{7\\pi}{6}\\right)$ ?',
