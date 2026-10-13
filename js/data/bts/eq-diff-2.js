@@ -14,7 +14,7 @@ window.MODULES.push(
     physics: 'Oscillateurs RLC, résonance, amortissement',
 
     cours: {
-      intro: 'Tout oscillateur physique — circuit RLC, suspension de voiture, bâtiment face au vent — est décrit par la même équation du 2nd ordre.<br/><br/>Le facteur de qualité $Q$ et le coefficient d\'amortissement $\\alpha$ définissent le comportement : sous-amorti ($Q > 0{,}5$, oscillations qui s\'éteignent progressivement), critique ($Q = 0{,}5$, retour le plus rapide à l\'équilibre sans oscillation), sur-amorti ($Q < 0{,}5$, retour lent).<br/><br/>La suspension critique est le compromis recherché en automatique pour un temps de réponse optimal.<br/><br/>En ingénierie, le régime pseudo-périodique est parfois souhaitable (résonance acoustique, filtres sélectifs) ou au contraire à éviter (amortissement des vibrations).<br/><br/>La pseudo-pulsation $\\omega_p = \\sqrt{\\omega_0^2 - \\alpha^2}$ est TOUJOURS inférieure à $\\omega_0$ : l\'amortissement ralentit les oscillations.',
+      intro: 'Tout oscillateur physique — circuit RLC, suspension de voiture, bâtiment face au vent — est décrit par la même équation du 2nd ordre.<br/><br/>Deux grandeurs fixent son comportement : le <strong>coefficient d\'amortissement</strong> $\\alpha$ et le <strong>facteur de qualité</strong> $Q$.<br/><br/>Si $Q > 0{,}5$, le système est <strong>sous-amorti</strong> : il oscille, et les oscillations s\'éteignent progressivement.<br/><br/>Si $Q = 0{,}5$, le régime est <strong>critique</strong> : retour le plus rapide à l\'équilibre, sans aucune oscillation.<br/><br/>Si $Q < 0{,}5$, le système est <strong>sur-amorti</strong> : retour lent, sans oscillation.<br/><br/>Le <strong>régime critique</strong> est le compromis recherché en automatique pour un temps de réponse optimal.<br/><br/>En ingénierie, le régime pseudo-périodique est parfois souhaitable (résonance acoustique, filtres sélectifs) ou au contraire à éviter (amortissement des vibrations).<br/><br/>La <strong>pseudo-pulsation</strong> $\\omega_p = \\sqrt{\\omega_0^2 - \\alpha^2}$ est <strong>toujours inférieure</strong> à $\\omega_0$ : l\'amortissement ralentit les oscillations.',
       definitions: [
         { term: 'Pulsation propre $\\omega_0$', def: 'Pulsation des oscillations libres du système non amorti ($R = 0$ pour un RLC). Pour un circuit RLC série : $\\omega_0 = 1/\\sqrt{LC}$.' },
         { term: 'Coefficient d\'amortissement $\\alpha$', def: 'Paramètre qui traduit la dissipation d\'énergie. Pour un circuit RLC série : $\\alpha = R/(2L)$. Plus $\\alpha$ est grand, plus les oscillations s\'éteignent vite.' },
@@ -26,6 +26,7 @@ window.MODULES.push(
         steps: [
           '<strong>Équation caractéristique</strong> : en remplaçant $\\frac{d^2y}{dt^2}$ par $r^2$ et $\\frac{dy}{dt}$ par $r$ : $r^2 + 2\\alpha r + \\omega_0^2 = 0$.<br/><br/><strong>Exemple :</strong> Pour $\\alpha = 3$ et $\\omega_0 = 5$ : $r^2 + 6r + 25 = 0$.',
           '<strong>Discriminant et régime</strong> : $\\Delta = 4\\alpha^2 - 4\\omega_0^2 = 4(\\alpha^2 - \\omega_0^2)$. Si $\\Delta < 0$ → pseudo-périodique (oscillant amorti). Si $\\Delta = 0$ → critique (le plus rapide sans oscillation). Si $\\Delta > 0$ → apériodique (lent, pas d\'oscillation).<br/><br/><strong>Exemple :</strong> $\\Delta = 4(9 - 25) = -64 < 0$ → régime pseudo-périodique.',
+          '<strong>Forme de la solution</strong> de l\'équation sans second membre $y\'\' + 2\\alpha y\' + \\omega_0^2 y = 0$ : elle dépend du signe de $\\Delta$.<br/><br/>Si $\\Delta < 0$, avec $\\omega_p = \\sqrt{\\omega_0^2 - \\alpha^2}$ : $y(t) = e^{-\\alpha t}\\left(A\\cos(\\omega_p t) + B\\sin(\\omega_p t)\\right)$, une <strong>sinusoïde amortie</strong>.<br/><br/>Si $\\Delta = 0$ : $y(t) = (A + Bt)\\,e^{-\\alpha t}$.<br/><br/>Si $\\Delta > 0$, avec les deux racines réelles $r_1 = -\\alpha + \\sqrt{\\alpha^2 - \\omega_0^2}$ et $r_2 = -\\alpha - \\sqrt{\\alpha^2 - \\omega_0^2}$ : $y(t) = A\\,e^{r_1 t} + B\\,e^{r_2 t}$.<br/><br/>Avec le second membre constant $\\omega_0^2 y_{\\infty}$ de l\'équation canonique, on ajoute la <strong>solution particulière constante</strong> $y_{\\infty}$ : $y(t) = y_{\\infty} + $ (solution sans second membre).<br/><br/>Dans tous les cas, les constantes $A$ et $B$ se déterminent avec les <strong>conditions initiales</strong> $y(0)$ et $y\'(0)$.<br/><br/><strong>Exemple :</strong> pour $\\alpha = 3$ et $\\omega_0 = 5$, $\\omega_p = \\sqrt{25 - 9} = 4$ rad/s, donc $y(t) = e^{-3t}\\left(A\\cos(4t) + B\\sin(4t)\\right)$.<br/><br/>Si $y(0) = 1$ et $y\'(0) = 0$ : $y(0) = A = 1$, puis $y\'(0) = -3A + 4B = 0$ donne $B = 0{,}75$.<br/><br/>Solution : $y(t) = e^{-3t}\\left(\\cos(4t) + 0{,}75\\sin(4t)\\right)$.',
           '<strong>Facteur de qualité</strong> : $Q = \\omega_0 / (2\\alpha)$. Si $Q > 0{,}5$ : pseudo-périodique. $Q = 0{,}5$ : critique. $Q < 0{,}5$ : apériodique.<br/><br/><strong>Exemple :</strong> $Q = 5/(2 \\times 3) = 0{,}83 > 0{,}5$ → confirme le régime pseudo-périodique.'
         ]
       },
@@ -34,9 +35,9 @@ window.MODULES.push(
         steps: [
           'Pulsation propre : $\\omega_0 = 1/\\sqrt{LC} = 1/\\sqrt{0{,}1 \\times 10^{-4}} = 1/\\sqrt{10^{-5}} \\approx 316$ rad/s.',
           'Coefficient d\'amortissement : $\\alpha = R/(2L) = 40/(2 \\times 0{,}1) = 200$ rad/s.',
-          'Discriminant : $\\Delta = 4(\\alpha^2 - \\omega_0^2) = 4(40000 - 99856) = 4 \\times (-59856) \\approx -2{,}39 \\times 10^5 < 0$ → régime pseudo-périodique.',
+          'Discriminant : comme $\\omega_0^2 = \\dfrac{1}{LC} = 10^5$ exactement, $\\Delta = 4(\\alpha^2 - \\omega_0^2) = 4(40\\,000 - 100\\,000) = -2{,}4 \\times 10^5 < 0$ → régime pseudo-périodique.',
           'Facteur de qualité : $Q = 316/(2 \\times 200) = 0{,}79 > 0{,}5$ → confirme.',
-          'Pseudo-pulsation : $\\omega_p = \\sqrt{\\omega_0^2 - \\alpha^2} = \\sqrt{99856 - 40000} = \\sqrt{59856} \\approx 245$ rad/s.'
+          'Pseudo-pulsation : $\\omega_p = \\sqrt{\\omega_0^2 - \\alpha^2} = \\sqrt{100\\,000 - 40\\,000} = \\sqrt{60\\,000} \\approx 245$ rad/s.'
         ],
         answer: 'Régime pseudo-périodique ($Q \\approx 0{,}79$), pseudo-pulsation $\\omega_p \\approx 245$ rad/s. Le condensateur oscillera à cette pulsation en s\'amortissant.'
       },
@@ -44,7 +45,8 @@ window.MODULES.push(
         'Équation canonique : $\\dfrac{d^2y}{dt^2} + 2\\alpha\\dfrac{dy}{dt} + \\omega_0^2 y = \\omega_0^2 y_{\\infty}$',
         '$\\Delta = 4\\alpha^2 - 4\\omega_0^2$',
         '$Q = \\dfrac{\\omega_0}{2\\alpha}$ (facteur de qualité)',
-        'Circuit RLC série : $\\omega_0 = \\dfrac{1}{\\sqrt{LC}}$, $\\alpha = \\dfrac{R}{2L}$'
+        'Circuit RLC série : $\\omega_0 = \\dfrac{1}{\\sqrt{LC}}$, $\\alpha = \\dfrac{R}{2L}$',
+        'Solutions sans second membre : $\\Delta < 0$ : $e^{-\\alpha t}(A\\cos\\omega_p t + B\\sin\\omega_p t)$ ; $\\Delta = 0$ : $(A + Bt)e^{-\\alpha t}$ ; $\\Delta > 0$ : $Ae^{r_1 t} + Be^{r_2 t}$'
       ],
       diagram: {
         theme: 'maths',
@@ -122,13 +124,13 @@ window.MODULES.push(
       {
         q: 'Pour un système avec $\\alpha = 2$ rad/s et $\\omega_0 = 5$ rad/s (régime pseudo-périodique), la pseudo-pulsation $\\omega_p$ des oscillations est :',
         options: [
-          '$\\omega_p = \\sqrt{\\omega_0^2 - \\alpha^2} = \\sqrt{25 - 4} = \\sqrt{21} \\approx 4{,}58$ rad/s',
-          '$\\omega_p = \\omega_0 = 5$ rad/s (la pulsation propre)',
-          '$\\omega_p = \\alpha = 2$ rad/s (le coefficient d\'amortissement)',
-          '$\\omega_p = \\omega_0 + \\alpha = 7$ rad/s'
+          '$\\omega_p \\approx 4{,}58$ rad/s',
+          '$\\omega_p = 5$ rad/s',
+          '$\\omega_p = 2$ rad/s',
+          '$\\omega_p = 7$ rad/s'
         ],
         answer: 0,
-        correction: 'En régime pseudo-périodique ($\\alpha < \\omega_0$), les oscillations ont une pulsation $\\omega_p = \\sqrt{\\omega_0^2 - \\alpha^2}$, TOUJOURS inférieure à $\\omega_0$. Ici $\\omega_p = \\sqrt{25-4} = \\sqrt{21} \\approx 4{,}58$ rad/s. $\\omega_0 = 5$ rad/s est la pulsation propre du système non amorti — c\'est une propriété intrinsèque du système, pas la fréquence réelle des oscillations amortie.'
+        correction: 'En régime pseudo-périodique ($\\alpha < \\omega_0$), les oscillations ont pour pulsation $\\omega_p = \\sqrt{\\omega_0^2 - \\alpha^2} = \\sqrt{25 - 4} = \\sqrt{21} \\approx 4{,}58$ rad/s.<br/><br/>$5$ rad/s est la <strong>pulsation propre</strong> $\\omega_0$ du système non amorti : l\'amortissement ralentit toujours les oscillations, donc $\\omega_p < \\omega_0$.<br/><br/>$2$ rad/s est le coefficient $\\alpha$ : il mesure la vitesse de décroissance de l\'enveloppe, pas la pulsation.<br/><br/>$7$ rad/s additionne deux grandeurs qui ne s\'ajoutent pas : ce sont les <strong>carrés</strong> qui se soustraient sous la racine.'
       },
       {
         q: 'Un système a $\\alpha = 3$ rad/s et $\\omega_0 = 5$ rad/s. Son régime est :',
@@ -151,12 +153,78 @@ window.MODULES.push(
         ],
         answer: 1,
         correction: 'Le régime critique correspond à $\\Delta = 0$, soit $4(\\alpha^2 - \\omega_0^2) = 0$, donc $\\alpha = \\omega_0$. C\'est le régime qui revient le plus vite à l\'équilibre sans oscillation.'
+      },
+      {
+        q: 'Pour $\\alpha = 3$ rad/s et $\\omega_0 = 5$ rad/s ($\\Delta = -64 < 0$), la solution de $y\'\' + 6y\' + 25y = 0$ s\'écrit :',
+        options: [
+          '$y(t) = (A + Bt)\\,e^{-3t}$',
+          '$y(t) = e^{-3t}\\left(A\\cos(5t) + B\\sin(5t)\\right)$',
+          '$y(t) = A\\,e^{-3t} + B\\,e^{-5t}$',
+          '$y(t) = e^{-3t}\\left(A\\cos(4t) + B\\sin(4t)\\right)$'
+        ],
+        answer: 3,
+        correction: '$\\Delta < 0$ : régime pseudo-périodique, la solution est une <strong>sinusoïde amortie</strong> $e^{-\\alpha t}\\left(A\\cos(\\omega_p t) + B\\sin(\\omega_p t)\\right)$ avec $\\omega_p = \\sqrt{25 - 9} = 4$ rad/s.<br/><br/>L\'écriture avec $\\cos(5t)$ utilise $\\omega_0 = 5$ à la place de $\\omega_p$ : l\'amortissement ralentit les oscillations, la pulsation réelle est $4$ rad/s.<br/><br/>Une somme de deux exponentielles correspond au régime <strong>apériodique</strong> ($\\Delta > 0$) et $(A + Bt)e^{-3t}$ au régime <strong>critique</strong> ($\\Delta = 0$) : ni l\'un ni l\'autre n\'oscille.'
       }
     ],
 
     exercice: {
       type: 'numeric',
       generate() {
+        const branch = pick(['delta', 'delta', 'omegap', 'omega0']);
+
+        if (branch === 'omegap') {
+          // couples (alpha, omega0) choisis pour une pseudo-pulsation entière : omega0² − alpha² est un carré parfait
+          const couple = pick([[3, 5], [4, 5], [6, 10], [8, 10], [5, 13], [12, 13], [9, 15], [8, 17]]);
+          const alpha = couple[0];
+          const omega0 = couple[1];
+          const omegap = Math.sqrt(omega0 * omega0 - alpha * alpha);
+          const ctx = pick([
+            { build: () => `La <strong>suspension d'une voiture</strong> est réglée avec $\\alpha = ${alpha}$ rad/s et $\\omega_0 = ${omega0}$ rad/s. Après un nid-de-poule, la caisse oscille en s'amortissant.<br/><br/>Calcule la <strong>pseudo-pulsation</strong> $\\omega_p$ de ces oscillations.` },
+            { build: () => `Un <strong>circuit RLC série</strong> en régime pseudo-périodique a pour paramètres $\\alpha = ${alpha}$ rad/s et $\\omega_0 = ${omega0}$ rad/s.<br/><br/>Calcule la <strong>pseudo-pulsation</strong> $\\omega_p$ de la tension aux bornes du condensateur.` },
+            { build: () => `Le <strong>bras d'un robot industriel</strong> est asservi avec $\\alpha = ${alpha}$ rad/s et $\\omega_0 = ${omega0}$ rad/s ; il oscille légèrement avant de se figer sur sa consigne.<br/><br/>Calcule la <strong>pseudo-pulsation</strong> $\\omega_p$ de ces oscillations.` }
+          ]);
+          return {
+            statement: ctx.build(),
+            answer: omegap,
+            tolerance: 0.01,
+            unit: 'rad/s',
+            hint: `Vérifie d'abord que $\\alpha < \\omega_0$ (régime pseudo-périodique), puis applique $\\omega_p = \\sqrt{\\omega_0^2 - \\alpha^2}$ : ce sont les <strong>carrés</strong> qui se soustraient.`,
+            solution: [
+              `$\\alpha = ${alpha} < \\omega_0 = ${omega0}$ : le régime est bien <strong>pseudo-périodique</strong>, la pseudo-pulsation existe.`,
+              `$\\omega_p = \\sqrt{\\omega_0^2 - \\alpha^2} = \\sqrt{${omega0 * omega0} - ${alpha * alpha}} = \\sqrt{${omega0 * omega0 - alpha * alpha}}$`,
+              `$\\omega_p = ${omegap}$ rad/s, bien <strong>inférieure</strong> à $\\omega_0 = ${omega0}$ rad/s : l'amortissement ralentit les oscillations.`
+            ]
+          };
+        }
+
+        if (branch === 'omega0') {
+          // LC = 10^-k pour une racine lisible : omega0 = 10^(k/2) rad/s
+          const cas = pick([
+            { L: '0{,}1', C: 100, LC: '10^{-5}', w: 316 },
+            { L: '0{,}5', C: 20, LC: '10^{-5}', w: 316 },
+            { L: '1', C: 1, LC: '10^{-6}', w: 1000 },
+            { L: '0{,}2', C: 5, LC: '10^{-6}', w: 1000 },
+            { L: '2', C: 50, LC: '10^{-4}', w: 100 },
+            { L: '0{,}4', C: 250, LC: '10^{-4}', w: 100 }
+          ]);
+          const ctx = pick([
+            { build: () => `Un <strong>circuit RLC série</strong> comporte une bobine $L = ${cas.L}$ H et un condensateur $C = ${cas.C}$ μF.<br/><br/>Calcule sa <strong>pulsation propre</strong> $\\omega_0 = \\dfrac{1}{\\sqrt{LC}}$ (arrondir à l'entier).` },
+            { build: () => `Le <strong>filtre d'entrée d'un variateur de vitesse</strong> est un circuit LC avec $L = ${cas.L}$ H et $C = ${cas.C}$ μF.<br/><br/>Calcule la <strong>pulsation propre</strong> $\\omega_0 = \\dfrac{1}{\\sqrt{LC}}$ de ce filtre (arrondir à l'entier).` }
+          ]);
+          return {
+            statement: ctx.build(),
+            answer: cas.w,
+            tolerance: 1,
+            unit: 'rad/s',
+            hint: `Convertis d'abord $C$ en farads ($${cas.C}$ μF $= ${cas.C} \\times 10^{-6}$ F), puis écris le produit $LC$ sous la forme $10^{-k}$ avant de prendre la racine.`,
+            solution: [
+              `$LC = ${cas.L} \\times ${cas.C} \\times 10^{-6} = ${cas.LC}$`,
+              `$\\omega_0 = \\dfrac{1}{\\sqrt{${cas.LC}}} ${cas.w === 316 ? '\\approx' : '='} ${cas.w}$ rad/s`
+            ]
+          };
+        }
+
+        // branche 'delta' : calcul du discriminant et identification du régime
         const alpha = rand(1, 6);
         const omega0 = rand(1, 6);
         const delta = 4 * (alpha * alpha - omega0 * omega0);
@@ -179,8 +247,8 @@ window.MODULES.push(
               `Calcule $\\Delta = 4(\\alpha^2 - \\omega_0^2)$ et détermine le <strong>régime</strong> du retour à l'équilibre de la caisse.`
           },
           {
-            build: () => `Un <strong>immeuble</strong> soumis à une rafale de vent oscille avant de revenir à sa position d'équilibre. L'ingénieur structure identifie $\\alpha = ${alpha}$ rad/s et $\\omega_0 = ${omega0}$ rad/s pour ce mode de vibration.<br/><br/>` +
-              `Calcule $\\Delta = 4(\\alpha^2 - \\omega_0^2)$ et détermine le <strong>régime</strong> d'amortissement du bâtiment.`
+            build: () => `Un <strong>immeuble de grande hauteur</strong> est poussé par une rafale de vent, puis revient vers sa position d'équilibre. L'ingénieur structure identifie $\\alpha = ${alpha}$ rad/s et $\\omega_0 = ${omega0}$ rad/s pour ce mode de vibration.<br/><br/>` +
+              `Calcule $\\Delta = 4(\\alpha^2 - \\omega_0^2)$ et détermine le <strong>régime</strong> du retour à l'équilibre : avec ou sans oscillation ?`
           },
           {
             build: () => `Le <strong>bras articulé d'un robot industriel</strong> doit s'arrêter précisément après un déplacement. Le réglage de l'asservissement donne $\\alpha = ${alpha}$ rad/s et $\\omega_0 = ${omega0}$ rad/s.<br/><br/>` +
@@ -191,8 +259,8 @@ window.MODULES.push(
               `Calcule $\\Delta = 4(\\alpha^2 - \\omega_0^2)$ et détermine le <strong>régime</strong> de fermeture de la porte.`
           },
           {
-            build: () => `Un <strong>haut-parleur de caisson de basses</strong> est modélisé par un système du 2nd ordre avec $\\alpha = ${alpha}$ rad/s (amortissement de la membrane) et $\\omega_0 = ${omega0}$ rad/s (résonance mécanique).<br/><br/>` +
-              `Calcule $\\Delta = 4(\\alpha^2 - \\omega_0^2)$ et détermine le <strong>régime</strong> de la membrane après une impulsion.`
+            build: () => `La <strong>flèche d'une grue à tour</strong> revient au repos après la dépose d'une charge. Le bureau d'études modélise ce mouvement par un système du 2nd ordre avec $\\alpha = ${alpha}$ rad/s et $\\omega_0 = ${omega0}$ rad/s.<br/><br/>` +
+              `Calcule $\\Delta = 4(\\alpha^2 - \\omega_0^2)$ et détermine le <strong>régime</strong> du retour au repos de la flèche.`
           },
           {
             build: () => `Un <strong>capteur sismique</strong> (sismomètre) doit revenir rapidement au repos après une secousse. Le fabricant donne $\\alpha = ${alpha}$ rad/s et $\\omega_0 = ${omega0}$ rad/s pour la masse suspendue.<br/><br/>` +
@@ -205,10 +273,10 @@ window.MODULES.push(
           answer: delta,
           tolerance: 0.001,
           unit: '',
-          hint: `$\\Delta = 4(\\alpha^2 - \\omega_0^2) = 4(${alpha}^2 - ${omega0}^2) = 4(${alpha*alpha} - ${omega0*omega0})$. Ensuite : $\\Delta < 0$ → pseudo-périodique, $\\Delta = 0$ → critique, $\\Delta > 0$ → apériodique.`,
+          hint: `Remplace $\\alpha$ et $\\omega_0$ dans $\\Delta = 4(\\alpha^2 - \\omega_0^2)$ : élève chaque valeur au <strong>carré</strong>, soustrais, puis multiplie par 4.<br/><br/>Ensuite : $\\Delta < 0$ → pseudo-périodique, $\\Delta = 0$ → critique, $\\Delta > 0$ → apériodique.`,
           solution: [
             `$\\Delta = 4(\\alpha^2 - \\omega_0^2) = 4(${alpha}^2 - ${omega0}^2)$`,
-            `$\\Delta = 4 \\times (${alpha*alpha} - ${omega0*omega0}) = 4 \\times ${alpha*alpha - omega0*omega0} = ${delta}$`,
+            `$\\Delta = 4 \\times (${alpha*alpha} - ${omega0*omega0}) = 4 \\times ${alpha*alpha - omega0*omega0 < 0 ? `(${alpha*alpha - omega0*omega0})` : alpha*alpha - omega0*omega0} = ${delta}$`,
             `$\\Delta ${delta < 0 ? '< 0' : delta === 0 ? '= 0' : '> 0'}$ → Régime ${regime}`
           ]
         };
@@ -221,14 +289,16 @@ window.MODULES.push(
       tasks: [
         'Calculer la pulsation propre $\\omega_0 = \\dfrac{1}{\\sqrt{LC}}$ et le coefficient d\'amortissement $\\alpha = \\dfrac{R}{2L}$.',
         'Calculer le discriminant $\\Delta = 4(\\alpha^2 - \\omega_0^2)$ et identifier le régime.',
-        'Calculer le facteur de qualité $Q = \\omega_0 / (2\\alpha)$ et interpréter physiquement le résultat.'
+        'Calculer le facteur de qualité $Q = \\omega_0 / (2\\alpha)$ et interpréter physiquement le résultat.',
+        'Calculer la pseudo-pulsation $\\omega_p = \\sqrt{\\omega_0^2 - \\alpha^2}$ puis la pseudo-période $T_p = 2\\pi/\\omega_p$ des oscillations de la tension $u_C(t)$, qui démarre à $U_0 = 10$ V.'
       ],
       solutions: [
         '$\\omega_0 = \\dfrac{1}{\\sqrt{LC}} = \\dfrac{1}{\\sqrt{0{,}1 \\times 100 \\times 10^{-6}}} = \\dfrac{1}{\\sqrt{10^{-5}}} \\approx 316$ rad/s. $\\alpha = \\dfrac{R}{2L} = \\dfrac{20}{0{,}2} = 100$ rad/s.',
-        '$\\Delta = 4(\\alpha^2 - \\omega_0^2) = 4(10000 - 99856) = 4 \\times (-89856) \\approx -3{,}59 \\times 10^5 < 0$. Régime pseudo-périodique.',
-        '$Q = \\dfrac{\\omega_0}{2\\alpha} = \\dfrac{316}{200} \\approx 1{,}58 > 0{,}5$. Le circuit est sous-amorti : la tension oscillera en s\'amortissant avant d\'atteindre zéro.'
+        '$\\omega_0^2 = \\dfrac{1}{LC} = 10^5$ exactement.<br/><br/>$\\Delta = 4(\\alpha^2 - \\omega_0^2) = 4(10\\,000 - 100\\,000) = -3{,}6 \\times 10^5 < 0$ : régime <strong>pseudo-périodique</strong>.',
+        '$Q = \\dfrac{\\omega_0}{2\\alpha} = \\dfrac{316}{200} \\approx 1{,}58 > 0{,}5$. Le circuit est sous-amorti : la tension oscillera en s\'amortissant avant d\'atteindre zéro.',
+        '$\\omega_p = \\sqrt{\\omega_0^2 - \\alpha^2} = \\sqrt{100\\,000 - 10\\,000} = \\sqrt{90\\,000} = 300$ rad/s.<br/><br/>$T_p = \\dfrac{2\\pi}{300} \\approx 0{,}0209$ s, soit environ $21$ ms.<br/><br/>Partie de $U_0 = 10$ V, la tension $u_C$ oscille avec cette pseudo-période, chaque oscillation étant plus petite que la précédente.'
       ],
-      finalAnswer: 'Régime pseudo-périodique ($Q \\approx 1{,}58$) : oscillations amorties'
+      finalAnswer: 'Régime pseudo-périodique ($Q \\approx 1{,}58$) : oscillations amorties de pseudo-pulsation $300$ rad/s, soit une pseudo-période d\'environ $21$ ms'
     },
 
     evaluation: {
