@@ -51,13 +51,7 @@ const A_SUPPRIMER = [
   '.celebration-flash',
   '.celebration-badge',
   '.ad-slot-placeholder',
-  'ins.adsbygoogle',
-  /* Bandeau cookies de Shopify, sur la boutique. Injecte par l'API
-     Customer Privacy une a deux secondes APRES le chargement : le
-     retirer une seule fois ne suffit pas, d'ou la regle CSS posee en
-     plus du retrait (voir preparer()). */
-  '#shopify-pc__banner',
-  '#shopify-pc__prefs'
+  'ins.adsbygoogle'
 ];
 
 function args() {
@@ -89,10 +83,7 @@ async function preparer(page, url) {
       /* Les animations d'apparition figeraient des elements a moitie
          visibles selon l'instant de la capture. */
       '*,*::before,*::after{animation-duration:0s !important;transition-duration:0s !important}',
-      /* Le retrait ci-dessus ne vaut que pour ce qui existe DEJA. Le
-         bandeau cookies de Shopify arrive une a deux secondes plus
-         tard, en plein milieu du plan. Une regle CSS, elle, s'applique
-         aussi a ce qui sera injecte ensuite. */
+      /* Une regle CSS s'applique aussi a ce qui sera injecte apres le retrait. */
       selecteurs.join(',') + '{display:none !important}'
     ].join('\n');
     document.head.appendChild(style);

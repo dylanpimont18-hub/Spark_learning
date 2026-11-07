@@ -75,3 +75,22 @@ def test_une_etape_intermediaire_sans_borne_est_refusee():
 def test_un_plan_vide_est_refuse():
     with pytest.raises(ValueError):
         plan_segments([], duree=10.0)
+
+
+# ── defilement par segment ──
+
+def test_le_defilement_d_une_etape_est_transmis_au_segment():
+    etapes = [
+        {"url": "https://exemple.fr/a", "jusqu_a": 0.5, "defilement": 0.4},
+        {"url": "https://exemple.fr/b"},
+    ]
+
+    segments = plan_segments(etapes, duree=10.0)
+
+    assert segments[0]["defilement"] == 0.4
+    assert "defilement" not in segments[1]
+
+
+def test_un_defilement_hors_de_zero_un_est_refuse():
+    with pytest.raises(ValueError, match="defilement"):
+        plan_segments([{"url": "https://exemple.fr/a", "defilement": 1.5}], duree=10.0)

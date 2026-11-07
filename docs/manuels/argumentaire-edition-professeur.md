@@ -176,92 +176,6 @@ et **vérifiés dans le PDF généré**.
 
 ---
 
-## 3. Texte de fiche produit (Shopify)
-
-À coller dans la fiche `MATH-6E-PROF`. ⚠️ **Vérifier les 6 nombres en gras
-contre §7 avant publication.**
-
-### Titre
-
-> Mathématiques 6e — Édition du professeur (PDF)
-
-Variante si le titre doit porter la marque :
-> Spark Learning — Mathématiques 6e, édition du professeur (PDF)
-
-### Description courte (méta / accroche, ~150 caractères)
-
-> L'année de 6e prête à enseigner : progression, **150** exercices
-> supplémentaires corrigés, erreurs fréquentes et évaluations par compétences.
-
-### Description longue
-
-> **Ce que vous achetez, c'est le travail de préparation que vous ne referez pas.**
->
-> L'édition du professeur reprend l'intégralité du manuel élève de 6e — dix
-> chapitres, du cours, des méthodes, des figures — et y ajoute l'appareil dont
-> on a besoin quand on est devant la classe, pas devant le livre.
->
-> **Une progression annuelle**, en tête d'ouvrage. L'ordre des dix chapitres,
-> ce sur quoi chacun s'appuie, et les attendus de fin d'année du programme
-> officiel, chapitre par chapitre. Volontairement sans calendrier : le découpage
-> en semaines dépend de votre classe et de votre établissement, pas d'un livre.
->
-> **Une banque de 150 exercices supplémentaires**, soit quinze par chapitre,
-> qui ne figurent pas dans l'édition élève. Groupés par type de tâche, tous
-> corrigés. De quoi donner du travail à un groupe qui va vite, monter un devoir
-> maison, ou reprendre une notion sans redonner ce que l'élève a déjà.
->
-> **40 fiches « Erreurs fréquentes et remédiation »**, quatre par chapitre en
-> moyenne. Chacune dit ce que l'élève écrit, d'où ça vient, et par quoi y
-> répondre — et renvoie à l'exercice précis du livre qui sert de remédiation.
->
-> **190 corrigés rédigés en étapes**, imprimés sous leur énoncé. Pas des
-> résultats en fin de volume : le raisonnement, étape par étape, avec la
-> réponse isolée. Utilisable au tableau.
->
-> **Des évaluations prêtes à photocopier, alignées sur les compétences.**
-> Une évaluation notée par chapitre, avec son barème et sa durée. Chacune des
-> cinq questions porte une compétence du référentiel officiel — chercher,
-> modéliser, représenter, raisonner, calculer, communiquer — et une grille
-> totalise les points par compétence. Une grille de suivi de classe vierge,
-> 26 élèves, est fournie en annexe à photocopier chaque trimestre.
->
-> **Un encadré « Pour l'enseignant » par chapitre** : objectifs visés,
-> prérequis, durée de l'évaluation, et la place exacte du chapitre dans le
-> programme — ce qui relève de la 6e, ce qui anticipe le cycle 4, ce qui peut
-> être réservé aux élèves à l'aise.
->
-> **Format** : PDF de **152** pages, à lire à l'écran ou à imprimer.
-> Téléchargement immédiat.
->
-> **Ce que ce livre ne contient pas**, pour que ce soit clair avant l'achat :
-> pas de déroulé de séance minute par minute, pas de deuxième version des
-> évaluations, pas de calendrier de progression, pas de fichiers modifiables.
-> L'achat de l'édition professeur ne donne pas le droit de distribuer l'édition
-> élève à vos élèves.
-
-### Liste à puces (bénéfices, bloc « En un coup d'œil »)
-
-> - **152 pages**, dix chapitres couvrant l'année de 6e
-> - **270 énoncés** au total, contre 120 dans l'édition élève
-> - **150 exercices supplémentaires** exclusifs, tous corrigés
-> - **190 corrigés rédigés en étapes**, imprimés sous l'énoncé
-> - **40 fiches d'erreurs fréquentes**, avec l'exercice de remédiation associé
-> - **10 évaluations** notées, barème fourni, une compétence officielle par question
-> - **Progression annuelle** : ordre, prérequis, attendus officiels de fin d'année
-> - **Grille de suivi de classe** photocopiable (26 élèves × 6 compétences)
-> - PDF, téléchargement immédiat, pas d'abonnement
-
-### Note de ton
-
-Le texte ci-dessus évite délibérément : « révolutionnaire », « incontournable »,
-« clé en main », « tout ce dont vous avez besoin », « des milliers
-d'exercices ». Chaque affirmation est un nombre vérifiable ou une description
-de ce qui est physiquement dans le PDF. C'est le seul registre qui tienne
-devant un enseignant, qui repère une plaquette en trois lignes.
-
----
-
 ## 4. Ce qu'il faut corriger dans le produit avant de pousser cet argumentaire
 
 Constats faits en établissant les chiffres. Ce sont des **défauts**, pas des
@@ -370,8 +284,7 @@ périmètre v2. Si elle est réclamée plusieurs fois, c'est un signal produit.
 
 **Objection 6 — « Est-ce que je peux photocopier pour ma classe ? »**
 
-⚠️ **Ne pas répondre avant d'avoir tranché.** Les CGV
-(`docs/boutique/cgv.md`) sont écrites pour une vente à des **consommateurs
+⚠️ **Ne pas répondre avant d'avoir tranché.** Les conditions de vente actuelles sont écrites pour une vente à des **consommateurs
 particuliers** et ne définissent pas de licence de classe. Trois questions à
 régler avant la mise en vente :
 - la grille de suivi et les évaluations sont **conçues pour être
@@ -494,8 +407,6 @@ motifs contiennent des antislashs et des accolades.
 
 Une fois recomptés, à mettre à jour partout où ils sont écrits :
 
-- la fiche produit Shopify `MATH-6E-PROF` (titre, description courte,
-  description longue, liste à puces) ;
 - la quatrième de couverture du PDF ⚠️ **quand elle aura été différenciée**
   (§4, défaut 1) ;
 - ce document, §2 et §7.2.
@@ -510,6 +421,5 @@ Une fois recomptés, à mettre à jour partout où ils sont écrits :
 - `Manuel scolaire/college-maths-6e/etat-{prof,eleve}.json`
 - `docs/superpowers/specs/2026-09-07-edition-professeur-v2-design.md` — périmètre v2
 - `docs/manuels/PROGRESSION.md` — état de la collection
-- `docs/boutique/` — CGV, remboursement, mentions (aucun prix n'y figure)
 
 Données de marché : voir `docs/manuels/positionnement-prix.md`.

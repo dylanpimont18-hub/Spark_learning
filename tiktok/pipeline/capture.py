@@ -50,11 +50,21 @@ def plan_segments(etapes, duree):
                     "bornes non croissantes : {} apres {}".format(fraction, precedente)
                 )
 
-        segments.append({
+        segment = {
             "url": etape["url"],
             "debut": round(precedente * duree, 3),
             "fin": round(fraction * duree, 3),
-        })
+        }
+        # Jusqu'ou defiler sur ce plan, en fraction de la hauteur de
+        # page : une fiche produit se lit en haut, une grille de
+        # couvertures se parcourt jusqu'en bas. screencast.js prend
+        # 0,85 quand rien n'est dit.
+        if "defilement" in etape:
+            defilement = float(etape["defilement"])
+            if not 0.0 <= defilement <= 1.0:
+                raise ValueError("`defilement` hors de [0, 1] : {}".format(defilement))
+            segment["defilement"] = defilement
+        segments.append(segment)
         precedente = fraction
 
     return segments
@@ -67,6 +77,25 @@ def filmer_plan(etapes, duree, sortie, fps=None):
     navigateur est ouvert en viewport bureau, pas mobile — une video
     paysage montre le site tel qu'on le voit sur un ecran.
     """
+    return _filmer_plan(etapes, duree, sortie, fps,
+                        viewport=config.INTERVIEW_VIEWPORT,
+                        echelle=config.ECHELLE_ECRAN, bureau=True)
+
+
+def filmer_plan_mobile(etapes, duree, sortie, fps=None):
+    """Tournage sur plan en viewport TELEPHONE, pour le format vertical.
+
+    Sert aux campagnes : le plan suit le texte (accueil, fiche produit,
+    rayon...) mais la capture sort a la taille exacte de la fenetre du
+    mockup, comme filmer(), pour qu'aucune trame ne soit redimensionnee
+    au montage.
+    """
+    return _filmer_plan(etapes, duree, sortie, fps,
+                        viewport=config.CAPTURE_VIEWPORT,
+                        echelle=config.ECHELLE_CAPTURE, bureau=False)
+
+
+def _filmer_plan(etapes, duree, sortie, fps, viewport, echelle, bureau):
     fps = fps or config.FPS_CAPTURE
     sortie = Path(sortie)
     sortie.mkdir(parents=True, exist_ok=True)
@@ -85,11 +114,12 @@ def filmer_plan(etapes, duree, sortie, fps=None):
         "--duree", "{:.3f}".format(duree),
         "--fps", str(fps),
         "--sortie", str(sortie),
-        "--vw", str(config.INTERVIEW_VIEWPORT[0]),
-        "--vh", str(config.INTERVIEW_VIEWPORT[1]),
-        "--echelle", "{:.4f}".format(config.ECHELLE_ECRAN),
-        "--bureau",
+        "--vw", str(viewport[0]),
+        "--vh", str(viewport[1]),
+        "--echelle", "{:.4f}".format(echelle),
     ]
+    if bureau:
+        commande.append("--bureau")
 
     resultat = subprocess.run(
         commande, cwd=str(config.PROJET), capture_output=True, text=True, encoding="utf-8"

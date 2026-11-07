@@ -306,27 +306,27 @@ function renderHome() {
 							<article class="promo-face" style="--tone: var(--primary);" aria-roledescription="diapositive" aria-label="2 sur 3">
 								<div class="promo-badge">🎓</div>
 								<div class="promo-body">
-									<div class="promo-title">L'Édition du professeur : les corrigés inclus.</div>
-									<p class="promo-desc">Le manuel en PDF, avec la réponse détaillée de chaque exercice — à projeter ou à photocopier.</p>
+									<div class="promo-title">Du collège au BTS, dans un seul site.</div>
+									<p class="promo-desc">Mathématiques, physique-chimie et sciences de l'ingénieur : un parcours pour chaque niveau.</p>
 								</div>
-								<a class="promo-link" href="https://boutique.sparklearning.fr" target="_blank" rel="noopener">Voir l'édition professeur →</a>
+								<a class="promo-link" href="#subjects" onclick="event.preventDefault();navigate('subjects')">Choisir ma matière →</a>
 							</article>
 
 							<article class="promo-face" style="--tone: var(--secondary);" aria-roledescription="diapositive" aria-label="3 sur 3">
 								<div class="promo-badge">📘</div>
 								<div class="promo-body">
-									<div class="promo-title">Le manuel élève, pour réviser loin de l'écran.</div>
-									<p class="promo-desc">Le cours et les exercices en version imprimable, à annoter et à emporter partout.</p>
+									<div class="promo-title">Une fiche à imprimer pour réviser loin de l'écran.</div>
+									<p class="promo-desc">Chaque chapitre propose sa fiche de cours, à annoter et à emporter partout.</p>
 								</div>
-								<a class="promo-link" href="https://boutique.sparklearning.fr" target="_blank" rel="noopener">Voir les manuels élève →</a>
+								<a class="promo-link" href="#subjects" onclick="event.preventDefault();navigate('subjects')">Ouvrir un module →</a>
 							</article>
 
 						</div>
 					</div>
 					<div class="promo-controls">
 						<button class="promo-dot" aria-selected="true"  aria-label="Message 1 : le site est gratuit"></button>
-						<button class="promo-dot" aria-selected="false" aria-label="Message 2 : édition du professeur"></button>
-						<button class="promo-dot" aria-selected="false" aria-label="Message 3 : manuel élève"></button>
+						<button class="promo-dot" aria-selected="false" aria-label="Message 2 : du collège au BTS"></button>
+						<button class="promo-dot" aria-selected="false" aria-label="Message 3 : fiche imprimable"></button>
 						<button class="promo-pause" id="promoPause" aria-label="Mettre le défilement en pause">⏸</button>
 					</div>
 				</div>
@@ -420,20 +420,6 @@ function renderHome() {
 					<button class="btn btn-primary" onclick="navigate('subjects')">
 						Choisir ma matière 🎓
 					</button>
-				</div>
-			</div>
-		</section>
-
-		<section class="section" style="background: var(--bg-card); border-top: 1px solid var(--border);">
-			<div class="container">
-				<div class="card-base" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;padding:28px;">
-					<div>
-						<h2 class="section-title" style="text-align:left;margin-bottom:6px;">📘 Nos cahiers de révision</h2>
-						<p class="section-subtitle" style="text-align:left;margin:0;">Le cours complet en version imprimable, à retrouver sur notre boutique.</p>
-					</div>
-					<a class="btn btn-primary" href="https://boutique.sparklearning.fr" target="_blank" rel="noopener">
-						Voir la boutique 🛒
-					</a>
 				</div>
 			</div>
 		</section>

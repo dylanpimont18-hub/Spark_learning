@@ -312,7 +312,7 @@ positionnement « outil de travail professionnel ».
    à +9 % de pages au prix prof serait le scénario de remboursement.
 3. ⚠️ **Trancher la licence de photocopie avant la mise en vente.** Le livre
    annonce des documents « à photocopier » (grille de suivi, évaluations)
-   alors que les CGV (`docs/boutique/cgv.md`) sont écrites pour un
+   alors que les conditions de vente sont écrites pour un
    consommateur particulier et ne prévoient aucune licence de classe. C'est
    une incohérence produit/contrat, pas une question de prix — mais elle se
    règle avant la première vente.
@@ -368,7 +368,7 @@ la banque prof peut alimenter l'élève, c'est presque gratuit).
 
 **L3. Vendre en bundle plutôt qu'à l'unité.** « Édition professeur + édition
 élève » à 32 € règle en même temps le problème du volume élève (§3.3) et
-augmente le panier. Aucun développement, une variante Shopify.
+augmente le panier. Aucun développement.
 **Impact : moyen-fort. Effort : très faible.**
 
 ### Effort moyen, impact fort
@@ -409,7 +409,7 @@ sur dix, avec sa banque, ses erreurs fréquentes et son évaluation. Le pipeline
 sait déjà compiler un chapitre seul (`--prototype`).
 **Impact : moyen-fort sur la conversion. Effort : faible.**
 
-**L9. Filigrane nominatif** (déjà noté dans `docs/boutique/README.md`). Ne crée
+**L9. Filigrane nominatif**. Ne crée
 pas de valeur perçue mais protège le prix en dissuadant le partage. À brancher
 quand le volume le justifie.
 **Impact : faible à court terme. Effort : faible.**
@@ -506,8 +506,7 @@ le rechercher spécifiquement.
 **Internes** — `Manuel scolaire/college-maths-6e/*.{tex,toc,json,log}` ·
 `Manuel scolaire/*/etat-*.json` · `js/data/prof/` ·
 `docs/manuels/PROGRESSION.md` ·
-`docs/superpowers/specs/2026-09-07-edition-professeur-v2-design.md` ·
-`docs/boutique/` (CGV, remboursement — aucun prix n'y figure).
+`docs/superpowers/specs/2026-09-07-edition-professeur-v2-design.md`.
 
 **Marché** — toutes les URL sont citées en §2, consultées le **2026-09-12**.
 Les prix de manuels scolaires changent à chaque rentrée : **revérifier avant

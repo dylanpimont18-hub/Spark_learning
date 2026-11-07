@@ -445,12 +445,18 @@ def resultat_type(module=True):
 
 def test_avec_module_on_filme_son_cours_puis_ses_exercices():
     """Même traitement que la ligne existante : le fond montre la page
-    vers laquelle le lien envoie."""
+    vers laquelle le lien envoie.
+
+    L'onglet est « exercice » au SINGULIER : c'est le slug que le
+    routeur du site attend (js/app.js). Le pluriel, corrigé le
+    2026-08-31, tombait sur une route inconnue et le site restait sur
+    le cours — donc toutes les vidéos filmaient deux fois la même page.
+    """
     from culture import _plan_de_capture
 
     plan = _plan_de_capture(resultat_type(), "https://sparklearning.fr", 20.0, "frames")
     assert plan[0] == "https://sparklearning.fr/module/2nde-probabilites/cours"
-    assert plan[-1].endswith("/exercices")
+    assert plan[-1].endswith("/exercice")
 
 
 def test_sans_module_on_filme_l_accueil_sans_bascule():

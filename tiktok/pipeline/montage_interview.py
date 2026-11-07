@@ -132,7 +132,7 @@ TAILLE_SOUS_TITRE_MINI = 44
 def taille_ajustee(mots, taille=None):
     """Plus grande taille a laquelle le pave tient dans la bande.
 
-    Le retour a la ligne ne suffit pas toujours : « boutique.spark
+    Le retour a la ligne ne suffit pas toujours : « un.domaine.spark
     learning.fr » est un seul mot de 1009 px pour une bande de 968. On
     ne peut ni le couper ni le laisser sortir du cadre, donc on reduit
     ce pave-la — et lui seul, pour que le reste du sous-titrage garde sa

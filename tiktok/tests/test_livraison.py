@@ -131,3 +131,44 @@ def test_les_livrables_d_un_module_atterrissent_sous_racine_cible_module(tmp_pat
     copies = deposer_livrables([video], drive, "TikTok Spark Learning", "3e-systemes")
 
     assert copies == [drive / "TikTok Spark Learning" / "3e-systemes" / "erreur.mp4"]
+
+
+# ── pied de campagne ──
+
+def test_le_pied_de_campagne_se_glisse_entre_l_accroche_et_les_hashtags():
+    from pipeline.livraison import legende_api
+
+    blocs = legende_api(meta(), promo="Code PROMO en bio").split("\n\n")
+
+    assert blocs == ["L'erreur sur les fractions que tout le monde fait",
+                     "Code PROMO en bio",
+                     "#maths #fractions #college"]
+
+
+def test_un_pied_vide_explicite_ne_laisse_aucune_trace():
+    from pipeline.livraison import legende_api
+
+    assert "\n\n\n" not in legende_api(meta(), promo="")
+    assert legende_api(meta(), promo="") == legende_api(meta(), promo="   ")
+
+
+def test_sans_argument_le_pied_vient_de_la_configuration(monkeypatch):
+    import config
+    from pipeline.livraison import legende_api
+
+    monkeypatch.setattr(config, "PROMO_TIKTOK", "Pied configuré")
+
+    assert "Pied configuré" in legende_api(meta())
+    assert "Pied configuré" in texte_publication(meta())
+
+
+def test_hors_campagne_la_legende_est_inchangee(monkeypatch):
+    import config
+    from pipeline.livraison import legende_api
+
+    monkeypatch.setattr(config, "PROMO_TIKTOK", "")
+
+    assert legende_api(meta()).split("\n\n") == [
+        "L'erreur sur les fractions que tout le monde fait",
+        "#maths #fractions #college",
+    ]

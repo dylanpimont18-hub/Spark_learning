@@ -200,3 +200,15 @@ def test_on_peut_exiger_un_echec_plutot_qu_un_brouillon_muet():
 def test_le_reglage_ne_concerne_que_tiktok():
     p = parametres(ligne(), meta(), "u", plateformes=("youtube",), repli_brouillon=False)
     assert "disable_inbox_fallback" not in p
+
+
+# ── pied de campagne ──
+
+def test_la_legende_upload_post_porte_aussi_le_pied_de_campagne():
+    from pipeline.publication import _legende_tiktok
+
+    meta = {"legende": "Accroche", "hashtags": ["maths"]}
+
+    assert _legende_tiktok(meta, promo="Code PROMO en bio").split("\n\n") == [
+        "Accroche", "Code PROMO en bio", "#maths"]
+    assert _legende_tiktok(meta, promo="").split("\n\n") == ["Accroche", "#maths"]

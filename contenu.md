@@ -54,7 +54,6 @@ Ce fichier est la **source de vérité** pour la structure de fichiers du projet
 |---------|------|
 | js/components/moduleTabs.js | Onglets du module (cours, quiz, exercice, etc.) |
 | js/components/renderCours.js | Rendu du contenu de cours |
-| js/components/manuelPromo.js | Encart « ce chapitre en manuel » (bas de l'onglet Cours) : manuel de l'année + pack du cycle, prix en direct de la boutique Shopify |
 | js/components/quiz.js | Interface des quiz |
 | js/components/exercice.js | Interface des exercices |
 | js/components/probleme.js | Interface des problèmes |

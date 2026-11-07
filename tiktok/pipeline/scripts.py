@@ -324,7 +324,17 @@ def generer(module, client_ia, modele, angles=None, mascotte="Sparky", tentative
 
         dernier_probleme = reproches
         # Dernier essai : mieux vaut livrer les angles valides que rien.
+        # Mais un abandon muet est pire que l'abandon lui-meme : sans
+        # cette trace, un angle rejete disparait sans que rien ne le
+        # signale, et on ne s'en apercoit qu'en comptant les MP4
+        # (vecu le 2026-09-01 sur tle-exponentielle-logarithme).
         if essai + 1 == tentatives and resultats:
+            abandonnes = [cle for cle in angles if cle not in resultats]
+            if abandonnes:
+                resultats["_abandonnes"] = {
+                    "angles": abandonnes,
+                    "raisons": reproches,
+                }
             return resultats
 
         if essai + 1 < tentatives:

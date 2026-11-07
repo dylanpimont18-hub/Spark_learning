@@ -32,9 +32,9 @@ Invoque d'abord le skill `manuels-spark`.
 ### Pourquoi ces deux ouvrages-là, et pas `lycee-si` ou `bts-fed`
 
 Parce qu'ils sont **déjà vendus**. Les PDF de `bts-maths` (27 chapitres
-compilés) et `bts-maths-prep` (14/14) ont été livrés le 2026-08-19 et sont en
-boutique ; ce sont les deux seuls ouvrages du catalogue à la fois **complets,
-compilés et commercialisés** qui n'ont pas d'édition professeur. Les enrichir
+compilés) et `bts-maths-prep` (14/14) ont été livrés le 2026-08-19 et sont
+livrés ; ce sont les deux seuls ouvrages du catalogue à la fois **complets,
+compilés et livrés** qui n'ont pas d'édition professeur. Les enrichir
 augmente la valeur d'un produit qui existe, là où `lycee-si` (0/20) et
 `bts-fed` (0/54) demandent d'abord un travail de compilation.
 

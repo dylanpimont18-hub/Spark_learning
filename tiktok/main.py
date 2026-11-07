@@ -86,10 +86,10 @@ def produire(module, angle, script, persona, travail, sortie, url_base):
 
     _log("  · capture du site")
     url_cours = url_base + module["url"]
-    url_exercices = url_cours.replace("/cours", "/exercices")
+    url_exercice = url_cours.replace("/cours", "/exercice")
     plan = capture.filmer(
         url_cours, duree, dossier_travail / "frames",
-        url2=url_exercices, bascule=0.72,
+        url2=url_exercice, bascule=0.72,
     )
     _log("    {} trames".format(plan["trames"]))
 
@@ -333,9 +333,18 @@ def _traiter(module, angles, options, sortie, memoire_faite):
         angles=manquants, mascotte=config.MASCOTTE,
         verifier_calcul=not options.sans_verification,
     )
+    # Un angle refuse apres toutes les tentatives est abandonne pour ne
+    # pas emporter le module — mais il doit se voir dans le journal,
+    # sinon la perte ne se decouvre qu'en comptant les MP4.
+    abandonnes = ecrits.pop("_abandonnes", None)
+
     for cle, script in ecrits.items():
         _log("  [{}] {:.0f} s — {}".format(
             cle, scripts.duree_estimee(script["full_text"]), script["hook"]))
+
+    if abandonnes:
+        _log("  ABANDON : {} — {}".format(
+            ", ".join(abandonnes["angles"]), " ; ".join(abandonnes["raisons"])))
 
     if options.scripts_seuls:
         cible = sortie / module["id"] / "scripts.json"

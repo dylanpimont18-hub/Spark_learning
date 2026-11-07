@@ -2,7 +2,7 @@
 """Contrat de l'ajustement des sous-titres (pipeline/montage_interview.py).
 
 Un pave peut deborder de la bande sans qu'aucun retour a la ligne ne
-puisse le sauver : « boutique.sparklearning.fr » est un seul mot, et il
+puisse le sauver : « sparklearning-exemples.fr » est un seul mot, et il
 mesure 1009 px la ou la bande en fait 968. Couper n'est pas une option,
 laisser deborder non plus. On reduit donc la taille de ce pave-la — et
 de lui seul.
@@ -26,7 +26,7 @@ def test_un_pave_qui_tient_garde_la_taille_nominale():
 def test_un_mot_insecable_trop_large_fait_baisser_la_taille():
     from pipeline import montage_interview as mi
 
-    taille, _ = taille_ajustee([mot("boutique.sparklearning.fr.")])
+    taille, _ = taille_ajustee([mot("sparklearning-exemples.fr.")])
 
     assert taille < mi.TAILLE_SOUS_TITRE
 
@@ -36,7 +36,7 @@ def test_le_pave_reduit_tient_effectivement_dans_la_bande():
 
     from pipeline.montage import _police
 
-    taille, lignes = taille_ajustee([mot("boutique.sparklearning.fr.")])
+    taille, lignes = taille_ajustee([mot("sparklearning-exemples.fr.")])
     mesure = ImageDraw.Draw(Image.new("RGB", (1, 1)))
     police = _police(taille)
 

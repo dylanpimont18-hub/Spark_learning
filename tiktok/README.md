@@ -75,12 +75,10 @@ montage, jamais l'inverse.
 ## Interviews (vidéos de présentation)
 
 Troisième ligne, à part des deux autres : **Sparky interroge Lumen**, en
-paysage 1920×1080. Destination : page d'accueil, YouTube, fiche produit
-de la boutique — pas les réseaux verticaux.
+paysage 1920×1080. Destination : page d'accueil et YouTube — pas les réseaux verticaux.
 
 ```bash
 python interview.py --sujet pourquoi     # pourquoi le site existe
-python interview.py --sujet boutique     # ce que vend la boutique
 python interview.py --tous
 python interview.py --sujet pourquoi --voix-seule   # écouter avant de rendre
 ```

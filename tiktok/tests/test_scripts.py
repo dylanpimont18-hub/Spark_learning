@@ -204,3 +204,30 @@ def test_l_echec_persistant_de_lecture_leve_une_erreur_explicite():
     client = FauxClient(["bavardage", "encore du bavardage"])
     with pytest.raises(ValueError, match="JSON"):
         generer(module_exemple(), client, "m", angles=["erreur"], verifier_calcul=False)
+
+
+def test_un_angle_abandonne_laisse_une_trace_exploitable():
+    """Livrer les angles valides est le bon choix — le faire en silence non.
+
+    Vécu le 2026-09-01 sur tle-exponentielle-logarithme : l'angle
+    « erreur » a été refusé aux deux tentatives, le module est sorti
+    avec deux vidéos au lieu de trois, et RIEN dans le journal ne le
+    disait. La perte ne s'est vue qu'en comptant les MP4.
+    """
+    import json as _json
+    from pipeline.scripts import generer
+
+    s = script_valide()
+    # Le modèle ne rend jamais l'angle « notion », aux deux tentatives.
+    partielle = _json.dumps(
+        {"erreur": dict(s, titre="T", hashtags=["a"])}, ensure_ascii=False)
+    client = FauxClient([partielle, partielle])
+
+    resultats = generer(module_exemple(), client, "m",
+                        angles=["erreur", "notion"], verifier_calcul=False)
+
+    # Le repli fonctionne toujours : l'angle valide est livré.
+    assert "erreur" in resultats
+    # Et l'abandon est traçable, pas muet.
+    assert resultats["_abandonnes"]["angles"] == ["notion"]
+    assert resultats["_abandonnes"]["raisons"]

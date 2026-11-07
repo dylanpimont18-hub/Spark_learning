@@ -8,7 +8,6 @@ SPA Vanilla JS sans bundler. Chargement des scripts via `index.html` (ordre crit
 Point d'entrée unique. Déclare l'ordre de chargement de tous les scripts.
 - Chargement : `<script src="...">` dans l'ordre exact requis (Firebase → authService → views (authView, teacherDashboard, adminPanel) → sync → data → engines → components → app)
 - `#nav-login` — bouton nav (masqué par défaut), affiché en mode invité pour ouvrir `AuthView`
-- `#nav-shop` — lien nav (pas un `<button>`) vers la boutique Shopify (`f1niwf-wr.myshopify.com`), `target="_blank"`, à côté des autres boutons de nav
 - `<head>` — meta SEO statiques par défaut (description, canonical, robots, OG, Twitter Card, `manifest.json`) ; réécrites dynamiquement par vue via `updatePageMeta()` (`js/app.js`)
 
 ## js/hero3d.js
@@ -28,7 +27,7 @@ Charte graphique du site, extraite du code le 2026-08-21 (elle n'existait pas av
 
 ## docs/manuels/argumentaire-edition-professeur.md
 Argumentaire de vente de l'édition professeur des manuels (défaut 21 de l'audit, 2026-09-12). Document interne, pas une plaquette.
-- Positionnement (cible = contractuels, soutien, IEF — pas les titulaires, qui ont le livre du prof gratuit), différentiel élève/prof chiffré, texte de fiche produit Shopify, 7 objections et leurs réponses
+- Positionnement (cible = contractuels, soutien, IEF — pas les titulaires, qui ont le livre du prof gratuit), différentiel élève/prof chiffré, 7 objections et leurs réponses
 - Chiffres établis sur `college-maths-6e` au 2026-09-12 : 84 p. élève / 152 p. prof, 120 vs 270 énoncés, 150 exercices supplémentaires, 190 corrigés, 40 fiches d'erreurs
 - **§7 « Chiffres à revérifier »** : chaque nombre cité est repéré (C1…C20) avec sa commande de recomptage sur le `.tex` livré. Ne jamais recopier un nombre depuis la prose
 - Signale que la 4e de couverture et l'avant-propos de l'édition prof sont **identiques** à ceux de l'élève (bloquant pour la vente), et que seule la 6e a la couche prof v2
@@ -228,34 +227,6 @@ Détecte les régressions du bug de notation décimale française dans `js/data/
 - **dynamique** — exécute chaque `exercice.generate()` sur 3 graines × 40 tirages (via `manuel/extract.js` + `manuel/verifier-corpus.js:listerModules`) et cherche `\d+\.\d+` dans `statement`/`hint`/`unit`/`solution`/`correction`, balisage retiré. **C'est la seule famille qui attrape le vrai bug récurrent** : un `${aire}` interpolé nu ne vaut `31.5` que si le tirage tombe sur un demi-entier — invisible dans le source, il faut exécuter. `answer` est volontairement exclu (Number, toujours passé par `fr()`/`nombreFr()`)
 - Usage : `node scripts/check-decimal-notation.js` — à lancer après toute modification d'un `exercice.generate()` (voir `CLAUDE.md` section 2)
 - **État au 2026-08-16** : 0 faute dans college-maths ; **23 modules restent fautifs hors de cet ouvrage** (lycée 2nde/1re/Tle, SI, FED) — non corrigés, hors périmètre du chantier manuel
-
-## scripts/shopify-sync-manuels.js
-Téléverse les PDF de `Livret pedagogique/` vers **Fileflare** (app Digital Downloads de la boutique) et les attache aux fiches produit. Comble le chaînon manquant entre la recompilation d'un manuel et le fichier réellement vendu : avant lui, la boutique livrait encore les PDF d'août alors que le dossier local portait ceux de septembre.
-- **Pourquoi Fileflare et non l'app officielle Shopify** : cette dernière n'expose aucune API d'upload (ses outils MCP sont réservés au widget navigateur). Fileflare expose une API REST — c'est ce qui rend la diffusion automatisable sans clic
-- `skuDepuisFichier(fichier)` — déduit le SKU du nom de fichier ; la correspondance passe par le SKU et non le titre, car le fichier dit « Mathématiques Collège » là où la fiche dit « Mathématiques Collège (6e-3e) »
-- `controler(fichier, tailleEnLigne)` — refuse un PDF vide, sans en-tête `%PDF-`, ou deux fois plus petit que celui déjà en ligne. Sans relecture humaine avant mise en vente, c'est le seul garde-fou contre un fichier tronqué livré aux clients
-- `televerser(cle, fichier)` — flux en trois temps : `/assets/signed` → `PUT` sur l'URL S3 présignée → `/assets/{id}/uploaded`. Les manuels (8 Mo max) tiennent en un seul morceau, le chunk étant de 100 Mo
-- **Piège** : le corps JSON est sérialisé par Node, jamais interpolé dans une commande shell — les accents (« Troisième », « élève ») cassent la requête, et l'API répond alors 422 en prétendant que les champs sont absents
-- Clé d'API lue dans `.env` (`FILEFLARE_API_KEY`), jamais en argument de ligne de commande
-- Usage : `node scripts/shopify-sync-manuels.js` (essai à blanc) puis `--apply` ; `--only=SKU` pour un seul manuel
-
-## scripts/extraits-manuels.js
-Fabrique les pages d'aperçu (« Feuilleter un extrait ») des fiches produit à partir des PDF, via `pdftotext` (repérage) et `pdftoppm` (rendu 160 dpi). Les fiches n'offraient que 2 pages sur un manuel qui en compte jusqu'à 1484 ; elles en offrent 10.
-- **Pourquoi le nommage `-extrait-NN`** : `Shopify/sections/labo-produit.liquid` reconnaît une page d'aperçu à son **nom de fichier** (`sommaire`, `methode` ou `extrait`) et met son compteur « N pages » à jour seul. Aucun réglage de section à ressaisir
-- `choisirPages(pdf, total)` — cherche les sections qui prouvent le différentiel professeur (progression annuelle, suivi des attendus, erreurs fréquentes, corrigés, banque d'énoncés), puis prolonge d'une page pour donner à voir la rubrique et non son seul titre
-- **Piège 1** : l'avant-propos **annonce** toutes les rubriques de l'ouvrage. Un motif cherché n'importe où dans la page y ramenait les six sections d'un coup, et l'extrait se réduisait aux pages de garde — d'où `LONGUEUR_TITRE`, qui ne teste que le début de page, là où un titre de section se trouve
-- **Piège 2** : une fin de tableau (progression de la 3e, ~300 caractères) s'affichait aux trois quarts blanche dans la liseuse — d'où `CARACTERES_MINIMUM`, appliqué **après** la sélection pour que le quota soit rempli par des pages utiles
-- Usage : `node scripts/extraits-manuels.js` puis `--apply` ; sortie dans `build/extraits/` (gitignoré, régénérable)
-
-## scripts/shopify-televerser-extraits.js
-Prépare le plan de téléversement des pages d'aperçu vers Shopify (chemin local, texte alternatif, GID produit). L'envoi passe par `stagedUploadsCreate` → POST multipart vers le stockage → `productCreateMedia`, purement additif : les images existantes (couverture, sommaire, méthode) sont conservées.
-- Usage : `node scripts/shopify-televerser-extraits.js` — écrit `build/extraits/plan.json`
-
-## scripts/shopify-corriger-paginations.js
-Remet la pagination annoncée des fiches produit en accord avec les PDF réels. Quinze fiches sur 38 sous-vendaient le contenu (pack Collège professeur : 489 pages annoncées pour 1484 réelles), les descriptions ayant été rédigées avant la vague du 14/09.
-- `compterPages(fichier)` — lit `/Type /Pages … /Count` dans le PDF, en clair puis dans les flux deflatés (la chaîne LaTeX du projet compresse le catalogue). Aucune liste de paginations à tenir à la main : le script reste juste après chaque recompilation
-- `corriger(texte, reel)` — remplace « PDF de N pages » dans la description **et** dans la meta description SEO ; les deux doivent rester cohérentes, la seconde étant ce qu'affiche Google
-- Usage : `node scripts/shopify-corriger-paginations.js` — produit le plan ; l'écriture passe par le MCP Shopify
 
 ## scripts/manuel/schema.js
 Valide la forme d'un module de `js/data/` avant conversion vers LaTeX.
@@ -719,23 +690,8 @@ Emplacement publicitaire : placeholder visuel tant qu'`ADS_ENABLED` est à `fals
 - `renderAdSlot(placement, slotKey)` — rend le placeholder ou l'ad unit réel selon `js/adsConfig.js` ; un seul emplacement `moduleTab` en bas de contenu des onglets de module, plus l'emplacement accueil — jamais sur une page de navigation pure, jamais dans un onglet d'apprentissage en cours d'interaction
 - `initAdSlots()` — pousse les nouveaux `<ins class="adsbygoogle">` injectés dans le DOM vers `adsbygoogle.push({})` ; appelée depuis `js/app.js` après chaque rendu de vue ; sans effet tant qu'`ADS_ENABLED` est à `false`
 
-## js/components/manuelPromo.js
-Encart « ce chapitre en manuel » en bas de l'onglet Cours : met en avant le manuel de l'ANNÉE du module, avec le pack du cycle en montée en gamme secondaire.
-- `manuelHandlesPour(mod)` — appariement **déterministe** module → handles produit, dérivé du PRÉFIXE de `mod.id` (`6e-`, `physique-tle-`, `bts-prep-`…). N'utilise PAS `mod.level`, qui ne vaut que 1/2/3 (Collège/Lycée/BTS) et ne distingue pas la Sixième de la Troisième. `MANUEL_ANNEES` est ordonné du plus spécifique au plus général : `bts-prep-` DOIT précéder `bts-`, sinon la remise à niveau est appariée au manuel BTS (même piège que les paliers de `labo-duo.liquid`)
-- `manuelEdition()` — enseignant connecté → `edition-professeur`, sinon `edition-eleve` ; change le handle ET le texte de l'encart
-- `manuelFetchProduit(handle)` — prix/dispo/couverture en direct via l'endpoint **public** `boutique.sparklearning.fr/products/<handle>.js`. Choisi plutôt que la Storefront API : cette dernière imposerait de créer une app Shopify et d'exposer un token dans le front, alors que l'endpoint `.js` répond `access-control-allow-origin: *` sans aucune authentification. Ne rejette jamais : réseau coupé, 404, produit indisponible ou JSON invalide renvoient tous `null`
-- `renderManuelPromoSlot(mod)` — rend un conteneur VIDE (`.manuel-promo-slot`), jamais un squelette optimiste
-- `initManuelPromo()` — remplit le slot en asynchrone ; appelée depuis `js/app.js` après `render()` **et** dans `switchTab()` (le changement d'onglet réécrit `.tab-content` sans repasser par `render()`)
-- **Garde-fou central** : sans confirmation Shopify que le produit existe ET qu'il est disponible, aucun encart n'est rendu. Un manuel archivé fait donc disparaître l'encart au lieu d'envoyer l'élève sur un 404 — cas rencontré réellement le 2026-08-30, où les 38 produits se sont retrouvés archivés
-- Le manuel de l'année est obligatoire : sans lui, pas d'encart du tout (proposer le pack seul enverrait un élève de 6e vers un produit à 24,99 € alors que celui qui le concerne à 9,99 € est indisponible)
-- **`si-*` et `fed-*` n'ont volontairement aucune règle** : aucun produit correspondant n'existe en boutique. Les deux PDF « Sciences de l'ingénieur BTS » sont produits localement (`Manuel scolaire/PDF/`) mais NON publiés sur Shopify — le jour où ils le seront, ajouter la règle `si-bts-` suffit
-- Cache `sessionStorage` + mémoire, TTL 1 h, clé `sparkManuel:<handle>` ; les absences (404) sont aussi mises en cache pour ne pas refaire la requête sur chaque module de la même année. Dégradation silencieuse si `sessionStorage` est indisponible (navigation privée)
-- Styles : `css/styles.css` (`.manuel-promo*`), masqué en `@media print` — une promotion commerciale n'a pas sa place sur une fiche imprimée
-- Retiré du HTML pré-rendu (`.manuel-promo-slot` dans la liste de nettoyage de `scripts/prerender.js`) : rempli en asynchrone, il serait capturé ou non selon le timing de la réponse Shopify, rendant le pré-rendu non déterministe
-
 ## js/components/renderCours.js
 Rendu HTML de l'onglet Cours d'un module (écran, pas impression).
-- Se termine par `renderManuelPromoSlot(mod)` (voir `js/components/manuelPromo.js`) : conteneur vide de l'encart « ce chapitre en manuel », rempli en asynchrone après le rendu
 - `renderCours(mod)` — intro, définitions, méthode, exemple, formules, illustration(s), piège, récap, application ; bouton "Imprimer la fiche" visible seulement si `AuthGuard.isTeacher()`
 - `coursDiagramList(c)` — liste normalisée des schémas d'un cours : `cours.diagram` (un seul, format historique) et/ou `cours.diagrams: []` (plusieurs) ; le titre de section bascule en "Illustrations" au pluriel dès qu'il y en a plus d'un ; utilisée aussi par `renderFicheCours()` pour l'impression
 - `renderCoursDiagram(diagram, subjectId)` — rend une illustration au format legacy (string HTML) ou riche (objet `{svg, title, kicker, description, notes, reading, caption, theme}`) ; réutilisée par `renderFicheCours()` (`js/utils/ui-helpers.js`) pour l'impression
@@ -790,7 +746,7 @@ Vues globales : accueil, liste matières, niveaux, modules, détail module.
 - `renderStreakBadge()` — badge streak 🔥 factorisé (utilisé par `renderHome()`, indépendamment de `renderStatsSection()`) ; affiché dès le jour 1 ("Tu démarres ta série aujourd'hui") pour renforcer l'habitude dès la première visite, message différent à partir de 2 jours
 - `renderStatsSection()` — "Mes statistiques" : total global toujours visible, détail par niveau replié dans un `<details class="stats-levels-details">` pour ne pas noyer les blocs d'action au-dessus
 - `renderNextStepWidget()` — widget "Prochaine étape : …" basé sur `getRecommendations()` (`js/recommendations.js`) ancré sur le dernier module visité (`getRecentModules()[0]`) ; ne s'affiche que si aucune révision n'est due (`getDueReviews()`), pour n'exposer qu'une seule action prioritaire à la fois sur l'accueil
-- `renderHome()` — page d'accueil ; empile dans l'ordre `renderStreakBadge()` → `renderSrsReviewWidget()` → `renderNextStepWidget()` → `renderContinueSection()` → `renderStatsSection()` ; dernière section = CTA "Nos cahiers de révision" vers la boutique Shopify
+- `renderHome()` — page d'accueil ; empile dans l'ordre `renderStreakBadge()` → `renderSrsReviewWidget()` → `renderNextStepWidget()` → `renderContinueSection()` → `renderStatsSection()` ; bandeau rotatif à 3 faces (site, parcours collège→BTS, fiche imprimable), plus aucun lien vers une boutique
 - `renderSubjects()` — liste des matières
 - `renderLevels()` — niveaux d'une matière
 - `renderModulesList()` — grille des modules d'un niveau
@@ -1014,53 +970,10 @@ Helpers de rendu et utilitaires UI partagés.
 
 ---
 
-## Shopify/ (boutique — hors git, `.gitignore`)
-Copie de travail du thème **Horizon** de `boutique.sparklearning.fr` (thème live `188654780796`).
-Synchronisation par la CLI Shopify : `shopify theme pull|push --theme <id>` depuis ce dossier.
-### Direction « Laboratoire » — étendue aux 9 gabarits (2026-08-30)
-Les 9 templates rendent désormais des sections maison préfixées `labo-`, toutes bâties sur les mêmes jetons.
-- `snippets/charte-spark-laboratoire.liquid` — **jetons partagés** (`--sl-encre`, `--sl-accent`, `--sl-vite`…) + le conteneur `.sl-wrap`. Un seul endroit à corriger : c'est ce qui empêche les deux systèmes chromatiques relevés à l'audit de réapparaître à la neuvième copie. Accent `#257E6D` = turquoise de charte assombri, **4,65:1** sur papier et **4,90:1** sous blanc (le turquoise brut `#48c9b0` ne donne que **1,94:1**, très en dessous de AA)
-- `snippets/labo-carte-produit.liquid` + `labo-carte-styles.liquid` — carte produit unique (accueil, collection, recherche). Niveau/matière/édition lus dans les **tags** (`collège`, `mathématiques`, `édition élève`…), jamais saisis à la main. Coupe le suffixe « - Édition élève » du titre, déjà porté par sa propre ligne
-- `templates/index.json` — accueil : hero mascottes → réassurance 4 cartes → rayons **par matière** → packs → 3 étapes (fond ardoise) → à propos → FAQ. Les 7 sections d'origine conservées, textes repris mot pour mot
-- `templates/product.json` → `labo-produit` — fiche : couverture collante, prix, achat, garanties, description. **Aucune mascotte** (elle détournerait de l'achat). Liseuse « Feuilleter un extrait » en `<dialog>` natif ; les pages d'aperçu sont reconnues au **nom de fichier** (`-sommaire`, `-methode`) car la galerie contient aussi l'ancienne couverture en image 2
-- `snippets/labo-duo.liquid` — **bloc « duo » VISUEL** (2026-08-30) : les DEUX couvertures côte à côte séparées d'un « + », le total barré → total remisé, « Économisez X € » (en euros : un pourcentage demande un calcul sur un total qu'on n'a pas), et un bouton **« Ajouter les deux au panier »** qui poste les 2 variantes en un seul `/cart/add.js` puis redirige vers `/cart`. Chaîne vérifiée de bout en bout : 1 clic → 2 articles → règle « Duo » appliquée → physique à 5,00 € → total 14,99 €. Piège d'arrondi : `999 | divided_by: 2` = 499 en division entière Liquid alors que Shopify facture 500 — d'où le `| plus: 1` avant la division, sans quoi la carte annonçait un centime de moins que le panier. Sur le repli pack, PAS de bouton d'ajout groupé (le pack contient déjà le manuel consulté : ce serait payer deux fois) mais un lien « Voir le pack ».
-- `snippets/labo-duo.liquid` — logique d'appariement : propose la matière complémentaire du MÊME niveau et de la MÊME édition, apparié par les tags. Le −50 % n'est affiché que si une règle Shopify couvre vraiment le couple, et seulement jusqu'au 30/09/2026 (`promo_active`) — après quoi le jumeau reste suggéré au prix plein. **16 règles « Duo » actives** (8 maths→physique d'origine + 8 physique→maths créées le 2026-08-30), toutes `usesPerOrderLimit: 1`. Piège : « Mathématiques Remise à niveau » porte À LA FOIS `remise à niveau` et `bts` — la liste des paliers va donc du PLUS SPÉCIFIQUE au plus général, sinon ce manuel était apparié à Physique BTS et annonçait une remise que le panier n'aurait pas appliquée. Physique-chimie commençant en 4e, les fiches 6e/5e reçoivent le pack du cycle en repli, sans mention de remise
-- `templates/collection.json` → `labo-collection` — rayon : mascotte **de la matière** déduite du handle, sans bulle sur les rayons BTS (public adulte) ; `{% paginate %}` par 24
-- `templates/cart.json` → `labo-panier` — Sparky **uniquement sur le panier vide** ; note « aucun frais de livraison » sous le total
-- `templates/404.json` → `labo-404` — Sparky, 3 portes de sortie et un champ de recherche ; ton non punitif
-- `templates/search.json` → `labo-recherche` — champ re-rendu avec la requête ; sans résultat, 3 rayons de repli. Pas de mascotte
-- `templates/page.json` → `labo-page` — prose en colonne de 68ch ; styles sur `.lpg__contenu > *` (le contenu vient de l'éditeur riche, sans classes possibles)
-- `templates/page.contact.json` → `labo-contact` — 2 réponses fréquentes avant le formulaire natif `form 'contact'`
-- `templates/list-collections.json` → `labo-rayons-liste` — rayons groupés par matière ; exclut les collections techniques `frontpage`/`all`
-- **Piège Liquid** : `{# … #}` n'est PAS un commentaire Liquid (c'est du Jinja) — il s'affiche en clair et casse les grilles. Utiliser `{%- comment -%}`
-- **Piège Liquid** : `alt: a | append: b` applique le filtre à l'argument du tag, pas à la variable — composer l'alt dans un `assign` avant le tag
-- **Piège Liquid** : `and`/`or` s'évaluent de droite à gauche, sans priorité — décomposer les conditions mixtes en `if` imbriqués
-- `sections/header-group.json` — barre d'annonce + menu `main-menu` (Mathématiques / Physique-Chimie à sous-menus, Packs, Comment ça marche, Contact)
-- `sections/footer-group.json` — 3 colonnes : marque + contact, menu `footer`, newsletter + moyens de paiement ; « Propulsé par Shopify » désactivé
-- `blocks/buy-buttons.liquid` — **modifié** : réglage `show_quantity` ajouté (masque le sélecteur de quantité sur les produits numériques)
-- `snippets/product-media.liquid` — **modifié** : la première image passe en `loading="eager"` (elle porte déjà `fetchpriority="high"`)
-- `assets/base.css` — **modifié** : blocs ajoutés en fin de fichier — titre de menu du pied de page, `-webkit-line-clamp: 3` sur les titres de carte produit (sinon « Édition élève / professeur » saute sur mobile), et hiérarchie du menu mobile (matières en intertitre 12px, niveaux à 16px, tiroir pleine largeur via `--drawer-width`)
-- `snippets/cart-products.liquid` — **modifié** : le sélecteur de quantité n'est rendu que si `item.requires_shipping` (un PDF ne s'achète qu'une fois)
-- `sections/prototype-a-papier.liquid` — **prototype, non installé** : accueil « Papier », hero typographique sans image, fond crème `#FAF8F4`, serif, cartes sans ombre. CSS autonome dans son bloc `stylesheet`, liseuse `<dialog>` native en 24 lignes de JS
-- `sections/prototype-b-laboratoire.liquid` — **prototype, non installé** : accueil « Laboratoire », split-screen sur `#F9FAFB`, planche de 3 couvertures, repère millimétré en `linear-gradient` (zéro image), 3 chiffres de preuve. Même liseuse que le prototype A
-- `templates/page.prototype-a.json` / `page.prototype-b.json` — instancient les deux prototypes en pages séparées, sans toucher à `index.json`
-- **Thème d'aperçu `#188939305340` « APERCU — prototypes (ne pas publier) »** : porte la refonte « Laboratoire » des 9 gabarits, vérifiée page par page en captures réelles (le cookie se pose via `/?preview_theme_id=…`). **Live `#188654780796` inchangé.**
-- **Thème d'essai `#188938748284` « Mascottes — Sparky & Lumen (essai) »**, non publié : porte les sections mascottes et les 2 prototypes. Live inchangé (`#188654780796`). Pages d'essai : `/pages/essai-accueil-mascottes`, `/pages/essai-prototype-a`, `/pages/essai-prototype-b`
-- **Piège Horizon** : la classe `page-width` n'existe pas (les utilitaires sont `page-width-normal|wide|narrow`, qui ne posent que des variables) — une section qui s'y fie se colle au bord gauche. Utiliser son propre conteneur.
-- **Piège Horizon** : `html` est en `height:100dvh; overflow:hidden` au-dessus de 990 px, le défilement étant délégué à `.page-wrapper`. Conséquence : les images en `loading="lazy"` ne se déclenchent jamais, et `fullPage` de Puppeteer s'arrête à la hauteur de l'écran.
-- `snippets/mascotte.liquid` — affiche Sparky (renard) ou Lumen (loup) avec une bulle. `loading="eager"` obligatoire (voir le piège ci-dessus). **Répartition canonique : PAR MATIÈRE, jamais par niveau** — Sparky = mathématiques, Lumen = physique-chimie, du collège au BTS. Source qui fait autorité : `mascotteDe()` dans `scripts/manuel/ouvrage.js`, qui teste `/Physique/i` sur la **collection**. (Une ancienne règle par niveau — Sparky = collège/lycée, Lumen = BTS — a existé jusqu'au 2026-08-29 : elle est périmée, la rétablir ferait diverger la boutique des couvertures des 38 manuels.) Les mascottes **tutoient**, le reste de la boutique **vouvoie** : écart délibéré, elles sont des voix et non la marque
-- `sections/hero-mascottes.liquid` — **installé sur l'accueil** : hero avec les deux mascottes, aucune image de fond, aucune hauteur imposée, transitions à 160 ms
-- `sections/rayons-guides.liquid` — **installé sur l'accueil** : « Choisissez votre rayon » en 2 groupes **par matière** (Sparky ouvre les 3 rayons de maths, Lumen les 3 de physique) ; lit les vrais `all_products_count` ; réglage `collection_parente` + `lien_tout` pour le lien « Tout voir » en retrait vers la collection de la matière
-- `templates/page.accueil-mascottes.json` — instancie les deux sections avec les handles réels (`mathematiques-college`, `mathematiques-bts`…), sans toucher à `index.json`
-- `assets/{sparky,lumen}-{salue,presente}.webp` + `-reflechit-sm.webp` — 6 sprites détourés sur la boîte alpha, 292 ko au total (contre ~2 Mo en PNG source)
-- `locales/fr.json` — **modifié** : `shipping_policy*` et `taxes_included*` réécrits pour un produit numérique (« Prix TTC. Aucun frais de livraison… »)
-
-Les fichiers marqués **modifié** sortent du thème d'origine : à reporter en cas de mise à jour d'Horizon.
-
 ## Manuel scolaire/PDF/
-Les 38 PDF livrés à la boutique, nommés exactement comme les titres produits (aux parenthèses de cycle près :
+Les 38 PDF des manuels, ex-livrés à la boutique (supprimée en 2026-11), nommés comme les anciens titres produits (aux parenthèses de cycle près :
 le produit « Mathématiques Collège (6e-3e) » correspond au fichier « Mathématiques Collège »).
-Servent de source aux aperçus intérieurs des fiches produit (extraction par `pdftotext` + `pdftoppm`, MiKTeX).
+
 ---
 
 ## scripts/manuel/prof.js
@@ -1163,7 +1076,6 @@ Projet Python autonome (venv local, `requirements.txt`). **Trois lignes éditori
 - `main.py` — part d'un module de `js/data/` et en tire 3 vidéos, une par angle. Narrateur Sparky, mémoire `production.json`, sortie `output/`.
 - `culture.py` — part d'un sujet d'ado et remonte vers une notion, 1 vidéo. Narrateur Lumen, mémoire `sujets.json`, sortie `output-culture/`.
 - `interview.py` — vidéos de présentation, Sparky interroge Lumen. **Seule ligne en paysage 1920×1080**, seule ligne sans mémoire ni dépôt Drive. Sortie `output-interview/`.
-- `promo.py` — **campagnes promotionnelles** (ajoutée le 2026-09-06) : vidéos verticales écrites à la main dans `promos.py`, programmées sur **TikTok seulement** via Postiz. Ni mémoire ni dépôt Drive, **volontairement** : les dossiers Drive sont les files d'attente de n8n. Sortie `output-promo/`. Brief de la première campagne : `tiktok/campagnes/STUDENT2026.md`.
 
 Sorties gitignorées. Voir `tiktok/README.md`.
 
@@ -1175,9 +1087,7 @@ Tous les réglages : identité, personas, géométrie du cadre, chemins. Aucun s
 - `persona_pour(tranche, forcee)` — résout la persona d'un module
 - `sprite(moment, jeu)` — chemin du visuel de la mascotte, repli sur `images/mascotte/` si `assets/sparky/<jeu>/` n'existe pas
 - `TEL_*`, `ECHELLE_CAPTURE` — géométrie partagée capture/montage : le site est filmé à la taille exacte du mockup, donc aucune trame n'est redimensionnée au montage
-- `BOUTIQUE` / `BOUTIQUE_URL` / `SORTIE_PROMO` — la boutique Shopify, filmée par les campagnes
-- `PROMO_TIKTOK` — pied de légende ajouté sous chaque publication TikTok pendant une campagne (vide hors campagne). Le texte de référence vit dans `promos.py` ; `.env` n'en est qu'une copie, pour que `livraison.py` / `publication.py` n'aient pas à connaître les campagnes
-- `POSTIZ_API_KEY` / `POSTIZ_BASE_URL` — l'API Postiz, la même que les workflows n8n ; ne sert qu'à `promo.py --programmer --oui`
+- `PROMO_TIKTOK` — pied de légende ajouté sous chaque publication TikTok pendant une campagne (vide hors campagne). Copié depuis `.env`, pour que `livraison.py` / `publication.py` n'aient pas à connaître les campagnes
 - `SEUIL_RATTACHEMENT` — score minimal pour rattacher un module à une vidéo « vie réelle ». Relevé de calibration du 2026-08-27 **écrit en commentaire au-dessus** : `_score` n'a pas d'échelle théorique, et c'est ce relevé qui a montré que la requête devait être la notion seule
 - `MEMOIRE_SUJETS`, `SORTIE_CULTURE`, `DOSSIER_DRIVE_CIBLE_CULTURE` — la ligne « vie réelle » a sa propre mémoire, sa propre sortie et son propre dossier Drive, pour qu'aucune des deux lignes ne marche sur l'autre
 - `VOIX_INTERVIEW` / `JEU_SPRITES` / `COULEUR_LOCUTEUR` / `NOM_LOCUTEUR` — le couple voix + sprites + couleur de chaque mascotte en interview. Sans lip-sync, c'est ce qui rend le dialogue lisible : trois signaux redondants désignent qui parle (la voix, la couleur du mot en cours, la seule mascotte qui bouge)
@@ -1203,8 +1113,8 @@ Capture animée du site avec Puppeteer. Pilote lui-même le défilement et prend
 - `capturer({url, url2, duree, fps, echelle, bascule, plan, bureau, vw, vh})` — scrolle le cours puis bascule sur l'onglet exercices ; la capture est mise en pause pendant la navigation, donc aucune trame blanche
 - `capturerPlan(page, plan, ...)` — mode interview : N segments datés, une URL chacun, le défilement repart de zéro à chaque segment (un segment est un plan, pas la suite du précédent). Le découpage est calculé côté Python (`capture.plan_segments`) pour être testable sans navigateur
 - `--bureau` / `--vw` / `--vh` — viewport bureau au lieu du viewport mobile ; sert au format paysage, où montrer la version mobile du site n'aurait aucun sens
-- `A_SUPPRIMER` — chrome d'UI éphémère retiré avant capture : bannière RGPD, toasts, confettis (comme `scripts/prerender.js`), **les emplacements publicitaires** (`.ad-slot-placeholder`, `ins.adsbygoogle`) et **le bandeau cookies de Shopify** (`#shopify-pc__banner`, `#shopify-pc__prefs`) — les quatre ajoutés le 2026-08-27. Le placeholder « Emplacement publicitaire (exemple) » apparaissait en clair dans les captures, et une vraie annonce n'y a pas davantage sa place : on ne fait pas la promotion du site en filmant la publicité de quelqu'un d'autre
-- `preparer(page, url)` — pose **une règle CSS** `display:none` en plus du retrait des nœuds. Le retrait ne vaut que pour ce qui existe déjà : le bandeau Shopify est injecté par l'API Customer Privacy **une à deux secondes après** le chargement, donc en plein milieu du plan. Il masquait le centre de la page produit dans le premier rendu de l'interview boutique
+- `A_SUPPRIMER` — chrome d'UI éphémère retiré avant capture : bannière RGPD, toasts, confettis (comme `scripts/prerender.js`), **les emplacements publicitaires** (`.ad-slot-placeholder`, `ins.adsbygoogle`) — ajoutés le 2026-08-27. Le placeholder « Emplacement publicitaire (exemple) » apparaissait en clair dans les captures, et une vraie annonce n'y a pas davantage sa place : on ne fait pas la promotion du site en filmant la publicité de quelqu'un d'autre
+- `preparer(page, url)` — pose **une règle CSS** `display:none` en plus du retrait des nœuds. Le retrait ne vaut que pour ce qui existe déjà ; la règle CSS couvre aussi ce qui sera injecté ensuite.
 
 ## tiktok/pipeline/texte.py
 Rend le contenu des modules prononçable, et vérifie que la réponse du modèle l'est.
@@ -1262,10 +1172,8 @@ Vérification arithmétique par un second appel au modèle (température 0). Ne 
 ## tiktok/pipeline/montage.py
 Composition 1080×1920 avec MoviePy 2.x.
 - `monter(trames, fps_capture, audio, mots, bornes, destination, jeu_sprites, marque, plaque, dialogue)` — assemble et exporte. Les trois derniers paramètres servent aux campagnes et ne changent rien quand ils sont absents : `marque` (domaine de la pastille), `plaque` (code promo par-dessus l'écran), `dialogue` (`{repliques, poses}` : deux mascottes au lieu d'une, `mots` portent alors un `locuteur`)
-- `debut_plaque(plaque, bornes, mots, duree)` — quand la plaque apparaît : au premier mot qui commence par `plaque["mot"]` (le code, prononcé), sinon à la fraction `plaque["des"]`, sinon au début du CTA. Une consigne introuvable retombe sur le CTA plutôt que de perdre un rendu
-- `_image_plaque_code(plaque)` — plaque jaune de la charte (libellé · remise / code / sous-texte), posée à `PLAQUE_BAS` px du bas de l'écran du téléphone ; `_clips_plaque()` l'anime en deux clips (un « pop » de `PLAQUE_POP` s puis une image fixe) pour ne pas redimensionner 30 fois par seconde
 - `_clips_mascottes_dialogue(repliques, enveloppe, duree, poses)` — les deux mascottes dans les coins bas (`MASCOTTE_DIALOGUE_*`), celle qui parle rebondit, l'autre est estompée ; `_etiquette()` pose le nom sous les pieds. Géométrie liée : un pavé de deux lignes descend à ~1510 px, le sommet des mascottes est à 1498 px
-- `taille_ajustee(mots, taille)` — réduit un pavé dont un mot insécable déborde (« boutique.sparklearning.fr »), même règle que le paysage ; `_image_sous_titre()` prend aussi une couleur d'`accent` (celle du locuteur en dialogue)
+- `taille_ajustee(mots, taille)` — réduit un pavé dont un mot insécable déborde (un nom de domaine long), même règle que le paysage ; `_image_sous_titre()` prend aussi une couleur d'`accent` (celle du locuteur en dialogue)
 - `_fond_complet()` — dégradé + halos + pastille aplatis en UNE image : composer trois couches transparentes plein cadre à chaque trame était le premier poste de coût
 - `_cadre_telephone()` — coque percée posée par-dessus la capture : fabrique les coins arrondis sans retoucher les trames une par une
 - `_image_sous_titre(groupe, index_actif)` — rendu PIL mot par mot (un `TextClip` ne sait pas colorer un seul mot d'une ligne)
@@ -1286,7 +1194,7 @@ Composition paysage 1920×1080. Réutilise les briques de `montage.py` (dégrad�
 - `_estompe(image)` — version en retrait de celle qui écoute. Sans lip-sync c'est le seul moyen de désigner le locuteur ; on assombrit sans effacer, les deux restent dans le champ comme sur un plateau
 - `_plaque_nom(locuteur, actif)` — étiquette de plateau TV, **affichée en permanence** : un spectateur qui arrive en cours de vidéo sait qui est qui
 - `_image_sous_titre(groupe, index_actif)` — le mot en cours prend la couleur du locuteur (`config.COULEUR_LOCUTEUR`)
-- `taille_ajustee(mots, taille)` — plus grande taille à laquelle le pavé tient dans la bande. Le retour à la ligne ne suffit pas toujours : `boutique.sparklearning.fr` est **un seul mot** de 1009 px pour une bande utile de 968. On ne peut ni le couper ni le laisser sortir du cadre, donc on réduit ce pavé-là et lui seul. Plancher à `TAILLE_SOUS_TITRE_MINI` — un pavé illisible est pire qu'un pavé qui déborde un peu
+- `taille_ajustee(mots, taille)` — plus grande taille à laquelle le pavé tient dans la bande. Le retour à la ligne ne suffit pas toujours : un nom de domaine long est **un seul mot** de 1009 px pour une bande utile de 968. On ne peut ni le couper ni le laisser sortir du cadre, donc on réduit ce pavé-là et lui seul. Plancher à `TAILLE_SOUS_TITRE_MINI` — un pavé illisible est pire qu'un pavé qui déborde un peu
 
 ## tiktok/pipeline/sujets.py
 Choix du sujet du jour et mémoire des sujets déjà sortis. Le risque n'est pas la qualité d'un sujet isolé, c'est l'effondrement de la diversité : le pipeline impose donc la **famille**, le modèle n'invente qu'à l'intérieur.
@@ -1319,15 +1227,14 @@ CLI de la ligne « maths × vie réelle », à côté de `publier.py`. Le pipeli
 
 ## tiktok/interviews.py
 Les deux dialogues et leurs plans de tournage, **écrits à la main**. Un modèle produirait une histoire plausible plutôt que la vraie — et ça s'entend : ces vidéos racontent pourquoi le site existe.
-- `INTERVIEWS["pourquoi"]` — le fondateur enseignait, ses étudiants voulaient devenir techniciens, et les sciences les ralentissaient ; tout ce qui existait était payant. La thèse tombe à la 4e réplique. La dernière (« et ça le reste ») est la **charnière** avec l'interview boutique, qui répond à « alors pourquoi vendre ? »
-- `INTERVIEWS["boutique"]` — s'ouvre sur la question gênante (le site est gratuit, pourquoi vendre ?) parce que le spectateur se la pose de toute façon. Le pivot n'est pas le prix mais l'**édition professeur**
+- `INTERVIEWS["pourquoi"]` — le fondateur enseignait, ses étudiants voulaient devenir techniciens, et les sciences les ralentissaient ; tout ce qui existait était payant. La thèse tombe à la 4e réplique. La dernière (« et ça le reste »)
 - Contraintes d'écriture : aucun symbole imprononçable, et les **prix en toutes lettres** — edge-tts lit « 9,99 € » de façon irrégulière selon le contexte
 - Le segment « tout était payant » ne filme ni ne nomme aucun concurrent : on reste sur le site
 - `poses(interview)` — la pose de sprite de chaque réplique (`hook` = réfléchit, `body` = console, `cta` = félicite)
 
 ## tiktok/interview.py
 CLI de la ligne interviews, à côté de `main.py` et `culture.py`.
-- `main(argv)` — `--sujet pourquoi|boutique`, `--tous`, `--voix-seule` (synthétise la bande son et s'arrête : permet d'écouter un dialogue sans payer les ~10 min de capture + montage), `--sortie`
+- `main(argv)` — `--sujet pourquoi`, `--tous`, `--voix-seule` (synthétise la bande son et s'arrête : permet d'écouter un dialogue sans payer les ~10 min de capture + montage), `--sortie`
 - `produire(nom, sortie, travail, voix_seule)` — voix → capture → montage, même ordre imposé qu'ailleurs
 - Ni mémoire de production ni dépôt Drive, **volontairement** : on refait une vidéo de présentation quand elle a changé, pas quand elle manque
 
@@ -1343,38 +1250,6 @@ Voie Upload-Post (historique, supplantée par Postiz + n8n le 2026-08-26 mais to
 - `calendrier(modules, depart, creneaux, angles)` — un module par jour, ses angles en rotation sur les créneaux, pour lire séparément l'effet du format et celui de l'heure
 - `_legende_tiktok(meta, promo)` — accroche, pied de campagne éventuel (`livraison.pied_promo`), hashtags
 - `parametres(ligne, meta, utilisateur, aigc, plateformes)` / `envoyer(...)` — champs du multipart Upload-Post, `scheduled_date` en UTC explicite
-
-## tiktok/promos.py
-Les campagnes et leurs plans de tournage, **écrits à la main** : une campagne engage la boutique sur des chiffres, et chaque nombre a été vérifié contre Shopify le jour de l'écriture (prix, mécanique du Duo, réglages du code).
-- `CAMPAGNES["student2026"]` — code -20 % sur toute la commande, cumulable avec les Duos (0,75 × 0,8 = 0,6, soit -40 % sur un duo). Quatre vidéos : `question` (dialogue, la question gênante, **à épingler**), `pourcentages` (Sparky, vraie leçon d'évolutions successives sur l'offre elle-même, filmée sur `1re-information-chiffree`), `dedans` (Lumen, le contenu du manuel), `teaser` (rappel de 15 s). Créneau 19:15, jours 0 / 1 / 3 / 6. Coupées à 28-33 s le 2026-09-06 (première version 35-46 s : TikTok récompense la complétion), plaque du code à 15 % de la vidéo (`plaque["des"]`), appel au partage en outro
-- Le code se dit « STUDENT 2026 » avec une espace : edge-tts lit le mot puis le nombre, le sous-titre affiche les deux ; la plaque porte le code exact
-- `campagne(nom)` / `video(campagne, nom)` / `videos_dans_l_ordre(campagne)` — accès, l'identifiant à l'intérieur
-- `texte_parle(video)` — tout ce que la voix dit ; `poses(video)` — pose de chaque réplique d'un dialogue
-- `legende_tiktok(campagne, video)` — accroche, pied de campagne, hashtags (via `livraison.legende_api`)
-- `calendrier(campagne, depart)` — une ligne par vidéo, datée en heure de Paris
-- `valider(campagne)` — refuse un code jamais prononcé, un symbole imprononçable, une durée hors [6, 45] s, un plan aux bornes qui reculent, une bio > 80, un commentaire > 150, une légende > 2200, ou un nombre de vidéos à épingler différent de 1
-
-## tiktok/promo.py
-CLI des campagnes, à côté de `main.py`, `culture.py` et `interview.py`. Rien ne part de lui-même.
-- `main(argv)` — `--valider`, `--video X` / `--toutes`, `--voix-seule`, `--legendes` (écrit `legendes.md`), `--programmer --depart AAAA-MM-JJ` avec `--simuler` (défaut : journal des requêtes sans envoi) ou `--oui` (réel, exige `POSTIZ_API_KEY`)
-- `bande_son(video, dossier)` — voix seule ou dialogue, même contrat en sortie (audio, mots, durée, bornes, jeu de sprites, `dialogue`)
-- `produire(campagne, nom, sortie, travail, voix_seule)` — voix → capture mobile sur plan → montage avec plaque, marque boutique et dialogue éventuel ; écrit `video.json` (dont `plaque_des`, l'instant d'apparition du code) et `legende.txt`
-- `programmer(campagne, depart, sortie, simuler, oui)` — en simulation, `programmation.json` contient les corps exacts de `POST /posts` avec des marqueurs à la place de ce que seul Postiz fournit ; en réel, le journal est réécrit après **chaque** envoi
-
-## tiktok/pipeline/postiz.py
-Le strict nécessaire de l'API Postiz en Python, pour que quatre vidéos sur TikTok seul n'aient pas besoin d'un workflow n8n de plus. Tout ce qui construit une requête est pur et testé ; seuls `televerser()`, `programmer()`, `etats()` et `integration_tiktok()` parlent au réseau.
-- `quand(depart, jour, creneau)` / `en_utc(instant)` — date en heure de Paris **avec fuseau**, convertie en UTC explicite (19:15 Paris en septembre = 17:15Z)
-- `chemin_media(upload)` — corrige le `.mp4s` renvoyé parfois par l'upload
-- `reglages_tiktok(type, titre, ia, marque)` — `brand_organic_toggle` (« Votre marque », exigé quand on met en avant son propre produit) et `video_made_with_ai` à vrai, `DIRECT_POST`
-- `corps_post(integration, media, legende, titre, instant)` — un seul post, une seule intégration
-- `trouver_tiktok(integrations)` — le type est lu tel que l'API le déclare (`tiktok-business`), jamais deviné : un `__type` faux ne lève pas d'erreur, il vide les réglages
-- `client(cle, base_url)` — clé **nue** dans `Authorization`, sans `Bearer`
-
-## tiktok/campagnes/STUDENT2026.md
-Brief de la première campagne (2026-09-06) : l'offre vérifiée, le fil des quatre vidéos, ce qui est prêt, la procédure de lancement dans l'ordre (J-1, J+0 matin, J+0 soir, fin), la mesure, et les décisions restantes (`video_made_with_ai` incohérent entre prod et copie versionnée, date de fin du code, prononciation de « STUDENT », TikTok Promote). Section « Journal » : la vidéo `question` a été **publiée sur TikTok le 2026-09-06 à 23:51** par le workflow n8n manuel `4iuVBidPbm6diS42` (Drive → Postiz, TikTok seul, non versionné ici), état `PUBLISHED` vérifié ; les trois autres restent à programmer.
-
-## tiktok/n8n/campagne-modules-construire-les-posts.js, tiktok/n8n/campagne-vie-reelle-construire-les-posts.js
-Code complet des deux nœuds « Construire les posts » (workflows `bx1hubE3ShEmzubj` et `kly59keEBizbGhRg`) **avec** la constante `PROMO_TIKTOK` : pied de campagne entre l'accroche et les hashtags TikTok, label « Votre marque » posé tant qu'elle n'est pas vide. YouTube et LinkedIn inchangés. Écrits par le script de préparation, **pas appliqués** dans n8n : à coller (ou pousser par `update_workflow`) le matin du lancement, à vider à la fin. Vérifiés hors n8n avec Node (légende, label, correction `.mp4s`). Le fichier modules reprend le code **live** (`video_made_with_ai: false`), le fichier vie réelle la copie versionnée (`true`) — incohérence à trancher avant d'appliquer.
 
 ## tiktok/n8n/vie-reelle-publication-quotidienne.json
 Workflow n8n de publication de la ligne « vie réelle », versionné ici parce qu'il n'existait jusque-là qu'à un seul endroit — l'instance n8n. **Créé le 2026-08-27 sous l'id `kly59keEBizbGhRg`** (fuseau Europe/Paris, workflow d'erreur `xESU9wNV8sMwSyIz`). Déclencheur quotidien 09:15, programme **une** vidéo à 22:00 (heure de Paris) sur TikTok, YouTube Shorts et la **page entreprise LinkedIn**, en un seul `POST /public/v1/posts`.

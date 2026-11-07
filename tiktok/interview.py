@@ -2,11 +2,9 @@
 """Videos de presentation : Sparky interroge Lumen.
 
 Troisieme ligne de production, independante des deux autres. Format
-paysage 1920x1080, destine a la page d'accueil, a YouTube et a la fiche
-produit de la boutique — pas aux reseaux verticaux.
+paysage 1920x1080, destine a la page d'accueil et a YouTube — pas aux reseaux verticaux.
 
     python interview.py --sujet pourquoi
-    python interview.py --sujet boutique
     python interview.py --tous
     python interview.py --sujet pourquoi --voix-seule   # ecouter avant de rendre
 

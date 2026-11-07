@@ -208,7 +208,7 @@ def _plan_de_capture(resultat, url_base, duree, frames):
         return (url_base, duree, frames)
 
     url_cours = url_base + module["url"]
-    return (url_cours, duree, frames, url_cours.replace("/cours", "/exercices"))
+    return (url_cours, duree, frames, url_cours.replace("/cours", "/exercice"))
 
 
 def _deposer_sur_drive(video, sujet_id):

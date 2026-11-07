@@ -14,18 +14,36 @@ savoir de Google. Copier un fichier suffit.
 import shutil
 from pathlib import Path
 
+import config
 
-def texte_publication(metadonnees):
+
+def pied_promo(promo=None):
+    """Pied de campagne a glisser entre l'accroche et les hashtags.
+
+    `None` = celui de la configuration (vide hors campagne). Une chaine
+    explicite, meme vide, l'emporte : un appelant peut ainsi le forcer
+    ou le retirer sans toucher a l'environnement.
+    """
+    if promo is None:
+        promo = config.PROMO_TIKTOK
+    return (promo or "").strip()
+
+
+def texte_publication(metadonnees, promo=None):
     """Legende prete a coller dans TikTok.
 
-    Un seul bloc, dans l'ordre ou on le colle : accroche, hashtags,
-    puis le lien a mettre en bio.
+    Un seul bloc, dans l'ordre ou on le colle : accroche, pied de
+    campagne s'il y en a un, hashtags, puis le lien a mettre en bio.
     """
     morceaux = []
 
     legende = (metadonnees.get("legende") or "").strip()
     if legende:
         morceaux.append(legende)
+
+    pied = pied_promo(promo)
+    if pied:
+        morceaux.append(pied)
 
     hashtags = [t.strip().lstrip("#") for t in metadonnees.get("hashtags") or []]
     hashtags = [t for t in hashtags if t]
@@ -39,18 +57,23 @@ def texte_publication(metadonnees):
     return "\n\n".join(morceaux)
 
 
-def legende_api(metadonnees):
+def legende_api(metadonnees, promo=None):
     """Legende reellement publiee sous la video.
 
     Distincte de texte_publication() : celle-ci s'adresse aux
     spectateurs, l'autre a la personne qui publie a la main. La consigne
     « lien a mettre en bio » n'a rien a faire dans une legende publique.
+    Le pied de campagne, lui, s'adresse bien aux spectateurs.
     """
     morceaux = []
 
     legende = (metadonnees.get("legende") or "").strip()
     if legende:
         morceaux.append(legende)
+
+    pied = pied_promo(promo)
+    if pied:
+        morceaux.append(pied)
 
     hashtags = [t.strip().lstrip("#") for t in metadonnees.get("hashtags") or []]
     hashtags = [t for t in hashtags if t]

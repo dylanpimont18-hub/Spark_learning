@@ -80,8 +80,14 @@ PERSONAS = {
     "naturelle": {
         "voix": "fr-FR-EloiseNeural",
         "debit": "+12%",
-        "pitch": "+0Hz",
-        "formants": 1.0,      # aucun traitement : c'est le defaut retenu
+        # Choix du 2026-08-31 : Sparky sonnait trop aigu. Le grave passe
+        # par le pitch natif d'edge-tts, PAS par les formants : baisser
+        # les formants retraiterait l'echantillonnage (le meme filtre
+        # qui avait fait rejeter les variantes rajeunies). Le pitch, lui,
+        # descend la hauteur en laissant le timbre intact. -6Hz retenu
+        # apres ecoute comparee de -3 / -6 / -10 / -15.
+        "pitch": "-6Hz",
+        "formants": 1.0,      # aucun retraitement : c'est le defaut retenu
         "sprites": "jeune",
     },
     "rajeunie": {
@@ -171,7 +177,7 @@ def sprite(moment, jeu="jeune"):
 #
 # Troisieme ligne de production, independante des deux autres : des
 # videos de presentation ou Sparky interroge Lumen. Format paysage, pour
-# la page d'accueil, YouTube et la fiche produit de la boutique.
+# la page d'accueil et YouTube.
 #
 # Chaque mascotte a sa voix ET son jeu de sprites : c'est ce couple qui
 # rend le dialogue lisible sans lip-sync. Le spectateur reconnait qui
@@ -331,6 +337,13 @@ SORTIE_INTERVIEW = RACINE / "output-interview"
 # Sujets deja sortis. Comme production.json : lisible, corrigeable a la
 # main, et sa perte ne coute que quelques doublons.
 MEMOIRE_SUJETS = RACINE / "sujets.json"
+
+# Pied de legende ajoute sous CHAQUE publication TikTok des lignes
+# quotidiennes pendant une campagne (accroche, puis ce pied, puis les
+# hashtags). Vide = pas de campagne en cours. Le texte lui-meme vit dans
+# la campagne ; on le recopie ici via .env pour que les scripts de
+# publication n'aient pas a connaitre les campagnes.
+PROMO_TIKTOK = os.getenv("PROMO_TIKTOK", "").strip()
 
 # Score minimal pour rattacher un module a une video de cette ligne.
 # Le module ne sert qu'au lien cliquable de la description YouTube :

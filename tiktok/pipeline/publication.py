@@ -15,6 +15,8 @@ sans pouvoir dire lequel des deux facteurs en est la cause.
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
+from pipeline.livraison import pied_promo
+
 # Sortie du dejeuner, sortie des cours, soiree.
 CRENEAUX = ("12:30", "18:00", "20:30")
 
@@ -67,11 +69,15 @@ TITRE_YOUTUBE_MAX = 100
 CATEGORIE_EDUCATION = "27"
 
 
-def _legende_tiktok(meta):
-    """Accroche puis hashtags. Les liens n'y sont pas cliquables."""
+def _legende_tiktok(meta, promo=None):
+    """Accroche, pied de campagne eventuel, puis hashtags. Les liens n'y
+    sont pas cliquables."""
     morceaux = []
     if (meta.get("legende") or "").strip():
         morceaux.append(meta["legende"].strip())
+    pied = pied_promo(promo)
+    if pied:
+        morceaux.append(pied)
     tags = [t.strip().lstrip("#") for t in meta.get("hashtags") or []]
     if [t for t in tags if t]:
         morceaux.append(" ".join("#" + t for t in tags if t))
