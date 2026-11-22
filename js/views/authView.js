@@ -2,7 +2,7 @@
    Spark Learning – authView.js
    Page Connexion.
    L'inscription publique a été retirée (2026-10-12) : les comptes
-   restants (enseignants, élèves de classe, tutorat) sont attribués
+   restants (enseignants, élèves de classe) sont attribués
    par l'administrateur ; le site reste utilisable sans compte.
    ========================================================= */
 
@@ -16,7 +16,7 @@ var AuthView = {
           (fromGuest ? '<button class="auth-close" aria-label="Continuer sans compte" title="Continuer sans compte" onclick="AuthView._closeToGuest()">✕</button>' : '') +
           '<img src="images/Logo_noir.jpeg" alt="Spark Learning" class="auth-logo" />' +
           '<h1 class="auth-title">Connexion</h1>' +
-          '<p class="auth-subtitle">Espace réservé aux comptes existants (enseignants, classes, tutorat). Tout le contenu reste accessible sans compte.</p>' +
+          '<p class="auth-subtitle">Espace réservé aux comptes existants (enseignants et classes). Tout le contenu reste accessible sans compte.</p>' +
           '<div id="auth-content"></div>' +
         '</div>' +
       '</div>';

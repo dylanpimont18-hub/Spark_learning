@@ -174,8 +174,7 @@ const state = {
   chronoState: null,
   playlistState: null,
   playlistBuilder: null,
-  homeworkState: null,
-  tutoringStudentId: null
+  homeworkState: null
 };
 
 function getModuleAccess(moduleId) {

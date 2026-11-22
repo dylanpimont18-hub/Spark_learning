@@ -18,7 +18,7 @@ function renderConfidentialite() {
 				<h2>1. Utilisation sans compte</h2>
 				<p>Spark Learning est utilisable <strong>sans création de compte</strong>. Ta progression, tes statistiques, ton historique de recherche et tes préférences (thème, etc.) sont enregistrés uniquement dans le navigateur via <strong>localStorage</strong>. Ces données ne quittent jamais ton appareil et ne sont jamais transmises à nos serveurs.</p>
 
-				<h2>2. Comptes existants (enseignants, classes, tutorat)</h2>
+				<h2>2. Comptes existants (enseignants, classes)</h2>
 				<p>Il n'est plus possible de créer un compte sur Spark Learning : les comptes restants ont été attribués directement par l'éditeur du site. Si tu en possèdes un, les données suivantes sont stockées de façon sécurisée sur les serveurs Google Firebase (Authentification et Firestore), hébergés en Europe ou aux États-Unis selon la configuration Google :</p>
 				<ul>
 					<li>Prénom, nom et email</li>

@@ -2,9 +2,6 @@
   "firestore": {
     "rules": "firestore.rules"
   },
-  "functions": {
-    "source": "functions"
-  },
   "storage": {
     "rules": "storage.rules"
   },
@@ -15,11 +12,8 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**",
-      "functions/**",
       "docs/**",
       "scripts/**",
-      "communication/**",
-      "LinkedIn/**",
       "CLAUDE.md",
       "CODEBASE_MAP.md",
       "README.md",

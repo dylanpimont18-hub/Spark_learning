@@ -83,9 +83,6 @@ function buildPath(view, data) {
     case 'contact':    return '/contact';
     // Connexion des comptes existants : adresse volontairement absente de l'interface et du sitemap.
     case 'connexion':  return '/connexion';
-    case 'tutoring':        return '/tutorat';
-    case 'tutoringStudent': return `/tutorat/${data.studentId || state.tutoringStudentId}`;
-    case 'positioning':      return `/positionnement/${data.token || state.positioningToken || ''}`;
     default:           return '/';
   }
 }
@@ -115,10 +112,6 @@ function _parseRouteParts(parts) {
     case 'confidentialite': return { view: 'confidentialite' };
     case 'contact':     return { view: 'contact' };
     case 'connexion':   return { view: 'connexion' };
-    case 'tutorat':
-      return parts[1] ? { view: 'tutoringStudent', studentId: parts[1] } : { view: 'tutoring' };
-    case 'positionnement':
-      return { view: 'positioning', token: parts[1] };
     case 'home':
     default:            return { view: 'home' };
   }
@@ -204,19 +197,13 @@ function navigate(view, data = {}, options = {}) {
   }
 
   // Vues réservées aux comptes (classe/prof) : inaccessibles en mode invité, même par hash direct
-  if ((view === 'teacher' || view === 'homework' || view === 'admin' || view === 'tutoring' || view === 'tutoringStudent' || view === 'playlistBuilder') &&
+  if ((view === 'teacher' || view === 'homework' || view === 'admin' || view === 'playlistBuilder') &&
       typeof AuthGuard !== 'undefined' && !AuthGuard.isAuthenticated()) {
     view = 'home';
   }
 
-  // Tutorat réservé aux comptes tutorAccess (défense en profondeur, en plus des règles Firestore)
-  if ((view === 'tutoring' || view === 'tutoringStudent') &&
-      typeof AuthGuard !== 'undefined' && !AuthGuard.isTutor()) {
-    view = 'home';
-  }
-
-  // Admin/enseignant réservés au rôle correspondant (même défense en profondeur que le
-  // tutorat ci-dessus) : sans ce garde, un élève accédant directement à /admin ou /teacher
+  // Admin/enseignant réservés au rôle correspondant (défense en profondeur,
+  // en plus des règles Firestore) : sans ce garde, un élève accédant directement à /admin ou /teacher
   // recevait la coquille complète du panneau (onglets, boutons) avec juste les données qui
   // échouaient ("Missing or insufficient permissions"), au lieu d'être renvoyé vers l'accueil.
   if (view === 'admin' && typeof AuthGuard !== 'undefined' && !AuthGuard.isAdmin()) {
@@ -231,8 +218,6 @@ function navigate(view, data = {}, options = {}) {
   if (data.level !== undefined) state.level = data.level;
   if (data.moduleId !== undefined) state.moduleId = data.moduleId;
   if (data.tab !== undefined) state.tab = data.tab;
-  if (data.studentId !== undefined) state.tutoringStudentId = data.studentId;
-  if (data.token !== undefined) state.positioningToken = data.token;
 
   // Reset sub-states on navigation
   if (view === 'module') {
@@ -344,7 +329,7 @@ const SITE_BASE_URL = 'https://sparklearning.fr';
 const SITE_DEFAULT_DESCRIPTION = 'Plateforme de rémédiation scientifique : Mathématiques, Physique-Chimie, Sciences de l’Ingénieur — du Collège au BTS.';
 const SITE_DEFAULT_OG_IMAGE = SITE_BASE_URL + '/images/Logo_noir.jpeg';
 // Vues privées/éphémères sans intérêt pour l'indexation (comptes ou liens à usage unique)
-const NOINDEX_VIEWS = ['teacher', 'homework', 'admin', 'tutoring', 'tutoringStudent', 'positioning', 'playlist', 'playlistBuilder', 'connexion'];
+const NOINDEX_VIEWS = ['teacher', 'homework', 'admin', 'playlist', 'playlistBuilder', 'connexion'];
 
 function _setMetaTag(attr, key, content) {
   let el = document.head.querySelector(`meta[${attr}="${key}"]`);
@@ -451,12 +436,6 @@ function updatePageMeta() {
     case 'teacher':  title = `Espace Enseignant — ${base}`; break;
     case 'playlist': title = `Playlist — ${base}`; break;
     case 'playlistBuilder': title = `Créer un parcours — ${base}`; break;
-    case 'tutoring':        title = `Tutorat — ${base}`; break;
-    case 'tutoringStudent': {
-      const s = TutoringStudent._student;
-      title = s ? `${s.firstName} ${s.lastName} — Tutorat — ${base}` : `Tutorat — ${base}`;
-      break;
-    }
     case 'confidentialite':
       title = `Politique de confidentialité — ${base}`;
       description = 'Politique de confidentialité de Spark Learning : données collectées, cookies, contact.';
@@ -520,9 +499,6 @@ function render() {
     case 'flashcards': app.innerHTML = (typeof renderFlashcards === 'function') ? renderFlashcards() : ''; break;
     case 'chrono':     app.innerHTML = (typeof renderChrono === 'function') ? renderChrono() : ''; break;
     case 'admin':      AdminPanel.render(); return;
-    case 'tutoring':        TutoringHome.render(); updateNavActive(); return;
-    case 'tutoringStudent': TutoringStudent.render(state.tutoringStudentId); updateNavActive(); return;
-    case 'positioning':      PositioningTest.render(state.positioningToken); return;
     case 'teacher':    TeacherDashboard.render(); return;
     case 'playlist':   app.innerHTML = (typeof renderPlaylistView === 'function') ? renderPlaylistView() : ''; break;
     case 'playlistBuilder': app.innerHTML = (typeof renderTeacherBuilder === 'function') ? renderTeacherBuilder() : ''; break;
@@ -542,7 +518,6 @@ function render() {
 function updateNavActive() {
   document.getElementById('nav-home')?.classList.toggle('active', state.view === 'home');
   document.getElementById('nav-parcours')?.classList.toggle('active', ['subjects','levels','modules','module'].includes(state.view));
-  document.getElementById('nav-tutoring')?.classList.toggle('active', ['tutoring','tutoringStudent'].includes(state.view));
 }
 
 /* ── Module search & filter ── */
@@ -915,8 +890,6 @@ function _setupCommonListeners() {
   if (homeworkNav) homeworkNav.style.display = isGuest ? 'none' : '';
   var signOutBtn = document.getElementById('nav-signout');
   if (signOutBtn) signOutBtn.style.display = isGuest ? 'none' : 'inline-flex';
-  var tutoringNav = document.getElementById('nav-tutoring');
-  if (tutoringNav) tutoringNav.style.display = (typeof AuthGuard !== 'undefined' && AuthGuard.isTutor()) ? '' : 'none';
 
   if (_setupCommonListeners._done) return;
   _setupCommonListeners._done = true;
@@ -929,7 +902,6 @@ function _setupCommonListeners() {
     else if (role === 'teacher') TeacherDashboard.render();
     else navigate('teacher');
   });
-  document.getElementById('nav-tutoring')?.addEventListener('click', () => navigate('tutoring'));
   document.getElementById('logo-link')?.addEventListener('click', (e) => {
     e.preventDefault();
     var role = AuthGuard.getRole();
@@ -1019,7 +991,7 @@ function _setupStudentApp() {
   // Preload all data — sur home/subjects/levels le catalogue complet est nécessaire au
   // rendu lui-même (stats globales, cartes par matière) et le pré-rendu SEO attend
   // __sparkRouteReady sur ces vues (voir DATA_DEPENDENT_VIEWS) : on le charge immédiatement.
-  // Sur les autres routes (lien direct vers un module, tutorat, espace enseignant…), la route
+  // Sur les autres routes (lien direct vers un module, espace enseignant…), la route
   // courante a déjà tout ce dont elle a besoin via ensureModuleData()/ensureLevelData()
   // ci-dessus ; le catalogue complet n'y sert qu'à des features non bloquantes (recherche
   // globale, recommandations) et concurrençait inutilement le téléchargement des données de

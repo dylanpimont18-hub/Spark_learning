@@ -28,7 +28,7 @@ Charte graphique du site, extraite du code le 2026-08-21 (elle n'existait pas av
 - À consulter avant toute évolution visuelle, pour ne pas partir d'une tendance externe
 
 ## robots.txt
-Autorise l'indexation complète sauf les vues privées/éphémères (teacher, homework, admin, tutorat, positionnement, playlist) ; référence `sitemap.xml`.
+Autorise l'indexation complète sauf les vues privées/éphémères (teacher, homework, admin, playlist) ; référence `sitemap.xml`.
 
 ## sitemap.xml
 Généré, jamais édité à la main — voir `scripts/generate-sitemap.js`.
@@ -83,8 +83,6 @@ Règles de sécurité Firestore.
 - `classes/{classCode}` — lecture restreinte à l'enseignant propriétaire/admin/élèves inscrits (plus de listing global) ; un élève peut s'auto-ajouter/retirer du champ `students` uniquement ; **création** exigeant `teacherId == request.auth.uid` (sauf admin) — sinon un compte enseignant pouvait, via un appel Firestore direct, créer une classe attribuée à un autre `teacherId`
 - `progress/{uid}` — lecture enseignant conditionnée au tableau dénormalisé `teacherIds` (élève dans une de ses classes), au lieu d'un accès enseignant global
 - `assignments/{id}` — lecture restreinte enseignant propriétaire/admin/élèves de la classe concernée (plus de listing global) ; **création** exigeant `teacherId == request.auth.uid` ET `isOwningTeacherOfClass(classCode)` (sauf admin) — sinon un enseignant pouvait injecter un devoir sur le `classCode` d'un collègue, visible par ses élèves à lui
-- `tutoringStudents/{studentId}` / `tutoringSessions/{sessionId}` — lecture/écriture réservées aux comptes `tutorAccess: true` (`isTutor()`), fermé à tous les autres rôles
-- `positioningTests/{token}` — lecture/écriture réservées `isTutor()` ; aucun accès public en direct, l'élève non authentifié qui passe le test de positionnement transite exclusivement par les Cloud Functions `onCall` (SDK Admin, contourne ces règles)
 
 ---
 
@@ -103,7 +101,6 @@ Règles de sécurité Firestore.
 Routeur SPA (pushState), init, KaTeX, confetti.
 - `buildPath(view, data)` — construit un chemin d'URL réel `/view/data` (pushState)
 - `parsePath(pathname)` / `parseLegacyHash(hash)` — parsent respectivement une URL réelle et un ancien lien `#hash` (rétrocompat), partagent `_parseRouteParts(parts)`
-- Route `/positionnement/:token` (view `positioning`) → `PositioningTest.render(token)` (voir `js/views/positioning/positioningTest.js`) ; page publique, non authentifiée, hors flux `AuthGuard`
 - Route `/creer-parcours` (view `playlistBuilder`) → `renderTeacherBuilder()` (`js/playlist.js`) ; gardée comme `teacher`/`homework` (authentifié requis, sinon retour `home`) ; câblée le 2026-08-19 (bouton "+ Créer un parcours" dans `TeacherDashboard._renderDashboard()`), auparavant fonction complète mais totalement inaccessible
 - `navigate(view, data)` — change la vue active via `history.pushState` (plus de hash routing) ; branche à chargement asynchrone (`module`/`modules`/`flashcards`/`chrono`/`companion`/`teacher`/`homework`/`admin`) : appelle `updatePageMeta()` une fois avant le chargement (titre générique) puis **de nouveau après** `render()` une fois `loadPromise` résolu — sans ce second appel (bug corrigé le 2026-08-09), le `<title>`/meta restent génériques sur toute première navigation directe vers une page module malgré un contenu réel déjà affiché ; met aussi `window.__sparkRouteReady` à `false` en entrée puis appelle `_markRouteReady(view)` juste après `render()`+`updatePageMeta()` dans les deux branches (guardé par `_navSequence !== seq` côté async) — signal de disponibilité consommé par `scripts/prerender.js` (`renderRoute()`), voir cette entrée
 - `_markRouteReady(view)` / `DATA_DEPENDENT_VIEWS` (`home`/`subjects`/`levels`) / `window.__sparkCatalogReady` — ces trois vues lisent `window.MODULES` **synchronement** dans leur `render()` et n'ont pas de `loadPromise` dans `navigate()` : leur premier rendu est complet mais vide (0 carte matière, "0 modules"). Le signal n'est donc levé pour elles qu'une fois `ensureAllData()` résolu et le re-render fait dans `_setupStudentApp()` — sans ce verrou (bug corrigé le 2026-08-09), le pré-rendu capturait `/`, `/subjects` et `/levels/*` avec un catalogue vide, et `/` sert de page de repli pour tout le site via le rewrite `**`
@@ -453,7 +450,6 @@ Vérifie l'état Firebase auth avant d'afficher l'app (profil, rôle, statut).
 - `AuthGuard.init(user)` — reçoit l'utilisateur Firebase déjà résolu par l'unique listener global de `js/app.js`, charge le profil Firestore une fois ; NE s'abonne PAS lui-même à `onAuthStateChanged` (évite l'empilement de listeners imbriqués à chaque rafraîchissement de token)
 - `AuthGuard.reset()` — efface `_currentUser`/`_currentProfile` (utilisé au retour en mode invité)
 - `AuthGuard.isAuthenticated() / getRole() / getStatus()` — accesseurs d'état
-- `AuthGuard.isTutor()` — accesseur : `tutorAccess === true` sur le profil chargé (tutorat privé, indépendant du champ `role`)
 
 ## js/views/authView.js
 Page Connexion uniquement (overlay plein `#app`, header/nav restent visibles). Email + mot de passe. L'onglet Inscription (choix du rôle élève/enseignant, codes de classe) a été **supprimé le 2026-10-12** : les comptes publics n'étaient pas utilisés ; les comptes restants (enseignants, classes, tutorat) se créent à la main dans la console Firebase. L'auth par téléphone (SMS) avait déjà été retirée (offre Blaze refusée).
@@ -506,83 +502,6 @@ Panneau de notation enseignant : tableau comparatif élèves × modules + export
 - `GradingPanel._exportCSV()` — génère et télécharge le CSV via Blob + URL.createObjectURL
 - `GradingPanel._csvSafe(value)` — neutralise l'injection de formule CSV (préfixe `'` si valeur commence par `=+-@`)
 
-## js/tutoring/tutoringService.js
-Firestore CRUD pour le suivi de cours particuliers (tutorat privé, réservé aux comptes `tutorAccess: true`).
-- `getStudents()` / `getStudent(id)` — liste (non archivés) / détail d'un élève
-- `createStudent(data)` / `updateStudent(id, patch)` / `archiveStudent(id)` — CRUD élève (soft delete via `archived`)
-- `watchStudentSessions(studentId, callback, onError)` / `createSession(studentId, data)` — écoute temps réel de l'historique et création de séance (`status: 'draft'`) ; `onError` (optionnel) reçoit les erreurs Firestore du listener (sinon la vue restait bloquée sur "Chargement..." en cas d'échec silencieux)
-- `rateSession(sessionId, rating, remarks)` — note une séance 1-10 + remarques, passe en `status: 'rated'`
-- `requestGeneration(sessionId, opts)` — déclenche la génération IA (Cloud Function)
-- `createPositioningTest(opts)` — crée un doc `positioningTests` (l'id du doc sert de token de lien public), lié à `opts.studentId` ou `null` pour un nouvel élève pas encore fiché
-- `getPendingPositioningTests()` — tests non rattachés (`studentId: null`), non `reviewed`, avec au moins une matière `completed` (pour le bloc "à traiter" de `tutoringHome.js`)
-- `watchStudentPositioningTests(studentId, callback, onError)` — écoute temps réel des tests de positionnement rattachés à un élève
-- `markPositioningTestReviewed(token)` / `attachPositioningTestToNewStudent(token, studentData)` / `attachPositioningTestToStudent(token, studentId)` — marque un test traité, ou le rattache en créant une nouvelle fiche élève / à un élève existant
-
-## js/views/tutoring/tutoringHome.js
-Liste des élèves de cours particuliers (route `/tutorat`), réservée aux comptes tutor.
-- `TutoringHome.render()` — charge élèves + tests de positionnement en attente, puis affiche la grille
-- `TutoringHome._renderList(filter)` — recherche client-side par nom
-- `TutoringHome._showAddForm()` / `_submitAddForm(e)` — formulaire de création d'élève
-- `TutoringHome._sendPositioningLink()` — crée un lien de test (`createPositioningTest`) et l'affiche via `showCopyLinkModal()` (`js/utils/ui-helpers.js`) pour copie/envoi manuel
-- `TutoringHome._showAttachForm(token)` / `_submitAttachForm(e, token)` — bloc "Tests de positionnement à traiter" : crée la fiche élève à partir des infos saisies pendant le test, puis rattache le test
-- `TutoringHome._showAttachToExistingForm(token)` / `_submitAttachToExisting(e, token)` — rattache un test en attente à un élève déjà fiché
-
-## js/views/tutoring/tutoringStudent.js
-Fiche élève (route `/tutorat/:studentId`) : notes générales, historique des séances (temps réel), notation, génération IA, tests de positionnement.
-- `TutoringStudent.render(studentId)` — charge l'élève puis s'abonne aux séances (`watchStudentSessions`) et aux tests de positionnement (`watchStudentPositioningTests`) ; affiche la fiche immédiatement (sans attendre le 1er snapshot) et bascule `_syncError` + bannière "Réessayer" si un listener remonte une erreur
-- `TutoringStudent._saveNotes()` / `_archive()` — édition notes générales / soft delete élève
-- `TutoringStudent._showSessionForm()` / `_submitSessionForm(e, generate)` — création d'une séance (`status: 'draft'`), option "Générer un cours" immédiat
-- `TutoringStudent._showRatingForm(sessionId)` / `_submitRating(e, sessionId)` — notation d'une séance (1-10 + remarques)
-- `TutoringStudent._renderGenerationBadge(sess)` — badge d'état de génération (generating/generated/failed)
-- `TutoringStudent._requestGeneration(sessionId, contentType, figuresCount)` — relance la génération sur une séance existante
-- `TutoringStudent._sendPositioningLink()` — crée un lien de test de positionnement pré-rattaché à cet élève (`createPositioningTest`), affiché via `showCopyLinkModal()`
-- `TutoringStudent._renderPositioningReports()` — affiche, par test complété, le niveau estimé par thème + une recommandation textuelle (`positioningBuildRecommendation`) comparée au niveau déclaré de l'élève, plus des boutons de lien direct vers les modules `bts-prep` concernés (`positioningRecommendedModules`, voir `js/positioning/positioningReport.js`)
-
-## js/positioning/positioningClient.js
-Wrapper d'appel aux 3 Cloud Functions publiques du test de positionnement (utilisé côté page de test non authentifiée ET côté `js/views/tutoring/`).
-- `PositioningClient.getLinkInfo(token)` — infos du lien (nom élève déjà connu ? matières déjà complétées ?)
-- `PositioningClient.getQuestionBank(subject)` — récupère la banque de questions QCM d'une matière (`maths`/`physique`)
-- `PositioningClient.submitResult(token, subject, payload)` — soumet nom/niveau déclarés + réponses pour correction serveur
-
-## js/positioning/positioningReport.js
-Logique pure de comparaison niveau déclaré / niveaux estimés par thème (consommée par `tutoringStudent.js`).
-- `positioningNormalizeLevel(raw)` — convertit un libellé de classe (ex: `"3e"`, `"Tle"`) en palier numérique 1-9
-- `positioningBuildRecommendation(declaredLevel, themeResults)` — texte de recommandation ("lacunes probables sur…") si un thème est ≥2 paliers en dessous du niveau déclaré, sinon message neutre
-- `positioningRecommendedModules(declaredLevel, themeResults)` — retourne les modules `js/data/bts-prep/` (tag `prep`) correspondant aux thèmes maths où l'élève est ≥2 paliers en dessous (même seuil que `positioningBuildRecommendation`), via la table statique `POSITIONING_THEME_TO_BTS_PREP` ; aucun mapping côté Physique-Chimie (pas encore de contenu `physique` sur le site)
-
-## js/views/positioning/positioningTest.js
-Page publique (route `/positionnement/:token`), non authentifiée : passage du test par l'élève.
-- `PositioningTest.render(token)` — charge les infos du lien ; formulaire prénom/classe si élève inconnu, sinon choix de matière direct
-- `PositioningTest._chooseSubject(subject)` — charge la banque de questions (`PositioningClient.getQuestionBank`) et démarre le test
-- `PositioningTest._renderQuestion()` / `_answerQuestion(selectedOption)` — affiche une question (options mélangées à l'affichage, l'index original est soumis) ; rejoue localement l'algorithme "escalier" (mêmes constantes que `positioningStaircase.js`) pour choisir le palier de la question suivante, palier remis à 5 à chaque nouveau thème
-- `PositioningTest._finishSubject()` — soumet les réponses via `PositioningClient.submitResult` (la notation finale/autoritaire est recalculée côté serveur) puis affiche le remerciement ; en cas d'échec réseau, affiche un bouton "Réessayer l'envoi" qui rappelle `_finishSubject()` sans perdre `_answers` (pas besoin de refaire les ~24 questions)
-- `PositioningTest._renderThankYou()` — remerciement + option d'enchaîner sur l'autre matière si elle n'a pas déjà été testée
-
-## functions/ (Cloud Functions — générateur de cours IA, tutorat Phase 2 + test de positionnement)
-- `functions/index.js` — trigger `generateCourse` (`onDocumentWritten` sur `tutoringSessions`, filtré sur `generationStatus === 'generating'`) ; `onCall` publics `getPositioningLinkInfo`, `getPositioningQuestionBank`, `submitPositioningResult` (test de positionnement, accessibles sans authentification, délèguent à `functions/src/positioning.js`)
-- `functions/src/generateCourse.js` — orchestrateur : verrou anti-double-déclenchement, rédaction, relecture, téléchargement des figures générées (`deps.downloadGeneratedFile`) + écriture dans `workDir` avant compilation, compilation (retry jusqu'à 3x), livraison Storage + email ; le bloc de livraison (upload + update Firestore + email) est dans son propre `try/catch` → `failSession()` sur échec (sinon une séance restait bloquée en `generating` indéfiniment si l'upload réseau échouait après une compilation réussie)
-- `functions/src/anthropicClient.js` — appels Claude Opus 4.8 (code execution + web search), gestion `pause_turn` (jusqu'à 5 continuations)
-  - `downloadGeneratedFile(anthropic, fileId)` — télécharge le contenu binaire d'une figure générée par `code_execution` via l'API Files (`GET /v1/files/{id}/content`, `__binaryResponse: true` — pas de resource dédiée dans le SDK installé) ; sans ça les figures n'étaient jamais matérialisées sur disque et toute séance avec `figuresCount > 0` échouait systématiquement à la compilation
-- `functions/src/promptBuilder.js` — construction des prompts rédaction/relecture/fix-compile
-- `functions/src/latexCompiler.js` — compilation via Tectonic (binaire téléchargé au `postinstall`, Linux uniquement)
-- `functions/src/mailer.js` — écriture dans la collection `mail` (extension Firebase "Trigger Email")
-- `functions/src/lock.js`, `errors.js`, `storagePaths.js` — utilitaires purs (verrou 10 min, formatage d'erreur, chemins Storage)
-- `functions/src/positioning.js` — logique métier du test de positionnement
-  - `handleGetLinkInfo(testRef)` — lit le doc `positioningTests/{token}`, retourne si le nom élève est connu et quelles matières sont déjà `completed`
-  - `handleSubmitResult(testRef, params, deps)` — corrige les réponses via la banque (`deps.getBank`), calcule le niveau par thème (`runStaircase`/`palierToLabel`), écrit `results.{subject}` (refuse si la matière est déjà complétée sur ce lien)
-- `functions/src/positioningStaircase.js` — algorithme adaptatif "escalier" utilisé pour noter chaque thème
-  - `runStaircase(correctFlags)` — part du palier `START_PALIER = 5` (sur 9) et applique 6 pas décroissants (`STAIRCASE_STEPS = [4,2,1,1,1,1]`, +/- selon réponse correcte), clampé entre 1 et 9
-  - `palierToLabel(palier)` — convertit le palier numérique en libellé de classe (`LEVEL_LABELS`: 6e → BTS2)
-- `functions/src/positioningBank/validate.js` — validateur de schéma de la banque, appelé au chargement (fail-fast)
-  - `validateQuestion(q, context)` — vérifie id/question/4 options/`correctIndex` 0-3
-  - `validateTheme(theme)` — vérifie que chaque palier 1-9 a 2 ou 3 questions, ids uniques dans le thème
-  - `validateBank(bank, expectedThemeIds)` — valide tous les thèmes attendus d'une banque
-- `functions/src/positioningBank/maths/*.js` *(5 fichiers thème)* et `functions/src/positioningBank/physique/*.js` *(5 fichiers thème)* — banque de questions QCM du test de positionnement, un fichier par thème, format `{id, label, levels: {1..9: [questions]}}` ; Maths : `numerique-calcul`, `algebre-equations`, `geometrie`, `fonctions`, `statistiques-probabilites` ; Physique-Chimie : `mecanique`, `electricite`, `energie-thermique`, `matiere-chimie`, `ondes-optique`
-- `functions/src/positioningBank/maths/index.js` / `functions/src/positioningBank/physique/index.js` — assemblent les 5 thèmes de la matière en `{themes: {...}}`
-- `functions/src/positioningBank/index.js` — `getBank(subject)` — valide (`validateBank`) les deux banques au chargement du module, puis expose `maths`/`physique` assemblées
-
----
-
 ## js/flashcards.js
 Flashcards générées automatiquement depuis les données cours.
 - `buildFlashcardDeck(mod)` — construit le deck depuis `definitions[]`, `formulas[]`, `recap[]`
@@ -620,8 +539,7 @@ Recommandations adaptatives basées sur la progression.
 ## js/utils/ui-helpers.js
 Helpers de rendu et utilitaires UI partagés.
 - `updateScrollFade(el)` / `initScrollFades(root)` — posent `data-fade` (`none|left|right|both`) sur chaque `.scroll-fade` selon sa position de défilement ; un `MutationObserver` sur `#app` + `resize` relancent l'init après chaque rendu, aucune vue n'a à s'en occuper
-- `escapeHtml(str)` — échappement HTML partagé (auparavant dupliqué à l'identique en 6 endroits : `teacherDashboard.js`, `gradingPanel.js`, `adminPanel.js`, `tutoringHome.js`, `tutoringStudent.js`, `positioningTest.js`) ; ces fichiers chargent AVANT ce fichier dans `index.html`, donc chacun garde un wrapper local `_esc: function(str) { return escapeHtml(str); }` (une référence directe `_esc: escapeHtml` casserait au chargement, `escapeHtml` n'existant pas encore)
-- `showCopyLinkModal(url, message)` — panneau modal "copier le lien" (bouton copier-presse-papiers + fallback `execCommand('copy')` + sélection manuelle) ; remplace `window.prompt()` (fragile sur mobile/webview) pour partager les liens de test de positionnement (`tutoringHome.js`, `tutoringStudent.js`)
+- `escapeHtml(str)` — échappement HTML partagé (auparavant dupliqué à l'identique en 6 endroits : `teacherDashboard.js`, `gradingPanel.js`, `adminPanel.js`) ; ces fichiers chargent AVANT ce fichier dans `index.html`, donc chacun garde un wrapper local `_esc: function(str) { return escapeHtml(str); }` (une référence directe `_esc: escapeHtml` casserait au chargement, `escapeHtml` n'existant pas encore)
 - `convertMarkdownTables(html)` — convertit les tableaux markdown (`| a | b |` + ligne `|---|---|`) présents dans le contenu (`def`, `steps`, `context`...) en vrais `<table>` HTML ; appelé sur le HTML assemblé dans `moduleTabs.js` et `renderFicheCours()`, pas dans `js/data/`
 - `renderLoading()` — squelette de chargement
 - `renderErreurConseil(piege)` — bloc conseil sur l'erreur classique

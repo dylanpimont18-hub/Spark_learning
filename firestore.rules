@@ -23,9 +23,6 @@ service cloud.firestore {
              && getUserData().status == 'active';
     }
 
-    function isTutor() {
-      return isSignedIn() && getUserData().tutorAccess == true;
-    }
 
     // L'utilisateur courant est-il enseignant propriétaire de cette classe ?
     function isOwningTeacher(classResource) {
@@ -142,21 +139,5 @@ service cloud.firestore {
       allow delete: if isAdmin() || (isTeacherOrAdmin() && resource.data.teacherId == request.auth.uid);
     }
 
-    // ─── tutoringStudents (suivi cours particuliers, privé à 2 comptes) ───
-    match /tutoringStudents/{studentId} {
-      allow read, write: if isTutor();
-    }
-
-    // ─── tutoringSessions (suivi cours particuliers, privé à 2 comptes) ───
-    match /tutoringSessions/{sessionId} {
-      allow read, write: if isTutor();
-    }
-
-    // ─── positioningTests (test de positionnement, envoyé aux nouveaux élèves) ───
-    // Aucun accès public : l'élève non authentifié passe exclusivement par les
-    // Cloud Functions onCall (SDK Admin, contourne ces règles).
-    match /positioningTests/{token} {
-      allow read, write: if isTutor();
-    }
   }
 }
