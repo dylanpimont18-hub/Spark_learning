@@ -8,7 +8,7 @@ SPA Vanilla JS sans bundler. Chargement des scripts via `index.html` (ordre crit
 Point d'entrée unique. Déclare l'ordre de chargement de tous les scripts.
 - Chargement : `<script defer src="...">` dans l'ordre exact requis (Firebase → authService → views (authView, teacherDashboard, adminPanel) → sync → data → engines → components → app) ; `defer` sur toutes les balises locales/externes (sauf AdSense en `async`) pour ne plus bloquer le parsing HTML — l'ordre relatif d'exécution est préservé par la spec `defer`
 - `preconnect` posés pour les 4 origines externes utilisées (`fonts.googleapis.com`/`fonts.gstatic.com`, `www.gstatic.com` Firebase, `cdn.jsdelivr.net` KaTeX)
-- `#nav-login` — bouton nav (masqué par défaut), affiché en mode invité pour ouvrir `AuthView`
+- Aucun bouton de connexion dans l'interface (retiré le 2026-11-22) : les comptes existants se connectent via l'adresse non listée `/connexion` (vue `connexion` → `AuthView.render(true)`, noindex, absente du sitemap)
 - `#nav-shop` — lien nav (pas un `<button>`) vers la boutique Shopify (`f1niwf-wr.myshopify.com`), `target="_blank"`, à côté des autres boutons de nav
 - `<head>` — meta SEO statiques par défaut (description, canonical, robots, OG, Twitter Card, `manifest.json`) ; réécrites dynamiquement par vue via `updatePageMeta()` (`js/app.js`)
 
@@ -70,9 +70,6 @@ Système de design complet : variables CSS (`--primary`, `--secondary`, `--accen
 - `.td-students-toolbar` — sélecteur de tri (nom/score/inactivité) au-dessus de la liste d'élèves d'une classe (TeacherDashboard)
 - `.stats-levels-details` / `.stats-levels-summary` — replie le détail de progression par niveau (accueil, `renderStatsSection()`) dans un `<details>` pour laisser les widgets d'action en haut de page
 
-## ads.txt
-Fichier de vérification standard IAB pour Google AdSense (`google.com, pub-5320273649803132, DIRECT, ...`).
-
 ## images/modules/{niveau}/{slug}.jpg
 Photos réelles utilisées en complément d'un schéma SVG dans `cours.diagram` (jamais en remplacement), référencées via `<img src="images/modules/...">` dans le champ `diagram.svg`/`html`. Uniquement des images sous licence libre (domaine public, CC) car le site est public — contrairement aux fiches BTS FED internes, aucune tolérance "tous droits réservés" ici. Premier exemple : `si-bts/verin-hydraulique-coupe.jpg` (domaine public, Hotdogcartman/Hyco, Wikimedia Commons). Téléchargées par le skill `generer-image` (étape de repli, licence libre uniquement) — jamais par génération IA.
 
@@ -113,7 +110,7 @@ Routeur SPA (pushState), init, KaTeX, confetti.
 - `_setupStudentApp()` — restaure la route depuis l'URL puis précharge tout le catalogue (`ensureAllData()`) ; immédiat sur `home`/`subjects`/`levels` (`DATA_DEPENDENT_VIEWS`, requis pour leur propre rendu et pour le pré-rendu SEO), différé via `requestIdleCallback` sur les autres routes (mesuré : sinon un lien direct vers un seul module télécharge quand même les 248 fichiers `js/data/*`, ~4,85 Mio). Le `.then()` pose `window.__sparkCatalogReady = true`, re-rend les vues catalogue et lève le signal retenu. Le `.catch()` laisse volontairement le signal à `false` (un pré-rendu de la home sans catalogue doit échouer bruyamment)
 - `updatePageMeta()` — remplace l'ancien `updatePageTitle()` : en plus du `document.title`, met à jour dynamiquement description, `<link rel="canonical">`, OG/Twitter Card et `meta name="robots"` (`noindex` sur les vues privées listées dans `NOINDEX_VIEWS`) ; `_updateJsonLd(mod)` injecte/retire un bloc `schema.org/LearningResource` sur les pages module
 - `renderMath()` — déclenche KaTeX sur `#app` ; macro `\cdotp` redirigée vers le glyphe unicode ⋅ car le caractère « · » tapé dans le contenu (`\text{M·L}`) plante KaTeX (`\cdotp` indéfini en mode texte)
-- Appelle `initAdSlots()` (voir `js/components/adSlot.js`) et `trackPageView()` (voir `js/analytics.js`) après chaque rendu de vue dans le dispatcher `render()` — sauf branches `admin`/`teacher` (return anticipé, hors suivi)
+- Appelle `trackPageView()` (voir `js/analytics.js`) après chaque rendu de vue dans le dispatcher `render()` — sauf branches `admin`/`teacher` (return anticipé, hors suivi)
 - `createConfetti()` — animation confetti de succès
 - `showToast(msg, type)` — notification toast
 - `_checkMaintenance()` — lit `config/settings.maintenanceMode`, affiche la page maintenance si actif (invités + comptes non-admin) ; fail-open assumé si Firestore inaccessible
@@ -340,8 +337,8 @@ Moteur Spark Companion : remédiation, rattrapage, badges, répétition espacée
 
 ## js/consent.js
 Bannière de consentement cookies (RGPD/CNIL) ; un seul consentement global couvre pub ET mesure d'audience.
-- `Consent.hasAdConsent()` — lit `Storage.getConsent('ads')`, utilisé aussi bien par `adSlot.js` que par `analytics.js`
-- `Consent.accept()` / `Consent.reject()` — enregistrent le choix ; `accept()` déclenche `initAdSlots()` et `trackPageView()`
+- `Consent.hasAdConsent()` — lit `Storage.getConsent('ads')`, utilisé par `analytics.js` (plus aucune publicité depuis le 2026-11-22)
+- `Consent.accept()` / `Consent.reject()` — enregistrent le choix ; `accept()` déclenche `trackPageView()`
 - `Consent.init()` / `Consent.showBanner()` / `Consent.hideBanner()` / `Consent.openPreferences()` — cycle d'affichage de la bannière ; `init()` **retire** un `#consent-banner` déjà présent dans le HTML servi quand le choix est déjà fait (auto-réparation d'une bannière figée dans une page pré-rendue, qui donnerait sinon l'impression que le choix RGPD est ignoré à chaque chargement)
 
 ## js/analyticsConfig.js
@@ -353,17 +350,6 @@ Point unique de contrôle du suivi d'audience (Google Analytics 4).
 Chargement différé de gtag.js (GA4) et suivi des pages vues (SPA pushState, pas de détection automatique des routes par GA4).
 - `loadAnalytics()` — injecte le script `gtag.js` si `ANALYTICS_ENABLED` + `GA_MEASUREMENT_ID` + `Consent.hasAdConsent()` ; idempotent (`window._gaLoaded`)
 - `trackPageView()` — envoie un événement `page_view` (path/title/location courants) ; appelée depuis `js/app.js` (dispatcher `render()`) et `Consent.accept()`
-
-## js/adsConfig.js
-Point unique de contrôle des emplacements publicitaires AdSense.
-- `ADS_ENABLED` — tant qu'à `false`, tous les emplacements restent en placeholder visuel (aucun ad unit réel créé côté AdSense)
-- `ADSENSE_CLIENT` — identifiant éditeur (`ca-pub-...`)
-- `AD_SLOTS` — map `{ home, moduleTab } → data-ad-slot`, à renseigner quand les ad units seront créés dans le dashboard AdSense (emplacements `subjects`/`modules` retirés le 2026-07-30, refus AdSense "pages sans contenu d'éditeur"). `home` n'avait aucun point d'appel réel malgré la config (bug trouvé et corrigé le 2026-08-19 : audit adsense-readiness, `renderHome()` n'appelait jamais `renderAdSlot(..., 'home')`)
-
-## js/components/adSlot.js
-Emplacement publicitaire : placeholder visuel tant qu'`ADS_ENABLED` est à `false`, sinon vrai bloc `<ins class="adsbygoogle">`.
-- `renderAdSlot(placement, slotKey)` — rend le placeholder ou l'ad unit réel selon `js/adsConfig.js` ; emplacement `moduleTab` couvre les 6 onglets d'un module (cours/quiz/exercice/probleme/evaluation/companion, décision actée le 2026-07-24 suite à 2 refus AdSense — voir `docs/superpowers/specs/2026-07-24-adsense-conformite-contenu-design.md`, ne pas restreindre à `cours` seul sans revalider avec l'utilisateur), plus l'emplacement `home` en bas de l'accueil (câblé le 2026-08-19, manquait jusque-là)
-- `initAdSlots()` — pousse les nouveaux `<ins class="adsbygoogle">` injectés dans le DOM vers `adsbygoogle.push({})` ; appelée depuis `js/app.js` après chaque rendu de vue ; sans effet tant qu'`ADS_ENABLED` est à `false`. Pose aussi `window.adsbygoogle.requestNonPersonalizedAds = 1` avant tout push (ajouté le 2026-08-19 : la politique de confidentialité promet des pubs non personnalisées, rien ne l'appliquait techniquement avant)
 
 ## js/components/renderCours.js
 Rendu HTML de l'onglet Cours d'un module (écran, pas impression).
@@ -431,15 +417,13 @@ Vues globales : accueil, liste matières, niveaux, modules, détail module.
 - `renderModuleDetail()` — page détail d'un module
 - `renderSubjects()` — filtre les matières à 0 module (plus de badge "Bientôt disponible" public), affiche un court texte éditorial (`.hub-intro-text`) au-dessus de la grille ; plus d'emplacement pub sur cette page (retiré 2026-07-30)
 - `renderLevels()` — affiche `subjectDef.description` en texte éditorial (`.hub-intro-text`) sous le titre
-- `renderModuleDetail()` — inclut un `renderAdSlot('onglet module — bas de contenu', 'moduleTab')` après `.tab-content`, seul emplacement pub restant avec l'accueil
-- `renderModulesList()` — inclut un `renderAdSlot(...)` dans un wrapper `#modules-ad-slot`, seulement si `modules.length > 0` ; ce wrapper est masqué dynamiquement par `_applyModuleFilters()` (`js/app.js`) quand une recherche ne donne aucun résultat
 - `renderModulesList()` — les boutons "Imprimer les fiches 🖨️" (`toggleBatchPrintMode()`) et "Composer une évaluation 📝" (`toggleEvalBuilderMode()`, voir `js/print.js`) ne sont rendus que si `AuthGuard.isTeacher()`
 - `renderHome()` — page d'accueil, volontairement sans bloc pub (page à contenu essentiellement promotionnel, retiré suite à un rejet AdSense "contenu à faible valeur informative") ; jamais de pub non plus dans les onglets d'apprentissage actif (`module`)
 - `renderAssignmentWidget()` — async, injecte l'encart "Devoir en cours" pour l'élève connecté à une classe
 - `renderSrsReviewWidget()` — encart "À réviser aujourd'hui" alimenté par `getDueReviews()` (`js/engines/companionEngine.js`), priorité la plus haute des widgets d'action de l'accueil
 
 ## js/views/confidentialite.js
-Politique de confidentialité (RGPD, exigence Google AdSense).
+Politique de confidentialité (RGPD). Section publicité retirée le 2026-11-22.
 - `renderConfidentialite()` — page statique : localStorage sans compte, données Firebase pour les comptes existants (plus aucune création de compte possible depuis le 2026-10-12, section 2 reformulée), publicité AdSense non personnalisée, formulaire de contact (Formspree, bulle + page `/contact`), droits RGPD. Route `#confidentialite`, lien en footer.
 
 ## js/views/contact.js

@@ -424,7 +424,6 @@ function renderHome() {
 				</div>
 			</div>
 		</section>
-		${renderAdSlot('accueil — bas de page', 'home')}
 	`;
 }
 
@@ -759,7 +758,6 @@ function renderModuleDetail() {
 			<div class="tab-content" id="tab-panel-${state.tab}" role="tabpanel">
 				${renderTabContentHTML(mod)}
 			</div>
-			${renderAdSlot('onglet module — bas de contenu', 'moduleTab')}
 
 			<div class="module-nav-arrows">
 				${prevMod

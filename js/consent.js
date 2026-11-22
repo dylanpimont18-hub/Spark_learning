@@ -38,7 +38,6 @@ var Consent = {
   accept() {
     Storage.setConsent(this.CATEGORY_ADS, true);
     this.hideBanner();
-    if (typeof initAdSlots === 'function') initAdSlots();
     if (typeof trackPageView === 'function') trackPageView();
   },
 
@@ -60,7 +59,7 @@ var Consent = {
     el.setAttribute('aria-label', 'Préférences de cookies');
     el.innerHTML = `
       <p class="consent-banner-text">
-        Spark Learning peut afficher des publicités <strong>non personnalisées</strong> et mesurer l'audience du site (Google Analytics) pour financer l'hébergement et améliorer le contenu, sans jamais te suivre ni vendre tes données. Le contenu pédagogique reste 100&nbsp;% gratuit dans tous les cas.
+        Spark Learning mesure l'audience du site (Google Analytics) pour améliorer le contenu, sans jamais te suivre ni vendre tes données. Le contenu pédagogique reste 100&nbsp;% gratuit et sans publicité.
         <button class="consent-banner-link" onclick="navigate('confidentialite')">En savoir plus</button>
       </p>
       <div class="consent-banner-actions">

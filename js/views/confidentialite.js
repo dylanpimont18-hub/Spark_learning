@@ -1,6 +1,6 @@
 /* =========================================================
 	 Spark Learning – views/confidentialite.js
-	 Politique de confidentialité (RGPD, exigence Google AdSense).
+	 Politique de confidentialité (RGPD).
 	 ========================================================= */
 
 function renderConfidentialite() {
@@ -29,17 +29,14 @@ function renderConfidentialite() {
 				</ul>
 				<p>Un enseignant ne peut consulter que la progression des élèves inscrits dans ses propres classes — jamais celle de l'ensemble des utilisateurs de la plateforme.</p>
 
-				<h2>3. Publicité</h2>
-				<p>Pour financer l'hébergement et le développement de Spark Learning tout en gardant le contenu pédagogique 100&nbsp;% gratuit, le site peut afficher des publicités fournies par <strong>Google AdSense</strong>, sur la page d'accueil et en bas de chaque onglet de module (cours, quiz, exercice, problème, évaluation, remédiation) — toujours après le contenu, <strong>jamais</strong> insérée au milieu d'un exercice, d'un quiz ou d'une évaluation en cours.</p>
-				<p>Ces publicités sont affichées en mode <strong>non personnalisé</strong> : elles sont basées sur le contenu de la page consultée, pas sur ton profil ou ton comportement de navigation. Google peut néanmoins déposer des cookies techniques nécessaires au fonctionnement de la publicité. Tu peux en savoir plus et gérer tes préférences sur <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer">la page dédiée de Google</a>.</p>
 
-				<h2>4. Formulaire de contact</h2>
+				<h2>3. Formulaire de contact</h2>
 				<p>Les formulaires "Nous contacter" — la bulle flottante accessible depuis n'importe quelle page (bug, remarque, question) et la page dédiée <strong>/contact</strong> (question, erreur, proposition, partenariat, presse) — transmettent ton message à <strong>Formspree</strong>, un service tiers de traitement de formulaires, uniquement dans le but de te répondre. Aucune donnée n'est conservée au-delà de ce traitement.</p>
 
-				<h2>5. Aucune vente de données</h2>
+				<h2>4. Aucune vente de données</h2>
 				<p>Spark Learning ne vend, ne loue et ne partage jamais tes données personnelles à des fins commerciales.</p>
 
-				<h2>6. Tes droits</h2>
+				<h2>5. Tes droits</h2>
 				<p>Conformément au RGPD, tu peux à tout moment demander l'accès, la rectification ou la suppression de tes données de compte, ou supprimer localement ta progression en vidant les données de site de ton navigateur. Pour toute demande liée à un compte, utilise le formulaire "Nous contacter" accessible depuis n'importe quelle page.</p>
 			</div>
 		</div>

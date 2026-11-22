@@ -81,6 +81,8 @@ function buildPath(view, data) {
     case 'admin':      return '/admin';
     case 'confidentialite': return '/confidentialite';
     case 'contact':    return '/contact';
+    // Connexion des comptes existants : adresse volontairement absente de l'interface et du sitemap.
+    case 'connexion':  return '/connexion';
     case 'tutoring':        return '/tutorat';
     case 'tutoringStudent': return `/tutorat/${data.studentId || state.tutoringStudentId}`;
     case 'positioning':      return `/positionnement/${data.token || state.positioningToken || ''}`;
@@ -112,6 +114,7 @@ function _parseRouteParts(parts) {
     case 'admin':       return { view: 'admin' };
     case 'confidentialite': return { view: 'confidentialite' };
     case 'contact':     return { view: 'contact' };
+    case 'connexion':   return { view: 'connexion' };
     case 'tutorat':
       return parts[1] ? { view: 'tutoringStudent', studentId: parts[1] } : { view: 'tutoring' };
     case 'positionnement':
@@ -341,7 +344,7 @@ const SITE_BASE_URL = 'https://sparklearning.fr';
 const SITE_DEFAULT_DESCRIPTION = 'Plateforme de rémédiation scientifique : Mathématiques, Physique-Chimie, Sciences de l’Ingénieur — du Collège au BTS.';
 const SITE_DEFAULT_OG_IMAGE = SITE_BASE_URL + '/images/Logo_noir.jpeg';
 // Vues privées/éphémères sans intérêt pour l'indexation (comptes ou liens à usage unique)
-const NOINDEX_VIEWS = ['teacher', 'homework', 'admin', 'tutoring', 'tutoringStudent', 'positioning', 'playlist', 'playlistBuilder'];
+const NOINDEX_VIEWS = ['teacher', 'homework', 'admin', 'tutoring', 'tutoringStudent', 'positioning', 'playlist', 'playlistBuilder', 'connexion'];
 
 function _setMetaTag(attr, key, content) {
   let el = document.head.querySelector(`meta[${attr}="${key}"]`);
@@ -526,10 +529,10 @@ function render() {
     case 'homework':   app.innerHTML = (typeof renderHomeworkPanel === 'function') ? renderHomeworkPanel() : ''; break;
     case 'confidentialite': app.innerHTML = renderConfidentialite(); break;
     case 'contact':    app.innerHTML = renderContact(); break;
+    case 'connexion':  if (AuthGuard.isAuthenticated()) { navigate('home'); } else { AuthView.render(true); } return;
     default:           app.innerHTML = renderHome();
   }
   renderMath();
-  if (typeof initAdSlots === 'function') initAdSlots();
   if (typeof trackPageView === 'function') trackPageView();
   if (typeof initHero3D === 'function') initHero3D();
   updateNavActive();
@@ -912,8 +915,6 @@ function _setupCommonListeners() {
   if (homeworkNav) homeworkNav.style.display = isGuest ? 'none' : '';
   var signOutBtn = document.getElementById('nav-signout');
   if (signOutBtn) signOutBtn.style.display = isGuest ? 'none' : 'inline-flex';
-  var loginBtn = document.getElementById('nav-login');
-  if (loginBtn) loginBtn.style.display = isGuest ? 'inline-flex' : 'none';
   var tutoringNav = document.getElementById('nav-tutoring');
   if (tutoringNav) tutoringNav.style.display = (typeof AuthGuard !== 'undefined' && AuthGuard.isTutor()) ? '' : 'none';
 
@@ -929,7 +930,6 @@ function _setupCommonListeners() {
     else navigate('teacher');
   });
   document.getElementById('nav-tutoring')?.addEventListener('click', () => navigate('tutoring'));
-  loginBtn?.addEventListener('click', () => AuthView.render(true));
   document.getElementById('logo-link')?.addEventListener('click', (e) => {
     e.preventDefault();
     var role = AuthGuard.getRole();

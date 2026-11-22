@@ -10,7 +10,7 @@ SPA en **Vanilla JS** : aucun bundler, aucune dépendance npm. Tout le chargemen
 
 Servir le dossier comme un site statique (ex. `npx serve .` ou toute extension "Live Server"). Pas de build à lancer.
 
-⚠️ En local, Firebase et AdSense se connectent aux vrais services (pas de mock) — éviter les tests automatisés en navigateur headless pour ne pas générer de trafic publicitaire invalide.
+⚠️ En local, Firebase se connecte aux vrais services (pas de mock) — éviter les tests automatisés en navigateur headless pour ne pas générer de trafic publicitaire invalide.
 
 ## Déploiement
 

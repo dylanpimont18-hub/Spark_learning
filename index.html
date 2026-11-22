@@ -50,10 +50,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
 
   <!-- App CSS -->
-  <link rel="stylesheet" href="css/styles.css?v=66" />
-
-  <!-- Google AdSense (vérification site + chargement du script ; les emplacements restent en placeholder tant que ADS_ENABLED est à false dans js/adsConfig.js) -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5320273649803132" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="css/styles.css?v=67" />
 
   <!-- Firebase SDK (doit être le premier script) -->
   <script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -62,20 +59,20 @@
   <script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-functions-compat.js"></script>
 
   <!-- Firebase Config -->
-  <script defer src="js/auth/firebase-config.js?v=66"></script>
-  <script defer src="js/auth/authService.js?v=66"></script>
-  <script defer src="js/auth/authGuard.js?v=66"></script>
-  <script defer src="js/views/authView.js?v=66"></script>
-  <script defer src="js/sync/syncService.js?v=66"></script>
-  <script defer src="js/views/teacherDashboard.js?v=66"></script>
-  <script defer src="js/views/gradingPanel.js?v=66"></script>
-  <script defer src="js/views/adminPanel.js?v=66"></script>
-  <script defer src="js/tutoring/tutoringService.js?v=66"></script>
-  <script defer src="js/views/tutoring/tutoringHome.js?v=66"></script>
-  <script defer src="js/views/tutoring/tutoringStudent.js?v=66"></script>
-  <script defer src="js/positioning/positioningClient.js?v=66"></script>
-  <script defer src="js/positioning/positioningReport.js?v=66"></script>
-  <script defer src="js/views/positioning/positioningTest.js?v=66"></script>
+  <script defer src="js/auth/firebase-config.js?v=67"></script>
+  <script defer src="js/auth/authService.js?v=67"></script>
+  <script defer src="js/auth/authGuard.js?v=67"></script>
+  <script defer src="js/views/authView.js?v=67"></script>
+  <script defer src="js/sync/syncService.js?v=67"></script>
+  <script defer src="js/views/teacherDashboard.js?v=67"></script>
+  <script defer src="js/views/gradingPanel.js?v=67"></script>
+  <script defer src="js/views/adminPanel.js?v=67"></script>
+  <script defer src="js/tutoring/tutoringService.js?v=67"></script>
+  <script defer src="js/views/tutoring/tutoringHome.js?v=67"></script>
+  <script defer src="js/views/tutoring/tutoringStudent.js?v=67"></script>
+  <script defer src="js/positioning/positioningClient.js?v=67"></script>
+  <script defer src="js/positioning/positioningReport.js?v=67"></script>
+  <script defer src="js/views/positioning/positioningTest.js?v=67"></script>
 </head>
 <body>
 
@@ -101,7 +98,6 @@
           &#x1F4CB;<span class="homework-badge-count" id="homework-badge-count" style="display:none;">0</span>
         </button>
         <button class="theme-toggle" id="nav-signout" aria-label="Se déconnecter" title="Se déconnecter" style="font-size:1.1rem;display:none;">🚪</button>
-        <button class="theme-toggle" id="nav-login" aria-label="Se connecter" title="Se connecter" style="font-size:1.1rem;display:none;">🔑</button>
         <button class="theme-toggle" id="theme-toggle" aria-label="Basculer le th&#232;me">&#x1F319;</button>
       </div>
 
@@ -181,48 +177,46 @@
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 
   <!-- Données : helpers (initialise MODULES[]) + lazy loader -->
-  <script defer src="js/data/helpers.js?v=66"></script>
+  <script defer src="js/data/helpers.js?v=67"></script>
   <!-- Figures paramétriques d'exercice : après helpers.js (utilise fr()) et avant les modules de js/data/, qui les appellent depuis leur exercice.generate(). -->
-  <script defer src="js/data/figures-exercices.js?v=66"></script>
-  <script defer src="js/loader.js?v=66"></script>
+  <script defer src="js/data/figures-exercices.js?v=67"></script>
+  <script defer src="js/loader.js?v=67"></script>
 
   <!-- App scripts (ordre de chargement important) -->
-  <script defer src="js/storage.js?v=66"></script>
-  <script defer src="js/state.js?v=66"></script>
-  <script defer src="js/engines/shared.js?v=66"></script>
-  <script defer src="js/engines/quizEngine.js?v=66"></script>
-  <script defer src="js/engines/exerciceEngine.js?v=66"></script>
-  <script defer src="js/engines/evaluationEngine.js?v=66"></script>
-  <script defer src="js/engines/problemeEngine.js?v=66"></script>
-  <script defer src="js/engines/companionEngine.js?v=66"></script>
-  <script defer src="js/utils/ui-helpers.js?v=66"></script>
-  <script defer src="js/print.js?v=66"></script>
-  <script defer src="js/views/home.js?v=66"></script>
-  <script defer src="js/views/confidentialite.js?v=66"></script>
-  <script defer src="js/views/contact.js?v=66"></script>
-  <script defer src="js/components/moduleTabs.js?v=66"></script>
-  <script defer src="js/components/renderCours.js?v=66"></script>
-  <script defer src="js/components/quiz.js?v=66"></script>
-  <script defer src="js/components/exercice.js?v=66"></script>
-  <script defer src="js/components/probleme.js?v=66"></script>
-  <script defer src="js/components/evaluation.js?v=66"></script>
-  <script defer src="js/components/companion.js?v=66"></script>
-  <script defer src="js/components/celebration.js?v=66"></script>
-  <script defer src="js/components/contactPanel.js?v=66"></script>
-  <script defer src="js/components/globalSearch.js?v=66"></script>
-  <script defer src="js/components/teacherErrorModal.js?v=66"></script>
-  <script defer src="js/consent.js?v=66"></script>
-  <script defer src="js/adsConfig.js?v=66"></script>
-  <script defer src="js/components/adSlot.js?v=66"></script>
-  <script defer src="js/analyticsConfig.js?v=66"></script>
-  <script defer src="js/analytics.js?v=66"></script>
-  <script defer src="js/flashcards.js?v=66"></script>
-  <script defer src="js/chrono.js?v=66"></script>
-  <script defer src="js/recommendations.js?v=66"></script>
-  <script defer src="js/playlist.js?v=66"></script>
-  <script defer src="js/homework.js?v=66"></script>
-  <script defer src="js/hero3d.js?v=66"></script>
-  <script defer src="js/app.js?v=66"></script>
+  <script defer src="js/storage.js?v=67"></script>
+  <script defer src="js/state.js?v=67"></script>
+  <script defer src="js/engines/shared.js?v=67"></script>
+  <script defer src="js/engines/quizEngine.js?v=67"></script>
+  <script defer src="js/engines/exerciceEngine.js?v=67"></script>
+  <script defer src="js/engines/evaluationEngine.js?v=67"></script>
+  <script defer src="js/engines/problemeEngine.js?v=67"></script>
+  <script defer src="js/engines/companionEngine.js?v=67"></script>
+  <script defer src="js/utils/ui-helpers.js?v=67"></script>
+  <script defer src="js/print.js?v=67"></script>
+  <script defer src="js/views/home.js?v=67"></script>
+  <script defer src="js/views/confidentialite.js?v=67"></script>
+  <script defer src="js/views/contact.js?v=67"></script>
+  <script defer src="js/components/moduleTabs.js?v=67"></script>
+  <script defer src="js/components/renderCours.js?v=67"></script>
+  <script defer src="js/components/quiz.js?v=67"></script>
+  <script defer src="js/components/exercice.js?v=67"></script>
+  <script defer src="js/components/probleme.js?v=67"></script>
+  <script defer src="js/components/evaluation.js?v=67"></script>
+  <script defer src="js/components/companion.js?v=67"></script>
+  <script defer src="js/components/celebration.js?v=67"></script>
+  <script defer src="js/components/contactPanel.js?v=67"></script>
+  <script defer src="js/components/globalSearch.js?v=67"></script>
+  <script defer src="js/components/teacherErrorModal.js?v=67"></script>
+  <script defer src="js/consent.js?v=67"></script>
+  <script defer src="js/analyticsConfig.js?v=67"></script>
+  <script defer src="js/analytics.js?v=67"></script>
+  <script defer src="js/flashcards.js?v=67"></script>
+  <script defer src="js/chrono.js?v=67"></script>
+  <script defer src="js/recommendations.js?v=67"></script>
+  <script defer src="js/playlist.js?v=67"></script>
+  <script defer src="js/homework.js?v=67"></script>
+  <script defer src="js/hero3d.js?v=67"></script>
+  <script defer src="js/app.js?v=67"></script>
 
 </body>
 </html>
