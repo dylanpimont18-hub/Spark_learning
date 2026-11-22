@@ -74,10 +74,6 @@ function buildPath(view, data) {
     }
     case 'flashcards': return `/flashcards/${data.moduleId || state.moduleId}`;
     case 'chrono':     return `/chrono/${data.moduleId || state.moduleId}`;
-    case 'teacher':    return '/teacher';
-    case 'homework':   return '/homework';
-    case 'playlist':   return '/playlist/' + (data.playlistData || '');
-    case 'playlistBuilder': return '/creer-parcours';
     case 'admin':      return '/admin';
     case 'confidentialite': return '/confidentialite';
     case 'contact':    return '/contact';
@@ -100,14 +96,6 @@ function _parseRouteParts(parts) {
     case 'companion':   return { view: 'companion', moduleId: parts[1] };
     case 'flashcards':  return { view: 'flashcards', moduleId: parts[1] };
     case 'chrono':      return { view: 'chrono', moduleId: parts[1] };
-    case 'teacher':     return { view: 'teacher' };
-    case 'creer-parcours': return { view: 'playlistBuilder' };
-    case 'playlist': {
-      // slice(1).join('/') reconstruit fidèlement les données base64 même si elles contiennent '/'
-      const encoded = parts.slice(1).join('/');
-      return { view: 'playlist', playlistData: encoded };
-    }
-    case 'homework':    return { view: 'homework' };
     case 'admin':       return { view: 'admin' };
     case 'confidentialite': return { view: 'confidentialite' };
     case 'contact':     return { view: 'contact' };
@@ -180,36 +168,17 @@ function navigate(view, data = {}, options = {}) {
     state.activeKeywords = [];
   }
 
-  // Exit batch print mode when leaving modules view
-  if (state.batchPrintMode && view !== 'modules') {
-    state.batchPrintMode = false;
-    state.selectedForPrint = [];
-    hideBatchToolbar();
-  }
-
-  // Exit eval builder mode when leaving modules view (même nettoyage que batch print
-  // ci-dessus — sans ça la toolbar restait affichée sur d'autres vues, avec des boutons
-  // qui ciblaient une #modules-grid qui n'existe plus)
-  if (state.evalBuilderMode && view !== 'modules') {
-    state.evalBuilderMode = false;
-    state.selectedEvalQuestions = {};
-    hideEvalToolbar();
-  }
-
-  // Vues réservées aux comptes (classe/prof) : inaccessibles en mode invité, même par hash direct
-  if ((view === 'teacher' || view === 'homework' || view === 'admin' || view === 'playlistBuilder') &&
+  // Vue réservée aux comptes : inaccessible en mode invité, même par hash direct
+  if (view === 'admin' &&
       typeof AuthGuard !== 'undefined' && !AuthGuard.isAuthenticated()) {
     view = 'home';
   }
 
-  // Admin/enseignant réservés au rôle correspondant (défense en profondeur,
-  // en plus des règles Firestore) : sans ce garde, un élève accédant directement à /admin ou /teacher
+  // Admin réservé au rôle admin (défense en profondeur,
+  // en plus des règles Firestore) : sans ce garde, un non-admin accédant directement à /admin
   // recevait la coquille complète du panneau (onglets, boutons) avec juste les données qui
   // échouaient ("Missing or insufficient permissions"), au lieu d'être renvoyé vers l'accueil.
   if (view === 'admin' && typeof AuthGuard !== 'undefined' && !AuthGuard.isAdmin()) {
-    view = 'home';
-  }
-  if (view === 'teacher' && typeof AuthGuard !== 'undefined' && !AuthGuard.isTeacher()) {
     view = 'home';
   }
 
@@ -252,16 +221,6 @@ function navigate(view, data = {}, options = {}) {
     if (moduleId && !getModule(moduleId) && typeof ensureModuleData === 'function') {
       loadPromise = ensureModuleData(moduleId);
     }
-  } else if (view === 'playlist' && data.playlistData) {
-    // Playlist: charger les données nécessaires après décodage
-    if (typeof loadPlaylist === 'function') {
-      loadPlaylist(data.playlistData);
-    }
-  } else if (view === 'teacher' || view === 'homework') {
-    // Charger toutes les données pour le picker
-    if (typeof ensureAllData === 'function') {
-      loadPromise = ensureAllData();
-    }
   } else if (view === 'admin') {
     if (typeof ensureAllData === 'function') {
       loadPromise = ensureAllData();
@@ -291,7 +250,7 @@ function navigate(view, data = {}, options = {}) {
     (view === 'flashcards' && !getModule(state.moduleId)) ||
     (view === 'chrono' && !getModule(state.moduleId)) ||
     (view === 'companion' && state.moduleId && !getModule(state.moduleId)) ||
-    (view === 'teacher') || (view === 'homework') || (view === 'admin')
+    (view === 'admin')
   );
 
   if (needsAsyncLoad) {
@@ -329,7 +288,7 @@ const SITE_BASE_URL = 'https://sparklearning.fr';
 const SITE_DEFAULT_DESCRIPTION = 'Plateforme de rémédiation scientifique : Mathématiques, Physique-Chimie, Sciences de l’Ingénieur — du Collège au BTS.';
 const SITE_DEFAULT_OG_IMAGE = SITE_BASE_URL + '/images/Logo_noir.jpeg';
 // Vues privées/éphémères sans intérêt pour l'indexation (comptes ou liens à usage unique)
-const NOINDEX_VIEWS = ['teacher', 'homework', 'admin', 'playlist', 'playlistBuilder', 'connexion'];
+const NOINDEX_VIEWS = ['admin', 'connexion'];
 
 function _setMetaTag(attr, key, content) {
   let el = document.head.querySelector(`meta[${attr}="${key}"]`);
@@ -433,9 +392,6 @@ function updatePageMeta() {
       break;
     }
     case 'admin':    title = `Administration — ${base}`; break;
-    case 'teacher':  title = `Espace Enseignant — ${base}`; break;
-    case 'playlist': title = `Playlist — ${base}`; break;
-    case 'playlistBuilder': title = `Créer un parcours — ${base}`; break;
     case 'confidentialite':
       title = `Politique de confidentialité — ${base}`;
       description = 'Politique de confidentialité de Spark Learning : données collectées, cookies, contact.';
@@ -490,7 +446,7 @@ function switchTab(tabName) {
 function render() {
   const app = document.getElementById('app');
   switch (state.view) {
-    case 'home':       app.innerHTML = renderHome(); if (typeof renderAssignmentWidget === 'function') renderAssignmentWidget(); break;
+    case 'home':       app.innerHTML = renderHome(); break;
     case 'subjects':   app.innerHTML = renderSubjects(); break;
     case 'levels':     app.innerHTML = renderLevels(); break;
     case 'modules':    app.innerHTML = renderModulesList(); break;
@@ -499,10 +455,6 @@ function render() {
     case 'flashcards': app.innerHTML = (typeof renderFlashcards === 'function') ? renderFlashcards() : ''; break;
     case 'chrono':     app.innerHTML = (typeof renderChrono === 'function') ? renderChrono() : ''; break;
     case 'admin':      AdminPanel.render(); return;
-    case 'teacher':    TeacherDashboard.render(); return;
-    case 'playlist':   app.innerHTML = (typeof renderPlaylistView === 'function') ? renderPlaylistView() : ''; break;
-    case 'playlistBuilder': app.innerHTML = (typeof renderTeacherBuilder === 'function') ? renderTeacherBuilder() : ''; break;
-    case 'homework':   app.innerHTML = (typeof renderHomeworkPanel === 'function') ? renderHomeworkPanel() : ''; break;
     case 'confidentialite': app.innerHTML = renderConfidentialite(); break;
     case 'contact':    app.innerHTML = renderContact(); break;
     case 'connexion':  if (AuthGuard.isAuthenticated()) { navigate('home'); } else { AuthView.render(true); } return;
@@ -728,10 +680,6 @@ document.addEventListener('keydown', (e) => {
       return;
     }
 
-    // Close teacher modal first
-    const teacherModal = document.getElementById('teacher-modal');
-    if (teacherModal) { e.preventDefault(); closeTeacherErrorModal(); return; }
-
     const panel = document.getElementById('contact-panel');
     if (panel && panel.classList.contains('open')) {
       e.preventDefault();
@@ -745,7 +693,7 @@ document.addEventListener('keydown', (e) => {
     else if (state.view === 'modules') navigate('levels', { subject: state.subject });
     else if (state.view === 'levels') navigate('subjects');
     else if (state.view === 'subjects') navigate('home');
-    else if (state.view === 'teacher' || state.view === 'homework' || state.view === 'admin') navigate('home');
+    else if (state.view === 'admin') navigate('home');
     return;
   }
 
@@ -781,7 +729,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   AuthService.onAuthStateChanged(async function(firebaseUser) {
     if (!firebaseUser) {
-      SyncService.unwrap();
       AuthGuard.reset();
       if (await _checkMaintenance()) return;
       await _syncModuleAccess();
@@ -804,20 +751,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     var status = AuthGuard.getStatus();
     var role = AuthGuard.getRole();
-    var uid = AuthGuard.getCurrentUser().uid;
 
     if (status === 'pending') {
       AuthView.renderPending();
       return;
     }
     if (status === 'rejected') {
-      SyncService.unwrap();
       AuthView.render();
       return;
     }
 
     // Active user
-    SyncService.init(uid);
     await _syncModuleAccess();
     _watchAnnouncement();
 
@@ -830,13 +774,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Vérifier le mode maintenance avant d'afficher l'app aux non-admins
     if (await _checkMaintenance()) return;
 
-    if (role === 'teacher') {
-      _setupCommonListeners();
-      TeacherDashboard.render();
-      return;
-    }
-
-    // Student — full app
+    // Autres comptes — app complète
     _setupStudentApp();
   });
 });
@@ -885,9 +823,7 @@ function _setupCommonListeners() {
   // Visibilité nav selon le statut invité/connecté (recalculée à chaque appel)
   var isGuest = !AuthGuard.isAuthenticated();
   var teacherNav = document.getElementById('nav-teacher');
-  if (teacherNav) teacherNav.style.display = (!isGuest && typeof AuthGuard !== 'undefined' && AuthGuard.isTeacher()) ? '' : 'none';
-  var homeworkNav = document.getElementById('nav-homework');
-  if (homeworkNav) homeworkNav.style.display = isGuest ? 'none' : '';
+  if (teacherNav) teacherNav.style.display = (!isGuest && AuthGuard.isAdmin()) ? '' : 'none';
   var signOutBtn = document.getElementById('nav-signout');
   if (signOutBtn) signOutBtn.style.display = isGuest ? 'none' : 'inline-flex';
 
@@ -896,17 +832,11 @@ function _setupCommonListeners() {
 
   document.getElementById('nav-home')?.addEventListener('click', () => navigate('home'));
   document.getElementById('nav-parcours')?.addEventListener('click', () => navigate('subjects'));
-  document.getElementById('nav-teacher')?.addEventListener('click', () => {
-    var role = AuthGuard.getRole();
-    if (role === 'admin') AdminPanel.render();
-    else if (role === 'teacher') TeacherDashboard.render();
-    else navigate('teacher');
-  });
+  document.getElementById('nav-teacher')?.addEventListener('click', () => AdminPanel.render());
   document.getElementById('logo-link')?.addEventListener('click', (e) => {
     e.preventDefault();
     var role = AuthGuard.getRole();
     if (role === 'admin') AdminPanel.render();
-    else if (role === 'teacher') TeacherDashboard.render();
     else navigate('home');
   });
   document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
@@ -942,8 +872,6 @@ function _setupCommonListeners() {
 
 function _setupStudentApp() {
   _setupCommonListeners();
-
-  document.getElementById('nav-homework')?.addEventListener('click', () => navigate('homework'));
 
   const appEl = document.getElementById('app');
   appEl.addEventListener('keydown', (e) => {
@@ -991,7 +919,7 @@ function _setupStudentApp() {
   // Preload all data — sur home/subjects/levels le catalogue complet est nécessaire au
   // rendu lui-même (stats globales, cartes par matière) et le pré-rendu SEO attend
   // __sparkRouteReady sur ces vues (voir DATA_DEPENDENT_VIEWS) : on le charge immédiatement.
-  // Sur les autres routes (lien direct vers un module, espace enseignant…), la route
+  // Sur les autres routes (lien direct vers un module), la route
   // courante a déjà tout ce dont elle a besoin via ensureModuleData()/ensureLevelData()
   // ci-dessus ; le catalogue complet n'y sert qu'à des features non bloquantes (recherche
   // globale, recommandations) et concurrençait inutilement le téléchargement des données de

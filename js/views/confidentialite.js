@@ -18,16 +18,8 @@ function renderConfidentialite() {
 				<h2>1. Utilisation sans compte</h2>
 				<p>Spark Learning est utilisable <strong>sans création de compte</strong>. Ta progression, tes statistiques, ton historique de recherche et tes préférences (thème, etc.) sont enregistrés uniquement dans le navigateur via <strong>localStorage</strong>. Ces données ne quittent jamais ton appareil et ne sont jamais transmises à nos serveurs.</p>
 
-				<h2>2. Comptes existants (enseignants, classes)</h2>
-				<p>Il n'est plus possible de créer un compte sur Spark Learning : les comptes restants ont été attribués directement par l'éditeur du site. Si tu en possèdes un, les données suivantes sont stockées de façon sécurisée sur les serveurs Google Firebase (Authentification et Firestore), hébergés en Europe ou aux États-Unis selon la configuration Google :</p>
-				<ul>
-					<li>Prénom, nom et email</li>
-					<li>Rôle (élève ou enseignant) et statut (pour les enseignants, validation par un administrateur)</li>
-					<li>Ta progression pédagogique (modules, quiz, exercices, évaluations) et tes séries de connexion</li>
-					<li>Pour les élèves : les classes rejointes et les devoirs assignés par ton enseignant</li>
-					<li>Pour les enseignants : les classes créées, la liste des élèves inscrits et leur progression</li>
-				</ul>
-				<p>Un enseignant ne peut consulter que la progression des élèves inscrits dans ses propres classes — jamais celle de l'ensemble des utilisateurs de la plateforme.</p>
+				<h2>2. Comptes d'administration</h2>
+				<p>Il n'est pas possible de créer un compte sur Spark Learning. Seuls quelques comptes d'administration, attribués directement par l'éditeur du site, existent pour gérer la plateforme (annonces, maintenance). Pour ces comptes uniquement, le nom, l'email et le rôle sont stockés de façon sécurisée sur les serveurs Google Firebase (Authentification et Firestore).</p>
 
 
 				<h2>3. Formulaire de contact</h2>

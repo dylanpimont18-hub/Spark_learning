@@ -166,15 +166,9 @@ const state = {
   moduleAccess: (typeof Storage !== 'undefined' && Storage.getModuleStatuses)
     ? Storage.getModuleStatuses()
     : JSON.parse(localStorage.getItem('sparkModuleStatus') || '{}'),
-  batchPrintMode: false,
-  selectedForPrint: [],
-  evalBuilderMode: false,
-  selectedEvalQuestions: {},
   flashcardState: null,
   chronoState: null,
-  playlistState: null,
-  playlistBuilder: null,
-  homeworkState: null
+
 };
 
 function getModuleAccess(moduleId) {

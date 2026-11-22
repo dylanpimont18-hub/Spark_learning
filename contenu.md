@@ -28,7 +28,6 @@ Ce fichier est la **source de vérité** pour la structure de fichiers du projet
 | Fichier | Rôle |
 |---------|------|
 | js/app.js | Point de montage principal, routeur, initialisation des modules |
-| js/print.js | Impression des fiches de cours (individuelle + sélection multiple) |
 | js/state.js | Gestion de l'état global et session |
 | js/storage.js | Gestion de la persistance (LocalStorage, sauvegarde progrès) |
 | js/views/ + js/components/ | Vues globales, onglets et rendu des modules |
@@ -39,9 +38,7 @@ Ce fichier est la **source de vérité** pour la structure de fichiers du projet
 |---------|------|
 | js/flashcards.js | Logique d'affichage et de révision des cartes d'apprentissage |
 | js/chrono.js | Gestion du minuteur (sessions d'étude, Pomodoro) |
-| js/playlist.js | Création et lecture de parcours de révision |
 | js/recommendations.js | Algorithme de suggestion de contenus selon le profil |
-| js/homework.js | Interface de suivi des devoirs et tâches |
 | js/hero3d.js | Couche 3D de l'accueil : bannière rotative, profondeur des formules du hero, inclinaison des cartes |
 
 ## Moteurs (js/engines/)
@@ -63,7 +60,6 @@ Ce fichier est la **source de vérité** pour la structure de fichiers du projet
 | js/components/contactPanel.js | Panneau de contact flottant (signalement erreur/remarque/question), lien de pont vers la page dédiée /contact |
 | js/views/contact.js | Page de contact dédiée /contact (question, erreur, proposition commerciale, partenariat, presse) |
 | js/components/globalSearch.js | Recherche globale de modules (Ctrl/Cmd+K) |
-| js/components/teacherErrorModal.js | Modale enseignant : proposer un piège fréquent sur un module |
 
 ## Données Scolaires (js/data/)
 | Fichier | Rôle |

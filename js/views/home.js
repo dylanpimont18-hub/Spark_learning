@@ -179,31 +179,6 @@ function renderSubjects() {
 	`;
 }
 
-async function renderAssignmentWidget() {
-  var widgetEl = document.getElementById('home-assignment-widget');
-  if (!widgetEl) return;
-  var classCode = state.user && state.user.classes && state.user.classes[0];
-  if (!classCode) return;
-  try {
-    var assignments = await AuthService.getClassAssignments(classCode);
-    if (!assignments || assignments.length === 0) return;
-    var a = assignments[0];
-    var mod = getModule(a.moduleId);
-    var title = mod ? mod.title : a.moduleId;
-    var due = a.dueDate ? new Date(a.dueDate).toLocaleDateString('fr-FR') : '—';
-    var safeTitle = String(title).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    var safeDue = String(due).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    var safeModuleId = String(a.moduleId).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/'/g,'&#39;');
-    widgetEl.innerHTML = '<a class="hw-assignment-widget" href="' + buildPath('module', {moduleId: a.moduleId}) + '" onclick="navigate(\'module\', {moduleId: \'' + safeModuleId + '\'}); return false;" aria-label="Aller au devoir">' +
-      '<div class="hw-assignment-icon">📋</div>' +
-      '<div>' +
-        '<div class="hw-assignment-title">Devoir en cours : ' + safeTitle + '</div>' +
-        '<div class="hw-assignment-meta">À rendre avant le ' + safeDue + '</div>' +
-      '</div>' +
-    '</a>';
-  } catch(e) { /* silencieux */ }
-}
-
 function renderSrsReviewWidget() {
 	const due = (typeof getDueReviews === 'function') ? getDueReviews() : [];
 	if (due.length === 0) return '';
@@ -353,7 +328,6 @@ function renderHome() {
 			</div>
 		</section>
 
-		<div id="home-assignment-widget" style="padding: 0 var(--space-lg);max-width:900px;margin:0 auto;"></div>
 		<div style="padding: 0 var(--space-lg);max-width:900px;margin:0 auto;">
 			${renderStreakBadge()}
 			${renderSrsReviewWidget()}
@@ -587,14 +561,6 @@ function renderModulesList() {
 						<option value="theme" ${state.sortBy === 'theme' ? 'selected' : ''}>Thème (mots-clés)</option>
 					</select>
 				</div>
-				${AuthGuard.isTeacher() ? `
-				<button class="btn btn-outline btn-print-batch" onclick="toggleBatchPrintMode()">
-					Imprimer les fiches 🖨️
-				</button>
-				<button class="btn btn-outline btn-print-batch" onclick="toggleEvalBuilderMode()">
-					Composer une évaluation 📝
-				</button>
-				` : ''}
 			</div>
 
 			<div id="no-results" class="no-results" style="display:none;">

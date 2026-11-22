@@ -6,7 +6,7 @@ SPA Vanilla JS sans bundler. Chargement des scripts via `index.html` (ordre crit
 
 ## index.html
 Point d'entrée unique. Déclare l'ordre de chargement de tous les scripts.
-- Chargement : `<script defer src="...">` dans l'ordre exact requis (Firebase → authService → views (authView, teacherDashboard, adminPanel) → sync → data → engines → components → app) ; `defer` sur toutes les balises locales/externes (sauf AdSense en `async`) pour ne plus bloquer le parsing HTML — l'ordre relatif d'exécution est préservé par la spec `defer`
+- Chargement : `<script defer src="...">` dans l'ordre exact requis (Firebase → authService → views (authView, adminPanel) → data → engines → components → app) ; `defer` sur toutes les balises locales/externes pour ne plus bloquer le parsing HTML — l'ordre relatif d'exécution est préservé par la spec `defer`
 - `preconnect` posés pour les 4 origines externes utilisées (`fonts.googleapis.com`/`fonts.gstatic.com`, `www.gstatic.com` Firebase, `cdn.jsdelivr.net` KaTeX)
 - Aucun bouton de connexion dans l'interface (retiré le 2026-11-22) : les comptes existants se connectent via l'adresse non listée `/connexion` (vue `connexion` → `AuthView.render(true)`, noindex, absente du sitemap)
 - `#nav-shop` — lien nav (pas un `<button>`) vers la boutique Shopify (`f1niwf-wr.myshopify.com`), `target="_blank"`, à côté des autres boutons de nav
@@ -28,7 +28,7 @@ Charte graphique du site, extraite du code le 2026-08-21 (elle n'existait pas av
 - À consulter avant toute évolution visuelle, pour ne pas partir d'une tendance externe
 
 ## robots.txt
-Autorise l'indexation complète sauf les vues privées/éphémères (teacher, homework, admin, playlist) ; référence `sitemap.xml`.
+Autorise l'indexation complète sauf les vues privées/éphémères (admin) ; référence `sitemap.xml`.
 
 ## sitemap.xml
 Généré, jamais édité à la main — voir `scripts/generate-sitemap.js`.
@@ -66,8 +66,6 @@ Système de design complet : variables CSS (`--primary`, `--secondary`, `--accen
 - `.hub-intro-text` — court paragraphe éditorial (`--text-muted`) sous le titre des pages hub (`/subjects`, `/levels/:subject`), ajouté pour la conformité contenu AdSense
 - `.content-table-wrap` / `.content-table` — tableau généré par `convertMarkdownTables()` (js/utils/ui-helpers.js) à partir d'un tableau markdown dans le contenu d'un module
 - `@media print` (~L3440+) — mise en page A4 des fiches (`.print-fiche`, `.print-fiche-header`, etc.) ; `body.printing` bascule l'affichage de `#app` vers `#print-container` ; `#print-container` fige les variables CSS couleur (`--primary`, `--text`, `--bg-card`...) sur le thème clair, pour que les illustrations riches (`renderCoursDiagram`) restent lisibles en PDF même si le site est en thème sombre à l'impression
-- `.td-weakpoint-*` / `.td-weakpoints-section` — bloc "Points faibles de la classe" dans TeacherDashboard (bordure `--error` à gauche pour signaler visuellement)
-- `.td-students-toolbar` — sélecteur de tri (nom/score/inactivité) au-dessus de la liste d'élèves d'une classe (TeacherDashboard)
 - `.stats-levels-details` / `.stats-levels-summary` — replie le détail de progression par niveau (accueil, `renderStatsSection()`) dans un `<details>` pour laisser les widgets d'action en haut de page
 
 ## images/modules/{niveau}/{slug}.jpg
@@ -80,9 +78,6 @@ Registre de provenance des images de repli téléchargées par le skill `generer
 Règles de sécurité Firestore.
 - `config/{doc}` — lecture publique (invités inclus, pour lire `maintenanceMode`/annonce), écriture réservée admin
 - `users/{uid}` — lecture propriétaire/admin ; **création réservée à l'admin depuis le 2026-10-12** (l'auto-inscription élève/enseignant est retirée de l'interface ; sans ce verrou, n'importe qui pouvait encore créer un compte via l'API Firebase Auth puis écrire son propre profil). Un compte se crée désormais dans la console Firebase, qui contourne ces règles. Rappel : tout commit touchant ce fichier déploie en prod (hook post-commit)
-- `classes/{classCode}` — lecture restreinte à l'enseignant propriétaire/admin/élèves inscrits (plus de listing global) ; un élève peut s'auto-ajouter/retirer du champ `students` uniquement ; **création** exigeant `teacherId == request.auth.uid` (sauf admin) — sinon un compte enseignant pouvait, via un appel Firestore direct, créer une classe attribuée à un autre `teacherId`
-- `progress/{uid}` — lecture enseignant conditionnée au tableau dénormalisé `teacherIds` (élève dans une de ses classes), au lieu d'un accès enseignant global
-- `assignments/{id}` — lecture restreinte enseignant propriétaire/admin/élèves de la classe concernée (plus de listing global) ; **création** exigeant `teacherId == request.auth.uid` ET `isOwningTeacherOfClass(classCode)` (sauf admin) — sinon un enseignant pouvait injecter un devoir sur le `classCode` d'un collègue, visible par ses élèves à lui
 
 ---
 
@@ -93,7 +88,6 @@ Règles de sécurité Firestore.
 - `MODULE_THEME_RULES` — règles regex pour catégoriser les modules par thème
 - `getModuleThemes(mod)` — retourne les thèmes d'un module
 - `getModuleSearchKeywords(mod)` — mots-clés pour la recherche
-- `state.evalBuilderMode` / `state.selectedEvalQuestions` — mode "composer une évaluation" (grille de modules, enseignant) et sélection courante `{ moduleId: [indexQuestion,...] }`, gérés par `js/print.js`
 - `defaultQuizState()` — inclut `correctStreak` (compteur de bonnes réponses consécutives dans le quiz courant, remis à 0 sur erreur, déclenche `celebrate('streak')` à 5 dans `js/engines/quizEngine.js`)
 - `defaultExerciceState()` — inclut `startedAt: Date.now()` (horodatage de début de tentative, réinitialisé à chaque nouvel exercice) utilisé pour mesurer `durationMs` dans `Storage.trackAttempt()`
 
@@ -101,7 +95,6 @@ Règles de sécurité Firestore.
 Routeur SPA (pushState), init, KaTeX, confetti.
 - `buildPath(view, data)` — construit un chemin d'URL réel `/view/data` (pushState)
 - `parsePath(pathname)` / `parseLegacyHash(hash)` — parsent respectivement une URL réelle et un ancien lien `#hash` (rétrocompat), partagent `_parseRouteParts(parts)`
-- Route `/creer-parcours` (view `playlistBuilder`) → `renderTeacherBuilder()` (`js/playlist.js`) ; gardée comme `teacher`/`homework` (authentifié requis, sinon retour `home`) ; câblée le 2026-08-19 (bouton "+ Créer un parcours" dans `TeacherDashboard._renderDashboard()`), auparavant fonction complète mais totalement inaccessible
 - `navigate(view, data)` — change la vue active via `history.pushState` (plus de hash routing) ; branche à chargement asynchrone (`module`/`modules`/`flashcards`/`chrono`/`companion`/`teacher`/`homework`/`admin`) : appelle `updatePageMeta()` une fois avant le chargement (titre générique) puis **de nouveau après** `render()` une fois `loadPromise` résolu — sans ce second appel (bug corrigé le 2026-08-09), le `<title>`/meta restent génériques sur toute première navigation directe vers une page module malgré un contenu réel déjà affiché ; met aussi `window.__sparkRouteReady` à `false` en entrée puis appelle `_markRouteReady(view)` juste après `render()`+`updatePageMeta()` dans les deux branches (guardé par `_navSequence !== seq` côté async) — signal de disponibilité consommé par `scripts/prerender.js` (`renderRoute()`), voir cette entrée
 - `_markRouteReady(view)` / `DATA_DEPENDENT_VIEWS` (`home`/`subjects`/`levels`) / `window.__sparkCatalogReady` — ces trois vues lisent `window.MODULES` **synchronement** dans leur `render()` et n'ont pas de `loadPromise` dans `navigate()` : leur premier rendu est complet mais vide (0 carte matière, "0 modules"). Le signal n'est donc levé pour elles qu'une fois `ensureAllData()` résolu et le re-render fait dans `_setupStudentApp()` — sans ce verrou (bug corrigé le 2026-08-09), le pré-rendu capturait `/`, `/subjects` et `/levels/*` avec un catalogue vide, et `/` sert de page de repli pour tout le site via le rewrite `**`
 - `_setupStudentApp()` — restaure la route depuis l'URL puis précharge tout le catalogue (`ensureAllData()`) ; immédiat sur `home`/`subjects`/`levels` (`DATA_DEPENDENT_VIEWS`, requis pour leur propre rendu et pour le pré-rendu SEO), différé via `requestIdleCallback` sur les autres routes (mesuré : sinon un lien direct vers un seul module télécharge quand même les 248 fichiers `js/data/*`, ~4,85 Mio). Le `.then()` pose `window.__sparkCatalogReady = true`, re-rend les vues catalogue et lève le signal retenu. Le `.catch()` laisse volontairement le signal à `false` (un pré-rendu de la home sans catalogue doit échouer bruyamment)
@@ -112,21 +105,9 @@ Routeur SPA (pushState), init, KaTeX, confetti.
 - `showToast(msg, type)` — notification toast
 - `_checkMaintenance()` — lit `config/settings.maintenanceMode`, affiche la page maintenance si actif (invités + comptes non-admin) ; fail-open assumé si Firestore inaccessible
 - `_syncModuleAccess()` — lit `config/moduleAccess.statuses` (Firestore, source de vérité) et remplace `state.moduleAccess` + le cache local `Storage`, pour que le verrouillage/maintenance décidé par un admin s'applique à tous les utilisateurs
-- `_setupCommonListeners()` — bind nav globale ; recalcule à chaque appel la visibilité `nav-teacher`/`nav-homework`/`nav-signout`/`nav-login` selon `AuthGuard.isAuthenticated()`
-- Impression (`printFiche`, mode batch), panneau de contact, modale "piège enseignant" et recherche globale (Ctrl+K) ont été extraits respectivement dans `js/print.js`, `js/components/contactPanel.js`, `js/components/teacherErrorModal.js` et `js/components/globalSearch.js` ; les setters d'accès admin (`setSubjectAccessMode`, `setModuleAccessMode`) sont dans `js/views/adminPanel.js`
+- `_setupCommonListeners()` — bind nav globale ; recalcule à chaque appel la visibilité `nav-teacher` (bouton « Admin », admins seulement) et `nav-signout` selon `AuthGuard`
 - `filterModules(query)` / `sortModules(criterion)` / `_applyModuleFilters()` — filtre/trie les cartes de `#modules-grid` côté client ; masque aussi `#modules-ad-slot` (voir `js/views/home.js`) quand la recherche ne donne aucun résultat, pour ne jamais afficher de pub sur une grille vide (conformité AdSense)
 - Mode invité : `onAuthStateChanged` sans `firebaseUser` → `AuthGuard.reset()` + `_checkMaintenance()` + `_syncModuleAccess()` + `_setupStudentApp()` (accès direct au contenu sans connexion)
-
-## js/print.js
-Impression des fiches de cours et des évaluations (extrait de `js/app.js`).
-- `printFiche(moduleId)` — imprime la fiche de synthèse d'un module (via `#print-container` + `renderFicheCours()`, voir `js/utils/ui-helpers.js`) ; réservé enseignant (`AuthGuard.isTeacher()`)
-- `toggleBatchPrintMode()` / `togglePrintSelection()` / `selectAllForPrint()` / `deselectAllForPrint()` / `printSelectedFiches()` — sélection multi-modules sur la grille puis impression groupée via `renderFichesBatch()` ; `toggleBatchPrintMode()` et `printSelectedFiches()` réservées enseignant ; les checkboxes injectées portent un `aria-label` avec le titre du module
-- `toggleEvalBuilderMode()` — active/désactive le mode "composer une évaluation" sur `#modules-grid` (réservé enseignant) : injecte une case à cocher (module entier, toutes ses `evaluation.questions` par défaut, `aria-label` avec le titre du module) + un lien "✎ Ajuster" par carte de module possédant une banque d'évaluation non vide
-- `toggleBatchPrintMode()` et `toggleEvalBuilderMode()` sont mutuellement exclusifs : activer l'un désactive l'autre s'il était en cours (les deux partagent `#modules-grid` et une toolbar flottante) ; `navigate()` (`js/app.js`) nettoie aussi les deux modes (état + toolbar DOM) en quittant la vue `modules`
-- `toggleEvalModuleSelection(moduleId)` / `toggleEvalQuestion(moduleId, index)` / `toggleEvalQuestionPicker(moduleId, card)` — gèrent `state.selectedEvalQuestions` (sélection fine question par question via le panneau "Ajuster")
-- `showEvalToolbar()` / `hideEvalToolbar()` / `updateEvalCount()` — barre flottante (questions/points sélectionnés) et boutons d'impression
-- `_collectSelectedEvalQuestions()` — aplatit `state.selectedEvalQuestions` en liste `{moduleTitle, question}` triée par index
-- `printEvaluationSubject()` / `printEvaluationCorrection()` — impriment respectivement la copie élève (vierge) et le corrigé (réponses + barème) via `renderEvaluationPrintSheet()` (voir `js/utils/ui-helpers.js`) ; réservées enseignant, composition éphémère (rien n'est sauvegardé côté serveur)
 
 ## js/loader.js
 Lazy loading des fichiers de données par niveau/matière.
@@ -350,7 +331,7 @@ Chargement différé de gtag.js (GA4) et suivi des pages vues (SPA pushState, pa
 
 ## js/components/renderCours.js
 Rendu HTML de l'onglet Cours d'un module (écran, pas impression).
-- `renderCours(mod)` — intro, définitions, méthode, exemple, formules, illustration(s), piège, récap, application ; bouton "Imprimer la fiche" visible seulement si `AuthGuard.isTeacher()`
+- `renderCours(mod)` — intro, définitions, méthode, exemple, formules, illustration(s), piège, récap, application
 - `coursDiagramList(c)` — liste normalisée des schémas d'un cours : `cours.diagram` (un seul, format historique) et/ou `cours.diagrams: []` (plusieurs) ; le titre de section bascule en "Illustrations" au pluriel dès qu'il y en a plus d'un ; utilisée aussi par `renderFicheCours()` pour l'impression
 - `renderCoursDiagram(diagram, subjectId)` — rend une illustration au format legacy (string HTML) ou riche (objet `{svg, title, kicker, description, notes, reading, caption, theme}`) ; réutilisée par `renderFicheCours()` (`js/utils/ui-helpers.js`) pour l'impression
 
@@ -394,11 +375,6 @@ Recherche globale de modules (Ctrl/Cmd+K), extrait de `js/app.js`.
 - `_findGlobalModules(query)` — cherche dans `window.MODULES` (titre/sous-titre/mots-clés), scoring léger, limite à 8 résultats
 - `openModuleFromGlobalSearch(moduleId)` — ferme le panneau et navigue vers le module
 
-## js/components/teacherErrorModal.js
-Modale enseignant "proposer un piège fréquent" sur un module, extrait de `js/app.js`.
-- `openTeacherErrorModal(moduleId)` / `closeTeacherErrorModal()` — ouvre/ferme la modale
-- `submitTeacherError(moduleId)` — envoie la suggestion via `fetch` vers Formspree
-
 ## js/views/home.js
 Vues globales : accueil, liste matières, niveaux, modules, détail module.
 - `renderModulesList()` / `renderModuleDetail()` — `.level-switch-tabs`, `.theme-switch-tabs` et `.tab-bar` portent la classe `scroll-fade` (défilement horizontal + fondu de bord). Piège : `.level-switch-tabs` est un **frère** de `.level-switcher`, pas un enfant — le `overflow-x: auto` du switcher ne le couvrait pas et, sur mobile, la liste des modules faisait défiler toute la page de 24 px
@@ -414,9 +390,7 @@ Vues globales : accueil, liste matières, niveaux, modules, détail module.
 - `renderModuleDetail()` — page détail d'un module
 - `renderSubjects()` — filtre les matières à 0 module (plus de badge "Bientôt disponible" public), affiche un court texte éditorial (`.hub-intro-text`) au-dessus de la grille ; plus d'emplacement pub sur cette page (retiré 2026-07-30)
 - `renderLevels()` — affiche `subjectDef.description` en texte éditorial (`.hub-intro-text`) sous le titre
-- `renderModulesList()` — les boutons "Imprimer les fiches 🖨️" (`toggleBatchPrintMode()`) et "Composer une évaluation 📝" (`toggleEvalBuilderMode()`, voir `js/print.js`) ne sont rendus que si `AuthGuard.isTeacher()`
 - `renderHome()` — page d'accueil, volontairement sans bloc pub (page à contenu essentiellement promotionnel, retiré suite à un rejet AdSense "contenu à faible valeur informative") ; jamais de pub non plus dans les onglets d'apprentissage actif (`module`)
-- `renderAssignmentWidget()` — async, injecte l'encart "Devoir en cours" pour l'élève connecté à une classe
 - `renderSrsReviewWidget()` — encart "À réviser aujourd'hui" alimenté par `getDueReviews()` (`js/engines/companionEngine.js`), priorité la plus haute des widgets d'action de l'accueil
 
 ## js/views/confidentialite.js
@@ -433,15 +407,6 @@ Service d'authentification et d'autorisations Firestore.
 - (2026-10-12) `signUpWithEmail()` et `createUserProfile()` supprimés : l'inscription publique n'existe plus ; un compte se crée dans la console Firebase (Auth + document `users/{uid}`)
 - `signIn(email, password)` — connecte l'utilisateur
 - `signOut()` — déconnecte
-- `setTeacherApprovalStatus(uid, isApproved)` — approuve/refuse un enseignant
-- `createClass(teacherUid, className)` — crée une classe ; code généré (préfixe nom + suffixe aléatoire) vérifié via transaction Firestore check-then-set avec retry (jusqu'à 5 tentatives) pour ne jamais écraser silencieusement une classe existante en cas de collision
-- `getTeacherClasses(teacherUid)` — récupère les classes d'un enseignant
-- `joinClass(uid, classCode)` — ajoute un élève à une classe (batch update users + classes) + dénormalise `progress.teacherIds`
-- `removeStudentFromClass(studentUid, classCode)` — retire un élève d'une classe (batch update users + classes) + retire `progress.teacherIds`
-- `backfillProgressTeacherIds()` — migration one-shot : reconstruit `progress.teacherIds` pour les élèves déjà inscrits (bouton admin) ; retourne `{ updated, failed, failedUids }` (plus un simple nombre) pour que l'admin voie les échecs individuels au lieu d'un compteur de succès trompeur
-- `createAssignment(classCode, moduleId, dueDate)` — crée un devoir dans la collection assignments
-- `getClassAssignments(classCode)` — récupère les devoirs d'une classe, triés par date côté client
-- `deleteAssignment(assignmentId)` — supprime un devoir
 - `getPlatformSettings()` / `savePlatformSettings(data)` — lit/écrit `config/settings` (dont `maintenanceMode`)
 - `getModuleAccess()` / `saveModuleAccess(statuses)` — lit/écrit `config/moduleAccess.statuses` (verrouillage/maintenance par module, lecture publique, écriture admin) : rend le verrouillage admin effectif pour tous les utilisateurs
 
@@ -460,47 +425,17 @@ Page Connexion uniquement (overlay plein `#app`, header/nav restent visibles). E
 - `AuthView._loginEmail()` — désactive le bouton et affiche « Connexion… » pendant l'appel Firebase ; ne le réactive qu'en cas d'échec (le succès est pris en charge par `onAuthStateChanged` dans `js/app.js`)
 
 ## js/views/adminPanel.js
-Panneau d'administration : gestion des enseignants en attente, comptes utilisateurs, modules et historique.
+Panneau d'administration (espace enseignant retiré le 2026-11-22) : annonce globale, mode maintenance, verrouillage/maintenance des modules, comptes, historique.
 - `AdminPanel.render()` — point d'entrée async, affiche le panneau
 - `AdminPanel._switchTab(tab)` — bascule entre onglets (pending/all/modules/logs)
 - `AdminPanel._loadTab(tab)` — charge les données de l'onglet actif via `AuthService` ; onglet `modules` attend `ensureAllData()` avant de rendre (nécessaire car le chemin `role === 'admin'` de `js/app.js` appelle `AdminPanel.render()` directement, sans passer par `navigate()` qui charge normalement toutes les données)
-- `AdminPanel._renderPending(pending)` — rendu liste enseignants en attente avec boutons Approuver/Refuser
-- `AdminPanel._renderAll(users, orphans)` — rendu tous les comptes avec filtres de rôle (`_roleFilter`), barre de recherche et classes orphelines ; alimente `_allUsersCache`/`_orphanClassesCache`
-- `AdminPanel._applyRoleFilter(users)` / `_setRoleFilter(role)` — filtre client-side par rôle (Tous/Élèves/Enseignants/Admins), combiné avec la recherche texte dans `_filterUsers`
-- `AdminPanel._goToUsers(role)` — appelée par les cartes KPI du dashboard (élèves/enseignants) : bascule sur l'onglet "Tous les comptes" pré-filtré par rôle
+- `AdminPanel._renderAll(users)` — rendu tous les comptes avec filtres de rôle (`_roleFilter`) et barre de recherche ; alimente `_allUsersCache`
+- `AdminPanel._applyRoleFilter(users)` / `_setRoleFilter(role)` — filtre client-side par rôle (Tous/Élèves/Admins), combiné avec la recherche texte dans `_filterUsers`
 - `AdminPanel._renderModulesTab()` — onglet "Modules" : verrouillage/maintenance par matière (`setSubjectAccessMode`) ou par module (`setModuleAccessMode`) ; réintègre l'UI qui vivait auparavant dans la page morte `renderAdminPage()` (`js/views/home.js`, supprimée) — sans cet onglet, il n'existait plus aucun moyen dans l'interface de verrouiller un module
 - `AdminPanel._renderLogs(logs)` / `_renderLogsList()` — onglet Historique avec filtres par type d'action (`_logActionFilter`) et par admin (`_logAdminFilter`), calculés dynamiquement à partir des logs chargés (`_logsCache`)
-- `AdminPanel._approve(uid)` / `_reject(uid)` — approuve/refuse un enseignant
 - `AdminPanel._setStatus(uid, status)` — modifie le statut d'un utilisateur
-- `AdminPanel._saveSettings()` — enregistre `maintenanceMode` et `maxStudentsPerClass` dans `config/settings` ; la case « Inscription enseignants activée » (`teacherSignupEnabled`) a été retirée le 2026-10-12 avec l'inscription publique (elle n'était d'ailleurs lue nulle part)
-- `AdminPanel._runBackfillTeacherIds()` — lance la migration `progress.teacherIds` (à exécuter une fois après déploiement des règles) ; affiche distinctement le nombre d'échecs individuels (`result.failed`) plutôt qu'un simple compteur de succès, pour ne pas laisser croire à une migration complète
-- `AdminPanel._archiveClass(classId)` — recherche la classe dans `_orphanClassesCache` pour afficher son nom et son nombre d'élèves dans la confirmation avant d'archiver (au lieu d'un message générique)
+- `AdminPanel._saveSettings()` — enregistre `maintenanceMode` dans `config/settings` ; la case « Inscription enseignants activée » (`teacherSignupEnabled`) a été retirée le 2026-10-12 avec l'inscription publique (elle n'était d'ailleurs lue nulle part)
 - `setSubjectAccessMode(subjectId, mode)` / `setModuleAccessMode(moduleId, mode)` — fonctions globales async (hors objet `AdminPanel`, extraites de `js/app.js`) : verrouillage/maintenance par matière ou par module ; calculent la carte cible puis **attendent la confirmation d'écriture** (`AuthService.saveModuleAccess()`) avant de mettre à jour `Storage`/`state.moduleAccess` et de re-render — sinon l'admin voyait le verrouillage confirmé localement même si l'écriture Firestore (lue par tous, y compris invités) avait échoué ; appelées désormais depuis l'onglet Modules d'`AdminPanel` (ex-`renderAdminPage()` de `home.js`, supprimée)
-
-## js/views/teacherDashboard.js
-Tableau de bord enseignant : classes, élèves, progression, devoirs, grading.
-- `TeacherDashboard.render(backCode)` — charge les classes de l'enseignant ; attend aussi `ensureAllData()` (`js/loader.js`) avant de rendre — sans ça, un enseignant arrivant directement sur ce tableau de bord (ex: juste après connexion) avait `window.MODULES` vide : sélecteur "Assigner un devoir" vide, titres de modules affichés en ID brut dans points faibles/devoirs
-- `TeacherDashboard._moduleScorePct(mod, trackingEntry)` — calcule le % de score réel d'un module depuis `progress.tracking[moduleId]` (priorité évaluation > quiz > exercice, même agrégation que `_computeWeakPoints`) ; réutilisé par `GradingPanel` (chargé après ce fichier dans `index.html`) — `progress.progress[moduleId].score`/`.evaluationScore` ne sont **jamais écrits** par les moteurs (`Storage.saveProgress` ne pose qu'un booléen `completed`), donc tout code qui les lisait affichait toujours "—"/vide
-- `TeacherDashboard._sortStudents(students, progressMap)` / `_renderStudentsSection(cls, students, progressMap, classIndex)` / `_changeSortMode(mode, classIndex)` — tri client-side de la liste d'élèves d'une classe (nom / score moyen le plus faible via `_studentAvgScorePct` / inactivité via `_studentLastActiveMs`) ; `_changeSortMode` regénère uniquement `#td-students-section` depuis `_currentStudents`/`_currentProgressMap` (pas de rechargement Firestore)
-- Formulaire "Assigner un devoir" (`_renderClassDetail`) — le `<select>` de modules exclut ceux verrouillés/en maintenance (`isModuleUnavailable`, `js/state.js`), pour ne pas assigner un module inaccessible aux élèves
-- `TeacherDashboard._viewClass(classIndex)` — charge profils + progressions en parallèle via `Promise.allSettled` (pas `Promise.all`) : un élève dont `progress/{uid}` est inaccessible (permission-denied, réseau) n'empêche plus l'affichage du reste de la classe — il apparaît avec un badge "⚠️ données incomplètes" et une bannière `td-inline-warning` récapitule le nombre d'échecs
-- `TeacherDashboard._renderClassDetail(cls, students, progressMap, loadErrorCount)` — vue classe : stats bar, points faibles, liste élèves, devoirs, bouton grading ; distingue "aucun devoir" d'un échec réseau de chargement des devoirs (bannière + bouton "Réessayer" au lieu d'une liste vide silencieuse) ; priorité `evaluationScore` puis `score` pour l'affichage du score d'un module, alignée sur `GradingPanel` (sinon même élève affichait un % différent selon l'écran)
-- `TeacherDashboard._computeWeakPoints(students, progressMap)` — agrège `progress.tracking` (scores réels quiz/évaluation/exercice, distinct des booléens de `progress.progress`) par module sur toute la classe ; retourne le top 5 des modules sous 80% de moyenne avec la section la plus faible
-- `TeacherDashboard._prefillAssignment(classIndex, moduleId)` — pré-remplit le sélecteur de devoir avec un module repéré comme point faible et y scrolle
-- `TeacherDashboard._renderStudentProgress(uid, classId, profile, progress)` — progression lisible par titre de module, détail quiz/exo/eval
-- `TeacherDashboard._removeStudent(uid, classCode, classIndex)` — retire un élève
-- `TeacherDashboard._openGrading(classIndex)` — ouvre GradingPanel avec les données déjà chargées
-- `TeacherDashboard._addAssignment(classIndex)` — crée un devoir pour la classe
-- `TeacherDashboard._deleteAssignment(assignmentId, classIndex)` — supprime un devoir
-
-## js/views/gradingPanel.js
-Panneau de notation enseignant : tableau comparatif élèves × modules + export Pronote CSV.
-- `GradingPanel.render({ cls, students, progressMap, backIndex })` — point d'entrée, reçoit les données de TeacherDashboard (pas de double requête Firestore) ; initialise `_gradeDrafts` (brouillons de saisie par module, en mémoire pour la session)
-- Tableau comparatif et auto-remplissage des notes (`_renderGradeTable`) lisent le score via `TeacherDashboard._moduleScorePct(mod, progress.tracking[moduleId])` — pas `progress.progress[moduleId].score` (champ jamais écrit, voir `js/views/teacherDashboard.js`)
-- `GradingPanel._onModuleChange()` — appelé par le `<select>` module au lieu de `_renderGradeTable()` directement : capture d'abord la saisie en cours (`_captureCurrentDraft()`) avant de changer de module, pour ne pas la perdre si l'enseignant revient dessus
-- `GradingPanel._renderGradeTable()` — tableau de saisie /20 + appréciation pour le module sélectionné, pré-rempli depuis `_gradeDrafts[moduleId]` si l'enseignant y était déjà passé dans cette session
-- `GradingPanel._exportCSV()` — génère et télécharge le CSV via Blob + URL.createObjectURL
-- `GradingPanel._csvSafe(value)` — neutralise l'injection de formule CSV (préfixe `'` si valeur commence par `=+-@`)
 
 ## js/flashcards.js
 Flashcards générées automatiquement depuis les données cours.
@@ -514,23 +449,11 @@ Défi Chrono : exercices en 3 minutes.
 - `renderChrono(mod)` — rendu du chronomètre et exercice
 - `submitChronoAnswer(moduleId)` — valide la réponse en mode chrono
 
-## js/playlist.js
-Parcours personnalisés (enseignants) et mode guidé (entrée mise à jour le 2026-08-19, l'ancienne décrivait des fonctions qui n'existent plus).
-- `encodePlaylist`/`decodePlaylist` — sérialisation base64 du parcours (titre + étapes) dans l'URL `/playlist/{data}`
-- `loadPlaylist(encoded)` / `renderPlaylistView()` / `playlistNext()` / `playlistPrev()` / `exitPlaylist()` — côté élève, consommation d'un lien de parcours ; route câblée dans `js/app.js` (`case 'playlist'`)
-- `initPlaylistBuilder()` / `addPlaylistStep(...)` / `removePlaylistStep(...)` / `movePlaylistStep(...)` / `generatePlaylistLink()` / `copyPlaylistLink()` / `togglePlaylistPicker()` / `renderTeacherBuilder()` — côté enseignant, création complète et fonctionnelle d'un parcours ; câblée le 2026-08-19 sur `/creer-parcours` (`js/app.js`, `case 'playlistBuilder'`), accessible depuis `TeacherDashboard`
-
 ## js/data/bts-prep/
 14 modules de remise à niveau BTS (`tag: 'prep'`, `level: 3`). Chaque module : `cours` (+ `diagram` et/ou `diagrams[]`), `quiz`, `exercice.generate()`, `probleme` (avec `figure`), `evaluation`.
 - Les figures sont des SVG inline utilisant EXCLUSIVEMENT les classes du thème (`frame-line`, `axis`, `grid-line`, `curve-main`, `graph-line`, `guide-line`, `plot-point`, `plot-point-alt`, `axis-label`, `annotation-label`, `tick-label`, `label-soft`) et les variables CSS (`var(--primary)`, `var(--secondary)`, `var(--accent)`, `var(--error)`) — jamais de couleur codée en dur, sinon l'illustration casse en thème sombre et à l'impression
 - `exercice.generate()` renvoie `solution` en **tableau d'étapes**, jamais en chaîne : `renderSolutionSteps()` (`js/components/exercice.js`) appelle `steps.map()`, une chaîne fait planter la correction et l'écran de réussite. Neuf modules bts-prep étaient touchés, corrigés le 2026-10-13 (5c742b5).
 - Gotcha récurrent : un `<text>` trop long déborde du `viewBox` et est **coupé** (pas de retour à la ligne en SVG). Garder les phrases courtes dans le SVG et déporter les explications longues dans `caption`/`notes`, qui sont du HTML et passent à la ligne
-
-## js/homework.js
-Générateur de devoirs avec export PDF.
-- `initHomeworkState()` — initialise l'état devoir
-- `renderHomework()` — rendu de l'interface devoir
-- `exportHomeworkPDF()` — génère le PDF via `window.print()`
 
 ## js/recommendations.js
 Recommandations adaptatives basées sur la progression.
@@ -539,12 +462,8 @@ Recommandations adaptatives basées sur la progression.
 ## js/utils/ui-helpers.js
 Helpers de rendu et utilitaires UI partagés.
 - `updateScrollFade(el)` / `initScrollFades(root)` — posent `data-fade` (`none|left|right|both`) sur chaque `.scroll-fade` selon sa position de défilement ; un `MutationObserver` sur `#app` + `resize` relancent l'init après chaque rendu, aucune vue n'a à s'en occuper
-- `escapeHtml(str)` — échappement HTML partagé (auparavant dupliqué à l'identique en 6 endroits : `teacherDashboard.js`, `gradingPanel.js`, `adminPanel.js`) ; ces fichiers chargent AVANT ce fichier dans `index.html`, donc chacun garde un wrapper local `_esc: function(str) { return escapeHtml(str); }` (une référence directe `_esc: escapeHtml` casserait au chargement, `escapeHtml` n'existant pas encore)
+- `escapeHtml(str)` — échappement HTML partagé (auparavant dupliqué à l'identique dans `adminPanel.js`) ; ce fichier charge AVANT ce fichier dans `index.html`, donc il garde un wrapper local `_esc: function(str) { return escapeHtml(str); }` (une référence directe `_esc: escapeHtml` casserait au chargement, `escapeHtml` n'existant pas encore)
 - `convertMarkdownTables(html)` — convertit les tableaux markdown (`| a | b |` + ligne `|---|---|`) présents dans le contenu (`def`, `steps`, `context`...) en vrais `<table>` HTML ; appelé sur le HTML assemblé dans `moduleTabs.js` et `renderFicheCours()`, pas dans `js/data/`
 - `renderLoading()` — squelette de chargement
 - `renderErreurConseil(piege)` — bloc conseil sur l'erreur classique
 - `renderQuestionFigure(figure)` — rend la figure attachée à une question de quiz, un exercice généré ou une question d'évaluation ; accepte une chaîne (SVG brut) ou un objet `{svg, caption}` ; le conteneur interne réutilise la classe `.cours-diagram-stage` pour hériter du thème SVG partagé (`.curve-main`, `.plot-point`, `.annotation-label`…) tandis que `.question-figure` porte les variables `--diagram-*`
-- `renderFicheCours(mod)` — fiche de synthèse imprimable A4 d'un module (intro, définitions, méthode, exemple, formules, illustration, piège, récap) ; consommée par `printFiche()` dans `js/app.js` ; l'illustration utilise `renderCoursDiagram()` (voir `js/components/renderCours.js`), qui gère le format legacy (string) et le format riche (objet `{svg, notes...}`)
-- `renderFichesBatch(modules)` — concatène plusieurs `renderFicheCours()` pour l'impression groupée
-- `_printLevelLabel(mod)` — libellé "Matière · Niveau — Classe" affiché en en-tête de fiche
-- `renderEvaluationPrintSheet(items, mode)` — sujet imprimable (`mode:'subject'`, réponses vierges) ou corrigé (`mode:'correction'`, réponses + barème) à partir d'une liste `{moduleTitle, question}` où `question` suit le schéma `evaluation.questions` (`statement`, `type:'numeric'|'multiple-choice'`, `answer`, `unit`, `points`, `correction`) ; consommée par `printEvaluationSubject()`/`printEvaluationCorrection()` (voir `js/print.js`)

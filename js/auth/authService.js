@@ -6,7 +6,6 @@
 const AuthService = {
   _auth: null,
   _db: null,
-  _functions: null,
 
   init() {
     if (!firebase.apps.length) {
@@ -14,12 +13,10 @@ const AuthService = {
     }
     this._auth = firebase.auth();
     this._db = firebase.firestore();
-    this._functions = firebase.functions();
   },
 
   getAuth() { return this._auth; },
   getDb()   { return this._db; },
-  getFunctions() { return this._functions; },
 
   /* ── Auth state ── */
   onAuthStateChanged(callback) {
@@ -49,240 +46,11 @@ const AuthService = {
     await this._db.collection('users').doc(uid).update(patch);
   },
 
-  /* ── Firestore : classes ── */
-  async getClass(classCode) {
-    const doc = await this._db.collection('classes').doc(classCode).get();
-    return doc.exists ? { id: doc.id, ...doc.data() } : null;
-  },
-
-  async joinClass(uid, classCode) {
-    // Pas de lecture de classes/{classCode} avant le join : la règle Firestore ne
-    // l'autorise qu'à l'admin, au prof propriétaire, ou à un élève déjà membre — un élève
-    // qui rejoint pour la première fois n'a encore aucun de ces droits (chien-qui-se-mord-
-    // la-queue). Le batch.update ci-dessous vérifie déjà l'existence du code (échoue sur
-    // un doc inexistant) et est explicitement autorisé pour l'auto-ajout d'un élève.
-    const batch = this._db.batch();
-    batch.update(this._db.collection('users').doc(uid), {
-      classes: firebase.firestore.FieldValue.arrayUnion(classCode)
-    });
-    batch.update(this._db.collection('classes').doc(classCode), {
-      students: firebase.firestore.FieldValue.arrayUnion(uid)
-    });
-    try {
-      await batch.commit();
-    } catch (e) {
-      throw new Error('Code de classe invalide.');
-    }
-
-    // Dénormalise le prof propriétaire sur le doc progress de l'élève, nécessaire aux
-    // règles Firestore pour autoriser la lecture de sa progression. Lu APRÈS le join
-    // (pas avant) : l'élève est désormais membre, donc autorisé à lire ce document.
-    const cls = await this.getClass(classCode);
-    if (cls && cls.teacherId) {
-      await this._db.collection('progress').doc(uid).set({
-        teacherIds: firebase.firestore.FieldValue.arrayUnion(cls.teacherId)
-      }, { merge: true });
-    }
-  },
-
-  async createClass(teacherUid, className) {
-    // Le code (préfixe nom + 4 caractères aléatoires) peut en théorie collisionner
-    // avec une classe existante — sans vérification, .set() écraserait silencieusement
-    // la classe d'un autre enseignant. Transaction check-then-set + retry sur collision.
-    const maxAttempts = 5;
-    for (let i = 0; i < maxAttempts; i++) {
-      const code = this._generateClassCode(className);
-      const ref = this._db.collection('classes').doc(code);
-      try {
-        await this._db.runTransaction(async (tx) => {
-          const snap = await tx.get(ref);
-          if (snap.exists) throw new Error('CODE_TAKEN');
-          tx.set(ref, {
-            teacherId: teacherUid,
-            name: className,
-            students: [],
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-          });
-        });
-        await this.updateUserProfile(teacherUid, {
-          classes: firebase.firestore.FieldValue.arrayUnion(code)
-        });
-        return code;
-      } catch (e) {
-        if (e.message !== 'CODE_TAKEN') throw e;
-        // sinon, on boucle et on tente un nouveau code
-      }
-    }
-    throw new Error('Impossible de générer un code de classe unique, réessayez.');
-  },
-
-  _generateClassCode(name) {
-    const prefix = name.replace(/[^a-zA-Z0-9]/g, '').substring(0, 4).toUpperCase() || 'CLS';
-    const suffix = Math.random().toString(36).substring(2, 6).toUpperCase();
-    return prefix + '-' + suffix;
-  },
-
-  async getTeacherClasses(teacherUid) {
-    const snap = await this._db.collection('classes')
-      .where('teacherId', '==', teacherUid)
-      .get();
-    return snap.docs.map(d => ({ id: d.id, ...d.data() }))
-      .sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
-  },
-
-  /* ── Firestore : progression élèves ── */
-  async getStudentProgress(uid) {
-    const doc = await this._db.collection('progress').doc(uid).get();
-    return doc.exists ? doc.data() : null;
-  },
-
-  async removeStudentFromClass(studentUid, classCode) {
-    const cls = await this.getClass(classCode);
-    const batch = this._db.batch();
-    batch.update(this._db.collection('users').doc(studentUid), {
-      classes: firebase.firestore.FieldValue.arrayRemove(classCode)
-    });
-    batch.update(this._db.collection('classes').doc(classCode), {
-      students: firebase.firestore.FieldValue.arrayRemove(studentUid)
-    });
-    await batch.commit();
-
-    // Retire le prof de la liste dénormalisée sur le doc progress (perte d'accès à cette progression).
-    // Note : si l'élève reste dans une autre classe du même enseignant, cet enseignant
-    // perdra l'accès à tort — cas limite acceptable tant qu'un enseignant a rarement
-    // plusieurs classes avec le même élève.
-    if (cls && cls.teacherId) {
-      try {
-        await this._db.collection('progress').doc(studentUid).update({
-          teacherIds: firebase.firestore.FieldValue.arrayRemove(cls.teacherId)
-        });
-      } catch (e) { /* le doc progress peut ne pas exister si l'élève n'a rien fait */ }
-    }
-  },
-
-  async createAssignment(classCode, moduleId, dueDate) {
-    const ref = await this._db.collection('assignments').add({
-      classCode: classCode,
-      moduleId: moduleId,
-      dueDate: dueDate,
-      teacherId: this.getCurrentUser().uid,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    return ref.id;
-  },
-
-  async getClassAssignments(classCode) {
-    const snap = await this._db.collection('assignments')
-      .where('classCode', '==', classCode)
-      .get();
-    return snap.docs
-      .map(function(d) { return Object.assign({ id: d.id }, d.data()); })
-      .sort(function(a, b) {
-        var ta = a.createdAt && a.createdAt.toMillis ? a.createdAt.toMillis() : 0;
-        var tb = b.createdAt && b.createdAt.toMillis ? b.createdAt.toMillis() : 0;
-        return tb - ta;
-      });
-  },
-
-  async deleteAssignment(assignmentId) {
-    await this._db.collection('assignments').doc(assignmentId).delete();
-  },
-
-  /* ── Admin : migration ── */
-  // À exécuter une seule fois après déploiement des nouvelles règles Firestore :
-  // reconstruit le champ progress/{uid}.teacherIds pour tous les élèves déjà inscrits
-  // dans une classe (nécessaire pour que les enseignants gardent l'accès à leur progression).
-  async backfillProgressTeacherIds() {
-    const classesSnap = await this._db.collection('classes').get();
-    let updated = 0;
-    const failures = [];
-    for (const doc of classesSnap.docs) {
-      const cls = doc.data();
-      if (!cls.teacherId || !Array.isArray(cls.students) || !cls.students.length) continue;
-      for (const studentUid of cls.students) {
-        try {
-          await this._db.collection('progress').doc(studentUid).set({
-            teacherIds: firebase.firestore.FieldValue.arrayUnion(cls.teacherId)
-          }, { merge: true });
-          updated++;
-        } catch (e) {
-          console.warn('[backfillProgressTeacherIds] échec pour', studentUid, e);
-          failures.push(studentUid);
-        }
-      }
-    }
-    // failures.length remonté à l'appelant : sans ça, l'admin voit "X mis à jour" et
-    // croit la migration complète alors que certains élèves peuvent rester bloqués
-    // (permission-denied sur progress/{uid} côté enseignant).
-    return { updated: updated, failed: failures.length, failedUids: failures };
-  },
-
   /* ── Admin ── */
-  async getPendingTeachers() {
-    const snap = await this._db.collection('users')
-      .where('role', '==', 'teacher')
-      .where('status', '==', 'pending')
-      .get();
-    return snap.docs.map(d => ({ uid: d.id, ...d.data() }))
-      .sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
-  },
-
-  async approveTeacher(uid) {
-    const adminUid = this.getCurrentUser().uid;
-    await this.updateUserProfile(uid, {
-      status: 'active',
-      approvedAt: firebase.firestore.FieldValue.serverTimestamp(),
-      approvedBy: adminUid
-    });
-  },
-
-  async rejectTeacher(uid) {
-    await this.updateUserProfile(uid, { status: 'rejected' });
-  },
-
   async getAllUsers() {
     const snap = await this._db.collection('users').get();
     return snap.docs.map(d => ({ uid: d.id, ...d.data() }))
       .sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
-  },
-
-  /* ── Admin : stats ── */
-  async getAdminStats() {
-    const [usersSnap, classesSnap, progressSnap] = await Promise.all([
-      this._db.collection('users').get(),
-      this._db.collection('classes').get(),
-      this._db.collection('progress').get()
-    ]);
-    const users = usersSnap.docs.map(d => d.data());
-    return {
-      totalStudents: users.filter(u => u.role === 'student').length,
-      activeTeachers: users.filter(u => u.role === 'teacher' && u.status === 'active').length,
-      totalClasses: classesSnap.size,
-      totalProgressDocs: progressSnap.size
-    };
-  },
-
-  /* ── Admin : classes orphelines ── */
-  async getOrphanClasses() {
-    const classesSnap = await this._db.collection('classes').get();
-    const classes = classesSnap.docs.map(d => ({ id: d.id, ...d.data() }))
-      .filter(c => !c.status || c.status !== 'archived');
-    if (!classes.length) return [];
-    const teacherUids = [...new Set(classes.map(c => c.teacherId).filter(Boolean))];
-    if (!teacherUids.length) return classes;
-    const teacherDocs = await Promise.all(
-      teacherUids.map(uid => this._db.collection('users').doc(uid).get())
-    );
-    const teacherMap = {};
-    teacherDocs.forEach(d => { if (d.exists) teacherMap[d.id] = d.data(); });
-    return classes.filter(cls => {
-      const t = teacherMap[cls.teacherId];
-      return !t || t.status !== 'active';
-    });
-  },
-
-  async archiveClass(classId) {
-    await this._db.collection('classes').doc(classId).update({ status: 'archived' });
   },
 
   /* ── Admin : rôles ── */

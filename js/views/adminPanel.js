@@ -1,8 +1,7 @@
 var AdminPanel = {
-  _tab: 'pending',
+  _tab: 'modules',
   _settingsOpen: false,
   _allUsersCache: [],
-  _orphanClassesCache: [],
   _roleFilter: 'all',
   _logActionFilter: 'all',
   _logAdminFilter: 'all',
@@ -26,7 +25,7 @@ var AdminPanel = {
   render: async function() {
     document.getElementById('app').innerHTML = '<div class="ap-loading">Chargement...</div>';
     try {
-      var statsPromise    = (typeof AuthService.getAdminStats === 'function')    ? AuthService.getAdminStats()    : Promise.resolve(null);
+      var statsPromise    = Promise.resolve(null); // plus de statistiques (espace enseignant retiré)
       var settingsPromise = (typeof AuthService.getPlatformSettings === 'function') ? AuthService.getPlatformSettings() : Promise.resolve({});
       var annPromise      = (typeof AuthService.getAnnouncement === 'function')   ? AuthService.getAnnouncement()  : Promise.resolve(null);
 
@@ -52,47 +51,15 @@ var AdminPanel = {
       '<div class="ap-container">' +
         '<div class="ap-header">' +
           '<h1 class="ap-title">⚙️ Administration</h1>' +
-          '<button class="ap-teacher-btn" onclick="TeacherDashboard.render(\'__admin__\')">Mon espace enseignant →</button>' +
         '</div>' +
-        AdminPanel._renderDashboard(stats) +
         AdminPanel._renderSettingsSection(settings, announcement) +
         '<div class="ap-tabs">' +
-          '<button class="ap-tab' + (AdminPanel._tab === 'pending' ? ' active' : '') + '" data-tab="pending" onclick="AdminPanel._switchTab(\'pending\')">En attente</button>' +
           '<button class="ap-tab' + (AdminPanel._tab === 'all' ? ' active' : '') + '" data-tab="all" onclick="AdminPanel._switchTab(\'all\')">Tous les comptes</button>' +
           '<button class="ap-tab' + (AdminPanel._tab === 'modules' ? ' active' : '') + '" data-tab="modules" onclick="AdminPanel._switchTab(\'modules\')">Modules</button>' +
           '<button class="ap-tab' + (AdminPanel._tab === 'logs' ? ' active' : '') + '" data-tab="logs" onclick="AdminPanel._switchTab(\'logs\')">Historique</button>' +
         '</div>' +
         '<div id="ap-content"></div>' +
       '</div>';
-  },
-
-  /* ── Dashboard ── */
-  _renderDashboard: function(stats) {
-    if (!stats) {
-      return '<div class="ap-stats-grid" style="grid-template-columns:1fr"><p class="ap-empty">Statistiques indisponibles.</p></div>';
-    }
-    return '<div class="ap-stats-grid">' +
-      AdminPanel._statCard('👩‍🎓', stats.totalStudents, 'Élèves inscrits', 'student') +
-      AdminPanel._statCard('👨‍🏫', stats.activeTeachers, 'Enseignants actifs', 'teacher') +
-      AdminPanel._statCard('🏫', stats.totalClasses, 'Classes') +
-      AdminPanel._statCard('📊', stats.totalProgressDocs, 'Progressions') +
-    '</div>';
-  },
-
-  _statCard: function(icon, value, label, roleLink) {
-    var attrs = roleLink
-      ? ' ap-stat-card-clickable" onclick="AdminPanel._goToUsers(\'' + roleLink + '\')" tabindex="0" role="button" aria-label="Voir : ' + label + '"'
-      : '"';
-    return '<div class="ap-stat-card' + attrs + '>' +
-      '<span class="ap-stat-icon">' + icon + '</span>' +
-      '<span class="ap-stat-value">' + value + '</span>' +
-      '<span class="ap-stat-label">' + label + '</span>' +
-    '</div>';
-  },
-
-  _goToUsers: function(role) {
-    AdminPanel._roleFilter = role;
-    AdminPanel._switchTab('all');
   },
 
   /* ── Paramètres & Annonces ── */
@@ -120,43 +87,13 @@ var AdminPanel = {
             '<span>Mode maintenance (site en pause)</span>' +
             '<input type="checkbox" id="ap-maintenance"' + (settings.maintenanceMode ? ' checked' : '') + ' />' +
           '</label>' +
-          '<div class="ap-field-row">' +
-            '<span>Max élèves par classe</span>' +
-            '<input type="number" id="ap-max-students" class="ap-number-input" value="' + (settings.maxStudentsPerClass || 35) + '" min="1" max="200" />' +
-          '</div>' +
           '<div class="ap-settings-save-row">' +
             '<button class="ap-save-btn" onclick="AdminPanel._saveSettings()">Enregistrer</button>' +
           '</div>' +
         '</div>' +
 
-        '<div class="ap-settings-group">' +
-          '<div class="ap-settings-group-title">Sécurité</div>' +
-          '<p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:8px;">' +
-            'À exécuter une seule fois après la mise à jour des règles Firestore : ' +
-            'restaure l\'accès des enseignants à la progression de leurs élèves déjà inscrits.' +
-          '</p>' +
-          '<button class="ap-save-btn" onclick="AdminPanel._runBackfillTeacherIds()">Réparer les accès enseignants</button>' +
-        '</div>' +
-
       '</div>' +
     '</div>';
-  },
-
-  _runBackfillTeacherIds: async function() {
-    if (!confirm('Lancer la migration des accès enseignants ? Cette opération est sûre et peut être relancée sans risque.')) return;
-    try {
-      var result = await AuthService.backfillProgressTeacherIds();
-      var detail = result.updated + ' mis à jour' + (result.failed > 0 ? ', ' + result.failed + ' échec(s)' : '');
-      await AuthService.logAdminAction('teacherIds_backfill', null, detail);
-      if (result.failed > 0) {
-        showToast('Migration partielle : ' + result.updated + ' élève(s) mis à jour, ' + result.failed + ' échec(s) — relance la migration (sans risque) pour réessayer les échecs.', 'error');
-      } else {
-        showToast('Migration terminée : ' + result.updated + ' élève(s) mis à jour.', 'success');
-      }
-    } catch (e) {
-      console.error('[AdminPanel] backfill error:', e);
-      showToast('Erreur lors de la migration.', 'error');
-    }
   },
 
   _toggleSettings: function() {
@@ -197,11 +134,9 @@ var AdminPanel = {
 
   _saveSettings: async function() {
     var maintenance   = document.getElementById('ap-maintenance');
-    var maxStudents   = document.getElementById('ap-max-students');
-    if (!maintenance || !maxStudents) return;
+    if (!maintenance) return;
     var data = {
-      maintenanceMode: maintenance.checked,
-      maxStudentsPerClass: parseInt(maxStudents.value) || 35
+      maintenanceMode: maintenance.checked
     };
     try {
       await AuthService.savePlatformSettings(data);
@@ -226,17 +161,9 @@ var AdminPanel = {
     if (!content) return;
     content.innerHTML = '<div class="ap-loading">Chargement...</div>';
     try {
-      if (tab === 'pending') {
-        var pending = await AuthService.getPendingTeachers();
-        AdminPanel._renderPending(pending);
-      } else if (tab === 'all') {
-        var results = await Promise.allSettled([
-          AuthService.getAllUsers(),
-          AuthService.getOrphanClasses()
-        ]);
-        var users   = results[0].status === 'fulfilled' ? results[0].value : [];
-        var orphans = results[1].status === 'fulfilled' ? results[1].value : [];
-        AdminPanel._renderAll(users, orphans);
+      if (tab === 'all') {
+        var users = await AuthService.getAllUsers();
+        AdminPanel._renderAll(users);
       } else if (tab === 'modules') {
         if (typeof ensureAllData === 'function') await ensureAllData();
         AdminPanel._renderModulesTab();
@@ -327,59 +254,14 @@ var AdminPanel = {
     content.innerHTML = kpisHtml + subjectControlsHtml + gridHtml;
   },
 
-  /* ── Tab : En attente ── */
-  _renderPending: function(pending) {
-    var content = document.getElementById('ap-content');
-    if (!content) return;
-    if (!pending || pending.length === 0) {
-      content.innerHTML = '<p class="ap-empty">Aucun compte enseignant en attente.</p>';
-      return;
-    }
-    content.innerHTML = pending.map(function(u) {
-      var name    = AdminPanel._esc(u.displayName || 'Inconnu');
-      var contact = AdminPanel._esc(u.phone || u.email || '—');
-      var uid     = AdminPanel._esc(u.uid);
-      return '<div class="ap-user-card">' +
-        '<div class="ap-user-info">' +
-          '<span class="ap-user-name">' + name + '</span>' +
-          '<span class="ap-user-contact">' + contact + '</span>' +
-        '</div>' +
-        '<div class="ap-user-actions">' +
-          '<button class="ap-approve-btn" onclick="AdminPanel._approve(\'' + uid + '\')">✅ Approuver</button>' +
-          '<button class="ap-reject-btn"  onclick="AdminPanel._reject(\''   + uid + '\')">❌ Refuser</button>' +
-        '</div>' +
-      '</div>';
-    }).join('');
-  },
-
   /* ── Tab : Tous les comptes ── */
-  _renderAll: function(users, orphans) {
+  _renderAll: function(users) {
     var content = document.getElementById('ap-content');
     if (!content) return;
-
-    var orphanHtml = '';
-    if (orphans && orphans.length > 0) {
-      orphanHtml =
-        '<div class="ap-orphan-section">' +
-          '<div class="ap-section-title">⚠️ Classes sans enseignant actif (' + orphans.length + ')</div>' +
-          orphans.map(function(cls) {
-            return '<div class="ap-orphan-card">' +
-              '<div class="ap-user-info">' +
-                '<span class="ap-user-name">' + AdminPanel._esc(cls.name || cls.id) + '</span>' +
-                '<span class="ap-user-contact">Code&nbsp;: ' + AdminPanel._esc(cls.id) + ' &nbsp;·&nbsp; ' + (cls.students ? cls.students.length : 0) + ' élève(s)</span>' +
-              '</div>' +
-              '<div class="ap-user-actions">' +
-                '<button class="ap-reject-btn" onclick="AdminPanel._archiveClass(\'' + AdminPanel._esc(cls.id) + '\')">Archiver</button>' +
-              '</div>' +
-            '</div>';
-          }).join('') +
-        '</div>';
-    }
 
     var roleFilters = [
       { id: 'all', label: 'Tous' },
       { id: 'student', label: 'Élèves' },
-      { id: 'teacher', label: 'Enseignants' },
       { id: 'admin', label: 'Admins' }
     ];
     var roleFiltersHtml = '<div class="ap-role-filters">' +
@@ -389,7 +271,6 @@ var AdminPanel = {
     '</div>';
 
     content.innerHTML =
-      orphanHtml +
       roleFiltersHtml +
       '<div class="ap-search-wrap">' +
         '<input class="ap-search-input" type="text" placeholder="Rechercher par nom, email ou téléphone..." oninput="AdminPanel._filterUsers(this.value)" id="ap-search" />' +
@@ -397,7 +278,6 @@ var AdminPanel = {
       '<div id="ap-users-list">' + AdminPanel._renderUsersList(AdminPanel._applyRoleFilter(users)) + '</div>';
 
     AdminPanel._allUsersCache = users;
-    AdminPanel._orphanClassesCache = orphans || [];
   },
 
   _applyRoleFilter: function(users) {
@@ -439,9 +319,8 @@ var AdminPanel = {
       if (u.status !== 'active') actions += '<button class="ap-approve-btn" onclick="AdminPanel._setStatus(\'' + uid + '\',\'active\')">Activer</button>';
       if (u.status === 'active') actions += '<button class="ap-reject-btn" onclick="AdminPanel._setStatus(\'' + uid + '\',\'rejected\')">Désactiver</button>';
       if (u.role === 'student') {
-        actions += '<button class="ap-role-btn" onclick="AdminPanel._setRole(\'' + uid + '\',\'teacher\')">→ Enseignant</button>';
-      } else if (u.role === 'teacher') {
         actions += '<button class="ap-role-btn" onclick="AdminPanel._setRole(\'' + uid + '\',\'admin\')">→ Admin</button>';
+      } else if (u.role === 'teacher') {
         actions += '<button class="ap-role-btn ap-role-btn--down" onclick="AdminPanel._setRole(\'' + uid + '\',\'student\')">→ Élève</button>';
       }
 
@@ -558,28 +437,6 @@ var AdminPanel = {
   },
 
   /* ── Actions ── */
-  _approve: async function(uid) {
-    try {
-      await AuthService.approveTeacher(uid);
-      await AuthService.logAdminAction('teacher_approved', uid, null);
-      showToast('Enseignant approuvé.', 'success');
-      AdminPanel._loadTab('pending');
-    } catch(e) {
-      showToast('Erreur lors de l\'approbation.', 'error');
-    }
-  },
-
-  _reject: async function(uid) {
-    try {
-      await AuthService.rejectTeacher(uid);
-      await AuthService.logAdminAction('teacher_rejected', uid, null);
-      showToast('Demande refusée.', 'success');
-      AdminPanel._loadTab('pending');
-    } catch(e) {
-      showToast('Erreur lors du refus.', 'error');
-    }
-  },
-
   _setStatus: async function(uid, status) {
     try {
       await AuthService.updateUserProfile(uid, { status: status });
@@ -601,22 +458,6 @@ var AdminPanel = {
       AdminPanel._loadTab('all');
     } catch(e) {
       showToast('Erreur lors du changement de rôle.', 'error');
-    }
-  },
-
-  _archiveClass: async function(classId) {
-    var cls = AdminPanel._orphanClassesCache.find(function(c) { return c.id === classId; });
-    var label = cls && cls.name ? '« ' + cls.name + ' »' : 'cette classe orpheline';
-    var count = cls && cls.students ? cls.students.length : 0;
-    var countMsg = count > 0 ? ' (' + count + ' élève' + (count > 1 ? 's' : '') + ' inscrit' + (count > 1 ? 's' : '') + ')' : '';
-    if (!confirm('Archiver ' + label + countMsg + ' ? Cette action est irréversible depuis ce panneau.')) return;
-    try {
-      await AuthService.archiveClass(classId);
-      await AuthService.logAdminAction('class_archived', null, 'Classe : ' + (cls && cls.name ? cls.name + ' (' + classId + ')' : classId));
-      showToast('Classe archivée.', 'success');
-      AdminPanel._loadTab('all');
-    } catch(e) {
-      showToast('Erreur lors de l\'archivage.', 'error');
     }
   }
 };

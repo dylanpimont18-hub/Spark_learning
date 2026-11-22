@@ -154,9 +154,6 @@ function renderCours(mod) {
       <div class="cours-section">
         <h2 class="cours-section-title">❌ Une erreur, une suggestion</h2>
         ${renderErreurConseil(c.piege)}
-        <button class="teacher-suggest-btn" onclick="openTeacherErrorModal('${mod.id}')" aria-label="Proposer un piège">
-          👤‍🏫 Proposer un piège (Espace Enseignant)
-        </button>
       </div>
 
       ${c.recap && c.recap.length ? `
@@ -191,11 +188,6 @@ function renderCours(mod) {
         <button class="btn btn-secondary" onclick="navigate('flashcards', {moduleId: '${mod.id}'})">
           Flashcards
         </button>
-        ${AuthGuard.isTeacher() ? `
-        <button class="btn btn-outline" onclick="printFiche('${mod.id}')">
-          Imprimer la fiche
-        </button>
-        ` : ''}
       </div>
     </div>
   `;

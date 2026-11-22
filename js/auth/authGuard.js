@@ -30,7 +30,6 @@ var AuthGuard = {
 
   isAuthenticated: function() { return !!this._currentUser; },
   isAdmin:   function() { return !!(this._currentProfile && this._currentProfile.role === 'admin'); },
-  isTeacher: function() { return !!(this._currentProfile && (this._currentProfile.role === 'teacher' || this._currentProfile.role === 'admin')); },
   isStudent: function() { return !!(this._currentProfile && this._currentProfile.role === 'student'); },
   isActive:  function() { return !!(this._currentProfile && this._currentProfile.status === 'active'); },
 };

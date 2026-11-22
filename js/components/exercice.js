@@ -93,9 +93,6 @@ function renderExercice(mod) {
         <button class="btn btn-secondary btn-sm" onclick="navigate('chrono', {moduleId:'${mod.id}'})">
           Défi Chrono 3 min
         </button>
-        <button class="add-to-homework-btn" onclick="addToHomework('${mod.id}','exercice')">
-          + Ajouter au devoir
-        </button>
       </div>
     </div>
   `;

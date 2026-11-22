@@ -12,13 +12,10 @@ function renderEvaluation(mod) {
       </p>
     </div>`;
   }
-  const homeworkBtn = `<div style="margin-top:var(--space-md);">
-    <button class="add-to-homework-btn" onclick="addToHomework('${mod.id}','evaluation')">+ Ajouter au devoir</button>
-  </div>`;
   if (state.evaluationState.complete) {
-    return renderEvaluationResults(mod) + homeworkBtn;
+    return renderEvaluationResults(mod);
   }
-  return renderEvaluationQuestion(mod) + homeworkBtn;
+  return renderEvaluationQuestion(mod);
 }
 
 function renderEvaluationQuestion(mod) {
