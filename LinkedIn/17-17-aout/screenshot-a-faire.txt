@@ -1,3 +1,0 @@
-Capture à faire : module Gestion de l'énergie (si-bts), passage sur le COP.
-
-Une fois la capture prise, enregistre-la dans ce dossier sous le nom : screenshot.png

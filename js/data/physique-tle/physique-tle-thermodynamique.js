@@ -226,13 +226,39 @@ window.MODULES.push({
           correction: 'La convention récepteur compte positivement ce que le système reçoit : ce qu\'il cède à l\'extérieur (travail fourni, chaleur perdue) est donc compté négativement dans $\\Delta U=W+Q$.'
         },
         {
-          statement: 'Un système reçoit un travail $W=200$ J et cède une chaleur $Q=-60$ J. Calculer la variation d\'énergie interne $\\Delta U$ (en J).',
-          type: 'numeric',
-          answer: 140,
-          tolerance: 5,
-          unit: 'J',
+          /* Question « communiquer » (reecrite le 2026-09-17). Elle donnait
+             les deux signes tout faits (W = 200 J, Q = -60 J) et ne demandait
+             qu'une addition ; la Q2 du meme devoir enonce deja la convention
+             recepteur et la Q5 l'applique au cas Q = 0. Trois questions sur
+             cinq portaient sur la meme convention, dont une sans aucune
+             difficulte.
+
+             Elle porte desormais sur l'erreur 4 de la fiche professeur,
+             « decider du signe d'apres le sens du mot plutot que d'apres le
+             systeme » — explicitement SANS renvoi parce que les quarante-deux
+             enonces tires DONNENT tous les signes tout faits et le disent :
+             aucun ne decrit une situation en francais dont l'eleve devrait
+             DEDUIRE le signe. La limite est serieuse, puisque le
+             baccalaureat, lui, donne des enonces en francais.
+
+             Le calcul reste necessaire pour ecarter les distracteurs : il
+             faut traduire les deux verbes en signes, puis mener la somme
+             algebrique (-200 + 60 = -140 J) et la comparer aux trois autres
+             combinaisons de signes possibles. Plus exigeante que la question
+             qu'elle remplace, pas moins. */
+          statement: 'Un gaz enfermé dans un cylindre <strong>fournit</strong> un travail de $200$ J en repoussant le piston, et <strong>reçoit</strong> $60$ J par transfert thermique de la flamme qui le chauffe. Léo écrit : « fournir et recevoir, ce sont deux apports, donc $\\Delta U = 200 + 60 = 260$ J. »<br/><br/>Quelle explication corrige le mieux son raisonnement ?',
+          type: 'multiple-choice',
+          options: [
+            'Il faut prendre les deux valeurs absolues et les soustraire : $\\Delta U = 200 - 60 = 140$ J.',
+            'Le signe ne se lit pas dans le verbe mais dans le <strong>sens du transfert par rapport au système</strong> : le travail <strong>sort</strong> du gaz, donc $W = -200$ J ; la chaleur <strong>entre</strong>, donc $Q = +60$ J. D\'où $\\Delta U = -200 + 60 = -140$ J : le gaz se refroidit.',
+            'Son raisonnement est juste : le système est bien concerné par les deux énergies, qui s\'additionnent, et $\\Delta U = 260$ J.',
+            'Les deux transferts sortent du système : $\\Delta U = -200 - 60 = -260$ J.'
+          ],
+          answer: 1,
           points: 2,
-          correction: '$\\Delta U=W+Q=200+(-60)=140$ J.'
+          correction: 'Léo répond au <strong>mot</strong> au lieu de répondre à la question. « Fournir » lui paraît positif parce que le verbe est valorisant, mais la convention récepteur ne s\'intéresse pas à la charge affective des verbes : elle compte positivement ce que le système <strong>reçoit</strong>, et négativement ce qu\'il <strong>cède</strong>.<br/><br/>' +
+            'Une seule question, toujours la même, avant d\'écrire le moindre signe : <strong>cette énergie entre-t-elle dans mon système, ou en sort-elle ?</strong> Le système ici, c\'est le <strong>gaz</strong>. Le travail de $200$ J part du gaz vers le piston : il sort, donc $W = -200$ J. Les $60$ J de la flamme entrent dans le gaz : $Q = +60$ J. Le premier principe donne alors $\\Delta U = W + Q = -200 + 60 = -140$ J — l\'énergie interne diminue, et le gaz se refroidit malgré la flamme, ce qui est exactement ce qu\'on observe dans une détente.<br/><br/>' +
+            'La proposition 1 est la plus tentante, car elle sent bien qu\'il y a un moins quelque part et tombe sur le bon écart de $140$ J — mais avec le <strong>signe inverse</strong>, ce qui décrit un gaz qui s\'échauffe. Le pronostic avant calcul l\'écarte sans effort : ce qui sort ($200$ J) dépasse ce qui entre ($60$ J), donc $\\Delta U$ est forcément <strong>négatif</strong>.'
         },
         {
           statement: 'L\'énergie interne $U$ d\'un système est qualifiée de « fonction d\'état ». Cela signifie que :',

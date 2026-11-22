@@ -161,6 +161,14 @@ window.MODULES.push({
             tolerance: 0,
             unit: '',
             hint: 'Le nombre de neutrons se calcule par $N = A - Z$.',
+            /* Le modele de l'atome, avec sa charge de noyau et ses electrons.
+               Hors echelle et la figure le dit : le noyau est cent mille fois
+               plus petit que l'atome, un dessin a l'echelle serait une page
+               blanche portant un point. C'est la convention des manuels. */
+            figure: {
+              svg: figureAtome(atome.Z, atome.Z, { nom: atome.nom }),
+              caption: 'Modèle de l\'atome : le noyau porte $Z$ protons, et l\'atome neutre porte autant d\'électrons.'
+            },
             solution: [
               'Le nombre de masse $A$ compte tous les nucléons (protons + neutrons) : $A = Z + N$.',
               'On isole $N$ : $N = A - Z = ' + atome.A + ' - ' + atome.Z + '$.',

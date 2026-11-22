@@ -1,3 +1,0 @@
-Capture à faire : module Intégrales appliquées (BTS), une aire sous la courbe avec unités physiques.
-
-Une fois la capture prise, enregistre-la dans ce dossier sous le nom : screenshot.png

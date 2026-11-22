@@ -158,17 +158,20 @@ window.MODULES.push({
           const U = pick([120, 220, 48]);
           const R = randFloat(0.5, 3.0, 1);
           const I = rand(5, 20);
-          const E = U - R * I;
+          // R et I sont decimaux : leur produit brut sort en 25.299999999999997.
+          // On arrondit AVANT d'afficher, sinon la solution imprime le bruit flottant.
+          const chuteOhmique = parseFloat((R * I).toFixed(1));
+          const E = parseFloat((U - chuteOhmique).toFixed(1));
           const omega = parseFloat((E / KPhi).toFixed(1));
           return {
-            statement: `Un ${scenario.desc} ($K\\Phi = ${String(KPhi).replace('.', '{,}')}$ V·s/rad, $R = ${String(R).replace('.', '{,}')}$ Ω) est alimenté sous $U = ${U}$ V et absorbe $I = ${I}$ A. Calcule la vitesse $\\Omega$ (en rad/s, arrondi à $0{,}1$).`,
+            statement: `Un ${scenario.desc} ($K\\Phi = ${fr(KPhi)}$ V·s/rad, $R = ${fr(R)}$ Ω) est alimenté sous $U = ${U}$ V et absorbe $I = ${I}$ A. Calcule la vitesse $\\Omega$ (en rad/s, arrondi à $0{,}1$).`,
             answer: omega,
             tolerance: 0.5,
             unit: 'rad/s',
             hint: 'D\'abord $E = U - RI$, puis $\\Omega = E / (K\\Phi)$.',
             solution: [
-              `$E = U - RI = ${U} - ${String(R).replace('.', '{,}')} \\times ${I} = ${U} - ${R * I} = ${E}$ V`,
-              `$\\Omega = E / (K\\Phi) = ${E} / ${String(KPhi).replace('.', '{,}')} = ${String(omega).replace('.', '{,}')}$ rad/s`
+              `$E = U - RI = ${U} - ${fr(R)} \\times ${I} = ${U} - ${fr(chuteOhmique)} = ${fr(E)}$ V`,
+              `$\\Omega = E / (K\\Phi) = ${fr(E)} / ${fr(KPhi)} = ${fr(omega)}$ rad/s`
             ]
           };
         } else {
@@ -187,7 +190,7 @@ window.MODULES.push({
             solution: [
               `$n_s = 60f/p = 60 \\times 50 / ${p} = ${ns}$ tr/min`,
               `$g = (n_s - n)/n_s = (${ns} - ${n}) / ${ns} = ${ns - n} / ${ns}$`,
-              `$g = ${String(gCalc).replace('.', '{,}')}\\%$`
+              `$g = ${fr(gCalc)}\\%$`
             ]
           };
         }

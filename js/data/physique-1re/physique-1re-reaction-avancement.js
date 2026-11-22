@@ -263,13 +263,38 @@ window.MODULES.push({
           correction: 'Comparer directement les $n_i$ sans tenir compte des coefficients stœchiométriques est une erreur fréquente : le rapport $n_i/\\text{coefficient}$ est la seule comparaison valide pour identifier le réactif limitant.'
         },
         {
-          statement: 'Pour la réaction $2\\,H_2+O_2\\rightarrow2\\,H_2O$ ($n(H_2)_i=5$ mol, $x_{max}=2$ mol), calculer la quantité de matière de dihydrogène restant $n(H_2)_f$ à l\'état final (en mol).',
-          type: 'numeric',
+          /* Question « communiquer » (reecrite le 2026-09-17). C'etait la
+             TROISIEME question du devoir portant sur le meme tableau
+             d'avancement (2 H2 + O2, x_max = 2 mol) : la Q1 y calcule x_max
+             et la Q3 la quantite d'eau formee. Retrancher 2*x_max de n(H2)_i
+             n'ajoutait rien au diagnostic.
+
+             Elle porte desormais sur l'erreur 1 de la fiche professeur,
+             « designer comme limitant le reactif le moins abondant » —
+             l'obstacle central du chapitre, d'autant plus tenace que la
+             methode intuitive donne souvent la bonne reponse PAR ACCIDENT
+             quand les coefficients sont proches. Les donnees sont celles de
+             l'exercice 12 du tirage, ou l'eleve designe le bon reactif mais
+             annonce exactement le DOUBLE du bon x_max : le facteur 2 rend le
+             diagnostic immediat.
+
+             Le calcul reste necessaire pour ecarter les distracteurs : il
+             faut ecrire les deux quotients n_i/coefficient (3,3/1 et 1,6/2)
+             et mener le controle par la consequence absurde. Plus exigeante
+             que la question qu'elle remplace, pas moins. */
+          statement: 'On brûle du méthane : $CH_4 + 2\\,O_2 \\rightarrow CO_2 + 2\\,H_2O$, avec $n(CH_4)_i = 3{,}3$ mol et $n(O_2)_i = 1{,}6$ mol. Malo écrit : « le dioxygène est le moins abondant, c\'est donc lui le réactif limitant, et $x_{max} = 1{,}6$ mol. »<br/><br/>Quelle explication corrige le mieux son raisonnement ?',
+          type: 'multiple-choice',
+          options: [
+            'Il se trompe de réactif limitant : c\'est $CH_4$, car son coefficient stœchiométrique est le plus petit, d\'où $x_{max} = 3{,}3$ mol.',
+            'Il identifie le <strong>bon réactif limitant</strong>, mais pour une mauvaise raison et avec une mauvaise valeur : on ne compare pas des stocks, on compare les quotients $\\dfrac{n_i}{\\text{coefficient}}$, soit $\\dfrac{3{,}3}{1} = 3{,}3$ et $\\dfrac{1{,}6}{2} = 0{,}80$. Le plus petit l\'emporte, donc $x_{max} = 0{,}80$ mol.',
+            'Son raisonnement est valable : le réactif dont la quantité initiale est la plus faible est toujours le réactif limitant, et $x_{max} = 1{,}6$ mol.',
+            'Il faut multiplier par le coefficient plutôt que diviser : $x_{max} = 2 \\times 1{,}6 = 3{,}2$ mol.'
+          ],
           answer: 1,
-          tolerance: 0.05,
-          unit: 'mol',
           points: 2,
-          correction: '$n(H_2)_f=n(H_2)_i-2\\times x_{max}=5-2\\times2=5-4=1$ mol (en excès, car $H_2$ n\'est pas le réactif limitant).'
+          correction: 'Malo tombe sur le <strong>bon réactif</strong> — $O_2$ est bien le limitant — mais par un raisonnement qui ne le garantit pas, et il annonce exactement le <strong>double</strong> du bon avancement : $1{,}6$ au lieu de $0{,}80$ mol.<br/><br/>' +
+            'Les réactifs ne se consomment pas au même rythme : pour une mole de $CH_4$ consommée, il en part <strong>deux</strong> de $O_2$. Comparer $3{,}3$ et $1{,}6$ revient donc à comparer des grandeurs qui ne progressent pas à la même vitesse. C\'est l\'image de la recette : avec $3$ œufs et $4$ cuillères de farine pour un gâteau qui en demande $1$ et $2$, on ne compare pas les stocks, on compare les <strong>nombres de gâteaux possibles</strong>. Une ligne de calcul par réactif, sans exception : $\\dfrac{3{,}3}{1} = 3{,}3$ et $\\dfrac{1{,}6}{2} = 0{,}80$.<br/><br/>' +
+            'La proposition 3 est la plus tentante, parce qu\'elle est vraie dans la vie courante — celui qui manque le plus est bien celui qui limite — et parce qu\'elle donne souvent la bonne réponse quand les coefficients sont proches. Le contrôle par l\'absurde la démolit : si $x_{max}$ valait $1{,}6$ mol, il faudrait $2\\times1{,}6 = 3{,}2$ mol de $O_2$ alors qu\'on n\'en a que $1{,}6$ — la quantité finale serait <strong>négative</strong>, ce qui est physiquement impossible.'
         }
       ]
     }

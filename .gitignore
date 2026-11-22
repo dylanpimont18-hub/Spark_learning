@@ -1,5 +1,4 @@
 .superpowers/
-communication/
 .venv/
 *.log
 .firebase/
@@ -18,9 +17,15 @@ node_modules/
 /confidentialite/
 /scripts/fixtures/
 
-# Theme Shopify de la boutique (Liquid) : pull local via Shopify CLI, projet
-# distinct du site vanilla JS, ne doit jamais etre commite dans ce depot.
-Shopify/
-
 # Sortie du skill /graphify (graphe de connaissances local, regenerable).
 graphify-out/
+
+# Secrets : cles d'API et identifiants. Regle large et volontaire — un .env
+# ajoute n'importe ou dans le projet ne doit jamais partir sur GitHub. Les
+# fichiers .env.example, eux, restent versionnes : ils ne portent aucune valeur.
+.env
+**/.env
+!.env.example
+!**/.env.example
+__pycache__/
+*.pyc

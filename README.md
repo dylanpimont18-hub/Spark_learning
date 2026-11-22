@@ -23,5 +23,5 @@ Hébergé sur GitHub Pages (`sparklearning.fr`, voir [`CNAME`](CNAME)). Un dépl
 | [`CODEBASE_MAP.md`](CODEBASE_MAP.md) | Index de navigation fichier par fichier (fonctions clés, rôle) |
 | [`contenu.md`](contenu.md) | Carte architecturale de haut niveau |
 | [`docs/programmes-*.md`](docs/) | Programmes scolaires suivis pour la génération de modules |
-| [`docs/ameliorations-site.md`](docs/ameliorations-site.md) | Backlog produit en cours |
+| [`docs/archives/`](docs/archives/) | Anciens plans et backlogs (archivés) |
 | [`.claude/rules/dev-guidelines.md`](.claude/rules/dev-guidelines.md) | Directives de développement complémentaires |

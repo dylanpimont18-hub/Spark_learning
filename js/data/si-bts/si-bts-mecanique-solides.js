@@ -104,8 +104,8 @@ window.MODULES.push({
             <text class="annotation-label" x="200" y="252" text-anchor="middle">I ≡ CIR</text>
             <text class="annotation-label" x="206" y="148">V(A) = 6 m/s</text>
             <text class="annotation-label" x="290" y="236">V(B) ≈ 8,49 m/s</text>
-            <text class="label-soft" x="204" y="122">⟂ à V(A)</text>
-            <text class="label-soft" x="296" y="132">⟂ à V(B)</text>
+            <text class="label-soft" x="204" y="122">⊥ à V(A)</text>
+            <text class="label-soft" x="296" y="132">⊥ à V(B)</text>
           </svg>
         `,
         notes: [

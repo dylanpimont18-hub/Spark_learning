@@ -262,6 +262,15 @@ window.MODULES.push({
             tolerance: tol2,
             unit: 'm',
             hint: 'Les rayons lumineux issus de la source rasent le sommet du poteau puis rejoignent le sol : cela forme deux triangles semblables. Utilise la proportionnalité $\\dfrac{H}{d + x} = \\dfrac{h}{x}$.',
+            /* La configuration du probleme, a l'echelle : c'est sur elle que se
+               lisent les deux triangles semblables dont l'enonce demande la
+               proportionnalite. Sans figure, l'eleve doit d'abord reconstruire
+               la scene de tete, ce qui est l'essentiel de la difficulte — et ce
+               n'est pas ce que la question evalue. */
+            figure: {
+              svg: figureOmbreSol(H, h, d),
+              caption: 'Le rayon qui rase le sommet du poteau touche le sol au bout de l\'ombre : les deux triangles sont semblables.'
+            },
             solution: [
               'La propagation rectiligne de la lumière crée deux triangles semblables : $\\dfrac{H}{d+x} = \\dfrac{h}{x}$.',
               'En multipliant en croix puis en isolant $x$, on obtient $x = \\dfrac{h \\times d}{H - h}$.',

@@ -1,3 +1,0 @@
-Capture à faire : module Analyse dimensionnelle (bts-prep), un exemple de formule fausse repérée par les unités.
-
-Une fois la capture prise, enregistre-la dans ce dossier sous le nom : screenshot.png

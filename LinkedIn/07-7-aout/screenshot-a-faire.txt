@@ -1,3 +1,0 @@
-Capture à faire : module Dérivation (1re), le double graphique fonction/dérivée.
-
-Une fois la capture prise, enregistre-la dans ce dossier sous le nom : screenshot.png

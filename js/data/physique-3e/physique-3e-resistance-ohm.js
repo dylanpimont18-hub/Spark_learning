@@ -153,6 +153,15 @@ window.MODULES.push({
             tolerance: Math.max(0.05, parseFloat((U * 0.03).toFixed(2))),
             unit: 'V',
             hint: 'Loi d\'Ohm : $U = R \\times I$.',
+            /* Le montage de mesure, construit sur les valeurs du tirage.
+               L'amperemetre y est en serie et le voltmetre en derivation : c'est
+               la disposition que l'eleve doit avoir sous les yeux, et
+               l'interversion des deux appareils est l'erreur que le chapitre
+               traque (un amperemetre en derivation court-circuite). */
+            figure: {
+              svg: figureCircuitMesure({ R: R, I: I }),
+              caption: 'Montage de mesure : ampèremètre en série dans le circuit, voltmètre en dérivation aux bornes du résistor.'
+            },
             solution: [
               'Loi d\'Ohm : $U = R \\times I = ' + R + ' \\times ' + fr(I, 2) + '$.',
               'Résultat : $U \\approx ' + fr(U, 2) + '$ V.'
@@ -179,6 +188,13 @@ window.MODULES.push({
             tolerance: Math.max(0.5, parseFloat((Rcalc * 0.03).toFixed(2))),
             unit: 'Ω',
             hint: 'Le coefficient directeur d\'une caractéristique $U=f(I)$ passant par l\'origine se calcule par $R=\\dfrac{\\Delta U}{\\Delta I}$.',
+            /* La caracteristique, tracee sur les DEUX points reellement tires,
+               avec le triangle du coefficient directeur. Sans elle, l'enonce
+               demande de lire une pente sur un graphique absent. */
+            figure: {
+              svg: figureCaracteristique(I1, parseFloat(U1.toFixed(2)), I2, parseFloat(U2.toFixed(2))),
+              caption: 'Caractéristique tension-courant du résistor : une droite passant par l\'origine, dont le coefficient directeur vaut $R$.'
+            },
             solution: [
               'Coefficient directeur : $R=\\dfrac{\\Delta U}{\\Delta I}=\\dfrac{U_2-U_1}{I_2-I_1}$.',
               'Variation de tension : $\\Delta U = ' + fr(U2, 2) + ' - ' + fr(U1, 2) + ' = ' + fr(deltaU, 2) + '$ V.',
@@ -210,13 +226,28 @@ window.MODULES.push({
       duration: '30 min',
       questions: [
         {
-          statement: 'Un résistor de $R=220$ Ω est parcouru par un courant $I=0{,}05$ A. Calculer la tension $U$ à ses bornes (en V).',
-          type: 'numeric',
-          answer: 11,
-          tolerance: 0.3,
-          unit: 'V',
+          /* Question « realiser » (reecrite le 2026-09-16). Elle demandait
+             d'appliquer U = RI dans le sens direct, ce que fait deja la moitie
+             des vingt-sept exercices du chapitre. Elle porte maintenant sur le
+             PROTOCOLE de mesure, troisieme attendu officiel du chapitre, qui
+             n'etait evalue que par la question 5.
+
+             Le cas est celui de l'erreur 4 de la fiche professeur : mesurer
+             une resistance sans isoler le composant. L'eleve doit choisir un
+             protocole, pas restituer une regle. */
+          statement: 'On veut mesurer la résistance d\'un résistor monté dans un circuit alimenté. Quel protocole est correct ?',
+          type: 'multiple-choice',
+          options: [
+            'Poser l\'ohmmètre aux bornes du résistor sans rien débrancher, le circuit restant alimenté.',
+            'Mesurer la tension $U$ à ses bornes (voltmètre en dérivation) et l\'intensité $I$ qui le traverse (ampèremètre en série), puis calculer $R=\\dfrac{U}{I}$.',
+            'Brancher l\'ohmmètre en série dans le circuit, comme un ampèremètre.',
+            'Mesurer la tension aux bornes du générateur et la diviser par la valeur inscrite sur le résistor.'
+          ],
+          answer: 1,
           points: 2,
-          correction: '$U=R\\times I=220\\times0{,}05=11$ V.'
+          correction: 'Un <strong>ohmmètre</strong> envoie son propre courant dans le composant : il ne peut donc travailler que <strong>hors tension</strong>, sur un résistor <strong>isolé</strong> du circuit. Les propositions 1 et 3 le branchent dans un circuit alimenté, ce qui donne une valeur fausse et peut endommager l\'appareil.<br/><br/>' +
+            'Quand on ne peut pas isoler le résistor, la bonne méthode est <strong>indirecte</strong> : on mesure $U$ et $I$ en fonctionnement, puis on calcule $R=\\dfrac{U}{I}$. La loi d\'Ohm devient alors un instrument de mesure, et c\'est ce que font la moitié des exercices de ce chapitre.<br/><br/>' +
+            'Les deux branchements ne s\'échangent jamais : <strong>voltmètre en dérivation</strong> aux bornes du dipôle, <strong>ampèremètre en série</strong> dans le circuit.'
         },
         {
           statement: 'La loi d\'Ohm pour un résistor s\'écrit :',

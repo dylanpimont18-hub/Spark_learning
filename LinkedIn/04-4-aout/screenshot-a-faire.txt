@@ -1,3 +1,0 @@
-Capture à faire : module Nombres complexes (BTS), lien avec l'impédance/déphasage.
-
-Une fois la capture prise, enregistre-la dans ce dossier sous le nom : screenshot.png

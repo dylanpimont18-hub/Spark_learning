@@ -145,7 +145,26 @@ window.MODULES.push({
 
         if (typeExo === 'neutrons') {
           var Z = rand(3, 30);
-          var N0 = rand(0, 20);
+          /* Le nombre de neutrons est tire EN FONCTION de Z, et non
+             independamment (correction du 2026-09-17).
+
+             Avant : `rand(0, 20)`, tire sans aucun lien avec Z. Le calcul
+             demande a l'eleve (N = A - Z) restait juste, mais les noyaux
+             obtenus n'existaient pas : sur le tirage de l'ouvrage
+             lycee-physique-2nde, 13 des 27 enonces donnaient MOINS de
+             neutrons que de protons — impossible au-dela de Z ~ 20 — et le
+             supplement 8 tirait Z = 25 avec A = 25, soit un noyau a ZERO
+             neutron. Un manuel ne peut pas demander de compter les neutrons
+             d'un noyau qui ne peut pas exister, d'autant que le cours, lui,
+             illustre la notion sur des noyaux reels (sodium 23, chlore 35
+             et 37).
+
+             Apres : N va de Z a Z + 8. C'est la regle de remplissage reelle —
+             N = Z pour les elements legers (carbone 12, azote 14, oxygene 16),
+             puis un exces de neutrons croissant (chlore 35 : Z = 17, N = 18).
+             Le geste evalue est rigoureusement le meme, seules les valeurs
+             changent. */
+          var N0 = rand(Z, Z + 8);
           var A = Z + N0;
           var contexte = pick([
             'lors d\'une séance de travaux pratiques de chimie',
@@ -233,13 +252,35 @@ window.MODULES.push({
           correction: 'Le numéro atomique $Z$ est le nombre de <strong>protons</strong> du noyau. C\'est lui qui définit l\'élément chimique.'
         },
         {
-          statement: 'Un atome neutre a pour numéro atomique $Z = 17$. Combien d\'électrons possède-t-il ?',
-          type: 'numeric',
-          answer: 17,
-          tolerance: 0,
-          unit: '',
+          /* Question « communiquer » (reecrite le 2026-09-17). Elle demandait
+             de recopier Z pour donner le nombre d'electrons d'un atome
+             neutre — une lecture directe, sans aucun calcul. La Q2 traite
+             deja ce que compte Z, la Q4 la repartition electronique et la Q5
+             l'electroneutralite des ions : la question etait redondante avec
+             trois autres du meme devoir.
+
+             Elle porte desormais sur l'INVERSION de A et de Z dans le symbole
+             ^A_Z X — l'erreur 1 de la fiche professeur, celle d'une
+             convention pure que rien dans la notation ne rappelle, et qui
+             produit un nombre de neutrons negatif.
+
+             Le calcul reste necessaire pour ecarter les distracteurs : il
+             faut effectuer N = A - Z = 45 - 19 = 26 pour verifier lequel des
+             deux ordres donne un decompte possible. Plus exigeante que la
+             question qu'elle remplace, pas moins. */
+          statement: 'Devant le symbole $^{45}_{19}K$, Yanis écrit : « le chiffre du haut est le nombre de protons, donc $Z = 45$ ; il reste $N = 19 - 45 = -26$ neutrons ».<br/><br/>Quelle explication corrige le mieux son raisonnement ?',
+          type: 'multiple-choice',
+          options: [
+            'Il a raison sur les positions, mais il a inversé la soustraction : le résultat correct est $N = 45 - 19 = 26$ neutrons.',
+            'Le <strong>résultat négatif</strong> est le signal de l\'erreur : un nombre de neutrons compte des particules réelles. C\'est $A = 45$ qui est en haut — il compte <strong>tous</strong> les nucléons — et $Z = 19$ en bas, qui compte les seuls protons ; d\'où $N = A - Z = 26$ neutrons.',
+            'Le symbole est mal écrit : le nombre de protons doit toujours figurer en haut, donc il faudrait lire $^{19}_{45}K$.',
+            'Un nombre de neutrons négatif est possible : il signifie simplement que le noyau est instable et se désintègre.'
+          ],
+          answer: 1,
           points: 2,
-          correction: 'Par électroneutralité, un atome neutre possède autant d\'électrons que de protons : $17$ électrons.'
+          correction: 'Yanis se trompe de convention, et sa copie le lui dit : il trouve $-26$ neutrons, or un décompte de particules ne peut <strong>jamais</strong> être négatif. Le test du signe suffit à rejeter la lecture avant toute correction, et c\'est ce qui écarte la proposition 4.<br/><br/>' +
+            'Plutôt que de mémoriser une position, il faut raisonner sur ce que chaque lettre <strong>compte</strong>. $Z$ compte les <strong>protons</strong> ; $A$ compte <strong>tous</strong> les nucléons, protons et neutrons réunis. Un total est toujours plus grand qu\'une de ses parties, donc $A \\geqslant Z$ toujours : le <strong>gros nombre est en haut</strong>. Ici $A = 45$ et $Z = 19$, d\'où $N = A - Z = 45 - 19 = 26$ neutrons — un potassium tout à fait ordinaire.<br/><br/>' +
+            'La proposition 1 est la plus tentante, parce qu\'elle arrive au bon résultat : $45 - 19$ fait bien $26$. Mais elle laisse intacte la lecture fausse du symbole ($Z = 45$ protons), qui ressortira au premier exercice sur la répartition électronique — un atome à $45$ électrons n\'est pas du potassium.'
         },
         {
           statement: 'Quelle est la répartition électronique correcte d\'un atome de numéro atomique $Z = 12$ ?',

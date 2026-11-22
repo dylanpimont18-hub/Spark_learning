@@ -302,13 +302,38 @@ window.MODULES.push({
           correction: 'Le son correspond à des compressions et détentes successives de l\'air, parallèles à la direction de propagation : c\'est une onde longitudinale.'
         },
         {
-          statement: 'Une onde progressive sinusoïdale a une longueur d\'onde $\\lambda=2{,}0$ m et une période $T=0{,}25$ s. Calculer sa célérité $v$ (en m/s).',
-          type: 'numeric',
-          answer: 8,
-          tolerance: 0.3,
-          unit: 'm/s',
+          /* Question « communiquer » (reecrite le 2026-09-17). Elle demandait
+             v = lambda/T, geste deja mobilise par la Q1 (retard tau = d/v) et
+             la Q3 (lambda = v/f) du meme devoir, et que les deux moules du
+             generateur — purement numeriques — repetent sur les vingt-quatre
+             enonces tires.
+
+             Elle porte desormais sur le NON-TRANSPORT DE MATIERE — l'erreur 1
+             de la fiche professeur, explicitement SANS renvoi parce qu'un
+             calcul de retard ne peut pas distinguer une onde d'un projectile :
+             tau = d/v s'ecrirait pareil pour une balle. L'erreur est donc
+             invisible aux exercices, qui fonctionnent tout aussi bien avec la
+             conception fausse.
+
+             La Q2 du meme devoir enonce le fait (le ruban oscille) ; celle-ci
+             demande de le mettre a l'epreuve d'un CALCUL, et le calcul reste
+             necessaire : il faut poser v = lambda/T = 2,0/0,25 = 8,0 m/s pour
+             constater que la celerite annoncee par l'eleve fictif est juste,
+             et que c'est l'INTERPRETATION de ce 8,0 m/s qui est fausse. Plus
+             exigeante que la question qu'elle remplace, pas moins. */
+          statement: 'Une onde progressive sinusoïdale parcourt une corde tendue de $12$ m, avec $\\lambda = 2{,}0$ m et $T = 0{,}25$ s. Hugo calcule sa célérité, puis conclut : « elle vaut $8{,}0$ m/s, donc le ruban noué au début de la corde met $1{,}5$ s à parcourir les $12$ m et arrive à l\'autre bout. »<br/><br/>Quelle explication corrige le mieux son raisonnement ?',
+          type: 'multiple-choice',
+          options: [
+            'Sa célérité est fausse : $v = \\lambda \\times T = 2{,}0\\times0{,}25 = 0{,}50$ m/s, et le ruban met donc $24$ s.',
+            'La célérité $v = \\dfrac{\\lambda}{T} = 8{,}0$ m/s est juste, mais c\'est la vitesse de la <strong>perturbation</strong>, pas celle de la matière : le ruban <strong>oscille sur place</strong> autour de sa position d\'équilibre et y revient. Une onde mécanique transporte de l\'énergie, jamais de la matière.',
+            'Le ruban arrive bien à l\'autre bout, mais plus tard : il faut ajouter le temps d\'une oscillation complète, soit $1{,}5 + 0{,}25 = 1{,}75$ s.',
+            'Le raisonnement est correct : puisque la corde se déforme de proche en proche, chaque point est entraîné vers l\'avant par le point qui le précède.'
+          ],
+          answer: 1,
           points: 2,
-          correction: '$v = \\dfrac{\\lambda}{T} = \\dfrac{2{,}0}{0{,}25} = 8$ m/s.'
+          correction: 'Le calcul d\'Hugo est <strong>exact</strong> : $v = \\dfrac{\\lambda}{T} = \\dfrac{2{,}0}{0{,}25} = 8{,}0$ m/s, et la perturbation met bien $\\dfrac{12}{8{,}0} = 1{,}5$ s à traverser la corde. On ne multiplie jamais $\\lambda$ par $T$ — c\'est ce qui écarte la proposition 1.<br/><br/>' +
+            'Ce qui est faux, c\'est <strong>ce qui</strong> parcourt les $12$ m. Ce n\'est pas le ruban : il monte et descend à sa place, puis revient exactement où il était. Ce qui se propage est une <strong>perturbation</strong> — une déformation — et l\'<strong>énergie</strong> qui l\'accompagne. L\'image de la vague dans un stade le dit d\'un mot : chaque spectateur se lève et se rassoit à son siège, et pourtant la vague fait le tour.<br/><br/>' +
+            'La proposition 4 est la plus tentante parce qu\'elle décrit fidèlement ce que l\'œil croit voir : l\'onde <em>avance</em>, donc quelque chose avance. C\'est un obstacle perceptif, pas un défaut d\'attention. Une conséquence suffit à le lever : si le son transportait l\'air, une simple conversation créerait un courant d\'air permanent.'
         }
       ]
     }

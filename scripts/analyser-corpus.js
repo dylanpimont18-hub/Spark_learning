@@ -273,7 +273,7 @@ function trouverLigne(lignes, texte, repli) {
 let chargerModuleExterne = null;
 let squeletteEnonce = null;
 try {
-  const extract = require('./manuel/extract.js');
+  const extract = require('./lib/extract.js');
   chargerModuleExterne = extract.chargerModule;
   squeletteEnonce = extract.squeletteEnonce;
 } catch (e) { /* main : pas de pipeline manuels, chargeur interne */ }

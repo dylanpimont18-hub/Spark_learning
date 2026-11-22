@@ -1,3 +1,0 @@
-Capture à faire : module Cinématique (si-1re), distinction vitesse/accélération.
-
-Une fois la capture prise, enregistre-la dans ce dossier sous le nom : screenshot.png

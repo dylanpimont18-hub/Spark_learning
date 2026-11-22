@@ -1,3 +1,0 @@
-Capture à faire : module Mécanique des solides (si-bts), une pièce en L avec son centre de gravité.
-
-Une fois la capture prise, enregistre-la dans ce dossier sous le nom : screenshot.png

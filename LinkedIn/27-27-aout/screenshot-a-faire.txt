@@ -1,3 +1,0 @@
-Capture à faire : module Dérivation appliquée (BTS), un exemple lié à un débit ou une température.
-
-Une fois la capture prise, enregistre-la dans ce dossier sous le nom : screenshot.png

@@ -252,13 +252,37 @@ window.MODULES.push({
           correction: 'Le suivi conductimétrique repère l\'équivalence à la rupture de pente de la courbe $\\sigma=f(V)$, sans aucun besoin de mesurer le pH ni d\'utiliser d\'indicateur coloré.'
         },
         {
-          statement: 'Une solution mère est diluée $5$ fois avant d\'être titrée ; le titrage de la solution diluée donne $C_{dil}=0{,}04$ mol/L. Calculer la concentration $C_A$ de la solution mère (en mol/L).',
-          type: 'numeric',
-          answer: 0.2,
-          tolerance: 0.01,
-          unit: 'mol/L',
+          /* Question « communiquer » (reecrite le 2026-09-17). Elle demandait
+             de multiplier par le facteur de dilution, geste deja mobilise par
+             la Q1 et la Q3 du meme devoir (qui appliquent toutes deux la
+             relation d'equivalence) et par les douze exercices numerotes du
+             chapitre, qui donnent tous V_eq tout fait.
+
+             Elle porte desormais sur la LECTURE de la courbe
+             conductimetrique — l'erreur 3 de la fiche professeur,
+             explicitement SANS renvoi parce qu'aucun des vingt-sept enonces
+             tires ne comporte de courbe ni de tableau de mesures : le geste
+             graphique, pourtant coeur du deuxieme attendu officiel, n'est
+             travaille nulle part.
+
+             Le calcul reste necessaire pour ecarter les distracteurs : il
+             faut appliquer C_A = C_B * V_eq / V_A sur les DEUX volumes
+             candidats (11,0 mL et 14,0 mL) pour voir que le choix du repere
+             graphique decide de la concentration annoncee. Plus exigeante que
+             la question qu'elle remplace, pas moins. */
+          statement: 'On titre $V_A = 20{,}0$ mL d\'un acide par une base à $C_B = 0{,}100$ mol/L (réaction $1{:}1$), en suivi conductimétrique. La conductivité passe par son point le plus bas à $V = 11{,}0$ mL, tandis que les deux droites tracées de part et d\'autre se coupent à $V = 14{,}0$ mL. Inès conclut : « la conductivité est minimale à $11{,}0$ mL, donc $V_{eq} = 11{,}0$ mL et $C_A = 0{,}0550$ mol/L. »<br/><br/>Quelle explication corrige le mieux son raisonnement ?',
+          type: 'multiple-choice',
+          options: [
+            'Elle a raison sur le repère, mais son calcul est faux : avec $V_{eq} = 11{,}0$ mL, on obtient $C_A = 0{,}182$ mol/L.',
+            'En conductimétrie, l\'équivalence se lit à la <strong>rupture de pente</strong>, c\'est-à-dire à l\'<strong>intersection des deux droites</strong> que l\'on trace soi-même : $V_{eq} = 14{,}0$ mL, donc $C_A = \\dfrac{0{,}100\\times14{,}0}{20{,}0} = 0{,}0700$ mol/L.',
+            'Les deux repères sont équivalents : on prend la moyenne, soit $V_{eq} = 12{,}5$ mL et $C_A = 0{,}0625$ mol/L.',
+            'Le minimum est le bon repère, car c\'est là que les ions de l\'acide ont tous été consommés et que la conductivité s\'annule.'
+          ],
+          answer: 1,
           points: 2,
-          correction: 'Dilution d\'un facteur $5$ ⟹ $C_A = 5\\times C_{dil} = 5\\times0{,}04 = 0{,}2$ mol/L.'
+          correction: 'Le calcul d\'Inès est <strong>correctement mené</strong> sur le volume qu\'elle a choisi : $\\dfrac{0{,}100\\times11{,}0}{20{,}0} = 0{,}0550$ mol/L, ce qui écarte la proposition 1. C\'est son <strong>repère graphique</strong> qui est faux, et il fausse tout le résultat : $0{,}0550$ au lieu de $0{,}0700$ mol/L, soit une erreur de plus de $20$ %.<br/><br/>' +
+            'Inès transpose une habitude légitime de pH-métrie, où l\'équivalence est bien un point remarquable <em>de la courbe elle-même</em>. En conductimétrie, le repère n\'est pas un point de la courbe : c\'est l\'<strong>intersection de deux droites</strong> que l\'on prolonge à la règle, et elle tombe très souvent là où aucune mesure n\'existe. Le changement de pente <strong>est</strong> l\'événement chimique — avant l\'équivalence on consomme des ions en en apportant d\'autres, après on ne fait qu\'ajouter des ions en excès.<br/><br/>' +
+            'La proposition 4 est la croyance qui accompagne l\'erreur : la conductivité <strong>ne s\'annule pas</strong> à l\'équivalence, et elle n\'est pas nécessairement minimale. Elle passe par un minimum dans certains titrages acide-base et pas dans d\'autres. Se fier au minimum, c\'est se fier à un accident de configuration ; se fier à la rupture de pente, c\'est se fier à la chimie.'
         }
       ]
     }

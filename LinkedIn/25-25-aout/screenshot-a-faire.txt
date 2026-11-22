@@ -1,3 +1,0 @@
-Capture à faire : module Thalès (3e), le triangle "démonté" à côté du dessin d'origine.
-
-Une fois la capture prise, enregistre-la dans ce dossier sous le nom : screenshot.png

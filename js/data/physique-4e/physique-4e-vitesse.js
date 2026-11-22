@@ -230,6 +230,13 @@ window.MODULES.push({
             tolerance: tol,
             unit: ctx.unite,
             hint: 'Utilise la formule $v = \\dfrac{d}{t}$ : divise la distance parcourue par la durée du parcours.',
+            /* Le trajet, cote avec les valeurs du tirage. La vitesse n'est pas
+               un nombre qui tombe d'une formule : c'est le rapport d'une
+               LONGUEUR a une DUREE, et les deux sont sur le dessin. */
+            figure: {
+              svg: figureTrajet(d, t, { uniteDistance: ctx.du, uniteDuree: ctx.tu }),
+              caption: 'Le trajet parcouru et sa durée : la vitesse moyenne est le rapport de la distance au temps.'
+            },
             solution: [
               'Formule de la vitesse moyenne : $v = \\dfrac{d}{t}$.',
               'Application numérique : $v = \\dfrac{' + d + '}{' + tTexte + '}$.',
@@ -253,6 +260,12 @@ window.MODULES.push({
             tolerance: tol2,
             unit: ctx2.du,
             hint: 'Utilise la relation $d = v \\times t$, déduite de $v = \\dfrac{d}{t}$.',
+            /* Meme frise, mais c'est la DISTANCE qui porte le point
+               d'interrogation : la figure ne donne jamais la reponse. */
+            figure: {
+              svg: figureTrajet(null, t2, { uniteDistance: ctx2.du, uniteDuree: ctx2.tu, v: v2 }),
+              caption: 'La durée et la vitesse sont connues ; la distance parcourue est la grandeur cherchée.'
+            },
             solution: [
               'Relation entre distance, vitesse et durée : $d = v \\times t$.',
               'Application numérique : $d = ' + fr(v2, 1) + ' \\times ' + t2Texte + '$.',
@@ -305,13 +318,29 @@ window.MODULES.push({
           correction: 'Le mouvement n\'a de sens que par rapport à un référentiel choisi : un même objet peut être immobile dans un référentiel et en mouvement dans un autre.'
         },
         {
-          statement: 'Une vitesse de $72$ km/h correspond à combien de m/s ?',
-          type: 'numeric',
-          answer: 20,
-          tolerance: 0.5,
-          unit: 'm/s',
+          /* Question « communiquer » (reecrite le 2026-09-16). Elle demandait
+             une conversion km/h vers m/s, soit une division par 3,6 : du
+             calcul pur, deja evalue par Q1 et Q4. Elle demande maintenant de
+             JUGER le raisonnement d'un eleve et de dire pourquoi il echoue —
+             produire une explication, non un nombre.
+
+             Le cas choisi est l'erreur 2 de la fiche professeur du chapitre
+             (unites melangees sans conversion), que la conversion seule
+             n'evaluait pas : un eleve peut savoir diviser par 3,6 et
+             continuer a diviser des kilometres par des minutes. */
+          statement: 'Pour calculer la vitesse moyenne d\'une voiture qui parcourt $30$ km en $45$ min, Hugo écrit : « $v = \\dfrac{d}{t} = \\dfrac{30}{45} \\approx 0{,}67$, donc la voiture roule à $0{,}67$ km/h. » Quelle explication corrige le mieux son raisonnement ?',
+          type: 'multiple-choice',
+          options: [
+            'Sa division est inversée : il aurait fallu calculer $\\dfrac{45}{30} = 1{,}5$ km/h.',
+            'Sa formule est la bonne, mais il divise des kilomètres par des <strong>minutes</strong> : son résultat est en km/min, pas en km/h. En convertissant d\'abord la durée ($45$ min $= 0{,}75$ h), on trouve $\\dfrac{30}{0{,}75} = 40$ km/h.',
+            'Il aurait dû multiplier au lieu de diviser : $30 \\times 45 = 1\\,350$ km/h.',
+            'Son calcul est juste : une voiture qui roule lentement en ville peut effectivement être à $0{,}67$ km/h.'
+          ],
+          answer: 1,
           points: 2,
-          correction: '$v = \\dfrac{72}{3{,}6} = 20$ m/s.'
+          correction: 'La formule d\'Hugo est correcte et sa division est dans le bon sens : il divise bien la distance par la durée.<br/><br/>' +
+            'Ce qui ne va pas, ce sont les <strong>unités</strong>. Il divise des kilomètres par des minutes, donc son résultat s\'exprime en km/min — et non en km/h comme il l\'annonce. Il faut convertir la durée <strong>avant</strong> de calculer : $45$ min $= \\dfrac{45}{60} = 0{,}75$ h, puis $v = \\dfrac{30}{0{,}75} = 40$ km/h.<br/><br/>' +
+            'La proposition 4 se réfute par l\'ordre de grandeur : $0{,}67$ km/h, c\'est moins que la vitesse d\'un piéton, qui marche à environ $5$ km/h. Un résultat qu\'on peut juger absurde doit faire relire le calcul.'
         },
         {
           statement: 'Un cycliste roule à vitesse moyenne constante $v = 18$ km/h pendant $t = 0{,}5$ h. Calculer la distance parcourue (en km).',

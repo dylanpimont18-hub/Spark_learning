@@ -1,3 +1,0 @@
-Capture à faire : module Identités remarquables (3e), la vérification numérique a=2, b=3.
-
-Une fois la capture prise, enregistre-la dans ce dossier sous le nom : screenshot.png

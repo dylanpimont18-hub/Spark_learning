@@ -1,3 +1,0 @@
-Capture à faire : module Électrotechnique (si-bts), schéma des trois sinusoïdes déphasées.
-
-Une fois la capture prise, enregistre-la dans ce dossier sous le nom : screenshot.png

@@ -230,13 +230,39 @@ window.MODULES.push({
           correction: 'La force de gravitation est constamment dirigée vers le centre de la trajectoire : c\'est une force centripète, qui provoque le changement continuel de direction de la vitesse sans jamais modifier sa norme sur une orbite circulaire.'
         },
         {
-          statement: 'Un satellite orbite à $r=8{,}0\\times10^6$ m du centre de la Terre ($GM_{Terre}\\approx3{,}98\\times10^{14}$ m³/s²). Calculer sa période de révolution $T$ (en minutes, arrondie à l\'unité).',
-          type: 'numeric',
-          answer: 119,
-          tolerance: 2,
-          unit: 'min',
+          /* Question « communiquer » (reecrite le 2026-09-17). Elle demandait
+             T = 2*pi*racine(r^3/GM) pour UN satellite, exactement le meme
+             geste que la Q1 (vitesse par v = racine(GM/r)) sur les memes
+             donnees, et que la Q5 traite deja par les rapports de Kepler.
+             Trois questions sur cinq appliquaient la meme formule au meme
+             satellite.
+
+             Elle porte desormais sur l'erreur 4 de la fiche professeur,
+             « appliquer la troisieme loi de Kepler comme une proportionnalite
+             simple » — explicitement SANS renvoi parce que les trente enonces
+             tires donnent TOUS une altitude unique et ne mettent jamais deux
+             orbites en relation : la troisieme loi, deuxieme attendu officiel
+             du chapitre, n'est travaillee par aucun exercice.
+
+             Le rapport choisi (3, et non 4 comme en Q5) evite de dupliquer la
+             derniere question du devoir. Le calcul reste necessaire pour
+             ecarter les distracteurs : il faut cuber le rapport des rayons,
+             en prendre la racine carree (3^1,5 environ 5,196) et encadrer le
+             resultat entre les deux erreurs classiques. Plus exigeante que la
+             question qu'elle remplace, pas moins. */
+          statement: 'Deux satellites tournent autour de la Terre. Le premier orbite à $r_1 = 8\\,000$ km du centre avec une période $T_1 = 2{,}0$ h ; le second à $r_2 = 24\\,000$ km. Rayan annonce : « le second est trois fois plus loin, sa période vaut donc trois fois plus, soit $6{,}0$ h. »<br/><br/>Quelle explication corrige le mieux son raisonnement ?',
+          type: 'multiple-choice',
+          options: [
+            'Il a oublié le carré de la troisième loi de Kepler : $T_2 = T_1 \\times 3^2 = 18$ h.',
+            'La troisième loi n\'est <strong>pas une proportionnalité</strong> : $\\dfrac{T_2^2}{T_1^2} = \\dfrac{r_2^3}{r_1^3} = 3^3 = 27$, donc $T_2 = T_1\\sqrt{27} = 2{,}0 \\times 5{,}2 \\approx 10{,}4$ h. Puisque $T$ croît plus vite que $r$, le rapport des périodes doit être <strong>supérieur</strong> à $3$.',
+            'Son raisonnement est correct : la troisième loi de Kepler dit précisément que la période est proportionnelle au rayon de l\'orbite.',
+            'La période ne dépend pas du rayon mais de la masse du satellite : l\'énoncé est incomplet.'
+          ],
+          answer: 1,
           points: 2,
-          correction: '$T=2\\pi\\sqrt{\\dfrac{r^3}{GM_{Terre}}}=2\\pi\\sqrt{\\dfrac{(8{,}0\\times10^6)^3}{3{,}98\\times10^{14}}}\\approx7\\,126$ s $\\approx119$ min.'
+          correction: 'La troisième loi s\'écrit $\\dfrac{T^2}{r^3} = $ constante, et elle fait donc intervenir <strong>deux exposants différents</strong>. Sous forme de rapport, elle évite toute puissance fractionnaire : $\\dfrac{T_2^2}{T_1^2} = \\dfrac{r_2^3}{r_1^3} = 3^3 = 27$, d\'où $T_2 = 2{,}0 \\times \\sqrt{27} \\approx 2{,}0 \\times 5{,}2 \\approx 10{,}4$ h. Trois opérations : rapport des rayons, cube, racine carrée.<br/><br/>' +
+            'Rayan retombe sur le seul modèle qu\'il maîtrise vraiment, la proportionnalité directe — le réflexe le plus solide de toute sa scolarité. L\'<strong>encadrement préalable</strong> le protège sans rien calculer : comme $T \\propto r^{3/2}$ et que $3/2 > 1$, un rapport de rayons de $3$ doit donner un rapport de périodes <strong>supérieur à $3$</strong> et <strong>inférieur à $9$</strong>. Les $6{,}0$ h de Rayan sont trop petites, les $18$ h de la proposition 1 (qui confond le carré et la puissance $3/2$) trop grandes.<br/><br/>' +
+            'La proposition 4 se trompe d\'objet : la masse du satellite n\'intervient jamais, ni dans la vitesse ni dans la période. Un contrôle sur un cas réel achève d\'installer la loi : Mars est environ $1{,}5$ fois plus loin du Soleil que la Terre, et son année dure environ $1{,}9$ an — soit très exactement $1{,}5^{1{,}5}$.'
         },
         {
           statement: 'La vitesse orbitale d\'un satellite en orbite circulaire dépend de :',
