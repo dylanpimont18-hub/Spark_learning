@@ -13,7 +13,8 @@ const Storage = {
     STREAK:     'sparkStreak',
     FLASHCARDS: 'sparkFlashcards',
     MODULE_STATUS: 'sparkModuleStatus',
-    CONSENT: 'sparkConsent'
+    CONSENT: 'sparkConsent',
+    BTS_FED_SEEN: 'sparkBtsFedSeen'
   },
 
   /* ── Helpers internes ── */
@@ -23,6 +24,16 @@ const Storage = {
   },
   _set(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
+  },
+
+  /* ══════════════════════════════════════
+     BTS FED : vidéos vues ({ idVidéo: horodatage }), voir js/views/btsFed.js
+  ══════════════════════════════════════ */
+  getBtsFedSeen() { return this._get(this.KEYS.BTS_FED_SEEN, {}); },
+  setBtsFedSeen(videoId, seen) {
+    const all = this.getBtsFedSeen();
+    if (seen) all[videoId] = Date.now(); else delete all[videoId];
+    this._set(this.KEYS.BTS_FED_SEEN, all);
   },
 
   /* ══════════════════════════════════════

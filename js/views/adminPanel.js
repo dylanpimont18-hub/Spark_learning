@@ -87,6 +87,10 @@ var AdminPanel = {
             '<span>Mode maintenance (site en pause)</span>' +
             '<input type="checkbox" id="ap-maintenance"' + (settings.maintenanceMode ? ' checked' : '') + ' />' +
           '</label>' +
+          '<label class="ap-toggle-row">' +
+            '<span>Page BTS FED ouverte au public (décochée : page en maintenance, visible des seuls admins)</span>' +
+            '<input type="checkbox" id="ap-btsfed-open"' + (settings.btsFedOpen ? ' checked' : '') + ' />' +
+          '</label>' +
           '<div class="ap-settings-save-row">' +
             '<button class="ap-save-btn" onclick="AdminPanel._saveSettings()">Enregistrer</button>' +
           '</div>' +
@@ -134,13 +138,17 @@ var AdminPanel = {
 
   _saveSettings: async function() {
     var maintenance   = document.getElementById('ap-maintenance');
+    var btsFedOpen    = document.getElementById('ap-btsfed-open');
     if (!maintenance) return;
     var data = {
-      maintenanceMode: maintenance.checked
+      maintenanceMode: maintenance.checked,
+      btsFedOpen: !!(btsFedOpen && btsFedOpen.checked)
     };
     try {
       await AuthService.savePlatformSettings(data);
       await AuthService.logAdminAction('settings_saved', null, JSON.stringify(data));
+      // Réglages lus par la page BTS FED (js/views/btsFed.js) : effet immédiat pour l'admin.
+      window.__sparkPlatformSettings = Object.assign({}, window.__sparkPlatformSettings, data);
       showToast('Paramètres enregistrés.', 'success');
     } catch(e) {
       showToast('Erreur lors de l\'enregistrement.', 'error');

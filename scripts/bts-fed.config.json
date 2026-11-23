@@ -1,0 +1,20 @@
+{
+  "presentation": "TD0-decouvrir-escale",
+  "fichiersComplementaires": {
+    "td4": [
+      "projets/td-revit/revit2026/ressources/Normes_CVC.rvt",
+      "projets/td-revit/revit2026/ressources/familles/TD_Bouche extraction D125.rfa",
+      "projets/td-revit/revit2026/ressources/familles/TD_Bouche soufflage D160.rfa",
+      "projets/td-revit/revit2026/ressources/familles/TD_CTA double flux.rfa"
+    ]
+  },
+  "disponibleLe": {},
+  "modulesLies": {
+    "td1": ["fed-bts-a2-1-genie-civil"],
+    "td2": ["fed-bts-a2-3-bilan-thermique", "fed-bts-a1-2-hygrothermie", "fed-bts-a7-acoustique", "fed-bts-a2-1-genie-civil"],
+    "td3": ["fed-bts-a2-1-genie-civil", "fed-bts-b2-3-desenfumage"],
+    "td4": ["fed-bts-b2-1-ventilation", "fed-bts-b4-2-reseaux-aerauliques", "fed-bts-a3-dynamique-fluides"],
+    "td5": ["fed-bts-b4-2-reseaux-aerauliques", "fed-bts-b2-3-desenfumage"],
+    "td6": ["fed-bts-a2-3-bilan-thermique", "fed-bts-b2-1-ventilation", "fed-bts-b1-2-emission-chauffage", "fed-bts-a2-4-dju"]
+  }
+}

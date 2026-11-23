@@ -147,7 +147,7 @@ function _markRouteReady(view) {
   if (DATA_DEPENDENT_VIEWS.includes(view) && !window.__sparkCatalogReady) return;
   // Données BTS FED absentes (chargement échoué) : la page affichée n'est qu'un message
   // d'indisponibilité, le pré-rendu ne doit pas la publier.
-  if (view === 'btsfed' && !window.BTS_FED && !BTS_FED_MAINTENANCE) return;
+  if (view === 'btsfed' && !window.BTS_FED && !isBtsFedClosedForViewer()) return;
   window.__sparkRouteReady = true;
 }
 
@@ -235,8 +235,16 @@ function navigate(view, data = {}, options = {}) {
   } else if (view === 'btsfed') {
     // Échec de chargement absorbé : la vue affiche alors un message d'indisponibilité
     // (et _markRouteReady() retient le signal de pré-rendu), au lieu d'un chargement sans fin.
-    if (!BTS_FED_MAINTENANCE && !window.BTS_FED && typeof ensureBtsFedData === 'function') {
-      loadPromise = ensureBtsFedData().catch(() => {});
+    // Page fermée au public (réglage admin) : rien à charger, la vue affiche la maintenance.
+    // Un admin la voit quand même : on charge alors aussi les réglages (le chemin admin de
+    // l'init ne passe pas par _checkMaintenance(), qui les mémorise pour les autres).
+    if (!isBtsFedClosedForViewer()) {
+      const loads = [];
+      if (!window.BTS_FED && typeof ensureBtsFedData === 'function') loads.push(ensureBtsFedData().catch(() => {}));
+      if (isBtsFedAdmin() && !window.__sparkPlatformSettings) {
+        loads.push(AuthService.getPlatformSettings().then(s => { window.__sparkPlatformSettings = s; }).catch(() => {}));
+      }
+      if (loads.length) loadPromise = Promise.all(loads);
     }
   }
 
@@ -416,7 +424,7 @@ function updatePageMeta() {
       description = 'Contactez Spark Learning : question pédagogique, signalement d\'erreur, proposition commerciale, partenariat ou presse.';
       break;
     case 'btsfed': {
-      if (BTS_FED_MAINTENANCE) {
+      if (isBtsFedClosedForViewer()) {
         title = `Page en maintenance — ${BTS_FED_SUFFIX} — ${base}`;
         description = 'Les TD Revit et ArchiWIZARD du BTS FED sont en maintenance et reviennent très bientôt.';
         break;
@@ -444,7 +452,7 @@ function updatePageMeta() {
 
   const url = SITE_BASE_URL + buildPath(state.view, state);
   const noindex = NOINDEX_VIEWS.includes(state.view) ||
-    (state.view === 'btsfed' && BTS_FED_MAINTENANCE) ||
+    (state.view === 'btsfed' && isBtsFedClosedForViewer()) ||
     (state.view === 'btsfed' && !!state.btsTd && !!window.BTS_FED && !getBtsFedTd(state.btsTd));
 
   _setMetaTag('name', 'description', description);
@@ -496,7 +504,7 @@ function render() {
     case 'admin':      AdminPanel.render(); return;
     case 'confidentialite': app.innerHTML = renderConfidentialite(); break;
     case 'contact':    app.innerHTML = renderContact(); break;
-    case 'btsfed':     app.innerHTML = BTS_FED_MAINTENANCE ? renderBtsFedMaintenance() : (state.btsTd ? renderBtsFedTd(state.btsTd) : renderBtsFedHome()); break;
+    case 'btsfed':     app.innerHTML = state.btsTd ? renderBtsFedTd(state.btsTd) : renderBtsFedHome(); break;
     case 'connexion':  if (AuthGuard.isAuthenticated()) { navigate('home'); } else { AuthView.render(true); } return;
     default:           app.innerHTML = renderHome();
   }
@@ -846,6 +854,8 @@ function _watchAnnouncement() {
 async function _checkMaintenance() {
   try {
     var platformSettings = await AuthService.getPlatformSettings();
+    // Mémorisés pour les réglages lus ailleurs (ouverture de la page BTS FED, js/views/btsFed.js).
+    window.__sparkPlatformSettings = platformSettings;
     if (platformSettings && platformSettings.maintenanceMode) {
       document.getElementById('app').innerHTML =
         '<div class="maintenance-page">' +

@@ -31,7 +31,13 @@ git push
 - **Vidéo avec voix prête** : la déposer sous `<id>-AVEC-VOIX.mp4` dans le dossier de la vidéo, puis relancer la commande. Elle remplace la version muette sous le même nom public ; le bandeau « Vidéos sans voix » disparaît de lui-même quand plus aucune vidéo du TD n'est muette (niveau sonore mesuré par ffmpeg).
 - **Nouveau TD** : ajouter son numéro à `TD_NUMBERS` en tête du script ; dossiers `TD{n}-NN-...` et PDF sont détectés seuls, le sitemap suit.
 - Outils requis dans le PATH : `ffprobe`, `ffmpeg`, `pdftotext`. Aucun fichier au-delà de 50 Mio (limite GitHub ; pas de Git LFS, que Firebase ne sait pas lire).
-- **Mettre la page en maintenance / la rouvrir** : `const BTS_FED_MAINTENANCE = true|false;` en tête de `js/views/btsFed.js`, incrémenter `?v=N` dans `index.html`, puis commit et push (le panneau admin ne gère que les modules du catalogue).
+- **Ouvrir ou fermer la page au public** : panneau admin (`/connexion`), rubrique Paramètres, case « Page BTS FED ouverte au public », puis Enregistrer. Effet immédiat, sans déploiement. Fermée par défaut : tant que la case n'a jamais été cochée, les étudiants voient « Page en maintenance » ; un admin connecté voit toujours la page, avec un bandeau.
+- **Réglages** dans [`scripts/bts-fed.config.json`](scripts/bts-fed.config.json), puis relancer le script :
+  - `presentation` : dossier vidéo du film de présentation, affiché en tête du sommaire ;
+  - `fichiersComplementaires` : fichiers à télécharger en plus de la maquette (ex. TD4 : `Normes_CVC.rvt` et les familles `TD_*.rfa`), chemins relatifs au dossier `BTS FED` ;
+  - `disponibleLe` : date de mise en ligne du corrigé, des vidéos et des valeurs de contrôle, par TD, ex. `{ "td3": "2026-12-04" }`. Avant la date, la page n'affiche que l'énoncé et la maquette. Le dépôt GitHub étant **public**, les fichiers y restent téléchargeables : la date masque, elle ne protège pas ;
+  - `modulesLies` : modules S8 du catalogue proposés en « Revoir les notions » (identifiants `fed-bts-…`).
+- **Statistiques** (Google Analytics, visiteurs ayant accepté les cookies) : événements `video_start`, `video_complete` (90 % regardés), `bts_download`, `bts_print_memo`, avec `video_id` / `td` / `file_name`. Dans GA4 : Rapports › Engagement › Événements.
 - Dossier source ailleurs : `--source "chemin\BTS FED"`. Simulation sans copie : `--dry-run`.
 
 ## Où trouver quoi

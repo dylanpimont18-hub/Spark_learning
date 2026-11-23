@@ -17,7 +17,8 @@ Ce fichier est la **source de vérité** pour la structure de fichiers du projet
 | scripts/check-decimal-notation.js | Détecte les régressions de notation décimale française dans `js/data/` — à relancer après modification d'un `exercice.generate()` |
 | scripts/analyser-corpus.js | Mesure le corpus maths (112 modules) : 60 tirages de `generate()` par module, complétude du cours, quiz, évaluation, alignement cours ↔ questions, langue ; écrit `docs/analyse-corpus-maths-<date>.csv` + `.md` avec un score de priorisation /100 — à relancer après un lot de corrections de contenu |
 | scripts/build-bts-fed.js | Publie les TD BTS FED (L'Escale) : copie vidéos/PDF/maquettes du dossier d'enseignement vers `media/bts-fed/`, écrit `js/data/bts-fed.js` — à relancer pour ajouter un TD ou remplacer une vidéo |
-| media/bts-fed/ | Fichiers servis tels quels (videos/, td/, depart/) ; jamais réécrits par le rewrite SPA (404 si absents), cache navigateur 7 jours (`firebase.json`) |
+| scripts/bts-fed.config.json | Réglages de la page BTS FED : film de présentation, fichiers complémentaires, dates de mise en ligne des corrigés, modules liés |
+| media/bts-fed/ | Fichiers servis tels quels (videos/, td/, depart/, complements/, posters/) ; jamais réécrits par le rewrite SPA (404 si absents), cache navigateur 7 jours (`firebase.json`) |
 | scripts/lib/ | Chargeur de modules hors navigateur (extract, schema, corpus) utilisé par `check-decimal-notation.js` et `analyser-corpus.js` |
 
 ## Interface & Style

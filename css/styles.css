@@ -4657,3 +4657,138 @@ main { flex: 1; }
   .bts-pager { grid-template-columns: 1fr 1fr; }
   .bts-pager-home { grid-column: 1 / -1; grid-row: 2; }
 }
+
+/* ── BTS FED : présentation, chapitres, vues, contrôles, notions, compléments ── */
+.bts-presentation { margin-bottom: var(--space-2xl); }
+
+.bts-video-side { display: inline-flex; align-items: center; gap: var(--space-md); }
+
+.bts-seen {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.bts-seen input { width: 18px; height: 18px; accent-color: var(--success); cursor: pointer; }
+.bts-video.is-seen { border-color: color-mix(in srgb, var(--success) 45%, var(--border)); }
+.bts-video.is-seen .bts-video-num { color: var(--on-success); background: var(--success); }
+
+.bts-td-card.is-complete { border-left-color: var(--success); }
+.bts-td-progress {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--success);
+}
+
+.bts-chapters { margin-top: var(--space-sm); }
+.bts-chapters summary {
+  cursor: pointer;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+.bts-chapters ol { list-style: none; margin: var(--space-xs) 0 0; padding: 0; display: grid; gap: 2px; }
+.bts-chapter {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-sm);
+  width: 100%;
+  min-height: 32px;
+  padding: 4px var(--space-sm);
+  border-radius: 8px;
+  text-align: left;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+.bts-chapter:hover,
+.bts-chapter:focus-visible { background: color-mix(in srgb, var(--primary) 8%, transparent); }
+.bts-chapter-time {
+  flex: 0 0 auto;
+  min-width: 3.2em;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--fed);
+}
+
+.bts-banner-admin {
+  margin-top: var(--space-md);
+  border-left-color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 8%, transparent);
+}
+
+.bts-empty { color: var(--text-muted); max-width: 760px; }
+.bts-inline-link { color: var(--primary); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+
+.bts-controls {
+  padding: var(--space-md) var(--space-lg);
+  margin-bottom: var(--space-xl);
+  border-left: 4px solid var(--success);
+}
+.bts-controls-title { font-size: 1.05rem; margin: 0 0 var(--space-sm); }
+.bts-controls ul { margin: 0; padding-left: 1.25rem; }
+.bts-controls li { margin-bottom: var(--space-xs); line-height: 1.55; }
+.bts-controls .bts-inline-link { font-size: 0.85rem; white-space: nowrap; }
+
+.bts-complements { margin: calc(-1 * var(--space-md)) 0 var(--space-xl); }
+.bts-complements-title { margin: 0 0 var(--space-xs); font-size: 0.9rem; color: var(--text-muted); }
+.bts-complements-list { display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-md); }
+.bts-complement {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+.bts-complement:hover { text-decoration: underline; }
+
+.bts-videos-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.bts-modules { margin-top: var(--space-2xl); }
+.bts-modules-list { display: flex; flex-wrap: wrap; gap: var(--space-md); }
+.bts-module-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: var(--space-sm) var(--space-md);
+  font-weight: 600;
+  color: var(--primary);
+}
+.bts-module-link:hover { box-shadow: var(--shadow); }
+
+/* Mémo imprimable (btsPrintMemo) : seul #bts-print-memo s'imprime, en noir sur blanc. */
+#bts-print-memo { display: none; }
+@media print {
+  body.bts-printing > *:not(#bts-print-memo) { display: none !important; }
+  body.bts-printing { background: #fff; }
+  body.bts-printing #bts-print-memo {
+    display: block;
+    color: #000;
+    font-family: 'Inter', sans-serif;
+    font-size: 9.5pt;
+    line-height: 1.35;
+  }
+  #bts-print-memo h1 { font-size: 15pt; margin: 0 0 2pt; color: #000; }
+  #bts-print-memo .memo-sub { margin: 0 0 8pt; font-size: 8.5pt; color: #444; }
+  #bts-print-memo h2 { font-size: 11pt; margin: 6pt 0 2pt; color: #000; }
+  #bts-print-memo h3 { font-size: 10pt; margin: 0 0 2pt; color: #000; }
+  #bts-print-memo ul { margin: 0 0 4pt; padding-left: 12pt; }
+  #bts-print-memo li { margin-bottom: 1pt; }
+  #bts-print-memo .memo-cols { column-count: 2; column-gap: 14pt; }
+  #bts-print-memo section { break-inside: avoid; margin-bottom: 6pt; }
+  #bts-print-memo .memo-pieges { margin: 2pt 0 0; font-weight: 700; font-size: 8.5pt; text-transform: uppercase; }
+  @page { margin: 12mm; }
+}

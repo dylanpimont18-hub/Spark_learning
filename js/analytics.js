@@ -43,3 +43,14 @@ function trackPageView() {
 		page_location: window.location.href
 	});
 }
+
+// Événement personnalisé (ex. lecture d'une vidéo BTS FED, téléchargement) : mêmes
+// garde-fous que trackPageView(), rien n'est envoyé sans consentement.
+function trackEvent(name, params) {
+	if (typeof ANALYTICS_ENABLED === 'undefined' || !ANALYTICS_ENABLED || !GA_MEASUREMENT_ID) return;
+	if (typeof Consent === 'undefined' || !Consent.hasAdConsent()) return;
+
+	loadAnalytics();
+	if (typeof window.gtag !== 'function') return;
+	window.gtag('event', name, params || {});
+}

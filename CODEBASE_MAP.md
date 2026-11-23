@@ -34,14 +34,14 @@ Autorise l'indexation complète sauf les vues privées/éphémères (admin) ; r�
 ## firebase.json
 Config Firebase Hosting (`public: "."`).
 - Rewrite SPA en `regex` RE2 : tout vers `/index.html` **sauf** `/media/…` (RE2 n'a pas de lookahead, d'où les alternatives `[^m]|m[^e]|…`) — un média absent renvoie une vraie 404, pas l'accueil
-- En-têtes `/media/**` : `Cache-Control: public, max-age=604800` ; `.rvt` : `application/octet-stream` + `Content-Disposition: attachment`
+- En-têtes `/media/**` : `Cache-Control: public, max-age=604800` ; `.rvt` / `.rfa` : `application/octet-stream` + `Content-Disposition: attachment`
 - Piège Windows : l'émulateur (superstatic → `glob-slash`) normalise `/bts-fed` en `\bts-fed` sous Windows, donc aucune règle ancrée sur `/` ne s'y applique (même le `**` d'origine sur les routes profondes) ; tester avec un superstatic forcé en `path.posix`, la prod (Linux) n'est pas concernée
 
 ## 404.html
 Page servie par Firebase quand aucun fichier ni rewrite ne correspond, donc désormais seulement pour `/media/…` absent. Hérité de GitHub Pages (redirection `spa-github-pages`) : la redirection JS est désactivée sous `/media/`, qui affiche « Fichier introuvable ».
 
 ## media/bts-fed/
-Médias de la page BTS FED, **copiés** par `scripts/build-bts-fed.js` (jamais à la main) : `videos/<id>.mp4` (45), `td/TD{n}-*-etudiant|corrige.pdf` (14), `depart/TD{n}_depart.rvt` (5) — ~208 Mio, aucun fichier > 50 Mio (pas de Git LFS : Firebase ne lit pas les pointeurs LFS). Référencés avec `?v=<sha1 court>` pour qu'un remplacement (vidéo voisée) contourne le cache de 7 jours.
+Médias de la page BTS FED, **copiés** par `scripts/build-bts-fed.js` (jamais à la main) : `videos/<id>.mp4` (45), `td/TD{n}-*-etudiant|corrige.pdf` (14), `depart/TD{n}_depart.rvt` (5), `complements/` (TD4 : `Normes_CVC.rvt` + 3 familles `.rfa`), `posters/<id>.jpg` (vignettes produites par ffmpeg) — ~228 Mio, aucun fichier > 50 Mio (pas de Git LFS : Firebase ne lit pas les pointeurs LFS). Référencés avec `?v=<sha1 court>` pour qu'un remplacement (vidéo voisée) contourne le cache de 7 jours.
 
 ## sitemap.xml
 Généré, jamais édité à la main — voir `scripts/generate-sitemap.js`.
@@ -60,7 +60,7 @@ Pré-rend en HTML statique chaque URL de `sitemap.xml` via Puppeteer headless, p
 - `parseArgs(argv)` — lève sur un argument inconnu (une faute de frappe comme `--baseurl` ferait sinon crawler la production par défaut)
 - `parseSitemapXml(xml)` — extrait les chemins de route des balises `<loc>`, indépendamment du host (utile pour tester contre un serveur local)
 - `routeClass(routePath)` — classe de route déduite du 1er segment (`/`, `/subjects`, `/confidentialite`, `/levels/*`, `/modules/*`, `/module/*`) pour le bilan par classe et la règle stricte ; `/bts-fed` et `/bts-fed/tdN` forment une seule classe `/bts-fed`, à **tolérance zéro** (données locales, un échec = vraie panne)
-- `renderRoute(page, url, routePath)` — attend le flag `window.__sparkRouteReady` (mis par `_markRouteReady()` dans `js/app.js` une fois `render()`+`updatePageMeta()` exécutés pour la route courante **avec ses données**) **plus** `#app.innerText.length > 50`, au lieu d'un simple seuil de longueur : un seuil est satisfait par n'importe quel contenu déjà présent dans le HTML servi (observé en local contre `scripts/tmp-static-server.js`, qui servait les restes d'un run précédent) et ne prouve donc pas que *cette* route ait été rendue. Un attribut DOM ne conviendrait pas non plus : il serait sérialisé dans le HTML capturé et referait remonter le même faux-positif au run suivant. Si le signal n'arrive pas avant `CONTENT_WAIT_TIMEOUT_MS` : échec dur (throw) sur les routes à tolérance zéro, simple `console.warn` puis capture sur les routes `/module/*` — sans quoi une home au catalogue vide serait publiée telle quelle dans le `index.html` racine, qui sert de repli à tout le site. Assainit ensuite le DOM avant sérialisation : retire les `<script src="js/data/…">` injectés à l'exécution dans `<head>` par `_loadScript()` (sinon ils s'exécuteraient avant `js/data/helpers.js`, script de `<body>` qui crée `window.MODULES`, → `TypeError` sur chaque page pré-rendue) et le chrome d'UI éphémère (`#consent-banner`, `.toast`, `.confetti-container`, `.celebration-*`)
+- `renderRoute(page, url, routePath)` — attend le flag `window.__sparkRouteReady` (mis par `_markRouteReady()` dans `js/app.js` une fois `render()`+`updatePageMeta()` exécutés pour la route courante **avec ses données**) **plus** `#app.innerText.length > 50`, au lieu d'un simple seuil de longueur : un seuil est satisfait par n'importe quel contenu déjà présent dans le HTML servi (observé en local contre `scripts/tmp-static-server.js`, qui servait les restes d'un run précédent) et ne prouve donc pas que *cette* route ait été rendue. Un attribut DOM ne conviendrait pas non plus : il serait sérialisé dans le HTML capturé et referait remonter le même faux-positif au run suivant. Si le signal n'arrive pas avant `CONTENT_WAIT_TIMEOUT_MS` : échec dur (throw) sur les routes à tolérance zéro, simple `console.warn` puis capture sur les routes `/module/*` — sans quoi une home au catalogue vide serait publiée telle quelle dans le `index.html` racine, qui sert de repli à tout le site. Assainit ensuite le DOM avant sérialisation : retire les `<script src="js/data/…">` injectés à l'exécution dans `<head>` par `_loadScript()` (sinon ils s'exécuteraient avant `js/data/helpers.js`, script de `<body>` qui crée `window.MODULES`, → `TypeError` sur chaque page pré-rendue) et le chrome d'UI éphémère (`#consent-banner`, `.toast`, `.confetti-container`, `.celebration-*`) ; nettoyage et sérialisation dans **un seul** `page.evaluate()` depuis le 2026-11-23 : en deux appels, le préchargement différé du catalogue (`requestIdleCallback`) réinjectait ses 248 scripts entre les deux (constaté sur `/bts-fed/td6`, route au rendu instantané)
 - `isZeroToleranceClass(cls)` — vrai pour toute classe hors `/module/*` (les 12 routes à forte valeur) ; sert à la fois au throw de `renderRoute()` et à la règle stricte de `main()`
 - `isValidRender(result, routePath)` — rejette un rendu si `appTextLength < MIN_APP_TEXT_LENGTH` ou si le `<title>` reste générique ("Spark Learning", doublon de `base` dans `updatePageMeta()`) sur une route non-home
 - `outputFileForRoute(routePath)` — la route `/` écrit dans `index.html` à la racine (fichier **suivi par git** : `main()` affiche un avertissement bruyant avec la commande de restauration) ; les autres routes écrivent dans `chemin/index.html` (dossiers gitignorés, régénérés à chaque run)
@@ -128,7 +128,7 @@ Routeur SPA (pushState), init, KaTeX, confetti.
 Lazy loading des fichiers de données par niveau/matière.
 - `DATA_FILES` — map `'matière-niveau' → [chemins fichiers]`
 - `ensureLevelData(subject, level)` — charge dynamiquement les scripts d'un niveau
-- `ensureBtsFedData()` — charge `js/data/bts-fed.js` une fois (promesse mémorisée, remise à zéro en cas d'échec) ; hors `ensureAllData()`
+- `ensureBtsFedData()` — charge `js/data/bts-fed.js` une fois (pas chargé du tout tant que la page est fermée au visiteur) (promesse mémorisée, remise à zéro en cas d'échec) ; hors `ensureAllData()`
 
 ## js/storage.js
 Centralise toute la persistance localStorage.
@@ -141,6 +141,7 @@ Centralise toute la persistance localStorage.
 - `Storage.getRecent()` / `trackRecent(moduleId)` — modules récemment visités
 - `Storage.getModuleStatuses()` / `setModuleStatus(id, patch)` / `resetModuleStatus(id)` — cache local verrouillage/maintenance par module
 - `Storage.setAllModuleStatuses(all)` — remplace tout le cache local par la carte reçue de Firestore (`config/moduleAccess`)
+- `Storage.getBtsFedSeen()` / `setBtsFedSeen(videoId, seen)` — vidéos BTS FED cochées « Vue » (clé `sparkBtsFedSeen`)
 - `Storage.getConsent(category)` / `setConsent(category, granted)` — consentement RGPD par catégorie (expire après 6 mois)
 
 ---
@@ -164,6 +165,11 @@ Publie les TD L'Escale (BTS FED) depuis `Desktop\Enseignement\BTS FED` (chemin r
 - `parseVideoSheet(md)` — publie seulement titre, « Ce qu'on retient » et « Pièges » ; filet `FORBIDDEN` (chemins, crochets de places réservées, « lien à compléter », notes de tournage « hors caméra / la voix le dit ») ; un item « hors caméra » écarté pose `horsChamp: true`
 - `parseStatement(pdf)` — page 1 de l'énoncé via `pdftotext` (césures U+00AD recollées) : titre, durée, « À la fin de ce TD, je saurai… », « Fichier de départ »
 - Version voisée : `<id>-AVEC-VOIX.mp4` prioritaire sur `<id>.mp4`, publiée sous `<id>.mp4` ; exclusions : `TD1-C-niveaux-pilote`, `sources-TD0`, `*.0001.rvt`, `TD-maison-*`
+- Réglages : `scripts/bts-fed.config.json` (`presentation`, `fichiersComplementaires`, `disponibleLe`, `modulesLies`) via `loadConfig()`
+- `makePoster()` — vignette JPEG 960 px (carte de titre si le minutage la situe, sinon image à 2 s), refaite seulement quand la vidéo change
+- `parseChapters()` — minutage `segments.json` (muette) ou `montage.json` (voisée) × libellés du tableau d'étapes de la fiche ; TD6 n'a pas de `segments.json` → pas de chapitres
+- `extractControls()` — « Contrôle : … » et résultats chiffrés avec unité tirés des points à retenir (hors « par défaut » / « après l'import »)
+- `resolveModules()` — vérifie chaque `fed-bts-…` lié et lit son titre
 - Signale les fichiers publiés dont la source a disparu (ne supprime rien)
 
 ## scripts/lib/
@@ -353,6 +359,7 @@ Point unique de contrôle du suivi d'audience (Google Analytics 4).
 ## js/analytics.js
 Chargement différé de gtag.js (GA4) et suivi des pages vues (SPA pushState, pas de détection automatique des routes par GA4).
 - `loadAnalytics()` — injecte le script `gtag.js` si `ANALYTICS_ENABLED` + `GA_MEASUREMENT_ID` + `Consent.hasAdConsent()` ; idempotent (`window._gaLoaded`)
+- `trackEvent(name, params)` — événement GA4 personnalisé, mêmes garde-fous (activé + consentement) ; utilisé par `js/views/btsFed.js`
 - `trackPageView()` — envoie un événement `page_view` (path/title/location courants) ; appelée depuis `js/app.js` (dispatcher `render()`) et `Consent.accept()`
 
 ## js/components/renderCours.js
@@ -430,14 +437,19 @@ Page de contact dédiée (question, erreur, proposition commerciale, partenariat
 
 ## js/views/btsFed.js
 Page BTS FED (TD Revit / ArchiWIZARD, projet L'Escale), données `window.BTS_FED`. Vouvoiement, comme les énoncés.
-- `BTS_FED_MAINTENANCE` — interrupteur (en code : le panneau admin ne gère que les modules du catalogue). `true` : toutes les routes `/bts-fed*` affichent `renderBtsFedMaintenance()`, en noindex, sans charger les données ; `generate-sitemap.js` lit cette ligne et retire les 8 adresses. Activé le 2026-11-23
+- `isBtsFedOpen()` / `isBtsFedAdmin()` / `isBtsFedClosedForViewer()` — ouverture au public pilotée par `config/settings.btsFedOpen` (Firestore, case du panneau admin), lu via `window.__sparkPlatformSettings` (posé par `_checkMaintenance()` de `js/app.js`). **Fermée par défaut** (champ absent ou lecture impossible) ; un admin voit toujours la page, avec bandeau. Fermée : `renderBtsFedMaintenance()`, noindex, aucune donnée chargée. Le pré-rendu CI capture l'état du moment du déploiement
 - `getBtsFedTd(id)` — TD par identifiant (`td0`…`td6`)
-- `renderBtsFedHome()` — sommaire : une carte `.bts-td-card` par TD (numéro, titre, logiciel, nombre et durée des vidéos)
-- `renderBtsFedTd(id)` — en-tête (objectif + point de départ tirés de l'énoncé), 3 boutons `download` (énoncé, corrigé, maquette .rvt si elle existe), bandeau « sans voix » si une vidéo est muette, vidéos `preload="none"` avec points à retenir / pièges, pager précédent / sommaire / suivant
+- `renderBtsFedHome()` — sommaire : film de présentation (`BTS_FED.presentation`) puis une carte `.bts-td-card` par TD (numéro, titre, logiciel, vidéos, progression « vues », « Corrigé le … » avant la date)
+- `renderBtsFedTd(id)` — en-tête (objectif + point de départ tirés de l'énoncé), boutons `download` (énoncé, corrigé, maquette, mémo), fichiers complémentaires, encadré « Valeurs pour vérifier votre travail », vidéos `preload="none"` avec vignette (`poster`), chapitres cliquables, case « Vue », points à retenir / pièges, « Revoir les notions » (modules S8), pager. Avant `disponibleLe` : corrigé, vidéos, contrôles et mémo masqués
+- `_btsDisponible(td)` — date de mise en ligne atteinte (ou admin) ; simple masquage, les fichiers restent dans le dépôt public
+- `btsSeek(videoId, t)` — saut à un chapitre (charge les métadonnées si `preload="none"`, puis lecture)
+- `btsToggleSeen(videoId, seen)` — case « Vue » (`Storage.setBtsFedSeen`), cochée d'office à 90 % de lecture
+- `btsPrintMemo(tdId)` — remplit `#bts-print-memo` et imprime : seul ce bloc sort (`body.bts-printing`, `@media print`), 2 colonnes
+- Écouteurs `play`/`timeupdate`/`ended` (capture, sur `document`) et clics `a[data-bts-file]` → `trackEvent()` : `video_start`, `video_complete`, `bts_download`, `bts_print_memo`
 - Styles : section « BTS FED » en fin de `css/styles.css` (`.bts-*`, accent `--fed`)
 
 ## js/data/bts-fed.js
-**Généré** par `scripts/build-bts-fed.js`, ne pas éditer. `var BTS_FED = { projet, tds: [{ id, num, titre, logiciel, duree, niveauGcf, objectif, depart, enonce, corrige, maquette, videos: [{ id, titre, duree, voix, url, taille, retenir, pieges, horsChamp }] }] }`. Lu aussi par `scripts/generate-sitemap.js`.
+**Généré** par `scripts/build-bts-fed.js`, ne pas éditer. `var BTS_FED = { projet, presentation: <vidéo>, tds: [{ id, num, titre, logiciel, duree, niveauGcf, objectif, depart, disponibleLe, enonce, corrige, maquette, complements, modules: [{id, titre}], controles: [{texte, video}], videos: [{ id, titre, duree, voix, url, poster, taille, chapitres: [{t, titre}], retenir, pieges, horsChamp }] }] }`. Lu aussi par `scripts/generate-sitemap.js`.
 
 ## js/auth/authService.js
 Service d'authentification et d'autorisations Firestore.
@@ -471,7 +483,7 @@ Panneau d'administration (espace enseignant retiré le 2026-11-22) : annonce glo
 - `AdminPanel._renderModulesTab()` — onglet "Modules" : verrouillage/maintenance par matière (`setSubjectAccessMode`) ou par module (`setModuleAccessMode`) ; réintègre l'UI qui vivait auparavant dans la page morte `renderAdminPage()` (`js/views/home.js`, supprimée) — sans cet onglet, il n'existait plus aucun moyen dans l'interface de verrouiller un module
 - `AdminPanel._renderLogs(logs)` / `_renderLogsList()` — onglet Historique avec filtres par type d'action (`_logActionFilter`) et par admin (`_logAdminFilter`), calculés dynamiquement à partir des logs chargés (`_logsCache`)
 - `AdminPanel._setStatus(uid, status)` — modifie le statut d'un utilisateur
-- `AdminPanel._saveSettings()` — enregistre `maintenanceMode` dans `config/settings` ; la case « Inscription enseignants activée » (`teacherSignupEnabled`) a été retirée le 2026-10-12 avec l'inscription publique (elle n'était d'ailleurs lue nulle part)
+- `AdminPanel._saveSettings()` — enregistre `maintenanceMode` et `btsFedOpen` (case « Page BTS FED ouverte au public ») dans `config/settings`, et met à jour `window.__sparkPlatformSettings` pour un effet immédiat ; la case « Inscription enseignants activée » (`teacherSignupEnabled`) a été retirée le 2026-10-12 avec l'inscription publique (elle n'était d'ailleurs lue nulle part)
 - `setSubjectAccessMode(subjectId, mode)` / `setModuleAccessMode(moduleId, mode)` — fonctions globales async (hors objet `AdminPanel`, extraites de `js/app.js`) : verrouillage/maintenance par matière ou par module ; calculent la carte cible puis **attendent la confirmation d'écriture** (`AuthService.saveModuleAccess()`) avant de mettre à jour `Storage`/`state.moduleAccess` et de re-render — sinon l'admin voyait le verrouillage confirmé localement même si l'écriture Firestore (lue par tous, y compris invités) avait échoué ; appelées désormais depuis l'onglet Modules d'`AdminPanel` (ex-`renderAdminPage()` de `home.js`, supprimée)
 
 ## js/flashcards.js

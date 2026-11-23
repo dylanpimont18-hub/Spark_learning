@@ -41,7 +41,7 @@
         ]
       },
       {
-        "source": "/media/**/*.rvt",
+        "source": "/media/**/*.@(rvt|rfa)",
         "headers": [
           {
             "key": "Content-Type",

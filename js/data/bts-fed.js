@@ -1,6 +1,93 @@
 /* Généré par scripts/build-bts-fed.js — ne pas éditer à la main. */
 var BTS_FED = {
   "projet": "L'Escale, du modèle au dimensionnement",
+  "presentation": {
+    "id": "TD0-decouvrir-escale",
+    "titre": "Découvrir l'Escale — film de présentation",
+    "duree": 369,
+    "voix": true,
+    "url": "media/bts-fed/videos/TD0-decouvrir-escale.mp4?v=29ea772054",
+    "poster": "media/bts-fed/posters/TD0-decouvrir-escale.jpg?v=29ea772054",
+    "taille": 51599188,
+    "chapitres": [
+      {
+        "t": 0,
+        "titre": "Introduction : tour du bâtiment"
+      },
+      {
+        "t": 11.4,
+        "titre": "Ce que vous allez découvrir"
+      },
+      {
+        "t": 30.8,
+        "titre": "Le projet en bref"
+      },
+      {
+        "t": 54.2,
+        "titre": "Côté sud"
+      },
+      {
+        "t": 75.6,
+        "titre": "Côté nord"
+      },
+      {
+        "t": 95,
+        "titre": "Le plan du rez-de-chaussée"
+      },
+      {
+        "t": 118.4,
+        "titre": "Les 16 locaux"
+      },
+      {
+        "t": 146.5,
+        "titre": "Les hauteurs"
+      },
+      {
+        "t": 181.5,
+        "titre": "La coupe transversale"
+      },
+      {
+        "t": 202.9,
+        "titre": "Les quatre façades"
+      },
+      {
+        "t": 224.3,
+        "titre": "La structure"
+      },
+      {
+        "t": 241.7,
+        "titre": "Ventilation"
+      },
+      {
+        "t": 265.1,
+        "titre": "Sécurité incendie"
+      },
+      {
+        "t": 284.5,
+        "titre": "Le dossier"
+      },
+      {
+        "t": 303.9,
+        "titre": "La démarche"
+      },
+      {
+        "t": 323.3,
+        "titre": "Le sommaire des tutoriels"
+      },
+      {
+        "t": 359.4,
+        "titre": "Prochain épisode"
+      }
+    ],
+    "retenir": [
+      "L'Escale est une salle des fêtes fictive, ERP de type L, 4e catégorie, 205 personnes, 32 m × 16 m, de plain-pied (N00 = 110,15 NGF).",
+      "Deux volumes : un volume bas (hall et annexes) et un volume haut (salle et scène) ; huit niveaux de 0 à 7,20 m.",
+      "16 locaux, environ 480 m² ; 4 façades, 2 coupes, 3 vues 3D, 10 nomenclatures, 15 feuilles.",
+      "Trois temps : modéliser (TD1 à TD3), coordonner (TD4 et TD5), dimensionner (TD6)."
+    ],
+    "pieges": [],
+    "horsChamp": false
+  },
   "tds": [
     {
       "id": "td0",
@@ -20,6 +107,7 @@ var BTS_FED = {
         ]
       },
       "depart": "Aucun : on part du Gabarit de construction livré avec Revit 2026.",
+      "disponibleLe": null,
       "enonce": {
         "url": "media/bts-fed/td/TD0-revit-gestes-de-base-etudiant.pdf?v=6266343482",
         "nom": "TD0-revit-gestes-de-base-etudiant.pdf",
@@ -31,24 +119,10 @@ var BTS_FED = {
         "taille": 1279797
       },
       "maquette": null,
-      "videos": [
-        {
-          "id": "TD0-decouvrir-escale",
-          "titre": "Découvrir l'Escale — film de présentation",
-          "duree": 369,
-          "voix": true,
-          "url": "media/bts-fed/videos/TD0-decouvrir-escale.mp4?v=29ea772054",
-          "taille": 51599188,
-          "retenir": [
-            "L'Escale est une salle des fêtes fictive, ERP de type L, 4e catégorie, 205 personnes, 32 m × 16 m, de plain-pied (N00 = 110,15 NGF).",
-            "Deux volumes : un volume bas (hall et annexes) et un volume haut (salle et scène) ; huit niveaux de 0 à 7,20 m.",
-            "16 locaux, environ 480 m² ; 4 façades, 2 coupes, 3 vues 3D, 10 nomenclatures, 15 feuilles.",
-            "Trois temps : modéliser (TD1 à TD3), coordonner (TD4 et TD5), dimensionner (TD6)."
-          ],
-          "pieges": [],
-          "horsChamp": false
-        }
-      ]
+      "complements": [],
+      "modules": [],
+      "controles": [],
+      "videos": []
     },
     {
       "id": "td1",
@@ -68,6 +142,7 @@ var BTS_FED = {
         ]
       },
       "depart": "Aucun : nouveau projet à partir du Gabarit de construction (comme au TD 0).",
+      "disponibleLe": null,
       "enonce": {
         "url": "media/bts-fed/td/TD1-revit-prise-en-main-etudiant.pdf?v=76ad0bfea1",
         "nom": "TD1-revit-prise-en-main-etudiant.pdf",
@@ -79,6 +154,23 @@ var BTS_FED = {
         "taille": 952695
       },
       "maquette": null,
+      "complements": [],
+      "modules": [
+        {
+          "id": "fed-bts-a2-1-genie-civil",
+          "titre": "Génie civil, structure et architecture"
+        }
+      ],
+      "controles": [
+        {
+          "texte": "32 × 16 = 512 m² entre axes.",
+          "video": "TD1-09-exercice-3-emprise"
+        },
+        {
+          "texte": "Au nu extérieur : (32 + 0,399) × (16 + 0,399) = 531,31 m².",
+          "video": "TD1-09-exercice-3-emprise"
+        }
+      ],
       "videos": [
         {
           "id": "TD1-01-creer-et-parametrer-le-projet",
@@ -86,7 +178,50 @@ var BTS_FED = {
           "duree": 86,
           "voix": false,
           "url": "media/bts-fed/videos/TD1-01-creer-et-parametrer-le-projet.mp4?v=201bd5558f",
+          "poster": "media/bts-fed/posters/TD1-01-creer-et-parametrer-le-projet.jpg?v=201bd5558f",
           "taille": 3203858,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 1 · Fichier › Créer › Projet"
+            },
+            {
+              "t": 10.7,
+              "titre": "Gabarit de construction · Projet · OK"
+            },
+            {
+              "t": 22.3,
+              "titre": "Enregistrer tout de suite : Fichier › Enreg. sous › Projet"
+            },
+            {
+              "t": 34.4,
+              "titre": "Étape 2 · Gérer › Informations sur le projet"
+            },
+            {
+              "t": 38.7,
+              "titre": "Organisation et bâtiment"
+            },
+            {
+              "t": 49,
+              "titre": "Client, nom du projet, numéro"
+            },
+            {
+              "t": 60.7,
+              "titre": "Valider avec OK"
+            },
+            {
+              "t": 62.9,
+              "titre": "Étape 3 · Gérer › Unités (UN)"
+            },
+            {
+              "t": 67.1,
+              "titre": "Surface : format, 2 décimales"
+            },
+            {
+              "t": 74.7,
+              "titre": "Regroupement des chiffres, puis OK"
+            }
+          ],
           "retenir": [
             "Fichier › Créer › Projet, avec le Gabarit de construction et l'option Projet.",
             "On enregistre tout de suite (Fichier › Enreg. sous › Projet), puis Ctrl + S après chaque étape.",
@@ -105,7 +240,38 @@ var BTS_FED = {
           "duree": 54,
           "voix": false,
           "url": "media/bts-fed/videos/TD1-02-preparer-les-niveaux.mp4?v=d0490e78c0",
+          "poster": "media/bts-fed/posters/TD1-02-preparer-les-niveaux.jpg?v=d0490e78c0",
           "taille": 1961051,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 4 · Ouvrir l'élévation Sud"
+            },
+            {
+              "t": 11.2,
+              "titre": "Fenêtre de gauche à droite autour des quatre niveaux du bas"
+            },
+            {
+              "t": 16.7,
+              "titre": "Suppr, puis OK dans l'avertissement"
+            },
+            {
+              "t": 21.9,
+              "titre": "Renommer Niveau 1 en N00 : sélection, clic sur le nom"
+            },
+            {
+              "t": 29.2,
+              "titre": "Répondre Oui : les vues portent aussi le nouveau nom"
+            },
+            {
+              "t": 32.4,
+              "titre": "Renommer Niveau 2 en TOIT_ANNEXES, puis Oui"
+            },
+            {
+              "t": 43.1,
+              "titre": "Taper sa cote : 3550"
+            }
+          ],
           "retenir": [
             "Les niveaux se règlent en élévation : on ouvre Sud.",
             "On supprime les quatre niveaux de fondation avec une fenêtre de gauche à droite.",
@@ -124,7 +290,46 @@ var BTS_FED = {
           "duree": 119,
           "voix": false,
           "url": "media/bts-fed/videos/TD1-03-creer-les-six-niveaux.mp4?v=5506eaabeb",
+          "poster": "media/bts-fed/posters/TD1-03-creer-les-six-niveaux.jpg?v=5506eaabeb",
           "taille": 3705558,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 5 · Architecture › Référence › Niveau"
+            },
+            {
+              "t": 10.1,
+              "titre": "Tracer large : un clic à gauche, un clic à droite"
+            },
+            {
+              "t": 15.6,
+              "titre": "Revit le nomme N01 : on le renomme N00_FP_ANNEXES"
+            },
+            {
+              "t": 23,
+              "titre": "Puis on tape sa cote exacte : 2700"
+            },
+            {
+              "t": 28,
+              "titre": "Niveau N00_FP_HALL : 3000"
+            },
+            {
+              "t": 45.4,
+              "titre": "Niveau ACRO_ANNEXES : 3850"
+            },
+            {
+              "t": 62.6,
+              "titre": "Niveau N00_FP_SALLE : 5500"
+            },
+            {
+              "t": 80,
+              "titre": "Niveau TOIT_SALLE : 6850"
+            },
+            {
+              "t": 97,
+              "titre": "Niveau ACRO_SALLE : 7200"
+            }
+          ],
           "retenir": [
             "Architecture › Référence › Niveau, dans l'élévation Sud, case « Créer une vue en plan » décochée.",
             "On trace large : un clic à gauche, un clic à droite.",
@@ -143,7 +348,30 @@ var BTS_FED = {
           "duree": 42,
           "voix": false,
           "url": "media/bts-fed/videos/TD1-04-renommer-les-vues.mp4?v=2e9513271b",
+          "poster": "media/bts-fed/posters/TD1-04-renommer-les-vues.jpg?v=2e9513271b",
           "taille": 1512337,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 6 · Sélectionner la vue N00, touche F2"
+            },
+            {
+              "t": 7.4,
+              "titre": "Taper « Plan RDC », puis Entrée"
+            },
+            {
+              "t": 10.2,
+              "titre": "Question de Revit : répondre Non"
+            },
+            {
+              "t": 13.5,
+              "titre": "TOIT_ANNEXES devient « Plan de toiture annexes » · Non"
+            },
+            {
+              "t": 22.1,
+              "titre": "Les quatre élévations : Façade est, nord, ouest, sud"
+            }
+          ],
           "retenir": [
             "Dans l'arborescence : sélection, F2 (ou clic droit › Renommer).",
             "À la question de Revit : répondre Non, pour que le niveau garde son nom du cahier des charges.",
@@ -160,7 +388,42 @@ var BTS_FED = {
           "duree": 66,
           "voix": false,
           "url": "media/bts-fed/videos/TD1-05-tracer-la-grille-daxes.mp4?v=e905688f56",
+          "poster": "media/bts-fed/posters/TD1-05-tracer-la-grille-daxes.jpg?v=e905688f56",
           "taille": 1754703,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 7 · Plan RDC : Architecture › Quadrillage"
+            },
+            {
+              "t": 7.9,
+              "titre": "Axe A : un clic en bas, un clic en haut"
+            },
+            {
+              "t": 12.6,
+              "titre": "Renommer sa bulle : A"
+            },
+            {
+              "t": 17.6,
+              "titre": "Axe sélectionné · Modifier › Copier"
+            },
+            {
+              "t": 21.4,
+              "titre": "Clic sur l'axe, souris loin à droite, puis les distances : 4000, 3000, 5000 ×5"
+            },
+            {
+              "t": 36.4,
+              "titre": "Étape 8 · Quadrillage : un axe horizontal, de droite à gauche"
+            },
+            {
+              "t": 44.6,
+              "titre": "Revit le nomme I : on clique sa bulle et on tape 1"
+            },
+            {
+              "t": 49.6,
+              "titre": "Copier vers le haut : 2500, 7500, 6000"
+            }
+          ],
           "retenir": [
             "Quadrillage : un axe vertical, de bas en haut, bulle renommée A.",
             "Copier : Contraindre et Multiple ; on garde la souris loin à droite et on tape les distances : 4000, 3000, 5000 ×5.",
@@ -179,7 +442,26 @@ var BTS_FED = {
           "duree": 42,
           "voix": false,
           "url": "media/bts-fed/videos/TD1-06-coter-la-grille.mp4?v=286977c62e",
+          "poster": "media/bts-fed/posters/TD1-06-coter-la-grille.jpg?v=286977c62e",
           "taille": 1188712,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 9 · Annoter › Cote › Alignée"
+            },
+            {
+              "t": 7.6,
+              "titre": "Chaîne A → H : un clic par axe, puis un clic dans le vide"
+            },
+            {
+              "t": 19.9,
+              "titre": "Cote totale A → H, au-dessus de la chaîne"
+            },
+            {
+              "t": 24.8,
+              "titre": "Chaîne 1 → 4, puis cote totale, à gauche"
+            }
+          ],
           "retenir": [
             "Annoter › Cote › Alignée : un clic par axe, puis un clic dans le vide pour poser la chaîne.",
             "Une cote totale A → H au-dessus, une chaîne et une cote totale 1 → 4 à gauche.",
@@ -196,7 +478,42 @@ var BTS_FED = {
           "duree": 51,
           "voix": false,
           "url": "media/bts-fed/videos/TD1-07-symboles-delevation-et-3d.mp4?v=df79953080",
+          "poster": "media/bts-fed/posters/TD1-07-symboles-delevation-et-3d.jpg?v=df79953080",
           "taille": 1872147,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 10 · Dézoomer (molette) pour voir les quatre symboles"
+            },
+            {
+              "t": 7.2,
+              "titre": "Symbole est : fenêtre de gauche à droite depuis le vide, puis glisser"
+            },
+            {
+              "t": 13.9,
+              "titre": "Symbole ouest : même geste"
+            },
+            {
+              "t": 20.8,
+              "titre": "Symbole nord : même geste"
+            },
+            {
+              "t": 28.7,
+              "titre": "Étape 11 · La maison de la barre d'accès rapide : vue 3D"
+            },
+            {
+              "t": 33,
+              "titre": "ViewCube : clic sur la face HAUT, vue de dessus"
+            },
+            {
+              "t": 36.9,
+              "titre": "Clic droit sur le ViewCube › Aller au début"
+            },
+            {
+              "t": 42,
+              "titre": "Maj + molette : orbite · molette : zoom"
+            }
+          ],
           "retenir": [
             "Les symboles d'élévation du gabarit sont placés pour une petite maison : on les sort de la grille.",
             "Fenêtre de gauche à droite depuis le vide, puis glisser.",
@@ -214,7 +531,38 @@ var BTS_FED = {
           "duree": 48,
           "voix": false,
           "url": "media/bts-fed/videos/TD1-08-exercices-1-et-2.mp4?v=34b851c0b1",
+          "poster": "media/bts-fed/posters/TD1-08-exercices-1-et-2.jpg?v=34b851c0b1",
           "taille": 1810006,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Exercice 1 · Façade sud : Architecture › Niveau"
+            },
+            {
+              "t": 7.9,
+              "titre": "Un niveau FOND_SEMELLES, sans vue en plan"
+            },
+            {
+              "t": 18.8,
+              "titre": "Cote exacte : -800"
+            },
+            {
+              "t": 23.2,
+              "titre": "Exercice 2 · Architecture › Plan de référence"
+            },
+            {
+              "t": 26.8,
+              "titre": "Un trait vertical entre les axes 3 et 4"
+            },
+            {
+              "t": 30.7,
+              "titre": "Cote temporaire : 1000 depuis l'axe C"
+            },
+            {
+              "t": 35.3,
+              "titre": "Le sélectionner, Propriétés › Nom : CLO_X8, puis Appliquer"
+            }
+          ],
           "retenir": [
             "Exercice 1 : niveau FOND_SEMELLES à -800, sans vue en plan ; altitude NGF : 110,15 − 0,80 = 109,35 ; profondeur sous le terrain naturel : 109,95 − 109,35 = 0,60 m, supérieure au hors-gel de 0,50 m.",
             "Exercice 2 : les cloisons ne sont pas sur les axes : on les repère par des plans de référence, calés par cote temporaire et nommés dans Propriétés (Nom, puis Appliquer).",
@@ -232,7 +580,22 @@ var BTS_FED = {
           "duree": 73,
           "voix": false,
           "url": "media/bts-fed/videos/TD1-09-exercice-3-emprise.mp4?v=80596c4dc0",
+          "poster": "media/bts-fed/posters/TD1-09-exercice-3-emprise.jpg?v=80596c4dc0",
           "taille": 1739675,
+          "chapitres": [
+            {
+              "t": 3.5,
+              "titre": "1 · Surface entre axes"
+            },
+            {
+              "t": 24,
+              "titre": "2 · Surface au nu extérieur"
+            },
+            {
+              "t": 46,
+              "titre": "3 · Conclusion"
+            }
+          ],
           "retenir": [
             "32 × 16 = 512 m² entre axes.",
             "Au nu extérieur : (32 + 0,399) × (16 + 0,399) = 531,31 m².",
@@ -263,6 +626,7 @@ var BTS_FED = {
         ]
       },
       "depart": "TD2_depart.rvt (= corrigé du TD 1) ou votre fichier TD1_Escale_NOM.rvt.",
+      "disponibleLe": null,
       "enonce": {
         "url": "media/bts-fed/td/TD2-revit-enveloppe-etudiant.pdf?v=46568ebea3",
         "nom": "TD2-revit-enveloppe-etudiant.pdf",
@@ -278,6 +642,59 @@ var BTS_FED = {
         "nom": "TD2_depart.rvt",
         "taille": 4104192
       },
+      "complements": [],
+      "modules": [
+        {
+          "id": "fed-bts-a2-3-bilan-thermique",
+          "titre": "Bilan thermique (déperditions)"
+        },
+        {
+          "id": "fed-bts-a1-2-hygrothermie",
+          "titre": "Hygrothermie"
+        },
+        {
+          "id": "fed-bts-a7-acoustique",
+          "titre": "Acoustique appliquée"
+        },
+        {
+          "id": "fed-bts-a2-1-genie-civil",
+          "titre": "Génie civil, structure et architecture"
+        }
+      ],
+      "controles": [
+        {
+          "texte": "Contrôle : épaisseur totale 399 mm ; avec les λ du tableau, Revit calcule R = 7,73 m²·K/W et U = 0,129 W/(m²·K), comme la maquette corrigée.",
+          "video": "TD2-01-creer-le-mur-compose"
+        },
+        {
+          "texte": "CLO_01 : BA13 12,5 + ossature et laine 47 + BA13 12,5 = 72 mm. CLO_EI60 : 130 mm. CLO_ACOU : 160 mm.",
+          "video": "TD2-03-les-cloisons"
+        },
+        {
+          "texte": "Du haut vers le bas : revêtement 20 (Finition 1), chape 60 (Substrat), dallage béton armé 160 (Structure, le noyau), PSE 160 (couche isolante), hérisson 200 (Finition 2) = 600 mm.",
+          "video": "TD2-04-le-plancher-bas"
+        },
+        {
+          "texte": "Revit calcule R = 5,46 m²·K/W et U = 0,183 W/(m²·K) avec les λ du cahier des charges.",
+          "video": "TD2-04-le-plancher-bas"
+        },
+        {
+          "texte": "TT_SALLE se compose de bas en haut : CLT 100 (structure), pare-vapeur 4, laine de roche 300, étanchéité 8 = 412 mm. R = 8,51 m²·K/W.",
+          "video": "TD2-05-les-toitures-terrasses"
+        },
+        {
+          "texte": "CLO_EI60 : 4 plaques de 15 mm et une âme de 70 mm = 130 mm ; l'âme (fonction Structure) définit l'axe.",
+          "video": "TD2-06-exercices-1-et-2"
+        },
+        {
+          "texte": "CLO_ACOU : 4 × 12,5 + 2 × 48 = 146 mm ; 160 − 146 = 14 mm, le vide d'air de désolidarisation entre les deux ossatures.",
+          "video": "TD2-06-exercices-1-et-2"
+        },
+        {
+          "texte": "À la main : R = 0,100 + 1,184 + 4,889 + 1,364 = 7,54 m²·K/W ; U = 1 / 7,54 = 0,133 W/(m²·K).",
+          "video": "TD2-07-exercice-3-calcul-de-r-et-u"
+        }
+      ],
       "videos": [
         {
           "id": "TD2-01-creer-le-mur-compose",
@@ -285,7 +702,90 @@ var BTS_FED = {
           "duree": 155,
           "voix": false,
           "url": "media/bts-fed/videos/TD2-01-creer-le-mur-compose.mp4?v=36ba4d9f8b",
+          "poster": "media/bts-fed/posters/TD2-01-creer-le-mur-compose.jpg?v=36ba4d9f8b",
           "taille": 10749818,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Les sept couches de MUR_EXT_01 (cahier des charges)"
+            },
+            {
+              "t": 6.6,
+              "titre": "Étape 1 · Architecture › Création › Mur"
+            },
+            {
+              "t": 9,
+              "titre": "Propriétés › Modifier le type"
+            },
+            {
+              "t": 11.8,
+              "titre": "Dupliquer… puis on nomme le type"
+            },
+            {
+              "t": 15.9,
+              "titre": "Structure › Modifier… : extérieur en haut"
+            },
+            {
+              "t": 19,
+              "titre": "On agrandit la boîte pour voir toutes les couches"
+            },
+            {
+              "t": 24.6,
+              "titre": "Couche Structure : 220 mm"
+            },
+            {
+              "t": 26.6,
+              "titre": "Matériau : on duplique un matériau voisin"
+            },
+            {
+              "t": 36.9,
+              "titre": "On le nomme, puis λ = 0,045 (onglet Thermique)"
+            },
+            {
+              "t": 42.8,
+              "titre": "OK : le matériau est affecté à la couche"
+            },
+            {
+              "t": 45,
+              "titre": "Côté extérieur : fibre de bois pare-pluie, 60 mm"
+            },
+            {
+              "t": 61.8,
+              "titre": "Lame d'air ventilée, 27 mm"
+            },
+            {
+              "t": 77.2,
+              "titre": "Finition 1 : bardage douglas, 22 mm"
+            },
+            {
+              "t": 92.6,
+              "titre": "Côté intérieur : on insère, puis on descend la couche"
+            },
+            {
+              "t": 97,
+              "titre": "Finition 2 : plaque de plâtre, 25 mm"
+            },
+            {
+              "t": 111.2,
+              "titre": "Couche isolante : laine de bois, 45 mm"
+            },
+            {
+              "t": 126.5,
+              "titre": "Couche membrane : frein-vapeur, 0 mm"
+            },
+            {
+              "t": 140.6,
+              "titre": "Épaisseur totale : 399 mm"
+            },
+            {
+              "t": 143,
+              "titre": "OK : largeur 399 mm, R et U dans les propriétés du type"
+            },
+            {
+              "t": 146.6,
+              "titre": "OK : le type MUR_EXT_01 existe"
+            }
+          ],
           "retenir": [
             "Un type de mur se crée en dupliquant un type existant (Générique - 200 mm), jamais en modifiant celui du gabarit.",
             "Dans « Modifier l'assemblage », la liste va de l'extérieur (en haut) à l'intérieur (en bas). Les deux lignes « Limite de la couche » encadrent le noyau.",
@@ -308,7 +808,46 @@ var BTS_FED = {
           "duree": 58,
           "voix": false,
           "url": "media/bts-fed/videos/TD2-02-tracer-les-deux-volumes.mp4?v=1b9cda9cc0",
+          "poster": "media/bts-fed/posters/TD2-02-tracer-les-deux-volumes.jpg?v=1b9cda9cc0",
           "taille": 3278554,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 2 · Architecture › Mur, type MUR_EXT_01"
+            },
+            {
+              "t": 11.4,
+              "titre": "Hauteur : jusqu au niveau ACRO_SALLE (volume haut)"
+            },
+            {
+              "t": 14,
+              "titre": "Volume haut : E3 puis E2, de H3 vers H1 puis C1"
+            },
+            {
+              "t": 19.3,
+              "titre": "Volume bas : hauteur jusqu à ACRO_ANNEXES"
+            },
+            {
+              "t": 22,
+              "titre": "Chaîne : E1, E6, E5 puis E4, dans le sens horaire"
+            },
+            {
+              "t": 30.2,
+              "titre": "E7 et E8 : niveau de base TOIT_ANNEXES"
+            },
+            {
+              "t": 35.9,
+              "titre": "Hauteur : jusqu au niveau ACRO_SALLE"
+            },
+            {
+              "t": 38.6,
+              "titre": "E7 de C1 à C3, puis E8 de C3 à H3"
+            },
+            {
+              "t": 43.8,
+              "titre": "Contrôle en 3D : un volume haut, un volume bas"
+            }
+          ],
           "retenir": [
             "Outil Mur, type MUR_EXT_01, ligne de justification : axe du mur. On clique sur les intersections d'axes, dans le sens horaire.",
             "Le niveau supérieur se choisit dans la barre d'options (Hauteur › niveau) ; le niveau de base dans les Propriétés (Contrainte inférieure).",
@@ -328,7 +867,70 @@ var BTS_FED = {
           "duree": 114,
           "voix": false,
           "url": "media/bts-fed/videos/TD2-03-les-cloisons.mp4?v=f95b1c6906",
+          "poster": "media/bts-fed/posters/TD2-03-les-cloisons.jpg?v=f95b1c6906",
           "taille": 6960639,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 3 · Architecture › Mur, type de base Générique - 200 mm"
+            },
+            {
+              "t": 11.3,
+              "titre": "Modifier le type › Dupliquer…, on nomme CLO_01"
+            },
+            {
+              "t": 18,
+              "titre": "Structure › Modifier…, on agrandit la boîte"
+            },
+            {
+              "t": 26.8,
+              "titre": "Couche Structure : 47 mm, ossature et laine minérale"
+            },
+            {
+              "t": 37.2,
+              "titre": "Côté extérieur : plaque BA13, 12,5 mm"
+            },
+            {
+              "t": 54.2,
+              "titre": "Côté intérieur : on insère, on descend, BA13 12,5 mm"
+            },
+            {
+              "t": 72.4,
+              "titre": "Épaisseur totale : 72 mm"
+            },
+            {
+              "t": 74.5,
+              "titre": "OK : le type CLO_01 existe, largeur 72 mm"
+            },
+            {
+              "t": 79.4,
+              "titre": "Cloisons distributives : type CLO_01"
+            },
+            {
+              "t": 86.6,
+              "titre": "Hauteur : sans contrainte, 3000 mm"
+            },
+            {
+              "t": 91.5,
+              "titre": "CLO_01 : de B3 à B4 (X = 4 m, de 10 à 16 m)"
+            },
+            {
+              "t": 94.9,
+              "titre": "Cloisons coupe-feu : type CLO_EI60"
+            },
+            {
+              "t": 100.2,
+              "titre": "CLO_EI60 : de G3 à G4 (X = 27 m), hauteur 3000"
+            },
+            {
+              "t": 103.7,
+              "titre": "Séparatif coupe-feu : hauteur 3550, de G3 à H3"
+            },
+            {
+              "t": 105.8,
+              "titre": "CLO_EI60 : de G3 à H3 (X = 27 à 32 m, Y = 10 m)"
+            }
+          ],
           "retenir": [
             "Un type de cloison se crée en dupliquant « Générique - 200 mm », comme MUR_EXT_01 : on règle les couches de l'extérieur vers l'intérieur.",
             "Dans la boîte d'assemblage, les épaisseurs se saisissent avec un POINT décimal (12.5), pas une virgule.",
@@ -347,7 +949,58 @@ var BTS_FED = {
           "duree": 130,
           "voix": false,
           "url": "media/bts-fed/videos/TD2-04-le-plancher-bas.mp4?v=ac1fb4724e",
+          "poster": "media/bts-fed/posters/TD2-04-le-plancher-bas.jpg?v=ac1fb4724e",
           "taille": 7775169,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 4 · Architecture › Sol"
+            },
+            {
+              "t": 6.6,
+              "titre": "Type de base Générique 150 mm - Plein, Modifier le type"
+            },
+            {
+              "t": 14.7,
+              "titre": "Dupliquer… puis on nomme PB_01"
+            },
+            {
+              "t": 18.7,
+              "titre": "Structure › Modifier…, on agrandit la boîte"
+            },
+            {
+              "t": 27.5,
+              "titre": "Dallage : fonction Structure, béton armé, 160 mm"
+            },
+            {
+              "t": 37.8,
+              "titre": "Au-dessus : chape 60 mm (Substrat), revêtement 20 mm (Finition 1)"
+            },
+            {
+              "t": 69.9,
+              "titre": "Dessous : hérisson 200 mm (Finition 2), PSE 160 mm (isolant)"
+            },
+            {
+              "t": 103.4,
+              "titre": "Épaisseur totale : 600 mm"
+            },
+            {
+              "t": 105.4,
+              "titre": "OK : le type PB_01 existe"
+            },
+            {
+              "t": 110.4,
+              "titre": "Contour : outil Rectangle, de A1 à H4 (niveau N00)"
+            },
+            {
+              "t": 116.3,
+              "titre": "Coche verte : on termine le sol"
+            },
+            {
+              "t": 121.2,
+              "titre": "Propriétés du sol : surface 512 m², épaisseur 600 mm"
+            }
+          ],
           "retenir": [
             "Architecture › Sol, puis Modifier le type : on duplique « Générique 150 mm - Plein » et on le nomme PB_01.",
             "Du haut vers le bas : revêtement 20 (Finition 1), chape 60 (Substrat), dallage béton armé 160 (Structure, le noyau), PSE 160 (couche isolante), hérisson 200 (Finition 2) = 600 mm.",
@@ -367,7 +1020,66 @@ var BTS_FED = {
           "duree": 124,
           "voix": false,
           "url": "media/bts-fed/videos/TD2-05-les-toitures-terrasses.mp4?v=373a6c22a8",
+          "poster": "media/bts-fed/posters/TD2-05-les-toitures-terrasses.jpg?v=373a6c22a8",
           "taille": 7027519,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 5 · Architecture › Toit par tracé, case Inclinaison décochée"
+            },
+            {
+              "t": 7,
+              "titre": "Modifier le type › Dupliquer…, on nomme TT_SALLE"
+            },
+            {
+              "t": 14,
+              "titre": "Structure › Modifier…, on agrandit la boîte"
+            },
+            {
+              "t": 22.8,
+              "titre": "Noyau : CLT, 100 mm"
+            },
+            {
+              "t": 33.5,
+              "titre": "Au-dessus : pare-vapeur 4, laine de roche 300, étanchéité 8"
+            },
+            {
+              "t": 81,
+              "titre": "Épaisseur totale : 412 mm"
+            },
+            {
+              "t": 83,
+              "titre": "OK : le type TT_SALLE existe"
+            },
+            {
+              "t": 88.2,
+              "titre": "TT_SALLE : niveau de base TOIT_SALLE"
+            },
+            {
+              "t": 92.6,
+              "titre": "Décalage inférieur : -412 (dessus de l étanchéité à 6,85 m)"
+            },
+            {
+              "t": 95,
+              "titre": "Contour de TT_SALLE : rectangle de C1 à H3"
+            },
+            {
+              "t": 102.4,
+              "titre": "Coche verte : TT_SALLE est posée"
+            },
+            {
+              "t": 105.9,
+              "titre": "TT_ANNEXES : même méthode, base TOIT_ANNEXES, décalage -554"
+            },
+            {
+              "t": 108.4,
+              "titre": "Étape 6 · Vue 3D : deux volumes, deux toitures, acrotères"
+            },
+            {
+              "t": 111.8,
+              "titre": "On tourne autour du bâtiment avec le ViewCube"
+            }
+          ],
           "retenir": [
             "Architecture › Toit › Toit par tracé, case Inclinaison décochée : toiture plate.",
             "TT_SALLE se compose de bas en haut : CLT 100 (structure), pare-vapeur 4, laine de roche 300, étanchéité 8 = 412 mm. R = 8,51 m²·K/W.",
@@ -389,7 +1101,34 @@ var BTS_FED = {
           "duree": 97,
           "voix": false,
           "url": "media/bts-fed/videos/TD2-06-exercices-1-et-2.mp4?v=d133f7d95e",
+          "poster": "media/bts-fed/posters/TD2-06-exercices-1-et-2.jpg?v=d133f7d95e",
           "taille": 2651002,
+          "chapitres": [
+            {
+              "t": 3.5,
+              "titre": "Exercice 1 · CLO_EI60 : 4 × 15 + 70 = 130 mm"
+            },
+            {
+              "t": 19,
+              "titre": "L'âme a la fonction Structure : elle définit l'axe"
+            },
+            {
+              "t": 33,
+              "titre": "On crée le type dans Revit : largeur 130 mm"
+            },
+            {
+              "t": 47,
+              "titre": "Exercice 2 · CLO_ACOU : 4 × 12,5 + 2 × 48 = 146 mm"
+            },
+            {
+              "t": 62,
+              "titre": "160 − 146 = 14 mm : le vide de désolidarisation"
+            },
+            {
+              "t": 77,
+              "titre": "Deux ossatures séparées : pas de pont acoustique"
+            }
+          ],
           "retenir": [
             "CLO_EI60 : 4 plaques de 15 mm et une âme de 70 mm = 130 mm ; l'âme (fonction Structure) définit l'axe.",
             "CLO_ACOU : 4 × 12,5 + 2 × 48 = 146 mm ; 160 − 146 = 14 mm, le vide d'air de désolidarisation entre les deux ossatures.",
@@ -408,7 +1147,38 @@ var BTS_FED = {
           "duree": 106,
           "voix": false,
           "url": "media/bts-fed/videos/TD2-07-exercice-3-calcul-de-r-et-u.mp4?v=c2807368e0",
+          "poster": "media/bts-fed/posters/TD2-07-exercice-3-calcul-de-r-et-u.jpg?v=c2807368e0",
           "taille": 3854897,
+          "chapitres": [
+            {
+              "t": 3.5,
+              "titre": "Exercice 3 · R de chaque couche : e / λ"
+            },
+            {
+              "t": 22,
+              "titre": "R = 7,54 m²·K/W et U = 1 / 7,54 = 0,133"
+            },
+            {
+              "t": 38,
+              "titre": "Dans Revit : propriétés du type MUR_EXT_01"
+            },
+            {
+              "t": 51.2,
+              "titre": "Résistance (R) 7,73 · coefficient de transfert (U) 0,129"
+            },
+            {
+              "t": 53.4,
+              "titre": "Revit : 7,73 · à la main : 7,54 · écart d'environ 2 %"
+            },
+            {
+              "t": 58,
+              "titre": "Sans les montants bois : R = 8,44 et U = 0,118"
+            },
+            {
+              "t": 76,
+              "titre": "Conclusion : U ≈ 0,13 < 0,16, objectif atteint"
+            }
+          ],
           "retenir": [
             "R = somme de e / λ des couches situées avant la lame d'air ventilée ; ossature : λ équivalent 0,045 (montants bois compris).",
             "À la main : R = 0,100 + 1,184 + 4,889 + 1,364 = 7,54 m²·K/W ; U = 1 / 7,54 = 0,133 W/(m²·K).",
@@ -442,6 +1212,7 @@ var BTS_FED = {
         ]
       },
       "depart": "TD3_depart.rvt (= corrigé du TD 2) ou votre fichier TD2_Escale_NOM.rvt.",
+      "disponibleLe": null,
       "enonce": {
         "url": "media/bts-fed/td/TD3-revit-menuiseries-locaux-etudiant.pdf?v=9dcc098864",
         "nom": "TD3-revit-menuiseries-locaux-etudiant.pdf",
@@ -457,6 +1228,23 @@ var BTS_FED = {
         "nom": "TD3_depart.rvt",
         "taille": 4210688
       },
+      "complements": [],
+      "modules": [
+        {
+          "id": "fed-bts-a2-1-genie-civil",
+          "titre": "Génie civil, structure et architecture"
+        },
+        {
+          "id": "fed-bts-b2-3-desenfumage",
+          "titre": "Désenfumage et sécurité incendie"
+        }
+      ],
+      "controles": [
+        {
+          "texte": "Densité de la salle : 193,5 / 205 = 0,94 m² par personne, soit 1,06 personne par m² ; avec la scène (222,0 m²) : 1,08 m² par personne.",
+          "video": "TD3-07-exercices"
+        }
+      ],
       "videos": [
         {
           "id": "TD3-01-types-de-portes",
@@ -464,7 +1252,34 @@ var BTS_FED = {
           "duree": 47,
           "voix": false,
           "url": "media/bts-fed/videos/TD3-01-types-de-portes.mp4?v=0fcf34eaa5",
+          "poster": "media/bts-fed/posters/TD3-01-types-de-portes.jpg?v=0fcf34eaa5",
           "taille": 2910108,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Les portes du cahier des charges : PL + 0,10 m = largeur nominale"
+            },
+            {
+              "t": 6.7,
+              "titre": "Étape 1 · Architecture › Porte, puis Modifier le type"
+            },
+            {
+              "t": 12.4,
+              "titre": "Dupliquer : PORTE 1,50 (PL 1,40), largeur 1500"
+            },
+            {
+              "t": 20.8,
+              "titre": "PORTE 1,70 (PL 1,60) : largeur 1700"
+            },
+            {
+              "t": 29.2,
+              "titre": "PORTE 1,00 (PL 0,90) : largeur 1000"
+            },
+            {
+              "t": 37.6,
+              "titre": "La hauteur reste celle du type de base : OK"
+            }
+          ],
           "retenir": [
             "La largeur nominale d'un bloc-porte vaut le passage libre (PL) + 0,10 m : PL 1,40 m donne un bloc de 1,50 m.",
             "La famille de porte du gabarit n'a qu'un vantail : on crée un type par largeur en dupliquant un type existant.",
@@ -483,7 +1298,30 @@ var BTS_FED = {
           "duree": 34,
           "voix": false,
           "url": "media/bts-fed/videos/TD3-02-poser-les-portes.mp4?v=2a27c420e4",
+          "poster": "media/bts-fed/posters/TD3-02-poser-les-portes.jpg?v=2a27c420e4",
           "taille": 1395833,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 2 · Architecture › Porte, type PORTE 1,50"
+            },
+            {
+              "t": 12,
+              "titre": "P01 : on survole le mur sud par l extérieur, puis un clic"
+            },
+            {
+              "t": 15.4,
+              "titre": "P02 (sas → hall) : on survole la cloison côté sas, ouverture vers le sas"
+            },
+            {
+              "t": 19.3,
+              "titre": "La barre d espace inverse les paumelles avant de cliquer"
+            },
+            {
+              "t": 25,
+              "titre": "Les 18 portes du tableau, chacune dans son sens"
+            }
+          ],
           "retenir": [
             "Outil Porte : on survole le mur du côté où la porte doit s'ouvrir, puis un clic ; Revit affiche des cotes temporaires pour la position.",
             "Le côté du mur survolé fixe le sens d'ouverture ; la barre d'espace inverse les paumelles (gauche/droite) avant de cliquer.",
@@ -503,7 +1341,34 @@ var BTS_FED = {
           "duree": 39,
           "voix": false,
           "url": "media/bts-fed/videos/TD3-03-les-fenetres.mp4?v=5942938847",
+          "poster": "media/bts-fed/posters/TD3-03-les-fenetres.jpg?v=5942938847",
           "taille": 2039958,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 3 · Architecture › Fenêtre, puis Modifier le type"
+            },
+            {
+              "t": 10,
+              "titre": "Dupliquer : F01 (4,00 × 2,50), hauteur 2500, largeur 4000"
+            },
+            {
+              "t": 20.7,
+              "titre": "OK : le type F01 existe"
+            },
+            {
+              "t": 23.2,
+              "titre": "Hauteur de l appui (allège) : 500 dans les Propriétés"
+            },
+            {
+              "t": 26.2,
+              "titre": "F01 en façade sud : survol par l extérieur, puis un clic"
+            },
+            {
+              "t": 29.7,
+              "titre": "En plan : les 13 fenêtres du cahier des charges"
+            }
+          ],
           "retenir": [
             "Architecture › Fenêtre › Modifier le type : on duplique « Fixe » et on règle Hauteur et Largeur ; un type par fenêtre du cahier des charges.",
             "La hauteur de l'appui (allège) se règle dans les Propriétés, avant de poser : 0,50 m pour F01 à F03, 0,90 m pour F05.",
@@ -524,7 +1389,30 @@ var BTS_FED = {
           "duree": 32,
           "voix": false,
           "url": "media/bts-fed/videos/TD3-04-les-faux-plafonds.mp4?v=9580ca8d83",
+          "poster": "media/bts-fed/posters/TD3-04-les-faux-plafonds.jpg?v=9580ca8d83",
           "taille": 1371464,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 4 · plan de plafond N00, puis Architecture › Plafond"
+            },
+            {
+              "t": 10.3,
+              "titre": "Type FP_BOIS (faux plafond bois acoustique) pour le hall"
+            },
+            {
+              "t": 15.7,
+              "titre": "Hauteur depuis le niveau : 2950 (sous-face du plafond)"
+            },
+            {
+              "t": 18.6,
+              "titre": "Plafond automatique : un clic dans le hall"
+            },
+            {
+              "t": 23.2,
+              "titre": "Les 16 faux plafonds posés, zone par zone"
+            }
+          ],
           "retenir": [
             "On travaille dans le plan de plafond N00 : Architecture › Plafond, puis Plafond automatique (un clic dans une zone fermée) ou Esquisse.",
             "Le décalage par rapport au niveau (« Hauteur depuis le niveau ») donne la sous-face du faux plafond : 2700 pour les annexes, 2950 pour le hall et le local CVC, 5500 pour la salle et la scène.",
@@ -543,7 +1431,26 @@ var BTS_FED = {
           "duree": 22,
           "voix": false,
           "url": "media/bts-fed/videos/TD3-05-les-locaux.mp4?v=063ee51047",
+          "poster": "media/bts-fed/posters/TD3-05-les-locaux.jpg?v=063ee51047",
           "taille": 822262,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 5 · Architecture › Pièce, limite supérieure et décalage"
+            },
+            {
+              "t": 9.2,
+              "titre": "Un clic dans la salle : Revit crée la pièce et son étiquette"
+            },
+            {
+              "t": 12.7,
+              "titre": "Double clic sur le nom : Salle polyvalente"
+            },
+            {
+              "t": 13.1,
+              "titre": "Les 16 locaux nommés R01 à R17 (sans R09)"
+            }
+          ],
           "retenir": [
             "Architecture › Pièce : la barre d'options fixe la Limite supérieure (niveau) et le Décalage (hauteur du faux plafond du local).",
             "Un clic dans une zone fermée par des murs crée la pièce ; Revit l'étiquette à l'insertion. On saisit ensuite le numéro et le nom.",
@@ -563,7 +1470,42 @@ var BTS_FED = {
           "duree": 68,
           "voix": false,
           "url": "media/bts-fed/videos/TD3-06-nomenclature-des-locaux.mp4?v=1dc631c692",
+          "poster": "media/bts-fed/posters/TD3-06-nomenclature-des-locaux.jpg?v=1dc631c692",
           "taille": 3290404,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 6 · Vue › Nomenclatures › Nomenclature/Quantités"
+            },
+            {
+              "t": 10.4,
+              "titre": "Catégorie Pièces, nom NOM-01 Nomenclature des locaux"
+            },
+            {
+              "t": 15.9,
+              "titre": "Champs : Numéro, Nom, Surface, Périmètre, Volume"
+            },
+            {
+              "t": 38.2,
+              "titre": "Tri : par Numéro, totaux généraux activés"
+            },
+            {
+              "t": 43.9,
+              "titre": "Mise en forme : calculer les totaux sur la surface"
+            },
+            {
+              "t": 49.5,
+              "titre": "OK : la nomenclature est vide, car la phase est Phase 3"
+            },
+            {
+              "t": 52.9,
+              "titre": "Propriétés › Phase : on choisit Phase 1, puis Appliquer"
+            },
+            {
+              "t": 59.7,
+              "titre": "16 locaux, total général : 481 m²"
+            }
+          ],
           "retenir": [
             "Vue › Nomenclatures › Nomenclature/Quantités ; catégorie Pièces ; nom NOM-01 Nomenclature des locaux.",
             "Champs : Numéro, Nom, Surface, Périmètre, Volume. Tri par Numéro. Totaux généraux activés et « Calculer les totaux » sur la surface.",
@@ -584,7 +1526,38 @@ var BTS_FED = {
           "duree": 104,
           "voix": false,
           "url": "media/bts-fed/videos/TD3-07-exercices.mp4?v=814009df69",
+          "poster": "media/bts-fed/posters/TD3-07-exercices.jpg?v=814009df69",
           "taille": 2690781,
+          "chapitres": [
+            {
+              "t": 3.5,
+              "titre": "Exercice 1 · densité : 193,5 / 205 = 0,94 m² par personne"
+            },
+            {
+              "t": 18,
+              "titre": "Avec la scène : 222,0 m², 1,08 m² par personne"
+            },
+            {
+              "t": 30,
+              "titre": "Exercice 2 · largeur cumulée des portes de façade : 9,00 m"
+            },
+            {
+              "t": 45,
+              "titre": "Unités de passage : 2 + 2 + 2 + 1 = 7 UP"
+            },
+            {
+              "t": 56,
+              "titre": "Exercice 3 · règle simplifiée du sujet : 3 UP exigées"
+            },
+            {
+              "t": 72,
+              "titre": "Salle : 4 sorties et 7 UP, conforme"
+            },
+            {
+              "t": 85,
+              "titre": "Sans P04 et P05 : 3 UP, juste conforme"
+            }
+          ],
           "retenir": [
             "Densité de la salle : 193,5 / 205 = 0,94 m² par personne, soit 1,06 personne par m² ; avec la scène (222,0 m²) : 1,08 m² par personne.",
             "Portes de façade : 4 × 1,40 + 1,60 + 2 × 0,90 = 9,00 m de passage cumulé ; unités de passage : 2 + 2 + 2 + 1 = 7 UP.",
@@ -617,6 +1590,7 @@ var BTS_FED = {
         ]
       },
       "depart": "TD4_depart.rvt (= corrigé du TD 3), Normes_CVC.rvt et les trois familles TD_*.rfa (dossier ressources).",
+      "disponibleLe": null,
       "enonce": {
         "url": "media/bts-fed/td/TD4-revit-reseau-aeraulique-etudiant.pdf?v=0519309e62",
         "nom": "TD4-revit-reseau-aeraulique-etudiant.pdf",
@@ -632,6 +1606,48 @@ var BTS_FED = {
         "nom": "TD4_depart.rvt",
         "taille": 5361664
       },
+      "complements": [
+        {
+          "url": "media/bts-fed/complements/Normes_CVC.rvt?v=7ef3b1d07b",
+          "nom": "Normes_CVC.rvt",
+          "taille": 18300928
+        },
+        {
+          "url": "media/bts-fed/complements/TD_Bouche%20extraction%20D125.rfa?v=4a0c167053",
+          "nom": "TD_Bouche extraction D125.rfa",
+          "taille": 446464
+        },
+        {
+          "url": "media/bts-fed/complements/TD_Bouche%20soufflage%20D160.rfa?v=f28105957e",
+          "nom": "TD_Bouche soufflage D160.rfa",
+          "taille": 446464
+        },
+        {
+          "url": "media/bts-fed/complements/TD_CTA%20double%20flux.rfa?v=f3c656b91b",
+          "nom": "TD_CTA double flux.rfa",
+          "taille": 446464
+        }
+      ],
+      "modules": [
+        {
+          "id": "fed-bts-b2-1-ventilation",
+          "titre": "Ventilation"
+        },
+        {
+          "id": "fed-bts-b4-2-reseaux-aerauliques",
+          "titre": "Réseaux aérauliques"
+        },
+        {
+          "id": "fed-bts-a3-dynamique-fluides",
+          "titre": "Dynamique des fluides en réseau CVC"
+        }
+      ],
+      "controles": [
+        {
+          "texte": "Contrôle dans les Propriétés du système : nombre d'éléments 5, débit 400 m³/h.",
+          "video": "TD4-03-le-systeme-de-reprise"
+        }
+      ],
       "videos": [
         {
           "id": "TD4-01-normes-unites-vue-plenum",
@@ -639,7 +1655,54 @@ var BTS_FED = {
           "duree": 61,
           "voix": false,
           "url": "media/bts-fed/videos/TD4-01-normes-unites-vue-plenum.mp4?v=ca858f47b7",
+          "poster": "media/bts-fed/posters/TD4-01-normes-unites-vue-plenum.jpg?v=ca858f47b7",
           "taille": 4108926,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 1 · Normes_CVC.rvt est ouvert, retour dans notre projet"
+            },
+            {
+              "t": 5.2,
+              "titre": "Gérer › Paramètres › Transférer les normes du projet"
+            },
+            {
+              "t": 9.9,
+              "titre": "Copier depuis : Normes_CVC.rvt"
+            },
+            {
+              "t": 13.2,
+              "titre": "OK : on copie types de conduits, systèmes et raccords"
+            },
+            {
+              "t": 16.5,
+              "titre": "Types déjà présents : les versions du projet sont conservées, OK"
+            },
+            {
+              "t": 23.4,
+              "titre": "Types en double : Conserver existant"
+            },
+            {
+              "t": 30,
+              "titre": "Étape 2 · Gérer › Unités : discipline CVC"
+            },
+            {
+              "t": 34.9,
+              "titre": "Débit d air : format, mètres cubes par heure"
+            },
+            {
+              "t": 39.6,
+              "titre": "Arrondi : 0 décimale, puis OK"
+            },
+            {
+              "t": 46.2,
+              "titre": "Étape 3 · clic droit sur Plan RDC › Dupliquer la vue › Dupliquer"
+            },
+            {
+              "t": 52.4,
+              "titre": "On renomme la copie : CVC - Plénum annexes"
+            }
+          ],
           "retenir": [
             "Normes_CVC.rvt est ouvert en même temps que notre projet ; dans notre projet : Gérer › Transférer les normes du projet › Copier depuis Normes_CVC.",
             "Les types de conduits, de raccords et de systèmes (Reprise, Soufflage…) arrivent dans le projet ; quand des types existent déjà, on garde les versions du projet.",
@@ -659,7 +1722,38 @@ var BTS_FED = {
           "duree": 37,
           "voix": false,
           "url": "media/bts-fed/videos/TD4-02-la-cta-et-les-bouches.mp4?v=514060f783",
+          "poster": "media/bts-fed/posters/TD4-02-la-cta-et-les-bouches.jpg?v=514060f783",
           "taille": 1636557,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 4 · Insérer › Charger la famille : les trois familles TD_"
+            },
+            {
+              "t": 8.2,
+              "titre": "Systèmes › Équipement de génie climatique : TD_CTA double flux"
+            },
+            {
+              "t": 10.8,
+              "titre": "On clique dans le local technique R17 : la CTA est posée"
+            },
+            {
+              "t": 14.4,
+              "titre": "Étape 5 · Systèmes › Bouche d aération, type extraction D125"
+            },
+            {
+              "t": 22.4,
+              "titre": "Bouche R10 : un clic dans les sanitaires femmes"
+            },
+            {
+              "t": 25.5,
+              "titre": "Les cinq bouches : élévation 2700, débits 90 · 105 · 30 · 100 · 75"
+            },
+            {
+              "t": 29,
+              "titre": "Une bouche sélectionnée : le débit se lit dans Propriétés"
+            }
+          ],
           "retenir": [
             "Insérer › Charger la famille : TD_CTA double flux, TD_Bouche extraction D125 et TD_Bouche soufflage D160.",
             "Systèmes › Équipement de génie climatique : on pose la CTA dans le local R17 ; position : centre X = 29,30 ; Y = 10,70. Les piquages sont à Z = 1,30 : soufflage X = 29,05 et reprise X = 29,55 (Y = 10,50), soit 0,50 m entre les axes.",
@@ -679,7 +1773,30 @@ var BTS_FED = {
           "duree": 34,
           "voix": false,
           "url": "media/bts-fed/videos/TD4-03-le-systeme-de-reprise.mp4?v=31b6110f62",
+          "poster": "media/bts-fed/posters/TD4-03-le-systeme-de-reprise.jpg?v=31b6110f62",
           "taille": 1176318,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 6 · on sélectionne les cinq bouches : clic puis Ctrl + clic"
+            },
+            {
+              "t": 12.3,
+              "titre": "Créer des systèmes › Gaine : type Reprise"
+            },
+            {
+              "t": 15.1,
+              "titre": "Nom : CTA_02 - Reprise annexes, éditeur de système ouvert"
+            },
+            {
+              "t": 21,
+              "titre": "Sélect. équipement, puis un clic sur la CTA"
+            },
+            {
+              "t": 25.8,
+              "titre": "Finir : le système de reprise est créé"
+            }
+          ],
           "retenir": [
             "On sélectionne les cinq bouches (clic puis Ctrl + clic), puis Créer des systèmes › Gaine.",
             "Dans la boîte : type de système Reprise, nom « CTA_02 - Reprise annexes », case « Ouvrir dans l'éditeur de système » cochée.",
@@ -699,7 +1816,34 @@ var BTS_FED = {
           "duree": 33,
           "voix": false,
           "url": "media/bts-fed/videos/TD4-04-les-gaines.mp4?v=9290401dc3",
+          "poster": "media/bts-fed/posters/TD4-04-les-gaines.jpg?v=9290401dc3",
           "taille": 1246293,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 7 · Systèmes › Gaine"
+            },
+            {
+              "t": 6.6,
+              "titre": "Type : Gaine circulaire › Té / Coude segmenté"
+            },
+            {
+              "t": 10.2,
+              "titre": "Diamètre 200 pour le tronc"
+            },
+            {
+              "t": 12.9,
+              "titre": "Élévation centrale : 2840 (axe de la gaine)"
+            },
+            {
+              "t": 15.8,
+              "titre": "Le tronc à Y = 11,60 et les antennes, vus dans la vue du plénum"
+            },
+            {
+              "t": 21.3,
+              "titre": "En 3D : un tronc et quatre antennes, au-dessus des faux plafonds"
+            }
+          ],
           "retenir": [
             "Systèmes › Gaine ; type Gaine circulaire › Té / Coude segmenté ; Diamètre 200 pour le tronc, 125 pour les antennes.",
             "Élévation centrale = 2840 : c'est l'axe de la gaine. Une gaine Ø200 occupe donc de 2740 à 2940, juste sous la sous-face de la toiture (2996).",
@@ -719,7 +1863,26 @@ var BTS_FED = {
           "duree": 41,
           "voix": false,
           "url": "media/bts-fed/videos/TD4-05-debits-et-vitesses.mp4?v=f384242540",
+          "poster": "media/bts-fed/posters/TD4-05-debits-et-vitesses.jpg?v=f384242540",
           "taille": 2277591,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 8 · on sélectionne un tronçon du tronc"
+            },
+            {
+              "t": 6.5,
+              "titre": "Propriétés : Débit 325 m³/h · Vitesse 2,87 m/s"
+            },
+            {
+              "t": 20.2,
+              "titre": "Plus loin, près de R10 : on change de tronçon (Ø125)"
+            },
+            {
+              "t": 22.4,
+              "titre": "Débit 90 m³/h · Vitesse environ 2 m/s"
+            }
+          ],
           "retenir": [
             "On sélectionne un tronçon de gaine : la palette Propriétés donne Débit et Vitesse (groupe Génie climatique, en faisant défiler).",
             "Tronçon du tronc après l'antenne R07 : 325 m³/h ; Ø200 ; vitesse 2,87 m/s. Près de R10 (Ø125) : 90 m³/h ; 2,04 m/s. Le système entier : 400 m³/h ; 3,54 m/s dans la montée Ø200 de la CTA.",
@@ -739,7 +1902,30 @@ var BTS_FED = {
           "duree": 80,
           "voix": false,
           "url": "media/bts-fed/videos/TD4-06-exercices-1-et-2.mp4?v=f690bb5480",
+          "poster": "media/bts-fed/posters/TD4-06-exercices-1-et-2.jpg?v=f690bb5480",
           "taille": 2205459,
+          "chapitres": [
+            {
+              "t": 3.5,
+              "titre": "Exercice 1 · débit cumulé le long du tronc"
+            },
+            {
+              "t": 18,
+              "titre": "S min = Q / (3600 × 5), puis le diamètre minimal"
+            },
+            {
+              "t": 33,
+              "titre": "Exercice 2 · vitesse à 400 m³/h : Ø160, Ø200, Ø250"
+            },
+            {
+              "t": 48,
+              "titre": "Ø200 : 3,54 m/s ; Ø160 : 5,53 m/s, trop bruyant"
+            },
+            {
+              "t": 63,
+              "titre": "Ø160 pour 325 m³/h : 4,49 m/s, ça passe"
+            }
+          ],
           "retenir": [
             "Débit cumulé le long du tronc, de l'ouest vers l'est : 90, 195, 225, 325, 400 m³/h.",
             "Section minimale pour 5 m/s : S = Q / (3600 × 5) ; diamètre minimal : de 79,8 mm (90 m³/h) à 168,2 mm (400 m³/h).",
@@ -759,7 +1945,22 @@ var BTS_FED = {
           "duree": 54,
           "voix": false,
           "url": "media/bts-fed/videos/TD4-07-exercice-3-taux-de-renouvellement.mp4?v=3726240e7e",
+          "poster": "media/bts-fed/posters/TD4-07-exercice-3-taux-de-renouvellement.jpg?v=3726240e7e",
           "taille": 1475829,
+          "chapitres": [
+            {
+              "t": 3.5,
+              "titre": "Exercice 3 · volume de chaque local : surface × 2,70"
+            },
+            {
+              "t": 18,
+              "titre": "Taux de renouvellement n = Q / V : la loge à 3,10 vol/h"
+            },
+            {
+              "t": 34,
+              "titre": "Et la CTA_02 : 400 m³/h repris sur 600 annoncés"
+            }
+          ],
           "retenir": [
             "Taux de renouvellement horaire : n = Q / V (V = volume du local en m³), hauteur sous plafond 2,70 m.",
             "Volumes : R10 58,6 m³ ; R11 60,8 ; R12 14,9 ; R14 60,0 ; R07 24,2. Taux : 1,54 ; 1,73 ; 2,02 ; 1,67 ; 3,10 volumes par heure.",
@@ -792,6 +1993,7 @@ var BTS_FED = {
         ]
       },
       "depart": "TD5_depart.rvt (= corrigé du TD 4) ou votre fichier TD4_Escale_NOM.rvt.",
+      "disponibleLe": null,
       "enonce": {
         "url": "media/bts-fed/td/TD5-revit-documenter-coordonner-etudiant.pdf?v=003c5e1057",
         "nom": "TD5-revit-documenter-coordonner-etudiant.pdf",
@@ -807,6 +2009,27 @@ var BTS_FED = {
         "nom": "TD5_depart.rvt",
         "taille": 10219520
       },
+      "complements": [],
+      "modules": [
+        {
+          "id": "fed-bts-b4-2-reseaux-aerauliques",
+          "titre": "Réseaux aérauliques"
+        },
+        {
+          "id": "fed-bts-b2-3-desenfumage",
+          "titre": "Désenfumage et sécurité incendie"
+        }
+      ],
+      "controles": [
+        {
+          "texte": "Vue › Nomenclatures › Nomenclature/Quantités : NOM-11 (catégorie Terminaux d'air ; champs Repère, Local, Débit, Élévation ; total 400 m³/h) et Métré des gaines (catégorie Conduits ; champs Nom du système, Diamètre, Longueur ; total 28,78 m).",
+          "video": "TD5-02-etiquettes-et-nomenclatures"
+        },
+        {
+          "texte": "Contrôle : le PDF s'ouvre et reste lisible ; le fichier .ifc est créé (quelques centaines de Ko à quelques Mo).",
+          "video": "TD5-05-export-pdf-et-ifc4"
+        }
+      ],
       "videos": [
         {
           "id": "TD5-01-coupe-et-cote-du-plenum",
@@ -814,7 +2037,34 @@ var BTS_FED = {
           "duree": 30,
           "voix": false,
           "url": "media/bts-fed/videos/TD5-01-coupe-et-cote-du-plenum.mp4?v=c855f7977e",
+          "poster": "media/bts-fed/posters/TD5-01-coupe-et-cote-du-plenum.jpg?v=c855f7977e",
           "taille": 943063,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 1 · Vue › Coupe, dans la vue CVC - Plénum annexes"
+            },
+            {
+              "t": 8,
+              "titre": "Trait de coupe perpendiculaire au tronc : X = 12, de Y = 8 à Y = 17"
+            },
+            {
+              "t": 13.3,
+              "titre": "La coupe CC - Plénum : échelle 1 : 20, niveau de détail Élevé"
+            },
+            {
+              "t": 16.8,
+              "titre": "On voit le faux plafond, la bouche, la gaine Ø200 et la toiture"
+            },
+            {
+              "t": 19.9,
+              "titre": "Étape 2 · Annoter › Cote alignée"
+            },
+            {
+              "t": 21.8,
+              "titre": "Plénum : 296 mm entre la sous-face du plafond et celle du toit"
+            }
+          ],
           "retenir": [
             "Vue › Coupe, dans la vue CVC - Plénum annexes : trait de coupe perpendiculaire au tronc, à X = 12 m, de Y = 8 à Y = 17, en regardant vers l'ouest.",
             "On nomme la coupe « Coupe CC - Plénum », échelle 1 : 20, niveau de détail Élevé, emprise limitée aux annexes.",
@@ -833,7 +2083,26 @@ var BTS_FED = {
           "duree": 30,
           "voix": false,
           "url": "media/bts-fed/videos/TD5-02-etiquettes-et-nomenclatures.mp4?v=0b3f87ca18",
+          "poster": "media/bts-fed/posters/TD5-02-etiquettes-et-nomenclatures.jpg?v=0b3f87ca18",
           "taille": 1239623,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 3 · Annoter › Tout étiqueter : aucune étiquette CVC chargée"
+            },
+            {
+              "t": 9.9,
+              "titre": "À la place : des notes de texte (repère, débit) près de chaque élément"
+            },
+            {
+              "t": 13.6,
+              "titre": "Étape 4 · NOM-11 : repère, local, débit, élévation. Total : 400 m³/h"
+            },
+            {
+              "t": 19.5,
+              "titre": "Métré des gaines : par système et par diamètre, total 28,78 m"
+            }
+          ],
           "retenir": [
             "Annoter › Étiquette › Tout étiqueter : la boîte ne propose que les catégories dont une famille d'étiquette est chargée. Ici, aucune étiquette CVC n'est chargée : on annote avec des notes de texte (Annoter › Texte).",
             "Notes ajoutées : bouches (« R10 · 90 m³/h »), gaines (« Ø200 · 325 m³/h »), CTA (« CTA_02 · 600 m³/h »).",
@@ -852,7 +2121,22 @@ var BTS_FED = {
           "duree": 22,
           "voix": false,
           "url": "media/bts-fed/videos/TD5-03-la-feuille-c-401.mp4?v=f66de843e0",
+          "poster": "media/bts-fed/posters/TD5-03-la-feuille-c-401.jpg?v=f66de843e0",
           "taille": 906897,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 5 · Vue › Feuille : cartouche A1"
+            },
+            {
+              "t": 10.4,
+              "titre": "La feuille C-401 : plan, 3D, coupe et nomenclature NOM-11"
+            },
+            {
+              "t": 14.2,
+              "titre": "Le cartouche reprend les informations du projet (TD 1)"
+            }
+          ],
           "retenir": [
             "Vue › Composition de feuille › Feuille : cartouche A1, numéro C-401, nom « Réseau CTA_02 — plénum des annexes ».",
             "On place sur la feuille, par glisser-déposer depuis l'arborescence : le plan CVC - Plénum annexes, la vue 3D - Réseau CTA_02, la coupe CC et la nomenclature NOM-11.",
@@ -872,7 +2156,26 @@ var BTS_FED = {
           "duree": 33,
           "voix": false,
           "url": "media/bts-fed/videos/TD5-04-gaine-detude-et-interferences.mp4?v=96fb4f68aa",
+          "poster": "media/bts-fed/posters/TD5-04-gaine-detude-et-interferences.jpg?v=96fb4f68aa",
           "taille": 1392863,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 6 · la gaine d étude CTA_01 : Ø200, axe à 2840, de X = 3 à X = 24"
+            },
+            {
+              "t": 8,
+              "titre": "Étape 7 · Collaborer › Vérification des interférences"
+            },
+            {
+              "t": 13,
+              "titre": "Gaine et Murs cochés : on lance la vérification"
+            },
+            {
+              "t": 25,
+              "titre": "Le rapport : chaque ligne donne les deux éléments en conflit"
+            }
+          ],
           "retenir": [
             "Le bureau d'études de la salle étudie un second réseau, CTA_01 : une gaine circulaire Ø200, axe à 2840, de X = 3,00 à X = 24,00 m, à Y = 13,50 m, système Soufflage.",
             "Elle traverse la bande nord d'ouest en est : elle croise les cloisons des annexes.",
@@ -892,7 +2195,26 @@ var BTS_FED = {
           "duree": 36,
           "voix": false,
           "url": "media/bts-fed/videos/TD5-05-export-pdf-et-ifc4.mp4?v=cd3d572201",
+          "poster": "media/bts-fed/posters/TD5-05-export-pdf-et-ifc4.jpg?v=cd3d572201",
           "taille": 2139259,
+          "chapitres": [
+            {
+              "t": 4.1,
+              "titre": "Étape 8 · Fichier › Exporter › PDF"
+            },
+            {
+              "t": 11,
+              "titre": "Nom C-401, emplacement neutre, papier A1"
+            },
+            {
+              "t": 14.8,
+              "titre": "Fichier › Exporter › IFC : la version par défaut est IFC 2x3"
+            },
+            {
+              "t": 22,
+              "titre": "Modifier la configuration : IFC4, vue de référence"
+            }
+          ],
           "retenir": [
             "PDF : Fichier › Exporter › PDF ; on choisit la feuille C-401 (Vues/feuilles sélectionnées), le papier A1 (ou A3 si on veut lire sur écran), le nom C-401 et un emplacement neutre.",
             "IFC : Fichier › Exporter › IFC. Revit propose IFC 2x3 - Vue de coordination 2.0 par défaut : on clique sur « Modifier la configuration » et on choisit une configuration IFC4, par exemple « IFC4 - Vue de référence [Service de bâtiment] » (exigence : échange de référence MEP). Le cahier des charges exige l'IFC4.",
@@ -912,7 +2234,38 @@ var BTS_FED = {
           "duree": 109,
           "voix": false,
           "url": "media/bts-fed/videos/TD5-06-exercices.mp4?v=cc0a2684fd",
+          "poster": "media/bts-fed/posters/TD5-06-exercices.jpg?v=cc0a2684fd",
           "taille": 3006923,
+          "chapitres": [
+            {
+              "t": 3.5,
+              "titre": "Exercice 1 · métré : Ø200 = 21,72 m, Ø125 = 7,06 m"
+            },
+            {
+              "t": 19,
+              "titre": "Somme : 28,78 m, cohérent avec la nomenclature"
+            },
+            {
+              "t": 32,
+              "titre": "Exercice 2 · le plan RDC sur A1 : 1 : 100 ou 1 : 50"
+            },
+            {
+              "t": 47,
+              "titre": "Une vue ne figure que sur une seule feuille : on la duplique"
+            },
+            {
+              "t": 60,
+              "titre": "Exercice 3 · cinq interférences : une distributive, quatre coupe-feu"
+            },
+            {
+              "t": 76,
+              "titre": "Les cloisons coupe-feu : un passage à protéger"
+            },
+            {
+              "t": 90,
+              "titre": "Limiter les passages : trajet par le hall, antennes par local"
+            }
+          ],
           "retenir": [
             "Exercice 1 : le métré des gaines donne 21,72 m en Ø200 et 7,06 m en Ø125, soit 28,78 m.",
             "Exercice 2 : sur un A1 (841 × 594 mm), le plan 32 m × 16 m tient à 1 : 100 (320 × 160 mm) et même à 1 : 50 (640 × 320 mm) ; une vue ne figure que sur une seule feuille : on la duplique pour la placer ailleurs.",
@@ -945,6 +2298,7 @@ var BTS_FED = {
         ]
       },
       "depart": "TD6_depart.rvt (maquette préparée pour l’énergie, voir l’étape 1).",
+      "disponibleLe": null,
       "enonce": {
         "url": "media/bts-fed/td/TD6-archiwizard-bilan-thermique-etudiant.pdf?v=4a107cca89",
         "nom": "TD6-archiwizard-bilan-thermique-etudiant.pdf",
@@ -960,6 +2314,63 @@ var BTS_FED = {
         "nom": "TD6_depart.rvt",
         "taille": 15937536
       },
+      "complements": [],
+      "modules": [
+        {
+          "id": "fed-bts-a2-3-bilan-thermique",
+          "titre": "Bilan thermique (déperditions)"
+        },
+        {
+          "id": "fed-bts-b2-1-ventilation",
+          "titre": "Ventilation"
+        },
+        {
+          "id": "fed-bts-b1-2-emission-chauffage",
+          "titre": "Émission (chauffage)"
+        },
+        {
+          "id": "fed-bts-a2-4-dju",
+          "titre": "Degrés-jours unifiés (DJU) et besoin de chauffage"
+        }
+      ],
+      "controles": [
+        {
+          "texte": "Contrôle : le fichier pèse environ 230 Ko et contient 14 IfcSpace.",
+          "video": "TD6-01-preparer-et-exporter-l-ifc"
+        },
+        {
+          "texte": "Contrôle : Modèle › Bâtiment › Etage 1 affiche 14 pièces. Volumes (EN 12831 › zone › Ventilation) : salle 1 408,5 m³ (Revit 1 428,9), hall 153,2 (148,4), R10 51,4 m³ (65,0) : les annexes nord sortent à 2,37 m de haut au lieu de 3,00.",
+          "video": "TD6-02-ouvrir-l-ifc-dans-archiwizard"
+        },
+        {
+          "texte": "On coche « Département » et on choisit 45 : θe = −7,0 °C, θm,e = 11,0 °C.",
+          "video": "TD6-03-site-et-climat"
+        },
+        {
+          "texte": "HT = Σ U × A des parois vers l'extérieur + sol : 2,63 + 2,05 + 1,34 + 1,30 = 7,32 W/K.",
+          "video": "TD6-07-controle-a-la-main"
+        },
+        {
+          "texte": "ΦT = HT × ΔT = 7,32 × 26 = 190 W, comme le logiciel.",
+          "video": "TD6-07-controle-a-la-main"
+        },
+        {
+          "texte": "ΦV = 0,34 × (q_inf × ΔT + q_air neuf × (θint − θsoufflage)) = 0,34 × (9,3 × 26 + 90 × 5,2) = 241 W.",
+          "video": "TD6-07-controle-a-la-main"
+        },
+        {
+          "texte": "ΦHL = 190 + 241 = 431 W, soit 20 W/m².",
+          "video": "TD6-07-controle-a-la-main"
+        },
+        {
+          "texte": "Exercice 1 : ΦV de R11 = 0,34 × (9,3 × 26 + 105 × 5,2) = 268 W, comme la synthèse.",
+          "video": "TD6-08-dimensionner-et-exercices"
+        },
+        {
+          "texte": "Exercice 3 : en simple flux, 3 867 + 3 997 + 32 620 = 40,5 kW contre 14,4 : 26,1 kW de plus, avis défavorable.",
+          "video": "TD6-08-dimensionner-et-exercices"
+        }
+      ],
       "videos": [
         {
           "id": "TD6-01-preparer-et-exporter-l-ifc",
@@ -967,7 +2378,9 @@ var BTS_FED = {
           "duree": 62,
           "voix": false,
           "url": "media/bts-fed/videos/TD6-01-preparer-et-exporter-l-ifc.mp4?v=166c692b95",
+          "poster": "media/bts-fed/posters/TD6-01-preparer-et-exporter-l-ifc.jpg?v=166c692b95",
           "taille": 3249558,
+          "chapitres": [],
           "retenir": [
             "La vue 3D « AW - Modèle énergétique » ne montre que ce qui compte pour la thermique : murs, sols, toitures, portes, fenêtres et pièces. Structure, mobilier, équipements et faux plafonds sont masqués.",
             "La nomenclature NOM-01 compte 14 pièces : le vestiaire R04 est réuni au hall R03, la scène R06 à la salle R05. ArchiWIZARD ne reconnaît une pièce que si son volume est fermé par des parois jusqu'au plafond.",
@@ -989,7 +2402,9 @@ var BTS_FED = {
           "duree": 65,
           "voix": false,
           "url": "media/bts-fed/videos/TD6-02-ouvrir-l-ifc-dans-archiwizard.mp4?v=75dff0c93f",
+          "poster": "media/bts-fed/posters/TD6-02-ouvrir-l-ifc-dans-archiwizard.jpg?v=75dff0c93f",
           "taille": 2484493,
+          "chapitres": [],
           "retenir": [
             "On ouvre l'IFC par « Ouvrir un fichier » (barre verticale de gauche), filtre « fichiers IFC ». Le bouton Importer est indisponible en version Éducation.",
             "Boîte Import IFC : import natif, compositions de parois et noms de pièces sur Oui ; mobilier sur Non.",
@@ -1011,7 +2426,9 @@ var BTS_FED = {
           "duree": 20,
           "voix": false,
           "url": "media/bts-fed/videos/TD6-03-site-et-climat.mp4?v=26f821e4cb",
+          "poster": "media/bts-fed/posters/TD6-03-site-et-climat.jpg?v=26f821e4cb",
           "taille": 572835,
+          "chapitres": [],
           "retenir": [
             "EN 12831 (icône maison rouge) › Site. Par défaut, la station de Nancy donne θe = −15 °C et θm,e = 8 °C.",
             "On coche « Département » et on choisit 45 : θe = −7,0 °C, θm,e = 11,0 °C.",
@@ -1029,7 +2446,9 @@ var BTS_FED = {
           "duree": 109,
           "voix": false,
           "url": "media/bts-fed/videos/TD6-04-zonage-et-consignes.mp4?v=b0bb096c82",
+          "poster": "media/bts-fed/posters/TD6-04-zonage-et-consignes.jpg?v=b0bb096c82",
           "taille": 4087068,
+          "chapitres": [],
           "retenir": [
             "Modèle › Définition des zones : bouton + pour créer Z1 Salle et scène, Z2 Accueil, Z3 Annexes, Z4 Locaux non chauffés (usage Bureaux).",
             "On choisit une zone dans la liste, puis on clique les pièces au pinceau sur le plan. Z1 = 1 pièce, Z2 = 3, Z3 = 6, Z4 = 4.",
@@ -1049,7 +2468,9 @@ var BTS_FED = {
           "duree": 96,
           "voix": false,
           "url": "media/bts-fed/videos/TD6-05-parois-menuiseries-ventilation.mp4?v=49c5c11f44",
+          "poster": "media/bts-fed/posters/TD6-05-parois-menuiseries-ventilation.jpg?v=49c5c11f44",
           "taille": 3548462,
+          "chapitres": [],
           "retenir": [
             "Configurateur des parois › Compositions › MUR_EXT_01 : R = 0,40 m²·K/W et Up = 1,757 juste après l'import. L'IFC transmet couches et épaisseurs, pas les λ : tous les matériaux arrivent à 1,000.",
             "Onglet Matériaux : clic sur un matériau, saisie de la Conductivité à droite (tableau de l'étape 8). Les champs sont modifiables d'emblée ; le cadenas, s'il est cliqué, les verrouille.",
@@ -1071,7 +2492,9 @@ var BTS_FED = {
           "duree": 49,
           "voix": false,
           "url": "media/bts-fed/videos/TD6-06-calcul-et-resultats.mp4?v=9a43004cbc",
+          "poster": "media/bts-fed/posters/TD6-06-calcul-et-resultats.jpg?v=9a43004cbc",
           "taille": 2309825,
+          "chapitres": [],
           "retenir": [
             "Ctrl+S, OK à l'avertissement de licence, OK pour écraser la variante : le calcul se met à jour.",
             "Résultats › EN 12831 › Bâtiment › Synthèse par pièce : Z1 ΦT 3 867, ΦV 10 520, ΦHL 14 387 W ; Z2 1 466 W ; Z3 3 916 W ; bâtiment 19 769 W.",
@@ -1090,7 +2513,9 @@ var BTS_FED = {
           "duree": 56,
           "voix": false,
           "url": "media/bts-fed/videos/TD6-07-controle-a-la-main.mp4?v=14c079fdc1",
+          "poster": "media/bts-fed/posters/TD6-07-controle-a-la-main.jpg?v=14c079fdc1",
           "taille": 1504223,
+          "chapitres": [],
           "retenir": [
             "HT = Σ U × A des parois vers l'extérieur + sol : 2,63 + 2,05 + 1,34 + 1,30 = 7,32 W/K.",
             "ΦT = HT × ΔT = 7,32 × 26 = 190 W, comme le logiciel.",
@@ -1109,7 +2534,9 @@ var BTS_FED = {
           "duree": 72,
           "voix": false,
           "url": "media/bts-fed/videos/TD6-08-dimensionner-et-exercices.mp4?v=c1003076cb",
+          "poster": "media/bts-fed/posters/TD6-08-dimensionner-et-exercices.jpg?v=c1003076cb",
           "taille": 2093912,
+          "chapitres": [],
           "retenir": [
             "Salle : 14,4 kW = transmission 3,9 + infiltrations 4,0 (0,34 × 452,1 × 26) + air neuf 6,5 (0,34 × 3 690 × 5,2).",
             "Avec une batterie chaude qui porte l'air à 19 °C : 6,5 kW dans la CTA, 7,9 kW aux émetteurs. Le total ne change pas.",
