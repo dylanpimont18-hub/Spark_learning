@@ -175,7 +175,12 @@ async function renderRoute(page, url, routePath) {
   //  - toasts, confettis et bandeaux de célébration : chrome d'UI éphémère lié à une
   //    session (classes réelles : js/app.js showToast()/`.confetti-container`,
   //    js/components/celebration.js).
-  const removedCounts = await page.evaluate(() => {
+  //  Nettoyage et sérialisation dans UN SEUL page.evaluate() (une seule tâche JS) : en deux
+  //  appels, le préchargement différé du catalogue (requestIdleCallback dans
+  //  _setupStudentApp()) pouvait réinjecter ses ~248 <script src="js/data/…"> entre les
+  //  deux, et ils partaient dans le HTML statique (constaté le 2026-11-23 sur /bts-fed/td6,
+  //  route au rendu instantané : 248 TypeError à chaque chargement de la page figée).
+  const result = await page.evaluate(() => {
     const selectors = [
       'head script[src*="js/data/"]',
       '#consent-banner',
@@ -191,18 +196,20 @@ async function renderRoute(page, url, routePath) {
       if (nodes.length) counts[sel] = nodes.length;
       nodes.forEach(n => n.remove());
     });
-    return counts;
+    return {
+      counts,
+      html: document.documentElement.outerHTML,
+      title: document.title,
+      appTextLength: (document.getElementById('app') ? document.getElementById('app').innerText : '').trim().length
+    };
   });
+  const removedCounts = result.counts;
   const removedSummary = Object.keys(removedCounts);
   if (removedSummary.length) {
     console.log(`  [nettoyage] ${removedSummary.map(s => `${s}×${removedCounts[s]}`).join(', ')}`);
   }
 
-  return page.evaluate(() => ({
-    html: document.documentElement.outerHTML,
-    title: document.title,
-    appTextLength: (document.getElementById('app') ? document.getElementById('app').innerText : '').trim().length
-  }));
+  return { html: result.html, title: result.title, appTextLength: result.appTextLength };
 }
 
 async function main() {
