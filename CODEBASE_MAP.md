@@ -430,6 +430,7 @@ Page de contact dédiée (question, erreur, proposition commerciale, partenariat
 
 ## js/views/btsFed.js
 Page BTS FED (TD Revit / ArchiWIZARD, projet L'Escale), données `window.BTS_FED`. Vouvoiement, comme les énoncés.
+- `BTS_FED_MAINTENANCE` — interrupteur (en code : le panneau admin ne gère que les modules du catalogue). `true` : toutes les routes `/bts-fed*` affichent `renderBtsFedMaintenance()`, en noindex, sans charger les données ; `generate-sitemap.js` lit cette ligne et retire les 8 adresses. Activé le 2026-11-23
 - `getBtsFedTd(id)` — TD par identifiant (`td0`…`td6`)
 - `renderBtsFedHome()` — sommaire : une carte `.bts-td-card` par TD (numéro, titre, logiciel, nombre et durée des vidéos)
 - `renderBtsFedTd(id)` — en-tête (objectif + point de départ tirés de l'énoncé), 3 boutons `download` (énoncé, corrigé, maquette .rvt si elle existe), bandeau « sans voix » si une vidéo est muette, vidéos `preload="none"` avec points à retenir / pièges, pager précédent / sommaire / suivant

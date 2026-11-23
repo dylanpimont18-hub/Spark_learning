@@ -147,7 +147,7 @@ function _markRouteReady(view) {
   if (DATA_DEPENDENT_VIEWS.includes(view) && !window.__sparkCatalogReady) return;
   // Données BTS FED absentes (chargement échoué) : la page affichée n'est qu'un message
   // d'indisponibilité, le pré-rendu ne doit pas la publier.
-  if (view === 'btsfed' && !window.BTS_FED) return;
+  if (view === 'btsfed' && !window.BTS_FED && !BTS_FED_MAINTENANCE) return;
   window.__sparkRouteReady = true;
 }
 
@@ -235,7 +235,7 @@ function navigate(view, data = {}, options = {}) {
   } else if (view === 'btsfed') {
     // Échec de chargement absorbé : la vue affiche alors un message d'indisponibilité
     // (et _markRouteReady() retient le signal de pré-rendu), au lieu d'un chargement sans fin.
-    if (!window.BTS_FED && typeof ensureBtsFedData === 'function') {
+    if (!BTS_FED_MAINTENANCE && !window.BTS_FED && typeof ensureBtsFedData === 'function') {
       loadPromise = ensureBtsFedData().catch(() => {});
     }
   }
@@ -416,6 +416,11 @@ function updatePageMeta() {
       description = 'Contactez Spark Learning : question pédagogique, signalement d\'erreur, proposition commerciale, partenariat ou presse.';
       break;
     case 'btsfed': {
+      if (BTS_FED_MAINTENANCE) {
+        title = `Page en maintenance — ${BTS_FED_SUFFIX} — ${base}`;
+        description = 'Les TD Revit et ArchiWIZARD du BTS FED sont en maintenance et reviennent très bientôt.';
+        break;
+      }
       // Tant que js/data/bts-fed.js n'est pas chargé, le titre reste générique : le pré-rendu
       // (isValidRender) refuse alors la page au lieu de publier un titre faux.
       if (!window.BTS_FED) break;
@@ -439,6 +444,7 @@ function updatePageMeta() {
 
   const url = SITE_BASE_URL + buildPath(state.view, state);
   const noindex = NOINDEX_VIEWS.includes(state.view) ||
+    (state.view === 'btsfed' && BTS_FED_MAINTENANCE) ||
     (state.view === 'btsfed' && !!state.btsTd && !!window.BTS_FED && !getBtsFedTd(state.btsTd));
 
   _setMetaTag('name', 'description', description);
@@ -490,7 +496,7 @@ function render() {
     case 'admin':      AdminPanel.render(); return;
     case 'confidentialite': app.innerHTML = renderConfidentialite(); break;
     case 'contact':    app.innerHTML = renderContact(); break;
-    case 'btsfed':     app.innerHTML = state.btsTd ? renderBtsFedTd(state.btsTd) : renderBtsFedHome(); break;
+    case 'btsfed':     app.innerHTML = BTS_FED_MAINTENANCE ? renderBtsFedMaintenance() : (state.btsTd ? renderBtsFedTd(state.btsTd) : renderBtsFedHome()); break;
     case 'connexion':  if (AuthGuard.isAuthenticated()) { navigate('home'); } else { AuthView.render(true); } return;
     default:           app.innerHTML = renderHome();
   }

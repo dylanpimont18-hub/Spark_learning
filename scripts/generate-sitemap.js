@@ -82,7 +82,12 @@ function readBtsFed() {
   if (!ctx.BTS_FED || !Array.isArray(ctx.BTS_FED.tds)) throw new Error('BTS_FED introuvable dans js/data/bts-fed.js');
   return ctx.BTS_FED;
 }
-const btsFed = readBtsFed();
+// Page en maintenance (interrupteur BTS_FED_MAINTENANCE de js/views/btsFed.js) : ses
+// adresses sont en noindex, on ne les propose donc pas aux moteurs.
+const btsFedMaintenance = /const BTS_FED_MAINTENANCE = true;/.test(
+  fs.readFileSync(path.join(root, 'js', 'views', 'btsFed.js'), 'utf8'));
+const btsFed = btsFedMaintenance ? null : readBtsFed();
+if (btsFedMaintenance) console.log('BTS FED en maintenance : /bts-fed absent du sitemap.');
 if (btsFed) {
   addUrl('/bts-fed', { priority: '0.8' });
   btsFed.tds.forEach(td => addUrl(`/bts-fed/${td.id}`, { changefreq: 'monthly', priority: '0.7' }));

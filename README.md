@@ -31,6 +31,7 @@ git push
 - **Vidéo avec voix prête** : la déposer sous `<id>-AVEC-VOIX.mp4` dans le dossier de la vidéo, puis relancer la commande. Elle remplace la version muette sous le même nom public ; le bandeau « Vidéos sans voix » disparaît de lui-même quand plus aucune vidéo du TD n'est muette (niveau sonore mesuré par ffmpeg).
 - **Nouveau TD** : ajouter son numéro à `TD_NUMBERS` en tête du script ; dossiers `TD{n}-NN-...` et PDF sont détectés seuls, le sitemap suit.
 - Outils requis dans le PATH : `ffprobe`, `ffmpeg`, `pdftotext`. Aucun fichier au-delà de 50 Mio (limite GitHub ; pas de Git LFS, que Firebase ne sait pas lire).
+- **Mettre la page en maintenance / la rouvrir** : `const BTS_FED_MAINTENANCE = true|false;` en tête de `js/views/btsFed.js`, incrémenter `?v=N` dans `index.html`, puis commit et push (le panneau admin ne gère que les modules du catalogue).
 - Dossier source ailleurs : `--source "chemin\BTS FED"`. Simulation sans copie : `--dry-run`.
 
 ## Où trouver quoi

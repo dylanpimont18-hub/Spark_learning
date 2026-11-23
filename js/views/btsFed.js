@@ -6,6 +6,28 @@
    par ensureBtsFedData() (js/loader.js).
    ========================================================= */
 
+// Interrupteur de maintenance de la page BTS FED. true : /bts-fed et les pages de TD
+// affichent un message d'attente (noindex), aucune donnée n'est chargée, et
+// scripts/generate-sitemap.js retire ces adresses du sitemap (il lit cette ligne).
+// Remettre à false, incrémenter ?v=N dans index.html, puis commit et push.
+const BTS_FED_MAINTENANCE = true;
+
+function renderBtsFedMaintenance() {
+  return `
+    <div class="container bts-page">
+      <div class="page-header">
+        <p class="bts-kicker">BTS FED · Génie climatique et fluidique</p>
+        <h1 class="page-title">Page en maintenance</h1>
+        <p class="page-subtitle">Les TD Revit et ArchiWIZARD du projet « L'Escale » reviennent très bientôt.</p>
+      </div>
+      <p class="hub-intro-text bts-intro">
+        Nous mettons à jour les vidéos de correction, les énoncés et les maquettes de départ.
+        La page sera de nouveau accessible dans quelques jours, à la même adresse.
+        En attendant, votre enseignant reste votre point de contact pour les documents des TD.
+      </p>
+    </div>`;
+}
+
 function getBtsFedTd(id) {
   const data = window.BTS_FED;
   if (!data || !id) return null;
