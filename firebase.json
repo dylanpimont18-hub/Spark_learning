@@ -26,8 +26,32 @@
     ],
     "rewrites": [
       {
-        "source": "**",
+        "regex": "^/([^m].*|m([^e].*)?|me([^d].*)?|med([^i].*)?|medi([^a].*)?|media([^/].*)?)?$",
         "destination": "/index.html"
+      }
+    ],
+    "headers": [
+      {
+        "source": "/media/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=604800"
+          }
+        ]
+      },
+      {
+        "source": "/media/**/*.rvt",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "application/octet-stream"
+          },
+          {
+            "key": "Content-Disposition",
+            "value": "attachment"
+          }
+        ]
       }
     ]
   }

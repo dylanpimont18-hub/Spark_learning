@@ -522,6 +522,23 @@ function ensureModuleData(moduleId) {
 }
 
 /**
+ * Données de la page BTS FED (js/data/bts-fed.js, généré par scripts/build-bts-fed.js) :
+ * chargées seulement sur /bts-fed*, hors catalogue des modules (ensureAllData ne les charge pas).
+ */
+let _btsFedPromise = null;
+function ensureBtsFedData() {
+  if (window.BTS_FED) return Promise.resolve();
+  if (!_btsFedPromise) {
+    _btsFedPromise = _loadScript('js/data/bts-fed.js').catch(err => {
+      _btsFedPromise = null;
+      console.error('Loader error:', err);
+      throw err;
+    });
+  }
+  return _btsFedPromise;
+}
+
+/**
  * Load ALL data (used for home page stats, search across levels, etc.)
  */
 function ensureAllData() {

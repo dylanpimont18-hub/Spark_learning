@@ -53,6 +53,9 @@ function parseArgs(argv) {
 function routeClass(routePath) {
   const segments = routePath.replace(/^\/+/, '').replace(/\/+$/, '').split('/').filter(Boolean);
   if (segments.length === 0) return '/';
+  // Sommaire et pages de TD forment une seule famille : 8 pages rendues depuis un petit
+  // fichier local (js/data/bts-fed.js), sans dépendance au catalogue — zéro tolérance.
+  if (segments[0] === 'bts-fed') return '/bts-fed';
   if (segments.length === 1) return '/' + segments[0];
   return '/' + segments[0] + '/*';
 }
@@ -94,8 +97,10 @@ function isValidRender(result, routePath) {
   return true;
 }
 
-// Zéro tolérance = toute classe de route SAUF '/module/*' (12 routes à forte valeur :
-// '/', '/subjects', '/confidentialite', les 3 '/levels/*', les 6 '/modules/*'). Extrait
+// Zéro tolérance = toute classe de route SAUF '/module/*' (routes à forte valeur :
+// '/', '/subjects', '/confidentialite', '/contact', les '/levels/*', les '/modules/*' et
+// les 8 pages '/bts-fed', dont les données tiennent dans un seul fichier local : un
+// échec y signale une vraie panne, jamais une lenteur de chargement tolérable). Extrait
 // en fonction nommée pour que renderRoute() (décision : timeout d'attente = échec dur)
 // et main() (filtre `criticalFailures`) partagent exactement la même règle au lieu de
 // dupliquer la comparaison `!== '/module/*'` à deux endroits.

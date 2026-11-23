@@ -77,6 +77,8 @@ function buildPath(view, data) {
     case 'admin':      return '/admin';
     case 'confidentialite': return '/confidentialite';
     case 'contact':    return '/contact';
+    // BTS FED : sommaire des TD (/bts-fed) ou page d'un TD (/bts-fed/td3)
+    case 'btsfed':     return data.btsTd ? `/bts-fed/${data.btsTd}` : '/bts-fed';
     // Connexion des comptes existants : adresse volontairement absente de l'interface et du sitemap.
     case 'connexion':  return '/connexion';
     default:           return '/';
@@ -99,6 +101,7 @@ function _parseRouteParts(parts) {
     case 'admin':       return { view: 'admin' };
     case 'confidentialite': return { view: 'confidentialite' };
     case 'contact':     return { view: 'contact' };
+    case 'bts-fed':     return { view: 'btsfed', btsTd: parts[1] || null };
     case 'connexion':   return { view: 'connexion' };
     case 'home':
     default:            return { view: 'home' };
@@ -142,6 +145,9 @@ window.__sparkCatalogReady = false;
 
 function _markRouteReady(view) {
   if (DATA_DEPENDENT_VIEWS.includes(view) && !window.__sparkCatalogReady) return;
+  // Données BTS FED absentes (chargement échoué) : la page affichée n'est qu'un message
+  // d'indisponibilité, le pré-rendu ne doit pas la publier.
+  if (view === 'btsfed' && !window.BTS_FED) return;
   window.__sparkRouteReady = true;
 }
 
@@ -187,6 +193,7 @@ function navigate(view, data = {}, options = {}) {
   if (data.level !== undefined) state.level = data.level;
   if (data.moduleId !== undefined) state.moduleId = data.moduleId;
   if (data.tab !== undefined) state.tab = data.tab;
+  if (view === 'btsfed') state.btsTd = data.btsTd || null;
 
   // Reset sub-states on navigation
   if (view === 'module') {
@@ -225,6 +232,12 @@ function navigate(view, data = {}, options = {}) {
     if (typeof ensureAllData === 'function') {
       loadPromise = ensureAllData();
     }
+  } else if (view === 'btsfed') {
+    // Échec de chargement absorbé : la vue affiche alors un message d'indisponibilité
+    // (et _markRouteReady() retient le signal de pré-rendu), au lieu d'un chargement sans fin.
+    if (!window.BTS_FED && typeof ensureBtsFedData === 'function') {
+      loadPromise = ensureBtsFedData().catch(() => {});
+    }
   }
 
   // Init specific view states
@@ -250,7 +263,8 @@ function navigate(view, data = {}, options = {}) {
     (view === 'flashcards' && !getModule(state.moduleId)) ||
     (view === 'chrono' && !getModule(state.moduleId)) ||
     (view === 'companion' && state.moduleId && !getModule(state.moduleId)) ||
-    (view === 'admin')
+    (view === 'admin') ||
+    (view === 'btsfed')
   );
 
   if (needsAsyncLoad) {
@@ -289,6 +303,7 @@ const SITE_DEFAULT_DESCRIPTION = 'Plateforme de rémédiation scientifique : Mat
 const SITE_DEFAULT_OG_IMAGE = SITE_BASE_URL + '/images/Logo_noir.jpeg';
 // Vues privées/éphémères sans intérêt pour l'indexation (comptes ou liens à usage unique)
 const NOINDEX_VIEWS = ['admin', 'connexion'];
+const BTS_FED_SUFFIX = 'BTS FED';
 
 function _setMetaTag(attr, key, content) {
   let el = document.head.querySelector(`meta[${attr}="${key}"]`);
@@ -400,13 +415,31 @@ function updatePageMeta() {
       title = `Nous contacter — ${base}`;
       description = 'Contactez Spark Learning : question pédagogique, signalement d\'erreur, proposition commerciale, partenariat ou presse.';
       break;
+    case 'btsfed': {
+      // Tant que js/data/bts-fed.js n'est pas chargé, le titre reste générique : le pré-rendu
+      // (isValidRender) refuse alors la page au lieu de publier un titre faux.
+      if (!window.BTS_FED) break;
+      if (!state.btsTd) {
+        title = `TD Revit et ArchiWIZARD — ${BTS_FED_SUFFIX} — ${base}`;
+        description = `BTS FED, génie climatique : ${window.BTS_FED.tds.length} TD Revit 2026 et ArchiWIZARD sur le projet L'Escale, avec énoncés, corrigés, maquettes de départ et corrections en vidéo.`;
+        break;
+      }
+      const td = getBtsFedTd(state.btsTd);
+      if (!td) { title = `TD introuvable — ${BTS_FED_SUFFIX} — ${base}`; break; }
+      const nb = td.videos.length;
+      title = `TD ${td.num} · ${td.titre} — ${BTS_FED_SUFFIX} — ${base}`;
+      description = `TD ${td.num} ${td.logiciel} du projet L'Escale (BTS FED) : ${nb} vidéo${nb > 1 ? 's' : ''} de correction pas à pas, énoncé et corrigé en PDF` +
+        (td.maquette ? ', maquette Revit de départ.' : '.');
+      break;
+    }
     default: title = base;
   }
 
   document.title = title;
 
   const url = SITE_BASE_URL + buildPath(state.view, state);
-  const noindex = NOINDEX_VIEWS.includes(state.view);
+  const noindex = NOINDEX_VIEWS.includes(state.view) ||
+    (state.view === 'btsfed' && !!state.btsTd && !!window.BTS_FED && !getBtsFedTd(state.btsTd));
 
   _setMetaTag('name', 'description', description);
   _setMetaTag('name', 'robots', noindex ? 'noindex, nofollow' : 'index, follow');
@@ -457,6 +490,7 @@ function render() {
     case 'admin':      AdminPanel.render(); return;
     case 'confidentialite': app.innerHTML = renderConfidentialite(); break;
     case 'contact':    app.innerHTML = renderContact(); break;
+    case 'btsfed':     app.innerHTML = state.btsTd ? renderBtsFedTd(state.btsTd) : renderBtsFedHome(); break;
     case 'connexion':  if (AuthGuard.isAuthenticated()) { navigate('home'); } else { AuthView.render(true); } return;
     default:           app.innerHTML = renderHome();
   }
@@ -470,6 +504,7 @@ function render() {
 function updateNavActive() {
   document.getElementById('nav-home')?.classList.toggle('active', state.view === 'home');
   document.getElementById('nav-parcours')?.classList.toggle('active', ['subjects','levels','modules','module'].includes(state.view));
+  document.getElementById('nav-btsfed')?.classList.toggle('active', state.view === 'btsfed');
 }
 
 /* ── Module search & filter ── */
@@ -694,6 +729,7 @@ document.addEventListener('keydown', (e) => {
     else if (state.view === 'levels') navigate('subjects');
     else if (state.view === 'subjects') navigate('home');
     else if (state.view === 'admin') navigate('home');
+    else if (state.view === 'btsfed') state.btsTd ? navigate('btsfed') : navigate('home');
     return;
   }
 
@@ -832,6 +868,8 @@ function _setupCommonListeners() {
 
   document.getElementById('nav-home')?.addEventListener('click', () => navigate('home'));
   document.getElementById('nav-parcours')?.addEventListener('click', () => navigate('subjects'));
+  // Vrai lien (<a href="/bts-fed">) pour l'exploration par les moteurs ; navigation SPA au clic.
+  document.getElementById('nav-btsfed')?.addEventListener('click', (e) => { e.preventDefault(); navigate('btsfed'); });
   document.getElementById('nav-teacher')?.addEventListener('click', () => AdminPanel.render());
   document.getElementById('logo-link')?.addEventListener('click', (e) => {
     e.preventDefault();

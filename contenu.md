@@ -16,6 +16,8 @@ Ce fichier est la **source de vérité** pour la structure de fichiers du projet
 | scripts/generate-sitemap.js | Génère `sitemap.xml` à partir de `js/loader.js` — à relancer après ajout de module |
 | scripts/check-decimal-notation.js | Détecte les régressions de notation décimale française dans `js/data/` — à relancer après modification d'un `exercice.generate()` |
 | scripts/analyser-corpus.js | Mesure le corpus maths (112 modules) : 60 tirages de `generate()` par module, complétude du cours, quiz, évaluation, alignement cours ↔ questions, langue ; écrit `docs/analyse-corpus-maths-<date>.csv` + `.md` avec un score de priorisation /100 — à relancer après un lot de corrections de contenu |
+| scripts/build-bts-fed.js | Publie les TD BTS FED (L'Escale) : copie vidéos/PDF/maquettes du dossier d'enseignement vers `media/bts-fed/`, écrit `js/data/bts-fed.js` — à relancer pour ajouter un TD ou remplacer une vidéo |
+| media/bts-fed/ | Fichiers servis tels quels (videos/, td/, depart/) ; jamais réécrits par le rewrite SPA (404 si absents), cache navigateur 7 jours (`firebase.json`) |
 | scripts/lib/ | Chargeur de modules hors navigateur (extract, schema, corpus) utilisé par `check-decimal-notation.js` et `analyser-corpus.js` |
 
 ## Interface & Style
@@ -60,11 +62,13 @@ Ce fichier est la **source de vérité** pour la structure de fichiers du projet
 | js/components/contactPanel.js | Panneau de contact flottant (signalement erreur/remarque/question), lien de pont vers la page dédiée /contact |
 | js/views/contact.js | Page de contact dédiée /contact (question, erreur, proposition commerciale, partenariat, presse) |
 | js/components/globalSearch.js | Recherche globale de modules (Ctrl/Cmd+K) |
+| js/views/btsFed.js | Page BTS FED : sommaire `/bts-fed` et pages `/bts-fed/td0` à `/td6` (vidéos, énoncé, corrigé, maquette de départ) ; entrée « BTS FED » de la barre du haut |
 
 ## Données Scolaires (js/data/)
 | Fichier | Rôle |
 |---------|------|
 | helpers.js | Fonctions utilitaires partagées par les bases de données |
+| bts-fed.js | Données de la page BTS FED (`var BTS_FED`), **générées** par `scripts/build-bts-fed.js` — ne pas éditer ; chargées à la demande, hors catalogue des modules |
 | **6e/** | Contenus Collège 6e — **refactoring TERMINÉ** (9 sous-modules) |
 | **5e/** | Contenus Collège 5e — **refactoring TERMINÉ** (15 sous-modules) |
 | **4e/** | Contenus Collège 4e — **refactoring TERMINÉ** (12 sous-modules) |

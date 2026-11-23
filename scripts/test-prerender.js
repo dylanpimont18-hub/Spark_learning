@@ -49,6 +49,9 @@ console.log('OK parseArgs');
   assert.strictEqual(routeClass('/modules/maths/1'), '/modules/*');
   assert.strictEqual(routeClass('/module/6e-fractions/cours'), '/module/*');
   assert.strictEqual(routeClass('/modules/maths/1/'), '/modules/*', 'la barre oblique finale ne change pas la classe');
+  assert.strictEqual(routeClass('/bts-fed'), '/bts-fed');
+  assert.strictEqual(routeClass('/bts-fed/td6'), '/bts-fed', 'sommaire et pages de TD forment une seule classe');
+  assert.strictEqual(routeClass('/bts-fed/td0/'), '/bts-fed');
 }
 console.log('OK routeClass');
 
@@ -62,6 +65,7 @@ console.log('OK routeClass');
   assert.strictEqual(isZeroToleranceClass('/confidentialite'), true);
   assert.strictEqual(isZeroToleranceClass('/levels/*'), true);
   assert.strictEqual(isZeroToleranceClass('/modules/*'), true);
+  assert.strictEqual(isZeroToleranceClass('/bts-fed'), true, 'les pages BTS FED ne dépendent que de js/data/bts-fed.js');
   assert.strictEqual(
     isZeroToleranceClass('/module/*'),
     false,

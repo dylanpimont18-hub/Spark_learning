@@ -9,7 +9,7 @@ function listerModules() {
     for (const e of fs.readdirSync(dossier, { withFileTypes: true })) {
       const complet = path.join(dossier, e.name);
       if (e.isDirectory()) parcourir(complet);
-      else if (e.name.endsWith('.js') && !['index.js', 'helpers.js', 'figures-exercices.js'].includes(e.name)) {
+      else if (e.name.endsWith('.js') && !['index.js', 'helpers.js', 'figures-exercices.js', 'bts-fed.js'].includes(e.name)) {
         trouves.push(path.relative(RACINE, complet).split(path.sep).join('/'));
       }
     }

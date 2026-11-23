@@ -72,6 +72,22 @@ Object.keys(MODULE_INDEX).forEach(moduleId => {
   addUrl(`/module/${moduleId}/cours`, { lastmod, changefreq: 'monthly', priority: '0.6' });
 });
 
+// BTS FED : sommaire + une page par TD, lus dans js/data/bts-fed.js (écrit par
+// scripts/build-bts-fed.js) — aucune liste de TD à maintenir ici.
+function readBtsFed() {
+  const file = path.join(root, 'js', 'data', 'bts-fed.js');
+  if (!fs.existsSync(file)) return null;
+  const ctx = {};
+  require('vm').runInNewContext(fs.readFileSync(file, 'utf8'), ctx);
+  if (!ctx.BTS_FED || !Array.isArray(ctx.BTS_FED.tds)) throw new Error('BTS_FED introuvable dans js/data/bts-fed.js');
+  return ctx.BTS_FED;
+}
+const btsFed = readBtsFed();
+if (btsFed) {
+  addUrl('/bts-fed', { priority: '0.8' });
+  btsFed.tds.forEach(td => addUrl(`/bts-fed/${td.id}`, { changefreq: 'monthly', priority: '0.7' }));
+}
+
 const xml = `<?xml version="1.0" encoding="UTF-8"?>\n` +
   `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
   urls.map(u =>

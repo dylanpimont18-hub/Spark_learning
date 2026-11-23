@@ -9,6 +9,7 @@ Point d'entrée unique. Déclare l'ordre de chargement de tous les scripts.
 - Chargement : `<script defer src="...">` dans l'ordre exact requis (Firebase → authService → views (authView, adminPanel) → data → engines → components → app) ; `defer` sur toutes les balises locales/externes pour ne plus bloquer le parsing HTML — l'ordre relatif d'exécution est préservé par la spec `defer`
 - `preconnect` posés pour les 4 origines externes utilisées (`fonts.googleapis.com`/`fonts.gstatic.com`, `www.gstatic.com` Firebase, `cdn.jsdelivr.net` KaTeX)
 - Aucun bouton de connexion dans l'interface (retiré le 2026-11-22) : les comptes existants se connectent via l'adresse non listée `/connexion` (vue `connexion` → `AuthView.render(true)`, noindex, absente du sitemap)
+- Barre du haut (2026-11-23) : `#nav-parcours` renommé « Modules pré-bac » (bouton, vers `/subjects`) et `#nav-btsfed` « BTS FED » (vrai lien `<a href="/bts-fed">`, crawlable, navigation SPA au clic) ; sous 600 px, libellés courts en texte (`.nav-short-text`) : « Pré-bac » / « BTS FED », tient à 360 px
 - `#nav-shop` — lien nav (pas un `<button>`) vers la boutique Shopify (`f1niwf-wr.myshopify.com`), `target="_blank"`, à côté des autres boutons de nav
 - `<head>` — meta SEO statiques par défaut (description, canonical, robots, OG, Twitter Card, `manifest.json`) ; réécrites dynamiquement par vue via `updatePageMeta()` (`js/app.js`)
 
@@ -30,6 +31,18 @@ Charte graphique du site, extraite du code le 2026-08-21 (elle n'existait pas av
 ## robots.txt
 Autorise l'indexation complète sauf les vues privées/éphémères (admin) ; référence `sitemap.xml`.
 
+## firebase.json
+Config Firebase Hosting (`public: "."`).
+- Rewrite SPA en `regex` RE2 : tout vers `/index.html` **sauf** `/media/…` (RE2 n'a pas de lookahead, d'où les alternatives `[^m]|m[^e]|…`) — un média absent renvoie une vraie 404, pas l'accueil
+- En-têtes `/media/**` : `Cache-Control: public, max-age=604800` ; `.rvt` : `application/octet-stream` + `Content-Disposition: attachment`
+- Piège Windows : l'émulateur (superstatic → `glob-slash`) normalise `/bts-fed` en `\bts-fed` sous Windows, donc aucune règle ancrée sur `/` ne s'y applique (même le `**` d'origine sur les routes profondes) ; tester avec un superstatic forcé en `path.posix`, la prod (Linux) n'est pas concernée
+
+## 404.html
+Page servie par Firebase quand aucun fichier ni rewrite ne correspond, donc désormais seulement pour `/media/…` absent. Hérité de GitHub Pages (redirection `spa-github-pages`) : la redirection JS est désactivée sous `/media/`, qui affiche « Fichier introuvable ».
+
+## media/bts-fed/
+Médias de la page BTS FED, **copiés** par `scripts/build-bts-fed.js` (jamais à la main) : `videos/<id>.mp4` (45), `td/TD{n}-*-etudiant|corrige.pdf` (14), `depart/TD{n}_depart.rvt` (5) — ~208 Mio, aucun fichier > 50 Mio (pas de Git LFS : Firebase ne lit pas les pointeurs LFS). Référencés avec `?v=<sha1 court>` pour qu'un remplacement (vidéo voisée) contourne le cache de 7 jours.
+
 ## sitemap.xml
 Généré, jamais édité à la main — voir `scripts/generate-sitemap.js`.
 
@@ -39,13 +52,14 @@ Manifeste PWA minimal (nom, icône = logo existant, `theme_color` = `--primary`)
 ## scripts/generate-sitemap.js
 Génère `sitemap.xml` à la racine à partir des manifests réels de `js/loader.js` (`DATA_FILES` + `MODULE_INDEX`), sans dupliquer la liste des modules à la main.
 - `extractConst(src, name)` — extrait un objet littéral `const NAME = {...}` d'un fichier source par comptage d'accolades (pas de dépendance `acorn`)
+- `readBtsFed()` — exécute `js/data/bts-fed.js` en bac à sable (`vm`) et ajoute `/bts-fed` + une URL par TD : aucune liste de TD à maintenir
 - Usage : `node scripts/generate-sitemap.js` — à relancer après tout ajout de module (voir `CLAUDE.md` section 3)
 
 ## scripts/prerender.js
 Pré-rend en HTML statique chaque URL de `sitemap.xml` via Puppeteer headless, pour que Google indexe le vrai contenu sans exécuter le JS de l'app. Testé unitairement (`scripts/test-prerender.js`) sur les fonctions pures ; `main()` (orchestration Puppeteer) vérifié manuellement contre un serveur local. Design et garde-fous : `docs/superpowers/specs/2026-08-09-prerendu-seo-design.md`.
 - `parseArgs(argv)` — lève sur un argument inconnu (une faute de frappe comme `--baseurl` ferait sinon crawler la production par défaut)
 - `parseSitemapXml(xml)` — extrait les chemins de route des balises `<loc>`, indépendamment du host (utile pour tester contre un serveur local)
-- `routeClass(routePath)` — classe de route déduite du 1er segment (`/`, `/subjects`, `/confidentialite`, `/levels/*`, `/modules/*`, `/module/*`) pour le bilan par classe et la règle stricte
+- `routeClass(routePath)` — classe de route déduite du 1er segment (`/`, `/subjects`, `/confidentialite`, `/levels/*`, `/modules/*`, `/module/*`) pour le bilan par classe et la règle stricte ; `/bts-fed` et `/bts-fed/tdN` forment une seule classe `/bts-fed`, à **tolérance zéro** (données locales, un échec = vraie panne)
 - `renderRoute(page, url, routePath)` — attend le flag `window.__sparkRouteReady` (mis par `_markRouteReady()` dans `js/app.js` une fois `render()`+`updatePageMeta()` exécutés pour la route courante **avec ses données**) **plus** `#app.innerText.length > 50`, au lieu d'un simple seuil de longueur : un seuil est satisfait par n'importe quel contenu déjà présent dans le HTML servi (observé en local contre `scripts/tmp-static-server.js`, qui servait les restes d'un run précédent) et ne prouve donc pas que *cette* route ait été rendue. Un attribut DOM ne conviendrait pas non plus : il serait sérialisé dans le HTML capturé et referait remonter le même faux-positif au run suivant. Si le signal n'arrive pas avant `CONTENT_WAIT_TIMEOUT_MS` : échec dur (throw) sur les routes à tolérance zéro, simple `console.warn` puis capture sur les routes `/module/*` — sans quoi une home au catalogue vide serait publiée telle quelle dans le `index.html` racine, qui sert de repli à tout le site. Assainit ensuite le DOM avant sérialisation : retire les `<script src="js/data/…">` injectés à l'exécution dans `<head>` par `_loadScript()` (sinon ils s'exécuteraient avant `js/data/helpers.js`, script de `<body>` qui crée `window.MODULES`, → `TypeError` sur chaque page pré-rendue) et le chrome d'UI éphémère (`#consent-banner`, `.toast`, `.confetti-container`, `.celebration-*`)
 - `isZeroToleranceClass(cls)` — vrai pour toute classe hors `/module/*` (les 12 routes à forte valeur) ; sert à la fois au throw de `renderRoute()` et à la règle stricte de `main()`
 - `isValidRender(result, routePath)` — rejette un rendu si `appTextLength < MIN_APP_TEXT_LENGTH` ou si le `<title>` reste générique ("Spark Learning", doublon de `base` dans `updatePageMeta()`) sur une route non-home
@@ -96,6 +110,7 @@ Routeur SPA (pushState), init, KaTeX, confetti.
 - `buildPath(view, data)` — construit un chemin d'URL réel `/view/data` (pushState)
 - `parsePath(pathname)` / `parseLegacyHash(hash)` — parsent respectivement une URL réelle et un ancien lien `#hash` (rétrocompat), partagent `_parseRouteParts(parts)`
 - `navigate(view, data)` — change la vue active via `history.pushState` (plus de hash routing) ; branche à chargement asynchrone (`module`/`modules`/`flashcards`/`chrono`/`companion`/`teacher`/`homework`/`admin`) : appelle `updatePageMeta()` une fois avant le chargement (titre générique) puis **de nouveau après** `render()` une fois `loadPromise` résolu — sans ce second appel (bug corrigé le 2026-08-09), le `<title>`/meta restent génériques sur toute première navigation directe vers une page module malgré un contenu réel déjà affiché ; met aussi `window.__sparkRouteReady` à `false` en entrée puis appelle `_markRouteReady(view)` juste après `render()`+`updatePageMeta()` dans les deux branches (guardé par `_navSequence !== seq` côté async) — signal de disponibilité consommé par `scripts/prerender.js` (`renderRoute()`), voir cette entrée
+- Vue `btsfed` (2026-11-23) : routes `/bts-fed` et `/bts-fed/:td` (`buildPath`/`_parseRouteParts`, `state.btsTd`) ; `navigate()` charge `ensureBtsFedData()` (échec absorbé → message d'indisponibilité) ; `updatePageMeta()` titre/description par TD, `noindex` sur un TD inconnu ; `_markRouteReady()` retient le signal tant que `window.BTS_FED` manque
 - `_markRouteReady(view)` / `DATA_DEPENDENT_VIEWS` (`home`/`subjects`/`levels`) / `window.__sparkCatalogReady` — ces trois vues lisent `window.MODULES` **synchronement** dans leur `render()` et n'ont pas de `loadPromise` dans `navigate()` : leur premier rendu est complet mais vide (0 carte matière, "0 modules"). Le signal n'est donc levé pour elles qu'une fois `ensureAllData()` résolu et le re-render fait dans `_setupStudentApp()` — sans ce verrou (bug corrigé le 2026-08-09), le pré-rendu capturait `/`, `/subjects` et `/levels/*` avec un catalogue vide, et `/` sert de page de repli pour tout le site via le rewrite `**`
 - `_setupStudentApp()` — restaure la route depuis l'URL puis précharge tout le catalogue (`ensureAllData()`) ; immédiat sur `home`/`subjects`/`levels` (`DATA_DEPENDENT_VIEWS`, requis pour leur propre rendu et pour le pré-rendu SEO), différé via `requestIdleCallback` sur les autres routes (mesuré : sinon un lien direct vers un seul module télécharge quand même les 248 fichiers `js/data/*`, ~4,85 Mio). Le `.then()` pose `window.__sparkCatalogReady = true`, re-rend les vues catalogue et lève le signal retenu. Le `.catch()` laisse volontairement le signal à `false` (un pré-rendu de la home sans catalogue doit échouer bruyamment)
 - `updatePageMeta()` — remplace l'ancien `updatePageTitle()` : en plus du `document.title`, met à jour dynamiquement description, `<link rel="canonical">`, OG/Twitter Card et `meta name="robots"` (`noindex` sur les vues privées listées dans `NOINDEX_VIEWS`) ; `_updateJsonLd(mod)` injecte/retire un bloc `schema.org/LearningResource` sur les pages module
@@ -113,6 +128,7 @@ Routeur SPA (pushState), init, KaTeX, confetti.
 Lazy loading des fichiers de données par niveau/matière.
 - `DATA_FILES` — map `'matière-niveau' → [chemins fichiers]`
 - `ensureLevelData(subject, level)` — charge dynamiquement les scripts d'un niveau
+- `ensureBtsFedData()` — charge `js/data/bts-fed.js` une fois (promesse mémorisée, remise à zéro en cas d'échec) ; hors `ensureAllData()`
 
 ## js/storage.js
 Centralise toute la persistance localStorage.
@@ -140,11 +156,21 @@ Initialise `window.MODULES = []`, utilitaires aléatoires.
 Détecte les régressions du bug de notation décimale française dans `js/data/` (accolade `{,` manquante, `.toFixed(n)` interpolé sans `fr()`).
 - Usage : `node scripts/check-decimal-notation.js` — à lancer après toute modification d'un `exercice.generate()` (voir `CLAUDE.md` section 2)
 
+## scripts/build-bts-fed.js
+Publie les TD L'Escale (BTS FED) depuis `Desktop\Enseignement\BTS FED` (chemin relatif au dépôt, option `--source`) : copie vers `media/bts-fed/` et écrit `js/data/bts-fed.js`. Relançable, sans dépendance npm ; requiert `ffprobe`, `ffmpeg`, `pdftotext`.
+- `syncFile(src, dest)` — copie si taille/date diffèrent, reporte la date source ; refuse > 50 Mio
+- `probeVideo(file)` — durée (ffprobe) ; voix = pic sonore > −50 dB (ffmpeg volumedetect) : les vidéos muettes portent une piste AAC de silence, la présence d'une piste ne prouve rien
+- `isFastStart(file)` — vérifie que l'atome `moov` précède `mdat` (lecture/avance sans tout télécharger)
+- `parseVideoSheet(md)` — publie seulement titre, « Ce qu'on retient » et « Pièges » ; filet `FORBIDDEN` (chemins, crochets de places réservées, « lien à compléter », notes de tournage « hors caméra / la voix le dit ») ; un item « hors caméra » écarté pose `horsChamp: true`
+- `parseStatement(pdf)` — page 1 de l'énoncé via `pdftotext` (césures U+00AD recollées) : titre, durée, « À la fin de ce TD, je saurai… », « Fichier de départ »
+- Version voisée : `<id>-AVEC-VOIX.mp4` prioritaire sur `<id>.mp4`, publiée sous `<id>.mp4` ; exclusions : `TD1-C-niveaux-pilote`, `sources-TD0`, `*.0001.rvt`, `TD-maison-*`
+- Signale les fichiers publiés dont la source a disparu (ne supprime rien)
+
 ## scripts/lib/
 Chargeur de modules hors navigateur (rescapé de l'ancienne chaîne des manuels, supprimée le 2026-11-21), utilisé par `check-decimal-notation.js` et `analyser-corpus.js`.
 - extract.js:chargerModule(chemin, graine) — exécute un module en bac à sable
 - schema.js:validerModule(m) — valide la structure d'un module
-- corpus.js:listerModules() — liste les modules de js/data
+- corpus.js:listerModules() — liste les modules de js/data (exclut `bts-fed.js`, données de page et non module)
 
 ## scripts/analyser-corpus.js
 Mesure le corpus mathématiques (9 niveaux, 112 modules) sans lecture manuelle : charge chaque module hors navigateur (contexte `vm` + `helpers.js` + `figures-exercices.js`, `Math.random` ensemencé), tire `generate()` 60 fois sous `try/catch`, et écrit `docs/analyse-corpus-maths-<date>.csv` (une ligne par module, séparateur `;`) et `.md` (distribution par niveau, 20 modules les plus faibles, liste exhaustive des défauts avec `fichier:ligne`). Créé pour l'audit de contenu du 2026-10-13.
@@ -401,6 +427,16 @@ Politique de confidentialité (RGPD). Section publicité retirée le 2026-11-22.
 Page de contact dédiée (question, erreur, proposition commerciale, partenariat, presse), complément pro de la bulle flottante (`js/components/contactPanel.js`).
 - `renderContact()` — page statique : formulaire nom/email/catégorie (5 chips)/message. Route `#contact` (`/contact`), lien en footer.
 - `handleContactPageSubmit(e)` — soumet via `fetch` vers le même endpoint Formspree que la bulle (`xnjgyrjd`), inclut `name`/`email` pour activer le reply-to natif Formspree
+
+## js/views/btsFed.js
+Page BTS FED (TD Revit / ArchiWIZARD, projet L'Escale), données `window.BTS_FED`. Vouvoiement, comme les énoncés.
+- `getBtsFedTd(id)` — TD par identifiant (`td0`…`td6`)
+- `renderBtsFedHome()` — sommaire : une carte `.bts-td-card` par TD (numéro, titre, logiciel, nombre et durée des vidéos)
+- `renderBtsFedTd(id)` — en-tête (objectif + point de départ tirés de l'énoncé), 3 boutons `download` (énoncé, corrigé, maquette .rvt si elle existe), bandeau « sans voix » si une vidéo est muette, vidéos `preload="none"` avec points à retenir / pièges, pager précédent / sommaire / suivant
+- Styles : section « BTS FED » en fin de `css/styles.css` (`.bts-*`, accent `--fed`)
+
+## js/data/bts-fed.js
+**Généré** par `scripts/build-bts-fed.js`, ne pas éditer. `var BTS_FED = { projet, tds: [{ id, num, titre, logiciel, duree, niveauGcf, objectif, depart, enonce, corrige, maquette, videos: [{ id, titre, duree, voix, url, taille, retenir, pieges, horsChamp }] }] }`. Lu aussi par `scripts/generate-sitemap.js`.
 
 ## js/auth/authService.js
 Service d'authentification et d'autorisations Firestore.

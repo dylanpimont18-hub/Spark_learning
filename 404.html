@@ -2,20 +2,27 @@
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
     <title>Spark Learning</title>
     <script>
       // Redirige toute URL profonde inconnue de GitHub Pages vers index.html,
       // en préservant le chemin d'origine (technique standard spa-github-pages).
+      // Sur Firebase, seules les adresses /media/… arrivent ici (exclues du rewrite SPA,
+      // voir firebase.json) : un fichier absent reste une vraie page 404, sans redirection.
       var pathSegmentsToKeep = 0;
       var l = window.location;
-      l.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-        l.hash
-      );
+      if (!/^\/media\//.test(l.pathname)) {
+        l.replace(
+          l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+          l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+          l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+          (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+          l.hash
+        );
+      }
     </script>
   </head>
-  <body></body>
+  <body>
+    <p>Fichier introuvable. <a href="/bts-fed">Retour aux TD BTS FED</a> · <a href="/">Accueil Spark Learning</a></p>
+  </body>
 </html>

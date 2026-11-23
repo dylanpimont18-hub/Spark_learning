@@ -14,7 +14,24 @@ Servir le dossier comme un site statique (ex. `npx serve .` ou toute extension "
 
 ## Déploiement
 
-Hébergé sur GitHub Pages (`sparklearning.fr`, voir [`CNAME`](CNAME)). Un déploiement qui touche `js/` ou `css/styles.css` doit incrémenter le suffixe `?v=N` sur toutes les balises `<script>`/`<link>` locales de `index.html` (cache-busting, voir `CLAUDE.md`).
+Hébergé sur Firebase Hosting (`sparklearning.fr`, projet `spark-learning-7d96b`) : chaque push sur `main` déploie via l'action GitHub [`firebase-hosting-merge.yml`](.github/workflows/firebase-hosting-merge.yml) (sitemap, déploiement, pré-rendu SEO). Un déploiement qui touche `js/` ou `css/styles.css` doit incrémenter le suffixe `?v=N` sur toutes les balises `<script>`/`<link>` locales de `index.html` (cache-busting, voir `CLAUDE.md`).
+
+## Ajouter un TD BTS FED / remplacer une vidéo
+
+La page [`/bts-fed`](https://sparklearning.fr/bts-fed) (TD Revit / ArchiWIZARD du projet L'Escale) est entièrement produite par un script, à partir du dossier d'enseignement voisin (`Desktop\Enseignement\BTS FED`) :
+
+```
+node scripts/build-bts-fed.js
+git add media/bts-fed js/data/bts-fed.js
+git commit -m "BTS FED : <ce qui change>"
+git push
+```
+
+- Le script copie dans `media/bts-fed/` les vidéos (`Banque-Revit\TD-Escale\<id>\<id>.mp4`), les énoncés et corrigés (`projets\td-revit\TD{n}-*-etudiant.pdf` / `-corrige.pdf`) et les maquettes de départ (`TD{n}_depart.rvt`), puis réécrit `js/data/bts-fed.js`. Il ne recopie que ce qui a changé et signale les fichiers publiés dont la source a disparu.
+- **Vidéo avec voix prête** : la déposer sous `<id>-AVEC-VOIX.mp4` dans le dossier de la vidéo, puis relancer la commande. Elle remplace la version muette sous le même nom public ; le bandeau « Vidéos sans voix » disparaît de lui-même quand plus aucune vidéo du TD n'est muette (niveau sonore mesuré par ffmpeg).
+- **Nouveau TD** : ajouter son numéro à `TD_NUMBERS` en tête du script ; dossiers `TD{n}-NN-...` et PDF sont détectés seuls, le sitemap suit.
+- Outils requis dans le PATH : `ffprobe`, `ffmpeg`, `pdftotext`. Aucun fichier au-delà de 50 Mio (limite GitHub ; pas de Git LFS, que Firebase ne sait pas lire).
+- Dossier source ailleurs : `--source "chemin\BTS FED"`. Simulation sans copie : `--dry-run`.
 
 ## Où trouver quoi
 
