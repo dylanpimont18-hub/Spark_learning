@@ -52,6 +52,7 @@ Manifeste PWA minimal (nom, icône = logo existant, `theme_color` = `--primary`)
 ## scripts/generate-sitemap.js
 Génère `sitemap.xml` à la racine à partir des manifests réels de `js/loader.js` (`DATA_FILES` + `MODULE_INDEX`), sans dupliquer la liste des modules à la main.
 - `extractConst(src, name)` — extrait un objet littéral `const NAME = {...}` d'un fichier source par comptage d'accolades (pas de dépendance `acorn`)
+- `SECTION_SUBJECTS` — matières à champ `section` (lu par regex dans `js/state.js`) : pas d'URL `/levels/<matière>` (elle redirige vers la section)
 - `readBtsFed()` — exécute `js/data/bts-fed.js` en bac à sable (`vm`) et ajoute `/bts-fed` + une URL par TD : aucune liste de TD à maintenir
 - Usage : `node scripts/generate-sitemap.js` — à relancer après tout ajout de module (voir `CLAUDE.md` section 3)
 
@@ -100,14 +101,18 @@ Règles de sécurité Firestore.
 - `state` — objet global unique (subject, level, moduleId, tab, quizState, exerciceState, companionState…)
 - `LEVEL_DEFS`, `LEVEL_NAMES` — définitions des niveaux (Collège/Lycée/BTS)
 - `MODULE_THEME_RULES` — règles regex pour catégoriser les modules par thème
-- `getModuleThemes(mod)` — retourne les thèmes d'un module
+- `getModuleThemes(mod)` — retourne les thèmes d'un module ; si la matière a des `themeGroups` (BTS FED : blocs S8-A à S8-D par préfixe d'identifiant), ils remplacent les règles regex
+- `getThemeLabel(themeId)` — libellé d'un thème (règles regex ou `themeGroups`)
+- `SUBJECT_DEFS` — matières ; `fed` porte `section: 'btsfed'` (rattachée à la page BTS FED, absente des modules pré-bac) et `themeGroups`
+- `isSectionSubject(id)` — vrai pour une matière à section (BTS FED)
 - `getModuleSearchKeywords(mod)` — mots-clés pour la recherche
 - `defaultQuizState()` — inclut `correctStreak` (compteur de bonnes réponses consécutives dans le quiz courant, remis à 0 sur erreur, déclenche `celebrate('streak')` à 5 dans `js/engines/quizEngine.js`)
 - `defaultExerciceState()` — inclut `startedAt: Date.now()` (horodatage de début de tentative, réinitialisé à chaque nouvel exercice) utilisé pour mesurer `durationMs` dans `Storage.trackAttempt()`
 
 ## js/app.js
 Routeur SPA (pushState), init, KaTeX, confetti.
-- `buildPath(view, data)` — construit un chemin d'URL réel `/view/data` (pushState)
+- Matière à section (BTS FED, 2026-11-24) : `navigate('levels', {subject:'fed'})` redirige vers `btsfed` (adresse comprise) ; le sommaire `btsfed` charge aussi `ensureLevelData('fed', 3)`, même en maintenance ; `updateNavActive()` allume « BTS FED » sur les listes et modules `fed` ; titre « Cours du BTS FED » pour `/modules/fed/3`
+- `buildPath(view, data)` — construit (data obligatoire, `{}` au minimum) un chemin d'URL réel `/view/data` (pushState)
 - `parsePath(pathname)` / `parseLegacyHash(hash)` — parsent respectivement une URL réelle et un ancien lien `#hash` (rétrocompat), partagent `_parseRouteParts(parts)`
 - `navigate(view, data)` — change la vue active via `history.pushState` (plus de hash routing) ; branche à chargement asynchrone (`module`/`modules`/`flashcards`/`chrono`/`companion`/`teacher`/`homework`/`admin`) : appelle `updatePageMeta()` une fois avant le chargement (titre générique) puis **de nouveau après** `render()` une fois `loadPromise` résolu — sans ce second appel (bug corrigé le 2026-08-09), le `<title>`/meta restent génériques sur toute première navigation directe vers une page module malgré un contenu réel déjà affiché ; met aussi `window.__sparkRouteReady` à `false` en entrée puis appelle `_markRouteReady(view)` juste après `render()`+`updatePageMeta()` dans les deux branches (guardé par `_navSequence !== seq` côté async) — signal de disponibilité consommé par `scripts/prerender.js` (`renderRoute()`), voir cette entrée
 - Vue `btsfed` (2026-11-23) : routes `/bts-fed` et `/bts-fed/:td` (`buildPath`/`_parseRouteParts`, `state.btsTd`) ; `navigate()` charge `ensureBtsFedData()` (échec absorbé → message d'indisponibilité) ; `updatePageMeta()` titre/description par TD, `noindex` sur un TD inconnu ; `_markRouteReady()` retient le signal tant que `window.BTS_FED` manque
@@ -417,10 +422,10 @@ Vues globales : accueil, liste matières, niveaux, modules, détail module.
 - `renderStatsSection()` — "Mes statistiques" : total global toujours visible, détail par niveau replié dans un `<details class="stats-levels-details">` pour ne pas noyer les blocs d'action au-dessus
 - `renderNextStepWidget()` — widget "Prochaine étape : …" basé sur `getRecommendations()` (`js/recommendations.js`) ancré sur le dernier module visité (`getRecentModules()[0]`) ; ne s'affiche que si aucune révision n'est due (`getDueReviews()`), pour n'exposer qu'une seule action prioritaire à la fois sur l'accueil
 - `renderHome()` — page d'accueil ; empile dans l'ordre `renderStreakBadge()` → `renderSrsReviewWidget()` → `renderNextStepWidget()` → `renderContinueSection()` → `renderStatsSection()` ; dernière section = CTA "Nos cahiers de révision" vers la boutique Shopify
-- `renderSubjects()` — liste des matières
+- `renderSubjects()` — liste des matières pré-bac (exclut les matières à `section`, donc BTS FED)
 - `renderLevels()` — niveaux d'une matière
-- `renderModulesList()` — grille des modules d'un niveau
-- `renderModuleDetail()` — page détail d'un module
+- `renderModulesList()` — grille des modules d'un niveau ; matière à section : parcours par thème seul, retour vers la section
+- `renderModuleDetail()` — page détail d'un module ; matière à section : fil d'Ariane « 🌡️ BTS FED › Cours › module »
 - `renderSubjects()` — filtre les matières à 0 module (plus de badge "Bientôt disponible" public), affiche un court texte éditorial (`.hub-intro-text`) au-dessus de la grille ; plus d'emplacement pub sur cette page (retiré 2026-07-30)
 - `renderLevels()` — affiche `subjectDef.description` en texte éditorial (`.hub-intro-text`) sous le titre
 - `renderHome()` — page d'accueil, volontairement sans bloc pub (page à contenu essentiellement promotionnel, retiré suite à un rejet AdSense "contenu à faible valeur informative") ; jamais de pub non plus dans les onglets d'apprentissage actif (`module`)
@@ -437,9 +442,11 @@ Page de contact dédiée (question, erreur, proposition commerciale, partenariat
 
 ## js/views/btsFed.js
 Page BTS FED (TD Revit / ArchiWIZARD, projet L'Escale), données `window.BTS_FED`. Vouvoiement, comme les énoncés.
-- `isBtsFedOpen()` / `isBtsFedAdmin()` / `isBtsFedClosedForViewer()` — ouverture au public pilotée par `config/settings.btsFedOpen` (Firestore, case du panneau admin), lu via `window.__sparkPlatformSettings` (posé par `_checkMaintenance()` de `js/app.js`). **Fermée par défaut** (champ absent ou lecture impossible) ; un admin voit toujours la page, avec bandeau. Fermée : `renderBtsFedMaintenance()`, noindex, aucune donnée chargée. Le pré-rendu CI capture l'état du moment du déploiement
+- `isBtsFedOpen()` / `isBtsFedAdmin()` / `isBtsFedClosedForViewer()` — ouverture au public pilotée par `config/settings.btsFedOpen` (Firestore, case du panneau admin), lu via `window.__sparkPlatformSettings` (posé par `_checkMaintenance()` de `js/app.js`). **Fermée par défaut** (champ absent ou lecture impossible) ; un admin voit toujours la page, avec bandeau. Fermée : `renderBtsFedMaintenance()` (avec la section « Les cours »), noindex, aucune donnée des TD chargée. Le pré-rendu CI capture l'état du moment du déploiement
 - `getBtsFedTd(id)` — TD par identifiant (`td0`…`td6`)
-- `renderBtsFedHome()` — sommaire : film de présentation (`BTS_FED.presentation`) puis une carte `.bts-td-card` par TD (numéro, titre, logiciel, vidéos, progression « vues », « Corrigé le … » avant la date)
+- `renderBtsFedHome()` — sommaire : film de présentation (`BTS_FED.presentation`) puis une carte `.bts-td-card` par TD (numéro, titre, logiciel, vidéos, progression « vues », « Corrigé le … » avant la date), puis `_btsCourses()`
+- `_btsCourses()` — section « Les cours » (`#bts-cours`) : modules de la matière `fed` (retirés des modules pré-bac le 2026-11-24), une carte « Tous les cours » + une par bloc S8 ; aussi affichée sur la page de maintenance
+- `btsOpenCourses(themeId)` — ouvre `/modules/fed/3` filtré sur un bloc
 - `renderBtsFedTd(id)` — en-tête (objectif + point de départ tirés de l'énoncé), boutons `download` (énoncé, corrigé, maquette, mémo), fichiers complémentaires, encadré « Valeurs pour vérifier votre travail », vidéos `preload="none"` avec vignette (`poster`), chapitres cliquables, case « Vue », points à retenir / pièges, « Revoir les notions » (modules S8), pager. Avant `disponibleLe` : corrigé, vidéos, contrôles et mémo masqués
 - `_btsDisponible(td)` — date de mise en ligne atteinte (ou admin) ; simple masquage, les fichiers restent dans le dépôt public
 - `btsSeek(videoId, t)` — saut à un chapitre (charge les métadonnées si `preload="none"`, puis lecture)

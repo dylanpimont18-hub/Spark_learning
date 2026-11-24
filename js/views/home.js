@@ -131,7 +131,7 @@ function renderStatsSection() {
 }
 
 function renderSubjects() {
-	const availableSubjects = SUBJECT_DEFS.filter(s => window.MODULES.filter(m => (m.subject || 'maths') === s.id).length > 0);
+	const availableSubjects = SUBJECT_DEFS.filter(s => !s.section && window.MODULES.filter(m => (m.subject || 'maths') === s.id).length > 0);
 
 	return `
 		<div class="container">
@@ -486,14 +486,20 @@ function renderModulesList() {
 	allLevels.unshift({ id: 'all', label: '🧭 Tous niveaux' });
 
 	const allSubjectModules = window.MODULES.filter(m => (m.subject || 'maths') === subjectDef.id);
+	// Matière de section (BTS FED) : un seul niveau, donc parcours par thème uniquement,
+	// et le retour mène à la page de la section plutôt qu'au choix des niveaux.
+	const inSection = !!subjectDef.section;
+	const mode = inSection ? 'theme' : state.moduleSelectionMode;
 	const themeFreq = {};
 	allSubjectModules.forEach(m => getModuleThemes(m).forEach(t => { themeFreq[t] = (themeFreq[t] || 0) + 1; }));
 	const availableThemes = Object.entries(themeFreq)
 		.sort((a, b) => b[1] - a[1])
 		.map(([id]) => ({ id, label: getThemeLabel(id) }));
+	// Thème resté d'une autre matière (arrivée par lien direct) : on montre tous les cours.
+	if (inSection && state.selectedTheme !== 'all' && !themeFreq[state.selectedTheme]) state.selectedTheme = 'all';
 
 	const modules = allSubjectModules.filter(m => {
-		if (state.moduleSelectionMode === 'theme') {
+		if (mode === 'theme') {
 			if (state.selectedTheme === 'all') return true;
 			return getModuleThemes(m).includes(state.selectedTheme);
 		}
@@ -508,14 +514,16 @@ function renderModulesList() {
 	return `
 		<div class="container">
 			<div class="level-switcher">
-				<button class="btn-back" onclick="navigate('levels', {subject: '${subjectDef.id}'})" aria-label="Retour aux niveaux">← ${subjectDef.icon} ${subjectDef.label}</button>
-				<div class="module-mode-switch" role="tablist" aria-label="Mode de sélection">
+				${inSection
+					? `<button class="btn-back" onclick="navigate('${subjectDef.section}')" aria-label="Retour à la page ${subjectDef.label}">← ${subjectDef.icon} ${subjectDef.label}</button>`
+					: `<button class="btn-back" onclick="navigate('levels', {subject: '${subjectDef.id}'})" aria-label="Retour aux niveaux">← ${subjectDef.icon} ${subjectDef.label}</button>`}
+				${inSection ? '' : `<div class="module-mode-switch" role="tablist" aria-label="Mode de sélection">
 					<button class="module-mode-btn ${state.moduleSelectionMode === 'level' ? 'active' : ''}" onclick="setModuleSelectionMode('level')">Par niveau</button>
 					<button class="module-mode-btn ${state.moduleSelectionMode === 'theme' ? 'active' : ''}" onclick="setModuleSelectionMode('theme')">Par thème</button>
-				</div>
+				</div>`}
 			</div>
 
-			${state.moduleSelectionMode === 'level' ? `
+			${mode === 'level' ? `
 				<div class="level-switch-tabs scroll-fade">
 					${allLevels.map(l => `
 						<button class="level-switch-btn ${state.level === l.id ? 'active' : ''}"
@@ -692,11 +700,15 @@ function renderModuleDetail() {
 		<div class="container module-detail">
 			<div class="module-detail-header">
 				<div class="module-breadcrumb">
+					${subjectDef.section ? `
+					<a class="breadcrumb-link" href="${buildPath(subjectDef.section, {})}" onclick="navigate('${subjectDef.section}'); return false;">${subjectDef.icon} ${subjectDef.label}</a>
+					<span class="breadcrumb-sep">›</span>
+					<a class="breadcrumb-link" href="${buildPath('modules', {level: mod.level, subject: modSubject})}" onclick="navigate('modules', {level: ${mod.level}, subject: '${modSubject}'}); return false;">Cours</a>` : `
 					<a class="breadcrumb-link" href="${buildPath('subjects')}" onclick="navigate('subjects'); return false;">Matières</a>
 					<span class="breadcrumb-sep">›</span>
 					<a class="breadcrumb-link" href="${buildPath('levels', {subject: modSubject})}" onclick="navigate('levels', {subject: '${modSubject}'}); return false;">${subjectDef.icon} ${subjectDef.label}</a>
 					<span class="breadcrumb-sep">›</span>
-					<a class="breadcrumb-link" href="${buildPath('modules', {level: mod.level, subject: modSubject})}" onclick="navigate('modules', {level: ${mod.level}, subject: '${modSubject}'}); return false;">${LEVEL_NAMES[mod.level]}</a>
+					<a class="breadcrumb-link" href="${buildPath('modules', {level: mod.level, subject: modSubject})}" onclick="navigate('modules', {level: ${mod.level}, subject: '${modSubject}'}); return false;">${LEVEL_NAMES[mod.level]}</a>`}
 					<span class="breadcrumb-sep">›</span>
 					<span aria-current="page">${mod.title}</span>
 				</div>

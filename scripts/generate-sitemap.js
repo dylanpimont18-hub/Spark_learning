@@ -46,13 +46,19 @@ addUrl('/confidentialite', { changefreq: 'yearly', priority: '0.3' });
 addUrl('/contact', { changefreq: 'yearly', priority: '0.4' });
 
 // Matières/niveaux réellement peuplés (déduits des clés "subject-level" de DATA_FILES)
+// Matières rattachées à une section (champ `section` de SUBJECT_DEFS, js/state.js) : leur
+// page /levels/<matière> redirige vers la section, elle n'a pas sa place dans le sitemap.
+const SECTION_SUBJECTS = new Set(
+  [...fs.readFileSync(path.join(root, 'js', 'state.js'), 'utf8')
+    .matchAll(/id:\s*'([^']+)'[^}]*?section:\s*'[^']+'/g)].map(m => m[1])
+);
 const subjectsSeen = new Set();
 Object.keys(DATA_FILES).forEach(key => {
   if (!DATA_FILES[key] || DATA_FILES[key].length === 0) return;
   const [subject, level] = key.split('-');
   if (!subjectsSeen.has(subject)) {
     subjectsSeen.add(subject);
-    addUrl(`/levels/${subject}`, { priority: '0.8' });
+    if (!SECTION_SUBJECTS.has(subject)) addUrl(`/levels/${subject}`, { priority: '0.8' });
   }
   addUrl(`/modules/${subject}/${level}`, { priority: '0.8' });
 });

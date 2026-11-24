@@ -152,6 +152,13 @@ function _markRouteReady(view) {
 }
 
 function navigate(view, data = {}, options = {}) {
+  // Choix du niveau d'une matière qui a sa propre section (BTS FED, un seul niveau) :
+  // on mène directement à la page de la section, adresse comprise.
+  if (view === 'levels' && isSectionSubject(data.subject || state.subject)) {
+    view = getSubjectDef(data.subject || state.subject).section;
+    data = {};
+    if (options.skipUrlSync) history.replaceState(null, '', buildPath(view, data));
+  }
   const skipUrlSync = !!options.skipUrlSync;
   window.__sparkRouteReady = false;
 
@@ -235,17 +242,20 @@ function navigate(view, data = {}, options = {}) {
   } else if (view === 'btsfed') {
     // Échec de chargement absorbé : la vue affiche alors un message d'indisponibilité
     // (et _markRouteReady() retient le signal de pré-rendu), au lieu d'un chargement sans fin.
-    // Page fermée au public (réglage admin) : rien à charger, la vue affiche la maintenance.
+    // Page fermée au public (réglage admin) : pas de données des TD, la vue affiche la maintenance.
     // Un admin la voit quand même : on charge alors aussi les réglages (le chemin admin de
     // l'init ne passe pas par _checkMaintenance(), qui les mémorise pour les autres).
+    // Sommaire : il liste aussi les cours de la matière BTS FED (modules js/data/fed-bts/),
+    // y compris pendant la maintenance des TD.
+    const loads = [];
+    if (!state.btsTd && typeof ensureLevelData === 'function') loads.push(ensureLevelData('fed', 3).catch(() => {}));
     if (!isBtsFedClosedForViewer()) {
-      const loads = [];
       if (!window.BTS_FED && typeof ensureBtsFedData === 'function') loads.push(ensureBtsFedData().catch(() => {}));
       if (isBtsFedAdmin() && !window.__sparkPlatformSettings) {
         loads.push(AuthService.getPlatformSettings().then(s => { window.__sparkPlatformSettings = s; }).catch(() => {}));
       }
-      if (loads.length) loadPromise = Promise.all(loads);
     }
+    if (loads.length) loadPromise = Promise.all(loads);
   }
 
   // Init specific view states
@@ -379,6 +389,11 @@ function updatePageMeta() {
     }
     case 'modules': {
       const s = getSubjectDef(state.subject || 'maths');
+      if (s.section) {
+        title = `Cours du ${s.label} — ${base}`;
+        description = `${s.label}, génie climatique : cours, quiz et exercices interactifs, classés par thème.`;
+        break;
+      }
       const levelLabel = state.level === 'all' ? 'Tous niveaux' : (LEVEL_NAMES[state.level] || '');
       title = `${levelLabel} ${s.label} — ${base}`;
       description = `${levelLabel} — ${s.label} : liste des modules de cours, quiz et exercices interactifs.`;
@@ -434,7 +449,7 @@ function updatePageMeta() {
       if (!window.BTS_FED) break;
       if (!state.btsTd) {
         title = `TD Revit et ArchiWIZARD — ${BTS_FED_SUFFIX} — ${base}`;
-        description = `BTS FED, génie climatique : ${window.BTS_FED.tds.length} TD Revit 2026 et ArchiWIZARD sur le projet L'Escale, avec énoncés, corrigés, maquettes de départ et corrections en vidéo.`;
+        description = `BTS FED, génie climatique : ${window.BTS_FED.tds.length} TD Revit 2026 et ArchiWIZARD sur le projet L'Escale, avec énoncés, corrigés, maquettes de départ et corrections en vidéo, et les cours de la formation en modules interactifs.`;
         break;
       }
       const td = getBtsFedTd(state.btsTd);
@@ -517,8 +532,9 @@ function render() {
 
 function updateNavActive() {
   document.getElementById('nav-home')?.classList.toggle('active', state.view === 'home');
-  document.getElementById('nav-parcours')?.classList.toggle('active', ['subjects','levels','modules','module'].includes(state.view));
-  document.getElementById('nav-btsfed')?.classList.toggle('active', state.view === 'btsfed');
+  const inSection = ['levels','modules','module'].includes(state.view) && isSectionSubject(state.subject);
+  document.getElementById('nav-parcours')?.classList.toggle('active', !inSection && ['subjects','levels','modules','module'].includes(state.view));
+  document.getElementById('nav-btsfed')?.classList.toggle('active', inSection || state.view === 'btsfed');
 }
 
 /* ── Module search & filter ── */

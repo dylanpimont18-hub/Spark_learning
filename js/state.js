@@ -40,6 +40,13 @@ function tokenizeText(str) {
 }
 
 function getModuleThemes(mod) {
+  // Matière qui définit ses propres groupes (BTS FED : blocs S8-A à S8-D du référentiel,
+  // lus dans l'identifiant du module) : ils remplacent la détection par mots-clés.
+  const def = SUBJECT_DEFS.find(s => s.id === mod.subject);
+  if (def && def.themeGroups) {
+    const group = def.themeGroups.find(g => (mod.id || '').startsWith(g.prefix));
+    if (group) return [group.id];
+  }
   const haystack = [mod.title, mod.subtitle, (mod.keywords || []).join(' ')].join(' ');
   const themeIds = MODULE_THEME_RULES
     .filter(rule => rule.pattern.test(haystack))
@@ -48,7 +55,8 @@ function getModuleThemes(mod) {
 }
 
 function getThemeLabel(themeId) {
-  const found = MODULE_THEME_RULES.find(r => r.id === themeId);
+  const found = MODULE_THEME_RULES.find(r => r.id === themeId)
+    || SUBJECT_DEFS.flatMap(s => s.themeGroups || []).find(g => g.id === themeId);
   return found ? found.label : themeId;
 }
 
@@ -119,6 +127,15 @@ const SUBJECT_DEFS = [
   {
     id: 'fed', icon: '🌡️', label: 'BTS FED',
     color: 'var(--fed)',
+    // Matière rattachée à la section « BTS FED » (/bts-fed) et non aux modules pré-bac :
+    // absente de /subjects, ses cours sont listés sur la page BTS FED (js/views/btsFed.js).
+    section: 'btsfed',
+    themeGroups: [
+      { id: 'fed-s8a', prefix: 'fed-bts-a', label: 'S8-A · Connaissances fondamentales' },
+      { id: 'fed-s8b', prefix: 'fed-bts-b', label: 'S8-B · Systèmes et technologies' },
+      { id: 'fed-s8c', prefix: 'fed-bts-c', label: 'S8-C · Énergie électrique' },
+      { id: 'fed-s8d', prefix: 'fed-bts-d', label: 'S8-D · Communication et réseaux' }
+    ],
     description: 'Thermique, fluides, systèmes CVC — les savoirs techniques du BTS Fluides Énergies Domotique, option Génie Climatique et Fluidique.',
     availableLevels: [3],
     applicationLabel: 'Application chantier',
@@ -131,6 +148,12 @@ const SUBJECT_DEFS = [
 
 function getSubjectDef(id) {
   return SUBJECT_DEFS.find(s => s.id === id) || SUBJECT_DEFS[0];
+}
+
+// Vrai pour une matière qui a sa propre section (BTS FED) au lieu des modules pré-bac.
+function isSectionSubject(id) {
+  const s = SUBJECT_DEFS.find(d => d.id === id);
+  return !!(s && s.section);
 }
 
 /* ── State defaults (factories) ── */

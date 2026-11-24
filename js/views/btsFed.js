@@ -4,6 +4,8 @@
    d'un TD (/bts-fed/tdN). Données : window.BTS_FED, écrit par
    scripts/build-bts-fed.js dans js/data/bts-fed.js et chargé à la demande
    par ensureBtsFedData() (js/loader.js). Réglages : scripts/bts-fed.config.json.
+   Le sommaire liste aussi les cours de la matière « fed » (window.MODULES, chargés
+   par ensureLevelData('fed', 3)), retirés des modules pré-bac.
    ========================================================= */
 
 /* ── Ouverture au public ──
@@ -35,7 +37,51 @@ function renderBtsFedMaintenance() {
         La page sera de nouveau accessible dans quelques jours, à la même adresse.
         En attendant, votre enseignant reste votre point de contact pour les documents des TD.
       </p>
+      ${_btsCourses()}
     </div>`;
+}
+
+/* ── Cours de la matière BTS FED (modules), par thème ── */
+const BTS_FED_SUBJECT = 'fed';
+const BTS_FED_LEVEL = 3;
+
+function btsOpenCourses(themeId) {
+  state.selectedTheme = themeId || 'all';
+  state.searchQuery = '';
+  state.activeKeywords = [];
+  navigate('modules', { subject: BTS_FED_SUBJECT, level: BTS_FED_LEVEL });
+}
+
+function _btsCourses() {
+  const mods = (window.MODULES || []).filter(m => m.subject === BTS_FED_SUBJECT);
+  if (!mods.length) return '';
+  const freq = {};
+  mods.forEach(m => getModuleThemes(m).forEach(t => { freq[t] = (freq[t] || 0) + 1; }));
+  const done = mods.filter(m => { const p = getModuleProgress(m.id); return p.done === p.total && p.done > 0; }).length;
+  const href = buildPath('modules', { subject: BTS_FED_SUBJECT, level: BTS_FED_LEVEL });
+  const card = (themeId, kicker, titre, count) => `
+      <a class="card-base bts-td-card" href="${href}" onclick="btsOpenCourses('${themeId}'); return false;">
+        <span class="bts-td-num">${kicker}</span>
+        <span class="bts-td-title">${escapeHtml(titre)}</span>
+        <span class="bts-td-meta"><span>${count} ${pluralize('module', count)}</span></span>
+      </a>`;
+  const themes = Object.entries(freq).sort((a, b) => a[0].localeCompare(b[0]))
+    .map(([id, n]) => {
+      const [bloc, titre] = getThemeLabel(id).split(' · ');
+      return card(id, titre ? bloc : 'Thème', titre || bloc, n);
+    }).join('');
+  return `
+      <section class="bts-courses" id="bts-cours">
+        <h2 class="bts-section-title">Les cours</h2>
+        <p class="hub-intro-text bts-intro">
+          Thermique, fluides, systèmes CVC : chaque module donne un cours, un quiz, des exercices et une évaluation.
+          ${done ? `Vous en avez terminé ${done} sur ${mods.length}.` : ''}
+        </p>
+        <div class="bts-td-grid">
+          ${card('all', 'Tous les cours', 'Tous les thèmes', mods.length)}
+          ${themes}
+        </div>
+      </section>`;
 }
 
 /* ── Données ── */
@@ -260,6 +306,7 @@ function renderBtsFedHome() {
       ${pres}
       <h2 class="bts-section-title">Les TD</h2>
       <div class="bts-td-grid">${cards}</div>
+      ${_btsCourses()}
     </div>`;
 }
 
