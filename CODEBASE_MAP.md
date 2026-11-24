@@ -173,10 +173,14 @@ Publie les TD L'Escale (BTS FED) depuis `Desktop\Enseignement\BTS FED` (chemin r
 - Réglages : `scripts/bts-fed.config.json` (`presentation`, `fichiersComplementaires`, `disponibleLe`, `modulesLies`) via `loadConfig()`
 - `loadYoutube()` — lit `scripts/bts-fed.youtube.json` ; pose `youtube: <id>` sur une vidéo seulement si le `hash` envoyé correspond au fichier actuel (sinon avertissement, le site lit le fichier local)
 
+## scripts/youtube-daily.js
+Tâche planifiée Windows « Spark Learning - envoi YouTube » (chaque jour à 11 h, session ouverte) : pull sur `main` (rien si autre branche), envoi des vidéos suivantes (limite YouTube 10/jour), `--thumbnails-only`, `--publish` une fois les 45 envoyées, `--apply`, puis commit + push des seuls `js/data/bts-fed.js`, `scripts/bts-fed.youtube.json`, `index.html` (`?v=` +1). Se supprime quand tout est envoyé, public et en ligne. Journal : `~/.config/spark-youtube/daily.log`.
+
 ## scripts/youtube-upload.js
 Envoie les vidéos des TD BTS FED sur la chaîne YouTube « Spark Learning » (non répertoriées, une playlist par TD + une pour le film de présentation), via l'API YouTube Data v3, sans dépendance npm. Identifiants hors dépôt : `~/.config/spark-youtube/` (`client_secret.json` client OAuth bureau du projet `spark-learning-7d96b`, `token.json`). Écrit `scripts/bts-fed.youtube.json` après chaque envoi (reprise possible).
 - `--whoami [--confirm-channel]` — affiche / enregistre la chaîne d'envoi ; tout envoi refuse une autre chaîne
-- `--dry-run`, `--max N`, `--only <id>`, `--no-thumbnails`
+- `--dry-run`, `--max N`, `--only <id>`, `--no-thumbnails`, `--thumbnails-only` (rattrape les vignettes, flag `thumb`), `--publish` (vidéos + playlists en publique, flag `public`)
+- `--apply` / `applyToSiteData()` — reporte les identifiants dans `js/data/bts-fed.js` avec la même règle et le même ordre de clés que `build-bts-fed.js` (fichier identique), sans recopier les médias
 - `metadata(item, data)` — titre, description (lien du TD, chapitres YouTube depuis 00:00, « À retenir »), catégorie Éducation, `unlisted`, pas « conçu pour les enfants »
 - `authorize(client)` — OAuth bureau + PKCE, redirection `http://localhost:<port>` ; depuis un autre ordinateur : rejouer l'adresse finale sur `127.0.0.1:<port>` de ce PC
 - Quota du jour atteint (`QuotaError`) : arrêt propre, relancer le lendemain. Vignettes personnalisées : refusées tant que la chaîne n'est pas vérifiée par téléphone (désactivées pour la suite du lot)

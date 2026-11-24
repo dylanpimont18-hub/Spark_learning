@@ -31,6 +31,8 @@
      node scripts/youtube-upload.js --no-thumbnails  sans envoyer les vignettes
      node scripts/youtube-upload.js --thumbnails-only  renvoie seulement les vignettes manquantes
      node scripts/youtube-upload.js --publish        passe en « publique » les vidéos et playlists déjà envoyées
+     node scripts/youtube-upload.js --apply          reporte les identifiants dans js/data/bts-fed.js sans
+                                                     relancer build-bts-fed.js (même résultat, rien d'autre ne bouge)
    Pas de dépendance npm (fetch natif, Node 18+).
    ========================================================= */
 'use strict';
@@ -55,7 +57,7 @@ const UPLOAD_API = 'https://www.googleapis.com/upload/youtube/v3';
 
 /* ── Arguments ── */
 function parseArgs(argv) {
-  const opts = { dryRun: false, max: Infinity, only: null, thumbnails: true, whoami: false, confirmChannel: false, thumbnailsOnly: false, publish: false };
+  const opts = { dryRun: false, max: Infinity, only: null, thumbnails: true, whoami: false, confirmChannel: false, thumbnailsOnly: false, publish: false, apply: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--dry-run') opts.dryRun = true;
@@ -64,6 +66,7 @@ function parseArgs(argv) {
     else if (a === '--no-thumbnails') opts.thumbnails = false;
     else if (a === '--thumbnails-only') opts.thumbnailsOnly = true;
     else if (a === '--publish') opts.publish = true;
+    else if (a === '--apply') opts.apply = true;
     else if (a === '--whoami') opts.whoami = true;
     else if (a === '--confirm-channel') opts.confirmChannel = true;
     else throw new Error(`Argument inconnu : ${a}`);
@@ -344,11 +347,41 @@ async function myChannel(token) {
   return { id: c.id, titre: c.snippet.title, url: `https://www.youtube.com/channel/${c.id}` };
 }
 
+// Même règle et même ordre des clés que build-bts-fed.js (youtube juste après voix) :
+// un build ultérieur produit un fichier identique.
+function applyToSiteData(data, map) {
+  const withYt = v => {
+    const known = map.videos[v.id];
+    const yt = known && known.hash === hashOf(v) ? known.id : null;
+    const out = {};
+    for (const [k, val] of Object.entries(v)) {
+      if (k === 'youtube') continue;
+      out[k] = val;
+      if (k === 'voix' && yt) out.youtube = yt;
+    }
+    return out;
+  };
+  const next = {
+    projet: data.projet,
+    presentation: data.presentation ? withYt(data.presentation) : null,
+    tds: data.tds.map(td => Object.assign({}, td, { videos: td.videos.map(withYt) }))
+  };
+  // Aller-retour JSON : les objets issus du bac à sable vm s'écrivent comme les autres.
+  const js = '/* Généré par scripts/build-bts-fed.js — ne pas éditer à la main. */\n' +
+    'var BTS_FED = ' + JSON.stringify(JSON.parse(JSON.stringify(next)), null, 2) + ';\n';
+  const changed = fs.readFileSync(DATA_FILE, 'utf8') !== js;
+  if (changed) fs.writeFileSync(DATA_FILE, js, 'utf8');
+  const n = [next.presentation, ...next.tds.flatMap(t => t.videos)].filter(v => v && v.youtube).length;
+  console.log(`${path.relative(root, DATA_FILE)} : ${changed ? 'mis à jour' : 'inchangé'} (${n} vidéo(s) lue(s) depuis YouTube)`);
+}
+
 /* ── Principal ── */
 async function main() {
   const opts = parseArgs(process.argv.slice(2));
   const data = readBtsFed();
   const map = readMap();
+
+  if (opts.apply) { applyToSiteData(data, map); return; }
 
   if (opts.whoami) {
     const ch = await myChannel(await accessToken(readClient()));
