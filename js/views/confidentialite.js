@@ -24,6 +24,7 @@ function renderConfidentialite() {
 
 				<h2>3. Formulaire de contact</h2>
 				<p>Les formulaires "Nous contacter" — la bulle flottante accessible depuis n'importe quelle page (bug, remarque, question) et la page dédiée <strong>/contact</strong> (question, erreur, proposition, partenariat, presse) — transmettent ton message à <strong>Formspree</strong>, un service tiers de traitement de formulaires, uniquement dans le but de te répondre. Aucune donnée n'est conservée au-delà de ce traitement.</p>
+				<p>Les vidéos des TD de la page <strong>BTS FED</strong> peuvent être lues avec le lecteur <strong>YouTube</strong> en mode confidentialité renforcée (youtube-nocookie.com). Ce lecteur n'est chargé que lorsque tu lances une vidéo : YouTube (Google) peut alors recevoir ton adresse IP et des informations de lecture, selon sa propre politique de confidentialité. Tant que tu ne cliques pas, aucune donnée ne lui est transmise.</p>
 
 				<h2>4. Aucune vente de données</h2>
 				<p>Spark Learning ne vend, ne loue et ne partage jamais tes données personnelles à des fins commerciales.</p>

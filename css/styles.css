@@ -4792,3 +4792,37 @@ main { flex: 1; }
   #bts-print-memo .memo-pieges { margin: 2pt 0 0; font-weight: 700; font-size: 8.5pt; text-transform: uppercase; }
   @page { margin: 12mm; }
 }
+
+/* Lecteur YouTube des vidéos BTS FED (js/views/btsFed.js › _btsYtPlayer) :
+   vignette du site jusqu'au clic, puis l'iframe youtube-nocookie à la même place. */
+.bts-yt { position: relative; overflow: hidden; }
+.bts-yt-target,
+.bts-yt iframe,
+.bts-yt-start {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.bts-yt-start { padding: 0; background: none; cursor: pointer; }
+.bts-yt-start img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.bts-yt-play {
+  /* En bas à gauche : les vignettes portent le titre au centre. */
+  position: absolute;
+  left: var(--space-lg);
+  bottom: var(--space-lg);
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 48px;
+  padding-left: 4px;
+  border-radius: var(--radius);
+  background: var(--fed);
+  color: var(--on-primary);
+  font-size: 1.4rem;
+  box-shadow: var(--shadow);
+  transition: transform var(--transition);
+}
+.bts-yt-start:hover .bts-yt-play,
+.bts-yt-start:focus-visible .bts-yt-play { transform: scale(1.1); }

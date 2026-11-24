@@ -1,0 +1,74 @@
+{
+  "_note": "Écrit par scripts/youtube-upload.js — ne pas éditer à la main. hash = empreinte du fichier envoyé (?v= de js/data/bts-fed.js).",
+  "channel": {
+    "id": "UC9Gda163ssY7zQuF5Q2FL9w",
+    "titre": "Spark Learning",
+    "url": "https://www.youtube.com/channel/UC9Gda163ssY7zQuF5Q2FL9w"
+  },
+  "playlists": {
+    "presentation": "PLeXlhEfGScmI",
+    "td1": "PLNij8Z3YBaMs"
+  },
+  "videos": {
+    "TD0-decouvrir-escale": {
+      "id": "rM0FWs2gndI",
+      "hash": "29ea772054",
+      "td": "td0",
+      "thumb": true
+    },
+    "TD1-01-creer-et-parametrer-le-projet": {
+      "id": "QLqfs5uYNlU",
+      "hash": "201bd5558f",
+      "td": "td1",
+      "thumb": true
+    },
+    "TD1-02-preparer-les-niveaux": {
+      "id": "k-LWjoH3fXs",
+      "hash": "d0490e78c0",
+      "td": "td1",
+      "thumb": true
+    },
+    "TD1-03-creer-les-six-niveaux": {
+      "id": "-e0oGHU5g7Q",
+      "hash": "5506eaabeb",
+      "td": "td1",
+      "thumb": true
+    },
+    "TD1-04-renommer-les-vues": {
+      "id": "kWop_mPDe74",
+      "hash": "2e9513271b",
+      "td": "td1",
+      "thumb": true
+    },
+    "TD1-05-tracer-la-grille-daxes": {
+      "id": "wymVxAET5ag",
+      "hash": "e905688f56",
+      "td": "td1",
+      "thumb": true
+    },
+    "TD1-06-coter-la-grille": {
+      "id": "RRo2UeV4E2I",
+      "hash": "286977c62e",
+      "td": "td1",
+      "thumb": true
+    },
+    "TD1-07-symboles-delevation-et-3d": {
+      "id": "JdiYesYKrcY",
+      "hash": "df79953080",
+      "td": "td1",
+      "thumb": true
+    },
+    "TD1-08-exercices-1-et-2": {
+      "id": "lkeZNuBi5N0",
+      "hash": "34b851c0b1",
+      "td": "td1",
+      "thumb": true
+    },
+    "TD1-09-exercice-3-emprise": {
+      "id": "1LV-9rPodfQ",
+      "hash": "80596c4dc0",
+      "td": "td1",
+      "thumb": true
+    }
+  }
+}

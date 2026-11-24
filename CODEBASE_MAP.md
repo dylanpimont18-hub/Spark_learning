@@ -171,6 +171,15 @@ Publie les TD L'Escale (BTS FED) depuis `Desktop\Enseignement\BTS FED` (chemin r
 - `parseStatement(pdf)` — page 1 de l'énoncé via `pdftotext` (césures U+00AD recollées) : titre, durée, « À la fin de ce TD, je saurai… », « Fichier de départ »
 - Version voisée : `<id>-AVEC-VOIX.mp4` prioritaire sur `<id>.mp4`, publiée sous `<id>.mp4` ; exclusions : `TD1-C-niveaux-pilote`, `sources-TD0`, `*.0001.rvt`, `TD-maison-*`
 - Réglages : `scripts/bts-fed.config.json` (`presentation`, `fichiersComplementaires`, `disponibleLe`, `modulesLies`) via `loadConfig()`
+- `loadYoutube()` — lit `scripts/bts-fed.youtube.json` ; pose `youtube: <id>` sur une vidéo seulement si le `hash` envoyé correspond au fichier actuel (sinon avertissement, le site lit le fichier local)
+
+## scripts/youtube-upload.js
+Envoie les vidéos des TD BTS FED sur la chaîne YouTube « Spark Learning » (non répertoriées, une playlist par TD + une pour le film de présentation), via l'API YouTube Data v3, sans dépendance npm. Identifiants hors dépôt : `~/.config/spark-youtube/` (`client_secret.json` client OAuth bureau du projet `spark-learning-7d96b`, `token.json`). Écrit `scripts/bts-fed.youtube.json` après chaque envoi (reprise possible).
+- `--whoami [--confirm-channel]` — affiche / enregistre la chaîne d'envoi ; tout envoi refuse une autre chaîne
+- `--dry-run`, `--max N`, `--only <id>`, `--no-thumbnails`
+- `metadata(item, data)` — titre, description (lien du TD, chapitres YouTube depuis 00:00, « À retenir »), catégorie Éducation, `unlisted`, pas « conçu pour les enfants »
+- `authorize(client)` — OAuth bureau + PKCE, redirection `http://localhost:<port>` ; depuis un autre ordinateur : rejouer l'adresse finale sur `127.0.0.1:<port>` de ce PC
+- Quota du jour atteint (`QuotaError`) : arrêt propre, relancer le lendemain. Vignettes personnalisées : refusées tant que la chaîne n'est pas vérifiée par téléphone (désactivées pour la suite du lot)
 - `makePoster()` — vignette JPEG 960 px (carte de titre si le minutage la situe, sinon image à 2 s), refaite seulement quand la vidéo change
 - `parseChapters()` — minutage `segments.json` (muette) ou `montage.json` (voisée) × libellés du tableau d'étapes de la fiche ; TD6 n'a pas de `segments.json` → pas de chapitres
 - `extractControls()` — « Contrôle : … » et résultats chiffrés avec unité tirés des points à retenir (hors « par défaut » / « après l'import »)
@@ -433,7 +442,7 @@ Vues globales : accueil, liste matières, niveaux, modules, détail module.
 
 ## js/views/confidentialite.js
 Politique de confidentialité (RGPD). Section publicité retirée le 2026-11-22.
-- `renderConfidentialite()` — page statique : localStorage sans compte, données Firebase pour les comptes existants (plus aucune création de compte possible depuis le 2026-10-12, section 2 reformulée), publicité AdSense non personnalisée, formulaire de contact (Formspree, bulle + page `/contact`), droits RGPD. Route `#confidentialite`, lien en footer.
+- `renderConfidentialite()` — page statique : localStorage sans compte, données Firebase pour les comptes existants (plus aucune création de compte possible depuis le 2026-10-12, section 2 reformulée), publicité AdSense non personnalisée, formulaire de contact (Formspree, bulle + page `/contact`), lecteur YouTube des vidéos BTS FED (youtube-nocookie, chargé au clic, ajouté le 2026-11-24), droits RGPD. Route `#confidentialite`, lien en footer.
 
 ## js/views/contact.js
 Page de contact dédiée (question, erreur, proposition commerciale, partenariat, presse), complément pro de la bulle flottante (`js/components/contactPanel.js`).
@@ -447,6 +456,8 @@ Page BTS FED (TD Revit / ArchiWIZARD, projet L'Escale), données `window.BTS_FED
 - `renderBtsFedHome()` — sommaire : film de présentation (`BTS_FED.presentation`) puis une carte `.bts-td-card` par TD (numéro, titre, logiciel, vidéos, progression « vues », « Corrigé le … » avant la date), puis `_btsCourses()`
 - `_btsCourses()` — section « Les cours » (`#bts-cours`) : modules de la matière `fed` (retirés des modules pré-bac le 2026-11-24), une carte « Tous les cours » + une par bloc S8 ; aussi affichée sur la page de maintenance
 - `btsOpenCourses(themeId)` — ouvre `/modules/fed/3` filtré sur un bloc
+- `_btsYtPlayer(v, tdId)` / `btsYtStart(videoId, t)` — vidéo à `youtube` : vignette du site jusqu'au clic, puis lecteur youtube-nocookie piloté par l'API IFrame (chargée au clic) ; `btsSeek()` passe par `_btsYtSeek()` ; repli sur `_btsFilePlayer()` si YouTube ne charge pas
+- `_btsStarted(el)` / `_btsCompleted(el)` — suivi commun aux deux lecteurs : `video_start`, case « Vue » et `video_complete` à 90 %
 - `renderBtsFedTd(id)` — en-tête (objectif + point de départ tirés de l'énoncé), boutons `download` (énoncé, corrigé, maquette, mémo), fichiers complémentaires, encadré « Valeurs pour vérifier votre travail », vidéos `preload="none"` avec vignette (`poster`), chapitres cliquables, case « Vue », points à retenir / pièges, « Revoir les notions » (modules S8), pager. Avant `disponibleLe` : corrigé, vidéos, contrôles et mémo masqués
 - `_btsDisponible(td)` — date de mise en ligne atteinte (ou admin) ; simple masquage, les fichiers restent dans le dépôt public
 - `btsSeek(videoId, t)` — saut à un chapitre (charge les métadonnées si `preload="none"`, puis lecture)

@@ -29,6 +29,8 @@ const root = path.resolve(__dirname, '..');
 const DEFAULT_SOURCE = path.resolve(root, '..', '..', 'Enseignement', 'BTS FED');
 
 const CONFIG_FILE = path.join(__dirname, 'bts-fed.config.json');
+// Identifiants YouTube des vidéos déjà envoyées (écrit par scripts/youtube-upload.js).
+const YOUTUBE_FILE = path.join(__dirname, 'bts-fed.youtube.json');
 const OUT_DATA = path.join(root, 'js', 'data', 'bts-fed.js');
 const OUT_MEDIA = path.join(root, 'media', 'bts-fed');
 const PUBLIC_PREFIX = 'media/bts-fed';
@@ -66,6 +68,11 @@ function loadConfig() {
     disponibleLe: cfg.disponibleLe || {},
     modulesLies: cfg.modulesLies || {}
   };
+}
+
+function loadYoutube() {
+  if (!fs.existsSync(YOUTUBE_FILE)) return {};
+  return JSON.parse(fs.readFileSync(YOUTUBE_FILE, 'utf8')).videos || {};
 }
 
 /* ── Outils externes ── */
@@ -364,6 +371,7 @@ function main() {
   const opts = parseArgs(process.argv.slice(2));
   checkTools();
   const config = loadConfig();
+  const youtube = loadYoutube();
   const SRC_VIDEOS = path.join(opts.source, 'Banque-Revit', 'TD-Escale');
   const SRC_TD = path.join(opts.source, 'projets', 'td-revit');
   const SRC_DEPART = path.join(SRC_TD, 'revit2026', 'ressources', 'fichiers-depart');
@@ -421,11 +429,15 @@ function main() {
       report.posters.push(`${dir}.jpg`);
       if (!opts.dryRun) makePoster(pub.file, posterFile, titleCard || Math.min(2, probe.duration / 2));
     }
+    // Vidéo sur YouTube : seulement si c'est bien ce fichier-ci qui a été envoyé.
+    const yt = youtube[dir];
+    if (yt && yt.hash !== hash) report.warnings.push(`${dir} : la vidéo a changé depuis son envoi sur YouTube (${yt.id}) — le site lit le fichier local ; à renvoyer (scripts/youtube-upload.js)`);
     return {
       id: dir,
       titre: fiche.titre,
       duree: probe.duration,
       voix: probe.voix,
+      ...(yt && yt.hash === hash ? { youtube: yt.id } : {}),
       url: pub.url,
       poster: `${PUBLIC_PREFIX}/posters/${dir}.jpg?v=${hash}`,
       taille: pub.taille,

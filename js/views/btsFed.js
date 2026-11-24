@@ -174,6 +174,7 @@ function _btsAdminBanner() {
 function btsSeek(videoId, t) {
   const v = document.getElementById(`player-${videoId}`);
   if (!v) return;
+  if (v.dataset.yt) { _btsYtSeek(v, t); return; }
   const go = () => { v.currentTime = t; };
   if (v.readyState >= 1) go();
   else { v.addEventListener('loadedmetadata', go, { once: true }); v.preload = 'metadata'; }
@@ -186,25 +187,101 @@ function _btsTrack(name, params) {
   if (typeof trackEvent === 'function') trackEvent(name, params);
 }
 
+// Suivi commun aux deux lecteurs (fichier <video> et YouTube) : l'élément porte
+// data-video-id / data-td / data-title.
+const _btsParams = el => ({ video_id: el.dataset.videoId, td: el.dataset.td, video_title: el.dataset.title });
+function _btsStarted(el) {
+  if (el.dataset.started) return;
+  el.dataset.started = '1';
+  _btsTrack('video_start', _btsParams(el));
+}
+function _btsCompleted(el) {
+  if (el.dataset.done) return;
+  el.dataset.done = '1';
+  if (!_btsSeen()[el.dataset.videoId]) btsToggleSeen(el.dataset.videoId, true);
+  _btsTrack('video_complete', _btsParams(el));
+}
+
+/* ── Lecteur YouTube (vidéos envoyées par scripts/youtube-upload.js) ──
+   Façade : la vignette du site jusqu'au clic, puis le lecteur youtube-nocookie.com,
+   piloté par l'API IFrame pour garder chapitres, case « Vue » et statistiques.
+   Rien n'est chargé depuis YouTube avant le clic. */
+let _btsYtApiPromise = null;
+function _btsYtApi() {
+  if (window.YT && window.YT.Player) return Promise.resolve();
+  if (!_btsYtApiPromise) {
+    _btsYtApiPromise = new Promise((resolve, reject) => {
+      const prev = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => { if (typeof prev === 'function') prev(); resolve(); };
+      const s = document.createElement('script');
+      s.src = 'https://www.youtube.com/iframe_api';
+      s.onerror = () => { _btsYtApiPromise = null; reject(new Error('API YouTube indisponible')); };
+      document.head.appendChild(s);
+    });
+  }
+  return _btsYtApiPromise;
+}
+
+function btsYtStart(videoId, t) {
+  const box = document.getElementById(`player-${videoId}`);
+  if (!box || box.dataset.ytState) return;
+  box.dataset.ytState = 'loading';
+  _btsYtApi().then(() => {
+    if (!document.body.contains(box)) return;
+    box._ytPlayer = new YT.Player(`yt-${videoId}`, {
+      host: 'https://www.youtube-nocookie.com',
+      videoId: box.dataset.yt,
+      playerVars: { autoplay: 1, start: Math.floor(t || 0), rel: 0, playsinline: 1, cc_load_policy: 1 },
+      events: {
+        onReady: () => {
+          box.dataset.ytState = 'ready';
+          if (box._ytPendingSeek != null) { box._ytPlayer.seekTo(box._ytPendingSeek, true); box._ytPendingSeek = null; }
+        },
+        onStateChange: e => _btsYtState(box, e.data)
+      }
+    });
+  }).catch(() => {
+    // YouTube bloqué (réseau, extension) : on rend le fichier du site.
+    box.dataset.ytState = '';
+    box.outerHTML = _btsFilePlayer(box.dataset);
+  });
+}
+
+function _btsYtState(box, state) {
+  if (state === YT.PlayerState.PLAYING) {
+    _btsStarted(box);
+    if (!box._ytTimer) {
+      box._ytTimer = setInterval(() => {
+        const p = box._ytPlayer;
+        if (!document.body.contains(box) || !p || !p.getDuration) { clearInterval(box._ytTimer); return; }
+        const d = p.getDuration();
+        if (d && p.getCurrentTime() / d >= 0.9) _btsCompleted(box);
+      }, 1000);
+    }
+  } else if (state === YT.PlayerState.ENDED) {
+    _btsCompleted(box);
+  }
+}
+
+function _btsYtSeek(box, t) {
+  const p = box._ytPlayer;
+  if (box.dataset.ytState === 'ready' && p && p.seekTo) { p.seekTo(t, true); p.playVideo(); }
+  else if (!box.dataset.ytState) btsYtStart(box.dataset.videoId, t);
+  else box._ytPendingSeek = t; // lecteur en cours de chargement : appliqué dans onReady
+  box.scrollIntoView({ block: 'center', behavior: 'smooth' });
+}
+
 // Écouteurs posés une fois sur document (phase de capture : play/timeupdate/ended ne
 // remontent pas) : la SPA recrée le DOM à chaque navigation.
 (function () {
-  const isPlayer = el => el && el.classList && el.classList.contains('bts-video-player');
-  const params = v => ({ video_id: v.dataset.videoId, td: v.dataset.td, video_title: v.dataset.title });
+  const isPlayer = el => el && el.tagName === 'VIDEO' && el.classList.contains('bts-video-player');
   document.addEventListener('play', e => {
-    const v = e.target;
-    if (!isPlayer(v) || v.dataset.started) return;
-    v.dataset.started = '1';
-    _btsTrack('video_start', params(v));
+    if (isPlayer(e.target)) _btsStarted(e.target);
   }, true);
   const onProgress = e => {
     const v = e.target;
     if (!isPlayer(v) || v.dataset.done || !v.duration) return;
-    if (e.type === 'ended' || v.currentTime / v.duration >= 0.9) {
-      v.dataset.done = '1';
-      if (!_btsSeen()[v.dataset.videoId]) btsToggleSeen(v.dataset.videoId, true);
-      _btsTrack('video_complete', params(v));
-    }
+    if (e.type === 'ended' || v.currentTime / v.duration >= 0.9) _btsCompleted(v);
   };
   document.addEventListener('timeupdate', onProgress, true);
   document.addEventListener('ended', onProgress, true);
@@ -239,14 +316,32 @@ function _btsVideo(v, i, tdId) {
           <label class="bts-seen"><input type="checkbox" data-seen-for="${v.id}"${seen ? ' checked' : ''} onchange="btsToggleSeen('${v.id}', this.checked)" /> Vue</label>
         </span>
       </header>
-      <video class="bts-video-player" id="player-${v.id}" controls preload="none" playsinline
-        poster="${v.poster}" src="${v.url}"
-        data-video-id="${v.id}" data-td="${tdId}" data-title="${escapeHtml(v.titre)}"></video>
+      ${v.youtube ? _btsYtPlayer(v, tdId) : _btsFilePlayer({ videoId: v.id, td: tdId, title: v.titre, poster: v.poster, url: v.url })}
       ${chapitres}
       ${v.horsChamp ? `<p class="bts-hors-champ">La vidéo montre le geste une fois ; les éléments répétitifs ont été faits hors champ, avec la même méthode. À vous de les refaire à partir des valeurs de l'énoncé.</p>` : ''}
       ${list(v.retenir, 'bts-notes-retenir', '💡 Points à retenir')}
       ${list(v.pieges, 'bts-notes-pieges', '⚠️ Pièges')}
     </article>`;
+}
+
+// Lecteur du fichier hébergé sur le site (aussi le repli si YouTube ne charge pas).
+function _btsFilePlayer(d) {
+  return `<video class="bts-video-player" id="player-${d.videoId}" controls preload="none" playsinline
+        poster="${d.poster}" src="${d.url}"
+        data-video-id="${d.videoId}" data-td="${d.td}" data-title="${escapeHtml(d.title)}"></video>`;
+}
+
+function _btsYtPlayer(v, tdId) {
+  return `<div class="bts-video-player bts-yt" id="player-${v.id}" data-yt="${escapeHtml(v.youtube)}"
+        data-video-id="${v.id}" data-td="${tdId}" data-title="${escapeHtml(v.titre)}"
+        data-poster="${v.poster}" data-url="${v.url}">
+        <div id="yt-${v.id}" class="bts-yt-target">
+          <button type="button" class="bts-yt-start" onclick="btsYtStart('${v.id}')" aria-label="Lire la vidéo « ${escapeHtml(v.titre)} »">
+            <img src="${v.poster}" alt="" loading="lazy" />
+            <span class="bts-yt-play" aria-hidden="true">▶</span>
+          </button>
+        </div>
+      </div>`;
 }
 
 function _btsDownload(file, label, extra, cls, tdId) {
