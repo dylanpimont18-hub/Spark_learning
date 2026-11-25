@@ -9,6 +9,8 @@
      4. quand les 45 sont envoyées : passe vidéos et playlists en publique (--publish) ;
      5. commit + push des seuls fichiers YouTube (+ cache ?v=) : le déploiement suit ;
      6. tout est fait : supprime la tâche planifiée.
+   Après un envoi réussi, la tâche est replanifiée 25 h plus tard (la limite YouTube
+   porte sur 24 h glissantes), puis relancée toutes les heures pendant 12 h si besoin.
    Journal : ~/.config/spark-youtube/daily.log
    ========================================================= */
 'use strict';
@@ -34,6 +36,25 @@ function run(cmd, args, { allowFail = false } = {}) {
   if (out) log(`${path.basename(cmd)} ${args.join(' ')}\n${out}`);
   if (r.status !== 0 && !allowFail) throw new Error(`${cmd} ${args.join(' ')} : code ${r.status}`);
   return { status: r.status, out };
+}
+
+// Prochain passage : 25 h après cet envoi, chaque jour à cette heure, relance horaire 12 h.
+// Exécutée au démarrage si l'heure est manquée (PC éteint).
+function replanifier(heures = 25) {
+  const d = new Date(Date.now() + heures * 3600e3);
+  const iso = d.toISOString();
+  const ps = [
+    `$d = [DateTime]::Parse('${iso}').ToLocalTime()`,
+    `$t = New-ScheduledTaskTrigger -Daily -At $d`,
+    `$t.Repetition = (New-ScheduledTaskTrigger -Once -At $d -RepetitionInterval (New-TimeSpan -Hours 1) -RepetitionDuration (New-TimeSpan -Hours 12)).Repetition`,
+    `$s = (Get-ScheduledTask -TaskName '${TASK_NAME}').Settings`,
+    `$s.StartWhenAvailable = $true`,
+    `Set-ScheduledTask -TaskName '${TASK_NAME}' -Trigger $t -Settings $s | Out-Null`
+  ].join('; ');
+  const r = run('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command', ps], { allowFail: true });
+  log(r.status === 0
+    ? `tâche replanifiée : prochain passage le ${d.toLocaleString('fr-FR')}`
+    : 'ERREUR : replanification impossible, la planification précédente reste en place');
 }
 
 const node = (...args) => run(process.execPath, ['scripts/youtube-upload.js', ...args], { allowFail: true });
@@ -64,9 +85,11 @@ function main() {
   // Dépôt à jour avant d'écrire (Dylan peut pousser depuis un autre poste).
   run('git', ['pull', '--rebase', '--autostash', 'origin', 'main']);
 
+  const avant = state().sent;
   node();                    // 1. envoi (s'arrête seul à la limite du jour)
   node('--thumbnails-only'); // 2. vignettes manquantes
   let st = state();
+  const envoyees = st.sent - avant;
   if (st.sent === st.total && st.public < st.total) node('--publish'); // 4. publique
   node('--apply');           // 3. identifiants sur le site
   st = state();
@@ -94,6 +117,8 @@ function main() {
   if (st.sent === st.total && st.public === st.total && !changed) {
     run('schtasks', ['/Delete', '/TN', TASK_NAME, '/F'], { allowFail: true });
     log('tout est envoyé, public et en ligne : tâche planifiée supprimée');
+  } else if (envoyees > 0) {
+    replanifier(); // limite YouTube sur 24 h glissantes : on revient 25 h après ce lot
   }
   log('— fin —');
 }
