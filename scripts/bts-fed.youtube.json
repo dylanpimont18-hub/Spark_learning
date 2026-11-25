@@ -7,7 +7,9 @@
   },
   "playlists": {
     "presentation": "PLeXlhEfGScmI",
-    "td1": "PLNij8Z3YBaMs"
+    "td1": "PLNij8Z3YBaMs",
+    "td2": "PLZU7tMhWh-N4",
+    "td3": "PLLk2Ii3vAyTA"
   },
   "videos": {
     "TD0-decouvrir-escale": {
@@ -68,6 +70,66 @@
       "id": "1LV-9rPodfQ",
       "hash": "80596c4dc0",
       "td": "td1",
+      "thumb": true
+    },
+    "TD2-01-creer-le-mur-compose": {
+      "id": "aan9lZqlfpE",
+      "hash": "36ba4d9f8b",
+      "td": "td2",
+      "thumb": true
+    },
+    "TD2-02-tracer-les-deux-volumes": {
+      "id": "jCJz3Dh1iAQ",
+      "hash": "1b9cda9cc0",
+      "td": "td2",
+      "thumb": true
+    },
+    "TD2-03-les-cloisons": {
+      "id": "ER0_rNunFx4",
+      "hash": "f95b1c6906",
+      "td": "td2",
+      "thumb": true
+    },
+    "TD2-04-le-plancher-bas": {
+      "id": "F6JD9GhYQj4",
+      "hash": "ac1fb4724e",
+      "td": "td2",
+      "thumb": true
+    },
+    "TD2-05-les-toitures-terrasses": {
+      "id": "SVtiqXH3jYU",
+      "hash": "373a6c22a8",
+      "td": "td2",
+      "thumb": true
+    },
+    "TD2-06-exercices-1-et-2": {
+      "id": "Nz7nCpZ-iAw",
+      "hash": "d133f7d95e",
+      "td": "td2",
+      "thumb": true
+    },
+    "TD2-07-exercice-3-calcul-de-r-et-u": {
+      "id": "-Bj00Dqp30I",
+      "hash": "c2807368e0",
+      "td": "td2",
+      "thumb": true
+    },
+    "TD3-01-types-de-portes": {
+      "id": "E_nA8AnCRX0",
+      "hash": "0fcf34eaa5",
+      "td": "td3",
+      "thumb": true
+    },
+    "TD3-02-poser-les-portes": {
+      "id": "qMgewi0Gq7M",
+      "hash": "2a27c420e4",
+      "td": "td3",
+      "thumb": true
+    },
+    "TD3-03-les-fenetres": {
+      "id": "5C6txCQZJEI",
+      "hash": "5942938847",
+      "td": "td3",
       "thumb": true
     }
   }
