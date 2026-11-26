@@ -44,6 +44,14 @@ Ce fichier est la **source de vérité** pour la structure de fichiers du projet
 | js/recommendations.js | Algorithme de suggestion de contenus selon le profil |
 | js/hero3d.js | Couche 3D de l'accueil : bannière rotative, profondeur des formules du hero, inclinaison des cartes |
 
+## Module devoir en classe (js/devoir/) — docs/evaluation/
+| Fichier | Rôle |
+|---------|------|
+| js/devoir/devoirEngine.js | Moteur de variantes : validation d'un exercice paramétré, tirage, corrigé calculé (mathjs restreint), virgule française |
+| js/devoir/devoirStore.js | Accès Firestore enseignant : `devoir_classes`, `devoir_exercices` (admin seul) |
+| scripts/devoir-verifier-lot.js | Vérifie un lot d'exercices (dépôt BTS FED, privé) avant import dans la banque |
+| js/devoir/devoirAdmin.js | Onglet « Devoirs » du panneau admin : banque d'exercices (éditeur JSON + 3 variantes) et classes |
+
 ## Moteurs (js/engines/)
 | Fichier | Rôle |
 |---------|------|

@@ -44,6 +44,16 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
+    // ─── Module devoir en classe (docs/evaluation/) ───
+    // Classes (listes de noms, profil Dys) et banque d'exercices (formules du corrigé) : admin
+    // seul. Les étudiants n'y accèdent jamais ; les sessions (MVP-2) auront leurs propres règles.
+    match /devoir_classes/{classeId} {
+      allow read, write: if isAdmin();
+    }
+    match /devoir_exercices/{exerciceId} {
+      allow read, write: if isAdmin();
+    }
+
     // Les collections classes, progress et assignments (espace enseignant, retiré le
     // 2026-11-22) ne sont plus accessibles : tout ce qui n'est pas listé ici est refusé.
   }

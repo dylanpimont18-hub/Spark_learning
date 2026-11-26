@@ -1,8 +1,9 @@
 {
   "name": "spark-learning-build-tools",
   "private": true,
-  "description": "Outils de build CI uniquement (pré-rendu SEO). L'application elle-même reste 100% vanilla JS sans build — voir CLAUDE.md.",
+  "description": "Outils de build CI et de test uniquement (pré-rendu SEO ; mathjs pour scripts/test-devoir-engine.js). L'application elle-même reste 100% vanilla JS sans build — voir CLAUDE.md.",
   "devDependencies": {
+    "mathjs": "15.3.0",
     "puppeteer": "^25.0.0"
   }
 }
