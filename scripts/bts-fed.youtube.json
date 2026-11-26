@@ -9,7 +9,8 @@
     "presentation": "PLeXlhEfGScmI",
     "td1": "PLNij8Z3YBaMs",
     "td2": "PLZU7tMhWh-N4",
-    "td3": "PLLk2Ii3vAyTA"
+    "td3": "PLLk2Ii3vAyTA",
+    "td4": "PLS0rU52rfe8I"
   },
   "videos": {
     "TD0-decouvrir-escale": {
@@ -130,6 +131,66 @@
       "id": "5C6txCQZJEI",
       "hash": "5942938847",
       "td": "td3",
+      "thumb": true
+    },
+    "TD3-04-les-faux-plafonds": {
+      "id": "jO1lg9yzHQw",
+      "hash": "9580ca8d83",
+      "td": "td3",
+      "thumb": true
+    },
+    "TD3-05-les-locaux": {
+      "id": "Gaso4eBZYwE",
+      "hash": "063ee51047",
+      "td": "td3",
+      "thumb": true
+    },
+    "TD3-06-nomenclature-des-locaux": {
+      "id": "i9zBFoxMb3M",
+      "hash": "1dc631c692",
+      "td": "td3",
+      "thumb": true
+    },
+    "TD3-07-exercices": {
+      "id": "UHGoqbpFneI",
+      "hash": "814009df69",
+      "td": "td3",
+      "thumb": true
+    },
+    "TD4-01-normes-unites-vue-plenum": {
+      "id": "WkfDRumFvF0",
+      "hash": "ca858f47b7",
+      "td": "td4",
+      "thumb": true
+    },
+    "TD4-02-la-cta-et-les-bouches": {
+      "id": "bKBZ8F_bG0k",
+      "hash": "514060f783",
+      "td": "td4",
+      "thumb": true
+    },
+    "TD4-03-le-systeme-de-reprise": {
+      "id": "fIyISYYBPbE",
+      "hash": "31b6110f62",
+      "td": "td4",
+      "thumb": true
+    },
+    "TD4-04-les-gaines": {
+      "id": "kjavoUDmWBs",
+      "hash": "9290401dc3",
+      "td": "td4",
+      "thumb": true
+    },
+    "TD4-05-debits-et-vitesses": {
+      "id": "fp_95l3Uv5s",
+      "hash": "f384242540",
+      "td": "td4",
+      "thumb": true
+    },
+    "TD4-06-exercices-1-et-2": {
+      "id": "oT_bkeNuWnw",
+      "hash": "f690bb5480",
+      "td": "td4",
       "thumb": true
     }
   }
