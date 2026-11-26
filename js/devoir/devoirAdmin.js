@@ -1,12 +1,13 @@
-// Onglet « Devoirs » du panneau admin (module d'évaluation en classe, MVP-1) :
-// banque d'exercices paramétrés (éditeur JSON + prévisualisation de variantes) et classes.
+// Onglet « Devoirs » du panneau admin (module d'évaluation en classe) :
+// banque d'exercices paramétrés (éditeur JSON + prévisualisation de variantes), classes, et
+// sessions de devoir (sous-onglet délégué à DevoirSessions, js/devoir/devoirSessions.js).
 // Données : DevoirStore (Firestore) ; calculs : DevoirEngine + mathjs, chargé à la demande.
 var DevoirAdmin = {
   MATHJS_URL: 'https://cdn.jsdelivr.net/npm/mathjs@15.3.0/lib/browser/math.js',
   NB_VARIANTES: 3,
 
   _container: null,
-  _vue: 'banque',          // 'banque' | 'classes'
+  _vue: 'banque',          // 'banque' | 'classes' | 'sessions'
   _classes: [],
   _exercices: [],
   _calc: null,
@@ -59,6 +60,8 @@ var DevoirAdmin = {
   },
 
   _setVue: function (vue) {
+    DevoirSessions.quitter();          // arrête les écoutes en direct du tableau de bord
+    if (vue === 'sessions') DevoirSessions._vue = 'liste';
     DevoirAdmin._vue = vue;
     DevoirAdmin._edition = null;
     DevoirAdmin._renderVue();
@@ -72,14 +75,17 @@ var DevoirAdmin = {
       '<div class="dv-subtabs" role="tablist">' +
         '<button class="dv-subtab' + (v === 'banque' ? ' active' : '') + '" onclick="DevoirAdmin._setVue(\'banque\')">Banque d\'exercices (' + DevoirAdmin._exercices.length + ')</button>' +
         '<button class="dv-subtab' + (v === 'classes' ? ' active' : '') + '" onclick="DevoirAdmin._setVue(\'classes\')">Classes (' + DevoirAdmin._classes.length + ')</button>' +
+        '<button class="dv-subtab' + (v === 'sessions' ? ' active' : '') + '" onclick="DevoirAdmin._setVue(\'sessions\')">Sessions</button>' +
       '</div>';
     var corps;
     if (DevoirAdmin._edition && DevoirAdmin._edition.type === 'exercice') corps = DevoirAdmin._htmlEditeurExercice();
     else if (DevoirAdmin._edition && DevoirAdmin._edition.type === 'classe') corps = DevoirAdmin._htmlEditeurClasse();
+    else if (v === 'sessions') corps = '<div id="dv-sessions"></div>';
     else if (v === 'classes') corps = DevoirAdmin._htmlListeClasses();
     else corps = DevoirAdmin._htmlListeExercices();
     c.innerHTML = '<div class="dv-root">' + nav + corps + '</div>';
     if (DevoirAdmin._edition && DevoirAdmin._edition.type === 'exercice') DevoirAdmin._previsualiser();
+    else if (v === 'sessions' && !DevoirAdmin._edition) DevoirSessions.render(document.getElementById('dv-sessions'));
     else DevoirAdmin._katex();
   },
 

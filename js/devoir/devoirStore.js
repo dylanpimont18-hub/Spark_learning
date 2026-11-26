@@ -1,7 +1,8 @@
 // Accès Firestore du module « devoir », côté enseignant (compte admin).
-// Collections réservées à l'admin par firestore.rules : devoir_classes, devoir_exercices.
-// Les étudiants n'y ont jamais accès : au MVP-2, une session recopiera la seule liste des noms
-// (sans le profil Dys) dans un document lisible par les participants.
+// Classes et banque (devoir_classes, devoir_exercices) : lecture et écriture directes, admin seul.
+// Passage en classe (devoir_sessions, devoir_copies, devoir_copies_prive, devoir_evenements,
+// devoir_corrections) : lecture seule ici, en temps réel ; toute écriture passe par une Cloud
+// Function (DevoirFirebase.appeler). Voir firestore.rules.
 var DevoirStore = {
   _db: function () { return firebase.firestore(); },
   _now: function () { return firebase.firestore.FieldValue.serverTimestamp(); },
@@ -61,5 +62,42 @@ var DevoirStore = {
 
   deleteExercice: async function (id) {
     await this._db().collection('devoir_exercices').doc(id).delete();
+  },
+
+  // ── Sessions et copies (lecture seule) ──
+  _avecId: function (d) { return Object.assign({}, d.data(), { id: d.id }); },
+  _ms: function (ts) { return ts && ts.toMillis ? ts.toMillis() : 0; },
+
+  listSessions: async function () {
+    var self = this;
+    var snap = await this._db().collection('devoir_sessions').get();
+    return snap.docs.map(this._avecId).sort(function (a, b) { return self._ms(b.created_at) - self._ms(a.created_at); });
+  },
+
+  // Les trois écoutes renvoient la fonction qui les arrête.
+  ecouterSession: function (id, surDonnees, surErreur) {
+    var self = this;
+    return this._db().collection('devoir_sessions').doc(id).onSnapshot(function (d) { surDonnees(d.exists ? self._avecId(d) : null); }, surErreur);
+  },
+
+  ecouterCopies: function (sessionId, surDonnees, surErreur) {
+    var self = this;
+    return this._db().collection('devoir_copies').where('session_id', '==', sessionId).onSnapshot(function (snap) {
+      surDonnees(snap.docs.map(self._avecId).sort(function (a, b) { return (a.nom || '').localeCompare(b.nom || '', 'fr'); }));
+    }, surErreur);
+  },
+
+  // Du plus récent au plus ancien. Tri côté navigateur : pas d'index composite à déployer.
+  ecouterEvenements: function (sessionId, surDonnees, surErreur) {
+    var self = this;
+    return this._db().collection('devoir_evenements').where('session_id', '==', sessionId).onSnapshot(function (snap) {
+      surDonnees(snap.docs.map(self._avecId).sort(function (a, b) { return self._ms(b.horodatage) - self._ms(a.horodatage); }));
+    }, surErreur);
+  },
+
+  // Partie privée d'une copie : valeurs tirées, corrigé calculé, barème, historique de brouillon.
+  lirePrive: async function (copieId) {
+    var d = await this._db().collection('devoir_copies_prive').doc(copieId).get();
+    return d.exists ? this._avecId(d) : null;
   }
 };
