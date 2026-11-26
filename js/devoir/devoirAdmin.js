@@ -87,10 +87,22 @@ var DevoirAdmin = {
   _htmlListeExercices: function () {
     var e = DevoirAdmin._esc;
     var liste = DevoirAdmin._exercices;
+    var compte = {};
+    DevoirAdmin._exercices.forEach(function (x) { compte[x.chapitre] = (compte[x.chapitre] || 0) + 1; });
+    var filtre = DevoirAdmin._filtreChapitre || '';
+    if (filtre) liste = liste.filter(function (x) { return x.chapitre === filtre; });
+    var options = '<option value="">Tous les chapitres (' + DevoirAdmin._exercices.length + ')</option>' +
+      DevoirEngine.CHAPITRES.map(function (c) {
+        return '<option value="' + e(c.id) + '"' + (c.id === filtre ? ' selected' : '') + '>' + e(c.id + ' · ' + c.titre) + ' (' + (compte[c.id] || 0) + ')</option>';
+      }).join('');
     var html = '<div class="dv-toolbar">' +
+        '<select class="dv-input dv-filtre" aria-label="Filtrer par chapitre" onchange="DevoirAdmin._filtreChapitre = this.value; DevoirAdmin._renderVue()">' + options + '</select>' +
         '<label class="dv-btn-secondaire dv-fichier">Importer un lot (JSON)<input type="file" accept=".json,application/json" onchange="DevoirAdmin._importerLot(this)" /></label>' +
         '<button class="ap-save-btn" onclick="DevoirAdmin._ouvrirExercice(null)">+ Nouvel exercice</button>' +
       '</div>' + DevoirAdmin._htmlFile();
+    if (!liste.length && filtre) {
+      return html + '<p class="dv-vide">Aucun exercice pour ce chapitre.</p>';
+    }
     if (!liste.length) {
       return html + '<p class="dv-vide">La banque est vide. Elle accueille les exercices des chapitres que vous enseignez (dossier cours/Dylan, de 01 à 16). Créez un premier exercice paramétré : ses valeurs seront tirées au hasard pour chaque étudiant, et son corrigé recalculé automatiquement.</p>';
     }
@@ -165,6 +177,7 @@ var DevoirAdmin = {
     }).join('');
     return '<section class="dv-file"><div class="dv-file-entete"><strong>À valider (' + file.length + ')</strong>' +
       '<span class="dv-aide">Exercices importés, pas encore dans la banque. Relisez les variantes de chacun avant de l\'enregistrer.</span>' +
+      '<button class="ap-save-btn" id="dv-tout-enregistrer" onclick="DevoirAdmin._enregistrerTousPrets()">Enregistrer tous les exercices prêts</button>' +
       '<button class="dv-btn-lien" onclick="DevoirAdmin._viderFile()">Vider la file</button></div>' +
       '<ul class="dv-file-liste">' + lignes + '</ul></section>';
   },
@@ -180,6 +193,31 @@ var DevoirAdmin = {
     var file = DevoirAdmin._lireFile();
     file.splice(i, 1);
     DevoirAdmin._ecrireFile(file);
+    DevoirAdmin._renderVue();
+  },
+
+  // Enregistre d'un coup les exercices de la file sans erreur (garde-fou compris) et absents de
+  // la banque. Les autres restent dans la file. Chaque exercice reste modifiable ou désactivable.
+  _enregistrerTousPrets: async function () {
+    var enBanque = {};
+    DevoirAdmin._exercices.forEach(function (x) { enBanque[x.id] = true; });
+    var file = DevoirAdmin._lireFile();
+    var prets = file.filter(function (ex) { return !enBanque[ex.id] && !DevoirEngine.valider(ex, DevoirAdmin._calc).erreurs.length; });
+    if (!prets.length) { DevoirAdmin._toast('Aucun exercice prêt à enregistrer.', 'error'); return; }
+    if (!confirm('Enregistrer ' + prets.length + ' exercice(s) dans la banque sans relecture individuelle ?\n\n' +
+      'Ils ont passé la validation et le garde-fou (résultat du corrigé d\'origine retrouvé). Vous pourrez les modifier ou les désactiver ensuite.')) return;
+    var btn = document.getElementById('dv-tout-enregistrer');
+    if (btn) btn.disabled = true;
+    var ok = [];
+    var echecs = 0;
+    for (var i = 0; i < prets.length; i++) {
+      if (btn) btn.textContent = 'Enregistrement ' + (i + 1) + ' / ' + prets.length + '…';
+      try { await DevoirStore.saveExercice(prets[i], true, null); ok.push(prets[i].id); }
+      catch (err) { echecs++; console.error('[DevoirAdmin] enregistrement de ' + prets[i].id + ' :', err); }
+    }
+    DevoirAdmin._ecrireFile(DevoirAdmin._lireFile().filter(function (x) { return ok.indexOf(x.id) === -1; }));
+    DevoirAdmin._exercices = await DevoirStore.listExercices();
+    DevoirAdmin._toast(ok.length + ' exercice(s) enregistré(s)' + (echecs ? ', ' + echecs + ' échec(s) : voir la console' : '') + '.', echecs ? 'error' : 'success');
     DevoirAdmin._renderVue();
   },
 

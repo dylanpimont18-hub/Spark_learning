@@ -26,7 +26,7 @@ for (const f of fichiers) {
     const r = E.valider(ex, calc);
     if (ids.has(ex.id)) r.erreurs.push('id « ' + ex.id + ' » déjà utilisé dans ' + ids.get(ex.id));
     ids.set(ex.id, path.basename(f));
-    if (ex.chapitre !== lot.chapitre) r.erreurs.push('chapitre « ' + ex.chapitre + ' » différent de celui du lot (' + lot.chapitre + ')');
+    if (lot.chapitre !== 'tous' && ex.chapitre !== lot.chapitre) r.erreurs.push('chapitre « ' + ex.chapitre + ' » différent de celui du lot (' + lot.chapitre + ')');
     const tag = r.erreurs.length ? '✗' : (r.avertissements.length ? '!' : '✓');
     if (r.erreurs.length) ko++;
     console.log('\n' + tag + ' ' + ex.id + ' — ' + ex.titre + '  [' + E.nombreVariantes(ex) + ' variantes]');

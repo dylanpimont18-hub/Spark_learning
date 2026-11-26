@@ -58,7 +58,7 @@ Ce qu'on observe sur un fichier type (`A2-3-bilan-thermique-td-contenu.typ`, 1 2
 > **État au 26/11** : pipeline en place.
 > - Les lots sont écrits par Claude Code à partir des sources Typst, sans clé API : la session fait office d'IA d'import.
 > - Chaque lot est vérifié par `scripts/devoir-verifier-lot.js` (garde-fou), importé dans l'onglet Devoirs (« Importer un lot »), puis relu exercice par exercice.
-> - Lot pilote : chapitre 05, 6 exercices tirés du TD.
+> - Banque complète : **83 exercices sur les 16 chapitres** (`tous-les-chapitres.json`, assemblé par `assembler.js`), tous validés par le garde-fou et rendus sans erreur KaTeX. Bouton « Enregistrer tous les exercices prêts » pour l'import groupé.
 > - Les lots vivent dans `BTS FED/production/devoirs-en-ligne/`, car le dépôt Spark Learning est **public**.
 
 **Périmètre (décision du 26/11)** : on n'importe que les 16 chapitres enseignés par Dylan (`Desktop/cours/Dylan`). Sources par chapitre : le fascicule (`production/fiches/<savoir>/<notion>-…-contenu.typ`), le TD s'il existe (05, 06), et les DS existants (DS 0, 1, 2, 6, 16, 17, ainsi que le DS d'acoustique du 12). Le script renseigne `chapitre`.

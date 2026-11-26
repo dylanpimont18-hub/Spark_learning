@@ -4913,3 +4913,4 @@ main { flex: 1; }
 .dv-etat--ok { color: var(--success); border-color: var(--success); }
 .dv-etat--ko { color: var(--error); border-color: var(--error); }
 .dv-etat--info { color: var(--text-muted); border-color: var(--border); }
+.dv-filtre { width: auto; max-width: 100%; margin-right: auto; }

@@ -539,6 +539,8 @@ Accès Firestore enseignant du module devoir. Collections `devoir_classes` (`{no
 Onglet « Devoirs » du panneau admin (`AdminPanel._loadTab('devoirs')`). Charge mathjs 15.3.0 par CDN à la première ouverture.
 - `render(container)` — charge banque, classes, mathjs
 - `_ouvrirExercice(id)` / `_previsualiser()` / `_enregistrerExercice()` — éditeur JSON, 3 variantes avec corrigé ; l'id ne change plus après création
+- `_enregistrerTousPrets()` — enregistre d'un coup les exercices de la file sans erreur (garde-fou compris), après confirmation
+- `_filtreChapitre` — filtre de la liste de la banque par chapitre (menu déroulant)
 - `_importerLot(input)` / `_htmlFile()` / `_ouvrirBrouillon(i)` — file « À valider » (localStorage `spark_devoir_file_import`) alimentée par un lot JSON ; chaque exercice se relit dans l'éditeur puis sort de la file à l'enregistrement
 - `_ouvrirClasse(id)` / `_ajouterEtudiants()` / `_enregistrerClasse()` — liste de noms (un par ligne), Dys, actif ; doublons refusés
 - Styles : section `.dv-*` en fin de `css/styles.css`
