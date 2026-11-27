@@ -64,7 +64,8 @@ export function construireAttribution(ex: Donnees, rang: number, remplace: strin
       statut: 'active',
       titre: ex.titre,
       enonce: v.enonce,
-      blocs: (ex.blocs_reponse || []).map((b: Donnees) => ({ id: b.id, label: b.label })),
+      // long : bloc de rédaction (zone de saisie plus grande, limite de longueur relevée).
+      blocs: (ex.blocs_reponse || []).map((b: Donnees) => b.long === true ? { id: b.id, label: b.label, long: true } : { id: b.id, label: b.label }),
       medias: (ex.medias || []).map((m: Donnees) => ({ type: m.type, ref: m.ref, legende: m.legende || '' })),
       remplace
     },
@@ -72,10 +73,13 @@ export function construireAttribution(ex: Donnees, rang: number, remplace: strin
       exercice_id: ex.id,
       titre: ex.titre,
       chapitre: ex.chapitre || null,
+      type: v.type,
       valeurs: v.valeurs,
       donnees: v.donnees,
       corrige: v.corrige,
-      bareme: (ex.blocs_reponse || []).map((b: Donnees) => ({ id: b.id, label: b.label, points: b.points }))
+      // Critères notés : blocs de calcul et, pour une question rédigée ou mixte, éléments attendus
+      // (nature « element », avec le texte attendu de cette variante).
+      bareme: v.bareme
     }
   };
 }

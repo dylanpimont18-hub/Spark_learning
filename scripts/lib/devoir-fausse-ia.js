@@ -10,6 +10,9 @@
 //   IA_TOUJOURS_INVALIDE       → réponses hors schéma (vérifie le statut « erreur IA »)
 //   IA_SOMME_FAUSSE            → note incohérente et points au-dessus du maximum
 //   IA_CONFIANCE_BASSE         → confiance 0,3 et alerte « incoherence »
+//   IA_INCERTAIN               → éléments attendus marqués « incertain »
+//   IA_CITATION_INVENTEE       → citation absente de la copie (le serveur doit le relever)
+//   IA_SANS_CITATION           → élément validé sans passage cité (idem)
 const http = require('http');
 const { PORTS, HOTE } = require('./devoir-emulateur.js');
 
@@ -31,12 +34,22 @@ function corriger(message) {
   if (/IA_TOUJOURS_INVALIDE/.test(tout)) return JSON.stringify({ attribution_id: id, note: 'vingt sur vingt' });
   if (/IA_JSON_INVALIDE_UNE_FOIS/.test(tout) && dejaVues[id] === 1) return 'Voici ma correction : { "note_proposee": ';
 
+  // Question rédigée : un critère « element » est validé dès qu'une rédaction existe, avec pour
+  // citation le début de cette rédaction (mot pour mot, comme le demande le prompt).
+  const redaction = Object.keys(reponse).map((k) => reponse[k]).filter((t) => (t || '').trim()).sort((a, b) => b.length - a.length)[0] || '';
   const criteres = donnees.bareme.map((c) => {
-    const rempli = !!(reponse[c.critere_id] || '').trim();
+    const element = c.nature === 'element';
+    const source = element ? redaction : (reponse[c.critere_id] || '');
+    const rempli = !!source.trim();
+    let extrait = source.trim().slice(0, 40);
+    if (element && /IA_CITATION_INVENTEE/.test(tout)) extrait = 'un passage que la copie ne contient pas';
+    if (element && /IA_SANS_CITATION/.test(tout)) extrait = '';
     return {
       critere_id: c.critere_id, points_obtenus: rempli ? c.points_max : 0, points_max: c.points_max,
       statut: rempli ? 'valide' : 'absent',
-      justification: rempli ? 'Bloc rempli (correction simulée).' : 'Bloc laissé vide.'
+      justification: rempli ? (element ? 'Élément retrouvé dans la rédaction (correction simulée).' : 'Bloc rempli (correction simulée).') : 'Bloc laissé vide.',
+      extrait_reponse: extrait,
+      incertain: element && /IA_INCERTAIN/.test(tout)
     };
   });
   let note = criteres.reduce((s, c) => s + c.points_obtenus, 0);

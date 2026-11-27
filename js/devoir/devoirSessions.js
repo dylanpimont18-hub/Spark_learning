@@ -16,6 +16,7 @@ var DevoirSessions = {
   _filtre: '',
   _origine: '',   // '' = tous, 'ds' = questions de devoir surveillé, 'td' = entraînement
   _niveau: '',    // clé de NIVEAUX
+  _genre: '',     // '' = calculs et questions rédigées, 'calcul', 'redige'
   _papier: false, // inclure les exercices à diagramme papier
   _titreAuto: true,
 
@@ -164,6 +165,7 @@ var DevoirSessions = {
     S._selection = {};
     S._filtre = '';        // '' = aucun chapitre choisi, '*' = tous les chapitres, sinon l'identifiant
     S._niveau = '';
+    S._genre = '';
     S._papier = false;
     S._origine = '';
     S._titreAuto = true;
@@ -188,11 +190,16 @@ var DevoirSessions = {
       if (S._filtre !== '*' && x.chapitre !== S._filtre) return false;
       var d = x.difficulte || 1;
       if (d < niveau.min || d > niveau.max) return false;
+      if (S._genre === 'calcul' && S._estRedige(x)) return false;
+      if (S._genre === 'redige' && !S._estRedige(x)) return false;
       if (S._origine === 'ds') return S._estDS(x);
       if (S._origine === 'td') return !S._estDS(x);
       return true;
     });
   },
+
+  // Question à rédiger, ou calcul suivi d'une rédaction : corrigée élément attendu par élément attendu.
+  _estRedige: function (x) { return DevoirEngine.typeExercice(x) !== 'chiffre'; },
 
   // Exercices proposés : les candidats, sans ceux à diagramme papier si la case n'est pas cochée.
   _visibles: function () {
@@ -246,6 +253,8 @@ var DevoirSessions = {
         '<div class="dv-champs">' +
           '<label class="dv-label">Origine des exercices<select class="dv-input" id="ds-origine" onchange="DevoirSessions._origine = this.value; DevoirSessions._recalculer()">' +
             '<option value="">Devoirs surveillés et entraînement</option><option value="ds">Questions de devoirs surveillés seulement</option><option value="td">Entraînement seulement</option></select></label>' +
+          '<label class="dv-label">Type de questions<select class="dv-input" id="ds-genre" onchange="DevoirSessions._genre = this.value; DevoirSessions._recalculer()">' +
+            '<option value="">Calculs et questions rédigées</option><option value="calcul">Calculs seulement</option><option value="redige">Questions rédigées seulement (avec ou sans calcul)</option></select></label>' +
           '<label class="dv-label">Remplacements possibles (anti-triche)<input class="dv-input" id="ds-quota" type="number" min="0" max="5" value="2" oninput="DevoirSessions._majSelection()" /></label>' +
         '</div>' +
         '<div class="dv-label">Exercices proposés au tirage</div>' +
@@ -269,7 +278,9 @@ var DevoirSessions = {
     var papier = S._candidats().filter(S._surPapier).length;
     var avis = nb < n ? ' <span class="dv-etat dv-etat--ko">il en faut au moins ' + n + ' : élargissez la difficulté ou baissez le nombre d\'exercices</span>'
       : nb < n + quota ? ' <span class="dv-etat dv-etat--info">peu de choix : les remplacements anti-triche pourront manquer</span>' : '';
-    return '<p class="ds-resume"><strong>' + nb + ' exercice' + (nb > 1 ? 's' : '') + '</strong> ' + (nb > 1 ? 'correspondent' : 'correspond') + '. Chaque étudiant en recevra ' + n +
+    var rediges = DevoirAdmin._exercices.filter(function (x) { return S._selection[x.id] && S._estRedige(x); }).length;
+    return '<p class="ds-resume"><strong>' + nb + ' exercice' + (nb > 1 ? 's' : '') + '</strong> ' + (nb > 1 ? 'correspondent' : 'correspond') +
+        (rediges ? ', dont <strong id="ds-nb-rediges">' + rediges + '</strong> à rédiger' : '') + '. Chaque étudiant en recevra ' + n +
         ', tirés au hasard, avec ses propres valeurs.' + avis + '</p>' +
       (papier ? '<label class="ds-resume ds-resume--case"><input type="checkbox" id="ds-papier"' + (S._papier ? ' checked' : '') +
         ' onchange="DevoirSessions._papier = this.checked; DevoirSessions._recalculer()" /> Inclure les ' + papier +
@@ -290,6 +301,7 @@ var DevoirSessions = {
       '<div class="ds-choix">' + visibles.map(function (x) {
         return '<label class="ds-choix-ligne"><input type="checkbox" value="' + e(x.id) + '"' + (S._selection[x.id] ? ' checked' : '') + ' onchange="DevoirSessions._cocher(this.value, this.checked)" />' +
           '<span>' + e(x.titre) + '<span class="dv-carte-meta"> · chapitre ' + e(x.chapitre) + ' · difficulté ' + e(x.difficulte || '—') +
+            (S._estRedige(x) ? ' · ' + e(DevoirAdmin.LIBELLES_TYPE[DevoirEngine.typeExercice(x)].toLowerCase()) : '') +
             (S._surPapier(x) ? ' · <strong>diagramme papier à distribuer</strong>' : '') + '</span></span></label>';
       }).join('') + '</div>';
   },
@@ -388,6 +400,7 @@ var DevoirSessions = {
         .sort(function (a, b) { return (b.numero || 0) - (a.numero || 0); });
       var breves = S._evenements.filter(function (ev) { return ev.copie_id === c.id && ev.bref; }).length;
       var cellule = [];
+      if (c.retard_ms) cellule.push('<span class="dv-carte-meta ds-retard">entré ' + Math.max(1, Math.round(c.retard_ms / 60000)) + ' min après le lancement</span>');
       if (c.changements_utilises) cellule.push('<span class="dv-etat dv-etat--' + (c.changements_utilises > c.quota_remplacements ? 'ko' : 'avert') + '">' + c.changements_utilises + ' sortie' + (c.changements_utilises > 1 ? 's' : '') + ' de page</span>');
       if (breves) cellule.push('<span class="dv-carte-meta">' + breves + ' brève' + (breves > 1 ? 's' : '') + '</span>');
       if (c.collages_bloques) cellule.push('<span class="dv-etat dv-etat--avert">' + c.collages_bloques + ' collage' + (c.collages_bloques > 1 ? 's' : '') + ' bloqué' + (c.collages_bloques > 1 ? 's' : '') + '</span>');
@@ -469,7 +482,7 @@ var DevoirSessions = {
     var prets = S._copies.filter(function (c) { return c.statut === 'en_attente' && c.uid; }).length;
     var manquants = (s.etudiants || []).length - prets;
     var texte = 'Lancer l\'épreuve pour ' + prets + ' étudiant(s) ? Les exercices sont tirés et le temps (' + s.duree_minutes + ' min) démarre maintenant, pour tous en même temps.';
-    if (manquants > 0) texte += '\n\n' + manquants + ' étudiant(s) n\'ont pas encore choisi leur nom. Ils pourront entrer après le lancement : leur temps démarrera à leur arrivée.';
+    if (manquants > 0) texte += '\n\n' + manquants + ' étudiant(s) n\'ont pas encore choisi leur nom. Ils pourront entrer après le lancement : ils composeront sur le temps restant et finiront en même temps que les autres.';
     if (!confirm(texte)) return;
     var bouton = document.getElementById('ds-lancer');
     if (bouton) bouton.disabled = true;

@@ -29,6 +29,12 @@ var DevoirEngine = (function () {
   var NOEUDS_AUTORISES = ['ConstantNode', 'SymbolNode', 'OperatorNode', 'ParenthesisNode',
     'FunctionNode', 'ConditionalNode'];
   var TYPES_MEDIA = ['image', 'tableau', 'graphique'];
+  // Types d'exercice. Absent = « chiffre » (tous les exercices d'avant le 2026-11-27) : un résultat
+  // numérique, quatre blocs notés. « redige » : une question à rédiger, notée élément attendu par
+  // élément attendu (corrige.elements), sans résultat numérique. « mixte » : un calcul suivi
+  // d'une question rédigée (« … Conclure. ») : blocs de calcul notés + éléments attendus.
+  var TYPES = ['chiffre', 'redige', 'mixte'];
+  function typeExercice(ex) { return ex && TYPES.indexOf(ex.type) !== -1 ? ex.type : 'chiffre'; }
   var MAX_ENUMERATION = 5000;
   var CHAPITRES = [
     { id: '01', titre: 'Boîte à outils du technicien', savoir: 'remise à niveau', notion: 'chapitre-00' },
@@ -269,22 +275,57 @@ var DevoirEngine = (function () {
     Object.keys(valeurs).forEach(function (k) { tout[k] = valeurs[k]; });
     Object.keys(donnees).forEach(function (k) { tout[k] = donnees[k]; });
     var corr = ex.corrige || {};
-    var nomRes = corr.resultat;
-    var valeurRes = tout[nomRes];
-    return {
-      valeurs: valeurs,
-      donnees: donnees,
-      enonce: rendreGabarit(ex.enonce_modele, tout, defs),
-      corrige: {
+    var type = typeExercice(ex);
+    var etapes = (corr.etapes || []).map(function (e) { return rendreGabarit(e, tout, defs); });
+    var corrige;
+    if (type === 'redige') {
+      // Pas de résultat numérique : la correction porte sur les éléments attendus.
+      corrige = { resultat: null, valeur: null, valeur_affichee: '', unite: '', etapes: etapes };
+    } else {
+      var nomRes = corr.resultat;
+      var valeurRes = tout[nomRes];
+      corrige = {
         resultat: nomRes,
         valeur: valeurRes,
         valeur_affichee: typeof valeurRes === 'number'
           ? formaterNombre(valeurRes, defs[nomRes] ? defs[nomRes].decimales : undefined, false)
           : String(valeurRes),
         unite: corr.unite || (defs[nomRes] && defs[nomRes].unite) || '',
-        etapes: (corr.etapes || []).map(function (e) { return rendreGabarit(e, tout, defs); })
-      }
+        etapes: etapes
+      };
+    }
+    if (type !== 'chiffre') {
+      corrige.elements = (corr.elements || []).map(function (el) {
+        return { id: el.id, label: el.label, points: el.points, attendu: rendreGabarit(el.attendu, tout, defs) };
+      });
+      if (typeof corr.reponse_modele === 'string' && corr.reponse_modele) corrige.reponse_modele = rendreGabarit(corr.reponse_modele, tout, defs);
+    }
+    return {
+      type: type,
+      valeurs: valeurs,
+      donnees: donnees,
+      enonce: rendreGabarit(ex.enonce_modele, tout, defs),
+      corrige: corrige,
+      bareme: baremeDe(ex, corrige.elements)
     };
+  }
+
+  // Critères de notation d'un exercice, dans l'ordre d'affichage : les blocs de réponse notés,
+  // puis les éléments attendus (nature « element », avec le texte attendu). Pour un exercice
+  // chiffré, tous les blocs sont des critères (comportement d'origine). elements : éléments déjà
+  // instanciés (valeurs remplacées) ; à défaut, ceux du gabarit.
+  function baremeDe(ex, elements) {
+    var type = typeExercice(ex);
+    var criteres = [];
+    (ex.blocs_reponse || []).forEach(function (b) {
+      if (type === 'chiffre' || b.points > 0) criteres.push({ id: b.id, label: b.label, points: b.points });
+    });
+    if (type !== 'chiffre') {
+      (elements || (ex.corrige && ex.corrige.elements) || []).forEach(function (el) {
+        criteres.push({ id: el.id, label: el.label, points: el.points, nature: 'element', attendu: el.attendu });
+      });
+    }
+    return criteres;
   }
 
   function tirerValeurs(ex, rng) {
@@ -349,6 +390,13 @@ var DevoirEngine = (function () {
   function verifierOrigine(ex, calc) {
     var o = ex.origine;
     var res = { erreurs: [], avertissements: [], obtenu: null };
+    if (typeExercice(ex) === 'redige') {
+      // Question rédigée : rien à recalculer. L'origine sert à retrouver le corrigé qui fait foi.
+      if (!o || typeof o !== 'object' || typeof o.source !== 'string' || !o.source || typeof o.exercice !== 'string' || !o.exercice) {
+        res.erreurs.push('origine : objet { source, exercice } attendu (le corrigé d\'origine fait foi).');
+      }
+      return res;
+    }
     if (!o || typeof o !== 'object' || !o.valeurs || typeof o.valeurs !== 'object') {
       res.erreurs.push('origine : objet { source, exercice, valeurs, resultat } attendu.');
       return res;
@@ -409,6 +457,10 @@ var DevoirEngine = (function () {
     if (ex.difficulte !== undefined && !(Number.isInteger(ex.difficulte) && ex.difficulte >= 1 && ex.difficulte <= 5)) {
       erreurs.push('difficulte : entier de 1 à 5.');
     }
+    if (ex.type !== undefined && TYPES.indexOf(ex.type) === -1) {
+      erreurs.push('type : parmi ' + TYPES.join(', ') + ' (absent = chiffre).');
+    }
+    var type = typeExercice(ex);
 
     // Paramètres
     var noms = {};
@@ -475,7 +527,10 @@ var DevoirEngine = (function () {
     // Un caractère de contrôle trahit une barre oblique perdue à l'écriture du JSON : « \times »
     // ou « \text » devenus tabulation, « \frac » saut de page, « \nu » retour à la ligne…
     var CONTROLE_RE = /[\u0000-\u001f]/;
-    [['enonce_modele', ex.enonce_modele]].concat(((ex.corrige && ex.corrige.etapes) || []).map(function (t, i) { return ['corrige.etapes[' + i + ']', t]; }))
+    var elementsBruts = (ex.corrige && Array.isArray(ex.corrige.elements)) ? ex.corrige.elements : [];
+    [['enonce_modele', ex.enonce_modele], ['corrige.reponse_modele', ex.corrige && ex.corrige.reponse_modele]]
+      .concat(((ex.corrige && Array.isArray(ex.corrige.etapes) && ex.corrige.etapes) || []).map(function (t, i) { return ['corrige.etapes[' + i + ']', t]; }))
+      .concat(elementsBruts.map(function (el, i) { return ['corrige.elements[' + i + '].attendu', el && el.attendu]; }))
       .forEach(function (paire) {
         if (typeof paire[1] === 'string' && CONTROLE_RE.test(paire[1])) {
           erreurs.push(paire[0] + ' : caractère de contrôle (tabulation, retour à la ligne…) : une commande LaTeX a sans doute perdu sa barre oblique (\\times, \\text, \\frac…).');
@@ -489,17 +544,44 @@ var DevoirEngine = (function () {
     }
     var corr = ex.corrige;
     if (!corr || typeof corr !== 'object') {
-      erreurs.push('corrige : objet obligatoire ({ resultat, unite, etapes }).');
+      erreurs.push('corrige : objet obligatoire ({ resultat, unite, etapes } ; { elements } pour une question rédigée).');
     } else {
-      if (!toutesVariables[corr.resultat] || !toutesVariables[corr.resultat].numerique) {
+      if (type === 'redige') {
+        if (corr.resultat !== undefined && corr.resultat !== null) erreurs.push('corrige.resultat : une question rédigée n\'a pas de résultat numérique (utiliser le type « mixte » pour un calcul suivi d\'une rédaction).');
+      } else if (!toutesVariables[corr.resultat] || !toutesVariables[corr.resultat].numerique) {
         erreurs.push('corrige.resultat : « ' + corr.resultat + ' » doit être une variable numérique déclarée.');
       }
       if (corr.etapes !== undefined && !Array.isArray(corr.etapes)) erreurs.push('corrige.etapes : liste attendue.');
-      (corr.etapes || []).forEach(function (e, i) {
+      (Array.isArray(corr.etapes) ? corr.etapes : []).forEach(function (e, i) {
         placeholders(e).forEach(function (nom) {
           if (!toutesVariables[nom]) erreurs.push('corrige.etapes[' + i + '] : {{' + nom + '}} ne correspond à aucune variable.');
         });
       });
+      // Éléments de réponse attendus (questions rédigées et mixtes) : un critère noté par élément.
+      if (type === 'chiffre') {
+        if (corr.elements !== undefined) erreurs.push('corrige.elements : réservé aux types « redige » et « mixte » (ajouter le champ type).');
+      } else if (!Array.isArray(corr.elements) || !corr.elements.length) {
+        erreurs.push('corrige.elements : au moins un élément de réponse attendu ({ id, label, attendu, points }).');
+      } else {
+        var idsEl = {};
+        corr.elements.forEach(function (el, i) {
+          var ou = 'corrige.elements[' + i + ']';
+          if (!el || typeof el !== 'object') { erreurs.push(ou + ' : objet attendu.'); return; }
+          if (typeof el.id !== 'string' || !NOM_RE.test(el.id)) erreurs.push(ou + ' : id invalide.');
+          else if (idsEl[el.id]) erreurs.push(ou + ' : id « ' + el.id + ' » en double.');
+          else idsEl[el.id] = true;
+          if (typeof el.label !== 'string' || !el.label.trim()) erreurs.push(ou + ' : label obligatoire (intitulé court de l\'élément).');
+          if (typeof el.attendu !== 'string' || !el.attendu.trim()) erreurs.push(ou + ' : attendu obligatoire (ce que la copie doit dire, repris du corrigé).');
+          if (typeof el.points !== 'number' || !(el.points > 0)) erreurs.push(ou + ' : points strictement positifs.');
+          placeholders(el.attendu).forEach(function (nom) {
+            if (!toutesVariables[nom]) erreurs.push(ou + ' : {{' + nom + '}} ne correspond à aucune variable.');
+          });
+        });
+        if (corr.reponse_modele !== undefined && typeof corr.reponse_modele !== 'string') erreurs.push('corrige.reponse_modele : texte attendu.');
+        placeholders(corr.reponse_modele).forEach(function (nom) {
+          if (!toutesVariables[nom]) erreurs.push('corrige.reponse_modele : {{' + nom + '}} ne correspond à aucune variable.');
+        });
+      }
     }
 
     // Blocs de réponse et barème
@@ -516,8 +598,20 @@ var DevoirEngine = (function () {
         if (!b || typeof b.label !== 'string' || !b.label.trim()) erreurs.push(ou + ' : label obligatoire.');
         if (!b || typeof b.points !== 'number' || b.points < 0) erreurs.push(ou + ' : points positifs ou nuls.');
         else total += b.points;
+        if (b && b.long !== undefined && typeof b.long !== 'boolean') erreurs.push(ou + ' : long doit être true ou false.');
       });
-      if (ex.blocs_reponse.length < 3 || ex.blocs_reponse.length > 4) avert.push('Le cahier des charges prévoit 3 à 4 blocs de réponse (ici ' + ex.blocs_reponse.length + ').');
+      if (type === 'chiffre') {
+        if (ex.blocs_reponse.length < 3 || ex.blocs_reponse.length > 4) avert.push('Le cahier des charges prévoit 3 à 4 blocs de réponse (ici ' + ex.blocs_reponse.length + ').');
+      } else {
+        // Les critères portent des identifiants uniques : un élément ne reprend pas l'id d'un bloc.
+        elementsBruts.forEach(function (el) {
+          if (el && ids[el.id]) erreurs.push('corrige.elements : l\'id « ' + el.id + ' » est déjà celui d\'un bloc de réponse.');
+          if (el && typeof el.points === 'number') total += el.points;
+        });
+        if (!ex.blocs_reponse.some(function (b) { return b && b.long === true; })) avert.push('Aucun bloc de réponse « long » : prévoir un bloc de rédaction (long: true).');
+        if (type === 'redige' && ex.blocs_reponse.some(function (b) { return b && b.points > 0; })) avert.push('Question rédigée : les points se portent sur les éléments attendus, pas sur les blocs.');
+        if (type === 'mixte' && !ex.blocs_reponse.some(function (b) { return b && b.points > 0; })) avert.push('Exercice mixte : aucun bloc de calcul noté.');
+      }
       if (Math.abs(total - 100) > 1e-9) avert.push('Le barème totalise ' + total + ' points au lieu de 100.');
     }
 
@@ -541,7 +635,7 @@ var DevoirEngine = (function () {
         }
       }
       var possibles = nombreVariantes(ex);
-      if (possibles < 6) avert.push('Seulement ' + possibles + ' variante(s) possible(s) : élargir les plages pour limiter les copies identiques.');
+      if (possibles < 6 && type !== 'redige') avert.push('Seulement ' + possibles + ' variante(s) possible(s) : élargir les plages pour limiter les copies identiques.');
     }
 
     // Garde-fou d'import : avec les valeurs de l'énoncé d'origine, la formule paramétrée doit
@@ -562,6 +656,50 @@ var DevoirEngine = (function () {
       { id: 'resultat', label: 'Résultat', points: 20 },
       { id: 'unite', label: 'Unité', points: 10 }
     ];
+  }
+
+  // Question rédigée : un seul bloc long, non noté (les points sont sur les éléments attendus).
+  function blocsRedige(label) {
+    return [{ id: 'redaction', label: label || 'Votre réponse rédigée', points: 0, long: true }];
+  }
+
+  // Exercice mixte : les quatre blocs de calcul se partagent (100 − pointsElements) points dans
+  // les proportions 40/30/20/10, suivis d'un bloc long pour la question rédigée.
+  function blocsMixte(pointsElements, label) {
+    var t = 100 - pointsElements;
+    var m = Math.round(t * 0.4), c = Math.round(t * 0.3), r = Math.round(t * 0.2);
+    return [
+      { id: 'methode', label: 'Méthode ou formule', points: m },
+      { id: 'calcul', label: 'Calcul', points: c },
+      { id: 'resultat', label: 'Résultat', points: r },
+      { id: 'unite', label: 'Unité', points: t - m - c - r },
+      { id: 'redaction', label: label || 'Conclusion rédigée', points: 0, long: true }
+    ];
+  }
+
+  // Exemple de départ d'une question rédigée (chapitre 05) : deux éléments attendus.
+  function nouvelExerciceRedige() {
+    return {
+      id: 'nouvelle-question-redigee',
+      type: 'redige',
+      titre: 'Rôle de la température extérieure de base',
+      chapitre: '05',
+      tags: ['bilan thermique', 'question rédigée'],
+      difficulte: 2,
+      enonce_modele: 'Un bilan thermique de chauffage se calcule pour la <strong>température extérieure de base</strong> du site, et non pour la température moyenne de l\'hiver.<br/><br/>' +
+        'Expliquer ce choix et dire ce qu\'il implique pour le fonctionnement de l\'installation le reste de la saison.',
+      parametres: [],
+      blocs_reponse: blocsRedige(),
+      corrige: {
+        elements: [
+          { id: 'dimensionnement', label: 'Dimensionner pour le jour le plus froid', points: 50,
+            attendu: 'La température de base est la température froide de référence du site : l\'installation doit maintenir la consigne ce jour-là, on dimensionne donc pour elle.' },
+          { id: 'charge_partielle', label: 'Fonctionnement à charge partielle', points: 50,
+            attendu: 'Le reste de la saison, il fait plus doux : l\'installation fonctionne à charge partielle, d\'où l\'importance de la régulation.' }
+        ]
+      },
+      medias: []
+    };
   }
 
   // Exemple de départ : déperditions par transmission à travers une paroi (chapitre 05).
@@ -633,7 +771,13 @@ var DevoirEngine = (function () {
     rendreGabarit: rendreGabarit,
     rngGraine: rngGraine,
     blocsParDefaut: blocsParDefaut,
+    blocsRedige: blocsRedige,
+    blocsMixte: blocsMixte,
     nouvelExercice: nouvelExercice,
+    nouvelExerciceRedige: nouvelExerciceRedige,
+    typeExercice: typeExercice,
+    baremeDe: baremeDe,
+    TYPES: TYPES,
     libelleChapitre: libelleChapitre,
     chapitreDe: chapitreDe,
     CHAPITRES: CHAPITRES,

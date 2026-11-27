@@ -128,10 +128,12 @@ async function semer() {
   catch (e) { prof = await connexion(ENSEIGNANT.email, ENSEIGNANT.motDePasse); }
   await ecrire('users/' + prof.uid, { email: ENSEIGNANT.email, displayName: 'Enseignant (démo)', role: 'admin', status: 'active', createdAt: new Date() });
   await ecrire('devoir_classes/' + demo.CLASSE.id, { nom: demo.CLASSE.nom, annee_scolaire: demo.CLASSE.annee_scolaire, etudiants: demo.CLASSE.etudiants, created_at: new Date(), updated_at: new Date() });
-  for (const ex of demo.EXERCICES) {
+  for (const ex of demo.EXERCICES.concat(demo.EXERCICES_REDIGES)) {
     await ecrire('devoir_exercices/' + ex.id, Object.assign({}, Moteur.pourStockage(ex), { actif: true, created_at: new Date(), updated_at: new Date() }));
   }
-  return { prof, classe: demo.CLASSE, exercices: demo.EXERCICES };
+  // exercices : les six exercices chiffrés (les suites historiques comptent leurs tirages) ;
+  // rediges : la question rédigée et l'exercice mixte.
+  return { prof, classe: demo.CLASSE, exercices: demo.EXERCICES, rediges: demo.EXERCICES_REDIGES };
 }
 
 async function attendre(ms) { return new Promise((r) => setTimeout(r, ms)); }

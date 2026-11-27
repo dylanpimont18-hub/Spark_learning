@@ -248,6 +248,16 @@ var DevoirEleve = {
     });
   },
 
+  // Épreuve déjà lancée : l'étudiant compose sur le temps qui reste et finit avec la classe.
+  // Le temps annoncé vient du serveur (joinSession) ; c'est lui qui fixe l'heure de fin.
+  _texteRetard: function (s) {
+    var reste = s.reste_minutes;
+    if (typeof reste !== 'number') return 'L\'épreuve est déjà lancée : vous composez dès que vous confirmez, et vous terminez en même temps que la classe.';
+    if (reste < 1) return 'L\'épreuve est déjà lancée et son temps est presque écoulé. Voyez avec votre enseignant avant de confirmer.';
+    return 'L\'épreuve est déjà lancée : il reste environ ' + reste + ' minute' + (reste > 1 ? 's' : '') +
+      '. Vous composerez sur ce temps restant et terminerez en même temps que la classe.';
+  },
+
   _confirmerNom: function (etu) {
     var D = DevoirEleve;
     var zone = document.getElementById('de-confirmation');
@@ -255,7 +265,7 @@ var DevoirEleve = {
       '<div class="de-confirmation" role="dialog" aria-label="Confirmation du nom">' +
         '<p>Vous êtes bien <strong>' + D._esc(etu.nom) + '</strong> ?</p>' +
         '<p class="de-info">' + ((D._session || {}).lancee
-          ? 'L\'épreuve est déjà lancée : le temps démarre dès que vous confirmez.'
+          ? D._texteRetard(D._session)
           : 'Votre nom s\'affichera en grand, puis l\'épreuve commencera quand votre enseignant la lancera.') +
           ' Pendant l\'épreuve, vos réponses sont enregistrées automatiquement ; ' +
           'les sorties de la page et les tentatives de collage sont consignées pour votre enseignant.</p>' +
@@ -383,8 +393,11 @@ var DevoirEleve = {
         '</section>' +
         '<section class="de-reponse" aria-label="Votre réponse">' +
           att.blocs.map(function (b) {
-            return '<label class="de-bloc"><span class="de-bloc-label">' + e(b.label) + '</span>' +
-              '<textarea class="de-champ" data-bloc="' + e(b.id) + '" rows="' + (b.id === 'unite' || b.id === 'resultat' ? 1 : 3) + '" maxlength="2000" spellcheck="false" autocomplete="off">' + e(valeurs[b.id] || '') + '</textarea></label>';
+            // Bloc long : question à rédiger (ou conclusion d'un calcul). Zone plus haute, limite relevée.
+            return '<label class="de-bloc' + (b.long ? ' de-bloc--long' : '') + '"><span class="de-bloc-label">' + e(b.label) + '</span>' +
+              (b.long ? '<span class="de-bloc-aide">Rédigez des phrases complètes : chaque idée juste compte, même formulée simplement.</span>' : '') +
+              '<textarea class="de-champ' + (b.long ? ' de-champ--long' : '') + '" data-bloc="' + e(b.id) + '" rows="' + (b.long ? 8 : (b.id === 'unite' || b.id === 'resultat' ? 1 : 3)) +
+              '" maxlength="' + (b.long ? 6000 : 2000) + '" spellcheck="false" autocomplete="off">' + e(valeurs[b.id] || '') + '</textarea></label>';
           }).join('') +
           '<div class="de-symboles" aria-label="Symboles">' + D.SYMBOLES.map(function (s) { return '<button type="button" class="de-symbole" data-symbole="' + e(s) + '" tabindex="-1">' + e(s) + '</button>'; }).join('') + '</div>' +
         '</section>';

@@ -52,6 +52,39 @@ const EXERCICES = [
     '$A = L \\times h = {{L}} \\times {{h}} = {{A}}$ m²')
 ];
 
+// Question rédigée et exercice mixte de démonstration (chapitre 02, pour ne pas se mêler aux six
+// exercices chiffrés du chapitre 01 dont les tests comptent les tirages). Textes génériques.
+const Moteur = require('../../js/devoir/devoirEngine.js');
+const EXERCICES_REDIGES = [
+  {
+    id: 'demo-redige-isolation', type: 'redige', titre: 'Démo — Pourquoi calorifuger un tube', chapitre: '02', tags: ['démonstration', 'question rédigée'], difficulte: 2,
+    enonce_modele: 'Un tube d\'eau chaude à {{T}} °C traverse un local non chauffé.<br/><br/>Expliquer pourquoi on le <strong>calorifuge</strong>, et ce qui limite l\'épaisseur d\'isolant utile.',
+    parametres: [{ nom: 'T', valeurs: [60, 70, 80], unite: '°C' }],
+    blocs_reponse: Moteur.blocsRedige(),
+    corrige: {
+      elements: [
+        { id: 'pertes', label: 'Réduire les pertes thermiques', points: 60, attendu: 'L\'isolant augmente la résistance thermique entre l\'eau à {{T}} °C et l\'air du local : les pertes diminuent.' },
+        { id: 'epaisseur', label: 'Épaisseur utile limitée', points: 40, attendu: 'Chaque centimètre supplémentaire rapporte moins que le précédent, pour un coût et un encombrement qui augmentent.' }
+      ],
+      reponse_modele: 'On calorifuge pour limiter les pertes de l\'eau à {{T}} °C ; au-delà d\'une certaine épaisseur, le gain ne paie plus le coût.'
+    },
+    medias: []
+  },
+  {
+    id: 'demo-mixte-disjoncteur', type: 'mixte', titre: 'Démo — Intensité et choix du disjoncteur', chapitre: '02', tags: ['démonstration', 'exercice mixte'], difficulte: 2,
+    enonce_modele: 'Un radiateur de puissance $P = {{P}}$ W est alimenté sous $U = 230$ V.<br/><br/>Calculer l\'<strong>intensité</strong> $I$ absorbée, puis conclure : un disjoncteur de {{cal}} A convient-il ?',
+    parametres: [{ nom: 'P', min: 1000, max: 2000, pas: 250, unite: 'W', decimales: 0 }, { nom: 'cal', valeurs: [10, 16], unite: 'A' }],
+    donnees_calculees: [{ nom: 'I', expression: 'P / 230', unite: 'A', decimales: 1 }],
+    blocs_reponse: Moteur.blocsMixte(40),
+    corrige: {
+      resultat: 'I', unite: 'A',
+      etapes: ['$I = \\dfrac{P}{U} = \\dfrac{{{P}}}{230} = {{I}}$ A'],
+      elements: [{ id: 'conclusion', label: 'Comparaison au calibre', points: 40, attendu: 'L\'intensité de {{I}} A est inférieure au calibre de {{cal}} A : le disjoncteur convient.' }]
+    },
+    medias: []
+  }
+];
+
 const NOMS = ['Alice M.', 'Bilal K.', 'Chloé D.', 'Dimitri P.', 'Emma L.', 'Farid B.', 'Gaëlle R.', 'Hugo T.', 'Inès S.', 'Jules V.', 'Kenza A.'];
 
 const CLASSE = {
@@ -61,4 +94,4 @@ const CLASSE = {
   etudiants: NOMS.map((nom, i) => ({ id: 'etu-' + String(i + 1).padStart(2, '0'), nom, mode_dys: false, actif: true }))
 };
 
-module.exports = { EXERCICES, CLASSE };
+module.exports = { EXERCICES, EXERCICES_REDIGES, CLASSE };

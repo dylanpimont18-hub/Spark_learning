@@ -245,4 +245,120 @@ test('stockage : les lignes de catalogue ne sont plus des tableaux de tableaux, 
   assert.strictEqual(JSON.stringify(E.pourStockage(stocke)), JSON.stringify(stocke), 'pourStockage est idempotent');
 });
 
+console.log('Questions rédigées et exercices mixtes');
+function exerciceRedige() {
+  return {
+    id: 'condensation-rendement-pci', type: 'redige', titre: 'Rendement supérieur à 100 % sur PCI', chapitre: '16', difficulte: 2,
+    enonce_modele: 'Une chaudière à condensation affiche un rendement de {{eta}} % sur PCI.<br/><br/>Expliquer pourquoi ce n\'est pas contraire à la conservation de l\'énergie.',
+    parametres: [{ nom: 'eta', valeurs: [103, 105.5, 107], unite: '%' }],
+    blocs_reponse: E.blocsRedige(),
+    corrige: {
+      elements: [
+        { id: 'latente', label: 'Chaleur latente non comptée dans le PCI', points: 60, attendu: 'Le PCI ne compte pas la chaleur latente de la vapeur d\'eau des fumées ; la condensation en récupère une partie, d\'où {{eta}} %.' },
+        { id: 'pcs', label: 'Rapporté au PCS, moins de 100 %', points: 40, attendu: 'Rapporté au PCS, le rendement reste inférieur à 100 %.' }
+      ],
+      reponse_modele: 'Le rendement de {{eta}} % est rapporté au PCI.'
+    },
+    origine: { source: 'x.typ', exercice: 'Exercice 2, question 1' },
+    medias: []
+  };
+}
+function exerciceMixte() {
+  const ex = exerciceOhm();
+  ex.id = 'loi-ohm-conclure'; ex.type = 'mixte';
+  ex.enonce_modele += ' Conclure : le disjoncteur de {{cal}} A convient-il ?';
+  ex.parametres.push({ nom: 'cal', valeurs: [10, 16], unite: 'A' });
+  ex.blocs_reponse = E.blocsMixte(40);
+  ex.corrige.elements = [{ id: 'conclusion', label: 'Comparaison au calibre', points: 40, attendu: 'L\'intensité de {{I}} A est inférieure au calibre de {{cal}} A : le disjoncteur convient.' }];
+  return ex;
+}
+test('un exercice sans champ type reste « chiffre » : même corrigé, même barème de quatre blocs', () => {
+  const ex = exerciceOhm();
+  assert.strictEqual(E.typeExercice(ex), 'chiffre');
+  const v = E.instancier(ex, calc, { rng: E.rngGraine(7) });
+  assert.deepStrictEqual(Object.keys(v.corrige), ['resultat', 'valeur', 'valeur_affichee', 'unite', 'etapes']);
+  assert.deepStrictEqual(v.bareme, [
+    { id: 'methode', label: 'Méthode ou formule', points: 40 }, { id: 'calcul', label: 'Calcul', points: 30 },
+    { id: 'resultat', label: 'Résultat', points: 20 }, { id: 'unite', label: 'Unité', points: 10 }]);
+  assert.strictEqual(v.type, 'chiffre');
+});
+test('question rédigée : valide sans résultat numérique, barème porté par les éléments attendus', () => {
+  const ex = exerciceRedige();
+  const r = E.valider(ex, calc);
+  assert.deepStrictEqual(r.erreurs, []);
+  assert.deepStrictEqual(r.avertissements, []);
+  const v = E.instancier(ex, calc, { rng: E.rngGraine(3) });
+  assert.strictEqual(v.type, 'redige');
+  assert.deepStrictEqual([v.corrige.resultat, v.corrige.valeur, v.corrige.valeur_affichee], [null, null, '']);
+  assert.deepStrictEqual(v.bareme.map((c) => [c.id, c.points, c.nature]), [['latente', 60, 'element'], ['pcs', 40, 'element']]);
+  assert.ok(!/\{\{/.test(v.corrige.elements[0].attendu), 'valeurs remplacées dans l\'élément attendu');
+  assert.ok(v.bareme[0].attendu === v.corrige.elements[0].attendu);
+  assert.ok(/^Le rendement de 10[357](,5)? % est rapporté/.test(v.corrige.reponse_modele), v.corrige.reponse_modele);
+});
+test('question rédigée sans paramètre : une seule variante, sans avertissement', () => {
+  const ex = E.nouvelExerciceRedige();
+  const r = E.valider(ex, calc);
+  assert.deepStrictEqual([r.erreurs, r.avertissements], [[], []]);
+  assert.strictEqual(E.nombreVariantes(ex), 1);
+  assert.strictEqual(E.instancier(ex, calc).bareme.length, 2);
+});
+test('question rédigée : refus sans élément, avec un résultat numérique, ou avec un élément mal formé', () => {
+  let ex = exerciceRedige(); ex.corrige.elements = [];
+  assert.ok(E.valider(ex, calc).erreurs.some((m) => m.startsWith('corrige.elements')));
+  ex = exerciceRedige(); ex.corrige.resultat = 'eta';
+  assert.ok(E.valider(ex, calc).erreurs.some((m) => m.startsWith('corrige.resultat')));
+  ex = exerciceRedige(); ex.corrige.elements[0].points = 0;
+  assert.ok(E.valider(ex, calc).erreurs.some((m) => /points strictement positifs/.test(m)));
+  ex = exerciceRedige(); ex.corrige.elements[1].id = 'latente';
+  assert.ok(E.valider(ex, calc).erreurs.some((m) => /en double/.test(m)));
+  ex = exerciceRedige(); ex.corrige.elements[0].attendu = 'Voir {{inconnue}}';
+  assert.ok(E.valider(ex, calc).erreurs.some((m) => m.includes('inconnue')));
+  ex = exerciceRedige(); ex.corrige.elements[0].attendu = 'Formule $\frac{1}{2}$';   // « \f » JS = saut de page
+  assert.ok(E.valider(ex, calc).erreurs.some((m) => m.includes('caractère de contrôle')));
+  ex = exerciceRedige(); delete ex.origine.exercice;
+  assert.ok(E.valider(ex, calc).erreurs.some((m) => m.startsWith('origine')));
+  ex = exerciceRedige(); ex.type = 'dissertation';
+  assert.ok(E.valider(ex, calc).erreurs.some((m) => m.startsWith('type')));
+});
+test('question rédigée : un barème qui ne fait pas 100 est signalé', () => {
+  const ex = exerciceRedige(); ex.corrige.elements[1].points = 30;
+  const r = E.valider(ex, calc);
+  assert.deepStrictEqual(r.erreurs, []);
+  assert.ok(r.avertissements.some((m) => /90 points/.test(m)));
+});
+test('exercice chiffré : des éléments attendus sans champ type sont refusés', () => {
+  const ex = exerciceOhm(); ex.corrige.elements = [{ id: 'a', label: 'A', attendu: 'x', points: 10 }];
+  assert.ok(E.valider(ex, calc).erreurs.some((m) => m.startsWith('corrige.elements')));
+});
+test('exercice mixte : résultat calculé, garde-fou, blocs de calcul et élément rédigé au barème (100 points)', () => {
+  const ex = exerciceMixte();
+  ex.origine = { source: 'x.typ', exercice: 'Ex. 1', valeurs: { U: 230, I: 2.5, cal: 10 }, resultat: 92 };
+  const r = E.valider(ex, calc);
+  assert.deepStrictEqual([r.erreurs, r.avertissements], [[], []]);
+  const v = E.instancier(ex, calc, { rng: E.rngGraine(5) });
+  assert.strictEqual(v.corrige.valeur, v.valeurs.U / v.valeurs.I);
+  assert.deepStrictEqual(v.bareme.map((c) => [c.id, c.points]), [['methode', 24], ['calcul', 18], ['resultat', 12], ['unite', 6], ['conclusion', 40]]);
+  assert.strictEqual(v.bareme.reduce((s, c) => s + c.points, 0), 100);
+  assert.ok(new RegExp('inférieure au calibre de ' + v.valeurs.cal + ' A').test(v.corrige.elements[0].attendu));
+  ex.donnees_calculees[0].expression = 'U * I';
+  assert.ok(E.valider(ex, calc).erreurs.some((m) => m.startsWith('Garde-fou')), 'le garde-fou s\'applique au calcul d\'un exercice mixte');
+});
+test('exercice mixte : refus sans résultat numérique ou si un élément reprend l\'id d\'un bloc', () => {
+  let ex = exerciceMixte(); delete ex.corrige.resultat;
+  assert.ok(E.valider(ex, calc).erreurs.some((m) => m.startsWith('corrige.resultat')));
+  ex = exerciceMixte(); ex.corrige.elements[0].id = 'calcul';
+  assert.ok(E.valider(ex, calc).erreurs.some((m) => /déjà celui d'un bloc/.test(m)));
+});
+test('blocs mixtes : le calcul se partage le reste des points, quel que soit le poids de la rédaction', () => {
+  for (const p of [20, 30, 40, 50, 60]) {
+    const b = E.blocsMixte(p);
+    assert.strictEqual(b.reduce((s, x) => s + x.points, 0), 100 - p, String(p));
+    assert.deepStrictEqual([b[4].id, b[4].long, b[4].points], ['redaction', true, 0]);
+  }
+});
+test('stockage : un exercice rédigé traverse pourStockage / depuisStockage sans changement', () => {
+  const ex = exerciceRedige();
+  assert.strictEqual(JSON.stringify(E.depuisStockage(E.pourStockage(ex))), JSON.stringify(ex));
+});
+
 console.log('\n' + passes + ' test(s) réussi(s)' + (process.exitCode ? ' — DES TESTS ÉCHOUENT' : ''));

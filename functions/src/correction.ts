@@ -55,7 +55,9 @@ async function reserverAppel(): Promise<void> {
 function finaleDepuis(proposition: Donnees | null, bareme: Critere[]): Donnees {
   const criteres = bareme.map((b) => {
     const c = proposition ? proposition.criteres.find((x: Donnees) => x.critere_id === b.id) : null;
-    return { critere_id: b.id, label: b.label, points_obtenus: c ? c.points_obtenus : 0, points_max: b.points };
+    const critere: Donnees = { critere_id: b.id, label: b.label, points_obtenus: c ? c.points_obtenus : 0, points_max: b.points };
+    if (b.nature === 'element') critere.nature = 'element';   // élément attendu d'une question rédigée
+    return critere;
   });
   return {
     criteres,
@@ -121,10 +123,14 @@ export const runPreCorrection = onCall({ region: REGION, secrets: [CLE_IA], time
     const ref = db().collection(COL.corrections).doc(a.id);
     const dejaLa = existantes[a.id];
     if (!pa) { bilan.ignorees++; return; }
-    const bareme: Critere[] = (pa.bareme || []).map((b: Donnees) => ({ id: b.id, label: b.label, points: b.points }));
+    const bareme: Critere[] = (pa.bareme || []).map((b: Donnees) => b.nature === 'element'
+      ? { id: b.id, label: b.label, points: b.points, nature: 'element', attendu: b.attendu || '' }
+      : { id: b.id, label: b.label, points: b.points });
     const base = {
       session_id: copie.session_id, copie_id: copieId, etudiant_id: copie.etudiant_id, attribution_id: a.id,
-      exercice_id: pa.exercice_id, rang: a.rang, statut_attribution: a.statut, updated_at: FieldValue.serverTimestamp()
+      exercice_id: pa.exercice_id, rang: a.rang, statut_attribution: a.statut, updated_at: FieldValue.serverTimestamp(),
+      // Pour le suivi par chapitre (panneau admin) : repris de l'exercice au moment du tirage.
+      chapitre: pa.chapitre || null, titre: pa.titre || a.titre || '', type: pa.type || 'chiffre'
     };
     if (!estNotable(copie, a)) {
       // Exercice invalidé ou remplacement annulé : fiche créée, non notée par l'IA.
@@ -152,6 +158,7 @@ export const runPreCorrection = onCall({ region: REGION, secrets: [CLE_IA], time
     }
     const demande: Demande = {
       attribution_id: a.id, enonce: a.enonce, valeurs: pa.valeurs || {}, corrige: pa.corrige || {}, bareme,
+      blocs: (a.blocs || []).map((b: Donnees) => ({ id: b.id, label: b.label })),
       reponse: ((copie.reponses || {})[a.id] || {}).blocs || {}
     };
     let proposition: Donnees | null = null;

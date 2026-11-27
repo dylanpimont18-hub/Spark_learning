@@ -528,6 +528,9 @@ Moteur de variantes du module devoir en classe (MVP-1, 2026-11-26). Pur, sans DO
 - `valider()` refuse aussi tout caractère de contrôle dans l'énoncé ou les étapes (barre oblique perdue : `\times` devenu tabulation)
 - `rngGraine(n)` — aléatoire reproductible pour les tests
 - `nouvelExercice()` / `blocsParDefaut()` — gabarit (déperditions d'un mur, chapitre 05), barème 40/30/20/10
+- `typeExercice(ex)` / `TYPES` — `chiffre` (absent = chiffre), `redige` (éléments attendus, sans résultat), `mixte` (calcul + rédaction)
+- `baremeDe(ex, elements)` — critères notés : blocs de calcul puis éléments attendus (`nature: 'element'`, `attendu`)
+- `blocsRedige(label)` / `blocsMixte(pointsElements, label)` / `nouvelExerciceRedige()` — bloc `long: true`, partage des points, gabarit
 - Tests : `node scripts/test-devoir-engine.js`
 
 ## scripts/devoir-verifier-lot.js
@@ -599,7 +602,8 @@ Tirage serveur avec le moteur partagé (`functions/vendor/devoirEngine.js`, copi
 MVP-2 : sessions, entrée, brouillon, rendu.
 - `createSession` / `updateSession` — crée, ouvre (code), ferme, prolonge, archive
 - `listOpenClasses` — classes ayant un devoir ouvert (premier écran étudiant)
-- `joinSession` — classe, code puis nom ; copie `en_attente` tant que l'épreuve n'est pas lancée
+- `joinSession` — classe, code puis nom ; copie `en_attente` tant que l'épreuve n'est pas lancée ; `reste_minutes` si déjà lancée
+- `finCommune(session)` / `exigerTempsRestant(session)` — heure de fin de toute la classe (`fin_prevue`) ; un retardataire compose sur le temps restant
 - `updateSession` action `lancer` / `demarrerCopie(sessionId, session, copieId…)` — tirage et départ du temps, même fin pour tous
 - `leaveWaiting` — l'étudiant rend son nom avant le lancement
 - `saveDraft` / `submitCopy` — brouillon versionné, rendu ; temps vérifié côté serveur
@@ -614,7 +618,8 @@ MVP-3 : perte de focus, remplacement, collage, annulation.
 
 ## functions/src/ia.ts
 MVP-4 : prompt (§6), schéma, appel Anthropic, contrôles. Sans Firestore, testable seul.
-- `construireMessage(d)` — données et réponse, sous code interne
+- `construireMessage(d)` — données et réponse, sous code interne ; critères `bloc` ou `element` (avec `attendu`)
+- `citationPresente(extrait, d)` — le passage cité par l'IA figure-t-il dans la copie
 - `validerSortie(brut, d)` / `controler(o, d)` — schéma, points bornés, note recalculée
 - `preCorriger(d, appel)` — un nouvel essai au plus, puis erreur IA
 - `appelerModele(reglages, d)` — `messages.create` avec sortie structurée
@@ -655,14 +660,23 @@ Sous-onglet « Sessions » : liste, création, tableau de bord en direct.
 - `_annulerIncident(id)` / `_deverrouiller(copieId)` — anti-triche
 - `_corriger(id)` — passe la main à `DevoirCorrection`
 - `_candidats()` / `_visibles()` / `_recalculer()` — exercices du chapitre, de la difficulté et de l'origine choisis ; tous retenus d'office
+- `_estRedige(x)` / `_genre` — filtre « type de questions » (calculs, rédigées) dans les réglages avancés
 - `_estDS(x)` / `_surPapier(x)` — tag « DS NN » ; exercice à faire avec le diagramme distribué sur papier (exclu sauf case cochée)
 
 ## js/devoir/devoirCorrection.js
 Relecture des copies : liste triée (confiance basse en tête), copie par copie, validation.
 - `ouvrir(zone, session)` — écoute copies et fiches
 - `_lancer(sansIa)` — pré-correction copie par copie, avec avancement
-- `_htmlCopie()` / `_htmlFiche(a, fiche)` — réponse à gauche, correction à droite
+- `_htmlCopie()` / `_htmlFiche(a, fiche, pa)` — réponse à gauche, correction à droite ; élément attendu, passage cité, doute de l'IA
+- `_surligner(texte, extraits)` / `_ecartCitation(t)` — passages cités surlignés dans la copie ; écart de citation ou de points
 - `_enregistrer(ficheId, avecRetour)` / `_valider()` — saveCorrection, validateCorrection
+
+## js/devoir/devoirSuivi.js
+Sous-onglet « Suivi », enseignant seul, lecture seule des corrections validées. Aucun appel à l'IA.
+- `agreger(fiches, copies, sessions, exercices)` — pure : par étudiant, devoirs, chapitres, critères, erreurs
+- `cleErreur(etiquette)` / `frequentes(donnees, ids)` — étiquette comparable ; erreurs partagées dans la classe
+- `render(zone)` / `_ouvrir(id)` / `_htmlEtudiant(id)` — tableau étudiants × chapitres, détail d'un étudiant
+- Tests : `node scripts/test-devoir-suivi.js`
 
 ## scripts/devoir-emulateurs.js
 Lanceur des émulateurs (auth, firestore, functions, hosting) : essai local ou tests. Trouve Java dans `%USERPROFILE%\tools\jdk`, compile `functions/`, écrit `.secret.local` et `.env.local`.

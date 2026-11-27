@@ -46,6 +46,8 @@ export const DEFAUTS = {
 // est encore accepté. Au-delà, le serveur refuse toute écriture de l'étudiant.
 export const GRACE_MS = 5000;
 export const LONGUEUR_MAX_BLOC = 2000;
+// Bloc de rédaction (question rédigée ou conclusion d'un exercice mixte).
+export const LONGUEUR_MAX_BLOC_LONG = 6000;
 export const VERSIONS_BROUILLON = 5;
 
 export const STATUTS_ACTIFS = ['connecte', 'en_cours'];

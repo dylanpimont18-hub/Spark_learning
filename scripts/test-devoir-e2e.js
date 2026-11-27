@@ -48,12 +48,18 @@ async function ouvrirPanneauDevoirs(navigateur) {
 }
 
 // lancer === false : la session reste en salle d'attente (les étudiants choisissent leur nom).
-async function creerEtOuvrirSession(page, titre, lancer) {
+// options : { chapitre: '01', n: nombre d'exercices par étudiant (3 par défaut) }.
+async function creerEtOuvrirSession(page, titre, lancer, options) {
+  const opt = Object.assign({ chapitre: '01', n: null }, options || {});
   // Parcours court : chapitre, puis « Créer le devoir et afficher le code » (création et ouverture enchaînées).
   await cliquerTexte(page, '#dv-sessions button', '+ Nouveau devoir');
   await page.waitForSelector('#ds-chapitre', { timeout: ATTENTE });
-  await page.select('#ds-chapitre', '01');
-  await capture(page, 'creation-devoir');
+  await page.select('#ds-chapitre', opt.chapitre);
+  if (opt.n) {
+    await page.$eval('#ds-n', (el) => { el.focus(); el.select(); });
+    await page.keyboard.type(String(opt.n));
+  }
+  await capture(page, 'creation-devoir-' + opt.chapitre);
   await page.$eval('#ds-titre', (el) => { el.value = ''; });
   await page.type('#ds-titre', titre);
   await page.click('#ds-creer');
@@ -63,9 +69,20 @@ async function creerEtOuvrirSession(page, titre, lancer) {
   return code;
 }
 
+// Clic sur un bouton d'un écran tenu à jour en direct (tableau de bord, liste des copies). Ces
+// écrans sont reconstruits à chaque donnée reçue : entre la recherche du bouton et le clic de
+// Puppeteer (page.click), le bouton peut avoir été remplacé — « Node is detached from document »,
+// ou clic perdu. C'était la cause de l'échec intermittent de « nouvelle session, deux étudiants
+// entrent » (clic sur « Lancer l'épreuve » pendant l'arrivée des premières données de la session).
+// Ici la recherche et le clic se font dans la page, en un seul geste.
+async function cliquerEnDirect(page, selecteur) {
+  await page.waitForFunction((sel) => { const b = document.querySelector(sel); return b && !b.disabled; }, { timeout: ATTENTE }, selecteur);
+  const fait = await page.evaluate((sel) => { const b = document.querySelector(sel); if (!b || b.disabled) return false; b.click(); return true; }, selecteur);
+  if (!fait) return cliquerEnDirect(page, selecteur);
+}
+
 async function lancerEpreuve(page) {
-  await page.waitForSelector('#ds-lancer', { timeout: ATTENTE });
-  await page.click('#ds-lancer');                       // le confirm() est accepté d'office
+  await cliquerEnDirect(page, '#ds-lancer');            // le confirm() est accepté d'office
   await page.waitForSelector('.ds-table', { timeout: ATTENTE });
 }
 
@@ -489,7 +506,7 @@ async function suiteMvp4(test, ctx) {
     assert.strictEqual((await E.lister('devoir_corrections')).docs.length, 0);
   });
   await test('lancement manuel : les 11 copies sont pré-corrigées, sans envoyer le nom des étudiants', async () => {
-    await prof.click('#dc-lancer');
+    await cliquerEnDirect(prof, '#dc-lancer');
     await prof.waitForFunction(() => Array.from(document.querySelectorAll('.ds-table tbody tr')).filter((r) => /pré-corrigée, à relire/.test(r.cells[2].textContent)).length === 11, { timeout: 120000 });
     // 12 réponses non vides (11 premiers exercices + le 2e exercice d'Alice) : 12 appels, pas 33.
     assert.strictEqual(ctx.fausseIa.journal.length, 12, 'un appel par exercice réellement rempli');
@@ -593,18 +610,209 @@ async function suiteMvp4(test, ctx) {
   });
 }
 
+// ── Questions rédigées, retardataire et suivi ────────────────────────────────
+const REDACTION_ALICE = 'L\'isolant ajoute une résistance thermique : le tube perd moins de chaleur. Au-delà d\'une certaine épaisseur, le gain ne vaut plus le coût.';
+
+// Affiche l'exercice de la copie qui a (ou non) un seul bloc de saisie : la question rédigée.
+async function allerExerciceRedige(page, redige) {
+  const n = await page.$$eval('.de-onglet', (l) => l.length);
+  for (let i = 1; i <= n; i++) {
+    await allerExercice(page, i);
+    const champs = await page.$$eval('.de-champ', (l) => l.length);
+    if ((champs === 1) === redige) return i;
+  }
+  throw new Error('exercice ' + (redige ? 'rédigé' : 'mixte') + ' introuvable dans la copie');
+}
+
+async function suiteRedige(test, ctx) {
+  console.log('Questions rédigées, retardataire et suivi dans le navigateur');
+  const prof = ctx.prof;
+  let alice, bilal, sessionId, copieAlice, ficheRedige;
+  await test('nouveau devoir sur un chapitre à questions rédigées : le résumé les annonce', async () => {
+    await cliquerTexte(prof, '#dv-sessions button', '← Sessions');
+    await prof.waitForSelector('#dv-sessions .dv-toolbar', { timeout: ATTENTE });
+    await cliquerTexte(prof, '#dv-sessions button', '+ Nouveau devoir');
+    await prof.waitForSelector('#ds-chapitre', { timeout: ATTENTE });
+    await prof.select('#ds-chapitre', '02');
+    assert.strictEqual(await texte(prof, '#ds-nb-rediges'), '2', 'les deux exercices du chapitre sont à rédiger');
+    await prof.select('#ds-genre', 'calcul');
+    assert.ok(/0 exercice/.test(await texte(prof, '#ds-resume')), 'filtre « calculs seulement » : plus rien sur ce chapitre');
+    await cliquerTexte(prof, '#dv-sessions button', 'Annuler');
+    await prof.waitForSelector('#dv-sessions .dv-toolbar', { timeout: ATTENTE });
+    ctx.codeR = await creerEtOuvrirSession(prof, 'Devoir rédigé', false, { chapitre: '02', n: 2 });
+    sessionId = (await E.lister('devoir_sessions')).docs.find((s) => s.titre === 'Devoir rédigé')._id;
+    alice = await entrer(ctx.navigateur, ctx.codeR, ctx.classe.etudiants[0], true);
+    await lancerEpreuve(prof);
+    await alice.page.waitForSelector('.de-champ', { timeout: ATTENTE });
+  });
+  await test('question rédigée : une grande zone de saisie, sans rien du corrigé dans la page', async () => {
+    await allerExerciceRedige(alice.page, true);
+    assert.strictEqual(await alice.page.$$eval('.de-champ', (l) => l.length), 1, 'un seul bloc : la rédaction');
+    const zone = await alice.page.$eval('.de-champ--long', (t) => ({ lignes: t.rows, max: t.maxLength, hauteur: t.getBoundingClientRect().height }));
+    assert.ok(zone.lignes >= 8 && zone.max === 6000 && zone.hauteur >= 150, JSON.stringify(zone));
+    assert.ok(/réponse rédigée/.test(await texte(alice.page, '.de-bloc-label')));
+    const html = await alice.page.content();
+    assert.ok(!/corrig|barème|bareme|points|attendu|résistance thermique entre/i.test(html), 'ni corrigé, ni barème, ni élément attendu dans la page');
+    await composer(alice.page, { redaction: REDACTION_ALICE });
+    await capture(alice.page, 'redige-saisie-etudiant');
+  });
+  await test('exercice mixte : quatre blocs de calcul et un bloc de conclusion rédigée', async () => {
+    await allerExerciceRedige(alice.page, false);
+    assert.deepStrictEqual(await alice.page.$$eval('.de-champ', (l) => l.map((t) => [t.getAttribute('data-bloc'), t.classList.contains('de-champ--long')])),
+      [['methode', false], ['calcul', false], ['resultat', false], ['unite', false], ['redaction', true]]);
+    await composer(alice.page, { methode: 'I = P / U', calcul: '1500 / 230', resultat: '6,5', unite: 'A', redaction: 'IA_INCERTAIN Le courant reste sous le calibre : le disjoncteur convient.' });
+    await capture(alice.page, 'mixte-saisie-etudiant');
+  });
+  await test('retardataire : prévenu du temps restant avant de confirmer, il finit en même temps que la classe', async () => {
+    // Simule un lancement vieux de 12 minutes : il reste 48 minutes à toute la classe.
+    const lancement = Date.now() - 12 * 60000;
+    const finClasse = new Date(lancement + 60 * 60000);
+    copieAlice = await copieDe(alice.id, sessionId);
+    await E.majChamps('devoir_sessions/' + sessionId, { lancee_a: new Date(lancement), fin_prevue: finClasse });
+    await E.majChamps('devoir_copies/' + copieAlice._id, { fin: finClasse });
+    bilal = await nouvelEtudiant(ctx.navigateur);
+    Object.assign(bilal, ctx.classe.etudiants[1]);
+    await saisirCode(bilal.page, ctx.codeR);
+    await bilal.page.click('.de-nom[data-id="' + bilal.id + '"]');
+    await bilal.page.waitForSelector('#de-confirmer', { timeout: ATTENTE });
+    const annonce = await texte(bilal.page, '.de-confirmation');
+    assert.ok(/déjà lancée : il reste environ 4[78] minutes/.test(annonce) && /terminerez en même temps que la classe/.test(annonce), annonce);
+    await capture(bilal.page, 'retardataire-confirmation');
+    await bilal.page.click('#de-confirmer');
+    await bilal.page.waitForSelector('.de-champ', { timeout: ATTENTE });
+    const message = await texte(bilal.page, '.de-message');
+    assert.ok(/entré après le lancement/.test(message) && /soit 48 minutes/.test(message) && /même heure/.test(message), message);
+    const m = await texte(bilal.page, '#de-minuteur');
+    assert.ok(/^4[78]:\d{2}$/.test(m), 'minuteur du retardataire : ' + m);
+    await alice.page.waitForFunction(() => /^4[78]:\d{2}$/.test(document.getElementById('de-minuteur').textContent), { timeout: ATTENTE });
+    const c = await copieDe(bilal.id, sessionId);
+    assert.strictEqual(c.fin.getTime(), finClasse.getTime(), 'même heure de fin, fixée par le serveur');
+    await capture(bilal.page, 'retardataire-copie');
+    await prof.waitForFunction(() => { const r = document.querySelector('.ds-retard'); return r && /entré 12 min après le lancement/.test(r.textContent); }, { timeout: ATTENTE });
+    await capture(prof, 'retardataire-tableau-de-bord');
+  });
+  await test('rendu puis pré-correction : chaque élément attendu est noté, avec le passage cité', async () => {
+    await allerExerciceRedige(bilal.page, true);
+    await composer(bilal.page, { redaction: 'IA_CITATION_INVENTEE On isole le tube pour garder la chaleur.' });
+    await rendre(alice.page);
+    await rendre(bilal.page);
+    await cliquerTexte(prof, '#dv-sessions button', 'Fermer la session');
+    await prof.waitForFunction(() => !document.getElementById('ds-code'), { timeout: ATTENTE });
+    await cliquerTexte(prof, '#dv-sessions button', '← Sessions');
+    await prof.waitForSelector('#dv-sessions .dv-carte', { timeout: ATTENTE });
+    await prof.evaluate(() => {
+      const carte = Array.from(document.querySelectorAll('#dv-sessions .dv-carte')).find((c) => c.querySelector('.dv-carte-titre').textContent.indexOf('Devoir rédigé') === 0);
+      Array.from(carte.querySelectorAll('button')).find((b) => b.textContent.trim() === 'Corriger').click();
+    });
+    await prof.waitForFunction(() => document.querySelectorAll('.ds-table tbody tr').length === 2, { timeout: ATTENTE });
+    await cliquerEnDirect(prof, '#dc-lancer');
+    await prof.waitForFunction(() => Array.from(document.querySelectorAll('.ds-table tbody tr')).filter((r) => /pré-corrigée, à relire/.test(r.cells[2].textContent)).length === 2, { timeout: 120000 });
+    const lignes = await prof.$$eval('.ds-table tbody tr', (l) => l.map((r) => Array.from(r.cells).map((c) => c.textContent.trim())));
+    const ligneBilal = lignes.find((r) => r[0] === 'Bilal K.');
+    const ligneAlice = lignes.find((r) => r[0] === 'Alice M.');
+    assert.ok(/citation à vérifier/.test(ligneBilal[3]), 'citation introuvable signalée dans la liste : ' + ligneBilal[3]);
+    assert.ok(/IA pas sûre/.test(ligneAlice[3]), 'doute de l\'IA signalé dans la liste : ' + ligneAlice[3]);
+    await capture(prof, 'redige-liste-copies');
+  });
+  await test('relecture : élément attendu, texte du corrigé, passage cité surligné dans la copie, doute affiché', async () => {
+    await prof.evaluate(() => {
+      const r = Array.from(document.querySelectorAll('.ds-table tbody tr')).find((x) => x.cells[0].textContent.trim() === 'Alice M.');
+      r.querySelector('button').click();
+    });
+    await prof.waitForSelector('.dc-exercice', { timeout: ATTENTE });
+    copieAlice = await copieDe(alice.id, sessionId);
+    const p = (await E.lire('devoir_copies_prive/' + copieAlice._id)).donnees;
+    ficheRedige = copieAlice.attributions.find((a) => p.attributions[a.id].exercice_id === 'demo-redige-isolation').id;
+    const ficheMixte = copieAlice.attributions.find((a) => a.id !== ficheRedige).id;
+    const carte = '.dc-exercice[data-att="' + ficheRedige + '"]';
+    assert.strictEqual(await prof.$$eval(carte + ' .dc-critere--element', (l) => l.length), 2, 'un critère par élément attendu');
+    const critere = await texte(prof, carte + ' .dc-critere[data-critere="pertes"]');
+    assert.ok(/Élément attendu/.test(critere) && /Réduire les pertes thermiques/.test(critere) && /Attendu : L'isolant augmente la résistance thermique/.test(critere), critere);
+    assert.ok(/Passage cité : « L'isolant ajoute une résistance/.test(critere), critere);
+    assert.strictEqual(await prof.$eval(carte + ' .dc-points[data-critere="pertes"]', (i) => i.value), '60');
+    assert.ok(/^L'isolant ajoute une résistance/.test(await texte(prof, carte + ' .dc-bloc-texte mark.dc-cite')), 'passage surligné dans la réponse de l\'étudiant');
+    assert.ok(/Éléments de réponse attendus/.test(await texte(prof, carte + ' .dc-corrige')) && !/Résultat attendu/.test(await texte(prof, carte + ' .dc-corrige')), 'corrigé sans résultat numérique');
+    const mixte = '.dc-exercice[data-att="' + ficheMixte + '"]';
+    assert.ok(/Résultat attendu : I = /.test(await texte(prof, mixte + ' .dc-corrige')), 'exercice mixte : résultat du calcul dans le corrigé');
+    assert.strictEqual(await prof.$$eval(mixte + ' .dc-critere', (l) => l.length), 5, 'quatre blocs de calcul et un élément rédigé');
+    assert.ok(/pas sûre/.test(await texte(prof, mixte + ' .dc-critere--incertain')), 'doute de l\'IA affiché sur le critère');
+    await capture(prof, 'redige-relecture');
+  });
+  await test('l\'enseignant corrige la note d\'un élément et valide : note finale calculée', async () => {
+    const carte = '.dc-exercice[data-att="' + ficheRedige + '"]';
+    await prof.$eval(carte + ' .dc-points[data-critere="epaisseur"]', (i) => { i.focus(); i.select(); });
+    await prof.keyboard.type('20');
+    assert.strictEqual(await texte(prof, '#dc-total-' + ficheRedige), '80');
+    await prof.click('#dc-valider');
+    await prof.waitForSelector('#dc-note-finale', { timeout: ATTENTE });
+    // 80 + 100 points sur 200 → 18 / 20.
+    assert.ok(/18 \/ 20/.test(await texte(prof, '#dc-note-finale')), await texte(prof, '#dc-note-finale'));
+    const f = (await E.lire('devoir_corrections/' + ficheRedige)).donnees;
+    assert.deepStrictEqual([f.statut, f.finale.note, f.ia.note_proposee, f.chapitre], ['validee', 80, 100, '02']);
+  });
+  await test('l\'étudiant ne voit toujours ni note, ni élément attendu, ni citation', async () => {
+    await alice.page.reload({ waitUntil: 'networkidle2' });
+    await alice.page.waitForFunction(() => { const t = document.querySelector('.de-titre'); return t && t.textContent === 'Copie rendue'; }, { timeout: ATTENTE });
+    const html = (await alice.page.content()).replace(/<head[\s\S]*<\/head>/, '');
+    assert.ok(!/18|\/ ?20|note|corrig|attendu|cité/i.test(html), 'écran de l\'étudiant sans note ni correction');
+    const brut = await alice.page.evaluate(async (copieId) => JSON.stringify((await firebase.app('devoir').firestore().collection('devoir_copies').doc(copieId).get()).data()), copieAlice._id);
+    assert.ok(!/"attendu|"elements|"criteres|"extrait|"note|"correction/.test(brut));
+  });
+  await test('suivi : par étudiant et par chapitre, à partir des seules copies validées', async () => {
+    await cliquerTexte(prof, '.dv-subtab', 'Suivi');
+    await prof.waitForSelector('.su-table', { timeout: ATTENTE });
+    const lignes = await prof.$$eval('.su-table tbody tr', (l) => l.map((r) => Array.from(r.cells).map((c) => c.textContent.trim())));
+    const entetes = await prof.$$eval('.su-table thead th', (l) => l.map((c) => c.textContent.trim()));
+    assert.deepStrictEqual(entetes, ['Étudiant', 'Moyenne des devoirs', '01', '02', 'Erreurs']);
+    const a = lignes.find((r) => r[0] === 'Alice M.');
+    assert.ok(/^18,0\s+1 devoir$/.test(a[1]), 'moyenne d\'Alice : ' + a[1]);
+    assert.ok(a[2] === '—' && /^18,0\s+2 ex\.$/.test(a[3]), 'chapitres d\'Alice : ' + a[2] + ' | ' + a[3]);
+    const f = lignes.find((r) => r[0] === 'Farid B.');
+    assert.ok(/^4,5\s+1 devoir$/.test(f[1]) && /3 ex\./.test(f[2]) && f[3] === '—', 'Farid (validé au MVP-4, chapitre 01) : ' + f.join(' | '));
+    assert.ok(/aucune copie validée/.test(lignes.find((r) => r[0] === 'Bilal K.')[1]), 'copie pré-corrigée mais non validée : absente du suivi');
+    await capture(prof, 'suivi-classe');
+    await cliquerTexte(prof, '.su-nom', 'Alice M.');
+    await prof.waitForSelector('.su-etudiant[data-etudiant="etu-01"]', { timeout: ATTENTE });
+    const detail = await texte(prof, '.su-etudiant');
+    assert.ok(/Devoir rédigé/.test(detail) && /18,0 \/ 20/.test(detail) && /Éléments rédigés/.test(detail) && /Où les points se perdent/.test(detail), detail.slice(0, 400));
+    assert.ok(/Arguments attendus non acquis/.test(detail) || /Aucune erreur relevée sur deux devoirs/.test(detail));
+    assert.strictEqual(await prof.$eval('.su-critere[data-critere="__elements"] .su-critere-taux', (x) => x.textContent.trim()), '86 %', '120 points sur 140 aux éléments rédigés');
+    await capture(prof, 'suivi-etudiant');
+  });
+}
+
+// Après un échec, décrit l'état des pages ouvertes : un test instable laisse ainsi une trace
+// exploitable (adresse, texte affiché) au lieu d'un simple délai dépassé.
+async function diagnostic(ctx) {
+  try {
+    for (const page of await ctx.navigateur.pages()) {
+      const corps = await page.evaluate(() => document.body ? document.body.innerText.replace(/\s+/g, ' ').slice(0, 300) : '').catch(() => '(page inaccessible)');
+      if (!/^Copie rendue/.test(corps) && page.url() !== 'about:blank') console.error('        [page] ' + page.url() + ' — ' + corps);
+    }
+  } catch (e) { /* le diagnostic ne doit pas masquer l'échec d'origine */ }
+}
+
 async function lancer() {
-  const { test, etat } = E.cadre();
+  const cadre = E.cadre();
+  const etat = cadre.etat;
+  let ctxDiagnostic = null;
+  const test = async (nom, fn) => {
+    const avant = etat.echecs;
+    await cadre.test(nom, fn);
+    if (etat.echecs > avant && ctxDiagnostic) await diagnostic(ctxDiagnostic);
+  };
   await E.toutEffacer();
   const semis = await E.semer();
   const navigateur = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
   const fausseIa = require('./lib/devoir-fausse-ia.js');
   const serveurIa = fausseIa.demarrer();
   const ctx = { navigateur, classe: semis.classe, exercices: semis.exercices, profCompte: semis.prof, fausseIa };
+  ctxDiagnostic = ctx;
   try {
     await suiteMvp2(test, ctx);
     await suiteMvp3(test, ctx);
     await suiteMvp4(test, ctx);
+    await suiteRedige(test, ctx);
   } finally {
     await navigateur.close();
     serveurIa.close();

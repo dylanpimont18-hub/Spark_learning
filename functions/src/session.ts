@@ -4,7 +4,7 @@
 import { createHash, randomInt } from 'crypto';
 import { onCall, CallableRequest } from 'firebase-functions/v2/https';
 import {
-  db, COL, DEFAUTS, GRACE_MS, LONGUEUR_MAX_BLOC, VERSIONS_BROUILLON, OPTIONS, Donnees,
+  db, COL, DEFAUTS, GRACE_MS, LONGUEUR_MAX_BLOC, LONGUEUR_MAX_BLOC_LONG, VERSIONS_BROUILLON, OPTIONS, Donnees,
   HttpsError, Timestamp, FieldValue, uidDe, exigerEnseignant, texte, entier, millis, estActive,
   journaliser, refNouvelEvenement, donneesEvenement
 } from './commun';
@@ -115,6 +115,29 @@ export async function finaliserExpirees(sessionId: string, toutes: boolean, deta
 // Tant que l'enseignant n'a pas lancé l'épreuve, une copie est « en_attente » : elle porte le
 // nom de l'étudiant, mais aucun exercice et aucun minuteur. Le tirage et le départ du temps se
 // font ici, au lancement (ou à l'arrivée d'un retardataire, une fois l'épreuve lancée).
+//
+// Fin commune : toute la classe finit à la même heure. Un étudiant qui entre après le lancement
+// compose sur le temps qui reste ; il ne reçoit pas la durée entière. C'est le serveur qui fixe
+// cette heure ; le navigateur ne fait que l'afficher.
+const RETARD_SIGNALE_MS = 60000;   // en dessous, l'étudiant est entré « avec les autres »
+const MESSAGE_TROP_TARD = 'Le temps de cette épreuve est écoulé : il n\'est plus possible de commencer. Voyez avec votre enseignant.';
+
+export function finCommune(session: Donnees): number {
+  if (session.fin_prevue) return millis(session.fin_prevue);
+  // Session lancée avant l'ajout de fin_prevue : même calcul, à partir de l'heure de lancement.
+  return session.lancee_a ? millis(session.lancee_a) + session.duree_minutes * 60000 : 0;
+}
+
+function exigerTempsRestant(session: Donnees): void {
+  if (session.lancee_a && Date.now() >= finCommune(session)) throw new HttpsError('failed-precondition', MESSAGE_TROP_TARD);
+}
+
+function minutesEnTexte(ms: number): string {
+  const m = Math.max(1, Math.round(ms / 60000));
+  return m + ' minute' + (m > 1 ? 's' : '');
+}
+
+// debutMs fourni : lancement par l'enseignant (départ commun). Absent : entrée après le lancement.
 export async function demarrerCopie(sessionId: string, session: Donnees, copieId: string,
   debutMs?: number, exercicesCharges?: Donnees[]): Promise<boolean> {
   const copieRef = db().collection(COL.copies).doc(copieId);
@@ -134,23 +157,49 @@ export async function demarrerCopie(sessionId: string, session: Donnees, copieId
     const frais = await tx.get(copieRef);
     if (!frais.exists || (frais.data() as Donnees).statut !== 'en_attente') return false;
     const debut = debutMs || Date.now();
+    // Retardataire : la fin est celle de toute la classe (prolongations comprises), relue ici
+    // dans la transaction pour ne pas manquer une prolongation décidée entre-temps.
+    let fin = debut + session.duree_minutes * 60000;
+    let retard = 0;
+    if (!debutMs) {
+      const fraiche = ((await tx.get(db().collection(COL.sessions).doc(sessionId))).data() || session) as Donnees;
+      const commune = finCommune(fraiche);
+      if (commune) {
+        if (debut >= commune) throw new HttpsError('failed-precondition', MESSAGE_TROP_TARD);
+        fin = commune;
+        retard = Math.max(0, debut - millis(fraiche.lancee_a));
+      }
+    }
+    const enRetard = retard >= RETARD_SIGNALE_MS;
     const privees: Donnees = {};
     attributions.forEach((a) => { privees[a.publique.id] = a.privee; });
-    tx.update(copieRef, {
+    const maj: Donnees = {
       statut: 'connecte',
       debut: Timestamp.fromMillis(debut),
-      fin: Timestamp.fromMillis(debut + session.duree_minutes * 60000),
+      fin: Timestamp.fromMillis(fin),
       attributions: attributions.map((a) => a.publique),
       exercice_courant: attributions[0].publique.id,
       updated_at: FieldValue.serverTimestamp()
-    });
+    };
+    if (enRetard) {
+      maj.retard_ms = retard;
+      maj.message = {
+        type: 'retard', a: Timestamp.now(),
+        texte: 'Vous êtes entré après le lancement de l\'épreuve : vous disposez du temps restant, soit ' + minutesEnTexte(fin - debut) +
+          '. Toute la classe termine à la même heure.'
+      };
+    }
+    tx.update(copieRef, maj);
     tx.set(db().collection(COL.prive).doc(copieId), {
       session_id: sessionId, etudiant_id: etudiantId,
       attributions: privees, historique: {}, absence: null,
       created_at: FieldValue.serverTimestamp(), updated_at: FieldValue.serverTimestamp()
     });
     tx.set(histRef, { exercice_ids: FieldValue.arrayUnion(...attributions.map((a) => a.privee.exercice_id)), updated_at: FieldValue.serverTimestamp() }, { merge: true });
-    tx.set(refNouvelEvenement(), donneesEvenement({ session_id: sessionId, copie_id: copieId, etudiant_id: etudiantId, type: 'depart' }));
+    tx.set(refNouvelEvenement(), donneesEvenement({
+      session_id: sessionId, copie_id: copieId, etudiant_id: etudiantId, type: 'depart',
+      detail: enRetard ? 'entrée ' + minutesEnTexte(retard) + ' après le lancement, ' + minutesEnTexte(fin - debut) + ' pour composer' : null
+    }));
     return true;
   });
 }
@@ -236,14 +285,18 @@ export const updateSession = onCall(OPTIONS, async (req) => {
 
   if (action === 'lancer') {
     // Marque d'abord la session : tout étudiant qui entre ensuite démarre directement.
+    // Même heure de départ, donc même heure de fin, pour tous : ceux qui attendaient comme ceux
+    // qui entreront ensuite (fin_prevue).
+    const debut = Date.now();
     await db().runTransaction(async (tx) => {
       const frais = (await tx.get(ref)).data() as Donnees;
       if (frais.statut !== 'ouverte') throw new HttpsError('failed-precondition', 'La session n\'est pas ouverte.');
       if (frais.lancee_a) throw new HttpsError('failed-precondition', 'L\'épreuve est déjà lancée.');
-      tx.update(ref, { lancee_a: FieldValue.serverTimestamp(), updated_at: FieldValue.serverTimestamp() });
+      tx.update(ref, {
+        lancee_a: Timestamp.fromMillis(debut), fin_prevue: Timestamp.fromMillis(debut + frais.duree_minutes * 60000),
+        updated_at: FieldValue.serverTimestamp()
+      });
     });
-    // Même heure de départ, donc même heure de fin, pour tous ceux qui attendaient.
-    const debut = Date.now();
     const exercices = await chargerExercices(s.exercice_ids || []);
     const attente = await db().collection(COL.copies).where('session_id', '==', sessionId).get();
     let n = 0;
@@ -280,7 +333,10 @@ export const updateSession = onCall(OPTIONS, async (req) => {
       lot.update(doc.ref, { fin: Timestamp.fromMillis(millis(c.fin) + minutes * 60000), updated_at: FieldValue.serverTimestamp() });
       n++;
     });
-    lot.update(ref, { duree_minutes: s.duree_minutes + minutes, updated_at: FieldValue.serverTimestamp() });
+    // La fin commune recule d'autant : un retardataire entré après la prolongation en profite aussi.
+    const majSession: Donnees = { duree_minutes: s.duree_minutes + minutes, updated_at: FieldValue.serverTimestamp() };
+    if (s.lancee_a) majSession.fin_prevue = Timestamp.fromMillis(finCommune(s) + minutes * 60000);
+    lot.update(ref, majSession);
     await lot.commit();
     return { statut: 'ouverte', copies_prolongees: n, duree_minutes: s.duree_minutes + minutes };
   }
@@ -380,12 +436,14 @@ export const joinSession = onCall(OPTIONS, async (req) => {
   }
 
   const copies = db().collection(COL.copies);
-  const resume = {
+  const lancee = !!session.lancee_a;
+  const resume: Donnees = {
     titre: session.titre, classe_nom: session.classe_nom,
     duree_minutes: session.duree_minutes, exercices_par_etudiant: session.exercices_par_etudiant,
-    lancee: !!session.lancee_a
+    lancee
   };
-  const lancee = !!session.lancee_a;
+  // Épreuve déjà lancée : temps qui reste à un étudiant qui entrerait maintenant (affichage).
+  if (lancee) resume.reste_minutes = Math.max(0, Math.floor((finCommune(session) - Date.now()) / 60000));
 
   // Reconnexion (rafraîchissement, plantage du navigateur) : même identité anonyme → même copie.
   const miennes = await copies.where('session_id', '==', sessionId).where('uid', '==', uid).limit(1).get();
@@ -393,7 +451,7 @@ export const joinSession = onCall(OPTIONS, async (req) => {
     const doc = miennes.docs[0];
     const c = doc.data();
     if (c.statut === 'en_attente') {
-      if (lancee) await demarrerCopie(sessionId, session, doc.id);
+      if (lancee) { exigerTempsRestant(session); await demarrerCopie(sessionId, session, doc.id); }
       return { etape: 'copie', copie_id: doc.id, session: resume, maintenant: Date.now() };
     }
     if (estActive(c) && Date.now() > millis(c.fin) + GRACE_MS) {
@@ -429,6 +487,10 @@ export const joinSession = onCall(OPTIONS, async (req) => {
   if (!etudiant) throw new HttpsError('not-found', 'Nom introuvable dans la liste de la classe.');
   const copieId = idCopie(sessionId, etudiantId);
   const copieRef = copies.doc(copieId);
+  // Temps écoulé pour toute la classe : aucune copie ne commence (une copie déjà commencée et
+  // dont le nom a été libéré reste, elle, reprenable : elle sera constatée rendue).
+  const existante = await copieRef.get();
+  if (!existante.exists || (existante.data() as Donnees).statut === 'en_attente') exigerTempsRestant(session);
 
   // La copie naît « en_attente », sans exercice ni minuteur ; l'unicité (session, étudiant) est
   // garantie par son identifiant et par la transaction. Le tirage a lieu au lancement.
@@ -474,12 +536,13 @@ export const joinSession = onCall(OPTIONS, async (req) => {
 // ── Étudiant : brouillon et rendu ────────────────────────────────────────────
 function validerBlocs(v: any, attribution: Donnees): Record<string, string> {
   if (!v || typeof v !== 'object' || Array.isArray(v)) throw new HttpsError('invalid-argument', 'Réponse invalide.');
-  const permis: string[] = (attribution.blocs || []).map((b: Donnees) => b.id);
+  const limites: Record<string, number> = {};
+  (attribution.blocs || []).forEach((b: Donnees) => { limites[b.id] = b.long === true ? LONGUEUR_MAX_BLOC_LONG : LONGUEUR_MAX_BLOC; });
   const blocs: Record<string, string> = {};
   Object.keys(v).forEach((k) => {
-    if (permis.indexOf(k) === -1) throw new HttpsError('invalid-argument', 'Bloc de réponse inconnu.');
-    if (typeof v[k] !== 'string' || v[k].length > LONGUEUR_MAX_BLOC) {
-      throw new HttpsError('invalid-argument', 'Un bloc de réponse dépasse ' + LONGUEUR_MAX_BLOC + ' caractères.');
+    if (!limites[k]) throw new HttpsError('invalid-argument', 'Bloc de réponse inconnu.');
+    if (typeof v[k] !== 'string' || v[k].length > limites[k]) {
+      throw new HttpsError('invalid-argument', 'Un bloc de réponse dépasse ' + limites[k] + ' caractères.');
     }
     blocs[k] = v[k];
   });

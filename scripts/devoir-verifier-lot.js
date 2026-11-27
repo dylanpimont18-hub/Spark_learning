@@ -33,11 +33,16 @@ for (const f of fichiers) {
     r.erreurs.forEach(m => console.log('    ERREUR  ' + m));
     r.avertissements.forEach(m => console.log('    avert.  ' + m));
     if (!r.erreurs.length) {
-      const g = ex.origine ? E.verifierOrigine(ex, calc) : null;
+      const type = E.typeExercice(ex);
+      const g = ex.origine && type !== 'redige' ? E.verifierOrigine(ex, calc) : null;
       if (g) console.log('    garde-fou : ' + ex.corrige.resultat + ' = ' + +g.obtenu.toFixed(6) + ' (corrigé d\'origine : ' + ex.origine.resultat + ')');
       const v = E.instancier(ex, calc);
       console.log('    variante : ' + v.enonce.replace(/<br\/?>/g, ' ').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').slice(0, 400));
-      console.log('    corrigé  : ' + v.corrige.resultat + ' = ' + v.corrige.valeur_affichee + ' ' + v.corrige.unite);
+      if (type !== 'redige') console.log('    corrigé  : ' + v.corrige.resultat + ' = ' + v.corrige.valeur_affichee + ' ' + v.corrige.unite);
+      // Question rédigée ou mixte : les éléments attendus, tels que l'IA et l'enseignant les liront.
+      (v.corrige.elements || []).forEach((el) => console.log('    attendu  : [' + el.points + ' pts] ' + el.label + ' — ' + el.attendu.replace(/\s+/g, ' ').slice(0, 300)));
+      // Un exercice rédigé sans origine ne permet pas de retrouver le corrigé qui fait foi.
+      if (type !== 'chiffre' && !ex.origine) { ko++; console.log('    ERREUR  origine absente : indiquer la source et la question du corrigé repris.'); }
     }
   }
 }

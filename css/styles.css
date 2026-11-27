@@ -5058,3 +5058,40 @@ main { flex: 1; }
 .dc-liste { margin: 0; padding-left: 1.1rem; font-size: 0.85rem; display: flex; flex-direction: column; gap: 0.2rem; }
 .dc-validee { background: color-mix(in srgb, var(--success) 12%, var(--bg-card)); border: 1px solid var(--success); border-radius: var(--radius); padding: var(--space-md) var(--space-lg); font-size: 1.05rem; display: flex; flex-direction: column; gap: 0.2rem; }
 @media (max-width: 900px) { .dc-grille { grid-template-columns: 1fr; } }
+
+/* ══ Module devoir — questions rédigées (saisie, relecture) et suivi dans le temps ══ */
+.de-bloc-aide { font-size: 0.82rem; color: var(--text-muted); }
+.de-champ--long { min-height: 11rem; }
+.dc-bloc--long .dc-bloc-texte { line-height: 1.6; }
+.dc-cite { background: color-mix(in srgb, var(--fed) 28%, transparent); color: inherit; border-radius: 3px; padding: 0 0.1rem; }
+.dc-legende { margin: 0; font-size: 0.8rem; }
+.dc-elements li, .dv-elements li { line-height: 1.5; }
+.dv-elements { margin: 0.2rem 0 0.4rem; padding-left: 1.1rem; font-size: 0.9rem; display: flex; flex-direction: column; gap: 0.25rem; }
+.dc-modele { margin: 0.2rem 0 0; font-size: 0.88rem; line-height: 1.55; }
+.dc-critere--element { align-items: start; }
+.dc-critere--incertain { background: color-mix(in srgb, var(--fed) 8%, transparent); border-radius: 6px; padding-left: 0.4rem; padding-right: 0.4rem; }
+.dc-puce-element { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); border: 1px solid var(--border); border-radius: 999px; padding: 0.05rem 0.4rem; white-space: nowrap; }
+.dc-critere-attendu { grid-column: 1 / -1; font-size: 0.84rem; line-height: 1.5; }
+.dc-citation { display: block; margin-top: 0.15rem; padding-left: 0.5rem; border-left: 3px solid var(--fed); color: var(--text); font-style: italic; overflow-wrap: anywhere; }
+.dc-citation--vide { border-left-color: var(--border); color: var(--text-muted); }
+.dc-incertain { font-style: normal; }
+.dv-h4 { margin: 0 0 var(--space-sm); font-size: 1rem; }
+.su-classe { max-width: 26rem; }
+.su-defilement { overflow-x: auto; }
+.su-table th, .su-table td { white-space: nowrap; }
+.su-case { font-variant-numeric: tabular-nums; }
+.su-ligne--active td { background: color-mix(in srgb, var(--primary) 7%, transparent); }
+.su-nom { font-weight: 600; text-align: left; }
+.su-etudiant { border-top: 1px solid var(--border); padding-top: var(--space-md); margin-top: var(--space-md); }
+.su-grille { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-lg); align-items: start; }
+.su-bloc { display: flex; flex-direction: column; gap: var(--space-sm); min-width: 0; }
+.su-critere { display: grid; grid-template-columns: 9.5rem minmax(4rem, 1fr) 3.2rem auto; gap: var(--space-sm); align-items: center; font-size: 0.88rem; }
+.su-critere-label { font-weight: 600; }
+.su-critere-taux { text-align: right; font-variant-numeric: tabular-nums; }
+.su-barre { display: block; height: 0.55rem; border-radius: 999px; background: color-mix(in srgb, var(--text-muted) 18%, transparent); overflow: hidden; }
+.su-barre-plein { display: block; height: 100%; border-radius: 999px; }
+.su-barre-plein--ok { background: var(--success); }
+.su-barre-plein--avert { background: var(--fed); }
+.su-barre-plein--ko { background: var(--error); }
+.su-exemple { display: block; font-size: 0.82rem; color: var(--text-muted); }
+@media (max-width: 900px) { .su-grille { grid-template-columns: 1fr; } .su-critere { grid-template-columns: 1fr 3.2rem; } .su-barre { grid-column: 1 / -1; } }

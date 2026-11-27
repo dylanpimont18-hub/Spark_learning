@@ -55,6 +55,7 @@ Ce fichier est la **source de vérité** pour la structure de fichiers du projet
 | js/devoir/devoirEleve.js | Vue étudiant (`devoir.html`, `/devoirs`) : code, nom, blocs de réponse, brouillon, minuteur, rendu, signalement des sorties de page et des collages |
 | js/devoir/devoirSessions.js | Sous-onglet « Sessions » : création, ouverture, tableau de bord en direct, incidents anti-triche |
 | js/devoir/devoirCorrection.js | Relecture des copies : pré-correction IA lancée à la main, modification, validation, note finale |
+| js/devoir/devoirSuivi.js | Sous-onglet « Suivi » (enseignant seul) : notes validées par étudiant et par chapitre, critères où les points se perdent, erreurs qui reviennent |
 | devoir.html | Page d'épreuve épurée, sans navigation ni mesure d'audience |
 | functions/ | Cloud Functions (TypeScript) : sessions, anti-triche, correction IA. Seul dossier à utiliser npm avec les outils de build |
 | scripts/devoir-emulateurs.js | Essai local et tests dans la Firebase Emulator Suite |

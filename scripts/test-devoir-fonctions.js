@@ -105,12 +105,63 @@ async function suiteAttente(test, prof, exercices) {
     assert.ok((await evenements(alice.copieId)).some((e) => e.type === 'depart'));
     assert.strictEqual((await E.appeler('updateSession', { session_id: s.sessionId, action: 'lancer' }, prof.jeton)).code, 'FAILED_PRECONDITION');
   });
-  await test('un retardataire entre après le lancement et démarre aussitôt, avec sa propre durée', async () => {
+  await test('entré juste après le lancement : même fin que la classe, sans message de retard', async () => {
     const dina = await entrer(s.code, 'etu-04');
     const d = await copie(dina.copieId);
     assert.strictEqual(d.statut, 'connecte');
     assert.strictEqual(d.attributions.length, 3);
-    assert.ok(new Date(d.fin).getTime() >= new Date((await copie(alice.copieId)).fin).getTime());
+    assert.strictEqual(d.fin.getTime(), (await copie(alice.copieId)).fin.getTime(), 'même heure de fin que ceux qui attendaient');
+    assert.deepStrictEqual([d.message, d.retard_ms], [null, undefined]);
+  });
+  await test('retardataire : il compose sur le temps restant et finit en même temps que la classe', async () => {
+    // Simule un lancement vieux de 10 minutes : il reste 50 minutes à toute la classe.
+    const lancement = Date.now() - 10 * 60000;
+    const finClasse = new Date(lancement + 60 * 60000);
+    await E.majChamps('devoir_sessions/' + s.sessionId, { lancee_a: new Date(lancement), fin_prevue: finClasse });
+    await E.majChamps('devoir_copies/' + alice.copieId, { fin: finClasse });
+    const u = await E.connexionAnonyme();
+    const annonce = (await E.appeler('joinSession', { code: s.code }, u.jeton)).resultat.session;
+    assert.strictEqual(annonce.lancee, true);
+    assert.ok(annonce.reste_minutes === 49 || annonce.reste_minutes === 50, 'temps restant annoncé avant de confirmer son nom : ' + annonce.reste_minutes);
+    const r = await E.appeler('joinSession', { code: s.code, etudiant_id: 'etu-07' }, u.jeton);
+    assert.ok(r.ok, r.message);
+    const g = await copie(r.resultat.copie_id);
+    assert.strictEqual(g.statut, 'connecte');
+    assert.strictEqual(g.fin.getTime(), finClasse.getTime(), 'fin commune, pas début + 60 min');
+    assert.ok(g.fin.getTime() - g.debut.getTime() < 50 * 60000 + 1000 && g.fin.getTime() - g.debut.getTime() > 49 * 60000, 'il compose sur les 50 minutes restantes');
+    assert.ok(g.retard_ms >= 10 * 60000 && g.retard_ms < 10 * 60000 + 20000, 'retard mesuré par le serveur : ' + g.retard_ms);
+    assert.strictEqual(g.message.type, 'retard');
+    assert.ok(/temps restant, soit 50 minutes/.test(g.message.texte) && /termine à la même heure/.test(g.message.texte), g.message.texte);
+    assert.ok(!/trich|sanction|faute/i.test(g.message.texte), 'message sans reproche');
+    const depart = (await evenements(r.resultat.copie_id)).find((e) => e.type === 'depart');
+    assert.ok(/10 minutes après le lancement, 50 minutes pour composer/.test(depart.detail), depart.detail);
+    // Le serveur applique cette fin : une saisie après l'heure commune est refusée.
+    await E.majChamps('devoir_copies/' + r.resultat.copie_id, { fin: new Date(Date.now() - 60000) });
+    const tard = await E.appeler('saveDraft', { copie_id: r.resultat.copie_id, attribution_id: g.attributions[0].id, blocs: { methode: 'trop tard' } }, u.jeton);
+    assert.deepStrictEqual([tard.resultat.enregistre, tard.resultat.statut], [false, 'rendue_auto']);
+  });
+  await test('prolongation : la fin commune recule, un retardataire entré ensuite en profite comme les autres', async () => {
+    const avant = (await E.lire('devoir_sessions/' + s.sessionId)).donnees.fin_prevue.getTime();
+    assert.ok((await E.appeler('updateSession', { session_id: s.sessionId, action: 'prolonger', minutes: 5 }, prof.jeton)).ok);
+    const apres = (await E.lire('devoir_sessions/' + s.sessionId)).donnees;
+    assert.strictEqual(apres.fin_prevue.getTime() - avant, 5 * 60000);
+    const h = await entrer(s.code, 'etu-08');
+    const c = await copie(h.copieId);
+    assert.strictEqual(c.fin.getTime(), apres.fin_prevue.getTime());
+    assert.strictEqual(c.fin.getTime(), (await copie(alice.copieId)).fin.getTime(), 'toute la classe finit à la même heure');
+    assert.ok(/soit 55 minutes/.test(c.message.texte), c.message.texte);
+  });
+  await test('temps de la classe écoulé : plus personne ne commence, et aucune copie fantôme ne prend le nom', async () => {
+    await E.majChamps('devoir_sessions/' + s.sessionId, { fin_prevue: new Date(Date.now() - 1000) });
+    const u = await E.connexionAnonyme();
+    const liste = await E.appeler('joinSession', { code: s.code }, u.jeton);
+    assert.strictEqual(liste.resultat.session.reste_minutes, 0);
+    const r = await E.appeler('joinSession', { code: s.code, etudiant_id: 'etu-09' }, u.jeton);
+    assert.strictEqual(r.code, 'FAILED_PRECONDITION');
+    assert.ok(/temps de cette épreuve est écoulé/.test(r.message), r.message);
+    assert.strictEqual(await copie(s.sessionId + '_etu-09'), null);
+    const encore = (await E.appeler('joinSession', { code: s.code }, u.jeton)).resultat.etudiants;
+    assert.strictEqual(encore.find((x) => x.id === 'etu-09').pris, false);
   });
   await test('fermer une session jamais lancée efface les copies en attente', async () => {
     const s2 = await ouvrirSession(prof, exercices, { attente: true });
@@ -672,7 +723,7 @@ async function suiteMvp4(test, prof, exercices, fausseIa) {
     assert.strictEqual(f.length, 3);
     f.forEach((x) => {
       assert.deepStrictEqual([x.statut, x.source, x.compte_dans_note, x.prioritaire], ['brouillon', 'ia', true, false]);
-      assert.deepStrictEqual(Object.keys(x.ia).filter((k) => ['modele', 'version_prompt', 'essais', 'cree_a', 'ecarts', 'prioritaire'].indexOf(k) === -1).sort(),
+      assert.deepStrictEqual(Object.keys(x.ia).filter((k) => ['modele', 'version_prompt', 'essais', 'cree_a', 'ecarts', 'prioritaire', 'incertains'].indexOf(k) === -1).sort(),
         ['alertes', 'attribution_id', 'axes_progression', 'commentaire_pour_etudiant', 'confiance', 'criteres', 'erreurs', 'etapes', 'note_max', 'note_pour_enseignant', 'note_proposee'].sort());
       assert.deepStrictEqual([x.ia.note_proposee, x.ia.note_max, x.ia.modele, x.ia.essais], [100, 100, 'claude-sonnet-5-5', 1]);
       assert.ok(/^\d{4}-\d{2}-\d{2}\.\d+$/.test(x.ia.version_prompt), 'version du prompt enregistrée');
@@ -826,16 +877,152 @@ async function suiteMvp4(test, prof, exercices, fausseIa) {
   await E.appeler('updateSession', { session_id: s.sessionId, action: 'fermer' }, prof.jeton);
 }
 
+// ── Questions rédigées et exercices mixtes ───────────────────────────────────
+// Renvoie { redige, mixte } : l'attribution (publique) de chaque exercice de démonstration.
+async function attributionsRedigees(copieId) {
+  const c = await copie(copieId);
+  const p = await prive(copieId);
+  const de = (exId) => c.attributions.find((a) => p.attributions[a.id].exercice_id === exId);
+  return { redige: de('demo-redige-isolation'), mixte: de('demo-mixte-disjoncteur'), prive: p, copie: c };
+}
+
+async function suiteRedige(test, prof, rediges, fausseIa) {
+  console.log('Questions rédigées — tirage, saisie, pré-correction élément par élément');
+  const s = await ouvrirSession(prof, rediges, { exercices_par_etudiant: 2, quota_remplacements: 0 });
+  const alice = await entrer(s.code, 'etu-01');
+  const bilal = await entrer(s.code, 'etu-02');
+  const chloe = await entrer(s.code, 'etu-03');
+  const dimitri = await entrer(s.code, 'etu-04');
+  const REDACTION = 'L\'isolant ajoute une résistance thermique, donc le tube perd moins de chaleur vers le local. Au-delà d\'une certaine épaisseur, le gain devient faible devant le coût.';
+  const appelsPour = (id) => fausseIa.journal.filter((r) => r.message.indexOf('"attribution_id": "' + id + '"') !== -1);
+  let a;
+
+  await test('tirage : la copie montre l\'énoncé et un bloc de rédaction, jamais les éléments attendus', async () => {
+    a = await attributionsRedigees(alice.copieId);
+    assert.ok(a.redige && a.mixte, 'les deux exercices sont attribués');
+    assert.deepStrictEqual(a.redige.blocs, [{ id: 'redaction', label: 'Votre réponse rédigée', long: true }]);
+    assert.deepStrictEqual(a.mixte.blocs.map((b) => [b.id, b.long === true]), [['methode', false], ['calcul', false], ['resultat', false], ['unite', false], ['redaction', true]]);
+    const vue = JSON.stringify((await E.lire('devoir_copies/' + alice.copieId, alice.jeton)).donnees);
+    ['attendu', 'elements', 'reponse_modele', 'corrige', 'bareme', 'points', 'nature'].forEach((mot) => assert.ok(vue.indexOf('"' + mot) === -1, 'la copie de l\'étudiant expose « ' + mot + ' »'));
+    assert.ok(vue.indexOf('résistance thermique entre') === -1 && vue.indexOf('inférieure au calibre') === -1, 'aucun texte du corrigé dans la copie');
+    assert.strictEqual((await E.lire('devoir_copies_prive/' + alice.copieId, alice.jeton)).statut, 403);
+  });
+  await test('partie privée : type, éléments attendus instanciés avec les valeurs tirées, barème par élément', async () => {
+    const pr = a.prive.attributions[a.redige.id];
+    assert.deepStrictEqual([pr.type, pr.chapitre, pr.corrige.resultat, pr.corrige.valeur], ['redige', '02', null, null]);
+    assert.deepStrictEqual(pr.bareme.map((c) => [c.id, c.points, c.nature]), [['pertes', 60, 'element'], ['epaisseur', 40, 'element']]);
+    assert.ok(new RegExp('l\'eau à ' + pr.valeurs.T + ' °C').test(pr.bareme[0].attendu), pr.bareme[0].attendu);
+    assert.ok(new RegExp('eau à ' + pr.valeurs.T + ' °C').test(pr.corrige.reponse_modele));
+    const pm = a.prive.attributions[a.mixte.id];
+    assert.strictEqual(pm.type, 'mixte');
+    assert.ok(Math.abs(pm.corrige.valeur - pm.valeurs.P / 230) < 1e-9, 'résultat du calcul recalculé côté serveur');
+    assert.deepStrictEqual(pm.bareme.map((c) => [c.id, c.points]), [['methode', 24], ['calcul', 18], ['resultat', 12], ['unite', 6], ['conclusion', 40]]);
+    assert.ok(/inférieure au calibre de (10|16) A/.test(pm.bareme[4].attendu));
+  });
+  await test('saisie : une rédaction longue est acceptée dans le bloc long, refusée ailleurs et au-delà de 6 000 caractères', async () => {
+    const long = 'Rédaction. '.repeat(400);   // 4 400 caractères
+    const ok = await E.appeler('saveDraft', { copie_id: alice.copieId, attribution_id: a.redige.id, blocs: { redaction: long } }, alice.jeton);
+    assert.ok(ok.ok && ok.resultat.enregistre, ok.message);
+    assert.strictEqual((await E.appeler('saveDraft', { copie_id: alice.copieId, attribution_id: a.redige.id, blocs: { redaction: 'x'.repeat(6001) } }, alice.jeton)).code, 'INVALID_ARGUMENT');
+    assert.strictEqual((await E.appeler('saveDraft', { copie_id: alice.copieId, attribution_id: a.mixte.id, blocs: { methode: 'x'.repeat(2001) } }, alice.jeton)).code, 'INVALID_ARGUMENT');
+    assert.strictEqual((await E.appeler('saveDraft', { copie_id: alice.copieId, attribution_id: a.redige.id, blocs: { pertes: 'un élément n\'est pas un bloc de saisie' } }, alice.jeton)).code, 'INVALID_ARGUMENT');
+  });
+  await test('pré-correction : chaque élément attendu est noté, avec le passage de la copie qui le justifie', async () => {
+    await E.appeler('saveDraft', { copie_id: alice.copieId, attribution_id: a.redige.id, blocs: { redaction: REDACTION } }, alice.jeton);
+    await E.appeler('saveDraft', { copie_id: alice.copieId, attribution_id: a.mixte.id, blocs: { methode: 'I = P / U', calcul: '1500 / 230', resultat: '6,5', unite: 'A', redaction: 'Le courant reste sous le calibre, le disjoncteur convient.' } }, alice.jeton);
+    assert.strictEqual((await E.appeler('submitCopy', { copie_id: alice.copieId }, alice.jeton)).resultat.statut, 'rendue');
+    const r = await E.appeler('runPreCorrection', { copie_id: alice.copieId }, prof.jeton);
+    assert.ok(r.ok, r.message);
+    assert.deepStrictEqual([r.resultat.corrigees, r.resultat.erreurs], [2, 0]);
+    const f = (await E.lire('devoir_corrections/' + a.redige.id)).donnees;
+    assert.deepStrictEqual([f.type, f.chapitre, f.statut, f.prioritaire], ['redige', '02', 'brouillon', false]);
+    assert.deepStrictEqual(f.ia.criteres.map((c) => [c.critere_id, c.nature, c.points_obtenus, c.incertain]), [['pertes', 'element', 60, false], ['epaisseur', 'element', 40, false]]);
+    assert.ok(f.ia.criteres.every((c) => c.extrait_reponse && REDACTION.indexOf(c.extrait_reponse) === 0), 'citation tirée de la copie');
+    assert.deepStrictEqual(f.finale.criteres.map((c) => [c.critere_id, c.nature, c.points_obtenus, c.points_max]), [['pertes', 'element', 60, 60], ['epaisseur', 'element', 40, 40]]);
+    assert.deepStrictEqual([f.ia.ecarts, f.ia.incertains, f.ia.version_prompt >= '2026-11-27.2'], [[], 0, true]);
+    const fm = (await E.lire('devoir_corrections/' + a.mixte.id)).donnees;
+    assert.deepStrictEqual(fm.finale.criteres.map((c) => c.critere_id), ['methode', 'calcul', 'resultat', 'unite', 'conclusion']);
+    assert.deepStrictEqual([fm.finale.note, fm.finale.note_max, fm.type], [100, 100, 'mixte']);
+  });
+  await test('requête à l\'IA : éléments attendus et corrigé envoyés, réponse par bloc de saisie, toujours sans identité', async () => {
+    const req = appelsPour(a.redige.id);
+    assert.strictEqual(req.length, 1);
+    assert.ok(/"nature": "element"/.test(req[0].message) && /"attendu": "L'isolant augmente la résistance thermique/.test(req[0].message), 'élément attendu transmis');
+    assert.ok(/<reponse_etudiant>[\s\S]*"redaction": "L'isolant ajoute/.test(req[0].message));
+    assert.ok(/recopié mot pour mot/.test(req[0].systeme) && /« incertain » à true/.test(req[0].systeme));
+    const props = req[0].corps.output_config.format.schema.properties.criteres.items.properties;
+    assert.ok(props.extrait_reponse && props.incertain, 'le schéma imposé demande citation et doute');
+    const brut = JSON.stringify(req[0].corps);
+    assert.ok(brut.indexOf('Alice') === -1 && brut.indexOf('etu-01') === -1 && brut.indexOf(alice.uid) === -1);
+    const reqMixte = appelsPour(a.mixte.id)[0].message;
+    assert.ok(/"nature": "bloc"/.test(reqMixte) && /"nature": "element"/.test(reqMixte) && /"valeur": /.test(reqMixte), 'exercice mixte : blocs de calcul, élément rédigé et résultat de référence');
+  });
+  await test('citation inventée ou absente : le serveur le relève, marque le critère incertain et met la copie en tête', async () => {
+    const b = await attributionsRedigees(bilal.copieId);
+    await E.appeler('saveDraft', { copie_id: bilal.copieId, attribution_id: b.redige.id, blocs: { redaction: 'IA_CITATION_INVENTEE ' + REDACTION } }, bilal.jeton);
+    await E.appeler('saveDraft', { copie_id: bilal.copieId, attribution_id: b.mixte.id, blocs: { methode: 'I = P / U', redaction: 'IA_SANS_CITATION il convient' } }, bilal.jeton);
+    await E.appeler('submitCopy', { copie_id: bilal.copieId }, bilal.jeton);
+    assert.ok((await E.appeler('runPreCorrection', { copie_id: bilal.copieId }, prof.jeton)).ok);
+    const f = (await E.lire('devoir_corrections/' + b.redige.id)).donnees;
+    assert.ok(f.ia.ecarts.filter((e) => /ne figure pas tel quel dans la copie/.test(e)).length === 2, f.ia.ecarts.join(' | '));
+    assert.deepStrictEqual([f.ia.incertains, f.prioritaire, f.ia.criteres.every((c) => c.incertain)], [2, true, true]);
+    assert.strictEqual(f.ia.note_proposee, 100, 'la proposition reste telle quelle : l\'enseignant tranche');
+    const fm = (await E.lire('devoir_corrections/' + b.mixte.id)).donnees;
+    assert.ok(fm.ia.ecarts.some((e) => /« Comparaison au calibre » : points proposés sans passage cité/.test(e)), fm.ia.ecarts.join(' | '));
+    const parId = {};
+    fm.ia.criteres.forEach((c) => { parId[c.critere_id] = c; });
+    assert.deepStrictEqual([parId.conclusion.incertain, parId.methode.incertain, fm.prioritaire], [true, false, true]);
+  });
+  await test('doute déclaré par l\'IA : enregistré sur le critère, copie prioritaire', async () => {
+    const c = await attributionsRedigees(chloe.copieId);
+    await E.appeler('saveDraft', { copie_id: chloe.copieId, attribution_id: c.redige.id, blocs: { redaction: 'IA_INCERTAIN on isole pour garder la chaleur' } }, chloe.jeton);
+    await E.appeler('submitCopy', { copie_id: chloe.copieId }, chloe.jeton);
+    const avant = fausseIa.journal.length;
+    const r = await E.appeler('runPreCorrection', { copie_id: chloe.copieId }, prof.jeton);
+    assert.deepStrictEqual([r.resultat.corrigees, r.resultat.vides], [2, 1]);
+    assert.strictEqual(fausseIa.journal.length - avant, 1, 'l\'exercice mixte laissé vide ne part pas vers l\'IA');
+    const f = (await E.lire('devoir_corrections/' + c.redige.id)).donnees;
+    assert.deepStrictEqual([f.ia.incertains, f.ia.ecarts, f.prioritaire], [2, [], true]);
+    const vide = (await E.lire('devoir_corrections/' + c.mixte.id)).donnees;
+    assert.deepStrictEqual([vide.ia.note_proposee, vide.ia.alertes, vide.ia.criteres.length], [0, ['reponse_vide'], 5]);
+  });
+  await test('l\'enseignant modifie la note d\'un élément puis valide ; l\'étudiant ne voit toujours rien', async () => {
+    const r = await E.appeler('saveCorrection', { attribution_id: a.redige.id, criteres: [{ critere_id: 'epaisseur', points_obtenus: 20 }] }, prof.jeton);
+    assert.deepStrictEqual([r.resultat.note, r.resultat.note_max], [80, 100]);
+    assert.strictEqual((await E.appeler('saveCorrection', { attribution_id: a.redige.id, criteres: [{ critere_id: 'pertes', points_obtenus: 61 }] }, prof.jeton)).code, 'INVALID_ARGUMENT');
+    assert.strictEqual((await E.appeler('saveCorrection', { attribution_id: a.redige.id, criteres: [{ critere_id: 'redaction', points_obtenus: 5 }] }, prof.jeton)).code, 'INVALID_ARGUMENT', 'le bloc de saisie n\'est pas un critère');
+    const v = await E.appeler('validateCorrection', { copie_id: alice.copieId }, prof.jeton);
+    assert.deepStrictEqual([v.resultat.points, v.resultat.points_max, v.resultat.note_finale], [180, 200, 18]);
+    const f = (await E.lire('devoir_corrections/' + a.redige.id)).donnees;
+    assert.deepStrictEqual([f.statut, f.ia.criteres[1].points_obtenus, f.finale.criteres[1].points_obtenus], ['validee', 40, 20], 'proposition de l\'IA conservée');
+    const vue = JSON.stringify((await E.lire('devoir_copies/' + alice.copieId, alice.jeton)).donnees);
+    assert.ok(!/"note|"correction|"attendu|"criteres|"extrait/.test(vue));
+    assert.strictEqual((await E.lire('devoir_corrections/' + a.redige.id, alice.jeton)).statut, 403);
+  });
+  await test('correction sans IA d\'une question rédigée : une fiche à zéro, un critère par élément attendu', async () => {
+    const d = await attributionsRedigees(dimitri.copieId);
+    await E.appeler('saveDraft', { copie_id: dimitri.copieId, attribution_id: d.redige.id, blocs: { redaction: 'On isole.' } }, dimitri.jeton);
+    await E.appeler('submitCopy', { copie_id: dimitri.copieId }, dimitri.jeton);
+    const avant = fausseIa.journal.length;
+    assert.strictEqual((await E.appeler('runPreCorrection', { copie_id: dimitri.copieId, sans_ia: true }, prof.jeton)).resultat.preparees, 2);
+    assert.strictEqual(fausseIa.journal.length, avant);
+    const f = (await E.lire('devoir_corrections/' + d.redige.id)).donnees;
+    assert.deepStrictEqual([f.ia, f.finale.note, f.finale.criteres.map((c) => c.critere_id)], [null, 0, ['pertes', 'epaisseur']]);
+  });
+  await E.appeler('updateSession', { session_id: s.sessionId, action: 'fermer' }, prof.jeton);
+}
+
 async function lancer() {
   const { test, etat } = E.cadre();
   await E.toutEffacer();
-  const { prof, exercices, classe } = await E.semer();
+  const { prof, exercices, classe, rediges } = await E.semer();
   const fausseIa = require('./lib/devoir-fausse-ia.js');
   const serveur = fausseIa.demarrer();
   try {
     await suiteMvp2(test, prof, exercices, classe);
     await suiteMvp3(test, prof, exercices);
     await suiteMvp4(test, prof, exercices, fausseIa);
+    await suiteRedige(test, prof, rediges, fausseIa);
     await suiteAttente(test, prof, exercices);   // en dernier : ses tirages s'ajoutent à l'historique des étudiants
   } finally {
     serveur.close();

@@ -14,6 +14,7 @@ var DevoirAdmin = {
   _mathPromise: null,
   _edition: null,          // { type: 'exercice', original, brouillon? } | { type: 'classe', classe }
   FILE_KEY: 'spark_devoir_file_import',
+  LIBELLES_TYPE: { chiffre: 'Calcul', redige: 'Question rédigée', mixte: 'Calcul et rédaction' },
 
   _esc: function (s) {
     return String(s === undefined || s === null ? '' : s)
@@ -76,16 +77,19 @@ var DevoirAdmin = {
         '<button class="dv-subtab' + (v === 'banque' ? ' active' : '') + '" onclick="DevoirAdmin._setVue(\'banque\')">Banque d\'exercices (' + DevoirAdmin._exercices.length + ')</button>' +
         '<button class="dv-subtab' + (v === 'classes' ? ' active' : '') + '" onclick="DevoirAdmin._setVue(\'classes\')">Classes (' + DevoirAdmin._classes.length + ')</button>' +
         '<button class="dv-subtab' + (v === 'sessions' ? ' active' : '') + '" onclick="DevoirAdmin._setVue(\'sessions\')">Sessions</button>' +
+        '<button class="dv-subtab' + (v === 'suivi' ? ' active' : '') + '" onclick="DevoirAdmin._setVue(\'suivi\')">Suivi</button>' +
       '</div>';
     var corps;
     if (DevoirAdmin._edition && DevoirAdmin._edition.type === 'exercice') corps = DevoirAdmin._htmlEditeurExercice();
     else if (DevoirAdmin._edition && DevoirAdmin._edition.type === 'classe') corps = DevoirAdmin._htmlEditeurClasse();
     else if (v === 'sessions') corps = '<div id="dv-sessions"></div>';
+    else if (v === 'suivi') corps = '<div id="dv-suivi"></div>';
     else if (v === 'classes') corps = DevoirAdmin._htmlListeClasses();
     else corps = DevoirAdmin._htmlListeExercices();
     c.innerHTML = '<div class="dv-root">' + nav + corps + '</div>';
     if (DevoirAdmin._edition && DevoirAdmin._edition.type === 'exercice') DevoirAdmin._previsualiser();
     else if (v === 'sessions' && !DevoirAdmin._edition) DevoirSessions.render(document.getElementById('dv-sessions'));
+    else if (v === 'suivi' && !DevoirAdmin._edition) DevoirSuivi.render(document.getElementById('dv-suivi'));
     else DevoirAdmin._katex();
   },
 
@@ -105,6 +109,7 @@ var DevoirAdmin = {
         '<select class="dv-input dv-filtre" aria-label="Filtrer par chapitre" onchange="DevoirAdmin._filtreChapitre = this.value; DevoirAdmin._renderVue()">' + options + '</select>' +
         '<label class="dv-btn-secondaire dv-fichier">Importer un lot (JSON)<input type="file" accept=".json,application/json" onchange="DevoirAdmin._importerLot(this)" /></label>' +
         '<button class="ap-save-btn" onclick="DevoirAdmin._ouvrirExercice(null)">+ Nouvel exercice</button>' +
+        '<button class="dv-btn-secondaire" onclick="DevoirAdmin._ouvrirExercice(null, true)">+ Nouvelle question rédigée</button>' +
       '</div>' + DevoirAdmin._htmlFile();
     if (!liste.length && filtre) {
       return html + '<p class="dv-vide">Aucun exercice pour ce chapitre.</p>';
@@ -118,7 +123,8 @@ var DevoirAdmin = {
       html +=
         '<div class="dv-carte' + (ex.actif === false ? ' dv-carte--inactive' : '') + '">' +
           '<div class="dv-carte-info">' +
-            '<div class="dv-carte-titre">' + e(ex.titre) + (ex.actif === false ? ' <span class="dv-badge">inactif</span>' : '') + '</div>' +
+            '<div class="dv-carte-titre">' + e(ex.titre) + (ex.actif === false ? ' <span class="dv-badge">inactif</span>' : '') +
+              (DevoirEngine.typeExercice(ex) !== 'chiffre' ? ' <span class="dv-etat dv-etat--info">' + e(DevoirAdmin.LIBELLES_TYPE[DevoirEngine.typeExercice(ex)].toLowerCase()) + '</span>' : '') + '</div>' +
             '<div class="dv-carte-meta">' + e(DevoirEngine.libelleChapitre(ex.chapitre)) + ' · ' + e(ex.id) + ' · difficulté ' + e(ex.difficulte || '—') + ' · ' + possibles.toLocaleString('fr-FR') + ' variante' + (possibles > 1 ? 's' : '') + ' possible' + (possibles > 1 ? 's' : '') +
               ((ex.tags || []).length ? ' · ' + (ex.tags || []).map(e).join(', ') : '') + '</div>' +
           '</div>' +
@@ -239,9 +245,10 @@ var DevoirAdmin = {
     return copie;
   },
 
-  _ouvrirExercice: function (id) {
+  // redige : part du gabarit d'une question rédigée (éléments attendus) plutôt que d'un calcul.
+  _ouvrirExercice: function (id, redige) {
     var original = id ? DevoirAdmin._exercices.find(function (x) { return x.id === id; }) : null;
-    DevoirAdmin._edition = { type: 'exercice', original: original || null };
+    DevoirAdmin._edition = { type: 'exercice', original: original || null, gabarit: redige ? DevoirEngine.nouvelExerciceRedige() : null };
     DevoirAdmin._renderVue();
   },
 
@@ -249,7 +256,7 @@ var DevoirAdmin = {
     var e = DevoirAdmin._esc;
     var original = DevoirAdmin._edition.original;
     var brouillon = DevoirAdmin._edition.brouillon;
-    var json = JSON.stringify(original ? DevoirAdmin._exerciceSansMeta(original) : (brouillon || DevoirEngine.nouvelExercice()), null, 2);
+    var json = JSON.stringify(original ? DevoirAdmin._exerciceSansMeta(original) : (brouillon || DevoirAdmin._edition.gabarit || DevoirEngine.nouvelExercice()), null, 2);
     return '<div class="dv-editeur">' +
       '<div class="dv-editeur-entete">' +
         '<h3 class="dv-h3">' + (original ? 'Modifier « ' + e(original.titre) + ' »' : brouillon ? 'Relire l\'exercice importé' : 'Nouvel exercice') + '</h3>' +
@@ -259,6 +266,9 @@ var DevoirAdmin = {
         '<p class="dv-aide">Paramètres : plage <code>{ nom, min, max, pas }</code>, liste <code>{ nom, valeurs: [..] }</code> ou ligne de catalogue <code>{ nom, colonnes: [{ nom }], lignes: [[..]] }</code>. ' +
           'Dans l\'énoncé et les étapes du corrigé, <code>{{nom}}</code> est remplacé par la valeur tirée (virgule française automatique). ' +
           'Fonctions de calcul autorisées : ' + DevoirEngine.FONCTIONS.join(', ') + ', pi.</p>' +
+        '<p class="dv-aide"><strong>Question rédigée</strong> : <code>"type": "redige"</code>, pas de <code>corrige.resultat</code>, et <code>corrige.elements: [{ id, label, attendu, points }]</code> ' +
+          '(un critère noté par élément attendu ; reprendre les arguments de votre corrigé). <strong>Calcul suivi d\'une conclusion</strong> : <code>"type": "mixte"</code>, ' +
+          'blocs de calcul notés, un bloc <code>"long": true</code> pour la rédaction, et les mêmes <code>elements</code>. Le barème total fait 100 points.</p>' +
       '</div>' +
       '<div class="dv-editeur-grille">' +
         '<div class="dv-editeur-source">' +
@@ -323,8 +333,13 @@ var DevoirAdmin = {
       '<div class="dv-enonce">' + v.enonce + '</div>' +
       '<div class="dv-corrige">' +
         '<div class="dv-corrige-titre">Corrigé (jamais envoyé à l\'étudiant)</div>' +
-        '<div class="dv-resultat">Résultat attendu : <strong>' + e(v.corrige.resultat) + ' = ' + e(v.corrige.valeur_affichee) + (v.corrige.unite ? ' ' + e(v.corrige.unite) : '') + '</strong></div>' +
+        (v.corrige.resultat ? '<div class="dv-resultat">Résultat attendu : <strong>' + e(v.corrige.resultat) + ' = ' + e(v.corrige.valeur_affichee) + (v.corrige.unite ? ' ' + e(v.corrige.unite) : '') + '</strong></div>' : '') +
         (v.corrige.etapes.length ? '<ol class="dv-etapes">' + v.corrige.etapes.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ol>' : '') +
+        // Question rédigée ou mixte : les éléments attendus, chacun avec ses points (texte de l'enseignant, non échappé).
+        ((v.corrige.elements || []).length ? '<div class="dv-corrige-titre">Éléments de réponse attendus</div><ul class="dv-elements">' + v.corrige.elements.map(function (el) {
+          return '<li><strong>' + e(el.label) + '</strong> <span class="dv-carte-meta">(' + e(el.points) + ' pts)</span> — ' + el.attendu + '</li>';
+        }).join('') + '</ul>' : '') +
+        (v.corrige.reponse_modele ? '<p class="dv-aide">Réponse rédigée du corrigé : ' + v.corrige.reponse_modele + '</p>' : '') +
         (donnees ? '<details class="dv-details"><summary>Toutes les données calculées</summary><ul>' + donnees + '</ul></details>' : '') +
       '</div>' +
     '</article>';
@@ -341,8 +356,8 @@ var DevoirAdmin = {
     if (!r.erreurs.length) {
       var res = DevoirEngine.variantesDistinctes(ex, DevoirAdmin._calc, DevoirAdmin.NB_VARIANTES);
       var e = DevoirAdmin._esc;
-      html += '<div class="dv-apercu-entete"><span>' + res.possibles.toLocaleString('fr-FR') + ' variante(s) possible(s) — barème : ' +
-        (ex.blocs_reponse || []).map(function (b) { return e(b.label) + ' ' + e(b.points); }).join(' · ') + '</span>' +
+      html += '<div class="dv-apercu-entete"><span>' + e(DevoirAdmin.LIBELLES_TYPE[DevoirEngine.typeExercice(ex)]) + ' — ' + res.possibles.toLocaleString('fr-FR') + ' variante(s) possible(s) — barème : ' +
+        DevoirEngine.baremeDe(ex).map(function (b) { return e(b.label) + ' ' + e(b.points); }).join(' · ') + '</span>' +
         '<button class="dv-btn-secondaire" onclick="DevoirAdmin._previsualiser()">Autres variantes</button></div>';
       html += res.variantes.map(function (v, i) { return DevoirAdmin._htmlVariante(ex, v, i); }).join('');
     }

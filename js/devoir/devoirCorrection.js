@@ -71,6 +71,32 @@ var DevoirCorrection = {
     DevoirAdmin._katex();
   },
 
+  // Écart relevé par le serveur sur une citation (passage introuvable, points sans citation),
+  // par opposition à un écart de points (note recalculée).
+  _ecartCitation: function (texte) { return /passage cité/.test(texte || ''); },
+
+  // Réponse de l'étudiant avec, surlignés, les passages que l'IA cite à l'appui de sa notation.
+  // Le texte est échappé morceau par morceau : rien de ce qu'a écrit l'étudiant n'est interprété.
+  _surligner: function (texte, extraits) {
+    var e = DevoirCorrection._esc;
+    var plages = [];
+    (extraits || []).forEach(function (x) {
+      var cherche = String(x || '').trim();
+      if (cherche.length < 4) return;
+      var i = texte.toLowerCase().indexOf(cherche.toLowerCase());
+      if (i !== -1) plages.push([i, i + cherche.length]);
+    });
+    plages.sort(function (a, b) { return a[0] - b[0]; });
+    var html = '';
+    var fin = 0;
+    plages.forEach(function (p) {
+      if (p[0] < fin) return;   // passages qui se chevauchent : le premier suffit
+      html += e(texte.slice(fin, p[0])) + '<mark class="dc-cite">' + e(texte.slice(p[0], p[1])) + '</mark>';
+      fin = p[1];
+    });
+    return html + e(texte.slice(fin));
+  },
+
   // ── État d'une copie ───────────────────────────────────────────────────────
   _estRendue: function (c) { return c.statut === 'rendue' || c.statut === 'rendue_auto' || c.statut === 'verrouillee'; },
   _fichesDe: function (copieId) {
@@ -92,7 +118,9 @@ var DevoirCorrection = {
       if (!f.ia) return;
       if (f.ia.confiance < 0.6) signalements.push('confiance basse');
       (f.ia.alertes || []).forEach(function (a) { signalements.push(C.LIBELLES_ALERTE[a] || a); });
-      if ((f.ia.ecarts || []).length) signalements.push('note recalculée');
+      if (f.ia.incertains) signalements.push('IA pas sûre');
+      if ((f.ia.ecarts || []).some(C._ecartCitation)) signalements.push('citation à vérifier');
+      if ((f.ia.ecarts || []).some(function (x) { return !C._ecartCitation(x); })) signalements.push('note recalculée');
     });
     signalements = signalements.filter(function (s, i) { return signalements.indexOf(s) === i; });
     if (!C._estRendue(c)) return { code: 'en_cours', libelle: 'copie en cours', classe: 'info', prioritaire: false, signalements: [], note: null };
@@ -254,6 +282,9 @@ var DevoirCorrection = {
     var reponses = ((copie.reponses || {})[a.id] || {}).blocs || {};
     var corrige = pa.corrige || {};
     var marque = C.LIBELLES_ATTRIBUTION[a.statut];
+    // Passages cités par l'IA : surlignés dans les blocs longs (rédaction).
+    var extraits = fiche && fiche.ia ? (fiche.ia.criteres || []).map(function (c) { return c.extrait_reponse; }) : [];
+    var elements = corrige.elements || [];
     var gauche =
       '<div class="dc-colonne">' +
         '<div class="dc-colonne-titre">Réponse de l\'étudiant</div>' +
@@ -261,22 +292,30 @@ var DevoirCorrection = {
         '<div class="dv-enonce">' + a.enonce + '</div>' +
         (a.blocs || []).map(function (b) {
           var texte = reponses[b.id] || '';
-          return '<div class="dc-bloc"><div class="dc-bloc-label">' + e(b.label) + '</div>' +
-            '<div class="dc-bloc-texte' + (texte.trim() ? '' : ' dc-bloc-texte--vide') + '">' + (texte.trim() ? e(texte) : 'bloc laissé vide') + '</div></div>';
+          return '<div class="dc-bloc' + (b.long ? ' dc-bloc--long' : '') + '"><div class="dc-bloc-label">' + e(b.label) + '</div>' +
+            '<div class="dc-bloc-texte' + (texte.trim() ? '' : ' dc-bloc-texte--vide') + '">' +
+              (texte.trim() ? (b.long ? C._surligner(texte, extraits) : e(texte)) : 'bloc laissé vide') + '</div></div>';
         }).join('') +
+        (extraits.some(function (x) { return x; }) && (a.blocs || []).some(function (b) { return b.long; })
+          ? '<p class="dv-aide dc-legende"><mark class="dc-cite">Surligné</mark> : passages que l\'IA cite pour justifier sa notation.</p>' : '') +
         '<details class="dv-details dc-corrige"' + (fiche && fiche.statut !== 'validee' ? ' open' : '') + '><summary>Corrigé de référence (variante de cet étudiant)</summary>' +
-          '<div class="dv-resultat">Résultat attendu : <strong>' + e(corrige.resultat) + ' = ' + e(corrige.valeur_affichee) + (corrige.unite ? ' ' + e(corrige.unite) : '') + '</strong></div>' +
+          (corrige.resultat ? '<div class="dv-resultat">Résultat attendu : <strong>' + e(corrige.resultat) + ' = ' + e(corrige.valeur_affichee) + (corrige.unite ? ' ' + e(corrige.unite) : '') + '</strong></div>' : '') +
           ((corrige.etapes || []).length ? '<ol class="dv-etapes">' + corrige.etapes.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ol>' : '') +
+          (elements.length ? '<div class="dc-sous-titre">Éléments de réponse attendus</div><ul class="dc-liste dc-elements">' + elements.map(function (el) {
+            // Texte du corrigé (rédigé par l'enseignant, formules comprises) : non échappé, comme les étapes.
+            return '<li><strong>' + e(el.label) + '</strong> <span class="dv-carte-meta">(' + e(C._fr(el.points)) + ' pts)</span> — ' + el.attendu + '</li>';
+          }).join('') + '</ul>' : '') +
+          (corrige.reponse_modele ? '<div class="dc-sous-titre">Réponse rédigée du corrigé</div><p class="dc-modele">' + corrige.reponse_modele + '</p>' : '') +
         '</details>' +
       '</div>';
     return '<article class="dc-exercice' + (marque ? ' dc-exercice--ecarte' : '') + '" data-att="' + e(a.id) + '">' +
       '<div class="dc-exercice-titre">Exercice ' + e(a.rang) + ' — ' + e(a.titre) +
         (marque ? ' <span class="dv-etat dv-etat--avert">' + e(marque) + (a.motif ? ' : ' + e(a.motif) : '') + '</span>' : '') + '</div>' +
-      '<div class="dc-grille">' + gauche + '<div class="dc-colonne">' + C._htmlFiche(a, fiche) + '</div></div>' +
+      '<div class="dc-grille">' + gauche + '<div class="dc-colonne">' + C._htmlFiche(a, fiche, pa) + '</div></div>' +
     '</article>';
   },
 
-  _htmlFiche: function (a, fiche) {
+  _htmlFiche: function (a, fiche, pa) {
     var C = DevoirCorrection;
     var e = C._esc;
     if (!fiche) return '<div class="dc-colonne-titre">Correction</div><p class="dv-vide">Pas encore de fiche pour cet exercice.</p>';
@@ -290,19 +329,31 @@ var DevoirCorrection = {
       var signaux = [];
       if (ia.confiance < 0.6) signaux.push('confiance basse');
       (ia.alertes || []).forEach(function (x) { signaux.push(C.LIBELLES_ALERTE[x] || x); });
+      if (ia.incertains) signaux.push(ia.incertains + ' critère' + (ia.incertains > 1 ? 's' : '') + ' où l\'IA n\'est pas sûre');
+      var titreEcarts = (ia.ecarts || []).every(C._ecartCitation) ? 'Citations à vérifier' : 'Note recalculée par le serveur';
       entete = '<div class="dc-ia-meta">Proposition de l\'IA : <strong>' + e(C._fr(ia.note_proposee)) + ' / ' + e(C._fr(ia.note_max)) + '</strong> · confiance ' + Math.round(ia.confiance * 100) + ' %' +
         (signaux.length ? ' · ' + signaux.map(function (s) { return '<span class="dv-etat dv-etat--avert">' + e(s) + '</span>'; }).join(' ') : '') +
         '<span class="dv-carte-meta"> · ' + e(ia.modele) + ', prompt ' + e(ia.version_prompt) + '</span></div>' +
-        ((ia.ecarts || []).length ? '<div class="dv-msg dv-msg--avert"><strong>Note recalculée par le serveur</strong><ul>' + ia.ecarts.map(function (x) { return '<li>' + e(x) + '</li>'; }).join('') + '</ul></div>' : '');
+        ((ia.ecarts || []).length ? '<div class="dv-msg dv-msg--avert"><strong>' + titreEcarts + '</strong><ul>' + ia.ecarts.map(function (x) { return '<li>' + e(x) + '</li>'; }).join('') + '</ul></div>' : '');
     } else {
       entete = '<div class="dc-ia-meta">Correction à la main (sans proposition de l\'IA).</div>';
     }
+    // Texte attendu de chaque élément (question rédigée), pris dans la partie privée de la copie.
+    var attendus = {};
+    (((pa || {}).bareme) || []).forEach(function (b) { if (b.nature === 'element') attendus[b.id] = b.attendu; });
     var criteres = fiche.finale.criteres.map(function (c) {
       var p = ia ? ia.criteres.find(function (x) { return x.critere_id === c.critere_id; }) : null;
-      return '<div class="dc-critere">' +
-        '<label class="dc-critere-label" for="dc-' + e(fiche.id) + '-' + e(c.critere_id) + '">' + e(c.label) + '</label>' +
+      var element = c.nature === 'element' || attendus[c.critere_id] !== undefined;
+      return '<div class="dc-critere' + (element ? ' dc-critere--element' : '') + (p && p.incertain ? ' dc-critere--incertain' : '') + '" data-critere="' + e(c.critere_id) + '">' +
+        '<label class="dc-critere-label" for="dc-' + e(fiche.id) + '-' + e(c.critere_id) + '">' + (element ? '<span class="dc-puce-element">Élément attendu</span> ' : '') + e(c.label) + '</label>' +
         '<span class="dc-critere-points"><input class="dv-input dc-points" id="dc-' + e(fiche.id) + '-' + e(c.critere_id) + '" type="number" min="0" max="' + e(c.points_max) + '" step="0.5" value="' + e(c.points_obtenus) + '" data-critere="' + e(c.critere_id) + '" oninput="DevoirCorrection._touche(\'' + e(fiche.id) + '\')" /> / ' + e(c.points_max) + '</span>' +
-        (p ? '<span class="dc-critere-ia">IA : ' + e(C._fr(p.points_obtenus)) + ' (' + e(p.statut) + ') — ' + e(p.justification) + '</span>' : '') +
+        // Texte du corrigé : non échappé (HTML et formules de l'enseignant), comme les étapes.
+        (attendus[c.critere_id] ? '<span class="dc-critere-attendu">Attendu : ' + attendus[c.critere_id] + '</span>' : '') +
+        (p ? '<span class="dc-critere-ia">IA : ' + e(C._fr(p.points_obtenus)) + ' (' + e(p.statut) + ')' +
+          (p.incertain ? ' <span class="dv-etat dv-etat--avert dc-incertain">pas sûre</span>' : '') + ' — ' + e(p.justification) +
+          (p.extrait_reponse ? '<span class="dc-citation">Passage cité : « ' + e(p.extrait_reponse) + ' »</span>'
+            : (element ? '<span class="dc-citation dc-citation--vide">Aucun passage de la copie cité pour cet élément.</span>' : '')) +
+          '</span>' : '') +
       '</div>';
     }).join('');
     var etapes = ia && (ia.etapes || []).length ? '<div class="dc-sous-titre">Étapes repérées par l\'IA</div><ul class="dc-liste">' + ia.etapes.map(function (x) {

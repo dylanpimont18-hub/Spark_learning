@@ -110,6 +110,19 @@ var DevoirStore = {
     return snap.docs.map(this._avecId);
   },
 
+  // ── Suivi dans le temps (devoirSuivi.js) : seulement ce que l'enseignant a validé ──
+  // Fiches de correction validées, toutes sessions confondues.
+  listFichesValidees: async function () {
+    var snap = await this._db().collection('devoir_corrections').where('statut', '==', 'validee').get();
+    return snap.docs.map(this._avecId);
+  },
+
+  // Parties privées des copies dont la correction est validée (note finale sur 20).
+  listCopiesValidees: async function () {
+    var snap = await this._db().collection('devoir_copies_prive').where('correction.statut', '==', 'validee').get();
+    return snap.docs.map(this._avecId);
+  },
+
   // Partie privée d'une copie : valeurs tirées, corrigé calculé, barème, historique de brouillon.
   lirePrive: async function (copieId) {
     var d = await this._db().collection('devoir_copies_prive').doc(copieId).get();
