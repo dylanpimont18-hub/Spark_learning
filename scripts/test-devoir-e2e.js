@@ -71,7 +71,46 @@ async function nouvelEtudiant(navigateur) {
   const page = await contexte.newPage();
   await page.setViewport({ width: 1100, height: 850 });
   page.on('pageerror', (e) => console.error('    [erreur page étudiant] ' + e.message));
+  await premierPlan(page, true);
   return { contexte, page };
+}
+
+// En classe, chaque étudiant a son poste, et sa page est au premier plan. Ici les 11 pages
+// partagent un seul navigateur : on demande à Chrome de considérer chacune comme active, sauf
+// pendant une sortie de page volontaire (quitterPage).
+async function premierPlan(page, actif) {
+  const cdp = await page.createCDPSession();
+  await cdp.send('Emulation.setFocusEmulationEnabled', { enabled: actif });
+  await cdp.detach();
+}
+
+// L'étudiant ouvre un autre onglet pendant « ms » millisecondes, puis revient à sa copie.
+async function quitterPage(etu, ms) {
+  await premierPlan(etu.page, false);
+  const autre = await etu.contexte.newPage();
+  await autre.goto('about:blank');
+  await autre.bringToFront();
+  const masquee = await etu.page.evaluate(() => document.hidden || !document.hasFocus());
+  assert.ok(masquee, 'la page de l\'épreuve doit avoir perdu le premier plan');
+  await E.attendre(ms);
+  await etu.page.bringToFront();
+  await premierPlan(etu.page, true);
+  await etu.page.evaluate(() => window.focus());
+  await autre.close();
+}
+
+async function copieDe(etudiantId, sessionId) {
+  const docs = (await E.chercher('devoir_copies', 'etudiant_id', etudiantId)).docs.filter((c) => c.session_id === sessionId);
+  return docs[0];
+}
+
+async function attendreCopie(etudiantId, sessionId, condition, quoi) {
+  for (let i = 0; i < 60; i++) {
+    const c = await copieDe(etudiantId, sessionId);
+    if (c && condition(c)) return c;
+    await E.attendre(250);
+  }
+  throw new Error('délai dépassé : ' + quoi);
 }
 
 async function saisirCode(page, code) {
@@ -235,6 +274,147 @@ async function suiteMvp2(test, ctx) {
   });
 }
 
+async function suiteMvp3(test, ctx) {
+  console.log('MVP-3 — anti-triche dans le navigateur (délai par défaut : 2 s)');
+  let alice, bilal, sessionId, titreAvant;
+  await test('nouvelle session, deux étudiants entrent', async () => {
+    await cliquerTexte(ctx.prof, '#dv-sessions button', '← Sessions');
+    ctx.code3 = await creerEtOuvrirSession(ctx.prof, 'Devoir anti-triche');
+    sessionId = (await E.lister('devoir_sessions')).docs.find((s) => s.titre === 'Devoir anti-triche')._id;
+    ctx.sessionId3 = sessionId;
+    alice = await entrer(ctx.navigateur, ctx.code3, ctx.classe.etudiants[0]);
+    bilal = await entrer(ctx.navigateur, ctx.code3, ctx.classe.etudiants[1]);
+    await composer(alice.page, { methode: 'Réponse avant la sortie', calcul: '6 x 7' });
+    titreAvant = await texte(alice.page, '.de-enonce .de-h2');
+  });
+  await test('un passage de moins de 2 s sur un autre onglet ne change rien, mais il est journalisé', async () => {
+    await quitterPage(alice, 500);
+    const c = await attendreCopie(alice.id, sessionId, (x) => x.absence_depuis === null, 'retour constaté');
+    const ev = await E.chercher('devoir_evenements', 'copie_id', c._id);
+    for (let i = 0; i < 40 && !(await E.chercher('devoir_evenements', 'copie_id', c._id)).docs.some((e) => e.bref); i++) await E.attendre(250);
+    const breves = (await E.chercher('devoir_evenements', 'copie_id', c._id)).docs.filter((e) => e.bref);
+    assert.strictEqual(breves.length, 1, 'une absence brève journalisée (' + ev.docs.map((e) => e.type).join() + ')');
+    assert.ok(breves[0].duree_absence_ms < 2000, 'durée ' + breves[0].duree_absence_ms);
+    assert.strictEqual((await copieDe(alice.id, sessionId)).changements_utilises, 0);
+    assert.strictEqual(await texte(alice.page, '.de-enonce .de-h2'), titreAvant);
+    assert.strictEqual(await alice.page.$eval('.de-champ[data-bloc="methode"]', (t) => t.value), 'Réponse avant la sortie');
+  });
+  await test('un changement d\'onglet de plus de 2 s remplace l\'exercice en cours', async () => {
+    await quitterPage(alice, 2600);
+    const c = await attendreCopie(alice.id, sessionId, (x) => x.changements_utilises === 1, 'incident compté');
+    const invalide = c.attributions.find((a) => a.statut === 'invalidee');
+    const remplacant = c.attributions.find((a) => a.remplace === invalide.id);
+    assert.ok(invalide && remplacant && remplacant.statut === 'active');
+    assert.strictEqual(c.reponses[invalide.id].blocs.methode, 'Réponse avant la sortie', 'réponses archivées');
+    const incident = (await E.chercher('devoir_evenements', 'copie_id', c._id)).docs.find((e) => e.incident);
+    assert.ok(incident.duree_absence_ms >= 2000 && incident.effet === 'remplacement', JSON.stringify(incident));
+    // À l'écran : message clair et sans accusation, nouvel énoncé, blocs vides.
+    await alice.page.waitForSelector('.de-message', { timeout: ATTENTE });
+    const message = await texte(alice.page, '.de-message');
+    assert.ok(/remplacé par un nouvel exercice/.test(message) && !/trich|fraud/i.test(message), message);
+    await alice.page.waitForFunction((t) => document.querySelector('.de-enonce .de-h2').textContent.trim() !== t, { timeout: ATTENTE }, titreAvant);
+    assert.strictEqual(await alice.page.$eval('.de-champ[data-bloc="methode"]', (t) => t.value), '');
+    assert.strictEqual(await alice.page.$$eval('.de-onglet', (l) => l.length), 3, 'toujours 3 exercices');
+    await capture(alice.page, 'mvp3-exercice-remplace');
+  });
+  await test('un collage est refusé et journalisé', async () => {
+    await remplir(bilal.page, 'methode', 'tapé au clavier');
+    // Vrai copier-coller au clavier : Ctrl+C dans un champ étranger à l'épreuve, Ctrl+V dans la réponse.
+    await bilal.page.evaluate(() => {
+      window.__collages = [];
+      document.addEventListener('paste', (ev) => window.__collages.push(ev.defaultPrevented), false);
+      const source = document.createElement('input');
+      source.id = 'source-test';
+      source.value = 'TEXTE COLLÉ DEPUIS AILLEURS';
+      document.body.appendChild(source);
+      source.focus();
+      source.select();
+    });
+    await bilal.page.keyboard.down('Control');
+    await bilal.page.keyboard.press('KeyC');
+    await bilal.page.keyboard.up('Control');
+    await bilal.page.$eval('.de-champ[data-bloc="methode"]', (t) => { t.focus(); t.setSelectionRange(t.value.length, t.value.length); });
+    await bilal.page.keyboard.down('Control');
+    await bilal.page.keyboard.press('KeyV');
+    await bilal.page.keyboard.up('Control');
+    await E.attendre(300);
+    let reel = (await bilal.page.evaluate(() => window.__collages)).length > 0;
+    if (!reel) {
+      // Navigateur sans presse-papiers pilotable : même geste par un événement « paste » construit.
+      await bilal.page.$eval('.de-champ[data-bloc="methode"]', (t) => {
+        const dt = new DataTransfer();
+        dt.setData('text/plain', 'TEXTE COLLÉ DEPUIS AILLEURS');
+        t.dispatchEvent(new ClipboardEvent('paste', { clipboardData: dt, bubbles: true, cancelable: true }));
+      });
+    }
+    console.log('        (collage ' + (reel ? 'réel, Ctrl+V' : 'simulé par événement') + ')');
+    assert.deepStrictEqual(await bilal.page.evaluate(() => window.__collages), [true], 'le collage a été intercepté et annulé');
+    assert.strictEqual(await bilal.page.$eval('.de-champ[data-bloc="methode"]', (t) => t.value), 'tapé au clavier', 'rien n\'a été inséré');
+    assert.ok(/collage est désactivé/.test(await texte(bilal.page, '#de-bandeau')));
+    // Glisser-déposer : même refus.
+    await bilal.page.$eval('.de-champ[data-bloc="calcul"]', (t) => {
+      const dt = new DataTransfer();
+      dt.setData('text/plain', 'TEXTE DÉPOSÉ');
+      window.__depot = !t.dispatchEvent(new DragEvent('drop', { dataTransfer: dt, bubbles: true, cancelable: true }));
+    });
+    await E.attendre(500);
+    const c = await attendreCopie(bilal.id, sessionId, (x) => x.collages_bloques === 1, 'collage compté');
+    const ev = (await E.chercher('devoir_evenements', 'copie_id', c._id)).docs.filter((e) => e.type === 'paste_blocked');
+    assert.strictEqual(ev.length, 1);
+    assert.strictEqual(ev[0].detail, 'bloc « methode »');
+    assert.strictEqual(await bilal.page.evaluate(() => window.__depot), true, 'dépôt annulé');
+    assert.strictEqual(await bilal.page.$eval('.de-champ[data-bloc="calcul"]', (t) => t.value), '');
+    assert.strictEqual(c.changements_utilises, 0);
+  });
+  await test('le tableau de bord affiche les incidents et le collage bloqué', async () => {
+    await ctx.prof.waitForFunction(() => {
+      const lignes = Array.from(document.querySelectorAll('.ds-table tbody tr'));
+      const a = lignes.find((r) => r.cells[0].textContent.trim() === 'Alice M.');
+      const b = lignes.find((r) => r.cells[0].textContent.trim() === 'Bilal K.');
+      return a && b && /1 sortie de page/.test(a.cells[5].textContent) && /1 brève/.test(a.cells[5].textContent) && /1 collage bloqué/.test(b.cells[5].textContent);
+    }, { timeout: ATTENTE });
+    await ctx.prof.evaluate(() => { document.querySelector('.ds-journal').open = true; });
+    const journal = await texte(ctx.prof, '.ds-journal');
+    assert.ok(/onglet masqué|fenêtre inactive/.test(journal) && /incident n° 1 : exercice remplacé/.test(journal) && /collage bloqué/.test(journal), journal.slice(0, 400));
+    await capture(ctx.prof, 'mvp3-tableau-de-bord');
+  });
+  await test('l\'enseignant annule l\'incident : l\'étudiant retrouve son exercice et ses réponses', async () => {
+    await cliquerTexte(ctx.prof, '.ds-table button', 'Annuler le dernier incident');
+    const c = await attendreCopie(alice.id, sessionId, (x) => x.changements_utilises === 0, 'incident annulé');
+    assert.strictEqual(c.attributions.filter((a) => a.statut === 'remplacement_annule').length, 1);
+    await alice.page.waitForFunction((t) => document.querySelector('.de-enonce .de-h2').textContent.trim() === t, { timeout: ATTENTE }, titreAvant);
+    assert.strictEqual(await alice.page.$eval('.de-champ[data-bloc="methode"]', (t) => t.value), 'Réponse avant la sortie');
+    assert.ok(/annulé le remplacement/.test(await texte(alice.page, '.de-message')));
+  });
+  await test('3 sorties de plus de 2 s : 2 remplacements, puis copie verrouillée ; l\'enseignant déverrouille', async () => {
+    for (let n = 1; n <= 3; n++) {
+      await quitterPage(alice, 2400);
+      await attendreCopie(alice.id, sessionId, (x) => x.changements_utilises === n, 'incident n° ' + n);
+    }
+    const c = await copieDe(alice.id, sessionId);
+    assert.strictEqual(c.statut, 'verrouillee');
+    assert.strictEqual(c.attributions.filter((a) => a.statut === 'invalidee').length, 2, 'deux remplacements au plus');
+    await alice.page.waitForFunction(() => { const t = document.querySelector('.de-titre'); return t && t.textContent === 'Copie en attente'; }, { timeout: ATTENTE });
+    assert.ok(/Levez la main/.test(await texte(alice.page, '.de-info')));
+    await capture(alice.page, 'mvp3-copie-en-attente');
+    await cliquerTexte(ctx.prof, '.ds-table button', 'Déverrouiller');
+    await alice.page.waitForSelector('.de-champ', { timeout: ATTENTE });
+    assert.strictEqual((await copieDe(alice.id, sessionId)).statut, 'en_cours');
+    await composer(alice.page, { resultat: '42' });
+  });
+  await test('rafraîchir la page n\'est pas compté comme une sortie', async () => {
+    const avant = (await copieDe(bilal.id, sessionId)).changements_utilises;
+    await bilal.page.reload({ waitUntil: 'networkidle2' });
+    await bilal.page.waitForSelector('.de-champ', { timeout: ATTENTE });
+    await E.attendre(1500);
+    const c = await copieDe(bilal.id, sessionId);
+    assert.strictEqual(c.changements_utilises, avant);
+    assert.strictEqual(c.absence_depuis, null);
+    await rendre(bilal.page);
+    await rendre(alice.page);
+  });
+}
+
 async function lancer() {
   const { test, etat } = E.cadre();
   await E.toutEffacer();
@@ -243,6 +423,7 @@ async function lancer() {
   const ctx = { navigateur, classe: semis.classe, exercices: semis.exercices, profCompte: semis.prof };
   try {
     await suiteMvp2(test, ctx);
+    await suiteMvp3(test, ctx);
   } finally {
     await navigateur.close();
   }

@@ -25,6 +25,10 @@ var DevoirSessions = {
     var ms = DevoirSessions._ms(ts);
     return ms ? new Date(ms).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '';
   },
+  _secondes: function (ms) {
+    if (!ms && ms !== 0) return '';
+    return ms < 60000 ? String(Math.round(ms / 100) / 10).replace('.', ',') + ' s' : DevoirSessions._duree(ms);
+  },
   _duree: function (ms) {
     var s = Math.max(0, Math.ceil(ms / 1000));
     return (s >= 3600 ? Math.floor(s / 3600) + ' h ' : '') + String(Math.floor((s % 3600) / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
@@ -257,7 +261,7 @@ var DevoirSessions = {
     var compte = { absent: 0, actif: 0, rendu: 0, verrouille: 0 };
     var lignes = (s.etudiants || []).map(function (etu) {
       var c = parEtudiant[etu.id];
-      if (!c) { compte.absent++; return '<tr class="ds-ligne ds-ligne--absent"><td>' + e(etu.nom) + '</td><td><span class="dv-etat dv-etat--info">absent</span></td><td colspan="4"></td></tr>'; }
+      if (!c) { compte.absent++; return '<tr class="ds-ligne ds-ligne--absent"><td>' + e(etu.nom) + '</td><td><span class="dv-etat dv-etat--info">absent</span></td><td colspan="5"></td></tr>'; }
       if (S._estActive(c)) compte.actif++; else if (c.statut === 'verrouillee') compte.verrouille++; else compte.rendu++;
       var visibles = (c.attributions || []).filter(function (a) { return a.statut === 'active' || a.statut === 'rendue'; }).sort(function (a, b) { return a.rang - b.rang; });
       var rang = visibles.findIndex(function (a) { return a.id === c.exercice_courant; });
@@ -270,7 +274,20 @@ var DevoirSessions = {
         remplis += (a.blocs || []).filter(function (b) { return (rep[b.id] || '').trim(); }).length;
       });
       var classeEtat = S._estActive(c) ? 'ok' : c.statut === 'verrouillee' ? 'ko' : 'info';
+      var incidents = S._evenements.filter(function (ev) { return ev.copie_id === c.id && ev.incident && !ev.annule; })
+        .sort(function (a, b) { return (b.numero || 0) - (a.numero || 0); });
+      var breves = S._evenements.filter(function (ev) { return ev.copie_id === c.id && ev.bref; }).length;
+      var cellule = [];
+      if (c.changements_utilises) cellule.push('<span class="dv-etat dv-etat--' + (c.changements_utilises > c.quota_remplacements ? 'ko' : 'avert') + '">' + c.changements_utilises + ' sortie' + (c.changements_utilises > 1 ? 's' : '') + ' de page</span>');
+      if (breves) cellule.push('<span class="dv-carte-meta">' + breves + ' brève' + (breves > 1 ? 's' : '') + '</span>');
+      if (c.collages_bloques) cellule.push('<span class="dv-etat dv-etat--avert">' + c.collages_bloques + ' collage' + (c.collages_bloques > 1 ? 's' : '') + ' bloqué' + (c.collages_bloques > 1 ? 's' : '') + '</span>');
+      if (c.absence_depuis && S._estActive(c)) cellule.push('<span class="dv-etat dv-etat--ko ds-absence" data-depuis="' + S._ms(c.absence_depuis) + '">hors de la page</span>');
+      if (incidents.length) {
+        cellule.push('<span class="dv-carte-meta">dernière : ' + e(S._heure(incidents[0].horodatage)) + ', ' + e(S._secondes(incidents[0].duree_absence_ms)) + '</span>');
+      }
       var actions = '';
+      if (incidents.length) actions += '<button class="dv-btn-secondaire" onclick="DevoirSessions._annulerIncident(\'' + e(incidents[0].id) + '\')" title="Faux positif : rétablit l\'exercice d\'origine et décrémente le compteur">Annuler le dernier incident</button>';
+      if (c.statut === 'verrouillee' && ouverte) actions += '<button class="ap-save-btn" onclick="DevoirSessions._deverrouiller(\'' + e(c.id) + '\')">Déverrouiller</button>';
       if (ouverte && c.uid) actions += '<button class="dv-btn-secondaire" onclick="DevoirSessions._liberer(\'' + e(c.id) + '\')" title="Permet à l\'étudiant de reprendre sa copie sur un autre poste">Libérer le nom</button>';
       if (!c.uid) actions += '<span class="dv-etat dv-etat--info">nom libéré</span>';
       return '<tr class="ds-ligne">' +
@@ -279,6 +296,7 @@ var DevoirSessions = {
         '<td>' + (courant && S._estActive(c) ? (rang + 1) + ' / ' + visibles.length + ' <span class="dv-carte-meta">' + e(courant.titre) + '</span>' : '—') + '</td>' +
         '<td>' + remplis + ' / ' + total + '</td>' +
         '<td class="ds-temps" data-fin="' + (S._estActive(c) ? S._ms(c.fin) : 0) + '">' + (S._estActive(c) ? '' : '—') + '</td>' +
+        '<td class="ds-incidents">' + (cellule.join(' ') || '—') + '</td>' +
         '<td class="dv-carte-actions">' + actions + '</td>' +
       '</tr>';
     }).join('');
@@ -294,7 +312,7 @@ var DevoirSessions = {
         '<button class="dv-btn-secondaire" onclick="DevoirSessions._prolonger()">Prolonger la durée…</button>' +
         '<button class="ap-reject-btn" onclick="DevoirSessions._fermer()">Fermer la session</button>' +
       '</div>' : '') +
-      '<table class="dv-table ds-table"><thead><tr><th>Étudiant</th><th>État</th><th>Exercice en cours</th><th>Blocs remplis</th><th>Temps restant</th><th></th></tr></thead><tbody>' + lignes + '</tbody></table>' +
+      '<table class="dv-table ds-table"><thead><tr><th>Étudiant</th><th>État</th><th>Exercice en cours</th><th>Blocs remplis</th><th>Temps restant</th><th>Incidents</th><th></th></tr></thead><tbody>' + lignes + '</tbody></table>' +
       S._htmlJournal() +
     '</div>';
   },
@@ -306,10 +324,21 @@ var DevoirSessions = {
     if (!S._evenements.length) return '';
     var noms = {};
     ((S._session && S._session.etudiants) || []).forEach(function (x) { noms[x.id] = x.nom; });
-    var LIB = { join: 'entrée', reconnect: 'reconnexion', submit: 'copie rendue', timeout: 'rendu automatique', nom_libere: 'nom libéré' };
-    var lignes = S._evenements.slice(0, 60).map(function (ev) {
-      return '<li><span class="ds-journal-heure">' + e(S._heure(ev.horodatage)) + '</span> <strong>' + e(noms[ev.etudiant_id] || ev.etudiant_id) + '</strong> — ' +
-        e(LIB[ev.type] || ev.type) + (ev.detail ? ' <span class="dv-carte-meta">(' + e(ev.detail) + ')</span>' : '') + '</li>';
+    var LIB = {
+      join: 'entrée', reconnect: 'reconnexion', submit: 'copie rendue', timeout: 'rendu automatique', nom_libere: 'nom libéré',
+      blur: 'fenêtre inactive', visibility_hidden: 'onglet masqué', paste_blocked: 'collage bloqué', drop_blocked: 'glisser-déposer bloqué',
+      incident_annule: 'incident annulé', copie_deverrouillee: 'copie déverrouillée', remplacement_manuel: 'exercice remplacé par l\'enseignant'
+    };
+    var EFFET = { remplacement: 'exercice remplacé', verrouillage: 'copie verrouillée', sans_remplacement: 'incident compté, plus d\'exercice de remplacement' };
+    var lignes = S._evenements.slice(0, 80).map(function (ev) {
+      var precisions = [];
+      if (ev.duree_absence_ms) precisions.push('absence de ' + S._secondes(ev.duree_absence_ms));
+      if (ev.bref) precisions.push('brève, sans conséquence');
+      if (ev.incident) precisions.push('incident n° ' + ev.numero + ' : ' + (EFFET[ev.effet] || ev.effet));
+      if (ev.detail) precisions.push(ev.detail);
+      return '<li' + (ev.incident && !ev.annule ? ' class="ds-journal-incident"' : '') + '><span class="ds-journal-heure">' + e(S._heure(ev.horodatage)) + '</span> <strong>' + e(noms[ev.etudiant_id] || ev.etudiant_id) + '</strong> — ' +
+        e(LIB[ev.type] || ev.type) + (precisions.length ? ' <span class="dv-carte-meta">(' + e(precisions.join(' ; ')) + ')</span>' : '') +
+        (ev.annule ? ' <span class="dv-etat dv-etat--info">annulé</span>' : '') + '</li>';
     }).join('');
     return '<details class="ds-journal"><summary>Journal de la session (' + S._evenements.length + ' événement' + (S._evenements.length > 1 ? 's' : '') + ')</summary><ul>' + lignes + '</ul></details>';
   },
@@ -327,6 +356,9 @@ var DevoirSessions = {
       td.textContent = S._duree(fin - maintenant);
       td.classList.toggle('ds-temps--fin', fin - maintenant < 5 * 60 * 1000);
       if (fin - maintenant < -8000) expiree = true;
+    });
+    Array.prototype.forEach.call(S._zone.querySelectorAll('.ds-absence'), function (el) {
+      el.textContent = 'hors de la page depuis ' + S._duree(maintenant - Number(el.getAttribute('data-depuis')));
     });
     if (expiree && maintenant - S._dernierSync > 10000 && S._session) {
       S._dernierSync = maintenant;
@@ -347,6 +379,17 @@ var DevoirSessions = {
     var actives = DevoirSessions._copies.filter(DevoirSessions._estActive).length;
     if (!confirm('Fermer la session ?' + (actives ? '\n\n' + actives + ' copie(s) encore en cours seront rendues automatiquement, en l\'état.' : '') + '\n\nPlus aucun étudiant ne pourra entrer.')) return;
     await DevoirSessions._action('updateSession', { session_id: DevoirSessions._session.id, action: 'fermer' }, 'Session fermée.');
+  },
+
+  _annulerIncident: async function (evenementId) {
+    if (!confirm('Annuler cet incident (faux positif) ?\n\nL\'exercice d\'origine est rétabli avec les réponses de l\'étudiant, l\'exercice de remplacement est conservé dans la copie sans être noté, et le compteur de sorties est décrémenté.')) return;
+    var r = await DevoirSessions._action('cancelIncident', { evenement_id: evenementId });
+    if (r) DevoirSessions._toast('Incident annulé : ' + r.effet + '.', 'success');
+  },
+
+  _deverrouiller: async function (copieId) {
+    if (!confirm('Déverrouiller cette copie ? L\'étudiant pourra continuer. Le compteur d\'incidents est conservé : une nouvelle sortie de page la verrouillera de nouveau.')) return;
+    await DevoirSessions._action('unlockCopy', { copie_id: copieId }, 'Copie déverrouillée.');
   },
 
   _liberer: async function (copieId) {

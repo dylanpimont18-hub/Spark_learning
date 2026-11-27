@@ -275,11 +275,234 @@ async function suiteMvp2(test, prof, exercices, classe) {
   });
 }
 
+// ── MVP-3 : anti-triche ──────────────────────────────────────────────────────
+// Délai de perte de focus ramené à 500 ms dans ces sessions pour garder des tests rapides ;
+// la valeur par défaut (2 s) est vérifiée dans la suite de bout en bout.
+const DELAI = 500;
+
+async function sortir(etu, ms, source) {
+  const c = await copie(etu.copieId);
+  const att = c.exercice_courant;
+  const depart = await E.appeler('logEvent', { copie_id: etu.copieId, type: 'focus_perdu', source: source || 'visibility_hidden', attribution_id: att }, etu.jeton);
+  assert.ok(depart.ok, 'focus_perdu : ' + depart.message);
+  await E.attendre(ms);
+  const retour = await E.appeler('logEvent', { copie_id: etu.copieId, type: 'focus_revenu', source: source || 'visibility_hidden', attribution_id: att, duree_client_ms: 0 }, etu.jeton);
+  assert.ok(retour.ok, 'focus_revenu : ' + retour.message);
+  return retour.resultat;
+}
+
+function actives(c) { return c.attributions.filter((a) => a.statut === 'active'); }
+
+async function suiteMvp3(test, prof, exercices) {
+  console.log('MVP-3 — perte de focus');
+  const s = await ouvrirSession(prof, exercices, { delai_perte_focus_ms: DELAI });
+  const alice = await entrer(s.code, 'etu-01');
+  let avant;
+  await test('retour avant le délai : aucun incident, mais l\'absence brève est journalisée', async () => {
+    avant = await copie(alice.copieId);
+    await E.appeler('saveDraft', { copie_id: alice.copieId, attribution_id: avant.attributions[0].id, blocs: { methode: 'ma réponse' } }, alice.jeton);
+    const r = await sortir(alice, 50);
+    assert.deepStrictEqual([r.incident, r.bref], [false, true]);
+    const c = await copie(alice.copieId);
+    assert.strictEqual(c.changements_utilises, 0);
+    assert.strictEqual(actives(c).length, 3);
+    assert.strictEqual(c.absence_depuis, null);
+    const ev = (await evenements(alice.copieId)).filter((e) => e.type === 'visibility_hidden');
+    assert.strictEqual(ev.length, 1);
+    assert.deepStrictEqual([ev[0].bref, ev[0].incident], [true, false]);
+    assert.ok(ev[0].duree_absence_ms >= 50 && ev[0].duree_absence_ms < DELAI, 'durée mesurée par le serveur : ' + ev[0].duree_absence_ms);
+  });
+  await test('absence au-delà du délai : l\'exercice en cours est invalidé et remplacé', async () => {
+    const r = await sortir(alice, DELAI + 200);
+    assert.deepStrictEqual([r.incident, r.effet, r.numero], [true, 'remplacement', 1]);
+    const c = await copie(alice.copieId);
+    const p = await prive(alice.copieId);
+    const invalide = c.attributions.find((a) => a.id === avant.attributions[0].id);
+    const remplacant = c.attributions.find((a) => a.remplace === invalide.id);
+    assert.strictEqual(invalide.statut, 'invalidee');
+    assert.ok(remplacant && remplacant.statut === 'active' && remplacant.rang === invalide.rang, 'remplaçant actif au même rang');
+    assert.strictEqual(c.attributions.length, 4);
+    assert.strictEqual(c.changements_utilises, 1);
+    assert.strictEqual(c.exercice_courant, remplacant.id);
+    assert.ok(/remplacé par un nouvel exercice/.test(c.message.texte) && /1 remplacement possible/.test(c.message.texte), c.message.texte);
+    assert.ok(!/trich|fraud|sanction/i.test(c.message.texte), 'message sans accusation');
+    const dejaLa = avant.attributions.map((a) => p.attributions[a.id].exercice_id);
+    assert.ok(dejaLa.indexOf(p.attributions[remplacant.id].exercice_id) === -1, 'exercice non encore attribué à cet étudiant');
+    assert.ok(typeof p.attributions[remplacant.id].corrige.valeur === 'number', 'corrigé du remplaçant calculé côté serveur');
+    assert.strictEqual(c.reponses[invalide.id].blocs.methode, 'ma réponse', 'réponses de l\'exercice invalidé archivées');
+    const ev = (await evenements(alice.copieId)).find((e) => e.incident);
+    assert.deepStrictEqual([ev.effet, ev.attribution_id, ev.remplacement_id, ev.annule], ['remplacement', invalide.id, remplacant.id, false]);
+    assert.ok(ev.duree_absence_ms >= DELAI, 'durée ' + ev.duree_absence_ms);
+  });
+  await test('la copie de l\'étudiant n\'expose toujours ni corrigé ni barème après un remplacement', async () => {
+    const brut = JSON.stringify((await E.lire('devoir_copies/' + alice.copieId, alice.jeton)).donnees);
+    ['corrige', 'bareme', 'points', 'valeurs', 'exercice_id'].forEach((mot) => assert.ok(brut.indexOf('"' + mot) === -1, mot));
+    assert.strictEqual((await E.lire('devoir_copies_prive/' + alice.copieId, alice.jeton)).statut, 403);
+  });
+  await test('on ne peut plus écrire dans un exercice invalidé', async () => {
+    const r = await E.appeler('saveDraft', { copie_id: alice.copieId, attribution_id: avant.attributions[0].id, blocs: { methode: 'trop tard' } }, alice.jeton);
+    assert.strictEqual(r.resultat.enregistre, false);
+    assert.strictEqual((await copie(alice.copieId)).reponses[avant.attributions[0].id].blocs.methode, 'ma réponse');
+  });
+  await test('2e incident : nouveau remplacement ; 3e incident : copie verrouillée, plus de remplacement', async () => {
+    assert.deepStrictEqual((await sortir(alice, DELAI + 200, 'blur')).effet, 'remplacement');
+    let c = await copie(alice.copieId);
+    assert.strictEqual(c.changements_utilises, 2);
+    assert.strictEqual(c.attributions.length, 5);
+    assert.ok(/prochaine sortie/.test(c.message.texte));
+    const r3 = await sortir(alice, DELAI + 200);
+    assert.deepStrictEqual([r3.effet, r3.numero], ['verrouillage', 3]);
+    c = await copie(alice.copieId);
+    assert.strictEqual(c.statut, 'verrouillee');
+    assert.strictEqual(c.attributions.length, 5, 'pas de 3e remplacement');
+    assert.strictEqual(actives(c).length, 3);
+    const types = (await evenements(alice.copieId)).filter((e) => e.incident).map((e) => e.type).sort();
+    assert.deepStrictEqual(types, ['blur', 'visibility_hidden', 'visibility_hidden']);
+  });
+  await test('copie verrouillée : ni enregistrement ni rendu par l\'étudiant', async () => {
+    const c = await copie(alice.copieId);
+    const r = await E.appeler('saveDraft', { copie_id: alice.copieId, attribution_id: actives(c)[0].id, blocs: { methode: 'x' } }, alice.jeton);
+    assert.deepStrictEqual([r.resultat.enregistre, r.resultat.statut], [false, 'verrouillee']);
+    assert.strictEqual((await E.appeler('submitCopy', { copie_id: alice.copieId }, alice.jeton)).resultat.statut, 'verrouillee');
+    assert.strictEqual((await sortir(alice, DELAI + 200)).incident, false, 'plus d\'incident compté sur une copie verrouillée');
+  });
+  await test('l\'enseignant déverrouille la copie ; une nouvelle sortie la verrouille de nouveau', async () => {
+    assert.strictEqual((await E.appeler('unlockCopy', { copie_id: alice.copieId }, alice.jeton)).code, 'PERMISSION_DENIED');
+    assert.ok((await E.appeler('unlockCopy', { copie_id: alice.copieId }, prof.jeton)).ok);
+    let c = await copie(alice.copieId);
+    assert.strictEqual(c.statut, 'en_cours');
+    assert.ok((await E.appeler('saveDraft', { copie_id: alice.copieId, attribution_id: actives(c)[0].id, blocs: { methode: 'je continue' } }, alice.jeton)).resultat.enregistre);
+    assert.strictEqual((await sortir(alice, DELAI + 200)).effet, 'verrouillage');
+    assert.strictEqual((await E.appeler('unlockCopy', { copie_id: alice.copieId }, prof.jeton)).ok, true);
+  });
+
+  console.log('MVP-3 — annulation d\'un incident');
+  await test('l\'incident le plus récent s\'annule en premier ; le verrouillage annulé rouvre la copie', async () => {
+    const incidents = (await evenements(alice.copieId)).filter((e) => e.incident && !e.annule).sort((a, b) => a.numero - b.numero);
+    assert.deepStrictEqual(incidents.map((e) => e.numero), [1, 2, 3, 4]);
+    assert.strictEqual((await E.appeler('cancelIncident', { evenement_id: incidents[0]._id }, alice.jeton)).code, 'PERMISSION_DENIED');
+    assert.strictEqual((await E.appeler('cancelIncident', { evenement_id: incidents[0]._id }, prof.jeton)).code, 'FAILED_PRECONDITION');
+    await E.appeler('unlockCopy', { copie_id: alice.copieId }, prof.jeton).catch(() => {});
+    // On reverrouille pour vérifier que l'annulation du dernier incident rouvre bien la copie.
+    await E.majChamps('devoir_copies/' + alice.copieId, { statut: 'verrouillee' });
+    const r = await E.appeler('cancelIncident', { evenement_id: incidents[3]._id }, prof.jeton);
+    assert.ok(r.ok, r.message);
+    let c = await copie(alice.copieId);
+    assert.deepStrictEqual([c.statut, c.changements_utilises], ['en_cours', 3]);
+    assert.ok((await E.appeler('cancelIncident', { evenement_id: incidents[2]._id }, prof.jeton)).ok);
+    assert.strictEqual((await E.appeler('cancelIncident', { evenement_id: incidents[2]._id }, prof.jeton)).code, 'FAILED_PRECONDITION', 'déjà annulé');
+  });
+  await test('remplacement annulé : l\'exercice d\'origine redevient actif, le remplaçant est conservé non noté', async () => {
+    const incidents = (await evenements(alice.copieId)).filter((e) => e.incident && !e.annule).sort((a, b) => a.numero - b.numero);
+    assert.deepStrictEqual(incidents.map((e) => e.numero), [1, 2]);
+    assert.ok((await E.appeler('cancelIncident', { evenement_id: incidents[1]._id }, prof.jeton)).ok);
+    assert.ok((await E.appeler('cancelIncident', { evenement_id: incidents[0]._id }, prof.jeton)).ok);
+    const c = await copie(alice.copieId);
+    assert.strictEqual(c.changements_utilises, 0);
+    const origine = c.attributions.find((a) => a.id === avant.attributions[0].id);
+    assert.strictEqual(origine.statut, 'active');
+    assert.strictEqual(origine.motif, undefined);
+    assert.strictEqual(c.exercice_courant, origine.id);
+    assert.strictEqual(c.attributions.filter((a) => a.statut === 'remplacement_annule').length, 2);
+    assert.deepStrictEqual(actives(c).map((a) => a.id).sort(), avant.attributions.map((a) => a.id).sort(), 'retour aux 3 exercices du départ');
+    assert.strictEqual(c.reponses[origine.id].blocs.methode, 'ma réponse');
+    assert.ok(/retrouvez l'exercice précédent/.test(c.message.texte));
+    assert.ok((await evenements(alice.copieId)).filter((e) => e.type === 'incident_annule').length === 4);
+  });
+  await test('annulation après le rendu : l\'exercice invalidé est rétabli comme rendu', async () => {
+    const bilal = await entrer(s.code, 'etu-02');
+    const c0 = await copie(bilal.copieId);
+    await sortir(bilal, DELAI + 200);
+    await E.appeler('submitCopy', { copie_id: bilal.copieId }, bilal.jeton);
+    const incident = (await evenements(bilal.copieId)).find((e) => e.incident);
+    assert.ok((await E.appeler('cancelIncident', { evenement_id: incident._id }, prof.jeton)).ok);
+    const c = await copie(bilal.copieId);
+    assert.strictEqual(c.statut, 'rendue');
+    assert.strictEqual(c.attributions.find((a) => a.id === c0.attributions[0].id).statut, 'rendue');
+    assert.strictEqual(c.attributions.find((a) => a.remplace === c0.attributions[0].id).statut, 'remplacement_annule');
+  });
+
+  console.log('MVP-3 — collage, cas limites');
+  const chloe = await entrer(s.code, 'etu-03');
+  await test('un collage ou un glisser-déposer bloqué est journalisé et compté', async () => {
+    const att = (await copie(chloe.copieId)).attributions[0].id;
+    assert.ok((await E.appeler('logEvent', { copie_id: chloe.copieId, type: 'paste_blocked', attribution_id: att, bloc: 'calcul' }, chloe.jeton)).ok);
+    assert.ok((await E.appeler('logEvent', { copie_id: chloe.copieId, type: 'drop_blocked', attribution_id: att, bloc: 'methode' }, chloe.jeton)).ok);
+    assert.strictEqual((await copie(chloe.copieId)).collages_bloques, 2);
+    const ev = (await evenements(chloe.copieId)).filter((e) => /_blocked$/.test(e.type));
+    assert.deepStrictEqual(ev.map((e) => e.type).sort(), ['drop_blocked', 'paste_blocked']);
+    assert.ok(ev.every((e) => e.attribution_id === att && e.horodatage instanceof Date));
+    assert.strictEqual((await copie(chloe.copieId)).changements_utilises, 0, 'un collage ne remplace pas l\'exercice');
+  });
+  await test('refus : événement sur la copie d\'un autre, type inconnu, fonctions de l\'enseignant', async () => {
+    assert.strictEqual((await E.appeler('logEvent', { copie_id: chloe.copieId, type: 'paste_blocked' }, alice.jeton)).code, 'PERMISSION_DENIED');
+    assert.strictEqual((await E.appeler('logEvent', { copie_id: chloe.copieId, type: 'focus_revenu', duree_client_ms: 9000 }, alice.jeton)).code, 'PERMISSION_DENIED');
+    assert.strictEqual((await E.appeler('logEvent', { copie_id: chloe.copieId, type: 'submit' }, chloe.jeton)).code, 'INVALID_ARGUMENT');
+    assert.strictEqual((await E.appeler('replaceAssignment', { copie_id: chloe.copieId, attribution_id: 'x' }, chloe.jeton)).code, 'PERMISSION_DENIED');
+  });
+  await test('signal de départ perdu : la durée déclarée au retour suffit à déclencher l\'incident', async () => {
+    const r = await E.appeler('logEvent', { copie_id: chloe.copieId, type: 'focus_revenu', source: 'blur', duree_client_ms: 4000 }, chloe.jeton);
+    assert.deepStrictEqual([r.resultat.incident, r.resultat.effet], [true, 'remplacement']);
+    assert.strictEqual((await evenements(chloe.copieId)).find((e) => e.incident).duree_absence_ms, 4000);
+  });
+  await test('onglet quitté puis fermé : l\'absence est soldée à la reconnexion', async () => {
+    const dimitri = await entrer(s.code, 'etu-04');
+    await E.appeler('logEvent', { copie_id: dimitri.copieId, type: 'focus_perdu', source: 'visibility_hidden' }, dimitri.jeton);
+    assert.ok((await copie(dimitri.copieId)).absence_depuis instanceof Date, 'le tableau de bord voit l\'absence en cours');
+    await E.attendre(DELAI + 200);
+    await E.appeler('joinSession', { code: s.code, absence_client_ms: 61000 }, dimitri.jeton);
+    const c = await copie(dimitri.copieId);
+    assert.strictEqual(c.changements_utilises, 1);
+    assert.strictEqual(c.absence_depuis, null);
+    const ev = await evenements(dimitri.copieId);
+    assert.strictEqual(ev.find((e) => e.type === 'reconnect').duree_absence_ms, 61000);
+  });
+  await test('reconnexion simple (plantage, rafraîchissement) : aucun incident', async () => {
+    const emma = await entrer(s.code, 'etu-05');
+    await E.appeler('joinSession', { code: s.code, absence_client_ms: 30000 }, emma.jeton);
+    const c = await copie(emma.copieId);
+    assert.deepStrictEqual([c.changements_utilises, c.attributions.length], [0, 3]);
+  });
+  await test('l\'enseignant remplace un exercice à la main, sans toucher au compteur', async () => {
+    const farid = await entrer(s.code, 'etu-06');
+    const c0 = await copie(farid.copieId);
+    const r = await E.appeler('replaceAssignment', { copie_id: farid.copieId, attribution_id: c0.attributions[1].id }, prof.jeton);
+    assert.ok(r.ok, r.message);
+    const c = await copie(farid.copieId);
+    assert.strictEqual(c.changements_utilises, 0);
+    assert.strictEqual(c.attributions.find((a) => a.id === c0.attributions[1].id).statut, 'invalidee');
+    assert.strictEqual(c.attributions.find((a) => a.id === r.resultat.remplacement_id).rang, 2);
+  });
+  await test('sélection épuisée : un exercice déjà vu est réutilisé avec de nouvelles valeurs', async () => {
+    const petite = await ouvrirSession(prof, exercices.slice(0, 4), { delai_perte_focus_ms: DELAI });
+    const gaelle = await entrer(petite.code, 'etu-07');
+    assert.strictEqual((await sortir(gaelle, DELAI + 200)).effet, 'remplacement');   // prend le 4e exercice
+    const r = await sortir(gaelle, DELAI + 200);                                      // plus aucun inédit
+    assert.strictEqual(r.effet, 'remplacement');
+    const c = await copie(gaelle.copieId);
+    const p = await prive(gaelle.copieId);
+    const idsActifs = actives(c).map((a) => p.attributions[a.id].exercice_id);
+    assert.strictEqual(new Set(idsActifs).size, 3, 'jamais deux fois le même exercice parmi les exercices en cours');
+    await E.appeler('updateSession', { session_id: petite.sessionId, action: 'fermer' }, prof.jeton);
+  });
+  await test('fermeture : une copie verrouillée le reste, ses exercices sont figés', async () => {
+    const hugo = await entrer(s.code, 'etu-08');
+    for (let i = 0; i < 3; i++) await sortir(hugo, DELAI + 200);
+    assert.strictEqual((await copie(hugo.copieId)).statut, 'verrouillee');
+    await E.appeler('updateSession', { session_id: s.sessionId, action: 'fermer' }, prof.jeton);
+    const c = await copie(hugo.copieId);
+    assert.strictEqual(c.statut, 'verrouillee');
+    assert.strictEqual(actives(c).length, 0);
+    assert.strictEqual(c.attributions.filter((a) => a.statut === 'rendue').length, 3);
+  });
+}
+
 async function lancer() {
   const { test, etat } = E.cadre();
   await E.toutEffacer();
   const { prof, exercices, classe } = await E.semer();
   await suiteMvp2(test, prof, exercices, classe);
+  await suiteMvp3(test, prof, exercices);
   return etat;
 }
 

@@ -3,9 +3,13 @@
 // automatique, minuteur, rendu. Le navigateur n'est qu'un affichage : le temps, le tirage et
 // les statuts sont décidés par les Cloud Functions (functions/src/session.ts). Cette page ne
 // reçoit jamais ni corrigé, ni barème, ni note (voir firestore.rules).
+// Anti-triche (MVP-3) : la page signale au serveur ses sorties (onglet masqué, fenêtre inactive)
+// et les collages qu'elle bloque ; c'est le serveur qui mesure l'absence et applique la règle
+// (functions/src/antitriche.ts). Le blocage est dissuasif, pas absolu.
 var DevoirEleve = {
   CLE: 'spark_devoir_eleve',                 // { code, copie_id } : reprise après rafraîchissement
   CLE_BROUILLON: 'spark_devoir_brouillon_',  // + copie_id : saisie conservée hors ligne
+  CLE_VIE: 'spark_devoir_vie_',              // + copie_id : dernier signe de vie de la page (ms)
   AUTOSAVE_MS: 10000,
   ALERTE_FIN_MS: 5 * 60 * 1000,
   SYMBOLES: ['×', '÷', '²', '³', '√', '·', '≈', '≤', '≥', '→', '°', 'Δ', 'θ', 'λ', 'η', 'ρ', 'Φ', 'π', 'Ω', 'µ'],
@@ -28,6 +32,9 @@ var DevoirEleve = {
   _tic: null,
   _dernierEnvoi: 0,
   _champActif: null,
+  _absence: null,        // { debut, source, attribution } tant que la page n'est plus au premier plan
+  _dechargement: 0,      // heure du dernier beforeunload (rafraîchissement ou fermeture en cours)
+  _dernierCollage: 0,
 
   _esc: function (s) {
     return String(s === undefined || s === null ? '' : s)
@@ -84,7 +91,11 @@ var DevoirEleve = {
       D._reprendre();
     });
     window.addEventListener('online', function () { D._toutEnvoyer(); });
+    document.addEventListener('visibilitychange', D._surFocus);
+    window.addEventListener('blur', D._surFocus);
+    window.addEventListener('focus', D._surFocus);
     window.addEventListener('beforeunload', function (e) {
+      D._dechargement = Date.now();
       if (D._active(D._copie) && Object.keys(D._sales).length) { e.preventDefault(); e.returnValue = ''; }
     });
   },
@@ -100,7 +111,10 @@ var DevoirEleve = {
       D._ouvrirCopie(m.copie_id);
       // Fait constater la reconnexion au serveur (journal, temps écoulé) et recale l'horloge.
       if (D._active(doc.data()) && D._code) {
-        DevoirFirebase.appeler('joinSession', { code: D._code }).then(function (r) { D._caler(r.maintenant); }).catch(function () {});
+        // Temps écoulé depuis le dernier signe de vie de la page : consigné pour l'enseignant.
+        var vie = D._memoire(D.CLE_VIE + m.copie_id);
+        var silence = typeof vie === 'number' ? Math.max(0, Date.now() - vie) : 0;
+        DevoirFirebase.appeler('joinSession', { code: D._code, absence_client_ms: silence }).then(function (r) { D._caler(r.maintenant); }).catch(function () {});
       }
     }).catch(function () {
       // Copie reprise sur un autre poste, ou session d'un autre jour : retour à la saisie du code.
@@ -327,6 +341,15 @@ var DevoirEleve = {
       // « À chaque changement de bloc » (§5) : on enregistre en quittant un champ.
       t.addEventListener('blur', function () { D._envoyer(D._courant); });
       t.addEventListener('focus', function () { D._champActif = t; });
+      // Collage et glisser-déposer refusés dans les réponses (§5), et signalés.
+      t.addEventListener('paste', function (ev) { ev.preventDefault(); D._collageBloque('paste_blocked', t); });
+      t.addEventListener('drop', function (ev) { ev.preventDefault(); D._collageBloque('drop_blocked', t); });
+      t.addEventListener('beforeinput', function (ev) {
+        if (/^insertFrom(Paste|PasteAsQuotation|Drop|Yank)$/.test(ev.inputType || '')) {
+          ev.preventDefault();
+          D._collageBloque(ev.inputType === 'insertFromDrop' ? 'drop_blocked' : 'paste_blocked', t);
+        }
+      });
     });
     Array.prototype.forEach.call(D._racine.querySelectorAll('.de-symbole'), function (b) {
       b.addEventListener('mousedown', function (ev) { ev.preventDefault(); });   // garde le curseur dans le champ
@@ -376,6 +399,48 @@ var DevoirEleve = {
     D._ecranCopie();
     // Enregistre l'exercice quitté et signale au serveur l'exercice affiché (tableau de bord).
     D._envoyer(quitte, true);
+  },
+
+  // ── Anti-triche : sorties de page et collages ─────────────────────────────────
+  _signaler: function (type, donnees, essai) {
+    var D = DevoirEleve;
+    DevoirFirebase.appeler('logEvent', Object.assign({ copie_id: D._copieId, type: type }, donnees || {})).catch(function (err) {
+      var code = (err && err.code) || '';
+      // Coupure réseau au retour sur la page : le signalement repart, quelques fois.
+      if (type === 'focus_revenu' && !/permission-denied|invalid-argument/.test(code) && (essai || 0) < 5) {
+        setTimeout(function () { D._signaler(type, donnees, (essai || 0) + 1); }, 2000);
+      }
+    });
+  },
+
+  // Page masquée (autre onglet, fenêtre réduite) ou fenêtre inactive (autre application).
+  _surFocus: function () {
+    var D = DevoirEleve;
+    if (!D._active(D._copie) || D._renduEnCours) { D._absence = null; return; }
+    var absent = document.hidden || !document.hasFocus();
+    if (absent && !D._absence) {
+      // Un rafraîchissement ou une fermeture masque aussi la page : ce n'est pas une sortie.
+      if (Date.now() - D._dechargement < 3000) return;
+      D._absence = { debut: Date.now(), source: document.hidden ? 'visibility_hidden' : 'blur', attribution: D._courant };
+      D._envoyer(D._courant);   // la saisie en cours est archivée avant un éventuel remplacement
+      D._signaler('focus_perdu', { source: D._absence.source, attribution_id: D._absence.attribution });
+    } else if (!absent && D._absence) {
+      var a = D._absence;
+      D._absence = null;
+      D._signaler('focus_revenu', { source: a.source, attribution_id: a.attribution, duree_client_ms: Date.now() - a.debut });
+    }
+  },
+
+  _collageBloque: function (type, champ) {
+    var D = DevoirEleve;
+    if (Date.now() - D._dernierCollage < 400) return;   // paste et beforeinput décrivent le même geste
+    D._dernierCollage = Date.now();
+    D._bandeau('Le collage est désactivé pendant l\'épreuve : saisissez votre réponse au clavier.');
+    setTimeout(function () {
+      var b = document.getElementById('de-bandeau');
+      if (b && /^Le collage/.test(b.textContent)) D._bandeau('');
+    }, 5000);
+    D._signaler(type, { attribution_id: D._courant, bloc: champ.getAttribute('data-bloc') });
   },
 
   // ── Brouillon automatique ───────────────────────────────────────────────────
@@ -451,6 +516,7 @@ var DevoirEleve = {
       m.classList.toggle('de-minuteur--fin', reste <= D.ALERTE_FIN_MS);
     }
     if (reste <= 0) { D._rendre(true); return; }
+    D._memoire(D.CLE_VIE + D._copieId, Date.now());
     // Toutes les 10 secondes après modification ; plus souvent hors ligne, pour repartir vite.
     var delai = D._horsLigne ? 3000 : D.AUTOSAVE_MS;
     if (Object.keys(D._sales).length && Date.now() - D._dernierEnvoi >= delai) D._toutEnvoyer();

@@ -9,6 +9,7 @@ import {
   journaliser, refNouvelEvenement, donneesEvenement
 } from './commun';
 import { chargerExercices, choisirExercices, construireAttribution, validerExercice } from './tirage';
+import { traiterRetour } from './antitriche';
 
 const MESSAGE_CODE = 'Code invalide ou session fermée.';
 // Sans I, L, O, 0 ni 1 : un code se lit au tableau et se tape sans ambiguïté.
@@ -292,7 +293,13 @@ export const joinSession = onCall(OPTIONS, async (req) => {
         if (estActive(frais)) figer(tx, doc.ref, frais, 'rendue_auto', 'timeout', 'temps écoulé (constaté à la reconnexion)');
       });
     } else {
-      await journaliser({ session_id: sessionId, copie_id: doc.id, etudiant_id: c.etudiant_id, type: 'reconnect' });
+      // Onglet quitté puis fermé sans retour : l'absence encore ouverte est soldée maintenant.
+      await traiterRetour(doc.id, uid, { detail: 'constaté à la reconnexion' });
+      // Durée pendant laquelle la page n'a plus donné signe de vie, déclarée par le navigateur :
+      // consignée pour l'enseignant, sans conséquence automatique (un plantage est légitime, §5).
+      const silence = typeof d.absence_client_ms === 'number' && isFinite(d.absence_client_ms)
+        ? Math.min(Math.max(0, Math.round(d.absence_client_ms)), 4 * 3600 * 1000) : null;
+      await journaliser({ session_id: sessionId, copie_id: doc.id, etudiant_id: c.etudiant_id, type: 'reconnect', duree_absence_ms: silence });
     }
     return { etape: 'copie', copie_id: doc.id, session: resume, maintenant: Date.now() };
   }
