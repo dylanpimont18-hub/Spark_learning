@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "node copier-moteur.js && tsc",
-    "test": "node test/test-ia.js"
+    "test": "npm run build && node ../scripts/test-devoir-ia.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.14.0",

@@ -2,3 +2,4 @@
 // Toutes sont des fonctions appelables (onCall) en europe-west1.
 export { createSession, updateSession, syncSession, releaseName, joinSession, saveDraft, submitCopy } from './session';
 export { logEvent, replaceAssignment, cancelIncident, unlockCopy } from './antitriche';
+export { runPreCorrection, saveCorrection, validateCorrection } from './correction';

@@ -5008,3 +5008,30 @@ main { flex: 1; }
 .ds-incidents .dv-etat, .ds-incidents .dv-carte-meta { display: inline-block; margin: 0.1rem 0.2rem 0.1rem 0; }
 .ds-journal-incident { color: var(--fed); }
 .ds-table .dv-etat, .ds-table td:first-child { white-space: nowrap; }
+
+/* ══ Module devoir — relecture et validation des copies (js/devoir/devoirCorrection.js) ══ */
+.dc-note { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.dc-nav { display: flex; justify-content: space-between; align-items: center; gap: var(--space-md); flex-wrap: wrap; }
+.dc-nav-fleches { display: flex; align-items: center; gap: var(--space-sm); }
+.dc-nav-fleches .dv-aide { margin: 0; }
+.dc-exercice { background: var(--bg-card); border: 1px solid var(--border); border-left: 4px solid var(--fed); border-radius: var(--radius); padding: var(--space-md) var(--space-lg); display: flex; flex-direction: column; gap: var(--space-md); }
+.dc-exercice--ecarte { border-left-color: var(--border); }
+.dc-exercice-titre { font-weight: 700; font-size: 1.02rem; }
+.dc-grille { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-lg); align-items: start; }
+.dc-colonne { display: flex; flex-direction: column; gap: var(--space-sm); min-width: 0; }
+.dc-colonne-titre { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
+.dc-bloc-label { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); }
+.dc-bloc-texte { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.45rem 0.65rem; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 0.95rem; }
+.dc-bloc-texte--vide { color: var(--text-muted); font-style: italic; }
+.dc-corrige { border-top: 1px dashed var(--border); padding-top: var(--space-sm); margin-top: 0.2rem; }
+.dc-ia-meta { font-size: 0.88rem; }
+.dc-critere { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.15rem var(--space-sm); align-items: center; padding: 0.35rem 0; border-bottom: 1px solid var(--border); }
+.dc-critere-label { font-weight: 600; font-size: 0.9rem; }
+.dc-critere-points { white-space: nowrap; font-size: 0.9rem; }
+.dc-points { width: 5.2rem; display: inline-block; text-align: right; }
+.dc-critere-ia { grid-column: 1 / -1; font-size: 0.8rem; color: var(--text-muted); }
+.dc-total { text-align: right; font-size: 0.95rem; }
+.dc-sous-titre { font-size: 0.8rem; font-weight: 700; margin-top: 0.3rem; }
+.dc-liste { margin: 0; padding-left: 1.1rem; font-size: 0.85rem; display: flex; flex-direction: column; gap: 0.2rem; }
+.dc-validee { background: color-mix(in srgb, var(--success) 12%, var(--bg-card)); border: 1px solid var(--success); border-radius: var(--radius); padding: var(--space-md) var(--space-lg); font-size: 1.05rem; display: flex; flex-direction: column; gap: 0.2rem; }
+@media (max-width: 900px) { .dc-grille { grid-template-columns: 1fr; } }

@@ -4,7 +4,7 @@
 // (DevoirFirebase.appeler) : le serveur décide du code, du temps et des statuts.
 var DevoirSessions = {
   _zone: null,
-  _vue: 'liste',           // 'liste' | 'creation' | 'direct'
+  _vue: 'liste',           // 'liste' | 'creation' | 'direct' | 'correction' (DevoirCorrection)
   _sessions: [],
   _session: null,          // session affichée dans le tableau de bord
   _copies: [],
@@ -50,6 +50,7 @@ var DevoirSessions = {
   render: async function (zone) {
     DevoirSessions._zone = zone;
     if (DevoirSessions._vue === 'direct' && DevoirSessions._session) return DevoirSessions._ouvrirDirect(DevoirSessions._session.id);
+    if (DevoirSessions._vue === 'correction') DevoirSessions._vue = 'liste';
     zone.innerHTML = '<div class="ap-loading">Chargement...</div>';
     try {
       DevoirSessions._sessions = await DevoirStore.listSessions();
@@ -64,11 +65,13 @@ var DevoirSessions = {
     DevoirSessions._ecoutes.forEach(function (stop) { stop(); });
     DevoirSessions._ecoutes = [];
     if (DevoirSessions._tic) { clearInterval(DevoirSessions._tic); DevoirSessions._tic = null; }
+    DevoirCorrection.quitter();
   },
 
   _afficher: function () {
     var S = DevoirSessions;
     if (!S._zone || !document.body.contains(S._zone)) { S.quitter(); return; }
+    if (S._vue === 'correction') return;      // écran tenu par DevoirCorrection
     if (S._vue === 'creation') S._zone.innerHTML = S._htmlCreation();
     else if (S._vue === 'direct') { S._zone.innerHTML = S._htmlDirect(); S._majTemps(); }
     else S._zone.innerHTML = S._htmlListe();
@@ -97,6 +100,7 @@ var DevoirSessions = {
           '<button class="ap-reject-btn" onclick="DevoirSessions._supprimer(\'' + e(s.id) + '\')">Supprimer</button>';
       } else {
         actions = '<button class="ap-save-btn" onclick="DevoirSessions._ouvrirDirect(\'' + e(s.id) + '\')">' + (s.statut === 'ouverte' ? 'Tableau de bord' : 'Voir les copies') + '</button>';
+        actions += '<button class="ap-save-btn" onclick="DevoirSessions._corriger(\'' + e(s.id) + '\')">Corriger</button>';
         if (s.statut === 'terminee') actions += '<button class="dv-btn-secondaire" onclick="DevoirSessions._archiver(\'' + e(s.id) + '\')">Archiver</button>';
       }
       html +=
@@ -126,6 +130,17 @@ var DevoirSessions = {
 
   _archiver: async function (id) {
     if (await DevoirSessions._action('updateSession', { session_id: id, action: 'archiver' }, 'Session archivée.')) DevoirSessions._retourListe();
+  },
+
+  // Relecture et validation des copies (MVP-4) : js/devoir/devoirCorrection.js.
+  _corriger: function (id) {
+    var S = DevoirSessions;
+    var session = S._sessions.find(function (s) { return s.id === id; });
+    if (!session) return;
+    S.quitter();
+    S._vue = 'correction';
+    S._session = null;
+    DevoirCorrection.ouvrir(S._zone, session);
   },
 
   // ── Création ────────────────────────────────────────────────────────────────

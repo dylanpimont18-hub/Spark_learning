@@ -95,6 +95,20 @@ var DevoirStore = {
     }, surErreur);
   },
 
+  // Fiches de correction de la session (proposition de l'IA, correction de l'enseignant).
+  ecouterCorrections: function (sessionId, surDonnees, surErreur) {
+    var self = this;
+    return this._db().collection('devoir_corrections').where('session_id', '==', sessionId).onSnapshot(function (snap) {
+      surDonnees(snap.docs.map(self._avecId));
+    }, surErreur);
+  },
+
+  // Parties privées de toutes les copies d'une session (corrigés, barèmes, notes finales).
+  listPrives: async function (sessionId) {
+    var snap = await this._db().collection('devoir_copies_prive').where('session_id', '==', sessionId).get();
+    return snap.docs.map(this._avecId);
+  },
+
   // Partie privée d'une copie : valeurs tirées, corrigé calculé, barème, historique de brouillon.
   lirePrive: async function (copieId) {
     var d = await this._db().collection('devoir_copies_prive').doc(copieId).get();

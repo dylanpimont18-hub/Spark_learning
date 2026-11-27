@@ -1,6 +1,7 @@
 // Enchaîne les suites de tests du module devoir contre les émulateurs.
 // À lancer par : node scripts/devoir-emulateurs.js test [regles|fonctions|e2e|tout]
 const SUITES = {
+  ia: './test-devoir-ia.js',
   regles: './test-devoir-regles.js',
   fonctions: './test-devoir-fonctions.js',
   e2e: './test-devoir-e2e.js'

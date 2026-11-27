@@ -203,7 +203,8 @@ async function suiteMvp2(test, ctx) {
   });
   await test('chaque étudiant compose : le brouillon est enregistré automatiquement', async () => {
     for (const [i, etu] of ctx.etudiants.entries()) {
-      await composer(etu.page, { methode: 'Formule de ' + etu.nom, calcul: '12 x ' + (i + 1), resultat: String(12 * (i + 1)), unite: 'W' });
+      // Farid (6e) : mot-clé qui fait rendre une confiance basse à la fausse IA du MVP-4.
+      await composer(etu.page, { methode: (i === 5 ? 'IA_CONFIANCE_BASSE ' : '') + 'Formule de ' + etu.nom, calcul: '12 x ' + (i + 1), resultat: String(12 * (i + 1)), unite: 'W' });
     }
     const alice = ctx.etudiants[0];
     await allerExercice(alice.page, 2);
@@ -415,17 +416,144 @@ async function suiteMvp3(test, ctx) {
   });
 }
 
+async function suiteMvp4(test, ctx) {
+  console.log('MVP-4 — correction dans le navigateur (IA simulée, aucun appel réel)');
+  const prof = ctx.prof;
+  const farid = ctx.etudiants[5];
+  let copieFarid, ficheId;
+  await test('l\'enseignant ouvre la correction de la session : 11 copies à pré-corriger, rien n\'est lancé tout seul', async () => {
+    await cliquerTexte(prof, '#dv-sessions button', '← Sessions');
+    await prof.waitForSelector('#dv-sessions .dv-carte', { timeout: ATTENTE });
+    await prof.evaluate(() => {
+      const carte = Array.from(document.querySelectorAll('#dv-sessions .dv-carte')).find((c) => c.querySelector('.dv-carte-titre').textContent.indexOf('Devoir E2E') === 0);
+      Array.from(carte.querySelectorAll('button')).find((b) => b.textContent.trim() === 'Corriger').click();
+    });
+    await prof.waitForFunction(() => document.querySelectorAll('.ds-table tbody tr').length === 11, { timeout: ATTENTE });
+    assert.strictEqual(await texte(prof, '#dc-lancer'), 'Lancer la pré-correction IA (11 copies)');
+    await E.attendre(500);
+    assert.strictEqual(ctx.fausseIa.journal.length, 0, 'aucun appel à l\'IA sans action de l\'enseignant');
+    assert.strictEqual((await E.lister('devoir_corrections')).docs.length, 0);
+  });
+  await test('lancement manuel : les 11 copies sont pré-corrigées, sans envoyer le nom des étudiants', async () => {
+    await prof.click('#dc-lancer');
+    await prof.waitForFunction(() => Array.from(document.querySelectorAll('.ds-table tbody tr')).filter((r) => /pré-corrigée, à relire/.test(r.cells[2].textContent)).length === 11, { timeout: 120000 });
+    // 12 réponses non vides (11 premiers exercices + le 2e exercice d'Alice) : 12 appels, pas 33.
+    assert.strictEqual(ctx.fausseIa.journal.length, 12, 'un appel par exercice réellement rempli');
+    const envoye = JSON.stringify(ctx.fausseIa.journal.map((r) => r.corps));
+    ctx.classe.etudiants.forEach((e) => {
+      // Le nom tapé par l'étudiant dans sa réponse (« Formule de Alice M. ») fait partie de la
+      // copie ; on vérifie que le serveur, lui, n'ajoute ni nom ni identifiant.
+      assert.ok(envoye.indexOf('"' + e.nom + '"') === -1 && envoye.indexOf(e.id) === -1, 'identité envoyée : ' + e.nom);
+    });
+    assert.ok(ctx.fausseIa.journal.every((r) => r.modele === 'claude-sonnet-5-5'));
+    assert.strictEqual((await E.chercher('devoir_corrections', 'session_id', ctx.sessionId)).docs.length, 33);
+  });
+  await test('la copie à confiance basse est en tête de la liste de relecture', async () => {
+    const premiere = await prof.$eval('.ds-table tbody tr', (r) => Array.from(r.cells).map((c) => c.textContent.trim()));
+    assert.strictEqual(premiere[0], 'Farid B.');
+    assert.ok(/confiance basse/.test(premiere[3]) && /incohérence/.test(premiere[3]), premiere[3]);
+    await capture(prof, 'mvp4-liste-copies');
+  });
+  await test('écran de relecture : réponse de l\'étudiant à gauche, proposition de l\'IA modifiable à droite', async () => {
+    await cliquerTexte(prof, '.ds-table button', 'Relire');
+    await prof.waitForSelector('.dc-exercice', { timeout: ATTENTE });
+    copieFarid = (await E.chercher('devoir_copies', 'etudiant_id', farid.id)).docs.find((c) => c.session_id === ctx.sessionId);
+    ficheId = copieFarid.attributions.find((a) => a.rang === 1).id;
+    assert.strictEqual(await prof.$eval('.dc-copie .dv-h3', (h) => h.childNodes[0].textContent.trim()), 'Farid B.');
+    const carte = '.dc-exercice[data-att="' + ficheId + '"]';
+    assert.ok(/IA_CONFIANCE_BASSE Formule de Farid B\./.test(await texte(prof, carte + ' .dc-bloc-texte')));
+    assert.ok(/Résultat attendu/.test(await texte(prof, carte + ' .dc-corrige')), 'corrigé visible de l\'enseignant');
+    const meta = await texte(prof, carte + ' .dc-ia-meta');
+    assert.ok(/100 \/ 100/.test(meta) && /confiance 30 %/.test(meta) && /claude-sonnet-5-5/.test(meta), meta);
+    assert.strictEqual(await prof.$eval(carte + ' .dc-points[data-critere="methode"]', (i) => i.value), '40');
+    assert.strictEqual(await prof.$$eval('.dc-exercice', (l) => l.length), 3);
+    await capture(prof, 'mvp4-relecture');
+  });
+  await test('modification manuelle : la note change, la proposition de l\'IA reste affichée et enregistrée', async () => {
+    const carte = '.dc-exercice[data-att="' + ficheId + '"]';
+    // L'enseignant sélectionne le contenu du champ, puis tape la nouvelle valeur au clavier.
+    await prof.$eval(carte + ' .dc-points[data-critere="methode"]', (i) => { i.focus(); i.select(); });
+    await prof.keyboard.type('10');
+    assert.strictEqual(await texte(prof, '#dc-total-' + ficheId), '70');
+    await prof.$eval(carte + ' .dc-commentaire', (t) => { t.focus(); t.select(); });
+    await prof.keyboard.type('Formule citée sans justification.');
+    await prof.click(carte + ' .dc-enregistrer');
+    await prof.waitForFunction((sel) => /modifiée par vous/.test(document.querySelector(sel + ' .dc-colonne-titre:not(:first-child), ' + sel).textContent), { timeout: ATTENTE }, carte);
+    const f = (await E.lire('devoir_corrections/' + ficheId)).donnees;
+    assert.deepStrictEqual([f.finale.note, f.source, f.statut, f.modifications.length], [70, 'enseignant', 'brouillon', 1]);
+    assert.strictEqual(f.finale.commentaire_pour_etudiant, 'Formule citée sans justification.');
+    assert.deepStrictEqual([f.ia.note_proposee, f.ia.criteres.find((c) => c.critere_id === 'methode').points_obtenus, f.ia.confiance], [100, 40, 0.3], 'proposition de l\'IA conservée');
+    assert.ok(/IA : 40/.test(await texte(prof, carte + ' .dc-critere-ia')), 'la proposition de l\'IA reste lisible à côté de la note modifiée');
+    assert.strictEqual(await prof.$eval(carte + ' .dc-points[data-critere="methode"]', (i) => i.value), '10');
+  });
+  await test('validation : note finale sur 20, enregistrée côté enseignant', async () => {
+    await prof.click('#dc-valider');
+    await prof.waitForSelector('#dc-note-finale', { timeout: ATTENTE });
+    // 70 points sur 300 (deux exercices laissés vides) → 4,67 → 4,5 / 20.
+    assert.ok(/4,5 \/ 20/.test(await texte(prof, '#dc-note-finale')), await texte(prof, '#dc-note-finale'));
+    const p = (await E.lire('devoir_copies_prive/' + copieFarid._id)).donnees;
+    assert.deepStrictEqual([p.correction.statut, p.correction.note_finale, p.correction.points, p.correction.points_max], ['validee', 4.5, 70, 300]);
+    const f = (await E.chercher('devoir_corrections', 'copie_id', copieFarid._id)).docs;
+    assert.ok(f.length === 3 && f.every((x) => x.statut === 'validee'));
+    await capture(prof, 'mvp4-copie-validee');
+  });
+  await test('l\'étudiant ne voit rien avant publication : ni note, ni correction, ni corrigé', async () => {
+    await farid.page.reload({ waitUntil: 'networkidle2' });
+    await farid.page.waitForFunction(() => { const t = document.querySelector('.de-titre'); return t && t.textContent === 'Copie rendue'; }, { timeout: ATTENTE });
+    const html = (await farid.page.content()).replace(/<head[\s\S]*<\/head>/, '');
+    assert.ok(!/4,5|\/ ?20|note|corrig|barème|justification/i.test(html), 'écran de l\'étudiant sans note ni correction');
+    // Depuis le navigateur de l'étudiant, avec sa propre identité : tout accès direct est refusé.
+    const acces = await farid.page.evaluate(async (copieId, attId) => {
+      const db = firebase.app('devoir').firestore();
+      const essai = async (ref) => { try { await ref.get(); return 'lu'; } catch (e) { return e.code; } };
+      const copie = (await db.collection('devoir_copies').doc(copieId).get()).data();
+      return {
+        correction: await essai(db.collection('devoir_corrections').doc(attId)),
+        corrections: await essai(db.collection('devoir_corrections').where('copie_id', '==', copieId)),
+        prive: await essai(db.collection('devoir_copies_prive').doc(copieId)),
+        exercices: await essai(db.collection('devoir_exercices')),
+        copie: JSON.stringify(copie)
+      };
+    }, copieFarid._id, ficheId);
+    assert.deepStrictEqual([acces.correction, acces.corrections, acces.prive, acces.exercices], ['permission-denied', 'permission-denied', 'permission-denied', 'permission-denied']);
+    assert.ok(!/"note|"correction|"points|"corrige|"bareme|"validee/.test(acces.copie), 'la copie lue par l\'étudiant ne porte ni note ni correction');
+    const refus = await farid.page.evaluate(async (copieId) => {
+      try { await DevoirFirebase.appeler('validateCorrection', { copie_id: copieId }); return 'accepté'; } catch (e) { return e.code; }
+    }, copieFarid._id);
+    assert.strictEqual(refus, 'functions/permission-denied');
+  });
+  await test('navigation entre les copies, puis retour à la liste : la copie validée affiche sa note', async () => {
+    // Validée, la copie de Farid est passée en fin de liste : on remonte vers la précédente.
+    assert.ok(await prof.$('#dc-suivante[disabled]'), 'dernière copie : pas de suivante');
+    const precedente = await prof.$('#dc-precedente:not([disabled])');
+    assert.ok(precedente, 'bouton « Précédente » actif');
+    await precedente.click();
+    await prof.waitForFunction(() => document.querySelector('.dc-copie .dv-h3').childNodes[0].textContent.trim() !== 'Farid B.', { timeout: ATTENTE });
+    await cliquerTexte(prof, '.dc-nav button', '← Liste des copies');
+    await prof.waitForFunction(() => {
+      const r = Array.from(document.querySelectorAll('.ds-table tbody tr')).find((x) => x.cells[0].textContent.trim() === 'Farid B.');
+      return r && /validée/.test(r.cells[2].textContent) && /4,5 \/ 20/.test(r.cells[4].textContent);
+    }, { timeout: ATTENTE });
+    const derniere = await prof.$eval('.ds-table tbody tr:last-child', (r) => r.cells[0].textContent.trim());
+    assert.strictEqual(derniere, 'Farid B.', 'une copie validée passe en fin de liste');
+  });
+}
+
 async function lancer() {
   const { test, etat } = E.cadre();
   await E.toutEffacer();
   const semis = await E.semer();
   const navigateur = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
-  const ctx = { navigateur, classe: semis.classe, exercices: semis.exercices, profCompte: semis.prof };
+  const fausseIa = require('./lib/devoir-fausse-ia.js');
+  const serveurIa = fausseIa.demarrer();
+  const ctx = { navigateur, classe: semis.classe, exercices: semis.exercices, profCompte: semis.prof, fausseIa };
   try {
     await suiteMvp2(test, ctx);
     await suiteMvp3(test, ctx);
+    await suiteMvp4(test, ctx);
   } finally {
     await navigateur.close();
+    serveurIa.close();
   }
   return etat;
 }

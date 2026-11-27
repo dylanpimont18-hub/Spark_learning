@@ -497,12 +497,227 @@ async function suiteMvp3(test, prof, exercices) {
   });
 }
 
+// ── MVP-4 : correction (IA simulée par scripts/lib/devoir-fausse-ia.js) ──────────────
+async function fiches(copieId) {
+  const docs = (await E.chercher('devoir_corrections', 'copie_id', copieId)).docs;
+  return docs.sort((a, b) => a.rang - b.rang);
+}
+
+// Compose puis rend une copie. reponses : une entrée par exercice (objet de blocs, ou null).
+async function composerEtRendre(etu, reponses) {
+  const c = await copie(etu.copieId);
+  const actifs = c.attributions.filter((a) => a.statut === 'active').sort((a, b) => a.rang - b.rang);
+  for (let i = 0; i < actifs.length; i++) {
+    if (!reponses[i]) continue;
+    const r = await E.appeler('saveDraft', { copie_id: etu.copieId, attribution_id: actifs[i].id, blocs: reponses[i] }, etu.jeton);
+    assert.ok(r.ok, r.message);
+  }
+  assert.strictEqual((await E.appeler('submitCopy', { copie_id: etu.copieId }, etu.jeton)).resultat.statut, 'rendue');
+  return actifs.map((a) => a.id);
+}
+
+const COMPLET = { methode: 'P = U x I', calcul: '230 x 5', resultat: '1150', unite: 'W' };
+
+async function suiteMvp4(test, prof, exercices, fausseIa) {
+  console.log('MVP-4 — pré-correction par l\'IA (simulée)');
+  const s = await ouvrirSession(prof, exercices, { delai_perte_focus_ms: DELAI });
+  const alice = await entrer(s.code, 'etu-01');
+  const bilal = await entrer(s.code, 'etu-02');
+  const chloe = await entrer(s.code, 'etu-03');
+  const dimitri = await entrer(s.code, 'etu-04');
+  const emma = await entrer(s.code, 'etu-05');
+  const farid = await entrer(s.code, 'etu-06');
+  const attAlice = await composerEtRendre(alice, [COMPLET, COMPLET, COMPLET]);
+  const attBilal = await composerEtRendre(bilal, [{ methode: 'IA_JSON_INVALIDE_UNE_FOIS' }, { methode: 'IA_TOUJOURS_INVALIDE', calcul: '3 x 4' }, null]);
+  const attChloe = await composerEtRendre(chloe, [Object.assign({}, COMPLET, { calcul: 'IA_SOMME_FAUSSE' }), { methode: 'IA_CONFIANCE_BASSE' }, { methode: 'Q = m c dT' }]);
+  await sortir(emma, DELAI + 200);                       // un exercice invalidé dans la copie d'Emma
+  await composerEtRendre(emma, [COMPLET, COMPLET, COMPLET]);
+  await composerEtRendre(farid, [COMPLET, { methode: 'formule seule' }, null]);
+  const appelsPour = (ids) => fausseIa.journal.filter((r) => ids.some((id) => r.message.indexOf('"attribution_id": "' + id + '"') !== -1));
+
+  await test('seul l\'enseignant lance, modifie et valide ; une copie en cours est refusée', async () => {
+    assert.strictEqual((await E.appeler('runPreCorrection', { copie_id: alice.copieId }, alice.jeton)).code, 'PERMISSION_DENIED');
+    assert.strictEqual((await E.appeler('saveCorrection', { attribution_id: attAlice[0], criteres: [{ critere_id: 'methode', points_obtenus: 40 }] }, alice.jeton)).code, 'PERMISSION_DENIED');
+    assert.strictEqual((await E.appeler('validateCorrection', { copie_id: alice.copieId }, alice.jeton)).code, 'PERMISSION_DENIED');
+    assert.strictEqual((await E.appeler('runPreCorrection', { copie_id: dimitri.copieId }, prof.jeton)).code, 'FAILED_PRECONDITION');
+    assert.strictEqual((await E.appeler('validateCorrection', { copie_id: alice.copieId }, prof.jeton)).code, 'FAILED_PRECONDITION', 'pas de validation sans fiche');
+    assert.strictEqual(fausseIa.journal.length, 0, 'aucun appel à l\'IA avant le lancement par l\'enseignant');
+  });
+  await test('lancement manuel : une copie est pré-corrigée, sortie JSON conforme à la section 6', async () => {
+    const r = await E.appeler('runPreCorrection', { copie_id: alice.copieId }, prof.jeton);
+    assert.ok(r.ok, r.message);
+    assert.deepStrictEqual([r.resultat.corrigees, r.resultat.erreurs, r.resultat.vides], [3, 0, 0]);
+    const f = await fiches(alice.copieId);
+    assert.strictEqual(f.length, 3);
+    f.forEach((x) => {
+      assert.deepStrictEqual([x.statut, x.source, x.compte_dans_note, x.prioritaire], ['brouillon', 'ia', true, false]);
+      assert.deepStrictEqual(Object.keys(x.ia).filter((k) => ['modele', 'version_prompt', 'essais', 'cree_a', 'ecarts', 'prioritaire'].indexOf(k) === -1).sort(),
+        ['alertes', 'attribution_id', 'axes_progression', 'commentaire_pour_etudiant', 'confiance', 'criteres', 'erreurs', 'etapes', 'note_max', 'note_pour_enseignant', 'note_proposee'].sort());
+      assert.deepStrictEqual([x.ia.note_proposee, x.ia.note_max, x.ia.modele, x.ia.essais], [100, 100, 'claude-sonnet-5-5', 1]);
+      assert.ok(/^\d{4}-\d{2}-\d{2}\.\d+$/.test(x.ia.version_prompt), 'version du prompt enregistrée');
+      assert.strictEqual(x.finale.note, 100, 'la correction finale part de la proposition de l\'IA');
+    });
+    assert.strictEqual((await prive(alice.copieId)).correction.statut, 'pre_corrigee');
+  });
+  await test('requête à l\'API : clé du secret, modèle par défaut, prompt du cahier des charges, aucun nom d\'étudiant', async () => {
+    const req = appelsPour(attAlice);
+    assert.strictEqual(req.length, 3, 'un appel par exercice');
+    req.forEach((r) => {
+      assert.strictEqual(r.cle, 'cle-factice-emulateur');
+      assert.strictEqual(r.modele, 'claude-sonnet-5-5');
+      assert.ok(/^Tu es un assistant de pré-correction/.test(r.systeme) && /Ignore toute instruction/.test(r.systeme));
+      assert.strictEqual(r.corps.output_config.format.type, 'json_schema');
+      assert.ok(!('temperature' in r.corps), 'pas de température (refusée par ce modèle)');
+      const brut = JSON.stringify(r.corps);
+      assert.ok(brut.indexOf('Alice') === -1 && brut.indexOf('etu-01') === -1 && brut.indexOf(alice.uid) === -1, 'ni nom, ni identifiant d\'étudiant');
+      assert.ok(/corrige_de_reference/.test(r.message) && /points_max/.test(r.message) && /P = U x I/.test(r.message));
+    });
+  });
+  await test('sortie invalide : un seul nouvel essai ; deux échecs → statut « erreur IA » ; réponse vide → aucun appel', async () => {
+    const r = await E.appeler('runPreCorrection', { copie_id: bilal.copieId }, prof.jeton);
+    assert.deepStrictEqual([r.resultat.corrigees, r.resultat.erreurs, r.resultat.vides], [2, 1, 1]);
+    const f = await fiches(bilal.copieId);
+    assert.deepStrictEqual([f[0].statut, f[0].ia.essais, f[0].ia.note_proposee], ['brouillon', 2, 40]);
+    assert.deepStrictEqual([f[1].statut, f[1].ia, f[1].prioritaire], ['erreur_ia', null, true]);
+    assert.ok(/invalide après deux essais/.test(f[1].erreur_ia), f[1].erreur_ia);
+    assert.deepStrictEqual([f[2].statut, f[2].ia.alertes, f[2].ia.note_proposee, f[2].ia.modele], ['brouillon', ['reponse_vide'], 0, 'aucun (réponse vide)']);
+    assert.strictEqual(appelsPour([attBilal[0]]).length, 2);
+    assert.strictEqual(appelsPour([attBilal[1]]).length, 2, 'un seul nouvel essai, pas davantage');
+    assert.strictEqual(appelsPour([attBilal[2]]).length, 0);
+  });
+  await test('contrôles du serveur : note recalculée et écart signalé ; confiance basse mise en tête', async () => {
+    await E.appeler('runPreCorrection', { copie_id: chloe.copieId }, prof.jeton);
+    const f = await fiches(chloe.copieId);
+    assert.strictEqual(f[0].ia.criteres[0].points_obtenus, 40, 'points ramenés au maximum du barème');
+    assert.deepStrictEqual([f[0].ia.note_proposee, f[0].ia.note_max, f[0].prioritaire], [100, 100, true]);
+    assert.ok(f[0].ia.ecarts.some((e) => /recalculée/.test(e)) && f[0].ia.ecarts.some((e) => /ramenés à 40/.test(e)), f[0].ia.ecarts.join(' | '));
+    assert.deepStrictEqual([f[1].ia.confiance, f[1].ia.alertes, f[1].prioritaire], [0.3, ['incoherence'], true]);
+    assert.strictEqual(f[2].prioritaire, false);
+  });
+  await test('relancer ne rappelle pas l\'IA pour ce qui est déjà pré-corrigé (budget)', async () => {
+    const avant = fausseIa.journal.length;
+    const r = await E.appeler('runPreCorrection', { copie_id: alice.copieId }, prof.jeton);
+    assert.deepStrictEqual([r.resultat.corrigees, r.resultat.ignorees], [0, 3]);
+    assert.strictEqual(fausseIa.journal.length, avant);
+  });
+  await test('l\'étudiant ne voit rien : ni fiche, ni note, ni statut de correction', async () => {
+    for (const id of attAlice) assert.strictEqual((await E.lire('devoir_corrections/' + id, alice.jeton)).statut, 403);
+    assert.strictEqual((await E.chercher('devoir_corrections', 'copie_id', alice.copieId, alice.jeton)).ok, false);
+    assert.strictEqual((await E.lire('devoir_copies_prive/' + alice.copieId, alice.jeton)).statut, 403);
+    const vue = (await E.lire('devoir_copies/' + alice.copieId, alice.jeton)).donnees;
+    assert.strictEqual(vue.statut, 'rendue');
+    const brut = JSON.stringify(vue);
+    ['note', 'correction', 'points', 'criteres', 'commentaire', 'corrige', 'bareme', 'confiance'].forEach((mot) => assert.ok(brut.indexOf('"' + mot) === -1, 'la copie expose « ' + mot + ' »'));
+  });
+
+  console.log('MVP-4 — modification manuelle et validation');
+  await test('modification manuelle : la note change, la proposition de l\'IA est conservée', async () => {
+    const r = await E.appeler('saveCorrection', {
+      attribution_id: attAlice[0], criteres: [{ critere_id: 'methode', points_obtenus: 25 }],
+      commentaire_pour_etudiant: 'La formule est juste, mais elle n\'est pas justifiée.',
+      axes_progression: [{ axe: 'Justification', action_concrete: 'Citer la loi utilisée avant de calculer.' }]
+    }, prof.jeton);
+    assert.ok(r.ok, r.message);
+    assert.deepStrictEqual([r.resultat.note, r.resultat.note_max], [85, 100]);
+    const f = (await fiches(alice.copieId))[0];
+    assert.deepStrictEqual([f.finale.note, f.source, f.statut], [85, 'enseignant', 'brouillon']);
+    assert.strictEqual(f.finale.criteres.find((c) => c.critere_id === 'methode').points_obtenus, 25);
+    assert.strictEqual(f.finale.commentaire_pour_etudiant, 'La formule est juste, mais elle n\'est pas justifiée.');
+    assert.deepStrictEqual([f.ia.note_proposee, f.ia.criteres.find((c) => c.critere_id === 'methode').points_obtenus], [100, 40], 'proposition de l\'IA intacte');
+    assert.strictEqual(f.ia.commentaire_pour_etudiant, 'Correction simulée : le raisonnement est présent.');
+    assert.strictEqual(f.modifications.length, 1);
+    assert.deepStrictEqual([f.modifications[0].avant.note, f.modifications[0].apres.note, f.modifications[0].par], [100, 85, prof.uid]);
+  });
+  await test('refus : points hors barème, critère inconnu, fiche inexistante', async () => {
+    assert.strictEqual((await E.appeler('saveCorrection', { attribution_id: attAlice[0], criteres: [{ critere_id: 'methode', points_obtenus: 41 }] }, prof.jeton)).code, 'INVALID_ARGUMENT');
+    assert.strictEqual((await E.appeler('saveCorrection', { attribution_id: attAlice[0], criteres: [{ critere_id: 'methode', points_obtenus: -1 }] }, prof.jeton)).code, 'INVALID_ARGUMENT');
+    assert.strictEqual((await E.appeler('saveCorrection', { attribution_id: attAlice[0], criteres: [{ critere_id: 'soin', points_obtenus: 5 }] }, prof.jeton)).code, 'INVALID_ARGUMENT');
+    assert.strictEqual((await E.appeler('saveCorrection', { attribution_id: 'inconnue', criteres: [] }, prof.jeton)).code, 'NOT_FOUND');
+    assert.strictEqual((await fiches(alice.copieId))[0].finale.note, 85);
+  });
+  await test('validation : note finale sur 20 arrondie au demi-point, fiches validées', async () => {
+    const r = await E.appeler('validateCorrection', { copie_id: alice.copieId }, prof.jeton);
+    assert.ok(r.ok, r.message);
+    assert.deepStrictEqual([r.resultat.points, r.resultat.points_max, r.resultat.note_finale, r.resultat.note_sur], [285, 300, 19, 20]);
+    assert.ok((await fiches(alice.copieId)).every((f) => f.statut === 'validee' && f.validee_par === prof.uid));
+    const p = await prive(alice.copieId);
+    assert.deepStrictEqual([p.correction.statut, p.correction.note_finale], ['validee', 19]);
+  });
+  await test('après validation, l\'étudiant ne voit toujours rien (pas de publication dans le MVP)', async () => {
+    const vue = (await E.lire('devoir_copies/' + alice.copieId, alice.jeton)).donnees;
+    assert.strictEqual(vue.statut, 'rendue');
+    assert.ok(!/"note|"correction|"validee/.test(JSON.stringify(vue)), 'aucune trace de note ou de correction dans la copie');
+    assert.strictEqual((await E.lire('devoir_corrections/' + attAlice[0], alice.jeton)).statut, 403);
+    assert.strictEqual((await E.lire('devoir_copies_prive/' + alice.copieId, alice.jeton)).statut, 403);
+  });
+  await test('« erreur IA » : validation refusée tant que l\'exercice n\'est pas corrigé à la main', async () => {
+    assert.strictEqual((await E.appeler('validateCorrection', { copie_id: bilal.copieId }, prof.jeton)).code, 'FAILED_PRECONDITION');
+    const r = await E.appeler('saveCorrection', { attribution_id: attBilal[1], criteres: [{ critere_id: 'methode', points_obtenus: 20 }, { critere_id: 'calcul', points_obtenus: 15 }] }, prof.jeton);
+    assert.strictEqual(r.resultat.note, 35);
+    const v = await E.appeler('validateCorrection', { copie_id: bilal.copieId }, prof.jeton);
+    // 40 + 35 + 0 = 75 points sur 300 → 5,0 / 20.
+    assert.deepStrictEqual([v.resultat.points, v.resultat.note_finale], [75, 5]);
+    const f = (await fiches(bilal.copieId))[1];
+    assert.deepStrictEqual([f.statut, f.ia, f.source], ['validee', null, 'enseignant']);
+  });
+  await test('arrondi au demi-point : 16,67 → 16,5', async () => {
+    // Chloé : 100 + 40 + 40 = 180 → 12,0 ; on retire 5 points → 175 / 300 × 20 = 11,67 → 11,5.
+    await E.appeler('saveCorrection', { attribution_id: attChloe[0], criteres: [{ critere_id: 'unite', points_obtenus: 5 }] }, prof.jeton);
+    const v = await E.appeler('validateCorrection', { copie_id: chloe.copieId }, prof.jeton);
+    assert.deepStrictEqual([v.resultat.points, v.resultat.note_finale], [175, 11.5]);
+  });
+  await test('exercice invalidé : non noté par l\'IA ; l\'enseignant décide de sa prise en compte', async () => {
+    const avant = fausseIa.journal.length;
+    const r = await E.appeler('runPreCorrection', { copie_id: emma.copieId }, prof.jeton);
+    assert.deepStrictEqual([r.resultat.corrigees, r.resultat.ignorees], [3, 1]);
+    assert.strictEqual(fausseIa.journal.length - avant, 3, 'aucun appel pour l\'exercice invalidé');
+    const f = await fiches(emma.copieId);
+    const invalide = f.find((x) => x.statut_attribution === 'invalidee');
+    assert.deepStrictEqual([invalide.statut, invalide.compte_dans_note, invalide.ia], ['non_notee', false, null]);
+    let v = await E.appeler('validateCorrection', { copie_id: emma.copieId }, prof.jeton);
+    assert.deepStrictEqual([v.resultat.points_max, v.resultat.note_finale], [300, 20]);
+    // Décision de l'enseignant : compter l'exercice invalidé, noté 50 / 100.
+    await E.appeler('saveCorrection', { attribution_id: invalide.attribution_id, compte_dans_note: true, criteres: [{ critere_id: 'methode', points_obtenus: 30 }, { critere_id: 'calcul', points_obtenus: 20 }] }, prof.jeton);
+    assert.deepStrictEqual([(await prive(emma.copieId)).correction.statut, (await prive(emma.copieId)).correction.note_finale], ['pre_corrigee', null], 'une modification annule la validation');
+    v = await E.appeler('validateCorrection', { copie_id: emma.copieId }, prof.jeton);
+    assert.deepStrictEqual([v.resultat.points, v.resultat.points_max, v.resultat.note_finale], [350, 400, 17.5]);
+  });
+  await test('une copie validée n\'est pas pré-corrigée de nouveau ; une fiche modifiée n\'est jamais écrasée', async () => {
+    const avant = fausseIa.journal.length;
+    assert.strictEqual((await E.appeler('runPreCorrection', { copie_id: alice.copieId }, prof.jeton)).resultat.deja_validee, true);
+    const r = await E.appeler('runPreCorrection', { copie_id: alice.copieId, forcer: true }, prof.jeton);
+    assert.strictEqual(r.resultat.corrigees, 0);
+    assert.strictEqual(fausseIa.journal.length, avant);
+    assert.strictEqual((await fiches(alice.copieId))[0].finale.note, 85);
+    assert.deepStrictEqual([(await prive(alice.copieId)).correction.statut, (await prive(alice.copieId)).correction.note_finale], ['validee', 19]);
+  });
+  await test('correction sans IA : fiches préparées, aucun appel, puis notation à la main et validation', async () => {
+    const avant = fausseIa.journal.length;
+    const r = await E.appeler('runPreCorrection', { copie_id: farid.copieId, sans_ia: true }, prof.jeton);
+    assert.strictEqual(r.resultat.preparees, 3);
+    assert.strictEqual(fausseIa.journal.length, avant);
+    const f = await fiches(farid.copieId);
+    assert.ok(f.every((x) => x.statut === 'brouillon' && x.ia === null && x.finale.note === 0));
+    await E.appeler('saveCorrection', { attribution_id: f[0].attribution_id, criteres: [{ critere_id: 'methode', points_obtenus: 40 }, { critere_id: 'calcul', points_obtenus: 30 }, { critere_id: 'resultat', points_obtenus: 20 }, { critere_id: 'unite', points_obtenus: 10 }] }, prof.jeton);
+    const v = await E.appeler('validateCorrection', { copie_id: farid.copieId }, prof.jeton);
+    assert.deepStrictEqual([v.resultat.points, v.resultat.note_finale], [100, 6.5]);   // 100 / 300 × 20 = 6,67 → 6,5
+  });
+  await E.appeler('updateSession', { session_id: s.sessionId, action: 'fermer' }, prof.jeton);
+}
+
 async function lancer() {
   const { test, etat } = E.cadre();
   await E.toutEffacer();
   const { prof, exercices, classe } = await E.semer();
-  await suiteMvp2(test, prof, exercices, classe);
-  await suiteMvp3(test, prof, exercices);
+  const fausseIa = require('./lib/devoir-fausse-ia.js');
+  const serveur = fausseIa.demarrer();
+  try {
+    await suiteMvp2(test, prof, exercices, classe);
+    await suiteMvp3(test, prof, exercices);
+    await suiteMvp4(test, prof, exercices, fausseIa);
+  } finally {
+    serveur.close();
+  }
   return etat;
 }
 
