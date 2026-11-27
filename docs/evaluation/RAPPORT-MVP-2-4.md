@@ -273,11 +273,11 @@ Chaque fois, l'option la plus simple et la plus sûre. Tout se change sans refon
    La clé se colle dans le terminal. Elle ne va ni dans le dépôt ni dans le navigateur.
 5. **Fixer le budget IA** : console Anthropic → Limits → plafond mensuel de dépense. Ordre de grandeur estimé, à confirmer sur vos premières copies : moins de 2 € par devoir de 11 copies. Un plafond de 10 € par mois laisse de la marge.
 6. **Remettre la mention d'information aux étudiants** avant le premier devoir (brouillon en section 8, à relire).
-7. **Valider le code**, puis déployer les fonctions depuis `devoir-mvp4` :
+7. **Déployer les fonctions** depuis `main` (code fusionné le 27/11, front en ligne sur `/devoirs` ; ignorer le `git checkout` ci-dessous). Garder `functions:devoir` : quatre anciennes fonctions (`generateCourse`, `getPositioning…`, `submitPositioningResult`) existent encore en production sans être dans le dépôt, et cette commande ne les touche pas :
    ```
    git checkout devoir-mvp4
    npm --prefix functions install
-   firebase deploy --only functions --project spark-learning-7d96b
+   firebase deploy --only functions:devoir --project spark-learning-7d96b
    ```
    Au premier déploiement, Firebase propose une règle de nettoyage des images de conteneur : accepter.
 8. **Faire un vrai essai de pré-correction** sur une copie de test avant tout devoir réel, et vérifier dans les journaux (`firebase functions:log --only runPreCorrection`) qu'il n'y a pas d'erreur 400.
