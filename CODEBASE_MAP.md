@@ -647,13 +647,15 @@ Vue étudiant : code, nom, copie, minuteur, rendu. Application Firebase nommée 
 ## js/devoir/devoirSessions.js
 Sous-onglet « Sessions » : liste, création, tableau de bord en direct.
 - `render(zone)` / `quitter()` — entrée, arrêt des écoutes
-- `_creer()` / `_ouvrir(id)` — crée puis ouvre une session
+- `_htmlCreation()` / `_htmlResume()` — parcours court « Nouveau devoir » : chapitre, difficulté (`NIVEAUX`), nombre d'exercices, temps imparti ; réglages avancés repliés
+- `_creer()` — crée la session, l'ouvre aussitôt et affiche le tableau de bord avec le code ; `_ouvrir(id)` pour un brouillon
 - `_ouvrirDirect(id)` / `_htmlDirect()` — tableau de bord temps réel, incidents
 - `_htmlAttente()` / `_lancer()` — salle d'attente (tuiles prêt/en attente), lancement
 - `_prolonger()` / `_fermer()` / `_liberer(copieId)` — actions de session
 - `_annulerIncident(id)` / `_deverrouiller(copieId)` — anti-triche
 - `_corriger(id)` — passe la main à `DevoirCorrection`
-- `_visibles()` / `_estDS(x)` / `_surPapier(x)` — filtres de chapitre et d'origine (tag « DS NN ») ; repère « diagramme papier à distribuer »
+- `_candidats()` / `_visibles()` / `_recalculer()` — exercices du chapitre, de la difficulté et de l'origine choisis ; tous retenus d'office
+- `_estDS(x)` / `_surPapier(x)` — tag « DS NN » ; exercice à faire avec le diagramme distribué sur papier (exclu sauf case cochée)
 
 ## js/devoir/devoirCorrection.js
 Relecture des copies : liste triée (confiance basse en tête), copie par copie, validation.

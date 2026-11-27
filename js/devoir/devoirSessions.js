@@ -15,6 +15,9 @@ var DevoirSessions = {
   _selection: {},          // exercices cochés dans le formulaire de création
   _filtre: '',
   _origine: '',   // '' = tous, 'ds' = questions de devoir surveillé, 'td' = entraînement
+  _niveau: '',    // clé de NIVEAUX
+  _papier: false, // inclure les exercices à diagramme papier
+  _titreAuto: true,
 
   LIBELLES_STATUT: { brouillon: 'brouillon', ouverte: 'ouverte', terminee: 'terminée', archivee: 'archivée' },
   LIBELLES_COPIE: { en_attente: 'prêt', connecte: 'connecté', en_cours: 'en cours', rendue: 'rendu', rendue_auto: 'rendu (temps écoulé)', verrouillee: 'verrouillé' },
@@ -89,7 +92,7 @@ var DevoirSessions = {
   _htmlListe: function () {
     var S = DevoirSessions;
     var e = S._esc;
-    var html = '<div class="dv-toolbar"><button class="ap-save-btn" onclick="DevoirSessions._nouvelle()">+ Nouvelle session</button></div>';
+    var html = '<div class="dv-toolbar"><button class="ap-save-btn" onclick="DevoirSessions._nouvelle()">+ Nouveau devoir</button></div>';
     if (!S._sessions.length) {
       return html + '<p class="dv-vide">Aucune session. Une session associe une classe, une sélection d\'exercices et une durée ; à son ouverture, elle reçoit un code à donner aux étudiants.</p>';
     }
@@ -145,70 +148,142 @@ var DevoirSessions = {
   },
 
   // ── Création ────────────────────────────────────────────────────────────────
+  // Parcours court : chapitre, difficulté, nombre d'exercices, temps imparti. Les exercices qui
+  // correspondent sont tous proposés au tirage ; la session est créée puis ouverte, et le code
+  // s'affiche. Le choix exercice par exercice reste possible dans « Réglages avancés ».
+  NIVEAUX: {
+    '': { libelle: 'Toutes les difficultés', min: 1, max: 5 },
+    facile: { libelle: 'Facile (niveaux 1 et 2)', min: 1, max: 2 },
+    moyen: { libelle: 'Moyenne (niveaux 2 et 3)', min: 2, max: 3 },
+    difficile: { libelle: 'Difficile (niveaux 3 à 5)', min: 3, max: 5 }
+  },
+
   _nouvelle: function () {
-    DevoirSessions._vue = 'creation';
-    DevoirSessions._selection = {};
-    DevoirSessions._filtre = '';
-    DevoirSessions._origine = '';
-    DevoirSessions._afficher();
+    var S = DevoirSessions;
+    S._vue = 'creation';
+    S._selection = {};
+    S._filtre = '';        // '' = aucun chapitre choisi, '*' = tous les chapitres, sinon l'identifiant
+    S._niveau = '';
+    S._papier = false;
+    S._origine = '';
+    S._titreAuto = true;
+    S._afficher();
   },
 
   _exercicesActifs: function () {
     return DevoirAdmin._exercices.filter(function (x) { return x.actif !== false; });
   },
 
+  // Un exercice issu d'un devoir surveillé porte un tag « DS NN » (lots chapitre-NN-ds).
+  _estDS: function (x) { return (x.tags || []).some(function (t) { return /^DS /.test(t); }); },
+  // Les exercices de lecture se font avec le diagramme distribué sur papier (énoncé : « fourni sur papier »).
+  _surPapier: function (x) { return /fourni sur papier/.test(x.enonce_modele || ''); },
+
+  // Exercices du chapitre, de la difficulté et de l'origine choisis (diagramme papier compris).
+  _candidats: function () {
+    var S = DevoirSessions;
+    if (!S._filtre) return [];
+    var niveau = S.NIVEAUX[S._niveau] || S.NIVEAUX[''];
+    return S._exercicesActifs().filter(function (x) {
+      if (S._filtre !== '*' && x.chapitre !== S._filtre) return false;
+      var d = x.difficulte || 1;
+      if (d < niveau.min || d > niveau.max) return false;
+      if (S._origine === 'ds') return S._estDS(x);
+      if (S._origine === 'td') return !S._estDS(x);
+      return true;
+    });
+  },
+
+  // Exercices proposés : les candidats, sans ceux à diagramme papier si la case n'est pas cochée.
+  _visibles: function () {
+    var S = DevoirSessions;
+    return S._candidats().filter(function (x) { return S._papier || !S._surPapier(x); });
+  },
+
+  // Après un changement de chapitre, de difficulté ou d'origine : tous les exercices proposés sont retenus.
+  _recalculer: function () {
+    var S = DevoirSessions;
+    S._selection = {};
+    S._visibles().forEach(function (x) { S._selection[x.id] = true; });
+    if (S._titreAuto) {
+      var champ = document.getElementById('ds-titre');
+      var c = DevoirEngine.chapitreDe(S._filtre);
+      if (champ) champ.value = c ? 'Devoir — ' + c.titre : (S._filtre === '*' ? 'Devoir — tous les chapitres' : '');
+    }
+    S._majSelection();
+  },
+
   _htmlCreation: function () {
     var S = DevoirSessions;
     var e = S._esc;
     var classes = DevoirAdmin._classes;
-    if (!classes.length || !S._exercicesActifs().length) {
-      return '<div class="dv-editeur"><h3 class="dv-h3">Nouvelle session</h3><p class="dv-vide">Il faut d\'abord au moins une classe et un exercice actif dans la banque.</p>' +
+    var tous = S._exercicesActifs();
+    if (!classes.length || !tous.length) {
+      return '<div class="dv-editeur"><h3 class="dv-h3">Nouveau devoir</h3><p class="dv-vide">Il faut d\'abord au moins une classe et un exercice actif dans la banque.</p>' +
         '<div class="dv-boutons"><button class="dv-btn-secondaire" onclick="DevoirSessions._retourListe()">Retour</button></div></div>';
     }
+    var compte = {};
+    tous.forEach(function (x) { compte[x.chapitre] = (compte[x.chapitre] || 0) + 1; });
+    var chapitres = '<option value="">— Choisir un chapitre —</option>' + DevoirEngine.CHAPITRES.filter(function (c) { return compte[c.id]; }).map(function (c) {
+      return '<option value="' + e(c.id) + '">' + e(c.id + ' · ' + c.titre) + ' (' + compte[c.id] + ' exercices)</option>';
+    }).join('') + '<option value="*">Tous les chapitres (' + tous.length + ' exercices)</option>';
+    var niveaux = Object.keys(S.NIVEAUX).map(function (k) { return '<option value="' + k + '">' + e(S.NIVEAUX[k].libelle) + '</option>'; }).join('');
     return '<div class="dv-editeur">' +
-      '<h3 class="dv-h3">Nouvelle session</h3>' +
+      '<h3 class="dv-h3">Nouveau devoir</h3>' +
       '<div class="dv-champs">' +
-        '<label class="dv-label">Titre du devoir<input class="dv-input" id="ds-titre" maxlength="120" placeholder="Devoir n° 3 — Bilan thermique" /></label>' +
+        '<label class="dv-label">Chapitre<select class="dv-input" id="ds-chapitre" onchange="DevoirSessions._filtre = this.value; DevoirSessions._recalculer()">' + chapitres + '</select></label>' +
         '<label class="dv-label">Classe<select class="dv-input" id="ds-classe">' + classes.map(function (c) { return '<option value="' + e(c.id) + '">' + e(c.nom) + ' (' + e(c.annee_scolaire) + ')</option>'; }).join('') + '</select></label>' +
       '</div>' +
       '<div class="dv-champs dv-champs--trois">' +
-        '<label class="dv-label">Durée (minutes)<input class="dv-input" id="ds-duree" type="number" min="1" max="480" value="60" /></label>' +
-        '<label class="dv-label">Exercices par étudiant<input class="dv-input" id="ds-n" type="number" min="1" max="10" value="3" oninput="DevoirSessions._majSelection()" /></label>' +
-        '<label class="dv-label">Remplacements possibles (anti-triche)<input class="dv-input" id="ds-quota" type="number" min="0" max="5" value="2" oninput="DevoirSessions._majSelection()" /></label>' +
+        '<label class="dv-label">Difficulté souhaitée<select class="dv-input" id="ds-niveau" onchange="DevoirSessions._niveau = this.value; DevoirSessions._recalculer()">' + niveaux + '</select></label>' +
+        '<label class="dv-label">Nombre d\'exercices par étudiant<input class="dv-input" id="ds-n" type="number" min="1" max="10" value="3" oninput="DevoirSessions._majSelection()" /></label>' +
+        '<label class="dv-label">Temps imparti (minutes)<input class="dv-input" id="ds-duree" type="number" min="1" max="480" value="60" /></label>' +
       '</div>' +
-      '<div class="dv-label">Exercices proposés au tirage</div>' +
-      '<div id="ds-exercices">' + S._htmlChoixExercices() + '</div>' +
+      '<div id="ds-resume">' + S._htmlResume() + '</div>' +
+      '<label class="dv-label">Titre du devoir<input class="dv-input" id="ds-titre" maxlength="120" placeholder="Devoir — Bilan thermique" oninput="DevoirSessions._titreAuto = false" /></label>' +
+      '<details class="ds-avance">' +
+        '<summary>Réglages avancés : choisir les exercices un par un, remplacements</summary>' +
+        '<div class="dv-champs">' +
+          '<label class="dv-label">Origine des exercices<select class="dv-input" id="ds-origine" onchange="DevoirSessions._origine = this.value; DevoirSessions._recalculer()">' +
+            '<option value="">Devoirs surveillés et entraînement</option><option value="ds">Questions de devoirs surveillés seulement</option><option value="td">Entraînement seulement</option></select></label>' +
+          '<label class="dv-label">Remplacements possibles (anti-triche)<input class="dv-input" id="ds-quota" type="number" min="0" max="5" value="2" oninput="DevoirSessions._majSelection()" /></label>' +
+        '</div>' +
+        '<div class="dv-label">Exercices proposés au tirage</div>' +
+        '<div id="ds-exercices">' + S._htmlChoixExercices() + '</div>' +
+      '</details>' +
       '<div class="dv-boutons dv-boutons--fin">' +
-        '<button class="ap-save-btn" id="ds-creer" onclick="DevoirSessions._creer()">Créer la session</button>' +
+        '<button class="ap-save-btn" id="ds-creer" onclick="DevoirSessions._creer()">Créer le devoir et afficher le code</button>' +
         '<button class="dv-btn-secondaire" onclick="DevoirSessions._retourListe()">Annuler</button>' +
       '</div>' +
     '</div>';
   },
 
-  _htmlChoixExercices: function () {
+  // Ce que le réglage courant donne : nombre d'exercices retenus, avertissements, diagramme papier.
+  _htmlResume: function () {
     var S = DevoirSessions;
-    var e = S._esc;
-    var tous = S._exercicesActifs();
-    var visibles = S._visibles();
-    var compte = {};
-    tous.forEach(function (x) { compte[x.chapitre] = (compte[x.chapitre] || 0) + 1; });
-    var options = '<option value="">Tous les chapitres (' + tous.length + ')</option>' + DevoirEngine.CHAPITRES.filter(function (c) { return compte[c.id]; }).map(function (c) {
-      return '<option value="' + e(c.id) + '"' + (c.id === S._filtre ? ' selected' : '') + '>' + e(c.id + ' · ' + c.titre) + ' (' + compte[c.id] + ')</option>';
-    }).join('');
+    if (!S._filtre) return '<p class="ds-resume">Choisissez un chapitre : les exercices qui correspondent seront tirés au hasard pour chaque étudiant, avec des valeurs différentes.</p>';
     var nb = Object.keys(S._selection).length;
     var n = parseInt((document.getElementById('ds-n') || {}).value, 10) || 3;
     var quota = parseInt((document.getElementById('ds-quota') || {}).value, 10);
     if (isNaN(quota)) quota = 2;
-    var avis = nb < n ? '<span class="dv-etat dv-etat--ko">il en faut au moins ' + n + '</span>'
-      : nb < n + quota ? '<span class="dv-etat dv-etat--info">conseillé : ' + (n + quota) + ' ou plus, pour couvrir les remplacements</span>' : '';
+    var papier = S._candidats().filter(S._surPapier).length;
+    var avis = nb < n ? ' <span class="dv-etat dv-etat--ko">il en faut au moins ' + n + ' : élargissez la difficulté ou baissez le nombre d\'exercices</span>'
+      : nb < n + quota ? ' <span class="dv-etat dv-etat--info">peu de choix : les remplacements anti-triche pourront manquer</span>' : '';
+    return '<p class="ds-resume"><strong>' + nb + ' exercice' + (nb > 1 ? 's' : '') + '</strong> ' + (nb > 1 ? 'correspondent' : 'correspond') + '. Chaque étudiant en recevra ' + n +
+        ', tirés au hasard, avec ses propres valeurs.' + avis + '</p>' +
+      (papier ? '<label class="ds-resume ds-resume--case"><input type="checkbox" id="ds-papier"' + (S._papier ? ' checked' : '') +
+        ' onchange="DevoirSessions._papier = this.checked; DevoirSessions._recalculer()" /> Inclure les ' + papier +
+        ' exercice' + (papier > 1 ? 's' : '') + ' de lecture, à faire avec le <strong>diagramme distribué sur papier</strong></label>' : '');
+  },
+
+  _htmlChoixExercices: function () {
+    var S = DevoirSessions;
+    var e = S._esc;
+    var visibles = S._visibles();
+    if (!S._filtre) return '<p class="dv-vide">Choisissez d\'abord un chapitre.</p>';
+    if (!visibles.length) return '<p class="dv-vide">Aucun exercice ne correspond à ces réglages.</p>';
     return '<div class="dv-toolbar">' +
-        '<select class="dv-input dv-filtre" aria-label="Filtrer par chapitre" onchange="DevoirSessions._filtre = this.value; DevoirSessions._majSelection()">' + options + '</select>' +
-        '<select class="dv-input dv-filtre" aria-label="Filtrer par origine" onchange="DevoirSessions._origine = this.value; DevoirSessions._majSelection()">' +
-          '<option value=""' + (S._origine === '' ? ' selected' : '') + '>DS et entraînement</option>' +
-          '<option value="ds"' + (S._origine === 'ds' ? ' selected' : '') + '>Questions de DS seulement</option>' +
-          '<option value="td"' + (S._origine === 'td' ? ' selected' : '') + '>Entraînement seulement</option>' +
-        '</select>' +
-        '<span class="dv-aide"><strong>' + nb + '</strong> exercice(s) sélectionné(s), ' + visibles.length + ' affiché(s) ' + avis + '</span>' +
+        '<span class="dv-aide"><strong>' + Object.keys(S._selection).length + '</strong> exercice(s) retenu(s) sur ' + visibles.length + '</span>' +
         '<button class="dv-btn-secondaire" onclick="DevoirSessions._toutCocher(true)">Tout cocher</button>' +
         '<button class="dv-btn-secondaire" onclick="DevoirSessions._toutCocher(false)">Tout décocher</button>' +
       '</div>' +
@@ -219,22 +294,9 @@ var DevoirSessions = {
       }).join('') + '</div>';
   },
 
-  // Un exercice issu d'un devoir surveillé porte un tag « DS NN » (lots chapitre-NN-ds).
-  _estDS: function (x) { return (x.tags || []).some(function (t) { return /^DS /.test(t); }); },
-  // Les exercices de lecture se font avec le diagramme distribué sur papier (énoncé : « fourni sur papier »).
-  _surPapier: function (x) { return /fourni sur papier/.test(x.enonce_modele || ''); },
-  // Exercices affichés : filtre de chapitre et filtre d'origine. Sert à la liste et à « Tout cocher ».
-  _visibles: function () {
-    var S = DevoirSessions;
-    return S._exercicesActifs().filter(function (x) {
-      if (S._filtre && x.chapitre !== S._filtre) return false;
-      if (S._origine === 'ds') return S._estDS(x);
-      if (S._origine === 'td') return !S._estDS(x);
-      return true;
-    });
-  },
-
   _majSelection: function () {
+    var r = document.getElementById('ds-resume');
+    if (r) r.innerHTML = DevoirSessions._htmlResume();
     var z = document.getElementById('ds-exercices');
     if (z) z.innerHTML = DevoirSessions._htmlChoixExercices();
   },
@@ -251,8 +313,14 @@ var DevoirSessions = {
     S._majSelection();
   },
 
+  // Crée la session, l'ouvre aussitôt et affiche le tableau de bord, où figure le code à donner.
   _creer: async function () {
     var S = DevoirSessions;
+    if (!S._filtre) { S._toast('Choisissez un chapitre.', 'error'); return; }
+    var ids = Object.keys(S._selection);
+    var n = parseInt(document.getElementById('ds-n').value, 10);
+    if (!(n >= 1)) { S._toast('Indiquez le nombre d\'exercices par étudiant.', 'error'); return; }
+    if (ids.length < n) { S._toast('Il faut au moins ' + n + ' exercices : élargissez la difficulté ou baissez le nombre d\'exercices.', 'error'); return; }
     var titre = document.getElementById('ds-titre').value.trim();
     if (!titre) { S._toast('Donnez un titre au devoir.', 'error'); return; }
     var btn = document.getElementById('ds-creer');
@@ -260,14 +328,17 @@ var DevoirSessions = {
     var r = await S._action('createSession', {
       titre: titre,
       classe_id: document.getElementById('ds-classe').value,
-      exercice_ids: Object.keys(S._selection),
+      exercice_ids: ids,
       duree_minutes: parseInt(document.getElementById('ds-duree').value, 10),
-      exercices_par_etudiant: parseInt(document.getElementById('ds-n').value, 10),
+      exercices_par_etudiant: n,
       quota_remplacements: parseInt(document.getElementById('ds-quota').value, 10)
-    }, 'Session créée (brouillon).');
+    });
     if (!r) { btn.disabled = false; return; }
     if (r.avertissement) alert(r.avertissement);
-    S._retourListe();
+    // Ouverture immédiate : la session reçoit son code. L'épreuve ne démarre qu'au lancement par l'enseignant.
+    var o = await S._action('updateSession', { session_id: r.session_id, action: 'ouvrir' }, 'Devoir créé : donnez le code aux étudiants.');
+    if (!o) { S._retourListe(); return; }   // la session reste en brouillon dans la liste
+    S._ouvrirDirect(r.session_id);
   },
 
   // ── Tableau de bord en direct ────────────────────────────────────────────────

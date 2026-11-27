@@ -49,12 +49,14 @@ async function ouvrirPanneauDevoirs(navigateur) {
 
 // lancer === false : la session reste en salle d'attente (les étudiants choisissent leur nom).
 async function creerEtOuvrirSession(page, titre, lancer) {
-  await cliquerTexte(page, '#dv-sessions button', '+ Nouvelle session');
-  await page.waitForSelector('#ds-titre', { timeout: ATTENTE });
+  // Parcours court : chapitre, puis « Créer le devoir et afficher le code » (création et ouverture enchaînées).
+  await cliquerTexte(page, '#dv-sessions button', '+ Nouveau devoir');
+  await page.waitForSelector('#ds-chapitre', { timeout: ATTENTE });
+  await page.select('#ds-chapitre', '01');
+  await capture(page, 'creation-devoir');
+  await page.$eval('#ds-titre', (el) => { el.value = ''; });
   await page.type('#ds-titre', titre);
-  await cliquerTexte(page, '#dv-sessions button', 'Tout cocher');
   await page.click('#ds-creer');
-  await cliquerTexte(page, '#dv-sessions button', 'Ouvrir la session');
   await page.waitForSelector('#ds-code', { timeout: ATTENTE });
   const code = await texte(page, '#ds-code');
   if (lancer !== false) await lancerEpreuve(page);
