@@ -47,7 +47,8 @@ async function ouvrirPanneauDevoirs(navigateur) {
   return page;
 }
 
-async function creerEtOuvrirSession(page, titre) {
+// lancer === false : la session reste en salle d'attente (les étudiants choisissent leur nom).
+async function creerEtOuvrirSession(page, titre, lancer) {
   await cliquerTexte(page, '#dv-sessions button', '+ Nouvelle session');
   await page.waitForSelector('#ds-titre', { timeout: ATTENTE });
   await page.type('#ds-titre', titre);
@@ -55,7 +56,15 @@ async function creerEtOuvrirSession(page, titre) {
   await page.click('#ds-creer');
   await cliquerTexte(page, '#dv-sessions button', 'Ouvrir la session');
   await page.waitForSelector('#ds-code', { timeout: ATTENTE });
-  return texte(page, '#ds-code');
+  const code = await texte(page, '#ds-code');
+  if (lancer !== false) await lancerEpreuve(page);
+  return code;
+}
+
+async function lancerEpreuve(page) {
+  await page.waitForSelector('#ds-lancer', { timeout: ATTENTE });
+  await page.click('#ds-lancer');                       // le confirm() est accepté d'office
+  await page.waitForSelector('.ds-table', { timeout: ATTENTE });
 }
 
 async function ligneTableau(page, nom) {
@@ -114,20 +123,28 @@ async function attendreCopie(etudiantId, sessionId, condition, quoi) {
 }
 
 async function saisirCode(page, code) {
-  await page.goto(E.URL_SITE + '/devoirs', { waitUntil: 'networkidle2' });
-  await page.waitForSelector('#de-code', { timeout: ATTENTE });
+  await choisirClasse(page);
   await page.type('#de-code', code);
   await page.click('#de-valider-code');
   await page.waitForSelector('.de-noms', { timeout: ATTENTE });
 }
 
-async function entrer(navigateur, code, etudiant) {
+// Premier écran de l'étudiant : sa classe (seules celles qui ont un devoir ouvert sont proposées).
+async function choisirClasse(page) {
+  await page.goto(E.URL_SITE + '/devoirs', { waitUntil: 'networkidle2' });
+  await page.waitForSelector('.de-classe[data-id="classe-demo"]', { timeout: ATTENTE });
+  await page.click('.de-classe[data-id="classe-demo"]');
+  await page.waitForSelector('#de-code', { timeout: ATTENTE });
+}
+
+// attente === true : l'épreuve n'est pas lancée, l'étudiant arrive sur l'écran d'attente.
+async function entrer(navigateur, code, etudiant, attente) {
   const etu = await nouvelEtudiant(navigateur);
   await saisirCode(etu.page, code);
   await etu.page.click('.de-nom[data-id="' + etudiant.id + '"]');
   await etu.page.waitForSelector('#de-confirmer', { timeout: ATTENTE });
   await etu.page.click('#de-confirmer');
-  await etu.page.waitForSelector('.de-champ', { timeout: ATTENTE });
+  await etu.page.waitForSelector(attente ? '#de-attente-nom' : '.de-champ', { timeout: ATTENTE });
   return Object.assign(etu, etudiant);
 }
 
@@ -164,23 +181,58 @@ async function suiteMvp2(test, ctx) {
   console.log('MVP-2 — passage en classe dans le navigateur');
   await test('l\'enseignant crée une session dans le panneau admin et obtient un code', async () => {
     ctx.prof = await ouvrirPanneauDevoirs(ctx.navigateur);
-    ctx.code = await creerEtOuvrirSession(ctx.prof, 'Devoir E2E');
+    ctx.code = await creerEtOuvrirSession(ctx.prof, 'Devoir E2E', false);
     assert.ok(/^[A-Z2-9]{6}$/.test(ctx.code), 'code affiché : ' + ctx.code);
-    assert.strictEqual((await ligneTableau(ctx.prof, 'Alice M.'))[1], 'absent');
+    assert.strictEqual(await ctx.prof.$$eval('.ds-tuile', (l) => l.length), 11, 'une tuile par étudiant');
+    assert.strictEqual(await ctx.prof.$$eval('.ds-tuile--pret', (l) => l.length), 0);
+    assert.ok(/^0 \/ 11/.test(await texte(ctx.prof, '#ds-prets')));
   });
   await test('un code faux affiche un message neutre', async () => {
     const etu = await nouvelEtudiant(ctx.navigateur);
-    await etu.page.goto(E.URL_SITE + '/devoirs', { waitUntil: 'networkidle2' });
-    await etu.page.waitForSelector('#de-code', { timeout: ATTENTE });
+    await choisirClasse(etu.page);
     await etu.page.type('#de-code', 'zzzzzz');
     await etu.page.click('#de-valider-code');
     await etu.page.waitForFunction(() => document.getElementById('de-erreur') && document.getElementById('de-erreur').textContent.length > 0, { timeout: ATTENTE });
     assert.strictEqual(await texte(etu.page, '#de-erreur'), 'Code invalide ou session fermée.');
     await etu.contexte.close();
   });
-  await test('11 étudiants entrent par code et nom, et voient 3 exercices, un minuteur, 4 blocs', async () => {
+  await test('salle d\'attente : 11 étudiants choisissent classe, code et nom ; chacun voit son nom en grand, sans exercice', async () => {
     ctx.etudiants = [];
-    for (const e of ctx.classe.etudiants) ctx.etudiants.push(await entrer(ctx.navigateur, ctx.code, e));
+    for (const e of ctx.classe.etudiants) ctx.etudiants.push(await entrer(ctx.navigateur, ctx.code, e, true));
+    for (const etu of ctx.etudiants) {
+      assert.strictEqual(await texte(etu.page, '#de-attente-nom'), etu.nom);
+      assert.strictEqual(await etu.page.$$eval('.de-champ, .de-enonce, #de-minuteur', (l) => l.length), 0, 'ni énoncé ni minuteur avant le lancement');
+    }
+    const taille = await ctx.etudiants[0].page.$eval('#de-attente-nom', (n) => parseFloat(getComputedStyle(n).fontSize));
+    assert.ok(taille >= 40, 'nom affiché en grand : ' + taille + ' px');
+    await capture(ctx.etudiants[0].page, 'attente-etudiant');
+  });
+  await test('salle d\'attente : l\'enseignant voit les 11 prêts ; un rafraîchissement garde l\'étudiant en attente', async () => {
+    await ctx.prof.waitForFunction(() => document.querySelectorAll('.ds-tuile--pret').length === 11, { timeout: ATTENTE });
+    assert.ok(/^11 \/ 11/.test(await texte(ctx.prof, '#ds-prets')));
+    await capture(ctx.prof, 'attente-enseignant');
+    const carla = ctx.etudiants[2];
+    await carla.page.reload({ waitUntil: 'networkidle2' });
+    await carla.page.waitForSelector('#de-attente-nom', { timeout: ATTENTE });
+    assert.strictEqual(await texte(carla.page, '#de-attente-nom'), carla.nom);
+  });
+  await test('salle d\'attente : « Ce n\'est pas mon nom » libère le nom, qui peut être repris', async () => {
+    const dina = ctx.etudiants[3];
+    await dina.page.click('#de-pas-moi');
+    await dina.page.waitForSelector('#de-code', { timeout: ATTENTE });
+    await ctx.prof.waitForFunction(() => document.querySelectorAll('.ds-tuile--pret').length === 10, { timeout: ATTENTE });
+    await dina.page.type('#de-code', ctx.code);
+    await dina.page.click('#de-valider-code');
+    await dina.page.waitForSelector('.de-nom[data-id="' + dina.id + '"]:not(:disabled)', { timeout: ATTENTE });
+    await dina.page.click('.de-nom[data-id="' + dina.id + '"]');
+    await dina.page.waitForSelector('#de-confirmer', { timeout: ATTENTE });
+    await dina.page.click('#de-confirmer');
+    await dina.page.waitForSelector('#de-attente-nom', { timeout: ATTENTE });
+    await ctx.prof.waitForFunction(() => document.querySelectorAll('.ds-tuile--pret').length === 11, { timeout: ATTENTE });
+  });
+  await test('l\'enseignant lance l\'épreuve : les 11 voient 3 exercices, un minuteur, 4 blocs', async () => {
+    await lancerEpreuve(ctx.prof);
+    for (const etu of ctx.etudiants) await etu.page.waitForSelector('.de-champ', { timeout: ATTENTE });
     for (const etu of ctx.etudiants) {
       assert.strictEqual(await etu.page.$$eval('.de-onglet', (l) => l.length), 3);
       assert.strictEqual(await etu.page.$$eval('.de-champ', (l) => l.length), 4);

@@ -597,7 +597,10 @@ Tirage serveur avec le moteur partagé (`functions/vendor/devoirEngine.js`, copi
 ## functions/src/session.ts
 MVP-2 : sessions, entrée, brouillon, rendu.
 - `createSession` / `updateSession` — crée, ouvre (code), ferme, prolonge, archive
-- `joinSession` — code puis nom, tirage, reconnexion
+- `listOpenClasses` — classes ayant un devoir ouvert (premier écran étudiant)
+- `joinSession` — classe, code puis nom ; copie `en_attente` tant que l'épreuve n'est pas lancée
+- `updateSession` action `lancer` / `demarrerCopie(sessionId, session, copieId…)` — tirage et départ du temps, même fin pour tous
+- `leaveWaiting` — l'étudiant rend son nom avant le lancement
 - `saveDraft` / `submitCopy` — brouillon versionné, rendu ; temps vérifié côté serveur
 - `releaseName` / `syncSession` — libère un nom ; rend les copies expirées
 - `figer(tx, ref, copie, statut…)` / `finaliserExpirees(sessionId…)` — fige une copie
@@ -632,7 +635,9 @@ Appel des Cloud Functions et bascule sur les émulateurs (uniquement sur `localh
 ## js/devoir/devoirEleve.js
 Vue étudiant : code, nom, copie, minuteur, rendu. Application Firebase nommée `devoir` (identité anonyme séparée du site).
 - `init()` / `_reprendre()` — connexion anonyme, reprise de la copie mémorisée
+- `_ecranClasse()` / `_ecranCode()` — choix de la classe, puis code
 - `_entrer(etudiantId)` — joinSession, liste des noms puis copie
+- `_ecranAttente(copie)` — nom en grand jusqu'au lancement
 - `_surCopie(copie)` / `_ecranCopie()` — état serveur en direct, écran d'épreuve
 - `_envoyer(attId, force)` / `_toutEnvoyer()` — brouillon automatique, reprise hors ligne
 - `_battement()` / `_rendre(auto)` — minuteur, rendu anticipé ou automatique
@@ -643,6 +648,7 @@ Sous-onglet « Sessions » : liste, création, tableau de bord en direct.
 - `render(zone)` / `quitter()` — entrée, arrêt des écoutes
 - `_creer()` / `_ouvrir(id)` — crée puis ouvre une session
 - `_ouvrirDirect(id)` / `_htmlDirect()` — tableau de bord temps réel, incidents
+- `_htmlAttente()` / `_lancer()` — salle d'attente (tuiles prêt/en attente), lancement
 - `_prolonger()` / `_fermer()` / `_liberer(copieId)` — actions de session
 - `_annulerIncident(id)` / `_deverrouiller(copieId)` — anti-triche
 - `_corriger(id)` — passe la main à `DevoirCorrection`
@@ -667,4 +673,4 @@ Classe de 11 étudiants et 6 exercices génériques de démonstration ; script q
 Fausse API Anthropic locale (port 5998) : aucun appel réel. Mots-clés `IA_JSON_INVALIDE_UNE_FOIS`, `IA_TOUJOURS_INVALIDE`, `IA_SOMME_FAUSSE`, `IA_CONFIANCE_BASSE`.
 
 ## scripts/test-devoir-{ia,regles,fonctions,e2e,tout}.js
-Suites de tests du module (113 tests) : contrôles IA, règles Firestore, Cloud Functions, bout en bout Puppeteer, enchaînement.
+Suites de tests du module (125 tests) : contrôles IA, règles Firestore, Cloud Functions, bout en bout Puppeteer, enchaînement.

@@ -22,6 +22,7 @@ Chaque branche part de la précédente. Rien n'est poussé, rien n'est fusionné
 **Passage en classe (MVP-2)**
 
 - L'enseignant crée une session dans le panneau admin (onglet Devoirs, « Sessions ») : classe, exercices, durée, nombre d'exercices, quota de remplacements. Un avertissement apparaît si la sélection ne couvre pas les remplacements.
+- **Salle d'attente (ajout du 27/11, 125 tests)** : l'étudiant choisit sa classe, saisit le code, choisit son nom ; son nom s'affiche alors en grand, sans exercice ni minuteur. Vous voyez qui est prêt, puis vous cliquez « Lancer l'épreuve » : le tirage a lieu et le temps démarre pour tous en même temps. Un retardataire entré après le lancement démarre à son arrivée, avec sa durée entière.
 - À l'ouverture, la session reçoit un code de 6 caractères. L'étudiant va sur `/devoirs`, saisit le code et choisit son nom. Un nom déjà pris est grisé.
 - Le serveur tire 3 exercices par étudiant, en priorité ceux qu'il n'a jamais faits, tire les valeurs et calcule le corrigé. Le corrigé et le barème restent dans une collection que l'étudiant ne peut pas lire.
 - Réponses en blocs (méthode, calcul, résultat, unité), barre de symboles, brouillon enregistré toutes les 10 s et à chaque changement de bloc. En cas de coupure réseau, la saisie reste sur le poste et repart au retour du réseau.

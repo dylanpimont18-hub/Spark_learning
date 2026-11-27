@@ -20,6 +20,7 @@ async function lancer() {
   assert.ok(creation.ok, 'création de session : ' + creation.message);
   const sessionId = creation.resultat.session_id;
   const code = (await E.appeler('updateSession', { session_id: sessionId, action: 'ouvrir' }, prof.jeton)).resultat.code;
+  assert.ok((await E.appeler('updateSession', { session_id: sessionId, action: 'lancer' }, prof.jeton)).ok, 'lancement');
   const alice = await E.connexionAnonyme();
   const bilal = await E.connexionAnonyme();
   const intrus = await E.connexionAnonyme();   // connecté anonymement, mais entré dans aucune session

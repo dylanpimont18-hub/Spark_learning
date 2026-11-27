@@ -16,7 +16,7 @@ var DevoirSessions = {
   _filtre: '',
 
   LIBELLES_STATUT: { brouillon: 'brouillon', ouverte: 'ouverte', terminee: 'terminée', archivee: 'archivée' },
-  LIBELLES_COPIE: { connecte: 'connecté', en_cours: 'en cours', rendue: 'rendu', rendue_auto: 'rendu (temps écoulé)', verrouillee: 'verrouillé' },
+  LIBELLES_COPIE: { en_attente: 'prêt', connecte: 'connecté', en_cours: 'en cours', rendue: 'rendu', rendue_auto: 'rendu (temps écoulé)', verrouillee: 'verrouillé' },
 
   _esc: function (s) { return DevoirAdmin._esc(s); },
   _toast: function (m, t) { DevoirAdmin._toast(m, t); },
@@ -118,7 +118,7 @@ var DevoirSessions = {
   },
 
   _ouvrir: async function (id) {
-    if (!confirm('Ouvrir cette session ? Elle recevra un code, et les étudiants pourront entrer. Le temps de chaque étudiant démarre quand il confirme son nom.')) return;
+    if (!confirm('Ouvrir cette session ? Elle recevra un code, et les étudiants pourront choisir leur nom. L\'épreuve ne démarre que lorsque vous la lancez.')) return;
     var r = await DevoirSessions._action('updateSession', { session_id: id, action: 'ouvrir' }, 'Session ouverte.');
     if (r) DevoirSessions._ouvrirDirect(id);
   },
@@ -273,6 +273,7 @@ var DevoirSessions = {
     var parEtudiant = {};
     S._copies.forEach(function (c) { parEtudiant[c.etudiant_id] = c; });
     var ouverte = s.statut === 'ouverte';
+    if (ouverte && !s.lancee_a) return S._htmlAttente();
     var compte = { absent: 0, actif: 0, rendu: 0, verrouille: 0 };
     var lignes = (s.etudiants || []).map(function (etu) {
       var c = parEtudiant[etu.id];
@@ -332,6 +333,55 @@ var DevoirSessions = {
     '</div>';
   },
 
+  // Salle d'attente : session ouverte, épreuve pas encore lancée. Une tuile par étudiant, pour
+  // voir d'un coup d'œil qui a choisi son nom ; le lancement tire les exercices et démarre le temps.
+  _htmlAttente: function () {
+    var S = DevoirSessions;
+    var e = S._esc;
+    var s = S._session;
+    var parEtudiant = {};
+    S._copies.forEach(function (c) { parEtudiant[c.etudiant_id] = c; });
+    var prets = 0;
+    var tuiles = (s.etudiants || []).map(function (etu) {
+      var c = parEtudiant[etu.id];
+      var pret = !!(c && c.uid);
+      if (pret) prets++;
+      return '<div class="ds-tuile' + (pret ? ' ds-tuile--pret' : '') + '" data-etudiant="' + e(etu.id) + '">' +
+        '<span class="ds-tuile-nom">' + e(etu.nom) + '</span>' +
+        '<span class="ds-tuile-etat">' + (pret ? 'prêt' : 'en attente') + '</span>' +
+        (pret ? '<button class="dv-btn-lien" onclick="DevoirSessions._liberer(\'' + e(c.id) + '\')" title="L\'étudiant s\'est trompé de nom : il pourra en choisir un autre">Libérer</button>' : '') +
+      '</div>';
+    }).join('');
+    var total = (s.etudiants || []).length;
+    return '<div class="ds-direct">' +
+      '<div class="ds-entete">' +
+        '<div><button class="dv-btn-lien ds-retour" onclick="DevoirSessions._retourListe()">← Sessions</button>' +
+          '<h3 class="dv-h3">' + e(s.titre) + ' <span class="dv-etat dv-etat--avert">salle d\'attente</span></h3>' +
+          '<p class="dv-aide">' + e(s.classe_nom) + ' · ' + e(s.exercices_par_etudiant) + ' exercice(s) par étudiant · ' + e(s.duree_minutes) + ' min</p></div>' +
+        '<div class="ds-code" aria-label="Code de la session"><span class="ds-code-label">sparklearning.fr/devoirs · ' + e(s.classe_nom) + ' · code</span><span class="ds-code-valeur" id="ds-code">' + e(s.code) + '</span></div>' +
+      '</div>' +
+      '<p class="ds-prets" id="ds-prets"><strong>' + prets + ' / ' + total + '</strong> ' + (prets > 1 ? 'étudiants prêts' : 'étudiant prêt') + '</p>' +
+      '<div class="ds-tuiles">' + tuiles + '</div>' +
+      '<div class="dv-boutons">' +
+        '<button class="ap-save-btn ds-lancer" id="ds-lancer" onclick="DevoirSessions._lancer()">Lancer l\'épreuve</button>' +
+        '<button class="ap-reject-btn" onclick="DevoirSessions._fermer()">Fermer la session</button>' +
+      '</div>' +
+    '</div>';
+  },
+
+  _lancer: async function () {
+    var S = DevoirSessions;
+    var s = S._session;
+    var prets = S._copies.filter(function (c) { return c.statut === 'en_attente' && c.uid; }).length;
+    var manquants = (s.etudiants || []).length - prets;
+    var texte = 'Lancer l\'épreuve pour ' + prets + ' étudiant(s) ? Les exercices sont tirés et le temps (' + s.duree_minutes + ' min) démarre maintenant, pour tous en même temps.';
+    if (manquants > 0) texte += '\n\n' + manquants + ' étudiant(s) n\'ont pas encore choisi leur nom. Ils pourront entrer après le lancement : leur temps démarrera à leur arrivée.';
+    if (!confirm(texte)) return;
+    var bouton = document.getElementById('ds-lancer');
+    if (bouton) bouton.disabled = true;
+    await S._action('updateSession', { session_id: s.id, action: 'lancer' }, 'Épreuve lancée.');
+  },
+
   // Journal de la session, du plus récent au plus ancien (entrées, reconnexions, rendus).
   _htmlJournal: function () {
     var S = DevoirSessions;
@@ -340,7 +390,7 @@ var DevoirSessions = {
     var noms = {};
     ((S._session && S._session.etudiants) || []).forEach(function (x) { noms[x.id] = x.nom; });
     var LIB = {
-      join: 'entrée', reconnect: 'reconnexion', submit: 'copie rendue', timeout: 'rendu automatique', nom_libere: 'nom libéré',
+      join: 'entrée', depart: 'début de l\'épreuve', nom_rendu: 'nom rendu par l\'étudiant', reconnect: 'reconnexion', submit: 'copie rendue', timeout: 'rendu automatique', nom_libere: 'nom libéré',
       blur: 'fenêtre inactive', visibility_hidden: 'onglet masqué', paste_blocked: 'collage bloqué', drop_blocked: 'glisser-déposer bloqué',
       incident_annule: 'incident annulé', copie_deverrouillee: 'copie déverrouillée', remplacement_manuel: 'exercice remplacé par l\'enseignant'
     };

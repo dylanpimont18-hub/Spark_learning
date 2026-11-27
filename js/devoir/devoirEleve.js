@@ -1,5 +1,6 @@
 // Vue étudiant du module « devoir » (page devoir.html, servie sur /devoir).
-// Entrée par code de session puis choix du nom, composition en blocs de réponse, brouillon
+// Entrée par choix de la classe, code de session puis choix du nom ; salle d'attente (nom affiché
+// en grand) jusqu'au lancement par l'enseignant ; composition en blocs de réponse, brouillon
 // automatique, minuteur, rendu. Le navigateur n'est qu'un affichage : le temps, le tirage et
 // les statuts sont décidés par les Cloud Functions (functions/src/session.ts). Cette page ne
 // reçoit jamais ni corrigé, ni barème, ni note (voir firestore.rules).
@@ -18,6 +19,7 @@ var DevoirEleve = {
   _app: null,
   _uid: null,
   _code: '',
+  _classe: null,        // { id, nom } : classe choisie au premier écran
   _session: null,        // résumé { titre, classe_nom, duree_minutes, exercices_par_etudiant }
   _copieId: null,
   _copie: null,          // dernier état reçu du serveur
@@ -104,7 +106,7 @@ var DevoirEleve = {
   _reprendre: function () {
     var D = DevoirEleve;
     var m = D._memoire(D.CLE);
-    if (!m || !m.copie_id) return D._ecranCode();
+    if (!m || !m.copie_id) return D._ecranClasse();
     D._code = m.code || '';
     D._app.firestore().collection('devoir_copies').doc(m.copie_id).get().then(function (doc) {
       if (!doc.exists) throw new Error('copie absente');
@@ -117,9 +119,9 @@ var DevoirEleve = {
         DevoirFirebase.appeler('joinSession', { code: D._code, absence_client_ms: silence }).then(function (r) { D._caler(r.maintenant); }).catch(function () {});
       }
     }).catch(function () {
-      // Copie reprise sur un autre poste, ou session d'un autre jour : retour à la saisie du code.
+      // Copie reprise sur un autre poste, ou session d'un autre jour : retour au premier écran.
       D._memoire(D.CLE, null);
-      D._ecranCode();
+      D._ecranClasse();
     });
   },
 
@@ -128,16 +130,53 @@ var DevoirEleve = {
     DevoirEleve._racine.innerHTML = '<main class="de-centre"><div class="de-carte"><p class="de-info">' + DevoirEleve._esc(texte) + '</p></div></main>';
   },
 
+  // Premier écran : la classe (seules celles qui ont un devoir ouvert sont proposées).
+  _ecranClasse: function (erreur) {
+    var D = DevoirEleve;
+    var e = D._esc;
+    D._classe = null;
+    D._ecranMessage('Chargement…');
+    DevoirFirebase.appeler('listOpenClasses', {}).then(function (r) {
+      var classes = r.classes || [];
+      D._racine.innerHTML =
+        '<main class="de-centre"><div class="de-carte">' +
+          '<h1 class="de-titre">Devoir en classe</h1>' +
+          (classes.length
+            ? '<p class="de-label">Choisissez votre classe</p>' +
+              '<div class="de-classes">' + classes.map(function (c) { return '<button class="de-classe" data-id="' + e(c.id) + '">' + e(c.nom) + '</button>'; }).join('') + '</div>'
+            : '<p class="de-info">Aucun devoir n\'est ouvert pour le moment. Attendez le signal de votre enseignant.</p>' +
+              '<button class="de-btn" id="de-actualiser">Actualiser</button>') +
+          '<p class="de-erreur" role="alert">' + e(erreur || '') + '</p>' +
+        '</div></main>';
+      var actualiser = document.getElementById('de-actualiser');
+      if (actualiser) actualiser.addEventListener('click', function () { D._ecranClasse(); });
+      Array.prototype.forEach.call(D._racine.querySelectorAll('.de-classe'), function (b) {
+        b.addEventListener('click', function () {
+          D._classe = classes.find(function (c) { return c.id === b.getAttribute('data-id'); });
+          D._ecranCode();
+        });
+      });
+    }).catch(function (err) {
+      console.error('[DevoirEleve] classes :', err);
+      D._racine.innerHTML = '<main class="de-centre"><div class="de-carte"><p class="de-info">Connexion impossible pour le moment. Vérifiez le réseau.</p>' +
+        '<button class="de-btn" id="de-actualiser">Réessayer</button></div></main>';
+      document.getElementById('de-actualiser').addEventListener('click', function () { D._ecranClasse(); });
+    });
+  },
+
   _ecranCode: function (erreur) {
     var D = DevoirEleve;
+    if (!D._classe) return D._ecranClasse(erreur);
     D._racine.innerHTML =
       '<main class="de-centre"><form class="de-carte" id="de-form-code" autocomplete="off">' +
-        '<h1 class="de-titre">Devoir en classe</h1>' +
+        '<h1 class="de-titre">' + D._esc(D._classe.nom) + '</h1>' +
         '<label class="de-label" for="de-code">Code de la session, donné par votre enseignant</label>' +
         '<input class="de-code" id="de-code" name="code" inputmode="text" maxlength="6" autocapitalize="characters" spellcheck="false" value="' + D._esc(D._code) + '" />' +
         '<p class="de-erreur" id="de-erreur" role="alert">' + D._esc(erreur || '') + '</p>' +
         '<button class="de-btn" type="submit" id="de-valider-code">Continuer</button>' +
+        '<button class="de-lien" type="button" id="de-retour-classe">Changer de classe</button>' +
       '</form></main>';
+    document.getElementById('de-retour-classe').addEventListener('click', function () { D._ecranClasse(); });
     var champ = document.getElementById('de-code');
     champ.focus();
     champ.addEventListener('input', function () { champ.value = champ.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); });
@@ -155,6 +194,7 @@ var DevoirEleve = {
     var bouton = document.getElementById(etudiantId ? 'de-confirmer' : 'de-valider-code');
     if (bouton) bouton.disabled = true;
     var donnees = { code: D._code };
+    if (D._classe) donnees.classe_id = D._classe.id;
     if (etudiantId) donnees.etudiant_id = etudiantId;
     DevoirFirebase.appeler('joinSession', donnees).then(function (r) {
       D._caler(r.maintenant);
@@ -169,7 +209,7 @@ var DevoirEleve = {
       var message = D._messageErreur(err);
       if (etudiantId) {
         // Nom pris entre-temps : la liste est redemandée pour griser le nom.
-        DevoirFirebase.appeler('joinSession', { code: D._code }).then(function (r) { D._ecranChoix(r.etudiants, message); })
+        DevoirFirebase.appeler('joinSession', { code: D._code, classe_id: D._classe ? D._classe.id : undefined }).then(function (r) { D._ecranChoix(r.etudiants, message); })
           .catch(function () { D._ecranCode(message); });
       } else {
         D._ecranCode(message);
@@ -214,9 +254,12 @@ var DevoirEleve = {
     zone.innerHTML =
       '<div class="de-confirmation" role="dialog" aria-label="Confirmation du nom">' +
         '<p>Vous êtes bien <strong>' + D._esc(etu.nom) + '</strong> ?</p>' +
-        '<p class="de-info">Le temps démarre dès que vous confirmez. Pendant l\'épreuve, vos réponses sont enregistrées automatiquement ; ' +
+        '<p class="de-info">' + ((D._session || {}).lancee
+          ? 'L\'épreuve est déjà lancée : le temps démarre dès que vous confirmez.'
+          : 'Votre nom s\'affichera en grand, puis l\'épreuve commencera quand votre enseignant la lancera.') +
+          ' Pendant l\'épreuve, vos réponses sont enregistrées automatiquement ; ' +
           'les sorties de la page et les tentatives de collage sont consignées pour votre enseignant.</p>' +
-        '<div class="de-actions"><button class="de-btn" id="de-confirmer">Oui, commencer</button>' +
+        '<div class="de-actions"><button class="de-btn" id="de-confirmer">Oui, c\'est moi</button>' +
         '<button class="de-btn de-btn--secondaire" id="de-annuler-nom">Non, revenir à la liste</button></div>' +
       '</div>';
     document.getElementById('de-confirmer').addEventListener('click', function () { D._entrer(etu.id); });
@@ -234,10 +277,35 @@ var DevoirEleve = {
       if (!doc.exists) return;
       D._surCopie(doc.data());
     }, function () {
-      // Le nom a été libéré puis repris sur un autre poste : cette page n'a plus la main.
+      var attente = D._copie && D._copie.statut === 'en_attente';
       D._arreter();
       D._memoire(D.CLE, null);
+      // En salle d'attente : nom libéré par l'enseignant, ou session fermée avant le lancement.
+      if (attente) { D._copie = null; return D._ecranClasse('Votre nom a été libéré. Choisissez-le à nouveau.'); }
+      // Le nom a été libéré puis repris sur un autre poste : cette page n'a plus la main.
       D._ecranMessage('Cette copie est maintenant ouverte sur un autre poste. Vous pouvez fermer cette page.');
+    });
+  },
+
+  // Salle d'attente : le nom en très grand, pour que l'enseignant vérifie chaque poste d'un regard.
+  _ecranAttente: function (copie) {
+    var D = DevoirEleve;
+    var e = D._esc;
+    D._racine.innerHTML =
+      '<main class="de-centre"><div class="de-attente">' +
+        '<p class="de-attente-devoir">' + e(copie.titre || 'Devoir') + (D._session && D._session.classe_nom ? ' · ' + e(D._session.classe_nom) : '') + '</p>' +
+        '<p class="de-attente-nom" id="de-attente-nom">' + e(copie.nom) + '</p>' +
+        '<p class="de-attente-etat" role="status">Prêt. L\'épreuve commencera quand votre enseignant la lancera.</p>' +
+        '<p class="de-info">Restez sur cette page. Ne la fermez pas.</p>' +
+        '<button class="de-lien de-attente-lien" id="de-pas-moi">Ce n\'est pas mon nom</button>' +
+      '</div></main>';
+    document.getElementById('de-pas-moi').addEventListener('click', function () {
+      var copieId = D._copieId;
+      D._arreter();
+      D._copie = null;
+      D._memoire(D.CLE, null);
+      DevoirFirebase.appeler('leaveWaiting', { copie_id: copieId }).then(function () { D._ecranCode(); })
+        .catch(function (err) { D._ecranClasse(D._messageErreur(err)); });
     });
   },
 
@@ -259,7 +327,8 @@ var DevoirEleve = {
     var premiere = !D._copie;
     var avant = D._copie ? D._signature(D._copie) : '';
     D._copie = copie;
-    if (premiere) D._initialiserBrouillons(copie);
+    if (copie.statut === 'en_attente') { if (premiere) D._ecranAttente(copie); return; }
+    if (premiere || avant.indexOf('en_attente') === 0) D._initialiserBrouillons(copie);
     if (!D._active(copie)) { D._ecranFin(copie); return; }
     var visibles = D._exercicesVisibles(copie);
     if (!visibles.some(function (a) { return a.id === D._courant; })) {

@@ -4,13 +4,22 @@
 const assert = require('assert');
 const E = require('./lib/devoir-emulateur.js');
 
+// Par défaut l'épreuve est lancée aussitôt ouverte (les étudiants démarrent en entrant) ;
+// { attente: true } laisse la session en salle d'attente.
 async function ouvrirSession(prof, exercices, options) {
+  const opt = Object.assign({}, options || {});
+  const attente = opt.attente === true;
+  delete opt.attente;
   const c = await E.appeler('createSession', Object.assign({
     titre: 'Devoir de test', classe_id: 'classe-demo', exercice_ids: exercices.map((x) => x.id)
-  }, options || {}), prof.jeton);
+  }, opt), prof.jeton);
   assert.ok(c.ok, 'createSession : ' + c.message);
   const o = await E.appeler('updateSession', { session_id: c.resultat.session_id, action: 'ouvrir' }, prof.jeton);
   assert.ok(o.ok, 'ouverture : ' + o.message);
+  if (!attente) {
+    const l = await E.appeler('updateSession', { session_id: c.resultat.session_id, action: 'lancer' }, prof.jeton);
+    assert.ok(l.ok, 'lancement : ' + l.message);
+  }
   return { sessionId: c.resultat.session_id, code: o.resultat.code, avertissement: c.resultat.avertissement };
 }
 
@@ -24,6 +33,104 @@ async function entrer(code, etudiantId) {
 async function copie(id) { return (await E.lire('devoir_copies/' + id)).donnees; }
 async function prive(id) { return (await E.lire('devoir_copies_prive/' + id)).donnees; }
 async function evenements(copieId) { return (await E.chercher('devoir_evenements', 'copie_id', copieId)).docs; }
+
+async function suiteAttente(test, prof, exercices) {
+  console.log('Salle d\'attente — choix de la classe, noms, lancement par l\'enseignant');
+  let s, alice, bilal;
+  await test('la liste des classes ne montre que celles qui ont un devoir ouvert', async () => {
+    const u = await E.connexionAnonyme();
+    const avant = (await E.appeler('listOpenClasses', {}, u.jeton)).resultat.classes;
+    s = await ouvrirSession(prof, exercices, { attente: true });
+    const apres = (await E.appeler('listOpenClasses', {}, u.jeton)).resultat.classes;
+    assert.ok(apres.some((c) => c.id === 'classe-demo'), 'classe proposée');
+    assert.ok(apres.every((c) => Object.keys(c).sort().join() === 'id,nom'), 'ni étudiants ni code dans la liste');
+    assert.ok(apres.length >= avant.length);
+    assert.strictEqual((await E.appeler('listOpenClasses', {})).code, 'UNAUTHENTICATED');
+  });
+  await test('un code valide avec la mauvaise classe est refusé comme un mauvais code', async () => {
+    const u = await E.connexionAnonyme();
+    const r = await E.appeler('joinSession', { code: s.code, classe_id: 'autre-classe' }, u.jeton);
+    assert.strictEqual(r.code, 'NOT_FOUND');
+    assert.strictEqual(r.message, 'Code invalide ou session fermée.');
+    const ok = await E.appeler('joinSession', { code: s.code, classe_id: 'classe-demo' }, u.jeton);
+    assert.strictEqual(ok.resultat.etape, 'choix');
+    assert.strictEqual(ok.resultat.session.lancee, false);
+  });
+  await test('avant le lancement : la copie porte le nom, sans exercice, sans minuteur, sans partie privée', async () => {
+    alice = await entrer(s.code, 'etu-01');
+    bilal = await entrer(s.code, 'etu-02');
+    const c = await copie(alice.copieId);
+    assert.strictEqual(c.statut, 'en_attente');
+    assert.strictEqual(c.nom, 'Alice M.');
+    assert.deepStrictEqual(c.attributions, []);
+    assert.strictEqual(c.debut, null);
+    assert.strictEqual(c.fin, null);
+    assert.strictEqual(await prive(alice.copieId), null);
+    const lu = await E.lire('devoir_copies/' + alice.copieId, alice.jeton);
+    assert.ok(lu.ok, 'l\'étudiant lit sa copie en attente');
+    assert.ok(!(await E.lire('devoir_copies/' + alice.copieId, bilal.jeton)).ok, 'pas celle du voisin');
+  });
+  await test('en attente : aucun brouillon, aucun rendu, aucun incident n\'est accepté', async () => {
+    const b = await E.appeler('saveDraft', { copie_id: alice.copieId, attribution_id: 'x', blocs: {} }, alice.jeton);
+    assert.strictEqual(b.resultat.enregistre, false);
+    const r = await E.appeler('submitCopy', { copie_id: alice.copieId }, alice.jeton);
+    assert.strictEqual(r.resultat.statut, 'en_attente');
+    await E.appeler('logEvent', { copie_id: alice.copieId, type: 'focus_perdu', source: 'blur' }, alice.jeton);
+    await E.appeler('logEvent', { copie_id: alice.copieId, type: 'focus_revenu', duree_ms: 9000 }, alice.jeton);
+    const c = await copie(alice.copieId);
+    assert.strictEqual(c.statut, 'en_attente');
+    assert.strictEqual(c.changements_utilises, 0);
+  });
+  await test('l\'étudiant qui s\'est trompé de nom le rend lui-même ; un autre ne le peut pas', async () => {
+    const carla = await entrer(s.code, 'etu-03');
+    assert.strictEqual((await E.appeler('leaveWaiting', { copie_id: carla.copieId }, alice.jeton)).code, 'PERMISSION_DENIED');
+    assert.ok((await E.appeler('leaveWaiting', { copie_id: carla.copieId }, carla.jeton)).ok);
+    assert.strictEqual(await copie(carla.copieId), null);
+    const liste = (await E.appeler('joinSession', { code: s.code }, carla.jeton)).resultat.etudiants;
+    assert.strictEqual(liste.find((x) => x.id === 'etu-03').pris, false, 'le nom est de nouveau libre');
+    assert.strictEqual(liste.find((x) => x.id === 'etu-01').pris, true);
+  });
+  await test('seul l\'enseignant lance ; le lancement tire les exercices et donne la même fin à tous', async () => {
+    assert.strictEqual((await E.appeler('updateSession', { session_id: s.sessionId, action: 'lancer' }, alice.jeton)).code, 'PERMISSION_DENIED');
+    const l = await E.appeler('updateSession', { session_id: s.sessionId, action: 'lancer' }, prof.jeton);
+    assert.ok(l.ok, l.message);
+    assert.strictEqual(l.resultat.copies_lancees, 2);
+    const a = await copie(alice.copieId);
+    const b = await copie(bilal.copieId);
+    assert.strictEqual(a.statut, 'connecte');
+    assert.strictEqual(a.attributions.length, 3);
+    assert.strictEqual(String(a.fin), String(b.fin), 'même heure de fin');
+    assert.ok(Math.abs(new Date(a.fin).getTime() - Date.now() - 60 * 60000) < 15000, 'fin = lancement + 60 min');
+    assert.strictEqual(Object.keys((await prive(alice.copieId)).attributions).length, 3);
+    assert.ok((await evenements(alice.copieId)).some((e) => e.type === 'depart'));
+    assert.strictEqual((await E.appeler('updateSession', { session_id: s.sessionId, action: 'lancer' }, prof.jeton)).code, 'FAILED_PRECONDITION');
+  });
+  await test('un retardataire entre après le lancement et démarre aussitôt, avec sa propre durée', async () => {
+    const dina = await entrer(s.code, 'etu-04');
+    const d = await copie(dina.copieId);
+    assert.strictEqual(d.statut, 'connecte');
+    assert.strictEqual(d.attributions.length, 3);
+    assert.ok(new Date(d.fin).getTime() >= new Date((await copie(alice.copieId)).fin).getTime());
+  });
+  await test('fermer une session jamais lancée efface les copies en attente', async () => {
+    const s2 = await ouvrirSession(prof, exercices, { attente: true });
+    const e = await entrer(s2.code, 'etu-05');
+    assert.ok((await E.appeler('updateSession', { session_id: s2.sessionId, action: 'fermer' }, prof.jeton)).ok);
+    assert.strictEqual(await copie(e.copieId), null);
+    await E.appeler('updateSession', { session_id: s.sessionId, action: 'fermer' }, prof.jeton);
+  });
+  await test('nom libéré en attente puis repris après le lancement : la copie démarre', async () => {
+    const s3 = await ouvrirSession(prof, exercices, { attente: true });
+    const f = await entrer(s3.code, 'etu-06');
+    assert.ok((await E.appeler('releaseName', { copie_id: f.copieId }, prof.jeton)).ok);
+    const l = await E.appeler('updateSession', { session_id: s3.sessionId, action: 'lancer' }, prof.jeton);
+    assert.strictEqual(l.resultat.copies_lancees, 0, 'un nom libéré ne démarre pas tout seul');
+    assert.strictEqual((await copie(f.copieId)).statut, 'en_attente');
+    const g = await entrer(s3.code, 'etu-06');
+    assert.strictEqual((await copie(g.copieId)).statut, 'connecte');
+    await E.appeler('updateSession', { session_id: s3.sessionId, action: 'fermer' }, prof.jeton);
+  });
+}
 
 async function suiteMvp2(test, prof, exercices, classe) {
   console.log('MVP-2 — sessions');
@@ -715,6 +822,7 @@ async function lancer() {
     await suiteMvp2(test, prof, exercices, classe);
     await suiteMvp3(test, prof, exercices);
     await suiteMvp4(test, prof, exercices, fausseIa);
+    await suiteAttente(test, prof, exercices);   // en dernier : ses tirages s'ajoutent à l'historique des étudiants
   } finally {
     serveur.close();
   }

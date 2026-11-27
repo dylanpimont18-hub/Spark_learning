@@ -111,6 +111,50 @@ export async function finaliserExpirees(sessionId: string, toutes: boolean, deta
   return n;
 }
 
+// ── Salle d'attente ──────────────────────────────────────────────────────────
+// Tant que l'enseignant n'a pas lancé l'épreuve, une copie est « en_attente » : elle porte le
+// nom de l'étudiant, mais aucun exercice et aucun minuteur. Le tirage et le départ du temps se
+// font ici, au lancement (ou à l'arrivée d'un retardataire, une fois l'épreuve lancée).
+export async function demarrerCopie(sessionId: string, session: Donnees, copieId: string,
+  debutMs?: number, exercicesCharges?: Donnees[]): Promise<boolean> {
+  const copieRef = db().collection(COL.copies).doc(copieId);
+  const avant = await copieRef.get();
+  if (!avant.exists || (avant.data() as Donnees).statut !== 'en_attente') return false;
+  const etudiantId: string = (avant.data() as Donnees).etudiant_id;
+  const histRef = db().collection(COL.historique).doc(etudiantId);
+  const exercices = (exercicesCharges || await chargerExercices(session.exercice_ids || [])).filter((ex) => ex.actif !== false);
+  const hist = await histRef.get();
+  const dejaFaits: string[] = hist.exists ? ((hist.data() as Donnees).exercice_ids || []) : [];
+  const choisis = choisirExercices(exercices as any, dejaFaits, [], session.exercices_par_etudiant);
+  if (choisis.length < session.exercices_par_etudiant) {
+    throw new HttpsError('failed-precondition', 'La session n\'a plus assez d\'exercices disponibles. Appelez votre enseignant.');
+  }
+  const attributions = choisis.map((ex, i) => construireAttribution(ex, i + 1, null));
+  return db().runTransaction(async (tx) => {
+    const frais = await tx.get(copieRef);
+    if (!frais.exists || (frais.data() as Donnees).statut !== 'en_attente') return false;
+    const debut = debutMs || Date.now();
+    const privees: Donnees = {};
+    attributions.forEach((a) => { privees[a.publique.id] = a.privee; });
+    tx.update(copieRef, {
+      statut: 'connecte',
+      debut: Timestamp.fromMillis(debut),
+      fin: Timestamp.fromMillis(debut + session.duree_minutes * 60000),
+      attributions: attributions.map((a) => a.publique),
+      exercice_courant: attributions[0].publique.id,
+      updated_at: FieldValue.serverTimestamp()
+    });
+    tx.set(db().collection(COL.prive).doc(copieId), {
+      session_id: sessionId, etudiant_id: etudiantId,
+      attributions: privees, historique: {}, absence: null,
+      created_at: FieldValue.serverTimestamp(), updated_at: FieldValue.serverTimestamp()
+    });
+    tx.set(histRef, { exercice_ids: FieldValue.arrayUnion(...attributions.map((a) => a.privee.exercice_id)), updated_at: FieldValue.serverTimestamp() }, { merge: true });
+    tx.set(refNouvelEvenement(), donneesEvenement({ session_id: sessionId, copie_id: copieId, etudiant_id: etudiantId, type: 'depart' }));
+    return true;
+  });
+}
+
 // ── Enseignant : création et pilotage d'une session ──────────────────────────
 export const createSession = onCall(OPTIONS, async (req) => {
   await exigerEnseignant(req);
@@ -148,7 +192,7 @@ export const createSession = onCall(OPTIONS, async (req) => {
     titre, classe_id: classeId, classe_nom: cl.nom || '', etudiants,
     exercice_ids: ids,
     exercices: exercices.map((ex) => ({ id: ex.id, titre: ex.titre, chapitre: ex.chapitre || null })),
-    code: null, statut: 'brouillon',
+    code: null, statut: 'brouillon', lancee_a: null,
     duree_minutes: duree, exercices_par_etudiant: n, quota_remplacements: quota, delai_perte_focus_ms: delai,
     ouverte_a: null, fermee_a: null,
     created_at: FieldValue.serverTimestamp(), updated_at: FieldValue.serverTimestamp()
@@ -190,9 +234,33 @@ export const updateSession = onCall(OPTIONS, async (req) => {
   if (!snap.exists) throw new HttpsError('not-found', 'Session introuvable.');
   const s = snap.data() as Donnees;
 
+  if (action === 'lancer') {
+    // Marque d'abord la session : tout étudiant qui entre ensuite démarre directement.
+    await db().runTransaction(async (tx) => {
+      const frais = (await tx.get(ref)).data() as Donnees;
+      if (frais.statut !== 'ouverte') throw new HttpsError('failed-precondition', 'La session n\'est pas ouverte.');
+      if (frais.lancee_a) throw new HttpsError('failed-precondition', 'L\'épreuve est déjà lancée.');
+      tx.update(ref, { lancee_a: FieldValue.serverTimestamp(), updated_at: FieldValue.serverTimestamp() });
+    });
+    // Même heure de départ, donc même heure de fin, pour tous ceux qui attendaient.
+    const debut = Date.now();
+    const exercices = await chargerExercices(s.exercice_ids || []);
+    const attente = await db().collection(COL.copies).where('session_id', '==', sessionId).get();
+    let n = 0;
+    for (const doc of attente.docs) {
+      const c = doc.data();
+      if (c.statut !== 'en_attente' || !c.uid) continue;   // nom libéré : démarrera quand il sera repris
+      if (await demarrerCopie(sessionId, s, doc.id, debut, exercices)) n++;
+    }
+    return { statut: 'ouverte', lancee: true, copies_lancees: n };
+  }
+
   if (action === 'fermer') {
     if (s.statut !== 'ouverte') throw new HttpsError('failed-precondition', 'La session n\'est pas ouverte.');
+    // Copies restées en salle d'attente : elles n'ont ni exercice ni réponse, elles disparaissent.
+    const enAttente = await db().collection(COL.copies).where('session_id', '==', sessionId).where('statut', '==', 'en_attente').get();
     const lot = db().batch();
+    enAttente.docs.forEach((doc) => lot.delete(doc.ref));
     if (s.code) lot.delete(db().collection(COL.codes).doc(s.code));
     lot.update(ref, { statut: 'terminee', fermee_a: FieldValue.serverTimestamp(), updated_at: FieldValue.serverTimestamp() });
     await lot.commit();
@@ -254,6 +322,39 @@ export const releaseName = onCall(OPTIONS, async (req) => {
 });
 
 // ── Étudiant : entrée ──────────────────────────────────────────────────────
+// Classes qui ont un devoir ouvert en ce moment : premier écran de l'étudiant. Ne renvoie que
+// des noms de classe ; la liste des étudiants reste protégée par le code de la session.
+export const listOpenClasses = onCall(OPTIONS, async (req) => {
+  uidDe(req);
+  const snap = await db().collection(COL.sessions).where('statut', '==', 'ouverte').get();
+  const vues: Record<string, boolean> = {};
+  const classes: { id: string; nom: string }[] = [];
+  snap.docs.forEach((doc) => {
+    const s = doc.data();
+    if (!s.classe_id || vues[s.classe_id]) return;
+    vues[s.classe_id] = true;
+    classes.push({ id: s.classe_id, nom: s.classe_nom || s.classe_id });
+  });
+  classes.sort((a, b) => a.nom.localeCompare(b.nom, 'fr'));
+  return { classes };
+});
+
+// L'étudiant s'est trompé de nom : tant que l'épreuve n'est pas lancée, il le rend lui-même.
+export const leaveWaiting = onCall(OPTIONS, async (req) => {
+  const uid = uidDe(req);
+  const copieId = texte((req.data || {}).copie_id, 'copie_id');
+  const ref = db().collection(COL.copies).doc(copieId);
+  return db().runTransaction(async (tx) => {
+    const snap = await tx.get(ref);
+    if (!snap.exists || (snap.data() as Donnees).uid !== uid) throw new HttpsError('permission-denied', 'Cette copie n\'est pas la vôtre.');
+    const c = snap.data() as Donnees;
+    if (c.statut !== 'en_attente') throw new HttpsError('failed-precondition', 'L\'épreuve a commencé : appelez votre enseignant.');
+    tx.delete(ref);
+    tx.set(refNouvelEvenement(), donneesEvenement({ session_id: c.session_id, copie_id: copieId, etudiant_id: c.etudiant_id, type: 'nom_rendu', detail: 'par l\'étudiant, avant le lancement' }));
+    return { ok: true };
+  });
+});
+
 export const joinSession = onCall(OPTIONS, async (req) => {
   const uid = uidDe(req);
   const d = req.data || {};
@@ -271,7 +372,9 @@ export const joinSession = onCall(OPTIONS, async (req) => {
       if (s.exists) session = s.data() as Donnees;
     }
   }
-  if (!sessionId || !session || session.statut !== 'ouverte') {
+  // La classe choisie au premier écran doit être celle de la session : même refus qu'un mauvais code.
+  const classeDemandee = typeof d.classe_id === 'string' ? d.classe_id : null;
+  if (!sessionId || !session || session.statut !== 'ouverte' || (classeDemandee && session.classe_id !== classeDemandee)) {
     await noterEchec(cles);
     throw new HttpsError('not-found', MESSAGE_CODE);
   }
@@ -279,14 +382,20 @@ export const joinSession = onCall(OPTIONS, async (req) => {
   const copies = db().collection(COL.copies);
   const resume = {
     titre: session.titre, classe_nom: session.classe_nom,
-    duree_minutes: session.duree_minutes, exercices_par_etudiant: session.exercices_par_etudiant
+    duree_minutes: session.duree_minutes, exercices_par_etudiant: session.exercices_par_etudiant,
+    lancee: !!session.lancee_a
   };
+  const lancee = !!session.lancee_a;
 
   // Reconnexion (rafraîchissement, plantage du navigateur) : même identité anonyme → même copie.
   const miennes = await copies.where('session_id', '==', sessionId).where('uid', '==', uid).limit(1).get();
   if (!miennes.empty) {
     const doc = miennes.docs[0];
     const c = doc.data();
+    if (c.statut === 'en_attente') {
+      if (lancee) await demarrerCopie(sessionId, session, doc.id);
+      return { etape: 'copie', copie_id: doc.id, session: resume, maintenant: Date.now() };
+    }
     if (estActive(c) && Date.now() > millis(c.fin) + GRACE_MS) {
       await db().runTransaction(async (tx) => {
         const frais = (await tx.get(doc.ref)).data() as Donnees;
@@ -320,22 +429,9 @@ export const joinSession = onCall(OPTIONS, async (req) => {
   if (!etudiant) throw new HttpsError('not-found', 'Nom introuvable dans la liste de la classe.');
   const copieId = idCopie(sessionId, etudiantId);
   const copieRef = copies.doc(copieId);
-  const priveRef = db().collection(COL.prive).doc(copieId);
-  const histRef = db().collection(COL.historique).doc(etudiantId);
 
-  // Tirage préparé hors transaction (lecture de la banque) ; l'unicité (session, étudiant) est
-  // garantie par l'identifiant de la copie et la transaction qui suit.
-  let attributions: ReturnType<typeof construireAttribution>[] = [];
-  if (!(await copieRef.get()).exists) {
-    const exercices = (await chargerExercices(session.exercice_ids || [])).filter((ex) => ex.actif !== false);
-    const hist = await histRef.get();
-    const dejaFaits: string[] = hist.exists ? ((hist.data() as Donnees).exercice_ids || []) : [];
-    const choisis = choisirExercices(exercices, dejaFaits, [], session.exercices_par_etudiant);
-    if (choisis.length < session.exercices_par_etudiant) throw new HttpsError('failed-precondition', 'La session n\'a plus assez d\'exercices disponibles. Appelez votre enseignant.');
-    attributions = choisis.map((ex, i) => construireAttribution(ex, i + 1, null));
-  }
-
-  const maintenant = Date.now();
+  // La copie naît « en_attente », sans exercice ni minuteur ; l'unicité (session, étudiant) est
+  // garantie par son identifiant et par la transaction. Le tirage a lieu au lancement.
   await db().runTransaction(async (tx) => {
     const snap = await tx.get(copieRef);
     if (snap.exists) {
@@ -350,19 +446,16 @@ export const joinSession = onCall(OPTIONS, async (req) => {
       }));
       return;
     }
-    if (!attributions.length) throw new HttpsError('aborted', 'Réessayez.');
-    const privees: Donnees = {};
-    attributions.forEach((a) => { privees[a.publique.id] = a.privee; });
     tx.set(copieRef, {
       session_id: sessionId, etudiant_id: etudiantId, nom: etudiant.nom, uid,
       titre: session!.titre,
-      statut: 'connecte',
-      debut: Timestamp.fromMillis(maintenant),
-      fin: Timestamp.fromMillis(maintenant + session!.duree_minutes * 60000),
+      statut: 'en_attente',
+      debut: null,
+      fin: null,
       rendue_a: null,
-      attributions: attributions.map((a) => a.publique),
+      attributions: [],
       reponses: {},
-      exercice_courant: attributions[0].publique.id,
+      exercice_courant: null,
       changements_utilises: 0,
       collages_bloques: 0,
       quota_remplacements: session!.quota_remplacements,
@@ -371,14 +464,10 @@ export const joinSession = onCall(OPTIONS, async (req) => {
       absence_depuis: null,
       created_at: FieldValue.serverTimestamp(), updated_at: FieldValue.serverTimestamp()
     });
-    tx.set(priveRef, {
-      session_id: sessionId, etudiant_id: etudiantId,
-      attributions: privees, historique: {}, absence: null,
-      created_at: FieldValue.serverTimestamp(), updated_at: FieldValue.serverTimestamp()
-    });
-    tx.set(histRef, { exercice_ids: FieldValue.arrayUnion(...attributions.map((a) => a.privee.exercice_id)), updated_at: FieldValue.serverTimestamp() }, { merge: true });
     tx.set(refNouvelEvenement(), donneesEvenement({ session_id: sessionId as string, copie_id: copieId, etudiant_id: etudiantId, type: 'join' }));
   });
+  // Épreuve déjà lancée (retardataire, nom libéré puis repris) : la copie démarre tout de suite.
+  if (lancee) await demarrerCopie(sessionId, session, copieId);
   return { etape: 'copie', copie_id: copieId, session: resume, maintenant: Date.now() };
 });
 
