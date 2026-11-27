@@ -50,7 +50,16 @@ Ce fichier est la **source de vérité** pour la structure de fichiers du projet
 | js/devoir/devoirEngine.js | Moteur de variantes : validation d'un exercice paramétré, tirage, corrigé calculé (mathjs restreint), virgule française |
 | js/devoir/devoirStore.js | Accès Firestore enseignant : `devoir_classes`, `devoir_exercices` (admin seul) |
 | scripts/devoir-verifier-lot.js | Vérifie un lot d'exercices (dépôt BTS FED, privé) avant import dans la banque |
-| js/devoir/devoirAdmin.js | Onglet « Devoirs » du panneau admin : banque d'exercices (éditeur JSON + 3 variantes) et classes |
+| js/devoir/devoirAdmin.js | Onglet « Devoirs » du panneau admin : banque d'exercices (éditeur JSON + 3 variantes), classes, sessions |
+| js/devoir/devoirFirebase.js | Appel des Cloud Functions (europe-west1) et bascule sur les émulateurs en local (port 5055) |
+| js/devoir/devoirEleve.js | Vue étudiant (`devoir.html`, `/devoir`) : code, nom, blocs de réponse, brouillon, minuteur, rendu, signalement des sorties de page et des collages |
+| js/devoir/devoirSessions.js | Sous-onglet « Sessions » : création, ouverture, tableau de bord en direct, incidents anti-triche |
+| js/devoir/devoirCorrection.js | Relecture des copies : pré-correction IA lancée à la main, modification, validation, note finale |
+| devoir.html | Page d'épreuve épurée, sans navigation ni mesure d'audience |
+| functions/ | Cloud Functions (TypeScript) : sessions, anti-triche, correction IA. Seul dossier à utiliser npm avec les outils de build |
+| scripts/devoir-emulateurs.js | Essai local et tests dans la Firebase Emulator Suite |
+| scripts/test-devoir-*.js, scripts/lib/devoir-*.js | Tests (règles, fonctions, bout en bout, contrôles IA), jeu de démonstration, fausse IA |
+| docs/evaluation/RAPPORT-MVP-2-4.md | État, décisions, gestes de mise en service, essai local |
 
 ## Moteurs (js/engines/)
 | Fichier | Rôle |

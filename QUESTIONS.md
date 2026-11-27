@@ -25,7 +25,7 @@ Beaucoup d'exercices FED lisent une valeur dans un tableau ou un catalogue (D.10
 
 Le cahier des charges prévoit un dépôt de fichier dans l'interface. Je propose un script local qui lit directement les `.typ`. C'est plus fidèle que l'extraction d'un PDF, et ça ne demande ni Storage ni traitement côté serveur. Les brouillons arrivent ensuite dans la file de validation de l'interface. À confirmer.
 
-## Q4 — Modèle Anthropic et budget mensuel maximum
+## Q4 — Modèle Anthropic et budget mensuel maximum — ⏳ modèle : claude-sonnet-5-5 par défaut (réglable) ; budget à fixer par Dylan
 
 Ordre de grandeur : 11 étudiants × 3 exercices = 33 appels par devoir, plus les appels d'import. Le modèle sera une variable de configuration. Budget plafond à fixer.
 
@@ -33,10 +33,10 @@ Ordre de grandeur : 11 étudiants × 3 exercices = 33 appels par devoir, plus le
 
 S'agissait-il de postes du lycée, d'ordinateurs personnels ou de téléphones ? Sur téléphone, une notification ou la mise en veille déclenche `visibilitychange` : le délai de 2 s ne suffira pas à éviter les faux positifs. Le réseau du lycée filtre-t-il `*.googleapis.com` / `firestore.googleapis.com` ?
 
-## Q6 — Annulation d'un incident (faux positif)
+## Q6 — Annulation d'un incident (faux positif) — ⏳ appliquée par défaut le 27/11 (MVP-3), à confirmer
 
 Quand l'enseignant annule un incident, l'exercice d'origine est rétabli. Mais que devient l'exercice de remplacement, déjà commencé ? Proposition : il est conservé dans la copie avec le statut « remplacement annulé » (non noté par défaut, comme un exercice invalidé), et l'étudiant reprend l'exercice d'origine avec ses réponses archivées.
 
-## Q7 — Texte d'information des étudiants
+## Q7 — Texte d'information des étudiants — ⏳ brouillon rédigé le 27/11, à relire (docs/evaluation/RAPPORT-MVP-2-4.md, section 8)
 
 Le cahier des charges demande une information avant la première évaluation. Je peux rédiger la mention (journal anti-triche, correction préparée par IA sous contrôle de l'enseignant, durée de conservation d'une année scolaire) pour relecture.

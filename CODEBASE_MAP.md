@@ -93,6 +93,10 @@ Registre de provenance des images de repli téléchargées par le skill `generer
 Règles de sécurité Firestore.
 - `config/{doc}` — lecture publique (invités inclus, pour lire `maintenanceMode`/annonce), écriture réservée admin
 - `devoir_classes/{id}`, `devoir_exercices/{id}` — admin seul (module devoir en classe, 2026-11-26) ; les étudiants n'y accèdent jamais
+- `devoir_sessions`, `devoir_copies_prive`, `devoir_evenements`, `devoir_corrections` — lecture admin, **aucune écriture cliente** (Cloud Functions seulement, 2026-11-27)
+- `devoir_copies/{id}` — `get` par l'étudiant dont `uid` est celui de la copie (connexion anonyme), `list` admin, aucune écriture cliente ; ne contient ni corrigé, ni barème, ni note
+- `devoir_codes`, `devoir_tentatives`, `devoir_historique` — aucune règle : accès serveur uniquement
+- Tests : `node scripts/devoir-emulateurs.js test regles` (à passer AVANT tout commit de ce fichier : le hook post-commit le publie en production)
 - `users/{uid}` — lecture propriétaire/admin ; **création réservée à l'admin depuis le 2026-10-12** (l'auto-inscription élève/enseignant est retirée de l'interface ; sans ce verrou, n'importe qui pouvait encore créer un compte via l'API Firebase Auth puis écrire son propre profil). Un compte se crée désormais dans la console Firebase, qui contourne ces règles. Rappel : tout commit touchant ce fichier déploie en prod (hook post-commit)
 
 ---
@@ -575,3 +579,92 @@ Helpers de rendu et utilitaires UI partagés.
 - `renderLoading()` — squelette de chargement
 - `renderErreurConseil(piege)` — bloc conseil sur l'erreur classique
 - `renderQuestionFigure(figure)` — rend la figure attachée à une question de quiz, un exercice généré ou une question d'évaluation ; accepte une chaîne (SVG brut) ou un objet `{svg, caption}` ; le conteneur interne réutilise la classe `.cours-diagram-stage` pour hériter du thème SVG partagé (`.curve-main`, `.plot-point`, `.annotation-label`…) tandis que `.question-figure` porte les variables `--diagram-*`
+
+## Module devoir en classe — MVP-2 à 4 (2026-11-27)
+Rapport, décisions et gestes de mise en service : `docs/evaluation/RAPPORT-MVP-2-4.md`. Lancer : `node scripts/devoir-emulateurs.js` (essai local) ou `… test [ia|regles|fonctions|e2e]`.
+
+## functions/src/commun.ts
+Socle des Cloud Functions (europe-west1) : Firestore admin, constantes, journal.
+- `exigerEnseignant(req)` — refuse si `users/{uid}.role` n'est pas admin
+- `journaliser(e)` / `donneesEvenement(e)` — ajoute au journal `devoir_evenements`
+- `COL`, `DEFAUTS`, `GRACE_MS`, `estActive(copie)` — noms de collections, valeurs par défaut
+
+## functions/src/tirage.ts
+Tirage serveur avec le moteur partagé (`functions/vendor/devoirEngine.js`, copié au build par `copier-moteur.js`).
+- `choisirExercices(candidats, dejaFaits, exclus, n)` — priorité aux exercices jamais faits
+- `construireAttribution(ex, rang, remplace)` — partie publique + partie privée (corrigé, barème)
+
+## functions/src/session.ts
+MVP-2 : sessions, entrée, brouillon, rendu.
+- `createSession` / `updateSession` — crée, ouvre (code), ferme, prolonge, archive
+- `joinSession` — code puis nom, tirage, reconnexion
+- `saveDraft` / `submitCopy` — brouillon versionné, rendu ; temps vérifié côté serveur
+- `releaseName` / `syncSession` — libère un nom ; rend les copies expirées
+- `figer(tx, ref, copie, statut…)` / `finaliserExpirees(sessionId…)` — fige une copie
+
+## functions/src/antitriche.ts
+MVP-3 : perte de focus, remplacement, collage, annulation.
+- `logEvent` — focus_perdu, focus_revenu, paste_blocked, drop_blocked
+- `traiterRetour(copieId, uid, o)` — mesure l'absence, remplace ou verrouille
+- `replaceAssignment` / `cancelIncident` / `unlockCopy` — actions de l'enseignant
+
+## functions/src/ia.ts
+MVP-4 : prompt (§6), schéma, appel Anthropic, contrôles. Sans Firestore, testable seul.
+- `construireMessage(d)` — données et réponse, sous code interne
+- `validerSortie(brut, d)` / `controler(o, d)` — schéma, points bornés, note recalculée
+- `preCorriger(d, appel)` — un nouvel essai au plus, puis erreur IA
+- `appelerModele(reglages, d)` — `messages.create` avec sortie structurée
+
+## functions/src/correction.ts
+MVP-4 : fiches `devoir_corrections`, note finale dans `devoir_copies_prive.correction`.
+- `runPreCorrection` — par copie, secret `ANTHROPIC_API_KEY`, option `sans_ia`
+- `saveCorrection` — modification manuelle, proposition IA conservée
+- `validateCorrection` / `noteSur20(points, max)` — note sur 20 au demi-point
+
+## devoir.html
+Page étudiant épurée, servie sur `/devoir` (réécriture dans `firebase.json`). Charge `styles.css`, KaTeX, Firebase, `devoirFirebase.js`, `devoirEleve.js`.
+
+## js/devoir/devoirFirebase.js
+Appel des Cloud Functions et bascule sur les émulateurs (uniquement sur `localhost:5055`).
+- `preparer()` / `brancher(app)` — avant et après `initializeApp` (appelés par `AuthService.init`)
+- `appeler(nom, donnees)` — charge le SDK Functions à la demande, appelle
+
+## js/devoir/devoirEleve.js
+Vue étudiant : code, nom, copie, minuteur, rendu. Application Firebase nommée `devoir` (identité anonyme séparée du site).
+- `init()` / `_reprendre()` — connexion anonyme, reprise de la copie mémorisée
+- `_entrer(etudiantId)` — joinSession, liste des noms puis copie
+- `_surCopie(copie)` / `_ecranCopie()` — état serveur en direct, écran d'épreuve
+- `_envoyer(attId, force)` / `_toutEnvoyer()` — brouillon automatique, reprise hors ligne
+- `_battement()` / `_rendre(auto)` — minuteur, rendu anticipé ou automatique
+- `_surFocus()` / `_collageBloque(type, champ)` — signale sorties de page et collages
+
+## js/devoir/devoirSessions.js
+Sous-onglet « Sessions » : liste, création, tableau de bord en direct.
+- `render(zone)` / `quitter()` — entrée, arrêt des écoutes
+- `_creer()` / `_ouvrir(id)` — crée puis ouvre une session
+- `_ouvrirDirect(id)` / `_htmlDirect()` — tableau de bord temps réel, incidents
+- `_prolonger()` / `_fermer()` / `_liberer(copieId)` — actions de session
+- `_annulerIncident(id)` / `_deverrouiller(copieId)` — anti-triche
+- `_corriger(id)` — passe la main à `DevoirCorrection`
+
+## js/devoir/devoirCorrection.js
+Relecture des copies : liste triée (confiance basse en tête), copie par copie, validation.
+- `ouvrir(zone, session)` — écoute copies et fiches
+- `_lancer(sansIa)` — pré-correction copie par copie, avec avancement
+- `_htmlCopie()` / `_htmlFiche(a, fiche)` — réponse à gauche, correction à droite
+- `_enregistrer(ficheId, avecRetour)` / `_valider()` — saveCorrection, validateCorrection
+
+## scripts/devoir-emulateurs.js
+Lanceur des émulateurs (auth, firestore, functions, hosting) : essai local ou tests. Trouve Java dans `%USERPROFILE%\tools\jdk`, compile `functions/`, écrit `.secret.local` et `.env.local`.
+
+## scripts/lib/devoir-emulateur.js
+Outils REST des tests : `ecrire`, `lire`, `chercher`, `majChamps`, `appeler(nom, donnees, jeton)`, `connexionAnonyme`, `semer()`, `toutEffacer()`.
+
+## scripts/lib/devoir-demo.js / scripts/devoir-demo.js
+Classe de 11 étudiants et 6 exercices génériques de démonstration ; script qui les charge pour l'essai local.
+
+## scripts/lib/devoir-fausse-ia.js
+Fausse API Anthropic locale (port 5998) : aucun appel réel. Mots-clés `IA_JSON_INVALIDE_UNE_FOIS`, `IA_TOUJOURS_INVALIDE`, `IA_SOMME_FAUSSE`, `IA_CONFIANCE_BASSE`.
+
+## scripts/test-devoir-{ia,regles,fonctions,e2e,tout}.js
+Suites de tests du module (113 tests) : contrôles IA, règles Firestore, Cloud Functions, bout en bout Puppeteer, enchaînement.
