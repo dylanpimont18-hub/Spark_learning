@@ -36,7 +36,7 @@ export async function chargerExercices(ids: string[]): Promise<Donnees[]> {
   if (!ids.length) return [];
   const refs = ids.map((id) => db().collection(COL.exercices).doc(id));
   const docs = await db().getAll(...refs);
-  return docs.filter((d) => d.exists).map((d) => Object.assign({}, d.data(), { id: d.id }));
+  return docs.filter((d) => d.exists).map((d) => Moteur.depuisStockage(Object.assign({}, d.data(), { id: d.id })));
 }
 
 // Choisit n exercices parmi les candidats (hors « exclus »), en priorité ceux que l'étudiant n'a

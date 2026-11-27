@@ -599,7 +599,30 @@ var DevoirEngine = (function () {
     };
   }
 
+  // ── Stockage Firestore ───────────────────────────────────────────────────────
+  // Firestore refuse un tableau placé directement dans un tableau : les `lignes` d'un paramètre
+  // « ligne de catalogue » ([[..], ..]) sont donc enregistrées sous la forme [{ v: [..] }, ..].
+  // Toute écriture d'un exercice passe par pourStockage, toute lecture par depuisStockage
+  // (qui accepte aussi un exercice déjà au format du moteur).
+  function _convertirLignes(ex, convertir) {
+    if (!ex || !Array.isArray(ex.parametres)) return ex;
+    var copie = Object.assign({}, ex);
+    copie.parametres = ex.parametres.map(function (p) {
+      if (!p || !Array.isArray(p.lignes)) return p;
+      return Object.assign({}, p, { lignes: p.lignes.map(convertir) });
+    });
+    return copie;
+  }
+  function pourStockage(ex) {
+    return _convertirLignes(ex, function (l) { return Array.isArray(l) ? { v: l } : l; });
+  }
+  function depuisStockage(ex) {
+    return _convertirLignes(ex, function (l) { return l && !Array.isArray(l) && Array.isArray(l.v) ? l.v : l; });
+  }
+
   return {
+    pourStockage: pourStockage,
+    depuisStockage: depuisStockage,
     creerCalculateur: creerCalculateur,
     valider: valider,
     instancier: instancier,

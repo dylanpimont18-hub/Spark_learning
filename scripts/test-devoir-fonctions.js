@@ -202,6 +202,20 @@ async function suiteMvp2(test, prof, exercices, classe) {
     }
     assert.ok(signatures.size > 20, 'les variantes diffèrent d\'un étudiant à l\'autre (' + signatures.size + ' distinctes sur 33)');
   });
+  await test('un exercice à ligne de catalogue est stocké sans tableau imbriqué et tiré correctement', async () => {
+    const brut = (await E.lire('devoir_exercices/demo-surface')).donnees;
+    const lignes = brut.parametres.find((p) => p.nom === 'mur').lignes;
+    assert.ok(lignes.every((l) => !Array.isArray(l) && Array.isArray(l.v)), 'lignes stockées sous la forme { v: [..] }');
+    const s = await ouvrirSession(prof, exercices.filter((x) => x.id === 'demo-surface'), { exercices_par_etudiant: 1 });
+    const etu = await entrer(s.code, 'etu-01');
+    const c = await copie(etu.copieId);
+    const p = await prive(etu.copieId);
+    assert.strictEqual(c.attributions.length, 1);
+    assert.ok(/Un mur (de refend|de façade|pignon) mesure/.test(c.attributions[0].enonce), c.attributions[0].enonce);
+    const v = p.attributions[c.attributions[0].id].valeurs;
+    assert.ok([2.5, 2.7, 3].indexOf(v.h) !== -1, 'hauteur prise dans la ligne tirée : ' + JSON.stringify(v));
+    await E.appeler('updateSession', { session_id: s.sessionId, action: 'fermer' }, prof.jeton);
+  });
   await test('un nom déjà pris est signalé et refusé à un autre poste', async () => {
     const u = await E.connexionAnonyme();
     const liste = await E.appeler('joinSession', { code: s.code }, u.jeton);

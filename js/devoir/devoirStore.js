@@ -36,7 +36,7 @@ var DevoirStore = {
   // ── Banque d'exercices : un document par exercice, id = ex.id (slug) ──
   listExercices: async function () {
     var snap = await this._db().collection('devoir_exercices').get();
-    return snap.docs.map(function (d) { return Object.assign({}, d.data(), { id: d.id }); })
+    return snap.docs.map(function (d) { return DevoirEngine.depuisStockage(Object.assign({}, d.data(), { id: d.id })); })
       .sort(function (a, b) { return (a.titre || '').localeCompare(b.titre || '', 'fr'); });
   },
 
@@ -49,7 +49,8 @@ var DevoirStore = {
   // Écriture complète (sans merge) : un champ retiré dans l'éditeur doit disparaître du document.
   // createdAt : horodatage d'origine à conserver lors d'une modification (null pour une création).
   saveExercice: async function (ex, actif, createdAt) {
-    var data = JSON.parse(JSON.stringify(ex));
+    // pourStockage : les lignes de catalogue (tableaux de tableaux) sont refusées telles quelles par Firestore.
+    var data = DevoirEngine.pourStockage(JSON.parse(JSON.stringify(ex)));
     data.actif = actif !== false;
     data.updated_at = this._now();
     data.created_at = createdAt || this._now();

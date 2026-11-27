@@ -233,5 +233,16 @@ test('$$ … $$ est bien traité comme du mode maths', () => {
   ex.enonce_modele = '$$I = {{I}}$$ soit {{I}}';
   assert.strictEqual(E.instancier(ex, calc, { rng: E.rngGraine(1) }).enonce, '$$I = 2{,}5$$ soit 2,5');
 });
+test('stockage : les lignes de catalogue ne sont plus des tableaux de tableaux, et reviennent à l\'identique', () => {
+  const ex = exerciceOhm();
+  ex.parametres.push({ nom: 'iso', colonnes: [{ nom: 'nom_isolant' }, { nom: 'lambda' }], lignes: [['PIR', 0.022], ['laine', 0.032]] });
+  const avant = JSON.stringify(ex);
+  const stocke = E.pourStockage(ex);
+  assert.deepStrictEqual(stocke.parametres[2].lignes, [{ v: ['PIR', 0.022] }, { v: ['laine', 0.032] }]);
+  assert.strictEqual(JSON.stringify(ex), avant, 'l\'exercice d\'origine n\'est pas modifié');
+  assert.strictEqual(JSON.stringify(E.depuisStockage(stocke)), avant);
+  assert.strictEqual(JSON.stringify(E.depuisStockage(ex)), avant, 'un exercice déjà au format du moteur est laissé tel quel');
+  assert.strictEqual(JSON.stringify(E.pourStockage(stocke)), JSON.stringify(stocke), 'pourStockage est idempotent');
+});
 
 console.log('\n' + passes + ' test(s) réussi(s)' + (process.exitCode ? ' — DES TESTS ÉCHOUENT' : ''));

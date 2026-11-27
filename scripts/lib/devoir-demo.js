@@ -45,8 +45,9 @@ const EXERCICES = [
     { nom: 'eta', expression: 'Pu / Pa * 100', unite: '%', decimales: 1 },
     '$\\eta = \\dfrac{P_u}{P_a} \\times 100 = \\dfrac{{{Pu}}}{{{Pa}}} \\times 100 = {{eta}}$ %'),
   exercice('demo-surface', 'Démo — Surface d\'un mur',
-    'Un mur mesure $L = {{L}}$ m de long et $h = {{h}}$ m de haut.<br/><br/>Calculer sa <strong>surface</strong> $A$.',
-    [{ nom: 'L', min: 4, max: 9, pas: 0.5, unite: 'm' }, { nom: 'h', valeurs: [2.5, 2.7, 3], unite: 'm' }],
+    'Un mur {{type_mur}} mesure $L = {{L}}$ m de long et $h = {{h}}$ m de haut.<br/><br/>Calculer sa <strong>surface</strong> $A$.',
+    [{ nom: 'L', min: 4, max: 9, pas: 0.5, unite: 'm' }, // Ligne de catalogue : couvre le stockage Firestore des tableaux de tableaux (pourStockage).
+      { nom: 'mur', colonnes: [{ nom: 'type_mur' }, { nom: 'h', unite: 'm' }], lignes: [['de refend', 2.5], ['de façade', 2.7], ['pignon', 3]] }],
     { nom: 'A', expression: 'L * h', unite: 'm²', decimales: 2 },
     '$A = L \\times h = {{L}} \\times {{h}} = {{A}}$ m²')
 ];

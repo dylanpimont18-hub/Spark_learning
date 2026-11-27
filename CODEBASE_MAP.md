@@ -517,6 +517,7 @@ Panneau d'administration (espace enseignant retiré le 2026-11-22) : annonce glo
 Moteur de variantes du module devoir en classe (MVP-1, 2026-11-26). Pur, sans DOM ; navigateur + Node (`module.exports`), réutilisable par les Cloud Functions. Format : `docs/evaluation/CAHIER-DES-CHARGES.md` §11 + paramètres liste `{nom, valeurs}` et ligne de catalogue `{nom, colonnes, lignes}`.
 - `CHAPITRES` / `chapitreDe(id)` / `libelleChapitre(id)` — périmètre : les 16 chapitres enseignés par Dylan (dossier `Desktop/cours/Dylan` : 01…10c, 12, 13, 15, 16), avec savoir et notion ; `chapitre` obligatoire dans `valider()`
 - `creerCalculateur(math)` — instance mathjs, fonctions dangereuses désactivées
+- `pourStockage(ex)` / `depuisStockage(ex)` — lignes de catalogue `[[..]]` ↔ `[{v:[..]}]` (Firestore refuse les tableaux imbriqués) ; toute écriture/lecture d'exercice y passe
 - `valider(ex, calc)` — `{erreurs, avertissements}` : schéma, symboles en liste blanche, toutes combinaisons calculées
 - `instancier(ex, calc, {rng})` — tire valeurs, calcule données, rend énoncé/corrigé
 - `variantesDistinctes(ex, calc, n, {rng})` — n variantes aux valeurs différentes
@@ -535,7 +536,7 @@ Vérifie un lot d'exercices avant import (validation, garde-fou, une variante af
 ## js/devoir/devoirStore.js
 Accès Firestore enseignant du module devoir. Collections `devoir_classes` (`{nom, annee_scolaire, etudiants:[{id, nom, mode_dys, actif}]}`) et `devoir_exercices` (id du document = `ex.id`), admin seul dans `firestore.rules`.
 - `listClasses()` / `saveClasse(c)` / `deleteClasse(id)` — CRUD des classes
-- `listExercices()` / `exerciceExiste(id)` / `saveExercice(ex, actif, createdAt)` — banque ; écriture complète, sans merge
+- `listExercices()` / `exerciceExiste(id)` / `saveExercice(ex, actif, createdAt)` — banque ; écriture complète, sans merge, via `DevoirEngine.pourStockage` / `depuisStockage`
 - `setExerciceActif(id, actif)` / `deleteExercice(id)` — retrait du tirage, suppression
 - `nouvelId(collection)` — identifiant Firestore généré côté client
 

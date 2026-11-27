@@ -1,6 +1,7 @@
 // Outils partagés par les tests du module devoir contre la Firebase Emulator Suite.
 // Aucune dépendance npm : API REST des émulateurs (auth, firestore, functions) via fetch.
 // Le projet « demo-… » garantit qu'aucun appel ne peut atteindre la production.
+const Moteur = require('../../js/devoir/devoirEngine.js');
 const PROJET = 'demo-spark-devoir';
 const REGION = 'europe-west1';
 const HOTE = '127.0.0.1';
@@ -128,7 +129,7 @@ async function semer() {
   await ecrire('users/' + prof.uid, { email: ENSEIGNANT.email, displayName: 'Enseignant (démo)', role: 'admin', status: 'active', createdAt: new Date() });
   await ecrire('devoir_classes/' + demo.CLASSE.id, { nom: demo.CLASSE.nom, annee_scolaire: demo.CLASSE.annee_scolaire, etudiants: demo.CLASSE.etudiants, created_at: new Date(), updated_at: new Date() });
   for (const ex of demo.EXERCICES) {
-    await ecrire('devoir_exercices/' + ex.id, Object.assign({}, ex, { actif: true, created_at: new Date(), updated_at: new Date() }));
+    await ecrire('devoir_exercices/' + ex.id, Object.assign({}, Moteur.pourStockage(ex), { actif: true, created_at: new Date(), updated_at: new Date() }));
   }
   return { prof, classe: demo.CLASSE, exercices: demo.EXERCICES };
 }
