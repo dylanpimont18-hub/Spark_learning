@@ -11,7 +11,7 @@ const REFUS = 403;
 async function lancer() {
   const { test, etat } = E.cadre();
   await E.toutEffacer();
-  const { prof, exercices } = await E.semer();
+  const { prof, exercices, rediges } = await E.semer();
 
   // Une session ouverte, deux étudiants entrés, un brouillon enregistré.
   const creation = await E.appeler('createSession', {
@@ -110,7 +110,7 @@ async function lancer() {
     assert.ok(att.corrige && typeof att.corrige.valeur === 'number' && att.bareme.length === 4, 'corrigé et barème attendus côté enseignant');
     assert.ok((await E.chercher('devoir_evenements', 'session_id', sessionId, prof.jeton)).docs.length >= 2);
     assert.strictEqual((await E.lire('devoir_corrections/' + maCopie.attributions[0].id, prof.jeton)).statut, 200);
-    assert.strictEqual((await E.lister('devoir_exercices', prof.jeton)).docs.length, exercices.length);
+    assert.strictEqual((await E.lister('devoir_exercices', prof.jeton)).docs.length, exercices.length + rediges.length);
     assert.strictEqual((await E.lire('devoir_classes/classe-demo', prof.jeton)).statut, 200);
   });
   await test('n\'écrit pas directement dans les collections pilotées par le serveur', async () => {

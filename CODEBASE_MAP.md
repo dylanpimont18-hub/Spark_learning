@@ -691,4 +691,4 @@ Classe de 11 étudiants et 6 exercices génériques de démonstration ; script q
 Fausse API Anthropic locale (port 5998) : aucun appel réel. Mots-clés `IA_JSON_INVALIDE_UNE_FOIS`, `IA_TOUJOURS_INVALIDE`, `IA_SOMME_FAUSSE`, `IA_CONFIANCE_BASSE`.
 
 ## scripts/test-devoir-{ia,regles,fonctions,e2e,tout}.js
-Suites de tests du module (125 tests) : contrôles IA, règles Firestore, Cloud Functions, bout en bout Puppeteer, enchaînement.
+Suites de tests du module (155 tests : IA 21, règles 15, fonctions 79, bout en bout 40) : contrôles IA, règles Firestore, Cloud Functions, bout en bout Puppeteer, enchaînement. `cliquerEnDirect(page, sel)` (e2e) : clic atomique sur un écran reconstruit en direct.
