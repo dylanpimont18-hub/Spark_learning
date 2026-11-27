@@ -653,6 +653,7 @@ Sous-onglet « Sessions » : liste, création, tableau de bord en direct.
 - `_prolonger()` / `_fermer()` / `_liberer(copieId)` — actions de session
 - `_annulerIncident(id)` / `_deverrouiller(copieId)` — anti-triche
 - `_corriger(id)` — passe la main à `DevoirCorrection`
+- `_visibles()` / `_estDS(x)` / `_surPapier(x)` — filtres de chapitre et d'origine (tag « DS NN ») ; repère « diagramme papier à distribuer »
 
 ## js/devoir/devoirCorrection.js
 Relecture des copies : liste triée (confiance basse en tête), copie par copie, validation.

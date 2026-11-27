@@ -14,6 +14,7 @@ var DevoirSessions = {
   _dernierSync: 0,
   _selection: {},          // exercices cochés dans le formulaire de création
   _filtre: '',
+  _origine: '',   // '' = tous, 'ds' = questions de devoir surveillé, 'td' = entraînement
 
   LIBELLES_STATUT: { brouillon: 'brouillon', ouverte: 'ouverte', terminee: 'terminée', archivee: 'archivée' },
   LIBELLES_COPIE: { en_attente: 'prêt', connecte: 'connecté', en_cours: 'en cours', rendue: 'rendu', rendue_auto: 'rendu (temps écoulé)', verrouillee: 'verrouillé' },
@@ -148,6 +149,7 @@ var DevoirSessions = {
     DevoirSessions._vue = 'creation';
     DevoirSessions._selection = {};
     DevoirSessions._filtre = '';
+    DevoirSessions._origine = '';
     DevoirSessions._afficher();
   },
 
@@ -187,7 +189,7 @@ var DevoirSessions = {
     var S = DevoirSessions;
     var e = S._esc;
     var tous = S._exercicesActifs();
-    var visibles = S._filtre ? tous.filter(function (x) { return x.chapitre === S._filtre; }) : tous;
+    var visibles = S._visibles();
     var compte = {};
     tous.forEach(function (x) { compte[x.chapitre] = (compte[x.chapitre] || 0) + 1; });
     var options = '<option value="">Tous les chapitres (' + tous.length + ')</option>' + DevoirEngine.CHAPITRES.filter(function (c) { return compte[c.id]; }).map(function (c) {
@@ -201,14 +203,35 @@ var DevoirSessions = {
       : nb < n + quota ? '<span class="dv-etat dv-etat--info">conseillé : ' + (n + quota) + ' ou plus, pour couvrir les remplacements</span>' : '';
     return '<div class="dv-toolbar">' +
         '<select class="dv-input dv-filtre" aria-label="Filtrer par chapitre" onchange="DevoirSessions._filtre = this.value; DevoirSessions._majSelection()">' + options + '</select>' +
-        '<span class="dv-aide"><strong>' + nb + '</strong> exercice(s) sélectionné(s) ' + avis + '</span>' +
+        '<select class="dv-input dv-filtre" aria-label="Filtrer par origine" onchange="DevoirSessions._origine = this.value; DevoirSessions._majSelection()">' +
+          '<option value=""' + (S._origine === '' ? ' selected' : '') + '>DS et entraînement</option>' +
+          '<option value="ds"' + (S._origine === 'ds' ? ' selected' : '') + '>Questions de DS seulement</option>' +
+          '<option value="td"' + (S._origine === 'td' ? ' selected' : '') + '>Entraînement seulement</option>' +
+        '</select>' +
+        '<span class="dv-aide"><strong>' + nb + '</strong> exercice(s) sélectionné(s), ' + visibles.length + ' affiché(s) ' + avis + '</span>' +
         '<button class="dv-btn-secondaire" onclick="DevoirSessions._toutCocher(true)">Tout cocher</button>' +
         '<button class="dv-btn-secondaire" onclick="DevoirSessions._toutCocher(false)">Tout décocher</button>' +
       '</div>' +
       '<div class="ds-choix">' + visibles.map(function (x) {
         return '<label class="ds-choix-ligne"><input type="checkbox" value="' + e(x.id) + '"' + (S._selection[x.id] ? ' checked' : '') + ' onchange="DevoirSessions._cocher(this.value, this.checked)" />' +
-          '<span>' + e(x.titre) + '<span class="dv-carte-meta"> · chapitre ' + e(x.chapitre) + ' · difficulté ' + e(x.difficulte || '—') + '</span></span></label>';
+          '<span>' + e(x.titre) + '<span class="dv-carte-meta"> · chapitre ' + e(x.chapitre) + ' · difficulté ' + e(x.difficulte || '—') +
+            (S._surPapier(x) ? ' · <strong>diagramme papier à distribuer</strong>' : '') + '</span></span></label>';
       }).join('') + '</div>';
+  },
+
+  // Un exercice issu d'un devoir surveillé porte un tag « DS NN » (lots chapitre-NN-ds).
+  _estDS: function (x) { return (x.tags || []).some(function (t) { return /^DS /.test(t); }); },
+  // Les exercices de lecture se font avec le diagramme distribué sur papier (énoncé : « fourni sur papier »).
+  _surPapier: function (x) { return /fourni sur papier/.test(x.enonce_modele || ''); },
+  // Exercices affichés : filtre de chapitre et filtre d'origine. Sert à la liste et à « Tout cocher ».
+  _visibles: function () {
+    var S = DevoirSessions;
+    return S._exercicesActifs().filter(function (x) {
+      if (S._filtre && x.chapitre !== S._filtre) return false;
+      if (S._origine === 'ds') return S._estDS(x);
+      if (S._origine === 'td') return !S._estDS(x);
+      return true;
+    });
   },
 
   _majSelection: function () {
@@ -223,7 +246,7 @@ var DevoirSessions = {
 
   _toutCocher: function (coche) {
     var S = DevoirSessions;
-    S._exercicesActifs().filter(function (x) { return !S._filtre || x.chapitre === S._filtre; })
+    S._visibles()
       .forEach(function (x) { if (coche) S._selection[x.id] = true; else delete S._selection[x.id]; });
     S._majSelection();
   },
