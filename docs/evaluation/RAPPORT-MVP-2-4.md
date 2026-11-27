@@ -22,7 +22,7 @@ Chaque branche part de la précédente. Rien n'est poussé, rien n'est fusionné
 **Passage en classe (MVP-2)**
 
 - L'enseignant crée une session dans le panneau admin (onglet Devoirs, « Sessions ») : classe, exercices, durée, nombre d'exercices, quota de remplacements. Un avertissement apparaît si la sélection ne couvre pas les remplacements.
-- À l'ouverture, la session reçoit un code de 6 caractères. L'étudiant va sur `/devoir`, saisit le code et choisit son nom. Un nom déjà pris est grisé.
+- À l'ouverture, la session reçoit un code de 6 caractères. L'étudiant va sur `/devoirs`, saisit le code et choisit son nom. Un nom déjà pris est grisé.
 - Le serveur tire 3 exercices par étudiant, en priorité ceux qu'il n'a jamais faits, tire les valeurs et calcule le corrigé. Le corrigé et le barème restent dans une collection que l'étudiant ne peut pas lire.
 - Réponses en blocs (méthode, calcul, résultat, unité), barre de symboles, brouillon enregistré toutes les 10 s et à chaque changement de bloc. En cas de coupure réseau, la saisie reste sur le poste et repart au retour du réseau.
 - Le minuteur affiche l'heure de fin fixée par le serveur. À zéro, la copie est rendue automatiquement. Le serveur refuse toute écriture après la fin, et refuse un rendu « automatique » demandé trop tôt par un poste dont l'horloge avance.
@@ -217,7 +217,7 @@ Chaque fois, l'option la plus simple et la plus sûre. Tout se change sans refon
 
 1. **Le temps de chaque étudiant démarre quand il confirme son nom**, et non à l'ouverture de la session. Un étudiant en retard a donc sa durée complète. « Prolonger » ajoute des minutes à toutes les copies en cours.
 2. **Région des fonctions : `europe-west1`** (Belgique).
-3. **Identité de l'étudiant** : connexion anonyme dans une application Firebase séparée de celle du site. Votre session admin et la page `/devoir` ne se mélangent pas dans un même navigateur.
+3. **Identité de l'étudiant** : connexion anonyme dans une application Firebase séparée de celle du site. Votre session admin et la page `/devoirs` ne se mélangent pas dans un même navigateur.
 4. **Code de session** : 6 caractères, sans I, L, O, 0 ni 1. **Limitation** : 5 codes faux par poste et 30 par adresse IP sur 10 minutes (seuil large, car toute la classe sort par la même adresse).
 5. **Pas de fonction planifiée.** Une copie dont le temps est écoulé est rendue quand quelqu'un la touche : l'étudiant, le tableau de bord, la fermeture de la session ou la pré-correction. Cela évite Cloud Scheduler.
 6. **Le SDK Functions n'est chargé que pour l'enseignant et la page étudiant.** Les visiteurs du site ne le téléchargent pas.
@@ -246,7 +246,7 @@ Chaque fois, l'option la plus simple et la plus sûre. Tout se change sans refon
 20. **Exercices de démonstration** dans [`scripts/lib/devoir-demo.js`](../../scripts/lib/devoir-demo.js) : six exercices génériques écrits pour les tests. Aucun exercice ni corrigé de votre banque n'est entré dans ce dépôt.
 21. **Émulateurs** : la bascule ne se fait que sur `localhost:5055`, avec un projet `demo-spark-devoir` qui ne peut pas atteindre la production.
 22. **Faux serveur d'IA** : l'adresse de test n'est lue que dans l'émulateur (`FUNCTIONS_EMULATOR`). En production, la variable est ignorée.
-23. `firebase.json` : bloc `functions`, bloc `emulators`, réécriture `/devoir` vers `devoir.html`, et `functions/**` exclu de l'hébergement.
+23. `firebase.json` : bloc `functions`, bloc `emulators`, réécriture `/devoirs` vers `devoir.html`, et `functions/**` exclu de l'hébergement.
 24. `CODEBASE_MAP.md`, `contenu.md` et ce rapport ne sont à jour que sur `devoir-mvp4`.
 
 ## 5. Ce qui n'a pas pu être fait, et les limites connues
@@ -301,7 +301,7 @@ Tout tourne sur ce PC, avec des données fictives. Java est déjà installé dan
    Attendre le cadre « Module devoir — essai local » (30 secondes environ).
 2. **Enseignant** : ouvrir `http://127.0.0.1:5055/connexion`, e-mail `prof@demo.test`, mot de passe `devoir-demo-2026`. Aller sur `http://127.0.0.1:5055/admin`, onglet « Devoirs », puis « Sessions ».
 3. « + Nouvelle session » : un titre, « Tout cocher », « Créer la session », puis « Ouvrir la session ». Le code s'affiche en grand.
-4. **Étudiant** : ouvrir `http://127.0.0.1:5055/devoir` dans une fenêtre de navigation privée. Saisir le code, choisir un nom, composer. Une deuxième fenêtre privée d'un autre navigateur fait un deuxième étudiant.
+4. **Étudiant** : ouvrir `http://127.0.0.1:5055/devoirs` dans une fenêtre de navigation privée. Saisir le code, choisir un nom, composer. Une deuxième fenêtre privée d'un autre navigateur fait un deuxième étudiant.
 5. **Anti-triche** : changer d'onglet plus de 2 secondes, puis revenir. Essayer un Ctrl+V dans une réponse. Regarder le tableau de bord.
 6. **Correction** : rendre la copie, revenir à « ← Sessions », cliquer « Corriger », puis « Lancer la pré-correction IA ». L'IA est simulée : elle donne tous les points d'un bloc rempli, zéro sinon. « Relire », modifier une note, « Valider la copie ».
 7. Ctrl+C dans le terminal arrête tout. Les données sont effacées à chaque lancement.

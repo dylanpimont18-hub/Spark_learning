@@ -15,7 +15,7 @@ const E = require('./lib/devoir-emulateur.js');
     '  1. Enseignant : ' + E.URL_SITE + '/connexion',
     '       e-mail : ' + E.ENSEIGNANT.email + '     mot de passe : ' + E.ENSEIGNANT.motDePasse,
     '       puis ' + E.URL_SITE + '/admin → onglet « Devoirs » → « Sessions »',
-    '  2. Étudiant (fenêtre de navigation privée) : ' + E.URL_SITE + '/devoir',
+    '  2. Étudiant (fenêtre de navigation privée) : ' + E.URL_SITE + '/devoirs',
     '  3. Données en direct : http://127.0.0.1:4000 (interface des émulateurs)',
     '',
     '  Ctrl+C pour arrêter. Tout est effacé à chaque lancement.',

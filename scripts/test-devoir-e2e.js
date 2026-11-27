@@ -114,7 +114,7 @@ async function attendreCopie(etudiantId, sessionId, condition, quoi) {
 }
 
 async function saisirCode(page, code) {
-  await page.goto(E.URL_SITE + '/devoir', { waitUntil: 'networkidle2' });
+  await page.goto(E.URL_SITE + '/devoirs', { waitUntil: 'networkidle2' });
   await page.waitForSelector('#de-code', { timeout: ATTENTE });
   await page.type('#de-code', code);
   await page.click('#de-valider-code');
@@ -170,7 +170,7 @@ async function suiteMvp2(test, ctx) {
   });
   await test('un code faux affiche un message neutre', async () => {
     const etu = await nouvelEtudiant(ctx.navigateur);
-    await etu.page.goto(E.URL_SITE + '/devoir', { waitUntil: 'networkidle2' });
+    await etu.page.goto(E.URL_SITE + '/devoirs', { waitUntil: 'networkidle2' });
     await etu.page.waitForSelector('#de-code', { timeout: ATTENTE });
     await etu.page.type('#de-code', 'zzzzzz');
     await etu.page.click('#de-valider-code');
@@ -235,7 +235,7 @@ async function suiteMvp2(test, ctx) {
     await remplir(bilal.page, 'methode', ' + suite');
     await bilal.page.close({ runBeforeUnload: false });
     bilal.page = await bilal.contexte.newPage();
-    await bilal.page.goto(E.URL_SITE + '/devoir', { waitUntil: 'networkidle2' });
+    await bilal.page.goto(E.URL_SITE + '/devoirs', { waitUntil: 'networkidle2' });
     await bilal.page.waitForSelector('.de-champ', { timeout: ATTENTE });
     assert.strictEqual(await bilal.page.$eval('.de-champ[data-bloc="methode"]', (t) => t.value), 'Formule de Bilal K. + suite');
     await attendreEnregistre(bilal.page);

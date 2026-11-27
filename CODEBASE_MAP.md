@@ -622,7 +622,7 @@ MVP-4 : fiches `devoir_corrections`, note finale dans `devoir_copies_prive.corre
 - `validateCorrection` / `noteSur20(points, max)` — note sur 20 au demi-point
 
 ## devoir.html
-Page étudiant épurée, servie sur `/devoir` (réécriture dans `firebase.json`). Charge `styles.css`, KaTeX, Firebase, `devoirFirebase.js`, `devoirEleve.js`.
+Page étudiant épurée, servie sur `/devoirs` (réécriture dans `firebase.json`). Charge `styles.css`, KaTeX, Firebase, `devoirFirebase.js`, `devoirEleve.js`.
 
 ## js/devoir/devoirFirebase.js
 Appel des Cloud Functions et bascule sur les émulateurs (uniquement sur `localhost:5055`).

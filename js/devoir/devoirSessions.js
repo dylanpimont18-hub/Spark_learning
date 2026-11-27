@@ -321,7 +321,7 @@ var DevoirSessions = {
           '<h3 class="dv-h3">' + e(s.titre) + ' <span class="dv-etat dv-etat--' + (ouverte ? 'ok' : 'info') + '">' + e(S.LIBELLES_STATUT[s.statut] || s.statut) + '</span></h3>' +
           '<p class="dv-aide">' + e(s.classe_nom) + ' · ' + e(s.exercices_par_etudiant) + ' exercice(s) par étudiant · ' + e(s.duree_minutes) + ' min · ' +
             compte.actif + ' en cours, ' + compte.rendu + ' rendu(s), ' + compte.absent + ' absent(s)' + (compte.verrouille ? ', ' + compte.verrouille + ' verrouillé(s)' : '') + '</p></div>' +
-        (ouverte ? '<div class="ds-code" aria-label="Code de la session"><span class="ds-code-label">sparklearning.fr/devoir · code</span><span class="ds-code-valeur" id="ds-code">' + e(s.code) + '</span></div>' : '') +
+        (ouverte ? '<div class="ds-code" aria-label="Code de la session"><span class="ds-code-label">sparklearning.fr/devoirs · code</span><span class="ds-code-valeur" id="ds-code">' + e(s.code) + '</span></div>' : '') +
       '</div>' +
       (ouverte ? '<div class="dv-boutons">' +
         '<button class="dv-btn-secondaire" onclick="DevoirSessions._prolonger()">Prolonger la durée…</button>' +

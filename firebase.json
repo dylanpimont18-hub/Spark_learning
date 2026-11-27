@@ -8,7 +8,7 @@
   "functions": [
     {
       "source": "functions",
-      "codebase": "default",
+      "codebase": "devoir",
       "ignore": [
         "node_modules",
         ".git",
@@ -44,6 +44,10 @@
       "CNAME"
     ],
     "rewrites": [
+      {
+        "source": "/devoirs",
+        "destination": "/devoir.html"
+      },
       {
         "source": "/devoir",
         "destination": "/devoir.html"
