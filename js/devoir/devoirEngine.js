@@ -649,14 +649,25 @@ var DevoirEngine = (function () {
     return { erreurs: erreurs, avertissements: avert };
   }
 
-  function blocsParDefaut() {
+  // Barème par défaut, « démarche du technicien » (décision de Dylan, 2026-11-27) : la formule
+  // littérale écrite avec ses unités pèse le plus, les unités comptent beaucoup, le résultat seul
+  // compte peu. Avant : méthode 40, calcul 30, résultat 20, unité 10. Un exercice où le résultat
+  // est la question (lecture de diagramme) garde son propre barème dans son lot.
+  var PARTS_DEMARCHE = { methode: 0.40, calcul: 0.20, resultat: 0.15 };   // unités : le reste (0,25)
+  var LIBELLES_BLOCS = {
+    methode: 'Formule littérale, avec les unités', calcul: 'Application numérique',
+    resultat: 'Résultat', unite: 'Unité du résultat'
+  };
+  function blocsDemarche(total) {
+    var m = Math.round(total * PARTS_DEMARCHE.methode), c = Math.round(total * PARTS_DEMARCHE.calcul), r = Math.round(total * PARTS_DEMARCHE.resultat);
     return [
-      { id: 'methode', label: 'Méthode ou formule', points: 40 },
-      { id: 'calcul', label: 'Calcul', points: 30 },
-      { id: 'resultat', label: 'Résultat', points: 20 },
-      { id: 'unite', label: 'Unité', points: 10 }
+      { id: 'methode', label: LIBELLES_BLOCS.methode, points: m },
+      { id: 'calcul', label: LIBELLES_BLOCS.calcul, points: c },
+      { id: 'resultat', label: LIBELLES_BLOCS.resultat, points: r },
+      { id: 'unite', label: LIBELLES_BLOCS.unite, points: total - m - c - r }
     ];
   }
+  function blocsParDefaut() { return blocsDemarche(100); }
 
   // Question rédigée : un seul bloc long, non noté (les points sont sur les éléments attendus).
   function blocsRedige(label) {
@@ -664,17 +675,11 @@ var DevoirEngine = (function () {
   }
 
   // Exercice mixte : les quatre blocs de calcul se partagent (100 − pointsElements) points dans
-  // les proportions 40/30/20/10, suivis d'un bloc long pour la question rédigée.
+  // les proportions du barème par défaut (40/20/15/25), suivis d'un bloc long pour la question rédigée.
   function blocsMixte(pointsElements, label) {
-    var t = 100 - pointsElements;
-    var m = Math.round(t * 0.4), c = Math.round(t * 0.3), r = Math.round(t * 0.2);
-    return [
-      { id: 'methode', label: 'Méthode ou formule', points: m },
-      { id: 'calcul', label: 'Calcul', points: c },
-      { id: 'resultat', label: 'Résultat', points: r },
-      { id: 'unite', label: 'Unité', points: t - m - c - r },
+    return blocsDemarche(100 - pointsElements).concat([
       { id: 'redaction', label: label || 'Conclusion rédigée', points: 0, long: true }
-    ];
+    ]);
   }
 
   // Exemple de départ d'une question rédigée (chapitre 05) : deux éléments attendus.

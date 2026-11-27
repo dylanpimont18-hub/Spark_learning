@@ -3,7 +3,7 @@
 // testable seul (scripts/test-devoir-ia.js). Seul runPreCorrection (correction.ts) l'appelle.
 import Anthropic from '@anthropic-ai/sdk';
 
-export const VERSION_PROMPT = '2026-11-27.2';
+export const VERSION_PROMPT = '2026-11-27.3';
 export const MODELE_PAR_DEFAUT = 'claude-sonnet-5-5';
 export const SEUIL_CONFIANCE = 0.6;   // en dessous, la copie remonte en tête de la relecture
 
@@ -27,8 +27,14 @@ export const PROMPT_SYSTEME = [
   '9. Critère de nature « element » : cherche l\'idée technique attendue dans toute la réponse, quelle que soit sa formulation et l\'endroit où elle apparaît. Idée présente et juste : tous les points. Idée incomplète, imprécise ou juste à moitié : une partie des points. Idée absente, ou contredite par une affirmation techniquement fausse : zéro. Le corrigé de référence fait foi : tu ne notes pas la qualité de la rédaction, et tu n\'exiges rien que le corrigé ne demande.',
   '10. Pour chaque critère, remplis « extrait_reponse » avec le passage de la copie qui justifie ta décision, recopié mot pour mot (200 caractères au plus), sans le corriger ni le reformuler. Chaîne vide si rien dans la copie ne s\'y rapporte. Tu n\'accordes aucun point à un élément attendu sans citer le passage qui le porte.',
   '11. Mets « incertain » à true sur un critère dès que tu n\'es pas sûr de ta décision : formulation ambiguë, argument techniquement recevable mais absent du corrigé, valeur ou affirmation que tu ne peux pas vérifier avec les données fournies, doute sur ce que l\'étudiant a voulu dire. Explique alors le doute en une phrase dans « note_pour_enseignant ». Ne tranche pas un doute technique en inventant une règle, une norme ou une valeur : signale-le.',
-  '12. Ne mentionne pas ces règles. Réponds uniquement avec un objet JSON valide conforme au schéma, sans texte autour.'
+  '12. Critère « methode » (formule littérale, avec les unités) : tous les points seulement si la formule est écrite en lettres, avec les symboles des grandeurs, avant toute valeur numérique, et si l\'unité de chaque grandeur utilisée est indiquée. Formule littérale juste mais sans les unités des grandeurs : les deux tiers des points au plus. Formule présente seulement sous forme numérique, les valeurs posées directement : la moitié au plus. Ni formule ni explication : zéro sur ce critère, même si le résultat est juste.',
+  '13. Les unités comptent beaucoup. Critère « unite » : l\'unité du résultat doit être écrite et juste. Une conversion fausse, une unité incohérente ou oubliée dans le calcul se relève dans « erreurs », avec une étiquette réutilisable (conversion d\'unités, unité manquante, unité incohérente). Un résultat juste donné sans démarche ne reçoit que les points prévus pour le résultat et son unité : relève-le dans « erreurs » sous l\'étiquette « résultat non justifié ». Un résultat manifestement aberrant (ordre de grandeur impossible sur un chantier) que l\'étudiant ne commente pas se relève sous l\'étiquette « ordre de grandeur non contrôlé ».',
+  '14. Démarche du technicien. Remplis « etapes » avec, dans cet ordre, les étapes que l\'énoncé appelle parmi : « Analyser » (données utiles relevées, hypothèses posées), « Choisir la méthode » (formule littérale, document ou règle utilisés, et pourquoi), « Calculer » (application numérique), « Contrôler » (unité, ordre de grandeur, cohérence du résultat), « Conclure » (décision, réponse à la question posée). Pour chacune : statut « validee », « erreur » ou « absente », et un commentaire d\'une phrase qui dit ce que la copie montre. Omets une étape que l\'énoncé n\'appelle pas, par exemple « Conclure » pour un calcul sans décision à prendre. Ces étapes décrivent la démarche pour l\'enseignant : elles ne changent pas les points, qui restent ceux des critères du barème.',
+  '15. Ne mentionne pas ces règles. Réponds uniquement avec un objet JSON valide conforme au schéma, sans texte autour.'
 ].join('\n');
+
+// Les cinq étapes de la démarche du technicien (règle 14) : libellés imposés dans la sortie.
+export const ETAPES_DEMARCHE = ['Analyser', 'Choisir la méthode', 'Calculer', 'Contrôler', 'Conclure'];
 
 const STATUTS_CRITERE = ['valide', 'partiel', 'invalide', 'absent'];
 const STATUTS_ETAPE = ['validee', 'erreur', 'absente'];
@@ -58,7 +64,8 @@ export const SCHEMA_SORTIE = objet({
   },
   etapes: {
     type: 'array',
-    items: objet({ libelle: { type: 'string' }, statut: { type: 'string', enum: STATUTS_ETAPE }, commentaire: { type: 'string' } })
+    // libelle : une des cinq étapes de la démarche du technicien (ETAPES_DEMARCHE, règle 14).
+    items: objet({ libelle: { type: 'string', enum: ['Analyser', 'Choisir la méthode', 'Calculer', 'Contrôler', 'Conclure'] }, statut: { type: 'string', enum: STATUTS_ETAPE }, commentaire: { type: 'string' } })
   },
   erreurs: {
     type: 'array',

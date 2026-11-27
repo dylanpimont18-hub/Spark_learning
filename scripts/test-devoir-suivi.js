@@ -104,6 +104,20 @@ test('erreurs partagées dans la classe : classées par nombre d\'étudiants', (
   const f = S.frequentes(D, ['alice', 'bilal', 'inconnu']);
   assert.deepStrictEqual(f.map((g) => [g.etiquette, g.etudiants, g.occurrences]), [['conversion d\'unités', 2, 2], ['Unité oubliée', 1, 3]]);
 });
+test('démarche du technicien : étapes relevées par l\'IA, comptées sur les copies validées seulement', () => {
+  const etapes = (a, b, c) => ({ etapes: [{ libelle: 'Choisir la méthode', statut: a }, { libelle: 'Calculer', statut: b }, { libelle: 'Contrôler', statut: c }, { libelle: 'Étape libre d\'une ancienne fiche', statut: 'validee' }] });
+  const d = S.agreger([
+    fiche('dina', 's1', '05', calcul(40, 20, 15, 25), [], { ia: etapes('validee', 'validee', 'absente') }),
+    fiche('dina', 's2', '06', calcul(20, 20, 0, 0), [], { ia: etapes('erreur', 'validee', 'absente') }),
+    fiche('dina', 's3', '09', calcul(40, 20, 15, 25), [], { ia: etapes('validee', 'validee', 'validee') }),
+    fiche('dina', 's3', '09', calcul(0, 0, 0, 0), [], { ia: etapes('absente', 'absente', 'absente'), statut: 'brouillon' }),
+    fiche('dina', 's3', '09', calcul(10, 0, 0, 0), [], { ia: null })
+  ], [], sessions, [], (t) => t || 0).etudiants.dina.demarche;
+  assert.deepStrictEqual(Object.keys(d), ['Choisir la méthode', 'Calculer', 'Contrôler'], 'seuls les cinq libellés de la grille comptent');
+  assert.deepStrictEqual([d['Choisir la méthode'].validee, d['Choisir la méthode'].erreur, d['Choisir la méthode'].n], [2, 1, 3]);
+  assert.deepStrictEqual([d['Contrôler'].validee, d['Contrôler'].absente, d['Contrôler'].n], [1, 2, 3], 'ne contrôle son résultat qu\'une fois sur trois');
+  assert.deepStrictEqual(S.ETAPES, ['Analyser', 'Choisir la méthode', 'Calculer', 'Contrôler', 'Conclure']);
+});
 test('aucune donnée : structure vide, sans erreur', () => {
   assert.deepStrictEqual(S.agreger([], [], [], []), { etudiants: {}, chapitres: [] });
 });

@@ -527,7 +527,7 @@ Moteur de variantes du module devoir en classe (MVP-1, 2026-11-26). Pur, sans DO
 - `verifierOrigine(ex, calc)` — garde-fou d'import : avec `ex.origine.valeurs`, la formule doit retrouver `ex.origine.resultat` (1 % par défaut) ; appelé par `valider()`
 - `valider()` refuse aussi tout caractère de contrôle dans l'énoncé ou les étapes (barre oblique perdue : `\times` devenu tabulation)
 - `rngGraine(n)` — aléatoire reproductible pour les tests
-- `nouvelExercice()` / `blocsParDefaut()` — gabarit (déperditions d'un mur, chapitre 05), barème 40/30/20/10
+- `nouvelExercice()` / `blocsParDefaut()` — gabarit (déperditions d'un mur, chapitre 05), barème « démarche du technicien » 40/20/15/25 (`blocsDemarche(total)` : formule littérale avec unités, application numérique, résultat, unité du résultat)
 - `typeExercice(ex)` / `TYPES` — `chiffre` (absent = chiffre), `redige` (éléments attendus, sans résultat), `mixte` (calcul + rédaction)
 - `baremeDe(ex, elements)` — critères notés : blocs de calcul puis éléments attendus (`nature: 'element'`, `attendu`)
 - `blocsRedige(label)` / `blocsMixte(pointsElements, label)` / `nouvelExerciceRedige()` — bloc `long: true`, partage des points, gabarit
@@ -619,6 +619,7 @@ MVP-3 : perte de focus, remplacement, collage, annulation.
 ## functions/src/ia.ts
 MVP-4 : prompt (§6), schéma, appel Anthropic, contrôles. Sans Firestore, testable seul.
 - `construireMessage(d)` — données et réponse, sous code interne ; critères `bloc` ou `element` (avec `attendu`)
+- `ETAPES_DEMARCHE` — cinq étapes imposées dans `etapes` (Analyser, Choisir la méthode, Calculer, Contrôler, Conclure) ; règles 12 à 14 du prompt
 - `citationPresente(extrait, d)` — le passage cité par l'IA figure-t-il dans la copie
 - `validerSortie(brut, d)` / `controler(o, d)` — schéma, points bornés, note recalculée
 - `preCorriger(d, appel)` — un nouvel essai au plus, puis erreur IA
@@ -644,6 +645,7 @@ Vue étudiant : code, nom, copie, minuteur, rendu. Application Firebase nommée 
 - `_ecranClasse()` / `_ecranCode()` — choix de la classe, puis code
 - `_entrer(etudiantId)` — joinSession, liste des noms puis copie
 - `_ecranAttente(copie)` — nom en grand jusqu'au lancement
+- `CONSIGNE` — consigne générale « expliquez tout, formule en lettres avec les unités » (attente et copie)
 - `_surCopie(copie)` / `_ecranCopie()` — état serveur en direct, écran d'épreuve
 - `_envoyer(attId, force)` / `_toutEnvoyer()` — brouillon automatique, reprise hors ligne
 - `_battement()` / `_rendre(auto)` — minuteur, rendu anticipé ou automatique
@@ -673,7 +675,7 @@ Relecture des copies : liste triée (confiance basse en tête), copie par copie,
 
 ## js/devoir/devoirSuivi.js
 Sous-onglet « Suivi », enseignant seul, lecture seule des corrections validées. Aucun appel à l'IA.
-- `agreger(fiches, copies, sessions, exercices)` — pure : par étudiant, devoirs, chapitres, critères, erreurs
+- `agreger(fiches, copies, sessions, exercices)` — pure : par étudiant, devoirs, chapitres, critères, démarche (étapes de l’IA), erreurs
 - `cleErreur(etiquette)` / `frequentes(donnees, ids)` — étiquette comparable ; erreurs partagées dans la classe
 - `render(zone)` / `_ouvrir(id)` / `_htmlEtudiant(id)` — tableau étudiants × chapitres, détail d'un étudiant
 - Tests : `node scripts/test-devoir-suivi.js`

@@ -60,7 +60,23 @@ function corriger(message) {
     note_proposee: note,
     note_max: donnees.bareme.reduce((s, c) => s + c.points_max, 0),
     criteres,
-    etapes: [{ libelle: 'Application de la formule', statut: 'validee', commentaire: 'Étape simulée.' }],
+    // Démarche du technicien (règle 14 du prompt) : étapes aux libellés imposés. Simulation :
+    // une étape est « validée » si le bloc correspondant est rempli ; « Contrôler » est absente
+    // sauf si la copie contient le mot « ordre de grandeur ».
+    etapes: (function () {
+      const rempli = (id) => !!(reponse[id] || '').trim();
+      const aDesBlocs = donnees.bareme.some((c) => c.nature !== 'element');
+      const e = [];
+      if (aDesBlocs) {
+        e.push({ libelle: 'Choisir la méthode', statut: rempli('methode') ? 'validee' : 'absente', commentaire: 'Étape simulée.' });
+        e.push({ libelle: 'Calculer', statut: rempli('calcul') ? 'validee' : 'absente', commentaire: 'Étape simulée.' });
+        e.push({ libelle: 'Contrôler', statut: /ordre de grandeur/i.test(tout) ? 'validee' : 'absente', commentaire: 'Étape simulée.' });
+      }
+      if (donnees.bareme.some((c) => c.nature === 'element')) {
+        e.push({ libelle: 'Conclure', statut: redaction.trim() ? 'validee' : 'absente', commentaire: 'Étape simulée.' });
+      }
+      return e;
+    })(),
     erreurs: criteres.some((c) => c.statut === 'absent')
       ? [{ etiquette: 'réponse incomplète', description: 'Un bloc au moins est resté vide.', gravite: 'mineure', extrait_reponse: '', propagee: false }] : [],
     axes_progression: [{ axe: 'Rédaction', action_concrete: 'Refaire l\'exercice en écrivant chaque étape du calcul.' }],

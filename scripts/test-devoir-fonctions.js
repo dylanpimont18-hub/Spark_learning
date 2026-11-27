@@ -916,7 +916,7 @@ async function suiteRedige(test, prof, rediges, fausseIa) {
     const pm = a.prive.attributions[a.mixte.id];
     assert.strictEqual(pm.type, 'mixte');
     assert.ok(Math.abs(pm.corrige.valeur - pm.valeurs.P / 230) < 1e-9, 'résultat du calcul recalculé côté serveur');
-    assert.deepStrictEqual(pm.bareme.map((c) => [c.id, c.points]), [['methode', 24], ['calcul', 18], ['resultat', 12], ['unite', 6], ['conclusion', 40]]);
+    assert.deepStrictEqual(pm.bareme.map((c) => [c.id, c.points]), [['methode', 24], ['calcul', 12], ['resultat', 9], ['unite', 15], ['conclusion', 40]]);
     assert.ok(/inférieure au calibre de (10|16) A/.test(pm.bareme[4].attendu));
   });
   await test('saisie : une rédaction longue est acceptée dans le bloc long, refusée ailleurs et au-delà de 6 000 caractères', async () => {

@@ -10,6 +10,8 @@ var DevoirSuivi = {
   SEUIL_RECURRENT: 2,        // une erreur « revient » à partir de 2 devoirs différents
   SEUIL_MANQUANT: 0.5,       // élément attendu non acquis : moins de la moitié de ses points
   CLE_ELEMENTS: '__elements',
+  // Les cinq étapes de la démarche du technicien (mêmes libellés que functions/src/ia.ts).
+  ETAPES: ['Analyser', 'Choisir la méthode', 'Calculer', 'Contrôler', 'Conclure'],
 
   _zone: null,
   _donnees: null,            // résultat de agreger()
@@ -39,7 +41,7 @@ var DevoirSuivi = {
     var etudiants = {};
     var chapitresVus = {};
     function etu(id) {
-      if (!etudiants[id]) etudiants[id] = { id: id, devoirs: [], chapitres: {}, criteres: {}, erreurs: {}, manquants: [], points: 0, max: 0 };
+      if (!etudiants[id]) etudiants[id] = { id: id, devoirs: [], chapitres: {}, criteres: {}, demarche: {}, erreurs: {}, manquants: [], points: 0, max: 0 };
       return etudiants[id];
     }
     function dateSession(id) {
@@ -81,6 +83,12 @@ var DevoirSuivi = {
         if (element && c.points_max > 0 && (c.points_obtenus || 0) < S.SEUIL_MANQUANT * c.points_max) {
           e.manquants.push({ label: c.label, chapitre: chapitre, titre: f.titre || f.exercice_id || '', session_id: f.session_id, points: c.points_obtenus || 0, max: c.points_max, date_ms: dateSession(f.session_id) });
         }
+      });
+      // Démarche du technicien : étapes relevées par l'IA dans cette copie (cinq libellés imposés).
+      ((f.ia && f.ia.etapes) || []).forEach(function (x) {
+        if (!x || S.ETAPES.indexOf(x.libelle) === -1) return;
+        var d = e.demarche[x.libelle] || (e.demarche[x.libelle] = { libelle: x.libelle, validee: 0, erreur: 0, absente: 0, n: 0 });
+        if (d[x.statut] !== undefined) { d[x.statut]++; d.n++; }
       });
       (f.finale.erreurs || []).forEach(function (x) {
         var cle = S.cleErreur(x && x.etiquette);
@@ -254,6 +262,13 @@ var DevoirSuivi = {
         '<span class="su-barre" role="img" aria-label="' + taux + ' % des points"><span class="su-barre-plein su-barre-plein--' + (taux >= 60 ? 'ok' : taux >= 40 ? 'avert' : 'ko') + '" style="width:' + taux + '%"></span></span>' +
         '<span class="su-critere-taux">' + taux + ' %</span><span class="dv-carte-meta">' + c.n + ' fois noté</span></div>';
     }).join('');
+    var demarche = S.ETAPES.filter(function (k) { return d.demarche[k]; }).map(function (k) {
+      var x = d.demarche[k];
+      var taux = x.n ? Math.round(x.validee / x.n * 100) : 0;
+      return '<div class="su-critere" data-etape="' + e(k) + '"><span class="su-critere-label">' + e(k) + '</span>' +
+        '<span class="su-barre" role="img" aria-label="' + taux + ' % des exercices"><span class="su-barre-plein su-barre-plein--' + (taux >= 60 ? 'ok' : taux >= 40 ? 'avert' : 'ko') + '" style="width:' + taux + '%"></span></span>' +
+        '<span class="su-critere-taux">' + taux + ' %</span><span class="dv-carte-meta">' + x.validee + ' sur ' + x.n + (x.erreur ? ', ' + x.erreur + ' en erreur' : '') + '</span></div>';
+    }).join('');
     function ligneErreur(r) {
       return '<li><strong>' + e(r.etiquette) + '</strong> — ' + r.n + ' fois, sur ' + r.devoirs + ' devoir' + (r.devoirs > 1 ? 's' : '') +
         ' <span class="dv-carte-meta">(chapitre' + (Object.keys(r.chapitres).length > 1 ? 's' : '') + ' ' + e(Object.keys(r.chapitres).sort().join(', ')) +
@@ -272,6 +287,8 @@ var DevoirSuivi = {
           '<table class="dv-table"><thead><tr><th>Chapitre</th><th>Exercices</th><th>Devoirs</th><th>Résultat</th></tr></thead><tbody>' + chapitres + '</tbody></table></div>' +
         '<div class="su-bloc"><div class="dc-colonne-titre">Où les points se perdent</div>' + criteres +
           '<p class="dv-aide">Part des points obtenus sur chaque critère du barème, tous devoirs validés confondus.</p></div>' +
+        (demarche ? '<div class="su-bloc" id="su-demarche"><div class="dc-colonne-titre">Démarche du technicien</div>' + demarche +
+          '<p class="dv-aide">Part des exercices où l\'IA a relevé l\'étape comme faite, dans les copies que vous avez validées. Une étape n\'est comptée que si l\'énoncé l\'appelait.</p></div>' : '') +
         '<div class="su-bloc" id="su-recurrentes"><div class="dc-colonne-titre">Erreurs qui reviennent</div>' +
           (d.recurrentes.length ? '<ul class="dc-liste">' + d.recurrentes.map(ligneErreur).join('') + '</ul>'
             : '<p class="dv-vide">Aucune erreur relevée sur deux devoirs différents.</p>') +

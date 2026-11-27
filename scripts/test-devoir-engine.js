@@ -278,8 +278,11 @@ test('un exercice sans champ type reste « chiffre » : même corrigé, même ba
   const v = E.instancier(ex, calc, { rng: E.rngGraine(7) });
   assert.deepStrictEqual(Object.keys(v.corrige), ['resultat', 'valeur', 'valeur_affichee', 'unite', 'etapes']);
   assert.deepStrictEqual(v.bareme, [
-    { id: 'methode', label: 'Méthode ou formule', points: 40 }, { id: 'calcul', label: 'Calcul', points: 30 },
-    { id: 'resultat', label: 'Résultat', points: 20 }, { id: 'unite', label: 'Unité', points: 10 }]);
+    { id: 'methode', label: 'Formule littérale, avec les unités', points: 40 }, { id: 'calcul', label: 'Application numérique', points: 20 },
+    { id: 'resultat', label: 'Résultat', points: 15 }, { id: 'unite', label: 'Unité du résultat', points: 25 }]);
+  // Démarche du technicien : la formule littérale avec ses unités et les unités pèsent 65 points
+  // sur 100, le résultat seul 15.
+  assert.ok(v.bareme[0].points + v.bareme[3].points === 65 && v.bareme[2].points === 15);
   assert.strictEqual(v.type, 'chiffre');
 });
 test('question rédigée : valide sans résultat numérique, barème porté par les éléments attendus', () => {
@@ -337,7 +340,7 @@ test('exercice mixte : résultat calculé, garde-fou, blocs de calcul et éléme
   assert.deepStrictEqual([r.erreurs, r.avertissements], [[], []]);
   const v = E.instancier(ex, calc, { rng: E.rngGraine(5) });
   assert.strictEqual(v.corrige.valeur, v.valeurs.U / v.valeurs.I);
-  assert.deepStrictEqual(v.bareme.map((c) => [c.id, c.points]), [['methode', 24], ['calcul', 18], ['resultat', 12], ['unite', 6], ['conclusion', 40]]);
+  assert.deepStrictEqual(v.bareme.map((c) => [c.id, c.points]), [['methode', 24], ['calcul', 12], ['resultat', 9], ['unite', 15], ['conclusion', 40]]);
   assert.strictEqual(v.bareme.reduce((s, c) => s + c.points, 0), 100);
   assert.ok(new RegExp('inférieure au calibre de ' + v.valeurs.cal + ' A').test(v.corrige.elements[0].attendu));
   ex.donnees_calculees[0].expression = 'U * I';

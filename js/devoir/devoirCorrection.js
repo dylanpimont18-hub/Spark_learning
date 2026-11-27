@@ -356,8 +356,9 @@ var DevoirCorrection = {
           '</span>' : '') +
       '</div>';
     }).join('');
-    var etapes = ia && (ia.etapes || []).length ? '<div class="dc-sous-titre">Étapes repérées par l\'IA</div><ul class="dc-liste">' + ia.etapes.map(function (x) {
-      return '<li><span class="dv-etat dv-etat--' + (x.statut === 'validee' ? 'ok' : 'ko') + '">' + e(x.statut) + '</span> ' + e(x.libelle) + (x.commentaire ? ' — ' + e(x.commentaire) : '') + '</li>';
+    var etapes = ia && (ia.etapes || []).length ? '<div class="dc-sous-titre">Démarche du technicien, vue par l\'IA</div><ul class="dc-liste dc-demarche">' + ia.etapes.map(function (x) {
+      var lib = { validee: 'faite', erreur: 'en erreur', absente: 'absente' }[x.statut] || x.statut;
+      return '<li data-etape="' + e(x.libelle) + '"><span class="dv-etat dv-etat--' + (x.statut === 'validee' ? 'ok' : x.statut === 'erreur' ? 'ko' : 'avert') + '">' + e(lib) + '</span> <strong>' + e(x.libelle) + '</strong>' + (x.commentaire ? ' — ' + e(x.commentaire) : '') + '</li>';
     }).join('') + '</ul>' : '';
     var erreurs = ia && (ia.erreurs || []).length ? '<div class="dc-sous-titre">Erreurs relevées par l\'IA</div><ul class="dc-liste">' + ia.erreurs.map(function (x) {
       return '<li><strong>' + e(x.etiquette) + '</strong> (' + e(x.gravite) + (x.propagee ? ', propagée' : '') + ') — ' + e(x.description) + (x.extrait_reponse ? ' <span class="dv-carte-meta">« ' + e(x.extrait_reponse) + ' »</span>' : '') + '</li>';

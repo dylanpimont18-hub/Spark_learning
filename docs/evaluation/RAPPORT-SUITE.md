@@ -13,6 +13,39 @@
 
 Deux choses n'ont toujours **jamais été essayées en vrai** : un passage complet avec une copie, et un appel réel à l'IA. Le nouveau prompt et le nouveau schéma de sortie ne sont prouvés que contre la fausse IA des tests (section 5).
 
+## Ajout du soir : la démarche du technicien
+
+Demande du 27/11 au soir : accentuer la démarche d’un technicien, exiger partout la formule littérale avec ses unités, donner du poids aux unités, et ne plus faire du résultat le gros critère. En ligne (cache `?v=87`, fonctions redéployées, prompt `2026-11-27.3`).
+
+**Barème par défaut des calculs** (328 exercices, plus les 9 mixtes au prorata) :
+
+| Critère | Avant | Maintenant |
+| --- | --- | --- |
+| Formule littérale, avec les unités | 40 (« méthode ou formule ») | **40** |
+| Application numérique | 30 | **20** |
+| Résultat | 20 | **15** |
+| Unité du résultat | 10 | **25** |
+
+- 19 calculs dont le résultat n’a pas d’unité : formule littérale 50, application numérique 30, résultat 20.
+- **37 exercices de lecture** (diagramme de l’air humide, diagrammes enthalpiques) gardent leur barème : la valeur lue y est la question. C’est le cas « sauf si la question demande explicitement le résultat ».
+- 362 exercices remplacés en production ; banque relue : 644 identiques aux lots, 0 erreur, tous les barèmes font 100.
+
+**Consignes de l’IA** (trois règles ajoutées, 15 au total) :
+
+- formule : tous les points seulement si elle est écrite en lettres avant les valeurs, avec l’unité de chaque grandeur ; sans les unités, les deux tiers au plus ; posée directement en chiffres, la moitié au plus ; ni formule ni explication, zéro sur ce critère même si le résultat est juste ;
+- unités : une conversion fausse ou une unité oubliée est relevée dans les erreurs ; un résultat juste sans démarche ne reçoit que les points du résultat et de son unité (40 sur 100 au plus), sous l’étiquette « résultat non justifié » ; un résultat aberrant non commenté est relevé sous « ordre de grandeur non contrôlé » ;
+- démarche : pour chaque exercice, l’IA rend l’état des étapes **Analyser, Choisir la méthode, Calculer, Contrôler, Conclure** (faite, en erreur, absente), en omettant celles que l’énoncé n’appelle pas. Ces étapes commentent ; les points restent ceux du barème.
+
+**Étudiant** : une consigne en salle d’attente et en haut de la copie — « Travaillez comme un technicien : expliquez tout. Écrivez toujours la formule en lettres, avec les unités, avant le calcul. Contrôlez votre résultat, puis concluez. Un résultat seul, sans explication, compte très peu. » Les blocs s’appellent maintenant « Formule littérale, avec les unités », « Application numérique », « Résultat », « Unité du résultat ».
+
+**Enseignant** : la fiche de relecture affiche « Démarche du technicien, vue par l’IA » ; le suivi d’un étudiant montre la part des exercices où chaque étape est faite (par exemple « Contrôler : 1 sur 3 »).
+
+**Tests** : moteur 44, suivi 10, puis les quatre suites ensemble 155 sur 155 ; bout en bout relancé seul après ajout de deux vérifications (consigne, démarche) : 40 sur 40.
+
+**Choix faits seul** : les poids 40 / 20 / 15 / 25 ; les seuils « deux tiers » et « la moitié » pour une formule incomplète ; laisser les lectures de diagramme à leur barème ; les étapes ne changent pas les points. Tous se règlent en un endroit (`blocsDemarche` dans `js/devoir/devoirEngine.js`, règles 12 à 14 dans `functions/src/ia.ts`).
+
+**Limites** : rien de cela n’a été essayé contre la vraie IA. Les copies déjà tirées gardent l’ancien barème (il est figé au tirage) : il n’y en a pas en production à ce jour. Le coût par exercice augmente d’environ 10 % (estimation, non mesurée).
+
 ## 1. Format retenu pour les questions rédigées
 
 Écrit avant de coder, après lecture de la structure d'une copie et d'une correction (blocs méthode / calcul / résultat / unité, un critère noté par bloc).

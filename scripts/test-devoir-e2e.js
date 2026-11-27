@@ -224,6 +224,9 @@ async function suiteMvp2(test, ctx) {
     }
     const taille = await ctx.etudiants[0].page.$eval('#de-attente-nom', (n) => parseFloat(getComputedStyle(n).fontSize));
     assert.ok(taille >= 40, 'nom affiché en grand : ' + taille + ' px');
+    // Consigne générale : la démarche du technicien, annoncée dès la salle d'attente.
+    const consigne = await texte(ctx.etudiants[0].page, '#de-consigne');
+    assert.ok(/expliquez tout/.test(consigne) && /formule en lettres, avec les unités/.test(consigne) && /compte très peu/.test(consigne), consigne);
     await capture(ctx.etudiants[0].page, 'attente-etudiant');
   });
   await test('salle d\'attente : l\'enseignant voit les 11 prêts ; un rafraîchissement garde l\'étudiant en attente', async () => {
@@ -257,6 +260,7 @@ async function suiteMvp2(test, ctx) {
       assert.strictEqual(await etu.page.$$eval('.de-champ', (l) => l.length), 4);
       assert.ok(/^(\d:)?\d{1,2}:\d{2}$/.test(await texte(etu.page, '#de-minuteur')), 'minuteur');
     }
+    assert.ok(/formule en lettres, avec les unités/.test(await texte(ctx.etudiants[0].page, '#de-consigne')), 'consigne rappelée sur la copie');
     const m = await texte(ctx.etudiants[10].page, '#de-minuteur');
     assert.ok(/^(59:5\d|1:00:00)$/.test(m), 'le minuteur démarre à 60 min (heure du serveur) : ' + m);
   });
@@ -736,6 +740,9 @@ async function suiteRedige(test, ctx) {
     assert.ok(/Résultat attendu : I = /.test(await texte(prof, mixte + ' .dc-corrige')), 'exercice mixte : résultat du calcul dans le corrigé');
     assert.strictEqual(await prof.$$eval(mixte + ' .dc-critere', (l) => l.length), 5, 'quatre blocs de calcul et un élément rédigé');
     assert.ok(/pas sûre/.test(await texte(prof, mixte + ' .dc-critere--incertain')), 'doute de l\'IA affiché sur le critère');
+    // Démarche du technicien : les étapes relevées par l'IA, aux libellés imposés.
+    const demarche = await prof.$$eval(mixte + ' .dc-demarche li', (l) => l.map((x) => x.getAttribute('data-etape') + ' : ' + x.querySelector('.dv-etat').textContent.trim()));
+    assert.deepStrictEqual(demarche, ['Choisir la méthode : faite', 'Calculer : faite', 'Contrôler : absente', 'Conclure : faite'], demarche.join(' | '));
     await capture(prof, 'redige-relecture');
   });
   await test('l\'enseignant corrige la note d\'un élément et valide : note finale calculée', async () => {
@@ -777,6 +784,8 @@ async function suiteRedige(test, ctx) {
     assert.ok(/Devoir rédigé/.test(detail) && /18,0 \/ 20/.test(detail) && /Éléments rédigés/.test(detail) && /Où les points se perdent/.test(detail), detail.slice(0, 400));
     assert.ok(/Arguments attendus non acquis/.test(detail) || /Aucune erreur relevée sur deux devoirs/.test(detail));
     assert.strictEqual(await prof.$eval('.su-critere[data-critere="__elements"] .su-critere-taux', (x) => x.textContent.trim()), '86 %', '120 points sur 140 aux éléments rédigés');
+    const etapes = await prof.$$eval('#su-demarche .su-critere', (l) => l.map((x) => x.getAttribute('data-etape') + ' ' + x.querySelector('.su-critere-taux').textContent.trim()));
+    assert.deepStrictEqual(etapes, ['Choisir la méthode 100 %', 'Calculer 100 %', 'Contrôler 0 %', 'Conclure 100 %'], 'démarche dans le suivi : ' + etapes.join(' | '));
     await capture(prof, 'suivi-etudiant');
   });
 }

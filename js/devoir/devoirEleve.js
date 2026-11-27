@@ -258,6 +258,11 @@ var DevoirEleve = {
       '. Vous composerez sur ce temps restant et terminerez en même temps que la classe.';
   },
 
+  // Consigne générale de l'épreuve (décision de Dylan, 2026-11-27) : la démarche du technicien.
+  // Elle dit à l'étudiant ce que la correction regarde ; elle ne révèle ni corrigé ni barème.
+  CONSIGNE: 'Travaillez comme un technicien : <strong>expliquez tout</strong>. Écrivez toujours la <strong>formule en lettres, avec les unités</strong>, avant le calcul. ' +
+    'Contrôlez votre résultat, puis concluez. Un résultat seul, sans explication, compte très peu.',
+
   _confirmerNom: function (etu) {
     var D = DevoirEleve;
     var zone = document.getElementById('de-confirmation');
@@ -306,6 +311,7 @@ var DevoirEleve = {
         '<p class="de-attente-devoir">' + e(copie.titre || 'Devoir') + (D._session && D._session.classe_nom ? ' · ' + e(D._session.classe_nom) : '') + '</p>' +
         '<p class="de-attente-nom" id="de-attente-nom">' + e(copie.nom) + '</p>' +
         '<p class="de-attente-etat" role="status">Prêt. L\'épreuve commencera quand votre enseignant la lancera.</p>' +
+        '<p class="de-consigne de-consigne--attente" id="de-consigne">' + D.CONSIGNE + '</p>' +
         '<p class="de-info">Restez sur cette page. Ne la fermez pas.</p>' +
         '<button class="de-lien de-attente-lien" id="de-pas-moi">Ce n\'est pas mon nom</button>' +
       '</div></main>';
@@ -411,6 +417,7 @@ var DevoirEleve = {
       '</header>' +
       '<div class="de-bandeau" id="de-bandeau" role="status"></div>' +
       (copie.message && copie.message.texte ? '<div class="de-message" role="alert">' + e(copie.message.texte) + '</div>' : '') +
+      '<p class="de-consigne" id="de-consigne">' + D.CONSIGNE + '</p>' +
       '<nav class="de-onglets" role="tablist">' + onglets + '</nav>' +
       '<main class="de-copie">' + corps + '</main>' +
       '<div id="de-modale"></div>';
