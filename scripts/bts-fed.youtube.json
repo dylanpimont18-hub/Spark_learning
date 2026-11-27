@@ -10,7 +10,9 @@
     "td1": "PLNij8Z3YBaMs",
     "td2": "PLZU7tMhWh-N4",
     "td3": "PLLk2Ii3vAyTA",
-    "td4": "PLS0rU52rfe8I"
+    "td4": "PLS0rU52rfe8I",
+    "td5": "PLaKxzGgA3w2M",
+    "td6": "PLHpxIi8rbyaY"
   },
   "videos": {
     "TD0-decouvrir-escale": {
@@ -191,6 +193,66 @@
       "id": "oT_bkeNuWnw",
       "hash": "f690bb5480",
       "td": "td4",
+      "thumb": true
+    },
+    "TD4-07-exercice-3-taux-de-renouvellement": {
+      "id": "gx5wp6mkIus",
+      "hash": "3726240e7e",
+      "td": "td4",
+      "thumb": true
+    },
+    "TD5-01-coupe-et-cote-du-plenum": {
+      "id": "1r8BkLcKVZo",
+      "hash": "c855f7977e",
+      "td": "td5",
+      "thumb": true
+    },
+    "TD5-02-etiquettes-et-nomenclatures": {
+      "id": "wEQdWRccar0",
+      "hash": "0b3f87ca18",
+      "td": "td5",
+      "thumb": true
+    },
+    "TD5-03-la-feuille-c-401": {
+      "id": "p1iD-iACyiA",
+      "hash": "f66de843e0",
+      "td": "td5",
+      "thumb": true
+    },
+    "TD5-04-gaine-detude-et-interferences": {
+      "id": "GNrt8GhebCc",
+      "hash": "96fb4f68aa",
+      "td": "td5",
+      "thumb": true
+    },
+    "TD5-05-export-pdf-et-ifc4": {
+      "id": "YVRsHxxDZyo",
+      "hash": "cd3d572201",
+      "td": "td5",
+      "thumb": true
+    },
+    "TD5-06-exercices": {
+      "id": "E4gQP_QvFdQ",
+      "hash": "cc0a2684fd",
+      "td": "td5",
+      "thumb": true
+    },
+    "TD6-01-preparer-et-exporter-l-ifc": {
+      "id": "-2zbl0c-ncg",
+      "hash": "166c692b95",
+      "td": "td6",
+      "thumb": true
+    },
+    "TD6-02-ouvrir-l-ifc-dans-archiwizard": {
+      "id": "UIe7Y5cpWXk",
+      "hash": "75dff0c93f",
+      "td": "td6",
+      "thumb": true
+    },
+    "TD6-03-site-et-climat": {
+      "id": "85VJuKN-atY",
+      "hash": "26f821e4cb",
+      "td": "td6",
       "thumb": true
     }
   }
