@@ -1,0 +1,22 @@
+{
+  "name": "spark-devoir-functions",
+  "private": true,
+  "description": "Cloud Functions du module devoir en classe (docs/evaluation/). Seule partie du dépôt, avec les outils de build, à utiliser npm — voir CLAUDE.md §1.",
+  "main": "lib/index.js",
+  "engines": {
+    "node": "22"
+  },
+  "scripts": {
+    "build": "node copier-moteur.js && tsc",
+    "test": "npm run build && node ../scripts/test-devoir-ia.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.14.0",
+    "firebase-admin": "^14.5.1",
+    "firebase-functions": "^7.4.0",
+    "mathjs": "15.3.0"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  }
+}

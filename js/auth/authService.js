@@ -8,9 +8,13 @@ const AuthService = {
   _db: null,
 
   init() {
+    // Module devoir : en local sur l'émulateur Hosting (port 5055), bascule sur les émulateurs
+    // Firebase ; en ligne, ces deux appels ne font rien (js/devoir/devoirFirebase.js).
+    if (typeof DevoirFirebase !== 'undefined') DevoirFirebase.preparer();
     if (!firebase.apps.length) {
       firebase.initializeApp(FIREBASE_CONFIG);
     }
+    if (typeof DevoirFirebase !== 'undefined') DevoirFirebase.brancher();
     this._auth = firebase.auth();
     this._db = firebase.firestore();
   },

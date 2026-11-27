@@ -92,6 +92,11 @@ Registre de provenance des images de repli téléchargées par le skill `generer
 ## firestore.rules
 Règles de sécurité Firestore.
 - `config/{doc}` — lecture publique (invités inclus, pour lire `maintenanceMode`/annonce), écriture réservée admin
+- `devoir_classes/{id}`, `devoir_exercices/{id}` — admin seul (module devoir en classe, 2026-11-26) ; les étudiants n'y accèdent jamais
+- `devoir_sessions`, `devoir_copies_prive`, `devoir_evenements`, `devoir_corrections` — lecture admin, **aucune écriture cliente** (Cloud Functions seulement, 2026-11-27)
+- `devoir_copies/{id}` — `get` par l'étudiant dont `uid` est celui de la copie (connexion anonyme), `list` admin, aucune écriture cliente ; ne contient ni corrigé, ni barème, ni note
+- `devoir_codes`, `devoir_tentatives`, `devoir_historique` — aucune règle : accès serveur uniquement
+- Tests : `node scripts/devoir-emulateurs.js test regles` (à passer AVANT tout commit de ce fichier : le hook post-commit le publie en production)
 - `users/{uid}` — lecture propriétaire/admin ; **création réservée à l'admin depuis le 2026-10-12** (l'auto-inscription élève/enseignant est retirée de l'interface ; sans ce verrou, n'importe qui pouvait encore créer un compte via l'API Firebase Auth puis écrire son propre profil). Un compte se crée désormais dans la console Firebase, qui contourne ces règles. Rappel : tout commit touchant ce fichier déploie en prod (hook post-commit)
 
 ---
@@ -498,7 +503,7 @@ Page Connexion uniquement (overlay plein `#app`, header/nav restent visibles). E
 ## js/views/adminPanel.js
 Panneau d'administration (espace enseignant retiré le 2026-11-22) : annonce globale, mode maintenance, verrouillage/maintenance des modules, comptes, historique.
 - `AdminPanel.render()` — point d'entrée async, affiche le panneau
-- `AdminPanel._switchTab(tab)` — bascule entre onglets (pending/all/modules/logs)
+- `AdminPanel._switchTab(tab)` — bascule entre onglets (all/modules/logs/devoirs ; `devoirs` délègue à `DevoirAdmin.render()`, voir `js/devoir/devoirAdmin.js`)
 - `AdminPanel._loadTab(tab)` — charge les données de l'onglet actif via `AuthService` ; onglet `modules` attend `ensureAllData()` avant de rendre (nécessaire car le chemin `role === 'admin'` de `js/app.js` appelle `AdminPanel.render()` directement, sans passer par `navigate()` qui charge normalement toutes les données)
 - `AdminPanel._renderAll(users)` — rendu tous les comptes avec filtres de rôle (`_roleFilter`) et barre de recherche ; alimente `_allUsersCache`
 - `AdminPanel._applyRoleFilter(users)` / `_setRoleFilter(role)` — filtre client-side par rôle (Tous/Élèves/Admins), combiné avec la recherche texte dans `_filterUsers`
@@ -507,6 +512,42 @@ Panneau d'administration (espace enseignant retiré le 2026-11-22) : annonce glo
 - `AdminPanel._setStatus(uid, status)` — modifie le statut d'un utilisateur
 - `AdminPanel._saveSettings()` — enregistre `maintenanceMode` et `btsFedOpen` (case « Page BTS FED ouverte au public ») dans `config/settings`, et met à jour `window.__sparkPlatformSettings` pour un effet immédiat ; la case « Inscription enseignants activée » (`teacherSignupEnabled`) a été retirée le 2026-10-12 avec l'inscription publique (elle n'était d'ailleurs lue nulle part)
 - `setSubjectAccessMode(subjectId, mode)` / `setModuleAccessMode(moduleId, mode)` — fonctions globales async (hors objet `AdminPanel`, extraites de `js/app.js`) : verrouillage/maintenance par matière ou par module ; calculent la carte cible puis **attendent la confirmation d'écriture** (`AuthService.saveModuleAccess()`) avant de mettre à jour `Storage`/`state.moduleAccess` et de re-render — sinon l'admin voyait le verrouillage confirmé localement même si l'écriture Firestore (lue par tous, y compris invités) avait échoué ; appelées désormais depuis l'onglet Modules d'`AdminPanel` (ex-`renderAdminPage()` de `home.js`, supprimée)
+
+## js/devoir/devoirEngine.js
+Moteur de variantes du module devoir en classe (MVP-1, 2026-11-26). Pur, sans DOM ; navigateur + Node (`module.exports`), réutilisable par les Cloud Functions. Format : `docs/evaluation/CAHIER-DES-CHARGES.md` §11 + paramètres liste `{nom, valeurs}` et ligne de catalogue `{nom, colonnes, lignes}`.
+- `CHAPITRES` / `chapitreDe(id)` / `libelleChapitre(id)` — périmètre : les 16 chapitres enseignés par Dylan (dossier `Desktop/cours/Dylan` : 01…10c, 12, 13, 15, 16), avec savoir et notion ; `chapitre` obligatoire dans `valider()`
+- `creerCalculateur(math)` — instance mathjs, fonctions dangereuses désactivées
+- `valider(ex, calc)` — `{erreurs, avertissements}` : schéma, symboles en liste blanche, toutes combinaisons calculées
+- `instancier(ex, calc, {rng})` — tire valeurs, calcule données, rend énoncé/corrigé
+- `variantesDistinctes(ex, calc, n, {rng})` — n variantes aux valeurs différentes
+- `nombreVariantes(ex)` — produit des choix par paramètre
+- `formaterNombre(x, dec, enMaths)` — `{,}` en KaTeX, `,` hors maths
+- `rendreGabarit(gabarit, valeurs, defs)` — `{{nom}}` selon le mode maths
+- `verifierOrigine(ex, calc)` — garde-fou d'import : avec `ex.origine.valeurs`, la formule doit retrouver `ex.origine.resultat` (1 % par défaut) ; appelé par `valider()`
+- `valider()` refuse aussi tout caractère de contrôle dans l'énoncé ou les étapes (barre oblique perdue : `\times` devenu tabulation)
+- `rngGraine(n)` — aléatoire reproductible pour les tests
+- `nouvelExercice()` / `blocsParDefaut()` — gabarit (déperditions d'un mur, chapitre 05), barème 40/30/20/10
+- Tests : `node scripts/test-devoir-engine.js`
+
+## scripts/devoir-verifier-lot.js
+Vérifie un lot d'exercices avant import (validation, garde-fou, une variante affichée). Usage : `node scripts/devoir-verifier-lot.js <lot.json>`. Les lots (avec corrigés) vivent dans `Enseignement/BTS FED/production/devoirs-en-ligne/`, **jamais dans ce dépôt public**.
+
+## js/devoir/devoirStore.js
+Accès Firestore enseignant du module devoir. Collections `devoir_classes` (`{nom, annee_scolaire, etudiants:[{id, nom, mode_dys, actif}]}`) et `devoir_exercices` (id du document = `ex.id`), admin seul dans `firestore.rules`.
+- `listClasses()` / `saveClasse(c)` / `deleteClasse(id)` — CRUD des classes
+- `listExercices()` / `exerciceExiste(id)` / `saveExercice(ex, actif, createdAt)` — banque ; écriture complète, sans merge
+- `setExerciceActif(id, actif)` / `deleteExercice(id)` — retrait du tirage, suppression
+- `nouvelId(collection)` — identifiant Firestore généré côté client
+
+## js/devoir/devoirAdmin.js
+Onglet « Devoirs » du panneau admin (`AdminPanel._loadTab('devoirs')`). Charge mathjs 15.3.0 par CDN à la première ouverture.
+- `render(container)` — charge banque, classes, mathjs
+- `_ouvrirExercice(id)` / `_previsualiser()` / `_enregistrerExercice()` — éditeur JSON, 3 variantes avec corrigé ; l'id ne change plus après création
+- `_enregistrerTousPrets()` — enregistre d'un coup les exercices de la file sans erreur (garde-fou compris), après confirmation
+- `_filtreChapitre` — filtre de la liste de la banque par chapitre (menu déroulant)
+- `_importerLot(input)` / `_htmlFile()` / `_ouvrirBrouillon(i)` — file « À valider » (localStorage `spark_devoir_file_import`) alimentée par un lot JSON ; chaque exercice se relit dans l'éditeur puis sort de la file à l'enregistrement
+- `_ouvrirClasse(id)` / `_ajouterEtudiants()` / `_enregistrerClasse()` — liste de noms (un par ligne), Dys, actif ; doublons refusés
+- Styles : section `.dv-*` en fin de `css/styles.css`
 
 ## js/flashcards.js
 Flashcards générées automatiquement depuis les données cours.
@@ -538,3 +579,92 @@ Helpers de rendu et utilitaires UI partagés.
 - `renderLoading()` — squelette de chargement
 - `renderErreurConseil(piege)` — bloc conseil sur l'erreur classique
 - `renderQuestionFigure(figure)` — rend la figure attachée à une question de quiz, un exercice généré ou une question d'évaluation ; accepte une chaîne (SVG brut) ou un objet `{svg, caption}` ; le conteneur interne réutilise la classe `.cours-diagram-stage` pour hériter du thème SVG partagé (`.curve-main`, `.plot-point`, `.annotation-label`…) tandis que `.question-figure` porte les variables `--diagram-*`
+
+## Module devoir en classe — MVP-2 à 4 (2026-11-27)
+Rapport, décisions et gestes de mise en service : `docs/evaluation/RAPPORT-MVP-2-4.md`. Lancer : `node scripts/devoir-emulateurs.js` (essai local) ou `… test [ia|regles|fonctions|e2e]`.
+
+## functions/src/commun.ts
+Socle des Cloud Functions (europe-west1) : Firestore admin, constantes, journal.
+- `exigerEnseignant(req)` — refuse si `users/{uid}.role` n'est pas admin
+- `journaliser(e)` / `donneesEvenement(e)` — ajoute au journal `devoir_evenements`
+- `COL`, `DEFAUTS`, `GRACE_MS`, `estActive(copie)` — noms de collections, valeurs par défaut
+
+## functions/src/tirage.ts
+Tirage serveur avec le moteur partagé (`functions/vendor/devoirEngine.js`, copié au build par `copier-moteur.js`).
+- `choisirExercices(candidats, dejaFaits, exclus, n)` — priorité aux exercices jamais faits
+- `construireAttribution(ex, rang, remplace)` — partie publique + partie privée (corrigé, barème)
+
+## functions/src/session.ts
+MVP-2 : sessions, entrée, brouillon, rendu.
+- `createSession` / `updateSession` — crée, ouvre (code), ferme, prolonge, archive
+- `joinSession` — code puis nom, tirage, reconnexion
+- `saveDraft` / `submitCopy` — brouillon versionné, rendu ; temps vérifié côté serveur
+- `releaseName` / `syncSession` — libère un nom ; rend les copies expirées
+- `figer(tx, ref, copie, statut…)` / `finaliserExpirees(sessionId…)` — fige une copie
+
+## functions/src/antitriche.ts
+MVP-3 : perte de focus, remplacement, collage, annulation.
+- `logEvent` — focus_perdu, focus_revenu, paste_blocked, drop_blocked
+- `traiterRetour(copieId, uid, o)` — mesure l'absence, remplace ou verrouille
+- `replaceAssignment` / `cancelIncident` / `unlockCopy` — actions de l'enseignant
+
+## functions/src/ia.ts
+MVP-4 : prompt (§6), schéma, appel Anthropic, contrôles. Sans Firestore, testable seul.
+- `construireMessage(d)` — données et réponse, sous code interne
+- `validerSortie(brut, d)` / `controler(o, d)` — schéma, points bornés, note recalculée
+- `preCorriger(d, appel)` — un nouvel essai au plus, puis erreur IA
+- `appelerModele(reglages, d)` — `messages.create` avec sortie structurée
+
+## functions/src/correction.ts
+MVP-4 : fiches `devoir_corrections`, note finale dans `devoir_copies_prive.correction`.
+- `runPreCorrection` — par copie, secret `ANTHROPIC_API_KEY`, option `sans_ia`
+- `saveCorrection` — modification manuelle, proposition IA conservée
+- `validateCorrection` / `noteSur20(points, max)` — note sur 20 au demi-point
+
+## devoir.html
+Page étudiant épurée, servie sur `/devoirs` (réécriture dans `firebase.json`). Charge `styles.css`, KaTeX, Firebase, `devoirFirebase.js`, `devoirEleve.js`.
+
+## js/devoir/devoirFirebase.js
+Appel des Cloud Functions et bascule sur les émulateurs (uniquement sur `localhost:5055`).
+- `preparer()` / `brancher(app)` — avant et après `initializeApp` (appelés par `AuthService.init`)
+- `appeler(nom, donnees)` — charge le SDK Functions à la demande, appelle
+
+## js/devoir/devoirEleve.js
+Vue étudiant : code, nom, copie, minuteur, rendu. Application Firebase nommée `devoir` (identité anonyme séparée du site).
+- `init()` / `_reprendre()` — connexion anonyme, reprise de la copie mémorisée
+- `_entrer(etudiantId)` — joinSession, liste des noms puis copie
+- `_surCopie(copie)` / `_ecranCopie()` — état serveur en direct, écran d'épreuve
+- `_envoyer(attId, force)` / `_toutEnvoyer()` — brouillon automatique, reprise hors ligne
+- `_battement()` / `_rendre(auto)` — minuteur, rendu anticipé ou automatique
+- `_surFocus()` / `_collageBloque(type, champ)` — signale sorties de page et collages
+
+## js/devoir/devoirSessions.js
+Sous-onglet « Sessions » : liste, création, tableau de bord en direct.
+- `render(zone)` / `quitter()` — entrée, arrêt des écoutes
+- `_creer()` / `_ouvrir(id)` — crée puis ouvre une session
+- `_ouvrirDirect(id)` / `_htmlDirect()` — tableau de bord temps réel, incidents
+- `_prolonger()` / `_fermer()` / `_liberer(copieId)` — actions de session
+- `_annulerIncident(id)` / `_deverrouiller(copieId)` — anti-triche
+- `_corriger(id)` — passe la main à `DevoirCorrection`
+
+## js/devoir/devoirCorrection.js
+Relecture des copies : liste triée (confiance basse en tête), copie par copie, validation.
+- `ouvrir(zone, session)` — écoute copies et fiches
+- `_lancer(sansIa)` — pré-correction copie par copie, avec avancement
+- `_htmlCopie()` / `_htmlFiche(a, fiche)` — réponse à gauche, correction à droite
+- `_enregistrer(ficheId, avecRetour)` / `_valider()` — saveCorrection, validateCorrection
+
+## scripts/devoir-emulateurs.js
+Lanceur des émulateurs (auth, firestore, functions, hosting) : essai local ou tests. Trouve Java dans `%USERPROFILE%\tools\jdk`, compile `functions/`, écrit `.secret.local` et `.env.local`.
+
+## scripts/lib/devoir-emulateur.js
+Outils REST des tests : `ecrire`, `lire`, `chercher`, `majChamps`, `appeler(nom, donnees, jeton)`, `connexionAnonyme`, `semer()`, `toutEffacer()`.
+
+## scripts/lib/devoir-demo.js / scripts/devoir-demo.js
+Classe de 11 étudiants et 6 exercices génériques de démonstration ; script qui les charge pour l'essai local.
+
+## scripts/lib/devoir-fausse-ia.js
+Fausse API Anthropic locale (port 5998) : aucun appel réel. Mots-clés `IA_JSON_INVALIDE_UNE_FOIS`, `IA_TOUJOURS_INVALIDE`, `IA_SOMME_FAUSSE`, `IA_CONFIANCE_BASSE`.
+
+## scripts/test-devoir-{ia,regles,fonctions,e2e,tout}.js
+Suites de tests du module (113 tests) : contrôles IA, règles Firestore, Cloud Functions, bout en bout Puppeteer, enchaînement.

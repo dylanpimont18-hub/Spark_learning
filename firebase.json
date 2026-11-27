@@ -5,6 +5,23 @@
   "storage": {
     "rules": "storage.rules"
   },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "devoir",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local",
+        "test"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run build"
+      ]
+    }
+  ],
   "hosting": {
     "public": ".",
     "trailingSlash": false,
@@ -14,9 +31,11 @@
       "**/node_modules/**",
       "docs/**",
       "scripts/**",
+      "functions/**",
       "CLAUDE.md",
       "CODEBASE_MAP.md",
       "README.md",
+      "QUESTIONS.md",
       "contenu.md",
       "package.json",
       "package-lock.json",
@@ -25,6 +44,14 @@
       "CNAME"
     ],
     "rewrites": [
+      {
+        "source": "/devoirs",
+        "destination": "/devoir.html"
+      },
+      {
+        "source": "/devoir",
+        "destination": "/devoir.html"
+      },
       {
         "regex": "^/([^m].*|m([^e].*)?|me([^d].*)?|med([^i].*)?|medi([^a].*)?|media([^/].*)?)?$",
         "destination": "/index.html"
@@ -54,5 +81,24 @@
         ]
       }
     ]
+  },
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "firestore": {
+      "port": 8080
+    },
+    "functions": {
+      "port": 5001
+    },
+    "hosting": {
+      "port": 5055
+    },
+    "ui": {
+      "enabled": true,
+      "port": 4000
+    },
+    "singleProjectMode": true
   }
 }

@@ -57,6 +57,7 @@ var AdminPanel = {
           '<button class="ap-tab' + (AdminPanel._tab === 'all' ? ' active' : '') + '" data-tab="all" onclick="AdminPanel._switchTab(\'all\')">Tous les comptes</button>' +
           '<button class="ap-tab' + (AdminPanel._tab === 'modules' ? ' active' : '') + '" data-tab="modules" onclick="AdminPanel._switchTab(\'modules\')">Modules</button>' +
           '<button class="ap-tab' + (AdminPanel._tab === 'logs' ? ' active' : '') + '" data-tab="logs" onclick="AdminPanel._switchTab(\'logs\')">Historique</button>' +
+          '<button class="ap-tab' + (AdminPanel._tab === 'devoirs' ? ' active' : '') + '" data-tab="devoirs" onclick="AdminPanel._switchTab(\'devoirs\')">Devoirs</button>' +
         '</div>' +
         '<div id="ap-content"></div>' +
       '</div>';
@@ -179,6 +180,9 @@ var AdminPanel = {
         var logs = await AuthService.getAdminLogs(50);
         AdminPanel._logsCache = logs;
         AdminPanel._renderLogs(logs);
+      } else if (tab === 'devoirs') {
+        // Module d'évaluation en classe (js/devoir/) : banque d'exercices et classes
+        await DevoirAdmin.render(content);
       }
     } catch(e) {
       console.error('[AdminPanel] _loadTab error:', e);

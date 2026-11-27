@@ -1,7 +1,7 @@
 # Spark Learning - AI System Directives
 
 ## 1. Stack & Architecture Globale
-- **Vanilla JS SPA** : Aucun bundler, pas de build, pas de npm. Tout passe par `index.html`. **Exception unique et scopée** : `package.json`/`puppeteer` existent pour `scripts/prerender.js` (pré-rendu SEO en CI, voir `scripts/prerender.js` et `.github/workflows/firebase-hosting-merge.yml`) — jamais requis pour développer ou exécuter l'app elle-même.
+- **Vanilla JS SPA** : Aucun bundler, pas de build, pas de npm. Tout passe par `index.html`. **Exception unique et scopée** : `package.json`/`puppeteer` existent pour `scripts/prerender.js` (pré-rendu SEO en CI, voir `scripts/prerender.js` et `.github/workflows/firebase-hosting-merge.yml`) — jamais requis pour développer ou exécuter l'app elle-même. `mathjs` (version épinglée, identique au CDN chargé par le panneau admin) y figure aussi, pour les seuls tests Node du module devoir (`node scripts/test-devoir-engine.js`). **Seconde exception scopée** : `functions/` (Cloud Functions du module devoir en classe, Node.js + TypeScript) a son propre `package.json` (`firebase-admin`, `firebase-functions`, `@anthropic-ai/sdk`, `mathjs` épinglé, `typescript`) — c'est du code serveur, jamais chargé par le navigateur ; le front du module (`js/devoir/`, `devoir.html`) reste en vanilla JS sans build. Tests : `node scripts/devoir-emulateurs.js test` (Firebase Emulator Suite, Java requis).
 - **Ordre de chargement** : `index.html` est la source de vérité pour l'ordre des scripts. `js/loader.js` gère le chargement asynchrone des données via `ensureLevelData(subject, level)`.
 - **Règle de séparation stricte** : 
   - DOM/UI : `js/views/` (vues complètes) et `js/components/` (onglets, quiz, exercices...). `js/render.js` est un stub léger.
